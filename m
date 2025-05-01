@@ -1,987 +1,488 @@
-Return-Path: <linux-media+bounces-31491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31492-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C30AA5928
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 02:49:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 117C9AA5BA2
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 09:53:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD0159E0E92
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 00:48:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC8B23B00A1
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 07:53:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9881D1E5B8B;
-	Thu,  1 May 2025 00:49:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFE13270EB8;
+	Thu,  1 May 2025 07:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d/H6TlCn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KNDudQcI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375021E5710
-	for <linux-media@vger.kernel.org>; Thu,  1 May 2025 00:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1111D89E3;
+	Thu,  1 May 2025 07:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746060545; cv=none; b=XIwgnVihzWVTRFrGW2MQlOQFpTAw9oaGtuh7bE8ehMbFcqtibdD0tAkDrscC8k2kIz333hMnKn6sk5DW/0SvKzmyuy6/KmFPaisPyN7Wx/cOhaybCd2vxzwDgLF0tVSbozFMN06/djS9SqOZm2cwiTBdJDhuNG/GkkVQL7HClCM=
+	t=1746086014; cv=none; b=ILs3IhVsmwveGZWgtvMaaAx/KF3yzlOuIi0m9xO9+Ji9liEobiQ7+LqdBhxKeNNXdQrPb2y91uSPJ/E1qydgsop67FLqRXSf7cNvE1q4i+vM2qVmlwfhS026711bRNki65ddh+xvASvthVojkYHT57/3c/B3MGUeOZyrq/cldt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746060545; c=relaxed/simple;
-	bh=DR2vOXtFEs+LK/dWpb2CzJAIaDTLRmBq+dsGh8wJUgI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qSpBVuLem1JCGH5ciNrv7y63Xx3aNKcppIIZKts1I/n5IPhEqTU2mO8Zq7ArDpsUzCheN/1y2zKYcHl6k5pw9sXd6MAf4qkQOJRG2Aak7GIWhshWJZT05ShtohB2mfyNTTrNJbU4HoRLkFA9182sYwTJD55ksB3Z64TfpbwxwtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d/H6TlCn; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39c1ef4ae3aso293645f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 17:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746060539; x=1746665339; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pYvU8LGI/LvuV5/ZHSGbVwvOXcT9Aj8dP7lTePS1R6g=;
-        b=d/H6TlCnnUHkf/50VutSzet0p01KQS4PjzMKwpxX0yIv2FaRQGwrA+/y5yuieuhV4y
-         7fh9/NIlYXb709gRLkhYlJfjKMWONnBFEHTPnorcJ0Bpe7eWAgUQuuWEciPGHuP8Vvzv
-         hz1KUIdNgz0gk35X27OJl1iOpcLcKsp/3VgzTudZqO6LnnNVcQvFp6p/KM1Q7m8jyHWi
-         1TiRPV6ioND9Nr11FLtpB5d/2Y9uRYTLCQjREIZv6evavzhrsDy4H8mNFAdz9qXoRaP8
-         oGbYmT+B2IoDz0nOdWGDEGCf+hjwmNKtoY4xA0/Qlu85Bcy0StgI0iOhzUVhEiPDe/5K
-         WtDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746060539; x=1746665339;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pYvU8LGI/LvuV5/ZHSGbVwvOXcT9Aj8dP7lTePS1R6g=;
-        b=vV7nURAm1nFNbaOSWVWVePp5UA+EwDZLcv4d37uG2BpebUuXVKkjOlKLZUt8FV7jVZ
-         RVMhaynK+Wup+/Alwg/I0+9SD/JPJd/CY5mY4jhOmoS38ZpQNCDPWBo/puWf/dQbvzBq
-         vuE0+uJ6qP0G9diT/ps0NwaPWum6djPli470yqODG6IK3blK5QhnsTKlwHykb2hw1S72
-         YigPTBEl2iiKAz4vz+hK/SrEJ6k0L/+MD5sGsH7Fdwx7amf+KjAHNpelSID9exOjgilG
-         gjBvfqzmaCjy3K1iFI6GBB0lUOnaxEHMWh0NfIAxhJAEYYkfRiVkM4LVpUm4V36dYt01
-         p9dA==
-X-Gm-Message-State: AOJu0YwPRtx045dZx7q6lWFntvbK6Qt24ICWAa24Udeg9tp3/KHzxsZM
-	BqHGR2+CkADKWz0d5r9bTOgBzHAghVkQPO1/pytp27WzPnHKwPs7O+rOjWarcu8=
-X-Gm-Gg: ASbGncsc2pfSa0LAusg5byyWcBYzsTvCmKYrAaEoRPtk4hipG7zTvGAfuSLQkhGnwmk
-	6Hx6s4ilOjYVT+Orzu7MZtDokWSLFYrGK0SjGCwqbWnbwtLV6n6d9PF8+9s3d/bsNFi24UQV+MX
-	XyO375AW2sSjnqt7wePIwhSaaTyHb+s0kGaoBi0VPEYphWOcPDvGys7GbRzoLbiIJEhn8qmfx9Y
-	aCCoFpY81emFgajZNYuF/kCWS7fNQBkA1ZG429DI3Ueu6GXO0qJ2N2p21oJrU7HBYL8PYBC2OA2
-	PSHBeshxyPfdP63RbOu5t3ifrkZhxTWnWo+R5klS3wfdTVFUFhRMmY1z983lnGyqIfYhHHTbrXt
-	24Igx+Q==
-X-Google-Smtp-Source: AGHT+IExm5QKDWTtBCtGiEApqcGxgGU3IZnUc5zsY5J466n61GIPpDfm8B+SHfKQgJR/mIvjcKs6Bg==
-X-Received: by 2002:a05:6000:2411:b0:3a0:7afd:cbfd with SMTP id ffacd0b85a97d-3a094034df4mr341931f8f.7.1746060539398;
-        Wed, 30 Apr 2025 17:48:59 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073c8cd7fsm18310368f8f.1.2025.04.30.17.48.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Apr 2025 17:48:58 -0700 (PDT)
-Message-ID: <243932d3-65da-4934-8cea-bc0e41bf21b3@linaro.org>
-Date: Thu, 1 May 2025 01:48:56 +0100
+	s=arc-20240116; t=1746086014; c=relaxed/simple;
+	bh=wAEwo/bY723UwoMjFIX3JMV/8BAB2tH2e90elCg4rIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nsqraxXWDx+Etk1japkl2e3r2ip63MFWp5KcSb1BF5xrmX1j2MqOXT+rruZghZga6lMK1FZ1Rbw4GMot35/QEsDbcSi1HsIzmowqv+bd/Kemr5w4y8R/0kNjg1sJfO/cQ+E5f8ow1U/5OFqnViH5OL6BFzh3ZVk+UIkOTx7txTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KNDudQcI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:9a2:b0dd:e301:2388])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9A8C667;
+	Thu,  1 May 2025 09:53:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1746085996;
+	bh=wAEwo/bY723UwoMjFIX3JMV/8BAB2tH2e90elCg4rIc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KNDudQcIAPS26mxLXZp1+mqOIVz9BgQZ3OpSezkxyBPO5CQ4tof1MLe/u75v+DcdE
+	 i8IYgqIh8Xzc1zreN2Pf84saH+Fxlz5kyJBSbQoowAIiQ1gWiI5MA4WChdc2gOp2vh
+	 3HmPBF01JkyULPdovQdMutYUd8mhC15niqae79V4=
+Date: Thu, 1 May 2025 09:53:21 +0200
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] media: rockchip: rkisp1: Add support for Wide
+ Dynamic Range
+Message-ID: <xhcfkskuprbzeuek7xstlhpjiz7ks6qplehmrcrpuldnqdrwvf@lc5agieq22g4>
+References: <20250429-awb64-v5-0-2dc3163a8cfc@ideasonboard.com>
+ <20250429-awb64-v5-1-2dc3163a8cfc@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 08/13] media: rockchip: rkcif: add support for mipi
- csi-2 capture
-To: michael.riesch@collabora.com, Mehdi Djait <mehdi.djait@linux.intel.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Kever Yang <kever.yang@rock-chips.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Collabora Kernel Team <kernel@collabora.com>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>
-References: <20240220-rk3568-vicap-v6-0-d2f5fbee1551@collabora.com>
- <qpAtcCdTUO51mtRFYYiYxon7FYS3Dgt_ZilDkimb2fBT7Kn9nLomBSqPbzEsvW1JpDqaucT-O7WCnv_i1u6_vQ==@protonmail.internalid>
- <20240220-rk3568-vicap-v6-8-d2f5fbee1551@collabora.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240220-rk3568-vicap-v6-8-d2f5fbee1551@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250429-awb64-v5-1-2dc3163a8cfc@ideasonboard.com>
 
-On 30/04/2025 10:15, Michael Riesch via B4 Relay wrote:
-> From: Michael Riesch <michael.riesch@wolfvision.net>
+Hi Jai,
+
+Thank you for the patch.
+
+On Tue, Apr 29, 2025 at 05:11:53PM +0530, Jai Luthra wrote:
+> RKISP supports a basic Wide Dynamic Range (WDR) module since the first
+> iteration (v1.0) of the ISP. Add support for enabling and configuring it
+> using extensible parameters.
 > 
-> The RK3568 Video Capture (VICAP) unit features a MIPI CSI-2 capture
-> interface that can receive video data and write it into system memory
-> using the ping-pong scheme. Add support for it.
+> Also, to ease programming, switch to using macro variables for defining
+> the tonemapping curve register addresses.
 > 
-> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+
+I couldn't spot anything missing. I retested the v5 sucessfully on a
+Debix i.MX 8 M Plus Som.
+
+So:
+Reviewed-by: Stefan Klug <stefan.klug@ideasonboard.com> 
+Tested-by: Stefan Klug <stefan.klug@ideasonboard.com>
+
+Best regards,
+Stefan
+
 > ---
->   .../platform/rockchip/rkcif/rkcif-capture-mipi.c   | 695 +++++++++++++++++++++
->   .../platform/rockchip/rkcif/rkcif-capture-mipi.h   |   2 +
->   .../media/platform/rockchip/rkcif/rkcif-common.h   |  16 +
->   drivers/media/platform/rockchip/rkcif/rkcif-dev.c  |   1 +
->   .../platform/rockchip/rkcif/rkcif-interface.c      |   5 +-
->   drivers/media/platform/rockchip/rkcif/rkcif-regs.h |  24 +-
->   6 files changed, 741 insertions(+), 2 deletions(-)
+> Changes in v5:
+> - Ensure WDR_USE_IREF is unset before reading params from user
+> - Fix alignment issues in WDR patch
+> - Drop reset value information from doxygen comments for WDR tone curve
+> ---
+>  .../media/platform/rockchip/rkisp1/rkisp1-params.c | 93 ++++++++++++++++++++
+>  .../media/platform/rockchip/rkisp1/rkisp1-regs.h   | 99 ++++++----------------
+>  include/uapi/linux/rkisp1-config.h                 | 92 ++++++++++++++++++++
+>  3 files changed, 210 insertions(+), 74 deletions(-)
 > 
-> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
-> index 0c3f7b8cfa18..5e1c624e17c6 100644
-> --- a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
-> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
-> @@ -6,22 +6,717 @@
->    * Copyright (C) 2025 Michael Riesch <michael.riesch@wolfvision.net>
->    */
-> 
-> +#include <linux/interrupt.h>
-> +
-> +#include <media/mipi-csi2.h>
-> +#include <media/v4l2-common.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-fh.h>
-> +#include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-ioctl.h>
-> +#include <media/v4l2-mc.h>
-> +#include <media/v4l2-subdev.h>
-> +
->   #include "rkcif-capture-mipi.h"
->   #include "rkcif-common.h"
-> +#include "rkcif-interface.h"
-> +#include "rkcif-regs.h"
->   #include "rkcif-stream.h"
-> 
-> +#define RKCIF_MIPI_CTRL0_COMPACT_EN    BIT(6)
-> +#define RKCIF_MIPI_CTRL0_CROP_EN       BIT(5)
-> +#define RKCIF_MIPI_CTRL0_TYPE(type)    ((type) << 1)
-> +#define RKCIF_MIPI_CTRL0_TYPE_RAW8     RKCIF_MIPI_CTRL0_TYPE(0x0)
-> +#define RKCIF_MIPI_CTRL0_TYPE_RAW10    RKCIF_MIPI_CTRL0_TYPE(0x1)
-> +#define RKCIF_MIPI_CTRL0_TYPE_RAW12    RKCIF_MIPI_CTRL0_TYPE(0x2)
-> +#define RKCIF_MIPI_CTRL0_TYPE_RGB888   RKCIF_MIPI_CTRL0_TYPE(0x3)
-> +#define RKCIF_MIPI_CTRL0_TYPE_YUV422SP RKCIF_MIPI_CTRL0_TYPE(0x4)
-> +#define RKCIF_MIPI_CTRL0_TYPE_YUV420SP RKCIF_MIPI_CTRL0_TYPE(0x5)
-> +#define RKCIF_MIPI_CTRL0_TYPE_YUV400   RKCIF_MIPI_CTRL0_TYPE(0x6)
-> +#define RKCIF_MIPI_CTRL0_CAP_EN	       BIT(0)
-> +
-> +#define RKCIF_MIPI_INT_FRAME0_END(id)  BIT(8 + (id) * 2 + 0)
-> +#define RKCIF_MIPI_INT_FRAME1_END(id)  BIT(8 + (id) * 2 + 1)
-> +
-> +static const struct rkcif_output_fmt mipi_out_fmts[] = {
-> +	/* YUV formats */
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_YUYV,
-> +		.mbus_code = MEDIA_BUS_FMT_YUYV8_1X16,
-> +		.depth = 16,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_YUV422_8B,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW8,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_UYVY,
-> +		.mbus_code = MEDIA_BUS_FMT_UYVY8_1X16,
-> +		.depth = 16,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_YUV422_8B,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW8,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_YVYU,
-> +		.mbus_code = MEDIA_BUS_FMT_YVYU8_1X16,
-> +		.depth = 16,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_YUV422_8B,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW8,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_VYUY,
-> +		.mbus_code = MEDIA_BUS_FMT_VYUY8_1X16,
-> +		.depth = 16,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_YUV422_8B,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW8,
-> +		},
-> +	},
-> +	/* RGB formats */
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_RGB24,
-> +		.mbus_code = MEDIA_BUS_FMT_RGB888_1X24,
-> +		.depth = 24,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RGB888,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RGB888,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_BGR24,
-> +		.mbus_code = MEDIA_BUS_FMT_BGR888_1X24,
-> +		.depth = 24,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RGB888,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RGB888,
-> +		},
-> +	},
-> +	/* Bayer formats */
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SBGGR8,
-> +		.mbus_code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> +		.depth = 8,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW8,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW8,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGBRG8,
-> +		.mbus_code = MEDIA_BUS_FMT_SGBRG8_1X8,
-> +		.depth = 8,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW8,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW8,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGRBG8,
-> +		.mbus_code = MEDIA_BUS_FMT_SGRBG8_1X8,
-> +		.depth = 8,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW8,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW8,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SRGGB8,
-> +		.mbus_code = MEDIA_BUS_FMT_SRGGB8_1X8,
-> +		.depth = 8,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW8,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW8,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SBGGR10,
-> +		.mbus_code = MEDIA_BUS_FMT_SBGGR10_1X10,
-> +		.depth = 10,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW10,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW10,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SBGGR10P,
-> +		.mbus_code = MEDIA_BUS_FMT_SBGGR10_1X10,
-> +		.depth = 10,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW10,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW10 | RKCIF_MIPI_CTRL0_COMPACT_EN,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGBRG10,
-> +		.mbus_code = MEDIA_BUS_FMT_SGBRG10_1X10,
-> +		.depth = 10,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW10,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW10,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGBRG10P,
-> +		.mbus_code = MEDIA_BUS_FMT_SGBRG10_1X10,
-> +		.depth = 10,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW10,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW10 | RKCIF_MIPI_CTRL0_COMPACT_EN,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGRBG10,
-> +		.mbus_code = MEDIA_BUS_FMT_SGRBG10_1X10,
-> +		.depth = 10,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW10,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW10,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGRBG10P,
-> +		.mbus_code = MEDIA_BUS_FMT_SGRBG10_1X10,
-> +		.depth = 10,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW10,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW10 | RKCIF_MIPI_CTRL0_COMPACT_EN,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SRGGB10,
-> +		.mbus_code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> +		.depth = 10,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW10,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW10,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SRGGB10P,
-> +		.mbus_code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> +		.depth = 10,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW10,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW10 | RKCIF_MIPI_CTRL0_COMPACT_EN,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SBGGR12,
-> +		.mbus_code = MEDIA_BUS_FMT_SBGGR12_1X12,
-> +		.depth = 12,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW12,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW12,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SBGGR12P,
-> +		.mbus_code = MEDIA_BUS_FMT_SBGGR12_1X12,
-> +		.depth = 12,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW12,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW12 | RKCIF_MIPI_CTRL0_COMPACT_EN,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGBRG12,
-> +		.mbus_code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> +		.depth = 12,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW12,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW12,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGBRG12P,
-> +		.mbus_code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> +		.depth = 12,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW12,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW12 | RKCIF_MIPI_CTRL0_COMPACT_EN,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGRBG12,
-> +		.mbus_code = MEDIA_BUS_FMT_SGRBG12_1X12,
-> +		.depth = 12,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW12,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW12,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SGRBG12P,
-> +		.mbus_code = MEDIA_BUS_FMT_SGRBG12_1X12,
-> +		.depth = 12,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW12,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW12 | RKCIF_MIPI_CTRL0_COMPACT_EN,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SRGGB12,
-> +		.mbus_code = MEDIA_BUS_FMT_SRGGB12_1X12,
-> +		.depth = 12,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW12,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW12,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_SRGGB12P,
-> +		.mbus_code = MEDIA_BUS_FMT_SRGGB12_1X12,
-> +		.depth = 12,
-> +		.cplanes = 1,
-> +		.mipi = {
-> +			.dt = MIPI_CSI2_DT_RAW12,
-> +			.ctrl0_val = RKCIF_MIPI_CTRL0_TYPE_RAW12 | RKCIF_MIPI_CTRL0_COMPACT_EN,
-> +		},
-> +	},
-> +};
-> +
-> +static const struct rkcif_input_fmt mipi_in_fmts[] = {
-> +	/* YUV formats */
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_YUYV8_1X16,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_UYVY8_1X16,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_YVYU8_1X16,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_VYUY8_1X16,
-> +	},
-> +	/* RGB formats */
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_RGB888_1X24,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_BGR888_1X24,
-> +	},
-> +	/* Bayer formats */
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SGBRG8_1X8,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SGRBG8_1X8,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SRGGB8_1X8,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SBGGR10_1X10,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SGBRG10_1X10,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SGRBG10_1X10,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SBGGR12_1X12,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SGRBG12_1X12,
-> +	},
-> +	{
-> +		.mbus_code = MEDIA_BUS_FMT_SRGGB12_1X12,
-> +	},
-> +};
-> +
-> +const struct rkcif_mipi_match_data rkcif_rk3568_vicap_mipi_match_data = {
-> +	.mipi_num = 1,
-> +	.regs = {
-> +		[RKCIF_MIPI_CTRL] = 0x20,
-> +		[RKCIF_MIPI_INTEN] = 0xa4,
-> +		[RKCIF_MIPI_INTSTAT] = 0xa8,
-> +	},
-> +	.regs_id = {
-> +		[RKCIF_ID0] = {
-> +			[RKCIF_MIPI_CTRL0] = 0x00,
-> +			[RKCIF_MIPI_CTRL1] = 0x04,
-> +			[RKCIF_MIPI_FRAME0_ADDR_Y] = 0x24,
-> +			[RKCIF_MIPI_FRAME0_ADDR_UV] = 0x2c,
-> +			[RKCIF_MIPI_FRAME0_VLW_Y] = 0x34,
-> +			[RKCIF_MIPI_FRAME0_VLW_UV] = 0x3c,
-> +			[RKCIF_MIPI_FRAME1_ADDR_Y] = 0x28,
-> +			[RKCIF_MIPI_FRAME1_ADDR_UV] = 0x30,
-> +			[RKCIF_MIPI_FRAME1_VLW_Y] = 0x38,
-> +			[RKCIF_MIPI_FRAME1_VLW_UV] = 0x40,
-> +			[RKCIF_MIPI_CROP_START] = 0xbc,
-> +		},
-> +		[RKCIF_ID1] = {
-> +			[RKCIF_MIPI_CTRL0] = 0x08,
-> +			[RKCIF_MIPI_CTRL1] = 0x0c,
-> +			[RKCIF_MIPI_FRAME0_ADDR_Y] = 0x44,
-> +			[RKCIF_MIPI_FRAME0_ADDR_UV] = 0x4c,
-> +			[RKCIF_MIPI_FRAME0_VLW_Y] = 0x54,
-> +			[RKCIF_MIPI_FRAME0_VLW_UV] = 0x5c,
-> +			[RKCIF_MIPI_FRAME1_ADDR_Y] = 0x48,
-> +			[RKCIF_MIPI_FRAME1_ADDR_UV] = 0x50,
-> +			[RKCIF_MIPI_FRAME1_VLW_Y] = 0x58,
-> +			[RKCIF_MIPI_FRAME1_VLW_UV] = 0x60,
-> +			[RKCIF_MIPI_CROP_START] = 0xc0,
-> +		},
-> +		[RKCIF_ID2] = {
-> +			[RKCIF_MIPI_CTRL0] = 0x10,
-> +			[RKCIF_MIPI_CTRL1] = 0x14,
-> +			[RKCIF_MIPI_FRAME0_ADDR_Y] = 0x64,
-> +			[RKCIF_MIPI_FRAME0_ADDR_UV] = 0x6c,
-> +			[RKCIF_MIPI_FRAME0_VLW_Y] = 0x74,
-> +			[RKCIF_MIPI_FRAME0_VLW_UV] = 0x7c,
-> +			[RKCIF_MIPI_FRAME1_ADDR_Y] = 0x68,
-> +			[RKCIF_MIPI_FRAME1_ADDR_UV] = 0x70,
-> +			[RKCIF_MIPI_FRAME1_VLW_Y] = 0x78,
-> +			[RKCIF_MIPI_FRAME1_VLW_UV] = 0x80,
-> +			[RKCIF_MIPI_CROP_START] = 0xc4,
-> +		},
-> +		[RKCIF_ID3] = {
-> +			[RKCIF_MIPI_CTRL0] = 0x18,
-> +			[RKCIF_MIPI_CTRL1] = 0x1c,
-> +			[RKCIF_MIPI_FRAME0_ADDR_Y] = 0x84,
-> +			[RKCIF_MIPI_FRAME0_ADDR_UV] = 0x8c,
-> +			[RKCIF_MIPI_FRAME0_VLW_Y] = 0x94,
-> +			[RKCIF_MIPI_FRAME0_VLW_UV] = 0x9c,
-> +			[RKCIF_MIPI_FRAME1_ADDR_Y] = 0x88,
-> +			[RKCIF_MIPI_FRAME1_ADDR_UV] = 0x90,
-> +			[RKCIF_MIPI_FRAME1_VLW_Y] = 0x98,
-> +			[RKCIF_MIPI_FRAME1_VLW_UV] = 0xa0,
-> +			[RKCIF_MIPI_CROP_START] = 0xc8,
-> +		},
-> +	},
-> +	.blocks = {
-> +		{
-> +			.offset = 0x80,
-> +		},
-> +	},
-> +};
-> +
-> +static inline unsigned int rkcif_mipi_get_reg(struct rkcif_interface *interface,
-> +					      unsigned int index)
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> index b28f4140c8a309a3231d44d825c6461e3ecb2a44..dc8e827e9464117877afe679611c528b4126172f 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
+>   */
+>  
+> +#include <linux/bitfield.h>
+>  #include <linux/math.h>
+>  #include <linux/string.h>
+>  
+> @@ -60,6 +61,7 @@ union rkisp1_ext_params_config {
+>  	struct rkisp1_ext_params_afc_config afc;
+>  	struct rkisp1_ext_params_compand_bls_config compand_bls;
+>  	struct rkisp1_ext_params_compand_curve_config compand_curve;
+> +	struct rkisp1_ext_params_wdr_config wdr;
+>  };
+>  
+>  enum rkisp1_params_formats {
+> @@ -1348,6 +1350,73 @@ rkisp1_compand_compress_config(struct rkisp1_params *params,
+>  				       arg->x);
+>  }
+>  
+> +static void rkisp1_wdr_config(struct rkisp1_params *params,
+> +			      const struct rkisp1_cif_isp_wdr_config *arg)
 > +{
-> +	struct rkcif_device *rkcif = interface->rkcif;
-> +	unsigned int block, offset, reg;
+> +	unsigned int i;
+> +	u32 value;
 > +
-> +	block = interface->index - RKCIF_MIPI_BASE;
+> +	value = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_WDR_CTRL)
+> +	      & ~(RKISP1_CIF_ISP_WDR_USE_IREF |
+> +		  RKISP1_CIF_ISP_WDR_COLOR_SPACE_SELECT |
+> +		  RKISP1_CIF_ISP_WDR_CR_MAPPING_DISABLE |
+> +		  RKISP1_CIF_ISP_WDR_USE_Y9_8 |
+> +		  RKISP1_CIF_ISP_WDR_USE_RGB7_8 |
+> +		  RKISP1_CIF_ISP_WDR_DISABLE_TRANSIENT |
+> +		  RKISP1_CIF_ISP_WDR_RGB_FACTOR_MASK);
 > +
-> +	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
-> +	    WARN_ON_ONCE(index > RKCIF_MIPI_REGISTER_MAX))
-> +		return RKCIF_REGISTER_NOTSUPPORTED;
+> +	/* Colorspace and chrominance mapping */
+> +	if (arg->use_rgb_colorspace)
+> +		value |= RKISP1_CIF_ISP_WDR_COLOR_SPACE_SELECT;
 > +
-> +	offset = rkcif->match_data->mipi->blocks[block].offset;
-> +	reg = rkcif->match_data->mipi->regs[index];
-> +	if (reg == RKCIF_REGISTER_NOTSUPPORTED)
-> +		return reg;
+> +	if (!arg->use_rgb_colorspace && arg->bypass_chroma_mapping)
+> +		value |= RKISP1_CIF_ISP_WDR_CR_MAPPING_DISABLE;
 > +
-> +	return offset + reg;
+> +	/* Illumination reference */
+> +	if (arg->use_iref) {
+> +		value |= RKISP1_CIF_ISP_WDR_USE_IREF;
+> +
+> +		if (arg->iref_config.use_y9_8)
+> +			value |= RKISP1_CIF_ISP_WDR_USE_Y9_8;
+> +
+> +		if (arg->iref_config.use_rgb7_8)
+> +			value |= RKISP1_CIF_ISP_WDR_USE_RGB7_8;
+> +
+> +		if (arg->iref_config.disable_transient)
+> +			value |= RKISP1_CIF_ISP_WDR_DISABLE_TRANSIENT;
+> +
+> +		value |= FIELD_PREP(RKISP1_CIF_ISP_WDR_RGB_FACTOR_MASK,
+> +				    min(arg->iref_config.rgb_factor,
+> +					RKISP1_CIF_ISP_WDR_RGB_FACTOR_MAX));
+> +	}
+> +
+> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_CTRL, value);
+> +
+> +	/* RGB and Luminance offsets */
+> +	value = FIELD_PREP(RKISP1_CIF_ISP_WDR_RGB_OFFSET_MASK,
+> +			   arg->rgb_offset)
+> +	      | FIELD_PREP(RKISP1_CIF_ISP_WDR_LUM_OFFSET_MASK,
+> +			   arg->luma_offset);
+> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_OFFSET, value);
+> +
+> +	/* DeltaMin */
+> +	value = FIELD_PREP(RKISP1_CIF_ISP_WDR_DMIN_THRESH_MASK,
+> +			   arg->dmin_thresh)
+> +	      | FIELD_PREP(RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MASK,
+> +			   min(arg->dmin_strength,
+> +			       RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MAX));
+> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_DELTAMIN, value);
+> +
+> +	/* Tone curve */
+> +	for (i = 0; i < RKISP1_CIF_ISP_WDR_CURVE_NUM_DY_REGS; i++)
+> +		rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_TONECURVE(i),
+> +			     arg->tone_curve.dY[i]);
+> +	for (i = 0; i < RKISP1_CIF_ISP_WDR_CURVE_NUM_COEFF; i++)
+> +		rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_TONECURVE_YM(i),
+> +			     arg->tone_curve.ym[i] &
+> +				     RKISP1_CIF_ISP_WDR_TONE_CURVE_YM_MASK);
 > +}
 > +
-> +static inline unsigned int rkcif_mipi_id_get_reg(struct rkcif_stream *stream,
-> +						 unsigned int index)
+>  static void
+>  rkisp1_isp_isr_other_config(struct rkisp1_params *params,
+>  			    const struct rkisp1_params_cfg *new_params)
+> @@ -2005,6 +2074,25 @@ static void rkisp1_ext_params_compand_compress(struct rkisp1_params *params,
+>  				      RKISP1_CIF_ISP_COMPAND_CTRL_COMPRESS_ENABLE);
+>  }
+>  
+> +static void rkisp1_ext_params_wdr(struct rkisp1_params *params,
+> +				  const union rkisp1_ext_params_config *block)
 > +{
-> +	struct rkcif_device *rkcif = stream->rkcif;
-> +	unsigned int block, id, offset, reg;
+> +	const struct rkisp1_ext_params_wdr_config *wdr = &block->wdr;
 > +
-> +	block = stream->interface->index - RKCIF_MIPI_BASE;
-> +	id = stream->id;
-> +
-> +	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
-> +	    WARN_ON_ONCE(id > RKCIF_ID_MAX) ||
-> +	    WARN_ON_ONCE(index > RKCIF_MIPI_ID_REGISTER_MAX))
-> +		return RKCIF_REGISTER_NOTSUPPORTED;
-> +
-> +	offset = rkcif->match_data->mipi->blocks[block].offset;
-> +	reg = rkcif->match_data->mipi->regs_id[id][index];
-> +	if (reg == RKCIF_REGISTER_NOTSUPPORTED)
-> +		return reg;
-> +
-> +	return offset + reg;
-> +}
-> +
-> +static inline __maybe_unused void
-> +rkcif_mipi_write(struct rkcif_interface *interface, unsigned int index, u32 val)
-> +{
-> +	unsigned int addr = rkcif_mipi_get_reg(interface, index);
-> +
-> +	if (addr == RKCIF_REGISTER_NOTSUPPORTED)
+> +	if (wdr->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
+> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_WDR_CTRL,
+> +					RKISP1_CIF_ISP_WDR_CTRL_ENABLE);
 > +		return;
-> +
-> +	writel(val, interface->rkcif->base_addr + addr);
-> +}
-> +
-> +static inline __maybe_unused void
-> +rkcif_mipi_stream_write(struct rkcif_stream *stream, unsigned int index,
-> +			u32 val)
-> +{
-> +	unsigned int addr = rkcif_mipi_id_get_reg(stream, index);
-> +
-> +	if (addr == RKCIF_REGISTER_NOTSUPPORTED)
-> +		return;
-> +
-> +	writel(val, stream->rkcif->base_addr + addr);
-> +}
-> +
-> +static inline __maybe_unused u32
-> +rkcif_mipi_read(struct rkcif_interface *interface, unsigned int index)
-> +{
-> +	unsigned int addr = rkcif_mipi_get_reg(interface, index);
-> +
-> +	if (addr == RKCIF_REGISTER_NOTSUPPORTED)
-> +		return 0;
-> +
-> +	return readl(interface->rkcif->base_addr + addr);
-> +}
-> +
-> +static inline __maybe_unused u32
-> +rkcif_mipi_stream_read(struct rkcif_stream *stream, unsigned int index)
-> +{
-> +	unsigned int addr = rkcif_mipi_id_get_reg(stream, index);
-> +
-> +	if (addr == RKCIF_REGISTER_NOTSUPPORTED)
-> +		return 0;
-> +
-> +	return readl(stream->rkcif->base_addr + addr);
-> +}
-> +
-> +static void rkcif_mipi_queue_buffer(struct rkcif_stream *stream,
-> +				    unsigned int index)
-> +{
-> +	struct rkcif_buffer *buffer = stream->buffers[index];
-> +	u32 frm_addr_y, frm_addr_uv;
-> +
-> +	frm_addr_y = index ? RKCIF_MIPI_FRAME1_ADDR_Y :
-> +			     RKCIF_MIPI_FRAME0_ADDR_Y;
-> +	frm_addr_uv = index ? RKCIF_MIPI_FRAME1_ADDR_UV :
-> +			      RKCIF_MIPI_FRAME0_ADDR_UV;
-> +
-> +	rkcif_mipi_stream_write(stream, frm_addr_y,
-> +				buffer->buff_addr[RKCIF_PLANE_Y]);
-> +	rkcif_mipi_stream_write(stream, frm_addr_uv,
-> +				buffer->buff_addr[RKCIF_PLANE_UV]);
-> +}
-> +
-> +static int rkcif_mipi_start_streaming(struct rkcif_stream *stream)
-> +{
-> +	struct rkcif_interface *interface = stream->interface;
-> +	const struct rkcif_output_fmt *active_out_fmt;
-> +	struct v4l2_subdev_state *state;
-> +	u32 ctrl0 = 0, ctrl1 = 0, int_temp = 0, int_mask = 0, vlw = 0;
-> +	u16 height, width;
-> +	int ret = -EINVAL;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(&interface->sd);
-> +
-> +	active_out_fmt = rkcif_stream_find_output_fmt(stream, false,
-> +						      stream->pix.pixelformat);
-> +	if (!active_out_fmt)
-> +		goto out;
-> +
-> +	height = stream->pix.height;
-> +	width = stream->pix.width;
-> +	/* TODO there may be different factors and/or alignment constraints */
-> +	vlw = ALIGN(width * 2, 8);
-> +
-> +	ctrl0 |= active_out_fmt->mipi.dt << 10;
-> +	ctrl0 |= active_out_fmt->mipi.ctrl0_val;
-> +	ctrl0 |= RKCIF_MIPI_CTRL0_CROP_EN;
-> +	ctrl0 |= RKCIF_MIPI_CTRL0_CAP_EN;
-> +
-> +	ctrl1 = RKCIF_XY_COORD(width, height);
-> +
-> +	int_mask |= RKCIF_MIPI_INT_FRAME0_END(stream->id);
-> +	int_mask |= RKCIF_MIPI_INT_FRAME1_END(stream->id);
-> +
-> +	int_temp = rkcif_mipi_read(interface, RKCIF_MIPI_INTEN);
-> +	int_temp |= int_mask;
-> +	rkcif_mipi_write(interface, RKCIF_MIPI_INTEN, int_temp);
-> +
-> +	int_temp = rkcif_mipi_read(interface, RKCIF_MIPI_INTSTAT);
-> +	int_temp &= ~int_mask;
-> +	rkcif_mipi_write(interface, RKCIF_MIPI_INTSTAT, int_temp);
-> +
-> +	rkcif_mipi_stream_write(stream, RKCIF_MIPI_FRAME0_VLW_Y, vlw);
-> +	rkcif_mipi_stream_write(stream, RKCIF_MIPI_FRAME1_VLW_Y, vlw);
-> +	rkcif_mipi_stream_write(stream, RKCIF_MIPI_FRAME0_VLW_UV, vlw);
-> +	rkcif_mipi_stream_write(stream, RKCIF_MIPI_FRAME1_VLW_UV, vlw);
-> +	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CROP_START, 0x0);
-> +	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CTRL1, ctrl1);
-> +	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CTRL0, ctrl0);
-> +
-> +	ret = 0;
-> +
-> +out:
-> +	v4l2_subdev_unlock_state(state);
-> +	return ret;
-> +}
-> +
-> +static void rkcif_mipi_stop_streaming(struct rkcif_stream *stream)
-> +{
-> +	struct rkcif_interface *interface = stream->interface;
-> +	struct v4l2_subdev_state *state;
-> +	u32 int_temp = 0, int_mask = 0;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(&interface->sd);
-> +
-> +	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CTRL0, 0);
-> +
-> +	int_mask |= RKCIF_MIPI_INT_FRAME0_END(stream->id);
-> +	int_mask |= RKCIF_MIPI_INT_FRAME1_END(stream->id);
-> +
-> +	int_temp = rkcif_mipi_read(interface, RKCIF_MIPI_INTEN);
-> +	int_temp &= ~int_mask;
-> +	rkcif_mipi_write(interface, RKCIF_MIPI_INTEN, int_temp);
-> +
-> +	int_temp = rkcif_mipi_read(interface, RKCIF_MIPI_INTSTAT);
-> +	int_temp &= ~int_mask;
-> +	rkcif_mipi_write(interface, RKCIF_MIPI_INTSTAT, int_temp);
-> +
-> +	stream->stopping = false;
-> +
-> +	v4l2_subdev_unlock_state(state);
-> +}
-> +
-> +static void rkcif_mipi_set_crop(struct rkcif_stream *stream, u16 left, u16 top)
-> +{
-> +	u32 val;
-> +
-> +	val = RKCIF_XY_COORD(left, top);
-> +	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CROP_START, val);
-> +}
-> +
->   irqreturn_t rkcif_mipi_isr(int irq, void *ctx)
->   {
-> +	struct device *dev = ctx;
-> +	struct rkcif_device *rkcif = dev_get_drvdata(dev);
->   	irqreturn_t ret = IRQ_NONE;
-> +	u32 intstat;
-> +
-> +	for (int i = 0; i < rkcif->match_data->mipi->mipi_num; i++) {
-> +		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
-> +		struct rkcif_interface *interface = &rkcif->interfaces[index];
-> +
-> +		intstat = rkcif_mipi_read(interface, RKCIF_MIPI_INTSTAT);
-> +		rkcif_mipi_write(interface, RKCIF_MIPI_INTSTAT, intstat);
-> +
-> +		for (int j = 0; j < interface->streams_num; j++) {
-> +			struct rkcif_stream *stream = &interface->streams[j];
-> +
-> +			if (intstat & RKCIF_MIPI_INT_FRAME0_END(stream->id) ||
-> +			    intstat & RKCIF_MIPI_INT_FRAME1_END(stream->id)) {
-> +				rkcif_stream_pingpong(stream);
-> +				ret = IRQ_HANDLED;
-> +			}
-> +		}
-> +	}
-> 
->   	return ret;
->   }
-> 
->   int rkcif_mipi_register(struct rkcif_device *rkcif)
->   {
-> +	int ret, i;
-> +
-> +	if (!rkcif->match_data->mipi)
-> +		return 0;
-> +
-> +	for (i = 0; i < rkcif->match_data->mipi->mipi_num; i++) {
-> +		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
-> +		struct rkcif_interface *interface = &rkcif->interfaces[index];
-> +
-> +		interface->index = index;
-> +		interface->type = RKCIF_IF_MIPI;
-> +		interface->in_fmts = mipi_in_fmts;
-> +		interface->in_fmts_num = ARRAY_SIZE(mipi_in_fmts);
-> +		interface->set_crop = rkcif_mipi_set_crop;
-> +		interface->streams_num = 0;
-> +		ret = rkcif_interface_register(rkcif, interface);
-> +		if (ret)
-> +			continue;
-> +
-> +		for (int j = 0; j < RKCIF_ID_MAX; j++) {
-> +			struct rkcif_stream *stream = &interface->streams[j];
-> +
-> +			stream->id = j;
-> +			stream->interface = interface;
-> +			stream->out_fmts = mipi_out_fmts;
-> +			stream->out_fmts_num = ARRAY_SIZE(mipi_out_fmts);
-> +			stream->queue_buffer = rkcif_mipi_queue_buffer;
-> +			stream->start_streaming = rkcif_mipi_start_streaming;
-> +			stream->stop_streaming = rkcif_mipi_stop_streaming;
-> +			ret = rkcif_stream_register(rkcif, stream);
-> +			if (ret)
-> +				goto err;
-> +			interface->streams_num++;
-> +		}
 > +	}
 > +
->   	return 0;
+> +	rkisp1_wdr_config(params, &wdr->config);
 > +
-> +err:
-> +	for (; i >= 0; i--) {
-> +		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
-> +		struct rkcif_interface *interface = &rkcif->interfaces[index];
+> +	if ((wdr->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE) &&
+> +	    !(params->enabled_blocks & BIT(wdr->header.type)))
+> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_WDR_CTRL,
+> +				      RKISP1_CIF_ISP_WDR_CTRL_ENABLE);
+> +}
 > +
-> +		for (int j = 0; j < interface->streams_num; j++)
-> +			rkcif_stream_unregister(&interface->streams[j]);
+>  typedef void (*rkisp1_block_handler)(struct rkisp1_params *params,
+>  			     const union rkisp1_ext_params_config *config);
+>  
+> @@ -2118,6 +2206,11 @@ static const struct rkisp1_ext_params_handler {
+>  		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
+>  		.features	= RKISP1_FEATURE_COMPAND,
+>  	},
+> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR] = {
+> +		.size		= sizeof(struct rkisp1_ext_params_wdr_config),
+> +		.handler	= rkisp1_ext_params_wdr,
+> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
+> +	},
+>  };
+>  
+>  static void rkisp1_ext_params_config(struct rkisp1_params *params,
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> index bf0260600a1923eebde6b5fe233daf7d427362dd..5b9de1a2c624f4ecaf451fa806bb4b1c24a2cb55 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> @@ -710,6 +710,27 @@
+>  #define RKISP1_CIF_ISP_COMPAND_CTRL_SOFT_RESET_FLAG	BIT(2)
+>  #define RKISP1_CIF_ISP_COMPAND_CTRL_BLS_ENABLE		BIT(3)
+>  
+> +/* WDR */
+> +/* ISP_WDR_CTRL */
+> +#define RKISP1_CIF_ISP_WDR_CTRL_ENABLE			BIT(0)
+> +#define RKISP1_CIF_ISP_WDR_COLOR_SPACE_SELECT		BIT(1)
+> +#define RKISP1_CIF_ISP_WDR_CR_MAPPING_DISABLE		BIT(2)
+> +#define RKISP1_CIF_ISP_WDR_USE_IREF			BIT(3)
+> +#define RKISP1_CIF_ISP_WDR_USE_Y9_8			BIT(4)
+> +#define RKISP1_CIF_ISP_WDR_USE_RGB7_8			BIT(5)
+> +#define RKISP1_CIF_ISP_WDR_DISABLE_TRANSIENT		BIT(6)
+> +#define RKISP1_CIF_ISP_WDR_RGB_FACTOR_MASK		GENMASK(11, 8)
+> +#define RKISP1_CIF_ISP_WDR_RGB_FACTOR_MAX		8U
+> +/* ISP_WDR_TONE_CURVE_YM */
+> +#define RKISP1_CIF_ISP_WDR_TONE_CURVE_YM_MASK		GENMASK(12, 0)
+> +/* ISP_WDR_OFFSET */
+> +#define RKISP1_CIF_ISP_WDR_RGB_OFFSET_MASK		GENMASK(11, 0)
+> +#define RKISP1_CIF_ISP_WDR_LUM_OFFSET_MASK		GENMASK(27, 16)
+> +/* ISP_WDR_DELTAMIN */
+> +#define RKISP1_CIF_ISP_WDR_DMIN_THRESH_MASK		GENMASK(11, 0)
+> +#define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MASK		GENMASK(20, 16)
+> +#define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MAX		16U
 > +
-> +		rkcif_interface_unregister(interface);
-> +	}
-> +	return ret;
->   }
-> 
->   void rkcif_mipi_unregister(struct rkcif_device *rkcif)
->   {
-> +	if (!rkcif->match_data->mipi)
-> +		return;
+>  /* =================================================================== */
+>  /*                            CIF Registers                            */
+>  /* =================================================================== */
+> @@ -1302,82 +1323,12 @@
+>  
+>  #define RKISP1_CIF_ISP_WDR_BASE			0x00002a00
+>  #define RKISP1_CIF_ISP_WDR_CTRL			(RKISP1_CIF_ISP_WDR_BASE + 0x00000000)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_1		(RKISP1_CIF_ISP_WDR_BASE + 0x00000004)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_2		(RKISP1_CIF_ISP_WDR_BASE + 0x00000008)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_3		(RKISP1_CIF_ISP_WDR_BASE + 0x0000000c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_4		(RKISP1_CIF_ISP_WDR_BASE + 0x00000010)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_0	(RKISP1_CIF_ISP_WDR_BASE + 0x00000014)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_1	(RKISP1_CIF_ISP_WDR_BASE + 0x00000018)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_2	(RKISP1_CIF_ISP_WDR_BASE + 0x0000001c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_3	(RKISP1_CIF_ISP_WDR_BASE + 0x00000020)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_4	(RKISP1_CIF_ISP_WDR_BASE + 0x00000024)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_5	(RKISP1_CIF_ISP_WDR_BASE + 0x00000028)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_6	(RKISP1_CIF_ISP_WDR_BASE + 0x0000002c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_7	(RKISP1_CIF_ISP_WDR_BASE + 0x00000030)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_8	(RKISP1_CIF_ISP_WDR_BASE + 0x00000034)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_9	(RKISP1_CIF_ISP_WDR_BASE + 0x00000038)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_10	(RKISP1_CIF_ISP_WDR_BASE + 0x0000003c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_11	(RKISP1_CIF_ISP_WDR_BASE + 0x00000040)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_12	(RKISP1_CIF_ISP_WDR_BASE + 0x00000044)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_13	(RKISP1_CIF_ISP_WDR_BASE + 0x00000048)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_14	(RKISP1_CIF_ISP_WDR_BASE + 0x0000004c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_15	(RKISP1_CIF_ISP_WDR_BASE + 0x00000050)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_16	(RKISP1_CIF_ISP_WDR_BASE + 0x00000054)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_17	(RKISP1_CIF_ISP_WDR_BASE + 0x00000058)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_18	(RKISP1_CIF_ISP_WDR_BASE + 0x0000005c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_19	(RKISP1_CIF_ISP_WDR_BASE + 0x00000060)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_20	(RKISP1_CIF_ISP_WDR_BASE + 0x00000064)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_21	(RKISP1_CIF_ISP_WDR_BASE + 0x00000068)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_22	(RKISP1_CIF_ISP_WDR_BASE + 0x0000006c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_23	(RKISP1_CIF_ISP_WDR_BASE + 0x00000070)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_24	(RKISP1_CIF_ISP_WDR_BASE + 0x00000074)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_25	(RKISP1_CIF_ISP_WDR_BASE + 0x00000078)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_26	(RKISP1_CIF_ISP_WDR_BASE + 0x0000007c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_27	(RKISP1_CIF_ISP_WDR_BASE + 0x00000080)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_28	(RKISP1_CIF_ISP_WDR_BASE + 0x00000084)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_29	(RKISP1_CIF_ISP_WDR_BASE + 0x00000088)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_30	(RKISP1_CIF_ISP_WDR_BASE + 0x0000008c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_31	(RKISP1_CIF_ISP_WDR_BASE + 0x00000090)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_32	(RKISP1_CIF_ISP_WDR_BASE + 0x00000094)
+> +#define RKISP1_CIF_ISP_WDR_TONECURVE(n)		(RKISP1_CIF_ISP_WDR_BASE + 0x00000004 + (n) * 4)
+> +#define RKISP1_CIF_ISP_WDR_TONECURVE_YM(n)	(RKISP1_CIF_ISP_WDR_BASE + 0x00000014 + (n) * 4)
+>  #define RKISP1_CIF_ISP_WDR_OFFSET		(RKISP1_CIF_ISP_WDR_BASE + 0x00000098)
+>  #define RKISP1_CIF_ISP_WDR_DELTAMIN		(RKISP1_CIF_ISP_WDR_BASE + 0x0000009c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_1_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000a0)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_2_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000a4)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_3_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000a8)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_4_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000ac)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_0_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000b0)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_1_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000b4)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_2_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000b8)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_3_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000bc)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_4_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000c0)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_5_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000c4)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_6_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000c8)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_7_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000cc)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_8_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000d0)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_9_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000d4)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_10_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000d8)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_11_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000dc)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_12_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000e0)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_13_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000e4)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_14_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000e8)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_15_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000ec)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_16_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000f0)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_17_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000f4)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_18_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000f8)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_19_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x000000fc)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_20_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000100)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_21_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000104)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_22_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000108)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_23_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x0000010c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_24_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000110)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_25_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000114)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_26_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000118)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_27_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x0000011c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_28_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000120)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_29_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000124)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_30_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000128)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_31_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x0000012c)
+> -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_32_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000130)
+> +#define RKISP1_CIF_ISP_WDR_TONECURVE_SHD(n)	(RKISP1_CIF_ISP_WDR_BASE + 0x000000a0 + (n) * 4)
+> +#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_SHD(n)	(RKISP1_CIF_ISP_WDR_BASE + 0x000000b0 + (n) * 4)
+>  
+>  #define RKISP1_CIF_ISP_HIST_BASE_V12		0x00002c00
+>  #define RKISP1_CIF_ISP_HIST_CTRL_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + 0x00000000)
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index 2d995f3c1ca37820a381f1917a10bf08a304d992..59335097c01372252b296d960b39336dfb5ec197 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -169,6 +169,13 @@
+>   */
+>  #define RKISP1_CIF_ISP_COMPAND_NUM_POINTS	64
+>  
+> +/*
+> + * Wide Dynamic Range
+> + */
+> +#define RKISP1_CIF_ISP_WDR_CURVE_NUM_INTERV	32
+> +#define RKISP1_CIF_ISP_WDR_CURVE_NUM_COEFF	(RKISP1_CIF_ISP_WDR_CURVE_NUM_INTERV + 1)
+> +#define RKISP1_CIF_ISP_WDR_CURVE_NUM_DY_REGS	4
 > +
-> +	for (int i = 0; i < rkcif->match_data->mipi->mipi_num; i++) {
-> +		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
-> +		struct rkcif_interface *interface = &rkcif->interfaces[index];
-> +
-> +		for (int j = 0; j < interface->streams_num; j++)
-> +			rkcif_stream_unregister(&interface->streams[j]);
-> +
-> +		rkcif_interface_unregister(interface);
-> +	}
->   }
-> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.h b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.h
-> index ee1a50a59505..1248af70bdab 100644
-> --- a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.h
-> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.h
-> @@ -11,6 +11,8 @@
-> 
->   #include "rkcif-common.h"
-> 
-> +extern const struct rkcif_mipi_match_data rkcif_rk3568_vicap_mipi_match_data;
-> +
->   int rkcif_mipi_register(struct rkcif_device *rkcif);
-> 
->   void rkcif_mipi_unregister(struct rkcif_device *rkcif);
-> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-common.h b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-> index 62fb3580eec5..d0d929648f21 100644
-> --- a/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-> @@ -93,9 +93,14 @@ struct rkcif_output_fmt {
->   	u32 fourcc;
->   	u32 mbus_code;
->   	u8 cplanes;
-> +	u8 depth;
-> 
->   	union {
->   		u32 dvp_fmt_val;
-> +		struct {
-> +			u8 dt;
-> +			u32 ctrl0_val;
-> +		} mipi;
->   	};
->   };
-> 
-> @@ -183,6 +188,16 @@ struct rkcif_interface {
->   	void (*set_crop)(struct rkcif_stream *stream, u16 left, u16 top);
->   };
-> 
-> +struct rkcif_mipi_match_data {
-> +	unsigned int mipi_num;
-> +	unsigned int regs[RKCIF_MIPI_REGISTER_MAX];
-> +	unsigned int regs_id[RKCIF_ID_MAX][RKCIF_MIPI_ID_REGISTER_MAX];
-> +
-> +	struct {
-> +		unsigned int offset;
-> +	} blocks[RKCIF_MIPI_MAX - RKCIF_MIPI_BASE];
+>  /*
+>   * Measurement types
+>   */
+> @@ -889,6 +896,72 @@ struct rkisp1_cif_isp_compand_curve_config {
+>  	__u32 y[RKISP1_CIF_ISP_COMPAND_NUM_POINTS];
+>  };
+>  
+> +/**
+> + * struct rkisp1_cif_isp_wdr_tone_curve - Tone mapping curve definition for WDR.
+> + *
+> + * @dY: the dYn increments for horizontal (input) axis of the tone curve.
+> + *      each 3-bit dY value represents an increment of 2**(value+3).
+> + *      dY[0] bits 0:2 is increment dY1, bit 3 unused
+> + *      dY[0] bits 4:6 is increment dY2, bit 7 unused
+> + *      ...
+> + *      dY[0] bits 28:30 is increment dY8, bit 31 unused
+> + *      ... and so on till dY[3] bits 28:30 is increment dY32, bit 31 unused.
+> + * @ym: the Ym values for the vertical (output) axis of the tone curve.
+> + *      each value is 13 bit.
+> + */
+> +struct rkisp1_cif_isp_wdr_tone_curve {
+> +	__u32 dY[RKISP1_CIF_ISP_WDR_CURVE_NUM_DY_REGS];
+> +	__u16 ym[RKISP1_CIF_ISP_WDR_CURVE_NUM_COEFF];
 > +};
 > +
->   struct rkcif_dvp_match_data {
->   	const struct rkcif_input_fmt *in_fmts;
->   	unsigned int in_fmts_num;
-> @@ -198,6 +213,7 @@ struct rkcif_match_data {
->   	const char *const *clks;
->   	unsigned int clks_num;
->   	const struct rkcif_dvp_match_data *dvp;
-> +	const struct rkcif_mipi_match_data *mipi;
->   };
-> 
->   struct rkcif_device {
-> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-dev.c b/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
-> index 2dcd35771fc9..1d8815156c46 100644
-> --- a/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
-> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
-> @@ -49,6 +49,7 @@ static const struct rkcif_match_data rk3568_vicap_match_data = {
->   	.clks = rk3568_vicap_clks,
->   	.clks_num = ARRAY_SIZE(rk3568_vicap_clks),
->   	.dvp = &rkcif_rk3568_vicap_dvp_match_data,
-> +	.mipi = &rkcif_rk3568_vicap_mipi_match_data,
->   };
-> 
->   static const struct of_device_id rkcif_plat_of_match[] = {
-> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-> index 0ec524586594..f598a62f9fbd 100644
-> --- a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-> @@ -188,7 +188,10 @@ static int rkcif_interface_enable_streams(struct v4l2_subdev *sd,
->   		stream = &interface->streams[RKCIF_ID0];
->   		rkcif_interface_apply_crop(stream, state);
->   	} else {
-> -		/* TODO implement for MIPI */
-> +		for_each_active_route(&state->routing, route) {
-> +			stream = &interface->streams[route->sink_stream];
-> +			rkcif_interface_apply_crop(stream, state);
-> +		}
->   	}
-> 
->   	mask = v4l2_subdev_state_xlate_streams(state, RKCIF_IF_PAD_SINK,
-> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-regs.h b/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
-> index 07fd64174e80..3d1f0c45c638 100644
-> --- a/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
-> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
-> @@ -30,7 +30,29 @@ enum rkcif_dvp_register_index {
->   	RKCIF_DVP_REGISTER_MAX
->   };
-> 
-> -#define RKCIF_REGISTER_NOTSUPPORTED           0x420000
-> +enum rkcif_mipi_register_index {
-> +	RKCIF_MIPI_CTRL,
-> +	RKCIF_MIPI_INTEN,
-> +	RKCIF_MIPI_INTSTAT,
-> +	RKCIF_MIPI_REGISTER_MAX
+> +/**
+> + * struct rkisp1_cif_isp_wdr_iref_config - Illumination reference config for WDR.
+> + *
+> + * Use illumination reference value as described below, instead of only the
+> + * luminance (Y) value for tone mapping and gain calculations:
+> + * IRef = (rgb_factor * RGBMax_tr + (8 - rgb_factor) * Y)/8
+> + *
+> + * @rgb_factor: defines how much influence the RGBmax approach has in
+> + *              comparison to Y (valid values are 0..8).
+> + * @use_y9_8: use Y*9/8 for maximum value calculation along with the
+> + *            default of R, G, B for noise reduction.
+> + * @use_rgb7_8: decrease RGBMax by 7/8 for noise reduction.
+> + * @disable_transient: disable transient calculation between Y and RGBY_max.
+> + */
+> +struct rkisp1_cif_isp_wdr_iref_config {
+> +	__u8 rgb_factor;
+> +	__u8 use_y9_8;
+> +	__u8 use_rgb7_8;
+> +	__u8 disable_transient;
 > +};
 > +
-> +enum rkcif_mipi_id_register_index {
-> +	RKCIF_MIPI_CTRL0,
-> +	RKCIF_MIPI_CTRL1,
-> +	RKCIF_MIPI_FRAME0_ADDR_Y,
-> +	RKCIF_MIPI_FRAME0_ADDR_UV,
-> +	RKCIF_MIPI_FRAME0_VLW_Y,
-> +	RKCIF_MIPI_FRAME0_VLW_UV,
-> +	RKCIF_MIPI_FRAME1_ADDR_Y,
-> +	RKCIF_MIPI_FRAME1_ADDR_UV,
-> +	RKCIF_MIPI_FRAME1_VLW_Y,
-> +	RKCIF_MIPI_FRAME1_VLW_UV,
-> +	RKCIF_MIPI_CROP_START,
-> +	RKCIF_MIPI_ID_REGISTER_MAX
+> +/**
+> + * struct rkisp1_cif_isp_wdr_config - Configuration for wide dynamic range.
+> + *
+> + * @tone_curve: tone mapping curve.
+> + * @iref_config: illumination reference configuration. (when use_iref is true)
+> + * @rgb_offset: RGB offset value for RGB operation mode. (12 bits)
+> + * @luma_offset: luminance offset value for RGB operation mode. (12 bits)
+> + * @dmin_thresh: lower threshold for deltaMin value. (12 bits)
+> + * @dmin_strength: strength factor for deltaMin. (valid range is 0x00..0x10)
+> + * @use_rgb_colorspace: use RGB instead of luminance/chrominance colorspace.
+> + * @bypass_chroma_mapping: disable chrominance mapping (only valid if
+> + *                         use_rgb_colorspace = 0)
+> + * @use_iref: use illumination reference instead of Y for tone mapping
+> + *            and gain calculations.
+> + */
+> +struct rkisp1_cif_isp_wdr_config {
+> +	struct rkisp1_cif_isp_wdr_tone_curve tone_curve;
+> +	struct rkisp1_cif_isp_wdr_iref_config iref_config;
+> +	__u16 rgb_offset;
+> +	__u16 luma_offset;
+> +	__u16 dmin_thresh;
+> +	__u8 dmin_strength;
+> +	__u8 use_rgb_colorspace;
+> +	__u8 bypass_chroma_mapping;
+> +	__u8 use_iref;
 > +};
 > +
-> +#define RKCIF_REGISTER_NOTSUPPORTED	       0x420000
+>  /*---------- PART2: Measurement Statistics ------------*/
+>  
+>  /**
+> @@ -1059,6 +1132,7 @@ struct rkisp1_stat_buffer {
+>   * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_BLS: BLS in the compand block
+>   * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND: Companding expand curve
+>   * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS: Companding compress curve
+> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR: Wide dynamic range
+>   */
+>  enum rkisp1_ext_params_block_type {
+>  	RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS,
+> @@ -1081,6 +1155,7 @@ enum rkisp1_ext_params_block_type {
+>  	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_BLS,
+>  	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND,
+>  	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS,
+> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
+>  };
+>  
+>  #define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
+> @@ -1460,6 +1535,23 @@ struct rkisp1_ext_params_compand_curve_config {
+>  	struct rkisp1_cif_isp_compand_curve_config config;
+>  } __attribute__((aligned(8)));
+>  
+> +/**
+> + * struct rkisp1_ext_params_wdr_config - RkISP1 extensible params
+> + *                                       Wide dynamic range config
+> + *
+> + * RkISP1 extensible parameters WDR block.
+> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR`
+> + *
+> + * @header: The RkISP1 extensible parameters header, see
+> + *	    :c:type:`rkisp1_ext_params_block_header`
+> + * @config: WDR configuration, see
+> + *	    :c:type:`rkisp1_cif_isp_wdr_config`
+> + */
+> +struct rkisp1_ext_params_wdr_config {
+> +	struct rkisp1_ext_params_block_header header;
+> +	struct rkisp1_cif_isp_wdr_config config;
+> +} __attribute__((aligned(8)));
+> +
+>  /*
+>   * The rkisp1_ext_params_compand_curve_config structure is counted twice as it
+>   * is used for both the COMPAND_EXPAND and COMPAND_COMPRESS block types.
 > 
->   #define RKCIF_FETCH_Y(VAL)		       ((VAL) & 0x1fff)
+> -- 
+> 2.49.0
 > 
 > 
-> --
-> 2.39.5
-> 
-> 
-> 
-
-This looks pretty clean to me.
-
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
