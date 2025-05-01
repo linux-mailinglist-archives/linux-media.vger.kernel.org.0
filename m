@@ -1,86 +1,87 @@
-Return-Path: <linux-media+bounces-31503-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31504-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9DEAA5FA4
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 16:09:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE402AA5FB4
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 16:14:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E7A9C3B279B
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 14:08:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3DDE4A2870
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 14:14:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9AA61DC9A3;
-	Thu,  1 May 2025 14:09:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E901EA7CF;
+	Thu,  1 May 2025 14:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cE+3jtUK"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C+sGxq2f"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DECD1ACECE
-	for <linux-media@vger.kernel.org>; Thu,  1 May 2025 14:09:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E631EA7E4
+	for <linux-media@vger.kernel.org>; Thu,  1 May 2025 14:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746108544; cv=none; b=EPkuvP40Z8nfjsVNK4GrvPFMoQKM9tSpd/WZbiqOOAokGQg+CaWV3UpS2KLvnwd/Syz0B8lYHPxQGU8mjSOfEGpCUo3FxeYnYjjGla8kXdW9M+jKyWfFaOSCqhwxZK7VSvFuvjTOkoky+yvWKBhtHzw//GeMFuZJ7b30XNCMTkA=
+	t=1746108852; cv=none; b=rhKAg1poU+0RbnVzBteiYdF9PMlvAZXlKOGA5sC2EtkJJ17odK/KF3NktGALjQFLdpnSZiXNFarZw5YodEkw8bu80bn8e6o8JW9CsrVwm+5o4Msxdf9tdtkfDIIDIIfILk+EffzsoXd248RU9AM9kCvTneNjbgjAcOuDIZGz6ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746108544; c=relaxed/simple;
-	bh=2bmPCW89rdzOGsDm72m7yTGa8DocL/QHm7jaXbJsMD4=;
+	s=arc-20240116; t=1746108852; c=relaxed/simple;
+	bh=Beg1GyH5S7/erDqJpe9re516yOROLxGZC4WtaMJYpu8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ptGMousEF65qc7rvAWUzefOXJFpCZZEeZ1HCYXfruLwDlug6AtW/7jNu8UVqQ7cvYuUd8bOUESWYMvoK/yYftRTUZz1ma70DBmnCY51x+nW63Q/6B0II05UfMx7VSMBHjF/oEj2skYTEM+zjbF4aHhCtdYtK1/+wrqy4shm/Amk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cE+3jtUK; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=gW5mM1dBLe8HFaQ2yYPUK9Vjuzu3TPhIhHWWniNaDozPWE3OL5J7J3JEIliBX8AMowtgOGIgzAvJ4WtEaq92nJaiW9+u1Oz6HItnzrknz357nMAuWgYb6DnbJXU/yjYOv8IuiJfPKS18TDRVlql4ew05fkArUJVIH3DcJhp7Jpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C+sGxq2f; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746108541;
+	s=mimecast20190719; t=1746108849;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zKAZMdqz4k8C7gJy26linTtjioeiTxT5WSsWc9mj6gw=;
-	b=cE+3jtUKSX6v3x7VkKKqnGANyyirSbvO3UvLWwFL6qUAWB9ymFIlFsSMYRH756XJxmVCbV
-	GTSFqU/XiSLJ+Zuozft4hseKD2Y/FA8udsJtwDmOBV7qoG2Nv+3vVzMCXVJ5DQE8MPRha3
-	msLLNLEds/wmRgKlRa+CW1d50bqKHew=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=Z2StXVt1J4ePYsdVr3FmCxU/oSwiVjfWoayP+B4Hirw=;
+	b=C+sGxq2f1V9gW5bdDU1JMEGfakSWZ97CM4Zp/gsy4MJB93gK4P6UQXnqsYuS7C/WKf3e7C
+	xWjoS8X3hldi7UFb3wMbPSMzqqVEaSGst0X+gHQkq5sLjAksm/s1r4LrKyrBGRkwV8Tvku
+	EJ+sl3dv1txtEg5sUjGVKzBhbZv/QwM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-664-qIwR8lVGN1-U7MLxITaJRQ-1; Thu, 01 May 2025 10:08:59 -0400
-X-MC-Unique: qIwR8lVGN1-U7MLxITaJRQ-1
-X-Mimecast-MFC-AGG-ID: qIwR8lVGN1-U7MLxITaJRQ_1746108538
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-acbbb000796so75673166b.2
-        for <linux-media@vger.kernel.org>; Thu, 01 May 2025 07:08:59 -0700 (PDT)
+ us-mta-168-f7IEydBcMX6AuSJairXzxA-1; Thu, 01 May 2025 10:14:07 -0400
+X-MC-Unique: f7IEydBcMX6AuSJairXzxA-1
+X-Mimecast-MFC-AGG-ID: f7IEydBcMX6AuSJairXzxA_1746108846
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-ac293748694so107052666b.0
+        for <linux-media@vger.kernel.org>; Thu, 01 May 2025 07:14:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746108538; x=1746713338;
+        d=1e100.net; s=20230601; t=1746108846; x=1746713646;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zKAZMdqz4k8C7gJy26linTtjioeiTxT5WSsWc9mj6gw=;
-        b=ENVqUBcyJmqmi7R5hp4dgsa4Idtxcdve/F2yoDYmm2quZFN1L8YRKwDHkADuLchOUP
-         fnZOjXijq+FO68q++qNihw+EdpxWOU2GSku7Zoh2ThKHpM0y9G4uO2nUlWAa4qYLqTjU
-         OhBl17ihrwR1lT17SqzPQ6iHhaM6Z70qkHagehI/iVbi/aaK6PLQKJ5Qifl7xthkfECr
-         yuPUzppYcrhUdGLPYyI8+xHUZadkKeU6jO0CPJ/pAuSPfV7tHfSxzNFrOdla8D/cREjS
-         ipUAnSoEkAg5BJQWJsYKEz8h89kLkwlFSjYq5BJe+RmT6xUnte9wclkAFtu4/FSvkg6P
-         0Tog==
-X-Gm-Message-State: AOJu0YwVN3YYuu4AY5idyv0yWbB/dLxM8NGPr/tl51pdccNY/VJSgyO2
-	cfLcRD/JIzCYrhaQzoMnDxmhnfhorMbkZ0nxPIveeqQbO2OkpdJ8KGheEZci/BdGOt7omqrR0dz
-	KermApz7TjkspzdogSMIzajMo6+CwoxVI8Dlannxh1cGQ2edYtoTkWjxIj3HU
-X-Gm-Gg: ASbGncswpoEjOD/V/YzkFoF95qy1xLZSy3JsbatK7OsqRu4dc4LlowoqtRYSr9hI/ZS
-	Wwr32FrShQwpSEg8rLdfWA9AC85guebchpA9hCvLLy9owevlEC8nvDHsIMZQNmFpP2ksehReXw/
-	YrSKVBuWIrayz4ufHRAQMvPKW7azkHnql714kJjXyuHeOhaeOnfS6ujqWu0/sfkqnW2S9Big5XO
-	ryjd7fAbUTVQG3QHFWpRCLkNJtkYRXDsIrr99AI4sKmv09TvcX1qVq8buJyjhFHhb4YQsipLjmY
-	bYg7JAAR7lnYnkzMHfOhEV6aVoGoyw91k9Hu0JCt67kCDmvQAnt8dAPPS1o6dWieD8s+PC3krQO
-	LgVJ/jBhhEt658GHOLbGRLwSuQac9Fq6HGmcyt5idut446imEqw7rhJ+lSHmZsw==
-X-Received: by 2002:a17:907:1b11:b0:acb:8492:fe with SMTP id a640c23a62f3a-acee25ff191mr654028666b.52.1746108538363;
-        Thu, 01 May 2025 07:08:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGReZdqnjWQp8R6Eug67um016BAdvbQ+pNPuexOt79SVpL7qqesrqW9/D//xMT6llQVb+QjXw==
-X-Received: by 2002:a17:907:1b11:b0:acb:8492:fe with SMTP id a640c23a62f3a-acee25ff191mr654022266b.52.1746108537846;
-        Thu, 01 May 2025 07:08:57 -0700 (PDT)
+        bh=Z2StXVt1J4ePYsdVr3FmCxU/oSwiVjfWoayP+B4Hirw=;
+        b=HAhPGmfIXK4iDFP80s/YHEi2R/y8oV01zWi/2QJxDZ9F2Z7NEds/hkGlgBY3NSuLRI
+         eCAwNVuXBF5+r33OXWv1mSHD4a6gg5De+Zb+zcGpUQprsoygmpdxCG/1W36pSZxizXxW
+         CUCOPboS5D60SBcV4BQDzM2tcrD/lg2dgTR/UGl5S7V2wErf08tM8llY6I4Qnd4rCAXf
+         cpOBXR1w9XGdVvxac3YL0Vcrboggmz1xMCvBo4a434q/Wy2OyMZFYcCbYP8bJ9tKr7j9
+         bH9+eqKlRnTPDnw3+HlAxf7VxB1R8NoN01kMUvbXJyIKCHLY2C58R3CcPeFBqpyx5ppN
+         DOUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMjW86sF7Ae/EpqlVF50UGSDG6q5lnuG+y23na8CpFOhQNdNGvGyAbqBbc9fPYNDvJHjGgYEQveK2+1w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh7uHaYO4fTlBBd6ECZNim7RhXiYet8AtbOS+GQl1ITggGLeCo
+	LHgTx/AewdnQV+5Wav8nD4r7f2pTtKHUczTO3vRvOKGsQD1VH92BD45TqO5NWPMDS0lmPcF4Bho
+	VPo+wlOq1OhbwomyxBJQIak2LxE2yaMDAJbu9YTCk3kep9GUV0YYWAjjrCMTz
+X-Gm-Gg: ASbGncspgev7KBXi8w4Zm4AMA6+YICe8CSb6JB5GdBUXjaig++Okm1nqjgEYx6Z+GP/
+	+SkGKZMK437/n5Krqbq1OlOR0K12Jw4X/Z+yZzR9uiNfcsbBLmbmTfClpwBfDXorAC02D52KVbb
+	3VlT9QtpkyM94UxTE55c9uPHL7xymIeQJJ6n1J34eLviWkEajka9UEQf9gT3zRkXyjd83K6iTfv
+	5e6ZkSp1Tb3zp5D0DMeK7nqUvrtCYvH5FSCMxeuBMoDszvy8oRqI3b/Lk+/CtozWKIuFJFZBF5u
+	bPBfqQOG22iBU4YwSZvRmUzOguKdmC44Samn+usL6YTIThvK/CxYh1qgxNpcjgacxHmie8rcGAF
+	6rKsF0fh1WpZAXMHyiQNadBFo0FC9y/rGtYyQ/R/q1sPcuf8fZh4xwCcNhjrKjQ==
+X-Received: by 2002:a17:907:d92:b0:ace:6703:3cd5 with SMTP id a640c23a62f3a-aceff41a4e2mr236738766b.19.1746108846077;
+        Thu, 01 May 2025 07:14:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG1cvJ7TbAgmDjQAwVoYe5SoCoqChs3iKAeoX+tVWa1yU6aUPS0thllVgI3NeCYyTQl3R70aw==
+X-Received: by 2002:a17:907:d92:b0:ace:6703:3cd5 with SMTP id a640c23a62f3a-aceff41a4e2mr236736966b.19.1746108845651;
+        Thu, 01 May 2025 07:14:05 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad0da516a01sm44965966b.104.2025.05.01.07.08.56
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad0da55afa1sm45536566b.131.2025.05.01.07.14.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 May 2025 07:08:57 -0700 (PDT)
-Message-ID: <55cd679a-1ade-4fe3-88f5-13772b7d068c@redhat.com>
-Date: Thu, 1 May 2025 16:08:56 +0200
+        Thu, 01 May 2025 07:14:05 -0700 (PDT)
+Message-ID: <b1007aab-c433-4a00-86c9-b448d1509c85@redhat.com>
+Date: Thu, 1 May 2025 16:14:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,207 +89,63 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: i2c: Remove unused macro definitions
-To: WangYuli <wangyuli@uniontech.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, andy@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, zhanjun@uniontech.com,
- guanwentao@uniontech.com, chenlinxuan@uniontech.com
-References: <78C4C3F9E650FD04+20250124034402.540943-1-wangyuli@uniontech.com>
+Subject: Re: [PATCH v3] media: Fix indentation to use TAB instead of spaces
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>, linux-media@vger.kernel.org
+Cc: andy@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <MESSAGE_ID_OF_V2_EMAIL_OR_REVIEW>
+ <20250407123608.366190-1-gshahrouzi@gmail.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <78C4C3F9E650FD04+20250124034402.540943-1-wangyuli@uniontech.com>
+In-Reply-To: <20250407123608.366190-1-gshahrouzi@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi WangYuli,
+Hi,
 
-On 24-Jan-25 4:44 AM, WangYuli wrote:
-> Delete obsolete macro definitions that are no longer in use in
-> mt9m114.h to improve code readability and maintainability.
+On 7-Apr-25 2:36 PM, Gabriel Shahrouzi wrote:
+> Replace spaces with TAB to comply with kernel coding style.
 > 
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
+> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> ---
+> Changes in v2:
+> 	- Resend using git send-email to fix formatting issues in email body.
+> Changes in v3:
+> 	- Use media prefix.
+> 	- Capitalize tab to TAB.
 
-Thank you for your patch, but this entire driver is being
-removed, so I'm not going to apply this patch. See:
+Thank you for your patch.
 
-https://lore.kernel.org/linux-media/20250501134312.104711-5-hdegoede@redhat.com/
+I have merged this in my media-atomisp branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+And this patch will be included in my next
+pull-request to Mauro (to media subsystem maintainer)
 
 Regards,
 
 Hans
 
 
+
+
 > ---
->  drivers/staging/media/atomisp/i2c/mt9m114.h | 105 +-------------------
->  1 file changed, 3 insertions(+), 102 deletions(-)
+>  .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/i2c/mt9m114.h b/drivers/staging/media/atomisp/i2c/mt9m114.h
-> index 97820db90827..9c4b85bea765 100644
-> --- a/drivers/staging/media/atomisp/i2c/mt9m114.h
-> +++ b/drivers/staging/media/atomisp/i2c/mt9m114.h
-> @@ -22,29 +22,15 @@
->  #include "../include/linux/atomisp_platform.h"
->  #include "../include/linux/atomisp.h"
+> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+> index ece5e3da34ee..127f12ba2214 100644
+> --- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+> @@ -114,7 +114,7 @@ configure_dma(
+>  }
 >  
-> -#define V4L2_IDENT_MT9M114 8245
-> -
-> -#define MT9P111_REV3
-> -#define FULLINISUPPORT
-> -
->  /* #defines for register writes and register array processing */
->  #define MISENSOR_8BIT		1
->  #define MISENSOR_16BIT		2
->  #define MISENSOR_32BIT		4
->  
-> -#define MISENSOR_FWBURST0	0x80
-> -#define MISENSOR_FWBURST1	0x81
-> -#define MISENSOR_FWBURST4	0x84
-> -#define MISENSOR_FWBURST	0x88
-> -
->  #define MISENSOR_TOK_TERM	0xf000	/* terminating token for reg list */
->  #define MISENSOR_TOK_DELAY	0xfe00	/* delay token for reg list */
-> -#define MISENSOR_TOK_FWLOAD	0xfd00	/* token indicating load FW */
-> -#define MISENSOR_TOK_POLL	0xfc00	/* token indicating poll instruction */
->  #define MISENSOR_TOK_RMW	0x0010  /* RMW operation */
->  #define MISENSOR_TOK_MASK	0xfff0
-> -#define MISENSOR_AWB_STEADY	BIT(0)	/* awb steady */
-> -#define MISENSOR_AE_READY	BIT(3)	/* ae status ready */
->  
->  /* mask to set sensor read_mode via misensor_rmw_reg */
->  #define MISENSOR_R_MODE_MASK	0x0330
-> @@ -55,99 +41,32 @@
->  #define MISENSOR_FLIP_DIS	0
->  
->  /* bits set to set sensor read_mode via misensor_rmw_reg */
-> -#define MISENSOR_SKIPPING_SET	0x0011
-> -#define MISENSOR_SUMMING_SET	0x0033
->  #define MISENSOR_NORMAL_SET	0x0000
->  
->  /* sensor register that control sensor read-mode and mirror */
->  #define MISENSOR_READ_MODE	0xC834
-> -/* sensor ae-track status register */
-> -#define MISENSOR_AE_TRACK_STATUS	0xA800
-> -/* sensor awb status register */
-> -#define MISENSOR_AWB_STATUS	0xAC00
-> -/* sensor coarse integration time register */
-> -#define MISENSOR_COARSE_INTEGRATION_TIME 0xC83C
->  
->  /* registers */
-> -#define REG_SW_RESET                    0x301A
-> -#define REG_SW_STREAM                   0xDC00
-> -#define REG_SCCB_CTRL                   0x3100
-> -#define REG_SC_CMMN_CHIP_ID             0x0000
-> -#define REG_V_START                     0xc800 /* 16bits */
-> -#define REG_H_START                     0xc802 /* 16bits */
-> -#define REG_V_END                       0xc804 /* 16bits */
-> -#define REG_H_END                       0xc806 /* 16bits */
-> -#define REG_PIXEL_CLK                   0xc808 /* 32bits */
-> -#define REG_TIMING_VTS                  0xc812 /* 16bits */
->  #define REG_TIMING_HTS                  0xc814 /* 16bits */
->  #define REG_WIDTH                       0xC868 /* 16bits */
-> -#define REG_HEIGHT                      0xC86A /* 16bits */
->  #define REG_EXPO_COARSE                 0x3012 /* 16bits */
-> -#define REG_EXPO_FINE                   0x3014 /* 16bits */
->  #define REG_GAIN                        0x305E
-> -#define REG_ANALOGGAIN                  0x305F
-> -#define REG_ADDR_ACESSS                 0x098E /* logical_address_access */
-> -#define REG_COMM_Register               0x0080 /* command_register */
-> -
-> -#define SENSOR_DETECTED		1
-> -#define SENSOR_NOT_DETECTED	0
->  
->  #define I2C_RETRY_COUNT		5
->  #define MSG_LEN_OFFSET		2
->  
-> -#ifndef MIPI_CONTROL
-> -#define MIPI_CONTROL		0x3400	/* MIPI_Control */
-> -#endif
-> -
-> -/* GPIO pin on Moorestown */
-> -#define GPIO_SCLK_25		44
-> -#define GPIO_STB_PIN		47
-> -
-> -#define GPIO_STDBY_PIN		49   /* ab:new */
-> -#define GPIO_RESET_PIN		50
-> -
->  /* System control register for Aptina A-1040SOC*/
->  #define MT9M114_PID		0x0
->  
->  /* MT9P111_DEVICE_ID */
->  #define MT9M114_MOD_ID		0x2481
->  
-> -#define MT9M114_FINE_INTG_TIME_MIN 0
-> -#define MT9M114_FINE_INTG_TIME_MAX_MARGIN 0
-> -#define MT9M114_COARSE_INTG_TIME_MIN 1
-> -#define MT9M114_COARSE_INTG_TIME_MAX_MARGIN 6
-> -
->  /* ulBPat; */
->  
-> -#define MT9M114_BPAT_RGRGGBGB	BIT(0)
-> -#define MT9M114_BPAT_GRGRBGBG	BIT(1)
-> -#define MT9M114_BPAT_GBGBRGRG	BIT(2)
-> -#define MT9M114_BPAT_BGBGGRGR	BIT(3)
-> +#define MT9M114_BPAT_GRGRBGBG	BIT(0)
-> +#define MT9M114_BPAT_BGBGGRGR	BIT(1)
->  
-> -#define MT9M114_FOCAL_LENGTH_NUM	208	/*2.08mm*/
->  #define MT9M114_WAIT_STAT_TIMEOUT	100
-> -#define MT9M114_FLICKER_MODE_50HZ	1
-> -#define MT9M114_FLICKER_MODE_60HZ	2
-> -/*
-> - * focal length bits definition:
-> - * bits 31-16: numerator, bits 15-0: denominator
-> - */
-> -#define MT9M114_FOCAL_LENGTH_DEFAULT 0xD00064
-> -
-> -/*
-> - * current f-number bits definition:
-> - * bits 31-16: numerator, bits 15-0: denominator
-> - */
-> -#define MT9M114_F_NUMBER_DEFAULT 0x18000a
-> -
-> -/*
-> - * f-number range bits definition:
-> - * bits 31-24: max f-number numerator
-> - * bits 23-16: max f-number denominator
-> - * bits 15-8: min f-number numerator
-> - * bits 7-0: min f-number denominator
-> - */
-> -#define MT9M114_F_NUMBER_RANGE 0x180a180a
->  
->  /* Supported resolutions */
->  enum {
-> @@ -158,29 +77,11 @@ enum {
->  
->  #define MT9M114_RES_960P_SIZE_H		1296
->  #define MT9M114_RES_960P_SIZE_V		976
-> -#define MT9M114_RES_720P_SIZE_H		1280
-> -#define MT9M114_RES_720P_SIZE_V		720
-> -#define MT9M114_RES_576P_SIZE_H		1024
-> -#define MT9M114_RES_576P_SIZE_V		576
-> -#define MT9M114_RES_480P_SIZE_H		768
-> -#define MT9M114_RES_480P_SIZE_V		480
-> -#define MT9M114_RES_VGA_SIZE_H		640
-> -#define MT9M114_RES_VGA_SIZE_V		480
-> -#define MT9M114_RES_QVGA_SIZE_H		320
-> -#define MT9M114_RES_QVGA_SIZE_V		240
-> -#define MT9M114_RES_QCIF_SIZE_H		176
-> -#define MT9M114_RES_QCIF_SIZE_V		144
-> -
-> -#define MT9M114_RES_720_480p_768_SIZE_H 736
-> -#define MT9M114_RES_720_480p_768_SIZE_V 496
-> +
->  #define MT9M114_RES_736P_SIZE_H 1296
->  #define MT9M114_RES_736P_SIZE_V 736
->  #define MT9M114_RES_864P_SIZE_H 1296
->  #define MT9M114_RES_864P_SIZE_V 864
-> -#define MT9M114_RES_976P_SIZE_H 1296
-> -#define MT9M114_RES_976P_SIZE_V 976
-> -
-> -#define MT9M114_BIN_FACTOR_MAX			3
->  
->  #define MT9M114_DEFAULT_FIRST_EXP 0x10
->  #define MT9M114_MAX_FIRST_EXP 0x302
+>  int ia_css_vf_configure(const struct ia_css_binary *binary,
+> -		        const struct ia_css_frame_info *out_info,
+> +			const struct ia_css_frame_info *out_info,
+>  			struct ia_css_frame_info *vf_info,
+>  			unsigned int *downscale_log2)
+>  {
 
 
