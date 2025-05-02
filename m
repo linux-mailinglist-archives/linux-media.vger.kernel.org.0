@@ -1,269 +1,172 @@
-Return-Path: <linux-media+bounces-31640-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31641-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE61AA785C
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 19:13:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0200AA7A58
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 21:43:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E7949A54BF
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:12:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 816C41B668BD
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 19:43:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14432701D9;
-	Fri,  2 May 2025 17:09:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EF5A1F419A;
+	Fri,  2 May 2025 19:42:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CeHOLO5W"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="LHHGPW1L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D12266B6A;
-	Fri,  2 May 2025 17:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B861A5B87;
+	Fri,  2 May 2025 19:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746205744; cv=none; b=kpOf/Wz8oM5ybvm1YsJRwgWUOWN09sElXVq8bXuO1spgJpiQRSKntdSrcnVjZBKDmPhcpWC/luDIDRVdMQNDOQXMNR/sBbzbwZ3aKnc0DSVoIUTmQUw+8J2abwxbhf2GgOTWuVrg9yL/OkVj7tF/6v31puYgpvSPI6xdXSfqJck=
+	t=1746214976; cv=none; b=kpH43NkJWqMeBCAzif/dWbaM4ftb681xinLNiRFGjsrnnM/PAGutyLLqZptoWR8rTrj3lhndiHDkwQOx4gquWsxweDOBLIgAwjHNOKZ88wJCUUWu996BVvgd0wloDaD7qEZT10Obcchqtma6HIxX9kv9Od1QbZAY5pu3PgVWsRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746205744; c=relaxed/simple;
-	bh=4stStijgmkQgLj7QgL0DPvTpEywkInJvNZan+1AlHwg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PQlpTHti87KUDEvaHj7LWpoVGYUC8ALQeka1ms3pL+L8l/3PnMcxm5Gmc2hkBDZhWjTXaHrIG5Y1tgjrFsTcmcAhQGxDnNPz8UhbiK37HR2i/T7crvDiNApMmWQQeutzsq5TIsZRiDIy9jeFIxOrmmiWBNuFnXH4amI2wpEOCgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CeHOLO5W; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-30a452d3b38so1886782a91.3;
-        Fri, 02 May 2025 10:09:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746205742; x=1746810542; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MtDpB0PTtkYXhtnhSwYfqz5Rac+7v9V6aZ5T1mp1bHo=;
-        b=CeHOLO5WXH0Omj0TBph8F0xykGTo9Z/xtmsycFJeGKd1xHBa/Nj2c/WJNMp8RBUyoE
-         2yLAexNHPsn5d4H4u11D9VdmVJgm+kPy2bm1ghAdodRDtmth4qcjh7itjD5JH3ucaK1S
-         4yykMv40AyTu9C8JgwvVkfkmHgDn6RvWMqu1bcdYeHtzKcincQCxn93XqVoxWYjeWZwE
-         iqG20Yuja0QeJQ3BGiOjoFrj+wpRR6eekRj51/DDF1FfkbkN0pBlKvtxKDVVlKtKpPzn
-         UvD5iHRPy3MIZbo0gl7ltmde8B8EyCvyuxlzr2Aadq3zxEfeveyX9zvtjrVarllh8dSX
-         yc/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746205742; x=1746810542;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MtDpB0PTtkYXhtnhSwYfqz5Rac+7v9V6aZ5T1mp1bHo=;
-        b=ss6PANDdDunuFx/GgD2joF+tKyPVwvDZIaLRuvMh2vJWepvbbsbmp0fxYGYWCCWwhT
-         QSTLEWFA6N6VLTzSv0SDJtVh2dgawcmQzTg0n5Xo8MA32YtiA3H89DOIincaYU2BfOqZ
-         ZbXfKsdZpnj9GzJZcWUnV62h74iXCLU656dc41k67zTacfhr24OgTBe2QAosT8Xycz5r
-         lWWRv9bRXSU5P9T5omeUuvp3GnDZGepGieKNXY1c+mddUTrfPfpBL1P/65cc6wuml2nL
-         UAfnXEbGEXyzAjTaAkecQI32EjtQiklhq+zLJDLEuPvi5/ruCqDQrSbmEgZs/2Ib6Elt
-         ZM3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVyxL3xvCXNxu9wvQce9GeNIMhQVi7R4CyHsDSGGJA9Jab3CUYzim4uubBDhS/M8GqVq5Dn0VJWGd5UljE+@vger.kernel.org, AJvYcCWjZ0rXOUr2RXyWvAgtd48B8i64e25yg9sMkCdw75GShfjGWj/+S62Ksyfn+qi4Czypt9h4yWjfyBKfq9Y=@vger.kernel.org, AJvYcCWy4cIXxbjvq38sTL/Pq796c/uXbcexhe4+IJ2+ZCwNVUzAkXKI8XyXwLIy1X9o+TSrMf9h+u3P0I6UdnsC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0MMFSnAgkTRc23HtFSPqpN2FKK/SYYW/y4wh4xuGyjN7wnGC6
-	DB0iIHU18RqYTth9mDmY1gzT9k60LDHIM8ohSYGOItoBQh9CLbBx
-X-Gm-Gg: ASbGncuJBcXihEO5tC5xLZXRVtdEYRBphnXX4Abc72DOpHPqQ/m1sQxnajvQKKHKScD
-	9jjaKjQ2t44wMOgu6xbUv50OSRNJFI8KNAFFHV5hS4DvTgUFCKvPOxBXk06IqtVdrH5kccgMiK0
-	MKB7FdAxVuiuXpWNHizznT8yYYg/mHnZ3/i9KHBErbffgX2ywrXiwEnqf6wZxQje9I3rtgS3yRG
-	FHgXhD/xN2Q1yjBhp5dMS3yZ3eM2FCoe9LruDWq8XzVr/ZOm2x9tORrBpsx7GdMQw9k1PAFQbDS
-	DehKvSEfm1P+1aw1B6va1CaxKEc8ZfLF/HD43JcWECjickAsw9ZmYmb2ZO0PZosh89qtVWhoi1V
-	k8zZMnnKcbi9YRTM=
-X-Google-Smtp-Source: AGHT+IGLzKtYhNPQcCcQ2sZuQ0mQkyBKqT6pl2xwj7tGeCiuCY8O4svTaB6TFce8aGq4JdBMzo4gEQ==
-X-Received: by 2002:a17:90b:1dc7:b0:308:5273:4df8 with SMTP id 98e67ed59e1d1-30a4e5a57e5mr6927234a91.10.1746205741705;
-        Fri, 02 May 2025 10:09:01 -0700 (PDT)
-Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a3478093csm5941045a91.29.2025.05.02.10.09.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 10:09:01 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	Connor Abbott <cwabbott0@gmail.com>,
-	Rob Clark <robdclark@chromium.org>,
-	Rob Clark <robdclark@gmail.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	linux-kernel@vger.kernel.org (open list),
-	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
-	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v4 21/33] drm/msm: Add _NO_SHARE flag
-Date: Fri,  2 May 2025 09:56:48 -0700
-Message-ID: <20250502165831.44850-22-robdclark@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250502165831.44850-1-robdclark@gmail.com>
-References: <20250502165831.44850-1-robdclark@gmail.com>
+	s=arc-20240116; t=1746214976; c=relaxed/simple;
+	bh=lHxaPE1V/iBb0Ob2a47aF8gBCnU0EX+sS1hy2Zzqhxc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=FXxpwF6BxSdc6AoGsUm9tz+F0IVW/d9I0zvP/OpvvyYi+R3giGDf2gvRfrJzPO4vgKMPoCJCOY8ECcO0I78WJHMqIiICqg7iSW1NwEEJoTWelXioAqQU5W/CszjBEWeYhyB0U0jjUA9/pbNztHfz2evlRLz+AROc9vDdWugAemE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=LHHGPW1L; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 542A2XW0004552;
+	Fri, 2 May 2025 21:42:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	ZBSQ/MFbMMoLpjs5IbY8opKOJCgMFn19DU9Uv51GkJk=; b=LHHGPW1LicnvmNoO
+	Sz+C6YDsl7Z89HXN6/qoA3TsKM+qLXJb4bn3ZYdsj3tsufWXJhdGO2lpCh57gZdu
+	vXnXXPySKu3bIa21c7zW0O5B7/eq2FHFvt+suJeaNo7cunPvWzLuN3Bho9r1pPxM
+	Oz+gWJzRFwpskkOpFhJsil+A2P1RPkH6IIWw70szTGsweHPZzCSr6k6jHgh8+lIc
+	B+Wf4sF3HCtgVXOE32R7GvqhpgosGLzvvLi5a+N6RT6/nsDSyLOHKWCGVKBXVGSq
+	DH9aST1vWcmNjpGAXpBu6ENByu1DR9lkvvUCqu7myg0L7kdZ5rMo9wIv1wsHFPjD
+	j2EoxQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46b6tmc9re-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 02 May 2025 21:42:29 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B09674002D;
+	Fri,  2 May 2025 21:41:21 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 94BBDA6041B;
+	Fri,  2 May 2025 21:39:28 +0200 (CEST)
+Received: from [10.252.136.96] (10.252.136.96) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 2 May
+ 2025 21:39:28 +0200
+Message-ID: <4c8a1359-e7e3-4e1c-a159-e761ed749712@foss.st.com>
+Date: Fri, 2 May 2025 21:39:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Sylvain Petinot <sylvain.petinot@foss.st.com>
+Subject: Re: [PATCH v6 2/2] media: i2c: Add driver for ST VD56G3 camera sensor
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: <benjamin.mugnier@foss.st.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <laurent.pinchart@ideasonboard.com>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <tomm.merciai@gmail.com>
+References: <20250427193050.23088-1-sylvain.petinot@foss.st.com>
+ <20250427193050.23088-3-sylvain.petinot@foss.st.com>
+ <aBCosy0h83UMNvSI@kekkonen.localdomain>
+ <f496004b-8301-4f7b-85cc-f2f82bc94060@foss.st.com>
+ <aBPzucFjWvN8crSs@kekkonen.localdomain>
+Content-Language: en-US
+In-Reply-To: <aBPzucFjWvN8crSs@kekkonen.localdomain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-02_04,2025-04-30_01,2025-02-21_01
 
-From: Rob Clark <robdclark@chromium.org>
+Hi Sakari,
 
-Buffers that are not shared between contexts can share a single resv
-object.  This way drm_gpuvm will not track them as external objects, and
-submit-time validating overhead will be O(1) for all N non-shared BOs,
-instead of O(n).
+Le 02/05/2025 à 00:20, Sakari Ailus a écrit :
+> Hi Sylvain,
+> 
+> On Wed, Apr 30, 2025 at 04:19:14PM +0200, Sylvain Petinot wrote:
+>>>> +static int vd56g3_subdev_init(struct vd56g3 *sensor)
+>>>> +{
+>>>> +	int ret;
+>>>> +
+>>>> +	/* Init remaining sub device ops */
+>>>> +	sensor->sd.internal_ops = &vd56g3_internal_ops;
+>>>> +	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>>>> +	sensor->sd.entity.ops = &vd56g3_subdev_entity_ops;
+>>>> +
+>>>> +	/* Init source pad */
+>>>> +	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
+>>>> +	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+>>>> +	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
+>>>> +	if (ret) {
+>>>> +		dev_err(sensor->dev, "Failed to init media entity : %d", ret);
+>>>> +		return ret;
+>>>> +	}
+>>>> +
+>>>> +	/* Init controls */
+>>>> +	ret = vd56g3_init_controls(sensor);
+>>>> +	if (ret) {
+>>>> +		dev_err(sensor->dev, "Controls initialization failed %d", ret);
+>>>> +		goto err_media;
+>>>> +	}
+>>>> +
+>>>> +	/* Init vd56g3 struct : default resolution + raw8 */
+>>>> +	sensor->sd.state_lock = sensor->ctrl_handler.lock;
+>>>> +	ret = v4l2_subdev_init_finalize(&sensor->sd);
+>>>> +	if (ret) {
+>>>> +		dev_err(sensor->dev, "subdev init error: %d", ret);
+>>>> +		goto err_ctrls;
+>>>> +	}
+>>>> +
+>>>> +	return vd56g3_update_controls(sensor);
+>>>
+>>> You're not holding the control handler's lock in the above call.
+>>
+>> If your comment is related to the fact that 'vd56g3_update_controls() can
+>> fail and that we do not free control handler not cleanup media entity, it's
+>> fixed in V7.
+> 
+> It's not. The access to the control handler is serialised by a mutex and
+> you're not holding that mutex whilst calling vd56g3_update_controls() here.
+> The same issue exists in accessing sub-device state.
+> 
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_drv.h       |  1 +
- drivers/gpu/drm/msm/msm_gem.c       | 23 +++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_gem_prime.c | 15 +++++++++++++++
- include/uapi/drm/msm_drm.h          | 14 ++++++++++++++
- 4 files changed, 53 insertions(+)
+I'm sorry, I missed that ...
+That should be better with something like :
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index b77fd2c531c3..b0add236cbb3 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -246,6 +246,7 @@ int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map);
- void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
- struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
- 		struct dma_buf_attachment *attach, struct sg_table *sg);
-+struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags);
- int msm_gem_prime_pin(struct drm_gem_object *obj);
- void msm_gem_prime_unpin(struct drm_gem_object *obj);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 3708d4579203..d0f44c981351 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -532,6 +532,9 @@ static int get_and_pin_iova_range_locked(struct drm_gem_object *obj,
- 
- 	msm_gem_assert_locked(obj);
- 
-+	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
-+		return -EINVAL;
-+
- 	vma = get_vma_locked(obj, vm, range_start, range_end);
- 	if (IS_ERR(vma))
- 		return PTR_ERR(vma);
-@@ -1060,6 +1063,16 @@ static void msm_gem_free_object(struct drm_gem_object *obj)
- 		put_pages(obj);
- 	}
- 
-+	if (msm_obj->flags & MSM_BO_NO_SHARE) {
-+		struct drm_gem_object *r_obj =
-+			container_of(obj->resv, struct drm_gem_object, _resv);
-+
-+		BUG_ON(obj->resv == &obj->_resv);
-+
-+		/* Drop reference we hold to shared resv obj: */
-+		drm_gem_object_put(r_obj);
-+	}
-+
- 	drm_gem_object_release(obj);
- 
- 	kfree(msm_obj->metadata);
-@@ -1092,6 +1105,15 @@ int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
- 	if (name)
- 		msm_gem_object_set_name(obj, "%s", name);
- 
-+	if (flags & MSM_BO_NO_SHARE) {
-+		struct msm_context *ctx = file->driver_priv;
-+		struct drm_gem_object *r_obj = drm_gpuvm_resv_obj(ctx->vm);
-+
-+		drm_gem_object_get(r_obj);
-+
-+		obj->resv = r_obj->resv;
-+	}
-+
- 	ret = drm_gem_handle_create(file, obj, handle);
- 
- 	/* drop reference from allocate - handle holds it now */
-@@ -1124,6 +1146,7 @@ static const struct drm_gem_object_funcs msm_gem_object_funcs = {
- 	.free = msm_gem_free_object,
- 	.open = msm_gem_open,
- 	.close = msm_gem_close,
-+	.export = msm_gem_prime_export,
- 	.pin = msm_gem_prime_pin,
- 	.unpin = msm_gem_prime_unpin,
- 	.get_sg_table = msm_gem_prime_get_sg_table,
-diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
-index ee267490c935..1a6d8099196a 100644
---- a/drivers/gpu/drm/msm/msm_gem_prime.c
-+++ b/drivers/gpu/drm/msm/msm_gem_prime.c
-@@ -16,6 +16,9 @@ struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj)
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 	int npages = obj->size >> PAGE_SHIFT;
- 
-+	if (msm_obj->flags & MSM_BO_NO_SHARE)
-+		return ERR_PTR(-EINVAL);
-+
- 	if (WARN_ON(!msm_obj->pages))  /* should have already pinned! */
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -45,6 +48,15 @@ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
- 	return msm_gem_import(dev, attach->dmabuf, sg);
- }
- 
-+
-+struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags)
-+{
-+	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
-+		return ERR_PTR(-EPERM);
-+
-+	return drm_gem_prime_export(obj, flags);
-+}
-+
- int msm_gem_prime_pin(struct drm_gem_object *obj)
- {
- 	struct page **pages;
-@@ -53,6 +65,9 @@ int msm_gem_prime_pin(struct drm_gem_object *obj)
- 	if (obj->import_attach)
- 		return 0;
- 
-+	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
-+		return -EINVAL;
-+
- 	pages = msm_gem_pin_pages_locked(obj);
- 	if (IS_ERR(pages))
- 		ret = PTR_ERR(pages);
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index b974f5a24dbc..1bccc347945c 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -140,6 +140,19 @@ struct drm_msm_param {
- 
- #define MSM_BO_SCANOUT       0x00000001     /* scanout capable */
- #define MSM_BO_GPU_READONLY  0x00000002
-+/* Private buffers do not need to be explicitly listed in the SUBMIT
-+ * ioctl, unless referenced by a drm_msm_gem_submit_cmd.  Private
-+ * buffers may NOT be imported/exported or used for scanout (or any
-+ * other situation where buffers can be indefinitely pinned, but
-+ * cases other than scanout are all kernel owned BOs which are not
-+ * visible to userspace).
-+ *
-+ * In exchange for those constraints, all private BOs associated with
-+ * a single context (drm_file) share a single dma_resv, and if there
-+ * has been no eviction since the last submit, there are no per-BO
-+ * bookeeping to do, significantly cutting the SUBMIT overhead.
-+ */
-+#define MSM_BO_NO_SHARE      0x00000004
- #define MSM_BO_CACHE_MASK    0x000f0000
- /* cache modes */
- #define MSM_BO_CACHED        0x00010000
-@@ -149,6 +162,7 @@ struct drm_msm_param {
- 
- #define MSM_BO_FLAGS         (MSM_BO_SCANOUT | \
-                               MSM_BO_GPU_READONLY | \
-+                              MSM_BO_NO_SHARE | \
-                               MSM_BO_CACHE_MASK)
- 
- struct drm_msm_gem_new {
+	state = v4l2_subdev_lock_and_get_active_state(&sensor->sd);
+	ret = vd56g3_update_controls(sensor);
+	v4l2_subdev_unlock_state(state);
+
+I'll prepare and push a V8.
+
+> ...
+> 
+>>>> +	ret = vd56g3_parse_dt(sensor);
+>>>> +	if (ret)
+>>>> +		return dev_err_probe(dev, ret, "Failed to parse Device Tree.");
+>>>
+>>> No need for the trailing dot in these messages. Same elsewhere.
+>>
+>> You're right, Fixed in V7.
+>> I took the opportunity to harmonize the error messages (Capital letter, no
+>> space before ':', no trailing dot, missing '\n').
+> 
+> Ack, sounds good!
+> 
+
 -- 
-2.49.0
+Sylvain
 
 
