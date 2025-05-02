@@ -1,143 +1,105 @@
-Return-Path: <linux-media+bounces-31594-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31595-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E41EAA744A
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:59:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D82AA748F
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 16:12:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EABAD4A2F05
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 13:59:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 851D24C6DBD
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 14:12:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35E5B255F49;
-	Fri,  2 May 2025 13:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0722256C64;
+	Fri,  2 May 2025 14:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZBVRzCkz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03DF1255F25;
-	Fri,  2 May 2025 13:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CBB2566D4;
+	Fri,  2 May 2025 14:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746194390; cv=none; b=T4mT3kYJ6VEn1aqjUPAk0BQshf6aut3s3uKhtzSYyVh4ET08cuHGmrFZJXrG84xlc+BJhwxwjzp+mFEkZp03Tm1z8SH+D+W0iKqDOv9s0gaEkfBdbRcGVEU7vB1UaKPW8T+pMdVomdhQl1pR3qnFeJpfrRuV1BwB8bYIKNoE1cE=
+	t=1746195110; cv=none; b=ujz8NX7CpjHrzUNUb348P0zHaD1BoVnpcn/6Ak5bEHf8pg0ygZs3MGe9XgmvGRrhEIheYVMPu0GM2sGiDTcCxtcayehC+VgD1ufN8qz5nBdj1zSJLGdlIQeHbNbNcRHLKT/sRZEgaTQ55m4mTXOa07sZiDGUw8crCS0vnnlLLp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746194390; c=relaxed/simple;
-	bh=hG3hp6agnM+x8dzzswp4S2fUNWXzPjMHX8B5indITHo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MJcnmu5dPiAfxt4pPZLka0auZcGF8Cm8i0VjWWHPzffQaGjech1uvOEoX3F7GjSns4DnHHSLeM9cWYkZu3TDAoLA3QkKOPcKJ/1X/+sOwONvKS1I78bckLg7klFyGEObGUqEeyqM4PNoLx6qkGqaL1x3vIcfG7B1Zriy0lPAWr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9830A1688;
-	Fri,  2 May 2025 06:59:38 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D14073F673;
-	Fri,  2 May 2025 06:59:41 -0700 (PDT)
-Message-ID: <6a33e85f-6b60-4260-993d-974dd29cf8e6@arm.com>
-Date: Fri, 2 May 2025 14:59:40 +0100
+	s=arc-20240116; t=1746195110; c=relaxed/simple;
+	bh=YX5K9W8SlvAErcT4KDiQHr82LNYtHxZsOutAoTNilCI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hCM3HNJ1cQFdh/8OOHue3s6opImpW4xkxTnBgfas2l2Ym2a/StZNDMfS3wUloFRLykTOneurf2guU+RzpXTtTf53Ite4/GkPtPIfGqqcUYH/OPp6YAFrIKsJRxqQf+Mitl9XwCdgDRyYXXZ6PyDip9bpHks+6r9bAOPiYekEKlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZBVRzCkz; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746195109; x=1777731109;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YX5K9W8SlvAErcT4KDiQHr82LNYtHxZsOutAoTNilCI=;
+  b=ZBVRzCkzXlDK/XxjSxBtpC2Sq9ganRW5vVhiCMva1b2JE2tDUiu3bD+A
+   Tr7gqkLsONFvJJbzxM5EWrtJEWLN3ZDrcD7HhjAonrXrFXleRxCvrTjeH
+   j/Q5S5IvDX0LTiT+kNv0zHFHcoLjs9T4jKBexwGO7llwI0mVJtmyIeaeV
+   bmZbrFARFOQsQ7IF7pWhaYcIryVEtYIJmCqFcl49bAUy+oJKpP0k//beL
+   Gah2Q/wyVHPA+JXDMh0kTBTnznTxRgM6GymKUC4LcbbYGVKyEM+v+dIZg
+   e+qZudpNmjKPyk2XMyNl41IRVI4ZGYnfxmvIxQlKOVzAc7ol30YbUGIVe
+   g==;
+X-CSE-ConnectionGUID: U1OJjRSNTcSN5mMlzNDSxQ==
+X-CSE-MsgGUID: DfFvpW4kSYyN+QiZfznVLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="48019979"
+X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
+   d="scan'208";a="48019979"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 07:11:48 -0700
+X-CSE-ConnectionGUID: O2cAMrm+RmStsBngfky0Cg==
+X-CSE-MsgGUID: S5bc+TXhSame8+YbhwCHSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
+   d="scan'208";a="135608569"
+Received: from smile.fi.intel.com ([10.237.72.55])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 07:11:46 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uAr79-00000002Did-0njo;
+	Fri, 02 May 2025 17:11:43 +0300
+Date: Fri, 2 May 2025 17:11:42 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Subject: Re: [PATCH v1 1/1] media: raspberrypi: rp1-cfe: Remove (explicitly)
+ unused header
+Message-ID: <aBTSnv5buH7AZp1X@smile.fi.intel.com>
+References: <20250331072136.3987653-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 06/14] tee: implement protected DMA-heap
-To: Jens Wiklander <jens.wiklander@linaro.org>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org,
- linux-arm-kernel@lists.infradead.org
-Cc: Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>
-References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
- <20250502100049.1746335-7-jens.wiklander@linaro.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250502100049.1746335-7-jens.wiklander@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250331072136.3987653-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 02/05/2025 10:59 am, Jens Wiklander wrote:
-> Implement DMA heap for protected DMA-buf allocation in the TEE
-> subsystem.
+On Mon, Mar 31, 2025 at 10:21:36AM +0300, Andy Shevchenko wrote:
+> The fwnode.h is not supposed to be used by the drivers as it
+> has the definitions for the core parts for different device
+> property provider implementations. Drop it.
 > 
-> Restricted memory refers to memory buffers behind a hardware enforced
-> firewall. It is not accessible to the kernel during normal circumstances
-> but rather only accessible to certain hardware IPs or CPUs executing in
-> higher or differently privileged mode than the kernel itself. This
-> interface allows to allocate and manage such protected memory buffers
-> via interaction with a TEE implementation.
-> 
-> The protected memory is allocated for a specific use-case, like Secure
-> Video Playback, Trusted UI, or Secure Video Recording where certain
-> hardware devices can access the memory.
-> 
-> The DMA-heaps are enabled explicitly by the TEE backend driver. The TEE
-> backend drivers needs to implement protected memory pool to manage the
-> protected memory.
+> Note, that fwnode API for drivers is provided in property.h
+> which is included here.
 
-[...]> +static struct sg_table *
-> +tee_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-> +		     enum dma_data_direction direction)
-> +{
-> +	struct tee_heap_attachment *a = attachment->priv;
-> +	int ret;
-> +
-> +	ret = dma_map_sgtable(attachment->dev, &a->table, direction,
-> +			      DMA_ATTR_SKIP_CPU_SYNC);
+Any comments? Can it be applied?
 
-If the memory is inaccessible to the kernel, what does this DMA mapping 
-even mean? What happens when it tries to perform cache maintenance or 
-bounce-buffering on inaccessible memory (which presumably doesn't even 
-have a VA if it's not usable as normal kernel memory)?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-If we're simply housekeeping the TEE's resources on its behalf, and 
-giving it back some token to tell it which resource to go do its thing 
-with, then that's really not "DMA" as far as the kernel is concerned.
 
-[...]
-> +static int protmem_pool_op_static_alloc(struct tee_protmem_pool *pool,
-> +					struct sg_table *sgt, size_t size,
-> +					size_t *offs)
-> +{
-> +	struct tee_protmem_static_pool *stp = to_protmem_static_pool(pool);
-> +	phys_addr_t pa;
-> +	int ret;
-> +
-> +	pa = gen_pool_alloc(stp->gen_pool, size);
-> +	if (!pa)
-> +		return -ENOMEM;
-> +
-> +	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-> +	if (ret) {
-> +		gen_pool_free(stp->gen_pool, pa, size);
-> +		return ret;
-> +	}
-> +
-> +	sg_set_page(sgt->sgl, phys_to_page(pa), size, 0);
-
-Where does "pa" come from here (i.e. what's the provenance of the 
-initial "paddr" passed to tee_protmem_static_pool_alloc())? In general 
-we can't call {phys,pfn}_to_page() an arbitrary addresses without 
-checking pfn_valid() first. A bogus address might even crash 
-__pfn_to_page() itself under CONFIG_SPARSEMEM.
-
-Thanks,
-Robin.
-
-> +	*offs = pa - stp->pa_base;
-> +
-> +	return 0;
-> +}
 
