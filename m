@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-31604-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31605-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204DBAA757A
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:02:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1541AA7588
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:06:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CFAC77B4024
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:01:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5DEA1B62A50
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:06:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5EC42571D9;
-	Fri,  2 May 2025 15:01:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B619257448;
+	Fri,  2 May 2025 15:05:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69331241696
-	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 15:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D42256C60
+	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 15:05:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746198118; cv=none; b=KRy0X0uT9O3K2Kw2nbMk/Yd5y5DI6bdMU4ObgeTgLmuahIVOIZsnpqckfSW6GfqDNq0ZFBBt9drbQ1zPz6GRV7FLXFn7TtXc5EcPBgX0bmmSB01xLB2Cg71K2Q9VHynAZSg8SYwzKh2ClqdYVJWHUwP6yvICjgyoDCvXZcJ/E34=
+	t=1746198345; cv=none; b=ZDVZLh2cnLpcSP8r6UyaKOQiGhZSR2+B4OvTjo2geBnf2Bvx7FMWon9W/scyKHv9I+uQ+PqLnd718WI7JLd2ld6uvAS2JQ5xP9kiKQdFqZbS7RSMjaTfF2y4oiIVlvmTfQlpswTv2dD6Jw+q9pimatJ06vrzPHdii1a+UKE4GQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746198118; c=relaxed/simple;
+	s=arc-20240116; t=1746198345; c=relaxed/simple;
 	bh=B1p0307AbGuUVy0xQNjE2egVjJKppcbO+fozf3RhI5E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KxjTUswM6eMh262fxlyzONw7X2dmBQbEiIpgTd/pRdIYCLAp7fsybyXUzGJJ0ednBdZDqk74wXwQEOuiDXzQ/b2pdhHbuXhRMuqxaE4OTyEIP6wU2cc2MtxG1tMDL1BisVucGSGlkpNJ/1zrlh3apE9sZqQEzb/ZNoPfrP90ab8=
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RKHf4EcLU/dFE2k6Ehn1OYPldke18+XlkT8YS1vROKvUGajdVpW+ZHfZ5Hp+WjAlxVnPCxNvD5td0MWyNAW1SDGidPb68FvqOnm3esSDkLcoe6Tq3gwMnehA3tP0JJojKCVZWBlJFAXGsw+jxFMT3bmZna9+/egs1KMHiP8a4vg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1uArtR-0002iK-Ov; Fri, 02 May 2025 17:01:37 +0200
+	id 1uArx9-0004HG-02; Fri, 02 May 2025 17:05:27 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
 To: nicolas.dufresne@collabora.com,
 	benjamin.gaignard@collabora.com,
@@ -44,7 +44,7 @@ To: nicolas.dufresne@collabora.com,
 	robh@kernel.org,
 	krzk+dt@kernel.org,
 	conor+dt@kernel.org,
-	paul.kocialkowski@bootlin.com,
+	paulk@sys-base.io,
 	hverkuil@xs4all.nl,
 	laurent.pinchart@ideasonboard.com,
 	sebastian.fricke@collabora.com,
@@ -56,8 +56,8 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org
 Subject: [RFC PATCH 00/11] VC8000E H.264 V4L2 Stateless Encoder
-Date: Fri,  2 May 2025 17:00:53 +0200
-Message-Id: <20250502150105.4167289-1-m.felsch@pengutronix.de>
+Date: Fri,  2 May 2025 17:05:02 +0200
+Message-Id: <20250502150513.4169098-1-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
