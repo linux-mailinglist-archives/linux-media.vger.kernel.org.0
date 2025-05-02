@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-31572-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31571-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CCBAA6ECB
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 12:04:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4636AAA6EC8
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 12:04:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 128491BC7D9A
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 10:04:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A3323AF59C
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 10:03:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4528022688C;
-	Fri,  2 May 2025 10:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2612254AE5;
+	Fri,  2 May 2025 10:01:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xudrqNaX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YrBsu8dj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A136B2522A8
-	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 10:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6699A22688C
+	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 10:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746180079; cv=none; b=LOh88kEkPiWQiTLvWmqedi6QCa8+MIS7l6UrVfzY7daYszpMP1V1+knIK8czMHQpu2ihqIncoj/uURi0mpYGfcsW/cWjMfZuDBhV8+Krr3y6nrqJzt5LyzKUs/0cMrvb3iTXCxdI48pRKgxsCvSotOFrA/ENlu4HPfwTeEV3k3U=
+	t=1746180079; cv=none; b=MP++AIvWsG+VcsofkM9fLmZoSy5BCei/XbYalNHHNVJItCssoq2l38JeJZDclX0nSZkcSz9yoEj9/LYXqNesHhR7nWpD6Rwl203k6iVR1lxInZ5SnD6pZDDP3Ay4Jec1zGPGNr83l4olketsL6IINVFklTbNd14W+nkfgRY8Gjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746180079; c=relaxed/simple;
-	bh=adYscF/VWtjspVg2TPKRQL4Dl/ZaZON4Rv7qOq3mBNM=;
+	bh=qWKjVCqV0w+dT8t2+rlJ6OZyMHmR7QzWxO1E0IapEGo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B8N0mQtC1QaSrGYpqeYVwlkHrZYQaoz77WgScVFq/6DjpEZ8aVgkDqNtXYfh0lkkKiz2fslXP/z2R5NYEpGsfuphj95la55b7mRhPkok3e0hhBdJpXEtF6SBufaQgKguLPe65Y1MnMwN5iSGid412wkM/L1I6BAU7yjQqdkrHCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xudrqNaX; arc=none smtp.client-ip=209.85.218.43
+	 MIME-Version; b=kFyMaKDYa6B90uGvnq8ZYnnKU5WJFEZnQQrDSW8jSosNFb0GYrKtvUuRJBLrP97a8cbkdtkdZQcaGbFG72d9kRaBn9XCZwnfxYegUwwGgJWHfjpc6VYNlFOnOa08uAaW1gRFRnUM/y4hG3dEtRINHU2HDKWrDOSWYWcSnxDdMvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YrBsu8dj; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ace98258d4dso256860566b.2
-        for <linux-media@vger.kernel.org>; Fri, 02 May 2025 03:01:15 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-acb2faa9f55so228645566b.3
+        for <linux-media@vger.kernel.org>; Fri, 02 May 2025 03:01:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746180074; x=1746784874; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1746180076; x=1746784876; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JHc/i2uVCttA+F6G/pvXVydhhQiLzwlzjcfTEmJaCtI=;
-        b=xudrqNaXtcfxR/lRb3bfNxnwxp4L/LtO+GkhuhWn0t5Lp1Pyq2foM0RTSqf9Cyi5wl
-         11Gn7wj1fiDqvpgAGvJy51lL4Sg6RtSSGvsPPkFccSQ1pa6KOe3AjlLLCWi397zBGY4Q
-         9ykOrpwk4d+/naGRBypT1X8FXMNxn4WfsCWxSZANrorxpD+biAK9CjX12AswGW86jPSj
-         U+hUW88QXZSVfb7HbzNANLemuIV79/AS6TLqGaXRfivgO7mXmbCdCnM9r0Hf5A7pTx6i
-         Vo+Mr/LdNzY5JMxOa/9ky1Qy2MR8OyrwOMy87P8NmFb/pTucfgtWKCNFIbfGV/iC+EZU
-         9zEw==
+        bh=aeQOjVkq3EBC9GxZGgQiApE4KnUvSm/cM8uXSgvbEb0=;
+        b=YrBsu8dj60THQ/lLgnbDxxj0ytkW+IB699DwzR4kwPi7K32LRQvG3Mt+UruelwfMDb
+         KQa0boXjpXFUsqFezckawUTcGnrTSOhxWtSaYPvCAlfGKv3LSsvFfNb0ixrmqymAem+P
+         V0CfDS5sg1oE3e0gPtzRR0aBlZD5FWem2yzvcTcwtN/95W8JVe3fvb4B/aPt3lUpUiYQ
+         CkrxI2plcVNMz+5FkcZReP+6FoP5V7j7Pa04mir71WOGOjHr4JwOi6ydPQ9JAnKMdBXz
+         t9A6AroV329bAcSyqF5kQ0a2dntQuAuanwwdSsHt/oX6/XLjGPjIGe5biEstzbDVo1KU
+         CMwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746180074; x=1746784874;
+        d=1e100.net; s=20230601; t=1746180076; x=1746784876;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JHc/i2uVCttA+F6G/pvXVydhhQiLzwlzjcfTEmJaCtI=;
-        b=ionpCKyO34dzolhdKa5b7hia9JI3TcyWVYPoV2Vf+3enysJ+qWB5FNwqYaA6lY88Mm
-         SoduzXCppLbOgUjYTgX9h3JzXRzgdy7S7P5q5XqxDaxwGhgUDf5Hc8xc2bDbhCA10Adw
-         d+qVkIaecIswZg6szXq/7BhmBdqXAmSd3mZyBiw2sN67CSHDRhb3moBY/PghV/zEHLTu
-         McU87m9Z5rpof16BVBD7zA93Yhi1Dbcccos47bCDhdVDtInDyWcmPAbrgiD1KXX6mpwF
-         UxEjF3rf0n+B2nukYHfe/zmSWRznkz1rh06KHtpBi/ey5x4HhIfxfgZ6PcEPJIo9rNFE
-         HCjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0kCaMtdBap8EWjigwALOT6n0tkbCkWt20rF+VgliCvzwPvSkD0R4qqQY4pe9d6WBsExWAJT7MVKQCzw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFSiKIgApV8HjHD+8R9K87oRk/JIwHVPm2ZN97Z1Ac9IZ++3vA
-	2GE+KKr6yMo2PAK5dcOk1qXOs5PZvZj7JE/f3S+SpxDwCDOQGtr6QvUSQLoVxc4=
-X-Gm-Gg: ASbGncsEwKQiJvSOIAsd0d51Arkk2FHdj6xoG2RnP1EidstffuES9yvJjcOvec7Chqn
-	bVEsAjGypAw+v8LnCI1LnynyFCh4KSaq3hmlMBngmMG+XgDeHAcUr/5Hx47dgfH+Link5sETSuH
-	fsPlfpm9QoV+7u1RcRpCaZJqgxZ3wCor3ZPBXJmJBsRswtXh9wlAYesw/BFSYkGy/9WBuAOCLAw
-	zsKY70hCm2Zo7AYbRLHJh3i9T1+GDvv9fDQfNcJoGjx7MLslsl1rOwEy0D1h8O6pErnVTdC1zaF
-	M18edPf7uqc2NvzF4zYpad1nJRk9FuoPdjS159YlQPOOr8LNq9Esbm/s+kdxJkcZWJZk73aqwDn
-	Ll6gArA1bWCMc3q8KdA==
-X-Google-Smtp-Source: AGHT+IFOsgLF6Acl3Dnu+kY+8WzAAhOB09Jk1srS30TZnn+BAtVaux5M4/L7RxPQOkhdypP2FHq2bw==
-X-Received: by 2002:a17:907:da7:b0:abf:749f:f719 with SMTP id a640c23a62f3a-ad17ad17aa7mr211271466b.7.1746180073795;
-        Fri, 02 May 2025 03:01:13 -0700 (PDT)
+        bh=aeQOjVkq3EBC9GxZGgQiApE4KnUvSm/cM8uXSgvbEb0=;
+        b=QmcyYD7aSFd60KQZtDJBG0/C33ah2aUM+8pZFk2fGrZotRCua/To35pmSKUTYE1Sus
+         xRs2XkUCkReg/9B0YXz9gmTbK33MOMlAPehfBH0kmXnGiV3GBNt3GfYnxV/JJIxAmgDx
+         ESP39Rdj0nt28qeaECmNLSVgfZWh7JJtvSzEtPSWWbPRvbPrfYM/VqHnTj/cpmSjgd/K
+         aa/JyEb62YRUKR4sbyWelEwa/4Nhon8C0eqfLMGzsxeji5G5Myc/InVwBHnuJJsseowp
+         X3R+P8YYemhuFxwhHh9SmlAHlRt+hGiGcWeOPHaxFOXhFkgLL+YnR4x4Rm9gQTmSww5g
+         h2OA==
+X-Forwarded-Encrypted: i=1; AJvYcCW6qfp53/42Qigx9Cxmg7x0Yi1pWljBrXnbek6js6LNICEdk+RduPS7b16kTZG/hZVuAbu4tRhV+gShFA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGs5bX7Bt8CV6Z+s14QlrWfuKVnfCxmnIekORKocoDTPLSFnaw
+	ZafmK6WEmtXwKoHjHuMbEslEoRxqofgnqia/ilhASs7d7piAmkopQEiCHSWR5YA=
+X-Gm-Gg: ASbGncsHKhTUQ8/DwasFrmlmMUyxURBIOM0BMvOeWr86uaQAxrOXyb0tfJh6d3voCUQ
+	ywLblpHS8FoWjD9voUrGHzbJQqHq8W85ZLj164z/piVWx91PUO+1N55DQk0/ThXh2xaz+UGIBeS
+	nRI42rcVmrHYpEfJxhX5gvl980j6tnKHu69HvilJ29C60gT5+n3v6ETdd61dbKziGARKkREG8w0
+	sWtPNkuhCThoFVt+TVt3HNxYtyOmmpBQn50LAGfdvx3prrsheJEPKLcehBfrmvktmS3HccJ/hpH
+	MjbA9xn4D0GceMXpUQufKImt3eCgmi2Uv/w21saocct+tz+D0VMiK61Fh6gyw8f5LIgKmxBFmB9
+	BzetxOfYHiuFCdTEOMg==
+X-Google-Smtp-Source: AGHT+IFF9zknIP+dqaL1V+FMTT0LVPgHDeyr+aipRO30IcpUVrj2BVxgOIBN2MQg2BYB/rbfAelPxg==
+X-Received: by 2002:a17:907:96a2:b0:ace:3c0b:1947 with SMTP id a640c23a62f3a-ad17ad39db1mr215652166b.4.1746180075654;
+        Fri, 02 May 2025 03:01:15 -0700 (PDT)
 Received: from rayden.urgonet (h-98-128-140-123.A175.priv.bahnhof.se. [98.128.140.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1891473a1sm26030566b.4.2025.05.02.03.01.12
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1891473a1sm26030566b.4.2025.05.02.03.01.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 03:01:13 -0700 (PDT)
+        Fri, 02 May 2025 03:01:15 -0700 (PDT)
 From: Jens Wiklander <jens.wiklander@linaro.org>
 To: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
@@ -97,9 +97,9 @@ Cc: Olivier Masse <olivier.masse@nxp.com>,
 	Daniel Stone <daniel@fooishbar.org>,
 	Rouven Czerwinski <rouven.czerwinski@linaro.org>,
 	Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v8 11/14] tee: add tee_shm_alloc_cma_phys_mem()
-Date: Fri,  2 May 2025 11:59:25 +0200
-Message-ID: <20250502100049.1746335-12-jens.wiklander@linaro.org>
+Subject: [PATCH v8 12/14] optee: support protected memory allocation
+Date: Fri,  2 May 2025 11:59:26 +0200
+Message-ID: <20250502100049.1746335-13-jens.wiklander@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250502100049.1746335-1-jens.wiklander@linaro.org>
 References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
@@ -111,128 +111,115 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add tee_shm_alloc_cma_phys_mem() to allocate a physical memory using
-from the default CMA pool. The memory is represented by a tee_shm object
-using the new flag TEE_SHM_CMA_BUF to identify it as physical memory
-from CMA.
+Add support in the OP-TEE backend driver for protected memory
+allocation. The support is limited to only the SMC ABI and for secure
+video buffers.
+
+OP-TEE is probed for the range of protected physical memory and a
+memory pool allocator is initialized if OP-TEE have support for such
+memory.
 
 Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 ---
- drivers/tee/tee_shm.c    | 55 ++++++++++++++++++++++++++++++++++++++--
- include/linux/tee_core.h |  4 +++
- 2 files changed, 57 insertions(+), 2 deletions(-)
+ drivers/tee/optee/core.c    |  1 +
+ drivers/tee/optee/smc_abi.c | 44 +++++++++++++++++++++++++++++++++++--
+ 2 files changed, 43 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-index e1ed52ee0a16..faaa0a87bb18 100644
---- a/drivers/tee/tee_shm.c
-+++ b/drivers/tee/tee_shm.c
-@@ -3,8 +3,11 @@
-  * Copyright (c) 2015-2017, 2019-2021 Linaro Limited
-  */
- #include <linux/anon_inodes.h>
-+#include <linux/cma.h>
- #include <linux/device.h>
- #include <linux/dma-buf.h>
-+#include <linux/dma-map-ops.h>
-+#include <linux/highmem.h>
- #include <linux/idr.h>
- #include <linux/io.h>
- #include <linux/mm.h>
-@@ -13,7 +16,6 @@
- #include <linux/tee_core.h>
- #include <linux/uaccess.h>
- #include <linux/uio.h>
--#include <linux/highmem.h>
- #include "tee_private.h"
+diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+index c75fddc83576..c7fd8040480e 100644
+--- a/drivers/tee/optee/core.c
++++ b/drivers/tee/optee/core.c
+@@ -181,6 +181,7 @@ void optee_remove_common(struct optee *optee)
+ 	tee_device_unregister(optee->supp_teedev);
+ 	tee_device_unregister(optee->teedev);
  
- static void shm_put_kernel_pages(struct page **pages, size_t page_count)
-@@ -49,7 +51,14 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
- 	struct tee_shm *parent_shm = NULL;
- 	void *p = shm;
- 
--	if (shm->flags & TEE_SHM_DMA_BUF) {
-+	if (shm->flags & TEE_SHM_CMA_BUF) {
-+#if IS_ENABLED(CONFIG_CMA)
-+		struct page *page = phys_to_page(shm->paddr);
-+		struct cma *cma = dev_get_cma_area(&shm->ctx->teedev->dev);
-+
-+		cma_release(cma, page, shm->size / PAGE_SIZE);
-+#endif
-+	} else if (shm->flags & TEE_SHM_DMA_BUF) {
- 		struct tee_shm_dmabuf_ref *ref;
- 
- 		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
-@@ -306,6 +315,48 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size)
++	tee_device_unregister_all_dma_heaps(optee->teedev);
+ 	tee_shm_pool_free(optee->pool);
+ 	optee_supp_uninit(&optee->supp);
+ 	mutex_destroy(&optee->call_queue.mutex);
+diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+index cfdae266548b..7acb43852c4b 100644
+--- a/drivers/tee/optee/smc_abi.c
++++ b/drivers/tee/optee/smc_abi.c
+@@ -1620,6 +1620,41 @@ static inline int optee_load_fw(struct platform_device *pdev,
  }
- EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
+ #endif
  
-+struct tee_shm *tee_shm_alloc_cma_phys_mem(struct tee_context *ctx,
-+					   size_t page_count, size_t align)
++static int optee_protmem_pool_init(struct optee *optee)
 +{
-+#if IS_ENABLED(CONFIG_CMA)
-+	struct tee_device *teedev = ctx->teedev;
-+	struct cma *cma = dev_get_cma_area(&teedev->dev);
-+	struct tee_shm *shm;
-+	struct page *page;
++	enum tee_dma_heap_id heap_id = TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
++	struct tee_protmem_pool *pool;
++	int rc;
 +
-+	if (!tee_device_get(teedev))
-+		return ERR_PTR(-EINVAL);
++	if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM) {
++		union {
++			struct arm_smccc_res smccc;
++			struct optee_smc_get_protmem_config_result result;
++		} res;
 +
-+	page = cma_alloc(cma, page_count, align, true/*no_warn*/);
-+	if (!page)
-+		goto err_put_teedev;
++		optee->smc.invoke_fn(OPTEE_SMC_GET_PROTMEM_CONFIG, 0, 0, 0, 0,
++				     0, 0, 0, &res.smccc);
++		if (res.result.status != OPTEE_SMC_RETURN_OK) {
++			pr_err("Secure Data Path service not available\n");
++			return 0;
++		}
 +
-+	shm = kzalloc(sizeof(*shm), GFP_KERNEL);
-+	if (!shm)
-+		goto err_cma_crelease;
++		pool = tee_protmem_static_pool_alloc(res.result.start,
++						     res.result.size);
++		if (IS_ERR(pool))
++			return PTR_ERR(pool);
 +
-+	refcount_set(&shm->refcount, 1);
-+	shm->ctx = ctx;
-+	shm->paddr = page_to_phys(page);
-+	shm->size = page_count * PAGE_SIZE;
-+	shm->flags = TEE_SHM_CMA_BUF;
++		rc = tee_device_register_dma_heap(optee->teedev, heap_id, pool);
++		if (rc)
++			goto err;
++	}
 +
-+	teedev_ctx_get(ctx);
-+
-+	return shm;
-+
-+err_cma_crelease:
-+	cma_release(cma, page, page_count);
-+err_put_teedev:
-+	tee_device_put(teedev);
-+
-+	return ERR_PTR(-ENOMEM);
-+#else
-+	return ERR_PTR(-EINVAL);
-+#endif
++	return 0;
++err:
++	pool->ops->destroy_pool(pool);
++	return rc;
 +}
-+EXPORT_SYMBOL_GPL(tee_shm_alloc_cma_phys_mem);
 +
- int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
- 			     int (*shm_register)(struct tee_context *ctx,
- 						 struct tee_shm *shm,
-diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-index 02c07f661349..3a4e1b00fcc7 100644
---- a/include/linux/tee_core.h
-+++ b/include/linux/tee_core.h
-@@ -29,6 +29,7 @@
- #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
- #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
- #define TEE_SHM_DMA_BUF		BIT(4)	/* Memory with dma-buf handle */
-+#define TEE_SHM_CMA_BUF		BIT(5)	/* CMA allocated memory */
+ static int optee_probe(struct platform_device *pdev)
+ {
+ 	optee_invoke_fn *invoke_fn;
+@@ -1715,7 +1750,7 @@ static int optee_probe(struct platform_device *pdev)
+ 	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
+ 	if (!optee) {
+ 		rc = -ENOMEM;
+-		goto err_free_pool;
++		goto err_free_shm_pool;
+ 	}
  
- #define TEE_DEVICE_FLAG_REGISTERED	0x1
- #define TEE_MAX_DEV_NAME_LEN		32
-@@ -310,6 +311,9 @@ void *tee_get_drvdata(struct tee_device *teedev);
-  */
- struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size);
+ 	optee->ops = &optee_ops;
+@@ -1788,6 +1823,10 @@ static int optee_probe(struct platform_device *pdev)
+ 		pr_info("Asynchronous notifications enabled\n");
+ 	}
  
-+struct tee_shm *tee_shm_alloc_cma_phys_mem(struct tee_context *ctx,
-+					   size_t page_count, size_t align);
++	rc = optee_protmem_pool_init(optee);
++	if (rc)
++		goto err_notif_uninit;
 +
- int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
- 			     int (*shm_register)(struct tee_context *ctx,
- 						 struct tee_shm *shm,
+ 	/*
+ 	 * Ensure that there are no pre-existing shm objects before enabling
+ 	 * the shm cache so that there's no chance of receiving an invalid
+@@ -1823,6 +1862,7 @@ static int optee_probe(struct platform_device *pdev)
+ 		optee_disable_shm_cache(optee);
+ 	optee_smc_notif_uninit_irq(optee);
+ 	optee_unregister_devices();
++	tee_device_unregister_all_dma_heaps(optee->teedev);
+ err_notif_uninit:
+ 	optee_notif_uninit(optee);
+ err_close_ctx:
+@@ -1839,7 +1879,7 @@ static int optee_probe(struct platform_device *pdev)
+ 	tee_device_unregister(optee->teedev);
+ err_free_optee:
+ 	kfree(optee);
+-err_free_pool:
++err_free_shm_pool:
+ 	tee_shm_pool_free(pool);
+ 	if (memremaped_shm)
+ 		memunmap(memremaped_shm);
 -- 
 2.43.0
 
