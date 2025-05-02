@@ -1,261 +1,282 @@
-Return-Path: <linux-media+bounces-31552-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31553-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F69AA6C5F
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 10:15:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C8CAA6C73
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 10:21:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7C46C7B2003
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 08:14:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 518E69A2F10
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 08:21:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA8C01519A0;
-	Fri,  2 May 2025 08:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E6D6224B04;
+	Fri,  2 May 2025 08:21:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="Q25aoVHX"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="gO9I1VsS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011020.outbound.protection.outlook.com [40.107.74.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED4C8828
-	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 08:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746173747; cv=none; b=vDhyH4lBjmYFOfsfyUSfBWQeVcHoSBcD/nNFgwiOZCB4VjZ+Z1YByV0VW13vfwmCY7QAAGCwW1T6i9ivjJ41LGRlzKSrrVZUFb51YHAak1X5N7c9AmDjZhK4ioe7vuCMtJsxmbp2BHPbc4I9Spjy52G+kW45jEfMDkJVOaOL8Yg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746173747; c=relaxed/simple;
-	bh=maP0RyjIfj27hlG+FZYguD1Iqtj2Xyh9Yi0v8wvzgQg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=P1gIk0P/llMIRyVnk3kZWPquFL3+wnDgtEPR9kQay+DeQH8S7G1j6T3MihZmQd/mkMEuNfnx+neHDkmT1Y4rTupiRwha9y/Olt9uO1lqSPiEOrqB2stNtr72q7Ld9AektDe2xfGYPnFKE/CCjrUJNhnSLHIrSfA50j5/XcHVUFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=Q25aoVHX; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4ZpkJ201pFzj6r;
-	Fri,  2 May 2025 08:15:30 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4ZpkHz5FSlz7T;
-	Fri,  2 May 2025 08:15:27 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=Q25aoVHX;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1746173728;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
-	bh=tHkYqz2YBjG6wEhK3hT5viHS6rS3e3eUoMqBIDylR/o=;
-	b=Q25aoVHXjfc0cb1r1NGwzzlDotPBxwwiEKy09rgu37lGWuSpb0CPBquayHI7NXJKuvc9uK
-	GNW5TUQY7NFAdwzHg15rBu3zGI8VEZxC+T+J3Y128Ctt+BAz/cOKvm2I6/MbbsvglJn/jR
-	jA9jgDjEUa3a8JYWSbA57k2bIzn80KaEiM9RjCdtNkgGv1GJjutTkaNn9bKxQov1dIY3fJ
-	W2VFVVcwX5+jJHbmEyLTIsj1b0/1NvtZxRq3lJjwyve6PTxOugduPEUrvW8U6GSkSgHZE5
-	MG0ev5YRBNHeA4SD+8uEmvgwPjuC//DVxk70ghi6V7Gbcv37Bsxbey9RzML+PA==
-X-CM-Envelope: MS4xfPV5UW9y65lJgP0iT3+kV9+hTkQqA16HoZwoKJcZVtKXCGoaQPWrqvR7gszNex0dfXt8CNagtLxP9ywcEIGMycwITGQnx4bZst//iYH1z8o/60lKAJ6X ftUMQMChqbV5rSo3QBm5ofQzG+EPK2yIMHe2U31drZPgxuT8E7/Ap9e97/T//d246ZWnIKDCJuNvdA1ISzunamgjj8dW8qik/NScOqIiEZ62C4oIiVad0m4O lylSI9iERGcV39guWlfJrh3q2njBTlVhdK1v9jtYjM1ox2Efa4bhqdZXVY58hwTH0h0niGg7RvH6nnBmh2cjywHAyZnefMEyi1TRvNMyO/UHGLWoCESn34fV WJ63p4zTjLrCdRzioT0gfPfxSVBLkBIS6pXIyPVF7kqL9yGUIhSVnEwCUp6GumtA2ah7dd5ZjUBrDS6NG4ZV/tC9WccEAJkv85C+ZP49Hi1863NFu+75k/Rj l9IAJk6+HS9PSplq1KsKe+O6nUsLIoq6gi9mSqZLbU5+OUgRWfHGFrMEP4dxZls+kzBRA71sqZGM5Bk9FzYOSYjK38zY6cXiSqbKEzHrv2XjAG45jNE+qaME NhmoSGzSd//2IhCOYsyMOGFLDawiUci3KHJBB6zOz84gw3Od3GYMhX9g6YKQUE4kiXOJmb3wOF4TrBTuqY03jdAR6gy1rQhN9oIixoBYhjUZj8hlSpPK/okQ pfDtu7ryXXSJMvghNTZQtqqbMewsW8eWaObBWUBZbB7jB1eCFQ0rDVDNSUUBSm6o4m4MNr/OArJ0vb87u/TpND9BGQOxTup96dTaIHRtu9oObLHaDR806WJ6 TH6AI9jII61XC0E7SqbfLUIQ82cgtfseilOAH5pRpmhfE/CFOLAqBOjObKk+ENFXGivQkH1FLTf+FoHYlUSHFd1OzgezBivfvYQjskAzp8yG+soMCzyPGuF1 UwQM2+jV5QrWdoK
- bPu+2G/uXNc4TxXwZrLLJrnPed99KqvZ395AHi2gBGeCqQFlR2VZOjQQLWBs+wGQ97TtIKlXk38RCTLyd3JAdWUKZde7vBVugo5QRkRJg EwGCo16t05JeF5I8nlC3ZAx9vURyK+icbGuaQp46yb3gMsj+6OY5RFaYYJlPHGE2WCue1TuDvL+FcbiM8R1LfuiRng6GXujWLu30cbiCiEmP3L1ngLH5AdJN fPpxlR/kdEfhDznYnlhgkVdc6DyH8NAYY0nJhsRRorN1EhI9gK3k38siCEaH2gAq0+VvZ9a87pR9Hiprzp+6TxL8EyLDwFeGKnb1PE08rBwkNJ2GX/I0APFM sBiZ2sRRX69U2RgMYxCYKsZfzk1jErFY//HhDcr+6Nvd55jfRqQ=
-X-CM-Analysis: v=2.4 cv=I7afRMgg c=1 sm=1 tr=0 ts=68147f20 a=smkfPCmiGCBx+NgG8pXs4w==:117 a=smkfPCmiGCBx+NgG8pXs4w==:17 a=IkcTkHD0fZMA:10 a=8s3bVdB6AAAA:8 a=smFrE9sGAAAA:8 a=VwnfekaSAAAA:8 a=xOd6jRPJAAAA:8 a=WN6_cwnCAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=QX4gbG5DAAAA:8 a=20KFwNOVAAAA:8 a=P1BnusSwAAAA:8 a=8b9GpE9nAAAA:8 a=cm27Pg_UAAAA:8 a=RF00TdSWAAAA:8 a=sozttTNsAAAA:8 a=dML_XACEAAAA:8 a=mK_AVkanAAAA:8 a=PssDBZGIAAAA:8 a=8AirrxEcAAAA:8 a=N7ie1MMDyZOTvO5XP-kA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=mX_46NTfp5VFrLZRzBmZ:22 a=F_EvON2TorMte8AU-hMi:22 a=eAomlcYGng2R2mZ923rV:22 a=ndfOWLLM0rR49n6Yv1rF:22 a=AbAUZ8qAyYyZVLSsDulk:22 a=D0XLA9XvdZm18NrgonBM:22 a=T3LWEMljR5ZiDmsYVIUa:22 a=_nx8FpPT0le-2JWwMI5O:22 a=L0fzO-P85HkJbeZJe4ir:22 a=3gWm3jAn84ENXaBijsEo:22 a=HJRSn2hXXqGixlvEXVkw:22 a=ST-jHhOKWsTCqRlWije3:22
-Message-ID: <f6d44024-a78e-42b8-971a-797ed8fbb1ff@jjverkuil.nl>
-Date: Fri, 2 May 2025 10:15:27 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAF81F426C;
+	Fri,  2 May 2025 08:21:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746174111; cv=fail; b=NdfoAI42J/xy6h+xxUhXav4El096ZwTEt9nlYD0EmApMXjK1SL8hJV88EM24jtWujQQl+R6jEupviRWgRbgagTWcydDnyUcLVlLXEshHdijxpQr5JpgKLK2vkuXZwSfqlhp6n7+QHi1t5NGwpRE7Hk+JEkBHT835HoGpvOWgD7k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746174111; c=relaxed/simple;
+	bh=GF5Cl5Lax453teWxO6GzBfkhdrBViYELqEbPnwfzF0U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=N4YDqo4TMDmgBDbUf7m2JnoUZlhabw5kcH3GNeO2WvF8hmy998TMxaRZz6vH9GT4qiseQT01IinR6Cy82sgduC0p25tGlmIFsclkj8Fi/gNtch/5KDObcwWvVqbJ8gj9YdvhyweM6WCfQs53dMSu42+neQMlzL2xzMqDNy3XcLU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=gO9I1VsS; arc=fail smtp.client-ip=40.107.74.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PHsLVIyTVRtHNdfPNlKDc09lX1igvmyJn68tUV7zYf+BFpEI0pjWxpcUsyO02w1lKhqaGH9N3yzCvbuq1nUzQ+ozcrWJZ1icv3CDovBDX392AJ234KnmRRs/MyN4PM6BGUIsEHUhtqkiu5lDHOwyAnKkHfWws2GdBbqT2HPTIvqowBbCS6qhdzbVa9aoqPTRKJJlp0Mcvuz33ypmguBgTxfvEtzOJOKvxD6jzPvty69PixZxf28ROuBn7icRy7YbLVkyl10ygomQqeZGUPkG76MJfyoAFY5BAmZEvwikvBxfBzlsfPITFxORXI52wn3dFMm5ivj+Hi3jOidaEqt91Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0H7T9Fn4dSlAa4Jh+0K5LklvDifSwdLlZEx9BLjTUr4=;
+ b=mp5kKbnt5dnfjV2uFJq+E8AwZJmppC8ZiuSBQH/9Q1Pdj/WW/RG4cuihRUN1G9YmzJqrZt5QDt9t1THhn3fwb71wQ5BfJweY7ZW7uECw8JXMSVLUxS1uyiVeGeCbiBgvEFohpwxRWNfzY5PvsuSsuxltdSuR+8MMWzfX+pLie3EnMp7ocqecygtZSN9WpBaKuX/5LooOpH9XYr6y+++TCA+wWNGwMvDoL7OhttUFqyN6wJJMlK/QIsxZNV7rIw95lh9cA4rHLhJaAz2WSrcwvg3oKHX+VkG1BQV+5llrQZRPvFEeAzSkxl6KeFw9apvVZO9jJy/3hf3ED09OwyGGJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0H7T9Fn4dSlAa4Jh+0K5LklvDifSwdLlZEx9BLjTUr4=;
+ b=gO9I1VsSitJCaoM8849AbJqJzLo5iAp7qOCYOPowxTBuRMiOzBX0y38fW5ug7sz6k2hT3ri0dB3r9/5PmkctNujJYI4Coppv/KIgNhoo4VsWYrw/pg4M0xfAlnQF776zWX2MBI8gKNVyOoNW13qYQK2jlzTuX4+cQORasTYFa5w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
+ by OS7PR01MB14953.jpnprd01.prod.outlook.com (2603:1096:604:396::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.20; Fri, 2 May
+ 2025 08:21:42 +0000
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3%3]) with mapi id 15.20.8699.022; Fri, 2 May 2025
+ 08:21:39 +0000
+Date: Fri, 2 May 2025 10:21:21 +0200
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 0/9] media: renesas: vsp1: Add colorspace support
+Message-ID: <aBSAgR15PoPVS9Ic@tom-desktop>
+References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
+X-ClientProxiedBy: FR5P281CA0034.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f3::13) To OS9PR01MB13950.jpnprd01.prod.outlook.com
+ (2603:1096:604:35e::5)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Hans Verkuil <hans@jjverkuil.nl>
-Subject: [ANN] Media Summit May 13th: Draft Agenda (v4)
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
- <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Steve Cho <stevecho@chromium.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
- Marco Felsch <m.felsch@pengutronix.de>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede
- <hdegoede@redhat.com>, Jai Luthra <jai.luthra@ideasonboard.com>,
- Devarsh Thakkar <devarsht@ti.com>, Maxime Ripard <mripard@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Stefan Klug <stefan.klug@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spampanel-Class: ham
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|OS7PR01MB14953:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6ab7a7f-598c-430f-01b9-08dd89525c76
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?OG4OynVrxqLbKOKIFIzK1vxL402RtBBPLFw+dDHZn6HqL/u+GarPejUZ49KR?=
+ =?us-ascii?Q?iCEyQgwUj7+Agu42RwqbBiROjUg04WKLKGiTva6AFFWAQjxkr9+z5RlyIx5c?=
+ =?us-ascii?Q?Yo9RwabqTqWW2ADILI1OlNuX5sRapgl3oa0p9O+Y24pbRGIV7Ycg5pthlJbL?=
+ =?us-ascii?Q?npWluaw4qYdQoKzwPrElw2zNIsg0YYWKEZ647VaWekW92nSVZ3Q8ZIPRbRYl?=
+ =?us-ascii?Q?phwCOwWCiNEfxV9lFVNFukee7pXjNIO860mZBB1bWgN6sRSYRLmevc70B2j8?=
+ =?us-ascii?Q?cBw5IddCg4nMVvDxOF0Q7KBbLKHoyrTXf+kfU3mW/oC3/AvSps8cPu7Reflo?=
+ =?us-ascii?Q?8zlevF4ioPnDagyJbFekuzTZCEyFSXbPgeniDNOcknruk70XxdZmUZnmE6wK?=
+ =?us-ascii?Q?1nUnYi7XZ2Z9stzfmo8hYKivEMkYG5V4jQF2gQ7p7WkbI3hjV6DQaZF/BNwG?=
+ =?us-ascii?Q?Bnla2GNO5Cu+M2N8iLBX7GAuJf1UnUbX5CumpOzJXJAgomXDyWjWpiDM2Wfh?=
+ =?us-ascii?Q?eaDgToOsLHSxaFVKEMCiiF/sOgU5u6qXUVcnW231kJMHeCXl8EXSRbyNY6fO?=
+ =?us-ascii?Q?j/heyRLUyexKEyedkP9pUdV9ept8mkIjGK+IVKf6Pp8htq99SGUGGunpDqHU?=
+ =?us-ascii?Q?MTR7ttkbpIycc7uFvm5d3hTWYbvUPeU0NCBlir68gQ0GtXuJ+J5S0n9/u4Nw?=
+ =?us-ascii?Q?2jSD4F4dL3wvhhCR3LL8QvqbzCzB/TkzOf35qB+348ZcLHuNc5LhDW8QKGFk?=
+ =?us-ascii?Q?B2mdZvDtQYM20XtnwY0xxcga+DZf0CtAFa514BNfDOATPTXmZe9tFyBd8Xkz?=
+ =?us-ascii?Q?0wmz8n2G7oSaRvTxaMQLOley4Vz2MvOoVc85tbujkP2tKiOoao1PvY2VbD0Z?=
+ =?us-ascii?Q?dNl5v4FhcdyaGrTMP18VUuvmekZknWeplGuPVt/lWBrHhBIylYwjf/hsQ+9B?=
+ =?us-ascii?Q?GoJ5T8uJ0piwDqeMQCcpBSsAgeV1Va/mPdOwZS+1eZdHP/nfxQGCoZNTch8e?=
+ =?us-ascii?Q?JqtZ91bhs00zqFVzMRADvvYsOP/LApaO+qXB1DMiVjKQKGRBqDejuhA6+kmN?=
+ =?us-ascii?Q?Jui8MM8fl9VkW8LlAqynIOq8x3LcNbMZK6c5uHq2JAQ85rHR0lF+NSSSm+Ph?=
+ =?us-ascii?Q?VEehPeI0SeBmpIeJCNKJ8gF5TosKW68SRvyrqMQbwXSzeVLsdK5E7kW07WrR?=
+ =?us-ascii?Q?+H7W22jRRonmRxmGtv4Mypa+hTXd57o7SGKlznAU/9DhRDs8gUrOJWSKE9ct?=
+ =?us-ascii?Q?y0x2GXl9QYG1xpaVPlb/AM0qgLTibSA6hxbysGc5N8gIceTjW7/kir9pYO0z?=
+ =?us-ascii?Q?lB787SGJASVxhbv6mvYve9j8QKJ3aZ6Gj54L0l/pQYFxVGmXT7Oj4S+anDuQ?=
+ =?us-ascii?Q?eXDCnPudCGT9VbDj+7b5kOBBneT8BgrYXYDp5Po1S8+IDPh0IeeT3fmXsJiQ?=
+ =?us-ascii?Q?m9ig7cI2Ans=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?Uk8XH+3dkd2Vt7TRG2q37VBJD0I8pm9wc7mZI14NWPbUPJHubCm8Nx3ININd?=
+ =?us-ascii?Q?QkFb5KgXIy6VzyRMiqZ/VjlCR1MleqVzKIYyvhMWqgKo/vVb/7VnfEyS3pzl?=
+ =?us-ascii?Q?pmKnRozCg73YxzJ1Czzlv880ILC/CBWq0KcsISU9gSAZiEMpyQenP4LEUtEL?=
+ =?us-ascii?Q?JGk2dg+1wkux7aY6nWiXwrwMJVIHr3W7LcmrmbCN6eA5qWYD056yjWcYZT2W?=
+ =?us-ascii?Q?66R+u/EQj4lMzi0g5OytSmebg8biEGvCPOM19gQkFjh/d7vBiPuArIWLFTp5?=
+ =?us-ascii?Q?cV+aOfEAfQHbXpqV4kBdLbhSC6uUry7vGd3JD3s1zqL0PwgBB0429BIT0TjY?=
+ =?us-ascii?Q?UuuT+Ga79vcJtzgw+yDvy9/ArcSwpuB2/erm5md8VM2SJ3kXJmkidX6KaW4o?=
+ =?us-ascii?Q?i3E360kJqBXldDNe7ibopVcgjPcm4qzHuMA0GDL/clgcLBujSOhSD15xJMLk?=
+ =?us-ascii?Q?p+Fo2uk7XsxJUYhNJ5RSYvGAYq6XMEGI5q4X3ypbqZ6sezDMeUF20rRv+H00?=
+ =?us-ascii?Q?ZM+Y5CSKnZSkIRWbcJ+wwrBil+r3b+VIvgu6h7yjIMOIBc314IS2TMLvUSz7?=
+ =?us-ascii?Q?ac1LEyaLj+IFPPoQeIiChBkKQULW73BFSGd2vSxEwbiWyc948gVLr8RI1+a2?=
+ =?us-ascii?Q?atowO8r+yDWuaX5vR0gt8HsLDdemH4Y3Jx7+61zDTEzu8u8nPA/z9Blp7YUm?=
+ =?us-ascii?Q?DJzPw0A/+cP/6jHAeuyXeeHB0/MpSo80lYrMDPh90CDgiK8qLXijYr9no2p9?=
+ =?us-ascii?Q?hFRL5Zq7ILtJwgiPVJqnmV9OGqtMil3pigjs1kMRS8ySPg1fzipDf44R7cDk?=
+ =?us-ascii?Q?JA05hsw9DeW6Za7py1yIjIQk55dc+7rrqPJpS1M18E3KFd0CWbttdH2tSnQq?=
+ =?us-ascii?Q?1LDOM7Ifiwd5S4DZzKlIMRc1zk3W0UrcM0P4mlcG+J4nY8FKIKQeUlxqz8Ch?=
+ =?us-ascii?Q?WqLi47fo1tfF7kY1FtSxlm1IMz4hbvXfsaVQ0JJKsyPVgDIWw+uhelQI1gms?=
+ =?us-ascii?Q?P9EwGUsEGUanyZuIR5JBILDwItU7L4NjhWoAopc//EorHqfEpkamxBcD3jSR?=
+ =?us-ascii?Q?CAr7976WuOfwBbEbWQpF9zdTAFH00sGbJT7VI+xxCPNDziEF/AvoJLGrNTWj?=
+ =?us-ascii?Q?Zl6HFxPogMJVGesU64WZVip2SWaH0M2bfISFvUQ1zBeKekkGWct9SF9E+NgD?=
+ =?us-ascii?Q?i/2ABlz9yyJWOnIRFrP9VNXgoRijHSlxelShoz4zyB0V4IH+4691VU8CdXQF?=
+ =?us-ascii?Q?/bCjGj0sJPbez6H+Zwl+wV0JXEtBNWyk/MCendRhR4iT9vo9wy484aAFUSMa?=
+ =?us-ascii?Q?cI5JOnl218plhBn3G4x2bQmsQBLNoZxHa9ybiT+eJ1/v98khIgN6kINyaKh+?=
+ =?us-ascii?Q?C0P9JClmI7dDCBC9U9CE36rdMzDBjmgAPTvezwSaiwQu9GtNVCSzqLk6ZwWM?=
+ =?us-ascii?Q?67AnKqo+B9VzVhdHxSyV7yYlIQ1U0v61V9MRbuppzy3kIUuApcmkY9+5shTI?=
+ =?us-ascii?Q?eXD4qGo+owLyiIlTz12TsZm8xkC2Y/E9VYwn0ssF60XUpkKI46lui32P5phC?=
+ =?us-ascii?Q?AbZRJZPzhUI0wlVphG0zLMbCFnERn+PXUjUSyDdfMfs1bLuu+zJmIEhZSQh8?=
+ =?us-ascii?Q?KnmUKfnbiWq8lOodKxWlfyA=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6ab7a7f-598c-430f-01b9-08dd89525c76
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2025 08:21:39.1834
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ivESufTxOdj2Eco5Abq9puBeHTY1k9mCgMv9qxEFl6xJTTMt9kbjehCTIOSAETdV6nFF5Ks+N0CIUM/SkX0RRwE4FjZoplAkgVS97LFUusf3mDucIjtwRLAgt189Jy8c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB14953
 
-Hi all,
+Hi Laurent,
+Thanks for this series.
 
-Here is my v4 of the draft (close to final) agenda for the media summit.
+On Wed, Apr 30, 2025 at 02:28:55AM +0300, Laurent Pinchart wrote:
+> Hello,
+> 
+> This patch series extends the VSP1 driver with colorspace support. It
+> turns out that the VSP RPF and WPF entities can convert between RGB and
+> YUV, a feature that we have failed to test so far. The hardware support
+> BT.601 and BT.709, in both limited and full range. Proper configuration
+> of colorspace is crucial for accurate image rendering.
+> 
+> Patch 1/9 starts by implementing pixel format enumeration in the driver,
+> a feature that was surprisingly missing. Patch 2/9 then continues with
+> another fix, restricting the creation of the HSI and HST entities to VSP
+> instances that include them. Following with another fix, patch 4/9
+> addresses format setting on the RPF and WPF source pad to disable HSV
+> <-> { RGB, YUV } conversion, a feature *not* supported by the hardware.
+> 
+> After those initial fixes, patch 5/9 starts implementing colorspace
+> support by reporting the related information to userspace. The driver
+> currently hardcodes limited range BT.601 when programming the hardware,
+> so that is the value that the patch reports to userspace for YUV
+> formats. Patch 6/9 makes the YCbCr encoding and quantization
+> configurable, finalizing colorspace support in the VSP driver.
+> 
+> The next three patches are new in this version. They proceed with
+> exposing colorspace configurability in the API exposed to the DU DRM
+> driver in patch 8/9 (with 7/9 performing a small refactoring first).
+> Patch 9/9 then updates the DU driver accordingly, to create plane
+> colorspace properties and wire them up to the VSP.
+> 
+> The series has been tested with the vsp-tests suite and the kms-tests
+> suite. Patches that add CSC support to the vsp-tests suite have been
+> posted in [1], and can be found in the vsp-tests git tree in [2].
 
-Changes since v3: added more attendees, added a new topic (cgroups) from Maxime.
-Please note that I slightly reduced the length of some of the topics since we
-have a packed agenda. Please let me know if you think you need more (or less!)
-time then I put you down for in the agenda. My experience is that it tends to
-average out (some topics take more time than expected, some less), but a good
-estimate helps. I also updated the lunch information.
+I've tested this series with out of Tree patches with RZ/G3E.
+Basically I've added the equivalent of:
 
-One important notice: it turned out that the meeting room does not actually have
-dedicated video conference equipment. I'm trying to figure out a solution for this,
-but for those that registered for remote attendance, be aware that it might not
-work out or be of poor quality. I hope to have more information for you next week.
+ - drm: rcar-du: Create plane color properties
 
-We have 18 in-person attendees, which is in line with previous summits, even though
-the time since the last summit is less than usual and we are co-located with a
-different conference. It's good to know that those changes didn't impact the turn-out.
+On drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
 
-Please note that I am transitioning from my old hverkuil@xs4all.nl email to
-my new hans@jjverkuil.nl email. If you have problems replying to that new email,
-please let me know and just send it to the old email (that won't go away).
+Tested using modetest:
 
-The Media Summit will be held Tuesday May 13th to coincide with
-the Embedded Recipes Conference in Nice, France:
+modetest -M rzg2l-du -s 48@46:800x600-60.32@YU16 -d -P 39@46:512x300+200+200@YU16
 
-https://embedded-recipes.org/2025/
+modetest -M rzg2l-du -w 32:COLOR_ENCODING:0
+modetest -M rzg2l-du -w 32:COLOR_ENCODING:1
 
-Note that there are also some workshops held after this conference:
+modetest -M rzg2l-du -w 32:COLOR_RANGE:0
+modetest -M rzg2l-du -w 32:COLOR_RANGE:1
 
-https://embedded-recipes.org/2025/workshops/
+Where 32 is the id of the primary plane.
 
-And a gStreamer hackfest:
+Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-https://discourse.gstreamer.org/t/gstreamer-spring-hackfest-2025-on-16-18-may-2025-in-nice-france/4366
+Thanks & Regards,
+Tommaso
 
-The Media Summit will be held at Hotel Campanile:
-
-https://nice-aeroport.campanile.com/en-us/
-
-It is close to the Airport and to the Embedded Recipes venue.
-
-The meeting room is sponsored by Collabora and Cisco Systems Norway.
-The lunch is sponsored by Ideas on Board. Many thanks to our sponsors
-for making this Media Summit possible!
-
-We have the following confirmed in-person attendees:
-
-Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (Media Maintainer, Huawei)
-Nicolas Dufresne <nicolas.dufresne@collabora.com> (Collabora)
-Benjamin Gaignard <benjamin.gaignard@collabora.com> (Collabora)
-Hans de Goede <hdegoede@redhat.com> (Red Hat)
-Stefan Klug <stefan.klug@ideasonboard.com> (Ideas on Board)
-Paul Kocialkowski <paulk@sys-base.io> (sys-base)
-Jai Luthra <jai.luthra@ideasonboard.com> (Ideas on Board)
-Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas on Board)
-Benjamin Mugnier <benjamin.mugnier@foss.st.com> (STMicroelectronics)
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas on Board)
-Ricardo Ribalda <ribalda@chromium.org> (Google)
-Maxime Ripard <mripard@redhat.com> (Red Hat)
-Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
-Devarsh Thakkar <devarsht@ti.com> (Texas Instruments)
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> (Ideas on Board)
-Hans Verkuil <hans@jjverkuil.nl> (Media Maintainer, Cisco Systems Norway)
-Arthur Vinchon <arthur.vinchon@allegrodvt.com> (Allegro DVT)
-
-And the following remote participants:
-
-Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
-Martin Hecht <mhecht73@googlemail.com> (Avnet Silica)
-Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
-jackson.lee <jackson.lee@chipsnmedia.com> (Chips 'n Media)
-Mirela Rabulea <mirela.rabulea@nxp.com> (NXP)
-Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
-
-Note: information on how to connect remotely will come later. See also the notice
-at the top of this email.
-
-If any information above is incorrect, or if I missed someone, then please let me know asap.
-
-Agenda:
-
-9:00-9:30: Get settled :-)
-
-9:30-9:40: Hans Verkuil: Quick introduction
-
-9:40-10:25: Paul Kocialkowski: Stateless video encoding uAPI
-
-10:25-11:15: Jai Luthra: Per-stream V4L2 controls
-
-11:15-11:30: break
-
-11:30-12:15: Sakari Ailus: Identifying camera modules
-
-12:15-13:30: Lunch at L'Azur Bistrot Niçois
-
-13:30-14:00: Laurent Pinchart: Review of the status of staging drivers
-
-14:00-14:50: Hans de Goede: Discuss V4L2 subdev API ambiguities
-
-14:50-15:10: Jacopo Mondi: Unify the multi-context support with the m2m context handling
-
-15:10-15:25: break
-
-15:25-15:50: Maxime Ripard: V4L2 & cgroups memory accounting
-
-15:50-16:35: Ricardo Ribalda: Openness Framework for ISPs
-
-16:35-17:30: Hans Verkuil: Status of Media CI/Multi-committers
-
-Please reply with corrections, questions, etc. to the agenda.
-
-Regards,
-
-	Hans
+> Updates to media-ctl and yavta to support setting colorspace on video
+> capture devices and on subdev source pads have been merged in the
+> respective projects, make sure to use the latest master branch if you
+> want to run the tests.
+> 
+> The series has also been tested with the latest v4l2-compliance. The bad
+> news is that the test flags 56 errors when run on a Renesas Salvator-X
+> 2nd version board based on r8a77965:
+> 
+> Grand Total for vsp1 device /dev/media1: 757, Succeeded: 701, Failed: 56, Warnings: 0
+> 
+> The good news is that none of those are regressions, quite the contrary:
+> without this series applied, the total number of failures is 95, and the
+> diff shows no new error. I will therefore address those issues
+> separately.
+> 
+> I would like to get patch 1/9 to 8/9 merged in v6.16, to then merge 9/9
+> in v6.17.
+> 
+> [1] https://lore.kernel.org/linux-renesas-soc/20250409004758.11014-1-laurent.pinchart@ideasonboard.com
+> [2] https://git.ideasonboard.com/renesas/vsp-tests.git/log/?h=csc
+> 
+> Laurent Pinchart (9):
+>   media: renesas: vsp1: Implement pixel format enumeration
+>   media: renesas: vsp1: Make HSI and HST modules optional
+>   media: renesas: vsp1: Fix HSV format enumeration
+>   media: renesas: vsp1: Fix media bus code setup on RWPF source pad
+>   media: renesas: vsp1: Report colour space information to userspace
+>   media: renesas: vsp1: Allow setting encoding and quantization
+>   media: renesas: vsp1: Name nested structure in vsp1_drm
+>   media: renesas: vsp1: Expose color space through the DRM API
+>   drm: rcar-du: Create plane color properties
+> 
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c |  15 ++
+>  drivers/media/platform/renesas/vsp1/vsp1.h    |   1 +
+>  .../media/platform/renesas/vsp1/vsp1_brx.c    |   9 +-
+>  .../media/platform/renesas/vsp1/vsp1_drm.c    |  22 +-
+>  .../media/platform/renesas/vsp1/vsp1_drm.h    |   8 +-
+>  .../media/platform/renesas/vsp1/vsp1_drv.c    |  59 +++---
+>  .../media/platform/renesas/vsp1/vsp1_entity.c |  22 +-
+>  .../media/platform/renesas/vsp1/vsp1_entity.h |   2 +
+>  .../media/platform/renesas/vsp1/vsp1_hsit.c   |  11 +-
+>  .../media/platform/renesas/vsp1/vsp1_pipe.c   | 188 ++++++++++++++++--
+>  .../media/platform/renesas/vsp1/vsp1_pipe.h   |   5 +
+>  .../media/platform/renesas/vsp1/vsp1_rpf.c    |  29 ++-
+>  .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  51 ++++-
+>  .../media/platform/renesas/vsp1/vsp1_sru.c    |   9 +-
+>  .../media/platform/renesas/vsp1/vsp1_uds.c    |   9 +-
+>  .../media/platform/renesas/vsp1/vsp1_video.c  |  50 ++++-
+>  .../media/platform/renesas/vsp1/vsp1_wpf.c    |  29 ++-
+>  include/media/vsp1.h                          |   4 +
+>  18 files changed, 442 insertions(+), 81 deletions(-)
+> 
+> 
+> base-commit: 398a1b33f1479af35ca915c5efc9b00d6204f8fa
+> prerequisite-patch-id: e3d9847d1da4398f1bf0b57f5ef4a612392c7255
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 
