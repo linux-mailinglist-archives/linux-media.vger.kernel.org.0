@@ -1,38 +1,38 @@
-Return-Path: <linux-media+bounces-31612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31614-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264E0AA7599
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:08:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC70AA75A2
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:09:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 756524E358B
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:08:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B86021C066CC
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:08:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C23E825A654;
-	Fri,  2 May 2025 15:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DC31257427;
+	Fri,  2 May 2025 15:07:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D153225A2BE
-	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 15:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6EC25B660
+	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 15:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746198430; cv=none; b=mwRFbVanQKUrtta/eCO2uN3nXo/Ra7OZqAqA++JF50+yWPKJndVYcko4ZiEwyQFb8cOgvmErCRB422b3c1m63KvMzb2GCN/HRC14hLyOL8SPuaTqvLhqHRo4+PvmvoaizASQPqnlmEdF/fnfqV16dRUyPrXJExW4pzwx7MjVC9s=
+	t=1746198433; cv=none; b=MIuqkiB8QO6d3a1IH60BKXTrRVo58GsbGP7f9lSYidgyOYX5B9yYWbMyRjiQfvJ+QYrOWU034Ha8ihjuWQERMAwyjujFWjho/fOBgk/3dmPXa4kgLhYQLKZcuJEVDMCTMt6KcImR8RO8bT4BhVYTUNtwWYVw1aJDhGAzXpvDG50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746198430; c=relaxed/simple;
-	bh=RcsCLn56etsdkBQWRFlMi/Q+MZhYwQLTyd+ncIcIZsY=;
+	s=arc-20240116; t=1746198433; c=relaxed/simple;
+	bh=RAkGMzKbn6mk2SJYfXIberr3YST6hI2SDNjwETTbY+o=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=idxWTg+WiGXMFrj83A8HUyVKIjSXsBE9dbfeAkHYtVBRkmeUyJGX27r52Aw5ckHO1D6W8EK9V1cSG98Wmx6Kfh75dIxH9QWUnY5LkUy1Auonc5sE4yIEgneoRa65ub5spoSBY4t+M6tloDKWMvzgGlSBNGjnA+qbMauRl+DZ5ys=
+	 MIME-Version; b=Wxl6swYbfNgxdybykDvqudvMB5iRPAwdYrEbJNFZQLUToBDBbp8M9NNVLJgvAwrfyR3yz/5/8waJAaX0G844b5xeFbEV8HJ7qFI1skh09hX4tQbVIpLi8gCl5vxsK2VwztJ5CI0Q4IkpolIiFJe/7S6K5xaq3y9Ekny5f6Vwmn8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1uAryZ-0004HG-Bo; Fri, 02 May 2025 17:06:55 +0200
+	id 1uArya-0004HG-D5; Fri, 02 May 2025 17:06:56 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
 To: nicolas.dufresne@collabora.com,
 	benjamin.gaignard@collabora.com,
@@ -56,9 +56,9 @@ Cc: linux-kernel@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org
-Subject: [RFC PATCH 07/11] arm64: dts: imx8mp: fix VPU_BUS clock setting
-Date: Fri,  2 May 2025 17:05:10 +0200
-Message-Id: <20250502150513.4169098-8-m.felsch@pengutronix.de>
+Subject: [RFC PATCH 08/11] media: hantro: use hantro_decoded_buffer only for dst_vq
+Date: Fri,  2 May 2025 17:05:11 +0200
+Message-Id: <20250502150513.4169098-9-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250502150513.4169098-1-m.felsch@pengutronix.de>
 References: <20250502150513.4169098-1-m.felsch@pengutronix.de>
@@ -74,29 +74,31 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-The VPU_PLL clock must be set before the VPU_BUS clock which is derived
-from the VPU_PLL clock else the VPU_BUS clock is 300MHz and not 600MHz.
+The dst_vq buffer size for encoders should not use the size of the
+'hantro_decoded_buffer'. Make use of 'v4l2_m2m_buffer' instead till some
+encoder requires pre buffer extra data.
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- arch/arm64/boot/dts/freescale/imx8mp.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/verisilicon/hantro_drv.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-index 97b09b647ec7..7f4bdefb3480 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -2289,8 +2289,8 @@ vpumix_blk_ctrl: blk-ctrl@38330000 {
- 				 <&clk IMX8MP_CLK_VPU_G2_ROOT>,
- 				 <&clk IMX8MP_CLK_VPU_VC8KE_ROOT>;
- 			clock-names = "g1", "g2", "vc8000e";
--			assigned-clocks = <&clk IMX8MP_CLK_VPU_BUS>, <&clk IMX8MP_VPU_PLL>;
--			assigned-clock-parents = <&clk IMX8MP_VPU_PLL_OUT>;
-+			assigned-clocks = <&clk IMX8MP_VPU_PLL>, <&clk IMX8MP_CLK_VPU_BUS>;
-+			assigned-clock-parents = <0>, <&clk IMX8MP_VPU_PLL_OUT>;
- 			assigned-clock-rates = <600000000>, <600000000>;
- 			interconnects = <&noc IMX8MP_ICM_VPU_G1 &noc IMX8MP_ICN_VIDEO>,
- 					<&noc IMX8MP_ICM_VPU_G2 &noc IMX8MP_ICN_VIDEO>,
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 8542238e0fb1..e4850ae4e8b8 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -244,7 +244,10 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+ 	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+ 	dst_vq->drv_priv = ctx;
+ 	dst_vq->ops = &hantro_queue_ops;
+-	dst_vq->buf_struct_size = sizeof(struct hantro_decoded_buffer);
++	if (ctx->is_encoder)
++		dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
++	else
++		dst_vq->buf_struct_size = sizeof(struct hantro_decoded_buffer);
+ 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+ 	dst_vq->lock = &ctx->dev->vpu_mutex;
+ 	dst_vq->dev = ctx->dev->v4l2_dev.dev;
 -- 
 2.39.5
 
