@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-31580-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31581-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3291CAA71C4
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 14:29:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82978AA71D0
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 14:29:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4B371BC0909
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 12:29:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7434F168C56
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 12:29:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC380253B7C;
-	Fri,  2 May 2025 12:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1596A25485B;
+	Fri,  2 May 2025 12:29:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VqXgdKSm"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dm6V/Oiv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEDF248F46
-	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 12:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257B724E4A8
+	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 12:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746188938; cv=none; b=FpJwtk99yDi77FXlsf6/F52+ijr7v7COHz7RJKVGsAHiyaYO5jaFQO+6pe7FqPXKLbIYQtEAlOKhhUVdL0m3ZrEmdq7VwRwlCLh22AFMHM5zJgog1A/i272Ih1PJE43+kx+5vOa+vz6u1Yb0TTXrASyfr/iquHy8PGx7Zutz0wo=
+	t=1746188961; cv=none; b=KSZck72wiGt4mUEuIXnKCR1nu6fSpSi/i+tXmt127+YZJz596wjmk3Ca836GWccHv5qwviy5zy72JnT+en2TAiDLao/u8SkKOIgDORbQp9Ey5z9iCDEUCVKW7mdRSOqbp1w6s1wmx3HNUjAx/ckJNyhXOLsApBymhEqlKKn6dNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746188938; c=relaxed/simple;
-	bh=hezViJURrVOoPpXb8OTUuWkHgUlYO5MOuHtWGN/Nd/s=;
+	s=arc-20240116; t=1746188961; c=relaxed/simple;
+	bh=zvHa4X0rrQTDwYzkbYkZYw+dLVBDwFqqMgeUnHdOFUs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QHFNnnaLP3LAdodj10JDPq+oTRO6hH2oPiJt3y1XoQRfZBCkWc1YbH5Efu5FUbiZnbXREfaqm7lLqVrrOG42mIfUQqLOQbGhPuE/A4TP9YLlvj9CTpPTgiBY+7S89ZHFAmTP39zBaFRqOdvGXc/ciyvfuA2g99EPGp13R91tjmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VqXgdKSm; arc=none smtp.client-ip=209.85.221.51
+	 In-Reply-To:Content-Type; b=TTTmJ8Py1TOT2HXvu8ARe6skkOtNP6WvemBpCL8v59qYv4NUHgYgFxoKlsDIfivKbvNbEmv0jxDgWYhHHaDJikkynl5mfa5Rt0cv+6Oh85ebOfwcRlR/HplUz+ZZFayYPwi1tbzvkRjw8IQA28Vd692Ua5yHw8bWefWVkdW/2zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dm6V/Oiv; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39149bccb69so1431461f8f.2
-        for <linux-media@vger.kernel.org>; Fri, 02 May 2025 05:28:56 -0700 (PDT)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf58eea0fso7816395e9.0
+        for <linux-media@vger.kernel.org>; Fri, 02 May 2025 05:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746188935; x=1746793735; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1746188956; x=1746793756; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JuKJjEeqpYYqUAoutx/iNQxZ8cud4TMO/EdBgGtZGBQ=;
-        b=VqXgdKSm/IYlvWiR8iG7ny7q/2EZ2yEKC8oHQzZxn7XHf7I34f60cCCEPooFJdsKUR
-         qifW/f1FT6wqHEdfdoEWDW3ghYPe2N+qVouTVnOZT3xlhyXUioi/m/fLcgsYcdcqyOiH
-         UjHZ6+b5QyEHUlAktoKIvI7upCwiITZOw1byHtFGhZBgDo5NgDYYRFujguzj58QatDO+
-         xyAqakFsHe/tsyo5Mqjbe0pVCjpIdsiFND5DQAIsykrbgRogppOQt7apnGqODlfY/tMV
-         33rw2YvYWUEQqHHVroHxnxya5jWkL9XuqLSzkBRHBDT1Jv5mIT2q5KuQ8PIdvYwabe9u
-         /cyA==
+        bh=fPXhl5ABY9Cpe5wfSbh97dWtdpEKAOmViXZEiA/5wSY=;
+        b=dm6V/OivuHe2fp0JRkEb9KUx8oEhQSYiDYQvawtgWI7c8JaKpi2eq82uR6SRS6Hdhe
+         yJMhyNogRRIAMKo+w3cC1XC33lJjYE8c5FA7ntLQ4OWGfvBWfyDm/ZaWePl2oE5uDtbC
+         rO78zoGActrCZqWhCAUxxH7DXxDeQY7y2+L/s+9KqXdsR6o5BXWGAuojQFvRC1GABtGn
+         mECO5WqMsgvIqbTS7IGQsu8ayY3k1hHS98KRUkW0VigALT4sd/CpRUHjbQBL08oBOiA3
+         BKglN8afU86p0DHG4Ex4VIpTOn07i0tSzxySynjyGcrzdWL/v93nVujGoKs7zC24ACri
+         K0ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746188935; x=1746793735;
+        d=1e100.net; s=20230601; t=1746188956; x=1746793756;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JuKJjEeqpYYqUAoutx/iNQxZ8cud4TMO/EdBgGtZGBQ=;
-        b=AquJK8USqbLHsuELLfHZrmAuxnRQaK00StgHrrmpOdi8leCf7sgbWx9zu/8OiYCDsV
-         cU0cbjsg26kXU6Nm7a93C+kPugU51H2bdpQw9hmgnllaofIEE0xfgC6aZOMzWud2rIQ3
-         Kd2pvrfsl/ThlbX/jz5nSKUieHlR5rNgtvQFB58QWOWkt+vcHqbQt4D2Hq5TmIY6wI4P
-         WhuW2OfiW4xNyLfggHF7mrSs2fDMrSur5hkRLVftN24W41TMe2ajHnszw4LI6qJyMi/G
-         QmZX0am+bLoQF+gxSXyGXNcxh0oPiZ387ROkyaNIAVMxcCo5qwSnY4C6Hcl/Z1vLAMIx
-         3S1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX7gczmKXNlt9n2dOsfAnDCLtzIEumR7o7WuINQ0tHNCsIDdrVu58CKulp4OxzOvdaKOaqncfurYGVHpw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLi6swlsmasbRXZ2gyb9DSNi70XroSpPeMi9hwUIvLyahkP8CL
-	PRq3ymAh1BAMKWa42ezBlDAiS46FajHQtQ5mDwf15KUUsE1WOdB1gt9EcmG1j2c=
-X-Gm-Gg: ASbGncshdWiCpqohoT9fGZLYM0mLYwE+NlPLR1vX27iBEDWfkYTiidCGJb8IqkwnHSQ
-	Scy0l4AT8HCgE+uguyhR5iIFGcFPKodwgFejRyNZkAJHlpkHMpkgPb+3dimjT0J8eomOzG2gUbg
-	oMieCQ+hlOKuBiL2SRBe3P4I3tgpd6iFLAlk4q0f0pZEEC6ruuuCGeuADy9Ium3Yu/I2XUE4XZb
-	DsnlIg5GtLB6qegu6j7+kwLy+vcNKG7OdkoqMD58lLVhqpESS+FA0Edlu8X/Gz9HIw9JeKdBt98
-	5z23Nx3kK6jBWFNiz6TVsJpAMfqNlKCMOLn+sDldjS14ck4EGNGJXgMluM2o4tONy3CMGJ+OYqk
-	+HaiQcDNJvPMZc/Is
-X-Google-Smtp-Source: AGHT+IGjhiW8tlzqpxgk5VoUKCEl54e77Nr773Jlan97Ttw4cL9jyMAsrH6+IC+FpMkUAZB5kV3tVg==
-X-Received: by 2002:a05:6000:220e:b0:39f:7e99:5e8c with SMTP id ffacd0b85a97d-3a099af1056mr1924634f8f.51.1746188934794;
-        Fri, 02 May 2025 05:28:54 -0700 (PDT)
+        bh=fPXhl5ABY9Cpe5wfSbh97dWtdpEKAOmViXZEiA/5wSY=;
+        b=kTw6uqwErW8tXKm9nfIxvnpwJJBSumZh5p6+B8ccx9TgMjj+NA3i+536fNkVMMRr1F
+         3lOM16CxXSepdPOZfYq1bZCXQrVOuU1MYs+vjTeuugTYxqg58bgGt9snTEiq5XSy/YyR
+         peMFZjSlHhzVCIIfkdWl2EsmGSjU9w01rfEfFYpjwNggFxjEs4nt6ab9v5cmFo77wBSc
+         7X8E7zD8NVhspJSz3iUCxAML1bbzHwGGFUAx+K2ZkmkwmUMdcYw6Wor2DGutz34M7MuC
+         E0+3O9RSXJETk6ohOGzWj7O8odrZrth+Epksa3N9KHZgOYr0d10PACpPfPZ2sS7PLc2T
+         6FJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9tef1Q63Q51a1/UlxG2n8DAHKrWufFgKVi/zjlAz1ymsKnWJvOW2DuUS0xvmXBT1kA1U/w/Iav28k0A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YykcckKOl1fJb8YsDjr8CbZWyITeUzPtv6o+JEfNIhQN8KkW8Jv
+	ARgH8lqQP1YKhRtq/39mwgfhxMCrEOXmWVZKXs2fG4FaS+oj9M3QGxqtXzsCiDs=
+X-Gm-Gg: ASbGncsbAXvuJs0WQjZgtdoBahVIAQOba0KX0WEjLLU07dUQCpmv8rgPh1hrflJqCpp
+	jDUHc7L2pS1iic76Zw7Bs5DG2epqkpKt4uUtmiV2gbWlTmHILFZerXfpcePmIYEZvxbkGJ3T+K4
+	aXnRP5cuxOZuuVuxl6wSXCHNqneEXaxhjOLhx+OsEobUj9wB2CyeGnL7xfVKKDhEfyjs1R872N/
+	EH9xi3P2NCLzhaabjeIy3PJHU7qtmJaFA0l/SAWUp2zlJijGqEfuY+bCWPAZCLkaAQmuztWQy5y
+	hPYdsbHbf1iqjOCBiqYmyuQlrht695lOwi71dJI4h3qvlKA6UWeqa3yauMpPeRgSkGGgt3bUCh2
+	pI3oFaw==
+X-Google-Smtp-Source: AGHT+IEJQc8ArVKhReP08d9VcgU4GcvNbex+0BCVyeNSxBvarnE07Zhzs5sQR2N9SWFhkCNJNsJqEg==
+X-Received: by 2002:a05:600c:5022:b0:43c:e6d1:efe7 with SMTP id 5b1f17b1804b1-441bbf34052mr18854655e9.26.1746188956401;
+        Fri, 02 May 2025 05:29:16 -0700 (PDT)
 Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a099ae0bc0sm2020496f8f.20.2025.05.02.05.28.53
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a099b0ffcasm2030879f8f.74.2025.05.02.05.29.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 May 2025 05:28:54 -0700 (PDT)
-Message-ID: <54d9f9a3-6567-4d36-a020-78da0f656ed7@linaro.org>
-Date: Fri, 2 May 2025 13:28:52 +0100
+        Fri, 02 May 2025 05:29:15 -0700 (PDT)
+Message-ID: <b255fec0-216d-42c8-b7ba-cb0cde51e73c@linaro.org>
+Date: Fri, 2 May 2025 13:29:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,7 +82,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/23] media: iris: Fix NULL pointer dereference
+Subject: Re: [PATCH v3 09/23] media: iris: Fix typo in depth variable
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Vikash Garodia <quic_vgarodia@quicinc.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -97,48 +97,48 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org,
- 20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com, stable@vger.kernel.org,
- Dan Carpenter <dan.carpenter@linaro.org>
+ 20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com, stable@vger.kernel.org
 References: <20250502-qcom-iris-hevc-vp9-v3-0-552158a10a7d@quicinc.com>
- <20250502-qcom-iris-hevc-vp9-v3-8-552158a10a7d@quicinc.com>
+ <20250502-qcom-iris-hevc-vp9-v3-9-552158a10a7d@quicinc.com>
 Content-Language: en-US
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250502-qcom-iris-hevc-vp9-v3-8-552158a10a7d@quicinc.com>
+In-Reply-To: <20250502-qcom-iris-hevc-vp9-v3-9-552158a10a7d@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 01/05/2025 20:13, Dikshita Agarwal wrote:
-> A warning reported by smatch indicated a possible null pointer
-> dereference where one of the arguments to API
-> "iris_hfi_gen2_handle_system_error" could sometimes be null.
-> 
-> To fix this, add a check to validate that the argument passed is not
-> null before accessing its members.
+> Correct a typo from "dpeth" to "depth".
 > 
 > Cc: stable@vger.kernel.org
-> Fixes: fb583a214337 ("media: iris: introduce host firmware interface with necessary hooks")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/linux-media/634cc9b8-f099-4b54-8556-d879fb2b5169@stanley.mountain/
+> Fixes: 3a19d7b9e08b ("media: iris: implement set properties to firmware during streamon")
 > Acked-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > ---
->   drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> index d1a2a497a7b2..4488540d1d41 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> @@ -265,7 +265,8 @@ static int iris_hfi_gen2_handle_system_error(struct iris_core *core,
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> index a908b41e2868..802fa62c26eb 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> @@ -178,7 +178,7 @@ static int iris_hfi_gen2_set_crop_offsets(struct iris_inst *inst)
+>   						  sizeof(u64));
+>   }
+>   
+> -static int iris_hfi_gen2_set_bit_dpeth(struct iris_inst *inst)
+> +static int iris_hfi_gen2_set_bit_depth(struct iris_inst *inst)
 >   {
->   	struct iris_inst *instance;
->   
-> -	dev_err(core->dev, "received system error of type %#x\n", pkt->type);
-> +	if (pkt)
-> +		dev_err(core->dev, "received system error of type %#x\n", pkt->type);
->   
->   	core->state = IRIS_CORE_ERROR;
->   
+>   	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
+>   	u32 port = iris_hfi_gen2_get_port(V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+> @@ -378,7 +378,7 @@ static int iris_hfi_gen2_session_set_config_params(struct iris_inst *inst, u32 p
+>   		{HFI_PROP_BITSTREAM_RESOLUTION,       iris_hfi_gen2_set_bitstream_resolution   },
+>   		{HFI_PROP_CROP_OFFSETS,               iris_hfi_gen2_set_crop_offsets           },
+>   		{HFI_PROP_CODED_FRAMES,               iris_hfi_gen2_set_coded_frames           },
+> -		{HFI_PROP_LUMA_CHROMA_BIT_DEPTH,      iris_hfi_gen2_set_bit_dpeth              },
+> +		{HFI_PROP_LUMA_CHROMA_BIT_DEPTH,      iris_hfi_gen2_set_bit_depth              },
+>   		{HFI_PROP_BUFFER_FW_MIN_OUTPUT_COUNT, iris_hfi_gen2_set_min_output_count       },
+>   		{HFI_PROP_PIC_ORDER_CNT_TYPE,         iris_hfi_gen2_set_picture_order_count    },
+>   		{HFI_PROP_SIGNAL_COLOR_INFO,          iris_hfi_gen2_set_colorspace             },
 > 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
