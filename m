@@ -1,70 +1,83 @@
-Return-Path: <linux-media+bounces-31628-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31629-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C658AA7687
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:58:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C21C1AA768B
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:59:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DFA13BF323
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:57:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 123F1983430
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:58:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 187DD25A640;
-	Fri,  2 May 2025 15:58:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46AB225B1E2;
+	Fri,  2 May 2025 15:58:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s2GAqAeM"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SuB9U1tx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6DD259CA7;
-	Fri,  2 May 2025 15:57:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD0B25A331
+	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 15:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746201480; cv=none; b=m870OkvHvZg77kDRK2E+BgRseUW+wOX66iyeHsnGyzs8vyiCf8b3rG3cYVy622sLIf+LgbphxIMKYzsuyhUh5VJMAwjO3x8p5mB47DKDgxbVEGntiNTv2cgnZeYAWDIATJKKGkBcU8LbO3lt0ZWUcY5lpiiRemKp8vnEhtG6lis=
+	t=1746201538; cv=none; b=XMBmJl6wF7/DvWNqHTySX6eHgfOJg/+zFgK8BjFucXcYjavFcCjofQkbqsyhbCtScHzsL/DIuqhr0uJ2CyhfKtG0UbFGyI5jLM4X/SNAlr19NSx6wizWGEV+AwAH3oZD1iuPHAPKyiDXpJ5m3EjIr2BVJawvaM3OuScLt5aP7a4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746201480; c=relaxed/simple;
-	bh=8QYuu7fU5WUIXfLa2awfgrXyGtQ8swMWYYVzxECzPEw=;
+	s=arc-20240116; t=1746201538; c=relaxed/simple;
+	bh=d+PSw0JYvVPF0oeno3KUP7YBvR+JhmVRQyPjJA6hyq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D03PFSh4B34DGsaXDTREOMxKAB3DDE9Jz1gxSR1FruBLcjZ9OVlBD2AE8IfL/zZNc6zvt5kotvQiWV2t93BkRogPXH6Sip+G/BkwVSvlVZgYbcHdx1q8k47dXrfV4AW5q8WTokyXjVbWOfgtXw4Zjt8zbQKOrzYPsTdV73zuvmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=s2GAqAeM; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9/pxwUX7VpA9N6ATLYHvZSWha5HzZpIFN+IJErxd6MHZXiCYwUEhamkxWndWf68X5Ujs/OFTZr3pGL6QNeUtC23BabmpdVb87eYeTYF8iHpf4QdC7oH57MMEpDEdFR3/M9Nt8G08nEjilUuQI7sBDCeLQ6FSlXR5papYZYKw9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SuB9U1tx; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFE20353;
-	Fri,  2 May 2025 17:57:48 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82AEB353;
+	Fri,  2 May 2025 17:58:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746201468;
-	bh=8QYuu7fU5WUIXfLa2awfgrXyGtQ8swMWYYVzxECzPEw=;
+	s=mail; t=1746201526;
+	bh=d+PSw0JYvVPF0oeno3KUP7YBvR+JhmVRQyPjJA6hyq8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s2GAqAeMwGyk87qn58OiHrgsgvDI9wlMCxw6tM5KORPioPIiY1cmhZ4Y0rEEV43Rk
-	 ZHjsi56wlLzk/opQb+UNzFOMac7F4k2CqiXSQp2+Qt3+cGTHMzV5Jn+a0EtAh9nzzb
-	 R52QvJGHsjKV22hApy2kl1o8bPbbX+ATTa2Iy05k=
-Date: Fri, 2 May 2025 18:57:47 +0300
+	b=SuB9U1txmz9O9tOcJuALVGnBfXOToqvk6Bw73R+8Cym0FZqV09KvGsp+TZ47ENafP
+	 72JPkz9mEJ5WbttOmJZ8coDIAjvlAsM+KqDz6nl/A6MiP+uw6AmC8laPk6Aa4r0Nm8
+	 YdtcafMu5kFL0gwMfmvTGaNHKo8enUQ+M6yjn/kE=
+Date: Fri, 2 May 2025 18:58:45 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Robert Chiras <robert.chiras@nxp.com>,
-	"Guoniu.zhou" <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH v4 04/13] media: nxp: imx8-isi: Use
- devm_clk_bulk_get_all() to fetch clocks
-Message-ID: <20250502155747.GB20093@pendragon.ideasonboard.com>
-References: <20250408-8qxp_camera-v4-0-ef695f1b47c4@nxp.com>
- <20250408-8qxp_camera-v4-4-ef695f1b47c4@nxp.com>
- <20250421211438.GN17813@pendragon.ideasonboard.com>
- <aBQZjFsExJh2uRfK@lizhi-Precision-Tower-5810>
+To: Hans Verkuil <hans@jjverkuil.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sean Young <sean@mess.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Tomasz Figa <tfiga@chromium.org>,
+	"Hu, Jerry W" <jerry.w.hu@intel.com>,
+	Steve Cho <stevecho@chromium.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Devarsh Thakkar <devarsht@ti.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Stefan Klug <stefan.klug@ideasonboard.com>
+Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v4)
+Message-ID: <20250502155845.GB15945@pendragon.ideasonboard.com>
+References: <f6d44024-a78e-42b8-971a-797ed8fbb1ff@jjverkuil.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,170 +86,132 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aBQZjFsExJh2uRfK@lizhi-Precision-Tower-5810>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f6d44024-a78e-42b8-971a-797ed8fbb1ff@jjverkuil.nl>
 
-Hi Frank,
-
-On Thu, May 01, 2025 at 09:02:04PM -0400, Frank Li wrote:
-> On Tue, Apr 22, 2025 at 12:14:38AM +0300, Laurent Pinchart wrote:
-> > On Tue, Apr 08, 2025 at 05:53:02PM -0400, Frank Li wrote:
-> > > Use devm_clk_bulk_get_all() helper to simplify clock handle code.
-> > >
-> > > No functional changes intended.
-> > >
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > >  .../media/platform/nxp/imx8-isi/imx8-isi-core.c    | 46 +++-------------------
-> > >  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  3 +-
-> > >  2 files changed, 6 insertions(+), 43 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> > > index ecfc95882f903..015350c6f2784 100644
-> > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> > > @@ -275,11 +275,6 @@ static const struct mxc_isi_set_thd mxc_imx8_isi_thd_v1 = {
-> > >  	.panic_set_thd_v = { .mask = 0xf0000, .offset = 16, .threshold = 0x7 },
-> > >  };
-> > >
-> > > -static const struct clk_bulk_data mxc_imx8mn_clks[] = {
-> > > -	{ .id = "axi" },
-> > > -	{ .id = "apb" },
-> > > -};
-> > > -
-> > >  static const struct mxc_isi_plat_data mxc_imx8mn_data = {
-> > >  	.model			= MXC_ISI_IMX8MN,
-> > >  	.num_ports		= 1,
-> > > @@ -287,8 +282,6 @@ static const struct mxc_isi_plat_data mxc_imx8mn_data = {
-> > >  	.reg_offset		= 0,
-> > >  	.ier_reg		= &mxc_imx8_isi_ier_v1,
-> > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
-> > > -	.clks			= mxc_imx8mn_clks,
-> > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> > >  	.buf_active_reverse	= false,
-> > >  	.gasket_ops		= &mxc_imx8_gasket_ops,
-> > >  	.has_36bit_dma		= false,
-> > > @@ -301,8 +294,6 @@ static const struct mxc_isi_plat_data mxc_imx8mp_data = {
-> > >  	.reg_offset		= 0x2000,
-> > >  	.ier_reg		= &mxc_imx8_isi_ier_v2,
-> > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
-> > > -	.clks			= mxc_imx8mn_clks,
-> > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> > >  	.buf_active_reverse	= true,
-> > >  	.gasket_ops		= &mxc_imx8_gasket_ops,
-> > >  	.has_36bit_dma		= true,
-> > > @@ -315,8 +306,6 @@ static const struct mxc_isi_plat_data mxc_imx8ulp_data = {
-> > >  	.reg_offset		= 0x0,
-> > >  	.ier_reg		= &mxc_imx8_isi_ier_v2,
-> > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
-> > > -	.clks			= mxc_imx8mn_clks,
-> > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> > >  	.buf_active_reverse	= true,
-> > >  	.has_36bit_dma		= false,
-> > >  };
-> > > @@ -328,8 +317,6 @@ static const struct mxc_isi_plat_data mxc_imx93_data = {
-> > >  	.reg_offset		= 0,
-> > >  	.ier_reg		= &mxc_imx8_isi_ier_v2,
-> > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
-> > > -	.clks			= mxc_imx8mn_clks,
-> > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> > >  	.buf_active_reverse	= true,
-> > >  	.gasket_ops		= &mxc_imx93_gasket_ops,
-> > >  	.has_36bit_dma		= false,
-> > > @@ -386,7 +373,7 @@ static int mxc_isi_runtime_suspend(struct device *dev)
-> > >  {
-> > >  	struct mxc_isi_dev *isi = dev_get_drvdata(dev);
-> > >
-> > > -	clk_bulk_disable_unprepare(isi->pdata->num_clks, isi->clks);
-> > > +	clk_bulk_disable_unprepare(isi->num_clks, isi->clks);
-> > >
-> > >  	return 0;
-> > >  }
-> > > @@ -396,7 +383,7 @@ static int mxc_isi_runtime_resume(struct device *dev)
-> > >  	struct mxc_isi_dev *isi = dev_get_drvdata(dev);
-> > >  	int ret;
-> > >
-> > > -	ret = clk_bulk_prepare_enable(isi->pdata->num_clks, isi->clks);
-> > > +	ret = clk_bulk_prepare_enable(isi->num_clks, isi->clks);
-> > >  	if (ret) {
-> > >  		dev_err(dev, "Failed to enable clocks (%d)\n", ret);
-> > >  		return ret;
-> > > @@ -414,27 +401,6 @@ static const struct dev_pm_ops mxc_isi_pm_ops = {
-> > >   * Probe, remove & driver
-> > >   */
-> > >
-> > > -static int mxc_isi_clk_get(struct mxc_isi_dev *isi)
-> > > -{
-> > > -	unsigned int size = isi->pdata->num_clks
-> > > -			  * sizeof(*isi->clks);
-> > > -	int ret;
-> > > -
-> > > -	isi->clks = devm_kmemdup(isi->dev, isi->pdata->clks, size, GFP_KERNEL);
-> > > -	if (!isi->clks)
-> > > -		return -ENOMEM;
-> > > -
-> > > -	ret = devm_clk_bulk_get(isi->dev, isi->pdata->num_clks,
-> > > -				isi->clks);
-> > > -	if (ret < 0) {
-> > > -		dev_err(isi->dev, "Failed to acquire clocks: %d\n",
-> > > -			ret);
-> > > -		return ret;
-> > > -	}
-> > > -
-> > > -	return 0;
-> > > -}
-> > > -
-> > >  static int mxc_isi_probe(struct platform_device *pdev)
-> > >  {
-> > >  	struct device *dev = &pdev->dev;
-> > > @@ -457,11 +423,9 @@ static int mxc_isi_probe(struct platform_device *pdev)
-> > >  	if (!isi->pipes)
-> > >  		return -ENOMEM;
-> > >
-> > > -	ret = mxc_isi_clk_get(isi);
-> > > -	if (ret < 0) {
-> > > -		dev_err(dev, "Failed to get clocks\n");
-> > > -		return ret;
-> > > -	}
-> > > +	isi->num_clks = devm_clk_bulk_get_all(dev, &isi->clks);
-> >
-> > This prevents validating that the DT contains the expected clocks, which
-> > could cause hard to debug issues. Isn't it a problem ?
+On Fri, May 02, 2025 at 10:15:27AM +0200, Hans Verkuil wrote:
+> Hi all,
 > 
-> It is checked by dt-binding. Now no warning by DTB_CHECK under arm64 freecale.
-> CHECK_DTB should be enough to find expected clocks.
+> Here is my v4 of the draft (close to final) agenda for the media summit.
+> 
+> Changes since v3: added more attendees, added a new topic (cgroups) from Maxime.
+> Please note that I slightly reduced the length of some of the topics since we
+> have a packed agenda. Please let me know if you think you need more (or less!)
+> time then I put you down for in the agenda. My experience is that it tends to
+> average out (some topics take more time than expected, some less), but a good
+> estimate helps. I also updated the lunch information.
+> 
+> One important notice: it turned out that the meeting room does not actually have
+> dedicated video conference equipment. I'm trying to figure out a solution for this,
+> but for those that registered for remote attendance, be aware that it might not
+> work out or be of poor quality. I hope to have more information for you next week.
 
-Yes, the DTB check will catch issues at build time, but the driver will
-not enforce that. I'm not sure if there's a clear policy here, and if
-ensuring at runtime in drivers that the expected clocks are present is
-considered as a good practice by the DT maintainers. Rob, Krzysztof,
-Conor, do you have an opinion ?
+I have two conference speakers
+(https://us.ankerwork.com/collections/speaker/products/a3305) that I can
+bring. We used them during the last libcamera workshop and the
+experience was reasonable. No guarantee of fitness for the purpose
+though, it depends on the size and configuration of the room.
 
-> > > +	if (isi->num_clks < 0)
-> > > +		return dev_err_probe(dev, isi->num_clks, "Failed to get clocks\n");
-> > >
-> > >  	isi->regs = devm_platform_ioremap_resource(pdev, 0);
-> > >  	if (IS_ERR(isi->regs)) {
-> > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> > > index e7534a80af7b4..bd3cfe5fbe063 100644
-> > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> > > @@ -169,8 +169,6 @@ struct mxc_isi_plat_data {
-> > >  	const struct mxc_isi_ier_reg  *ier_reg;
-> > >  	const struct mxc_isi_set_thd *set_thd;
-> > >  	const struct mxc_gasket_ops *gasket_ops;
-> > > -	const struct clk_bulk_data *clks;
-> > > -	unsigned int num_clks;
-> > >  	bool buf_active_reverse;
-> > >  	bool has_36bit_dma;
-> > >  };
-> > > @@ -282,6 +280,7 @@ struct mxc_isi_dev {
-> > >
-> > >  	void __iomem			*regs;
-> > >  	struct clk_bulk_data		*clks;
-> > > +	int				num_clks;
-> > >  	struct regmap			*gasket;
-> > >
-> > >  	struct mxc_isi_crossbar		crossbar;
+> We have 18 in-person attendees, which is in line with previous summits, even though
+> the time since the last summit is less than usual and we are co-located with a
+> different conference. It's good to know that those changes didn't impact the turn-out.
+> 
+> Please note that I am transitioning from my old hverkuil@xs4all.nl email to
+> my new hans@jjverkuil.nl email. If you have problems replying to that new email,
+> please let me know and just send it to the old email (that won't go away).
+> 
+> The Media Summit will be held Tuesday May 13th to coincide with
+> the Embedded Recipes Conference in Nice, France:
+> 
+> https://embedded-recipes.org/2025/
+> 
+> Note that there are also some workshops held after this conference:
+> 
+> https://embedded-recipes.org/2025/workshops/
+> 
+> And a gStreamer hackfest:
+> 
+> https://discourse.gstreamer.org/t/gstreamer-spring-hackfest-2025-on-16-18-may-2025-in-nice-france/4366
+> 
+> The Media Summit will be held at Hotel Campanile:
+> 
+> https://nice-aeroport.campanile.com/en-us/
+> 
+> It is close to the Airport and to the Embedded Recipes venue.
+> 
+> The meeting room is sponsored by Collabora and Cisco Systems Norway.
+> The lunch is sponsored by Ideas on Board. Many thanks to our sponsors
+> for making this Media Summit possible!
+> 
+> We have the following confirmed in-person attendees:
+> 
+> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (Media Maintainer, Huawei)
+> Nicolas Dufresne <nicolas.dufresne@collabora.com> (Collabora)
+> Benjamin Gaignard <benjamin.gaignard@collabora.com> (Collabora)
+> Hans de Goede <hdegoede@redhat.com> (Red Hat)
+> Stefan Klug <stefan.klug@ideasonboard.com> (Ideas on Board)
+> Paul Kocialkowski <paulk@sys-base.io> (sys-base)
+> Jai Luthra <jai.luthra@ideasonboard.com> (Ideas on Board)
+> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas on Board)
+> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (STMicroelectronics)
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas on Board)
+> Ricardo Ribalda <ribalda@chromium.org> (Google)
+> Maxime Ripard <mripard@redhat.com> (Red Hat)
+> Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
+> Devarsh Thakkar <devarsht@ti.com> (Texas Instruments)
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> (Ideas on Board)
+> Hans Verkuil <hans@jjverkuil.nl> (Media Maintainer, Cisco Systems Norway)
+> Arthur Vinchon <arthur.vinchon@allegrodvt.com> (Allegro DVT)
+> 
+> And the following remote participants:
+> 
+> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
+> Martin Hecht <mhecht73@googlemail.com> (Avnet Silica)
+> Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
+> jackson.lee <jackson.lee@chipsnmedia.com> (Chips 'n Media)
+> Mirela Rabulea <mirela.rabulea@nxp.com> (NXP)
+> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+> 
+> Note: information on how to connect remotely will come later. See also the notice
+> at the top of this email.
+> 
+> If any information above is incorrect, or if I missed someone, then please let me know asap.
+> 
+> Agenda:
+> 
+> 9:00-9:30: Get settled :-)
+> 
+> 9:30-9:40: Hans Verkuil: Quick introduction
+> 
+> 9:40-10:25: Paul Kocialkowski: Stateless video encoding uAPI
+> 
+> 10:25-11:15: Jai Luthra: Per-stream V4L2 controls
+> 
+> 11:15-11:30: break
+> 
+> 11:30-12:15: Sakari Ailus: Identifying camera modules
+> 
+> 12:15-13:30: Lunch at L'Azur Bistrot Niçois
+
+It will take about 10 minutes to walk to the restaurant, plus the time
+to leave the room, so I have informed them we will arrive at 12:30.
+
+> 13:30-14:00: Laurent Pinchart: Review of the status of staging drivers
+> 
+> 14:00-14:50: Hans de Goede: Discuss V4L2 subdev API ambiguities
+> 
+> 14:50-15:10: Jacopo Mondi: Unify the multi-context support with the m2m context handling
+> 
+> 15:10-15:25: break
+> 
+> 15:25-15:50: Maxime Ripard: V4L2 & cgroups memory accounting
+> 
+> 15:50-16:35: Ricardo Ribalda: Openness Framework for ISPs
+> 
+> 16:35-17:30: Hans Verkuil: Status of Media CI/Multi-committers
+> 
+> Please reply with corrections, questions, etc. to the agenda.
 
 -- 
 Regards,
