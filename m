@@ -1,189 +1,124 @@
-Return-Path: <linux-media+bounces-31630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31631-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3589AA770C
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 18:18:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF906AA770F
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 18:18:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD74E4E4280
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 16:17:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D42C44A37AD
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 16:17:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A13E925CC47;
-	Fri,  2 May 2025 16:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0C2C19D081;
+	Fri,  2 May 2025 16:17:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gQP/z2vY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MY5Cjbpk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592DE19D081;
-	Fri,  2 May 2025 16:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC871C174A
+	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 16:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746202630; cv=none; b=ScyrQ52rPg9ohZuk3vWXPiElJqYMKila624ptxWJaT0aeM1/SpJPVFv64eO8O19Rvkz2zHx9PxRbFvDpLu15rN9oy1lJTxCUBJLNDkE1GqhuH0SPeUUqXt5yYSpFmDa0Bdm8ZzHyKs40XinNRKFdCJiKwYnGHAB4p8g9C4VRSYI=
+	t=1746202642; cv=none; b=GotcM57QTqpHaXd8uOpthB/nF8CXjdvITEcnlA80Y9iGTBsRXAb1S9SwgiyKEhQOugQFmEUrL9Gj2yRSUi4l+mmbNASGa/KRUQL8pdlsSBCzEnUkQ8bKSgf0Op3F/8OSkSy+PWbPuz5ieAqTTqZyq9EfpovCLCJYNnzX2M6x/x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746202630; c=relaxed/simple;
-	bh=n6+2xUCCX3MfUNwyYOoeQx+IBsfLD9OrCui0qPfrvS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SfYAHvwE6lvsY723bKZF9NtHp2gjrddcmrnHPgrzEuAA2udOME+YIH3eaX12HX119WOEIKa0vmG4Pbt30R8Gm9DBxO8Lw7JBrcOKWsp4C7rcBzruvVyUAPGSaOqa1WygGUfPW8/OOA6oJW089vhrLa+nkSYPceXZ8y48Li8skHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gQP/z2vY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96E0FAF;
-	Fri,  2 May 2025 18:16:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746202618;
-	bh=n6+2xUCCX3MfUNwyYOoeQx+IBsfLD9OrCui0qPfrvS8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gQP/z2vYd8X+wMfXmvSwiuJ2RR9a4zuErRnToO5ddjNByOAX21VJPnioV+2TVf3Kr
-	 C3L/02QgiGlFKJYgF9IgWHoaAFIz+ByXjBDqjL0rEd+mcfaMccE1CrZwowQ75MOpes
-	 ajCgxTxjA3yn5oHN8K2TFhJ3b/5k//T/hB6HfgSc=
-Date: Fri, 2 May 2025 19:16:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v2 0/9] media: renesas: vsp1: Add colorspace support
-Message-ID: <20250502161657.GD15945@pendragon.ideasonboard.com>
-References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
- <aBSAgR15PoPVS9Ic@tom-desktop>
+	s=arc-20240116; t=1746202642; c=relaxed/simple;
+	bh=p25TGFxmDkAyg2SKPUNGairhusjxzU72tOg6R+cw4r4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VPoxN4hQt6bOI2PV6ENKQIcr6Y455GPfqj4Af9l87WujhUD1RPq93i4UPIfpFSlTZmJ4X0HMkg50a7NK3JOKYnGRfUlZOyTd4XcIYaf/2LajrAFkIRd0HRe/Bmhmg8XfzF8e9JEkUAzb216r5SmCiaB4zFrLZtmm3fFe2mnAwZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MY5Cjbpk; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso14190235e9.0
+        for <linux-media@vger.kernel.org>; Fri, 02 May 2025 09:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746202639; x=1746807439; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wy6Q6Iq6c6FY4Y1FHTjfXlBCNM24Ps50LT7tN8wml2w=;
+        b=MY5CjbpkYE20XvVamxnykBHChcyGYrRPt28syp8YaEB1WGNarX6TgshF8ylCGwHpNf
+         G+yo4dRmI4iBZYd/kqv/o0xyA3W2lzAkpH1OvafhCkL/H67vxT/t2+SvuMEA++zKKOOP
+         9FkHFyi8BI5iG5ZaxM3Rr5UptY/jhee0G5VP8jJrdZ0X8DyJ1uQMMlK1zh8s7izjqDLw
+         FIexSHyhbnNy0ffPus4/Vgt2LSZDZbdGcJivG4cwYd8RDDZ4vGnFwGEatG0+nFYu/zCM
+         6vYab/exDeO5/qGbRx+cXo8dfGb3dK4c2tqr3ypegpYvvYLCQOU7spy+Jzwbkh5r0+6F
+         pHzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746202639; x=1746807439;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wy6Q6Iq6c6FY4Y1FHTjfXlBCNM24Ps50LT7tN8wml2w=;
+        b=vEnMXCbx8PGEwj2QBx7ubQQFVH7TqyPj50PAMI8B+Abj1YxUN9+SSc0l/8RIn9FtnW
+         9xWT/a49BxBAqgL9dGWKa2lgXUg6UPDe5roy5Uqpk8TT45OQUThVJYpbvfJZY6UCVUSj
+         UOM3/Y5U8FSh/sLpe1VCGEoDXkDSjqof5EZxmcL8AHsA5QnpsTWBs7hY1LlZAA/pjHB4
+         rjXjRSxsx7GTKqN6Hus51A8T+l3otMe7nwAPwA217HVgir845woHnfxw2nSzppf68Rbc
+         g1jSfIMIyE+rVFWpniaKSzfwTquyJHgwhhtp7lNUVnbnhuCld4YAapaBgdgL7Zugf9Ww
+         kxDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXOwGllm5ub/sIzIbeWxqnUSMO+0DuTzCPmW/9wQ6qUL1zTbJxsjjjkxlhMZHtqv6pi+twQBffDfftZ+A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvbCaWpFSJgwzDGqx8Mo9UQW8HBBb0j67G5PL0jU74zsFxWO4S
+	JJ8/WiyXlwZz1M2hLiWSLy2vKtFzA8h6N3ORO5ROB9ePpsTJFBlOkHsQA+3zOE8=
+X-Gm-Gg: ASbGncsFJ7mSLjwiDi9I8CpEHB9Wv8M/i7Wm8TzQ6bYRHBHpx+bEa8gVXLaRGhbecKS
+	cU1j8mkn2CdgZ93CxwrAqxA7TQyJvLPW5a9AwAuZ3ytWBEG8NCt84aMJpZvnncleQg+Yozfshs1
+	vfkbkMgC3gnQbctjXuUluaXXXPX1YXjmieFdOCxd6tRSXI3Qqqn1CiZ+fqOUgAqm8hP8+QGltMl
+	kqE/1N+Xo8NhDtoks/q1eExS/S29y5jSnEpx75d0CMiBOMDr9CDoES4IOgif/Bw0Y7fqydjQAuQ
+	f6yxjuAMLzE053CafYpLR1ynN4oy/IIWUidDga7ztIOiL1AdkAUzRHzvUUMuNKD2n6TOUcXIDAa
+	jH7VhAQ==
+X-Google-Smtp-Source: AGHT+IFylSPDAOE+pMGqEF4M3RqjKjSA7UkAh+IWcn4TG/z9ljqFUqXx01pVwkemRY/0SiLj6vSGMQ==
+X-Received: by 2002:a05:600c:3acd:b0:435:edb0:5d27 with SMTP id 5b1f17b1804b1-441b72c0a66mr62299585e9.9.1746202638742;
+        Fri, 02 May 2025 09:17:18 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441b2af2922sm93761325e9.17.2025.05.02.09.17.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 May 2025 09:17:18 -0700 (PDT)
+Message-ID: <311dfba9-84f7-4e3e-8bb5-a4ba79f628d1@linaro.org>
+Date: Fri, 2 May 2025 17:17:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aBSAgR15PoPVS9Ic@tom-desktop>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 15/23] media: iris: Improve last flag handling
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stefan Schmidt <stefan.schmidt@linaro.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ 20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org,
+ 20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com
+References: <20250502-qcom-iris-hevc-vp9-v3-0-552158a10a7d@quicinc.com>
+ <20250502-qcom-iris-hevc-vp9-v3-15-552158a10a7d@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250502-qcom-iris-hevc-vp9-v3-15-552158a10a7d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Tommaso,
+On 01/05/2025 20:13, Dikshita Agarwal wrote:
+> Improve the handling of the V4L2_BUF_FLAG_LAST flag in the driver:
+> - Ensure that the last flag is not sent multiple times.
+> - Attach the last flag to the first capture buffer returned during
+>    flush, triggered by a sequence change, addressing cases where the
+>    firmware does not set the last flag.
+> 
+> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+I'm sure this is logically correct, I just wonder if you could represent 
+it as a inst->state instead of as a flag ?
 
-On Fri, May 02, 2025 at 10:21:21AM +0200, Tommaso Merciai wrote:
-> On Wed, Apr 30, 2025 at 02:28:55AM +0300, Laurent Pinchart wrote:
-> > Hello,
-> > 
-> > This patch series extends the VSP1 driver with colorspace support. It
-> > turns out that the VSP RPF and WPF entities can convert between RGB and
-> > YUV, a feature that we have failed to test so far. The hardware support
-> > BT.601 and BT.709, in both limited and full range. Proper configuration
-> > of colorspace is crucial for accurate image rendering.
-> > 
-> > Patch 1/9 starts by implementing pixel format enumeration in the driver,
-> > a feature that was surprisingly missing. Patch 2/9 then continues with
-> > another fix, restricting the creation of the HSI and HST entities to VSP
-> > instances that include them. Following with another fix, patch 4/9
-> > addresses format setting on the RPF and WPF source pad to disable HSV
-> > <-> { RGB, YUV } conversion, a feature *not* supported by the hardware.
-> > 
-> > After those initial fixes, patch 5/9 starts implementing colorspace
-> > support by reporting the related information to userspace. The driver
-> > currently hardcodes limited range BT.601 when programming the hardware,
-> > so that is the value that the patch reports to userspace for YUV
-> > formats. Patch 6/9 makes the YCbCr encoding and quantization
-> > configurable, finalizing colorspace support in the VSP driver.
-> > 
-> > The next three patches are new in this version. They proceed with
-> > exposing colorspace configurability in the API exposed to the DU DRM
-> > driver in patch 8/9 (with 7/9 performing a small refactoring first).
-> > Patch 9/9 then updates the DU driver accordingly, to create plane
-> > colorspace properties and wire them up to the VSP.
-> > 
-> > The series has been tested with the vsp-tests suite and the kms-tests
-> > suite. Patches that add CSC support to the vsp-tests suite have been
-> > posted in [1], and can be found in the vsp-tests git tree in [2].
-> 
-> I've tested this series with out of Tree patches with RZ/G3E.
-> Basically I've added the equivalent of:
-> 
->  - drm: rcar-du: Create plane color properties
-> 
-> On drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-> 
-> Tested using modetest:
-> 
-> modetest -M rzg2l-du -s 48@46:800x600-60.32@YU16 -d -P 39@46:512x300+200+200@YU16
-> 
-> modetest -M rzg2l-du -w 32:COLOR_ENCODING:0
-> modetest -M rzg2l-du -w 32:COLOR_ENCODING:1
-> 
-> modetest -M rzg2l-du -w 32:COLOR_RANGE:0
-> modetest -M rzg2l-du -w 32:COLOR_RANGE:1
-> 
-> Where 32 is the id of the primary plane.
-> 
-> Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Up to you to think about.
 
-Thank you for confirming this works on RZ. Unfortunately your Tested-by
-tag came after I submitted the pull request, and the patches got merged
-without it. It however gives me confidence that the code is working as
-intended.
-
-> > Updates to media-ctl and yavta to support setting colorspace on video
-> > capture devices and on subdev source pads have been merged in the
-> > respective projects, make sure to use the latest master branch if you
-> > want to run the tests.
-> > 
-> > The series has also been tested with the latest v4l2-compliance. The bad
-> > news is that the test flags 56 errors when run on a Renesas Salvator-X
-> > 2nd version board based on r8a77965:
-> > 
-> > Grand Total for vsp1 device /dev/media1: 757, Succeeded: 701, Failed: 56, Warnings: 0
-> > 
-> > The good news is that none of those are regressions, quite the contrary:
-> > without this series applied, the total number of failures is 95, and the
-> > diff shows no new error. I will therefore address those issues
-> > separately.
-> > 
-> > I would like to get patch 1/9 to 8/9 merged in v6.16, to then merge 9/9
-> > in v6.17.
-> > 
-> > [1] https://lore.kernel.org/linux-renesas-soc/20250409004758.11014-1-laurent.pinchart@ideasonboard.com
-> > [2] https://git.ideasonboard.com/renesas/vsp-tests.git/log/?h=csc
-> > 
-> > Laurent Pinchart (9):
-> >   media: renesas: vsp1: Implement pixel format enumeration
-> >   media: renesas: vsp1: Make HSI and HST modules optional
-> >   media: renesas: vsp1: Fix HSV format enumeration
-> >   media: renesas: vsp1: Fix media bus code setup on RWPF source pad
-> >   media: renesas: vsp1: Report colour space information to userspace
-> >   media: renesas: vsp1: Allow setting encoding and quantization
-> >   media: renesas: vsp1: Name nested structure in vsp1_drm
-> >   media: renesas: vsp1: Expose color space through the DRM API
-> >   drm: rcar-du: Create plane color properties
-> > 
-> >  drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c |  15 ++
-> >  drivers/media/platform/renesas/vsp1/vsp1.h    |   1 +
-> >  .../media/platform/renesas/vsp1/vsp1_brx.c    |   9 +-
-> >  .../media/platform/renesas/vsp1/vsp1_drm.c    |  22 +-
-> >  .../media/platform/renesas/vsp1/vsp1_drm.h    |   8 +-
-> >  .../media/platform/renesas/vsp1/vsp1_drv.c    |  59 +++---
-> >  .../media/platform/renesas/vsp1/vsp1_entity.c |  22 +-
-> >  .../media/platform/renesas/vsp1/vsp1_entity.h |   2 +
-> >  .../media/platform/renesas/vsp1/vsp1_hsit.c   |  11 +-
-> >  .../media/platform/renesas/vsp1/vsp1_pipe.c   | 188 ++++++++++++++++--
-> >  .../media/platform/renesas/vsp1/vsp1_pipe.h   |   5 +
-> >  .../media/platform/renesas/vsp1/vsp1_rpf.c    |  29 ++-
-> >  .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  51 ++++-
-> >  .../media/platform/renesas/vsp1/vsp1_sru.c    |   9 +-
-> >  .../media/platform/renesas/vsp1/vsp1_uds.c    |   9 +-
-> >  .../media/platform/renesas/vsp1/vsp1_video.c  |  50 ++++-
-> >  .../media/platform/renesas/vsp1/vsp1_wpf.c    |  29 ++-
-> >  include/media/vsp1.h                          |   4 +
-> >  18 files changed, 442 insertions(+), 81 deletions(-)
-> > 
-> > 
-> > base-commit: 398a1b33f1479af35ca915c5efc9b00d6204f8fa
-> > prerequisite-patch-id: e3d9847d1da4398f1bf0b57f5ef4a612392c7255
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
