@@ -1,111 +1,106 @@
-Return-Path: <linux-media+bounces-31639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C42AA77FE
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 19:07:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE61AA785C
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 19:13:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1821F1BA64BD
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:07:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E7949A54BF
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:12:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A536258CEA;
-	Fri,  2 May 2025 17:07:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14432701D9;
+	Fri,  2 May 2025 17:09:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TijZquqH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CeHOLO5W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E6F1A2630;
-	Fri,  2 May 2025 17:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D12266B6A;
+	Fri,  2 May 2025 17:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746205632; cv=none; b=JyUwaboNiljWgYyPHigLEVmdGVfe/3UtkMFid906bwV8wwy3vvuFpbMpcMm0JV8L+Zm7fp/ISWqmqM/W9UDh6hwIBlCRUup1K5kjx1NOaU+3CRp9tlOeK8ihbteO+Xzfofth3HzHcXC5SlylecPcgKxbWf4uISxxHiOQxh/rfxU=
+	t=1746205744; cv=none; b=kpOf/Wz8oM5ybvm1YsJRwgWUOWN09sElXVq8bXuO1spgJpiQRSKntdSrcnVjZBKDmPhcpWC/luDIDRVdMQNDOQXMNR/sBbzbwZ3aKnc0DSVoIUTmQUw+8J2abwxbhf2GgOTWuVrg9yL/OkVj7tF/6v31puYgpvSPI6xdXSfqJck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746205632; c=relaxed/simple;
-	bh=oGFdbK4hqCbRjD1Ku2OhUo6YHAV0TxHv4RvrfIkhlKk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SBbWGtYnMCECPWd2IhTI7oGpah3ihn3E/MKXqU+y6BjohKm5BICqchC8Vs3vwkbvZhjArOHNeQIGAQZ+LR/8+1QCKB8F213Ua+v7/jYm/xdMY3RqcGclbp6zX/JeYQY/e19Brx+IeUIwT4j9LbGlJYhRofHGE3G0vMBbJmOfMp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TijZquqH; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1746205744; c=relaxed/simple;
+	bh=4stStijgmkQgLj7QgL0DPvTpEywkInJvNZan+1AlHwg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PQlpTHti87KUDEvaHj7LWpoVGYUC8ALQeka1ms3pL+L8l/3PnMcxm5Gmc2hkBDZhWjTXaHrIG5Y1tgjrFsTcmcAhQGxDnNPz8UhbiK37HR2i/T7crvDiNApMmWQQeutzsq5TIsZRiDIy9jeFIxOrmmiWBNuFnXH4amI2wpEOCgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CeHOLO5W; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2260c91576aso22499635ad.3;
-        Fri, 02 May 2025 10:07:09 -0700 (PDT)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-30a452d3b38so1886782a91.3;
+        Fri, 02 May 2025 10:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746205629; x=1746810429; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TunKzoLEJR5EJu7jJjlTuy7onTJgUGYDWPQXzRBljII=;
-        b=TijZquqHFBIFbUrU36+3muSRLuVa0hzgwZdFMhGM655SGqPwObxITCkNqNIoL+mG94
-         3uxK6cqyKI0L6cB+FNldEym5P/d19TTuLVkXxOKDDcREB4xtoeqc7kOITWJPwAtdMBKs
-         hvk5imNyInx5kow0TzcJi/ei+KSwSgDzwZjPd/mlwfyasZDyX/TR6iAxBZzMfOtlXIls
-         7fAO2qMDsife1Suz/STZJEmytyOo+77Gk3CT+dUbw76+mUYhMixQfMSpmxNXB/vH/h9P
-         nts0vF894ae/k4hEVlrvUijYrqpVSJbTILLs9M2L0WLgfL9mCvqEZ9AhRoxUYtbhKjnK
-         kelw==
+        d=gmail.com; s=20230601; t=1746205742; x=1746810542; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MtDpB0PTtkYXhtnhSwYfqz5Rac+7v9V6aZ5T1mp1bHo=;
+        b=CeHOLO5WXH0Omj0TBph8F0xykGTo9Z/xtmsycFJeGKd1xHBa/Nj2c/WJNMp8RBUyoE
+         2yLAexNHPsn5d4H4u11D9VdmVJgm+kPy2bm1ghAdodRDtmth4qcjh7itjD5JH3ucaK1S
+         4yykMv40AyTu9C8JgwvVkfkmHgDn6RvWMqu1bcdYeHtzKcincQCxn93XqVoxWYjeWZwE
+         iqG20Yuja0QeJQ3BGiOjoFrj+wpRR6eekRj51/DDF1FfkbkN0pBlKvtxKDVVlKtKpPzn
+         UvD5iHRPy3MIZbo0gl7ltmde8B8EyCvyuxlzr2Aadq3zxEfeveyX9zvtjrVarllh8dSX
+         yc/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746205629; x=1746810429;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TunKzoLEJR5EJu7jJjlTuy7onTJgUGYDWPQXzRBljII=;
-        b=TyRPAerfaKuvR+M54OjOsNXT38rPM/NKDwyrW9C1yFBygriZ0TAvJm+sL7u/F6APST
-         MKwEIHc1UJgJ6SnnWJ0s0qhcZVqWQO4FtjeR3PD2tZtcCPShAWDj7gksMGYAAjQp9IaR
-         fmBF4xbpqW/SgocrqDLxVtBAU2F/61WtZEzzYf/Mh2Ix5x1tzf21tdDCK6PecWAxtMV+
-         gAVHaOJKT8jYhbBd5CuXpJ143nAtN1D/9LkR3IbgO7hyx0JotorIig60lb2wwMA1MyK/
-         /B32Hwxq7hSYlNM4uNpB4YcAKR2Ieprxbg2/JVUwj+NcW1d63NyuakcWknbxZMTF/O4l
-         Y1Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCV0ISJ17Jk/Bo01Qzencj1Iuh0E6yUzNTKjudP6QesKavEVZ9OANP26rj+W3Ae8oq43QHI62QkgcqQ2pq0=@vger.kernel.org, AJvYcCVciNm3pprU21qe7bjMIhXfx+fPpICYj0UX2ClCFPoVoqIwTFy4Q9jKWEUwIluGeKk+XQnERgNbkrfIfXmD@vger.kernel.org, AJvYcCX7Vg55GONL6TvwRDLQ/LpgKO0Jkm9N32aQvLOQg2B3Ss10LjKnklcxxn1lgJnrP+xWLR3VPs4OBPXguxJI@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU+DyDRKfGttPCzV6mJtTSrllk8pS7HVBTRhNvBRBYVRpdCwbn
-	kT9hsXet0rW5bSrXTqgDpbyjznK7iQdzjIaSMmz96XcocWq3YcF2
-X-Gm-Gg: ASbGncsazdtKeucMRy8/XZjGjtwhWSQbB2yLgwmgwbbZdwc3BQVK/V/X6zvsPgLRMmz
-	h3Bm7yMAow9/21RQvxG4b/j1FZhbRgDAedZUgLNrA05vKbGT/0ev+oCOkm2mWNjGiJZkgbJqC/X
-	vZsUljE5Mv+yPhx9tQYatyVFB3AJwP4t9MOw8TENX5tpIV+wEDSxUD7vfeteNd8jrwHSMWkwe8N
-	cQ/FR9B14Y/r+Cu7W1XLRY6tFxdwu/qQLyNJ1BVTl56Ku2sntliDea0UVwKqUUmhKqVcjGXz66V
-	1WXHA0xiJEk8/w+8/+IC0hgY8+S4jkzjcPWx8KDes5DzpfpSQ5eodWl903F/TNDi68su3syLTri
-	QFBiS1A2nw4O+iTU=
-X-Google-Smtp-Source: AGHT+IE/Vs9DjTxhGgDydtiPPcIuTgYawUe+pebY4/T1joTUH5wBFPaEByUbsh42IWm4peUk0OXRgA==
-X-Received: by 2002:a17:903:2447:b0:224:1157:6d26 with SMTP id d9443c01a7336-22e10311c7cmr56146565ad.4.1746205628501;
-        Fri, 02 May 2025 10:07:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746205742; x=1746810542;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MtDpB0PTtkYXhtnhSwYfqz5Rac+7v9V6aZ5T1mp1bHo=;
+        b=ss6PANDdDunuFx/GgD2joF+tKyPVwvDZIaLRuvMh2vJWepvbbsbmp0fxYGYWCCWwhT
+         QSTLEWFA6N6VLTzSv0SDJtVh2dgawcmQzTg0n5Xo8MA32YtiA3H89DOIincaYU2BfOqZ
+         ZbXfKsdZpnj9GzJZcWUnV62h74iXCLU656dc41k67zTacfhr24OgTBe2QAosT8Xycz5r
+         lWWRv9bRXSU5P9T5omeUuvp3GnDZGepGieKNXY1c+mddUTrfPfpBL1P/65cc6wuml2nL
+         UAfnXEbGEXyzAjTaAkecQI32EjtQiklhq+zLJDLEuPvi5/ruCqDQrSbmEgZs/2Ib6Elt
+         ZM3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVyxL3xvCXNxu9wvQce9GeNIMhQVi7R4CyHsDSGGJA9Jab3CUYzim4uubBDhS/M8GqVq5Dn0VJWGd5UljE+@vger.kernel.org, AJvYcCWjZ0rXOUr2RXyWvAgtd48B8i64e25yg9sMkCdw75GShfjGWj/+S62Ksyfn+qi4Czypt9h4yWjfyBKfq9Y=@vger.kernel.org, AJvYcCWy4cIXxbjvq38sTL/Pq796c/uXbcexhe4+IJ2+ZCwNVUzAkXKI8XyXwLIy1X9o+TSrMf9h+u3P0I6UdnsC@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0MMFSnAgkTRc23HtFSPqpN2FKK/SYYW/y4wh4xuGyjN7wnGC6
+	DB0iIHU18RqYTth9mDmY1gzT9k60LDHIM8ohSYGOItoBQh9CLbBx
+X-Gm-Gg: ASbGncuJBcXihEO5tC5xLZXRVtdEYRBphnXX4Abc72DOpHPqQ/m1sQxnajvQKKHKScD
+	9jjaKjQ2t44wMOgu6xbUv50OSRNJFI8KNAFFHV5hS4DvTgUFCKvPOxBXk06IqtVdrH5kccgMiK0
+	MKB7FdAxVuiuXpWNHizznT8yYYg/mHnZ3/i9KHBErbffgX2ywrXiwEnqf6wZxQje9I3rtgS3yRG
+	FHgXhD/xN2Q1yjBhp5dMS3yZ3eM2FCoe9LruDWq8XzVr/ZOm2x9tORrBpsx7GdMQw9k1PAFQbDS
+	DehKvSEfm1P+1aw1B6va1CaxKEc8ZfLF/HD43JcWECjickAsw9ZmYmb2ZO0PZosh89qtVWhoi1V
+	k8zZMnnKcbi9YRTM=
+X-Google-Smtp-Source: AGHT+IGLzKtYhNPQcCcQ2sZuQ0mQkyBKqT6pl2xwj7tGeCiuCY8O4svTaB6TFce8aGq4JdBMzo4gEQ==
+X-Received: by 2002:a17:90b:1dc7:b0:308:5273:4df8 with SMTP id 98e67ed59e1d1-30a4e5a57e5mr6927234a91.10.1746205741705;
+        Fri, 02 May 2025 10:09:01 -0700 (PDT)
 Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b1fb3920f6dsm1032598a12.10.2025.05.02.10.07.07
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a3478093csm5941045a91.29.2025.05.02.10.09.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 10:07:07 -0700 (PDT)
+        Fri, 02 May 2025 10:09:01 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org,
 	linux-arm-msm@vger.kernel.org,
 	Connor Abbott <cwabbott0@gmail.com>,
 	Rob Clark <robdclark@chromium.org>,
+	Rob Clark <robdclark@gmail.com>,
 	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?UTF-8?q?Barnab=C3=A1s=20Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>,
-	Christopher Snowhill <chris@kode54.net>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
 	Dmitry Baryshkov <lumag@kernel.org>,
-	Eugene Lepshy <fekz115@gmail.com>,
-	iommu@lists.linux.dev (open list:IOMMU SUBSYSTEM),
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	Joao Martins <joao.m.martins@oracle.com>,
-	Jonathan Marek <jonathan@marek.ca>,
-	Kevin Tian <kevin.tian@intel.com>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
 	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
 	linux-kernel@vger.kernel.org (open list),
 	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sean Paul <sean@poorly.run>,
-	Will Deacon <will@kernel.org>
-Subject: [PATCH v4 00/33] drm/msm: sparse / "VM_BIND" support
-Date: Fri,  2 May 2025 09:56:27 -0700
-Message-ID: <20250502165831.44850-1-robdclark@gmail.com>
+	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
+Subject: [PATCH v4 21/33] drm/msm: Add _NO_SHARE flag
+Date: Fri,  2 May 2025 09:56:48 -0700
+Message-ID: <20250502165831.44850-22-robdclark@gmail.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250502165831.44850-1-robdclark@gmail.com>
+References: <20250502165831.44850-1-robdclark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -116,157 +111,158 @@ Content-Transfer-Encoding: 8bit
 
 From: Rob Clark <robdclark@chromium.org>
 
-Conversion to DRM GPU VA Manager[1], and adding support for Vulkan Sparse
-Memory[2] in the form of:
+Buffers that are not shared between contexts can share a single resv
+object.  This way drm_gpuvm will not track them as external objects, and
+submit-time validating overhead will be O(1) for all N non-shared BOs,
+instead of O(n).
 
-1. A new VM_BIND submitqueue type for executing VM MSM_SUBMIT_BO_OP_MAP/
-   MAP_NULL/UNMAP commands
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_drv.h       |  1 +
+ drivers/gpu/drm/msm/msm_gem.c       | 23 +++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_gem_prime.c | 15 +++++++++++++++
+ include/uapi/drm/msm_drm.h          | 14 ++++++++++++++
+ 4 files changed, 53 insertions(+)
 
-2. A new VM_BIND ioctl to allow submitting batches of one or more
-   MAP/MAP_NULL/UNMAP commands to a VM_BIND submitqueue
-
-I did not implement support for synchronous VM_BIND commands.  Since
-userspace could just immediately wait for the `SUBMIT` to complete, I don't
-think we need this extra complexity in the kernel.  Synchronous/immediate
-VM_BIND operations could be implemented with a 2nd VM_BIND submitqueue.
-
-The corresponding mesa MR: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32533
-
-Changes in v4:
-- Replace selftests_running flag with IO_PGTABLE_QUIRK_NO_WARN_ON [Robin
-  Murphy]
-- Rework msm_gem_vm_sm_step_remap() for cases that orig_vma is evicted
-  to solve some crashes
-- Block when drm_file is closed until pending VM_BIND ops complete, before
-  tearing down the VM's scheduler, to solve some memory leaks.
-- Link to v3: https://lore.kernel.org/all/20250428205619.227835-1-robdclark@gmail.com/
-
-Changes in v3:
-- Switched to separate VM_BIND ioctl.  This makes the UABI a bit
-  cleaner, but OTOH the userspace code was cleaner when the end result
-  of either type of VkQueue lead to the same ioctl.  So I'm a bit on
-  the fence.
-- Switched to doing the gpuvm bookkeeping synchronously, and only
-  deferring the pgtable updates.  This avoids needing to hold any resv
-  locks in the fence signaling path, resolving the last shrinker related
-  lockdep complaints.  OTOH it means userspace can trigger invalid
-  pgtable updates with multiple VM_BIND queues.  In this case, we ensure
-  that unmaps happen completely (to prevent userspace from using this to
-  access free'd pages), mark the context as unusable, and move on with
-  life.
-- Link to v2: https://lore.kernel.org/all/20250319145425.51935-1-robdclark@gmail.com/
-
-Changes in v2:
-- Dropped Bibek Kumar Patro's arm-smmu patches[3], which have since been
-  merged.
-- Pre-allocate all the things, and drop HACK patch which disabled shrinker.
-  This includes ensuring that vm_bo objects are allocated up front, pre-
-  allocating VMA objects, and pre-allocating pages used for pgtable updates.
-  The latter utilizes io_pgtable_cfg callbacks for pgtable alloc/free, that
-  were initially added for panthor.
-- Add back support for BO dumping for devcoredump.
-- Link to v1 (RFC): https://lore.kernel.org/dri-devel/20241207161651.410556-1-robdclark@gmail.com/T/#t
-
-[1] https://www.kernel.org/doc/html/next/gpu/drm-mm.html#drm-gpuvm
-[2] https://docs.vulkan.org/spec/latest/chapters/sparsemem.html
-[3] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=909700
-
-Rob Clark (33):
-  drm/gpuvm: Don't require obj lock in destructor path
-  drm/gpuvm: Allow VAs to hold soft reference to BOs
-  iommu/io-pgtable-arm: Add quirk to quiet WARN_ON()
-  drm/msm: Rename msm_file_private -> msm_context
-  drm/msm: Improve msm_context comments
-  drm/msm: Rename msm_gem_address_space -> msm_gem_vm
-  drm/msm: Remove vram carveout support
-  drm/msm: Collapse vma allocation and initialization
-  drm/msm: Collapse vma close and delete
-  drm/msm: Don't close VMAs on purge
-  drm/msm: drm_gpuvm conversion
-  drm/msm: Convert vm locking
-  drm/msm: Use drm_gpuvm types more
-  drm/msm: Split out helper to get iommu prot flags
-  drm/msm: Add mmu support for non-zero offset
-  drm/msm: Add PRR support
-  drm/msm: Rename msm_gem_vma_purge() -> _unmap()
-  drm/msm: Lazily create context VM
-  drm/msm: Add opt-in for VM_BIND
-  drm/msm: Mark VM as unusable on GPU hangs
-  drm/msm: Add _NO_SHARE flag
-  drm/msm: Crashdump prep for sparse mappings
-  drm/msm: rd dumping prep for sparse mappings
-  drm/msm: Crashdec support for sparse
-  drm/msm: rd dumping support for sparse
-  drm/msm: Extract out syncobj helpers
-  drm/msm: Use DMA_RESV_USAGE_BOOKKEEP/KERNEL
-  drm/msm: Add VM_BIND submitqueue
-  drm/msm: Support IO_PGTABLE_QUIRK_NO_WARN_ON
-  drm/msm: Support pgtable preallocation
-  drm/msm: Split out map/unmap ops
-  drm/msm: Add VM_BIND ioctl
-  drm/msm: Bump UAPI version
-
- drivers/gpu/drm/drm_gpuvm.c                   |   15 +-
- drivers/gpu/drm/msm/Kconfig                   |    1 +
- drivers/gpu/drm/msm/Makefile                  |    1 +
- drivers/gpu/drm/msm/adreno/a2xx_gpu.c         |   25 +-
- drivers/gpu/drm/msm/adreno/a2xx_gpummu.c      |    5 +-
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c         |   17 +-
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c         |   17 +-
- drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |    4 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   22 +-
- drivers/gpu/drm/msm/adreno/a5xx_power.c       |    2 +-
- drivers/gpu/drm/msm/adreno/a5xx_preempt.c     |   10 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   32 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h         |    2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |   49 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c   |    6 +-
- drivers/gpu/drm/msm/adreno/a6xx_preempt.c     |   10 +-
- drivers/gpu/drm/msm/adreno/adreno_device.c    |    4 -
- drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   88 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.h       |   23 +-
- .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   14 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |   18 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |    2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   18 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   14 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |    4 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |    6 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |   28 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c    |   12 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |    4 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |   19 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c    |   12 +-
- drivers/gpu/drm/msm/dsi/dsi_host.c            |   14 +-
- drivers/gpu/drm/msm/msm_drv.c                 |  183 +--
- drivers/gpu/drm/msm/msm_drv.h                 |   35 +-
- drivers/gpu/drm/msm/msm_fb.c                  |   18 +-
- drivers/gpu/drm/msm/msm_fbdev.c               |    2 +-
- drivers/gpu/drm/msm/msm_gem.c                 |  489 +++----
- drivers/gpu/drm/msm/msm_gem.h                 |  217 ++-
- drivers/gpu/drm/msm/msm_gem_prime.c           |   15 +
- drivers/gpu/drm/msm/msm_gem_shrinker.c        |    4 +-
- drivers/gpu/drm/msm/msm_gem_submit.c          |  295 ++--
- drivers/gpu/drm/msm/msm_gem_vma.c             | 1288 +++++++++++++++--
- drivers/gpu/drm/msm/msm_gpu.c                 |  171 ++-
- drivers/gpu/drm/msm/msm_gpu.h                 |  132 +-
- drivers/gpu/drm/msm/msm_iommu.c               |  298 +++-
- drivers/gpu/drm/msm/msm_kms.c                 |   18 +-
- drivers/gpu/drm/msm/msm_kms.h                 |    2 +-
- drivers/gpu/drm/msm/msm_mmu.h                 |   38 +-
- drivers/gpu/drm/msm/msm_rd.c                  |   62 +-
- drivers/gpu/drm/msm/msm_ringbuffer.c          |    4 +-
- drivers/gpu/drm/msm/msm_submitqueue.c         |   96 +-
- drivers/gpu/drm/msm/msm_syncobj.c             |  172 +++
- drivers/gpu/drm/msm/msm_syncobj.h             |   37 +
- drivers/iommu/io-pgtable-arm.c                |   27 +-
- include/drm/drm_gpuvm.h                       |   12 +-
- include/linux/io-pgtable.h                    |    8 +
- include/uapi/drm/msm_drm.h                    |  149 +-
- 57 files changed, 3043 insertions(+), 1227 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/msm_syncobj.c
- create mode 100644 drivers/gpu/drm/msm/msm_syncobj.h
-
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index b77fd2c531c3..b0add236cbb3 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -246,6 +246,7 @@ int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map);
+ void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
+ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
+ 		struct dma_buf_attachment *attach, struct sg_table *sg);
++struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags);
+ int msm_gem_prime_pin(struct drm_gem_object *obj);
+ void msm_gem_prime_unpin(struct drm_gem_object *obj);
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 3708d4579203..d0f44c981351 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -532,6 +532,9 @@ static int get_and_pin_iova_range_locked(struct drm_gem_object *obj,
+ 
+ 	msm_gem_assert_locked(obj);
+ 
++	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
++		return -EINVAL;
++
+ 	vma = get_vma_locked(obj, vm, range_start, range_end);
+ 	if (IS_ERR(vma))
+ 		return PTR_ERR(vma);
+@@ -1060,6 +1063,16 @@ static void msm_gem_free_object(struct drm_gem_object *obj)
+ 		put_pages(obj);
+ 	}
+ 
++	if (msm_obj->flags & MSM_BO_NO_SHARE) {
++		struct drm_gem_object *r_obj =
++			container_of(obj->resv, struct drm_gem_object, _resv);
++
++		BUG_ON(obj->resv == &obj->_resv);
++
++		/* Drop reference we hold to shared resv obj: */
++		drm_gem_object_put(r_obj);
++	}
++
+ 	drm_gem_object_release(obj);
+ 
+ 	kfree(msm_obj->metadata);
+@@ -1092,6 +1105,15 @@ int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+ 	if (name)
+ 		msm_gem_object_set_name(obj, "%s", name);
+ 
++	if (flags & MSM_BO_NO_SHARE) {
++		struct msm_context *ctx = file->driver_priv;
++		struct drm_gem_object *r_obj = drm_gpuvm_resv_obj(ctx->vm);
++
++		drm_gem_object_get(r_obj);
++
++		obj->resv = r_obj->resv;
++	}
++
+ 	ret = drm_gem_handle_create(file, obj, handle);
+ 
+ 	/* drop reference from allocate - handle holds it now */
+@@ -1124,6 +1146,7 @@ static const struct drm_gem_object_funcs msm_gem_object_funcs = {
+ 	.free = msm_gem_free_object,
+ 	.open = msm_gem_open,
+ 	.close = msm_gem_close,
++	.export = msm_gem_prime_export,
+ 	.pin = msm_gem_prime_pin,
+ 	.unpin = msm_gem_prime_unpin,
+ 	.get_sg_table = msm_gem_prime_get_sg_table,
+diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
+index ee267490c935..1a6d8099196a 100644
+--- a/drivers/gpu/drm/msm/msm_gem_prime.c
++++ b/drivers/gpu/drm/msm/msm_gem_prime.c
+@@ -16,6 +16,9 @@ struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj)
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	int npages = obj->size >> PAGE_SHIFT;
+ 
++	if (msm_obj->flags & MSM_BO_NO_SHARE)
++		return ERR_PTR(-EINVAL);
++
+ 	if (WARN_ON(!msm_obj->pages))  /* should have already pinned! */
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -45,6 +48,15 @@ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
+ 	return msm_gem_import(dev, attach->dmabuf, sg);
+ }
+ 
++
++struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags)
++{
++	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
++		return ERR_PTR(-EPERM);
++
++	return drm_gem_prime_export(obj, flags);
++}
++
+ int msm_gem_prime_pin(struct drm_gem_object *obj)
+ {
+ 	struct page **pages;
+@@ -53,6 +65,9 @@ int msm_gem_prime_pin(struct drm_gem_object *obj)
+ 	if (obj->import_attach)
+ 		return 0;
+ 
++	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
++		return -EINVAL;
++
+ 	pages = msm_gem_pin_pages_locked(obj);
+ 	if (IS_ERR(pages))
+ 		ret = PTR_ERR(pages);
+diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+index b974f5a24dbc..1bccc347945c 100644
+--- a/include/uapi/drm/msm_drm.h
++++ b/include/uapi/drm/msm_drm.h
+@@ -140,6 +140,19 @@ struct drm_msm_param {
+ 
+ #define MSM_BO_SCANOUT       0x00000001     /* scanout capable */
+ #define MSM_BO_GPU_READONLY  0x00000002
++/* Private buffers do not need to be explicitly listed in the SUBMIT
++ * ioctl, unless referenced by a drm_msm_gem_submit_cmd.  Private
++ * buffers may NOT be imported/exported or used for scanout (or any
++ * other situation where buffers can be indefinitely pinned, but
++ * cases other than scanout are all kernel owned BOs which are not
++ * visible to userspace).
++ *
++ * In exchange for those constraints, all private BOs associated with
++ * a single context (drm_file) share a single dma_resv, and if there
++ * has been no eviction since the last submit, there are no per-BO
++ * bookeeping to do, significantly cutting the SUBMIT overhead.
++ */
++#define MSM_BO_NO_SHARE      0x00000004
+ #define MSM_BO_CACHE_MASK    0x000f0000
+ /* cache modes */
+ #define MSM_BO_CACHED        0x00010000
+@@ -149,6 +162,7 @@ struct drm_msm_param {
+ 
+ #define MSM_BO_FLAGS         (MSM_BO_SCANOUT | \
+                               MSM_BO_GPU_READONLY | \
++                              MSM_BO_NO_SHARE | \
+                               MSM_BO_CACHE_MASK)
+ 
+ struct drm_msm_gem_new {
 -- 
 2.49.0
 
