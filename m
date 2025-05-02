@@ -1,38 +1,38 @@
-Return-Path: <linux-media+bounces-31606-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31607-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D3DAA758C
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:06:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BC7AA758D
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:07:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8CCF7B5ED5
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:05:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4AD1B7B64F4
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:05:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F73D257432;
-	Fri,  2 May 2025 15:06:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C355B2571DD;
+	Fri,  2 May 2025 15:06:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6682571D6
-	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 15:06:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CE913BAF1
+	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 15:06:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746198382; cv=none; b=Erhheqii0kTpPFK1Dz43xvtUP/Ijm2yNzVgwy1zW6bIttYDmxF5u6ggjPa/ffkYH98b56EqmyxM2bcdQ1VhkxRMybJlzcrJ8/dO126WWm/8cAQZ+fqOPKfwZe3YUxlp9YVKl+vpAskZSL/6ACsy4TXGEG/Gq2CntTeJM5xZfIPw=
+	t=1746198394; cv=none; b=OU8PhY7DriDCQqDpexLbnQ4uQcEC/8YH5C/u1bK/n9CkVrc/c3H/dYtWwL/uMyo3iTlMxOfXc96t90XV9rap0mgjmcug+NnAKsqAy/i+KN9FE6TifB/Zc/hwy9lqBvlf4CVsX/HniHTQkfXNVVebbuMApFpBZqxgPJqdqNXm+S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746198382; c=relaxed/simple;
-	bh=HNy4hU14ZjGj9LNbB9ueRUzWgj7sD7nXYVzHIa+tI7M=;
+	s=arc-20240116; t=1746198394; c=relaxed/simple;
+	bh=t3WGRy0nmVFVXwowyiOyQFmOVYaG/7lhAXIm1oIKIYk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KZ+wGTqqSy3wLze05XOMuTODNoY3ZZd0pYYm1FhIoW2q7BhvNhxLm4RWrKVa3WOhEmkO6+RFyxt6K9H7dSL4Pv30HIRiNUPYIXooEtPKrJboSsjGCUR8HboD+W3xUafq3ITMtEiGZr6ty1u4Eq96Zf1An3gk3bE95zE3ABu+0EY=
+	 MIME-Version; b=B8RpY9gvCiWFeSj4T3v/aqBDs0mVZTaR7Go6iRLvG/ZWXuwLjcXuqN77ZXjI0B8AdlLwSoedsXSnGJhr6jY3r1CpnHBqO2ae4Arhen8reZqEWOmQ7OPGl3wIGQj7u9xJZtBpv5LYRANunwu5sejCjJdHo9LZBM1rA2HCjtUWqRM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1uArxk-0004HG-9i; Fri, 02 May 2025 17:06:04 +0200
+	id 1uAry0-0004HG-9b; Fri, 02 May 2025 17:06:20 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
 To: nicolas.dufresne@collabora.com,
 	benjamin.gaignard@collabora.com,
@@ -56,10 +56,10 @@ Cc: linux-kernel@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [RFC PATCH 01/11] media: Introduce Hantro V4L2 H.264 stateless encoding API
-Date: Fri,  2 May 2025 17:05:04 +0200
-Message-Id: <20250502150513.4169098-2-m.felsch@pengutronix.de>
+	Michael Tretter <m.tretter@pengutronix.de>
+Subject: [RFC PATCH 02/11] media: uapi: add documentation for the V4L2 H.264 stateless encoding API
+Date: Fri,  2 May 2025 17:05:05 +0200
+Message-Id: <20250502150513.4169098-3-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250502150513.4169098-1-m.felsch@pengutronix.de>
 References: <20250502150513.4169098-1-m.felsch@pengutronix.de>
@@ -75,174 +75,88 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+From: Michael Tretter <m.tretter@pengutronix.de>
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Document the parameters that are passed to the stateless encoding API
+since they need to be filled by user space and knowing what the
+parameters do helps when filling it.
+
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 23 ++++++++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c | 12 +++++
- include/uapi/linux/v4l2-controls.h        | 55 +++++++++++++++++++++++
- include/uapi/linux/videodev2.h            |  3 ++
- 4 files changed, 93 insertions(+)
+ include/uapi/linux/v4l2-controls.h | 46 ++++++++++++++++++++++++++++--
+ 1 file changed, 44 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index eeab6a5eb7ba..b52d04ba8fd4 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -316,6 +316,15 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
- 	case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
- 		pr_cont("H264_PRED_WEIGHTS");
- 		break;
-+	case V4L2_CTRL_TYPE_H264_ENCODE_PARAMS:
-+		pr_cont("H264_ENCODE_PARAMS");
-+		break;
-+	case V4L2_CTRL_TYPE_H264_ENCODE_RC:
-+		pr_cont("H264_ENCODE_RC");
-+		break;
-+	case V4L2_CTRL_TYPE_H264_ENCODE_FEEDBACK:
-+		pr_cont("H264_ENCODE_FEEDBACK");
-+		break;
- 	case V4L2_CTRL_TYPE_FWHT_PARAMS:
- 		pr_cont("FWHT_PARAMS");
- 		break;
-@@ -1031,6 +1040,11 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 		zero_reserved(*p_h264_dec_params);
- 		break;
- 
-+	case V4L2_CTRL_TYPE_H264_ENCODE_PARAMS:
-+	case V4L2_CTRL_TYPE_H264_ENCODE_RC:
-+	case V4L2_CTRL_TYPE_H264_ENCODE_FEEDBACK:
-+		break;
-+
- 	case V4L2_CTRL_TYPE_VP8_FRAME:
- 		p_vp8_frame = p;
- 
-@@ -1827,6 +1841,15 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
- 		elem_size = sizeof(struct v4l2_ctrl_h264_pred_weights);
- 		break;
-+	case V4L2_CTRL_TYPE_H264_ENCODE_PARAMS:
-+		elem_size = sizeof(struct v4l2_ctrl_h264_encode_params);
-+		break;
-+	case V4L2_CTRL_TYPE_H264_ENCODE_RC:
-+		elem_size = sizeof(struct v4l2_ctrl_h264_encode_rc);
-+		break;
-+	case V4L2_CTRL_TYPE_H264_ENCODE_FEEDBACK:
-+		elem_size = sizeof(struct v4l2_ctrl_h264_encode_feedback);
-+		break;
- 	case V4L2_CTRL_TYPE_VP8_FRAME:
- 		elem_size = sizeof(struct v4l2_ctrl_vp8_frame);
- 		break;
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 1ea52011247a..6cc53842778c 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1218,6 +1218,9 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_STATELESS_H264_PRED_WEIGHTS:		return "H264 Prediction Weight Table";
- 	case V4L2_CID_STATELESS_H264_SLICE_PARAMS:		return "H264 Slice Parameters";
- 	case V4L2_CID_STATELESS_H264_DECODE_PARAMS:		return "H264 Decode Parameters";
-+	case V4L2_CID_STATELESS_H264_ENCODE_PARAMS:		return "H264 Encode Parameters";
-+	case V4L2_CID_STATELESS_H264_ENCODE_RC:			return "H264 Encode Rate-Control";
-+	case V4L2_CID_STATELESS_H264_ENCODE_FEEDBACK:		return "H264 Encode Feedback";
- 	case V4L2_CID_STATELESS_FWHT_PARAMS:			return "FWHT Stateless Parameters";
- 	case V4L2_CID_STATELESS_VP8_FRAME:			return "VP8 Frame Parameters";
- 	case V4L2_CID_STATELESS_MPEG2_SEQUENCE:			return "MPEG-2 Sequence Header";
-@@ -1555,6 +1558,15 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_STATELESS_H264_PRED_WEIGHTS:
- 		*type = V4L2_CTRL_TYPE_H264_PRED_WEIGHTS;
- 		break;
-+	case V4L2_CID_STATELESS_H264_ENCODE_PARAMS:
-+		*type = V4L2_CTRL_TYPE_H264_ENCODE_PARAMS;
-+		break;
-+	case V4L2_CID_STATELESS_H264_ENCODE_RC:
-+		*type = V4L2_CTRL_TYPE_H264_ENCODE_RC;
-+		break;
-+	case V4L2_CID_STATELESS_H264_ENCODE_FEEDBACK:
-+		*type = V4L2_CTRL_TYPE_H264_ENCODE_FEEDBACK;
-+		break;
- 	case V4L2_CID_STATELESS_VP8_FRAME:
- 		*type = V4L2_CTRL_TYPE_VP8_FRAME;
- 		break;
 diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 974fd254e573..4f6b37513edc 100644
+index 4f6b37513edc..670f822ee758 100644
 --- a/include/uapi/linux/v4l2-controls.h
 +++ b/include/uapi/linux/v4l2-controls.h
-@@ -1694,6 +1694,61 @@ struct v4l2_ctrl_h264_decode_params {
- 	__u32 flags;
- };
+@@ -1696,6 +1696,32 @@ struct v4l2_ctrl_h264_decode_params {
  
-+#define V4L2_CID_STATELESS_H264_ENCODE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 8)
-+
-+struct v4l2_ctrl_h264_encode_params {
-+	/* Slice parameters */
-+
-+	__u8 slice_type;
-+	__u8 pic_parameter_set_id;
-+	__u16 frame_num;
-+	__u16 idr_pic_id;
-+	__u8 cabac_init_idc;
-+	__u8 disable_deblocking_filter_idc;
-+	__s8 slice_alpha_c0_offset_div2;
-+	__s8 slice_beta_offset_div2;
-+
-+	__s32 slice_size_mb_rows;
-+
-+	/* PPS parameters */
-+
-+	__s8 pic_init_qp_minus26;
-+	__s8 chroma_qp_index_offset;
-+
-+	__u32 flags; /* V4L2_H264_ENCODE_FLAG_ */
-+
-+	/* Reference */
-+
-+	__u64 reference_ts;
-+};
-+
-+#define V4L2_H264_ENCODE_FLAG_ENTROPY_CODING_MODE	0x01
-+#define V4L2_H264_ENCODE_FLAG_TRANSFORM_8X8_MODE	0x02
-+#define V4L2_H264_ENCODE_FLAG_CONSTRAINED_INTRA_PRED	0x04
-+
-+#define V4L2_CID_STATELESS_H264_ENCODE_RC	(V4L2_CID_CODEC_STATELESS_BASE + 9)
-+
-+struct v4l2_ctrl_h264_encode_rc {
-+	__u32 qp;
-+	__u32 qp_min;
-+	__u32 qp_max;
-+	__s32 mad_qp_delta;
-+	__u32 mad_threshold;
-+
-+	__u32 cp_distance_mbs;
-+	__u32 cp_target[10];
-+	__s32 cp_target_error[6];
-+	__s32 cp_qp_delta[7];
-+};
-+
-+#define V4L2_CID_STATELESS_H264_ENCODE_FEEDBACK	(V4L2_CID_CODEC_STATELESS_BASE + 10)
-+
-+struct v4l2_ctrl_h264_encode_feedback {
-+	__u32 qp_sum;
-+	__u32 cp[10];
-+	__u32 mad_count;
-+	__u32 rlc_count;
-+};
+ #define V4L2_CID_STATELESS_H264_ENCODE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 8)
  
- /* Stateless FWHT control, used by the vicodec driver */
++/**
++ * struct v4l2_ctrl_h264_encode_params - H264 encoding parameters
++ *
++ * @slice_type: selects slice type. Set to one of V4L2_H264_SLICE_TYPE_{}
++ * @pic_parameter_set_id: identifies the picture parameter set that is referred to
++ * in the slice header. The value shall be in the range of 0 to 255, inclusive.
++ * @frame_num: an identifier for pictures.
++ * @idr_pic_id: identifies an IDR picture.
++ * @cabac_init_idc: index for determining the initialization table used in the
++ * initialization process for context variables. The value of cabac_init_idc
++ * shall be in the range of 0 to 2, inclusive.
++ * @disable_deblocking_filter_idc: specifies whether the operation of the
++ * deblocking filter shall be disabled across some block edges of the slice and
++ * specifies for which edges the filtering is disabled.
++ * @slice_alpha_c0_offset_div2: offset used in accessing the alpha and tC0
++ * deblocking filter tables for filtering operations controlled by the macroblocks
++ * within the slice.
++ * @slice_beta_offset_div2: offset used in accessing the beta deblocking filter
++ * table for filtering operations controlled by the macroblocks within the slice.
++ * @slice_size_mb_rows: number of macroblock rows in a slice.
++ * @pic_init_qp_minus26: initial value minus 26 of luma qp for each slice.
++ * @chroma_qp_index_offset: offset that shall be added to qp luma for addressing the
++ * table of qp chroma values for the Cb chroma component.
++ * @flags: combination of V4L2_H264_ENCODE_FLAG_{} flags.
++ * @reference_ts: timestamp of the V4L2 buffer to use as reference
++ */
+ struct v4l2_ctrl_h264_encode_params {
+ 	/* Slice parameters */
  
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index e7c4dce39007..9962532d32e3 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1939,6 +1939,9 @@ enum v4l2_ctrl_type {
- 	V4L2_CTRL_TYPE_H264_SLICE_PARAMS    = 0x0203,
- 	V4L2_CTRL_TYPE_H264_DECODE_PARAMS   = 0x0204,
- 	V4L2_CTRL_TYPE_H264_PRED_WEIGHTS    = 0x0205,
-+	V4L2_CTRL_TYPE_H264_ENCODE_PARAMS   = 0x0206,
-+	V4L2_CTRL_TYPE_H264_ENCODE_RC       = 0x0207,
-+	V4L2_CTRL_TYPE_H264_ENCODE_FEEDBACK = 0x0208,
+@@ -1710,8 +1736,16 @@ struct v4l2_ctrl_h264_encode_params {
  
- 	V4L2_CTRL_TYPE_FWHT_PARAMS	    = 0x0220,
+ 	__s32 slice_size_mb_rows;
  
+-	/* PPS parameters */
+-
++	/*
++	 * PPS parameters
++	 *
++	 * TODO Duplicating the PPS in the encode_params may not be necessary,
++	 * if the PPS are set via separate control. Otherwise, it may be useful
++	 * to just use struct v4l2_ctrl_h264_pps here.
++	 *
++	 * Needs to be consistent with the values set in the PPS referenced by
++	 * pic_parameter_set_id.
++	 */
+ 	__s8 pic_init_qp_minus26;
+ 	__s8 chroma_qp_index_offset;
+ 
+@@ -1728,6 +1762,14 @@ struct v4l2_ctrl_h264_encode_params {
+ 
+ #define V4L2_CID_STATELESS_H264_ENCODE_RC	(V4L2_CID_CODEC_STATELESS_BASE + 9)
+ 
++/**
++ * struct v4l2_ctrl_h264_encode_rc
++ *
++ * @qp: quantization parameter for the currently encoded slice
++ *
++ * TODO Setting the QP is enough for implementing const QP, but probably the
++ * entire rate control mechanism has to be reworked.
++ */
+ struct v4l2_ctrl_h264_encode_rc {
+ 	__u32 qp;
+ 	__u32 qp_min;
 -- 
 2.39.5
 
