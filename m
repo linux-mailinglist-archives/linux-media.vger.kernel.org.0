@@ -1,185 +1,112 @@
-Return-Path: <linux-media+bounces-31620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20916AA7629
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:36:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0804AA7654
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 17:44:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F584168929
-	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:36:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 788FC1C0133A
+	for <lists+linux-media@lfdr.de>; Fri,  2 May 2025 15:45:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A0A257AD8;
-	Fri,  2 May 2025 15:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55510257AFD;
+	Fri,  2 May 2025 15:44:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThOk+f3A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ml9Ld7t5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE26D23B0;
-	Fri,  2 May 2025 15:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97A723B0
+	for <linux-media@vger.kernel.org>; Fri,  2 May 2025 15:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746200190; cv=none; b=OKrgATmpoASVt6cXBD73KRMMFE+HswvClsgGIy9rqL1zzcl8dkcJIUfkrOj7os4vcWifjDKb+VzfvAPDUxlJE0/LAjucakUzJEPKYmPrZqNP0RhQ8pMQQ0r1/C5vze4DlqvSX8FTnc8az9oixwDxwLzXGpgq1ITw/Gj4zW3FPjo=
+	t=1746200692; cv=none; b=jjJKJgYTj+ixnxaKXJM1TP83TWxP4nT6cT+qP0uWAjfRHhsg8bmoaNeMNelJSr6VisopfQ8RAORaEPh1D8FpseWO9wUfBnrzssbCgqor3N0LJwSOKpg3uVzu1YgwtR4YSYivSETIGjiyMzlT5GngFhS7Wh0jbB1OE4rp/7ELDSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746200190; c=relaxed/simple;
-	bh=OpAQrB/oue+iEzkT/7L711k9l4b8H/6bGWPqCs/H+ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CFkZ/Of/rd7Mz8F0HI6LlMHP2P3BIhjKJ4ZrzhJZmOFwcca9bI35CEsBQymXpxjU706HFSunDvbbWi86kePRfdIdMYQI5gRED7L+t8Vwa6KLF7f8uyQRQejJ76niL2yFWUpOY/1LUwl+t4ZmC+pjV/TvdybA3cpPHlSyjHq6xHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ThOk+f3A; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746200692; c=relaxed/simple;
+	bh=WTXOGsY0/BjzzGg9uCz2K+3p8x/1rg4mLu9UM5W4l7Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fz+d6/GcOWvCcuqLSm+9Pp6lXFSykyhZNBtLR+Fc4SgiIbb3vlu2V+QTCVSN3pY5Qhr5Ev8xpblQGckIl38eeuiL+netZECYIqeCsCs217TrV7uYJ44hKJhpdbeYW2Vdt5MlGBvzYBC27SdFdKlN0lP/4gekZPsEZaXmjFrDhZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ml9Ld7t5; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746200188; x=1777736188;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OpAQrB/oue+iEzkT/7L711k9l4b8H/6bGWPqCs/H+ts=;
-  b=ThOk+f3ApKHqPudWHa3pgadePwYzu4meKTcLmnDrdt55lXbGzXoM2QeQ
-   RF/Sgc1IvP8a9dOJFY++QOinzervDdNezUUIeuBHDZKot+TE8ih8Q0HGZ
-   XnrzOH1LWSLdpPOJIR9ogTEX59Go3LrmIHCZ7bzt9/64U79ZKlhv85YvP
-   TcrSvwhnhIxYit2b4+Ahkx4NY2eN4v1HkDUEb4GA+3l5mYxeF1sGasIdY
-   8Z3XW+n7NTkpQ6hAnEfhWVDdrH8dMTOgXpVNFqth33EsnXLiRchJ4fvW5
-   n3QuOKAZh8VXOAPb+8Jr1mfuCx/d0GkEAw9AGlxalUDmIkAGQ5Fi/XREs
-   Q==;
-X-CSE-ConnectionGUID: RwDFfA9jS6CFXu69Ka7uzA==
-X-CSE-MsgGUID: XNQ2+q+fSW2nP2N1KxQc6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="58508461"
+  t=1746200691; x=1777736691;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WTXOGsY0/BjzzGg9uCz2K+3p8x/1rg4mLu9UM5W4l7Y=;
+  b=Ml9Ld7t5iao1ubp5IjLb4xjkkFfl3OiW7kkYeNxQZAqDjv4ataiCEuxb
+   ZJvNesZA+DBPOolzxB/iwwvKoeSxPPDgvi5SOIiMYAHXxRWBRoa8yA7xX
+   0akQH2nqufdapPGlIIct77IHtbylTV+l0tZyp7z1+Sb7g3noChOk+f8n8
+   7TwZVcCmCVy4ZdumX1RWIk+MFzTLHmTS2aEXvcK8MmLYSpg5Jf88VvI/3
+   Kojq/vaZQaAX8Q+RJ9y0UIbaw1ac+D2ESIWeVAoXaV3TeqbthnpgkR1aR
+   vLGA4TetwSW1o6QxqjPWGAOlOjQyugNGu2l1UJ0LDnIwnejty3vW0+8/0
+   g==;
+X-CSE-ConnectionGUID: wjJ/1kWtTmOKdEfoW2pl2g==
+X-CSE-MsgGUID: SAL4hg30Ry6L6de+v7TMQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="58551561"
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="58508461"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 08:36:27 -0700
-X-CSE-ConnectionGUID: 1Tr+RxKCS8W7df/mIMbyXw==
-X-CSE-MsgGUID: O0M4VKRTRTSDLUzRmY6urA==
+   d="scan'208";a="58551561"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 08:44:50 -0700
+X-CSE-ConnectionGUID: NeBfFjQMT9ih1FFMboRP9g==
+X-CSE-MsgGUID: dKUd6ZbqQhOuuPR4HgdirA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="139843076"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 May 2025 08:36:23 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uAsR1-0004px-30;
-	Fri, 02 May 2025 15:36:19 +0000
-Date: Fri, 2 May 2025 23:36:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: oushixiong1025@163.com, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
-	Shixiong Ou <oushixiong@kylinos.cn>
-Subject: Re: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
-Message-ID: <202505022224.FCDQ8TCB-lkp@intel.com>
-References: <20250430085658.540746-2-oushixiong1025@163.com>
+   d="scan'208";a="134626212"
+Received: from csteflea-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.252.84])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 08:44:48 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>
+Subject: [PATCH v3 0/5] media: intel/ipu6: continue on ipu7 code sharing preparation
+Date: Fri,  2 May 2025 17:44:41 +0200
+Message-Id: <20250502154446.88965-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250430085658.540746-2-oushixiong1025@163.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Cleanups and code sharing preparation with ipu7 driver.
 
-kernel test robot noticed the following build warnings:
+This is on top of:
+https://git.linuxtv.org/sailus/media_tree.git/log/?h=devel
+Plus:
+https://lore.kernel.org/linux-media/20250317073856.162147-1-stanislaw.gruszka@linux.intel.com/
+https://lore.kernel.org/linux-media/20250428161643.321617-1-stanislaw.gruszka@linux.intel.com/#t
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus usb/usb-testing usb/usb-next usb/usb-linus xen-tip/linux-next linus/master v6.15-rc4]
-[cannot apply to tegra/for-next drm-xe/drm-xe-next rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes next-20250501]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+v2 -> v3:
+ - Change comment instead of remove it
 
-url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong1025-163-com/drm-prime-Support-importing-DMA-BUF-without-sg_table/20250430-170136
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250430085658.540746-2-oushixiong1025%40163.com
-patch subject: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
-config: arc-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250502/202505022224.FCDQ8TCB-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505022224.FCDQ8TCB-lkp@intel.com/reproduce)
+v1 -> v2:
+ - use ipu_isys_ prefix
+ - new patch: remove pin_ready function pointer
+ - drop accessor macros for now
+Stanislaw Gruszka (5):
+  media: intel/ipu6: Remove pin_ready function pointer
+  media: intel/ipu6: Remove line_align
+  media: intel/ipu6: Change deprecated lock comment
+  media: intel/ipu6: Move common structures definitions to ipu-isys.h
+  media: intel/ipu6: Rename common structures
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505022224.FCDQ8TCB-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_prime.c:925:24: warning: no previous prototype for 'drm_gem_prime_import_dev_skip_map' [-Wmissing-prototypes]
-     925 | struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/drm_gem_prime_import_dev_skip_map +925 drivers/gpu/drm/drm_prime.c
-
-   913	
-   914	/**
-   915	 * drm_gem_prime_import_dev_skip_map - core implementation of the import callback
-   916	 * @dev: drm_device to import into
-   917	 * @dma_buf: dma-buf object to import
-   918	 * @attach_dev: struct device to dma_buf attach
-   919	 *
-   920	 * This function exports a dma-buf without get it's scatter/gather table.
-   921	 *
-   922	 * Drivers who need to get an scatter/gather table for objects need to call
-   923	 * drm_gem_prime_import_dev() instead.
-   924	 */
- > 925	struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
-   926								 struct dma_buf *dma_buf,
-   927								 struct device *attach_dev)
-   928	{
-   929		struct dma_buf_attachment *attach;
-   930		struct drm_gem_object *obj;
-   931		int ret;
-   932	
-   933		if (dma_buf->ops == &drm_gem_prime_dmabuf_ops) {
-   934			obj = dma_buf->priv;
-   935			if (obj->dev == dev) {
-   936				/*
-   937				 * Importing dmabuf exported from our own gem increases
-   938				 * refcount on gem itself instead of f_count of dmabuf.
-   939				 */
-   940				drm_gem_object_get(obj);
-   941				return obj;
-   942			}
-   943		}
-   944	
-   945		attach = dma_buf_attach(dma_buf, attach_dev, true);
-   946		if (IS_ERR(attach))
-   947			return ERR_CAST(attach);
-   948	
-   949		get_dma_buf(dma_buf);
-   950	
-   951		obj = dev->driver->gem_prime_import_attachment(dev, attach);
-   952		if (IS_ERR(obj)) {
-   953			ret = PTR_ERR(obj);
-   954			goto fail_detach;
-   955		}
-   956	
-   957		obj->import_attach = attach;
-   958		obj->resv = dma_buf->resv;
-   959	
-   960		return obj;
-   961	
-   962	fail_detach:
-   963		dma_buf_detach(dma_buf, attach);
-   964		dma_buf_put(dma_buf);
-   965	
-   966		return ERR_PTR(ret);
-   967	}
-   968	EXPORT_SYMBOL(drm_gem_prime_import_dev_skip_map);
-   969	
+ drivers/media/pci/intel/ipu6/ipu-isys.h       |  92 +++++++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |   4 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h |   6 +-
+ .../media/pci/intel/ipu6/ipu6-isys-queue.c    | 178 +++++++++---------
+ .../media/pci/intel/ipu6/ipu6-isys-queue.h    |  69 +------
+ .../media/pci/intel/ipu6/ipu6-isys-video.c    |  58 +++---
+ .../media/pci/intel/ipu6/ipu6-isys-video.h    |  78 +-------
+ drivers/media/pci/intel/ipu6/ipu6-isys.c      |  23 ++-
+ drivers/media/pci/intel/ipu6/ipu6-isys.h      |   8 +-
+ 9 files changed, 242 insertions(+), 274 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
 
