@@ -1,174 +1,179 @@
-Return-Path: <linux-media+bounces-31675-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31676-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05CCAA8768
-	for <lists+linux-media@lfdr.de>; Sun,  4 May 2025 17:47:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BA4AA89C1
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 00:42:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E54CD7A3897
-	for <lists+linux-media@lfdr.de>; Sun,  4 May 2025 15:46:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A153E1892D44
+	for <lists+linux-media@lfdr.de>; Sun,  4 May 2025 22:42:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 973881DDA2D;
-	Sun,  4 May 2025 15:47:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E07C24887C;
+	Sun,  4 May 2025 22:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuqPCzj+"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zCPNMwB7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764611FAA;
-	Sun,  4 May 2025 15:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E861DDC3E
+	for <linux-media@vger.kernel.org>; Sun,  4 May 2025 22:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746373634; cv=none; b=h2SdTLw9N0Z6Qgj/uGQzBR7Ey7gw1UfKO1SZg1+xB2O9vRaMtUbKZCRgvlpklawkkTMNv8jTx8Volq7DL9/Q0GAqJ+76P6ilHdTMDYlUYP14pbK9mn9uSZIRaT0Lu7hfXH/swhrGG6PcIXU0i5XgVamwBUyYVCkm1gIqZQOTwPo=
+	t=1746398546; cv=none; b=olL64IZL1peQtCfme4ocSxESPLJKH1w+bzMs6D7OpESNVSBiobPpHgLkNw9PRmi5xEx55K/7hVnbkU3avDQtW+E2AImXFyTnED8yuAxr9bSUWqhuPK19YgMfoAHgY8sPyzDmPf3YwcHJV86pazXdRHhNmItie/0h7MulU5d/ZG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746373634; c=relaxed/simple;
-	bh=IQ3rkY0ClJBZ1s4b7NYJjJJo6icnC/Xa7LT8OWSym/8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qXCfAU9euFI+qg0TYDcovoqbV69FsFv//qM2H8nLUCE6yiiw0zHJGqvQoJ+bl3BZ7uNCNODC4dcHU+wL5LXuRrJxV18HWuzfsl0+2yv5S+s9zh7Vag/jjBpd1KiJCWfaTKaLtGrznrwjomqsBt32zuxQoX2LpFFlI3ThcnKIi2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuqPCzj+; arc=none smtp.client-ip=209.85.166.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-85e46f5c50fso370039039f.3;
-        Sun, 04 May 2025 08:47:12 -0700 (PDT)
+	s=arc-20240116; t=1746398546; c=relaxed/simple;
+	bh=qh7v4iKytSvBhnNzPm/US2EOynFq0Kz2NyjqK3T9F5k=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Y8L7/xy4BFgZqvyFd3ZIL8VBkQLvzuVyeN1582TTEDUi2pzStkCwL0r1BDsqhmeGl5I8KEf+mOrjxKVA5uevDqONn31J6h22KN+N7ulymiowsnJ1HKyhtTJg7XeeLMNhNhCBUdqoAX2104G8a9r7o2KZSBuBEmZjruuOAzkiS5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zCPNMwB7; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2254bdd4982so54655705ad.1
+        for <linux-media@vger.kernel.org>; Sun, 04 May 2025 15:42:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746373631; x=1746978431; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KCB11Y01+XCfvS4lsOkPaiVFvB4yeAtymGdAMyAi5Zc=;
-        b=fuqPCzj+ueX6qHUI95W5tfRLCX8BIZjPO90Z/qrwqK0uFwt9ClhBcQGo1wSgkcmuLX
-         hLkxBHVdvYiTyXJV10+5sJXFNTPLm8DEbdX7oZdeQAQl8cnRKz1sTNMuogHwjDxd3QpW
-         d+GsdDytAYWKBHVz1kp7zFEvh14c/rRRgTiuAv+TWzsgHZ2nTIBmqTc5OSPpBYhnf6Pk
-         T0XMtaZD8E1MMIFTCdj2Nd0TnmG+yy92i7bXIsL5bJXf600fW2yQ9wDKiPJjnH0o9u4K
-         o6HKxG9EQags+bu3u1p1qTV1/JpUEpwlvCJMtNxe8PZlQF78/t9vGcByVXed0kpvY8oI
-         +CVw==
+        d=google.com; s=20230601; t=1746398544; x=1747003344; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=h2Ves7K5HSdZ8gJm7O2bxGfv8D+1P/iEs4NcrGFZQAU=;
+        b=zCPNMwB7YoBlPuL4HJjlj6NHvoEb6db8fnR9gX0GLVPnwydsqeSZmqNP+hSzdvgRDS
+         gMaqG1B3PdPIla4+KGaeCxt3roc8Cqmaah1zWvCmg+lyBbblGwqhv40yaEl5XeQJIjvl
+         3UIsn+o9qnB9G1q8i1XORq8nNw9uWjzPdvQacJ3N7Jy+H9jwkB3APmBMD4tW1nHsme12
+         EcEA5GgIsNPai3ZE4QCPvq95rn4eCs9bJ+3ppHfervgp76RNSplVsaZ2irxmTyNEJhJv
+         idKwtqEpHf/thwbm9GCY/CV/D1AwrKzqKxs19yU6nuyKLoDrPuyTwg6Y6PO0NXuJeZji
+         1aiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746373631; x=1746978431;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KCB11Y01+XCfvS4lsOkPaiVFvB4yeAtymGdAMyAi5Zc=;
-        b=vr7XFZzY0Kljt/4Ynm8eIpCm752RknOGke9rmc+ui6f+bhlwtbn/Tf5ifhN+awFWCj
-         xQFavyKY0yWzOhUjkfiRpkP0tmV8Xi9WXVE0I9YMSh6A1jh/e/5+nt8B9N9OWm38dymA
-         npsjxqnt9haC3F8LwPVTS9QYn4ogwRh31BPJderQDNXFViGHlpcDrs6zm8rocd5R+skm
-         671WWfRslQWp3MqQdK55Bd5lLGHGiOEDeACnT3uz1cC+WMgPClUNe5IZ4prH1pLNaqFb
-         BB9X9K4oJAMDrKJKxV35sTfb8d2XuGE7IrBgL9KTWQF5zpkdEzTKywevYOOuHIRZz8OM
-         DfNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1QGXbutp6HL9w1ooZzR932ntYqdxVpUGALGlu6ZfEZP/LmrV3ZwBYklWROT70lT/JsCKbJsoQZFVjpFVi@vger.kernel.org, AJvYcCUUzaRmVTJ14WCMs4YR9LmpyUl0y+8Pe6LNOdGmlPlK/aFPEb0irKpdRP+dXyu8ZH0fKgNNtXvT8wbUR4k=@vger.kernel.org, AJvYcCWacZg+hqbd+6sbBTI3R/kyD5dIDbf8+LKB80wS+ccMKrRS4jmxLLT5w7I0BqcltcUJR7mvb2i086sIufPx@vger.kernel.org, AJvYcCWvBgNqtKz1UicPH4vqj5bMXN3e/gGxlatPj/cM94fC9xWodgeYrvHh+vSb1gnRKAfi74/1OZGa@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqdnNS0S5hLFOAG9qwKN4yAW+4QWWplwWplIoXliz1OQz2o+qy
-	aRr87bP5IBAqKCuvwDdUPyLAWE6fbuJHX+9W9/efVcxlRZcKcitR42Cb8Q+Zl2Q1z5RRNDxqpax
-	b16KDoFdULfVYyGrcZj3anjAQQ8I3/g==
-X-Gm-Gg: ASbGncsNjP8BXR+WgvpYgajAg4yr4GL+M9nWv9+7dX8dejH9lg3lQj3fLwK6CxksEZi
-	XkU7/QUoGKFjkv7eNrST2mepfOthU2KIZVLWxRgu8pPqJymngNoFS5xfVtGZZcW7B0jFSbsi2vC
-	vPA9FJaUYgKmsO6ny+82EvoQ==
-X-Google-Smtp-Source: AGHT+IF/JevtdssqiOoRgkiDW7LjLg2KSxw2gMBFdDf7RqHjZEb8cdLxhaA4CtAfXBLkKoc+S9iAwAL7qHV7dCcoc84=
-X-Received: by 2002:a05:6e02:1889:b0:3d4:6ff4:2608 with SMTP id
- e9e14a558f8ab-3da5b2a3507mr46309295ab.12.1746373631447; Sun, 04 May 2025
- 08:47:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746398544; x=1747003344;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h2Ves7K5HSdZ8gJm7O2bxGfv8D+1P/iEs4NcrGFZQAU=;
+        b=o6AwNTrLm1bgysRstZvhDrHeq4jbuG1hKkxpCG/1/5K8P8kySa5EAY3gtiEv5GPrzW
+         7DXMPPg9qhxw0XkkHA3S5KvQeCeHsd1T6tqN0o3ibZRsgTzRcFY2TjSu+YfaFj5hq9D3
+         yMvG7Z/6Yt0kt3WdOA1W4RS8xo+0iyS/KOyRMvJBDxZhaE+3VSfxCIx0vM6wClrMQ31H
+         UF8IoIxM2vGnsEwTt6W5Wdw2itVi8x+hw5yyJBMtMQV0TA6I1Gl+5bEAAWo81NTZbZcs
+         gJb18sREt5yaxI+clU/8inFmdO/TgtdB/jQvhG3ncAD6UiboahR2uKE3nFv9j5rCpI0T
+         4tHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUOn4o96UO7aKNsvVTYy7LgfJ0iURrDHHcE8lsfw9jpR2Ty/hv4FkHY15giWzMYXSflymzl3/cUc3dS0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9+TFtPmOKBQdZ5gy/Jhpw6/o8YM20oOG/PdslpMwXHjspbx3X
+	bKC+dxn4o3a7SG69UfxTj3MT7yM+kRXjiJaRkenxQg/9J7QvoixvQkXV21iOzGD7MUBOGFJHLqF
+	//oNc+WeOmcsPww==
+X-Google-Smtp-Source: AGHT+IG3s83AHDeqTtbeNWFu9VJHl3WJY2PIPoEJXseXQ3szKVonPVO7le0fvgXadvoDti/xd87e1NfGDxlroAA=
+X-Received: from plbmk14.prod.google.com ([2002:a17:903:2bce:b0:21f:4f0a:c7e2])
+ (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:903:2350:b0:220:d078:eb33 with SMTP id d9443c01a7336-22e18c0dda7mr103753045ad.36.1746398543674;
+ Sun, 04 May 2025 15:42:23 -0700 (PDT)
+Date: Sun,  4 May 2025 22:41:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250424032751.3511768-1-haoxiang_li2024@163.com>
-In-Reply-To: <20250424032751.3511768-1-haoxiang_li2024@163.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Sun, 4 May 2025 08:46:59 -0700
-X-Gm-Features: ATxdqUHXwmSDwj980iTtQyggMLmzSvs4wue8EqnhIc3dPv_RZ4ci2s_gz9Q7m7A
-Message-ID: <CAF6AEGssqH9yEV=gXjmsmLx_haAemjT9jHT1k6ZyXOHskRnucg@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm/msm: fix a potential memory leak issue in submit_create()
-To: Haoxiang Li <haoxiang_li2024@163.com>
-Cc: quic_abhinavk@quicinc.com, lumag@kernel.org, sean@poorly.run, 
-	marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch, 
-	sumit.semwal@linaro.org, christian.koenig@amd.com, 
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
-	stable@vger.kernel.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.49.0.906.g1f30a19c02-goog
+Message-ID: <20250504224149.1033867-1-tjmercier@google.com>
+Subject: [PATCH v2 0/6] Replace CONFIG_DMABUF_SYSFS_STATS with BPF
+From: "T.J. Mercier" <tjmercier@google.com>
+To: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, song@kernel.org, alexei.starovoitov@gmail.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, android-mm@google.com, simona@ffwll.ch, 
+	corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com, "T.J. Mercier" <tjmercier@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 23, 2025 at 8:28=E2=80=AFPM Haoxiang Li <haoxiang_li2024@163.co=
-m> wrote:
->
-> The memory allocated by msm_fence_alloc() actually is the
-> container of msm_fence_alloc()'s return value. Thus, just
-> free its return value is not enough.
-> Add a helper 'msm_fence_free()' in msm_fence.h/msm_fence.c
-> to do the complete job.
->
-> Fixes: f94e6a51e17c ("drm/msm: Pre-allocate hw_fence")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
-> ---
->  drivers/gpu/drm/msm/msm_fence.c      | 7 +++++++
->  drivers/gpu/drm/msm/msm_fence.h      | 1 +
->  drivers/gpu/drm/msm/msm_gem_submit.c | 2 +-
->  3 files changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fe=
-nce.c
-> index d41e5a6bbee0..72641e6a627d 100644
-> --- a/drivers/gpu/drm/msm/msm_fence.c
-> +++ b/drivers/gpu/drm/msm/msm_fence.c
-> @@ -183,6 +183,13 @@ msm_fence_alloc(void)
->         return &f->base;
->  }
->
-> +void msm_fence_free(struct dma_fence *fence)
-> +{
-> +       struct msm_fence *f =3D to_msm_fence(fence);
-> +
-> +       kfree(f);
-> +}
-> +
->  void
->  msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx)
->  {
-> diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fe=
-nce.h
-> index 148196375a0b..635c68629070 100644
-> --- a/drivers/gpu/drm/msm/msm_fence.h
-> +++ b/drivers/gpu/drm/msm/msm_fence.h
-> @@ -82,6 +82,7 @@ bool msm_fence_completed(struct msm_fence_context *fctx=
-, uint32_t fence);
->  void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence);
->
->  struct dma_fence * msm_fence_alloc(void);
-> +void msm_fence_free(struct dma_fence *fence);
->  void msm_fence_init(struct dma_fence *fence, struct msm_fence_context *f=
-ctx);
->
->  static inline bool
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/m=
-sm_gem_submit.c
-> index 3e9aa2cc38ef..213baa5bca5e 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -56,7 +56,7 @@ static struct msm_gem_submit *submit_create(struct drm_=
-device *dev,
->
->         ret =3D drm_sched_job_init(&submit->base, queue->entity, 1, queue=
-);
->         if (ret) {
-> -               kfree(submit->hw_fence);
-> +               msm_fence_free(submit->hw_fence);
+Until CONFIG_DMABUF_SYSFS_STATS was added [1] it was only possible to
+perform per-buffer accounting with debugfs which is not suitable for
+production environments. Eventually we discovered the overhead with
+per-buffer sysfs file creation/removal was significantly impacting
+allocation and free times, and exacerbated kernfs lock contention. [2]
+dma_buf_stats_setup() is responsible for 39% of single-page buffer
+creation duration, or 74% of single-page dma_buf_export() duration when
+stressing dmabuf allocations and frees.
 
-`struct dma_fence base` is the first field in `struct msm_fence`, so
-to_msm_fence() is just a pointer cast.  Ie. it is fine to pass it to
-kfree() as-is
+I prototyped a change from per-buffer to per-exporter statistics with a
+RCU protected list of exporter allocations that accommodates most (but
+not all) of our use-cases and avoids almost all of the sysfs overhead.
+While that adds less overhead than per-buffer sysfs, and less even than
+the maintenance of the dmabuf debugfs_list, it's still *additional*
+overhead on top of the debugfs_list and doesn't give us per-buffer info.
 
-BR,
--R
+This series uses the existing dmabuf debugfs_list to implement a BPF
+dmabuf iterator, which adds no overhead to buffer allocation/free and
+provides per-buffer info. The list has been moved outside of
+CONFIG_DEBUG_FS scope so that it is always populated. The BPF program
+loaded by userspace that extracts per-buffer information gets to define
+its own interface which avoids the lack of ABI stability with debugfs.
 
->                 kfree(submit);
->                 return ERR_PTR(ret);
->         }
-> --
-> 2.25.1
->
+As this is a replacement for our use of CONFIG_DMABUF_SYSFS_STATS, the
+last patch is a RFC for removing it from the kernel. Please see my
+suggestion there regarding the timeline for that.
+
+[1] https://lore.kernel.org/linux-media/20201210044400.1080308-1-hridya@goo=
+gle.com
+[2] https://lore.kernel.org/all/20220516171315.2400578-1-tjmercier@google.c=
+om
+
+v1: https://lore.kernel.org/all/20250414225227.3642618-1-tjmercier@google.c=
+om
+
+v1 -> v2:
+Make the DMA buffer list independent of CONFIG_DEBUG_FS per Christian K=C3=
+=B6nig
+Add CONFIG_DMA_SHARED_BUFFER check to kernel/bpf/Makefile per kernel test r=
+obot
+Use BTF_ID_LIST_SINGLE instead of BTF_ID_LIST_GLOBAL_SINGLE per Song Liu
+Fixup comment style, mixing code/declarations, and use ASSERT_OK_FD in self=
+test per Song Liu
+Add BPF_ITER_RESCHED feature to bpf_dmabuf_reg_info per Alexei Starovoitov
+Add open-coded iterator and selftest per Alexei Starovoitov
+Add a second test buffer from the system dmabuf heap to selftests
+Use the BPF program we'll use in production for selftest per Alexei Starovo=
+itov
+  https://r.android.com/c/platform/system/bpfprogs/+/3616123/2/dmabufIter.c
+  https://r.android.com/c/platform/system/memory/libmeminfo/+/3614259/1/lib=
+dmabufinfo/dmabuf_bpf_stats.cpp
+
+T.J. Mercier (6):
+  dma-buf: Rename and expose debugfs symbols
+  bpf: Add dmabuf iterator
+  bpf: Add open coded dmabuf iterator
+  selftests/bpf: Add test for dmabuf_iter
+  selftests/bpf: Add test for open coded dmabuf_iter
+  RFC: dma-buf: Remove DMA-BUF statistics
+
+ .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  24 --
+ Documentation/driver-api/dma-buf.rst          |   5 -
+ drivers/dma-buf/Kconfig                       |  15 -
+ drivers/dma-buf/Makefile                      |   1 -
+ drivers/dma-buf/dma-buf-sysfs-stats.c         | 202 --------------
+ drivers/dma-buf/dma-buf-sysfs-stats.h         |  35 ---
+ drivers/dma-buf/dma-buf.c                     |  58 +---
+ include/linux/dma-buf.h                       |   6 +-
+ kernel/bpf/Makefile                           |   3 +
+ kernel/bpf/dmabuf_iter.c                      | 177 ++++++++++++
+ kernel/bpf/helpers.c                          |   5 +
+ .../testing/selftests/bpf/bpf_experimental.h  |   5 +
+ tools/testing/selftests/bpf/config            |   3 +
+ .../selftests/bpf/prog_tests/dmabuf_iter.c    | 258 ++++++++++++++++++
+ .../testing/selftests/bpf/progs/dmabuf_iter.c |  91 ++++++
+ 15 files changed, 561 insertions(+), 327 deletions(-)
+ delete mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+ delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
+ delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
+ create mode 100644 kernel/bpf/dmabuf_iter.c
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
+ create mode 100644 tools/testing/selftests/bpf/progs/dmabuf_iter.c
+
+
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+--=20
+2.49.0.906.g1f30a19c02-goog
+
 
