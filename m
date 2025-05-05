@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-31751-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31752-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA86AAA40A
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:23:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D9EAAA423
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:24:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D220018872C1
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:22:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C28893BD268
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:22:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9312FA130;
-	Mon,  5 May 2025 22:25:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6726B2FA7EE;
+	Mon,  5 May 2025 22:25:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZAkrdFx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZvSgxfx4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240C62FA11A;
-	Mon,  5 May 2025 22:25:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B296D2857E1;
+	Mon,  5 May 2025 22:25:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483939; cv=none; b=LmLt3J9wQ9tQxzXdWK4MXh/ujvNV5VAdu6I/2hbHP8HqI0kGor00rOB2jP9fvhD4vUu2C75yoUc7Ab9q3Y+6At0mK/BOK1MJdiv0pf/06GexAIrxTrct8nqrIX4jMv0GTGMrUwmGfCxYJYvgbG6EPGfm3pwDvvF6W0MF2To8MvY=
+	t=1746483940; cv=none; b=NFLIyX5owZ7mtVjYqDfbUl0DEe1iGbyQNvA/S3VxQZPOh18INzKinAP3Y/2WQ7imE0EGvRTz0r/d4p7q+yGZMmpsiKsxpS00IjVp/FdrAmT4DzkcLTSZFrYyO6lb0oHqf+QXmi33LI6VMSKBP/+nPcWBKeTA0oUz/khKuSfcM9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483939; c=relaxed/simple;
-	bh=OJ9wqeeaguHKt0CyVu45M6QZ7ddldda6eG983E4+FyQ=;
+	s=arc-20240116; t=1746483940; c=relaxed/simple;
+	bh=IKu4h9ZWOLtvpnqLJRj2ND9OQ+s0EXys6cwEegcLOq0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gfJq2A4zfZRdzEg5zMtfdzfK3yECAh83dd8t5u6rUjn9Poul83Zu7Je/61hwQNuo4alihf/Yxgkw5v4EndjKdRBek1s8PB9PSgkwN8FXa4pkAAb53JIyiFcXaLOCZHvTxOLgdW2o33YevKH0R8FuveVyqEifp1BROAqrlQsn9XA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZAkrdFx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 767CFC4CEEE;
-	Mon,  5 May 2025 22:25:37 +0000 (UTC)
+	 MIME-Version; b=HdORn5ebEYM8w/ylktYEK9eoMn3XGEEa4D51tBlolJXlFL/nFukkZgA76rL3ZpXTT0Zl1kfptwuC9oY+VB9my4VmAE9UOGXIMK+e87h10dx0fmP9OKoV90SQjADVPqNMSTMcFn8/v9acVdf+5WnzeARYAx5uSwBmkCNmqiJ137Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZvSgxfx4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0787FC4CEF1;
+	Mon,  5 May 2025 22:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483938;
-	bh=OJ9wqeeaguHKt0CyVu45M6QZ7ddldda6eG983E4+FyQ=;
+	s=k20201202; t=1746483940;
+	bh=IKu4h9ZWOLtvpnqLJRj2ND9OQ+s0EXys6cwEegcLOq0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pZAkrdFxaMhSVed5EBcShXvTrTcERJ1NfN2wvuxv9ttbiDJq9EiUNAAM/c6KykBFR
-	 wlmiJqzLKwVaJkWvGMygVeEQJ5qaFg7XP7TgvIwTy7uik+/xxVpG+X2Xq9gfUzu2oo
-	 eSHxq8PPxgePt5zPShuf1W5IbfUBjEMI/p8V7Urd0Qx+Zc28yszxX9Yvyyb4VG8L5f
-	 /gQ5f8x44b20DpjrUFEZkHVto7Adgw+FBPdxAuFce+LhwGPxTqQrkcQ3cScKAJcFil
-	 jfagjvWN28K+rbj/R0y/mUBJujcDDwQqO2bC0Qt4mLaUT9ro014kf6iunxgsLzj6vB
-	 iFfs6tZ38baTg==
+	b=ZvSgxfx4hOoCbSuHQrQa/jpRt/xcig16twsZWw3xQixrrrduxPD9Sta0h7qtfF9kB
+	 SIVdmudbl6pOIRXycz++TOes0Z5Z2yHpLe4eiEqDHeeEcjllr5qCGzAqqI+Cf5AnI8
+	 eovw193OINPkrmJD4x0umhyXpeWaMpmEe9Zae8a3lIbxrQ2tVphoZwN4M/BzLKIlVp
+	 zIAsLxoifD50lu9QXcvMXWlGVPg0DmYyllx6+BhXpCnbpjiWDLOgwqWkk27JEiyguo
+	 JYVNFAVpOhyP1i0XIv7G6ReTHaV1Dljvnm2jyXgoRCO+Evmn0sebelVBrv9jOWBvGN
+	 usiuvVLAoz+Ng==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Yunke Cao <yunkec@google.com>,
 	Hans de Goede <hdegoede@redhat.com>,
+	Yunke Cao <yunkec@google.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	laurent.pinchart@ideasonboard.com,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 279/642] media: uvcvideo: Add sanity check to uvc_ioctl_xu_ctrl_map
-Date: Mon,  5 May 2025 18:08:15 -0400
-Message-Id: <20250505221419.2672473-279-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 280/642] media: uvcvideo: Handle uvc menu translation inside uvc_get_le_value
+Date: Mon,  5 May 2025 18:08:16 -0400
+Message-Id: <20250505221419.2672473-280-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -71,38 +71,157 @@ Content-Transfer-Encoding: 8bit
 
 From: Ricardo Ribalda <ribalda@chromium.org>
 
-[ Upstream commit 990262fdfce24d6055df9711424343d94d829e6a ]
+[ Upstream commit 9109a0b4cb10fd681e9c6e9a4497a6fec5b91c39 ]
 
-Do not process unknown data types.
+map->get() gets a value from an uvc_control in "UVC format" and converts
+it to a value that can be consumed by v4l2.
 
-Tested-by: Yunke Cao <yunkec@google.com>
+Instead of using a special get function for V4L2_CTRL_TYPE_MENU, we
+were converting from uvc_get_le_value in two different places.
+
+Move the conversion to uvc_get_le_value().
+
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Tested-by: Yunke Cao <yunkec@google.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Link: https://lore.kernel.org/r/20250203-uvc-roi-v17-15-5900a9fed613@chromium.org
+Link: https://lore.kernel.org/r/20250203-uvc-roi-v17-4-5900a9fed613@chromium.org
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/media/usb/uvc/uvc_ctrl.c | 77 +++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 45 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 93c6cdb238812..75216507cbdcf 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -108,6 +108,12 @@ static int uvc_ioctl_xu_ctrl_map(struct uvc_video_chain *chain,
- 	struct uvc_control_mapping *map;
- 	int ret;
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index 4e58476d305ef..4a55cf78ec526 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -862,6 +862,25 @@ static inline void uvc_clear_bit(u8 *data, int bit)
+ 	data[bit >> 3] &= ~(1 << (bit & 7));
+ }
  
-+	if (xmap->data_type > UVC_CTRL_DATA_TYPE_BITMASK) {
-+		uvc_dbg(chain->dev, CONTROL,
-+			"Unsupported UVC data type %u\n", xmap->data_type);
-+		return -EINVAL;
++static s32 uvc_menu_to_v4l2_menu(struct uvc_control_mapping *mapping, s32 val)
++{
++	unsigned int i;
++
++	for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
++		u32 menu_value;
++
++		if (!test_bit(i, &mapping->menu_mask))
++			continue;
++
++		menu_value = uvc_mapping_get_menu_value(mapping, i);
++
++		if (menu_value == val)
++			return i;
 +	}
 +
- 	map = kzalloc(sizeof(*map), GFP_KERNEL);
- 	if (map == NULL)
- 		return -ENOMEM;
++	return val;
++}
++
+ /*
+  * Extract the bit string specified by mapping->offset and mapping->size
+  * from the little-endian data stored at 'data' and return the result as
+@@ -896,6 +915,16 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
+ 	if (mapping->data_type == UVC_CTRL_DATA_TYPE_SIGNED)
+ 		value |= -(value & (1 << (mapping->size - 1)));
+ 
++	/* If it is a menu, convert from uvc to v4l2. */
++	if (mapping->v4l2_type != V4L2_CTRL_TYPE_MENU)
++		return value;
++
++	switch (query) {
++	case UVC_GET_CUR:
++	case UVC_GET_DEF:
++		return uvc_menu_to_v4l2_menu(mapping, value);
++	}
++
+ 	return value;
+ }
+ 
+@@ -1060,32 +1089,6 @@ static int uvc_ctrl_populate_cache(struct uvc_video_chain *chain,
+ 	return 0;
+ }
+ 
+-static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
+-				const u8 *data)
+-{
+-	s32 value = mapping->get(mapping, UVC_GET_CUR, data);
+-
+-	if (mapping->v4l2_type == V4L2_CTRL_TYPE_MENU) {
+-		unsigned int i;
+-
+-		for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
+-			u32 menu_value;
+-
+-			if (!test_bit(i, &mapping->menu_mask))
+-				continue;
+-
+-			menu_value = uvc_mapping_get_menu_value(mapping, i);
+-
+-			if (menu_value == value) {
+-				value = i;
+-				break;
+-			}
+-		}
+-	}
+-
+-	return value;
+-}
+-
+ static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
+ 			       struct uvc_control *ctrl)
+ {
+@@ -1136,8 +1139,8 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	*value = __uvc_ctrl_get_value(mapping,
+-				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
++	*value = mapping->get(mapping, UVC_GET_CUR,
++			      uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+ 
+ 	return 0;
+ }
+@@ -1287,7 +1290,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+ {
+ 	struct uvc_control_mapping *master_map = NULL;
+ 	struct uvc_control *master_ctrl = NULL;
+-	unsigned int i;
+ 
+ 	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
+ 	v4l2_ctrl->id = mapping->id;
+@@ -1330,21 +1332,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+ 		v4l2_ctrl->minimum = ffs(mapping->menu_mask) - 1;
+ 		v4l2_ctrl->maximum = fls(mapping->menu_mask) - 1;
+ 		v4l2_ctrl->step = 1;
+-
+-		for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
+-			u32 menu_value;
+-
+-			if (!test_bit(i, &mapping->menu_mask))
+-				continue;
+-
+-			menu_value = uvc_mapping_get_menu_value(mapping, i);
+-
+-			if (menu_value == v4l2_ctrl->default_value) {
+-				v4l2_ctrl->default_value = i;
+-				break;
+-			}
+-		}
+-
+ 		return 0;
+ 
+ 	case V4L2_CTRL_TYPE_BOOLEAN:
+@@ -1630,7 +1617,7 @@ void uvc_ctrl_status_event(struct uvc_video_chain *chain,
+ 		uvc_ctrl_set_handle(handle, ctrl, NULL);
+ 
+ 	list_for_each_entry(mapping, &ctrl->info.mappings, list) {
+-		s32 value = __uvc_ctrl_get_value(mapping, data);
++		s32 value = mapping->get(mapping, UVC_GET_CUR, data);
+ 
+ 		/*
+ 		 * handle may be NULL here if the device sends auto-update
 -- 
 2.39.5
 
