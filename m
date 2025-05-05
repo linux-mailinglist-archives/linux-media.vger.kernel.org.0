@@ -1,64 +1,62 @@
-Return-Path: <linux-media+bounces-31783-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31784-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCC9AAAC6D
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 04:16:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0ABFAAAFD8
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 05:26:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D27965A5DB8
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 02:10:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85CC37B3CE5
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 03:18:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25A603C3980;
-	Mon,  5 May 2025 23:24:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62EA13C9A7C;
+	Mon,  5 May 2025 23:26:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0gMgViG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMtU/bjL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD39389426;
-	Mon,  5 May 2025 23:12:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40055279354;
+	Mon,  5 May 2025 23:15:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486756; cv=none; b=k70LYQ/ZHS8G9Z4YVvlKA8gCnr2rXe0pCVlKMrGik6Iwt1tcLD91pjqDJVl8+iZR8IXT4xxj5C4tg4G0K6mPzJJ19cXlXGursKcf6utQK9ktlTQYwaxLtrdm7+JgurUr9VWUz5MwIFPtK+fyVcsg66WoGYTNRbbXqEq26zQkZDY=
+	t=1746486935; cv=none; b=QFuOZBmLsf5hN8I8jGMHAc1jk1+E1gxgwRW1YgZwMeQB9DrA6YXelwrflC9wEZSrbWlpB0HoGpM9GyoKp1Qu7N3bh40fkCsdIpj50H/YuZQm5gKi14pIEtudRJIEe6wVBbpTNcHpTPrcxmwrmBG/9oV5tjnW72l9W+1VlX8rjT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486756; c=relaxed/simple;
-	bh=fnPv1ivXF5Wy4niLq+LVRNLF7KRwPeRJVCaZmA7WfCw=;
+	s=arc-20240116; t=1746486935; c=relaxed/simple;
+	bh=GXQQVWklXWNAEB0XwIb9nq+0BoP+bo7EBFoAE8e69kU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ExsGQP517e28dH7FweN9Z8me07PZOs9Ejr3ZOg2kAFDZinIOEJTMnpF6grrOifIuM4gOHIrDgDb/oFgnSZ1X0LdvPypm4fOcbsIQu8CqYTxbkbgEYrzUAkfxFyr+QEJuRJpJ0+e4T6B7SDmctYmv6eFETRniKTefSJ3GMP7Spvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0gMgViG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD975C4CEED;
-	Mon,  5 May 2025 23:12:33 +0000 (UTC)
+	 MIME-Version; b=co6QmymJ5EqDi1VrJuom8ot8wWk6D/iN6xMduXdTyy8Dl2C0iocW8FN72x2/5N+C654HZ3GQdq0RZ+/bQkPirlrW+fQCiv9GEE5l3kIv5bqT5VH7CoDkO29NpOLciPjeWQNBoNdnDtB0uRgP3ySidFz2bPZ5T2Cy/bp13WDDqjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VMtU/bjL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27567C4CEEF;
+	Mon,  5 May 2025 23:15:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486755;
-	bh=fnPv1ivXF5Wy4niLq+LVRNLF7KRwPeRJVCaZmA7WfCw=;
+	s=k20201202; t=1746486934;
+	bh=GXQQVWklXWNAEB0XwIb9nq+0BoP+bo7EBFoAE8e69kU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=B0gMgViGOGzM/+mpMZxw/9BeYblgtxI4XwpjjS5rjc54lxWK+F8P94zjfvYdKTAj1
-	 6Ow+vCh961/k8upC6lJvMK6pYVaWZ2asBy8lH8Hh06ayMoBWCKrOBBMYk4CUDPJff2
-	 +kWDyTyjBVJJi9FBQlM5NA+/XzX+1k+8B7siMAm3qVYNKgiwpt8C/gCAtpkj5QRCzc
-	 UrelhwiGF+Gtys3ACitabEG/S546BWAjk3GXfsboBrz80TF0KnLqIO/mFyTjrwJBj5
-	 SglMlSvf+tIkFJjRK5A02GN/BKblfEOgyc64yiqhIcH3S1dhf1zZiuW9N47iWMZafz
-	 CqoNkT8gq0rVQ==
+	b=VMtU/bjLYBRT456dIK1p3b4wOBTUEpT53FmofYpP4PASjJvdUHEdEBhzwi7Xwt7tv
+	 xRzXhDsDfEE9rQqyZbsY/gwO9hD8WwUhK8at6l4KzAYvGlMYfSnoJeGOyF2FxJkxHv
+	 Z58l2dg0XtQn4pHe/hXnBJ8+MaWkKeNO5azflLF99bBCeEeii0nApS6nTe++LJRkGo
+	 cQd5c2r5XJvvD78ra2/xSL49j7B1VaqL7Ix/xDygNGNs8QTuAXJnE96iYGA7HT2oMQ
+	 GTfmdTuOrmNva08v3QYRo9VaAkWh5Qt+4enQLkcLuiEGnlQuEmEAxvcInbJtNqiASQ
+	 bTDRoMIaPHYoQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Depeng Shao <quic_depengs@quicinc.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	rfoss@kernel.org,
-	todor.too@gmail.com,
-	bryan.odonoghue@linaro.org,
 	mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 186/212] media: qcom: camss: csid: Only add TPG v4l2 ctrl if TPG hardware is available
-Date: Mon,  5 May 2025 19:05:58 -0400
-Message-Id: <20250505230624.2692522-186-sashal@kernel.org>
+	christophe.jaillet@wanadoo.fr,
+	ribalda@chromium.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 067/153] media: cx231xx: set device_caps for 417
+Date: Mon,  5 May 2025 19:11:54 -0400
+Message-Id: <20250505231320.2695319-67-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
-References: <20250505230624.2692522-1-sashal@kernel.org>
+In-Reply-To: <20250505231320.2695319-1-sashal@kernel.org>
+References: <20250505231320.2695319-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,139 +65,41 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.136
+X-stable-base: Linux 5.15.181
 Content-Transfer-Encoding: 8bit
 
-From: Depeng Shao <quic_depengs@quicinc.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
 
-[ Upstream commit 2f1361f862a68063f37362f1beb400e78e289581 ]
+[ Upstream commit a79efc44b51432490538a55b9753a721f7d3ea42 ]
 
-There is no CSID TPG on some SoCs, so the v4l2 ctrl in CSID driver
-shouldn't be registered. Checking the supported TPG modes to indicate
-if the TPG hardware exists or not and only registering v4l2 ctrl for
-CSID only when the TPG hardware is present.
+The video_device for the MPEG encoder did not set device_caps.
 
-Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+Add this, otherwise the video device can't be registered (you get a
+WARN_ON instead).
+
+Not seen before since currently 417 support is disabled, but I found
+this while experimenting with it.
+
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../media/platform/qcom/camss/camss-csid.c    | 60 +++++++++++--------
- 1 file changed, 35 insertions(+), 25 deletions(-)
+ drivers/media/usb/cx231xx/cx231xx-417.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index 6360314f04a63..b90e2e690f3aa 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -239,11 +239,13 @@ static int csid_set_stream(struct v4l2_subdev *sd, int enable)
- 	int ret;
- 
- 	if (enable) {
--		ret = v4l2_ctrl_handler_setup(&csid->ctrls);
--		if (ret < 0) {
--			dev_err(csid->camss->dev,
--				"could not sync v4l2 controls: %d\n", ret);
--			return ret;
-+		if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED) {
-+			ret = v4l2_ctrl_handler_setup(&csid->ctrls);
-+			if (ret < 0) {
-+				dev_err(csid->camss->dev,
-+					"could not sync v4l2 controls: %d\n", ret);
-+				return ret;
-+			}
- 		}
- 
- 		if (!csid->testgen.enabled &&
-@@ -318,7 +320,8 @@ static void csid_try_format(struct csid_device *csid,
- 		break;
- 
- 	case MSM_CSID_PAD_SRC:
--		if (csid->testgen_mode->cur.val == 0) {
-+		if (csid->testgen.nmodes == CSID_PAYLOAD_MODE_DISABLED ||
-+		    csid->testgen_mode->cur.val == 0) {
- 			/* Test generator is disabled, */
- 			/* keep pad formats in sync */
- 			u32 code = fmt->code;
-@@ -368,7 +371,8 @@ static int csid_enum_mbus_code(struct v4l2_subdev *sd,
- 
- 		code->code = csid->formats[code->index].code;
- 	} else {
--		if (csid->testgen_mode->cur.val == 0) {
-+		if (csid->testgen.nmodes == CSID_PAYLOAD_MODE_DISABLED ||
-+		    csid->testgen_mode->cur.val == 0) {
- 			struct v4l2_mbus_framefmt *sink_fmt;
- 
- 			sink_fmt = __csid_get_format(csid, sd_state,
-@@ -750,7 +754,8 @@ static int csid_link_setup(struct media_entity *entity,
- 
- 		/* If test generator is enabled */
- 		/* do not allow a link from CSIPHY to CSID */
--		if (csid->testgen_mode->cur.val != 0)
-+		if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED &&
-+		    csid->testgen_mode->cur.val != 0)
- 			return -EBUSY;
- 
- 		sd = media_entity_to_v4l2_subdev(remote->entity);
-@@ -843,24 +848,27 @@ int msm_csid_register_entity(struct csid_device *csid,
- 		 MSM_CSID_NAME, csid->id);
- 	v4l2_set_subdevdata(sd, csid);
- 
--	ret = v4l2_ctrl_handler_init(&csid->ctrls, 1);
--	if (ret < 0) {
--		dev_err(dev, "Failed to init ctrl handler: %d\n", ret);
--		return ret;
--	}
-+	if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED) {
-+		ret = v4l2_ctrl_handler_init(&csid->ctrls, 1);
-+		if (ret < 0) {
-+			dev_err(dev, "Failed to init ctrl handler: %d\n", ret);
-+			return ret;
-+		}
- 
--	csid->testgen_mode = v4l2_ctrl_new_std_menu_items(&csid->ctrls,
--				&csid_ctrl_ops, V4L2_CID_TEST_PATTERN,
--				csid->testgen.nmodes, 0, 0,
--				csid->testgen.modes);
-+		csid->testgen_mode =
-+			v4l2_ctrl_new_std_menu_items(&csid->ctrls,
-+						     &csid_ctrl_ops, V4L2_CID_TEST_PATTERN,
-+						     csid->testgen.nmodes, 0, 0,
-+						     csid->testgen.modes);
- 
--	if (csid->ctrls.error) {
--		dev_err(dev, "Failed to init ctrl: %d\n", csid->ctrls.error);
--		ret = csid->ctrls.error;
--		goto free_ctrl;
--	}
-+		if (csid->ctrls.error) {
-+			dev_err(dev, "Failed to init ctrl: %d\n", csid->ctrls.error);
-+			ret = csid->ctrls.error;
-+			goto free_ctrl;
-+		}
- 
--	csid->subdev.ctrl_handler = &csid->ctrls;
-+		csid->subdev.ctrl_handler = &csid->ctrls;
-+	}
- 
- 	ret = csid_init_formats(sd, NULL);
- 	if (ret < 0) {
-@@ -891,7 +899,8 @@ int msm_csid_register_entity(struct csid_device *csid,
- media_cleanup:
- 	media_entity_cleanup(&sd->entity);
- free_ctrl:
--	v4l2_ctrl_handler_free(&csid->ctrls);
-+	if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED)
-+		v4l2_ctrl_handler_free(&csid->ctrls);
- 
- 	return ret;
- }
-@@ -904,5 +913,6 @@ void msm_csid_unregister_entity(struct csid_device *csid)
- {
- 	v4l2_device_unregister_subdev(&csid->subdev);
- 	media_entity_cleanup(&csid->subdev.entity);
--	v4l2_ctrl_handler_free(&csid->ctrls);
-+	if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED)
-+		v4l2_ctrl_handler_free(&csid->ctrls);
- }
+diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
+index c5e21785fafe2..02343e88cc618 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-417.c
++++ b/drivers/media/usb/cx231xx/cx231xx-417.c
+@@ -1722,6 +1722,8 @@ static void cx231xx_video_dev_init(
+ 	vfd->lock = &dev->lock;
+ 	vfd->release = video_device_release_empty;
+ 	vfd->ctrl_handler = &dev->mpeg_ctrl_handler.hdl;
++	vfd->device_caps = V4L2_CAP_READWRITE | V4L2_CAP_STREAMING |
++			   V4L2_CAP_VIDEO_CAPTURE;
+ 	video_set_drvdata(vfd, dev);
+ 	if (dev->tuner_type == TUNER_ABSENT) {
+ 		v4l2_disable_ioctl(vfd, VIDIOC_G_FREQUENCY);
 -- 
 2.39.5
 
