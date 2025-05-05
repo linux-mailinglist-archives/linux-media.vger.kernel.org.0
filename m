@@ -1,166 +1,157 @@
-Return-Path: <linux-media+bounces-31708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31709-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC37AA92B8
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 14:10:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA384AA935B
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 14:38:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A9FD418924AA
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 12:10:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED8171888DCA
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 12:38:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33E2B2288CC;
-	Mon,  5 May 2025 12:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 927611D90AD;
+	Mon,  5 May 2025 12:38:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OejpTdsh"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Zauusnj0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75B514B96E
-	for <linux-media@vger.kernel.org>; Mon,  5 May 2025 12:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9626FC3;
+	Mon,  5 May 2025 12:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746447026; cv=none; b=kPJ7Hkmt0vyVyBOaQzSvnyojCNAbEIrfXZ7aCGJ+y1qwWzkI6E/6d5mI2rF2Os50KsPk5RaNv+Lig1mFNGJTPwodqKDS3syPSh/bhO/cmuz9nH8LeuSCL32vptd8IN9VvsaGOpJbTk4Xxk+korxcenQHej4Y4iWHnbWnmWM2Tis=
+	t=1746448684; cv=none; b=shrmHvcrDykqUGFPqgfLIBJdqJ9NkN8CKTwdjSYbzgzTxLh1mjgMdtnNj4ZHnnPZwZ8JXQPNG/ZbOmNTn6rq39tQkcTxDd/VkkuC/ljQgKo53/ycYsN/b4knhzfRsSd/GVxEDykPlnKlMx7FK+V/ECcM6Jba38ET9hZ6Izx6oS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746447026; c=relaxed/simple;
-	bh=oP9fIyi/ZJxItCF/dI1oyp5m8Q0CLdAn/YIPFOSqRMY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jWhrlxX3ZC23DfvmU5BnMbrXycKBWsUOQoPW7z7cjQk5zxtfBdZlntnQZSIR/8nnF1U1zyfiSYNu4Z/J3ikFJYPwbdCHIJMz5K9OJQNZ+FGpyw2I2jzzQqi9Q6+YI+bwmoPbNFRrWdPfhDlRDwvhI4E5by+/SZ7dWSvAEodgK48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OejpTdsh; arc=none smtp.client-ip=209.85.210.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-731e277a6b0so2242882a34.1
-        for <linux-media@vger.kernel.org>; Mon, 05 May 2025 05:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746447024; x=1747051824; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xf1P+9z9XiJdCaUpuTBjGVfwsl02CsdlqTVjlTuR+ug=;
-        b=OejpTdshwnQA5CzKzb0f4ie9nxW1nTGSECcCU1k76XuQkmELEwYrJG7jLFMLNnV3c4
-         M+Xou+OsUlAAfiaokCvf14qgZ+5zu1pxapeyXOIATDK3IJIm5Npko6ihxy3VkUdBT4GG
-         8iICQwITJkflPYf/pqTLhlZYCIHNZJUQUUov7CyfNFTUl/1DcLtPBy0ptPt2KrE+IxWe
-         9WEnFfltHKpWmKyKI5XqMPMoLu4K4Bh9vQI5sgQlxO0FMdIahZUV9klaKvzNw7xJxOSM
-         de1YcD1oJlEsibHSpNfcv+dqcrzo7BZWcRb7O4jSWW1O9c0ix/jQd0sztALzIQ4/GG5O
-         O4RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746447024; x=1747051824;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xf1P+9z9XiJdCaUpuTBjGVfwsl02CsdlqTVjlTuR+ug=;
-        b=TiLHs6/otbGGxKObWTODYLqAMTen/qUpssNN29MS3DMBKS9pfVPYk0RzixaKInbw8t
-         /59KuZ8HkwEYBm25TrOWJORs6HLecDa1qkU3UegA0TKxKPWZzJ+OFI6VbdQ5dDITI95l
-         rdv9NumEk/pxQge0p6F7fKJfiXDWzcWxeLSKyN7WrPJsJ4tLIpDcMSbHig+Oxh2E/Mtb
-         ushFyKuNnoFL0P0DuKMQi28mdrd6Ak7QKBJWhEbDw/K93ehzU92bUX+OVaxUjn7ByHUI
-         Wr9rB+Ol3j4yui4hAAUGm45Vxha/0v+ARTHaBZFSYmPbqbeSlfW88RBWIvKYx9rnX3EI
-         pUzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVye3RQq2cKarGUSWcMaiU33+50fNGMSVovGWznpA79gq3FAYHI2lO3Qph2T0ghrMbIgeOMM/rOiiYsYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHIdh+l/3w5BCkgtUCSewvB0x8p1tEoKS/wysihTKCOaFEkP5N
-	US7ZLx4Nwh2mhKeBDrySTKsc393tdKLFF26AIqlqLjnJBoYSO0iLDR1k/I/AF1AqQHJwsgSTvlz
-	KYGSMRlPbh/Ahb00rxQ/Sfk+aXmCR81YEtbauQQ==
-X-Gm-Gg: ASbGnctsw9k6xp+yiCDbv1R0vCw7oJpOIpjNPi1qZnOfo0vFu/Cp/dY9l2lSXioHYg2
-	PL6615W1ulXBym6obnvQ2367OfpLWHi1/7d6Fdz3T2RoIhjslNM2wlNOhYvwoe1IldP0w+enSED
-	FwnmMm1zhUBb95Vsg3gbUeXeY=
-X-Google-Smtp-Source: AGHT+IGrfUH9MPAdQwNS2twFxhlagwaLPCfCXznz+rgBdFwPjZ3ioiuEo3A9Gk0YdclatuJ1Za+bseaIMHaboEvs7gU=
-X-Received: by 2002:a05:6870:7196:b0:2d5:230f:b352 with SMTP id
- 586e51a60fabf-2dae8619680mr3755206fac.27.1746447023762; Mon, 05 May 2025
- 05:10:23 -0700 (PDT)
+	s=arc-20240116; t=1746448684; c=relaxed/simple;
+	bh=pYBN3lsmWkKdV1oODnXSMo3X/39kVT+oxVXpOMKSOCo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VdCxAeoESKRWtEJOaEG5NwMgXhNcrzTU3uOy65yOJ401xau3oSmJ2tl6RIWubiFh62bz5j0k0E69QYMPEMnp+sLYw3k2ogbqPpmBAAQQxHorQTqfbCVwhKkKhv13ykBEL/YDzdq7clW5HhlbUHF/6NvrOMoYrjY8CKSTRQoRogU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Zauusnj0; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1746448679;
+	bh=pYBN3lsmWkKdV1oODnXSMo3X/39kVT+oxVXpOMKSOCo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Zauusnj0dYv2ApLcBldHcDtboyBrosevqNbqns6Iw8XL60YdE4hIyAHxyGULJqysP
+	 HWUabOhVCZMU0Bd4XNCpJtI0QmheyTSqB5xx6ZimJp2+fHa13NMDXoA5QZsuHwmdyI
+	 0lpJ1ZVvYonR0kdee85X6wjJcU/aWBOcQMj9a2EmvHslJ5cFnzdKr2wSfJgkYetyCl
+	 NpBWIDzKnOVO0O06M9THMbKHC0Pu8QGBm8DXkEO7+iZq3B/IRZ29JyI+CpTRbqtE7H
+	 vY5dvKG5PejgSmBu/h2vh6cEyqUZ6JbCVAitnAuT6MPUw8F8+u+3SIqhlsDRdUWX1g
+	 lHldAH1mEIc1g==
+Received: from [IPv6:2606:6d00:15:ec4::5ac] (unknown [IPv6:2606:6d00:15:ec4::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9C44717E12D6;
+	Mon,  5 May 2025 14:37:57 +0200 (CEST)
+Message-ID: <fc4d70d3d3a98da8c0a8679bcea87d8d1e83fc5e.camel@collabora.com>
+Subject: Re: [PATCH v3 13/23] media: iris: Send V4L2_BUF_FLAG_ERROR for
+ buffers with 0 filled length
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>, Vikash Garodia	
+ <quic_vgarodia@quicinc.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Mauro Carvalho Chehab	 <mchehab@kernel.org>, Stefan Schmidt
+ <stefan.schmidt@linaro.org>, Hans Verkuil	 <hverkuil@xs4all.nl>, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio	 <konradybcio@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Dmitry Baryshkov	
+ <dmitry.baryshkov@oss.qualcomm.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, 	linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, 
+	20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org, 
+	20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com
+Date: Mon, 05 May 2025 08:37:56 -0400
+In-Reply-To: <36757fb1-b1a9-5b49-c5b8-62cde4dea1c5@quicinc.com>
+References: <20250502-qcom-iris-hevc-vp9-v3-0-552158a10a7d@quicinc.com>
+	 <20250502-qcom-iris-hevc-vp9-v3-13-552158a10a7d@quicinc.com>
+	 <1b204ed7bc63373f52973b96af68e64e24be8cde.camel@collabora.com>
+	 <36757fb1-b1a9-5b49-c5b8-62cde4dea1c5@quicinc.com>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
- <20250502100049.1746335-2-jens.wiklander@linaro.org> <6236d3cb-fbf2-4a41-a84a-276aa8079b9a@arm.com>
-In-Reply-To: <6236d3cb-fbf2-4a41-a84a-276aa8079b9a@arm.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Mon, 5 May 2025 14:10:11 +0200
-X-Gm-Features: ATxdqUFEAD2cD1D5jQOZdhIhdxiPr-7TKi7md7xZJRysmAHd6QQOFGSu_VWfcD0
-Message-ID: <CAHUa44EhdHZofZHRWQ8SJUn4OcAuMwzxxdfjhLQuXQXx4KEaUA@mail.gmail.com>
-Subject: Re: [PATCH v8 01/14] tee: tee_device_alloc(): copy dma_mask from
- parent device
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
-	Rouven Czerwinski <rouven.czerwinski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Dikshita,
 
-On Fri, May 2, 2025 at 3:36=E2=80=AFPM Robin Murphy <robin.murphy@arm.com> =
-wrote:
->
-> On 02/05/2025 10:59 am, Jens Wiklander wrote:
-> > If a parent device is supplied to tee_device_alloc(), copy the dma_mask
-> > field into the new device. This avoids future warnings when mapping a
-> > DMA-buf for the device.
->
-> That also sounds dodgy. If the parent device is the hardware device
-> physically performing the DMA, then that is the device which should be
-> passed to the DMA API. Trying to copy random bits of one device's
-> configuration to another device and hoping it will work is not robust -
-> not only is DMA-relevant information all over the place, including in
-> archdata and/or bus/IOMMU driver-private data, but it can also opens up
-> a whole can of subtle lifecycle issues...
+Le dimanche 04 mai 2025 à 20:53 +0530, Dikshita Agarwal a écrit :
+> 
+> 
+> On 5/3/2025 9:39 PM, Nicolas Dufresne wrote:
+> > Hi Dikshita,
+> > 
+> > Le vendredi 02 mai 2025 à 00:43 +0530, Dikshita Agarwal a écrit :
+> > > Firmware sends buffers with 0 filled length which needs to be dropped,
+> > > to achieve the same, add V4L2_BUF_FLAG_ERROR to such buffers.
+> > > Also make sure:
+> > > - These 0 length buffers are not returned as result of flush.
+> > > - Its not a buffer with LAST flag enabled which will also have 0 filled
+> > >   length.
+> > 
+> > This message is quite vague, is this about capture or output buffers ?
+> > If its output buffers that don't produce capture, I don't see why they
+> > have to be flagged as errors, or why the payload size matter. Then, if
+> > its about assigned capture buffers that did not get used in the end, you
+> > should put them back in the queue instead of returning them to user
+> > space.
+> > 
+> > Returning a capture buffers to userspace should only be used if a frame
+> > could not be produced. That imply copying the cookie timestamp from the
+> > src buffers into the capture buffer. Please make sure you don't endup
+> > returning fake erorrs to userspace, which may lead to some frame
+> > metadata being dropped erroneously.
+> > 
+> The capture buffers which I am trying to handle here are of 0 byteused
+> which means they don't have any valid data and they have the timestamp
+> copied from src buffers.
+> How these buffers will be handled by client? if we don't associate error
+> flag to such buffers?
 
-We have a reference to the parent device until the teedev goes away.
-The dma_maks needed by tee_shm_register_fd() in
-https://lore.kernel.org/lkml/20250502100049.1746335-9-jens.wiklander@linaro=
-.org/
-to be able to extract the PA from a DMA-buf allocated from another DMA
-heap. We can drop this patch and support for unrelated DMA heaps in
-tee_shm_register_fd() without losing critical features from the patch
-set if we can't handle dma_mask in this way.
+Please share a link to the stream and specify which frames are handled
+this way by your firmware. The answer to your question is entirely
+dependent on the stream you are decoding.
 
->
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > Reviewed-by: Sumit Garg <sumit.garg@kernel.org>
-> > ---
-> >   drivers/tee/tee_core.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> > index d113679b1e2d..685afcaa3ea1 100644
-> > --- a/drivers/tee/tee_core.c
-> > +++ b/drivers/tee/tee_core.c
-> > @@ -922,6 +922,8 @@ struct tee_device *tee_device_alloc(const struct te=
-e_desc *teedesc,
-> >       teedev->dev.class =3D &tee_class;
-> >       teedev->dev.release =3D tee_release_device;
-> >       teedev->dev.parent =3D dev;
-> > +     if (dev)
-> > +             teedev->dev.dma_mask =3D dev->dma_mask;
->
-> ...for instance, I don't see any obvious guarantee that "dev" can't go
-> away during the lifetime of "teedev" and leave this pointer dangling.
+Nicolas
 
-A successful call to tee_device_alloc() must be followed by a call to
-tee_device_register() or tee_device_unregister(). The former calls
-cdev_device_add(), which results in a call to device_add() and an
-increased reference to teedev->dev.parent, "dev" in question.
-
-Thanks,
-Jens
-
->
+> 
 > Thanks,
-> Robin.
->
-> >
-> >       teedev->dev.devt =3D MKDEV(MAJOR(tee_devt), teedev->id);
-> >
+> Dikshita
+> > Nicolas
+> > 
+> > > 
+> > > Acked-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> > > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> > > ---
+> > >  drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> > > b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> > > index 4488540d1d41..3bb326843a7b 100644
+> > > --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> > > +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> > > @@ -378,6 +378,12 @@ static int iris_hfi_gen2_handle_output_buffer(struct iris_inst *inst,
+> > >  
+> > >  	buf->flags = iris_hfi_gen2_get_driver_buffer_flags(inst, hfi_buffer->flags);
+> > >  
+> > > +	if (!buf->data_size && inst->state == IRIS_INST_STREAMING &&
+> > > +	    !(hfi_buffer->flags & HFI_BUF_FW_FLAG_LAST) &&
+> > > +	    !(inst->sub_state & IRIS_INST_SUB_DRC)) {
+> > > +		buf->flags |= V4L2_BUF_FLAG_ERROR;
+> > > +	}
+> > > +
+> > >  	return 0;
+> > >  }
+> > >  
 
