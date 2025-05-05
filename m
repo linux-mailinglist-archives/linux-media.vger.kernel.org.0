@@ -1,104 +1,115 @@
-Return-Path: <linux-media+bounces-31713-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31714-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33974AA95FB
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 16:36:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E1AAA9604
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 16:38:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CB07188C778
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 14:36:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC4F317A72B
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 14:38:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB8A8258CDD;
-	Mon,  5 May 2025 14:36:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2335D25A349;
+	Mon,  5 May 2025 14:38:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHyBwv9P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fquhbdXV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D6877111
-	for <linux-media@vger.kernel.org>; Mon,  5 May 2025 14:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28831F4706;
+	Mon,  5 May 2025 14:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746455800; cv=none; b=jO+E8zpQFVTkIP1X9SFE45xshAJC6UEug9dGMmKOjKVoRF+kQGJS2+wOi5ae1zPmltZqHpHhlJf8oEl3d3MbzyUx7htR8of29JS7UcRtiyuELrvWV3EMmWADLZim52EO240BI9wkzaTR2pO3RHh015qtOIi8OjC5aIhrG5JBe/E=
+	t=1746455927; cv=none; b=i04UYU+2b2RK2Ds3u45hPpz5kv3AH322LJX2kwTMNuz0hYwFcUsxlQDrIhAUeX733KVjhXX46sksqMvEjFjTJeRfZ5Q+ch1/BaCFwTfjt2grUJcELNeQxSJiHFFbOnvTom2QvS7ng6Z/ip7459qYGpCHKU6uqDPIxxzX3uwsrhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746455800; c=relaxed/simple;
-	bh=eDRYEh+WV+/ZXeuKG2LRV9TOqspHF7IcE/6cae7akpw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZDjoWgCe/N5sH0bnuecbC693QQCms+U7WMTMo0vObi90FKjR5b1c45daMU7X7Np6zMH6BFkWMSqpcEBNLLli/1J9I0IhowNhS9DGrQSMsjFdYOM65LrrtPe9Tw3Jql5H8FybnfEI0C02YLSqjGGxIEIpUWZ+uMhaf2rkN8gaAsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHyBwv9P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56708C4CEE4;
-	Mon,  5 May 2025 14:36:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746455799;
-	bh=eDRYEh+WV+/ZXeuKG2LRV9TOqspHF7IcE/6cae7akpw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jHyBwv9PoVUX7PArb6cCD3Kf2CW/ZZq//DZrf28qdGNw7+uwZks8tJYrDzuYCZWuY
-	 hcFytbEaDWjhKTugtJJO7wHiYDIY2mh41o2I2VPfLwolEldhambhkYRxy9dvwQShLD
-	 pAvcgNjBaBAp3mBK/dPzH+80/meDAHZtxCm+HUDnsQTqkhsVwFF/hkGmzUITAN3Z1J
-	 KKgDwT4LklWa/rfUWsZkzB4A2u+DY3rpDG52TFqK8bb0I60htm2qNeVdIVzSL3Snj3
-	 oS5LB3qOUNcAMaOEFU2p9kNurtIbr9Q7dtOG7Wq5PZSmqH0ZbtaqeHs77m1dgIu9GH
-	 z1n068/BFdgcA==
-From: Mattijs Korpershoek <mkorpershoek@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- libcamera-devel@lists.libcamera.org
-Cc: linux-media@vger.kernel.org, Kieran Bingham
- <kieran.bingham@ideasonboard.com>
-Subject: Re: [ANNOUNCEMENT] libcamera workshop 2025 - Nice, May 16th
-In-Reply-To: <20250325102750.GE20035@pendragon.ideasonboard.com>
-References: <20250325102750.GE20035@pendragon.ideasonboard.com>
-Date: Mon, 05 May 2025 16:36:37 +0200
-Message-ID: <87selj5dl6.fsf@kernel.org>
+	s=arc-20240116; t=1746455927; c=relaxed/simple;
+	bh=map1B2yp/PLlOdKKujzIPLur3qHnV1vVK1viZeqBwuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LqLCoahRmJP1J9yGx+Us/TdguKNT0S0c4Lmt0Z/TuWSoAuYVk41OD49gRcVZnXxW0XxDHDe+g3cJQwi+9bKcwNAQjRjVqTNnz0KZnP9P/npgjj4JOfIKvXFi0KmkGrS/DItoSktdimryeRa1CbRnvipAuZ7IGNevJ/Pa9T7x2SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fquhbdXV; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746455925; x=1777991925;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=map1B2yp/PLlOdKKujzIPLur3qHnV1vVK1viZeqBwuI=;
+  b=fquhbdXVgppRwSz3Dv7DzeJmEVL67gFzH1LvAfZmZEU6vGHz1+NW2+Xe
+   yPCdXtnHWMdRNVsi08MbRYKQ6XY+pnIWzx+8wfEfKl/h3XMbcsHtjEuOD
+   epBuOP9AxtVtz01vyhQisUSyft3S+qy5fec9GlRbYj0zHweLhtn9e82tm
+   SxF45n5uVhUvjfm03q0DoZSO9UgmpuconCjIVFHOA2g6qhBpqmUVWsmnd
+   ZYIYqy5/9BC+/V2xjF1ptj2N24I5wZ9RsckSxFg9982fCDEz5zp080wWt
+   Dj8SNcLaNSy9qnNyi/qU6TlwczxkjSPFLhnjSNfAQ3XgsPd4JJH87m/9F
+   Q==;
+X-CSE-ConnectionGUID: ejQRw/U4TvWJZKfnZm/FNQ==
+X-CSE-MsgGUID: +FAOq4GmTs2lfR1ETFKT4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="35686450"
+X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
+   d="scan'208";a="35686450"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 07:38:42 -0700
+X-CSE-ConnectionGUID: haxyM9VBQuulV1JXE69PYA==
+X-CSE-MsgGUID: v9Wdgz4ZSLOkn53T2BJXbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
+   d="scan'208";a="140433477"
+Received: from smile.fi.intel.com ([10.237.72.55])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 07:38:41 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uBwxp-0000000358D-1Xzb;
+	Mon, 05 May 2025 17:38:37 +0300
+Date: Mon, 5 May 2025 17:38:37 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 1/1] media: i2c: ds90ub9x3: Remove unneeded
+ of_gpio_n_cells assignment
+Message-ID: <aBjNbVPTw4hyuKgR@smile.fi.intel.com>
+References: <20250331070200.3985562-1-andriy.shevchenko@linux.intel.com>
+ <c7fd0bd4-4fc8-43f0-b980-b49472e76445@ideasonboard.com>
+ <Z-5pwpoYEKKmtmPA@smile.fi.intel.com>
+ <aBh0K2YGhgxk6ipv@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aBh0K2YGhgxk6ipv@valkosipuli.retiisi.eu>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi,
+On Mon, May 05, 2025 at 08:17:47AM +0000, Sakari Ailus wrote:
+> On Thu, Apr 03, 2025 at 01:58:10PM +0300, Andy Shevchenko wrote:
+> > On Thu, Apr 03, 2025 at 11:07:40AM +0300, Tomi Valkeinen wrote:
+> > > On 31/03/2025 10:02, Andy Shevchenko wrote:
+> > > > The default for of_gpio_n_cells is 2, no need to assign the same
+> > > > in the user.
+> > > 
+> > > Where is this documented? I'm also having trouble finding the
+> > > implementation.
+> > 
+> > The idea was introduced back in 391c970c0dd1 ("of/gpio: add default of_xlate
+> > function if device has a node pointer"). But now I realised that it was never
+> > assumed that default is 2 for the cases when the ->of_xlate() explicitly
+> > provided. So, this is wrong patch, thanks for the review!
+> 
+> Does the same conclusion apply to the similar max96717 patch as well?
 
-On mar., mars 25, 2025 at 12:27, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+If you are referring to
+20250331070152.3985520-1-andriy.shevchenko@linux.intel.com
+(and why not replying there?), then no, that change is correct.
 
-> Hello everybody,
->
-> Another year, another libcamera workshop. After the previous editions in
-> Paris, Brussels and Vienna, we will organize the next workshop in Nice
-> on Friday the 16th of May. The event will be hosted by Embedded Recipes
-> ([1]) as part of their workshops day ([2]).
->
-> This year, our workshop will be colocated with the Pipewire workshop on
-> the same day and at the same venue (but a different room), to facilitate
-> discussions about topics that span libcamera and Pipewire. The Linux
-> Media Summit will also be organized in a nearby location on Tuesday the
-> 13th ([3]).
->
-> If you would like to attend, please register your interest by replying
-> to this e-mail, and indicate if you have any discussion topics you would
-> like to include in the schedule. We will draft and circulate an agenda
-> in the next few weeks after receiving topic proposals. If registrations
-> exceed our capacity, priority will be given based on topic submissions.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-I don't know if there is any room left, but if there is a spot left, I'd
-like to attend the libcamera workshop.
 
-I'm sorry to be this late, my travel plans have been a bit difficult.
-
-Thanks,
-Mattijs
-
->
-> The event will be free of charge for attendees.
->
-> [1] https://embedded-recipes.org/2025/
-> [2] https://embedded-recipes.org/2025/workshops/
-> [3] https://lore.kernel.org/r/044f2fa6-a245-4ae5-b9de-7a2e8831ccd6@xs4all.nl
->
-> -- 
-> Regards,
->
-> Laurent Pinchart
 
