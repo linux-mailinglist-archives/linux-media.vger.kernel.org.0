@@ -1,57 +1,59 @@
-Return-Path: <linux-media+bounces-31787-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31788-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA35AAADA6
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 04:39:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BCFAAAD83
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 04:37:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCB671664D3
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 02:37:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 21DF47AA1FE
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 02:36:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60FF53BC37A;
-	Mon,  5 May 2025 23:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97AC628ECE4;
+	Mon,  5 May 2025 23:43:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cZ7itu3/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aJ8tAhT1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7ED3BBDC4;
-	Mon,  5 May 2025 23:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02B82FA7E5;
+	Mon,  5 May 2025 23:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746487366; cv=none; b=e9ah/SMJHvror9SCT9ph6vTPRvnRCJJjMbGObuDHGQ/whgmYkwc93uXIYWW1qBVL7KQCX9fKoida6I4tnc/FWK3kZG3qxTSQzPtZhskZTD8XdPn50qY6twRTvRZPG+YnzOeOSg1o4bwthTnHEu7kM3408WE14/b64FT6M9hGvQU=
+	t=1746487371; cv=none; b=EM/K06a7qa/SZOSHFwhWPlaAjzpmYF3ZDuiWzQjORWYS+rG3bEAqGOtK8MAdZPMuw1lhLmikBprAUcUnrIBJSV+o8/P3nd6PlSxJ4WrvEEqkoX/hwtUcr163Z0JV0oV663i2HSceZdFDoppauonfHEkkggkDuZb66URJ2YoAV2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746487366; c=relaxed/simple;
-	bh=dfOTnwW8EMM0rb/gURkfrAF+WWhNq1xDnrQSDySzLdI=;
+	s=arc-20240116; t=1746487371; c=relaxed/simple;
+	bh=ikzvWiw406GCJXyN70LZHbijw0+CfJ3pc/l3O/+uycY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ArjaOYgSYN7i2iWD725b/TblcpCLg7tCRF5BNCGJo58FA51alIXMgTKJ/8YGqv4Ipy3xevR4BjZKXt+JnHwXI6nnvJCayupn1J5OhUyDHzsn5cEUMduCmE8DBUjwQUhSqw9w6nKadapkqv9BHReE2LRHwpBYtSRBp6jTjC0tCZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cZ7itu3/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3711C4CEED;
-	Mon,  5 May 2025 23:22:43 +0000 (UTC)
+	 MIME-Version; b=BQudxIWbTQ00B4IZAPDW0KHVNlA+MHumpruAin3bWp2tIYRP4G098w/PWoDY6cLN6Ek2tQ1QBueDTnZ3j7SMZD6g9LjeIB1bs9rbc5hTNXkWiktuPJ3UEcvLNV57vpHFQNzctkxEVvmAENw15csVtZuaHLdNDrLzaAUvN8pkyOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aJ8tAhT1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B4AC4CEF6;
+	Mon,  5 May 2025 23:22:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746487364;
-	bh=dfOTnwW8EMM0rb/gURkfrAF+WWhNq1xDnrQSDySzLdI=;
+	s=k20201202; t=1746487369;
+	bh=ikzvWiw406GCJXyN70LZHbijw0+CfJ3pc/l3O/+uycY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cZ7itu3/UglnyViyl70NwQstgAgva38MnrNykf1znd73/jIPzXkwvWgUDUQEXmEJE
-	 6zCsjRkHyug1BZsMHwn04T427Uao+Q96WgR8oPNZUXaeLzb3gur15h74LW0+1Fh//5
-	 Rl++vr7jeV+6fKfOr31MHtjh/pdRkyjZ1HN0t9XyOjZfwOViTKVitTis/t1eiOTCio
-	 ekJT5kNZJKqjRPqvwtMIdbS1ig/nhlf4EGB0JQWxqMeQ+6AdnV8sFI4HwSeaqNbaCq
-	 VjIj0X/hp8sRG4PCrut2gbe7eTgw4GLwQ0bltbXJtg8HXsZ2Iv46UY5kW/ADY7rV5p
-	 ZZds9lfJ505Gw==
+	b=aJ8tAhT1V3uaMBE8osu7IquYbV9PVa+n11mJn+lK+AgOMuto4eQ9MOvPQcWr/9mvh
+	 jNtCWjpyd0YWplPvfAxiaWS6jpXbbkuyNRRSPvHTAhCjujDW14o7mBY4SC60MOe7X+
+	 c1eJXfCeSBYFEO5vm1jyAywu4SVEfxrwHiFYHvwqoSqt+J+dToQsQhoTto+1hbyh7p
+	 o3odwlQ1GnQcCf7nbQqm8uLf/9y27waL2eYEUbw8mK+gMHlyotSwlAQLWaMfxdpOlq
+	 1PraShq3iXz9rTy2nL1qfpR6K/iR6cV92WF6Etx4Lh73c7MjjSDIwPhAtvv3/5DRis
+	 GM2z02c0oAxfA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Markus Elfring <elfring@users.sourceforge.net>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
+	ribalda@chromium.org,
+	christophe.jaillet@wanadoo.fr,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 31/79] media: c8sectpfe: Call of_node_put(i2c_bus) only once in c8sectpfe_probe()
-Date: Mon,  5 May 2025 19:21:03 -0400
-Message-Id: <20250505232151.2698893-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 34/79] media: cx231xx: set device_caps for 417
+Date: Mon,  5 May 2025 19:21:06 -0400
+Message-Id: <20250505232151.2698893-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505232151.2698893-1-sashal@kernel.org>
 References: <20250505232151.2698893-1-sashal@kernel.org>
@@ -66,42 +68,38 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.4.293
 Content-Transfer-Encoding: 8bit
 
-From: Markus Elfring <elfring@users.sourceforge.net>
+From: Hans Verkuil <hverkuil@xs4all.nl>
 
-[ Upstream commit b773530a34df0687020520015057075f8b7b4ac4 ]
+[ Upstream commit a79efc44b51432490538a55b9753a721f7d3ea42 ]
 
-An of_node_put(i2c_bus) call was immediately used after a pointer check
-for an of_find_i2c_adapter_by_node() call in this function implementation.
-Thus call such a function only once instead directly before the check.
+The video_device for the MPEG encoder did not set device_caps.
 
-This issue was transformed by using the Coccinelle software.
+Add this, otherwise the video device can't be registered (you get a
+WARN_ON instead).
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+Not seen before since currently 417 support is disabled, but I found
+this while experimenting with it.
+
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/usb/cx231xx/cx231xx-417.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-index 69070b7068318..8229fbb88a8db 100644
---- a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-+++ b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-@@ -813,13 +813,12 @@ static int c8sectpfe_probe(struct platform_device *pdev)
- 		}
- 		tsin->i2c_adapter =
- 			of_find_i2c_adapter_by_node(i2c_bus);
-+		of_node_put(i2c_bus);
- 		if (!tsin->i2c_adapter) {
- 			dev_err(&pdev->dev, "No i2c adapter found\n");
--			of_node_put(i2c_bus);
- 			ret = -ENODEV;
- 			goto err_clk_disable;
- 		}
--		of_node_put(i2c_bus);
- 
- 		tsin->rst_gpio = of_get_named_gpio(child, "reset-gpios", 0);
- 
+diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
+index 6d218a0369661..a9d080823f10a 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-417.c
++++ b/drivers/media/usb/cx231xx/cx231xx-417.c
+@@ -1966,6 +1966,8 @@ static void cx231xx_video_dev_init(
+ 	vfd->lock = &dev->lock;
+ 	vfd->release = video_device_release_empty;
+ 	vfd->ctrl_handler = &dev->mpeg_ctrl_handler.hdl;
++	vfd->device_caps = V4L2_CAP_READWRITE | V4L2_CAP_STREAMING |
++			   V4L2_CAP_VIDEO_CAPTURE;
+ 	video_set_drvdata(vfd, dev);
+ 	if (dev->tuner_type == TUNER_ABSENT) {
+ 		v4l2_disable_ioctl(vfd, VIDIOC_G_FREQUENCY);
 -- 
 2.39.5
 
