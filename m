@@ -1,62 +1,59 @@
-Return-Path: <linux-media+bounces-31760-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31761-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43349AAA5DB
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:59:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8EBAAA5F7
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 02:02:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0035E188A65E
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:58:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 836423AB196
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:58:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B68D28DF05;
-	Mon,  5 May 2025 22:31:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3D16319A5D;
+	Mon,  5 May 2025 22:31:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A+9TDjsH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bFbLmQiU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E274B319430;
-	Mon,  5 May 2025 22:31:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B15319A44;
+	Mon,  5 May 2025 22:31:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484280; cv=none; b=jLcajWabn478klHC/C6a9lFD/VLwNXz37ZibBkmNPOspnqNy1MF9xGXEpebcyoWcsF3x4+BYE3IEhSQwcJlWjSxuf4dS+mChKyooqj6fgxwPEaB0tPIIjhB2xzlk8mNd1BdqA1t+yFGfG6FLdiK16/sSwqkjaAycCYQH4QA6SSA=
+	t=1746484281; cv=none; b=Jz6HRiBl4OIuD/lUHTcP5X2CA4QV21lJkwPQQTTqe9wyu3+B9+OWk39OwhHULjZ/oska+3k70/6J6FWVAay/FJywS5Y0tnYY7F26B1MFsN0Kok2HYYr19ArBQDMMRRruSYqWh1BHyvis8aFjd3V6wd/4Zz5DIYb4uiNRf2TYSmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484280; c=relaxed/simple;
-	bh=v/ju6zynRUJtqKH6u2Ic/XOrJDA6okuwg9/FkbE2tGk=;
+	s=arc-20240116; t=1746484281; c=relaxed/simple;
+	bh=fFQmUpUjhN2J9FyPEPTJ2tW28MtDTr0L9Xb/am9hxaU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SevnkNivsd/4QCMrv+9zG3YzEI1k/JfbdtBmC3K24OhDJPcFB9XWZbibD55jyXXZSxZCUYg9C+JWyZfpPjtaWcW/hqJDZjcdmi56dFky7u4WRMNV1E5Tww/BSK/uVG/EXWNB5DYaPpwJXAScTdEHxNOmeZKgI/kxkvpcMvz7Jik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A+9TDjsH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ECAEC4CEEE;
-	Mon,  5 May 2025 22:31:18 +0000 (UTC)
+	 MIME-Version; b=sFKz45ajJWTrJpYe8PJoAhbl5OvceMM4aSwYPPoQkfMeiFxM87j0qjycd3NyQhJSLJ6A0WZB0kKvabxNIM3fpQxQoFCp4PWw7n77xNq+xopr7QqFpBkJ7C/fyQyzVddqM7kQXAuPoh5VixDoOzp/oV5vOaL/u93ObyV6OTQUqNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bFbLmQiU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2945BC4CEF1;
+	Mon,  5 May 2025 22:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484279;
-	bh=v/ju6zynRUJtqKH6u2Ic/XOrJDA6okuwg9/FkbE2tGk=;
+	s=k20201202; t=1746484281;
+	bh=fFQmUpUjhN2J9FyPEPTJ2tW28MtDTr0L9Xb/am9hxaU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A+9TDjsH975qB90gOtGzj6E8AYAO6D6H6gh72hzEOFkisAEf5JYKmoWKPAeZxcdY/
-	 AjlMjaSZ2a4nx1t7J/oNri/SagdMybVPD5L9ot6Vl9CzwLHqBUXAeajdjVjTzzrxm0
-	 cmu8xP+oTskjPSYxivCQaPu3PVq7iHtJ+V0eyu9HlWvBHHVAQ35gH8XMi2oi4z0xvf
-	 0lAznC+zZ7JD9W7Za+OYgO4MdN9WbroaDzZeA1qdmZYWo3iIqNm3dtOAATpT7y4mVm
-	 DyaMOKAGiLSQ6wlYp9XGagytxZWxlrYJ6uCKmFXeOOEzDo6TRyMZTXolysCoq3o+CH
-	 h7wNrylfx7iIQ==
+	b=bFbLmQiUpbT/fjhGsMO34/bvslPjJxUWEvfg2pZHyBKkE8VMybg0KMEuLzv2rNe3H
+	 vrf5rkMF7bbbyNfG6cxVABawBq36Qam3SXoHQBAs2G24AXr3gceKuSylBHBoBH7w5U
+	 OyEKeevHm3vLuUOovB6nRHKQk8SYnui1g2SIWV4pDmGMi5ouaJ/oVMw81GFCC7/sNb
+	 AyZw1YdRzPEXWF7Fynt5kffCfJjpyGn1hkdLPywA+1RnqmA/nnC6GY3qzLEfQItF0k
+	 sv7uQP/WzDprIipyGlFuTvdbfM9YF7ZCSS8t3WZ3LgsG0yq/+nCFbgNyc4sorVif56
+	 TmrzeInSfWovQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alain Volmat <alain.volmat@foss.st.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	tian.shu.qiu@intel.com,
 	mchehab@kernel.org,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com,
-	linux-media@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.14 431/642] media: stm32: csi: add missing pm_runtime_put on error
-Date: Mon,  5 May 2025 18:10:47 -0400
-Message-Id: <20250505221419.2672473-431-sashal@kernel.org>
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 432/642] media: i2c: ov2740: Free control handler on error path
+Date: Mon,  5 May 2025 18:10:48 -0400
+Message-Id: <20250505221419.2672473-432-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -71,66 +68,38 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Alain Volmat <alain.volmat@foss.st.com>
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-[ Upstream commit f7cd9c94959e7a5b8c4eca33e20bd6ba1b048a64 ]
+[ Upstream commit 71dfb2c7548994aad6cb0a316c2601e7144d15a5 ]
 
-Within the stm32_csi_start function, pm_runtime_put should
-be called upon error following pm_runtime_get_sync.
-Rework the function error handling by putting a label in
-order to have common error handling for all calls requiring
-pm_runtime_put.
+The control handler wasn't freed if v4l2_fwnode_device_parse() failed. Do
+that now.
 
-Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+Co-developed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/st/stm32/stm32-csi.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ drivers/media/i2c/ov2740.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/st/stm32/stm32-csi.c b/drivers/media/platform/st/stm32/stm32-csi.c
-index a4f8db608cedd..0c776e4a7ce83 100644
---- a/drivers/media/platform/st/stm32/stm32-csi.c
-+++ b/drivers/media/platform/st/stm32/stm32-csi.c
-@@ -499,21 +499,19 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index 9a5d118b87b01..04e93618f408a 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -828,8 +828,10 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
+ 				     0, 0, ov2740_test_pattern_menu);
  
- 	ret = pm_runtime_get_sync(csidev->dev);
- 	if (ret < 0)
--		return ret;
-+		goto error_put;
+ 	ret = v4l2_fwnode_device_parse(&client->dev, &props);
+-	if (ret)
++	if (ret) {
++		v4l2_ctrl_handler_free(ctrl_hdlr);
+ 		return ret;
++	}
  
- 	/* Retrieve CSI2PHY clock rate to compute CCFR value */
- 	phy_clk_frate = clk_get_rate(csidev->clks[STM32_CSI_CLK_CSI2PHY].clk);
- 	if (!phy_clk_frate) {
--		pm_runtime_put(csidev->dev);
- 		dev_err(csidev->dev, "CSI2PHY clock rate invalid (0)\n");
--		return ret;
-+		ret = -EINVAL;
-+		goto error_put;
- 	}
+ 	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov2740_ctrl_ops, &props);
  
- 	ret = stm32_csi_setup_lane_merger(csidev);
--	if (ret) {
--		pm_runtime_put(csidev->dev);
--		return ret;
--	}
-+	if (ret)
-+		goto error_put;
- 
- 	/* Enable the CSI */
- 	writel_relaxed(STM32_CSI_CR_CSIEN, csidev->base + STM32_CSI_CR);
-@@ -569,6 +567,10 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
- 	writel_relaxed(0, csidev->base + STM32_CSI_PMCR);
- 
- 	return ret;
-+
-+error_put:
-+	pm_runtime_put(csidev->dev);
-+	return ret;
- }
- 
- static void stm32_csi_stop(struct stm32_csi_dev *csidev)
 -- 
 2.39.5
 
