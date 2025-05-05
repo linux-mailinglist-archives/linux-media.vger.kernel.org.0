@@ -1,62 +1,64 @@
-Return-Path: <linux-media+bounces-31801-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31803-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC56AAAB471
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 07:07:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE1FAAB556
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 07:26:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A26C64A060D
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 05:03:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFDB74C8294
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 05:22:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E2B2F10A4;
-	Tue,  6 May 2025 00:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 279D2346EBC;
+	Tue,  6 May 2025 00:46:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IyUuOUnz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CmfqJu9e"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E602F0B89;
-	Mon,  5 May 2025 23:11:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400412F5FAA;
+	Mon,  5 May 2025 23:17:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486690; cv=none; b=kiXDE3yocsPL7qg560idZjmHxMuA0O5+/zz/mdwnD6D1zxGYB97jLBXc4CNKXHUUdIeAYr/4BuFk3oEUXpw0wGqE9Sz4t5BKHkss5s0PE2oA8qknP0eTdUqkoZTNUUg0CAHFFEu7GuJRGCSBEohW+GTtoDadbnn3G9H/DUn4VoM=
+	t=1746487066; cv=none; b=oo96fhoByEye32jlJHwibmcYSZZyA3Q1Duc/07MQA3srWit0XDEP7RthjB372vWhcpXVw4H/SM/lfcuD29mU9o0SY+JZ9gpKnRFNLBW2peAR8UZwgW0EdZyuNhCupSGRaJiawf55dmjkg4c8dFZwo2ZQQv8qCtGxJWCqgsOwsKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486690; c=relaxed/simple;
-	bh=F7wlOSoyZJPNbhzzfvtwOOj3HiP7SzYrJM37PZhVR5E=;
+	s=arc-20240116; t=1746487066; c=relaxed/simple;
+	bh=HC6wwtEz/GY2edEJloKQarEvilDGx1/QZ8XacGT7Pbo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GHlGQFB/yQqUDqe1ISOz1QXz7qxu7Sdzxg+DB2pw2+99Vggm1Tgc5QJeF/ofLElsMLDgbNiQ+78/8GdxUPdCkrOgDGTq2S/+AdJvfaFyrpNNQ9LonuQPAAStUxU8ck1UB6ZkQi3XTj4e8vbMcnCFaHOCmbLvrEMtzISLwVGva4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IyUuOUnz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0943EC4CEE4;
-	Mon,  5 May 2025 23:11:27 +0000 (UTC)
+	 MIME-Version; b=P2RnZvRaQA6xzx5nJj2O340CYzWriy7w0mky+GWtmim6BdisMEqdxizHdzMHF4t+VdNvgBLqO9J/o5xQtRJZvtWAozZpt3bb0KrIR+7t17Ehr8cRdFnmw5bPI5VsdLIk5wlXUeOI2rmQY0q8ujLOBq52y8S/3E9JIFAzBdLtVd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CmfqJu9e; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC30C4CEE4;
+	Mon,  5 May 2025 23:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486689;
-	bh=F7wlOSoyZJPNbhzzfvtwOOj3HiP7SzYrJM37PZhVR5E=;
+	s=k20201202; t=1746487064;
+	bh=HC6wwtEz/GY2edEJloKQarEvilDGx1/QZ8XacGT7Pbo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IyUuOUnzrVRdFpzyaqMvNjfQVgqe2AD4tqvvuHaAlZeOzABt4bES5X7bwpzXoUxhK
-	 tm514Qz25kriJy1cWjboZGqLTCzABXLAxgJoIE8aR7juno0vi7sGr5KhtCW/p7s/Ea
-	 wwoerLF4cHdOKuGQacCgxcXPu7HcAynAlCSiN2ovBoOWHPYAFLL5fUF+ptS5BN/3j0
-	 5jsc0klj0e1TQgjBZtXQz4R16EPWOMAF0GeMCb6HmobSoodpIIwZdcdhMJmT7HGMEN
-	 GTaVRZfjuDR7nGrnSj13sg3hMBHZ8X0ugCeapfkMi+AyyaiiJFX7UIRldUDiCmoBE6
-	 wggzWkTfYVOyw==
+	b=CmfqJu9eF7TStx936VTKXZuvL5ehNi0pS9ItwZe0KlRsUmMfFyV40Lxm8YoYj+QEL
+	 crnVtfJjJX2JcnORfLd7bsgIba5gS9KtnOuy98f+QwQN3PhPwBveKULjubhJLT1oTF
+	 Hhz7c9k+IaScfKC/hKh0NJh1lOj9sW9w2xmSQ6dsV0PuChzYa+n49Ngnb4bFtIWM6I
+	 eGGSmdMYJH+jmjCjrYFvguyoTleDKGtmqpfubTHtWO4LVnXssZXZb/Rtsuj6UFKSEh
+	 qDd6f/NXgJxmbrnmkkBgjPTm2miYR2RD4EtbMpDTkLU6R0MMymCIWMEeGfTp5Q+F79
+	 wrOEkHejpElzA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	"Artem S . Tashkinov" <aros@gmx.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Depeng Shao <quic_depengs@quicinc.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	rfoss@kernel.org,
+	todor.too@gmail.com,
+	bryan.odonoghue@linaro.org,
 	mchehab@kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 152/212] media: test-drivers: vivid: don't call schedule in loop
-Date: Mon,  5 May 2025 19:05:24 -0400
-Message-Id: <20250505230624.2692522-152-sashal@kernel.org>
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 135/153] media: qcom: camss: csid: Only add TPG v4l2 ctrl if TPG hardware is available
+Date: Mon,  5 May 2025 19:13:02 -0400
+Message-Id: <20250505231320.2695319-135-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
-References: <20250505230624.2692522-1-sashal@kernel.org>
+In-Reply-To: <20250505231320.2695319-1-sashal@kernel.org>
+References: <20250505231320.2695319-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,129 +67,139 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.136
+X-stable-base: Linux 5.15.181
 Content-Transfer-Encoding: 8bit
 
-From: Hans Verkuil <hverkuil@xs4all.nl>
+From: Depeng Shao <quic_depengs@quicinc.com>
 
-[ Upstream commit e4740118b752005cbed339aec9a1d1c43620e0b9 ]
+[ Upstream commit 2f1361f862a68063f37362f1beb400e78e289581 ]
 
-Artem reported that the CPU load was 100% when capturing from
-vivid at low resolution with ffmpeg.
+There is no CSID TPG on some SoCs, so the v4l2 ctrl in CSID driver
+shouldn't be registered. Checking the supported TPG modes to indicate
+if the TPG hardware exists or not and only registering v4l2 ctrl for
+CSID only when the TPG hardware is present.
 
-This was caused by:
-
-while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
-       !kthread_should_stop())
-        schedule();
-
-If there are no other processes running that can be scheduled,
-then this is basically a busy-loop.
-
-Change it to wait_event_interruptible_timeout() which doesn't
-have that problem.
-
+Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Reported-by: Artem S. Tashkinov <aros@gmx.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219570
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/test-drivers/vivid/vivid-kthread-cap.c  | 11 ++++++++---
- drivers/media/test-drivers/vivid/vivid-kthread-out.c  | 11 ++++++++---
- .../media/test-drivers/vivid/vivid-kthread-touch.c    | 11 ++++++++---
- drivers/media/test-drivers/vivid/vivid-sdr-cap.c      | 11 ++++++++---
- 4 files changed, 32 insertions(+), 12 deletions(-)
+ .../media/platform/qcom/camss/camss-csid.c    | 60 +++++++++++--------
+ 1 file changed, 35 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-index 690daada7db4f..54e6a6772035f 100644
---- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-@@ -894,9 +894,14 @@ static int vivid_thread_vid_cap(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+index 2a294587ec9d9..5583cbea12f3f 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.c
++++ b/drivers/media/platform/qcom/camss/camss-csid.c
+@@ -219,11 +219,13 @@ static int csid_set_stream(struct v4l2_subdev *sd, int enable)
+ 	int ret;
  
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
--		       !kthread_should_stop())
--			schedule();
-+		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
-+			continue;
-+
-+		wait_queue_head_t wait;
-+
-+		init_waitqueue_head(&wait);
-+		wait_event_interruptible_timeout(wait, kthread_should_stop(),
-+					cur_jiffies + wait_jiffies - jiffies);
- 	}
- 	dprintk(dev, 1, "Video Capture Thread End\n");
- 	return 0;
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-out.c b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-index 0833e021bb11d..8a17a01e6e426 100644
---- a/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-@@ -235,9 +235,14 @@ static int vivid_thread_vid_out(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
+ 	if (enable) {
+-		ret = v4l2_ctrl_handler_setup(&csid->ctrls);
+-		if (ret < 0) {
+-			dev_err(csid->camss->dev,
+-				"could not sync v4l2 controls: %d\n", ret);
+-			return ret;
++		if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED) {
++			ret = v4l2_ctrl_handler_setup(&csid->ctrls);
++			if (ret < 0) {
++				dev_err(csid->camss->dev,
++					"could not sync v4l2 controls: %d\n", ret);
++				return ret;
++			}
+ 		}
  
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
--		       !kthread_should_stop())
--			schedule();
-+		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
-+			continue;
-+
-+		wait_queue_head_t wait;
-+
-+		init_waitqueue_head(&wait);
-+		wait_event_interruptible_timeout(wait, kthread_should_stop(),
-+					cur_jiffies + wait_jiffies - jiffies);
- 	}
- 	dprintk(dev, 1, "Video Output Thread End\n");
- 	return 0;
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-index fa711ee36a3fb..c862689786b69 100644
---- a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-@@ -135,9 +135,14 @@ static int vivid_thread_touch_cap(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
+ 		if (!csid->testgen.enabled &&
+@@ -298,7 +300,8 @@ static void csid_try_format(struct csid_device *csid,
+ 		break;
  
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
--		       !kthread_should_stop())
--			schedule();
-+		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
-+			continue;
-+
-+		wait_queue_head_t wait;
-+
-+		init_waitqueue_head(&wait);
-+		wait_event_interruptible_timeout(wait, kthread_should_stop(),
-+					cur_jiffies + wait_jiffies - jiffies);
- 	}
- 	dprintk(dev, 1, "Touch Capture Thread End\n");
- 	return 0;
-diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-index 0ae5628b86c95..abccd1d0109ec 100644
---- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-@@ -206,9 +206,14 @@ static int vivid_thread_sdr_cap(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
+ 	case MSM_CSID_PAD_SRC:
+-		if (csid->testgen_mode->cur.val == 0) {
++		if (csid->testgen.nmodes == CSID_PAYLOAD_MODE_DISABLED ||
++		    csid->testgen_mode->cur.val == 0) {
+ 			/* Test generator is disabled, */
+ 			/* keep pad formats in sync */
+ 			u32 code = fmt->code;
+@@ -348,7 +351,8 @@ static int csid_enum_mbus_code(struct v4l2_subdev *sd,
  
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
--		       !kthread_should_stop())
--			schedule();
-+		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
-+			continue;
-+
-+		wait_queue_head_t wait;
-+
-+		init_waitqueue_head(&wait);
-+		wait_event_interruptible_timeout(wait, kthread_should_stop(),
-+					cur_jiffies + wait_jiffies - jiffies);
- 	}
- 	dprintk(dev, 1, "SDR Capture Thread End\n");
- 	return 0;
+ 		code->code = csid->formats[code->index].code;
+ 	} else {
+-		if (csid->testgen_mode->cur.val == 0) {
++		if (csid->testgen.nmodes == CSID_PAYLOAD_MODE_DISABLED ||
++		    csid->testgen_mode->cur.val == 0) {
+ 			struct v4l2_mbus_framefmt *sink_fmt;
+ 
+ 			sink_fmt = __csid_get_format(csid, sd_state,
+@@ -707,7 +711,8 @@ static int csid_link_setup(struct media_entity *entity,
+ 
+ 		/* If test generator is enabled */
+ 		/* do not allow a link from CSIPHY to CSID */
+-		if (csid->testgen_mode->cur.val != 0)
++		if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED &&
++		    csid->testgen_mode->cur.val != 0)
+ 			return -EBUSY;
+ 
+ 		sd = media_entity_to_v4l2_subdev(remote->entity);
+@@ -800,24 +805,27 @@ int msm_csid_register_entity(struct csid_device *csid,
+ 		 MSM_CSID_NAME, csid->id);
+ 	v4l2_set_subdevdata(sd, csid);
+ 
+-	ret = v4l2_ctrl_handler_init(&csid->ctrls, 1);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to init ctrl handler: %d\n", ret);
+-		return ret;
+-	}
++	if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED) {
++		ret = v4l2_ctrl_handler_init(&csid->ctrls, 1);
++		if (ret < 0) {
++			dev_err(dev, "Failed to init ctrl handler: %d\n", ret);
++			return ret;
++		}
+ 
+-	csid->testgen_mode = v4l2_ctrl_new_std_menu_items(&csid->ctrls,
+-				&csid_ctrl_ops, V4L2_CID_TEST_PATTERN,
+-				csid->testgen.nmodes, 0, 0,
+-				csid->testgen.modes);
++		csid->testgen_mode =
++			v4l2_ctrl_new_std_menu_items(&csid->ctrls,
++						     &csid_ctrl_ops, V4L2_CID_TEST_PATTERN,
++						     csid->testgen.nmodes, 0, 0,
++						     csid->testgen.modes);
+ 
+-	if (csid->ctrls.error) {
+-		dev_err(dev, "Failed to init ctrl: %d\n", csid->ctrls.error);
+-		ret = csid->ctrls.error;
+-		goto free_ctrl;
+-	}
++		if (csid->ctrls.error) {
++			dev_err(dev, "Failed to init ctrl: %d\n", csid->ctrls.error);
++			ret = csid->ctrls.error;
++			goto free_ctrl;
++		}
+ 
+-	csid->subdev.ctrl_handler = &csid->ctrls;
++		csid->subdev.ctrl_handler = &csid->ctrls;
++	}
+ 
+ 	ret = csid_init_formats(sd, NULL);
+ 	if (ret < 0) {
+@@ -848,7 +856,8 @@ int msm_csid_register_entity(struct csid_device *csid,
+ media_cleanup:
+ 	media_entity_cleanup(&sd->entity);
+ free_ctrl:
+-	v4l2_ctrl_handler_free(&csid->ctrls);
++	if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED)
++		v4l2_ctrl_handler_free(&csid->ctrls);
+ 
+ 	return ret;
+ }
+@@ -861,5 +870,6 @@ void msm_csid_unregister_entity(struct csid_device *csid)
+ {
+ 	v4l2_device_unregister_subdev(&csid->subdev);
+ 	media_entity_cleanup(&csid->subdev.entity);
+-	v4l2_ctrl_handler_free(&csid->ctrls);
++	if (csid->testgen.nmodes != CSID_PAYLOAD_MODE_DISABLED)
++		v4l2_ctrl_handler_free(&csid->ctrls);
+ }
 -- 
 2.39.5
 
