@@ -1,514 +1,223 @@
-Return-Path: <linux-media+bounces-31682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31683-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2DEAA89EE
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 00:44:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7823AA8CD5
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 09:07:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E354189301B
-	for <lists+linux-media@lfdr.de>; Sun,  4 May 2025 22:44:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E643171B6B
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 07:07:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AE3824BBFF;
-	Sun,  4 May 2025 22:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2317C1D8E10;
+	Mon,  5 May 2025 07:07:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JLI9qdMt"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="hnehQkTh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EABC2522B1
-	for <linux-media@vger.kernel.org>; Sun,  4 May 2025 22:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168332F22;
+	Mon,  5 May 2025 07:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746398574; cv=none; b=NkuXR8sGF2N0qlXbyueWPY/ACRkthqkY7aT6MC0JnYhGMwDjJbE9aOSfMAJQFAT70XWDYucY3Fqf+qUZmnJ2LCGrAVqDdPtb3xZ5stlcvc68uSRZWr7lBblGZ2rApo48UmFoD9PuRkJTv/bc1Gg82lulr4n60Jj2sX25j3yf9to=
+	t=1746428849; cv=none; b=bIjrDqT7HfoK6M9bMd+jDpNv17J+UraLRX03L0f6qeSt25WjDVEzOP7dcoBdcBMHnDTKOctCdYBJw4lSzmMjPOu+rnk0xbgbwxzgFkI3r10yNWJ/4ZH0wNnL78C3P6gpI2goWEY3dacEIzxjfuH7XCht9SgTMC5Kjd9bIsD7jLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746398574; c=relaxed/simple;
-	bh=xbjEgaYe0knSKWqvMyesgpOQp2v/9KVNJ09SSyfOPCE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Fn6PMhUmAxSVFPRSlNJARz0FIgNhTzZCm1nLJXqQpyBncrrvSGC60iV9dsJeHqOsg1tY6ngBXmxdmBJ323mak07/oXmiGH9i1k9J6REuiS1bWkEB4yiaykB5lChgAfU1DhWvlNQAmjkJi9HSNutrWiLMwAl1t7KsTHbvJk+1cP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JLI9qdMt; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-af5156fbe79so4555534a12.1
-        for <linux-media@vger.kernel.org>; Sun, 04 May 2025 15:42:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746398571; x=1747003371; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Q5KpTdXI+QcIWJN1gYN37H9e/eysRgF4+FGk0oCPDY=;
-        b=JLI9qdMtbxWi/tXdB/0jMvEGsXAiZEnsd6RUIFtUhP/8RYY9/Zz1iqGgRT0/Dvh+Fd
-         xmn5WtEuxoHOAvoEADTznTBFAeXqdiSOXfQntwtlfSHojqQto+01/Bfq4nefytojU6Tn
-         2Qb3l4YaHVRaw6TS5mDDJq8xMR7Xf+AYau+aE01L1n08uKl0aQ+cIr9BEBFeJkVaxWYT
-         fENnT2pufdgqgVeTPsD8Ytl2H2mo/7n6TDj4Eh6Tb0VtEA1kbUHk5WOT7/GPYkpLjSBV
-         splQkLxDrM/C39e8PQWDfegxBo2TdPi0NxwHkTr4CBFjsoK/S5MAB7JRaAZSd1UmGMk7
-         ZEcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746398571; x=1747003371;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Q5KpTdXI+QcIWJN1gYN37H9e/eysRgF4+FGk0oCPDY=;
-        b=MacXhetBZNecMI0cjPKgY9HfKkQGvQKlIcn8M9ZD+MbReBRJHp7T4MtyK8sNUrz8xI
-         2fh7I/OLnhN74o11y8nyj2+/1qdaeax+OGE+W0XCRZbUAPdvpk+QfLnHg0p8uMrNojUN
-         PXGeoZm/VFoAcC2X6i8nBhnwPMo68Pk0bhGtunyXhubGbiEwL7ZBIk/SMCnx8CGJLW31
-         kAVwp1t87rOgy/4wTChyjCD829Tg5tDtbO3H19g3PxWOmKZTWEZlzIvN5RemFFKHN5Fn
-         CsczkNsB7uJ/NBsOuzpWvOAGi++xNAalc5iY/leNzSUgDtjQMoU8MBe/4my/2F9A/Pp5
-         9t1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWQPa4DJD9aE+OF9yx9T5ZW+O5HDHeKZERbJ6umc0BivV4hm1hW6xw2lPoWE3RrpQJ/oc8FG64tSeQDjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjjY69KeZzDGPXE2hqs9oEoIEH3wdALESyRGdPY7F4YuD6snC7
-	GC9YOwUyp6ICMNTNvVvnhcYG7ueVDTxRsqZvtfReYyrCLlUtKjuIfWKkKAMYtT1V643If0AVj41
-	jhsqu7XFRfw8nJA==
-X-Google-Smtp-Source: AGHT+IHikmnfaHjMsH9xIJ86W1nJvjdXlDz4p94mIH61NtbN6AjKjbT6Vxufz9cEgsCz12wzM0YalIKynYHnj10=
-X-Received: from pjbqn5.prod.google.com ([2002:a17:90b:3d45:b0:2fc:2b96:2d4b])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:3c4a:b0:305:2d27:7ca7 with SMTP id 98e67ed59e1d1-30a6199e001mr9009960a91.16.1746398571608;
- Sun, 04 May 2025 15:42:51 -0700 (PDT)
-Date: Sun,  4 May 2025 22:41:42 +0000
-In-Reply-To: <20250504224149.1033867-1-tjmercier@google.com>
+	s=arc-20240116; t=1746428849; c=relaxed/simple;
+	bh=RkCKem2ilcaRlQrvBAQ1A0ircFTfTmD0DZFuyTNRC24=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=koJixPVfzpAXy13hBvlMOaqCVxyv7neIxkD9PDqpXxGzLGyYt1CuvKuZoB3oQknNjp+FvQTsghoCs8x6sLVbPObyTg3VYf1jOcF4Ud1gU3psQjp1MP71MUtE2W9vc24lXCMfnNS/mGtiTZQkKsWBMXSLrHTt09aZ6icbCmsk7vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=hnehQkTh; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 54576ceh882866
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 5 May 2025 02:06:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1746428798;
+	bh=CjMQjxbI4MVkcYVy6hFeJm3Q9c2cTiQFbTSz3mMbm8g=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=hnehQkThiz8l+CaJyoKa489nowKLIpNWxhsd1AsDwYKoT38YDiJ9szQLsshvw2Lck
+	 g030p5BPFEXVZsjjNGWcxrL89YVMZOdsyMbYAK/62nOKgWa0tAISBHOs4ONZBu6FpF
+	 NDovo1ZG5f87f/bk6BJoWqiw9auIHRjZiHZC7RMI=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 54576cHI010010
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 5 May 2025 02:06:38 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 5
+ May 2025 02:06:37 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 5 May 2025 02:06:37 -0500
+Received: from [10.24.69.232] (ws.dhcp.ti.com [10.24.69.232])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54576VRR040260;
+	Mon, 5 May 2025 02:06:32 -0500
+Message-ID: <6da2f444-443e-403b-9def-f66f0cf65010@ti.com>
+Date: Mon, 5 May 2025 12:36:30 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250504224149.1033867-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.49.0.906.g1f30a19c02-goog
-Message-ID: <20250504224149.1033867-7-tjmercier@google.com>
-Subject: [RFC PATCH v2 6/6] RFC: dma-buf: Remove DMA-BUF statistics
-From: "T.J. Mercier" <tjmercier@google.com>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	skhan@linuxfoundation.org, song@kernel.org, alexei.starovoitov@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, android-mm@google.com, simona@ffwll.ch, 
-	corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	jolsa@kernel.org, mykolal@fb.com, "T.J. Mercier" <tjmercier@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 08/13] media: ti: j721e-csi2rx: add support for
+ processing virtual channels
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: <jai.luthra@linux.dev>, <mripard@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <devarsht@ti.com>,
+        <y-abhilashchandra@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <vaishnav.a@ti.com>,
+        <s-jain1@ti.com>, <vigneshr@ti.com>, <sakari.ailus@linux.intel.com>,
+        <hverkuil-cisco@xs4all.nl>, <tomi.valkeinen@ideasonboard.com>,
+        <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
+        <jack.zhu@starfivetech.com>
+References: <20250417065554.437541-1-r-donadkar@ti.com>
+ <20250417065554.437541-9-r-donadkar@ti.com>
+ <20250421133418.GI29483@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Rishikesh Donadkar <r-donadkar@ti.com>
+In-Reply-To: <20250421133418.GI29483@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-I think Android is probably the only remaining user of the dmabuf sysfs
-files. The BPF infrastructure added earlier in this series will allow us
-to get the same information much more cheaply.
 
-This patch is a RFC because I'd like to keep this for at least one more
-longterm stable release (6.18?) before actually removing it so that we
-can have one longterm stable kernel version that supports both options
-to facilitate a transition from the sysfs files to a BPF program.
+On 21/04/25 19:04, Laurent Pinchart wrote:
+> Hi Rishikesh,
+>
+> Thank you for the patch.
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  24 ---
- Documentation/driver-api/dma-buf.rst          |   5 -
- drivers/dma-buf/Kconfig                       |  15 --
- drivers/dma-buf/Makefile                      |   1 -
- drivers/dma-buf/dma-buf-sysfs-stats.c         | 202 ------------------
- drivers/dma-buf/dma-buf-sysfs-stats.h         |  35 ---
- drivers/dma-buf/dma-buf.c                     |  18 --
- 7 files changed, 300 deletions(-)
- delete mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
- delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
- delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-deleted file mode 100644
-index 5d3bc997dc64..000000000000
---- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-+++ /dev/null
-@@ -1,24 +0,0 @@
--What:		/sys/kernel/dmabuf/buffers
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	The /sys/kernel/dmabuf/buffers directory contains a
--		snapshot of the internal state of every DMA-BUF.
--		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
--		statistics for the DMA-BUF with the unique inode number
--		<inode_number>
--Users:		kernel memory tuning/debugging tools
--
--What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	This file is read-only and contains the name of the exporter of
--		the DMA-BUF.
--
--What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	This file is read-only and specifies the size of the DMA-BUF in
--		bytes.
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index 29abf1eebf9f..2f36c21d9948 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -125,11 +125,6 @@ Implicit Fence Poll Support
- .. kernel-doc:: drivers/dma-buf/dma-buf.c
-    :doc: implicit fence polling
- 
--DMA-BUF statistics
--~~~~~~~~~~~~~~~~~~
--.. kernel-doc:: drivers/dma-buf/dma-buf-sysfs-stats.c
--   :doc: overview
--
- DMA Buffer ioctls
- ~~~~~~~~~~~~~~~~~
- 
-diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-index fee04fdb0822..03e38c0d1fff 100644
---- a/drivers/dma-buf/Kconfig
-+++ b/drivers/dma-buf/Kconfig
-@@ -76,21 +76,6 @@ menuconfig DMABUF_HEAPS
- 	  allows userspace to allocate dma-bufs that can be shared
- 	  between drivers.
- 
--menuconfig DMABUF_SYSFS_STATS
--	bool "DMA-BUF sysfs statistics (DEPRECATED)"
--	depends on DMA_SHARED_BUFFER
--	help
--	   Choose this option to enable DMA-BUF sysfs statistics
--	   in location /sys/kernel/dmabuf/buffers.
--
--	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
--	   statistics for the DMA-BUF with the unique inode number
--	   <inode_number>.
--
--	   This option is deprecated and should sooner or later be removed.
--	   Android is the only user of this and it turned out that this resulted
--	   in quite some performance problems.
--
- source "drivers/dma-buf/heaps/Kconfig"
- 
- endmenu
-diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-index 70ec901edf2c..8ab2bfecb1c9 100644
---- a/drivers/dma-buf/Makefile
-+++ b/drivers/dma-buf/Makefile
-@@ -6,7 +6,6 @@ obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
- obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
- obj-$(CONFIG_SW_SYNC)		+= sw_sync.o sync_debug.o
- obj-$(CONFIG_UDMABUF)		+= udmabuf.o
--obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
- 
- dmabuf_selftests-y := \
- 	selftest.o \
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-deleted file mode 100644
-index b5b62e40ccc1..000000000000
---- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-+++ /dev/null
-@@ -1,202 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * DMA-BUF sysfs statistics.
-- *
-- * Copyright (C) 2021 Google LLC.
-- */
--
--#include <linux/dma-buf.h>
--#include <linux/dma-resv.h>
--#include <linux/kobject.h>
--#include <linux/printk.h>
--#include <linux/slab.h>
--#include <linux/sysfs.h>
--
--#include "dma-buf-sysfs-stats.h"
--
--#define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_buf_sysfs_entry, kobj)
--
--/**
-- * DOC: overview
-- *
-- * ``/sys/kernel/debug/dma_buf/bufinfo`` provides an overview of every DMA-BUF
-- * in the system. However, since debugfs is not safe to be mounted in
-- * production, procfs and sysfs can be used to gather DMA-BUF statistics on
-- * production systems.
-- *
-- * The ``/proc/<pid>/fdinfo/<fd>`` files in procfs can be used to gather
-- * information about DMA-BUF fds. Detailed documentation about the interface
-- * is present in Documentation/filesystems/proc.rst.
-- *
-- * Unfortunately, the existing procfs interfaces can only provide information
-- * about the DMA-BUFs for which processes hold fds or have the buffers mmapped
-- * into their address space. This necessitated the creation of the DMA-BUF sysfs
-- * statistics interface to provide per-buffer information on production systems.
-- *
-- * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
-- * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
-- *
-- * The following stats are exposed by the interface:
-- *
-- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
-- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
-- *
-- * The information in the interface can also be used to derive per-exporter
-- * statistics. The data from the interface can be gathered on error conditions
-- * or other important events to provide a snapshot of DMA-BUF usage.
-- * It can also be collected periodically by telemetry to monitor various metrics.
-- *
-- * Detailed documentation about the interface is present in
-- * Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers.
-- */
--
--struct dma_buf_stats_attribute {
--	struct attribute attr;
--	ssize_t (*show)(struct dma_buf *dmabuf,
--			struct dma_buf_stats_attribute *attr, char *buf);
--};
--#define to_dma_buf_stats_attr(x) container_of(x, struct dma_buf_stats_attribute, attr)
--
--static ssize_t dma_buf_stats_attribute_show(struct kobject *kobj,
--					    struct attribute *attr,
--					    char *buf)
--{
--	struct dma_buf_stats_attribute *attribute;
--	struct dma_buf_sysfs_entry *sysfs_entry;
--	struct dma_buf *dmabuf;
--
--	attribute = to_dma_buf_stats_attr(attr);
--	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
--	dmabuf = sysfs_entry->dmabuf;
--
--	if (!dmabuf || !attribute->show)
--		return -EIO;
--
--	return attribute->show(dmabuf, attribute, buf);
--}
--
--static const struct sysfs_ops dma_buf_stats_sysfs_ops = {
--	.show = dma_buf_stats_attribute_show,
--};
--
--static ssize_t exporter_name_show(struct dma_buf *dmabuf,
--				  struct dma_buf_stats_attribute *attr,
--				  char *buf)
--{
--	return sysfs_emit(buf, "%s\n", dmabuf->exp_name);
--}
--
--static ssize_t size_show(struct dma_buf *dmabuf,
--			 struct dma_buf_stats_attribute *attr,
--			 char *buf)
--{
--	return sysfs_emit(buf, "%zu\n", dmabuf->size);
--}
--
--static struct dma_buf_stats_attribute exporter_name_attribute =
--	__ATTR_RO(exporter_name);
--static struct dma_buf_stats_attribute size_attribute = __ATTR_RO(size);
--
--static struct attribute *dma_buf_stats_default_attrs[] = {
--	&exporter_name_attribute.attr,
--	&size_attribute.attr,
--	NULL,
--};
--ATTRIBUTE_GROUPS(dma_buf_stats_default);
--
--static void dma_buf_sysfs_release(struct kobject *kobj)
--{
--	struct dma_buf_sysfs_entry *sysfs_entry;
--
--	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
--	kfree(sysfs_entry);
--}
--
--static const struct kobj_type dma_buf_ktype = {
--	.sysfs_ops = &dma_buf_stats_sysfs_ops,
--	.release = dma_buf_sysfs_release,
--	.default_groups = dma_buf_stats_default_groups,
--};
--
--void dma_buf_stats_teardown(struct dma_buf *dmabuf)
--{
--	struct dma_buf_sysfs_entry *sysfs_entry;
--
--	sysfs_entry = dmabuf->sysfs_entry;
--	if (!sysfs_entry)
--		return;
--
--	kobject_del(&sysfs_entry->kobj);
--	kobject_put(&sysfs_entry->kobj);
--}
--
--
--/* Statistics files do not need to send uevents. */
--static int dmabuf_sysfs_uevent_filter(const struct kobject *kobj)
--{
--	return 0;
--}
--
--static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops = {
--	.filter = dmabuf_sysfs_uevent_filter,
--};
--
--static struct kset *dma_buf_stats_kset;
--static struct kset *dma_buf_per_buffer_stats_kset;
--int dma_buf_init_sysfs_statistics(void)
--{
--	dma_buf_stats_kset = kset_create_and_add("dmabuf",
--						 &dmabuf_sysfs_no_uevent_ops,
--						 kernel_kobj);
--	if (!dma_buf_stats_kset)
--		return -ENOMEM;
--
--	dma_buf_per_buffer_stats_kset = kset_create_and_add("buffers",
--							    &dmabuf_sysfs_no_uevent_ops,
--							    &dma_buf_stats_kset->kobj);
--	if (!dma_buf_per_buffer_stats_kset) {
--		kset_unregister(dma_buf_stats_kset);
--		return -ENOMEM;
--	}
--
--	return 0;
--}
--
--void dma_buf_uninit_sysfs_statistics(void)
--{
--	kset_unregister(dma_buf_per_buffer_stats_kset);
--	kset_unregister(dma_buf_stats_kset);
--}
--
--int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
--{
--	struct dma_buf_sysfs_entry *sysfs_entry;
--	int ret;
--
--	if (!dmabuf->exp_name) {
--		pr_err("exporter name must not be empty if stats needed\n");
--		return -EINVAL;
--	}
--
--	sysfs_entry = kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
--	if (!sysfs_entry)
--		return -ENOMEM;
--
--	sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
--	sysfs_entry->dmabuf = dmabuf;
--
--	dmabuf->sysfs_entry = sysfs_entry;
--
--	/* create the directory for buffer stats */
--	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
--				   "%lu", file_inode(file)->i_ino);
--	if (ret)
--		goto err_sysfs_dmabuf;
--
--	return 0;
--
--err_sysfs_dmabuf:
--	kobject_put(&sysfs_entry->kobj);
--	dmabuf->sysfs_entry = NULL;
--	return ret;
--}
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
-deleted file mode 100644
-index 7a8a995b75ba..000000000000
---- a/drivers/dma-buf/dma-buf-sysfs-stats.h
-+++ /dev/null
-@@ -1,35 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * DMA-BUF sysfs statistics.
-- *
-- * Copyright (C) 2021 Google LLC.
-- */
--
--#ifndef _DMA_BUF_SYSFS_STATS_H
--#define _DMA_BUF_SYSFS_STATS_H
--
--#ifdef CONFIG_DMABUF_SYSFS_STATS
--
--int dma_buf_init_sysfs_statistics(void);
--void dma_buf_uninit_sysfs_statistics(void);
--
--int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
--
--void dma_buf_stats_teardown(struct dma_buf *dmabuf);
--#else
--
--static inline int dma_buf_init_sysfs_statistics(void)
--{
--	return 0;
--}
--
--static inline void dma_buf_uninit_sysfs_statistics(void) {}
--
--static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
--{
--	return 0;
--}
--
--static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
--#endif
--#endif // _DMA_BUF_SYSFS_STATS_H
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 7260bdd77c75..adc6a0c96641 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -31,8 +31,6 @@
- #include <uapi/linux/dma-buf.h>
- #include <uapi/linux/magic.h>
- 
--#include "dma-buf-sysfs-stats.h"
--
- static inline int is_dma_buf_file(struct file *);
- 
- DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -88,7 +86,6 @@ static void dma_buf_release(struct dentry *dentry)
- 	 */
- 	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
- 
--	dma_buf_stats_teardown(dmabuf);
- 	dmabuf->ops->release(dmabuf);
- 
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
-@@ -671,10 +668,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 		dmabuf->resv = resv;
- 	}
- 
--	ret = dma_buf_stats_setup(dmabuf, file);
--	if (ret)
--		goto err_dmabuf;
--
- 	file->private_data = dmabuf;
- 	file->f_path.dentry->d_fsdata = dmabuf;
- 	dmabuf->file = file;
-@@ -683,10 +676,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	return dmabuf;
- 
--err_dmabuf:
--	if (!resv)
--		dma_resv_fini(dmabuf->resv);
--	kfree(dmabuf);
- err_file:
- 	fput(file);
- err_module:
-@@ -1717,12 +1706,6 @@ static inline void dma_buf_uninit_debugfs(void)
- 
- static int __init dma_buf_init(void)
- {
--	int ret;
--
--	ret = dma_buf_init_sysfs_statistics();
--	if (ret)
--		return ret;
--
- 	dma_buf_mnt = kern_mount(&dma_buf_fs_type);
- 	if (IS_ERR(dma_buf_mnt))
- 		return PTR_ERR(dma_buf_mnt);
-@@ -1736,6 +1719,5 @@ static void __exit dma_buf_deinit(void)
- {
- 	dma_buf_uninit_debugfs();
- 	kern_unmount(dma_buf_mnt);
--	dma_buf_uninit_sysfs_statistics();
- }
- __exitcall(dma_buf_deinit);
--- 
-2.49.0.906.g1f30a19c02-goog
+Hi Laurent,
 
+Thanks you for the review.
+
+
+>
+> On Thu, Apr 17, 2025 at 12:25:49PM +0530, Rishikesh Donadkar wrote:
+>> From: Jai Luthra <j-luthra@ti.com>
+>>
+>> Use get_frame_desc() to get the frame desc from the connected source,
+>> and use the provided virtual channel instead of hardcoded one.
+>>
+>> get_frame_desc() works per stream, but as we don't support multiple
+>> streams yet, we will just always use stream 0. If the source doesn't
+>> support get_frame_desc(), fall back to the previous method of always
+>> capturing virtual channel 0.
+>>
+>> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
+>> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+>> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+>> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+>> ---
+>>   .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 39 +++++++++++++++++++
+>>   1 file changed, 39 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> index e85d04d7c2ff9..3e2a0517a9096 100644
+>> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> @@ -29,6 +29,7 @@
+>>   #define SHIM_DMACNTX_EN			BIT(31)
+>>   #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
+>>   #define SHIM_DMACNTX_SIZE		GENMASK(21, 20)
+>> +#define SHIM_DMACNTX_VC			GENMASK(9, 6)
+>>   #define SHIM_DMACNTX_FMT		GENMASK(5, 0)
+>>   #define SHIM_DMACNTX_YUV422_MODE_11	3
+>>   #define SHIM_DMACNTX_SIZE_8		0
+>> @@ -105,6 +106,8 @@ struct ti_csi2rx_ctx {
+>>   	struct media_pad		pad;
+>>   	u32				sequence;
+>>   	u32				idx;
+>> +	u32				vc;
+>> +	u32				stream;
+>>   };
+>>   
+>>   struct ti_csi2rx_dev {
+>> @@ -573,6 +576,7 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+>>   	}
+>>   
+>>   	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
+>> +	reg |= FIELD_PREP(SHIM_DMACNTX_VC, ctx->vc);
+>>   
+>>   	writel(reg, csi->shim + SHIM_DMACNTX(ctx->idx));
+>>   
+>> @@ -846,6 +850,33 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+>>   	}
+>>   }
+>>   
+>> +static int ti_csi2rx_get_vc(struct ti_csi2rx_ctx *ctx)
+>> +{
+>> +	struct ti_csi2rx_dev *csi = ctx->csi;
+>> +	struct v4l2_mbus_frame_desc fd;
+>> +	struct media_pad *pad;
+>> +	int ret, i;
+> i can never be negative, you can make it an unsigned int.
+
+
+Will fix.
+
+
+>
+>> +
+>> +	pad = media_entity_remote_pad_unique(&csi->subdev.entity, MEDIA_PAD_FL_SOURCE);
+>> +	if (!pad)
+>> +		return -ENODEV;
+>> +
+>> +	ret = v4l2_subdev_call(csi->source, pad, get_frame_desc, pad->index,
+>> +			       &fd);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+>> +		return -EINVAL;
+>> +
+>> +	for (i = 0; i < fd.num_entries; i++) {
+>> +		if (ctx->stream == fd.entry[i].stream)
+>> +			return fd.entry[i].bus.csi2.vc;
+>> +	}
+>> +
+>> +	return -ENODEV;
+>> +}
+>> +
+>>   static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>>   {
+>>   	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
+>> @@ -866,6 +897,14 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>>   	if (ret)
+>>   		goto err;
+>>   
+>> +	ret = ti_csi2rx_get_vc(ctx);
+>> +	if (ret == -ENOIOCTLCMD)
+>> +		ctx->vc = 0;
+>> +	else if (ret < 0)
+>> +		goto err;
+>> +	else
+>> +		ctx->vc = ret;
+>> +
+> When you'll add support for multiple streams in patch 11/13, you will
+> end up calling .get_frame_desc() once per stream. All calls will return
+> the same information, so it's a bit wasteful. Would it be possible to
+> call this function once only at start time, and cache and use the
+> results for all video devices ?
+
+
+Yes, Right. I will make these changes in 11/13 when adding
+
+muti-stream support.
+
+
+>
+>>   	ti_csi2rx_setup_shim(ctx);
+>>   
+>>   	ctx->sequence = 0;
+Regards,
+Rishikesh
 
