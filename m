@@ -1,75 +1,86 @@
-Return-Path: <linux-media+bounces-31690-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31686-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896DBAA8E8C
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 10:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B838DAA8E0C
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 10:18:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9DC9B3B7CE5
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 08:52:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ECD5F3A762A
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 08:17:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AA131F4639;
-	Mon,  5 May 2025 08:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBAC91E7640;
+	Mon,  5 May 2025 08:17:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UjK397Cj"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="PZ/cZx6C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AB11F3BBB
-	for <linux-media@vger.kernel.org>; Mon,  5 May 2025 08:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746435129; cv=none; b=ZCc1U/U0oTwcsw513+Jtk+2TA0tvWQxqKjyBPQO0f1RDbH97gGHrT49QLSR8u8iUv22SL1jxwMpuQigoBlRP3y7evOFaOAm/9wC4g/RzUcodn8L+3Scf+98IH1YrHU+RCWFQl5MIgKk0fdJ84D3r7NS+nLd2RPsh3WsEfIDgMe4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746435129; c=relaxed/simple;
-	bh=3fmaZRn+ufPmBNNZOimLphI2w5x+FvUIdMpTDo+LtBo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49E154F8C;
+	Mon,  5 May 2025 08:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746433074; cv=pass; b=iGj6c7x8we/Fe3HCkT9ERqW9xZcjT6DT4s49AfaaOi234yBWII0kl1qnxk4K8wKewkTXt4EGfxERiiWZZlxk6SJbP8CcR5xBlM60ZsBVHFsrSR43oK0lEA+yEuhi5I9LFLlcI+tl8BvqJuGNfW6dWWCdxVfMgYdbNIhlgCX+uJw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746433074; c=relaxed/simple;
+	bh=aU6q/hLEJlDYddLVp0qB4Sh64oToLbHo/SeZqiBvYGA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oQaxwq2IxHOgUsl4y0XKWA1HspGFBXduIH+4V1OAHJllbU02T38Qlrnv8HUSXmu/AfxOHk2wbG3OoiQ7FE/0OISx2+0FmzZH6EQ1qyq8VpnzcEFy00/At/myXxHh5Wuhnzt5vKMvFuDgchAlVa7nFSsaELH3um74hm5TcpsIRHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UjK397Cj; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746435129; x=1777971129;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3fmaZRn+ufPmBNNZOimLphI2w5x+FvUIdMpTDo+LtBo=;
-  b=UjK397CjDh0kQnsesnEceY1RmapZIrKabdReGo5U8Hv38I7NihKlMwL0
-   BDyo5qit2VpeQj5EcHncD75wjZClzV7qqgQyOpXppXYcO6pEweorwX5RH
-   pw4CHx7l9LBNTRxt5vNqbcV6sNFBm6xdvxuk8NmE6YClzXdKpCmLSHda5
-   RFvspf4BMZZ7s+k/Glx3XWz6aDIFMxsVJcM8JNLsCb4FKU7niZu+AwFSj
-   gRsOJSHBcCP3jnC+6MoWoMF99VznEQZjorPDltf8Z/VVMANRapHoF96oC
-   bqc8UDbyQQ0E/yyR3fmhUEU8j/deUzrzqjfldJqY00PJSCgkTEN4nkVKp
-   A==;
-X-CSE-ConnectionGUID: +d3qC3QdQ0Ox1UkRja8SGQ==
-X-CSE-MsgGUID: vbcyeoFrTOSJ58dhkqe33g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="65438674"
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="65438674"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 01:52:08 -0700
-X-CSE-ConnectionGUID: kSv8GRsjTqKkw3D2aolJ/Q==
-X-CSE-MsgGUID: W7iqc9wuSJaCoZJm0kbqTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="139983917"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.252])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 01:52:06 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id F3566120D43;
-	Mon,  5 May 2025 11:13:02 +0300 (EEST)
-Date: Mon, 5 May 2025 08:13:02 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>
-Subject: Re: [PATCH v3 0/5] media: intel/ipu6: continue on ipu7 code sharing
- preparation
-Message-ID: <aBhzDoUZSb40MzBv@kekkonen.localdomain>
-References: <20250502154446.88965-1-stanislaw.gruszka@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NnNflITdBipOffMRx92djdY4EC4DaH723nN3uMQ2YEAD1h9a95fPf8uPvtJ3yvL8qXpNU9SJLs9Xa/51JBmqXbKIj+8oIHWb3D4SV9thjswDNeicoURaqKQ+4HJCP1IPabcZBHOK5+qpdi/c/842Bqm4xlRDRWnLsCf/tG41xPY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=PZ/cZx6C; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4ZrZCJ2GRBzyVF;
+	Mon,  5 May 2025 11:17:48 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1746433069;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gBIZnh1OkGTxH+f6ILMZeaWXA00dbZcm92xt+MSF/Hg=;
+	b=PZ/cZx6CNVwgJqzLEV/bvfwhFnS5bdsAAok/UyfDRMa8z4DkuON0BfzndK2145AxYL9q8b
+	mCgj928UqdAWlhA9xs9MvIFyi0w8aXc35PnHGhSVZ43JXiw1rGzzZvnax+Ozzv5fjI5Iyi
+	vsG7F+Ca/f60iyckUMFWbc7TomyMBos=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1746433069;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gBIZnh1OkGTxH+f6ILMZeaWXA00dbZcm92xt+MSF/Hg=;
+	b=pTPU53Tnq3UK9pG+wTqXxIiTOaRJYNI2G2/WhlGt2jrCOmTcmQAzXkcMaw5Vw0Ln1/UsQE
+	IDqZty8J1WU8bCdhJMb+vmQPqd0l4GTsF+fTHYpvzo1UBSmcjn9VauGrroTsAHBflTl4O6
+	1zinpdFXgpPeGX5k5aqfgIKoOcQ4g4Y=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1746433069; a=rsa-sha256; cv=none;
+	b=bBQYIIb7onkNxkXyOHsj7kPAx+ETAwu2UdZq/lQU05169oNU7aevFQANrt6c6oupyJYyau
+	WPmLtUccmWmsSIxgBvEV7gdhrKteX6fg29qw0xIrUvNdo/0Pxel+7v/yfLXxt1LTuAKetQ
+	rzxNZ4FG6lkCDnvL/d7fTiyJTpC4z/k=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7ADA4634C93;
+	Mon,  5 May 2025 11:17:47 +0300 (EEST)
+Date: Mon, 5 May 2025 08:17:47 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 1/1] media: i2c: ds90ub9x3: Remove unneeded
+ of_gpio_n_cells assignment
+Message-ID: <aBh0K2YGhgxk6ipv@valkosipuli.retiisi.eu>
+References: <20250331070200.3985562-1-andriy.shevchenko@linux.intel.com>
+ <c7fd0bd4-4fc8-43f0-b980-b49472e76445@ideasonboard.com>
+ <Z-5pwpoYEKKmtmPA@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,30 +89,26 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250502154446.88965-1-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <Z-5pwpoYEKKmtmPA@smile.fi.intel.com>
 
-Hi Stanislaw,
+Hi Andy, Tomi,
 
-On Fri, May 02, 2025 at 05:44:41PM +0200, Stanislaw Gruszka wrote:
-> Cleanups and code sharing preparation with ipu7 driver.
+On Thu, Apr 03, 2025 at 01:58:10PM +0300, Andy Shevchenko wrote:
+> On Thu, Apr 03, 2025 at 11:07:40AM +0300, Tomi Valkeinen wrote:
+> > On 31/03/2025 10:02, Andy Shevchenko wrote:
+> > > The default for of_gpio_n_cells is 2, no need to assign the same
+> > > in the user.
+> > 
+> > Where is this documented? I'm also having trouble finding the
+> > implementation.
 > 
-> This is on top of:
-> https://git.linuxtv.org/sailus/media_tree.git/log/?h=devel
-> Plus:
-> https://lore.kernel.org/linux-media/20250317073856.162147-1-stanislaw.gruszka@linux.intel.com/
-> https://lore.kernel.org/linux-media/20250428161643.321617-1-stanislaw.gruszka@linux.intel.com/#t
+> The idea was introduced back in 391c970c0dd1 ("of/gpio: add default of_xlate
+> function if device has a node pointer"). But now I realised that it was never
+> assumed that default is 2 for the cases when the ->of_xlate() explicitly
+> provided. So, this is wrong patch, thanks for the review!
 
-Thanks for these. I've applied patches from 1 to 3 for now.
-
-Going forward, could you post cleanups and reorganising the code into
-common bits in separate sets? It'll be easier to see where this is going
-when all related patches are in the same set. Cleanups and fixes we can
-merge earlier on anyway.
-
-Thanks.
+Does the same conclusion apply to the similar max96717 patch as well?
 
 -- 
-Kind regards,
-
 Sakari Ailus
 
