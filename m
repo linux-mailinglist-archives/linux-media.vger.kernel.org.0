@@ -1,60 +1,64 @@
-Return-Path: <linux-media+bounces-31747-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31748-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED042AAA389
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:16:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C331FAAA366
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:13:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0F5A7B3AEC
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:11:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA67D18886E0
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:14:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F18E52F1CD4;
-	Mon,  5 May 2025 22:23:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65F2B2F2C73;
+	Mon,  5 May 2025 22:23:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AncV8vDT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cm8LNfUp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FDE2F0BBC;
-	Mon,  5 May 2025 22:23:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3832F2C49;
+	Mon,  5 May 2025 22:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483825; cv=none; b=PdOuO/PSdyDpYrQTKTnBPA+SQWmBmzjmCRwetXzhHsvJUk9+ULl5lzMx9ig0NydHRNmyfxhZ3BCBqpDuF6ugGNPpYf/+qqEpPnxITprfp1RWZbSOfuLjU1/mvUSBZJjNlDkTXEyxGJvhSRUJZxCsteMF88fCEN4pKzv4crOxzd8=
+	t=1746483832; cv=none; b=f5+DViYJXxy66tCzRgnKwtLxq3/nu+QzoDOLYgkKuWajfpHszvTdeP0mvRmcB618Zhsyn19W9DaVSkcLz0gJ+Zc/hlFBMMLGLBFtOt5B+7F8USL/7png8h1kUEC/ewUuV+Csz3vURpcUG9LsvZhkaXJRKCu+1dV6ai6eoK3J2bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483825; c=relaxed/simple;
-	bh=edg0nVXu9uZj8Xe9yrtJPdIbvKzEURgpFHi0v/+YL6I=;
+	s=arc-20240116; t=1746483832; c=relaxed/simple;
+	bh=26/odUkey/X+bTC+KqJYPkWtonnW+CCXpcrZT16N65M=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aKZQ+zn4Dj1qXym26hSfsGSE8/XK9FdDHg5tSwkK5yJJTpTtJ1kWaI7OGttJAEgCWtR+w67Y6HOqMRya7hLh+rYzdapFWJ/ObPyspFFJr5+N5vrxpwF+jG6efr6PQrUn3Dc5Y/+AoLK1lx7tNQHh7a4NeS6ymFTLW3BIqkaCFmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AncV8vDT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17406C4CEE4;
-	Mon,  5 May 2025 22:23:43 +0000 (UTC)
+	 MIME-Version:Content-Type; b=NqogE1HnCBp6GeiJipDAolOOcOM0qPIuelEo7SSnnYqAKVIyj95l68Yq7mMdZBo/8oEdRq/jQSszjS9yFfO5yiA/zDHCVv6ARNw8chwd4R14RlBVXp8gAuK1FgrzwtOKN3anr1+X9I6i0qINt56XIjOF5UfDStAjVtLOXoBHRyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cm8LNfUp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B56E3C4CEED;
+	Mon,  5 May 2025 22:23:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483825;
-	bh=edg0nVXu9uZj8Xe9yrtJPdIbvKzEURgpFHi0v/+YL6I=;
+	s=k20201202; t=1746483832;
+	bh=26/odUkey/X+bTC+KqJYPkWtonnW+CCXpcrZT16N65M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AncV8vDTIwaC4MLZN7NaViufOkAl4CRikmEI3Lwpq0B6Tpkdy5qppnC2cPOgtlI2P
-	 niy3Gv9IW8HDT0+PzJ4pazHcl4PsaqUFoD+9GXGzf1GffG87qjQlkyQLGn3XdnALNn
-	 01gV8LrizKVUzpDmsNFD1MH4XaOHe3fn8yyU8TD5Rxh9rY8WK4D492Qco+qpbZy3lv
-	 Y40JE2GrSmggZAkE2YSBpJ3pRdx5gfnt8ekHyBaydIWt5mHlW0Cdh1IC8ZTwvTPQEd
-	 ulDv9+/Axit6QbW8R9XJnF2TZ6kk1DfkdOy0rgHE+1DyOcoIj8FSGt5o5cfdLkF9+n
-	 kZhs3mQFJMGRA==
+	b=Cm8LNfUpy6l6H2psnQRq9/jjwWToHsmAtJioKUlDYYDiq2KEYYtgS6flMVxQT9Gfn
+	 ONxjybJX2UoX6yaIW2luRFVMe09b1+bjaKNZ40PpcHw7DD8dTeNB3P8ig1kHiJsEWs
+	 0z2cz2Vb5DrDyw4Bt0TgOYXp8rNBnGxiIrnff+hxFpIp5oJrYmVdiPrQh3fEX1D/JE
+	 AU7WrEp4vIxs8cMYothWApz/DZ5H03eNcwe28c7KW4zSF/uKHP3MEjzg3Dei2G5AsZ
+	 6QTJIuYvUSMQJDtidZJc9NxbZ6dBavmyqoA/ehggfimN0QLGBV4iHS1mewjQJ0JHxf
+	 c4hltJ30857EQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+	Anusha Srivatsa <asrivats@redhat.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
 	Sasha Levin <sashal@kernel.org>,
-	mchehab@kernel.org,
-	namcao@linutronix.de,
-	tglx@linutronix.de,
-	jani.nikula@intel.com,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 236/642] media: cec: use us_to_ktime() where appropriate
-Date: Mon,  5 May 2025 18:07:32 -0400
-Message-Id: <20250505221419.2672473-236-sashal@kernel.org>
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	sumit.semwal@linaro.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 6.14 241/642] drm/gem: Test for imported GEM buffers with helper
+Date: Mon,  5 May 2025 18:07:37 -0400
+Message-Id: <20250505221419.2672473-241-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -64,84 +68,89 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit c0c1a6bf80e9075e3f6b81fd542550d8eb91e57a ]
+[ Upstream commit b57aa47d39e94dc47403a745e2024664e544078c ]
 
-[Why]
-There are several ns_to_ktime() calls that require using nanoseconds. It is
-better to replace them with us_to_ktime() to make code clear, getting rid
-of multiplication by 1000.
+Add drm_gem_is_imported() that tests if a GEM object's buffer has
+been imported. Update the GEM code accordingly.
 
-Also the timer function code may have an integer wrap-around issue. Since
-both tx_custom_low_usecs and tx_custom_high_usecs can be set to up to
-9999999 from the user space via cec_pin_error_inj_parse_line(), this may
-cause usecs to be overflowed when adap->monitor_pin_cnt is zero and usecs
-is multiplied by 1000.
+GEM code usually tests for imports if import_attach has been set
+in struct drm_gem_object. But attaching a dma-buf on import requires
+a DMA-capable importer device, which is not the case for many serial
+busses like USB or I2C. The new helper tests if a GEM object's dma-buf
+has been created from the GEM object.
 
-[How]
-Take advantage of using an appropriate helper func us_to_ktime() instead of
-ns_to_ktime() to improve readability and to make the code clearer. And this
-also mitigates possible integer wrap-arounds when usecs value is too large
-and it is multiplied by 1000.
-
-Found by Linux Verification Center (linuxtesting.org) with Svace.
-
-Signed-off-by: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Anusha Srivatsa <asrivats@redhat.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250226172457.217725-2-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/cec/core/cec-pin.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_gem.c |  4 ++--
+ include/drm/drm_gem.h     | 14 ++++++++++++++
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
-index a70451d99ebc9..f232c3df7ee16 100644
---- a/drivers/media/cec/core/cec-pin.c
-+++ b/drivers/media/cec/core/cec-pin.c
-@@ -873,19 +873,19 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
- 		if (pin->wait_usecs > 150) {
- 			pin->wait_usecs -= 100;
- 			pin->timer_ts = ktime_add_us(ts, 100);
--			hrtimer_forward_now(timer, ns_to_ktime(100000));
-+			hrtimer_forward_now(timer, us_to_ktime(100));
- 			return HRTIMER_RESTART;
- 		}
- 		if (pin->wait_usecs > 100) {
- 			pin->wait_usecs /= 2;
- 			pin->timer_ts = ktime_add_us(ts, pin->wait_usecs);
- 			hrtimer_forward_now(timer,
--					ns_to_ktime(pin->wait_usecs * 1000));
-+					us_to_ktime(pin->wait_usecs));
- 			return HRTIMER_RESTART;
- 		}
- 		pin->timer_ts = ktime_add_us(ts, pin->wait_usecs);
- 		hrtimer_forward_now(timer,
--				    ns_to_ktime(pin->wait_usecs * 1000));
-+				    us_to_ktime(pin->wait_usecs));
- 		pin->wait_usecs = 0;
- 		return HRTIMER_RESTART;
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index ee811764c3df4..c6240bab3fa55 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -348,7 +348,7 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+ 		return -ENOENT;
+ 
+ 	/* Don't allow imported objects to be mapped */
+-	if (obj->import_attach) {
++	if (drm_gem_is_imported(obj)) {
+ 		ret = -EINVAL;
+ 		goto out;
  	}
-@@ -1020,13 +1020,12 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
- 	if (!adap->monitor_pin_cnt || usecs <= 150) {
- 		pin->wait_usecs = 0;
- 		pin->timer_ts = ktime_add_us(ts, usecs);
--		hrtimer_forward_now(timer,
--				ns_to_ktime(usecs * 1000));
-+		hrtimer_forward_now(timer, us_to_ktime(usecs));
- 		return HRTIMER_RESTART;
- 	}
- 	pin->wait_usecs = usecs - 100;
- 	pin->timer_ts = ktime_add_us(ts, 100);
--	hrtimer_forward_now(timer, ns_to_ktime(100000));
-+	hrtimer_forward_now(timer, us_to_ktime(100));
- 	return HRTIMER_RESTART;
+@@ -1178,7 +1178,7 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
+ 			  drm_vma_node_start(&obj->vma_node));
+ 	drm_printf_indent(p, indent, "size=%zu\n", obj->size);
+ 	drm_printf_indent(p, indent, "imported=%s\n",
+-			  str_yes_no(obj->import_attach));
++			  str_yes_no(drm_gem_is_imported(obj)));
+ 
+ 	if (obj->funcs->print_info)
+ 		obj->funcs->print_info(p, indent, obj);
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index fdae947682cd0..2bf893eabb4b2 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -35,6 +35,7 @@
+  */
+ 
+ #include <linux/kref.h>
++#include <linux/dma-buf.h>
+ #include <linux/dma-resv.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+@@ -575,6 +576,19 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+ 	return (obj->handle_count > 1) || obj->dma_buf;
  }
  
++/**
++ * drm_gem_is_imported() - Tests if GEM object's buffer has been imported
++ * @obj: the GEM object
++ *
++ * Returns:
++ * True if the GEM object's buffer has been imported, false otherwise
++ */
++static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
++{
++	/* The dma-buf's priv field points to the original GEM object. */
++	return obj->dma_buf && (obj->dma_buf->priv != obj);
++}
++
+ #ifdef CONFIG_LOCKDEP
+ /**
+  * drm_gem_gpuva_set_lock() - Set the lock protecting accesses to the gpuva list.
 -- 
 2.39.5
 
