@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-31759-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31760-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0331AAA5D7
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:59:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43349AAA5DB
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:59:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C91B21884AD5
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:58:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0035E188A65E
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:58:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBBCA319416;
-	Mon,  5 May 2025 22:31:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B68D28DF05;
+	Mon,  5 May 2025 22:31:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+PVU3wO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A+9TDjsH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4117531940A;
-	Mon,  5 May 2025 22:31:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E274B319430;
+	Mon,  5 May 2025 22:31:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484278; cv=none; b=U+1KPIkWtaKJY7hx+ggvWeD4zhQOt18+9jACQCPqmE1yF+Czd0oLAmEWUIccnlUp33ywf57rYylOiB2tP41YKbz5L1Gt89C+lz9iR3CZ+6vjHAJg+/5JQunhsSK+0mHo7MmLzicCwVWylJ7u1KFFWY0sP97vL7hTuxui5kNScko=
+	t=1746484280; cv=none; b=jLcajWabn478klHC/C6a9lFD/VLwNXz37ZibBkmNPOspnqNy1MF9xGXEpebcyoWcsF3x4+BYE3IEhSQwcJlWjSxuf4dS+mChKyooqj6fgxwPEaB0tPIIjhB2xzlk8mNd1BdqA1t+yFGfG6FLdiK16/sSwqkjaAycCYQH4QA6SSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484278; c=relaxed/simple;
-	bh=g2l8e60TVojOygbW8eyFICSVVjr2ivWSE2C2kKPrgXI=;
+	s=arc-20240116; t=1746484280; c=relaxed/simple;
+	bh=v/ju6zynRUJtqKH6u2Ic/XOrJDA6okuwg9/FkbE2tGk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nVictS9q7NzACs6QIgzzneGW56wrWtPjZ6kJ3xh9AZDTXgm70wPKro+yxnBpfIMu4zhpW1GXiVqCYVVkrvykfDIVpgJQUm2x9i9886EAojaDhttCQivq5ye9hs2RQnGpnsNaIZGS/B1h6oeR/VEtGJI7BSOWkBv/drZNIoG+BhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m+PVU3wO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D396FC4CEF1;
-	Mon,  5 May 2025 22:31:16 +0000 (UTC)
+	 MIME-Version; b=SevnkNivsd/4QCMrv+9zG3YzEI1k/JfbdtBmC3K24OhDJPcFB9XWZbibD55jyXXZSxZCUYg9C+JWyZfpPjtaWcW/hqJDZjcdmi56dFky7u4WRMNV1E5Tww/BSK/uVG/EXWNB5DYaPpwJXAScTdEHxNOmeZKgI/kxkvpcMvz7Jik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A+9TDjsH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ECAEC4CEEE;
+	Mon,  5 May 2025 22:31:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484278;
-	bh=g2l8e60TVojOygbW8eyFICSVVjr2ivWSE2C2kKPrgXI=;
+	s=k20201202; t=1746484279;
+	bh=v/ju6zynRUJtqKH6u2Ic/XOrJDA6okuwg9/FkbE2tGk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m+PVU3wOOnnG2vNPqWGD826DoZkO5grGoRuoYr6IfWAZ9giht0tk5t82IKBFLUHcS
-	 TQ+uiJEIO50u73K2MhmubaQ0OgugMnl97RHhaZLi6DmlqGI8k1TuyjVEJEwuRs6n9B
-	 4tY1T9PjSw5Q8zE3F4g8G4EsNp/v3tue1KVs68SxOk4NCaoCaO73ghTLaKQYBqhL2l
-	 VNBt0bUj1q7RTU/tSI6kwtM0FFIbhdsOpc5OJSdjR75OGlNorwWPqxFi7XBUqX/3R7
-	 c8uoRsqXIAU/il6Oqm96UMnrpcgkw4DGseMcAjSdL7qfEbqW9ccFk7wnIhX4ApvMjm
-	 MI5735vo4r7XA==
+	b=A+9TDjsH975qB90gOtGzj6E8AYAO6D6H6gh72hzEOFkisAEf5JYKmoWKPAeZxcdY/
+	 AjlMjaSZ2a4nx1t7J/oNri/SagdMybVPD5L9ot6Vl9CzwLHqBUXAeajdjVjTzzrxm0
+	 cmu8xP+oTskjPSYxivCQaPu3PVq7iHtJ+V0eyu9HlWvBHHVAQ35gH8XMi2oi4z0xvf
+	 0lAznC+zZ7JD9W7Za+OYgO4MdN9WbroaDzZeA1qdmZYWo3iIqNm3dtOAATpT7y4mVm
+	 DyaMOKAGiLSQ6wlYp9XGagytxZWxlrYJ6uCKmFXeOOEzDo6TRyMZTXolysCoq3o+CH
+	 h7wNrylfx7iIQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -54,9 +54,9 @@ Cc: Alain Volmat <alain.volmat@foss.st.com>,
 	linux-media@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.14 430/642] media: stm32: csi: use ARRAY_SIZE to search D-PHY table
-Date: Mon,  5 May 2025 18:10:46 -0400
-Message-Id: <20250505221419.2672473-430-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 431/642] media: stm32: csi: add missing pm_runtime_put on error
+Date: Mon,  5 May 2025 18:10:47 -0400
+Message-Id: <20250505221419.2672473-431-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -73,78 +73,64 @@ Content-Transfer-Encoding: 8bit
 
 From: Alain Volmat <alain.volmat@foss.st.com>
 
-[ Upstream commit a3a91b6e62be24c5df47a800c367504cb41e502b ]
+[ Upstream commit f7cd9c94959e7a5b8c4eca33e20bd6ba1b048a64 ]
 
-Within stm32_csi_start, use ARRAY_SIZE loop in order to search
-for the right setting.
-Avoid useless init of lanes_ie / lanes_en.
+Within the stm32_csi_start function, pm_runtime_put should
+be called upon error following pm_runtime_get_sync.
+Rework the function error handling by putting a label in
+order to have common error handling for all calls requiring
+pm_runtime_put.
 
 Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/st/stm32/stm32-csi.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ drivers/media/platform/st/stm32/stm32-csi.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/platform/st/stm32/stm32-csi.c b/drivers/media/platform/st/stm32/stm32-csi.c
-index 48941aae8c9b8..a4f8db608cedd 100644
+index a4f8db608cedd..0c776e4a7ce83 100644
 --- a/drivers/media/platform/st/stm32/stm32-csi.c
 +++ b/drivers/media/platform/st/stm32/stm32-csi.c
-@@ -325,7 +325,6 @@ static const struct stm32_csi_mbps_phy_reg snps_stm32mp25[] = {
- 	{ .mbps = 2400, .hsfreqrange = 0x47,	.osc_freq_target = 442 },
- 	{ .mbps = 2450, .hsfreqrange = 0x48,	.osc_freq_target = 451 },
- 	{ .mbps = 2500, .hsfreqrange = 0x49,	.osc_freq_target = 460 },
--	{ /* sentinel */ }
- };
+@@ -499,21 +499,19 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
  
- static const struct v4l2_mbus_framefmt fmt_default = {
-@@ -444,13 +443,13 @@ static void stm32_csi_phy_reg_write(struct stm32_csi_dev *csidev,
- static int stm32_csi_start(struct stm32_csi_dev *csidev,
- 			   struct v4l2_subdev_state *state)
- {
--	const struct stm32_csi_mbps_phy_reg *phy_regs;
-+	const struct stm32_csi_mbps_phy_reg *phy_regs = NULL;
- 	struct v4l2_mbus_framefmt *sink_fmt;
- 	const struct stm32_csi_fmts *fmt;
- 	unsigned long phy_clk_frate;
-+	u32 lanes_ie, lanes_en;
- 	unsigned int mbps;
--	u32 lanes_ie = 0;
--	u32 lanes_en = 0;
-+	unsigned int i;
- 	s64 link_freq;
- 	int ret;
- 	u32 ccfr;
-@@ -474,11 +473,14 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
- 	mbps = div_s64(link_freq, 500000);
- 	dev_dbg(csidev->dev, "Computed Mbps: %u\n", mbps);
+ 	ret = pm_runtime_get_sync(csidev->dev);
+ 	if (ret < 0)
+-		return ret;
++		goto error_put;
  
--	for (phy_regs = snps_stm32mp25; phy_regs->mbps != 0; phy_regs++)
--		if (phy_regs->mbps >= mbps)
-+	for (i = 0; i < ARRAY_SIZE(snps_stm32mp25); i++) {
-+		if (snps_stm32mp25[i].mbps >= mbps) {
-+			phy_regs = &snps_stm32mp25[i];
- 			break;
-+		}
-+	}
- 
--	if (!phy_regs->mbps) {
-+	if (!phy_regs) {
- 		dev_err(csidev->dev, "Unsupported PHY speed (%u Mbps)", mbps);
- 		return -ERANGE;
+ 	/* Retrieve CSI2PHY clock rate to compute CCFR value */
+ 	phy_clk_frate = clk_get_rate(csidev->clks[STM32_CSI_CLK_CSI2PHY].clk);
+ 	if (!phy_clk_frate) {
+-		pm_runtime_put(csidev->dev);
+ 		dev_err(csidev->dev, "CSI2PHY clock rate invalid (0)\n");
+-		return ret;
++		ret = -EINVAL;
++		goto error_put;
  	}
-@@ -488,8 +490,8 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
- 		phy_regs->osc_freq_target);
  
- 	/* Prepare lanes related configuration bits */
--	lanes_ie |= STM32_CSI_SR1_DL0_ERRORS;
--	lanes_en |= STM32_CSI_PCR_DL0EN;
-+	lanes_ie = STM32_CSI_SR1_DL0_ERRORS;
-+	lanes_en = STM32_CSI_PCR_DL0EN;
- 	if (csidev->num_lanes == 2) {
- 		lanes_ie |= STM32_CSI_SR1_DL1_ERRORS;
- 		lanes_en |= STM32_CSI_PCR_DL1EN;
+ 	ret = stm32_csi_setup_lane_merger(csidev);
+-	if (ret) {
+-		pm_runtime_put(csidev->dev);
+-		return ret;
+-	}
++	if (ret)
++		goto error_put;
+ 
+ 	/* Enable the CSI */
+ 	writel_relaxed(STM32_CSI_CR_CSIEN, csidev->base + STM32_CSI_CR);
+@@ -569,6 +567,10 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
+ 	writel_relaxed(0, csidev->base + STM32_CSI_PMCR);
+ 
+ 	return ret;
++
++error_put:
++	pm_runtime_put(csidev->dev);
++	return ret;
+ }
+ 
+ static void stm32_csi_stop(struct stm32_csi_dev *csidev)
 -- 
 2.39.5
 
