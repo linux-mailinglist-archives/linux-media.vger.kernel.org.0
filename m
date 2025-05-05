@@ -1,139 +1,174 @@
-Return-Path: <linux-media+bounces-31719-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31720-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46E9AA977F
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 17:27:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0C3AA97A8
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 17:40:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE1051884D3C
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 15:27:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1893189A221
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 15:41:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F7986136;
-	Mon,  5 May 2025 15:26:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDEB225D203;
+	Mon,  5 May 2025 15:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U8sGgxqH"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LwTT6o7X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4576025D1E1
-	for <linux-media@vger.kernel.org>; Mon,  5 May 2025 15:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2717925F795;
+	Mon,  5 May 2025 15:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746458794; cv=none; b=VOfyaKYidCa2od8CbZFLSH5V/6kb9d6oj3XDDJd9ifBx3zhfUY8saiiboBVX0INdGpYr+8BjHoSogq0q75otObewpvXeczoa6Atnzb3px8DzdYMS6cKzC2LSVkyry26BcyHhdFhp0r9OuHD7Zy1rGNUzvEmwbygvaW2MrguOmvs=
+	t=1746459632; cv=none; b=W5NLxkOf9sTjjg0xNW6bs48187jgapCjNm3ibRDxa1TQVn27m7fOJRJFpSrjWymuG/mumPEszfJWwh9TxKbX+UQEkym0MqaX+ldhqGLSvJWyM5u2nx+SLdzBuVThs0+dHo9VUPbBIkgeHD5qaMYAN+9fxzXrpxeHGwqapPd3PMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746458794; c=relaxed/simple;
-	bh=+7ZvaAH1ov6WTjRc/sK58Q8YthEL9Hdka6roHB/Bnq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U1Qb9A6jHKncYcvhBVsIECpJgrSFsh8fJMNKDV2OPIeFy2xnJQap8GCPp+NtlzMh/R3vg6IrQfUBvhQhqcbv9JZum1DlbT6/dlQ1ASIs6OJVhrZv2+8OklmHwrGsgjD06XddnyJXK2ELGD7Rhumcp05Hx70qxmEQDtT5NDYOWk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U8sGgxqH; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746458793; x=1777994793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+7ZvaAH1ov6WTjRc/sK58Q8YthEL9Hdka6roHB/Bnq4=;
-  b=U8sGgxqHwFalMfwt53mMRbNKhS7Rxa64KQsoSrHBGKFH2jcXaVYQ5Lr4
-   rYXIBLUmCWyoJ391Y9DHg+FNfbdAY8I/pVWmHJhM5BeitlVhRJ6QF/I5t
-   YuQ5BDQWZsBrYZiA+8P07ipnCbD5DnGMJYHbkeKgmBi0U8PfDJaN4WXej
-   w/XZWMAYGQCZSSGKQcjU/V7FYjN47eBBiTmfmzUN4Z7uzTgph86avw3jp
-   lLQu0qHqRF7/ISv4Ja74hVCCSX4FM/Frtw4IPXTUetqfAa33GIdEgQVQX
-   a9TxvHQFy15rY4hc3RxYfgzi5wm90bJp7UO0rqpyDUNXf+lXJYacrZO9j
-   Q==;
-X-CSE-ConnectionGUID: PDS9t15wTcWoimFCbYbUBQ==
-X-CSE-MsgGUID: W3sPChVNQpa5MUgsvODuhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="59062302"
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="59062302"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 08:26:32 -0700
-X-CSE-ConnectionGUID: km55bGybQjGEQjP55SIlKQ==
-X-CSE-MsgGUID: EBgjQYebTbmLv2qorur9aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="140060289"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.252])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 08:26:25 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 2E63711F828;
-	Mon,  5 May 2025 18:26:22 +0300 (EEST)
-Date: Mon, 5 May 2025 15:26:22 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hans@jjverkuil.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sean Young <sean@mess.org>, Ricardo Ribalda <ribalda@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Tomasz Figa <tfiga@chromium.org>,
-	"Hu, Jerry W" <jerry.w.hu@intel.com>,
-	Steve Cho <stevecho@chromium.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Devarsh Thakkar <devarsht@ti.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Stefan Klug <stefan.klug@ideasonboard.com>
-Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v4)
-Message-ID: <aBjYnrvg-_T-7xRi@kekkonen.localdomain>
-References: <f6d44024-a78e-42b8-971a-797ed8fbb1ff@jjverkuil.nl>
+	s=arc-20240116; t=1746459632; c=relaxed/simple;
+	bh=TwSwHwpLzDr6CZ2+I8uOStWllEqJgD7WBY8PoxSQIaw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WFZKCDgmnGdbDtmf3LfsP1b9leH8bZzw0WHvR8EFZgeccTrQGNFBEdc/qFH04rUvpAHt3cFkQcLd7rVJpz5V3tKCFaL6mG38jrc6Ebtn9elvBP5aspiDVEwGyQccEkflAVlzHrY7iwaqO5yYZ9DTPKtKSNJormQ2XNQka5mBq4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LwTT6o7X; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 91A721FCEC;
+	Mon,  5 May 2025 15:40:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1746459628;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UBYsbaMUgCU3xrNUXqOQUS26EA2NwGQGGtFkJLTd4hk=;
+	b=LwTT6o7XmsdFToiMiC5FFHejRDC+mV87A28SYyqhlPIrw2/w0aTiXvdfK0F72Hsbfs2qsc
+	KE4jMMP6Jvan54G02vyArPLM5Gxg0/RhFWttuoGlV9raCmw+fnqvaixqcw1YXyzIxSo3zN
+	nov+Nk6X2J7vv5P8tf9yIzGo8+8JfjhuguJs6AIbuwISvPVLi95APUxJA+ThxweN5oNO0R
+	PYep9R85h9NsrCkWpJYd3RQ6+CQZk0Vs5sC0jXpU9LxoYZUlHOXjcLtJHrl+5c+jU8UfUY
+	cxk2/DHNpQAAHjWG2w03fTeCeM9KYf58hUvmrHOo93TvNJU3u/g9Cax1ZFSI2Q==
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ Cosmin Tanislav <demonsingur@gmail.com>
+Subject: Re: [PATCH v4 5/9] i2c: atr: deduplicate logic in attach_addr()
+Date: Mon, 05 May 2025 17:40:21 +0200
+Message-ID: <2825982.mvXUDI8C0e@fw-rgant>
+In-Reply-To: <20250428102516.933571-6-demonsingur@gmail.com>
+References:
+ <20250428102516.933571-1-demonsingur@gmail.com>
+ <20250428102516.933571-6-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f6d44024-a78e-42b8-971a-797ed8fbb1ff@jjverkuil.nl>
+Content-Type: multipart/signed; boundary="nextPart12704921.O9o76ZdvQC";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkedugeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkfgjfhggtgesghdtreertddtjeenucfhrhhomheptfhomhgrihhnucfirghnthhoihhsuceorhhomhgrihhnrdhgrghnthhoihhssegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeikeekffdvuefgkeejgeefhfdvteeuhfdtleeiudehieeludelvdetleeggfffffenucfkphepvdgrtddvmeekgedvgeemkedtkedvmeehrgdtudemrgdtgegvmehfjeeiheemleehrgemughfkeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeekgedvgeemkedtkedvmeehrgdtudemrgdtgegvmehfjeeiheemleehrgemughfkeeipdhhvghlohepfhifqdhrghgrnhhtrdhlohgtrghlnhgvthdpmhgrihhlfhhrohhmpehrohhmrghinhdrghgrnhhtohhishessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepuggvmhhonhhsihhnghhurhesghhmrghilhdrtghomhdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhutggrrdgtvghrvghsohhlihess
+ ghoohhtlhhinhdrtghomhdprhgtphhtthhopeifshgrodhrvghnvghsrghssehsrghnghdqvghnghhinhgvvghrihhnghdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggvpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqihdvtgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-GND-Sasl: romain.gantois@bootlin.com
 
-Hans, Laurent, others,
+--nextPart12704921.O9o76ZdvQC
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Date: Mon, 05 May 2025 17:40:21 +0200
+Message-ID: <2825982.mvXUDI8C0e@fw-rgant>
+In-Reply-To: <20250428102516.933571-6-demonsingur@gmail.com>
+MIME-Version: 1.0
 
-On Fri, May 02, 2025 at 10:15:27AM +0200, Hans Verkuil wrote:
-> 16:35-17:30: Hans Verkuil: Status of Media CI/Multi-committers
+On Monday, 28 April 2025 12:25:10 CEST Cosmin Tanislav wrote:
+> This is the same logic as in i2c_atr_create_mapping_by_addr().
 > 
-> Please reply with corrections, questions, etc. to the agenda.
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+>  drivers/i2c/i2c-atr.c | 30 ++++++------------------------
+>  1 file changed, 6 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/i2c/i2c-atr.c b/drivers/i2c/i2c-atr.c
+> index 42f433846f63..bf7b2ac5e9cf 100644
+> --- a/drivers/i2c/i2c-atr.c
+> +++ b/drivers/i2c/i2c-atr.c
+> @@ -538,38 +538,20 @@ static int i2c_atr_attach_addr(struct i2c_adapter
+> *adapter, struct i2c_atr_chan *chan = adapter->algo_data;
+>  	struct i2c_atr *atr = chan->atr;
+>  	struct i2c_atr_alias_pair *c2a;
+> -	u16 alias;
+> -	int ret;
+> -
+> -	ret = i2c_atr_reserve_alias(chan->alias_pool);
+> -	if (ret < 0) {
+> -		dev_err(atr->dev, "failed to find a free alias\n");
+> -		return ret;
+> -	}
+> -
+> -	alias = ret;
+> +	int ret = 0;
+> 
+>  	mutex_lock(&chan->alias_pairs_lock);
+> 
+> -	c2a = i2c_atr_create_c2a(chan, alias, addr);
+> +	c2a = i2c_atr_create_mapping_by_addr(chan, addr);
+>  	if (!c2a) {
+> -		ret = -ENOMEM;
+> -		goto err_release_alias;
+> +		dev_err(atr->dev, "failed to find a free alias\n");
+> +		ret = -EBUSY;
+> +		goto out_unlock;
+>  	}
+> 
+> -	ret = atr->ops->attach_addr(atr, chan->chan_id, addr, alias);
+> -	if (ret)
+> -		goto err_del_c2a;
+> -
+>  	dev_dbg(atr->dev, "chan%u: using alias 0x%02x for addr 0x%02x\n",
+> -		chan->chan_id, alias, addr);
+> +		chan->chan_id, c2a->alias, addr);
+> 
+> -	goto out_unlock;
+> -
+> -err_del_c2a:
+> -	i2c_atr_destroy_c2a(&c2a);
+> -err_release_alias:
+> -	i2c_atr_release_alias(chan->alias_pool, alias);
+>  out_unlock:
+>  	mutex_unlock(&chan->alias_pairs_lock);
+>  	return ret;
 
-As it seems we might have a little bit of time left, I'd like to propose a
-keysigning party we haven't done for a few years now. We have some new
-people here and the folks who have been around for longer have new keys,
-too.
+Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
 
-This is what we did the previous time
-<URL:https://lore.kernel.org/linux-media/YxhplLKtRAQzlSK/@pendragon.ideasonboard.com/>.
 
-I wonder if Laurent would like to do the same this time around. I can also
-help with the arrangements.
+--nextPart12704921.O9o76ZdvQC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-Instead of key servers, there is
-<URL:https://git.kernel.org/pub/scm/docs/kernel/pgpkeys.git/>. For initial
-fingerprint distribution, e-mail or an editable document (over HTTPS)
-probably works the best. I can provide an e-mail address / URL in case
-there's a need to.
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Kind regards,
+iQIzBAABCAAdFiEEYFZBShRwOvLlRRy+3R9U/FLj284FAmgY2+UACgkQ3R9U/FLj
+28563Q/7BO3/o5U31GG5Go9gk5wd9w+Ceupx4i6VKlWc3w+4pQR+Ha49MDcEaPnG
+w7sZvOvg1YIZctxMZEAV0sFtczaAgyFr+quxCjkpPzysBAJ6opXRpKzc4FlZ4YYv
+98AT83C33CIUQg7iyR6REutk9uwWE7ywTzsw+F/I2rt5vgAXZMV7IzwdnyKVWmpH
+qQYBkLEYHWw67IWQU6tQagKkXAE4A9xWLAWqKT3lGMDYESWyQPbaDMmN3qusFUkc
+qCjcClWCNG4LMQdgP0mjQLQYKZ/tFz91vwSUIk3tU9PPojvHQcSrE5QyZL/oNW8P
+fBxlI72aLBLVcbOWNhr170VzfKhUo6uRs6m7zjGUXEeJLTLXBNH8d7zM7a1Vs69d
+4Sy0DyeUl0Lm9qxxHc7WzBKautCZ4Jx7ZhWzRwAlN4lIfLzFNSv4dJngjV5SMZXa
+FsV/LeeDawpZ5wM5HL2VY/FbKC0GDZg5KWuuqE3q+0toIpnURkfxq5jaKRKsCYXX
+Bo0Q8qRzrb8A85YuQ9Gl+Appok/G8PfKi8KoJZtLxqJubRL2qH9spkogAg7HLZtm
+aLpwlhrOtvNx4SFOls0YFXBz7Jaltwjx9TY3cP3uL7UxOIuZXO/q7WGw2osHMHqQ
+3wUxiJh5iUy1vEgNEEJv03MYsEsMPgfuWY/p0OQmCUIICyA+1Mc=
+=98Dg
+-----END PGP SIGNATURE-----
 
-Sakari Ailus
+--nextPart12704921.O9o76ZdvQC--
+
+
+
 
