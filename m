@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-31784-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31785-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ABFAAAFD8
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 05:26:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70258AAAC9C
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 04:19:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85CC37B3CE5
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 03:18:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 591361B66F4E
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 02:16:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62EA13C9A7C;
-	Mon,  5 May 2025 23:26:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB84839D980;
+	Mon,  5 May 2025 23:26:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMtU/bjL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ia1eHzug"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40055279354;
-	Mon,  5 May 2025 23:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E9D2F4781;
+	Mon,  5 May 2025 23:15:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486935; cv=none; b=QFuOZBmLsf5hN8I8jGMHAc1jk1+E1gxgwRW1YgZwMeQB9DrA6YXelwrflC9wEZSrbWlpB0HoGpM9GyoKp1Qu7N3bh40fkCsdIpj50H/YuZQm5gKi14pIEtudRJIEe6wVBbpTNcHpTPrcxmwrmBG/9oV5tjnW72l9W+1VlX8rjT8=
+	t=1746486946; cv=none; b=VP9WuzGWb/uvXYByMYOgprgc4LfYvllP0m8i7eMtHtwPFoIsQAA5hWQ8zhIP3QNihf+Wb+TvNtOKPXv4l+b654Q4RyN3a0BG3cBwXjkSD/7JQueJd0ONOPFqYYghKOxf/baUT1BusKq/b2waoeSi0MEw88jNDhPZpg6a3PRzV00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486935; c=relaxed/simple;
-	bh=GXQQVWklXWNAEB0XwIb9nq+0BoP+bo7EBFoAE8e69kU=;
+	s=arc-20240116; t=1746486946; c=relaxed/simple;
+	bh=ggZCPrTSho50jbXEpTb8AGo+L5OS1xyB50R//QbDXlk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=co6QmymJ5EqDi1VrJuom8ot8wWk6D/iN6xMduXdTyy8Dl2C0iocW8FN72x2/5N+C654HZ3GQdq0RZ+/bQkPirlrW+fQCiv9GEE5l3kIv5bqT5VH7CoDkO29NpOLciPjeWQNBoNdnDtB0uRgP3ySidFz2bPZ5T2Cy/bp13WDDqjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VMtU/bjL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27567C4CEEF;
-	Mon,  5 May 2025 23:15:33 +0000 (UTC)
+	 MIME-Version; b=Jle0/ZgiZLydpxAm+bpsN6ZhvlvweyLaE9DAR7WB+Y0c/2F25r0zrKtbkeTp0yUuDr0bpoWGhknhmYgM94YX5AWSCYnQJJdatq40U7jCxIwehf1iG7xNzwwlObnN8QxvJfn4ULQVlfG+vN/U2FbxOS36YqzxAGmWv5pXbbHnVZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ia1eHzug; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D62D0C4CEEE;
+	Mon,  5 May 2025 23:15:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486934;
-	bh=GXQQVWklXWNAEB0XwIb9nq+0BoP+bo7EBFoAE8e69kU=;
+	s=k20201202; t=1746486945;
+	bh=ggZCPrTSho50jbXEpTb8AGo+L5OS1xyB50R//QbDXlk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VMtU/bjLYBRT456dIK1p3b4wOBTUEpT53FmofYpP4PASjJvdUHEdEBhzwi7Xwt7tv
-	 xRzXhDsDfEE9rQqyZbsY/gwO9hD8WwUhK8at6l4KzAYvGlMYfSnoJeGOyF2FxJkxHv
-	 Z58l2dg0XtQn4pHe/hXnBJ8+MaWkKeNO5azflLF99bBCeEeii0nApS6nTe++LJRkGo
-	 cQd5c2r5XJvvD78ra2/xSL49j7B1VaqL7Ix/xDygNGNs8QTuAXJnE96iYGA7HT2oMQ
-	 GTfmdTuOrmNva08v3QYRo9VaAkWh5Qt+4enQLkcLuiEGnlQuEmEAxvcInbJtNqiASQ
-	 bTDRoMIaPHYoQ==
+	b=Ia1eHzugbr5Oui3HcexcgEErlAvVJiEVxy77fY2Gb694eTs7H+O1T57kGlFBdrSNq
+	 MmRy7RYcYA/YEqzTfvFIB15KPGBGHjQFTENWhqOvTq/XCcVfpRjujt5tbwG3pVKGcL
+	 C0q0lI2aKwyJK5J3Aoc/buWOgJa8HiVJJnkUr0iZQ39AaFjsco0HJ1G1X5pD3k36Sj
+	 qwO/b1n4dJWO2Ib4+87hDHWGzB5NWBrUHRXaXnhQnnd2dUIE12lj/1mL53onM1q1V+
+	 fKjlEOiU9vOK01vXLWh0vwg0I+1BfGH/UVm3Fb3UkWigpNtugeTx6d5/UyDQ45Zk1I
+	 SqI1kZdB88bPw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Yunke Cao <yunkec@google.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	laurent.pinchart@ideasonboard.com,
 	mchehab@kernel.org,
-	christophe.jaillet@wanadoo.fr,
-	ribalda@chromium.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 067/153] media: cx231xx: set device_caps for 417
-Date: Mon,  5 May 2025 19:11:54 -0400
-Message-Id: <20250505231320.2695319-67-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 072/153] media: uvcvideo: Add sanity check to uvc_ioctl_xu_ctrl_map
+Date: Mon,  5 May 2025 19:11:59 -0400
+Message-Id: <20250505231320.2695319-72-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505231320.2695319-1-sashal@kernel.org>
 References: <20250505231320.2695319-1-sashal@kernel.org>
@@ -68,38 +69,40 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.181
 Content-Transfer-Encoding: 8bit
 
-From: Hans Verkuil <hverkuil@xs4all.nl>
+From: Ricardo Ribalda <ribalda@chromium.org>
 
-[ Upstream commit a79efc44b51432490538a55b9753a721f7d3ea42 ]
+[ Upstream commit 990262fdfce24d6055df9711424343d94d829e6a ]
 
-The video_device for the MPEG encoder did not set device_caps.
+Do not process unknown data types.
 
-Add this, otherwise the video device can't be registered (you get a
-WARN_ON instead).
-
-Not seen before since currently 417 support is disabled, but I found
-this while experimenting with it.
-
+Tested-by: Yunke Cao <yunkec@google.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Link: https://lore.kernel.org/r/20250203-uvc-roi-v17-15-5900a9fed613@chromium.org
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/cx231xx/cx231xx-417.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
-index c5e21785fafe2..02343e88cc618 100644
---- a/drivers/media/usb/cx231xx/cx231xx-417.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-417.c
-@@ -1722,6 +1722,8 @@ static void cx231xx_video_dev_init(
- 	vfd->lock = &dev->lock;
- 	vfd->release = video_device_release_empty;
- 	vfd->ctrl_handler = &dev->mpeg_ctrl_handler.hdl;
-+	vfd->device_caps = V4L2_CAP_READWRITE | V4L2_CAP_STREAMING |
-+			   V4L2_CAP_VIDEO_CAPTURE;
- 	video_set_drvdata(vfd, dev);
- 	if (dev->tuner_type == TUNER_ABSENT) {
- 		v4l2_disable_ioctl(vfd, VIDIOC_G_FREQUENCY);
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index a86d470a9f98f..2f8b485ddde04 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -35,6 +35,12 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
+ 	unsigned int size;
+ 	int ret;
+ 
++	if (xmap->data_type > UVC_CTRL_DATA_TYPE_BITMASK) {
++		uvc_dbg(chain->dev, CONTROL,
++			"Unsupported UVC data type %u\n", xmap->data_type);
++		return -EINVAL;
++	}
++
+ 	map = kzalloc(sizeof(*map), GFP_KERNEL);
+ 	if (map == NULL)
+ 		return -ENOMEM;
 -- 
 2.39.5
 
