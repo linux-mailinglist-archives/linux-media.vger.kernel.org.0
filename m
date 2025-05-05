@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-31746-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31747-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F376AAA36B
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED042AAA389
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:16:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5975A7B440C
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:11:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0F5A7B3AEC
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:11:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0306D2F0B92;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F18E52F1CD4;
 	Mon,  5 May 2025 22:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyFhZJcH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AncV8vDT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7132F1559;
-	Mon,  5 May 2025 22:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FDE2F0BBC;
+	Mon,  5 May 2025 22:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483824; cv=none; b=mFYDfLxouAPak8LDxrQ1dMYlF+G/tG4DV1p5N4xRdZw6nYs9uQVuYy6XPwgHyJq29tG6S4oDM0GMiefa3hq2Zr9uyEkDnKAY4Bp/74kn4c0S71/eZmkfzUgxLrtzgZ4CsT9A0Qdw4XcsrhtAXQWrj9i4key86lL1P+pOwKfejcg=
+	t=1746483825; cv=none; b=PdOuO/PSdyDpYrQTKTnBPA+SQWmBmzjmCRwetXzhHsvJUk9+ULl5lzMx9ig0NydHRNmyfxhZ3BCBqpDuF6ugGNPpYf/+qqEpPnxITprfp1RWZbSOfuLjU1/mvUSBZJjNlDkTXEyxGJvhSRUJZxCsteMF88fCEN4pKzv4crOxzd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483824; c=relaxed/simple;
-	bh=qH/4V8g1hOBeR0gSsV5ofqM5SOOS8OTnIZ+lszszT/U=;
+	s=arc-20240116; t=1746483825; c=relaxed/simple;
+	bh=edg0nVXu9uZj8Xe9yrtJPdIbvKzEURgpFHi0v/+YL6I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LvCqSWRvTKGXm/ZHuoVkWcI8nuRNniGNFrQR6hWco50rQF8WAcJGREy7tm6R44eck4zamKuQ5OiGSr/Oz8Rdm4Dvs3nBr7VuYai2rPkbbijdRztUt8fMEiTMzls45cQw80XvG2boU192mq/sqdzi+jb/RrgiE/5dByA7zHUQCfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyFhZJcH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA57C4CEF2;
-	Mon,  5 May 2025 22:23:41 +0000 (UTC)
+	 MIME-Version; b=aKZQ+zn4Dj1qXym26hSfsGSE8/XK9FdDHg5tSwkK5yJJTpTtJ1kWaI7OGttJAEgCWtR+w67Y6HOqMRya7hLh+rYzdapFWJ/ObPyspFFJr5+N5vrxpwF+jG6efr6PQrUn3Dc5Y/+AoLK1lx7tNQHh7a4NeS6ymFTLW3BIqkaCFmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AncV8vDT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17406C4CEE4;
+	Mon,  5 May 2025 22:23:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483822;
-	bh=qH/4V8g1hOBeR0gSsV5ofqM5SOOS8OTnIZ+lszszT/U=;
+	s=k20201202; t=1746483825;
+	bh=edg0nVXu9uZj8Xe9yrtJPdIbvKzEURgpFHi0v/+YL6I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XyFhZJcHKi4Rzq0SqOnyhx3K91mFnhI2TNrWQXp92NdtonoK6X1fDaMSGVPn3SSGg
-	 NxGFZa86FdW9iE5K2BPTrgeO0Dc9r/k6YBUdTS20KfPCDATJb8jZq/cCsmVSSLiEAh
-	 /GPDDgp0t2zxkKDsCvCfdI0Osi8VkdFG1yPiKsFdcAbdsGw406+z/2mc9GK8FrmKbF
-	 +R8c7rbAS0eKSUsJajfxwd95nMiYha588MQtKYkaUInrpPJnNpygTlHFLjD0Ak7UEG
-	 0NQ51wVu0NSxxjpfPGjtcEjStSO4CJYKIdYQi1UyUL4D1/S1pxrYG1E9EcISWVuWED
-	 +pVonX0FuMt/g==
+	b=AncV8vDTIwaC4MLZN7NaViufOkAl4CRikmEI3Lwpq0B6Tpkdy5qppnC2cPOgtlI2P
+	 niy3Gv9IW8HDT0+PzJ4pazHcl4PsaqUFoD+9GXGzf1GffG87qjQlkyQLGn3XdnALNn
+	 01gV8LrizKVUzpDmsNFD1MH4XaOHe3fn8yyU8TD5Rxh9rY8WK4D492Qco+qpbZy3lv
+	 Y40JE2GrSmggZAkE2YSBpJ3pRdx5gfnt8ekHyBaydIWt5mHlW0Cdh1IC8ZTwvTPQEd
+	 ulDv9+/Axit6QbW8R9XJnF2TZ6kk1DfkdOy0rgHE+1DyOcoIj8FSGt5o5cfdLkF9+n
+	 kZhs3mQFJMGRA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Markus Elfring <elfring@users.sourceforge.net>,
+Cc: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	patrice.chotard@foss.st.com,
 	mchehab@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	namcao@linutronix.de,
+	tglx@linutronix.de,
+	jani.nikula@intel.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 235/642] media: c8sectpfe: Call of_node_put(i2c_bus) only once in c8sectpfe_probe()
-Date: Mon,  5 May 2025 18:07:31 -0400
-Message-Id: <20250505221419.2672473-235-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 236/642] media: cec: use us_to_ktime() where appropriate
+Date: Mon,  5 May 2025 18:07:32 -0400
+Message-Id: <20250505221419.2672473-236-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -68,42 +69,79 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Markus Elfring <elfring@users.sourceforge.net>
+From: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
 
-[ Upstream commit b773530a34df0687020520015057075f8b7b4ac4 ]
+[ Upstream commit c0c1a6bf80e9075e3f6b81fd542550d8eb91e57a ]
 
-An of_node_put(i2c_bus) call was immediately used after a pointer check
-for an of_find_i2c_adapter_by_node() call in this function implementation.
-Thus call such a function only once instead directly before the check.
+[Why]
+There are several ns_to_ktime() calls that require using nanoseconds. It is
+better to replace them with us_to_ktime() to make code clear, getting rid
+of multiplication by 1000.
 
-This issue was transformed by using the Coccinelle software.
+Also the timer function code may have an integer wrap-around issue. Since
+both tx_custom_low_usecs and tx_custom_high_usecs can be set to up to
+9999999 from the user space via cec_pin_error_inj_parse_line(), this may
+cause usecs to be overflowed when adap->monitor_pin_cnt is zero and usecs
+is multiplied by 1000.
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+[How]
+Take advantage of using an appropriate helper func us_to_ktime() instead of
+ns_to_ktime() to improve readability and to make the code clearer. And this
+also mitigates possible integer wrap-arounds when usecs value is too large
+and it is multiplied by 1000.
+
+Found by Linux Verification Center (linuxtesting.org) with Svace.
+
+Signed-off-by: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/cec/core/cec-pin.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-index 7b3a37957e3ae..d151d2ed1f64b 100644
---- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-+++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-@@ -797,13 +797,12 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
+index a70451d99ebc9..f232c3df7ee16 100644
+--- a/drivers/media/cec/core/cec-pin.c
++++ b/drivers/media/cec/core/cec-pin.c
+@@ -873,19 +873,19 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
+ 		if (pin->wait_usecs > 150) {
+ 			pin->wait_usecs -= 100;
+ 			pin->timer_ts = ktime_add_us(ts, 100);
+-			hrtimer_forward_now(timer, ns_to_ktime(100000));
++			hrtimer_forward_now(timer, us_to_ktime(100));
+ 			return HRTIMER_RESTART;
  		}
- 		tsin->i2c_adapter =
- 			of_find_i2c_adapter_by_node(i2c_bus);
-+		of_node_put(i2c_bus);
- 		if (!tsin->i2c_adapter) {
- 			dev_err(&pdev->dev, "No i2c adapter found\n");
--			of_node_put(i2c_bus);
- 			ret = -ENODEV;
- 			goto err_node_put;
+ 		if (pin->wait_usecs > 100) {
+ 			pin->wait_usecs /= 2;
+ 			pin->timer_ts = ktime_add_us(ts, pin->wait_usecs);
+ 			hrtimer_forward_now(timer,
+-					ns_to_ktime(pin->wait_usecs * 1000));
++					us_to_ktime(pin->wait_usecs));
+ 			return HRTIMER_RESTART;
  		}
--		of_node_put(i2c_bus);
+ 		pin->timer_ts = ktime_add_us(ts, pin->wait_usecs);
+ 		hrtimer_forward_now(timer,
+-				    ns_to_ktime(pin->wait_usecs * 1000));
++				    us_to_ktime(pin->wait_usecs));
+ 		pin->wait_usecs = 0;
+ 		return HRTIMER_RESTART;
+ 	}
+@@ -1020,13 +1020,12 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
+ 	if (!adap->monitor_pin_cnt || usecs <= 150) {
+ 		pin->wait_usecs = 0;
+ 		pin->timer_ts = ktime_add_us(ts, usecs);
+-		hrtimer_forward_now(timer,
+-				ns_to_ktime(usecs * 1000));
++		hrtimer_forward_now(timer, us_to_ktime(usecs));
+ 		return HRTIMER_RESTART;
+ 	}
+ 	pin->wait_usecs = usecs - 100;
+ 	pin->timer_ts = ktime_add_us(ts, 100);
+-	hrtimer_forward_now(timer, ns_to_ktime(100000));
++	hrtimer_forward_now(timer, us_to_ktime(100));
+ 	return HRTIMER_RESTART;
+ }
  
- 		/* Acquire reset GPIO and activate it */
- 		tsin->rst_gpio = devm_fwnode_gpiod_get(dev,
 -- 
 2.39.5
 
