@@ -1,64 +1,62 @@
-Return-Path: <linux-media+bounces-31778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31780-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58762AAAEEE
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 05:07:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADE5AAABFF
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 04:06:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A00C17071E
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 03:05:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD0199A0A03
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 02:01:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD0472F401C;
-	Mon,  5 May 2025 23:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B70C37EA7E;
+	Mon,  5 May 2025 23:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eu+gRK7J"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oaUpI+aS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA9038F181;
-	Mon,  5 May 2025 23:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5508F2EDB36;
+	Mon,  5 May 2025 23:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486126; cv=none; b=urF/ts9pH+mKyRI0KgBtF6q9NIsr7M4VALrxxJMmBsfRTg55PpvGvQsvwmhlTdOjqlLlr/xMaAHTLSkCMFLVOOjwxE71Udb8EbEWN3uyannYB+MeM6We4RartQrHPBrR+qCTlObQZcGLYnUNDS3rZ6jgWZfZPFa45tNuFqUnOK4=
+	t=1746486554; cv=none; b=FgQdjxZRYZPxfVtOr+d/yJYqAPb11rT+2QqmjPSqZYYhUEsTEG9D9Z2Qg8YR6yKNjv+2a2KSWVpxyyE6ZD9gGKPwANL6hm6+wZRQ1srB7EOw8dO4ppGH9ZtSknnJXRyaEyxQyRp7xK0d+ep2bG6lPLenqKcuZNYK0j9x7Ilhg/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486126; c=relaxed/simple;
-	bh=2esapROkTMnruviUBIinUj5RrrZr0Z2HKA8ukgHv/V4=;
+	s=arc-20240116; t=1746486554; c=relaxed/simple;
+	bh=jsoHvHLDzA/XTT30/MF/phkHAm8+PsqfqsZss3bnfOo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QYWY795UoWF0TZ5j83Q7BvWtqX7VfPUzugFFnRErWrpaYxzZjG6GmZzlo2xnE5A35xtjgs0k5VZHL+RVvEWK/hCXUXN39L7FZJvXqII51QmgHZgc+9yzpyn8R9WUOO8+Mt3GStRPkaMU4xSzLgo2ilU5x3uKWbaVVC4+8bz6tic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eu+gRK7J; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A59DC4CEED;
-	Mon,  5 May 2025 23:02:03 +0000 (UTC)
+	 MIME-Version; b=pqLN7LdqXOK9eUrVpJBYWxEDDw+oUJn/2BjqfjvONoEHI6Gf7Joz7XlZ98fJiyjAdUOJAshQXtS3qVZKrT3uPTLBuifkNLNp9BJfZmPhCZaYOoNMn4Xsm2mb7nhY74PAZEXY4JV4WmSnbIECt6oXiuoYM9bzAVIke1xkdYHjDMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oaUpI+aS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A421C4CEEE;
+	Mon,  5 May 2025 23:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486124;
-	bh=2esapROkTMnruviUBIinUj5RrrZr0Z2HKA8ukgHv/V4=;
+	s=k20201202; t=1746486553;
+	bh=jsoHvHLDzA/XTT30/MF/phkHAm8+PsqfqsZss3bnfOo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Eu+gRK7J6Cw/CsQyyv4SGyRZYBAZYM8W7Qeyod9HQ57lU3gzFnRaTRCFeVMsBVErv
-	 iRoZpwYB8rgtYJzbnH99KDOaMmVKIA8kt6WrsmycO9ihiW+M0VmxJTa9EAlwiToyLL
-	 eGw6vB7bj20zi13Bh+XocfxWdaVumCD57/yUP08gsiuxiISoZQUdTQamGD1Dr7QSSv
-	 9XdmI0vQUKXPu8EtmvGr0Rn1vDmyeibl4JSKeawCYuoWel8toWambSj/Otzm7YFxw4
-	 1tgi/0BDNq1L7adVtBaxGtBctmoRA5Zr4mbdf9RV2ZlwPEH+/rvKYJUTq8pfwutLNH
-	 nxHivdkoadGfQ==
+	b=oaUpI+aS0ZlRP1r+uvpPVTeNEDKcfYvvVD91kqCn+pRDGLDQJP6jgIcYwnFzjlFTV
+	 4c6VP4sriPhuZDVOpbxFVyVLkWOzvwnEfvZ6mSCmSb4uOfnzSZqQ8eDuw4g4/tUwKK
+	 gQiSS5xYr+YcZ2x9kr9heYEfwWv5EZm58Yuz4OQFZ46QIEa4VMc51IfZ7TJJwrYicc
+	 M7EW/2Izc76qR5+8HWhJQRqBB2ebOXWUWaHjKLdnXGAw5yDnhgG9JfV7ydY4D1cJWp
+	 P/BRDOWDO+JOuj2fbVW09c9Gqqh6oC4CuFfd+z51StMkHgJq+HGVxmEVTAdbd8NMeG
+	 VdWy2pBREhi8A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Matthias Fend <matthias.fend@emfend.at>,
-	Marco Felsch <m.felsch@pengutronix.de>,
+Cc: Markus Elfring <elfring@users.sourceforge.net>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	patrice.chotard@foss.st.com,
 	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	tomi.valkeinen@ideasonboard.com,
-	ribalda@chromium.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 164/294] media: tc358746: improve calculation of the D-PHY timing registers
-Date: Mon,  5 May 2025 18:54:24 -0400
-Message-Id: <20250505225634.2688578-164-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 087/212] media: c8sectpfe: Call of_node_put(i2c_bus) only once in c8sectpfe_probe()
+Date: Mon,  5 May 2025 19:04:19 -0400
+Message-Id: <20250505230624.2692522-87-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
-References: <20250505225634.2688578-1-sashal@kernel.org>
+In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
+References: <20250505230624.2692522-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,81 +65,45 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.89
+X-stable-base: Linux 6.1.136
 Content-Transfer-Encoding: 8bit
 
-From: Matthias Fend <matthias.fend@emfend.at>
+From: Markus Elfring <elfring@users.sourceforge.net>
 
-[ Upstream commit 78d7265e2e1ce349e7f3c6a085f2b66d7b73f4ca ]
+[ Upstream commit b773530a34df0687020520015057075f8b7b4ac4 ]
 
-When calculating D-PHY registers, using data rates that are not multiples
-of 16 can lead to precision loss in division operations. This can result in
-register values that produce timing violations against the MIPI standard.
+An of_node_put(i2c_bus) call was immediately used after a pointer check
+for an of_find_i2c_adapter_by_node() call in this function implementation.
+Thus call such a function only once instead directly before the check.
 
-An example:
-cfg->hs_clk_rate = 294MHz
-hf_clk = 18
+This issue was transformed by using the Coccinelle software.
 
-If the desired value in cfg->init is 100us, which is the minimum allowed
-value, then the LINEINITCNT register is calculated as 1799. But since the
-actual clock is 18.375MHz instead of 18MHz, this setting results in a time
-that is shorter than 100us and thus violates the standard. The correct
-value for LINEINITCNT would be 1837.
-
-Improve the precision of calculations by using Hz instead of MHz as unit.
-
-Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/tc358746.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
-index 566f5eaddd572..b12a6bd42102e 100644
---- a/drivers/media/i2c/tc358746.c
-+++ b/drivers/media/i2c/tc358746.c
-@@ -460,24 +460,20 @@ static int tc358746_apply_misc_config(struct tc358746 *tc358746)
- 	return err;
- }
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+index 1dbb89f0ddb8c..b2a977f1ec18a 100644
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
++++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+@@ -802,13 +802,12 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+ 		}
+ 		tsin->i2c_adapter =
+ 			of_find_i2c_adapter_by_node(i2c_bus);
++		of_node_put(i2c_bus);
+ 		if (!tsin->i2c_adapter) {
+ 			dev_err(&pdev->dev, "No i2c adapter found\n");
+-			of_node_put(i2c_bus);
+ 			ret = -ENODEV;
+ 			goto err_node_put;
+ 		}
+-		of_node_put(i2c_bus);
  
--/* Use MHz as base so the div needs no u64 */
--static u32 tc358746_cfg_to_cnt(unsigned int cfg_val,
--			       unsigned int clk_mhz,
--			       unsigned int time_base)
-+static u32 tc358746_cfg_to_cnt(unsigned long cfg_val, unsigned long clk_hz,
-+			       unsigned long long time_base)
- {
--	return DIV_ROUND_UP(cfg_val * clk_mhz, time_base);
-+	return div64_u64((u64)cfg_val * clk_hz + time_base - 1, time_base);
- }
+ 		tsin->rst_gpio = of_get_named_gpio(child, "reset-gpios", 0);
  
--static u32 tc358746_ps_to_cnt(unsigned int cfg_val,
--			      unsigned int clk_mhz)
-+static u32 tc358746_ps_to_cnt(unsigned long cfg_val, unsigned long clk_hz)
- {
--	return tc358746_cfg_to_cnt(cfg_val, clk_mhz, USEC_PER_SEC);
-+	return tc358746_cfg_to_cnt(cfg_val, clk_hz, PSEC_PER_SEC);
- }
- 
--static u32 tc358746_us_to_cnt(unsigned int cfg_val,
--			      unsigned int clk_mhz)
-+static u32 tc358746_us_to_cnt(unsigned long cfg_val, unsigned long clk_hz)
- {
--	return tc358746_cfg_to_cnt(cfg_val, clk_mhz, 1);
-+	return tc358746_cfg_to_cnt(cfg_val, clk_hz, USEC_PER_SEC);
- }
- 
- static int tc358746_apply_dphy_config(struct tc358746 *tc358746)
-@@ -492,7 +488,6 @@ static int tc358746_apply_dphy_config(struct tc358746 *tc358746)
- 
- 	/* The hs_byte_clk is also called SYSCLK in the excel sheet */
- 	hs_byte_clk = cfg->hs_clk_rate / 8;
--	hs_byte_clk /= HZ_PER_MHZ;
- 	hf_clk = hs_byte_clk / 2;
- 
- 	val = tc358746_us_to_cnt(cfg->init, hf_clk) - 1;
 -- 
 2.39.5
 
