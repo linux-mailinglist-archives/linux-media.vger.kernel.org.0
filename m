@@ -1,146 +1,213 @@
-Return-Path: <linux-media+bounces-31696-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31697-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A52AA907A
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 12:00:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FA8AA9116
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 12:27:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BE1E3ADEE6
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 10:00:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AE211894E46
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 10:27:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 197FE1FDA61;
-	Mon,  5 May 2025 10:00:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDCC11FFC49;
+	Mon,  5 May 2025 10:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xwXSHwK4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpwKPMcJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3E01F4285
-	for <linux-media@vger.kernel.org>; Mon,  5 May 2025 10:00:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674C8EAE7;
+	Mon,  5 May 2025 10:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746439228; cv=none; b=ZwhHCs+TaxV41oajELCth/i96neZ38tUWmlifTaYyhdxBfrbOhcB3MVBkvtBj3+G4CUSGFLA42ADLG02mwerHXKLVkkhd5/he9oDiP2r6FyZUXNixKyxoBu13hpzicuXO2boQEadZ8vmgWGOjg3CZtO2BwzvlNrW7Pk3lcwCuv8=
+	t=1746440823; cv=none; b=T3j2BiO2vWeO8RCAkCAZH4nESnKn1I/l3z5ny2bEr2te9MRc9JQc+jB2UPu4WfBaPTCDPDYoTOabH31JayfkpQ9+59MkvMXod1U80WHIDtTKYLpPN9OJroeILvVdlJvSUjowdJqqOo07XzOTuJF0dsWNIFw5i/Jed1/lx7fXy/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746439228; c=relaxed/simple;
-	bh=Km+TINB0CWZALLBWBc4SAkK6bvOGzq+9JbzdiYWHnJo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N786V8hEy7/wrP1O16T59SeiLD41r5loBHq++jHY8JjcE5MeYXzXv2Q4zRS9BV5EnxC15MuQtrKYxoUV8jL1XvM/hcfuBp9Pmz1GmFHfpwSLwJVoalkr7jHL+2QjdHbBizV+7e5KJwqRm8cvk75DTrra9bb5lKz87DyBsnWesSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xwXSHwK4; arc=none smtp.client-ip=209.85.161.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-60634f82c77so1138264eaf.1
-        for <linux-media@vger.kernel.org>; Mon, 05 May 2025 03:00:26 -0700 (PDT)
+	s=arc-20240116; t=1746440823; c=relaxed/simple;
+	bh=vIEn5jPg1DlXlT2DtAHSUaaG6Asm33c6yiTnu7goALA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nbdu5SMPP3Lge9sLNTehyXLi86Qz3yMMUP61DZlL1s4INZAqlZut5YsU+yfF7k5jHHsynVbaK6acW3KK2ENQPCSJO6Cdl6boTZKOnOANKJramoaYCrQ05CUGEydKcalV/JY6C9uIJjjMx+AtH0ITtsaNEdNlLSn1RvqyUih3jMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gpwKPMcJ; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac2c663a3daso836475866b.2;
+        Mon, 05 May 2025 03:27:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746439226; x=1747044026; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qUO+n2qCCkVBKkF0xc34yA7zFKP1PRXVjAuF6gNjM7w=;
-        b=xwXSHwK48G55FvSM1aSJu9ewd6VXQMmIjzn0MWaGFz0p37zpKtfRfB9IkrxmQHrnXe
-         WJR2hQG0tZjkn68ZtsEaivcbVire5zRTBmkHnWEtyU6hdqxqipJ8ii+TRpMOd6KISsOd
-         19YxWHtn2IbgGy2tC4/JlO/En1mG5fUh6ESMfaZHozeVeyrlcXANLQPYvYDeSzVFqN1y
-         mdrJ9w5FPq5AQ0G9AcDRLklxVqAUP7PrUVeKxhBaWpvfSrEhpY+PLRhrESgR4E80rAPr
-         h9WNpr0IM6hgrKbdEPUiYS1A4ztWsbofxVBh/+37IK9gpCzs70ZBilZrpm+al0dwqfYs
-         DThA==
+        d=gmail.com; s=20230601; t=1746440820; x=1747045620; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ONK1gMSU4x7CVxggdEmF7Yfu7g3KNC31GYbuN3RsWUg=;
+        b=gpwKPMcJZjKQCBrV77tOAI81kXA5o2wOKmXpWaJEBawcynqsqcBrZCRn0iiVAW7SAX
+         muCqYH2lyo9ETMDqAUNiXHIxXdOW1durB5CHCid4+/oG99J5j6qFrpJrlSiWFT7hcO6L
+         HvJ/Kk4jotySsTdNJLHoottFT8MFWXSRjxeemJIYTDmqErWRQypd/uknE52+6uYA0HuP
+         y+iAfteJmFYnRMgFv9R9zJQiCPNAxuRkzzKZRd3OtqkYyK7WlsajpkiDWMElsBLH8V0U
+         dCxFNJkzqIqvL/g4EvGgqPQpvW/HMdfx8ozIbySUKpwZPkrG0vEgUjcBaxM80tqyChGn
+         tSRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746439226; x=1747044026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qUO+n2qCCkVBKkF0xc34yA7zFKP1PRXVjAuF6gNjM7w=;
-        b=spo44zaJwcFFFXqwlkpcboljKUAxTyLFTBLdpN2Ec/1G6vY9yEupBoylBB0ZPiDnoE
-         wvBtW3+e3NZvClYLFoO2VN+XAOfk0NNvcFx+PPtkKJfr7bBKoMIYx5/WMvooWzVFo/w3
-         MDHZ0LgnmArnfK6nVesqNnMR190noWBWk3PAHSQPThdEmQ9ihYJ3p2PDDdEJecJvJ+Kr
-         KV8Bux7z0/DpVzLr2My/H7IguV67rQx0SIRfj7W8D55dC7dHpn7a1phTJMH+mCPu1Wo2
-         YWLCXucfBb0Iwd3QIDbTAGnsWWL5ZIEiInCnGHaxfvsKvUamNvrKtjRcuKztZeqlNqX2
-         iflQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULYiPjEzBldZFukD6PpSjDiOd0jKR/SeZzDiH7gxfvtfxx+7x9cp8Y7GFT9UKLJ3UT0v57h16VilTQOA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6qKbqhh856j9ZyAI8ozaVCWeK4eVe/4MDxItud48jfV+ZA0Uz
-	z14CLWR6zjd6LZt8WqF/QpImv4dIdcCsQFowo5PZ/Ys3kJeScdT7lYJPQmR35d7KMCta7HmD8wp
-	fpkSkfYMrEI3WGia/vs1viHInLQRJZXpRjndIig==
-X-Gm-Gg: ASbGncuGGNwVFgkCg9PvRKS2u/g0nnb0NxiSQIlaNwA1CFgAwfJtvOYagWouXwUKpBp
-	5eIWmTOk2QaGnTbTGHuyW1bmw38oonGPfw9Jc7bhjB3orbVPZDC0t6TR8xzYUkvMC/ofVdo893f
-	vxiogQ0byc6A8E10slEiGIyMc=
-X-Google-Smtp-Source: AGHT+IEfTkbjK5JWEDIXSUVf0w92h26obU5oYSgxTn7TbvfY+I0Zkozng+KfK0iBSmGp52i/r+Q8MQct9dxWARB5Up4=
-X-Received: by 2002:a05:6870:972c:b0:2d5:230f:b34d with SMTP id
- 586e51a60fabf-2dae82cc070mr3868126fac.1.1746439225695; Mon, 05 May 2025
- 03:00:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746440820; x=1747045620;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ONK1gMSU4x7CVxggdEmF7Yfu7g3KNC31GYbuN3RsWUg=;
+        b=xF1xfLYkIP7XT8UWiATOTxmeVKDTj9NwUdBAOF4j4fEPbYuOV+XcsVhwPXLQZtcxRt
+         Jzit+Isr1suxPuMg2kABBWhQHCrSTjEra3VWma53clSQ5MoVI8SY9bGpwsecZdLBwsmc
+         f1uHeq1RS0xd9Imh1o8zoVeGZTbsH0BQ2kHkUzdg1W3wDMCPU3RX6gfQZfHcZ/ZF+ba2
+         Sc/Zso2YFWSkOcbV1i6rc2HMJSkm7eySk4KVQUnF+uszf+xkfcfJEloCaF33RLBt9ZuK
+         FqDE9DbTXV1JrGkomfeQk9lvbLQlpgKqeqvWz5ARTOOc0PEQo/SBnqYttsrbffHi0Lno
+         wLZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEqIZWP1jByKJ9UGb6yNJIV4D0L70qts+ta5wS4/bhil+13Yih8wBXKD5bKtNVlZXsvDUvbJICzig=@vger.kernel.org, AJvYcCVql3iDYZT7X6l4wAtLVeM9GOgHAC8xrEfuxkVfK1xgcPHoZgXitb5fWzqVqK5Ooiv8DJC94yOESOYKIwCc@vger.kernel.org, AJvYcCXTqrves7gNc80CumfIvFE0muVdcuTANnUYBze4V/5BTUHrxnrqR6VTQfG7H6DjJzRW0PmKbtnrdkUqEQA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBQLBVNfxPvBAXanl98bOEYimdKGJ4NrwfOG4tX13NI87TDxHK
+	yu6jxLEUseNgYURyd96fxl6wGnO47wxybZ9SKHnfr30Mln5hOKzz
+X-Gm-Gg: ASbGncv5WURiyxwKGjVpFf3aj63QF2bfei5PQEcl//0xs/K72bOuvTTQ2TvrvRJO1jA
+	oCLaOBhm3qW+RHtvOzSb57bCIHH7ij4P+jMv+TYpxS9/i0AfNyBK1Ve22FLvLACZbQHCtEWld2w
+	ZeybdevyA1lqynUNLI62wdLNt93RPGFu2fGy3IHRErabhBXWnm1XpYsghCaocck5zgtdOCP7UVY
+	WFOylIqaxpNhLk3aVhs1COjuMDvl99nV64phHhdK+jnsHMA4PT5QGO+qW2RcvBKfH9iCeiN6IbC
+	FJdRB3hejRz+og9UFJnhpB9QmW66KxN6nuSjOzGphUo49o0KWoaF9o8o
+X-Google-Smtp-Source: AGHT+IEA88UDbqLeQ5CxfAdCRwRoKBxVmMrFW+eXkNcP3H/zkxJqAzxrUQDJ2fMD6z2jNnNIopn6jg==
+X-Received: by 2002:a17:906:f5a4:b0:ace:cc7f:8abe with SMTP id a640c23a62f3a-ad1a49c349cmr679078166b.31.1746440819386;
+        Mon, 05 May 2025 03:26:59 -0700 (PDT)
+Received: from [192.168.0.100] ([188.27.128.5])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad18950ac90sm471864166b.150.2025.05.05.03.26.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 May 2025 03:26:58 -0700 (PDT)
+Message-ID: <f3bf2c93-31ac-4881-9ca3-ddc33cf3ded3@gmail.com>
+Date: Mon, 5 May 2025 13:26:54 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
- <20250502100049.1746335-11-jens.wiklander@linaro.org> <43e85d6a-ef99-4d61-910e-1d62814fd9ed@arm.com>
-In-Reply-To: <43e85d6a-ef99-4d61-910e-1d62814fd9ed@arm.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Mon, 5 May 2025 12:00:12 +0200
-X-Gm-Features: ATxdqUFPin2MFa6t0S3tPjOQfIF3WcjTWu_QNb2z1h_FFrZyFMNu2bu0GEdtH9Y
-Message-ID: <CAHUa44GC-HRUNGkta-EfMD00VzPBvqcVqU4Zj7kvW8CPnahdMg@mail.gmail.com>
-Subject: Re: [PATCH v8 10/14] dma-contiguous: export dma_contiguous_default_area
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
-	Rouven Czerwinski <rouven.czerwinski@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	iommu@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Fri, May 2, 2025 at 3:11=E2=80=AFPM Robin Murphy <robin.murphy@arm.com> =
-wrote:
->
-> On 02/05/2025 10:59 am, Jens Wiklander wrote:
-> > Export the global variable dma_contiguous_default_area so
-> > dev_get_cma_area() can be called a module.
->
-> What dma_map_ops implementation is in a module? Without any other
-> context, I can't help thinking this smells of something sketchy.
-
-I see that you found the rest of the patch set
-https://lore.kernel.org/lkml/20250502100049.1746335-1-jens.wiklander@linaro=
-.org/
-
-Thanks,
-Jens
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/9] i2c: atr: split up i2c_atr_get_mapping_by_addr()
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Romain Gantois <romain.gantois@bootlin.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20250428102516.933571-1-demonsingur@gmail.com>
+ <20250428102516.933571-4-demonsingur@gmail.com>
+ <20250430163307.528671a8@booty>
+From: Cosmin Tanislav <demonsingur@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20250430163307.528671a8@booty>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
->
-> Thanks,
-> Robin.
->
-> > Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Cc: Robin Murphy <robin.murphy@arm.com>
-> > Cc: iommu@lists.linux.dev
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >   kernel/dma/contiguous.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> > index 8df0dfaaca18..eb361794a9c5 100644
-> > --- a/kernel/dma/contiguous.c
-> > +++ b/kernel/dma/contiguous.c
-> > @@ -53,6 +53,7 @@
-> >   #endif
-> >
-> >   struct cma *dma_contiguous_default_area;
-> > +EXPORT_SYMBOL(dma_contiguous_default_area);
-> >
-> >   /*
-> >    * Default global CMA area size can be defined in kernel's .config.
+
+On 4/30/25 5:33 PM, Luca Ceresoli wrote:
+> On Mon, 28 Apr 2025 13:25:08 +0300
+> Cosmin Tanislav <demonsingur@gmail.com> wrote:
+> 
+>> The i2c_atr_get_mapping_by_addr() function handles three separate
+>> usecases: finding an existing mapping, creating a new mapping, or
+>> replacing an existing mapping if a new mapping cannot be created
+>> because there aren't enough aliases available.
+>>
+>> Split up the function into three different functions handling its
+>> individual usecases to prepare for better usage of each one.
+>>
+>> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> 
+> This function has become quite complex over time, so this looks like a
+> good cleanup by itself even not counting the advantages coming with the
+> following patches.
+> 
+> I have only one small remark, see below.
+> 
+>> diff --git a/drivers/i2c/i2c-atr.c b/drivers/i2c/i2c-atr.c
+>> index 939fb95fe781..184c57c31e60 100644
+>> --- a/drivers/i2c/i2c-atr.c
+>> +++ b/drivers/i2c/i2c-atr.c
+>> @@ -239,9 +239,23 @@ static void i2c_atr_release_alias(struct i2c_atr_alias_pool *alias_pool, u16 ali
+>>   	spin_unlock(&alias_pool->lock);
+>>   }
+>>   
+>> -/* Must be called with alias_pairs_lock held */
+>>   static struct i2c_atr_alias_pair *
+>> -i2c_atr_get_mapping_by_addr(struct i2c_atr_chan *chan, u16 addr)
+>> +i2c_atr_find_mapping_by_addr(struct i2c_atr_chan *chan, u16 addr)
+>> +{
+>> +	struct i2c_atr_alias_pair *c2a;
+>> +
+>> +	lockdep_assert_held(&chan->alias_pairs_lock);
+>> +
+>> +	list_for_each_entry(c2a, &chan->alias_pairs, node) {
+>> +		if (c2a->addr == addr)
+>> +			return c2a;
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>> +
+>> +static struct i2c_atr_alias_pair *
+>> +i2c_atr_replace_mapping_by_addr(struct i2c_atr_chan *chan, u16 addr)
+>>   {
+>>   	struct i2c_atr *atr = chan->atr;
+>>   	struct i2c_atr_alias_pair *c2a;
+>> @@ -254,41 +268,57 @@ i2c_atr_get_mapping_by_addr(struct i2c_atr_chan *chan, u16 addr)
+>>   
+>>   	alias_pairs = &chan->alias_pairs;
+>>   
+>> -	list_for_each_entry(c2a, alias_pairs, node) {
+>> -		if (c2a->addr == addr)
+>> -			return c2a;
+>> +	if (unlikely(list_empty(alias_pairs)))
+>> +		return NULL;
+>> +
+>> +	list_for_each_entry_reverse(c2a, alias_pairs, node) {
+>> +		if (!c2a->fixed) {
+>> +			found = true;
+>> +			break;
+>> +		}
+>>   	}
+>>   
+>> +	if (!found)
+>> +		return NULL;
+>> +
+>> +	atr->ops->detach_addr(atr, chan->chan_id, c2a->addr);
+>> +	c2a->addr = addr;
+>> +
+>> +	list_move(&c2a->node, alias_pairs);
+>> +
+>> +	alias = c2a->alias;
+>> +
+>> +	ret = atr->ops->attach_addr(atr, chan->chan_id, c2a->addr, c2a->alias);
+>> +	if (ret) {
+>> +		dev_err(atr->dev, "failed to attach 0x%02x on channel %d: err %d\n",
+>> +			addr, chan->chan_id, ret);
+>> +		i2c_atr_destroy_c2a(&c2a);
+>> +		i2c_atr_release_alias(chan->alias_pool, alias);
+>> +		return NULL;
+>> +	}
+>> +
+>> +	return c2a;
+>> +}
+>> +
+>> +static struct i2c_atr_alias_pair *
+>> +i2c_atr_create_mapping_by_addr(struct i2c_atr_chan *chan, u16 addr)
+> 
+> I would move the _create function before the _replace one, because
+> that's the logical order in which they are called.
+> 
+
+Sadly the diff actually becomes bigger by doing this.
+before: 78 insertions(+), 32 deletions(-)
+after: 84 insertions(+), 38 deletions(-)
+
+If we were to put things in a logical order then should we put _find()
+after create(), or after replace()? There's no specific order in that
+case. I think we should keep things as-is as it matches the previous
+branches of the code, just split into separate functions.
+
+> As a nice side effect, this might make the diff more readable.
+> 
+> Luca
+> 
+
 
