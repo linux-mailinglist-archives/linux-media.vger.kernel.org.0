@@ -1,71 +1,59 @@
-Return-Path: <linux-media+bounces-31755-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31756-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B342CAAA4FE
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:40:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5D8AAA5A9
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:55:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31C01466C99
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:40:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A56D1887567
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:52:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA55A309F3C;
-	Mon,  5 May 2025 22:28:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 378F53143F5;
+	Mon,  5 May 2025 22:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkXHJ1sQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CG2i7EbC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BB7309F2E;
-	Mon,  5 May 2025 22:28:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897483143E2;
+	Mon,  5 May 2025 22:30:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484111; cv=none; b=ROoTYdVs+EHVpraVHufZz2v9qRiP6aqhWdI9YArjsf42ZEFKCR67AceVIXU3UOscscQUo00mvCW1hCdHeUS/K7EQAvuGsTXgYlkJI5tFEgb7w+erIkMkjJeSDSbnmOIdmRtYLLGfGZmjqvVrUMF7KQq069RVIjhFVk7FqS/nIIQ=
+	t=1746484240; cv=none; b=sQ3FB9CTTZk38tWDDg+GSxsBwGL19XcQo6GJO5ILoPL7EbNQR/GRPnk8Bdn8y/j5xjwlU+bmx2Lpm5yiZERa4xcRuubIqJIkrjE56GMlDXY9UHmFO+TOzJpEewo1X0Er2Q/FTZAlrkqbkmgxHPrQKqJTmCMLWgNM9smBqIBbU1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484111; c=relaxed/simple;
-	bh=mWiBvJO1a2rtUhX4aaf/TSATYZu3N502Qk/zgr5NQOg=;
+	s=arc-20240116; t=1746484240; c=relaxed/simple;
+	bh=oS0C7+PAyMM+askC3/by4fpQfV9yqQxJiXvTA3UTgz4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VImY9A29doYQRCvluHt8XeIuBFvynyGMjcVNBw4DegUY2tv8qHIP9bnIf+GhUrxpdcO/G6Oe5L8Sdroqt/Aw4knMoc95wTh+tKQ2+9p4lqpccl1E+iGW+9iMrb329gmy8dWBfcBHwQPBTQ9UOVXrhIkdnJ/aBHCSG8e65bBZtlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkXHJ1sQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B598C4CEEE;
-	Mon,  5 May 2025 22:28:28 +0000 (UTC)
+	 MIME-Version; b=saN39GAhzNi/plpM5c8JazD/lWNofSwbz0zvYVUJjfGdkL7EtPai977YgF1fyqUU2ye06tQZLyMF6qWmIXBxFNM9IN8vAO1G43AaRfOoq1GlIwPnCeXgEMpgICXovlaXwdc4kLv0de8BjiDEC8jiC/igBAiT13v6oOxAsr9iaYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CG2i7EbC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0902EC4CEED;
+	Mon,  5 May 2025 22:30:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484110;
-	bh=mWiBvJO1a2rtUhX4aaf/TSATYZu3N502Qk/zgr5NQOg=;
+	s=k20201202; t=1746484240;
+	bh=oS0C7+PAyMM+askC3/by4fpQfV9yqQxJiXvTA3UTgz4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OkXHJ1sQ84H50CrGGaLbHdJGYiNYpSpqjEiGD1xhpZisrESJtuCxfjI2DXaLrIrCb
-	 IBmdChfKHPCf+iG5xVThQ2bSHCXY+vS0lY6vVXXz3/oSw6g1mBnnSlvfSPPy7rp1Bp
-	 bNOYUZw+lSIaFvebI1RWFrWJBI/zOdTZnoleihiI1eTOEH4gxZxRudiZk53pQw9b/O
-	 BbDdY2Kc9ikaAAdRzTMa8QyiPfVIo2Wfk7mStxu7dhnkh0hamgrjKx68JQYbmIX60U
-	 3hX4sWIsk/DQQ0OyjlzyXEjhxJymudbKizjegTd0A2zpjeW9DvLz3Cahs7HnfQKg99
-	 Hjgt34Aq4FDkA==
+	b=CG2i7EbCGxmi2p16WcEIX/xlO8O9dW7UjFtT8luvvz8T+FMK/2e6KVfhfNI2zckv3
+	 Hdizy7J1yJN/QgU7dfwjiZWIn2sRNwZJGbPoxP+u9LF9sIyJbmFOHJGXRoiwGSoJsV
+	 dTXwJiFmLk25XMb3KXM3VSaXL6s+KEHm5AYrIReW4CmDmsoC+waEWFlBaCWQLKKA5X
+	 Orb4JxTdtVukuuT3jYQgDZZvCXuwkc4JLvstrTnCgRr8miPBaaPEk0NYLvvmIrPcNc
+	 pPdXfLEMYgS/KneF+Fecztxb2Gz+dtCcl/TqNKpQQx65Y2GIebLj3GYQbJwNkEWD20
+	 Ik+rZRiVlT/SA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	James Zhu <James.Zhu@amd.com>,
-	Felix Kuehling <felix.kuehling@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	"Artem S . Tashkinov" <aros@gmx.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	Felix.Kuehling@amd.com,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	sumit.semwal@linaro.org,
-	tvrtko.ursulin@igalia.com,
-	Yunxiang.Li@amd.com,
-	lijo.lazar@amd.com,
-	sunil.khatri@amd.com,
-	pratap.nirujogi@amd.com,
-	pierre-eric.pelloux-prayer@amd.com,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.14 355/642] drm/amdgpu: remove all KFD fences from the BO on release
-Date: Mon,  5 May 2025 18:09:31 -0400
-Message-Id: <20250505221419.2672473-355-sashal@kernel.org>
+	mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 405/642] media: test-drivers: vivid: don't call schedule in loop
+Date: Mon,  5 May 2025 18:10:21 -0400
+Message-Id: <20250505221419.2672473-405-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -75,180 +63,131 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Christian König <christian.koenig@amd.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
 
-[ Upstream commit cb0de06d1b0afb2d0c600ad748069f5ce27730ec ]
+[ Upstream commit e4740118b752005cbed339aec9a1d1c43620e0b9 ]
 
-Remove all KFD BOs from the private dma_resv object.
+Artem reported that the CPU load was 100% when capturing from
+vivid at low resolution with ffmpeg.
 
-This prevents the KFD from being evict unecessarily when an exported BO
-is released.
+This was caused by:
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: James Zhu <James.Zhu@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-Reviewed-and-tested-by: James Zhu <James.Zhu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+       !kthread_should_stop())
+        schedule();
+
+If there are no other processes running that can be scheduled,
+then this is basically a busy-loop.
+
+Change it to wait_event_interruptible_timeout() which doesn't
+have that problem.
+
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Reported-by: Artem S. Tashkinov <aros@gmx.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219570
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  5 +-
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 52 ++++++++-----------
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    | 38 ++++++++------
- 3 files changed, 47 insertions(+), 48 deletions(-)
+ drivers/media/test-drivers/vivid/vivid-kthread-cap.c  | 11 ++++++++---
+ drivers/media/test-drivers/vivid/vivid-kthread-out.c  | 11 ++++++++---
+ .../media/test-drivers/vivid/vivid-kthread-touch.c    | 11 ++++++++---
+ drivers/media/test-drivers/vivid/vivid-sdr-cap.c      | 11 ++++++++---
+ 4 files changed, 32 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-index 8af67f18500a7..2f48dc5747aa2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-@@ -192,7 +192,7 @@ int kfd_debugfs_kfd_mem_limits(struct seq_file *m, void *data);
- #if IS_ENABLED(CONFIG_HSA_AMD)
- bool amdkfd_fence_check_mm(struct dma_fence *f, struct mm_struct *mm);
- struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f);
--int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo);
-+void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo);
- int amdgpu_amdkfd_evict_userptr(struct mmu_interval_notifier *mni,
- 				unsigned long cur_seq, struct kgd_mem *mem);
- int amdgpu_amdkfd_bo_validate_and_fence(struct amdgpu_bo *bo,
-@@ -212,9 +212,8 @@ struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f)
- }
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
+index 669bd96da4c79..273e8ed8c2a90 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
+@@ -789,9 +789,14 @@ static int vivid_thread_vid_cap(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
  
- static inline
--int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo)
-+void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo)
- {
--	return 0;
- }
- 
- static inline
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 70224b9f54f2f..c0aaa72b6c210 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -370,40 +370,32 @@ static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
- 	return 0;
- }
- 
--int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo)
-+/**
-+ * amdgpu_amdkfd_remove_all_eviction_fences - Remove all eviction fences
-+ * @bo: the BO where to remove the evictions fences from.
-+ *
-+ * This functions should only be used on release when all references to the BO
-+ * are already dropped. We remove the eviction fence from the private copy of
-+ * the dma_resv object here since that is what is used during release to
-+ * determine of the BO is idle or not.
-+ */
-+void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo)
- {
--	struct amdgpu_bo *root = bo;
--	struct amdgpu_vm_bo_base *vm_bo;
--	struct amdgpu_vm *vm;
--	struct amdkfd_process_info *info;
--	struct amdgpu_amdkfd_fence *ef;
--	int ret;
--
--	/* we can always get vm_bo from root PD bo.*/
--	while (root->parent)
--		root = root->parent;
-+	struct dma_resv *resv = &bo->tbo.base._resv;
-+	struct dma_fence *fence, *stub;
-+	struct dma_resv_iter cursor;
- 
--	vm_bo = root->vm_bo;
--	if (!vm_bo)
--		return 0;
-+	dma_resv_assert_held(resv);
- 
--	vm = vm_bo->vm;
--	if (!vm)
--		return 0;
--
--	info = vm->process_info;
--	if (!info || !info->eviction_fence)
--		return 0;
--
--	ef = container_of(dma_fence_get(&info->eviction_fence->base),
--			struct amdgpu_amdkfd_fence, base);
--
--	BUG_ON(!dma_resv_trylock(bo->tbo.base.resv));
--	ret = amdgpu_amdkfd_remove_eviction_fence(bo, ef);
--	dma_resv_unlock(bo->tbo.base.resv);
-+	stub = dma_fence_get_stub();
-+	dma_resv_for_each_fence(&cursor, resv, DMA_RESV_USAGE_BOOKKEEP, fence) {
-+		if (!to_amdgpu_amdkfd_fence(fence))
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
 +			continue;
- 
--	dma_fence_put(&ef->base);
--	return ret;
-+		dma_resv_replace_fences(resv, fence->context, stub,
-+					DMA_RESV_USAGE_BOOKKEEP);
-+	}
-+	dma_fence_put(stub);
- }
- 
- static int amdgpu_amdkfd_bo_validate(struct amdgpu_bo *bo, uint32_t domain,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 00752e3f9d8ab..0b9987781f762 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -1295,28 +1295,36 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	if (abo->kfd_bo)
- 		amdgpu_amdkfd_release_notify(abo);
- 
--	/* We only remove the fence if the resv has individualized. */
--	WARN_ON_ONCE(bo->type == ttm_bo_type_kernel
--			&& bo->base.resv != &bo->base._resv);
--	if (bo->base.resv == &bo->base._resv)
--		amdgpu_amdkfd_remove_fence_on_pt_pd_bos(abo);
-+	/*
-+	 * We lock the private dma_resv object here and since the BO is about to
-+	 * be released nobody else should have a pointer to it.
-+	 * So when this locking here fails something is wrong with the reference
-+	 * counting.
-+	 */
-+	if (WARN_ON_ONCE(!dma_resv_trylock(&bo->base._resv)))
-+		return;
 +
-+	amdgpu_amdkfd_remove_all_eviction_fences(abo);
- 
- 	if (!bo->resource || bo->resource->mem_type != TTM_PL_VRAM ||
- 	    !(abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE) ||
- 	    adev->in_suspend || drm_dev_is_unplugged(adev_to_drm(adev)))
--		return;
-+		goto out;
- 
--	if (WARN_ON_ONCE(!dma_resv_trylock(bo->base.resv)))
--		return;
-+	r = dma_resv_reserve_fences(&bo->base._resv, 1);
-+	if (r)
-+		goto out;
- 
--	r = amdgpu_fill_buffer(abo, 0, bo->base.resv, &fence, true);
--	if (!WARN_ON(r)) {
--		amdgpu_vram_mgr_set_cleared(bo->resource);
--		amdgpu_bo_fence(abo, fence, false);
--		dma_fence_put(fence);
--	}
-+	r = amdgpu_fill_buffer(abo, 0, &bo->base._resv, &fence, true);
-+	if (WARN_ON(r))
-+		goto out;
++		wait_queue_head_t wait;
 +
-+	amdgpu_vram_mgr_set_cleared(bo->resource);
-+	dma_resv_add_fence(&bo->base._resv, fence, DMA_RESV_USAGE_KERNEL);
-+	dma_fence_put(fence);
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "Video Capture Thread End\n");
+ 	return 0;
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-out.c b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
+index fac6208b51da8..015a7b166a1e6 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-out.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
+@@ -235,9 +235,14 @@ static int vivid_thread_vid_out(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
  
--	dma_resv_unlock(bo->base.resv);
-+out:
-+	dma_resv_unlock(&bo->base._resv);
- }
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "Video Output Thread End\n");
+ 	return 0;
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
+index fa711ee36a3fb..c862689786b69 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
+@@ -135,9 +135,14 @@ static int vivid_thread_touch_cap(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
  
- /**
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "Touch Capture Thread End\n");
+ 	return 0;
+diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+index 74a91d28c8be9..c633fc2ed664f 100644
+--- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+@@ -206,9 +206,14 @@ static int vivid_thread_sdr_cap(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
+ 
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "SDR Capture Thread End\n");
+ 	return 0;
 -- 
 2.39.5
 
