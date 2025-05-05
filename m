@@ -1,226 +1,146 @@
-Return-Path: <linux-media+bounces-31695-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31696-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95446AA9011
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 11:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A52AA907A
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 12:00:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A10873A6A6D
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 09:49:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BE1E3ADEE6
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 10:00:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AD1C1FCFF0;
-	Mon,  5 May 2025 09:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 197FE1FDA61;
+	Mon,  5 May 2025 10:00:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JabQuK2g"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xwXSHwK4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CED31F4174;
-	Mon,  5 May 2025 09:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3E01F4285
+	for <linux-media@vger.kernel.org>; Mon,  5 May 2025 10:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746438598; cv=none; b=YyRqqL9V5RX07VYKbESXRkxQk4CYNQ+qXXuT1GEWFIdmnQCiNsP+631vhMHXAdR47rD1E2dsfBwN/MPLg9DbSOLxOOwLb6esM3aKQeapE99zZPdchkaTyCo9SjqnDTO4L388+4oHWwCkCm2JEDLGcVrerehFnpNF30ck1S6G7NY=
+	t=1746439228; cv=none; b=ZwhHCs+TaxV41oajELCth/i96neZ38tUWmlifTaYyhdxBfrbOhcB3MVBkvtBj3+G4CUSGFLA42ADLG02mwerHXKLVkkhd5/he9oDiP2r6FyZUXNixKyxoBu13hpzicuXO2boQEadZ8vmgWGOjg3CZtO2BwzvlNrW7Pk3lcwCuv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746438598; c=relaxed/simple;
-	bh=tipZ2S0o3QG1iCFQ1UsqU8tcKjAbQcWU0VEoS9DVUHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ChuhDXZQFRO1+mp9g8ai6qEoNFOY7pO5WakKJI6JL6HftRInQ8/XVVAwN/vB8+WnG1eC/TkIlx81v1DCmyDKL8C2ZFbM64m9GFnRfwd20dkjF3afgv58cVRH/0gGek7SS+LyVbuUYNRTl1X6rsKSyWnfz0B7R//xEHImtPWHg2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JabQuK2g; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8A61289;
-	Mon,  5 May 2025 11:49:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746438584;
-	bh=tipZ2S0o3QG1iCFQ1UsqU8tcKjAbQcWU0VEoS9DVUHY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JabQuK2g4OhhQvwY1c2OOgSZ5CNPomCCfYOizL4SMUhgIYK5hJ/YvnVABRiGTN2QP
-	 DG5NIYhxwVMv2t9X4LlVv/6y+8KsOvb3o8lsaZEOFjL6ZBcrTbjeey9Yu3R6Xeq0Yi
-	 svpddiYjEFmoR6dGxaFQor0172/A72VEnYNlXZ5w=
-Date: Mon, 5 May 2025 11:49:50 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8] media: vsp1: Add VSPX support
-Message-ID: <pzkf2brrpdihb4cmok6ge5zxrpif5tvcd6bes2kta3veunup2h@amcxq3qci5vb>
-References: <20250502-b4-vspx-v8-1-b2a7592668dd@ideasonboard.com>
- <20250502202644.GF20093@pendragon.ideasonboard.com>
- <ptjenvbcovfzj5oukqriu7qx7qqz22r4h6sfmctpsdghwz3so3@naiwhbqwexn6>
+	s=arc-20240116; t=1746439228; c=relaxed/simple;
+	bh=Km+TINB0CWZALLBWBc4SAkK6bvOGzq+9JbzdiYWHnJo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N786V8hEy7/wrP1O16T59SeiLD41r5loBHq++jHY8JjcE5MeYXzXv2Q4zRS9BV5EnxC15MuQtrKYxoUV8jL1XvM/hcfuBp9Pmz1GmFHfpwSLwJVoalkr7jHL+2QjdHbBizV+7e5KJwqRm8cvk75DTrra9bb5lKz87DyBsnWesSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xwXSHwK4; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-60634f82c77so1138264eaf.1
+        for <linux-media@vger.kernel.org>; Mon, 05 May 2025 03:00:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746439226; x=1747044026; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qUO+n2qCCkVBKkF0xc34yA7zFKP1PRXVjAuF6gNjM7w=;
+        b=xwXSHwK48G55FvSM1aSJu9ewd6VXQMmIjzn0MWaGFz0p37zpKtfRfB9IkrxmQHrnXe
+         WJR2hQG0tZjkn68ZtsEaivcbVire5zRTBmkHnWEtyU6hdqxqipJ8ii+TRpMOd6KISsOd
+         19YxWHtn2IbgGy2tC4/JlO/En1mG5fUh6ESMfaZHozeVeyrlcXANLQPYvYDeSzVFqN1y
+         mdrJ9w5FPq5AQ0G9AcDRLklxVqAUP7PrUVeKxhBaWpvfSrEhpY+PLRhrESgR4E80rAPr
+         h9WNpr0IM6hgrKbdEPUiYS1A4ztWsbofxVBh/+37IK9gpCzs70ZBilZrpm+al0dwqfYs
+         DThA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746439226; x=1747044026;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qUO+n2qCCkVBKkF0xc34yA7zFKP1PRXVjAuF6gNjM7w=;
+        b=spo44zaJwcFFFXqwlkpcboljKUAxTyLFTBLdpN2Ec/1G6vY9yEupBoylBB0ZPiDnoE
+         wvBtW3+e3NZvClYLFoO2VN+XAOfk0NNvcFx+PPtkKJfr7bBKoMIYx5/WMvooWzVFo/w3
+         MDHZ0LgnmArnfK6nVesqNnMR190noWBWk3PAHSQPThdEmQ9ihYJ3p2PDDdEJecJvJ+Kr
+         KV8Bux7z0/DpVzLr2My/H7IguV67rQx0SIRfj7W8D55dC7dHpn7a1phTJMH+mCPu1Wo2
+         YWLCXucfBb0Iwd3QIDbTAGnsWWL5ZIEiInCnGHaxfvsKvUamNvrKtjRcuKztZeqlNqX2
+         iflQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULYiPjEzBldZFukD6PpSjDiOd0jKR/SeZzDiH7gxfvtfxx+7x9cp8Y7GFT9UKLJ3UT0v57h16VilTQOA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6qKbqhh856j9ZyAI8ozaVCWeK4eVe/4MDxItud48jfV+ZA0Uz
+	z14CLWR6zjd6LZt8WqF/QpImv4dIdcCsQFowo5PZ/Ys3kJeScdT7lYJPQmR35d7KMCta7HmD8wp
+	fpkSkfYMrEI3WGia/vs1viHInLQRJZXpRjndIig==
+X-Gm-Gg: ASbGncuGGNwVFgkCg9PvRKS2u/g0nnb0NxiSQIlaNwA1CFgAwfJtvOYagWouXwUKpBp
+	5eIWmTOk2QaGnTbTGHuyW1bmw38oonGPfw9Jc7bhjB3orbVPZDC0t6TR8xzYUkvMC/ofVdo893f
+	vxiogQ0byc6A8E10slEiGIyMc=
+X-Google-Smtp-Source: AGHT+IEfTkbjK5JWEDIXSUVf0w92h26obU5oYSgxTn7TbvfY+I0Zkozng+KfK0iBSmGp52i/r+Q8MQct9dxWARB5Up4=
+X-Received: by 2002:a05:6870:972c:b0:2d5:230f:b34d with SMTP id
+ 586e51a60fabf-2dae82cc070mr3868126fac.1.1746439225695; Mon, 05 May 2025
+ 03:00:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ptjenvbcovfzj5oukqriu7qx7qqz22r4h6sfmctpsdghwz3so3@naiwhbqwexn6>
+References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
+ <20250502100049.1746335-11-jens.wiklander@linaro.org> <43e85d6a-ef99-4d61-910e-1d62814fd9ed@arm.com>
+In-Reply-To: <43e85d6a-ef99-4d61-910e-1d62814fd9ed@arm.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Mon, 5 May 2025 12:00:12 +0200
+X-Gm-Features: ATxdqUFPin2MFa6t0S3tPjOQfIF3WcjTWu_QNb2z1h_FFrZyFMNu2bu0GEdtH9Y
+Message-ID: <CAHUa44GC-HRUNGkta-EfMD00VzPBvqcVqU4Zj7kvW8CPnahdMg@mail.gmail.com>
+Subject: Re: [PATCH v8 10/14] dma-contiguous: export dma_contiguous_default_area
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+	Rouven Czerwinski <rouven.czerwinski@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 05, 2025 at 10:19:57AM +0200, Jacopo Mondi wrote:
-> Hi Laurent
+Hi,
+
+On Fri, May 2, 2025 at 3:11=E2=80=AFPM Robin Murphy <robin.murphy@arm.com> =
+wrote:
 >
-> On Fri, May 02, 2025 at 11:26:44PM +0300, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Fri, May 02, 2025 at 03:23:10PM +0200, Jacopo Mondi wrote:
-> > > Add support for VSPX, a specialized version of the VSP2 that
-> > > transfers data to the ISP. The VSPX is composed of two RPF units
-> > > to read data from external memory and an IIF instance that performs
-> > > transfer towards the ISP.
-> > >
-> > > The VSPX is supported through a newly introduced vsp1_vspx.c file that
-> > > exposes two interfaces: vsp1_vspx interface, declared in vsp1_vspx.h
-> > > for the vsp1 core to initialize and cleanup the VSPX, and a vsp1_isp
-> > > interface, declared in include/media/vsp1.h for the ISP driver to
-> > > control the VSPX operations.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > ---
-> > > The VSPX is a VSP2 function that reads data from external memory using
-> > > two RPF instances and feed it to the ISP.
-> > >
-> > > The VSPX includes an IIF unit (ISP InterFace) modeled in the vsp1 driver
-> > > as a new, simple, entity type.
-> > >
-> > > IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
-> > > interfacing. To prepare to support VSPX, support IIF first by
-> > > introducing a new entity and by adjusting the RPF/WPF drivers to
-> > > operate correctly when an IIF is present.
-> > >
-> > > Changes in v8:
-> > > - Remove patches already collected by Laurent in
-> > >   [GIT PULL FOR v6.16] Renesas media drivers changes
-> > >
-> > > - Rebased on
-> > >   https://gitlab.freedesktop.org/linux-media/users/pinchartl.git #renesas-next
-> > >
-> > > - Changes to the VSPX interface towards the ISP
-> > >   - Split start/stop_streaming
-> > >   - Add vsp1_isp_jobs_release() to release pending jobs
-> > >   - Add vsp1_isp_free_buffer()
-> > >   - Remove vsp1_isp_configure() and compute partitions on job creation
-> > >
-> > > - Driver changes
-> > >   - Drop irq-driver flow
-> > >     The VSPX used to schedule new jobs as soon as processing the last
-> > >     one is done. This doesn't work well with the R-Car ISP design
-> > >     for two reasons:
-> > >     - The ISP needs per-job registers programming
-> > >     - The ISP and VSPX job queues have to stay in sync
-> > >
-> > > - Minors
-> > >   - Remove the jobs_lock as a single lock is fine
-> > >   - Protect against VSPX/ISP irq races in job_run() by checking the
-> > >     VSPX 'busy' register and remove the 'processing' flag
-> > >   - Manually set the pipeline state to STOPPED before scheduling a new
-> > >     job without waiting for frame_end
-> > >
-> > > Changes in v7:
-> > > - Include VSPX driver in the series
-> > > - Use existing VSP1 formats and remove patches extending formats on RPF
-> > > - Rework VSPX driver to split jobs creation and scheduling in two
-> > >   different API entry points
-> > > - Fix VSPX stride using the user provided bytesperline and using the
-> > >   buffer size for ConfigDMA buffers
-> > > - Link to v6: https://lore.kernel.org/r/20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com
-> > >
-> > > Changes in v6:
-> > > - Little cosmetic change as suggested by Laurent
-> > > - Collect tags
-> > > - Link to v5: https://lore.kernel.org/r/20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com
-> > >
-> > > Changes in v5:
-> > > - Drop additional empty line 5/6
-> > > - Link to v4: https://lore.kernel.org/r/20250318-v4h-iif-v4-0-10ed4c41c195@ideasonboard.com
-> > >
-> > > Changes in v4:
-> > > - Fix SWAP bits for RAW10, RAW12 and RAW16
-> > > - Link to v3: https://lore.kernel.org/r/20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com
-> > >
-> > > Changes in v3:
-> > > - Drop 2/6 from v2
-> > > - Add 5/7 to prepare for a new implementation of 6/7
-> > > - Individual changelog per patch
-> > > - Add 7/7
-> > > - Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
-> > >
-> > > Changes in v2:
-> > > - Collect tags
-> > > - Address review comments from Laurent, a lot of tiny changes here and
-> > >   there but no major redesign worth an entry in the patchset changelog
-> >
-> > You've come a long way since v1, I think we're getting close to a good
-> > implementation.
-> >
+> On 02/05/2025 10:59 am, Jens Wiklander wrote:
+> > Export the global variable dma_contiguous_default_area so
+> > dev_get_cma_area() can be called a module.
 >
-> Thank you and Niklas for reviews and testing
+> What dma_map_ops implementation is in a module? Without any other
+> context, I can't help thinking this smells of something sketchy.
+
+I see that you found the rest of the patch set
+https://lore.kernel.org/lkml/20250502100049.1746335-1-jens.wiklander@linaro=
+.org/
+
+Thanks,
+Jens
+
+
 >
-> > > ---
-> > >  drivers/media/platform/renesas/vsp1/Makefile    |   1 +
-> > >  drivers/media/platform/renesas/vsp1/vsp1.h      |   1 +
-> > >  drivers/media/platform/renesas/vsp1/vsp1_drv.c  |  13 +-
-> > >  drivers/media/platform/renesas/vsp1/vsp1_regs.h |   1 +
-> > >  drivers/media/platform/renesas/vsp1/vsp1_vspx.c | 664 ++++++++++++++++++++++++
-> > >  drivers/media/platform/renesas/vsp1/vsp1_vspx.h |  16 +
-> > >  include/media/vsp1.h                            |  75 +++
-> > >  7 files changed, 770 insertions(+), 1 deletion(-)
-> > >
-
-[snip]
-
-> > > +
-> > > +/**
-> > > + * vsp1_isp_start_streaming - Start processing VSPX jobs
-> > > + *
-> > > + * Start the VSPX and prepare for accepting buffer transfer job requests.
-> > > + *
-> > > + * @dev: The VSP1 struct device
-> > > + * @frame_end: The frame end callback description
-> > > + *
-> > > + * Return: %0 on success or a negative error code on failure
-> > > + */
-> > > +int vsp1_isp_start_streaming(struct device *dev,
-> > > +			     struct vsp1_vspx_frame_end *frame_end)
-> > > +{
-> > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > > +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
-> > > +	unsigned long flags;
-> > > +	u32 value;
-> > > +	int ret;
-> > > +
-> > > +	spin_lock_irqsave(&vspx_pipe->vspx_lock, flags);
+> Thanks,
+> Robin.
+>
+> > Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> > Cc: Robin Murphy <robin.murphy@arm.com>
+> > Cc: iommu@lists.linux.dev
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >   kernel/dma/contiguous.c | 1 +
+> >   1 file changed, 1 insertion(+)
 > >
-> > Can this function ever be called with interrupts disabled ? If no, you
-> > can use spin_lock_irq().
+> > diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+> > index 8df0dfaaca18..eb361794a9c5 100644
+> > --- a/kernel/dma/contiguous.c
+> > +++ b/kernel/dma/contiguous.c
+> > @@ -53,6 +53,7 @@
+> >   #endif
 > >
->
-> I think the question here should rather be: do we need to disable
-> local interrupts at all when calling this function ? As the VSPX
-> workflow is now driven by ISP and there are no contentions between any
-> of the driver functions and the VSPX interrupt handler I guess I can
-> use spin_lock() and spin_unlock() everywhere and replace the
-> irqsave/irqrestore versions ?
->
-
-I take this back. Using either spin_lock and spin_lock_irq trigger
-lockdep warnings due to the usage of these function from ISP irq
-context.
-
-To be honest I spent a considerable amount of time making all of this
-lockdep proof and I'll keep using the irqsave version for the time
-being considering the limited overhead compared to _irq.
-
-> > > +
-> > > +	if (vspx_pipe->enabled) {
+> >   struct cma *dma_contiguous_default_area;
+> > +EXPORT_SYMBOL(dma_contiguous_default_area);
+> >
+> >   /*
+> >    * Default global CMA area size can be defined in kernel's .config.
 
