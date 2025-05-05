@@ -1,61 +1,71 @@
-Return-Path: <linux-media+bounces-31754-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31755-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84786AAA4D9
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:36:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B342CAAA4FE
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:40:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4221C1B60B61
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:35:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31C01466C99
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:40:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FE55305739;
-	Mon,  5 May 2025 22:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA55A309F3C;
+	Mon,  5 May 2025 22:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7UipZfJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkXHJ1sQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AEC305721;
-	Mon,  5 May 2025 22:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BB7309F2E;
+	Mon,  5 May 2025 22:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484067; cv=none; b=uIJr8ReHensZzLZHb6cWUqjqHXEQSUUa/9+iDh3E0EsOJL+tjppPOUAvYt4GdI/8Xx2v19PIXlsDJb8Nh+Rnlx1Z0pHyEfulvFuYgC4etDC7/3z0DH7LS0lzh8rq6fURY0Glyy4eCOWBDcOOL+nDPLfhUehUGFO4UNhF8LGtVoE=
+	t=1746484111; cv=none; b=ROoTYdVs+EHVpraVHufZz2v9qRiP6aqhWdI9YArjsf42ZEFKCR67AceVIXU3UOscscQUo00mvCW1hCdHeUS/K7EQAvuGsTXgYlkJI5tFEgb7w+erIkMkjJeSDSbnmOIdmRtYLLGfGZmjqvVrUMF7KQq069RVIjhFVk7FqS/nIIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484067; c=relaxed/simple;
-	bh=zSBuTCuV1sHVK1bFrmXNGcxIF6YPGZrSRYI/WDnvt08=;
+	s=arc-20240116; t=1746484111; c=relaxed/simple;
+	bh=mWiBvJO1a2rtUhX4aaf/TSATYZu3N502Qk/zgr5NQOg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=f93avLm3y+jiyCehyavOK+xZGVs9ZB/KUCtiaDM2JgrcUzyZP7wdgcuHq8dLMIP8stXRB9F1I/acdQtWMwR/Y50c3SNSnqgWKD7450yoVFJMjuGWL7IlkbCs7zQU4d67WNjQuh7NSRcQFSXCjH9UYpK/+3XbCle58uE1DYKXlRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7UipZfJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0884C4CEE4;
-	Mon,  5 May 2025 22:27:45 +0000 (UTC)
+	 MIME-Version:Content-Type; b=VImY9A29doYQRCvluHt8XeIuBFvynyGMjcVNBw4DegUY2tv8qHIP9bnIf+GhUrxpdcO/G6Oe5L8Sdroqt/Aw4knMoc95wTh+tKQ2+9p4lqpccl1E+iGW+9iMrb329gmy8dWBfcBHwQPBTQ9UOVXrhIkdnJ/aBHCSG8e65bBZtlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkXHJ1sQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B598C4CEEE;
+	Mon,  5 May 2025 22:28:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484067;
-	bh=zSBuTCuV1sHVK1bFrmXNGcxIF6YPGZrSRYI/WDnvt08=;
+	s=k20201202; t=1746484110;
+	bh=mWiBvJO1a2rtUhX4aaf/TSATYZu3N502Qk/zgr5NQOg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k7UipZfJ2puBLD6f1OdzSyAaO8gWgIYAD+YS+s7ClYGAefKbJzgpnylj5R2CczR0M
-	 L5i7Kc44zOAm7Z7IYez7pb/WwmbSl0glLQ9OCG+Vkcq41ZR2kxfRAVEJ2cF35ta2H9
-	 6hEwt11/K/1lI7fEjWkLQZ0gWD0gyrj1OMWGNBiXG/tASv3mAbg5uj3ER6KqOxBAWV
-	 fLq8VGtDyORfc7pHhZFfettbGC+YuwM8BtYF9fWxt/ZyJGHpTSexa/aD/sNMeN7PlG
-	 0bKF94fNTCoN5VMnhRXBXzdlPBiJYfwtTVXztmQU9sp7CxZX5/qCGBBho40KHzUyfh
-	 Jb21LJzciTJJA==
+	b=OkXHJ1sQ84H50CrGGaLbHdJGYiNYpSpqjEiGD1xhpZisrESJtuCxfjI2DXaLrIrCb
+	 IBmdChfKHPCf+iG5xVThQ2bSHCXY+vS0lY6vVXXz3/oSw6g1mBnnSlvfSPPy7rp1Bp
+	 bNOYUZw+lSIaFvebI1RWFrWJBI/zOdTZnoleihiI1eTOEH4gxZxRudiZk53pQw9b/O
+	 BbDdY2Kc9ikaAAdRzTMa8QyiPfVIo2Wfk7mStxu7dhnkh0hamgrjKx68JQYbmIX60U
+	 3hX4sWIsk/DQQ0OyjlzyXEjhxJymudbKizjegTd0A2zpjeW9DvLz3Cahs7HnfQKg99
+	 Hjgt34Aq4FDkA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Matthias Fend <matthias.fend@emfend.at>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	James Zhu <James.Zhu@amd.com>,
+	Felix Kuehling <felix.kuehling@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
 	Sasha Levin <sashal@kernel.org>,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	naush@raspberrypi.com,
-	ribalda@chromium.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 334/642] media: tc358746: improve calculation of the D-PHY timing registers
-Date: Mon,  5 May 2025 18:09:10 -0400
-Message-Id: <20250505221419.2672473-334-sashal@kernel.org>
+	Felix.Kuehling@amd.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	sumit.semwal@linaro.org,
+	tvrtko.ursulin@igalia.com,
+	Yunxiang.Li@amd.com,
+	lijo.lazar@amd.com,
+	sunil.khatri@amd.com,
+	pratap.nirujogi@amd.com,
+	pierre-eric.pelloux-prayer@amd.com,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 6.14 355/642] drm/amdgpu: remove all KFD fences from the BO on release
+Date: Mon,  5 May 2025 18:09:31 -0400
+Message-Id: <20250505221419.2672473-355-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,83 +75,180 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Matthias Fend <matthias.fend@emfend.at>
+From: Christian König <christian.koenig@amd.com>
 
-[ Upstream commit 78d7265e2e1ce349e7f3c6a085f2b66d7b73f4ca ]
+[ Upstream commit cb0de06d1b0afb2d0c600ad748069f5ce27730ec ]
 
-When calculating D-PHY registers, using data rates that are not multiples
-of 16 can lead to precision loss in division operations. This can result in
-register values that produce timing violations against the MIPI standard.
+Remove all KFD BOs from the private dma_resv object.
 
-An example:
-cfg->hs_clk_rate = 294MHz
-hf_clk = 18
+This prevents the KFD from being evict unecessarily when an exported BO
+is released.
 
-If the desired value in cfg->init is 100us, which is the minimum allowed
-value, then the LINEINITCNT register is calculated as 1799. But since the
-actual clock is 18.375MHz instead of 18MHz, this setting results in a time
-that is shorter than 100us and thus violates the standard. The correct
-value for LINEINITCNT would be 1837.
-
-Improve the precision of calculations by using Hz instead of MHz as unit.
-
-Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: James Zhu <James.Zhu@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Reviewed-and-tested-by: James Zhu <James.Zhu@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/tc358746.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  5 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 52 ++++++++-----------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    | 38 ++++++++------
+ 3 files changed, 47 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
-index 389582420ba78..048a1a381b333 100644
---- a/drivers/media/i2c/tc358746.c
-+++ b/drivers/media/i2c/tc358746.c
-@@ -460,24 +460,20 @@ static int tc358746_apply_misc_config(struct tc358746 *tc358746)
- 	return err;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+index 8af67f18500a7..2f48dc5747aa2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+@@ -192,7 +192,7 @@ int kfd_debugfs_kfd_mem_limits(struct seq_file *m, void *data);
+ #if IS_ENABLED(CONFIG_HSA_AMD)
+ bool amdkfd_fence_check_mm(struct dma_fence *f, struct mm_struct *mm);
+ struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f);
+-int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo);
++void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo);
+ int amdgpu_amdkfd_evict_userptr(struct mmu_interval_notifier *mni,
+ 				unsigned long cur_seq, struct kgd_mem *mem);
+ int amdgpu_amdkfd_bo_validate_and_fence(struct amdgpu_bo *bo,
+@@ -212,9 +212,8 @@ struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f)
  }
  
--/* Use MHz as base so the div needs no u64 */
--static u32 tc358746_cfg_to_cnt(unsigned int cfg_val,
--			       unsigned int clk_mhz,
--			       unsigned int time_base)
-+static u32 tc358746_cfg_to_cnt(unsigned long cfg_val, unsigned long clk_hz,
-+			       unsigned long long time_base)
+ static inline
+-int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo)
++void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo)
  {
--	return DIV_ROUND_UP(cfg_val * clk_mhz, time_base);
-+	return div64_u64((u64)cfg_val * clk_hz + time_base - 1, time_base);
+-	return 0;
  }
  
--static u32 tc358746_ps_to_cnt(unsigned int cfg_val,
--			      unsigned int clk_mhz)
-+static u32 tc358746_ps_to_cnt(unsigned long cfg_val, unsigned long clk_hz)
+ static inline
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index 70224b9f54f2f..c0aaa72b6c210 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -370,40 +370,32 @@ static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
+ 	return 0;
+ }
+ 
+-int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo)
++/**
++ * amdgpu_amdkfd_remove_all_eviction_fences - Remove all eviction fences
++ * @bo: the BO where to remove the evictions fences from.
++ *
++ * This functions should only be used on release when all references to the BO
++ * are already dropped. We remove the eviction fence from the private copy of
++ * the dma_resv object here since that is what is used during release to
++ * determine of the BO is idle or not.
++ */
++void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo)
  {
--	return tc358746_cfg_to_cnt(cfg_val, clk_mhz, USEC_PER_SEC);
-+	return tc358746_cfg_to_cnt(cfg_val, clk_hz, PSEC_PER_SEC);
+-	struct amdgpu_bo *root = bo;
+-	struct amdgpu_vm_bo_base *vm_bo;
+-	struct amdgpu_vm *vm;
+-	struct amdkfd_process_info *info;
+-	struct amdgpu_amdkfd_fence *ef;
+-	int ret;
+-
+-	/* we can always get vm_bo from root PD bo.*/
+-	while (root->parent)
+-		root = root->parent;
++	struct dma_resv *resv = &bo->tbo.base._resv;
++	struct dma_fence *fence, *stub;
++	struct dma_resv_iter cursor;
+ 
+-	vm_bo = root->vm_bo;
+-	if (!vm_bo)
+-		return 0;
++	dma_resv_assert_held(resv);
+ 
+-	vm = vm_bo->vm;
+-	if (!vm)
+-		return 0;
+-
+-	info = vm->process_info;
+-	if (!info || !info->eviction_fence)
+-		return 0;
+-
+-	ef = container_of(dma_fence_get(&info->eviction_fence->base),
+-			struct amdgpu_amdkfd_fence, base);
+-
+-	BUG_ON(!dma_resv_trylock(bo->tbo.base.resv));
+-	ret = amdgpu_amdkfd_remove_eviction_fence(bo, ef);
+-	dma_resv_unlock(bo->tbo.base.resv);
++	stub = dma_fence_get_stub();
++	dma_resv_for_each_fence(&cursor, resv, DMA_RESV_USAGE_BOOKKEEP, fence) {
++		if (!to_amdgpu_amdkfd_fence(fence))
++			continue;
+ 
+-	dma_fence_put(&ef->base);
+-	return ret;
++		dma_resv_replace_fences(resv, fence->context, stub,
++					DMA_RESV_USAGE_BOOKKEEP);
++	}
++	dma_fence_put(stub);
  }
  
--static u32 tc358746_us_to_cnt(unsigned int cfg_val,
--			      unsigned int clk_mhz)
-+static u32 tc358746_us_to_cnt(unsigned long cfg_val, unsigned long clk_hz)
- {
--	return tc358746_cfg_to_cnt(cfg_val, clk_mhz, 1);
-+	return tc358746_cfg_to_cnt(cfg_val, clk_hz, USEC_PER_SEC);
+ static int amdgpu_amdkfd_bo_validate(struct amdgpu_bo *bo, uint32_t domain,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 00752e3f9d8ab..0b9987781f762 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -1295,28 +1295,36 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
+ 	if (abo->kfd_bo)
+ 		amdgpu_amdkfd_release_notify(abo);
+ 
+-	/* We only remove the fence if the resv has individualized. */
+-	WARN_ON_ONCE(bo->type == ttm_bo_type_kernel
+-			&& bo->base.resv != &bo->base._resv);
+-	if (bo->base.resv == &bo->base._resv)
+-		amdgpu_amdkfd_remove_fence_on_pt_pd_bos(abo);
++	/*
++	 * We lock the private dma_resv object here and since the BO is about to
++	 * be released nobody else should have a pointer to it.
++	 * So when this locking here fails something is wrong with the reference
++	 * counting.
++	 */
++	if (WARN_ON_ONCE(!dma_resv_trylock(&bo->base._resv)))
++		return;
++
++	amdgpu_amdkfd_remove_all_eviction_fences(abo);
+ 
+ 	if (!bo->resource || bo->resource->mem_type != TTM_PL_VRAM ||
+ 	    !(abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE) ||
+ 	    adev->in_suspend || drm_dev_is_unplugged(adev_to_drm(adev)))
+-		return;
++		goto out;
+ 
+-	if (WARN_ON_ONCE(!dma_resv_trylock(bo->base.resv)))
+-		return;
++	r = dma_resv_reserve_fences(&bo->base._resv, 1);
++	if (r)
++		goto out;
+ 
+-	r = amdgpu_fill_buffer(abo, 0, bo->base.resv, &fence, true);
+-	if (!WARN_ON(r)) {
+-		amdgpu_vram_mgr_set_cleared(bo->resource);
+-		amdgpu_bo_fence(abo, fence, false);
+-		dma_fence_put(fence);
+-	}
++	r = amdgpu_fill_buffer(abo, 0, &bo->base._resv, &fence, true);
++	if (WARN_ON(r))
++		goto out;
++
++	amdgpu_vram_mgr_set_cleared(bo->resource);
++	dma_resv_add_fence(&bo->base._resv, fence, DMA_RESV_USAGE_KERNEL);
++	dma_fence_put(fence);
+ 
+-	dma_resv_unlock(bo->base.resv);
++out:
++	dma_resv_unlock(&bo->base._resv);
  }
  
- static int tc358746_apply_dphy_config(struct tc358746 *tc358746)
-@@ -492,7 +488,6 @@ static int tc358746_apply_dphy_config(struct tc358746 *tc358746)
- 
- 	/* The hs_byte_clk is also called SYSCLK in the excel sheet */
- 	hs_byte_clk = cfg->hs_clk_rate / 8;
--	hs_byte_clk /= HZ_PER_MHZ;
- 	hf_clk = hs_byte_clk / 2;
- 
- 	val = tc358746_us_to_cnt(cfg->init, hf_clk) - 1;
+ /**
 -- 
 2.39.5
 
