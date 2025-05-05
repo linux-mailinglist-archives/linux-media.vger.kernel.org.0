@@ -1,60 +1,61 @@
-Return-Path: <linux-media+bounces-31796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31797-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F290CAAB6CA
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 07:57:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B292AAB362
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 06:44:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F4F117F7A9
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 05:54:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04A7E3ABFC1
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 04:37:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0330E215767;
-	Tue,  6 May 2025 00:33:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6A8D22ACF3;
+	Tue,  6 May 2025 00:36:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iP3frJMb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lyQ/wxme"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60E23899E8;
-	Mon,  5 May 2025 23:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DABE28136C;
+	Mon,  5 May 2025 23:03:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486054; cv=none; b=giun41b4qRO8Q2Ad4ypgxPOAbuWVG/J5YEGncS8NMhtD7Dtj6otS+mrqclDmypXOFqARJnxKABNiw51pwMq0FRWLTFIHxAsFtjiZOLf+oiIxLq/+WeGIZBPzXrhN1L9fex/sAo+I3trQZWeCxpBPh/pbICTPo2NvzAbmDRSDjnA=
+	t=1746486214; cv=none; b=ci/r8LUvf5i+3+rc9pDRebnkmayW6CPjVvTReUrojAx4/gr+abcuonwMmx9/3Go8i7mizmqyXDxTPDV9ENyJCIHPAyyYxJ0lGKNK2pjNg075Pnz3r3epFZexVc3Yu6XKOKp1MSMhscT/iuRkQd1yIqBgOf26iI4qQUsmmBscyYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486054; c=relaxed/simple;
-	bh=otCOWJG6YRdM730a62hXw38ZLebPfilfEAfuCxr/aU4=;
+	s=arc-20240116; t=1746486214; c=relaxed/simple;
+	bh=o9JVDIjt6g9NuZ+ioI61yFZvhGCJCq8DL5F+bXRIQJw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kVh7inWRZBki/4FupHllo1ylDWEOOxDgbeEbm705aqOb4UThpca+d+jGDv/drOlMH02lrMRg2kgcicJxUhRijxnx3aQDDqKUhFahEgJ//FUJBw8HIW6jyiImJCY7nbTVbkzRTmrXOrYlRDCJtlELWcLKhTFoTRI4fFGPTC/IPLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iP3frJMb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BB69C4CEED;
-	Mon,  5 May 2025 23:00:51 +0000 (UTC)
+	 MIME-Version; b=rLqp0ripMQ0oet1Ta4SkKmwioplG+iu0BTSfoQkhANrS8Dp7ZbcWzmhNnCOWicT288Y6RWIXOuh41zmKuCXrCmarqRCk3Ahh686x6Xc12vqkgCc1VswDKMrV/n2eInI1xMh+xR6KVmbqE28bZv3E3KBMDqWJ9P2g9AEEmnlfuoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lyQ/wxme; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11762C4CEF1;
+	Mon,  5 May 2025 23:03:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486053;
-	bh=otCOWJG6YRdM730a62hXw38ZLebPfilfEAfuCxr/aU4=;
+	s=k20201202; t=1746486214;
+	bh=o9JVDIjt6g9NuZ+ioI61yFZvhGCJCq8DL5F+bXRIQJw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iP3frJMbIzwZRNAb9hlnHhP+ARw8SHjn9hEUhGStLzxQe2PzQxfscG5KB66k3Y1nl
-	 LxfE+9DkE5dDC1LNjQDXJUseZA8ygYO7e47v/ysztxxxgvz6SVlsn+51xBnc6QD4O+
-	 dOtcrMXPB2/kH5uxphfU+Dg94ns7EohMgdDYmHG4MM7awOLiJCVmP2iXLCN591psMl
-	 eMTw7C+DbXLF6pfKzwH6BcJtnvlEGCpuzWwJLKipQ/oOOO+n57Abq11S4noDONxMPd
-	 /9J8BvgD7MTrISIWv0Ihw1EuPUgK0xoNYpAE0hS4diKC/p1EWYbDBSNeheR2urO+hP
-	 sinCW08nCchaA==
+	b=lyQ/wxmexPq/MCAvZpNuCX8lx56d0Mz5Vm3M71Zv9gbzmhmQlGFIOYy03O0tg9xLA
+	 8UczHeI5X2HwWCBr2NPWnUC6vYVCVpMUd9bpNvTUCjeqSt8tGGu7vy8q10yeD6rSYg
+	 g7/2Ir4EFi9stK+xTSFxqZJ97Rn9PHzufY2HAWTcgscsSnv/PmTylFlEJQ6BWBr/pM
+	 4SUefZwK4U5MB6iH4gnZ2NTOInttATpSIkUd6XbYmiD1QzCbMV0WnnebaVjw7bPn95
+	 QrF2ay22ytjV9JHXEOWY01tx4nTwAmR7e8r5tTtKUWGg7xVBgDFTewZ+QHVv+VrWYu
+	 I30agE+wgeIsg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Yunke Cao <yunkec@google.com>,
+Cc: David Plowman <david.plowman@raspberrypi.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	laurent.pinchart@ideasonboard.com,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 129/294] media: uvcvideo: Handle uvc menu translation inside uvc_get_le_value
-Date: Mon,  5 May 2025 18:53:49 -0400
-Message-Id: <20250505225634.2688578-129-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 211/294] media: i2c: imx219: Correct the minimum vblanking value
+Date: Mon,  5 May 2025 18:55:11 -0400
+Message-Id: <20250505225634.2688578-211-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
@@ -69,159 +70,38 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
-From: Ricardo Ribalda <ribalda@chromium.org>
+From: David Plowman <david.plowman@raspberrypi.com>
 
-[ Upstream commit 9109a0b4cb10fd681e9c6e9a4497a6fec5b91c39 ]
+[ Upstream commit e3b82d49bf676f3c873e642038765eac32ab6d39 ]
 
-map->get() gets a value from an uvc_control in "UVC format" and converts
-it to a value that can be consumed by v4l2.
+The datasheet for this sensor documents the minimum vblanking as being
+32 lines. It does fix some problems with occasional black lines at the
+bottom of images (tested on Raspberry Pi).
 
-Instead of using a special get function for V4L2_CTRL_TYPE_MENU, we
-were converting from uvc_get_le_value in two different places.
-
-Move the conversion to uvc_get_le_value().
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Tested-by: Yunke Cao <yunkec@google.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Link: https://lore.kernel.org/r/20250203-uvc-roi-v17-4-5900a9fed613@chromium.org
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 77 +++++++++++++-------------------
- 1 file changed, 32 insertions(+), 45 deletions(-)
+ drivers/media/i2c/imx219.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 028c4a5049af9..5926a9dfb0b1f 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -815,6 +815,25 @@ static inline void uvc_clear_bit(u8 *data, int bit)
- 	data[bit >> 3] &= ~(1 << (bit & 7));
- }
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index a14e571dc62bc..a3d5a8a7c660b 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -77,7 +77,7 @@
+ #define IMX219_VTS_30FPS_640x480	0x06e3
+ #define IMX219_VTS_MAX			0xffff
  
-+static s32 uvc_menu_to_v4l2_menu(struct uvc_control_mapping *mapping, s32 val)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
-+		u32 menu_value;
-+
-+		if (!test_bit(i, &mapping->menu_mask))
-+			continue;
-+
-+		menu_value = uvc_mapping_get_menu_value(mapping, i);
-+
-+		if (menu_value == val)
-+			return i;
-+	}
-+
-+	return val;
-+}
-+
- /*
-  * Extract the bit string specified by mapping->offset and mapping->size
-  * from the little-endian data stored at 'data' and return the result as
-@@ -849,6 +868,16 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
- 	if (mapping->data_type == UVC_CTRL_DATA_TYPE_SIGNED)
- 		value |= -(value & (1 << (mapping->size - 1)));
+-#define IMX219_VBLANK_MIN		4
++#define IMX219_VBLANK_MIN		32
  
-+	/* If it is a menu, convert from uvc to v4l2. */
-+	if (mapping->v4l2_type != V4L2_CTRL_TYPE_MENU)
-+		return value;
-+
-+	switch (query) {
-+	case UVC_GET_CUR:
-+	case UVC_GET_DEF:
-+		return uvc_menu_to_v4l2_menu(mapping, value);
-+	}
-+
- 	return value;
- }
- 
-@@ -1013,32 +1042,6 @@ static int uvc_ctrl_populate_cache(struct uvc_video_chain *chain,
- 	return 0;
- }
- 
--static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
--				const u8 *data)
--{
--	s32 value = mapping->get(mapping, UVC_GET_CUR, data);
--
--	if (mapping->v4l2_type == V4L2_CTRL_TYPE_MENU) {
--		unsigned int i;
--
--		for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
--			u32 menu_value;
--
--			if (!test_bit(i, &mapping->menu_mask))
--				continue;
--
--			menu_value = uvc_mapping_get_menu_value(mapping, i);
--
--			if (menu_value == value) {
--				value = i;
--				break;
--			}
--		}
--	}
--
--	return value;
--}
--
- static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
- 			       struct uvc_control *ctrl)
- {
-@@ -1089,8 +1092,8 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
- 	if (ret < 0)
- 		return ret;
- 
--	*value = __uvc_ctrl_get_value(mapping,
--				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-+	*value = mapping->get(mapping, UVC_GET_CUR,
-+			      uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
- 
- 	return 0;
- }
-@@ -1240,7 +1243,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- {
- 	struct uvc_control_mapping *master_map = NULL;
- 	struct uvc_control *master_ctrl = NULL;
--	unsigned int i;
- 
- 	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
- 	v4l2_ctrl->id = mapping->id;
-@@ -1283,21 +1285,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 		v4l2_ctrl->minimum = ffs(mapping->menu_mask) - 1;
- 		v4l2_ctrl->maximum = fls(mapping->menu_mask) - 1;
- 		v4l2_ctrl->step = 1;
--
--		for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
--			u32 menu_value;
--
--			if (!test_bit(i, &mapping->menu_mask))
--				continue;
--
--			menu_value = uvc_mapping_get_menu_value(mapping, i);
--
--			if (menu_value == v4l2_ctrl->default_value) {
--				v4l2_ctrl->default_value = i;
--				break;
--			}
--		}
--
- 		return 0;
- 
- 	case V4L2_CTRL_TYPE_BOOLEAN:
-@@ -1580,7 +1567,7 @@ void uvc_ctrl_status_event(struct uvc_video_chain *chain,
- 		uvc_ctrl_set_handle(handle, ctrl, NULL);
- 
- 	list_for_each_entry(mapping, &ctrl->info.mappings, list) {
--		s32 value = __uvc_ctrl_get_value(mapping, data);
-+		s32 value = mapping->get(mapping, UVC_GET_CUR, data);
- 
- 		/*
- 		 * handle may be NULL here if the device sends auto-update
+ /*Frame Length Line*/
+ #define IMX219_FLL_MIN			0x08a6
 -- 
 2.39.5
 
