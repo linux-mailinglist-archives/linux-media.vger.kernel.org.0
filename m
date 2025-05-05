@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-31750-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31751-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1339BAAA3C9
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:20:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA86AAA40A
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:23:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F6691890044
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:20:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D220018872C1
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:22:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4AA32F8183;
-	Mon,  5 May 2025 22:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9312FA130;
+	Mon,  5 May 2025 22:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CNhUb4B0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZAkrdFx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0346D285405;
-	Mon,  5 May 2025 22:25:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240C62FA11A;
+	Mon,  5 May 2025 22:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483917; cv=none; b=NW9vrL7itRRWRzUlHcW4plZJ2Am52COzWF9ZwhYMyaD8klPiIDPsPS/ESIrF3VcEDelLQ1V82TX6c2PciDkNjGUMPdpMz8ktaI4hp6XqxFIAPZ1vvj/wmIa+X3mqB/0jvwug+3DYKAULxyvK0xVz5iUUb1l24raToDVp9EPOngA=
+	t=1746483939; cv=none; b=LmLt3J9wQ9tQxzXdWK4MXh/ujvNV5VAdu6I/2hbHP8HqI0kGor00rOB2jP9fvhD4vUu2C75yoUc7Ab9q3Y+6At0mK/BOK1MJdiv0pf/06GexAIrxTrct8nqrIX4jMv0GTGMrUwmGfCxYJYvgbG6EPGfm3pwDvvF6W0MF2To8MvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483917; c=relaxed/simple;
-	bh=UqQQ8ENBbU5xPf3Z6v1IrmngkKFljdoHuXmaVJ3pGik=;
+	s=arc-20240116; t=1746483939; c=relaxed/simple;
+	bh=OJ9wqeeaguHKt0CyVu45M6QZ7ddldda6eG983E4+FyQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RgakiRN0Mwqim3hrgX6kmNskQu+1wCvbVDiYf9tOIdqGvhVtJVRb/+F3NLVYZgiVnYl9y3jXoQEilJq54YfIRWcs8aQf+tUFJqRtD84FHM1G6YfXnsqnvhjrKidp888xNoMSFFUH7w3qjbAdRtXOFhCYHnEJqsFJRONZ71LNYwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CNhUb4B0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 743FCC4CEEE;
-	Mon,  5 May 2025 22:25:14 +0000 (UTC)
+	 MIME-Version; b=gfJq2A4zfZRdzEg5zMtfdzfK3yECAh83dd8t5u6rUjn9Poul83Zu7Je/61hwQNuo4alihf/Yxgkw5v4EndjKdRBek1s8PB9PSgkwN8FXa4pkAAb53JIyiFcXaLOCZHvTxOLgdW2o33YevKH0R8FuveVyqEifp1BROAqrlQsn9XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZAkrdFx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 767CFC4CEEE;
+	Mon,  5 May 2025 22:25:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483915;
-	bh=UqQQ8ENBbU5xPf3Z6v1IrmngkKFljdoHuXmaVJ3pGik=;
+	s=k20201202; t=1746483938;
+	bh=OJ9wqeeaguHKt0CyVu45M6QZ7ddldda6eG983E4+FyQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CNhUb4B0CyW2n1KmAFvAlCR+Y0YljOaOsnfEg4WopJWhq3k2GqCEO9EFWH+R1CPQm
-	 dvY+5IgfZX+nPTWgy/fuKi5BnHuEsynr7GG5IY/TtoJbJsFuyMkiNl0zfzBRhB0n5W
-	 2c85qkn5Kt3m0rAt8pMbl28AlvyHAKCsaauiVFwTuh0zIg2yavY3NS87JB4+RcF4Ik
-	 GjYzipgcwFT28/TMPKvF1bEblDdkfImOmzsDPPylp+ekis64kNI0v03Bnqh6lUhmNd
-	 hlVf5m3TrQyUjj2K1iGJrGPagnsfmhKFv+B09wqrx2XZB8ba8Jn8Wq3zyZ2Hts9CK0
-	 jl0Zwi7vFnEPA==
+	b=pZAkrdFxaMhSVed5EBcShXvTrTcERJ1NfN2wvuxv9ttbiDJq9EiUNAAM/c6KykBFR
+	 wlmiJqzLKwVaJkWvGMygVeEQJ5qaFg7XP7TgvIwTy7uik+/xxVpG+X2Xq9gfUzu2oo
+	 eSHxq8PPxgePt5zPShuf1W5IbfUBjEMI/p8V7Urd0Qx+Zc28yszxX9Yvyyb4VG8L5f
+	 /gQ5f8x44b20DpjrUFEZkHVto7Adgw+FBPdxAuFce+LhwGPxTqQrkcQ3cScKAJcFil
+	 jfagjvWN28K+rbj/R0y/mUBJujcDDwQqO2bC0Qt4mLaUT9ro014kf6iunxgsLzj6vB
+	 iFfs6tZ38baTg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Paul Elder <paul.elder@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Yunke Cao <yunkec@google.com>,
+	Hans de Goede <hdegoede@redhat.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	laurent.pinchart@ideasonboard.com,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 267/642] media: imx335: Set vblank immediately
-Date: Mon,  5 May 2025 18:08:03 -0400
-Message-Id: <20250505221419.2672473-267-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 279/642] media: uvcvideo: Add sanity check to uvc_ioctl_xu_ctrl_map
+Date: Mon,  5 May 2025 18:08:15 -0400
+Message-Id: <20250505221419.2672473-279-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -68,64 +69,40 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Paul Elder <paul.elder@ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
 
-[ Upstream commit c0aa40f45fef80b4182704d1bc089cbf8ae8bed0 ]
+[ Upstream commit 990262fdfce24d6055df9711424343d94d829e6a ]
 
-When the vblank v4l2 control is set, it does not get written to the
-hardware unless exposure is also changed. Change the behavior such that
-the vblank is written immediately when the control is set, as setting
-the vblank without changing the exposure is a valid use case (such as
-for changing the frame rate).
+Do not process unknown data types.
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Tested-by: Yunke Cao <yunkec@google.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Link: https://lore.kernel.org/r/20250203-uvc-roi-v17-15-5900a9fed613@chromium.org
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/imx335.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index fcfd1d851bd4a..0beb80b8c4581 100644
---- a/drivers/media/i2c/imx335.c
-+++ b/drivers/media/i2c/imx335.c
-@@ -559,12 +559,14 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
- 			imx335->vblank,
- 			imx335->vblank + imx335->cur_mode->height);
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 93c6cdb238812..75216507cbdcf 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -108,6 +108,12 @@ static int uvc_ioctl_xu_ctrl_map(struct uvc_video_chain *chain,
+ 	struct uvc_control_mapping *map;
+ 	int ret;
  
--		return __v4l2_ctrl_modify_range(imx335->exp_ctrl,
--						IMX335_EXPOSURE_MIN,
--						imx335->vblank +
--						imx335->cur_mode->height -
--						IMX335_EXPOSURE_OFFSET,
--						1, IMX335_EXPOSURE_DEFAULT);
-+		ret = __v4l2_ctrl_modify_range(imx335->exp_ctrl,
-+					       IMX335_EXPOSURE_MIN,
-+					       imx335->vblank +
-+					       imx335->cur_mode->height -
-+					       IMX335_EXPOSURE_OFFSET,
-+					       1, IMX335_EXPOSURE_DEFAULT);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	/*
-@@ -575,6 +577,13 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
- 		return 0;
- 
- 	switch (ctrl->id) {
-+	case V4L2_CID_VBLANK:
-+		exposure = imx335->exp_ctrl->val;
-+		analog_gain = imx335->again_ctrl->val;
++	if (xmap->data_type > UVC_CTRL_DATA_TYPE_BITMASK) {
++		uvc_dbg(chain->dev, CONTROL,
++			"Unsupported UVC data type %u\n", xmap->data_type);
++		return -EINVAL;
++	}
 +
-+		ret = imx335_update_exp_gain(imx335, exposure, analog_gain);
-+
-+		break;
- 	case V4L2_CID_EXPOSURE:
- 		exposure = ctrl->val;
- 		analog_gain = imx335->again_ctrl->val;
+ 	map = kzalloc(sizeof(*map), GFP_KERNEL);
+ 	if (map == NULL)
+ 		return -ENOMEM;
 -- 
 2.39.5
 
