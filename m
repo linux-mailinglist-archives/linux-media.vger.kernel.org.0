@@ -1,104 +1,343 @@
-Return-Path: <linux-media+bounces-31728-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31729-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460A5AA99DE
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 18:57:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD006AA9A1F
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 19:08:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE48017DBF1
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 16:57:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4905F16F60D
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 17:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC87F26A0DD;
-	Mon,  5 May 2025 16:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FB6E26B097;
+	Mon,  5 May 2025 17:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vKAdgtDq"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Qh47oUWq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B61B19D8A7
-	for <linux-media@vger.kernel.org>; Mon,  5 May 2025 16:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A0C1922F5
+	for <linux-media@vger.kernel.org>; Mon,  5 May 2025 17:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746464242; cv=none; b=RE1p+tj4phhC7qBPTd86a6ZkPBeiQa9ilX9S1ToShYap5Bvhd2yhwgBln2Jz3cWz9uDhiwx3q5UxJZq5C7BxLXThXAcklislMGXTr3hPlmOsaWbAv1Q31EJrYINS18WDhLObKRGkcnYcezHYVB7BsdsH2uc9rQtQat8OFdiUWHw=
+	t=1746464897; cv=none; b=kVf4D1jtexcEGBC+UUAzMzF8mPZWN/YY/yHNPJiw3YXzkqYRiAZOJy3VbpESAKBO6wjkRMD2J69vDXPYtJ0I4G3kEIMfrEEz4ADF62nEF5UdUeumuNId5BLfKl0Ssjv59PGflHZBZ28hMUETWhF8MSfrChCkla7D2GjMHlhVAVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746464242; c=relaxed/simple;
-	bh=SEQUvJmDpbyIJcYzLPTgKE0zpnnK/RUUA6FgdO2hdwE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VV+N5yaaUC0uHIEoWpeHWfH1ncDIRTIwLBC8OZ30eEFRLqpXvXauBHGiwsxOmA+mvLvQI+j3XFpIpgqauv1RvHU92CxzfiEA27awD6c0XgaAqC/ovHVT23izBIi25iegpb/hHsfwyCPk2xTh9ohOWTKPIupZGnLSxyrwY5vqmxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vKAdgtDq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [185.146.221.246])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C319A6DE;
-	Mon,  5 May 2025 18:57:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746464225;
-	bh=SEQUvJmDpbyIJcYzLPTgKE0zpnnK/RUUA6FgdO2hdwE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vKAdgtDqKAapMIyYeA4deLa5PMyi77Pv33e84pWXlaIYsHTMdqBr3xD3iB8KRh4EZ
-	 bh9G2Z7opfQ/4c33RdTgsC1dBhQLIGoy5IEgpZ9TZ8T/RpGwH0xWkrBxALI58X2J4h
-	 BiPF/0D2zH3ImyBKzgG6r+n+grye4IPypczIVak4=
-Date: Mon, 5 May 2025 18:57:04 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mattijs Korpershoek <mkorpershoek@kernel.org>
-Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [ANNOUNCEMENT] libcamera workshop 2025 - Nice, May 16th
-Message-ID: <20250505165704.GB30153@pendragon.ideasonboard.com>
-References: <20250325102750.GE20035@pendragon.ideasonboard.com>
- <87selj5dl6.fsf@kernel.org>
+	s=arc-20240116; t=1746464897; c=relaxed/simple;
+	bh=Jtak9U7cc0PM/YZ1tVgC2DmN5i2AOKL8/qKOSE5THgM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gQk5d6IPXoY03EsS706ldKoOUP1K/nCAEqmubcpG9GcDvFb1f5/CyDY1QlKuIr6uSI6UjZd1MKYOR9Vkkx3CVOy+pxAggYvcNScgCYWklNczHIyHHP+jGL0e+QSVYlMmmwJ9ESHBhr8d5LsItS8q2fT722fkeSE9YiedW87B+Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Qh47oUWq; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4774611d40bso15941cf.0
+        for <linux-media@vger.kernel.org>; Mon, 05 May 2025 10:08:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1746464894; x=1747069694; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9Sl5qlzaLwkLoa7IyezxtoDVMCMI6oXTbeuYg/AGNhM=;
+        b=Qh47oUWqZAEM6/wEzyHqVYuvVlg74wdDTYSxMiFQsqWyrhM6l0kMewxO5T0BMNc0Lc
+         iZYwmq4cyCXM5s3VDFBzsyXYBwlh1DBdLEjL0RXxXTSKO7KodzEMhQU7O39eEOYv6EXr
+         qvuwPQG28TxxkbxjdYqTuHxEevBdnsUAOslFxn9CATq5EZnnrC+53451EyjMKH+3Bf76
+         27KcZZfiLvQC7yEi5d4SAavQwHaVrdMnn5jRoZH2TlFRA071sj/8v5fETGa1irlwHYbw
+         ZftaL9If0HjYQN2VR/5GR6+pEaUCp8e5NU0Eo8qJ0sVEM+KH6x60oQoA7MZd1okMWH0X
+         VePw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746464894; x=1747069694;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9Sl5qlzaLwkLoa7IyezxtoDVMCMI6oXTbeuYg/AGNhM=;
+        b=KhgmjEYN6m80y3Vabfg4mCplRRBXdWLRTis65JWlfmcwHEofn6Xoaw/F+TIiqhviuN
+         Cp8isEe9Z2MZIiZLFq+mGXguDoquV+EOtn0NQ3AQoW1xBVM9qBvZ7oqjcXBbpHBVFsN4
+         3btSH/t6Oo3/BGEoigdrdkgAbbPya85GmpBgWBPTo4eKiAQ3fzi/KT6Cof11OGduQIyV
+         dnyGDI4CpAKwMxUgq0u3hq5i64HjH0tqE2QLx208d2wz8NDi1v3tnjoMhCaOm7MBclQr
+         d7WUzhBtHzYvnb2YnKbxNc94glKHh4pww1fd6742I0bnUoDCqKfFz5nW37vmEtNPFZvz
+         twQw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/D/k3oMAR/+PA9xjxNoXAQOY15uWtH2NMNviXh4mnjp9tSC+0ZQczvPn+KFq98us8Oy1WSLickIeokA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yylcu5CV5gEALyoIgesEytzVUy0lBb8QxuTITf+ISF5IZbOXjLo
+	PgpZpEyov9aFLwwgu6+sz+39f42SBzGr/z8sAxWx+md+5CHiDJnb2r2JJI9uZcgh/sR1kKFKsnW
+	rYCbrmizIsbg0CbwaemviQcGS/S/eECH+bS/e
+X-Gm-Gg: ASbGncuemFLTHoz+1+u53QtBDR6rIZ+qggRRn6kOgrJ0cZuLdDOc4+5n+7PNY/OWajE
+	wd/T/jI3QofbMpYmu8gsarESUSI0uWiImUpAPKGGWr75yetrcx9oi6KQYOu8bU7PiL/d7cQvY/X
+	FdCJaD7+h4vJaMR0k+wapg
+X-Google-Smtp-Source: AGHT+IG9RbCE3tWojEKNPQx5yfnmDPTu6+mJWO90vxaZ+aQ1eZ9nWwk/u1wfl/9Tse3jgXBFSeLavdU4iiR/L3XP6AA=
+X-Received: by 2002:a05:622a:586:b0:474:b44f:bb88 with SMTP id
+ d75a77b69052e-490cdae6128mr590541cf.27.1746464894049; Mon, 05 May 2025
+ 10:08:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87selj5dl6.fsf@kernel.org>
+References: <20250504224149.1033867-1-tjmercier@google.com>
+ <20250504224149.1033867-3-tjmercier@google.com> <26ca8ddf-0d78-462f-a47d-a1128b2e058f@amd.com>
+ <CABdmKX2iNk22h-KxUr4yvZO80yeRRjMfoC7yjiZ-aR_f1k402g@mail.gmail.com> <ec43f447-095e-4baf-8610-8279b565f162@amd.com>
+In-Reply-To: <ec43f447-095e-4baf-8610-8279b565f162@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Mon, 5 May 2025 10:07:59 -0700
+X-Gm-Features: ATxdqUF0j9WeLA-MxEEKVNTEyhm3r86boN77kWA0rwIEETtFwZuRS9Ux9s2lLAY
+Message-ID: <CABdmKX2Tpv8vpDDZ+wcdrWuijfC1wkNhJQxVSC9trPkzBLN4tA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] bpf: Add dmabuf iterator
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: sumit.semwal@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
+	andrii@kernel.org, martin.lau@linux.dev, skhan@linuxfoundation.org, 
+	song@kernel.org, alexei.starovoitov@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mattijs,
-
-On Mon, May 05, 2025 at 04:36:37PM +0200, Mattijs Korpershoek wrote:
-> On mar., mars 25, 2025 at 12:27, Laurent Pinchart wrote:
-> 
-> > Hello everybody,
+On Mon, May 5, 2025 at 9:56=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> On 5/5/25 18:33, T.J. Mercier wrote:
+> > On Mon, May 5, 2025 at 4:17=E2=80=AFAM Christian K=C3=B6nig <christian.=
+koenig@amd.com> wrote:
+> >>
+> >> On 5/5/25 00:41, T.J. Mercier wrote:
+> >>> The dmabuf iterator traverses the list of all DMA buffers.
+> >>>
+> >>> DMA buffers are refcounted through their associated struct file. A
+> >>> reference is taken on each buffer as the list is iterated to ensure e=
+ach
+> >>> buffer persists for the duration of the bpf program execution without
+> >>> holding the list mutex.
+> >>>
+> >>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> >>> ---
+> >>>  kernel/bpf/Makefile      |   3 +
+> >>>  kernel/bpf/dmabuf_iter.c | 134 +++++++++++++++++++++++++++++++++++++=
+++
+> >>>  2 files changed, 137 insertions(+)
+> >>>  create mode 100644 kernel/bpf/dmabuf_iter.c
+> >>>
+> >>> diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
+> >>> index 70502f038b92..3a335c50e6e3 100644
+> >>> --- a/kernel/bpf/Makefile
+> >>> +++ b/kernel/bpf/Makefile
+> >>> @@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
+> >>>  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
+> >>>  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
+> >>>  obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
+> >>> +ifeq ($(CONFIG_DMA_SHARED_BUFFER),y)
+> >>> +obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
+> >>> +endif
+> >>>
+> >>>  CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
+> >>>  CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
+> >>> diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
+> >>> new file mode 100644
+> >>> index 000000000000..968762e11f73
+> >>> --- /dev/null
+> >>> +++ b/kernel/bpf/dmabuf_iter.c
+> >>> @@ -0,0 +1,134 @@
+> >>> +// SPDX-License-Identifier: GPL-2.0-only
+> >>> +/* Copyright (c) 2025 Google LLC */
+> >>> +#include <linux/bpf.h>
+> >>> +#include <linux/btf_ids.h>
+> >>> +#include <linux/dma-buf.h>
+> >>> +#include <linux/kernel.h>
+> >>> +#include <linux/seq_file.h>
+> >>> +
+> >>> +BTF_ID_LIST_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
+> >>> +DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_=
+buf *dmabuf)
+> >>> +
+> >>> +static struct dma_buf *get_next_dmabuf(struct dma_buf *dmabuf)
+> >>> +{
+> >>> +     struct dma_buf *ret =3D NULL;
+> >>> +
+> >>> +     /*
+> >>> +      * Look for the first/next buffer we can obtain a reference to.
+> >>> +      *
+> >>> +      * The list mutex does not protect a dmabuf's refcount, so it c=
+an be
+> >>> +      * zeroed while we are iterating. We cannot call get_dma_buf() =
+since the
+> >>> +      * caller of this program may not already own a reference to th=
+e buffer.
+> >>> +      */
+> >>> +     mutex_lock(&dmabuf_list_mutex);
+> >>> +     if (dmabuf) {
+> >>
+> >> That looks like you try to mangle the start and next functionality in =
+just one function.
+> >>
+> >> I would just inline that into the dmabuf_iter_seq_start() and dmabuf_i=
+ter_seq_next() functions.
 > >
-> > Another year, another libcamera workshop. After the previous editions in
-> > Paris, Brussels and Vienna, we will organize the next workshop in Nice
-> > on Friday the 16th of May. The event will be hosted by Embedded Recipes
-> > ([1]) as part of their workshops day ([2]).
+> > Primarily this is to share between the open coded iterator (next
+> > patch) and this normal iterator since I didn't want to duplicate the
+> > same list traversal code across both of them.
+>
+> Ah, ok that makes a bit more sense. It would still be nicer if it's in tw=
+o functions since the logic doesn't share anything common except for taking=
+ the lock as far as I can seee.
+>
+> >>
+> >>
+> >>> +             dma_buf_put(dmabuf);
+> >>> +             list_for_each_entry_continue(dmabuf, &dmabuf_list, list=
+_node) {
+> >>
+> >> That you can put the DMA-buf and then still uses it in list_for_each_e=
+ntry_continue() only works because the mutex is locked in the destroy path.
 > >
-> > This year, our workshop will be colocated with the Pipewire workshop on
-> > the same day and at the same venue (but a different room), to facilitate
-> > discussions about topics that span libcamera and Pipewire. The Linux
-> > Media Summit will also be organized in a nearby location on Tuesday the
-> > 13th ([3]).
+> > Yup, this was deliberate.
+> >>
+> >>
+> >> I strongly suggest to just put those two functions into drivers/dma-bu=
+f/dma-buf.c right next to the __dma_buf_debugfs_list_add() and __dma_buf_de=
+bugfs_list_del() functions.
 > >
-> > If you would like to attend, please register your interest by replying
-> > to this e-mail, and indicate if you have any discussion topics you would
-> > like to include in the schedule. We will draft and circulate an agenda
-> > in the next few weeks after receiving topic proposals. If registrations
-> > exceed our capacity, priority will be given based on topic submissions.
-> 
-> I don't know if there is any room left, but if there is a spot left, I'd
-> like to attend the libcamera workshop.
-> 
-> I'm sorry to be this late, my travel plans have been a bit difficult.
+> > By two functions, you mean a get_first_dmabuf(void) and a
+> > get_next_dmabuf(struct dma_buf*)? To make the dma_buf_put() call a
+> > little less scary since all the mutex ops are right there?
+>
+> Yes, exactly that's the idea. The comment above is good to have as well, =
+but it only works one way.
+>
+> If somebody changes the DMA-buf code without looking at this here we are =
+busted.
 
-You're now on the attendees list.
+Sounds good, will do. Thanks.
 
-> > The event will be free of charge for attendees.
+>
+> Regards,
+> Christian.
+>
+> >>
+> >>
+> >> Apart from those style suggestions looks good to me from the technical=
+ side, but I'm not an expert for the BPF stuff.
+> >>
+> >> Regards,
+> >> Christian.
 > >
-> > [1] https://embedded-recipes.org/2025/
-> > [2] https://embedded-recipes.org/2025/workshops/
-> > [3] https://lore.kernel.org/r/044f2fa6-a245-4ae5-b9de-7a2e8831ccd6@xs4all.nl
-
--- 
-Regards,
-
-Laurent Pinchart
+> > Thanks for your comments and reviews!
+> >
+> >>> +                     if (file_ref_get(&dmabuf->file->f_ref)) {
+> >>> +                             ret =3D dmabuf;
+> >>> +                             break;
+> >>> +                     }
+> >>> +             }
+> >>> +     } else {
+> >>> +             list_for_each_entry(dmabuf, &dmabuf_list, list_node) {
+> >>> +                     if (file_ref_get(&dmabuf->file->f_ref)) {
+> >>> +                             ret =3D dmabuf;
+> >>> +                             break;
+> >>> +                     }
+> >>> +             }
+> >>> +     }
+> >>> +     mutex_unlock(&dmabuf_list_mutex);
+> >>> +     return ret;
+> >>> +}
+> >>> +
+> >>> +static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos=
+)
+> >>> +{
+> >>> +     if (*pos)
+> >>> +             return NULL;
+> >>> +
+> >>> +     return get_next_dmabuf(NULL);
+> >>> +}
+> >>> +
+> >>> +static void *dmabuf_iter_seq_next(struct seq_file *seq, void *v, lof=
+f_t *pos)
+> >>> +{
+> >>> +     struct dma_buf *dmabuf =3D v;
+> >>> +
+> >>> +     ++*pos;
+> >>> +
+> >>> +     return get_next_dmabuf(dmabuf);
+> >>> +}
+> >>> +
+> >>> +struct bpf_iter__dmabuf {
+> >>> +     __bpf_md_ptr(struct bpf_iter_meta *, meta);
+> >>> +     __bpf_md_ptr(struct dma_buf *, dmabuf);
+> >>> +};
+> >>> +
+> >>> +static int __dmabuf_seq_show(struct seq_file *seq, void *v, bool in_=
+stop)
+> >>> +{
+> >>> +     struct bpf_iter_meta meta =3D {
+> >>> +             .seq =3D seq,
+> >>> +     };
+> >>> +     struct bpf_iter__dmabuf ctx =3D {
+> >>> +             .meta =3D &meta,
+> >>> +             .dmabuf =3D v,
+> >>> +     };
+> >>> +     struct bpf_prog *prog =3D bpf_iter_get_info(&meta, in_stop);
+> >>> +
+> >>> +     if (prog)
+> >>> +             return bpf_iter_run_prog(prog, &ctx);
+> >>> +
+> >>> +     return 0;
+> >>> +}
+> >>> +
+> >>> +static int dmabuf_iter_seq_show(struct seq_file *seq, void *v)
+> >>> +{
+> >>> +     return __dmabuf_seq_show(seq, v, false);
+> >>> +}
+> >>> +
+> >>> +static void dmabuf_iter_seq_stop(struct seq_file *seq, void *v)
+> >>> +{
+> >>> +     struct dma_buf *dmabuf =3D v;
+> >>> +
+> >>> +     if (dmabuf)
+> >>> +             dma_buf_put(dmabuf);
+> >>> +}
+> >>> +
+> >>> +static const struct seq_operations dmabuf_iter_seq_ops =3D {
+> >>> +     .start  =3D dmabuf_iter_seq_start,
+> >>> +     .next   =3D dmabuf_iter_seq_next,
+> >>> +     .stop   =3D dmabuf_iter_seq_stop,
+> >>> +     .show   =3D dmabuf_iter_seq_show,
+> >>> +};
+> >>> +
+> >>> +static void bpf_iter_dmabuf_show_fdinfo(const struct bpf_iter_aux_in=
+fo *aux,
+> >>> +                                     struct seq_file *seq)
+> >>> +{
+> >>> +     seq_puts(seq, "dmabuf iter\n");
+> >>> +}
+> >>> +
+> >>> +static const struct bpf_iter_seq_info dmabuf_iter_seq_info =3D {
+> >>> +     .seq_ops                =3D &dmabuf_iter_seq_ops,
+> >>> +     .init_seq_private       =3D NULL,
+> >>> +     .fini_seq_private       =3D NULL,
+> >>> +     .seq_priv_size          =3D 0,
+> >>> +};
+> >>> +
+> >>> +static struct bpf_iter_reg bpf_dmabuf_reg_info =3D {
+> >>> +     .target                 =3D "dmabuf",
+> >>> +     .feature                =3D BPF_ITER_RESCHED,
+> >>> +     .show_fdinfo            =3D bpf_iter_dmabuf_show_fdinfo,
+> >>> +     .ctx_arg_info_size      =3D 1,
+> >>> +     .ctx_arg_info           =3D {
+> >>> +             { offsetof(struct bpf_iter__dmabuf, dmabuf),
+> >>> +               PTR_TO_BTF_ID_OR_NULL },
+> >>> +     },
+> >>> +     .seq_info               =3D &dmabuf_iter_seq_info,
+> >>> +};
+> >>> +
+> >>> +static int __init dmabuf_iter_init(void)
+> >>> +{
+> >>> +     bpf_dmabuf_reg_info.ctx_arg_info[0].btf_id =3D bpf_dmabuf_btf_i=
+d[0];
+> >>> +     return bpf_iter_reg_target(&bpf_dmabuf_reg_info);
+> >>> +}
+> >>> +
+> >>> +late_initcall(dmabuf_iter_init);
+> >>
+>
 
