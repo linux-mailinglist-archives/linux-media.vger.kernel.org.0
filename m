@@ -1,64 +1,62 @@
-Return-Path: <linux-media+bounces-31794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A86AAB209
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 06:11:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8893CAAB319
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 06:37:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 455051658E0
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 04:11:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4CBB188A2E7
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 04:35:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39E72420179;
-	Tue,  6 May 2025 00:28:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82E7A20D51A;
+	Tue,  6 May 2025 00:32:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JUcBd82O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NbegpUTf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433092D5CEA;
-	Mon,  5 May 2025 22:54:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEDF32DBB21;
+	Mon,  5 May 2025 23:00:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485669; cv=none; b=oTo+OCzIuXGt3mYRxCrj3aPFY6dRqp1+gqMdZCGtn9Lc7bIptbdljgImp6zEUyzAE68anpeepM66IyI8IhTnRsLoISwozrbkOIUnBDNB1Uvy43ABb9u2meJyEGF7k2qHV5WtcTmv4xmDQ+/4amwALE2YgIt3qIryhucX/Qs2W8M=
+	t=1746486017; cv=none; b=lfK7onktrOV7SXGlO8/Fpp8tCMQvL4Up5HLufTWMIOq8MmCuLx1L0FRnLvw6TEX7YZBoJOJHoroHF1OZb/8Itr01uQmjBWIHY1z20i62t9k9E4KYWhqNqfhWOnc5Y5vYQGsUq7bWrgd1k+m6Csb2u/khOZ0Fpq0ew4kLAVFe06A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485669; c=relaxed/simple;
-	bh=Lzk6MmQLtDj/XBdJxZbM25xFcGGq310EIE1eix9toG8=;
+	s=arc-20240116; t=1746486017; c=relaxed/simple;
+	bh=nsZXeQ0fo60DthHx1T6W+Gn8kKU2FQWZ87vEbmadKCY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=r2WEwMQorp5rwlYkSmChTmdXa2gmaU22fo4osEQiAdmAmbniDCQTaKeCCsuLjz0WZeaUpzDozdotxNvp5tiEncf+va1HrEkDNcfFZugdED6hvAs9wAsJBSBJcrje0nOD8Rg+lW8J1z6olS4FEYY8/GcgpBr52P/hU1MZzv/DcoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JUcBd82O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E230CC4CEEE;
-	Mon,  5 May 2025 22:54:26 +0000 (UTC)
+	 MIME-Version; b=CV2XIifMDvjWmgZ6UF9x0yyIhbfiEU2snHfouCbIA8EzCmAFASc0DG72iLNYXMsqNQT+eripRycrprUSAamZD6kZpxISwgdQysLq6SuOtEcMXnzml/kbZ9OImD5mSEZiGiitFKMYiIrn0BYEeV0Xv9W34g/4Sq3yI0sSuwmNQvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NbegpUTf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DC11C4CEF2;
+	Mon,  5 May 2025 23:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485668;
-	bh=Lzk6MmQLtDj/XBdJxZbM25xFcGGq310EIE1eix9toG8=;
+	s=k20201202; t=1746486017;
+	bh=nsZXeQ0fo60DthHx1T6W+Gn8kKU2FQWZ87vEbmadKCY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JUcBd82O35Xw9aaap8731RHfD6GESv5rJ3LjdkEDU6AoX9AeDvcvUWOdDLZOUcti5
-	 RlZvTSnUZs64yJbWHzNh7Ow3VQRe05VsPLwVmnGD4J41y6KWM1SFhn6tf8uoAxI0r+
-	 dp8tthEgoxVbr5+95UlVI1rXDBYjYf73tYnB7/tHPpTwqDphXaZ5wqHcUCiCgOgOTH
-	 SkqzpOZ7Zr1WsVCMPMJehVYbl3B+SZg+Uq+zYUgBa0Rrvnu9++rgAXZFFNvLXDc/it
-	 41qrZW4whMEF43pZITnJVVx1z+I6OmcpnmOLD5x7qZa8jEOz4v4Hw84qGPT/PiR1ys
-	 WP2qytH/ubOEQ==
+	b=NbegpUTfbJGh1rBHvrGFqzXoi5sCiep/LlyCfhnlmZbC9/mQbVtD2FGMZom8pA4CN
+	 5OkAsIcQkk6rseQDqUwv8MBR+fD/6JcyhBkE/boFvr7kQv8IxoyuB6E5GCv9K+4rui
+	 aq2gQERsd1KjoK0cGEgmltVp7IVyCXV/sclm4wdEv4ioFzdjg+Nim4z+3epxXrKSKV
+	 nzQ5tSiP8998TWvPCLFxm8ApGl6e5caK0aGocpkU25gZntVBc9WI2PTzsCoJEm+n+i
+	 mVR4YF+ukfIRf0KnrqJJQDCigZFMj//sPMX2xdWwIjTzOEyiKueLe2HbwhyRp+1Ijt
+	 kATdYusR5Mzbg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Depeng Shao <quic_depengs@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+Cc: Markus Elfring <elfring@users.sourceforge.net>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	rfoss@kernel.org,
-	todor.too@gmail.com,
+	patrice.chotard@foss.st.com,
 	mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 418/486] media: qcom: camss: Add default case in vfe_src_pad_code
-Date: Mon,  5 May 2025 18:38:14 -0400
-Message-Id: <20250505223922.2682012-418-sashal@kernel.org>
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 112/294] media: c8sectpfe: Call of_node_put(i2c_bus) only once in c8sectpfe_probe()
+Date: Mon,  5 May 2025 18:53:32 -0400
+Message-Id: <20250505225634.2688578-112-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
-References: <20250505223922.2682012-1-sashal@kernel.org>
+In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
+References: <20250505225634.2688578-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,39 +65,45 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.26
+X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
-From: Depeng Shao <quic_depengs@quicinc.com>
+From: Markus Elfring <elfring@users.sourceforge.net>
 
-[ Upstream commit 2f4204bb00b32eca3391a468d3b37e87feb96fa9 ]
+[ Upstream commit b773530a34df0687020520015057075f8b7b4ac4 ]
 
-Add a default case in vfe_src_pad_code to get rid of a compile
-warning if a new hw enum is added.
+An of_node_put(i2c_bus) call was immediately used after a pointer check
+for an of_find_i2c_adapter_by_node() call in this function implementation.
+Thus call such a function only once instead directly before the check.
 
-Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+This issue was transformed by using the Coccinelle software.
+
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/qcom/camss/camss-vfe.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index 83c5a36d071fc..8f6b0eccefb48 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -398,6 +398,10 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 			return sink_code;
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+index 5dc1f908b49bd..9aa484126a0dd 100644
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
++++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+@@ -806,13 +806,12 @@ static int c8sectpfe_probe(struct platform_device *pdev)
  		}
- 		break;
-+	default:
-+		WARN(1, "Unsupported HW version: %x\n",
-+		     vfe->camss->res->version);
-+		break;
- 	}
- 	return 0;
- }
+ 		tsin->i2c_adapter =
+ 			of_find_i2c_adapter_by_node(i2c_bus);
++		of_node_put(i2c_bus);
+ 		if (!tsin->i2c_adapter) {
+ 			dev_err(&pdev->dev, "No i2c adapter found\n");
+-			of_node_put(i2c_bus);
+ 			ret = -ENODEV;
+ 			goto err_node_put;
+ 		}
+-		of_node_put(i2c_bus);
+ 
+ 		/* Acquire reset GPIO and activate it */
+ 		tsin->rst_gpio = devm_fwnode_gpiod_get(dev,
 -- 
 2.39.5
 
