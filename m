@@ -1,76 +1,59 @@
-Return-Path: <linux-media+bounces-31745-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31746-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6E3AAA000
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 00:30:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F376AAA36B
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:14:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 64F531A81E5E
-	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 22:30:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5975A7B440C
+	for <lists+linux-media@lfdr.de>; Mon,  5 May 2025 23:11:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A465228C5D3;
-	Mon,  5 May 2025 22:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0306D2F0B92;
+	Mon,  5 May 2025 22:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nus+e6/z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyFhZJcH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C95227A444;
-	Mon,  5 May 2025 22:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7132F1559;
+	Mon,  5 May 2025 22:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483391; cv=none; b=WBw2NHjgY/Sh3cbOuTb0vixerSQ9Y9CwZo6i5KKt0efRFZ16OI94D1oVwO1fxkk1GOzGNrOJUjrLTJYob4jELhD1VoXy8TpBLndViywpNi49rpxmogVEIM9sEVHLVy1H/U2m/mwb9AiEzi/qMcN5XeTa8AHm6OQqCpdkNs5HNxI=
+	t=1746483824; cv=none; b=mFYDfLxouAPak8LDxrQ1dMYlF+G/tG4DV1p5N4xRdZw6nYs9uQVuYy6XPwgHyJq29tG6S4oDM0GMiefa3hq2Zr9uyEkDnKAY4Bp/74kn4c0S71/eZmkfzUgxLrtzgZ4CsT9A0Qdw4XcsrhtAXQWrj9i4key86lL1P+pOwKfejcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483391; c=relaxed/simple;
-	bh=WM5Bt1/8kI3k0/qcvdULGqRf6SUq9+KsJasU795ApL0=;
+	s=arc-20240116; t=1746483824; c=relaxed/simple;
+	bh=qH/4V8g1hOBeR0gSsV5ofqM5SOOS8OTnIZ+lszszT/U=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JmWAgtbALgVCeHiF5NMtbPgBUvxcqK5yK+9tT7q2N5JxD/yCfKBaL5v2VMBiEHh6UvIi1ESumTgTiVxdi0+x2Yom/D2isCBd0x22OSMroCZCMbDc1WBpbkm/dKZBAcD1jUxWkldLgIrp9ZnQh4Yx3eor/C6jY+bSgdjjsZkTclc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nus+e6/z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA178C4CEE4;
-	Mon,  5 May 2025 22:16:27 +0000 (UTC)
+	 MIME-Version; b=LvCqSWRvTKGXm/ZHuoVkWcI8nuRNniGNFrQR6hWco50rQF8WAcJGREy7tm6R44eck4zamKuQ5OiGSr/Oz8Rdm4Dvs3nBr7VuYai2rPkbbijdRztUt8fMEiTMzls45cQw80XvG2boU192mq/sqdzi+jb/RrgiE/5dByA7zHUQCfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyFhZJcH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA57C4CEF2;
+	Mon,  5 May 2025 22:23:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483390;
-	bh=WM5Bt1/8kI3k0/qcvdULGqRf6SUq9+KsJasU795ApL0=;
+	s=k20201202; t=1746483822;
+	bh=qH/4V8g1hOBeR0gSsV5ofqM5SOOS8OTnIZ+lszszT/U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nus+e6/zQLYK59oDFfVXBeP9YdXfkPRIqegT7ZrWsCSBUTZUPJLxq9ypGPNU+T5sf
-	 A+7rwhcVEfuJcfxPOK/MmR+NF//XP5XTX9Wj/JEcSBlQXz9bkY3PAMLETuV/KZi0AD
-	 x4k2kHikmVWXKSQuUP3PW0KCKUAsHuKpKBG6oXPRRzxOdn+RDp9jEEm6Fseqc6/dtV
-	 GEN2yagIO0R80dH6atncZEWWPulG3Xp7vyIdx+KAa+I04WTOeXEpON3K/FsZ3Oxp/J
-	 xoUh4oDbs6RuoJgWO98K7YfBIwL9YekDfelQa6LUKnDONSYzbmJisUBqM24mAoB6op
-	 Xw5SLc+kl7ivQ==
+	b=XyFhZJcHKi4Rzq0SqOnyhx3K91mFnhI2TNrWQXp92NdtonoK6X1fDaMSGVPn3SSGg
+	 NxGFZa86FdW9iE5K2BPTrgeO0Dc9r/k6YBUdTS20KfPCDATJb8jZq/cCsmVSSLiEAh
+	 /GPDDgp0t2zxkKDsCvCfdI0Osi8VkdFG1yPiKsFdcAbdsGw406+z/2mc9GK8FrmKbF
+	 +R8c7rbAS0eKSUsJajfxwd95nMiYha588MQtKYkaUInrpPJnNpygTlHFLjD0Ak7UEG
+	 0NQ51wVu0NSxxjpfPGjtcEjStSO4CJYKIdYQi1UyUL4D1/S1pxrYG1E9EcISWVuWED
+	 +pVonX0FuMt/g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
+Cc: Markus Elfring <elfring@users.sourceforge.net>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	Felix.Kuehling@amd.com,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	sumit.semwal@linaro.org,
-	pierre-eric.pelloux-prayer@amd.com,
-	Arunpravin.PaneerSelvam@amd.com,
-	David.Wu3@amd.com,
-	pvmohammedanees2003@gmail.com,
-	Yunxiang.Li@amd.com,
-	tvrtko.ursulin@igalia.com,
-	Jack.Xiao@amd.com,
-	Hawking.Zhang@amd.com,
-	Jiadong.Zhu@amd.com,
-	mukul.joshi@amd.com,
-	shaoyun.liu@amd.com,
-	chongli2@amd.com,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.14 061/642] drm/amdgpu: use GFP_NOWAIT for memory allocations
-Date: Mon,  5 May 2025 18:04:37 -0400
-Message-Id: <20250505221419.2672473-61-sashal@kernel.org>
+	patrice.chotard@foss.st.com,
+	mchehab@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 235/642] media: c8sectpfe: Call of_node_put(i2c_bus) only once in c8sectpfe_probe()
+Date: Mon,  5 May 2025 18:07:31 -0400
+Message-Id: <20250505221419.2672473-235-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -80,275 +63,47 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Christian König <christian.koenig@amd.com>
+From: Markus Elfring <elfring@users.sourceforge.net>
 
-[ Upstream commit 16590745b571c07869ef8958e0bbe44ab6f08d1f ]
+[ Upstream commit b773530a34df0687020520015057075f8b7b4ac4 ]
 
-In the critical submission path memory allocations can't wait for
-reclaim since that can potentially wait for submissions to finish.
+An of_node_put(i2c_bus) call was immediately used after a pointer check
+for an of_find_i2c_adapter_by_node() call in this function implementation.
+Thus call such a function only once instead directly before the check.
 
-Finally clean that up and mark most memory allocations in the critical
-path with GFP_NOWAIT. The only exception left is the dma_fence_array()
-used when no VMID is available, but that will be cleaned up later on.
+This issue was transformed by using the Coccinelle software.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Acked-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  8 ++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c         | 18 +++++++++++-------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c        | 11 +++++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c        |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c       | 11 ++++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h       |  3 ++-
- 6 files changed, 32 insertions(+), 23 deletions(-)
+ drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 1e998f972c308..70224b9f54f2f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -499,7 +499,7 @@ static int vm_update_pds(struct amdgpu_vm *vm, struct amdgpu_sync *sync)
- 	if (ret)
- 		return ret;
- 
--	return amdgpu_sync_fence(sync, vm->last_update);
-+	return amdgpu_sync_fence(sync, vm->last_update, GFP_KERNEL);
- }
- 
- static uint64_t get_pte_flags(struct amdgpu_device *adev, struct kgd_mem *mem)
-@@ -1263,7 +1263,7 @@ static int unmap_bo_from_gpuvm(struct kgd_mem *mem,
- 
- 	(void)amdgpu_vm_clear_freed(adev, vm, &bo_va->last_pt_update);
- 
--	(void)amdgpu_sync_fence(sync, bo_va->last_pt_update);
-+	(void)amdgpu_sync_fence(sync, bo_va->last_pt_update, GFP_KERNEL);
- 
- 	return 0;
- }
-@@ -1287,7 +1287,7 @@ static int update_gpuvm_pte(struct kgd_mem *mem,
- 		return ret;
- 	}
- 
--	return amdgpu_sync_fence(sync, bo_va->last_pt_update);
-+	return amdgpu_sync_fence(sync, bo_va->last_pt_update, GFP_KERNEL);
- }
- 
- static int map_bo_to_gpuvm(struct kgd_mem *mem,
-@@ -2969,7 +2969,7 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence __rcu *
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+index 7b3a37957e3ae..d151d2ed1f64b 100644
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
++++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+@@ -797,13 +797,12 @@ static int c8sectpfe_probe(struct platform_device *pdev)
  		}
- 		dma_resv_for_each_fence(&cursor, bo->tbo.base.resv,
- 					DMA_RESV_USAGE_KERNEL, fence) {
--			ret = amdgpu_sync_fence(&sync_obj, fence);
-+			ret = amdgpu_sync_fence(&sync_obj, fence, GFP_KERNEL);
- 			if (ret) {
- 				pr_debug("Memory eviction: Sync BO fence failed. Try again\n");
- 				goto validate_map_fail;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 5cc5f59e30184..4a5b406601fa2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -428,7 +428,7 @@ static int amdgpu_cs_p2_dependencies(struct amdgpu_cs_parser *p,
- 			dma_fence_put(old);
+ 		tsin->i2c_adapter =
+ 			of_find_i2c_adapter_by_node(i2c_bus);
++		of_node_put(i2c_bus);
+ 		if (!tsin->i2c_adapter) {
+ 			dev_err(&pdev->dev, "No i2c adapter found\n");
+-			of_node_put(i2c_bus);
+ 			ret = -ENODEV;
+ 			goto err_node_put;
  		}
+-		of_node_put(i2c_bus);
  
--		r = amdgpu_sync_fence(&p->sync, fence);
-+		r = amdgpu_sync_fence(&p->sync, fence, GFP_KERNEL);
- 		dma_fence_put(fence);
- 		if (r)
- 			return r;
-@@ -450,7 +450,7 @@ static int amdgpu_syncobj_lookup_and_add(struct amdgpu_cs_parser *p,
- 		return r;
- 	}
- 
--	r = amdgpu_sync_fence(&p->sync, fence);
-+	r = amdgpu_sync_fence(&p->sync, fence, GFP_KERNEL);
- 	dma_fence_put(fence);
- 	return r;
- }
-@@ -1124,7 +1124,8 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 	if (r)
- 		return r;
- 
--	r = amdgpu_sync_fence(&p->sync, fpriv->prt_va->last_pt_update);
-+	r = amdgpu_sync_fence(&p->sync, fpriv->prt_va->last_pt_update,
-+			      GFP_KERNEL);
- 	if (r)
- 		return r;
- 
-@@ -1135,7 +1136,8 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 		if (r)
- 			return r;
- 
--		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update);
-+		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update,
-+				      GFP_KERNEL);
- 		if (r)
- 			return r;
- 	}
-@@ -1154,7 +1156,8 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 		if (r)
- 			return r;
- 
--		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update);
-+		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update,
-+				      GFP_KERNEL);
- 		if (r)
- 			return r;
- 	}
-@@ -1167,7 +1170,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 	if (r)
- 		return r;
- 
--	r = amdgpu_sync_fence(&p->sync, vm->last_update);
-+	r = amdgpu_sync_fence(&p->sync, vm->last_update, GFP_KERNEL);
- 	if (r)
- 		return r;
- 
-@@ -1248,7 +1251,8 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_parser *p)
- 			continue;
- 		}
- 
--		r = amdgpu_sync_fence(&p->gang_leader->explicit_sync, fence);
-+		r = amdgpu_sync_fence(&p->gang_leader->explicit_sync, fence,
-+				      GFP_KERNEL);
- 		dma_fence_put(fence);
- 		if (r)
- 			return r;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-index 9008b7388e897..92ab821afc06a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-@@ -209,7 +209,7 @@ static int amdgpu_vmid_grab_idle(struct amdgpu_ring *ring,
- 		return 0;
- 	}
- 
--	fences = kmalloc_array(id_mgr->num_ids, sizeof(void *), GFP_KERNEL);
-+	fences = kmalloc_array(id_mgr->num_ids, sizeof(void *), GFP_NOWAIT);
- 	if (!fences)
- 		return -ENOMEM;
- 
-@@ -313,7 +313,8 @@ static int amdgpu_vmid_grab_reserved(struct amdgpu_vm *vm,
- 	/* Good we can use this VMID. Remember this submission as
- 	* user of the VMID.
- 	*/
--	r = amdgpu_sync_fence(&(*id)->active, &job->base.s_fence->finished);
-+	r = amdgpu_sync_fence(&(*id)->active, &job->base.s_fence->finished,
-+			      GFP_NOWAIT);
- 	if (r)
- 		return r;
- 
-@@ -372,7 +373,8 @@ static int amdgpu_vmid_grab_used(struct amdgpu_vm *vm,
- 		 * user of the VMID.
- 		 */
- 		r = amdgpu_sync_fence(&(*id)->active,
--				      &job->base.s_fence->finished);
-+				      &job->base.s_fence->finished,
-+				      GFP_NOWAIT);
- 		if (r)
- 			return r;
- 
-@@ -424,7 +426,8 @@ int amdgpu_vmid_grab(struct amdgpu_vm *vm, struct amdgpu_ring *ring,
- 
- 			/* Remember this submission as user of the VMID */
- 			r = amdgpu_sync_fence(&id->active,
--					      &job->base.s_fence->finished);
-+					      &job->base.s_fence->finished,
-+					      GFP_NOWAIT);
- 			if (r)
- 				goto error;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-index 6fa20980a0b15..e4251d0691c9c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-@@ -1335,14 +1335,14 @@ int amdgpu_mes_ctx_map_meta_data(struct amdgpu_device *adev,
- 		DRM_ERROR("failed to do vm_bo_update on meta data\n");
- 		goto error_del_bo_va;
- 	}
--	amdgpu_sync_fence(&sync, bo_va->last_pt_update);
-+	amdgpu_sync_fence(&sync, bo_va->last_pt_update, GFP_KERNEL);
- 
- 	r = amdgpu_vm_update_pdes(adev, vm, false);
- 	if (r) {
- 		DRM_ERROR("failed to update pdes on meta data\n");
- 		goto error_del_bo_va;
- 	}
--	amdgpu_sync_fence(&sync, vm->last_update);
-+	amdgpu_sync_fence(&sync, vm->last_update, GFP_KERNEL);
- 
- 	amdgpu_sync_wait(&sync, false);
- 	drm_exec_fini(&exec);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-index d75715b3f1870..34fc742fda91d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-@@ -152,7 +152,8 @@ static bool amdgpu_sync_add_later(struct amdgpu_sync *sync, struct dma_fence *f)
-  *
-  * Add the fence to the sync object.
-  */
--int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f)
-+int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f,
-+		      gfp_t flags)
- {
- 	struct amdgpu_sync_entry *e;
- 
-@@ -162,7 +163,7 @@ int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f)
- 	if (amdgpu_sync_add_later(sync, f))
- 		return 0;
- 
--	e = kmem_cache_alloc(amdgpu_sync_slab, GFP_KERNEL);
-+	e = kmem_cache_alloc(amdgpu_sync_slab, flags);
- 	if (!e)
- 		return -ENOMEM;
- 
-@@ -249,7 +250,7 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
- 			struct dma_fence *tmp = dma_fence_chain_contained(f);
- 
- 			if (amdgpu_sync_test_fence(adev, mode, owner, tmp)) {
--				r = amdgpu_sync_fence(sync, f);
-+				r = amdgpu_sync_fence(sync, f, GFP_KERNEL);
- 				dma_fence_put(f);
- 				if (r)
- 					return r;
-@@ -281,7 +282,7 @@ int amdgpu_sync_kfd(struct amdgpu_sync *sync, struct dma_resv *resv)
- 		if (fence_owner != AMDGPU_FENCE_OWNER_KFD)
- 			continue;
- 
--		r = amdgpu_sync_fence(sync, f);
-+		r = amdgpu_sync_fence(sync, f, GFP_KERNEL);
- 		if (r)
- 			break;
- 	}
-@@ -388,7 +389,7 @@ int amdgpu_sync_clone(struct amdgpu_sync *source, struct amdgpu_sync *clone)
- 	hash_for_each_safe(source->fences, i, tmp, e, node) {
- 		f = e->fence;
- 		if (!dma_fence_is_signaled(f)) {
--			r = amdgpu_sync_fence(clone, f);
-+			r = amdgpu_sync_fence(clone, f, GFP_KERNEL);
- 			if (r)
- 				return r;
- 		} else {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
-index a91a8eaf808b1..51eb4382c91eb 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
-@@ -47,7 +47,8 @@ struct amdgpu_sync {
- };
- 
- void amdgpu_sync_create(struct amdgpu_sync *sync);
--int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f);
-+int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f,
-+		      gfp_t flags);
- int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
- 		     struct dma_resv *resv, enum amdgpu_sync_mode mode,
- 		     void *owner);
+ 		/* Acquire reset GPIO and activate it */
+ 		tsin->rst_gpio = devm_fwnode_gpiod_get(dev,
 -- 
 2.39.5
 
