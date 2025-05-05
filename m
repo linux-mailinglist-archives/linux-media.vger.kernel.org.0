@@ -1,60 +1,59 @@
-Return-Path: <linux-media+bounces-31776-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662D0AAAAE3
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 03:46:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E37AAAB15
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 03:51:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48EBC188A541
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:44:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A0AEC7ADD39
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 01:50:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 810842ECE31;
-	Mon,  5 May 2025 23:10:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A4728AAFD;
+	Mon,  5 May 2025 23:18:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d3izLVbC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZ500TVk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6295388C54;
-	Mon,  5 May 2025 23:00:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D4439261E;
+	Mon,  5 May 2025 23:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486052; cv=none; b=i3lCxs/6hi+1xiAdMwZReX77+kHwEFVO6dPpz06t6UygwmxqBFe48EKH/hUONqmX/Vwb98BD+ar8Jnei+feVcFbIyWS675J6ZexvUgbKHDaQkM0JLpUvil2WxC2hm/B4NCvCXcgK/wUgy6hN/KPKcpBFHMIZdtU96CZl2ARpRc4=
+	t=1746486191; cv=none; b=Nr+liYDnRp7IJwCZlZXBubqngnlpL+UHGlp1Yav1MPaV4gKa/9Km/65Ek3PWwABZW+ioGXZhUtc83ZU85VxDakhX8AkuzT0jZ4GeTk4j9UDk9RKm05Xc5/mb7YJy/OMSO42SmS65dhPmAf+kwV68BKVGdWG95mSwkclmCXnIDac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486052; c=relaxed/simple;
-	bh=Ub6PdLgiefo3FBM8ruVdwmPBjmudDho0/TLuszB7rsc=;
+	s=arc-20240116; t=1746486191; c=relaxed/simple;
+	bh=yctKwRPr9mErDz2aDpiNtK9SI/fSKXIOhr98raWzloA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=K+ljm09wFh0ALNHo+Pp0Sl8bTxaAI0sYzNuu/41I/6YjqcT43QIf0p5G/+Um2o+nhTi4QqZBUB0etkD+2LsgBto6Kt9gnyvB//r1TUZ0cAFGsB8FmT9WJUp7dFW8LXLgDjl0KbW25o/4W+yTtGtkZIlMMaimxapFiS29PzmVyRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d3izLVbC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8350FC4CEEE;
-	Mon,  5 May 2025 23:00:50 +0000 (UTC)
+	 MIME-Version; b=muC5QORvcm8m5pRJscmGkcEYkwItOWlMN/T8KLVk46qNdF2NYU0YKOqml7aIAadNh0G6M6aeujPr32CLi+kX1t0ZaGKqlpLZDdoyp2UF6DOfTbIi07PuR91PlfTj2qq0qnm3tICZIQ83VMgabfKSvo0qSD45nIbYj0kzBXKnFXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZ500TVk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A380FC4CEE4;
+	Mon,  5 May 2025 23:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486051;
-	bh=Ub6PdLgiefo3FBM8ruVdwmPBjmudDho0/TLuszB7rsc=;
+	s=k20201202; t=1746486190;
+	bh=yctKwRPr9mErDz2aDpiNtK9SI/fSKXIOhr98raWzloA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d3izLVbCkjqGXTtJWsA1W7sl57HnNOWITrsw7sftZ944XvmDgikfu3sd2AjQuviOQ
-	 M7mdYLM5UwjxrAcRcB9Wu4R3riwrBK6DyX6kfjJ4CstPMRefDKvakMaGY3hSEnHEp2
-	 JG8/2BlAdhIHAEJ/DY9bn7K7oKT1EScS72ksW08TeeY/juIgdUCiDId75LCjeSUB+p
-	 s7qG/wklYs2qwy5puqSLWziLpkgV4zoG/vkVGq6vw8ftvOzE0OcIoYIf+cdePJl8+8
-	 zvSDTjEizeNtaPlN6+vyMhEg0xhkWEMJvLUrfy2FxM0xyFwmvbtbSC1FUqzMPqXMPZ
-	 sBD93f9Yq/EhA==
+	b=LZ500TVk5ERuF7F7zCJna+LVcHZO9HsVPzTYIt3Q6YY6e3LMZdLCtwvLFf0L9Hu+U
+	 K0Nx/bU+/PYw/ugopKQMjUDPn0nI+1hQIJUuoub3dzpVODoFxgU2F3o0mGaANk8q6u
+	 /X5IF5JVMJUIi4VVn579IxoQt7HIGibVj8duliLzgCtd7+/DOtdr3d8ZX+1ZU2RliE
+	 +6JE3zNfSfSQuuHMfZDT07ODWxvGaavBOi7eoffTmFB3OGeomCsImwvmYYCnvPKnWF
+	 blx4lWtPMG03O8uTsVQM3ZpjRypEqnifkUdF2EOqYHFhfSnOpa+5sP2lrWuyeKzsdc
+	 ryaVHIXGuuOmg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Yunke Cao <yunkec@google.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	"Artem S . Tashkinov" <aros@gmx.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	laurent.pinchart@ideasonboard.com,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 128/294] media: uvcvideo: Add sanity check to uvc_ioctl_xu_ctrl_map
-Date: Mon,  5 May 2025 18:53:48 -0400
-Message-Id: <20250505225634.2688578-128-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 195/294] media: test-drivers: vivid: don't call schedule in loop
+Date: Mon,  5 May 2025 18:54:55 -0400
+Message-Id: <20250505225634.2688578-195-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
@@ -69,40 +68,126 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
-From: Ricardo Ribalda <ribalda@chromium.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
 
-[ Upstream commit 990262fdfce24d6055df9711424343d94d829e6a ]
+[ Upstream commit e4740118b752005cbed339aec9a1d1c43620e0b9 ]
 
-Do not process unknown data types.
+Artem reported that the CPU load was 100% when capturing from
+vivid at low resolution with ffmpeg.
 
-Tested-by: Yunke Cao <yunkec@google.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Link: https://lore.kernel.org/r/20250203-uvc-roi-v17-15-5900a9fed613@chromium.org
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+This was caused by:
+
+while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+       !kthread_should_stop())
+        schedule();
+
+If there are no other processes running that can be scheduled,
+then this is basically a busy-loop.
+
+Change it to wait_event_interruptible_timeout() which doesn't
+have that problem.
+
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Reported-by: Artem S. Tashkinov <aros@gmx.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219570
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/media/test-drivers/vivid/vivid-kthread-cap.c  | 11 ++++++++---
+ drivers/media/test-drivers/vivid/vivid-kthread-out.c  | 11 ++++++++---
+ .../media/test-drivers/vivid/vivid-kthread-touch.c    | 11 ++++++++---
+ drivers/media/test-drivers/vivid/vivid-sdr-cap.c      | 11 ++++++++---
+ 4 files changed, 32 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 7bcd706281daf..cb7d9fb589fca 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -106,6 +106,12 @@ static int uvc_ioctl_xu_ctrl_map(struct uvc_video_chain *chain,
- 	struct uvc_control_mapping *map;
- 	int ret;
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
+index 42048727d7ff3..b8cdffc9a1e9e 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
+@@ -765,9 +765,14 @@ static int vivid_thread_vid_cap(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
  
-+	if (xmap->data_type > UVC_CTRL_DATA_TYPE_BITMASK) {
-+		uvc_dbg(chain->dev, CONTROL,
-+			"Unsupported UVC data type %u\n", xmap->data_type);
-+		return -EINVAL;
-+	}
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
 +
- 	map = kzalloc(sizeof(*map), GFP_KERNEL);
- 	if (map == NULL)
- 		return -ENOMEM;
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "Video Capture Thread End\n");
+ 	return 0;
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-out.c b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
+index fac6208b51da8..015a7b166a1e6 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-out.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
+@@ -235,9 +235,14 @@ static int vivid_thread_vid_out(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
+ 
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "Video Output Thread End\n");
+ 	return 0;
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
+index fa711ee36a3fb..c862689786b69 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
+@@ -135,9 +135,14 @@ static int vivid_thread_touch_cap(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
+ 
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "Touch Capture Thread End\n");
+ 	return 0;
+diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+index a81f26b769883..1dd59c710dae7 100644
+--- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+@@ -206,9 +206,14 @@ static int vivid_thread_sdr_cap(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
+ 
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "SDR Capture Thread End\n");
+ 	return 0;
 -- 
 2.39.5
 
