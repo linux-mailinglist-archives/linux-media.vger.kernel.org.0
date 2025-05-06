@@ -1,500 +1,649 @@
-Return-Path: <linux-media+bounces-31821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31817-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E1FAABCE1
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 10:16:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDCFAABCE9
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 10:19:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5663D1BC3193
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 08:15:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CEA9E3AA4D0
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 08:06:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EF5323E33D;
-	Tue,  6 May 2025 08:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E0720B813;
+	Tue,  6 May 2025 08:06:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJGqApVp"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JIhA+VzG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CEE23BD0F;
-	Tue,  6 May 2025 08:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09011FAC42;
+	Tue,  6 May 2025 08:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746519318; cv=none; b=LCyM8AZUPSiNYqdwXb0T9T6w04HDfeuShn+N274sonw7DODu3ya41Urw4kIj9WClYQ7n6zMEJsVhcaUrFoLrsQizFJM5NdC7oU8T4XePARHKksVUvyZrLqrQObM3wh+Q+NdIOcPPQtXbawwGepBty0DQAV6iAGhshWj41PmuHIA=
+	t=1746518790; cv=none; b=WT/ObRFWalDGFUU6HDxoO1DiFFLj5pjnSKRuR5fHU5YbfRBnqJH97ql5OmAUp+Fra1VjrQvSKwrSIA+Rn86QpLKX3wJdfTi/LRal1k5s9HrQnpQoT8CD7Mo1ue8XpjNdysfa2142lcHAaoxiGLD/7mgtF2TKO69xDc0AdeUjSD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746519318; c=relaxed/simple;
-	bh=3Tl1/7it1yJR9mnmMZSSfVz4Sjz/unZrtc+lC6r54UQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FT+Rjb2p8SO6fTXJfB1vkqTVAklj8SC+IDOCqMQlpHgDAsV3jCn2gjs/MD2teU2ThIrPqxQvAgaNgzL1P8BneHgOwaBX2Yb+2zQpISK179gv54IJ5VcF0CI/oY5z9wr/SyvdtRew2qdM9zpIjE473CMWUjDI0BrmZLRKcQZmnzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJGqApVp; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746519316; x=1778055316;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=3Tl1/7it1yJR9mnmMZSSfVz4Sjz/unZrtc+lC6r54UQ=;
-  b=aJGqApVpSKlQKb+LXkd3qTJrYPyLNHFxYKmsLy/F1nyZokj5EXitM08O
-   5g+oOUyz7aWUrHM3T9nLG8TmfjJEbK10v3hkm4ToZ66JvmU264GZb2FMR
-   RJQZDPvp01SCTil+h4Um3K9UR0atDoNsDUY2P6lOTg5g4Uq4MCoptDOLB
-   jrepVq+EMiyxwNi4d6VVIw4ut5yVrSbWaCV2xaMGXh3SSOVER41ZSGSrC
-   nGA/Peni1GZEdGeP4qr011iwBsttAD04NJrfTyQWJ17PQhtwl1QlFpzOg
-   F0FBhFOF52X2xinEGUljf7wkxMO2Vy03xuPp2T7546UE8QSiXQNtTEDQD
-   A==;
-X-CSE-ConnectionGUID: ByOJTSM3SUq+USzgHVwHFQ==
-X-CSE-MsgGUID: BfTV7qskT2yjaKPmdqgq/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="73571675"
-X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="73571675"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 01:15:15 -0700
-X-CSE-ConnectionGUID: wCFyyhLiTR6qY/ovWYpzIA==
-X-CSE-MsgGUID: jguuTx8ASQGyGz+nEDUJ3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="158795582"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.165])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 01:15:13 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 479DE123099;
-	Tue,  6 May 2025 11:05:02 +0300 (EEST)
-Date: Tue, 6 May 2025 08:05:02 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: git@apitzsch.eu
-Cc: Ricardo Ribalda <ribalda@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH v2 3/4] media: i2c: imx214: Make use of CCS PLL calculator
-Message-ID: <aBnCrlMm0EbbmB2w@kekkonen.localdomain>
-References: <20250505-imx214_ccs_pll-v2-0-f50452061ff1@apitzsch.eu>
- <20250505-imx214_ccs_pll-v2-3-f50452061ff1@apitzsch.eu>
+	s=arc-20240116; t=1746518790; c=relaxed/simple;
+	bh=XDdILt3yblzWEautrUiTCFWaXzc+U9OK+fCa5PboQE0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=k8/MtNFaDR0gVp4u75QAbbtJJOdKf5qZv+np+vvrtP6slQ9EEWd+vlVzMnPdyucf5POQpqCUgT7vhQXJNHPicTetKWj75fiW59fwnhnGjbxJVWBTHpL4C3qZdZ8HUXxnYOUTQDqZbkYk1OPpYrBtgtSiQmRV/KJGz5QgIRIAkaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JIhA+VzG; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54619DCI016533;
+	Tue, 6 May 2025 08:06:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Hsch+wj2o3gM2OmO3eKxctruYYsqwxK2Mbc0uNGtTA4=; b=JIhA+VzGcbap/gYt
+	nTWhxr/nFK1Zm6+pSiOKEvMlcLDrVzXIHCROdHCoD7pL2oGbo3lr4eIhCC+VMmXZ
+	dR1/bjSw7cDMNuqlaH19ARXJAy1vo3Ryfhq2gBU7e8T2xhkxq4VMTtG6aUBDHdui
+	OFn+dgi3W0XY8J9Y1eDCFvJKzETTQE2Nj56mxlufWit/RXj7gJ52ntrGGwbNHqiJ
+	HHWHyJFQII8nbtNyS8ghlWV5QcP3c/uFzxUc/PhJ4liSX9IY567BsET1PoEdt8mT
+	dsgwp+Yxu9YLUJZBDAOCHmi/N2Rh1musEBJ9aZnTjX7snIPO3NQX0n60lTz4ltTy
+	umgO2g==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46f8gv12g3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 06 May 2025 08:06:22 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54686LCT026655
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 6 May 2025 08:06:21 GMT
+Received: from [10.50.35.75] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 6 May 2025
+ 01:06:14 -0700
+Message-ID: <a1053beb-c2b8-54de-75fa-3dca1896e30f@quicinc.com>
+Date: Tue, 6 May 2025 13:36:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 00/23] Add support for HEVC and VP9 codecs in decoder
+Content-Language: en-US
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Stefan Schmidt
+	<stefan.schmidt@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "Bjorn
+ Andersson" <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        "Rob Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor Dooley" <conor+dt@kernel.org>
+CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>,
+        Nicolas Dufresne
+	<nicolas.dufresne@collabora.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org>,
+        <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>,
+        <stable@vger.kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>
+References: <20250502-qcom-iris-hevc-vp9-v3-0-552158a10a7d@quicinc.com>
+ <a8de4886-4a18-46a2-9130-9c48d7eb1f83@linaro.org>
+ <f519fc86-3a38-9a32-722e-9672746ff81a@quicinc.com>
+ <ccf7f0db-2495-48d5-8780-f1122a24e22e@linaro.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <ccf7f0db-2495-48d5-8780-f1122a24e22e@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250505-imx214_ccs_pll-v2-3-f50452061ff1@apitzsch.eu>
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=dYmA3WXe c=1 sm=1 tr=0 ts=6819c2fe cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=e5mUnYsNAAAA:8 a=NabEdjQrNBh0tuWPJOoA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+ a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-ORIG-GUID: SJTE2MHseDagyh2FaZs74qbSmKLGLoE0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDA3NiBTYWx0ZWRfX4ttE7rWrN0Ox
+ j8UPweuTiWdf6gh03hHcBWH+EEPTbODDNthntL33tETvgjINhdXc5+hSojRGzNx+v4W2R4tH5wk
+ U1n3EDldQf7UOCGg39Wt48U0+JGZvOLPVCR60Ew3BjLROUhrkUXV+eRosdH5Zd4ztMa9QNS8RWp
+ xn9zEi2fuNtZkq1gEwKWxZmmEkHGaomfd6r3eupPrC6VxPzkjA3V5A9TzXIxja5KxkGrsyeYtwx
+ YTMgMyJbdd5GOTjnGgAYU6O8BnFl/Mp5G38wucz5DhRbZHqVK9SVac1WMdyBf1fup2VdXTDUday
+ lR+knh6iZWyrFQ/7ZjFIVux+hkmECc8wwho57TUgSAzvtuyIt9jpM9LkI5J5O2ZMGk2giwTpMiS
+ /QlckUTWg+DSOYs+/n1CVySACMzdlr7D8SQmEd47tSkfHETLkQNbf8wxLDLD6SOd8pBInNZX
+X-Proofpoint-GUID: SJTE2MHseDagyh2FaZs74qbSmKLGLoE0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-06_03,2025-05-05_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 clxscore=1015 adultscore=0
+ mlxlogscore=999 impostorscore=0 malwarescore=0 mlxscore=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505060076
 
-Hi Andr�,
 
-A few more comments below.
 
-On Mon, May 05, 2025 at 11:05:55PM +0200, Andr� Apitzsch via B4 Relay wrote:
-> From: Andr� Apitzsch <git@apitzsch.eu>
+On 5/5/2025 10:10 PM, neil.armstrong@linaro.org wrote:
+> On 02/05/2025 09:34, Dikshita Agarwal wrote:
+>>
+>>
+>> On 5/2/2025 12:55 PM, Neil Armstrong wrote:
+>>> Hi,
+>>>
+>>> On 01/05/2025 21:13, Dikshita Agarwal wrote:
+>>>> Hi All,
+>>>>
+>>>> This patch series adds initial support for the HEVC(H.265) and VP9
+>>>> codecs in iris decoder. The objective of this work is to extend the
+>>>> decoder's capabilities to handle HEVC and VP9 codec streams,
+>>>> including necessary format handling and buffer management.
+>>>> In addition, the series also includes a set of fixes to address issues
+>>>> identified during testing of these additional codecs.
+>>>>
+>>>> These patches also address the comments and feedback received from the
+>>>> RFC patches previously sent. I have made the necessary improvements
+>>>> based on the community's suggestions.
+>>>>
+>>>> Changes in v3:
+>>>> - Introduced two wrappers with explicit names to handle destroy internal
+>>>> buffers (Nicolas)
+>>>> - Used sub state check instead of introducing new boolean (Vikash)
+>>>> - Addressed other comments (Vikash)
+>>>> - Reorderd patches to have all fixes patches first (Dmitry)
+>>>> - Link to v2:
+>>>> https://lore.kernel.org/r/20250428-qcom-iris-hevc-vp9-v2-0-3a6013ecb8a5@quicinc.com
+>>>>
+>>>> Changes in v2:
+>>>> - Added Changes to make sure all buffers are released in session close
+>>>> (bryna)
+>>>> - Added tracking for flush responses to fix a timing issue.
+>>>> - Added a handling to fix timing issue in reconfig
+>>>> - Splitted patch 06/20 in two patches (Bryan)
+>>>> - Added missing fixes tag (bryan)
+>>>> - Updated fluster report (Nicolas)
+>>>> - Link to v1:
+>>>> https://lore.kernel.org/r/20250408-iris-dec-hevc-vp9-v1-0-acd258778bd6@quicinc.com
+>>>>
+>>>> Changes sinces RFC:
+>>>> - Added additional fixes to address issues identified during further
+>>>> testing.
+>>>> - Moved typo fix to a seperate patch [Neil]
+>>>> - Reordered the patches for better logical flow and clarity [Neil,
+>>>> Dmitry]
+>>>> - Added fixes tag wherever applicable [Neil, Dmitry]
+>>>> - Removed the default case in the switch statement for codecs [Bryan]
+>>>> - Replaced if-else statements with switch-case [Bryan]
+>>>> - Added comments for mbpf [Bryan]
+>>>> - RFC:
+>>>> https://lore.kernel.org/linux-media/20250305104335.3629945-1-quic_dikshita@quicinc.com/
+>>>>
+>>>> This patch series depends on [1] & [2]
+>>>> [1]
+>>>> https://lore.kernel.org/linux-media/20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org/
+>>>> [2]
+>>>> https://lore.kernel.org/linux-media/20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com/
+>>>>
+>>>> These patches are tested on SM8250 and SM8550 with v4l2-ctl and
+>>>> Gstreamer for HEVC and VP9 decoders, at the same time ensured that
+>>>> the existing H264 decoder functionality remains uneffected.
+>>>>
+>>>> Note: 1 of the fluster compliance test is fixed with firmware [3]
+>>>> [3]:
+>>>> https://lore.kernel.org/linux-firmware/1a511921-446d-cdc4-0203-084c88a5dc1e@quicinc.com/T/#u
+>>>>
+>>>> The result of fluster test on SM8550:
+>>>>    131/147 testcases passed while testing JCT-VC-HEVC_V1 with
+>>>>    GStreamer-H.265-V4L2-Gst1.0.
+>>>>    The failing test case:
+>>>>    - 10 testcases failed due to unsupported 10 bit format.
+>>>>      - DBLK_A_MAIN10_VIXS_4
+>>>>      - INITQP_B_Main10_Sony_1
+>>>>      - TSUNEQBD_A_MAIN10_Technicolor_2
+>>>>      - WP_A_MAIN10_Toshiba_3
+>>>>      - WP_MAIN10_B_Toshiba_3
+>>>>      - WPP_A_ericsson_MAIN10_2
+>>>>      - WPP_B_ericsson_MAIN10_2
+>>>>      - WPP_C_ericsson_MAIN10_2
+>>>>      - WPP_E_ericsson_MAIN10_2
+>>>>      - WPP_F_ericsson_MAIN10_2
+>>>>    - 4 testcase failed due to unsupported resolution
+>>>>      - PICSIZE_A_Bossen_1
+>>>>      - PICSIZE_B_Bossen_1
+>>>>      - WPP_D_ericsson_MAIN10_2
+>>>>      - WPP_D_ericsson_MAIN_2
+>>>>    - 2 testcase failed due to CRC mismatch
+>>>>      - RAP_A_docomo_6
+>>>>      - RAP_B_Bossen_2
+>>>>      - BUG reported:
+>>>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4392
+>>>>        Analysis - First few frames in this discarded by firmware and are
+>>>>        sent to driver with 0 filled length. Driver send such buffers to
+>>>>        client with timestamp 0 and payload set to 0 and
+>>>>        make buf state to VB2_BUF_STATE_ERROR. Such buffers should be
+>>>>        dropped by GST. But instead, the first frame displayed as green
+>>>>        frame and when a valid buffer is sent to client later with same 0
+>>>>        timestamp, its dropped, leading to CRC mismatch for first frame.
+>>>>
+>>>>    235/305 testcases passed while testing VP9-TEST-VECTORS with
+>>>>    GStreamer-VP9-V4L2-Gst1.0.
+>>>>    The failing test case:
+>>>>    - 64 testcases failed due to unsupported resolution
+>>>>      - vp90-2-02-size-08x08.webm
+>>>>      - vp90-2-02-size-08x10.webm
+>>>>      - vp90-2-02-size-08x16.webm
+>>>>      - vp90-2-02-size-08x18.webm
+>>>>      - vp90-2-02-size-08x32.webm
+>>>>      - vp90-2-02-size-08x34.webm
+>>>>      - vp90-2-02-size-08x64.webm
+>>>>      - vp90-2-02-size-08x66.webm
+>>>>      - vp90-2-02-size-10x08.webm
+>>>>      - vp90-2-02-size-10x10.webm
+>>>>      - vp90-2-02-size-10x16.webm
+>>>>      - vp90-2-02-size-10x18.webm
+>>>>      - vp90-2-02-size-10x32.webm
+>>>>      - vp90-2-02-size-10x34.webm
+>>>>      - vp90-2-02-size-10x64.webm
+>>>>      - vp90-2-02-size-10x66.webm
+>>>>      - vp90-2-02-size-16x08.webm
+>>>>      - vp90-2-02-size-16x10.webm
+>>>>      - vp90-2-02-size-16x16.webm
+>>>>      - vp90-2-02-size-16x18.webm
+>>>>      - vp90-2-02-size-16x32.webm
+>>>>      - vp90-2-02-size-16x34.webm
+>>>>      - vp90-2-02-size-16x64.webm
+>>>>      - vp90-2-02-size-16x66.webm
+>>>>      - vp90-2-02-size-18x08.webm
+>>>>      - vp90-2-02-size-18x10.webm
+>>>>      - vp90-2-02-size-18x16.webm
+>>>>      - vp90-2-02-size-18x18.webm
+>>>>      - vp90-2-02-size-18x32.webm
+>>>>      - vp90-2-02-size-18x34.webm
+>>>>      - vp90-2-02-size-18x64.webm
+>>>>      - vp90-2-02-size-18x66.webm
+>>>>      - vp90-2-02-size-32x08.webm
+>>>>      - vp90-2-02-size-32x10.webm
+>>>>      - vp90-2-02-size-32x16.webm
+>>>>      - vp90-2-02-size-32x18.webm
+>>>>      - vp90-2-02-size-32x32.webm
+>>>>      - vp90-2-02-size-32x34.webm
+>>>>      - vp90-2-02-size-32x64.webm
+>>>>      - vp90-2-02-size-32x66.webm
+>>>>      - vp90-2-02-size-34x08.webm
+>>>>      - vp90-2-02-size-34x10.webm
+>>>>      - vp90-2-02-size-34x16.webm
+>>>>      - vp90-2-02-size-34x18.webm
+>>>>      - vp90-2-02-size-34x32.webm
+>>>>      - vp90-2-02-size-34x34.webm
+>>>>      - vp90-2-02-size-34x64.webm
+>>>>      - vp90-2-02-size-34x66.webm
+>>>>      - vp90-2-02-size-64x08.webm
+>>>>      - vp90-2-02-size-64x10.webm
+>>>>      - vp90-2-02-size-64x16.webm
+>>>>      - vp90-2-02-size-64x18.webm
+>>>>      - vp90-2-02-size-64x32.webm
+>>>>      - vp90-2-02-size-64x34.webm
+>>>>      - vp90-2-02-size-64x64.webm
+>>>>      - vp90-2-02-size-64x66.webm
+>>>>      - vp90-2-02-size-66x08.webm
+>>>>      - vp90-2-02-size-66x10.webm
+>>>>      - vp90-2-02-size-66x16.webm
+>>>>      - vp90-2-02-size-66x18.webm
+>>>>      - vp90-2-02-size-66x32.webm
+>>>>      - vp90-2-02-size-66x34.webm
+>>>>      - vp90-2-02-size-66x64.webm
+>>>>      - vp90-2-02-size-66x66.webm
+>>>>    - 2 testcases failed due to unsupported format
+>>>>      - vp91-2-04-yuv422.webm
+>>>>      - vp91-2-04-yuv444.webm
+>>>>    - 1 testcase failed with CRC mismatch
+>>>>      - vp90-2-22-svc_1280x720_3.ivf
+>>>>      - Bug reported:
+>>>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4371
+>>>>    - 2 testcase failed due to unsupported resolution after sequence change
+>>>>      - vp90-2-21-resize_inter_320x180_5_1-2.webm
+>>>>      - vp90-2-21-resize_inter_320x180_7_1-2.webm
+>>>>    - 1 testcase failed due to unsupported stream
+>>>>      - vp90-2-16-intra-only.webm
+>>>>
+>>>> The result of fluster test on SM8250:
+>>>>    133/147 testcases passed while testing JCT-VC-HEVC_V1 with
+>>>>    GStreamer-H.265-V4L2-Gst1.0.
+>>>>    The failing test case:
+>>>>    - 10 testcases failed due to unsupported 10 bit format.
+>>>>      - DBLK_A_MAIN10_VIXS_4
+>>>>      - INITQP_B_Main10_Sony_1
+>>>>      - TSUNEQBD_A_MAIN10_Technicolor_2
+>>>>      - WP_A_MAIN10_Toshiba_3
+>>>>      - WP_MAIN10_B_Toshiba_3
+>>>>      - WPP_A_ericsson_MAIN10_2
+>>>>      - WPP_B_ericsson_MAIN10_2
+>>>>      - WPP_C_ericsson_MAIN10_2
+>>>>      - WPP_E_ericsson_MAIN10_2
+>>>>      - WPP_F_ericsson_MAIN10_2
+>>>>    - 4 testcase failed due to unsupported resolution
+>>>>      - PICSIZE_A_Bossen_1
+>>>>      - PICSIZE_B_Bossen_1
+>>>>      - WPP_D_ericsson_MAIN10_2
+>>>>      - WPP_D_ericsson_MAIN_2
+>>>>
+>>>>    232/305 testcases passed while testing VP9-TEST-VECTORS with
+>>>>    GStreamer-VP9-V4L2-Gst1.0.
+>>>>    The failing test case:
+>>>>    - 64 testcases failed due to unsupported resolution
+>>>>      - vp90-2-02-size-08x08.webm
+>>>>      - vp90-2-02-size-08x10.webm
+>>>>      - vp90-2-02-size-08x16.webm
+>>>>      - vp90-2-02-size-08x18.webm
+>>>>      - vp90-2-02-size-08x32.webm
+>>>>      - vp90-2-02-size-08x34.webm
+>>>>      - vp90-2-02-size-08x64.webm
+>>>>      - vp90-2-02-size-08x66.webm
+>>>>      - vp90-2-02-size-10x08.webm
+>>>>      - vp90-2-02-size-10x10.webm
+>>>>      - vp90-2-02-size-10x16.webm
+>>>>      - vp90-2-02-size-10x18.webm
+>>>>      - vp90-2-02-size-10x32.webm
+>>>>      - vp90-2-02-size-10x34.webm
+>>>>      - vp90-2-02-size-10x64.webm
+>>>>      - vp90-2-02-size-10x66.webm
+>>>>      - vp90-2-02-size-16x08.webm
+>>>>      - vp90-2-02-size-16x10.webm
+>>>>      - vp90-2-02-size-16x16.webm
+>>>>      - vp90-2-02-size-16x18.webm
+>>>>      - vp90-2-02-size-16x32.webm
+>>>>      - vp90-2-02-size-16x34.webm
+>>>>      - vp90-2-02-size-16x64.webm
+>>>>      - vp90-2-02-size-16x66.webm
+>>>>      - vp90-2-02-size-18x08.webm
+>>>>      - vp90-2-02-size-18x10.webm
+>>>>      - vp90-2-02-size-18x16.webm
+>>>>      - vp90-2-02-size-18x18.webm
+>>>>      - vp90-2-02-size-18x32.webm
+>>>>      - vp90-2-02-size-18x34.webm
+>>>>      - vp90-2-02-size-18x64.webm
+>>>>      - vp90-2-02-size-18x66.webm
+>>>>      - vp90-2-02-size-32x08.webm
+>>>>      - vp90-2-02-size-32x10.webm
+>>>>      - vp90-2-02-size-32x16.webm
+>>>>      - vp90-2-02-size-32x18.webm
+>>>>      - vp90-2-02-size-32x32.webm
+>>>>      - vp90-2-02-size-32x34.webm
+>>>>      - vp90-2-02-size-32x64.webm
+>>>>      - vp90-2-02-size-32x66.webm
+>>>>      - vp90-2-02-size-34x08.webm
+>>>>      - vp90-2-02-size-34x10.webm
+>>>>      - vp90-2-02-size-34x16.webm
+>>>>      - vp90-2-02-size-34x18.webm
+>>>>      - vp90-2-02-size-34x32.webm
+>>>>      - vp90-2-02-size-34x34.webm
+>>>>      - vp90-2-02-size-34x64.webm
+>>>>      - vp90-2-02-size-34x66.webm
+>>>>      - vp90-2-02-size-64x08.webm
+>>>>      - vp90-2-02-size-64x10.webm
+>>>>      - vp90-2-02-size-64x16.webm
+>>>>      - vp90-2-02-size-64x18.webm
+>>>>      - vp90-2-02-size-64x32.webm
+>>>>      - vp90-2-02-size-64x34.webm
+>>>>      - vp90-2-02-size-64x64.webm
+>>>>      - vp90-2-02-size-64x66.webm
+>>>>      - vp90-2-02-size-66x08.webm
+>>>>      - vp90-2-02-size-66x10.webm
+>>>>      - vp90-2-02-size-66x16.webm
+>>>>      - vp90-2-02-size-66x18.webm
+>>>>      - vp90-2-02-size-66x32.webm
+>>>>      - vp90-2-02-size-66x34.webm
+>>>>      - vp90-2-02-size-66x64.webm
+>>>>      - vp90-2-02-size-66x66.webm
+>>>>    - 2 testcases failed due to unsupported format
+>>>>      - vp91-2-04-yuv422.webm
+>>>>      - vp91-2-04-yuv444.webm
+>>>>    - 1 testcase failed with CRC mismatch
+>>>>      - vp90-2-22-svc_1280x720_3.ivf
+>>>>      - Bug raised:
+>>>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4371
+>>>>    - 5 testcase failed due to unsupported resolution after sequence change
+>>>>      - vp90-2-21-resize_inter_320x180_5_1-2.webm
+>>>>      - vp90-2-21-resize_inter_320x180_7_1-2.webm
+>>>>      - vp90-2-21-resize_inter_320x240_5_1-2.webm
+>>>>      - vp90-2-21-resize_inter_320x240_7_1-2.webm
+>>>>      - vp90-2-18-resize.ivf
+>>>>    - 1 testcase failed with CRC mismatch
+>>>>      - vp90-2-16-intra-only.webm
+>>>>      Analysis: First few frames are marked by firmware as NO_SHOW frame.
+>>>>      Driver make buf state to VB2_BUF_STATE_ERROR for such frames.
+>>>>      Such buffers should be dropped by GST. But instead, the first frame
+>>>>      is being displayed and when a valid buffer is sent to client later
+>>>>      with same timestamp, its dropped, leading to CRC mismatch for first
+>>>>      frame.
+>>>>
+>>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>>> ---
+>>>> Dikshita Agarwal (23):
+>>>>         media: iris: Skip destroying internal buffer if not dequeued
+>>>>         media: iris: Update CAPTURE format info based on OUTPUT format
+>>>>         media: iris: Avoid updating frame size to firmware during reconfig
+>>>>         media: iris: Drop port check for session property response
+>>>>         media: iris: Prevent HFI queue writes when core is in deinit state
+>>>>         media: iris: Remove deprecated property setting to firmware
+>>>>         media: iris: Fix missing function pointer initialization
+>>>>         media: iris: Fix NULL pointer dereference
+>>>>         media: iris: Fix typo in depth variable
+>>>>         media: iris: Track flush responses to prevent premature completion
+>>>>         media: iris: Fix buffer preparation failure during resolution
+>>>> change
+>>>>         media: iris: Add handling for corrupt and drop frames
+>>>>         media: iris: Send V4L2_BUF_FLAG_ERROR for buffers with 0 filled
+>>>> length
+>>>>         media: iris: Add handling for no show frames
+>>>>         media: iris: Improve last flag handling
+>>>>         media: iris: Skip flush on first sequence change
+>>>>         media: iris: Remove redundant buffer count check in stream off
+>>>>         media: iris: Add a comment to explain usage of MBPS
+>>>>         media: iris: Add HEVC and VP9 formats for decoder
+>>>>         media: iris: Add platform capabilities for HEVC and VP9 decoders
+>>>>         media: iris: Set mandatory properties for HEVC and VP9 decoders.
+>>>>         media: iris: Add internal buffer calculation for HEVC and VP9
+>>>> decoders
+>>>>         media: iris: Add codec specific check for VP9 decoder drain
+>>>> handling
+>>>>
+>>>>    drivers/media/platform/qcom/iris/iris_buffer.c     |  35 +-
+>>>>    drivers/media/platform/qcom/iris/iris_buffer.h     |   3 +-
+>>>>    drivers/media/platform/qcom/iris/iris_ctrls.c      |  35 +-
+>>>>    drivers/media/platform/qcom/iris/iris_hfi_common.h |   1 +
+>>>>    .../platform/qcom/iris/iris_hfi_gen1_command.c     |  48 ++-
+>>>>    .../platform/qcom/iris/iris_hfi_gen1_defines.h     |   5 +-
+>>>>    .../platform/qcom/iris/iris_hfi_gen1_response.c    |  37 +-
+>>>>    .../platform/qcom/iris/iris_hfi_gen2_command.c     | 143 +++++++-
+>>>>    .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   5 +
+>>>>    .../platform/qcom/iris/iris_hfi_gen2_response.c    |  57 ++-
+>>>>    drivers/media/platform/qcom/iris/iris_hfi_queue.c  |   2 +-
+>>>>    drivers/media/platform/qcom/iris/iris_instance.h   |   6 +
+>>>>    .../platform/qcom/iris/iris_platform_common.h      |  28 +-
+>>>>    .../media/platform/qcom/iris/iris_platform_gen2.c  | 198 ++++++++--
+>>>>    .../platform/qcom/iris/iris_platform_qcs8300.h     | 126 +++++--
+>>>>    .../platform/qcom/iris/iris_platform_sm8250.c      |  15 +-
+>>>>    drivers/media/platform/qcom/iris/iris_state.c      |   2 +-
+>>>>    drivers/media/platform/qcom/iris/iris_state.h      |   1 +
+>>>>    drivers/media/platform/qcom/iris/iris_vb2.c        |  18 +-
+>>>>    drivers/media/platform/qcom/iris/iris_vdec.c       | 116 +++---
+>>>>    drivers/media/platform/qcom/iris/iris_vdec.h       |  11 +
+>>>>    drivers/media/platform/qcom/iris/iris_vidc.c       |  36 +-
+>>>>    drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 397
+>>>> ++++++++++++++++++++-
+>>>>    drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  46 ++-
+>>>>    24 files changed, 1160 insertions(+), 211 deletions(-)
+>>>> ---
+>>>> base-commit: 398a1b33f1479af35ca915c5efc9b00d6204f8fa
+>>>> change-id: 20250428-qcom-iris-hevc-vp9-eb31f30c3390
+>>>> prerequisite-message-id:
+>>>> <20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org>
+>>>> prerequisite-patch-id: 35f8dae1416977e88c2db7c767800c01822e266e
+>>>> prerequisite-patch-id: 2bba98151ca103aa62a513a0fbd0df7ae64d9868
+>>>> prerequisite-patch-id: 0e43a6d758b5fa5ab921c6aa3c19859e312b47d0
+>>>> prerequisite-patch-id: b7b50aa1657be59fd51c3e53d73382a1ee75a08e
+>>>> prerequisite-patch-id: 30960743105a36f20b3ec4a9ff19e7bca04d6add
+>>>> prerequisite-patch-id: b93c37dc7e09d1631b75387dc1ca90e3066dce17
+>>>> prerequisite-patch-id: afffe7096c8e110a8da08c987983bc4441d39578
+>>>> prerequisite-message-id:
+>>>> <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>
+>>>> prerequisite-patch-id: 2e72fe4d11d264db3d42fa450427d30171303c6f
+>>>> prerequisite-patch-id: 3398937a7fabb45934bb98a530eef73252231132
+>>>> prerequisite-patch-id: feda620f147ca14a958c92afdc85a1dc507701ac
+>>>> prerequisite-patch-id: 07ba0745c7d72796567e0a57f5c8e5355a8d2046
+>>>> prerequisite-patch-id: e35b05c527217206ae871aef0d7b0261af0319ea
+>>>>
+>>>> Best regards,
+>>>
+>>> HEVC & VP9 works fine on HDK8550.
+>>>
+>>> But on SM8650-QRD & SM8650-HDK while decoding HEVC, I get:
+>>> [   44.741670] qcom-iris aa00000.video-codec: session error received
+>>> 0x1000005: unknown
+>>> [   44.755724] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000005: insufficient resources
+>>> [   44.776462] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000005: insufficient resources
+>>> [   44.797179] qcom-iris aa00000.video-codec: session error received
+>>> 0x1000005: unknown
+>>> [   44.816630] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000005: insufficient resources
+>>> [   44.837387] qcom-iris aa00000.video-codec: session error received
+>>> 0x1000005: unknown
+>>> [   44.856812] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000005: insufficient resources
+>>> [   44.877576] qcom-iris aa00000.video-codec: session error received
+>>> 0x1000005: unknown
+>>> [   44.897000] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000005: insufficient resources
+>>> [   44.917801] qcom-iris aa00000.video-codec: session error received
+>>> 0x1000009: unknown
+>>> [   44.937254] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000004: invalid operation for current state
+>>> [   44.959128] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000004: invalid operation for current state
+>>> [   44.981025] qcom-iris aa00000.video-codec: session error received
+>>> 0x1000009: unknown
+>>> [   45.000459] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000004: invalid operation for current state
+>>> [   45.022376] qcom-iris aa00000.video-codec: session error received
+>>> 0x1000009: unknown
+>>> [   45.041816] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000004: invalid operation for current state
+>>> [   45.063736] qcom-iris aa00000.video-codec: session error received
+>>> 0x1000009: unknown
+>>> [   45.083167] qcom-iris aa00000.video-codec: session error received
+>>> 0x4000004: invalid operation for current state
+>>> [   45.105459] ------------[ cut here ]------------
+>>> [   45.121152] WARNING: CPU: 6 PID: 573 at
+>>> drivers/media/common/videobuf2/videobuf2-core.c:1827
+>>> vb2_start_streaming+0x100/0x178 [videobuf2_common]
+>>> while VP9 works fine.
+>>>
+>>> Is it a firmware issue ?
+>>>
+>> Looks like resources set to firmware are not sufficient.
+>> I suspect, internal buffers set to firmware are less than what it requires,
+>> this can change for different VPUs. Pls check if there is any difference in
+>> internal buffer calculations between vpu3 and vpu33.
 > 
-> Calculate PLL parameters based on clock frequency and link frequency.
+> I found the fix, it was a difference in buffer calculation, but not for vpu33,
+> but a typo since v2 was right:
 > 
-> Acked-by: Ricardo Ribalda <ribalda@chromium.org>
-> Signed-off-by: Andr� Apitzsch <git@apitzsch.eu>
-> ---
->  drivers/media/i2c/Kconfig  |   1 +
->  drivers/media/i2c/imx214.c | 216 +++++++++++++++++++++++++++++++++++++--------
->  2 files changed, 178 insertions(+), 39 deletions(-)
+> ========================================><======================================
+> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+> b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+> index 2272f0c21683..ee95fd20b794 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+> +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+> @@ -33,7 +33,7 @@ struct iris_inst;
+>  #define H264_DISPLAY_BUF_SIZE          3328
+>  #define H264_NUM_FRM_INFO              66
+>  #define H265_NUM_TILE_COL 32
+> -#define H265_NUM_TILE_ROW 12
+> +#define H265_NUM_TILE_ROW 128
+>  #define H265_NUM_TILE (H265_NUM_TILE_ROW * H265_NUM_TILE_COL + 1)
+>  #define SIZE_H265D_BSE_CMD_PER_BUF (16 * sizeof(u32))
+> ========================================><======================================
 > 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index e576b213084d232e90b7e556a7a855a3bb95544c..c8e24c42e0c4ea169f1b6cdc4f2631234a51c7d9 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -141,6 +141,7 @@ config VIDEO_IMX214
->  	depends on GPIOLIB
->  	select REGMAP_I2C
->  	select V4L2_CCI_I2C
-> +	select VIDEO_CCS_PLL
->  	help
->  	  This is a Video4Linux2 sensor driver for the Sony
->  	  IMX214 camera.
-> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index 3aca6ebb02d649c1b7f0b6a6049c1e3aa3d08951..9e9be47394ec768a5b34d44b06b5bbb0988da5a1 100644
-> --- a/drivers/media/i2c/imx214.c
-> +++ b/drivers/media/i2c/imx214.c
-> @@ -20,6 +20,8 @@
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-subdev.h>
->  
-> +#include "ccs-pll.h"
-> +
->  /* Chip ID */
->  #define IMX214_REG_CHIP_ID		CCI_REG16(0x0016)
->  #define IMX214_CHIP_ID			0x0214
-> @@ -34,7 +36,6 @@
->  #define IMX214_DEFAULT_LINK_FREQ	600000000
->  /* Keep wrong link frequency for backward compatibility */
->  #define IMX214_DEFAULT_LINK_FREQ_LEGACY	480000000
-> -#define IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10)
->  #define IMX214_FPS 30
->  
->  /* V-TIMING internal */
-> @@ -84,6 +85,7 @@
->  #define IMX214_CSI_DATA_FORMAT_RAW10	0x0A0A
->  #define IMX214_CSI_DATA_FORMAT_COMP6	0x0A06
->  #define IMX214_CSI_DATA_FORMAT_COMP8	0x0A08
-> +#define IMX214_BITS_PER_PIXEL_MASK	0xFF
->  
->  #define IMX214_REG_CSI_LANE_MODE	CCI_REG8(0x0114)
->  #define IMX214_CSI_2_LANE_MODE		1
-> @@ -249,6 +251,10 @@ struct imx214 {
->  	struct clk *xclk;
->  	struct regmap *regmap;
->  
-> +	struct ccs_pll pll;
-> +
-> +	struct v4l2_fwnode_endpoint bus_cfg;
-> +
->  	struct v4l2_subdev sd;
->  	struct media_pad pad;
->  
-> @@ -758,16 +764,22 @@ static int imx214_configure_pll(struct imx214 *imx214)
->  {
->  	int ret = 0;
->  
-> -	cci_write(imx214->regmap, IMX214_REG_VTPXCK_DIV, 5, &ret);
-> -	cci_write(imx214->regmap, IMX214_REG_VTSYCK_DIV, 2, &ret);
-> -	cci_write(imx214->regmap, IMX214_REG_PREPLLCK_VT_DIV, 3, &ret);
-> -	cci_write(imx214->regmap, IMX214_REG_PLL_VT_MPY, 150, &ret);
-> -	cci_write(imx214->regmap, IMX214_REG_OPPXCK_DIV, 10, &ret);
-> -	cci_write(imx214->regmap, IMX214_REG_OPSYCK_DIV, 1, &ret);
-> +	cci_write(imx214->regmap, IMX214_REG_VTPXCK_DIV,
-> +		  imx214->pll.vt_bk.pix_clk_div, &ret);
-> +	cci_write(imx214->regmap, IMX214_REG_VTSYCK_DIV,
-> +		  imx214->pll.vt_bk.sys_clk_div, &ret);
-> +	cci_write(imx214->regmap, IMX214_REG_PREPLLCK_VT_DIV,
-> +		  imx214->pll.vt_fr.pre_pll_clk_div, &ret);
-> +	cci_write(imx214->regmap, IMX214_REG_PLL_VT_MPY,
-> +		  imx214->pll.vt_fr.pll_multiplier, &ret);
-> +	cci_write(imx214->regmap, IMX214_REG_OPPXCK_DIV,
-> +		  imx214->pll.op_bk.pix_clk_div, &ret);
-> +	cci_write(imx214->regmap, IMX214_REG_OPSYCK_DIV,
-> +		  imx214->pll.op_bk.sys_clk_div, &ret);
->  	cci_write(imx214->regmap, IMX214_REG_PLL_MULT_DRIV,
->  		  IMX214_PLL_SINGLE, &ret);
->  	cci_write(imx214->regmap, IMX214_REG_EXCK_FREQ,
-> -		  IMX214_EXCK_FREQ(IMX214_DEFAULT_CLK_FREQ / 1000000), &ret);
-> +		  IMX214_EXCK_FREQ(imx214->pll.ext_clk_freq_hz / 1000000), &ret);
->  
->  	return ret;
->  }
-> @@ -872,9 +884,6 @@ static const struct v4l2_ctrl_ops imx214_ctrl_ops = {
->  
->  static int imx214_ctrls_init(struct imx214 *imx214)
->  {
-> -	static const s64 link_freq[] = {
-> -		IMX214_DEFAULT_LINK_FREQ
-> -	};
->  	static const struct v4l2_area unit_size = {
->  		.width = 1120,
->  		.height = 1120,
-> @@ -895,15 +904,14 @@ static int imx214_ctrls_init(struct imx214 *imx214)
->  	if (ret)
->  		return ret;
->  
-> -	imx214->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, NULL,
-> -					       V4L2_CID_PIXEL_RATE, 0,
-> -					       IMX214_DEFAULT_PIXEL_RATE, 1,
-> -					       IMX214_DEFAULT_PIXEL_RATE);
-> +	imx214->pixel_rate =
-> +		v4l2_ctrl_new_std(ctrl_hdlr, NULL, V4L2_CID_PIXEL_RATE, 1,
-> +				  INT_MAX, 1, 1);
->  
->  	imx214->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, NULL,
->  						   V4L2_CID_LINK_FREQ,
-> -						   ARRAY_SIZE(link_freq) - 1,
-> -						   0, link_freq);
-> +						   imx214->bus_cfg.nr_of_link_frequencies - 1,
-> +						   0, imx214->bus_cfg.link_frequencies);
->  	if (imx214->link_freq)
->  		imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->  
-> @@ -1006,6 +1014,7 @@ static int imx214_start_streaming(struct imx214 *imx214)
->  	const struct v4l2_mbus_framefmt *fmt;
->  	struct v4l2_subdev_state *state;
->  	const struct imx214_mode *mode;
-> +	int bit_rate_mbps;
->  	int ret;
->  
->  	ret = cci_multi_reg_write(imx214->regmap, mode_table_common,
-> @@ -1021,8 +1030,10 @@ static int imx214_start_streaming(struct imx214 *imx214)
->  		return ret;
->  	}
->  
-> +	bit_rate_mbps = (imx214->pll.pixel_rate_pixel_array / 1000000)
-> +			* imx214->pll.bits_per_pixel;
->  	ret = cci_write(imx214->regmap, IMX214_REG_REQ_LINK_BIT_RATE,
-> -			IMX214_LINK_BIT_RATE_MBPS(4800), NULL);
-> +			IMX214_LINK_BIT_RATE_MBPS(bit_rate_mbps), NULL);
->  	if (ret) {
->  		dev_err(imx214->dev, "failed to configure link bit rate\n");
->  		return ret;
-> @@ -1105,6 +1116,112 @@ static int imx214_s_stream(struct v4l2_subdev *subdev, int enable)
->  	return ret;
->  }
->  
-> +static int imx214_pll_calculate(struct imx214 *imx214, struct ccs_pll *pll,
-> +				unsigned int link_freq)
-> +{
-> +	struct ccs_pll_limits limits = {
-> +		.min_ext_clk_freq_hz = 6000000,
-> +		.max_ext_clk_freq_hz = 27000000,
-> +
-> +		.vt_fr = {
-> +			.min_pre_pll_clk_div = 1,
-> +			.max_pre_pll_clk_div = 15,
-> +			/* min_pll_op_clk_freq_hz / max_pll_multiplier */
-> +			.min_pll_ip_clk_freq_hz = 281667,
-> +			/* max_pll_op_clk_freq_hz / min_pll_multiplier */
-> +			.max_pll_ip_clk_freq_hz = 100000000,
-
-Regarding these limits -- the pll_ip_clk_freq_hz limits are likely between
-around 6 MHz (lower limit) and between 12 MHz and 27 MHz. I'd use 6 for
-lower and 12 for higher if they yield correct configuration currently and
-loosen them up only if needed.
-
-> +			.min_pll_multiplier = 12,
-> +			.max_pll_multiplier = 1200,
-> +			.min_pll_op_clk_freq_hz = 338000000,
-> +			.max_pll_op_clk_freq_hz = 1200000000,
-> +		},
-> +		.vt_bk = {
-> +			.min_sys_clk_div = 2,
-> +			.max_sys_clk_div = 4,
-> +			.min_pix_clk_div = 5,
-> +			.max_pix_clk_div = 10,
-> +			.min_pix_clk_freq_hz = 30000000,
-> +			.max_pix_clk_freq_hz = 120000000,
-> +		},
-> +		.op_bk = {
-> +			.min_sys_clk_div = 1,
-> +			.max_sys_clk_div = 2,
-> +			.min_pix_clk_div = 6,
-> +			.max_pix_clk_div = 10,
-> +			.min_pix_clk_freq_hz = 30000000,
-> +			.max_pix_clk_freq_hz = 120000000,
-> +		},
-> +
-> +		.min_line_length_pck_bin = IMX214_PPL_DEFAULT,
-> +		.min_line_length_pck = IMX214_PPL_DEFAULT,
-> +	};
-> +	unsigned int num_lanes = imx214->bus_cfg.bus.mipi_csi2.num_data_lanes;
-> +	int ret;
-> +
-> +	/*
-> +	 * There are no documented constraints on the sys clock frequency, for
-> +	 * either branch. Recover them based on the PLL output clock frequency
-> +	 * and sys_clk_div limits on one hand, and the pix clock frequency and
-> +	 * the pix_clk_div limits on the other hand.
-> +	 */
-> +	limits.vt_bk.min_sys_clk_freq_hz =
-> +		max(limits.vt_fr.min_pll_op_clk_freq_hz / limits.vt_bk.max_sys_clk_div,
-> +		    limits.vt_bk.min_pix_clk_freq_hz * limits.vt_bk.min_pix_clk_div);
-> +	limits.vt_bk.max_sys_clk_freq_hz =
-> +		min(limits.vt_fr.max_pll_op_clk_freq_hz / limits.vt_bk.min_sys_clk_div,
-> +		    limits.vt_bk.max_pix_clk_freq_hz * limits.vt_bk.max_pix_clk_div);
-> +
-> +	limits.op_bk.min_sys_clk_freq_hz =
-> +		max(limits.vt_fr.min_pll_op_clk_freq_hz / limits.op_bk.max_sys_clk_div,
-> +		    limits.op_bk.min_pix_clk_freq_hz * limits.op_bk.min_pix_clk_div);
-> +	limits.op_bk.max_sys_clk_freq_hz =
-> +		min(limits.vt_fr.max_pll_op_clk_freq_hz / limits.op_bk.min_sys_clk_div,
-> +		    limits.op_bk.max_pix_clk_freq_hz * limits.op_bk.max_pix_clk_div);
-> +
-> +	memset(pll, 0, sizeof(*pll));
-> +
-> +	pll->bus_type = CCS_PLL_BUS_TYPE_CSI2_DPHY;
-> +	pll->op_lanes = num_lanes;
-> +	pll->vt_lanes = num_lanes;
-> +	pll->csi2.lanes = num_lanes;
-> +
-> +	pll->binning_horizontal = 1;
-> +	pll->binning_vertical = 1;
-> +	pll->scale_m = 1;
-> +	pll->scale_n = 1;
-> +	pll->bits_per_pixel =
-> +		IMX214_CSI_DATA_FORMAT_RAW10 & IMX214_BITS_PER_PIXEL_MASK;
-> +	pll->flags = CCS_PLL_FLAG_LANE_SPEED_MODEL;
-> +	pll->link_freq = link_freq;
-> +	pll->ext_clk_freq_hz = clk_get_rate(imx214->xclk);
-> +
-> +	ret = ccs_pll_calculate(imx214->dev, &limits, pll);
-> +
-> +	return ret;
-
-You can drop ret here.
-
-> +}
-> +
-> +static int imx214_pll_update(struct imx214 *imx214)
-> +{
-> +	u64 link_freq;
-> +	int ret;
-> +
-> +	link_freq = imx214->bus_cfg.link_frequencies[imx214->link_freq->val];
-> +	ret = imx214_pll_calculate(imx214, &imx214->pll, link_freq);
-> +	if (ret) {
-> +		dev_err(imx214->dev, "PLL calculations failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = v4l2_ctrl_s_ctrl_int64(imx214->pixel_rate,
-> +				     imx214->pll.pixel_rate_pixel_array);
-> +	if (ret) {
-> +		dev_err(imx214->dev, "failed to set pixel rate\n");
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int imx214_get_frame_interval(struct v4l2_subdev *subdev,
->  				     struct v4l2_subdev_state *sd_state,
->  				     struct v4l2_subdev_frame_interval *fival)
-> @@ -1211,12 +1328,10 @@ static int imx214_identify_module(struct imx214 *imx214)
->  	return 0;
->  }
->  
-> -static int imx214_parse_fwnode(struct device *dev)
-> +static int imx214_parse_fwnode(struct device *dev, struct imx214 *imx214)
->  {
-> +	struct v4l2_fwnode_endpoint *bus_cfg = &imx214->bus_cfg;
->  	struct fwnode_handle *endpoint;
-> -	struct v4l2_fwnode_endpoint bus_cfg = {
-> -		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> -	};
->  	unsigned int i;
->  	int ret;
->  
-> @@ -1224,42 +1339,52 @@ static int imx214_parse_fwnode(struct device *dev)
->  	if (!endpoint)
->  		return dev_err_probe(dev, -EINVAL, "endpoint node not found\n");
->  
-> -	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
-> +	bus_cfg->bus_type = V4L2_MBUS_CSI2_DPHY;
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, bus_cfg);
-> +	fwnode_handle_put(endpoint);
->  	if (ret) {
->  		dev_err_probe(dev, ret, "parsing endpoint node failed\n");
-> -		goto done;
-> +		goto error;
->  	}
->  
->  	/* Check the number of MIPI CSI2 data lanes */
-> -	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
-> +	if (bus_cfg->bus.mipi_csi2.num_data_lanes != 4) {
->  		ret = dev_err_probe(dev, -EINVAL,
->  				    "only 4 data lanes are currently supported\n");
-> -		goto done;
-> +		goto error;
->  	}
->  
-> -	if (bus_cfg.nr_of_link_frequencies != 1)
-> +	if (bus_cfg->nr_of_link_frequencies != 1)
->  		dev_warn(dev, "Only one link-frequency supported, please review your DT. Continuing anyway\n");
->  
-> -	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-> -		if (bus_cfg.link_frequencies[i] == IMX214_DEFAULT_LINK_FREQ)
-> +	for (i = 0; i < bus_cfg->nr_of_link_frequencies; i++) {
-> +		u64 freq = bus_cfg->link_frequencies[i];
-> +		struct ccs_pll pll;
-> +
-> +		if (!imx214_pll_calculate(imx214, &pll, freq))
->  			break;
-> -		if (bus_cfg.link_frequencies[i] ==
-> -		    IMX214_DEFAULT_LINK_FREQ_LEGACY) {
-> +		if (freq == IMX214_DEFAULT_LINK_FREQ_LEGACY) {
->  			dev_warn(dev,
->  				 "link-frequencies %d not supported, please review your DT. Continuing anyway\n",
->  				 IMX214_DEFAULT_LINK_FREQ);
-> +			freq = IMX214_DEFAULT_LINK_FREQ;
-> +			if (imx214_pll_calculate(imx214, &pll, freq))
-> +				continue;
-> +			bus_cfg->link_frequencies[i] = freq;
->  			break;
->  		}
->  	}
->  
-> -	if (i == bus_cfg.nr_of_link_frequencies)
-> +	if (i == bus_cfg->nr_of_link_frequencies)
->  		ret = dev_err_probe(dev, -EINVAL,
-> -				    "link-frequencies %d not supported, please review your DT\n",
-> -				    IMX214_DEFAULT_LINK_FREQ);
-> +				    "link-frequencies %lld not supported, please review your DT\n",
-> +				    bus_cfg->nr_of_link_frequencies ?
-> +				    bus_cfg->link_frequencies[0] : 0);
->  
-> -done:
-> -	v4l2_fwnode_endpoint_free(&bus_cfg);
-> -	fwnode_handle_put(endpoint);
-> +	return 0;
-> +
-> +error:
-> +	v4l2_fwnode_endpoint_free(&imx214->bus_cfg);
->  	return ret;
->  }
->  
-> @@ -1299,7 +1424,7 @@ static int imx214_probe(struct i2c_client *client)
->  		return dev_err_probe(dev, PTR_ERR(imx214->regmap),
->  				     "failed to initialize CCI\n");
->  
-> -	ret = imx214_parse_fwnode(dev);
-> +	ret = imx214_parse_fwnode(dev, imx214);
->  	if (ret)
->  		return ret;
->  
-> @@ -1310,7 +1435,9 @@ static int imx214_probe(struct i2c_client *client)
->  	 * Enable power initially, to avoid warnings
->  	 * from clk_disable on power_off
->  	 */
-> -	imx214_power_on(imx214->dev);
-> +	ret = imx214_power_on(imx214->dev);
-> +	if (ret < 0)
-> +		goto error_fwnode;
->  
->  	ret = imx214_identify_module(imx214);
->  	if (ret)
-> @@ -1341,6 +1468,12 @@ static int imx214_probe(struct i2c_client *client)
->  	pm_runtime_set_active(imx214->dev);
->  	pm_runtime_enable(imx214->dev);
->  
-> +	ret = imx214_pll_update(imx214);
-> +	if (ret < 0) {
-> +		dev_err_probe(dev, ret, "failed to update PLL\n");
-> +		goto error_subdev_cleanup;
-> +	}
-> +
->  	ret = v4l2_async_register_subdev_sensor(&imx214->sd);
->  	if (ret < 0) {
->  		dev_err_probe(dev, ret,
-> @@ -1366,6 +1499,9 @@ static int imx214_probe(struct i2c_client *client)
->  error_power_off:
->  	imx214_power_off(imx214->dev);
->  
-> +error_fwnode:
-> +	v4l2_fwnode_endpoint_free(&imx214->bus_cfg);
-> +
->  	return ret;
->  }
->  
-> @@ -1378,6 +1514,8 @@ static void imx214_remove(struct i2c_client *client)
->  	v4l2_subdev_cleanup(sd);
->  	media_entity_cleanup(&imx214->sd.entity);
->  	v4l2_ctrl_handler_free(&imx214->ctrls);
-> +	v4l2_fwnode_endpoint_free(&imx214->bus_cfg);
-> +
->  	pm_runtime_disable(&client->dev);
->  	if (!pm_runtime_status_suspended(&client->dev)) {
->  		imx214_power_off(imx214->dev);
+> This fixes HEVC on SM8650, so with this change VP9 and HEVC works fine, I'm
+> suprised
+> this still works on SM8550 !
 > 
+Thanks for checking this.
+but this value has been the same since v1
+https://lore.kernel.org/linux-media/20250408-iris-dec-hevc-vp9-v1-19-acd258778bd6@quicinc.com/
+And yes, it works on SM8550, I believe you also tested v3 and confirmed the
+same.
+But anyways, the correct value should be 128 and I confirmed that SM8550
+works with the fix as well.
 
--- 
-Regards,
+> So please keep VP9 and HEVC enabled on v4.
+Ok
 
-Sakari Ailus
+Thanks,
+Dikshita
+> 
+> Thanks,
+> Neil
+>>
+>> Thanks,
+>> Dikshita
+>>> I've added:
+>>> ========================================><======================================
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>> b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>> index d3026b2bcb70..8c0ab00ab435 100644
+>>> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>> @@ -400,7 +400,7 @@ struct iris_platform_data sm8650_data = {
+>>>          .init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+>>>          .init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
+>>>          .vpu_ops = &iris_vpu33_ops,
+>>> -       .set_preset_registers = iris_set_sm8550_preset_registers,
+>>> +       .set_preset_registers = iris_set_sm8650_preset_registers,
+>>>          .icc_tbl = sm8550_icc_table,
+>>>          .icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+>>>          .clk_rst_tbl = sm8650_clk_reset_table,
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8650.h
+>>> b/drivers/media/platform/qcom/iris/iris_platform_sm8650.h
+>>> index 75e9d572e788..9e2d23f12f75 100644
+>>> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8650.h
+>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8650.h
+>>> @@ -10,4 +10,20 @@ static const char * const sm8650_clk_reset_table[] = {
+>>> "bus", "core" };
+>>>
+>>>   static const char * const sm8650_controller_reset_table[] = { "xo" };
+>>>
+>>> +static void iris_set_sm8650_preset_registers(struct iris_core *core)
+>>> +{
+>>> +       writel(0x0, core->reg_base + 0xB0088);
+>>> +       writel(0x33332222, core->reg_base + 0x13030);
+>>> +       writel(0x44444444, core->reg_base + 0x13034);
+>>> +       writel(0x1022, core->reg_base + 0x13038);
+>>> +       writel(0x0, core->reg_base + 0x13040);
+>>> +       writel(0xFFFF, core->reg_base + 0x13048);
+>>> +       writel(0x33332222, core->reg_base + 0x13430);
+>>> +       writel(0x44444444, core->reg_base + 0x13434);
+>>> +       writel(0x1022, core->reg_base + 0x13438);
+>>> +       writel(0x0, core->reg_base + 0x13440);
+>>> +       writel(0xFFFF, core->reg_base + 0x13448);
+>>> +       writel(0x99, core->reg_base + 0xA013C);
+>>> +}
+>>> +
+>>>   #endif
+>>> ========================================><======================================
+>>> and no change, error still occurs with HEVC decoding.
+>>>
+>>> Thanks,
+>>> Neil
+> 
 
