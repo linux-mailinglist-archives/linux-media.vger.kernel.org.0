@@ -1,135 +1,128 @@
-Return-Path: <linux-media+bounces-31825-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31826-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C17AABD95
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 10:44:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A67CFAABD98
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 10:44:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AC081C22D65
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 08:44:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB5E03A97B1
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 08:44:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DBB324A04A;
-	Tue,  6 May 2025 08:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 320DF257ACA;
+	Tue,  6 May 2025 08:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20230601.gappssmtp.com header.i=@quanta-corp-partner-google-com.20230601.gappssmtp.com header.b="DoYJ0LMp"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xJMjmiJh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F44A21770C
-	for <linux-media@vger.kernel.org>; Tue,  6 May 2025 08:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAB225484E
+	for <linux-media@vger.kernel.org>; Tue,  6 May 2025 08:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746521040; cv=none; b=Tr4L6sI4p0fTOKnQRxWAqFyYLmgo/8n3wSnFEfTVBL/Pt9pNuU6N0VXsAilUY7UlXHlNsmg+UaX3pF68GpUHz03AkE5jW729prJf8MwE04XHEJbpiEgNh4RIVG4wRj4SfDixPkTEznkp0hwESSR+8n6yLSfYGEYa/izU/0h+GCY=
+	t=1746521060; cv=none; b=WxTMm27i6uNfWzD8fLGY2ZoCxKCgFkMHI/pXbYDqGq3/p9fF5fGC66BMT59sbxxuuwuh0gLMHMUGVRYw/cVF+t/+TtEE0XfcJJZGzVbVI22ukslpAqKM3EGW30TDh1kp/EWZ+CqfmpZ48bFoFpuQ4sbVXeoHTsvqCLfyoUIoxoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746521040; c=relaxed/simple;
-	bh=GDqdWLvUxQ5sZaZpzIINaEq6cjYVuEXEjYzDVGeYBXQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RA6OdiYonvaTXkPnFK6rYJ6OTKqrZperRQKEfetqBMUUsJCV1gFTE1BuhpmISz+2ZPr0kNRvtQyWaf0xMvxyaL5SBSyadPAlF8bkJmLVRWmRAteZ48bvOY+z6rao2dAhwLxaWP9yLidEZwu54vTH9+3QHcNqfLuXfIaIcftfcEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com; spf=pass smtp.mailfrom=quanta.corp-partner.google.com; dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20230601.gappssmtp.com header.i=@quanta-corp-partner-google-com.20230601.gappssmtp.com header.b=DoYJ0LMp; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quanta.corp-partner.google.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22e033a3a07so55652705ad.0
-        for <linux-media@vger.kernel.org>; Tue, 06 May 2025 01:43:58 -0700 (PDT)
+	s=arc-20240116; t=1746521060; c=relaxed/simple;
+	bh=+2GVlVD2L0RLoxh4xotkcQLOqvnaqQnQU41zbcKNvIg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JJrASOTSHF4HVF1JaSWn4dxTTtnsJj7Z6n+hyhBVN3WsZ9b7k2mV6zUyHViz9Us6PtiXccLIzvuktQaJD7panSYjH7MOlzHqkEnHypayaFUrlQcMjzvRuQJrTa7qXdQu5vE7d7raObVnK0i5ZPyvP9tqHr8T+sCtL7f8nij585Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xJMjmiJh; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso33288655e9.1
+        for <linux-media@vger.kernel.org>; Tue, 06 May 2025 01:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=quanta-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1746521038; x=1747125838; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GW2TmlIZufkROHQCZxMHYL6iXxykJ3m3xvGeglUqwWM=;
-        b=DoYJ0LMph9MMkSy37BTvoBvuhTNDoZPZMWCWFj0B/8yLgye0BnWbpDWhLHLYh9KsKh
-         D6XbhpVXm/Mmzrx4eUETKROJXR2F9PCiPmnQnR6FwWogLTws68l+Q36i9hs9+cCByffF
-         sb4nFMzrMK0xDSUxLkY2hWHVVaHVYLBoaaZhJkR6cX7T3o+9R19E0G4IL2E+O8gjOPEp
-         R85f8wo66ozgROtwN/8ycvJbVnrm4uR7qpiaFezGWojzFaIPDo3Zt2HaDQSnDKuzSiQP
-         sPjotTUAJhPuCIKxrgZ16qbdGdM7N7k2w9VHuOOPQGlT4sNG2vmqyYS6Rs6Q+TzB+CIz
-         PCBA==
+        d=linaro.org; s=google; t=1746521057; x=1747125857; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L5gGsosY8ut1Bx/SwqzzJglKhQtcNAYIW9Tsdra1ZGQ=;
+        b=xJMjmiJhomgLvacAFfnNxk3stbxyhDm9gQV3KFtLWeL6rHSO4udDKtgxPtAEOBllgA
+         KQi/z1NhVatnSi1gh+V+Dl2vka/GJDpwN0mcazhhWUmp1DDzQxnO6ozKMi9tyxkBOWTp
+         efH/uQmS9wrI63EGtaUfUN3SexHufpjLJ6SGshhM6DfBQ3i3gIesnGhTkNmcBpI6nM5t
+         PkmjJKEuiPpc9dAzsE95AqWmXaLopxbyQQ5XZ79LEnUrYnFcZp1eRzGCpVz4G6x4StkR
+         E1/0P5toMObyLji1eW9Jfp99oHeXhWNGcbSA0JngRq1LizXGQdquUQ3DX59hr8/tHnWc
+         yKMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746521038; x=1747125838;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GW2TmlIZufkROHQCZxMHYL6iXxykJ3m3xvGeglUqwWM=;
-        b=QelHKbxPUNXHZm12iDh1y0Jk3l+QoNrH7wHB9SO0IwQbaOVqV+FDdH9SozrJEAmVex
-         r/0iXIDUEH6XXEO+f7NEeTj18r+1E4d0HNiKLiVlhAZo7mVigSaAad1LHwlaW9tCYhDg
-         smGL6KQLs3fSdhimpjdYleyuD16sOZGCymwJ0hWJ8I64XpIz56BWn9YRsKtQ4WLZIppm
-         wT+OJhPBQBSHzt1+SWoam+nbCsO0x7U7M8bs5fmcfOZ5+4EBk0aXKu4IGMkXn60ZO1Cz
-         WrnHCS4GLHzUONsWzldBMZWWb0bdyOxEGN1Nc8r1ue6WCEUGquqrsRZE7l34wLd3BEDS
-         NQEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXTbC7N9x1BO+2CJPGmEH4v3WuDs3d+/MHjaxx4T4h+u1hbNlb8Q+uGrdQviYgdKH7b8AOsveWtLHDimw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4qPuZgQkVcY+aHHhXxShVM0zLaSt7wYYxhPYZ4hQuyDKbVH3O
-	qYY1TqyWM8H0iL7qAd1Bcx4kI84EnD2QXk4N9dYsA0MMnxS5Q2sNkVzIAUhDTJuD5QNC2JlLHtf
-	QPpg=
-X-Gm-Gg: ASbGncuGxBU1mTuL9K4BELDKZRc8DP1clwCMK8n2asK6rGz7/etpvx4/92m7LktQHcv
-	qgIWbAP+xQy1jNxuty9mT7D809q5bt6I1WvNJIB6kK0SUqXMtcLOBJG59acKnYwoLMoCyHT/zku
-	AMIPfzmTLW0EftkAlTITidPF8e0/sIvaWOfgCliWG7PrYQNYzgrauP7oACLs2h2FATmWnB93Tpi
-	duz2QHONI0YoW2w6HTZqw/q9T4buov6L0zDK0c7Lo/Wom8OzHMWc6P8lujt4IkSX4Ztl4eUekLx
-	3DsoQ5573ZUBfBpWRr7zqceZ8zPfxR0Hej0RfNDumWsNSPiLXY8E087hmHf6pFsTLwZ3rVZ0EHB
-	w4ONFJIb0PCzFjUyGwfmQfW3DPgOx6ZM+39kpjoZ+JGqBPlpR
-X-Google-Smtp-Source: AGHT+IFk3mHr2xZ6xTjxZ/wIRc618+Ar69pkMBFg8cgeJ5yWmwYmGkUh27jGm4sfdv0XmyOg5nKHEg==
-X-Received: by 2002:a17:902:dacc:b0:22e:17ac:9dd8 with SMTP id d9443c01a7336-22e3633a6b8mr29134445ad.29.1746521038464;
-        Tue, 06 May 2025 01:43:58 -0700 (PDT)
-Received: from kells-Predator-PTX17-71.lan (211-75-10-161.hinet-ip.hinet.net. [211.75.10.161])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1522f1d7sm68406215ad.222.2025.05.06.01.43.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 01:43:58 -0700 (PDT)
-From: Kells Ping <kells.ping@quanta.corp-partner.google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: groeck@chromium.org,
-	Kells Ping <kells.ping@quanta.corp-partner.google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	chrome-platform@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: [PATCH] [v2] media: platform: cros-ec: Add Dirks to the match table
-Date: Tue,  6 May 2025 16:43:02 +0800
-Message-Id: <20250506164224.1.Ica91496a34ad5c3f9330c1a7992f10eea10e471d@changeid>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1746521057; x=1747125857;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L5gGsosY8ut1Bx/SwqzzJglKhQtcNAYIW9Tsdra1ZGQ=;
+        b=HxZ5L7LhmghNn8lK/phVFgHutcJ/4f8e29QSazV6EuVNyhI0oWtrpBoFnMRkO4l2IR
+         c+FQvP4W3Ztk+A32DReDw9IkPvQv0Nhn1lDDov2l3WQ9Ys+fpnqt0aoq2qDUKQ2pUJDu
+         e+9HgcQ7I5npTzPUXa2A5AM4kS5YDFaz7fW0gUHgbu2NkS42bGQIY3yWsAww7c7WTr13
+         gpDUwM6/GhSfpglqs/SXWK9hqxMlqdXWlRXqYx2C9UjP+vH9I9VDBRN2KT/sCbPbJYRa
+         etwPslc3Fchx5k4lk8tE8Y/6+3XN8nZ67z/t0Pt35DXb5B9vTeExBi2QdUKLE/C/fYbG
+         coVw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmuyXzEJCgtQPvqOsOVXe6Q/MFF0lL0Locu0Z0MHxQRH5xzb/BiQ2GaDyEjrIBE6ymJORKlnW0GZZfbg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzW1YIRt/RzE2bpkd2Hz8iJQvejVB1HufLznQzHf2A0ykUN2BZh
+	m0C8JG8c5SD6V6lPLi5sI3pQN36Uy4ni7rYmZj8zEz0jEE+LFX1Ld7/K7yuBK08=
+X-Gm-Gg: ASbGnctVufOOn3Tj38TbuAwDzVipVFlaIwLHWizTBuuadMJ2xBVighPekHKlY0l5XqH
+	3CYbfbo2Do6U9qXVaAMp7d/E5kUlPRvS/NRbVTCD3Wh2QpzAkzSe0tjcGEfDsCANbQuXXZmRI+6
+	VlXldAmikRWJH4hb09MRTkuNd4kXcImhNTf56JOUWo3Xs8J+AA45qZ5OamW1xzuQqJza3N66F0v
+	rEaeMMb/tQn1X0IQAXBqNBcKg+w21il/LlUbpXfrTgnObRIzkWIioHv3wD5E664aCp797ClRyHe
+	xOGqnHl/q5IoFW4d5vZL85OuoK5RevbSipM9M8SpJmIlfk8t6fq+4TgEqxCCOrw8BIu2rNkcIan
+	WuO/9XA==
+X-Google-Smtp-Source: AGHT+IHHZuJf/esu3cKTxXqW0HI6bwS3OQqxETST9uSfS/LugLOy6+dy1AlDM1w7IH882lGtmgu9pg==
+X-Received: by 2002:a05:600c:3b90:b0:43c:efed:732c with SMTP id 5b1f17b1804b1-441c4938eddmr64629905e9.28.1746521056721;
+        Tue, 06 May 2025 01:44:16 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441b2af2a0csm205627795e9.18.2025.05.06.01.44.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 May 2025 01:44:16 -0700 (PDT)
+Message-ID: <9b678d19-ce4e-477d-81fa-bb3eb0a6dd57@linaro.org>
+Date: Tue, 6 May 2025 09:44:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] dt-bindings: media: qcom,x1e80100-camss: Add optional
+ bus-type property
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250502204142.2064496-1-vladimir.zapolskiy@linaro.org>
+ <20250502204142.2064496-3-vladimir.zapolskiy@linaro.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250502204142.2064496-3-vladimir.zapolskiy@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The Google Dirks device uses the same approach as the Google Brask
-which enables the HDMI CEC via the cros-ec-cec driver.
-
----
-
-Changes in v2: update ports
-native driver cec is port 0.
-bitbang driver cec is port 1.
-
-Signed-off-by: Kells Ping <kells.ping@quanta.corp-partner.google.com>
----
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 12b73ea0f31d..81b4524c69f4 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -298,6 +298,7 @@ struct cec_dmi_match {
- static const char *const port_b_conns[] = { "Port B", NULL };
- static const char *const port_db_conns[] = { "Port D", "Port B", NULL };
- static const char *const port_ba_conns[] = { "Port B", "Port A", NULL };
-+static const char *const port_ab_conns[] = { "Port A", "Port B", NULL };
- static const char *const port_d_conns[] = { "Port D", NULL };
- 
- static const struct cec_dmi_match cec_dmi_match_table[] = {
-@@ -329,6 +330,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Dexi", "0000:00:02.0", port_db_conns },
- 	/* Google Dita */
- 	{ "Google", "Dita", "0000:00:02.0", port_db_conns },
-+	/* Google Dirks */
-+	{ "Google", "Dirks", "0000:00:02.0", port_ab_conns },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
--- 
-2.34.1
-
+On 02/05/2025 21:41, Vladimir Zapolskiy wrote:
+> Since CSIPHY IP on modern Qualcomm SoCs supports D-PHY and C-PHY
+> interfaces, it might be necessary to specify it explicitly for some
+> particular devices.
+> 
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> ---
+>   .../devicetree/bindings/media/qcom,x1e80100-camss.yaml       | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> index 680f3f514132..2e7455bd75ec 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> @@ -153,6 +153,11 @@ properties:
+>                   minItems: 1
+>                   maxItems: 4
+>   
+> +              bus-type:
+> +                enum:
+> +                  - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
+> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
+> +
+>               required:
+>                 - clock-lanes
+>                 - data-lanes
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
