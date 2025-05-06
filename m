@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-31828-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31829-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAA0AABE0A
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 11:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F6FAABE31
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 11:05:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14C974E3476
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 09:01:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50B1B52092D
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 09:04:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B967426462B;
-	Tue,  6 May 2025 09:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7527E26659D;
+	Tue,  6 May 2025 09:02:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F3ryfYgh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n25KxqL2"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B763253920;
-	Tue,  6 May 2025 09:01:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF571265CAF;
+	Tue,  6 May 2025 09:02:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746522074; cv=none; b=Byoftn0v48eAXL34vByoF6rFbEY8RKqPJoUpuyKG3x7cq4bUnW0DI/2CwNJqNbq67i3+9yS68CBM3uSIMpF39POFzCKV8UWiOdFNsZVgPSLIlk/DXB4FMnMQL2i5Tb8bQ9KE7covwS8ANyq2zWgZ4nA9ndlBzubbBtFdvjtTM/k=
+	t=1746522153; cv=none; b=HLwUVUM6WwTVoAAeWd4yfStx240rQCjAdWlZhYLJNOJCDE1zAEtFIQeXGTJBZWC9nwNR2u4g7qxtB7ULDwmEjp0Z6yNcHCZzDByPuCVRUgfQbmgW4PAYP+r+Bq5R7dCt7hv4vf9l8bwIRd6/iQRITsgpnpC3Q8fipHQBn3ZfRpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746522074; c=relaxed/simple;
-	bh=9a6+p/iYVU72YliU1ZqP7UmzQhmQDj7mQcUeuX/3OQU=;
+	s=arc-20240116; t=1746522153; c=relaxed/simple;
+	bh=oM6Sq5hCR2u/yBPJ7zbEXV/rQJUo9k1PJU6yLsUr0Hk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VfYY9DK6z8xrw/7SOH3Mf5eQFvkMFYCWvBEB/tnbgkM/rwzlQhnQfpEtYClROSIDXhY/aVJyT8z/8OB5NpGyqe8puMpmzhdllJQoj/WKHIOETXOrGGA2n4olppPtJ/eO80hdEuor626PONBt5EowMneYyNeeVRl2BkWXZSzvRkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F3ryfYgh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7361C4CEE4;
-	Tue,  6 May 2025 09:01:10 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=rREmNKZIq/BqgST7M2sH927kwBWM96Q9Saghv/73FOUOjxmlfjUYBkAkYS2vpXv4wJgT++2D4eTpxsAnMNP1fZcKu5TfH0YV4zg0tHDQOyMZZJjteL+nYJU8c0KfPyghS6+BV28iLgqhUMK4xi1bPhpxuIEINUUb2C7C4JkeEZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n25KxqL2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 907F1C4CEE4;
+	Tue,  6 May 2025 09:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746522073;
-	bh=9a6+p/iYVU72YliU1ZqP7UmzQhmQDj7mQcUeuX/3OQU=;
+	s=k20201202; t=1746522153;
+	bh=oM6Sq5hCR2u/yBPJ7zbEXV/rQJUo9k1PJU6yLsUr0Hk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=F3ryfYghESFqNQ4Vu8zuFaE2dg9ss3GBc+kIyKd+sTTe1v24svqcT4gX5MIOABZem
-	 UopI4iYYLszujgv4nMgpDnIIYmTs957mn/k0+PB6js8yB3/1BkvQBfmDSxKpA4BUW7
-	 moQAHB4M9C0gk0g0Kp+DxZFboGf3SorNeEOe1riXz7Tvid4XBBR0uMYuf4VSXDcOqS
-	 Jiao8KB9oZ1TqYzvZ6u2LFNe1anSWeZQgwvNH3w0wUIHBATXQq4RDN7w9krdZoq63N
-	 D/+nj1kXpYxlSgtx+2M2Pr6gUPP0Kl+tfpcBnf5SPlen047XZy5Rtkfju0yP0RuTYS
-	 k8QW738NL90oA==
-Message-ID: <4d481cc1-cc86-4154-a202-ee0dd5802b29@kernel.org>
-Date: Tue, 6 May 2025 11:01:09 +0200
+	b=n25KxqL2OYzVsYW1b1/bVd6DsU6ypjAJqzDktEhmI8ll5QwB1z0+OLNRk3tBXvY+G
+	 zlY2JLfNvQpCpUzWdp0uRPKf/mA8nBX2qE9kkcGLOdg4+uIBibdD0fTSfsZ3shIV7V
+	 qEhXGAGUkxbay6ucf4tB6JedoQnJqx2Tlt/jR13SwccmK0zEYqsm6lupaPfUKi7mcJ
+	 tIOpTRrJzH71lEJ6skaYoWDXOwT4/mCo2WW7edKDBR+klEVIUTueiPa3p6V64vYq6E
+	 vbrd9Q32n29EQw0Ris2zVVhCbVqRPF5A9ZSPfAdStVbPPfQ10Ki/YhmECYUtt4rubD
+	 C1a8thancavtA==
+Message-ID: <c165476a-cf57-494d-92fc-0d4b4fc1eac4@kernel.org>
+Date: Tue, 6 May 2025 11:02:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: media: qcom,x1e80100-camss: Tighten the
- property regex pattern
+Subject: Re: [PATCH 2/3] dt-bindings: media: qcom,x1e80100-camss: Add optional
+ bus-type property
 To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Robert Foss
  <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
@@ -60,7 +60,7 @@ To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org
 References: <20250502204142.2064496-1-vladimir.zapolskiy@linaro.org>
- <20250502204142.2064496-2-vladimir.zapolskiy@linaro.org>
+ <20250502204142.2064496-3-vladimir.zapolskiy@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,19 +106,20 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250502204142.2064496-2-vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250502204142.2064496-3-vladimir.zapolskiy@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 02/05/2025 22:41, Vladimir Zapolskiy wrote:
-> There are 4 CSIPHY ports on X1E80100, it'd be preferred to tinker a too
-> loose the regexp, which covers all these port names.
+> Since CSIPHY IP on modern Qualcomm SoCs supports D-PHY and C-PHY
+> interfaces, it might be necessary to specify it explicitly for some
+> particular devices.
 > 
 > Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 > ---
->  .../devicetree/bindings/media/qcom,x1e80100-camss.yaml          | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
+>  .../devicetree/bindings/media/qcom,x1e80100-camss.yaml       | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
