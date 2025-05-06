@@ -1,262 +1,142 @@
-Return-Path: <linux-media+bounces-31875-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31876-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1EAAACE6F
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 21:55:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D105AACE77
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 21:57:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F4C23BCEBC
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 19:54:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29DC43A455C
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 19:57:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47D4F20E71D;
-	Tue,  6 May 2025 19:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C78021146C;
+	Tue,  6 May 2025 19:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="m7HJo9jl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kbnQs74z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740EF1FBCB1;
-	Tue,  6 May 2025 19:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33FB2747B
+	for <linux-media@vger.kernel.org>; Tue,  6 May 2025 19:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746561296; cv=none; b=igKSrEG6y6gErsF37Mm611x/LDoIITpWFA8bcJMKgthx5WazyXQUP1MFMLepzX4nAw2RzmuqjggG9CDcdl9uSMLAn+yvXzOw0m3+eZ2BYFqFYd9JLAKZSRqEfBPUa2vTMYuMgeHBay3ya42f4jeUs5O2yKYLHBxaYafpVCaD/Ps=
+	t=1746561472; cv=none; b=e5+tTHaq/WtmmdmFkQscMIToUv9p+ozhbTBPA+V8gl4Aq6JEgzebO4R8uCRXq81e6KkdV6qIW55vPfbOp2TAPOw1qie25bgHjfjbFJ+CzILwgZCbx+sChexne0H22Rlsx7qjvDBnXq56q/jYPJ5SVRPw1zHszu/uyzCC1t2NUz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746561296; c=relaxed/simple;
-	bh=TX6fnqyOQLRCqud7L1fLcyM5ocSTEz2pblmDAnAzXbs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dKpgDmeDVQgqcNEQxUn7UAqMaAb3KhwUQV98FoPSN0BipgRwtZeO/uwboOnLWyyUkABpYUK/DGZvW+OA1NicFDe6cLzf21BFgA3Y6aA6kPTCXyY0TSTt/y4r22LX2eIxsCxVCKnPVlF2klpMyGUwhNFmLSXL/JQ4bOcks8K5qV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=m7HJo9jl; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1746561292;
-	bh=TX6fnqyOQLRCqud7L1fLcyM5ocSTEz2pblmDAnAzXbs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m7HJo9jl86sLv4qpeTc+fxgIuJA6St3d9IyKACbTZaZC6aWIHO6SCnopb3UOR1HTf
-	 LDl13EJMxzqGAz3J1wdnPXNK68paaGDnzQLhfbL8/IEhznNnrHp/VkeIv0WaDLSTYX
-	 +iOuMFyVfxBmSWp+mzaO5hkMM707SKDij4F0hTegTHveJCMRXIw42+yGTNCefzvYmP
-	 LhgTdC0f9v1sTf+e53HWJGNAkFqSfjZoOzRp/detfV1C6Zuxjdqbw9+ZkqVdhOr8do
-	 8JCO++cM8Pt/3MURn4C9lN9JIskVvJs7huknkV2LCVDmXWhO33IJ7FtM/b0KTqFgzk
-	 oIWV7O3oGfdIw==
-Received: from [IPV6:2a05:1141:1cc:8600:1cd7:9a7e:17d7:cd2c] (unknown [IPv6:2a05:1141:1cc:8600:1cd7:9a7e:17d7:cd2c])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4380E17E10D3;
-	Tue,  6 May 2025 21:54:51 +0200 (CEST)
-Message-ID: <82fd6088-2979-4a4b-8eb5-dd8da965369e@collabora.com>
-Date: Tue, 6 May 2025 21:54:50 +0200
+	s=arc-20240116; t=1746561472; c=relaxed/simple;
+	bh=nt+/uD9LvcfvQSgpy7ESBXun9+Ck3/G4OkPAxDcm0cI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L19eY47jiVzPJm8wj0potE6LLBypOfUMdvGyLRzMZ7o0OTRyW/SDt0ZOviIOMJi0q8x+P/jFR03LB8YcsfVQG6TXxpcHog2/POsSq8Ls00pB0BlHW4L6MlEWI4aweqLXkZ9aTKCiK7/I3CtfpRMurTO1AnDhA2P/VhAiB55P+6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kbnQs74z; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746561471; x=1778097471;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nt+/uD9LvcfvQSgpy7ESBXun9+Ck3/G4OkPAxDcm0cI=;
+  b=kbnQs74zdYv26ReZrBYFII9WiC4rpxr0lXYVgGzPuhG77P3JUl9ZgiMK
+   FyQoBB+wc22DJeuSQ0GNHCfzbQl65yamPljasbgPNSmC6NbLCifKhZ2eh
+   s33Cb9ih9oS9Fm9+x+zJ/BUgvwVgQSJL+Nbab9xOrdEzXQjKP6AYOP3zq
+   2jDEA1UMThF26BEqmqEoglRu2myjNjbrJBT8Pnv9IvNZMe9hpvYT03HCv
+   bchDdfNDeSj0kmAmBmDOLjWUkUD63yUuiXe2MK7N7+GGBHUNB+jtqOZDW
+   /kIBt08K9NoLUSUv5h02V3NNkMQ24J5hHlfNL1sTkOaUuCY73i2sjKSe0
+   A==;
+X-CSE-ConnectionGUID: zCvKic4sTP+EjVZUi4hvrQ==
+X-CSE-MsgGUID: XLTL5KVMTd6OHdPDIfa+ZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="65785170"
+X-IronPort-AV: E=Sophos;i="6.15,267,1739865600"; 
+   d="scan'208";a="65785170"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 12:57:50 -0700
+X-CSE-ConnectionGUID: lkST6J3BSJ2b9nEe5KLpPw==
+X-CSE-MsgGUID: iyBQoOspSiCWTXDFZ3Ns7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,267,1739865600"; 
+   d="scan'208";a="159019329"
+Received: from savramon-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.244.89])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 12:57:48 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1D1CA11FCD0;
+	Tue,  6 May 2025 22:57:46 +0300 (EEST)
+Date: Tue, 6 May 2025 19:57:46 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: ipu-bridge: Debug log link-number and
+ lane-count from SSDB
+Message-ID: <aBppurHZUqy-g8mJ@kekkonen.localdomain>
+References: <20250506121843.250995-1-hdegoede@redhat.com>
+ <20250506121843.250995-2-hdegoede@redhat.com>
+ <aBoiRpAkR_8Yhf_c@kekkonen.localdomain>
+ <323ed87d-074f-4bef-ac5b-4fc8ac0b478a@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/13] media: dt-bindings: add rockchip rk3568 mipi csi
- receiver
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Kever Yang <kever.yang@rock-chips.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Collabora Kernel Team <kernel@collabora.com>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>
-References: <20240220-rk3568-vicap-v6-0-d2f5fbee1551@collabora.com>
- <20240220-rk3568-vicap-v6-5-d2f5fbee1551@collabora.com>
- <wxwzca4i36hdhdx5ehjqvq5ljpsb7lcvzermkhqyvufsr47au4@3qcth2vawwju>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <wxwzca4i36hdhdx5ehjqvq5ljpsb7lcvzermkhqyvufsr47au4@3qcth2vawwju>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <323ed87d-074f-4bef-ac5b-4fc8ac0b478a@redhat.com>
 
-Hi Mehdi,
+Hi Hans,
 
-On 5/6/25 14:09, Mehdi Djait wrote:
-> Hi Michael,
+On Tue, May 06, 2025 at 06:57:14PM +0200, Hans de Goede wrote:
+> Hi,
 > 
-> thank you for the patch!
+> On 6-May-25 16:52, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > Thanks for the set.
+> > 
+> > On Tue, May 06, 2025 at 02:18:43PM +0200, Hans de Goede wrote:
+> >> Add a dev_dbg() call logging the link-number and lane-count from the SSDB.
+> >>
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >> ---
+> >>  drivers/media/pci/intel/ipu-bridge.c | 2 ++
+> >>  1 file changed, 2 insertions(+)
+> >>
+> >> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+> >> index a12bc1676c81..e342492e8f3b 100644
+> >> --- a/drivers/media/pci/intel/ipu-bridge.c
+> >> +++ b/drivers/media/pci/intel/ipu-bridge.c
+> >> @@ -308,6 +308,8 @@ int ipu_bridge_parse_ssdb(struct acpi_device *adev, struct ipu_sensor *sensor)
+> >>  		return -EINVAL;
+> >>  	}
+> >>  
+> >> +	dev_dbg(ADEV_DEV(adev), "link %d lanes %d\n", ssdb.link, ssdb.lanes);
+> > 
+> > Do we need this? The V4L2 fwnode framework prints this, as well as other
+> > related information.
 > 
-> On Wed, Apr 30, 2025 at 11:15:54AM +0200, Michael Riesch via B4 Relay wrote:
->> From: Michael Riesch <michael.riesch@wolfvision.net>
->>
->> Add documentation for the Rockchip RK3568 MIPI CSI-2 Receiver.
->>
->> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
->> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
->> ---
->>  .../bindings/media/rockchip,rk3568-mipi-csi.yaml   | 113 +++++++++++++++++++++
->>  MAINTAINERS                                        |   1 +
->>  2 files changed, 114 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
->> new file mode 100644
->> index 000000000000..d5004cb288dd
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
->> @@ -0,0 +1,113 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Rockchip RK3568 MIPI CSI-2 Receiver
->> +
->> +maintainers:
->> +  - Michael Riesch <michael.riesch@collabora.com>
->> +
->> +description:
->> +  The Rockchip RK3568 MIPI CSI-2 Receiver is a CSI-2 bridge with one input port
->> +  and one output port. It receives the data with the help of an external
->> +  MIPI PHY (C-PHY or D-PHY) and passes it to the Rockchip RK3568 Video Capture
->> +  (VICAP) block.
->> +
->> +properties:
->> +  compatible:
->> +    const: rockchip,rk3568-mipi-csi
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  phys:
->> +    maxItems: 1
->> +    description: MIPI C-PHY or D-PHY.
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: Input port node. Connect to e.g., a MIPI CSI-2 image sensor.
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +
->> +            properties:
->> +              bus-type:
->> +                enum: [1, 4]
+> Ah I see, one problem is that the drivers/media/v4l2-core/v4l2-fwnode.c
+> code uses pr_debug, so on multi sensor systems it is not always clear
+> which sensor the debug prints belong to.
 > 
-> shouldn't you add data-lanes property here ?
+> Is there some way to improve the debug-logging there to give some more info?
 
-Yes, makes sense.
+The V4L2 fwnode functions don't have access to the device currently. I'm
+not against adding it though, even just for printing purposes. It'd require
+changing a lot of drivers though.
 
-Thanks for pointing it out -- will be in v7.
-
-Best regards,
-Michael
+The functions do print the full path of the device's firmware node. Of
+course it's not the same as the device, but in this context might be even
+more useful as it also includes the port number.
 
 > 
->                  data-lanes:
->                    minItems: 1
->                    maxItems: 4
->> +
->> +            required:
->> +              - bus-type
-> 
-> and add it to required:
->                  - data-lanes
-> 
-> you are actually checking for data-lanes when you enable the stream in:
-> 
-> rkcif-mipi-csi-receiver.c +226
-> 
-> 	u32 lanes = csi_dev->vep.bus.mipi_csi2.num_data_lanes;
-> 
-> 	if (lanes < 1 || lanes > 4)
-> 		return -EINVAL;
-> 
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Output port connected to a RK3568 VICAP port.
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - phys
->> +  - phy-names
->> +  - ports
->> +  - power-domains
->> +  - resets
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/rk3568-cru.h>
->> +    #include <dt-bindings/power/rk3568-power.h>
->> +
->> +    soc {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        csi: csi@fdfb0000 {
->> +            compatible = "rockchip,rk3568-mipi-csi";
->> +            reg = <0x0 0xfdfb0000 0x0 0x10000>;
->> +            clocks = <&cru PCLK_CSI2HOST1>;
->> +            phys = <&csi_dphy>;
->> +            power-domains = <&power RK3568_PD_VI>;
->> +            resets = <&cru SRST_P_CSI2HOST1>;
->> +
->> +            ports {
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +
->> +                csi_in: port@0 {
->> +                    reg = <0>;
->> +                };
->> +
->> +                csi_out: port@1 {
->> +                    reg = <1>;
->> +
->> +                    csi_output: endpoint {
->> +                        remote-endpoint = <&vicap_mipi_input>;
->> +                    };
->> +                };
->> +            };
->> +        };
->> +    };
-> 
-> --
-> Kind Regards
-> Mehdi Djait
+> Anyways I agree that this seems duplicate, so lets drop this patch.
 
+Agreed.
+
+-- 
+Regards,
+
+Sakari Ailus
 
