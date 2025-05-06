@@ -1,147 +1,136 @@
-Return-Path: <linux-media+bounces-31864-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31865-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47463AACAA3
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 18:14:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B031AACACE
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 18:23:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3240D1C42FE8
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 16:15:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C2FAF7BC666
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 16:21:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCD702853F6;
-	Tue,  6 May 2025 16:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58F36284691;
+	Tue,  6 May 2025 16:22:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="PUzKD2UJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fdviS0Mn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B9A284B45
-	for <linux-media@vger.kernel.org>; Tue,  6 May 2025 16:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E73A2853EB
+	for <linux-media@vger.kernel.org>; Tue,  6 May 2025 16:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746548072; cv=none; b=mpYf9x5UUjv6+yTWMJTWRDaatrQxufzXv5q6DgBH7eebQI6sgjoMgxqkyDZJVEZXmfFw/GhuHAwTCDAfafr7poFbsLybEvcmUuz7wnS/j++XkV/zN3gB2jz74NPZY+Ox6v7temxkHMOgxz6TRJ6PZNfEqs+o3ertmFal0LGEADI=
+	t=1746548535; cv=none; b=Mb5VRpHjodISKf8HoUHmJFuX9UDjeCy1QylPaWBVby2FFBPNZnlIySdtgZVkv97TzrC7c2jy/1/mR4oU0tSIjT6K6E3qGDjVPU+uIfOOz9HXlSdh7TT/+6kl/MSONmc/Kjcg4CIDtxO4cDF88GL/lV35ZoyDsdKEnDKS8RzYcN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746548072; c=relaxed/simple;
-	bh=Bx12HwbK2g0/WiuMAX6LoUxUr/a67JMjHSrnplSmpjM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:MIME-Version:
-	 Content-Type:References; b=c7p9WdrPzSsMvSsKPgfcpaZZQgdUPXpIycPZTO/Ikmwc3P3wTe3A4Hh6gAAMbpS84iIWr9Xn1d8HEdBTKIxL4FrLRyx45Sp6O/dZivJh+lae/LHehB0gSG5EH6ul78e2vdiLJJg97zRYgTNF5ruDPMbDsb89d84tzG7QdLbRUtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=PUzKD2UJ; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250506161422euoutp02b545e9db7aca7e712cdc35d7c8e8eae5~8-DWdmiKs1174411744euoutp02a
-	for <linux-media@vger.kernel.org>; Tue,  6 May 2025 16:14:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250506161422euoutp02b545e9db7aca7e712cdc35d7c8e8eae5~8-DWdmiKs1174411744euoutp02a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1746548062;
-	bh=R9q7Jvt/vvnvLvP5MlEUycQ7Jn8CgPtIl0CrrLxmcLU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PUzKD2UJ5wIZjaDENYXdq1qbWwANyinFlimDwA5UDvVH6nWxXLAmCgRBZGV4wBrPA
-	 zv/vAxu6QA0BPCGupqjDQKmMLeNsZNyDgM1QjTPgW0DhvU7vWKgvv52xsnOKnHgsjb
-	 hrrRlqfGtJSg8hPnnv/CQ0dqCT4rLOMtb8HxgbtQ=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250506161422eucas1p2edddea0233c1d47541bd42145fbd9db1~8-DWFmoiw1851618516eucas1p2V;
-	Tue,  6 May 2025 16:14:22 +0000 (GMT)
-Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250506161421eusmtip2d4b568e08cf5a0107f5e9a307705ba7b~8-DVp_-ME0190501905eusmtip2f;
-	Tue,  6 May 2025 16:14:21 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	iommu@lists.linux.dev
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 3/3] omap3isp:: use sgtable-based scatterlist wrappers
-Date: Tue,  6 May 2025 18:13:46 +0200
-Message-Id: <20250506161346.1211105-4-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250506161346.1211105-1-m.szyprowski@samsung.com>
+	s=arc-20240116; t=1746548535; c=relaxed/simple;
+	bh=0OJJiC4k3BdjB8BZWRyOYVKqnw0kOmKzFTYv6JnTVMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jgUX3UF8w1bOgA8Vh1BsckTkWwVSIp3MJpG9LGsfl1BLLN8Ml/UQP+KactAuXXSU+4gLW2uEOVoztNxZgqqwPC3sjkuNHAgsaL8Bp9RU9Br+eZSNqFDvjAuh+EuxMpKtWc3EHvdj3r/NyOGeVFSX3l7E+Xbj81alb5v7MlltaTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fdviS0Mn; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746548534; x=1778084534;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0OJJiC4k3BdjB8BZWRyOYVKqnw0kOmKzFTYv6JnTVMM=;
+  b=fdviS0MnVfGhIktN/eSbOuHs7XB0AO31A1y+EK/009IeN6gzH39o8sWP
+   zKYtDAlzebAhCHeeHJ+gE5uHVcMi8CKRK5xGf4HZlVL4sla1HkiklsqG4
+   JhHgGbsLOKqzHpyINNGNtB0lvvyRHXEfdLFervmpUElpJeOU9FOqYh9sU
+   +zlwzB+hvechph87oqbchZzKHDReGKX9cBkIZh7YBeia1ZNNtjgTKBN6S
+   pB+M3Q49mgRGOkGJq9D5p2K/DgGDZdwFOYM6nX+v/GdR8hRHW6SQDUVF/
+   ZDmyBVR2NNcnwXCz7BS6pDHDhNrM7si5lXZcJdFAbcMP9aFGkdviMXCSV
+   g==;
+X-CSE-ConnectionGUID: 9Gl8Pg6URSOIUXa9h7mHTg==
+X-CSE-MsgGUID: 3SFVwHVTRQeSMWwsAB3gLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="35855024"
+X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
+   d="scan'208";a="35855024"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 09:22:13 -0700
+X-CSE-ConnectionGUID: PRfgMLQrRyKVLGGMklGtJg==
+X-CSE-MsgGUID: AspzHUC2TBCy1pdDXlGz+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
+   d="scan'208";a="139733787"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.98])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 09:22:06 -0700
+Date: Tue, 6 May 2025 18:21:55 +0200
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Hans Verkuil <hans@jjverkuil.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Ricardo Ribalda <ribalda@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>, 
+	"Hu, Jerry W" <jerry.w.hu@intel.com>, Steve Cho <stevecho@chromium.org>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Paul Kocialkowski <paulk@sys-base.io>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Arthur Vinchon <arthur.vinchon@allegrodvt.com>, 
+	Marco Felsch <m.felsch@pengutronix.de>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
+	Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>, 
+	Maxime Ripard <mripard@kernel.org>, Stefan Klug <stefan.klug@ideasonboard.com>
+Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v4)
+Message-ID: <5ldxin2mtevbzweu2p4innfe5wu3p4nbd4pbikfgddijxck7sl@l55lspiylvwi>
+References: <f6d44024-a78e-42b8-971a-797ed8fbb1ff@jjverkuil.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250506161422eucas1p2edddea0233c1d47541bd42145fbd9db1
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250506161422eucas1p2edddea0233c1d47541bd42145fbd9db1
-X-EPHeader: CA
-X-CMS-RootMailID: 20250506161422eucas1p2edddea0233c1d47541bd42145fbd9db1
-References: <20250506161346.1211105-1-m.szyprowski@samsung.com>
-	<CGME20250506161422eucas1p2edddea0233c1d47541bd42145fbd9db1@eucas1p2.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f6d44024-a78e-42b8-971a-797ed8fbb1ff@jjverkuil.nl>
 
-Use common wrappers operating directly on the struct sg_table objects to
-fix incorrect use of statterlists sync calls. dma_sync_sg_for_*()
-functions have to be called with the number of elements originally passed
-to dma_map_sg_*() function, not the one returned in sgtable's nents.
+Hi Hans,
 
-Fixes: d33186d0be18 ("[media] omap3isp: ccdc: Use the DMA API for LSC")
-Fixes: 0e24e90f2ca7 ("[media] omap3isp: stat: Use the DMA API")
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
- drivers/media/platform/ti/omap3isp/ispccdc.c | 8 ++++----
- drivers/media/platform/ti/omap3isp/ispstat.c | 6 ++----
- 2 files changed, 6 insertions(+), 8 deletions(-)
+On Fri, May 02, 2025 at 10:15:27AM +0200, Hans Verkuil wrote:
+> We have the following confirmed in-person attendees:
+> 
+> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (Media Maintainer, Huawei)
+> Nicolas Dufresne <nicolas.dufresne@collabora.com> (Collabora)
+> Benjamin Gaignard <benjamin.gaignard@collabora.com> (Collabora)
+> Hans de Goede <hdegoede@redhat.com> (Red Hat)
+> Stefan Klug <stefan.klug@ideasonboard.com> (Ideas on Board)
+> Paul Kocialkowski <paulk@sys-base.io> (sys-base)
+> Jai Luthra <jai.luthra@ideasonboard.com> (Ideas on Board)
+> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas on Board)
+> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (STMicroelectronics)
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas on Board)
+> Ricardo Ribalda <ribalda@chromium.org> (Google)
+> Maxime Ripard <mripard@redhat.com> (Red Hat)
+> Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
+> Devarsh Thakkar <devarsht@ti.com> (Texas Instruments)
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> (Ideas on Board)
+> Hans Verkuil <hans@jjverkuil.nl> (Media Maintainer, Cisco Systems Norway)
+> Arthur Vinchon <arthur.vinchon@allegrodvt.com> (Allegro DVT)
+> 
+> And the following remote participants:
 
-diff --git a/drivers/media/platform/ti/omap3isp/ispccdc.c b/drivers/media/platform/ti/omap3isp/ispccdc.c
-index dd375c4e180d..7d0c723dcd11 100644
---- a/drivers/media/platform/ti/omap3isp/ispccdc.c
-+++ b/drivers/media/platform/ti/omap3isp/ispccdc.c
-@@ -446,8 +446,8 @@ static int ccdc_lsc_config(struct isp_ccdc_device *ccdc,
- 		if (ret < 0)
- 			goto done;
- 
--		dma_sync_sg_for_cpu(isp->dev, req->table.sgt.sgl,
--				    req->table.sgt.nents, DMA_TO_DEVICE);
-+		dma_sync_sgtable_for_cpu(isp->dev, &req->table.sgt,
-+					 DMA_TO_DEVICE);
- 
- 		if (copy_from_user(req->table.addr, config->lsc,
- 				   req->config.size)) {
-@@ -455,8 +455,8 @@ static int ccdc_lsc_config(struct isp_ccdc_device *ccdc,
- 			goto done;
- 		}
- 
--		dma_sync_sg_for_device(isp->dev, req->table.sgt.sgl,
--				       req->table.sgt.nents, DMA_TO_DEVICE);
-+		dma_sync_sgtable_for_device(isp->dev, &req->table.sgt,
-+					    DMA_TO_DEVICE);
- 	}
- 
- 	spin_lock_irqsave(&ccdc->lsc.req_lock, flags);
-diff --git a/drivers/media/platform/ti/omap3isp/ispstat.c b/drivers/media/platform/ti/omap3isp/ispstat.c
-index 359a846205b0..d3da68408ecb 100644
---- a/drivers/media/platform/ti/omap3isp/ispstat.c
-+++ b/drivers/media/platform/ti/omap3isp/ispstat.c
-@@ -161,8 +161,7 @@ static void isp_stat_buf_sync_for_device(struct ispstat *stat,
- 	if (ISP_STAT_USES_DMAENGINE(stat))
- 		return;
- 
--	dma_sync_sg_for_device(stat->isp->dev, buf->sgt.sgl,
--			       buf->sgt.nents, DMA_FROM_DEVICE);
-+	dma_sync_sgtable_for_device(stat->isp->dev, &buf->sgt, DMA_FROM_DEVICE);
- }
- 
- static void isp_stat_buf_sync_for_cpu(struct ispstat *stat,
-@@ -171,8 +170,7 @@ static void isp_stat_buf_sync_for_cpu(struct ispstat *stat,
- 	if (ISP_STAT_USES_DMAENGINE(stat))
- 		return;
- 
--	dma_sync_sg_for_cpu(stat->isp->dev, buf->sgt.sgl,
--			    buf->sgt.nents, DMA_FROM_DEVICE);
-+	dma_sync_sgtable_for_cpu(stat->isp->dev, &buf->sgt, DMA_FROM_DEVICE);
- }
- 
- static void isp_stat_buf_clear(struct ispstat *stat)
--- 
-2.34.1
+Hi Hans, Sorry for the VERY late response. Is is possible to add me to
+the remote participants list ?
 
+Mehdi Djait <mehdi.djait@linux.intel.com> (Intel)
+
+> 
+> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
+> Martin Hecht <mhecht73@googlemail.com> (Avnet Silica)
+> Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
+> jackson.lee <jackson.lee@chipsnmedia.com> (Chips 'n Media)
+> Mirela Rabulea <mirela.rabulea@nxp.com> (NXP)
+> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+
+--
+Kind Regards
+Mehdi Djait
 
