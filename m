@@ -1,656 +1,544 @@
-Return-Path: <linux-media+bounces-31842-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31843-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061F5AAC305
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 13:46:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 658F6AAC35A
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 14:05:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F89A1767F0
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 11:46:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E6291C085E3
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 12:06:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5500AB665;
-	Tue,  6 May 2025 11:46:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44CA327E7EB;
+	Tue,  6 May 2025 12:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ROg1zKja"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="La0BMKjk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E6B2AF12
-	for <linux-media@vger.kernel.org>; Tue,  6 May 2025 11:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3701E51E2
+	for <linux-media@vger.kernel.org>; Tue,  6 May 2025 12:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746531986; cv=none; b=Z4pt5+femv7Ju70nq3LyywFjYLbnIlZRGP3H3E+tDD1DRcvSpCRsjGTPT4ZPPPTenMR30MK9NjvauJqznpV5tIT26B7jV3Mq3od/rFPDCVxpSDgJwUS6dXczdzfg3/Wv6BFPXDlIL6UZzghMFKhshmpChQRO72kSqXZj+CX2JW0=
+	t=1746533150; cv=none; b=PSojCenNdVPIXnbfKIDBeJw29kWw4yNtyXT808+jIwuryafCs7lFm2ij/HRMkPDMI7AmFWjp9Yz9kOOUqsvH9X8Lp959NE71Q7H57hy2g7DjlmcRzdN4BrEFUuSU3RNfdbiYUxyEt/x6uxSIjCtoRZQHmMegL/UpKN83YornSf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746531986; c=relaxed/simple;
-	bh=Y6n76SaDftnNr33anMDn92o7ShKiS2mDhlxiLIsyJuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q7coS1vBMzV0dctG15cpqV7pw0l3emVcSjs7NkRyBFBfva5QK47V0UIHukq9LmRAo7YL/YoK4ga3WY1Z7qOMWNxfskqRRq2SvkVKMpq3R7gNALNxjraDWPCBtY33XjhV9vbZLfOONbNc5k+LLjvgdlFqtEFkpA8/wKpXQ4jcm0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ROg1zKja; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 546A1Wm0017859
-	for <linux-media@vger.kernel.org>; Tue, 6 May 2025 11:46:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=pM/k7VZ0DPmfvoZBwKH+duw5
-	ejJ6t4FYOhQrJPC39U8=; b=ROg1zKjavNmDzxmYXBNBQ5TPpVgV1ioEXhhMl5h2
-	Ihs+EfXMVUhDSpGNwAc8ZsqSejoIugw1hCB1v1xhCMsYMrQseAhVDxSw//mx8U2D
-	rf0EwRp5haHPbwVaNaOu7zXoeAVVyk1Kl2aiAi0kAe3Mvtj9kxvpdBWxRTX6Hol0
-	Q8zoW5s0QoxQ5aZpE/0Iwo/YufKitNuYw6yCjtoOtRHPhamUtlpMnJz/6+ekT/IN
-	1XiV9tLKid6duJUIiBDy8LrYHE92lhHMt46OH+tW/lRDxiUjxGiKBOhFBuqyBMJ0
-	yVjZgo1s+90kAxEoC2x9ZNn7u7wP4l5YZ5UUh5Rh+uyXGw==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46f8gv1s0c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 06 May 2025 11:46:23 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6f50edda19eso72206756d6.1
-        for <linux-media@vger.kernel.org>; Tue, 06 May 2025 04:46:23 -0700 (PDT)
+	s=arc-20240116; t=1746533150; c=relaxed/simple;
+	bh=RKvZKUWJNdrxmWJy8zzjXG7FlTO9kHznVP03yYq0CtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ukohom8Px0VrxHGoYmJst+v15PbbfE4g9/feWsYxohWLMuRHBfxbzpGqyABP/Ft2Jc09bQFl9HSelqPfOTMDDIP8wDDr34YcZDPZDuzxOuzTjf4mHgikxUGOgsHawkWYk/KPMSenpb7zBDkcwIC3S6MrRgoZFw2OkkXHuwvLbdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=La0BMKjk; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746533147;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=l0YCIS9BJjxM3LMbK5jqv/83ONpvN1Yn0siUAoKiKcw=;
+	b=La0BMKjkWRkDEujhM4utUxGgnBNT/OFl3PF2AiqkIfIIrH9GDcPbhLoyRagJmTmZmhbJyE
+	oeJ/RysjfSyUcS9HWRxHZXQfViPiR1o8NIMc+EVYP4TGLg3dqpFBMxI8efk9dJI9wPgZ5u
+	bJYRGX/lPdzzN/0gBZ7WkF/sOn8Llrc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-205-lqQPwR2MMaasJlhPTaZjZw-1; Tue, 06 May 2025 08:05:45 -0400
+X-MC-Unique: lqQPwR2MMaasJlhPTaZjZw-1
+X-Mimecast-MFC-AGG-ID: lqQPwR2MMaasJlhPTaZjZw_1746533144
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-44059976a1fso23991095e9.1
+        for <linux-media@vger.kernel.org>; Tue, 06 May 2025 05:05:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746531982; x=1747136782;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pM/k7VZ0DPmfvoZBwKH+duw5ejJ6t4FYOhQrJPC39U8=;
-        b=jreNOdLBGEnZ5aBGsv7WtR0zWaqI81VOx1QW85j6Sayuu+SdzEKYl5tF2l5aEmzfKe
-         fHzFByZBfhL7Ge/9O+uRgJJiUViXdYqx65/hoZA/eerj9htgFTe8T4CVkQijzC00PKC2
-         wecEMjLBGWOs7cRBXHldrWIrKSG83t8+ms6m3riC7z0nmg5WmAGJlWzhhN6C3Iw2mD9D
-         7hlh8Uk2d0egjS731YsWGLvFMDprbVcBrMSglHC2Zi1lL9ajNXb/3FN2H3P2RMm0NixB
-         dXJGz+aa0imwZ3bElqqC6Zr/Mh1ObPLorvygvsT2bU/F44KP5ALYbYED0OJFQYXn4Kln
-         ckcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVOyTl1khxGzlsH/H+rbS8FyuTgH49uq+mdNciSaBezvOlmPlZVV8+7bxN+1tBfc8xcZnGy9dRRM/eeyg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0m4k5mYW4QHeo3YnRyE1uWG70deLLBRRnEUHzYB0kqdc8Ux8C
-	YIf6SjyoYxqtAif5DicHrDO9ymXMbgu1yLSU7k8T6zFBvJ3/qw7Y5wrZq4xk9VLvzEbloXH50pL
-	hhKy9G56Xdi9gfRggwcHI29SR5Mf45LiNWrp/LmhamyXSMrlJgKg/UW5THBW2kg==
-X-Gm-Gg: ASbGncvrZIYC4YCkwTZp/WfHS+szVLaOV9lwTdi/t8s6C9awdtf0DIxYf5FpDcGMj+q
-	IP8z6uRookbgTcfGKtF3c3kUnjtGLJo+MZ2wRuFnaR8AXhGejq674zQK5j6UZBVqKU14kNt/DzH
-	ysO6cxvv9t5HSVceZrx/vCsWx4qAMr8P4QgUumwGaEZIGH0rrozxS/mpZ8xZsJjnPv+Wkg2+crf
-	U2Ezkzv3b1WeODrQuOwXVvgOnbklkmNcznhWdaAOVZZmVHdhJjk/NBFt9gvwkrFATHrcEf+m0Uc
-	RDw37HPeFFcs4PfWQTQvQVI+QhHM/5hAPj8o6elvbhKahEfIDClWCFR/B+C+ZaRiOKYLiQInu0E
-	=
-X-Received: by 2002:a05:6214:5185:b0:6f2:c94f:8cfe with SMTP id 6a1803df08f44-6f528c78260mr198564686d6.23.1746531982193;
-        Tue, 06 May 2025 04:46:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEo+jwcJ8B4vTiAbFf+LKzKPh9yaNuoDVGPZUsl4foyk5srXhNVyQcj9XIQhoKxGHCXdQhZtw==
-X-Received: by 2002:a05:6214:5185:b0:6f2:c94f:8cfe with SMTP id 6a1803df08f44-6f528c78260mr198564006d6.23.1746531981560;
-        Tue, 06 May 2025 04:46:21 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-320290176c0sm20464171fa.42.2025.05.06.04.46.20
+        d=1e100.net; s=20230601; t=1746533144; x=1747137944;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l0YCIS9BJjxM3LMbK5jqv/83ONpvN1Yn0siUAoKiKcw=;
+        b=uMPoekdpWIPrwFazqk/vlunz0VOsYBPH3VB9PlYar4Xs1zD0jaashiGQfRZmasWgHZ
+         6F0hbCVtJ8N1jGhmegGx3B8bdS7e3yTj1/46WPOs0SAF2BZec0KGg2stCvmuL4DecVGX
+         Ehip6bm4KdhfV6tAJfjdV86NintGLl88YJWyMmn2MIYBdocarhbS+giUTNoDmxO210zh
+         pEZYUikNzgrnSuJndq6I562BdrlVfTbJ2GZSUlytjy9mrGYEoUCUrvG2iGXJf1eoDNqe
+         i0UlCtJc083LFn3dtfXqxJWAgCsSlopTBWqwejaezjwMJZkMHDWpXt7OoWZgZVn+fReb
+         iRog==
+X-Gm-Message-State: AOJu0Yz3ID9CGf/0GK7BMKMr90qqSXH7ugX2+ZEoHuMd6dsg/iFvrQvT
+	YT0s7/54Q9GodUP9d1QxvUSPaECIfKDOnaeemnb+GehaqqRhNuE7WFxMR6ICdKTwi/USZKJv1nE
+	Eu7FbBSOzwvrrWtUrKZLb+PFzzhJcuKXW0ZKlWOee3bPDcW0+9g1rF+Lmo0s1
+X-Gm-Gg: ASbGncsXRV/VA75j645ik84gpmYkeeVaat0EYtYcOigneLEigULsOZuFuBchV4HRD0h
+	mekKJwWANR+AztpxWUVbb7jXbg5XVI8ibLlEXmPBahJSjoy3Yxyn0h88mqF490/FAOK5MD/LEK9
+	8r65FKmDWhC6RUmVIj1MlqZ8lVSa4BcFPNXUa9C+jxZKaOA9VodBY6jczKh8SZ+U0Bbi3RC4+V4
+	Ei9ei00mH2CctwUhyOmH5oPadDrZ1++lCfUHcfJgNdwvR38AI7YOwWs51cR4UE=
+X-Received: by 2002:a05:600c:1c1c:b0:43c:fe5e:f040 with SMTP id 5b1f17b1804b1-441bbf34170mr132656375e9.23.1746533143825;
+        Tue, 06 May 2025 05:05:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHNDacrFeC/Kza0wneO9JavEeFXyxlW2HSc5N8/PKOs+iPHGFA0cHgg+PilO0PkVO2pAvEmXQ==
+X-Received: by 2002:a05:600c:1c1c:b0:43c:fe5e:f040 with SMTP id 5b1f17b1804b1-441bbf34170mr132655905e9.23.1746533143255;
+        Tue, 06 May 2025 05:05:43 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441b8a288f0sm166413015e9.27.2025.05.06.05.05.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 04:46:20 -0700 (PDT)
-Date: Tue, 6 May 2025 14:46:19 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
-        Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
-        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <qizkfszruwcny7f3g3i7cjst342s6ma62k5sgc6pg6yfoti7b3@fo2ssj7jvff2>
-References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
- <20250506111844.1726-3-quic_jseerapu@quicinc.com>
+        Tue, 06 May 2025 05:05:42 -0700 (PDT)
+Date: Tue, 6 May 2025 14:05:42 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: TC358743 RGB Quantization Issue
+Message-ID: <20250506-spiked-corgi-of-greatness-811fbe@houat>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="7az2kpgbjjyvssp6"
 Content-Disposition: inline
-In-Reply-To: <20250506111844.1726-3-quic_jseerapu@quicinc.com>
-X-Authority-Analysis: v=2.4 cv=dYmA3WXe c=1 sm=1 tr=0 ts=6819f68f cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=_K02diu8yncocTwFoz8A:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: Zt3cnRZ0uRVeYvA4xhuPRbjfhlbQ582x
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDExMiBTYWx0ZWRfX5x8aIFrEIIXW
- PPkm+I43pXx10IEXiFEAnqQwrQ/nwVD9+5jo0fZskhad2MjOUa5aTL6DbuvedL6HMcPikKn+gmM
- BCBZ1NBCCE1fATBk8AR0EUs3HyKGbYQyARktWPO7AipiOh6abp/FOguRD5QfTDQtgLGIybSVgww
- TkHvWfAb+2f3Ot48xmRBqalFEDOa7nFCXtL56MIzVCngmw/C6jnLfYK4zfzQY/W7ifSyD8Kpsem
- alSiwVOR/Yqo0NLtkjWNluoUDILNGkXvdbRzhIoHd3qd9vgd14rD6IOpz8H/43nywmN7dwJAfwh
- 5WsMJoS147/XTRlMdgnexhqEsDQZTfrZ74t/d1V+SGDKYCVvfhhyftrf7A2FTg2VT+BFyf7mr+C
- aqXoUxL8O2tYgFAkkCauDa5dkK7Z5TJF3fLPsnaeiw7BBoeIg1JVP+w49G28xS3S7O3Gj7t4
-X-Proofpoint-GUID: Zt3cnRZ0uRVeYvA4xhuPRbjfhlbQ582x
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-06_05,2025-05-05_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 priorityscore=1501 clxscore=1015 adultscore=0
- mlxlogscore=999 impostorscore=0 malwarescore=0 mlxscore=0 phishscore=0
- lowpriorityscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505060112
 
-On Tue, May 06, 2025 at 04:48:44PM +0530, Jyothi Kumar Seerapu wrote:
-> The I2C driver gets an interrupt upon transfer completion.
-> When handling multiple messages in a single transfer, this
-> results in N interrupts for N messages, leading to significant
-> software interrupt latency.
-> 
-> To mitigate this latency, utilize Block Event Interrupt (BEI)
-> mechanism. Enabling BEI instructs the hardware to prevent interrupt
-> generation and BEI is disabled when an interrupt is necessary.
-> 
-> Large I2C transfer can be divided into chunks of 8 messages internally.
-> Interrupts are not expected for the first 7 message completions, only
-> the last message triggers an interrupt, indicating the completion of
-> 8 messages. This BEI mechanism enhances overall transfer efficiency.
 
-Why do you need this complexity? Is it possible to set the
-DMA_PREP_INTERRUPT flag on the last message in the transfer?
+--7az2kpgbjjyvssp6
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: TC358743 RGB Quantization Issue
+MIME-Version: 1.0
 
-> 
-> This optimization reduces transfer time from 168 ms to 48 ms for a
-> series of 200 I2C write messages in a single transfer, with a
-> clock frequency support of 100 kHz.
-> 
-> BEI optimizations are currently implemented for I2C write transfers only,
-> as there is no use case for multiple I2C read messages in a single transfer
-> at this time.
-> 
-> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-> ---
-> v5 -> v6:
->   - Instead of using bei_flag, moved the logic to use with DMA
->     supported flags like DMA_PREP_INTERRUPT.
->   - Additional parameter comments removed from geni_i2c_gpi_multi_desc_unmap
->     function documentation.
->    
-> v4 -> v5:
->   - Block event interrupt flag naming changed from flags to bei_flag.
->   - Documentation added for "struct geni_i2c_dev".
-> 
-> v3 -> v4:
->   - API's added for Block event interrupt with multi descriptor support for
->     I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
->   - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
->     I2C driver.
->   - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
->     struct geni_i2c_dev.
-> 
-> v2 -> v3:
->    - In i2c_gpi_cb_result function, moved the logic of
->     "!is_tx_multi_xfer" to else.
->    - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
->    - Updated commit description
-> 
-> v1 -> v2:
->    - Moved gi2c_gpi_xfer->msg_idx_cnt to separate local variable.
->    - Updated goto labels for error scenarios in geni_i2c_gpi function
->    - memset tx_multi_xfer to 0.
->    - Removed passing current msg index to geni_i2c_gpi
->    - Fixed kernel test robot reported compilation issues.
-> 
-> 
->  drivers/i2c/busses/i2c-qcom-geni.c | 307 ++++++++++++++++++++++++++---
->  1 file changed, 280 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-> index 515a784c951c..e390cf5b4ddc 100644
-> --- a/drivers/i2c/busses/i2c-qcom-geni.c
-> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
-> @@ -78,6 +78,62 @@ enum geni_i2c_err_code {
->  #define XFER_TIMEOUT		HZ
->  #define RST_TIMEOUT		HZ
->  
-> +#define QCOM_I2C_GPI_MAX_NUM_MSGS		16
-> +#define QCOM_I2C_GPI_NUM_MSGS_PER_IRQ		8
-> +#define QCOM_I2C_MIN_NUM_OF_MSGS_MULTI_DESC	2
-> +
-> +/**
-> + * struct geni_i2c_gpi_multi_desc_xfer - Used for multi transfer support
-> + *
-> + * @msg_idx_cnt: message index for the transfer
-> + * @buf_idx: dma buffer index
-> + * @unmap_msg_cnt: unmapped transfer index
-> + * @freed_msg_cnt: freed transfer index
-> + * @irq_cnt: received interrupt count
-> + * @irq_msg_cnt: transfer message count for the received irqs
-> + * @dma_buf: virtual addresses of the buffers
-> + * @dma_addr: dma addresses of the buffers
-> + */
-> +struct geni_i2c_gpi_multi_desc_xfer {
-> +	u32 msg_idx_cnt;
-> +	u32 buf_idx;
-> +	u32 unmap_msg_cnt;
-> +	u32 freed_msg_cnt;
-> +	u32 irq_cnt;
-> +	u32 irq_msg_cnt;
-> +	void *dma_buf[QCOM_I2C_GPI_MAX_NUM_MSGS];
-> +	dma_addr_t dma_addr[QCOM_I2C_GPI_MAX_NUM_MSGS];
-> +};
-> +
-> +/**
-> + * struct geni_i2c_dev - I2C Geni device specific structure
-> + *
-> + * @se: geni serial engine
-> + * @tx_wm: Tx watermark level
-> + * @irq: i2c serial engine interrupt
-> + * @err: specifies error codes in i2c transfer failures
-> + * @adap: i2c geni adapter
-> + * @done: completion variable
-> + * @cur: pointer to the i2c_msg mentioning current i2c message in use
-> + * @cur_wr: variable used for i2c write opertions
-> + * @cur_rd: variable used for i2c read operations
-> + * @lock: spinlock variable used for synchronization
-> + * @core_clk: pointer to clk
-> + * @clk_freq_out: contains the i2c clock frequency
-> + * @clk_fld: pointer to geni_i2c_clk_fld
-> + * @suspended: flag used for system supend status
-> + * @dma_buf: virtual address of the buffer
-> + * @xfer_len: holds length for the dma operation
-> + * @dma_addr: dma address of the buffer
-> + * @tx_c: Tx dma channel
-> + * @rx_c: Rx dma channel
-> + * @gpi_mode: GPI DMA mode of operation
-> + * @abort_done: true for marking i2c abort transfer
-> + * @is_tx_multi_desc_xfer: true for i2c multi transfer support
-> + * @num_msgs: number of i2c messages in a transfer
-> + * @tx_irq_cnt: flag used for tx irq count in i2c multi transfer
-> + * @i2c_multi_desc_config: used for multi transfer support
-> + */
+Hi,
 
-Unrelated. Documentation should go to a separate patch.
+It's something we've discussed a bit on IRC a few week ago, but I have
+more data now, and can reproduce it on a mainline 6.13.12.
 
->  struct geni_i2c_dev {
->  	struct geni_se se;
->  	u32 tx_wm;
-> @@ -100,6 +156,10 @@ struct geni_i2c_dev {
->  	struct dma_chan *rx_c;
->  	bool gpi_mode;
->  	bool abort_done;
-> +	bool is_tx_multi_desc_xfer;
-> +	u32 num_msgs;
-> +	u32 tx_irq_cnt;
-> +	struct geni_i2c_gpi_multi_desc_xfer i2c_multi_desc_config;
->  };
->  
->  struct geni_i2c_desc {
-> @@ -500,6 +560,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
->  {
->  	struct geni_i2c_dev *gi2c = cb;
-> +	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer;
+I have recently switched from an Auvidea B101
+(https://auvidea.eu/product/b101-70501/) board to a Geekworm X1301
+(https://geekworm.com/products/x1301). Both feature a TC358743XBG
+according to their documentation, but the Auvideo one was bought in
+2020-2021, whereas I bought the Geekworm this year, so I guess it could
+be a newer revision.
 
-Define it in the corresponding chunk.
+Anyway, I have a v4l2 application on the CSI end of the TC358743 bridge,
+and a KMS application on the HDMI end. The KMS application sends frame
+through the HDMI cable, and the v4l2 application checks their integrity
+using a hash algorithm.
 
->  
->  	if (result->result != DMA_TRANS_NOERROR) {
->  		dev_err(gi2c->se.dev, "DMA txn failed:%d\n", result->result);
-> @@ -508,7 +569,22 @@ static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
->  		dev_dbg(gi2c->se.dev, "DMA xfer has pending: %d\n", result->residue);
->  	}
->  
-> -	complete(&gi2c->done);
-> +	if (!gi2c->is_tx_multi_desc_xfer) {
-> +		complete(&gi2c->done);
-> +	} else {
-> +		tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-> +
-> +		/*
-> +		 * Send Completion for last message or multiple of
-> +		 * QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
-> +		 */
-> +		if ((tx_multi_xfer->irq_msg_cnt == gi2c->num_msgs - 1) ||
-> +		    (!((tx_multi_xfer->irq_msg_cnt + 1) % QCOM_I2C_GPI_NUM_MSGS_PER_IRQ))) {
-> +			tx_multi_xfer->irq_cnt++;
-> +			complete(&gi2c->done);
-> +		}
-> +		tx_multi_xfer->irq_msg_cnt++;
-> +	}
->  }
->  
->  static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-> @@ -526,38 +602,140 @@ static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  	}
->  }
->  
-> -static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-> +/**
-> + * geni_i2c_gpi_multi_desc_unmap() - unmaps the buffers post multi message TX transfers
-> + * @gi2c: i2c dev handle
-> + * @msgs: i2c messages array
-> + * @peripheral: pointer to gpi_i2c_config
-> + */
-> +static void geni_i2c_gpi_multi_desc_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
-> +					  struct gpi_i2c_config *peripheral)
-> +{
-> +	u32 msg_xfer_cnt, wr_idx = 0;
-> +	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-> +
-> +	/*
-> +	 * In error case, need to unmap all messages based on the msg_idx_cnt.
-> +	 * Non-error case unmap all the processed messages.
-> +	 */
-> +	if (gi2c->err)
-> +		msg_xfer_cnt = tx_multi_xfer->msg_idx_cnt;
-> +	else
-> +		msg_xfer_cnt = tx_multi_xfer->irq_cnt * QCOM_I2C_GPI_NUM_MSGS_PER_IRQ;
-> +
-> +	/* Unmap the processed DMA buffers based on the received interrupt count */
-> +	for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; tx_multi_xfer->unmap_msg_cnt++) {
-> +		if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs)
-> +			break;
-> +		wr_idx = tx_multi_xfer->unmap_msg_cnt % QCOM_I2C_GPI_MAX_NUM_MSGS;
-> +		geni_i2c_gpi_unmap(gi2c, &msgs[tx_multi_xfer->unmap_msg_cnt],
-> +				   tx_multi_xfer->dma_buf[wr_idx],
-> +				   tx_multi_xfer->dma_addr[wr_idx],
-> +				   NULL, (dma_addr_t)NULL);
-> +		tx_multi_xfer->freed_msg_cnt++;
-> +	}
-> +}
-> +
-> +/**
-> + * geni_i2c_gpi_multi_xfer_timeout_handler() - Handle multi message transfer timeout
-> + * @dev: pointer to the corresponding dev node
-> + * @multi_xfer: pointer to the geni_i2c_gpi_multi_desc_xfer
-> + * @num_xfers: total number of transfers
-> + * @transfer_timeout_msecs: transfer timeout value
-> + * @transfer_comp: completion object of the transfer
-> + *
-> + * This function is used to wait for the processed transfers based on
-> + * the interrupts generated upon transfer completion.
-> + * Return: On success returns 0, otherwise return error code (-ETIMEDOUT)
-> + */
-> +static int geni_i2c_gpi_multi_xfer_timeout_handler(struct device *dev,
-> +						   struct geni_i2c_gpi_multi_desc_xfer *multi_xfer,
-> +						   u32 num_xfers, u32 transfer_timeout_msecs,
-> +						   struct completion *transfer_comp)
-> +{
-> +	int i;
-> +	u32 max_irq_cnt, time_left;
-> +
-> +	max_irq_cnt = num_xfers / QCOM_I2C_GPI_NUM_MSGS_PER_IRQ;
-> +	if (num_xfers % QCOM_I2C_GPI_NUM_MSGS_PER_IRQ)
-> +		max_irq_cnt++;
-> +
-> +	/*
-> +	 * Wait for the interrupts of the processed transfers in multiple
-> +	 * of 8 and for the last transfer. If the hardware is fast and
-> +	 * already processed all the transfers then no need to wait.
-> +	 */
-> +	for (i = 0; i < max_irq_cnt; i++) {
-> +		reinit_completion(transfer_comp);
-> +		if (max_irq_cnt != multi_xfer->irq_cnt) {
-> +			time_left = wait_for_completion_timeout(transfer_comp,
-> +								transfer_timeout_msecs);
-> +			if (!time_left) {
-> +				dev_err(dev, "%s: Transfer timeout\n", __func__);
-> +				return -ETIMEDOUT;
-> +			}
-> +		}
-> +		if (num_xfers > multi_xfer->msg_idx_cnt)
-> +			return 0;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
->  			struct dma_slave_config *config, dma_addr_t *dma_addr_p,
->  			void **buf, unsigned int op, struct dma_chan *dma_chan)
->  {
->  	struct gpi_i2c_config *peripheral;
-> -	unsigned int flags;
->  	void *dma_buf;
->  	dma_addr_t addr;
->  	enum dma_data_direction map_dirn;
->  	enum dma_transfer_direction dma_dirn;
->  	struct dma_async_tx_descriptor *desc;
->  	int ret;
-> +	struct geni_i2c_gpi_multi_desc_xfer *gi2c_gpi_xfer;
-> +	dma_cookie_t cookie;
-> +	u32 msg_idx;
->  
->  	peripheral = config->peripheral_config;
-> -
-> -	dma_buf = i2c_get_dma_safe_msg_buf(msg, 1);
-> -	if (!dma_buf)
-> -		return -ENOMEM;
-> +	gi2c_gpi_xfer = &gi2c->i2c_multi_desc_config;
-> +	dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
-> +	addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
-> +	msg_idx = gi2c_gpi_xfer->msg_idx_cnt;
-> +
-> +	dma_buf = i2c_get_dma_safe_msg_buf(&msgs[msg_idx], 1);
-> +	if (!dma_buf) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
->  
->  	if (op == I2C_WRITE)
->  		map_dirn = DMA_TO_DEVICE;
->  	else
->  		map_dirn = DMA_FROM_DEVICE;
->  
-> -	addr = dma_map_single(gi2c->se.dev->parent, dma_buf, msg->len, map_dirn);
-> +	addr = dma_map_single(gi2c->se.dev->parent, dma_buf,
-> +			      msgs[msg_idx].len, map_dirn);
->  	if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
-> -		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-> -		return -ENOMEM;
-> +		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	if (gi2c->is_tx_multi_desc_xfer) {
-> +		if (((msg_idx + 1) % QCOM_I2C_GPI_NUM_MSGS_PER_IRQ))
-> +			peripheral->dma_flags = DMA_CTRL_ACK;
-> +		else
-> +			peripheral->dma_flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
-> +
-> +		/* BEI bit to be cleared for last TRE */
-> +		if (msg_idx == gi2c->num_msgs - 1)
-> +			peripheral->dma_flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
-> +	} else {
-> +		peripheral->dma_flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
+Everything works nicely with the Auvidea board.
 
-No-no-no. There is no need to set peripheral->dma_flags.
+When I swap the Geekwork one in though, the bridge driver detects the
+signal as limited range, and all the pixels are off. They are correct
+though if you account for the full range to limited range conversion.
 
->  	}
->  
->  	/* set the length as message for rx txn */
-> -	peripheral->rx_len = msg->len;
-> +	peripheral->rx_len = msgs[msg_idx].len;
->  	peripheral->op = op;
->  
->  	ret = dmaengine_slave_config(dma_chan, config);
-> @@ -568,14 +746,14 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  
->  	peripheral->set_config = 0;
->  	peripheral->multi_msg = true;
-> -	flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
->  
->  	if (op == I2C_WRITE)
->  		dma_dirn = DMA_MEM_TO_DEV;
->  	else
->  		dma_dirn = DMA_DEV_TO_MEM;
->  
-> -	desc = dmaengine_prep_slave_single(dma_chan, addr, msg->len, dma_dirn, flags);
-> +	desc = dmaengine_prep_slave_single(dma_chan, addr, msgs[msg_idx].len,
-> +					   dma_dirn, peripheral->dma_flags);
->  	if (!desc) {
->  		dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
->  		ret = -EIO;
-> @@ -585,15 +763,48 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  	desc->callback_result = i2c_gpi_cb_result;
->  	desc->callback_param = gi2c;
->  
-> -	dmaengine_submit(desc);
-> -	*buf = dma_buf;
-> -	*dma_addr_p = addr;
-> +	if (!((msgs[msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
-> +		gi2c_gpi_xfer->msg_idx_cnt++;
-> +		gi2c_gpi_xfer->buf_idx = (msg_idx + 1) % QCOM_I2C_GPI_MAX_NUM_MSGS;
-> +	}
-> +	cookie = dmaengine_submit(desc);
-> +	if (dma_submit_error(cookie)) {
-> +		dev_err(gi2c->se.dev,
-> +			"%s: dmaengine_submit failed (%d)\n", __func__, cookie);
-> +		ret = -EINVAL;
-> +		goto err_config;
-> +	}
->  
-> +	if (gi2c->is_tx_multi_desc_xfer) {
-> +		dma_async_issue_pending(gi2c->tx_c);
-> +		if ((msg_idx == (gi2c->num_msgs - 1)) ||
-> +		    (gi2c_gpi_xfer->msg_idx_cnt >=
-> +		     QCOM_I2C_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
-> +			ret = geni_i2c_gpi_multi_xfer_timeout_handler(gi2c->se.dev, gi2c_gpi_xfer,
-> +								      gi2c->num_msgs, XFER_TIMEOUT,
-> +								      &gi2c->done);
-> +			if (ret) {
-> +				dev_err(gi2c->se.dev,
-> +					"I2C multi write msg transfer timeout: %d\n",
-> +					ret);
-> +				gi2c->err = ret;
-> +				goto err_config;
-> +			}
-> +		}
-> +	} else {
-> +		/* Non multi descriptor message transfer */
-> +		*buf = dma_buf;
-> +		*dma_addr_p = addr;
-> +	}
->  	return 0;
->  
->  err_config:
-> -	dma_unmap_single(gi2c->se.dev->parent, addr, msg->len, map_dirn);
-> -	i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-> +	dma_unmap_single(gi2c->se.dev->parent, addr,
-> +			 msgs[msg_idx].len, map_dirn);
-> +	i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-> +
-> +out:
-> +	gi2c->err = ret;
->  	return ret;
->  }
->  
-> @@ -605,6 +816,7 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  	unsigned long time_left;
->  	dma_addr_t tx_addr, rx_addr;
->  	void *tx_buf = NULL, *rx_buf = NULL;
-> +	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer;
->  	const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
->  
->  	config.peripheral_config = &peripheral;
-> @@ -618,6 +830,33 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  	peripheral.set_config = 1;
->  	peripheral.multi_msg = false;
->  
-> +	gi2c->num_msgs = num;
-> +	gi2c->is_tx_multi_desc_xfer = false;
-> +	gi2c->tx_irq_cnt = 0;
-> +
-> +	tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-> +	memset(tx_multi_xfer, 0, sizeof(struct geni_i2c_gpi_multi_desc_xfer));
-> +
-> +	/*
-> +	 * If number of write messages are two and higher then
-> +	 * configure hardware for multi descriptor transfers with BEI.
-> +	 */
-> +	if (num >= QCOM_I2C_MIN_NUM_OF_MSGS_MULTI_DESC) {
-> +		gi2c->is_tx_multi_desc_xfer = true;
-> +		for (i = 0; i < num; i++) {
-> +			if (msgs[i].flags & I2C_M_RD) {
-> +				/*
-> +				 * Multi descriptor transfer with BEI
-> +				 * support is enabled for write transfers.
-> +				 * TODO: Add BEI optimization support for
-> +				 * read transfers later.
-> +				 */
-> +				gi2c->is_tx_multi_desc_xfer = false;
-> +				break;
-> +			}
-> +		}
-> +	}
-> +
->  	for (i = 0; i < num; i++) {
->  		gi2c->cur = &msgs[i];
->  		gi2c->err = 0;
-> @@ -628,14 +867,16 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  			peripheral.stretch = 1;
->  
->  		peripheral.addr = msgs[i].addr;
-> +		if (i > 0 && (!(msgs[i].flags & I2C_M_RD)))
-> +			peripheral.multi_msg = false;
->  
-> -		ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-> +		ret =  geni_i2c_gpi(gi2c, msgs, &config,
->  				    &tx_addr, &tx_buf, I2C_WRITE, gi2c->tx_c);
+The EDID programmed in the bridge is:
 
-Can't you just pass the flag to set DMA_PREP_INTERRUPT for the last
-message here and on the next geni_i2c_gpi() call?
+edid-decode (hex):
 
->  		if (ret)
->  			goto err;
->  
->  		if (msgs[i].flags & I2C_M_RD) {
-> -			ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-> +			ret =  geni_i2c_gpi(gi2c, msgs, &config,
->  					    &rx_addr, &rx_buf, I2C_READ, gi2c->rx_c);
->  			if (ret)
->  				goto err;
-> @@ -643,18 +884,26 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  			dma_async_issue_pending(gi2c->rx_c);
->  		}
->  
-> -		dma_async_issue_pending(gi2c->tx_c);
-> -
-> -		time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-> -		if (!time_left)
-> -			gi2c->err = -ETIMEDOUT;
-> +		if (!gi2c->is_tx_multi_desc_xfer) {
-> +			dma_async_issue_pending(gi2c->tx_c);
-> +			time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-> +			if (!time_left) {
-> +				dev_err(gi2c->se.dev, "%s:I2C timeout\n", __func__);
-> +				gi2c->err = -ETIMEDOUT;
-> +			}
-> +		}
->  
->  		if (gi2c->err) {
->  			ret = gi2c->err;
->  			goto err;
->  		}
->  
-> -		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +		if (!gi2c->is_tx_multi_desc_xfer) {
-> +			geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +		} else if (gi2c->tx_irq_cnt != tx_multi_xfer->irq_cnt) {
-> +			gi2c->tx_irq_cnt = tx_multi_xfer->irq_cnt;
-> +			geni_i2c_gpi_multi_desc_unmap(gi2c, msgs, &peripheral);
-> +		}
->  	}
->  
->  	return num;
-> @@ -663,7 +912,11 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  	dev_err(gi2c->se.dev, "GPI transfer failed: %d\n", ret);
->  	dmaengine_terminate_sync(gi2c->rx_c);
->  	dmaengine_terminate_sync(gi2c->tx_c);
-> -	geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +	if (gi2c->is_tx_multi_desc_xfer)
-> +		geni_i2c_gpi_multi_desc_unmap(gi2c, msgs, &peripheral);
-> +	else
-> +		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +
->  	return ret;
->  }
->  
-> -- 
-> 2.17.1
-> 
+00 ff ff ff ff ff ff 00 0e 4e 42 00 42 42 42 42
+00 22 01 03 81 a0 5a 78 0a 9c 68 a0 57 4a 9b 26
+12 48 4c 20 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 01 1d 00 72 51 d0 1e 20 dc 28
+45 04 40 84 63 00 00 1e 00 00 00 fc 00 44 72 61
+64 69 73 0a 20 20 20 20 20 20 00 00 00 fd 00 3b
+3d 1e 32 08 00 0a 20 20 20 20 20 20 00 00 00 10
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 1b
 
--- 
-With best wishes
-Dmitry
+02 03 11 81 e3 05 00 20 e2 00 4a 65 03 0c 00 10
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b1
+
+----------------
+
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.3
+  Vendor & Product Identification:
+    Manufacturer: CRN
+    Model: 66
+    Serial Number: 1111638594 (0x42424242)
+    Made in: 2024
+  Basic Display Parameters & Features:
+    Digital display
+    DFP 1.x compatible TMDS
+    Maximum image size: 160 cm x 90 cm
+    Gamma: 2.20
+    RGB color display
+    First detailed timing is the preferred timing
+  Color Characteristics:
+    Red  : 0.6269, 0.3408
+    Green: 0.2919, 0.6054
+    Blue : 0.1494, 0.0722
+    White: 0.2832, 0.2968
+  Established Timings I & II:
+    DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
+  Standard Timings: none
+  Detailed Timing Descriptors:
+    DTD 1:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz (1600 mm x 900 mm)
+                 Hfront  220 Hsync  40 Hback  110 Hpol P
+                 Vfront   20 Vsync   5 Vback    5 Vpol P
+    Display Product Name: 'Dradis'
+    Display Range Limits:
+      Monitor ranges (GTF): 59-61 Hz V, 30-50 kHz H, max dotclock 80 MHz
+    Dummy Descriptor:
+  Extension blocks: 1
+Checksum: 0x1b
+
+----------------
+
+Block 1, CTA-861 Extension Block:
+  Revision: 3
+  Underscans IT Video Formats by default
+  Native detailed modes: 1
+  Colorimetry Data Block:
+    sRGB
+  Video Capability Data Block:
+    YCbCr quantization: No Data
+    RGB quantization: Selectable (via AVI Q)
+    PT scan behavior: No Data
+    IT scan behavior: Always Underscanned
+    CE scan behavior: Always Underscanned
+  Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+    Source physical address: 1.0.0.0
+Checksum: 0xb1  Unused space in Extension Block: 110 bytes
+[root@rpi-ab2f2485 ~]# edid-decode edid-dumps/test-edid.bin --check
+edid-decode (hex):
+
+00 ff ff ff ff ff ff 00 0e 4e 42 00 42 42 42 42
+00 22 01 03 81 a0 5a 78 0a 9c 68 a0 57 4a 9b 26
+12 48 4c 20 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 01 1d 00 72 51 d0 1e 20 dc 28
+45 04 40 84 63 00 00 1e 00 00 00 fc 00 44 72 61
+64 69 73 0a 20 20 20 20 20 20 00 00 00 fd 00 3b
+3d 1e 32 08 00 0a 20 20 20 20 20 20 00 00 00 10
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 1b
+
+02 03 11 81 e3 05 00 20 e2 00 4a 65 03 0c 00 10
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b1
+
+----------------
+
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.3
+  Vendor & Product Identification:
+    Manufacturer: CRN
+    Model: 66
+    Serial Number: 1111638594 (0x42424242)
+    Made in: 2024
+  Basic Display Parameters & Features:
+    Digital display
+    DFP 1.x compatible TMDS
+    Maximum image size: 160 cm x 90 cm
+    Gamma: 2.20
+    RGB color display
+    First detailed timing is the preferred timing
+  Color Characteristics:
+    Red  : 0.6269, 0.3408
+    Green: 0.2919, 0.6054
+    Blue : 0.1494, 0.0722
+    White: 0.2832, 0.2968
+  Established Timings I & II:
+    DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
+  Standard Timings: none
+  Detailed Timing Descriptors:
+    DTD 1:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz (1600 mm x 900 mm)
+                 Hfront  220 Hsync  40 Hback  110 Hpol P
+                 Vfront   20 Vsync   5 Vback    5 Vpol P
+    Display Product Name: 'Dradis'
+    Display Range Limits:
+      Monitor ranges (GTF): 59-61 Hz V, 30-50 kHz H, max dotclock 80 MHz
+    Dummy Descriptor:
+  Extension blocks: 1
+Checksum: 0x1b
+
+----------------
+
+Block 1, CTA-861 Extension Block:
+  Revision: 3
+  Underscans IT Video Formats by default
+  Native detailed modes: 1
+  Colorimetry Data Block:
+    sRGB
+  Video Capability Data Block:
+    YCbCr quantization: No Data
+    RGB quantization: Selectable (via AVI Q)
+    PT scan behavior: No Data
+    IT scan behavior: Always Underscanned
+    CE scan behavior: Always Underscanned
+  Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+    Source physical address: 1.0.0.0
+Checksum: 0xb1  Unused space in Extension Block: 110 bytes
+
+----------------
+
+edid-decode SHA: SHA DATE
+
+Warnings:
+
+Block 0, Base EDID:
+  Detailed Timing Descriptor #1: DTD is similar but not identical to VIC 4.
+
+EDID conformity: PASS
+
+On the KMS side, the EDID received (checked through
+/sys/class/drm/card2-HDMI-A-1/edid) is identical (md5sum match).
+
+Once I start the KMS application, the infoframes look decent too:
+
+# edid-decode /sys/class/drm/card2-HDMI-A-1/edid \
+  -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/audio \
+  -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/avi \
+  -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/hdmi \
+  -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/hdr_drm \
+  -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/spd
+
+edid-decode (hex):
+
+00 ff ff ff ff ff ff 00 0e 4e 42 00 42 42 42 42
+00 22 01 03 81 a0 5a 78 0a 9c 68 a0 57 4a 9b 26
+12 48 4c 20 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 01 1d 00 72 51 d0 1e 20 dc 28
+45 04 40 84 63 00 00 1e 00 00 00 fc 00 44 72 61
+64 69 73 0a 20 20 20 20 20 20 00 00 00 fd 00 3b
+3d 1e 32 08 00 0a 20 20 20 20 20 20 00 00 00 10
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 1b
+
+02 03 11 81 e3 05 00 20 e2 00 4a 65 03 0c 00 10
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b1
+
+----------------
+
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.3
+  Vendor & Product Identification:
+    Manufacturer: CRN
+    Model: 66
+    Serial Number: 1111638594 (0x42424242)
+    Made in: 2024
+  Basic Display Parameters & Features:
+    Digital display
+    DFP 1.x compatible TMDS
+    Maximum image size: 160 cm x 90 cm
+    Gamma: 2.20
+    RGB color display
+    First detailed timing is the preferred timing
+  Color Characteristics:
+    Red  : 0.6269, 0.3408
+    Green: 0.2919, 0.6054
+    Blue : 0.1494, 0.0722
+    White: 0.2832, 0.2968
+  Established Timings I & II:
+    DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
+  Standard Timings: none
+  Detailed Timing Descriptors:
+    DTD 1:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz (1600 mm x 900 mm)
+                 Hfront  220 Hsync  40 Hback  110 Hpol P
+                 Vfront   20 Vsync   5 Vback    5 Vpol P
+    Display Product Name: 'Dradis'
+    Display Range Limits:
+      Monitor ranges (GTF): 59-61 Hz V, 30-50 kHz H, max dotclock 80 MHz
+    Dummy Descriptor:
+  Extension blocks: 1
+Checksum: 0x1b
+
+----------------
+
+Block 1, CTA-861 Extension Block:
+  Revision: 3
+  Underscans IT Video Formats by default
+  Native detailed modes: 1
+  Colorimetry Data Block:
+    sRGB
+  Video Capability Data Block:
+    YCbCr quantization: No Data
+    RGB quantization: Selectable (via AVI Q)
+    PT scan behavior: No Data
+    IT scan behavior: Always Underscanned
+    CE scan behavior: Always Underscanned
+  Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+    Source physical address: 1.0.0.0
+Checksum: 0xb1  Unused space in Extension Block: 110 bytes
+
+================
+
+InfoFrame of '/sys/kernel/debug/dri/2/HDMI-A-1/infoframes/audio' was empty.
+
+================
+
+edid-decode InfoFrame (hex):
+
+82 02 0d 4d 12 08 08 00 00 00 00 00 00 00 00 00
+00
+
+----------------
+
+HDMI InfoFrame Checksum: 0x4d
+
+AVI InfoFrame
+  Version: 2
+  Length: 13
+  Y: Color Component Sample Format: RGB
+  A: Active Format Information Present: Yes
+  B: Bar Data Present: Bar Data not present
+  S: Scan Information: Composed for an underscanned display
+  C: Colorimetry: No Data
+  M: Picture Aspect Ratio: No Data
+  R: Active Portion Aspect Ratio: 8
+  ITC: IT Content: No Data
+  EC: Extended Colorimetry: xvYCC601
+  Q: RGB Quantization Range: Full Range
+  SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
+  YQ: YCC Quantization Range: Limited Range
+  CN: IT Content Type: Graphics
+  PR: Pixel Data Repetition Count: 0
+  Line Number of End of Top Bar: 0
+  Line Number of Start of Bottom Bar: 0
+  Pixel Number of End of Left Bar: 0
+  Pixel Number of Start of Right Bar: 0
+
+================
+
+InfoFrame of '/sys/kernel/debug/dri/2/HDMI-A-1/infoframes/hdmi' was empty.
+
+================
+
+InfoFrame of '/sys/kernel/debug/dri/2/HDMI-A-1/infoframes/hdr_drm' was empty.
+
+================
+
+edid-decode InfoFrame (hex):
+
+83 01 19 93 42 72 6f 61 64 63 6f 6d 56 69 64 65
+6f 63 6f 72 65 00 00 00 00 00 00 00 09
+
+----------------
+
+HDMI InfoFrame Checksum: 0x93
+
+Source Product Description InfoFrame
+  Version: 1
+  Length: 25
+  Vendor Name: 'Broadcom'
+  Product Description: 'Videocore'
+  Source Information: PC general
+
+My understanding from the AVI Q field is that the signal emitted is,
+indeed, using a Full Range RGB quantization. And again, this was working
+fine for the Auvidea board, so I think the KMS side is correct.
+
+On the TC358743 end though, when capturing, the bridge does detect a
+limited range signal:
+
+# v4l2-ctl -d /dev/v4l-subdev1  --log-status
+
+Status Log:
+
+   [  309.450790] tc358743 5-000f: =================  START STATUS  =================
+   [  309.467367] tc358743 5-000f: -----Chip status-----
+   [  309.477801] tc358743 5-000f: Chip ID: 0x00
+   [  309.486788] tc358743 5-000f: Chip revision: 0x00
+   [  309.496228] tc358743 5-000f: Reset: IR: 1, CEC: 0, CSI TX: 0, HDMI: 0
+   [  309.509326] tc358743 5-000f: Sleep mode: off
+   [  309.518023] tc358743 5-000f: Cable detected (+5V power): yes
+   [  309.530049] tc358743 5-000f: DDC lines enabled: yes
+   [  309.540552] tc358743 5-000f: Hotplug enabled: yes
+   [  309.550776] tc358743 5-000f: CEC enabled: no
+   [  309.559489] tc358743 5-000f: -----Signal status-----
+   [  309.569589] tc358743 5-000f: TMDS signal detected: yes
+   [  309.580029] tc358743 5-000f: Stable sync signal: yes
+   [  309.590130] tc358743 5-000f: PHY PLL locked: yes
+   [  309.599626] tc358743 5-000f: PHY DE detected: yes
+   [  309.616598] tc358743 5-000f: Detected format: 1280x720p60.00 (1650x750)
+   [  309.630071] tc358743 5-000f: horizontal: fp = 0, -sync = 370, bp = 0
+   [  309.642986] tc358743 5-000f: vertical: fp = 0, -sync = 30, bp = 0
+   [  309.655384] tc358743 5-000f: pixelclock: 74250000
+   [  309.664967] tc358743 5-000f: flags (0x0):
+   [  309.673118] tc358743 5-000f: standards (0x0):
+   [  309.681984] tc358743 5-000f: Configured format: 1280x720p60.00 (1650x750)
+   [  309.695774] tc358743 5-000f: horizontal: fp = 0, -sync = 370, bp = 0
+   [  309.708661] tc358743 5-000f: vertical: fp = 0, -sync = 30, bp = 0
+   [  309.721047] tc358743 5-000f: pixelclock: 74250000
+   [  309.730601] tc358743 5-000f: flags (0x0):
+   [  309.738771] tc358743 5-000f: standards (0x0):
+   [  309.747746] tc358743 5-000f: -----CSI-TX status-----
+   [  309.757852] tc358743 5-000f: Lanes needed: 2
+   [  309.766527] tc358743 5-000f: Lanes in use: 2
+   [  309.776027] tc358743 5-000f: Waiting for particular sync signal: no
+   [  309.789412] tc358743 5-000f: Transmit mode: yes
+   [  309.799290] tc358743 5-000f: Receive mode: no
+   [  309.808828] tc358743 5-000f: Stopped: no
+   [  309.816804] tc358743 5-000f: Color space: RGB 888 24-bit
+   [  309.828666] tc358743 5-000f: -----HDMI status-----
+   [  309.838425] tc358743 5-000f: HDCP encrypted content: no
+   [  309.849072] tc358743 5-000f: Input color space: RGB limited range
+   [  309.862244] tc358743 5-000f: AV Mute: off
+   [  309.870999] tc358743 5-000f: Deep color mode: 8-bits per channel
+   [  309.885806] tc358743 5-000f: HDMI infoframe: Auxiliary Video Information (AVI), version 2, length 13
+   [  309.904411] tc358743 5-000f:     colorspace: RGB
+   [  309.913822] tc358743 5-000f:     scan mode: Underscan
+   [  309.924112] tc358743 5-000f:     colorimetry: ITU601
+   [  309.934204] tc358743 5-000f:     picture aspect: No Data
+   [  309.945123] tc358743 5-000f:     active aspect: Same as Picture
+   [  309.957191] tc358743 5-000f:     itc: No Data
+   [  309.966183] tc358743 5-000f:     extended colorimetry: xvYCC 601
+   [  309.978415] tc358743 5-000f:     quantization range: Default
+   [  309.989908] tc358743 5-000f:     nups: Unknown Non-uniform Scaling
+   [  310.002477] tc358743 5-000f:     video code: 0
+   [  310.011518] tc358743 5-000f:     ycc quantization range: Limited
+   [  310.023745] tc358743 5-000f:     hdmi content type: Graphics
+   [  310.035264] tc358743 5-000f:     pixel repeat: 0
+   [  310.044669] tc358743 5-000f:     bar top 0, bottom 0, left 0, right 0
+   [  310.057769] tc358743 5-000f: ==================  END STATUS  ==================
+
+The infoframes detected by the bridge look reasonable though, the only
+difference being that the quantization range is reported as "default",
+even though on the emitting side it's reported as Full Range.
+
+The Input Color space does pick it up as limited though.
+
+It looks like the registers responsible for the quantization selection
+and detection are 0x8528, 0x8573, 0x8574, and 0x8576, which, when dumped
+while the capture occurs, are:
+
+# v4l2-dbg -d /dev/v4l-subdev1 -g 0x8528 -g 0x8573 -g 0x8574 -g 0x8576
+ioctl: VIDIOC_DBG_G_REGISTER
+Register 0x00008528 = 1h (1d  00000001b)
+Register 0x00008573 = 1h (1d  00000001b)
+Register 0x00008574 = 8h (8d  00001000b)
+Register 0x00008576 = 0h (0d  00000000b)
+
+And so, while the 0x8576 (VI_REP) register does select RGB_FULL, it
+looks like the detected quantization in 0x8528 (VI_STATUS3) is indeed
+limited range.
+
+I'm a bit at a loss here, and I cannot make any sense of why this code
+was working fine with one board and not the other, while it does look to
+me that the signal is indeed properly emitted, but isn't correctly
+detected by one variant of the bridge.
+
+Would you have any idea of what's going on?
+
+Thanks!
+Maxime
+
+--7az2kpgbjjyvssp6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaBn7CQAKCRAnX84Zoj2+
+dqTCAYDfPeeJ/b7eOMjgVz2hDPnXTCljLoIzXHbqPjEM1aozVh5YtbJ8QOZuIhBK
+eXbhEtkBgOQQ30PWJqrvWRMigg/W6I9n17LsjrLgYS3HEYrQGIjNYHKHYl5HipdB
+PKVa5tVIQg==
+=5LRc
+-----END PGP SIGNATURE-----
+
+--7az2kpgbjjyvssp6--
+
 
