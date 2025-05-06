@@ -1,722 +1,184 @@
-Return-Path: <linux-media+bounces-31835-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31836-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE655AAC214
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 13:08:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C602AAAC252
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 13:19:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C5CD4C4D43
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 11:08:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1BEC11B685B2
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 11:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08C0B27934E;
-	Tue,  6 May 2025 11:07:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F81D27AC29;
+	Tue,  6 May 2025 11:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="x1pZMaNA"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TgMSa8gh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AF327934A;
-	Tue,  6 May 2025 11:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD9427A939;
+	Tue,  6 May 2025 11:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746529649; cv=none; b=l5LYbyYQ2QdMdbxeOlapofldX28keZ2L+AF4ifs4oN2OslxsUKZZb/lM9LKyi/y7nQ/vwnI0KjXWCcgjX/FKALqsr3PxRU/lsCWgjhhj8tqRW3vhm1qVd4OFBi8svjtx+BNbz8916Rgz9h50Ch1ukzaD+PK9mIw9XYGamI7ts7Q=
+	t=1746530355; cv=none; b=Te5l53kVPVgI43kCQs8zU2vsccs5+lZ0HrPaKiPjxd7BqYMeI1UiBeMIf+bIBlbQ9td/GRbDnDmDWlMKruDFDTbD1DD63UMoiYOnXq8T/RSCL4QJ8+IiLhBg11MusaugSxRit2lD/BHZjOFIy07K0QcM81Ti55fxIuTzkEzAaRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746529649; c=relaxed/simple;
-	bh=ZGk8xVX+SMQH+PYczLHfPC9dhi83nvOI/amtGjGFsVY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=FUStV0kxAdWd2yGShafnmfFB+8GtemClHM3L3yeGOWIrECbV2tdOS2rym2mbNNr/E4TPtqZ7VV/tbtfjLOEJo5BqBzckkha4WJyySUhuz7wn9667F58mIEhCaKOMsF+qcweeC/E28otV1x2P47duJm35LnyyTbjjK6SV5jv7tLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=x1pZMaNA; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 546B750E1215346
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 6 May 2025 06:07:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1746529625;
-	bh=C/2tsiBiKyY1SNEK607kAAwSZhrjibW/VFrV2LYMH+4=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=x1pZMaNAqHja54w3PHQn0fVhsNfufNW40oUV4yjx84JyKW5276DZsLkIoUASQ7kr/
-	 lvmPsoDBVThdElrqUEulCY59DUt9pGB06N/SBgGeqeYqQEe1GeoEYfz4yPfFsNKzhU
-	 ZvzXQNWt2Q4h3/I9vheeO6XKzA8fw1SAikyYEIgk=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 546B75uc024933
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 6 May 2025 06:07:05 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 6
- May 2025 06:07:04 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 6 May 2025 06:07:04 -0500
-Received: from [10.24.69.232] (ws.dhcp.ti.com [10.24.69.232])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 546B6wQq056921;
-	Tue, 6 May 2025 06:06:59 -0500
-Message-ID: <f181148c-5ce6-45d8-b379-73f08455a22e@ti.com>
-Date: Tue, 6 May 2025 16:36:58 +0530
+	s=arc-20240116; t=1746530355; c=relaxed/simple;
+	bh=Q4ptrZzuR6AE70wnRLbBNjV7Y8kpiJ7rLfEo5P+D7tE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mbgt2fsb1nJXJYsaHIMLv4eu0debk6VuiW5bJ6cWG3tRkR8tBhJhBXGvr+m7OtOBeZAx1l1/9ks877MHAjOBgnBHMWVg8ojTgPqwD7FPBhRyrihSU4/Fqku+Fjv6a3fI3HAauM9YlUeJx275yOjwD7eZzv1doyO5cfe1h/kQ+PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TgMSa8gh; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54690pSb025917;
+	Tue, 6 May 2025 11:19:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	qcppdkim1; bh=sq/XukGZUXYYVsOD5xL/hcID5GPFU2bSXyfbBAjjLZQ=; b=Tg
+	MSa8gh90nq3spjC+Ckx4XFniKRuAZCzGOrN/nms9OvsrmQ3GlcG5OqUbhv0I4bsw
+	bCvDnaABoTnHsKgBtAW9BwQQmjIxKzyHgse+sCebdMZ84aMiR+OpwShH+WvUsDdw
+	iowhf67S22/7C5zpTU1zC+bRXR0vJtlCPvw+zRssx2ifKq2LoJjEv1mhUtEvnM0u
+	PrhsJZ5NxoNk0QPgXkzEvcQViUPPfxqz1Wiuh/TKO1a/byK1txPXRE2Y17WPKpYV
+	JlAznmF1SmnK9PzLKiTnnRd6lwPvBisAN1L5V/7EGQMkI3aAKaRg3yI2OJlYmT0k
+	9RDVH5shT15WPkfP/ABg==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46f5sv22cs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 06 May 2025 11:19:05 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 546BJ4TZ020004
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 6 May 2025 11:19:04 GMT
+Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 6 May 2025 04:19:00 -0700
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>,
+        Mukesh Kumar Savaliya
+	<quic_msavaliy@quicinc.com>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+Subject: [PATCH v6 0/2] Add Block event interrupt support for I2C protocol
+Date: Tue, 6 May 2025 16:48:42 +0530
+Message-ID: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/13] media: cadence: csi2rx: Enable multi-stream
- support
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: <jai.luthra@linux.dev>, <mripard@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <devarsht@ti.com>,
-        <y-abhilashchandra@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <vaishnav.a@ti.com>,
-        <s-jain1@ti.com>, <vigneshr@ti.com>, <sakari.ailus@linux.intel.com>,
-        <hverkuil-cisco@xs4all.nl>, <tomi.valkeinen@ideasonboard.com>,
-        <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
-        <jack.zhu@starfivetech.com>
-References: <20250417065554.437541-1-r-donadkar@ti.com>
- <20250417065554.437541-11-r-donadkar@ti.com>
- <20250421135702.GJ29483@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-In-Reply-To: <20250421135702.GJ29483@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Qavxbg1SzTLizwsNslDnoj8DnphgRz2O
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDEwOCBTYWx0ZWRfX6h0ajjpsTg3W
+ KaSMEsGpYYIzjVxLfx5meXqX/NLhwV4fqUHaC+X7Z739wf9FNlTlIBY0gqB/Llu62/BefPv5hTK
+ B1SYJDyxHLZEjZZN4IfIWDxHNJkRk/VaSDLAyiHvwLZebKWqfAKoeFecppUgDhbZ1Ly/N3qQACW
+ nnWx3Q+gKEzjAX5KshNuG5N9+jliNE0FetYtRqOgEMvZhpcpp8ZMwVek+f3N8wlPweKeYcqvYnL
+ jFk0YmOdSd9qNYElqj5SsVawuxGNpHvVfnCWrK+of9UcQVX06qxQMZmIrW+K9/OEIMHBQKPP7De
+ VfCqDuTjRQtnFTI6s88xapyAC33RXEnFkRK9w/Hz1lkblyovaj025oHMsfuBNBdEOKZvCbmhG45
+ E767CYDU8M/4bUUrt1WvPc6FVQEpqwxX9fFcSk33n2/ZkDy3wawJP2K3uu9kbo2H9vHC0ni/
+X-Authority-Analysis: v=2.4 cv=cOXgskeN c=1 sm=1 tr=0 ts=6819f029 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=dt9VzEwgFbYA:10 a=Bp52wIM_v22GRZO56cAA:9
+X-Proofpoint-ORIG-GUID: Qavxbg1SzTLizwsNslDnoj8DnphgRz2O
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-06_05,2025-05-05_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1011 suspectscore=0 priorityscore=1501 bulkscore=0
+ mlxlogscore=999 adultscore=0 impostorscore=0 malwarescore=0 spamscore=0
+ phishscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2504070000 definitions=main-2505060108
 
+The I2C driver gets an interrupt upon transfer completion.
+When handling multiple messages in a single transfer, this
+results in N interrupts for N messages, leading to significant
+software interrupt latency.
 
-On 21/04/25 19:27, Laurent Pinchart wrote:
-> Hi Rishikesh,
->
-> Thank you for the patch.
+To mitigate this latency, utilize Block Event Interrupt (BEI)
+mechanism. Enabling BEI instructs the hardware to prevent interrupt
+generation and BEI is disabled when an interrupt is necessary.
 
+Large I2C transfer can be divided into chunks of 8 messages internally.
+Interrupts are not expected for the first 7 message completions, only
+the last message triggers an interrupt, indicating the completion of
+8 messages. This BEI mechanism enhances overall transfer efficiency.
 
-Hi Laurent,
+This optimization reduces transfer time from 168 ms to 48 ms for a
+series of 200 I2C write messages in a single transfer, with a
+clock frequency support of 100 kHz.
 
-Thank you for the review !
+BEI optimizations are currently implemented for I2C write transfers only,
+as there is no use case for multiple I2C read messages in a single transfer
+at this time.
 
->
-> On Thu, Apr 17, 2025 at 12:25:51PM +0530, Rishikesh Donadkar wrote:
->> From: Jai Luthra <j-luthra@ti.com>
->>
->> Cadence CSI-2 bridge IP supports capturing multiple virtual "streams"
->> of data over the same physical interface using MIPI Virtual Channels.
->>
->> The V4L2 subdev APIs should reflect this capability and allow per-stream
->> routing and controls.
->>
->> While the hardware IP supports usecases where streams coming in the sink
->> pad can be broadcasted to multiple source pads, the driver will need
->> significant re-architecture to make that possible. The two users of this
->> IP in mainline linux are TI Shim and StarFive JH7110 CAMSS, and both
->> have only integrated the first source pad i.e stream0 of this IP. So for
->> now keep it simple and only allow 1-to-1 mapping of streams from sink to
->> source, without any broadcasting.
->>
->> With stream routing now supported in the driver, implement the
->> enable_stream and disable_stream hooks in place of the stream-unaware
->> s_stream hook.
->>
->> This allows consumer devices like a DMA bridge or ISP, to enable
->> particular streams on a source pad, which in turn can be used to enable
->> only particular streams on the CSI-TX device connected on the sink pad.
->>
->> Implement a fallback s_stream hook that internally calls enable_stream
->> on each source pad, for consumer drivers that don't use multi-stream
->> APIs to still work.
-> Can't you use v4l2_subdev_s_stream_helper() ? If not, please briefly
-> explain why in the commit message.
+v5 -> v6:
+   - Instead of using bei_flag, moved the logic to use with DMA
+     supported flags like DMA_PREP_INTERRUPT.
+   - Additional parameter comments removed from geni_i2c_gpi_multi_desc_unmap
+     function documentation.
 
+v4 -> v5:
+   -  BEI flag naming changed from flags to bei_flag.
+   -  QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
+      file, and Block event support is checked with bei_flag.
+   -  Documentation added for "struct geni_i2c_dev".
 
-The v4l2_subdev_s_stream_helper() can only be used by subdevs that have 
-a single source pad, This IP is used by TI Shim and StarFive JH7110 
-CAMSS, currently both of them use only the first source pad (stream0) 
-but the driver can be re-architectured to use have more than one source 
-pad, this is the reason v4l2_subdev_s_stream_helper() is not used.
+v3 -> v4:
+  - API's added for Block event interrupt with multi descriptor support is
+    moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+  - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+    I2C driver.
+  - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
+    struct geni_i2c_dev.
+  - Removed the changes of making I2C driver is dependent on GPI driver.
 
-I will mention this in the commit message as well.
+v2 -> v3:
+  - Updated commit description
+  - In I2C GENI driver, for i2c_gpi_cb_result moved the logic of
+    "!is_tx_multi_xfer" to else part.
+  - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+  - Changes of I2C GENI driver to depend on the GPI driver moved
+    to patch3.
+  - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+  - Added description for newly added changes in "qcom-gpi-dma.h" file.
 
+v1 -> v2:
+  - DT changes are reverted for adding dma channel size as a new arg of
+    dma-cells property.
+  - DT binding change reveted for dma channel size as a new arg of
+    dma-cells property.
+  - In GPI driver, reverted the changes to parse the channel TRE size
+    from device tree.
+  - Made the changes in QCOM I2C geni driver to support the BEI
+    functionality with the existing TRE size of 64.
+  - Made changes in QCOM I2C geni driver as per the review comments.
+  - Fixed Kernel test robot reported compiltion issues.
 
->
->> Signed-off-by: Jai Luthra <j-luthra@ti.com>
->> Co-developed-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> ---
->>   drivers/media/platform/cadence/cdns-csi2rx.c | 378 ++++++++++++++-----
->>   1 file changed, 288 insertions(+), 90 deletions(-)
->>
->> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
->> index df05d278df379..95beb6623de8c 100644
->> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
->> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
->> @@ -90,6 +90,7 @@ struct csi2rx_priv {
->>   	struct reset_control		*pixel_rst[CSI2RX_STREAMS_MAX];
->>   	struct phy			*dphy;
->>   
->> +	u32				vc_select[CSI2RX_STREAMS_MAX];
->>   	u8				lanes[CSI2RX_LANES_MAX];
->>   	u8				num_lanes;
->>   	u8				max_lanes;
->> @@ -179,29 +180,36 @@ static void csi2rx_reset(struct csi2rx_priv *csi2rx)
->>   
->>   static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
->>   {
->> -	struct media_pad *src_pad =
->> -		&csi2rx->source_subdev->entity.pads[csi2rx->source_pad];
->> +	struct v4l2_ctrl_handler *handler = csi2rx->source_subdev->ctrl_handler;
->>   	union phy_configure_opts opts = { };
->>   	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
->> -	struct v4l2_subdev_format sd_fmt = {
->> -		.which	= V4L2_SUBDEV_FORMAT_ACTIVE,
->> -		.pad	= CSI2RX_PAD_SINK,
->> -	};
->> +	struct v4l2_mbus_framefmt *framefmt;
->> +	struct v4l2_subdev_state *state;
->>   	const struct csi2rx_fmt *fmt;
->>   	s64 link_freq;
->>   	int ret;
->>   
->> -	ret = v4l2_subdev_call_state_active(&csi2rx->subdev, pad, get_fmt,
->> -					    &sd_fmt);
->> -	if (ret < 0)
->> -		return ret;
->> -
->> -	fmt = csi2rx_get_fmt_by_code(sd_fmt.format.code);
->> +	if (v4l2_ctrl_find(handler, V4L2_CID_LINK_FREQ)) {
->> +		link_freq = v4l2_get_link_freq(handler, 0, 0);
->> +	} else {
->> +		state = v4l2_subdev_get_locked_active_state(&csi2rx->subdev);
->> +		framefmt = v4l2_subdev_state_get_format(state, CSI2RX_PAD_SINK,
->> +							0);
->> +		fmt = csi2rx_get_fmt_by_code(framefmt->code);
->> +
->> +		link_freq = v4l2_get_link_freq(handler, fmt->bpp,
->> +					       2 * csi2rx->num_lanes);
->> +
->> +		dev_warn(csi2rx->dev,
->> +			 "Guessing link frequency using bitdepth of stream 0.\n");
->> +		dev_warn(csi2rx->dev,
->> +			 "V4L2_CID_LINK_FREQ control is required for multi format sources.\n");
->> +	}
-> Why do you need this complexity, instead of calling the
-> v4l2_get_link_freq() variant that takes the source pad as its first
-> argument ?
+Jyothi Kumar Seerapu (2):
+  dmaengine: qcom: gpi: Add GPI Block event interrupt support
+  i2c: i2c-qcom-geni: Add Block event interrupt support
 
+ drivers/dma/qcom/gpi.c             |   3 +
+ drivers/i2c/busses/i2c-qcom-geni.c | 307 ++++++++++++++++++++++++++---
+ include/linux/dma/qcom-gpi-dma.h   |   2 +
+ 3 files changed, 285 insertions(+), 27 deletions(-)
 
-This was introduced to not break support for the single-stream 
-transmitters that do not implement V4L2_CID_LINK_FREQ. But now I realize 
-that v4l2_get_link_freq() checks if V4L2_CID_LINK_FREQ is present, if 
-not falls back to V4L2_CID_PIXEL_RATE for single-stream transmitters.
-
-
-For multistream transmitters, V4L2_CID_LINK_FREQ should be implemented 
-as PIXEL_RATE does not make any sense, so I will call 
-v4l2_get_link_freq(handler, 0, 0) in multi-stream case.
-
-This will force the multi-stream transmitter to implement 
-V4L2_CID_LINK_FREQ or else give an error.
-
-
->
->>   
->> -	link_freq = v4l2_get_link_freq(src_pad,
->> -				       fmt->bpp, 2 * csi2rx->num_lanes);
->> -	if (link_freq < 0)
->> +	if (link_freq < 0) {
->> +		dev_err(csi2rx->dev, "Unable to calculate link frequency\n");
->>   		return link_freq;
->> +	}
->>   
->>   	ret = phy_mipi_dphy_get_default_config_for_hsclk(link_freq,
->>   							 csi2rx->num_lanes, cfg);
->> @@ -224,18 +232,10 @@ static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
->>   static int csi2rx_start(struct csi2rx_priv *csi2rx)
->>   {
->>   	unsigned int i;
->> -	struct media_pad *remote_pad;
->>   	unsigned long lanes_used = 0;
->>   	u32 reg;
->>   	int ret;
->>   
->> -	remote_pad = media_pad_remote_pad_first(&csi2rx->pads[CSI2RX_PAD_SINK]);
->> -	if (!remote_pad) {
->> -		dev_err(csi2rx->dev,
->> -			"Failed to find connected source\n");
->> -		return -ENODEV;
->> -	}
->> -
->>   	ret = clk_prepare_enable(csi2rx->p_clk);
->>   	if (ret)
->>   		return ret;
->> @@ -302,11 +302,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->>   		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF,
->>   		       csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
->>   
->> -		/*
->> -		 * Enable one virtual channel. When multiple virtual channels
->> -		 * are supported this will have to be changed.
->> -		 */
->> -		writel(CSI2RX_STREAM_DATA_CFG_VC_SELECT(0),
->> +		writel(csi2rx->vc_select[i],
->>   		       csi2rx->base + CSI2RX_STREAM_DATA_CFG_REG(i));
->>   
->>   		writel(CSI2RX_STREAM_CTRL_START,
->> @@ -319,17 +315,10 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->>   
->>   	reset_control_deassert(csi2rx->sys_rst);
->>   
->> -	ret = v4l2_subdev_enable_streams(csi2rx->source_subdev,
->> -					 remote_pad->index, BIT(0));
->> -	if (ret)
->> -		goto err_disable_sysclk;
->> -
->>   	clk_disable_unprepare(csi2rx->p_clk);
->>   
->>   	return 0;
->>   
->> -err_disable_sysclk:
->> -	clk_disable_unprepare(csi2rx->sys_clk);
->>   err_disable_pixclk:
->>   	for (; i > 0; i--) {
->>   		reset_control_assert(csi2rx->pixel_rst[i - 1]);
->> @@ -348,7 +337,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->>   
->>   static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->>   {
->> -	struct media_pad *remote_pad;
->>   	unsigned int i;
->>   	u32 val;
->>   	int ret;
->> @@ -377,13 +365,6 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->>   	reset_control_assert(csi2rx->p_rst);
->>   	clk_disable_unprepare(csi2rx->p_clk);
->>   
->> -	remote_pad = media_pad_remote_pad_first(&csi2rx->pads[CSI2RX_PAD_SINK]);
->> -	if (!remote_pad ||
->> -	    v4l2_subdev_disable_streams(csi2rx->source_subdev,
->> -					remote_pad->index, BIT(0))) {
->> -		dev_warn(csi2rx->dev, "Couldn't disable our subdev\n");
->> -	}
->> -
->>   	if (csi2rx->dphy) {
->>   		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
->>   
->> @@ -392,37 +373,153 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->>   	}
->>   }
->>   
->> -static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
->> +static void csi2rx_update_vc_select(struct csi2rx_priv *csi2rx,
->> +				    struct v4l2_subdev_state *state)
->> +{
->> +	struct v4l2_mbus_frame_desc fd = {0};
->> +	struct v4l2_subdev_route *route;
->> +	unsigned int i;
->> +	int ret;
->> +
->> +	/* Capture VC=0 by default */
->> +	for (i = 0; i < CSI2RX_STREAMS_MAX; i++)
->> +		csi2rx->vc_select[i] = CSI2RX_STREAM_DATA_CFG_VC_SELECT(0);
->> +
->> +	ret = csi2rx_get_frame_desc_from_source(csi2rx, &fd);
->> +	if (ret || fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
->> +		dev_dbg(csi2rx->dev,
->> +			"Failed to get source frame desc, allowing only VC=0\n");
->> +		return;
->> +	}
->> +
->> +	/* If source provides per-stream VC info, use it to filter by VC */
->> +	memset(csi2rx->vc_select, 0, sizeof(csi2rx->vc_select));
->> +
->> +	for_each_active_route(&state->routing, route) {
->> +		u32 cdns_stream = route->source_pad - CSI2RX_PAD_SOURCE_STREAM0;
->> +
->> +		for (i = 0; i < fd.num_entries; i++) {
->> +			if (fd.entry[i].stream != route->sink_stream)
->> +				continue;
->> +
->> +			csi2rx->vc_select[cdns_stream] |=
->> +				CSI2RX_STREAM_DATA_CFG_VC_SELECT(fd.entry[i].bus.csi2.vc);
->> +		}
->> +	}
->> +}
->> +
->> +static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
->> +				 struct v4l2_subdev_state *state, u32 pad,
->> +				 u64 streams_mask)
->>   {
->>   	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
->> -	int ret = 0;
->> +	struct media_pad *remote_pad;
->> +	u64 sink_streams;
->> +	int ret;
->> +
->> +	remote_pad = media_pad_remote_pad_first(&csi2rx->pads[CSI2RX_PAD_SINK]);
->> +	if (!remote_pad) {
->> +		dev_err(csi2rx->dev,
->> +			"Failed to find connected source\n");
->> +		return -ENODEV;
->> +	}
->> +
->> +	sink_streams = v4l2_subdev_state_xlate_streams(state, pad,
->> +						       CSI2RX_PAD_SINK,
->> +						       &streams_mask);
->>   
->>   	mutex_lock(&csi2rx->lock);
-> Can you use lock guards ? It will simplify error handling.
-
-
-Sure.
-
-
->
->> +	/*
->> +	 * If we're not the first users, there's no need to
->> +	 * enable the whole controller.
->> +	 */
->> +	if (!csi2rx->count) {
-> I would have stored the bitmask of enabled streams instead of a count,
-> but it doesn't matter that much.
->
->> +		ret = csi2rx_start(csi2rx);
->> +		if (ret)
->> +			goto err_stream_start;
->> +	}
->>   
->> -	if (enable) {
->> -		/*
->> -		 * If we're not the first users, there's no need to
->> -		 * enable the whole controller.
->> -		 */
->> -		if (!csi2rx->count) {
->> -			ret = csi2rx_start(csi2rx);
->> -			if (ret)
->> -				goto out;
->> -		}
->> +	/* Start streaming on the source */
->> +	ret = v4l2_subdev_enable_streams(csi2rx->source_subdev, remote_pad->index,
->> +					 sink_streams);
->> +	if (ret) {
->> +		dev_err(csi2rx->dev,
->> +			"Failed to start streams %#llx on subdev\n",
->> +			sink_streams);
->> +		goto err_subdev_enable;
->> +	}
->>   
->> -		csi2rx->count++;
->> -	} else {
->> -		csi2rx->count--;
->> +	csi2rx->count++;
->> +	mutex_unlock(&csi2rx->lock);
->> +
->> +	return 0;
->> +
->> +err_subdev_enable:
->> +	if (!csi2rx->count)
->> +		csi2rx_stop(csi2rx);
->> +err_stream_start:
->> +	mutex_unlock(&csi2rx->lock);
->> +	return ret;
->> +}
->> +
->> +static int csi2rx_disable_streams(struct v4l2_subdev *subdev,
->> +				  struct v4l2_subdev_state *state, u32 pad,
->> +				  u64 streams_mask)
->> +{
->> +	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
->> +	struct media_pad *remote_pad;
->> +	u64 sink_streams;
->> +
->> +	sink_streams = v4l2_subdev_state_xlate_streams(state, pad,
->> +						       CSI2RX_PAD_SINK,
->> +						       &streams_mask);
->>   
->> -		/*
->> -		 * Let the last user turn off the lights.
->> -		 */
->> -		if (!csi2rx->count)
->> -			csi2rx_stop(csi2rx);
->> +	remote_pad = media_pad_remote_pad_first(&csi2rx->pads[CSI2RX_PAD_SINK]);
->> +	if (!remote_pad ||
->> +	    v4l2_subdev_disable_streams(csi2rx->source_subdev,
->> +					remote_pad->index, sink_streams)) {
->> +		dev_err(csi2rx->dev, "Couldn't disable our subdev\n");
->>   	}
->>   
->> -out:
->> +	mutex_lock(&csi2rx->lock);
->> +	csi2rx->count--;
->> +	/*
->> +	 * Let the last user turn off the lights.
->> +	 */
-> This can become a single line.
-
-
-Will fix.
-
-
->
->> +	if (!csi2rx->count)
->> +		csi2rx_stop(csi2rx);
->>   	mutex_unlock(&csi2rx->lock);
->> +
->> +	return 0;
->> +}
->> +
->> +static int csi2rx_s_stream_fallback(struct v4l2_subdev *sd, int enable)
->> +{
->> +	struct v4l2_subdev_state *state;
->> +	struct v4l2_subdev_route *route;
->> +	u64 mask[CSI2RX_PAD_MAX] = {0};
->> +	int i, ret;
->> +
->> +	/* Find the stream mask on all source pads */
->> +	state = v4l2_subdev_lock_and_get_active_state(sd);
->> +	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++) {
->> +		for_each_active_route(&state->routing, route) {
->> +			if (route->source_pad == i)
->> +				mask[i] |= BIT_ULL(route->source_stream);
->> +		}
->> +	}
->> +	v4l2_subdev_unlock_state(state);
->> +
->> +	/* Start streaming on each pad */
->> +	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++) {
->> +		if (enable)
->> +			ret = v4l2_subdev_enable_streams(sd, i, mask[i]);
->> +		else
->> +			ret = v4l2_subdev_disable_streams(sd, i, mask[i]);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->>   	return ret;
->>   }
->>   
->> @@ -438,12 +535,58 @@ static int csi2rx_enum_mbus_code(struct v4l2_subdev *subdev,
->>   	return 0;
->>   }
->>   
->> +static int _csi2rx_set_routing(struct v4l2_subdev *subdev,
->> +			       struct v4l2_subdev_state *state,
->> +			       struct v4l2_subdev_krouting *routing)
->> +{
->> +	static const struct v4l2_mbus_framefmt format = {
->> +		.width = 640,
->> +		.height = 480,
->> +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
->> +		.field = V4L2_FIELD_NONE,
->> +		.colorspace = V4L2_COLORSPACE_SRGB,
->> +		.ycbcr_enc = V4L2_YCBCR_ENC_601,
->> +		.quantization = V4L2_QUANTIZATION_LIM_RANGE,
->> +		.xfer_func = V4L2_XFER_FUNC_SRGB,
->> +	};
->> +	int ret;
->> +
->> +	if (routing->num_routes > V4L2_FRAME_DESC_ENTRY_MAX)
->> +		return -EINVAL;
->> +
->> +	ret = v4l2_subdev_routing_validate(subdev, routing,
->> +					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
->> +	if (ret)
->> +		return ret;
->> +
->> +	return v4l2_subdev_set_routing_with_fmt(subdev, state, routing, &format);
->> +}
->> +
->> +static int csi2rx_set_routing(struct v4l2_subdev *subdev,
->> +			      struct v4l2_subdev_state *state,
->> +			      enum v4l2_subdev_format_whence which,
->> +			      struct v4l2_subdev_krouting *routing)
->> +{
->> +	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
->> +	int ret;
->> +
->> +	if (which == V4L2_SUBDEV_FORMAT_ACTIVE && csi2rx->count)
->> +		return -EBUSY;
->> +
->> +	ret = _csi2rx_set_routing(subdev, state, routing);
->> +	if (ret)
->> +		return ret;
->> +
->> +	csi2rx_update_vc_select(csi2rx, state);
-> When setting routing on the TRY state this will update the active state,
-> which isn't correct. Can you call this function when starting the device
-> instead ?
-
-
-Yes, this can be called at stream start, before configuring the VC data 
-in the registers.
-
-Will do this in the next revision.
-
-
->
->> +
->> +	return 0;
->> +}
->> +
->>   static int csi2rx_set_fmt(struct v4l2_subdev *subdev,
->>   			  struct v4l2_subdev_state *state,
->>   			  struct v4l2_subdev_format *format)
->>   {
->>   	struct v4l2_mbus_framefmt *fmt;
->> -	unsigned int i;
->>   
->>   	/* No transcoding, source and sink formats must match. */
->>   	if (format->pad != CSI2RX_PAD_SINK)
->> @@ -455,14 +598,16 @@ static int csi2rx_set_fmt(struct v4l2_subdev *subdev,
->>   	format->format.field = V4L2_FIELD_NONE;
->>   
->>   	/* Set sink format */
->> -	fmt = v4l2_subdev_state_get_format(state, format->pad);
->> +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
->>   	*fmt = format->format;
->>   
->> -	/* Propagate to source formats */
->> -	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++) {
->> -		fmt = v4l2_subdev_state_get_format(state, i);
->> -		*fmt = format->format;
->> -	}
->> +	/* Propagate to source format */
->> +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
->> +							   format->stream);
->> +	if (!fmt)
->> +		return -EINVAL;
->> +
->> +	*fmt = format->format;
->>   
->>   	return 0;
->>   }
->> @@ -470,40 +615,92 @@ static int csi2rx_set_fmt(struct v4l2_subdev *subdev,
->>   static int csi2rx_init_state(struct v4l2_subdev *subdev,
->>   			     struct v4l2_subdev_state *state)
->>   {
->> -	struct v4l2_subdev_format format = {
->> -		.pad = CSI2RX_PAD_SINK,
->> -		.format = {
->> -			.width = 640,
->> -			.height = 480,
->> -			.code = MEDIA_BUS_FMT_UYVY8_1X16,
->> -			.field = V4L2_FIELD_NONE,
->> -			.colorspace = V4L2_COLORSPACE_SRGB,
->> -			.ycbcr_enc = V4L2_YCBCR_ENC_601,
->> -			.quantization = V4L2_QUANTIZATION_LIM_RANGE,
->> -			.xfer_func = V4L2_XFER_FUNC_SRGB,
->> +	struct v4l2_subdev_route routes[] = {
->> +		{
->> +			.sink_pad = CSI2RX_PAD_SINK,
->> +			.sink_stream = 0,
->> +			.source_pad = CSI2RX_PAD_SOURCE_STREAM0,
->> +			.source_stream = 0,
->> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
->>   		},
->>   	};
->>   
->> -	return csi2rx_set_fmt(subdev, state, &format);
->> +	struct v4l2_subdev_krouting routing = {
->> +		.num_routes = ARRAY_SIZE(routes),
->> +		.routes = routes,
->> +	};
->> +
->> +	return _csi2rx_set_routing(subdev, state, &routing);
->>   }
->>   
->>   static int csi2rx_get_frame_desc(struct v4l2_subdev *subdev, unsigned int pad,
->>   				 struct v4l2_mbus_frame_desc *fd)
->>   {
->>   	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
->> +	struct v4l2_mbus_frame_desc source_fd = {0};
->> +	struct v4l2_subdev_route *route;
->> +	struct v4l2_subdev_state *state;
->> +	int ret;
->>   
->> -	return csi2rx_get_frame_desc_from_source(csi2rx, fd);
->> +	ret = csi2rx_get_frame_desc_from_source(csi2rx, &source_fd);
->> +	if (ret)
->> +		return ret;
->> +
->> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
->> +
->> +	state = v4l2_subdev_lock_and_get_active_state(subdev);
->> +
->> +	for_each_active_route(&state->routing, route) {
->> +		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
->> +		unsigned int i;
->> +
->> +		if (route->source_pad != pad)
->> +			continue;
->> +
->> +		for (i = 0; i < source_fd.num_entries; i++) {
->> +			if (source_fd.entry[i].stream == route->sink_stream) {
->> +				source_entry = &source_fd.entry[i];
->> +				break;
->> +			}
->> +		}
->> +
->> +		if (!source_entry) {
->> +			dev_err(csi2rx->dev,
->> +				"Failed to find stream from source frame desc\n");
->> +			ret = -EPIPE;
->> +			goto err_missing_stream;
->> +		}
->> +
->> +		fd->entry[fd->num_entries].stream = route->source_stream;
->> +		fd->entry[fd->num_entries].flags = source_entry->flags;
->> +		fd->entry[fd->num_entries].length = source_entry->length;
->> +		fd->entry[fd->num_entries].pixelcode = source_entry->pixelcode;
->> +		fd->entry[fd->num_entries].bus.csi2.vc =
->> +			source_entry->bus.csi2.vc;
->> +		fd->entry[fd->num_entries].bus.csi2.dt =
->> +			source_entry->bus.csi2.dt;
->> +
->> +		fd->num_entries++;
->> +	}
->> +
->> +err_missing_stream:
->> +	v4l2_subdev_unlock_state(state);
->> +
->> +	return ret;
->>   }
->>   
->>   static const struct v4l2_subdev_pad_ops csi2rx_pad_ops = {
->> -	.enum_mbus_code	= csi2rx_enum_mbus_code,
->> -	.get_fmt	= v4l2_subdev_get_fmt,
->> -	.set_fmt	= csi2rx_set_fmt,
->> -	.get_frame_desc	= csi2rx_get_frame_desc,
->> +	.enum_mbus_code		= csi2rx_enum_mbus_code,
->> +	.get_fmt		= v4l2_subdev_get_fmt,
->> +	.set_fmt		= csi2rx_set_fmt,
->> +	.get_frame_desc		= csi2rx_get_frame_desc,
->> +	.set_routing		= csi2rx_set_routing,
->> +	.enable_streams		= csi2rx_enable_streams,
->> +	.disable_streams	= csi2rx_disable_streams,
->>   };
->>   
->>   static const struct v4l2_subdev_video_ops csi2rx_video_ops = {
->> -	.s_stream	= csi2rx_s_stream,
->> +	.s_stream	= csi2rx_s_stream_fallback,
->>   };
->>   
->>   static const struct v4l2_subdev_ops csi2rx_subdev_ops = {
->> @@ -735,7 +932,8 @@ static int csi2rx_probe(struct platform_device *pdev)
->>   	csi2rx->pads[CSI2RX_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
->>   	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++)
->>   		csi2rx->pads[i].flags = MEDIA_PAD_FL_SOURCE;
->> -	csi2rx->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->> +	csi2rx->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
->> +		V4L2_SUBDEV_FL_STREAMS;
->>   	csi2rx->subdev.entity.ops = &csi2rx_media_ops;
->>   
->>   	ret = media_entity_pads_init(&csi2rx->subdev.entity, CSI2RX_PAD_MAX,
-
-
-Regards,
-
-Rishikesh
+-- 
+base-commit: 55bcd2e0d04c1171d382badef1def1fd04ef66c5
+2.17.1
 
 
