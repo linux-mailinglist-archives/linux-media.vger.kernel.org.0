@@ -1,89 +1,61 @@
-Return-Path: <linux-media+bounces-31872-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31873-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34207AACDAC
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 21:03:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9234DAACDD7
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 21:16:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA80A3B3EFC
-	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 19:01:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC2754A6968
+	for <lists+linux-media@lfdr.de>; Tue,  6 May 2025 19:16:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0E561531C8;
-	Tue,  6 May 2025 19:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QykOJBJ2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 910B91FA178;
+	Tue,  6 May 2025 19:15:59 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from WA1P291CU003.outbound.protection.outlook.com (mail-polandcentralazon11021117.outbound.protection.outlook.com [40.107.154.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4375724B28;
-	Tue,  6 May 2025 19:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746558116; cv=none; b=deouplL8/EA9lwiw/NqwXNOfgfHK4oNFSPmwjk8PHLV229JrNrMewUDF85l6vpk01jhanJHOQZQc88xSw8zaFRJIKY7n0bnU+PWpKXthZwmX1M/DXf9YeONElO2MiZwXds+fabYkFc25dspKbu5ipYKRk00Um7mL/NoaF5b2kvY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746558116; c=relaxed/simple;
-	bh=VhezuHT/cXWGlna450cAfGgZoaiiSyYXiqcDWVWAW1U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OVn3fQ9nv2a3xZrwLIxoojE6jaum+amFaXMCm/2tzJLUnAYXx3mp+nAD1XazBXgy4ZONMaWkekHcTkqXm3DhLmja1hE75SCK/EL0pjXfe5GJmpts415lgvF2lT4zDLBtzWs7Z405f7q0nVFCczoYaN4lb8Yy+OU90/TKfwG4OYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QykOJBJ2; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-acec5b99052so1206188966b.1;
-        Tue, 06 May 2025 12:01:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746558112; x=1747162912; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=voBatGCVFVnkbsMGsX4/DSvQd0vsnFHO73aDqPhkgTM=;
-        b=QykOJBJ2GaB0nXPSRe4sK6hio8dBnRVtoUkGko6YCbz72Z7saNTRGdOrmkED13DAzb
-         A3GsUucC4/WK35N2o2HgO3xn/HLE68eQkiux/RpeEgyM/xAIIGbCzMgf2oWsXRELD8aR
-         /ZV0sE15hd/N9WwWXhJu0izQogvdZcxrk+6WwgVomy9L8p84kLxGfSPIFMIw2hDRiESE
-         2I7tryHtcH9oWQGvlZCLdL0fSWKMWDHGz6h++0/vYQp6kkqeHlhwOWQh/X5Rq2uOBXQo
-         KYFs3Gv8iKW+Hd0XQzZE4qJZ9sXms7Hi6uFr5VvgXOJi5IJDYZoTE+XSnYqrX0v9cna+
-         OnJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746558112; x=1747162912;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=voBatGCVFVnkbsMGsX4/DSvQd0vsnFHO73aDqPhkgTM=;
-        b=dilFAbFBBx99fXOXy3DNZSEGndkUIHuXW8FvL2zpYIO/G7GerjYZm7d69zWbmnIN6h
-         OOXH3Exfs683kfq6ZbQBNAPBid8bXO1VGbACButjPs/ae0vR7n0evBtBCe4z5gllWmTL
-         g9a6gPQepNWXitMJDm5kw3DJK3REBUJQt2E6mUGgqAG+WP9A47ozfaF9w0/i68utKatd
-         wft5uJ9RIBOIHeQKIPph3m61K0JcJSw/He7/d1JJhEkHCii9R5RA90AyyXfOtnSAWy3D
-         j0x9nEI9vmYuZvgU037/vxChP6KjnruftxZp5RfD/eNCLL0F4xZOSpIe0AAGXWsy1AGv
-         jwEA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwFj7w155dtbiR0+achlz4Z5T9JJ09mGFg97GTsH539BGkZWsfY04YbVtw4InHiYq5IxUryyPx6HsCG0oW@vger.kernel.org, AJvYcCVdS635HE9p9rqw9CGSoL3JMcvo6Q39U8xdgYgpMtxcZ21WpO2Tu4YbY6WuvvitZRnN3GPXuFvZeepJaMA=@vger.kernel.org, AJvYcCVvILn+kpjRLFA2h823CBmk28hnaObR9ZKY4gzu6IRUKl6YlwFalv/b5V+vl1MOZmHl5UmBVCZNz+7o5g==@vger.kernel.org, AJvYcCWFGScgbTYqtIprMplTEoe5k/19psXlpbWX6PW2gV6p5IjrZ/BRJ8ctYf2sAmwMR13iMx0HrS5o0bSu@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDaIwdabfvmkRNewFhTxwjx+LbV6MenP1bXYU3YNPywkzcnZdk
-	fqDomlU2OXkCSWgGS3Y/NPUWYkmHF+RhP9+LLr1cyevoEXsshi/U
-X-Gm-Gg: ASbGnctiurxU8uDgjSJo4U0cGzfmYb5B1o32wlxBlfQpEWHxnfRzsShWFpWzuS5DCGr
-	imZGZGOn3pJ1mCBFmr39tnHay58HK2KvTSWWlR62hMPMJ9TKQLqX5Ab+1TWcX2Ns5/Y0Ju/oePo
-	TJ+X4o9zTG8wRyMcdp4/N0b63LwIyuGiRUERsYJJ7ND2NOnGo8co+29oD7iFvGg4YYAualt4f8F
-	Y04vOhR/5ixlO8Vct4cEjf2Fkwj1F4l8SlGTn2XCFZK3kZF4tpplz1hi8IXh/HlZ3MHzI5Bu9Fx
-	7EgMeFRvs0OV4zbLeRQVrm5bj9i6JluTAi4b8zphSQxS9w==
-X-Google-Smtp-Source: AGHT+IFWEXs3lgGVsw8JtDGd7ANyYp0zdsacD9hO6mvpw5fW/FuafssUE5pgzZvlYTNbTtqLhfLFDw==
-X-Received: by 2002:a17:907:1b05:b0:ac7:e815:6e12 with SMTP id a640c23a62f3a-ad1e8c662f9mr60826966b.33.1746558112095;
-        Tue, 06 May 2025 12:01:52 -0700 (PDT)
-Received: from [192.168.0.100] ([188.27.128.5])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1895087d1sm752900066b.128.2025.05.06.12.01.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 May 2025 12:01:51 -0700 (PDT)
-Message-ID: <f22f1343-9b7b-4ae6-9461-bc1b8108619f@gmail.com>
-Date: Tue, 6 May 2025 22:01:46 +0300
-Precedence: bulk
-X-Mailing-List: linux-media@vger.kernel.org
-List-Id: <linux-media.vger.kernel.org>
-List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACDC4B1E45;
+	Tue,  6 May 2025 19:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.154.117
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746558959; cv=fail; b=OIHT2gKGVMBXI19bz2YoSKK3Ys1amD39ElmTyezY0VQSVvkDwH1EE0mhtrYvM8KH5q1SaiWDxh3HKUrb3bo4RyDdm8RYeHrVWDWp5OgGYxxT/ukHyRGq9zjDtAXrMXyod6LGMk5nJd/cWRhBaOhNaO65gPpNYwWpzsiHY4nuPLQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746558959; c=relaxed/simple;
+	bh=FNoEyIPSk3gg+9ziuBVmDiwtONvjq5yXxgq3mIhNumQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=c+uOy+vhwExlaF3hBI5K5OCnV44+Mx/v7sjRyLpGI6ST/+ona00PM8A4GpFUfPwxx2cMF42de6aoeom1x+z98FBdyBnmnHKL2QxDDJ4GeN7fmPDHfFMUQHYq6pf2ph7XHBxpR4HCRgtADpzdMZ7h11DxxyLLYN3z+YZR9iCRI/0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=videtronic.com; spf=pass smtp.mailfrom=videtronic.com; arc=fail smtp.client-ip=40.107.154.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=videtronic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=videtronic.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uD0K7sigZvDe5JNMPl2b6M5K305FdQQsdXbri4D/sb7OR0V6uKSLNm7C3DLNZG5f8WgYg03vrtrXPUBDJpBh85cs6uYPe7RmO+waJ+vPDHO7UssqKJR2TKk+Ky3L3bFF9QPwph0LKvCrAFlJeOX+rygBPPDNkq0LNK0UNy3pWy8sYwYpsfJTqGPWWUMJcsxDKfPlCVVwPlPtExeb1IcDMfMaU64IfY+ZMWe2v9dSk8DGXLg0ADypSZejt71LazlHEZYsCehk427MmYUGTXNtH/QoyXKRApeR7NTcdsRmxk7AwNNDQMxu4JmdcoK37L7RASaBE05YYF4/m3fRuGARGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FNoEyIPSk3gg+9ziuBVmDiwtONvjq5yXxgq3mIhNumQ=;
+ b=ZnVuMY3wEcsAK0E1YHaj3Yd8CSp+fSP6Xo2kDKaU/RXNK3v0JgY+YgJPdMdj+NKwobDdHZztCOL+uI8M44kA6WHNE4W4xuCH07LfLsxtbq3zo6MbUZ2jM5AzkdtLlxUiir5kGolKCP4vfwJ08Ej/aBXWdE7oKa8nMJMfuHFZ0Sxxh08NzjRrqWWjtYorGGygeZSM51FSP89Xt9Tna81l4SdJ1UzsY999wejJnGN9j8P+8mm+FXB3dw8hiKQvxIgKXWqG4sIsa/NA3+cS9A18VbuzVyec7xGpsUWPZP43KrgxzfgmZFTSPjdL1Sim1uQsKw3QIsdz8pLnAzZ3EC/jQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=videtronic.com; dmarc=pass action=none
+ header.from=videtronic.com; dkim=pass header.d=videtronic.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=videtronic.com;
+Received: from WA2P291MB0309.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:24::14)
+ by WA1P291MB0012.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:11::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Tue, 6 May
+ 2025 19:15:52 +0000
+Received: from WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
+ ([fe80::5b7e:db51:5934:a36f]) by WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
+ ([fe80::5b7e:db51:5934:a36f%3]) with mapi id 15.20.8678.028; Tue, 6 May 2025
+ 19:15:52 +0000
+Message-ID: <d4165e96-7587-471c-a7c5-ffa26531a796@videtronic.com>
+Date: Tue, 6 May 2025 21:15:51 +0200
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH v2 12/16] media: i2c: add Maxim GMSL2/3 serializer and
  deserializer drivers
-To: Jakub Kostiw <jakub.kostiw@videtronic.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Cosmin Tanislav <cosmin.tanislav@analog.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -121,116 +93,129 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 References: <20250309084814.3114794-1-demonsingur@gmail.com>
  <20250309084814.3114794-13-demonsingur@gmail.com>
  <b214bf8d-33d0-4da8-bf16-cc62bd1fbd55@videtronic.com>
-From: Cosmin Tanislav <demonsingur@gmail.com>
+ <f22f1343-9b7b-4ae6-9461-bc1b8108619f@gmail.com>
 Content-Language: en-US
-In-Reply-To: <b214bf8d-33d0-4da8-bf16-cc62bd1fbd55@videtronic.com>
+From: Jakub Kostiw <jakub.kostiw@videtronic.com>
+In-Reply-To: <f22f1343-9b7b-4ae6-9461-bc1b8108619f@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA2P291CA0016.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1e::12) To WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:24::14)
+Precedence: bulk
+X-Mailing-List: linux-media@vger.kernel.org
+List-Id: <linux-media.vger.kernel.org>
+List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: WA2P291MB0309:EE_|WA1P291MB0012:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5622dd41-b440-4be9-41ba-08dd8cd26ad0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Q2VnYlVOYWxISmxTWEdYSkEwSE1uMThhQmJ1TkovZm9BNzFGY2l3V0dRbHRG?=
+ =?utf-8?B?dm9RalU4aitodTlJQmh4MGxYbEZYSHdOMGFHbzI4TFpCL2w4N3V3NWtqc3hB?=
+ =?utf-8?B?K3d0ZlVsdXJtYkhCNzNCUGhwQlNFNGQ5K28xUWJZcVNDdWJWd1hiaFlGQlJD?=
+ =?utf-8?B?VzZhTXhBOXJoSm9PWitVUUJweGVpaVk3Y0wxWWMwNWEwNnVjbXc0ejJQeHBS?=
+ =?utf-8?B?YWZ1bkprRkNaOENYYTdIOSszSXVMTEJ3OUpULzBTWkxFTXpHR3hMV3RzN0NB?=
+ =?utf-8?B?dUp2czJ5UXEyQ0wva2tST0F6VFZ3SXpGVDRSTUJJQzRhUkM0bHoyUWdScHMv?=
+ =?utf-8?B?Q2YremI0Z0U1K1grQUlmTVVZUllxcWNDK2ZpdEdyZlBuTXVlN050aEhValJk?=
+ =?utf-8?B?UHdXbXhQNE44ZHk5Mk82WU1ZWTVxaGJYWi80YytVVm9jb2dtQ2JnWGw2Ui93?=
+ =?utf-8?B?MlR0UmdCNzVpby9TQ0RqL1pWR0dXOC9HeWE2MWtjRklCSStYL2o0UnErQXhF?=
+ =?utf-8?B?aENYRFRNQkg1ZUpYOU9SNG1jYnU0Sm1NSTB5QmlYYW1CemtWNkYxNVpENmpD?=
+ =?utf-8?B?RWZsYTlHSEJKbi9mQWJNWHZPRlBEN3hYQ1lSZnZlbXFzTVlsbTBBZjZSY25I?=
+ =?utf-8?B?OXVXMUZPemhPU1NBSmxaSHQ4bklZUDdJYUJhK2owS1JRdTI5dXZWWk1jSmVs?=
+ =?utf-8?B?YTc4ZmJyakhXYWhTWDZVRXZseFduV1h4ZUl3VmpZNCszaVBYQTlVeWU0NzY3?=
+ =?utf-8?B?U2lkY3B1R2RxYlh3Z1VPZE10RlgvUmdTZ1FhRCtuVXl6UWJWOXh4TmVuOXRJ?=
+ =?utf-8?B?YUVlSmZJaHRWTjR1Q1VWNWZBbndhc1k1cCtFOERVOHkvVFl2dmV3WlRiTEw4?=
+ =?utf-8?B?b1lTZkxFNFZGWmx4eGV6K0NoN1VjWnFmS2VDTi93RDhRaEtKd082RGpMWnk3?=
+ =?utf-8?B?OXdBTHVWeTU4UFVCZnJDTG9qaFlsM0J3SVR6cTd0QkwrWXpBeS95LzFndXVt?=
+ =?utf-8?B?dnVVdVlGZkNZWk5PRFhtTnVzV0R4QjQzUTMrY2kvNkRiMjB5MG5rdnYyQWpQ?=
+ =?utf-8?B?eE9uWi9LbjFtYlRkTVZUTktCS3ZrbTg5QkVtaGFEemk3Nnh3d1dlMmRaWmVu?=
+ =?utf-8?B?SjhpaDlyVEowZU5YbHVXT0JQdFJtMHE0RjhrNkRJT2IzZzVUMXU2U05NdlZE?=
+ =?utf-8?B?Y09ZWkQ4VTJUMnlHTkhwM2FJZVRCbFVwcWZNNnY4MkR3UHpOdDNtbnM2cm1n?=
+ =?utf-8?B?VVIzaHlJeUplVWNNTDIwWU1XSXUxNnJ2T2tUVGpXVjBMK245akZlT0ljbTBG?=
+ =?utf-8?B?Tm1vNlc1UFVjTit4YUZBdk1OdzByRE5JU1diVTVsbjZNUVpMRGxtMWQxa0Zm?=
+ =?utf-8?B?NmNlNGhTL3piTkgwREh6eWpTeVJjSGFvUGlXMFdOc0pmc1VFeWRZL1lpaUk1?=
+ =?utf-8?B?THZvMDdXVXFnaWkyemt0c2V4SFZnYkM5Nkg2dzQrdkNHMnVZZTJsQWhLT1di?=
+ =?utf-8?B?SW9lN3FMdDZsOFNZYytaVlp5WW5PU3hvUkRsYXc2SmgrU3hvVzJ6MWwxRzM0?=
+ =?utf-8?B?Nnh4SWRTOXBTTDVQbG9UbER5MVV5TVI3VG1YNHoxNkhWUkM2aEtTeTNpb2VU?=
+ =?utf-8?B?eS91dHh3ZmJ0VGlxdHFmYzBoZTNIVWVaaE91aFhMNm0zMmdXSkVYK3pZRVBI?=
+ =?utf-8?B?RDhMbk1FMjVkSWwxZkVuSnlWQlY0SFcrRG9MaGNXbGI5OFBja2g2OHc2UXVH?=
+ =?utf-8?B?c29PczBqZGlrZWFBSlF2bU9mRUVadFdDNWg4MjNSUXVQUlVnU0xBRGxxSVdG?=
+ =?utf-8?B?RVVVS0NNU2M1MzZWODkvTGVqS2dJdmNiMDQ1YTVJMUF3S0ZGM2IzbkFwYXNr?=
+ =?utf-8?B?ZGVlTkVicjVnWGlMaGRkdUNJbmhTWE92UW5NMWJyQmlzOUE9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:WA2P291MB0309.POLP291.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QlFjdGNNTW5Dd0EwQ1NDZklhRGdmQlBZMTJqWStIQ1JFdXh2Y05IY0JHYS9U?=
+ =?utf-8?B?T2RxNkc0RlFsTUxxVXpOdTR0M0UzZ3BwSmI2cW9ESVhNYmdXVlFQYVVzZnVF?=
+ =?utf-8?B?eldDRUNKYU5CMVRKeDhmVEgwaUpHUUI1MTlaQ2xQNzZobFhFNWY5VURUVjlr?=
+ =?utf-8?B?N24ydjNYS0RDTWxsTEx2TnhOODUrazExYnI2enJoOWd0dkUvM1hJOW5hc2Ja?=
+ =?utf-8?B?UHkzTnRBSms3WEVkczhyTThDNWp0ckc5cmZ6SHZqZEFrTXFxNlJQV1VZSTg4?=
+ =?utf-8?B?RWh0TjZZZ1pBdVFrZ29wUkFtU1hUdzJaeUdpbFZ3MzM5MUpnRkhySjdjTitG?=
+ =?utf-8?B?Yk5NQ0VXN1Z1ZlgzWERPRUdpVXVqTU5jaTJIV3pOc2prdUtWV2cyUWhaejMy?=
+ =?utf-8?B?UHRyMGg2WHZQTkc1WUUwZXUwd3VRVXRCUkVUUTVlcjJ5YW84MERjUnQ3WWZK?=
+ =?utf-8?B?WFdDcDBUMVZtVm9LUVlxdGtCZG0zK0pabUhTVy8xTXpKeDM4S0F2c0diT012?=
+ =?utf-8?B?d2xIQVJCbnpNMjlzVTN3K0ttLzZ3TmtnWVRvTTAyVGY1a2NYNEtQckNHaWdo?=
+ =?utf-8?B?Umx6QkRpcjJOb09NZWtnYWhZZWVPM0lmNXZ2d0xUZDZHZFVleE1HYUpualh2?=
+ =?utf-8?B?TDFEODhUbTdPQjN2ckdYSzdyVmdYMU10V1FiNUFHOThsZVNlTitxK0RQZHBk?=
+ =?utf-8?B?MHBNMGZIZkhDMXRwZXJrRVpUOVF2VlF1ZVJaM05rWnVGc0ZFdWhhdFhveXZ6?=
+ =?utf-8?B?RDRjMm53TTlTaXREcjl1bUJSazN2WC9tZ0QySEJYMVJQdmp1dGVqS0U1bDNN?=
+ =?utf-8?B?bTYxY202c2F4NndiQjNJclhFWFl4cG0yNm9pZVVGcE56K1VtbGFpYmZFdWdM?=
+ =?utf-8?B?NXU3U1R1ekdicGE4aGQvT0ZjcUlid2JxM0pWeVZHb2FDUzNmVmhtMDlsTmpo?=
+ =?utf-8?B?TFlLSFpVNi9Bc2lYUTZkU21CMktyVitxQVpzLy85MzR2ZjBoTjNhL1hEeEdv?=
+ =?utf-8?B?bmlWaTFheGFsSW9NeG5UQWtXSEQyV2k1ZWYwbExhMXBqbmg3M0FmZXF2MkNG?=
+ =?utf-8?B?d3dXVjQzeCtHNWtWVWV2QWxrTmVITk51ZDNmNVJlMHdSa1JZaldPem0zU0RR?=
+ =?utf-8?B?WXVZNlZQVWlDMmlwaWorTUh0UHNaN2QrakZZSkhudWVlTnFSbjI4VkhWRFVr?=
+ =?utf-8?B?MGNNOEtiZ1NWeUpPT0dXY1BaMDVOdTVVRmJwRE5DYnlkeEhycFg1NEd5WHFI?=
+ =?utf-8?B?WjVBWmFUeWZUcnE2YTlhOXJiMkZaajY0OXpsd2hJMXZjcEo1UUVpYnI0Z2dU?=
+ =?utf-8?B?SmZKdCsvTEFvMHV4bklqQ1U3NUVXVUNlSDdyTDF1bUdQKzV1b3hxVUMzdXEx?=
+ =?utf-8?B?UEFnVTNuaHk2SnFQOGhZUUhHRThpeHVGaUVRMXZxRFZDMVVhYUJCbWZtd2xH?=
+ =?utf-8?B?SjE5Z3dQVDFNNkgzV2dyYWdKUkxDYys5Tm9BT1NiREZrVExOSlE3VU9kVnJG?=
+ =?utf-8?B?VkdqOHUzRTd5VjJwNllzZ3l1MXNRL1JLd0NjTzBVNHJYOFRFZ0JJSGpLUU1y?=
+ =?utf-8?B?b3BxeVRaRmh1dWJmakI2MCtkZVUrOS9ZdThLQWQxYUtkNTcrZHZkSE9EVTFi?=
+ =?utf-8?B?U1I4aGVjbVNvN2dmbkE0bDVuMUQyNFNXK1E0T3loTi9veWtPSTFaU2dUYmho?=
+ =?utf-8?B?dTJvVmtINUpURzc5cHdmM0Q1Q1BLbHRBdFI4ME15WWNJanZ6c0JMSjBVbWNY?=
+ =?utf-8?B?R292MUZDQmsyTjlGTUZJM25EOU1DaW1ML2Y5amZ3Y2xjWjRWUWdZMFVoODF5?=
+ =?utf-8?B?NE5VeWxUejRUVEJIMFBORlZRYXdBa25USmgxUDQ0dkUwZ3BwNy81UlNzOElM?=
+ =?utf-8?B?RTIxT0x2b1Q4czEzRzhCRmZ2Z3l1Z2Yxc2F2QXZDSlI4dzZXblNiMjZIMFpt?=
+ =?utf-8?B?b3Q1cm9ZbWhlUGhOZytGMFd2bnJwSFJZL3RNY3Rvb05Pa2NLSnJkVkVpMk5N?=
+ =?utf-8?B?Sk44RnVPYTB1QWNkN1JZM3duRXJuUjE5UTAvbEtLNHlrRm1vd0NsOFkwOHNr?=
+ =?utf-8?B?QStCMmx6UzFUU1grOW9POHZ6ZVk1V2kzSWJlc1p0VENUNDEyaTN3S0FiMUhG?=
+ =?utf-8?B?STV4cy9jZmg1cExsNUdJc1F1R083aEdGOFdNd1NjMS9lU01mTmsxaU9QekVU?=
+ =?utf-8?B?ekE9PQ==?=
+X-OriginatorOrg: videtronic.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5622dd41-b440-4be9-41ba-08dd8cd26ad0
+X-MS-Exchange-CrossTenant-AuthSource: WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 19:15:52.0633
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 42908bfd-23a4-4a6c-951d-1ef4d8e0c612
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WdU6A4mfzIMTfzotfxX36x6ZQk6Qi2t8F7X/KsIin+3zLnA5cVM3pjOxK6E15zoOVoUtHM6PhpsoZdDIGT0mqcPvkY/x43hh05JFI3ig+XA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: WA1P291MB0012
 
+ > I'm aware of this issue and had it fixed locally, just haven't submitted
+ > a new version yet.
 
+Great !
 
-On 5/6/25 9:33 PM, Jakub Kostiw wrote:
-> Hi Cosmin
-> 
-> Awesome work. The initiative to establish a common framework for GMSL 
-> devices is a great idea.
-> 
+ > Are you setting a specific polarity on the lanes? I've validated
+ > MAX96714 (after the upstream submission) myself and it works.
 
-Hi! Thanks for the feedback.
+Our design has all lanes inverted, so we used:
+lane-polarities = <1 1 1>;
 
-> I believe that we have found few bugs:
-> 
->> +#define MAX9296A_BACKTOP22(x)            (0x31d * (x) * 0x3)
-> 
-> The first multiplication is wrong and should be replaced with addition:
-> 
-> +#define MAX9296A_BACKTOP22(x)            (0x31d + (x) * 0x3)
-> 
+Only after mentioned change we managed to get the video stream.
 
-I'm aware of this issue and had it fixed locally, just haven't submitted
-a new version yet.
+ > This should already be implemented by using different numbers in
+ > data-lanes property in devicetree.
 
-> The same goes for MAX96724 equivalent macro:
-> 
->> +#define MAX96724_BACKTOP22(x)            (0x415 * (x) * 0x3)
-> 
-
-Although I haven't noticed that it applied to MAX96724 too, thanks.
-
-> In MAX96714 driver there is an issue with setting up lane-polarities.
-> 
->> +static const struct max9296a_chip_info max96714_info = {
->> +    .max_register = 0x5011,
->> +    .set_pipe_stream_id = max96714_set_pipe_stream_id,
->> +    .set_pipe_enable = max96714_set_pipe_enable,
->> +    .set_pipe_tunnel_enable = max96714_set_pipe_tunnel_enable,
->> +    .phys_configs = {
->> +        .num_configs = ARRAY_SIZE(max96714_phys_configs),
->> +        .configs = max96714_phys_configs,
->> +    },
->> +    .polarity_on_physical_lanes = true,
->> +    .supports_phy_log = true,
->> +    .adjust_rlms = true,
->> +    .num_pipes = 1,
->> +    .pipe_hw_ids = { 1 },
->> +    .num_phys = 1,
->> +    .phy_hw_ids = { 1 },
->> +    .num_links = 1,
->> +};
-> 
-> In order to make thing work we had to set
-> 
->> +    .polarity_on_physical_lanes = true,
-> 
-> To false. So this field is either improperly set for MAX96714, or 
-> handling of this case is wrong:
-> 
->> +        if (priv->info->polarity_on_physical_lanes)
->> +            map = phy->mipi.data_lanes[i];
->> +        else
->> +            map = i;
-> 
-
-MAX96714 has different value meanings for the polarity register
-(compared to MAX9296A). On MAX96714, the bits represent the
-polarity of the hardware lane (not taking mapping into account).
-On MAX9296A, mapping is taken into account by hardware, so
-the polarity can be retrieved directly. See the comments surrounding
-that piece of code. It's entirely possible that I was wrong when
-writing this code, but this was cross-checked with the datasheet
-and the GMSL SerDes GUI. It's not out of the question that any of
-these could be wrong.
-
-Are you setting a specific polarity on the lanes? I've validated
-MAX96714 (after the upstream submission) myself and it works.
-
-> Upon mentioned changes we have successfully tested two GMSL2 
-> combinations on Raspberry 5 platform:
-> 
-> 1. MAX96724 + MAX96717 (only 2 MIPI-CSI2 lanes with single camera due to 
-> hardware limitations)
-> 
-> 2. MAX96714 + MAX96717
-> 
-> We have also been wondering about these registers:
-> 
->> +#define MAX9296A_DPLL_0(x)            (0x1c00 + ((x) == 0 ? 1 : 2) * 
->> 0x100)
->> +#define MAX96724_DPLL_0(x)            (0x1c00 + (x) * 0x100)
-> 
-> There are writes to these addresses but we could not find any reference 
-> to these in either MAX96714 or MAX96724 datasheets.
-> 
-
-These registers are not mentioned in the datasheet of MAX96714 or
-MAX96724, as they're considered "hidden". You can look at MAX96716A
-datasheet for a description.
-
-> Are You willing to add support for mapping MIPI-CSI2 lanes? This is a 
-> very convenient feature which comes in handy during HW design.
-> 
-
-This should already be implemented by using different numbers in
-data-lanes property in devicetree.
+Awesome, this will come in handy for sure.
 
 
