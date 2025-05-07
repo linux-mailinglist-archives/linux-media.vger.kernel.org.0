@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-31947-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31948-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A33AADBA4
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 11:42:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC355AADBA6
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 11:42:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 58677468743
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 09:42:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82E8C9840D1
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 09:41:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE72209F2E;
-	Wed,  7 May 2025 09:41:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D6E8200BA1;
+	Wed,  7 May 2025 09:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="JPRrYYVO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q4BJPSJH"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="PDvEPtpJ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Mb8sUAgQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADEC2010EE;
-	Wed,  7 May 2025 09:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AB21FCCF8;
+	Wed,  7 May 2025 09:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746610894; cv=none; b=TXSKv+Pvb3UKMjIMN0EjJXhzMp1BX/GgbFWMdlH6nfaZtcLmB7hCkT2IGjVC8oQ9/r5vC/jp4/EVAdzGcV0bHV5VUM1PY2FY6zpymgunI84eCGF9VPMHKYmGTQiA1HhjUUD6J1KQ468XgVywwIucfdjtsY4FVAatGmOIUi0FJf8=
+	t=1746610895; cv=none; b=T8c1nprwChpgdwp2mJKB564ZJp/wbTDS6QgtTlds9FD+9VUJomEgSAiezj3YqiG0fEbpXK1yA5Oey7nRiBgPKeoSbBd6oxNLf8unLWRW61kHDeEe0RD856eZv9ZMENsV87JLntzgVx2ibAFgvbpiME0YGlj9o/tGXo4U7Niwtag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746610894; c=relaxed/simple;
-	bh=fM8qGtvXORs+FxEa6y3KQSrSvwHDtbCUPrcmjD2SexQ=;
+	s=arc-20240116; t=1746610895; c=relaxed/simple;
+	bh=2KEIXtW3RAEied8li8L5GahbTAhnqFaVh4NYAYJiNYQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J86ZNqfZZv+T8/GHqKvMiOuT88UhjQKe27sdH0v7uLZyRNgiKJg+Y2PXaMhIGmQDx/r9JB6QHc3JJsnb97y5MRVdAa3EbCiOOexMaBBkqFBz6jvcu8R7YSBdczhPfdlxRwOwVnPLwyBaI/w/s3J1FYfH9P5gWjmEKh9SsEf7oGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=JPRrYYVO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q4BJPSJH; arc=none smtp.client-ip=103.168.172.150
+	 MIME-Version:Content-Type; b=AtRmuKoq/4sourrIEiAjldXocU9L8H2fjJErbtWU2jxxogW9ASbN35TXU+snEMRg0eg5izg/d+34gf1Q2v97wFy0/iWsk4972svljylu37pVc9DVxMwcLsj4ZhoVcc4y+wlM0bCq5cENcoe5m2Xfz0ESZ0gqA4hCb+qgdgL+K00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=PDvEPtpJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Mb8sUAgQ; arc=none smtp.client-ip=103.168.172.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id CD30513800ED;
-	Wed,  7 May 2025 05:41:30 -0400 (EDT)
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id B95401380158;
+	Wed,  7 May 2025 05:41:32 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Wed, 07 May 2025 05:41:30 -0400
+  by phl-compute-03.internal (MEProxy); Wed, 07 May 2025 05:41:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1746610890;
-	 x=1746697290; bh=QnEguFPRPOt01P6SA1Ezv6Z0bnXqxDmGL13VmY0+LE8=; b=
-	JPRrYYVOqmV7zTzCU7fGiH3dRQBsyc+s/j17Acw9f5UbXQLja0N0XO7JJsV/SIsj
-	3JhKxJiB1JlK7wHkqW5SRcDow+4pJETJ/VLPS4NcdCWrOuu8CV2fbz/yJdqdB0dk
-	ShelFIvapnuspt/8R9ceBYp5mzg74AJrF767pQY7DKRP+v1GcKyeIVPgEv3e/AAV
-	T3ZyuU/iRxd+/WS2BK1PbNxu91SVDAOuSGDCoHpHr90SikZCyQBfn7a88CafF/by
-	1xuhs3tO9jrGyQA2PlhZJ8qCDA9wx0qQX4hBbgdfGkcfjiL98cEVQ2UyNkd8FsmU
-	pV7MlzvcPD9hkprqYMoGKQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1746610892;
+	 x=1746697292; bh=dHiI25kV2MCybZIKt4lZNi07qoY5an/2iWbMETpsqJE=; b=
+	PDvEPtpJi2AN/2yNLvWSBjnvr26lA8rGfwe43dY4QL8CBX03aWx37rS7zGoQphIz
+	ob0Cfr0QX2DxRwcGEhImemolYfcNSIsq7iASoU9dokl+jSGlNxq2P7biyvM0CNP/
+	p9/b2VwZsx333lmYlgA7DrtZXF1R3ZuUTy/U21V5csB3kALlwrQWb4AYQbj7RsZ4
+	t0Yqgkqb6D7Kus/xqMY46XFE/yJBEmXjcWx95DCzgEGfOx9oZzAqL978OfieXmiI
+	4Hy6koLYzh62FKme5HjcjeAniTSm0cD10JYmQJ3Zx9hf1a4tDZq9t/2zOk1fIjyg
+	OHIhbZucyqla1nym5lCoIA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746610890; x=
-	1746697290; bh=QnEguFPRPOt01P6SA1Ezv6Z0bnXqxDmGL13VmY0+LE8=; b=Q
-	4BJPSJHGaAoKFoFCW7/VJGA15bc5B5u6bXoXlFNzkYskirfDOg1NXT0Nqq907poq
-	nzwy8pNwUlhC+u+9ghuEoQ/xumWp9YRsek9krCSNQH1M0tBT+unjDGiJVIKO27dv
-	Y07WIbi+zRnE/KLgDNrxvrWdZiucOvoD/W+LslbwUgciNpL3PGrcV48qrzKAm00F
-	EchBOW9bT0oXHVF5/d1oH5thvVPB8MkT7FfKYBQPWlyNDs1Udufrusc3oRyaiEte
-	9lv2TQZ67YPBsm3zKqu8AWtC2/dA7jrv61jv0sbCLJSfcHabcUVYtFhcKml8GT/I
-	h8utYWIYLcNOfpRwkj4Nw==
-X-ME-Sender: <xms:yiobaKNPBXeRl7FU5yIQqiVoW8khlySvonVZ64h3MZ8BxEpyShHtfA>
-    <xme:yiobaI92CX96P6UGVKRi-SO32Ohq93ntEgidSJueUqhM4tZf0tHC1WDrhXuO7v5Mz
-    1k03fxwju1zKUoRS3o>
-X-ME-Received: <xmr:yiobaBRNwNzbL5jvpwG1NIUDAFVTT7CjlfV_KLjdUVfjpMwy2-SnFI6kYnl-r8e3Gmr_hdpp5hHg_B__R7e-Jj55>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746610892; x=
+	1746697292; bh=dHiI25kV2MCybZIKt4lZNi07qoY5an/2iWbMETpsqJE=; b=M
+	b8sUAgQtCAHgioNjd5le3CaeIRbnPfNkTq6SeMcY4iypuoIlSldnGUnFHCyMFj/w
+	MuZx5pIp21MBIUXcW3bp+1WKSd6/kuxf8UHVH8jHHKvqnEvuV4a0abUmpLkCDn7H
+	eSkmVJ2SvmMrf9NuNWQmAKI2uGtqgIKv0VhRAj8eT+eGJwyI4xu2x9MDder51Mos
+	3Kp7aXzPOWSOYyft9PJp4N4A0hK/zUDj/e/42iozYa7HcsMHK6FRTPiEFQWsnpwv
+	AvvFytnTzLHGrhweRs4A18XQjHEOf2DQWsYociGSRGRWEt4w9aAiSMoq0aMgO2nQ
+	dfXk2/GNs6u8wCmeeKvaA==
+X-ME-Sender: <xms:zCobaHHQZTsw0OFrvY7R_gbzC7jr5oyX-ACv9rfwPAs0W22bRcTA6w>
+    <xme:zCobaEViwTGK47zZ18D12pXYXlUW9Jsr3-HCKFvhRW2r_U_LCWvPuTuyghKX2Htcp
+    AEW83Ky_zz0Zl0_M3g>
+X-ME-Received: <xmr:zCobaJItnVLxf-3Aqa9Y8clwGSWGOeaS5VROxlCeFhsGlBff6SQECbgpSTCjTpSOWwJJ6rVN2Keloz0-sn81fyKY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeeihedvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
@@ -72,7 +72,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeeihedvucetufdote
     tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
     houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
     rghtthgvrhhnpeehiefgueevuedtfefhheegkeevtdelueeukeevfeduhefhhfejfffgge
-    ffleefgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    ffleefgeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhm
     pehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprh
     gtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsrghkrghrihdr
     rghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrg
@@ -83,14 +83,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeeihedvucetufdote
     htoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhr
     ghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrh
     grghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:yiobaKs1dG7LDiaPvUqsGxN3aex2aQzQEXbpM2ki1Bw7xc1sGAEr9g>
-    <xmx:yiobaCdAmm__utjBhCzFNmVngWSDAe01QSTZdndJKzGNfpmXsj9vtA>
-    <xmx:yiobaO32KpEavWhXknYSwQxIEgsIrS24YJYgCDNvDUoRMSJA4uhGng>
-    <xmx:yiobaG-iPQRz8O4FNsgq9HeRBDn6b9PYmy8wbC3b4wYf4JkVbTpHdQ>
-    <xmx:yiobaN8WOFqJ66g56viKGQBgsuGUULLLm-ZjEVy6qz6VreAzam0-C3vc>
+X-ME-Proxy: <xmx:zCobaFH_WEejs1Vg7dV7O2kUxVZ2Qb5d7x7mdKAs9SUgUcZVPwleuQ>
+    <xmx:zCobaNU_Ny9FuGSIbc6o7mc6VCW9WHtYnwHy92kESJxhGjJrredGSQ>
+    <xmx:zCobaAMoIs3Q62jYL3iSmbp2H24jw38vNEd2qLoMyx_618Cf72TWWQ>
+    <xmx:zCobaM1M3_Z9lZNDedglpOO-F0vY34gAoZbEU9Y-Yh3-P3LYgScvMg>
+    <xmx:zCobaIX2hRG4yV0WdtsaSDoI6SS19JheCBpn6wNy1Ntwx4dhQlmcRt6T>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 May 2025 05:41:30 -0400 (EDT)
+ 7 May 2025 05:41:32 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -99,9 +99,9 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 2/6] media: rcar-vin: Change link setup argument
-Date: Wed,  7 May 2025 11:40:10 +0200
-Message-ID: <20250507094014.622087-3-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 3/6] media: rcar-vin: Generate a VIN group ID for Gen2
+Date: Wed,  7 May 2025 11:40:11 +0200
+Message-ID: <20250507094014.622087-4-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250507094014.622087-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250507094014.622087-1-niklas.soderlund+renesas@ragnatech.se>
@@ -114,173 +114,169 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The link setup callback once acted on each VIN instance, and expected to
-be called once for each VIN instance. This have changed as the driver
-grew support for later hardware generations and the callback is now
-expected to setup links for all VIN in the group.
+Prepare to move Gen2 and earlier models to media controller by
+generating a unique VIN group id for each VIN instance. On Gen3 and Gen4
+it is important to have a specific id in the group as media graph routes
+depend on this. On Gen2 and earlier models all that will matter is to
+have a unique id in the range.
 
-The argument to the callback have however remained a pointer to a single
-VIN instance. This pointer was then used to get the group structure. Fix
-this and pass the group as the single argument to the link setup
-callback making the expectation of the function clear.
-
-There is no intentional change in behavior.
+Break out the id generation to a own function keeping the logic for Gen3
+and Gen4 while generating a sequential id for Gen2 models.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- .../platform/renesas/rcar-vin/rcar-core.c     | 52 ++++++++++++-------
- .../platform/renesas/rcar-vin/rcar-vin.h      |  2 +-
- 2 files changed, 34 insertions(+), 20 deletions(-)
+* Changes since v1
+- Move ID allocation to probe.
+- Use ida_alloc_range() instead of implementing our own schema by
+  counting DT nodes.
+---
+ .../platform/renesas/rcar-vin/rcar-core.c     | 76 ++++++++++++++-----
+ 1 file changed, 57 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 9856a7a70026..54b3957be705 100644
+index 54b3957be705..62e17ef5bdea 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -65,7 +65,7 @@ static void rvin_group_cleanup(struct rvin_group *group)
- }
+@@ -10,6 +10,7 @@
+  * Based on the soc-camera rcar_vin driver
+  */
  
- static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin,
--			   int (*link_setup)(struct rvin_dev *),
-+			   int (*link_setup)(struct rvin_group *),
- 			   const struct media_device_ops *ops)
- {
- 	struct media_device *mdev = &group->mdev;
-@@ -115,7 +115,7 @@ static void rvin_group_release(struct kref *kref)
- }
++#include <linux/idr.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_graph.h>
+@@ -55,6 +56,7 @@
+  * be only one group for all instances.
+  */
  
- static int rvin_group_get(struct rvin_dev *vin,
--			  int (*link_setup)(struct rvin_dev *),
-+			  int (*link_setup)(struct rvin_group *),
++static DEFINE_IDA(rvin_ida);
+ static DEFINE_MUTEX(rvin_group_lock);
+ static struct rvin_group *rvin_group_data;
+ 
+@@ -119,23 +121,8 @@ static int rvin_group_get(struct rvin_dev *vin,
  			  const struct media_device_ops *ops)
  {
  	struct rvin_group *group;
-@@ -246,7 +246,7 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
- 		}
+-	u32 id;
+ 	int ret;
+ 
+-	/* Make sure VIN id is present and sane */
+-	ret = of_property_read_u32(vin->dev->of_node, "renesas,id", &id);
+-	if (ret) {
+-		vin_err(vin, "%pOF: No renesas,id property found\n",
+-			vin->dev->of_node);
+-		return -EINVAL;
+-	}
+-
+-	if (id >= RCAR_VIN_NUM) {
+-		vin_err(vin, "%pOF: Invalid renesas,id '%u'\n",
+-			vin->dev->of_node, id);
+-		return -EINVAL;
+-	}
+-
+ 	/* Join or create a VIN group */
+ 	mutex_lock(&rvin_group_lock);
+ 	if (rvin_group_data) {
+@@ -164,16 +151,15 @@ static int rvin_group_get(struct rvin_dev *vin,
+ 	/* Add VIN to group */
+ 	mutex_lock(&group->lock);
+ 
+-	if (group->vin[id]) {
+-		vin_err(vin, "Duplicate renesas,id property value %u\n", id);
++	if (group->vin[vin->id]) {
++		vin_err(vin, "Duplicate renesas,id property value %u\n", vin->id);
+ 		mutex_unlock(&group->lock);
+ 		kref_put(&group->refcount, rvin_group_release);
+ 		return -EINVAL;
  	}
  
--	return vin->group->link_setup(vin);
-+	return vin->group->link_setup(vin->group);
- }
+-	group->vin[id] = vin;
++	group->vin[vin->id] = vin;
  
- static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-@@ -909,35 +909,46 @@ static int rvin_csi2_create_link(struct rvin_group *group, unsigned int id,
- 	return 0;
- }
+-	vin->id = id;
+ 	vin->group = group;
+ 	vin->v4l2_dev.mdev = &group->mdev;
  
--static int rvin_csi2_setup_links(struct rvin_dev *vin)
-+static int rvin_csi2_setup_links(struct rvin_group *group)
- {
--	const struct rvin_group_route *route;
-+	const struct rvin_group_route *routes, *route;
- 	unsigned int id;
- 	int ret = -EINVAL;
+@@ -1375,6 +1361,52 @@ static const struct of_device_id rvin_of_id_table[] = {
+ };
+ MODULE_DEVICE_TABLE(of, rvin_of_id_table);
  
-+	/* Find any VIN in group to get route info. */
-+	routes = NULL;
-+	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-+		if (group->vin[i]) {
-+			routes = group->vin[i]->info->routes;
++static int rvin_id_get(struct rvin_dev *vin)
++{
++	u32 oid;
++	int id;
++
++	switch (vin->info->model) {
++	case RCAR_GEN3:
++		if (of_property_read_u32(vin->dev->of_node, "renesas,id", &oid))
 +			break;
++
++		if (oid < 0 || oid >= RCAR_VIN_NUM) {
++			vin_err(vin, "%pOF: Invalid renesas,id '%u'\n",
++				vin->dev->of_node, oid);
++			return -EINVAL;
 +		}
++
++		vin->id = oid;
++
++		return 0;
++	default:
++		id = ida_alloc_range(&rvin_ida, 0, RCAR_VIN_NUM - 1,
++				     GFP_KERNEL);
++		if (id < 0)
++			break;
++
++		vin->id = id;
++
++		return 0;
 +	}
-+	if (!routes)
-+		return -ENODEV;
 +
- 	/* Create all media device links between VINs and CSI-2's. */
--	mutex_lock(&vin->group->lock);
--	for (route = vin->info->routes; route->chsel; route++) {
-+	mutex_lock(&group->lock);
-+	for (route = routes; route->chsel; route++) {
- 		/* Check that VIN' master is part of the group. */
--		if (!vin->group->vin[route->master])
-+		if (!group->vin[route->master])
- 			continue;
- 
- 		/* Check that CSI-2 is part of the group. */
--		if (!vin->group->remotes[route->csi].subdev)
-+		if (!group->remotes[route->csi].subdev)
- 			continue;
- 
- 		for (id = route->master; id < route->master + 4; id++) {
- 			/* Check that VIN is part of the group. */
--			if (!vin->group->vin[id])
-+			if (!group->vin[id])
- 				continue;
- 
--			ret = rvin_csi2_create_link(vin->group, id, route);
-+			ret = rvin_csi2_create_link(group, id, route);
- 			if (ret)
- 				goto out;
- 		}
- 	}
- out:
--	mutex_unlock(&vin->group->lock);
-+	mutex_unlock(&group->lock);
- 
- 	return ret;
- }
-@@ -991,30 +1002,33 @@ static int rvin_csi2_init(struct rvin_dev *vin)
-  * ISP
-  */
- 
--static int rvin_isp_setup_links(struct rvin_dev *vin)
-+static int rvin_isp_setup_links(struct rvin_group *group)
++	vin_err(vin, "Can't figure out VIN id\n");
++
++	return -EINVAL;
++}
++
++static void rvin_id_put(struct rvin_dev *vin)
++{
++	switch (vin->info->model) {
++	case RCAR_GEN3:
++		break;
++	default:
++		ida_free(&rvin_ida, vin->id);
++		break;
++	}
++}
++
+ static int rcar_vin_probe(struct platform_device *pdev)
  {
- 	unsigned int i;
- 	int ret = -EINVAL;
+ 	struct rvin_dev *vin;
+@@ -1402,6 +1434,9 @@ static int rcar_vin_probe(struct platform_device *pdev)
  
- 	/* Create all media device links between VINs and ISP's. */
--	mutex_lock(&vin->group->lock);
-+	mutex_lock(&group->lock);
- 	for (i = 0; i < RCAR_VIN_NUM; i++) {
- 		struct media_pad *source_pad, *sink_pad;
- 		struct media_entity *source, *sink;
- 		unsigned int source_slot = i / 8;
- 		unsigned int source_idx = i % 8 + 1;
-+		struct rvin_dev *vin;
+ 	platform_set_drvdata(pdev, vin);
  
--		if (!vin->group->vin[i])
-+		vin = group->vin[i];
++	if (rvin_id_get(vin))
++		return -EINVAL;
 +
-+		if (!vin)
- 			continue;
+ 	if (vin->info->use_isp) {
+ 		ret = rvin_isp_init(vin);
+ 	} else if (vin->info->use_mc) {
+@@ -1419,6 +1454,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
  
- 		/* Check that ISP is part of the group. */
--		if (!vin->group->remotes[source_slot].subdev)
-+		if (!group->remotes[source_slot].subdev)
- 			continue;
- 
--		source = &vin->group->remotes[source_slot].subdev->entity;
-+		source = &group->remotes[source_slot].subdev->entity;
- 		source_pad = &source->pads[source_idx];
- 
--		sink = &vin->group->vin[i]->vdev.entity;
-+		sink = &vin->vdev.entity;
- 		sink_pad = &sink->pads[0];
- 
- 		/* Skip if link already exists. */
-@@ -1030,7 +1044,7 @@ static int rvin_isp_setup_links(struct rvin_dev *vin)
- 			break;
- 		}
+ 	if (ret) {
+ 		rvin_dma_unregister(vin);
++		rvin_id_put(vin);
+ 		return ret;
  	}
--	mutex_unlock(&vin->group->lock);
-+	mutex_unlock(&group->lock);
  
- 	return ret;
+@@ -1443,6 +1479,8 @@ static void rcar_vin_remove(struct platform_device *pdev)
+ 	else
+ 		rvin_parallel_cleanup(vin);
+ 
++	rvin_id_put(vin);
++
+ 	rvin_dma_unregister(vin);
  }
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-index 934474d2334a..142a39718208 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-@@ -256,7 +256,7 @@ struct rvin_group {
- 	struct v4l2_async_notifier notifier;
- 	struct rvin_dev *vin[RCAR_VIN_NUM];
  
--	int (*link_setup)(struct rvin_dev *vin);
-+	int (*link_setup)(struct rvin_group *group);
- 
- 	struct {
- 		struct v4l2_async_connection *asc;
 -- 
 2.49.0
 
