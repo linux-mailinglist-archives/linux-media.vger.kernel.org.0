@@ -1,271 +1,383 @@
-Return-Path: <linux-media+bounces-31994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31995-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07EEEAAE6BC
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 18:32:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E27AAE7F5
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 19:37:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6732C9C6471
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 16:32:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C42DA5082F3
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 17:37:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70C5F28BA82;
-	Wed,  7 May 2025 16:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7FE528D8C3;
+	Wed,  7 May 2025 17:37:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FBOZS1mK"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N3nb9eBO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182EB17E4
-	for <linux-media@vger.kernel.org>; Wed,  7 May 2025 16:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5D328D839
+	for <linux-media@vger.kernel.org>; Wed,  7 May 2025 17:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746635552; cv=none; b=hK22Thsi2eGXtKXVf012XYhENL6b+sISkezLHcj4TNN4AmYbBD0a/YEp0dIc9ztirzh1fOZvTZdO0Xb98vconX24+SkKrHZ/52bVDZe5tFJoOTDutcYNYAxdAcLhyDdxpJHwK1cPKXaqUhZf5DITc3ZgRzXEc2qCcY+XvCFM50k=
+	t=1746639420; cv=none; b=gWEHkkjFNfBAAn2NA+wMQ96bfeR9OWoS+dVLZMXVTXHH+XpjwZPlhFZCPbhcQvpxgApyzZ0GIBqPz3jO4nDwzHVGpfFzDBRh73vgzTUeOzOnK0tkGaT/iK1AqcGgUB+Q0UCCkB0c4y+9DgQb5Yq1LPSH90GrXFrkJvdB4p5lJ/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746635552; c=relaxed/simple;
-	bh=62Rnn2b8lcW2mH/oqwdt6kLZl283C5nn2zNoV7oipM0=;
+	s=arc-20240116; t=1746639420; c=relaxed/simple;
+	bh=1B3LZtQ3yZnxxejjLLqqjdCld8oKdIHZjlSR2qqoVBY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q7x9EcfBPvapdD7gCT4b8pFv6HiK6KjeR+lOavhgvu4XEbG+Ek8IY1Ty3Mj/Gjgo9/j8+95+dtV1OJl9UUwv5cjuoPHgv7AJcz/izXv9isoUcGSVBJxTS+Fs7i2KpGWyD8yHpp/9SyY3ZmGzydZ8m1fx37X/sq5I+yM/126OLdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FBOZS1mK; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-603f54a6cb5so64044eaf.0
-        for <linux-media@vger.kernel.org>; Wed, 07 May 2025 09:32:30 -0700 (PDT)
+	 To:Cc:Content-Type; b=kOWx/um5ACxcbI9TPScRYU3jZBBtCdmw3gxrzuahFssCVtwfD2niaCAqzG4Ij69UdET99S1oVgg7qWLXZuLQuoKMK0Hz3DrdT6mnOayB6VpI8r8sLyVDcmvtvwv0UKu5DoJxiJZufd8/KXZxmkSPKUr+ffdQAXcwLvOxlkKuiHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=N3nb9eBO; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cf3192d8bso4615e9.1
+        for <linux-media@vger.kernel.org>; Wed, 07 May 2025 10:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746635550; x=1747240350; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1746639416; x=1747244216; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l+qlQHRwkgL3c3/7UMifRdOJIYuZVejakUvQaBKdYYc=;
-        b=FBOZS1mKwbRTOv4pGapBYY3uqFl8ka7snTPHgBaWBDEwdLV/ZPm09uUwSHCP0p4xT5
-         5w7Iapkthx7lLn4FHrQYdHZ0XcAvMV6w9UPY91ns1wKkXSQNgN/cbHUr6vLMu0Og7q9Q
-         zxRbHleG+feGqR51GItzGDCiE6LqocWaChwBmdXN+/2lmVdQmMmshWPverJ4f1PJ474d
-         c+hBb5glvKFdp32Pyl3vJje7v6hyNXblGZQh9cYkA+RRgPv0kEwKkCDacXXCZqa/0tSO
-         D817dzphtzFKZzbeoFaXKD3/4ApH2vAZaompz6cdzjRhbfQN3dOcHlqbDylpZ/8AMtPl
-         Edbw==
+        bh=03FmHmVwRxfth7UM0uyvuKw4PHYHU2rgW+H3gROBq00=;
+        b=N3nb9eBORvXc+aqZ1crPsGIKL0An/rZXo4roX6mJ1BHF+GxqPHBo4rxdBTTqmPqAei
+         Ifn0eaIkPPROiPeA4T/NWLA4rK7vC4WM4ikdwsmfxH1OeYQ13uwt3Wi2wycsMO3BfrBf
+         Wc0lLBh54dFFK8ZY7UtmzojC6npG2r0jopfbvDaJkAn1YjVVep9EHYBoRbW7RsX4izD0
+         tULxyBsmCQ0E5ytA4x0xuMuGwvENu5r9wnhugVJgYII67JKf0Mqosd3GK6exi1iMROk/
+         mScNqKgIp5kdrGPjufFlWUjY8jbzX2SDrZR9IgfauRtLxfGTK2zfg6+GWWxMmvzRFN0T
+         B1fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746635550; x=1747240350;
+        d=1e100.net; s=20230601; t=1746639416; x=1747244216;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=l+qlQHRwkgL3c3/7UMifRdOJIYuZVejakUvQaBKdYYc=;
-        b=ExQSqTDYPO9UdZ2Gx0EyuDNz7xdfz9iyxcdv93kBOjWPgnJn3nL+4T0k7Xs8jUwdU/
-         X468nPz1P2CHvzv6bWHAi4e4lhBuH/iOaFnDN4CBt5clszbmcSaGY5leRvaFplrRIH/U
-         WDQPGUDRSTi9oFPSjT7Uw/UQcdaaEFEaR6SdWMhl395NdyH6coiZFrjI2P+ChqLtEZ+g
-         f4+uxZCOJptoToOzMhUY3C3O94YGF93NRWpTiMBUNg9CdINXAII5V29PWeAklSrXS8Qj
-         gM0ARCJ0WzWyQmluQNBpcknE/wnzOzNzvgK6B5JrfICY/pBj/mF1LNiul4usiBhVsT8x
-         bCDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVK+WKPLYnofVxrJHf9RDrut/bKzBuraN6QArIsJ0x6F+CuY6M0Hqay1oqrZEeAhwzJvQiVW8A1RaIDAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC56B99yGXTWOf7e5aWEpC21hOu9nv8HHL3xE8HRnUXDSbGfMP
-	7Mv9Dqagj0fJ13jFUSOtc2g62EUINjRHwz237yjWb/wUTAG+yMgh7ZCcxstr1v80UMOXRFNqxZ/
-	VYRHPqea5Iaftw5BFe9wR9SqK88b01eDQzA0P/xJJnmELrTMhwDA=
-X-Gm-Gg: ASbGncvha+hQC91dUeS04C+RFQKrJngHz4dT01XlJHaL/IG68YJxCU4cKsa4zvEKFR3
-	xTpACs1ph9Utige4itohdJcUM9U920/evXJRICdnIf/gsouPs8MVsxVkKpBfXdif3745NrweY8H
-	CMHuoQPr9HkAF+qZ6g3O+rM94=
-X-Google-Smtp-Source: AGHT+IFydqe8XP7ZbsEI4FJ7nHMo2qb0FBj+wx8QFnVlqVGZ0YgAt35WAhs9j3CQ76LLi08wMmQjhHHbpx9s0MvBOTg=
-X-Received: by 2002:a05:6820:180a:b0:603:f191:a93c with SMTP id
- 006d021491bc7-60828d3a917mr2866969eaf.6.1746635539868; Wed, 07 May 2025
- 09:32:19 -0700 (PDT)
+        bh=03FmHmVwRxfth7UM0uyvuKw4PHYHU2rgW+H3gROBq00=;
+        b=cIefGTne14IJjdqxZp58Zx9ZYodYQSrehMt5FDeMSBf7Bg/7+Y/tmSVFgzKRU4B0ur
+         TU4EGNX6GXSJ1RHZs0GeQA+wJAdhpagrRg1d9cCwKC89ir3ojNvRSJWPf+CC/afaK/jf
+         sDzI8vBOAGuICejWVNokCoXE2nm0rUV25EMfuSgL5N78YPeXugncY4BMGFWeWIhZVZsx
+         KeKPUPRqgPx7Ia7Ikr4YYD2Eo60nyx4HdNyNSeFYTgQVoDoCMCnkZoR0UxGeO1ELGn04
+         I7hWflWaZ5IvEHdGJOPhLlWx0LCtLN2B1hbR3RXArRqP4X3mxS6rxKoVyYpPLzBrhkI9
+         AcfA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZGpl4X+JKY4kUjbX9GG10zsGQcmFtOI1UX4j465kIh9anG4v57ZTOgbMarXDtYOifTQzmw32p2C7T3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxBKL7eFfBFIUVdmFE/BIF0H6Z8tFWv2eS9HYftymnl3yC6GkL
+	vdCtCLVkvTzJkfGgdsvDZdl4paTqcoQUJ1Vk+nRppdYkoSU65lHYU0WFFHJymmBWPVpweL+Q/Zu
+	JctSOyYNanfqnNXkTyxSly9EBQFB6N+ytk+KM
+X-Gm-Gg: ASbGncss+ecBZwLoy6kkVmAgohpmilbkK/6iSxNM4afLRLcDNUAHJNt1ku7ELJplpxF
+	k1BZcHNm0nAHnTOPu36J9Js9XZY80io9FeWwEEp5n55Nh/sSAziDln2eNZkLaLV7C8BvjTYfBIi
+	XouYLE4W77W4e/VaBqRup3kMme8IBwINrnRnJ/uHnErlLUwfz6S3U=
+X-Google-Smtp-Source: AGHT+IGKbhcPfxwVvrgW43FQv40N2rrEsTU1IivmJdsBJWo8S+7OxJD2bAl6EjqGmDeLHxgFLqzxXA+EAi9MkW6sNwY=
+X-Received: by 2002:a05:600c:4448:b0:43b:c2cc:5075 with SMTP id
+ 5b1f17b1804b1-441d4d4b8d4mr1461395e9.5.1746639416170; Wed, 07 May 2025
+ 10:36:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
- <20250502100049.1746335-12-jens.wiklander@linaro.org> <4b2f7c31-c61b-45d8-b32e-16bb91c4289b@arm.com>
-In-Reply-To: <4b2f7c31-c61b-45d8-b32e-16bb91c4289b@arm.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Wed, 7 May 2025 18:32:08 +0200
-X-Gm-Features: ATxdqUElU24AIG1nJsrzoZKKB0gEXwhwftpouBsM_UdwgzzPM34h3I_iZz1EmXw
-Message-ID: <CAHUa44HEPF3w=b2O-4DcRUBgF4rJUUze8zy48_g_FCQ5Y34U6A@mail.gmail.com>
-Subject: Re: [PATCH v8 11/14] tee: add tee_shm_alloc_cma_phys_mem()
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
-	Rouven Czerwinski <rouven.czerwinski@linaro.org>
+References: <20250507001036.2278781-1-tjmercier@google.com>
+ <20250507001036.2278781-3-tjmercier@google.com> <01e0e545-f297-466c-a973-e479fcbd934f@amd.com>
+In-Reply-To: <01e0e545-f297-466c-a973-e479fcbd934f@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 7 May 2025 10:36:44 -0700
+X-Gm-Features: ATxdqUG9g5GsnlzWS3vqvD3-p3K7oOvmC_8NVlcrL_8D723R2O-jH8YctiUa3PQ
+Message-ID: <CABdmKX3ZjeZmT=Fj_TYfpXouM6AGigcQPH7ygf3puFQip0DQ_g@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 2/5] bpf: Add dmabuf iterator
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: sumit.semwal@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
+	andrii@kernel.org, martin.lau@linux.dev, skhan@linuxfoundation.org, 
+	alexei.starovoitov@gmail.com, song@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, android-mm@google.com, simona@ffwll.ch, 
+	eddyz87@gmail.com, yonghong.song@linux.dev, john.fastabend@gmail.com, 
+	kpsingh@kernel.org, sdf@fomichev.me, jolsa@kernel.org, mykolal@fb.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Fri, May 2, 2025 at 5:11=E2=80=AFPM Robin Murphy <robin.murphy@arm.com> =
-wrote:
+On Wed, May 7, 2025 at 1:15=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
 >
-> On 02/05/2025 10:59 am, Jens Wiklander wrote:
-> > Add tee_shm_alloc_cma_phys_mem() to allocate a physical memory using
-> > from the default CMA pool. The memory is represented by a tee_shm objec=
-t
-> > using the new flag TEE_SHM_CMA_BUF to identify it as physical memory
-> > from CMA.
->
-> If and when it's possible to dynamically delegate any old kernel memory
-> to the TEE, it's far from clear why that should involve poking around in
-> CMA internals...
->
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> On 5/7/25 02:10, T.J. Mercier wrote:
+> > The dmabuf iterator traverses the list of all DMA buffers.
+> >
+> > DMA buffers are refcounted through their associated struct file. A
+> > reference is taken on each buffer as the list is iterated to ensure eac=
+h
+> > buffer persists for the duration of the bpf program execution without
+> > holding the list mutex.
+> >
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
 > > ---
-> >   drivers/tee/tee_shm.c    | 55 ++++++++++++++++++++++++++++++++++++++-=
--
-> >   include/linux/tee_core.h |  4 +++
-> >   2 files changed, 57 insertions(+), 2 deletions(-)
+> >  drivers/dma-buf/dma-buf.c |  64 ++++++++++++++++++++++++
+> >  include/linux/dma-buf.h   |   3 ++
+> >  kernel/bpf/Makefile       |   3 ++
+> >  kernel/bpf/dmabuf_iter.c  | 102 ++++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 172 insertions(+)
+> >  create mode 100644 kernel/bpf/dmabuf_iter.c
 > >
-> > diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-> > index e1ed52ee0a16..faaa0a87bb18 100644
-> > --- a/drivers/tee/tee_shm.c
-> > +++ b/drivers/tee/tee_shm.c
-> > @@ -3,8 +3,11 @@
-> >    * Copyright (c) 2015-2017, 2019-2021 Linaro Limited
-> >    */
-> >   #include <linux/anon_inodes.h>
-> > +#include <linux/cma.h>
-> >   #include <linux/device.h>
-> >   #include <linux/dma-buf.h>
-> > +#include <linux/dma-map-ops.h>
-> > +#include <linux/highmem.h>
-> >   #include <linux/idr.h>
-> >   #include <linux/io.h>
-> >   #include <linux/mm.h>
-> > @@ -13,7 +16,6 @@
-> >   #include <linux/tee_core.h>
-> >   #include <linux/uaccess.h>
-> >   #include <linux/uio.h>
-> > -#include <linux/highmem.h>
-> >   #include "tee_private.h"
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 8d151784e302..9fee2788924e 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -19,7 +19,9 @@
+> >  #include <linux/anon_inodes.h>
+> >  #include <linux/export.h>
+> >  #include <linux/debugfs.h>
+> > +#include <linux/list.h>
+> >  #include <linux/module.h>
+> > +#include <linux/mutex.h>
+> >  #include <linux/seq_file.h>
+> >  #include <linux/sync_file.h>
+> >  #include <linux/poll.h>
+> > @@ -55,6 +57,68 @@ static void __dma_buf_list_del(struct dma_buf *dmabu=
+f)
+> >       mutex_unlock(&dmabuf_list_mutex);
+> >  }
 > >
-> >   static void shm_put_kernel_pages(struct page **pages, size_t page_cou=
-nt)
-> > @@ -49,7 +51,14 @@ static void tee_shm_release(struct tee_device *teede=
-v, struct tee_shm *shm)
-> >       struct tee_shm *parent_shm =3D NULL;
-> >       void *p =3D shm;
-> >
-> > -     if (shm->flags & TEE_SHM_DMA_BUF) {
-> > +     if (shm->flags & TEE_SHM_CMA_BUF) {
-> > +#if IS_ENABLED(CONFIG_CMA)
-> > +             struct page *page =3D phys_to_page(shm->paddr);
-> > +             struct cma *cma =3D dev_get_cma_area(&shm->ctx->teedev->d=
-ev);
+> > +/**
+> > + * get_first_dmabuf - begin iteration through global list of DMA-bufs
 >
-> If you want dma_contiguous_default_area as the commit message implies,
-> use dma_contiguous_default_area. Appearing to support per-device CMA
-> pools but relying on the device not having one is pretty yucky.
+> As far as I can see that looks really good.
 >
-> But again, why? If you want page-backed DMA-able memory, with all the
-> other assumptions being made here, you may as well just rely on
-> dma_alloc_pages(DMA_ATTR_SKIP_CPU_SYNC) doing what you want, while also
-> being potentially more flexible for !CMA and non-invasive. Or at the
-> very least, could the TEE delegation not be composed on top of the
-> existing CMA heap allocator?
+> The only thing I'm questioning a little bit is that the name get_first_dm=
+abuf() just doesn't sound so well to me.
+>
+> I'm a fan of keeping the object you work with first in the naming and it =
+should somehow express that this iters over the global list of all buffers.=
+ Maybe something like dmabuf_get_first_globally or dmabuf_get_first_instanc=
+e.
+>
+> Feel free to add my rb if any of those suggestions are used, but I'm comp=
+letely open other ideas as well.
+>
+> Regards,
+> Christian.
+>
+Yeah you're right. "first" is actually a little misleading too, since
+the most recently exported buffer will be at the list head, not the
+oldest buffer. But buffer age or ordering doesn't really matter here
+as long as we get through all of them.
 
-Thanks for suggesting dma_alloc_pages(). I'll use that in the next
-version of the patch set.
+So I'm thinking dma_buf_iter_begin() and dma_buf_iter_next() would be
+better names. Similar to seq_start / seq_next or bpf's iter_<type>_new
+/ iter_<type>_next.
 
-Cheers,
-Jens
-
->
-> Thanks,
-> Robin.
->
-> > +
-> > +             cma_release(cma, page, shm->size / PAGE_SIZE);
-> > +#endif
-> > +     } else if (shm->flags & TEE_SHM_DMA_BUF) {
-> >               struct tee_shm_dmabuf_ref *ref;
-> >
-> >               ref =3D container_of(shm, struct tee_shm_dmabuf_ref, shm)=
-;
-> > @@ -306,6 +315,48 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_=
-context *ctx, size_t size)
-> >   }
-> >   EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
-> >
-> > +struct tee_shm *tee_shm_alloc_cma_phys_mem(struct tee_context *ctx,
-> > +                                        size_t page_count, size_t alig=
-n)
+> > + *
+> > + * Returns the first buffer in the global list of DMA-bufs that's not =
+in the
+> > + * process of being destroyed. Increments that buffer's reference coun=
+t to
+> > + * prevent buffer destruction. Callers must release the reference, eit=
+her by
+> > + * continuing iteration with get_next_dmabuf(), or with dma_buf_put().
+> > + *
+> > + * Returns NULL If no active buffers are present.
+> > + */
+> > +struct dma_buf *get_first_dmabuf(void)
 > > +{
-> > +#if IS_ENABLED(CONFIG_CMA)
-> > +     struct tee_device *teedev =3D ctx->teedev;
-> > +     struct cma *cma =3D dev_get_cma_area(&teedev->dev);
-> > +     struct tee_shm *shm;
-> > +     struct page *page;
+> > +     struct dma_buf *ret =3D NULL, *dmabuf;
 > > +
-> > +     if (!tee_device_get(teedev))
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     page =3D cma_alloc(cma, page_count, align, true/*no_warn*/);
-> > +     if (!page)
-> > +             goto err_put_teedev;
-> > +
-> > +     shm =3D kzalloc(sizeof(*shm), GFP_KERNEL);
-> > +     if (!shm)
-> > +             goto err_cma_crelease;
-> > +
-> > +     refcount_set(&shm->refcount, 1);
-> > +     shm->ctx =3D ctx;
-> > +     shm->paddr =3D page_to_phys(page);
-> > +     shm->size =3D page_count * PAGE_SIZE;
-> > +     shm->flags =3D TEE_SHM_CMA_BUF;
-> > +
-> > +     teedev_ctx_get(ctx);
-> > +
-> > +     return shm;
-> > +
-> > +err_cma_crelease:
-> > +     cma_release(cma, page, page_count);
-> > +err_put_teedev:
-> > +     tee_device_put(teedev);
-> > +
-> > +     return ERR_PTR(-ENOMEM);
-> > +#else
-> > +     return ERR_PTR(-EINVAL);
-> > +#endif
+> > +     /*
+> > +      * The list mutex does not protect a dmabuf's refcount, so it can=
+ be
+> > +      * zeroed while we are iterating. We cannot call get_dma_buf() si=
+nce the
+> > +      * caller may not already own a reference to the buffer.
+> > +      */
+> > +     mutex_lock(&dmabuf_list_mutex);
+> > +     list_for_each_entry(dmabuf, &dmabuf_list, list_node) {
+> > +             if (file_ref_get(&dmabuf->file->f_ref)) {
+> > +                     ret =3D dmabuf;
+> > +                     break;
+> > +             }
+> > +     }
+> > +     mutex_unlock(&dmabuf_list_mutex);
+> > +     return ret;
 > > +}
-> > +EXPORT_SYMBOL_GPL(tee_shm_alloc_cma_phys_mem);
 > > +
-> >   int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t=
- align,
-> >                            int (*shm_register)(struct tee_context *ctx,
-> >                                                struct tee_shm *shm,
-> > diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> > index 02c07f661349..3a4e1b00fcc7 100644
-> > --- a/include/linux/tee_core.h
-> > +++ b/include/linux/tee_core.h
-> > @@ -29,6 +29,7 @@
-> >   #define TEE_SHM_POOL                BIT(2)  /* Memory allocated from =
-pool */
-> >   #define TEE_SHM_PRIV                BIT(3)  /* Memory private to TEE =
-driver */
-> >   #define TEE_SHM_DMA_BUF             BIT(4)  /* Memory with dma-buf ha=
-ndle */
-> > +#define TEE_SHM_CMA_BUF              BIT(5)  /* CMA allocated memory *=
-/
-> >
-> >   #define TEE_DEVICE_FLAG_REGISTERED  0x1
-> >   #define TEE_MAX_DEV_NAME_LEN                32
-> > @@ -310,6 +311,9 @@ void *tee_get_drvdata(struct tee_device *teedev);
-> >    */
-> >   struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_=
-t size);
-> >
-> > +struct tee_shm *tee_shm_alloc_cma_phys_mem(struct tee_context *ctx,
-> > +                                        size_t page_count, size_t alig=
-n);
+> > +/**
+> > + * get_next_dmabuf - continue iteration through global list of DMA-buf=
+s
+> > + * @dmabuf:  [in]    pointer to dma_buf
+> > + *
+> > + * Decrements the reference count on the provided buffer. Returns the =
+next
+> > + * buffer from the remainder of the global list of DMA-bufs with its r=
+eference
+> > + * count incremented. Callers must release the reference, either by co=
+ntinuing
+> > + * iteration with get_next_dmabuf(), or with dma_buf_put().
+> > + *
+> > + * Returns NULL If no additional active buffers are present.
+> > + */
+> > +struct dma_buf *get_next_dmabuf(struct dma_buf *dmabuf)
+> > +{
+> > +     struct dma_buf *ret =3D NULL;
 > > +
-> >   int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t=
- align,
-> >                            int (*shm_register)(struct tee_context *ctx,
-> >                                                struct tee_shm *shm,
+> > +     /*
+> > +      * The list mutex does not protect a dmabuf's refcount, so it can=
+ be
+> > +      * zeroed while we are iterating. We cannot call get_dma_buf() si=
+nce the
+> > +      * caller may not already own a reference to the buffer.
+> > +      */
+> > +     mutex_lock(&dmabuf_list_mutex);
+> > +     dma_buf_put(dmabuf);
+> > +     list_for_each_entry_continue(dmabuf, &dmabuf_list, list_node) {
+> > +             if (file_ref_get(&dmabuf->file->f_ref)) {
+> > +                     ret =3D dmabuf;
+> > +                     break;
+> > +             }
+> > +     }
+> > +     mutex_unlock(&dmabuf_list_mutex);
+> > +     return ret;
+> > +}
+> > +
+> >  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int b=
+uflen)
+> >  {
+> >       struct dma_buf *dmabuf;
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 8ff4add71f88..1820f6db6e58 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -568,6 +568,9 @@ static inline void get_dma_buf(struct dma_buf *dmab=
+uf)
+> >       get_file(dmabuf->file);
+> >  }
+> >
+> > +struct dma_buf *get_first_dmabuf(void);
+> > +struct dma_buf *get_next_dmabuf(struct dma_buf *dmbuf);
+> > +
+> >  /**
+> >   * dma_buf_is_dynamic - check if a DMA-buf uses dynamic mappings.
+> >   * @dmabuf: the DMA-buf to check
+> > diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
+> > index 70502f038b92..3a335c50e6e3 100644
+> > --- a/kernel/bpf/Makefile
+> > +++ b/kernel/bpf/Makefile
+> > @@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
+> >  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
+> >  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
+> >  obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
+> > +ifeq ($(CONFIG_DMA_SHARED_BUFFER),y)
+> > +obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
+> > +endif
+> >
+> >  CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
+> >  CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
+> > diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
+> > new file mode 100644
+> > index 000000000000..80bca8239c6d
+> > --- /dev/null
+> > +++ b/kernel/bpf/dmabuf_iter.c
+> > @@ -0,0 +1,102 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/* Copyright (c) 2025 Google LLC */
+> > +#include <linux/bpf.h>
+> > +#include <linux/btf_ids.h>
+> > +#include <linux/dma-buf.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/seq_file.h>
+> > +
+> > +BTF_ID_LIST_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
+> > +DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_bu=
+f *dmabuf)
+> > +
+> > +static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos)
+> > +{
+> > +     if (*pos)
+> > +             return NULL;
+> > +
+> > +     return get_first_dmabuf();
+> > +}
+> > +
+> > +static void *dmabuf_iter_seq_next(struct seq_file *seq, void *v, loff_=
+t *pos)
+> > +{
+> > +     struct dma_buf *dmabuf =3D v;
+> > +
+> > +     ++*pos;
+> > +
+> > +     return get_next_dmabuf(dmabuf);
+> > +}
+> > +
+> > +struct bpf_iter__dmabuf {
+> > +     __bpf_md_ptr(struct bpf_iter_meta *, meta);
+> > +     __bpf_md_ptr(struct dma_buf *, dmabuf);
+> > +};
+> > +
+> > +static int __dmabuf_seq_show(struct seq_file *seq, void *v, bool in_st=
+op)
+> > +{
+> > +     struct bpf_iter_meta meta =3D {
+> > +             .seq =3D seq,
+> > +     };
+> > +     struct bpf_iter__dmabuf ctx =3D {
+> > +             .meta =3D &meta,
+> > +             .dmabuf =3D v,
+> > +     };
+> > +     struct bpf_prog *prog =3D bpf_iter_get_info(&meta, in_stop);
+> > +
+> > +     if (prog)
+> > +             return bpf_iter_run_prog(prog, &ctx);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int dmabuf_iter_seq_show(struct seq_file *seq, void *v)
+> > +{
+> > +     return __dmabuf_seq_show(seq, v, false);
+> > +}
+> > +
+> > +static void dmabuf_iter_seq_stop(struct seq_file *seq, void *v)
+> > +{
+> > +     struct dma_buf *dmabuf =3D v;
+> > +
+> > +     if (dmabuf)
+> > +             dma_buf_put(dmabuf);
+> > +}
+> > +
+> > +static const struct seq_operations dmabuf_iter_seq_ops =3D {
+> > +     .start  =3D dmabuf_iter_seq_start,
+> > +     .next   =3D dmabuf_iter_seq_next,
+> > +     .stop   =3D dmabuf_iter_seq_stop,
+> > +     .show   =3D dmabuf_iter_seq_show,
+> > +};
+> > +
+> > +static void bpf_iter_dmabuf_show_fdinfo(const struct bpf_iter_aux_info=
+ *aux,
+> > +                                     struct seq_file *seq)
+> > +{
+> > +     seq_puts(seq, "dmabuf iter\n");
+> > +}
+> > +
+> > +static const struct bpf_iter_seq_info dmabuf_iter_seq_info =3D {
+> > +     .seq_ops                =3D &dmabuf_iter_seq_ops,
+> > +     .init_seq_private       =3D NULL,
+> > +     .fini_seq_private       =3D NULL,
+> > +     .seq_priv_size          =3D 0,
+> > +};
+> > +
+> > +static struct bpf_iter_reg bpf_dmabuf_reg_info =3D {
+> > +     .target                 =3D "dmabuf",
+> > +     .feature                =3D BPF_ITER_RESCHED,
+> > +     .show_fdinfo            =3D bpf_iter_dmabuf_show_fdinfo,
+> > +     .ctx_arg_info_size      =3D 1,
+> > +     .ctx_arg_info           =3D {
+> > +             { offsetof(struct bpf_iter__dmabuf, dmabuf),
+> > +               PTR_TO_BTF_ID_OR_NULL },
+> > +     },
+> > +     .seq_info               =3D &dmabuf_iter_seq_info,
+> > +};
+> > +
+> > +static int __init dmabuf_iter_init(void)
+> > +{
+> > +     bpf_dmabuf_reg_info.ctx_arg_info[0].btf_id =3D bpf_dmabuf_btf_id[=
+0];
+> > +     return bpf_iter_reg_target(&bpf_dmabuf_reg_info);
+> > +}
+> > +
+> > +late_initcall(dmabuf_iter_init);
+>
 
