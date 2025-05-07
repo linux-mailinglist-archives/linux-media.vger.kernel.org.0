@@ -1,695 +1,513 @@
-Return-Path: <linux-media+bounces-31894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31895-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7769BAAD850
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 09:38:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B24AAD866
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 09:40:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A3C427B447A
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 07:36:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D4CD7176177
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 07:40:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2AD621FF54;
-	Wed,  7 May 2025 07:37:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 423D1215068;
+	Wed,  7 May 2025 07:40:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hEgyIyUt"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kGtod7jX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4F820FA86
-	for <linux-media@vger.kernel.org>; Wed,  7 May 2025 07:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554CE21FF58;
+	Wed,  7 May 2025 07:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746603472; cv=none; b=Q4CCpp1YSXPmH/apjKUO+ViGKW9l0UuhfBvztoCGjfH3GD3L6pBS3LQiDkelSV3DzRHcCfbr3JfLsnYWkyRZmXbg9QZCaF6fdQbiVkL8jzIoGkBSSaEm3/rwCDU4r0QCLzwU0p/RUKYLLUWSeJ7ye+pjwglspWdubYL3MdNXZGU=
+	t=1746603628; cv=none; b=cT0F8dhmZ0btjcNtZSLJbRUba1n4gxwo/rwKkUkj1B0uoiZ5ti2j8LIt4TwS07LUbyii5E6vdyxSbxMjyHPF3O0KiO+DK4jBXY10NSmR+cAHjTRCN3TCy4M+KseOfTpr+OVLeR9VD9RtMA1iFuQtf3SWavZP/U+PyKnU2YTJQ4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746603472; c=relaxed/simple;
-	bh=QYBzWSNNYD1zZEc/kSRocO+/rJbYxZUamVeJ5idBbIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fBodL2NgLLLB/Y/kLPdcumXVootuUTzcgDInc0VNAAo1PlSYG175GWwvZiR3SS1udcJApXFrpAPz/O4pZ77doxxvvsCbSC7y1xa9k6IoStsEvrdoF/jBNWSa3O74okzpWSwkBYE/RwZDEsXzUOAy0a1UR96nZIYQvy6wIj9qhzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hEgyIyUt; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746603468;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5CKn6n2ZOaOAWxWer6e87ysouXAdwPL22r3LOHGRIV0=;
-	b=hEgyIyUtjAoSP1TsblnsvlNUSwR8E+CHQgbbOl50nXznUOnyurukBxlhNU0J7fe7T3FC2M
-	k2SuwGFtNn92m4fqtz2ZZqQx1teGmsFuIVknAdhLwVOKmY/SAYAG9iyWitX1HkHSPmhxII
-	ycZn9aVIFFJAeQLSwGiuSXekzrFP1+I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-618-J4MCwTHrM5GbiSNbvMvPPQ-1; Wed, 07 May 2025 03:37:46 -0400
-X-MC-Unique: J4MCwTHrM5GbiSNbvMvPPQ-1
-X-Mimecast-MFC-AGG-ID: J4MCwTHrM5GbiSNbvMvPPQ_1746603465
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-391492acb59so3274524f8f.3
-        for <linux-media@vger.kernel.org>; Wed, 07 May 2025 00:37:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746603465; x=1747208265;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5CKn6n2ZOaOAWxWer6e87ysouXAdwPL22r3LOHGRIV0=;
-        b=X8JA180I4W/jYS/YXESmdix4x5WZTJ0WynYqpuJGcgPq3+THRBHwrLXVlHNL+1KGTI
-         B3V2AIAtYPjLI2seJqubpmGIoWgWSnmzXmTgqs6mvpLSSEkfEnCSnzM08t/b8utLEIAK
-         5X8YYuZGmvrjEdddDcrcoQrWNIRBbl7Q5XUf9CqK6kmf4HI24SeM6n+GVigM80bQljgq
-         zozZkcfdburEFLea7umZ9055sk5c7G5g+Qo3ffdRgzRQmt81VSF/gq8OJFH+OqEdGyxg
-         48DZeUYr0NI03c0A4R8j5SWtslih9eJv7T7Z61U+/EfOEnGwAK9AqpcjUB7rSn9Zqlig
-         ityw==
-X-Gm-Message-State: AOJu0YwlRmFXFMfcj64lO/XtfK5fvkz70OiZESCbiNDAl3C4V6zuDBnP
-	pXSsW1D5XVI5FuCzCA+X5W+48dN+w8IBXNWSE8uxhTLazkCLY91NhgReYAggqo7laOu0kTHrBBg
-	zSn13b+k3I+pWthn5Z3u13qCddaoUgLmhuYjuVinbvfRWaLhoRI2rvcYmlPbM
-X-Gm-Gg: ASbGncsAX0JBaHK/jO8rfmytGXM1bbpAEmcGo9+3UO3Kkhfep8B4w6Br1pdzyxmQFa8
-	dUE0rtT21vdH6C2npqfYyBl3M0vRxwhSqFATERxrmir8OR2RZqJpv2r5lA9+GNuJOP3DIqU72Qe
-	F9dCAGdks65Ud3MlLyFk3jgKqzfQ15ZPXQXs8f5pNLqmJO26HjVhpCvfnNZKg7KZ4D2y9qbsTXR
-	1VPxF/IvLGonGtqj1Ta/biYAjaBajWzxBeXKsryGJ74PhKNBS83XXnBvV0C+gU=
-X-Received: by 2002:a5d:5f4f:0:b0:3a0:83b1:b3c1 with SMTP id ffacd0b85a97d-3a0b49a8129mr1857988f8f.15.1746603464475;
-        Wed, 07 May 2025 00:37:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEIcqP/ZCeYCtuWz0ou4XjsDu2gg2YgKZ02j/7gQlFNCVtwaR1ddcKza6STEXWEbyljDZdd/g==
-X-Received: by 2002:a5d:5f4f:0:b0:3a0:83b1:b3c1 with SMTP id ffacd0b85a97d-3a0b49a8129mr1857957f8f.15.1746603463911;
-        Wed, 07 May 2025 00:37:43 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a099ae3441sm15758078f8f.26.2025.05.07.00.37.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 00:37:43 -0700 (PDT)
-Date: Wed, 7 May 2025 09:37:42 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: TC358743 RGB Quantization Issue
-Message-ID: <20250507-marvellous-silver-jaguarundi-4ab9c5@houat>
-References: <20250506-spiked-corgi-of-greatness-811fbe@houat>
- <004692be-f4af-4d3a-92e5-73b7c9b62576@xs4all.nl>
- <20250506-liberal-wine-bustard-8aa8fe@houat>
- <f0ac05fb-2bc0-4963-9da6-c322395bd294@xs4all.nl>
+	s=arc-20240116; t=1746603628; c=relaxed/simple;
+	bh=IRKLgBXMrhpMbudVVURlCyow1mJ1V3L+7WmwPL/VrQY=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=IXNay1adpAL+8Imfv4iIiExxW66mJz9S5Dw7xLdDqoM5RjLlVcYHxUu+zLH1fdCATZPJlyWRDaoFQxUCpXbo/xNugYC5cf4V5+pEOcgUnsYCnXNLLH9dtAxOpfgtX3RhCAZ/audn+jPE6XBuTNnVPE9t1mKqcc1rYm6O9oKX9b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=kGtod7jX; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5471HmH6017086;
+	Wed, 7 May 2025 07:40:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=32996GvTRJbAt5BhN46XF9
+	sLjIVfqHgE8trkXmno+K8=; b=kGtod7jXKBXfSTB+WVfCw9V1ySnhj0wdIv2GYL
+	0f4fuZ7WnA0Dfm8KfHbSPy8dPZQStyts/c/zvrUp8B2eaPdFVwQkiCm6RvS8MHx1
+	m4zvlvaxiO+AF/qfNA5ZIpU2zqIK0H/FJrvVjFmA1tDdsxzRalhy+PPB+mIc/Tcp
+	yTD9ypC8FzX5knLV4kNxNShiz13vrj5Zct4LveWGz/OhO0ap5XvxJPimyUxZlTY/
+	xTkfoXa6+cX43HmMQbPsEpVdES5KcQUM2iI+upRJscg4lBhaCBNa+HpndtUxpziV
+	IHKIfHQRqTbz+IYTJaRw2lIv2karCASDMbHCi2B5XvyaZZfg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46f5u44wax-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 07 May 2025 07:40:17 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5477eGJ1018411
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 7 May 2025 07:40:16 GMT
+Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 7 May 2025 00:40:11 -0700
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH v4 00/25] Add support for HEVC and VP9 codecs in decoder
+Date: Wed, 7 May 2025 13:09:31 +0530
+Message-ID: <20250507-video-iris-hevc-vp9-v4-0-58db3660ac61@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="6xpwrrdbja223ot4"
-Content-Disposition: inline
-In-Reply-To: <f0ac05fb-2bc0-4963-9da6-c322395bd294@xs4all.nl>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADQOG2gC/2XO0W7DIAwF0F+JeJ4rA6EJ0TT1P6ZqAmJapCakk
+ KFKVf99NHnc47Wuj/1kmVKgzIbmyRKVkEOca2g/GuauZr4QhLFmJlAoVNhBCSNFCClkuFJxUBY
+ NSqM+Wt7r2mB1c0nkw2NTv897TnT/rfi6D9lEOZsNH5rPzW55B2tcgoM89Q+F+4nCEUoHCB4FO
+ stHJN2fbmE2KR5iuny9z/3HFHK4u9xLxJ/deRtWCD0q2XZa46m+48LsDi5OG2JNJqhhCuvQSN0
+ bbqX0vJaNl8oZzZVT5J22iONRYOt7b9j59foD4Jh8YUMBAAA=
+X-Change-ID: 20250507-video-iris-hevc-vp9-59096b189050
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil
+	<hverkuil@xs4all.nl>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>,
+        Neil Armstrong
+	<neil.armstrong@linaro.org>,
+        Nicolas Dufresne
+	<nicolas.dufresne@collabora.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>, <stable@vger.kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746603611; l=15912;
+ i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
+ bh=IRKLgBXMrhpMbudVVURlCyow1mJ1V3L+7WmwPL/VrQY=;
+ b=zfRxQ/pfvJV7XTJDMzmf1D/X+8LYVZFkOpaJbYMrAScon7E8rwBrUDParI+fmuWR0KgbABmPC
+ aTYE93HX/uqB3p9TlWzYkVWG5S8FvG2Qf5pA54Qtm59SLC6n52G8qYk
+X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
+ pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=KcfSsRYD c=1 sm=1 tr=0 ts=681b0e61 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=e5mUnYsNAAAA:8 a=xOd6jRPJAAAA:8
+ a=EUspDBNiAAAA:8 a=QX4gbG5DAAAA:8 a=amt3jojHy74hAd8yjOMA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-GUID: G4qsUanqFVhCESYr6xpH6u79_9-SJ8Sf
+X-Proofpoint-ORIG-GUID: G4qsUanqFVhCESYr6xpH6u79_9-SJ8Sf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDA3MCBTYWx0ZWRfX/OUAvTmTbJzY
+ BCmvcdaUEPNWq5+Mw/SVFKynVxJQbmvnGuMIatpUSuGxH99TkO0GAeNYYnmUwOhV7J/l9+jVRD1
+ Gssu9C96ba0rK/JMUErzTpLw3rwvKo/SU6ayQQR8U4/ulAp2OvgNI+8+8iAaAMeKrFExjkzTs/p
+ eGpT0nmDn/6gpr/BC7GgJ+VUPG4jTD+9gcnfsrrDjRy6TmHZf2rVLc/Aa6GjbcSqKyfRuReZOwr
+ 5aaL5Kt4iydyN+1P5rfHZGukO4B4Mi9Wwm6nr57kOLOMC9eZkN+63Pn+AwCCoFiJQGNSEsWXy6j
+ xHchJLxUTdYbUL3y3/KAtDuyZHHskNSbxxnUIfRbMafy0YzHITdokcxLkdmuRWSUBwZDMIBzGFO
+ lxcPFh6rkxwkxlFJFXVySfkoIRF6tdAXRUuFpjh9hBu7yHe5lIt586oyp9A8bvCUg0Fh5uco
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-07_02,2025-05-06_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ clxscore=1015 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505070070
 
+Hi All,
 
---6xpwrrdbja223ot4
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: TC358743 RGB Quantization Issue
-MIME-Version: 1.0
+This patch series adds initial support for the HEVC(H.265) and VP9
+codecs in iris decoder. The objective of this work is to extend the 
+decoder's capabilities to handle HEVC and VP9 codec streams,
+including necessary format handling and buffer management.
+In addition, the series also includes a set of fixes to address issues
+identified during testing of these additional codecs.
 
-On Tue, May 06, 2025 at 06:04:26PM +0200, Hans Verkuil wrote:
-> On 06/05/2025 16:03, Maxime Ripard wrote:
-> > On Tue, May 06, 2025 at 02:44:43PM +0200, Hans Verkuil wrote:
-> >> On 5/6/25 14:05, Maxime Ripard wrote:
-> >>> It's something we've discussed a bit on IRC a few week ago, but I have
-> >>> more data now, and can reproduce it on a mainline 6.13.12.
-> >>>
-> >>> I have recently switched from an Auvidea B101
-> >>> (https://auvidea.eu/product/b101-70501/) board to a Geekworm X1301
-> >>> (https://geekworm.com/products/x1301). Both feature a TC358743XBG
-> >>> according to their documentation, but the Auvideo one was bought in
-> >>> 2020-2021, whereas I bought the Geekworm this year, so I guess it cou=
-ld
-> >>> be a newer revision.
-> >>>
-> >>> Anyway, I have a v4l2 application on the CSI end of the TC358743 brid=
-ge,
-> >>> and a KMS application on the HDMI end. The KMS application sends frame
-> >>> through the HDMI cable, and the v4l2 application checks their integri=
-ty
-> >>> using a hash algorithm.
-> >>>
-> >>> Everything works nicely with the Auvidea board.
-> >>>
-> >>> When I swap the Geekwork one in though, the bridge driver detects the
-> >>> signal as limited range, and all the pixels are off. They are correct
-> >>> though if you account for the full range to limited range conversion.
-> >>>
-> >>> The EDID programmed in the bridge is:
-> >>>
-> >>> edid-decode (hex):
-> >>>
-> >>> 00 ff ff ff ff ff ff 00 0e 4e 42 00 42 42 42 42
-> >>> 00 22 01 03 81 a0 5a 78 0a 9c 68 a0 57 4a 9b 26
-> >>> 12 48 4c 20 00 00 01 01 01 01 01 01 01 01 01 01
-> >>> 01 01 01 01 01 01 01 1d 00 72 51 d0 1e 20 dc 28
-> >>> 45 04 40 84 63 00 00 1e 00 00 00 fc 00 44 72 61
-> >>> 64 69 73 0a 20 20 20 20 20 20 00 00 00 fd 00 3b
-> >>> 3d 1e 32 08 00 0a 20 20 20 20 20 20 00 00 00 10
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 1b
-> >>>
-> >>> 02 03 11 81 e3 05 00 20 e2 00 4a 65 03 0c 00 10
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b1
-> >>
-> >> Is the EDID of the Auvidea B101 and the Geekworm X1301 the same?
-> >> I assume you program the EDID yourself and it is the same for both, ri=
-ght?
-> >=20
-> > Yes :)
-> >=20
-> >>> ----------------
-> >>>
-> >>> Block 0, Base EDID:
-> >>>   EDID Structure Version & Revision: 1.3
-> >>>   Vendor & Product Identification:
-> >>>     Manufacturer: CRN
-> >>>     Model: 66
-> >>>     Serial Number: 1111638594 (0x42424242)
-> >>>     Made in: 2024
-> >>>   Basic Display Parameters & Features:
-> >>>     Digital display
-> >>>     DFP 1.x compatible TMDS
-> >>>     Maximum image size: 160 cm x 90 cm
-> >>>     Gamma: 2.20
-> >>>     RGB color display
-> >>>     First detailed timing is the preferred timing
-> >>>   Color Characteristics:
-> >>>     Red  : 0.6269, 0.3408
-> >>>     Green: 0.2919, 0.6054
-> >>>     Blue : 0.1494, 0.0722
-> >>>     White: 0.2832, 0.2968
-> >>>   Established Timings I & II:
-> >>>     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.1=
-75000 MHz
-> >>>   Standard Timings: none
-> >>>   Detailed Timing Descriptors:
-> >>>     DTD 1:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.2500=
-00 MHz (1600 mm x 900 mm)
-> >>>                  Hfront  220 Hsync  40 Hback  110 Hpol P
-> >>>                  Vfront   20 Vsync   5 Vback    5 Vpol P
-> >>>     Display Product Name: 'Dradis'
-> >>>     Display Range Limits:
-> >>>       Monitor ranges (GTF): 59-61 Hz V, 30-50 kHz H, max dotclock 80 =
-MHz
-> >>>     Dummy Descriptor:
-> >>>   Extension blocks: 1
-> >>> Checksum: 0x1b
-> >>>
-> >>> ----------------
-> >>>
-> >>> Block 1, CTA-861 Extension Block:
-> >>>   Revision: 3
-> >>>   Underscans IT Video Formats by default
-> >>>   Native detailed modes: 1
-> >>>   Colorimetry Data Block:
-> >>>     sRGB
-> >>>   Video Capability Data Block:
-> >>>     YCbCr quantization: No Data
-> >>>     RGB quantization: Selectable (via AVI Q)
-> >>
-> >> This is important for RGB Quantization Range as it indicates that
-> >> you can explicitly signal the RGB Quantization Range in the AVI InfoFr=
-ame
-> >> instead of having to rely on the 'default' behavior.
-> >>
-> >>>     PT scan behavior: No Data
-> >>>     IT scan behavior: Always Underscanned
-> >>>     CE scan behavior: Always Underscanned
-> >>>   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
-> >>>     Source physical address: 1.0.0.0
-> >>> Checksum: 0xb1  Unused space in Extension Block: 110 bytes
-> >>> [root@rpi-ab2f2485 ~]# edid-decode edid-dumps/test-edid.bin --check
-> >>> edid-decode (hex):
-> >>>
-> >>> 00 ff ff ff ff ff ff 00 0e 4e 42 00 42 42 42 42
-> >>> 00 22 01 03 81 a0 5a 78 0a 9c 68 a0 57 4a 9b 26
-> >>> 12 48 4c 20 00 00 01 01 01 01 01 01 01 01 01 01
-> >>> 01 01 01 01 01 01 01 1d 00 72 51 d0 1e 20 dc 28
-> >>> 45 04 40 84 63 00 00 1e 00 00 00 fc 00 44 72 61
-> >>> 64 69 73 0a 20 20 20 20 20 20 00 00 00 fd 00 3b
-> >>> 3d 1e 32 08 00 0a 20 20 20 20 20 20 00 00 00 10
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 1b
-> >>>
-> >>> 02 03 11 81 e3 05 00 20 e2 00 4a 65 03 0c 00 10
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b1
-> >>>
-> >>> ----------------
-> >>>
-> >>> Block 0, Base EDID:
-> >>>   EDID Structure Version & Revision: 1.3
-> >>>   Vendor & Product Identification:
-> >>>     Manufacturer: CRN
-> >>>     Model: 66
-> >>>     Serial Number: 1111638594 (0x42424242)
-> >>>     Made in: 2024
-> >>>   Basic Display Parameters & Features:
-> >>>     Digital display
-> >>>     DFP 1.x compatible TMDS
-> >>>     Maximum image size: 160 cm x 90 cm
-> >>>     Gamma: 2.20
-> >>>     RGB color display
-> >>>     First detailed timing is the preferred timing
-> >>>   Color Characteristics:
-> >>>     Red  : 0.6269, 0.3408
-> >>>     Green: 0.2919, 0.6054
-> >>>     Blue : 0.1494, 0.0722
-> >>>     White: 0.2832, 0.2968
-> >>>   Established Timings I & II:
-> >>>     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.1=
-75000 MHz
-> >>>   Standard Timings: none
-> >>>   Detailed Timing Descriptors:
-> >>>     DTD 1:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.2500=
-00 MHz (1600 mm x 900 mm)
-> >>>                  Hfront  220 Hsync  40 Hback  110 Hpol P
-> >>>                  Vfront   20 Vsync   5 Vback    5 Vpol P
-> >>>     Display Product Name: 'Dradis'
-> >>>     Display Range Limits:
-> >>>       Monitor ranges (GTF): 59-61 Hz V, 30-50 kHz H, max dotclock 80 =
-MHz
-> >>>     Dummy Descriptor:
-> >>>   Extension blocks: 1
-> >>> Checksum: 0x1b
-> >>>
-> >>> ----------------
-> >>>
-> >>> Block 1, CTA-861 Extension Block:
-> >>>   Revision: 3
-> >>>   Underscans IT Video Formats by default
-> >>>   Native detailed modes: 1
-> >>>   Colorimetry Data Block:
-> >>>     sRGB
-> >>>   Video Capability Data Block:
-> >>>     YCbCr quantization: No Data
-> >>>     RGB quantization: Selectable (via AVI Q)
-> >>>     PT scan behavior: No Data
-> >>>     IT scan behavior: Always Underscanned
-> >>>     CE scan behavior: Always Underscanned
-> >>>   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
-> >>>     Source physical address: 1.0.0.0
-> >>> Checksum: 0xb1  Unused space in Extension Block: 110 bytes
-> >>>
-> >>> ----------------
-> >>>
-> >>> edid-decode SHA: SHA DATE
-> >>>
-> >>> Warnings:
-> >>>
-> >>> Block 0, Base EDID:
-> >>>   Detailed Timing Descriptor #1: DTD is similar but not identical to =
-VIC 4.
-> >>>
-> >>> EDID conformity: PASS
-> >>>
-> >>> On the KMS side, the EDID received (checked through
-> >>> /sys/class/drm/card2-HDMI-A-1/edid) is identical (md5sum match).
-> >>>
-> >>> Once I start the KMS application, the infoframes look decent too:
-> >>>
-> >>> # edid-decode /sys/class/drm/card2-HDMI-A-1/edid \
-> >>>   -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/audio \
-> >>>   -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/avi \
-> >>>   -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/hdmi \
-> >>>   -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/hdr_drm \
-> >>>   -I /sys/kernel/debug/dri/2/HDMI-A-1/infoframes/spd
-> >>>
-> >>> edid-decode (hex):
-> >>>
-> >>> 00 ff ff ff ff ff ff 00 0e 4e 42 00 42 42 42 42
-> >>> 00 22 01 03 81 a0 5a 78 0a 9c 68 a0 57 4a 9b 26
-> >>> 12 48 4c 20 00 00 01 01 01 01 01 01 01 01 01 01
-> >>> 01 01 01 01 01 01 01 1d 00 72 51 d0 1e 20 dc 28
-> >>> 45 04 40 84 63 00 00 1e 00 00 00 fc 00 44 72 61
-> >>> 64 69 73 0a 20 20 20 20 20 20 00 00 00 fd 00 3b
-> >>> 3d 1e 32 08 00 0a 20 20 20 20 20 20 00 00 00 10
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 1b
-> >>>
-> >>> 02 03 11 81 e3 05 00 20 e2 00 4a 65 03 0c 00 10
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b1
-> >>>
-> >>> ----------------
-> >>>
-> >>> Block 0, Base EDID:
-> >>>   EDID Structure Version & Revision: 1.3
-> >>>   Vendor & Product Identification:
-> >>>     Manufacturer: CRN
-> >>>     Model: 66
-> >>>     Serial Number: 1111638594 (0x42424242)
-> >>>     Made in: 2024
-> >>>   Basic Display Parameters & Features:
-> >>>     Digital display
-> >>>     DFP 1.x compatible TMDS
-> >>>     Maximum image size: 160 cm x 90 cm
-> >>>     Gamma: 2.20
-> >>>     RGB color display
-> >>>     First detailed timing is the preferred timing
-> >>>   Color Characteristics:
-> >>>     Red  : 0.6269, 0.3408
-> >>>     Green: 0.2919, 0.6054
-> >>>     Blue : 0.1494, 0.0722
-> >>>     White: 0.2832, 0.2968
-> >>>   Established Timings I & II:
-> >>>     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.1=
-75000 MHz
-> >>>   Standard Timings: none
-> >>>   Detailed Timing Descriptors:
-> >>>     DTD 1:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.2500=
-00 MHz (1600 mm x 900 mm)
-> >>>                  Hfront  220 Hsync  40 Hback  110 Hpol P
-> >>>                  Vfront   20 Vsync   5 Vback    5 Vpol P
-> >>>     Display Product Name: 'Dradis'
-> >>>     Display Range Limits:
-> >>>       Monitor ranges (GTF): 59-61 Hz V, 30-50 kHz H, max dotclock 80 =
-MHz
-> >>>     Dummy Descriptor:
-> >>>   Extension blocks: 1
-> >>> Checksum: 0x1b
-> >>>
-> >>> ----------------
-> >>>
-> >>> Block 1, CTA-861 Extension Block:
-> >>>   Revision: 3
-> >>>   Underscans IT Video Formats by default
-> >>>   Native detailed modes: 1
-> >>>   Colorimetry Data Block:
-> >>>     sRGB
-> >>>   Video Capability Data Block:
-> >>>     YCbCr quantization: No Data
-> >>>     RGB quantization: Selectable (via AVI Q)
-> >>>     PT scan behavior: No Data
-> >>>     IT scan behavior: Always Underscanned
-> >>>     CE scan behavior: Always Underscanned
-> >>>   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
-> >>>     Source physical address: 1.0.0.0
-> >>> Checksum: 0xb1  Unused space in Extension Block: 110 bytes
-> >>>
-> >>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>
-> >>> InfoFrame of '/sys/kernel/debug/dri/2/HDMI-A-1/infoframes/audio' was =
-empty.
-> >>>
-> >>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>
-> >>> edid-decode InfoFrame (hex):
-> >>>
-> >>> 82 02 0d 4d 12 08 08 00 00 00 00 00 00 00 00 00
-> >>> 00
-> >>>
-> >>> ----------------
-> >>>
-> >>> HDMI InfoFrame Checksum: 0x4d
-> >>>
-> >>> AVI InfoFrame
-> >>>   Version: 2
-> >>>   Length: 13
-> >>>   Y: Color Component Sample Format: RGB
-> >>>   A: Active Format Information Present: Yes
-> >>>   B: Bar Data Present: Bar Data not present
-> >>>   S: Scan Information: Composed for an underscanned display
-> >>>   C: Colorimetry: No Data
-> >>>   M: Picture Aspect Ratio: No Data
-> >>>   R: Active Portion Aspect Ratio: 8
-> >>>   ITC: IT Content: No Data
-> >>>   EC: Extended Colorimetry: xvYCC601
-> >>>   Q: RGB Quantization Range: Full Range
-> >>
-> >> And that's used here by explicitly signaling Full Range.
-> >>
-> >> Are you certain that what is dumped here is also what is transmitted?
-> >> I.e. there is no code that messes with the Q bit?
-> >=20
-> > AFAIK, the infoframe is programmed as is in the KMS driver. I can't be
-> > certain about how the driver behaves though, but see below.
-> >=20
-> >>>   SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
-> >>>   YQ: YCC Quantization Range: Limited Range
-> >>>   CN: IT Content Type: Graphics
-> >>>   PR: Pixel Data Repetition Count: 0
-> >>>   Line Number of End of Top Bar: 0
-> >>>   Line Number of Start of Bottom Bar: 0
-> >>>   Pixel Number of End of Left Bar: 0
-> >>>   Pixel Number of Start of Right Bar: 0
-> >>>
-> >>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>
-> >>> InfoFrame of '/sys/kernel/debug/dri/2/HDMI-A-1/infoframes/hdmi' was e=
-mpty.
-> >>>
-> >>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>
-> >>> InfoFrame of '/sys/kernel/debug/dri/2/HDMI-A-1/infoframes/hdr_drm' wa=
-s empty.
-> >>>
-> >>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>
-> >>> edid-decode InfoFrame (hex):
-> >>>
-> >>> 83 01 19 93 42 72 6f 61 64 63 6f 6d 56 69 64 65
-> >>> 6f 63 6f 72 65 00 00 00 00 00 00 00 09
-> >>>
-> >>> ----------------
-> >>>
-> >>> HDMI InfoFrame Checksum: 0x93
-> >>>
-> >>> Source Product Description InfoFrame
-> >>>   Version: 1
-> >>>   Length: 25
-> >>>   Vendor Name: 'Broadcom'
-> >>>   Product Description: 'Videocore'
-> >>>   Source Information: PC general
-> >>>
-> >>> My understanding from the AVI Q field is that the signal emitted is,
-> >>> indeed, using a Full Range RGB quantization. And again, this was work=
-ing
-> >>> fine for the Auvidea board, so I think the KMS side is correct.
-> >>>
-> >>> On the TC358743 end though, when capturing, the bridge does detect a
-> >>> limited range signal:
-> >>>
-> >>> # v4l2-ctl -d /dev/v4l-subdev1  --log-status
-> >>>
-> >>> Status Log:
-> >>>
-> >>>    [  309.450790] tc358743 5-000f: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  START STATUS  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> >>>    [  309.467367] tc358743 5-000f: -----Chip status-----
-> >>>    [  309.477801] tc358743 5-000f: Chip ID: 0x00
-> >>>    [  309.486788] tc358743 5-000f: Chip revision: 0x00
-> >>>    [  309.496228] tc358743 5-000f: Reset: IR: 1, CEC: 0, CSI TX: 0, H=
-DMI: 0
-> >>>    [  309.509326] tc358743 5-000f: Sleep mode: off
-> >>>    [  309.518023] tc358743 5-000f: Cable detected (+5V power): yes
-> >>>    [  309.530049] tc358743 5-000f: DDC lines enabled: yes
-> >>>    [  309.540552] tc358743 5-000f: Hotplug enabled: yes
-> >>>    [  309.550776] tc358743 5-000f: CEC enabled: no
-> >>>    [  309.559489] tc358743 5-000f: -----Signal status-----
-> >>>    [  309.569589] tc358743 5-000f: TMDS signal detected: yes
-> >>>    [  309.580029] tc358743 5-000f: Stable sync signal: yes
-> >>>    [  309.590130] tc358743 5-000f: PHY PLL locked: yes
-> >>>    [  309.599626] tc358743 5-000f: PHY DE detected: yes
-> >>>    [  309.616598] tc358743 5-000f: Detected format: 1280x720p60.00 (1=
-650x750)
-> >>>    [  309.630071] tc358743 5-000f: horizontal: fp =3D 0, -sync =3D 37=
-0, bp =3D 0
-> >>>    [  309.642986] tc358743 5-000f: vertical: fp =3D 0, -sync =3D 30, =
-bp =3D 0
-> >>>    [  309.655384] tc358743 5-000f: pixelclock: 74250000
-> >>>    [  309.664967] tc358743 5-000f: flags (0x0):
-> >>>    [  309.673118] tc358743 5-000f: standards (0x0):
-> >>>    [  309.681984] tc358743 5-000f: Configured format: 1280x720p60.00 =
-(1650x750)
-> >>>    [  309.695774] tc358743 5-000f: horizontal: fp =3D 0, -sync =3D 37=
-0, bp =3D 0
-> >>>    [  309.708661] tc358743 5-000f: vertical: fp =3D 0, -sync =3D 30, =
-bp =3D 0
-> >>>    [  309.721047] tc358743 5-000f: pixelclock: 74250000
-> >>>    [  309.730601] tc358743 5-000f: flags (0x0):
-> >>>    [  309.738771] tc358743 5-000f: standards (0x0):
-> >>>    [  309.747746] tc358743 5-000f: -----CSI-TX status-----
-> >>>    [  309.757852] tc358743 5-000f: Lanes needed: 2
-> >>>    [  309.766527] tc358743 5-000f: Lanes in use: 2
-> >>>    [  309.776027] tc358743 5-000f: Waiting for particular sync signal=
-: no
-> >>>    [  309.789412] tc358743 5-000f: Transmit mode: yes
-> >>>    [  309.799290] tc358743 5-000f: Receive mode: no
-> >>>    [  309.808828] tc358743 5-000f: Stopped: no
-> >>>    [  309.816804] tc358743 5-000f: Color space: RGB 888 24-bit
-> >>>    [  309.828666] tc358743 5-000f: -----HDMI status-----
-> >>>    [  309.838425] tc358743 5-000f: HDCP encrypted content: no
-> >>>    [  309.849072] tc358743 5-000f: Input color space: RGB limited ran=
-ge
-> >>>    [  309.862244] tc358743 5-000f: AV Mute: off
-> >>>    [  309.870999] tc358743 5-000f: Deep color mode: 8-bits per channel
-> >>>    [  309.885806] tc358743 5-000f: HDMI infoframe: Auxiliary Video In=
-formation (AVI), version 2, length 13
-> >>>    [  309.904411] tc358743 5-000f:     colorspace: RGB
-> >>>    [  309.913822] tc358743 5-000f:     scan mode: Underscan
-> >>>    [  309.924112] tc358743 5-000f:     colorimetry: ITU601
-> >>>    [  309.934204] tc358743 5-000f:     picture aspect: No Data
-> >>>    [  309.945123] tc358743 5-000f:     active aspect: Same as Picture
-> >>>    [  309.957191] tc358743 5-000f:     itc: No Data
-> >>>    [  309.966183] tc358743 5-000f:     extended colorimetry: xvYCC 601
-> >>>    [  309.978415] tc358743 5-000f:     quantization range: Default
-> >>>    [  309.989908] tc358743 5-000f:     nups: Unknown Non-uniform Scal=
-ing
-> >>>    [  310.002477] tc358743 5-000f:     video code: 0
-> >>>    [  310.011518] tc358743 5-000f:     ycc quantization range: Limited
-> >>>    [  310.023745] tc358743 5-000f:     hdmi content type: Graphics
-> >>>    [  310.035264] tc358743 5-000f:     pixel repeat: 0
-> >>>    [  310.044669] tc358743 5-000f:     bar top 0, bottom 0, left 0, r=
-ight 0
-> >>
-> >> This is definitely a raw dump of the AVI InfoFrame, read directly from
-> >> the registers of the tc358743.
-> >>
-> >> Sincxe you see one thing in at the receiver side, and another thing at
-> >> the transmitter side, and it is highly unlikely that the receiver side
-> >> is wrong, then the only thing I can think of is that the AVI InfoFrame
-> >> that you think the transmitter is sending is not actually what is
-> >> transmitted.
-> >=20
-> > I'd still bet on the TC358743 behaving differently.
-> >=20
-> > If I keep things exactly the same on the transmitter side, and on the
-> > receiver side use the exact same system, during the video capture, I
-> > get:
-> >=20
-> > # v4l2-ctl -d /dev/v4l-subdev1  --log-status
-> >=20
-> > Status Log:
-> >=20
-> >    [   94.289872] tc358743 5-000f: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D  START STATUS  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> >    [   94.299064] tc358743 5-000f: -----Chip status-----
-> >    [   94.304595] tc358743 5-000f: Chip ID: 0x00
-> >    [   94.309507] tc358743 5-000f: Chip revision: 0x00
-> >    [   94.314262] tc358743 5-000f: Reset: IR: 1, CEC: 0, CSI TX: 0, HDM=
-I: 0
-> >    [   94.320851] tc358743 5-000f: Sleep mode: off
-> >    [   94.325275] tc358743 5-000f: Cable detected (+5V power): yes
-> >    [   94.331620] tc358743 5-000f: DDC lines enabled: yes
-> >    [   94.337220] tc358743 5-000f: Hotplug enabled: yes
-> >    [   94.342673] tc358743 5-000f: CEC enabled: no
-> >    [   94.347076] tc358743 5-000f: -----Signal status-----
-> >    [   94.352156] tc358743 5-000f: TMDS signal detected: yes
-> >    [   94.357424] tc358743 5-000f: Stable sync signal: yes
-> >    [   94.362500] tc358743 5-000f: PHY PLL locked: yes
-> >    [   94.367219] tc358743 5-000f: PHY DE detected: yes
-> >    [   94.380192] tc358743 5-000f: Detected format: 1280x720p60.00 (165=
-0x750)
-> >    [   94.387225] tc358743 5-000f: horizontal: fp =3D 0, -sync =3D 370,=
- bp =3D 0
-> >    [   94.393754] tc358743 5-000f: vertical: fp =3D 0, -sync =3D 30, bp=
- =3D 0
-> >    [   94.400012] tc358743 5-000f: pixelclock: 74250000
-> >    [   94.404830] tc358743 5-000f: flags (0x0):
-> >    [   94.408931] tc358743 5-000f: standards (0x0):
-> >    [   94.413403] tc358743 5-000f: Configured format: 1280x720p60.00 (1=
-650x750)
-> >    [   94.420340] tc358743 5-000f: horizontal: fp =3D 0, -sync =3D 370,=
- bp =3D 0
-> >    [   94.426934] tc358743 5-000f: vertical: fp =3D 0, -sync =3D 30, bp=
- =3D 0
-> >    [   94.433180] tc358743 5-000f: pixelclock: 74250000
-> >    [   94.437984] tc358743 5-000f: flags (0x0):
-> >    [   94.442106] tc358743 5-000f: standards (0x0):
-> >    [   94.446574] tc358743 5-000f: -----CSI-TX status-----
-> >    [   94.451645] tc358743 5-000f: Lanes needed: 2
-> >    [   94.456030] tc358743 5-000f: Lanes in use: 2
-> >    [   94.461038] tc358743 5-000f: Waiting for particular sync signal: =
-no
-> >    [   94.468106] tc358743 5-000f: Transmit mode: yes
-> >    [   94.473868] tc358743 5-000f: Receive mode: no
-> >    [   94.478975] tc358743 5-000f: Stopped: no
-> >    [   94.483032] tc358743 5-000f: Color space: RGB 888 24-bit
-> >    [   94.489012] tc358743 5-000f: -----HDMI status-----
-> >    [   94.493945] tc358743 5-000f: HDCP encrypted content: no
-> >    [   94.499314] tc358743 5-000f: Input color space: RGB full range
-> >    [   94.506104] tc358743 5-000f: AV Mute: off
-> >    [   94.511054] tc358743 5-000f: Deep color mode: 8-bits per channel
-> >    [   94.519839] tc358743 5-000f: HDMI infoframe: Auxiliary Video Info=
-rmation (AVI), version 2, length 13
-> >    [   94.529179] tc358743 5-000f:     colorspace: RGB
-> >    [   94.533941] tc358743 5-000f:     scan mode: Underscan
-> >    [   94.539121] tc358743 5-000f:     colorimetry: No Data
-> >    [   94.544305] tc358743 5-000f:     picture aspect: No Data
-> >    [   94.549751] tc358743 5-000f:     active aspect: Same as Picture
-> >    [   94.555794] tc358743 5-000f:     itc: No Data
-> >    [   94.560266] tc358743 5-000f:     extended colorimetry: xvYCC 601
-> >    [   94.566427] tc358743 5-000f:     quantization range: Full
-> >    [   94.571998] tc358743 5-000f:     nups: Unknown Non-uniform Scaling
-> >    [   94.578345] tc358743 5-000f:     video code: 0
-> >    [   94.582907] tc358743 5-000f:     ycc quantization range: Limited
-> >    [   94.589045] tc358743 5-000f:     hdmi content type: Graphics
-> >    [   94.594941] tc358743 5-000f:     pixel repeat: 0
-> >    [   94.599705] tc358743 5-000f:     bar top 0, bottom 0, left 0, rig=
-ht 0
-> >    [   94.606306] tc358743 5-000f: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  END STATUS  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> >=20
-> > # v4l2-dbg -d /dev/v4l-subdev1 -g 0x8528 -g 0x8573 -g 0x8574 -g 0x8576
-> > ioctl: VIDIOC_DBG_G_REGISTER
-> > Register 0x00008528 =3D 0h (0d  00000000b)
-> > Register 0x00008573 =3D 1h (1d  00000001b)
-> > Register 0x00008574 =3D 8h (8d  00001000b)
-> > Register 0x00008576 =3D 0h (0d  00000000b)
-> >=20
-> > Which definitely looks like the chip on the Auvidea board detects the
-> > quantization differently from the same video feed.
-> >=20
-> > Could it be something like a pin strap on the board that is set
-> > differently and affects the chip behaviour? Or a bit somewhere not being
-> > initialized to what it should and changed default?
->=20
-> Can you dump the value of register 0x8570? Is it different for the two bo=
-ards?
+These patches also address the comments and feedback received from the 
+RFC patches previously sent. I have made the necessary improvements 
+based on the community's suggestions.
 
-On the Auvidea (working) one:
-# v4l2-dbg -d /dev/v4l-subdev1 -g 0x8570
-ioctl: VIDIOC_DBG_G_REGISTER
-Register 0x00008570 =3D e6h (230d  11100110b)
+Changes in v4:
+- Splitted patch patch 06/23 in two patches (Bryan)
+- Simplified the conditional logic in patch 13/23 (Bryan)
+- Improved commit description for patch patch 13/23 (Nicolas)
+- Fix the value of H265_NUM_TILE_ROW macro (Neil)
+- Link to v3: https://lore.kernel.org/r/20250502-qcom-iris-hevc-vp9-v3-0-552158a10a7d@quicinc.com
 
-On the Geekworm (broken) one:
-# v4l2-dbg -d /dev/v4l-subdev1 -g 0x8570
-ioctl: VIDIOC_DBG_G_REGISTER
-Register 0x00008570 =3D e6h (230d  11100110b)
+Changes in v3:
+- Introduced two wrappers with explicit names to handle destroy internal 
+buffers (Nicolas)
+- Used sub state check instead of introducing new boolean (Vikash)
+- Addressed other comments (Vikash)
+- Reorderd patches to have all fixes patches first (Dmitry)
+- Link to v2: 
+https://lore.kernel.org/r/20250428-qcom-iris-hevc-vp9-v2-0-3a6013ecb8a5@quicinc.com
 
-So both are identical
+Changes in v2:
+- Added Changes to make sure all buffers are released in session close 
+(bryna)
+- Added tracking for flush responses to fix a timing issue.
+- Added a handling to fix timing issue in reconfig
+- Splitted patch 06/20 in two patches (Bryan)
+- Added missing fixes tag (bryan)
+- Updated fluster report (Nicolas)
+- Link to v1: 
+https://lore.kernel.org/r/20250408-iris-dec-hevc-vp9-v1-0-acd258778bd6@quicinc.com
 
-Maxime
+Changes sinces RFC:
+- Added additional fixes to address issues identified during further 
+testing.
+- Moved typo fix to a seperate patch [Neil]
+- Reordered the patches for better logical flow and clarity [Neil, 
+Dmitry]
+- Added fixes tag wherever applicable [Neil, Dmitry]
+- Removed the default case in the switch statement for codecs [Bryan]
+- Replaced if-else statements with switch-case [Bryan]
+- Added comments for mbpf [Bryan]
+- RFC: 
+https://lore.kernel.org/linux-media/20250305104335.3629945-1-quic_dikshita@quicinc.com/
 
---6xpwrrdbja223ot4
-Content-Type: application/pgp-signature; name="signature.asc"
+This patch series depends on [1] & [2]
+[1] 
+https://lore.kernel.org/linux-media/20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org/
+[2] 
+https://lore.kernel.org/linux-media/20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com/
 
------BEGIN PGP SIGNATURE-----
+These patches are tested on SM8250 and SM8550 with v4l2-ctl and 
+Gstreamer for HEVC and VP9 decoders, at the same time ensured that 
+the existing H264 decoder functionality remains uneffected.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaBsNuwAKCRAnX84Zoj2+
-du+2AX4yUKicMHlEIvJZD9ALnEers2ytf9n3d6MdSGaH+Ekbvpn7iD3c1WrH9qX2
-dEG52f0BgPlTECe1S7uJxPpqePPcLQxK231JFX86+p5YUnGLJI5IYRoCK7+w9lOF
-W2q8QfMU2w==
-=Ne22
------END PGP SIGNATURE-----
+Note: 1 of the fluster compliance test is fixed with firmware [3]
+[3]: 
+https://lore.kernel.org/linux-firmware/1a511921-446d-cdc4-0203-084c88a5dc1e@quicinc.com/T/#u 
 
---6xpwrrdbja223ot4--
+The result of fluster test on SM8550:
+ 131/147 testcases passed while testing JCT-VC-HEVC_V1 with 
+ GStreamer-H.265-V4L2-Gst1.0.
+ The failing test case:
+ - 10 testcases failed due to unsupported 10 bit format.
+   - DBLK_A_MAIN10_VIXS_4
+   - INITQP_B_Main10_Sony_1
+   - TSUNEQBD_A_MAIN10_Technicolor_2
+   - WP_A_MAIN10_Toshiba_3
+   - WP_MAIN10_B_Toshiba_3
+   - WPP_A_ericsson_MAIN10_2
+   - WPP_B_ericsson_MAIN10_2
+   - WPP_C_ericsson_MAIN10_2
+   - WPP_E_ericsson_MAIN10_2
+   - WPP_F_ericsson_MAIN10_2
+ - 4 testcase failed due to unsupported resolution
+   - PICSIZE_A_Bossen_1
+   - PICSIZE_B_Bossen_1
+   - WPP_D_ericsson_MAIN10_2
+   - WPP_D_ericsson_MAIN_2 
+ - 2 testcase failed due to CRC mismatch
+   - RAP_A_docomo_6
+   - RAP_B_Bossen_2
+   - BUG reported: 
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4392
+     Analysis - First few frames in this discarded by firmware and are 
+     sent to driver with 0 filled length. Driver send such buffers to 
+     client with timestamp 0 and payload set to 0 and 
+     make buf state to VB2_BUF_STATE_ERROR. Such buffers should be 
+     dropped by GST. But instead, the first frame displayed as green 
+     frame and when a valid buffer is sent to client later with same 0 
+     timestamp, its dropped, leading to CRC mismatch for first frame.
+
+ 235/305 testcases passed while testing VP9-TEST-VECTORS with 
+ GStreamer-VP9-V4L2-Gst1.0.
+ The failing test case:
+ - 64 testcases failed due to unsupported resolution
+   - vp90-2-02-size-08x08.webm
+   - vp90-2-02-size-08x10.webm
+   - vp90-2-02-size-08x16.webm
+   - vp90-2-02-size-08x18.webm
+   - vp90-2-02-size-08x32.webm
+   - vp90-2-02-size-08x34.webm
+   - vp90-2-02-size-08x64.webm
+   - vp90-2-02-size-08x66.webm
+   - vp90-2-02-size-10x08.webm
+   - vp90-2-02-size-10x10.webm
+   - vp90-2-02-size-10x16.webm
+   - vp90-2-02-size-10x18.webm
+   - vp90-2-02-size-10x32.webm
+   - vp90-2-02-size-10x34.webm
+   - vp90-2-02-size-10x64.webm
+   - vp90-2-02-size-10x66.webm
+   - vp90-2-02-size-16x08.webm
+   - vp90-2-02-size-16x10.webm
+   - vp90-2-02-size-16x16.webm
+   - vp90-2-02-size-16x18.webm
+   - vp90-2-02-size-16x32.webm
+   - vp90-2-02-size-16x34.webm
+   - vp90-2-02-size-16x64.webm
+   - vp90-2-02-size-16x66.webm
+   - vp90-2-02-size-18x08.webm
+   - vp90-2-02-size-18x10.webm
+   - vp90-2-02-size-18x16.webm
+   - vp90-2-02-size-18x18.webm
+   - vp90-2-02-size-18x32.webm
+   - vp90-2-02-size-18x34.webm
+   - vp90-2-02-size-18x64.webm
+   - vp90-2-02-size-18x66.webm
+   - vp90-2-02-size-32x08.webm
+   - vp90-2-02-size-32x10.webm
+   - vp90-2-02-size-32x16.webm
+   - vp90-2-02-size-32x18.webm
+   - vp90-2-02-size-32x32.webm
+   - vp90-2-02-size-32x34.webm
+   - vp90-2-02-size-32x64.webm
+   - vp90-2-02-size-32x66.webm
+   - vp90-2-02-size-34x08.webm
+   - vp90-2-02-size-34x10.webm
+   - vp90-2-02-size-34x16.webm
+   - vp90-2-02-size-34x18.webm
+   - vp90-2-02-size-34x32.webm
+   - vp90-2-02-size-34x34.webm
+   - vp90-2-02-size-34x64.webm
+   - vp90-2-02-size-34x66.webm
+   - vp90-2-02-size-64x08.webm
+   - vp90-2-02-size-64x10.webm
+   - vp90-2-02-size-64x16.webm
+   - vp90-2-02-size-64x18.webm
+   - vp90-2-02-size-64x32.webm
+   - vp90-2-02-size-64x34.webm
+   - vp90-2-02-size-64x64.webm
+   - vp90-2-02-size-64x66.webm
+   - vp90-2-02-size-66x08.webm
+   - vp90-2-02-size-66x10.webm
+   - vp90-2-02-size-66x16.webm
+   - vp90-2-02-size-66x18.webm
+   - vp90-2-02-size-66x32.webm
+   - vp90-2-02-size-66x34.webm
+   - vp90-2-02-size-66x64.webm
+   - vp90-2-02-size-66x66.webm
+ - 2 testcases failed due to unsupported format
+   - vp91-2-04-yuv422.webm
+   - vp91-2-04-yuv444.webm
+ - 1 testcase failed with CRC mismatch
+   - vp90-2-22-svc_1280x720_3.ivf
+   - Bug reported: 
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4371
+ - 2 testcase failed due to unsupported resolution after sequence change
+   - vp90-2-21-resize_inter_320x180_5_1-2.webm
+   - vp90-2-21-resize_inter_320x180_7_1-2.webm
+ - 1 testcase failed due to unsupported stream
+   - vp90-2-16-intra-only.webm
+
+The result of fluster test on SM8250:
+ 133/147 testcases passed while testing JCT-VC-HEVC_V1 with
+ GStreamer-H.265-V4L2-Gst1.0.
+ The failing test case:
+ - 10 testcases failed due to unsupported 10 bit format.
+   - DBLK_A_MAIN10_VIXS_4
+   - INITQP_B_Main10_Sony_1
+   - TSUNEQBD_A_MAIN10_Technicolor_2
+   - WP_A_MAIN10_Toshiba_3
+   - WP_MAIN10_B_Toshiba_3
+   - WPP_A_ericsson_MAIN10_2
+   - WPP_B_ericsson_MAIN10_2
+   - WPP_C_ericsson_MAIN10_2
+   - WPP_E_ericsson_MAIN10_2
+   - WPP_F_ericsson_MAIN10_2
+ - 4 testcase failed due to unsupported resolution
+   - PICSIZE_A_Bossen_1
+   - PICSIZE_B_Bossen_1
+   - WPP_D_ericsson_MAIN10_2
+   - WPP_D_ericsson_MAIN_2
+
+ 232/305 testcases passed while testing VP9-TEST-VECTORS with
+ GStreamer-VP9-V4L2-Gst1.0.
+ The failing test case:
+ - 64 testcases failed due to unsupported resolution
+   - vp90-2-02-size-08x08.webm
+   - vp90-2-02-size-08x10.webm
+   - vp90-2-02-size-08x16.webm
+   - vp90-2-02-size-08x18.webm
+   - vp90-2-02-size-08x32.webm
+   - vp90-2-02-size-08x34.webm
+   - vp90-2-02-size-08x64.webm
+   - vp90-2-02-size-08x66.webm
+   - vp90-2-02-size-10x08.webm
+   - vp90-2-02-size-10x10.webm
+   - vp90-2-02-size-10x16.webm
+   - vp90-2-02-size-10x18.webm
+   - vp90-2-02-size-10x32.webm
+   - vp90-2-02-size-10x34.webm
+   - vp90-2-02-size-10x64.webm
+   - vp90-2-02-size-10x66.webm
+   - vp90-2-02-size-16x08.webm
+   - vp90-2-02-size-16x10.webm
+   - vp90-2-02-size-16x16.webm
+   - vp90-2-02-size-16x18.webm
+   - vp90-2-02-size-16x32.webm
+   - vp90-2-02-size-16x34.webm
+   - vp90-2-02-size-16x64.webm
+   - vp90-2-02-size-16x66.webm
+   - vp90-2-02-size-18x08.webm
+   - vp90-2-02-size-18x10.webm
+   - vp90-2-02-size-18x16.webm
+   - vp90-2-02-size-18x18.webm
+   - vp90-2-02-size-18x32.webm
+   - vp90-2-02-size-18x34.webm
+   - vp90-2-02-size-18x64.webm
+   - vp90-2-02-size-18x66.webm
+   - vp90-2-02-size-32x08.webm
+   - vp90-2-02-size-32x10.webm
+   - vp90-2-02-size-32x16.webm
+   - vp90-2-02-size-32x18.webm
+   - vp90-2-02-size-32x32.webm
+   - vp90-2-02-size-32x34.webm
+   - vp90-2-02-size-32x64.webm
+   - vp90-2-02-size-32x66.webm
+   - vp90-2-02-size-34x08.webm
+   - vp90-2-02-size-34x10.webm
+   - vp90-2-02-size-34x16.webm
+   - vp90-2-02-size-34x18.webm
+   - vp90-2-02-size-34x32.webm
+   - vp90-2-02-size-34x34.webm
+   - vp90-2-02-size-34x64.webm
+   - vp90-2-02-size-34x66.webm
+   - vp90-2-02-size-64x08.webm
+   - vp90-2-02-size-64x10.webm
+   - vp90-2-02-size-64x16.webm
+   - vp90-2-02-size-64x18.webm
+   - vp90-2-02-size-64x32.webm
+   - vp90-2-02-size-64x34.webm
+   - vp90-2-02-size-64x64.webm
+   - vp90-2-02-size-64x66.webm
+   - vp90-2-02-size-66x08.webm
+   - vp90-2-02-size-66x10.webm
+   - vp90-2-02-size-66x16.webm
+   - vp90-2-02-size-66x18.webm
+   - vp90-2-02-size-66x32.webm
+   - vp90-2-02-size-66x34.webm
+   - vp90-2-02-size-66x64.webm
+   - vp90-2-02-size-66x66.webm
+ - 2 testcases failed due to unsupported format
+   - vp91-2-04-yuv422.webm
+   - vp91-2-04-yuv444.webm
+ - 1 testcase failed with CRC mismatch
+   - vp90-2-22-svc_1280x720_3.ivf
+   - Bug raised: 
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4371
+ - 5 testcase failed due to unsupported resolution after sequence change
+   - vp90-2-21-resize_inter_320x180_5_1-2.webm
+   - vp90-2-21-resize_inter_320x180_7_1-2.webm
+   - vp90-2-21-resize_inter_320x240_5_1-2.webm
+   - vp90-2-21-resize_inter_320x240_7_1-2.webm
+   - vp90-2-18-resize.ivf
+ - 1 testcase failed with CRC mismatch
+   - vp90-2-16-intra-only.webm
+   Analysis: First few frames are marked by firmware as NO_SHOW frame.
+   Driver make buf state to VB2_BUF_STATE_ERROR for such frames.
+   Such buffers should be dropped by GST. But instead, the first frame 
+   is being displayed and when a valid buffer is sent to client later
+   with same timestamp, its dropped, leading to CRC mismatch for first 
+   frame.
+
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+To: Stefan Schmidt <stefan.schmidt@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>
+
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+Dikshita Agarwal (25):
+      media: iris: Skip destroying internal buffer if not dequeued
+      media: iris: Update CAPTURE format info based on OUTPUT format
+      media: iris: Avoid updating frame size to firmware during reconfig
+      media: iris: Drop port check for session property response
+      media: iris: Prevent HFI queue writes when core is in deinit state
+      media: iris: Remove error check for non-zero v4l2 controls
+      media: iris: Remove deprecated property setting to firmware
+      media: iris: Fix missing function pointer initialization
+      media: iris: Fix NULL pointer dereference
+      media: iris: Fix typo in depth variable
+      media: iris: Track flush responses to prevent premature completion
+      media: iris: Fix buffer preparation failure during resolution change
+      media: iris: Send V4L2_BUF_FLAG_ERROR for capture buffers with 0 filled length
+      media: iris: Skip flush on first sequence change
+      media: iris: Remove unnecessary re-initialization of flush completion
+      media: iris: Add handling for corrupt and drop frames
+      media: iris: Add handling for no show frames
+      media: iris: Improve last flag handling
+      media: iris: Remove redundant buffer count check in stream off
+      media: iris: Add a comment to explain usage of MBPS
+      media: iris: Add HEVC and VP9 formats for decoder
+      media: iris: Add platform capabilities for HEVC and VP9 decoders
+      media: iris: Set mandatory properties for HEVC and VP9 decoders.
+      media: iris: Add internal buffer calculation for HEVC and VP9 decoders
+      media: iris: Add codec specific check for VP9 decoder drain handling
+
+ drivers/media/platform/qcom/iris/iris_buffer.c     |  35 +-
+ drivers/media/platform/qcom/iris/iris_buffer.h     |   3 +-
+ drivers/media/platform/qcom/iris/iris_ctrls.c      |  35 +-
+ drivers/media/platform/qcom/iris/iris_hfi_common.h |   1 +
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     |  48 ++-
+ .../platform/qcom/iris/iris_hfi_gen1_defines.h     |   5 +-
+ .../platform/qcom/iris/iris_hfi_gen1_response.c    |  37 +-
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     | 143 +++++++-
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   5 +
+ .../platform/qcom/iris/iris_hfi_gen2_response.c    |  56 ++-
+ drivers/media/platform/qcom/iris/iris_hfi_queue.c  |   2 +-
+ drivers/media/platform/qcom/iris/iris_instance.h   |   6 +
+ .../platform/qcom/iris/iris_platform_common.h      |  28 +-
+ .../media/platform/qcom/iris/iris_platform_gen2.c  | 198 ++++++++--
+ .../platform/qcom/iris/iris_platform_qcs8300.h     | 126 +++++--
+ .../platform/qcom/iris/iris_platform_sm8250.c      |  15 +-
+ drivers/media/platform/qcom/iris/iris_state.c      |   2 +-
+ drivers/media/platform/qcom/iris/iris_state.h      |   1 +
+ drivers/media/platform/qcom/iris/iris_vb2.c        |  18 +-
+ drivers/media/platform/qcom/iris/iris_vdec.c       | 116 +++---
+ drivers/media/platform/qcom/iris/iris_vdec.h       |  11 +
+ drivers/media/platform/qcom/iris/iris_vidc.c       |  36 +-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 397 ++++++++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  46 ++-
+ 24 files changed, 1159 insertions(+), 211 deletions(-)
+---
+base-commit: 398a1b33f1479af35ca915c5efc9b00d6204f8fa
+change-id: 20250507-video-iris-hevc-vp9-59096b189050
+prerequisite-message-id: <20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org>
+prerequisite-patch-id: afffe7096c8e110a8da08c987983bc4441d39578
+prerequisite-patch-id: b93c37dc7e09d1631b75387dc1ca90e3066dce17
+prerequisite-patch-id: b7b50aa1657be59fd51c3e53d73382a1ee75a08e
+prerequisite-patch-id: 30960743105a36f20b3ec4a9ff19e7bca04d6add
+prerequisite-patch-id: 2bba98151ca103aa62a513a0fbd0df7ae64d9868
+prerequisite-patch-id: 0e43a6d758b5fa5ab921c6aa3c19859e312b47d0
+prerequisite-patch-id: 35f8dae1416977e88c2db7c767800c01822e266e
+prerequisite-message-id: <20250501-qcs8300_iris-v7-0-b229d5347990@quicinc.com>
+prerequisite-patch-id: e35b05c527217206ae871aef0d7b0261af0319ea
+prerequisite-patch-id: 07ba0745c7d72796567e0a57f5c8e5355a8d2046
+prerequisite-patch-id: 3398937a7fabb45934bb98a530eef73252231132
+prerequisite-patch-id: 500bc3b8391940d3ebca222d2098b737414b2af4
+prerequisite-patch-id: 2e72fe4d11d264db3d42fa450427d30171303c6f
+
+Best regards,
+-- 
+Dikshita Agarwal <quic_dikshita@quicinc.com>
 
 
