@@ -1,184 +1,100 @@
-Return-Path: <linux-media+bounces-31927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31932-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10AF2AAD90B
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 09:53:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EABDBAAD9F3
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 10:18:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F91E50464E
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 07:53:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD7283AC72C
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 08:13:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D04642236F0;
-	Wed,  7 May 2025 07:52:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 548631C6FF3;
+	Wed,  7 May 2025 08:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ShMWxKV9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ERQSc/yz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D370221708;
-	Wed,  7 May 2025 07:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5C0145355
+	for <linux-media@vger.kernel.org>; Wed,  7 May 2025 08:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746604342; cv=none; b=FRkGtFsGBYgRVn1Gv9rzr2nrIbkdTBXMGNadamLxlNdVQN0IO+tzbltJbHL6huL91y74TKfvPirpcCltQ37u+8aStqYXFW2B+E7CZ4K7hZXxceTd0NRrSVhKaCgTBFurSN4BteQ1jy4xebS6JSM9U7hvxWe3qRvVRTqQHUEoifQ=
+	t=1746605593; cv=none; b=tkRwtyb0wWvdGoVa4NOu/0Ytui4LkqURVuhDpqkQBlmh3ftoesr3Bq3ctnHf6ngbXsLbc2dWlJvYqcGsfwSsaog/3FxpfQ0J6FQ9t9Aidq504fEV69/2MUl2DXaV3gyscMnuQTpxTIU+TSByHOEw/Tyybz8yri2IIgOHyEuGt5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746604342; c=relaxed/simple;
-	bh=u2k9w+GukQmHB16zuirE+3M5ybc3Bh0/CkI9yc+9KRw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jvlDi515/sokttxdzO3oE2oeSAG9w1wE+1C+ubEf5ihYex43L6U240aEu3ALXd1EqXo4vsbe4wOWJu3WLWYjzrrvdwZm6caXYikoFR4yIdHdmRVxxciQQ12KAq7LovCZbvoD/py5JJadTTvYva3mHe5lzdwcdPL38cR9sjdeYAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ShMWxKV9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 03B2DC116B1;
-	Wed,  7 May 2025 07:52:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1746604342; bh=u2k9w+GukQmHB16zuirE+3M5ybc3Bh0/CkI9yc+9KRw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ShMWxKV9AI5rOpsPspKoLO+DUIOItMSYj2ecYzesT3PwYi0AS+roJRtrxp1Gi6Jjq
-	 hY3Oe871ZK91Iy7R4hNtZ+f9UZ1jpQjjvO6Rm+PpNV3HRinNLGM/k2sNg8dShec8DB
-	 isc/Ax7x49IWLNGQg6E3npyQSxysh8FIb5hOZRMY=
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F25D3C3ABC0;
-	Wed,  7 May 2025 07:52:21 +0000 (UTC)
-From: Richard Leitner <richard.leitner@linux.dev>
-Date: Wed, 07 May 2025 09:51:39 +0200
-Subject: [PATCH v4 10/10] media: i2c: ov9282: implement try_ctrl for
- strobe_duration
+	s=arc-20240116; t=1746605593; c=relaxed/simple;
+	bh=V220L8PDY8aoneJiOf+aZ0L+k4ftdr04pojPRIC8mMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XNDXY7JspjrDFNEpBh7oZEnz9aOdljLVtROZCQP+8Uo9eXU4a8hmbwDWGYE3CyI3UXwr9Zs7HbWbIGeAaF6nHdz8MHSF0WNGJwg5aOdsF7T6T5yzfrmOb2tPoWHzf3lwETi+E+9rYh58jFFithrmhRhfI6uyxmSMjFtL2Nj/34E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ERQSc/yz; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746605592; x=1778141592;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V220L8PDY8aoneJiOf+aZ0L+k4ftdr04pojPRIC8mMY=;
+  b=ERQSc/yzFN2+QOCFqQFDxsCq3p/zdQErtQjq5YML3xPNuDWCG2Kbi+sy
+   w+tOhPrLDHtR3pasoOIvtvUEX0EjtoX4nEEKve2Z+HboaXS8ClV5PHC2L
+   gfhBnHnoVBStZvq8qhwne0Ml5Rq0Iuuohitejkowpkn1G7pO8/9OVmBwF
+   xe2sYdX3I8cXOBRxFidJyasXUvF87Cndx1LBy+c3T8luqb0rQTAoaEbEo
+   A/2qlX5PaPuEpkW4mulb49LtFIehhmN7CNzbbwZYHLtOP2FDplTRxpd1j
+   pNX6nY7YYS7/9FaUyU785aJcLLCfqG5S8Xj4kBnWAUb6gPY5ZMO88HJLa
+   g==;
+X-CSE-ConnectionGUID: 3uvG48scRWu//m85GQwEnQ==
+X-CSE-MsgGUID: Xq0khIFrTsa1Jj/fAewF4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="70827297"
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="70827297"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 01:13:11 -0700
+X-CSE-ConnectionGUID: 6CXonMTBS1e3DT1o18E/tQ==
+X-CSE-MsgGUID: tet5waZBQ/qd1QBxd2AsOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="135885209"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 07 May 2025 01:13:10 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCZts-0007OC-00;
+	Wed, 07 May 2025 08:13:08 +0000
+Date: Wed, 7 May 2025 16:12:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [linux-next:master 2038/9308] .pylintrc: warning: ignored by one of
+ the .gitignore files
+Message-ID: <202505071520.7aBIzkeM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250507-ov9282-flash-strobe-v4-10-72b299c1b7c9@linux.dev>
-References: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
-In-Reply-To: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- Richard Leitner <richard.leitner@linux.dev>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746604340; l=3563;
- i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
- bh=u2k9w+GukQmHB16zuirE+3M5ybc3Bh0/CkI9yc+9KRw=;
- b=N5Qmr+jFg9FjDlbZPon+ZQts18zYI0WCVHVozEDdHbQTS+N8S4mLLpcHEynAYMyRxvZCfOkkx
- sv0W2fUIVQdDc7j/UkTO8T9vZ5WoKZGXuomklIuDUEcAj9TxglnjqqO
-X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
- pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
-X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
- with auth_id=350
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-As the granularity of the hardware supported values is lower than the
-control value, implement a try_ctrl() function for
-V4L2_CID_FLASH_DURATION. This function calculates the nearest possible
-µs strobe duration for the given value and returns it back to the
-caller.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0a00723f4c2d0b273edd0737f236f103164a08eb
+commit: 02df8e3b333c3d8550a22ffdfc969caec8462df9 [2038/9308] docs: add a .pylintrc file with sys path for docs scripts
+config: x86_64-buildonly-randconfig-001-20250410 (https://download.01.org/0day-ci/archive/20250507/202505071520.7aBIzkeM-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071520.7aBIzkeM-lkp@intel.com/reproduce)
 
-Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
----
- drivers/media/i2c/ov9282.c | 56 ++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 54 insertions(+), 2 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071520.7aBIzkeM-lkp@intel.com/
 
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 09d522d5977ec6fb82028ddb6015f05c9328191d..f75882dcb73bea0e00e2cb37ffc19ec3c3a8b126 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -128,6 +128,8 @@
- #define OV9282_REG_MIN		0x00
- #define OV9282_REG_MAX		0xfffff
- 
-+#define OV9282_STROBE_SPAN_FACTOR	192
-+
- static const char * const ov9282_supply_names[] = {
- 	"avdd",		/* Analog power */
- 	"dovdd",	/* Digital I/O power */
-@@ -691,7 +693,7 @@ static int ov9282_set_ctrl_flash_led_mode(struct ov9282 *ov9282, int mode)
- 				current_val);
- }
- 
--static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, int value)
-+static u32 ov9282_us_to_flash_duration(struct ov9282 *ov9282, u32 value)
- {
- 	/*
- 	 * Calculate "strobe_frame_span" increments from a given value (µs).
-@@ -702,7 +704,31 @@ static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, int value)
- 	 * The formula below is interpolated from different modes/framerates
- 	 * and should work quite well for most settings.
- 	 */
--	u32 val = value * 192 / (ov9282->cur_mode->width + ov9282->hblank_ctrl->val);
-+	u32 frame_width = ov9282->cur_mode->width + ov9282->hblank_ctrl->val;
-+
-+	return value * OV9282_STROBE_SPAN_FACTOR / frame_width;
-+}
-+
-+static u32 ov9282_flash_duration_to_us(struct ov9282 *ov9282, u32 value)
-+{
-+	/*
-+	 * As the calculation in ov9282_us_to_flash_duration uses an integer
-+	 * divison calculate in ns here to get more precision. Then check if
-+	 * we need to compensate that divison by incrementing the µs result.
-+	 */
-+	u32 frame_width = ov9282->cur_mode->width + ov9282->hblank_ctrl->val;
-+	u64 ns = value * 1000 * frame_width / OV9282_STROBE_SPAN_FACTOR;
-+	u32 us = ns / 1000;
-+	u32 remainder = ns % 1000;
-+
-+	if (remainder > 0)
-+		us++;
-+	return us;
-+}
-+
-+static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, int value)
-+{
-+	u32 val = ov9282_us_to_flash_duration(ov9282, value);
- 
- 	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION, 1, (val >> 24) & 0xff);
- 	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 1, 1, (val >> 16) & 0xff);
-@@ -792,9 +818,35 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
- 	return ret;
- }
- 
-+static int ov9282_try_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct ov9282 *ov9282 =
-+		container_of(ctrl->handler, struct ov9282, ctrl_handler);
-+
-+	if (ctrl->id == V4L2_CID_FLASH_DURATION) {
-+		u32 fd = ov9282_us_to_flash_duration(ov9282, ctrl->val);
-+		u32 us = ctrl->val;
-+		u32 us0 = ov9282_flash_duration_to_us(ov9282, fd);
-+		u32 us1 = ov9282_flash_duration_to_us(ov9282, (fd + 1));
-+
-+		if ((us1 - us) < (us - us0))
-+			ctrl->val = us1;
-+		else
-+			ctrl->val = us0;
-+
-+		if (us != ctrl->val) {
-+			dev_dbg(ov9282->dev, "using next valid strobe_duration %u instead of %u\n",
-+				ctrl->val, us);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- /* V4l2 subdevice control ops*/
- static const struct v4l2_ctrl_ops ov9282_ctrl_ops = {
- 	.s_ctrl = ov9282_set_ctrl,
-+	.try_ctrl = ov9282_try_ctrl,
- };
- 
- /**
+All warnings (new ones prefixed by >>):
+
+>> .pylintrc: warning: ignored by one of the .gitignore files
 
 -- 
-2.47.2
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
