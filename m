@@ -1,206 +1,123 @@
-Return-Path: <linux-media+bounces-31977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31979-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEFDBAAE26E
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 16:18:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D46AAE2C1
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 16:26:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3222C1895566
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 14:16:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D45717787E
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 14:20:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC69628D8E4;
-	Wed,  7 May 2025 14:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D4CA28C015;
+	Wed,  7 May 2025 14:14:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="uRXc1En5";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ql2KYhKT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FG/sp2PJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4953289802;
-	Wed,  7 May 2025 14:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C64E28BA93;
+	Wed,  7 May 2025 14:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746626993; cv=none; b=K9z8e21fnLadl6YJcwL2LuikeLi9ZQdtcLRtZB9RjWMh6jEcQrVB74mnK38m+frhm+PQDt0c7iCebH+yOB8m1nMJXHhecHVK+fJrmXixEXAsDmuWUIZKUvdTC4g17gu179RulNQ6WElbwuBmzi38/aYGZECsaqX05FRVWxCI7/c=
+	t=1746627257; cv=none; b=PkF8hAiOUs7VntUA4YAlG4uiEocfw0rjgn0evyYgMsEFjghJZhV6Hf2qnEIpvPmj9vf8hfhc1zG92kyJ9zzLhqUF8AmE6FbbV6vlkQSzkrsWwCIuqjJLSHleh40vVTP3tbBCD4FrvC0qQMtVOcCLj6yWJpfpeXc2+JG3lyrZAPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746626993; c=relaxed/simple;
-	bh=old7/uME17Mkn3x1D2C+nAHExdQZPeB23poziY+F+Ks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qthhauAsYAJYymCRTrPkB8u64pS1iQY3k8eAl+mv+f37tQzq7xo3HdHgEry5tVKjzSUbXuZ96+Go3UrGdzo97ElFBnvY3AgLc1u9nRFpeFxFZwjF19E9zvJQ6jVzx1Asbf+BXkW06STa0OovYu1Jwr8N+lbtTcXnaPUrA5/G+ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=uRXc1En5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ql2KYhKT; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id E7F1A11401AD;
-	Wed,  7 May 2025 10:09:50 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Wed, 07 May 2025 10:09:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1746626990;
-	 x=1746713390; bh=Bd5xYdjuLGNHMD+GIGsrJhPQrpMyu+1/xz71iZbb+Dw=; b=
-	uRXc1En5Ph+xOfqNlybAZRa7XC0A7TiAxfh506fbobsbmTX5hDm93tXdp3k6XQtO
-	O5Si5308qeWqh5Gt3j5HVIzKHwm+aiWvUKqyeNorbTdBQEaHLz08VmD4kFAaLFGg
-	ekWqqE5ObA8/ee3IOkeN0GV4/B4hO0UAAYDhQ862wXHkdokDVLJGlpP3KJ7g8EAh
-	4fVNPM72ir3GwfaTCaR8MAiGSL55hflGHvl6YH0OdqJXUVBAw8r9aiIONlrkEq6Y
-	MfF0UPGanRvVI+O8iFJwWKrHlZpOyIFHCV/Uc9r96Z104BXbkopshRs/0S46Yx8i
-	+PYkO+Xnra50D1Ra6fszzA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746626990; x=
-	1746713390; bh=Bd5xYdjuLGNHMD+GIGsrJhPQrpMyu+1/xz71iZbb+Dw=; b=q
-	l2KYhKTBSRA+Cv81ReCTKzSVIBgvKQTPsRjIoFnSXv0nSTHtqVOeNJunmKV/4Fbk
-	WdHjjm9F1zQKzezhs6cZt1hLGO4tw83Agg89wBaUifwBD0GyvP6vzPlUyJ2Hphqv
-	tztLViPuVdnDz5r6Az6NWsIMi4erL8+kBvu1etxNhb1VwZJQRDvgB7wlh2RlR6lN
-	+KVaXaoq9U68CLX6Dd99nzk9b+Ex4S/xl2z6MIyQu6UG0zl+uI9Qz02zs9ba6m1t
-	BVXe7FFu34QZYnmMRVatz2oLdUUAPhM34oWW6L8bH5IcWRq9fPn7aklz/fvf50Oe
-	d+RU2bX+D+pD1X8xWG00Q==
-X-ME-Sender: <xms:rmkbaOX3ADpvOoKlubEB73fzOUAZuaG9mOtTa_TTc2XkwPuCG7y8Kg>
-    <xme:rmkbaKlmM_aBSzBVDgnk2KLfzcFnKc95pauLeiS4EfmYhh7ISj0ana8moRJmz6Ip8
-    qjRjAIuFrscdwMZQnQ>
-X-ME-Received: <xmr:rmkbaCbkSiu4wSjrbpicKzHIJOk_a1XoGWrq79e4jf9RcrTepeQZHqqEFtnVXyCD89mxXBTvv0plJuvC1DzRrZJez1zKIdUn6w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeejtdeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeev
-    teegtddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlh
-    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdr
-    shhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeekpd
-    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihgu
-    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughiod
-    hrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghu
-    rhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpth
-    htohepkhhivghrrghnrdgsihhnghhhrghmodhrvghnvghsrghssehiuggvrghsohhnsgho
-    rghrugdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgv
-    lhdrohhrgh
-X-ME-Proxy: <xmx:rmkbaFW0yEME6M6IokghhC7w2oyejMpu1GmUcG6508WnIDWZC4PCpA>
-    <xmx:rmkbaInqGF961LX7X4m8A-12UhpNcFBQoM8L2NvL3k3iJRg3OXH1Ig>
-    <xmx:rmkbaKeOhWW8THAUURZbZZuDXxQukUJlmDrfo9i9JsxDlEVP9eyDqA>
-    <xmx:rmkbaKFYmf52O37wVsv0cfhcOK70ZShdre6e0sbIslqy9QECyIeICA>
-    <xmx:rmkbaLa2lK-cQovhL6mwk1HOR53SvzruQyTp8FcttnyH-jsCHVQ3uEp5>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 May 2025 10:09:50 -0400 (EDT)
-Date: Wed, 7 May 2025 16:09:49 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v9] media: vsp1: Add VSPX support
-Message-ID: <20250507140949.GB836326@ragnatech.se>
-References: <20250506-b4-vspx-v9-1-d7d50a01f7b6@ideasonboard.com>
- <20250506173733.GA539397@ragnatech.se>
- <2wsx4pmkwmjgqlfywbsqim5irnh7lcfhbdreenevf2lnd2ofsb@u3epcobuxuij>
+	s=arc-20240116; t=1746627257; c=relaxed/simple;
+	bh=ZNnZUmX34eCntIlv80BWyc/0QNlOJepYSEHreCjNtrU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q9jZFPCiNs7L/IrGw/PP8T+6is8eOMwKHxRk4EKQ/cFhEvjDK9hKXIBlHwZnIahGC0DOhh4z7IwQHa8CFw1Hoim2XuicHjnu47n8gqPzLpBrHcYJpNiv/XKcL1d6/RnJxkButZjoxIkFLL0Hzdt6jqsrscM5jatLzEI+5OQNlhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FG/sp2PJ; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39c0e0bc733so6786458f8f.1;
+        Wed, 07 May 2025 07:14:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746627254; x=1747232054; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZNnZUmX34eCntIlv80BWyc/0QNlOJepYSEHreCjNtrU=;
+        b=FG/sp2PJKmRZIE3jDKdJnF+OhDAj3kFR8+icDYRsMoiTuApbVJENLr3+g+12mtKaFF
+         jRWm0SvGYio+pjDG1C4rfc0AcIDC6OUNBTNH/uUD7NI2b51wYZ+uz1uwvV4+N2yyc5h9
+         xteBat+YlploY+Qxfs7RTDeWbEwMRttWaIryW7tQtyfXpTz9Ag2d5kY2Ak38NFyghKYp
+         5LUascj8UwOjez6KYPvzPsY3ZzcRfQqpRSNELiaseYzZv5bgeg7r4BxnoFzE0F3MA1CS
+         cciUqJzORVUITBSoN5ONK9Sa+oH3+qHiaE9TKq2K7VW2ZFB3ASVOyWEMYWSFQ6QfaT/c
+         caAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746627254; x=1747232054;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZNnZUmX34eCntIlv80BWyc/0QNlOJepYSEHreCjNtrU=;
+        b=kn+JzILZ6yguBHuBjgboml8+rN2txtu/7k/mvf+2TR715QKSa7UNdRvKKwAHOEVG6Y
+         LScpjAbWRloVwFKKShlJ+Ijskl1kVJ6aawA5ElwFUmo4qmBZa/TsqIAMvMDeL0Ikm9fq
+         9ETac3ZURTEZ4/kHyQTREDuwC8R0tysRFrmLJZvSulcvdviUkmkPcbua9MFIlBbO+asT
+         oh0yvJpbKpew8KRfYKTJa2c243E6TlGcOwRGOVX85oEQV0iQ976zbxIft7PNKNCbdnBz
+         khJJwLSwUODEDLdd3OCZMrKRbPo/SoPEzVsqHNLwjCb6MQiGzP/Xd0OVhHFwJXRaWVpJ
+         U8Zw==
+X-Forwarded-Encrypted: i=1; AJvYcCVDvM9usQ/Jg77W6aUrvtb3LshBB/U/Df2M1UuvOv6lg2eKHCAj6adpiy5Dto3FgkPNOZs=@vger.kernel.org, AJvYcCVZBUacmi55xz1dBSgWsNBODzERoNhGTSQzT8T430sa6E3sVA0l9NAMfd2QLzushvYAyEgVzYCR4Ht/1UDO@vger.kernel.org, AJvYcCWZ4ZljUME2jHCGycIa56FDItL+JQJhNrkDRHCu7fgeNH59MdDJyjPCv0TwYMwPzF39LhA7IwNbtIp3qLBoPqg9@vger.kernel.org, AJvYcCX8k17e6R13IScK9B8tdytVHJVBrh1EkRZgI5Y67yBZTXOgfIHdxq+Xp7pCLUbw5Z7pseUaUAo/kFlH86I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6OtIT6Tny/xttTrRGPp8rMW+0Nmz+omWEZovJGKmSR8eCTuY7
+	kjB74wAyLLZ20w+p2WQmNk1ZZI43F8TeOAugZZEdNwcj9mSXlJ1DagBwxRDg9DwIpWMEVarbe5o
+	IeT0JIRLR6NWRN4l+DoJwspUycb8=
+X-Gm-Gg: ASbGncveOfKklAErD0Rg001m3nWSO9B+WiaKdqL8pbuLK5QFmlgdWAtGpCG0McQANDR
+	DU2iaQBWwpjf3h1fVgkruOZVPlTxJ9SdLfh2A+xRbHEbvBMDnx46T58sYfLrxiJuFZQdT2a9eOw
+	CS8XqXdVi3C34/ylacj9aIXF0lGkGRYi5fopnPuJr79vkD34cg/vPPWFZsAlW8
+X-Google-Smtp-Source: AGHT+IE7YwupMe0PY2KfsKAdsd0JUDs8JdlQnJurFBmdXtxSRg25+HLcgrkwMi498eBlgYRhQzzHmmHYGwbzShYGjPA=
+X-Received: by 2002:a05:6000:220d:b0:3a0:b940:d479 with SMTP id
+ ffacd0b85a97d-3a0b940d807mr45656f8f.53.1746627254068; Wed, 07 May 2025
+ 07:14:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2wsx4pmkwmjgqlfywbsqim5irnh7lcfhbdreenevf2lnd2ofsb@u3epcobuxuij>
+References: <20250507001036.2278781-1-tjmercier@google.com> <20250507001036.2278781-3-tjmercier@google.com>
+In-Reply-To: <20250507001036.2278781-3-tjmercier@google.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Wed, 7 May 2025 07:14:03 -0700
+X-Gm-Features: ATxdqUEf5_19Jno_4-zzyhqzCAe0qZhQRxDd8zooZHFiVvDpL9j0mU5OqeyoxoQ
+Message-ID: <CAADnVQL2i87Q4NEX-4rXDBa_xpTWnh=VY-sMCJzK+nY0qogeqw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 2/5] bpf: Add dmabuf iterator
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	bpf <bpf@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, android-mm@google.com, simona@ffwll.ch, 
+	Eduard <eddyz87@gmail.com>, Yonghong Song <yonghong.song@linux.dev>, 
+	John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Jiri Olsa <jolsa@kernel.org>, Mykola Lysenko <mykolal@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jacopo,
+On Tue, May 6, 2025 at 5:10=E2=80=AFPM T.J. Mercier <tjmercier@google.com> =
+wrote:
+>
+> +/**
+> + * get_first_dmabuf - begin iteration through global list of DMA-bufs
+> + *
+> + * Returns the first buffer in the global list of DMA-bufs that's not in=
+ the
+> + * process of being destroyed. Increments that buffer's reference count =
+to
+> + * prevent buffer destruction. Callers must release the reference, eithe=
+r by
+> + * continuing iteration with get_next_dmabuf(), or with dma_buf_put().
+> + *
+> + * Returns NULL If no active buffers are present.
+> + */
 
-On 2025-05-07 14:28:50 +0200, Jacopo Mondi wrote:
-> Hi Niklas,
-> 
-> On Tue, May 06, 2025 at 07:37:33PM +0200, Niklas Söderlund wrote:
-> > Hi Jacopo,
-> >
-> > Thanks for this new version!
-> >
-> > I will give this a good testing as soon as I have finished some
-> > refactoring of the user of this. I had a comment I wanted to send for
-> > v8, but seems I never did. So for now I will just post this incase you
-> > need to do a v10 before I had time.
-> >
-> > On 2025-05-06 18:32:23 +0200, Jacopo Mondi wrote:
-> >
-> > .. snip ..
-> >
-> > > +struct vsp1_dl_list;
-> > > +struct vsp1_isp_job_desc {
-> > > +	struct {
-> > > +		unsigned int pairs;
-> > > +		dma_addr_t mem;
-> > > +	} config;
-> > > +	struct {
-> > > +		struct v4l2_format fmt;
-> >
-> > I'm very happy to see this is now the only location for the format, nice
-> > work! I wonder if we shall take it one step further and just record the
-> > fourcc, width, height and bytesperline here? Or at switch to a
-> > v4l2_pix_format struct?
-> >
-> > The user of this field do not really support multi plane formats, nor do
-> > it validate fmt.type field.
-> >
-> > I recently hit a snag in the ISP driver using this interface where I
-> > *think* the solution is to only allow single plane buffers to be used as
-> > input to the ISP (V4L2_CAP_VIDEO_OUTPUT_MPLANE vs
-> > V4L2_CAP_VIDEO_OUTPUT). While fixing the plumbing for this I ran across
-> > this, sorry for not noticing before.
-> 
-> True that.
-> 
-> However my understanding is that nowadays the multiplaner API should be used
-> for single planar formats too.
+kdoc wants to see 'Return:'.
 
-Mine too, I'm just grasping for straws debugging things and this was one 
-thing I tried to figure things out. It was unrelated to the VSPX, and 
-did not solve my instal problem. But working on it was what lead me to 
-this design decision in the VSPX driver.
+See errors in BPF CI.
 
-> If you want to avoid passing in the
-> whole 'struct v4l2_format' then I would pass in the
-> v4l2_pix_format_mplane .pix_mp member (which the VSPX uses
-> unconditionally at the moment).
-> 
-> However, assuming future developments where a different user uses
-> V4L2_CAP_VIDEO_OUTPUT, the VSPX driver can be extended and use the
-> .type field to select which member of the 'fmt' union to use if we
-> pass the whole 'struct v4l2_format' in. This is all very theoretical I
-> know. To be honest I would keep the interface as it is and eventually
-> improve the VSPX driver to use the 'type' field to select which format
-> to use.
+And patch 5 shouldn't be using /** for plain comments.
 
-I'm fine with that. Maybe add a check on .type field in the VSPX driver 
-and fail if the .pix_mp 'variant' is not used to configure the VSPX?  
-When playing with V4L2_CAP_VIDEO_OUTPUT the VSPX code still happy 
-accepted the struct v4l2_format but it contained bad data when 
-interpreted as .pix_mp instead of the .pix that was populated.
-
-> 
-> >
-> > > +		dma_addr_t mem;
-> > > +	} img;
-> > > +	struct vsp1_dl_list *dl;
-> > > +};
-> >
-> >
-> > --
-> > Kind Regards,
-> > Niklas Söderlund
-
--- 
-Kind Regards,
-Niklas Söderlund
+pw-bot: cr
 
