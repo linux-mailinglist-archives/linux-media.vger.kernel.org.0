@@ -1,178 +1,131 @@
-Return-Path: <linux-media+bounces-31968-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31969-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3724AADEEC
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 14:21:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DBFAADF24
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 14:29:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E6F94E17AD
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 12:21:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5A1F46129C
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 12:29:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D3B025E812;
-	Wed,  7 May 2025 12:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE221264616;
+	Wed,  7 May 2025 12:29:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQWiZG9h"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FSGoagCu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017B6266569;
-	Wed,  7 May 2025 12:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BFE25D536;
+	Wed,  7 May 2025 12:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746620381; cv=none; b=rhUS+VZJq2XZ5UL3SDAupkGyzcBvN+/k2/g/l3HjsMlD5ZH8LMm5gPIT1W0pD+7PfffbRzixHoRyoEfG56ew5Zn9ELbo1YzpVvqxGWhSTsxlq5+Z/VBRqlVrb0xUw5InvDUZxrmfFz+Nn6J7IuH/iIEUiRLeS5eq/wAT+rWDNT0=
+	t=1746620942; cv=none; b=fEiesIfT16dPBjunM0Jba0sO43TrGwwe6ucqOgwKeertB9AunRivKf8Xef4t01+J5yWHrYiL92e+EP8Z3vUgsrXnemo72AIUmo7uDtAtCDv6yURG6ba52FiwxBHuYSL9enODUx/373qTbGsdt/dQYNL3c29eSeDVU3P2X0jT0Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746620381; c=relaxed/simple;
-	bh=3jljKQy3JilUwk5OeTWzq9vI3w85PUGJDm3mDHSbT8o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nMDzoUtxj50ptqGdN16vbI2gG/rMnRPQS4BUNuU3Yv8G61A1U7Xxbkh5K4AiFtPQhoHRCItT7i4jMOEnAQcazg/nEWvg7/POv4OGxaOKEKsk1uq0IBL4VPuhVwqZwTc5Fa8+dVG1rylsbPCRwEoTlOPPkjjAItMwP9S8juvCrMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQWiZG9h; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac2c663a3daso1369791866b.2;
-        Wed, 07 May 2025 05:19:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746620378; x=1747225178; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ou6MOwGHqD731U9gMCJRk94Iq+LGR7LXnbZdgEjcxuk=;
-        b=EQWiZG9h5D/duLWlAvxLI7EWqe8+Fpdou0w9enqahUiRr4GDD65nFRnZqGjAK7+vXe
-         zFA8z/X6ZaHGCPeKukJv1t/IMK+GxXso9tobjOyLEG8o07SsakwIO1MYDdR/Ey/EMQNS
-         eZ4Pg323rtvXdlGMQHhJo7J+FIqUS3WN3F/6SYpxyUp/JwDD3SDpR4X7/HEmIPVQreG/
-         OutK8FLGHq0uxcVoCVSkPM3Ee4ZGaxv+r1T6hX79qzZJTbps5YLCTVBiWs7O7Liq0Pb3
-         +UybsfXXvbjuLjj3PdtpDecjOvNJ8fvKuoRmqraGpXca+D73YcQjlfdBicn/w4PFSD/J
-         7iaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746620378; x=1747225178;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ou6MOwGHqD731U9gMCJRk94Iq+LGR7LXnbZdgEjcxuk=;
-        b=nAZA6sWlTUP63fyJu5D8pfkBK7qJyBwToSU2lhN5NhyVmTD3uT7knq5h/lX1WM38AQ
-         Ie+XKbEpUHRtK7C+krJy2TKcfZMF81cKVUct3RT1lglMeF1OOxJJwcwIHrpt0gYXuH1s
-         +Qyby537JOwzMuC91wwE84dnxlBuXXvjinY2S3xmxN2iaNozrzXUWOAha1PucG5pta77
-         ZrDSbCSaKbSmH9NUTJp12AhYFV5Jp+ppLG86pztbAa+AOCvtNMODD9/UEeIirYj3JwUz
-         RpdWYXJQpVwMpRUtx0x9RIUNnPLGUzh1Z+BHH2MFQemh17scHhWDgvgWxagffCsir+mc
-         THdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0S/YjkXCJJvCKlGOoNDPDDJIzYPlrWgvY9yW1Dqf3s93REX5QSBpTSgzwp0fZC8jfOs7dHO2BqW9v5TE=@vger.kernel.org, AJvYcCVndks3EntTDkbpcOH/F2Q6f0nyk2O38M7EMOsiKXzwMEmFe0OUOgbiCu81dW3snrBrxisRIcZulFhZ5sT7@vger.kernel.org, AJvYcCXr/iF44hGZR9NQLF2r/6KE0ss90oBI7j4tUeQ2F+8E7fk03etol5dU0Mrfb5y4LmcvaYmxE7oxuA8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4C8os3QoDCwHmN57BlDFyRFCWTgrY14iBOIkachj6R3xnAmEH
-	nBxkOMqrYog2q2cfB1e+4JExzY1NC/IigscxnGAA6btP6aidJbhw
-X-Gm-Gg: ASbGncu4wecfRCPdyBUAv1r34VO/clI4TiO9bdYoYVEIbBT8THakaL0g4msN4/nKVsg
-	h5yRxg8oflA3LODcuT68K6Twq1F3GqgkjN0jsOm0jXVEq8w7E9BwtBZxShDzHjXZVk5nq/V8wHf
-	6aO1XBlMMmFVoDaj/HTGQujOdLo0iG+Th4TXF+gWFYNdIj4H5lB3CEIAeu9HOCbqMHgmTHJ1bbV
-	kM7Q2y80zsgdC55OoqECh2ZJxn1cLgHEwQfG0o656FeDetW00+UN1J3gjniN6CAiFXlmLQkVpJY
-	SINpoa1cdwM5WCjfBr7FLA8M57swcMEd+XQ1WdAMksAXbOw/0eRk
-X-Google-Smtp-Source: AGHT+IF8d4mvPDamh8+NAYSDDhRH4GELbHrWX7qqTJyJjvKWNL1ITeDM9+p41l0nfll4OeRP/pke9w==
-X-Received: by 2002:a17:907:3f9b:b0:ac7:ecea:8472 with SMTP id a640c23a62f3a-ad1e8bf158emr308173866b.26.1746620378128;
-        Wed, 07 May 2025 05:19:38 -0700 (PDT)
-Received: from demon-pc.localdomain ([188.27.128.5])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fa777557b9sm9350002a12.10.2025.05.07.05.19.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 05:19:37 -0700 (PDT)
-From: Cosmin Tanislav <demonsingur@gmail.com>
-To: 
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Romain Gantois <romain.gantois@bootlin.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Cosmin Tanislav <demonsingur@gmail.com>
-Subject: [PATCH v5 9/9] i2c: atr: add passthrough flag
-Date: Wed,  7 May 2025 15:19:15 +0300
-Message-ID: <20250507121917.2364416-10-demonsingur@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250507121917.2364416-1-demonsingur@gmail.com>
-References: <20250507121917.2364416-1-demonsingur@gmail.com>
+	s=arc-20240116; t=1746620942; c=relaxed/simple;
+	bh=8QrADYlLGZeERk14Fg2ZqOd/UdojrP6ROM7RYntxKKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AznIbsjWmZlue3JBjcflt1Pe5me47aAlcBzLgCthoydruc7LeZ7EgJ/ZNsK7oB28NIzPXJeYW6/B1Fl4Bnof/FD1+gQ4oZaJzxH/moqfVr32Qm6eRufQEoqMyLLBl6XYSLP07wBlDE56LBKnj+j/ZJXdMLJw6VVfZhx9U0QHuu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FSGoagCu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:861:3a80:3300:7c3b:c7bf:b733:fa1b])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07DC26D5;
+	Wed,  7 May 2025 14:28:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1746620922;
+	bh=8QrADYlLGZeERk14Fg2ZqOd/UdojrP6ROM7RYntxKKw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FSGoagCuHeEatihXK1ciR/gIymqyROL118ZV5lQ7IYK093ABiZUl6K6ysB/q5JizK
+	 99DaMoIMaTq1D++xWcwckqh4Y98ImxQ9P97fIdYT/l3q+Fq8MMIA3iqd2kCy7fGKT1
+	 wkVFTZEte0R47tkkUL9ciBlr0OiTWWoEcuUwmXAE=
+Date: Wed, 7 May 2025 14:28:50 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v9] media: vsp1: Add VSPX support
+Message-ID: <2wsx4pmkwmjgqlfywbsqim5irnh7lcfhbdreenevf2lnd2ofsb@u3epcobuxuij>
+References: <20250506-b4-vspx-v9-1-d7d50a01f7b6@ideasonboard.com>
+ <20250506173733.GA539397@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250506173733.GA539397@ragnatech.se>
 
-Some I2C ATRs can have other I2C ATRs as children. The I2C messages of
-the child ATRs need to be forwarded as-is if the parent I2C ATR can
-only do static mapping.
+Hi Niklas,
 
-In the case of GMSL, the deserializer I2C ATR actually doesn't have I2C
-address remapping hardware capabilities, but it is able to select which
-GMSL link to talk to, allowing it to change the address of the
-serializer.
+On Tue, May 06, 2025 at 07:37:33PM +0200, Niklas Söderlund wrote:
+> Hi Jacopo,
+>
+> Thanks for this new version!
+>
+> I will give this a good testing as soon as I have finished some
+> refactoring of the user of this. I had a comment I wanted to send for
+> v8, but seems I never did. So for now I will just post this incase you
+> need to do a v10 before I had time.
+>
+> On 2025-05-06 18:32:23 +0200, Jacopo Mondi wrote:
+>
+> .. snip ..
+>
+> > +struct vsp1_dl_list;
+> > +struct vsp1_isp_job_desc {
+> > +	struct {
+> > +		unsigned int pairs;
+> > +		dma_addr_t mem;
+> > +	} config;
+> > +	struct {
+> > +		struct v4l2_format fmt;
+>
+> I'm very happy to see this is now the only location for the format, nice
+> work! I wonder if we shall take it one step further and just record the
+> fourcc, width, height and bytesperline here? Or at switch to a
+> v4l2_pix_format struct?
+>
+> The user of this field do not really support multi plane formats, nor do
+> it validate fmt.type field.
+>
+> I recently hit a snag in the ISP driver using this interface where I
+> *think* the solution is to only allow single plane buffers to be used as
+> input to the ISP (V4L2_CAP_VIDEO_OUTPUT_MPLANE vs
+> V4L2_CAP_VIDEO_OUTPUT). While fixing the plumbing for this I ran across
+> this, sorry for not noticing before.
 
-The child ATRs need to have their alias pools defined in such a way to
-prevent overlapping addresses between them, but there's no way around
-this without orchestration between multiple ATR instances.
+True that.
 
-To allow for this use-case, add a flag that allows unmapped addresses
-to be passed through, since they are already remapped by the child ATRs.
+However my understanding is that nowadays the multiplaner API should be used
+for single planar formats too. If you want to avoid passing in the
+whole 'struct v4l2_format' then I would pass in the
+v4l2_pix_format_mplane .pix_mp member (which the VSPX uses
+unconditionally at the moment).
 
-There's no case where an address that has not been remapped by the child
-ATR will hit the parent ATR.
+However, assuming future developments where a different user uses
+V4L2_CAP_VIDEO_OUTPUT, the VSPX driver can be extended and use the
+.type field to select which member of the 'fmt' union to use if we
+pass the whole 'struct v4l2_format' in. This is all very theoretical I
+know. To be honest I would keep the interface as it is and eventually
+improve the VSPX driver to use the 'type' field to select which format
+to use.
 
-Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
----
- drivers/i2c/i2c-atr.c   | 7 +++++--
- include/linux/i2c-atr.h | 2 ++
- 2 files changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/i2c/i2c-atr.c b/drivers/i2c/i2c-atr.c
-index 76d70efdf190..be7d6d41e0b2 100644
---- a/drivers/i2c/i2c-atr.c
-+++ b/drivers/i2c/i2c-atr.c
-@@ -394,6 +394,9 @@ static int i2c_atr_map_msgs(struct i2c_atr_chan *chan, struct i2c_msg *msgs,
- 		c2a = i2c_atr_get_mapping_by_addr(chan, msgs[i].addr);
- 
- 		if (!c2a) {
-+			if (atr->flags & I2C_ATR_F_PASSTHROUGH)
-+				continue;
-+
- 			dev_err(atr->dev, "client 0x%02x not mapped!\n",
- 				msgs[i].addr);
- 
-@@ -486,13 +489,13 @@ static int i2c_atr_smbus_xfer(struct i2c_adapter *adap, u16 addr,
- 
- 	c2a = i2c_atr_get_mapping_by_addr(chan, addr);
- 
--	if (!c2a) {
-+	if (!c2a && !(atr->flags & I2C_ATR_F_PASSTHROUGH)) {
- 		dev_err(atr->dev, "client 0x%02x not mapped!\n", addr);
- 		mutex_unlock(&chan->alias_pairs_lock);
- 		return -ENXIO;
- 	}
- 
--	alias = c2a->alias;
-+	alias = c2a ? c2a->alias : addr;
- 
- 	mutex_unlock(&chan->alias_pairs_lock);
- 
-diff --git a/include/linux/i2c-atr.h b/include/linux/i2c-atr.h
-index 5aaab1598084..2bb54dc87c8e 100644
---- a/include/linux/i2c-atr.h
-+++ b/include/linux/i2c-atr.h
-@@ -26,9 +26,11 @@ struct i2c_atr;
-  *                    devices being added or removed from a child bus.
-  *                    The ATR pool will have to be big enough to accomodate all
-  *                    devices expected to be added to the child buses.
-+ * @I2C_ATR_F_PASSTHROUGH: Allow unmapped incoming addresses to pass through
-  */
- enum i2c_atr_flags {
- 	I2C_ATR_F_STATIC = BIT(0),
-+	I2C_ATR_F_PASSTHROUGH = BIT(1),
- };
- 
- /**
--- 
-2.49.0
-
+>
+> > +		dma_addr_t mem;
+> > +	} img;
+> > +	struct vsp1_dl_list *dl;
+> > +};
+>
+>
+> --
+> Kind Regards,
+> Niklas Söderlund
 
