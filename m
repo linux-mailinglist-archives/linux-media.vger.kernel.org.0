@@ -1,110 +1,149 @@
-Return-Path: <linux-media+bounces-31952-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31953-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9719AADC0D
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 12:00:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DA3AADC90
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 12:34:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4741A1C2163B
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 10:00:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA29116402F
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 10:33:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF8B1207DF7;
-	Wed,  7 May 2025 09:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AED5620F090;
+	Wed,  7 May 2025 10:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XvljW1gH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iLxIxex0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39843207A25
-	for <linux-media@vger.kernel.org>; Wed,  7 May 2025 09:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BC733FD
+	for <linux-media@vger.kernel.org>; Wed,  7 May 2025 10:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746611998; cv=none; b=hvyAftP+BCipNZc/j/RcPXDqYywbjRvvFQE+Sk9//Hl0Igv/7xSHpP4v1ntRKy9mtsKVnioTYRdCZVtTiyGIgxnlvqwDlK9g6BQcv1bOD2EEhZOylPaX85c+OSeiQrWdXVvrT2cB1HoSuICWbhuHCx1orLdTkk7Hkkq3NUzXELw=
+	t=1746614034; cv=none; b=ZdGURzJ7v6vGXhPpqhTj/AVO1q5gJbAVJQjYYb7qV5YFxBNKm/KEaC4LoSD6iyOMmhGhKkSP1Jsi1eus1dBPF8E4nOzdOu8tkzTYFXhaOt/fkorcXlherukULCg5AoxFQl0ExkFXynO8adrj210u9ouWVVO4R5PEIQZP6SAVUhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746611998; c=relaxed/simple;
-	bh=nTPmV/ah65M55YkjjC373cBBi8S7rWj8xu/0m/Y1Cew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iICkD4CLmp3PAb5iGItjrX3fplmv1cXMtSVRA/1eI2KtdrpwMmOft8KRYflSoln9LxnE9MndOv/tLXPDF7dDpufq5xsfxK2TR9N6bpNsFgaRqXYnq2pIZUe+iZ1kGd2dfy5H/thmG3aJKN6AbkiVGr7BjN957TCKhNCzdE0IwPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XvljW1gH; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Kq86
-	79TYhepolaaaC5c38NOuT13bofw3q30AIXXiR4M=; b=XvljW1gHlshtg1NVhu7t
-	rFEQEZuUoK+iBNC7J+iFkTIZtHiBEcujDvSslykh7pJAApiG/6w9sHcbKMQAw8NO
-	8Em/RjgIwF/r8k/UZ/qcSORWH/NFUY3ug7RfQkkc9zgWIqFbMY/lRSFXghQ8m2wM
-	ux8qMv6feJ37iFI95mJ4090EGAwdhzGLaEd6cQAiujKPhNof63UhiCi9Yqym9gVo
-	1GhmR4QCeX2egoGp6hLY4KM0QD8ttCJhN39g0u0tWfs64On5b1EQVQFjyV59fZWN
-	7m1LX9tkdt9yzX+tI5EIR04NpX1Ya60/wf9WGAXcw6NxBHmnXuYR1ho7fWglI8ZJ
-	Gw==
-Received: (qmail 3310634 invoked from network); 7 May 2025 11:53:11 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 May 2025 11:53:11 +0200
-X-UD-Smtp-Session: l3s3148p1@eB1us4g0iMUgAwDPXxyAAIlRla1HkD11
-Date: Wed, 7 May 2025 11:53:10 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 0/6] media: rcar-vin: Unify notifiers and enable MC on
- Gen2
-Message-ID: <aBsthimr83OIiJnO@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250507094014.622087-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1746614034; c=relaxed/simple;
+	bh=979dsAvrwr51IWkFktx1rOBA2aWk4fH1OPuOUskJgl0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sHylY9XS6omcIXGmpQUog7VEDLkxo/eVE7r0C4gZNTRfAzR3++wD1WKWAOdvxyJLz0AjlY3zJI5psEmo/F/hJ44chWKT14CbDK806RTw7UPEEOoSruv3NDfSj7oV3S6GoVYfLdyYLiq9Z/4vucNlljsoUuNC/lAc1cUg0H+Cvls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iLxIxex0; arc=none smtp.client-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4c308e7b84fso1846124137.1
+        for <linux-media@vger.kernel.org>; Wed, 07 May 2025 03:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746614031; x=1747218831; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=979dsAvrwr51IWkFktx1rOBA2aWk4fH1OPuOUskJgl0=;
+        b=iLxIxex0Z8LD4dBouoxP8D61o5UOO3WY9IPkdEGES/AHFtYPOuN6XsX3vXbqG7eX3q
+         ChG3LX6F50qWTy3EqZcj/3O15Z4I9z6SL3UkaRyjsmwB+0tLWKQ8gdCAA/J/fx+u35gQ
+         nEL6lAZK6vJomZuJvpF73bqKw7drhPYLoC94fsbDBq6Iedy8Cv5JmlLLVpy3JEANaUmN
+         YXBPTolzeG6o9SwdhI55v2SBBQBnhzUCHPjZS2xg2S0Jt2LMWtM7bn5NT/Zg47cmEGPC
+         3525AR4gtFdOJbvkb8Lf4uT2z1yUsjFLBJTllcUFOfQKFpMtaglS/SsovMXBdAiGxGob
+         xL2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746614031; x=1747218831;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=979dsAvrwr51IWkFktx1rOBA2aWk4fH1OPuOUskJgl0=;
+        b=hb81ySJvl3AGUQS3HVaakZ3KJc7B/0i6wU3LjcJTPb7DzMKiOW1S8jDa1N4PM14YVo
+         wBoLQnoRmTFAoOqjVjUufmsyn0gkBycKuoA0sog+IfuWtc18KHzgmQxqZrR/uSe7PdYe
+         e7jKDQVHpsbC9dJvo+WEk4Q7yWHh+7yThMilBDKU5NFQm2h3iD8kGzswHXHkYcPu7eZ0
+         2EcPkS7cYbCl+HXAZ0QaFgpncGtKzTDInIgiFIcyrfYNcCg7dGG510ODMQ23t8n3l770
+         0kn0yBlbnxvsEFoIaBpgptulSyQcTkeU2EXAI86RRArZcYbZUgzo9NoaqNewuQXzRoUb
+         XzHg==
+X-Forwarded-Encrypted: i=1; AJvYcCXaAcJtEX5QXm55/63I+2kJ1igYJ6K7KFjQ+3JnxNiL6CVdIHb1LSC3qshUOUjTUARKVAuibKCuaBpi0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaT5hJPcJJ21xJyIPK52fpXYXr80xMT3cgZM0JLq2E35s/ug0u
+	+tdxyVMq5ww4nIQiRkFgdpybuptU/75qA+ezNYLNWcOpqvRKGYLt+Vl0i6bo4p5NU1ja7bPxQxt
+	RhMBKwnJzg144+uOZ6O3C5KRU6to=
+X-Gm-Gg: ASbGncuBcdBT/aeLQrTAdsv+6iXv6/zMaCf9Ljzasz6r5TM0xdeERstiDO8yBHvF2na
+	on5dhLHtoVzk4h5AzuV6vYMUaofGGXtviHbPFbHaCMmbehY5BBlOgOeaK7Sp9aM38u3nc9LsNa8
+	b9nLiCcsBNQ/5HMvsErm6ZMUDdVUN9owiuVeQJQHLpEI3PQEelUhC/
+X-Google-Smtp-Source: AGHT+IHX2fD1a77zdtlZE9XOzzIAERlc1ue8LcS0x1EsUvWL/lc5E1xK7UvfP4vyCU1J5HMMHU/GgR+8jBFjcnbUb1E=
+X-Received: by 2002:a05:6102:4b8b:b0:4c1:8b8e:e9f7 with SMTP id
+ ada2fe7eead31-4dc737d4ac5mr2245715137.8.1746614031386; Wed, 07 May 2025
+ 03:33:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KAFsEIm1wIHkZTkG"
-Content-Disposition: inline
-In-Reply-To: <20250507094014.622087-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20250325102750.GE20035@pendragon.ideasonboard.com>
+ <20250507102844.0fa7f798@foz.lan> <20250507091907.GC11152@pendragon.ideasonboard.com>
+In-Reply-To: <20250507091907.GC11152@pendragon.ideasonboard.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Wed, 7 May 2025 12:33:33 +0200
+X-Gm-Features: ATxdqUF36sGoMFhtoHpbsiwdzfsYIJh0fQQxEzUc-Vsc2uAEqjGx-2slYf_rprU
+Message-ID: <CAPybu_1uHmSxdkG1tC24Kw5fiOrzeJe-kAjv=JiZWZykd-xF8g@mail.gmail.com>
+Subject: Re: [ANNOUNCEMENT] libcamera workshop 2025 - Nice, May 16th
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, libcamera-devel@lists.libcamera.org, 
+	linux-media@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, May 7, 2025 at 11:25=E2=80=AFAM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Mauro,
+>
+> On Wed, May 07, 2025 at 10:28:55AM +0200, Mauro Carvalho Chehab wrote:
+> > Em Tue, 25 Mar 2025 12:27:50 +0200 Laurent Pinchart escreveu:
+> >
+> > > Hello everybody,
+> > >
+> > > Another year, another libcamera workshop. After the previous editions=
+ in
+> > > Paris, Brussels and Vienna, we will organize the next workshop in Nic=
+e
+> > > on Friday the 16th of May. The event will be hosted by Embedded Recip=
+es
+> > > ([1]) as part of their workshops day ([2]).
+> > >
+> > > This year, our workshop will be colocated with the Pipewire workshop =
+on
+> > > the same day and at the same venue (but a different room), to facilit=
+ate
+> > > discussions about topics that span libcamera and Pipewire. The Linux
+> > > Media Summit will also be organized in a nearby location on Tuesday t=
+he
+> > > 13th ([3]).
+> > >
+> > > If you would like to attend, please register your interest by replyin=
+g
+> > > to this e-mail, and indicate if you have any discussion topics you wo=
+uld
+> > > like to include in the schedule. We will draft and circulate an agend=
+a
+> > > in the next few weeks after receiving topic proposals. If registratio=
+ns
+> > > exceed our capacity, priority will be given based on topic submission=
+s.
+> >
+> > Hi Laurent,
+> >
+> > I'm also interested on attending it.
+>
+> You're now on the attendees list. We will share logistics details at the
+> beginning of next week.
+
+If there is still room I would like to attend as well.
+
+Regards!
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
 
---KAFsEIm1wIHkZTkG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-
->  4 files changed, 302 insertions(+), 919 deletions(-)
-
-Can't comment on the technical details, but the diffstat surely is
-great, too!
-
-
---KAFsEIm1wIHkZTkG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgbLYYACgkQFA3kzBSg
-KbbDfRAAtBxbk0t0MCILCL1Ab+DR8862cPD2RTLnMAHA1is/VWT9MiiP1yiLhbkt
-XqhLbQ8c0cJBHEtxe+aMMO9zTK0uuv/8zOIizg0CwStT5CvYINPiLjF7hKV+U6sh
-tbAYNp1pUPqG33Sob7Cc5QyixO/CMtbUucDHFzeOgNGPMVfmY2x54t+ZjkceWw0M
-/uASxlN+d9oz/SlTEiyspTHbPcC9WAhP9Nw3XOKlXfDTEyesJTOPhOzCv24EZcMm
-d4/9VGZkLJj4g/mp4B9ZXfVKPjo5+wICZZscbzW93W0qShxMyk0CFE8tulECRw6G
-dVjyqiTnNc7sVUqgqeBfzLoowaaaa0RNSDa3+XL4cpONKH32VpNKL8pJATT90fhz
-98yB36OwftTT+saGJvB/p4KjnYY49ixzK9OGvq8pHfo1v2aYoCsXQ1tqdh8mMD7g
-pKS9p8g2CEuoHCsgnXDBiS1s+dnBkeOc+1CaBHV389rAdysx6tZiYtiQCrr3UYv3
-6ncjxkUCK6bWucM0TFlzg80icHwRjGKc6Wn1/gcMhsUjBc82+eQziza6dy8BXsJ+
-2wbgI9QqDsva14+WVjUp7L0l+xNcSNfUKBpTOl790bxL7XgEgYNg/FBPVmpa5apm
-ojvKNp45DrlyHs4AiRWNApDzn3tsjp9fG8ptEpv1A6C8xGXpK54=
-=YAOx
------END PGP SIGNATURE-----
-
---KAFsEIm1wIHkZTkG--
+--=20
+Ricardo Ribalda
 
