@@ -1,617 +1,461 @@
-Return-Path: <linux-media+bounces-31988-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31989-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2E8AAE503
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 17:39:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 376DDAAE608
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 18:08:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A3FF71C40A42
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 15:39:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 802015025E9
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 16:08:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EE3C28A70E;
-	Wed,  7 May 2025 15:39:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92D9A28BA97;
+	Wed,  7 May 2025 16:08:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="Y8jpV76Z"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="JqropFY3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51CC1B395F
-	for <linux-media@vger.kernel.org>; Wed,  7 May 2025 15:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746632351; cv=none; b=lpCRd2TiOWF7UUVrp+mtE3vMYRm0Mphh60IVSlqVT6i1TB5tFl24nyUTFP8OvtZQJ62HdpSuOUfp2aAfEnClF/EzLAYlw4WLetWsTut8DhxeslIiNsAPNbFCbdJemNtLWDN+3fSRPQQw9s07JZrnlaG9Cix1/kyiE4sHU/fNQ9s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746632351; c=relaxed/simple;
-	bh=H1DJG7jW1yto8JaLfjVodAlWpKfKrOJSmJqSS8eFx88=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nzyhQwqZMi5pXLQ4/RbDax7zFE72aKzk+X3JtFmt+yPHJ+aMUIk4uCou9zK8n2oKc/Uk7IrMd/V7Bc+E4pW/igq6PJvs/9w7JEgaCBST9Wrsg2K1IH8/6TR+3ujHccbzEPh3CypM5y0wy20qhpQ+f2ORJfeQRI6/Hb+uGaxrtx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=Y8jpV76Z; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4ZszvT3KD2z18GZ;
-	Wed,  7 May 2025 15:39:01 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4ZszvT0ZXqz3s;
-	Wed,  7 May 2025 15:39:01 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=Y8jpV76Z;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1746632341;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=g9QxwjEeXFgURN2JjX6NIgW3t6D4g8foqw1w196SRd0=;
-	b=Y8jpV76ZAbrR0hSnM11ulAkoae8Q2eGyq26GdQNNaNVIjjPTYSb/rPpsBCgb0rbp2MXxsJ
-	V3fc3MezPZX5sGVbk2BqIvyy1yn9Xg2Flaq6x/kMzWo9L8OcBv1ZpPqjoNNaedphdipjRs
-	BycUlYcGO+V61GP64+MOwlgqKnpU9gahpx+Pw/XoNc1UCOy6rJ4tMaI8bRAxtpAzCxyTIs
-	obfKUqYXKYehKD2tdnkcDrLhAdbX3RiSpNRC2hSuAGedBbc7c4FSyUuzrTe+YMpZnjy67z
-	POdyDoykPddHxQYmUv1RkLn6IgjS2Sq5D7Fk+78sFuwtTO3TFXpealvjAWpm/A==
-X-CM-Envelope: MS4xfFBr8XexHwOLGWIv3QCVBwVcR7wg6ckuY8lvsOqH//dxq2bZ/1iJTnimPgndBcx5UfOY8GT6ukRpwKqIFdkE2yTIg5EaHh3duNRygP4vW0xnlYMEfDKa M1PiFAkKXU7aZAGHOTtzwAJshf3WcKmbr6r2PTZQz8WRUVRqayIkR5+aysPJb5zrbD/Z1Cs1ez4AbkKbaRcVVLdpj1ocdnwwdg7dUtbkIvoZpxFV6vInRnj1 5Sp6Z6LJVe/YoroQp/WXt2uI+hizyN8y9cUYbqiezcs=
-X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=681b7e95 a=smkfPCmiGCBx+NgG8pXs4w==:117 a=smkfPCmiGCBx+NgG8pXs4w==:17 a=IkcTkHD0fZMA:10 a=xq3W2uTSAAAA:8 a=3tdsiepz8gv6nJ1n6MgA:9 a=QEXdDO2ut3YA:10 a=P5L7wpMTXyg1GfFA3Gwx:22
-Message-ID: <41652a30-140a-4cfb-ad66-19900a402400@jjverkuil.nl>
-Date: Wed, 7 May 2025 17:39:00 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E7B28BA8E;
+	Wed,  7 May 2025 16:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746634087; cv=pass; b=kPmn2iac7bAtzK0FxjkHG1Yifx0paGAqi670j5iq/WWLMWYf4M7RQn/80kXinlzncLDBFpufQBSBCrC0cN1m0T86Csa4WDOJNADFZjawyviWkreFbjlb6S8IJb7LI9XV4GS3tWWFD8F8LUvuhf71VepjFa6YO+V3wC88Vug6RV8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746634087; c=relaxed/simple;
+	bh=F0jKJCSNF4RxHwFSqj/nZSGyIzkQimSicDXJ/B+T4ec=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XDhT1eXrMkUhMK8RxSIKIXMnQW0CjU6o1SW602btZgkcF9szeXhtuyerDzWxPzfu2ukVZybLz2gers+TeRIXTjDMF4PTkhESVdVDdZbfvQtrXgP45UAFlJ0YHbzLK/W2Ig0aBjoxUxAGdI43JCWeMb8Cq/9+SoQPkilL40Bn2W4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=JqropFY3; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1746634059; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=dg9d+9mZMHyo3t46xtmx2GEF81B9B5tFeuZWL1n6A4K2BmOv7riG+B7iOaETVnviZVJkMSkdBVHtUBChQp6m3jmkrsfoi5Kv8wGAOjVm7ntavqQyFDEIdKl6LQy9yrX3PhnsHlgEKnbr/MVId6LKTib8ldfQ3SPNipuaj4lYqPs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1746634059; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=BlzBK7znsr2G2iong/lvWEeFsEhttuskV0y2RifoxB8=; 
+	b=mjk/5itk8YBZ3mi+zSFaEOsYjCqktttodYfPXX8pLWsW5bJmnwjz2iEc8E0qfReoKKVhBATjKAEmFn3pg96X+za7/u0zC3jWoyhDfwgw9KubHHfwnzJfzUQDfYbJdYVoNjtbdtRAv63ITCX2OPoWFKCocPqAlD3/xwPQUxp/bj4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746634059;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=BlzBK7znsr2G2iong/lvWEeFsEhttuskV0y2RifoxB8=;
+	b=JqropFY3lfw9tHcRuRQZgKlpjBveS6I9Mzw2BubvesUJ9v4X76HVyfWDtkHgo8js
+	441GmetFwcMDOsnZxL8tggP7r0kNV4n8qdiQ96uFNyVI01731KdU/H5UVRvx9NwHFyD
+	fuT78RosTJYBdAE4CLBfN2Antjm3Vue0/zuYjfFA=
+Received: by mx.zohomail.com with SMTPS id 1746634058547887.5680781453062;
+	Wed, 7 May 2025 09:07:38 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	kernel@collabora.com,
+	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v2 3/3] drm/panfrost: show device-wide list of DRM GEM objects over DebugFS
+Date: Wed,  7 May 2025 17:07:09 +0100
+Message-ID: <20250507160713.1363985-4-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250507160713.1363985-1-adrian.larumbe@collabora.com>
+References: <20250507160713.1363985-1-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: TC358743 RGB Quantization Issue
-To: Maxime Ripard <mripard@redhat.com>
-Cc: linux-media@vger.kernel.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20250506-spiked-corgi-of-greatness-811fbe@houat>
- <004692be-f4af-4d3a-92e5-73b7c9b62576@xs4all.nl>
- <20250506-liberal-wine-bustard-8aa8fe@houat>
- <f0ac05fb-2bc0-4963-9da6-c322395bd294@xs4all.nl>
- <20250507-marvellous-silver-jaguarundi-4ab9c5@houat>
- <140e3b51-9048-4de0-a471-7ee8809a107e@xs4all.nl>
- <20250507-petite-qualified-beaver-e0dddc@houat>
- <b1835207-2ccb-40b0-8968-6edecd92e9e3@jjverkuil.nl>
- <20250507-crouching-curassow-of-acumen-36deac@houat>
-Content-Language: en-US, nl
-From: Hans Verkuil <hans@jjverkuil.nl>
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- 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
-In-Reply-To: <20250507-crouching-curassow-of-acumen-36deac@houat>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spampanel-Class: ham
+Content-Transfer-Encoding: 8bit
 
-On 07/05/2025 16:47, Maxime Ripard wrote:
-> On Wed, May 07, 2025 at 03:57:50PM +0200, Hans Verkuil wrote:
->> On 07/05/2025 15:17, Maxime Ripard wrote:
->>> On Wed, May 07, 2025 at 10:16:47AM +0200, Hans Verkuil wrote:
->>>> On 07/05/2025 09:37, Maxime Ripard wrote:
->>>>>>> # v4l2-dbg -d /dev/v4l-subdev1 -g 0x8528 -g 0x8573 -g 0x8574 -g 0x8576
->>>>>>> ioctl: VIDIOC_DBG_G_REGISTER
->>>>>>> Register 0x00008528 = 0h (0d  00000000b)
->>>>>>> Register 0x00008573 = 1h (1d  00000001b)
->>>>>>> Register 0x00008574 = 8h (8d  00001000b)
->>>>>>> Register 0x00008576 = 0h (0d  00000000b)
->>>>>>>
->>>>>>> Which definitely looks like the chip on the Auvidea board detects the
->>>>>>> quantization differently from the same video feed.
->>>>>>>
->>>>>>> Could it be something like a pin strap on the board that is set
->>>>>>> differently and affects the chip behaviour? Or a bit somewhere not being
->>>>>>> initialized to what it should and changed default?
->>>>>>
->>>>>> Can you dump the value of register 0x8570? Is it different for the two boards?
->>>>>
->>>>> On the Auvidea (working) one:
->>>>> # v4l2-dbg -d /dev/v4l-subdev1 -g 0x8570
->>>>> ioctl: VIDIOC_DBG_G_REGISTER
->>>>> Register 0x00008570 = e6h (230d  11100110b)
->>>>>
->>>>> On the Geekworm (broken) one:
->>>>> # v4l2-dbg -d /dev/v4l-subdev1 -g 0x8570
->>>>> ioctl: VIDIOC_DBG_G_REGISTER
->>>>> Register 0x00008570 = e6h (230d  11100110b)
->>>>>
->>>>> So both are identical
->>>>
->>>> OK.
->>>>
->>>> Are you able to install different EDIDs? Or does it have to be this one?
->>>
->>> It doesn't have to be this one.
->>>
->>>> It's a bit odd in that there is only one DTD which is almost identical to
->>>> VIC 4. Normally for an HDMI receiver you would expect to see VICs listed in
->>>> the CTA-861 extension block.
->>>>
->>>> The DTD listed says:
->>>>
->>>>     DTD 1:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz (1600 mm x 900 mm)
->>>>                  Hfront  220 Hsync  40 Hback  110 Hpol P
->>>>                  Vfront   20 Vsync   5 Vback    5 Vpol P
->>>>
->>>> Whereas VIC 4 is:
->>>>
->>>> VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
->>>>                Hfront  110 Hsync  40 Hback  220 Hpol P
->>>>                Vfront    5 Vsync   5 Vback   20 Vpol P
->>>>
->>>> So front and backporches appear to be swapped in the DTD.
->>>>
->>>> Testing with a EDID where VIC 4 is added and the DTD is fixed would be interesting.
->>>> For one, the AVI InfoFrame would set the VIC to 4 instead of 0 as it is with this
->>>> EDID.
->>>
->>> I gave it a try, and it's interesting.
->>>
->>> Here's the EDID, and the infoframes:
->>>
->>> # edid-decode \
->>>   /sys/class/drm/card1-HDMI-A-2/edid \
->>>   -I /sys/kernel/debug/dri/1/HDMI-A-2/infoframes/audio \
->>>   -I /sys/kernel/debug/dri/1/HDMI-A-2/infoframes/avi \
->>>   -I /sys/kernel/debug/dri/1/HDMI-A-2/infoframes/hdmi \
->>>   -I /sys/kernel/debug/dri/1/HDMI-A-2/infoframes/hdr_drm \
->>>   -I /sys/kernel/debug/dri/1/HDMI-A-2/infoframes/spd
->>> edid-decode (hex):
->>>
->>> 00 ff ff ff ff ff ff 00 0e 4e 42 00 42 42 42 42
->>> 00 22 01 03 81 a0 5a 78 0a 9c 68 a0 57 4a 9b 26
->>> 12 48 4c 20 00 00 01 01 01 01 01 01 01 01 01 01
->>> 01 01 01 01 01 01 01 1d 00 72 51 d0 1e 20 6e 28
->>> 55 00 40 84 63 00 00 1e 00 00 00 fc 00 44 72 61
->>> 64 69 73 0a 20 20 20 20 20 20 00 00 00 fd 00 3b
->>> 3d 1e 32 08 00 0a 20 20 20 20 20 20 00 00 00 10
->>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 7d
->>>
->>> 02 03 13 81 41 04 e3 05 00 20 e2 00 4a 65 03 0c
->>> 00 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 6a
->>>
->>> ----------------
->>>
->>> Block 0, Base EDID:
->>>   EDID Structure Version & Revision: 1.3
->>>   Vendor & Product Identification:
->>>     Manufacturer: CRN
->>>     Model: 66
->>>     Serial Number: 1111638594 (0x42424242)
->>>     Made in: 2024
->>>   Basic Display Parameters & Features:
->>>     Digital display
->>>     DFP 1.x compatible TMDS
->>>     Maximum image size: 160 cm x 90 cm
->>>     Gamma: 2.20
->>>     RGB color display
->>>     First detailed timing is the preferred timing
->>>   Color Characteristics:
->>>     Red  : 0.6269, 0.3408
->>>     Green: 0.2919, 0.6054
->>>     Blue : 0.1494, 0.0722
->>>     White: 0.2832, 0.2968
->>>   Established Timings I & II:
->>>     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
->>>   Standard Timings: none
->>>   Detailed Timing Descriptors:
->>>     DTD 1:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz (1600 mm x 900 mm)
->>>                  Hfront  110 Hsync  40 Hback  220 Hpol P
->>>                  Vfront    5 Vsync   5 Vback   20 Vpol P
->>>     Display Product Name: 'Dradis'
->>>     Display Range Limits:
->>>       Monitor ranges (GTF): 59-61 Hz V, 30-50 kHz H, max dotclock 80 MHz
->>>     Dummy Descriptor:
->>>   Extension blocks: 1
->>> Checksum: 0x7d
->>>
->>> ----------------
->>>
->>> Block 1, CTA-861 Extension Block:
->>>   Revision: 3
->>>   Underscans IT Video Formats by default
->>>   Native detailed modes: 1
->>>   Video Data Block:
->>>     VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
->>>   Colorimetry Data Block:
->>>     sRGB
->>>   Video Capability Data Block:
->>>     YCbCr quantization: No Data
->>>     RGB quantization: Selectable (via AVI Q)
->>>     PT scan behavior: No Data
->>>     IT scan behavior: Always Underscanned
->>>     CE scan behavior: Always Underscanned
->>>   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
->>>     Source physical address: 1.0.0.0
->>> Checksum: 0x6a  Unused space in Extension Block: 108 bytes
->>>
->>> ================
->>>
->>> InfoFrame of '/sys/kernel/debug/dri/1/HDMI-A-2/infoframes/audio' was empty.
->>>
->>> ================
->>>
->>> edid-decode InfoFrame (hex):
->>>
->>> 82 02 0d 2d 12 28 04 04 00 00 00 00 00 00 00 00
->>> 00
->>>
->>> ----------------
->>>
->>> HDMI InfoFrame Checksum: 0x2d
->>>
->>> AVI InfoFrame
->>>   Version: 2
->>>   Length: 13
->>>   VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
->>>   Y: Color Component Sample Format: RGB
->>>   A: Active Format Information Present: Yes
->>>   B: Bar Data Present: Bar Data not present
->>>   S: Scan Information: Composed for an underscanned display
->>>   C: Colorimetry: No Data
->>>   M: Picture Aspect Ratio: 16:9
->>>   R: Active Portion Aspect Ratio: 8
->>>   ITC: IT Content: No Data
->>>   EC: Extended Colorimetry: xvYCC601
->>>   Q: RGB Quantization Range: Limited Range
->>
->> Note that this sets Limited Range, but at the tc358743 receiver side
->> it is still Default. It's really, really weird.
->>
->>>   SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
->>>   YQ: YCC Quantization Range: Limited Range
->>>   CN: IT Content Type: Graphics
->>>   PR: Pixel Data Repetition Count: 0
->>>   Line Number of End of Top Bar: 0
->>>   Line Number of Start of Bottom Bar: 0
->>>   Pixel Number of End of Left Bar: 0
->>>   Pixel Number of Start of Right Bar: 0
->>>
->>> ================
->>>
->>> InfoFrame of '/sys/kernel/debug/dri/1/HDMI-A-2/infoframes/hdmi' was empty.
->>>
->>> ================
->>>
->>> InfoFrame of '/sys/kernel/debug/dri/1/HDMI-A-2/infoframes/hdr_drm' was empty.
->>>
->>> ================
->>>
->>> edid-decode InfoFrame (hex):
->>>
->>> 83 01 19 93 42 72 6f 61 64 63 6f 6d 56 69 64 65
->>> 6f 63 6f 72 65 00 00 00 00 00 00 00 09
->>>
->>> ----------------
->>>
->>> HDMI InfoFrame Checksum: 0x93
->>>
->>> Source Product Description InfoFrame
->>>   Version: 1
->>>   Length: 25
->>>   Vendor Name: 'Broadcom'
->>>   Product Description: 'Videocore'
->>>   Source Information: PC general
->>>
->>> So indeed, the infoframes now report the VIC4 as being transmitted, but
->>> now will transmit with limited range RGB.
->>>
->>> And it's properly picked up by the bridge:
->>> # v4l2-ctl -d /dev/v4l-subdev1  --log-status
->>>
->>> Status Log:
->>>
->>>    [  761.603912] tc358743 5-000f: =================  START STATUS  =================
->>>    [  761.613688] tc358743 5-000f: -----Chip status-----
->>>    [  761.619970] tc358743 5-000f: Chip ID: 0x00
->>>    [  761.625471] tc358743 5-000f: Chip revision: 0x00
->>>    [  761.630261] tc358743 5-000f: Reset: IR: 1, CEC: 0, CSI TX: 0, HDMI: 0
->>>    [  761.636867] tc358743 5-000f: Sleep mode: off
->>>    [  761.641260] tc358743 5-000f: Cable detected (+5V power): yes
->>>    [  761.648216] tc358743 5-000f: DDC lines enabled: yes
->>>    [  761.654448] tc358743 5-000f: Hotplug enabled: yes
->>>    [  761.660582] tc358743 5-000f: CEC enabled: no
->>>    [  761.665237] tc358743 5-000f: -----Signal status-----
->>>    [  761.670388] tc358743 5-000f: TMDS signal detected: yes
->>>    [  761.675656] tc358743 5-000f: Stable sync signal: yes
->>>    [  761.680782] tc358743 5-000f: PHY PLL locked: yes
->>>    [  761.685602] tc358743 5-000f: PHY DE detected: yes
->>>    [  761.699297] tc358743 5-000f: Detected format: 1280x720p60.00 (1650x750)
->>>    [  761.706138] tc358743 5-000f: horizontal: fp = 0, -sync = 370, bp = 0
->>>    [  761.712660] tc358743 5-000f: vertical: fp = 0, -sync = 30, bp = 0
->>>    [  761.718880] tc358743 5-000f: pixelclock: 74250000
->>>    [  761.723721] tc358743 5-000f: flags (0x0):
->>>    [  761.727854] tc358743 5-000f: standards (0x0):
->>>    [  761.732326] tc358743 5-000f: Configured format: 1280x720p60.00 (1650x750)
->>>    [  761.739265] tc358743 5-000f: horizontal: fp = 0, -sync = 370, bp = 0
->>>    [  761.745780] tc358743 5-000f: vertical: fp = 0, -sync = 30, bp = 0
->>>    [  761.752248] tc358743 5-000f: pixelclock: 74250000
->>>    [  761.757121] tc358743 5-000f: flags (0x0):
->>>    [  761.761243] tc358743 5-000f: standards (0x0):
->>>    [  761.765735] tc358743 5-000f: -----CSI-TX status-----
->>>    [  761.770887] tc358743 5-000f: Lanes needed: 2
->>>    [  761.775280] tc358743 5-000f: Lanes in use: 2
->>>    [  761.780367] tc358743 5-000f: Waiting for particular sync signal: no
->>>    [  761.787518] tc358743 5-000f: Transmit mode: yes
->>>    [  761.793055] tc358743 5-000f: Receive mode: no
->>>    [  761.798190] tc358743 5-000f: Stopped: no
->>>    [  761.802252] tc358743 5-000f: Color space: RGB 888 24-bit
->>>    [  761.808266] tc358743 5-000f: -----HDMI status-----
->>>    [  761.813221] tc358743 5-000f: HDCP encrypted content: no
->>>    [  761.818593] tc358743 5-000f: Input color space: RGB limited range
->>>    [  761.825450] tc358743 5-000f: AV Mute: off
->>>    [  761.830161] tc358743 5-000f: Deep color mode: 8-bits per channel
->>>    [  761.839178] tc358743 5-000f: HDMI infoframe: Auxiliary Video Information (AVI), version 2, length 13
->>>    [  761.848599] tc358743 5-000f:     colorspace: RGB
->>>    [  761.853350] tc358743 5-000f:     scan mode: Underscan
->>>    [  761.858593] tc358743 5-000f:     colorimetry: ITU601
->>
->> This is also weird: the transmitter sends 'No Data' here.
->>
->> Can you dump the raw AVI InfoFrame data that the tc358743 reads before it is
->> logged here, and compare it with the raw data from the avi infoframe that
->> the transmitter sends?
->>
->> Actually, if you are on a recent kernel (6.13 and up) then the infoframe received by the
->> tc358743 is also exported in debugfs. So you can check it with edid-decode as well.
-> 
-> Here it is on the Geekwork (broken):
-> 
-> # edid-decode edid-dumps/test-edid.bin -I /sys/kernel/debug/v4l2/tc358743\ 5-000f/infoframes/avi
-> edid-decode (hex):
-> 
-> 00 ff ff ff ff ff ff 00 0e 4e 42 00 42 42 42 42
-> 00 22 01 03 81 a0 5a 78 0a 9c 68 a0 57 4a 9b 26
-> 12 48 4c 20 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 01 1d 00 72 51 d0 1e 20 6e 28
-> 55 00 40 84 63 00 00 1e 00 00 00 fc 00 44 72 61
-> 64 69 73 0a 20 20 20 20 20 20 00 00 00 fd 00 3b
-> 3d 1e 32 08 00 0a 20 20 20 20 20 20 00 00 00 10
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 7d
-> 
-> 02 03 13 81 41 04 e3 05 00 20 e2 00 4a 65 03 0c
-> 00 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 6a
-> 
-> ----------------
-> 
-> Block 0, Base EDID:
->   EDID Structure Version & Revision: 1.3
->   Vendor & Product Identification:
->     Manufacturer: CRN
->     Model: 66
->     Serial Number: 1111638594 (0x42424242)
->     Made in: 2024
->   Basic Display Parameters & Features:
->     Digital display
->     DFP 1.x compatible TMDS
->     Maximum image size: 160 cm x 90 cm
->     Gamma: 2.20
->     RGB color display
->     First detailed timing is the preferred timing
->   Color Characteristics:
->     Red  : 0.6269, 0.3408
->     Green: 0.2919, 0.6054
->     Blue : 0.1494, 0.0722
->     White: 0.2832, 0.2968
->   Established Timings I & II:
->     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
->   Standard Timings: none
->   Detailed Timing Descriptors:
->     DTD 1:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz (1600 mm x 900 mm)
->                  Hfront  110 Hsync  40 Hback  220 Hpol P
->                  Vfront    5 Vsync   5 Vback   20 Vpol P
->     Display Product Name: 'Dradis'
->     Display Range Limits:
->       Monitor ranges (GTF): 59-61 Hz V, 30-50 kHz H, max dotclock 80 MHz
->     Dummy Descriptor:
->   Extension blocks: 1
-> Checksum: 0x7d
-> 
-> ----------------
-> 
-> Block 1, CTA-861 Extension Block:
->   Revision: 3
->   Underscans IT Video Formats by default
->   Native detailed modes: 1
->   Video Data Block:
->     VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
->   Colorimetry Data Block:
->     sRGB
->   Video Capability Data Block:
->     YCbCr quantization: No Data
->     RGB quantization: Selectable (via AVI Q)
->     PT scan behavior: No Data
->     IT scan behavior: Always Underscanned
->     CE scan behavior: Always Underscanned
->   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
->     Source physical address: 1.0.0.0
-> Checksum: 0x6a  Unused space in Extension Block: 108 bytes
-> 
-> ================
-> 
-> edid-decode InfoFrame (hex):
-> 
-> 82 02 0d f1 12 68 00 04 00 00 00 00 00 00 00 00
-> 00
-> 
-> ----------------
-> 
-> HDMI InfoFrame Checksum: 0xf1
-> 
-> AVI InfoFrame
->   Version: 2
->   Length: 13
->   VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
->   Y: Color Component Sample Format: RGB
->   A: Active Format Information Present: Yes
->   B: Bar Data Present: Bar Data not present
->   S: Scan Information: Composed for an underscanned display
->   C: Colorimetry: SMPTE ST 170
->   M: Picture Aspect Ratio: 16:9
->   R: Active Portion Aspect Ratio: 8
->   ITC: IT Content: No Data
->   EC: Extended Colorimetry: xvYCC601
->   Q: RGB Quantization Range: Default
->   SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
->   YQ: YCC Quantization Range: Limited Range
->   CN: IT Content Type: Graphics
->   PR: Pixel Data Repetition Count: 0
->   Line Number of End of Top Bar: 0
->   Line Number of Start of Bottom Bar: 0
->   Pixel Number of End of Left Bar: 0
->   Pixel Number of Start of Right Bar: 0
-> 
-> So it looks like the EDID match, but the InfoFrame bytes 3 and 7 don't
-> for some reason.
-> 
-> I went back to the Auvidea one to see what it was reporting and it's:
-> 
-> edid-decode InfoFrame (hex):
-> 
-> 82 02 0d 2d 12 28 04 04 00 00 00 00 00 00 00 00
-> 00
-> 
-> ----------------
-> 
-> HDMI InfoFrame Checksum: 0x2d
-> 
-> AVI InfoFrame
->   Version: 2
->   Length: 13
->   VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
->   Y: Color Component Sample Format: RGB
->   A: Active Format Information Present: Yes
->   B: Bar Data Present: Bar Data not present
->   S: Scan Information: Composed for an underscanned display
->   C: Colorimetry: No Data
->   M: Picture Aspect Ratio: 16:9
->   R: Active Portion Aspect Ratio: 8
->   ITC: IT Content: No Data
->   EC: Extended Colorimetry: xvYCC601
->   Q: RGB Quantization Range: Limited Range
->   SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
->   YQ: YCC Quantization Range: Limited Range
->   CN: IT Content Type: Graphics
->   PR: Pixel Data Repetition Count: 0
->   Line Number of End of Top Bar: 0
->   Line Number of Start of Bottom Bar: 0
->   Pixel Number of End of Left Bar: 0
->   Pixel Number of Start of Right Bar: 0
-> 
-> ----------------
-> 
-> Warnings:
-> 
-> InfoFrame:
->   AVI InfoFrame: If a VID or RID is specified, then set M to 0.
-> 
-> AVI InfoFrame conformity: PASS
-> 
-> So, this time, the infoframes match what the kernel is supposed to send.
-> 
->>>    [  761.863682] tc358743 5-000f:     picture aspect: 16:9
->>>    [  761.868853] tc358743 5-000f:     active aspect: Same as Picture
->>>    [  761.874934] tc358743 5-000f:     itc: No Data
->>>    [  761.879405] tc358743 5-000f:     extended colorimetry: xvYCC 601
->>>    [  761.885538] tc358743 5-000f:     quantization range: Default
->>>    [  761.891325] tc358743 5-000f:     nups: Unknown Non-uniform Scaling
->>>    [  761.897660] tc358743 5-000f:     video code: 4
->>>    [  761.902291] tc358743 5-000f:     ycc quantization range: Limited
->>>    [  761.908466] tc358743 5-000f:     hdmi content type: Graphics
->>>    [  761.914244] tc358743 5-000f:     pixel repeat: 0
->>>    [  761.918980] tc358743 5-000f:     bar top 0, bottom 0, left 0, right 0
->>>    [  761.925734] tc358743 5-000f: ==================  END STATUS  ==================
->>>
->>> I guess that makes sense, because if I understand right, any VIC mode >
->>> 1 is supposed to be sent in limited range.
->>
->> Correct, that's the default behavior.
->>
->>> Is there any way to get HDMI to send a full range RGB signal for
->>> somewhat common modes, or are they all supposed to be sent as limited
->>> range?
->>
->> If the EDID signals Selectable RGB Quantization Range in the Video Capability Data Block
->> (this EDID does), then the source has the option to select full range. It's the Broadcast RGB
->> property.
->>
->> I also have a patch here:
->>
->> https://git.linuxtv.org/hverkuil/media_tree.git/commit/?h=hdmi-dbg&id=9bf808aa3659ed88e7188994b1f84cfd0a2133b6
->>
->> that switches to Full Range if the display can handle it.
-> 
-> Yeah, I know the Broadcast RGB property. My question was more about an
-> automatic mechanism. This whole thing is meant for CI, so I'd ideally
-> prefer to have something that works without the driver supporting
-> Broadcast RGB property, because most driver still don't.
+This change is essentially a Panfrost port of commit a3707f53eb3f
+("drm/panthor: show device-wide list of DRM GEM objects over DebugFS").
 
-After talking it over on irc it turned out that the Geekworm X1301 has a Macro Silicon
-MS9332 IC that receives and retransmits the incoming video (this to accommodate the HDMI
-output of this board). It is 99% certain that that is the IC that messes with the AVI
-InfoFrame. It's the only reasonable explanation.
+The DebugFS file is almost the same as in Panthor, minus the GEM object
+usage flags, since Panfrost has no kernel-only BO's.
 
-Regards,
+Two additional GEM state flags which are displayed but aren't relevant
+to Panthor are 'Purged' and 'Purgeable', since Panfrost implements an
+explicit shrinker and a madvise ioctl to flag objects as reclaimable.
 
-	Hans
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_device.c |   5 +
+ drivers/gpu/drm/panfrost/panfrost_device.h |  15 +++
+ drivers/gpu/drm/panfrost/panfrost_drv.c    |  35 ++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.c    | 135 +++++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.h    |  47 +++++++
+ 5 files changed, 237 insertions(+)
 
-
-> 
-> Maxime
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+index 5d35076b2e6d..04bec27449cb 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.c
++++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+@@ -209,6 +209,11 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+ 
+ 	spin_lock_init(&pfdev->cycle_counter.lock);
+ 
++#ifdef CONFIG_DEBUG_FS
++	mutex_init(&pfdev->debugfs.gems_lock);
++	INIT_LIST_HEAD(&pfdev->debugfs.gems_list);
++#endif
++
+ 	err = panfrost_pm_domain_init(pfdev);
+ 	if (err)
+ 		return err;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index dcff70f905cd..077525a3ad68 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -111,6 +111,17 @@ struct panfrost_compatible {
+ 	u8 gpu_quirks;
+ };
+ 
++/**
++ * struct panfrost_device_debugfs - Device-wide DebugFS tracking structures
++ */
++struct panfrost_device_debugfs {
++	/** @gems_list: Device-wide list of GEM objects owned by at least one file. */
++	struct list_head gems_list;
++
++	/** @gems_lock: Serializes access to the device-wide list of GEM objects. */
++	struct mutex gems_lock;
++};
++
+ struct panfrost_device {
+ 	struct device *dev;
+ 	struct drm_device *ddev;
+@@ -164,6 +175,10 @@ struct panfrost_device {
+ 		atomic_t use_count;
+ 		spinlock_t lock;
+ 	} cycle_counter;
++
++#ifdef CONFIG_DEBUG_FS
++	struct panfrost_device_debugfs debugfs;
++#endif
+ };
+ 
+ struct panfrost_mmu {
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 179fbaa1cd0c..f576cb215898 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -13,6 +13,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <drm/panfrost_drm.h>
++#include <drm/drm_debugfs.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_ioctl.h>
+ #include <drm/drm_syncobj.h>
+@@ -659,6 +660,37 @@ static const struct file_operations panfrost_drm_driver_fops = {
+ 	.show_fdinfo = drm_show_fdinfo,
+ };
+ 
++#ifdef CONFIG_DEBUG_FS
++static int panthor_gems_show(struct seq_file *m, void *data)
++{
++	struct drm_info_node *node = m->private;
++	struct drm_device *dev = node->minor->dev;
++	struct panfrost_device *pfdev = dev->dev_private;
++
++	panfrost_gem_debugfs_print_bos(pfdev, m);
++
++	return 0;
++}
++
++static struct drm_info_list panthor_debugfs_list[] = {
++	{"gems", panthor_gems_show, 0, NULL},
++};
++
++static int panthor_gems_debugfs_init(struct drm_minor *minor)
++{
++	drm_debugfs_create_files(panthor_debugfs_list,
++				 ARRAY_SIZE(panthor_debugfs_list),
++				 minor->debugfs_root, minor);
++
++	return 0;
++}
++
++static void panfrost_debugfs_init(struct drm_minor *minor)
++{
++	panthor_gems_debugfs_init(minor);
++}
++#endif
++
+ /*
+  * Panfrost driver version:
+  * - 1.0 - initial interface
+@@ -683,6 +715,9 @@ static const struct drm_driver panfrost_drm_driver = {
+ 
+ 	.gem_create_object	= panfrost_gem_create_object,
+ 	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
++#ifdef CONFIG_DEBUG_FS
++	.debugfs_init = panfrost_debugfs_init,
++#endif
+ };
+ 
+ static int panfrost_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index a7a29974d8b1..fe2cdbe8baf0 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -12,6 +12,36 @@
+ #include "panfrost_gem.h"
+ #include "panfrost_mmu.h"
+ 
++#ifdef CONFIG_DEBUG_FS
++static void panfrost_gem_debugfs_bo_add(struct panfrost_device *ptdev,
++					struct panfrost_gem_object *bo)
++{
++	bo->debugfs.creator.tgid = current->group_leader->pid;
++	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
++
++	mutex_lock(&ptdev->debugfs.gems_lock);
++	list_add_tail(&bo->debugfs.node, &ptdev->debugfs.gems_list);
++	mutex_unlock(&ptdev->debugfs.gems_lock);
++}
++
++static void panfrost_gem_debugfs_bo_rm(struct panfrost_gem_object *bo)
++{
++	struct panfrost_device *ptdev = bo->base.base.dev->dev_private;
++
++	if (list_empty(&bo->debugfs.node))
++		return;
++
++	mutex_lock(&ptdev->debugfs.gems_lock);
++	list_del_init(&bo->debugfs.node);
++	mutex_unlock(&ptdev->debugfs.gems_lock);
++}
++#else
++static void panfrost_gem_debugfs_bo_add(struct panfrost_device *ptdev,
++					struct panfrost_gem_object *bo)
++{}
++static void panfrost_gem_debugfs_bo_rm(struct panfrost_gem_object *bo) {}
++#endif
++
+ /* Called DRM core on the last userspace/kernel unreference of the
+  * BO.
+  */
+@@ -36,6 +66,7 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+ 	 */
+ 	WARN_ON_ONCE(!list_empty(&bo->mappings.list));
+ 
++	panfrost_gem_debugfs_bo_rm(bo);
+ 	kfree(bo->label.str);
+ 	mutex_destroy(&bo->label.lock);
+ 
+@@ -272,6 +303,7 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
+ struct panfrost_gem_object *
+ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
+ {
++	struct panfrost_device *pfdev = dev->dev_private;
+ 	struct drm_gem_shmem_object *shmem;
+ 	struct panfrost_gem_object *bo;
+ 
+@@ -287,6 +319,8 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
+ 	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
+ 	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
+ 
++	panfrost_gem_debugfs_bo_add(pfdev, bo);
++
+ 	return bo;
+ }
+ 
+@@ -321,3 +355,104 @@ panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
+ 
+ 	kfree(old_label);
+ }
++
++#ifdef CONFIG_DEBUG_FS
++struct gem_size_totals {
++	size_t size;
++	size_t resident;
++	size_t reclaimable;
++};
++
++struct flag_def {
++	u32 flag;
++	const char *name;
++};
++
++static void panfrost_gem_debugfs_print_flag_names(struct seq_file *m)
++{
++	int len;
++	int i;
++
++	static const struct flag_def gem_state_flags_names[] = {
++		{PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED, "imported"},
++		{PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED, "exported"},
++		{PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED, "purged"},
++		{PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE, "purgeable"},
++	};
++
++	seq_puts(m, "GEM state flags: ");
++	for (i = 0, len = ARRAY_SIZE(gem_state_flags_names); i < len; i++) {
++		seq_printf(m, "%s (0x%x)%s", gem_state_flags_names[i].name,
++			   gem_state_flags_names[i].flag, (i < len - 1) ? ", " : "\n\n");
++	}
++}
++
++static void panfrost_gem_debugfs_bo_print(struct panfrost_gem_object *bo,
++					  struct seq_file *m,
++					  struct gem_size_totals *totals)
++{
++	unsigned int refcount = kref_read(&bo->base.base.refcount);
++	char creator_info[32] = {};
++	size_t resident_size;
++	u32 gem_state_flags = 0;
++
++	/* Skip BOs being destroyed. */
++	if (!refcount)
++		return;
++
++	resident_size = bo->base.pages ? bo->base.base.size : 0;
++
++	snprintf(creator_info, sizeof(creator_info),
++		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
++	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd0x%-16lx",
++		   creator_info,
++		   bo->base.base.name,
++		   refcount,
++		   bo->base.base.size,
++		   resident_size,
++		   drm_vma_node_start(&bo->base.base.vma_node));
++
++	if (bo->base.base.import_attach)
++		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
++	if (bo->base.base.dma_buf)
++		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
++
++	if (bo->base.madv < 0)
++		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED;
++	else if (bo->base.madv > 0)
++		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE;
++
++	seq_printf(m, "0x%-10x", gem_state_flags);
++
++	scoped_guard(mutex, &bo->label.lock) {
++		seq_printf(m, "%s\n", bo->label.str ? : "");
++	}
++
++	totals->size += bo->base.base.size;
++	totals->resident += resident_size;
++	if (bo->base.madv > 0)
++		totals->reclaimable += resident_size;
++}
++
++void panfrost_gem_debugfs_print_bos(struct panfrost_device *ptdev,
++				    struct seq_file *m)
++{
++	struct gem_size_totals totals = {0};
++	struct panfrost_gem_object *bo;
++
++	panfrost_gem_debugfs_print_flag_names(m);
++
++	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset       state       label\n");
++	seq_puts(m, "-----------------------------------------------------------------------------------------------------------------------------------\n");
++
++	scoped_guard(mutex, &ptdev->debugfs.gems_lock) {
++		list_for_each_entry(bo, &ptdev->debugfs.gems_list, debugfs.node) {
++			panfrost_gem_debugfs_bo_print(bo, m, &totals);
++		}
++	}
++
++	seq_puts(m, "===================================================================================================================================\n");
++	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
++		   totals.size, totals.resident, totals.reclaimable);
++}
++#endif
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+index 842e025b9bdc..ce8ca7be2d66 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.h
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+@@ -8,9 +8,47 @@
+ #include <drm/drm_mm.h>
+ 
+ struct panfrost_mmu;
++struct panfrost_device;
+ 
+ #define PANFROST_BO_LABEL_MAXLEN	4096
+ 
++enum panfrost_debugfs_gem_state_flags {
++	/** @PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
++	PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(0),
++
++	/** @PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
++	PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(1),
++
++	/** @PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED: GEM BO was reclaimed by the shrinker. */
++	PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED = BIT(2),
++
++	/**
++	 * @PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE: GEM BO pages were marked as no longer
++	 * needed by UM and can be reclaimed by the shrinker.
++	 */
++	PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE = BIT(3),
++};
++
++/**
++ * struct panfrost_gem_debugfs - GEM object's DebugFS list information
++ */
++struct panfrost_gem_debugfs {
++	/**
++	 * @node: Node used to insert the object in the device-wide list of
++	 * GEM objects, to display information about it through a DebugFS file.
++	 */
++	struct list_head node;
++
++	/** @creator: Information about the UM process which created the GEM. */
++	struct {
++		/** @creator.process_name: Group leader name in owning thread's process */
++		char process_name[TASK_COMM_LEN];
++
++		/** @creator.tgid: PID of the thread's group leader within its process */
++		pid_t tgid;
++	} creator;
++};
++
+ struct panfrost_gem_object {
+ 	struct drm_gem_shmem_object base;
+ 	struct sg_table *sgts;
+@@ -59,6 +97,10 @@ struct panfrost_gem_object {
+ 
+ 	bool noexec		:1;
+ 	bool is_heap		:1;
++
++#ifdef CONFIG_DEBUG_FS
++	struct panfrost_gem_debugfs debugfs;
++#endif
+ };
+ 
+ struct panfrost_gem_mapping {
+@@ -107,4 +149,9 @@ void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
+ 
+ void panfrost_gem_set_label(struct drm_gem_object *obj, const char *label);
+ 
++#ifdef CONFIG_DEBUG_FS
++void panfrost_gem_debugfs_print_bos(struct panfrost_device *pfdev,
++				    struct seq_file *m);
++#endif
++
+ #endif /* __PANFROST_GEM_H__ */
+-- 
+2.48.1
 
 
