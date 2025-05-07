@@ -1,64 +1,65 @@
-Return-Path: <linux-media+bounces-31905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8598AAD88B
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 09:43:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBED1AAD88F
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 09:43:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90B631C03853
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 07:43:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 32B2D5012DD
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 07:43:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAAF6221265;
-	Wed,  7 May 2025 07:41:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7838F22069A;
+	Wed,  7 May 2025 07:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HNfs7+0x"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IGJTIzb1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35D3221286;
-	Wed,  7 May 2025 07:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F0D22129E;
+	Wed,  7 May 2025 07:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746603668; cv=none; b=AOdjBgBTC32PuDuVnMuuy3Y/s+xFqms4q446i8V0S6haudiM2P+WNWtlUa//k4Tf8f9pDyo+Akm/tKgOMsf9q2RPtYbIka4eqE50RtnpMU6wbdEA33LZSkAW8Mobvic0qu9S2a6R5DJwfjFG4HN8uzIpCX30Eu8kiLLieuDkGM4=
+	t=1746603674; cv=none; b=UsF1bRkWPo3PO/LYRB1/UgfazdmL22eqwJsz90dVvbETZdU1GqHM9O0KrvuSwlUNN+vK6GW8nosNJd1l8eEW5GkudDv9M29auqdlVqpibatC+MtqbyrK/lea9iKCtsGWobMuTan3mYXOk0IMxV8/hkYFFTEg6EIn4DrUtcXdBZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746603668; c=relaxed/simple;
-	bh=4LsRjrpptQEPGnCiiex1oBfnRk2AZmHUDGwVn9jfXbE=;
+	s=arc-20240116; t=1746603674; c=relaxed/simple;
+	bh=PEbkT9PS7RAyXHIjuYDaz28m84DD1DKyQUe8XXxB6uA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=tmkECrvjXEzc0OJMTxrXbN2B6wM7fDnRQqxHY3A/bCas7BbrNKETgiJlvJwV2kXSftz+9Pvl8fMeF/VhuM9MaAHYgw05JbaC9wizKboOuaby+nQKMXHnveSQ5VSQ7Yofbm18weMq4orJqNOx7CKlqQUdaxs67q/gDGFXorj3yzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HNfs7+0x; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:CC; b=ZWamdjQMmm5s8PwUJlOmcoRsixJ5KSLv9KvwzG/uEZE79dVxMRGWJSTK5iHHHO+W92ybJ8VIsp4mPTYT+XOhuDqQvMqXCop+xgCErv+c+3acav2hWRs4hU1leCEoemF9d9xh2ZWHDhZkM7acblvqIgRibtvB04MDav5n3dwSrEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IGJTIzb1; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5471HIiL010452;
-	Wed, 7 May 2025 07:41:03 GMT
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5471GlH0015210;
+	Wed, 7 May 2025 07:41:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	cCwjPAtOlCEQRGaUNpkjBLTk3h7IXFKl3xlmQyf6tlI=; b=HNfs7+0xg/+bH8qa
-	XNWy+XvEXi3INqDwP4rhBGiCIhKxBJy3/TDuDhT24jOzCs6Yy7UpOo9Q25S622m7
-	7fgEMxb1mR5KvKPIYQE+Wc+OyPhQyqHtPxEPrcTJhq8n3eSjcQoB+gswneWORQmd
-	biRYtgI7H9mN35wwyrxla3gGRe+TANykyRepmbSiE73cSIJArPsfhs3fM+V9dQoR
-	BNKvvc8COzhuARm8nKNmTn5YvL9lOgMU8k5/WfEGoXAuLDQH1BZ0YrlaCvOP/vsV
-	MAUUbJ+LCgZX7Gu1j0S5E6SeeHCBI4ydhDHzZjjI0FRfQACqrdr47CnGQxwK2fkw
-	f41Mkg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46fnm1j1mh-1
+	a+98LMd58sR9+Dg6dxNaQ2Y2NNK+d4aHkZ1pzrfUg/4=; b=IGJTIzb10We0eqlQ
+	Z5gMcTw5PcxYtWx39YomjfX9NEf0di2AENJG2itu8kN+qKqTX8MFMK9uvvknnlfM
+	fgfaPbe0Xg8dxetuzshB/VQiabrfFwqNgCW7FGlndhbAAgduoai40nD2XkCyzhNm
+	ytLro1IU7V1VlAPxLiwNWoAlq6WGgvdUDCbqVyRbuxej+s3nPXHesu8a24DOzKO/
+	u145d2PZrm3xVRSLAQXViqoPTQpY3ZV4rGApCaru5F8pWL0p2cxm3uvm57AT+K1z
+	cyuQQ6HaPGCkXpW19CSzlVSRFpcaUAxop8qFq+N+hx6O3aAm3Z0CXM/sjpbzFZCz
+	GvNcPw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46f5u44wdw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 07 May 2025 07:41:03 +0000 (GMT)
+	Wed, 07 May 2025 07:41:07 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5477f2eF019738
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5477f69x000532
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 7 May 2025 07:41:02 GMT
+	Wed, 7 May 2025 07:41:06 GMT
 Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 7 May 2025 00:40:57 -0700
+ 15.2.1544.9; Wed, 7 May 2025 00:41:02 -0700
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Wed, 7 May 2025 13:09:41 +0530
-Subject: [PATCH v4 10/25] media: iris: Fix typo in depth variable
+Date: Wed, 7 May 2025 13:09:42 +0530
+Subject: [PATCH v4 11/25] media: iris: Track flush responses to prevent
+ premature completion
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250507-video-iris-hevc-vp9-v4-10-58db3660ac61@quicinc.com>
+Message-ID: <20250507-video-iris-hevc-vp9-v4-11-58db3660ac61@quicinc.com>
 References: <20250507-video-iris-hevc-vp9-v4-0-58db3660ac61@quicinc.com>
 In-Reply-To: <20250507-video-iris-hevc-vp9-v4-0-58db3660ac61@quicinc.com>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -89,74 +90,150 @@ CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         Dan Carpenter <dan.carpenter@linaro.org>,
         Dikshita Agarwal <quic_dikshita@quicinc.com>, <stable@vger.kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746603611; l=2022;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746603611; l=5201;
  i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=4LsRjrpptQEPGnCiiex1oBfnRk2AZmHUDGwVn9jfXbE=;
- b=zD9wcN5X3YTo4pZK97YfKshvjp7a8HUjstUt88V355l+p2NPXfQE9tEybtX6TbBUQcJjiFYdq
- M6lzl3vlJH0BOBWuDr/LiDehjhCh1F21SSacbETXD9rmi2MgLuFYyYr
+ bh=PEbkT9PS7RAyXHIjuYDaz28m84DD1DKyQUe8XXxB6uA=;
+ b=tKHEyH6MyYt2/OxfkBeLO97R47Os/MxVwiHDNLD9WNJEi6OSBL3ReG+LFVph2HOaFavDfE5Sk
+ 1FPelhswvO4A8frQFFH9id/Fg8onVoWMHeLWuOqkKL4QKhLZb+Farkt
 X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
  pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: SU5u47dBc4juxdMFrBMNVeSpAfvB5hql
-X-Proofpoint-ORIG-GUID: SU5u47dBc4juxdMFrBMNVeSpAfvB5hql
-X-Authority-Analysis: v=2.4 cv=bLkWIO+Z c=1 sm=1 tr=0 ts=681b0e8f cx=c_pps
+X-Authority-Analysis: v=2.4 cv=KcfSsRYD c=1 sm=1 tr=0 ts=681b0e93 cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=rB4S86NHfeBpNGRUqi0A:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDA3MCBTYWx0ZWRfXxr4N7372k0ep
- epXyQ8wWYowIPm7o7QqMT1uz+l7P1Nnh4KVFOMKsvgh3GKA2KhTgEv4ugBs/TZeyypzfGIeVl63
- /8v9H20b5WA1Esc5TU067TErnnhTjN2Al2cXJm9rLr84nrcLlJqcvsgEp/Qx1jh/zK1swOERuiN
- m7GgKDMH4aZHjzkZlWNM1xKUVmV0brLkvlDvMWW7HhSdl9cqm+DitGfsRvY34LQsS/s6X57Q/Qa
- e0sx56CgxkBy4wfIY5XoPLRcfY29m6Gwtheg2t/yMiNmjmXkrLrVnzwnGtGos6IzScurm0BjGVC
- huaMMQGPjIOnGCpEDMa2Gb8Vj9nGDDS3IDLjrHDeQAtD5LCp92UuCxBMpl2cbg7DjEynWvkQ7jD
- Y56CyYJ7CaCMdxB0uDEfFvM7avCj7aWyfJsqhO2t1EXTKi8XNZskA0brfOD2RaLqVCOihMg8
+ a=COk6AnOGAAAA:8 a=9N5asa1Zfmtpwkv7HToA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: -eg-kYGXSimmit7_2ukZhXy8X3U0QV-G
+X-Proofpoint-ORIG-GUID: -eg-kYGXSimmit7_2ukZhXy8X3U0QV-G
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDA3MCBTYWx0ZWRfX7zEuRsUJGsAG
+ jJ23KpkfBG3RrYs8gMT3rKlggF/GfI6rehOZDsFdMvPV6+GEYf2D2v690VAJuAO4VL64KuVlF2/
+ lMdiFH1bPNo+yywajJZ+Ak5NL+6aP1l+AJYLFHFC2NnWyYD45OiJWW+aBQOV09r7aqWdNbUq6dF
+ DLz4g/LVl3kHJIRaqWivSYAad4jObxDEMFoUKaKqWfL6E0MTQYyEXromhO01o5fZRW7J5NGnFfe
+ SQt89YbFHe/HxCD1Hx911GfeROnwtClOA7rGUXLAJul+IUA+tn3gWfTpxfdjdj39KQ83xS6PxYp
+ 5oGufRddiec8MBMGuqPgopMOjfmSKy2oLDfMA648lxROtyx3LNxvkYLBSbBaxngPugkCNom3tGg
+ Iisk9StuUunKpNJXYkK7nWST4/1dkF6+qjetv0WD21o+nAc5B26s76Ds50NgEg4hLvpt2ld1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-07_02,2025-05-06_01,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999 spamscore=0 clxscore=1015 suspectscore=0
- impostorscore=0 mlxscore=0 malwarescore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ clxscore=1015 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
  definitions=main-2505070070
 
-Correct a typo from "dpeth" to "depth".
+Currently, two types of flush commands are queued to the firmware,
+the first flush queued as part of sequence change, does not wait for a
+response, while the second flush queued as part of stop, expects a
+completion response before proceeding further.
+
+Due to timing issue, the flush response corresponding to the first
+command could arrive after the second flush is issued. This casuses the
+driver to incorrectly assume that the second flush has completed,
+leading to the premature signaling of flush_completion.
+
+To address this, introduce a counter to track the number of pending
+flush responses and signal flush completion only when all expected
+responses are received.
 
 Cc: stable@vger.kernel.org
-Fixes: 3a19d7b9e08b ("media: iris: implement set properties to firmware during streamon")
-Acked-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Fixes: 11712ce70f8e ("media: iris: implement vb2 streaming ops")
+Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../media/platform/qcom/iris/iris_hfi_gen1_command.c    |  4 +++-
+ .../media/platform/qcom/iris/iris_hfi_gen1_response.c   | 17 +++++++++++------
+ drivers/media/platform/qcom/iris/iris_instance.h        |  2 ++
+ 3 files changed, 16 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-index a908b41e2868fcb3ac5697e43f096ca05db77f69..802fa62c26ebef619c5b5c3e5f50637a6e9693a2 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-@@ -178,7 +178,7 @@ static int iris_hfi_gen2_set_crop_offsets(struct iris_inst *inst)
- 						  sizeof(u64));
- }
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+index ce855a20ce4bf4973686dd3a90bcb605065673f3..bd9d86220e611e2eb39c9e114bceceac757f4d7b 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+@@ -208,8 +208,10 @@ static int iris_hfi_gen1_session_stop(struct iris_inst *inst, u32 plane)
+ 		flush_pkt.flush_type = flush_type;
  
--static int iris_hfi_gen2_set_bit_dpeth(struct iris_inst *inst)
-+static int iris_hfi_gen2_set_bit_depth(struct iris_inst *inst)
- {
- 	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
- 	u32 port = iris_hfi_gen2_get_port(V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-@@ -378,7 +378,7 @@ static int iris_hfi_gen2_session_set_config_params(struct iris_inst *inst, u32 p
- 		{HFI_PROP_BITSTREAM_RESOLUTION,       iris_hfi_gen2_set_bitstream_resolution   },
- 		{HFI_PROP_CROP_OFFSETS,               iris_hfi_gen2_set_crop_offsets           },
- 		{HFI_PROP_CODED_FRAMES,               iris_hfi_gen2_set_coded_frames           },
--		{HFI_PROP_LUMA_CHROMA_BIT_DEPTH,      iris_hfi_gen2_set_bit_dpeth              },
-+		{HFI_PROP_LUMA_CHROMA_BIT_DEPTH,      iris_hfi_gen2_set_bit_depth              },
- 		{HFI_PROP_BUFFER_FW_MIN_OUTPUT_COUNT, iris_hfi_gen2_set_min_output_count       },
- 		{HFI_PROP_PIC_ORDER_CNT_TYPE,         iris_hfi_gen2_set_picture_order_count    },
- 		{HFI_PROP_SIGNAL_COLOR_INFO,          iris_hfi_gen2_set_colorspace             },
+ 		ret = iris_hfi_queue_cmd_write(core, &flush_pkt, flush_pkt.shdr.hdr.size);
+-		if (!ret)
++		if (!ret) {
++			inst->flush_responses_pending++;
+ 			ret = iris_wait_for_session_response(inst, true);
++		}
+ 	}
+ 
+ 	return ret;
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
+index b72d503dd74018c9bce704aae557ccdce326da4c..271e1446922311e2be6b7b2f9b68e26fa14ead9c 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
+@@ -207,7 +207,8 @@ static void iris_hfi_gen1_event_seq_changed(struct iris_inst *inst,
+ 		flush_pkt.shdr.hdr.pkt_type = HFI_CMD_SESSION_FLUSH;
+ 		flush_pkt.shdr.session_id = inst->session_id;
+ 		flush_pkt.flush_type = HFI_FLUSH_OUTPUT;
+-		iris_hfi_queue_cmd_write(inst->core, &flush_pkt, flush_pkt.shdr.hdr.size);
++		if (!iris_hfi_queue_cmd_write(inst->core, &flush_pkt, flush_pkt.shdr.hdr.size))
++			inst->flush_responses_pending++;
+ 	}
+ 
+ 	iris_vdec_src_change(inst);
+@@ -408,7 +409,9 @@ static void iris_hfi_gen1_session_ftb_done(struct iris_inst *inst, void *packet)
+ 		flush_pkt.shdr.hdr.pkt_type = HFI_CMD_SESSION_FLUSH;
+ 		flush_pkt.shdr.session_id = inst->session_id;
+ 		flush_pkt.flush_type = HFI_FLUSH_OUTPUT;
+-		iris_hfi_queue_cmd_write(core, &flush_pkt, flush_pkt.shdr.hdr.size);
++		if (!iris_hfi_queue_cmd_write(core, &flush_pkt, flush_pkt.shdr.hdr.size))
++			inst->flush_responses_pending++;
++
+ 		iris_inst_sub_state_change_drain_last(inst);
+ 
+ 		return;
+@@ -558,7 +561,6 @@ static void iris_hfi_gen1_handle_response(struct iris_core *core, void *response
+ 	const struct iris_hfi_gen1_response_pkt_info *pkt_info;
+ 	struct device *dev = core->dev;
+ 	struct hfi_session_pkt *pkt;
+-	struct completion *done;
+ 	struct iris_inst *inst;
+ 	bool found = false;
+ 	u32 i;
+@@ -619,9 +621,12 @@ static void iris_hfi_gen1_handle_response(struct iris_core *core, void *response
+ 			if (shdr->error_type != HFI_ERR_NONE)
+ 				iris_inst_change_state(inst, IRIS_INST_ERROR);
+ 
+-			done = pkt_info->pkt == HFI_MSG_SESSION_FLUSH ?
+-				&inst->flush_completion : &inst->completion;
+-			complete(done);
++			if (pkt_info->pkt == HFI_MSG_SESSION_FLUSH) {
++				if (!(--inst->flush_responses_pending))
++					complete(&inst->flush_completion);
++			} else {
++				complete(&inst->completion);
++			}
+ 		}
+ 		mutex_unlock(&inst->lock);
+ 
+diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
+index caa3c65070061b3a9a2facd5b7b297c9f11b07d9..06a7f1174ad55e8028096b103b1a2c66f49c3aa7 100644
+--- a/drivers/media/platform/qcom/iris/iris_instance.h
++++ b/drivers/media/platform/qcom/iris/iris_instance.h
+@@ -27,6 +27,7 @@
+  * @crop: structure of crop info
+  * @completion: structure of signal completions
+  * @flush_completion: structure of signal completions for flush cmd
++ * @flush_responses_pending: counter to track number of pending flush responses
+  * @fw_caps: array of supported instance firmware capabilities
+  * @buffers: array of different iris buffers
+  * @fw_min_count: minimnum count of buffers needed by fw
+@@ -57,6 +58,7 @@ struct iris_inst {
+ 	struct iris_hfi_rect_desc	crop;
+ 	struct completion		completion;
+ 	struct completion		flush_completion;
++	u32				flush_responses_pending;
+ 	struct platform_inst_fw_cap	fw_caps[INST_FW_CAP_MAX];
+ 	struct iris_buffers		buffers[BUF_TYPE_MAX];
+ 	u32				fw_min_count;
 
 -- 
 2.34.1
