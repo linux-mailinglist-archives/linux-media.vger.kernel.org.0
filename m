@@ -1,94 +1,96 @@
-Return-Path: <linux-media+bounces-31945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31946-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A35FAADBAE
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 11:42:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B728FAADBA3
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 11:41:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 27B6B7B2569
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 09:40:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDC763A11AE
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 09:41:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 949ED201002;
-	Wed,  7 May 2025 09:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 103BC205513;
+	Wed,  7 May 2025 09:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="yvJqsneo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AH2p41Q2"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="OOFyaCMA";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QPb2cTYb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAD81FC0E3;
-	Wed,  7 May 2025 09:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC94A1FCCF8;
+	Wed,  7 May 2025 09:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746610890; cv=none; b=Vg1heKhostsregj1sE7tl5vsPrgp+cLVwJ3X7mJlBRnveK7U7YfqxuCDyiFTB4D+ImY5jfucxLBKbMztmsGfMr7WHJkR+qiCu0CKBQ6BYY1W41w8vMwsCSjlvDQhbcnk9PaxtraF4VjPCFAXeEjOjipRtczr+zdiocgXBthQKAM=
+	t=1746610892; cv=none; b=mpLHOGqAbrTk6WnPDrrvwTjMU2wKpIzyonu9/mwcWYqP+1jTNmnMrKmJf7MCeg0CnAqY31fdrHiw+LIVt3cXDMA3Dq7O/fh+pzLgH05wKGibp4ZHaQNXQ8zND3vX19e9zH/hZBbhhBxKsdZ12n2xlf9iDjMIlwevM8CQIq+iW0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746610890; c=relaxed/simple;
-	bh=XtiUjo8ZJB1Y2IN3eC+aLcl6MGDqiC4VJFhLguTdzCE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=g9MCnbFJsehM3rfufV9u87MxZwzhfwFSglkiv0DjmRJLKG4pgJV/3aIwRopJDaN5a90a2BtgMU3xYN4ljAjkzHXFAonBa0ze4Jg1ulIRvjZz+FXLDakrOEb08dC1g5w0OKqLYswFNTmD+36U8CH7oD60QP3+NIcNIqtHedDOrb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=yvJqsneo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AH2p41Q2; arc=none smtp.client-ip=103.168.172.152
+	s=arc-20240116; t=1746610892; c=relaxed/simple;
+	bh=RPHx3MvQ2V7V4IvMw+bc6PWyHhA6Gm8Cj5NziIaFF3o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qqPyONnhOqIBJ9vL2SUodLizRI4imJwpXEcLE8u8VwbHtugAjXMfrG2NMrrd1k0dPDTpKyGefnSNsNv5f1jdERbPjCgJ0LFdzrNTfRbUx9ohLxgm5urL8WCJlgwRPEO/ycIzI2nG9Od5uW9P04V4PFlPwP2Cn/yQKz8UNixL/QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=OOFyaCMA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QPb2cTYb; arc=none smtp.client-ip=103.168.172.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C6CFA1140101;
-	Wed,  7 May 2025 05:41:26 -0400 (EDT)
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id DB2681380158;
+	Wed,  7 May 2025 05:41:28 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Wed, 07 May 2025 05:41:26 -0400
+  by phl-compute-03.internal (MEProxy); Wed, 07 May 2025 05:41:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1746610886; x=1746697286; bh=li
-	Ph0Tmzxgbax/Mf5ctLxtGhwmFgii6Sjc9QeWjyKCE=; b=yvJqsneo4uESiHodW+
-	WEUKeDv1K88MCyq30mzgWT7a1auKqDztw109qDHpjdnsYZlzkNJT8v3LhDcgtwLA
-	c9uHKOVjq+/5iCK+AP5AJefGV7vssEs5qURBvCP57ESGUUXYe1nox1E1DAN2OkLl
-	RLmjtyunat2KQ5pDhdJy/v5IKTHpxPY8wVVDPYpnTVYxNgzkol6W3joD3cs8q9Iw
-	f5h9cJUvFhqzsb6dVkJViz4InctNAKZrSCCKi93JRcj5weGNIsCDwdOc3vT78jz7
-	fB6uecHXK0BI/UNXO7H4c0WMijOyr6womMc2fZRPuaCSkT9mSZ7stRWRy0lbGftw
-	Hj4A==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1746610888;
+	 x=1746697288; bh=NNgbCIGo3Bt2vZnDVXGbIbb9O+7rprWGrMqXZ3JaxBs=; b=
+	OOFyaCMA1op4lKx6jhRDYq86zaU7YVzSoWgH5wUuWRu0jO0NySXg63d2Rv9nE5wc
+	Lof/TiKSRYQ/FaFUDu10SlRdjsWZbgfIz99sfApnVpDCtGOOrqlapum2ZPgU3hRR
+	q/ZkXgMpUWmcAO8tEYVmT5XjsaZPwzu+o4lT2IVieAq+iTuE9IYMt8rwOByZSf6p
+	DN0PO/vnMLGP4opRB9g2p6mf4DHY/jbO8h5WmMjmATqUJZDFrFTP2reZoWDfg6T1
+	pl3QjHS9a3lqbOewoWSxp7OKIft3b724yUyuCu9WccURmembDczAIDJdFMbQ9cJq
+	3NiweSm1SY91yc16CUH68Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1746610886; x=1746697286; bh=liPh0Tmzxgbax/Mf5ctLxtGhwmFg
-	ii6Sjc9QeWjyKCE=; b=AH2p41Q2cMFy89kwZPG2whXV4b00z/COztj6uxml8rC9
-	oFCkpM+tXW0fYdSobZkVcrWUE6l9EnrXIvw3qU0aXuIr6ytU8PBuDXZvM4Wti4aG
-	LkNcw35FAk4F11AtcVdwXWfMJ1bgTvkeBTqknnN1vtGufdei1sPlKqRExg7Sclaw
-	gNjotLKuYsUnkEpjouYDQnxg60ASMqWIrrsVOpcjyF0HOvTxx8hdwbG9PNLRoD2F
-	4IbUbyp+QJ2SNXyUEb5SsJwPL8wMTovOAf2pIAmvwDvqeMDd95bXuPh6N/cQ9bm7
-	rBwJkU3I/N9slg5tSNMLE+YcglcIur2wuE2MpuvQ1w==
-X-ME-Sender: <xms:xiobaOGCm3LJY1V-d6_CyCCTSJr3kdVcXzZCSf1TAzYv_1su2XtHFw>
-    <xme:xiobaPX7LpHVdO70n9PXjBLiSlzRQrwhxN2SXM3nk2Ofi-5nPeaBnKwHRVdapkTZQ
-    Qi50x7dM4LHWoz0PTU>
-X-ME-Received: <xmr:xiobaIK9m7poiazK7z84ZiesU8PV5QOo7rBP86iZ9yW4OogNC3cZsQXLA3KFA0b0WxnIGEkOxW3d4-LPwioAWMB3>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746610888; x=
+	1746697288; bh=NNgbCIGo3Bt2vZnDVXGbIbb9O+7rprWGrMqXZ3JaxBs=; b=Q
+	Pb2cTYb9e3FgSYkwGR7g3COzM51OkKJ3RNTzv3cjIH8Xk4NbJ8y7uPOfL1ZoROES
+	rKAd9pTtFxQRuqEnj1EQPWaa2I4zW/fYuWXgDjeylxB+zdfrhVW8do0q6TJW8+NA
+	UaWrZY1KMIk5+D3ubcuDMWyxyhzvdWFFk+KdQ3eVId+PxEGVamFVbKLTPt+DvOgQ
+	VSf6rKY8goIXk11UCpq2VmImNhfQG8LRP94eTUahCGRLv0Fiafk0azw3AkajfJ+P
+	WQ5kbaznZ7KGqUkHAtOFbIhlbQNuw6+TKMkUPdjNAI04ncT8q86LiJrH73kUyO2F
+	Fkv90eI3rb44+Vd0/+WlA==
+X-ME-Sender: <xms:yCobaN0r_nQO9oz7P3url9A7Lbp2XTRenleNKM5hd22G54D_gwMgAg>
+    <xme:yCobaEFXU4kmaJ1j78_ZtvCP62zDmxjrfediNyvUR2YGqNZN3MulcUEx6Jmdo81xL
+    xf5vs0wnEitkZ8KBJk>
+X-ME-Received: <xmr:yCobaN7kLB73538D3E9QcX4Y31_m3FE-g1WMy1I2MFialUNNj3dy6BiQtHxRVojYPsQ73QrV6cv1cjJ85L0Y6Rag>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeeihedvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfe
-    etgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
-    htthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsrghkrghrihdrrghi
-    lhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrggsse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgv
-    nhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvg
-    hnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthho
-    pehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    eplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrgh
-    hnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:xiobaIHoTRX69w3lL_Orr5KD-U1H2nMujH8Srf3BqGsxK6_YaKXzpQ>
-    <xmx:xiobaEWpP4Ipwn4d36Vr-uhmq82xRzK59_nU88jTcV-BshK_mQ4eoA>
-    <xmx:xiobaLOssQnbvh-PmxT0oPrxge-8R53tPLHUpoLNU5F_tDncbWO82w>
-    <xmx:xiobaL3rcKONVIY-bauLVs-Lo3CrnWbbLeNpsv68Dt2P5mMbvp0uIw>
-    <xmx:xiobaLWPv1hpsP2pJKNdYoaAY2grvZ3gMaOfB4K8GuVuJT2BMpn9bnKe>
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertder
+    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
+    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
+    rghtthgvrhhnpeehiefgueevuedtfefhheegkeevtdelueeukeevfeduhefhhfejfffgge
+    ffleefgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    pehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprh
+    gtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsrghkrghrihdr
+    rghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrg
+    gssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdo
+    rhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruh
+    hrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphht
+    thhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrh
+    grghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:yCobaK1SSPRrWnUF34d6BIiznRMJ1p8IThBKjTsXfmNhhqMg3tFmCw>
+    <xmx:yCobaAFm0nbvjEx5g_NcqFYZtiJsbfmb-hwFFsFRKbSSzYYabVLszw>
+    <xmx:yCobaL_wDAck5cBeMXV_oeYlThs64SOjj0yx5-felXtiZtVRcyvulw>
+    <xmx:yCobaNmsf6VLQ2BYxdE0zFt0NPTWXRoK84JugDQjmoi-d7jPS2tW0g>
+    <xmx:yCobaOEF7j6kRaIfwfhwIu4MvyU_GrC-RPj4jcmNXpdDS8mmpntPiBNi>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 May 2025 05:41:25 -0400 (EDT)
+ 7 May 2025 05:41:28 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -97,10 +99,12 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 0/6] media: rcar-vin: Unify notifiers and enable MC on Gen2
-Date: Wed,  7 May 2025 11:40:08 +0200
-Message-ID: <20250507094014.622087-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 1/6] media: rcar-vin: Use correct count of remote subdevices
+Date: Wed,  7 May 2025 11:40:09 +0200
+Message-ID: <20250507094014.622087-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250507094014.622087-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20250507094014.622087-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -110,58 +114,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello,
+When extending the driver with Gen4 support the iteration of over
+possible remote subdevices changed from being R-Car CSI-2 Rx only to
+also cover R-Car CSISP instances. In two loops updating the bounds
+variable was missed.
 
-This series completes the conversion of the soc_camera VIN driver to a
-full fledge media-graph enabled driver for R-Car Gen2 devices, Gen3 and
-later have been media-graph centric from the start. Having a single
-driver supporting both MC and non-MC operation have lead do odd design
-decisions in the driver, and it have prevented improving the driver over
-all.
+This had no ill effect as the count the two values have always been the
+same in the past. Fix it before the two diverge.
 
-New features and bug fixes have always been more important then fixing
-this old generation to be MC-centric. But in order to start to play with
-libcamera support for the R-Car pipeline it have become more pressing to
-make take the time to make this driver MC-only, and more importantly
-test it to make sure nothing really breaks.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Patch 1/6 and 2/6 are drive-by fixes correcting issues in the existing
-design. Patch 3/6 prepares for Gen2 MC by making sure each VIN instance
-on Gen2 gets a unique ID which will be needed to support VIN groups.
-Compared to Gen3 and later the group ID does not match what it can do in
-the group and does not need to be set from DT, all that matters is that
-each VIN instance have a unique ID.
-
-Patch 4/6 and 5/6 uses the fact that VIN instances on Gen2 now have
-unique IDs and greatly simplifies the unnecessarily complex vl4-async
-notifier usage in the VIN driver. This have in the past lead to some
-subtle bugs and having only a single notifier for all VIN will remove a
-lot of possibilities for this to go wrong in the future.
-
-Finally patch 6/6 removes all non MC code paths and have the Gen2
-devices register a media device and configure links.
-
-This have been tested on Gen3 and Gen4 devices without any regressions.
-And on Gen2 to make sure the media-graph behaves as it should. As a
-bonus the Gen2 devices can now join the VIN CI and any future issues
-should be caught as they are for Gen3 and Gen4.
-
-See individual patches for changelog.
-
-Niklas Söderlund (6):
-  media: rcar-vin: Use correct count of remote subdevices
-  media: rcar-vin: Change link setup argument
-  media: rcar-vin: Generate a VIN group ID for Gen2
-  media: rcar-vin: Prepare for unifying all v4l-async notifiers
-  media: rcar-vin: Merge all notifiers
-  media: rcar-vin: Enable media-graph on Gen2
-
- .../platform/renesas/rcar-vin/rcar-core.c     | 703 +++++++-----------
- .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
- .../platform/renesas/rcar-vin/rcar-v4l2.c     | 488 +-----------
- .../platform/renesas/rcar-vin/rcar-vin.h      |  14 +-
- 4 files changed, 302 insertions(+), 919 deletions(-)
-
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+index cfbc9ec27706..9856a7a70026 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+@@ -262,7 +262,7 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
+ 
+ 	mutex_lock(&vin->group->lock);
+ 
+-	for (i = 0; i < RVIN_CSI_MAX; i++) {
++	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
+ 		if (vin->group->remotes[i].asc != asc)
+ 			continue;
+ 		vin->group->remotes[i].subdev = NULL;
+@@ -284,7 +284,7 @@ static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
+ 
+ 	mutex_lock(&vin->group->lock);
+ 
+-	for (i = 0; i < RVIN_CSI_MAX; i++) {
++	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
+ 		if (vin->group->remotes[i].asc != asc)
+ 			continue;
+ 		vin->group->remotes[i].subdev = subdev;
 -- 
 2.49.0
 
