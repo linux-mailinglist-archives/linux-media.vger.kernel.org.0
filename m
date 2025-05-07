@@ -1,108 +1,162 @@
-Return-Path: <linux-media+bounces-31958-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31959-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C716AADDA1
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 13:44:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E155AAADED3
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 14:19:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F38B01C0827C
-	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 11:44:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 162BF1C04B3E
+	for <lists+linux-media@lfdr.de>; Wed,  7 May 2025 12:19:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75E042472AB;
-	Wed,  7 May 2025 11:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9214025DCE3;
+	Wed,  7 May 2025 12:19:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HwHydESg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SRRCq/Rl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3DA24DFF1
-	for <linux-media@vger.kernel.org>; Wed,  7 May 2025 11:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517971B0402;
+	Wed,  7 May 2025 12:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746618251; cv=none; b=MbR3oCyoVsVUQezVfXjGWkTGKJBwg3Pfcl7Uo9beREbtc3Dydyzf1GjTMLnjWaTXg5IDdtc1fl62NSzEZ397bQvUNSGU7h8139b6cKPoz6lyF9yhXaSRo1obzMD9Fz8mBmIQXkr+AagR6IphvDUh6LVLdT/2+h143wZvYSmAoMA=
+	t=1746620366; cv=none; b=e8yvTOq4eoRaZc1wzghj5DMjqyDOh53la+CsfxS80nhhXUhJNHcU2dP8sQwGu0FN1uO0CF/l2ivVqxzEIaJRG3uR+Vxo2FSryzx8bAEyfYikl5cN0wBIqNjqthVq4GOcyL+HtL21p3Iw74v7RlGSvm5WRGG3pUds/OgtQqc3nYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746618251; c=relaxed/simple;
-	bh=UHd+OEANcWFzZY11gWuF24tvSEitNY7oYiJOs4n/TFM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ql33rS+4DeaDE4kbxdwzKBjJmsUAzHn9vN96wV/bJ92BHkQNWOfchqDvDxWughXAZDtnocQ/7i5Ey8gVu9ZbPOnjIJI7gzVYrx6Iybt4WXs7b7E4DsRshzDnER5eFZo8cCOAiUc9emoLOr1c/eWTtzi0kXGQDrAwG7EybGNXhV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HwHydESg; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (static-176-133-119-130.ftth.abo.bbox.fr [176.133.119.130])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 879556D5;
-	Wed,  7 May 2025 13:43:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746618236;
-	bh=UHd+OEANcWFzZY11gWuF24tvSEitNY7oYiJOs4n/TFM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HwHydESg8j32hPMFy+ms5jiPIyM+tdw9H5iaKcnwR4MWdNtVn7YTtZIUsMgKV30Wp
-	 gwXjUDRP4geTzAIFMtSHGZLFYaPMyGd/soG6adMt9eLJLGR2lr5ocm5y9bUXW2L35y
-	 fnlXuyyrqquXkB2UM16cFylMxeNGDf04iBnw+E60=
-Date: Wed, 7 May 2025 13:43:59 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [ANNOUNCEMENT] libcamera workshop 2025 - Nice, May 16th
-Message-ID: <20250507114359.GC11059@pendragon.ideasonboard.com>
-References: <20250325102750.GE20035@pendragon.ideasonboard.com>
- <20250507102844.0fa7f798@foz.lan>
- <20250507091907.GC11152@pendragon.ideasonboard.com>
- <CAPybu_1uHmSxdkG1tC24Kw5fiOrzeJe-kAjv=JiZWZykd-xF8g@mail.gmail.com>
+	s=arc-20240116; t=1746620366; c=relaxed/simple;
+	bh=CKMRTnS0B4bvNBSSaYh+mIAjQrBFREvL62azq950quk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hcqRkZWw8hoLpb0M3X3Viejzf2blgNNBkVwNGAGAbHPJyIdUZP/rMV1PKPDgLHMwt5aIXUa2y5lkH4COCjcAfu6EsGhL+yRAsfxUzqH4u1G6L1SdsvwXAOpy+HMLMu5UVq5hDeCdNHaSsECLgCy8yTyqFAoFiXZoBMy1BYHN2KU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SRRCq/Rl; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5fbeadf2275so1547478a12.2;
+        Wed, 07 May 2025 05:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746620362; x=1747225162; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kV+KjlfLL/cADUTBqt3WXEfFAs0DbcGPIboT/FQzAro=;
+        b=SRRCq/Rlqf7G1+jwbq+YA2DHdhdH52EdTkQ1JtV+IpWwBDT5QcKZhAQAWDDgdKTD4G
+         grNnXZMWs8wlJ19zwz7kJ7Xzao6t921bRZ58JXDthIaCeRCvAXqyUTxjoJz4gurom1iJ
+         BsL7nebZc/5ybJVZQNrYbWSMH2iydbNVbqd/4w0kVrB55s8PODQyRo9P5ZhmvGDydj2d
+         ECZR+kS2RjKZbLarmheYzRAqSQu11yOo1dXL4Ajir/WkCLFccvyaPRrR+ys8fy4NAmAf
+         DcU+4y+GbPMOMb9zPbHUqHv2ZpcL9+gAm2SLFApNDOgRLhZC3V0ln8vUVwDt/Xzq+WVj
+         Iyyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746620362; x=1747225162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kV+KjlfLL/cADUTBqt3WXEfFAs0DbcGPIboT/FQzAro=;
+        b=fk36lnAjXG8DulNydErgxxCD78VHgBv0p5z6Qb+5YUyrdwmBobIN6gEPx5o1dLzT5d
+         6YUKMliHzuId16JTVYR2A0sHA73KqGMfSAwRtITNk4L8z1dLWc1IRhV0rDGnnTMHOej/
+         +VcyVQo2M40F2gsUJc6DhyfyYvU165WjVoMGcTp7wfzXMc0zdpKtBNKpn/3Iwn6XkHHe
+         Jvx1m8SkdcV76F3W8UxGrP+aA9WeiYgN7fBhdMsKWFVp3TZKUbgThBNyojKeQbmAGYKb
+         5xACUQSzYHEExTFI9CEoQVn9ivwCq2ZlbEPcurQ+Ip5OF6bfXxiLGpBUa+FdpPhS1ALv
+         yk9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWV4lYd5oyAyMqLgfKiaFVgWGxESry8JHu5/Wa0f+jC2HyF5h27fdHb0K+TzqTEQyiUH6MEEYGEffM=@vger.kernel.org, AJvYcCWgJc7KWRtz1A+b5aZV1pMN8CkKi5VBrtucGhNyoFPKWuPEBqpKLQ6cZkzh98eQ6iPix81GxfW02NFgQIY=@vger.kernel.org, AJvYcCXRiYao6DTSp+ZhGyzeyJzM/qp18uS8Dyk34Vdzl8yV5r0NOctSEkM0UW0/fN1C9vKNzelm2JeuVCCus/Zu@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzg1vVALkfB3Su5Lsl1Qd+2MkEPRBXY6s87MtoPwa4ML9yXUYy/
+	m3bjiLMk3YU0XiCy4YXe9e9upuM3draMBtR0EdKsOuwUF9ea6TUI
+X-Gm-Gg: ASbGncsBopArdPyLkpIGp/7JccrWyyvcUse+0eLA0AzgsoEpUUGv68zBD3Kgn34qveO
+	Bz1hEYc8j9AHLx6Ygu+cUNmx27UVja8+Yqe7IrYa+qVyxOFyx8lidx6LCR2vKTEYiiPzXNBELL6
+	Qi7Kym5VO6ljCVwg92OPFzU+xbh+PGrbPKnF5h+eShb5rlqbb1S6x7JG1AC2Lo7B9Gv35E/6bfj
+	nKn94btkVUnRePFF5kLE5DKAEqFuc25xDirOPIljU7lwwNkrYksao9Kwp4vjVH018a4G/oSAx8l
+	N8Mn7dDfHHgype0xGTCmG1iikb0kCvovkpyCK9EPUdRZTvwzUBpb
+X-Google-Smtp-Source: AGHT+IEqa0eIvs9J2+yFgAMTJ+c01AQk+1L/p7LFOztMr/qgDUejaP47ibyyXFy6eMTqQBvUVBkwXQ==
+X-Received: by 2002:a05:6402:2712:b0:5fb:165:2a95 with SMTP id 4fb4d7f45d1cf-5fbe9dfbfaemr2722828a12.13.1746620362385;
+        Wed, 07 May 2025 05:19:22 -0700 (PDT)
+Received: from demon-pc.localdomain ([188.27.128.5])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fa777557b9sm9350002a12.10.2025.05.07.05.19.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 05:19:21 -0700 (PDT)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: 
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [PATCH v5 0/9] i2c: atr: allow usage of nested ATRs
+Date: Wed,  7 May 2025 15:19:06 +0300
+Message-ID: <20250507121917.2364416-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPybu_1uHmSxdkG1tC24Kw5fiOrzeJe-kAjv=JiZWZykd-xF8g@mail.gmail.com>
 
-Hi Ricardo,
+For upcoming GMSL drivers, we need to be able to use nested ATRs.
+The deserializer changes the address of the serializers, and can only
+do that for the serializers, while the serializers have proper address
+translation hardware, and can translate the address of its children.
 
-On Wed, May 07, 2025 at 12:33:33PM +0200, Ricardo Ribalda Delgado wrote:
-> On Wed, May 7, 2025 at 11:25 AM Laurent Pinchart wrote:
-> > On Wed, May 07, 2025 at 10:28:55AM +0200, Mauro Carvalho Chehab wrote:
-> > > Em Tue, 25 Mar 2025 12:27:50 +0200 Laurent Pinchart escreveu:
-> > >
-> > > > Hello everybody,
-> > > >
-> > > > Another year, another libcamera workshop. After the previous editions in
-> > > > Paris, Brussels and Vienna, we will organize the next workshop in Nice
-> > > > on Friday the 16th of May. The event will be hosted by Embedded Recipes
-> > > > ([1]) as part of their workshops day ([2]).
-> > > >
-> > > > This year, our workshop will be colocated with the Pipewire workshop on
-> > > > the same day and at the same venue (but a different room), to facilitate
-> > > > discussions about topics that span libcamera and Pipewire. The Linux
-> > > > Media Summit will also be organized in a nearby location on Tuesday the
-> > > > 13th ([3]).
-> > > >
-> > > > If you would like to attend, please register your interest by replying
-> > > > to this e-mail, and indicate if you have any discussion topics you would
-> > > > like to include in the schedule. We will draft and circulate an agenda
-> > > > in the next few weeks after receiving topic proposals. If registrations
-> > > > exceed our capacity, priority will be given based on topic submissions.
-> > >
-> > > Hi Laurent,
-> > >
-> > > I'm also interested on attending it.
-> >
-> > You're now on the attendees list. We will share logistics details at the
-> > beginning of next week.
-> 
-> If there is still room I would like to attend as well.
+To achieve this, add a static flag and a passthrough flag.
+The static flag prevents usage of dynamic remapping by disallowing
+creation of new mappings outside of the attach_addr() function.
+The passthrough flag prevents messages coming from non-direct children
+(which don't have a local mapping) to be treated as erroneous.
 
-You've just taken the last seat :-)
+This series also contains various fixes to the logic observed during
+development.
+
+The previous version is at:
+https://lore.kernel.org/lkml/20250428102516.933571-1-demonsingur@gmail.com
+
+V5:
+ * pick up Reviewed-by tags
+ * expand the I2C_ATR_F_STATIC description
+ * place i2c_atr_create_mapping_by_addr() before
+   i2c_atr_replace_mapping_by_addr()
+
+V4:
+ * rebase on latest merged changes, and latest submitted fixes
+
+V3:
+ * remove i2c_atr_new_flags(), add flags parameter to i2c_atr_new() in
+   a new patch
+ * remove "i2c: atr: unlock mutex after c2a access" patch as it will
+   be moved into the base series
+ * remove alias_pairs variable used only once
+ * remove err_del_c2a label used only once
+ * add lockdep_assert_held to i2c_atr_create_mapping_by_addr()
+ * I2C_ATR_STATIC -> I2C_ATR_F_STATIC
+ * I2C_ATR_PASSTHROUGH -> I2C_ATR_F_PASSTHROUGH
+ * add passthrough check to i2c_atr_smbus_xfer()
+
+V2:
+ * rename and split up i2c_atr_find_mapping_by_addr() to allow for
+   usage of parts of its logic where applicable
+
+Cosmin Tanislav (8):
+  i2c: atr: find_mapping() -> get_mapping()
+  i2c: atr: split up i2c_atr_get_mapping_by_addr()
+  i2c: atr: do not create mapping in detach_addr()
+  i2c: atr: deduplicate logic in attach_addr()
+  i2c: atr: allow replacing mappings in attach_addr()
+  i2c: atr: add flags parameter to i2c_atr_new()
+  i2c: atr: add static flag
+  i2c: atr: add passthrough flag
+
+Tomi Valkeinen (1):
+  i2c: atr: Fix lockdep for nested ATRs
+
+ drivers/i2c/i2c-atr.c         | 197 ++++++++++++++++++++++------------
+ drivers/media/i2c/ds90ub960.c |   2 +-
+ drivers/misc/ti_fpc202.c      |   2 +-
+ include/linux/i2c-atr.h       |  19 +++-
+ 4 files changed, 146 insertions(+), 74 deletions(-)
 
 -- 
-Regards,
+2.49.0
 
-Laurent Pinchart
 
