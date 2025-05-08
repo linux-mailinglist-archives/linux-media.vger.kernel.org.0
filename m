@@ -1,59 +1,69 @@
-Return-Path: <linux-media+bounces-32050-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32051-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DC2AB006B
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 18:28:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9C7AB00CE
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 19:00:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CCE11C01E22
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 16:29:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 770B2172476
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 17:00:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B730528368E;
-	Thu,  8 May 2025 16:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF3B822422D;
+	Thu,  8 May 2025 17:00:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hLuoQ3L3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WWiTaIDb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2F5283122;
-	Thu,  8 May 2025 16:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B26B17A2E2
+	for <linux-media@vger.kernel.org>; Thu,  8 May 2025 17:00:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746721729; cv=none; b=tMdm/4hzaGw3AXZaR6BZ58vgUdx/qg0yaDdrzLDBNZPMZcqusbQJhH563pS8Yu9qKsrZM49il+8qGdtPFFx1ImAlHDwYaVpOe/k8FErwmbM40EZg1If7AzmjV8tStl92TDXdionr+0gPKAgGryrOZM7Yit5ycfCU8VAyjnCnM+A=
+	t=1746723643; cv=none; b=huw1LaLr0hNh1dZ1DzhWeKLAUbLuQiyierzL46UMw9GGqN9uE8EsIbkIjgMXi81IFmzhTYb/qLf1WZzrJfdz5/FVW1qfPrmrNlxHF51rMzqOZo/TuSyShLJxB9MeY3ABX4di1NRvQ9ZR1R+RPHLEE6eXUowHi1E+ZAiUuhuMb7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746721729; c=relaxed/simple;
-	bh=s9JXcmjaFF6UWimWMrjQo/Shp4EuldhXxeaRTElLLGc=;
+	s=arc-20240116; t=1746723643; c=relaxed/simple;
+	bh=qPo7IYaO4+1qtaFcri4VNUmvzmOO8Gh33e5EAVi2ax8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iKw7dEPdQqlLSlTCG9Z//kPBXuqkw/2dTZHyUEWpGPl7rOebhQry7thO0vd031kJhsukEux7MSSqjMeZcwlcGJz/3bkGTzMnz42/KAh8S/uuaEsUxyWK4lomVL0xgQoMocN0dDVbBSKiluym39Lk9dalKTHgD6nFaG5UiMR7ayw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hLuoQ3L3; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qz7+BtkdUCIRGefTPEMlzltRnIj28FBv8GBPaNaCmtCEbI4klVv2vKI50AB9lo4At/pgg7784XXMfrRUERC6DKq7bSRDL7n4RnpQ2m9dtupHpVwCZL+E0JZCtpucLy25G3+PhXt6GdViMFTCXjwUP38LwvxC9D91FUyq2YcfbcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WWiTaIDb; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (unknown [IPv6:2001:861:3a80:3300:7c3b:c7bf:b733:fa1b])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3524D22A;
-	Thu,  8 May 2025 18:28:32 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09AB622A;
+	Thu,  8 May 2025 19:00:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746721712;
-	bh=s9JXcmjaFF6UWimWMrjQo/Shp4EuldhXxeaRTElLLGc=;
+	s=mail; t=1746723625;
+	bh=qPo7IYaO4+1qtaFcri4VNUmvzmOO8Gh33e5EAVi2ax8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hLuoQ3L3nUCwvWIE8HUEgdZ/O1OEG4sAYgJuSzlRz+75DXdlHlz/P1Dhuz/Cz6eo/
-	 1rYV/H462Zq/GY3FH0MViRNQ5gc1bRT++Z1fyM3DAuz/YbfWkjpx4tlKCLhlEFq80h
-	 5g1KjpfimF1Yn1g4PZNdALTD3/7RiepbDkfDlohs=
-Date: Thu, 8 May 2025 18:28:41 +0200
+	b=WWiTaIDb/3DRy6U7HZECy63V9Gkjl7xKfjF6EJb3b4lwDFnnIT0hvVed6swIkKlHg
+	 bhrgDoRWINOF/4A7XMHJAgvqsgcfJnJ7UtOvmslh21YI1cf9Sskl40Xgp0E0jsWLJ6
+	 hD0zyP+OOGQPR9vqG/VrGwvebdY1NOBp0HjISntM=
+Date: Thu, 8 May 2025 19:00:34 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com, 
-	laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com, jacopo.mondi@ideasonboard.com
-Subject: Re: [PATCH v9 08/10] media: platform: Add C3 ISP driver
-Message-ID: <3ee2qcz3ckhcvd6v5mt6cjbqdysipucqokpud76meilhplhcso@im62bwviw7x4>
-References: <20250427-c3isp-v9-0-e0fe09433d94@amlogic.com>
- <20250427-c3isp-v9-8-e0fe09433d94@amlogic.com>
- <aBzRb8ZKuGI3E_cu@valkosipuli.retiisi.eu>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sean Young <sean@mess.org>, Ricardo Ribalda <ribalda@chromium.org>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>, 
+	"Hu,               Jerry W" <jerry.w.hu@intel.com>, Steve Cho <stevecho@chromium.org>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Paul Kocialkowski <paulk@sys-base.io>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Arthur Vinchon <arthur.vinchon@allegrodvt.com>, 
+	Marco Felsch <m.felsch@pengutronix.de>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
+	Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>, 
+	Maxime Ripard <mripard@kernel.org>, Stefan Klug <stefan.klug@ideasonboard.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Naushir Patuck <naush@raspberrypi.com>
+Subject: Re: [PATCH 1/1] media: dt-bindings: Add bindings for camera modules
+Message-ID: <jfqlikciprpnope5do3ktoghnpbin3d3ggliivb7csmskdlddl@i4fds3d6qsfx>
+References: <20250507081338.53614-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,142 +72,153 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aBzRb8ZKuGI3E_cu@valkosipuli.retiisi.eu>
+In-Reply-To: <20250507081338.53614-1-sakari.ailus@linux.intel.com>
 
-Hi Sakari
+Hi Sakari,
+  thanks a lot for the proposal, it will be useful for next week discussion
 
-On Thu, May 08, 2025 at 03:44:47PM +0000, Sakari Ailus wrote:
-> Hi Keke, Jacopo,
+On Wed, May 07, 2025 at 11:13:38AM +0300, Sakari Ailus wrote:
+> Add bindings for camera modules to allow telling especially the user space
+> which module is found in the system. Camera modules do not have a device
+> node so this is a property for the camera sensor device node. This allows
+> describing modules that contain a single camera sensor.
 >
-> On Sun, Apr 27, 2025 at 02:27:16PM +0800, Keke Li via B4 Relay wrote:
-> > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > new file mode 100644
-> > index 000000000000..0e0b5d61654a
-> > --- /dev/null
-> > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> Hi all,
 >
-> ...
+> Here's the patch to give some advance warning for the camera module
+> discussion. The good thing is that it's quite short.
 >
-> > +static int c3_isp_params_vb2_buf_prepare(struct vb2_buffer *vb)
-> > +{
-> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > +	struct c3_isp_params_buffer *buf = to_c3_isp_params_buffer(vbuf);
-> > +	struct c3_isp_params *params = vb2_get_drv_priv(vb->vb2_queue);
-> > +	struct c3_isp_params_cfg *cfg = buf->cfg;
-> > +	struct c3_isp_params_cfg *usr_cfg = vb2_plane_vaddr(vb, 0);
-> > +	size_t payload_size = vb2_get_plane_payload(vb, 0);
-> > +	size_t header_size = offsetof(struct c3_isp_params_cfg, data);
-> > +	size_t block_offset = 0;
-> > +	size_t cfg_size;
-> > +
-> > +	/* Payload size can't be greater than the destination buffer size */
-> > +	if (payload_size > params->vfmt.fmt.meta.buffersize) {
-> > +		dev_dbg(params->isp->dev,
-> > +			"Payload size is too large: %zu\n", payload_size);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/* Payload size can't be smaller than the header size */
-> > +	if (payload_size < header_size) {
-> > +		dev_dbg(params->isp->dev,
-> > +			"Payload size is too small: %zu\n", payload_size);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Use the internal scratch buffer to avoid userspace modifying
-> > +	 * the buffer content while the driver is processing it.
-> > +	 */
-> > +	memcpy(cfg, usr_cfg, payload_size);
-> > +
-> > +	/* Only v0 is supported at the moment */
-> > +	if (cfg->version != C3_ISP_PARAMS_BUFFER_V0) {
-> > +		dev_dbg(params->isp->dev,
-> > +			"Invalid params buffer version: %u\n", cfg->version);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/* Validate the size reported in the parameter buffer header */
-> > +	cfg_size = header_size + cfg->data_size;
-> > +	if (cfg_size != payload_size) {
-> > +		dev_dbg(params->isp->dev,
-> > +			"Data size %zu and payload size %zu are different\n",
-> > +			cfg_size, payload_size);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/* Walk the list of parameter blocks and validate them */
-> > +	cfg_size = cfg->data_size;
-> > +	while (cfg_size >= sizeof(struct c3_isp_params_block_header)) {
-> > +		const struct c3_isp_params_block_header *block;
-> > +		const struct c3_isp_params_handler *handler;
-> > +
-> > +		block = (struct c3_isp_params_block_header *)
-> > +			&cfg->data[block_offset];
-> > +
-> > +		if (block->type >= ARRAY_SIZE(c3_isp_params_handlers)) {
-> > +			dev_dbg(params->isp->dev,
-> > +				"Invalid params block type\n");
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		if (block->size > cfg_size) {
-> > +			dev_dbg(params->isp->dev,
-> > +				"Block size is greater than cfg size\n");
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		if ((block->flags & (C3_ISP_PARAMS_BLOCK_FL_ENABLE |
-> > +				     C3_ISP_PARAMS_BLOCK_FL_DISABLE)) ==
-> > +		    (C3_ISP_PARAMS_BLOCK_FL_ENABLE |
-> > +		     C3_ISP_PARAMS_BLOCK_FL_DISABLE)) {
-> > +			dev_dbg(params->isp->dev,
-> > +				"Invalid parameters block flags\n");
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		handler = &c3_isp_params_handlers[block->type];
-> > +		if (block->size != handler->size) {
-> > +			dev_dbg(params->isp->dev,
-> > +				"Invalid params block size\n");
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		block_offset += block->size;
-> > +		cfg_size -= block->size;
-> > +	}
-> > +
-> > +	if (cfg_size) {
-> > +		dev_dbg(params->isp->dev,
-> > +			"Unexpected data after the params buffer end\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
+> The intent indeed is to address the regular use case where we have a
+> single sensor in a camera module. For cases where we have more, we'll need
+> something else, not based on individual properties. I believe this is
+> still the way to go, to address current issues and for a couple of
+> additional reasons:
 >
-> The above looks very much like rkisp1_params_prepare_ext_params() in the
-
-slightly similar, yes :)
-
-> Rockchip ISP driver. Instead of copying all this non-trivial code in
-> verbatim here, could you instead refactor this so both the drivers could
-> use the same implementation?
+> - Cameras with more than one sensor tend to be collections of camera
+>   modules so this is still relevant in most cases.
 >
-
-Yeah, that's the plan.
-
-We have more drivers in the pipeline using extensible parameters and this
-code (and possibily other parts) will certainly be factored out.
-
-My plan is to add at one more user in and the do move common parts to
-the framework. Would this work for you ?
-
-
-> The types are different so macros will be likely needed.
+> - It's much simpler to have a single property than begin having new nodes
+>   in DT. In practice such nodes would be a poor fit for DT generally as
+>   they have (few or) no functions.
 >
+> The biggest difficulty is still in module identification. These components
+> tend to be often ignored and the best we have for a module name in that
+> case is random-looking string if even that. Besides DT bindings, we need
+> an additional (git?) tree to describe the modules that have no proper
+> names but it could be also useful for those that do, for instance to
+> include information on lens, field of view, IR filter, photos of the
+> module etc. There is some overlap with what libcamera needs, too.
+>
+> - Sakari
+>
+>  .../bindings/media/camera-module.yaml         | 52 +++++++++++++++++++
+>  .../media/video-interface-devices.yaml        |  3 ++
+>  2 files changed, 55 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/camera-module.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/camera-module.yaml b/Documentation/devicetree/bindings/media/camera-module.yaml
+> new file mode 100644
+> index 000000000000..31b898c8c334
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/camera-module.yaml
+> @@ -0,0 +1,52 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (C) 2025 Intel Corporation
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/camera-module.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Camera modules
+> +
+> +maintainers:
+> +  - Sakari Ailus <sakari.ailus@linux.intel.com>
+> +
+> +description: |
+> +  Camera modules are devices that embed one or more active devices, including
+> +  Camera Sensors, Voice Coil Motor (VCM) and possibly a flash LED as well as
+> +  other passive devices such as lenses and Ultra-Violet (UV) filters. While the
+> +  camera modules themselves have no OF nodes and have generally no module
+> +  specific functions, it still does matter for the software stack as a whole
+> +  which module the devices are a part of.
+> +
+> +  Two properties are used for this, depending on what is known of the module:
+
+I might have missed a point here.
+
+
+> +
+> +  1. The model of the module is known. In this case the name of the module uses
+> +  the format "vendor,model[,version]" where "vendor" is the manufacturer of the
+> +  module and "model" the name of the model. The version part is optional. In
+> +  such cases the property "camera-module-canonical" will be used. If the vendor
+> +  is not known, the "gpio" vendor prefix is used.
+
+So if the module is "known" it will be described using the above
+specified triplet
+
+(also, why "gpio" ?)
+
+> +
+> +  2. The model of the module is unknown. In this case, the module has an
+> +  identifier only, and will be described in detail in the camera module
+> +  database. The property "camera-module-casual" is used to denote such modules.
+
+If the module is "unknown" it will be identified by a numerical id that
+points to the camera module database where it is "described in
+detail". But if an entry is present in the camera module database, then it's not
+really "unkown", right ?
+
+What is the actual difference between an "unknown" and a "known"
+module then ?
+
+
+> +
+> +  Before including in this binding documentation, all modules shall also be
+> +  documented in add-URL-here.
+
+If an entry in the camera module database is a requirement can't we
+simply point to that entry using a numerical id like you proposed for
+the "camera-module-casual" property ?
+
+Thanks
+  j
+
+> +
+> +  All camera modules listed below shall have the name of the sensor as well as
+> +  other devices included in the module as DT compatible string mentioned in a
+> +  comment after the enumeration, separated by a whitespace (" ").
+> +
+> +  Always keep the enumeration alphabetically (1) or numerically (2) sorted.
+> +
+> +properties:
+> +  camera-module-canonical:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum:
+> +      - "dell,0BF122N3" # onnn,ov01a10
+> +  camera-module-casual:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum:
+> +      - 1 # st,vs6555
+> +
+> +additionalProperties: true
+> diff --git a/Documentation/devicetree/bindings/media/video-interface-devices.yaml b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> index cf7712ad297c..27fa6711367e 100644
+> --- a/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> +++ b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> @@ -10,6 +10,9 @@ maintainers:
+>    - Jacopo Mondi <jacopo@jmondi.org>
+>    - Sakari Ailus <sakari.ailus@linux.intel.com>
+>
+> +allOf:
+> +  - $ref: /schemas/media/camera-module.yaml#
+> +
+>  properties:
+>    flash-leds:
+>      $ref: /schemas/types.yaml#/definitions/phandle-array
 > --
-> Regards,
+> 2.39.5
 >
-> Sakari Ailus
 
