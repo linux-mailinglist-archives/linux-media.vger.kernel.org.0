@@ -1,156 +1,147 @@
-Return-Path: <linux-media+bounces-32028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32029-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6599AAF7C8
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 12:29:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBFEAAF837
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 12:43:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EAEF4A7BA9
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 10:29:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CC8187B41D5
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 10:41:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0898220B20A;
-	Thu,  8 May 2025 10:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hvp6QKAJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94E52215070;
+	Thu,  8 May 2025 10:42:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E8C72624;
-	Thu,  8 May 2025 10:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1583B20C005;
+	Thu,  8 May 2025 10:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746700180; cv=none; b=JH83zt2CxSC/kpHyVKngC3tM4jyUOHsEqsgPuag7ZzesBKRpD/Wsl8JDZ6e9B/Q8uyo+3A2CWW6jYcj99E4YbCMRH2QVaOpf1/08ktdgQ+/+70LUtoXL61/wgcYT86BiOfei9bKcUgdG1r1uEYW/ORvNgEe4sRt7zMOb9OBvhyc=
+	t=1746700972; cv=none; b=oJSTaN6+jAY7gFveGtHrhT6yUOu1MC1owSng7igJveLK0428gU/gJ1QI/OMrmDd6CQRMyAs3TiI/fJBtKRfeIjOq0ThoOdNOyCka7QpiplDPsKJKns/RVIeHCa1R2yn4dOupOei4yijwqz6F9z/lmfO6LoOkbg+SLRGG3D3Osjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746700180; c=relaxed/simple;
-	bh=ynzMWyr7CUPGsOazB08B2sRH/j4SaJ/4sJFsWZACEV8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Imckupd/4sv6hoUVAVdG63aoT/V2ApAJgQvPwfCBmJfcEy3MIiVIlGWYUhD4mhyDPn1e5Vj+G8damYQD/K1rkjGOasgd8rfGCRyGd3lB6EJulG1POH3fJVC38lx4nFdOY/3s6yIg6LCKw7sUSXFe64QJ/2iHYJbv+bSXJz+pHow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=hvp6QKAJ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5484Ww5a010511;
-	Thu, 8 May 2025 10:29:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YZkAyi00mUO+H41edn12peQ24aQRe1j1jRQdlGEqsdo=; b=hvp6QKAJYekID9gP
-	mPUgxNx9fk2pzVKcIzzCfZXdHJrjS2sUSkdKw33190gCjrjqUjobLvc67O7YUu2t
-	SxI78QjXgOf+291RX1XvN7+GbN7Qr27cDGSIbrlVXpuBV89pjUgRmx8UkNLQz20l
-	EEkwjrpdjEmFGKcYjJ2NxsIZXlu4h+mde3jEm9huE8M6iXWhNxlH2lv21kWzDF8D
-	YoOyKeK+4joBNbv/mGgnEOGGtAi01uHrccUulBxwnF2cJzchIyrKjgIUsl/vjbeS
-	Zddvv9h+FgGgzrsPDXD5H6kKiPubFdkRSdHtabp7LaaCmgZRLIBwWlhLUjt19wvP
-	u0q7CA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp7906c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 08 May 2025 10:29:33 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 548ATX37030529
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 8 May 2025 10:29:33 GMT
-Received: from [10.50.36.55] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 8 May 2025
- 03:29:28 -0700
-Message-ID: <38cea95a-aeac-c20d-8175-7a521d917021@quicinc.com>
-Date: Thu, 8 May 2025 15:59:25 +0530
+	s=arc-20240116; t=1746700972; c=relaxed/simple;
+	bh=RspmhIV+3nChPf+2TIf9e0WONsGhbGCCaCbivLAz0nk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QUDhGvblKiFfCxgEmpXexjAcnNYd5E5TFbwsqOynH9gsDEFYE3RpVrkE+YG2jD/DCZyxLWOZFi0rZGELk3l9QXRBqXBRiss/45yXpkDS0P/heRV/SaOkStmD7zBJfAwd+eNGCwi8eNj/JPPhTZWHV4Ajsy//Ay6c4KZSFmPEP9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08547106F;
+	Thu,  8 May 2025 03:42:39 -0700 (PDT)
+Received: from [10.1.38.30] (e122027.cambridge.arm.com [10.1.38.30])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 901BE3F5A1;
+	Thu,  8 May 2025 03:42:47 -0700 (PDT)
+Message-ID: <9c0b95c8-bf2d-4689-ac1f-ccacba826060@arm.com>
+Date: Thu, 8 May 2025 11:42:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 01/25] media: iris: Skip destroying internal buffer if
- not dequeued
-Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Hans Verkuil
-	<hverkuil@xs4all.nl>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>,
-        Neil Armstrong
-	<neil.armstrong@linaro.org>,
-        Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>,
-        Dan Carpenter <dan.carpenter@linaro.org>, <stable@vger.kernel.org>
-References: <20250507-video-iris-hevc-vp9-v4-0-58db3660ac61@quicinc.com>
- <20250507-video-iris-hevc-vp9-v4-1-58db3660ac61@quicinc.com>
- <dae06ff6-afd9-46a4-bd37-25bb367ba545@linaro.org>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <dae06ff6-afd9-46a4-bd37-25bb367ba545@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDA5MiBTYWx0ZWRfX4EuHaSdZnmDr
- Rz9mk7+zW0jJ33fSMec4wAB8dhmHtAJQByyiwr/Az8gSy+eqa+firrBtAyOU+XAt796+WDs/1ww
- 8nnw3WamI5NOacsEJF3rbYUd58v+GEjJWToEh5elDnN8kXXpfZJX2/xLb54BlOlpLcHeeTCKXpH
- ZGzjvEpJDCJ+QZsdAWtAnz9sb/YMgfh+9/2vtW4vgJnP5KqlVWKZ+iGoDYdpOCLd4Kdn93jx4yQ
- 9V6wPhXSc+VQMFDk5czo9lMtlsH/UFxGdJH+i/GLgpWhtYd2Aizk1XMKnvcPDuNtuq/alqojtRP
- Fm96ZKQCfLHRacpRBDfg4fTYlOTj9qjC4B/UA9RGvnLZ+D8BzPpDRXa9VUm3YEzmRlsyIWeMGMo
- sIggIQUnJzFn4ix+LpGHZXJ/xsKwWKk/gCSeqTqpC2GF2ejkx5uSkdE9C1LpX4PISo8F6jHH
-X-Proofpoint-GUID: dsieQJ_yOkfrLQrWmbK3o70ZZOrReyk4
-X-Authority-Analysis: v=2.4 cv=B/G50PtM c=1 sm=1 tr=0 ts=681c878d cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=UasdmLrgvsVJUMVfHicA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: dsieQJ_yOkfrLQrWmbK3o70ZZOrReyk4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-08_03,2025-05-07_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 spamscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0 adultscore=0
- mlxlogscore=934 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505080092
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/panfrost: show device-wide list of DRM GEM
+ objects over DebugFS
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250507160713.1363985-1-adrian.larumbe@collabora.com>
+ <20250507160713.1363985-4-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250507160713.1363985-4-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-
-
-On 5/7/2025 8:37 PM, Bryan O'Donoghue wrote:
-> On 07/05/2025 08:39, Dikshita Agarwal wrote:
->> Firmware might hold the DPB buffers for reference in case of sequence
->> change, so skip destroying buffers for which QUEUED flag is not removed.
->> Also, make sure that all buffers are released during streamoff.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: 73702f45db81 ("media: iris: allocate, initialize and queue
->> internal buffers")
->> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+On 07/05/2025 17:07, Adrián Larumbe wrote:
+> This change is essentially a Panfrost port of commit a3707f53eb3f
+> ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS").
 > 
-> I'll take your word for it on firmware respecting the software contract on
-> close() wrt to DMA - however I think you should split this patch into two
-> separate patches along the lines of the "also" in your commit log.
+> The DebugFS file is almost the same as in Panthor, minus the GEM object
+> usage flags, since Panfrost has no kernel-only BO's.
 > 
-> 1. Skip destroying buffers for QUEUED flag
-> 2. Make sure all buffers are released during stream off
+> Two additional GEM state flags which are displayed but aren't relevant
+> to Panthor are 'Purged' and 'Purgeable', since Panfrost implements an
+> explicit shrinker and a madvise ioctl to flag objects as reclaimable.
 > 
-> These are two separate fixes IMO.
-Sure will split.
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-Please let me know if you have any other comments
-if no comments, will send v5 with addressing above.
+Minor point, but you've used "ptdev" rather than "pfdev" several times 
+in this patch - it would be good to avoid this.
 
-Thanks,
-Dikshita
-> 
-> ---
-> bod
+I'm also seeing a splat when running this, see below. I haven't got my 
+head around how this is happening, but I see it when glmark quits at the 
+end of the test.
+
+Steve
+
+[  399.505066] Unable to handle kernel NULL pointer dereference at virtual address 00000004 when write
+[  399.515519] [00000004] *pgd=00000000
+[  399.519541] Internal error: Oops: 805 [#1] SMP ARM
+[  399.524896] Modules linked in: panfrost gpu_sched drm_shmem_helper
+[  399.531817] CPU: 1 UID: 1000 PID: 316 Comm: glmark2-es2-drm Not tainted 6.15.0-rc5-00731-g9cc5b4d7da27 #1 NONE 
+[  399.543098] Hardware name: Rockchip (Device Tree)
+[  399.548350] PC is at panfrost_gem_free_object+0x8c/0x160 [panfrost]
+[  399.555371] LR is at trace_contention_end+0x4c/0xfc
+[  399.560822] pc : [<bf01a384>]    lr : [<c03d0170>]    psr: 60010013
+[  399.567823] sp : f22b1df8  ip : c2163e00  fp : c4b15800
+[  399.573658] r10: 00000009  r9 : c5f94c40  r8 : c4b15850
+[  399.579492] r7 : c4b15884  r6 : c7813614  r5 : c5f94f30  r4 : c7813400
+[  399.586784] r3 : 00000000  r2 : 00000000  r1 : 00000000  r0 : c5f94f30
+[  399.594075] Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+[  399.602048] Control: 10c5387d  Table: 06c6c06a  DAC: 00000051
+[  399.608465] Register r0 information: slab kmalloc-1k start c5f94c00 pointer offset 816 size 1024
+[  399.618296] Register r1 information: NULL pointer
+[  399.623551] Register r2 information: NULL pointer
+[  399.628804] Register r3 information: NULL pointer
+[  399.634057] Register r4 information: slab kmalloc-1k start c7813400 pointer offset 0 size 1024
+[  399.643690] Register r5 information: slab kmalloc-1k start c5f94c00 pointer offset 816 size 1024
+[  399.653517] Register r6 information: slab kmalloc-1k start c7813400 pointer offset 532 size 1024
+[  399.663344] Register r7 information: slab kmalloc-1k start c4b15800 pointer offset 132 size 1024
+[  399.673171] Register r8 information: slab kmalloc-1k start c4b15800 pointer offset 80 size 1024
+[  399.682901] Register r9 information: slab kmalloc-1k start c5f94c00 pointer offset 64 size 1024
+[  399.692631] Register r10 information: non-paged memory
+[  399.698370] Register r11 information: slab kmalloc-1k start c4b15800 pointer offset 0 size 1024
+[  399.708101] Register r12 information: non-slab/vmalloc memory
+[  399.714521] Process glmark2-es2-drm (pid: 316, stack limit = 0x178bc4ea)
+[  399.722009] Stack: (0xf22b1df8 to 0xf22b2000)
+[  399.726874] 1de0:                                                       00000000 c4b15884
+[  399.736012] 1e00: c7813400 c4b15800 00000007 c4b15884 c4b15850 c6815000 00000009 c0bb3824
+[  399.745150] 1e20: 00000000 40086409 c7860800 c15fd008 00000008 c0bb588c c6815630 0000013c
+[  399.754288] 1e40: 0000e280 00000000 c1b35650 b235e000 f22b1f5c 00000008 f22b1e74 bec37550
+[  399.763426] 1e60: c6815630 c694ea00 c0bb47cc 00000051 00000000 00000007 00000000 00000000
+[  399.772564] 1e80: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  399.781701] 1ea0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  399.790839] 1ec0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  399.799977] 1ee0: 00000000 00000000 00000000 00000000 00000000 356cc46f 00000000 40086409
+[  399.809115] 1f00: c694ea00 c03000c0 bec37550 c694ea00 c6815000 00000006 c4bf9b70 c058d694
+[  399.818253] 1f20: b2b47000 f22b1f50 00000001 c03002f0 00000000 c5f60900 00000000 b235e000
+[  399.827391] 1f40: 007e9000 c053d874 f22b1f50 00000001 f22b1f50 f22b1f50 004e0b14 c5f60940
+[  399.836528] 1f60: b235e000 b2b46fff c4abec0c b09e3000 b2bcffff 00000000 00000000 356cc46f
+[  399.845666] 1f80: 00000003 004e6b40 bec37550 40086409 00000036 c03002f0 c6815000 00000036
+[  399.854805] 1fa0: 01cb32a0 c03000c0 004e6b40 bec37550 00000006 40086409 bec37550 00000007
+[  399.863943] 1fc0: 004e6b40 bec37550 40086409 00000036 00000000 00000000 01cb2da0 01cb32a0
+[  399.873080] 1fe0: b6e4b08c bec37534 b6e3442f b6bb8f98 60010030 00000006 00000000 00000000
+[  399.882216] Call trace: 
+[  399.882222]  panfrost_gem_free_object [panfrost] from drm_gem_handle_delete+0x84/0xb0
+[  399.893813]  drm_gem_handle_delete from drm_ioctl+0x2b8/0x4f4
+[  399.900237]  drm_ioctl from sys_ioctl+0x428/0xe30
+[  399.905496]  sys_ioctl from ret_fast_syscall+0x0/0x1c
+[  399.911141] Exception stack(0xf22b1fa8 to 0xf22b1ff0)
+[  399.916783] 1fa0:                   004e6b40 bec37550 00000006 40086409 bec37550 00000007
+[  399.925922] 1fc0: 004e6b40 bec37550 40086409 00000036 00000000 00000000 01cb2da0 01cb32a0
+[  399.935058] 1fe0: b6e4b08c bec37534 b6e3442f b6bb8f98
+[  399.940702] Code: eb0018fa e5943218 e5942214 e1a00005 (e5823004) 
+[  399.947532] ---[ end trace 0000000000000000 ]---
+
 
