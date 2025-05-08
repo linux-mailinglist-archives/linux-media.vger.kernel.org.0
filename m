@@ -1,125 +1,100 @@
-Return-Path: <linux-media+bounces-32008-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32009-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08909AAF11F
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 04:24:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10543AAF236
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 06:51:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 160A21639FE
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 02:24:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51F774E4610
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 04:51:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A43E01C84C0;
-	Thu,  8 May 2025 02:24:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7BEB20D4E7;
+	Thu,  8 May 2025 04:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EbkXPUOM"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jbX4SbYP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D1B1C54A2
-	for <linux-media@vger.kernel.org>; Thu,  8 May 2025 02:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47631FCF7C
+	for <linux-media@vger.kernel.org>; Thu,  8 May 2025 04:51:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746671042; cv=none; b=ACleT2KNgArYo77hjsHfTDAmBJ3K/4Ozblny5kSN94uMLt50J8vJCRlgvH37VIuW1oT2QnYL7fqNvM9Me5ZBLeeN8v7vBDmRMjMnDyw9pGUqEml6xUt1AAvEjgITh7rytzokAxqUXzBpt9UoYFRBxaG0K4L7A/+Bs0QJbpQDyaQ=
+	t=1746679891; cv=none; b=M7n1wStJGRjmesixrFLtB/4W1AhA4auUthEHZQ8WU4eR3Oz/Vf9VQGIPBNk88qYGlharbXWnyDOQu98kANYtkWTAzjeSWU4p5N67rVOEpyXZuJk2eqInNKESmElJ/okWmjFhCFPgSgDMW1UlpNOcb/Q6dwy8dh9ph6MkRjilb68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746671042; c=relaxed/simple;
-	bh=0Wp/N7OOo8E/HlTeiKkdKdfU5laj0xuxguGLDuR1Bh8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fX91pi/0puyZbenpkJ2tAPwSP+B0pdvi3IV5XA9BMUaicnTaQT5A8TvluVq3rD1n2Mdip5UKaqMbHLpeZnt4LKdS9L1yibLqjMJ5VVUPuXiYlJvqU6RzPsZB7kGQVrApll1oey6ubYO/R2hiBKCeRyVl8ddeyCBNDFZOOfbd9nA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EbkXPUOM; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746671041; x=1778207041;
-  h=date:from:to:cc:subject:message-id;
-  bh=0Wp/N7OOo8E/HlTeiKkdKdfU5laj0xuxguGLDuR1Bh8=;
-  b=EbkXPUOMbOwN7BeqLdgHVlW6Wdsjs/lDnEbmXTF+D3ALb2kvzrS8SK/i
-   UDbICIbCFQCzQp9LmPWpbDqL/wQjCrRURf/tM0SMT6gRysvR8MDdpHvUS
-   lkks8pGI/QdEuzT51e2uvrf5x/TZ5e66LYsdVpdT3CYEIySQglZrq3N75
-   tUmembB2wafJ+YFnyoosqoOLgNwr53Ltzs8jRI0JV0hK2QuWZNhsIdfPx
-   V+9Oz+HupgyHzejUn5x2qX6Kmq9BINhYZoIxsqzGnqHFyDV/QqLadOlb3
-   sJyYe+uCquOPA6/ABnpEeTa1UtmeZ8M7uwPpgYdefb5XHrSH8HnrpDXkT
-   A==;
-X-CSE-ConnectionGUID: MxLar2cMSq+FdRvqSmBNdQ==
-X-CSE-MsgGUID: 4YMHYmxSRLilYss9mXOC2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48445703"
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="48445703"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 19:24:00 -0700
-X-CSE-ConnectionGUID: Q7ckaggORxOCnOJwtlWkpA==
-X-CSE-MsgGUID: ervl8rjLR5WYs38vXwUsBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="136029074"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 May 2025 19:23:59 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCqvU-0009Nt-2J;
-	Thu, 08 May 2025 02:23:56 +0000
-Date: Thu, 08 May 2025 10:23:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS
- 48dbb76cef65fabaa3ac97461eda90495e954ecd
-Message-ID: <202505081016.0o4vWYPG-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1746679891; c=relaxed/simple;
+	bh=vH8pZApZwCxXj/zcKr2DuVOpsesqXZ3FpznsuRlEkIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NbqdENu8yvcJs/4KUEFk7aAjEDAqBF1JIGQ0v0PIteb7FoClKHubIYqeb9aIVPQ6X+ujelR1g7E0Vum1jN+6W9Fh5IePPvtSXl/Mcet/emRulMfmWNmBBRN8IRZaYOrTT962a09M54fcGQu3PTc3R+uRu/e+OypKrAL0O1QTOmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jbX4SbYP; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-736b350a22cso580950b3a.1
+        for <linux-media@vger.kernel.org>; Wed, 07 May 2025 21:51:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1746679889; x=1747284689; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vH8pZApZwCxXj/zcKr2DuVOpsesqXZ3FpznsuRlEkIQ=;
+        b=jbX4SbYP2dKr37f14Y4b1v3LuV5fI5CxSwUHxyTAFUoR/dscDaqOjIsBnDFuVttes8
+         WD57GxqWxRwA93eV0UziNQWEpZavcBnLY0IgaYZ/qB4bXklkuEbeIWOk2X055xFRHKK0
+         ZbsusjWj1zOfSeShT4BFqi5YZUn0OpxaEjieI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746679889; x=1747284689;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vH8pZApZwCxXj/zcKr2DuVOpsesqXZ3FpznsuRlEkIQ=;
+        b=V29AwkWv6rGgLjzwqiBGl+mESCx/L6Y7UPvrAaVsfmv6b7KOK1bvkixZqb1i6Bv0an
+         g0r/NwyB5PjsG8vNfnLp1UpsdYOKTPZQVTLLiZn/LyTpfTycoEjRgjDh8UBR5LIr78BL
+         XQvck5n5L+sjVduKDiUR3HDx2RdkInP/I03LlwCZhzMCnNarsUlmc7TSGEVpTx0ejVGl
+         xCOdW7w81Mk5kievlHlF9B6kO8qSwk1def+3P+XMBH5hfBKrKaXWnL/ISxaQyANj+O+E
+         c9o9p7c+UZMw+uxyQiBe1yEZvz9XO8BjzYqoW91a4bQZLBIR/7Ulu1ZFR0A1BBDxAVeb
+         Ov7Q==
+X-Gm-Message-State: AOJu0Yww7JS2y7wXgrJtgxZK5cdvFdzzssAlv+vQbjGPmiMRBid/3Nmz
+	9GdEkjTYqlxIHz+y6HIMcQ4hbgJr6ChhGbcv2ZufDr1x19BZsL2d6KZAXMc0Uw==
+X-Gm-Gg: ASbGnctBg/9Tb0S7qIWzMkhEcQ/jD6paQ8Q457ZBJ1NvKom9wd3/N2d51ZoZ9wBrKy0
+	woxiARyZncoKAuCD5ZCWNXeQMDs+3XCwUXMHO2vrIRGhTNk4fsmO/mWDkmmQimwDMYxHYiKV3+1
+	+BGNQxYtfvs2TcdMq9LFPngFB4zBOfN7Xgp+tGe3iNE3guppwV2AbaniUJ6l95oqT9457vHI5mq
+	qjqgaRmXbxbJR+YKGYaI33adgcwg9Lq85+M0B4LBUk3HxLivqyovi+1GmMwcFKo9IYH+K1wLw7V
+	wrYcWtHOX1VKXjVapbj/sTXIlL2rGpYUoxG8EBDlB2C2
+X-Google-Smtp-Source: AGHT+IHJt3oTtWnZHdDl97ybd6P+Hsv2F0EjcCAUaLYDnkgYwSOPmPUSLh8gTCh3PPuM9rSSslwTKw==
+X-Received: by 2002:a05:6a00:1bca:b0:736:5504:e8b4 with SMTP id d2e1a72fcca58-7409cfaf3a7mr7364505b3a.19.1746679889147;
+        Wed, 07 May 2025 21:51:29 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:c794:38be:3be8:4c26])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7405905ce9fsm12728777b3a.136.2025.05.07.21.51.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 21:51:28 -0700 (PDT)
+Date: Thu, 8 May 2025 13:51:23 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	iommu@lists.linux.dev, Tomasz Figa <tfiga@chromium.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Robin Murphy <robin.murphy@arm.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] media: videobuf2: use sgtable-based scatterlist
+ wrappers
+Message-ID: <ravkxkfx6du2uovpfqwugtmm3ymmuswkusfiry3erslpgnvaz2@2gwxofmdfjye>
+References: <20250507160913.2084079-1-m.szyprowski@samsung.com>
+ <CGME20250507160921eucas1p2aa77e0930944aadaaa7c090c8d3d0e73@eucas1p2.samsung.com>
+ <20250507160913.2084079-2-m.szyprowski@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250507160913.2084079-2-m.szyprowski@samsung.com>
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: 48dbb76cef65fabaa3ac97461eda90495e954ecd  dt-bindings: media: convert imx.txt to yaml format
+On (25/05/07 18:09), Marek Szyprowski wrote:
+> Use common wrappers operating directly on the struct sg_table objects to
+> fix incorrect use of scatterlists sync calls. dma_sync_sg_for_*()
+> functions have to be called with the number of elements originally passed
+> to dma_map_sg_*() function, not the one returned in sgt->nents.
 
-elapsed time: 2108m
-
-configs tested: 32
-configs skipped: 1
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha        allnoconfig    gcc-14.2.0
-arc          allnoconfig    gcc-14.2.0
-arm          allnoconfig    clang-21
-arm64        allnoconfig    gcc-14.2.0
-csky         allnoconfig    gcc-14.2.0
-hexagon      allnoconfig    clang-21
-i386        allmodconfig    gcc-12
-i386         allnoconfig    gcc-12
-i386        allyesconfig    gcc-12
-i386           defconfig    clang-20
-loongarch   allmodconfig    gcc-14.2.0
-loongarch    allnoconfig    gcc-14.2.0
-m68k        allmodconfig    gcc-14.2.0
-m68k         allnoconfig    gcc-14.2.0
-m68k        allyesconfig    gcc-14.2.0
-microblaze  allmodconfig    gcc-14.2.0
-microblaze   allnoconfig    gcc-14.2.0
-microblaze  allyesconfig    gcc-14.2.0
-mips         allnoconfig    gcc-14.2.0
-nios2        allnoconfig    gcc-14.2.0
-openrisc     allnoconfig    gcc-14.2.0
-parisc       allnoconfig    gcc-14.2.0
-powerpc      allnoconfig    gcc-14.2.0
-riscv        allnoconfig    gcc-14.2.0
-s390         allnoconfig    clang-21
-sh           allnoconfig    gcc-14.2.0
-sparc        allnoconfig    gcc-14.2.0
-um           allnoconfig    clang-21
-x86_64       allnoconfig    clang-20
-x86_64      allyesconfig    clang-20
-x86_64         defconfig    gcc-11
-xtensa       allnoconfig    gcc-14.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 
