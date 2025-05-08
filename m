@@ -1,245 +1,181 @@
-Return-Path: <linux-media+bounces-32060-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32061-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC9DAB0522
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 23:01:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26AB6AB05C2
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 00:00:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2280D1892D32
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 21:01:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 766DD4E6910
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 22:00:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A335121E08D;
-	Thu,  8 May 2025 21:01:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BDB0224AFE;
+	Thu,  8 May 2025 22:00:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Q1Nkzfye"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gutgaRnf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EC91F8750;
-	Thu,  8 May 2025 21:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746738065; cv=pass; b=PC56bcCw4U4h4o6eEx5xAKQ7t+nFgHojvkitHanwEHnkNFCnqvcsEGhTGxp6YGT0eDRLR0+3gfF110f/TvaQUffCf5YxRNO5qG9auPD1DhVuGT7ves5kI7l15FyxDhLA4HrhjGxxgWPMudtid1mZw6qcMQ7F1ASUuDis1+SfQXs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746738065; c=relaxed/simple;
-	bh=1Lon4LM9waC3VpLnPCCZeGTVE+HncPBV1C3iVXisE/k=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301CC202C5C;
+	Thu,  8 May 2025 22:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746741621; cv=none; b=ShnZlMtJb908ZF5fSxSZF55q3dNwH6OmKVtbpl1Esgr4zxNiplPT1N+CvqkC/1m8UXWapr3TRmetQi6ITArJl62VfmAsx0JOa5a9r2RgisK9zrdhscqkfOODRWgF/K5Cv/UAeEPhLq6fPsxy8z2eHcNiJzDaGnBubWbV5LJfFxg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746741621; c=relaxed/simple;
+	bh=KVvgX9Sz//6c92uZjhQoPSnIEHvJqDAnUBmUV/6XQAg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmzHMBzl1egIwiA+kjR0mNm59KIfZSFGpQ6A5mqk5LW0M433JWrkCKwJtJ1gHN8g9POkf5XXBUZtscdOBPrC2E3J3aVYbHgFxBm1gG1hDjv7NpCZ0FPhZRyiABAOfBLSnAesrUPdLUzS81s3sTwXh4samtb3vd/NA16///S+hJI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=Q1Nkzfye; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Ztl0Q6jk7z49PvQ;
-	Fri,  9 May 2025 00:00:54 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1746738055;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oE4AwKamIQX7sdfsFR4kvsyn0RVFtIAYnU+qUhTKpCI=;
-	b=Q1NkzfyeIAnkfDNdhqHra9Bng7Sxt7VGUBFiWFAkVdSkvmu7KG0i1s/0qLyaE47HQA/IUP
-	ZOvwsUIyKYCuww91t+E2RyQbxSKrO+YgjN57xAYrDGS3Ya7tn5J61EPhFrhb6l4RLXXWg1
-	WS6E+jaHaQjZR2sj3LYW3dn0BpVCsVh2/11+1fpoPrPkLnsQmNpjHTISi7bPPl4SPvQhN2
-	STQHyYEurPzGMHp9B8Q+/pvDwwXgMERyGufF5GImfeNsd900QeeX1qXnIJ3lr0z9nqZVPG
-	vSAOsOFpkE0U9qgmojEZUeSOA40/1lcNw1ANqkgMFzI1Cih5KKdghV9FCk5dwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1746738055;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oE4AwKamIQX7sdfsFR4kvsyn0RVFtIAYnU+qUhTKpCI=;
-	b=dQ9TmbcOBE5QihzXH/Is+QvL3vGWQHKby0NVbCwlrQWV1cMysc7tFnjF/wsTp14vfYl+7V
-	58EGZYh/fYgEFd/CQn8vEJQgVJf6SF/XMGTMs6wooKaUFjdiOfohjc8c2ARPx9XPoURk60
-	mQ159qufEQAboJtjmllKWai8KvDRTW/yEdrqzdfACbdi9jsf+AV4WGqlHv5T2OSzst6nA9
-	jND1XYSGtH7KWhf3MQ14yFSVT9tGwJeQvdMHh1GRrA/dtn3bCxv3cOU7P1Y7ci59bA/XnS
-	a0pHe7vLQvyNvQ8ibIRbb1QsXv7T1tJ/bjD58qB6zzDuTWTMiGPn334VdoAVEg==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1746738055; a=rsa-sha256;
-	cv=none;
-	b=nIThwl5TCeLzvVuI7VOvnlT1K4yv/1tLxnFoMUu/GAZTHCDk+LbJN1NWUULK0t1RAhhAdd
-	dv768jTIrRrF7keFwMi7Py9eLWE22OfhhvwFIfsDp2qz9k+zFjvERZlIDbDerFNmLUShL2
-	TBn6/IX63Uu7YU6FoCHl3ejgx4vsrHKw0GZLm8lyylK2QDyhyjNmKMAdMYHdVgAdPUpw+g
-	xHrNZW0XqHvWr3L1JE4bxWgr2XJaARWV4uKIwrlZfyq4ysDOuhFfYzN+k1vKmSRJ7chQ9K
-	aIi40VGPC+mYA1WEqfbxh6YzUmD+NCR56vsQQEJ0LBiP6B8TJVJtIpkIAnvA5A==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 53147634C93;
-	Fri,  9 May 2025 00:00:54 +0300 (EEST)
-Date: Thu, 8 May 2025 21:00:54 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-	dan.scally@ideasonboard.com
-Subject: Re: [PATCH v9 08/10] media: platform: Add C3 ISP driver
-Message-ID: <aB0bhkihpY81TrII@valkosipuli.retiisi.eu>
-References: <20250427-c3isp-v9-0-e0fe09433d94@amlogic.com>
- <20250427-c3isp-v9-8-e0fe09433d94@amlogic.com>
- <aBzRb8ZKuGI3E_cu@valkosipuli.retiisi.eu>
- <3ee2qcz3ckhcvd6v5mt6cjbqdysipucqokpud76meilhplhcso@im62bwviw7x4>
+	 Content-Type:Content-Disposition:In-Reply-To; b=o7536Uy7yeJvEGvLOs5xRFBqWHGNHS36AuJqDndbfK6ZBDi1+QlkDSV91ydTQmEULO/9jInoKu9r9Uj4Qw/NQOJEitstv3BqnoBaA9lrM32xyOuzoGfJ7fq53acCXrcELrMRZBqdpgOjo0wPJPDSsp3lCzhfFRNWmdRxrNoUZ2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gutgaRnf; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-440685d6afcso16129675e9.0;
+        Thu, 08 May 2025 15:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746741618; x=1747346418; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jFPptVlWELbngFMrThLLYDU5tK5YqcQQHLUB6h2bqos=;
+        b=gutgaRnf5Qc+LAZCULIrIpdVDJH2TEmuP3+Gh7Z+2XopBIhU8pmxY64u2zJduP9+wH
+         Y6HL4RnI5Y5qq1KZ/43jJZPFbE8DmFJX2JsuFGBJEJEVoWQLl5k7snTI5PmjVg/ruA2r
+         oZdAniWueKygKm35f/JjwcAYfo4fjY7vjXqM3XzKjE1bvVXMZGyS3evNADZGbmRQzXg2
+         o8OrRz8toe889rojHunhUDvJmed7YyKs9I47ZCiJncYhWdYUo58mwjRxyfoeKCZA1E2g
+         pHxInrWoa2DYxJ7RN8CUSKCBifqtqtkDvNp8MfXxMfy77r+/89BxBuLaeOUQVQnfNXsz
+         3zEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746741618; x=1747346418;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jFPptVlWELbngFMrThLLYDU5tK5YqcQQHLUB6h2bqos=;
+        b=YsxYANGbj71b6G9iASuugV0TvXy4TC5uZa7ZJcTd+WpJVX8Jz7sbmSoAyguHhOvtQj
+         wxHpragEPc7FNubH3TvdVd9MbyOCBEtvNNm9GXzwT/eggqyAMjIwu+QvzZnn18A7C5pL
+         xgHOTQn1gMl2uoHbcrGlnlxHdzgUOBdAVvCtehwQ+s6dVz85nrDKWfh7rEXrALMZGvZa
+         j+9T1Nc/qNweSZIN0J2K4J9BOYjeAWaHobQofD4MdavJMHxSTDVKfwws2xiwMymZ8Eht
+         4xP39vZnURfcsb5YFuqeojLzxRZAk4aPU7Giikl1wUJ/n4vHbHmEVjl0N65BsQH4S6bH
+         ghgw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEyo8w/JMhJGyX/iCZ3bfNRfiktDgeHZPbNbyDfTXvtLy7ROr3QfXFSAH38bCXn426lK9FOp2U4PfZ@vger.kernel.org, AJvYcCWY6WkPH/kiENfHDBX6J22fSTy18Qef39YpxCgeJjR3HTwnIds7RDl7MTExVczpMAZjtR7BRz6n9VT/MMw=@vger.kernel.org, AJvYcCWnUmnAW3IyEug36AroYKoLQmh9LnGTr9O5T6lc/nt5XC4zzvW4fMpjxd83dmT7yjO9iq51cXcXKNVXPiI=@vger.kernel.org, AJvYcCXPMUhWHNL2VzyLB/V5NmodmJ6l8DeVDYpwgwmqAExRny6FPPa5txPq5MhMolxlzNVVRx5jvm6FXiSJs39N@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIY4GNJ7HfdnW9qjve3gMozpSFhrdM1bh73SgHMhNJUMm7JDQm
+	29pG5WVdSpxidQc6iSUfUy1wt2kaoJVcEjqvrFDoswve8TZDhjx8kaD48A==
+X-Gm-Gg: ASbGncvSgZfviQMu2XV8FVb+lFXwR+EzCCG7sR2grlvj8mxDfwdHiv9y2H88EB/iU31
+	6b3oKQu2xO6QdSgOMxwBY4ZdWeCNBJiwLnNFggW5TO9dZJx7LdJQJFtXdsKxHj8QxGxsE15giAQ
+	Y7nRuNi5k9woYC106SrTddRdM3ikdS9vbzBUBoFLTdk1MkKHoeGm3EtSGs88v9vxsUfzlj1kbBJ
+	jCJk8QOlVEEM6Bwwhn1TyqmKaDAxcLmknRvi6rX/z5OcMlzbZSm6Tk9Z/zaQntogDZ7NYEK+u9R
+	VwGoyNVG9lQbDKUmlltXp7NCrOgMAzTeg43iCLA7qDAMBHkySFGgs/4UuZZukG7BT05IsgkVnX8
+	GtVqrn73pvaAhE+RcEsvghCER5POfq/99N3Ofcg==
+X-Google-Smtp-Source: AGHT+IG3AYYCZjpiyNF33eGBd2NOxkGCG27jymfzWyrn6MCB6Fm4BvoruhYdcOJFuQliiCx3Ju+NDA==
+X-Received: by 2002:a05:600c:5027:b0:440:8fcd:cf16 with SMTP id 5b1f17b1804b1-442d6d6b6f7mr7776095e9.19.1746741618205;
+        Thu, 08 May 2025 15:00:18 -0700 (PDT)
+Received: from orome (p200300e41f281b00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f28:1b00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d14e6d74sm41174815e9.21.2025.05.08.15.00.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 May 2025 15:00:17 -0700 (PDT)
+Date: Fri, 9 May 2025 00:00:15 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: webgeek1234@gmail.com
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v4 0/4] Tegra CEC Updates
+Message-ID: <almxxsmr2ppjisqyzufqkbkekx3pab6cdtnlbdf4epe77eidvs@s4qv7s5udnhq>
+References: <20250413-tegra-cec-v4-0-b6337b66ccad@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3epgod7wk6jifceo"
 Content-Disposition: inline
-In-Reply-To: <3ee2qcz3ckhcvd6v5mt6cjbqdysipucqokpud76meilhplhcso@im62bwviw7x4>
+In-Reply-To: <20250413-tegra-cec-v4-0-b6337b66ccad@gmail.com>
 
-Hi Jacopo,
 
-On Thu, May 08, 2025 at 06:28:41PM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Thu, May 08, 2025 at 03:44:47PM +0000, Sakari Ailus wrote:
-> > Hi Keke, Jacopo,
-> >
-> > On Sun, Apr 27, 2025 at 02:27:16PM +0800, Keke Li via B4 Relay wrote:
-> > > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > new file mode 100644
-> > > index 000000000000..0e0b5d61654a
-> > > --- /dev/null
-> > > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> >
-> > ...
-> >
-> > > +static int c3_isp_params_vb2_buf_prepare(struct vb2_buffer *vb)
-> > > +{
-> > > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > > +	struct c3_isp_params_buffer *buf = to_c3_isp_params_buffer(vbuf);
-> > > +	struct c3_isp_params *params = vb2_get_drv_priv(vb->vb2_queue);
-> > > +	struct c3_isp_params_cfg *cfg = buf->cfg;
-> > > +	struct c3_isp_params_cfg *usr_cfg = vb2_plane_vaddr(vb, 0);
-> > > +	size_t payload_size = vb2_get_plane_payload(vb, 0);
-> > > +	size_t header_size = offsetof(struct c3_isp_params_cfg, data);
-> > > +	size_t block_offset = 0;
-> > > +	size_t cfg_size;
-> > > +
-> > > +	/* Payload size can't be greater than the destination buffer size */
-> > > +	if (payload_size > params->vfmt.fmt.meta.buffersize) {
-> > > +		dev_dbg(params->isp->dev,
-> > > +			"Payload size is too large: %zu\n", payload_size);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	/* Payload size can't be smaller than the header size */
-> > > +	if (payload_size < header_size) {
-> > > +		dev_dbg(params->isp->dev,
-> > > +			"Payload size is too small: %zu\n", payload_size);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * Use the internal scratch buffer to avoid userspace modifying
-> > > +	 * the buffer content while the driver is processing it.
-> > > +	 */
-> > > +	memcpy(cfg, usr_cfg, payload_size);
-> > > +
-> > > +	/* Only v0 is supported at the moment */
-> > > +	if (cfg->version != C3_ISP_PARAMS_BUFFER_V0) {
-> > > +		dev_dbg(params->isp->dev,
-> > > +			"Invalid params buffer version: %u\n", cfg->version);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	/* Validate the size reported in the parameter buffer header */
-> > > +	cfg_size = header_size + cfg->data_size;
-> > > +	if (cfg_size != payload_size) {
-> > > +		dev_dbg(params->isp->dev,
-> > > +			"Data size %zu and payload size %zu are different\n",
-> > > +			cfg_size, payload_size);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	/* Walk the list of parameter blocks and validate them */
-> > > +	cfg_size = cfg->data_size;
-> > > +	while (cfg_size >= sizeof(struct c3_isp_params_block_header)) {
-> > > +		const struct c3_isp_params_block_header *block;
-> > > +		const struct c3_isp_params_handler *handler;
-> > > +
-> > > +		block = (struct c3_isp_params_block_header *)
-> > > +			&cfg->data[block_offset];
-> > > +
-> > > +		if (block->type >= ARRAY_SIZE(c3_isp_params_handlers)) {
-> > > +			dev_dbg(params->isp->dev,
-> > > +				"Invalid params block type\n");
-> > > +			return -EINVAL;
-> > > +		}
-> > > +
-> > > +		if (block->size > cfg_size) {
-> > > +			dev_dbg(params->isp->dev,
-> > > +				"Block size is greater than cfg size\n");
-> > > +			return -EINVAL;
-> > > +		}
-> > > +
-> > > +		if ((block->flags & (C3_ISP_PARAMS_BLOCK_FL_ENABLE |
-> > > +				     C3_ISP_PARAMS_BLOCK_FL_DISABLE)) ==
-> > > +		    (C3_ISP_PARAMS_BLOCK_FL_ENABLE |
-> > > +		     C3_ISP_PARAMS_BLOCK_FL_DISABLE)) {
-> > > +			dev_dbg(params->isp->dev,
-> > > +				"Invalid parameters block flags\n");
-> > > +			return -EINVAL;
-> > > +		}
-> > > +
-> > > +		handler = &c3_isp_params_handlers[block->type];
-> > > +		if (block->size != handler->size) {
-> > > +			dev_dbg(params->isp->dev,
-> > > +				"Invalid params block size\n");
-> > > +			return -EINVAL;
-> > > +		}
-> > > +
-> > > +		block_offset += block->size;
-> > > +		cfg_size -= block->size;
-> > > +	}
-> > > +
-> > > +	if (cfg_size) {
-> > > +		dev_dbg(params->isp->dev,
-> > > +			"Unexpected data after the params buffer end\n");
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +}
-> >
-> > The above looks very much like rkisp1_params_prepare_ext_params() in the
-> 
-> slightly similar, yes :)
-> 
-> > Rockchip ISP driver. Instead of copying all this non-trivial code in
-> > verbatim here, could you instead refactor this so both the drivers could
-> > use the same implementation?
-> >
-> 
-> Yeah, that's the plan.
-> 
-> We have more drivers in the pipeline using extensible parameters and this
-> code (and possibily other parts) will certainly be factored out.
-> 
-> My plan is to add at one more user in and the do move common parts to
-> the framework. Would this work for you ?
+--3epgod7wk6jifceo
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 0/4] Tegra CEC Updates
+MIME-Version: 1.0
 
-How about refactoring the two users to use a common framework first and
-then using it in the third? :-) The more copies there are, the greater the
-task to unify them.
+On Sun, Apr 13, 2025 at 02:35:31PM -0500, Aaron Kling via B4 Relay wrote:
+> This series updates Tegra hdmi cec support to be usable out of the box
+> on Tegra210 through Tegra194.
+>=20
+> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+> ---
+> Changes in v4:
+> - Fix review comment on patch 1
+> - Link to v3: https://lore.kernel.org/r/20250409-tegra-cec-v3-0-91640131d=
+fa2@gmail.com
+>=20
+> Changes in v3:
+> - Update patch 1 to fix lint warnings
+> - Link to v2: https://lore.kernel.org/r/20250408-tegra-cec-v2-0-2f004fdf8=
+4e8@gmail.com
+>=20
+> Changes in v2:
+> - Dropped patch 2, per request
+> - Added change to declare fallback compatibles instead, as per request
+> - Update patch 1 to allow fallback compatibles
+> - Link to v1: https://lore.kernel.org/r/20250407-tegra-cec-v1-0-e25dd9577=
+b5f@gmail.com
+>=20
+> ---
+> Aaron Kling (4):
+>       media: dt-bindings: Document Tegra186 and Tegra194 cec
+>       arm64: tegra: Add fallback cec compatibles
+>       arm64: tegra: Add CEC controller on Tegra210
+>       arm64: tegra: Wire up cec to devkits
+>=20
+>  .../devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml | 14 ++++++++=
+++----
+>  arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts         |  6 ++++++
+>  .../boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts     |  6 ++++++
+>  arch/arm64/boot/dts/nvidia/tegra186.dtsi                   |  2 +-
+>  arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts         |  6 ++++++
+>  arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi        |  6 ++++++
+>  arch/arm64/boot/dts/nvidia/tegra194.dtsi                   |  2 +-
+>  arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts         |  6 ++++++
+>  arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts         |  6 ++++++
+>  arch/arm64/boot/dts/nvidia/tegra210.dtsi                   |  9 +++++++++
+>  10 files changed, 57 insertions(+), 6 deletions(-)
+> ---
+> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+> change-id: 20250407-tegra-cec-7e3a7bef456f
+>=20
+> Best regards,
+> --=20
+> Aaron Kling <webgeek1234@gmail.com>
 
--- 
-Regards,
+Applied, thanks.
 
-Sakari Ailus
+Thierry
+
+--3epgod7wk6jifceo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmgdKW8ACgkQ3SOs138+
+s6GYeA//XE2vyZqqYpifD0khPD5xG3gxB1YfHHKl0Y7ZSyvHLFJizd+hzzjUH9N/
+5vnczfETsqCuDvNZVlHJpjgCuM8ClyWY672WjZepl9doioFOp+tVi4PwknqLnHCy
+YYgyU6JK315UK7ktYxhWe6oInbFtZSUXRW/a1j3HJRAmpiNp2OToNcMFWFTDNuvn
+g2fxSEgTDfVEFpMhMVGc2iaCClGw7py7xk0mTaHo++FY8/kSH1GVybcwHDmFNHGk
+Z/0oOnZ2L7Lxjn+9QV8eWTZpIOYLN6Y+YlmFvaP+XfMSMw/MiaUWxhbSP1E8QAI6
+ANPd1/avzIcIqpbRqsBoB3AZxP67kWTjM9cMBMo5lADGmKGXdEONVkleT6VJ9XPs
+kC6pPuicSTCpon6HyGDyQ4CL/P78aMD+sDc1nYMtX1Qjo7zEzr/vPZ+WY2FLUMR7
+o2WLBdcp/bGVntyOqFU4C8JuXANU51W89nUHIdcUd4R00E7bzO9PYdE3xvXdr7GN
+3EeR3VbzKve8IqJs7hQL6VWBh9EwS1vPei/bg/Ma0MFk2U6Cut8DF3emqdDYh1em
+0X89IwEJCivye8EITGngb9k+uSqoVCQkOTnILgw0uzchzU8frEEe1YLQfoeGCYcY
+hAtxWHR9pHV/t4L6L+oabd1lEkZWzVezDMWw7lSNnZhtnEFeVM0=
+=1WMA
+-----END PGP SIGNATURE-----
+
+--3epgod7wk6jifceo--
 
