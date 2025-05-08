@@ -1,79 +1,89 @@
-Return-Path: <linux-media+bounces-32026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32027-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B9DAAF7B7
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 12:22:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09515AAF7C4
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 12:27:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEFEF4E2E93
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 10:22:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED66E7AA6CF
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 10:26:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 683AE1C8612;
-	Thu,  8 May 2025 10:22:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BA221FAC42;
+	Thu,  8 May 2025 10:27:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kku5pFtZ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a+KPeXe/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4851D1ADC97;
-	Thu,  8 May 2025 10:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737E01487F4
+	for <linux-media@vger.kernel.org>; Thu,  8 May 2025 10:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746699740; cv=none; b=PrS0OZ3+1xWIFVTHlklBvP3i15wI/LbhM7rJNxNRWEu6Fk+s0fWpkJdP+2I7x0aLt+O4zkpW17JerJVYEAT6QXEt/dGL9jA7+wfxLYkwYjSkQj1SYf27UAlu2t22WYM8l2LOew9a9xDrCl1mC8YloZbsiW7EjG7FtuWHIFbO5HY=
+	t=1746700053; cv=none; b=RWoseQVxvFDufov32kmIYwGAVVy3ptgq7IGFkWnnxQFEscUCTLaHn3dxK2KlT1CnoNYOhuLsGrqcXawFiNmcHmf8HCr7xOZG/bUK5Qqn4GKRm++ewSm1XyGg2uPC5GwcE3CPiLn3pfX1firdvx50ed0pX0P3AiZ6NSIhiXfFmtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746699740; c=relaxed/simple;
-	bh=tLVZ7l0uzlnYz3RGAPEntPGU7KyqpAXPp/cok9Dqxok=;
+	s=arc-20240116; t=1746700053; c=relaxed/simple;
+	bh=Wg1tIXtF7cdE4BVkY3U542fb6E3QI2pSyqedPkcT3kc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cjOtmxkxmgy3VuSIon68qrZ4YXxEemTFoxt3vcYbLSIDdbfBSdxByeQWbyLVQ11JJqy5A9I7TJxUUtZWvoY+HW7+Gopmh82KPewgBD7zEXxkCW1DMsBp5snikRd1mzKJWMQKXFnHeHpv0QzG9m8jUyLc7rjJlFk1YBHqUznYAAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kku5pFtZ; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746699739; x=1778235739;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tLVZ7l0uzlnYz3RGAPEntPGU7KyqpAXPp/cok9Dqxok=;
-  b=kku5pFtZ7/UIiHUHm9BEMtQL7InJjkB5cqTcrbPrXPlQSCDXFWs3wFld
-   PpfTJASp95m0CP0PU1hOyqftHy03qFMnaStp1HPoyeZ8R9fMeANGcop85
-   OPfSBq7RoqiOuViyjNgzkE2AhIDeKv9CkEcw9omaG3kxlXt6Zswqx8NtG
-   iuWphFvDGjZN6tMNZC9BnL1gUAbRpHtETym4KOoavHq6p8h5c4vT/B3nB
-   C+hnndiKW7fpVOgq7ePE9M/jo2FpsAIObZAhQ9djqXexqLgYb1p+bIeJE
-   5RqF2mW57wY0dU0QW7JWbhUAPQxvD7jK/Q27ypapnkJDn6SFFpoD+/O+f
-   w==;
-X-CSE-ConnectionGUID: s+6+x1gRRfaiwBIoX0YRYw==
-X-CSE-MsgGUID: DGVKu/JTTCiVEG3amqfKcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="47576644"
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="47576644"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 03:22:18 -0700
-X-CSE-ConnectionGUID: tT1P/t+xR+GrU1Vj4sRAmA==
-X-CSE-MsgGUID: AnhrPIMAQPiNBYVfY/5qZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="137238321"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.168])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 03:22:16 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 21B7011F90E;
-	Thu,  8 May 2025 13:22:14 +0300 (EEST)
-Date: Thu, 8 May 2025 10:22:14 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	platform-driver-x86@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=mLFWoi+6cdulR7AQ/E5Y6X/Po6IaXSCJJkNq1vN9+ia3mhFxpksSojPcQvqXj5O+z2mTd7Ikgu+l8Evy7qRD5HFoDCizGTTsCf8ZshvbKkeKV4JwWALSJndA4RZUqV6zyYmmqGC3CdYUmsjt60DlnM6s/dg32DGfHSb/8tP4YGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a+KPeXe/; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a0b6aa08e5so1070878f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 08 May 2025 03:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746700050; x=1747304850; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f3dXWdexBFnCh1V4T6e507rtdfn4YGQDtE6BBRQFdZA=;
+        b=a+KPeXe/9DHnfAFy4D/68GYC154UdUqFm46xqzdxZSw1NuAOVYOYqvFyFT2cis9Uo9
+         Gk29jFR8JpGHN4JL3WrXrKc7SiHR8RyP6qwn7TEprnt4r9OoKEbVGA5FMf7kolrzNNd8
+         zFDC6v4Y6fSoPeOSmT2/T91UlFODPQm+pplA3GAoVRYMm1L9u9GnruP/LxucRcqK+a2Q
+         pH4sfmg8IOERLd7ExCpgr4SLXilF8DGrGgt/dLbEnTor6BF983ZPG5NadqExVYcqk3Q9
+         8PTpBjC77/lp2X9BE+VuIdmvk6esXs+4vyd6bocPfBapyQwhfHrQBY1tLZ8a0MVABN5V
+         TXqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746700050; x=1747304850;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f3dXWdexBFnCh1V4T6e507rtdfn4YGQDtE6BBRQFdZA=;
+        b=ftAicRKmRSBobwpiBEYUKFORmE2+fQIWD1NuA4dZbcGh4ZbJsu0hgQJZAifHZQAEsd
+         Zj5Bz1wvh3x5+6ZQ5itu3v7pRkhdPzGMAclJKqbaGTuJxGQcD7PEuDATRtykrRvm8Q9u
+         JeaH0NsRE4EqXIcgFJS5BaiCqyNr/JCMKZrC9baT/6fPU34qSUdg0IvvnIdOEtSUO2xO
+         x2Qott4vCr9fa//34rdPoSF10IqHulz27cGKk34k5mxwPformKSznBW5y1zVBTxc7ybd
+         9BeL8ZblEJWNwyUCRM7QndHObKmvIT5p73AIK7y5aelm19FkYAqalmKE3v1w/4/tzabR
+         jURg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTwVa4ZKSY+1ejmG3QdGT+P0AOHnvXRdifJYqWY0UNYgnRXvRrK8sXsQPPdcRpB//iMtuLuOMIL2vSnw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNZSgFY944sb437+aoMhQUXnZrikPKo57rSMt7fejbvHAppcnh
+	y4NEv7KxiJeGhJcNtgmranXDj3o3KOHvIXWZtEoBHEgiE6ONCsjoBPYwadBnFTI=
+X-Gm-Gg: ASbGnctD4Sror/oBIRvuLVK0aNYfxY+6kLeqCYqlmZsf2zJV8oX8UuXs8k6yNk4NS43
+	3s+s/WKb/OjoaalQEgloQitGrcb/yM5Pl+b3ts/OCZSFkWgL++Djj8I8FfAhlEXXlCAINj3PXCU
+	HzUIMlilsS9DUvD7keVRl4GdhtYFG78MMb8UZnzNmYmqY+osQOWoz77gEhxNI2HW7f24+AOC4zi
+	aHBOR+r9lkHmzJsB0n2f+/CAjXQZhofs4eK3vQJt4Zmj+V6Jux8eVHSb3dEPjuQQwnPG1l79NES
+	nn7RNXMHcWWYiNxE/X0V33fz+0SNHDTaPJUnbzSuU7LSNw==
+X-Google-Smtp-Source: AGHT+IGr7hK3xCuRso8I/G034nZ8utNO2zmismBg2hsAW4Uj0bzVouwQ2BDVypLguNpWtEPItYf4BA==
+X-Received: by 2002:a05:6000:2ab:b0:38d:ba8e:7327 with SMTP id ffacd0b85a97d-3a0b990e086mr2368417f8f.8.1746700049750;
+        Thu, 08 May 2025 03:27:29 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a0b47a8448sm5679359f8f.44.2025.05.08.03.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 May 2025 03:27:29 -0700 (PDT)
+Date: Thu, 8 May 2025 13:27:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 0/6] platform/x86: int3472: Allow re-using sensor GPIO
- mapping in atomisp
-Message-ID: <aByF1gMxTi6FAAQO@kekkonen.localdomain>
-References: <20250507184737.154747-1-hdegoede@redhat.com>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] media: rcar_jpu: remove redundant case statement
+ when c is zero
+Message-ID: <aByHDZyu0pptFUlK@stanley.mountain>
+References: <20250508100835.336240-1-colin.i.king@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,31 +92,35 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250507184737.154747-1-hdegoede@redhat.com>
+In-Reply-To: <20250508100835.336240-1-colin.i.king@gmail.com>
 
-On Wed, May 07, 2025 at 08:47:31PM +0200, Hans de Goede wrote:
-> Hi All,
+On Thu, May 08, 2025 at 11:08:35AM +0100, Colin Ian King wrote:
+> The case statement where c is zero is redundant because the previous
+> while loop will only exit if c is non-zero or non-0xff, so c can
+> never be zero by the time the switch statement is reaced. Clean up
+> the code by removing it.
 > 
-> This patch series does some small refactoring of the int3472 code to allow
-> re-using the sensor GPIO mapping code in the atomisp driver and then the
-> final patch in the series moves the atomisp driver over.
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>  drivers/media/platform/renesas/rcar_jpu.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> About merging this, maybe the int3472 patches can be merged in time for
-> the 6.16 merge window and then the atomisp patch can be merged after
-> 6.16-rc1 is released, otherwise an immutable pdx86 branch with the first
-> 5 patches will be necessary.
 
-Thanks, Hans!
+   612  
+   613          for (;;) {
+   614                  int c;
+   615  
+   616                  /* skip preceding filler bytes */
+   617                  do
+   618                          c = get_byte(&jpeg_buffer);
+   619                  while (c == 0xff || c == 0);
 
-For the first five:
+Unrelated to your commit, but get_byte() returns -1 for out of
+bounds.  I wish there were a explicit check for that.  We end
+up hitting one of the "return 0;" statements depending on if
+we've found a JPEG_MARKER_SOI.
 
-Reviwed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+regards,
+dan carpenter
 
-Feel free to add to the last patch (i haven't looked at the details, but
-the approach seems good):
-
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
--- 
-Sakari Ailus
 
