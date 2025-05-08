@@ -1,224 +1,186 @@
-Return-Path: <linux-media+bounces-32051-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32052-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9C7AB00CE
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 19:00:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4053FAB0282
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 20:20:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 770B2172476
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 17:00:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 654521C4084B
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 18:21:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF3B822422D;
-	Thu,  8 May 2025 17:00:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCEEE286D46;
+	Thu,  8 May 2025 18:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WWiTaIDb"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GH6P/gdQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B26B17A2E2
-	for <linux-media@vger.kernel.org>; Thu,  8 May 2025 17:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF6F2E659
+	for <linux-media@vger.kernel.org>; Thu,  8 May 2025 18:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746723643; cv=none; b=huw1LaLr0hNh1dZ1DzhWeKLAUbLuQiyierzL46UMw9GGqN9uE8EsIbkIjgMXi81IFmzhTYb/qLf1WZzrJfdz5/FVW1qfPrmrNlxHF51rMzqOZo/TuSyShLJxB9MeY3ABX4di1NRvQ9ZR1R+RPHLEE6eXUowHi1E+ZAiUuhuMb7c=
+	t=1746728441; cv=none; b=ndR2QjPnBC3yg+GPZhE9DWPIjtecezRltjj2l6klIpQ7GsBfwCTcrZbCceqGl2bc2jPz7jy32Yz5LeiJexV+Jr+laK9/mkxc88e7u9nIesnwaV5WF9GnDoVBxp+5+Wy12h+fBk70AKT4XNiLasSfgY2SEO+XYPyBQiPed47YXOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746723643; c=relaxed/simple;
-	bh=qPo7IYaO4+1qtaFcri4VNUmvzmOO8Gh33e5EAVi2ax8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qz7+BtkdUCIRGefTPEMlzltRnIj28FBv8GBPaNaCmtCEbI4klVv2vKI50AB9lo4At/pgg7784XXMfrRUERC6DKq7bSRDL7n4RnpQ2m9dtupHpVwCZL+E0JZCtpucLy25G3+PhXt6GdViMFTCXjwUP38LwvxC9D91FUyq2YcfbcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WWiTaIDb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:861:3a80:3300:7c3b:c7bf:b733:fa1b])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09AB622A;
-	Thu,  8 May 2025 19:00:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746723625;
-	bh=qPo7IYaO4+1qtaFcri4VNUmvzmOO8Gh33e5EAVi2ax8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WWiTaIDb/3DRy6U7HZECy63V9Gkjl7xKfjF6EJb3b4lwDFnnIT0hvVed6swIkKlHg
-	 bhrgDoRWINOF/4A7XMHJAgvqsgcfJnJ7UtOvmslh21YI1cf9Sskl40Xgp0E0jsWLJ6
-	 hD0zyP+OOGQPR9vqG/VrGwvebdY1NOBp0HjISntM=
-Date: Thu, 8 May 2025 19:00:34 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sean Young <sean@mess.org>, Ricardo Ribalda <ribalda@chromium.org>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>, 
-	"Hu,               Jerry W" <jerry.w.hu@intel.com>, Steve Cho <stevecho@chromium.org>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Arthur Vinchon <arthur.vinchon@allegrodvt.com>, 
-	Marco Felsch <m.felsch@pengutronix.de>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
-	Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>, 
-	Maxime Ripard <mripard@kernel.org>, Stefan Klug <stefan.klug@ideasonboard.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Naushir Patuck <naush@raspberrypi.com>
-Subject: Re: [PATCH 1/1] media: dt-bindings: Add bindings for camera modules
-Message-ID: <jfqlikciprpnope5do3ktoghnpbin3d3ggliivb7csmskdlddl@i4fds3d6qsfx>
-References: <20250507081338.53614-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1746728441; c=relaxed/simple;
+	bh=AFojxG9aPrDK+YfWSqvqEl4BPFnRhOZEHrJHlhsV/As=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=iS2jkcLNwn9fAEVoWlLh4OhrXbf0BBajSWKnALk/BKspWWEnTZRxcMlCaW0zHnvMi9akSi1Dj25djvN8t94RbJ6jn1+IyHhJaLnVAcsuBgnO4QgFBJXc14ZaZL+V/nUf4jD6+6/41izhPfrX/fSuhzYECo+cm1N3Esok8xcZymY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GH6P/gdQ; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-30a0a8ddcc4so1566746a91.3
+        for <linux-media@vger.kernel.org>; Thu, 08 May 2025 11:20:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1746728438; x=1747333238; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P9TcbK/nWa/YXXDAxnZVOVArGjAtkdTEqGETT2oQJ+Q=;
+        b=GH6P/gdQbCfyiNTZTvQY/Q1sXpBQiShC91YBtntu0G6FBjsKcfLYry2gIDK5NhwfIx
+         H6tdhflGOiVY4s6HhEG73a/vzQbr1AMo9Is7rik6unTbMtoQ7pxDdYibA9+5VesIoIjq
+         DyBwbyKOgAPVAVIIl+l0dQbTPR2QS+Qqzt14Tf+cjlW/2kNYqv4GVdr28Is5YemtGplV
+         ALCbSc3FRijAd0igRqPpgAyvXKbNqWOvsHMMtgOwKIVdhViic5oss50JOlGqVACLRiHX
+         KBExDt2iVVKQIXMNYD+5E92dh1qqcCghFRaANVxhd87a2RjOzuzHccRbjLlAumMk26Mi
+         Gn/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746728438; x=1747333238;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P9TcbK/nWa/YXXDAxnZVOVArGjAtkdTEqGETT2oQJ+Q=;
+        b=RPdh5Xptihl0cM8ImMtIlYTMSEvKTt21JIuGtLCd/RmfN8SsszLFdMHdZC0e5wS5yZ
+         0cVpF6z8u163E/DJSq+OtRuOAsWA4lA0FLNYpMCWS0yfjn3XgfGPfa9+vWwxb5M9x0um
+         ELKoYzkY4NHl5qZR0G1o0ijv7Irxw5brKVj8wnnMj9LbbxtUKTPRr0SX6oQzfPWu0QI4
+         1F9LVPLrzTJimxPwleNYUVqAR7jbW+X7lU1E4eZ8GbpKyNN6aIsYX2Bhe6jBTwwO0opQ
+         J2vamnOHIWE+p7axZnfXQUklqJ2E2fbgz5d/EyWGzQjifR+mR5496Ryn2W/nvzCetU7A
+         nNfg==
+X-Forwarded-Encrypted: i=1; AJvYcCXTFjclCzW19BErS5WAeBtDpPtw3Xo2OYL6CTFQC5v+ja8b5qsFxsQbkrrK0hNG7kmyeUvMf/bHHkfcyg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzd2OvrKW8vFhNIATy3YQOxb1JXWBPOnxIZ+n93SwVSJWzWMLJE
+	kcI4aDNpJm0QERMbgBH94SqauyJOY0zNsff9o7CZ0SstCt+T8iGYuhYwSgVKLjBvJyXMf9cSJT4
+	f21WNTaK4m5W/pw==
+X-Google-Smtp-Source: AGHT+IFhx3d+8kkrdtF5uHVOpa/4HuyLlmn9NJKawhhnSvvJ/pAtFwroXUkydqUIaRt0a+bCKTAGt+Mq8FzXwso=
+X-Received: from pjtd8.prod.google.com ([2002:a17:90b:48:b0:2ee:4a90:3d06])
+ (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:268a:b0:2fe:8282:cb9d with SMTP id 98e67ed59e1d1-30c3d6467cbmr760151a91.28.1746728437874;
+ Thu, 08 May 2025 11:20:37 -0700 (PDT)
+Date: Thu,  8 May 2025 18:20:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250507081338.53614-1-sakari.ailus@linux.intel.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.49.0.1015.ga840276032-goog
+Message-ID: <20250508182025.2961555-1-tjmercier@google.com>
+Subject: [PATCH bpf-next v4 0/5] Replace CONFIG_DMABUF_SYSFS_STATS with BPF
+From: "T.J. Mercier" <tjmercier@google.com>
+To: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, alexei.starovoitov@gmail.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org, song@kernel.org, 
+	"T.J. Mercier" <tjmercier@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
-  thanks a lot for the proposal, it will be useful for next week discussion
+Until CONFIG_DMABUF_SYSFS_STATS was added [1] it was only possible to
+perform per-buffer accounting with debugfs which is not suitable for
+production environments. Eventually we discovered the overhead with
+per-buffer sysfs file creation/removal was significantly impacting
+allocation and free times, and exacerbated kernfs lock contention. [2]
+dma_buf_stats_setup() is responsible for 39% of single-page buffer
+creation duration, or 74% of single-page dma_buf_export() duration when
+stressing dmabuf allocations and frees.
 
-On Wed, May 07, 2025 at 11:13:38AM +0300, Sakari Ailus wrote:
-> Add bindings for camera modules to allow telling especially the user space
-> which module is found in the system. Camera modules do not have a device
-> node so this is a property for the camera sensor device node. This allows
-> describing modules that contain a single camera sensor.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> Hi all,
->
-> Here's the patch to give some advance warning for the camera module
-> discussion. The good thing is that it's quite short.
->
-> The intent indeed is to address the regular use case where we have a
-> single sensor in a camera module. For cases where we have more, we'll need
-> something else, not based on individual properties. I believe this is
-> still the way to go, to address current issues and for a couple of
-> additional reasons:
->
-> - Cameras with more than one sensor tend to be collections of camera
->   modules so this is still relevant in most cases.
->
-> - It's much simpler to have a single property than begin having new nodes
->   in DT. In practice such nodes would be a poor fit for DT generally as
->   they have (few or) no functions.
->
-> The biggest difficulty is still in module identification. These components
-> tend to be often ignored and the best we have for a module name in that
-> case is random-looking string if even that. Besides DT bindings, we need
-> an additional (git?) tree to describe the modules that have no proper
-> names but it could be also useful for those that do, for instance to
-> include information on lens, field of view, IR filter, photos of the
-> module etc. There is some overlap with what libcamera needs, too.
->
-> - Sakari
->
->  .../bindings/media/camera-module.yaml         | 52 +++++++++++++++++++
->  .../media/video-interface-devices.yaml        |  3 ++
->  2 files changed, 55 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/camera-module.yaml
->
-> diff --git a/Documentation/devicetree/bindings/media/camera-module.yaml b/Documentation/devicetree/bindings/media/camera-module.yaml
-> new file mode 100644
-> index 000000000000..31b898c8c334
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/camera-module.yaml
-> @@ -0,0 +1,52 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2025 Intel Corporation
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/camera-module.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Camera modules
-> +
-> +maintainers:
-> +  - Sakari Ailus <sakari.ailus@linux.intel.com>
-> +
-> +description: |
-> +  Camera modules are devices that embed one or more active devices, including
-> +  Camera Sensors, Voice Coil Motor (VCM) and possibly a flash LED as well as
-> +  other passive devices such as lenses and Ultra-Violet (UV) filters. While the
-> +  camera modules themselves have no OF nodes and have generally no module
-> +  specific functions, it still does matter for the software stack as a whole
-> +  which module the devices are a part of.
-> +
-> +  Two properties are used for this, depending on what is known of the module:
+I prototyped a change from per-buffer to per-exporter statistics with a
+RCU protected list of exporter allocations that accommodates most (but
+not all) of our use-cases and avoids almost all of the sysfs overhead.
+While that adds less overhead than per-buffer sysfs, and less even than
+the maintenance of the dmabuf debugfs_list, it's still *additional*
+overhead on top of the debugfs_list and doesn't give us per-buffer info.
 
-I might have missed a point here.
+This series uses the existing dmabuf debugfs_list to implement a BPF
+dmabuf iterator, which adds no overhead to buffer allocation/free and
+provides per-buffer info. The list has been moved outside of
+CONFIG_DEBUG_FS scope so that it is always populated. The BPF program
+loaded by userspace that extracts per-buffer information gets to define
+its own interface which avoids the lack of ABI stability with debugfs.
 
+This will allow us to replace our use of CONFIG_DMABUF_SYSFS_STATS, and
+the plan is to remove it from the kernel after the next longterm stable
+release.
 
-> +
-> +  1. The model of the module is known. In this case the name of the module uses
-> +  the format "vendor,model[,version]" where "vendor" is the manufacturer of the
-> +  module and "model" the name of the model. The version part is optional. In
-> +  such cases the property "camera-module-canonical" will be used. If the vendor
-> +  is not known, the "gpio" vendor prefix is used.
+[1] https://lore.kernel.org/linux-media/20201210044400.1080308-1-hridya@goo=
+gle.com
+[2] https://lore.kernel.org/all/20220516171315.2400578-1-tjmercier@google.c=
+om
 
-So if the module is "known" it will be described using the above
-specified triplet
+v1: https://lore.kernel.org/all/20250414225227.3642618-1-tjmercier@google.c=
+om
+v1 -> v2:
+Make the DMA buffer list independent of CONFIG_DEBUG_FS per Christian K=C3=
+=B6nig
+Add CONFIG_DMA_SHARED_BUFFER check to kernel/bpf/Makefile per kernel test r=
+obot
+Use BTF_ID_LIST_SINGLE instead of BTF_ID_LIST_GLOBAL_SINGLE per Song Liu
+Fixup comment style, mixing code/declarations, and use ASSERT_OK_FD in self=
+test per Song Liu
+Add BPF_ITER_RESCHED feature to bpf_dmabuf_reg_info per Alexei Starovoitov
+Add open-coded iterator and selftest per Alexei Starovoitov
+Add a second test buffer from the system dmabuf heap to selftests
+Use the BPF program we'll use in production for selftest per Alexei Starovo=
+itov
+  https://r.android.com/c/platform/system/bpfprogs/+/3616123/2/dmabufIter.c
+  https://r.android.com/c/platform/system/memory/libmeminfo/+/3614259/1/lib=
+dmabufinfo/dmabuf_bpf_stats.cpp
+v2: https://lore.kernel.org/all/20250504224149.1033867-1-tjmercier@google.c=
+om
+v2 -> v3:
+Rebase onto bpf-next/master
+Move get_next_dmabuf() into drivers/dma-buf/dma-buf.c, along with the
+  new get_first_dmabuf(). This avoids having to expose the dmabuf list
+  and mutex to the rest of the kernel, and keeps the dmabuf mutex
+  operations near each other in the same file. (Christian K=C3=B6nig)
+Add Christian's RB to dma-buf: Rename debugfs symbols
+Drop RFC: dma-buf: Remove DMA-BUF statistics
+v3: https://lore.kernel.org/all/20250507001036.2278781-1-tjmercier@google.c=
+om
+v3 -> v4:
+Fix selftest BPF program comment style (not kdoc) per Alexei Starovoitov
+Fix dma-buf.c kdoc comment style per Alexei Starovoitov
+Rename get_first_dmabuf / get_next_dmabuf to dma_buf_iter_begin /
+  dma_buf_iter_next per Christian K=C3=B6nig
+Add Christian's RB to bpf: Add dmabuf iterator
 
-(also, why "gpio" ?)
+T.J. Mercier (5):
+  dma-buf: Rename debugfs symbols
+  bpf: Add dmabuf iterator
+  bpf: Add open coded dmabuf iterator
+  selftests/bpf: Add test for dmabuf_iter
+  selftests/bpf: Add test for open coded dmabuf_iter
 
-> +
-> +  2. The model of the module is unknown. In this case, the module has an
-> +  identifier only, and will be described in detail in the camera module
-> +  database. The property "camera-module-casual" is used to denote such modules.
-
-If the module is "unknown" it will be identified by a numerical id that
-points to the camera module database where it is "described in
-detail". But if an entry is present in the camera module database, then it's not
-really "unkown", right ?
-
-What is the actual difference between an "unknown" and a "known"
-module then ?
+ drivers/dma-buf/dma-buf.c                     |  98 +++++--
+ include/linux/dma-buf.h                       |   4 +-
+ kernel/bpf/Makefile                           |   3 +
+ kernel/bpf/dmabuf_iter.c                      | 149 ++++++++++
+ kernel/bpf/helpers.c                          |   5 +
+ .../testing/selftests/bpf/bpf_experimental.h  |   5 +
+ tools/testing/selftests/bpf/config            |   3 +
+ .../selftests/bpf/prog_tests/dmabuf_iter.c    | 258 ++++++++++++++++++
+ .../testing/selftests/bpf/progs/dmabuf_iter.c |  91 ++++++
+ 9 files changed, 594 insertions(+), 22 deletions(-)
+ create mode 100644 kernel/bpf/dmabuf_iter.c
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
+ create mode 100644 tools/testing/selftests/bpf/progs/dmabuf_iter.c
 
 
-> +
-> +  Before including in this binding documentation, all modules shall also be
-> +  documented in add-URL-here.
+base-commit: 43745d11bfd9683abdf08ad7a5cc403d6a9ffd15
+--=20
+2.49.0.1015.ga840276032-goog
 
-If an entry in the camera module database is a requirement can't we
-simply point to that entry using a numerical id like you proposed for
-the "camera-module-casual" property ?
-
-Thanks
-  j
-
-> +
-> +  All camera modules listed below shall have the name of the sensor as well as
-> +  other devices included in the module as DT compatible string mentioned in a
-> +  comment after the enumeration, separated by a whitespace (" ").
-> +
-> +  Always keep the enumeration alphabetically (1) or numerically (2) sorted.
-> +
-> +properties:
-> +  camera-module-canonical:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    enum:
-> +      - "dell,0BF122N3" # onnn,ov01a10
-> +  camera-module-casual:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 1 # st,vs6555
-> +
-> +additionalProperties: true
-> diff --git a/Documentation/devicetree/bindings/media/video-interface-devices.yaml b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> index cf7712ad297c..27fa6711367e 100644
-> --- a/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> +++ b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> @@ -10,6 +10,9 @@ maintainers:
->    - Jacopo Mondi <jacopo@jmondi.org>
->    - Sakari Ailus <sakari.ailus@linux.intel.com>
->
-> +allOf:
-> +  - $ref: /schemas/media/camera-module.yaml#
-> +
->  properties:
->    flash-leds:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> --
-> 2.39.5
->
 
