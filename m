@@ -1,155 +1,132 @@
-Return-Path: <linux-media+bounces-32040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32041-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B711AAFD86
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 16:44:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3129BAAFDCF
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 16:52:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 47E067BEE1F
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 14:41:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AD8F9E1AA3
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 14:52:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBB9F275106;
-	Thu,  8 May 2025 14:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B469E278E5A;
+	Thu,  8 May 2025 14:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="joPXtsfm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dupXP0zB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CEC12741CB
-	for <linux-media@vger.kernel.org>; Thu,  8 May 2025 14:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7385126F478;
+	Thu,  8 May 2025 14:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746715352; cv=none; b=h7xL2nHoxYN8soDEfSmM+udhpIF0DiJ2fOwh+RH1kOasCL7hn9MMZMl+Kx5btjwz0wF2CNuP8DvSjTmVmuPf7rb2drWXzKme19cTIiPaiwdk4qVm3/xJph9mxEBmcyWZbAhgQryYrjcV5VB/4ApnD1dq/TfULdKFIBYAtsXVbNw=
+	t=1746715940; cv=none; b=uWtegXSuwMDurlgfxquocPpL6YoRPyWJqxAFcUwgPA1MGI3+UpssniXYdO+Gv3LxDu91upThjS8vGzIpYXkzBPcRLuZXJbB9bP7SaZRLSN97916mi9xz4JAdFtMh4EesdAycGkiYjL6AvfWBG4yUbdEqmGpyJKS3pVNcuUvG6jM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746715352; c=relaxed/simple;
-	bh=HgapASh5XA8oVv/Lz/V7hhXc6nFQHYF1VgUr9bgNK50=;
+	s=arc-20240116; t=1746715940; c=relaxed/simple;
+	bh=zEFQKGgwI3EuuNl71JKybObkFkPSlGU5AwxHNXv2Yqo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FOU466ZR4uPST6ukiaUezk8KLXGoziGSTOtf8doRqZItMgfBkFFc4vbofimlNPnkn1D5aY8ikpKrH8fz+qrzaNA6gEvGZeribJ6hE0K+I+7Y8emZ7Fgj7mTJCbVLCFFljxmMCAxG512SYgj3ywbgpF2KMe40GGgYkMgGp14edTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=joPXtsfm; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5f63ac6ef0fso2266219a12.1
-        for <linux-media@vger.kernel.org>; Thu, 08 May 2025 07:42:29 -0700 (PDT)
+	 To:Cc:Content-Type; b=G3jfDb+QwoRV1U21TuQ0Cd8D7u9qCaQZoic0rnvP4+1m+fnMJl42egGTkD4r3oZUROGMhtVvSOmvqr+cEOWmL8kmZVX32HbohrBY/TIqZNy+EdAOwxfcHH+AVYAES4RiLSgImKXw0WS+nlvHQlo33xcs/iNWQj3oOk0kB9I3Uao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dupXP0zB; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5fbfa0a7d2cso1766660a12.1;
+        Thu, 08 May 2025 07:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1746715348; x=1747320148; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1746715936; x=1747320736; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hrrj7tzRV0HSot50MsrZe31qPKZT2X3/IHla60zHnEo=;
-        b=joPXtsfmTt4r3RRG+PHu+ZVZv3tF5wk8iVc38n0njzje4Hrhhkj4Bd5OSAvCTE/q/w
-         U1dxRtno7XBPhfZSf4IlU1srcFjYDijE+d++dUxBwywqV+zg79MJqHQlqyihVOxBj/pd
-         8+/PtQFXYXHLr+vSiHrpqY2UYpzofsn6c7/QU=
+        bh=zEFQKGgwI3EuuNl71JKybObkFkPSlGU5AwxHNXv2Yqo=;
+        b=dupXP0zBPRIwf7mUJoDxNvliB+r8+X9Tl7EyBi3q+KlF2sq4HmyQKOoZCI4RUfLHrE
+         vk7lcuzHbZ9U02ClL/mhCZjLwh8lLHbMR1sM9rgEgZl79XEDbTqdzVn2bN6SQ49y5j8A
+         af8gQIWUjOX+5L0ex2PROBqpycolrg33OkxPwO18WKE4StUbjbBn4qK3EkUMuVhlGErU
+         dbCxScqqkdJbJyasdSqKUUaEbSi0v7pVt/RQ/1EZKORmYlh8cXXzWVQujXCmQThYU/2C
+         8q6sqk/j/qEC9wjKv43azNkF1d9x6ZtHpJZJgot12nMVYDyCzvzOD3Dw7L61o58iNGbh
+         qjOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746715348; x=1747320148;
+        d=1e100.net; s=20230601; t=1746715936; x=1747320736;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hrrj7tzRV0HSot50MsrZe31qPKZT2X3/IHla60zHnEo=;
-        b=oOWU8MeIPIfSs2O4ZFZ6vph4IDz14bkx3+SOjBAYmC0T/j0sKfucrI1eHWdy8az5PE
-         AYsxahoOGqOEUaCnSqVgc+/zfrW0fvWliQT42U4xPRD6qESrcjbHdAwQeOU2PdkmsOO/
-         4FcvXwqc5kpzVAluz4IQAqBJNC9Wy1T5x/TxldF24kdyFqYFHTOvf/IMj7cJgs+IwR1I
-         id8hmKUagNvXc3UZ188xbVzfHh7dLBEVusl5LBJjjZOr+I7khZ9bg49yfR+HpKdeG5ps
-         lkNIdIxu6yoZALyZKAjqn0Cwng3uSmvJVwI75S6PF7bKPUWEvJSi2ClEgFVI69KvIbC6
-         wkew==
-X-Gm-Message-State: AOJu0Yz8ONef7D+w+UOzah0MH14RWfddsWatXofTOu0gdsihLRi2bj9j
-	lWtHxtFR+pos6HIvpFcE/jbNBzDXofbGGqD1aw/1G0LizmHdXUW/KTN2cyllJSRZf98UYwjqvY4
-	=
-X-Gm-Gg: ASbGncsRI0RTupPxcnR0CBOt2AqMP7Mqq0B/feyQIs/ijhomx7sTwgpAo6ryVs2B/NU
-	jqlU/ONlLW/EQNPGYcogU7VjeMtNrhBzF8JktfngwHgu6CORK40C3N/2KJ/C5IqiGGnWU9jJRy7
-	a/OEJmtNkStlxE0weYmtKbHjYfvH2Tvl76DkYvAin0H+cnN0OmRWpgMQh8b6m3hHJdonAQdoZ2R
-	BS6lvliiHGkA9SsQ4safNmgvGLFUvdt7LVDRbnkVXu4jxdFeArFlrDOl4yn8Zzcp5B6LAoCf3Fs
-	SDS34Nh3MydEFburyaWpqm4Nf1yRYd7qU5CF090dVsuGtJMsLYPI3YdsASg6ACDGY8e6smQj/i/
-	X
-X-Google-Smtp-Source: AGHT+IG+WJB4ad7Z8ACKdDjkg0Ivni6p71Fl85uVPCd+Sj2zEyz/837QROt3sjIK0MEeWBhXj7wVzA==
-X-Received: by 2002:a05:6402:270f:b0:5f7:29af:efad with SMTP id 4fb4d7f45d1cf-5fc34c46c83mr3193677a12.5.1746715347891;
-        Thu, 08 May 2025 07:42:27 -0700 (PDT)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fa77bf3ec0sm11250777a12.79.2025.05.08.07.42.26
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 May 2025 07:42:26 -0700 (PDT)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5fab85c582fso11909a12.0
-        for <linux-media@vger.kernel.org>; Thu, 08 May 2025 07:42:26 -0700 (PDT)
-X-Received: by 2002:a50:8e57:0:b0:5fb:f573:78fe with SMTP id
- 4fb4d7f45d1cf-5fc6d3df3d1mr75346a12.1.1746715346027; Thu, 08 May 2025
- 07:42:26 -0700 (PDT)
+        bh=zEFQKGgwI3EuuNl71JKybObkFkPSlGU5AwxHNXv2Yqo=;
+        b=tkvCrvy2oEymtZuok9lwUkI0nKKc1TsEMQWJ4YtIGAXkXkgFvkaTWK2rWhBodWiMyA
+         T8BXzHd1D7f/hWRh7L2UEYT9OstLAD1P3m0oyOvJmRH5wLSxLXIfntJsVKixEoVatFTH
+         8Qi5Jxh34HqNqcad7ORY3n5rZHDhhN4bNRQUJjXcE1y56Cfhu2PVD5VAYr/lRYcDfWGJ
+         Km4H0PgbQ4hOpVpDITHoUoCM7MH/VDMgT91gkiCpJQu1GYHhjFW3GivKLGE8gv1HgDAg
+         n8Cr1IacmIlEqJcptKFNl3wqF/yxSbHJh6puNxDQ1RSr0m9ZBE0x1GT/l+wcK4+Slgw7
+         1gNg==
+X-Forwarded-Encrypted: i=1; AJvYcCU9qpDsEYfPRMxkdcHApVI4sVnEUco4xfo5BJSjh0zxntWTWSP1m2fqt/Q5rZFJBfe2D7SvILARp0zK0g==@vger.kernel.org, AJvYcCVrQPLVpomtS8mQxxNjCe3efZmC7tADdi1ps+jtinf/ZHW0Ewyr+YU04MlqhYb8Mr4Szvn5M+I6vj0WPNqlySKCc5c1ug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzbaGen1sTJq0K2uT3z9DB0N/bolyQfh94Gt9BaIsnSye43XGu
+	U3otvAcSbDziEeC8xKjHHhWVFDDYx0lH1kVKIjtvqzBWQ7UBVh2OtTNsjE+2unGOcDLBBqTfBfW
+	zUx36k83WlICnb4XnQibQTGkVCr7Rcsgk
+X-Gm-Gg: ASbGncurPTH0iuckDCGtYv98wxKxanprubrnaMvVkXawJXZSfDz4y61cvNPaPiuWAED
+	dxg/BNoZLbsYEJiSJuTyEWwwUCQEq2Jr8VCX1eKGqQo4xKbrX6D/0xj98AAzSFmb+XBMvV4P/iH
+	wbXyIFZai4m24qMSQHzVJ8/XwY+3QzkqO7eZk=
+X-Google-Smtp-Source: AGHT+IEsBSgz01pN0cO0LMyNdDhLRDOkfYDqhopudgY64WYs/wE/MG9dZJytCNFvXTnZfnCJSptlrpMURSb7NIV+ZPA=
+X-Received: by 2002:a17:907:7ea3:b0:aca:cb18:9ad0 with SMTP id
+ a640c23a62f3a-ad1fe9a0a38mr368434666b.45.1746715935518; Thu, 08 May 2025
+ 07:52:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CGME20250507160921eucas1p2aa77e0930944aadaaa7c090c8d3d0e73@eucas1p2.samsung.com>
- <20250507160913.2084079-1-m.szyprowski@samsung.com> <20250507160913.2084079-2-m.szyprowski@samsung.com>
-In-Reply-To: <20250507160913.2084079-2-m.szyprowski@samsung.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Thu, 8 May 2025 23:42:09 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CUOJJ_fpzXrihtqxRiAZfWBNtCxkaDi6GeZk0rc+XKvA@mail.gmail.com>
-X-Gm-Features: ATxdqUGjYbxgU6zpFJMZMGQW-VMwakmlnKiG_rNSxR-mybkfMglw3-_t5QXxPAE
-Message-ID: <CAAFQd5CUOJJ_fpzXrihtqxRiAZfWBNtCxkaDi6GeZk0rc+XKvA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] media: videobuf2: use sgtable-based scatterlist wrappers
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
-	iommu@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Robin Murphy <robin.murphy@arm.com>, stable@vger.kernel.org
+References: <20250507184737.154747-1-hdegoede@redhat.com> <CAHp75Vcb-fcQHWqVDh=KUwhwvSP6KqUN8FsAMvDuwF2iD7=J1A@mail.gmail.com>
+ <dc3b07a9-cb0f-4f84-9e4b-c6e62ffc73df@redhat.com>
+In-Reply-To: <dc3b07a9-cb0f-4f84-9e4b-c6e62ffc73df@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 8 May 2025 17:51:38 +0300
+X-Gm-Features: ATxdqUFyJujkSMlNxfUR3sdhq60BrkQnbnimnNRw0lOBs81u2F_A0KBZ58L_uxM
+Message-ID: <CAHp75VfDoR6wP00e=3YiYSLwXV0f6jygJaxQY2gyUE2aPKNxvg@mail.gmail.com>
+Subject: Re: [PATCH 0/6] platform/x86: int3472: Allow re-using sensor GPIO
+ mapping in atomisp
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	platform-driver-x86@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 8, 2025 at 1:09=E2=80=AFAM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> Use common wrappers operating directly on the struct sg_table objects to
-> fix incorrect use of scatterlists sync calls. dma_sync_sg_for_*()
-> functions have to be called with the number of elements originally passed
-> to dma_map_sg_*() function, not the one returned in sgt->nents.
->
-> Fixes: d4db5eb57cab ("media: videobuf2: add begin/end cpu_access callback=
-s to dma-sg")
-> CC: stable@vger.kernel.org
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/=
-media/common/videobuf2/videobuf2-dma-sg.c
-> index c6ddf2357c58..b3bf2173c14e 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -469,7 +469,7 @@ vb2_dma_sg_dmabuf_ops_begin_cpu_access(struct dma_buf=
- *dbuf,
->         struct vb2_dma_sg_buf *buf =3D dbuf->priv;
->         struct sg_table *sgt =3D buf->dma_sgt;
->
-> -       dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir)=
-;
-> +       dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
->         return 0;
->  }
->
-> @@ -480,7 +480,7 @@ vb2_dma_sg_dmabuf_ops_end_cpu_access(struct dma_buf *=
-dbuf,
->         struct vb2_dma_sg_buf *buf =3D dbuf->priv;
->         struct sg_table *sgt =3D buf->dma_sgt;
->
-> -       dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->nents, buf->dma_d=
-ir);
-> +       dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
->         return 0;
->  }
->
-> --
-> 2.34.1
->
+On Thu, May 8, 2025 at 5:00=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+> On 8-May-25 10:36 AM, Andy Shevchenko wrote:
+> > On Wed, May 7, 2025 at 9:52=E2=80=AFPM Hans de Goede <hdegoede@redhat.c=
+om> wrote:
 
-Thanks for the fix!
+...
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
+> > Can you isolate GPIO
+> > mapping code in a separate file, please? This will help to generalise
+> > this code outside of two mentioned drivers (I might need it in the
+> > future for something else, not related to cameras at all).
+>
+> If you want to re-use this elsewhere then splitting it out
+> further sounds like a good plan.
+>
+> But which bits do you need? Do you actually need the full code calling
+> the special DSM and then adding either GPIO-lookups, or gpio controlled
+> regulators / clks / LEDs ?
+>
+> Because atm the int3472/discrete.c + other c files linked into the .ko
+> does all of that and for the atomisp2 case we actually want all of
+> that (although for now GPIO -> clk and LED is unused there).
 
-Best regards,
-Tomasz
+I basically want to have remap\ing quirk part to be isolated.
+
+> Anyway I think it would be best for you (Andy) to come up with
+> a proposal / RFC patch series to split out what you need. I'm certainly
+> open to that and happy to review such a series.
+
+Fine, but can you do this in the discrete.c internally, like an
+embedded C file so it doesn't require headers to be used, but being an
+interface-ready solution?
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
