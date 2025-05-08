@@ -1,85 +1,85 @@
-Return-Path: <linux-media+bounces-32018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1030AAF5CB
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 10:37:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FF1AAF5D1
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 10:38:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C43ADB21538
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 08:36:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 71423B2152F
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 08:37:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98747261596;
-	Thu,  8 May 2025 08:37:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC7F262FCA;
+	Thu,  8 May 2025 08:38:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l6GUlPSE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOuSPcAI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A95216386;
-	Thu,  8 May 2025 08:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B492E216386;
+	Thu,  8 May 2025 08:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746693452; cv=none; b=eXI47s9SzgaH/Q4FdTCt9Ht8F7n3IJB7UYIIeTdV3AwE7Fi/eZwX60aLRRlW15/xMpIEJW5rvgBu+VwvYlXG9D0rLoLE9zDExG/Ip5Y121h9OhWAbx6VGnxIOEoAWrxPW4+ECiKePZU9yoBuaS0m67AIGvxFS7SoXqPmecnEXVI=
+	t=1746693492; cv=none; b=Rr6R8D04VLlLOfKbZ+pQ6xaeGxI+FU1toQWqvUV3EsXJYyBiJy1x83JspBhousLakSL3sm2zSS44NmLcu2DPqf7004344TvRmDJJXEjgaiOwOtv8pXpsf3NxmHnv+57KrUF9KPl9j93r1CaxsMFRLhJPQcJjsxqKHONLS4JAXfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746693452; c=relaxed/simple;
-	bh=7dQP+Jvf9t5LMLKit8Xc4iV14+1km9Y870bkbSTRI4U=;
+	s=arc-20240116; t=1746693492; c=relaxed/simple;
+	bh=iiQFIztHrq36O9I/yuxgb2y2SBf7ToGaPplZyPSc/Qw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zy3rSza/vlpslQ+AdadWcKE9pfPLbBtQyC2h3N7pVSFkr9Dm4vy2OtUq04lcf+5g1Ctuz2tk1h/lBbuyiniQ0pchiviU8C6A7bLr19mBpvF0b+8s2f6byB11tJ402WrpfPhmrOxTxEenMht7s5fn9afTjf8LEw8SYveH2vWKeSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l6GUlPSE; arc=none smtp.client-ip=209.85.218.44
+	 To:Cc:Content-Type; b=OGbyOrOrdqD37swWPRn8ML4DOP7UuV+4t0VZ1F3sgq+ops9xxqHnNDQezxHhXTk6HuxoffcchCwOp6iQHxNheYDbidHDBDBwc0ZywaC/Q/gRJq4O9RbD9/LyogyMaSb1ZBS4xM6ioyyjPmafhhmwlJnIsJhlE1uOQEWESrnZd3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bOuSPcAI; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-acb615228a4so359487666b.0;
-        Thu, 08 May 2025 01:37:30 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ac29fd22163so119691066b.3;
+        Thu, 08 May 2025 01:38:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746693449; x=1747298249; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1746693489; x=1747298289; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7dQP+Jvf9t5LMLKit8Xc4iV14+1km9Y870bkbSTRI4U=;
-        b=l6GUlPSECnTaHoBKeqlse7UGtQHvCCJly+ZXFyuIIHRvGn+k0M8erBwnADpwTKHGX+
-         EMAtV/cYv0bPQ2HFjgleM7NGk1q6Gemcg5Hp3eg1OAlUWpf0tF0o8KduDRyvGs1Bk/8E
-         lxRBsm2tdL+m0UYa/30vAzk4FQtj0VDLKI2PBt22648FahNw/zl0ctX7H0KqQrNwuH+8
-         LzmocLyQxaxs4r1LxXLSXlYqAcDgZJvj1KYFKKcCnuJQwWvvG9FEftC5Od0K7pnowx9Z
-         N1gfar/hai8BhwJTXkrqUcioUMSigp9vs+zN8lJ2EUSGT/bJ0TEcWdt4Qktt90wafoTd
-         jngg==
+        bh=iiQFIztHrq36O9I/yuxgb2y2SBf7ToGaPplZyPSc/Qw=;
+        b=bOuSPcAIWDWPMObLfh3IRtJBcL11DlTjottvj2qGeZ34dACQAdJJKgAn4ybsLassc7
+         NKASmD/ei4rD++P+BmIskunMfbuaAcOF4ReKqm3QNiGNW30LJ+itR2TPkIsdn/mj8d48
+         5hPKhCUrktx5BceVqiLtkoqS+ixY/k88v+jTCZI1RSULlPM8HpYATvYzGMuLTh/oFhFy
+         yiNdnqIeG3dUtbZeqMw+xmt2sIAIVxFW4Os8UiXFRcF+4SUuyRhd6k79bTH1/0n0lmBV
+         IJnvRX2BkYvJQ7RGow/SAVvd0o7Iwxvi+kgROF7eAw/1+RvmYakiwKOXm8n5EbJ3eYEk
+         FvdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746693449; x=1747298249;
+        d=1e100.net; s=20230601; t=1746693489; x=1747298289;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7dQP+Jvf9t5LMLKit8Xc4iV14+1km9Y870bkbSTRI4U=;
-        b=C2x4IARNn+CEUBoX7/BxvxQePRmnxLs9GCExXwWqPPIFwgwoiOiw5ukG5hDDb46X+p
-         RaN+Qj1/jvG2fVwpckwOWl6I8MOMSLEEc+CTF3yQh1jKdmznKdSny63JseGF+Zhes7X4
-         bPL8nuhIlOIxie/JmPq0L9mBRuePmhypXNcslN1BN+GXPZcxmoC0VR3aLASdD7dQDFcp
-         EthCsRqycN2Y2FGYKC1KHMAn6UfX2TBBTKS8un2w0iH6E5DnO6B/CWFzZ5uwUR/dL7qC
-         s/gnbn6Ilw618dgCtc318DcvW2Qsvtz0JzXYkm0iY3ceMsRecpc69VXTeewVf6Dattx5
-         siMg==
-X-Forwarded-Encrypted: i=1; AJvYcCUb2CQX//Idy65U+Jqq1ptvdo8pw77ewrRq9brFh1ep7rvwMkedgqyEMXIQUp5oV5Kphtwha4tyCiDPeA==@vger.kernel.org, AJvYcCUlOz5cwdch8eUTRAlM778LDrEUq4WMSo7IGyTqLv79kn3zqq7U/TIX3FHfhpIxxIRGP/L0/S55gewwfkoLSaA3CLGsKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwW5FyryifPlL82kyILAF4T7X/0ANLbsNz7+JGrXTWOrqI2Hs4G
-	9gBCw9kJ60NTcd2brEbph6K4thONfCfsZh43wJNfIVhLsf4QdBkMntQQJQQe9qmUhbFh4v4xrTz
-	A/vuIupetJyUK0rtAzf377lZ6Cq8=
-X-Gm-Gg: ASbGncv62hvSkmDa87cYjQuwwd76osWc4kZ4oVjQNJ7dqEa2t5UOTTZ8tbaLag68Oqk
-	bgcLqpG4YUWagduTNxQQFAUsjsPbp3pMSQJsScC6OnMin7pDoqWTIseIEkA693bd0DIPvxmGvqH
-	wUBNX/8LMK3VrUZeguyiUJNQ==
-X-Google-Smtp-Source: AGHT+IHp1CSHIpHxDY8gNgAOG/Ce7goUUDIKVoWAEswBpVlH0Z6TBbCa2vI02a48zmGb7MnI8O6qDy+SXjJoJjNpM2w=
-X-Received: by 2002:a17:907:a4c3:b0:acb:aa43:e82d with SMTP id
- a640c23a62f3a-ad1fcb581e8mr297604366b.3.1746693448604; Thu, 08 May 2025
- 01:37:28 -0700 (PDT)
+        bh=iiQFIztHrq36O9I/yuxgb2y2SBf7ToGaPplZyPSc/Qw=;
+        b=YHr0XcjaXYHECZH60PN2CdXHcldBgNxYsnG/La+/WHTs8TN4bkdHXpG89OhC7s7h3n
+         NCHvDNImhijBgmgIkqYIx0FTzOrg9DvUZGh7geAjv+2v4S+mo9f1IdlkJP03g7O47Tdo
+         tSPT5eGdggJftCRf//2jGvww3+FTlcWhFt7gN3POnH5XB0o3vxHLcRVMVzKWY71VPhC0
+         OMnjIKZEPnZ26tPSzSoUNMgQTPoVAAPPlh1PpurJpFdWvG1FANjUnEmHKbij4iDvQiUN
+         exL1uefYTwhDeRviyAa7qF+V/AIe/ZVvJtWyjZBzQLf+Fyj0r+DIM3Dza0NLnzxjapqP
+         jCog==
+X-Forwarded-Encrypted: i=1; AJvYcCUjEFnjrPkVHqvIxTi1Ianjcvy2Jd7jk99bZV9jXQxWIepbUEdU31XF8SAa0ZHE3CjAedU1A7OvRlEQBA==@vger.kernel.org, AJvYcCWA/9kcVEv4rOrCYprLP2wD2WGmCtBUG/5CcEZXTqRj3H+mqPOvTj1cimLqVbPK5w5kj1froTjh6H6N/VE3TC123zGSyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzx+KPVBI3hORBGIPo68h8qzUK79bx4a/Y4oCuPQ5P8YMoALn6e
+	LdVy+Nej1MGDrKuIsNlc+1avlEkR3YMzQ94E88dFvApQnau0vecejydkPXApjd+2FOmx0QpMHqs
+	rBn1K8CH9pqPn/l7yFLV+uafzFX8=
+X-Gm-Gg: ASbGncu57eAJomFfDoYGK8rI76yH6zq3QUnHCQ1N22cvG5BdPSEZi4JPOdUjuUimlZP
+	LZJwMdGvtvrT5nn1e89sMsrgK/ytkMopRzDPo6qGgJWDr1WnL8mOe6c5okv7RY6hY+FXnijU22q
+	iKmJ3FRcenN5XvONXntQFANg==
+X-Google-Smtp-Source: AGHT+IFaXR7Gdcs01yDtClXE6wM3ZHYQPlAsb5UTjdx02NdsUMJRHxWGNlIRHUsz8Uwnw7qt9DGSCV4NeCHMcn7nLLs=
+X-Received: by 2002:a17:907:c019:b0:ace:ed3b:285e with SMTP id
+ a640c23a62f3a-ad1fe99df6emr189727666b.56.1746693488785; Thu, 08 May 2025
+ 01:38:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250507184737.154747-1-hdegoede@redhat.com>
-In-Reply-To: <20250507184737.154747-1-hdegoede@redhat.com>
+References: <20250507184737.154747-1-hdegoede@redhat.com> <CAHp75Vcb-fcQHWqVDh=KUwhwvSP6KqUN8FsAMvDuwF2iD7=J1A@mail.gmail.com>
+In-Reply-To: <CAHp75Vcb-fcQHWqVDh=KUwhwvSP6KqUN8FsAMvDuwF2iD7=J1A@mail.gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 8 May 2025 11:36:51 +0300
-X-Gm-Features: ATxdqUEcbG6dK6948mLkuyvGtqVmoKxzr2JJzZa-z3S-SBMUTLf0FVaZwT3s1Es
-Message-ID: <CAHp75Vcb-fcQHWqVDh=KUwhwvSP6KqUN8FsAMvDuwF2iD7=J1A@mail.gmail.com>
+Date: Thu, 8 May 2025 11:37:32 +0300
+X-Gm-Features: ATxdqUFnrXw8IlYAU1jp6FWFk9eL2pdP6A2jXxJxraQiS4xe2ktwNA17VklxgKI
+Message-ID: <CAHp75VeRTO2vPqb44qNp+MZP3R9y5qv3X+EjOJCaeCR3thsr5w@mail.gmail.com>
 Subject: Re: [PATCH 0/6] platform/x86: int3472: Allow re-using sensor GPIO
  mapping in atomisp
 To: Hans de Goede <hdegoede@redhat.com>
@@ -91,24 +91,32 @@ Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 7, 2025 at 9:52=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
-
-> This patch series does some small refactoring of the int3472 code to allo=
-w
-> re-using the sensor GPIO mapping code in the atomisp driver and then the
-> final patch in the series moves the atomisp driver over.
+On Thu, May 8, 2025 at 11:36=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Wed, May 7, 2025 at 9:52=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
+> wrote:
 >
-> About merging this, maybe the int3472 patches can be merged in time for
-> the 6.16 merge window and then the atomisp patch can be merged after
-> 6.16-rc1 is released, otherwise an immutable pdx86 branch with the first
-> 5 patches will be necessary.
+> > This patch series does some small refactoring of the int3472 code to al=
+low
+> > re-using the sensor GPIO mapping code in the atomisp driver and then th=
+e
+> > final patch in the series moves the atomisp driver over.
+> >
+> > About merging this, maybe the int3472 patches can be merged in time for
+> > the 6.16 merge window and then the atomisp patch can be merged after
+> > 6.16-rc1 is released, otherwise an immutable pdx86 branch with the firs=
+t
+> > 5 patches will be necessary.
+>
+> Overall I'm pretty much liking this series, but one comment against
+> the last patch (see there) and one question here. Can you isolate GPIO
+> mapping code in a separate file, please? This will help to generalise
+> this code outside of two mentioned drivers (I might need it in the
+> future for something else, not related to cameras at all).
 
-Overall I'm pretty much liking this series, but one comment against
-the last patch (see there) and one question here. Can you isolate GPIO
-mapping code in a separate file, please? This will help to generalise
-this code outside of two mentioned drivers (I might need it in the
-future for something else, not related to cameras at all).
+Ah, and formal
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
+for patches 1-5.
 
 --=20
 With Best Regards,
