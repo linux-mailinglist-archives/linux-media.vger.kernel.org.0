@@ -1,198 +1,245 @@
-Return-Path: <linux-media+bounces-32059-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32060-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEBFAB051F
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 23:01:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC9DAB0522
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 23:01:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 455A29E52EF
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 21:00:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2280D1892D32
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 21:01:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1706221285;
-	Thu,  8 May 2025 21:00:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A335121E08D;
+	Thu,  8 May 2025 21:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="L0UFw/an"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Q1Nkzfye"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4ED20E01B;
-	Thu,  8 May 2025 21:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746738037; cv=none; b=R5/WtKWTyAFYBrwbpU7DtxNGgbDCr5NNxgIboePsXt4JhgQBE13/UVp30D8LXPNCivjliMxZoVk74qwFl1Ok45qdcZqp8KBQulUg6cNGpoEUUImfq3qUie7uvsxiXaAfVm4FmIRZ/DHi4zH8K/rIM21NkkO4ToV8Ejb7MQH88H0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746738037; c=relaxed/simple;
-	bh=fRvyqkKKyg7hRmshz5UB6TzRvXuXYDOyDjxC4PJ64uI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PHC5ieHwJRJogMj1OII0N96ZuNhmdx4iCxsMKSZKvarH1/kkyPzGVmNpR6Nq0of7L+ozn1VBMxxJ5JAxEqEuw11mvEsZkNlXBDkYc1y72IxUDugm9OseuxKNwl1qWdPBF+CohxpB32fPfuPdrMwg0NHxkTihp83G05m5F4P9Wcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=L0UFw/an; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1746738033;
-	bh=fRvyqkKKyg7hRmshz5UB6TzRvXuXYDOyDjxC4PJ64uI=;
-	h=From:Date:Subject:To:Cc:From;
-	b=L0UFw/an9E94NuPivotcoiUTQlTk6wFHqpOEp/9p9buT9MPxM0ytB9sLGUR9uLGdK
-	 BsFOfKnFPzYx8J6ZE4abM9nlENISb70VeAmJCk1QseFkyUGlJ28LM3ItYloDplZZOR
-	 QkLjjPwOZIvL3hTwRHD54WE7Q+/IHUWthCEFvBtdw3yJeb3cTlRyf54iB9TtX6TTIR
-	 lfdXlyNt2q0ewXYjiarsIecUfu584cgahtqf+SKBfVTAAljj+iaZF4NISm254pykW7
-	 FVFroxFMJAtU5P1hKoPxPA0IpmI+d7q7ZPoW3cDQwYqIyCbt3FR0BIkrbq1Gbo3tJL
-	 serpr6HJ/9JRw==
-Received: from [192.168.13.3] (unknown [IPv6:2606:6d00:15:ec4::c73])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EC91F8750;
+	Thu,  8 May 2025 21:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746738065; cv=pass; b=PC56bcCw4U4h4o6eEx5xAKQ7t+nFgHojvkitHanwEHnkNFCnqvcsEGhTGxp6YGT0eDRLR0+3gfF110f/TvaQUffCf5YxRNO5qG9auPD1DhVuGT7ves5kI7l15FyxDhLA4HrhjGxxgWPMudtid1mZw6qcMQ7F1ASUuDis1+SfQXs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746738065; c=relaxed/simple;
+	bh=1Lon4LM9waC3VpLnPCCZeGTVE+HncPBV1C3iVXisE/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QmzHMBzl1egIwiA+kjR0mNm59KIfZSFGpQ6A5mqk5LW0M433JWrkCKwJtJ1gHN8g9POkf5XXBUZtscdOBPrC2E3J3aVYbHgFxBm1gG1hDjv7NpCZ0FPhZRyiABAOfBLSnAesrUPdLUzS81s3sTwXh4samtb3vd/NA16///S+hJI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=Q1Nkzfye; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 207F417E078A;
-	Thu,  8 May 2025 23:00:32 +0200 (CEST)
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Date: Thu, 08 May 2025 17:00:15 -0400
-Subject: [PATCH] media: rkvdec: Restore iommu addresses on errors
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Ztl0Q6jk7z49PvQ;
+	Fri,  9 May 2025 00:00:54 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1746738055;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oE4AwKamIQX7sdfsFR4kvsyn0RVFtIAYnU+qUhTKpCI=;
+	b=Q1NkzfyeIAnkfDNdhqHra9Bng7Sxt7VGUBFiWFAkVdSkvmu7KG0i1s/0qLyaE47HQA/IUP
+	ZOvwsUIyKYCuww91t+E2RyQbxSKrO+YgjN57xAYrDGS3Ya7tn5J61EPhFrhb6l4RLXXWg1
+	WS6E+jaHaQjZR2sj3LYW3dn0BpVCsVh2/11+1fpoPrPkLnsQmNpjHTISi7bPPl4SPvQhN2
+	STQHyYEurPzGMHp9B8Q+/pvDwwXgMERyGufF5GImfeNsd900QeeX1qXnIJ3lr0z9nqZVPG
+	vSAOsOFpkE0U9qgmojEZUeSOA40/1lcNw1ANqkgMFzI1Cih5KKdghV9FCk5dwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1746738055;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oE4AwKamIQX7sdfsFR4kvsyn0RVFtIAYnU+qUhTKpCI=;
+	b=dQ9TmbcOBE5QihzXH/Is+QvL3vGWQHKby0NVbCwlrQWV1cMysc7tFnjF/wsTp14vfYl+7V
+	58EGZYh/fYgEFd/CQn8vEJQgVJf6SF/XMGTMs6wooKaUFjdiOfohjc8c2ARPx9XPoURk60
+	mQ159qufEQAboJtjmllKWai8KvDRTW/yEdrqzdfACbdi9jsf+AV4WGqlHv5T2OSzst6nA9
+	jND1XYSGtH7KWhf3MQ14yFSVT9tGwJeQvdMHh1GRrA/dtn3bCxv3cOU7P1Y7ci59bA/XnS
+	a0pHe7vLQvyNvQ8ibIRbb1QsXv7T1tJ/bjD58qB6zzDuTWTMiGPn334VdoAVEg==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1746738055; a=rsa-sha256;
+	cv=none;
+	b=nIThwl5TCeLzvVuI7VOvnlT1K4yv/1tLxnFoMUu/GAZTHCDk+LbJN1NWUULK0t1RAhhAdd
+	dv768jTIrRrF7keFwMi7Py9eLWE22OfhhvwFIfsDp2qz9k+zFjvERZlIDbDerFNmLUShL2
+	TBn6/IX63Uu7YU6FoCHl3ejgx4vsrHKw0GZLm8lyylK2QDyhyjNmKMAdMYHdVgAdPUpw+g
+	xHrNZW0XqHvWr3L1JE4bxWgr2XJaARWV4uKIwrlZfyq4ysDOuhFfYzN+k1vKmSRJ7chQ9K
+	aIi40VGPC+mYA1WEqfbxh6YzUmD+NCR56vsQQEJ0LBiP6B8TJVJtIpkIAnvA5A==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 53147634C93;
+	Fri,  9 May 2025 00:00:54 +0300 (EEST)
+Date: Thu, 8 May 2025 21:00:54 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+	dan.scally@ideasonboard.com
+Subject: Re: [PATCH v9 08/10] media: platform: Add C3 ISP driver
+Message-ID: <aB0bhkihpY81TrII@valkosipuli.retiisi.eu>
+References: <20250427-c3isp-v9-0-e0fe09433d94@amlogic.com>
+ <20250427-c3isp-v9-8-e0fe09433d94@amlogic.com>
+ <aBzRb8ZKuGI3E_cu@valkosipuli.retiisi.eu>
+ <3ee2qcz3ckhcvd6v5mt6cjbqdysipucqokpud76meilhplhcso@im62bwviw7x4>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250508-rkvdec-iommu-reset-v1-1-c46b6efa6e9b@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAF8bHWgC/x3MSQqAMAxA0atI1gbqVKpXERfaRg3iQKoiFO9uc
- fkW/wfwJEwemiSA0M2e9y0iSxOwc79NhOyiIVd5pSplUJbbkUXe1/VCIU8nOtPXejBloa2CGB5
- CIz//tO3e9wOpzlkwZAAAAA==
-X-Change-ID: 20250508-rkvdec-iommu-reset-d8a96b8436c0
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- kernel@collabora.com, Detlev Casanova <detlev.casanova@collabora.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3ee2qcz3ckhcvd6v5mt6cjbqdysipucqokpud76meilhplhcso@im62bwviw7x4>
 
-On errors, the rkvdec chip self resets. This can clear the addresses
-programmed in the iommu. This case is signaled by the
-RKVDEC_SOFTRESET_RDY status bit.
+Hi Jacopo,
 
-Since the iommu framework does not have a restore functionality, and
-as recommended by the iommu subsystem maintainers, this patch
-restores the iommu programming by attaching and detaching an empty
-domain, which will clear and restore the default domain.
+On Thu, May 08, 2025 at 06:28:41PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Thu, May 08, 2025 at 03:44:47PM +0000, Sakari Ailus wrote:
+> > Hi Keke, Jacopo,
+> >
+> > On Sun, Apr 27, 2025 at 02:27:16PM +0800, Keke Li via B4 Relay wrote:
+> > > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > new file mode 100644
+> > > index 000000000000..0e0b5d61654a
+> > > --- /dev/null
+> > > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> >
+> > ...
+> >
+> > > +static int c3_isp_params_vb2_buf_prepare(struct vb2_buffer *vb)
+> > > +{
+> > > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > > +	struct c3_isp_params_buffer *buf = to_c3_isp_params_buffer(vbuf);
+> > > +	struct c3_isp_params *params = vb2_get_drv_priv(vb->vb2_queue);
+> > > +	struct c3_isp_params_cfg *cfg = buf->cfg;
+> > > +	struct c3_isp_params_cfg *usr_cfg = vb2_plane_vaddr(vb, 0);
+> > > +	size_t payload_size = vb2_get_plane_payload(vb, 0);
+> > > +	size_t header_size = offsetof(struct c3_isp_params_cfg, data);
+> > > +	size_t block_offset = 0;
+> > > +	size_t cfg_size;
+> > > +
+> > > +	/* Payload size can't be greater than the destination buffer size */
+> > > +	if (payload_size > params->vfmt.fmt.meta.buffersize) {
+> > > +		dev_dbg(params->isp->dev,
+> > > +			"Payload size is too large: %zu\n", payload_size);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	/* Payload size can't be smaller than the header size */
+> > > +	if (payload_size < header_size) {
+> > > +		dev_dbg(params->isp->dev,
+> > > +			"Payload size is too small: %zu\n", payload_size);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * Use the internal scratch buffer to avoid userspace modifying
+> > > +	 * the buffer content while the driver is processing it.
+> > > +	 */
+> > > +	memcpy(cfg, usr_cfg, payload_size);
+> > > +
+> > > +	/* Only v0 is supported at the moment */
+> > > +	if (cfg->version != C3_ISP_PARAMS_BUFFER_V0) {
+> > > +		dev_dbg(params->isp->dev,
+> > > +			"Invalid params buffer version: %u\n", cfg->version);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	/* Validate the size reported in the parameter buffer header */
+> > > +	cfg_size = header_size + cfg->data_size;
+> > > +	if (cfg_size != payload_size) {
+> > > +		dev_dbg(params->isp->dev,
+> > > +			"Data size %zu and payload size %zu are different\n",
+> > > +			cfg_size, payload_size);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	/* Walk the list of parameter blocks and validate them */
+> > > +	cfg_size = cfg->data_size;
+> > > +	while (cfg_size >= sizeof(struct c3_isp_params_block_header)) {
+> > > +		const struct c3_isp_params_block_header *block;
+> > > +		const struct c3_isp_params_handler *handler;
+> > > +
+> > > +		block = (struct c3_isp_params_block_header *)
+> > > +			&cfg->data[block_offset];
+> > > +
+> > > +		if (block->type >= ARRAY_SIZE(c3_isp_params_handlers)) {
+> > > +			dev_dbg(params->isp->dev,
+> > > +				"Invalid params block type\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > > +
+> > > +		if (block->size > cfg_size) {
+> > > +			dev_dbg(params->isp->dev,
+> > > +				"Block size is greater than cfg size\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > > +
+> > > +		if ((block->flags & (C3_ISP_PARAMS_BLOCK_FL_ENABLE |
+> > > +				     C3_ISP_PARAMS_BLOCK_FL_DISABLE)) ==
+> > > +		    (C3_ISP_PARAMS_BLOCK_FL_ENABLE |
+> > > +		     C3_ISP_PARAMS_BLOCK_FL_DISABLE)) {
+> > > +			dev_dbg(params->isp->dev,
+> > > +				"Invalid parameters block flags\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > > +
+> > > +		handler = &c3_isp_params_handlers[block->type];
+> > > +		if (block->size != handler->size) {
+> > > +			dev_dbg(params->isp->dev,
+> > > +				"Invalid params block size\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > > +
+> > > +		block_offset += block->size;
+> > > +		cfg_size -= block->size;
+> > > +	}
+> > > +
+> > > +	if (cfg_size) {
+> > > +		dev_dbg(params->isp->dev,
+> > > +			"Unexpected data after the params buffer end\n");
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> >
+> > The above looks very much like rkisp1_params_prepare_ext_params() in the
+> 
+> slightly similar, yes :)
+> 
+> > Rockchip ISP driver. Instead of copying all this non-trivial code in
+> > verbatim here, could you instead refactor this so both the drivers could
+> > use the same implementation?
+> >
+> 
+> Yeah, that's the plan.
+> 
+> We have more drivers in the pipeline using extensible parameters and this
+> code (and possibily other parts) will certainly be factored out.
+> 
+> My plan is to add at one more user in and the do move common parts to
+> the framework. Would this work for you ?
 
-Suggested-by: Detlev Casanova <detlev.casanova@collabora.com>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
- drivers/staging/media/rkvdec/rkvdec.c | 43 +++++++++++++++++++++++++++++------
- drivers/staging/media/rkvdec/rkvdec.h |  1 +
- 2 files changed, 37 insertions(+), 7 deletions(-)
+How about refactoring the two users to use a common framework first and
+then using it in the third? :-) The more copies there are, the greater the
+task to unify them.
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index dd7e57a902640d363d26be887cb535c2668d5b15..38043b1877e221db58f5834ba51e085cf9127e73 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -11,6 +11,7 @@
- 
- #include <linux/clk.h>
- #include <linux/interrupt.h>
-+#include <linux/iommu.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-@@ -1000,24 +1001,42 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *rkvdec)
- 	v4l2_device_unregister(&rkvdec->v4l2_dev);
- }
- 
-+static void rkvdec_iommu_restore(struct rkvdec_dev *rkvdec)
-+{
-+	if (rkvdec->empty_domain) {
-+		/*
-+		 * To rewrite mapping into the attached IOMMU core, attach a new empty domain that
-+		 * will program an empty table, then detach it to restore the default domain and
-+		 * all cached mappings.
-+		 * This is safely done in this interrupt handler to make sure no memory get mapped
-+		 * through the IOMMU while the empty domain is attached.
-+		 */
-+		iommu_attach_device(rkvdec->empty_domain, rkvdec->dev);
-+		iommu_detach_device(rkvdec->empty_domain, rkvdec->dev);
-+	}
-+}
-+
- static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
- {
- 	struct rkvdec_dev *rkvdec = priv;
-+	struct rkvdec_ctx *ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
- 	enum vb2_buffer_state state;
- 	u32 status;
- 
- 	status = readl(rkvdec->regs + RKVDEC_REG_INTERRUPT);
--	state = (status & RKVDEC_RDY_STA) ?
--		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
--
- 	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
--	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
--		struct rkvdec_ctx *ctx;
- 
--		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
--		rkvdec_job_finish(ctx, state);
-+	if (status & RKVDEC_RDY_STA) {
-+		state = VB2_BUF_STATE_DONE;
-+	} else {
-+		state = VB2_BUF_STATE_ERROR;
-+		if (status & RKVDEC_SOFTRESET_RDY)
-+			rkvdec_iommu_restore(rkvdec);
- 	}
- 
-+	if (cancel_delayed_work(&rkvdec->watchdog_work))
-+		rkvdec_job_finish(ctx, state);
-+
- 	return IRQ_HANDLED;
- }
- 
-@@ -1085,6 +1104,13 @@ static int rkvdec_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	if (iommu_get_domain_for_dev(&pdev->dev)) {
-+		rkvdec->empty_domain = iommu_paging_domain_alloc(rkvdec->dev);
-+
-+		if (!rkvdec->empty_domain)
-+			dev_warn(rkvdec->dev, "cannot alloc new empty domain\n");
-+	}
-+
- 	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
- 
- 	irq = platform_get_irq(pdev, 0);
-@@ -1124,6 +1150,9 @@ static void rkvdec_remove(struct platform_device *pdev)
- 	rkvdec_v4l2_cleanup(rkvdec);
- 	pm_runtime_disable(&pdev->dev);
- 	pm_runtime_dont_use_autosuspend(&pdev->dev);
-+
-+	if (rkvdec->empty_domain)
-+		iommu_domain_free(rkvdec->empty_domain);
- }
- 
- #ifdef CONFIG_PM
-diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..0eb3fd598664bc5af19de120ff6efac13417541f 100644
---- a/drivers/staging/media/rkvdec/rkvdec.h
-+++ b/drivers/staging/media/rkvdec/rkvdec.h
-@@ -105,6 +105,7 @@ struct rkvdec_dev {
- 	void __iomem *regs;
- 	struct mutex vdev_lock; /* serializes ioctls */
- 	struct delayed_work watchdog_work;
-+	struct iommu_domain *empty_domain;
- };
- 
- struct rkvdec_ctx {
-
----
-base-commit: 48dbb76cef65fabaa3ac97461eda90495e954ecd
-change-id: 20250508-rkvdec-iommu-reset-d8a96b8436c0
-
-Best regards,
 -- 
-Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Regards,
 
+Sakari Ailus
 
