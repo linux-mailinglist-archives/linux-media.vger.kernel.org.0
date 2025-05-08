@@ -1,110 +1,162 @@
-Return-Path: <linux-media+bounces-32042-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32043-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8C6AAFDEC
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 16:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74B4AAFE61
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 17:09:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78E55B26E01
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 14:56:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 548D4B40AE2
+	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 15:04:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A70E427A117;
-	Thu,  8 May 2025 14:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D6AE2797BF;
+	Thu,  8 May 2025 15:03:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j5w3sKN2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="i9KJoeO6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E01F27A111;
-	Thu,  8 May 2025 14:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AECD278E68
+	for <linux-media@vger.kernel.org>; Thu,  8 May 2025 15:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746716152; cv=none; b=nKPwbl0Vf6AUyWkKNJZtpwK3SRxCsV6Zw9Dt3xVaYI7mQWHtT3vU5pkAHZjQKpmdL4NtheJDzo5FOHWu9MiRBbDGD3kF/DahEmA+IzfUg1yX3s/mVPlXISDuC/Ko0KNs0kF9gs0MmB5llIOJDHiszkN9nvOBojvkcod5qM7J6FI=
+	t=1746716602; cv=none; b=r5K0Qmml5QppGWAPVeVxkEGgM+qzAiZEadRN8H74brToMKMQ8bhtQW6I9UxbDoptOZzk73Crdi/d27rkKT3ahYfHqArr/MsdNnHcx9BXhm4IaRpYa70WHOKfq1vDkEkTfXLOZNS5BBVwntH2x0h9bLHiUsxHqmzrliFptcVUAJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746716152; c=relaxed/simple;
-	bh=Wi41NfxUGhbTbv1pQ0AGhckkbn6srjFISoz8v8J+p+Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SgYiJF0S2sMqMehoflFv3ibvu9C3rEid1/WNnOlNEJQAWThmaB89P3kryTP5yYiAV9eil325lf1BvqZ/7ryTx9hhKbmGEurMFC9UDWc0T0fNrrm9JqBp7ISXNzp9VNcDY6Ee46k/av0NmiNzn1NP/THEzx9vzpMMIANclQfd2Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j5w3sKN2; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso191799266b.0;
-        Thu, 08 May 2025 07:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746716149; x=1747320949; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wi41NfxUGhbTbv1pQ0AGhckkbn6srjFISoz8v8J+p+Y=;
-        b=j5w3sKN2ybmhdAX58sx9s+pNRLJsXadx/rph3M5Zuk+vFXr0oBkwhpeknW2ba07EvY
-         8t/VWGtqUvt9NwY9pR8wEZCZ7TkvyVUWzHTOFcF4t7hjYroAsH8d4TjUITC1zg8SpNjp
-         RE+4BvnR6gKOuDP5SXINA2A6kiUhQ0LbdncR/3qaU2JeCdKKrL5aN3fjqg1+SdMDVSWo
-         68OyNUK6X6QaU3TSYIuOMJsXRJIWWUjhnWigBaBwKX3SxjeOcvPIaTgKsx6MTAW2ti1s
-         wJVI7wJJ9rBTv9DyFQrmd5F/WyA1NMcx3F5xGmzbZoRSaUDiMwLESY7ybOErbRRyO8qv
-         zN2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746716149; x=1747320949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wi41NfxUGhbTbv1pQ0AGhckkbn6srjFISoz8v8J+p+Y=;
-        b=emC8vrlrV++nNn+PlGBRZ7rHF59i38L5yUNo+Bp5lXQuy8nqqnu+xGRSIcsRudLSoj
-         ugKO6YOhmKTtYzsqmER+u+NlRDbuFzAd50v2wSysE688XF1qRJE461BwhqERuzdgaGdg
-         83inm6Io3z3Pn3vynXL18T69jb6UIuXRzoSGvcHZWnrLutmGlG08WztjJUSMJyUFBAEf
-         wGCYp3fMiR6H3QREig3itk344vbn979npchNIgxMbJjfR+0N2WFU0pQh5wX9QX0Amwfe
-         4kIBlZcmoV/pHRbp+OURcmOUDG4kO+3X2kLu4P90IDysrpNfSmTHc+Rp2J9QmG9OLU/3
-         AvvA==
-X-Forwarded-Encrypted: i=1; AJvYcCXPomqSCVTpneJKOqL0wgcl0a8L3GB+mfBAnZbPtmPjVQqObpcsSiWMBHzbgEa//l8CeKzS8lthDEDr0w==@vger.kernel.org, AJvYcCXmWaXi+kg+9DA2VlmOcV6z+gdQbwVpJJH5tR4QaZdFzQ9/vN1dXv1mDEHVTIe55lp8k2eyYYIDXUdVzZhegJLj6BhuWA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE1fT18gnsQl8N8cRFXB5Cn0gKKlpop5lCmFxcWZHX3M0GqGoZ
-	Rnbft+LmlFowz0EHykQYUfhylIEVVZlV6gQ9DKlGYSY9O3FBZGHCL/B0LfG1ylXgn9mlrkzmNPP
-	w8oa56RSClMORUR4EG5l3XwB+QsQ1ft1B
-X-Gm-Gg: ASbGncs5xQX+jzgiUsTaveMteNII8mWcpjULaT6MtGARBWDFKhSbmhKh5vUQLCM/IcF
-	qqw1MWBP7nsaIvaPqWne/Ip/lrPLHEIoLyhGCByeh3uY6WrIDURUdmIrDXPNaH0yrysezK1zO1k
-	2H9xltIbGT7rv2DFEPfkxeaquW6CnPVHIX1I8=
-X-Google-Smtp-Source: AGHT+IGiKRW4TiDoK9/lBhRrzeQKcy9vPDCmLn29aM+2GMRxVJdJ+CW9Z051dhndWfzh2L6JSFGlIL4gDWZ3hZmGZI4=
-X-Received: by 2002:a17:907:8d87:b0:ad1:e7f2:b94e with SMTP id
- a640c23a62f3a-ad1e8bcc880mr783564066b.18.1746716138298; Thu, 08 May 2025
- 07:55:38 -0700 (PDT)
+	s=arc-20240116; t=1746716602; c=relaxed/simple;
+	bh=xMaT/RuiiTQGzQSVVvzkDj3Tw0NFgTcsXYMh/BrFKWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QQR0qhG29oFKhFL08nFgETcbPpxPXR5IDnIgtNM/l0lWGN1P2uXXVHT8F098CcPo2MEvT2TiELRoqEXP0RDXM/cLY4UHGDfWT46fEac9cIbfEIaWUdrm/ZcDsFDmQgOaH9kYVP8G9nPWgU86/BtyEXGQl9g6xvDx5a0fihbGgpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=i9KJoeO6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:861:3a80:3300:7c3b:c7bf:b733:fa1b])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BB372E0;
+	Thu,  8 May 2025 17:03:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1746716585;
+	bh=xMaT/RuiiTQGzQSVVvzkDj3Tw0NFgTcsXYMh/BrFKWA=;
+	h=Date:From:To:Cc:Subject:From;
+	b=i9KJoeO6rW+mHXV/bVED6BHOFZ1W33uNLlMhYZgVoYDa75hok9NAR2Gfg3kQxB2Fu
+	 fDhEfDiuWujODMJCeLO3SWLZgJ0R8fDwh9A7vZfwTXTU7OG19LNlRs1+QeKyYZI9jM
+	 QF7g7EsJSXE8Bd5gnQao6BHP2gBW/sTUZYfcgqmI=
+Date: Thu, 8 May 2025 17:03:14 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: hans@jjverkuil.nl, sakari.ailus@iki.fi, 
+	kieran bingham <kieran.bingham@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Keke Li <keke.li@amlogic.com>, mchehab@kernel.org
+Subject: [GIT PULL FOR v6.16] Amlogic C3 ISP
+Message-ID: <nxekkw22ehz6d3hzj3lfbojwo5w2wevjkksexzsp5cwsmjoglu@q6x76333mvdt>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250507184737.154747-1-hdegoede@redhat.com>
-In-Reply-To: <20250507184737.154747-1-hdegoede@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 8 May 2025 17:55:01 +0300
-X-Gm-Features: ATxdqUFbSQF6mj9SBgrSeC8p9uP8gtobKBLj7O4lMyjvY1f-aFMKCyAoOnzP-K8
-Message-ID: <CAHp75Vf3jUuALHGk3fXEDRnWKh-z0prSgQ6sYhK_dcrxAiyEYw@mail.gmail.com>
-Subject: Re: [PATCH 0/6] platform/x86: int3472: Allow re-using sensor GPIO
- mapping in atomisp
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	platform-driver-x86@vger.kernel.org, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Wed, May 7, 2025 at 9:52=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
+Hi Hans, Mauro,
 
-> This patch series does some small refactoring of the int3472 code to allo=
-w
-> re-using the sensor GPIO mapping code in the atomisp driver and then the
-> final patch in the series moves the atomisp driver over.
+this is the pull request for the Amlogic C3 ISP driver for Linux v6.16
 
-I just realised that the AtomISP variant is very likely a predecessor
-of INT3472, and hence a lot of code has to be shared between two. Or
-even having INT3472 being enumerated as a pure platform driver for the
-case of AtomISP.
+Please find the CI pipeline at:
+https://gitlab.freedesktop.org/linux-media/users/jmondi/-/pipelines/1420231
 
---=20
-With Best Regards,
-Andy Shevchenko
+I know Sakari wants to have a look before the end of the day, so maybe
+wait for him before pulling.
+
+Thanks
+  j
+
+---
+The following changes since commit 48dbb76cef65fabaa3ac97461eda90495e954ecd:
+
+  dt-bindings: media: convert imx.txt to yaml format (2025-05-06 15:39:40 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/linux-media/users/jmondi.git tags/c3-isp-for-v6.16
+
+for you to fetch changes up to 0b12dab506c81606954387310b5e51205863d68b:
+
+  Documentation: media: Add documentation file c3-isp.rst (2025-05-08 16:43:45 +0200)
+
+----------------------------------------------------------------
+Amlogic C3 ISP for Linux v6.16
+
+----------------------------------------------------------------
+Keke Li (10):
+      media: dt-bindings: Add amlogic,c3-mipi-csi2.yaml
+      media: platform: Add C3 MIPI CSI-2 driver
+      media: dt-bindings: Add amlogic,c3-mipi-adapter.yaml
+      media: platform: Add C3 MIPI adapter driver
+      media: dt-bindings: Add amlogic,c3-isp.yaml
+      media: Add C3ISP_PARAMS and C3ISP_STATS meta formats
+      media: uapi: Add stats info and parameters buffer for C3 ISP
+      media: platform: Add C3 ISP driver
+      Documentation: media: Add documentation file metafmt-c3-isp.rst
+      Documentation: media: Add documentation file c3-isp.rst
+
+ Documentation/admin-guide/media/c3-isp.dot                      |   26 +
+ Documentation/admin-guide/media/c3-isp.rst                      |  101 +++
+ Documentation/admin-guide/media/v4l-drivers.rst                 |    1 +
+ Documentation/devicetree/bindings/media/amlogic,c3-isp.yaml     |   88 +++
+ .../devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml      |  111 +++
+ .../devicetree/bindings/media/amlogic,c3-mipi-csi2.yaml         |  127 ++++
+ Documentation/userspace-api/media/v4l/meta-formats.rst          |    1 +
+ Documentation/userspace-api/media/v4l/metafmt-c3-isp.rst        |   86 +++
+ MAINTAINERS                                                     |   25 +
+ drivers/media/platform/amlogic/Kconfig                          |    1 +
+ drivers/media/platform/amlogic/Makefile                         |    2 +
+ drivers/media/platform/amlogic/c3/Kconfig                       |    5 +
+ drivers/media/platform/amlogic/c3/Makefile                      |    5 +
+ drivers/media/platform/amlogic/c3/isp/Kconfig                   |   18 +
+ drivers/media/platform/amlogic/c3/isp/Makefile                  |   10 +
+ drivers/media/platform/amlogic/c3/isp/c3-isp-capture.c          |  806 +++++++++++++++++++++
+ drivers/media/platform/amlogic/c3/isp/c3-isp-common.h           |  340 +++++++++
+ drivers/media/platform/amlogic/c3/isp/c3-isp-core.c             |  641 +++++++++++++++++
+ drivers/media/platform/amlogic/c3/isp/c3-isp-dev.c              |  421 +++++++++++
+ drivers/media/platform/amlogic/c3/isp/c3-isp-params.c           | 1010 +++++++++++++++++++++++++++
+ drivers/media/platform/amlogic/c3/isp/c3-isp-regs.h             |  618 ++++++++++++++++
+ drivers/media/platform/amlogic/c3/isp/c3-isp-resizer.c          |  892 +++++++++++++++++++++++
+ drivers/media/platform/amlogic/c3/isp/c3-isp-stats.c            |  328 +++++++++
+ drivers/media/platform/amlogic/c3/mipi-adapter/Kconfig          |   16 +
+ drivers/media/platform/amlogic/c3/mipi-adapter/Makefile         |    3 +
+ drivers/media/platform/amlogic/c3/mipi-adapter/c3-mipi-adap.c   |  842 ++++++++++++++++++++++
+ drivers/media/platform/amlogic/c3/mipi-csi2/Kconfig             |   16 +
+ drivers/media/platform/amlogic/c3/mipi-csi2/Makefile            |    3 +
+ drivers/media/platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.c      |  827 ++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c                            |    2 +
+ include/uapi/linux/media/amlogic/c3-isp-config.h                |  564 +++++++++++++++
+ include/uapi/linux/videodev2.h                                  |    4 +
+ 32 files changed, 7940 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/c3-isp.dot
+ create mode 100644 Documentation/admin-guide/media/c3-isp.rst
+ create mode 100644 Documentation/devicetree/bindings/media/amlogic,c3-isp.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/amlogic,c3-mipi-csi2.yaml
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-c3-isp.rst
+ create mode 100644 drivers/media/platform/amlogic/c3/Kconfig
+ create mode 100644 drivers/media/platform/amlogic/c3/Makefile
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/Kconfig
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/Makefile
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/c3-isp-capture.c
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/c3-isp-common.h
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/c3-isp-core.c
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/c3-isp-dev.c
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/c3-isp-regs.h
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/c3-isp-resizer.c
+ create mode 100644 drivers/media/platform/amlogic/c3/isp/c3-isp-stats.c
+ create mode 100644 drivers/media/platform/amlogic/c3/mipi-adapter/Kconfig
+ create mode 100644 drivers/media/platform/amlogic/c3/mipi-adapter/Makefile
+ create mode 100644 drivers/media/platform/amlogic/c3/mipi-adapter/c3-mipi-adap.c
+ create mode 100644 drivers/media/platform/amlogic/c3/mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/amlogic/c3/mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.c
+ create mode 100644 include/uapi/linux/media/amlogic/c3-isp-config.h
+
 
