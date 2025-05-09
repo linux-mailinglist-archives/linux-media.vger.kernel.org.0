@@ -1,164 +1,193 @@
-Return-Path: <linux-media+bounces-32190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32191-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A996DAB1FAA
-	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 00:11:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A731AAB1FDC
+	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 00:26:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D64533B44C5
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 22:11:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 104911BC38B2
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 22:26:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6AAF261565;
-	Fri,  9 May 2025 22:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0F012620CE;
+	Fri,  9 May 2025 22:26:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="RYZQT9eL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VWnLLtyR"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="INXcOcLj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9EA17588
-	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 22:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44ED1254B14
+	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 22:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746828698; cv=none; b=PBj/7LhPu9D5VlEY4zND9fWeL/lpmTApWtHfJ8/FJ6JM0GegZ1jZwv58m9iiHE1HAd/2x8oEE0tc6DXtPmUjBGMeO3nyYcFD1/dgvsoYBXSCp3f8IBgIlOF8HnfvBIg6au9JV/8F6/6AAKoIUAbc2qT5cagzTT9x0EcTAIryA+Q=
+	t=1746829591; cv=none; b=eS4t1eI+WgxVd2kVwu43JeNSYWzf1LGmR5Zgka9vKNUjYqhMbqwBfwPDYmiMtRDb3jE5zKH1mmVhm85U7ew3iem+9eL0Rfpc2mmL4NIeXEy/uQhJIs+U3itB5iczPxl9XwVl2MkFVcsEGogPyKRfyYl3cOpPv47tCA3rhE3hsUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746828698; c=relaxed/simple;
-	bh=S+7TB3p+z3odP6t6s5jJD/28Til6UYjtrrUTy2wuVe0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nGp1gw9Qr6qFfqIGF0JkxNWjAxJsRRHvT4k43Rx2nWa+wqrpaXdBp8peMqLYN1VMgBVjI3WyOZdY77rT01CaYcAtcSeEK+u8yiyMcCVx6UB1z4kGNcUxkHambXysn7fSgQly5nlnpZ4Ax5xHIj/nkQpxylG7sQxCL67s66YBtNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=RYZQT9eL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VWnLLtyR; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id AA92B1140121;
-	Fri,  9 May 2025 18:11:34 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Fri, 09 May 2025 18:11:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1746828694;
-	 x=1746915094; bh=yqP2qIC+IdsMlRcx3BejDE7pK6inOdjc9BEMmWImJm0=; b=
-	RYZQT9eLQ5m/p6IWG69cAHGl00g8iiq7qf74dwoi7szHHllDgc/fdW6sxfzCWOsh
-	2ZFnVO8Ai4qy5lF8jGRXrYiMXWTZZRq86LkK+ZwS7sqEY+lUk1xB1gYU0Hfe7bad
-	oiOHT+Q2UkeGeqogjhBJXK4YG3XV4T5zW8Qj3zT+OPJFqxUybxVmPDG8y6R2NS1J
-	mmhbo1nxgoCGidWyeBQVWztoiwwmrBI0XzQ2693/vBC+8pphhk3dbIVdUZHzamMj
-	q2jAqt2YyLOgc7pnYTzyfQQzZlWE8JI+dbod0JrG6TjmvwvRE0DDMcLBF9CFvs/v
-	DLkjjD98hPEPbvbHjNSKnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746828694; x=
-	1746915094; bh=yqP2qIC+IdsMlRcx3BejDE7pK6inOdjc9BEMmWImJm0=; b=V
-	WnLLtyRuvSWxfmQtksLHWBWl6k27RvC1fj6yVmjL9HN9TIso80oO1vggSkutKWlt
-	UY/H9+mANPVGtIxrKSxuozEeEOG9c5U4LhKKOf0lFDDVpQ/aApb6KAEoyPjGjFrq
-	2ExZf+r+SfUGxaf1LbVHRnNSCfGEOoaQupayshQboRii8RZ71rjl+lZDcihatr4Q
-	DR/TO4A0j/8zIBQ+BMVRZkmUIa2wowWIpFaoxlncdONI6WSabKbvW6LMMZr/6l8M
-	+FVcXG+92ImKpEWORe5iL4+eVT7oFGq/CYUQmzJFqRAn7Z5NHzXlOLQPW0dRL6Nk
-	XIwtkXc/lM/B/FZThVn+w==
-X-ME-Sender: <xms:ln0eaLm7kI9qE1C3mpseh56UOXhGapRYsTl94Iq29-aWwgplLDUdeA>
-    <xme:ln0eaO0_yu0WuvRHz4WMBXzlj4ZQSCARHqj8Pbrpy1qVtBk_iIKKt04Np-fPwcNoJ
-    BzlIIQIc5S1pxAlWNE>
-X-ME-Received: <xmr:ln0eaBp-aGAIq_5mj3hSVHJ6H1ifKotWfwuyc_3VdT9ySsDZfAgIdQuoj7g9mZyRraBQSpQSI-eBYxKFEC0ySQEcywZgSUfnmw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvleefjeekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
-    rghtthgvrhhnpeehhedvteehudelkeejudfhvdfgkefhveffffelfeetjeehieelveeuhf
-    euvddvieenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpkhgvrhhnvghl
-    rdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghh
-    rdhsvgdpnhgspghrtghpthhtohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
-    eprhhisggrlhgurgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhinhhugidq
-    mhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:ln0eaDl5pP57b024y7i0xVLHBJHz17EBGbxdBtM0KmJPxdAJgULWng>
-    <xmx:ln0eaJ2XwJurhB1Cdbtuomqr93kkkKy2bufRiCXCXflxhqjTvEfjmw>
-    <xmx:ln0eaCs42sSrkU67zkqKrnp9e0b5vdZxiUSRpHvxZFPjQo62MzS7DQ>
-    <xmx:ln0eaNUdomOhHXued7rCyNjd3MSQwsL7BXC_KOp7V-WoHofnE4qTzg>
-    <xmx:ln0eaK-198BNLhDavZqxh911Zqm5IcIOwvEIdl-WDLLBv68Fc89qKi3U>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 May 2025 18:11:33 -0400 (EDT)
-Date: Sat, 10 May 2025 00:11:31 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: linux-media@vger.kernel.org
-Subject: Re: media: v4l2-common: Reduce warnings about missing
- V4L2_CID_LINK_FREQ control
-Message-ID: <20250509221131.GA1722387@ragnatech.se>
-References: <20250508083745.1697364-1-niklas.soderlund+renesas@ragnatech.se>
- <681e71eb.050a0220.3a7ab3.60bf@mx.google.com>
+	s=arc-20240116; t=1746829591; c=relaxed/simple;
+	bh=yn04gnUUhOrwwRyO8pHF/8RCt6NrPnVPCJsgVdIA1Xs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WkBBms8O5u/Bq7MfN83d5pTkui9yXfEMpMmHJIhOnziV25GZEm5r11lMbkgTjlwDO0hiMHHzhNZuc3fEm4y+sggQwaFxyqYquPj+5yQC81I28tAB4y7MgZg92rlDRL3IFhrkf8NV9JurtDm1ew1aWjTX/MjJ5kctB/xL0+L8oOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=INXcOcLj; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54e816aeca6so3627773e87.2
+        for <linux-media@vger.kernel.org>; Fri, 09 May 2025 15:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1746829587; x=1747434387; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3+WLLYY6aZsgT/Lw9fybhbeiLhdlSc7tB6cGMaM3EME=;
+        b=INXcOcLjXi5mjau5qU6bz3T9qfsbNZmG1o0La3zXUj6WqbFEDejr8kYd5adZETNQaR
+         PasYoV9m+Deu9Tg083yAoQuDcR41wpJpNEnxnOMJ49M3LC1IC1lPPaWAQybviSGi631R
+         ppw+OaIba9uD9Q++Ngp74lwBHAwaWN8F9Pfws=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746829587; x=1747434387;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3+WLLYY6aZsgT/Lw9fybhbeiLhdlSc7tB6cGMaM3EME=;
+        b=VUeCJEKsOIKv1DUAKXMUIqtmE4oQKv9Ln9RhfZIm3ApZqswv8++pSQAlpMBirsViPs
+         i4Zle7/LUyK0d+F4gQf8XsoPG2Tm/bjz/ygkfoHZPR/Z4K7yI2J+tKyLPYRBXsP7kQJN
+         +c78ok1k56ULRCIqo4yKmP4YZQ87qmxcHQsLMcAuJGPJAph9A1aAetVjFOp9yk6qWumr
+         8tSwFeTOvqili8sEmr7FjX3sY41/kANncq59gYot26jWrqgoMphj79y/zHqy/6T8meQl
+         E3o038Qq84HrxCpcIJ1yNv9KSKAPRARlCgLsKbntrnyDNQSk4d7fT8Cjj85lhJTGd7dx
+         PZlg==
+X-Gm-Message-State: AOJu0Yw07wSKF/0Q+q7Vczq6HL+2KI5vhe34Iev6W5FubPwJ+fytrkEF
+	4Xc1Ja3ls4GFs1aRc+87RwBAJRbahZUBF21KUYZVzSJeeNWYQedOWc75V597tUw92W933Kam5kc
+	=
+X-Gm-Gg: ASbGncsqu4L2eFjy1rVeOaj6oOZIhsdKWKYT34/PCrxVYcAehBAXdkuyrRwh+VrMA7f
+	NRbLr3o3ZcbQmZ6ZrliN2L3S2SrGu6LXO+SDJwto1bkOsqbhJNFsqSrUZYb6VDoXTjXpHzBaoNU
+	qyvU5GgSs2xymZ5Bo2KCxm4hvICLuoawrvd7JQ27hgayzf3KvusbjqTlOousBNcjK9Qu8YIlYCB
+	NV51AwhVqFUPjPRdRFwIxFG510fDtPrW+gz2dd36U8OF19cCOy/ApmGIQTcSg3WFPZYuaFOI0rp
+	9waUZnBvL5SVEM9QnVMjwX8NYdQz2wZqcdZF9YhBwQc0TWweJheQ2xoiBJOcjEOQNUe99QKii5C
+	upAdEw04jwlRm2KALuA==
+X-Google-Smtp-Source: AGHT+IHHA3AkZ5zN1GcfhZ84PqFtlfUozmCVRbu5G+MdbBCXRcw9PEvEvwhtlm+nEPbTb/ezktPZIg==
+X-Received: by 2002:a05:6512:6612:b0:54f:c187:9c16 with SMTP id 2adb3069b0e04-54fc67cb0a0mr1124465e87.25.1746829586884;
+        Fri, 09 May 2025 15:26:26 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54fc64bf857sm403123e87.181.2025.05.09.15.26.26
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 May 2025 15:26:26 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3105ef2a06cso24366251fa.2
+        for <linux-media@vger.kernel.org>; Fri, 09 May 2025 15:26:26 -0700 (PDT)
+X-Received: by 2002:a2e:bc0e:0:b0:308:ec50:e841 with SMTP id
+ 38308e7fff4ca-326c4627e18mr20921221fa.25.1746829586105; Fri, 09 May 2025
+ 15:26:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <681e71eb.050a0220.3a7ab3.60bf@mx.google.com>
+References: <20250508083745.1697364-1-niklas.soderlund+renesas@ragnatech.se>
+ <681e71eb.050a0220.3a7ab3.60bf@mx.google.com> <20250509221131.GA1722387@ragnatech.se>
+In-Reply-To: <20250509221131.GA1722387@ragnatech.se>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Sat, 10 May 2025 00:26:12 +0200
+X-Gmail-Original-Message-ID: <CANiDSCv-NFw1jbo-gyxPT=P+=mM1Mkdx71kMcTWYPKFjAD75GQ@mail.gmail.com>
+X-Gm-Features: ATxdqUGwlNZlwrzJvO_2zMZalsows9l0vIWl1ZTTXxFWrYZWqUFApc7FzP79vCs
+Message-ID: <CANiDSCv-NFw1jbo-gyxPT=P+=mM1Mkdx71kMcTWYPKFjAD75GQ@mail.gmail.com>
+Subject: Re: media: v4l2-common: Reduce warnings about missing
+ V4L2_CID_LINK_FREQ control
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ricardo,
+Hi Niklas
 
-Thanks for all the effort you and others put into the media CI!
 
-I just got this error report from the CI telling me a patched failed the 
-style check and I don't fully understand the error message, maybe it 
-could be improved?
+On Sat, 10 May 2025 at 00:11, Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+>
+> Hi Ricardo,
+>
+> Thanks for all the effort you and others put into the media CI!
+>
+> I just got this error report from the CI telling me a patched failed the
+> style check and I don't fully understand the error message, maybe it
+> could be improved?
 
-I read you where working on the CI and as far as I can tell you where 
-the one who committed the patch in question. I hope I my report go to 
-the right person, if not sorry for the noise.
+Today I have to recreate the repository where  patchwork-ci fetches
+the patches and for some minutes the user.email and user.name was
+misconfigured and took the system default.
 
-On 2025-05-09 14:21:47 -0700, Patchwork Integration wrote:
-> Dear Niklas Söderlund:
-> 
-> Thanks for your patches! Unfortunately the Media CI robot detected some
-> issues:
-> 
-> # Test media-patchstyle:./0001-media-v4l2-common-Reduce-warnings-about-missing-V4L2.patch media style
-> ERROR: ./0001-media-v4l2-common-Reduce-warnings-about-missing-V4L2.patch: Committer Ricardo Ribalda <ribalda@chromium.org> is not the last SoB: Niklas SÃ¶derlund <niklas.soderlund@ragnatech.se>
+You were the lucky one :P. Sorry about that
 
-Do this mean you should have added your SoB when committing the patch?  
-Or is the CI confused about me using a +renesas both in From: header and 
-in my SoB? I don't understand where the error message got my mail 
-without +renesas from.
+>
+> I read you where working on the CI and as far as I can tell you where
+> the one who committed the patch in question. I hope I my report go to
+> the right person, if not sorry for the noise.
+>
+> On 2025-05-09 14:21:47 -0700, Patchwork Integration wrote:
+> > Dear Niklas S=C3=B6derlund:
+> >
+> > Thanks for your patches! Unfortunately the Media CI robot detected some
+> > issues:
+> >
+> > # Test media-patchstyle:./0001-media-v4l2-common-Reduce-warnings-about-=
+missing-V4L2.patch media style
+> > ERROR: ./0001-media-v4l2-common-Reduce-warnings-about-missing-V4L2.patc=
+h: Committer Ricardo Ribalda <ribalda@chromium.org> is not the last SoB: Ni=
+klas S=C3=83=C2=B6derlund <niklas.soderlund@ragnatech.se>
+>
+> Do this mean you should have added your SoB when committing the patch?
+> Or is the CI confused about me using a +renesas both in From: header and
+> in my SoB? I don't understand where the error message got my mail
+> without +renesas from.
 
-Minor sidebar, the mail charset was set to utf-8 but somewhere it seems 
-to have mangled my döts :-)
+The checker removes everything between the + and @. That is expected.
 
-> 
-> 
-> 
-> Please fix your series, and upload a new version. If you have a patchwork
-> account, do not forget to mark the current series as Superseded.
-> 
-> For more details, check the full report at:
-> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/76068776/artifacts/report.htm .
-> 
-> 
-> 
-> Best regards, and Happy Hacking!
-> Media CI robot on behalf of the linux-media community.
-> 
-> ---
-> Check the latest rules for contributing your patches at:
-> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
-> 
-> If you believe that the CI is wrong, kindly open an issue at
-> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
-> to this message.
-> 
+>
+> Minor sidebar, the mail charset was set to utf-8 but somewhere it seems
+> to have mangled my d=C3=B6ts :-)
 
--- 
-Kind Regards,
-Niklas Söderlund
+The d=C3=B6ts looks like a bug. We have two options, you can start the
+legal process to change your name, or I can look into fixing the
+encoding.
+
+I will try the second option first  :P
+https://gitlab.freedesktop.org/linux-media/media-ci/-/issues/106
+
+
+Regards!
+
+>
+> >
+> >
+> >
+> > Please fix your series, and upload a new version. If you have a patchwo=
+rk
+> > account, do not forget to mark the current series as Superseded.
+> >
+> > For more details, check the full report at:
+> > https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/7606=
+8776/artifacts/report.htm .
+> >
+> >
+> >
+> > Best regards, and Happy Hacking!
+> > Media CI robot on behalf of the linux-media community.
+> >
+> > ---
+> > Check the latest rules for contributing your patches at:
+> > https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
+> >
+> > If you believe that the CI is wrong, kindly open an issue at
+> > https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-a=
+ll
+> > to this message.
+> >
+>
+> --
+> Kind Regards,
+> Niklas S=C3=B6derlund
+
+
+
+--=20
+Ricardo Ribalda
 
