@@ -1,125 +1,110 @@
-Return-Path: <linux-media+bounces-32064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32065-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAB5AB071E
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 02:37:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A337AB072F
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 02:43:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8F851C00B2C
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 00:37:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C4931C01667
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 00:43:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 290AB171D2;
-	Fri,  9 May 2025 00:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D0F31EB3E;
+	Fri,  9 May 2025 00:43:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d82Ra0RR"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="MGYaxESq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B36A4C8F;
-	Fri,  9 May 2025 00:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D7AC1F5FD;
+	Fri,  9 May 2025 00:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746751016; cv=none; b=pn2rwSy0+e2kljelgXHfoa7GqsD1Z9vqaFE6d1YhPJwuQfSVZJha0ijAJJE76gppEhtgmfRoPCleLGMr6gM3S6n/F9YI22Haw9fv6kbjSm40GLrNEeg4z+zhqFdn6vTcDrn+gDFBYvxE0qHGbafWjpkSKPzDvfTPt/kjJg8R7Zs=
+	t=1746751407; cv=none; b=oe5BJAwVZRGn20cgjoxb3cf7zg3UOQI7IteWG5cOV2Jpd+jsw3P7mtvlFdyB93ulekDpVv3A1/8qpwlRO/oO6aP4BfDqumqS31VhlFRusIoQ/ubh8FnAedI78yPDzsJPZs7JrKhM3trPY7/1LBDD3Wgig1gAzq9fi4G6OCm7TYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746751016; c=relaxed/simple;
-	bh=AZW2tDzqhR6kl8hVLlq0BZl6cQswhNqm0MddJ0YN3ng=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GY/ubFiJGaij5+tTbosqVs1+/+cLAKeKc1hlHy7hJUeiv+2l71ogtJX17CVi26FsvhNoa7VfXZZLznajt8sbZZQwjKBrjD6CfzwN9NS9Dxy6LmjwIFdzv9bWbr5M00mI3x1LwLnnO4yXSO8oH91f4rssCWAmW9Qe1JrZJlZTaVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d82Ra0RR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C661EC4CEF1;
-	Fri,  9 May 2025 00:36:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746751015;
-	bh=AZW2tDzqhR6kl8hVLlq0BZl6cQswhNqm0MddJ0YN3ng=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=d82Ra0RRPZlMLzz0ss/tBvTAYmFxJD0ChokPsZfJOiNM+ojJNLwsR8wM/1VhwsLq1
-	 hWvpGEy3n+P4W9hZSYsm1QXG6ieY3sQPXgAojh4+OA4tBqhCMHrWp2V2O+i1SvD1v9
-	 TORNVpQCOjR8fYBkBc2YczQD/e8osCpbLqpRzjk3ATc+aLbI/CnY2is6cqNS/ZraAl
-	 vErPLTt8mzEtW0MNyS7fVH8GCPabkgzgpZWGsBN4rWW6iRkaPHu54V4dA/C33hk9NS
-	 z0ubAI6enWeCj8TecltpgDT/dHj+cM4fUDp21g7/WlGuE6i+xsJ/r+lx7RTzZU3Md4
-	 saeQNbOy6H8qw==
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6f0c30a1cb6so14367646d6.2;
-        Thu, 08 May 2025 17:36:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHztrtEuZFoL9hVBp9cMiGdWE7Swdg6U4J6E/sEbJBMYFrfb5qUXusrmncxpJWOQoaQ5k=@vger.kernel.org, AJvYcCUnqE99f/ZHIJWLHUC+aR4/0cOjZoH1kdmKhJr88/DsZeNWO8USrSn5p++UHxSol9q9F9b1N2w4pY+ksCxqO48p@vger.kernel.org, AJvYcCXLnkris9Cap6vJqzLk8E7enGlD+EGWNsC6+E9hzfPwUZr1f/8IEl6aJGYMwSbi7TfSSkTBtp2kjlzwY7PX@vger.kernel.org, AJvYcCXizQH2ooYsxZrY/90+E9myVTCgR3qisHrx29eAxOwLmVB27i2ANi7wCBKEzey7EwHIpVKSItTWKdfARiY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLegihc8Sh0xE2NPI7dsIrqZB9C0Ac0SR++s5K0CL0VqedoCFm
-	WVGjIRJSqgpQGEhdVHqx+4Da5fg9ueGOOqvnNLN2XbRwqIhQARAfTY4PWkCypuuG286xRHm8gG+
-	Q7BsXY3yUpLsZAgCf7bDqf3oUJbg=
-X-Google-Smtp-Source: AGHT+IFPnS4XZadcyyUhzgN6HY9nmLMHXqMuymGTqMUKPWKhB4+2wwClTHp7PhLPM/lboFUOmbhs5D2y2hYbLJXGrmc=
-X-Received: by 2002:a05:6214:ca3:b0:6e6:6089:4978 with SMTP id
- 6a1803df08f44-6f6e47f4988mr18078546d6.24.1746751014954; Thu, 08 May 2025
- 17:36:54 -0700 (PDT)
+	s=arc-20240116; t=1746751407; c=relaxed/simple;
+	bh=mrUpPE0EUKpDjR4ZljgRIVLcV4xGvjmPpGkgqkmaLZ8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CQumhoo8fli2rYKDnFiWT4Cn3961IG5i8YB4npcTmkOO6yt3Ynmbmcc3H26f4Lf0vzaC8iqNer23WNrSIoVed0a8h5tK05NbvrksZ148Hr3Yts9FqW1A6TpwQttKpMtM5RdykKXWrz1vKEG9+Nkb2N/RQ3n56Etw/lFNVgOlDcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=MGYaxESq; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Pk
+	wBpWHJdPYb2AnQNwr86bUir8BNrGUCWW793DJsGy8=; b=MGYaxESqnVk/fVGY8Z
+	rtk2C6TnLwCQqzTOdGA/00esinpfU9WEJV0YVV40O+WRxtdbaL3VMFkDXU5YJry9
+	TnfQnRvqwrx1MDP1GRhHK+M/sqhyW5jLxkgjxZ3QgRpxr76o3Kv04+4iI1cjXL+l
+	IoSmuNBC+CTcwd7Q9epy2bfto=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wD3P_OGTx1o4blZAA--.13887S2;
+	Fri, 09 May 2025 08:42:47 +0800 (CST)
+From: chenchangcheng <ccc194101@163.com>
+To: laurent.pinchart@ideasonboard.com,
+	ribalda@chromium.org
+Cc: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	chenchangcheng <chenchangcheng@kylinos.cn>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v8] media: uvcvideo: Fix bandwidth issue for Alcor camera.
+Date: Fri,  9 May 2025 08:42:45 +0800
+Message-Id: <20250509004245.45893-1-ccc194101@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250508182025.2961555-1-tjmercier@google.com> <20250508182025.2961555-5-tjmercier@google.com>
-In-Reply-To: <20250508182025.2961555-5-tjmercier@google.com>
-From: Song Liu <song@kernel.org>
-Date: Thu, 8 May 2025 17:36:43 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW6z90sErDTA97_MN2=QKHc96Ge3HwGD1ZoMYj6Sh7GYVA@mail.gmail.com>
-X-Gm-Features: ATxdqUELjq5b0VCoeVXJxxary8GpaKUCoHRUvUHGO6bCwjlnOaKxwpDPyWWKXW4
-Message-ID: <CAPhsuW6z90sErDTA97_MN2=QKHc96Ge3HwGD1ZoMYj6Sh7GYVA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v4 4/5] selftests/bpf: Add test for dmabuf_iter
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
-	simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3P_OGTx1o4blZAA--.13887S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFWDKry5WFWfKF1xAr4UCFg_yoW8Ar1Dpa
+	1ruayFyryUJrWFganrJa1Fga15Janaka1fKFW3u34UZr45JryxZFy3K340q34qyan3Cw13
+	tryqqr9F93yvvr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jYVbkUUUUU=
+X-CM-SenderInfo: 5fffimiurqiqqrwthudrp/1tbiThVI3mgdTHNNmgAAsQ
 
-On Thu, May 8, 2025 at 11:20=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
- wrote:
-[...]
-> diff --git a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c b/tools=
-/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> new file mode 100644
-> index 000000000000..35745f4ce0f8
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> @@ -0,0 +1,224 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright (c) 2025 Google */
-> +
-> +#include <test_progs.h>
-> +#include <bpf/libbpf.h>
-> +#include <bpf/btf.h>
-> +#include "dmabuf_iter.skel.h"
-> +
-> +#include <fcntl.h>
-> +#include <stdbool.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <sys/ioctl.h>
-> +#include <sys/mman.h>
-> +#include <unistd.h>
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/dma-heap.h>
-> +#include <linux/udmabuf.h>
-> +
-> +static int memfd, udmabuf;
+From: chenchangcheng <chenchangcheng@kylinos.cn>
 
-Global fds are weird. AFAICT, we don't really need them
-to be global? If we really need them to be global, please
-initialize them to -1, just in case we close(0) by accident.
+Some broken device return wrong dwMaxPayloadTransferSize fields
+as follows:
+    [  218.632537] [pid:20427,cpu6,guvcview,8]uvcvideo: Device requested 2752512 B/frame bandwidth.
+    [  218.632598] [pid:20427,cpu6,guvcview,9]uvcvideo: No fast enough alt setting for requested bandwidth.
 
-> +static const char udmabuf_test_buffer_name[DMA_BUF_NAME_LEN] =3D "udmabu=
-f_test_buffer_for_iter";
-> +static size_t udmabuf_test_buffer_size;
-> +static int sysheap_dmabuf;
-> +static const char sysheap_test_buffer_name[DMA_BUF_NAME_LEN] =3D "syshea=
-p_test_buffer_for_iter";
-> +static size_t sysheap_test_buffer_size;
+When dwMaxPayloadTransferSize is greater than maxpsize,
+it will prevent the camera from starting.
+So use the bandwidth of maxpsize.
+
+Signed-off-by: chenchangcheng <chenchangcheng@kylinos.cn>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202505072016.LlOxF8BG-lkp@intel.com/
+---
+ drivers/media/usb/uvc/uvc_video.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index e3567aeb0007..0d5c17509ceb 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -262,6 +262,15 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+ 
+ 		ctrl->dwMaxPayloadTransferSize = bandwidth;
+ 	}
++
++	if (stream->intf->num_altsetting > 1 &&
++	    ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
++		dev_warn_ratelimited(&stream->intf->dev,
++				   "the max payload transmission size (%d) exceededs the size of the ep max packet (%d). Using the max size.\n",
++				   ctrl->dwMaxPayloadTransferSize,
++				   stream->maxpsize);
++		ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
++	}
+ }
+ 
+ static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+
+base-commit: d76bb1ebb5587f66b0f8b8099bfbb44722bc08b3
+-- 
+2.25.1
+
 
