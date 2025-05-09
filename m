@@ -1,188 +1,162 @@
-Return-Path: <linux-media+bounces-32188-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32189-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95952AB1F6F
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 23:52:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85719AB1F79
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 23:59:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CFE11C43465
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 21:53:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DDB401C458BA
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 21:59:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96F85264F83;
-	Fri,  9 May 2025 21:51:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3227B261565;
+	Fri,  9 May 2025 21:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pxpVYRgb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wj/Ji3eS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6BF261591;
-	Fri,  9 May 2025 21:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D13A25D1FC;
+	Fri,  9 May 2025 21:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746827515; cv=none; b=o+nRY/qe54gnVZ8hCbyX+NQgyU9WiJVWHf6xsNtbm4q74i8I3bOpBftdrkyCLEqE6ZOpQoq/xj8t2IVHu6OjLO20J6uJBkS7qBsZolgdn6AT0nbMiAZ/b/Qt+Q1dO52uGXXYf+XCJJcjRqytGBvVf38hPObfYMPpGGCCH2y6n2s=
+	t=1746827935; cv=none; b=P7CNXpS8DFzGJ+gDy3ooI2HDKVaMDnmrFsfRe/sBGlRv/4DUyRiKv2YuR5TiqjeHzLPs5aPiRt7LYRqK3ybFRnbJtNlG6i0A1VyFKfPKzX2BydZPQRzcyXLwOKR5hPyo+TpKTd1BU6rnBKBtRyIIuAiuTHruwFHeGlHyT1LmcaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746827515; c=relaxed/simple;
-	bh=CQWWcqMDBBBF5UcJdFGNxHIOQ0echENGKfhnm7IyDgM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JATEJ2ePIcnbeTuTh2Gv3V0hPN5iM/q9pDSep7I6rg/D6C9Giw7TyoxzOB/6Dd55uHdYoPJsD1TQlQi2J0/KkkELzYTup2mvI3A4+yrr7qaRY6D159XsfRAlWzeZrmzd0BJFot4n6iBRy5GXq8HvduNRIOkK+zzDDNPb/ysDDOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pxpVYRgb; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2D92C1FCEF;
-	Fri,  9 May 2025 21:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746827511;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q8XrbGrufMg9tkAyXi8gfe2wyJbMN7aGWkJh4GV5ffc=;
-	b=pxpVYRgb7MjCpc0odJr+r5pNssgZtTpZNH4Fohl8kfnyXPdyoUbAsqh7gPyPAlMcQTgNDp
-	8z3zsNYkuM87Y3UiNMsV/Y6TkMHNPhMSo/veQY5/6YP3r8P0G0X+QXcxHg8GoxnNJzGf+j
-	Jy1w/NOp1RlQWbfJ24Gx0rxe5lxK5uVL9S0fMwOVITXqsYI1WrpE2mKDKw5Oe8ijWcGL8K
-	f2cQSC+nIljQtkrzTyG+Qp5o15vHFjgxiiKDsUVYOYKFIcUumq62Y3S5coGRvI4HxjVxuG
-	8JtSaaNP1OjyotCnhd5ulPSloO0gMMgzRE65JAhrNrRl8i4oHM/7w6xDODARLg==
-From: Olivier Benjamin <olivier.benjamin@bootlin.com>
-Date: Fri, 09 May 2025 23:51:40 +0200
-Subject: [PATCH v3 4/4] arm64: dts: rockchip: describe the OV8858 user
- camera on PinePhone Pro
+	s=arc-20240116; t=1746827935; c=relaxed/simple;
+	bh=bod7OgH9FMLNk7FKdLh8z63aV2T+h8TH6ReCA7jp2gc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nT1nuZqvHX1aDgo1g+u7tnHQDC/bZuE3ObN/LGk5AV6V4WAIR++jwPqKnhYpqv+IYW5wONUCFoHW9GAr748wC/unRJ2RfwgxEw4Je4tPJerSUt0vovfxd4eMqdTAndJnHuNTOoUOXDYff1ci+4RdcH6w4B49D6kNYKVo9e714Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wj/Ji3eS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E579DC4CEF0;
+	Fri,  9 May 2025 21:58:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746827934;
+	bh=bod7OgH9FMLNk7FKdLh8z63aV2T+h8TH6ReCA7jp2gc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Wj/Ji3eSP+f9K5/OX8IPyTGVC+hKeww3Yl6QUod6tkbAtAu7U0Wz1PbqtNRVOjwFv
+	 9ihr6xIkNld8R2eg3D/qwKFTzKCB44sM/wo7FZxVdNmFG35vJbswp9WpRB4g9YpQkp
+	 559m5BktWJFZGo4x7zXB4pbEKV/NEhnPJI2p03xGmYJoo/0q9PeX5NKUMQ1D2NrYUd
+	 hD6VA7olwNYII6sChdMP9QvKoVAyyCPZlZ+LN+HGDbh/0tPkMmT8IK/5JM1F/UfEWO
+	 vBcf7l+pLMpJuVSflbkhtlCrXN+JM03dQsJTV8H4aaugOqzs+a7UvfS5j8IFoiCTa6
+	 oIMMaIkNxRk+A==
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-47692b9d059so41514821cf.3;
+        Fri, 09 May 2025 14:58:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCURDqUH2FtghFfzt3Rf2haB8dz/ZkaS7o1n5bdVx0yGpclf1/jqPgpQYiaiF4wODoS35Q1SCjJV6/a5sdo=@vger.kernel.org, AJvYcCVBpAKD4MoCFRAuOJ8H9Rqi+i7aQHs4hZIzUxJUgPC91+FuFM+ut+VpHw4wrvqHJsP7C4nUkulCiz0wEJXL@vger.kernel.org, AJvYcCVQE25E9K26TKlT2F7rSuTv4qvp/ruijmamJXipLRlJYWt8zIBYTiybocGSWUfVDhX14ag=@vger.kernel.org, AJvYcCXxOgSPrlrOfxuKxLjg6YU3PrRDq/1+QbaNAHHY0BQ02oysOrjoKLhk9Fm5bvB97ovhrJFF2uvqoo0phH8ni8nd@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAMwpQJzUVa+8JfjRvbx3oA+oRMmLf8F2xZKjhiXFWMmj+Ekn8
+	1AzZdS6gt8U0mIVm3pGflVjdqhw/vwDTDhxP9ix4tXaqWOJTCXNFuakiFsNAVLF2BlkADzhrV2L
+	OaflshGsQo1qxBXzXslo9FLuxrgM=
+X-Google-Smtp-Source: AGHT+IEgw/OIWDWXmJWHEkTR/5DcaJ04lcLlTsKykO84AozF3RympSmmA4dzDH25HCRL4W/HlqroK6FilrCD1i+wCWA=
+X-Received: by 2002:ad4:5cc7:0:b0:6d4:238e:35b0 with SMTP id
+ 6a1803df08f44-6f6e47bd8a3mr77458376d6.17.1746827933963; Fri, 09 May 2025
+ 14:58:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250509-camera-v3-4-dab2772d229a@bootlin.com>
-References: <20250509-camera-v3-0-dab2772d229a@bootlin.com>
-In-Reply-To: <20250509-camera-v3-0-dab2772d229a@bootlin.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Nicholas Roth <nicholas@rothemail.net>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
- imx@lists.linux.dev, Olivier Benjamin <olivier.benjamin@bootlin.com>, 
- Dragan Simic <dsimic@manjaro.org>, Ondrej Jirman <megi@xff.cz>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvleefjeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepqfhlihhvihgvrhcuuegvnhhjrghmihhnuceoohhlihhvihgvrhdrsggvnhhjrghmihhnsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeegueegiedvvdevveevvddufeejvefftdeugfffkeeileehheefieehgfelfeeileenucfkphepvdgrtddumegvfeegmegvtgefkeemvdegvgdtmehfhegtvgemfhefgedvmeeiheekjeemfheiheeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvfeegmegvtgefkeemvdegvgdtmehfhegtvgemfhefgedvmeeiheekjeemfheiheeipdhhvghloheplgduledvrdduieekrddurddvtdgnpdhmrghilhhfrhhomhepohhlihhvihgvrhdrsggvnhhjrghmihhnsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvfedprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrt
- ghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepfhgvshhtvghvrghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegushhimhhitgesmhgrnhhjrghrohdrohhrgh
-X-GND-Sasl: olivier.benjamin@bootlin.com
+References: <20250508182025.2961555-1-tjmercier@google.com>
+ <20250508182025.2961555-6-tjmercier@google.com> <CAPhsuW5WOmyfPqBc_Hn7ApGWP_2uz_cJwyaDWF_VwiHJu9s_1A@mail.gmail.com>
+ <CABdmKX2h5cGjNbJshGkQ+2XJ7eOnM+VfbmVr5Pj5c0qfxQA-qg@mail.gmail.com>
+In-Reply-To: <CABdmKX2h5cGjNbJshGkQ+2XJ7eOnM+VfbmVr5Pj5c0qfxQA-qg@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Fri, 9 May 2025 14:58:42 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW7BM=X06Tr+HURsCbD8LwAO=Fdu+ZfKDy6RNK=UNNC1Rg@mail.gmail.com>
+X-Gm-Features: ATxdqUHtjHO0cnNYi6P788wo4nENW6QfEqucHX0SCFZlWpdcEK8f_Ki_Hjh7ovQ
+Message-ID: <CAPhsuW7BM=X06Tr+HURsCbD8LwAO=Fdu+ZfKDy6RNK=UNNC1Rg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v4 5/5] selftests/bpf: Add test for open coded dmabuf_iter
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the description of the front/user camera (OV8858) on the PinePhone Pro
-to the device dts file.
-It receives commands over SCCB, an I2C-compatible protocol, at
-I2C address 0x36 and transmits data over CSI-MIPI.
-I confirmed this address experimentally.
+On Fri, May 9, 2025 at 2:43=E2=80=AFPM T.J. Mercier <tjmercier@google.com> =
+wrote:
+>
+[...]
+> >
+> > Personally, I would prefer we just merge all the logic of
+> > create_udmabuf() and create_sys_heap_dmabuf()
+> > into create_test_buffers().
+>
+> That's a lot of different stuff to put in one place. How about
+> returning file descriptors from the buffer create functions while
+> having them clean up after themselves:
 
-The pin control mapping was again extracted from the PinePhone Pro
-schematic v1.0 as well as the RK3399 datasheet revision 1.8.
+I do like this version better. Some nitpicks though.
 
-Table 2-3 in section 2.8 of the RK3399 datasheet contains the mapping
-of IO functions for the SoC pins. Page 52 shows GPIO1_A4, page 54 shows
-GPIO2_B4.
+>
+> -static int memfd, udmabuf;
+> +static int udmabuf;
 
-For the reset (RESET) signal:
-page 11 quadrant D2             | p.18 q.B3-4 | p.18 q.C2
-RK3399_E.R28 -> GPIO1_A4 -> Camera2_RST -> MIPI_RST1 -> OV8858.12
+About this, and ...
 
-For the powerdown (PWDN) signal:
-page 9 quadrants D4-5          | p.18 q.B2
-RK3399_L.F31 -> GPIO2_B4 -> DVP_PDN0_H -> OV8858.14
+>  static const char udmabuf_test_buffer_name[DMA_BUF_NAME_LEN] =3D
+> "udmabuf_test_buffer_for_iter";
+>  static size_t udmabuf_test_buffer_size;
+>  static int sysheap_dmabuf;
+>  static const char sysheap_test_buffer_name[DMA_BUF_NAME_LEN] =3D
+> "sysheap_test_buffer_for_iter";
+>  static size_t sysheap_test_buffer_size;
+>
+> -static int create_udmabuf(int map_fd)
+> +static int create_udmabuf(void)
+>  {
+>         struct udmabuf_create create;
+> -       int dev_udmabuf;
+> -       bool f =3D false;
+> +       int dev_udmabuf, memfd, udmabuf;
+.. here.
 
-Helped-by: Dragan Simic <dsimic@manjaro.org>
-Co-developed-by: Ondrej Jirman <megi@xff.cz>
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
-Signed-off-by: Olivier Benjamin <olivier.benjamin@bootlin.com>
----
- .../boot/dts/rockchip/rk3399-pinephone-pro.dts     | 45 ++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+It is not ideal to have a global udmabuf and a local udmabuf.
+If we want the global version, let's rename the local one.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts b/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts
-index 588e2d8a049cc649aa227c7a885bd494f23fbdf8..460333915ed43ecc073dd7b5f4575402fb809876 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts
-@@ -480,6 +480,27 @@ wcam_lens: camera-lens@c {
- 		/* Same I2c bus as both cameras, depends on vcca1v8_codec for power. */
- 		vcc-supply = <&vcc1v8_dvp>;
- 	};
-+
-+	ucam: camera@36 {
-+		compatible = "ovti,ov8858";
-+		reg = <0x36>;
-+		clocks = <&cru SCLK_CIF_OUT>; /* MIPI_MCLK1, derived from CIF_CLK0 */
-+		clock-names = "xvclk";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&ucam_rst &ucam_pwdn>;
-+		dovdd-supply = <&vcc1v8_dvp>;
-+		reset-gpios = <&gpio1 RK_PA4 GPIO_ACTIVE_LOW>;
-+		powerdown-gpios = <&gpio2 RK_PB4 GPIO_ACTIVE_LOW>;
-+		orientation = <0>; /* V4L2_CAMERA_ORIENTATION_FRONT */
-+		rotation = <90>;
-+
-+		port {
-+			ucam_out: endpoint {
-+				remote-endpoint = <&mipi_in_ucam>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
- };
- 
- &i2c3 {
-@@ -524,6 +545,24 @@ &io_domains {
- 	status = "okay";
- };
- 
-+&isp0 {
-+	status = "okay";
-+
-+	ports {
-+		port@0 {
-+			mipi_in_ucam: endpoint@0 {
-+				reg = <0>;
-+				remote-endpoint = <&ucam_out>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
-+};
-+
-+&isp0_mmu {
-+	status = "okay";
-+};
-+
- &isp1 {
- 	status = "okay";
- 
-@@ -599,6 +638,12 @@ camera {
- 		wcam_rst: wcam-rst {
- 			rockchip,pins = <1 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
- 		};
-+		ucam_rst: ucam-rst {
-+			rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+		ucam_pwdn: ucam-pwdn {
-+			rockchip,pins = <2 RK_PB4 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
- 	};
- 
- 	leds {
+[...]
 
--- 
-2.48.1
+>
+>  static int create_test_buffers(int map_fd)
+>  {
+> -       int ret;
+> +       bool f =3D false;
+> +
+> +       udmabuf =3D create_udmabuf();
+> +       sysheap_dmabuf =3D create_sys_heap_dmabuf();
+>
+> -       ret =3D create_udmabuf(map_fd);
+> -       if (ret)
+> -               return ret;
+> +       if (udmabuf < 0 || sysheap_dmabuf < 0)
+> +               return -1;
 
+We also need destroy_test_buffers() on the error path here,
+or at the caller.
+
+>
+> -       return create_sys_heap_dmabuf(map_fd);
+> +       return bpf_map_update_elem(map_fd, udmabuf_test_buffer_name,
+> &f, BPF_ANY) ||
+> +              bpf_map_update_elem(map_fd, sysheap_test_buffer_name,
+> &f, BPF_ANY);
+>  }
+>
+>  static void destroy_test_buffers(void)
+>  {
+>         close(udmabuf);
+> -       close(memfd);
+>         close(sysheap_dmabuf);
+
+For the two global fds, let's reset them to -1 right after close().
+
+Thanks,
+Song
 
