@@ -1,54 +1,57 @@
-Return-Path: <linux-media+bounces-32066-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32067-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09292AB0736
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 02:45:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE7BAB0766
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 03:18:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3B02987D98
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 00:44:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F17F91BC5B5D
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 01:18:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDF9824B29;
-	Fri,  9 May 2025 00:45:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C5EE78F39;
+	Fri,  9 May 2025 01:17:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="dcXQRGKT"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="AXAgfyT+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E29B0CA5A;
-	Fri,  9 May 2025 00:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921CD17D2;
+	Fri,  9 May 2025 01:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746751502; cv=none; b=U4G4+JsePAT50xEBqORymb1/g/9fU3CTJvPlRsGNHexyw4+8Sq+lb4QRR6x9sgcSZNKDKUgFM+4lrm5xvD8P54eS8N8Jo8TEDNB3N0D1fI8sLhzcUtVLDXrPK5b+nEaHY+NfzZSUG5BwfQ/nsk3xr8loyNNvyip0iqwP4lLyf+4=
+	t=1746753476; cv=none; b=S3GCF/hHjJ+nCP4T2m5nhcabyDHy4c/4zxO43/PZ0wjO4uqCbxM4Kyq+aUspdE5g6xBWtgB/WPA4vQic1ReT1XhRestvbeMJRM7uzrJPVIBu7+/G+ZilmBJEOjj0imiwULnG2Bfgoym1nd0BL8H562ZjBNofz8Erv4/qrW7OYxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746751502; c=relaxed/simple;
-	bh=WYLEN7GDQuX8YI51h/mpEIQKMRk9tXif0YsrrNFvm0E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=StuoBmMeDOXyVvR/YLFPVJIYxZnGWEOo/g5sX1OoqaauAwIpnCEw7z2SgBa5fDTwklS+XIT0E6ialuqGkXu/sgLWk4GEchnbVdqnNBF1/DYezCTKTCcDITVmMuTm5zAZaix+W/30YO3NN8VWr+NPhuEjTlXkaGJ/5Yghjq3IkIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=dcXQRGKT; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=IS
-	vOnkwzNUeBg/PRQTOPDM/n0oOrO34l9pZ/YMUW4PU=; b=dcXQRGKTocpY0OvxmF
-	aZ7NgTSrvCq1ECd0ElkPYOmJSEd3k2ZKNkhCedmu+pjmxZTvDGWtaB3ZjHrwgXIB
-	xfDjEvPqafKg2rKhxZmsCGVlT/Z+kr/EdqwqbOjH9VhmMp7hymbYjGs+NCkWk+gc
-	l1jT+iR3NACDieEWKCYK/2R34=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wBXlr_lTx1oLptcAA--.13195S2;
-	Fri, 09 May 2025 08:44:22 +0800 (CST)
-From: chenchangcheng <ccc194101@163.com>
-To: laurent.pinchart@ideasonboard.com,
-	ribalda@chromium.org
-Cc: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	chenchangcheng <chenchangcheng@kylinos.cn>
-Subject: [PATCH v9] media: uvcvideo: Fix bandwidth issue for Alcor camera.
-Date: Fri,  9 May 2025 08:44:19 +0800
-Message-Id: <20250509004419.49750-1-ccc194101@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1746753476; c=relaxed/simple;
+	bh=8P30E5BnjmQ9M5SWvhiMmyw/gYVGi2MOum18NKNu26w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A/NujW0u8MKBqxJU0gdi7dibyLeVLf1v9/XDgAgXMTvbeW6QuUhm+yTa1u0ufPgrqIZcg7IhZY1k0HGIj6Gv/285teT5TNWE5R51nzRu80XG75Ufi3kNRywRoqtynWWeQLCk6KRYpv98x7fEzO7uXtKQrSUvpjldkHzLXT9blG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=AXAgfyT+; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=0kbl/khprjF8mImI+ZP0nZf02/u49AHVsD0wSVfffNE=; b=AXAgfyT+mGKTsg/i
+	pSHPxsdYb+720CcDMXjhDl6PEJ6aS9DNRu6mmD8NnF9MZH+LLaTEOdl+Ic7VG62bi7L42p6mPIQy7
+	gpKv9JIaCTtl29zi53d/X6Id90j+mO/WOTc+t5+GH6m41TEOhxTaMXHomktlDUSq8YK6eaLA09h5j
+	BF6VSL1QOZ3uQAiRjJQUjDiFex+g3MRLSaG5asF+QLBPBbj9/bR44fuiHU+XtGoQ/sFNT0kAAYoOY
+	5Vs2Z9M5nh0TwyzU6b+Mg6aFHH31/nR3iYDSkigkQN0TCU8B0FEKkOneAO/U1n0BtHWNegH2pfvbz
+	NaLXjTJM5xF8HRlCFQ==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1uDCN5-002Wwd-0m;
+	Fri, 09 May 2025 01:17:51 +0000
+From: linux@treblig.org
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] media: saa7164: Remove unused functions
+Date: Fri,  9 May 2025 02:17:50 +0100
+Message-ID: <20250509011750.292145-1-linux@treblig.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,52 +59,118 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBXlr_lTx1oLptcAA--.13195S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFWDKry5WFWfKF1xAr4UCFg_yoW8Xw1xpa
-	1ruayFyryUJrWrWanrJa1rKw4rJanakw4fKFW3W34DZr15JryxXFy3G340q34qyan3Aw13
-	tr1qqrnF939Yvr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jolksUUUUU=
-X-CM-SenderInfo: 5fffimiurqiqqrwthudrp/1tbiwhFI3mgdSP6qlQAAs5
 
-From: chenchangcheng <chenchangcheng@kylinos.cn>
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Some broken device return wrong dwMaxPayloadTransferSize fields
-as follows:
-    [  218.632537] [pid:20427,cpu6,guvcview,8]uvcvideo: Device requested 2752512 B/frame bandwidth.
-    [  218.632598] [pid:20427,cpu6,guvcview,9]uvcvideo: No fast enough alt setting for requested bandwidth.
+saa7164_cmd_signal() last use was removed in 2009 by
+commit 39e469ab6dee ("V4L/DVB (12940): SAA7164: IRQ / message timeout
+related change")
 
-When dwMaxPayloadTransferSize is greater than maxpsize,
-it will prevent the camera from starting.
-So use the bandwidth of maxpsize.
+saa7164_buffer_display() was added in 2010 by
+commit add3f580a434 ("[media] saa7164: convert buffering structs to be more
+generic")
+but is unused.
 
-Signed-off-by: chenchangcheng <chenchangcheng@kylinos.cn>
+Remove them.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/media/usb/uvc/uvc_video.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/media/pci/saa7164/saa7164-buffer.c | 20 ----------------
+ drivers/media/pci/saa7164/saa7164-cmd.c    | 28 ----------------------
+ drivers/media/pci/saa7164/saa7164.h        |  2 --
+ 3 files changed, 50 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index e3567aeb0007..0d5c17509ceb 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -262,6 +262,15 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+diff --git a/drivers/media/pci/saa7164/saa7164-buffer.c b/drivers/media/pci/saa7164/saa7164-buffer.c
+index 89c5b79a5b24..7820e4f47fd5 100644
+--- a/drivers/media/pci/saa7164/saa7164-buffer.c
++++ b/drivers/media/pci/saa7164/saa7164-buffer.c
+@@ -52,26 +52,6 @@
+  *						    | etc
+  */
  
- 		ctrl->dwMaxPayloadTransferSize = bandwidth;
- 	}
-+
-+	if (stream->intf->num_altsetting > 1 &&
-+	    ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
-+		dev_warn_ratelimited(&stream->intf->dev,
-+				   "the max payload transmission size (%d) exceededs the size of the ep max packet (%d). Using the max size.\n",
-+				   ctrl->dwMaxPayloadTransferSize,
-+				   stream->maxpsize);
-+		ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
-+	}
+-void saa7164_buffer_display(struct saa7164_buffer *buf)
+-{
+-	struct saa7164_dev *dev = buf->port->dev;
+-	int i;
+-
+-	dprintk(DBGLVL_BUF, "%s()   buffer @ 0x%p nr=%d\n",
+-		__func__, buf, buf->idx);
+-	dprintk(DBGLVL_BUF, "  pci_cpu @ 0x%p    dma @ 0x%08llx len = 0x%x\n",
+-		buf->cpu, (long long)buf->dma, buf->pci_size);
+-	dprintk(DBGLVL_BUF, "   pt_cpu @ 0x%p pt_dma @ 0x%08llx len = 0x%x\n",
+-		buf->pt_cpu, (long long)buf->pt_dma, buf->pt_size);
+-
+-	/* Format the Page Table Entries to point into the data buffer */
+-	for (i = 0 ; i < SAA7164_PT_ENTRIES; i++) {
+-
+-		dprintk(DBGLVL_BUF, "    pt[%02d] = 0x%p -> 0x%llx\n",
+-			i, buf->pt_cpu, (u64)*(buf->pt_cpu));
+-
+-	}
+-}
+ /* Allocate a new buffer structure and associated PCI space in bytes.
+  * len must be a multiple of sizeof(u64)
+  */
+diff --git a/drivers/media/pci/saa7164/saa7164-cmd.c b/drivers/media/pci/saa7164/saa7164-cmd.c
+index 42bd8e76005b..a95662776ee8 100644
+--- a/drivers/media/pci/saa7164/saa7164-cmd.c
++++ b/drivers/media/pci/saa7164/saa7164-cmd.c
+@@ -295,34 +295,6 @@ static int saa7164_cmd_wait(struct saa7164_dev *dev, u8 seqno)
+ 	return ret;
  }
  
- static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
-
-base-commit: d76bb1ebb5587f66b0f8b8099bfbb44722bc08b3
+-void saa7164_cmd_signal(struct saa7164_dev *dev, u8 seqno)
+-{
+-	int i;
+-	dprintk(DBGLVL_CMD, "%s()\n", __func__);
+-
+-	mutex_lock(&dev->lock);
+-	for (i = 0; i < SAA_CMD_MAX_MSG_UNITS; i++) {
+-		if (dev->cmds[i].inuse == 1) {
+-			dprintk(DBGLVL_CMD,
+-				"seqno %d inuse, sig = %d, t/out = %d\n",
+-				dev->cmds[i].seqno,
+-				dev->cmds[i].signalled,
+-				dev->cmds[i].timeout);
+-		}
+-	}
+-
+-	for (i = 0; i < SAA_CMD_MAX_MSG_UNITS; i++) {
+-		if ((dev->cmds[i].inuse == 1) && ((i == 0) ||
+-			(dev->cmds[i].signalled) || (dev->cmds[i].timeout))) {
+-			dprintk(DBGLVL_CMD, "%s(seqno=%d) calling wake_up\n",
+-				__func__, i);
+-			dev->cmds[i].signalled = 1;
+-			wake_up(&dev->cmds[i].wait);
+-		}
+-	}
+-	mutex_unlock(&dev->lock);
+-}
+-
+ int saa7164_cmd_send(struct saa7164_dev *dev, u8 id, enum tmComResCmd command,
+ 	u16 controlselector, u16 size, void *buf)
+ {
+diff --git a/drivers/media/pci/saa7164/saa7164.h b/drivers/media/pci/saa7164/saa7164.h
+index eede47b686a3..e1bac1fe19d3 100644
+--- a/drivers/media/pci/saa7164/saa7164.h
++++ b/drivers/media/pci/saa7164/saa7164.h
+@@ -508,7 +508,6 @@ int saa7164_bus_get(struct saa7164_dev *dev, struct tmComResInfo* msg,
+ int saa7164_cmd_send(struct saa7164_dev *dev,
+ 	u8 id, enum tmComResCmd command, u16 controlselector,
+ 	u16 size, void *buf);
+-void saa7164_cmd_signal(struct saa7164_dev *dev, u8 seqno);
+ int saa7164_irq_dequeue(struct saa7164_dev *dev);
+ 
+ /* ----------------------------------------------------------- */
+@@ -570,7 +569,6 @@ extern int saa7164_dvb_unregister(struct saa7164_port *port);
+ extern struct saa7164_buffer *saa7164_buffer_alloc(
+ 	struct saa7164_port *port, u32 len);
+ extern int saa7164_buffer_dealloc(struct saa7164_buffer *buf);
+-extern void saa7164_buffer_display(struct saa7164_buffer *buf);
+ extern int saa7164_buffer_activate(struct saa7164_buffer *buf, int i);
+ extern int saa7164_buffer_cfg_port(struct saa7164_port *port);
+ extern struct saa7164_user_buffer *saa7164_buffer_alloc_user(
 -- 
-2.25.1
+2.49.0
 
 
