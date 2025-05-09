@@ -1,98 +1,128 @@
-Return-Path: <linux-media+bounces-32171-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32172-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A341AB1C9A
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 20:47:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41765AB1CAC
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 20:50:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46CE4B250A3
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 18:46:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D01E3BD2D8
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 18:50:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10CBA23CEF8;
-	Fri,  9 May 2025 18:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4B28241114;
+	Fri,  9 May 2025 18:50:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GEeuyY3F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gFPghcQ+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7161223C4FD
-	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 18:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176CA23F409;
+	Fri,  9 May 2025 18:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746816441; cv=none; b=GepwPwiEdDMsqKLgUgFWJoKu8cxvdTZOQittpWXVUxXW3lvl+ki18sfuJfUXU1C2pv1UgZhwBQoK+MngpBwYxoCuqtdMz8PvJ+FCKfeMV5h6AOHYshhhV0n3boWFt0hxRZ9E558JcZMzMLnXS3Z3P1odV4X3Ym1LMrrsQYD4KW8=
+	t=1746816613; cv=none; b=N8iHJPx5WqHatfXjqPMoj19biT9I4x6JzhWmZ0JNoYzDrQjZJB8TGrhOAb6qCrnEBOc736p46AryykLU7oVL6yKkfsGaNLwwWDo44UhfwVLR/x2JzSymKpfj90wFDf6O/gUxJkr/sFYYnzFb+oZqvmVU7iYvPFwohODfFQPo5pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746816441; c=relaxed/simple;
-	bh=wy5gqsqf+PoBI3utc7s4D6elm1vRfarYU5VG9T5mSLg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DmCLWx/4yKCdQjcRl+v+yNeXSF1H+rTlWtviYDPvE89/wRe1zuzUxP6E04UJDpB8EZY/0i5AFA5tZ05V4Zy8qmTJJu5tSHkdK+Kwc5Vxn1BV7Tu5y90qKC4RmBlSHDw2R62wDlZiPZD2PgxBO0LaT7s3bNxKoVJm9gxEpH9ZTzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GEeuyY3F; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (static-176-133-119-130.ftth.abo.bbox.fr [176.133.119.130])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01518F89;
-	Fri,  9 May 2025 20:47:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746816423;
-	bh=wy5gqsqf+PoBI3utc7s4D6elm1vRfarYU5VG9T5mSLg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GEeuyY3F3ZBRC4kPFgVzCDPv45IXugodV82sd6IITTkKfEI4Okn+Si15FDX2xNk5E
-	 soiDzrNqmaP2lb/P7aunpZhrArrdhv9K4ew580hJ0ir4ZoNkmqVjml2p4/FJsFyBuT
-	 SsBYvM0bzMpqtNrRYGYMjG+e8yorDxXvigUbpOhc=
-Date: Fri, 9 May 2025 20:47:06 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mathis Foerst <mathis.foerst@mt.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 01/13] media: aptina-pll: Debug log p1 min and max values
-Message-ID: <20250509184706.GA19001@pendragon.ideasonboard.com>
-References: <20250504101336.18748-1-hdegoede@redhat.com>
- <20250504101336.18748-2-hdegoede@redhat.com>
+	s=arc-20240116; t=1746816613; c=relaxed/simple;
+	bh=Nw2icyS2gV5tHa1D9rYpJZ+wGXpk3ib7WkwKezocKec=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uqxkZ2313RyhT7AQXnGbopU1MX4Rvq3aIW6S2C5ylHyyHfrVYwQ1kLl2IHVpO6RzjDvKbyddIxxmaAkKeoIKqW660WBENefatDeoX2YsgtdaYsfqgMCBL0l/XaKjfvewBD5B4dtAeDaiDTDHyCLHasV4PWKopSgSv3Yqtoc4nj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gFPghcQ+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80696C4CEF1;
+	Fri,  9 May 2025 18:50:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746816612;
+	bh=Nw2icyS2gV5tHa1D9rYpJZ+wGXpk3ib7WkwKezocKec=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=gFPghcQ+g6Ow9fN25q0c90JbQo/nGkzH0y81T4XLX5PFSG16F/6zq6b+vvU92VHAD
+	 IulxDi9xgjPdU/ADecB1w0UTu4nKkIl9rc4KuCVMf3O9J4wKzGkKfV2f1LgmP32Fjd
+	 NVrUcsxXd0PArNhlEZ8CaJf01HIcfiYutctkQ/rjVeKxeyJXrgDbppkfX8iIyTwQ5P
+	 mgUzWoohx3oNk9tHWdTETFqoI0YQnGcN8GxGZ1PlIMRV/4RGcHyELPXGqtxYf5iQKK
+	 QX27STt8I7pQlx8PDeNJzWhOI6f+ARYeLTQ/c1MGZXcqbegmwBqO+jOOx7W2XUQSK7
+	 HC4bpoTekdA4A==
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6f2c45ecaffso25172806d6.2;
+        Fri, 09 May 2025 11:50:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUhBEDAheXM/dKrd34T9/a1p/N3/6CrhKj5dZGK5CFS/4oGerTOCxiZVgViiIvNW2c4sJw=@vger.kernel.org, AJvYcCWGQdiqIfQ0BN44LkFKJY2X6HyriwnjQ6h4SxPWQpDXblG1v0u8n2k8SSarl5bhOpfjwEWcuBHAkOKoJ8rU@vger.kernel.org, AJvYcCXddGjPF1sHUcPIP5R/kHORBPmE5fFsjcbOx97jrFeDN+5nGDH5MMarkuKzQlBXGxVsHMtA4NybIxgHmhwvG0Y8@vger.kernel.org, AJvYcCXu8pab8ZZaMbCoTMPXN2mhSRPA4dWJy5PbFwhtHmus5VrM658JKo3zpPcYIfejCB8/a46fdXmiHmgW7lY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyc9kDX+Z9NxuQxMsd+hJu7GBJZ5xV9PqP8cSp/Nf3QcASUdsHR
+	/zGxiiZKLBJIK0yG98g7q0K7cqeo56uUJjYPJsxvi4zLccJxwcFeibvFU28cZQfbD5WdMyhXnnW
+	Z3yn/UfGs5Qo3N3WvsGrbm1VfGfA=
+X-Google-Smtp-Source: AGHT+IGViwOqDoSNMIOEXeB3GdIvGbjcaeo4byd7FglN0JuWKHxLNlzbt1DVCaT9CHq9HWOw/2go8UY9Rkg8LznMS0k=
+X-Received: by 2002:a05:6214:c48:b0:6f4:b8eb:4815 with SMTP id
+ 6a1803df08f44-6f6e470e2b8mr69583436d6.0.1746816611621; Fri, 09 May 2025
+ 11:50:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250504101336.18748-2-hdegoede@redhat.com>
+References: <20250508182025.2961555-1-tjmercier@google.com> <20250508182025.2961555-5-tjmercier@google.com>
+In-Reply-To: <20250508182025.2961555-5-tjmercier@google.com>
+From: Song Liu <song@kernel.org>
+Date: Fri, 9 May 2025 11:50:00 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW7vkmr_SMgzOwhgVCW4GOzJR3thuCQhZFOT5_17jy74_Q@mail.gmail.com>
+X-Gm-Features: ATxdqUHqE3dBs_GqqtsEkebsXlPIJjQ8mIfly-oCmcZbVTRJUoQ4p6wXYOBC9U4
+Message-ID: <CAPhsuW7vkmr_SMgzOwhgVCW4GOzJR3thuCQhZFOT5_17jy74_Q@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v4 4/5] selftests/bpf: Add test for dmabuf_iter
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hans,
+On Thu, May 8, 2025 at 11:20=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+[...]
 
-Thank you for the patch.
-
-On Sun, May 04, 2025 at 12:13:22PM +0200, Hans de Goede wrote:
-> Make aptina_pll_calculate() debug log the calculated p1 min and max values,
-> this makes it easier to see how the m, n and p1 values were chosen.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/aptina-pll.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/aptina-pll.c b/drivers/media/i2c/aptina-pll.c
-> index b1f89bbf9d47..cd2ed4583c97 100644
-> --- a/drivers/media/i2c/aptina-pll.c
-> +++ b/drivers/media/i2c/aptina-pll.c
-> @@ -129,6 +129,8 @@ int aptina_pll_calculate(struct device *dev,
->  	p1_max = min(limits->p1_max, limits->out_clock_max * div /
->  		     (pll->ext_clock * pll->m));
->  
-> +	dev_dbg(dev, "pll: p1 min %u max %u\n", p1_min, p1_max);
 > +
->  	for (p1 = p1_max & ~1; p1 >= p1_min; p1 -= 2) {
->  		unsigned int mf_inc = p1 / gcd(div, p1);
->  		unsigned int mf_high;
+> +void test_dmabuf_iter(void)
+> +{
+> +       struct dmabuf_iter *skel =3D NULL;
+> +       char buf[256];
+> +       int iter_fd;
+> +
+> +       skel =3D dmabuf_iter__open_and_load();
+> +       if (!ASSERT_OK_PTR(skel, "dmabuf_iter__open_and_load"))
+> +               return;
+> +
+> +       if (!ASSERT_OK(create_test_buffers(), "create_buffers"))
+> +               goto destroy;
+> +
+> +       if (!ASSERT_OK(dmabuf_iter__attach(skel), "skel_attach"))
+> +               goto destroy;
 
--- 
-Regards,
+From here...
 
-Laurent Pinchart
+> +       iter_fd =3D bpf_iter_create(bpf_link__fd(skel->links.dmabuf_colle=
+ctor));
+> +       if (!ASSERT_OK_FD(iter_fd, "iter_create"))
+> +               goto destroy;
+> +
+> +       while (read(iter_fd, buf, sizeof(buf)) > 0)
+> +               ; /* Read out all contents */
+> +
+> +       /* Next reads should return 0 */
+> +       ASSERT_EQ(read(iter_fd, buf, sizeof(buf)), 0, "read");
+
+to here, can be a separate subtest. Then iter_fd can be moved to
+that subtest.
+
+> +
+> +       if (test__start_subtest("default_iter"))
+> +               subtest_dmabuf_iter_check_default_iter(skel);
+> +
+> +       close(iter_fd);
+> +
+> +destroy:
+> +       destroy_test_buffers();
+> +       dmabuf_iter__destroy(skel);
+[...]
 
