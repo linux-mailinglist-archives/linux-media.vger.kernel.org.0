@@ -1,57 +1,56 @@
-Return-Path: <linux-media+bounces-32181-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32182-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5256AB1F15
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 23:31:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9321BAB1F16
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 23:32:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 27F901BA274F
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 21:31:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B632A20DDC
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 21:32:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20C6623BF91;
-	Fri,  9 May 2025 21:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E743623E32D;
+	Fri,  9 May 2025 21:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aF3UM09S"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FbFg7oiv"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3E416D4E6
-	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 21:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D045816D4E6
+	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 21:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746826271; cv=none; b=GbgyLcz2T7oGd8Ntpw0zcOYVEw26VRAKybbKVPhSftfrKiPM8nrtg2LmwLWbdN9NzxiNwKe7k2D3ExjkuijcOO9fmAbffjdRx0RRRbUMxN2xD0yqGWSio9v5yCBqSWiBnc1GVL6Ntzn/hVYhvcAB4boviK/L3+njGsVzQSsVTZQ=
+	t=1746826347; cv=none; b=WIAi4nsQrp32/afKcGJvsTIW+bQRYDOSSPKKWkYKBmqpISjam3R3QRO+89ua94x5niPdnYwsnOlr2YmBAGjyckPnstIUXxLrxzS+jcae1J02utpo29X2FOec4TVC8gUqHgcYsiwYi8sDryDHrPYXMX0z+sgqZBpN5YJwdy9RWWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746826271; c=relaxed/simple;
-	bh=GEzMDCsi1oI7ApPy3e6fY9+CcAZ7tEdt0lRxEIy5dGs=;
+	s=arc-20240116; t=1746826347; c=relaxed/simple;
+	bh=6xJuV0M9WcHuZZYEQL17O8gCNpAB0DNVwIujl5gqzy8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ItTjslu9dMdTgj3abFR36s2e2FFAv5on0jAftQasfI2nAjorq/lAq8sy6v0hiFS+vTBpWEeTF2W3LvoqpRrnjmKHXPu3b7btdgBRz2UG8vped213mn+lBAUwF1yy5DgZWyU8axpdv593EXgmGv6cgIkNNGeaaghEijQllmPodiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aF3UM09S; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=b38AxRg8CUKg+9YH6kGd02bHnPh0fS2BsM3Yu7CZ77p+tCgUEnFdMCedpcTc0jIZFbD2+hXT3F/fndmDZ4Bwm0H0E+RUKHJ1msuIIOTbgEhSlN5C7HD0U/AarDoD5F2zdtuyDfwonslTTN+ANpiGlGHQ59R4378JovSk30baqkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FbFg7oiv; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (noh63-h01-176-133-119-130.dsl.sta.abo.bbox.fr [176.133.119.130])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A68DD8DB;
-	Fri,  9 May 2025 23:30:55 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 361708DB;
+	Fri,  9 May 2025 23:32:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746826255;
-	bh=GEzMDCsi1oI7ApPy3e6fY9+CcAZ7tEdt0lRxEIy5dGs=;
+	s=mail; t=1746826331;
+	bh=6xJuV0M9WcHuZZYEQL17O8gCNpAB0DNVwIujl5gqzy8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aF3UM09SLqT9kZS5zZogB39rv5Og1NodGK6PmQ0aG/99LOBex8JiJo4BP2jjZB9xw
-	 xtHlOjDry8lTgbwYacX1Y7CM4Q1qWP1SHBGt39sYmnQRTuWOEJJosP15pP7uopI6BT
-	 Ug48XcOk4Ou1tGXx+AA2Ui7z/QemlDe7A+Ae7EeY=
-Date: Fri, 9 May 2025 23:30:59 +0200
+	b=FbFg7oivtUe3I0EKio8N3zwdNjeiM0ferVBax+ubR2IgNNdDqXrcXL3pZialsscht
+	 FFJvYIy2noX9xf013/kYLXpoe4FO251FoVuaZkfRz59VjJO6eikoMwJj7pI7K/lizL
+	 8WwsuL5+Ra8d1SztZCARvcfMTZFFyeFLhjHOI3Xo=
+Date: Fri, 9 May 2025 23:32:15 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Mathis Foerst <mathis.foerst@mt.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 06/13] media: mt9m114: Tweak default hblank and vblank
- for more accurate fps
-Message-ID: <20250509213059.GF19001@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 13/13] media: mt9m114: Add ACPI enumeration support
+Message-ID: <20250509213215.GG19001@pendragon.ideasonboard.com>
 References: <20250504101336.18748-1-hdegoede@redhat.com>
- <20250504101336.18748-7-hdegoede@redhat.com>
+ <20250504101336.18748-14-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,51 +59,47 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250504101336.18748-7-hdegoede@redhat.com>
+In-Reply-To: <20250504101336.18748-14-hdegoede@redhat.com>
 
 Hi Hans,
 
 Thank you for the patch.
 
-On Sun, May 04, 2025 at 12:13:27PM +0200, Hans de Goede wrote:
-> The PLL gets programmed to achieve a 48 MHz pixelclock, with the original
-
-s/original/current/
-
-> vblank + hblank defaults this results in a fps of:
-> 
-> 48000000 / ((1296 + 307) * (976 + 23) = 29.974 fps
-> 
-> Tweak the defaults to get closer to 30 fps:
-> 
-> 48000000 / ((1296 + 308) * (976 + 21) = 30.015 fps
-> 
-> This improves things from being 0.026 fps too low to 0.015 fps too high.
+On Sun, May 04, 2025 at 12:13:34PM +0200, Hans de Goede wrote:
+> Add support for the mt9m114 sensor being enumerated through ACPI
+> using the INT33F0 HID as found on the Asus T100TA.
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/media/i2c/mt9m114.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/media/i2c/mt9m114.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
 > diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> index 52337c719e22..ba8b7660f88a 100644
+> index eba8232444c9..08e4d7ebcbd1 100644
 > --- a/drivers/media/i2c/mt9m114.c
 > +++ b/drivers/media/i2c/mt9m114.c
-> @@ -331,8 +331,8 @@
->   */
->  #define MT9M114_MIN_HBLANK				303
->  #define MT9M114_MIN_VBLANK				21
-> -#define MT9M114_DEF_HBLANK				307
-> -#define MT9M114_DEF_VBLANK				23
-> +#define MT9M114_DEF_HBLANK				308
-> +#define MT9M114_DEF_VBLANK				21
+> @@ -2556,11 +2556,18 @@ static const struct of_device_id mt9m114_of_ids[] = {
+>  };
+>  MODULE_DEVICE_TABLE(of, mt9m114_of_ids);
 >  
->  #define MT9M114_DEF_FRAME_RATE				30
->  #define MT9M114_MAX_FRAME_RATE				120
+> +static const struct acpi_device_id mt9m114_acpi_ids[] = {
+> +	{ "INT33F0" },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(acpi, mt9m114_acpi_ids);
+> +
+>  static struct i2c_driver mt9m114_driver = {
+>  	.driver = {
+>  		.name	= "mt9m114",
+>  		.pm	= &mt9m114_pm_ops,
+>  		.of_match_table = mt9m114_of_ids,
+> +		.acpi_match_table = mt9m114_acpi_ids,
+>  	},
+>  	.probe		= mt9m114_probe,
+>  	.remove		= mt9m114_remove,
 
 -- 
 Regards,
