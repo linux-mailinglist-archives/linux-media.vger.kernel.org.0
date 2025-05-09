@@ -1,48 +1,87 @@
-Return-Path: <linux-media+bounces-32121-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32122-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CF7AB100A
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 12:12:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF45AB103C
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 12:15:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 42E857B78C8
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 10:10:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 148F67B277B
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 10:14:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 770C528EA73;
-	Fri,  9 May 2025 10:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF6D028FFD5;
+	Fri,  9 May 2025 10:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OUPmnkkT"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K+qGMvhQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89DB28E5F6;
-	Fri,  9 May 2025 10:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C9E274674
+	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 10:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746785515; cv=none; b=n6GQXExkOxDaSwogLKaJS8Qbp97AS6+H8/ftaX3HBxULh0YOGULNzapMFlcRuhOuDguAK63qIdQ1CRfvfAWPulcbMsYLMur/bubRwPIR4GTYTXeS3FyBCR/RXJB+mdFQ86CwGqX/LLZokCfHQNCE40aTwfdKTF45QPwR37kYiBc=
+	t=1746785645; cv=none; b=OzcLRos1aTZM5whZ5RQRZT71l5SafQuqZXNaPsqAFe5wrR4IB+FgTeyf8MSxNTZXzRFCnF5FL2Q5b9VulTaNyWFXs1e0FlnpenR5ckMeCI/TndtKButA+3LuSVE51sIFPPoUPzL8Mkb0nFh/n2paSsFtiqpTnSmYruEx7kHWjIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746785515; c=relaxed/simple;
-	bh=RyRbJoQqShXjHqdPZDfdYWdVxMf5IuqJKffN44Ywzp4=;
+	s=arc-20240116; t=1746785645; c=relaxed/simple;
+	bh=jIFULH29n9ohDpIg7B5mktnW4yj7q0CcKNXk6QR88Rg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZRQvDjAxPuu6Cp7+TzzwFxy9sFA17pdMVqZX0/fflhgHO5cXQNjOTRpKm56Gc68vFN6cM6Kshs4QGva4V2woqTvyhjPv/qcUMm9Zepn4v60/EhuuEqE2UGFPWenBg/cPm4wQDHTf/npAhVpbMcKM2+mRZ9/xvqIF9bhC6OJSAPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OUPmnkkT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E247AC4CEE4;
-	Fri,  9 May 2025 10:11:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746785514;
-	bh=RyRbJoQqShXjHqdPZDfdYWdVxMf5IuqJKffN44Ywzp4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OUPmnkkTtYGDwDaLKEkXkpO1Y7+sXdtrNHxrGy9xkwvNkFjrqJy8O11cnT+q1ES3o
-	 4Y1/3eW29+MFL5dZacp7iSvT/sAHHYFa2O/8FClCvO3gF8LM/Slm/C0truwK5mZByv
-	 GI183gv5r+thHGwQfRprn23csSaD/Cfo7NdfqVEooqPrHj7z806vQMcU9BjnvbbI/B
-	 Z3dxvFSr4XpZ+SHSe3Cq5UYwkg6XnozVQcCB+5nHf3hy2Rz3P3GDm7WUa/LfrbBzXx
-	 QYAMw3jdv1cSZF1CAET6oC9RLDtA1B18la8BiqbrOlUHO4gBFZz8UFGfi9iiZ1kxys
-	 cPMWE3hSxNphA==
-Message-ID: <f1073f21-0885-486f-80c8-00f91dfd7448@kernel.org>
-Date: Fri, 9 May 2025 12:11:48 +0200
+	 In-Reply-To:Content-Type; b=EYNyOd+DQ97mVWiXczVFzsNSRVYBEpaD8cXxZgyR059LdSb1fxC+QOvIMYH61JiQuxMKk0kY29mBXv1QgT62ruLxvgIWTJChc0JI76Wm5WDpktQpL13TCVO81e6nIvPqU17tlKaN9/YVaPRFnepmGmyR2DaeiHBxSkmBhMe2jp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K+qGMvhQ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746785642;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GM2KWriALW+W9HfotpcpJD1T2peJnzHoZks3LlUgcpg=;
+	b=K+qGMvhQJhdlDsKNkQKJR7yZ+yvIOJ/XBVYRkZiM03uCuZXK1JMVQjbpkyshF9/+/Wpeug
+	E7B9A79Weqk4dgmBx3bqQX0GHMfaAVUE7K78LK4K7K5yjcpRlZOHiIfdOpv4e5LmJd+N/B
+	PCSSD1LB6G5u4BMcro+9kM0zNJVS0k4=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-55-RrJ2CqSeP5ih_7kiccn7ww-1; Fri, 09 May 2025 06:14:00 -0400
+X-MC-Unique: RrJ2CqSeP5ih_7kiccn7ww-1
+X-Mimecast-MFC-AGG-ID: RrJ2CqSeP5ih_7kiccn7ww_1746785639
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-acbbb000796so156957566b.2
+        for <linux-media@vger.kernel.org>; Fri, 09 May 2025 03:14:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746785639; x=1747390439;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GM2KWriALW+W9HfotpcpJD1T2peJnzHoZks3LlUgcpg=;
+        b=xLBwZxZ/NJcrNKxAh6Gc4s7pbXEwFDSCn71m+eTGjCbZnYbEAz/C2M8kN1w3XObCw/
+         pLsOAWPPD6h+sTzQfBYe27NyUDhdJdVp+zPqO3uqsFhHB661oxc5EEYq1+St/MKz4aia
+         Qoi7yOS24FNwWZG7jmsjtegLMysDPvHNWS9PIpb9D6sERnvrQkl0OOt/hXPFu+G8wFyu
+         2luIZy+08pcIUh/ySj8eKWWHMNp4c4GoPBsjOpd3Ney79F73ED8WdJwtBVl3HHfSI4tj
+         oK7BVr5/XETtYQO7iW3Ka2ZKwOjflA3bXz/VsRshjCBR9N94q3FtVxjdej9Fuz+ssFBF
+         t8ww==
+X-Forwarded-Encrypted: i=1; AJvYcCXOjdw/X8s+FDp6R85EBZRvYqlxt+523jVjMGp+G02Q83zbZf7vS/TKy0KDIip/vZaOuyxs11GEh5oFtg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6eG3D/8vVgBtyPHdVggQlxAK8ts1l5E6RYJK5JBJDDrE57Yow
+	XgwWV1YSt9xNmXOnfjtNcP9kLdAP//Gnu+hxQFWcTOym1e0j4wXMDI/4Sv9k5f4Tx2ahFrsWPjm
+	/udZesS/4tJj0IL6o5RCkmON3wN5dgSFmlycJXndqNLnRLEmhf8QTQbK6PetN
+X-Gm-Gg: ASbGncuS++5CWo7jn5fl8ImSBzITvIOEEZjI7ZT8P04TPcqBzBPKn/Gk1DuCdReRdzV
+	YtIAMSurN7b1NZXd6n0ZJ9Tab3iQKafGnh3tOXvuihZC672Y4h6gyw07wf8CFhh5nQ2JRjvn0Fe
+	MmOXaxpvKBUizLoIIbvhjcKXdU8MoWOWt90uFkuvxBxzF3eCx2jrVq3YWHVoUQb/C8MpFUSAJ/c
+	jg1Tp8qQMS9YQk22MBn2ae2z7uWrDfMi2HdPd1DAK5oS4MHIXnGnHQrMZrYquv1B0/ZBLuVFLm1
+	b+2h0jI9RJp5XAVEteAIaeKdxpmw3Ta1qbhMwFsfgysgoMg4/hH174gJKxRV7kHoHd0E//+Ru0S
+	fwnuPJaRf9tTYgdBIJMn9JHvz0zZgLlyhJYCJsyvVeIvy3NfnUBnlMGnj5t6OtA==
+X-Received: by 2002:a17:906:bf46:b0:ad1:8e78:3d79 with SMTP id a640c23a62f3a-ad218e74716mr274070966b.1.1746785639222;
+        Fri, 09 May 2025 03:13:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEsp4BhbDz9mA6jOTGQzDEG3h8r/qbviEyrVh2Em1urIyarrCynyQZY5bw0q2/wqav4cdbwyQ==
+X-Received: by 2002:a17:906:bf46:b0:ad1:8e78:3d79 with SMTP id a640c23a62f3a-ad218e74716mr274067766b.1.1746785638749;
+        Fri, 09 May 2025 03:13:58 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad21985342dsm125832766b.169.2025.05.09.03.13.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 May 2025 03:13:58 -0700 (PDT)
+Message-ID: <7c4d419a-613c-420e-8885-01ebb006f345@redhat.com>
+Date: Fri, 9 May 2025 12:13:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,224 +89,79 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/8] dt-bindings: media: nxp: Add Wave6 video codec
- device
-To: Nas Chung <nas.chung@chipsnmedia.com>
-Cc: "mchehab@kernel.org" <mchehab@kernel.org>,
- "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
- "sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>, "marex@denx.de" <marex@denx.de>,
- "jackson.lee" <jackson.lee@chipsnmedia.com>,
- "lafley.kim" <lafley.kim@chipsnmedia.com>
-References: <20250422093119.595-1-nas.chung@chipsnmedia.com>
- <20250422093119.595-3-nas.chung@chipsnmedia.com>
- <20250425-romantic-truthful-dove-3ef949@kuoka>
- <SL2P216MB124656A87931B153F815820BFB8AA@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <SL2P216MB124656A87931B153F815820BFB8AA@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v4)
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans Verkuil <hans@jjverkuil.nl>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Young <sean@mess.org>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
+ <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Steve Cho <stevecho@chromium.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ Jackson Lee <jackson.lee@chipsnmedia.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>,
+ Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Stefan Klug <stefan.klug@ideasonboard.com>
+References: <f6d44024-a78e-42b8-971a-797ed8fbb1ff@jjverkuil.nl>
+ <aBjYnrvg-_T-7xRi@kekkonen.localdomain>
+ <20250509094005.GA30047@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250509094005.GA30047@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/05/2025 11:59, Nas Chung wrote:
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->>> +    #include <dt-bindings/clock/nxp,imx95-clock.h>
->>> +
->>> +    soc {
->>> +      #address-cells = <2>;
->>> +      #size-cells = <2>;
->>> +
->>> +      vpu: video-codec {
+Hi,
+
+On 9-May-25 11:40 AM, Laurent Pinchart wrote:
+> On Mon, May 05, 2025 at 03:26:22PM +0000, Sakari Ailus wrote:
+>> Hans, Laurent, others,
 >>
->> Why this device does not have MMIO? Sorry, but makes little sense and if
->> you posted and tested your entire DTS you would see why.
-> 
-> I initially thought that if the reg property is declared in the child,
-> it would not need to be declared in the parent node.
-> I based this approach on the mediatek,mt8195-jpegenc.yaml binding,
-> where the parent node does not include MMIO.
-
-Do you have access to mt8195 datasheet? What is the memory/register
-layout there?
-
-If you do not have access, why do you think these are similar devices?
-
-> 
-> But, if this structure is problematic, I will address it in patch v3.
-> 
+>> On Fri, May 02, 2025 at 10:15:27AM +0200, Hans Verkuil wrote:
+>>> 16:35-17:30: Hans Verkuil: Status of Media CI/Multi-committers
+>>>
+>>> Please reply with corrections, questions, etc. to the agenda.
 >>
->> Can we see the entire DTS?
-> 
-> Sure !
-> Below is the cnm.wave633c.example.dts file created from dt_binding_check.
-
-This is not the entire DTS.
-
-> 
-> /dts-v1/;
-> /plugin/; // silence any missing phandle references
-
-This is bindings example. I want to see entire DTS or DTSI of the SoC.
-Once you see entire DTS, you will notice that your current split is just
-not correct - it should be pretty obvious.
-
-And that's why we should keep rejecting such works which do not bring
-any DTS user, because the no one - neither we nor the contributors - see
-big picture and if someone saw the big picture then immediately would
-notice - it's just bollocks.
-
-What you claim is:
-
-soc@0 {
-  // MMIO bus
-
-  video-codec {
-    // which is a non-MMIO device and clearly a no-go.
-
-Just look how DTS is organized and learn from it.
-
-> 
-> /{
->     compatible = "foo";
->     model = "foo";
->     #address-cells = <1>;
->     #size-cells = <1>;
-> 
-> 
->     example-0 {
->         #address-cells = <1>;
->         #size-cells = <1>;
-> 
->         
->         interrupt-parent = <&fake_intc0>;
->         fake_intc0: fake-interrupt-controller {
->             interrupt-controller;
->             #interrupt-cells = < 3 >;
->         };
-> 
-
-All of above are wrong for the SoC...
-
-> 
->         #include <dt-bindings/interrupt-controller/arm-gic.h>
->         #include <dt-bindings/clock/nxp,imx95-clock.h>
->         
->         soc {
->           #address-cells = <2>;
->           #size-cells = <2>;
->         
->           vpu: video-codec {
->             compatible = "nxp,imx95-vpu", "cnm,wave633c";
-
-What does this device represent? It is not "ctrl", because you made ctrl
-separate device node. Your binding description suggests that is the VPU
-control region.
-
->             clocks = <&scmi_clk 115>,
->                      <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
-
-For which sub devices these clocks are valid? For all of them?
-
->             clock-names = "vpu", "vpublk_wave";
->             power-domains = <&scmi_devpd 21>;
->             #address-cells = <2>;
->             #size-cells = <2>;
->             ranges;
->         
->             vpucore0: video-core@4c480000 {
->               compatible = "nxp,imx95-vpu-core";
->               reg = <0x0 0x4c480000 0x0 0x10000>;
->               interrupts = <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>;
->             };
->         
->             vpucore1: video-core@4c490000 {
->               compatible = "nxp,imx95-vpu-core";
->               reg = <0x0 0x4c490000 0x0 0x10000>;
->               interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
->             };
->         
->             vpucore2: video-core@4c4a0000 {
->               compatible = "nxp,imx95-vpu-core";
->               reg = <0x0 0x4c4a0000 0x0 0x10000>;
->               interrupts = <GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>;
->             };
->         
->             vpucore3: video-core@4c4b0000 {
->               compatible = "nxp,imx95-vpu-core";
->               reg = <0x0 0x4c4b0000 0x0 0x10000>;
->               interrupts = <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>;
->             };
->         
->             vpuctrl: video-controller@4c4c0000 {
->               compatible = "nxp,imx95-vpu-ctrl";
->               reg = <0x0 0x4c4c0000 0x0 0x10000>;
->               memory-region = <&vpu_boot>;
->               power-domains = <&scmi_perf 10>;
->               #cooling-cells = <2>;
->               sram = <&sram1>;
->             };
->           };
->         };
-> 
->     };
-> };
-> 
+>> As it seems we might have a little bit of time left, I'd like to propose a
+>> keysigning party we haven't done for a few years now. We have some new
+>> people here and the folks who have been around for longer have new keys,
+>> too.
 >>
->> Best regards,
->> Krzysztof
+>> This is what we did the previous time
+>> <URL:https://lore.kernel.org/linux-media/YxhplLKtRAQzlSK/@pendragon.ideasonboard.com/>.
+>>
+>> I wonder if Laurent would like to do the same this time around. I can also
+>> help with the arrangements.
 > 
+> I don't mind signing keys, but I won't have time to organize it. Feel
+> free to take the lead :-)
+
+Embeddedrecipes will also have a key-signing event, see:
+
+https://embedded-recipes.org/2025/attend/
+
+So it might be best if people who want to have their keys signed
+just join that ?
+
+Regards,
+
+Hans
 
 
-Best regards,
-Krzysztof
 
