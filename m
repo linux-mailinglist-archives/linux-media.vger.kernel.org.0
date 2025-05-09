@@ -1,64 +1,87 @@
-Return-Path: <linux-media+bounces-32083-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32084-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5842AB0CEC
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 10:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F47AB0D08
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 10:22:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F1F21890697
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 08:18:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEDFE1C07383
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 08:21:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02FFA275116;
-	Fri,  9 May 2025 08:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CF8D270567;
+	Fri,  9 May 2025 08:20:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="AkCxl7rt"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OgupxZwR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25472750E3;
-	Fri,  9 May 2025 08:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2601912C470
+	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 08:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746778537; cv=none; b=loFzeESEvxzPxtPIuIQOe9kT+/6ymUlTf+xNIM+oUVfao8ZOnl/IvXxh+YjIXIiPTkJETUmmfLz3MSCbQ2SCSR7vWYe39H3n25SPmcdXfjfyOBPQFidH8K8SNzP7l+DrfcY5+uVoiZSi1L0qhF9p8c82xKq1pG6VfLX19RUWzDE=
+	t=1746778858; cv=none; b=UTKH47PYAqcoV2UImOf+fu+2aNXwGuMDcHHisFQU04R1Agj61RSYwfoNQpeLTZsY74OqnkE/1hwCLMphhJ9AwU+cPbPOgB2zk5GRoWd2m7sYUogg/UX5IpDvoo6LE29rbUGoJXduv+9kO652gxzbQbtEmD8Nu8OBcmuf/5Rk9KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746778537; c=relaxed/simple;
-	bh=A1NIlmyTDz/JP/keSr8TRP4jIHtkgocf9Wm8Q1sgG7E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mlhqBB0g/PapNIQ1Mur8Rl9jDFeLF+ycjBO3coXvjGwHDLoOfKELLMysL1ptWyZeG2zVjjMu999EgA26bE3EesKhysRzzVc5OTFkdiEq0R3eqZGH8qpMlqhJsVZ9EQGUQfA+FX4Anqre1+teWSsJ2+OTI6ZbgXgsac1a75b5Uc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=AkCxl7rt; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 5498FGQR1337891
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 9 May 2025 03:15:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1746778516;
-	bh=c1da7VLTOsO71e/V769bw9Uc9GR19Xd6Og8nmXycn5I=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=AkCxl7rtGWE1LZD0ndRFhEjo2PGZrh2mB6zkkMyP22rL1Pq5+4+9/tuHIe4rflYCk
-	 Iq4Ytbjrgrj54LcLV1vxMTqWn8n8oALceof5+SqYi3cunoEfW+L8M96y2foNsG+e7N
-	 xfqomP0J3CBYaWRI6UqqiwCVAAvW+csc55Chclq8=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 5498FGZX025030
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 9 May 2025 03:15:16 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 9
- May 2025 03:15:16 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 9 May 2025 03:15:16 -0500
-Received: from [10.24.69.232] (ws.dhcp.ti.com [10.24.69.232])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 5498F94S029512;
-	Fri, 9 May 2025 03:15:10 -0500
-Message-ID: <7cdfa1b4-4837-41ab-8262-7a5011e2c3c9@ti.com>
-Date: Fri, 9 May 2025 13:45:09 +0530
+	s=arc-20240116; t=1746778858; c=relaxed/simple;
+	bh=BM1+zV0Ilk6kUtc07FBzZLymiDW/JwThzX1brJ84YUE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rs2qsoBNbEsR+s16InEOFF0Y8Ru7xNj3a0lYU32ike3omie/J/cgqnX0jDdmuIv1wYsB+unQ3sFGO8Uq8I7tUqu1SQ3sUhqzm6TapK3C7vkdNJV1uIBsNKDhamZCXK/ExZVE9ovh8ghDFyRJUSm/txiXfmDD/Zs2UTCrvY70YqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OgupxZwR; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746778855;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=isreZ2c1ZlZZg3aE/qa+sh0f6nWEpdywiTI6MuOucsE=;
+	b=OgupxZwRMUfUwV7GK+Y755zDpqlnyLNcZFIKvzSE7fC0a8GyCHANXZKcfjjW5HJrGeoTnY
+	8XDFUABY5KSXSgDrdP2w1WLmKrr3vMXDPJ/KcOw47W9LRAJ9Ag7L6m8ZHyNBuwWx23qu1k
+	MgKZrwXbh98NfG1ArEgxVD3OryVfWYY=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-222-cdl_EfMQOTWQfsklHRbB_Q-1; Fri, 09 May 2025 04:20:53 -0400
+X-MC-Unique: cdl_EfMQOTWQfsklHRbB_Q-1
+X-Mimecast-MFC-AGG-ID: cdl_EfMQOTWQfsklHRbB_Q_1746778852
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-acb61452b27so207288366b.2
+        for <linux-media@vger.kernel.org>; Fri, 09 May 2025 01:20:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746778852; x=1747383652;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=isreZ2c1ZlZZg3aE/qa+sh0f6nWEpdywiTI6MuOucsE=;
+        b=ZvOh8TuOYJ/x5/mmpbynjR57ajgFR9biRE9JUjO5FkVmSBK8gIIgUasGwpyVV2fYgK
+         cqD5pzQMpvkZTWkLJ68ypqwFry/A2J25N7jaePpR55B2c9gqXKKe+xwoa4S8waYYu2aM
+         d+sAnu570BCBLXCsZmRWxayrXfj5a8wYVvlVa1LIpuNunjSieMVymY4Ix9Kjfc/1Ss6Q
+         oLtrBcUnPVgRBkvR3npfSAnYykorjgFuar+PxyC9ODUxeuGEVy8Hwf0TrQHSwqJqFJ6y
+         /E1xHG0jCqL1/AQKNP2aakCMrXqOod6xma8fna7TBAlroACk9bz561xrWdi9Guaqjzku
+         budA==
+X-Forwarded-Encrypted: i=1; AJvYcCXXRbcD5ZOxB+ELLcTTNs58soLPqU4iW1rW2skqtpungHoON6ZXby2LnvJh3SSA8nT2meiVyDGOonrNNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRf38Gw7mFX56M3EuSZQtbP00QKR0xMhhODxtr6Oe30nons6a9
+	tzVtbV1fRN4RLJamoLWOZDOEcqLCq12LtipsAb0uaVkH1NcmHU1h1MuDt16uY1iPMtoFIvY/B0V
+	oonxYUP8q1FCspiEN85HVqbFSxFCQmRaK7qoTlgbONdzXhLxGN/v93PGxNBpt
+X-Gm-Gg: ASbGncswR0mXeQwfUHrtdl5KjRpYL4dIqNPoYQwH9vB1CS5Rc7SKMBhryELezwH17V0
+	8ZNCMFTlEl3oTUr6NW3bIPTmdEmnmfw3VzGCrWtwGl//RH3lSnj+DNOy7YoGLdQjDANAE4lF7dY
+	hQ2Sc3wy3R02MkTyVrqciS6HlRvXaJKoXN0GoEyxveBh8FlYcQRzzSRL3amlIdFQlMg4y+TuvXt
+	z0LUHulC5eUPJJV2hdFXnFeYguPeIshHEIJSjIwNNjh1vDG4z45SE9RDbMJ84rrM1qO59KS30Fr
+	X8yYasbNIfhLO+mjP8nrbPWxrSB1tIKqf7f34npvIN9Fj4WIv+0GAt8lnDoeO3itCwQy2eJCpnt
+	XoK3aURBawELpjZYPUL63Wo3XIk5jJt0cQKetdL33UGGciuIjw+Ta8bpXk1IsTw==
+X-Received: by 2002:a05:6402:440a:b0:5fb:fb49:9d0b with SMTP id 4fb4d7f45d1cf-5fca07eb66fmr1993124a12.26.1746778852259;
+        Fri, 09 May 2025 01:20:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG6w4mRxr4r29BxFlTthKUIkL3hEK0Y1u615ISArHpCJjm/EiDIUSb3ZQlNu6FYJ28HhFwLSA==
+X-Received: by 2002:a05:6402:440a:b0:5fb:fb49:9d0b with SMTP id 4fb4d7f45d1cf-5fca07eb66fmr1993113a12.26.1746778851868;
+        Fri, 09 May 2025 01:20:51 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fc9cbe4cb8sm1055578a12.2.2025.05.09.01.20.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 May 2025 01:20:51 -0700 (PDT)
+Message-ID: <1f2545b6-1768-466a-8b56-43f9f368ddbe@redhat.com>
+Date: Fri, 9 May 2025 10:20:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,885 +89,55 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/13] media: ti: j721e-csi2rx: separate out device and
- context
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: <jai.luthra@linux.dev>, <mripard@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <devarsht@ti.com>,
-        <y-abhilashchandra@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <vaishnav.a@ti.com>,
-        <s-jain1@ti.com>, <vigneshr@ti.com>, <sakari.ailus@linux.intel.com>,
-        <hverkuil-cisco@xs4all.nl>, <tomi.valkeinen@ideasonboard.com>,
-        <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
-        <jack.zhu@starfivetech.com>
-References: <20250417065554.437541-1-r-donadkar@ti.com>
- <20250417065554.437541-3-r-donadkar@ti.com>
- <20250421113236.GB29483@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-In-Reply-To: <20250421113236.GB29483@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Subject: Re: [PATCH 1/1] media: ov02c10: Use div_u64 to divide a 64-bit number
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: hans@jjverkuil.nl, Hans de Goede <hansg@kernel.org>,
+ Bryan O'Donoghue <bod@kernel.org>
+References: <20250509062511.1092490-1-sakari.ailus@linux.intel.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250509062511.1092490-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-On 21/04/25 17:02, Laurent Pinchart wrote:
-> On Thu, Apr 17, 2025 at 12:25:43PM +0530, Rishikesh Donadkar wrote:
->> From: Jai Luthra <j-luthra@ti.com>
->>
->> The TI CSI2RX wrapper has two parts: the main device and the DMA
->> contexts. The driver was originally written with single camera capture
->> in mind, so only one DMA context was needed. For the sake of simplicity,
->> the context specific stuff was not modeled different to the main device.
->>
->> To enable multiplexed stream capture, the contexts need to be separated
->> out from the main device. Create a struct ti_csi2rx_ctx that holds the
->> DMA context specific things. Separate out functions handling the device
->> and context related functionality.
->>
->> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
->> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
->> Signed-off-by: Jai Luthra <j-luthra@ti.com>
->> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> ---
->>   .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 412 ++++++++++--------
->>   1 file changed, 228 insertions(+), 184 deletions(-)
->>
->> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->> index 6412a00be8eab..36cde2e87aabb 100644
->> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->> @@ -40,6 +40,8 @@
->>   #define SHIM_PSI_CFG0_DST_TAG		GENMASK(31, 16)
->>   
->>   #define PSIL_WORD_SIZE_BYTES		16
->> +#define TI_CSI2RX_NUM_CTX		1
->> +
->>   /*
->>    * There are no hard limits on the width or height. The DMA engine can handle
->>    * all sizes. The max width and height are arbitrary numbers for this driver.
->> @@ -64,7 +66,7 @@ struct ti_csi2rx_buffer {
->>   	/* Common v4l2 buffer. Must be first. */
->>   	struct vb2_v4l2_buffer		vb;
->>   	struct list_head		list;
->> -	struct ti_csi2rx_dev		*csi;
->> +	struct ti_csi2rx_ctx		*ctx;
->>   };
->>   
->>   enum ti_csi2rx_dma_state {
->> @@ -84,29 +86,37 @@ struct ti_csi2rx_dma {
->>   	 * Queue of buffers submitted to DMA engine.
->>   	 */
->>   	struct list_head		submitted;
->> -	/* Buffer to drain stale data from PSI-L endpoint */
->> -	struct {
->> -		void			*vaddr;
->> -		dma_addr_t		paddr;
->> -		size_t			len;
->> -	} drain;
->> +};
->> +
->> +struct ti_csi2rx_dev;
->> +
->> +struct ti_csi2rx_ctx {
->> +	struct ti_csi2rx_dev		*csi;
->> +	struct video_device		vdev;
->> +	struct vb2_queue		vidq;
->> +	struct mutex			mutex; /* To serialize ioctls. */
->> +	struct v4l2_format		v_fmt;
->> +	struct ti_csi2rx_dma		dma;
->> +	u32				sequence;
->> +	u32				idx;
->>   };
->>   
->>   struct ti_csi2rx_dev {
->>   	struct device			*dev;
->>   	void __iomem			*shim;
->>   	struct v4l2_device		v4l2_dev;
->> -	struct video_device		vdev;
->>   	struct media_device		mdev;
->>   	struct media_pipeline		pipe;
->>   	struct media_pad		pad;
-> You need one pad per context, as this models the sink pad of the
-> video_device.
->>   	struct v4l2_async_notifier	notifier;
->>   	struct v4l2_subdev		*source;
->> -	struct vb2_queue		vidq;
->> -	struct mutex			mutex; /* To serialize ioctls. */
->> -	struct v4l2_format		v_fmt;
->> -	struct ti_csi2rx_dma		dma;
->> -	u32				sequence;
->> +	struct ti_csi2rx_ctx		ctx[TI_CSI2RX_NUM_CTX];
->> +	/* Buffer to drain stale data from PSI-L endpoint */
->> +	struct {
->> +		void			*vaddr;
->> +		dma_addr_t		paddr;
->> +		size_t			len;
->> +	} drain;
->>   };
->>   
->>   static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
->> @@ -212,7 +222,7 @@ static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
->>   };
->>   
->>   /* Forward declaration needed by ti_csi2rx_dma_callback. */
->> -static int ti_csi2rx_start_dma(struct ti_csi2rx_dev *csi,
->> +static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
->>   			       struct ti_csi2rx_buffer *buf);
->>   
->>   static const struct ti_csi2rx_fmt *find_format_by_fourcc(u32 pixelformat)
->> @@ -302,7 +312,7 @@ static int ti_csi2rx_enum_fmt_vid_cap(struct file *file, void *priv,
->>   static int ti_csi2rx_g_fmt_vid_cap(struct file *file, void *prov,
->>   				   struct v4l2_format *f)
->>   {
->> -	struct ti_csi2rx_dev *csi = video_drvdata(file);
->> +	struct ti_csi2rx_ctx *csi = video_drvdata(file);
->>   
->>   	*f = csi->v_fmt;
->>   
->> @@ -333,7 +343,7 @@ static int ti_csi2rx_try_fmt_vid_cap(struct file *file, void *priv,
->>   static int ti_csi2rx_s_fmt_vid_cap(struct file *file, void *priv,
->>   				   struct v4l2_format *f)
->>   {
->> -	struct ti_csi2rx_dev *csi = video_drvdata(file);
->> +	struct ti_csi2rx_ctx *csi = video_drvdata(file);
->>   	struct vb2_queue *q = &csi->vidq;
->>   	int ret;
->>   
->> @@ -419,25 +429,33 @@ static int csi_async_notifier_bound(struct v4l2_async_notifier *notifier,
->>   static int csi_async_notifier_complete(struct v4l2_async_notifier *notifier)
->>   {
->>   	struct ti_csi2rx_dev *csi = dev_get_drvdata(notifier->v4l2_dev->dev);
->> -	struct video_device *vdev = &csi->vdev;
->> -	int ret;
->> +	int ret, i;
->>   
->> -	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->> -	if (ret)
->> -		return ret;
->> -
->> -	ret = v4l2_create_fwnode_links_to_pad(csi->source, &csi->pad,
->> -					      MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED);
->> +	for (i = 0; i < TI_CSI2RX_NUM_CTX; i++) {
->> +		struct ti_csi2rx_ctx *ctx = &csi->ctx[i];
->> +		struct video_device *vdev = &ctx->vdev;
->>   
->> -	if (ret) {
->> -		video_unregister_device(vdev);
->> -		return ret;
->> +		ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->> +		if (ret)
->> +			goto unregister_dev;
->>   	}
->>   
->> +	ret = v4l2_create_fwnode_links_to_pad(csi->source, &csi->pad,
->> +					      MEDIA_LNK_FL_IMMUTABLE |
->> +					      MEDIA_LNK_FL_ENABLED);
-> This will become problematic... It gets fixed in patch 05/13. Could you
-> reorder patches to add the subdev first ?
+On 9-May-25 8:25 AM, Sakari Ailus wrote:
+> The ov02c10 driver divides a 64-bit number but reply relies on division
+> operator to do that. Use div_u64() so this will compile everywhere.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Hi Laurent,
+I was just going to start working on fixing this myself, thank you,
+patch looks good to me:
 
-
-Adding the subdev first will allow using the media_create_pad_link() 
-API. But since cdns-csi2rx bridge has multiple source pad, fwnode APIs 
-still needs to be used so that link with the right source pad of  
-cdns-csi2rx bridge can be created.
-
-v4l2_create_fwnode_links_to_pad() does that already.
-
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
-Rishikesh
+
+Hans
 
 
->
->> +	if (ret)
->> +		goto unregister_dev;
->> +
->>   	ret = v4l2_device_register_subdev_nodes(&csi->v4l2_dev);
->>   	if (ret)
->> -		video_unregister_device(vdev);
->> +		goto unregister_dev;
->>   
->> +	return 0;
->> +
->> +unregister_dev:
->> +	i--;
->> +	for (; i >= 0; i--)
->> +		video_unregister_device(&csi->ctx[i].vdev);
->>   	return ret;
->>   }
->>   
->> @@ -483,12 +501,13 @@ static int ti_csi2rx_notifier_register(struct ti_csi2rx_dev *csi)
->>   	return 0;
->>   }
->>   
->> -static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
->> +static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
->>   {
->> +	struct ti_csi2rx_dev *csi = ctx->csi;
->>   	const struct ti_csi2rx_fmt *fmt;
->>   	unsigned int reg;
->>   
->> -	fmt = find_format_by_fourcc(csi->v_fmt.fmt.pix.pixelformat);
->> +	fmt = find_format_by_fourcc(ctx->v_fmt.fmt.pix.pixelformat);
->>   
->>   	/* De-assert the pixel interface reset. */
->>   	reg = SHIM_CNTL_PIX_RST;
->> @@ -555,8 +574,9 @@ static void ti_csi2rx_drain_callback(void *param)
->>    * To prevent that stale data corrupting the subsequent transactions, it is
->>    * required to issue DMA requests to drain it out.
->>    */
->> -static int ti_csi2rx_drain_dma(struct ti_csi2rx_dev *csi)
->> +static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
->>   {
->> +	struct ti_csi2rx_dev *csi = ctx->csi;
->>   	struct dma_async_tx_descriptor *desc;
->>   	struct completion drain_complete;
->>   	dma_cookie_t cookie;
->> @@ -564,8 +584,8 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_dev *csi)
->>   
->>   	init_completion(&drain_complete);
->>   
->> -	desc = dmaengine_prep_slave_single(csi->dma.chan, csi->dma.drain.paddr,
->> -					   csi->dma.drain.len, DMA_DEV_TO_MEM,
->> +	desc = dmaengine_prep_slave_single(ctx->dma.chan, csi->drain.paddr,
->> +					   csi->drain.len, DMA_DEV_TO_MEM,
->>   					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
->>   	if (!desc) {
->>   		ret = -EIO;
->> @@ -580,11 +600,11 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_dev *csi)
->>   	if (ret)
->>   		goto out;
->>   
->> -	dma_async_issue_pending(csi->dma.chan);
->> +	dma_async_issue_pending(ctx->dma.chan);
->>   
->>   	if (!wait_for_completion_timeout(&drain_complete,
->>   					 msecs_to_jiffies(DRAIN_TIMEOUT_MS))) {
->> -		dmaengine_terminate_sync(csi->dma.chan);
->> +		dmaengine_terminate_sync(ctx->dma.chan);
->>   		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
->>   		ret = -ETIMEDOUT;
->>   		goto out;
->> @@ -596,8 +616,8 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_dev *csi)
->>   static void ti_csi2rx_dma_callback(void *param)
->>   {
->>   	struct ti_csi2rx_buffer *buf = param;
->> -	struct ti_csi2rx_dev *csi = buf->csi;
->> -	struct ti_csi2rx_dma *dma = &csi->dma;
->> +	struct ti_csi2rx_ctx *ctx = buf->ctx;
->> +	struct ti_csi2rx_dma *dma = &ctx->dma;
->>   	unsigned long flags;
->>   
->>   	/*
->> @@ -605,7 +625,7 @@ static void ti_csi2rx_dma_callback(void *param)
->>   	 * hardware monitor registers.
->>   	 */
->>   	buf->vb.vb2_buf.timestamp = ktime_get_ns();
->> -	buf->vb.sequence = csi->sequence++;
->> +	buf->vb.sequence = ctx->sequence++;
->>   
->>   	spin_lock_irqsave(&dma->lock, flags);
->>   
->> @@ -617,8 +637,9 @@ static void ti_csi2rx_dma_callback(void *param)
->>   	while (!list_empty(&dma->queue)) {
->>   		buf = list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
->>   
->> -		if (ti_csi2rx_start_dma(csi, buf)) {
->> -			dev_err(csi->dev, "Failed to queue the next buffer for DMA\n");
->> +		if (ti_csi2rx_start_dma(ctx, buf)) {
->> +			dev_err(ctx->csi->dev,
->> +				"Failed to queue the next buffer for DMA\n");
-> Printing some sort of context identifier would be useful here. Same
-> below where applicable.
->
->>   			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>   		} else {
->>   			list_move_tail(&buf->list, &dma->submitted);
->> @@ -631,17 +652,17 @@ static void ti_csi2rx_dma_callback(void *param)
->>   	spin_unlock_irqrestore(&dma->lock, flags);
->>   }
->>   
->> -static int ti_csi2rx_start_dma(struct ti_csi2rx_dev *csi,
->> +static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
->>   			       struct ti_csi2rx_buffer *buf)
->>   {
->>   	unsigned long addr;
->>   	struct dma_async_tx_descriptor *desc;
->> -	size_t len = csi->v_fmt.fmt.pix.sizeimage;
->> +	size_t len = ctx->v_fmt.fmt.pix.sizeimage;
->>   	dma_cookie_t cookie;
->>   	int ret = 0;
->>   
->>   	addr = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
->> -	desc = dmaengine_prep_slave_single(csi->dma.chan, addr, len,
->> +	desc = dmaengine_prep_slave_single(ctx->dma.chan, addr, len,
->>   					   DMA_DEV_TO_MEM,
->>   					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
->>   	if (!desc)
->> @@ -655,20 +676,20 @@ static int ti_csi2rx_start_dma(struct ti_csi2rx_dev *csi,
->>   	if (ret)
->>   		return ret;
->>   
->> -	dma_async_issue_pending(csi->dma.chan);
->> +	dma_async_issue_pending(ctx->dma.chan);
->>   
->>   	return 0;
->>   }
->>   
->> -static void ti_csi2rx_stop_dma(struct ti_csi2rx_dev *csi)
->> +static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
->>   {
->> -	struct ti_csi2rx_dma *dma = &csi->dma;
->> +	struct ti_csi2rx_dma *dma = &ctx->dma;
->>   	enum ti_csi2rx_dma_state state;
->>   	unsigned long flags;
->>   	int ret;
->>   
->>   	spin_lock_irqsave(&dma->lock, flags);
->> -	state = csi->dma.state;
->> +	state = ctx->dma.state;
->>   	dma->state = TI_CSI2RX_DMA_STOPPED;
->>   	spin_unlock_irqrestore(&dma->lock, flags);
->>   
->> @@ -679,30 +700,30 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_dev *csi)
->>   		 * is stopped, as the module-level pixel reset cannot be
->>   		 * enforced before terminating DMA.
->>   		 */
->> -		ret = ti_csi2rx_drain_dma(csi);
->> +		ret = ti_csi2rx_drain_dma(ctx);
->>   		if (ret && ret != -ETIMEDOUT)
->> -			dev_warn(csi->dev,
->> +			dev_warn(ctx->csi->dev,
->>   				 "Failed to drain DMA. Next frame might be bogus\n");
->>   	}
->>   
->> -	ret = dmaengine_terminate_sync(csi->dma.chan);
->> +	ret = dmaengine_terminate_sync(ctx->dma.chan);
->>   	if (ret)
->> -		dev_err(csi->dev, "Failed to stop DMA: %d\n", ret);
->> +		dev_err(ctx->csi->dev, "Failed to stop DMA: %d\n", ret);
->>   }
->>   
->> -static void ti_csi2rx_cleanup_buffers(struct ti_csi2rx_dev *csi,
->> +static void ti_csi2rx_cleanup_buffers(struct ti_csi2rx_ctx *ctx,
->>   				      enum vb2_buffer_state state)
->>   {
->> -	struct ti_csi2rx_dma *dma = &csi->dma;
->> +	struct ti_csi2rx_dma *dma = &ctx->dma;
->>   	struct ti_csi2rx_buffer *buf, *tmp;
->>   	unsigned long flags;
->>   
->>   	spin_lock_irqsave(&dma->lock, flags);
->> -	list_for_each_entry_safe(buf, tmp, &csi->dma.queue, list) {
->> +	list_for_each_entry_safe(buf, tmp, &ctx->dma.queue, list) {
->>   		list_del(&buf->list);
->>   		vb2_buffer_done(&buf->vb.vb2_buf, state);
->>   	}
->> -	list_for_each_entry_safe(buf, tmp, &csi->dma.submitted, list) {
->> +	list_for_each_entry_safe(buf, tmp, &ctx->dma.submitted, list) {
->>   		list_del(&buf->list);
->>   		vb2_buffer_done(&buf->vb.vb2_buf, state);
->>   	}
->> @@ -713,8 +734,8 @@ static int ti_csi2rx_queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
->>   				 unsigned int *nplanes, unsigned int sizes[],
->>   				 struct device *alloc_devs[])
->>   {
->> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(q);
->> -	unsigned int size = csi->v_fmt.fmt.pix.sizeimage;
->> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(q);
->> +	unsigned int size = ctx->v_fmt.fmt.pix.sizeimage;
->>   
->>   	if (*nplanes) {
->>   		if (sizes[0] < size)
->> @@ -730,11 +751,11 @@ static int ti_csi2rx_queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
->>   
->>   static int ti_csi2rx_buffer_prepare(struct vb2_buffer *vb)
->>   {
->> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vb->vb2_queue);
->> -	unsigned long size = csi->v_fmt.fmt.pix.sizeimage;
->> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
->> +	unsigned long size = ctx->v_fmt.fmt.pix.sizeimage;
->>   
->>   	if (vb2_plane_size(vb, 0) < size) {
->> -		dev_err(csi->dev, "Data will not fit into plane\n");
->> +		dev_err(ctx->csi->dev, "Data will not fit into plane\n");
->>   		return -EINVAL;
->>   	}
->>   
->> @@ -744,15 +765,15 @@ static int ti_csi2rx_buffer_prepare(struct vb2_buffer *vb)
->>   
->>   static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
->>   {
->> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vb->vb2_queue);
->> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
->>   	struct ti_csi2rx_buffer *buf;
->> -	struct ti_csi2rx_dma *dma = &csi->dma;
->> +	struct ti_csi2rx_dma *dma = &ctx->dma;
->>   	bool restart_dma = false;
->>   	unsigned long flags = 0;
->>   	int ret;
->>   
->>   	buf = container_of(vb, struct ti_csi2rx_buffer, vb.vb2_buf);
->> -	buf->csi = csi;
->> +	buf->ctx = ctx;
->>   
->>   	spin_lock_irqsave(&dma->lock, flags);
->>   	/*
->> @@ -781,18 +802,18 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
->>   		 * the application and will only confuse it. Issue a DMA
->>   		 * transaction to drain that up.
->>   		 */
->> -		ret = ti_csi2rx_drain_dma(csi);
->> +		ret = ti_csi2rx_drain_dma(ctx);
->>   		if (ret && ret != -ETIMEDOUT)
->> -			dev_warn(csi->dev,
->> +			dev_warn(ctx->csi->dev,
->>   				 "Failed to drain DMA. Next frame might be bogus\n");
->>   
->>   		spin_lock_irqsave(&dma->lock, flags);
->> -		ret = ti_csi2rx_start_dma(csi, buf);
->> +		ret = ti_csi2rx_start_dma(ctx, buf);
->>   		if (ret) {
->>   			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>   			dma->state = TI_CSI2RX_DMA_IDLE;
->>   			spin_unlock_irqrestore(&dma->lock, flags);
->> -			dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
->> +			dev_err(ctx->csi->dev, "Failed to start DMA: %d\n", ret);
->>   		} else {
->>   			list_add_tail(&buf->list, &dma->submitted);
->>   			spin_unlock_irqrestore(&dma->lock, flags);
->> @@ -802,8 +823,9 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
->>   
->>   static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
->>   {
->> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vq);
->> -	struct ti_csi2rx_dma *dma = &csi->dma;
->> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
->> +	struct ti_csi2rx_dev *csi = ctx->csi;
->> +	struct ti_csi2rx_dma *dma = &ctx->dma;
->>   	struct ti_csi2rx_buffer *buf;
->>   	unsigned long flags;
->>   	int ret = 0;
->> @@ -815,18 +837,18 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
->>   	if (ret)
->>   		return ret;
->>   
->> -	ret = video_device_pipeline_start(&csi->vdev, &csi->pipe);
->> +	ret = video_device_pipeline_start(&ctx->vdev, &csi->pipe);
->>   	if (ret)
->>   		goto err;
->>   
->> -	ti_csi2rx_setup_shim(csi);
->> +	ti_csi2rx_setup_shim(ctx);
->>   
->> -	csi->sequence = 0;
->> +	ctx->sequence = 0;
->>   
->>   	spin_lock_irqsave(&dma->lock, flags);
->>   	buf = list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
->>   
->> -	ret = ti_csi2rx_start_dma(csi, buf);
->> +	ret = ti_csi2rx_start_dma(ctx, buf);
->>   	if (ret) {
->>   		dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
->>   		spin_unlock_irqrestore(&dma->lock, flags);
->> @@ -844,22 +866,23 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
->>   	return 0;
->>   
->>   err_dma:
->> -	ti_csi2rx_stop_dma(csi);
->> +	ti_csi2rx_stop_dma(ctx);
->>   err_pipeline:
->> -	video_device_pipeline_stop(&csi->vdev);
->> +	video_device_pipeline_stop(&ctx->vdev);
->>   	writel(0, csi->shim + SHIM_CNTL);
->>   	writel(0, csi->shim + SHIM_DMACNTX);
->>   err:
->> -	ti_csi2rx_cleanup_buffers(csi, VB2_BUF_STATE_QUEUED);
->> +	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_QUEUED);
->>   	return ret;
->>   }
->>   
->>   static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
->>   {
->> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vq);
->> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
->> +	struct ti_csi2rx_dev *csi = ctx->csi;
->>   	int ret;
->>   
->> -	video_device_pipeline_stop(&csi->vdev);
->> +	video_device_pipeline_stop(&ctx->vdev);
->>   
->>   	writel(0, csi->shim + SHIM_CNTL);
->>   	writel(0, csi->shim + SHIM_DMACNTX);
->> @@ -868,8 +891,8 @@ static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
->>   	if (ret)
->>   		dev_err(csi->dev, "Failed to stop subdev stream\n");
->>   
->> -	ti_csi2rx_stop_dma(csi);
->> -	ti_csi2rx_cleanup_buffers(csi, VB2_BUF_STATE_ERROR);
->> +	ti_csi2rx_stop_dma(ctx);
->> +	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_ERROR);
->>   }
->>   
->>   static const struct vb2_ops csi_vb2_qops = {
->> @@ -880,27 +903,50 @@ static const struct vb2_ops csi_vb2_qops = {
->>   	.stop_streaming = ti_csi2rx_stop_streaming,
->>   };
->>   
->> -static int ti_csi2rx_init_vb2q(struct ti_csi2rx_dev *csi)
->> +static void ti_csi2rx_cleanup_v4l2(struct ti_csi2rx_dev *csi)
->>   {
->> -	struct vb2_queue *q = &csi->vidq;
->> +	media_device_unregister(&csi->mdev);
->> +	v4l2_device_unregister(&csi->v4l2_dev);
->> +	media_device_cleanup(&csi->mdev);
->> +}
->> +
->> +static void ti_csi2rx_cleanup_notifier(struct ti_csi2rx_dev *csi)
->> +{
->> +	v4l2_async_nf_unregister(&csi->notifier);
->> +	v4l2_async_nf_cleanup(&csi->notifier);
->> +}
->> +
->> +static void ti_csi2rx_cleanup_ctx(struct ti_csi2rx_ctx *ctx)
->> +{
->> +	dma_release_channel(ctx->dma.chan);
->> +	vb2_queue_release(&ctx->vidq);
->> +
->> +	video_unregister_device(&ctx->vdev);
->> +
->> +	mutex_destroy(&ctx->mutex);
->> +}
->> +
->> +static int ti_csi2rx_init_vb2q(struct ti_csi2rx_ctx *ctx)
->> +{
->> +	struct vb2_queue *q = &ctx->vidq;
->>   	int ret;
->>   
->>   	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
->>   	q->io_modes = VB2_MMAP | VB2_DMABUF;
->> -	q->drv_priv = csi;
->> +	q->drv_priv = ctx;
->>   	q->buf_struct_size = sizeof(struct ti_csi2rx_buffer);
->>   	q->ops = &csi_vb2_qops;
->>   	q->mem_ops = &vb2_dma_contig_memops;
->>   	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->> -	q->dev = dmaengine_get_dma_device(csi->dma.chan);
->> -	q->lock = &csi->mutex;
->> +	q->dev = dmaengine_get_dma_device(ctx->dma.chan);
->> +	q->lock = &ctx->mutex;
->>   	q->min_queued_buffers = 1;
->>   
->>   	ret = vb2_queue_init(q);
->>   	if (ret)
->>   		return ret;
->>   
->> -	csi->vdev.queue = q;
->> +	ctx->vdev.queue = q;
->>   
->>   	return 0;
->>   }
->> @@ -909,8 +955,9 @@ static int ti_csi2rx_link_validate(struct media_link *link)
->>   {
->>   	struct media_entity *entity = link->sink->entity;
->>   	struct video_device *vdev = media_entity_to_video_device(entity);
->> -	struct ti_csi2rx_dev *csi = container_of(vdev, struct ti_csi2rx_dev, vdev);
->> -	struct v4l2_pix_format *csi_fmt = &csi->v_fmt.fmt.pix;
->> +	struct ti_csi2rx_ctx *ctx = container_of(vdev, struct ti_csi2rx_ctx, vdev);
->> +	struct ti_csi2rx_dev *csi = ctx->csi;
->> +	struct v4l2_pix_format *csi_fmt = &ctx->v_fmt.fmt.pix;
->>   	struct v4l2_subdev_format source_fmt = {
->>   		.which	= V4L2_SUBDEV_FORMAT_ACTIVE,
->>   		.pad	= link->source->index,
->> @@ -963,47 +1010,69 @@ static const struct media_entity_operations ti_csi2rx_video_entity_ops = {
->>   	.link_validate = ti_csi2rx_link_validate,
->>   };
->>   
->> -static int ti_csi2rx_init_dma(struct ti_csi2rx_dev *csi)
->> +static int ti_csi2rx_init_dma(struct ti_csi2rx_ctx *ctx)
->>   {
->>   	struct dma_slave_config cfg = {
->>   		.src_addr_width = DMA_SLAVE_BUSWIDTH_16_BYTES,
->>   	};
->>   	int ret;
->>   
->> -	INIT_LIST_HEAD(&csi->dma.queue);
->> -	INIT_LIST_HEAD(&csi->dma.submitted);
->> -	spin_lock_init(&csi->dma.lock);
->> +	INIT_LIST_HEAD(&ctx->dma.queue);
->> +	INIT_LIST_HEAD(&ctx->dma.submitted);
->> +	spin_lock_init(&ctx->dma.lock);
->>   
->> -	csi->dma.state = TI_CSI2RX_DMA_STOPPED;
->> +	ctx->dma.state = TI_CSI2RX_DMA_STOPPED;
->>   
->> -	csi->dma.chan = dma_request_chan(csi->dev, "rx0");
->> -	if (IS_ERR(csi->dma.chan))
->> -		return PTR_ERR(csi->dma.chan);
->> +	ctx->dma.chan = dma_request_chan(ctx->csi->dev, "rx0");
->> +	if (IS_ERR(ctx->dma.chan))
->> +		return PTR_ERR(ctx->dma.chan);
->>   
->> -	ret = dmaengine_slave_config(csi->dma.chan, &cfg);
->> +	ret = dmaengine_slave_config(ctx->dma.chan, &cfg);
->>   	if (ret) {
->> -		dma_release_channel(csi->dma.chan);
->> +		dma_release_channel(ctx->dma.chan);
->>   		return ret;
->>   	}
->>   
->> -	csi->dma.drain.len = DRAIN_BUFFER_SIZE;
->> -	csi->dma.drain.vaddr = dma_alloc_coherent(csi->dev, csi->dma.drain.len,
->> -						  &csi->dma.drain.paddr,
->> -						  GFP_KERNEL);
->> -	if (!csi->dma.drain.vaddr)
->> -		return -ENOMEM;
->> -
->>   	return 0;
->>   }
->>   
->>   static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
->>   {
->>   	struct media_device *mdev = &csi->mdev;
->> -	struct video_device *vdev = &csi->vdev;
->> +	int ret;
->> +
->> +	mdev->dev = csi->dev;
->> +	mdev->hw_revision = 1;
->> +	strscpy(mdev->model, "TI-CSI2RX", sizeof(mdev->model));
->> +
->> +	media_device_init(mdev);
->> +
->> +	csi->v4l2_dev.mdev = mdev;
->> +
->> +	ret = v4l2_device_register(csi->dev, &csi->v4l2_dev);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = media_device_register(mdev);
->> +	if (ret) {
->> +		v4l2_device_unregister(&csi->v4l2_dev);
->> +		media_device_cleanup(mdev);
->> +		return ret;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int ti_csi2rx_init_ctx(struct ti_csi2rx_ctx *ctx)
->> +{
->> +	struct ti_csi2rx_dev *csi = ctx->csi;
->> +	struct video_device *vdev = &ctx->vdev;
->>   	const struct ti_csi2rx_fmt *fmt;
->> -	struct v4l2_pix_format *pix_fmt = &csi->v_fmt.fmt.pix;
->> +	struct v4l2_pix_format *pix_fmt = &ctx->v_fmt.fmt.pix;
->>   	int ret;
->>   
->> +	mutex_init(&ctx->mutex);
->> +
->>   	fmt = find_format_by_fourcc(V4L2_PIX_FMT_UYVY);
->>   	if (!fmt)
->>   		return -EINVAL;
->> @@ -1012,19 +1081,20 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
->>   	pix_fmt->height = 480;
->>   	pix_fmt->field = V4L2_FIELD_NONE;
->>   	pix_fmt->colorspace = V4L2_COLORSPACE_SRGB;
->> -	pix_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
->> -	pix_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
->> -	pix_fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
->> +	pix_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601,
->> +	pix_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE,
->> +	pix_fmt->xfer_func = V4L2_XFER_FUNC_SRGB,
->>   
->> -	ti_csi2rx_fill_fmt(fmt, &csi->v_fmt);
->> +	ti_csi2rx_fill_fmt(fmt, &ctx->v_fmt);
->>   
->> -	mdev->dev = csi->dev;
->> -	mdev->hw_revision = 1;
->> -	strscpy(mdev->model, "TI-CSI2RX", sizeof(mdev->model));
->> -
->> -	media_device_init(mdev);
->> +	csi->pad.flags = MEDIA_PAD_FL_SINK;
->> +	vdev->entity.ops = &ti_csi2rx_video_entity_ops;
->> +	ret = media_entity_pads_init(&ctx->vdev.entity, 1, &csi->pad);
->> +	if (ret)
->> +		return ret;
->>   
->> -	strscpy(vdev->name, TI_CSI2RX_MODULE_NAME, sizeof(vdev->name));
->> +	snprintf(vdev->name, sizeof(vdev->name), "%s context %u",
->> +		 dev_name(csi->dev), ctx->idx);
->>   	vdev->v4l2_dev = &csi->v4l2_dev;
->>   	vdev->vfl_dir = VFL_DIR_RX;
->>   	vdev->fops = &csi_fops;
->> @@ -1032,61 +1102,28 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
->>   	vdev->release = video_device_release_empty;
->>   	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
->>   			    V4L2_CAP_IO_MC;
->> -	vdev->lock = &csi->mutex;
->> -	video_set_drvdata(vdev, csi);
->> +	vdev->lock = &ctx->mutex;
->> +	video_set_drvdata(vdev, ctx);
->>   
->> -	csi->pad.flags = MEDIA_PAD_FL_SINK;
->> -	vdev->entity.ops = &ti_csi2rx_video_entity_ops;
->> -	ret = media_entity_pads_init(&csi->vdev.entity, 1, &csi->pad);
->> +	ret = ti_csi2rx_init_dma(ctx);
->>   	if (ret)
->>   		return ret;
->>   
->> -	csi->v4l2_dev.mdev = mdev;
->> -
->> -	ret = v4l2_device_register(csi->dev, &csi->v4l2_dev);
->> +	ret = ti_csi2rx_init_vb2q(ctx);
->>   	if (ret)
->> -		return ret;
->> -
->> -	ret = media_device_register(mdev);
->> -	if (ret) {
->> -		v4l2_device_unregister(&csi->v4l2_dev);
->> -		media_device_cleanup(mdev);
->> -		return ret;
->> -	}
->> +		goto cleanup_dma;
->>   
->>   	return 0;
->> -}
->> -
->> -static void ti_csi2rx_cleanup_dma(struct ti_csi2rx_dev *csi)
->> -{
->> -	dma_free_coherent(csi->dev, csi->dma.drain.len,
->> -			  csi->dma.drain.vaddr, csi->dma.drain.paddr);
->> -	csi->dma.drain.vaddr = NULL;
->> -	dma_release_channel(csi->dma.chan);
->> -}
->> -
->> -static void ti_csi2rx_cleanup_v4l2(struct ti_csi2rx_dev *csi)
->> -{
->> -	media_device_unregister(&csi->mdev);
->> -	v4l2_device_unregister(&csi->v4l2_dev);
->> -	media_device_cleanup(&csi->mdev);
->> -}
->>   
->> -static void ti_csi2rx_cleanup_subdev(struct ti_csi2rx_dev *csi)
->> -{
->> -	v4l2_async_nf_unregister(&csi->notifier);
->> -	v4l2_async_nf_cleanup(&csi->notifier);
->> -}
->> -
->> -static void ti_csi2rx_cleanup_vb2q(struct ti_csi2rx_dev *csi)
->> -{
->> -	vb2_queue_release(&csi->vidq);
->> +cleanup_dma:
->> +	dma_release_channel(ctx->dma.chan);
->> +	return ret;
->>   }
->>   
->>   static int ti_csi2rx_probe(struct platform_device *pdev)
->>   {
->>   	struct ti_csi2rx_dev *csi;
->> -	int ret;
->> +	int ret, i;
->>   
->>   	csi = devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
->>   	if (!csi)
->> @@ -1095,62 +1132,69 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
->>   	csi->dev = &pdev->dev;
->>   	platform_set_drvdata(pdev, csi);
->>   
->> -	mutex_init(&csi->mutex);
->>   	csi->shim = devm_platform_ioremap_resource(pdev, 0);
->>   	if (IS_ERR(csi->shim)) {
->>   		ret = PTR_ERR(csi->shim);
->> -		goto err_mutex;
->> +		return ret;
->>   	}
->>   
->> -	ret = ti_csi2rx_init_dma(csi);
->> -	if (ret)
->> -		goto err_mutex;
->> +	csi->drain.len = DRAIN_BUFFER_SIZE;
->> +	csi->drain.vaddr = dma_alloc_coherent(csi->dev, csi->drain.len,
->> +					      &csi->drain.paddr,
->> +					      GFP_KERNEL);
->> +	if (!csi->drain.vaddr)
->> +		return -ENOMEM;
->>   
->>   	ret = ti_csi2rx_v4l2_init(csi);
->> -	if (ret)
->> -		goto err_dma;
->> -
->> -	ret = ti_csi2rx_init_vb2q(csi);
->>   	if (ret)
->>   		goto err_v4l2;
->>   
->> +	for (i = 0; i < TI_CSI2RX_NUM_CTX; i++) {
->> +		csi->ctx[i].idx = i;
->> +		csi->ctx[i].csi = csi;
->> +		ret = ti_csi2rx_init_ctx(&csi->ctx[i]);
->> +		if (ret)
->> +			goto err_ctx;
->> +	}
->> +
->>   	ret = ti_csi2rx_notifier_register(csi);
->>   	if (ret)
->> -		goto err_vb2q;
->> +		goto err_ctx;
->>   
->>   	ret = of_platform_populate(csi->dev->of_node, NULL, NULL, csi->dev);
->>   	if (ret) {
->>   		dev_err(csi->dev, "Failed to create children: %d\n", ret);
->> -		goto err_subdev;
->> +		goto err_notifier;
->>   	}
->>   
->>   	return 0;
->>   
->> -err_subdev:
->> -	ti_csi2rx_cleanup_subdev(csi);
->> -err_vb2q:
->> -	ti_csi2rx_cleanup_vb2q(csi);
->> -err_v4l2:
->> +err_notifier:
->> +	ti_csi2rx_cleanup_notifier(csi);
->> +err_ctx:
->> +	i--;
->> +	for (; i >= 0; i--)
->> +		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
->>   	ti_csi2rx_cleanup_v4l2(csi);
->> -err_dma:
->> -	ti_csi2rx_cleanup_dma(csi);
->> -err_mutex:
->> -	mutex_destroy(&csi->mutex);
->> +err_v4l2:
->> +	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
->> +			  csi->drain.paddr);
->>   	return ret;
->>   }
->>   
->>   static void ti_csi2rx_remove(struct platform_device *pdev)
->>   {
->>   	struct ti_csi2rx_dev *csi = platform_get_drvdata(pdev);
->> +	unsigned int i;
->>   
->> -	video_unregister_device(&csi->vdev);
->> +	for (i = 0; i < TI_CSI2RX_NUM_CTX; i++)
->> +		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
->>   
->> -	ti_csi2rx_cleanup_vb2q(csi);
->> -	ti_csi2rx_cleanup_subdev(csi);
->> +	ti_csi2rx_cleanup_notifier(csi);
->>   	ti_csi2rx_cleanup_v4l2(csi);
->> -	ti_csi2rx_cleanup_dma(csi);
->>   
->> -	mutex_destroy(&csi->mutex);
->> +	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
->> +			  csi->drain.paddr);
->>   }
->>   
->>   static const struct of_device_id ti_csi2rx_of_match[] = {
+
+
+> ---
+>  drivers/media/i2c/ov02c10.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
+> index 9e3d4a4e12ce..089a4fd9627c 100644
+> --- a/drivers/media/i2c/ov02c10.c
+> +++ b/drivers/media/i2c/ov02c10.c
+> @@ -497,8 +497,8 @@ static int ov02c10_init_controls(struct ov02c10 *ov02c10)
+>  		ov02c10->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>  
+>  	/* MIPI lanes are DDR -> use link-freq * 2 */
+> -	pixel_rate = link_freq_menu_items[ov02c10->link_freq_index] * 2 *
+> -		     ov02c10->mipi_lanes / OV02C10_RGB_DEPTH;
+> +	pixel_rate = div_u64(link_freq_menu_items[ov02c10->link_freq_index] *
+> +			     2 * ov02c10->mipi_lanes, OV02C10_RGB_DEPTH);
+>  
+>  	ov02c10->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
+>  						V4L2_CID_PIXEL_RATE, 0,
+
 
