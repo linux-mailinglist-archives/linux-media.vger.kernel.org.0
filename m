@@ -1,195 +1,172 @@
-Return-Path: <linux-media+bounces-32129-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32130-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DC4AB11B2
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 13:10:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7C8AB1200
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 13:18:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7DEC7BA136
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 11:09:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DBABA16F2CA
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 11:18:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88EB527FD57;
-	Fri,  9 May 2025 11:10:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9A3C28F947;
+	Fri,  9 May 2025 11:18:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="VTgk1zJr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+k7tabO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289E028FA8A
-	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 11:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7BA226D04;
+	Fri,  9 May 2025 11:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746789021; cv=none; b=CL8yfkgLZJgXnq0Lhy7FZ8f/DFH+iKNuqGGsKbEbG2+anr2nSb/BqYrEaHf31KbfuMvDbhLiZIbdfwhOabU6ev4Umk8OIG+nzeui8zyfNuembJMa05NRVNMRUJ5yCtkU8Wf+sT6w9KSYmSm0+fBBzavTaYXIuz/l0BYBupDfHTg=
+	t=1746789493; cv=none; b=rNFrk8WK+bn7xkoBmE8aTiHnuFMu+Fg9/OkT/dFalPPCzHEmUDqwWQaDQDzY5ou+bedzVYfXoOapVDAI9G+OMs5Q9Zc7Vg6F1DHGF3bJaUzC2nFOy6ksUnWBR0DOUfjCu2kL0Wpzqdo+cnLJkfyiFQF+4H/rdn0+1uoNvjVCzGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746789021; c=relaxed/simple;
-	bh=qSYsEehwHDHmcJoj9+qFrSrKelLLBZez7bqUv9MmpSs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=bsbeLkqBc8679xbb0MYvWUnsoR1ffw58qy28oxIyc+vjM3qh8HaI/np3emcFxdpv9pIM5JS7KviU3/qOAok8IZhIyvJHHxU1IYmf4yGJTzgF7J8O82ZDnwUSknjsiZJzGyFQVYI7klxNISxLHIuICMNgNG4XBA3nWr9RDQZJzRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=VTgk1zJr; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4Zv5rD3wQzz1C0S;
-	Fri,  9 May 2025 11:10:04 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4Zv5rD16Smz7T;
-	Fri,  9 May 2025 11:10:04 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=VTgk1zJr;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1746789004;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=RoGoZpbWtazOdzhb0iQg0CVfpory2djBtTqF6hr8Ijc=;
-	b=VTgk1zJrUuHBGamGFg8I5ulsEniUkpimkqOOvLFEr1Yi8kEE4gSHgBxgBnGvQ8jPsxnNcH
-	cSzHZZ0aQOVPo6ENp4R5RJXgSRUhfAnOvcuelHD7OiUT9p1Dk1auCuNdczE8Vx14gcGVj5
-	9PFEiF9eiLO7wW59a7A0O5QSvbPD3OUWtLsaPqQY8HBEcnZg91JcO35MePG16wha+jisU2
-	U7ZG80gzlriHZgsPcU1WtQwFvEgKFSde/xGdvxyz0n99TEstUe9tMYaln/IDGjZ9pgtN4X
-	jKdyzdavHPCXnjPo+vhRaeKHOlhIUxpBX4k/GMFsfJpB5VRNLj7W0xVRZxoQkQ==
-X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=681de28c a=smkfPCmiGCBx+NgG8pXs4w==:117 a=smkfPCmiGCBx+NgG8pXs4w==:17 a=IkcTkHD0fZMA:10 a=e5mUnYsNAAAA:8 a=q-SvEr4yTAtaG3URYREA:9 a=QEXdDO2ut3YA:10 a=Vxmtnl_E_bksehYqCbjh:22
-X-CM-Envelope: MS4xfLeiGAU7hc0iwfxkHvEHE7/A3Kqu7llP1mybONJySz4oEQ1FID6LjNjsAFDWzKASfTovwcdbzGKxJOrQ1udQE7fYZIeuffD6LFzT9JPYsgzMF4wb58h0 fIVkBadU1qUexynTZTzVfl3D1dM5/RGOZ7Gi1yCjPXMUZ/XlKO+LCQH1hOQLcOPWZrfcLBmXgMJrvQlADed84DtaSnyASF6l6CT3UMidScEURb9nx0NNcUBm
-Message-ID: <6d5d837d-3480-4252-a54c-a1f30f8176d3@jjverkuil.nl>
-Date: Fri, 9 May 2025 13:10:03 +0200
+	s=arc-20240116; t=1746789493; c=relaxed/simple;
+	bh=aiPaYDwSGvN0K0HQK9CDqTSbttoNGl/6tY2Cm6xaBBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zzps36xMJJY+roc+9HgimgmR6EDMXRhpC9Pg8PcwI+VpaLB+I1G0bZr3khLQEFZwMFufoExHBwa6ozOHtyZ4YlV2RW/jERPxfPeUclJ/9uTUMrL8xJioxO7QKuOacE05JziZFEyHwnaWvooIXoffvG5RvNsnwAtMJt9xJ+Pa5Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+k7tabO; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746789491; x=1778325491;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=aiPaYDwSGvN0K0HQK9CDqTSbttoNGl/6tY2Cm6xaBBs=;
+  b=D+k7tabOKOIL7tJ2NgJbn5avF239nlxYZIix3stzqbyGRByseyGe4uaG
+   ZVFzM9o2U2X3/bXV9w+VXNhmqdrjS7PFMcWbVo5yKxAmY16cQuj85xxd6
+   cDhd/wJgn+ExsG4HqD/5HROsuhZ4ZZFnqnk/CbMuIGf9ui87/0uFuS1G9
+   CRY5HVUdXFPgz0iiKFwjyTqu/Hjg97Q/uiEkqzoT1zvOSYb4eoHfVSTwS
+   ZZqTvaBEIN8kamEeTmXmidTv6jMQsHY29nq6OegwZ540D95RYyEyC+cfa
+   zgJ3TGwNtNSyrTpGcXRHCxicYASTaf5oRLctwX+sr1XUqI4KJIMHEgT0G
+   w==;
+X-CSE-ConnectionGUID: vAKYOpV1TzyszkM8l1uifQ==
+X-CSE-MsgGUID: t7xsvERHQdO1BDMcUc57Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52422846"
+X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
+   d="scan'208";a="52422846"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 04:18:10 -0700
+X-CSE-ConnectionGUID: IO0YruilQeCpWzu6FzjjTw==
+X-CSE-MsgGUID: 19XzKC/dT36Fay078oLWsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
+   d="scan'208";a="136294670"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa009.jf.intel.com with ESMTP; 09 May 2025 04:18:06 -0700
+Date: Fri, 9 May 2025 19:12:46 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Alexey Kardashevskiy <aik@amd.com>
+Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	sumit.semwal@linaro.org, christian.koenig@amd.com,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	jgg@nvidia.com, vivek.kasireddy@intel.com, dan.j.williams@intel.com,
+	yilun.xu@intel.com, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+	zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
+Message-ID: <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
+ <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
+ <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [GIT PULL FOR 6.16] Media Codec Changes 2025-05-07
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media@vger.kernel.org
-References: <56f1ee7d5384368514cf07d0e563a99d227fa530.camel@collabora.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hans@jjverkuil.nl>
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- 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
-In-Reply-To: <56f1ee7d5384368514cf07d0e563a99d227fa530.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spampanel-Class: ham
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
 
-Hi Nicolas,
+On Fri, May 09, 2025 at 01:04:58PM +1000, Alexey Kardashevskiy wrote:
+> Ping?
 
-On 07/05/2025 23:09, Nicolas Dufresne wrote:
-> Hey Hans & Mauro,
-> 
-> Please pay special attention to the last 4 patches. Hans had review comments,
-> which are addressed, but no Rb or Ack afterward. The rest isn't
-> controversial in any ways.
-> 
-> see you in Nice,
-> Nicolas
+Sorry for late reply from vacation.
 
-I'll take this PR next week: I'll use it as a demo during the media summit.
+> Also, since there is pushback on 01/12 "dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI", what is the plan now? Thanks,
 
-So don't worry that it isn't merged this week.
+As disscussed in the thread, this kAPI is not well considered but IIUC
+the concept of "importer mapping" is still valid. We need more
+investigation about all the needs - P2P, CC memory, private bus
+channel, and work out a formal API.
 
-Regards,
-
-	Hans
+However in last few months I'm focusing on high level TIO flow - TSM
+framework, IOMMUFD based bind/unbind, so no much progress here and is
+still using this temporary kAPI. But as long as "importer mapping" is
+alive, the dmabuf fd for KVM is still valid and we could enable TIO
+based on that.
 
 > 
-> ---
 > 
-> The following changes since commit 48dbb76cef65fabaa3ac97461eda90495e954ecd:
-> 
->   dt-bindings: media: convert imx.txt to yaml format (2025-05-06 15:39:40 +0200)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-media-codecs-2025-05-07
-> 
-> for you to fetch changes up to b27fc932e904af416b76f32b98c08e8c0221e55e:
-> 
->   media: rkvdec: h264: Support High 10 and 4:2:2 profiles (2025-05-07 16:35:47 -0400)
-> 
-> ----------------------------------------------------------------
-> Media codecs fixes and RKVDEC 4:2:2 and 10bit
-> 
-> ----------------------------------------------------------------
-> Detlev Casanova (1):
->       media: verisilicon: Free post processor buffers on error
-> 
-> Dr. David Alan Gilbert (1):
->       media: platform: mtk-mdp3: Remove unused mdp_get_plat_device
-> 
-> Jianhua Lin (1):
->       media: mediatek: jpeg: support 34bits
-> 
-> Jonas Karlman (2):
->       media: rkvdec: Add get_image_fmt ops
->       media: rkvdec: h264: Support High 10 and 4:2:2 profiles
-> 
-> Nicolas Dufresne (1):
->       media: rkvdec: Initialize the m2m context before the controls
-> 
-> Sebastian Fricke (1):
->       media: rkvdec: h264: Limit minimum profile to constrained baseline
-> 
->  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c    |  5 ++++-
->  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h    |  4 ++++
->  drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 73 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------
->  drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |  1 +
->  drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |  8 ++++++++
->  drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 33 +++++++++++++++++++++++++++------
->  drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h  |  7 ++++++-
->  drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |  2 --
->  drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c    | 19 -------------------
->  drivers/media/platform/verisilicon/hantro_postproc.c    |  4 +++-
->  drivers/staging/media/rkvdec/rkvdec-h264.c              | 37 ++++++++++++++++++++++++++++---------
->  drivers/staging/media/rkvdec/rkvdec.c                   | 89 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------
->  drivers/staging/media/rkvdec/rkvdec.h                   |  5 +++++
->  13 files changed, 212 insertions(+), 75 deletions(-)
-> 
+> On 29/4/25 17:50, Alexey Kardashevskiy wrote:
+> > 
+> > 
+> > On 29/4/25 16:48, Alexey Kardashevskiy wrote:
+> > > On 8/1/25 01:27, Xu Yilun wrote:
+> > > > This series is based on an earlier kvm-coco-queue version (v6.12-rc2)
+> > > 
+> > > Has this been pushed somewhere public? The patchset does not apply on top of v6.12-rc2, for example (I fixed locally).
 
+Sorry, not yet. I'm trying to solve this ... same for the QEMU tree.
+
+> > > Also, is there somewhere a QEMU tree using this? I am trying to use this new DMA_BUF feature and this require quite some not so obvious plumbing. Thanks,
+> > 
+> > 
+> > More to the point, to make it work, QEMU needs to register VFIO MMIO BAR with KVM_SET_USER_MEMORY_REGION2 which passes slot->guest_memfd to KVM which essentially comes from VFIORegion->mmaps[0].mem->ram_block->guest_memfd. But since you disabled mmap for private MMIO, there is no MR which QEMU would even try registering as KVM memslot and there are many ways to fix it. I took a shortcut and reenabled mmap() but wonder what exactly you did. Makes sense? Thanks,
+
+Yes, QEMU needs change. 08/12 "vfio/pci: Create host unaccessible dma-buf for private device“
+adds a new flag VFIO_REGION_INFO_FLAG_PRIVATE to indicate user could
+create dmabuf on this region.
+
+I'm also not very serious about QEMU changes now, just FYI:
+
+I use VFIO_REGION_INFO_FLAG_PRIVATE flag to revive region->mmaps.
+
+int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
+	...
+
++        if (region->flags & VFIO_REGION_INFO_FLAG_PRIVATE) {
++            region->nr_mmaps = 1;
++            region->mmaps = g_new0(VFIOMmap, region->nr_mmaps);
++            region->mmaps[0].offset = 0;
++            region->mmaps[0].size = region->size;
++            region->mmaps[0].dmabuf_fd = -1;
+         }
+
+Then in vfio_region_mmap(), use a new memory_region_init_dmabuf() to populate
+the MR.
+
+int vfio_region_mmap(VFIORegion *region)
+
++        if (use_dmabuf) {
++            /* create vfio dmabuf fd */
++            ret = vfio_create_dmabuf(region->vbasedev, region->nr,
++                                     region->mmaps[i].offset,
++                                     region->mmaps[i].size);
++            if (ret < 0) {
++                goto sub_unmap;
++            }
++
++            region->mmaps[i].dmabuf_fd = ret;
++
++            name = g_strdup_printf("%s dmabuf[%d]",
++                                   memory_region_name(region->mem), i);
++            memory_region_init_dmabuf(&region->mmaps[i].mem,
++                                             memory_region_owner(region->mem),
++                                             name, region->mmaps[i].size,
++                                             region->mmaps[i].dmabuf_fd);
++            g_free(name);
++        } else {
+
+Thanks,
+Yilun
 
