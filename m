@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-32187-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32188-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366A1AB1F6C
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 23:52:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95952AB1F6F
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 23:52:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9CC19504174
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 21:52:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CFE11C43465
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 21:53:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1744263F5F;
-	Fri,  9 May 2025 21:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96F85264F83;
+	Fri,  9 May 2025 21:51:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="begZ5FMR"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pxpVYRgb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98662609E4;
-	Fri,  9 May 2025 21:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6BF261591;
+	Fri,  9 May 2025 21:51:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746827514; cv=none; b=q8oB5T7zXDoweZ20xkB2BCjms4kvgGITdHVooc+pz8gGkmMR0fHQ4g2Hq6w5t4vvy7A5r66RHoYmqXXATO+9Gs6HsXaQiMAF6C+1ypLPNxVnI2ngnY7GViO3lx/Bu2S5iELxJwzXrjPZ+vzLRtRyVM6RjqTv438Un/8rVcn0KbM=
+	t=1746827515; cv=none; b=o+nRY/qe54gnVZ8hCbyX+NQgyU9WiJVWHf6xsNtbm4q74i8I3bOpBftdrkyCLEqE6ZOpQoq/xj8t2IVHu6OjLO20J6uJBkS7qBsZolgdn6AT0nbMiAZ/b/Qt+Q1dO52uGXXYf+XCJJcjRqytGBvVf38hPObfYMPpGGCCH2y6n2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746827514; c=relaxed/simple;
-	bh=8eCOEQRODCkP2vSqU7Cd/t6rQN9fFH+dh2w0Wkskxp0=;
+	s=arc-20240116; t=1746827515; c=relaxed/simple;
+	bh=CQWWcqMDBBBF5UcJdFGNxHIOQ0echENGKfhnm7IyDgM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VZJPekN1lKWSf+TKylT/UT/WgisZfKUT1/hW9Qwjqz2H8uqtezROT+v8swcc9GDii47Mc2/EVlDl9eQ/rIPO5C1exGHkHsvUuDdQVZGTB1MWAZFmU3F0me9G+CGoxtYRB6uYpYWYbHxU0PcQqY2oLI3s4cKTESiSHTPv6x1osRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=begZ5FMR; arc=none smtp.client-ip=217.70.183.195
+	 In-Reply-To:To:Cc; b=JATEJ2ePIcnbeTuTh2Gv3V0hPN5iM/q9pDSep7I6rg/D6C9Giw7TyoxzOB/6Dd55uHdYoPJsD1TQlQi2J0/KkkELzYTup2mvI3A4+yrr7qaRY6D159XsfRAlWzeZrmzd0BJFot4n6iBRy5GXq8HvduNRIOkK+zzDDNPb/ysDDOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pxpVYRgb; arc=none smtp.client-ip=217.70.183.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 271291FCED;
-	Fri,  9 May 2025 21:51:49 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2D92C1FCEF;
+	Fri,  9 May 2025 21:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746827510;
+	t=1746827511;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=goA7f43Au1i3ufzZ13UdBQEnO+gTCTERnKj4vtxCJkg=;
-	b=begZ5FMRggDFSSvgYGanslTMbvnJQvRUsaXOSau59Wdsw7xrMkWI/ENhavGTXyR/Z4j8xM
-	fuxI8RdpO+9eRUzxsK3c/KEjzkQ4JpVORfrpSzbX8DkFpdMo5tCg5+cTYA0QNvqj/rA0NS
-	44ejAjGwDhBnmiv7/p32XVzt3rA2GD+GBidho36IcXCOwi7wop100B/dzSNVhh7PIfUwvb
-	9K48mCFeV0TUJQHPsBff5qKQJM4kDOP6o1cmfrhxor6iV9Mbs5L3aXpF2un49JH17oLoJJ
-	qpV1KhKysi1e0qKF5x2Cwwq6Kc54K16kRkdLwCkc6fXv2BiGfMCHUIdO+FabgQ==
+	bh=Q8XrbGrufMg9tkAyXi8gfe2wyJbMN7aGWkJh4GV5ffc=;
+	b=pxpVYRgb7MjCpc0odJr+r5pNssgZtTpZNH4Fohl8kfnyXPdyoUbAsqh7gPyPAlMcQTgNDp
+	8z3zsNYkuM87Y3UiNMsV/Y6TkMHNPhMSo/veQY5/6YP3r8P0G0X+QXcxHg8GoxnNJzGf+j
+	Jy1w/NOp1RlQWbfJ24Gx0rxe5lxK5uVL9S0fMwOVITXqsYI1WrpE2mKDKw5Oe8ijWcGL8K
+	f2cQSC+nIljQtkrzTyG+Qp5o15vHFjgxiiKDsUVYOYKFIcUumq62Y3S5coGRvI4HxjVxuG
+	8JtSaaNP1OjyotCnhd5ulPSloO0gMMgzRE65JAhrNrRl8i4oHM/7w6xDODARLg==
 From: Olivier Benjamin <olivier.benjamin@bootlin.com>
-Date: Fri, 09 May 2025 23:51:39 +0200
-Subject: [PATCH v3 3/4] arm64: dts: rockchip: describe I2c Bus 1 and IMX258
- world camera on PinePhone Pro
+Date: Fri, 09 May 2025 23:51:40 +0200
+Subject: [PATCH v3 4/4] arm64: dts: rockchip: describe the OV8858 user
+ camera on PinePhone Pro
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250509-camera-v3-3-dab2772d229a@bootlin.com>
+Message-Id: <20250509-camera-v3-4-dab2772d229a@bootlin.com>
 References: <20250509-camera-v3-0-dab2772d229a@bootlin.com>
 In-Reply-To: <20250509-camera-v3-0-dab2772d229a@bootlin.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -82,200 +82,105 @@ X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvleefjeegucetufdoteggode
  ghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepfhgvshhtvghvrghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegushhimhhitgesmhgrnhhjrghrohdrohhrgh
 X-GND-Sasl: olivier.benjamin@bootlin.com
 
-Add the description of the rear/world camera (IMX258) on the PinePhone Pro
+Add the description of the front/user camera (OV8858) on the PinePhone Pro
 to the device dts file.
-It receives commands on the I2C Bus 1 at address 0x1a and transmits data
-over CSI-MIPI.
+It receives commands over SCCB, an I2C-compatible protocol, at
+I2C address 0x36 and transmits data over CSI-MIPI.
+I confirmed this address experimentally.
 
-The I2C address for IMX258 can be found in the IMX258-0AQH5 Software
-Reference Manual, page 24, section 2.3.1: 0b0011010 = 0x1a.
-Section 3 indicates the module has 4 pairs of data lines. While 4-lane
-mode is nominal, 2-lane mode should also be supported.
-
-The pin muxing info was extracted from the PinePhone Pro schematic v1.0
-as well as the RK3399 datasheet revision 1.8.
+The pin control mapping was again extracted from the PinePhone Pro
+schematic v1.0 as well as the RK3399 datasheet revision 1.8.
 
 Table 2-3 in section 2.8 of the RK3399 datasheet contains the mapping
-of IO functions for the SoC pins. Page 52 shows GPIO1_A0, page 54 shows
-GPIO2_D4.
-
-For I2C power, the PinePhone Pro schematic page 11 quadrants A4 and A5:
-RK3399_J.AA8 and RK3399_J.Y8 get power from vcaa1v8_codec, so turn it on
-
-The IMX258 also uses the following regulators, expected by its driver:
- - vana (2.8V analog), called AVDD2V8_DVP on P.18 q.C1 and derived from
-   VCC1V8_S3 on P.13 q.B2
- - vdig (1.2V digital core), called DVDD_DVP on P.18 q.C1 and shown on
-   P.18 q.D3 to be equivalent to VCC1V2_DVP derived from VCC3V3_SYS on
-   P.13 q.B3. Note that this regulator's voltage is inconsistently
-   labeled either 1.2V or 1.5V
-
-RK3399_J.AG1 is GPIO4_A1/I2C1_SDA, RK3399_J.Y6 is GPIO4_A2/I2C1_SCL
-This is the default pinctrl "i2c1_xfer" for i2c1 from rk3399-base.
+of IO functions for the SoC pins. Page 52 shows GPIO1_A4, page 54 shows
+GPIO2_B4.
 
 For the reset (RESET) signal:
-page 11 quadrant D2             | p.18 q.C3-4 | p.18 q.C2
-RK3399_E.R25 -> GPIO1_A0 -> Camera_RST -> MIPI_RST0 -> IMX258.12
+page 11 quadrant D2             | p.18 q.B3-4 | p.18 q.C2
+RK3399_E.R28 -> GPIO1_A4 -> Camera2_RST -> MIPI_RST1 -> OV8858.12
 
 For the powerdown (PWDN) signal:
-page 11 quadrants B4-5          | p.18 q.C2
-RK3399_G.AF8 -> GPIO2_D4 -> DVP_PDN1_H -> IMX258.14
+page 9 quadrants D4-5          | p.18 q.B2
+RK3399_L.F31 -> GPIO2_B4 -> DVP_PDN0_H -> OV8858.14
 
 Helped-by: Dragan Simic <dsimic@manjaro.org>
 Co-developed-by: Ondrej Jirman <megi@xff.cz>
 Signed-off-by: Ondrej Jirman <megi@xff.cz>
 Signed-off-by: Olivier Benjamin <olivier.benjamin@bootlin.com>
 ---
- .../boot/dts/rockchip/rk3399-pinephone-pro.dts     | 94 ++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
+ .../boot/dts/rockchip/rk3399-pinephone-pro.dts     | 45 ++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts b/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts
-index 04ba4c4565d0a205e2e46d7535c6a3190993621d..588e2d8a049cc649aa227c7a885bd494f23fbdf8 100644
+index 588e2d8a049cc649aa227c7a885bd494f23fbdf8..460333915ed43ecc073dd7b5f4575402fb809876 100644
 --- a/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts
 +++ b/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts
-@@ -114,6 +114,16 @@ vcc3v3_sys: regulator-vcc3v3-sys {
- 		vin-supply = <&vcc_sys>;
+@@ -480,6 +480,27 @@ wcam_lens: camera-lens@c {
+ 		/* Same I2c bus as both cameras, depends on vcca1v8_codec for power. */
+ 		vcc-supply = <&vcc1v8_dvp>;
  	};
- 
-+	avdd2v8_dvp: regulator-avdd2v8-dvp {
-+		compatible = "regulator-fixed";
-+		regulator-name = "avdd2v8_dvp";
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&vcc3v3_sys>;
-+	};
 +
- 	vcca1v8_s3: regulator-vcc1v8-s3 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "vcca1v8_s3";
-@@ -136,6 +146,16 @@ vcc1v8_codec: regulator-vcc1v8-codec {
- 		vin-supply = <&vcc3v3_sys>;
- 	};
- 
-+	vcc1v2_dvp: regulator-vcc1v2-dvp {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc1v2_dvp";
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		vin-supply = <&vcca1v8_s3>;
-+	};
-+
- 	wifi_pwrseq: sdio-wifi-pwrseq {
- 		compatible = "mmc-pwrseq-simple";
- 		clocks = <&rk818 1>;
-@@ -312,6 +332,8 @@ vcc3v0_touch: LDO_REG2 {
- 
- 			vcca1v8_codec: LDO_REG3 {
- 				regulator-name = "vcca1v8_codec";
-+				regulator-always-on;
-+				regulator-boot-on;
- 				regulator-min-microvolt = <1800000>;
- 				regulator-max-microvolt = <1800000>;
- 			};
-@@ -420,6 +442,46 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c1 {
-+	clock-frequency = <400000>;
-+	pinctrl-0 = <&i2c1_xfer &cif_clkouta>;
-+	assigned-clocks = <&cru SCLK_CIF_OUT>;
-+	assigned-clock-rates = <24000000>;
-+	status = "okay";
-+
-+	wcam: camera@1a {
-+		compatible = "sony,imx258";
-+		reg = <0x1a>;
-+		clocks = <&cru SCLK_CIF_OUT>; /* MIPI_MCLK0, derived from CIF_CLKO */
++	ucam: camera@36 {
++		compatible = "ovti,ov8858";
++		reg = <0x36>;
++		clocks = <&cru SCLK_CIF_OUT>; /* MIPI_MCLK1, derived from CIF_CLK0 */
 +		clock-names = "xvclk";
 +		pinctrl-names = "default";
-+		pinctrl-0 = <&wcam_rst>;
-+		/* Note: both cameras also depend on vcca1v8_codec to power the I2C bus. */
-+		vif-supply = <&vcc1v8_dvp>;
-+		vana-supply = <&avdd2v8_dvp>;
-+		vdig-supply = <&vcc1v2_dvp>; /* DVDD_DVP is the same as VCC1V2_DVP */
-+		reset-gpios = <&gpio1 RK_PA0 GPIO_ACTIVE_LOW>;
-+		orientation = <1>; /* V4L2_CAMERA_ORIENTATION_BACK */
-+		rotation = <270>;
-+		lens-focus = <&wcam_lens>;
++		pinctrl-0 = <&ucam_rst &ucam_pwdn>;
++		dovdd-supply = <&vcc1v8_dvp>;
++		reset-gpios = <&gpio1 RK_PA4 GPIO_ACTIVE_LOW>;
++		powerdown-gpios = <&gpio2 RK_PB4 GPIO_ACTIVE_LOW>;
++		orientation = <0>; /* V4L2_CAMERA_ORIENTATION_FRONT */
++		rotation = <90>;
 +
 +		port {
-+			wcam_out: endpoint {
-+				remote-endpoint = <&mipi_in_wcam>;
++			ucam_out: endpoint {
++				remote-endpoint = <&mipi_in_ucam>;
 +				data-lanes = <1 2 3 4>;
-+				link-frequencies = /bits/ 64 <636000000>;
 +			};
 +		};
 +	};
-+
-+	wcam_lens: camera-lens@c {
-+		compatible = "dongwoon,dw9714";
-+		reg = <0x0c>;
-+		/* Same I2c bus as both cameras, depends on vcca1v8_codec for power. */
-+		vcc-supply = <&vcc1v8_dvp>;
-+	};
-+};
-+
+ };
+ 
  &i2c3 {
- 	i2c-scl-rising-time-ns = <450>;
- 	i2c-scl-falling-time-ns = <15>;
-@@ -462,6 +524,28 @@ &io_domains {
+@@ -524,6 +545,24 @@ &io_domains {
  	status = "okay";
  };
  
-+&isp1 {
++&isp0 {
 +	status = "okay";
 +
 +	ports {
 +		port@0 {
-+			mipi_in_wcam: endpoint@0 {
++			mipi_in_ucam: endpoint@0 {
 +				reg = <0>;
-+				remote-endpoint = <&wcam_out>;
++				remote-endpoint = <&ucam_out>;
 +				data-lanes = <1 2 3 4>;
 +			};
 +		};
 +	};
 +};
 +
-+&mipi_dphy_rx0 {
++&isp0_mmu {
 +	status = "okay";
 +};
 +
-+&isp1_mmu {
-+	status = "okay";
-+};
-+
- &mipi_dsi {
+ &isp1 {
  	status = "okay";
- 	clock-master;
-@@ -495,6 +579,10 @@ mipi_in_panel: endpoint {
- 	};
- };
  
-+&mipi_dsi1 {
-+	status = "okay";
-+};
-+
- &pmu_io_domains {
- 	pmu1830-supply = <&vcc_1v8>;
- 	status = "okay";
-@@ -507,6 +595,12 @@ pwrbtn_pin: pwrbtn-pin {
+@@ -599,6 +638,12 @@ camera {
+ 		wcam_rst: wcam-rst {
+ 			rockchip,pins = <1 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
  		};
++		ucam_rst: ucam-rst {
++			rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++		ucam_pwdn: ucam-pwdn {
++			rockchip,pins = <2 RK_PB4 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
  	};
  
-+	camera {
-+		wcam_rst: wcam-rst {
-+			rockchip,pins = <1 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
  	leds {
- 		red_led_pin: red-led-pin {
- 			rockchip,pins = <4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
 
 -- 
 2.48.1
