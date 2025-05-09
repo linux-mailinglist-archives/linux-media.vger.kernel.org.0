@@ -1,149 +1,195 @@
-Return-Path: <linux-media+bounces-32128-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32129-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CFFAB115F
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 13:00:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DC4AB11B2
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 13:10:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 313321BA6A98
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 11:01:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7DEC7BA136
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 11:09:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3BDD28F514;
-	Fri,  9 May 2025 11:00:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88EB527FD57;
+	Fri,  9 May 2025 11:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wTya/bBC"
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="VTgk1zJr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C10422D4DF
-	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 11:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289E028FA8A
+	for <linux-media@vger.kernel.org>; Fri,  9 May 2025 11:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746788445; cv=none; b=I4ReiiTj3iTZAQAoGdU+5l3AqcDmmQfobaRZ7pf1Wx2GaxGzBWylg6+8qPBCyW14go4ALvKEgEvH1HgwnIR5K/Fn8OfdoOlV14PLIw6bGfwtvvdDN1VtQfcmfGH8MmdrUblLRqj5pjncQLLQFYM5ozPDFSP5lIkjTM8or37bhmk=
+	t=1746789021; cv=none; b=CL8yfkgLZJgXnq0Lhy7FZ8f/DFH+iKNuqGGsKbEbG2+anr2nSb/BqYrEaHf31KbfuMvDbhLiZIbdfwhOabU6ev4Umk8OIG+nzeui8zyfNuembJMa05NRVNMRUJ5yCtkU8Wf+sT6w9KSYmSm0+fBBzavTaYXIuz/l0BYBupDfHTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746788445; c=relaxed/simple;
-	bh=yw3QQaV06A+cJujP63ChEJZ4MI7InDtQV7KILW2Pmw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=soZIa2s3b4mV/WJziDZSA0FqohfukjNeeZpPRh4QRhitPM807ScwrEK1SJvfa6m8ew6mv4aNl6c5vcufCqtHJuWqnEvbVIvTlLjwZxUA11+hed5TI3y4NqM1pmILqVbxOh9w3wHSluV0WXws7QcXG5dRg1cV3u10nasMQnqjIOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wTya/bBC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (static-176-133-119-130.ftth.abo.bbox.fr [176.133.119.130])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09AEC8DB;
-	Fri,  9 May 2025 13:00:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746788426;
-	bh=yw3QQaV06A+cJujP63ChEJZ4MI7InDtQV7KILW2Pmw4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wTya/bBCfMiUVLcOfNN/5n25rx9vJakBlTHFzzI9tquUSc5JFwj95w2rn1KNXLmTq
-	 CVmUnYqEOXxXvPqVgGNnuuhmLqmrvF8X9NYL4e8nfydYIw4fasf/Oc0xf3GJ9EJRss
-	 TW/tuPzMLYpaxBwbdbK7GmkGCLIxVSltfrCrcPnE=
-Date: Fri, 9 May 2025 13:00:30 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hans@jjverkuil.nl>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sean Young <sean@mess.org>, Ricardo Ribalda <ribalda@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Tomasz Figa <tfiga@chromium.org>,
-	"Hu, Jerry W" <jerry.w.hu@intel.com>,
-	Steve Cho <stevecho@chromium.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Devarsh Thakkar <devarsht@ti.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Stefan Klug <stefan.klug@ideasonboard.com>
-Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v4)
-Message-ID: <20250509110030.GH28896@pendragon.ideasonboard.com>
-References: <f6d44024-a78e-42b8-971a-797ed8fbb1ff@jjverkuil.nl>
- <aBjYnrvg-_T-7xRi@kekkonen.localdomain>
- <20250509094005.GA30047@pendragon.ideasonboard.com>
- <7c4d419a-613c-420e-8885-01ebb006f345@redhat.com>
- <aB3bpdDrn0TKdleD@kekkonen.localdomain>
- <20250509104656.GF28896@pendragon.ideasonboard.com>
- <aB3epuwBBNlivsES@kekkonen.localdomain>
+	s=arc-20240116; t=1746789021; c=relaxed/simple;
+	bh=qSYsEehwHDHmcJoj9+qFrSrKelLLBZez7bqUv9MmpSs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=bsbeLkqBc8679xbb0MYvWUnsoR1ffw58qy28oxIyc+vjM3qh8HaI/np3emcFxdpv9pIM5JS7KviU3/qOAok8IZhIyvJHHxU1IYmf4yGJTzgF7J8O82ZDnwUSknjsiZJzGyFQVYI7klxNISxLHIuICMNgNG4XBA3nWr9RDQZJzRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=VTgk1zJr; arc=none smtp.client-ip=185.233.34.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
+Received: from smtp.freedom.nl (unknown [10.10.4.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by dane.soverin.net (Postfix) with ESMTPS id 4Zv5rD3wQzz1C0S;
+	Fri,  9 May 2025 11:10:04 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4Zv5rD16Smz7T;
+	Fri,  9 May 2025 11:10:04 +0000 (UTC)
+Authentication-Results: smtp.freedom.nl;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=VTgk1zJr;
+	dkim-atps=neutral
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
+	s=soverin1; t=1746789004;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=RoGoZpbWtazOdzhb0iQg0CVfpory2djBtTqF6hr8Ijc=;
+	b=VTgk1zJrUuHBGamGFg8I5ulsEniUkpimkqOOvLFEr1Yi8kEE4gSHgBxgBnGvQ8jPsxnNcH
+	cSzHZZ0aQOVPo6ENp4R5RJXgSRUhfAnOvcuelHD7OiUT9p1Dk1auCuNdczE8Vx14gcGVj5
+	9PFEiF9eiLO7wW59a7A0O5QSvbPD3OUWtLsaPqQY8HBEcnZg91JcO35MePG16wha+jisU2
+	U7ZG80gzlriHZgsPcU1WtQwFvEgKFSde/xGdvxyz0n99TEstUe9tMYaln/IDGjZ9pgtN4X
+	jKdyzdavHPCXnjPo+vhRaeKHOlhIUxpBX4k/GMFsfJpB5VRNLj7W0xVRZxoQkQ==
+X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=681de28c a=smkfPCmiGCBx+NgG8pXs4w==:117 a=smkfPCmiGCBx+NgG8pXs4w==:17 a=IkcTkHD0fZMA:10 a=e5mUnYsNAAAA:8 a=q-SvEr4yTAtaG3URYREA:9 a=QEXdDO2ut3YA:10 a=Vxmtnl_E_bksehYqCbjh:22
+X-CM-Envelope: MS4xfLeiGAU7hc0iwfxkHvEHE7/A3Kqu7llP1mybONJySz4oEQ1FID6LjNjsAFDWzKASfTovwcdbzGKxJOrQ1udQE7fYZIeuffD6LFzT9JPYsgzMF4wb58h0 fIVkBadU1qUexynTZTzVfl3D1dM5/RGOZ7Gi1yCjPXMUZ/XlKO+LCQH1hOQLcOPWZrfcLBmXgMJrvQlADed84DtaSnyASF6l6CT3UMidScEURb9nx0NNcUBm
+Message-ID: <6d5d837d-3480-4252-a54c-a1f30f8176d3@jjverkuil.nl>
+Date: Fri, 9 May 2025 13:10:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aB3epuwBBNlivsES@kekkonen.localdomain>
+Subject: Re: [GIT PULL FOR 6.16] Media Codec Changes 2025-05-07
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ linux-media@vger.kernel.org
+References: <56f1ee7d5384368514cf07d0e563a99d227fa530.camel@collabora.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hans@jjverkuil.nl>
+Autocrypt: addr=hans@jjverkuil.nl; keydata=
+ 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
+In-Reply-To: <56f1ee7d5384368514cf07d0e563a99d227fa530.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spampanel-Class: ham
 
-On Fri, May 09, 2025 at 10:53:26AM +0000, Sakari Ailus wrote:
-> On Fri, May 09, 2025 at 12:46:56PM +0200, Laurent Pinchart wrote:
-> > On Fri, May 09, 2025 at 10:40:37AM +0000, Sakari Ailus wrote:
-> > > On Fri, May 09, 2025 at 12:13:57PM +0200, Hans de Goede wrote:
-> > > > On 9-May-25 11:40 AM, Laurent Pinchart wrote:
-> > > > > On Mon, May 05, 2025 at 03:26:22PM +0000, Sakari Ailus wrote:
-> > > > >> Hans, Laurent, others,
-> > > > >>
-> > > > >> On Fri, May 02, 2025 at 10:15:27AM +0200, Hans Verkuil wrote:
-> > > > >>> 16:35-17:30: Hans Verkuil: Status of Media CI/Multi-committers
-> > > > >>>
-> > > > >>> Please reply with corrections, questions, etc. to the agenda.
-> > > > >>
-> > > > >> As it seems we might have a little bit of time left, I'd like to propose a
-> > > > >> keysigning party we haven't done for a few years now. We have some new
-> > > > >> people here and the folks who have been around for longer have new keys,
-> > > > >> too.
-> > > > >>
-> > > > >> This is what we did the previous time
-> > > > >> <URL:https://lore.kernel.org/linux-media/YxhplLKtRAQzlSK/@pendragon.ideasonboard.com/>.
-> > > > >>
-> > > > >> I wonder if Laurent would like to do the same this time around. I can also
-> > > > >> help with the arrangements.
-> > > > > 
-> > > > > I don't mind signing keys, but I won't have time to organize it. Feel
-> > > > > free to take the lead :-)
-> > > > 
-> > > > Embeddedrecipes will also have a key-signing event, see:
-> > > > 
-> > > > https://embedded-recipes.org/2025/attend/
-> > > > 
-> > > > So it might be best if people who want to have their keys signed
-> > > > just join that ?
-> > > 
-> > > It's very nice they do. I presume many attendees will also attend ER
-> > > keysigning party but I'm not sure how many. As we're moving to the new
-> > > multi-committer model, having potential committers' keys signed by the
-> > > maintainers is even more important now than it used to be.
-> > 
-> > Unless I'm missing something, the multi-committer model won't make use
-> > of GPG to push and merge.
+Hi Nicolas,
+
+On 07/05/2025 23:09, Nicolas Dufresne wrote:
+> Hey Hans & Mauro,
 > 
-> There's no direct dependency to that at the moment. In the future we may
-> not want to trust infrastructure as much as we do at the moment, and
-> changing that probably means using GPG in a way or another.
+> Please pay special attention to the last 4 patches. Hans had review comments,
+> which are addressed, but no Rb or Ack afterward. The rest isn't
+> controversial in any ways.
+> 
+> see you in Nice,
+> Nicolas
 
-That means merging signed tags instead of rebasing and pushing in
-fast-forward mode. I personally think that merging is better, but I have
-given up on convicing everybody else.
+I'll take this PR next week: I'll use it as a demo during the media summit.
 
--- 
+So don't worry that it isn't merged this week.
+
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> ---
+> 
+> The following changes since commit 48dbb76cef65fabaa3ac97461eda90495e954ecd:
+> 
+>   dt-bindings: media: convert imx.txt to yaml format (2025-05-06 15:39:40 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-media-codecs-2025-05-07
+> 
+> for you to fetch changes up to b27fc932e904af416b76f32b98c08e8c0221e55e:
+> 
+>   media: rkvdec: h264: Support High 10 and 4:2:2 profiles (2025-05-07 16:35:47 -0400)
+> 
+> ----------------------------------------------------------------
+> Media codecs fixes and RKVDEC 4:2:2 and 10bit
+> 
+> ----------------------------------------------------------------
+> Detlev Casanova (1):
+>       media: verisilicon: Free post processor buffers on error
+> 
+> Dr. David Alan Gilbert (1):
+>       media: platform: mtk-mdp3: Remove unused mdp_get_plat_device
+> 
+> Jianhua Lin (1):
+>       media: mediatek: jpeg: support 34bits
+> 
+> Jonas Karlman (2):
+>       media: rkvdec: Add get_image_fmt ops
+>       media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+> 
+> Nicolas Dufresne (1):
+>       media: rkvdec: Initialize the m2m context before the controls
+> 
+> Sebastian Fricke (1):
+>       media: rkvdec: h264: Limit minimum profile to constrained baseline
+> 
+>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c    |  5 ++++-
+>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h    |  4 ++++
+>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 73 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------
+>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |  1 +
+>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |  8 ++++++++
+>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 33 +++++++++++++++++++++++++++------
+>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h  |  7 ++++++-
+>  drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |  2 --
+>  drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c    | 19 -------------------
+>  drivers/media/platform/verisilicon/hantro_postproc.c    |  4 +++-
+>  drivers/staging/media/rkvdec/rkvdec-h264.c              | 37 ++++++++++++++++++++++++++++---------
+>  drivers/staging/media/rkvdec/rkvdec.c                   | 89 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------
+>  drivers/staging/media/rkvdec/rkvdec.h                   |  5 +++++
+>  13 files changed, 212 insertions(+), 75 deletions(-)
+> 
+
 
