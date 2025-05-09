@@ -1,181 +1,159 @@
-Return-Path: <linux-media+bounces-32061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AB6AB05C2
-	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 00:00:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A065AB0704
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 02:28:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 766DD4E6910
-	for <lists+linux-media@lfdr.de>; Thu,  8 May 2025 22:00:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A7411BC1B0E
+	for <lists+linux-media@lfdr.de>; Fri,  9 May 2025 00:28:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BDB0224AFE;
-	Thu,  8 May 2025 22:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 865E7BA4A;
+	Fri,  9 May 2025 00:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gutgaRnf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iIzIvUJw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301CC202C5C;
-	Thu,  8 May 2025 22:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BCC1FB3;
+	Fri,  9 May 2025 00:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746741621; cv=none; b=ShnZlMtJb908ZF5fSxSZF55q3dNwH6OmKVtbpl1Esgr4zxNiplPT1N+CvqkC/1m8UXWapr3TRmetQi6ITArJl62VfmAsx0JOa5a9r2RgisK9zrdhscqkfOODRWgF/K5Cv/UAeEPhLq6fPsxy8z2eHcNiJzDaGnBubWbV5LJfFxg=
+	t=1746750470; cv=none; b=YcgGDkLzgLBt/KzExacD5lyGAPUXtngzDafjVMBmf0nZIAf+/ktDJr0faMhat5Nhjw4wcR6FZDoZPemAdJllQ8dd1xAsIf7GeJ/lsoJAsV4PvJMi4oUJrXJ9c3VOYwQY/Zw1zUUO6EQ7sn5jNX33CKJVQ+f4UyVPSjF5/oMIpeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746741621; c=relaxed/simple;
-	bh=KVvgX9Sz//6c92uZjhQoPSnIEHvJqDAnUBmUV/6XQAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o7536Uy7yeJvEGvLOs5xRFBqWHGNHS36AuJqDndbfK6ZBDi1+QlkDSV91ydTQmEULO/9jInoKu9r9Uj4Qw/NQOJEitstv3BqnoBaA9lrM32xyOuzoGfJ7fq53acCXrcELrMRZBqdpgOjo0wPJPDSsp3lCzhfFRNWmdRxrNoUZ2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gutgaRnf; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-440685d6afcso16129675e9.0;
-        Thu, 08 May 2025 15:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746741618; x=1747346418; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jFPptVlWELbngFMrThLLYDU5tK5YqcQQHLUB6h2bqos=;
-        b=gutgaRnf5Qc+LAZCULIrIpdVDJH2TEmuP3+Gh7Z+2XopBIhU8pmxY64u2zJduP9+wH
-         Y6HL4RnI5Y5qq1KZ/43jJZPFbE8DmFJX2JsuFGBJEJEVoWQLl5k7snTI5PmjVg/ruA2r
-         oZdAniWueKygKm35f/JjwcAYfo4fjY7vjXqM3XzKjE1bvVXMZGyS3evNADZGbmRQzXg2
-         o8OrRz8toe889rojHunhUDvJmed7YyKs9I47ZCiJncYhWdYUo58mwjRxyfoeKCZA1E2g
-         pHxInrWoa2DYxJ7RN8CUSKCBifqtqtkDvNp8MfXxMfy77r+/89BxBuLaeOUQVQnfNXsz
-         3zEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746741618; x=1747346418;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jFPptVlWELbngFMrThLLYDU5tK5YqcQQHLUB6h2bqos=;
-        b=YsxYANGbj71b6G9iASuugV0TvXy4TC5uZa7ZJcTd+WpJVX8Jz7sbmSoAyguHhOvtQj
-         wxHpragEPc7FNubH3TvdVd9MbyOCBEtvNNm9GXzwT/eggqyAMjIwu+QvzZnn18A7C5pL
-         xgHOTQn1gMl2uoHbcrGlnlxHdzgUOBdAVvCtehwQ+s6dVz85nrDKWfh7rEXrALMZGvZa
-         j+9T1Nc/qNweSZIN0J2K4J9BOYjeAWaHobQofD4MdavJMHxSTDVKfwws2xiwMymZ8Eht
-         4xP39vZnURfcsb5YFuqeojLzxRZAk4aPU7Giikl1wUJ/n4vHbHmEVjl0N65BsQH4S6bH
-         ghgw==
-X-Forwarded-Encrypted: i=1; AJvYcCVEyo8w/JMhJGyX/iCZ3bfNRfiktDgeHZPbNbyDfTXvtLy7ROr3QfXFSAH38bCXn426lK9FOp2U4PfZ@vger.kernel.org, AJvYcCWY6WkPH/kiENfHDBX6J22fSTy18Qef39YpxCgeJjR3HTwnIds7RDl7MTExVczpMAZjtR7BRz6n9VT/MMw=@vger.kernel.org, AJvYcCWnUmnAW3IyEug36AroYKoLQmh9LnGTr9O5T6lc/nt5XC4zzvW4fMpjxd83dmT7yjO9iq51cXcXKNVXPiI=@vger.kernel.org, AJvYcCXPMUhWHNL2VzyLB/V5NmodmJ6l8DeVDYpwgwmqAExRny6FPPa5txPq5MhMolxlzNVVRx5jvm6FXiSJs39N@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIY4GNJ7HfdnW9qjve3gMozpSFhrdM1bh73SgHMhNJUMm7JDQm
-	29pG5WVdSpxidQc6iSUfUy1wt2kaoJVcEjqvrFDoswve8TZDhjx8kaD48A==
-X-Gm-Gg: ASbGncvSgZfviQMu2XV8FVb+lFXwR+EzCCG7sR2grlvj8mxDfwdHiv9y2H88EB/iU31
-	6b3oKQu2xO6QdSgOMxwBY4ZdWeCNBJiwLnNFggW5TO9dZJx7LdJQJFtXdsKxHj8QxGxsE15giAQ
-	Y7nRuNi5k9woYC106SrTddRdM3ikdS9vbzBUBoFLTdk1MkKHoeGm3EtSGs88v9vxsUfzlj1kbBJ
-	jCJk8QOlVEEM6Bwwhn1TyqmKaDAxcLmknRvi6rX/z5OcMlzbZSm6Tk9Z/zaQntogDZ7NYEK+u9R
-	VwGoyNVG9lQbDKUmlltXp7NCrOgMAzTeg43iCLA7qDAMBHkySFGgs/4UuZZukG7BT05IsgkVnX8
-	GtVqrn73pvaAhE+RcEsvghCER5POfq/99N3Ofcg==
-X-Google-Smtp-Source: AGHT+IG3AYYCZjpiyNF33eGBd2NOxkGCG27jymfzWyrn6MCB6Fm4BvoruhYdcOJFuQliiCx3Ju+NDA==
-X-Received: by 2002:a05:600c:5027:b0:440:8fcd:cf16 with SMTP id 5b1f17b1804b1-442d6d6b6f7mr7776095e9.19.1746741618205;
-        Thu, 08 May 2025 15:00:18 -0700 (PDT)
-Received: from orome (p200300e41f281b00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f28:1b00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d14e6d74sm41174815e9.21.2025.05.08.15.00.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 May 2025 15:00:17 -0700 (PDT)
-Date: Fri, 9 May 2025 00:00:15 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: webgeek1234@gmail.com
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v4 0/4] Tegra CEC Updates
-Message-ID: <almxxsmr2ppjisqyzufqkbkekx3pab6cdtnlbdf4epe77eidvs@s4qv7s5udnhq>
-References: <20250413-tegra-cec-v4-0-b6337b66ccad@gmail.com>
+	s=arc-20240116; t=1746750470; c=relaxed/simple;
+	bh=EofVU9RaJO8fFSn090qY+nSJVNAGtpdF7uvKRTJZyCs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Qy0zsjtLSqA+8BcsjaprfWVvNd/q+aaCL7gAyHDqswfU+hOXM9uvaON1lLV1wKE040yzUUSjsZuFORLxO2dV/vU6w4SuSmpz49YSERfND1vPAi2BX4NHo1SATP52kyucOgtjgASVKySKAQBhff4Ie7FR4nqMILCucU5Nqf7n3a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iIzIvUJw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B371C4AF09;
+	Fri,  9 May 2025 00:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746750470;
+	bh=EofVU9RaJO8fFSn090qY+nSJVNAGtpdF7uvKRTJZyCs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=iIzIvUJwP5AMW2em5ZJsd52tw11N98vBKEYEDrLaBkj23sKr3I+MrpV7tDox2rHuw
+	 UBXJGjlXh5bwdY+FCnjTYV03Fth9rGsuRQZWecWJGLc07olIm0NnH37N56oARbKjDO
+	 vcye/to9Ue9TtPjoKWM9ul8xczvD7j4cDoZ89XhVpCvhKhaj6DLl6TWTPq0GLXjBdR
+	 WPHkHhwmcNZ3SAS9dRDEzgUehWm7CnBJWIT5pGMA1ON7Q7H+AH2ukMCCig3ZSSBIUj
+	 r7Tmy5EFJXr1gbILGVn81rw0svUglpjf2N8JsRRFVtsWEcxxJ9bPabf6N4DYN6yluM
+	 Gk71TN4L2NvCg==
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6f0c30a1ca3so19592126d6.1;
+        Thu, 08 May 2025 17:27:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUesAccW7fTQck1SBPkAaKbi8rHQPJlmSp51Wr3KqmDvt57JGunHulh4z+KHYI1qpgBbLg=@vger.kernel.org, AJvYcCVUEk8qW6XkkxJBXbztQjwYwEX3EgSyI8D3T73wuS4WVfnxCGV0IhPwv8iv3/z2/sX1g1IakAYWVCp897Ab@vger.kernel.org, AJvYcCW9TE6pgnZJed1P2ZUIp7uG3gMNhdU9ZyNFuVoJxVVF43DHTE9trJ20TcdoBwvN1O6Q3gcxUCg1BgzeV9yQ2L95@vger.kernel.org, AJvYcCXgQ0JmWKsYqgVyPNUnDGzt+kvzju+utSb5VodgzyMV/0GQaofGQ9Etd9IQkB0pXh7QY8IzGh27TefWmMI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzERT/4SiMyVPeC5DEzuvnuZGSkzb/pNljlFCvpfxOpOFJBTUg+
+	vfG/OfieT28CBKQyMaec9vEAo0GNyvonGuvhULlbwCaQ0OpsoBGiJJBFt5txL7YBmAKbPwSAKLA
+	LZCSxkJXP0rYDLOBoRazzKTQL/V4=
+X-Google-Smtp-Source: AGHT+IGvlO4MI8GcZbzVx7jsPcMoZXRxilbdcz9LupGWaeI1mxIAZKH4cl4q1xWroFyqcUQ97CJgUfidPRz8wpMqFwI=
+X-Received: by 2002:a05:6214:1c0e:b0:6e4:407c:fcfc with SMTP id
+ 6a1803df08f44-6f6e47b9989mr19117996d6.4.1746750469293; Thu, 08 May 2025
+ 17:27:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3epgod7wk6jifceo"
-Content-Disposition: inline
-In-Reply-To: <20250413-tegra-cec-v4-0-b6337b66ccad@gmail.com>
-
-
---3epgod7wk6jifceo
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <20250508182025.2961555-1-tjmercier@google.com> <20250508182025.2961555-3-tjmercier@google.com>
+In-Reply-To: <20250508182025.2961555-3-tjmercier@google.com>
+From: Song Liu <song@kernel.org>
+Date: Thu, 8 May 2025 17:27:38 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW6cTCEwnbfRNX0KDGGs7M+N3xf+EP9FfS5Y_OHyXqs_Qw@mail.gmail.com>
+X-Gm-Features: ATxdqUEzd3jkJFL3dYflNlv-tch_Y5Oz2sEMRRKvmSAFIy8j243R28FNueVT7eQ
+Message-ID: <CAPhsuW6cTCEwnbfRNX0KDGGs7M+N3xf+EP9FfS5Y_OHyXqs_Qw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v4 2/5] bpf: Add dmabuf iterator
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 0/4] Tegra CEC Updates
-MIME-Version: 1.0
 
-On Sun, Apr 13, 2025 at 02:35:31PM -0500, Aaron Kling via B4 Relay wrote:
-> This series updates Tegra hdmi cec support to be usable out of the box
-> on Tegra210 through Tegra194.
->=20
-> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+On Thu, May 8, 2025 at 11:20=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+>
+> The dmabuf iterator traverses the list of all DMA buffers.
+>
+> DMA buffers are refcounted through their associated struct file. A
+> reference is taken on each buffer as the list is iterated to ensure each
+> buffer persists for the duration of the bpf program execution without
+> holding the list mutex.
+>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+
+Acked-by: Song Liu <song@kernel.org>
+
+With one nitpick below.
+
 > ---
-> Changes in v4:
-> - Fix review comment on patch 1
-> - Link to v3: https://lore.kernel.org/r/20250409-tegra-cec-v3-0-91640131d=
-fa2@gmail.com
->=20
-> Changes in v3:
-> - Update patch 1 to fix lint warnings
-> - Link to v2: https://lore.kernel.org/r/20250408-tegra-cec-v2-0-2f004fdf8=
-4e8@gmail.com
->=20
-> Changes in v2:
-> - Dropped patch 2, per request
-> - Added change to declare fallback compatibles instead, as per request
-> - Update patch 1 to allow fallback compatibles
-> - Link to v1: https://lore.kernel.org/r/20250407-tegra-cec-v1-0-e25dd9577=
-b5f@gmail.com
->=20
-> ---
-> Aaron Kling (4):
->       media: dt-bindings: Document Tegra186 and Tegra194 cec
->       arm64: tegra: Add fallback cec compatibles
->       arm64: tegra: Add CEC controller on Tegra210
->       arm64: tegra: Wire up cec to devkits
->=20
->  .../devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml | 14 ++++++++=
-++----
->  arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts         |  6 ++++++
->  .../boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts     |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra186.dtsi                   |  2 +-
->  arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts         |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi        |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra194.dtsi                   |  2 +-
->  arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts         |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts         |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra210.dtsi                   |  9 +++++++++
->  10 files changed, 57 insertions(+), 6 deletions(-)
-> ---
-> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-> change-id: 20250407-tegra-cec-7e3a7bef456f
->=20
-> Best regards,
-> --=20
-> Aaron Kling <webgeek1234@gmail.com>
+[...]
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 8ff4add71f88..7af2ea839f58 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -634,4 +634,6 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys=
+_map *map);
+>  void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map);
+>  int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)=
+;
+>  void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *m=
+ap);
+> +struct dma_buf *dma_buf_iter_begin(void);
+> +struct dma_buf *dma_buf_iter_next(struct dma_buf *dmbuf);
+>  #endif /* __DMA_BUF_H__ */
+> diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
+> index 70502f038b92..3a335c50e6e3 100644
+> --- a/kernel/bpf/Makefile
+> +++ b/kernel/bpf/Makefile
+> @@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
+>  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
+>  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
+>  obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
+> +ifeq ($(CONFIG_DMA_SHARED_BUFFER),y)
+> +obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
+> +endif
+>
+>  CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
+>  CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
+> diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
+> new file mode 100644
+> index 000000000000..96b4ba7f0b2c
+> --- /dev/null
+> +++ b/kernel/bpf/dmabuf_iter.c
+> @@ -0,0 +1,102 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright (c) 2025 Google LLC */
+> +#include <linux/bpf.h>
+> +#include <linux/btf_ids.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/kernel.h>
+> +#include <linux/seq_file.h>
+> +
+> +BTF_ID_LIST_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
+> +DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_buf =
+*dmabuf)
 
-Applied, thanks.
+nit: It is better to move these two lines later, to where they
+are about to be used.
 
-Thierry
-
---3epgod7wk6jifceo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmgdKW8ACgkQ3SOs138+
-s6GYeA//XE2vyZqqYpifD0khPD5xG3gxB1YfHHKl0Y7ZSyvHLFJizd+hzzjUH9N/
-5vnczfETsqCuDvNZVlHJpjgCuM8ClyWY672WjZepl9doioFOp+tVi4PwknqLnHCy
-YYgyU6JK315UK7ktYxhWe6oInbFtZSUXRW/a1j3HJRAmpiNp2OToNcMFWFTDNuvn
-g2fxSEgTDfVEFpMhMVGc2iaCClGw7py7xk0mTaHo++FY8/kSH1GVybcwHDmFNHGk
-Z/0oOnZ2L7Lxjn+9QV8eWTZpIOYLN6Y+YlmFvaP+XfMSMw/MiaUWxhbSP1E8QAI6
-ANPd1/avzIcIqpbRqsBoB3AZxP67kWTjM9cMBMo5lADGmKGXdEONVkleT6VJ9XPs
-kC6pPuicSTCpon6HyGDyQ4CL/P78aMD+sDc1nYMtX1Qjo7zEzr/vPZ+WY2FLUMR7
-o2WLBdcp/bGVntyOqFU4C8JuXANU51W89nUHIdcUd4R00E7bzO9PYdE3xvXdr7GN
-3EeR3VbzKve8IqJs7hQL6VWBh9EwS1vPei/bg/Ma0MFk2U6Cut8DF3emqdDYh1em
-0X89IwEJCivye8EITGngb9k+uSqoVCQkOTnILgw0uzchzU8frEEe1YLQfoeGCYcY
-hAtxWHR9pHV/t4L6L+oabd1lEkZWzVezDMWw7lSNnZhtnEFeVM0=
-=1WMA
------END PGP SIGNATURE-----
-
---3epgod7wk6jifceo--
+> +
+> +static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos)
+> +{
+> +       if (*pos)
+> +               return NULL;
+> +
+> +       return dma_buf_iter_begin();
+> +}
+> +
+[...]
 
