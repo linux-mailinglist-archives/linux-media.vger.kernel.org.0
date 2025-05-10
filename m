@@ -1,87 +1,87 @@
-Return-Path: <linux-media+bounces-32223-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32224-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925BCAB241B
-	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 16:02:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A480EAB241E
+	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 16:04:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F3A73BEA1C
-	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 14:01:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 14D0D1894A3F
+	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 14:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4292229B18;
-	Sat, 10 May 2025 14:02:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE57D22A810;
+	Sat, 10 May 2025 14:04:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HuVJujhL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JjclmTeL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA6C229B13
-	for <linux-media@vger.kernel.org>; Sat, 10 May 2025 14:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BEA29A0
+	for <linux-media@vger.kernel.org>; Sat, 10 May 2025 14:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746885726; cv=none; b=oQRkVQ/R3PjTN/SmxkB7W5R0jT6TMdck9dJukggB8O9Em/T8mXYqnoWyWggr/6F5iiN2k8XoMsoT4wftX1lxBZ75si4wnhzWTY20ispvfXWbEerIHkDR9ODpygnHxgJ6XN2WLAdos2sxnmhXcGcGwlu/wd2CiGl5B73EnH2IYvw=
+	t=1746885853; cv=none; b=nbl6slPOpDz/keF8yulDfJS/k1RTbBAMPoOPHcqFHerJOWm8zXA3R63MtEC0lH/qscabzPxiIMYiVr+MXsRuJYcY+FBtqeImE7G0gf4lQulG5EiL3IIPamEPm4G+muemC/EqHH+yY4JeHw7MyUH4rs16i4HIBBEwzmJsJ29AyCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746885726; c=relaxed/simple;
-	bh=d4Ub70OFlqHqvUlsg3KKXEncnFjhszyL9GtoI89817A=;
+	s=arc-20240116; t=1746885853; c=relaxed/simple;
+	bh=tfBlFx5UTwLofeVvG+Tq+sluO0N7JCqZT5KSlPgHFkw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e52wJ4tsMYpdr0YHji+ASgMfkxXg9jNt37AYNiyvEsni28HWkwRPSowdAhn2R9N7VxkWS7HQa3eE6ilLc0tRSUaWZPpVbLX02zPnk3fbu0sTnuLjg/Wg0VJSEjMaIHNU9unniJwsChDRvwGicJplRcJ4tFJpNOu9k0OFCwalBKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HuVJujhL; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=tm1sn/bs91SP81zOIqN4kvVoWUnkBrCoRLHhMhTCakE/K88d44YGw5XKCc/e06/PiafhLg6zWeN31SF0SLVAbUBmOecAj/EB/AKu+vsDnfGxVSvj4tvufEDLyI8XZu6IeKfqvp2pOVySL4QM+aCjerl/Xq+Zi2UGYHWm+nP8S8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JjclmTeL; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746885722;
+	s=mimecast20190719; t=1746885850;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yQbyaQkX6PpNkqLOzCNp2QjvJqppJQaY2k5wLR21NbY=;
-	b=HuVJujhL0sDSkw6/9TZnBpA1ReXYLFa+JLhybSGfMd+/OexyBPyjJUH7W8kvrAU2KizIOW
-	KZe2DgDfUvSAm7uvwcNOqgSQeX70U2wRqmgXqcJDLJdIJHQVTl0TShkciBz84y+j9UbI7z
-	V2I+Fj8ib0JS6WFwRj7wa2ATNe4Cd0o=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=nGXWi5lBfz2luuIFnZqGx+wx3rhbuLqZVC/2MKYQV38=;
+	b=JjclmTeL0CBxrEbbnWEr5yCoxMGIcVdecVWseICRWC+GYjagpKRxmbasRPDJU0WqPzrOxi
+	aOk6OCcDT3SttK8g9XLg2F5sRDUnlrCM7+yz0AJDNRrc8OfB57xCMBJRKx1PeGr/Y91AVM
+	I5sB1DGYE/usJIcTsot9lsJBMGFmaSc=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-407-pP1KAYdpPW66jYnDCdOC4A-1; Sat, 10 May 2025 10:02:01 -0400
-X-MC-Unique: pP1KAYdpPW66jYnDCdOC4A-1
-X-Mimecast-MFC-AGG-ID: pP1KAYdpPW66jYnDCdOC4A_1746885720
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5f92fc82c4cso2503552a12.1
-        for <linux-media@vger.kernel.org>; Sat, 10 May 2025 07:02:01 -0700 (PDT)
+ us-mta-691-40KMhGO3OnO0G5snRvt_Bw-1; Sat, 10 May 2025 10:04:07 -0400
+X-MC-Unique: 40KMhGO3OnO0G5snRvt_Bw-1
+X-Mimecast-MFC-AGG-ID: 40KMhGO3OnO0G5snRvt_Bw_1746885846
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-ad222fd3f2cso126722266b.3
+        for <linux-media@vger.kernel.org>; Sat, 10 May 2025 07:04:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746885720; x=1747490520;
+        d=1e100.net; s=20230601; t=1746885846; x=1747490646;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yQbyaQkX6PpNkqLOzCNp2QjvJqppJQaY2k5wLR21NbY=;
-        b=CDqte01CawW8FUwNR7H0jpYkKTqNn5nEloiEJVlprGtK3J9XIyQHuknOvzCjvhyUHq
-         apN+eYnvC7QqN3DQRtrhprVIw2XZY5E6L7lI/R8o80Bvce1k8QYD4WXXS/Z4GRbRK8Jd
-         hbh7F52TA3y1s2oCT5IqezEETxflmhhQI52RtvUnZkBZHz3s6BnMS3t60cKi2oPSeLTW
-         LXAsR5FYCXoK2hCKX4qsDwvmkFKJDOGpsG0iy3PJaUxOZXWYuVSjRMYdHA17xxNx8xr6
-         ME8XgKr6kf4GGkwnNEuqR+aL2kxlV4lccG48IVb9zowW81A7YqKWQXi9k/rTkj3xehCx
-         t/2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU1bgOjuX55g61zC8sdKZY/JjMOgaNBNYve5//FKBcn2Tq4QNi6T1ZPiRCbLV4ICKV0Qa94KOLjB5f3/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJNerMyiO0OXrhp8AHBkJKlMQqK1gYXsxsO48qU0yTmTIl944S
-	6NUlVfc9ulzr206G4/cNlk9Rj+fzKSKl7GQaszf1ndB9LS06b5dTSWLI7d9mINzoXnbgionRV5m
-	5/geskzxrNxNbHa8aRL4ssnl7/y3yI6wS4DJ9b4FCbuxpi3qNXr1rbzB7eIA9
-X-Gm-Gg: ASbGncslyozKQdoR4h6Gz5yvRoQPbVtZqmN5RVkS2pL4cl0oArv3euwA/6bUwh+IiJv
-	PcKdif6yDt4D0Sm/fI6x2nRAhFEbib6RF9oWPiyF1ypc8TFtWInm6s6tEeaeuLRuUXtvNUFsm1i
-	q+S+l/rToREgOybMnefpSXUPpGtw7u+faKTCimrGS7wUt/yD3cZF4YSSJmpSeZ+kyZnHqqcY37E
-	hf/I8FSuXTSp1qcub5sg4NNG8ZnTXgYGqop8q4ZxeDr3lanMZ4jVOszfm5PoaxW/N1Bcc3nPCrV
-	jY+IIhZLqryY8VgMaob8LHhjifGlZZHBBSCAchHVUEiWPnijZK/26tSe3ISMaYbGqSSYKan1i5v
-	Iok8qaFK2+6sC9npaFfgZer+FsAL+Fu7ki0UXu/AvU7b2ubwKHqx4hPJviVBC9g==
-X-Received: by 2002:a05:6402:2389:b0:5fc:aa26:a12 with SMTP id 4fb4d7f45d1cf-5fcaa260db7mr3205966a12.23.1746885719916;
-        Sat, 10 May 2025 07:01:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHFdi6bV+5wK0pIoKPBwkc8M9fjGwp45eXF12XJvzh6wRUDGi6iWzddz3a3olIT7XT6Q6x+qg==
-X-Received: by 2002:a05:6402:2389:b0:5fc:aa26:a12 with SMTP id 4fb4d7f45d1cf-5fcaa260db7mr3205934a12.23.1746885719419;
-        Sat, 10 May 2025 07:01:59 -0700 (PDT)
+        bh=nGXWi5lBfz2luuIFnZqGx+wx3rhbuLqZVC/2MKYQV38=;
+        b=BN0MyR7kwCAKX2ah1jAFkK13KvcKJ7cuf+mh8G92pL5Fk/c7kd5d/7vU9Ql1CkIG92
+         H++Wl2zEmr/JwtzEgXnaM9Lshmw7IZzBm7M8BoJDrMp2DG6BX/cwLou++upR+/PRnFMz
+         +fCAPiMwHMDQDZdUYL8Yy3wm1dg7Df0PktqtEpuEf5bzhZFKpTMz7mejDuCC+BmcMA9R
+         mdZXe3oXFixu/aqi9vw7pEYv27eA+YZ0K2LD6oUf+lkLj9UdkyF+pJBUhVb6TkS4D6WT
+         /UKege1Xn6SIwMLKth4hSgVwbCQ5Zv92KnCzuVzRAAMj9IV/FeeDDiIjtLPyclElV/ap
+         JHYA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7w1E1WaRla8UzOisGz6sB7PoU6sPSUEoZo+maJMB9bJGviYbxqrK1fTuaxbSXmGIxgW2aqSM7lMdsPw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFt/IhLtixd7MClrsvg9Iqy0mdfNr1CusXbDYbFN1i1slvLCc+
+	keJnWoUnOeN3lJGYiPiYh3mFNwxxKN/FQ+eVhPab9gRk6YbnxvkZpsNqIwxE0N+jo69h/jcgEpR
+	S1QOk+xVCNIepW9sYBLoSboIYml4mwR9JzQTArno0Iem9XyJrWLBlkNv8e0/xbY8zQ0/U
+X-Gm-Gg: ASbGncsbyZ9ubHUcrVCaLsMa3c4v/hPVMh6sPwSuRk4DtER2dq5mg3DNFOH2HOCPoga
+	RKbPz3CbVw7Gs7N5VMeHaItyvAfuRt3DRftPJ+qe1bmEDo1T56igoMcYQAVeHMDjzGALTsjVELZ
+	Z8cHk2MvAlBDAl94TLn0Y8xWCR0Z+jhb3s84QVcmSbGmCZpv/1BQloCb/jbZv7M7iMw+7ZYzsWv
+	nZBV7tFRFm3O9poTNapgpVj46D5TJ6DwCLmMoyVYKc/RfQC2ms9Ezm5lEbuaY7dYXw4D+o1DN5+
+	erYt9bDvmcYP9wEZ6YX2QslTLSzu1zmp0dwqpyXUHE62VS5wNBCIxP9OPJyeI5Dms+Bo5RXyu8m
+	qdxowVwrPQ+L7o7mphGx9o05/r5QXlgwP5aV2y36VpgZU4XYRw8Mi4dcw7UNeGQ==
+X-Received: by 2002:a17:906:2517:b0:ace:50e3:c76c with SMTP id a640c23a62f3a-ad218ed63d4mr499270566b.21.1746885845736;
+        Sat, 10 May 2025 07:04:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGYTMmBAEAtxTsKau8BdeNwdjJaKLnwsDI1zqP0RtaIwLJoEzq1ZO60yuioX4N/x0nIARu0nQ==
+X-Received: by 2002:a17:906:2517:b0:ace:50e3:c76c with SMTP id a640c23a62f3a-ad218ed63d4mr499267766b.21.1746885845305;
+        Sat, 10 May 2025 07:04:05 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fc9d700e56sm2914173a12.57.2025.05.10.07.01.57
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad21988d43asm321009266b.178.2025.05.10.07.04.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 May 2025 07:01:58 -0700 (PDT)
-Message-ID: <b157ec36-09d7-4faf-a2ae-f39c0633d4ff@redhat.com>
-Date: Sat, 10 May 2025 16:01:57 +0200
+        Sat, 10 May 2025 07:04:04 -0700 (PDT)
+Message-ID: <c35ceb0f-167a-47d9-88ff-41837f75762b@redhat.com>
+Date: Sat, 10 May 2025 16:04:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,123 +89,57 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/13] media: mt9m114: Add support for clock-frequency
- property
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
+Subject: Re: [PATCH 07/13] media: mt9m114: Update hblank and vblank defaults
+ on pixel-array format changes
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Mathis Foerst <mathis.foerst@mt.com>, linux-media@vger.kernel.org
 References: <20250504101336.18748-1-hdegoede@redhat.com>
- <20250504101336.18748-3-hdegoede@redhat.com>
- <20250509185147.GB19001@pendragon.ideasonboard.com>
+ <20250504101336.18748-8-hdegoede@redhat.com>
+ <20250509223808.GH19001@pendragon.ideasonboard.com>
+ <aB9LEZjRdPBpjnKH@kekkonen.localdomain>
 Content-Language: en-US, nl
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20250509185147.GB19001@pendragon.ideasonboard.com>
+In-Reply-To: <aB9LEZjRdPBpjnKH@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 9-May-25 8:51 PM, Laurent Pinchart wrote:
-> Hi Hans,
+On 10-May-25 2:48 PM, Sakari Ailus wrote:
+> Hi Laurent,
 > 
-> On Sun, May 04, 2025 at 12:13:23PM +0200, Hans de Goede wrote:
->> Add support for platforms that do not have a clock provider, but instead
->> specify the clock frequency by using the "clock-frequency" property.
+> On Sat, May 10, 2025 at 12:38:08AM +0200, Laurent Pinchart wrote:
+>> Hi Hans,
 >>
->> E.g. ACPI platforms turn the clock on/off through ACPI power-resources
->> depending on the runtime-pm state, so there is no clock provider.
+>> Thank you for the patch.
+>>
+>> On Sun, May 04, 2025 at 12:13:28PM +0200, Hans de Goede wrote:
+>>> Update hblank and vblank defaults when the pixel-array format changes,
+>>> to maintain 30 fps on format changes.
+>>
+>> I don't think this should be the kernel's responsibility to do so.
+>> Sakari, any opinion ?
 > 
-> https://lore.kernel.org/r/20250321130329.342236-1-mehdi.djait@linux.intel.com
-> is a solution to this problem that will scale better.
+> Generally drivers don't do this indeed. It's the user space's resposibility
+> to configure the frame rate. Drivers only guarantee hardware limits are
+> respected.
 
-I agree. Depending on how the timing wrt upstreaming works out,
-we may still need this patch before merging 13/13 (adding of
-the actual ACPI hw-id table). I'll move this to be patch 12/13
-for v2. So that we can at least merge 1-11 of v2 (assuming there
-will be no more review comments on v2).
+Ok, I'll drop this patch for v2.
 
-Laurent, if the patch you linked to is not ready yet would you
-then be ok with temporarily taking this patch? I'm happy to commit
-to moving this driver over to the new helper once the helper is
-upstream.
+Laurent, thank you for all the reviews so far. I agree with
+all your remarks and I'll address them for v2.
+
+I notice that you did not review 10/13 - 12/13 yet, I guess
+you ran out of time ?  Also I guess 10/13 is possibly a bit
+controversial patch, all I can say about that is that this one
+is necessary to make things work in raw-bayer mode with the atomisp.
 
 Regards,
 
 Hans
 
 
-
-> 
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/media/i2c/mt9m114.c | 20 ++++++++++++++++----
->>  1 file changed, 16 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
->> index 5f0b0ad8f885..be1d2ec64b89 100644
->> --- a/drivers/media/i2c/mt9m114.c
->> +++ b/drivers/media/i2c/mt9m114.c
->> @@ -377,6 +377,7 @@ struct mt9m114 {
->>  	struct gpio_desc *reset;
->>  	struct regulator_bulk_data supplies[3];
->>  	struct v4l2_fwnode_endpoint bus_cfg;
->> +	u32 clk_freq;
->>  
->>  	struct {
->>  		unsigned int m;
->> @@ -2122,14 +2123,13 @@ static int mt9m114_power_on(struct mt9m114 *sensor)
->>  
->>  	/* Perform a hard reset if available, or a soft reset otherwise. */
->>  	if (sensor->reset) {
->> -		long freq = clk_get_rate(sensor->clk);
->>  		unsigned int duration;
->>  
->>  		/*
->>  		 * The minimum duration is 50 clock cycles, thus typically
->>  		 * around 2µs. Double it to be safe.
->>  		 */
->> -		duration = DIV_ROUND_UP(2 * 50 * 1000000, freq);
->> +		duration = DIV_ROUND_UP(2 * 50 * 1000000, sensor->clk_freq);
->>  
->>  		gpiod_set_value(sensor->reset, 1);
->>  		fsleep(duration);
->> @@ -2249,7 +2249,7 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
->>  	 * for 16-bit per pixel, transmitted in DDR over a single lane. For
->>  	 * parallel mode, the sensor ouputs one pixel in two PIXCLK cycles.
->>  	 */
->> -	sensor->pixrate = clk_get_rate(sensor->clk) * sensor->pll.m
->> +	sensor->pixrate = sensor->clk_freq * sensor->pll.m
->>  			/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
->>  
->>  	link_freq = sensor->bus_cfg.bus_type == V4L2_MBUS_CSI2_DPHY
->> @@ -2360,13 +2360,25 @@ static int mt9m114_probe(struct i2c_client *client)
->>  		return ret;
->>  
->>  	/* Acquire clocks, GPIOs and regulators. */
->> -	sensor->clk = devm_clk_get(dev, NULL);
->> +	sensor->clk = devm_clk_get_optional(dev, NULL);
->>  	if (IS_ERR(sensor->clk)) {
->>  		ret = PTR_ERR(sensor->clk);
->>  		dev_err_probe(dev, ret, "Failed to get clock\n");
->>  		goto error_ep_free;
->>  	}
->>  
->> +	if (sensor->clk) {
->> +		sensor->clk_freq = clk_get_rate(sensor->clk);
->> +	} else {
->> +		ret = fwnode_property_read_u32(dev_fwnode(dev),
->> +					       "clock-frequency",
->> +					       &sensor->clk_freq);
->> +		if (ret) {
->> +			dev_err_probe(dev, ret, "Failed to read clock-freq\n");
->> +			goto error_ep_free;
->> +		}
->> +	}
->> +
->>  	sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
->>  	if (IS_ERR(sensor->reset)) {
->>  		ret = PTR_ERR(sensor->reset);
-> 
 
 
