@@ -1,143 +1,107 @@
-Return-Path: <linux-media+bounces-32198-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32199-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A46AB216F
-	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 08:10:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7617AB2178
+	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 08:19:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D28B77B8E4D
-	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 06:09:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A5A4A06CFA
+	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 06:18:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89CE01DED5C;
-	Sat, 10 May 2025 06:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EF571DF75B;
+	Sat, 10 May 2025 06:18:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b="FiTb/G3i"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ELd7srLu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CF52A1BB
-	for <linux-media@vger.kernel.org>; Sat, 10 May 2025 06:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EED7DEAC7;
+	Sat, 10 May 2025 06:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746857416; cv=none; b=qaNdFtJrvQLQbDOEkMCD9N+THcn/+mvkzcS78bTJzmUar800x0gMudXsRONNFeyPH0UCqdzTVz5XI3a6THtmkMhY2YD6kqBAs7LLJe459R4y+/Fp8bph0nsog0M8y43B0jT5/iaeVroOTLVLg5/PDYy84heDKwQMBLTmCOdQ6gU=
+	t=1746857934; cv=none; b=ixTI+eezlTD98s2R+N1En2biZthE95jMKIx1ted5ujnuCZmomYb0IEAVtqd4QlLMt5IadDVQsum4xufNttMIA5Kr540vFDdwIyJ5nkfiTTf2Ny/n6uVeDUkIhGitnRFsHur/PshnAUKbPchgdq1AB1O30jcso04yJDTyzCnbxu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746857416; c=relaxed/simple;
-	bh=9Q+UITbf23yKteSsREz7EE2271fctX1Kz252Zoy7vyA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=TvvFUe6fimlFFAKJEdC7VGozrmBD4Grjvtab9bY59nMP/xieKqTnYmpKsFsQEzhuMCupocmKB4v2NyLihE3cPDuRidIYlmWuEm1M6Q5kDLLXJWMI1+Mcye+wSibkAk59hcoH8OCWNBtWust8+0zTNq4dDJFUtPOkLsr95wV2rwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de; spf=pass smtp.mailfrom=public-files.de; dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b=FiTb/G3i; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=public-files.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=public-files.de;
-	s=s31663417; t=1746857411; x=1747462211; i=yarny@public-files.de;
-	bh=9Q+UITbf23yKteSsREz7EE2271fctX1Kz252Zoy7vyA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:From:Subject:To:
-	 Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=FiTb/G3ix2VsTiOLbZ88VV3P8qjKQn224tFUbQe/pr9rlONHJXjTmFlPfOzVw0Ws
-	 2Ju4Gzk54UV7nPgTr+A641ERIYy2ZbiFknBpmpPp4siduuQ32SUVsaGxEYi+rb/Hk
-	 f0H5KvqWTBd1/VqtA1uyyCiLc2BDEtTz5SeKvRr26rR2LwB+NB0UFsSTZTlHJzVKb
-	 IMAUyHC7XtS9wcdUabjmU2K7MCB/ZvA4MuNxW6RjtdTbFXVAPUCuOtrPQYThooSrM
-	 E1XBU0JUQGAOhxRTg5EMp5A+kmpLIaQLlOh7PERRK6rYoGeW0hNseU1MoyZcLMJKf
-	 CR8gpxaPpXAK8XV9iw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [127.0.0.1] ([146.52.47.213]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M6lpG-1u5OLl1i62-00F6yz; Sat, 10
- May 2025 08:10:11 +0200
-Message-ID: <beb0d280-bf50-404e-884b-ac20df87b5ed@public-files.de>
-Date: Sat, 10 May 2025 06:10:00 +0000
+	s=arc-20240116; t=1746857934; c=relaxed/simple;
+	bh=bkaSkQKKL+Wfa26ihWSrZj6fNEzSNv23lXHNw7dkRgk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P2Fozr3giFbYT7bMbHxrprUFY/TI5BMtCas0Z5DvdGG+RV57mCOsfgqz5ovlvmrqt+0hFHJn5M9zdYIlkdZd5eASuUxyR40DRHbnc+9dLDMEVvPlZwakxyqFA2CP2VW2AnaJqYH4wkbEuU1PN+Qtd1/2O6V7FnREZMUGsYVIZao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ELd7srLu; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=E6
+	sFA1+0o6qqX1tn2eUR7zvx/z+b6iz6uSlv8sbSvvs=; b=ELd7srLuavvnUVJfEn
+	GfHSGbz2/OJTFHCQz6UoxGCKe1pyGCejW5yXcleZdMZMYHCU7SARYkfl0YVCl0UD
+	HpQE2f8r9KlkVz5lcGJ9UK5BG+FfBPpwqSIiqC3KWt1vqO6Aju6Ou8BZZeCFRcKY
+	W1+I/1xs3BeFKfS3ylo04wrao=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wD3i1Kf7x5oX2eZAQ--.58511S2;
+	Sat, 10 May 2025 14:18:08 +0800 (CST)
+From: chenchangcheng <ccc194101@163.com>
+To: laurent.pinchart@ideasonboard.com,
+	ribalda@chromium.org
+Cc: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	chenchangcheng <chenchangcheng@kylinos.cn>
+Subject: [PATCH v10] media: uvcvideo: Fix bandwidth issue for Alcor camera.
+Date: Sat, 10 May 2025 14:18:03 +0800
+Message-Id: <20250510061803.811433-1-ccc194101@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Language: de-DE, en-US
-From: Yarny <Yarny@public-files.de>
-Subject: Is dtv-scan-tables still maintained?
-To: linux-media@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:uoXGm5A47e035yjJPVEyDnebYfgC+RRoqbZkKupZ7M/bPAPxsJq
- BaC97lO68nLdH5Tn1dUtmPEpwLig36oiOo0h1HZmtS2RmI0p4DfoOXk/1bL79tNF426sRU9
- aZqvh1w7f8aEXAVaRinFchLi57/C726TdOb/uVw2AExkPzewQb0RG1Yn+CX6rWTohNlJxe9
- slznz++m0lFvuDTFEdpKA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:jb3L2wFKa+U=;QLD2WAg86XTEzF+HGtTabHfd4i3
- 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
- Q==
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3i1Kf7x5oX2eZAQ--.58511S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFWDKry5WFWfKF1xAr4UCFg_yoW8Xw1xpa
+	1ruayFyryUJrWFganrJa1rKw4rJanakw4fKFy3W34UZr45JryxXFy3G340q34qya1fAw13
+	tr1qqrnF939Yvr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07joGQDUUUUU=
+X-CM-SenderInfo: 5fffimiurqiqqrwthudrp/1tbiVhdI3mgeVhAAwwABsl
 
-Hi linux-media,
+From: chenchangcheng <chenchangcheng@kylinos.cn>
 
-is the dtv-scan-tables repository
+Some broken device return wrong dwMaxPayloadTransferSize fields
+as follows:
+    [  218.632537] [pid:20427,cpu6,guvcview,8]uvcvideo: Device requested 2752512 B/frame bandwidth.
+    [  218.632598] [pid:20427,cpu6,guvcview,9]uvcvideo: No fast enough alt setting for requested bandwidth.
 
-> https://git.linuxtv.org/dtv-scan-tables.git
+When dwMaxPayloadTransferSize is greater than maxpsize,
+it will prevent the camera from starting.
+So use the bandwidth of maxpsize.
 
-still maintained and updated?
+Signed-off-by: chenchangcheng <chenchangcheng@kylinos.cn>
+---
+ drivers/media/usb/uvc/uvc_video.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Several updates have been sent to this mailing list, like
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index e3567aeb0007..a74cf89852d1 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -262,6 +262,15 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+ 
+ 		ctrl->dwMaxPayloadTransferSize = bandwidth;
+ 	}
++
++	if (stream->intf->num_altsetting > 1 &&
++	    ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
++		dev_warn_ratelimited(&stream->intf->dev,
++				     "the max payload transmission size (%d) exceededs the size of the ep max packet (%d). Using the max size.\n",
++				     ctrl->dwMaxPayloadTransferSize,
++				     stream->maxpsize);
++		ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
++	}
+ }
+ 
+ static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
 
-> https://lore.kernel.org/linux-media/846e7968-292d-5e96-b2a4-1e2e6b131fe3@tutr.cz/
+base-commit: d76bb1ebb5587f66b0f8b8099bfbb44722bc08b3
+-- 
+2.25.1
 
-and by myself
-
-> https://lore.kernel.org/linux-media/6d8986ff-7df2-4ccb-b68e-088005d38f92@public-files.de/
-
-but none have been acted upon so far.
-The most recent commit is more than a year old.
-Nevertheless,
-
-> https://www.linuxtv.org/wiki/index.php/Dtv-scan-tables
-
-and
-
-> https://git.linuxtv.org/dtv-scan-tables.git/about/
-
-explicitly ask for patches to be sent to this mailing list.
-
-Thanks and best regards -- Yarny
 
