@@ -1,85 +1,77 @@
-Return-Path: <linux-media+bounces-32196-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32197-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00931AB2112
-	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 05:53:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFCCAB2141
+	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 07:13:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C55E21C2134A
-	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 03:53:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53DB27BBAA1
+	for <lists+linux-media@lfdr.de>; Sat, 10 May 2025 05:12:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28D561ADC8D;
-	Sat, 10 May 2025 03:53:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1EB11CCEE7;
+	Sat, 10 May 2025 05:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nVwMizCX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZGM4fts"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71F3288D6;
-	Sat, 10 May 2025 03:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F53A1B6CE3
+	for <linux-media@vger.kernel.org>; Sat, 10 May 2025 05:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746849204; cv=none; b=HBckOXfyEgnioPvrskyiwKBc5IuDITIUC7sbjFPhawPzPnYSNYp2wGXq9G4X8DsoXwP9yxRuZWxRK2fFGpkeOlX3ePYmT0iWeU3uXsL2oml5NyTgwjNiht+yyDvFnlh3SjQh2uEgn+1kxLvcHNCPWEVCrj7MShuJBaCocu/oLhM=
+	t=1746854023; cv=none; b=uCSg0fYJrSdlMGNHbH2jQSzFrNcOJI4MMjdHDSgGD+0yt2w2h5uhHjMO+SVRksaWcROyeZbv6fI/DAANT8U2CVC+Tk4SEWHhKCXuMJj1iqL0JGnj0bQ8iBJk/bsVNrxgIP7fG1IUX9RDhMSbJuRtVdNFs8Le/kIp1VyNOSL+g/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746849204; c=relaxed/simple;
-	bh=7qd8Dq2IKH8h6Z7jvG365ZGz9qLosU047aoIDs4o9oc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=niEWPZ0saHTVDki//8NfvQPCRJiGY2kEQxslGGkC37n+kNEoaOO+wlpf6lvgsOD6ekVQHhiRyB1K3+ikTrsJadgy8XhLvGGOva9/DMW2wQ/5pASOYgQM8DK2brbeIfWSHbI52sE0/o+1Iu6+96uojThBbCAg9XtLGWEqwVaY/jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nVwMizCX; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1746854023; c=relaxed/simple;
+	bh=OCswfwBZh+uvWi/FUg6t/F75BJZCOHkenAxOfGj+3Ys=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=d2GPqc3Yo5JA7GfWqM6fe1cLIK4a9U9mf+cY+VlRGPZbxiWutxBmIPKPGtZhrq9f/GgaY3MDzSmOrqT6gmOmIasd8zhqC1AbJI6JAJGFC3sIpcNuKU08VeE+jKca5VNV9G6itZcvH5RDpM29DEJjl1MJoFObAALdHozWlCdGtjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kZGM4fts; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746849203; x=1778385203;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7qd8Dq2IKH8h6Z7jvG365ZGz9qLosU047aoIDs4o9oc=;
-  b=nVwMizCXBN2guwF+vXSbwEbxtpLhrJNvl/PqoDCWvp9WLWPyDwyC6XIj
-   Z6wcnGhdjSnh/U/wMmMFDpWwingkfGcPTpc/UTGqqyHhxAcrtehZU+ZOf
-   TbFlvMA/tJyMEpOGT0IeB0Uajw8ZsCu5wntAnBGHTuSwpVWl/jTMiSyaU
-   hv+limzd+UohZwWGkxk/pwU9bITvsWGwDCvNWu68z8aFxf7dufSVZrG6F
-   7iFVEY+PINirOXyfxJcL7O3V7LFGhvx/IwnHCjJ9jFZtF0UI/2f1s5/KW
-   vZMg1o1xoqQU0MI/xgUwmKCzWa1oY0xOq+6ynBXrTDXa3wYTcZFXlBtIy
+  t=1746854021; x=1778390021;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OCswfwBZh+uvWi/FUg6t/F75BJZCOHkenAxOfGj+3Ys=;
+  b=kZGM4ftstoY3wFncsL/mxUW408maxcc85N8Hn6kGIBwF+8vzhqB4ExNV
+   oQaYpI90gaN686X/CorCwbU2A5dnWYg2caDj/heKf3mWoOdJp/O5IdvXo
+   Wli+AzbXIxHdk19W0BOnnUnKCD/BVt7jEwZB0yD4Mmy9UwqetAjJ2IOGa
+   2nRpHNEPvZlif6jsKiBndd5Rh6JjpP3nuYbRqMSVbCEmVi/RfUg2lQE6q
+   c30y97yfjTsVZNugYRFz4x6lK4bUgGlcY9PeEJlpfbskZ9Q+QZz/czB+q
+   KgbrbDD7W3aMWQWsrYOnJKe/oEfveNKgDtdeeVZDAks5WlHXVoaA9zGLQ
    g==;
-X-CSE-ConnectionGUID: Bt7B+ElmQ3O+AjoKBRIOdg==
-X-CSE-MsgGUID: 1ng2/xBISC+qm39FQLVJgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48843481"
+X-CSE-ConnectionGUID: uHEXNBJNTSamF4fVNNl0tA==
+X-CSE-MsgGUID: 68wWb6q4Suy+iPgbMqUWSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="59349379"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="48843481"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 20:53:22 -0700
-X-CSE-ConnectionGUID: Ia6DHy6hToG9AsdGC0hjsw==
-X-CSE-MsgGUID: SEM7hvo0QLuzcu2Q3hWrYg==
+   d="scan'208";a="59349379"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 22:13:40 -0700
+X-CSE-ConnectionGUID: ppxu98mtT9K8ttxguGV6mw==
+X-CSE-MsgGUID: 6bcvKkoZRlq7+wO7tsseFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="160095646"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmviesa002.fm.intel.com with ESMTP; 09 May 2025 20:53:17 -0700
-Date: Sat, 10 May 2025 11:47:55 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
-	christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
-	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
-	dan.j.williams@intel.com, yilun.xu@intel.com,
-	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
-	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
- <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
- <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
- <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
- <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
- <20250509184318.GD5657@nvidia.com>
+   d="scan'208";a="167752934"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 09 May 2025 22:13:39 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uDcWm-000Cnv-07;
+	Sat, 10 May 2025 05:13:36 +0000
+Date: Sat, 10 May 2025 13:13:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keke Li <keke.li@amlogic.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [linuxtv-media-pending:next 49/67] ERROR: modpost:
+ "__hexagon_divdi3"
+ [drivers/media/platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.ko] undefined!
+Message-ID: <202505101334.UHxNcUUO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,93 +80,25 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250509184318.GD5657@nvidia.com>
 
-On Fri, May 09, 2025 at 03:43:18PM -0300, Jason Gunthorpe wrote:
-> On Sat, May 10, 2025 at 12:28:48AM +0800, Xu Yilun wrote:
-> > On Fri, May 09, 2025 at 07:12:46PM +0800, Xu Yilun wrote:
-> > > On Fri, May 09, 2025 at 01:04:58PM +1000, Alexey Kardashevskiy wrote:
-> > > > Ping?
-> > > 
-> > > Sorry for late reply from vacation.
-> > > 
-> > > > Also, since there is pushback on 01/12 "dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI", what is the plan now? Thanks,
-> > > 
-> > > As disscussed in the thread, this kAPI is not well considered but IIUC
-> > > the concept of "importer mapping" is still valid. We need more
-> > > investigation about all the needs - P2P, CC memory, private bus
-> > > channel, and work out a formal API.
-> > > 
-> > > However in last few months I'm focusing on high level TIO flow - TSM
-> > > framework, IOMMUFD based bind/unbind, so no much progress here and is
-> > > still using this temporary kAPI. But as long as "importer mapping" is
-> > > alive, the dmabuf fd for KVM is still valid and we could enable TIO
-> > > based on that.
-> > 
-> > Oh I forgot to mention I moved the dmabuf creation from VFIO to IOMMUFD
-> > recently, the IOCTL is against iommufd_device.
-> 
-> I'm surprised by this.. iommufd shouldn't be doing PCI stuff, it is
-> just about managing the translation control of the device.
+tree:   https://git.linuxtv.org/media-ci/media-pending.git next
+head:   3328eb4dfec23cb3055cda24087cd1cdee925676
+commit: b63ef604a28da4165dcf2573cd508b4fb18e1c53 [49/67] media: platform: Add C3 MIPI CSI-2 driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250510/202505101334.UHxNcUUO-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505101334.UHxNcUUO-lkp@intel.com/reproduce)
 
-I have a little difficulty to understand. Is TSM bind PCI stuff? To me
-it is. Host sends PCI TDISP messages via PCI DOE to put the device in
-TDISP LOCKED state, so that device behaves differently from before. Then
-why put it in IOMMUFD?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505101334.UHxNcUUO-lkp@intel.com/
 
-Or "managing the translation control" means IOMMUFD provides the TSM
-bind/unbind uAPI and call into VFIO driver for real TSM bind
-implementation?
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> 
-> > According to Jason's
-> > opinion [1], TSM bind/unbind should be called against iommufd_device,
-> > then I need to do the same for dmabuf.  This is because Intel TDX
-> > Connect enforces a specific operation sequence between TSM unbind & MMIO
-> > unmap:
-> > 
-> >   1. STOP TDI via TDISP message STOP_INTERFACE
-> >   2. Private MMIO unmap from Secure EPT
-> >   3. Trusted Device Context Table cleanup for the TDI
-> >   4. TDI ownership reclaim and metadata free
-> 
-> So your issue is you need to shoot down the dmabuf during vPCI device
-> destruction?
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
+>> ERROR: modpost: "__hexagon_divdi3" [drivers/media/platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.ko] undefined!
 
-I assume "vPCI device" refers to assigned device in both shared mode &
-prvate mode. So no, I need to shoot down the dmabuf during TSM unbind,
-a.k.a. when assigned device is converting from private to shared.
-Then recover the dmabuf after TSM unbind. The device could still work
-in VM in shared mode. 
-
-> 
-> VFIO also needs to shoot down the MMIO during things like FLR
-> 
-> I don't think moving to iommufd really fixes it, it sounds like you
-> need more coordination between the two parts??
-
-Yes, when moving to iommufd, VFIO needs extra kAPIs to inform IOMMUFD
-about the shooting down. But FLR or MSE toggle also breaks TSM bind
-state. As long as we put TSM bind in IOMMUFD, anyway the coordination
-is needed.
-
-What I really want is, one SW component to manage MMIO dmabuf, secure
-iommu & TSM bind/unbind. So easier coordinate these 3 operations cause
-these ops are interconnected according to secure firmware's requirement.
-Otherwise e.g. for TDX, when device is TSM bound (IOMMUFD controls
-bind) and VFIO wants FLR, VFIO revokes dmabuf first then explode.
-
-Safe way is one SW component manages all these "pre-FLR" stuffs, let's say
-IOMMUFD, it firstly do TSM unbind, let the platform TSM driver decides
-the correct operation sequence (TDISP, dmabuf for private MMIO mapping,
-secure dma). After TSM unbind, it's a shared device and IOMMUFD have no
-worry to revoke dmabuf as needed.
-
-Maybe I could send a patchset to illustrate...
-
-Thanks,
-Yilun
-
-> 
-> Jason
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
