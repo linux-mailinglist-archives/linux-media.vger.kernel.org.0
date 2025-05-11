@@ -1,127 +1,163 @@
-Return-Path: <linux-media+bounces-32241-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32242-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D76AB299B
-	for <lists+linux-media@lfdr.de>; Sun, 11 May 2025 18:38:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6504FAB2A1D
+	for <lists+linux-media@lfdr.de>; Sun, 11 May 2025 19:47:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E469174A8D
-	for <lists+linux-media@lfdr.de>; Sun, 11 May 2025 16:38:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35C797A9FB7
+	for <lists+linux-media@lfdr.de>; Sun, 11 May 2025 17:46:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6882125CC60;
-	Sun, 11 May 2025 16:38:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5953F25D55A;
+	Sun, 11 May 2025 17:47:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKj+Z7QH"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="MinQk4MA";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="il8OcWlp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08A41426C;
-	Sun, 11 May 2025 16:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8227425C808;
+	Sun, 11 May 2025 17:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746981502; cv=none; b=MJzrt6CyVU8OvVzCGazeLP9KApZvXd8RzJb1fyFAftxANBYqv/ulm9WDCjL+jrh5kYJB1F3c+HXOc/4mvMbK2QgWKkJTQF0U6RX0/8Q6t9hBu/YbdhPOXyoIRuGbiQOpzRuZaRcp4LFuHrOXQZPQ6pewm5wd4TDA2wj+XKC0kz0=
+	t=1746985665; cv=none; b=tcVCfiSWQnDim0R/F/TPAyZeStcfLDxXos27cXFPZxQFV1BCHlKh5CxuA5zTT5+ml7qnD3CoWDYdrnBBXAYk/2j7EiwDqNGrLMNqW2XFNv3jB9LXHglwOTPm+d0vEOKSJS7vzQ6V6WDqMNPqsJd8jC0i1q5yGQNwfsXhUkWqniE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746981502; c=relaxed/simple;
-	bh=hs5vd8LRGfzxohCkfiT0NgBKcp5M5vzIsAKBSBoXpLQ=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=D8LT9261r6bw0kS8VTLNZN9BBLD9vqO5eW3nEcpMt+F6qloHCRqQTdTAw4tG3ZYvSF3sVx9FmxGFpq73iFIdk18uJ8LblP0THKWiXDvfRINbPzZubGc2pAyDMSRROfDsJWURep4/z8mBpNZGF5xz+esJVU14V8OJ3OkrRN/C6Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKj+Z7QH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 171BFC4CEE4;
-	Sun, 11 May 2025 16:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746981502;
-	bh=hs5vd8LRGfzxohCkfiT0NgBKcp5M5vzIsAKBSBoXpLQ=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=iKj+Z7QHlhKB3tC5Zy0pppDZKsomMglPO8eSOMhdfZmNdk1ifDb4+svINF/4J2UC0
-	 gwPfIOcRd65sFHTnRfoz6rvfmXlzfeaTe9tdeSV5Hbpb9uuilbn5u53QOzSba5Vv6r
-	 kNzZy+KJm861N8LvwR4O4SI2CCopHm1FLlCjzlrXL/fkXriW7FKBlqMCWjkEXgbjDY
-	 SJ6YWKvEHLOW3oVj2UnXZ06MKymeQ+Sv0zMtOMaa1BuwUqqB02FSKCykpJjXfUU5yd
-	 YIf+Xx0A6X92HPqBVnQADUH0ddUl9wobZ6wysQ2+TvI6Wz4nlyWIYOVsr1kSnUM/6U
-	 xKRbtaYcBAalw==
-Date: Sun, 11 May 2025 11:38:20 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1746985665; c=relaxed/simple;
+	bh=+hEC0XMSQw9gDeHyFoQjr7nz7nmqiln9JonDapP9s+g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MEDuZUzvZHzaR+o04QrqwNuMVnLcZdCu4kRDPL/3HqiRajfdHb65clf8GPut5cMSg8yWubkYwe09TB8hqIO52O30xUaUkd7P9hFk+NSne7TyszlEcvlnsen65n3xZ3g5SXQD58ecg92Phx4CMpYEVVe+o3qDTIIwQo+JeFMakBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=MinQk4MA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=il8OcWlp; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfout.phl.internal (Postfix) with ESMTP id 43839138015D;
+	Sun, 11 May 2025 13:47:41 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Sun, 11 May 2025 13:47:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1746985661; x=1747072061; bh=uv
+	2TAX3BLb6KM0Q6C1WKMn0ijkBPxWrmE8C+l0eLSrs=; b=MinQk4MAY1lKh48/ZQ
+	6HWOVa7FalclRXTBtkYzj8tUPbx6Co8OqRvB2GkIPSY7IzJlD0ZT9HPtsMvMf7l0
+	LdW095t3Y+Z5z4CnZJcr0Uj2+YvDYTHOsGQ/yAk2YawryqnfBpUSrZCBfL9OCGiB
+	4MNKgM4vqbQn6ZeSDFHOtSexKRGmp5e8DMBoavKHnd0fHY1aFNCEagZFkZzwxBxf
+	W0HhcZD20LAkEwIPcQqpAPjY1ZTQocXjXKYcS5w5zP2M9laLjnqs4tWrXPKsosKB
+	CYckbbyHmy8vh9VWEK/r0m69TI/b/7PmWiMUKcX/R5Z55SDulMO4YCNskDAUcMsd
+	cwPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1746985661; x=1747072061; bh=uv2TAX3BLb6KM0Q6C1WKMn0ijkBP
+	xWrmE8C+l0eLSrs=; b=il8OcWlpFKJFfwfMCllTWIjRVQaliHtaDf2lIfvIKkv5
+	0LhCrx+R8ORG/Y96QfQ8nzKZrlY7ihJE6j2k91KvoHxOwPYE22whbQa4ioeDFZue
+	+VJewPhVUfPkK8b1TD5lHBiQBQJJ6LKbYJMZFZ2jDFjEpgfjBdiAWkCPTt7xPv4v
+	PACw+htJbAYx+DJ5z+ULWOZSQWQlIxaWmo6j+cZuinEllmDgEMXGa0TVfoC2nXRm
+	FwM0IafCoFPsUSLBrnEX/FViP2sqSdBLsLvNuGI9ov+c5pC9L+K2mAw+T2CKvCkb
+	mwSijBMHtVtMZRGMFejvPdGriruiOsstZNGYqFUZNg==
+X-ME-Sender: <xms:vOIgaK2DJbGdDpd4OIqodFBYgtE4IOshis0o4hjX6kpiZPGPAg0QBg>
+    <xme:vOIgaNGauNL2IjvMo_1S2bC1gUrI0NYpy_Ot0BKndJKCEeDSAQ86gd2AcwFwNJO4_
+    meO7Kz_wvchMOp87fA>
+X-ME-Received: <xmr:vOIgaC4JvoFFlIXHpaJBA19mpCxmS_45QqUO7h7uf9fVPG4molEXTj5Nn8HQsl7YDNpwr81FM-ig-DT5OFAEOi3f>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvleeltddvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfe
+    etgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
+    htthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmtghhvghhrggssehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiug
+    gvrhdrsggvpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhht
+    vghlrdgtohhmpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrg
+    hssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhp
+    ihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinh
+    hugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
+    uhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrth
+    gvtghhrdhsvg
+X-ME-Proxy: <xmx:vOIgaL2odJlhJtHhlKV1kUUl5d7ZJZo5eIO4dVLzoPY1UeR1qIYwhg>
+    <xmx:vOIgaNFqxdaTLPUie1-SuaqJDrIu14B9ANVmIqiugdec7I8ZVrUIcA>
+    <xmx:vOIgaE_dmAfh_QmF0Zyidjb6ORacAnH4Xrd8JZWogiWN_qieL9Vx7w>
+    <xmx:vOIgaCnGXIyJxO68Mfg7vU4GrETvXVaTSIduh2Vp0MyBNa6k5ohQtA>
+    <xmx:veIgaERJpadgrbh4UfCIK46-lbNfM5OO_XoH9Xoh0DsD0Q0KjLVhCOz2>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 11 May 2025 13:47:40 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/4] media: rcar-csi2: Add D-PHY support for V4H
+Date: Sun, 11 May 2025 19:47:26 +0200
+Message-ID: <20250511174730.944524-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Hans Verkuil <hverkuil@xs4all.nl>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
- Junhao Xie <bigfoot@classfun.cn>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
- Heiko Stuebner <heiko@sntech.de>, Aradhya Bhatia <a-bhatia1@ti.com>, 
- linux-kernel@vger.kernel.org, Michael Tretter <m.tretter@pengutronix.de>, 
- Gaosheng Cui <cuigaosheng1@huawei.com>, 
- Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Ricardo Ribalda <ribalda@chromium.org>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Kever Yang <kever.yang@rock-chips.com>, Michal Simek <michal.simek@amd.com>
-To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
-In-Reply-To: <20250511144752.504162-4-yassine.ouaissa@allegrodvt.com>
-References: <20250511144752.504162-1-yassine.ouaissa@allegrodvt.com>
- <20250511144752.504162-4-yassine.ouaissa@allegrodvt.com>
-Message-Id: <174698150049.490551.15288138396615870362.robh@kernel.org>
-Subject: Re: [PATCH 3/3] media: allegro-dvt: Add DT-bindings for the Gen 3
- IP
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hello,
 
-On Sun, 11 May 2025 16:47:34 +0200, Yassine Ouaissa wrote:
-> Add the device-tree bindings for the allegro-dvt Gen 3 IP decoders, and
-> update the MAINTAINERS file.
-> 
-> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
-> ---
->  .../bindings/media/allegrodvt,al300-vdec.yaml | 86 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 87 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml
-> 
+This series adds support for CSI-2 D-PHY reception on R-Car Gen4 V4H
+devices. Previously only C-PHY reception due to poor documentation and
+no hardware to test D-PHY on.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Later revisions of the datasheet (Rev.1.21) describes the start-up
+procedure in some detail, and we now have hardware to test on! The
+documentation however only sparsely documents the registers involved and
+instead mostly document magic values and an order to write them to
+register offsets without much documentation.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml:52:3: [error] syntax error: could not find expected ':' (syntax)
+This series tries to in the extend possible to at least used named
+register and use formulas and lookup tables to make some sens of the
+magic values. Still most of them comes of a table of magic values in the
+datasheet.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml: ignoring, error parsing file
-./Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml:52:3: could not find expected ':'
-make[2]: *** Deleting file 'Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.example.dts'
-Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml:52:3: could not find expected ':'
-make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.example.dts] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1527: dt_binding_check] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
+Patch 1/4 clears up a unfortunate mix of the name mbps (mega bits per
+second) used in the D-PHY context and msps (mega symbols per second)
+used in the C-PHY context.
 
-doc reference errors (make refcheckdocs):
+Patch 2/4 and 3/4 prepares for adding D-PHY support by cleaning up
+register names and an updated common startup procedure for V4H which
+have been revised in later versions of the datasheet since the initial
+C-PHY V4H support was added.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250511144752.504162-4-yassine.ouaissa@allegrodvt.com
+Finally patch 4/4 adds D-PHY support.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+The work is to great extent at many different link speed and number of
+lanes. In 2-lane mode using an IMX219 and in 4-lane mode using IMX462
+sensors.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+See individual patches for change log.
 
-pip3 install dtschema --upgrade
+Niklas Söderlund (4):
+  media: rcar-csi2: Clarify usage of mbps and msps
+  media: rcar-csi2: Rework macros to access AFE lanes
+  media: rcar-csi2: Update start procedure for V4H
+  media: rcar-csi2: Add D-PHY support for V4H
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+ drivers/media/platform/renesas/rcar-csi2.c | 447 ++++++++++++++++++---
+ 1 file changed, 402 insertions(+), 45 deletions(-)
+
+-- 
+2.49.0
 
 
