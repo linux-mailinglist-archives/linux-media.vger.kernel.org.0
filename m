@@ -1,277 +1,162 @@
-Return-Path: <linux-media+bounces-32307-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32308-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94CCAB3A1D
-	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 16:10:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC460AB3C62
+	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 17:41:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 549BA7ABFD8
-	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 14:09:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B8B419E119D
+	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 15:41:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F21281E32D5;
-	Mon, 12 May 2025 14:10:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 095DD23C4FB;
+	Mon, 12 May 2025 15:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BVN4GnLw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BwuC18iO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B4D1E1DE0
-	for <linux-media@vger.kernel.org>; Mon, 12 May 2025 14:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747059037; cv=fail; b=iszVYiveyj1cpfo090ZQ13ExjGBaeHd60qu7cwnb/ngDZalg3shZEe1MQ6M6w1F2teLyraO9QSe4I3MXkAjYLIkp9LARdbRfFTTHeonplzew0lmcEsUI/tNL3I63Hp61e7S7EK7TNHqVKRWFn83djfN4VmAFrgQnRJ1ywYKjkXw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747059037; c=relaxed/simple;
-	bh=mg1gHrIjdsZz+RfxZFwQO0S5RnqUNU76R5kFMRpYk00=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=KB/ISIL0edlVNNwdbp36jlch/tNZD78yuc5NlHTIdCmB4aN/Sg6PssQ97VfwVFc0BxNIyF9JgSxeX0U2o6VQVUc65Ne6BDSKgbadiD/x2mWFqZWPrrvWTanKFvkglLaDlvsg2PfrcmmuUTtXd3JXSD2qWJi2f1xE/gjEVqYNllc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BVN4GnLw; arc=fail smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C42227E8A;
+	Mon, 12 May 2025 15:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747064475; cv=none; b=mm3coPPrzIF2Yt+EXxRG0Dxl+K/9XTsUut7jlpMuWkQSVB1FezuRMy1/Lh3a3CMGmzvGmBOZ7uorxLqM4kqu3DPnp0iBqRLs8h/W/8UosekrGhvRBCrV4l/MA6IZTKlMtw7l2Bqf6Z/bgZjY6/0ojvxhZ6PwjbCGb1HK1Jl/f+E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747064475; c=relaxed/simple;
+	bh=VDdATa+HcKdEYNH1Uezx0/g1TdiHY2c3Y9Aauwfm56M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TvlehpTpvKMj/TiHLP0uyjU5tbkQzIbcr1xOfZ1xHb4Xu6HJCXlu5QUZzluLklB3vfuttPP5sT0olB3ODpV6Wy2/0rld3tvPMoi+B4B9ajLcCOPZKjlNf30rLVrqaxK+VkxrDqVAHuiYuarw5vcT7scIYjFILgg7ly2qVgQ3Iao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BwuC18iO; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747059035; x=1778595035;
+  t=1747064474; x=1778600474;
   h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=mg1gHrIjdsZz+RfxZFwQO0S5RnqUNU76R5kFMRpYk00=;
-  b=BVN4GnLwGKEqY+26tTecxlGQvSO8/rMTE0on7lmhcASPExpPLosvdcat
-   VJa2KrucIq+oujygFZfxyJNIRGtA0JLHI16tHrEJwC4eKbgZik/ap7K0D
-   gcESn4eGEhnrdOnpOsFjGAuEFfmhrdrPTSXt7C9o0xC4BSDPqNtrLMNCl
-   Qik0GXHxOywBa8rprjpZTcHqPMZolo/uBxp2NI7GhZwlR5EXR6+pdqwiw
-   1FdVBaRUKvx3YvkerNg1wj5ANl+/PuuuKqMYXX8GI11/hamWTSVPOO3rA
-   vI5QhJo7QSKCuHYLYy9Urmd4mhZNygPym01cgLE3MdV5e6zvXXIqdgXnk
+   mime-version:in-reply-to;
+  bh=VDdATa+HcKdEYNH1Uezx0/g1TdiHY2c3Y9Aauwfm56M=;
+  b=BwuC18iOB4+9h4tV/zMjSw2T0yhJxyTIIo6T1ZZ593LfYx7o5S/scskO
+   R6lG3JXHEACS6SQk0v7l5KqOu9kiVYiAwcfxBiebJ62PVXdWM9jq5T2Q2
+   HUoIKUSC7Hs72cagMYhvHspFbvs/17lJi7k6ehwXrddXHvHeG6YGbO5qz
+   TeA4U5KgnvMHXSa+2n2O0PkJLOlih8FHRAfSE54Yt3/X78Qg9QEsEAmeu
+   IARYW0mRyPhwteUMTZ1Rr8UYh2ca2vLKgKWwJQYA325WlXCKq8y1n6pR1
+   ZMeN4kM1TKit8YPAgliny21rykqvid/+adwEhEDv/NU5MaYCEYXveJCh0
    g==;
-X-CSE-ConnectionGUID: TA0x+3A7TkO5tCr1n3HTQA==
-X-CSE-MsgGUID: B3k24S35SNSwiKjZpX8Usw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="36484679"
+X-CSE-ConnectionGUID: kXwdPxxIQgyERjzSQDtr1A==
+X-CSE-MsgGUID: zxein/zWSnSMHdqiRvIcxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="49034608"
 X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; 
-   d="scan'208";a="36484679"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 07:10:33 -0700
-X-CSE-ConnectionGUID: fKPMY8p8ROuDvLDbH1XPuA==
-X-CSE-MsgGUID: +cLHh/+wQD2mm3JvYo0kCg==
+   d="scan'208";a="49034608"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 08:41:13 -0700
+X-CSE-ConnectionGUID: G3tKZJfxQ5uQJSjRtaNfig==
+X-CSE-MsgGUID: rLeN7IA+SOqPQzO+D7C2Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; 
-   d="scan'208";a="141443780"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 07:10:32 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 12 May 2025 07:10:32 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Mon, 12 May 2025 07:10:32 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.49) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 12 May 2025 07:10:31 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XnTCeKqyjMOUEYjm3Qk73Q9NGSuBnGcWjEWSsaXUmuRQh5s848PTu5LWlTIM49EYqVDaAMtHZgR/KMsWEa08Lt3EbfsTntEcEhn6EOTDFze5adAeozWUY4/Bk0fip8Q0sCSCthsxXaQfM/871fYB9cd3NLSkXqn4hSnsQpQDR0/oC9Obls8c54bwuOJutcYb3kIzdJF/pBmN7+cA9SD5HLo8nfSpwtSS8lwJLJdmgBhZ8emmVnq3Lv4r6wXVH0idtFtXDtUofSKx9i0rn9QaYbvdtrPmkoYczGYQY34agn5+h3QS3s+HBENzBphRAPU/iYENnyI0hCIQKyKTiVuyFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s/YEBDGw9JGoebau1A33wGpECWS7B//AKJbEvFOQ4Bg=;
- b=RlliQU51cQrvW4GJQjMIzpMGl/8kpHdl0UBjIUa90nQrEAngOHCzua33U274EfxfeJbobo+yyYKbw0pp4H19VLwq8omED9FS3a8cL+fIpfGEhf+1Qj0HTks0/IqZtdLPfxwgKAiy532CydihNdbIc52n2WPJoB4i28Gw/l+FTwEKZOw/ulHSt2Mb7jEqam8c/qxCSMwZ3cx0+8wCrb6jqffHaYdBoBnHmSZDSBjiR9M1thegaWeDP/B8eDGm1LQYe6yxlbwE+6vPYeuA204XsJsNigCFm7qZOJ98w0nqY8USWy0G3JAzoWvfnc+rjSo1CfI6sNAz66tXT+WzzSH+9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SA2PR11MB4794.namprd11.prod.outlook.com (2603:10b6:806:f9::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Mon, 12 May
- 2025 14:10:16 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.8699.026; Mon, 12 May 2025
- 14:10:16 +0000
-Date: Mon, 12 May 2025 07:11:42 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-CC: <dri-devel@lists.freedesktop.org>, Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>, Christian =?iso-8859-1?Q?K=F6nig?=
-	<christian.koenig@amd.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, <amd-gfx@lists.freedesktop.org>,
-	<intel-xe@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-	<kernel-dev@igalia.com>
-Subject: Re: [RFC v2 13/13] drm/xe: Make dma-fences compliant with the safe
- access rules
-Message-ID: <aCIBnh6JS/JuZOcM@lstrano-desk.jf.intel.com>
-References: <20250509153352.7187-1-tvrtko.ursulin@igalia.com>
- <20250509153352.7187-14-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250509153352.7187-14-tvrtko.ursulin@igalia.com>
-X-ClientProxiedBy: MW4PR04CA0054.namprd04.prod.outlook.com
- (2603:10b6:303:6a::29) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+   d="scan'208";a="138365264"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO svinhufvud) ([10.245.244.52])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 08:41:09 -0700
+Date: Mon, 12 May 2025 18:41:07 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, hverkuil@xs4all.nl,
+	kieran.bingham@ideasonboard.com, naush@raspberrypi.com,
+	mchehab@kernel.org, hdegoede@redhat.com,
+	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v2] media: v4l2-common: Add a helper for obtaining
+ the clock producer
+Message-ID: <aCIWk3tiTUM0TeEa@svinhufvud>
+References: <20250310122305.209534-1-mehdi.djait@linux.intel.com>
+ <aB9M4jUsGA9YAkSm@kekkonen.localdomain>
+ <urd3bng2yixuiny536imfoihhe6uyowynih7gkc4q6pkr6mijy@ggqlz5zu5isf>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA2PR11MB4794:EE_
-X-MS-Office365-Filtering-Correlation-Id: 228ed803-d973-433d-2c9b-08dd915eb82a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GMXbbtIyJ8NM7nF/cotdqUsvhlB+1kj6b1TufibvXIjBdXLJx6MuV8bDPoks?=
- =?us-ascii?Q?t6KIZtdiV84WSJlu0r9yDrnwcWsttx9OBRsX6gM9xkT59ULJ5gVn6oq7XZb3?=
- =?us-ascii?Q?8mLLrIZTQa0ivrmqm+/honx9wySDnqM8sw7V48BtVMkyYoJ/Cd1ZJa9Jfk7I?=
- =?us-ascii?Q?ZM02eaoHX6tO4YqzzakDE3BE+jVIVrm5ds816XyTw/8u1eByRYK4H825r0Jz?=
- =?us-ascii?Q?3S1hXt2FA3uTbsO3FE+dleJQjZuZ4WKy6wumcbYQg1s6cKemfzYzg6q3Ss1L?=
- =?us-ascii?Q?4kABheqloT6m6ixI8/krtjbGMGJttwjWC4hHponMupvlRHwJ1KIly7TdKQ9Z?=
- =?us-ascii?Q?CP+gltIs/EnIiMjB/5886rL52eHRBnBNPMYYKOLOg6aeJRAmeLwRFzj/cbrm?=
- =?us-ascii?Q?Q7zrFaT8TuqT4WqtXxjB4MKIbFk/FAAbVhBJMAUCCVNN2eK7DYnxt7jWthGe?=
- =?us-ascii?Q?inY4vk9oC0jpy2uL1sUIO7ry8lNLDkYadngFxvejlwj4X/4OQRJ27kI0j/0g?=
- =?us-ascii?Q?b3e7YGO9r20qhIvu5MU6jBNfW03hHZJtUTix6qYhxeku8OFEQt57wPZMgdTl?=
- =?us-ascii?Q?NcxeIGsJd/MQpH2sajri0XUDxnHUqlEgFT6vU4eZi2Fjn8xeFMcfDTycYQdn?=
- =?us-ascii?Q?dZTBFZHOgypOts5M2krFLj9rm6KC6um0I9bYwsFsKeMMlLeJMuTq/vdiKeEh?=
- =?us-ascii?Q?I0QXJImiIWu93krLU8n2yISRYjjO8qWj1v6JvKiv/RGr3L9CMtvTqjJJaj4j?=
- =?us-ascii?Q?xOWQ1J4B52x4rZFKxId7nCXFfa1gpw6BI53pkX3x+NwReTlKvxK7ZUMotncL?=
- =?us-ascii?Q?7mTwEJHvCOxPdrhKA1mPbu7ZIsOOTkCvmHvburyHJlitim73wWzC+LRDktai?=
- =?us-ascii?Q?j7elwRR9xJFMRb+Aq3AuSUatJqSCGqIJJdkPlJtZwKLGw4XtJq/tfDI1JrPr?=
- =?us-ascii?Q?S+WlJglb6Xwo6bj4RVO60SbHEsegX5ODGdWU8ArgyRC+2DJQRiTaSDyBCdTF?=
- =?us-ascii?Q?cu7ciEIlBA66erJOqh7KyXaDgWYqtt8+85rhEwmWHpm/nZEC9yGcAYYQoayA?=
- =?us-ascii?Q?LVaLuzEkOiTjAh7Xu/mY15eZJ2y88ZNbPr0g0ZvtE8yaPPiDamGz0rORm5Zy?=
- =?us-ascii?Q?6yQYc5RK1+yIuEUvw+XzA4X1+uFJFc/ynwSgvSDgg+kawmF3qnu5rnI70l1+?=
- =?us-ascii?Q?5ehkhsYoBvEK3hzLWdta6kDiPh94U5Mn/LjrYlgPt5pqhWROxJWEoVsLiLOz?=
- =?us-ascii?Q?kwHGM0L9eocDTrwAH3pt8KPBuGrzsIsmYRb+6xDfKzqbdE/Xol37PpbutrZw?=
- =?us-ascii?Q?TsAYdjqKTfnq4fhMLyopIG1fiUxMsDWQqmZP7oaWFn525i7OqN9hf8XBLAny?=
- =?us-ascii?Q?gjqL3Fu1kwGzstyvVKCS1AOb7yaYmK1K5w7JsTGeMnrr70d9/bflK0WBYKUZ?=
- =?us-ascii?Q?9ivw+iSjr1A=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sDOwpliYUPiZTRgGmGAQr0ilbkMyhUOph52aVi5PHp4XK+IQhX0mkJSlqWUx?=
- =?us-ascii?Q?iFcGbKJDSLO8yIONe7WtopkU9h193Qo5bLOaFcmLEmhCYdCPyE0Ovmji2q0c?=
- =?us-ascii?Q?5q7KpMYkcrLd3hsY1Tzo3BC5ig5RwubaMC44VJS676BAghq/9N+H5EG2hqlG?=
- =?us-ascii?Q?i6SwgO6y78DQwPjPZ5t37BK83pFUWjsRjUOVpmD6q0PU+zv1AjS+C66TDaiD?=
- =?us-ascii?Q?vG1xakx3mtZJFwgyAUbBwAOptaX6Rin+Ok20nNw5+VD8L8dnFbDSazGOIlPv?=
- =?us-ascii?Q?TYSPRhbb/uh83lPtUWqErnbDsfaWNI48Cdg+fIK2LBGopsavpsA5KL4zuwZ+?=
- =?us-ascii?Q?sqcKbT3JBYUm8jfPAhXD4OI4bCPXmB2Rkfz326roxF9X9n1Kc31+6pREcgHC?=
- =?us-ascii?Q?YPDMI4v1EO2/Rgm/dkpRKNNqc1H650Y6leDFB2idxCpcAvrrRQ7VN0ksUGUR?=
- =?us-ascii?Q?UBIwEI4+rz3dciDQZD6wJwEtWOzklwQ86JhcSRgyPWWQL9/WIFWD5LZ1qFp6?=
- =?us-ascii?Q?o+n82Xv5CNLXlo8ixGupvHZ3gvob1alWNdrhGtBkcqBWT0HXG9OF9x/K1lgZ?=
- =?us-ascii?Q?NLD0Na9oqG7ZU3m741cPJJ8oMMp55yFZIrfZqHPE8dawYD1NDhEb6Kv07Ydu?=
- =?us-ascii?Q?T3tBQF/gpcmNppt74sSc/7OFw6AQcajBYVH5gtdHIZQvsyfaO4wikhsUtFav?=
- =?us-ascii?Q?Qi7hoHVpLBgOG5wiRsoPK79NMlUhjrNtNS+sXy+Ppmtn7tnuXeH0NWx457cS?=
- =?us-ascii?Q?Z7NVtMsDbxFsOi6zQUay59PhgK2TvHZzmJGCy7cit4ny2w+EQ1+DhOsplH9T?=
- =?us-ascii?Q?MW6kCaho/RXpyK+Rq/6aqInSx9yQy+U9/df3gp+vE0ROmhG8RlsFgPJvTtw6?=
- =?us-ascii?Q?AL+spV5Iw0/R3gTxcohcyYLJaZb1r+TjAmlP/DBuIbRf01cvV+ut8978mBfy?=
- =?us-ascii?Q?OBG3KZDgLMZ8aPxIvd14TvZpfRXohpw10waA6YTM3NHlK4cUPYHkpnHXReih?=
- =?us-ascii?Q?Xj+Z66oIlV+AmgrMTMCcTlZ7N24wLRn+NLuDNjHO/I+gwQBd0nizqjkiC7gr?=
- =?us-ascii?Q?g7aBdWevLlfRU4hPvqFQL6dhh9MIuonISsdSGbGKmXYrMsuNyBNwTo95QDWr?=
- =?us-ascii?Q?RvaYseESMQfh7Ab4RBN2194k+lZ/ATXmnS+r8PSOMoI2unEGmoqw0QSpmoHE?=
- =?us-ascii?Q?2bQOdGqVKvI5vHXxCSIfAW10lTWCPo6R/XgX13zxTnthGWY6oYLvstzu6cDG?=
- =?us-ascii?Q?5wdTQCfMyOAz2yyXFTdYNkZ8Zfg+Ccabmaq+8NWnK4cv75Xhws9mWVxnQGy9?=
- =?us-ascii?Q?pcuvKqc34sLVwemgRvXKZxs8hfzq9l31HtEnFoRBvWsJa0R0c/HKZZGQXTPp?=
- =?us-ascii?Q?2vT3X3jH4MWY43koFJtPVIuyBuR4OQa+9eJ9ry58q7IfHnqnBw2ABcl5HEMp?=
- =?us-ascii?Q?pfO2nMlJICBN0/vN9EX7fOicAQbooUseuW2p72RsYWoRgbV/NyFdqtK8CWrz?=
- =?us-ascii?Q?c1JtU1/aXQLXiOGRnu2y78wDqk2Q562l/D5Kj8FdIqFKXFGm0y43fR0nca8X?=
- =?us-ascii?Q?H31TX+vzBKHewhXshi80vEal4Wu2zorvLBcTjgGrz2O4u6FTlWc3ZqMF6jjM?=
- =?us-ascii?Q?dw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 228ed803-d973-433d-2c9b-08dd915eb82a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2025 14:10:16.1271
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /ILSTKoVc1HjbOMsekZDxoGOrISrhCUw7QZD9ZhjeCczb18kJ7h2XWztAopElkD56ON280072KxY4V4dbT4IUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4794
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <urd3bng2yixuiny536imfoihhe6uyowynih7gkc4q6pkr6mijy@ggqlz5zu5isf>
 
-On Fri, May 09, 2025 at 04:33:52PM +0100, Tvrtko Ursulin wrote:
-> Xe can free some of the data pointed to by the dma-fences it exports. Most
-> notably the timeline name can get freed if userspace closes the associated
-> submit queue. At the same time the fence could have been exported to a
-> third party (for example a sync_fence fd) which will then cause an use-
-> after-free on subsequent access.
-> 
-> To make this safe we need to make the driver compliant with the newly
-> documented dma-fence rules. Driver has to ensure a RCU grace period
-> between signalling a fence and freeing any data pointed to by said fence.
-> 
-> For the timeline name we simply make the queue be freed via kfree_rcu and
-> for the shared lock associated with multiple queues we add a RCU grace
-> period before freeing the per GT structure holding the lock.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Hi Mehdi,
 
-This makes sense in the context of the series (e.g. assuming patch #9 lands).
-
-With that:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-
-> ---
->  drivers/gpu/drm/xe/xe_guc_exec_queue_types.h | 2 ++
->  drivers/gpu/drm/xe/xe_guc_submit.c           | 7 ++++++-
->  drivers/gpu/drm/xe/xe_hw_fence.c             | 3 +++
->  3 files changed, 11 insertions(+), 1 deletion(-)
+On Mon, May 12, 2025 at 10:21:21AM +0200, Mehdi Djait wrote:
+> Hi Sakari,
 > 
-> diff --git a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-> index 4c39f01e4f52..a3f421e2adc0 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-> +++ b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-> @@ -20,6 +20,8 @@ struct xe_exec_queue;
->  struct xe_guc_exec_queue {
->  	/** @q: Backpointer to parent xe_exec_queue */
->  	struct xe_exec_queue *q;
-> +	/** @rcu: For safe freeing of exported dma fences */
-> +	struct rcu_head rcu;
->  	/** @sched: GPU scheduler for this xe_exec_queue */
->  	struct xe_gpu_scheduler sched;
->  	/** @entity: Scheduler entity for this xe_exec_queue */
-> diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-> index 369be36f7dc5..cda837ff0118 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
-> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-> @@ -1274,7 +1274,11 @@ static void __guc_exec_queue_fini_async(struct work_struct *w)
->  	xe_sched_entity_fini(&ge->entity);
->  	xe_sched_fini(&ge->sched);
->  
-> -	kfree(ge);
-> +	/*
-> +	 * RCU free due sched being exported via DRM scheduler fences
-> +	 * (timeline name).
-> +	 */
-> +	kfree_rcu(ge, rcu);
->  	xe_exec_queue_fini(q);
->  	xe_pm_runtime_put(guc_to_xe(guc));
->  }
-> @@ -1457,6 +1461,7 @@ static int guc_exec_queue_init(struct xe_exec_queue *q)
->  
->  	q->guc = ge;
->  	ge->q = q;
-> +	init_rcu_head(&ge->rcu);
->  	init_waitqueue_head(&ge->suspend_wait);
->  
->  	for (i = 0; i < MAX_STATIC_MSG_TYPE; ++i)
-> diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
-> index 03eb8c6d1616..b2a0c46dfcd4 100644
-> --- a/drivers/gpu/drm/xe/xe_hw_fence.c
-> +++ b/drivers/gpu/drm/xe/xe_hw_fence.c
-> @@ -100,6 +100,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
->  		spin_unlock_irqrestore(&irq->lock, flags);
->  		dma_fence_end_signalling(tmp);
->  	}
-> +
-> +	/* Safe release of the irq->lock used in dma_fence_init. */
-> +	synchronize_rcu();
->  }
->  
->  void xe_hw_fence_irq_run(struct xe_hw_fence_irq *irq)
-> -- 
-> 2.48.0
+> On Sat, May 10, 2025 at 12:56:02PM +0000, Sakari Ailus wrote:
+> > Hi Mehdi,
+> > 
+> > On Mon, Mar 10, 2025 at 01:23:05PM +0100, Mehdi Djait wrote:
+> > > Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
+> > > platforms to retrieve a reference to the clock producer from firmware.
+> > > 
+> > > This helper behaves the same as clk_get_optional() except where there is
+> > > no clock producer like ACPI-based platforms.
+> > > 
+> > > For ACPI-based platforms the function will read the "clock-frequency"
+> > > ACPI _DSD property and register a fixed frequency clock with the frequency
+> > > indicated in the property.
+> > > 
+> > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 > 
+> SNIP
+> 
+> > > +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
+> > > +{
+> > > +	struct clk_hw *clk_hw;
+> > > +	struct clk *clk;
+> > > +	u32 rate;
+> > > +	int ret;
+> > > +
+> > > +	clk = devm_clk_get_optional(dev, id);
+> > > +	if (clk)
+> > > +		return clk;
+> > > +
+> > > +	if (!is_acpi_node(dev_fwnode(dev)))
+> > > +		return ERR_PTR(-ENOENT);
+> > > +
+> > > +	ret = device_property_read_u32(dev, "clock-frequency", &rate);
+> > > +	if (ret)
+> > > +		return ERR_PTR(ret);
+> > > +
+> > > +	if (!id) {
+> > > +		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
+> > > +		if (!id)
+> > > +			return ERR_PTR(-ENOMEM);
+> > > +	}
+> > > +
+> > > +	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
+> > 
+> > devm_clk_hw_register_fixed_rate() is only available when COMMON_CLK is
+> > enabled. You need #ifdefs here. In practice without CCF only
+> > devm_clk_get_optional() is useful I guess.
+> > 
+> 
+> I added a call to IS_REACHABLE(CONFIG_COMMON_CLK) in the v4 of this patch:
+> https://lore.kernel.org/linux-media/20250321130329.342236-1-mehdi.djait@linux.intel.com/
+
+I wonder if this approach works. Depending on the compiler implementation,
+the compiler could (or even should) still run into issues in finding an
+unresolvable symbol, even if the symbol is not reachable and can be
+optimised away.
+
+> 
+> > Another question is then how commonly COMMON_CLK is enabled e.g. on x86
+> > systems. At least Debian kernel has it. Presumably it's common elsewhere,
+> > too.
+> 
+> on Arch linux it is also enabled and Fedora also. I would also assume it
+> is also enabled in the other linux distros.
+
+Ack, thanks for checking.
+
+-- 
+Regards,
+
+Sakari Ailus
 
