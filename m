@@ -1,162 +1,136 @@
-Return-Path: <linux-media+bounces-32308-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32309-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC460AB3C62
-	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 17:41:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D674AB3C9A
+	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 17:45:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B8B419E119D
-	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 15:41:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D092D460259
+	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 15:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 095DD23C4FB;
-	Mon, 12 May 2025 15:41:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0290E2F3E;
+	Mon, 12 May 2025 15:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BwuC18iO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lhL/NnA6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C42227E8A;
-	Mon, 12 May 2025 15:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788FD23535A
+	for <linux-media@vger.kernel.org>; Mon, 12 May 2025 15:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747064475; cv=none; b=mm3coPPrzIF2Yt+EXxRG0Dxl+K/9XTsUut7jlpMuWkQSVB1FezuRMy1/Lh3a3CMGmzvGmBOZ7uorxLqM4kqu3DPnp0iBqRLs8h/W/8UosekrGhvRBCrV4l/MA6IZTKlMtw7l2Bqf6Z/bgZjY6/0ojvxhZ6PwjbCGb1HK1Jl/f+E=
+	t=1747064704; cv=none; b=mXVTDRSDEopEdmJSD65S2FI2lrdMjC5DhyP55WKuedgL16qxVPUMAdMzLCaUVTpEV1GumgJ9D7RdmAy0DXB8ouXoaNtzx0XD2xEHpZ5gGCiV4/SoEzKKmMTweYPHJX9Y/iIOIU6X20oWj2+NKc7QK1g4zSZxOFZRweWTu1Rmvr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747064475; c=relaxed/simple;
-	bh=VDdATa+HcKdEYNH1Uezx0/g1TdiHY2c3Y9Aauwfm56M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TvlehpTpvKMj/TiHLP0uyjU5tbkQzIbcr1xOfZ1xHb4Xu6HJCXlu5QUZzluLklB3vfuttPP5sT0olB3ODpV6Wy2/0rld3tvPMoi+B4B9ajLcCOPZKjlNf30rLVrqaxK+VkxrDqVAHuiYuarw5vcT7scIYjFILgg7ly2qVgQ3Iao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BwuC18iO; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747064474; x=1778600474;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VDdATa+HcKdEYNH1Uezx0/g1TdiHY2c3Y9Aauwfm56M=;
-  b=BwuC18iOB4+9h4tV/zMjSw2T0yhJxyTIIo6T1ZZ593LfYx7o5S/scskO
-   R6lG3JXHEACS6SQk0v7l5KqOu9kiVYiAwcfxBiebJ62PVXdWM9jq5T2Q2
-   HUoIKUSC7Hs72cagMYhvHspFbvs/17lJi7k6ehwXrddXHvHeG6YGbO5qz
-   TeA4U5KgnvMHXSa+2n2O0PkJLOlih8FHRAfSE54Yt3/X78Qg9QEsEAmeu
-   IARYW0mRyPhwteUMTZ1Rr8UYh2ca2vLKgKWwJQYA325WlXCKq8y1n6pR1
-   ZMeN4kM1TKit8YPAgliny21rykqvid/+adwEhEDv/NU5MaYCEYXveJCh0
-   g==;
-X-CSE-ConnectionGUID: kXwdPxxIQgyERjzSQDtr1A==
-X-CSE-MsgGUID: zxein/zWSnSMHdqiRvIcxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="49034608"
-X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; 
-   d="scan'208";a="49034608"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 08:41:13 -0700
-X-CSE-ConnectionGUID: G3tKZJfxQ5uQJSjRtaNfig==
-X-CSE-MsgGUID: rLeN7IA+SOqPQzO+D7C2Yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; 
-   d="scan'208";a="138365264"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO svinhufvud) ([10.245.244.52])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 08:41:09 -0700
-Date: Mon, 12 May 2025 18:41:07 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, hverkuil@xs4all.nl,
-	kieran.bingham@ideasonboard.com, naush@raspberrypi.com,
-	mchehab@kernel.org, hdegoede@redhat.com,
-	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v2] media: v4l2-common: Add a helper for obtaining
- the clock producer
-Message-ID: <aCIWk3tiTUM0TeEa@svinhufvud>
-References: <20250310122305.209534-1-mehdi.djait@linux.intel.com>
- <aB9M4jUsGA9YAkSm@kekkonen.localdomain>
- <urd3bng2yixuiny536imfoihhe6uyowynih7gkc4q6pkr6mijy@ggqlz5zu5isf>
+	s=arc-20240116; t=1747064704; c=relaxed/simple;
+	bh=cD8dqMSAEqJ0hiti9WQG2OzmMpkBlQRrSOr1N+pSRnU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ImvxvFfaGn9FxvsNjt6+NDZpTUGISPDJzNUOt5o7WGi7Ldo1gwn2eTPdDh2JK1NuipkpcrVrvNqrJKxqDaC4uK7CggH+xM8ozo13TijC6OFt1IFjBabOA9TzGyrmscV2s9etQGZj6h1kmy8XYo79selttNBmLEAfgbcGqWwZYZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lhL/NnA6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (noh63-h01-176-133-119-130.dsl.sta.abo.bbox.fr [176.133.119.130])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEBA98CB;
+	Mon, 12 May 2025 17:44:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747064677;
+	bh=cD8dqMSAEqJ0hiti9WQG2OzmMpkBlQRrSOr1N+pSRnU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=lhL/NnA6hXJ0XGJ/NzfiC5ep5s7Z/RKYsE3xgjPe8GOAY3vMHkFbIy+Wv8gtW61Ww
+	 J+2SbosvPAuI7xDY3PSEUDsI/yxqMntdGjC8WPw0lr29c+xeHFC44Fm6ib+/T1ShRr
+	 Bsg2IIibuZ7ZyhvVf51T+oSFoAM6K0LhgyrTBrbg=
+Date: Mon, 12 May 2025 17:44:45 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alain Volmat <alain.volmat@foss.st.com>,
+	Andrej Gardijan <andrej.gardijan@tuta.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Devarsh Thakkar <devarsht@lewv0571a.ent.ti.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Jerry Wu <jerry.w.hu@intel.com>,
+	Jesper =?utf-8?Q?Taxb=C3=B8l?= <jesper@taxboel.dk>,
+	Josuah Demangeon <me@josuah.net>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mattijs Korpershoek <mkorpershoek@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Naush Patuck <naush@raspberrypi.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Ricardo Ribalda <ricardo.ribalda@gmail.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Will Robertson <w.robertson@cairnwater.com>
+Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org
+Subject: [ANNOUNCEMENT] libcamera workshop 2025 - Logistics and agenda
+Message-ID: <20250512154445.GA4523@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <urd3bng2yixuiny536imfoihhe6uyowynih7gkc4q6pkr6mijy@ggqlz5zu5isf>
+Content-Transfer-Encoding: 8bit
 
-Hi Mehdi,
+Hello everybody,
 
-On Mon, May 12, 2025 at 10:21:21AM +0200, Mehdi Djait wrote:
-> Hi Sakari,
-> 
-> On Sat, May 10, 2025 at 12:56:02PM +0000, Sakari Ailus wrote:
-> > Hi Mehdi,
-> > 
-> > On Mon, Mar 10, 2025 at 01:23:05PM +0100, Mehdi Djait wrote:
-> > > Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-> > > platforms to retrieve a reference to the clock producer from firmware.
-> > > 
-> > > This helper behaves the same as clk_get_optional() except where there is
-> > > no clock producer like ACPI-based platforms.
-> > > 
-> > > For ACPI-based platforms the function will read the "clock-frequency"
-> > > ACPI _DSD property and register a fixed frequency clock with the frequency
-> > > indicated in the property.
-> > > 
-> > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> 
-> SNIP
-> 
-> > > +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-> > > +{
-> > > +	struct clk_hw *clk_hw;
-> > > +	struct clk *clk;
-> > > +	u32 rate;
-> > > +	int ret;
-> > > +
-> > > +	clk = devm_clk_get_optional(dev, id);
-> > > +	if (clk)
-> > > +		return clk;
-> > > +
-> > > +	if (!is_acpi_node(dev_fwnode(dev)))
-> > > +		return ERR_PTR(-ENOENT);
-> > > +
-> > > +	ret = device_property_read_u32(dev, "clock-frequency", &rate);
-> > > +	if (ret)
-> > > +		return ERR_PTR(ret);
-> > > +
-> > > +	if (!id) {
-> > > +		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
-> > > +		if (!id)
-> > > +			return ERR_PTR(-ENOMEM);
-> > > +	}
-> > > +
-> > > +	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
-> > 
-> > devm_clk_hw_register_fixed_rate() is only available when COMMON_CLK is
-> > enabled. You need #ifdefs here. In practice without CCF only
-> > devm_clk_get_optional() is useful I guess.
-> > 
-> 
-> I added a call to IS_REACHABLE(CONFIG_COMMON_CLK) in the v4 of this patch:
-> https://lore.kernel.org/linux-media/20250321130329.342236-1-mehdi.djait@linux.intel.com/
+I'm looking forward to seeing you all on Friday the 16th of May for the
+libcamera workshop. Here is the first agenda draft, along with logistic
+information for on-site and remote attendees.
 
-I wonder if this approach works. Depending on the compiler implementation,
-the compiler could (or even should) still run into issues in finding an
-unresolvable symbol, even if the symbol is not reachable and can be
-optimised away.
+As all workshop agendas, this is tentative and we will adjust the exact
+timing depending on how the discussions progress.
 
-> 
-> > Another question is then how commonly COMMON_CLK is enabled e.g. on x86
-> > systems. At least Debian kernel has it. Presumably it's common elsewhere,
-> > too.
-> 
-> on Arch linux it is also enabled and Fedora also. I would also assume it
-> is also enabled in the other linux distros.
+09:00 - 09:10  Welcome and agenda bashing
+09:10 - 09:40  Software ISP status and future plans (Hans de Goede)
+09:40 - 10:00  Slowing down the soft ISP CPU implementation (Laurent Pinchart)
+10:00 - 10:30  Using a single IPA with multiple pipeline handlers (Hans de Goede)
+10:30 - 11:00  Break
+11:00 - 11:45  Bayer reprocessing (David Plowman)
+11:45 - 12:30  Startup frames (David Plowman)
+12:30 - 13:30  Lunch
+13:30 - 14:00  State of gstreamer support (Nicolas Dufresne)
+14:00 - 14:30  Multi-context support (Nicolas Dufresne)
+14:30 - 15:30  Per frame control (David Plowman)
+15:30 - 16:00  Break
+16:00 - 16:45  libcamera on Zephyr (Josuah Demangeon)
+16:45 - 17:15  The importance of libcamera to WildCamera
+17:15 - 17:45  TBD
 
-Ack, thanks for checking.
+Each agenda item is listed with the name of the person who proposed it.
+We expect those persons to introduce the topic (orally or with slides,
+at your discretion) and drive the discussion.
+
+We will use Jitsi Meet for remote access. The event will be accessible
+at https://meet.jit.si/libcamera-workshop-nice-2025. We can however
+not guarantee the quality of the network connection on site.
+
+All times are in the CEST (UTC+2) time zone. If you plan to attend
+remotely and are located in a time zone that makes the agenda items you
+are most interested in occur at an inconvenient time, please let me know
+and we will try to reorder the discussion topics.
+
+Discussions will not be recorded, but the minutes of the workshop will
+be posted to the mailing list after the event.
+
+The workshop will be hosted by Embedded Recipes as part of their
+workshop day (https://embedded-recipes.org/2025/workshops/) and will be
+located at the Sheraton Nice Airport (https://www.openstreetmap.org/way/1084319591)
+a few minutes away from the Embedded Recipes location. For more
+information refer to https://embedded-recipes.org/2025/attend/#getting-there-block.
+
+Lunch is included and complimentary for attendees. We will go off-site
+to Fragrance Culinaire - Arénas (https://maps.app.goo.gl/cKuspzV8PSKeWuqD9).
+The restaurant offers salads and sandwiches and can cater for vegetarian
+diets. If you have a more restrictive diet, please let me know.
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
