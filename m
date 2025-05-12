@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-32272-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32273-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421CAAB32BF
-	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 11:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404B5AB32D9
+	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 11:15:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1B11188F12D
-	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 09:08:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81F881897C59
+	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 09:15:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E32252571BB;
-	Mon, 12 May 2025 09:07:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61DBC25A32F;
+	Mon, 12 May 2025 09:14:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="f3lJiyIN"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="aeryY/03"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897EC433A0
-	for <linux-media@vger.kernel.org>; Mon, 12 May 2025 09:07:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD65819E82A
+	for <linux-media@vger.kernel.org>; Mon, 12 May 2025 09:14:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747040877; cv=none; b=o4llYmahC1tVxw8L7+Ane0vB70PYiFK3zzh70AZwyvDKnuXcGpK+8iig2VsFu0OfceES0ef6I8cWyXkkm8HnQGGdTdzevVihaMvBmNVRizocR9jIZCXXd/r+6InZj8+rj3g14WqZlHlvHQbc0rn6thxvfGJHwIry63NDjcJ2HFY=
+	t=1747041289; cv=none; b=g25/DMZSxk52/xYKdxVvwM+A+lDpHWBdmpBJnX2KdYnGTF2AU5jZz0v40CW/gJTSdAG85zn7qmLSnLx9pvIpsuRnLOWdyrzhIpLkTuOvsv5nSliVX/+MUp0psqQTX6wtLdL4fiDHwwW+r69iD8xGDslwNQyOxuSzERjFjA/LVUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747040877; c=relaxed/simple;
-	bh=Afl9oo1xDJLysxlWZb2U9lFAtEvTk8yYfEUjCMDwmgI=;
+	s=arc-20240116; t=1747041289; c=relaxed/simple;
+	bh=DgfFXlBs7k0k2FDRkqwPOPKIw+5+3/ROySwWWefqrUI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fJU6RkNEcTd80b/gmqHBA2PjA+DQPqGYDcinjn4zymKkRNuM9unHkiledgqrfWsdiCB9eItszLcMMgu+VuIyDzBV/AldFbRZlEi2xquiUomJaL1kL77Drgcesw1tO+yrqKUX8uuIG5hoAVlfEiyP0xtuzqGh6AoYUiT16rHJ08k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=f3lJiyIN; arc=none smtp.client-ip=213.97.179.56
+	 In-Reply-To:Content-Type; b=p4aRZGMX4GmTX1Jl6sgtbQawQ1WG/SB8u9c/Iy/7UOb7YivdklOyf2Tju11kMaExSjOWf/J23uOwTCVhHjZtjud8cODf5UqMcvcPVlO22v9H8UKpQK0p312SCkdrrPOYp2veEOrKNxIF9+VG3DEL2ki6n66Z34dE662U83GZYf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=aeryY/03; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
@@ -37,18 +37,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=mtDfODfKKqCTmiLAPWM7Z781dLVe98fzxXS0LXtBsLY=; b=f3lJiyINO+jsjxMX6iFd+vGtsh
-	T7/uExi7FM6LgK60FCS8jWIGyaIkNRqgsO3iwDzoYw7+JD9e29vMAJu6TWRWyluzfn/XV7HQvQg/7
-	E8u+YTMkrRKQEZoVLj4PtJyDmvid4bpsX6+i4e2nvR5fFAGmTbXxTQVlc9mpaCmOclf36hIoXfIx4
-	S+P+u5tvhiKK0PUgg066z7S8/S80okyMRJGacluoFadYDR32k3fvNdIDZ13eTzhsmISM/UuL1wnBf
-	TLj9PXh5qWM3ZaWW4TCU54wRcmwH1Shg5VI9a+b5zVwdQb1JBP7ZF1vLPixEmq7YYGTOgGgCRAiTH
-	xIz7SKgQ==;
+	bh=UyjmjMDOJ7vntls8sQp1NolBIvCBCwal59oSs6Egk5w=; b=aeryY/03qztXYCkrZgIDs5ce2p
+	UCO5TB7ODqBSkyUWnk9PnYX4oNDVWTJ9J7Htc/6TUeeRHOGaL4n7888WQhOzHngs4lFowe0ZmELzZ
+	fLMYUg9dG14gzm0kCfJagZcFrgCM4jYd+17BrEbtMuSp2eM2PCG2zxFjMBJtR278/4YzLpGhqp7EA
+	/rtly7vfikFzboOrSmqk0KL3hYfnoszyz5VSckeuaB+hmbC5Be+VdiDeXQvLyV2BuMDLq0gVsWKd3
+	tzS0rStGrLyO8i8AGHnN+pj/sQlI5amFJD+XHaEMI6CuwOfKJ4xEk2ZLC8qr7jtRRzu4LBLZbgrbd
+	pmn+55SQ==;
 Received: from [81.79.92.254] (helo=[192.168.0.101])
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1uEP3I-006zPM-IK; Mon, 12 May 2025 11:07:42 +0200
-Message-ID: <08e8f2fc-3878-445e-81dd-6f49fc008ee6@igalia.com>
-Date: Mon, 12 May 2025 10:07:42 +0100
+	id 1uEP9z-006zc4-VL; Mon, 12 May 2025 11:14:38 +0200
+Message-ID: <34263299-6279-44a2-a224-6a094a319ea6@igalia.com>
+Date: Mon, 12 May 2025 10:14:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,8 +56,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 08/13] drm/amdgpu: Use dma-fence driver and timeline name
- helpers
+Subject: Re: [RFC v2 04/13] dma-fence: Move array and chain checks to flags
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  dri-devel@lists.freedesktop.org
 Cc: Sumit Semwal <sumit.semwal@linaro.org>,
@@ -69,41 +68,132 @@ Cc: Sumit Semwal <sumit.semwal@linaro.org>,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
  kernel-dev@igalia.com
 References: <20250509153352.7187-1-tvrtko.ursulin@igalia.com>
- <20250509153352.7187-9-tvrtko.ursulin@igalia.com>
- <e4887f43-9eb2-47cd-91a9-080c3c646cb4@amd.com>
+ <20250509153352.7187-5-tvrtko.ursulin@igalia.com>
+ <f75f6d26-ac93-48cb-a9e2-adffe0af1ed8@amd.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <e4887f43-9eb2-47cd-91a9-080c3c646cb4@amd.com>
+In-Reply-To: <f75f6d26-ac93-48cb-a9e2-adffe0af1ed8@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
-On 12/05/2025 09:27, Christian König wrote:
+On 12/05/2025 09:19, Christian König wrote:
 > On 5/9/25 17:33, Tvrtko Ursulin wrote:
->> Access the dma-fence internals via the previously added helpers.
+>> With the goal of reducing the need for drivers to touch fence->ops, we
+>> add explicit flags for struct dma_fence_array and struct dma_fence_chain
+>> and make the respective helpers (dma_fence_is_array() and
+>> dma_fence_is_chain()) use them.
 >>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
->> index 11dd2e0f7979..8e5bf179a6c8 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
->> @@ -33,7 +33,7 @@
->>   #define TRACE_INCLUDE_FILE amdgpu_trace
->>   
->>   #define AMDGPU_JOB_GET_TIMELINE_NAME(job) \
->> -	 job->base.s_fence->finished.ops->get_timeline_name(&job->base.s_fence->finished)
->> +	 dma_fence_timeline_name(&job->base.s_fence->finished)
+>> This also allows us to remove the exported symbols for the respective
+>> operation tables.
 > 
-> I think you can nuke the macro now as well, the new function name is short enough.
+> That looks like overkill to me. We don't de-reference the ops for the check, instead just the values are compared.
+> 
+> Since the array and chain are always build in that should be completely unproblematic for driver unload.
 
-Done.
+You are right this is not strictly needed. Idea was just to reduce any 
+access to ops as much as we can and this fell under that scope.
+
+Another benefit one could perhaps argue is two fewer EXPORT_SYMBOLs, 
+which is perhaps a little bit cleaner design (less exporting of 
+implementation details to the outside), but it is not a super strong 
+argument.
+
+If we will not be going for this one then I would be taking 1/13 via 
+drm-intel-gt-next.
 
 Regards,
 
 Tvrtko
+
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> ---
+>>   drivers/dma-buf/dma-fence-array.c | 2 +-
+>>   drivers/dma-buf/dma-fence-chain.c | 2 +-
+>>   include/linux/dma-fence.h         | 9 ++++-----
+>>   3 files changed, 6 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+>> index 6657d4b30af9..daf444f5d228 100644
+>> --- a/drivers/dma-buf/dma-fence-array.c
+>> +++ b/drivers/dma-buf/dma-fence-array.c
+>> @@ -167,7 +167,6 @@ const struct dma_fence_ops dma_fence_array_ops = {
+>>   	.release = dma_fence_array_release,
+>>   	.set_deadline = dma_fence_array_set_deadline,
+>>   };
+>> -EXPORT_SYMBOL(dma_fence_array_ops);
+>>   
+>>   /**
+>>    * dma_fence_array_alloc - Allocate a custom fence array
+>> @@ -207,6 +206,7 @@ void dma_fence_array_init(struct dma_fence_array *array,
+>>   	spin_lock_init(&array->lock);
+>>   	dma_fence_init(&array->base, &dma_fence_array_ops, &array->lock,
+>>   		       context, seqno);
+>> +	__set_bit(DMA_FENCE_FLAG_ARRAY_BIT, &array->base.flags);
+>>   	init_irq_work(&array->work, irq_dma_fence_array_work);
+>>   
+>>   	atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
+>> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+>> index a8a90acf4f34..f4abe41fb092 100644
+>> --- a/drivers/dma-buf/dma-fence-chain.c
+>> +++ b/drivers/dma-buf/dma-fence-chain.c
+>> @@ -225,7 +225,6 @@ const struct dma_fence_ops dma_fence_chain_ops = {
+>>   	.release = dma_fence_chain_release,
+>>   	.set_deadline = dma_fence_chain_set_deadline,
+>>   };
+>> -EXPORT_SYMBOL(dma_fence_chain_ops);
+>>   
+>>   /**
+>>    * dma_fence_chain_init - initialize a fence chain
+>> @@ -263,6 +262,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>>   
+>>   	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
+>>   			 context, seqno);
+>> +	__set_bit(DMA_FENCE_FLAG_CHAIN_BIT, &chain->base.flags);
+>>   
+>>   	/*
+>>   	 * Chaining dma_fence_chain container together is only allowed through
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index ac6535716dbe..5bafd0a5f1f1 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -98,6 +98,8 @@ struct dma_fence {
+>>   
+>>   enum dma_fence_flag_bits {
+>>   	DMA_FENCE_FLAG_SEQNO64_BIT,
+>> +	DMA_FENCE_FLAG_ARRAY_BIT,
+>> +	DMA_FENCE_FLAG_CHAIN_BIT,
+>>   	DMA_FENCE_FLAG_SIGNALED_BIT,
+>>   	DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>>   	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>> @@ -632,9 +634,6 @@ struct dma_fence *dma_fence_get_stub(void);
+>>   struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp);
+>>   u64 dma_fence_context_alloc(unsigned num);
+>>   
+>> -extern const struct dma_fence_ops dma_fence_array_ops;
+>> -extern const struct dma_fence_ops dma_fence_chain_ops;
+>> -
+>>   /**
+>>    * dma_fence_is_array - check if a fence is from the array subclass
+>>    * @fence: the fence to test
+>> @@ -643,7 +642,7 @@ extern const struct dma_fence_ops dma_fence_chain_ops;
+>>    */
+>>   static inline bool dma_fence_is_array(struct dma_fence *fence)
+>>   {
+>> -	return fence->ops == &dma_fence_array_ops;
+>> +	return test_bit(DMA_FENCE_FLAG_ARRAY_BIT, &fence->flags);
+>>   }
+>>   
+>>   /**
+>> @@ -654,7 +653,7 @@ static inline bool dma_fence_is_array(struct dma_fence *fence)
+>>    */
+>>   static inline bool dma_fence_is_chain(struct dma_fence *fence)
+>>   {
+>> -	return fence->ops == &dma_fence_chain_ops;
+>> +	return test_bit(DMA_FENCE_FLAG_CHAIN_BIT, &fence->flags);
+>>   }
+>>   
+>>   /**
+> 
 
 
