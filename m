@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-32294-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32286-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AB1AB336E
-	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 11:26:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AE0AB335A
+	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 11:25:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44578189DC50
-	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 09:26:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61FCA3BF38E
+	for <lists+linux-media@lfdr.de>; Mon, 12 May 2025 09:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1F326868E;
-	Mon, 12 May 2025 09:23:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4AB26657E;
+	Mon, 12 May 2025 09:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="aPQm2zhL"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="lIFG8sr1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB4F25D52F;
-	Mon, 12 May 2025 09:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9979A25EF80;
+	Mon, 12 May 2025 09:23:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747041790; cv=none; b=lJWwIJkrc5XJCm3n5kNuhgoMGePCun6aw+bbI4nN2zICEfLc37EIr/WKDTB2sAjJ0nu+1sThhEvkEfk8dMWqGzqj1iL2qoKlGMoKMAw2aJ/gMurz+CWG1AVOE064HXePv3Shq0YQ7HVvOFyEy092RiDTstjSiA0wtBOM9ECF+zQ=
+	t=1747041787; cv=none; b=U4H1Na5gj33+S4ig0rLTlFSq66O5F59cjdoWXKkWSACapmBc8K+aGU1oF1ZN8sSwhwbVyrIc5/je/WF6JyJTrkP9rvN8cW+ElWnOaYoGSBg554X/BhbVIovyBbO6TG6UwipuyxXC0S8HqU92gf+XtDMi6roEjDoxgGA1+bPXHb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747041790; c=relaxed/simple;
-	bh=w0ZltfLOtsJpFYBgWPh7vi71urnoDKXxN1oFYbIwY9U=;
+	s=arc-20240116; t=1747041787; c=relaxed/simple;
+	bh=AUCBhKzN84PNKQ520BZfIM1+HeUiL/FiiKRqUWIki2Q=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tCUfKS+Irh1yHJ1ubCiwJk8OrhZr14pbLSzlyxP54tMi86wGqAUbHdkcaWIkYH/8uotXxep/I1fZbvMqQNtU7U/gKXn/cC9TGSsgW5iOUzsPFiHCc3Ji/ENDjMG7tTpKtrp6v/1NTbyUpsuWxjM7cBSC0N4eNgF5KGMm7s2h4A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=aPQm2zhL; arc=none smtp.client-ip=210.61.82.184
+	 MIME-Version:Content-Type; b=A+KuYrCRSa88nNra+72KVnPwB+1jkhZmv/InwvUN1kqdtwmOP6whC217IKO2Db4s9nQc1/syHexV1YnRGG2lj74cp/PvhtDBaTorpMohGqdcLLF6f70uSxMOfoFm3kfCJphLFuUPBIMRxFGN5OS9up3AGChCoUBKDtEbnXqnnjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=lIFG8sr1; arc=none smtp.client-ip=210.61.82.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: b0a4ea642f1211f082f7f7ac98dee637-20250512
+X-UUID: b0b4d1362f1211f082f7f7ac98dee637-20250512
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=m+IUEz94ha9tzpIf5diXNYx0EEgvKeMrSzQ2Gsv9lsg=;
-	b=aPQm2zhLsadUH5ybnqNLZYcfQK2hOi6UjCSVAU51sti7Za46BYzldUcsYtSd/YuLEHkSFBLqN1MYI07SQcne42toO+E2JMdvHkPTm8bj8LKT+6t4Aub+mAHaZq9higgVWZNjoHHzU/lpPrjMFABJb9gHJsPBzjq8gRY/9iD3zzU=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=Q4PLgCEem1S4b6tmffqMIZpnWqMOoUbmNDpq7cugtmI=;
+	b=lIFG8sr1Qkw+DqI5/hAyage9poWApN/iJSbvfVkfFD8Byy4A7WOg5DoVp5bRby46Alsxt754hNxTWHIW0hH0Tr4VlR6IXcJysm+8Ba40bAXYxEw5z9TN7t/JyPbTlhiQl/N/KKFgJaYkyOR25DndK1LBsITlZ31TqN1f6iOKGTU=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1,REQID:32a711c2-e1b9-443a-be11-95aab5af8335,IP:0,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-5
-X-CID-META: VersionHash:0ef645f,CLOUDID:e3b5dce0-512b-41ef-ab70-9303a9a81417,B
+X-CID-O-INFO: VERSION:1.2.1,REQID:71da558f-2406-453c-8c77-83bda8fc5bee,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:0ef645f,CLOUDID:4a75ebf9-d2be-4f65-b354-0f04e3343627,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
 	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
 	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: b0a4ea642f1211f082f7f7ac98dee637-20250512
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
+X-UUID: b0b4d1362f1211f082f7f7ac98dee637-20250512
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
 	(envelope-from <jason-jh.lin@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 805055988; Mon, 12 May 2025 17:22:56 +0800
+	with ESMTP id 556966883; Mon, 12 May 2025 17:22:56 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1258.39; Mon, 12 May 2025 17:22:53 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
@@ -74,9 +74,9 @@ CC: Matthias Brugger <matthias.bgg@gmail.com>, Jason-JH Lin
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>
-Subject: [PATCH RESEND v5 11/20] mailbox: mtk-cmdq: Add GCE hardware virtualization configuration
-Date: Mon, 12 May 2025 17:19:33 +0800
-Message-ID: <20250512092252.905629-12-jason-jh.lin@mediatek.com>
+Subject: [PATCH RESEND v5 12/20] mailbox: mtk-cmdq: Add mminfra_offset configuration for DRAM transaction
+Date: Mon, 12 May 2025 17:19:34 +0800
+Message-ID: <20250512092252.905629-13-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250512092252.905629-1-jason-jh.lin@mediatek.com>
 References: <20250512092252.905629-1-jason-jh.lin@mediatek.com>
@@ -90,135 +90,84 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-MTK: N
 
-The GCE hardware virtualization configuration supports the isolation of
-GCE hardware resources across different OS environments. Each OS is
-treated as a virtual machine (VM) for GCE purposes.
-There are 6 VMs and 1 host VM. The host VM has main control over the
-GCE virtualization settings for all VMs.
+The GCE in MT8196 is placed in MMINFRA and requires all addresses
+in GCE instructions for DRAM transactions to be IOVA.
 
-To properly access the GCE thread registers, it is necessary to
-configure access permissions for specific GCE threads assigned to
-different VMs.
-Currently, since only the host VM is being used, it is required to
-enable access permissions for all GCE threads for the host VM.
+Due to MMIO, if the GCE needs to access a hardware register at
+0x1000_0000, but the SMMU is also mapping a DRAM block at 0x1000_0000,
+the MMINFRA will not know whether to write to the hardware register or
+the DRAM.
+To solve this, MMINFRA treats addresses greater than 2G as data paths
+and those less than 2G as config paths because the DRAM start address
+is currently at 2G (0x8000_0000). On the data path, MMINFRA remaps
+DRAM addresses by subtracting 2G, allowing SMMU to map DRAM addresses
+less than 2G.
+For example, if the DRAM start address 0x8000_0000 is mapped to
+IOVA=0x0, when GCE accesses IOVA=0x0, it must add a 2G offset to
+the address in the GCE instruction. MMINFRA will then see it as a
+data path (IOVA >= 2G) and subtract 2G, allowing GCE to access IOVA=0x0.
 
-There are 2 VM configurations:
-1. VM_ID_MAP
-There are 4 registers to allocate 32 GCE threads across different VMs:
-VM_ID_MAP0 for threads 0-9, VM_ID_MAP1 for threads 10-19,
-VM_ID_MAP2 for threads 20-29, and VM_ID_MAP3 for threads 30-31.
-Each thread has a 3-bit configuration, where setting all bits to 1
-configures the thread for the host VM.
-
-2. VM_CPR_GSIZE
-It is used to allocate the CPR SRAM size to each VM. Each VM has 4-bit
-configuration, where setting bit 0-3 to configures the size of host VM.
-This setting must be configured before the VM configuration to prevent
-resource leakage.
+Since the MMINFRA remap subtracting 2G is done in hardware and cannot
+be configured by software, the address of DRAM in GCE instruction must
+always add 2G to ensure proper access.
+This 2G adjustment is referred to as mminfra_offset in the CMDQ driver.
+CMDQ helper can get the mminfra_offset from the cmdq_mbox_priv of
+cmdq_pkt and add the mminfra_offset to the DRAM address in GCE
+instructions.
 
 Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 ---
- drivers/mailbox/mtk-cmdq-mailbox.c | 52 ++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ drivers/mailbox/mtk-cmdq-mailbox.c       | 6 ++++--
+ include/linux/mailbox/mtk-cmdq-mailbox.h | 1 +
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-index b18808855680..c946766c215a 100644
+index c946766c215a..45de11e51088 100644
 --- a/drivers/mailbox/mtk-cmdq-mailbox.c
 +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-@@ -43,6 +43,13 @@
- #define GCE_CTRL_BY_SW				GENMASK(2, 0)
- #define GCE_DDR_EN				GENMASK(18, 16)
- 
-+#define GCE_VM_ID_MAP(n)		(0x5018 + (n) / 10 * 4)
-+#define GCE_VM_ID_MAP_THR_FLD_SHIFT(n)		((n) % 10 * 3)
-+#define GCE_VM_ID_MAP_HOST_VM			GENMASK(2, 0)
-+#define GCE_VM_CPR_GSIZE		0x50c4
-+#define GCE_VM_CPR_GSIZE_FLD_SHIFT(vm_id)	((vm_id) * 4)
-+#define GCE_VM_CPR_GSIZE_MAX			GENMASK(3, 0)
-+
- #define CMDQ_THR_ACTIVE_SLOT_CYCLES	0x3200
- #define CMDQ_THR_ENABLED		0x1
- #define CMDQ_THR_DISABLED		0x0
-@@ -89,6 +96,7 @@ struct gce_plat {
+@@ -94,6 +94,7 @@ struct cmdq {
+ struct gce_plat {
+ 	u32 thread_nr;
  	u8 shift;
++	dma_addr_t mminfra_offset;
  	bool control_by_sw;
  	bool sw_ddr_en;
-+	bool gce_vm;
- 	u32 gce_num;
- };
+ 	bool gce_vm;
+@@ -102,12 +103,12 @@ struct gce_plat {
  
-@@ -110,6 +118,47 @@ void cmdq_get_mbox_priv(struct mbox_chan *chan, struct cmdq_mbox_priv *priv)
+ static inline u32 cmdq_reg_shift_addr(dma_addr_t addr, const struct gce_plat *pdata)
+ {
+-	return (addr >> pdata->shift);
++	return ((addr + pdata->mminfra_offset) >> pdata->shift);
+ }
+ 
+ static inline dma_addr_t cmdq_reg_revert_addr(u32 addr, const struct gce_plat *pdata)
+ {
+-	return ((dma_addr_t)addr << pdata->shift);
++	return (((dma_addr_t)addr << pdata->shift) - pdata->mminfra_offset);
+ }
+ 
+ void cmdq_get_mbox_priv(struct mbox_chan *chan, struct cmdq_mbox_priv *priv)
+@@ -115,6 +116,7 @@ void cmdq_get_mbox_priv(struct mbox_chan *chan, struct cmdq_mbox_priv *priv)
+ 	struct cmdq *cmdq = container_of(chan->mbox, struct cmdq, mbox);
+ 
+ 	priv->shift_pa = cmdq->pdata->shift;
++	priv->mminfra_offset = cmdq->pdata->mminfra_offset;
  }
  EXPORT_SYMBOL(cmdq_get_mbox_priv);
  
-+static void cmdq_vm_toggle(struct cmdq *cmdq, bool enable)
-+{
-+	int i;
-+	u32 vm_cpr_gsize = 0, vm_id_map = 0;
-+	u32 *vm_map = NULL;
-+
-+	if (!cmdq->pdata->gce_vm)
-+		return;
-+
-+	vm_map = kcalloc(cmdq->pdata->thread_nr, sizeof(*vm_map), GFP_KERNEL);
-+	if (!vm_map)
-+		return;
-+
-+	if (enable) {
-+		/* only configure the max CPR SRAM size to host vm (vm_id = 0) currently */
-+		vm_cpr_gsize = GCE_VM_CPR_GSIZE_MAX << GCE_VM_CPR_GSIZE_FLD_SHIFT(0);
-+
-+		/* set all thread mapping to host vm currently */
-+		for (i = 0; i < cmdq->pdata->thread_nr; i++)
-+			vm_map[i] = GCE_VM_ID_MAP_HOST_VM << GCE_VM_ID_MAP_THR_FLD_SHIFT(i);
-+	}
-+
-+	/* set the amount of CPR SRAM to allocate to each VM */
-+	writel(vm_cpr_gsize, cmdq->base + GCE_VM_CPR_GSIZE);
-+
-+	/* config CPR_GSIZE before setting VM_ID_MAP to avoid data leakage */
-+	for (i = 0; i < cmdq->pdata->thread_nr; i++) {
-+		vm_id_map |= vm_map[i];
-+		/* config every 10 threads, e.g., thread id=0~9, 10~19, ..., into one register */
-+		if ((i + 1) % 10 == 0) {
-+			writel(vm_id_map, cmdq->base + GCE_VM_ID_MAP(i));
-+			vm_id_map = 0;
-+		}
-+	}
-+	/* config remaining threads settings */
-+	if (cmdq->pdata->thread_nr % 10 != 0)
-+		writel(vm_id_map, cmdq->base + GCE_VM_ID_MAP(cmdq->pdata->thread_nr - 1));
-+
-+	kfree(vm_map);
-+}
-+
- static void cmdq_gctl_value_toggle(struct cmdq *cmdq, bool ddr_enable)
- {
- 	u32 val = cmdq->pdata->control_by_sw ? GCE_CTRL_BY_SW : 0;
-@@ -154,6 +203,7 @@ static void cmdq_init(struct cmdq *cmdq)
+diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
+index 822958f92135..a42b44d5fd49 100644
+--- a/include/linux/mailbox/mtk-cmdq-mailbox.h
++++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
+@@ -72,6 +72,7 @@ struct cmdq_cb_data {
  
- 	WARN_ON(clk_bulk_enable(cmdq->pdata->gce_num, cmdq->clocks));
+ struct cmdq_mbox_priv {
+ 	u8 shift_pa;
++	dma_addr_t mminfra_offset;
+ };
  
-+	cmdq_vm_toggle(cmdq, true);
- 	cmdq_gctl_value_toggle(cmdq, true);
- 
- 	writel(CMDQ_THR_ACTIVE_SLOT_CYCLES, cmdq->base + CMDQ_THR_SLOT_CYCLES);
-@@ -327,6 +377,7 @@ static int cmdq_runtime_resume(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	cmdq_vm_toggle(cmdq, true);
- 	cmdq_gctl_value_toggle(cmdq, true);
- 	return 0;
- }
-@@ -336,6 +387,7 @@ static int cmdq_runtime_suspend(struct device *dev)
- 	struct cmdq *cmdq = dev_get_drvdata(dev);
- 
- 	cmdq_gctl_value_toggle(cmdq, false);
-+	cmdq_vm_toggle(cmdq, false);
- 	clk_bulk_disable(cmdq->pdata->gce_num, cmdq->clocks);
- 	return 0;
- }
+ struct cmdq_pkt {
 -- 
 2.43.0
 
