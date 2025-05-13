@@ -1,212 +1,373 @@
-Return-Path: <linux-media+bounces-32352-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32353-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF42AB4C69
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 09:03:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC499AB4CE7
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 09:39:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 088837A0F7C
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 07:02:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A83F03AA6F2
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 07:38:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14FB31EFFA2;
-	Tue, 13 May 2025 07:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B97981F09B6;
+	Tue, 13 May 2025 07:39:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lYAV4OTJ"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="dRPhnE0H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from SEVP216CU002.outbound.protection.outlook.com (mail-koreacentralazon11022086.outbound.protection.outlook.com [40.107.43.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B768D1E9B06;
-	Tue, 13 May 2025 07:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747119803; cv=none; b=JyUvGYD2M4jef5WkrLqWa7sjznjlddRDlMIyRjy8SIb0clsj/GxM4Tw2rzEeE1PZBMOVczfcqDu7B+Wa4YXuqiVzB7zBhlS2kwTgv03lzZmxYfh2E9tEDn346aEAfMAlQlqO2haKb9IT7oLAHI5Why3cwK/ZOsD8qYuV2I6KcXk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747119803; c=relaxed/simple;
-	bh=lmt3+WfOxDH98tdCH5d1AJxZ/W6YhFWUNQketqH0NZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qWZlaMYDxS28ol3U9bUk9S8Inft25YuqQNCMymWSiy0wtKh/xst+2tiZB/88TEnG0qG36GW1WrAEj01bnCGlOz6pypUHGJdob+EBFc/EKLkpjV069D6GPIoLQW277ptCihjQOmwl1YFaazLT8NsuppufjCMOQVcqSD9XqkEOv1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lYAV4OTJ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54D6cgPQ015340;
-	Tue, 13 May 2025 07:03:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	q9p0omokZ2YahADYaFBdyYRAcygeShdpSGEeoqaghfU=; b=lYAV4OTJ3nzkqKqm
-	W7DRVTLYA7Ao4THI8NRCsk81mmi0zGeIg7UcAhB535Kurf9YrtaI4n2GXEO1lgt8
-	jnECUujneIJrgF8t/fNG8flzYsfbSMO/710XIz4MfXDEABEYvrIwzKMkHKzoIX/Z
-	S3VpK3jK43KiuRijnUttPMvWdOVGPYCQJ5z2c4O/7zFYOAFeL+BJLdjwc2NVWazu
-	bjb4J9h6H5DblFeJXg6W5Cfr+5wyc5FdyKPKKo7MCIhYNvJKPYJ/5zX7AW8Gd4dL
-	sBw0foIzFjMHPEEqFxqSXmZ2lLgm2xJBCsn674jYrZKCG2BokEsK+ZF3X3KLmCHp
-	ApS+ig==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46j03bes63-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 May 2025 07:03:13 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54D73Ch7011149
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 May 2025 07:03:13 GMT
-Received: from [10.50.52.254] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 13 May
- 2025 00:03:09 -0700
-Message-ID: <4c32e675-e352-0af2-fe58-70ca7e28d56d@quicinc.com>
-Date: Tue, 13 May 2025 12:32:40 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCF926AFB;
+	Tue, 13 May 2025 07:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.43.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747121951; cv=fail; b=OAtahXfreHRWHhUTor8M0Q6JVixcJtkuFDVS7wEa/cXPVJlkGGAIZG9IOg2dQBm+KqG76FR9Hk8Q+0rncqgeUlL6rqijQoAfT8uaHgFNG8jy2bMu453v7FYBWG/9ZOEQSaRJ0xjOC+glzSi8pb97Xbd8wHnDpaRDk9+kq+FrRJU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747121951; c=relaxed/simple;
+	bh=JPDe9o7Haxyxy86ei8371Fyswgexu8aM8c63KUqQ3TI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=AlUd0ugby48puqbjAj5AVpLJMNiLxkzT6sHSQ2Rrv0ENAnVv6XZIVHrRmcre/yPuQWUKBTGW820iaJR7+qgnBr6enRXOCGlfgym84ppWEYe1FCijNyM170U/xQlImgZUmKI0Dlbaw6T8OMs9G0v2PX9gfcBz5ubL2LJYADW6oMs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=dRPhnE0H; arc=fail smtp.client-ip=40.107.43.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y+IzQlNEI87ba2B4sekGebwPA+synsJozSIVB38/eWa3r/hjSHozorl7bLMmU7kJOea0FRAhZMgGsUMQy8ZX6pG28w8BNRH8fG6PEssj7l1CiAeyw7bZQvJvnmfakI0D75kI7hb6y0CnihJtba9BlK6fcqQO7GVwcywpe6Muw3v4y+aWVuWS/B2m/hSrsYjbSWQZkWtkC9DEE/csT15BmGNqeP1u0ng5j67G+E66yWegIkHF+5xmTyNMaFL9CNz1T8nQpAoAAodJkQhK0Jb1z46QR3u+qlVqp25QfuX4sl525CagsvJWKCTGij8zI805JXtixn8clwvdh8Pwu1xOcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D0sqUwYV6Ax45LkJSrSZwsJblntq7BObz/uvuKNdBp0=;
+ b=PEzFKmXI87FB/ilwBMhx2zm/ZqE3h6suSgRLaEiTiovOBdVmZWDpB3Wb3w++cVY+Oq4R5GHW1nZcjCIXPUKyCqyO0n0YZk3AeY6pyVI4BMwuXRBcNts6h10lsRhhl5Djn8fT+jBPXsEnG1nmGMr7dy0UzoXJM87AtB3AlU+a+lCGlKtKwZsTVG6vcdysI27njg1n2rLJhDTWu8BBtHKor657OQ/dvVov2BGwm3l0MIp0DCefOprTJW7Nx0G5O6bMffwwxvlFws8gxiyXieucHnKHn5SGQBFaecYXe0S5gwpgdgFgIdl1n9Pl2x/+Gd3R5eNwWy5DZXxnwgh6+j6n7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D0sqUwYV6Ax45LkJSrSZwsJblntq7BObz/uvuKNdBp0=;
+ b=dRPhnE0H0gpRlVSHhcguv7x70xwEd/tNzih6bk6uAdL+d+mRu9Q+ZNVuvpnKvTZJSR2DdOhr847hJNZl+ecmLj2lH5yX2BVDQhcLxglXHAWR1T0J/X8Dw7w28FTa3nVU1XPFECUwUGpF5rr92Fe2SKPRv3UFq1CiiiaQjQAPbVI=
+Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
+ SE1P216MB1975.KORP216.PROD.OUTLOOK.COM (2603:1096:101:63::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.30; Tue, 13 May 2025 07:39:04 +0000
+Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
+ ([fe80::9e3d:ee20:8cc7:3c07]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
+ ([fe80::9e3d:ee20:8cc7:3c07%3]) with mapi id 15.20.8722.027; Tue, 13 May 2025
+ 07:39:04 +0000
+From: Nas Chung <nas.chung@chipsnmedia.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: "mchehab@kernel.org" <mchehab@kernel.org>, "hverkuil@xs4all.nl"
+	<hverkuil@xs4all.nl>, "sebastian.fricke@collabora.com"
+	<sebastian.fricke@collabora.com>, "robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-imx@nxp.com" <linux-imx@nxp.com>,
+	"marex@denx.de" <marex@denx.de>, jackson.lee <jackson.lee@chipsnmedia.com>,
+	lafley.kim <lafley.kim@chipsnmedia.com>
+Subject: RE: [PATCH v2 2/8] dt-bindings: media: nxp: Add Wave6 video codec
+ device
+Thread-Topic: [PATCH v2 2/8] dt-bindings: media: nxp: Add Wave6 video codec
+ device
+Thread-Index: AQHbs2lXzy1gLrNeZ0ijKXj6PUT3srO0NFSAgBWF9JCAAHRxAIAFp7/w
+Date: Tue, 13 May 2025 07:39:04 +0000
+Message-ID:
+ <SL2P216MB1246002B8EFD5CBE69E447ACFB96A@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+References: <20250422093119.595-1-nas.chung@chipsnmedia.com>
+ <20250422093119.595-3-nas.chung@chipsnmedia.com>
+ <20250425-romantic-truthful-dove-3ef949@kuoka>
+ <SL2P216MB124656A87931B153F815820BFB8AA@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+ <f1073f21-0885-486f-80c8-00f91dfd7448@kernel.org>
+In-Reply-To: <f1073f21-0885-486f-80c8-00f91dfd7448@kernel.org>
+Accept-Language: en-US, ko-KR
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SL2P216MB1246:EE_|SE1P216MB1975:EE_
+x-ms-office365-filtering-correlation-id: 67743e97-f5b6-4bda-5bad-08dd91f13c59
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?zGbZxjz7lwA6RkcovnGNmGIk+pN7lmAPI8WHtJJxQrfGD8+qMdK2SjPS3lXA?=
+ =?us-ascii?Q?/+zbBz9auO+zBbo2GGQ6ErQo0fISVtvVR9lCVEqsdrSdWBc/jmKhRHWcbTFb?=
+ =?us-ascii?Q?EFlJjkVv4TpQ54JeT4tqQcgvgy+l248XRYk902CEsTSAl0NYQnIE1J+EpGsW?=
+ =?us-ascii?Q?dFEKV62mCQHVzK6DXIyjyPPOjbhXcMu7/fDu0T6A9gYNkPbDO5nSh4gqH9Dd?=
+ =?us-ascii?Q?yLwmMF5CPiiyc1RkG6WijSsAGs5t9FO6JL87W6Svu7DUaS4w65Vu3ScrMsN5?=
+ =?us-ascii?Q?8C4h1cIbi9zdnt+aPiQMDtaDyWZyyH8cEAAtlyIuDU7mMifqnjHQMeqvQ0rO?=
+ =?us-ascii?Q?L+5iuqTttxGP2LrZbxrhP/35MnAwj5exnyafe5kuehXoQm+duzCugy7x4f/V?=
+ =?us-ascii?Q?sfw35refjJVpErnvF8OZIsKiWAT6hVldDp0Xhom/cCtURhAAxRn85hIj+uw8?=
+ =?us-ascii?Q?e5XdpaTaWD1zemGWH0PbYt1J3VTC7sJfelo1kbt1/aRJmhJ/7TwLeKL0x7bZ?=
+ =?us-ascii?Q?YuQRzLRDeqYcnLaD1H0q2Agk3LFAp4zxBxbrQk6hMgx2kKtDXlpSk22fGvMi?=
+ =?us-ascii?Q?oYdeBT70D38GC5HGsBXi0wxCSVWgo9WbTjfTjibDg7eh/jMiTypzuojhO3Ki?=
+ =?us-ascii?Q?/ynkUVoALsd17YLUBgsteTh8R71nRZQ2t+hryG4Z+p92NG5y/8GrINGkBXaK?=
+ =?us-ascii?Q?S2XyGQgCYgHMvhmUI1xotUc5rGmhqNz9LXYJ9eczS5q22R414vlqCFFrt1fC?=
+ =?us-ascii?Q?k8IhW6xf8L5YjbsxqnQ1d47cgg4S4gB3wlZ6UoFZigvWdluGJry8kJ2t5rDz?=
+ =?us-ascii?Q?q2GXSkBmLE7jiJ0blm1OGO/Sl1IiuzSdl3XAl+HcOeFErUm6C0nUOtCjyFB1?=
+ =?us-ascii?Q?dFiT1db1MNUmSVhz95VghPZCx5TDr3CF0TcI/DSH84tULj1dN74Xgt7WkLi3?=
+ =?us-ascii?Q?iZLl7WhYkKD4Fl8+ooQlGmBypPEEm6Q80M09S2ZoTU43fs8EhvTgyx6Z9JsO?=
+ =?us-ascii?Q?qoI8qhtpss+hrl1s19RCmOwH8SUgpz75zvt6aX7YyoFPV+51zDvWyu55hzAq?=
+ =?us-ascii?Q?e1KcSsXlNCmfJOKPZyB02UW0ddenfL9TLbUQz4cBk6kWicH1srKnYJ7P27hB?=
+ =?us-ascii?Q?pBHdhONd2mmmYNVCzYiNGfYm0SW/gB3oFIRLyyrvxiWIBSlHT7dQfKydS9KA?=
+ =?us-ascii?Q?sqJDfTXvsZzLTlPmMhVZuzu5ZjKZrvp9UgawV5y4sBvjLrcjEj2lM0JBZNIO?=
+ =?us-ascii?Q?f1MBeSGEkTEF2BZGc1pCO+KkElwGtooBFIj8mcpmsxhCkp5pu/EDtE16OQiz?=
+ =?us-ascii?Q?kETdR5E71wezlImJ1vwP4A85q9j3ExJ3QnIoxBhynETW/AEvDw51mHg2ZlE6?=
+ =?us-ascii?Q?NJyzZpWvOGHqRPHCt2rcpeV/OpUXAkJgTPwq427xu26SzbwykW4drgs5uv+z?=
+ =?us-ascii?Q?NM1ZhreaSF7cCpMYwO3+Ep9FBDgsfA6BFW4nxD/PK/uYK8+7wdUjQA=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?BKTDoZvbLuhbk85pnxgUxntdJPyntqQwuTuJpWYgvrKjdMPRDYnW5uT6mLj2?=
+ =?us-ascii?Q?4Nb4O07QTkXwpvYNSkbSHg+cxY8cUyTgn3YNxyXJfhFeM9CVpkwQKweIYZ7r?=
+ =?us-ascii?Q?OdUlCvgxn0sDZfHhVBjGwTiXTe8C8tG4SsndE7OSNcQ9wrKk/sj0+NoSt8GW?=
+ =?us-ascii?Q?95i3MScCaSZxCUHEy1keHONSoOyibNFrk9WlKg+r/ZYKdmXTpdadz6BlgyzZ?=
+ =?us-ascii?Q?A+0FQWoc9Mdhasq5GtA2yfuH6J/HoelGg00HLwzXJOu4cfoPJBAb4jT9h6gH?=
+ =?us-ascii?Q?v3LE5B5VeHLxaGq6L7PpVInkCfr7A6AGWqaYrK0+qItnXISeg7jLw7E502qV?=
+ =?us-ascii?Q?+ZeVlSIy9hIOU2YmCAeLHSk5/I0DYEuecE/HE5ialDU9mhAIwC2yRNdL4xxz?=
+ =?us-ascii?Q?zq3SGvEpyZuIyWdEtV/c6wIoLs1/ZZTWb7KkN2FsWtQlirrSKQD+cqdPfZyp?=
+ =?us-ascii?Q?hnBrjrt1InYDHJqKZNR24ZmTZS6CdYkVSLNjS9p/4O4hYyQD8d0nlesKHuj2?=
+ =?us-ascii?Q?nWpFDzFNV+xwvRmuPLYdJGJig42ZzJGF61AYxmyOH25reucNrVeFNiWBe2Hg?=
+ =?us-ascii?Q?hv3V/VUnGBy2VasGu/z45DrmWAR3+edmu096a89cxp2gdVST9Q/XWXYQBx9i?=
+ =?us-ascii?Q?0Fe8ELchKmEehAW8Yg8iPk1m6Nz/VqyJJr4F6Pzzuluk/5PV9Echr7F7cN5l?=
+ =?us-ascii?Q?hcrJPCjvPgVK0av/QiviLIOJL1EPz2D6LArA6tqI2kMtcgkqllULJJES63Xn?=
+ =?us-ascii?Q?Az0g4y6oc/+8zec+2TmFKNqo225OCppDx2tmzy+8Mo6OsU0zRuRmdZ4mUvQq?=
+ =?us-ascii?Q?ZqMfISJ2/q4+sbBGr+6AfqHOb9SdxLrWqrcAj74SUOMLo9YSaLca7oZiJL74?=
+ =?us-ascii?Q?dBFEKQAayNzFrmYdQwVPbqq2I07B9tthBtrUbKfk+tPdciRpqWNeazUtq/lH?=
+ =?us-ascii?Q?RTJ0OGS/vNfQupP3aRhFkFKyXNFSKIgD7y/gIAWxeMCOe7Om6lqhx73zKXgp?=
+ =?us-ascii?Q?jada3Q7h9NariNx9FHX6Pc1lDnwY6RSwCpWAvBfgB+dMQh0pYTzjfzB2G/gH?=
+ =?us-ascii?Q?B+m5KiGTYMwWs/80agy7NlHW049UHrtaY3G/chl0xsfyjeg8GutUpYCuD6KA?=
+ =?us-ascii?Q?0aKDT6lu17PEHZL2HC3F/vRcrxFkDsb+4saAePXhDPOTpZXV6rWteR8H+A1M?=
+ =?us-ascii?Q?Tcyq7w4oVOwUOvy9H1G7th36hP2o8L48VZ3ifGewNIOTc7JgJvhD+sLsyh+p?=
+ =?us-ascii?Q?K9JDzx3tKvXHCQnrwsDR+z1F8jdAiJvj6ye3F7zSK67ytlFKGH9NHl4bPkfE?=
+ =?us-ascii?Q?wZKkBr5HIlHLbRJRqBLIauP8hxHVKQ98zrQJXnSahknFGJ43/fvGhDAg1YdX?=
+ =?us-ascii?Q?TIXm4lbqd1px5DVznfl2NKJubbrBukC9yujZgh7mRCUnL6C40Tgcrt+uH7gw?=
+ =?us-ascii?Q?9jrAiNzzxbH/uQRD3KCKxtWZiZGWBfuees9yFrXrgR2US2RPAw+3i5NDYUL4?=
+ =?us-ascii?Q?wNNewwxgHQNwfwlRvRVBwcbuCHqFwcPFFr9P4tlGLcatxaekqSRGHq5IVYXK?=
+ =?us-ascii?Q?UfYWX9X4zIs5vulCFGjf6yAtZxDnDPzV97G5uegp?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 2/2] media: venus: fix OOB access issue while reading
- sequence changed events
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vedang Nagar
-	<quic_vnagar@quicinc.com>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250215-venus-security-fixes-v2-0-cfc7e4b87168@quicinc.com>
- <20250215-venus-security-fixes-v2-2-cfc7e4b87168@quicinc.com>
- <664809e5-c027-4d0e-a604-d9fdf4b1f2da@linaro.org>
-Content-Language: en-US
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <664809e5-c027-4d0e-a604-d9fdf4b1f2da@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: CUf2cx3BHkQwpZZa8fS79pmFiSY3S5kC
-X-Authority-Analysis: v=2.4 cv=DOuP4zNb c=1 sm=1 tr=0 ts=6822eeb1 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=cJ6X7pDOamNDxTYa5t0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: CUf2cx3BHkQwpZZa8fS79pmFiSY3S5kC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEzMDA2NSBTYWx0ZWRfX7BibS6WGvGQV
- zSmXAmvnjTqSOxRuVbJ7JAQziKOnaUxRSO/9R6VA5SrsUImsSCiT6TyjQ0TrVtdh+Yav/mlgzIM
- qJusvispDfGzdp+ZGWcvZ22jhrhhS0TRve2/tzs+letkS5KG9EOLHsyU3x9rQhLx0k8sSPLX+CU
- P3p34FKVvuFpJJ8FzPhJ4TZD+/M+YwwOjt7uWcf/2sBofd4nLTAWVMTxjMoCKGyHDoHxjR6SNPg
- xNaKRPc9FX2ABkF+UkS0fUjdwA5i6DPOxmyzqSJ7oE09wlCpQIAv+0NaxHFkoQ41Tkj2lFvvBsi
- DiRL5MhKucqrm9Rd7jqeMi0fuYFQn1lmpMZm3SD9M5zdR7B3tYNQqEVwutm0UVfzDbJ4NbyQ/Z9
- qA+aNxPS7sGN9urP5bSlY5hlZMEDRBtpFyTzPoKeeT34dvUBK0pIwb2rMYRKpQLi3psekWEH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-12_07,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0 spamscore=0 clxscore=1015 suspectscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0 impostorscore=0
- priorityscore=1501 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2504070000 definitions=main-2505130065
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67743e97-f5b6-4bda-5bad-08dd91f13c59
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2025 07:39:04.1785
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1Y2IjImmzP/WRdVJD8c6jA8Bpsy4I5TRs0cXyCZhUP4cr+2MhIe/6I7OJdVTwgwjG00DIizkNpuM6gxa1QxCVLCdDhqCDkREfUYOxkGuplU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB1975
 
+Hi, Krzysztof.
 
-
-On 3/4/2025 7:05 PM, Bryan O'Donoghue wrote:
-> On 15/02/2025 17:19, Vedang Nagar wrote:
->> num_properties_changed is being read from the message queue but is
->> not validated. Value can be corrupted from the firmware leading to
->> OOB read access issues. Add fix to read the size of the packets as
->> well and crosscheck before reading from the packet.
+>-----Original Message-----
+>From: Krzysztof Kozlowski <krzk@kernel.org>
+>Sent: Friday, May 9, 2025 7:12 PM
+>To: Nas Chung <nas.chung@chipsnmedia.com>
+>Cc: mchehab@kernel.org; hverkuil@xs4all.nl; sebastian.fricke@collabora.com=
+;
+>robh@kernel.org; krzk+dt@kernel.org; conor+dt@kernel.org; linux-
+>media@vger.kernel.org; devicetree@vger.kernel.org; linux-
+>kernel@vger.kernel.org; linux-imx@nxp.com; marex@denx.de; jackson.lee
+><jackson.lee@chipsnmedia.com>; lafley.kim <lafley.kim@chipsnmedia.com>
+>Subject: Re: [PATCH v2 2/8] dt-bindings: media: nxp: Add Wave6 video codec
+>device
+>
+>On 09/05/2025 11:59, Nas Chung wrote:
+>>>> +examples:
+>>>> +  - |
+>>>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>>> +    #include <dt-bindings/clock/nxp,imx95-clock.h>
+>>>> +
+>>>> +    soc {
+>>>> +      #address-cells =3D <2>;
+>>>> +      #size-cells =3D <2>;
+>>>> +
+>>>> +      vpu: video-codec {
+>>>
+>>> Why this device does not have MMIO? Sorry, but makes little sense and i=
+f
+>>> you posted and tested your entire DTS you would see why.
 >>
->> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
->> ---
->>   drivers/media/platform/qcom/venus/hfi_msgs.c | 72
->> ++++++++++++++++++++++++----
->>   1 file changed, 62 insertions(+), 10 deletions(-)
+>> I initially thought that if the reg property is declared in the child,
+>> it would not need to be declared in the parent node.
+>> I based this approach on the mediatek,mt8195-jpegenc.yaml binding,
+>> where the parent node does not include MMIO.
+>
+>Do you have access to mt8195 datasheet? What is the memory/register
+>layout there?
+>
+>If you do not have access, why do you think these are similar devices?
+
+I'm sorry, I made an incorrect reference without fully understanding
+the mt8195 architecture.
+
+>
 >>
->> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c
->> b/drivers/media/platform/qcom/venus/hfi_msgs.c
->> index
->> 0a041b4db9efc549621de07dd13b4a3a37a70d11..2ad60a3fbfe0286de09a44664fc3b30259aa0368 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
->> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
->> @@ -19,6 +19,16 @@
->>   #define VER_STR_SZ        128
->>   #define SMEM_IMG_OFFSET_VENUS    (14 * 128)
->>   +static inline int increment_data_ptr(u8 *data_ptr, u32 *rem_bytes)
->> +{
->> +    if (*rem_bytes < sizeof(u32))
->> +        return -EINVAL;
->> +    data_ptr += sizeof(u32);
->> +    *rem_bytes -= sizeof(u32);
->> +
->> +    return 0;
->> +}
->> +
->>   static void event_seq_changed(struct venus_core *core, struct
->> venus_inst *inst,
->>                     struct hfi_msg_event_notify_pkt *pkt)
->>   {
->> @@ -33,8 +43,8 @@ static void event_seq_changed(struct venus_core *core,
->> struct venus_inst *inst,
->>       struct hfi_buffer_requirements *bufreq;
->>       struct hfi_extradata_input_crop *crop;
->>       struct hfi_dpb_counts *dpb_count;
->> +    u32 ptype, rem_bytes;
->>       u8 *data_ptr;
->> -    u32 ptype;
->>         inst->error = HFI_ERR_NONE;
->>   @@ -56,66 +66,108 @@ static void event_seq_changed(struct venus_core
->> *core, struct venus_inst *inst,
->>       }
->>         data_ptr = (u8 *)&pkt->ext_event_data[0];
->> +    rem_bytes = pkt->shdr.hdr.size - sizeof(*pkt);
->> +    if (rem_bytes - 4 < 0) {
->> +        inst->error = HFI_ERR_SESSION_INSUFFICIENT_RESOURCES;
->> +        goto done;
->> +    }
-> 
-> This doesn't make sense.
-> 
-> u32 rem_bytes;
-> 
-> if (rem_bytes - 4 < 0)
-> 
-Would be better to replace it with
-if (rem_bytes < sizeof(u32))
+>> But, if this structure is problematic, I will address it in patch v3.
+>>
+>>>
+>>> Can we see the entire DTS?
+>>
+>> Sure !
+>> Below is the cnm.wave633c.example.dts file created from dt_binding_check=
+.
+>
+>This is not the entire DTS.
 
-this make sure that rem_bytes contain some valid packet.
-> 
->> +
->>       do {
->>           ptype = *((u32 *)data_ptr);
->>           switch (ptype) {
->>           case HFI_PROPERTY_PARAM_FRAME_SIZE:
->> -            data_ptr += sizeof(u32);
->> +            if (increment_data_ptr(data_ptr, &rem_bytes))
->> +                break;
->> +            if (rem_bytes < sizeof(struct hfi_framesize))
->> +                break;
-> 
-> In every case you are return -EINVAL but not setting
-> 
-> inst->error = HFI_ERR_SESSION_INSUFFICIENT_RESOURCES;
-> 
-> surely that is a natural and logical outcome of running out of buffer and a
-> fact you'd want to communicate outside of the driver, rather than silent
-> failing in this switch ?
-> 
-Make sense.
-we should set the inst->error instead of silently breaking from loop.
-Will handle this in next revision.
+I have found errors in dtbs_check.
+I will make the necessary corrections and add the DTS patch to the patch se=
+ries
 
-Thanks,
-Dikshita
-> ---
-> bod
-> 
+>
+>>
+>> /dts-v1/;
+>> /plugin/; // silence any missing phandle references
+>
+>This is bindings example. I want to see entire DTS or DTSI of the SoC.
+>Once you see entire DTS, you will notice that your current split is just
+>not correct - it should be pretty obvious.
+>
+>And that's why we should keep rejecting such works which do not bring
+>any DTS user, because the no one - neither we nor the contributors - see
+>big picture and if someone saw the big picture then immediately would
+>notice - it's just bollocks.
+
+I understand the meaning. I will test the entire DTS file
+to properly use the VPU and check for errors in dtbs_check.
+
+>
+>What you claim is:
+>
+>soc@0 {
+>  // MMIO bus
+>
+>  video-codec {
+>    // which is a non-MMIO device and clearly a no-go.
+>
+>Just look how DTS is organized and learn from it.
+>
+
+Thank you for pointing this out.
+I now understand that placing a non-MMIO device on the MMIO bus is
+fundamentally incorrect.
+To address this, I will update the video-codec device to define
+the reg properties covering the entire reg region.
+
+>>
+>> /{
+>>     compatible =3D "foo";
+>>     model =3D "foo";
+>>     #address-cells =3D <1>;
+>>     #size-cells =3D <1>;
+>>
+>>
+>>     example-0 {
+>>         #address-cells =3D <1>;
+>>         #size-cells =3D <1>;
+>>
+>>
+>>         interrupt-parent =3D <&fake_intc0>;
+>>         fake_intc0: fake-interrupt-controller {
+>>             interrupt-controller;
+>>             #interrupt-cells =3D < 3 >;
+>>         };
+>>
+>
+>All of above are wrong for the SoC...
+>
+>>
+>>         #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>         #include <dt-bindings/clock/nxp,imx95-clock.h>
+>>
+>>         soc {
+>>           #address-cells =3D <2>;
+>>           #size-cells =3D <2>;
+>>
+>>           vpu: video-codec {
+>>             compatible =3D "nxp,imx95-vpu", "cnm,wave633c";
+>
+>What does this device represent? It is not "ctrl", because you made ctrl
+>separate device node. Your binding description suggests that is the VPU
+>control region.
+
+My intention was to represent the MMIO VPU device, which includes
+both the core and control nodes.
+
+>
+>>             clocks =3D <&scmi_clk 115>,
+>>                      <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
+>
+>For which sub devices these clocks are valid? For all of them?
+
+Yes, these clocks are valid for all of sub devices.
+
+Thanks.
+Nas.
+
+>
+>>             clock-names =3D "vpu", "vpublk_wave";
+>>             power-domains =3D <&scmi_devpd 21>;
+>>             #address-cells =3D <2>;
+>>             #size-cells =3D <2>;
+>>             ranges;
+>>
+>>             vpucore0: video-core@4c480000 {
+>>               compatible =3D "nxp,imx95-vpu-core";
+>>               reg =3D <0x0 0x4c480000 0x0 0x10000>;
+>>               interrupts =3D <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>;
+>>             };
+>>
+>>             vpucore1: video-core@4c490000 {
+>>               compatible =3D "nxp,imx95-vpu-core";
+>>               reg =3D <0x0 0x4c490000 0x0 0x10000>;
+>>               interrupts =3D <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
+>>             };
+>>
+>>             vpucore2: video-core@4c4a0000 {
+>>               compatible =3D "nxp,imx95-vpu-core";
+>>               reg =3D <0x0 0x4c4a0000 0x0 0x10000>;
+>>               interrupts =3D <GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>;
+>>             };
+>>
+>>             vpucore3: video-core@4c4b0000 {
+>>               compatible =3D "nxp,imx95-vpu-core";
+>>               reg =3D <0x0 0x4c4b0000 0x0 0x10000>;
+>>               interrupts =3D <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>;
+>>             };
+>>
+>>             vpuctrl: video-controller@4c4c0000 {
+>>               compatible =3D "nxp,imx95-vpu-ctrl";
+>>               reg =3D <0x0 0x4c4c0000 0x0 0x10000>;
+>>               memory-region =3D <&vpu_boot>;
+>>               power-domains =3D <&scmi_perf 10>;
+>>               #cooling-cells =3D <2>;
+>>               sram =3D <&sram1>;
+>>             };
+>>           };
+>>         };
+>>
+>>     };
+>> };
+>>
+>>>
+>>> Best regards,
+>>> Krzysztof
+>>
+>
+>
+>Best regards,
+>Krzysztof
 
