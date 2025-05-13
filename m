@@ -1,274 +1,145 @@
-Return-Path: <linux-media+bounces-32390-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32391-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90A1AB562F
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 15:35:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CBFAB56C2
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 16:10:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA1081895F7E
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 13:35:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CB101B4482C
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 14:11:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD8F228E5E7;
-	Tue, 13 May 2025 13:35:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A5C2BCF53;
+	Tue, 13 May 2025 14:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="GyodLOxG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E4628FA80
-	for <linux-media@vger.kernel.org>; Tue, 13 May 2025 13:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA13B38DD1
+	for <linux-media@vger.kernel.org>; Tue, 13 May 2025 14:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747143307; cv=none; b=pzLOtC2iH9NHW0GOhd5TqVvPBkAnLSaTSj1weCTSUbIGl4wBxMh54TsYDtlrXgS03b9QabpE2bK/Z+Px79z6mTVY3pw5tGh1DYuLnMAP9zyNbguy8OzQh8x3HEtjYxVuX+mPgCb1Mwarcj79iAC+UEJpNkSi09HQjyGNvawTrp0=
+	t=1747145452; cv=none; b=i9cXopKlaoG3TOgQWOaVoe263C2QDfEA8fzMA6wAUe8yIBatHBcNfF/qz9mIypzlDRVnK2s6ohv006g3oNfAShM0h74E0wKk1f2/UWNiqLb8itdbq5spW1YQn5fnpAAGXOs/CQu4sTYTwYryq7oOvkLhAMH86ByKinazwhoj7cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747143307; c=relaxed/simple;
-	bh=s6GW5Pvcduw6rnUJeBNVMo8uUk5Ykph08k3RJZ43SOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L2PqLLY26R00pp0xYpHscwfuusq7JaYc3L6kl9JRlQp09QdXh9VZA0/rxM6KHz4hXb9bBFu9JmlVp7YbAqKnyHbahYNwv/mfZdrL53GQc7mSBIqOG9ogQtFMop0VTtnEk5B/868bIWKUKiaUY18UcKYpgRshg85sejb7X8olFks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1uEpmf-00026v-Az; Tue, 13 May 2025 15:35:01 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1uEpme-002Y1Z-1k;
-	Tue, 13 May 2025 15:35:00 +0200
-Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1uEpme-002bJv-2o;
-	Tue, 13 May 2025 15:35:00 +0200
-Date: Tue, 13 May 2025 15:35:00 +0200
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Krzysztof Opasiak <krzysztof.opasiak@neat.no>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-	balbi@kernel.org, paul.elder@ideasonboard.com,
-	kernel@pengutronix.de, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 0/4] usb: gadget: uvc: parse configfs entries and
- implement v4l2 enum api calls
-Message-ID: <aCNKhGKducVhTLeA@pengutronix.de>
-References: <Y4xaXHLoiPupWM6V@kroah.com>
- <b2e943a1-fc0e-4dd2-b38e-a1d77ed00109@neat.no>
- <2025051253-trimmer-displease-1dde@gregkh>
- <f07db888-8342-491b-86b1-43309a1d2456@neat.no>
- <696f471b-c2d9-4733-9795-0fc31a48e6f8@neat.no>
- <2025051317-deflation-discuss-1201@gregkh>
- <e5cd5e9d64123b319bae1a73c96cd33a3ad9e805.camel@ndufresne.ca>
- <2efb125c-d8ef-468a-a7ea-afcb5b5bee44@neat.no>
- <aCNBNbXceDz2xTCj@pengutronix.de>
- <d2fec157-c1dd-414e-8d9b-e7054c48564b@neat.no>
+	s=arc-20240116; t=1747145452; c=relaxed/simple;
+	bh=p3vGfaPDYIXcSPJ5wVPpBY6lDvCpUaHlAguBbfMTAgo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ic2p7YumREtXyd+pLiCxzbBHDkTVhe+c8dACqdKbrFrPVh/3peuESyTdH5mP5nxGDby4iO8KCAq9UVt/vRyYkmFkKaz6nAZFlIJyARZCZK7uxOTp5RAhrL1AGnbvfViblopTaC32K46PnHv7FqnM1mXnrZcLmk7PgFy3SwVlcnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=GyodLOxG; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ad1f6aa2f84so1192162366b.0
+        for <linux-media@vger.kernel.org>; Tue, 13 May 2025 07:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1747145449; x=1747750249; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DIImEs7KtaUI6DBlTQOZcUEPCDNjkX0zWHbAHnNWpCo=;
+        b=GyodLOxG1XDBFOzJL9NskxKZ8i+5SAsG/2J/JsXMbkkrrocWvzFCCuRsJagwd59yxl
+         RNerDsRY+hxlP72MVBFFlLBHucHi9+uwP2H0qvm2DkzVb09tWasrxVsg/ya0iGIA0UQq
+         jLla0PPCRoPmRZXRmI1p0hHzSoaOyRZcOkUXOL+3hnhWfFgJl8eq3Xw3AplDy1ekUlUK
+         mdeLWIqvRnJzS4z8ImdEMCiiPtgKpKdYbwcwPXwMEjHHNh08XCAfqcSPstjEMGyaP3Ez
+         qABYjJ2TPe5M8e2AIcILR5Nmn8yR/PTPWfjTpUCG+fCVl/k6b6I94eYuKe7X0twiaLMb
+         3Yfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747145449; x=1747750249;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DIImEs7KtaUI6DBlTQOZcUEPCDNjkX0zWHbAHnNWpCo=;
+        b=O5z5WM59XVnKZqzp7JfTU6T4Ve/INAHhaHYlQN2/8Uee+B9K00+hcquFa+wdPUv35t
+         lGc5pomSrOXRmJovIhMgbuFdJrBEBHBtjs5oyEDvIBZjWdM7wZgl4jdLxrwsqiW9vbbL
+         gOwSeK0rNaV4GSMM2XzvWJXIBy27Fz3GQxB2nLY57CTT9No2GWqeF4sIoXoX1ZiVLtXL
+         GIFLj4Qfq0tU4LYNahBkckMb8jRd8TMOodq2DveL08DVtsqrsCLD/Jnqtw+dfRZISzJm
+         s7Z9Hf24yuWym7OHvTet8yCw/uKzuJX0CVHdHp/sx+0Z9a+lw9gzL8wiah7ajxliBg/g
+         ybgQ==
+X-Gm-Message-State: AOJu0YzZOBpI2yLxu3Mm3TVy55r0pq19AbliNvSj4oJD8ybDuCHw/hQO
+	1vZ73gILpRQVTUrwWy+47KpDdLP2Hb1FsvT+wrCZ6VSFQtXD+4ooDaHwogC6DrlJFA==
+X-Gm-Gg: ASbGnctBmeL0BjwBW3uE3Dh5haCOIVekCt3Dhzeg5Zve8s7emhQsurZ8A92cbVXlG6g
+	vMTL2s/ODSYnwQqHzydJfTpHWsyQsgcxxRs5eTzSsg0V0tsR9jPaO9ZL4/vWXppH2LOIhYijN6H
+	FMEiaaktyiw9QxKvEun1KYIZDpatSzhxUrphY34vo9pr9kHeD/X8jxY5vHv+un+aCSsOdFYt9bS
+	bmNN30yZXAjRwF3QxVvMRS6qsLxQc9o45vWMo9LyvN1ODSksg/WUNqHyWzlzp3d4Nqn3GNCPceT
+	NXwgRH9qdnc3DbgBvSQpPNukCrFOCOLTfbHgWY46r+xXPBOaBDJzkWA+f7zPyw==
+X-Google-Smtp-Source: AGHT+IGZ+quGobqZ5py43C6o6X+7T322qJCm+nurqvRcmISSQwrH6kHBo0ksGE0YdFGHg9W1PZ8ZjQ==
+X-Received: by 2002:a17:907:1ca8:b0:acf:dca5:80f7 with SMTP id a640c23a62f3a-ad4d52be77dmr358947366b.26.1747145448809;
+        Tue, 13 May 2025 07:10:48 -0700 (PDT)
+Received: from avt74j0.fritz.box ([2a02:8109:8617:d700:5ee9:d8ef:8f7d:d924])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad2192c8f98sm800022466b.10.2025.05.13.07.10.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 07:10:48 -0700 (PDT)
+From: mhecht73@googlemail.com
+X-Google-Original-From: mhecht73@gmail.com
+To: linux-media@vger.kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	tomm.merciai@gmail.com,
+	martin.hecht@avnet.com,
+	Martin Hecht <mhecht73@gmail.com>
+Subject: [PATCH] media: i2c: alvium: Accelerated alvium_set_power
+Date: Tue, 13 May 2025 16:10:20 +0200
+Message-ID: <20250513141019.3871882-2-mhecht73@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mKzi7A47K4kDo+y4"
-Content-Disposition: inline
-In-Reply-To: <d2fec157-c1dd-414e-8d9b-e7054c48564b@neat.no>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
+From: Martin Hecht <mhecht73@gmail.com>
 
---mKzi7A47K4kDo+y4
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Now alvium_set_power tests if Alvium is up and running already instead
+of waiting for the period of a full reboot. This safes about 7 seconds
+delay for each connected and already booted camera especially when
+using multiple Alvium cameras.
 
-On Tue, May 13, 2025 at 03:07:07PM +0200, Krzysztof Opasiak wrote:
->On 13.05.2025 14:55, Michael Grzeschik wrote:
->>Hi Greg, Krzysztof and Nicolas,
->>
->>On Tue, May 13, 2025 at 12:31:49PM +0200, Krzysztof Opasiak wrote:
->>>On 13.05.2025 12:04, Nicolas Dufresne wrote:
->>>>Hi Greg, Krzysztof,
->>>>
->>>>Le mardi 13 mai 2025 =E0 07:04 +0200, Greg KH a =E9crit=A0:
->>>>>On Mon, May 12, 2025 at 11:03:41PM +0200, Krzysztof Opasiak wrote:
->>>>>>On 12.05.2025 12:43, Krzysztof Opasiak wrote:
->>>>>>>On 12.05.2025 12:38, Greg KH wrote:
->>>>>>>>On Mon, May 12, 2025 at 12:19:07PM +0200, Krzysztof Opasiak wrote:
->>>>>>>>>Hi Greg,
->>>>>>>>>
->>>>>>>>>On 4.12.2022 09:29, Greg KH wrote:
->>>>>>>>>>On Sat, Dec 03, 2022 at 11:26:14PM +0200, Laurent Pinchart wrote:
->>>>>>>>>>>Hi Michael,
->>>>>>>>>>>
->>>>>>>>>>>On Sat, Sep 10, 2022 at 12:13:31AM +0200, Michael=20
->>>>>>>>>>>Grzeschik wrote:
->>>>>>[...]
->>>>>>>>>
->>>>>>>>>Given that I'd like to suggest that it seems to=20
->>>>>>>>>actually make sense to
->>>>>>>>>revert this unless there are some ideas how to fix it.
->>>>>>>>
->>>>>>>>Sorry about this, can you submit a patch series that reverts the
->>>>>>>>offending commits?=A0 As it was years ago, I don't exactly=20
->>>>>>>>know what you
->>>>>>>>are referring to anymore.
->>>>>>>>
->>>>>>>
->>>>>>>Sure! Will do.
->>>>>>>
->>>>>>
->>>>>>Would you prefer to have a set of actual reverts related to this:
->>>>>>
->>>>>>da692963df4e Revert "usb: gadget: uvc: add v4l2 enumeration api calls"
->>>>>>bca75df69aaf Revert "usb: gadget: uvc: add v4l2 try_format api call"
->>>>>>e56c767a6d3c Revert "usb: gadget: uvc: also use try_format=20
->>>>>>in set_format"
->>>>>>20f275b86960 Revert "usb: gadget: uvc: fix try format returns on
->>>>>>uncompressed formats"
->>>>>>059d98f60c21 Revert "usb: gadget: uvc: Fix ERR_PTR dereference in
->>>>>>uvc_v4l2.c"
->>>>>>e6fd9b67414c Revert "usb: gadget: webcam: Make g_webcam=20
->>>>>>loadable again"
->>>>>>
->>>>>>but have a negative consequence that the series isn't really=20
->>>>>>bisectable from
->>>>>>functional perspective. For example commit e6fd9b67414c=20
->>>>>>breaks g_uvc until
->>>>>>we apply da692963df4e so the series would have to go in as a whole.
->>>>>>
->>>>>>Or you would prefer a single commit that technically isn't a=20
->>>>>>revert but it
->>>>>>just "undoes" the negative consequences of "usb: gadget: uvc: add v4l2
->>>>>>enumeration api calls" (kind of a squash of all commits above)?
->>>>>
->>>>>Ideally we can bisect at all places in the tree, so it's odd that
->>>>>reverting patches would cause problems as when adding them all should
->>>>>have been ok for every commit, right?
->>>>>
->>>>>But if there are merge issues, or other problems, then yes, maybe just
->>>>>one big one is needed, your choice.
->>>>
->>>>Won't a plain revert break userspace like GStreamer that have=20
->>>>depended on
->>>>that patch for years ? In such a delicate case, wouldn't it be less
->>>>damageable to introduce workaround, like alias ? This is one personal
->>>>script against numerous users of a generic framework implementation.
->>>
->>>Shouldn't GStreamer be robust enough to handle cases of old-kernel=20
->>>which haven't had this feature at all?
->>>
->>>The main reason why I reported this is not really the name=20
->>>limitation but the fact that this patch is just incorrect for=20
->>>cases where you would like to expose different formats at=20
->>>different speeds. This feature was there for years and we do have=20
->>>products that depend on it and this change along with the further=20
->>>commits that depend on it broke that support for us.
->>>
->>>You are absolutely right that those commits added a feature that=20
->>>now someone else may depend thus it would be perfect to fix it in=20
->>>a way that doesn't break anyone's userspace but the problem is=20
->>>that due to the way v4l2 API is designed I really don't see a way=20
->>>how we could make it "speed-aware" without breaking all the users.=20
->>>That's why we are kind of stuck between:
->>>
->>>1. Leave those commits in and then you cannot different streaming=20
->>>headers for different speeds but users of those API will keep=20
->>>working.
->>>
->>>2. Revert and bring back the feature of UVC ConfigFS interface=20
->>>that was there since its inception but break the users of "New=20
->>>API".
->>>
->>>>
->>>>I believe due to the delay, you are facing an unusual ABI=20
->>>>breakage, which
->>>>requires a more delicate handling.
->>>
->>>Agree. The situation isn't simple as whatever we do would break=20
->>>some userspace... I'm not an expert on v4l2, so if anyone with a=20
->>>better knowledge of v4l2 internals has a suggestion how we could=20
->>>make this work with the existing API I'd be more than happy to try=20
->>>to follow that path.
->>
->>As a shortcomming compromise I would suggest to support both worlds by
->>conditionally set uvc->header if the directory h was found. If the
->>uvc->header was not set then we could print some info and disable the
->>main part of the possible uvc callbacks that depend on this uvc->header
->>objects.
->>
->>The only downside with that would be that using directory h in the
->>streaming header will implicitly create the limitations of not
->>indipendent formats per speed that Krzysztof mentioned.
->>
->>The alternative would be to put more effort into this and parse all
->>directories in the streaming header subnode. However since the idea of
->>using the v4l2-api is already talked dead by a long discussion history,
->>I would rather focus on transition the remaining functionality of the
->>gstreamer uvcgadget plugin to finally become independent of the v4l2api.
->>
->>How about that transition path?
->>
->
->If I understood you correctly, you are proposing that if the header=20
->directories are named in a different way than h we would not set the=20
->uvc->header pointer and make all the v4l2 callback that are using it=20
->just return -ENOTSUP in this case? It would also mean that the=20
->uvc_v4l2_set_format() would need to somehow be broad back to the=20
->previous version which does not use -uvc_v4l2_try_format().
+Signed-off-by: Martin Hecht <mhecht73@gmail.com>
+---
+ drivers/media/i2c/alvium-csi2.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-Yes.
+diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+index 05b708bd0a64..c7d39b10d1a2 100644
+--- a/drivers/media/i2c/alvium-csi2.c
++++ b/drivers/media/i2c/alvium-csi2.c
+@@ -2367,6 +2367,9 @@ static int alvium_get_dt_data(struct alvium_dev *alvium)
+ static int alvium_set_power(struct alvium_dev *alvium, bool on)
+ {
+ 	int ret;
++	int alvium_boot_time_timout = 7000;
++	const int alvium_poll_interval = 500;
++	u64 val = 0;
+ 
+ 	if (!on)
+ 		return regulator_disable(alvium->reg_vcc);
+@@ -2375,8 +2378,22 @@ static int alvium_set_power(struct alvium_dev *alvium, bool on)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* alvium boot time 7s */
+-	msleep(7000);
++	/* alvium boot time is less than 7s, but eventually it's already on */
++	do {
++		alvium_read(alvium, REG_BCRM_HEARTBEAT_RW, &val, &ret);
++		if (ret >= 0)
++			break;
++
++		msleep(alvium_poll_interval);
++		alvium_boot_time_timout -= alvium_poll_interval;
++	} while (alvium_boot_time_timout > 0);
++
++	if (ret < 0)
++		return ret;
++
++	if (alvium_boot_time_timout <= 0)
++		return -ETIMEDOUT;
++
+ 	return 0;
+ }
+ 
+-- 
+2.43.0
 
->Although seems kind of hacky to change kernel behavior based on the=20
->directory name I think if we add this to the doc this could be an=20
->acceptable compromise that would make both scenarios work.=20
->Alternatively, instead of basing that on the directory name maybe a=20
->proper, named ConfigFS attribute somewhere inside UVC directory=20
->"gstreamer_support" or something else would be more explicit for the=20
->user?
-
-This sounds even better. That way we would not depend on the hacky
-directory behaviour. And documenting this attribute would be even less
-shamefull.
-
-That sounds like it all should work out.
-
-Michael
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---mKzi7A47K4kDo+y4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmgjSn8ACgkQC+njFXoe
-LGR/Eg//SpGzvyB750mmWfOVr19Aj9oQOpA1wNGz4vgQxOgFhBgus87HGHXaZblj
-weRasV+ioIxNz+L6U1KN/GFtBtIWN8CF2+gShnlTx/yUJF9AceQpKWy5W+/ObCPu
-3LBv6atA0LzzHLNXh7VeY0mpACeAZF54J0q0BTkfU6wKvDfVq2IImbYFn9QA3oMB
-8ayVM8EYX1/CMwUQwHd0iPxKcQu27KyPTbSl1w98z+LpbpckeC/+P8ZpaNGwWPy2
-bIsOlPb/WBoTCmwenfVB+BjExY/EQ2bZDuVxron5DlLHRQeYGnJpb0uzg4Ks2DEI
-YtcnurTCC9h0i+CZymsNvUQyjEXgzXIAsFn8InvCOsgGGbmAeDat1AR1Mo6nSU8j
-nxACOZ1/mCNKHZiGXekzJcvbVjKI9QEpbgH4AI897WP2CPjWLtoLqNvQtUaAPnII
-hOGe+IQgXXaW85vFnKuAZfWxcLWpHnf0g1dKOHJ1ZUC3zNIQt1qm/S45SMpjcW3D
-k7RcVSvrGXetKflEUwYbrn1zCQPf77VJTV+izOYZaTBIrbi5133RDqg4gJJOg+Hk
-gWZPiKL5B7ra4+ZYk2TJeS0cnD/D4LS79wu8uBtKP000vgqlwNjDbbQ3dsBZSZlu
-smKjmlsHNf0Z2xf0bbHTboTCqRTmG0fkRAoBAlvTJPVdknIIFtA=
-=DN2u
------END PGP SIGNATURE-----
-
---mKzi7A47K4kDo+y4--
 
