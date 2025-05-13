@@ -1,395 +1,274 @@
-Return-Path: <linux-media+bounces-32389-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32390-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE44AB55D2
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 15:18:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E90A1AB562F
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 15:35:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5244F16F02C
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 13:18:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA1081895F7E
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 13:35:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221A428EA65;
-	Tue, 13 May 2025 13:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SzFvDVRk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD8F228E5E7;
+	Tue, 13 May 2025 13:35:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2043.outbound.protection.outlook.com [40.107.100.43])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7067028E611;
-	Tue, 13 May 2025 13:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747142293; cv=fail; b=TjjayEFy6sL3CGhm/Pbi5u2Izlg3eMOLZGdejN6MFQm8iRCzf/ULGuvxw2qVRTxRVQ4nkvri9nQdmJ/zV/v9ZyCrAjMag0gRgd3A/IwQdt4peuGgYw9JfcAwEjy/ynz2PgkhoBEYq8XGo3WTKwhpNKE7rn1A2VyicfSDtnq193k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747142293; c=relaxed/simple;
-	bh=xVxa+0klo4QtLM8TEHmSmfQt5/nGsgN2st2PpwcMi3M=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=R6EcIl6CO6IGX7NqUJ7lBWBEUu04X/9lKJ9/I64oru44ZxyffjDoWiYbZ6gqywel75iSwgU5kP0Gm6RdjXCsi5T7uHAftkGN/GC1dytq6xLgiOzx2Aq68a2agJHgWrmlONNv5jb90rEv89+b9qxhcK5tdzuT8g/9bf27NZ2I9ZI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SzFvDVRk; arc=fail smtp.client-ip=40.107.100.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ml6+QTm8JMgFPk+9X4UiQXUr5yJgmaWz2770xpuNgUT0L6UbeuDn82GBZuf+gJbMvJWVOjnhwj43d219TAB8t+OBAmagCacpHik6K3Yr1vaRVpVfsC9lhDx+EDJLhsk2VF6UwzkuCr3Er0duCAO+tTaEU3QhHtM6iB62zo1945J/iIT9KppTwzgyBl9nWWrz+f5eIBob6fhnnbmMgQoydIesfHsz4BqmJU5pjjS24Wu01kZrY+dQUVPDliORtg5tBcE4W8dlQ8bVqkRYwCV5hBHuXNELTCuOSqJBCejruJ6qi6xGstHPaBAf6qnfHV1Lw7v2bzN8JjIegow3fCfkaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D0XYqoDLKn1X8U042JbzEqsU7/9qTxfLm7/S6JhoPo4=;
- b=QTFILjsad6dETWKvH7ec30gFubO4sOiWYmgTAbc7WCFdAV5c27tq55MrELDVm/fsp3quBzO8YFxZFnCIlwGSiaqu1uPGmnGqM+IBb66e6vG1Wv9TWb03fuv1nl/61PanliiBpdztQQgwy9nmCHy0+cincimNKwFozV/FqvPvN4QlEmWVud5h5fJl2jMRjEiPihKSo100QUpndKlPwxaOsM5IbS3wczbztI2Y+ZQwZDxKoSguzeLuytY5wKFyrsQR/a5Eg+aV7yuH4xi8Sqfoksb2xcpcNMnDHGmauRd8DwVRi/PcptFhHmPc26AK0cYdBMN0uoX619oYouavCRSQVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D0XYqoDLKn1X8U042JbzEqsU7/9qTxfLm7/S6JhoPo4=;
- b=SzFvDVRkHHelc+9fd8VlJ5Bgybnw9pi70J9T/4N5RdI4mzMvXW+9d/6i6qASXLwdSiKT5yxCYL6FZi+yQXiMx74ggr5D7nm0yy1SUv1jZ4SZOUddMRPAPz4m+FEifrB/yI61LjGLwQYI83j+cbVJ3G49Yoz+C9BigQfBvEUw7W4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB6248.namprd12.prod.outlook.com (2603:10b6:208:3c0::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Tue, 13 May
- 2025 13:18:07 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.027; Tue, 13 May 2025
- 13:18:06 +0000
-Message-ID: <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
-Date: Tue, 13 May 2025 15:17:59 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-To: wangtao <tao.wangtao@honor.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "jstultz@google.com" <jstultz@google.com>,
- "tjmercier@google.com" <tjmercier@google.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "wangbintian(BintianWang)" <bintian.wang@honor.com>,
- yipengxiang <yipengxiang@honor.com>, liulu 00013167 <liulu.liu@honor.com>,
- hanfeng 00012985 <feng.han@honor.com>
-References: <20250513092803.2096-1-tao.wangtao@honor.com>
- <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
- <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN0PR02CA0028.namprd02.prod.outlook.com
- (2603:10b6:208:530::22) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E4628FA80
+	for <linux-media@vger.kernel.org>; Tue, 13 May 2025 13:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747143307; cv=none; b=pzLOtC2iH9NHW0GOhd5TqVvPBkAnLSaTSj1weCTSUbIGl4wBxMh54TsYDtlrXgS03b9QabpE2bK/Z+Px79z6mTVY3pw5tGh1DYuLnMAP9zyNbguy8OzQh8x3HEtjYxVuX+mPgCb1Mwarcj79iAC+UEJpNkSi09HQjyGNvawTrp0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747143307; c=relaxed/simple;
+	bh=s6GW5Pvcduw6rnUJeBNVMo8uUk5Ykph08k3RJZ43SOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L2PqLLY26R00pp0xYpHscwfuusq7JaYc3L6kl9JRlQp09QdXh9VZA0/rxM6KHz4hXb9bBFu9JmlVp7YbAqKnyHbahYNwv/mfZdrL53GQc7mSBIqOG9ogQtFMop0VTtnEk5B/868bIWKUKiaUY18UcKYpgRshg85sejb7X8olFks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1uEpmf-00026v-Az; Tue, 13 May 2025 15:35:01 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1uEpme-002Y1Z-1k;
+	Tue, 13 May 2025 15:35:00 +0200
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1uEpme-002bJv-2o;
+	Tue, 13 May 2025 15:35:00 +0200
+Date: Tue, 13 May 2025 15:35:00 +0200
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Krzysztof Opasiak <krzysztof.opasiak@neat.no>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+	balbi@kernel.org, paul.elder@ideasonboard.com,
+	kernel@pengutronix.de, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v2 0/4] usb: gadget: uvc: parse configfs entries and
+ implement v4l2 enum api calls
+Message-ID: <aCNKhGKducVhTLeA@pengutronix.de>
+References: <Y4xaXHLoiPupWM6V@kroah.com>
+ <b2e943a1-fc0e-4dd2-b38e-a1d77ed00109@neat.no>
+ <2025051253-trimmer-displease-1dde@gregkh>
+ <f07db888-8342-491b-86b1-43309a1d2456@neat.no>
+ <696f471b-c2d9-4733-9795-0fc31a48e6f8@neat.no>
+ <2025051317-deflation-discuss-1201@gregkh>
+ <e5cd5e9d64123b319bae1a73c96cd33a3ad9e805.camel@ndufresne.ca>
+ <2efb125c-d8ef-468a-a7ea-afcb5b5bee44@neat.no>
+ <aCNBNbXceDz2xTCj@pengutronix.de>
+ <d2fec157-c1dd-414e-8d9b-e7054c48564b@neat.no>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6248:EE_
-X-MS-Office365-Filtering-Correlation-Id: 811ec9b9-bd77-4831-1e4a-08dd92209922
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MkN0NkhDbWNKam9RWU9UVHRFSTlxOWg4SkdBUDk4cWVtM3RxcG1vanppN0R1?=
- =?utf-8?B?K2hxREFUcGwxWGNDYSszSUhtclVUbnU2L2xqRnVFaGZnb0ljMGs0enRIWE0r?=
- =?utf-8?B?Zk5Cb1hPR1hZL05LYThBUmxXQmYzL0g4OVJTZ0wvU2pIMHd6bXFpYUViM3RL?=
- =?utf-8?B?aTUxNFhCWVNDVXFVeEY2TjJtRVk5VldNREFadDNkbUNRTlpHSHNTdWR0aURM?=
- =?utf-8?B?djVXMVd1YVJiTE1ZZFlPaEpVMzdlaHhJY29BclBqajYzV1ZKYWhoR0tPaFcz?=
- =?utf-8?B?TEVVSFBCeXYwenVLd1NyaTR2YU45blBRSUIvZ3FWSXBnb0dvb0piQ0RSTkdJ?=
- =?utf-8?B?b2Q0dGRhaG9tekYxVDNTNWV6N2hRbXFIbzRYRjA4OWhqN1kzRTBnRG4wWklw?=
- =?utf-8?B?NFVVd3h0NCtRVG9xalMrZXlmb01LU0pHL1hDZlpDUnpxcFNyMnFiTGxOZVpF?=
- =?utf-8?B?dEErK1QvNHFFd2Vod3ozUERjZ2ptQit6N3BNbjZhRUprcE05bUF0WlJtblI2?=
- =?utf-8?B?UFlRVEVmVFU2Si9JcWVCMnU0Qy91QXByNlB1ZDI2eWdTQlEya1k4NTQ3RW43?=
- =?utf-8?B?SkExL1JaVlRSaVdkdWg5WmlHKzdYbEcxWXo2Umh6aThCY2RuQXEvYU1MUkQz?=
- =?utf-8?B?eWpLVnZGNFluNXo0enFGUzJta3dwY2lzSE9kTmtJWXd5V0Zob2dzc0M1em9W?=
- =?utf-8?B?RXVyMXc3M2F0bGN0eTQwUHRqaEJLWW1ySllGbGl0UzlsdDljMFJrb3FEWHBn?=
- =?utf-8?B?WWh5KzFINnZMZGVMdnl6aENtVk84RVNpZGp5d09rZDJNQS9wcC9IYjRKazkz?=
- =?utf-8?B?NEkxRXA4VDc3cmFuYW5tRXhSc2VjeUxMdG1CSU55YWNldUpBZEI3L3llUmRB?=
- =?utf-8?B?VWk0TStGRDdDamp2Ry9mM1JWZjBKY2dxUm9HMTBrRnZ5WXA2VDF0RTYzWFZj?=
- =?utf-8?B?ektSc1J6TzR4dXdyc3dMcXZsVFdaV00zaHJnd2loc1hjbkpNd0JVTVQxekht?=
- =?utf-8?B?eUZjcVNhRnhnTGZNWk8rcFR2SlZoLzFRdFMva2phSXpTSzZpMEQySHJlMjBl?=
- =?utf-8?B?bk83aVQ4cUNpWFRROW1meEtxeVM5ajJZL3lmaUhhTldQR25STjBJK2cyV0xS?=
- =?utf-8?B?d0dPZ1l6aUd4R0dNVTFVNkxvUUZoTDM3Sk5iQ1ExNVRxL1p6SHEzdTVGeTU0?=
- =?utf-8?B?OFA1YkJXK3IzQ1MzYXY0cGlCUis3d2MxM0k2bzNNOUVyMXNISG9UUVMwK3Fq?=
- =?utf-8?B?VXR6V3JEenJPdTh2Ny9VRHdTZUIyZ3ZXMlFwUW1ITE1iTFV1S3FpbjBXVDdO?=
- =?utf-8?B?RVV2aEJpR0VQQ0tNSWZPRi9UNm92OTlvMEcrSWpjLy9MSVY2SUU2eVZrczBj?=
- =?utf-8?B?RndlOVd2ZFI5dGNVV3AwY3REL2M5T3BXMzRMY2pMYmhWekJZei9yK3dSeGZJ?=
- =?utf-8?B?RlhrMmNCWFRvQ2xFaHRGb3BwOCtJM1V6VEhvTTR0M2drNG9kL3dhZWZrdE5o?=
- =?utf-8?B?N3MrZUc2MHlyWHg0djNtNzdQb2hIU2pPMlZmVmliOVdvRGRwUUhFRGx5bGY5?=
- =?utf-8?B?Z0R1Y3hiTWh2Tm1jbHFxZG5aeFVmSUl5U01JZGViQkJKL2F1MGxlbVFYa3Bh?=
- =?utf-8?B?YjJxYVdIZW8yaCtqLzV4WnRLckwxR2pUMFJTZVVQQ1FabXdaMUNRUWhuMHVK?=
- =?utf-8?B?ajUvTDY4aytsbVdqYlMwL3A0Smt6ZVNLMW1iOFJuWm1rZHYrVlN2V1lxbEJC?=
- =?utf-8?B?MXRLcFRUZHF6bDNZZ0JLWVoxQSsxMk5SWFZvWURaR0FXd3BGNGVFekIxSFVW?=
- =?utf-8?B?UWJRSlRMZWZsWHVGWmZKeDFSa0FTamtWN1djV0tBclhMYWF3MHN3NVlRN0pB?=
- =?utf-8?B?dlhmWjh6YlBwSFlabmtHZUhHWmtWczNDVWFIazRLYlppNFViaUgrVjdmUHJU?=
- =?utf-8?Q?XVLKVNV+b6g=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WVNHaU5KbjBQSm5VQVc5RVlndW5JZE9ST3FQMjA2MHVPTmplNjhwNlNCaVcx?=
- =?utf-8?B?Mmg0R2RtdjlFYStkSlozS09ybmp6WUE1R0UvUTlyQnFnNWE4M0I2SVM3cGpk?=
- =?utf-8?B?MUE5R1lXVk9VQ3crdTNicmNaTUZpaXhmemJMVmtqdkQvaHo3dFFBM0dpQUlo?=
- =?utf-8?B?Q2NIOGlrcTB0cEFpbjFoUDhFRFZreE9valAvdHkxRjk4aWc2cHRINEY0alZj?=
- =?utf-8?B?eDIwcTlsaHZDK1VtVytOODF4dVppNFphWHVNR1VNazl3QUZaM3ZMUGxlU2dt?=
- =?utf-8?B?NzZVZlRmMkUybTQwU0lKQnA4cjk0SEk1aThiRzVmL1BCdWFKKy90blk2a0lU?=
- =?utf-8?B?SzBMZHhyYk5haG9uMEJFbnVmTkxhcmE0SmZTeVJMeERWL2dtV0grTWFDczdJ?=
- =?utf-8?B?bHU4cWVvd3Z6cGQ0QUUrV05UN1JyaGxFZ1JwMWM1bFIwdldMbjFPSWdVYWps?=
- =?utf-8?B?V0dEdXl3blM2ZHBGR29rbVdDT3ZxNUdqdmhpODRhb0N6MVJ2WGZjTW1RY2Qv?=
- =?utf-8?B?Yyt6VFNMcDczQnNFUXJldXA4SFFFU21kWFJXbmFmL3IwTi9PY3pJdFlXM1R6?=
- =?utf-8?B?TmtvNGd4NkVueWd3U3NmU2FQQmxGMW0rM2FjcHc4QXM2YURVcThFbmFlWG9L?=
- =?utf-8?B?Y2Y4eVVWclZlSlVVckgrcEFVZlFRUGxyNVVqT29NVzJiRER1eGZjcDZJMms5?=
- =?utf-8?B?LzZUd1luTE9TaVpHMHlRRW1zQ1ZVT2N6a043OWw0WUJIeWVaN1lpUndHSjd2?=
- =?utf-8?B?clNTVWo1cityMHlrelptVkFVOGVCb3JiZTNiNlRIVFNjZ1JoUDlxUldyeEFh?=
- =?utf-8?B?VERvb3I5UlYrb0xtc1pnNGRhdnVWWWdCQnUwWmJoRHZrTUhlUXhkZElRUzRj?=
- =?utf-8?B?Q3VJZGZIaHN6OVVjSFI0bzQ3QXBHMUE1Z1dPZk5jM0cydGZQcHI5YVU0WS9J?=
- =?utf-8?B?N3VpbzdBR3Vvb2ZLb0RRcDlvN3JwOGR4Ti9NdGdQOEZMV1NtNWtMdzA1cGhG?=
- =?utf-8?B?OFdRNHZsSFl6ZnhzK3AwVWpIMGdrYkhucTU2dC9OQlVDMmF3Z2UyZ3RFNGdu?=
- =?utf-8?B?YmtPM2JDb0R3aWZ1RHRTalQxeWtUakZ1dDZmSGE0MG5UMGoybm9GMStRQnZt?=
- =?utf-8?B?b0pnZjdZWThpeVl2YWJxTDNjak5GVzdMM2syQ0ZlY2FXdGMyN3Nyd0g5U2lu?=
- =?utf-8?B?SW43Sjhva2lmdERyWFJxUFZjK3JSZmdubnpTbll2Snd2Ujh6cThLYks2aTdj?=
- =?utf-8?B?Q05YR2hLZUhkYmE5ZWRlMUI1ZUgweE9reHM0Z1poQUtTa1dKSUppeHBORFRL?=
- =?utf-8?B?SFN5SmExWmhvbVV2Z3YxU2tEZW0zckVWdkpTQWpIWEdIL3NmKy9GWmR2MHdK?=
- =?utf-8?B?cnRLazhtSUpNWUZQbmdnRExpTmgwYUJmWVdiWlhzd0d6alF3ZEEyWll0cmg2?=
- =?utf-8?B?ZnhuYUt3QjgxeElLUURqakQ5dnRCdWNPZ2dDNUVrVWo4VkdxU1p0VkFsUzFn?=
- =?utf-8?B?Um5SVHF1V0tjNVd5WCtlRnAzK2pOUjJSQjNrZVlnbnduMXgyN0xrYk9nUE1s?=
- =?utf-8?B?L1BickRMRi90cERhdC9CZmtHZnptU2txN1NDSDJvblJEcDBuTWRCL1RLZmVW?=
- =?utf-8?B?WU9jMDhhMTdHakVzRTVkeW41Mk1OR3FsUUJaOHA0UjVET2lHQ252ck1mOWRi?=
- =?utf-8?B?RmNlc3dvZW5sdkl0WmdkTkViSVhxZ1kwTWIrM25RWWhabllLZnRJR3BNRnJC?=
- =?utf-8?B?YjA5b3BGVDkzbFUrSHBGeWFqVkV1MTZka2NLNnVoeXlOU3MyOXBiTHY1Q2lU?=
- =?utf-8?B?ZGZVTjd5cGJJTjJnL2c4S2loMVdhSkhRc2FrUUVJc0pkdm5Bb2NRRTVWMnd1?=
- =?utf-8?B?RlpUbFVkalhwM2FIMmNrVjN4TnVjNHJyUm5hdHdDWkd0T2R6UjBYVlNjeC9t?=
- =?utf-8?B?N2pNUUp2ZlloMitxc0ZaV0ZUVEhUN1o0R1MxL1lNcThhdlZubUxPSDJ3bkM2?=
- =?utf-8?B?OXdZRWx1a2VxZ0ozNWJBSjVGRzlJbUlJYWZ0MGtoSHI5V0x2RHZmNnJ3RUxE?=
- =?utf-8?B?bHo0ZEk2TTVyRnM5bGJxTm9kNXR4Uk85Y1hQbjJVdG95M3pCaHdBcHArN0xD?=
- =?utf-8?Q?mTd8=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 811ec9b9-bd77-4831-1e4a-08dd92209922
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 13:18:06.4111
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B3ttb9eyjmpMYQsbj/F5jnXwVcKCS3NoOu2YK63IpyxrDNmbasaAQmtMtsO2k2Sh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6248
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mKzi7A47K4kDo+y4"
+Content-Disposition: inline
+In-Reply-To: <d2fec157-c1dd-414e-8d9b-e7054c48564b@neat.no>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-On 5/13/25 14:30, wangtao wrote:
->> -----Original Message-----
->> From: Christian König <christian.koenig@amd.com>
->> Sent: Tuesday, May 13, 2025 7:32 PM
->> To: wangtao <tao.wangtao@honor.com>; sumit.semwal@linaro.org;
->> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
->> jstultz@google.com; tjmercier@google.com
->> Cc: linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org; linaro-
->> mm-sig@lists.linaro.org; linux-kernel@vger.kernel.org;
->> wangbintian(BintianWang) <bintian.wang@honor.com>; yipengxiang
->> <yipengxiang@honor.com>; liulu 00013167 <liulu.liu@honor.com>; hanfeng
->> 00012985 <feng.han@honor.com>
->> Subject: Re: [PATCH 2/2] dmabuf/heaps: implement
->> DMA_BUF_IOCTL_RW_FILE for system_heap
+
+--mKzi7A47K4kDo+y4
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, May 13, 2025 at 03:07:07PM +0200, Krzysztof Opasiak wrote:
+>On 13.05.2025 14:55, Michael Grzeschik wrote:
+>>Hi Greg, Krzysztof and Nicolas,
 >>
->> On 5/13/25 11:28, wangtao wrote:
->>> Support direct file I/O operations for system_heap dma-buf objects.
->>> Implementation includes:
->>> 1. Convert sg_table to bio_vec
+>>On Tue, May 13, 2025 at 12:31:49PM +0200, Krzysztof Opasiak wrote:
+>>>On 13.05.2025 12:04, Nicolas Dufresne wrote:
+>>>>Hi Greg, Krzysztof,
+>>>>
+>>>>Le mardi 13 mai 2025 =E0 07:04 +0200, Greg KH a =E9crit=A0:
+>>>>>On Mon, May 12, 2025 at 11:03:41PM +0200, Krzysztof Opasiak wrote:
+>>>>>>On 12.05.2025 12:43, Krzysztof Opasiak wrote:
+>>>>>>>On 12.05.2025 12:38, Greg KH wrote:
+>>>>>>>>On Mon, May 12, 2025 at 12:19:07PM +0200, Krzysztof Opasiak wrote:
+>>>>>>>>>Hi Greg,
+>>>>>>>>>
+>>>>>>>>>On 4.12.2022 09:29, Greg KH wrote:
+>>>>>>>>>>On Sat, Dec 03, 2022 at 11:26:14PM +0200, Laurent Pinchart wrote:
+>>>>>>>>>>>Hi Michael,
+>>>>>>>>>>>
+>>>>>>>>>>>On Sat, Sep 10, 2022 at 12:13:31AM +0200, Michael=20
+>>>>>>>>>>>Grzeschik wrote:
+>>>>>>[...]
+>>>>>>>>>
+>>>>>>>>>Given that I'd like to suggest that it seems to=20
+>>>>>>>>>actually make sense to
+>>>>>>>>>revert this unless there are some ideas how to fix it.
+>>>>>>>>
+>>>>>>>>Sorry about this, can you submit a patch series that reverts the
+>>>>>>>>offending commits?=A0 As it was years ago, I don't exactly=20
+>>>>>>>>know what you
+>>>>>>>>are referring to anymore.
+>>>>>>>>
+>>>>>>>
+>>>>>>>Sure! Will do.
+>>>>>>>
+>>>>>>
+>>>>>>Would you prefer to have a set of actual reverts related to this:
+>>>>>>
+>>>>>>da692963df4e Revert "usb: gadget: uvc: add v4l2 enumeration api calls"
+>>>>>>bca75df69aaf Revert "usb: gadget: uvc: add v4l2 try_format api call"
+>>>>>>e56c767a6d3c Revert "usb: gadget: uvc: also use try_format=20
+>>>>>>in set_format"
+>>>>>>20f275b86960 Revert "usb: gadget: uvc: fix try format returns on
+>>>>>>uncompressed formats"
+>>>>>>059d98f60c21 Revert "usb: gadget: uvc: Fix ERR_PTR dereference in
+>>>>>>uvc_v4l2.c"
+>>>>>>e6fd9b67414c Revert "usb: gadget: webcam: Make g_webcam=20
+>>>>>>loadable again"
+>>>>>>
+>>>>>>but have a negative consequence that the series isn't really=20
+>>>>>>bisectable from
+>>>>>>functional perspective. For example commit e6fd9b67414c=20
+>>>>>>breaks g_uvc until
+>>>>>>we apply da692963df4e so the series would have to go in as a whole.
+>>>>>>
+>>>>>>Or you would prefer a single commit that technically isn't a=20
+>>>>>>revert but it
+>>>>>>just "undoes" the negative consequences of "usb: gadget: uvc: add v4l2
+>>>>>>enumeration api calls" (kind of a squash of all commits above)?
+>>>>>
+>>>>>Ideally we can bisect at all places in the tree, so it's odd that
+>>>>>reverting patches would cause problems as when adding them all should
+>>>>>have been ok for every commit, right?
+>>>>>
+>>>>>But if there are merge issues, or other problems, then yes, maybe just
+>>>>>one big one is needed, your choice.
+>>>>
+>>>>Won't a plain revert break userspace like GStreamer that have=20
+>>>>depended on
+>>>>that patch for years ? In such a delicate case, wouldn't it be less
+>>>>damageable to introduce workaround, like alias ? This is one personal
+>>>>script against numerous users of a generic framework implementation.
+>>>
+>>>Shouldn't GStreamer be robust enough to handle cases of old-kernel=20
+>>>which haven't had this feature at all?
+>>>
+>>>The main reason why I reported this is not really the name=20
+>>>limitation but the fact that this patch is just incorrect for=20
+>>>cases where you would like to expose different formats at=20
+>>>different speeds. This feature was there for years and we do have=20
+>>>products that depend on it and this change along with the further=20
+>>>commits that depend on it broke that support for us.
+>>>
+>>>You are absolutely right that those commits added a feature that=20
+>>>now someone else may depend thus it would be perfect to fix it in=20
+>>>a way that doesn't break anyone's userspace but the problem is=20
+>>>that due to the way v4l2 API is designed I really don't see a way=20
+>>>how we could make it "speed-aware" without breaking all the users.=20
+>>>That's why we are kind of stuck between:
+>>>
+>>>1. Leave those commits in and then you cannot different streaming=20
+>>>headers for different speeds but users of those API will keep=20
+>>>working.
+>>>
+>>>2. Revert and bring back the feature of UVC ConfigFS interface=20
+>>>that was there since its inception but break the users of "New=20
+>>>API".
+>>>
+>>>>
+>>>>I believe due to the delay, you are facing an unusual ABI=20
+>>>>breakage, which
+>>>>requires a more delicate handling.
+>>>
+>>>Agree. The situation isn't simple as whatever we do would break=20
+>>>some userspace... I'm not an expert on v4l2, so if anyone with a=20
+>>>better knowledge of v4l2 internals has a suggestion how we could=20
+>>>make this work with the existing API I'd be more than happy to try=20
+>>>to follow that path.
 >>
->> That is usually illegal for DMA-bufs.
-> [wangtao] The term 'convert' is misleading in this context. The appropriate phrasing should be: Construct bio_vec from sg_table.
-
-Well it doesn't matter what you call it. Touching the page inside an sg table of a DMA-buf is illegal, we even have code to actively prevent that.
-
-Once more: This approach was already rejected multiple times! Please use udmabuf instead!
-
-The hack you came up here is simply not necessary.
-
-Regards,
-Christian.
-
-
-> Appreciate your feedback.
+>>As a shortcomming compromise I would suggest to support both worlds by
+>>conditionally set uvc->header if the directory h was found. If the
+>>uvc->header was not set then we could print some info and disable the
+>>main part of the possible uvc callbacks that depend on this uvc->header
+>>objects.
 >>
->> Regards,
->> Christian.
+>>The only downside with that would be that using directory h in the
+>>streaming header will implicitly create the limitations of not
+>>indipendent formats per speed that Krzysztof mentioned.
 >>
->>> 2. Set IOCB_DIRECT when O_DIRECT is supported 3. Invoke
->>> vfs_iocb_iter_read()/vfs_iocb_iter_write() for actual I/O
->>>
->>> Performance metrics (UFS 4.0 device @4GB/s, Arm64 CPU @1GHz):
->>>
->>> | Metric             |    1MB |    8MB |    64MB |   1024MB |   3072MB |
->>> |--------------------|-------:|-------:|--------:|---------:|---------
->>> |--------------------|:|
->>> | Buffer Read (us)   |   1658 |   9028 |   69295 |  1019783 |  2978179 |
->>> | Direct Read (us)   |    707 |   2647 |   18689 |   299627 |   937758 |
->>> | Buffer Rate (MB/s) |    603 |    886 |     924 |     1004 |     1032 |
->>> | Direct Rate (MB/s) |   1414 |   3022 |    3425 |     3418 |     3276 |
->>>
->>> Signed-off-by: wangtao <tao.wangtao@honor.com>
->>> ---
->>>  drivers/dma-buf/heaps/system_heap.c | 118
->>> ++++++++++++++++++++++++++++
->>>  1 file changed, 118 insertions(+)
->>>
->>> diff --git a/drivers/dma-buf/heaps/system_heap.c
->>> b/drivers/dma-buf/heaps/system_heap.c
->>> index 26d5dc89ea16..f7b71b9843aa 100644
->>> --- a/drivers/dma-buf/heaps/system_heap.c
->>> +++ b/drivers/dma-buf/heaps/system_heap.c
->>> @@ -20,6 +20,8 @@
->>>  #include <linux/scatterlist.h>
->>>  #include <linux/slab.h>
->>>  #include <linux/vmalloc.h>
->>> +#include <linux/bvec.h>
->>> +#include <linux/uio.h>
->>>
->>>  static struct dma_heap *sys_heap;
->>>
->>> @@ -281,6 +283,121 @@ static void system_heap_vunmap(struct dma_buf
->> *dmabuf, struct iosys_map *map)
->>>  	iosys_map_clear(map);
->>>  }
->>>
->>> +static struct bio_vec *system_heap_init_bvec(struct
->> system_heap_buffer *buffer,
->>> +			size_t offset, size_t len, int *nr_segs) {
->>> +	struct sg_table *sgt = &buffer->sg_table;
->>> +	struct scatterlist *sg;
->>> +	size_t length = 0;
->>> +	unsigned int i, k = 0;
->>> +	struct bio_vec *bvec;
->>> +	size_t sg_left;
->>> +	size_t sg_offset;
->>> +	size_t sg_len;
->>> +
->>> +	bvec = kvcalloc(sgt->nents, sizeof(*bvec), GFP_KERNEL);
->>> +	if (!bvec)
->>> +		return NULL;
->>> +
->>> +	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
->>> +		length += sg->length;
->>> +		if (length <= offset)
->>> +			continue;
->>> +
->>> +		sg_left = length - offset;
->>> +		sg_offset = sg->offset + sg->length - sg_left;
->>> +		sg_len = min(sg_left, len);
->>> +
->>> +		bvec[k].bv_page = sg_page(sg);
->>> +		bvec[k].bv_len = sg_len;
->>> +		bvec[k].bv_offset = sg_offset;
->>> +		k++;
->>> +
->>> +		offset += sg_len;
->>> +		len -= sg_len;
->>> +		if (len <= 0)
->>> +			break;
->>> +	}
->>> +
->>> +	*nr_segs = k;
->>> +	return bvec;
->>> +}
->>> +
->>> +static int system_heap_rw_file(struct system_heap_buffer *buffer, bool
->> is_read,
->>> +		bool direct_io, struct file *filp, loff_t file_offset,
->>> +		size_t buf_offset, size_t len)
->>> +{
->>> +	struct bio_vec *bvec;
->>> +	int nr_segs = 0;
->>> +	struct iov_iter iter;
->>> +	struct kiocb kiocb;
->>> +	ssize_t ret = 0;
->>> +
->>> +	if (direct_io) {
->>> +		if (!(filp->f_mode & FMODE_CAN_ODIRECT))
->>> +			return -EINVAL;
->>> +	}
->>> +
->>> +	bvec = system_heap_init_bvec(buffer, buf_offset, len, &nr_segs);
->>> +	if (!bvec)
->>> +		return -ENOMEM;
->>> +
->>> +	iov_iter_bvec(&iter, is_read ? ITER_DEST : ITER_SOURCE, bvec,
->> nr_segs, len);
->>> +	init_sync_kiocb(&kiocb, filp);
->>> +	kiocb.ki_pos = file_offset;
->>> +	if (direct_io)
->>> +		kiocb.ki_flags |= IOCB_DIRECT;
->>> +
->>> +	while (kiocb.ki_pos < file_offset + len) {
->>> +		if (is_read)
->>> +			ret = vfs_iocb_iter_read(filp, &kiocb, &iter);
->>> +		else
->>> +			ret = vfs_iocb_iter_write(filp, &kiocb, &iter);
->>> +		if (ret <= 0)
->>> +			break;
->>> +	}
->>> +
->>> +	kvfree(bvec);
->>> +	return ret < 0 ? ret : 0;
->>> +}
->>> +
->>> +static int system_heap_dma_buf_rw_file(struct dma_buf *dmabuf,
->>> +			struct dma_buf_rw_file *back)
->>> +{
->>> +	struct system_heap_buffer *buffer = dmabuf->priv;
->>> +	int ret = 0;
->>> +	__u32 op = back->flags & DMA_BUF_RW_FLAGS_OP_MASK;
->>> +	bool direct_io = back->flags & DMA_BUF_RW_FLAGS_DIRECT;
->>> +	struct file *filp;
->>> +
->>> +	if (op != DMA_BUF_RW_FLAGS_READ && op !=
->> DMA_BUF_RW_FLAGS_WRITE)
->>> +		return -EINVAL;
->>> +	if (direct_io) {
->>> +		if (!PAGE_ALIGNED(back->file_offset) ||
->>> +			!PAGE_ALIGNED(back->buf_offset) ||
->>> +			!PAGE_ALIGNED(back->buf_len))
->>> +		return -EINVAL;
->>> +	}
->>> +	if (!back->buf_len || back->buf_len > dmabuf->size ||
->>> +		back->buf_offset >= dmabuf->size ||
->>> +		back->buf_offset + back->buf_len > dmabuf->size)
->>> +		return -EINVAL;
->>> +	if (back->file_offset + back->buf_len < back->file_offset)
->>> +		return -EINVAL;
->>> +
->>> +	filp = fget(back->fd);
->>> +	if (!filp)
->>> +		return -EBADF;
->>> +
->>> +	mutex_lock(&buffer->lock);
->>> +	ret = system_heap_rw_file(buffer, op ==
->> DMA_BUF_RW_FLAGS_READ, direct_io,
->>> +			filp, back->file_offset, back->buf_offset, back-
->>> buf_len);
->>> +	mutex_unlock(&buffer->lock);
->>> +
->>> +	fput(filp);
->>> +	return ret;
->>> +}
->>> +
->>>  static void system_heap_dma_buf_release(struct dma_buf *dmabuf)  {
->>>  	struct system_heap_buffer *buffer = dmabuf->priv; @@ -308,6
->> +425,7
->>> @@ static const struct dma_buf_ops system_heap_buf_ops = {
->>>  	.mmap = system_heap_mmap,
->>>  	.vmap = system_heap_vmap,
->>>  	.vunmap = system_heap_vunmap,
->>> +	.rw_file = system_heap_dma_buf_rw_file,
->>>  	.release = system_heap_dma_buf_release,  };
->>>
-> 
+>>The alternative would be to put more effort into this and parse all
+>>directories in the streaming header subnode. However since the idea of
+>>using the v4l2-api is already talked dead by a long discussion history,
+>>I would rather focus on transition the remaining functionality of the
+>>gstreamer uvcgadget plugin to finally become independent of the v4l2api.
+>>
+>>How about that transition path?
+>>
+>
+>If I understood you correctly, you are proposing that if the header=20
+>directories are named in a different way than h we would not set the=20
+>uvc->header pointer and make all the v4l2 callback that are using it=20
+>just return -ENOTSUP in this case? It would also mean that the=20
+>uvc_v4l2_set_format() would need to somehow be broad back to the=20
+>previous version which does not use -uvc_v4l2_try_format().
 
+Yes.
+
+>Although seems kind of hacky to change kernel behavior based on the=20
+>directory name I think if we add this to the doc this could be an=20
+>acceptable compromise that would make both scenarios work.=20
+>Alternatively, instead of basing that on the directory name maybe a=20
+>proper, named ConfigFS attribute somewhere inside UVC directory=20
+>"gstreamer_support" or something else would be more explicit for the=20
+>user?
+
+This sounds even better. That way we would not depend on the hacky
+directory behaviour. And documenting this attribute would be even less
+shamefull.
+
+That sounds like it all should work out.
+
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--mKzi7A47K4kDo+y4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmgjSn8ACgkQC+njFXoe
+LGR/Eg//SpGzvyB750mmWfOVr19Aj9oQOpA1wNGz4vgQxOgFhBgus87HGHXaZblj
+weRasV+ioIxNz+L6U1KN/GFtBtIWN8CF2+gShnlTx/yUJF9AceQpKWy5W+/ObCPu
+3LBv6atA0LzzHLNXh7VeY0mpACeAZF54J0q0BTkfU6wKvDfVq2IImbYFn9QA3oMB
+8ayVM8EYX1/CMwUQwHd0iPxKcQu27KyPTbSl1w98z+LpbpckeC/+P8ZpaNGwWPy2
+bIsOlPb/WBoTCmwenfVB+BjExY/EQ2bZDuVxron5DlLHRQeYGnJpb0uzg4Ks2DEI
+YtcnurTCC9h0i+CZymsNvUQyjEXgzXIAsFn8InvCOsgGGbmAeDat1AR1Mo6nSU8j
+nxACOZ1/mCNKHZiGXekzJcvbVjKI9QEpbgH4AI897WP2CPjWLtoLqNvQtUaAPnII
+hOGe+IQgXXaW85vFnKuAZfWxcLWpHnf0g1dKOHJ1ZUC3zNIQt1qm/S45SMpjcW3D
+k7RcVSvrGXetKflEUwYbrn1zCQPf77VJTV+izOYZaTBIrbi5133RDqg4gJJOg+Hk
+gWZPiKL5B7ra4+ZYk2TJeS0cnD/D4LS79wu8uBtKP000vgqlwNjDbbQ3dsBZSZlu
+smKjmlsHNf0Z2xf0bbHTboTCqRTmG0fkRAoBAlvTJPVdknIIFtA=
+=DN2u
+-----END PGP SIGNATURE-----
+
+--mKzi7A47K4kDo+y4--
 
