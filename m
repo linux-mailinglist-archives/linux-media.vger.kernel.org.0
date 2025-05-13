@@ -1,121 +1,124 @@
-Return-Path: <linux-media+bounces-32408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32409-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469A5AB5807
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 17:06:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF6AAB5827
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 17:12:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5D6387AF5C6
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 15:05:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19C023A7E06
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 15:11:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2CB028DF0B;
-	Tue, 13 May 2025 15:06:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546712BCF6D;
+	Tue, 13 May 2025 15:11:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hJiw6hPi"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="NIMtKrE7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EB21ACEC7
-	for <linux-media@vger.kernel.org>; Tue, 13 May 2025 15:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373A0482F2
+	for <linux-media@vger.kernel.org>; Tue, 13 May 2025 15:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747148808; cv=none; b=rtJNHiD9OfQYqJ0L0TN5a52xceNQEYJ8p1Am7Gr6kyMW4HZ+1TkN0AmpCYeR1XFwAQW0Qz7P9otp7rohAz77MFPVuvdPZe3bQoe2OtyCg/spE9Z0AA/JnECpn1P04yHe/rQhVxQQJH0arVBake+DKGv2dOrUqyjAuxJhywXh3hc=
+	t=1747149081; cv=none; b=i7C1rKK3Wku3guEKfGtiRrDAg2BA3xwI+HRLXZSVmvhzu6dx3Erkeq0+96xPolNDwALYyn0h3RYaEvx+Bflvc1xygstntIw75cp8brQS8FFz2i0LwkLEfePeVVTf4AhsXTMyq8nvoo3jjyhKqohX0gD0sKY0ElgkTO2VvfrunXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747148808; c=relaxed/simple;
-	bh=QJKApr7XJNXpjR44GNJ3GfdVDAk49SmW3369Yfifhf8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hN1hotMgMheyxuKeHRieFz3cGy7M+9p1LtA1lGMF8+r8XjJC9TjxJcKuRkOFDXmsYwjiN/Abon0iglem5G5y3z/Xsa2El92WmnUSl4EMIeX7PFOEF06M6udph9Bwa7DS0bVH5tgG/BgwBxKoUddSZpDZXqT1bxtpCSu27TtlRWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hJiw6hPi; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a0b646eff7so4929822f8f.2
-        for <linux-media@vger.kernel.org>; Tue, 13 May 2025 08:06:46 -0700 (PDT)
+	s=arc-20240116; t=1747149081; c=relaxed/simple;
+	bh=vSuPr7ri2jzEwCjhbZAQ66WU4exRsQXK236Tp2UMrTc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bkZR32eMgvSKdr9p7REFWuJJC/v1QV6zIBgfx1ro96O2fdrd5aq43gnhyO5Nz2d1hm3LHSaBCrohNcAHQURMa0+1cnmDRr+SiJi42kPBr7kz8JtrOSM/CSA0NcLNywill5IsPn4Bz5/7XdgUZZ2Q19GfsR0A04psgeuAW9k2eJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=NIMtKrE7; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6f0c30a1ca3so72411456d6.1
+        for <linux-media@vger.kernel.org>; Tue, 13 May 2025 08:11:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747148805; x=1747753605; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=erPCsUBPE+n+nRQoLBs46ePmP8dEM7YKPcXt3baYKPk=;
-        b=hJiw6hPiysQT1E06Xp+MYAluWfwnL/zZU/hgxMRF4G6YUqBz2ZY3gMyNGJ5EItuTo3
-         15Iv85o+HT5vVyLYiaNnfFQKaGaEUsqcFw0FcNiljcvhaYjExqTFiw9tChNOi+TSDxgj
-         xuepXtl9F0mmM214dcmQDxJCYM3Wn1YZtGUe4S3dxYbkExbQL3qrM+KJWUZTHEYKOIGH
-         FsC6morgwfFpCEmEL1TAIx58GEeCmoWAow3tQLNianem9J4H69KwRotwUYieN1yevLbr
-         EfQpoZ1NvK6AGVXY4SqlIKfM/fiX+YGF8cWwGm7zIxqBTmh1blJll8ZHXsVt+nQDLSdh
-         N2Qg==
+        d=rowland.harvard.edu; s=google; t=1747149079; x=1747753879; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vcA3Z4jzMIZZtYMJRiF5ZNA7Jc6yPVtKd63c9eBjQkY=;
+        b=NIMtKrE7ErXO/DxGs0OJbDz/ob0eD9w7H/g4n6XXbbw7kvx3Ck8UQ9uKVLPPf0H/la
+         M2ylvtvbB6Vhpn8/kmdR7R099XFlOpw9LKlsgNRYnE73VmEsGif8lc/YYYNGgnMpJ8c8
+         sk6KKrxYk36p41GNyNFPv99xwVwizPIMFeeaAgkC4KGTzU7u+lh2AFL/ahEMU8ehDvj0
+         conupw7tuesHfnXT29WTu0+dTf2sl8Bs7Kkw7CFktcM1T3pWTOVUrKjgfmeOGVBQd9ir
+         gZhHfi/UKnqRfPV/ctpBnhboSWA0FO/v4LoajKnXdbD34E7H8sm9Fc9aGkeM0rmiirXz
+         VAXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747148805; x=1747753605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=erPCsUBPE+n+nRQoLBs46ePmP8dEM7YKPcXt3baYKPk=;
-        b=to/KI0FClDZus9Rlh0CUYXN59GHvduZsMbA29uIEh64v7csGSBooRs5CM80mg+y6zq
-         TqcxOFhu8t2q9wMU+UYBQzfZe9fWIId7I7wyueMdC3+OZ25jqBKwXaq+4nWcZgcxOECG
-         grxB89Hzx7busyWK/cUwVUqndulplzjDnhVAzp4MxP+0lwm2QV7yY9SGYR701UQAmI+m
-         qWNe5Cx8OyfUwtUqe7V/EyxbYdmWaPm+GZ+1skjNJRWhBaa1cu693Gw+WNf+wOx1joFl
-         KXFlFPQ4z6Q5D9wzh7EtKKIsAhElZQrXe6E6syILB2ji3DTtJfYL0UwlUt48+byr5l28
-         UBuA==
-X-Gm-Message-State: AOJu0YxPIex1ZiBL234Tty9vY5bkvu/QPNN3ORFHrDlZHdLduympTte1
-	HPOVd756zU05U1JGaBrvziokxs2JCZXxoHMC3YNk3lNKvnPppOCSSf0Ol0pZodbbgPqWqGom3XH
-	5J1hRZg==
-X-Gm-Gg: ASbGnctxhojHExFvz6Yp/Yt3CaBsOer1Oh6B4Yp9tuu0SJ5jjGDG6NLhRILTdI0hDii
-	ctwo5Mt24M8qk3lSo3nixsd2f71fCNNzzblq0ZD0C5SG8Pr4eWRipxEh/i6vPbhPLvLZWGP3Pmu
-	HdVdgt+CHLUp1vb59JAdnFJ/kemNtTL9d9WtltK8zojsPpfb1v8CFpLqFpKCFODRVsFMYB2X6gp
-	lhoqufXilLp/8IlU1T8wBQmgjTo3mY4wXpdQ+jBPOZwAK+kwRHQSj8Sa0yC4fzcPlcIZLuKUuBY
-	l3YaAmpHmuE1u1cWh8boiXUkXZkrzlrd0hDRfwmr6r3255fmHIkTZE9PwlGbQGzmn1XkdgajaHe
-	J0MSlLb32O0CGNA==
-X-Google-Smtp-Source: AGHT+IFgBEqOGN7/vq6eVRhhgQQxF7mXCUlFJVI50PSYPqMAYmlyn6fbQ0E2ootYEZZVkAmqGzuDTg==
-X-Received: by 2002:a5d:64ec:0:b0:3a0:b8b0:43ff with SMTP id ffacd0b85a97d-3a1f64577bfmr15079655f8f.14.1747148804805;
-        Tue, 13 May 2025 08:06:44 -0700 (PDT)
-Received: from [10.61.0.125] (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a2ca31sm16648232f8f.65.2025.05.13.08.06.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 May 2025 08:06:44 -0700 (PDT)
-Message-ID: <6bc6d93f-6d0b-467e-bf9f-784a40ef2207@linaro.org>
-Date: Tue, 13 May 2025 16:06:43 +0100
+        d=1e100.net; s=20230601; t=1747149079; x=1747753879;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vcA3Z4jzMIZZtYMJRiF5ZNA7Jc6yPVtKd63c9eBjQkY=;
+        b=e/KZ7oqpu7vvI8PyY3zwR9kYymJ43lvmlWE6IimxqWNMSDzUhyVRkOSLj2UXsDVMpG
+         9lqKA5/dgoCgQiiTtb0CPnkhLus4k9E1ikUnUhQ4V3qGyDr3kftOa/e+WR/xuYgntZ3d
+         T45mzziVSVvJomVqiolJqWGrDi/4m74Nt4JtgWAUMIr3KjIsNGIjDOzgGK4s9w25z2Tx
+         YK2xtRL9bIhwibx3jd7DlkGlKo93xVU2Dmwvh1coGcIt/mir8/8Dl7XzEXBkl9riPDgB
+         1ZL98dyLsp0LuMmZvp2okeBuuFuHv3hpOWYUsyISG0uvRZj0bvrqc2f2QvfsPOSNKX3y
+         uVmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUU2QvQZX14297snTQfpcQgtzzkGdPkab99w041Jy214/dIyTCgFEWzBIWkyOJetJgmzMrol05nCRKLsQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHclBORJ9b1nPxHP4OYx07aAfGaBjaX2jIbjO6MJsP5ZgEjNYr
+	ZzV8VCAi2GujBBLQsQBdThhpmRn8AGzP4NJldUYQqch9ZGP20FDxOIzttWpT/rqUuDnJByQk6wY
+	=
+X-Gm-Gg: ASbGnctIoNCYlM1LZo02cwim2+FlxTz8TZNMEWBoTok4d9kt9loPBGQXWy+xC/nIZdP
+	FSE1Rqnw68lv7jSUuwsZCAh5bK1JuDVSJuQ4T87puj+0s5JTTcSJ/L72auHr+bDU1qMKynOD3fm
+	N5SkRmeaLz2R7h+4CI8NsOsUHSdcqAm2BPRoyIw+1UldRBhvEG/+quw+Z+iWrOh2IHBAU6ePPvD
+	YUyGnS9An15Vk06r0sIdstn2pfO/tBxU6bjQZC09Hc4mfEPJ4/UeqiEVUSQk+JXT6eljS1t/Vf8
+	uLh6aL533C6wia43lYva0MeUwskjM8fLGuegGkqojaBgymYQIQoAlS0YBlwWgnpp8D9g8A==
+X-Google-Smtp-Source: AGHT+IFE+sCALMsVuAzcyi0CFJEyC2jHv15dAG6xqL5vQvflSMq1MuCrXdzeM+nxcj1DyxaL/2CcbQ==
+X-Received: by 2002:ad4:5d63:0:b0:6f4:cb2e:25ca with SMTP id 6a1803df08f44-6f6e4800ddemr310098676d6.27.1747149078868;
+        Tue, 13 May 2025 08:11:18 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f6eb393f0esm51659016d6.33.2025.05.13.08.11.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 08:11:18 -0700 (PDT)
+Date: Tue, 13 May 2025 11:11:15 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: syzbot <syzbot+99d6c66dbbc484f50e1c@syzkaller.appspotmail.com>
+Cc: gregkh@linuxfoundation.org, hdanton@sina.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-usb@vger.kernel.org, mchehab@kernel.org, paskripkin@gmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] [media?] KASAN: use-after-free Read in
+ em28xx_init_extension (2)
+Message-ID: <ab7652b5-f854-4221-99a3-1c5b192b29ff@rowland.harvard.edu>
+References: <000000000000453f3d05db72fc7e@google.com>
+ <68235ee9.050a0220.f2294.09fc.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH 9/9] MAINTAINERS: add myself as a CAMSS patch reviewer
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hans.verkuil@cisco.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20250513142353.2572563-1-vladimir.zapolskiy@linaro.org>
- <20250513142353.2572563-10-vladimir.zapolskiy@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250513142353.2572563-10-vladimir.zapolskiy@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <68235ee9.050a0220.f2294.09fc.GAE@google.com>
 
-On 13/05/2025 15:23, Vladimir Zapolskiy wrote:
-> Add myself as a review of Qualcomm CAMSS subsystem patches.
+On Tue, May 13, 2025 at 08:02:01AM -0700, syzbot wrote:
+> syzbot has bisected this issue to:
 > 
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
+> commit a368ecde8a5055b627749b09c6218ef793043e47
+> Author: Alan Stern <stern@rowland.harvard.edu>
+> Date:   Thu Jun 27 19:56:18 2024 +0000
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6dbdf02d6b0c..9b973c0128fa 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20135,6 +20135,7 @@ QUALCOMM CAMERA SUBSYSTEM DRIVER
->   M:	Robert Foss <rfoss@kernel.org>
->   M:	Todor Tomov <todor.too@gmail.com>
->   M:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> +R:	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->   L:	linux-media@vger.kernel.org
->   S:	Maintained
->   F:	Documentation/admin-guide/media/qcom_camss.rst
+>     USB: core: Fix duplicate endpoint bug by clearing reserved bits in the descriptor
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12cf6cd4580000
+> start commit:   cd802e7e5f1e Merge tag 'for-linus' of git://git.kernel.org..
+> git tree:       upstream
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=11cf6cd4580000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16cf6cd4580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=91c351a0f6229e67
+> dashboard link: https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=143a7768580000
+> 
+> Reported-by: syzbot+99d6c66dbbc484f50e1c@syzkaller.appspotmail.com
+> Fixes: a368ecde8a50 ("USB: core: Fix duplicate endpoint bug by clearing reserved bits in the descriptor")
+> 
+> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-Acked-by: Bryan O'Donoghue <bod@kernel.org>
+Clearly a ridiculous claim.  Maybe the bug fixed by that commit covered 
+up the actual cause of this problem.
+
+Alan Stern
 
