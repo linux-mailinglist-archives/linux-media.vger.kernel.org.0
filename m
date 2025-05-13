@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-32357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32359-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB02AB4D38
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 09:46:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4936AB4D36
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 09:45:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A4EC178CBF
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 07:45:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4542E3ABF1C
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 07:45:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F194A1F1909;
-	Tue, 13 May 2025 07:45:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 281A11F2BAE;
+	Tue, 13 May 2025 07:45:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="jyLjX5f+"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="iO297zAx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681E61EB19F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE291F151D
 	for <linux-media@vger.kernel.org>; Tue, 13 May 2025 07:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747122341; cv=none; b=HRPDBjIGPLlngnyH9ODMDCUUHCQ0JG8tPnvWCcEUJfsSKDwZoR+7wvfKqywiL+zmY83AnGCeLCPSM5sU4wfy9k2xZoOFWgjL/xRUbCWbOYEKslWbQFuncxqVZYOxu/KqHiKQOj6yFqLJD68PcHYuXzJws7CLRq5j3K5QH0iqESA=
+	t=1747122342; cv=none; b=Oc580y16hWyElFWNkLe8/4tcZODUg9zG+ruitLpbs/qCazdj4aqOW2LL1weSF6X2OaV7rw1kXZB6ye86S7oNau9EWeKSsqYvUza8jpk5yMR1ndCGa7Asv9Qx/z09qPJLBh/x7Z8ULKT+cveDB0I7wPFLk2Y0B7WhlX0O1k0Pu+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747122341; c=relaxed/simple;
-	bh=lsDa0KVNC0AZcujajX3hqhZcO7pA3Rsdh7URxFTaYdA=;
+	s=arc-20240116; t=1747122342; c=relaxed/simple;
+	bh=o7Y7oxzfjUt2JvqbcXZfaoPya3wigB+XD2dgTBnmgO4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gpcbAMjcs7B3uwmPl42RirhYc3SA4aIfjDDnALKmwrHOigJ6EzaezraLFY3nAe1pPpgLtf9Z6o4d2a8uGXGHFLWxJKGb+51x2mWlwUUY1BdwQNLbBvDLKm9C+iwzbM/BUJtQkSYWpRTCUKFyv6K5e9M4xjsG0T6ZgtC83OJ6TU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=jyLjX5f+; arc=none smtp.client-ip=213.97.179.56
+	 MIME-Version; b=uhjIrzLXN42OGI2Euswm6KysgrirMMPvF2q+eN1SKiRzYqdnKDwZ49YvcL+so9epQA8ZfcNKSoOopZcvphL9R12UQBrGqzCs8NCQhDzX26+Jib6Kcw6L55vlJOYxblbTs1I9KVCeIOsRZGqYhloKrf4CPLf1+6QAraBMg2mP7EY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=iO297zAx; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=g3rpD6n1YiYsI0Pm9IK2h3p3UtZO2J250rvvrG+r9rE=; b=jyLjX5f+0VaKLSd9zC9LrxnnHv
-	yDxhEqNjfK+h2bEotOgixVX15lFw7f9lbhP3U3voY8ntjAFeMZfyTlFEIhfITeztplmmorDLzuMDL
-	8yyY/P21Il2Zbl8l0xtHnDajejSQauj8mexTZaeW/44etGLg10rHw/MMhGaBveF35O9zwtdPocGbA
-	hSDu8l5JMnrME45E900iclYKR+d/8NNKaH6IKHSDLJ9lB57z2JW1eNcpfiwe1XAPuQdbQJFfCKwNg
-	G6+JVxmBVbBPPWcpXP3PrEMnGlhPwY/cKW7dy3DsN3UzdufaB0Yagp2Cu7PzgZ/rdTfyA9GmjP531
-	FFKoiWqQ==;
+	bh=ho3rz1YCBup49UXIrD6pA9C2v3Zz4Fvtf4G3Zu60qMA=; b=iO297zAxbHE+8lLFv6fLSQw3//
+	p5STzJDtuOBaz3moN8Z5HQ0dvf3gcDD++omh+R/3fcczRG3AbyC8jMwMATypt+hQsWhqABplI34bu
+	1vm/YroQImaemjOQLlv5v5DoDbESWINdy65PI0w6rYDryEHp9ctgBUoiUlHF9yBVjRt/CupgLO1pE
+	ENeYD7+MmlkBFW7kFheltwuSfb1G4IhUyM1KjM902pFSxP5eKnz8z3nAcPnYlfsueEAA4e5FhND6m
+	9ClDamiqB37FuBHVE/nXLiAR4B7JU9/nVx2Hq3atjmikj5waR0Npd94Q08aDPRfy6uMeroehTT4S0
+	npfwqRKA==;
 Received: from [81.79.92.254] (helo=localhost)
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1uEkF2-007Tv5-Ij; Tue, 13 May 2025 09:45:27 +0200
+	id 1uEkF3-007TvD-BI; Tue, 13 May 2025 09:45:27 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Rob Clark <robdclark@gmail.com>,
@@ -63,9 +63,9 @@ Cc: Rob Clark <robdclark@gmail.com>,
 	linaro-mm-sig@lists.linaro.org,
 	kernel-dev@igalia.com,
 	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [RFC v3 04/10] sync_file: Use dma-fence driver and timeline name helpers
-Date: Tue, 13 May 2025 08:45:07 +0100
-Message-ID: <20250513074513.81727-5-tvrtko.ursulin@igalia.com>
+Subject: [RFC v3 05/10] drm/amdgpu: Use dma-fence driver and timeline name helpers
+Date: Tue, 13 May 2025 08:45:08 +0100
+Message-ID: <20250513074513.81727-6-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250513074513.81727-1-tvrtko.ursulin@igalia.com>
 References: <20250513074513.81727-1-tvrtko.ursulin@igalia.com>
@@ -75,44 +75,58 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Access the dma-fence internals via the previously added helpers.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/sync_file.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Drop the macro while at it, since the length is now more manageable.
 
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index d9b1c1b2a72b..212df4b849fe 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -137,8 +137,8 @@ char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
- 		struct dma_fence *fence = sync_file->fence;
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+index 11dd2e0f7979..4c61e4168f23 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+@@ -32,9 +32,6 @@
+ #define TRACE_SYSTEM amdgpu
+ #define TRACE_INCLUDE_FILE amdgpu_trace
  
- 		snprintf(buf, len, "%s-%s%llu-%lld",
--			 fence->ops->get_driver_name(fence),
--			 fence->ops->get_timeline_name(fence),
-+			 dma_fence_driver_name(fence),
-+			 dma_fence_timeline_name(fence),
- 			 fence->context,
- 			 fence->seqno);
- 	}
-@@ -262,9 +262,9 @@ static long sync_file_ioctl_merge(struct sync_file *sync_file,
- static int sync_fill_fence_info(struct dma_fence *fence,
- 				 struct sync_fence_info *info)
- {
--	strscpy(info->obj_name, fence->ops->get_timeline_name(fence),
-+	strscpy(info->obj_name, dma_fence_timeline_name(fence),
- 		sizeof(info->obj_name));
--	strscpy(info->driver_name, fence->ops->get_driver_name(fence),
-+	strscpy(info->driver_name, dma_fence_driver_name(fence),
- 		sizeof(info->driver_name));
+-#define AMDGPU_JOB_GET_TIMELINE_NAME(job) \
+-	 job->base.s_fence->finished.ops->get_timeline_name(&job->base.s_fence->finished)
+-
+ TRACE_EVENT(amdgpu_device_rreg,
+ 	    TP_PROTO(unsigned did, uint32_t reg, uint32_t value),
+ 	    TP_ARGS(did, reg, value),
+@@ -168,7 +165,7 @@ TRACE_EVENT(amdgpu_cs_ioctl,
+ 	    TP_ARGS(job),
+ 	    TP_STRUCT__entry(
+ 			     __field(uint64_t, sched_job_id)
+-			     __string(timeline, AMDGPU_JOB_GET_TIMELINE_NAME(job))
++			     __string(timeline, dma_fence_timeline_name(&job->base.s_fence->finished))
+ 			     __field(unsigned int, context)
+ 			     __field(unsigned int, seqno)
+ 			     __field(struct dma_fence *, fence)
+@@ -194,7 +191,7 @@ TRACE_EVENT(amdgpu_sched_run_job,
+ 	    TP_ARGS(job),
+ 	    TP_STRUCT__entry(
+ 			     __field(uint64_t, sched_job_id)
+-			     __string(timeline, AMDGPU_JOB_GET_TIMELINE_NAME(job))
++			     __string(timeline, dma_fence_timeline_name(&job->base.s_fence->finished))
+ 			     __field(unsigned int, context)
+ 			     __field(unsigned int, seqno)
+ 			     __string(ring, to_amdgpu_ring(job->base.sched)->name)
+@@ -585,8 +582,6 @@ TRACE_EVENT(amdgpu_reset_reg_dumps,
+ 		      __entry->address,
+ 		      __entry->value)
+ );
+-
+-#undef AMDGPU_JOB_GET_TIMELINE_NAME
+ #endif
  
- 	info->status = dma_fence_get_status(fence);
+ /* This part must be outside protection */
 -- 
 2.48.0
 
