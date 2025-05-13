@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-32364-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32360-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C819AB4D3C
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 09:46:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E629AB4D37
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 09:46:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A54A03ADA79
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 07:45:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8AB471B4299C
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 07:46:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A4A01F4180;
-	Tue, 13 May 2025 07:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44F4A1F2C52;
+	Tue, 13 May 2025 07:45:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="J2P5U5ki"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Doi9B0lp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B0C1F2B90
-	for <linux-media@vger.kernel.org>; Tue, 13 May 2025 07:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD8D1F1518
+	for <linux-media@vger.kernel.org>; Tue, 13 May 2025 07:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747122344; cv=none; b=rPX0OMpDyLk/TZNxPl1ybs/7xWQatBW5g47MKKMY7lwH2yAoo+zr5mGWbqeQSDOF40iEVfSY9gL83V8sDUYEqFSvQtOhMjEzcH49LDxaRq3k22DNpjD6MwWqrTjCkhmajEbPoGDRS/rL3hEUrWeZvk8usWq4tjFjKEfcLHSC7SM=
+	t=1747122342; cv=none; b=DSoh2fYSc2L6sCKMU1VX2oDylChINqijcHb9EvtRsFUVU1Aei8ow1xDsNZ86RwlyNIg+lXA2YrYPJeXmq3XczJlPWvU0kXOdSwW8YPt3BykzBT3JxeIahM3pItE5BASCAhsuGVkSfs69O/auSbFVMsHlLHzKlCy9BTvF9TGfy2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747122344; c=relaxed/simple;
-	bh=7rC1XHL5yOG3dH2mke8Uaix3Iaus1Tuaz/T3Ml7gNO0=;
+	s=arc-20240116; t=1747122342; c=relaxed/simple;
+	bh=mm3T95yPNJCJKm7ul0ljcoGrse7c08BGKxdbCOxTRWI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WacyeGgqD2Tb9E78lfYZzXseAaAdc0xO3KOfSInZGgCFafql4GC6u+qf+FXVvpnZRap3pro/6zWdnR99s80yuzRehkbG1AVl8jN88dAD1OYKMnEXQRsIdD09jo23xc7Z45CfQKsTbq+FErEw311OpyeCfc1nZxVJoSO4TKDIwkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=J2P5U5ki; arc=none smtp.client-ip=213.97.179.56
+	 MIME-Version; b=YWQRKxxFuv1i5EHzWFmmI2zyIuUNnTfOG95HUoLY5J986whYSwhgyakM4xZGHVf/Bc9ePOtR1zpfGpu3aEvyQigzYTHVhyGwbCRH1Y/5UUUR/mYXEPOsxIB7Wh5YWcGLqoERal4DXevIRugrS5zk6aC2nTd3nZkN2fWadiM0tOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Doi9B0lp; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
@@ -37,16 +37,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=MHWm1lnij9INTZ75KxNAb0yXxdRyZ8i48YodeRz32Tg=; b=J2P5U5kiwPXSzN40l348WXAfog
-	tAyPEdj+aD8kLsvrV2LdHTdYsWnN8jIusdGmn64BG7fQESGqZlIwWLk90ZYvMHTsqiglIFiLXjOXL
-	LDBYG8NVabP2+BZfa6eP3B4fq0VjjClXW7Kyr8a8kESm3jw4y4OSCn2h8e2DEXD9sdyjpHL5oxyjl
-	MNgPSIFjaL5jmyI8gQDiaKp6z9VXNUJx7ts+Np7jhlTwulnRaBWEcFziH8MF2ukJPxV9+iTFgfJfd
-	eTMYVBgTDGLkTQ+WrWWJz8DGvjTunYy6ol8HflIzdA+SyJ/+P9bqHS++ZT8mCCAayi2G9qx4yiXrK
-	FrMOiCtg==;
+	bh=uJmrj7E/JEd6hvrOvkRFlGZ+sDXBpTCTR2Oodnvtztg=; b=Doi9B0lpb6IqaW0H1ZwYuLgNYj
+	1EZl68sruqlBx1eM6uDjBddzJ/GRjdS937WzNcHzSOSXxNjsKn5oVqLc8R26OopYki8ny05nfCjuL
+	VMNnEOfotnnJfRh9qD/uakYjAZhKR+6HW+wsBtaQEQE8oRo+z+bjXZE8loPxqB5HcisXpLfeXAf0c
+	zHwH6S3ZdGU+L/+aVA3lDSgs9Tc8XvcVR4tvUb712hk3Yxcrc4Gk4cnoLpuEqkSqdRbvTje0FpH/O
+	UoSfYSq7AppICE3BGP58TRGMeNmE5CkIkWRQG/YPMt5jiNTCJBP0ZZcEClqlNnsizCySHndF+zz4H
+	48ou6++Q==;
 Received: from [81.79.92.254] (helo=localhost)
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1uEkF6-007Tvt-EU; Tue, 13 May 2025 09:45:30 +0200
+	id 1uEkF7-007Tw1-6q; Tue, 13 May 2025 09:45:31 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Rob Clark <robdclark@gmail.com>,
@@ -63,9 +63,9 @@ Cc: Rob Clark <robdclark@gmail.com>,
 	linaro-mm-sig@lists.linaro.org,
 	kernel-dev@igalia.com,
 	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [RFC v3 09/10] drm/i915: Protect access to driver and timeline name
-Date: Tue, 13 May 2025 08:45:12 +0100
-Message-ID: <20250513074513.81727-10-tvrtko.ursulin@igalia.com>
+Subject: [RFC v3 10/10] drm/xe: Make dma-fences compliant with the safe access rules
+Date: Tue, 13 May 2025 08:45:13 +0100
+Message-ID: <20250513074513.81727-11-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250513074513.81727-1-tvrtko.ursulin@igalia.com>
 References: <20250513074513.81727-1-tvrtko.ursulin@igalia.com>
@@ -77,81 +77,80 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Protect the access to driver and timeline name which otherwise could be
-freed as dma-fence exported is signalling fences.
+Xe can free some of the data pointed to by the dma-fences it exports. Most
+notably the timeline name can get freed if userspace closes the associated
+submit queue. At the same time the fence could have been exported to a
+third party (for example a sync_fence fd) which will then cause an use-
+after-free on subsequent access.
+
+To make this safe we need to make the driver compliant with the newly
+documented dma-fence rules. Driver has to ensure a RCU grace period
+between signalling a fence and freeing any data pointed to by said fence.
+
+For the timeline name we simply make the queue be freed via kfree_rcu and
+for the shared lock associated with multiple queues we add a RCU grace
+period before freeing the per GT structure holding the lock.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_requests.c | 2 ++
- drivers/gpu/drm/i915/i915_request.c         | 5 +++--
- drivers/gpu/drm/i915/i915_sw_fence.c        | 2 ++
- 3 files changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/xe/xe_guc_exec_queue_types.h | 2 ++
+ drivers/gpu/drm/xe/xe_guc_submit.c           | 7 ++++++-
+ drivers/gpu/drm/xe/xe_hw_fence.c             | 3 +++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-index ae3557ed6c1e..11fca24c8b5b 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-@@ -251,10 +251,12 @@ void intel_gt_watchdog_work(struct work_struct *work)
- 		if (!i915_request_completed(rq)) {
- 			struct dma_fence *f = &rq->fence;
+diff --git a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
+index 4c39f01e4f52..a3f421e2adc0 100644
+--- a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
++++ b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
+@@ -20,6 +20,8 @@ struct xe_exec_queue;
+ struct xe_guc_exec_queue {
+ 	/** @q: Backpointer to parent xe_exec_queue */
+ 	struct xe_exec_queue *q;
++	/** @rcu: For safe freeing of exported dma fences */
++	struct rcu_head rcu;
+ 	/** @sched: GPU scheduler for this xe_exec_queue */
+ 	struct xe_gpu_scheduler sched;
+ 	/** @entity: Scheduler entity for this xe_exec_queue */
+diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+index fb125f940de8..879a4474bf51 100644
+--- a/drivers/gpu/drm/xe/xe_guc_submit.c
++++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+@@ -1291,7 +1291,11 @@ static void __guc_exec_queue_fini_async(struct work_struct *w)
+ 	xe_sched_entity_fini(&ge->entity);
+ 	xe_sched_fini(&ge->sched);
  
-+			dma_fence_access_begin();
- 			pr_notice("Fence expiration time out i915-%s:%s:%llx!\n",
- 				  dma_fence_driver_name(f),
- 				  dma_fence_timeline_name(f),
- 				  f->seqno);
-+			dma_fence_access_end();
- 			i915_request_cancel(rq, -EINTR);
- 		}
- 		i915_request_put(rq);
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 4874c4f1e4ab..8008b7767641 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -2184,7 +2184,6 @@ void i915_request_show(struct drm_printer *m,
- 		       const char *prefix,
- 		       int indent)
- {
--	const char *name = dma_fence_timeline_name((struct dma_fence *)&rq->fence);
- 	char buf[80] = "";
- 	int x = 0;
+-	kfree(ge);
++	/*
++	 * RCU free due sched being exported via DRM scheduler fences
++	 * (timeline name).
++	 */
++	kfree_rcu(ge, rcu);
+ 	xe_exec_queue_fini(q);
+ 	xe_pm_runtime_put(guc_to_xe(guc));
+ }
+@@ -1474,6 +1478,7 @@ static int guc_exec_queue_init(struct xe_exec_queue *q)
  
-@@ -2220,6 +2219,7 @@ void i915_request_show(struct drm_printer *m,
+ 	q->guc = ge;
+ 	ge->q = q;
++	init_rcu_head(&ge->rcu);
+ 	init_waitqueue_head(&ge->suspend_wait);
  
- 	x = print_sched_attr(&rq->sched.attr, buf, x, sizeof(buf));
- 
-+	dma_fence_access_begin();
- 	drm_printf(m, "%s%.*s%c %llx:%lld%s%s %s @ %dms: %s\n",
- 		   prefix, indent, "                ",
- 		   queue_status(rq),
-@@ -2228,7 +2228,8 @@ void i915_request_show(struct drm_printer *m,
- 		   fence_status(rq),
- 		   buf,
- 		   jiffies_to_msecs(jiffies - rq->emitted_jiffies),
--		   name);
-+		   dma_fence_timeline_name((struct dma_fence *)&rq->fence));
-+	dma_fence_access_end();
+ 	for (i = 0; i < MAX_STATIC_MSG_TYPE; ++i)
+diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+index 03eb8c6d1616..b2a0c46dfcd4 100644
+--- a/drivers/gpu/drm/xe/xe_hw_fence.c
++++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+@@ -100,6 +100,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+ 		spin_unlock_irqrestore(&irq->lock, flags);
+ 		dma_fence_end_signalling(tmp);
+ 	}
++
++	/* Safe release of the irq->lock used in dma_fence_init. */
++	synchronize_rcu();
  }
  
- static bool engine_match_ring(struct intel_engine_cs *engine, struct i915_request *rq)
-diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
-index e51ca7e50a4e..e7bdc1165b90 100644
---- a/drivers/gpu/drm/i915/i915_sw_fence.c
-+++ b/drivers/gpu/drm/i915/i915_sw_fence.c
-@@ -434,11 +434,13 @@ static void timer_i915_sw_fence_wake(struct timer_list *t)
- 	if (!fence)
- 		return;
- 
-+	dma_fence_access_begin();
- 	pr_notice("Asynchronous wait on fence %s:%s:%llx timed out (hint:%ps)\n",
- 		  dma_fence_driver_name(cb->dma),
- 		  dma_fence_timeline_name(cb->dma),
- 		  cb->dma->seqno,
- 		  i915_sw_fence_debug_hint(fence));
-+	dma_fence_access_end();
- 
- 	i915_sw_fence_set_error_once(fence, -ETIMEDOUT);
- 	i915_sw_fence_complete(fence);
+ void xe_hw_fence_irq_run(struct xe_hw_fence_irq *irq)
 -- 
 2.48.0
 
