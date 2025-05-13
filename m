@@ -1,272 +1,180 @@
-Return-Path: <linux-media+bounces-32374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32375-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CA7AB5108
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 12:08:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CCAAB510B
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 12:08:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B1A3516550A
-	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 10:06:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7E4A3A5DC0
+	for <lists+linux-media@lfdr.de>; Tue, 13 May 2025 10:06:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97FBC2441B8;
-	Tue, 13 May 2025 10:03:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89AEE2459CD;
+	Tue, 13 May 2025 10:04:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Aa++FkZ3"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="bXTcTOeM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2082.outbound.protection.outlook.com [40.107.94.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321BA239E76;
-	Tue, 13 May 2025 10:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747130619; cv=fail; b=cHHFi8Mj2V/TzRNT2pov9g+b+7UjuMcO19yYMkO0MKhsJDOTD0qs4xtPlvd8rACk2gd3nstHNO/u2A2jvwHErKgLikdAQLzFm+VQYETac/RwCZUXmiVCdQtdGNgoiA92WCj72MiKL2esvBTUbxUmIv6HPBt61Mqf174ha+T7m1s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747130619; c=relaxed/simple;
-	bh=Yzk0QWfAN2OR4a259aYE6qQ7N1ZEOe8wWjRZJNkYAHw=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oqO6AlUmxlXxPczTQFvZSCHBPVHJr94P9f786RNY2U24Y4blmHAoyGsJbVPyZ8BkRc4+pd55f7+gqzwhswjW7y7+xfqtsQT/UCYnGYTRL/7VD1Pbkdjf/kJrS0f3ftuRwd3jV9TjxUOVOoVxbf2orBlohXSGdXn5MnhS/5ucuy8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Aa++FkZ3; arc=fail smtp.client-ip=40.107.94.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jG3qt3hZWek46HEC9STrzKH2CWs/wUKJaSA7D95vk4VTDfT//EB/sLLVBR+YVODeY+fLV/gpDKhSFd7AC8Hl4K++4ZKxSVlaUZsVCSV45KgyP2Bz5kNjSNqeVDiZpefulArGk+/A4yTkNDNlhXQii3wGSWLdJLKsUTCNKdpSaGobFeMZjsxsJzFv2+PtcgGvk0TY2iIe68B0l0z/Uh6Xxd9bzMWUFBt+2BhFhnZcC9OuPXCUF2N9QS+ETzLkxRcKzw3WqX4nz7Irc2fxBW99zo/agKHwrQeZnchNoJdh+oIiwKxZfBWG68sOHWZakbflAyylOldaptVbF5KvIMTSHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gaRObd/VWs1UcjVD7ye9pl5tS6hdkHEnfs4rsHAcpHI=;
- b=r1uPCNmUmIm4tom1OSg6m1ErVFLHQ5ZrrNjkXZWtO4xQCFX4au0EVA/mpPySp2LM0u7TEPaTGNonkSlCFZ7mE+TIw0N3GeLg5XmfpTW4r60I5U23AXfWcjzkEhjdOw9JTrGmYFuyrePK6MS1bY75NET8Oug6aDD4RW+3aOYqFt5OLAFPPQxVaRRD3Vqa6FPIM2gVQQyMR4sPXrwywK1bzaYONZyyJ12Mw8usp1SB/bVeYQ2NYGCyicBwI5E7BorW3ITMtMPToqu9FN3vNa8hKWseUBV7UCuydhEo6MBuFHnYWoKJv5y8/mmo6XGYliKBJuMpfOihZJR+vipIDgVRZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gaRObd/VWs1UcjVD7ye9pl5tS6hdkHEnfs4rsHAcpHI=;
- b=Aa++FkZ3N6hnjcCokh6AoYXGrio1pA6TKNt3Frcuete+s6255sUwel6LQBAEx9G3UNRoA+pEriqFPNtUkLXTkTtAH8EBftuA4U55RmQM7Q43rYitg1sfTk+5D+wZIC+Dxa7ZqoI2TkJ3/zrLJd7jkEBwjQqtf3WbKbuTr7TcwqbrLSzkaReVU1HkUXimJiBEI9yqA2OSZDrAA9Lzexocw95gWQch657W4cuLl8frmmu3MOxBKwPc3hUgYZ5Ao+VlzArB27iHKplbuQoq8tHrtJzWDDdhG0h0aM3pMwHqls6W4A0PPVNZNVK/5wIh5B4yh0BcxwsakTrmWcUeK1RbRw==
-Received: from PH0P220CA0016.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:d3::19)
- by DS7PR12MB6311.namprd12.prod.outlook.com (2603:10b6:8:94::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Tue, 13 May
- 2025 10:03:32 +0000
-Received: from SJ1PEPF000023DA.namprd21.prod.outlook.com
- (2603:10b6:510:d3:cafe::1) by PH0P220CA0016.outlook.office365.com
- (2603:10b6:510:d3::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.28 via Frontend Transport; Tue,
- 13 May 2025 10:03:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SJ1PEPF000023DA.mail.protection.outlook.com (10.167.244.75) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8769.1 via Frontend Transport; Tue, 13 May 2025 10:03:32 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 13 May
- 2025 03:03:21 -0700
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 13 May
- 2025 03:03:21 -0700
-Received: from inno-thin-client (10.127.8.11) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Tue, 13
- May 2025 03:03:16 -0700
-Date: Tue, 13 May 2025 13:03:15 +0300
-From: Zhi Wang <zhiw@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Alexey Kardashevskiy <aik@amd.com>, Xu Yilun <yilun.xu@linux.intel.com>,
-	<kvm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-	<sumit.semwal@linaro.org>, <christian.koenig@amd.com>, <pbonzini@redhat.com>,
-	<seanjc@google.com>, <alex.williamson@redhat.com>,
-	<vivek.kasireddy@intel.com>, <dan.j.williams@intel.com>,
-	<yilun.xu@intel.com>, <linux-coco@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <lukas@wunner.de>, <yan.y.zhao@intel.com>,
-	<daniel.vetter@ffwll.ch>, <leon@kernel.org>, <baolu.lu@linux.intel.com>,
-	<zhenzhong.duan@intel.com>, <tao1.su@intel.com>
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <20250513130315.0158a626.zhiw@nvidia.com>
-In-Reply-To: <20250512140617.GA285583@nvidia.com>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
-	<371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
-	<4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
-	<c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
-	<aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
-	<aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
-	<20250509184318.GD5657@nvidia.com>
-	<aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
-	<2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
-	<20250512140617.GA285583@nvidia.com>
-Organization: NVIDIA
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D80C23C504
+	for <linux-media@vger.kernel.org>; Tue, 13 May 2025 10:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747130662; cv=none; b=Y/Rhb6I/XmwWvXiOBXScQ/k5pgSZMXI+rUvV9lmqNh8uunvixyLfoyt14HtlH/dlk5mPksG3BvifsdbMw983+NnLnCEbbnahJBUUDgVi1qa9Y1xDO+GB+bq8WIRdDmwusohBlYX3n7S+axUretjLsjbneArNqTd72CH9Sq19Ipw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747130662; c=relaxed/simple;
+	bh=zEfhytstlDkqj82UOmgoPZOLmKEXdL1GRGuVw5WQqjU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XNmnBb3O6RScuKqn75WE3l/GRmrjb7Ojyx3KYTC4VwxuSPhny9Lfa2B+uerrF4We5oslifSlFXXJdNwZ04NIy14ZtKuTsSroiNStQLJteGMJYdL6j9ZZN4B82P0WDht0ygk4+QVi4PzgkzHVsq4C5D9nkSYMOXsAzqVDmbwIKW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=bXTcTOeM; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a0b9af89f2so3229534f8f.3
+        for <linux-media@vger.kernel.org>; Tue, 13 May 2025 03:04:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1747130658; x=1747735458; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=zEfhytstlDkqj82UOmgoPZOLmKEXdL1GRGuVw5WQqjU=;
+        b=bXTcTOeM4Sk+kG6iE+o+W7wNRbb/RLwjjYtmGKp2AjdE7JpMb+vNG4bwFR8OnYuVnv
+         u3/YAobRtij8V6nAAZc86arXf+rVW51hCdZMOBLW7PDSUdCXlQ+ZNuHhpZiN6VTzImpQ
+         l3HCcIZAewpDQburTrnkNZas/RsQ7BNFScWLkLNjerBvug2MR6W6+bwqPin06sCi7aLt
+         33ba8EH6af34+lN/j8VmDg3GjASU67ddzn3gn5WfmXSq49mqEgWU0oX0I+cmMANQgjWH
+         cR+4bCWEVDi+CLPMOhxbnhsjoPHxRlNtqjKFw3F3TRIRxrTlZvjYWX4wuasFFTk1W6n5
+         7W8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747130658; x=1747735458;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zEfhytstlDkqj82UOmgoPZOLmKEXdL1GRGuVw5WQqjU=;
+        b=MyUB/M2+XmLVbbWVHq5nwLuSoIbE6yU8S/bbaVYdARPgzZvetKgRF9DMdeYAnhLE4U
+         jjJjg6FXmnchXq4eq/bs2X5WufPvMpEtEKOoAq2y5c1gDpSEhomQAX4WSPz8+SKlG3f5
+         EdCh2jQc/8FtACZwW/xem8VnmQHsDD2PPeJbadQHx5SY7XiwMpjZjpqhsAstbTrwFlSM
+         yYf3BZNW4ybtbzqRXTKx66EAKksS7Uln3vq+VdNC0S5CtcBHsWWJvJZqdQGCvR9+3qKg
+         NraOBo5H22PDpGgGKxYcLtb6c46g4QvCBKCOqqzYUPuzFh2d9xivVz1XhZ+MYXOgPIwn
+         mL1A==
+X-Forwarded-Encrypted: i=1; AJvYcCWHtVYKkTNZveVT1Ih2BR08anBU5+t1uuceIyC5QQYcUwXOWNhtqJ5xtLfjKnSndPpkVNtrYy+ooJ+N8A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwurGQlOt9BybwKwHK10QFCwySAiuwj4XRV4/PAs9+gqGXHu0U3
+	YfcBHP9Imx09B6qlz3pxDbTw6PRog6daL93NXBng9KOkdrUeysSYd9NgCMsXrIM=
+X-Gm-Gg: ASbGnctpV73XceqkMiYHOCF7tCtq4/CrlMV58xmnL2ncc32a+ExApKQhfJR7v/ZA8QL
+	IPlHiV8BZiM3YMakYuB6i24SwSe+IlcLQFDybYtCvfxuv8hZMaY2rQIwOstMyqQADSXw6Wi5ld7
+	8qnq3FEksodhhOZiimmTVx8qhk9jKIxgPYrMlr5sTusU9LkDmau7UkUGcqME/+F/o6YdXsSf1o7
+	2e+wUxaP+ZT/zKREqQMo9CZir9kXHO88BKSGdTzT2fOPKLWdOqvyerPS5UO4ADRdSS/wPBvGkQ8
+	SE++YOu546ZWfFE29tEUaz7vQPLKzzfJfFTdS4lvcTJfTdxAg/fLn0VV5NOGnCyCyg==
+X-Google-Smtp-Source: AGHT+IEdriQ4E+qJOA7Zn6jtHYXEGP6UeOKil83wAlQ3vQyDskBhkG/wY/RDNFCv5Lv0GFRWF0q0Qw==
+X-Received: by 2002:a05:6000:2212:b0:3a3:2aa5:11bc with SMTP id ffacd0b85a97d-3a32aa511d4mr2343546f8f.54.1747130658372;
+        Tue, 13 May 2025 03:04:18 -0700 (PDT)
+Received: from [10.68.117.232] ([146.0.27.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58ecb46sm15728048f8f.30.2025.05.13.03.04.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 03:04:17 -0700 (PDT)
+Message-ID: <e5cd5e9d64123b319bae1a73c96cd33a3ad9e805.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 0/4] usb: gadget: uvc: parse configfs entries and
+ implement v4l2 enum api calls
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Greg KH <gregkh@linuxfoundation.org>, Krzysztof Opasiak
+	 <krzysztof.opasiak@neat.no>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Michael Grzeschik	
+ <m.grzeschik@pengutronix.de>, linux-usb@vger.kernel.org, 
+	linux-media@vger.kernel.org, balbi@kernel.org, paul.elder@ideasonboard.com,
+ 	kernel@pengutronix.de, kieran.bingham@ideasonboard.com
+Date: Tue, 13 May 2025 12:04:17 +0200
+In-Reply-To: <2025051317-deflation-discuss-1201@gregkh>
+References: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
+	 <Y4u+9g/gIneGZrlZ@pendragon.ideasonboard.com> <Y4xaXHLoiPupWM6V@kroah.com>
+	 <b2e943a1-fc0e-4dd2-b38e-a1d77ed00109@neat.no>
+	 <2025051253-trimmer-displease-1dde@gregkh>
+	 <f07db888-8342-491b-86b1-43309a1d2456@neat.no>
+	 <696f471b-c2d9-4733-9795-0fc31a48e6f8@neat.no>
+	 <2025051317-deflation-discuss-1201@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023DA:EE_|DS7PR12MB6311:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab41a2ea-b404-49b8-8b3c-08dd92056b04
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?FBTRgrdUa0Lxh/Xzv9W87W2IrSm8hADYDkDTZgWQO2Fjoqj94ZGT5jcsun7f?=
- =?us-ascii?Q?Xz/iHR3fxcEwkRJq8zlWbGdeHqKyfBrHuFvRLd8J77SwrXYFAyzgHQgr1dJM?=
- =?us-ascii?Q?dx8a+RZvBMH6/qdDGclf9stdKN6lZLVqy2fMXYmun0/ILGyiFbLa1vxoYF4r?=
- =?us-ascii?Q?s7K5LDAeyN4qBD0d1SF3v/sMJ3+MJN7AoEtVYFiwMHn0yCjkJn3bMuavDstz?=
- =?us-ascii?Q?mGCCRvLsEo+AhfDGcrk9HOcyYGiEKyg1hsMBqOoGO9yh+0sOPX7UDD1x7AQ2?=
- =?us-ascii?Q?f95EXU4CDaD2oDRoNMuFZihUL0P3+/KEB9jDGKbiBQFHCANcttz2LGs9sE6e?=
- =?us-ascii?Q?fUV0m3AApF+2YejhPcMetpu60XnMXjfG1QbVbYcSnCz7NwezJBfa+xuHPYLv?=
- =?us-ascii?Q?3YFsFyoKX2Z9U2GWiHmih821aiVo+wiEZL+MZzrpXmuSb62PRmL4t56/opRF?=
- =?us-ascii?Q?VWGbaYc/yszVi6JrkUH0fprI1k7Vmu9uLwAdEciMsY4tCdYCFZguAlXPidpu?=
- =?us-ascii?Q?m2wQudVjM/i5QQ361qDyW1Kd3JQummIn7mTS2X7vPAA8qLWWDTHUpSkqR4KC?=
- =?us-ascii?Q?vk/sd7E/Qb1UQcNj3v4kg2qfVWlA4KvzemCQ1Oh1mJEy6kSCJ93oFCL2rLm4?=
- =?us-ascii?Q?nsmeHe9GOOb0Y43Q2EX2tMZwS432P8RomM9g/VbCgS3oxsV9cms3fa1IMd6y?=
- =?us-ascii?Q?PhcyK5iI7ld+AdIslGE0dLI0WuWkA1tdVNijQeJSu9qNPdLDarC0C58IL1At?=
- =?us-ascii?Q?mEWoHRe5PUKWKU1ogLAwR0Um47pbkaPEGuk1hK0flDPlte+hunxH+lujCF25?=
- =?us-ascii?Q?kn0cJhILpP+LjMyIINMmv7mj+y8iNhgA+JMG8NhiRMf6UR9rmbAekplfy9PV?=
- =?us-ascii?Q?+xPoW3RXhY9CYfcx1iIoqqK5JBS6P5ZDFlVAN34JSWFUIzhbrpsx7Vyvl6XP?=
- =?us-ascii?Q?Ji1Qoc6uXzTFJ//TRvxCDdTLKGR8MrFiIGQat5IcUdGjgBQX24FxNvTx5kwY?=
- =?us-ascii?Q?joaou6v2evInAWr/u71vVpWTx1VgbwhvqBeeU/qhhh4g/1qBG0RdesDhs9P4?=
- =?us-ascii?Q?cPK43o5c+Y/2qCDVsL+2Ca0RNEVQgjw+A53NFX9CBmntVtZATni0ksMT8IAw?=
- =?us-ascii?Q?Jrp+Ow9yuscgYFM4zdsKhW98iQwnnoA+XZM2GYKdToiFNdW8LVTIgcWyp5hX?=
- =?us-ascii?Q?BC/EUbZcgIYROH0He/pj9TJRG/M3CIzASEtMbZN98clMOfMjzqQI9/GMddm9?=
- =?us-ascii?Q?CwPiBCoCOFVHqFFk9XkeDhAmGsjQo2uG7fVeus9xaOSnLRUZcTnpyfBQ+rVj?=
- =?us-ascii?Q?hwoZXmKY+r9i3pQcyVZCRZIdB/F+5MahYzCUXczecD1h5eaTQDKRYAfJAzVs?=
- =?us-ascii?Q?djuFVeLPu7IsbF03zXtTg5OBipU2JKfsS3kW7BKG3xCsesxVpFTiq/VrZNJL?=
- =?us-ascii?Q?K0YFxdzKclSkYtd3MOln5D1mkWbthZ0Y8HNuyTcCaO73QAbULyjUT/Plw4xU?=
- =?us-ascii?Q?5k9Fsw2T1+ligEV/AJFZtbrXyGIfw3xmK2Fa?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 10:03:32.3387
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab41a2ea-b404-49b8-8b3c-08dd92056b04
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000023DA.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6311
 
-On Mon, 12 May 2025 11:06:17 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+Hi Greg, Krzysztof,
 
-> On Mon, May 12, 2025 at 07:30:21PM +1000, Alexey Kardashevskiy wrote:
-> 
-> > > > I'm surprised by this.. iommufd shouldn't be doing PCI stuff,
-> > > > it is just about managing the translation control of the device.
-> > > 
-> > > I have a little difficulty to understand. Is TSM bind PCI stuff?
-> > > To me it is. Host sends PCI TDISP messages via PCI DOE to put the
-> > > device in TDISP LOCKED state, so that device behaves differently
-> > > from before. Then why put it in IOMMUFD?
-> > 
-> > 
-> > "TSM bind" sets up the CPU side of it, it binds a VM to a piece of
-> > IOMMU on the host CPU. The device does not know about the VM, it
-> > just enables/disables encryption by a request from the CPU (those
-> > start/stop interface commands). And IOMMUFD won't be doing DOE, the
-> > platform driver (such as AMD CCP) will. Nothing to do for VFIO here.
-> > 
-> > We probably should notify VFIO about the state transition but I do
-> > not know VFIO would want to do in response.
-> 
-> We have an awkward fit for what CCA people are doing to the various
-> Linux APIs. Looking somewhat maximally across all the arches a "bind"
-> for a CC vPCI device creation operation does:
-> 
->  - Setup the CPU page tables for the VM to have access to the MMIO
->  - Revoke hypervisor access to the MMIO
->  - Setup the vIOMMU to understand the vPCI device
->  - Take over control of some of the IOVA translation, at least for
-> T=1, and route to the the vIOMMU
->  - Register the vPCI with any attestation functions the VM might use
->  - Do some DOE stuff to manage/validate TDSIP/etc
-> 
-> So we have interactions of things controlled by PCI, KVM, VFIO, and
-> iommufd all mushed together.
-> 
-> iommufd is the only area that already has a handle to all the required
-> objects:
->  - The physical PCI function
->  - The CC vIOMMU object
->  - The KVM FD
->  - The CC vPCI object
-> 
-> Which is why I have been thinking it is the right place to manage
-> this.
-> 
-> It doesn't mean that iommufd is suddenly doing PCI stuff, no, that
-> stays in VFIO.
-> 
-> > > > So your issue is you need to shoot down the dmabuf during vPCI
-> > > > device destruction?
-> > > 
-> > > I assume "vPCI device" refers to assigned device in both shared
-> > > mode & prvate mode. So no, I need to shoot down the dmabuf during
-> > > TSM unbind, a.k.a. when assigned device is converting from
-> > > private to shared. Then recover the dmabuf after TSM unbind. The
-> > > device could still work in VM in shared mode.
-> 
-> What are you trying to protect with this? Is there some intelism where
-> you can't have references to encrypted MMIO pages?
-> 
+Le mardi 13 mai 2025 =C3=A0 07:04 +0200, Greg KH a =C3=A9crit=C2=A0:
+> On Mon, May 12, 2025 at 11:03:41PM +0200, Krzysztof Opasiak wrote:
+> > On 12.05.2025 12:43, Krzysztof Opasiak wrote:
+> > > On 12.05.2025 12:38, Greg KH wrote:
+> > > > On Mon, May 12, 2025 at 12:19:07PM +0200, Krzysztof Opasiak wrote:
+> > > > > Hi Greg,
+> > > > >=20
+> > > > > On 4.12.2022 09:29, Greg KH wrote:
+> > > > > > On Sat, Dec 03, 2022 at 11:26:14PM +0200, Laurent Pinchart wrot=
+e:
+> > > > > > > Hi Michael,
+> > > > > > >=20
+> > > > > > > On Sat, Sep 10, 2022 at 12:13:31AM +0200, Michael Grzeschik w=
+rote:
+> > [...]
+> > > > >=20
+> > > > > Given that I'd like to suggest that it seems to actually make sen=
+se to
+> > > > > revert this unless there are some ideas how to fix it.
+> > > >=20
+> > > > Sorry about this, can you submit a patch series that reverts the
+> > > > offending commits?=C2=A0 As it was years ago, I don't exactly know =
+what you
+> > > > are referring to anymore.
+> > > >=20
+> > >=20
+> > > Sure! Will do.
+> > >=20
+> >=20
+> > Would you prefer to have a set of actual reverts related to this:
+> >=20
+> > da692963df4e Revert "usb: gadget: uvc: add v4l2 enumeration api calls"
+> > bca75df69aaf Revert "usb: gadget: uvc: add v4l2 try_format api call"
+> > e56c767a6d3c Revert "usb: gadget: uvc: also use try_format in set_forma=
+t"
+> > 20f275b86960 Revert "usb: gadget: uvc: fix try format returns on
+> > uncompressed formats"
+> > 059d98f60c21 Revert "usb: gadget: uvc: Fix ERR_PTR dereference in
+> > uvc_v4l2.c"
+> > e6fd9b67414c Revert "usb: gadget: webcam: Make g_webcam loadable again"
+> >=20
+> > but have a negative consequence that the series isn't really bisectable=
+ from
+> > functional perspective. For example commit e6fd9b67414c breaks g_uvc un=
+til
+> > we apply da692963df4e so the series would have to go in as a whole.
+> >=20
+> > Or you would prefer a single commit that technically isn't a revert but=
+ it
+> > just "undoes" the negative consequences of "usb: gadget: uvc: add v4l2
+> > enumeration api calls" (kind of a squash of all commits above)?
+>=20
+> Ideally we can bisect at all places in the tree, so it's odd that
+> reverting patches would cause problems as when adding them all should
+> have been ok for every commit, right?
+>=20
+> But if there are merge issues, or other problems, then yes, maybe just
+> one big one is needed, your choice.
 
-I think it is a matter of design choice. The encrypted MMIO page is
-related to the TDI context and secure second level translation table
-(S-EPT). and S-EPT is related to the confidential VM's context.
+Won't a plain revert break userspace like GStreamer that have depended on
+that patch for years ? In such a delicate case, wouldn't it be less
+damageable to introduce workaround, like alias ? This is one personal
+script against numerous users of a generic framework implementation.
 
-AMD and ARM have another level of HW control, together
-with a TSM-owned meta table, can simply mask out the access to those
-encrypted MMIO pages. Thus, the life cycle of the encrypted mappings in
-the second level translation table can be de-coupled from the TDI
-unbound. They can be reaped un-harmfully later by hypervisor in another
-path.
+I believe due to the delay, you are facing an unusual ABI breakage, which
+requires a more delicate handling.
 
-While on Intel platform, it doesn't have that additional level of
-HW control by design. Thus, the cleanup of encrypted MMIO page mapping
-in the S-EPT has to be coupled tightly with TDI context destruction in
-the TDI unbind process.
+regards,
+Nicolas
 
-If the TDI unbind is triggered in VFIO/IOMMUFD, there has be a
-cross-module notification to KVM to do cleanup in the S-EPT.
-
-So shooting down the DMABUF object (encrypted MMIO page) means shooting
-down the S-EPT mapping and recovering the DMABUF object means
-re-construct the non-encrypted MMIO mapping in the EPT after the TDI is
-unbound. 
-
-Z.
-
-> > > What I really want is, one SW component to manage MMIO dmabuf,
-> > > secure iommu & TSM bind/unbind. So easier coordinate these 3
-> > > operations cause these ops are interconnected according to secure
-> > > firmware's requirement.
-> >
-> > This SW component is QEMU. It knows about FLRs and other config
-> > space things, it can destroy all these IOMMUFD objects and talk to
-> > VFIO too, I've tried, so far it is looking easier to manage. Thanks,
-> 
-> Yes, qemu should be sequencing this. The kernel only needs to enforce
-> any rules required to keep the system from crashing.
-> 
-> Jason
-> 
-
+>=20
+> thanks,
+>=20
+> greg k-h
 
