@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-32442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F48CAB64FE
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 09:59:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C882AB6518
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 10:02:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C23A167796
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 07:59:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01D8818959F5
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 08:02:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9F4E216386;
-	Wed, 14 May 2025 07:59:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44188210F45;
+	Wed, 14 May 2025 08:01:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A2w1b8mq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D1h/o24m"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4813620010C;
-	Wed, 14 May 2025 07:59:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89059213236;
+	Wed, 14 May 2025 08:01:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747209589; cv=none; b=Zqdk2sd69sEva7VamnYGHsGJp7VN5YW15+s+nACYqrscypGHgrcJL8PVrJ01rqFZlJtRAkKps24F7/7akQtMp78XDrBdyy3+INVkQ110CuhGHGu05AXo7AwkIDf/wOd1bx4sLcLwj6/1vYnfCR0vM3L6ffPKe0kAHaTOqkfjJ7U=
+	t=1747209683; cv=none; b=Fuhv1QT6Zo7DVdnitWiRz4X0W5xFGRaYMpDgYSEfdug7F0uBsKHwYblMNbcomWPDBuCxx6EKGXmHbNZgzHhJO8Ddfz2YiKo41mXp5HUt8RGddLeYeeXUKr25ouOj12TMsJdrkjx+iYRKMmz/lQme5WaJBXQ0iZLN+DpTYvasPew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747209589; c=relaxed/simple;
-	bh=ckJSHWoBUdiv+yuW3Ptna22xd+nEJ6aBvFm5+ABc6VI=;
+	s=arc-20240116; t=1747209683; c=relaxed/simple;
+	bh=oMvYRWMG9r5JNGfiPFDMKZlnSide3WmIfrBmp/iIIXE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pPqaQwmrUUVWYRC9dJw7b66oxPoKF6mIsrXEo/HcqGyMtxCArpWrg4RK5lEfm+v3n/Livl5MItMStz/bvxC6YyiJHOcMQZ65N2MsLgk6cs8qbCIxK/ljtOrj0DoyWlzENSGFjpTCg/jPqFv5qk0G5J4eBsgXvcBWDSR82KCIhUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A2w1b8mq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29B85C4CEE9;
-	Wed, 14 May 2025 07:59:42 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=hbCz3plzR8eg6X8kVeKufDi1JjIyU7WokbF/xcT2pj/TTvtMOSukY722ERMJ9ATaTQh3YEiH5X85T9ZOTaJKzuFBwllpyiGMEcFsSgnyRySlVaFq0h7yx77lnLP3ZllYUoeePfa4GOPQPCE2S/p4263PhRdJceudbRriQ/NSzwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D1h/o24m; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C017CC4CEE9;
+	Wed, 14 May 2025 08:01:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747209588;
-	bh=ckJSHWoBUdiv+yuW3Ptna22xd+nEJ6aBvFm5+ABc6VI=;
+	s=k20201202; t=1747209683;
+	bh=oMvYRWMG9r5JNGfiPFDMKZlnSide3WmIfrBmp/iIIXE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=A2w1b8mq7eDf6snkL93EEdVOKIHGOwo3bwfR1A3ah4aqoaGIqAQxzu82HjsOmoE01
-	 iYlKBhIN7WhyWemSwJjZGSbfwiqANaMwyM3LoVdrTs/lI/X2igPmxTGMM0ihCxXfGP
-	 yKrzxEHyR+gKOV7+83K6mOet/Il/qY/9qC3CUEpbVkN6FWDGPfymRu/rB3ONwJv1YL
-	 TGI6ARYK2Fdde2dl/jusV46t4L4a9dkoMJ4C4NlbHd77eg38zENsW2s4hMj5V6HSlG
-	 uHs1OfbUtU01d3a2aXV6yujrcyf43dRk4cNxmJs6m0N+IRl7M4DANJ1b/SweqSPyE2
-	 UZ0o2FOhIdamg==
-Message-ID: <e942e7c8-b911-4623-8971-6cf344ab408f@kernel.org>
-Date: Wed, 14 May 2025 09:59:41 +0200
+	b=D1h/o24m2N7S4xbCotA+dHhUWo/6aHUgoeIQkXc6NtEjJkNJkxdaZcRPTl+OHpuUN
+	 X+va8qA7FEwaQMsTulbmPs8f4HrxaCvtCFvpCMVRMD5qUGy5kixdq1CnMD0r+JgQoB
+	 jldA6xbuBVDNAuEv2bCmU3oJJqTt2QZ1nIkdTjqCz3F4KoPrbli/dh4Dcsl45IDa17
+	 VViiJx9dnQcLFMNAMtyfvd2FE6j0tgSDG8kWjAR6h1P+z1gqnb/vfgAI6cZYEVLMM6
+	 evMqaGt5QF8JkwBrh0EgWf/qeYMhMoTDMX4Xn6+JpyQEka8SArZZvAWNUHDTvSSOuu
+	 fwOBS+LbLJmxg==
+Message-ID: <c071c53e-4cbc-4daa-bb02-c8bce3eed538@kernel.org>
+Date: Wed, 14 May 2025 10:01:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,6 +75,8 @@ References: <20250511144752.504162-1-yassine.ouaissa@allegrodvt.com>
  <20250511144752.504162-4-yassine.ouaissa@allegrodvt.com>
  <595adbaa-15b4-4917-b3ad-9bac3e2333e2@kernel.org>
  <knnumpmyq4ewvqcfor3vqynxbplynajdlmz3p6f2ywadvmz6wo@5uz53eubbkfg>
+ <20250512-fabulous-provocative-raven-ec3a81@kuoka>
+ <5cth47emwdjyc7dt35a5n2zeh4lkklgdpp2r2qs6s2qgiye6et@oxb2a4tene4k>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -120,25 +122,49 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <knnumpmyq4ewvqcfor3vqynxbplynajdlmz3p6f2ywadvmz6wo@5uz53eubbkfg>
+In-Reply-To: <5cth47emwdjyc7dt35a5n2zeh4lkklgdpp2r2qs6s2qgiye6et@oxb2a4tene4k>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/05/2025 10:23, Yassine Ouaissa wrote:
->>> +    items:
->>> +      - description: MCU clock
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: mcu_clk
+On 12/05/2025 13:17, Yassine Ouaissa wrote:
+> On 12.05.2025 12:42, Krzysztof Kozlowski wrote:
+>> On Mon, May 12, 2025 at 08:23:11AM GMT, Yassine Ouaissa wrote:
+>>> issue fixed also, thanks.
+>>>>> +  significant advancements over its predecessors. This new decoder features
+>>>>> +  enhanced processing capabilities with improved throughput and reduced latency.
+>>>>> +
+>>>>> +  Communication between the host driver software and the MCU is implemented through
+>>>>> +  a specialized mailbox interface mechanism. This mailbox system provides a
+>>>>> +  structured channel for exchanging commands, parameters, and status information
+>>>>> +  between the host CPU and the MCU controlling the codec engines.
+>>>>> +
+>>>>> +properties:
+>>>>> +  compatible:
+>>>>> +    const: allegrodvt,al300-vdec
+>>>>
+>>>> Undocumented prefix.
+>>>>
+>>>> What is the actual device name? al300? Can you have al300-adec? or
+>>>> al300-dec?
+>>>>
+>>>>
+>>>
+>>> the device name is al300, the vdec is for decoder driver.
 >>
->> Drop clock-names, pretty obvious
+>> So drop vdec. Compatible should reflect device name.
 >>
-> the clock-name is a require item, it used by the driver.
+> 
+> We cannot, the IP could have the encode and decode in the same time.
+> the al300 is for the IP gen, and vdec/venc for the driver compatible.
+> 
+> I'll discuss with the team, about other naming.
+Do not send next version - like you did now - before we finish
+discussion. You just sent the same bypassing this entire discussion.
 
-Then fix your driver.
+Explain what is the device name, what is the device so we can understand it.
 
-
+I also expect all other comments to be implemented - including
+clock-names and incorrect device node name.
 
 Best regards,
 Krzysztof
