@@ -1,400 +1,316 @@
-Return-Path: <linux-media+bounces-32493-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32494-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82905AB6D46
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 15:51:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D1FAB6DB0
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 16:00:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A83EC3A78FE
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 13:50:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB89B1892D35
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 13:59:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C62A8229B0D;
-	Wed, 14 May 2025 13:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A71FB283FC9;
+	Wed, 14 May 2025 13:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5iwIjjO9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A6USRxUR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2072.outbound.protection.outlook.com [40.107.92.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C622A1D1
-	for <linux-media@vger.kernel.org>; Wed, 14 May 2025 13:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747230666; cv=fail; b=kuqPYZKU3xzWulc2CydqyKpdMEW9K4ZdEKzlHW6khXBi6GnZHRYDINVkd9KeXuRXYKIqkjk1i7luRcEKW2L4w9Hpw3pww+ZrDOxoG5khvQBFlvJ8yw3fKngH6hO3XtmWpIpbo1bFIN89Wo0ot2fYZd2vs12Yiu9B3TZoI59UvFM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747230666; c=relaxed/simple;
-	bh=TkPWlRWw5Zn19v3qX99HhhpdYE3yj/qihy7fQnsrPTo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mTRVQ6UnB5iAN2XK+h1E98aLur7MnojvkGlF7eTUxCdxIr/9aY60eWcpjjAmRpEtYxod+PgCub57LsbQdqdMpGlQm1HRISp6+2fTC+v1R3Kh72W5vHSf911WmVTJrwUI5mCP5eqJKCZpdPcRiHcYfxAS0Kyo99P0YD5fT8dhWh0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5iwIjjO9; arc=fail smtp.client-ip=40.107.92.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r/5Qx4jQBV8XciC9JfqWOINS4i++niCwa1Ih0NUCVrLp+qXCU4gSZdcMs9Nw2Ld/04R0BmXnK68Lku+RkwXJU0KFXERJL1op0OnC/2E+ixwYSCSxRhUehLKcHfhJJr5vqgraVBCEAajakjScYebvANkbk1E+3SFQXb3ri9aYDiaSOMREc+gzWhMj+CN7qj+7hLqAcbVFdZA9qMfOszdTBvK5qtb8A2nBSkIWaQWScL//1W6BIcNUgaGA8w0Z6+E3wvZuwknayeO2ADSuv0YNaDQeXbZVt+CfabOv2QeTCh97b8xyanVar5BQqBBf+d+So5ap6E7bjIRwzOO4hF+ZLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XqvRAzLRbIKUpy/IlPRrSU4fIOtO92ZCAIo1vAE9RKQ=;
- b=PLTHakgZQdOSZjsfMNa2+6JHNPzr8LhExpIOMSwbBpeBeMF0pdh0iRhbnSHhEmbjK4YivxdjnQ0F38td1KuMOVfuwPuFqPF1VSjhhPdhPSFGptpADy7JCrJvnvIV79kG6fIutvLFOB8yMmdJD6zA/W9Yhoci7HJP5ZPk1kF4Ty/dwpUJkMzQk/F+u4hfcfXW6R9kdZSuYEYUkoVsZYtY1WbzVwP+Vd5ByzLm+vsuuS1zvkw/ghSnYndlNpXZxqhvKGADPeWZlQpJlmDhqfoYmmJ6tcnrAd92u42YXpsseTU7VZrY5EacKzKpi7g4kCruBpS8aE7rg6Hz8F39p392+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XqvRAzLRbIKUpy/IlPRrSU4fIOtO92ZCAIo1vAE9RKQ=;
- b=5iwIjjO9WxatFsvTHWDKbdCeDDfC/ATIPOzrSAkyifQ/kU6YSLwE71uWJVb4831uQavdrQfs8NA1WA6MREfyVlqSdqwcGrdi9g3XJ14XMFho52/6ZxyIuSYuKUvz30CdzyVUR9HB1UBIm9PB3bOkwacpuHm8motU6hgB+QPK5Lk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SN7PR12MB6863.namprd12.prod.outlook.com (2603:10b6:806:264::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.26; Wed, 14 May
- 2025 13:50:59 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.027; Wed, 14 May 2025
- 13:50:59 +0000
-Message-ID: <00d3e903-76fe-463d-bb5c-232e4dac4bb5@amd.com>
-Date: Wed, 14 May 2025 15:50:53 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 07/10] dma-fence: Add safe access helpers and document
- the rules
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- dri-devel@lists.freedesktop.org
-Cc: Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- kernel-dev@igalia.com
-References: <20250513074513.81727-1-tvrtko.ursulin@igalia.com>
- <20250513074513.81727-8-tvrtko.ursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250513074513.81727-8-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN0PR03CA0016.namprd03.prod.outlook.com
- (2603:10b6:208:52f::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4631127C842
+	for <linux-media@vger.kernel.org>; Wed, 14 May 2025 13:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747231040; cv=none; b=L6duR1b1D+Ndp2naC5h0MCYf20AoD1cQr58pnJh6tWWEuhsp8O+/21SHKroJNHhORiNDS8gK/+5hEykkEW4/f5TPYvra12KJnIp9hjkf56ZarpfqbuJvr+baXkn9t+UBp3bf2XC5nYIR5057f6EAS4DlzoKGYs64dmOWPXLhz7Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747231040; c=relaxed/simple;
+	bh=8A1MIKies3v05GWHexCSoQKXzmcBRK0fANLcnhf7aO8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=baa3tz4sujeuYsMuidGu+O1HswktHAFH1Wm8+IlH/Qx/9z4Ge1971zyGfh+LZCPhkodFH8sDyUxgK97slYQ1A4sPpJVocjGkv/t5WNX/ItBCHWJoT5xJe4rDG9xJIZ9SnZvxApnfwQY4bnXdCJ/f0YS/S5s+I7mfi68TaXzhlA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A6USRxUR; arc=none smtp.client-ip=209.85.166.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3da831c17faso12236125ab.3
+        for <linux-media@vger.kernel.org>; Wed, 14 May 2025 06:57:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747231033; x=1747835833; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MgCmvbU22TlHNQI/j8glSzzRZPdd5Tz37NOzI6EnK/c=;
+        b=A6USRxURqmAa0QBPkFdYIm1VADH5p3Pykq1jfv+Lh/ioEhKtLKD8uJk+u0/jMP+ifN
+         Zt25u4lsPU5MzH/OIhZZ9nT5rP3fUcH14jnSCfWsyI/xmhbCRF1Uu8tg49fgk8esQO+r
+         LhDaMPfzMCLVhSOfWeMAO1qpYdqFvyAMHbh2HIMsQBbg9hmDksTFACXciwpXd1Hj0s1f
+         bKhLArzIam8+90torusLT8e+J3XRtMtmMgYonLYJcSFqTXANpv4r7U4GsWvvyeLm+Fuu
+         /3djMuGRgLudktfzivdimq1FlyRgxNoLdqVc0zgSktzxebWxWYx6l0yqamO9ZzpDP+IW
+         IetA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747231033; x=1747835833;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MgCmvbU22TlHNQI/j8glSzzRZPdd5Tz37NOzI6EnK/c=;
+        b=fkc+eietFusABEeTIl4UdfcmtIBvf6C8AtX5I9jPSqcVT5D4lv0Td0rvJZFH9OHvgC
+         xJawgLnz0S90Y0d/ctZF4rYoT3+U4hyem+E/zvhBd+o3t5RJT/65I1NzubvxS3wXcOKP
+         C+Ke+M1wy4EF022BXArxK4Tc0nfJzxb7w6VBpOyAhaL6naFMJI+jZBRjywHM4MSS4LTx
+         VqFGeMjBEKP3Qk7Cdao7N3fPWtZBo+1megQ6OYkaJ0nl9N5wmn0b+aAZGioJTff6xkzP
+         hMxOx23tjuGsl7ybLlZbV1uNGZIsQ2OlEqDzRiREW7Y7Xacrc+v8s6lRVvUusjQqjYhk
+         MTEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9fz+fkjBEy8l1UVxl3+IK3gjlzlATVLnTO1NFlH42RGQ0CfLjS5JX4U+K2nKO0IXk6RMgetSOdR+4SA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzzjM2uxWvfvG4G5+QEQWsylgZ7q2HJYpdESaOSaprzt7HiHr2
+	d37Hz3XLjp1zjyM4aDSJeuFmgTI9zaFeofJLTs8beigPd8HZ0EtEevAqmyWN5BMoJqkCQXAR0O+
+	KJ+old6a5+QTgnmsUi7Lfk2tOcZE=
+X-Gm-Gg: ASbGncsgbMEpR5DNGCSvrBGxzbdw90UZ+boDxuE7L7D+FFUtxDN2wwhcVwPpENnFIzY
+	58YILkFeeh3tcnFQ13XZWGPLr0oyebp9S9LBlj72YHMYMvZ68dgMcoiofv2hUsKipoHYaR2U8jq
+	q7odmDyvXLoWI1FlcHFFXxCRASfDnltDVi
+X-Google-Smtp-Source: AGHT+IE42TmblYaLtD0IQrSrhpiLKxuUdkN+txUzkzbyrrbRU6Tz+L9MbbrnGz7ZIIHPzBwsN83m/OUcsivazuYW8nw=
+X-Received: by 2002:a05:6e02:2503:b0:3d3:db70:b585 with SMTP id
+ e9e14a558f8ab-3db6f7fa09fmr40763325ab.21.1747231032651; Wed, 14 May 2025
+ 06:57:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB6863:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb66133b-cb39-4e40-3c1b-08dd92ee5bbf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eDhjT3p4M0pHVnRhd1k0ckxwYXo3KzB2UTNIMTNTSm5IUWFQVkE4ZzlWSUtp?=
- =?utf-8?B?NnordUVBR1NlV2dUS0ZkSGNXb2lUQ0JUL3I3RGlodnlrYzd5dnRTQjhTMGRI?=
- =?utf-8?B?NFhiTVdtQTF1d0VLZjZ5dFpDN3ZCNWVLUTBUU2RBYVhXNXJZUXJXY3M3WHdL?=
- =?utf-8?B?OUliVzlYZ0FReC9vbmFHSnVRNjMzOVoxVElnMzRiL01GU3l2eGNJQjJpNlgy?=
- =?utf-8?B?QkpIMTdaaWQ0dklUL085OXErQzdwNGlxcytYQndxYy9BbUNaY3FYNit4Z0E1?=
- =?utf-8?B?YWd6dXZzVGpIZEVuRDRLYTRvSXlYa0duNkY5cTN4b2dLd3h6cHFtTTlHMjh6?=
- =?utf-8?B?eTh5eEhNOGRaTEtYTTQrcjVvVmhsVXJDNnorZnYyTDA0Q01tR2o1aXRXU3po?=
- =?utf-8?B?Q251VTZVbXR4TEorb3VScWwwa2tVUk9sSlJMRDBPbmJHTjdYU2kybjVEMC9V?=
- =?utf-8?B?YnZXTVc2aXQxVU1ocExyZ29lUkNZMC9YTVBqaXRKK3hjbmVRSnZEeGpMaXdh?=
- =?utf-8?B?Qmt4QXFJRFpIbFczU1ZsVTM5MkxRVUMxd3p0VkQ3Sk01NTZHRWpVVEF3eTRO?=
- =?utf-8?B?a29va1BQajNnc0hmZ3F5d2ZzeENMejZ5YnpENW1IUUY4UXFaMjdwSXVCM1Y3?=
- =?utf-8?B?T0ZDSGdVemk0MXFXTHh0UFEwajIyazVXZFpPVGJiZWdWNWZ3bndlZkt5SkpM?=
- =?utf-8?B?eFB6WWo5M05IU0hRcUNOMzcrUEx6OE8wRkQxMm03U3hoZFNNbk05VDdxK25j?=
- =?utf-8?B?ZUJCVlAzQTBPUmpVOVY1ZzZyR2kwaGJtUWlKNzd3cERqcE56TTFRb0lkcnJU?=
- =?utf-8?B?RWZ0YWhVMmNJNzVvTktUWU1KLzZPQ1lkTUttRngxb0JmKzNHSnU2cjEraEZR?=
- =?utf-8?B?ZGJFSGdtLzZWZmR6aFYxMERmbGl1c0xWa2NnbkkvMXQ4TmxKL0F2YXFIcXhr?=
- =?utf-8?B?V0JTR2Yrd3dFUDBOUkZRZDNXczkxY08zellIRVJqTm9DMXpycVhWSGY1WHFQ?=
- =?utf-8?B?aWNjSlJwVWFKbWoyV2hpVzRJZlh2M3Y0MDNoSzJZalhmWFhQQ29LcCt1TzRx?=
- =?utf-8?B?RE1SSm9IOFBCNi95Q1djN2xWS0dxajZJRWZ1Snk2WkJGWnZucHBZditPczM2?=
- =?utf-8?B?NHhDQTFOanJLVnMwdCtYWm9nTWMzOWQrUzNNL2lzMjNPaSsyc29aZFlNWTND?=
- =?utf-8?B?U0JFVUVLNmtXMlZoeFJ4U1U5NXhwUmJPeTg1eGlLM2xiU3dFTGIvRkFHVkh3?=
- =?utf-8?B?MjNkM3NId0RFRkVvNU5BSHZnODUySG1xOXF1QkVzM2hqaUVKWEVFdDNuMFd6?=
- =?utf-8?B?aktrdDJaRmxNdUtXY1BwS0ZYemJOeTU1dWp5dmEwOTJoNW1kRGUvTngwbU4y?=
- =?utf-8?B?TDhWbXI1NG1HL0dBRWoycDFYNkZlUDRtV045blY4RGhMTm1XbDhCUTdrbUky?=
- =?utf-8?B?NFhXdTYzQmNNTVZwMlFYdnIySGRDS1BhQmVWaWhYYlU0djVQc0czVzRQdkhP?=
- =?utf-8?B?ZDRpc0swanBFdGd3UnVzWFNhc3Y3YU1kc2xQQmhxRGI0bG8wU05RS3Nydyti?=
- =?utf-8?B?aHhJTGpxMlFFQy9KRGJEalR6bzZNSnM4Vm1sYUQyRWFvV0tpemZzMkFhT21T?=
- =?utf-8?B?eVRQczdmdW9LTVpZbWdDanM4czFqc1krRVZSb0k1N3dtajNnSEVOUXMrdUFz?=
- =?utf-8?B?WjBOVDFmb0hkM29zRmtTNzlhenlpWENZY25wUmJVQVVmVGJsUGE5b1BvVk9h?=
- =?utf-8?B?aUFUa2VpTmJZdU5TY3RQa1J1WnFvUUI3eWlub04rbENTSHUyMENKclFNV2lR?=
- =?utf-8?B?NmtzZGpRdlRtckFIUHJuQzNKdzJLQnhNQWFqMzMvRmc3QzNUQXpScTE2QlV3?=
- =?utf-8?B?bjhHL1R6cjRPWmE3bjJRU1dlc0tKd2d0dHhzZWxraWJjTDlQQzFSUjdtMTBr?=
- =?utf-8?Q?D21/dkdaCgo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QmpYMVg1NEcxOXc5RHZ3V2hqaDJYTjE5KzNldkUxRWJOeDhWREVHRDAyT2Z6?=
- =?utf-8?B?bFQvaldHNDNMeFFlVS9tRFQ5SlpPS2tiOHVOMnRGUldPTWJ0Y3BNVlVwVHg0?=
- =?utf-8?B?a2xOUzdhaW5aSE1UaDJqUjJCWkFvd1hkNGFZVldhcDdSQ1l5MEtwNU5FZFlt?=
- =?utf-8?B?Ly9NVHg3WXNUaWJxWEdrbjcyRE15SFAyQzYyZTJCNWJNazA4R3pyWUJEU2JB?=
- =?utf-8?B?Sm16SVJBUXFyc0pONnUvWDh1ZXpYV25kc0poVW02WHlDbnQ1d3dxaVA3OUNS?=
- =?utf-8?B?dEtIVS84Y3k0K1owdmdHVWhIRVpSK2M1L0VReHlaMEZYbWlYVTNHWWVTOEhE?=
- =?utf-8?B?RndlcC9GTWx6OHVIRWhjMnVrNnhXbGYyTGkzcXFCZjVlK0NQL0RyTWZFTGJ5?=
- =?utf-8?B?elVreXV5YXIxZm1oclBWYTBsL1hmRkZPUkFDQ2VWU0VCcEZ5ZTRIeEFRY1Nr?=
- =?utf-8?B?bnFEcTczSUlWelV5Zk9iRW1hMzh1TnhzYW5Qemtub2FXbG0xd3pvWDJTSEhp?=
- =?utf-8?B?SlJnOEZwSlNXSWxXb2FKSWhmbkcraXdGL1RTaTBOYnV1d2p2b3l6Y01yaTVN?=
- =?utf-8?B?MHkwbmR5OW5UQVZ0OVJLQ0h1NXhROGJBZTFPblp2cFlueDBrNUNudm1peDRa?=
- =?utf-8?B?WkFNb0lRR1hDZUN3M0NXRTN2QTFWcVZ4YzJ3Y3RxV3ZaQnE3Z1QrZ21xUkIw?=
- =?utf-8?B?dHl4cm5JTHYzTDNyVjIxYWJuN1ZmTk8yekJrUU00WU5ZQTNLMG1acVIwenR4?=
- =?utf-8?B?d2pUSVQzWGVCNFlrOWhsTW5BcEdILzRFek4zWGx1R0hLRzlLRGp2QkJ2c2dq?=
- =?utf-8?B?Z1ZMT3F5Z2FRU3FHTVRRSlJPVWlCcDdUbkhFdXhXWURpUEhiZW1pYU5OK2RV?=
- =?utf-8?B?RlhCYW9PTWNRaW0rMlk5Y25iRklxbkI4MG9Xd2Q3eFlJZVpTaVJCM284OXpG?=
- =?utf-8?B?anlVZ1grcVJBczc5dkltWUI0aUVvZHZQYnoxRjBNcHBuRkZLMENaK010UkRj?=
- =?utf-8?B?OWJ6VUZDMzNXV2J5L0lwWFhlYmwvQVZFcDJxdmtieDlDRjVyZUZGS3c3QkFF?=
- =?utf-8?B?djhVZHBlV2p1Zm5iK3E4V3c3bWdxWDhMZkZ6VDV1VW5INk12RDhja0RhaU5N?=
- =?utf-8?B?cE80VktMQi9abDJjdU1LWWhkdElaZk5nVEhRTXdwTXlTNGhHUmh3UDlkQjY3?=
- =?utf-8?B?T2RFZ216T2xieHh6UGlHRmc1Z1BkYmV6OFZDQU00MXFCNXBhaFlVWUpCMitR?=
- =?utf-8?B?YmdQdG5OZmI1Y1ZYL3pHc0xlY2NBaXJCM1A1MHYvVzFUbVR4aFM0bUlsaFBH?=
- =?utf-8?B?MStqSGQ0WHRsd2hjR29IMjNLM2NDaHZYMTZJckFuZkZzNjVyRkRBeXZTSWpM?=
- =?utf-8?B?RjBpUmpyRVhTRE1JbTRHcDVHUURhVmYzcjRmYnlBZjVjaUFjQ3VMVEFIemhy?=
- =?utf-8?B?R1VwMG50REpURmY4NWhTYytkblBCR1pDWjE4b1lLTERjbTZRU2hJUFpmTndq?=
- =?utf-8?B?Nng4MFgxY1RNdjd1MWNFWHEyS25SOTNoT3gxM2VLTG5pSVlONVhNSlZHS2Vs?=
- =?utf-8?B?VUwwUUE2dGdJbE83WFVDaXBTemk1eFJuRGZzUk1USERER0JTUFVwcXdRM1hj?=
- =?utf-8?B?QllyeUpiQWVUUktHbTBrRWJoQUJVekNpMXozL2tpM3BEeGxZcDI2YXRZQldn?=
- =?utf-8?B?T3J4STBDQ0Fxek9UYm4ycXM4RERYZnl2dGd4Mnk1RS9CR2NsWXBBZ04rVk1s?=
- =?utf-8?B?QndWc0IyQ0p2bm5lejBydzVTbDhFSnpSUk9jVVhZYSt6MDdudXR2RDZUMlR4?=
- =?utf-8?B?ejdKU25nbkdwNUhhQTkwUDVlR2hucTJvaXhsekpocjNjUUpPaHhSb1VnQ0Fh?=
- =?utf-8?B?VHdrdFBHYnJ5MUlnZS9QdG1uZzBPS056OXZ4YXdDY3RJRVFSMElWdHp4V2R3?=
- =?utf-8?B?dkhDVGtkZmpZS2o2Rit4dG94L0dOWWVzaUUwM0c0Yy9xaTRSeFZOT3JEYmw0?=
- =?utf-8?B?U3Zxckt1d21PVFF4dzNzU0txdE1wZFhVaTgwK0VTbnRPTmhDODViVjRVZ0x3?=
- =?utf-8?B?K1V5RTgzNWtickhaYmRrallraHBHbjdER1g1ME11UFJDKzRheldrU0xiQlkv?=
- =?utf-8?Q?j2v4=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb66133b-cb39-4e40-3c1b-08dd92ee5bbf
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2025 13:50:59.7522
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2Bb2Vs+YiEB+1mCCjW0KM0lbO5STZqXGBG1VcFVKYRv1bsWdH2BcSIG8t55xzU36
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6863
+References: <20250509153352.7187-1-tvrtko.ursulin@igalia.com>
+ <20250509153352.7187-11-tvrtko.ursulin@igalia.com> <CAF6AEGuOC4NnSTQexvD5tk8VLfOR_gGq-cqs3gnJcS1qNtMjQg@mail.gmail.com>
+ <dddebe25-9fe2-4c3d-89ee-c90168b5a017@igalia.com>
+In-Reply-To: <dddebe25-9fe2-4c3d-89ee-c90168b5a017@igalia.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 14 May 2025 06:57:01 -0700
+X-Gm-Features: AX0GCFu9_cD6xBE41jTXRzOPv3Dbpx1RYAvoYeJn3S6DUuFSDJFfxf64WuPvA44
+Message-ID: <CAF6AEGsP2TyjaRVtSXAYyDbNJqZ3NsL-2TCKZ+SAyZaONrJvjA@mail.gmail.com>
+Subject: Re: [RFC v2 10/13] dma-fence: Add safe access helpers and document
+ the rules
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Gustavo Padovan <gustavo@padovan.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	kernel-dev@igalia.com, Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm going to push patches #1-#6 to drm-misc-next.
+On Wed, May 14, 2025 at 3:01=E2=80=AFAM Tvrtko Ursulin
+<tvrtko.ursulin@igalia.com> wrote:
+>
+>
+> On 13/05/2025 15:16, Rob Clark wrote:
+> > On Fri, May 9, 2025 at 8:34=E2=80=AFAM Tvrtko Ursulin <tvrtko.ursulin@i=
+galia.com> wrote:
+> >>
+> >> Dma-fence objects currently suffer from a potential use after free pro=
+blem
+> >> where fences exported to userspace and other drivers can outlive the
+> >> exporting driver, or the associated data structures.
+> >>
+> >> The discussion on how to address this concluded that adding reference
+> >> counting to all the involved objects is not desirable, since it would =
+need
+> >> to be very wide reaching and could cause unloadable drivers if another
+> >> entity would be holding onto a signaled fence reference potentially
+> >> indefinitely.
+> >>
+> >> This patch enables the safe access by introducing and documenting a
+> >> contract between fence exporters and users. It documents a set of
+> >> contraints and adds helpers which a) drivers with potential to suffer =
+from
+> >> the use after free must use and b) users of the dma-fence API must use=
+ as
+> >> well.
+> >>
+> >> Premise of the design has multiple sides:
+> >>
+> >> 1. Drivers (fence exporters) MUST ensure a RCU grace period between
+> >> signalling a fence and freeing the driver private data associated with=
+ it.
+> >>
+> >> The grace period does not have to follow the signalling immediately bu=
+t
+> >> HAS to happen before data is freed.
+> >>
+> >> 2. Users of the dma-fence API marked with such requirement MUST contai=
+n
+> >> the complete access to the data within a single code block guarded by =
+the
+> >> new dma_fence_access_begin() and dma_fence_access_end() helpers.
+> >>
+> >> The combination of the two ensures that whoever sees the
+> >> DMA_FENCE_FLAG_SIGNALED_BIT not set is guaranteed to have access to a
+> >> valid fence->lock and valid data potentially accessed by the fence->op=
+s
+> >> virtual functions, until the call to dma_fence_access_end().
+> >>
+> >> 3. Module unload (fence->ops) disappearing is for now explicitly not
+> >> handled. That would required a more complex protection, possibly needi=
+ng
+> >> SRCU instead of RCU to handle callers such as dma_fence_wait_timeout()=
+,
+> >> where race between dma_fence_enable_sw_signaling, signalling, and
+> >> dereference of fence->ops->wait() would need a sleeping SRCU context.
+> >>
+> >> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> >> ---
+> >>   drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++++++++++++=
+++
+> >>   include/linux/dma-fence.h   | 32 ++++++++++++-----
+> >>   2 files changed, 93 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> >> index dc2456f68685..cfe1d7b79c22 100644
+> >> --- a/drivers/dma-buf/dma-fence.c
+> >> +++ b/drivers/dma-buf/dma-fence.c
+> >> @@ -533,6 +533,7 @@ void dma_fence_release(struct kref *kref)
+> >>          struct dma_fence *fence =3D
+> >>                  container_of(kref, struct dma_fence, refcount);
+> >>
+> >> +       dma_fence_access_begin();
+> >>          trace_dma_fence_destroy(fence);
+> >>
+> >>          if (WARN(!list_empty(&fence->cb_list) &&
+> >> @@ -560,6 +561,8 @@ void dma_fence_release(struct kref *kref)
+> >>                  fence->ops->release(fence);
+> >>          else
+> >>                  dma_fence_free(fence);
+> >> +
+> >> +       dma_fence_access_end();
+> >>   }
+> >>   EXPORT_SYMBOL(dma_fence_release);
+> >>
+> >> @@ -982,11 +985,13 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
+> >>    */
+> >>   void dma_fence_describe(struct dma_fence *fence, struct seq_file *se=
+q)
+> >>   {
+> >> +       dma_fence_access_begin();
+> >>          seq_printf(seq, "%s %s seq %llu %ssignalled\n",
+> >>                     dma_fence_driver_name(fence),
+> >>                     dma_fence_timeline_name(fence),
+> >>                     fence->seqno,
+> >>                     dma_fence_is_signaled(fence) ? "" : "un");
+> >> +       dma_fence_access_end();
+> >>   }
+> >>   EXPORT_SYMBOL(dma_fence_describe);
+> >>
+> >> @@ -1033,3 +1038,67 @@ dma_fence_init64(struct dma_fence *fence, const=
+ struct dma_fence_ops *ops,
+> >>          __set_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags);
+> >>   }
+> >>   EXPORT_SYMBOL(dma_fence_init64);
+> >> +
+> >> +/**
+> >> + * dma_fence_driver_name - Access the driver name
+> >> + * @fence: the fence to query
+> >> + *
+> >> + * Returns a driver name backing the dma-fence implementation.
+> >> + *
+> >> + * IMPORTANT CONSIDERATION:
+> >> + * Dma-fence contract stipulates that access to driver provided data =
+(data not
+> >> + * directly embedded into the object itself), such as the &dma_fence.=
+lock and
+> >> + * memory potentially accessed by the &dma_fence.ops functions, is fo=
+rbidden
+> >> + * after the fence has been signalled. Drivers are allowed to free th=
+at data,
+> >> + * and some do.
+> >> + *
+> >> + * To allow safe access drivers are mandated to guarantee a RCU grace=
+ period
+> >> + * between signalling the fence and freeing said data.
+> >> + *
+> >> + * As such access to the driver name is only valid inside a RCU locke=
+d section.
+> >> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE blo=
+ck guarded
+> >> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
+> >> + */
+> >> +const char *dma_fence_driver_name(struct dma_fence *fence)
+> >> +{
+> >> +       RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+> >> +                        "rcu_read_lock() required for safe access to =
+returned string");
+> >> +
+> >> +       if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> >> +               return fence->ops->get_driver_name(fence);
+> >> +       else
+> >> +               return "detached-driver";
+> >> +}
+> >> +EXPORT_SYMBOL(dma_fence_driver_name);
+> >> +
+> >> +/**
+> >> + * dma_fence_timeline_name - Access the timeline name
+> >> + * @fence: the fence to query
+> >> + *
+> >> + * Returns a timeline name provided by the dma-fence implementation.
+> >> + *
+> >> + * IMPORTANT CONSIDERATION:
+> >> + * Dma-fence contract stipulates that access to driver provided data =
+(data not
+> >> + * directly embedded into the object itself), such as the &dma_fence.=
+lock and
+> >> + * memory potentially accessed by the &dma_fence.ops functions, is fo=
+rbidden
+> >> + * after the fence has been signalled. Drivers are allowed to free th=
+at data,
+> >> + * and some do.
+> >> + *
+> >> + * To allow safe access drivers are mandated to guarantee a RCU grace=
+ period
+> >> + * between signalling the fence and freeing said data.
+> >> + *
+> >> + * As such access to the driver name is only valid inside a RCU locke=
+d section.
+> >> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE blo=
+ck guarded
+> >> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
+> >> + */
+> >> +const char *dma_fence_timeline_name(struct dma_fence *fence)
+> >> +{
+> >> +       RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+> >> +                        "rcu_read_lock() required for safe access to =
+returned string");
+> >> +
+> >> +       if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> >> +               return fence->ops->get_driver_name(fence);
+> >> +       else
+> >> +               return "signaled-timeline";
+> >
+> > This means that trace_dma_fence_signaled() will get the wrong
+> > timeline/driver name, which probably screws up perfetto and maybe
+> > other tools.
+>
+> Do you think context and seqno are not enough for those tools and they
+> actually rely on the names? It would sound weird if they decided to
+> index anything on the names which are non-standardised between drivers,
+> but I guess anything is possible.
 
-They make sense as a stand alone cleanups anyway.
+At some point perfetto uses the timeline name to put up a named fence
+timeline, I'm not sure if it is using the name or context # for
+subsequent fence events (namely, signalled).  I'd have to check the
+code and get back to you.
 
-But that here needs a bit more documentation I think.
+There is also gpuvis, which I guess does something similar, but
+haven't looked into it.  Idk if there are others.
 
-On 5/13/25 09:45, Tvrtko Ursulin wrote:
-> Dma-fence objects currently suffer from a potential use after free problem
-> where fences exported to userspace and other drivers can outlive the
-> exporting driver, or the associated data structures.
-> 
-> The discussion on how to address this concluded that adding reference
-> counting to all the involved objects is not desirable, since it would need
-> to be very wide reaching and could cause unloadable drivers if another
-> entity would be holding onto a signaled fence reference potentially
-> indefinitely.
-> 
-> This patch enables the safe access by introducing and documenting a
-> contract between fence exporters and users. It documents a set of
-> contraints and adds helpers which a) drivers with potential to suffer from
-> the use after free must use and b) users of the dma-fence API must use as
-> well.
-> 
-> Premise of the design has multiple sides:
-> 
-> 1. Drivers (fence exporters) MUST ensure a RCU grace period between
-> signalling a fence and freeing the driver private data associated with it.
+> > Maybe it would work well enough just to move the
+> > trace_dma_fence_signaled() call ahead of the test_and_set_bit()?  Idk
+> > if some things will start getting confused if they see that trace
+> > multiple times.
+>
+> Another alternative is to make this tracepoint access the names
+> directly. It is under the lock so guaranteed not to get freed with
+> drivers which will be made compliant with the documented rules.
 
-That's a must have anyway, otherwise functions like dma_fence_get_rcu() won't work.
+I guess it would have been better if, other than dma_fence_init
+tracepoint, later tracepoints didn't include the driver/timeline
+name.. that would have forced the use of the context.  But I guess too
+late for that.  Perhaps the least bad thing to do is use the locking?
 
-I hope that we have documented that somewhere, but I'm not 100% sure to be honest.
-
-> The grace period does not have to follow the signalling immediately but
-> HAS to happen before data is freed.
-
-That is the new requirement we have to document somehow.
-
-I'm not 100% sure but I think module unloading waits for an RCU grace period anyway.
-
-
-> 2. Users of the dma-fence API marked with such requirement MUST contain
-> the complete access to the data within a single code block guarded by the
-> new dma_fence_access_begin() and dma_fence_access_end() helpers.
-> 
-> The combination of the two ensures that whoever sees the
-> DMA_FENCE_FLAG_SIGNALED_BIT not set is guaranteed to have access to a
-> valid fence->lock and valid data potentially accessed by the fence->ops
-> virtual functions, until the call to dma_fence_access_end().
-
-Mhm, how about returning copies of the string?
-
-This is only for debugging anyway and kstrdup_const() isn't that costly.
-
-Regards,
-Christian.
-
-
-> 
-> 3. Module unload (fence->ops) disappearing is for now explicitly not
-> handled. That would required a more complex protection, possibly needing
-> SRCU instead of RCU to handle callers such as dma_fence_wait_timeout(),
-> where race between dma_fence_enable_sw_signaling, signalling, and
-> dereference of fence->ops->wait() would need a sleeping SRCU context.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> ---
->  drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++++++++++++++
->  include/linux/dma-fence.h   | 32 ++++++++++++-----
->  2 files changed, 93 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index dc2456f68685..cfe1d7b79c22 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -533,6 +533,7 @@ void dma_fence_release(struct kref *kref)
->  	struct dma_fence *fence =
->  		container_of(kref, struct dma_fence, refcount);
->  
-> +	dma_fence_access_begin();
->  	trace_dma_fence_destroy(fence);
->  
->  	if (WARN(!list_empty(&fence->cb_list) &&
-> @@ -560,6 +561,8 @@ void dma_fence_release(struct kref *kref)
->  		fence->ops->release(fence);
->  	else
->  		dma_fence_free(fence);
-> +
-> +	dma_fence_access_end();
->  }
->  EXPORT_SYMBOL(dma_fence_release);
->  
-> @@ -982,11 +985,13 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
->   */
->  void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
->  {
-> +	dma_fence_access_begin();
->  	seq_printf(seq, "%s %s seq %llu %ssignalled\n",
->  		   dma_fence_driver_name(fence),
->  		   dma_fence_timeline_name(fence),
->  		   fence->seqno,
->  		   dma_fence_is_signaled(fence) ? "" : "un");
-> +	dma_fence_access_end();
->  }
->  EXPORT_SYMBOL(dma_fence_describe);
->  
-> @@ -1033,3 +1038,67 @@ dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->  	__set_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags);
->  }
->  EXPORT_SYMBOL(dma_fence_init64);
-> +
-> +/**
-> + * dma_fence_driver_name - Access the driver name
-> + * @fence: the fence to query
-> + *
-> + * Returns a driver name backing the dma-fence implementation.
-> + *
-> + * IMPORTANT CONSIDERATION:
-> + * Dma-fence contract stipulates that access to driver provided data (data not
-> + * directly embedded into the object itself), such as the &dma_fence.lock and
-> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
-> + * after the fence has been signalled. Drivers are allowed to free that data,
-> + * and some do.
-> + *
-> + * To allow safe access drivers are mandated to guarantee a RCU grace period
-> + * between signalling the fence and freeing said data.
-> + *
-> + * As such access to the driver name is only valid inside a RCU locked section.
-> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
-> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
-> + */
-> +const char *dma_fence_driver_name(struct dma_fence *fence)
-> +{
-> +	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
-> +			 "rcu_read_lock() required for safe access to returned string");
-> +
-> +	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +		return fence->ops->get_driver_name(fence);
-> +	else
-> +		return "detached-driver";
-> +}
-> +EXPORT_SYMBOL(dma_fence_driver_name);
-> +
-> +/**
-> + * dma_fence_timeline_name - Access the timeline name
-> + * @fence: the fence to query
-> + *
-> + * Returns a timeline name provided by the dma-fence implementation.
-> + *
-> + * IMPORTANT CONSIDERATION:
-> + * Dma-fence contract stipulates that access to driver provided data (data not
-> + * directly embedded into the object itself), such as the &dma_fence.lock and
-> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
-> + * after the fence has been signalled. Drivers are allowed to free that data,
-> + * and some do.
-> + *
-> + * To allow safe access drivers are mandated to guarantee a RCU grace period
-> + * between signalling the fence and freeing said data.
-> + *
-> + * As such access to the driver name is only valid inside a RCU locked section.
-> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
-> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
-> + */
-> +const char *dma_fence_timeline_name(struct dma_fence *fence)
-> +{
-> +	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
-> +			 "rcu_read_lock() required for safe access to returned string");
-> +
-> +	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +		return fence->ops->get_driver_name(fence);
-> +	else
-> +		return "signaled-timeline";
-> +}
-> +EXPORT_SYMBOL(dma_fence_timeline_name);
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index c5ac37e10d85..b39e430142ea 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -377,15 +377,31 @@ bool dma_fence_remove_callback(struct dma_fence *fence,
->  			       struct dma_fence_cb *cb);
->  void dma_fence_enable_sw_signaling(struct dma_fence *fence);
->  
-> -static inline const char *dma_fence_driver_name(struct dma_fence *fence)
-> -{
-> -	return fence->ops->get_driver_name(fence);
-> -}
-> +/**
-> + * DOC: Safe external access to driver provided object members
-> + *
-> + * All data not stored directly in the dma-fence object, such as the
-> + * &dma_fence.lock and memory potentially accessed by functions in the
-> + * &dma_fence.ops table, MUST NOT be accessed after the fence has been signalled
-> + * because after that point drivers are allowed to free it.
-> + *
-> + * All code accessing that data via the dma-fence API (or directly, which is
-> + * discouraged), MUST make sure to contain the complete access within a
-> + * &dma_fence_access_begin and &dma_fence_access_end pair.
-> + *
-> + * Some dma-fence API handles this automatically, while other, as for example
-> + * &dma_fence_driver_name and &dma_fence_timeline_name, leave that
-> + * responsibility to the caller.
-> + *
-> + * To enable this scheme to work drivers MUST ensure a RCU grace period elapses
-> + * between signalling the fence and freeing the said data.
-> + *
-> + */
-> +#define dma_fence_access_begin	rcu_read_lock
-> +#define dma_fence_access_end	rcu_read_unlock
->  
-> -static inline const char *dma_fence_timeline_name(struct dma_fence *fence)
-> -{
-> -	return fence->ops->get_timeline_name(fence);
-> -}
-> +const char *dma_fence_driver_name(struct dma_fence *fence);
-> +const char *dma_fence_timeline_name(struct dma_fence *fence);
->  
->  /**
->   * dma_fence_is_signaled_locked - Return an indication if the fence
-
+BR,
+-R
 
