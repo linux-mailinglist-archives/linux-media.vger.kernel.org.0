@@ -1,153 +1,125 @@
-Return-Path: <linux-media+bounces-32516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32501-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0636AAB7074
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 17:54:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F466AB7045
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 17:47:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB5228C3D98
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 15:54:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F074A3AFC14
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 15:47:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 235E92820D0;
-	Wed, 14 May 2025 15:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC8241E3762;
+	Wed, 14 May 2025 15:47:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NDYxrNeQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I9bqqet4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFD627CCC7;
-	Wed, 14 May 2025 15:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A0EAD51;
+	Wed, 14 May 2025 15:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747237984; cv=none; b=YLlgZNz+I6VA/L/qq6ER49fJZlPzlBEm/UFwjDPk1aqq+yO0JEkzhgw+QXxPCpeLB+MoOwjagyiHj6gTzE+i1RCHgs1ReX2GQWT4xNGjh6XJl/kWYnH+3m2b5gho1ryuZz+wd5Z9hxrZtDx5eRuGVm9yb8vcsLaFrsE41axxes0=
+	t=1747237660; cv=none; b=Vt9Aks5NSfDnKrma1iUMM/EGRaFiyqRLTcgrrR2CtCCkPWdqrcdQMXKrFcbP971mzmAnF+aVw3NkjeXJJKFS7DoLGPJv2Wz/Vkve+OYqAGlrfTCdzbsyH9td/NtWxLqeW+aOlu4ITZzD6fS6cTzsX4gaxILh3s764cuhy40lZXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747237984; c=relaxed/simple;
-	bh=N6fkCiwtMq7cQFfPuTVHOCQOjaRR0eDS9lPzo9y3LvA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aEq/l5h1n6srf6sTsEBqrV2flD2C0p3IXEnSU4ELgqnptrP1N8Bi9K3MlszGRSMgMyxeo+P5V9oVx1XNJL/Lycx3pmF4xY2iwrERed7j0HbPxS/MdEB+3wU6rBMEM9jwy5B8tVHEjClsiheBS+7JGUT36RbqnCD69MTEqaZ8nGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NDYxrNeQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9B4C0C2BCF4;
-	Wed, 14 May 2025 15:53:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747237983;
-	bh=N6fkCiwtMq7cQFfPuTVHOCQOjaRR0eDS9lPzo9y3LvA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=NDYxrNeQd+PQJJ10SCmzIJW3TVZqfkEWJxxWjuUkzZuzWq3qy/ixbll1SbHZLJpq5
-	 APYrEh1ZyU8OzExZWK9prEG49wV2+/rO2N9e/AGJYobUyEPaBjwCAvV163bonvk2O0
-	 DufTZ5j0jgJPSi0ZrsSm6SUiC10kqD2EFM6gkNaAJkOliKuwfeYCFOjBdkiCl2ZE5D
-	 5J2jsGeyIsv+PJ/V+WMVQLDhQFD21n3JPWh86fWZZKQlfeZU2S/mXfy/IJTxkqV9eo
-	 tqmez9aNHF4eKKqaVvK4xBCOsRPf/k4QEZcQbvsBcCx3meGXhR4EXU5WJe/4zaaSsZ
-	 /ZU57RtKBTpqg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E0ACC54755;
-	Wed, 14 May 2025 15:53:03 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Wed, 14 May 2025 17:41:15 +0200
-Subject: [PATCH v7 14/14] arm64: dts: rockchip: enable vicap dvp on
- wolfvision pf5 io expander
+	s=arc-20240116; t=1747237660; c=relaxed/simple;
+	bh=eNVkz8APIO1nh+4HkQFWToJCfZTmS6mmwUOuAH2QvyE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Md7SF+0/CNQJfuKcIfJBwuQSX1ZYjasvdx7qCEhP1cGA6eWTOSBzlW/sEU8To/CMFBawoessnMYY4ru6eTejjttVBKz+xmPp263FDO+XT911Cc/ebQQgxfiruiJbwdTm3nXr3o9E4QUz2puoQ/dO7fTvpwDymHqdadT2KROmGI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I9bqqet4; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5fd1f7f8b25so7853907a12.0;
+        Wed, 14 May 2025 08:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747237657; x=1747842457; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0DloVxymu3VJuIMRRzLqrAZrCgKY3Ks2zfcUlO6d+9o=;
+        b=I9bqqet44eKdOZg5LfZWpY6zWgcp+D5JrGm25t0bGsYkOhZe6dVby8KqIOh7vs70VH
+         ikY/UN4qRBllHfygt0gnyI+ha6/JzjSvigi/Ph7/RTCguJGhl2pqB3n/STj9fzqu1pNK
+         lPKMqq0cTVNS+xQIxp3ohdmMoB6xeh63zhlvS8tdI8l9RPXf5wjsjLHuT05cmNiGZ5wn
+         DUXU2lpXw1myZEsUPAqubRp7GCu2hg2bTHrMiXdtjyMhgEgshehmeFn7e7n25MEzrKPI
+         KU4OqGFr9X2C+DEP65hb3ihWUaPyd9FtqT8VI3e5doN7zqFxpTMOyjNcAPNVP9Bx7JRf
+         vWRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747237657; x=1747842457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0DloVxymu3VJuIMRRzLqrAZrCgKY3Ks2zfcUlO6d+9o=;
+        b=Sx4OyT1eaYFySHNeLJhSCVgRlo6x8oMKCZy9z3kPXj+A0G2iG6G4CmSV9/pD9eZiqG
+         BAkcRsLJ3jkIQiFtQaEpawdlsmxtqJ5eQEWxfD4lTZbE95TKDARGu5GTdXPzIDCm0gaW
+         0sTtAJ2RKu0mW9B+GUqxLnmdL3Z416mu8ohZbkziItNKSd192uwF91iNq7Y82fBHKbwc
+         1p7NAaUUJJ9AfrYulnsMEw/3LzFjUpY6yw3YEjtIu/90w4dTMKzprdgoGZH2GURszBoL
+         Di+1etYad3gbLJNCDKiGzHXNinc74T+s5qkQ89NtNRA+DgolJ38wn4u/WrBBJemN17Aa
+         mPFw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyvBujW/weBfC/YUBbRCtSs0Hr4SM/RGv6eJxuONocWLnMBX8C4S57CMOkwRnFC/1C0xTApMG6A+f3b9M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDrVcFqdp3kD4awbB+ojVs/rMwbFRZCyQSz5N86OcWI9l5BGcC
+	DfoBTDumwtWQvB2PqwhiiIYiyQVRplOiv8TlJOmm0iHuhWB4im47H6ZCpGoIN80=
+X-Gm-Gg: ASbGncvZNr/imZa3o00HeuBld8R6sYlEsbxgnX7DH/IBNQ9ABKbr3gqGyJ7CT9OzDvP
+	SpO3rpDHvcSAQJEvEpnhAyhFKdwpivJwQbo0NJHCKpsAUUuUuXFzk/UGLMlqgZ8ukb1WaE8mkmf
+	+KH3zjCP9y9UMCQDDSm3AE/8KTEiYcmlLL+2ka0y3/X2tJMuTCsGhtKGqmILLiDpTZa3Cjqxk/4
+	FYrT0AQy3T10wBsIrB1v4BCwGw2uvXnUmZaz8K3YR3sgB8DnlAYAv9J0iZGhU5dEbvVpZr+Y6lm
+	Q1tadvruVtZnfA1cCn5AnxsjlelYtfShIxxH60Dr61YdlxT3NJlijQ/YYLKs
+X-Google-Smtp-Source: AGHT+IFZORjJU2b6gjMmNHnrnF/Qvkyqut33GjK2d2u0j6lekJgU8sNw/0k/vl8H6yrc9/I1kYCeEw==
+X-Received: by 2002:a05:6402:280d:b0:5f4:c5eb:50c9 with SMTP id 4fb4d7f45d1cf-5ff988d09c3mr2784983a12.21.1747237656296;
+        Wed, 14 May 2025 08:47:36 -0700 (PDT)
+Received: from avt74j0.fritz.box ([2a02:8109:8617:d700:456b:224:c095:bd73])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ff8c016a16sm1952389a12.2.2025.05.14.08.47.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 May 2025 08:47:36 -0700 (PDT)
+From: Martin Hecht <mhecht73@gmail.com>
+To: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	sakari.ailus@linux.intel.com
+Cc: laurent.pinchart@ideasonboard.com,
+	tomm.merciai@gmail.com,
+	martin.hecht@avnet.eu,
+	michael.roeder@avnet.eu,
+	Martin Hecht <mhecht73@gmail.com>
+Subject: [PATCH v2] MAINTAINERS: update my email address to gmail.com
+Date: Wed, 14 May 2025 17:45:25 +0200
+Message-ID: <20250514154523.239435-3-mhecht73@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v7-14-7581fd96a33a@collabora.com>
-References: <20240220-rk3568-vicap-v7-0-7581fd96a33a@collabora.com>
-In-Reply-To: <20240220-rk3568-vicap-v7-0-7581fd96a33a@collabora.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Markus Elfring <Markus.Elfring@web.de>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Kever Yang <kever.yang@rock-chips.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Alexander Shiyan <eagle.alexander923@gmail.com>, 
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, 
- Michael Riesch <michael.riesch@wolfvision.net>, 
- Michael Riesch <michael.riesch@collabora.com>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747237265; l=1541;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=A46w67oMbroxqAcXCMQ9mjlreHO/teIN06ITNLENh64=;
- b=rHlRlv7WVUb+EsRcrImyjmJ8M57AwpV3gcaGXLTszDDggm0UGb8f63kbLyvTPDoUoj0Hm3BTl
- 7B46p2AwCsmDTuEgFU/rN2z5z+d3BqfyxnmPc49B4hG2jMyG7r2b5e+
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
+Content-Transfer-Encoding: 8bit
 
-From: Michael Riesch <michael.riesch@wolfvision.net>
+replace my corporate email address by @gmail.com
 
-The Digital Video Port (DVP, the 16-bit variant) of the RK3568 VICAP
-is broken out to the PF5 mainboard expansion header.
-Enable it in the device tree overlay for the WolfVision PF5 IO
-Expander board.
+Changes to be committed:
+	modified:   MAINTAINERS
 
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+Changes since v1:
+	whithespace in front of Signed-off-by removed
+
+Signed-off-by: Martin Hecht <mhecht73@gmail.com>
 ---
- .../rockchip/rk3568-wolfvision-pf5-io-expander.dtso  | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-index 048933de2943..8cfce71dd318 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-@@ -11,6 +11,7 @@
- #include <dt-bindings/clock/rk3568-cru.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/media/video-interfaces.h>
- #include <dt-bindings/pinctrl/rockchip.h>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5dee8459a614..e4a4f247d826 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -811,7 +811,7 @@ F:	drivers/media/platform/allegro-dvt/
  
- &{/} {
-@@ -134,3 +135,22 @@ &usb2phy0_host {
- 	phy-supply = <&usb_host_vbus>;
- 	status = "okay";
- };
-+
-+&vicap {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&cif_clk &cif_dvp_clk &cif_dvp_bus16>;
-+	status = "okay";
-+};
-+
-+&vicap_dvp {
-+	vicap_dvp_input: endpoint {
-+		bus-type = <MEDIA_BUS_TYPE_BT656>;
-+		bus-width = <16>;
-+		pclk-sample = <MEDIA_PCLK_SAMPLE_DUAL_EDGE>;
-+		rockchip,dvp-clk-delay = <10>;
-+	};
-+};
-+
-+&vicap_mmu {
-+	status = "okay";
-+};
-
+ ALLIED VISION ALVIUM CAMERA DRIVER
+ M:	Tommaso Merciai <tomm.merciai@gmail.com>
+-M:	Martin Hecht <martin.hecht@avnet.eu>
++M:	Martin Hecht <mhecht73@gmail.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
 -- 
-2.39.5
-
+2.43.0
 
 
