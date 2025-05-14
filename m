@@ -1,82 +1,111 @@
-Return-Path: <linux-media+bounces-32539-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32540-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F01AB7801
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 23:33:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98240AB7847
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 23:57:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8829417C54A
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 21:33:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 947DD7B7789
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 21:55:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A47111E9B1D;
-	Wed, 14 May 2025 21:33:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14E572248B0;
+	Wed, 14 May 2025 21:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iPSzoaFJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KTCdstgH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25AB4C6D
-	for <linux-media@vger.kernel.org>; Wed, 14 May 2025 21:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB70223DF2;
+	Wed, 14 May 2025 21:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747258423; cv=none; b=Tkz9YAdQFdsMEj8wDpOW4XUElil6VMeoe51ThyKdmxzD2BRaexqgbcw3mg8BtLP07ccIy1V7Z6r0DEflU1V9IqSLwUEPGe6W+8qfpLxkvZGlsfNJG9HGi+lMPgGBzy6kdaCEiSxR1gAvaU47n+rGKnwEjiOFViLo6itsAzX/uOk=
+	t=1747259807; cv=none; b=Jqw7tpato/HCQh9X6sSeI8R7KpmsiwmYmdISJWwd9/99uMuWqY1OGtsZyh4iffb2HJdb0F35VCygKLMJYyv3RmaMOvcP+WiA0QQb6FneG2aED8fAsB/0UIdiEi/NIQxEbcKOQjWUuVm5LmjK4nnMB5DmFCVXdtmrvbCXtWje5F8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747258423; c=relaxed/simple;
-	bh=9rCDrvJ7ihEiAIyDB1Pc33wYbxYNR5P+VqqgJlxg70g=;
+	s=arc-20240116; t=1747259807; c=relaxed/simple;
+	bh=RGYu87/MAqgKB3NyYtwwQKOk3FvzBnCoc9OCA815Hsg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BhfXtlWu0i1Ipy4qy51QPy2L+y078pVbpio0WX7A0VmNttsbzQiW5p3yTHRwLN2Nswbi9efUFVudanhSl9CprIZ287CF0tVsrtfCqMukodzrj3Npv0soyTbqu1f9S1Oj8vp/TzLT9wO+HC22h3Glx/IddqCxbzfHtgR31tsBZgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iPSzoaFJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cust-east-par-46-193-72-226.cust.wifirst.net [46.193.72.226])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 264946A6;
-	Wed, 14 May 2025 23:33:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747258402;
-	bh=9rCDrvJ7ihEiAIyDB1Pc33wYbxYNR5P+VqqgJlxg70g=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=hwux0wAQzivly1eebwdkplMfP7fZd0wgqqdQcP9ICTGni8Yfa3U5mcV76tu+Xhz18XxkkzTTODgjUvukpljZQmNlEtraGK9sVDQxcGKAvR46efy9EAzBhHENOSgLc2m9wE82dgLtK6VGHeyBalz81FKXkrWG6brdcu0atsyUCAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KTCdstgH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CFE4C4CEED;
+	Wed, 14 May 2025 21:56:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747259806;
+	bh=RGYu87/MAqgKB3NyYtwwQKOk3FvzBnCoc9OCA815Hsg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iPSzoaFJt3Knq8Gm20Ycdx7S7pmlb//q+JiniLMH1IvgdjaS/THv6nmZpgni9r7/D
-	 /3j0Mo90zdXZpErwAFqKQGslKEE9POaFycanoD4W007pbHAQUmhrHn/23Jro9rn29s
-	 QOOLQgcfFdGnTBKR1DhdNUHfisTcShg4Gd1/Fsag=
-Date: Wed, 14 May 2025 23:33:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mario Bergeron <grouby177@gmail.com>
-Cc: kieran.bingham@ideasonboard.com, libcamera-devel@lists.libcamera.org,
-	linux-media@vger.kernel.org
-Subject: Re: [ANNOUNCEMENT] libcamera workshop 2025 - Nice, May 16th
-Message-ID: <20250514213331.GJ23592@pendragon.ideasonboard.com>
-References: <7B9D4FF4-4174-4DA2-AA77-ABFCEFED23E8@gmail.com>
+	b=KTCdstgHWRrldh1wABpKj5eRgkuQhNB8/qHdUFoPG1CrYo9NuhWXZzjVQkImNGzNW
+	 5V1YXwpoqKfb1yoSTA1qt/WlcAV8ROqTVWhLYewcBW1/npMuTgTScjUBPx0e+5HLvC
+	 x7EceodlirCQuQktCWkdKiOkNGMXbXYAGg7Fvsi6S92q6TPzHxUq6fDRM8ArrW3v0t
+	 uluNe7pVtRuBgTTpZE7pZvPo20pgcB/uNFM6+J2naS0V5HJHKc4cNlEGI2dSpcdkpX
+	 sBBwoRnlz/seX7ra4MgDLIU8runuxeffmDssmHoLvXlZfkUiMXpYOhi7bYwFVCo9P1
+	 D20Lm3eykWjRQ==
+Date: Wed, 14 May 2025 16:56:45 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Liu Ying <victor.liu@nxp.com>, Zhi Mao <zhi.mao@mediatek.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>,
+	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Julien Massot <julien.massot@collabora.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Will Deacon <will@kernel.org>, Ross Burton <ross.burton@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-media@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Eric Biggers <ebiggers@google.com>, linux-gpio@vger.kernel.org,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Taniya Das <quic_tdas@quicinc.com>, Mark Brown <broonie@kernel.org>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	linux-arm-kernel@lists.infradead.org,
+	Vignesh Raghavendra <vigneshr@ti.com>
+Subject: Re: [PATCH v3 01/19] dt-bindings: media: i2c: max96717: add myself
+ as maintainer
+Message-ID: <174725980451.3108487.13826253376011337133.robh@kernel.org>
+References: <20250512212832.3674722-1-demonsingur@gmail.com>
+ <20250512212832.3674722-2-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7B9D4FF4-4174-4DA2-AA77-ABFCEFED23E8@gmail.com>
+In-Reply-To: <20250512212832.3674722-2-demonsingur@gmail.com>
 
-Hi Mario,
 
-On Wed, May 14, 2025 at 10:20:20PM +0300, Mario Bergeron wrote:
-> Laurent,
+On Tue, 13 May 2025 00:28:10 +0300, Cosmin Tanislav wrote:
+> Analog Devices is taking responsability for the maintenance of the Maxim
+> GMSL2/3 devices.
+> Add myself to the maintainers list and to the device tree bindings.
 > 
-> Just wanted to know if will be possible to attend remotely ?
-> If yes, is there a link ?
-> If no, will the session be recorded ?
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml | 1 +
+>  MAINTAINERS                                                     | 1 +
+>  2 files changed, 2 insertions(+)
+> 
 
-Please see
-https://lists.libcamera.org/pipermail/libcamera-devel/2025-May/050272.html
-for information about remote attendance. It will be a best effort setup,
-as we can't guarantee the quality of the internet connection in the
-conference room. The workshop will not be recorded, but we will take
-notes and publish them.
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
--- 
-Regards,
-
-Laurent Pinchart
 
