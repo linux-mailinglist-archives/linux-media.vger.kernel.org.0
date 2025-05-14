@@ -1,220 +1,199 @@
-Return-Path: <linux-media+bounces-32440-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32441-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FC0AB63CC
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 09:09:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A10EEAB64FA
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 09:58:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15891189DD38
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 07:09:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE3773AD25F
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 07:58:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B55D6205AA1;
-	Wed, 14 May 2025 07:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A85B3216386;
+	Wed, 14 May 2025 07:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uta2K00a"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCWqqDjQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4640B634EC;
-	Wed, 14 May 2025 07:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B497214202;
+	Wed, 14 May 2025 07:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747206538; cv=none; b=WnUKpPLdUvivq3SRY12B0QMhbvxRqvsSiEd7KsrXHAUk5Kfi6QjxKZB+4Ch9HcWgvYiutJG8xSHVa3FzwGli7GtOHj+tIlKjEvQmFO675Q+MWbuIoe2EcW+RGIvKHTQQm5A3kE7HUtR8RLFnle6Lg/9ODxR2aurRU5A5LN/t4Ts=
+	t=1747209527; cv=none; b=pCkDxEQ9kGnvGEk5mDouvecYkppx3EnVLV6km2JN4fLVD19agd2Dd+1FfhjV9p6kbVrVcwcWGqx42w9EcrLGp+SRO0VdReJyyNQNW371t98PG6S15TQ4OQ20BVKdJZNW/2+Var/BeNRfNLfYSqv726LbHvJVyyfN23gCsSyfaXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747206538; c=relaxed/simple;
-	bh=I5ZeDzwTsw5smVFSGfLPW9Kqqd0AVZLFXaBqDiREk1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k8AiFaClqJ8EepZSj63asRb18MZAonHA4lGAtj5CnSDl9LHsU9HngvOFo/Gip/oD10k5FHT7ptKXNX4AvMOLGai+ax0yccdLkOL9RElMcuLmj23nKgK1of3kCVedgroLPaasGWlDOMthxmT1k7fCx08HGs1IkB+HrvqpiToOAEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uta2K00a; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747206536; x=1778742536;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=I5ZeDzwTsw5smVFSGfLPW9Kqqd0AVZLFXaBqDiREk1U=;
-  b=Uta2K00aq9ueI+Sf/9yzC7MAl/hKx62vxlybNhpyJBuuCx3oBmycl3cY
-   qRqJf1Uo8XIplW4a/xJkzpLw2nIHTt2Vp3JEqNpkU9ktR1ISqgAmrDgjD
-   kh9kbP1mrWsUfIvHT+OumUV3EPGVwqGSa54mfKp1G8wjjqEfp8WSUNRTb
-   RLLQwtu1ZF4rSZfFJvuqoP+0YDNfokpgmQkFFoCoyyWW1zdjskD5INupl
-   b8vl+K6p409bOLnDkiALl6Y4zeaI3bcKPyeYjPtGSF6+ZirjzYEUI/Dc8
-   EKzu0+bSwJ7cfprNEIvlhz8XxPB7Hs3TkmB25ZhYDtk2Lh0ihEpzeEW7X
-   g==;
-X-CSE-ConnectionGUID: VLu4ss5PRze7K4shRscZ5w==
-X-CSE-MsgGUID: 4oIrn8zzSBeIK0hmsa/WCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="66635949"
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="66635949"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 00:08:33 -0700
-X-CSE-ConnectionGUID: PlY5bNZKQKau2P5xsihc5w==
-X-CSE-MsgGUID: rrPdk0y0QkOk1bT2XRucfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="142894346"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orviesa004.jf.intel.com with ESMTP; 14 May 2025 00:08:27 -0700
-Date: Wed, 14 May 2025 15:02:53 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
-	christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
-	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
-	dan.j.williams@intel.com, yilun.xu@intel.com,
-	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
-	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aCRAHRCKP1s0Oi0c@yilunxu-OptiPlex-7050>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
- <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
- <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
- <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
- <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
- <20250509184318.GD5657@nvidia.com>
- <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
- <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
+	s=arc-20240116; t=1747209527; c=relaxed/simple;
+	bh=6tM6IvYJ+UJwErZFj2ILocGq36fJgFxr2ZEBz5WWSCg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=U8HVFQEEr4z1kYTjo8nAM3Bcz4vYiUpS5ycWS0aDSUBkkHCC9dNYNY2W7D1nG+UmUnVvnrKU4f2wVhvCgAAG4gRXgL+xBKkGYSiJ0NVGqjCDZzhWUq+rsawfpCsmO95kRY9IPUVx6Fdwd1XcW4r5sQZOnKgnO2tnLkqZiMDAX9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCWqqDjQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D513DC4CEE9;
+	Wed, 14 May 2025 07:58:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747209526;
+	bh=6tM6IvYJ+UJwErZFj2ILocGq36fJgFxr2ZEBz5WWSCg=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=QCWqqDjQJGp4+GtEMpwBpBJeJri1buuxkh2vT6h+qKn+WBBpQPZ91Y8skd0TUhBWt
+	 cF3cmslw8xMzAaM7lb50sQ2Mh4YgXiFmGcCA2tDG3CvhyhJwJRriPVJcdzUO5u6llq
+	 pq/vE07SDfNeQjGO9lw7Ui8M6hf0IbjW34io2ur1yzqZ6hkDbsgaVIAYvmUO1HKUjy
+	 lFC6SggYHzscyo8OBrHW7LQ7mX3IUvPcuUxeIaPJ4t+GYSXJrlcjylxNd7eMbvInb7
+	 VyNgJtvyRzkZRvZb+Jg6UlnWScYBJRL776cLNGfR2cRVpmuD03nzCy1pbxGiul09SF
+	 5uPhX8pxLVOcw==
+Message-ID: <ae19e684-4f46-42b7-bb4e-fc6bb13ed153@kernel.org>
+Date: Wed, 14 May 2025 09:58:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250512140617.GA285583@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH 3/5] dt-bindings: media: allegrodvt: add decoder
+ dt-bindings for Gen3 IP
+To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Heiko Stuebner
+ <heiko@sntech.de>, Junhao Xie <bigfoot@classfun.cn>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>, Manivannan Sadhasivam
+ <manivannan.sadhasivam@linaro.org>, Kever Yang <kever.yang@rock-chips.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Gaosheng Cui <cuigaosheng1@huawei.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
+ Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20250513083609.328422-1-yassine.ouaissa@allegrodvt.com>
+ <20250513083609.328422-4-yassine.ouaissa@allegrodvt.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250513083609.328422-4-yassine.ouaissa@allegrodvt.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 12, 2025 at 11:06:17AM -0300, Jason Gunthorpe wrote:
-> On Mon, May 12, 2025 at 07:30:21PM +1000, Alexey Kardashevskiy wrote:
+On 13/05/2025 10:35, Yassine Ouaissa wrote:
+> Add compatible for video decoder on allegrodvt Gen 3 IP.
 > 
-> > > > I'm surprised by this.. iommufd shouldn't be doing PCI stuff, it is
-> > > > just about managing the translation control of the device.
-> > > 
-> > > I have a little difficulty to understand. Is TSM bind PCI stuff? To me
-> > > it is. Host sends PCI TDISP messages via PCI DOE to put the device in
-> > > TDISP LOCKED state, so that device behaves differently from before. Then
-> > > why put it in IOMMUFD?
-> > 
-> > 
-> > "TSM bind" sets up the CPU side of it, it binds a VM to a piece of
-> > IOMMU on the host CPU. The device does not know about the VM, it
-> > just enables/disables encryption by a request from the CPU (those
-> > start/stop interface commands). And IOMMUFD won't be doing DOE, the
-> > platform driver (such as AMD CCP) will. Nothing to do for VFIO here.
-> > 
-> > We probably should notify VFIO about the state transition but I do
-> > not know VFIO would want to do in response.
+> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+
+How is this resend? You already sent patches, so this is v2 or v3.
+Version your patches correctly or just use b4 for that.
+
+
+> ---
+>  .../bindings/media/allegrodvt,al300-vdec.yaml | 83 +++++++++++++++++++
+>  1 file changed, 83 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml
 > 
-> We have an awkward fit for what CCA people are doing to the various
-> Linux APIs. Looking somewhat maximally across all the arches a "bind"
-> for a CC vPCI device creation operation does:
-> 
->  - Setup the CPU page tables for the VM to have access to the MMIO
+> diff --git a/Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml b/Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml
+> new file mode 100644
+> index 000000000000..4218892d6950
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml
+> @@ -0,0 +1,83 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allegrodvt,al300-vdec.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allegro DVT Video IP Decoder Gen 3
+> +
+> +maintainers:
+> +  - Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>
+> +
+> +description:
+> +  The al300-vdec represents the latest generation of Allegro DVT IP decoding
+> +  technology, offering significant advancements over its predecessors.
+> +  This new decoder features enhanced processing capabilities with improved
+> +  throughput and reduced latency.
+> +
+> +  Communication between the host driver software and the MCU is implemented
+> +  through a specialized mailbox interface mechanism. This mailbox system
+> +  provides a structured channel for exchanging commands, parameters, and
+> +  status information between the host CPU and the MCU controlling the codec
+> +  engines.
+> +
+> +properties:
+> +  compatible:
+> +    const: allegrodvt,al300-vdec
+> +
+> +  reg:
+> +    items:
+> +      - description: The registers
+> +      - description: the MCU APB register
+> +
+> +  reg-names:
+> +    items:
+> +      - const: regs
+> +      - const: apb
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: MCU clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: mcu_clk
 
-This is guest side thing, is it? Anything host need to opt-in?
+Nothing improved.
 
->  - Revoke hypervisor access to the MMIO
-
-VFIO could choose never to mmap MMIO, so in this case nothing to do?
-
->  - Setup the vIOMMU to understand the vPCI device
->  - Take over control of some of the IOVA translation, at least for T=1,
->    and route to the the vIOMMU
->  - Register the vPCI with any attestation functions the VM might use
->  - Do some DOE stuff to manage/validate TDSIP/etc
-
-Intel TDX Connect has a extra requirement for "unbind":
-
-- Revoke KVM page table (S-EPT) for the MMIO only after TDISP
-  CONFIG_UNLOCK
-
-Another thing is, seems your term "bind" includes all steps for
-shared -> private conversion. But in my mind, "bind" only includes
-putting device in TDISP LOCK state & corresponding host setups required
-by firmware. I.e "bind" means host lockes down the CC setup, waiting for
-guest attestation.
-
-While "unbind" means breaking CC setup, no matter the vPCI device is
-already accepted as CC device, or only locked and waiting for attestation.
-
-> 
-> So we have interactions of things controlled by PCI, KVM, VFIO, and
-> iommufd all mushed together.
-> 
-> iommufd is the only area that already has a handle to all the required
-> objects:
->  - The physical PCI function
->  - The CC vIOMMU object
->  - The KVM FD
->  - The CC vPCI object
-> 
-> Which is why I have been thinking it is the right place to manage
-> this.
-
-Yeah, I see the merit.
-
-> 
-> It doesn't mean that iommufd is suddenly doing PCI stuff, no, that
-> stays in VFIO.
-
-I'm not sure if Alexey's patch [1] illustates your idea. It calls
-tsm_tdi_bind() which directly does device stuff, and impacts MMIO.
-VFIO doesn't know about this.
-
-I have to interpret this as VFIO firstly hand over device CC features
-and MMIO resources to IOMMUFD, so VFIO never cares about them.
-
-[1] https://lore.kernel.org/all/20250218111017.491719-15-aik@amd.com/
-
-> 
-> > > > So your issue is you need to shoot down the dmabuf during vPCI device
-> > > > destruction?
-> > > 
-> > > I assume "vPCI device" refers to assigned device in both shared mode &
-> > > prvate mode. So no, I need to shoot down the dmabuf during TSM unbind,
-> > > a.k.a. when assigned device is converting from private to shared.
-> > > Then recover the dmabuf after TSM unbind. The device could still work
-> > > in VM in shared mode.
-> 
-> What are you trying to protect with this? Is there some intelism where
-> you can't have references to encrypted MMIO pages?
-> 
-> > > What I really want is, one SW component to manage MMIO dmabuf, secure
-> > > iommu & TSM bind/unbind. So easier coordinate these 3 operations cause
-> > > these ops are interconnected according to secure firmware's requirement.
-> >
-> > This SW component is QEMU. It knows about FLRs and other config
-> > space things, it can destroy all these IOMMUFD objects and talk to
-> > VFIO too, I've tried, so far it is looking easier to manage. Thanks,
-> 
-> Yes, qemu should be sequencing this. The kernel only needs to enforce
-> any rules required to keep the system from crashing.
-
-To keep from crashing, The kernel still needs to enforce some firmware
-specific rules. That doesn't reduce the interactions between kernel
-components. E.g. for TDX, if VFIO doesn't control "bind" but controls
-MMIO, it should refuse FLR or MSE when device is bound. That means VFIO
-should at least know from IOMMUFD whether device is bound.
-
-Further more, these rules are platform firmware specific, "QEMU executes
-kernel checks" means more SW components should be aware of these rules.
-That multiples the effort.
-
-And QEMU can be killed, means if kernel wants to reclaim all the
-resources, it still have to deal with the sequencing. And I don't think
-it is a good idea that kernel just stales large amount of resources.
-
-Thanks,
-Yilun
-> 
-> Jason
+Best regards,
+Krzysztof
 
