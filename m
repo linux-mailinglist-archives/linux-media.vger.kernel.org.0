@@ -1,291 +1,187 @@
-Return-Path: <linux-media+bounces-32476-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32477-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F44AB69F0
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 13:29:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B0BAB6A64
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 13:43:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 203121893890
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 11:30:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 653FD7A678E
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 11:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9E5627CCF6;
-	Wed, 14 May 2025 11:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C3D82749C0;
+	Wed, 14 May 2025 11:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="yZ4fBlsp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tg6G6o65"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7CA276053;
-	Wed, 14 May 2025 11:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABD5270571;
+	Wed, 14 May 2025 11:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747222024; cv=none; b=ioKnL3FFG2sH7aK+NmRRsrpINrRIOCVERkb1kjE8YaeD/dyHGWeyKF+rscJgSEzAeR8NoRE9v50Utzx8nq2z7J1TZ+gmRgxYoehOykCSfWB4iQ65n3ba9WLvwnI12fa+KtWQhcCjy0/KfK32K4JN9kHo0IGCVDI9HaIKXufVXek=
+	t=1747222999; cv=none; b=LAgNjCWEXrozQZKyyuk45aAN4Vt70TBn00+5R7/Rsi9Ox/m11Xm+/5DCnI1Zqled1/3wIjXd+2Tev52C0aOg97E8TgTVu69boveoUhes/K7GXMBxf0UX+Ie1H7Q0TB0RMLaMFKiuEX3ltfyCQrStDFLgNQiIPxIpVQMJtC58AJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747222024; c=relaxed/simple;
-	bh=OpIz8hToTsa12D3dl29WGsxu3kAJVZb1M4NVtWM4qwE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dczXn+6AFYdjZ3fBq4VdX0IXDR7E8/LjbNREWHULlG4y9fnnN/TzqFEYzxNaVC4yyXI5v877hRadNSMiUEpGqXla7yGpnU/hRalBOP++c0PNu7TAJEVsfcMuMYnbqnp+HmAMXiBk3cWihNvrY/UB9/YmoqaQYPYN03EBxDV4Jy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=yZ4fBlsp; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 54EBQpF33126881
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 May 2025 06:26:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1747222011;
-	bh=NSVMFkYXwf8uF4rEPRU6EjL/j3hreF33Qtnl3skMvwc=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=yZ4fBlspfcI42EkS16g2RnfwXwfDFAk9RtNdKpMxmiKf7QINSIrqIagXUXFQ1hoqM
-	 YHE/uQQxWs1jTGYNR8YezTGW0HVH/wZwH93MZ3IA6QJ3IS8qah1j9HrXK1zVxGJASI
-	 XTtBFW9/JwXiF+d2w/UXf1zxR/7gswaICbRpAD2Y=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 54EBQp47085433
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 14 May 2025 06:26:51 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 14
- May 2025 06:26:51 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 14 May 2025 06:26:50 -0500
-Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [10.24.69.232])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54EBPSVI107507;
-	Wed, 14 May 2025 06:26:44 -0500
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
-        <mripard@kernel.org>
-CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
-        <vaishnav.a@ti.com>, <s-jain1@ti.com>, <vigneshr@ti.com>,
-        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <sakari.ailus@linux.intel.com>,
-        <hverkuil-cisco@xs4all.nl>, <tomi.valkeinen@ideasonboard.com>,
-        <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
-        <jack.zhu@starfivetech.com>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v4 12/12] media: ti: j721e-csi2rx: Change the drain architecture for multistream
-Date: Wed, 14 May 2025 16:55:27 +0530
-Message-ID: <20250514112527.1983068-13-r-donadkar@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250514112527.1983068-1-r-donadkar@ti.com>
-References: <20250514112527.1983068-1-r-donadkar@ti.com>
+	s=arc-20240116; t=1747222999; c=relaxed/simple;
+	bh=Wg89B9BF8gDk/rIHsMm38bILu0tdfZNg8CzBjsrLAic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LLLGD1f0Lyi/EabEqh5PL06SJSMCG26Hhyd4nd40lHn7CclyAUdf0uFNqYoP6jTv30XyKZIZfGS3FcOwnvNb2RQYQKp9Nf0Iufb0c+V8uIvAvBd8TBh5JKKGlG8VXJ8sGZApAN1GRJPwWf06tMqOkXh6BmLn7hdHLbht2ps/jFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tg6G6o65; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747222997; x=1778758997;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Wg89B9BF8gDk/rIHsMm38bILu0tdfZNg8CzBjsrLAic=;
+  b=Tg6G6o65UpU9J3yck4GNovYc6vHuMIsI32egncpdd1j8ClbtUojKIsN7
+   To3NHBBmNCcOp+TaHPROsaxNacLv2OiM81B9Rj92vHN55jZB6lJbqjEpX
+   gApGMJDjZcpKfcjbm5Mxw3eE2hWQrHwuHNAE+eD8AAiwoVE4p9O96IN1p
+   6ued2IWHf5oBn2gdPdQD1TmOVhecYDhmMEHx6bXBq8Or2tTHccQkfncMZ
+   Phi4kW99M37boNAWF8OM1lO0qES0mbNeyIj70Db0r6gyjrAVOEdMp4wki
+   rMZhuJoezS5AyxeUmDKVo2VMpsrsu2xEGrI/x9EQK9Cy7NmJjQHvRiWfl
+   Q==;
+X-CSE-ConnectionGUID: dnxgEkT2QuCRM2QlVh6pWg==
+X-CSE-MsgGUID: GdGVFgknS6yhS36Owzqd1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="48364088"
+X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
+   d="scan'208";a="48364088"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 04:43:16 -0700
+X-CSE-ConnectionGUID: PQfKtnYPTMunV+I4g3NcwQ==
+X-CSE-MsgGUID: f+qGa+x2RjCR/jjYLVOSMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
+   d="scan'208";a="142781145"
+Received: from ettammin-desk.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.222])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 04:43:14 -0700
+Date: Wed, 14 May 2025 13:43:03 +0200
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com, 
+	jacopo.mondi@ideasonboard.com, hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com, 
+	naush@raspberrypi.com, mchehab@kernel.org, hdegoede@redhat.com, 
+	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [RFC PATCH v2] media: v4l2-common: Add a helper for obtaining
+ the clock producer
+Message-ID: <dumi72cs5fc423kidnmbtxgbsbir5r3f5u4pyzola7wvznyh2l@4otjmv2qaqjv>
+References: <20250310122305.209534-1-mehdi.djait@linux.intel.com>
+ <aB9M4jUsGA9YAkSm@kekkonen.localdomain>
+ <urd3bng2yixuiny536imfoihhe6uyowynih7gkc4q6pkr6mijy@ggqlz5zu5isf>
+ <aCIWk3tiTUM0TeEa@svinhufvud>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aCIWk3tiTUM0TeEa@svinhufvud>
 
-On buffer starvation the DMA is marked IDLE, and the stale data in the
-internal FIFOs gets drained only on the next VIDIOC_QBUF call from the
-userspace. This approach works fine for a single stream case.
+Hi Sakari,
 
-But in multistream scenarios, buffer starvation for one stream i.e. one
-virtual channel, can block the shared HW FIFO of the CSI2RX IP. This can
-stall the pipeline for all other virtual channels, even if buffers are
-available for them.
+On Mon, May 12, 2025 at 06:41:07PM +0300, Sakari Ailus wrote:
+> Hi Mehdi,
+> 
+> On Mon, May 12, 2025 at 10:21:21AM +0200, Mehdi Djait wrote:
+> > Hi Sakari,
+> > 
+> > On Sat, May 10, 2025 at 12:56:02PM +0000, Sakari Ailus wrote:
+> > > Hi Mehdi,
+> > > 
+> > > On Mon, Mar 10, 2025 at 01:23:05PM +0100, Mehdi Djait wrote:
+> > > > Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
+> > > > platforms to retrieve a reference to the clock producer from firmware.
+> > > > 
+> > > > This helper behaves the same as clk_get_optional() except where there is
+> > > > no clock producer like ACPI-based platforms.
+> > > > 
+> > > > For ACPI-based platforms the function will read the "clock-frequency"
+> > > > ACPI _DSD property and register a fixed frequency clock with the frequency
+> > > > indicated in the property.
+> > > > 
+> > > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> > 
+> > SNIP
+> > 
+> > > > +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
+> > > > +{
+> > > > +	struct clk_hw *clk_hw;
+> > > > +	struct clk *clk;
+> > > > +	u32 rate;
+> > > > +	int ret;
+> > > > +
+> > > > +	clk = devm_clk_get_optional(dev, id);
+> > > > +	if (clk)
+> > > > +		return clk;
+> > > > +
+> > > > +	if (!is_acpi_node(dev_fwnode(dev)))
+> > > > +		return ERR_PTR(-ENOENT);
+> > > > +
+> > > > +	ret = device_property_read_u32(dev, "clock-frequency", &rate);
+> > > > +	if (ret)
+> > > > +		return ERR_PTR(ret);
+> > > > +
+> > > > +	if (!id) {
+> > > > +		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
+> > > > +		if (!id)
+> > > > +			return ERR_PTR(-ENOMEM);
+> > > > +	}
+> > > > +
+> > > > +	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
+> > > 
+> > > devm_clk_hw_register_fixed_rate() is only available when COMMON_CLK is
+> > > enabled. You need #ifdefs here. In practice without CCF only
+> > > devm_clk_get_optional() is useful I guess.
+> > > 
+> > 
+> > I added a call to IS_REACHABLE(CONFIG_COMMON_CLK) in the v4 of this patch:
+> > https://lore.kernel.org/linux-media/20250321130329.342236-1-mehdi.djait@linux.intel.com/
+> 
+> I wonder if this approach works. Depending on the compiler implementation,
+> the compiler could (or even should) still run into issues in finding an
+> unresolvable symbol, even if the symbol is not reachable and can be
+> optimised away.
+> 
 
-This patch introduces a new architecture, that continuously drains data
-from the shared HW FIFO into a small (32KiB) buffer if no buffers are made
-available to the driver from the userspace. This ensures independence
-between different streams, where a slower downstream element for one
-camera does not block streaming for other cameras.
+So I discussed with Arnd about this (He introduced IS_REACHABLE()):
 
-Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
----
- .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 96 +++++++------------
- 1 file changed, 33 insertions(+), 63 deletions(-)
+- IS_REACHABLE() is actually discouraged [1]
 
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index ba2a30bfed37d..3b046d3cf7e5a 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -57,7 +57,6 @@
- #define TI_CSI2RX_MAX_SOURCE_PADS	TI_CSI2RX_MAX_CTX
- #define TI_CSI2RX_MAX_PADS		(1 + TI_CSI2RX_MAX_SOURCE_PADS)
- 
--#define DRAIN_TIMEOUT_MS		50
- #define DRAIN_BUFFER_SIZE		SZ_32K
- 
- struct ti_csi2rx_fmt {
-@@ -77,7 +76,6 @@ struct ti_csi2rx_buffer {
- 
- enum ti_csi2rx_dma_state {
- 	TI_CSI2RX_DMA_STOPPED,	/* Streaming not started yet. */
--	TI_CSI2RX_DMA_IDLE,	/* Streaming but no pending DMA operation. */
- 	TI_CSI2RX_DMA_ACTIVE,	/* Streaming and pending DMA operation. */
- };
- 
-@@ -245,6 +243,10 @@ static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
- static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
- 			       struct ti_csi2rx_buffer *buf);
- 
-+/* Forward declarations needed by ti_csi2rx_drain_callback. */
-+static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx);
-+static int ti_csi2rx_dma_submit_pending(struct ti_csi2rx_ctx *ctx);
-+
- static const struct ti_csi2rx_fmt *find_format_by_fourcc(u32 pixelformat)
- {
- 	unsigned int i;
-@@ -596,9 +598,28 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
- 
- static void ti_csi2rx_drain_callback(void *param)
- {
--	struct completion *drain_complete = param;
-+	struct ti_csi2rx_ctx *ctx = param;
-+	struct ti_csi2rx_dma *dma = &ctx->dma;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&dma->lock, flags);
- 
--	complete(drain_complete);
-+	if (dma->state == TI_CSI2RX_DMA_STOPPED) {
-+		spin_unlock_irqrestore(&dma->lock, flags);
-+		return;
-+	}
-+
-+	/*
-+	 * If dma->queue is empty, it signals no buffer has arrived from
-+	 * user space, so, queue more transaction to drain dma
-+	 */
-+	if (list_empty(&dma->queue)) {
-+		if (ti_csi2rx_drain_dma(ctx))
-+			dev_warn(ctx->csi->dev, "DMA drain failed\n");
-+	} else {
-+		ti_csi2rx_dma_submit_pending(ctx);
-+	}
-+	spin_unlock_irqrestore(&dma->lock, flags);
- }
- 
- /*
-@@ -616,12 +637,9 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
- {
- 	struct ti_csi2rx_dev *csi = ctx->csi;
- 	struct dma_async_tx_descriptor *desc;
--	struct completion drain_complete;
- 	dma_cookie_t cookie;
- 	int ret;
- 
--	init_completion(&drain_complete);
--
- 	desc = dmaengine_prep_slave_single(ctx->dma.chan, csi->drain.paddr,
- 					   csi->drain.len, DMA_DEV_TO_MEM,
- 					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-@@ -631,7 +649,7 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
- 	}
- 
- 	desc->callback = ti_csi2rx_drain_callback;
--	desc->callback_param = &drain_complete;
-+	desc->callback_param = ctx;
- 
- 	cookie = dmaengine_submit(desc);
- 	ret = dma_submit_error(cookie);
-@@ -640,13 +658,6 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
- 
- 	dma_async_issue_pending(ctx->dma.chan);
- 
--	if (!wait_for_completion_timeout(&drain_complete,
--					 msecs_to_jiffies(DRAIN_TIMEOUT_MS))) {
--		dmaengine_terminate_sync(ctx->dma.chan);
--		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
--		ret = -ETIMEDOUT;
--		goto out;
--	}
- out:
- 	return ret;
- }
-@@ -694,9 +705,11 @@ static void ti_csi2rx_dma_callback(void *param)
- 
- 	ti_csi2rx_dma_submit_pending(ctx);
- 
--	if (list_empty(&dma->submitted))
--		dma->state = TI_CSI2RX_DMA_IDLE;
--
-+	if (list_empty(&dma->submitted)) {
-+		if (ti_csi2rx_drain_dma(ctx))
-+			dev_warn(ctx->csi->dev,
-+				 "DMA drain failed on one of the transactions\n");
-+	}
- 	spin_unlock_irqrestore(&dma->lock, flags);
- }
- 
-@@ -749,7 +762,7 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
- 		 * enforced before terminating DMA.
- 		 */
- 		ret = ti_csi2rx_drain_dma(ctx);
--		if (ret && ret != -ETIMEDOUT)
-+		if (ret)
- 			dev_warn(ctx->csi->dev,
- 				 "Failed to drain DMA. Next frame might be bogus\n");
- 	}
-@@ -816,57 +829,14 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
- 	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
- 	struct ti_csi2rx_buffer *buf;
- 	struct ti_csi2rx_dma *dma = &ctx->dma;
--	bool restart_dma = false;
- 	unsigned long flags = 0;
--	int ret;
- 
- 	buf = container_of(vb, struct ti_csi2rx_buffer, vb.vb2_buf);
- 	buf->ctx = ctx;
- 
- 	spin_lock_irqsave(&dma->lock, flags);
--	/*
--	 * Usually the DMA callback takes care of queueing the pending buffers.
--	 * But if DMA has stalled due to lack of buffers, restart it now.
--	 */
--	if (dma->state == TI_CSI2RX_DMA_IDLE) {
--		/*
--		 * Do not restart DMA with the lock held because
--		 * ti_csi2rx_drain_dma() might block for completion.
--		 * There won't be a race on queueing DMA anyway since the
--		 * callback is not being fired.
--		 */
--		restart_dma = true;
--		dma->state = TI_CSI2RX_DMA_ACTIVE;
--	} else {
--		list_add_tail(&buf->list, &dma->queue);
--	}
-+	list_add_tail(&buf->list, &dma->queue);
- 	spin_unlock_irqrestore(&dma->lock, flags);
--
--	if (restart_dma) {
--		/*
--		 * Once frames start dropping, some data gets stuck in the DMA
--		 * pipeline somewhere. So the first DMA transfer after frame
--		 * drops gives a partial frame. This is obviously not useful to
--		 * the application and will only confuse it. Issue a DMA
--		 * transaction to drain that up.
--		 */
--		ret = ti_csi2rx_drain_dma(ctx);
--		if (ret && ret != -ETIMEDOUT)
--			dev_warn(ctx->csi->dev,
--				 "Failed to drain DMA. Next frame might be bogus\n");
--
--		spin_lock_irqsave(&dma->lock, flags);
--		ret = ti_csi2rx_start_dma(ctx, buf);
--		if (ret) {
--			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
--			dma->state = TI_CSI2RX_DMA_IDLE;
--			spin_unlock_irqrestore(&dma->lock, flags);
--			dev_err(ctx->csi->dev, "Failed to start DMA: %d\n", ret);
--		} else {
--			list_add_tail(&buf->list, &dma->submitted);
--			spin_unlock_irqrestore(&dma->lock, flags);
--		}
--	}
- }
- 
- static int ti_csi2rx_get_route(struct ti_csi2rx_ctx *ctx)
--- 
-2.34.1
+- COFIG_COMMON_CLK is a bool, so IS_ENABLED() will be the right solution here
 
+- usage of IS_ENABLED() is also encouraged in the coding style [2]
+
+- we will not face compiler issues because the kernel relies on
+  dead code elimination in the compiler. (Actually I remember this is
+  one of the reasons why you cannot compile the kernel with optimization
+  turned off. I don't know how much this argument holds today [3]
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/Documentation/kbuild/kconfig-language.rst?h=next-20250513&id=700bd25bd4f47a0f4e02e0a25dde05f1a6b16eea
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst#n1178
+[3] https://lore.kernel.org/all/20080909160452.GB30160@cs181140183.pp.htv.fi/
+
+> > 
+> > > Another question is then how commonly COMMON_CLK is enabled e.g. on x86
+> > > systems. At least Debian kernel has it. Presumably it's common elsewhere,
+> > > too.
+> > 
+> > on Arch linux it is also enabled and Fedora also. I would also assume it
+> > is also enabled in the other linux distros.
+> 
+> Ack, thanks for checking.
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
+
+--
+Kind Regards
+Mehdi Djait
 
