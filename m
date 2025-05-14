@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-32443-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32444-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C882AB6518
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 10:02:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80DD7AB651B
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 10:03:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01D8818959F5
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 08:02:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8F79188F12C
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 08:02:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44188210F45;
-	Wed, 14 May 2025 08:01:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26231219A93;
+	Wed, 14 May 2025 08:02:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D1h/o24m"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1mhs+m0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89059213236;
-	Wed, 14 May 2025 08:01:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5DB20C465;
+	Wed, 14 May 2025 08:02:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747209683; cv=none; b=Fuhv1QT6Zo7DVdnitWiRz4X0W5xFGRaYMpDgYSEfdug7F0uBsKHwYblMNbcomWPDBuCxx6EKGXmHbNZgzHhJO8Ddfz2YiKo41mXp5HUt8RGddLeYeeXUKr25ouOj12TMsJdrkjx+iYRKMmz/lQme5WaJBXQ0iZLN+DpTYvasPew=
+	t=1747209740; cv=none; b=RAeX6jgmmbUEi33pLe4dRM0LF25Y0Kr/awplJEd1EjuJyLNwkNeDgFEZDMfriq06pDF6/cpNbQ7ftLOWdSnzVx+ssUroJjts1WNkw9tsTEqJixB4uXY2DtXAEZqSTyFvo2ygh4fXA61UtPenrAx7NMr574UEGrJqzeg4CtzM+JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747209683; c=relaxed/simple;
-	bh=oMvYRWMG9r5JNGfiPFDMKZlnSide3WmIfrBmp/iIIXE=;
+	s=arc-20240116; t=1747209740; c=relaxed/simple;
+	bh=oVVqZDej7MK+7ti4pzz926dfmWo0VlJE8ESr0e3uzfc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hbCz3plzR8eg6X8kVeKufDi1JjIyU7WokbF/xcT2pj/TTvtMOSukY722ERMJ9ATaTQh3YEiH5X85T9ZOTaJKzuFBwllpyiGMEcFsSgnyRySlVaFq0h7yx77lnLP3ZllYUoeePfa4GOPQPCE2S/p4263PhRdJceudbRriQ/NSzwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D1h/o24m; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C017CC4CEE9;
-	Wed, 14 May 2025 08:01:16 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=IwgXkdq3mat1C0Q7CU7Xp6hSi8KWQjWmQE53ppi5pSMReKKRFo82AIzDHDKPcxW9XQVb8WTvFIF8/XxpBA2o/5tljopKXBdyFj1uShc84pBhq66tU0eanbb56Kq7OXwoPgN/CF9xsEyddSZjPfQTeiSdX9luGDl8/DEemKq0JhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1mhs+m0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0CDC4CEE9;
+	Wed, 14 May 2025 08:02:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747209683;
-	bh=oMvYRWMG9r5JNGfiPFDMKZlnSide3WmIfrBmp/iIIXE=;
+	s=k20201202; t=1747209739;
+	bh=oVVqZDej7MK+7ti4pzz926dfmWo0VlJE8ESr0e3uzfc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=D1h/o24m2N7S4xbCotA+dHhUWo/6aHUgoeIQkXc6NtEjJkNJkxdaZcRPTl+OHpuUN
-	 X+va8qA7FEwaQMsTulbmPs8f4HrxaCvtCFvpCMVRMD5qUGy5kixdq1CnMD0r+JgQoB
-	 jldA6xbuBVDNAuEv2bCmU3oJJqTt2QZ1nIkdTjqCz3F4KoPrbli/dh4Dcsl45IDa17
-	 VViiJx9dnQcLFMNAMtyfvd2FE6j0tgSDG8kWjAR6h1P+z1gqnb/vfgAI6cZYEVLMM6
-	 evMqaGt5QF8JkwBrh0EgWf/qeYMhMoTDMX4Xn6+JpyQEka8SArZZvAWNUHDTvSSOuu
-	 fwOBS+LbLJmxg==
-Message-ID: <c071c53e-4cbc-4daa-bb02-c8bce3eed538@kernel.org>
-Date: Wed, 14 May 2025 10:01:14 +0200
+	b=S1mhs+m0Gf4drEkz0uDLHZqbUV06k/9wQj1gw4iM3QiBlFxAVn18YvIEC5M9t39KZ
+	 BM/EXsb9g2HIkGZd+21Sv9E+1mwyaolSUVDlyl7yd3TofAkDslhuQ2EWPlQkOSMxzc
+	 4MqepgrQevIxikgjJKILpn6qmdYgcx/TALmqrfw+mcMzE9/GC1rYoeOie85LDZ2diM
+	 AqXyOZqMNie6QieRKz/t2IGWjpm76HFyC4FNUvFX7zZ+8R768JOoUlSStkfX4Qhsj5
+	 4wgB2vX+OxJgD+ARWT1md3iY8zs9dq/3DNt6sQrkhe+d0ndaF/I8/0WVVZQ6Hbut9E
+	 WqQeC/IKKTHzw==
+Message-ID: <09e5e8ea-20c5-4ea6-8563-ee019e332efc@kernel.org>
+Date: Wed, 14 May 2025 10:02:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,33 +50,33 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] media: allegro-dvt: Add DT-bindings for the Gen 3 IP
-To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+Subject: Re: [RESEND PATCH 3/5] dt-bindings: media: allegrodvt: add decoder
+ dt-bindings for Gen3 IP
+To: Conor Dooley <conor@kernel.org>,
+ Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
 Cc: Michael Tretter <m.tretter@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Heiko Stuebner
- <heiko@sntech.de>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Rafa?? Mi??ecki <rafal@milecki.pl>, Junhao Xie <bigfoot@classfun.cn>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Kever Yang <kever.yang@rock-chips.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
- Gaosheng Cui <cuigaosheng1@huawei.com>,
+ <heiko@sntech.de>, Junhao Xie <bigfoot@classfun.cn>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>, Manivannan Sadhasivam
+ <manivannan.sadhasivam@linaro.org>, Kever Yang <kever.yang@rock-chips.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
  Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Uwe Kleine-K??nig <u.kleine-koenig@baylibre.com>,
+ Gaosheng Cui <cuigaosheng1@huawei.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
  Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
-References: <20250511144752.504162-1-yassine.ouaissa@allegrodvt.com>
- <20250511144752.504162-4-yassine.ouaissa@allegrodvt.com>
- <595adbaa-15b4-4917-b3ad-9bac3e2333e2@kernel.org>
- <knnumpmyq4ewvqcfor3vqynxbplynajdlmz3p6f2ywadvmz6wo@5uz53eubbkfg>
- <20250512-fabulous-provocative-raven-ec3a81@kuoka>
- <5cth47emwdjyc7dt35a5n2zeh4lkklgdpp2r2qs6s2qgiye6et@oxb2a4tene4k>
+References: <20250513083609.328422-1-yassine.ouaissa@allegrodvt.com>
+ <20250513083609.328422-4-yassine.ouaissa@allegrodvt.com>
+ <20250513-earache-cesspool-6d08e2cfb73a@spud>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -122,49 +122,35 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <5cth47emwdjyc7dt35a5n2zeh4lkklgdpp2r2qs6s2qgiye6et@oxb2a4tene4k>
+In-Reply-To: <20250513-earache-cesspool-6d08e2cfb73a@spud>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/05/2025 13:17, Yassine Ouaissa wrote:
-> On 12.05.2025 12:42, Krzysztof Kozlowski wrote:
->> On Mon, May 12, 2025 at 08:23:11AM GMT, Yassine Ouaissa wrote:
->>> issue fixed also, thanks.
->>>>> +  significant advancements over its predecessors. This new decoder features
->>>>> +  enhanced processing capabilities with improved throughput and reduced latency.
->>>>> +
->>>>> +  Communication between the host driver software and the MCU is implemented through
->>>>> +  a specialized mailbox interface mechanism. This mailbox system provides a
->>>>> +  structured channel for exchanging commands, parameters, and status information
->>>>> +  between the host CPU and the MCU controlling the codec engines.
->>>>> +
->>>>> +properties:
->>>>> +  compatible:
->>>>> +    const: allegrodvt,al300-vdec
->>>>
->>>> Undocumented prefix.
->>>>
->>>> What is the actual device name? al300? Can you have al300-adec? or
->>>> al300-dec?
->>>>
->>>>
->>>
->>> the device name is al300, the vdec is for decoder driver.
->>
->> So drop vdec. Compatible should reflect device name.
->>
+On 13/05/2025 16:55, Conor Dooley wrote:
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - reg-names
+>> +  - interrupts
+>> +  - clocks
+>> +  - clock-names
+>> +
+>> +additionalProperties: False
+>> +
+>> +examples:
+>> +  - |
+>> +    axi {
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +
+>> +        ald300@a0120000 {
 > 
-> We cannot, the IP could have the encode and decode in the same time.
-> the al300 is for the IP gen, and vdec/venc for the driver compatible.
-> 
-> I'll discuss with the team, about other naming.
-Do not send next version - like you did now - before we finish
-discussion. You just sent the same bypassing this entire discussion.
+> The standard node name here I believe is "video-decoder".
 
-Explain what is the device name, what is the device so we can understand it.
+I already asked for that at v1 (this is somehow duplicating it) and my
+remark was just ignored.
 
-I also expect all other comments to be implemented - including
-clock-names and incorrect device node name.
+
 
 Best regards,
 Krzysztof
