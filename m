@@ -1,216 +1,248 @@
-Return-Path: <linux-media+bounces-32543-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32544-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69268AB785C
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 23:59:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14933AB787D
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 00:01:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CCC47A6322
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 21:58:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9CBB1BA5F77
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 22:01:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFAEB22424E;
-	Wed, 14 May 2025 21:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3496B21C163;
+	Wed, 14 May 2025 22:01:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J47KQUz/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VyXr+1Vq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A435223DC2
-	for <linux-media@vger.kernel.org>; Wed, 14 May 2025 21:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D331C8CE;
+	Wed, 14 May 2025 22:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747259977; cv=none; b=MffGuNrM3KBom624umI9hRCjo70V3JJfLKXlMqwdAp9Q8zxZc37XiXWc1WtE/77o8SFHFs7pwllN4L/Vvk0KotmwU7fI5KRRyn4cVkbb0p2WBRyW3r9iftOU/8T3QtXpdtkYPEkR0rWmw1Mdw5Dvct8r7fztRDjW+ax+ydeNMNI=
+	t=1747260091; cv=none; b=SFvYO22rnX6FqZHy16KA+kXnuBzO0boHS2YajZV7CF98tSPKJ9vmEJoTpcVQTtZFFb0vg86XRn5tPjV808Hz+zv8k8UJqtA/BCQUwt3F15cCi6gxxTnIutvTcz6kR3miGWf4nVSkF2MpS1SUO8TgoactfYsME7ESznH56g4PM/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747259977; c=relaxed/simple;
-	bh=SJjJynQia8GvK0U0lmMdZeH3vMiN4uYyFlk9oMLngdM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rib6XBKprBJH9ZwQYjUYzDAWVFuIpHqAJZA/gaAPnS86AuSFMumgfjFsrDU0IZztlQQias3ZxsUkrt0qDlp16n3YAfgxzpNe3kIQbI4QTlzWmiUzESzDpWoGUHPovJBCBX7XEGFoxXVWk8GHqdKLr1oBbPPnjemASURQXqiuULw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J47KQUz/; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43d5f10e1aaso22295e9.0
-        for <linux-media@vger.kernel.org>; Wed, 14 May 2025 14:59:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1747259973; x=1747864773; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RlmeeTfLkq8aEMSuw0FxNnLKvZlTgNOBO6GA5zAYi+M=;
-        b=J47KQUz/JvbYxv3LgKEtPrh8N4HcWVpDiARUurLr522K31x/skQ82M4jJxp4XYgJvx
-         Fn/KvTX7c7H1+x9c1LHfPKncDC5/D9nmTGOs/Q/K+O/NK1b6XqU+EY9GS0FYGHn74c/0
-         84BQquTQ7nCnJ2b+yiuE2GQxOZ9YxQ95osqz6qIopH3U3Hr0vgcHOaW/IsiHTVS7ByNX
-         9nqrEsHdZ3G0FwNRQtHJjvMDp/lkpUedwaTmH3FN/l9P3FvJ7U+kp5JH0aoSQ4E30aMK
-         0F4kkz9D+NIFBjWwBZpwHt6aX4xV5rtFrpR5T/cPWfE/ces0NJ61WqOoQgoh103ogc8O
-         NIkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747259973; x=1747864773;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RlmeeTfLkq8aEMSuw0FxNnLKvZlTgNOBO6GA5zAYi+M=;
-        b=RpCBXLm84+hg0q/0j6RNEfa2KSmzQ6unuELj4YIDgHZ6FSBneBXafW0H9XVNOVz0Po
-         KK+uRnSo+pYtKtTHHDFrd5x3ZM7A4N9NmgBN6EWh10Nzb42Yql8tfnjpyagnofhKqiWk
-         qMMioQYzHR2h4x4k87O/avWXDCPMRE2TVgEdxHFIHrcvQ9ePrUonf0/U5hQBkrJlrVGl
-         4bmxg9YuspxbhZb0kiJUUIBb/vG2oNu0WD5aeF8GOofiphMVSZXBRmrygfPpo+yU0WdO
-         A+e9xKBlCHQi9QR3q/98IIcJ+NnZx9GD+Btqk1f5s+wwiWaJJiPafvgIJ8Em7hhUfwkg
-         zEEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXbEW81DfgFpf800yi7IdcXqpzZVZxEIoCe2ocPdwFpqPFAmG3G7Y/88BHK7Fuh7iE66mtrzBnAQCM0bA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDmEaKjauDFQNPYqwJzwqTRdOEYzDWzDtkw4FEEnVX7hPnQ1qw
-	QVZ831qW9UYyoVin2TI5K32HYrX/l/GxsK9FNkBYDTbk5y4WW/hC2pJABYyfU/0uO79rqD4qQQ6
-	eeomunLewLkEMQ2ajj1WKy3X9PLnDa9tBaxcjb7na
-X-Gm-Gg: ASbGnctAt76jEskgECF3mmKgmYorusC+5V2PlS0wL3zEoRtdPxjhpRI8nk1ohmUeTUA
-	gqILp2/8woe84WMoazo3gV0exGhri8GWpzEVmmqC1UZkyza2w4VLFBsr1epRRbqfi7EpOS8tU3r
-	tjzr3+y32ekU2UFa1xgADoHcKb8ek+fLGE+CuzolPaB2LwH3J+FXm5VE4OKEJ9Bhg=
-X-Google-Smtp-Source: AGHT+IGZFtWR6kaa3m5TftPx8Xk4j/uPH4VRUM2tBcUfEbplvxpzfZrRREM/wd4w9XuTIGx4myNdq/Z7Y6ry3xbYHkg=
-X-Received: by 2002:a05:600c:4f43:b0:439:8d84:32ff with SMTP id
- 5b1f17b1804b1-442f94eb5a7mr91875e9.3.1747259973405; Wed, 14 May 2025 14:59:33
- -0700 (PDT)
+	s=arc-20240116; t=1747260091; c=relaxed/simple;
+	bh=MyzjnthvybELOM4JvFy1xzr8PF39cyQLUmn5pDE6Ihw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=os43krEPFN+zkpZwI8C0szDBG10CbvxTiSlOtGRP7quRvkhcZwg6ZmQJidaZMY3i7/nVwuhARCTSidItt4OY2jq52tAyxv2kV0njDv21RBnG5S6mzMVyS70mAXPN0ALVw0yMSZa1D0qusVxZEQSs08hQGF+yv0A0Ny2MCQYz+cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VyXr+1Vq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5AC3C4CEE3;
+	Wed, 14 May 2025 22:01:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747260091;
+	bh=MyzjnthvybELOM4JvFy1xzr8PF39cyQLUmn5pDE6Ihw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VyXr+1Vq93LQsdNac7iCM7MAdHJtBYJE3PYL1oocxeEjvmEWQL+dF1/8+ROuUCvFK
+	 dY5QplCKRZO9ty72rWusWC/7wJbeDaxSfXfqSI6zdjaL9NNmxtYF289fODYD91OMmg
+	 IJtsvT7FswkQj1bEMhC7fxVPFqnnjAHNqCZKDfrVyynZ0/xJXm2KeRL3AYxILtc+GB
+	 sA6y2STbAzTbGL/FmxFS3qg01TnzB3GZ9jxQB4E26LeqYvfW0LhAISYclCngk8XLD7
+	 3JSBmPEvSRiHAcPqgmQ2MJqYa8KYJSJnf2VBvu7eS7h+vGzr/pffM/XT7Zqedcxx9X
+	 SxL1hABJnE2yA==
+Date: Wed, 14 May 2025 17:01:28 -0500
+From: Rob Herring <robh@kernel.org>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+	Taniya Das <quic_tdas@quicinc.com>, Liu Ying <victor.liu@nxp.com>,
+	Ross Burton <ross.burton@arm.com>,
+	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Zhi Mao <zhi.mao@mediatek.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 03/19] dt-bindings: media: i2c: max96717: add support
+ for pinctrl/pinconf
+Message-ID: <20250514220128.GA3111478-robh@kernel.org>
+References: <20250512212832.3674722-1-demonsingur@gmail.com>
+ <20250512212832.3674722-4-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250513163601.812317-1-tjmercier@google.com> <20250513163601.812317-6-tjmercier@google.com>
- <CAPhsuW50mA3hhirHBiZ2miBeC0uAN=KxyYKBJ_hHgmFx-cvaNw@mail.gmail.com>
-In-Reply-To: <CAPhsuW50mA3hhirHBiZ2miBeC0uAN=KxyYKBJ_hHgmFx-cvaNw@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 14 May 2025 14:59:21 -0700
-X-Gm-Features: AX0GCFuiegK4tHyclG5bzgCNPpj8LN37JRrILy438Zw7YZxZPwu1YJY1Fclo4i0
-Message-ID: <CABdmKX1nxw6=JVfT8wEgsJB692LbaYWrpL-CN=KPQi7K_cKPSA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v6 5/5] selftests/bpf: Add test for open coded dmabuf_iter
-To: Song Liu <song@kernel.org>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
-	simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250512212832.3674722-4-demonsingur@gmail.com>
 
-On Wed, May 14, 2025 at 2:00=E2=80=AFPM Song Liu <song@kernel.org> wrote:
->
-> On Tue, May 13, 2025 at 9:36=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
-m> wrote:
-> >
-> > Use the same test buffers as the traditional iterator and a new BPF map
-> > to verify the test buffers can be found with the open coded dmabuf
-> > iterator.
-> >
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Acked-by: Song Liu <song@kernel.org>
-> > ---
-> >  .../testing/selftests/bpf/bpf_experimental.h  |  5 +++
-> >  .../selftests/bpf/prog_tests/dmabuf_iter.c    | 41 +++++++++++++++++++
-> >  .../testing/selftests/bpf/progs/dmabuf_iter.c | 38 +++++++++++++++++
-> >  3 files changed, 84 insertions(+)
-> >
-> > diff --git a/tools/testing/selftests/bpf/bpf_experimental.h b/tools/tes=
-ting/selftests/bpf/bpf_experimental.h
-> > index 6535c8ae3c46..5e512a1d09d1 100644
-> > --- a/tools/testing/selftests/bpf/bpf_experimental.h
-> > +++ b/tools/testing/selftests/bpf/bpf_experimental.h
-> > @@ -591,4 +591,9 @@ extern int bpf_iter_kmem_cache_new(struct bpf_iter_=
-kmem_cache *it) __weak __ksym
-> >  extern struct kmem_cache *bpf_iter_kmem_cache_next(struct bpf_iter_kme=
-m_cache *it) __weak __ksym;
-> >  extern void bpf_iter_kmem_cache_destroy(struct bpf_iter_kmem_cache *it=
-) __weak __ksym;
-> >
-> > +struct bpf_iter_dmabuf;
-> > +extern int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it) __weak __ks=
-ym;
-> > +extern struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it=
-) __weak __ksym;
-> > +extern void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it) __weak=
- __ksym;
-> > +
-> >  #endif
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c b/too=
-ls/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> > index dc740bd0e2bd..6c2b0c3dbcd8 100644
-> > --- a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> > +++ b/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> > @@ -219,14 +219,52 @@ static void subtest_dmabuf_iter_check_default_ite=
-r(struct dmabuf_iter *skel)
-> >         close(iter_fd);
-> >  }
-> >
-> > +static void subtest_dmabuf_iter_check_open_coded(struct dmabuf_iter *s=
-kel, int map_fd)
-> > +{
-> > +       LIBBPF_OPTS(bpf_test_run_opts, topts);
-> > +       char key[DMA_BUF_NAME_LEN];
-> > +       int err, fd;
-> > +       bool found;
-> > +
-> > +       /* No need to attach it, just run it directly */
-> > +       fd =3D bpf_program__fd(skel->progs.iter_dmabuf_for_each);
-> > +
-> > +       err =3D bpf_prog_test_run_opts(fd, &topts);
-> > +       if (!ASSERT_OK(err, "test_run_opts err"))
-> > +               return;
-> > +       if (!ASSERT_OK(topts.retval, "test_run_opts retval"))
-> > +               return;
-> > +
-> > +       if (!ASSERT_OK(bpf_map_get_next_key(map_fd, NULL, key), "get ne=
-xt key"))
-> > +               return;
-> > +
-> > +       do {
-> > +               ASSERT_OK(bpf_map_lookup_elem(map_fd, key, &found), "lo=
-okup");
-> > +               ASSERT_TRUE(found, "found test buffer");
->
-> This check failed once in the CI, on s390:
->
-> Error: #89/3 dmabuf_iter/open_coded
-> 9309 subtest_dmabuf_iter_check_open_coded:PASS:test_run_opts err 0 nsec
-> 9310 subtest_dmabuf_iter_check_open_coded:PASS:test_run_opts retval 0 nse=
-c
-> 9311 subtest_dmabuf_iter_check_open_coded:PASS:get next key 0 nsec
-> 9312 subtest_dmabuf_iter_check_open_coded:PASS:lookup 0 nsec
-> 9313 subtest_dmabuf_iter_check_open_coded:FAIL:found test buffer
-> unexpected found test buffer: got FALSE
->
-> But it passed in the rerun. It is probably a bit flakey. Maybe we need so=
-me
-> barrier somewhere.
->
-> Here is the failure:
->
-> https://github.com/kernel-patches/bpf/actions/runs/15002058808/job/422348=
-64754
->
-> To see the log, you need to log in GitHub.
->
-> Thanks,
-> Song
+On Tue, May 13, 2025 at 12:28:12AM +0300, Cosmin Tanislav wrote:
+> MAX96717 is capable of configuring various pin properties.
+> 
+> Add pinctrl/pinconf properties to support this usecase.
+> 
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+>  .../bindings/media/i2c/maxim,max96717.yaml    | 110 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 111 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> index 167c3dd50683..5998e2518be9 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> @@ -121,6 +121,116 @@ required:
+>    - reg
+>    - ports
+>  
+> +patternProperties:
+> +  '-pins$':
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      function:
+> +        enum: [gpio, rclkout]
+> +
+> +      pins: true
+> +      drive-open-drain: true
+> +      drive-push-pull: true
+> +      bias-disable: true
+> +      output-disable: true
+> +      output-enable: true
+> +      output-low: true
+> +      output-high: true
+> +      input-enable: true
+> +
+> +      slew-rate:
+> +        description: |
+> +          Slew rate.
+> +          0 - Fastest
+> +          1 - Fast
+> +          2 - Slow
+> +          3 - Slowest
+> +        maximum: 3
+> +
+> +      bias-pull-up:
+> +        oneOf:
+> +          - type: boolean
+> +            description: Enable regular 40kOhm pull-up
+> +          - enum: [ 40000, 1000000 ]
+> +            description: Enable either the 40kOhm or the 1MOhm pull-up
+> +
+> +      bias-pull-down:
+> +        oneOf:
+> +          - type: boolean
+> +            description: Enable regular 40kOhm pull-down
+> +          - enum: [ 40000, 1000000 ]
+> +            description: Enable either the 40kOhm or the 1MOhm pull-down
+> +
+> +      maxim,jitter-compensation:
+> +        type: boolean
+> +        description: Enables jitter compensation.
+> +
+> +      maxim,gmsl-tx:
+> +        type: boolean
+> +        description: Enable transmitting pin value to GMSL link.
+> +
+> +      maxim,gmsl-rx:
+> +        type: boolean
+> +        description: Enable receiving pin value from GMSL link.
+> +
+> +      maxim,gmsl-tx-id:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description:
+> +          Identifier used while transmitting value to GMSL link.
+> +          Default value matches the pin number.
+> +        minimum: 0
+> +        maximum: 31
+> +
+> +      maxim,gmsl-rx-id:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description:
+> +          Identifier used while receiving value from GMSL link.
+> +          Default value matches the pin number.
+> +        minimum: 0
+> +        maximum: 31
+> +
+> +      maxim,rclkout-clock:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: |
+> +          Clock value.
+> +          0 - XTAL / 1 = 25MHz
+> +          1 - XTAL / 2 = 12.5MHz
+> +          2 - XTAL / 4 = 6.25MHz
+> +          3 - Reference PLL output
+> +        minimum: 0
+> +        maximum: 3
+> +
+> +    required:
+> +      - pins
+> +      - function
+> +
+> +    allOf:
+> +      - $ref: /schemas/pinctrl/pincfg-node.yaml#
+> +      - $ref: /schemas/pinctrl/pinmux-node.yaml#
+> +
+> +      - if:
+> +          properties:
+> +            function:
+> +              const: gpio
+> +        then:
+> +          properties:
+> +            pins:
+> +              items:
+> +                enum: [mfp0, mfp1, mfp2, mfp3, mfp4, mfp5, mfp6, mfp7,
+> +                       mfp8, mfp9, mfp10]
+> +
+> +      - if:
+> +          properties:
+> +            function:
+> +              const: rclkout
+> +        then:
+> +          properties:
+> +            pins:
+> +              items:
+> +                enum: [mfp0, mfp1, mfp2, mfp3, mfp4, mfp7, mfp8]
+> +
+>  additionalProperties: false
+>  
+>  allOf:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8f463ebca056..f8ffb7cff9c5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14201,6 +14201,7 @@ M:	Julien Massot <julien.massot@collabora.com>
+>  M:	Cosmin Tanislav <cosmin.tanislav@analog.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/i2c/maxim,max96717-pinctrl.yaml
 
-Thanks, yeah I have been trying to run this locally today but still
-working on setting up an environment for it. Daniel Xu thoughtfully
-suggested I use a github PR to trigger CI, but I tried that last week
-without success: https://github.com/kernel-patches/bpf/pull/8910
+Don't think you need this...
 
-I'm not sure if this is the cause (doesn't show up on the runs that
-pass) but I have no idea why that would be intermittently failing:
-libbpf: Error in bpf_create_map_xattr(testbuf_hash): -EINVAL. Retrying
-without BTF.
-
-
-
-
-
-> > +       } while (bpf_map_get_next_key(map_fd, key, key));
-> > +}
->
-> [...]
+>  F:	Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+>  F:	drivers/media/i2c/max96717.c
+>  
+> -- 
+> 2.49.0
+> 
 
