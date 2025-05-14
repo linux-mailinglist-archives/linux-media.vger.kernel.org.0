@@ -1,186 +1,131 @@
-Return-Path: <linux-media+bounces-32479-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32480-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0D9AB6B7F
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 14:35:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C04AB6B9E
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 14:43:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA0C81B67692
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 12:35:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 412857B0F44
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 12:42:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E37D27702C;
-	Wed, 14 May 2025 12:35:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A4B0278161;
+	Wed, 14 May 2025 12:43:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b="oMTg1HUK";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="8rhNJnqq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JJu+36tq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962B322A4EA;
-	Wed, 14 May 2025 12:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.152.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0C625C71A;
+	Wed, 14 May 2025 12:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747226128; cv=none; b=VgdfJ2sueVr8xmILctMSFICQpUJVONIsuhvJP3qJx/8/WMylj1a2sKVfRrX2aioXQbgdHXBSZMAGg8d/7NLsFF5bK8VhtgYEKpxpwl/IlBsc1DF+XTyKcA0bp+hQB7PqeWVW/ZLvN5zsEyG1pK772Elo6OTh2x0cr51z8BOqfZs=
+	t=1747226595; cv=none; b=AmSwpuvyZY7QaS0kMWWvXuIi6l4N9wRTIGRqLW8GZtoRcXpOSvVXUq0ov5ce1/yC/qv9cyYABHZbqxq6Xbp3LaHLaeHU3vFyndNLZw5Zz9A3mytM9CwdCKWflQ29781pWmiFL93VQxBf/UiNl+sFqGYCUdlu0Mq1sVqBcNHB0Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747226128; c=relaxed/simple;
-	bh=2dw3JOnHoUcdzGRN6kdhMybNLL/lLmz++l0w6F81qtA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V4dGyynKORV0CW2f9XXEgZRmtMCDCMKkcg9MzoUWe/8/su/EYLnVdQh9pxeD0QaaJSRK+04G6CJHeUUj3yJAQVcrCwbECJZzXvkyj1INYqZ5l74V4n3EyKrEERZcXH0QmKxBNBjlYGLyzoAB91fS2JMpKXT0UhghVds78wIoEwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net; spf=pass smtp.mailfrom=damsy.net; dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b=oMTg1HUK; dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b=8rhNJnqq; arc=none smtp.client-ip=51.159.152.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=damsy.net
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1747225555; bh=l7CVYbiYMp3bpjoLvOLIf89
-	4834vFxO7Y79o9x78pyY=; b=oMTg1HUKKUobVlbG1lxjwnSVhtfqSEmona5UDnIjZyLZ4MADxl
-	Iu+V4jDnCCa+oX6zJ5zpHnio52K1/GJjoriWc1Bl19m/F9Op7LPsok/s5OcAIziZgoGoGDpL/Gq
-	3DFUKcpBQniDaFPUFgVDsB0pE/7ZCIlPpHGPKafTS6OCDVZ1KeLhvn1hWVbyKe8ryC8P996eUyS
-	yoMVJNdLRG9ONuljR661KK1wpqwL5g4LF6x2NFg3Nf03bcRAc2Li+IyvqhLsZ0rbEuM0lWfTQ18
-	jSMTrtwtA/eip8TZHZ1M8LwKajaKqlXm5yI+W8s8V9AFFA3EEtABl6/eWFxNl59TMrw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1747225555; bh=l7CVYbiYMp3bpjoLvOLIf89
-	4834vFxO7Y79o9x78pyY=; b=8rhNJnqqS9bntJ5mODbeO/T1NcD6UqMJSaRqqa55oYbmm812Ve
-	EVdgv1k90iVoDZxU6Dwj9GmsxfIwPu7djNBw==;
-Message-ID: <34321866-6991-4aa0-98e9-6d6b7c37e8e4@damsy.net>
-Date: Wed, 14 May 2025 14:25:54 +0200
+	s=arc-20240116; t=1747226595; c=relaxed/simple;
+	bh=UyGdIibVSOqSmBCOI28bfc7IbRGF7lf1cPNTd2CyAns=;
+	h=Content-Type:MIME-Version:Content-Disposition:In-Reply-To:
+	 References:Subject:From:Cc:To:Date:Message-ID; b=DWFx661hcahJ1QJgk6Rah1ubZ5crbytPLzzsMUpxL4uRzSmv+7/SMStYDFg4HyI8y8JhBlk3sSBX0GuKQ6Fl4A3ohOXXPFUPzThIStPH4RXakZKxP3WWl+fnuuD+Rm2HWN3Q+Nj7ZoWTH13fPYwcVKL1ffI8hEWyVm6zYC5NIHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JJu+36tq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:65db:9f82:d481:46e1:75d5:ff64])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F9AF735;
+	Wed, 14 May 2025 14:42:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747226575;
+	bh=UyGdIibVSOqSmBCOI28bfc7IbRGF7lf1cPNTd2CyAns=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=JJu+36tq1IYVxgGC+Ks0XsnOJXYLnul0pg1u/qmC4ZgDg+mHDF87F+UELy8vr0MWf
+	 ivUrQHezq4T4ZMKcqq8PXJRKCYwdUL2fJa7HqTljxEf44hXN0/+qWIot4cPBqteiVf
+	 z356sf3yn+bqglGI2wJ4GkKLlOxhL8RjUVu5imvo=
+Content-Type: multipart/signed; micalg="pgp-sha512"; protocol="application/pgp-signature"; boundary="===============2589365894410712436=="
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 00/10] Improve gpu_scheduler trace events + UAPI
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Philipp Stanner <phasta@kernel.org>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Felix Kuehling
- <Felix.Kuehling@amd.com>, Frank Binns <frank.binns@imgtec.com>,
- Jonathan Corbet <corbet@lwn.net>, Liviu Dudau <liviu.dudau@arm.com>,
- Lizhi Hou <lizhi.hou@amd.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Lucas Stach <l.stach@pengutronix.de>, Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Matt Coster <matt.coster@imgtec.com>, Matthew Brost
- <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
- Melissa Wen <mwen@igalia.com>, Min Ma <min.ma@amd.com>,
- Oded Gabbay <ogabbay@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Rob Herring <robh@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- lima@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- nouveau@lists.freedesktop.org
-References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20250514-imx415-v1-1-bb29fa622bb1@emfend.at>
+References: <20250514-imx415-v1-1-bb29fa622bb1@emfend.at>
+Subject: Re: [PATCH] media: i2c: imx415: Request the sensor clock without a name
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>
+To: Matthias Fend <matthias.fend@emfend.at>, Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Riesch <michael.riesch@wolfvision.net>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Wed, 14 May 2025 14:42:57 +0200
+Message-ID: <174722657707.1845803.6950232855047026897@selene>
+User-Agent: alot/0.12.dev11+g1dd20f1f
 
-Hi Philipp,
+--===============2589365894410712436==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Did you get a chance to take a look at the latest revision of this series?
+Hi Matthias,
 
-Thanks,
-Pierre-Eric
+Thanks for the patch.
 
-Le 24/04/2025 à 10:38, Pierre-Eric Pelloux-Prayer a écrit :
-> Hi,
-> 
-> The initial goal of this series was to improve the drm and amdgpu
-> trace events to be able to expose more of the inner workings of
-> the scheduler and drivers to developers via tools.
-> 
-> Then, the series evolved to become focused only on gpu_scheduler.
-> The changes around vblank events will be part of a different
-> series, as well as the amdgpu ones.
-> 
-> Moreover Sima suggested to make some trace events stable uAPI,
-> so tools can rely on them long term.
-> 
-> The first patches extend and cleanup the gpu scheduler events,
-> then add a documentation entry in drm-uapi.rst.
-> 
-> The last 2 patches are new in v8. One is based on a suggestion
-> from Tvrtko and gets rid of drm_sched_job::id. The other is a
-> cleanup of amdgpu trace events to use the fence=%llu:%llu format.
-> 
-> The drm_sched_job patches don't affect gpuvis which has code to parse
-> the gpu_scheduler events but these events are not enabled.
-> 
-> Changes since v8:
-> * swapped patches 8 & 9
-> * rebased on drm-next
-> 
-> Changes since v7:
-> * uint64_t -> u64
-> * reworked dependencies tracing (Tvrtko)
-> * use common name prefix for all events (Tvrtko)
-> * dropped drm_sched_job::id (Tvrtko)
-> 
-> Useful links:
-> - userspace tool using the updated events:
-> https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
-> - v8:
-> https://lists.freedesktop.org/archives/dri-devel/2025-March/496781.html
-> 
-> Pierre-Eric Pelloux-Prayer (10):
->    drm/debugfs: output client_id in in drm_clients_info
->    drm/sched: store the drm client_id in drm_sched_fence
->    drm/sched: add device name to the drm_sched_process_job event
->    drm/sched: cleanup gpu_scheduler trace events
->    drm/sched: trace dependencies for gpu jobs
->    drm/sched: add the drm_client_id to the drm_sched_run/exec_job events
->    drm/sched: cleanup event names
->    drm: get rid of drm_sched_job::id
->    drm/doc: document some tracepoints as uAPI
->    drm/amdgpu: update trace format to match gpu_scheduler_trace
-> 
->   Documentation/gpu/drm-uapi.rst                |  19 ++++
->   drivers/accel/amdxdna/aie2_ctx.c              |   3 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  32 +++---
->   drivers/gpu/drm/drm_debugfs.c                 |  10 +-
->   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
->   drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
->   drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
->   drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
->   drivers/gpu/drm/lima/lima_gem.c               |   2 +-
->   drivers/gpu/drm/lima/lima_sched.c             |   6 +-
->   drivers/gpu/drm/lima/lima_sched.h             |   3 +-
->   drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
->   drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
->   drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
->   drivers/gpu/drm/panthor/panthor_drv.c         |   3 +-
->   drivers/gpu/drm/panthor/panthor_mmu.c         |   2 +-
->   drivers/gpu/drm/panthor/panthor_sched.c       |   5 +-
->   drivers/gpu/drm/panthor/panthor_sched.h       |   3 +-
->   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 100 +++++++++++++-----
->   drivers/gpu/drm/scheduler/sched_entity.c      |  16 ++-
->   drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
->   drivers/gpu/drm/scheduler/sched_internal.h    |   2 +-
->   drivers/gpu/drm/scheduler/sched_main.c        |  11 +-
->   .../gpu/drm/scheduler/tests/mock_scheduler.c  |   2 +-
->   drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
->   drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
->   include/drm/gpu_scheduler.h                   |  13 ++-
->   31 files changed, 184 insertions(+), 97 deletions(-)
-> 
+Quoting Matthias Fend (2025-05-14 12:51:01)
+> Request the sensor clock without specifying a name so that the driver
+> behaves as described in the imx415 bindings.
+>=20
+> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 
+Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/imx415.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
+> index 9f37779bd6111f434c198ad1cf70c14b80724042..278e743646ea15819d5a79577=
+e786b47c259dbfa 100644
+> --- a/drivers/media/i2c/imx415.c
+> +++ b/drivers/media/i2c/imx415.c
+> @@ -1251,7 +1251,7 @@ static int imx415_parse_hw_config(struct imx415 *se=
+nsor)
+>                 return dev_err_probe(sensor->dev, PTR_ERR(sensor->reset),
+>                                      "failed to get reset GPIO\n");
+> =20
+> -       sensor->clk =3D devm_clk_get(sensor->dev, "inck");
+> +       sensor->clk =3D devm_clk_get(sensor->dev, NULL);
+>         if (IS_ERR(sensor->clk))
+>                 return dev_err_probe(sensor->dev, PTR_ERR(sensor->clk),
+>                                      "failed to get clock\n");
+>=20
+> ---
+> base-commit: 9f35e33144ae5377d6a8de86dd3bd4d995c6ac65
+> change-id: 20250514-imx415-c65889e55211
+>=20
+> Best regards,
+> --=20
+> Matthias Fend <matthias.fend@emfend.at>
+>
+--===============2589365894410712436==
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Description: signature
+Content-Type: application/pgp-signature; name="signature.asc"; charset="us-ascii"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmgkj9AACgkQQ96R+SSa
+cUUBBQ//WCo/WnrJIOXDyUFiyYWlz7WpTIjN7DMRKbXFaDseWL8Za6KijHU10hbK
+6B/H+rVGOi5OnwxyoxD0EmqxYldWitIu17nh0X5SShg+lq+ccRBmcgKobBhsTRtb
+0zzAo1ENDlePYc+RqtmTLowVc1kmeNDpI9B2uk84pfq1sqTTM2LOrGHnULi3h7vS
+hPNaMX+dH4E+Wo8u7WlNDqukPIAUd71fvTN8v+R55OcNM5AnJE0WuT3uPAbmLFgr
+9S1srWpnUhSL7XT/jOP+R5YbpbxtRqiYFfdjwU//JftGBlQmizSZ649kY7dUmeXZ
++WzgClE6EXxEDyq1TOIK49pyBZCIgZSMwGop2wQJ+3wMlxEW+iAKUtiuTz5RYvc/
+y5Pv/PImh/GdZCMhrDI7gJ1EyFdEFOjv8569qao6QhmM4J4z14x4esIKWY05kyhF
+BrCc/AvdRKPedG9hHVZi1LkQgMHHCGnRUv3QNi07ad+1VOay2d7kNGzKs0764SpP
+yyJHk9ugv4wrOPnLb1Z061f0CveKIcY390h8cbaoobuFDtYJMyAP5nwu3aR3fpMa
+D+7s02a5ohyyAqJJtsCAM/U+oGhw+YBmUxuZcEfMS4J0kt3MgXziNd32WvjVm1BY
+lkvSN6H5sdeGIW6AgMAOOz5ul/AeSi8jCjLL6I1uLWOiTy8WSF4=
+=5KmA
+-----END PGP SIGNATURE-----
+
+--===============2589365894410712436==--
 
