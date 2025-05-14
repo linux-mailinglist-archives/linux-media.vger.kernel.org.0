@@ -1,91 +1,134 @@
-Return-Path: <linux-media+bounces-32536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32537-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63994AB767F
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 22:13:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83480AB775D
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 22:53:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BB8B8C6328
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 20:12:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60F1E7AC117
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 20:51:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABA13296174;
-	Wed, 14 May 2025 20:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F1E2296700;
+	Wed, 14 May 2025 20:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YjrD7uF3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+7lhvmB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0768F2951A6;
-	Wed, 14 May 2025 20:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AE428C871;
+	Wed, 14 May 2025 20:52:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747253563; cv=none; b=U2Ldwm1yVc2UkHM6TR7httQPyMlgzHGBbFAijREDikc6Qh9w1T/U/quJgdrmyyaJm+8ORPb7DmUgiD9fNV4ZRtwplH++NLj0i7LBifZsFoK1wJIO1GWo+UGCrQMKKpajj0GCykgTOQNKrfxmqXry6LZuUVJajlI0KMGDj8ye1kg=
+	t=1747255979; cv=none; b=nK4GBiKtyHmsBWVAOLlojoEppFXE17n7rrfWCv3JBbseDii8AYKBCEC65ffx5UQuFYf5UcZ1ZDjdw3+46OTXJSBtuFkE04kH5b6P91k/ZD+DHZQ1RPbzY4oUvstVBHjAR5nrg0If9V6TiyVSTmXZTCxHDQyxiq6ZyoBuMrXJOz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747253563; c=relaxed/simple;
-	bh=OzKdPvbRk8hZ5qrmc01ogW5Qt/80h78/YBJYjWWOc4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=urRKIJzbyAW6in45N7aIQRZpT50No0TSWsEN/V74N3Spm2Wjlbn99jVKUHaAldHSwEdhZVMkl90LqHj6xUuJHGsFrMlZI73eI3VJtLBUnifNZ60gB4oJOkORb/3Lv96B+nYYotr2nGJMv/5cbAX1psCxZEZ/oj7vmWzDLcmQ4C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YjrD7uF3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CB4FC4CEE3;
-	Wed, 14 May 2025 20:12:42 +0000 (UTC)
+	s=arc-20240116; t=1747255979; c=relaxed/simple;
+	bh=yopj8kp9gj1XHzlGCcggbJ7Bvw1EUaauJtS9Wiq+DYs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZzmAFg5LZaDsrEwPsx7Sf4wm45dAqng/XfBONwV07IvZG47QorohOO4E/GNufvAE7g9zOwCWBqA7ZH2fI4b0B+BOlPR6cyF0aUTyKUfgJM3QFKULFmZcy2upWODVlh6Ih69vB+N3msSbY6jLHyWmDb/7IsgQVPCLpDzkLVKm6vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+7lhvmB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 258AAC4CEF0;
+	Wed, 14 May 2025 20:52:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747253562;
-	bh=OzKdPvbRk8hZ5qrmc01ogW5Qt/80h78/YBJYjWWOc4I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YjrD7uF3s4MzpmCi5++bmuEF1uYLGz2YMBnsiMqoFW7YDj5mc8aOQESHbZu88v1DH
-	 /d18hc+b+qCiFIU8wjE+VT3AUBn0WHkoTjMtfQSxakcobRGXhUIUhXcjPqfE+3ENm4
-	 50iYiKTv8Q57RXy9OlgNnwEWWkUcdDj30VbH5Lu0yYNjQhv5K538xqA5La1qGLzQyq
-	 J+Y37RDoc0V7KiNuD3QEUxsqrff7ZF0EBInFFBUijITqyrdwWAepJiQqqBBdPcRYzZ
-	 baQkY+Gry6SJbiMS9tY+h8YfTzXl7CVbMG3lItpymdu1EpEzqXNWmzOfa9fyCEN98Z
-	 xI4qL7dgk4dgw==
-Date: Wed, 14 May 2025 15:12:41 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Olivier Benjamin <olivier.benjamin@bootlin.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>, linux-media@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	linux-rockchip@lists.infradead.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Heiko Stuebner <heiko@sntech.de>, imx@lists.linux.dev,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v3 2/4] dt-bindings: media: imx258: inherit
- video-interface-devices properties
-Message-ID: <174725356050.2958291.9709026924364137236.robh@kernel.org>
-References: <20250509-camera-v3-0-dab2772d229a@bootlin.com>
- <20250509-camera-v3-2-dab2772d229a@bootlin.com>
+	s=k20201202; t=1747255979;
+	bh=yopj8kp9gj1XHzlGCcggbJ7Bvw1EUaauJtS9Wiq+DYs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=V+7lhvmB+pEFkJ9HAYTEnzeC3P14rSkrGHsokdU9rVa39iol6muzSqm2X47P/PnoI
+	 FAtsqJ4qSlR76R919bLmMjh9KkNACt/f2lHG6ICQTIxZu1Ujgf+ruZ2+SUyhVs4tDd
+	 I8CSimqmJ0cfoGKP3Bigs1I2wRVp9JBM5sq8LU35JTPuHd+6ViQ+znjmI0UFQ9UVOn
+	 TzaZfecW3+nvjMFlaus+/KCPx/EYd72bD5qHGsstDcJLKxz+Qh5j3bx1sTXatFheHv
+	 XDoOwKVfhT3J+tHOhSZFe2INjr9Zzd+6BQ/EvtskmcsFgReBsnzmOdYPiS1ljl3hWr
+	 eed/X4sAHrGGQ==
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6f54584456fso2772706d6.3;
+        Wed, 14 May 2025 13:52:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVEYkGdX1cZ/d76FFjQsSqMviUK9KzvGlBVveEeMsmwNVR9eOjccQ1u6dnc/8uFqJLhuUHZ7vVNVkfCXjGY@vger.kernel.org, AJvYcCW5nODI5ZmCnmq5HfL9mYfYMc1YVBHcLjw/VVE4X3PjTwiAN0SX/2B7CNdgMWrL/kDayPM=@vger.kernel.org, AJvYcCW8Vg181ctQNomxD+re8GU+vHshqwS3tYm2R/MytNMSPBa4piDJXiK6uoVvV4ka33QZUs82e3Zl+Y/1r3jGuL3a@vger.kernel.org, AJvYcCWx4fgor9c9VvzaAhLhIpEAs11+VSY6vZTyLjX9gG1TSy6gMUibAPIFpyX9H6HuyhNuuMyVlds1vb1LccM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnMgDZihZ+ZzqS101W90F/jfSuvg6jY5qFJyPRFBZ1vvRYmCEt
+	QgpC44QYFHR0kE+WWKjdXlYTOLmpeFdAXe60kpKfYPjb9bOH1axq9/iRNkme3zgJQbDspYn6sX4
+	BvulR5RjFfINtea1mZfRrnjhXTco=
+X-Google-Smtp-Source: AGHT+IF+lU54dRQgA6FljOacFL6BtlmDcxeXXsOoomxe1/Zd8JrltM3ML4OV0csJ0D38X9rF0QBQTupLitG0FckfaaU=
+X-Received: by 2002:a05:6214:4111:b0:6e4:4484:f354 with SMTP id
+ 6a1803df08f44-6f896ebfcd2mr82588646d6.38.1747255978285; Wed, 14 May 2025
+ 13:52:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250509-camera-v3-2-dab2772d229a@bootlin.com>
+References: <20250513163601.812317-1-tjmercier@google.com> <20250513163601.812317-5-tjmercier@google.com>
+In-Reply-To: <20250513163601.812317-5-tjmercier@google.com>
+From: Song Liu <song@kernel.org>
+Date: Wed, 14 May 2025 13:52:46 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4uKxFP=i2KgaKPvezD5sBcVheQRBF1fY5DyYafin_yFQ@mail.gmail.com>
+X-Gm-Features: AX0GCFuA5wm_VloqqAKn29YZ1ukdwZp2SKcoDkcPO-HV2pyFkhTxmiZUesveYWU
+Message-ID: <CAPhsuW4uKxFP=i2KgaKPvezD5sBcVheQRBF1fY5DyYafin_yFQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v6 4/5] selftests/bpf: Add test for dmabuf_iter
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, May 13, 2025 at 9:36=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+>
+> This test creates a udmabuf, and a dmabuf from the system dmabuf heap,
+> and uses a BPF program that prints dmabuf metadata with the new
+> dmabuf_iter to verify they can be found.
+>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+
+Acked-by: Song Liu <song@kernel.org>
+
+With one more comment below.
+
+[...]
+
+> diff --git a/tools/testing/selftests/bpf/progs/dmabuf_iter.c b/tools/test=
+ing/selftests/bpf/progs/dmabuf_iter.c
+> new file mode 100644
+> index 000000000000..2a1b5397196d
+> --- /dev/null
+> +++ b/tools/testing/selftests/bpf/progs/dmabuf_iter.c
+> @@ -0,0 +1,53 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright (c) 2025 Google LLC */
+> +#include <vmlinux.h>
+> +#include <bpf/bpf_core_read.h>
+> +#include <bpf/bpf_helpers.h>
+> +
+> +/* From uapi/linux/dma-buf.h */
+> +#define DMA_BUF_NAME_LEN 32
+> +
+> +char _license[] SEC("license") =3D "GPL";
+> +
+> +/*
+> + * Fields output by this iterator are delimited by newlines. Convert any
+> + * newlines in user-provided printed strings to spaces.
+> + */
+> +static void sanitize_string(char *src, size_t size)
+> +{
+> +       for (char *c =3D src; *c && (size_t)(c - src) < size; ++c)
+
+We should do the size check first, right? IOW:
+
+for (char *c =3D src; (size_t)(c - src) < size && *c; ++c)
 
 
-On Fri, 09 May 2025 23:51:38 +0200, Olivier Benjamin wrote:
-> Update the IMX258 binding to inherit properties defined in the
-> video-interface-devices binding.
-> 
-> Signed-off-by: Olivier Benjamin <olivier.benjamin@bootlin.com>
-> ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-
+> +               if (*c =3D=3D '\n')
+> +                       *c =3D ' ';
+> +}
+> +
+[...]
 
