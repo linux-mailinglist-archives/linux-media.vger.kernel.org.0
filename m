@@ -1,131 +1,177 @@
-Return-Path: <linux-media+bounces-32480-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32481-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C04AB6B9E
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 14:43:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10047AB6BB3
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 14:46:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 412857B0F44
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 12:42:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FB901B67D8C
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 12:46:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A4B0278161;
-	Wed, 14 May 2025 12:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC25D2797A0;
+	Wed, 14 May 2025 12:46:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JJu+36tq"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cCdvo0q3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0C625C71A;
-	Wed, 14 May 2025 12:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC51034CF5;
+	Wed, 14 May 2025 12:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747226595; cv=none; b=AmSwpuvyZY7QaS0kMWWvXuIi6l4N9wRTIGRqLW8GZtoRcXpOSvVXUq0ov5ce1/yC/qv9cyYABHZbqxq6Xbp3LaHLaeHU3vFyndNLZw5Zz9A3mytM9CwdCKWflQ29781pWmiFL93VQxBf/UiNl+sFqGYCUdlu0Mq1sVqBcNHB0Hw=
+	t=1747226788; cv=none; b=rvwKsMwGjvW8x7igvEma/enWwhXzm31brww+RSzQ9CKhnUGmRIfqcR+Pmnwr0FCnNiUSHQvRYXzOL1lewvHenK0iOZ/FJ7XhUAeSRvIiC0YB76euiik1nKZODp+mxv8VeYzzA8EzdWQZeBS2Xqf7LaNkd3zW/w8pxmiIBmAp1rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747226595; c=relaxed/simple;
-	bh=UyGdIibVSOqSmBCOI28bfc7IbRGF7lf1cPNTd2CyAns=;
-	h=Content-Type:MIME-Version:Content-Disposition:In-Reply-To:
-	 References:Subject:From:Cc:To:Date:Message-ID; b=DWFx661hcahJ1QJgk6Rah1ubZ5crbytPLzzsMUpxL4uRzSmv+7/SMStYDFg4HyI8y8JhBlk3sSBX0GuKQ6Fl4A3ohOXXPFUPzThIStPH4RXakZKxP3WWl+fnuuD+Rm2HWN3Q+Nj7ZoWTH13fPYwcVKL1ffI8hEWyVm6zYC5NIHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JJu+36tq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:65db:9f82:d481:46e1:75d5:ff64])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F9AF735;
-	Wed, 14 May 2025 14:42:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747226575;
-	bh=UyGdIibVSOqSmBCOI28bfc7IbRGF7lf1cPNTd2CyAns=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=JJu+36tq1IYVxgGC+Ks0XsnOJXYLnul0pg1u/qmC4ZgDg+mHDF87F+UELy8vr0MWf
-	 ivUrQHezq4T4ZMKcqq8PXJRKCYwdUL2fJa7HqTljxEf44hXN0/+qWIot4cPBqteiVf
-	 z356sf3yn+bqglGI2wJ4GkKLlOxhL8RjUVu5imvo=
-Content-Type: multipart/signed; micalg="pgp-sha512"; protocol="application/pgp-signature"; boundary="===============2589365894410712436=="
+	s=arc-20240116; t=1747226788; c=relaxed/simple;
+	bh=jMRfiNiSjkT+I63v+Zw5znAS191vtTy+/cChgpF5z9o=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UwHFZqpb/ybqFqLwy5Ieja61gxVa4Sb2P+6Io6aH6QYr3f2VGvJbII3JKZhM233TXy3l8SVCvre6PqsVKzV1n7lbIEe6ZpG22lbYYp9Sw2nnvkuqE8W0A4WWAphNCv4XvdGQpkotZMiXXxkzWbzsFykcTkZWuKerbmTfKzWjVwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cCdvo0q3; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4ZyCl31ZnGz9snt;
+	Wed, 14 May 2025 14:46:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1747226783; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RvhuufjJWlflHAYdcYTrZqmE0a4wYRybOZgh/DnhpXw=;
+	b=cCdvo0q3szdBfKR57fkxOysKRYgBEiPLHzVYvDYUzeTLlkLlOhHGwDtNParGTsPYmGx8VC
+	ArR76tMWw1HhldwOJx6/lxx7CGoBxJLqEkoYEm7BxUFPuAR/Qh2Gf+MOXXbWVlNtVNPzI8
+	4yafDxR3St2kFwKxa7Y7jgZmI7qEOqQ6ej6uHu4sT78qiN4SV7nyPBVaizRuO9w+r1dL9k
+	fw4MIxnqzRnhTShf5foOcmKByWm5k/rARu6CBAczJVSPsq/jzh9/SuGRswt4BoOMDBNZ1Y
+	oKNsm2tURWvkWdQicbSHb1ZTgtrdwQLw3xYVoquZYu6OmJyGzyBAQsj7+nGmdQ==
+Message-ID: <48f98c31656ac131f228a4415a561e914d70c9de.camel@mailbox.org>
+Subject: Re: [PATCH v9 05/10] drm/sched: trace dependencies for gpu jobs
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
+ <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,  Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Date: Wed, 14 May 2025 14:46:18 +0200
+In-Reply-To: <20250424083834.15518-6-pierre-eric.pelloux-prayer@amd.com>
+References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
+	 <20250424083834.15518-6-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20250514-imx415-v1-1-bb29fa622bb1@emfend.at>
-References: <20250514-imx415-v1-1-bb29fa622bb1@emfend.at>
-Subject: Re: [PATCH] media: i2c: imx415: Request the sensor clock without a name
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>
-To: Matthias Fend <matthias.fend@emfend.at>, Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Riesch <michael.riesch@wolfvision.net>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Wed, 14 May 2025 14:42:57 +0200
-Message-ID: <174722657707.1845803.6950232855047026897@selene>
-User-Agent: alot/0.12.dev11+g1dd20f1f
+X-MBO-RS-ID: 016bf6d42cc38318115
+X-MBO-RS-META: peagjocu9j1god3a7y83es46uibc7fob
 
---===============2589365894410712436==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+nit: title: s/gpu/GPU
 
-Hi Matthias,
+We also mostly start with an upper case letter after the :, but JFYI,
+it's not a big deal.
 
-Thanks for the patch.
 
-Quoting Matthias Fend (2025-05-14 12:51:01)
-> Request the sensor clock without specifying a name so that the driver
-> behaves as described in the imx415 bindings.
+P.
+
+On Thu, 2025-04-24 at 10:38 +0200, Pierre-Eric Pelloux-Prayer wrote:
+> We can't trace dependencies from drm_sched_job_add_dependency
+> because when it's called the job's fence is not available yet.
 >=20
-> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-
-Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
-
+> So instead each dependency is traced individually when
+> drm_sched_entity_push_job is used.
+>=20
+> Tracing the dependencies allows tools to analyze the dependencies
+> between the jobs (previously it was only possible for fences
+> traced by drm_sched_job_wait_dep).
+>=20
+> Signed-off-by: Pierre-Eric Pelloux-Prayer
+> <pierre-eric.pelloux-prayer@amd.com>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 > ---
->  drivers/media/i2c/imx415.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> =C2=A0.../gpu/drm/scheduler/gpu_scheduler_trace.h=C2=A0=C2=A0 | 23
+> +++++++++++++++++++
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 8 +++++++
+> =C2=A02 files changed, 31 insertions(+)
 >=20
-> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
-> index 9f37779bd6111f434c198ad1cf70c14b80724042..278e743646ea15819d5a79577=
-e786b47c259dbfa 100644
-> --- a/drivers/media/i2c/imx415.c
-> +++ b/drivers/media/i2c/imx415.c
-> @@ -1251,7 +1251,7 @@ static int imx415_parse_hw_config(struct imx415 *se=
-nsor)
->                 return dev_err_probe(sensor->dev, PTR_ERR(sensor->reset),
->                                      "failed to get reset GPIO\n");
-> =20
-> -       sensor->clk =3D devm_clk_get(sensor->dev, "inck");
-> +       sensor->clk =3D devm_clk_get(sensor->dev, NULL);
->         if (IS_ERR(sensor->clk))
->                 return dev_err_probe(sensor->dev, PTR_ERR(sensor->clk),
->                                      "failed to get clock\n");
->=20
-> ---
-> base-commit: 9f35e33144ae5377d6a8de86dd3bd4d995c6ac65
-> change-id: 20250514-imx415-c65889e55211
->=20
-> Best regards,
-> --=20
-> Matthias Fend <matthias.fend@emfend.at>
->
---===============2589365894410712436==
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Description: signature
-Content-Type: application/pgp-signature; name="signature.asc"; charset="us-ascii"
+> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> index 6f5bd05131aa..5d9992ad47d3 100644
+> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> @@ -87,6 +87,29 @@ TRACE_EVENT(drm_sched_process_job,
+> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->fence_context, __entry->f=
+ence_seqno)
+> =C2=A0);
+> =C2=A0
+> +TRACE_EVENT(drm_sched_job_add_dep,
+> +	TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence
+> *fence),
+> +	TP_ARGS(sched_job, fence),
+> +	TP_STRUCT__entry(
+> +		=C2=A0=C2=A0=C2=A0 __field(u64, fence_context)
+> +		=C2=A0=C2=A0=C2=A0 __field(u64, fence_seqno)
+> +		=C2=A0=C2=A0=C2=A0 __field(u64, id)
+> +		=C2=A0=C2=A0=C2=A0 __field(u64, ctx)
+> +		=C2=A0=C2=A0=C2=A0 __field(u64, seqno)
+> +		=C2=A0=C2=A0=C2=A0 ),
+> +
+> +	TP_fast_assign(
+> +		=C2=A0=C2=A0=C2=A0 __entry->fence_context =3D sched_job->s_fence-
+> >finished.context;
+> +		=C2=A0=C2=A0=C2=A0 __entry->fence_seqno =3D sched_job->s_fence-
+> >finished.seqno;
+> +		=C2=A0=C2=A0=C2=A0 __entry->id =3D sched_job->id;
+> +		=C2=A0=C2=A0=C2=A0 __entry->ctx =3D fence->context;
+> +		=C2=A0=C2=A0=C2=A0 __entry->seqno =3D fence->seqno;
+> +		=C2=A0=C2=A0=C2=A0 ),
+> +	TP_printk("fence=3D%llu:%llu, id=3D%llu depends on
+> fence=3D%llu:%llu",
+> +		=C2=A0 __entry->fence_context, __entry->fence_seqno,
+> __entry->id,
+> +		=C2=A0 __entry->ctx, __entry->seqno)
+> +);
+> +
+> =C2=A0TRACE_EVENT(drm_sched_job_wait_dep,
+> =C2=A0	=C2=A0=C2=A0=C2=A0 TP_PROTO(struct drm_sched_job *sched_job, struc=
+t
+> dma_fence *fence),
+> =C2=A0	=C2=A0=C2=A0=C2=A0 TP_ARGS(sched_job, fence),
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> b/drivers/gpu/drm/scheduler/sched_entity.c
+> index bd39db7bb240..be579e132711 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -587,6 +587,14 @@ void drm_sched_entity_push_job(struct
+> drm_sched_job *sched_job)
+> =C2=A0	ktime_t submit_ts;
+> =C2=A0
+> =C2=A0	trace_drm_sched_job(sched_job, entity);
+> +
+> +	if (trace_drm_sched_job_add_dep_enabled()) {
+> +		struct dma_fence *entry;
+> +		unsigned long index;
+> +
+> +		xa_for_each(&sched_job->dependencies, index, entry)
+> +			trace_drm_sched_job_add_dep(sched_job,
+> entry);
+> +	}
+> =C2=A0	atomic_inc(entity->rq->sched->score);
+> =C2=A0	WRITE_ONCE(entity->last_user, current->group_leader);
+> =C2=A0
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmgkj9AACgkQQ96R+SSa
-cUUBBQ//WCo/WnrJIOXDyUFiyYWlz7WpTIjN7DMRKbXFaDseWL8Za6KijHU10hbK
-6B/H+rVGOi5OnwxyoxD0EmqxYldWitIu17nh0X5SShg+lq+ccRBmcgKobBhsTRtb
-0zzAo1ENDlePYc+RqtmTLowVc1kmeNDpI9B2uk84pfq1sqTTM2LOrGHnULi3h7vS
-hPNaMX+dH4E+Wo8u7WlNDqukPIAUd71fvTN8v+R55OcNM5AnJE0WuT3uPAbmLFgr
-9S1srWpnUhSL7XT/jOP+R5YbpbxtRqiYFfdjwU//JftGBlQmizSZ649kY7dUmeXZ
-+WzgClE6EXxEDyq1TOIK49pyBZCIgZSMwGop2wQJ+3wMlxEW+iAKUtiuTz5RYvc/
-y5Pv/PImh/GdZCMhrDI7gJ1EyFdEFOjv8569qao6QhmM4J4z14x4esIKWY05kyhF
-BrCc/AvdRKPedG9hHVZi1LkQgMHHCGnRUv3QNi07ad+1VOay2d7kNGzKs0764SpP
-yyJHk9ugv4wrOPnLb1Z061f0CveKIcY390h8cbaoobuFDtYJMyAP5nwu3aR3fpMa
-D+7s02a5ohyyAqJJtsCAM/U+oGhw+YBmUxuZcEfMS4J0kt3MgXziNd32WvjVm1BY
-lkvSN6H5sdeGIW6AgMAOOz5ul/AeSi8jCjLL6I1uLWOiTy8WSF4=
-=5KmA
------END PGP SIGNATURE-----
-
---===============2589365894410712436==--
 
