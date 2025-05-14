@@ -1,423 +1,153 @@
-Return-Path: <linux-media+bounces-32432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32433-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C478AB60DF
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 04:43:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E229DAB6130
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 05:26:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C2303AE4F7
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 02:41:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CDD663A5CAC
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 03:26:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1BE41EB5D0;
-	Wed, 14 May 2025 02:40:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 504211C8639;
+	Wed, 14 May 2025 03:26:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="creA13za"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iDAjfITm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854941E130F;
-	Wed, 14 May 2025 02:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E728A2260C;
+	Wed, 14 May 2025 03:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747190455; cv=none; b=XqKkjjo5CMYucaOQacSWAkR1/vg2O4lRN4qnYL5hrckHi4fJED35fvSRdPamw89VqcxsT78IdjokDypjQtXbxOwoguuRUgTX+ylE75WYsp6fHqs59ts0C5q37HX0PUjXBAkx/dE48YLTUmAvQw+uDRKiVpjl6EwR0WDudV5YnAA=
+	t=1747193169; cv=none; b=Wrk1QZ7UkyK95CZ6OVGpS8ud2pVv+oMTSi/H9vPXtsdxEOqfaDQAo9pOsVvGQdOtgSxmynZYHQ4VW5polkTBca7Rjeffgo0dqpalY7A/YNpFxsThhl7BPAnu68fQik/29XUOybOjyYr+a3ra7qo6tl6F5vcnd0NU/EkJ1OOjjnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747190455; c=relaxed/simple;
-	bh=lCjgDt5j7RZSUjETxwPUBkxKf376VCBWhJ/wY+tphf8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=M8ot+4EtZ4cZXPqJXq+HQHGiM0NLyyzuJmMnnvOwVe4tLrtUpw6AB/O9fLtKHZKDb6ssW3ZUj50ciBCzhZLUXAdhqGbehl2JU1anABNpXzfGO7uLf8E+OTMr7bP502i92LH1aW+Co5bwT0xhFZFF8JItkpqQtEEEC2XX0u22vMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=creA13za; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54E1V0ZA009922;
-	Wed, 14 May 2025 02:40:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+uX94CkoNs6udmtUgNJZwPiOSMpmvTO6ahUzDuH0J4Q=; b=creA13za4XVfI9j6
-	4la1qIGmlfnPtjl9DCdRSvzUXzNXtniFWv9lLQp7ciJRdemZeX37+GF5k7vblvyZ
-	hsVnzcLaKoslQYFjwoffZzosxGItduIQ+CpD11YMAyJ7BLila/8gvX0tYWeuuihT
-	cEuZx1DE8kYhdkaXsRtsgmPpv+35kl3HxyFbdtl9UwPc+2kQokx/eaHMuL8m2+gL
-	ZbcQS/X17nueD4mtN/J61RSZ+cfYWypc/CIZopPL0Ev2PYfbcsCm0rIuOdDSdrx2
-	M1bphOEVvvM/bRxOUsjGdcDPDOiiZvW+xFZmXE8SAS403YRZ0TX7xhg92qcauGMu
-	VrcaFQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcyh3e3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 May 2025 02:40:48 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54E2el53019000
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 May 2025 02:40:47 GMT
-Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 13 May 2025 19:40:40 -0700
-From: Wenmeng Liu <quic_wenmliu@quicinc.com>
-Date: Wed, 14 May 2025 10:40:08 +0800
-Subject: [PATCH 4/4] arm64: dts: qcom: qcs9075-rb8: Enable IMX577 camera
- sensor
+	s=arc-20240116; t=1747193169; c=relaxed/simple;
+	bh=Vl2JsS0XoEFiPBo2fr8NpOs+oJP1wxKRrrfjW+0W2cw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HgPAwgEf+5nllTVBdIma9ehGbt2ii4jksQK4z33u9DF8CyYaRn79X+kJDmtU9eIqxq/6Ylw/8SFI/vZg9e6L6IzBd3xQFbCja/YHseeigSiuCVLSq+hF2oEAn0Y9nUBuEE1mcEWwRhUy1J6/48RoJBHJaXGkSc5L57Gqfjhk9zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iDAjfITm; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747193168; x=1778729168;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Vl2JsS0XoEFiPBo2fr8NpOs+oJP1wxKRrrfjW+0W2cw=;
+  b=iDAjfITmbHsjerNVQjnIEb/F+0E0U0P8kvZkCez91M8aRa0evoQq3UNB
+   Q6pwqaob9QZVoaUfYBRpEJcCuxA6m+tnQS05wTrUaBwOQ92RN7OeaYnUW
+   TA3Drmnjesf6qZV9Rutm+H5gF43XF4TNV6qTl5wJloRxGwEqW8FGkMaPX
+   hlFhXGOBP9ocWbshZTHxDV4FHbygZEdRg6b9Rb5oGYThopzIP84Gb3+ot
+   nllM9/P9dD0xa8HU63RIfhdoKppvmwrIRe58iBIDjm9aRYy92n47t/RIM
+   mliqlLx596A1nNaSHsTGurjVzHSoanhCZdO3P8Fje4h7SHa1vEHKYmgqI
+   A==;
+X-CSE-ConnectionGUID: 8qYWF0CgQ7G5w5LYKjGj2w==
+X-CSE-MsgGUID: zrIJFVyCTcm/1jkAwhfExQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="60471341"
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
+   d="scan'208";a="60471341"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 20:26:07 -0700
+X-CSE-ConnectionGUID: fvdv4vi/TEOML9s+DB98Cg==
+X-CSE-MsgGUID: IVD+dxO3Q+uiMjPNb8pcYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
+   d="scan'208";a="137948936"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmviesa007.fm.intel.com with ESMTP; 13 May 2025 20:26:01 -0700
+Date: Wed, 14 May 2025 11:20:27 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Alexey Kardashevskiy <aik@amd.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+	christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
+	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+	dan.j.williams@intel.com, yilun.xu@intel.com,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
+	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com
+Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
+Message-ID: <aCQL+/HDYcxfWM4F@yilunxu-OptiPlex-7050>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
+ <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
+ <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
+ <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
+ <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
+ <20250509184318.GD5657@nvidia.com>
+ <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
+ <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250514-rb8_camera-v1-4-bf4a39e304e9@quicinc.com>
-References: <20250514-rb8_camera-v1-0-bf4a39e304e9@quicinc.com>
-In-Reply-To: <20250514-rb8_camera-v1-0-bf4a39e304e9@quicinc.com>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        "Bryan
- O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Vikram Sharma
-	<quic_vikramsa@quicinc.com>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, Wenmeng Liu <quic_wenmliu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747190420; l=6781;
- i=quic_wenmliu@quicinc.com; s=20250211; h=from:subject:message-id;
- bh=lCjgDt5j7RZSUjETxwPUBkxKf376VCBWhJ/wY+tphf8=;
- b=daWROMMUnREKit9xCBdhOvflTzagwgfJf61n8yt2Gi4DEB1BqP59Lc4Gy4G0nsnpAVlVGqb0O
- BjzMm1sU2FgB9DXWizpGIwlhF0MqEPoRXZCHhHaXbJ7s4rpf9IxF6ro
-X-Developer-Key: i=quic_wenmliu@quicinc.com; a=ed25519;
- pk=PTegr3w0f1C9dOSL6CUdJR5+u+X/4vsW7VMfwIMeMXQ=
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: vdqlBOIWvLpCC8nzFY7Bs59UMaKJHhah
-X-Proofpoint-ORIG-GUID: vdqlBOIWvLpCC8nzFY7Bs59UMaKJHhah
-X-Authority-Analysis: v=2.4 cv=JszxrN4C c=1 sm=1 tr=0 ts=682402b0 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=Y4bAwII3Nl6dPSH8ue0A:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDAyMCBTYWx0ZWRfX+hd01CxvLj0/
- YwXNs1EeQueC9YqKwqrs3nK0LQIMriSEOwu4n++EfZpzA2njQ0hXxEfJtO6VRCqGmM2ObEKjCId
- lRHuvjNwj6bzJnyEaSbiP66nAGpR4Dn616P3iYzxE6+2uvOODhu4CRkgy7KsRw2vLECa8rm6Sy7
- ebZmDs7gdhJbokWFc53b0QemBZcOZw8XnHDGa53Ur68tz/HDWgX/b7K5Q5Kz4Eb2CMeZhHsTqnT
- 3NXP3FYAMUqGrMgc+TmY/E0Hl9QyzpgWoIFxy2QOfUzjW7rKdbPrc68P3YVsFng3TpcmOYGP6Mn
- f0v6g4tto0z+9mGgJkHOcje2iEInGGOF4+TsPltH08jXxuoYK2dya7MZvts5DNu69KcjuNkTdnS
- 9djsoHqAiaJnxNsVWWGkN27RhHhniMCWvcQKzRi+BTKtU+E0HfbI/5+Fe9KPh1sy3X8nImag
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-14_01,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=787 bulkscore=0
- malwarescore=0 mlxscore=0 adultscore=0 phishscore=0 spamscore=0
- lowpriorityscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505070000 definitions=main-2505140020
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
 
-The qcs9075-iq-9075-evk board has 4 camera CSI interfaces.
-Enable the third interface with an imx577 sensor for qcs9075-iq-9075-evk.
+On Mon, May 12, 2025 at 07:30:21PM +1000, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 10/5/25 13:47, Xu Yilun wrote:
+> > On Fri, May 09, 2025 at 03:43:18PM -0300, Jason Gunthorpe wrote:
+> > > On Sat, May 10, 2025 at 12:28:48AM +0800, Xu Yilun wrote:
+> > > > On Fri, May 09, 2025 at 07:12:46PM +0800, Xu Yilun wrote:
+> > > > > On Fri, May 09, 2025 at 01:04:58PM +1000, Alexey Kardashevskiy wrote:
+> > > > > > Ping?
+> > > > > 
+> > > > > Sorry for late reply from vacation.
+> > > > > 
+> > > > > > Also, since there is pushback on 01/12 "dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI", what is the plan now? Thanks,
+> > > > > 
+> > > > > As disscussed in the thread, this kAPI is not well considered but IIUC
+> > > > > the concept of "importer mapping" is still valid. We need more
+> > > > > investigation about all the needs - P2P, CC memory, private bus
+> > > > > channel, and work out a formal API.
+> > > > > 
+> > > > > However in last few months I'm focusing on high level TIO flow - TSM
+> > > > > framework, IOMMUFD based bind/unbind, so no much progress here and is
+> > > > > still using this temporary kAPI. But as long as "importer mapping" is
+> > > > > alive, the dmabuf fd for KVM is still valid and we could enable TIO
+> > > > > based on that.
+> > > > 
+> > > > Oh I forgot to mention I moved the dmabuf creation from VFIO to IOMMUFD
+> > > > recently, the IOCTL is against iommufd_device.
+> > > 
+> > > I'm surprised by this.. iommufd shouldn't be doing PCI stuff, it is
+> > > just about managing the translation control of the device.
+> > 
+> > I have a little difficulty to understand. Is TSM bind PCI stuff? To me
+> > it is. Host sends PCI TDISP messages via PCI DOE to put the device in
+> > TDISP LOCKED state, so that device behaves differently from before. Then
+> > why put it in IOMMUFD?
+> 
+> 
+> "TSM bind" sets up the CPU side of it, it binds a VM to a piece of IOMMU on the host CPU.
 
-An example media-ctl pipeline for the imx577 is:
+I didn't fully get your idea, are you defending for "TSM bind is NOT PCI
+stuff"? To me it is not true.
 
-media-ctl --reset
-media-ctl -V '"imx577 '0-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
-media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
-media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+TSM bind also sets up the device side. From your patch, it calls
+tsm_tdi_bind(), which in turn calls spdm_forward(), I assume it is doing
+TDISP LOCK. And TDISP LOCK changes device a lot.
 
-yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+> The device does not know about the VM, it just enables/disables encryption by a request from the CPU (those start/stop interface commands).
+> And IOMMUFD won't be doing DOE, the platform driver (such as AMD CCP) will. Nothing to do for VFIO here.
 
-Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
----
- arch/arm64/boot/dts/qcom/qcs9075-iq-9075-evk.dts | 110 +++++++++++++++++++
- arch/arm64/boot/dts/qcom/sa8775p.dtsi            | 132 +++++++++++++++++++++++
- 2 files changed, 242 insertions(+)
+IOMMUFD calls tsm_tdi_bind(), which is an interface doing PCI stuff.
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs9075-iq-9075-evk.dts b/arch/arm64/boot/dts/qcom/qcs9075-iq-9075-evk.dts
-index eadc59739a4baafedfa456bdb71b72214810b1c1..83c286b3b1428bc90445f41740997f2421824a54 100644
---- a/arch/arm64/boot/dts/qcom/qcs9075-iq-9075-evk.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs9075-iq-9075-evk.dts
-@@ -20,6 +20,38 @@ aliases {
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-+
-+	vreg_cam0_1p8: vreg_cam0_1p8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vreg_cam0_1p8";
-+		startup-delay-us = <10000>;
-+		enable-active-high;
-+		gpio = <&pmm8654au_0_gpios 7 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	vreg_cam1_1p8: vreg_cam1_1p8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vreg_cam1_1p8";
-+		startup-delay-us = <10000>;
-+		enable-active-high;
-+		gpio = <&pmm8654au_0_gpios 8 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	vreg_cam2_1p8: vreg_cam2_1p8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vreg_cam2_1p8";
-+		startup-delay-us = <10000>;
-+		enable-active-high;
-+		gpio = <&pmm8654au_0_gpios 9 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	vreg_cam3_1p8: vreg_cam3_1p8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vreg_cam3_1p8";
-+		startup-delay-us = <10000>;
-+		enable-active-high;
-+		gpio = <&pmm8654au_0_gpios 10 GPIO_ACTIVE_HIGH>;
-+	};
- };
- 
- &apps_rsc {
-@@ -241,6 +273,84 @@ vreg_l8e: ldo8 {
- 	};
- };
- 
-+&camcc {
-+	status = "okay";
-+};
-+
-+&camss {
-+	vdda-pll-supply = <&vreg_l1c>;
-+	vdda-phy-supply = <&vreg_l4a>;
-+
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@3 {
-+			reg = <3>;
-+			csiphy3_ep: endpoint {
-+				clock-lanes = <7>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&imx577_ep3>;
-+			};
-+		};
-+	};
-+};
-+
-+&cci0 {
-+	status = "disabled";
-+	pinctrl-0 = <&cci0_0_default>;
-+	pinctrl-1 = <&cci0_0_sleep>;
-+};
-+
-+&cci1 {
-+	status = "disabled";
-+	pinctrl-0 = <&cci1_0_default>;
-+	pinctrl-1 = <&cci1_0_sleep>;
-+};
-+
-+&cci2 {
-+	status = "disabled";
-+	pinctrl-0 = <&cci2_0_default>;
-+	pinctrl-1 = <&cci2_0_sleep>;
-+};
-+
-+&cci3 {
-+	status = "okay";
-+	pinctrl-0 = <&cci3_0_default>;
-+	pinctrl-1 = <&cci3_0_sleep>;
-+};
-+
-+&cci3_i2c0 {
-+	camera@1a {
-+		compatible = "sony,imx577";
-+		reg = <0x1a>;
-+
-+		reset-gpios = <&tlmm 135 GPIO_ACTIVE_LOW>;
-+		pinctrl-names = "default", "suspend";
-+		pinctrl-0 = <&cam3_default>;
-+		pinctrl-1 = <&cam3_suspend>;
-+
-+		clocks = <&camcc CAM_CC_MCLK3_CLK>;
-+		assigned-clocks = <&camcc CAM_CC_MCLK3_CLK>;
-+		assigned-clock-rates = <24000000>;
-+
-+		dovdd-supply = <&vreg_s4a>;
-+		avdd-supply = <&vreg_cam3_1p8>;
-+		/* dvdd-supply = <&vdc_5v>; */
-+
-+		port {
-+			imx577_ep3: endpoint {
-+				clock-lanes = <7>;
-+				link-frequencies = /bits/ 64 <600000000>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&csiphy3_ep>;
-+			};
-+		};
-+	};
-+};
-+
- &qupv3_id_1 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-index a867694b15b307344b72041e972bae6e7543a98f..d50f0d84fdb5130d8386b107702800382bcaac47 100644
---- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-@@ -4756,6 +4756,138 @@ tlmm: pinctrl@f000000 {
- 			gpio-ranges = <&tlmm 0 0 149>;
- 			wakeup-parent = <&pdc>;
- 
-+			cam0_default: cam0-default {
-+				mclk {
-+					pins = "gpio72";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+
-+				rst {
-+					pins = "gpio132";
-+					function = "gpio";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam0_suspend: cam0-suspend {
-+				mclk {
-+					pins = "gpio72";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+
-+				rst {
-+					pins = "gpio132";
-+					function = "gpio";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+					output-low;
-+				};
-+			};
-+
-+			cam1_default: cam1-default {
-+				mclk {
-+					pins = "gpio73";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+
-+				rst {
-+					pins = "gpio133";
-+					function = "gpio";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam1_suspend: cam1-suspend {
-+				mclk {
-+					pins = "gpio73";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+
-+				rst {
-+					pins = "gpio133";
-+					function = "gpio";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+					output-low;
-+				};
-+			};
-+
-+			cam2_default: cam2-default {
-+				mclk {
-+					pins = "gpio74";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+
-+				rst {
-+					pins = "gpio134";
-+					function = "gpio";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam2_suspend: cam2-suspend {
-+				mclk {
-+					pins = "gpio74";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+
-+				rst {
-+					pins = "gpio134";
-+					function = "gpio";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+					output-low;
-+				};
-+			};
-+
-+			cam3_default: cam3-default {
-+				mclk {
-+					pins = "gpio75";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+
-+				rst {
-+					pins = "gpio135";
-+					function = "gpio";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam3_suspend: cam3-suspend {
-+				mclk {
-+					pins = "gpio75";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+
-+				rst {
-+					pins = "gpio135";
-+					function = "gpio";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+					output-low;
-+				};
-+			};
-+
- 			cci0_0_default: cci0-0-default-state {
- 					pins = "gpio60", "gpio61";
- 					function = "cci_i2c";
+Thanks,
+Yilun
 
--- 
-2.34.1
-
+> 
+> We probably should notify VFIO about the state transition but I do not know VFIO would want to do in response.
+> 
+> 
 
