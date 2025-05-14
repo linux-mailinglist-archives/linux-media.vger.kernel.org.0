@@ -1,191 +1,115 @@
-Return-Path: <linux-media+bounces-32482-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32483-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5D5AB6BD8
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 14:53:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0822AB6BEA
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 14:57:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8856D18993AD
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 12:53:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48EBC3BD16A
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 12:57:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17C582797A4;
-	Wed, 14 May 2025 12:53:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE12527A470;
+	Wed, 14 May 2025 12:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="HNR9i4K6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q4pHremC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6767146A66;
-	Wed, 14 May 2025 12:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACF727A462;
+	Wed, 14 May 2025 12:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747227217; cv=none; b=MFyFYw09tdiH7pBZSqQWvDBziu4E8RFYs2OFxVX12X7DtkjC+xEdZCzmpWgzhnWQ++SdTaM+oJXMUq1O/k3k63CvA851nGIet2JS2gYrKz9MahfRfiMh2NjNr4WqfzTAgpfmrUnyhDVDnAb+rakjJsa98dbsn69REoOzfL8q4Ps=
+	t=1747227408; cv=none; b=hG5jVFLyDtL1xOb77zbhKxOyAKQwMvB+ZXUhDq4BW5x9vU16cwgxFAT921mpUpiuGK5rd3wZ3YSI0ruXjuWMBzBMteCvFp72BwXuUo2kR2Be/x1rB1NL8zmH5saS/3IXCFqALTZztMshNPQOBrsr1lbNTPmg0jf7x8fzg/VZhkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747227217; c=relaxed/simple;
-	bh=l2PN6QcepbAXB+iWYlA33obbARXQBzt9YebmBHehVqk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=N5Hkne7w7PYuid9kS7qoca9b80kwEVMS1+FH4tI2cRPLzxR1oU52gl0twFOZTFrStNptbMJETCYmtzGsvfpD9OVxfJgznbm40cry/8uKfaxEGkA5UcniDO/v+4YH6Kz42hf21mN6lhTlKnK/zODybouQHaxMd283JIT0oTIEw/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=HNR9i4K6; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4ZyCv90K1mz9tHh;
-	Wed, 14 May 2025 14:53:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1747227205; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lm/MiXf4ihAaUzAEA46o1hoZuKLtMGGmVsS5HYc+ftY=;
-	b=HNR9i4K6g4d8AIbT72lAahbjubd4mU4WEI0EoZJba/Wkj8pOgiE7EGE+WmfOzG7MRYinOP
-	JPHyc/Rzc9OUyQJCXigpzzvt2v2v2l9q9TFsmTzZkRrS3YiwITrUz+yTj51djjqcWZ+MPH
-	Az59TrdqUI14isAdxFeLnnpuLLtAtzSAEuygcLSGII7P5z4Tu+CG0Ti1DU9SbwKIIbSoyj
-	hK7PiVOsUnuwz79nWch6JnMA5tTcufEK1YqqrgpLlrP9tjqnQbWkA8dOve1eiGAumsCCOH
-	TrartWS8kn4VlkP2cl2zE3hoYdP3Uba25A411/1lx8E+wIiX5S5LDMIM6r5n6g==
-Message-ID: <27825c551adeda28f4b329f44c316ad2ab67fa5d.camel@mailbox.org>
-Subject: Re: [PATCH v9 09/10] drm/doc: document some tracepoints as uAPI
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
- Corbet <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>,  Danilo
- Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Sumit Semwal
- <sumit.semwal@linaro.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>, =?ISO-8859-1?Q?Ma=EDra?= Canal
-	 <mcanal@igalia.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
-	 <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Date: Wed, 14 May 2025 14:53:17 +0200
-In-Reply-To: <20250424083834.15518-10-pierre-eric.pelloux-prayer@amd.com>
-References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
-	 <20250424083834.15518-10-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1747227408; c=relaxed/simple;
+	bh=L5BkK/9+vx6s2eotlu7sP1AhcqapoAxZTN2ZPUj5+Rc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eT78tgHBkDUcngX4cM14UpIMwDCfDTTjmdcm/b5ZVzieJYXoUDPiLD2UNvf3om/43p9bq5MF21h3Gmq8yU20Cf1TsnQWVYrYCln6O8dCN6SI3RUuJY9NEHdlMrHMKVbTSK0jxPwNECLA1OHefKxYbnobyLTwaQyE0+O555Cn7AM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q4pHremC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1523CC4AF09;
+	Wed, 14 May 2025 12:56:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747227408;
+	bh=L5BkK/9+vx6s2eotlu7sP1AhcqapoAxZTN2ZPUj5+Rc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=q4pHremCCGtY/K88PxXXE2zElcPhPW8QC9ke0b0hfixqqaTfTDBPepN6yI5TcRehG
+	 iVvpVkDF0e2HBoWfC6ng8oADLFCYDaxlCKyHN3GpfQQYqjNrPKFuohGzv95VPZZRF8
+	 tPat4VVm8k1BKomELw3FsZZrF/uyH86O78tW0RkCh6twW2DVhyZiRLkw3t9tfbu7ej
+	 MW6+z3eKWCZQki6FqoPhiOMvZeEAAaROyJjyHgersRO2cZceUlPiw1vvmrYEJZrBDW
+	 VHSDoW1oaNzLtgB72Ws1zV4bDD50lOPSS7w6v6tt7kHLkghX2GapInrhFr4Ocii7f5
+	 jPS/KglAN+rDQ==
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ad241baf856so169879366b.0;
+        Wed, 14 May 2025 05:56:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVQmC+sT9BWErGEq+1QK+eY0VitLp5LNC7SHv58IA+Q3JRTnwUweHVZSWx/u1SlEPwjmoHa2Q7IQ3s0zEQ=@vger.kernel.org, AJvYcCXyAv8F6Pr52/lvua5owjwBagHx6Nv7ZzpJyd8VrpWidXryECnyAAii8GQaEvqMZTa1A54uUWDrUfJ6@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV4knY2ixuZaKft7C6dr/+zzsXXRwXM5Bbsc/xXRcmgDMdO6Zw
+	oPI3MTgzWw2CNK/ndzowzhXDdnAoKxeJmDgr3zZGoEnr88dA8TEN6W7zpYIVIftjjuy13Xx+lTM
+	5E3sDMLbK57JxXm4fmN8k9X06ng==
+X-Google-Smtp-Source: AGHT+IELhqd55PbVIK/fh9d9i36btbbo6ITEwEb2MGkOGa83e9SO6cYkeWuJWJU73KbPHDZHvvCElKYOidvz0QmAzl8=
+X-Received: by 2002:a17:907:3f89:b0:aca:d29e:53f1 with SMTP id
+ a640c23a62f3a-ad4f71df611mr370014666b.12.1747227406681; Wed, 14 May 2025
+ 05:56:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: acfe79c786622b263c1
-X-MBO-RS-META: t1hfj4zih9aibaphwnzyumj39wajigan
+References: <20250514092259.47035-1-angelogioacchino.delregno@collabora.com>
+ <20250514092259.47035-3-angelogioacchino.delregno@collabora.com> <439db3ea-4fb7-4944-b182-222663c09b3d@collabora.com>
+In-Reply-To: <439db3ea-4fb7-4944-b182-222663c09b3d@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 14 May 2025 07:56:34 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLwXwmt5Smutvv+V-HfLzgYCqb-YRVx9ydD7rfmkiWoeA@mail.gmail.com>
+X-Gm-Features: AX0GCFtnPmpM9IU37owWuZIV0h2y0QbqRqJW_C41vIQEFK-1OTfvM_nf1ApA1kA
+Message-ID: <CAL_JsqLwXwmt5Smutvv+V-HfLzgYCqb-YRVx9ydD7rfmkiWoeA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] arm64: dts: mediatek: mt8188: Add all Multimedia
+ Data Path 3 nodes
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	devicetree@vger.kernel.org, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Chun-Kuang Hu <chunkuang.hu@mediatek.com>, Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2025-04-24 at 10:38 +0200, Pierre-Eric Pelloux-Prayer wrote:
-> This commit adds a document section in drm-uapi.rst about
-> tracepoints,
-> and mark the events gpu_scheduler_trace.h as stable uAPI.
->=20
-> The goal is to explicitly state that tools can rely on the fields,
-> formats and semantics of these events.
->=20
-> Acked-by: Lucas Stach <l.stach@pengutronix.de>
-> Acked-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Signed-off-by: Pierre-Eric Pelloux-Prayer
-> <pierre-eric.pelloux-prayer@amd.com>
-> ---
-> =C2=A0Documentation/gpu/drm-uapi.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19
-> +++++++++++++++++++
-> =C2=A0.../gpu/drm/scheduler/gpu_scheduler_trace.h=C2=A0=C2=A0 | 19
-> +++++++++++++++++++
-> =C2=A02 files changed, 38 insertions(+)
->=20
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-
-> uapi.rst
-> index 69f72e71a96e..4863a4deb0ee 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -693,3 +693,22 @@ dma-buf interoperability
-> =C2=A0
-> =C2=A0Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst
-> for
-> =C2=A0information on how dma-buf is integrated and exposed within DRM.
-> +
-> +
-> +Trace events
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +See Documentation/trace/tracepoints.rst for information about using
-> +Linux Kernel Tracepoints.
-> +In the DRM subsystem, some events are considered stable uAPI to
-> avoid
-> +breaking tools (e.g.: GPUVis, umr) relying on them. Stable means
-> that fields
-> +cannot be removed, nor their formatting updated. Adding new fields
-> is
-> +possible, under the normal uAPI requirements.
-> +
-> +Stable uAPI events
-> +------------------
-> +
-> +From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
-> +
-> +.. kernel-doc::=C2=A0 drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> +=C2=A0=C2=A0 :doc: uAPI trace events
-> \ No newline at end of file
-> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> index 781b20349389..7e840d08ef39 100644
-> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> @@ -32,6 +32,25 @@
-> =C2=A0#define TRACE_SYSTEM gpu_scheduler
-> =C2=A0#define TRACE_INCLUDE_FILE gpu_scheduler_trace
-> =C2=A0
-> +/**
-> + * DOC: uAPI trace events
-> + *
-> + * ``drm_sched_job_queue``, ``drm_sched_job_run``,
-> ``drm_sched_job_add_dep``,
-> + * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are
-> considered
-> + * stable uAPI.
-> + *
-> + * Common trace events attributes:
-> + *
-> + * * ``dev``=C2=A0=C2=A0 - the dev_name() of the device running the job.
-> + *
-> + * * ``ring``=C2=A0 - the hardware ring running the job. Together with
-> ``dev`` it
-> + *=C2=A0=C2=A0 uniquely identifies where the job is going to be executed=
-.
-> + *
-> + * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
-> + *=C2=A0=C2=A0 &drm_sched_fence.finished
-> + *
-> + */
+On Wed, May 14, 2025 at 4:26=E2=80=AFAM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Il 14/05/25 11:22, AngeloGioacchino Del Regno ha scritto:
+> > Add all of the Multimedia Data Path 3 (MDP3) related nodes
+> > including its Mutex instances, one for each VPPSYS block, and
+> > all of its DMA controllers, Film Grain (FG), HDR, Adaptive Ambient
+> > Light (AAL), Frame Resizer (RSZ), Tone Curve Conversion (TCC),
+> > Two-Dimensional Sharpness (TDSHP), and others, enabling the entire
+> > MDP3 macro-block.
+> >
+> > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@co=
+llabora.com>
 
-For my understanding, why do you use the double apostrophes here?
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-Also, the linking for the docu afair here two requires you to write
+> Rob, sorry again for missing your previous email about the warnings
+> generated by this commit.
+>
+> I ran a dtbs_check on this and I didn't see any warning - can you please =
+urgently
+> check and confirm that I didn't miss anything on this one so that I can p=
+ull it in
+> the MediaTek trees for a fixed up PR?
+>
+> If anything else is wrong with this one, I'll have to just drop it and de=
+lay this
+> for the next cycle as it's really too late (my bad, though).
 
-&struct dma_fence.seqno
+Thanks for fixing. FYI, Linus' and next trees are tested daily here:
 
-If I am not mistaken
+https://gitlab.com/robherring/linux-dt/-/jobs
 
-https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#highlights=
--and-cross-references
+platform-warnings.log has the top warnings and undocumented
+compatibles by platform family.
 
-
-P.
-
-> +
-> =C2=A0DECLARE_EVENT_CLASS(drm_sched_job,
-> =C2=A0	=C2=A0=C2=A0=C2=A0 TP_PROTO(struct drm_sched_job *sched_job, struc=
-t
-> drm_sched_entity *entity),
-> =C2=A0	=C2=A0=C2=A0=C2=A0 TP_ARGS(sched_job, entity),
-
+Rob
 
