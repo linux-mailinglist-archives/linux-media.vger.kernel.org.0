@@ -1,115 +1,129 @@
-Return-Path: <linux-media+bounces-32483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0822AB6BEA
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 14:57:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D52AB6C06
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 15:02:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48EBC3BD16A
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 12:57:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FFB0175CA2
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 13:02:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE12527A470;
-	Wed, 14 May 2025 12:56:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7D1D27A112;
+	Wed, 14 May 2025 13:02:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q4pHremC"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AB56yxbE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACF727A462;
-	Wed, 14 May 2025 12:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A092276037;
+	Wed, 14 May 2025 13:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747227408; cv=none; b=hG5jVFLyDtL1xOb77zbhKxOyAKQwMvB+ZXUhDq4BW5x9vU16cwgxFAT921mpUpiuGK5rd3wZ3YSI0ruXjuWMBzBMteCvFp72BwXuUo2kR2Be/x1rB1NL8zmH5saS/3IXCFqALTZztMshNPQOBrsr1lbNTPmg0jf7x8fzg/VZhkM=
+	t=1747227763; cv=none; b=Y3sbv36dtMrcbesiEWslOLaQEc1uArOpbCmNVFrRN5Uk+Bb5Z82HYxpxFEkHV8oXAdisPev+MR2dsuWdKs0fedZod2DFT9k88PgAJYIAYi4jCNtLWlB0y90lneKMBxDI0S6E/fWKMg4x4Hvoqkt297jwhXNMQ4W4HJ0moctYL5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747227408; c=relaxed/simple;
-	bh=L5BkK/9+vx6s2eotlu7sP1AhcqapoAxZTN2ZPUj5+Rc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eT78tgHBkDUcngX4cM14UpIMwDCfDTTjmdcm/b5ZVzieJYXoUDPiLD2UNvf3om/43p9bq5MF21h3Gmq8yU20Cf1TsnQWVYrYCln6O8dCN6SI3RUuJY9NEHdlMrHMKVbTSK0jxPwNECLA1OHefKxYbnobyLTwaQyE0+O555Cn7AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q4pHremC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1523CC4AF09;
-	Wed, 14 May 2025 12:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747227408;
-	bh=L5BkK/9+vx6s2eotlu7sP1AhcqapoAxZTN2ZPUj5+Rc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=q4pHremCCGtY/K88PxXXE2zElcPhPW8QC9ke0b0hfixqqaTfTDBPepN6yI5TcRehG
-	 iVvpVkDF0e2HBoWfC6ng8oADLFCYDaxlCKyHN3GpfQQYqjNrPKFuohGzv95VPZZRF8
-	 tPat4VVm8k1BKomELw3FsZZrF/uyH86O78tW0RkCh6twW2DVhyZiRLkw3t9tfbu7ej
-	 MW6+z3eKWCZQki6FqoPhiOMvZeEAAaROyJjyHgersRO2cZceUlPiw1vvmrYEJZrBDW
-	 VHSDoW1oaNzLtgB72Ws1zV4bDD50lOPSS7w6v6tt7kHLkghX2GapInrhFr4Ocii7f5
-	 jPS/KglAN+rDQ==
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ad241baf856so169879366b.0;
-        Wed, 14 May 2025 05:56:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVQmC+sT9BWErGEq+1QK+eY0VitLp5LNC7SHv58IA+Q3JRTnwUweHVZSWx/u1SlEPwjmoHa2Q7IQ3s0zEQ=@vger.kernel.org, AJvYcCXyAv8F6Pr52/lvua5owjwBagHx6Nv7ZzpJyd8VrpWidXryECnyAAii8GQaEvqMZTa1A54uUWDrUfJ6@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV4knY2ixuZaKft7C6dr/+zzsXXRwXM5Bbsc/xXRcmgDMdO6Zw
-	oPI3MTgzWw2CNK/ndzowzhXDdnAoKxeJmDgr3zZGoEnr88dA8TEN6W7zpYIVIftjjuy13Xx+lTM
-	5E3sDMLbK57JxXm4fmN8k9X06ng==
-X-Google-Smtp-Source: AGHT+IELhqd55PbVIK/fh9d9i36btbbo6ITEwEb2MGkOGa83e9SO6cYkeWuJWJU73KbPHDZHvvCElKYOidvz0QmAzl8=
-X-Received: by 2002:a17:907:3f89:b0:aca:d29e:53f1 with SMTP id
- a640c23a62f3a-ad4f71df611mr370014666b.12.1747227406681; Wed, 14 May 2025
- 05:56:46 -0700 (PDT)
+	s=arc-20240116; t=1747227763; c=relaxed/simple;
+	bh=/qgL9c72UjfK/aScb//liTBZpBmD9llnpoWSPimdNJU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UW2ueG9cw9SuvX4g+uEPZmmC49hwu2A03d67lRpEASn97UDTVLXKRroH6z4JEhS1H+2zA1ZbTJVMB9HtoSd+q6kUX41eu1aUXB+Y09PIdU/HHkv7B+9IcEISQSNP4y1RXwcGA0lyG3BHag7IjzuTHUhc1U7xTOrXNuaJruVuak0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=AB56yxbE; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1747227759;
+	bh=/qgL9c72UjfK/aScb//liTBZpBmD9llnpoWSPimdNJU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AB56yxbEJYn0H4B4CgSrglHvjNBBLYJTQw+pf4JzTL5dEQN/zruyvWMOrPRn4YQ6M
+	 LSZrnkND0Rgs8VxCBy85DAi6tBnPo0weRB8hfDLI2YGEbE6ObujIDWj3wzsaZDZpBm
+	 4YcrTZ7Jk+IpYed2/Rb8AGfHHSxnTgMpuVgF3WDgoBBSuLVn4NE9RQmDpVkaWOw07F
+	 INpOC1hvLH1rUVVcBDo80bGCmCa+kaRB8FyolRSeIz+7ex3uByepG2bElkiVMVicY9
+	 90heWpuyL/lFesm7zVzTybdU5rHiQl7Q2KapWjzPFbRduc2sBfhMb6CaL5Er2H1eq1
+	 whDJRvQd4wEsg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B818017E0509;
+	Wed, 14 May 2025 15:02:38 +0200 (CEST)
+Message-ID: <0d530e65-1c22-4538-9234-802541e5326a@collabora.com>
+Date: Wed, 14 May 2025 15:02:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250514092259.47035-1-angelogioacchino.delregno@collabora.com>
- <20250514092259.47035-3-angelogioacchino.delregno@collabora.com> <439db3ea-4fb7-4944-b182-222663c09b3d@collabora.com>
-In-Reply-To: <439db3ea-4fb7-4944-b182-222663c09b3d@collabora.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 14 May 2025 07:56:34 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLwXwmt5Smutvv+V-HfLzgYCqb-YRVx9ydD7rfmkiWoeA@mail.gmail.com>
-X-Gm-Features: AX0GCFtnPmpM9IU37owWuZIV0h2y0QbqRqJW_C41vIQEFK-1OTfvM_nf1ApA1kA
-Message-ID: <CAL_JsqLwXwmt5Smutvv+V-HfLzgYCqb-YRVx9ydD7rfmkiWoeA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 3/3] arm64: dts: mediatek: mt8188: Add all Multimedia
  Data Path 3 nodes
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	devicetree@vger.kernel.org, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Chun-Kuang Hu <chunkuang.hu@mediatek.com>, Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Rob Herring <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, Nicolas Dufresne
+ <nicolas.dufresne@collabora.com>, Chun-Kuang Hu <chunkuang.hu@mediatek.com>,
+ Conor Dooley <conor.dooley@microchip.com>
+References: <20250514092259.47035-1-angelogioacchino.delregno@collabora.com>
+ <20250514092259.47035-3-angelogioacchino.delregno@collabora.com>
+ <439db3ea-4fb7-4944-b182-222663c09b3d@collabora.com>
+ <CAL_JsqLwXwmt5Smutvv+V-HfLzgYCqb-YRVx9ydD7rfmkiWoeA@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <CAL_JsqLwXwmt5Smutvv+V-HfLzgYCqb-YRVx9ydD7rfmkiWoeA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 14, 2025 at 4:26=E2=80=AFAM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 14/05/25 11:22, AngeloGioacchino Del Regno ha scritto:
-> > Add all of the Multimedia Data Path 3 (MDP3) related nodes
-> > including its Mutex instances, one for each VPPSYS block, and
-> > all of its DMA controllers, Film Grain (FG), HDR, Adaptive Ambient
-> > Light (AAL), Frame Resizer (RSZ), Tone Curve Conversion (TCC),
-> > Two-Dimensional Sharpness (TDSHP), and others, enabling the entire
-> > MDP3 macro-block.
-> >
-> > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@co=
-llabora.com>
+Il 14/05/25 14:56, Rob Herring ha scritto:
+> On Wed, May 14, 2025 at 4:26 AM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> Il 14/05/25 11:22, AngeloGioacchino Del Regno ha scritto:
+>>> Add all of the Multimedia Data Path 3 (MDP3) related nodes
+>>> including its Mutex instances, one for each VPPSYS block, and
+>>> all of its DMA controllers, Film Grain (FG), HDR, Adaptive Ambient
+>>> Light (AAL), Frame Resizer (RSZ), Tone Curve Conversion (TCC),
+>>> Two-Dimensional Sharpness (TDSHP), and others, enabling the entire
+>>> MDP3 macro-block.
+>>>
+>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> 
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> 
+>> Rob, sorry again for missing your previous email about the warnings
+>> generated by this commit.
+>>
+>> I ran a dtbs_check on this and I didn't see any warning - can you please urgently
+>> check and confirm that I didn't miss anything on this one so that I can pull it in
+>> the MediaTek trees for a fixed up PR?
+>>
+>> If anything else is wrong with this one, I'll have to just drop it and delay this
+>> for the next cycle as it's really too late (my bad, though).
+> 
+> Thanks for fixing.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Thank you for the very fast ack, highly appreciated.
 
-> Rob, sorry again for missing your previous email about the warnings
-> generated by this commit.
->
-> I ran a dtbs_check on this and I didn't see any warning - can you please =
-urgently
-> check and confirm that I didn't miss anything on this one so that I can p=
-ull it in
-> the MediaTek trees for a fixed up PR?
->
-> If anything else is wrong with this one, I'll have to just drop it and de=
-lay this
-> for the next cycle as it's really too late (my bad, though).
+I have just learnt that Arnd accidentally pulled the branch anyway, so I will
+have to resend this as a fix on top - it will be just a diff between the current
+one and this commit that you acked.
 
-Thanks for fixing. FYI, Linus' and next trees are tested daily here:
+I guess I can retain your ack on the diff-only commit, as the result will be
+exactly the same as this v2.
 
-https://gitlab.com/robherring/linux-dt/-/jobs
+> FYI, Linus' and next trees are tested daily here:
+> 
+> https://gitlab.com/robherring/linux-dt/-/jobs
+> 
+> platform-warnings.log has the top warnings and undocumented
+> compatibles by platform family.
+> 
+That's very useful! Didn't know about it - thanks, that'll make my maintainer
+life easier. Bookmarked!
 
-platform-warnings.log has the top warnings and undocumented
-compatibles by platform family.
+Cheers,
+Angelo
 
-Rob
+
 
