@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-32444-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32445-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80DD7AB651B
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 10:03:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65184AB6525
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 10:03:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8F79188F12C
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 08:02:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AD388624ED
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 08:03:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26231219A93;
-	Wed, 14 May 2025 08:02:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4026921A928;
+	Wed, 14 May 2025 08:03:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1mhs+m0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CR8c1GvN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5DB20C465;
-	Wed, 14 May 2025 08:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AB520766C;
+	Wed, 14 May 2025 08:03:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747209740; cv=none; b=RAeX6jgmmbUEi33pLe4dRM0LF25Y0Kr/awplJEd1EjuJyLNwkNeDgFEZDMfriq06pDF6/cpNbQ7ftLOWdSnzVx+ssUroJjts1WNkw9tsTEqJixB4uXY2DtXAEZqSTyFvo2ygh4fXA61UtPenrAx7NMr574UEGrJqzeg4CtzM+JI=
+	t=1747209805; cv=none; b=WK6Gy6Tk4b3uLnVQE/QO+hb6n6GHIfmaP7rJPVzgTBKj9Pjam0suEIwyQUmovxVT4c9EedM5l6lbl9Ozn+3Pr0or/BAsfwWXlxgozQM+560wSA1BPcecA1UzEI5SHWHBm32T+aaE3VW4RMDCsT99vzEAb8Q/qrBHCR0SFrUX5II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747209740; c=relaxed/simple;
-	bh=oVVqZDej7MK+7ti4pzz926dfmWo0VlJE8ESr0e3uzfc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IwgXkdq3mat1C0Q7CU7Xp6hSi8KWQjWmQE53ppi5pSMReKKRFo82AIzDHDKPcxW9XQVb8WTvFIF8/XxpBA2o/5tljopKXBdyFj1uShc84pBhq66tU0eanbb56Kq7OXwoPgN/CF9xsEyddSZjPfQTeiSdX9luGDl8/DEemKq0JhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1mhs+m0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0CDC4CEE9;
-	Wed, 14 May 2025 08:02:14 +0000 (UTC)
+	s=arc-20240116; t=1747209805; c=relaxed/simple;
+	bh=qm8PV3PH6unPEQOBCfftpe16OlT8Y+sf9OEKT+SUt0c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=EM9ojJfnb5ABOT5IjsbcnzV2Dn3uo0beT4vlqQAoBjZiWCvJDo59oHHK8EjzlJ5UVE/vVejGWqeS6yS6SL7vP6mJOz38XYS23kQP9UI7fFtEWtSp+/8DFe2WygEcg+CfnL3wzj60/yJjp/yaldL7gWx4fOSPQ4rN0w6qL0RIbJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CR8c1GvN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6207DC4CEEB;
+	Wed, 14 May 2025 08:03:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747209739;
-	bh=oVVqZDej7MK+7ti4pzz926dfmWo0VlJE8ESr0e3uzfc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=S1mhs+m0Gf4drEkz0uDLHZqbUV06k/9wQj1gw4iM3QiBlFxAVn18YvIEC5M9t39KZ
-	 BM/EXsb9g2HIkGZd+21Sv9E+1mwyaolSUVDlyl7yd3TofAkDslhuQ2EWPlQkOSMxzc
-	 4MqepgrQevIxikgjJKILpn6qmdYgcx/TALmqrfw+mcMzE9/GC1rYoeOie85LDZ2diM
-	 AqXyOZqMNie6QieRKz/t2IGWjpm76HFyC4FNUvFX7zZ+8R768JOoUlSStkfX4Qhsj5
-	 4wgB2vX+OxJgD+ARWT1md3iY8zs9dq/3DNt6sQrkhe+d0ndaF/I8/0WVVZQ6Hbut9E
-	 WqQeC/IKKTHzw==
-Message-ID: <09e5e8ea-20c5-4ea6-8563-ee019e332efc@kernel.org>
-Date: Wed, 14 May 2025 10:02:12 +0200
+	s=k20201202; t=1747209805;
+	bh=qm8PV3PH6unPEQOBCfftpe16OlT8Y+sf9OEKT+SUt0c=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=CR8c1GvN220X/iGnvit8WaTOACbewCoM51G+RW2SfANm8k7EOR/aRRymm9/6cDfny
+	 0DbMfkmD/f9sGz6sc6J18YGzjEbtf8yJh/5yK62CS/XTzKaKTocB02aygzLfpHXzds
+	 xym2cvAPxVQc+FdSDBo+dnyTOu7Tgp6cF0Dgxp0MXYDgZWYPnmqPMJMZfOGEJYNryt
+	 pZfIRRgcxsTcb4HMWLcTILlkprSDZp3cxKdHR2aiRpxmZ8hOyrWR0T0bCaGO90Zb5B
+	 CuI+s28koE+v+QnYeulk7rUImm/oCznhe/FYP8WjmPZIgoAV2EgYdqWlewAhxISmlP
+	 8QsQlmMo6w6qg==
+Message-ID: <78dd8b8c-6762-4dc5-8984-52e19c4453bd@kernel.org>
+Date: Wed, 14 May 2025 10:03:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,33 +50,30 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH 3/5] dt-bindings: media: allegrodvt: add decoder
- dt-bindings for Gen3 IP
-To: Conor Dooley <conor@kernel.org>,
- Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
-Cc: Michael Tretter <m.tretter@pengutronix.de>,
+Subject: Re: [RESEND PATCH 4/5] MAINTAINERS: Add entry for allegrodvt Gen 3
+ drivers
+To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>,
+ Michael Tretter <m.tretter@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Heiko Stuebner
- <heiko@sntech.de>, Junhao Xie <bigfoot@classfun.cn>,
- Aradhya Bhatia <a-bhatia1@ti.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
- <rafal@milecki.pl>, Manivannan Sadhasivam
- <manivannan.sadhasivam@linaro.org>, Kever Yang <kever.yang@rock-chips.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
+ <heiko@sntech.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Junhao Xie <bigfoot@classfun.cn>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Kever Yang <kever.yang@rock-chips.com>, Hans Verkuil <hverkuil@xs4all.nl>,
  Sebastian Fricke <sebastian.fricke@collabora.com>,
  =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
  Wolfram Sang <wsa+renesas@sang-engineering.com>,
  Gaosheng Cui <cuigaosheng1@huawei.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
  Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 References: <20250513083609.328422-1-yassine.ouaissa@allegrodvt.com>
- <20250513083609.328422-4-yassine.ouaissa@allegrodvt.com>
- <20250513-earache-cesspool-6d08e2cfb73a@spud>
+ <20250513083609.328422-5-yassine.ouaissa@allegrodvt.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -122,35 +119,37 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250513-earache-cesspool-6d08e2cfb73a@spud>
+In-Reply-To: <20250513083609.328422-5-yassine.ouaissa@allegrodvt.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 13/05/2025 16:55, Conor Dooley wrote:
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - interrupts
->> +  - clocks
->> +  - clock-names
->> +
->> +additionalProperties: False
->> +
->> +examples:
->> +  - |
->> +    axi {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        ald300@a0120000 {
+On 13/05/2025 10:35, Yassine Ouaissa wrote:
+> Add my self as maintainer of the allegrodvt Gen drivers
 > 
-> The standard node name here I believe is "video-decoder".
+> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+> ---
+>  MAINTAINERS | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d81d2756cb2e..8912fabab6ed 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -802,10 +802,13 @@ F:	drivers/platform/x86/dell/alienware-wmi*
+>  
+>  ALLEGRO DVT VIDEO IP CORE DRIVER
+>  M:	Michael Tretter <m.tretter@pengutronix.de>
+> +M:	Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>
+>  R:	Pengutronix Kernel Team <kernel@pengutronix.de>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/allegro,al5e.yaml
+> +F:	Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml
 
-I already asked for that at v1 (this is somehow duplicating it) and my
-remark was just ignored.
-
-
+Before adding yourself as a maintainer, can you please read the
+submitting patches and other kernel process documents? You just bypassed
+previous discussion by sending the same which is not acceptable for me.
+It duplicates review work and hides previous talk.
 
 Best regards,
 Krzysztof
