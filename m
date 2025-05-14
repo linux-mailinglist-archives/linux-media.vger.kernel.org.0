@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-32470-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32472-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08C3AB69D5
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 13:28:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC10AB69DB
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 13:28:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E42581B62328
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 11:28:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7D6D4A51DD
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 11:28:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2722A275855;
-	Wed, 14 May 2025 11:26:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2100E27A45D;
+	Wed, 14 May 2025 11:26:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="V0rrr4sI"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="O33zdEur"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F482750F0;
-	Wed, 14 May 2025 11:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AB5270572;
+	Wed, 14 May 2025 11:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747222005; cv=none; b=TF5sNPp1Fd9e+FVI0yJHPghk/JtLfC4DvULB37qJ86qYE6JL7QggljMSGUsZAqTj27n0+/bJl0CjQfHiRlFVYZxCpwBwhRP7yMTH0ooFauAfl21rC3L+8ycypdBgPvdO+gtuBN9gih4jkmQAxRdd4F3VHQHEXeutsLClursJYXc=
+	t=1747222008; cv=none; b=qWSGLmUyur/FpG7Vta8/+jcQVSY5hYYA7We8NZqrqder9bV5Cc+Dk28ocflDxL9Pix+QaeYlC1SqHNcx0k4mYfGOpLW8KQiE52sLxyPelILN8buoBiz9YCtCM2ZTxtdIMDkBOVhIBb50MYJ6s+MTISjvPGvyHJdkt5qmCt6oZNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747222005; c=relaxed/simple;
-	bh=n5Ufeif/Vtoouec0Oiocz1KQKlEuYZeBr7EJb3Eg/Ac=;
+	s=arc-20240116; t=1747222008; c=relaxed/simple;
+	bh=CSHXV3EadsjvkdiHCaKvpUa7eAsZ1q2YkRu6It6HUHo=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oxQwH+FZKzO0V5fvpVnWWszD9GmmcgpRGicIwM83ixt6dnZY4rEW2MaDDvRc/AcqkRtn7akMNZ1978uTDSVulNE2FrP/RJZCBq3g4vaZPPZRxQCfetKzLypr2vq5Oxsns5bhnzuNQw1ahF44ZC1nu4HC6Hom4ql12qoit1VGCbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=V0rrr4sI; arc=none smtp.client-ip=198.47.23.235
+	 MIME-Version:Content-Type; b=puo+N8t7YqgRL7pfdzb+F1/cB/2Wb9FKkxdAJrcmpHEKN38RMsFqjnDlkppHnysgoP20U9G4w14vFwPuajjCTe2EALj5T1BPmyCP4u5oeh0Ou/IcKxYmN1YJIPrgqyDvF50gvhDmvDC2VMtc2N8f0HoHs6WbRhGB4jjk6uzfbQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=O33zdEur; arc=none smtp.client-ip=198.47.23.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 54EBQPbf3406984
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 54EBQVgI2604854
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 May 2025 06:26:25 -0500
+	Wed, 14 May 2025 06:26:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1747221985;
-	bh=s1t2Ls3kaaA0ClH3kBbhoTZCO6f2rFZnfsKqpbcZ8H8=;
+	s=ti-com-17Q1; t=1747221991;
+	bh=hHHsvAB2qhpUPs/VSqeejQWzaVBiODFnez8w0yCPsg8=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=V0rrr4sI6u7mVz2dCuO2qLsb60337IbqectbwSl9Cl+E30az/MniH9fUS8nSoDQxu
-	 Z7jtPhBFbwVZXS6d05OPtI6xFq666ZXD7r7zy/bRkcGQzqU0Goy1S17NcrpmQyxJDV
-	 3H7OzpwT8n2wSP/DaJ31//eyiNI08byxlio+iM0E=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 54EBQP2X120200
+	b=O33zdEurHJQlY3iPtQij2jI7QE1jSLlw4XSvACB7IZpSy07xBmFlZtf+h1VgpI9to
+	 OY8VuRcXaBRixaINMlGpvFs53N+kRnLDphxpXhaxPUrXfet12mGJ/CHPW6IPYj7tcu
+	 Ohst1YecGd3ztB56gkwDUtazMJxtxIUN8iHj3xNg=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 54EBQVem031131
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 14 May 2025 06:26:25 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+	Wed, 14 May 2025 06:26:31 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 14
- May 2025 06:26:24 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ May 2025 06:26:31 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 14 May 2025 06:26:24 -0500
+ Frontend Transport; Wed, 14 May 2025 06:26:31 -0500
 Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [10.24.69.232])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54EBPSVE107507;
-	Wed, 14 May 2025 06:26:19 -0500
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54EBPSVF107507;
+	Wed, 14 May 2025 06:26:25 -0500
 From: Rishikesh Donadkar <r-donadkar@ti.com>
 To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
         <mripard@kernel.org>
@@ -68,9 +68,9 @@ CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
         <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
         <jack.zhu@starfivetech.com>, <linux-kernel@vger.kernel.org>,
         <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v4 08/12] media: ti: j721e-csi2rx: add support for processing virtual channels
-Date: Wed, 14 May 2025 16:55:23 +0530
-Message-ID: <20250514112527.1983068-9-r-donadkar@ti.com>
+Subject: [PATCH v4 09/12] media: cadence: csi2rx: add multistream support
+Date: Wed, 14 May 2025 16:55:24 +0530
+Message-ID: <20250514112527.1983068-10-r-donadkar@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250514112527.1983068-1-r-donadkar@ti.com>
 References: <20250514112527.1983068-1-r-donadkar@ti.com>
@@ -86,201 +86,509 @@ X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
 From: Jai Luthra <j-luthra@ti.com>
 
-Use get_frame_desc() to get the frame desc from the connected source,
-and use the provided virtual channel instead of hardcoded one.
+Cadence CSI-2 bridge IP supports capturing multiple virtual "streams"
+of data over the same physical interface using MIPI Virtual Channels.
 
-get_frame_desc() returns the same information when called on each stream
-start, so instead get the VCs for all the routed stream at first
-stream start and cache this information in the driver.
+While the hardware IP supports usecases where streams coming in the sink
+pad can be broadcasted to multiple source pads, the driver will need
+significant re-architecture to make that possible. The two users of this
+IP in mainline linux are TI Shim and StarFive JH7110 CAMSS, and both
+have only integrated the first source pad i.e stream0 of this IP. So for
+now keep it simple and only allow 1-to-1 mapping of streams from sink to
+source, without any broadcasting.
 
-get_frame_desc() works per stream, but as we don't support multiple
-streams yet, we will just always use stream 0. If the source doesn't
-support get_frame_desc(), fall back to the previous method of always
-capturing virtual channel 0.
+The enable_streams() API in v4l2 supports passing a bitmask to enable
+each pad/stream combination individually on any media subdev. Use this
+API instead of  s_stream() API.
 
-Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
-Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+Implement the enable_stream and disable_stream hooks in place of the
+stream-unaware s_stream hook.
+
+Implement a fallback s_stream hook that internally calls enable_stream
+on each source pad, for consumer drivers that don't use multi-stream
+APIs to still work. The helper function v4l2_subdev_s_stream_helper()
+form the v4l2 framework is not used here as it is meant only for the
+subedvs that have a single source pad and this hardware IP supports
+having multiple source pads.
+
 Signed-off-by: Jai Luthra <j-luthra@ti.com>
+Reviewed-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+Co-developed-by: Rishikesh Donadkar <r-donadkar@ti.com>
 Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 ---
- .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 108 ++++++++++++++++++
- 1 file changed, 108 insertions(+)
+ drivers/media/platform/cadence/cdns-csi2rx.c | 352 +++++++++++++++----
+ 1 file changed, 275 insertions(+), 77 deletions(-)
 
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index 9c20a5421fa20..9f05d16ef8c1d 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -29,6 +29,7 @@
- #define SHIM_DMACNTX_EN			BIT(31)
- #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
- #define SHIM_DMACNTX_SIZE		GENMASK(21, 20)
-+#define SHIM_DMACNTX_VC			GENMASK(9, 6)
- #define SHIM_DMACNTX_FMT		GENMASK(5, 0)
- #define SHIM_DMACNTX_YUV422_MODE_11	3
- #define SHIM_DMACNTX_SIZE_8		0
-@@ -97,6 +98,7 @@ struct ti_csi2rx_dev;
+diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+index b7e9225f66a41..103c3bda653b9 100644
+--- a/drivers/media/platform/cadence/cdns-csi2rx.c
++++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+@@ -90,6 +90,7 @@ struct csi2rx_priv {
+ 	struct reset_control		*pixel_rst[CSI2RX_STREAMS_MAX];
+ 	struct phy			*dphy;
  
- struct ti_csi2rx_ctx {
- 	struct ti_csi2rx_dev		*csi;
-+	struct v4l2_subdev_route	*route;
- 	struct video_device		vdev;
- 	struct vb2_queue		vidq;
- 	struct mutex			mutex; /* To serialize ioctls. */
-@@ -105,6 +107,8 @@ struct ti_csi2rx_ctx {
- 	struct media_pad		pad;
- 	u32				sequence;
- 	u32				idx;
-+	u32				vc;
-+	u32				stream;
- };
++	u32				vc_select[CSI2RX_STREAMS_MAX];
+ 	u8				lanes[CSI2RX_LANES_MAX];
+ 	u8				num_lanes;
+ 	u8				max_lanes;
+@@ -179,29 +180,43 @@ static void csi2rx_reset(struct csi2rx_priv *csi2rx)
  
- struct ti_csi2rx_dev {
-@@ -127,6 +131,7 @@ struct ti_csi2rx_dev {
- 		dma_addr_t		paddr;
- 		size_t			len;
- 	} drain;
-+	bool				vc_cached;
- };
+ static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
+ {
+-	struct media_pad *src_pad =
+-		&csi2rx->source_subdev->entity.pads[csi2rx->source_pad];
+ 	union phy_configure_opts opts = { };
+ 	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+-	struct v4l2_subdev_format sd_fmt = {
+-		.which	= V4L2_SUBDEV_FORMAT_ACTIVE,
+-		.pad	= CSI2RX_PAD_SINK,
+-	};
++	struct v4l2_mbus_framefmt *framefmt;
++	struct v4l2_subdev_state *state;
+ 	const struct csi2rx_fmt *fmt;
++	int source_pad = csi2rx->source_pad;
++	struct media_pad *pad = &csi2rx->source_subdev->entity.pads[source_pad];
+ 	s64 link_freq;
+ 	int ret;
++	u32 bpp;
  
- static inline struct ti_csi2rx_dev *to_csi2rx_dev(struct v4l2_subdev *sd)
-@@ -589,6 +594,7 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
- 	}
+-	ret = v4l2_subdev_call_state_active(&csi2rx->subdev, pad, get_fmt,
+-					    &sd_fmt);
+-	if (ret < 0)
+-		return ret;
++	state = v4l2_subdev_get_locked_active_state(&csi2rx->subdev);
++
++	/*
++	 * For multi-stream transmitters there is no single pixel rate.
++	 *
++	 * In multistream usecase pass bpp as 0 so that v4l2_get_link_freq()
++	 * returns an error if it falls back to V4L2_CID_PIXEL_RATE.
++	 */
++	if (state->routing.num_routes > 1) {
++		bpp = 0;
++	} else {
++		framefmt = v4l2_subdev_state_get_format(state, CSI2RX_PAD_SINK, 0);
++		if (!framefmt) {
++			dev_err(csi2rx->dev, "Did not find active sink format\n");
++			return -EINVAL;
++		}
  
- 	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
-+	reg |= FIELD_PREP(SHIM_DMACNTX_VC, ctx->vc);
+-	fmt = csi2rx_get_fmt_by_code(sd_fmt.format.code);
++		fmt = csi2rx_get_fmt_by_code(framefmt->code);
++		bpp = fmt->bpp;
++	}
  
- 	writel(reg, csi->shim + SHIM_DMACNTX(ctx->idx));
+-	link_freq = v4l2_get_link_freq(src_pad,
+-				       fmt->bpp, 2 * csi2rx->num_lanes);
+-	if (link_freq < 0)
++	link_freq = v4l2_get_link_freq(pad, bpp, 2 * csi2rx->num_lanes);
++	if (link_freq < 0) {
++		dev_err(csi2rx->dev, "Unable to calculate link frequency\n");
+ 		return link_freq;
++	}
  
-@@ -862,6 +868,83 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+ 	ret = phy_mipi_dphy_get_default_config_for_hsclk(link_freq,
+ 							 csi2rx->num_lanes, cfg);
+@@ -294,11 +309,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+ 		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF,
+ 		       csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
+ 
+-		/*
+-		 * Enable one virtual channel. When multiple virtual channels
+-		 * are supported this will have to be changed.
+-		 */
+-		writel(CSI2RX_STREAM_DATA_CFG_VC_SELECT(0),
++		writel(csi2rx->vc_select[i],
+ 		       csi2rx->base + CSI2RX_STREAM_DATA_CFG_REG(i));
+ 
+ 		writel(CSI2RX_STREAM_CTRL_START,
+@@ -311,16 +322,10 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+ 
+ 	reset_control_deassert(csi2rx->sys_rst);
+ 
+-	ret = v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, true);
+-	if (ret)
+-		goto err_disable_sysclk;
+-
+ 	clk_disable_unprepare(csi2rx->p_clk);
+ 
+ 	return 0;
+ 
+-err_disable_sysclk:
+-	clk_disable_unprepare(csi2rx->sys_clk);
+ err_disable_pixclk:
+ 	for (; i > 0; i--) {
+ 		reset_control_assert(csi2rx->pixel_rst[i - 1]);
+@@ -367,9 +372,6 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+ 	reset_control_assert(csi2rx->p_rst);
+ 	clk_disable_unprepare(csi2rx->p_clk);
+ 
+-	if (v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, false))
+-		dev_warn(csi2rx->dev, "Couldn't disable our subdev\n");
+-
+ 	if (csi2rx->dphy) {
+ 		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+ 
+@@ -378,37 +380,134 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
  	}
  }
  
-+static int ti_csi2rx_get_route(struct ti_csi2rx_ctx *ctx)
+-static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
++static void csi2rx_update_vc_select(struct csi2rx_priv *csi2rx,
++				    struct v4l2_subdev_state *state)
+ {
+-	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
+-	int ret = 0;
+-
+-	mutex_lock(&csi2rx->lock);
+-
+-	if (enable) {
+-		/*
+-		 * If we're not the first users, there's no need to
+-		 * enable the whole controller.
+-		 */
+-		if (!csi2rx->count) {
+-			ret = csi2rx_start(csi2rx);
+-			if (ret)
+-				goto out;
++	struct v4l2_mbus_frame_desc fd = {0};
++	struct v4l2_subdev_route *route;
++	unsigned int i;
++	int ret;
++
++	/* Capture VC=0 by default */
++	for (i = 0; i < CSI2RX_STREAMS_MAX; i++)
++		csi2rx->vc_select[i] = CSI2RX_STREAM_DATA_CFG_VC_SELECT(0);
++
++	ret = csi2rx_get_frame_desc_from_source(csi2rx, &fd);
++	if (ret || fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
++		dev_dbg(csi2rx->dev,
++			"Failed to get source frame desc, allowing only VC=0\n");
++		return;
++	}
++
++	/* If source provides per-stream VC info, use it to filter by VC */
++	memset(csi2rx->vc_select, 0, sizeof(csi2rx->vc_select));
++
++	for_each_active_route(&state->routing, route) {
++		u32 cdns_stream = route->source_pad - CSI2RX_PAD_SOURCE_STREAM0;
++
++		for (i = 0; i < fd.num_entries; i++) {
++			if (fd.entry[i].stream != route->sink_stream)
++				continue;
++
++			csi2rx->vc_select[cdns_stream] |=
++				CSI2RX_STREAM_DATA_CFG_VC_SELECT(fd.entry[i].bus.csi2.vc);
+ 		}
++	}
++}
+ 
+-		csi2rx->count++;
+-	} else {
+-		csi2rx->count--;
++static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
++				 struct v4l2_subdev_state *state, u32 pad,
++				 u64 streams_mask)
 +{
-+	struct ti_csi2rx_dev *csi = ctx->csi;
-+	struct media_pad *pad;
-+	struct v4l2_subdev_state *state;
-+	struct v4l2_subdev_route *r;
++	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
++	u64 sink_streams;
++	int ret;
 +
-+	/* Get the source pad connected to this ctx */
-+	pad = media_entity_remote_source_pad_unique(ctx->pad.entity);
-+	if (!pad) {
-+		dev_err(csi->dev, "No pad connected to ctx %d\n", ctx->idx);
-+		v4l2_subdev_unlock_state(state);
-+		return -ENODEV;
++	sink_streams = v4l2_subdev_state_xlate_streams(state, pad,
++						       CSI2RX_PAD_SINK,
++						       &streams_mask);
++
++	guard(mutex)(&csi2rx->lock);
++	/*
++	 * If we're not the first users, there's no need to
++	 * enable the whole controller.
++	 */
++	if (!csi2rx->count) {
++		csi2rx_update_vc_select(csi2rx, state);
++		ret = csi2rx_start(csi2rx);
++		if (ret)
++			return ret;
++	}
+ 
+-		/*
+-		 * Let the last user turn off the lights.
+-		 */
++	/* Start streaming on the source */
++	ret = v4l2_subdev_enable_streams(csi2rx->source_subdev, csi2rx->source_pad,
++					 sink_streams);
++	if (ret) {
++		dev_err(csi2rx->dev,
++			"Failed to start streams %#llx on subdev\n",
++			sink_streams);
+ 		if (!csi2rx->count)
+ 			csi2rx_stop(csi2rx);
++		return ret;
 +	}
 +
-+	state = v4l2_subdev_lock_and_get_active_state(&csi->subdev);
++	csi2rx->count++;
++	return 0;
++}
 +
-+	for_each_active_route(&state->routing, r) {
-+		if (!(r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+			continue;
-+		if (r->source_pad != pad->index)
-+			continue;
++static int csi2rx_disable_streams(struct v4l2_subdev *subdev,
++				  struct v4l2_subdev_state *state, u32 pad,
++				  u64 streams_mask)
++{
++	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
++	u64 sink_streams;
 +
-+		ctx->route = r;
++	sink_streams = v4l2_subdev_state_xlate_streams(state, pad,
++						       CSI2RX_PAD_SINK,
++						       &streams_mask);
++
++	if (v4l2_subdev_disable_streams(csi2rx->source_subdev,
++					csi2rx->source_pad, sink_streams)) {
++		dev_err(csi2rx->dev, "Couldn't disable our subdev\n");
 +	}
 +
-+	v4l2_subdev_unlock_state(state);
++	guard(mutex)(&csi2rx->lock);
++	csi2rx->count--;
 +
-+	if (!ctx->route)
-+		return -ENODEV;
++	/* Let the last user turn off the lights. */
++	if (!csi2rx->count)
++		csi2rx_stop(csi2rx);
 +
 +	return 0;
 +}
 +
-+static int ti_csi2rx_get_vc(struct ti_csi2rx_ctx *ctx)
++static int csi2rx_s_stream_fallback(struct v4l2_subdev *sd, int enable)
 +{
-+	struct ti_csi2rx_dev *csi = ctx->csi;
-+	struct ti_csi2rx_ctx *curr_ctx;
-+	struct v4l2_mbus_frame_desc fd;
-+	struct media_pad *source_pad;
-+	struct v4l2_subdev_route *curr_route;
++	struct v4l2_subdev_state *state;
++	struct v4l2_subdev_route *route;
++	u64 mask[CSI2RX_PAD_MAX] = {0};
++	int i, ret;
++
++	/* Find the stream mask on all source pads */
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++) {
++		for_each_active_route(&state->routing, route) {
++			if (route->source_pad == i)
++				mask[i] |= BIT_ULL(route->source_stream);
++		}
++	}
++	v4l2_subdev_unlock_state(state);
++
++	/* Start streaming on each pad */
++	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++) {
++		if (enable)
++			ret = v4l2_subdev_enable_streams(sd, i, mask[i]);
++		else
++			ret = v4l2_subdev_disable_streams(sd, i, mask[i]);
++		if (ret)
++			return ret;
+ 	}
+ 
+-out:
+-	mutex_unlock(&csi2rx->lock);
+ 	return ret;
+ }
+ 
+@@ -424,12 +523,56 @@ static int csi2rx_enum_mbus_code(struct v4l2_subdev *subdev,
+ 	return 0;
+ }
+ 
++static int _csi2rx_set_routing(struct v4l2_subdev *subdev,
++			       struct v4l2_subdev_state *state,
++			       struct v4l2_subdev_krouting *routing)
++{
++	static const struct v4l2_mbus_framefmt format = {
++		.width = 640,
++		.height = 480,
++		.code = MEDIA_BUS_FMT_UYVY8_1X16,
++		.field = V4L2_FIELD_NONE,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.ycbcr_enc = V4L2_YCBCR_ENC_601,
++		.quantization = V4L2_QUANTIZATION_LIM_RANGE,
++		.xfer_func = V4L2_XFER_FUNC_SRGB,
++	};
 +	int ret;
-+	unsigned int i, j;
 +
-+	/* Get the frame desc form source */
-+	source_pad = media_entity_remote_pad_unique(&csi->subdev.entity, MEDIA_PAD_FL_SOURCE);
-+	if (!source_pad)
-+		return -ENODEV;
++	if (routing->num_routes > V4L2_FRAME_DESC_ENTRY_MAX)
++		return -EINVAL;
 +
-+	ret = v4l2_subdev_call(csi->source, pad, get_frame_desc, source_pad->index, &fd);
++	ret = v4l2_subdev_routing_validate(subdev, routing,
++					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
 +	if (ret)
 +		return ret;
 +
-+	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-+		return -EINVAL;
++	return v4l2_subdev_set_routing_with_fmt(subdev, state, routing, &format);
++}
 +
-+	for (i = 0; i < csi->num_ctx; i++) {
-+		curr_ctx = &csi->ctx[i];
++static int csi2rx_set_routing(struct v4l2_subdev *subdev,
++			      struct v4l2_subdev_state *state,
++			      enum v4l2_subdev_format_whence which,
++			      struct v4l2_subdev_krouting *routing)
++{
++	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
++	int ret;
 +
-+		/* Capture VC 0 by default */
-+		curr_ctx->vc = 0;
++	if (which == V4L2_SUBDEV_FORMAT_ACTIVE && csi2rx->count)
++		return -EBUSY;
 +
-+		ret = ti_csi2rx_get_route(curr_ctx);
-+		if (ret)
-+			continue;
-+
-+		curr_route = curr_ctx->route;
-+		curr_ctx->stream = curr_route->sink_stream;
-+
-+		for (j = 0; j < fd.num_entries; j++)
-+			if (curr_ctx->stream == fd.entry[j].stream)
-+				curr_ctx->vc = fd.entry[j].bus.csi2.vc;
-+	}
++	ret = _csi2rx_set_routing(subdev, state, routing);
++	if (ret)
++		return ret;
 +
 +	return 0;
 +}
 +
- static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+ static int csi2rx_set_fmt(struct v4l2_subdev *subdev,
+ 			  struct v4l2_subdev_state *state,
+ 			  struct v4l2_subdev_format *format)
  {
- 	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
-@@ -882,6 +965,25 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	if (ret)
- 		goto err;
+ 	struct v4l2_mbus_framefmt *fmt;
+-	unsigned int i;
  
-+	/* If no stream is routed to this ctx, exit early */
-+	ret = ti_csi2rx_get_route(ctx);
+ 	/* No transcoding, source and sink formats must match. */
+ 	if (format->pad != CSI2RX_PAD_SINK)
+@@ -441,14 +584,16 @@ static int csi2rx_set_fmt(struct v4l2_subdev *subdev,
+ 	format->format.field = V4L2_FIELD_NONE;
+ 
+ 	/* Set sink format */
+-	fmt = v4l2_subdev_state_get_format(state, format->pad);
++	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+ 	*fmt = format->format;
+ 
+-	/* Propagate to source formats */
+-	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++) {
+-		fmt = v4l2_subdev_state_get_format(state, i);
+-		*fmt = format->format;
+-	}
++	/* Propagate to source format */
++	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
++							   format->stream);
++	if (!fmt)
++		return -EINVAL;
++
++	*fmt = format->format;
+ 
+ 	return 0;
+ }
+@@ -456,40 +601,92 @@ static int csi2rx_set_fmt(struct v4l2_subdev *subdev,
+ static int csi2rx_init_state(struct v4l2_subdev *subdev,
+ 			     struct v4l2_subdev_state *state)
+ {
+-	struct v4l2_subdev_format format = {
+-		.pad = CSI2RX_PAD_SINK,
+-		.format = {
+-			.width = 640,
+-			.height = 480,
+-			.code = MEDIA_BUS_FMT_UYVY8_1X16,
+-			.field = V4L2_FIELD_NONE,
+-			.colorspace = V4L2_COLORSPACE_SRGB,
+-			.ycbcr_enc = V4L2_YCBCR_ENC_601,
+-			.quantization = V4L2_QUANTIZATION_LIM_RANGE,
+-			.xfer_func = V4L2_XFER_FUNC_SRGB,
++	struct v4l2_subdev_route routes[] = {
++		{
++			.sink_pad = CSI2RX_PAD_SINK,
++			.sink_stream = 0,
++			.source_pad = CSI2RX_PAD_SOURCE_STREAM0,
++			.source_stream = 0,
++			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+ 		},
+ 	};
+ 
+-	return csi2rx_set_fmt(subdev, state, &format);
++	struct v4l2_subdev_krouting routing = {
++		.num_routes = ARRAY_SIZE(routes),
++		.routes = routes,
++	};
++
++	return _csi2rx_set_routing(subdev, state, &routing);
+ }
+ 
+ static int csi2rx_get_frame_desc(struct v4l2_subdev *subdev, unsigned int pad,
+ 				 struct v4l2_mbus_frame_desc *fd)
+ {
+ 	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
++	struct v4l2_mbus_frame_desc source_fd = {0};
++	struct v4l2_subdev_route *route;
++	struct v4l2_subdev_state *state;
++	int ret;
++
++	ret = csi2rx_get_frame_desc_from_source(csi2rx, &source_fd);
 +	if (ret)
-+		goto err;
++		return ret;
 +
-+	/* Get the VC for all enabled ctx on first stream start */
-+	mutex_lock(&csi->mutex);
-+	if (!csi->vc_cached) {
-+		ret = ti_csi2rx_get_vc(ctx);
-+		if (ret == -ENOIOCTLCMD) {
-+			ctx->vc = 0;
-+		} else if (ret < 0) {
-+			mutex_unlock(&csi->mutex);
-+			goto err;
++	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+ 
+-	return csi2rx_get_frame_desc_from_source(csi2rx, fd);
++	state = v4l2_subdev_lock_and_get_active_state(subdev);
++
++	for_each_active_route(&state->routing, route) {
++		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
++		unsigned int i;
++
++		if (route->source_pad != pad)
++			continue;
++
++		for (i = 0; i < source_fd.num_entries; i++) {
++			if (source_fd.entry[i].stream == route->sink_stream) {
++				source_entry = &source_fd.entry[i];
++				break;
++			}
 +		}
-+		csi->vc_cached = true;
++
++		if (!source_entry) {
++			dev_err(csi2rx->dev,
++				"Failed to find stream from source frame desc\n");
++			ret = -EPIPE;
++			goto err_missing_stream;
++		}
++
++		fd->entry[fd->num_entries].stream = route->source_stream;
++		fd->entry[fd->num_entries].flags = source_entry->flags;
++		fd->entry[fd->num_entries].length = source_entry->length;
++		fd->entry[fd->num_entries].pixelcode = source_entry->pixelcode;
++		fd->entry[fd->num_entries].bus.csi2.vc =
++			source_entry->bus.csi2.vc;
++		fd->entry[fd->num_entries].bus.csi2.dt =
++			source_entry->bus.csi2.dt;
++
++		fd->num_entries++;
 +	}
-+	mutex_unlock(&csi->mutex);
 +
- 	ti_csi2rx_setup_shim(ctx);
- 
- 	ctx->sequence = 0;
-@@ -928,6 +1030,10 @@ static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
- 	writel(0, csi->shim + SHIM_CNTL);
- 	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
- 
-+	mutex_lock(&csi->mutex);
-+	csi->vc_cached = false;
-+	mutex_unlock(&csi->mutex);
++err_missing_stream:
++	v4l2_subdev_unlock_state(state);
 +
- 	ret = v4l2_subdev_call(&csi->subdev, video, s_stream, 0);
- 	if (ret)
- 		dev_err(csi->dev, "Failed to stop subdev stream\n");
-@@ -1286,6 +1392,8 @@ static int ti_csi2rx_init_ctx(struct ti_csi2rx_ctx *ctx)
++	return ret;
+ }
  
- 	ti_csi2rx_fill_fmt(fmt, &ctx->v_fmt);
+ static const struct v4l2_subdev_pad_ops csi2rx_pad_ops = {
+-	.enum_mbus_code	= csi2rx_enum_mbus_code,
+-	.get_fmt	= v4l2_subdev_get_fmt,
+-	.set_fmt	= csi2rx_set_fmt,
+-	.get_frame_desc	= csi2rx_get_frame_desc,
++	.enum_mbus_code		= csi2rx_enum_mbus_code,
++	.get_fmt		= v4l2_subdev_get_fmt,
++	.set_fmt		= csi2rx_set_fmt,
++	.get_frame_desc		= csi2rx_get_frame_desc,
++	.set_routing		= csi2rx_set_routing,
++	.enable_streams		= csi2rx_enable_streams,
++	.disable_streams	= csi2rx_disable_streams,
+ };
  
-+	ctx->route = NULL;
-+
- 	ctx->pad.flags = MEDIA_PAD_FL_SINK;
- 	vdev->entity.ops = &ti_csi2rx_video_entity_ops;
- 	ret = media_entity_pads_init(&ctx->vdev.entity, 1, &ctx->pad);
+ static const struct v4l2_subdev_video_ops csi2rx_video_ops = {
+-	.s_stream	= csi2rx_s_stream,
++	.s_stream	= csi2rx_s_stream_fallback,
+ };
+ 
+ static const struct v4l2_subdev_ops csi2rx_subdev_ops = {
+@@ -721,7 +918,8 @@ static int csi2rx_probe(struct platform_device *pdev)
+ 	csi2rx->pads[CSI2RX_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
+ 	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++)
+ 		csi2rx->pads[i].flags = MEDIA_PAD_FL_SOURCE;
+-	csi2rx->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	csi2rx->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
++		V4L2_SUBDEV_FL_STREAMS;
+ 	csi2rx->subdev.entity.ops = &csi2rx_media_ops;
+ 
+ 	ret = media_entity_pads_init(&csi2rx->subdev.entity, CSI2RX_PAD_MAX,
 -- 
 2.34.1
 
