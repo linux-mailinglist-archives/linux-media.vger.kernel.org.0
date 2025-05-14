@@ -1,214 +1,316 @@
-Return-Path: <linux-media+bounces-32456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32457-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F115AB6801
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 11:53:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C0DAB6859
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 12:02:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A3DA1B6718C
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 09:53:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B79C63BC070
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 10:01:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48BEA25DD07;
-	Wed, 14 May 2025 09:52:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ADC826FA46;
+	Wed, 14 May 2025 10:02:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xp3ySUz6"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Am3ybjKg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E965C259CB1;
-	Wed, 14 May 2025 09:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2178B129A78
+	for <linux-media@vger.kernel.org>; Wed, 14 May 2025 10:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747216373; cv=none; b=h9AOqXzH9DSo1lRlgUxU+QhKUWBfrQRfVEYCgWRqJ1u98WlcO++V01Q2fMs1eFsVsppKm8sNEgcVw8ln5RHOVb1y0Hrm72mMoLawE+MjTkVgSMc56brlyf2mkhSb37P8XBxtBwcM6HDGahvVv3xBvKJWTeQMFbGuJ2rOqWkNPAo=
+	t=1747216932; cv=none; b=tD51oZfIR2CRJRGT+97wXDTKpFYmxEF0m8PmkvVG+qdIKpE2JqPWmqDZotwRLVyZCa4JspU73kB805HlveZBPPafh/WSmT8E5/XZb6rOv8NkzCjpkfbLDh3jAbGtr02P9eKd8QEPjoh2bQTbvB5AoBgDUbyCrOc4xvhL/k89+Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747216373; c=relaxed/simple;
-	bh=DlDgEjTIw8VY2y5DvL0wFj1k14fF3hRHHDZCoRPLVMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TVpoJ/FcIarnB6+gdACaHpcZYt8hO3oHYpEXa5Cvu0nBHijRLJvqasHBLML3OC6D3KvuyWmXy/M03d9/LPmIkAqj8pRUzHJoJlIPRseM4IH2xi9t14zElawQ3vbM0vrpLxYQclQ7Mv5+jzx+yUrsGTnNN/Nc3chmG7oQXvzm6+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xp3ySUz6; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747216372; x=1778752372;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DlDgEjTIw8VY2y5DvL0wFj1k14fF3hRHHDZCoRPLVMY=;
-  b=Xp3ySUz6q9qtPP+5sTiRQAgBhy8FmmJHhYuMp9dYgdMo6WJpUNMR6oGr
-   9TyBKumXOm2Lki68qA4+Mvmav9NZIQywgV7fq0YF1UT204l8NrRSOc/6w
-   lToMb8yh4RY8sMQ2UY2Pk8x/XYGlLOccH3OVwp+a5rqnbWOH1MrnwRjdf
-   bR0ws3VtItHwUQy8qIdRJFlqm9Duk56xOv6bPxXn8OQZHoklR00It39vL
-   L+CDr7zp37XJELeV0KPF9t8ThV8R8ZOwKZIj6L11yPLDuMR9LMtsOMfcL
-   OgiYj9DXhjDuYuXxNhPPy9AVw+/su1fsaC9ylKMRcjwSyZ9s7AoHamrwK
-   Q==;
-X-CSE-ConnectionGUID: jg1Dc9RuRb+dsHy9BLFutg==
-X-CSE-MsgGUID: dC78j0cpTL2dfPSUXrb3fQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="52911883"
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="52911883"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 02:52:51 -0700
-X-CSE-ConnectionGUID: 1vGlQfU6TTiVJ/FihayGEA==
-X-CSE-MsgGUID: vcaR5YHEQmC6RgOptATxfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="142866085"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmviesa005.fm.intel.com with ESMTP; 14 May 2025 02:52:46 -0700
-Date: Wed, 14 May 2025 17:47:12 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Zhi Wang <zhiw@nvidia.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Alexey Kardashevskiy <aik@amd.com>,
-	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aCRmoDupzK9zTqFL@yilunxu-OptiPlex-7050>
-References: <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
- <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
- <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
- <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
- <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
- <20250509184318.GD5657@nvidia.com>
- <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
- <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
- <20250513130315.0158a626.zhiw@nvidia.com>
+	s=arc-20240116; t=1747216932; c=relaxed/simple;
+	bh=Bv0sywWh6o5ux3lIIHeC8kfEwbyoB1nIz9SEHZ7CcBc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PPO8V0jFRoO69ONyWgdgjI5ZdyLwmL3upJIc3aMI3VbMnaPYy2gA24VDjs4dKkN2dwPJTJ8LaslO5epqFPeT/6a9YkkQQ2vHLof7JSSab3GZGwox/dLJ/2V4ZVKlRerXUgt9pnAybaW85fdbToNkJHW2kJNTjT8R5qhbYmGD04M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Am3ybjKg; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=e9DzE2b+0+EPHIGM4XP87LuxDvJ8yQfz8YtW+QxjxY8=; b=Am3ybjKgdpTXQq8oTBxlNJpuNd
+	KuA4pYUPdX3VLAvjbxwLWXBzNCbmnD2bjO6Cywlb55oQpZRDAm6MvPolrT5c7J91skpX3o6JlUUTL
+	lzL1TF8g5NqjG9+NTB0bFMGHOAPKlU0r41+vN/TDMbJwo9q0cfIJiqIgPQaNmmBQ5+NpIFvM9IAqq
+	oM5cMwetKMcv/P4Tx3kCgqz2AA/0kBTr5XuNho08+mCWviiAGDKg/5+0f3eeeBfqSHgDIlKYNCDYB
+	xYwypK6uQdB08anq6KfupQYoBgHBtYIqst6TiwdZILPvuExAAIxe8b9HEwlcytOwnFNvjhIm/3Odb
+	g/e8BIpA==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1uF8qL-0085Qn-O6; Wed, 14 May 2025 12:01:49 +0200
+Message-ID: <dddebe25-9fe2-4c3d-89ee-c90168b5a017@igalia.com>
+Date: Wed, 14 May 2025 11:01:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250513130315.0158a626.zhiw@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 10/13] dma-fence: Add safe access helpers and document
+ the rules
+To: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ kernel-dev@igalia.com, Rob Clark <robdclark@chromium.org>
+References: <20250509153352.7187-1-tvrtko.ursulin@igalia.com>
+ <20250509153352.7187-11-tvrtko.ursulin@igalia.com>
+ <CAF6AEGuOC4NnSTQexvD5tk8VLfOR_gGq-cqs3gnJcS1qNtMjQg@mail.gmail.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <CAF6AEGuOC4NnSTQexvD5tk8VLfOR_gGq-cqs3gnJcS1qNtMjQg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 13, 2025 at 01:03:15PM +0300, Zhi Wang wrote:
-> On Mon, 12 May 2025 11:06:17 -0300
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
-> > On Mon, May 12, 2025 at 07:30:21PM +1000, Alexey Kardashevskiy wrote:
-> > 
-> > > > > I'm surprised by this.. iommufd shouldn't be doing PCI stuff,
-> > > > > it is just about managing the translation control of the device.
-> > > > 
-> > > > I have a little difficulty to understand. Is TSM bind PCI stuff?
-> > > > To me it is. Host sends PCI TDISP messages via PCI DOE to put the
-> > > > device in TDISP LOCKED state, so that device behaves differently
-> > > > from before. Then why put it in IOMMUFD?
-> > > 
-> > > 
-> > > "TSM bind" sets up the CPU side of it, it binds a VM to a piece of
-> > > IOMMU on the host CPU. The device does not know about the VM, it
-> > > just enables/disables encryption by a request from the CPU (those
-> > > start/stop interface commands). And IOMMUFD won't be doing DOE, the
-> > > platform driver (such as AMD CCP) will. Nothing to do for VFIO here.
-> > > 
-> > > We probably should notify VFIO about the state transition but I do
-> > > not know VFIO would want to do in response.
-> > 
-> > We have an awkward fit for what CCA people are doing to the various
-> > Linux APIs. Looking somewhat maximally across all the arches a "bind"
-> > for a CC vPCI device creation operation does:
-> > 
-> >  - Setup the CPU page tables for the VM to have access to the MMIO
-> >  - Revoke hypervisor access to the MMIO
-> >  - Setup the vIOMMU to understand the vPCI device
-> >  - Take over control of some of the IOVA translation, at least for
-> > T=1, and route to the the vIOMMU
-> >  - Register the vPCI with any attestation functions the VM might use
-> >  - Do some DOE stuff to manage/validate TDSIP/etc
-> > 
-> > So we have interactions of things controlled by PCI, KVM, VFIO, and
-> > iommufd all mushed together.
-> > 
-> > iommufd is the only area that already has a handle to all the required
-> > objects:
-> >  - The physical PCI function
-> >  - The CC vIOMMU object
-> >  - The KVM FD
-> >  - The CC vPCI object
-> > 
-> > Which is why I have been thinking it is the right place to manage
-> > this.
-> > 
-> > It doesn't mean that iommufd is suddenly doing PCI stuff, no, that
-> > stays in VFIO.
-> > 
-> > > > > So your issue is you need to shoot down the dmabuf during vPCI
-> > > > > device destruction?
-> > > > 
-> > > > I assume "vPCI device" refers to assigned device in both shared
-> > > > mode & prvate mode. So no, I need to shoot down the dmabuf during
-> > > > TSM unbind, a.k.a. when assigned device is converting from
-> > > > private to shared. Then recover the dmabuf after TSM unbind. The
-> > > > device could still work in VM in shared mode.
-> > 
-> > What are you trying to protect with this? Is there some intelism where
-> > you can't have references to encrypted MMIO pages?
-> > 
-> 
-> I think it is a matter of design choice. The encrypted MMIO page is
-> related to the TDI context and secure second level translation table
-> (S-EPT). and S-EPT is related to the confidential VM's context.
-> 
-> AMD and ARM have another level of HW control, together
-> with a TSM-owned meta table, can simply mask out the access to those
-> encrypted MMIO pages. Thus, the life cycle of the encrypted mappings in
-> the second level translation table can be de-coupled from the TDI
-> unbound. They can be reaped un-harmfully later by hypervisor in another
-> path.
-> 
-> While on Intel platform, it doesn't have that additional level of
-> HW control by design. Thus, the cleanup of encrypted MMIO page mapping
-> in the S-EPT has to be coupled tightly with TDI context destruction in
-> the TDI unbind process.
 
-Thanks for the accurate explanation. Yes, in TDX, the references/mapping
-to the encrypted MMIO page means a CoCo-VM owns the MMIO page. So TDX
-firmware won't allow the CC vPCI device (which physically owns the MMIO
-page) unbind/freed from a CoCo-VM, while the VM still have the S-EPT mapping.
+On 13/05/2025 15:16, Rob Clark wrote:
+> On Fri, May 9, 2025 at 8:34 AM Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
+>>
+>> Dma-fence objects currently suffer from a potential use after free problem
+>> where fences exported to userspace and other drivers can outlive the
+>> exporting driver, or the associated data structures.
+>>
+>> The discussion on how to address this concluded that adding reference
+>> counting to all the involved objects is not desirable, since it would need
+>> to be very wide reaching and could cause unloadable drivers if another
+>> entity would be holding onto a signaled fence reference potentially
+>> indefinitely.
+>>
+>> This patch enables the safe access by introducing and documenting a
+>> contract between fence exporters and users. It documents a set of
+>> contraints and adds helpers which a) drivers with potential to suffer from
+>> the use after free must use and b) users of the dma-fence API must use as
+>> well.
+>>
+>> Premise of the design has multiple sides:
+>>
+>> 1. Drivers (fence exporters) MUST ensure a RCU grace period between
+>> signalling a fence and freeing the driver private data associated with it.
+>>
+>> The grace period does not have to follow the signalling immediately but
+>> HAS to happen before data is freed.
+>>
+>> 2. Users of the dma-fence API marked with such requirement MUST contain
+>> the complete access to the data within a single code block guarded by the
+>> new dma_fence_access_begin() and dma_fence_access_end() helpers.
+>>
+>> The combination of the two ensures that whoever sees the
+>> DMA_FENCE_FLAG_SIGNALED_BIT not set is guaranteed to have access to a
+>> valid fence->lock and valid data potentially accessed by the fence->ops
+>> virtual functions, until the call to dma_fence_access_end().
+>>
+>> 3. Module unload (fence->ops) disappearing is for now explicitly not
+>> handled. That would required a more complex protection, possibly needing
+>> SRCU instead of RCU to handle callers such as dma_fence_wait_timeout(),
+>> where race between dma_fence_enable_sw_signaling, signalling, and
+>> dereference of fence->ops->wait() would need a sleeping SRCU context.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> ---
+>>   drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++++++++++++++
+>>   include/linux/dma-fence.h   | 32 ++++++++++++-----
+>>   2 files changed, 93 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index dc2456f68685..cfe1d7b79c22 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -533,6 +533,7 @@ void dma_fence_release(struct kref *kref)
+>>          struct dma_fence *fence =
+>>                  container_of(kref, struct dma_fence, refcount);
+>>
+>> +       dma_fence_access_begin();
+>>          trace_dma_fence_destroy(fence);
+>>
+>>          if (WARN(!list_empty(&fence->cb_list) &&
+>> @@ -560,6 +561,8 @@ void dma_fence_release(struct kref *kref)
+>>                  fence->ops->release(fence);
+>>          else
+>>                  dma_fence_free(fence);
+>> +
+>> +       dma_fence_access_end();
+>>   }
+>>   EXPORT_SYMBOL(dma_fence_release);
+>>
+>> @@ -982,11 +985,13 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
+>>    */
+>>   void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
+>>   {
+>> +       dma_fence_access_begin();
+>>          seq_printf(seq, "%s %s seq %llu %ssignalled\n",
+>>                     dma_fence_driver_name(fence),
+>>                     dma_fence_timeline_name(fence),
+>>                     fence->seqno,
+>>                     dma_fence_is_signaled(fence) ? "" : "un");
+>> +       dma_fence_access_end();
+>>   }
+>>   EXPORT_SYMBOL(dma_fence_describe);
+>>
+>> @@ -1033,3 +1038,67 @@ dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>          __set_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags);
+>>   }
+>>   EXPORT_SYMBOL(dma_fence_init64);
+>> +
+>> +/**
+>> + * dma_fence_driver_name - Access the driver name
+>> + * @fence: the fence to query
+>> + *
+>> + * Returns a driver name backing the dma-fence implementation.
+>> + *
+>> + * IMPORTANT CONSIDERATION:
+>> + * Dma-fence contract stipulates that access to driver provided data (data not
+>> + * directly embedded into the object itself), such as the &dma_fence.lock and
+>> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
+>> + * after the fence has been signalled. Drivers are allowed to free that data,
+>> + * and some do.
+>> + *
+>> + * To allow safe access drivers are mandated to guarantee a RCU grace period
+>> + * between signalling the fence and freeing said data.
+>> + *
+>> + * As such access to the driver name is only valid inside a RCU locked section.
+>> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
+>> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
+>> + */
+>> +const char *dma_fence_driver_name(struct dma_fence *fence)
+>> +{
+>> +       RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+>> +                        "rcu_read_lock() required for safe access to returned string");
+>> +
+>> +       if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>> +               return fence->ops->get_driver_name(fence);
+>> +       else
+>> +               return "detached-driver";
+>> +}
+>> +EXPORT_SYMBOL(dma_fence_driver_name);
+>> +
+>> +/**
+>> + * dma_fence_timeline_name - Access the timeline name
+>> + * @fence: the fence to query
+>> + *
+>> + * Returns a timeline name provided by the dma-fence implementation.
+>> + *
+>> + * IMPORTANT CONSIDERATION:
+>> + * Dma-fence contract stipulates that access to driver provided data (data not
+>> + * directly embedded into the object itself), such as the &dma_fence.lock and
+>> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
+>> + * after the fence has been signalled. Drivers are allowed to free that data,
+>> + * and some do.
+>> + *
+>> + * To allow safe access drivers are mandated to guarantee a RCU grace period
+>> + * between signalling the fence and freeing said data.
+>> + *
+>> + * As such access to the driver name is only valid inside a RCU locked section.
+>> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
+>> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
+>> + */
+>> +const char *dma_fence_timeline_name(struct dma_fence *fence)
+>> +{
+>> +       RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+>> +                        "rcu_read_lock() required for safe access to returned string");
+>> +
+>> +       if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>> +               return fence->ops->get_driver_name(fence);
+>> +       else
+>> +               return "signaled-timeline";
+> 
+> This means that trace_dma_fence_signaled() will get the wrong
+> timeline/driver name, which probably screws up perfetto and maybe
+> other tools.
 
-AMD doesn't use KVM page table to track CC ownership, so no need to
-interact with KVM.
+Do you think context and seqno are not enough for those tools and they 
+actually rely on the names? It would sound weird if they decided to 
+index anything on the names which are non-standardised between drivers, 
+but I guess anything is possible.
 
-Thanks,
-Yilun
+> Maybe it would work well enough just to move the
+> trace_dma_fence_signaled() call ahead of the test_and_set_bit()?  Idk
+> if some things will start getting confused if they see that trace
+> multiple times.
+
+Another alternative is to make this tracepoint access the names 
+directly. It is under the lock so guaranteed not to get freed with 
+drivers which will be made compliant with the documented rules.
+
+Regards,
+
+Tvrtko
 
 > 
-> If the TDI unbind is triggered in VFIO/IOMMUFD, there has be a
-> cross-module notification to KVM to do cleanup in the S-EPT.
+> Maybe a better solution would be to add a new bit for this purpose,
+> which is set after the tracepoint in
+> dma_fence_signal_timestamp_locked().
 > 
-> So shooting down the DMABUF object (encrypted MMIO page) means shooting
-> down the S-EPT mapping and recovering the DMABUF object means
-> re-construct the non-encrypted MMIO mapping in the EPT after the TDI is
-> unbound. 
+> (trace_dma_fence_destroy() will I guess be messed up regardless.. it
+> doesn't look like perfetto cares about this tracepoint, so maybe that
+> is ok.  It doesn't seem so useful.)
 > 
-> Z.
+> BR,
+> -R
 > 
-> > > > What I really want is, one SW component to manage MMIO dmabuf,
-> > > > secure iommu & TSM bind/unbind. So easier coordinate these 3
-> > > > operations cause these ops are interconnected according to secure
-> > > > firmware's requirement.
-> > >
-> > > This SW component is QEMU. It knows about FLRs and other config
-> > > space things, it can destroy all these IOMMUFD objects and talk to
-> > > VFIO too, I've tried, so far it is looking easier to manage. Thanks,
-> > 
-> > Yes, qemu should be sequencing this. The kernel only needs to enforce
-> > any rules required to keep the system from crashing.
-> > 
-> > Jason
-> > 
 > 
+>> +}
+>> +EXPORT_SYMBOL(dma_fence_timeline_name);
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index c814a86087f8..c8a9915eb360 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -387,15 +387,31 @@ bool dma_fence_remove_callback(struct dma_fence *fence,
+>>                                 struct dma_fence_cb *cb);
+>>   void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+>>
+>> -static inline const char *dma_fence_driver_name(struct dma_fence *fence)
+>> -{
+>> -       return fence->ops->get_driver_name(fence);
+>> -}
+>> +/**
+>> + * DOC: Safe external access to driver provided object members
+>> + *
+>> + * All data not stored directly in the dma-fence object, such as the
+>> + * &dma_fence.lock and memory potentially accessed by functions in the
+>> + * &dma_fence.ops table, MUST NOT be accessed after the fence has been signalled
+>> + * because after that point drivers are allowed to free it.
+>> + *
+>> + * All code accessing that data via the dma-fence API (or directly, which is
+>> + * discouraged), MUST make sure to contain the complete access within a
+>> + * &dma_fence_access_begin and &dma_fence_access_end pair.
+>> + *
+>> + * Some dma-fence API handles this automatically, while other, as for example
+>> + * &dma_fence_driver_name and &dma_fence_timeline_name, leave that
+>> + * responsibility to the caller.
+>> + *
+>> + * To enable this scheme to work drivers MUST ensure a RCU grace period elapses
+>> + * between signalling the fence and freeing the said data.
+>> + *
+>> + */
+>> +#define dma_fence_access_begin rcu_read_lock
+>> +#define dma_fence_access_end   rcu_read_unlock
+>>
+>> -static inline const char *dma_fence_timeline_name(struct dma_fence *fence)
+>> -{
+>> -       return fence->ops->get_timeline_name(fence);
+>> -}
+>> +const char *dma_fence_driver_name(struct dma_fence *fence);
+>> +const char *dma_fence_timeline_name(struct dma_fence *fence);
+>>
+>>   /**
+>>    * dma_fence_is_signaled_locked - Return an indication if the fence
+>> --
+>> 2.48.0
+>>
+
 
