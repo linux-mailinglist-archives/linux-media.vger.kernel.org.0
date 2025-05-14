@@ -1,125 +1,366 @@
-Return-Path: <linux-media+bounces-32501-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F466AB7045
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 17:47:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8737AB7093
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 17:59:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F074A3AFC14
-	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 15:47:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1762D8C6BA7
+	for <lists+linux-media@lfdr.de>; Wed, 14 May 2025 15:58:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC8241E3762;
-	Wed, 14 May 2025 15:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CFBF25D550;
+	Wed, 14 May 2025 15:58:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I9bqqet4"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NgpPAltU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A0EAD51;
-	Wed, 14 May 2025 15:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAAA282ED;
+	Wed, 14 May 2025 15:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747237660; cv=none; b=Vt9Aks5NSfDnKrma1iUMM/EGRaFiyqRLTcgrrR2CtCCkPWdqrcdQMXKrFcbP971mzmAnF+aVw3NkjeXJJKFS7DoLGPJv2Wz/Vkve+OYqAGlrfTCdzbsyH9td/NtWxLqeW+aOlu4ITZzD6fS6cTzsX4gaxILh3s764cuhy40lZXQ=
+	t=1747238329; cv=none; b=YTKc78Z/t+im3fFmrFx0Ar1UB5hHhmD+O+rZl8qOyXr3LZrkWzEZfSQOW1n7beCdaiDyJCD5xYion7NtkyXQ6PetwAPWpvibr2YXnoDCJz/xude3LbgT1I7SRC0BfSVCMwQ7AAcbHQFN9MjRi90O4CfnDZaUe9/9QptGOODWN/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747237660; c=relaxed/simple;
-	bh=eNVkz8APIO1nh+4HkQFWToJCfZTmS6mmwUOuAH2QvyE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Md7SF+0/CNQJfuKcIfJBwuQSX1ZYjasvdx7qCEhP1cGA6eWTOSBzlW/sEU8To/CMFBawoessnMYY4ru6eTejjttVBKz+xmPp263FDO+XT911Cc/ebQQgxfiruiJbwdTm3nXr3o9E4QUz2puoQ/dO7fTvpwDymHqdadT2KROmGI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I9bqqet4; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5fd1f7f8b25so7853907a12.0;
-        Wed, 14 May 2025 08:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747237657; x=1747842457; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0DloVxymu3VJuIMRRzLqrAZrCgKY3Ks2zfcUlO6d+9o=;
-        b=I9bqqet44eKdOZg5LfZWpY6zWgcp+D5JrGm25t0bGsYkOhZe6dVby8KqIOh7vs70VH
-         ikY/UN4qRBllHfygt0gnyI+ha6/JzjSvigi/Ph7/RTCguJGhl2pqB3n/STj9fzqu1pNK
-         lPKMqq0cTVNS+xQIxp3ohdmMoB6xeh63zhlvS8tdI8l9RPXf5wjsjLHuT05cmNiGZ5wn
-         DUXU2lpXw1myZEsUPAqubRp7GCu2hg2bTHrMiXdtjyMhgEgshehmeFn7e7n25MEzrKPI
-         KU4OqGFr9X2C+DEP65hb3ihWUaPyd9FtqT8VI3e5doN7zqFxpTMOyjNcAPNVP9Bx7JRf
-         vWRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747237657; x=1747842457;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0DloVxymu3VJuIMRRzLqrAZrCgKY3Ks2zfcUlO6d+9o=;
-        b=Sx4OyT1eaYFySHNeLJhSCVgRlo6x8oMKCZy9z3kPXj+A0G2iG6G4CmSV9/pD9eZiqG
-         BAkcRsLJ3jkIQiFtQaEpawdlsmxtqJ5eQEWxfD4lTZbE95TKDARGu5GTdXPzIDCm0gaW
-         0sTtAJ2RKu0mW9B+GUqxLnmdL3Z416mu8ohZbkziItNKSd192uwF91iNq7Y82fBHKbwc
-         1p7NAaUUJJ9AfrYulnsMEw/3LzFjUpY6yw3YEjtIu/90w4dTMKzprdgoGZH2GURszBoL
-         Di+1etYad3gbLJNCDKiGzHXNinc74T+s5qkQ89NtNRA+DgolJ38wn4u/WrBBJemN17Aa
-         mPFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWyvBujW/weBfC/YUBbRCtSs0Hr4SM/RGv6eJxuONocWLnMBX8C4S57CMOkwRnFC/1C0xTApMG6A+f3b9M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDrVcFqdp3kD4awbB+ojVs/rMwbFRZCyQSz5N86OcWI9l5BGcC
-	DfoBTDumwtWQvB2PqwhiiIYiyQVRplOiv8TlJOmm0iHuhWB4im47H6ZCpGoIN80=
-X-Gm-Gg: ASbGncvZNr/imZa3o00HeuBld8R6sYlEsbxgnX7DH/IBNQ9ABKbr3gqGyJ7CT9OzDvP
-	SpO3rpDHvcSAQJEvEpnhAyhFKdwpivJwQbo0NJHCKpsAUUuUuXFzk/UGLMlqgZ8ukb1WaE8mkmf
-	+KH3zjCP9y9UMCQDDSm3AE/8KTEiYcmlLL+2ka0y3/X2tJMuTCsGhtKGqmILLiDpTZa3Cjqxk/4
-	FYrT0AQy3T10wBsIrB1v4BCwGw2uvXnUmZaz8K3YR3sgB8DnlAYAv9J0iZGhU5dEbvVpZr+Y6lm
-	Q1tadvruVtZnfA1cCn5AnxsjlelYtfShIxxH60Dr61YdlxT3NJlijQ/YYLKs
-X-Google-Smtp-Source: AGHT+IFZORjJU2b6gjMmNHnrnF/Qvkyqut33GjK2d2u0j6lekJgU8sNw/0k/vl8H6yrc9/I1kYCeEw==
-X-Received: by 2002:a05:6402:280d:b0:5f4:c5eb:50c9 with SMTP id 4fb4d7f45d1cf-5ff988d09c3mr2784983a12.21.1747237656296;
-        Wed, 14 May 2025 08:47:36 -0700 (PDT)
-Received: from avt74j0.fritz.box ([2a02:8109:8617:d700:456b:224:c095:bd73])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ff8c016a16sm1952389a12.2.2025.05.14.08.47.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 08:47:36 -0700 (PDT)
-From: Martin Hecht <mhecht73@gmail.com>
-To: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	sakari.ailus@linux.intel.com
-Cc: laurent.pinchart@ideasonboard.com,
-	tomm.merciai@gmail.com,
-	martin.hecht@avnet.eu,
-	michael.roeder@avnet.eu,
-	Martin Hecht <mhecht73@gmail.com>
-Subject: [PATCH v2] MAINTAINERS: update my email address to gmail.com
-Date: Wed, 14 May 2025 17:45:25 +0200
-Message-ID: <20250514154523.239435-3-mhecht73@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1747238329; c=relaxed/simple;
+	bh=HP06nWuxTmL6ZClR4puw3sVL0ndk41lusHH26XdkLtg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G+pVRQi8Axt+fd4kKNrViciu8O9zLZ8uQnDpzEg3gZKibCB2xPjJ4hbO3OMrhbDViHj1csLdrWTRCj/UccOFTtXGfczXQ/4v6yowp9rPfYeY7Y2PQOpvuQIpm5YQFxBZ63jOcxJOJSoLzsBxzRsty5AyGLTevwTmMYTQsgHlgBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NgpPAltU; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1747238325;
+	bh=HP06nWuxTmL6ZClR4puw3sVL0ndk41lusHH26XdkLtg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NgpPAltUzBWKcnOQ2MJrfk8yEa3QL5pB8YivdGG07OwUkZaZlWSle+mvlg9FQGOn2
+	 DzA5cnnKZC7fzIp87oQVFHav3mGqmtJS+VIG/lN0Pbyqo4mSkT/zxz151/ynSTdSOO
+	 g9H3BEKMgZ7nD+dEv/zdyAt77P7g/Hqk4DASYocyQBLfLkwD4attQG5iRryxEDkTtq
+	 90kRN1NKVzlzcdDDaDmbCPpQVNuULw5MqVpuzT1MB+artuYISzTquY+f0V5MgsmwA/
+	 pkYIzIcCLV/GC42Tx3lzpLAeo6Nhi+EES3Fs2Hx2y5/1MOMzYtLiNPsiWXjhXULMeI
+	 2S4TQtinE99Ug==
+Received: from [10.40.0.100] (185-251-200-162.lampert.tv [185.251.200.162])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3497E17E0CD1;
+	Wed, 14 May 2025 17:58:44 +0200 (CEST)
+Message-ID: <344fe705-d1f7-45d0-b540-93fc8718f8e2@collabora.com>
+Date: Wed, 14 May 2025 17:58:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 00/14] media: rockchip: add a driver for the rockchip
+ camera interface
+To: Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Gerald Loacker <gerald.loacker@wolfvision.net>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Markus Elfring <Markus.Elfring@web.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Collabora Kernel Team <kernel@collabora.com>,
+ Paul Kocialkowski <paulk@sys-base.io>,
+ Alexander Shiyan <eagle.alexander923@gmail.com>,
+ Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Mehdi Djait <mehdi.djait@bootlin.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20240220-rk3568-vicap-v7-0-7581fd96a33a@collabora.com>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20240220-rk3568-vicap-v7-0-7581fd96a33a@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-replace my corporate email address by @gmail.com
+Hi all,
 
-Changes to be committed:
-	modified:   MAINTAINERS
+On 5/14/25 17:41, Michael Riesch via B4 Relay wrote:
+> Habidere,
+> 
+> This series introduces support for the Rockchip Camera Interface (CIF),
+> which is featured in many Rockchip SoCs in different variations.
+> [...]
 
-Changes since v1:
-	whithespace in front of Signed-off-by removed
+I believe the cover letter is already long enough, hence I send the
+v4l2-compliance reports in this reply (please find them below). There
+are two of them, one for the DVP and one for the MIPI CSI-2 (only one
+stream/MIPI CSI-2 VC).
 
-Signed-off-by: Martin Hecht <mhecht73@gmail.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Best regards,
+Michael
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5dee8459a614..e4a4f247d826 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -811,7 +811,7 @@ F:	drivers/media/platform/allegro-dvt/
- 
- ALLIED VISION ALVIUM CAMERA DRIVER
- M:	Tommaso Merciai <tomm.merciai@gmail.com>
--M:	Martin Hecht <martin.hecht@avnet.eu>
-+M:	Martin Hecht <mhecht73@gmail.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
--- 
-2.43.0
+$ v4l2-compliance -d 0 -s
+v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
+
+Compliance test for rockchip-cif device /dev/video0:
+
+Driver Info:
+        Driver name      : rockchip-cif
+        Card type        : rockchip-cif
+        Bus info         : platform:fdfe0000.video-capture
+        Driver version   : 6.15.0
+        Capabilities     : 0xa4201000
+                Video Capture Multiplanar
+                I/O MC
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x24201000
+                Video Capture Multiplanar
+                I/O MC
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : rockchip-cif
+        Model            : rockchip-cif
+        Serial           :
+        Bus info         : platform:fdfe0000.video-capture
+        Media version    : 6.15.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.15.0
+Interface Info:
+        ID               : 0x03000006
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000004 (4)
+        Name             : rkcif-dvp0-id0
+        Function         : V4L2 I/O
+        Pad 0x01000005   : 0: Sink
+          Link 0x02000008: from remote pad 0x1000003 of entity
+'rkcif-dvp0' (Video Interface Bridge): Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test blocking wait: OK
+        test MMAP (no poll): OK
+        test MMAP (select): OK
+        test MMAP (epoll): OK
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for rockchip-cif device /dev/video0: 55, Succeeded: 55, Failed: 0,
+Warnings: 0
+$
+
+$ v4l2-compliance -d 1 -s
+v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
+
+Compliance test for rockchip-cif device /dev/video1:
+
+Driver Info:
+        Driver name      : rockchip-cif
+        Card type        : rockchip-cif
+        Bus info         : platform:fdfe0000.video-capture
+        Driver version   : 6.15.0
+        Capabilities     : 0xa4201000
+                Video Capture Multiplanar
+                I/O MC
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x24201000
+                Video Capture Multiplanar
+                I/O MC
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : rockchip-cif
+        Model            : rockchip-cif
+        Serial           :
+        Bus info         : platform:fdfe0000.video-capture
+        Media version    : 6.15.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.15.0
+Interface Info:
+        ID               : 0x0300000f
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x0000000d (13)
+        Name             : rkcif-mipi0-id0
+        Function         : V4L2 I/O
+        Pad 0x0100000e   : 0: Sink
+          Link 0x02000011: from remote pad 0x100000c of entity
+'rkcif-mipi0' (Video Interface Bridge): Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test blocking wait: OK
+        test MMAP (no poll): OK
+        test MMAP (select): OK
+        test MMAP (epoll): OK
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for rockchip-cif device /dev/video1: 55, Succeeded: 55, Failed: 0,
+Warnings: 0
+$
 
 
