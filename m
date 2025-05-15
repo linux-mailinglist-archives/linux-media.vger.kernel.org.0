@@ -1,270 +1,302 @@
-Return-Path: <linux-media+bounces-32565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32566-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30C4AB824F
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 11:17:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 184C2AB8253
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 11:18:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 746844C55F9
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 09:17:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DA8347B32A0
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 09:17:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52E31295DB5;
-	Thu, 15 May 2025 09:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2000B297B80;
+	Thu, 15 May 2025 09:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kUZiF7wh"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IXVcYSgJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30B928F946;
-	Thu, 15 May 2025 09:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D8B29551A
+	for <linux-media@vger.kernel.org>; Thu, 15 May 2025 09:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747300670; cv=none; b=tntH8WQecrl121pDZrWjgOuKNU9yjgs8T3ffW4q0RKyFagumQDZHlv+AUR8+Y7Qnvths+IR+xKw5ckHaB9U94Vvpzm/bWcy169D6OS5HGCTIvrIRHI0veEQ7hk+DCiTbdgTW/dxdPHaYKhkPxCzrTj50Xk6SN4J3/RBajb8R4G0=
+	t=1747300681; cv=none; b=sFmLSQZc5j0UxgkhEZeSvWrMOyOWOGzXkaCRnV5aSwnJRO7vNNVn+CPhU/lndtg3zED9H4EGpAaY5HsYZrY28CjybBu1+eWdP1ssA0UPHB29+b9sHV473xXQvwoOKzMwiVy/HLomV4NR9EyKiFviLJE7qlUXhD6alEZWG4xMnhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747300670; c=relaxed/simple;
-	bh=VoBuvvaTggt88pD7cLcxjXVZ1+vn0MjJRMAsFFfswOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PndH7MBFLUZGaKBomJaAp8NQCnBLZQMYiNlCzsihxvdXPP4eKF+o63qcU47qhxBQ4XN6iuWrJLzUIS2fhGxnLKA/z+2HIEP1d075LNqY0w011zVGJdUbXTxVr33WDAqr2ETOWW4uwF7yoFkerd+MaCZj0J7q0+MGWtvXQMgiH7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kUZiF7wh; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747300669; x=1778836669;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VoBuvvaTggt88pD7cLcxjXVZ1+vn0MjJRMAsFFfswOs=;
-  b=kUZiF7wheL2RqPSjS/sAxw2Iss9+tf/a5Ygs5wJekd+JsmgyR0+/5Ti9
-   IGKAhyn54B1WIPLHzlq8746f9IbQToqrpjBRZI+VcnKIlBGAw9KM5NNL5
-   +n5x/Mpy+X4ugEq1GbKywJdY4v2QqAI4HJ6M0F8B4ggcabT0W3+5w7ALX
-   +a2UdgBfyHIw0NRb8qBch1UnlYYo8Lp6QEOXdkDmP3lacrWTpfV3reduv
-   PqnzqS8S3Y3sl/OfYFt67fx3YbK6u6synf3c9tcwBSuzKXfQAhja3ehjh
-   dyURpC+UfKcUFoFk2c/XMZ2yOM1giXy17XH+wmRlOQHa9uaRWIPuGAVNt
-   g==;
-X-CSE-ConnectionGUID: 78hNJraSSP6cR28byC+v5Q==
-X-CSE-MsgGUID: vMUnyG//RZW30tL5zSw2+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="48477377"
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
-   d="scan'208";a="48477377"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 02:17:48 -0700
-X-CSE-ConnectionGUID: q9JTUy0kTPqTg+cAcpx97g==
-X-CSE-MsgGUID: BqZ2l4BkRA+EEqzfRq836A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
-   d="scan'208";a="138193263"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.201])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 02:17:44 -0700
-Date: Thu, 15 May 2025 11:17:37 +0200
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, sakari.ailus@linux.intel.com, 
-	tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com, hverkuil@xs4all.nl, 
-	kieran.bingham@ideasonboard.com, naush@raspberrypi.com, mchehab@kernel.org, 
-	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v4] media: v4l2-common: Add a helper for obtaining
- the clock producer
-Message-ID: <id2ikiio23ahslghpx56niwxrvaqdgmrgk3k647i3u27cptqgz@hwqrkdvljd3b>
-References: <20250321130329.342236-1-mehdi.djait@linux.intel.com>
- <f467e4a8-fcb2-4345-b8f7-7557c1a7552b@redhat.com>
- <20250515084403.GQ23592@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1747300681; c=relaxed/simple;
+	bh=8zcNjwiFRLKaPrPVLng4LwX9rlSdrAZKS1atkz9us1w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jAKedD2Duy29qJySAMsK5HzVzpSFLKyYlISQ/rb84zygtoi+/kdjOwckVvJHIt/9gFTTKklWtn0w5LtCoQIs90tm0WM+nHW56iQEDs6bjuXC/AHbsnCWIrdZK0lR3JOAkrMpBqXQEIqtT8GoJiPZ/DRRLHH2pr5IEtXSbjCBrNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IXVcYSgJ; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a108684f90so408828f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 15 May 2025 02:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747300678; x=1747905478; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LLrR8mHQGmvxeQeb5j9NGPnWZ8Fk0hzXNuQW+AS8WFM=;
+        b=IXVcYSgJZD3KNEt9Ew02/SkavanJezK8GTn3ZtaWl7vfUL4yDGFoAjeYZBUDFkzCFn
+         dLdkNBpnI6zAeMinvHx+ynADPoArSNCzPEw1Bys41pl/zXGJQq5JyT55HpwDY5KEbiPM
+         CcEHcTEs0cOHqCr1AaM76DRY+uyRTEErYYakAcsEB2LnRogSvMcCq+tuoVdoPDMNymv9
+         EKeGXSs5TSzsGdAcCCZp+LRd+QK9VuqYgLaoR/eWLgXo6PKr1DZktHrrWHbmGuS7aXdQ
+         kQ2fZXfGu1cvd8ubanWObZwfAzelc/z2OdoNl3PD0ubtVkdVvNAKY/73x8JOPHCuI1B5
+         SEoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747300678; x=1747905478;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LLrR8mHQGmvxeQeb5j9NGPnWZ8Fk0hzXNuQW+AS8WFM=;
+        b=lysZRbKdLuD6cv21fvX0PZYmFEVa/sZ+sjVpV5u6sTkDc3hZYNuEZ18hErOsGcRU2M
+         5i4t+jFoiCxAie19OFMYXFLTb279eIro8M7DtOeV788eEmP3Bf/LETwee2aH/cLTH81t
+         Kitfogr+RP31IFX+gkv2tFGox9KSdChLU0undhLsAXb9QiLbMjqPlXq3ko+q+n9EZu6J
+         LSYVrFyL1H4Yu2GfK3cBE7FZ8tmREM4D560j0EZv8qOEgiajBzCATE/czFELhOdNapQD
+         z0uXTQyNGy+WPFQyoedf4xBnoSTnlMy6edD26UTxFXJ8JiyLqZH36y+oWCdAeFIUbfam
+         Aw/Q==
+X-Gm-Message-State: AOJu0YyRfdMR+Y3CYz/Rb9rE0lwpTCBIfaT1su79fAyKWKM6b1+7lARO
+	EEvD4Z6X2X3CN+N9Y3hwYWKuKCqclirfjfsHhMnvQtmonElswhjPke/TUGwjhlg=
+X-Gm-Gg: ASbGncu6sLq6/2km11bBy7jd4qAjV0QSdqP6SpJWsiMuDJW0eO5O/zGPgx78Ipp5z1r
+	yxjX2COcvnGbyZvDngeTlSF5bhzvQlyyPdS7AVEWdco8UYGwq2wm7dQ2riNiQC84kGAxU175dQh
+	wyFdKqDn5pNAlB8KyPj6yEnQY2iLtaf7/hXIv0azgN0JyBfPRSWAOebbcjRMNVAxEQR2g+9lJKW
+	vMJZQuBzjaAJHb7kh6VRb2NoyGfsHzgjandReLdk0Q1aEE8jIHm3SO9HwZOuKa8KD/FZU5RHndw
+	2Tv1bmJe9KCE6JUiYIXSCoHhLnso3wtJtE6p/B5pWcSrtd8m3/r/mcIBTyhtXugUuUCCB82ZSg3
+	5vWVF7Wzl0Dv1
+X-Google-Smtp-Source: AGHT+IEyl2cADjc4pCZLS+AWesmuE8OPCQz2l8i9+TTobDiHqJnfqSO9Vlc3hMTrq4JKo0wCFTDDrw==
+X-Received: by 2002:adf:e390:0:b0:3a3:592d:2a20 with SMTP id ffacd0b85a97d-3a3592d2d69mr615905f8f.54.1747300677691;
+        Thu, 15 May 2025 02:17:57 -0700 (PDT)
+Received: from [10.61.1.70] (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4d21esm22438155f8f.99.2025.05.15.02.17.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 May 2025 02:17:57 -0700 (PDT)
+Message-ID: <ad92cf06-636a-417a-b03b-0d90c9243446@linaro.org>
+Date: Thu, 15 May 2025 10:17:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250515084403.GQ23592@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] media: venus: fix TOCTOU vulnerability when
+ reading packets from shared memory
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Hans Verkuil <hans.verkuil@cisco.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vedang Nagar <quic_vnagar@quicinc.com>
+References: <20250514-venus-fixes-v3-0-32298566011f@quicinc.com>
+ <20250514-venus-fixes-v3-1-32298566011f@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250514-venus-fixes-v3-1-32298566011f@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
-
-On Thu, May 15, 2025 at 10:44:03AM +0200, Laurent Pinchart wrote:
-> Hi Hans,
+On 14/05/2025 14:38, Dikshita Agarwal wrote:
+> From: Vedang Nagar <quic_vnagar@quicinc.com>
 > 
-> On Sat, May 10, 2025 at 04:21:09PM +0200, Hans de Goede wrote:
-> > On 21-Mar-25 2:03 PM, Mehdi Djait wrote:
-> > > Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-> > > platforms to retrieve a reference to the clock producer from firmware.
-> > > 
-> > > This helper behaves the same as clk_get_optional() except where there is
-> > > no clock producer like in ACPI-based platforms.
-> > > 
-> > > For ACPI-based platforms the function will read the "clock-frequency"
-> > > ACPI _DSD property and register a fixed frequency clock with the frequency
-> > > indicated in the property.
-> > > 
-> > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> > 
-> > This certainly looks quite useful, thank you for working
-> > on this.
-> > 
-> > Note on some IPU3 platforms where the clk is provided by
-> > a clk-generator which is part of a special sensor-PMIC
-> > the situation is a bit more complicated.
-> > 
-> > Basically if there is both a clk provider and a clock-frequency
-> > property then the clock-frequency value should be set as freq
-> > to the clk-provider, see:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/i2c/ov8865.c#n3020
-> > 
-> > for an example of a driver which handles this case.
+> Currently, Time-Of-Check to Time-Of-Use (TOCTOU) issue happens when
+> handling packets from firmware via shared memory.
 > 
-> On a side note, the DT bindings for the OV8865 doesn't specify the
-> clock-frequency property...
+> The problematic code pattern:
+> 
+> u32 dwords = *rd_ptr >> 2;
+> if (!dwords || (dwords << 2) >  IFACEQ_VAR_HUGE_PKT_SIZE))
+>     return -EINVAL;
+> 
+> memcpy(pkt, rd_ptr, dwords << 2);
+> 
+> Here, *rd_ptr is used to determine the size of the packet and is
+> validated. However, since rd_ptr points to firmware-controlled memory,
+> the firmware could change the contents (e.g., embedded header fields
+> like pkt->hdr.size) after the size was validated but before or during
+> the memcpy() call.
+> 
+> This opens up a race window where a malicious or buggy firmware could
+> inject inconsistent or malicious data, potentially leading to
+> information leaks, driver crashes, or undefined behavior.
+> 
+> Fix this by rechecking the packet size field from shared memory
+> immediately before the memcpy() to ensure it has not beenn altered.
+> 
+> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
+> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
+> Co-developed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>   drivers/media/platform/qcom/venus/hfi_venus.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+> index b5f2ea8799507f9b83f1529e70061ea89a9cc5c8..163c8d16530bc44a84b2b21076e6189d476fe360 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+> @@ -295,6 +295,9 @@ static int venus_read_queue(struct venus_hfi_device *hdev,
+>   	new_rd_idx = rd_idx + dwords;
+>   	if (((dwords << 2) <= IFACEQ_VAR_HUGE_PKT_SIZE) && rd_idx <= qsize) {
+>   		if (new_rd_idx < qsize) {
+> +			if ((*rd_ptr >> 2) != dwords)
+> +				return -EINVAL;
+> +
+>   			memcpy(pkt, rd_ptr, dwords << 2);
+>   		} else {
+>   			size_t len;
 > 
 
-Is this wrong ?
+Here's how this code fragment looks after the change, I'll add two "}" 
+for readability and annotate
 
-The OV8865 driver was introduced for DT-based systems, where you will
-get a reference to the "struct clk corresponding to the clock producer"
-and then get the clock-rate/frequency with a call to:
+dwords = *rd_ptr >> 2; // read the value here
+if (!dwords)
+        return -EINVAL;
 
-	rate = clk_get_rate(sensor->extclk);
+new_rd_idx = rd_idx + dwords;
 
-The patch "73dcffeb2ff9 media: i2c: Support 19.2MHz input clock in ov8865"
-adding support for clock-frequency came later to support ACPI-based
-systems (IPU3 here)
+// validate the size against a maximum value
+// this step is correct
+if (((dwords << 2) <= IFACEQ_VAR_HUGE_PKT_SIZE) && rd_idx <= qsize) {
+         if (new_rd_idx < qsize) {
+                 // Re-read the value because firmware
+                 // might have changed the value
+                 if ((*rd_ptr >> 2) != dwords)
+                         return -EINVAL;
 
-> > IMHO it would be good if the generic helper would handle
-> > this case too and if there is both a clk-provider and
-> > a clock-frequency property then try to set the clock-frequency
-> > value with clk_set_rate(), arguably you could just warn on
-> > a failure to set the rate though, instead of the error
-> > the ov8865 driver currently throws.
-> > 
-> > Sakari, Laurent any opinions on adding handling this case
-> > to the generic helper ?
-> 
-> We really need to standardize the clock-frequency property, and document
-> it accordingly. Some drivers use it to set the external clock rate,
-> while others use it to inform themselves about the clock rate, without
-> changing it, for platforms that have no CCF clock providers. Some
-> drivers also set the clock rate to a fixed value, or to a value that
-> depends on the link frequency selected by userspace. I don't like this
-> situation much.
-> 
-> > > ---
-> > > v1 -> v2:
-> > > Suggested by Sakari:
-> > >     - removed clk_name
-> > >     - removed the IS_ERR() check
-> > >     - improved the kernel-doc comment and commit msg
-> > > Link v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehdi.djait@linux.intel.com
-> > > 
-> > > v2 -> v3:
-> > > - Added #ifdef CONFIG_COMMON_CLK for the ACPI case
-> > > Link v2: https://lore.kernel.org/linux-media/20250310122305.209534-1-mehdi.djait@linux.intel.com/
-> > > 
-> > > v3 -> v4:
-> > > Suggested by Laurent:
-> > > 	- removed the #ifdef to use IS_REACHABLE(CONFIG_COMMON_CLK)
-> > > 	- changed to kasprintf() to allocate the clk name when id is NULL and
-> > > 	  used the __free(kfree) scope-based cleanup helper when
-> > > 	  defining the variable to hold the allocated name
-> > > Link v3: https://lore.kernel.org/linux-media/20250321093814.18159-1-mehdi.djait@linux.intel.com/
-> > > 
-> > > 
-> > >  drivers/media/v4l2-core/v4l2-common.c | 40 +++++++++++++++++++++++++++
-> > >  include/media/v4l2-common.h           | 18 ++++++++++++
-> > >  2 files changed, 58 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > > index 0a2f4f0d0a07..b33152e2c3af 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > @@ -34,6 +34,9 @@
-> > >   * Added Gerd Knorrs v4l1 enhancements (Justin Schoeman)
-> > >   */
-> > >  
-> > > +#include <linux/clk.h>
-> > > +#include <linux/clkdev.h>
-> > > +#include <linux/clk-provider.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/types.h>
-> > >  #include <linux/kernel.h>
-> > > @@ -636,3 +639,40 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
-> > >  	return 0;
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(v4l2_link_freq_to_bitmap);
-> > > +
-> > > +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-> > > +{
-> > > +	const char *clk_id __free(kfree) = NULL;
-> > > +	struct clk_hw *clk_hw;
-> > > +	struct clk *clk;
-> > > +	u32 rate;
-> > > +	int ret;
-> > > +
-> > > +	clk = devm_clk_get_optional(dev, id);
-> > > +	if (clk)
-> > > +		return clk;
-> > > +
-> > > +	if (!IS_REACHABLE(CONFIG_COMMON_CLK))
-> > > +		return ERR_PTR(-ENOENT);
-> > > +
-> > > +	if (!is_acpi_node(dev_fwnode(dev)))
-> > > +		return ERR_PTR(-ENOENT);
-> > > +
-> > > +	ret = device_property_read_u32(dev, "clock-frequency", &rate);
-> > > +	if (ret)
-> > > +		return ERR_PTR(ret);
-> > > +
-> > > +	if (!id) {
-> > > +		clk_id = kasprintf(GFP_KERNEL, "clk-%s", dev_name(dev));
-> > > +		if (!clk_id)
-> > > +			return ERR_PTR(-ENOMEM);
-> > > +		id = clk_id;
-> > > +	}
-> > > +
-> > > +	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
-> > > +	if (IS_ERR(clk_hw))
-> > > +		return ERR_CAST(clk_hw);
-> > > +
-> > > +	return clk_hw->clk;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
-> > > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> > > index 63ad36f04f72..35b9ac698e8a 100644
-> > > --- a/include/media/v4l2-common.h
-> > > +++ b/include/media/v4l2-common.h
-> > > @@ -573,6 +573,24 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
-> > >  			     unsigned int num_of_driver_link_freqs,
-> > >  			     unsigned long *bitmap);
-> > >  
-> > > +/**
-> > > + * devm_v4l2_sensor_clk_get - lookup and obtain a reference to an optional clock
-> > > + *			      producer for a camera sensor.
-> > > + *
-> > > + * @dev: device for v4l2 sensor clock "consumer"
-> > > + * @id: clock consumer ID
-> > > + *
-> > > + * This function behaves the same way as clk_get_optional() except where there
-> > > + * is no clock producer like in ACPI-based platforms.
-> > > + * For ACPI-based platforms, the function will read the "clock-frequency"
-> > > + * ACPI _DSD property and register a fixed-clock with the frequency indicated
-> > > + * in the property.
-> > > + *
-> > > + * Return:
-> > > + * * pointer to a struct clk on success or an error code on failure.
-> > > + */
-> > > +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id);
-> > > +
-> > >  static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
-> > >  {
-> > >  	/*
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+                 // now trust dwords
+                 memcpy(pkt, rd_ptr, dwords << 2);
+         }
+}
 
---
-Kind Regards
-Mehdi Djait
+But this is all wrong.
+
+There is no atomicity on the APSS side between the first verification of 
+dwords size and the mempcpy() the commit log itself shows that the 
+firmware is free-running with respect to the instruction pipeline of the 
+APSS, it is an AMP problem.
+
+Adding another check of the dwords side right before the memcpy() 
+doesn't address the problem which the commit log describes as the 
+firmware updating the length field of a header in shared memory.
+
+There are perhaps 10 assembly instructions between the first check and 
+the procedure prologue of the memcpy();
+
+Adding another length check right before the memcpy() simply reduces the 
+number of CPU instructions - the effective window that the firmware can 
+update that header still.
+
+if ((*rd_ptr >> 2) != dwords) // conditional branch operation
+
+memcpy(pkt, rd_ptr, dwords << 2);
+
+Begins with a procedure prologue - setting up the call stack - and then 
+is a series of fetch/stores to copy data from here to there
+
+The memcpy() itself by its nature it not atomic on the front-side-bus of 
+the APSS to shared DRAM with the firmware.
+
+On a CPU and SoC architecture level this fix just doesn't work.
+
+To be honest we are already doing the right thing in this routine.
+
+1. Reading the value from the packet header.
+2. Validating the given size against the maximum size
+3. Rejecting the memcpy() if the given size _at_the_time_we_read_ is too
+    large.
+
+The alternative to guarantee would be something like
+
+asm("bus master asserts bus lock to PAGE/PAGES involved");
+dwords = *rd_ptr;
+if (dwords > MAX_VALUE)
+     return -EFIRMWARE_BUG;
+memcpy(dst, src, dwords >> 2);
+
+asm("bus master unlocks memory");
+
+Lets say we make the change proposed in this patch, here is how it breaks:
+
+if ((*rd_ptr >> 2) != dwords)
+     return -EINVAL;
+
+// now trust dwords
+memcpy(pkt, rd_ptr, dwords << 2);
+
+
+objdump 
+qlt-kernel/build/x1e80100-crd_qlt_integration/drivers/media/platform/qcom/venus/venus-core.o 
+--disassemble=venus_read_queue.isra.0
+
+5c48:	540000c9 	b.ls	5c60 <venus_read_queue.isra.0+0x110>  // b.plast
+5c4c:	2a0303e2 	mov	w2, w3
+5c50:	aa0703e0 	mov	x0, x7
+5c54:	94000000 	bl	0 <memcpy>
+5c58:	52800000 	mov	w0, #0x0
+
+Your conditional jump is @ 0x5c48 your call to memcpy @ 0x5c54
+
+Between 0x5c48 and 0x5c54 the firmware can update the value _again_
+Indeed the firmware can update the value up until the time we complete 
+reading the bit of the pkt header in memcpy() so an additional few 
+instructions for sure.
+
+You could make some type of argument to re-verify the content of the pkt 
+_after_ the memcpy()
+
+But the only verification that makes any sense _before_ the memcpy() is 
+to verify the length at the point you _read_ - subsequent to the 
+latching operation - were we fetch the length value from DRAM into our 
+CPU cache, operating stack and/or local registers.
+
+Once that data is fetched within the cache/stack/registers of the 
+CPU/APSS that is the relevant value.
+
+For the fix you have here to work you need this
+
+5c48:   MAGICOP         memorybuslock
+5c48:	540000c9 	b.ls	5c60 <venus_read_queue.isra.0+0x110>  // b.plast
+5c4c:	2a0303e2 	mov	w2, w3
+5c50:	aa0703e0 	mov	x0, x7
+5c54:	94000000 	bl	0 <memcpy>
+5c58:	52800000 	mov	w0, #0x0
+5c5c:   MAGICUNOP       memorybusunlock
+
+Because the firmware is free-running - with respect to the instruction 
+pipeline of the above assembly.
+
+If you really want to verify the data is still valid - it should be done 
+_after_ the memcpy();
+
+But even then I'd say to you, why verify _after_ the memcpy() - and what 
+happens on the instruction directly _after_ the verification - is the 
+data considered more valid now ?
+
+i.e. this:
+
+memcpy(pkt, rd_ptr, dwords << 2);
+
+if ((*rd_ptr >> 2) != dwords)
+     return -EINVAL;
+
+doesn't have the above described architectural race condition but it 
+doesn't make the data any more trustworthy - because it doesn't have 
+atomicity
+
+memcpy(pkt, rd_ptr, dwords << 2);
+
+if ((*rd_ptr >> 2) != dwords)
+     return -EINVAL;
+
+dev_info(dev, "The value of *rd_ptr %lu!=%lu can be different now\n",
+          *rd_ptr >> 2, dwords);
+
+Sorry this patch just can't work. It's a very hard NAK from me.
+
+---
+bod
 
