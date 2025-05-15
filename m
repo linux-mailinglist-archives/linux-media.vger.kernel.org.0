@@ -1,81 +1,125 @@
-Return-Path: <linux-media+bounces-32600-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32601-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F69AB89C5
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 16:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDE6AB8A08
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 16:56:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2032F4E6E45
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 14:46:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 34E23176AFF
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 14:54:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3BE51FAC54;
-	Thu, 15 May 2025 14:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EEEE20E306;
+	Thu, 15 May 2025 14:54:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmV0kZfn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ExprBEY4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F30B3D69
-	for <linux-media@vger.kernel.org>; Thu, 15 May 2025 14:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BE653363;
+	Thu, 15 May 2025 14:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747320389; cv=none; b=KPGT27Tzsjyza1kk4UF4B6kqYJVVq51CFyJ7hBXYTchLZaC1Nl1ICO+LzVeVbnEe8t1vjvKgaq0MI2IF7cxjEVgqHFotMMdSXFrOsjLiZiXfbuTFAeU8pT6alkFlYMr1HT0O6kAlBNXbQ/F/g9Yxrs9As1uSFLvBMgRg3yEgm3k=
+	t=1747320862; cv=none; b=fC4d/9x7dzhpxEUorTRB12iQVTV5v1fmuojjmVgsP1r4+rjJ47GczhvtNQ2JMXq+koAHKUQMxQa4fkXwrt/z6hIkQzdUI+O0GwFGskbflKG/iabOmdNSlLinVCNeNDIH4H9uZs7RtE2SaVHYuj394+IBRqPAO+WBuP6Tr7Xcg4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747320389; c=relaxed/simple;
-	bh=gjG62P0KJg9wb0PDRXb676J64qlF8OEy7LbdgiIXd/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E02KxaUY2DUgrIUvKwPPzjstD+4LxvVNsUlIvV94xHcF/ObwCV4RzPA/kLQdECwwCMNBcGxdF6vwRr/p8Ev/OvoMF+0RjLZEwpcSFqalTLWj6Yk+0Tx/6VkJ995N5ypvio39tkxi21CqNVEwkCOFh1FQUg61JdjNK8T14DC63J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmV0kZfn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 253DBC4CEEB;
-	Thu, 15 May 2025 14:46:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747320388;
-	bh=gjG62P0KJg9wb0PDRXb676J64qlF8OEy7LbdgiIXd/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jmV0kZfnqbImnaypqTb06/ZzoXhb9tOyznk7YxlUw5auTR/okdycot9MzWtR3Y1zu
-	 n0VQ4XsErpBYKUpoDSfXPzdzJuoQbfk3YjSyuFpX0mT6b1rsLCGyu/NBsYKZYdJILT
-	 KoM7EVgll+PczznVlJAUB7JgPUWJsN2kby6Tlcx4bx0cOZOzveAh13T1TA9j1ewqIy
-	 DXlLrpqWykZpR1t9T2zzZ5kR5rNtlCZYSy6226H5T6G5UHALrvHE18DykOvYJa1wjJ
-	 ycID4vr172cNk0xuBwkttO2Gg1I0BWj70WLRVS4Pcs6zhPzlyd7EEy/URoBqL/PnDp
-	 1EA+4PQejXk3Q==
-Date: Thu, 15 May 2025 16:46:22 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, kernel-dev@igalia.com
-Subject: Re: [PATCH v4 5/9] drm/i915: Use dma-fence driver and timeline name
- helpers
-Message-ID: <gyd2k57ixbkgpogiwm3dyfh24rx74bmi4zn5ftrdnytkfjl34l@moakdhxq3n4d>
-References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
- <20250515095004.28318-6-tvrtko.ursulin@igalia.com>
+	s=arc-20240116; t=1747320862; c=relaxed/simple;
+	bh=dt+vTGfHYFKWmSNzmatAnrVxES49h0xgerKxeszNoEE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TWn4HDu5VTshy+eUvL225n061mrzw1wyobwmmsyQYLav5ALLzEajJGHyHGUIz/nKoUo/nZUgU4vLzaCU+A6NR2LDvuXDVuEnFu9MOy9L7qTOxCKslTc+3kIsYHyteKi/1Xwd5k/1A1u5ziyA3c46kGy3uktVOtqvYSHuSlPMNz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ExprBEY4; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5fbdf6973e7so1332951a12.2;
+        Thu, 15 May 2025 07:54:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747320859; x=1747925659; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AnZP8zYyxLfJR8Q5g++toUplHuGONRuvc6eCNUa3kD8=;
+        b=ExprBEY4G40GxJaLmHsNGbuerPxNKG4rrrN3ESl34xGATvj5izurs47/Csif8CTdLc
+         TU52O56UmqjfYxEjdfrXpDl9aWJpOjZW8nzw19HZjHbjXh/mg4UuVoZ30coRG1L8rmFS
+         MLVBIyVjsJOkg4ORt54k3re7uElf1ysSA10MlXF0fLaJ+pO7SoFgQHevbUKrfkBFgv5I
+         0DSZcSjModa7CMTJrkigRtEzLKjD3SbC+u2HGlkbiHFfZcSecP68xy8UlZZkhemHIgU2
+         OSFt6yQ06+UAqUHvyXJ4eRy4/Syd2b671t63aHt+4Dz9tmsboyLgeIcsqE8VyebhSQe/
+         pmVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747320859; x=1747925659;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AnZP8zYyxLfJR8Q5g++toUplHuGONRuvc6eCNUa3kD8=;
+        b=Q8G9+iQC0ioUYqWOZOsxndgnJbx30PJCVYSCxwZ+NyLWh9pbRbhS9W/gKitq09EAJ+
+         x4nskKZGWRdO3qfsRozqkHGXATUHPANw7Zsu4CO+SlUM98c8ucJY+S4CwqABEOTDxpQs
+         h2vybFiwhpTDnmBRtKJL9q3R4toShCpKzLcDIUpLioRYudfT5BF6BvmJx44KZCmouwe6
+         gg8EPvbcNiIg08medqoiaiTo0EgzHYjO7Mue7RCjuhKXvnyhqOFgxV3BXxt6dXKAVLV8
+         nJKPzmh2s5tIqIDzy0/0Qh0yA3/jk/Xlv5rYCLsZv7wVjKU+hxv9V1Ez+pGVYC/K5OrA
+         /Cvg==
+X-Forwarded-Encrypted: i=1; AJvYcCWclpwLj9ezA8L5hXa8Zx9u7LVEXZWn1HdJnKt3N6hT7fu+dvBdrs8+eRqU468DaW7CnfTxOmT1wMLXY2s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyi8Vp2UNo5hq1x5Whyf0DuvIHeaTC9+pcB2llM2ow/GHg+WoRN
+	zZnQaZCw4NY7cNXp78jq3CWkeolPPwDxapSo65S3Lc0pQFHUWSvBI69lHB8Y7ZHdeQ==
+X-Gm-Gg: ASbGncuIzjGxdxwXt/B9L5BxwyS8B/EjeczK4c8UKRreDRKgveOsBWvGcQqQpjNB0Tb
+	CLj/gmrTY+5P7VgwHwKCoGmvVo3AwEl7OJT1k35lqk67Ib2zcaNRu9JaiS6kwwprbTWWwftkavE
+	ANq6kaQgcK/bHIMXk4L4MGfK30Rk2W8asbGJKt5ETGUjF0LhJ4mZXkoxHE6qyi8G9aby1jM4OmU
+	KkRxZDq895bYMJr1YDPFr/+oo4MYz0+e0leiPs5L/KWUVhleegJaHPfqnA+TLlIY5bU1gdrISzr
+	nahr3hHSVoxyrjcP0zOSB5n9VIt1HbCvaEoPFN+HGLrPW3W1gDRM0vZSwoqcDw==
+X-Google-Smtp-Source: AGHT+IHyHUvPaBRGkNVp8odY45xlwAbsmexgkeI6ikJkzUPH8XilLTMjzxiK002IG5equ6vL2TEwzQ==
+X-Received: by 2002:a05:6402:1ecc:b0:5fb:1fbd:e3ad with SMTP id 4fb4d7f45d1cf-5ff988a5ecfmr6853430a12.13.1747320858961;
+        Thu, 15 May 2025 07:54:18 -0700 (PDT)
+Received: from avt74j0.fritz.box ([2a02:8109:8617:d700:2d36:8b46:22ae:7bde])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fc9d710549sm10332681a12.76.2025.05.15.07.54.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 07:54:18 -0700 (PDT)
+From: Martin Hecht <mhecht73@gmail.com>
+To: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	sakari.ailus@linux.intel.com
+Cc: laurent.pinchart@ideasonboard.com,
+	tomm.merciai@gmail.com,
+	martin.hecht@avnet.eu,
+	michael.roeder@avnet.eu,
+	Martin Hecht <mhecht73@gmail.com>
+Subject: [PATCH v3] MAINTAINERS: Update my email address to gmail.com
+Date: Thu, 15 May 2025 16:51:50 +0200
+Message-ID: <20250515145150.1419247-2-mhecht73@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250515095004.28318-6-tvrtko.ursulin@igalia.com>
 
-Hi Tvrtko,
+Replace my corporate email address by @gmail.com.
 
-On Thu, May 15, 2025 at 10:50:00AM +0100, Tvrtko Ursulin wrote:
-> Access the dma-fence internals via the previously added helpers.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Martin Hecht <mhecht73@gmail.com>
+---
+ Changes since v2:
+        Updated body and message format.
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+ Changes since v1:
+        Remove whithespace in front of Signed-off-by.
 
-Thanks,
-Andi
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5dee8459a614..e4a4f247d826 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -811,7 +811,7 @@ F:	drivers/media/platform/allegro-dvt/
+ 
+ ALLIED VISION ALVIUM CAMERA DRIVER
+ M:	Tommaso Merciai <tomm.merciai@gmail.com>
+-M:	Martin Hecht <martin.hecht@avnet.eu>
++M:	Martin Hecht <mhecht73@gmail.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
+-- 
+2.43.0
+
 
