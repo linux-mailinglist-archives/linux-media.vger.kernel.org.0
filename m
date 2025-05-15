@@ -1,88 +1,87 @@
-Return-Path: <linux-media+bounces-32558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61504AB7FD6
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 10:09:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F7CAB7FE0
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 10:11:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DA9F4A7C67
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 08:09:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02EC07B3C11
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 08:10:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ABDB283FF7;
-	Thu, 15 May 2025 08:09:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFBAD285419;
+	Thu, 15 May 2025 08:11:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dv4mu78Y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ePoswzkM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0581A704B;
-	Thu, 15 May 2025 08:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47871283FD6;
+	Thu, 15 May 2025 08:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747296583; cv=none; b=sIkcc6LWnsmE3rCdmxaCtD7S9vaMPbBR6quQKUeTPt4z6B2DVIJzod+9exyE69y+MQoVyK+T5urjT9i5UpawnYuzSZu/9c0gzDlXLYSrpCT5KdXpBj19IBkxs4fF7Lg6JxQnOs/cE2jmqZ4QhFbRFkna1MvSk8DA8YP0BKcviIY=
+	t=1747296678; cv=none; b=P9npBtYtUHjrM1t7Rcb2d7bc0FYi1Em/RH7daGf1kT5lIFgfShpLqdJh2nXCwyZ1PYECJ0aYBhtJtYH6o3d2ZigDESGOM1GQSZaeSC61FA9TmzQP/i6sJ8zCe33+H36aK3EdrysYUCoGxfT19YIxuqxSfNxPfFcEWMEzVSLV+p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747296583; c=relaxed/simple;
-	bh=ZCOA+MikIJ6hz4BMNdhkme/PbBjRb6+ytIsn9YmKuBU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TWFlZ+HKYizgsFPHIJ/Z0mwNeaIuUVEWI+Zjh1yuZL+xbRJhPD45fXsCxpV9Swq7MG0SuusVB6Y9qEWnzk/bJcBrSc+DgdlrXKiLg1rK+Db75PzAS6sfaWNS5AtdUiJExS48w/Q6ye1mTBa9n7rBiTjg5xJKdrjbEXkCNNlBx/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dv4mu78Y; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1747296678; c=relaxed/simple;
+	bh=WRYDfrSI7TdBiPaRhCWExaqTVB8yw8k53PGKzwU/D5c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qDl1UG9ILA+kzQWwCfOvBWMsFHwqrh5ywU2Upl2cZ4Emr9Kff4YmdhBHWDuSmI/AbVBnuAaOMXcBRcuG0Hea/nY+Jl4ZCED3VQ6HqNrD/1Wv/bdg3770QrX74WhZVvmGZCY5324RsnEJn+k1/ksM+5AC18wrpfjkChAiSWLoehY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ePoswzkM; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-74251cb4a05so952322b3a.3;
-        Thu, 15 May 2025 01:09:42 -0700 (PDT)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-30820167b47so587440a91.0;
+        Thu, 15 May 2025 01:11:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747296581; x=1747901381; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747296674; x=1747901474; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LIx4uJviRovv8kbekEvdBqRYIVxfNVVeRYilRDDQ9+k=;
-        b=Dv4mu78Y2RATlmG1Gs/WcIxo/MjGWqFVFn8XlSsPdk2q/kxHfw7FOGvjpK7vjfFUGO
-         aMnf2Qlm0/Vo7G9RipOqNAzHv0f7S1pn4HcGxMS/Y4JV77kFb1a0qhoj/ivuByxnwj3F
-         /3uE5VIv8jJ85jxbNc/q/UjTF2J0G3fu3JZheOJzI/YsFB7kr0mS38qcjX4I988qPhRj
-         BqfdSROQd9NSC5XGmBmitDyoPJXuyvx+8tgEg7az8OTvz2T4CdrhhDkAAaCHlIlN0qJz
-         g/k9XUHo+tIS+Z59m4nPv/qqDcDLH9ZHG/RB/FHG3sDSMYsaKOZWS49fiNfxeQR3BRUd
-         vTBg==
+        bh=Ps7R2QIEs+5mu2GJCxRUbylEZlVUfxi0rWq/U2VgmWs=;
+        b=ePoswzkM8UMZ+HEOdJe/iiuoIkocXkvsU5NzgZfRaX6K6hUPisOaf2B9hMzVNTlyLw
+         r/+Afvmir4lc6P71WtyepxWrtkuXL13ekkPUxVdsdWu2aHFQXTDqRxB7WQxI8CJV5ok5
+         zDWXlreMIjfv4WGoljF0fkciK7UDT7kAEha5tQLnIaGIgaRwh+EfwhB5CNfD4JIuZ+Bw
+         lCl/UglRYPgD1/Gg31ZYOc0buAvtFunsKCf9iHx34+aM+WQryL/trlzmYWZPlgV2jDB/
+         ijCnetwhuqedrIwMpoROCih97OQdObt92/CaFUyKEUViT8x7GjfCz+rHNTltLSc0EyJc
+         qGqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747296581; x=1747901381;
+        d=1e100.net; s=20230601; t=1747296674; x=1747901474;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LIx4uJviRovv8kbekEvdBqRYIVxfNVVeRYilRDDQ9+k=;
-        b=V/M/3dvgfM+52n0+1cjgSCjWi/o753xl/WgBvb9d2bHuMW9BqTO6KZ+4lc3QU/n/GV
-         LHUgt5oJ4+ceouFgD+NIbNIwZibI2ZEtsVfH8Fg8Hv5yZNZlIT8BFl32qTySx7a3YYUl
-         mR6e+wa/4eRLUHPK7YsFR0jMyN+UbRZmFH0+iCzz+76gtouS5DdiBLYJWkaba60ksnZ9
-         2V6SxaXamAStiDWChmf/USyRlL4qy6iHA0RXkrAO1Zr/WS5cbUniRF9QMNsuHEVjyptp
-         kDOj1lsCYdmaV55J5Vlxs5AE6Ljl1zTQk5YjNcI7weG4Jwe8eQnQE/DOxNp5LmQLp9Fi
-         8l5g==
-X-Forwarded-Encrypted: i=1; AJvYcCXtXB/4Q6ashEEo5XwGP4lao4FqsGhlVu0jOT9Fdd8NA4absUq9MnLmzEeLIbGhb1xTuoQLBDOdwp8J0S4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCYcYFZHi+LKPGhpCcgXnhtCmu+tFU38wEp5xxDfJeRyin5B1q
-	UHJlbRZ129zgfXQ33md2bbWiUIr9TbMpIHerDke/tEGc2FJJRxRX
-X-Gm-Gg: ASbGnctaffD07OoNgpW/iqvhTBa4yEVXtHzpoNDe/zDXLMPH5WeY8kmtrIFAlfDO+h2
-	YDheCnm1IgziMu/CKL7+RLdVK3znUWYcI81H0j0t/XdBZQpjQNNdR79B8fBtIQhoZQT+mT6xQJ+
-	ejNp+Svh3JqOGg0PIhASTP6BdO69lz46I7BU+A6X5C/Ko+xMNYxxw6rH7E4+qjLoP9JE6v3L44J
-	O3HE560c8TzpqHsrC+Z7FkQ8tTFMWYnpTeEw/lZMoEfOMd9Vid8C+2AP47+egtTfFTEpFoTzNgU
-	0xuySNEhhgYTl9md2703nzhcUDNimeQDs95F22FWqNj+Vnb9TcjtaTTsLn0Ni9zBzMejB5tw8Tv
-	zPw0dJg==
-X-Google-Smtp-Source: AGHT+IG0/gYSxvm0WZhJh6VbHw9a4hSHTkDTo4s7bkEXS27qoiLuXCba2cYdN5XuvlWgPYq3Rudnww==
-X-Received: by 2002:a05:6a00:180e:b0:736:6d4d:ffa6 with SMTP id d2e1a72fcca58-74289345b9emr8118939b3a.15.1747296581500;
-        Thu, 15 May 2025 01:09:41 -0700 (PDT)
+        bh=Ps7R2QIEs+5mu2GJCxRUbylEZlVUfxi0rWq/U2VgmWs=;
+        b=ZxgoBacMlYt8jTKHMR7Bdr7r5IxFzG9eUvlkUfiGaer/VCG15w/veVAg7/6v/Zz9My
+         BGVON2sDujp7dJ0hHvXF35ab0fzzmAg2QZ4XNCDIGsIdotLAQXUOMggkQ89iZ8xaFtnO
+         zvPIrryF7UK184hRflbNxCQrvD7ZWEyJ2Aa3iUEKANZ4psWvNlSpNUmdSRoCQnz1Tr4/
+         nogEnQi+WZTroTdZnb7CSxbcPpdxwTeZq+nWGmDkn7Zvu2tKLmsc2GA+l3JvNZwUUztn
+         QiFmNP7vnJ40Nitbzy+vrcmJCDms7Plb5jJ6qbe0JdP6ThaJDRcLCWwgVQuFvk8xE70P
+         Ijww==
+X-Forwarded-Encrypted: i=1; AJvYcCXDIkYiS9R2VZCaWaf9U6gsCZP18nAgJq6XQ1qYmhzPrnnQzKo6B0YDq0smOKPlqPSPZujqu0FxP4ZQm7Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy32yoCoEtZNBcBSjV48aVtg1DkFSjgiI8b4gdz5JwccsXmwUF1
+	lsk3Mu07mDO62hk4C2A3SOVajrUueeKKjg5OmWNRKOuxyxDkKf6o
+X-Gm-Gg: ASbGncvCF2E43kTAzk++/7EOnVGauRvRC2Ckz7veHr+1zWzufshEVfP8Gy6RZPOvdh5
+	+jApGIA+PBXW9kXXDe49e7vJ5Xu6FUevWQsOaqjtl5Nd7BaWPggRsgDTv4lsNZw1xr5tZwYTnZo
+	i/7zF0WuebInRs34mAhG91BAtgiY915X2pYEgKSU9Wb0KdYfsCzop/3lgGoiELcnTBkSXL1d9VZ
+	rPrCsJBtAWtJxflvxBe3ypgA9EViACE9hP2/bmDhahngsx/nnQ0BBplnzqfNXg0bGQ2/J47n4ym
+	26ZnrkkAQ3nebnk2Xvm7KvDkIpPxqOuKUmdu64kqoX7aJExokhjN6TO1u2qQ57ydf21wqY+575x
+	hD7PDKA==
+X-Google-Smtp-Source: AGHT+IEEEOsVYjAaUxGr57mzC4JLrwMTaMkvvLNeUEozpxb2Rn12pe25UpFGlB6wdWp06eESvaAYSA==
+X-Received: by 2002:a17:90a:d645:b0:2ee:c30f:33c9 with SMTP id 98e67ed59e1d1-30e4db6d9f1mr3789265a91.14.1747296674292;
+        Thu, 15 May 2025 01:11:14 -0700 (PDT)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a0cec0sm10881148b3a.95.2025.05.15.01.09.39
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30e334e2939sm2885759a91.33.2025.05.15.01.11.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 May 2025 01:09:41 -0700 (PDT)
+        Thu, 15 May 2025 01:11:13 -0700 (PDT)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: awalls@md.metrocast.net,
-	mchehab@kernel.org
+To: mchehab@kernel.org
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	jserv@ccns.ncku.edu.tw,
 	Kuan-Wei Chiu <visitorckw@gmail.com>,
 	Yu-Chun Lin <eleanor15x@gmail.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH v5] media: pci: cx18-av-vbi: Replace open-coded parity calculation with parity8()
-Date: Thu, 15 May 2025 16:09:33 +0800
-Message-Id: <20250515080933.774874-1-visitorckw@gmail.com>
+Subject: [PATCH v5] media: saa7115: Replace open-coded parity calculation with parity8()
+Date: Thu, 15 May 2025 16:11:09 +0800
+Message-Id: <20250515081109.775227-1-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -105,26 +104,26 @@ Changes in v5:
 - Switched to using existing parity8()
 - Split parity8() conversion patch out of the series
 
- drivers/media/pci/cx18/cx18-av-vbi.c | 12 ++----------
+ drivers/media/i2c/saa7115.c | 12 ++----------
  1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/pci/cx18/cx18-av-vbi.c b/drivers/media/pci/cx18/cx18-av-vbi.c
-index 65281d40c681..1a113aad9cd4 100644
---- a/drivers/media/pci/cx18/cx18-av-vbi.c
-+++ b/drivers/media/pci/cx18/cx18-av-vbi.c
-@@ -8,6 +8,7 @@
-  */
+diff --git a/drivers/media/i2c/saa7115.c b/drivers/media/i2c/saa7115.c
+index a1c71187e773..b8b8f206ec3a 100644
+--- a/drivers/media/i2c/saa7115.c
++++ b/drivers/media/i2c/saa7115.c
+@@ -25,6 +25,7 @@
  
+ #include "saa711x_regs.h"
  
 +#include <linux/bitops.h>
- #include "cx18-driver.h"
- 
- /*
-@@ -56,15 +57,6 @@ struct vbi_anc_data {
- 	/* u8 fill[]; Variable number of fill bytes */
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+@@ -664,15 +665,6 @@ static const unsigned char saa7115_init_misc[] = {
+ 	0x00, 0x00
  };
  
--static int odd_parity(u8 c)
+-static int saa711x_odd_parity(u8 c)
 -{
 -	c ^= (c >> 4);
 -	c ^= (c >> 2);
@@ -133,18 +132,18 @@ index 65281d40c681..1a113aad9cd4 100644
 -	return c & 1;
 -}
 -
- static int decode_vps(u8 *dst, u8 *p)
+ static int saa711x_decode_vps(u8 *dst, u8 *p)
  {
  	static const u8 biphase_tbl[] = {
-@@ -278,7 +270,7 @@ int cx18_av_decode_vbi_line(struct v4l2_subdev *sd,
+@@ -1227,7 +1219,7 @@ static int saa711x_decode_vbi_line(struct v4l2_subdev *sd, struct v4l2_decode_vb
+ 		vbi->type = V4L2_SLICED_TELETEXT_B;
  		break;
- 	case 6:
- 		sdid = V4L2_SLICED_CAPTION_525;
--		err = !odd_parity(p[0]) || !odd_parity(p[1]);
-+		err = !parity8(p[0]) || !parity8(p[1]);
+ 	case 4:
+-		if (!saa711x_odd_parity(p[0]) || !saa711x_odd_parity(p[1]))
++		if (!parity8(p[0]) || !parity8(p[1]))
+ 			return 0;
+ 		vbi->type = V4L2_SLICED_CAPTION_525;
  		break;
- 	case 9:
- 		sdid = V4L2_SLICED_VPS;
 -- 
 2.34.1
 
