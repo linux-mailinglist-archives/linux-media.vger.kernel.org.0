@@ -1,332 +1,210 @@
-Return-Path: <linux-media+bounces-32578-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32579-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7517AAB8365
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 11:57:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C48D2AB83CD
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 12:28:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D3847A5364
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 09:55:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6DF29E3D2A
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 10:28:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C909C297A75;
-	Thu, 15 May 2025 09:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2CC52980A0;
+	Thu, 15 May 2025 10:28:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gSXO3jlU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Gi3ADBPP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F20529615A;
-	Thu, 15 May 2025 09:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE1D297B7E
+	for <linux-media@vger.kernel.org>; Thu, 15 May 2025 10:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747303017; cv=none; b=r9Kgj51OUvki6odJNwPFLWJm6vv1lszOT3SBVlPbP0bxJnUDAiJIlKTjEotu44MIDX+9U5iWYnvMiGKIgHcCLtvKuG7xb4KVvxgSJRHfDyPnj/1qSZrDfMSmQuFyftM7+D9vzgzhr3FRd8BJRwcn7kTTgHT3RpaGx2VDW31y70M=
+	t=1747304895; cv=none; b=m77wlzLf7IClhbm1d/BMxI6rMTjnmsREMhZFK+v9/U/NIOJa8RA+2LsGCldxjpEU1jopA9ZlBQ8W7jFM5kBHxMg1BcUZ6JJBkpjIfKrloB8HxUYdKHucr6ktscxE5LMFP++onfEONEHmEzRG1mrH9Lwd9m5Bq1+VE4hCYfoeQto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747303017; c=relaxed/simple;
-	bh=3bVabG5wuWAuoJv+aIqIxKDBMpqwpxiNsKjVfJd0U+Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JHv85FGd07IvnzlxFJec5oBZGVgjb2VCssaTS7AtVjGDgDAMYO47UdnJ62zid9lVBSgrQgChWxD3EF6kJdg+A8p3V3sBaqMZ+8nLgWc+o2pyEExqTgMf109EyAUKtgMqf9d5rcm7TmzwkhR/UlMu4b+U7bKXiIFtWsHHaFlp1h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gSXO3jlU; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54F975YA002615;
-	Thu, 15 May 2025 09:56:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	WOOov3RS6Ydo3ngYOkahPy2c/nhvIBfF4PmFxRVZE/w=; b=gSXO3jlU0KV+m/Ru
-	/Xlqg8zIKmENXelSfCkxoMvyVYVeVci5c/wuPB0a/8cQ0AqC/udup6ttQiaIXX9K
-	zpTgTVfDwZMLFezVs028SOW/uklT45L8BGTjKg2uXHYKaZ6dtEFGO2vjVcd/SJGZ
-	14FaYEFq0iZywPL9opYdZ2Mq+2tN+xYfLE9wQk5pSY2DIWNJkcbpuy0nuwRsZ9Pc
-	2XbZL9gKGIWzF/6/65RFUnPgYa98uUBEiCRnnyvIubXFtvaG2iw++T0qTR0DlTmx
-	dHhXBTIYol4uKQyIgr5QjmR+FyvvZabaK1PLXmfiL1lFe26WNxxygYkco3FKFnuk
-	nqce+A==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbex5qsp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 15 May 2025 09:56:49 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54F9uimM009401
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 15 May 2025 09:56:44 GMT
-Received: from [10.50.16.181] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 15 May
- 2025 02:56:41 -0700
-Message-ID: <0c50c24a-35fa-acfb-a807-b4ed5394506b@quicinc.com>
-Date: Thu, 15 May 2025 15:26:38 +0530
+	s=arc-20240116; t=1747304895; c=relaxed/simple;
+	bh=EIFevpq8dX2LCKDK/xf+KDxBAnXQGcmwAOSKqeA/Jd4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vFem1W/f2chHIkQEihmvLCOLK1XsgjEdycx9ujnwldZqcWyf3JjdGBIbJVgdReN9wDT0HKS6ffIyAMGIR/HZSdJdgccvczYeusqHdR3TWy9p0X3r4RAxUdiccF6TGARUbIYpIgkBa3XCXNGnaypFYJOleOCo4JcctCz53x5tq8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Gi3ADBPP; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so14483985e9.1
+        for <linux-media@vger.kernel.org>; Thu, 15 May 2025 03:28:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747304891; x=1747909691; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MQTqLhwSh6OrSw6IMwMRJicwoshkXtNcbJJGGNRVuwk=;
+        b=Gi3ADBPPF+lArrWWDlTe4YuzySYER6B9M4ShoG782OfWOUjlxVDqI/Rk1algbMzmAQ
+         +5te/NvdXz6FA64AWQ4sAQ/nHPb3DDjtm8TlUJcVYQ0qe9UeMAEOswyQg/azufMkJcUE
+         sivmOmDBNbwZ7Lo6PP9MRQ2rdDcEcOyOtc4pW3CJihO1zOGUklvmH8DNfMHKaGKHKWoB
+         +ZqkkHFDf4wPvP1QH2yQyJ420jSCFM80TydhaxzCq6kTRKZ/QjrLNXFwZQHcQJqLNmJh
+         GxcGHSFnSZlREJ5J5k3wcImNqNv1fs9jpp3IPfykf13PetMyY0kz+LyvHADlPrgbEMMO
+         2Y+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747304891; x=1747909691;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MQTqLhwSh6OrSw6IMwMRJicwoshkXtNcbJJGGNRVuwk=;
+        b=EtvcUf16HAx4pF0NJv29feEgCtDMWTVnPgtZEIjO446N+r3R6ktRonedqNQJ4HhzxK
+         mE4D2ZuRHtM8I31EBYIKZWg5BwRK5r7zUs59mqcdoieMZXUgP3Q4z9kjBI237lKIaom7
+         u1sHx0vDLYMu0+oswlnM2lS70CILJymg7shuzQw4MWgcYkZgfZnfxZiXhJpaEv3y4awT
+         MgimhAKAXTli3NuWOHDHMLRk0nflmEIscfOh703lz69pPNWdzsoW/ODOStvm8oMvC+kV
+         ku31E370YggXZa+3hOLLnqxkhbWWzVD6lGe+Bs7pESFTxaFC8Qa+n2P652hEGowehDpV
+         JTLw==
+X-Gm-Message-State: AOJu0YxeXgVgyChu9eFJDbEj8OXPJ9Vcd3MBfAkFHMVYCSVI8l5Q7w4C
+	q5Xc5+Rzj1cOFsqCNEdgmSV5+basBKIYAGVTcHnITAyCjd0zRhZIwCAtlLG1Nss=
+X-Gm-Gg: ASbGncu6qPhum8hOP7x86+75wtmrMYXAUiToMesdlxHuNCOY/Xmu3mncWJeC/y8PGqD
+	C2457lFag7MFaBGsrBI9Oy4WIlM+doqG51VDRdLslS+xsAP/jLA2Y/4E50O21zDSOkiL0MjKn8j
+	3tXWC8o7VGDswpnpDE0eNvlxD7r8fn3LLakdla/ObIXfBKvWpdvpsUhYuETr//CLVyYAbbE/gPR
+	Tw/Ygzca28qvSflqpAeZiXmEpmEGdgWwquK6DHlJywOBGJ8W9qbR+65xUG65THMzSc5V9uPukh/
+	TxXgCDtxdDyOfr0jUfjy2RCBQjKHVb7GWpGwWjBZVU+RfWV2K5dWs/A6P6tX0XZMwl+Uf4DQGUy
+	DvjXl+m2gx6vf
+X-Google-Smtp-Source: AGHT+IEh7cg2n36jj5VIXhPzC8UEK/fTT2ZipIObmkwaXnivvrusqpAVwTZKtw4gHs6NHaDDzCATbA==
+X-Received: by 2002:a05:600c:6814:b0:439:4b23:9e8e with SMTP id 5b1f17b1804b1-442f84c7cafmr28791025e9.3.1747304891594;
+        Thu, 15 May 2025 03:28:11 -0700 (PDT)
+Received: from [10.61.1.70] (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f396c052sm64742195e9.29.2025.05.15.03.28.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 May 2025 03:28:11 -0700 (PDT)
+Message-ID: <b0c48989-4ce7-4338-b4bb-565ea8b6cd82@linaro.org>
+Date: Thu, 15 May 2025 11:28:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/2] media: venus: fix TOCTOU vulnerability when
  reading packets from shared memory
-Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Hans Verkuil
-	<hans.verkuil@cisco.com>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Vedang Nagar <quic_vnagar@quicinc.com>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Hans Verkuil <hans.verkuil@cisco.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vedang Nagar <quic_vnagar@quicinc.com>
 References: <20250514-venus-fixes-v3-0-32298566011f@quicinc.com>
  <20250514-venus-fixes-v3-1-32298566011f@quicinc.com>
  <ad92cf06-636a-417a-b03b-0d90c9243446@linaro.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <ad92cf06-636a-417a-b03b-0d90c9243446@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE1MDA5NyBTYWx0ZWRfXxMHtXyIg6Na9
- pUQneZDdJQpGMK8W0j5pRsFH+pnxGpAQwHeYkE5uw1FSCS9+CpzFPgvbUi9ilSRZzZf3xWHgvv5
- ehXTwCOc/QCU5DAFKDquyW7QTMUADjJF4bCwg4dbvwMxNf2LaFPHXr9yQPlvR3bRGNtcBEHED7+
- GRHG50APIuGLuHtk6eUNKZ1Ycq9Iv1ZghCXTB6Z6hHY5lBqJKGe8D2AlsA+GAXG6nOm3F4ajfbS
- 5GVMT11AzXPWOE9PDuVE1CQBNr7aHHAd/dQeBN5g3Wlaif/L+e3DjGDS1n558axMXc6JNfHeNoZ
- eWUF6sBEflyzgWQJiT+kQ+LfZQWqGbYRp3EpJxWw9dLD+oics2iUNjN/JcJLPTXj3PxZkIhigwJ
- ylY1wNqX3CWUINKGcAiapE9MqduM1ACTbUdwt0mVFy8m1pY1dGjdMJNK4mCAVY0kmvi/cORc
-X-Proofpoint-ORIG-GUID: M6MTVWHT6bfHjPQWLyua17DViAxKSf3J
-X-Proofpoint-GUID: M6MTVWHT6bfHjPQWLyua17DViAxKSf3J
-X-Authority-Analysis: v=2.4 cv=IcuHWXqa c=1 sm=1 tr=0 ts=6825ba61 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=Yz-U3Qp7xdBScDdbXjEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-15_04,2025-05-14_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0 adultscore=0 mlxlogscore=999 bulkscore=0
- clxscore=1011 spamscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 suspectscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505070000 definitions=main-2505150097
+ <0c50c24a-35fa-acfb-a807-b4ed5394506b@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <0c50c24a-35fa-acfb-a807-b4ed5394506b@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 15/05/2025 10:56, Vikash Garodia wrote:
+> memcpy(hfi_dev->pkt_buf, rd_ptr from shared queue, dwords..)
+> 
+> pkt_hdr = (struct hfi_pkt_hdr *) (hfi_dev->pkt_buf);
+> 
+> if ((pkt_hdr->size >> 2) != dwords)
+>      return -EINVAL;
+
+Yeah it would be better wrt the commit log.
+
+But does it really give additional data-confidence - I don't believe it 
+does.
+
+=> The firmware can update the pkt header after our 
+subsequent-to-memcpy() check.
+
+Again this is a data-lifetime expectation question.
+
+You validate the received data against a maximum size reading to a 
+buffer you know the size of - and do it once.
+
+The firmware might corrupt that data in-between but that is not 
+catastrophic for the APSS which has a buffer of a known size containing 
+potential bad data.
+
+Fine - and additional check after the mempcy() only imparts 
+verisimilitude - only validates our data at the time of the check.
+
+my-linear-uninterrupted-context:
+
+memcpy();
+
+if(*rd_ptr >> 2 > len) <- doesn't branch
+     return -EBAD
+
+if(*rd_ptr >> 2 > len) <- does branch firmware went nuts
+     return -EBAD
+
+Superficially you might say this addresses the problem
+
+if (*rd_ptr > MAX)
+     return -EBAD;
+
+memcpy();
+
+if (*rd_ptr > MAX)
+     return -EBAD;
+
+But what if the "malicious" firmware only updated the data in the 
+packet, not the length - or another field we are not checking ?
+
+As I say if this can happen
 
 
+if (*rd_ptr > MAX)
+     return -EBAD;
 
-On 5/15/2025 2:47 PM, Bryan O'Donoghue wrote:
-> On 14/05/2025 14:38, Dikshita Agarwal wrote:
->> From: Vedang Nagar <quic_vnagar@quicinc.com>
->>
->> Currently, Time-Of-Check to Time-Of-Use (TOCTOU) issue happens when
->> handling packets from firmware via shared memory.
->>
->> The problematic code pattern:
->>
->> u32 dwords = *rd_ptr >> 2;
->> if (!dwords || (dwords << 2) >  IFACEQ_VAR_HUGE_PKT_SIZE))
->>     return -EINVAL;
->>
->> memcpy(pkt, rd_ptr, dwords << 2);
->>
->> Here, *rd_ptr is used to determine the size of the packet and is
->> validated. However, since rd_ptr points to firmware-controlled memory,
->> the firmware could change the contents (e.g., embedded header fields
->> like pkt->hdr.size) after the size was validated but before or during
->> the memcpy() call.
->>
->> This opens up a race window where a malicious or buggy firmware could
->> inject inconsistent or malicious data, potentially leading to
->> information leaks, driver crashes, or undefined behavior.
->>
->> Fix this by rechecking the packet size field from shared memory
->> immediately before the memcpy() to ensure it has not beenn altered.
->>
->> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
->> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
->> Co-developed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->> ---
->>   drivers/media/platform/qcom/venus/hfi_venus.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c
->> b/drivers/media/platform/qcom/venus/hfi_venus.c
->> index
->> b5f2ea8799507f9b83f1529e70061ea89a9cc5c8..163c8d16530bc44a84b2b21076e6189d476fe360 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
->> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
->> @@ -295,6 +295,9 @@ static int venus_read_queue(struct venus_hfi_device *hdev,
->>       new_rd_idx = rd_idx + dwords;
->>       if (((dwords << 2) <= IFACEQ_VAR_HUGE_PKT_SIZE) && rd_idx <= qsize) {
->>           if (new_rd_idx < qsize) {
->> +            if ((*rd_ptr >> 2) != dwords)
->> +                return -EINVAL;
->> +
->>               memcpy(pkt, rd_ptr, dwords << 2);
->>           } else {
->>               size_t len;
->>
-> 
-> Here's how this code fragment looks after the change, I'll add two "}" for
-> readability and annotate
-> 
-> dwords = *rd_ptr >> 2; // read the value here
-> if (!dwords)
->        return -EINVAL;
-> 
-> new_rd_idx = rd_idx + dwords;
-> 
-> // validate the size against a maximum value
-> // this step is correct
-> if (((dwords << 2) <= IFACEQ_VAR_HUGE_PKT_SIZE) && rd_idx <= qsize) {
->         if (new_rd_idx < qsize) {
->                 // Re-read the value because firmware
->                 // might have changed the value
->                 if ((*rd_ptr >> 2) != dwords)
->                         return -EINVAL;
-> 
->                 // now trust dwords
->                 memcpy(pkt, rd_ptr, dwords << 2);
->         }
-> }
-> 
-> But this is all wrong.
-> 
-> There is no atomicity on the APSS side between the first verification of dwords
-> size and the mempcpy() the commit log itself shows that the firmware is
-> free-running with respect to the instruction pipeline of the APSS, it is an AMP
-> problem.
-> 
-> Adding another check of the dwords side right before the memcpy() doesn't
-> address the problem which the commit log describes as the firmware updating the
-> length field of a header in shared memory.
-> 
-> There are perhaps 10 assembly instructions between the first check and the
-> procedure prologue of the memcpy();
-> 
-> Adding another length check right before the memcpy() simply reduces the number
-> of CPU instructions - the effective window that the firmware can update that
-> header still.
-> 
-> if ((*rd_ptr >> 2) != dwords) // conditional branch operation
-> 
-> memcpy(pkt, rd_ptr, dwords << 2);
-> 
-> Begins with a procedure prologue - setting up the call stack - and then is a
-> series of fetch/stores to copy data from here to there
-> 
-> The memcpy() itself by its nature it not atomic on the front-side-bus of the
-> APSS to shared DRAM with the firmware.
-> 
-> On a CPU and SoC architecture level this fix just doesn't work.
-> 
-> To be honest we are already doing the right thing in this routine.
-> 
-> 1. Reading the value from the packet header.
-> 2. Validating the given size against the maximum size
-> 3. Rejecting the memcpy() if the given size _at_the_time_we_read_ is too
->    large.
-> 
-> The alternative to guarantee would be something like
-> 
-> asm("bus master asserts bus lock to PAGE/PAGES involved");
-> dwords = *rd_ptr;
-> if (dwords > MAX_VALUE)
->     return -EFIRMWARE_BUG;
-> memcpy(dst, src, dwords >> 2);
-> 
-> asm("bus master unlocks memory");
-> 
-> Lets say we make the change proposed in this patch, here is how it breaks:
-> 
-> if ((*rd_ptr >> 2) != dwords)
->     return -EINVAL;
-> 
-> // now trust dwords
-> memcpy(pkt, rd_ptr, dwords << 2);
-> 
-> 
-> objdump
-> qlt-kernel/build/x1e80100-crd_qlt_integration/drivers/media/platform/qcom/venus/venus-core.o --disassemble=venus_read_queue.isra.0
-> 
-> 5c48:    540000c9     b.ls    5c60 <venus_read_queue.isra.0+0x110>  // b.plast
-> 5c4c:    2a0303e2     mov    w2, w3
-> 5c50:    aa0703e0     mov    x0, x7
-> 5c54:    94000000     bl    0 <memcpy>
-> 5c58:    52800000     mov    w0, #0x0
-> 
-> Your conditional jump is @ 0x5c48 your call to memcpy @ 0x5c54
-> 
-> Between 0x5c48 and 0x5c54 the firmware can update the value _again_
-> Indeed the firmware can update the value up until the time we complete reading
-> the bit of the pkt header in memcpy() so an additional few instructions for sure.
-> 
-> You could make some type of argument to re-verify the content of the pkt _after_
-> the memcpy()
-> 
-> But the only verification that makes any sense _before_ the memcpy() is to
-> verify the length at the point you _read_ - subsequent to the latching operation
-> - were we fetch the length value from DRAM into our CPU cache, operating stack
-> and/or local registers.
-> 
-> Once that data is fetched within the cache/stack/registers of the CPU/APSS that
-> is the relevant value.
-> 
-> For the fix you have here to work you need this
-> 
-> 5c48:   MAGICOP         memorybuslock
-> 5c48:    540000c9     b.ls    5c60 <venus_read_queue.isra.0+0x110>  // b.plast
-> 5c4c:    2a0303e2     mov    w2, w3
-> 5c50:    aa0703e0     mov    x0, x7
-> 5c54:    94000000     bl    0 <memcpy>
-> 5c58:    52800000     mov    w0, #0x0
-> 5c5c:   MAGICUNOP       memorybusunlock
-> 
-> Because the firmware is free-running - with respect to the instruction pipeline
-> of the above assembly.
-> 
-> If you really want to verify the data is still valid - it should be done _after_
-> the memcpy();
-> 
-> But even then I'd say to you, why verify _after_ the memcpy() - and what happens
-> on the instruction directly _after_ the verification - is the data considered
-> more valid now ?
-the patch _only_ reduces the window where data in shared queue can go wrong.
-Doing it after memcpy() would be better here given the data would not be read
-further from shared queue, which would avoid the case of data getting updated later.
+memcpy();
 
-memcpy(hfi_dev->pkt_buf, rd_ptr from shared queue, dwords..)
+if (*rd_ptr > MAX)  // good
+     return -EBAD;
 
-pkt_hdr = (struct hfi_pkt_hdr *) (hfi_dev->pkt_buf);
 
-if ((pkt_hdr->size >> 2) != dwords)
-    return -EINVAL;
+if (*rd_ptr > MAX) //bad
+     return -EBAD;
 
-Regards,
-Vikash
-> 
-> i.e. this:
-> 
-> memcpy(pkt, rd_ptr, dwords << 2);
-> 
-> if ((*rd_ptr >> 2) != dwords)
->     return -EINVAL;
-> 
-> doesn't have the above described architectural race condition but it doesn't
-> make the data any more trustworthy - because it doesn't have atomicity
-> 
-> memcpy(pkt, rd_ptr, dwords << 2);
-> 
-> if ((*rd_ptr >> 2) != dwords)
->     return -EINVAL;
-> 
-> dev_info(dev, "The value of *rd_ptr %lu!=%lu can be different now\n",
->          *rd_ptr >> 2, dwords);
-> 
-> Sorry this patch just can't work. It's a very hard NAK from me.
-> 
-> ---
-> bod
+then this can happen
+
+if (*rd_ptr > MAX)
+     return -EBAD;
+
+memcpy();
+
+if (*rd_ptr > MAX) // good
+     return -EBAD;
+
+
+if (*rd_ptr > MAX) //good
+     return -EBAD;
+
+if (*rd_ptr > MAX) //bad
+     return -EBAD;
+
+We need to have a crisp and clear definition of the data-lifetime. Since 
+we don't have a checksum element in the header the only check that makes 
+sense is to validate the buffer size
+
+data_len = *ptr_val >> 2;
+if (data_len > max)
+     return BAD;
+
+Using the data_len in memcpy if the *ptr_val can change is _NOT_ TOCTOU
+
+This is TOCTOU
+
+if (*ptr_val > max)
+     return EBAD;
+
+memcpy(dst, src, *ptr_val);
+
+Because I validated the content of the pointer and then I relied on the 
+data that pointer pointed to, which might have changed.
+
+TBH I think the entire premise of this patch is bogus.
+
+---
+bod
 
