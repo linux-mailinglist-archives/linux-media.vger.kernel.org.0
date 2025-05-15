@@ -1,125 +1,135 @@
-Return-Path: <linux-media+bounces-32601-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32602-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDE6AB8A08
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 16:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F96AB8A53
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 17:10:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 34E23176AFF
-	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 14:54:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94865501445
+	for <lists+linux-media@lfdr.de>; Thu, 15 May 2025 15:07:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EEEE20E306;
-	Thu, 15 May 2025 14:54:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF0B521884A;
+	Thu, 15 May 2025 15:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ExprBEY4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="COsK1glW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BE653363;
-	Thu, 15 May 2025 14:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519D220B80D;
+	Thu, 15 May 2025 15:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747320862; cv=none; b=fC4d/9x7dzhpxEUorTRB12iQVTV5v1fmuojjmVgsP1r4+rjJ47GczhvtNQ2JMXq+koAHKUQMxQa4fkXwrt/z6hIkQzdUI+O0GwFGskbflKG/iabOmdNSlLinVCNeNDIH4H9uZs7RtE2SaVHYuj394+IBRqPAO+WBuP6Tr7Xcg4c=
+	t=1747321608; cv=none; b=dcIYZArl9QLh4mmAEYRUBP49WvIWvmK9mC3004CTlVmKzCAQ18CIN3/tMOaEjqCOtYINZ77c6A7np3S8XEa1Oc9zDDI9X2CtzGCF3jGoFv0ERng+HqT7hQEXCwW6VLNdZdMyadEv1dUtVD38skHAFhyxW1c7FpxnPGmYvNkiC/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747320862; c=relaxed/simple;
-	bh=dt+vTGfHYFKWmSNzmatAnrVxES49h0xgerKxeszNoEE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TWn4HDu5VTshy+eUvL225n061mrzw1wyobwmmsyQYLav5ALLzEajJGHyHGUIz/nKoUo/nZUgU4vLzaCU+A6NR2LDvuXDVuEnFu9MOy9L7qTOxCKslTc+3kIsYHyteKi/1Xwd5k/1A1u5ziyA3c46kGy3uktVOtqvYSHuSlPMNz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ExprBEY4; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5fbdf6973e7so1332951a12.2;
-        Thu, 15 May 2025 07:54:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747320859; x=1747925659; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AnZP8zYyxLfJR8Q5g++toUplHuGONRuvc6eCNUa3kD8=;
-        b=ExprBEY4G40GxJaLmHsNGbuerPxNKG4rrrN3ESl34xGATvj5izurs47/Csif8CTdLc
-         TU52O56UmqjfYxEjdfrXpDl9aWJpOjZW8nzw19HZjHbjXh/mg4UuVoZ30coRG1L8rmFS
-         MLVBIyVjsJOkg4ORt54k3re7uElf1ysSA10MlXF0fLaJ+pO7SoFgQHevbUKrfkBFgv5I
-         0DSZcSjModa7CMTJrkigRtEzLKjD3SbC+u2HGlkbiHFfZcSecP68xy8UlZZkhemHIgU2
-         OSFt6yQ06+UAqUHvyXJ4eRy4/Syd2b671t63aHt+4Dz9tmsboyLgeIcsqE8VyebhSQe/
-         pmVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747320859; x=1747925659;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AnZP8zYyxLfJR8Q5g++toUplHuGONRuvc6eCNUa3kD8=;
-        b=Q8G9+iQC0ioUYqWOZOsxndgnJbx30PJCVYSCxwZ+NyLWh9pbRbhS9W/gKitq09EAJ+
-         x4nskKZGWRdO3qfsRozqkHGXATUHPANw7Zsu4CO+SlUM98c8ucJY+S4CwqABEOTDxpQs
-         h2vybFiwhpTDnmBRtKJL9q3R4toShCpKzLcDIUpLioRYudfT5BF6BvmJx44KZCmouwe6
-         gg8EPvbcNiIg08medqoiaiTo0EgzHYjO7Mue7RCjuhKXvnyhqOFgxV3BXxt6dXKAVLV8
-         nJKPzmh2s5tIqIDzy0/0Qh0yA3/jk/Xlv5rYCLsZv7wVjKU+hxv9V1Ez+pGVYC/K5OrA
-         /Cvg==
-X-Forwarded-Encrypted: i=1; AJvYcCWclpwLj9ezA8L5hXa8Zx9u7LVEXZWn1HdJnKt3N6hT7fu+dvBdrs8+eRqU468DaW7CnfTxOmT1wMLXY2s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyi8Vp2UNo5hq1x5Whyf0DuvIHeaTC9+pcB2llM2ow/GHg+WoRN
-	zZnQaZCw4NY7cNXp78jq3CWkeolPPwDxapSo65S3Lc0pQFHUWSvBI69lHB8Y7ZHdeQ==
-X-Gm-Gg: ASbGncuIzjGxdxwXt/B9L5BxwyS8B/EjeczK4c8UKRreDRKgveOsBWvGcQqQpjNB0Tb
-	CLj/gmrTY+5P7VgwHwKCoGmvVo3AwEl7OJT1k35lqk67Ib2zcaNRu9JaiS6kwwprbTWWwftkavE
-	ANq6kaQgcK/bHIMXk4L4MGfK30Rk2W8asbGJKt5ETGUjF0LhJ4mZXkoxHE6qyi8G9aby1jM4OmU
-	KkRxZDq895bYMJr1YDPFr/+oo4MYz0+e0leiPs5L/KWUVhleegJaHPfqnA+TLlIY5bU1gdrISzr
-	nahr3hHSVoxyrjcP0zOSB5n9VIt1HbCvaEoPFN+HGLrPW3W1gDRM0vZSwoqcDw==
-X-Google-Smtp-Source: AGHT+IHyHUvPaBRGkNVp8odY45xlwAbsmexgkeI6ikJkzUPH8XilLTMjzxiK002IG5equ6vL2TEwzQ==
-X-Received: by 2002:a05:6402:1ecc:b0:5fb:1fbd:e3ad with SMTP id 4fb4d7f45d1cf-5ff988a5ecfmr6853430a12.13.1747320858961;
-        Thu, 15 May 2025 07:54:18 -0700 (PDT)
-Received: from avt74j0.fritz.box ([2a02:8109:8617:d700:2d36:8b46:22ae:7bde])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fc9d710549sm10332681a12.76.2025.05.15.07.54.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 May 2025 07:54:18 -0700 (PDT)
-From: Martin Hecht <mhecht73@gmail.com>
-To: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	sakari.ailus@linux.intel.com
-Cc: laurent.pinchart@ideasonboard.com,
-	tomm.merciai@gmail.com,
-	martin.hecht@avnet.eu,
-	michael.roeder@avnet.eu,
-	Martin Hecht <mhecht73@gmail.com>
-Subject: [PATCH v3] MAINTAINERS: Update my email address to gmail.com
-Date: Thu, 15 May 2025 16:51:50 +0200
-Message-ID: <20250515145150.1419247-2-mhecht73@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1747321608; c=relaxed/simple;
+	bh=oEnth8bjUONr3DIKUUQwEbQ+/XvAP1CP6xRsYJyF4aI=;
+	h=Content-Type:MIME-Version:Content-Disposition:In-Reply-To:
+	 References:Subject:From:Cc:To:Date:Message-ID; b=aJPFahczWkWxFPscSgMB6bDsDT/ULT+mGin/tFy3re1VhDNBk4BSvnEBMwEv28/o1X4iU01A1waKbNflqy7SPgNSrEjG4y7SF7MRPrjBy07EDZaacnOZidccytbtq1QwAztPbtyFXI50f6mlB7SUnmDOz9whdzM8VP8edfeXzpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=COsK1glW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:7a1b:96fc:ca34:4316:6e64:be11])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D202886;
+	Thu, 15 May 2025 17:06:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747321587;
+	bh=oEnth8bjUONr3DIKUUQwEbQ+/XvAP1CP6xRsYJyF4aI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=COsK1glWWlt55c4C4BhybNEkGbuISlUEnvHf0PiyVijfHRhYXbS0W1vEO++QsQ+Wq
+	 en5x2MN0KhEtwZNZqG6HcSeHSQVm1SWoQq6WQZKwfU9+fBWz9c7XTW0VOZcXieBWaB
+	 7R2AEJA1Fh4SnpGkxk08Fk3BowLjcvxAl2bh2k7s=
+Content-Type: multipart/signed; micalg="pgp-sha512"; protocol="application/pgp-signature"; boundary="===============7026641472008806453=="
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20250515142945.1348722-1-alexander.stein@ew.tq-group.com>
+References: <20250515142945.1348722-1-alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH 1/1] media: dt-bindings: sony,imx219: Allow props from video-interface-devices
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Alexander Stein <alexander.stein@ew.tq-group.com>, Conor Dooley <conor+dt@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>
+Date: Thu, 15 May 2025 17:06:35 +0200
+Message-ID: <174732159526.2108882.8905658469049267620@selene>
+User-Agent: alot/0.12.dev11+g1dd20f1f
 
-Replace my corporate email address by @gmail.com.
+--===============7026641472008806453==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Hecht <mhecht73@gmail.com>
----
- Changes since v2:
-        Updated body and message format.
+Quoting Alexander Stein (2025-05-15 16:29:42)
+> Allow properties from video-interface-devices. The change is identical to
+> commit b6339ecfd0865 ("media: dt-bindings: sony,imx290: Allow props from
+> video-interface-devices")
+>=20
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
- Changes since v1:
-        Remove whithespace in front of Signed-off-by.
+Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
 
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Are there any driver changes coming for the new properties?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5dee8459a614..e4a4f247d826 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -811,7 +811,7 @@ F:	drivers/media/platform/allegro-dvt/
- 
- ALLIED VISION ALVIUM CAMERA DRIVER
- M:	Tommaso Merciai <tomm.merciai@gmail.com>
--M:	Martin Hecht <martin.hecht@avnet.eu>
-+M:	Martin Hecht <mhecht73@gmail.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
--- 
-2.43.0
+> ---
+>  Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml=
+ b/Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
+> index 8b23e5fc6a24f..38c3759bcd9f5 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
+> @@ -16,6 +16,9 @@ description: |-
+>    Image data is sent through MIPI CSI-2, which is configured as either 2=
+ or
+>    4 data lanes.
+> =20
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+>  properties:
+>    compatible:
+>      const: sony,imx219
+> @@ -79,7 +82,7 @@ required:
+>    - VDDL-supply
+>    - port
+> =20
+> -additionalProperties: false
+> +unevaluatedProperties: false
+> =20
+>  examples:
+>    - |
+> --=20
+> 2.43.0
+>=20
+>
+--===============7026641472008806453==
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Description: signature
+Content-Type: application/pgp-signature; name="signature.asc"; charset="us-ascii"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmgmAvoACgkQQ96R+SSa
+cUWmdg/+O//yk9DsUF6kBlI/j3zM9DieGhBLoptflIfGtB7CLBh92lZhHBzvBOJ2
++7iYLGiifh1J81hdFMPq04e5/iGTlefuv2P8l9XpKu25eCGyTJyjJG6RWZ7SZJUh
+TqGdxxyAZCdiuTRHoLpp5goTl4mIFcm1wGuF2n8lpxpUV02h40XCbYqwSrMSVeGP
+teDAn4jbUFgQsoF4IE2kq9v3ah4PsMbG1omdomAYrWrkc9Dzcenl2JLCGBSeMMvD
+unlQ/+ybbh6ytTIEDhc6uXpI7O25Oi5n+jasxUawqFZikowy8npXgBRPYUqQ5D2W
+V0aK1DlA9u44aJZbs5r5ortYdI2y+cOY1tdvBwbp2H+7VrjLLUpeW56g9wSyrKrZ
+y+EYtFoAaHyuZEsaMfdmbAB+0MepcebIo9QNtYCsgpVtwIi8YccTROsyFkn39PTl
+d8RcacHkwwlnSafMUWv73Iw4mFXaeQwI0h8U4L8ckYIT8+aWiFlSwNj34BCD+Ycw
+UgkcsCz3Y0KIblRld3XbE1qvzBrM0hgbiynayLA5Is4qlqv5I14EP1UUWUZ0kqCL
+JqkYLzo57pTfA332ucgD0of26zp1/tD4Xwah9kJXSCb2YjEagpBHSNfQbZ4svk/N
+ZHoZist6wjNWh86LLr3BUx9SrsLxvlCd0K8u+hujP0B854GqjIw=
+=+Wns
+-----END PGP SIGNATURE-----
+
+--===============7026641472008806453==--
 
