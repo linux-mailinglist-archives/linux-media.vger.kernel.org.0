@@ -1,278 +1,244 @@
-Return-Path: <linux-media+bounces-32628-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32629-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FF5AB97CA
-	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 10:36:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3FEAB9871
+	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 11:16:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 558A14E575E
-	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 08:36:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8C639E8408
+	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 09:15:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7794F20C47F;
-	Fri, 16 May 2025 08:36:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6064122FAE1;
+	Fri, 16 May 2025 09:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LNyG/mH6"
+	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="hmz29LSx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2089.outbound.protection.outlook.com [40.107.244.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDC522B5AA;
-	Fri, 16 May 2025 08:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747384583; cv=fail; b=CXuw7GWPL+el+Z9xqBDuRj/SnzKBvYoSjfXs1msPk/3vFw4QJPDuMw879zjufpbjALY4nnRdUnyB89+hGAlqgOLGk0O2abOygedDVlATbFPikxs7mgJGZ51v6QvM2SoBAI1ek8t14PdcxXJxo/vR4ZogQ5t5/NtxtV4hfSu3nqM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747384583; c=relaxed/simple;
-	bh=94MU2VsEpaBWLG1OBmg8Pp8Ina/GAARo0EjtH9av8D0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Xdq4etpR5bBbjwqx22iH8x3q5gAaxmXvayKZwOpLuoo6XXSe1ri5mHrcI4F4Oi/AEk5g40fF3FsXldCGgBqUnION0SQexN6wAxakHjH12kXRqUwrPAqRuWpgYjQTJ3pK9oqhnIvdjgnFSll9EspJxE/hb/w8w2+CvDdmZgVvgn0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LNyG/mH6; arc=fail smtp.client-ip=40.107.244.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kO88bcHneD/w28DOD/9jVoGRu8iIFwDzGlWj8lW6mY+EEz9I/8PMenDhs5rQpiHgaCGtyKZezg1msmU8xTe+TgELnwOXWzsEu7qXlPNTqeDptaL6DvN8vPsvJBs163ZZu2VyWorf8BMEspzpchYZVSPTOtVglSGayoUyLszMTKbXyqsEEObqwwTWpDJ2nnI8oj65tTPDIb5NnjIkNqJS0aN5zwomYlyTVafxmXnY1Bq/uCVnmtJADtOp15OYIIIyEyS5AvRot2k+/jjBJDhn4YNSFdYrZwI+4fQDjm4dzl1O3riCR5jNVef5xSBU1ve4DuNqlW3cV7c410RkAgLXKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y/cRNckzpJFd40AMTLZEfNweRtQ1ySIqGKLG4b7Mr9k=;
- b=OkRff4pRYMRrDxOYHbiukQMihtsqHFNl4lmOR5LEiI15TFOF/2ZAPXww9C5/nTcLAOOT4hUSe7RWdvYLYnCp195PMKZWLJpEcO+sccnbpXpN9myYgul0MADO888pj3ZEqcmkYs5Q9tmCkTzi/ks2tdErgUY2tkYqGp6u7zU6fsYSS8YgyJxf0yNSHldAp0rhC3pWmQRAHxgGVJt2/IXM6taRkRNOINt001O4uL/TVPx6UgTw5TfCUPdELlcGr2Q5hSqfjwcPMpq36mbjaGDjUQHlhHDyXodhbHp9woeyV0R0hylM+NRhBjtoxlqJnqDihwyL7Mo22mqJ8mJFo7XY+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y/cRNckzpJFd40AMTLZEfNweRtQ1ySIqGKLG4b7Mr9k=;
- b=LNyG/mH6/1KsgYXl6uijfm/HKsfhe8st/kPJ489JS8gvQ/ty5JmDJbzv5DNvpbCmFjs9CkY33Gtsg7bG5wpA6vC/0XydVS1lUqtyAAE6vslhdgmIxiEWpIcqToOvQqAiKpou9t2nfMlAlVlWfjn9IAsHmZS6/ErFWIypXTEzwZQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB7596.namprd12.prod.outlook.com (2603:10b6:610:14b::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.32; Fri, 16 May
- 2025 08:36:17 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.027; Fri, 16 May 2025
- 08:36:17 +0000
-Message-ID: <5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
-Date: Fri, 16 May 2025 10:36:11 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-To: wangtao <tao.wangtao@honor.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "jstultz@google.com" <jstultz@google.com>,
- "tjmercier@google.com" <tjmercier@google.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "wangbintian(BintianWang)" <bintian.wang@honor.com>,
- yipengxiang <yipengxiang@honor.com>, liulu 00013167 <liulu.liu@honor.com>,
- hanfeng 00012985 <feng.han@honor.com>
-References: <20250513092803.2096-1-tao.wangtao@honor.com>
- <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
- <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
- <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
- <9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com>
- <50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
- <2755aae2f1674b239569bf1acad765dc@honor.com>
- <2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
- <a3f57102bc6e4588bc7659485feadbc1@honor.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <a3f57102bc6e4588bc7659485feadbc1@honor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0200.namprd13.prod.outlook.com
- (2603:10b6:208:2be::25) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A6922FDE2
+	for <linux-media@vger.kernel.org>; Fri, 16 May 2025 09:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747386945; cv=none; b=EYq4jm7qwkz9TuwQJEZQEO8qml6jplnpAEm+CcAtSclv4vigBE0Y/ERLDIuiB7as7LtOXOEVo9nasNSQJEazTHFrnPccQZjJidQwK0DJFu6DuHgSIjFK8+gynvnOwqFFHpSSadWDbad39ix8g2iTCRKd2p9yQMxQUUyHARN7dLs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747386945; c=relaxed/simple;
+	bh=7k6aUMabXJr7fbD+8HWrZmO15OPQOClyQSVsosQh4rg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aqnUoyl5ArmZ40ZHLNXhmGZHDtUzHaZLl+LE2mW4TqwlL7C3LXmTQDdD5j92LMaAaZ/0ZiIHRikgKa3yeuXzhu4rQfO7JDjq4UZe8itg5B2GHVhl60uY4TrfkrCDUYVOjNNZmjvdM6XnXSUxUwJrW1np+oKHGsb2oo4EfZ4BBhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=tomeuvizoso.net; dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b=hmz29LSx; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7053f85f059so16766277b3.2
+        for <linux-media@vger.kernel.org>; Fri, 16 May 2025 02:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1747386942; x=1747991742; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ghCVBFohCqPYMNm54QVPyhJ+LtBlN+TIFH3Qtc52S1A=;
+        b=hmz29LSxgD/MsB1wUZor7Qrw69h3GHRxm+CsSwBCV1KYj5xcG+0vxreK9qLRcEMhzy
+         1AHQCxojvgyJfXJfiSCEVdJAvcS1Nu5FE7prZCZ0oKuvLtF9+LMIr1XnccUn/7BLnZi/
+         9sxDyZhdEdlrsm4ZTB3TAqz+Lb5rGnvTfhviZNb6A4r+DetDDxdvWM1xiy+a9q9ni2RO
+         qNEzF3HvCbbXMdeGPW39bAUUiXY1EglHMGHfQe4KjxpXG+b6yiedb2emK+h/FhCb0Stt
+         RPotN/f85ZQUTRC1EgbDmWc0pr3WSf1ZmzPD1QsVwvRs6DRcpqu8vs+52fHr0E54Rbwz
+         7jZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747386942; x=1747991742;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ghCVBFohCqPYMNm54QVPyhJ+LtBlN+TIFH3Qtc52S1A=;
+        b=UZ/ib+18DpDJP4uz0EayPYQOhONILEuLmGSEXdjTLGns0ew5EIVU9XPUDJm/Xvd7hO
+         kuXjNLNKR84R+ni9aGu2f2Ns9q/IQfmIID8QJZcHBl0+U5fnKF8fUR7sxfnSnmZa+gEx
+         Bdqq8VjjCiGHMKDw+48cP3rQ9Tc0O8/EpuEW1kxF0i4XAlSWtywH9VJAWaXNC/4/elqs
+         IcGAywrlIq0N7KWEDv6wIsbcQIA6HeSjrj05R0TlAPRQr7YLWtF4vJJ8hN4nmbE+V0rG
+         tiJCHm1zuBiTzgU/IXG+/I1LKnbhIymoKo16l/Wm0AOX8Rqvp40YE+7LNsE3PevApfZP
+         lG0g==
+X-Forwarded-Encrypted: i=1; AJvYcCVyg7Lw73mOoOE/6F3qV5O20ZPusYFyFYHCSu6EhR9icLbW4mtYqgfo7xFVzBrw35LHVMZxSBYy9nERnQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+G/4uLXrang/U6vgdUacdwG4QYWH6FiN7TMerY0vrkv7vzIjq
+	DA5+2zQ0M4YLtgzBNOifKaco5GLoAh9QYsMDJLsx4PTVeBguXkl0iLxDZSnKYPnWQcpBX1NQshj
+	Z6/YL3SR3FA==
+X-Gm-Gg: ASbGncv824UcxDGf7oP1vENiRZ/ERMwYMZ1V1V75o8a2DQBdS9QJAceWZdkTZZm3t+k
+	hVpQ+Lx6krVqxMd/oW39UlV7Pb8my7m2LF/Tep7cGPpczh2mZkPQ4EaYaKKwioqn9Nb1kpE7kG9
+	R7TJkllYuLln9HaN2lW+FQw7AxNvRSSLACtIiZgXlJ2BjW96TUwYgejAzPIDxx1O+Dvf1K4xIzG
+	r5f2bHGbtUzWVlUYAqdoHJEmfJB//xx/FkCfpCLgE8B3z+CZ6ZEjaHElEJ8mR0FjpjD5HUOJRCT
+	u/8hwwLsHuy49gEACWE4S69X1+gt6wbs/fyorCS4uTNiVl2qxh+/aRtHN98jQpnv9p4eoIQheq7
+	+aPmMbs+ltQ31zgQmSzI+tODqwdmODQ==
+X-Google-Smtp-Source: AGHT+IFXRvGO07uW3KpLAS7lsCzMgVKTZR23v8sqD38aoO8MtZDk2+43PJXwza6uDAUP5GjSEj73Tw==
+X-Received: by 2002:a05:690c:600a:b0:700:b01b:5ea2 with SMTP id 00721157ae682-70ca7bbdbdamr42010647b3.34.1747386942400;
+        Fri, 16 May 2025 02:15:42 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-70ca8323efbsm3139887b3.40.2025.05.16.02.15.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 May 2025 02:15:41 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e7b51381445so1713631276.0;
+        Fri, 16 May 2025 02:15:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUeWU9E1yFWsHq1dcjd8qpC719p5jJ/Xn1zRhF872kZHu6MYe3KFsBAU2sRZwr2GXB7JuFf18Bxk1Yh@vger.kernel.org, AJvYcCW5obE7q6zs5LR1se3/eztl0J9Wx7mB7XSYGV2Wg+jG2P+DM8kXj6yhlimkfkeU7JaoJ2PX6KJT3sHg@vger.kernel.org, AJvYcCWfIW4OnSKCqhkF7J2OgC7AKpPx4buUyiCoBYABrKomGloFUJbCoYORYfaS2DVcwmKhtKB+RGfzqfX07N4=@vger.kernel.org, AJvYcCXSobm2jZQ7fF02zQ21ZgoJI2XVheePBOC0omY/UMymygrknrU56UVo6lLToRwCIS+rpGJIcTw78SlbQ2S+@vger.kernel.org
+X-Received: by 2002:a05:6902:4888:b0:e7a:b59a:e99 with SMTP id
+ 3f1490d57ef6-e7b6a08f866mr3989501276.22.1747386940957; Fri, 16 May 2025
+ 02:15:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB7596:EE_
-X-MS-Office365-Filtering-Correlation-Id: f130d784-1e91-4827-5acf-08dd9454b9e4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SzR0UEpLZUNaWGgzRk12Z3JPcnhYRnNlTk5VelVGVmpFTDY1cytnOWxZTy9q?=
- =?utf-8?B?cW9DZ1FLSkJLRkdmcjJuL1JxWVluMmZiWmJ6dHYzSWJJaFZIUCs5UDhzZWYx?=
- =?utf-8?B?OGhFeEVwYUZXamdVVjFYS3ZNQ1BWcXNSYVJFbERnbGsyMFhTa29yMEgyMEc1?=
- =?utf-8?B?VGllQnpnSDhyUUZnTG9oU3BUZDBGL2hHc3VqU2Y5QXhyZTNrQnRPaHhYOVkx?=
- =?utf-8?B?aTdQR25jUWdkRmxwdE4rVDIzYWx2YWVYOUU3dnozRXNiRzc5NWJnaXI2MGhY?=
- =?utf-8?B?MHR3aHVBanhLUncrMmpleWVhY1RlNFRTUjRHZU4rT1FHZHlVTHA1YzJsTk44?=
- =?utf-8?B?YmZwV1I1b2pVa29maG1BN0lCSjhZV2RwbUJlMkJ1aFBWb3QvbkhxVnR4Sm5z?=
- =?utf-8?B?eWloMmc4Y0VXcFJHUll3c3V2YWJSWTVoYXNVWVFTV1VlTjRvL21uQ0g5bjJC?=
- =?utf-8?B?Q1JRanVxUlhpUXFsMHI1c0hlR29vcGc3bzY2djhNZVY3T3V5eFoydTlROGh2?=
- =?utf-8?B?QkdzQnpTamdpVU5OUEZ3MWw1YkwwTDNrMkVZL0hXU3V3cEN3YlRPMGRtZUs1?=
- =?utf-8?B?d0w3WjlMRndmMC95aytFc1NMc0R6NDZrRURpRDBiTHNUNDdjTGs2M0dkbmpU?=
- =?utf-8?B?NitHeUJLang2dmFLdThhMHl6MkQwTnVJRndNSzZJVW9DdjFYdTVsMG5NQ0Rs?=
- =?utf-8?B?V2ZaUml5QXEwUGsrVkpEaWsvYllrdEtMdTFLTWNZK1krQkJVb21xYU1mbUVX?=
- =?utf-8?B?Vld0bEhBdUpvR1QyMXFjYkVUTWFzYXNwK1BpcmF1ZXpiUTRXbjgvMVljK0Fu?=
- =?utf-8?B?NS9qN29qaENvRUFZQXdONjg1VlBETnFmbGt0MlJFZGVvdm82Rm5ESWEvd2hs?=
- =?utf-8?B?eGcwb29tNlJ6bmpKa2d2MWpTWkdWTm1KdXN2b2dTQzBXdEs0MEZjRHN0M1A4?=
- =?utf-8?B?Ymhlc1pxM2F2RnJTWFh1bkVLb00yekJ6UkpOTE1mT1cyUXVtZ2FqclUwUUw3?=
- =?utf-8?B?VFJQVkZLcUpOMm1rcytPVTV1MWZ4SU5ieDVEcmhsSlBJQlI2dUphY0VsZm9O?=
- =?utf-8?B?c056NjJIN3NhL1Y2Tkx2emFGU051QXYvTHhFRUNoNVR4Um8rRHliS1UxeXBa?=
- =?utf-8?B?a2lhMElZOXdQRXRYdVBkMXl2WE5OQWVXUEYxZ255elkvNGEvVTJGWDNma2lB?=
- =?utf-8?B?M2xpbXdaNDV4MFNSdEdFZGlEbmh0anNBK0I4TlZJU1ViZERGMERlK1V1VFVH?=
- =?utf-8?B?V1A4TEZCUnZLRjhwUW1JT0hLbEszTTJQYms4eHllU1ZvR0VyeHBDYVc2Tm96?=
- =?utf-8?B?Z1NiSlAwRURyVk5JTks0MmQyQ2U4ZVI5bTBPcjBwOE1QSlhvUDdDalR4RWRD?=
- =?utf-8?B?RHBWWGx1QUlhdjdrbmVtenNDc1Z0Y01ncUhJd0NHWUxVNmhqZXpDQkM2MDUy?=
- =?utf-8?B?cW5qN3JJVFl6QytSb3BSZ055UDVGaHdPR09MeTVKdzJyRkU1WnZDTHZQVlJy?=
- =?utf-8?B?MlhReGUvbTdrMGkreDI1TFhuQis3dFBWMVFuU3kxWW5kMkJhUmdzc1pNb2lL?=
- =?utf-8?B?SzZKb21xVWIwRUlPcGZIdGhUT1krdy9xNmEzTEUrT3R3V0ZOcTdYMkdVUzJX?=
- =?utf-8?B?RW1jSFFXMytsdkkvUzJ2ajlETzM4eGgzY2U0dXo4NjZPUlBWZTM5YWFabEgy?=
- =?utf-8?B?Sy9BMFpONktMSHdka1g5UzJYQnJ1cnQwTDFvVHAxcm5mYys5dHN0MFZ6S3Nm?=
- =?utf-8?B?bTZGY1hicXBCNzRhMmxKd0ZMNjBUVHZ3M0QzSnJ0V1FSWkpoenJIdzZ1dkZJ?=
- =?utf-8?B?M3NBUjFjS0xHYjAzaEVSUzI1L04vZ091eFh5UUtaTTBvNmFHcHN5cGF2cDdB?=
- =?utf-8?B?YkFRRkRHd3ZpakZSaUZLdFRVa2hGTmE2K01uSEZzWHV0K1hFTktKTXd6d2FW?=
- =?utf-8?Q?/+So//fcDyo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R0dsd3ZHM0hhVlpDZXVObG15TjM4VU5lYnV4ZHBINjBmVzIwUWVyanp2NVBN?=
- =?utf-8?B?cTBpYVVWcFc0SU9Kd2RpMEt4YTZ6d1h6SkIydjZNZWdYeVhHeUtUU2wrYmdY?=
- =?utf-8?B?Sy9lNU40MEhFUmdvSUt4azJmTHdsMURRWmNNb1FLU1NVdUF3bmErRFlGVFhW?=
- =?utf-8?B?bTh3S0F4dGlwWDJHUWtTby92VnhPZS82YTBmSzVYWjluZzZoM2d5ZkVDNXdU?=
- =?utf-8?B?WGJvUllpVzdtYkdmdzVtbFU2eFVMMENpaFV0WkpOcUd0WWE2UXdkZzY1Ullr?=
- =?utf-8?B?b1FRa05RSlZialNTbzVNa1VTc012R1dkMjdiNk1FY04zZ1VVMDZwU1JYamtB?=
- =?utf-8?B?MWlLei9pRjNlSC9NSUdhU2V6eUh1MWhaRmdUbHExeVNlcHR0SDhHWitvQ3pv?=
- =?utf-8?B?U1QzVnpaczJFd20zWTlIWjRaa0JlN2VRSm9UY2NuL2NTSVZpZmkvNis0aldi?=
- =?utf-8?B?UkY4RUJjNVVLc01yYXZvZ1hKanFMV1V6OENGR21CUGQyclRDZ254TFYxcy80?=
- =?utf-8?B?eUdjakYyQUIrODlncEZsRlRNZ2crVkhNcGN0Z283MWRxcmd1RmJzNWl4V1Vm?=
- =?utf-8?B?MVFKNlZVbGNURS9nSERLaDMwMDBsQmFXNWhaMGJQUk5wZE40a0ZWQ0c3a0hI?=
- =?utf-8?B?djQ5RHVkK1ZUYzB2R3hwTjA0MkNuQkNXdkoxNlV0YmpZbFpScXlvSThVM1hr?=
- =?utf-8?B?Uy9xQzlld1hpUS9BcnVXSDQ4L3FoSFpIYVlIcElZem0vbU83Z28yamhBRGNI?=
- =?utf-8?B?M1NsT2w2aWd0THZnMWJBemEvTURVUXhJT3Q2L0J5TUZ0RXpTZnY1Q1IxaTZ5?=
- =?utf-8?B?ck1HRE1rUFBRWlp2ZGwvWHNncFdsNnNRcTNVOHJsTWNiWkQ5emNZN3d4VUJw?=
- =?utf-8?B?NS9PQnUwL3FPdzI5aXNkTjBIeTNITytlZS80WUc4Q2VQdm5uYUxjUjBJZ3hw?=
- =?utf-8?B?c3RqUkZNc2t4b0cvYmNBbTBiOEhlY3pid3cwRUJvc3AzRWxDcjM2RHRzVG9n?=
- =?utf-8?B?M0VKcTZsSkNycnNoM0w2Z2pkdnYwN0tzL1lUUk9FT0o1SWgwa2I4ZGMraUJS?=
- =?utf-8?B?S25hRkRUQUdvNlFpS3V3eS9Bc2dXZDJvMnZNUlpCNmkxZU1MNTIxQ0NRQ3R6?=
- =?utf-8?B?R2RrVkNvMXJCdmNuSWozWEtHREczbUNTZHk0c1hqRVhRaFpuS1VoSGpxdlp3?=
- =?utf-8?B?dzg0UEpFUTJUczYwMTg0VXZHV1pwcGl0UlU1N2Q5cG8wNFNZcWxSdjdvZThm?=
- =?utf-8?B?dGR1Y0ZjNGZMMU9HaGF3RUxqM0h1WGcycXhFTi9pKzUrV1hkczdHRjA0d2o0?=
- =?utf-8?B?UDhDeXVXSkp3TjczbStDU3JrUzNrOUxRR2wzMlRLckNjYTk5TzUzMmhXa1ZW?=
- =?utf-8?B?RVF3My90d3U2TUEweVpjTldBdFhXUXRreExJK3Z4RDJabVZxR25OcDZtNlBR?=
- =?utf-8?B?OXd0OEJyTSs3OTQrakJzTWI2T1UxbjRwNkNwLy9KRHA3MzFXTWhFanlDaUNx?=
- =?utf-8?B?ZVVYa3YvRFluWEdhTlNVMk54dDlLUm1LZG01S1lLVlJlMXdWL2pVbm1CNW52?=
- =?utf-8?B?Tis3ZXJLYjZ3RUNCY2JrbjIzT0FqZGt1UVB2c1dWZjlvRGV0bXdPL3R1TlVB?=
- =?utf-8?B?MVcrK1BxS3JLSmNLU0ZpbWdWWnIvQmhGOWlhc3MxeGVmY3A1SHRJMzFaQnR4?=
- =?utf-8?B?NTJ4aUN2SFY4TThwNDZLVU1sdDZ3dUhVSFNsMWRMcjZQNDZldGdncTZnYnFH?=
- =?utf-8?B?YXJUMjlXT1lHKzFob1BXZnVMbnJpa25OQ084L1hmWXhla2hHR0UyQXkvOHI5?=
- =?utf-8?B?V0w4bG9XMS9iSTJjV2RmN2xJNG9FdHFmRWVta2RDYXVaVHBQRHRTalBsSjlm?=
- =?utf-8?B?RDNDcHcrM0VjcWRwMy96NCs3K1N2QlkwTDU1VEMreDNKSXg5Rm9sMDlIdVgx?=
- =?utf-8?B?enk0VGpTZVhUUHZOdlh4clBWK1BkcTNpYmdhK3Z5dWFYZVlJL1pXL1QyZHZB?=
- =?utf-8?B?M1lFOTFvbElVWDhNUmhqU2VnSnh3ZGYvekExZG9DaytKZ09EOHZmTVA0Rldt?=
- =?utf-8?B?Rk0wbzVBK2hiTGhmdThNbmtDWUk2d1E2Z2JtbDdZcXloQVh0dUdzOW1hMVRL?=
- =?utf-8?Q?rooByNgDMOf8HTvCqkjBDAbBd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f130d784-1e91-4827-5acf-08dd9454b9e4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 08:36:17.5463
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rbVl6POnh5jYjT/7jYo4vPpWbG3fIT9GeOEjzHbB7U63sfANNtjNHWPp2oEgu8Ev
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7596
+References: <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
+ <20250225-6-10-rocket-v2-4-d4dbcfafc141@tomeuvizoso.net> <2950819.ElGaqSPkdT@workhorse>
+In-Reply-To: <2950819.ElGaqSPkdT@workhorse>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Fri, 16 May 2025 11:15:29 +0200
+X-Gmail-Original-Message-ID: <CAAObsKBrXZscvhjYnSb2DBL1KGsaMHpPVfB_QrFUPihd2+srdw@mail.gmail.com>
+X-Gm-Features: AX0GCFs7JNRTyA51Mp_5c2sfGP8DF36VD9y5YcZK4C0Caod07VePTbyWDenldvk
+Message-ID: <CAAObsKBrXZscvhjYnSb2DBL1KGsaMHpPVfB_QrFUPihd2+srdw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] accel/rocket: Add a new driver for Rockchip's NPU
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>, 
+	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/16/25 09:40, wangtao wrote:
-> 
-> 
->> -----Original Message-----
->> From: Christian König <christian.koenig@amd.com>
->> Sent: Thursday, May 15, 2025 10:26 PM
->> To: wangtao <tao.wangtao@honor.com>; sumit.semwal@linaro.org;
->> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
->> jstultz@google.com; tjmercier@google.com
->> Cc: linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org; linaro-
->> mm-sig@lists.linaro.org; linux-kernel@vger.kernel.org;
->> wangbintian(BintianWang) <bintian.wang@honor.com>; yipengxiang
->> <yipengxiang@honor.com>; liulu 00013167 <liulu.liu@honor.com>; hanfeng
->> 00012985 <feng.han@honor.com>
->> Subject: Re: [PATCH 2/2] dmabuf/heaps: implement
->> DMA_BUF_IOCTL_RW_FILE for system_heap
->>
->> On 5/15/25 16:03, wangtao wrote:
->>> [wangtao] My Test Configuration (CPU 1GHz, 5-test average):
->>> Allocation: 32x32MB buffer creation
->>> - dmabuf 53ms vs. udmabuf 694ms (10X slower)
->>> - Note: shmem shows excessive allocation time
->>
->> Yeah, that is something already noted by others as well. But that is
->> orthogonal.
->>
->>>
->>> Read 1024MB File:
->>> - dmabuf direct 326ms vs. udmabuf direct 461ms (40% slower)
->>> - Note: pin_user_pages_fast consumes majority CPU cycles
->>>
->>> Key function call timing: See details below.
->>
->> Those aren't valid, you are comparing different functionalities here.
->>
->> Please try using udmabuf with sendfile() as confirmed to be working by T.J.
-> [wangtao] Using buffer IO with dmabuf file read/write requires one memory copy.
-> Direct IO removes this copy to enable zero-copy. The sendfile system call
-> reduces memory copies from two (read/write) to one. However, with udmabuf,
-> sendfile still keeps at least one copy, failing zero-copy.
+On Fri, Apr 25, 2025 at 8:22=E2=80=AFPM Nicolas Frattaroli
+<nicolas.frattaroli@collabora.com> wrote:
+>
+> On Tuesday, 25 February 2025 08:55:50 Central European Summer Time Tomeu =
+Vizoso wrote:
+> > This initial version supports the NPU as shipped in the RK3588 SoC and
+> > described in the first part of its TRM, in Chapter 36.
+> >
+> > This NPU contains 3 independent cores that the driver can submit jobs
+> > to.
+> >
+> > This commit adds just hardware initialization and power management.
+> >
+> > v2:
+> > - Split cores and IOMMUs as independent devices (Sebastian Reichel)
+> > - Add some documentation (Jeffrey Hugo)
+> > - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
+> > - Remove resets, as these haven't been found useful so far (Zenghui Yu)
+> > - Repack structs (Jeffrey Hugo)
+> > - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
+> > - Use devm_drm_dev_alloc (Jeffrey Hugo)
+> > - Use probe log helper (Jeffrey Hugo)
+> > - Introduce UABI header in a later patch (Jeffrey Hugo)
+> >
+> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > ---
+> >  Documentation/accel/index.rst           |    1 +
+> >  Documentation/accel/rocket/index.rst    |   19 +
+> >  MAINTAINERS                             |    8 +
+> >  drivers/accel/Kconfig                   |    1 +
+> >  drivers/accel/Makefile                  |    1 +
+> >  drivers/accel/rocket/Kconfig            |   25 +
+> >  drivers/accel/rocket/Makefile           |    8 +
+> >  drivers/accel/rocket/rocket_core.c      |   71 +
+> >  drivers/accel/rocket/rocket_core.h      |   29 +
+> >  drivers/accel/rocket/rocket_device.c    |   29 +
+> >  drivers/accel/rocket/rocket_device.h    |   29 +
+> >  drivers/accel/rocket/rocket_drv.c       |  273 ++
+> >  drivers/accel/rocket/rocket_drv.h       |   13 +
+> >  drivers/accel/rocket/rocket_registers.h | 4425 +++++++++++++++++++++++=
+++++++++
+> >  14 files changed, 4932 insertions(+)
+> >
+> > [...]
+> > diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/r=
+ocket_drv.c
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..c22d965f20f1239a36b1d82=
+3d5fe5f372713555d
+> > --- /dev/null
+> > +++ b/drivers/accel/rocket/rocket_drv.c
+> > @@ -0,0 +1,273 @@
+> > [...]
+> > +static int rocket_probe(struct platform_device *pdev)
+> > +{
+> > +     struct component_match *match =3D NULL;
+> > +     struct device_node *core_node;
+> > +
+> > +     if (fwnode_device_is_compatible(pdev->dev.fwnode, "rockchip,rk358=
+8-rknn-core"))
+> > +             return component_add(&pdev->dev, &rocket_core_ops);
+> > +
+> > +     for_each_compatible_node(core_node, NULL, "rockchip,rk3588-rknn-c=
+ore") {
+> > +             if (!of_device_is_available(core_node))
+> > +                     continue;
+> > +
+> > +             drm_of_component_match_add(&pdev->dev, &match,
+> > +                                        component_compare_of, core_nod=
+e);
+> > +     }
+> > +
+> > +     return component_master_add_with_match(&pdev->dev, &rocket_drm_op=
+s, match);
+> > +}
+>
+> Hi Tomeu,
+>
+> something I've noticed while playing with this: currently, it doesn't see=
+m like
+> it's possible to support 1-core NPUs. rknn-core-top is a real core, but i=
+f no
+> rknn-core is enabled beside it, it'll call component_master_add_with_matc=
+h with
+> match being NULL. This causes a kernel Oops.
+>
+> I'm not sure what the proper fix is, since the component API doesn't seem=
+ to
+> really have a consideration for a master with no other components.
 
+Yeah, I think we could add a code path for single-core NPUs that
+doesn't make use of the component API at all.
 
-Then please work on fixing this.
+> I ran into this when I was trying to debug why I get job timeouts followe=
+d by
+> a full SoC lock-up on RK3576 by running with only one of the two cores en=
+abled.
+>
+> As an aside note, my throwaway rocket-on-RK3576-hacking-branch is at [1] =
+and
+> contains some changes you may want to consider for v3, e.g. [2] and [3]+[=
+4]. In
+> [4], specifically the `domain-supply` part which means the NPU regulators=
+ don't
+> have to be always-on. Though feel free to pull in my entire ROCK 5B enabl=
+ement
+> patch.
+
+Ok, [2] I already had in my WIP branch. Will pick up [3] and [4],
+though I cannot test them myself.
 
 Regards,
-Christian.
 
+Tomeu
 
-> 
-> If udmabuf sendfile uses buffer IO (file page cache), read latency matches
-> dmabuf buffer read, but allocation time is much longer.
-> With Direct IO, the default 16-page pipe size makes it slower than buffer IO.
-> 
-> Test data shows:
-> udmabuf direct read is much faster than udmabuf sendfile.
-> dmabuf direct read outperforms udmabuf direct read by a large margin.
-> 
-> Issue: After udmabuf is mapped via map_dma_buf, apps using memfd or
-> udmabuf for Direct IO might cause errors, but there are no safeguards to
-> prevent this.
-> 
-> Allocate 32x32MB buffer and read 1024 MB file Test:
-> Metric                 | alloc (ms) | read (ms) | total (ms)
-> -----------------------|------------|-----------|-----------
-> udmabuf buffer read    | 539        | 2017      | 2555
-> udmabuf direct read    | 522        | 658       | 1179
-> udmabuf buffer sendfile| 505        | 1040      | 1546
-> udmabuf direct sendfile| 510        | 2269      | 2780
-> dmabuf buffer read     | 51         | 1068      | 1118
-> dmabuf direct read     | 52         | 297       | 349
-> 
-> udmabuf sendfile test steps:
-> 1. Open data file(1024MB), get back_fd
-> 2. Create memfd(32MB) # Loop steps 2-6
-> 3. Allocate udmabuf with memfd
-> 4. Call sendfile(memfd, back_fd)
-> 5. Close memfd after sendfile
-> 6. Close udmabuf
-> 7. Close back_fd
-> 
->>
->> Regards,
->> Christian.
-> 
-
+> Kind regards,
+> Nicolas Frattaroli, who discovered that his cat is apparently 5% space he=
+ater
+> according to mobilenet while playing with this patch series.
+>
+> [1]: https://gitlab.collabora.com/fratti/linux/-/commits/tomeu-npu?ref_ty=
+pe=3Dheads
+> [2]: https://gitlab.collabora.com/fratti/linux/-/commit/73aba31a00b34c254=
+be575b524da568e115d985d
+> [3]: https://gitlab.collabora.com/fratti/linux/-/commit/bd3a7bf5054c54c29=
+15a9dc0396730d0f24b3b7c
+> [4]: https://gitlab.collabora.com/fratti/linux/-/commit/5da44d61b09c34530=
+9f76159574d447d071c295d
+>
+>
+>
 
