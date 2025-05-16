@@ -1,218 +1,144 @@
-Return-Path: <linux-media+bounces-32621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32622-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F23AB95F3
-	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 08:25:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11A4AB9658
+	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 09:01:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28080A20F5D
-	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 06:25:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E5B63B8107
+	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 07:01:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10C4B22489F;
-	Fri, 16 May 2025 06:25:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 004C21F4C98;
+	Fri, 16 May 2025 07:01:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dU+m4VKp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gY9mL1fr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B995223DC7;
-	Fri, 16 May 2025 06:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E57442C
+	for <linux-media@vger.kernel.org>; Fri, 16 May 2025 07:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747376732; cv=none; b=D8mJxsOyPocMNXva2ARfYhF2ntYwgg5IPt88LVxLJt+Iu8Wv1yrErizhe9kr2sTzJsNmSrosnvDKx3izfh4BGGrjMo/DF1ky99er9EWN+2Z3jAAFSf0SPb+6pw5Nc80iVDwBQWYDBb7iAn9q1ghtAXt8UsCvM/WOWvKH0YxLtm8=
+	t=1747378910; cv=none; b=C9cGQZwZuUdrvOrAmOu3c4ZvQPXtT4k2kdoWe4TL2KqC0X9DdXDMLI9fsVf8DK1WIPBH82ExR8o3yhanK5F47/frLNkSVn26TKPkm6UkUKIP6cpvD5cWXS8TDdWxpDgp9C4ayjAoYAeomYq0xr3CuZCEuT1hr3ZPMjk9o81xojc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747376732; c=relaxed/simple;
-	bh=lCwb6qvlkqeYb94a9hs2gM7d9RlJ/96IMNwhyjCb+Lg=;
+	s=arc-20240116; t=1747378910; c=relaxed/simple;
+	bh=qxibGpTgUK9cQkLGloloSw+ivScwBGN3vMSf/xy8m4M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FpZAZS5hnqpGB3Ki9bgHAfOIZRwmsd+9HXxoOZ/EkmsNhGfIYZffcd2/y5onbD+khc5ksBsMQt710y5tuRGCRNHB2KaMyQRRnp+nRR6z0h3jQRYBhDoLlWW9EKBzEhcKqwvnpDd+qLEXi0p4LGcEbA/+riBhRCQAE9LHztaXS6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dU+m4VKp; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747376731; x=1778912731;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lCwb6qvlkqeYb94a9hs2gM7d9RlJ/96IMNwhyjCb+Lg=;
-  b=dU+m4VKpsYEOmF2tRhwwsasbi+d4bXcwQBJmbmm8xWFAE07FTb7sLox7
-   CdhikvXUECvx584l6sdyyHtF18es9beUjms2WUUvYtOKhkSiYPxc6HIAg
-   hnGsW+jKBNt37RVVHH1dZWEBrnA1HsdObAjKn/V5Z+kvupi8ou2hwcz4s
-   Ogep/XLpnSgJjg8hZlavZR+V5RPyUGCzW0AXf+j78VaO7Tt5qhWvODRNH
-   2s0qmFtinpO9S3gomi4lL1UhKNBTJnYDgUds/RPFm6QO8ybkLuKMqMfoj
-   mC1jxzXuKNIx8VkOwfM4Yqm/VFfAmxJWs7bny7agOnGqy5MSonYukM7V1
-   A==;
-X-CSE-ConnectionGUID: X7TKXzZkR92UfBtuNo9Ehg==
-X-CSE-MsgGUID: hQzWwRlkSgyZwfnW1tFQVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="66741987"
-X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="66741987"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 23:25:30 -0700
-X-CSE-ConnectionGUID: 5Zv+L4k4Q/GDOPGKqyBYEA==
-X-CSE-MsgGUID: u+Y2gDkpS/CZp7vpWOupPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="143831538"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmviesa004.fm.intel.com with ESMTP; 15 May 2025 23:25:24 -0700
-Date: Fri, 16 May 2025 14:19:45 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Zhi Wang <zhiw@nvidia.com>, Alexey Kardashevskiy <aik@amd.com>,
-	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aCbZATrK7EPyH4qt@yilunxu-OptiPlex-7050>
-References: <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
- <20250509184318.GD5657@nvidia.com>
- <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
- <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
- <20250513130315.0158a626.zhiw@nvidia.com>
- <aCRmoDupzK9zTqFL@yilunxu-OptiPlex-7050>
- <20250514230502.6b64da7f.zhiw@nvidia.com>
- <aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050>
- <20250515192127.GA580805@nvidia.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=psc+znYBCr/KUqlbs9JUikp6mA8m9Kw9o+S5nGbuWy1ptyq+wO2R4jHJTmwrjQrOzLJmFcZ1nfgnyw2Ssm577ysQqIt7zbZ5mBb6RwdU/BjLAT0spEaCGmfgc3VrEZE97C320dbg+kf+HdYrr05rOmPdsS8NRLEOVf3fmotw4+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gY9mL1fr; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (37.46.124.80.rev.sfr.net [80.124.46.37])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21C5B4AD;
+	Fri, 16 May 2025 09:01:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747378887;
+	bh=qxibGpTgUK9cQkLGloloSw+ivScwBGN3vMSf/xy8m4M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gY9mL1frBdFkx3NTmt+J+jsVj2mcpEtvSY6a+xvZI1CczCmntFztqy0xl3B5owZq2
+	 XA9ikc2L76GQ9dgtZLW7jOnFPuOtTCRooVFFE6p14+YE7GE7tPWJFgH2Sg7PebvT6U
+	 JU3XSjWn1AN5fzRl/9GWGQFbWvkC6hQKq2kdEJ74=
+Date: Fri, 16 May 2025 09:01:37 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alain Volmat <alain.volmat@foss.st.com>,
+	Andrej Gardijan <andrej.gardijan@tuta.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Devarsh Thakkar <devarsht@ti.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Jerry Wu <jerry.w.hu@intel.com>,
+	Jesper =?utf-8?Q?Taxb=C3=B8l?= <jesper@taxboel.dk>,
+	Josuah Demangeon <me@josuah.net>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mattijs Korpershoek <mkorpershoek@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Naush Patuck <naush@raspberrypi.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Ricardo Ribalda <ricardo.ribalda@gmail.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Will Robertson <w.robertson@cairnwater.com>
+Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org
+Subject: Re: [ANNOUNCEMENT] libcamera workshop 2025 - Logistics and agenda
+Message-ID: <20250516070137.GA20271@pendragon.ideasonboard.com>
+References: <20250512154445.GA4523@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250515192127.GA580805@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250512154445.GA4523@pendragon.ideasonboard.com>
 
-On Thu, May 15, 2025 at 04:21:27PM -0300, Jason Gunthorpe wrote:
-> On Fri, May 16, 2025 at 02:02:29AM +0800, Xu Yilun wrote:
-> > > IMHO, I think it might be helpful that you can picture out what are the
-> > > minimum requirements (function/life cycle) to the current IOMMUFD TSM
-> > > bind architecture:
-> > > 
-> > > 1.host tsm_bind (preparation) is in IOMMUFD, triggered by QEMU handling
-> > > the TVM-HOST call.
-> > > 2. TDI acceptance is handled in guest_request() to accept the TDI after
-> > > the validation in the TVM)
-> > 
-> > I'll try my best to brainstorm and make a flow in ASCII. 
-> > 
-> > (*) means new feature
-> > 
-> > 
-> >       Guest          Guest TSM       QEMU           VFIO            IOMMUFD       host TSM          KVM 
-> >       -----          ---------       ----           ----            -------       --------          ---
-> > 1.                                                                               *Connect(IDE)
-> > 2.                                 Init vdev            
-> 
-> open /dev/vfio/XX as a VFIO action
-> 
-> Then VFIO attaches to IOMMUFD as an iommufd action creating the idev
-> 
-> > 3.                                *create dmabuf   
-> > 4.                                               *export dmabuf                              
-> > 5.                                create memslot
-> > 6.                                                                                              *import dmabuf
-> > 7.                                setup shared DMA
-> > 8.                                                                 create hwpt
-> > 9.                                               attach hwpt
-> > 10.                                  kvm run
-> > 11.enum shared dev
-> > 12.*Connect(Bind)
-> > 13.                  *GHCI Bind
-> > 14.                                  *Bind
-> > 15                                                                 CC viommu alloc
-> > 16.                                                                vdevice allloc
-> 
-> viommu and vdevice creation happen before KVM run. The vPCI function
-> is visible to the guest from the very start, even though it is in T=0
-> mode. If a platform does not require any special CC steps prior to KVM
-> run then it just has a NOP for these functions.
-> 
+Hello everybody,
 
-Fine.
+Here's a link to the etherpad we will use to take notes today.
 
-> What you have here is some new BIND operation against the already
-> existing vdevice as we discussed earlier.
-> 
-> > 16.                                              *attach vdev
-> > 17.                                                               *setup CC viommu
-> > 18                                                                 *tsm_bind
-> > 19.                                                                                  *bind
-> > 20.*Attest
-> > 21.               *GHCI get CC info
-> > 22.                                 *get CC info
-> > 23.                                                                *vdev guest req
-> > 24.                                                                                 *guest req
-> > 25.*Accept
-> > 26.             *GHCI accept MMIO/DMA
-> > 27.                                *accept MMIO/DMA
-> > 28.                                                               *vdev guest req
-> > 29.                                                                                 *guest req
-> > 30.                                                                                              *map private MMIO
-> > 31.             *GHCI start tdi
-> > 32.                                *start tdi
-> > 33.                                                               *vdev guest req
-> > 34.                                                                                 *guest req
-> 
-> This seems reasonable you want to have some generic RPC scheme to
-> carry messages fro mthe VM to the TSM tunneled through the iommufd
-> vdevice (because the vdevice has the vPCI ID, the KVM ID, the VIOMMU
-> id and so on)
-> 
-> > 35.Workload...
-> > 36.*disconnect(Unbind)
-> > 37.              *GHCI unbind
-> > 38.                                *Unbind
-> > 39.                                            *detach vdev
-> 
-> unbind vdev. vdev remains until kvm is stopped.
-> 
-> > 40.                                                               *tsm_unbind
-> > 41.                                                                                 *TDX stop tdi
-> > 42.                                                                                 *TDX disable mmio cb
-> > 43.                                            *cb dmabuf revoke
-> > 44.                                                                                               *unmap private MMIO
-> > 45.                                                                                 *TDX disable dma cb
-> > 46.                                                              *cb disable CC viommu
-> 
-> I don't know why you'd disable a viommu while the VM is running,
-> doesn't make sense.
+https://pad.systemli.org/p/libcamera-workshop-nice-2025
 
-Here it means remove the CC setup for viommu, shared setup is still
-kept.
-
-It is still because of the TDX enforcement on Unbind :(
-
-  1. STOP TDI via TDISP message STOP_INTERFACE
-  2. Private MMIO unmap from Secure EPT
-  3. Trusted Device Context Table cleanup for the TDI
-  4. TDI ownership reclaim and metadata free
-
-It is doing Step 3 so that the TDI could finally been removed.
-
-Please also note I does CC viommu setup on "Bind".
-
-Thanks,
-Yilun
-
+On Mon, May 12, 2025 at 05:44:45PM +0200, Laurent Pinchart wrote:
+> Hello everybody,
 > 
-> > 47.                                                                                 *TDX tdi free
-> > 48.                                                                                 *enable mmio
-> > 49.                                            *cb dmabuf recover
-> > 50.workable shared dev
+> I'm looking forward to seeing you all on Friday the 16th of May for the
+> libcamera workshop. Here is the first agenda draft, along with logistic
+> information for on-site and remote attendees.
 > 
-> This is a nice chart, it would be good to see a comparable chart for
-> AMD and ARM
+> As all workshop agendas, this is tentative and we will adjust the exact
+> timing depending on how the discussions progress.
 > 
-> Jason
+> 09:00 - 09:10  Welcome and agenda bashing
+> 09:10 - 09:40  Software ISP status and future plans (Hans de Goede)
+> 09:40 - 10:00  Slowing down the soft ISP CPU implementation (Laurent Pinchart)
+> 10:00 - 10:30  Using a single IPA with multiple pipeline handlers (Hans de Goede)
+> 10:30 - 11:00  Break
+> 11:00 - 11:45  Bayer reprocessing (David Plowman)
+> 11:45 - 12:30  Startup frames (David Plowman)
+> 12:30 - 13:30  Lunch
+> 13:30 - 14:00  State of gstreamer support (Nicolas Dufresne)
+> 14:00 - 14:30  Multi-context support (Nicolas Dufresne)
+> 14:30 - 15:30  Per frame control (David Plowman)
+> 15:30 - 16:00  Break
+> 16:00 - 16:45  libcamera on Zephyr (Josuah Demangeon)
+> 16:45 - 17:15  The importance of libcamera to WildCamera
+> 17:15 - 17:45  TBD
+> 
+> Each agenda item is listed with the name of the person who proposed it.
+> We expect those persons to introduce the topic (orally or with slides,
+> at your discretion) and drive the discussion.
+> 
+> We will use Jitsi Meet for remote access. The event will be accessible
+> at https://meet.jit.si/libcamera-workshop-nice-2025. We can however
+> not guarantee the quality of the network connection on site.
+> 
+> All times are in the CEST (UTC+2) time zone. If you plan to attend
+> remotely and are located in a time zone that makes the agenda items you
+> are most interested in occur at an inconvenient time, please let me know
+> and we will try to reorder the discussion topics.
+> 
+> Discussions will not be recorded, but the minutes of the workshop will
+> be posted to the mailing list after the event.
+> 
+> The workshop will be hosted by Embedded Recipes as part of their
+> workshop day (https://embedded-recipes.org/2025/workshops/) and will be
+> located at the Sheraton Nice Airport (https://www.openstreetmap.org/way/1084319591)
+> a few minutes away from the Embedded Recipes location. For more
+> information refer to https://embedded-recipes.org/2025/attend/#getting-there-block.
+> 
+> Lunch is included and complimentary for attendees. We will go off-site
+> to Fragrance Culinaire - Arénas (https://maps.app.goo.gl/cKuspzV8PSKeWuqD9).
+> The restaurant offers salads and sandwiches and can cater for vegetarian
+> diets. If you have a more restrictive diet, please let me know.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
