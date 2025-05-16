@@ -1,144 +1,344 @@
-Return-Path: <linux-media+bounces-32622-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32623-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11A4AB9658
-	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 09:01:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7F3AB968F
+	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 09:28:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E5B63B8107
-	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 07:01:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 684E41BC0C3E
+	for <lists+linux-media@lfdr.de>; Fri, 16 May 2025 07:29:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 004C21F4C98;
-	Fri, 16 May 2025 07:01:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A0C62288F9;
+	Fri, 16 May 2025 07:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gY9mL1fr"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lRccnhuY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E57442C
-	for <linux-media@vger.kernel.org>; Fri, 16 May 2025 07:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5019D1F4727;
+	Fri, 16 May 2025 07:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747378910; cv=none; b=C9cGQZwZuUdrvOrAmOu3c4ZvQPXtT4k2kdoWe4TL2KqC0X9DdXDMLI9fsVf8DK1WIPBH82ExR8o3yhanK5F47/frLNkSVn26TKPkm6UkUKIP6cpvD5cWXS8TDdWxpDgp9C4ayjAoYAeomYq0xr3CuZCEuT1hr3ZPMjk9o81xojc=
+	t=1747380526; cv=none; b=MYsm+DNEFW0Wnx++Bd5ZuPd0mUw1sOWopqQ8RMPPbhQivAUdkDc7gn1eSJbM5KamzsRKwlGE3STk6YBcZ9mBGSF7oXJ6yEwM4W1KV8y7tpnbFZs0LBZwR+v5UhXYd4gj9qTNncy46jQ7EdSDZIQ1u+NaQ3UafJk6slsT9vJiQNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747378910; c=relaxed/simple;
-	bh=qxibGpTgUK9cQkLGloloSw+ivScwBGN3vMSf/xy8m4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=psc+znYBCr/KUqlbs9JUikp6mA8m9Kw9o+S5nGbuWy1ptyq+wO2R4jHJTmwrjQrOzLJmFcZ1nfgnyw2Ssm577ysQqIt7zbZ5mBb6RwdU/BjLAT0spEaCGmfgc3VrEZE97C320dbg+kf+HdYrr05rOmPdsS8NRLEOVf3fmotw4+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gY9mL1fr; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (37.46.124.80.rev.sfr.net [80.124.46.37])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21C5B4AD;
-	Fri, 16 May 2025 09:01:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747378887;
-	bh=qxibGpTgUK9cQkLGloloSw+ivScwBGN3vMSf/xy8m4M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gY9mL1frBdFkx3NTmt+J+jsVj2mcpEtvSY6a+xvZI1CczCmntFztqy0xl3B5owZq2
-	 XA9ikc2L76GQ9dgtZLW7jOnFPuOtTCRooVFFE6p14+YE7GE7tPWJFgH2Sg7PebvT6U
-	 JU3XSjWn1AN5fzRl/9GWGQFbWvkC6hQKq2kdEJ74=
-Date: Fri, 16 May 2025 09:01:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alain Volmat <alain.volmat@foss.st.com>,
-	Andrej Gardijan <andrej.gardijan@tuta.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Devarsh Thakkar <devarsht@ti.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Jerry Wu <jerry.w.hu@intel.com>,
-	Jesper =?utf-8?Q?Taxb=C3=B8l?= <jesper@taxboel.dk>,
-	Josuah Demangeon <me@josuah.net>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mattijs Korpershoek <mkorpershoek@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Naush Patuck <naush@raspberrypi.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Ricardo Ribalda <ricardo.ribalda@gmail.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Will Robertson <w.robertson@cairnwater.com>
-Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org
-Subject: Re: [ANNOUNCEMENT] libcamera workshop 2025 - Logistics and agenda
-Message-ID: <20250516070137.GA20271@pendragon.ideasonboard.com>
-References: <20250512154445.GA4523@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1747380526; c=relaxed/simple;
+	bh=vbamsRClycmD0AcVt/iAvz202RrKFcQ4I4wdT1HanSY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sanMUPN2zO5QsA3VHkRfquB129TWg78Mdq61ZddVa9oxXzBuSpDvq/ZRWUEnf1Wsrd9jhT+YZWfyG+UZgh3ZxMw9hVS8wE/89Y5ROsA2qRCyA/7EM/JdOhntJlM6MeW9YoWdYCoUK/ubWrsNm5+wRoqy1aHhGtBFPgDmJz3vmdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lRccnhuY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54G3R3Um007950;
+	Fri, 16 May 2025 07:28:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=qkhnsikbRoTEbIXyNpd9ac
+	mVIdj7l4Am8uh2qrLrri4=; b=lRccnhuY6cH4ipChmMn3K9qgDGFKfVP6ZBaHKw
+	0TGhIAv3Nv4CopGLROyApVOkr4Kva7EndWOS9vozesUgcSJf2UCIN+gxrWeQW86i
+	rvi0pKRpCheo5lWOLnSTb/DE5xVay2af5qP53Z/HvdoHOQQ4icOQiSHnIIaxr9x5
+	05SGDoMizjzYG8CHXDj09wc84WwxZWx2+q8ym8bSwu3UNK919V4LOczvcmS0gejX
+	uPEvzftOdZcH2tte/5STOEurg7z3wC043DC8Ne/v72a1yNZNWnJfKNXHdBdft8Eg
+	jLkFfDw/2LnmGrOCRus9wPIeAiGUnQbS+CeFutPebhVWEQhA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcq1223-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 May 2025 07:28:38 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54G7SanY014625
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 May 2025 07:28:37 GMT
+Received: from cse-cd01-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 16 May 2025 00:28:33 -0700
+From: Wenmeng Liu <quic_wenmliu@quicinc.com>
+To: <rfoss@kernel.org>, <bryan.odonoghue@linaro.org>, <todor.too@gmail.com>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <quic_depengs@quicinc.com>, <quic_wenmliu@quicinc.com>
+Subject: [PATCH RESEND] arm64: dts: qcom: sm8550: Add support for camss
+Date: Fri, 16 May 2025 15:27:07 +0800
+Message-ID: <20250516072707.388332-1-quic_wenmliu@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250512154445.GA4523@pendragon.ideasonboard.com>
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: br1k9fbd3Z6UNgOSv5LXjm6xJysRzL2I
+X-Proofpoint-ORIG-GUID: br1k9fbd3Z6UNgOSv5LXjm6xJysRzL2I
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDA2OSBTYWx0ZWRfXwbQ36jKvU6VR
+ v1UYVUjVqNnpBvawWLG7ZBwrSIy1x91lMGrMp++/YYe6vL4HWcaWywfQ6FLPI6+Gy3YBvDR0XAI
+ qwS4BGIIcYmEQUbvp6JIJ6Bvmtl6VkwIE4oopwFkyPIEfwO/bYQhoW8+uJUtfbqxdLkm/TGjRVH
+ mtr25MDQnAL7F3fQbt4dUjb5/meWwIyuTKjFsFgs1bluPPhjBssODXXSFbwPmyS9+NbcHRQhVPc
+ T9ooROLXWDSb/3fVLo35T6kJ0rH8v6sQS0bg83qdoMtFikHmocByopPs7KdDNeWa8/dNrYXl82l
+ 9Gi0JH/WF848EjR5CvpUr7pYADwI1NaiKlNcRQxhwYEwJNoLOPSjtyUEQehTADSqBdz5L5M9XbW
+ yLQKDfutmWIgsL6iOMyepeYrghJJrUDkQ52m03Sy1wakaEjpjiZq3nU26DFXnbClh4i3SBKN
+X-Authority-Analysis: v=2.4 cv=KcvSsRYD c=1 sm=1 tr=0 ts=6826e926 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=-Dqg9KxjyIUy_Lgdb-YA:9
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-16_03,2025-05-15_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0 phishscore=0
+ lowpriorityscore=0 mlxlogscore=665 spamscore=0 malwarescore=0 impostorscore=0
+ mlxscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
+ definitions=main-2505160069
 
-Hello everybody,
+Add support for the camera subsystem on the SM8550 Qualcomm SoC. This
+includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
 
-Here's a link to the etherpad we will use to take notes today.
+SM8550 provides
+- 3 x VFE, 3 RDI per VFE
+- 2 x VFE Lite, 4 RDI per VFE
+- 3 x CSID
+- 2 x CSID Lite
+- 8 x CSI PHY
 
-https://pad.systemli.org/p/libcamera-workshop-nice-2025
+Co-developed-by: Depeng Shao <quic_depengs@quicinc.com>
+Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/sm8550.dtsi | 210 +++++++++++++++++++++++++++
+ 1 file changed, 210 insertions(+)
 
-On Mon, May 12, 2025 at 05:44:45PM +0200, Laurent Pinchart wrote:
-> Hello everybody,
-> 
-> I'm looking forward to seeing you all on Friday the 16th of May for the
-> libcamera workshop. Here is the first agenda draft, along with logistic
-> information for on-site and remote attendees.
-> 
-> As all workshop agendas, this is tentative and we will adjust the exact
-> timing depending on how the discussions progress.
-> 
-> 09:00 - 09:10  Welcome and agenda bashing
-> 09:10 - 09:40  Software ISP status and future plans (Hans de Goede)
-> 09:40 - 10:00  Slowing down the soft ISP CPU implementation (Laurent Pinchart)
-> 10:00 - 10:30  Using a single IPA with multiple pipeline handlers (Hans de Goede)
-> 10:30 - 11:00  Break
-> 11:00 - 11:45  Bayer reprocessing (David Plowman)
-> 11:45 - 12:30  Startup frames (David Plowman)
-> 12:30 - 13:30  Lunch
-> 13:30 - 14:00  State of gstreamer support (Nicolas Dufresne)
-> 14:00 - 14:30  Multi-context support (Nicolas Dufresne)
-> 14:30 - 15:30  Per frame control (David Plowman)
-> 15:30 - 16:00  Break
-> 16:00 - 16:45  libcamera on Zephyr (Josuah Demangeon)
-> 16:45 - 17:15  The importance of libcamera to WildCamera
-> 17:15 - 17:45  TBD
-> 
-> Each agenda item is listed with the name of the person who proposed it.
-> We expect those persons to introduce the topic (orally or with slides,
-> at your discretion) and drive the discussion.
-> 
-> We will use Jitsi Meet for remote access. The event will be accessible
-> at https://meet.jit.si/libcamera-workshop-nice-2025. We can however
-> not guarantee the quality of the network connection on site.
-> 
-> All times are in the CEST (UTC+2) time zone. If you plan to attend
-> remotely and are located in a time zone that makes the agenda items you
-> are most interested in occur at an inconvenient time, please let me know
-> and we will try to reorder the discussion topics.
-> 
-> Discussions will not be recorded, but the minutes of the workshop will
-> be posted to the mailing list after the event.
-> 
-> The workshop will be hosted by Embedded Recipes as part of their
-> workshop day (https://embedded-recipes.org/2025/workshops/) and will be
-> located at the Sheraton Nice Airport (https://www.openstreetmap.org/way/1084319591)
-> a few minutes away from the Embedded Recipes location. For more
-> information refer to https://embedded-recipes.org/2025/attend/#getting-there-block.
-> 
-> Lunch is included and complimentary for attendees. We will go off-site
-> to Fragrance Culinaire - Arénas (https://maps.app.goo.gl/cKuspzV8PSKeWuqD9).
-> The restaurant offers salads and sandwiches and can cater for vegetarian
-> diets. If you have a more restrictive diet, please let me know.
-
+diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+index e9bb077aa9f0..722521496a2d 100644
+--- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+@@ -3326,6 +3326,216 @@ cci2_i2c1: i2c-bus@1 {
+ 			};
+ 		};
+ 
++		isp: isp@acb7000 {
++			compatible = "qcom,sm8550-camss";
++
++			reg = <0x0 0x0acb7000 0x0 0x0d00>,
++			      <0x0 0x0acb9000 0x0 0x0d00>,
++			      <0x0 0x0acbb000 0x0 0x0d00>,
++			      <0x0 0x0acca000 0x0 0x0a00>,
++			      <0x0 0x0acce000 0x0 0x0a00>,
++			      <0x0 0x0acb6000 0x0 0x1000>,
++			      <0x0 0x0ace4000 0x0 0x2000>,
++			      <0x0 0x0ace6000 0x0 0x2000>,
++			      <0x0 0x0ace8000 0x0 0x2000>,
++			      <0x0 0x0acea000 0x0 0x2000>,
++			      <0x0 0x0acec000 0x0 0x2000>,
++			      <0x0 0x0acee000 0x0 0x2000>,
++			      <0x0 0x0acf0000 0x0 0x2000>,
++			      <0x0 0x0acf2000 0x0 0x2000>,
++			      <0x0 0x0ac62000 0x0 0xf000>,
++			      <0x0 0x0ac71000 0x0 0xf000>,
++			      <0x0 0x0ac80000 0x0 0xf000>,
++			      <0x0 0x0accb000 0x0 0x1800>,
++			      <0x0 0x0accf000 0x0 0x1800>;
++			reg-names = "csid0",
++				    "csid1",
++				    "csid2",
++				    "csid_lite0",
++				    "csid_lite1",
++				    "csid_wrapper",
++				    "csiphy0",
++				    "csiphy1",
++				    "csiphy2",
++				    "csiphy3",
++				    "csiphy4",
++				    "csiphy5",
++				    "csiphy6",
++				    "csiphy7",
++				    "vfe0",
++				    "vfe1",
++				    "vfe2",
++				    "vfe_lite0",
++				    "vfe_lite1";
++
++			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
++				 <&camcc CAM_CC_CPAS_AHB_CLK>,
++				 <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
++				 <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
++				 <&camcc CAM_CC_CPAS_IFE_0_CLK>,
++				 <&camcc CAM_CC_CPAS_IFE_1_CLK>,
++				 <&camcc CAM_CC_CPAS_IFE_2_CLK>,
++				 <&camcc CAM_CC_CSID_CLK>,
++				 <&camcc CAM_CC_CSIPHY0_CLK>,
++				 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY1_CLK>,
++				 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY2_CLK>,
++				 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY3_CLK>,
++				 <&camcc CAM_CC_CSI3PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY4_CLK>,
++				 <&camcc CAM_CC_CSI4PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY5_CLK>,
++				 <&camcc CAM_CC_CSI5PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY6_CLK>,
++				 <&camcc CAM_CC_CSI6PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY7_CLK>,
++				 <&camcc CAM_CC_CSI7PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
++				 <&gcc GCC_CAMERA_HF_AXI_CLK>,
++				 <&camcc CAM_CC_IFE_0_CLK>,
++				 <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
++				 <&camcc CAM_CC_IFE_1_CLK>,
++				 <&camcc CAM_CC_IFE_1_FAST_AHB_CLK>,
++				 <&camcc CAM_CC_IFE_2_CLK>,
++				 <&camcc CAM_CC_IFE_2_FAST_AHB_CLK>,
++				 <&camcc CAM_CC_IFE_LITE_CLK>,
++				 <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
++				 <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
++				 <&camcc CAM_CC_IFE_LITE_CSID_CLK>;
++			clock-names = "camnoc_axi",
++				      "cpas_ahb",
++				      "cpas_fast_ahb_clk",
++				      "cpas_ife_lite",
++				      "cpas_vfe0",
++				      "cpas_vfe1",
++				      "cpas_vfe2",
++				      "csid",
++				      "csiphy0",
++				      "csiphy0_timer",
++				      "csiphy1",
++				      "csiphy1_timer",
++				      "csiphy2",
++				      "csiphy2_timer",
++				      "csiphy3",
++				      "csiphy3_timer",
++				      "csiphy4",
++				      "csiphy4_timer",
++				      "csiphy5",
++				      "csiphy5_timer",
++				      "csiphy6",
++				      "csiphy6_timer",
++				      "csiphy7",
++				      "csiphy7_timer",
++				      "csiphy_rx",
++				      "gcc_axi_hf",
++				      "vfe0",
++				      "vfe0_fast_ahb",
++				      "vfe1",
++				      "vfe1_fast_ahb",
++				      "vfe2",
++				      "vfe2_fast_ahb",
++				      "vfe_lite",
++				      "vfe_lite_ahb",
++				      "vfe_lite_cphy_rx",
++				      "vfe_lite_csid";
++
++			interrupts = <GIC_SPI 601 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 603 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 431 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 605 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 376 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 89 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 278 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 277 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 602 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 604 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 688 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 606 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 377 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "csid0",
++					  "csid1",
++					  "csid2",
++					  "csid_lite0",
++					  "csid_lite1",
++					  "csiphy0",
++					  "csiphy1",
++					  "csiphy2",
++					  "csiphy3",
++					  "csiphy4",
++					  "csiphy5",
++					  "csiphy6",
++					  "csiphy7",
++					  "vfe0",
++					  "vfe1",
++					  "vfe2",
++					  "vfe_lite0",
++					  "vfe_lite1";
++
++			interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
++					 &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
++					<&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
++					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
++			interconnect-names = "ahb",
++					     "hf_0_mnoc";
++
++			iommus = <&apps_smmu 0x800 0x20>;
++
++			power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
++					<&camcc CAM_CC_IFE_1_GDSC>,
++					<&camcc CAM_CC_IFE_2_GDSC>,
++					<&camcc CAM_CC_TITAN_TOP_GDSC>;
++			power-domain-names = "ife0",
++					     "ife1",
++					     "ife2",
++					     "top";
++
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++				};
++
++				port@1 {
++					reg = <1>;
++				};
++
++				port@2 {
++					reg = <2>;
++				};
++
++				port@3 {
++					reg = <3>;
++				};
++
++				port@4 {
++					reg = <4>;
++				};
++
++				port@5 {
++					reg = <5>;
++				};
++
++				port@6 {
++					reg = <6>;
++				};
++
++				port@7 {
++					reg = <7>;
++				};
++			};
++		};
++
+ 		camcc: clock-controller@ade0000 {
+ 			compatible = "qcom,sm8550-camcc";
+ 			reg = <0 0x0ade0000 0 0x20000>;
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
