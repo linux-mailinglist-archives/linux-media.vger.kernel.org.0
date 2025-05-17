@@ -1,127 +1,142 @@
-Return-Path: <linux-media+bounces-32689-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32690-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95996ABAA9E
-	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 16:13:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 067CFABABD6
+	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 20:22:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8BEBB189F933
-	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 14:13:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F196189CE17
+	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 18:22:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846A1204090;
-	Sat, 17 May 2025 14:12:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E650521480D;
+	Sat, 17 May 2025 18:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B25XEvZT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHrLybgC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E485155393
-	for <linux-media@vger.kernel.org>; Sat, 17 May 2025 14:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363202D052;
+	Sat, 17 May 2025 18:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747491175; cv=none; b=d6pcc0si9q//kjpyrs1n8iQ3iz3HClvmPPzh8VRSZ1QmqMzEL2rZGBNbDeKKLLVNpVVz2TU1hG/d/lyNV0h7ywGZY9xOarEHhzbhZMpfMaaR8xn8nDKXFtdzuDG1TgTi5u4Ts5VzdpI77XcobTfb6/CemD7yT8NLrZvjSbBs4iQ=
+	t=1747506143; cv=none; b=KT9Qo5+OehH+H1+qAUrK+hjh1Zv8mIYXJd1e/RtZPWVmx34uZ1D3xkyF9PGLSk22omGprIm22+7ilhDk4rZ9b2zlvbltNEy5gdIua368tJ0vPP2CzhOYUTdkN8vO+f+19LruGbjfkfyKgAA3P1/HRNdci3rpn+gt4sNTsoTdSH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747491175; c=relaxed/simple;
-	bh=k0U5GPNsCXmA3hWYy7qG4QWRzGVm7Ww8vXjL56JDEJ4=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=U2k+3DVomzI+MJNkRizbbx9Nve6BMQSGKiQakbnNHTpX/AJgmddCO3CmrkbFNLNQOThFto7tHHdxJ9XQwkA3cnk8rvPgBynt/2fWMIA8HWFxD8mlznQwpCL3PnXSv1NmLbq7LlYsLQZXrRMKC0dVQRh3w2EbvC4GcH0Fw0kUle0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B25XEvZT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BCAD4AD;
-	Sat, 17 May 2025 16:12:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747491148;
-	bh=k0U5GPNsCXmA3hWYy7qG4QWRzGVm7Ww8vXjL56JDEJ4=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=B25XEvZTKcwm7ajZsupJ0nqEZ3U5kvLbVEwDGlufBbglQMrx4BswmK+Nryx6XyJww
-	 hcEOwktLOzKMkw4MJvPuJZMXOAfMsjIyHsGqqv0aP5kz+F/9nL8C1z3Oaf6T8L98zW
-	 CHGakjdiZiWoeOpFYIzpvfjdaAaKBWkjIJ3E2a7Q=
+	s=arc-20240116; t=1747506143; c=relaxed/simple;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=lAy4SoGF2ODVTzPQS0BVJoXDjwWaiEX44/2Yar9EgciinqctXaGbs8PG5ZHBh9uscfE4A4253MDvy9VcY7SmfeBE5SHgUWL2l6/xGlhq8+z363ISbtYv6hiQE2lqLPNHbo8khdaqsSU9tq/kiXyJOI+DLBCbuARRXsphJn4Eyco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHrLybgC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 631F7C4CEE3;
+	Sat, 17 May 2025 18:22:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747506142;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=BHrLybgCAiJ0CoanbY78k+isk1NvLB6ZNiy9v2y5PvHKf3KL+MrdPuw+8r7wwZZg3
+	 VnksktJf2RghVntXQvtSNBo9mB2nFJJGkQzXl21tbHz6aNu8ZYBfdkWe8feZKdu6kV
+	 h3u3vi419FvP9PK/lUZFugflT3tyCXNtdIyC3KD/sTSvb7FeGqSXgzLl0wyX2Bc2dZ
+	 QEpC5rdBrEw+LSZRT/16sqDd6wrNsYfHpEOYu4JevfVdccVkx3+wHNhcjST/fxDhdu
+	 Owl8GhPXwAlTsfynOA6g9w6nAf3FEvWimasw1XmC/Rj75Nr9xvNBnwwdjSF4LlBOFZ
+	 zHtq6wgZathLg==
+Date: Sat, 17 May 2025 13:22:21 -0500
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250517114106.43494-23-hdegoede@redhat.com>
-References: <20250517114106.43494-1-hdegoede@redhat.com> <20250517114106.43494-23-hdegoede@redhat.com>
-Subject: Re: [PATCH 22/23] media: atomisp: gc0310: Drop gc0310_g_skip_frames()
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Sat, 17 May 2025 15:12:43 +0100
-Message-ID: <174749116399.3878759.7479066161021210171@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
 
-Hi Hans,
 
-Great looking series!
-Makes me want to spend time cleaning up the OV5675 that I have here on
-this laptop ... Oh to have more time ...
-
-
-Quoting Hans de Goede (2025-05-17 12:41:05)
-> The g_skip_frames sensor-op is obsolete, drop it.
->=20
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
+> 
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > ---
->  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 11 -----------
->  1 file changed, 11 deletions(-)
->=20
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers=
-/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 73779c20ca68..edcad228272a 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -541,16 +541,6 @@ static int gc0310_enum_frame_size(struct v4l2_subdev=
- *sd,
->         return 0;
->  }
-> =20
-> -static int gc0310_g_skip_frames(struct v4l2_subdev *sd, u32 *frames)
-> -{
-> -       *frames =3D GC0310_SKIP_FRAMES;
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+> 
 
-Skimming through - this seems to be the first comment I have ... :-)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-I think GC0310_SKIP_FRAMES can be removed at this point.
+yamllint warnings/errors:
 
-We don't yet have a 'skip' frames parameter in libcamera sensor
-properties - but especially after the libcamera workshop - we should add
-the skip-frames (or other wise startup-frame named?) property as  '3' to
-libcamera.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
 
-With that,=20
+doc reference errors (make refcheckdocs):
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
 
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-> -       return 0;
-> -}
-> -
-> -static const struct v4l2_subdev_sensor_ops gc0310_sensor_ops =3D {
-> -       .g_skip_frames  =3D gc0310_g_skip_frames,
-> -};
-> -
->  static const struct v4l2_subdev_video_ops gc0310_video_ops =3D {
->         .s_stream =3D v4l2_subdev_s_stream_helper,
->  };
-> @@ -569,7 +559,6 @@ static const struct v4l2_subdev_pad_ops gc0310_pad_op=
-s =3D {
->  static const struct v4l2_subdev_ops gc0310_ops =3D {
->         .video =3D &gc0310_video_ops,
->         .pad =3D &gc0310_pad_ops,
-> -       .sensor =3D &gc0310_sensor_ops,
->  };
-> =20
->  static int gc0310_init_state(struct v4l2_subdev *sd,
-> --=20
-> 2.49.0
->
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
