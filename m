@@ -1,142 +1,168 @@
-Return-Path: <linux-media+bounces-32691-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32692-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB602ABAC5E
-	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 22:23:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89375ABAC7F
+	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 22:42:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79C9A3BB6D1
-	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 20:22:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 85A01189B694
+	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 20:42:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 027CB1DE4E0;
-	Sat, 17 May 2025 20:23:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 246EF215168;
+	Sat, 17 May 2025 20:41:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qqm9uzjH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IlBNMhOA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51005145355;
-	Sat, 17 May 2025 20:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D13D1A8401
+	for <linux-media@vger.kernel.org>; Sat, 17 May 2025 20:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747513379; cv=none; b=Lm38vcQyNQ/jF551POx05rMayeoBZ5X7WHOh4K0JGf2pFP735okU10XS+J2G69WiXYBvKSdyJ+RvR4m6wRLoqS51TLUXoJDRx7SNXzYSDRH9V8iWypNP85zMoS2INDyzJiSvjM8Whn1HeXZTYdiAoFeGTYXNhHI2ARQ7LjA60aA=
+	t=1747514515; cv=none; b=S2YOC+yVTv2GAUYpndBJcTehQKbUvATBD8Z6hQS5eRcpyjDtmcWzB5z08uSfNZrAz80wxtiIbarn+bNGVLBpo2mzaKe6H0kB3J31m5E8HdzTdiP0vm27AXhOASzCmM9wcARv7HgvL40npZvdS3qMgVPivjhz5E58cyiFVsVhQSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747513379; c=relaxed/simple;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=s2xjg8CzgbOvHlbmOtY5yJiimjYZTfE3mDtbjq6nX6u16IeLDMavnibwaDqElw5GRGwwniGOqpc6lIdjlJ4gfJ1XZFZ4ZmgeS7yJimfB+TXXxqQf4ilsHXHGEk8j2pr7AfbUiefa1zJyrc6N60u7O6M7LLqv6YjazB0cX6seTio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qqm9uzjH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E558C4CEE3;
-	Sat, 17 May 2025 20:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747513377;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=Qqm9uzjHX3E3Tkba0SIwo+dHYvchdHyrS9w0HmsSqMTrFW33pa6KOeJ4Iea68h2eU
-	 D6TbH7GEuMGIgSLA6VZ5O4+UVvE/wnR/mLIszDIMlLqE+yqVgyVfhz1KkrJCkl7cML
-	 YcMyTYJhBbZN7BWxuUOyEwfgBsymCbRM4La4MemLak7ZDAOEDFvryhDMZEq0a85j5B
-	 IZ+3S5vmFLAuo7GCDc8X2KnIc+y3dLq4ZbpVCs7Y4Bptl1LNeByDLCweulplxso4R1
-	 PZOTvIez9c5CzOWftnhE4zP4xw3Ougnu0YlWSe2ocoXUXkdfc9mmK+3f8z3hLGbJx4
-	 FQtmHkJy2Rk9g==
-Date: Sat, 17 May 2025 15:22:55 -0500
+	s=arc-20240116; t=1747514515; c=relaxed/simple;
+	bh=O6I0cHjlh9oPXPrE12sxsfG9ee4iaShUyGl3Fgq4iEo=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=HgcrWd2syAKOMsBzQPR2RgF48Dycw56Tu0ZFrTjN6ADzy1nM6jxTEpzT/noydcK/B/2dZEeE5ki2JRzJ/qt0v8ZcxX6AdL9y9nmE9dP3OUB5pPGKfLs6ji+5fr/zf+HiQJxjIoz2kP8K3MxEz57k4+fMrKBRmyRJcAFEJ+HdTWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IlBNMhOA; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE6D24AD;
+	Sat, 17 May 2025 22:41:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747514491;
+	bh=O6I0cHjlh9oPXPrE12sxsfG9ee4iaShUyGl3Fgq4iEo=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=IlBNMhOA+Xiu1VDT+xJGsvbbHYFG4zc9msbWRHvzcjPhXV4cQov0XIt8FxEmJRjJC
+	 b60Fz8FS21DubnUO0e9fywlS5k9NYUSx/YSh9r9Byxqh1E5hhT+ZZjm7urDBtEU7gP
+	 33+uNNIu7+LmHvXoJ8vLsaFqBhr4fmTuRDD24Atw=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250517114106.43494-7-hdegoede@redhat.com>
+References: <20250517114106.43494-1-hdegoede@redhat.com> <20250517114106.43494-7-hdegoede@redhat.com>
+Subject: Re: [PATCH 06/23] media: atomisp: gc0310: Add selection API support
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Sat, 17 May 2025 21:41:47 +0100
+Message-ID: <174751450775.281096.10701361397332094857@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Quoting Hans de Goede (2025-05-17 12:40:49)
+> Add support for the selection API as expected by libcamera.
+>=20
+> Note the driver only supports a single fixed resolution and
+> no cropping, so this is a simple read-only implementation.
+>=20
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
-> 
+>  .../media/atomisp/i2c/atomisp-gc0310.c        | 42 ++++++++++++++++++-
+>  1 file changed, 41 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers=
+/staging/media/atomisp/i2c/atomisp-gc0310.c
+> index 756e56f639b7..7902e732a3ca 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> @@ -3,7 +3,7 @@
+>   * Support for GalaxyCore GC0310 VGA camera sensor.
+>   *
+>   * Copyright (c) 2013 Intel Corporation. All Rights Reserved.
+> - * Copyright (c) 2023 Hans de Goede <hdegoede@redhat.com>
+> + * Copyright (c) 2023-2025 Hans de Goede <hansg@kernel.org>
+>   */
+> =20
+>  #include <linux/delay.h>
+> @@ -352,6 +352,43 @@ static int gc0310_get_fmt(struct v4l2_subdev *sd,
+>         return 0;
+>  }
+> =20
+> +static int gc0310_get_selection(struct v4l2_subdev *sd,
+> +                               struct v4l2_subdev_state *state,
+> +                               struct v4l2_subdev_selection *sel)
+> +{
+> +       /* Only the single fixed 656x496 mode is supported, without cropi=
+ng */
+> +       switch (sel->target) {
+> +       case V4L2_SEL_TGT_CROP:
+> +       case V4L2_SEL_TGT_CROP_BOUNDS:
+> +       case V4L2_SEL_TGT_CROP_DEFAULT:
+> +       case V4L2_SEL_TGT_NATIVE_SIZE:
+> +               sel->r.top =3D 0;
+> +               sel->r.left =3D 0;
+> +               sel->r.width =3D GC0310_NATIVE_WIDTH;
+> +               sel->r.height =3D GC0310_NATIVE_HEIGHT;
+> +               break;
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int gc0310_set_selection(struct v4l2_subdev *sd,
+> +                               struct v4l2_subdev_state *state,
+> +                               struct v4l2_subdev_selection *sel)
+> +{
+> +       if (sel->target !=3D V4L2_SEL_TGT_CROP)
+> +               return -EINVAL;
+> +
+> +       /* Only the single fixed 656x496 mode is supported, without cropi=
+ng */
+> +       sel->r.top =3D 0;
+> +       sel->r.left =3D 0;
+> +       sel->r.width =3D GC0310_NATIVE_WIDTH;
+> +       sel->r.height =3D GC0310_NATIVE_HEIGHT;
+> +       return 0;
+> +}
+> +
+>  static int gc0310_detect(struct gc0310_device *sensor)
+>  {
+>         struct i2c_client *client =3D v4l2_get_subdevdata(&sensor->sd);
+> @@ -509,6 +546,8 @@ static const struct v4l2_subdev_pad_ops gc0310_pad_op=
+s =3D {
+>         .enum_frame_size =3D gc0310_enum_frame_size,
+>         .get_fmt =3D gc0310_get_fmt,
+>         .set_fmt =3D gc0310_set_fmt,
+> +       .get_selection =3D gc0310_get_selection,
+> +       .set_selection =3D gc0310_set_selection,
 
-My bot found errors running 'make dt_binding_check' on your patch:
+On other sensors I've worked on, we haven't implemented .set_selection()
+unless it can be changed. I think this could be simplified here? - Just
+the implementation in .get_selection should be enough I think ?
 
-yamllint warnings/errors:
+Saves a few lines when it's not configurable.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+In imx283.c we have no implementation of .set_selection; though in
+imx335.c - we simply set .set_selection =3D imx335_get_selection;
 
-doc reference errors (make refcheckdocs):
+imx415.c also only sets the .get_selection callback ... so maybe I could
+already simplify imx335 too!
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+>         .get_frame_interval =3D gc0310_get_frame_interval,
+>  };
+> =20
+> @@ -671,5 +710,6 @@ static struct i2c_driver gc0310_driver =3D {
+>  module_i2c_driver(gc0310_driver);
+> =20
+>  MODULE_AUTHOR("Lai, Angie <angie.lai@intel.com>");
+> +MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
+>  MODULE_DESCRIPTION("A low-level driver for GalaxyCore GC0310 sensors");
+>  MODULE_LICENSE("GPL");
+> --=20
+> 2.49.0
+>
 
