@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-32687-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32688-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70882ABAA5E
-	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 15:28:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FB5ABAA5F
+	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 15:28:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0899F4A058E
-	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 13:28:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AAB214A058C
+	for <lists+linux-media@lfdr.de>; Sat, 17 May 2025 13:28:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F21CB1F4701;
-	Sat, 17 May 2025 13:27:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A0D7201013;
+	Sat, 17 May 2025 13:28:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpBcsiZL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X12ETQ7U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7325A1CAA65;
-	Sat, 17 May 2025 13:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E347F1F9ED2;
+	Sat, 17 May 2025 13:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747488475; cv=none; b=suJJAch1Wl3+D90CFAksU6B/ntrVdv4DkDycsQgejKT0yQ4+p4u2Zbkuq46vchiZy/MC6NVNVKEKhB44q2JAqClOzsGOW/3VMxflDrqqsVKUcgk4bcg+6yLAUxi7z4MMwZBv43VAO1RPuDJoZhlX1zVppeb/sk2P+RF0WJ33wvE=
+	t=1747488487; cv=none; b=u8KdY3KfxupTruKUqGSbwQfLIOCZjEXUb4O8pVp8tVO1Q8TCDucAbbj9aCFS8hkobBXZuWUy13DjH8QH1QjDxnPqPwaUpHjOxqNpkXCuU4otQBlj+SMGuI6jDoCsAX5Ikogl/pLYXYI9gsuz+i2NjhODqjPY2utXMdKMestBsF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747488475; c=relaxed/simple;
-	bh=spYfl71UcoSjyBIUumLW2qzFgado5aKo1Uy7jOd1v9g=;
+	s=arc-20240116; t=1747488487; c=relaxed/simple;
+	bh=gmDEnXwRjo+bJNFszJsbjo95GO8tD4tqGQW7d1o1lDQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oLu7uHE+GrlrS+iwwufcJ+wIgHWq+zcXIjKb375cWy7FgzsZBSEfXzof0ufJWsUn8GuBJNc6MhEL33h0mpGJibSGnqslJrincnxMqxQ7XZW5zPr9ASwUPSf84UfE/HmYYEA39MqjMswhsPjdlwnsBqHtFMJSCon6zOEMy2gQ21U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gpBcsiZL; arc=none smtp.client-ip=209.85.167.50
+	 MIME-Version:Content-Type; b=Pwgy/g22l4JydCz1erqhvAiY036Jv5ufmIc33VYw3uFppGFTb/5tVV+9RlI5G9Aw8+GGK5yFwwtgcrAg7dlzDbPa56/yQdLv3t0NwLy5/JrQ/Xqw7oRnwxWOiTFQTrcZaINmSwUj4PfGBtGPz3wGqOcs+RpypM5QOnbUsiNin7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X12ETQ7U; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54afb5fcebaso3433464e87.3;
-        Sat, 17 May 2025 06:27:53 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32803984059so15433351fa.2;
+        Sat, 17 May 2025 06:28:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747488471; x=1748093271; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747488484; x=1748093284; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UZzU0d/ll5eJJZWcs0vUfV3SAbqRqpju3seLh6okZ5s=;
-        b=gpBcsiZLivf01d43n4TepNl6e6R1Df2KNapDX/AFTctVuX5H5l1MuaX0tyH6NmWxod
-         xnK5qUQsNDlirq/vKUDRy6RoouJO4lu1wLMV1K2O7shWx2SO5skucM8l8URVdXSmVCo6
-         7DPK69C/HflXD704jEUP6icuaKRjWISn6tkiZEWKn/7kBCgg6PBPUoiMkSfEZNl92Gg5
-         20d6WWnGH9V8GwmqREKXvzgwAOzR50dyoQISLCIFYwrBTBZYLkWifRlxSDNlUs3gQDaI
-         ZACr4c27S6gsmxnJYIWgbEE6tLpZSqoFqrb6pGcrfAzmbcuz/EYYJFCSmn5x6ElvqZoS
-         6G+w==
+        bh=OI7TUjGfXSmfmXazMfqv5rln70w6M1XAC14rGLg1cvE=;
+        b=X12ETQ7UJxCSLRLLfWUvnmksKY943PFVnNzLhFlkdvRibMo7tq0kg+m1kZV/noyljo
+         ETry5qh9jZ48qYyM3V3e+kdUmt7XA8cWc8fgBCO9hEBcMI6gG/COGa9mAwyqg9Wj2zU1
+         TZV5ude8n3KP+Bk8ULZveKgDhJ/jhRIcg6ieeS9VV7gLs3aKWwk2YaTMg48itBJNXW/w
+         YMx8Gi+7twM+Us6bF4BWMsBcKxWeNGGN52EqUB9KY0jAT3Xm5Uzp3Ndt9zzwo+lFEQ69
+         hGm7Ofu76+BZLbHZIT7jYSa/15XxYBA1MkYTQJTETvVrfxTSMtmI8oRa2tKZWZobuyq7
+         psyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747488471; x=1748093271;
+        d=1e100.net; s=20230601; t=1747488484; x=1748093284;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UZzU0d/ll5eJJZWcs0vUfV3SAbqRqpju3seLh6okZ5s=;
-        b=cKY6/cp6muU5CFdC7k2fnryl9Smvhqx4puqCa86IV3UfQRs7rCyQ8If0LL6H80eQSB
-         tsYYl3PIOlA+jMm+MgPUkoAnkqtdknWHnbX8treb2KEH9VDrPJ2PJd7rc9RHj+6HCqVL
-         pwagj4Vgmyj7Zftz94CHQtbIcJSr8ve8hyY6Cu2qILjW4egxTEY7dPWYw80B4GbVNvdo
-         llaW9bdIh57LYasIYDMVCQnl21AurPRBeA56TOar4bl2xgrSxU7+sYFYmxHaDW+cb8Sj
-         ChFIaT8ui/FRr/NTkVkH2228iAu/iICDkavZL9rkr8TEcFJ7EjHEVfj4crwNCwq4XyaE
-         hiAA==
-X-Forwarded-Encrypted: i=1; AJvYcCVj37+jagtSSTbpVNGQoK5qVZKvPAIQ3x4OLXLtkj+6CA4Dew1bKOsmj1jyvmicWhWpeedj7Rb4thyFZqE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyK8vmCPVg60Sr85BR8bWDyg6dWr5LSWh2lxHN+3CxjjJK82be7
-	ILRhGrEkX5/Vrnjq3zSHofv5eCnqWOD5kHa5+xtCa2kEvRnH+j5K/ABE
-X-Gm-Gg: ASbGnctI4U7r7u73XLTlEaNYnlfa9dY7lHaJCEzsf0W3mb9LUnW02N9rtpA3fztZq5o
-	3XvdWDC0CsyzQs/yRipro/dTHH63IHRqF3wraxER+fsUU+LO2ZRotd52Zn6SN5AV75J8Y2H8PNu
-	Bnky6bkVWNmTMdPmRmWP8zX1mVhACBrAt4hBntE8r+GKcunW3u/GAeWp585SCletz47wjA4g7y7
-	utWrDvIwBk3flDVz2ScsAuU9171yRvN7Js3vHn0cx8UWWP60VUrX5L8yEWIM0UVjwoxcJIgCPEg
-	ZPJeSvI3wsVQtS1H8kNUIqp4KoFAWOHO4vCEQL0aq0B/JoxkobCbHpOdbKMhBHmBRT5sSB+aO9s
-	GJibDk4W9zQpTInsbS7aifpRFcbkAf4qXt2FeN9jp5vvR/43X
-X-Google-Smtp-Source: AGHT+IGI/X41tN+PJV1tDajIQvh/s6/qk2bVMbS6HM0NyNmdl3MpRMD4veS1gX3j0LELeBacMxAFNA==
-X-Received: by 2002:a05:6512:6619:b0:54b:117b:952f with SMTP id 2adb3069b0e04-550e725782emr2108152e87.56.1747488471245;
-        Sat, 17 May 2025 06:27:51 -0700 (PDT)
+        bh=OI7TUjGfXSmfmXazMfqv5rln70w6M1XAC14rGLg1cvE=;
+        b=Yu0Liay4lw2LmXlG9V0QPtuv9BBWD9PfQDbVToRGwXeGrQDiQt6BPHd596VoaB6WGk
+         EwgAXUJm9rleT7afxo7ffvLkcX2rLBpwW5ynO38zTu/fa1FCTxwWq3dyMT+uEtWlmmou
+         Q+e5J471JFC6MwADmCyuQJt1AUnNWYDcCqbSdz+HGLCV3O0gtKav6tQJw8VgSo7t+Kgo
+         twpSlMJRtEZ7UjP/g1+1OuKD874PIVbakodVgwc377+8ntT70RrNCiqrwFPVD2TmlA2v
+         imco7Xc96R1CBH+SsLGPyXOLvKrqOkkjoZUPLSSCzHanAExCrgUV0YPruguBFqprCVcF
+         S6pA==
+X-Forwarded-Encrypted: i=1; AJvYcCVS7cnQ8rWutsqtlcNp1metFMrrsEnvoKgkB9lgtfQp/IM1hEpxjyfqAO1a1ySDYmEUEUTig5OQHobkVac=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCCbJvn2PL2pOXA1V4Lqsgj2GKaR5XcFdd8MuIc0mzqqWTdKfP
+	ix0EchhEJsCJvuTtGC+X6yGkXIP87zO9ZoUgenjz+L2GqESC4KVPKkup
+X-Gm-Gg: ASbGncuUmSFk/tOeRsEcJpMIlUaBnZ+T09sygpeNJ6uxG2VkbBAWUAUUtJ7VPnvQx8Z
+	c6lAyQLvpIQeUoOqL/7UgnbTw54EcEW5f3ZzAYgG1rwFWGpvk642DH5hn6ei873Z6j8hWYWyCs9
+	NsK0AO0+XW8iMGc6Zv25a/BHtth4yoawQ1ipkKnJPWdSCYK864F8M3mUeOWRD02+qMdGdQZ+rti
+	rwZNNxN31z4HhtJr7n3+u5nt0gZW2YohbM2bQiYi+EBuhoItDjGtiEHaWn+jm9mHN1tNrLfZXcM
+	fL2Gu8G1tyzCaeJt/h5ZAyhH0xrM2bjvFJ1IZxrAmm8aw2s3FJaPyBiFvzUg9pk75J96aGGMIrb
+	MbfgUInWoWfYHPpry3bQonY5igaJFkP7m+gJVsl7HkrIcfDsb
+X-Google-Smtp-Source: AGHT+IEsSe/ClhRreVvRQ63LjMBbkjm2VIQAaZkjewE3YafWUrvnIgpv+xribKL6G3lfDQrBgN+ulA==
+X-Received: by 2002:a05:651c:324b:b0:30b:f138:1b9f with SMTP id 38308e7fff4ca-3280771e454mr18580111fa.17.1747488483886;
+        Sat, 17 May 2025 06:28:03 -0700 (PDT)
 Received: from uuba.fritz.box (2001-14ba-53-1500-40ac-27de-68f1-6ee7.rev.dnainternet.fi. [2001:14ba:53:1500:40ac:27de:68f1:6ee7])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-328085cf9f9sm8663501fa.94.2025.05.17.06.27.49
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-328085cf9f9sm8663501fa.94.2025.05.17.06.28.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 May 2025 06:27:50 -0700 (PDT)
+        Sat, 17 May 2025 06:28:03 -0700 (PDT)
 From: =?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
 To: mchehab@kernel.org,
 	ribalda@chromium.org,
@@ -91,9 +91,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
 	=?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
-Subject: [PATCH 3/4] docs: Improve grammar in Userspace API/fwctl
-Date: Sat, 17 May 2025 16:27:10 +0300
-Message-Id: <20250517132711.117618-3-hannelotta@gmail.com>
+Subject: [PATCH 4/4] docs: Fix typos, improve grammar in Userspace API
+Date: Sat, 17 May 2025 16:27:11 +0300
+Message-Id: <20250517132711.117618-4-hannelotta@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250517132711.117618-1-hannelotta@gmail.com>
 References: <20250517132711.117618-1-hannelotta@gmail.com>
@@ -106,121 +106,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix typos and improve grammar in the documentation for
-fwctl subsystem.
-
-Use the word user space consistently, instead of having
-two variants (user space vs. userspace).
-
-Change wording of denied behaviour to be disallowed
-behaviour when describing the interface.
+Fix a typo and improve wording and punctuation in
+the documentation for Userspace API.
 
 Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
 ---
- Documentation/userspace-api/fwctl/fwctl.rst | 30 ++++++++++-----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ Documentation/userspace-api/sysfs-platform_profile.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/userspace-api/fwctl/fwctl.rst b/Documentation/userspace-api/fwctl/fwctl.rst
-index fdcfe418a83f..a74eab8d14c6 100644
---- a/Documentation/userspace-api/fwctl/fwctl.rst
-+++ b/Documentation/userspace-api/fwctl/fwctl.rst
-@@ -54,7 +54,7 @@ operated by the block layer but also comes with a set of RPCs to administer the
- construction of drives within the HW RAID.
+diff --git a/Documentation/userspace-api/sysfs-platform_profile.rst b/Documentation/userspace-api/sysfs-platform_profile.rst
+index 7f013356118a..6613e188242a 100644
+--- a/Documentation/userspace-api/sysfs-platform_profile.rst
++++ b/Documentation/userspace-api/sysfs-platform_profile.rst
+@@ -18,9 +18,9 @@ API for selecting the platform profile of these automatic mechanisms.
+ Note that this API is only for selecting the platform profile, it is
+ NOT a goal of this API to allow monitoring the resulting performance
+ characteristics. Monitoring performance is best done with device/vendor
+-specific tools such as e.g. turbostat.
++specific tools, e.g. turbostat.
  
- In the past when devices were more single function, individual subsystems would
--grow different approaches to solving some of these common problems. For instance
-+grow different approaches to solving some of these common problems. For instance,
- monitoring device health, manipulating its FLASH, debugging the FW,
- provisioning, all have various unique interfaces across the kernel.
+-Specifically when selecting a high performance profile the actual achieved
++Specifically, when selecting a high performance profile the actual achieved
+ performance may be limited by various factors such as: the heat generated
+ by other components, room temperature, free air flow at the bottom of a
+ laptop, etc. It is explicitly NOT a goal of this API to let userspace know
+@@ -44,7 +44,7 @@ added. Drivers which wish to introduce new profile names must:
+ "Custom" profile support
+ ========================
+ The platform_profile class also supports profiles advertising a "custom"
+-profile. This is intended to be set by drivers when the setttings in the
++profile. This is intended to be set by drivers when the settings in the
+ driver have been modified in a way that a standard profile doesn't represent
+ the current state.
  
-@@ -87,7 +87,7 @@ device today may broadly have several function-level scopes:
-  3. Multiple VM functions tightly scoped within the VM
- 
- The device may create a logical parent/child relationship between these scopes.
--For instance a child VM's FW may be within the scope of the hypervisor FW. It is
-+For instance, a child VM's FW may be within the scope of the hypervisor FW. It is
- quite common in the VFIO world that the hypervisor environment has a complex
- provisioning/profiling/configuration responsibility for the function VFIO
- assigns to the VM.
-@@ -105,19 +105,19 @@ some general scopes of action (see enum fwctl_rpc_scope):
- 
-  3. Write access to function & child debug information strictly compatible with
-     the principles of kernel lockdown and kernel integrity protection. Triggers
--    a kernel Taint.
-+    a kernel taint.
- 
-- 4. Full debug device access. Triggers a kernel Taint, requires CAP_SYS_RAWIO.
-+ 4. Full debug device access. Triggers a kernel taint, requires CAP_SYS_RAWIO.
- 
- User space will provide a scope label on each RPC and the kernel must enforce the
- above CAPs and taints based on that scope. A combination of kernel and FW can
- enforce that RPCs are placed in the correct scope by user space.
- 
--Denied behavior
-----------------
-+Disallowed behavior
-+-------------------
- 
- There are many things this interface must not allow user space to do (without a
--Taint or CAP), broadly derived from the principles of kernel lockdown. Some
-+taint or CAP), broadly derived from the principles of kernel lockdown. Some
- examples:
- 
-  1. DMA to/from arbitrary memory, hang the system, compromise FW integrity with
-@@ -138,8 +138,8 @@ examples:
- fwctl is not a replacement for device direct access subsystems like uacce or
- VFIO.
- 
--Operations exposed through fwctl's non-taining interfaces should be fully
--sharable with other users of the device. For instance exposing a RPC through
-+Operations exposed through fwctl's non-tainting interfaces should be fully
-+sharable with other users of the device. For instance, exposing a RPC through
- fwctl should never prevent a kernel subsystem from also concurrently using that
- same RPC or hardware unit down the road. In such cases fwctl will be less
- important than proper kernel subsystems that eventually emerge. Mistakes in this
-@@ -225,12 +225,12 @@ subsystems.
- 
- Each device type must be mindful of Linux's philosophy for stable ABI. The FW
- RPC interface does not have to meet a strictly stable ABI, but it does need to
--meet an expectation that userspace tools that are deployed and in significant
-+meet an expectation that user space tools that are deployed and in significant
- use don't needlessly break. FW upgrade and kernel upgrade should keep widely
- deployed tooling working.
- 
- Development and debugging focused RPCs under more permissive scopes can have
--less stabilitiy if the tools using them are only run under exceptional
-+less stability if the tools using them are only run under exceptional
- circumstances and not for every day use of the device. Debugging tools may even
- require exact version matching as they may require something similar to DWARF
- debug information from the FW binary.
-@@ -261,7 +261,7 @@ Some examples:
-  - HW RAID controllers. This includes RPCs to do things like compose drives into
-    a RAID volume, configure RAID parameters, monitor the HW and more.
- 
-- - Baseboard managers. RPCs for configuring settings in the device and more
-+ - Baseboard managers. RPCs for configuring settings in the device and more.
- 
-  - NVMe vendor command capsules. nvme-cli provides access to some monitoring
-    functions that different products have defined, but more exist.
-@@ -269,15 +269,15 @@ Some examples:
-  - CXL also has a NVMe-like vendor command system.
- 
-  - DRM allows user space drivers to send commands to the device via kernel
--   mediation
-+   mediation.
- 
-  - RDMA allows user space drivers to directly push commands to the device
--   without kernel involvement
-+   without kernel involvement.
- 
-  - Various “raw” APIs, raw HID (SDL2), raw USB, NVMe Generic Interface, etc.
- 
- The first 4 are examples of areas that fwctl intends to cover. The latter three
--are examples of denied behavior as they fully overlap with the primary purpose
-+are examples of disallowed behavior as they fully overlap with the primary purpose
- of a kernel subsystem.
- 
- Some key lessons learned from these past efforts are the importance of having a
 -- 
 2.39.5
 
