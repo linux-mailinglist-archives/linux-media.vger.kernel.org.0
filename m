@@ -1,109 +1,154 @@
-Return-Path: <linux-media+bounces-32713-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32714-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73ECEABAF03
-	for <lists+linux-media@lfdr.de>; Sun, 18 May 2025 11:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1A0ABAF07
+	for <lists+linux-media@lfdr.de>; Sun, 18 May 2025 11:43:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF7C33B92EA
-	for <lists+linux-media@lfdr.de>; Sun, 18 May 2025 09:26:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B65273ADA75
+	for <lists+linux-media@lfdr.de>; Sun, 18 May 2025 09:42:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DC4D2139B1;
-	Sun, 18 May 2025 09:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C5BB204F8B;
+	Sun, 18 May 2025 09:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K4s2czQ9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gB1fiA97"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9553213254;
-	Sun, 18 May 2025 09:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B071FFC7B
+	for <linux-media@vger.kernel.org>; Sun, 18 May 2025 09:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747560399; cv=none; b=Ty4dKKzrpYibQPm32WNPkkyI1+jKf3GJKYIdOhntwrHh69q+ahJFCQ2WRoQIA8H+AulDJOkHwP7F1cLIQFG2QD4ASG2mcbNf+31e4KhXnIhrk/Hbyua2+XSkXMP+ur8d0K3gmsFnOnE8G1PxdolKxvcxz97PBCnjTpLB2XCLa30=
+	t=1747561383; cv=none; b=W4+p/lHbIXTXqKY/zAcidWf6EYfIdBKqlgrqSo6z0zNcAI3FwOL4F49fTFGHsFkCz4cg5s++RY808FL1GelEPS+Up2eU+F956dno44rOiyGr6pLuIs6qVg7HwQAb+wwZdxFIA/L6nZLaoCqNwv7IJFm2TkDIxEcnmUUkBynS8D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747560399; c=relaxed/simple;
-	bh=ky8ltk0PF8tipHAfrZMLL47eVSRk2GhrTPhK+KO2jkM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=pV+ATwzwKp++73CxOd7PJ6vI74oUqcqMgVCk1dHermuR57XTpkxZ39PEe1iHujobc7R4ojZWVgVkJDr4Wf8QPUiLiEEDoZFuixD7bmlpI0al6h/t8dsdo39j8zknNZ7/mQPid3g3LQZt5NpI7eCveLDv3hCVOizD+FVlrFMFtFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K4s2czQ9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14E23C4CEEB;
-	Sun, 18 May 2025 09:26:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747560398;
-	bh=ky8ltk0PF8tipHAfrZMLL47eVSRk2GhrTPhK+KO2jkM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=K4s2czQ9tW/l01T0VEU5VjFciPsQyLsrH8qCaQI3woWIwNqnkFDNayY216wnoT7gQ
-	 3qpwQhTRPQ/Hb+5VeqNaW+6w3uvL0FA9A2lu9cOFPycGpG65rtgiVq2iJPYQmlffzF
-	 gD+Vqjsngl6inAGng7NwryHz87Mdo5DEd1wWN3Vf0yeMr4lOF/rsxDiU1nsuc1st9G
-	 1d+yukDy/G/aI7TWHcEYrNRmsLNRCEc3AgIZmo5s26ONA9lG2R+XUVYu5cRNfS9hx/
-	 hez/oNpBJhR8cIPp0RC3DgIMDaREybwffbwaBjKoj99dN2sxMpBju1Wdx8OJqANYqn
-	 gBdcLmYvXzDFg==
-Date: Sun, 18 May 2025 04:26:37 -0500
+	s=arc-20240116; t=1747561383; c=relaxed/simple;
+	bh=dQx+VK2t5QfjEV4PLgl2iYD1EibqMNVvFXCD7DmZEyU=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:To:
+	 Cc:Date:Message-ID; b=cwiDR126Pemq4yKwQvVBALLUzI5vTKhPGUOQ2GmmI6HoKlEF3vHg8UXnTBZfjsqwhPK/GumPVU80hHqrf1fEhzh43b9WDcbqiql6fhM3VEzUYp5VFE1O+pO94du/1MwiIHnOwxk6xJo8sJ/HVeHO+v671890Nz9xBmRpS7rdNeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gB1fiA97; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52782475;
+	Sun, 18 May 2025 11:42:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747561360;
+	bh=dQx+VK2t5QfjEV4PLgl2iYD1EibqMNVvFXCD7DmZEyU=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+	b=gB1fiA97PUdgNe2aM6zMQ29fbT06I+3CLNsI1nUakP6ZM0Kst6lWK9YAhZQQ0aeLR
+	 2XAhQ9PdDwlx7ys2NrBWO+w3K4PznhKzf+OSCvjgX6KZLyyifPG4wHhQDY/iHTA9qa
+	 rkfnZWX2D3lK+ADkl//ElohmMwjs58Qfi6dMNYTY=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-media@vger.kernel.org, Robert Foss <rfoss@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Todor Tomov <todor.too@gmail.com>, linux-kernel@vger.kernel.org, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Wenmeng Liu <quic_wenmliu@quicinc.com>
-In-Reply-To: <20250518-qcs615_camss-v1-1-12723e26ea3e@quicinc.com>
-References: <20250518-qcs615_camss-v1-0-12723e26ea3e@quicinc.com>
- <20250518-qcs615_camss-v1-1-12723e26ea3e@quicinc.com>
-Message-Id: <174755315042.2793587.17691583538434075316.robh@kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: media: Add qcom,qcs615-camss binding
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <174751615300.335894.3402272890581119176@ping.linuxembedded.co.uk>
+References: <20250517114106.43494-1-hdegoede@redhat.com> <20250517114106.43494-6-hdegoede@redhat.com> <174751615300.335894.3402272890581119176@ping.linuxembedded.co.uk>
+Subject: Re: [PATCH 05/23] media: atomisp: gc0310: Use V4L2_CID_ANALOGUE_GAIN for gain control
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, libcamera-devel@lists.libcamera.org,
+Date: Sun, 18 May 2025 10:42:56 +0100
+Message-ID: <174756137675.4012029.11818241234579920414@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
+
+Hi Hans,
+
++Cc: libcamera-devel
+
+Digging in here I found this part interesting (i.e. perhaps we need to
+clarify the expected behavours better)
 
 
-On Sun, 18 May 2025 14:33:07 +0800, Wenmeng Liu wrote:
-> Add bindings for qcom,qcs615-camss in order to support the camera
-> subsystem for qcs615.
-> 
-> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
-> ---
->  .../bindings/media/qcom,qcs615-camss.yaml          | 356 +++++++++++++++++++++
->  1 file changed, 356 insertions(+)
-> 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Quoting Kieran Bingham (2025-05-17 22:09:13)
+> Quoting Hans de Goede (2025-05-17 12:40:48)
+> > Use V4L2_CID_ANALOGUE_GAIN for gain control, as expected by userspace.
+> >=20
+> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > ---
+> >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drive=
+rs/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > index ee039f3be4da..756e56f639b7 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > @@ -289,7 +289,7 @@ static int gc0310_s_ctrl(struct v4l2_ctrl *ctrl)
+> >                 ret =3D cci_write(sensor->regmap, GC0310_AEC_PK_EXPO_RE=
+G,
+> >                                 ctrl->val, NULL);
+> >                 break;
+> > -       case V4L2_CID_GAIN:
+> > +       case V4L2_CID_ANALOGUE_GAIN:
+> >                 ret =3D gc0310_gain_set(sensor, ctrl->val);
+> >                 break;
+> >         default:
+> > @@ -533,7 +533,7 @@ static int gc0310_init_controls(struct gc0310_devic=
+e *sensor)
+> > =20
+> >         /* 32 steps at base gain 1 + 64 half steps at base gain 2 */
+>=20
+> sounds like a curious gain model...
+>=20
+> Will be interesting when we get the sensor calibration tools up and
+> running to plot this. (Or is there already a public datasheet
+> documenting this?)
+>=20
+> Is there a split here between analogue gain and digital gain ? Or is it
+> all expected to be 'analogue gain' ?
 
-yamllint warnings/errors:
+I looked deeper, and this does seem to be a split between analogue and
+digital gain. It also seems like this control might be doing additional
+calculations which would then have to be accounted for as part of the
+gain model in libcamera, so then instead of 'sensor specific' it would
+be 'this linux sensor driver specific' - so maybe the gain functions
+should be simplified more.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/media/qcom,qcs615-camss.example.dts:25:18: fatal error: dt-bindings/clock/qcom,qcs615-camcc.h: No such file or directory
-   25 |         #include <dt-bindings/clock/qcom,qcs615-camcc.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/media/qcom,qcs615-camss.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1524: dt_binding_check] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
+Adding in libcamera-devel - because I think we need to figure out what's
+best for handling this (overall for all sensors with A+D gain)
 
-doc reference errors (make refcheckdocs):
+There are some sensors I've seen where the digital gain can only be
+applied 'on top' of the analogue gain, and so it does act like a single
+control ...
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250518-qcs615_camss-v1-1-12723e26ea3e@quicinc.com
+But we probably want to be able to distinguish between analogue gain and
+digital gain in libcamera / userspace.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+However, even if we distinguish ... I suspect there are cases where if
+we need more gain than just the analogue gain can provide - adding the
+large steps at the sensor - and then only applying very small amounts of
+fine-grain digital gain on an ISP would make things simpler or easier
+overall.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+So somehow I think we need to figure out and correctly document and
+manage the splits between analogue and digital gains, and that will
+likely have to have a corresponding mapping in either the camera sensor
+helpers or the tuning files in some part.
 
-pip3 install dtschema --upgrade
+--
+Kieran
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
+>=20
+>=20
+> >         sensor->ctrls.gain =3D
+> > -               v4l2_ctrl_new_std(hdl, &ctrl_ops, V4L2_CID_GAIN, 0, 95,=
+ 1, 31);
+> > +               v4l2_ctrl_new_std(hdl, &ctrl_ops, V4L2_CID_ANALOGUE_GAI=
+N, 0, 95, 1, 31);
+> > =20
+> >         return hdl->error;
+> >  }
+> > --=20
+> > 2.49.0
+> >
 
