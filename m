@@ -1,121 +1,142 @@
-Return-Path: <linux-media+bounces-32715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5E2ABAF10
-	for <lists+linux-media@lfdr.de>; Sun, 18 May 2025 11:45:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E88ABB16C
+	for <lists+linux-media@lfdr.de>; Sun, 18 May 2025 21:29:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 159B617668A
-	for <lists+linux-media@lfdr.de>; Sun, 18 May 2025 09:44:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CBC01894A32
+	for <lists+linux-media@lfdr.de>; Sun, 18 May 2025 19:29:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5B6B211A07;
-	Sun, 18 May 2025 09:44:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CB341F5820;
+	Sun, 18 May 2025 19:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="W5E1YoM/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mwIXsBdJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B002620C477
-	for <linux-media@vger.kernel.org>; Sun, 18 May 2025 09:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9034917E0;
+	Sun, 18 May 2025 19:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747561472; cv=none; b=EX0t4qrVn0h24zNVGQxkfDHyu6XZI+BlGhVzcd4XWqKVUcDYtMdRrJnks3xf2WejqoqA3fKrdLxZHKtm2b4us+xFzWb3g82kcDFOQ/6G4VBf91wjo5+5N4aS2VrZIqpWxIYR6PmlCh+pMRCniRNSls9OU7CV2mQbeMZhaxotKfE=
+	t=1747596563; cv=none; b=EwTnVy+04BAyP1ebaWZAQy29M7VV6jLEBpOPBfh7/twS7PMKAy0bc8bWGPEsBMp5GoVK+T3khJeWfDaR15GjrzPPzdTMJWweZehxS0+mf96DLHu+pL/dT9ovArgxxDaFcA0wQEzIKaR7XiFUdearfSS93U/VSFdCD3ZWh1F5vgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747561472; c=relaxed/simple;
-	bh=xz2DzyzGS9jB37iuZVM3obrb0z5GaS11TF36sibsSm4=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=DqJOW/XyrYJr1Ymr7dDrMgFPKBZDkYHJYASUi/ch5pcyx9NzxIVUhNeG5M/hyC7IeHX0fK7k3ZAVie18z/VyjbrYCMFnQo4rmlAWFGfGnmY5bWvw/McwR0pKxtvqRgzt/VGQOFWMC+MpvagKcc8tyKW1AYf5Cctm1YI4LVOmh5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=W5E1YoM/; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 45718475;
-	Sun, 18 May 2025 11:44:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747561450;
-	bh=xz2DzyzGS9jB37iuZVM3obrb0z5GaS11TF36sibsSm4=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=W5E1YoM/Lf4Iry7iLoTmod3Ioi9Bw2VXPp/Qt6SJOPZzA2dpzGAgccTf5lUlsOBSe
-	 OwYv3q6U+SStbMASVPxNkbtNukeR9KlpVAeVorrbjBXFDYmCWf64w2jPDuHAc8PpSo
-	 BSL5wjxE7plLWImzcUySTU1ZZW2LRTfrif90kEEk=
+	s=arc-20240116; t=1747596563; c=relaxed/simple;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=qxR9VH+/pLyHsDT3JhkNa1C9OOxY4oJo02I4y0G8E3QwxjXb1ly42q4fg84jokZYETryq75YsjPLeeEmXJ62500aFoSmZYkr7ejvh7/nBrAIk2+EY7nRjqn0z1SYI6MfUH+IvJKQodccD9TXw7sCQblXsArT0vK9K/6S+sKHyWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mwIXsBdJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C744FC4CEE7;
+	Sun, 18 May 2025 19:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747596563;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=mwIXsBdJUS75jSc5SodfPs2ipBqrSFIWLFMNwnw8jdLcZpf4ZCd8bKQnqurqgaoes
+	 CERHKDv5xmVZMyjIMfoE1fnaSgzK0yCV1ahLX0LYVbAPLVgCbLS/b70XQSNJJK781m
+	 wse8vLIkhLk+A0CN1gHAvnWBpm33++1WmC3DcaXXQC1yW7mdJhSQDvatstrX3aVQaK
+	 d+LADVqDOgsyejmxp/IYREQxF/uF2NbtjsiZPg0mEJNVMNRWmyLybvdWH+6MaR/8/H
+	 X9sctXWuxcndV61ao83YbFbZUw9/AVJXExzlMw7CBID+qZ0NfdXvsd/AmK77ZJXRfF
+	 TOG3utoCNQZ7w==
+Date: Sun, 18 May 2025 14:29:21 -0500
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250517114106.43494-22-hdegoede@redhat.com>
-References: <20250517114106.43494-1-hdegoede@redhat.com> <20250517114106.43494-22-hdegoede@redhat.com>
-Subject: Re: [PATCH 21/23] media: atomisp: gc0310: Drop gc0310_get_frame_interval()
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Sun, 18 May 2025 10:44:26 +0100
-Message-ID: <174756146675.4012029.11268561479739972974@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
 
-Quoting Hans de Goede (2025-05-17 12:41:04)
-> On raw camera sensors the framerate is controlled through vblank
-> (and optional) hblank controls.
->=20
-> Having a get_frame_interval makes no sense in this case, drop it.
->=20
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
+> 
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > ---
->  .../staging/media/atomisp/i2c/atomisp-gc0310.c | 18 ------------------
->  1 file changed, 18 deletions(-)
->=20
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers=
-/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 152835fa4226..73779c20ca68 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -513,23 +513,6 @@ static int gc0310_disable_streams(struct v4l2_subdev=
- *sd,
->         return ret;
->  }
-> =20
-> -static int gc0310_get_frame_interval(struct v4l2_subdev *sd,
-> -                                    struct v4l2_subdev_state *sd_state,
-> -                                    struct v4l2_subdev_frame_interval *i=
-nterval)
-> -{
-> -       /*
-> -        * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the=
- V4L2
-> -        * subdev active state API.
-> -        */
-> -       if (interval->which !=3D V4L2_SUBDEV_FORMAT_ACTIVE)
-> -               return -EINVAL;
-> -
-> -       interval->interval.numerator =3D 1;
-> -       interval->interval.denominator =3D GC0310_FPS;
-> -
-> -       return 0;
-> -}
-> -
->  static int gc0310_enum_mbus_code(struct v4l2_subdev *sd,
->                                  struct v4l2_subdev_state *sd_state,
->                                  struct v4l2_subdev_mbus_code_enum *code)
-> @@ -579,7 +562,6 @@ static const struct v4l2_subdev_pad_ops gc0310_pad_op=
-s =3D {
->         .set_fmt =3D v4l2_subdev_get_fmt, /* Only 1 fixed mode supported =
-*/
->         .get_selection =3D gc0310_get_selection,
->         .set_selection =3D gc0310_set_selection,
-> -       .get_frame_interval =3D gc0310_get_frame_interval,
->         .enable_streams =3D gc0310_enable_streams,
->         .disable_streams =3D gc0310_disable_streams,
->  };
-> --=20
-> 2.49.0
->
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
