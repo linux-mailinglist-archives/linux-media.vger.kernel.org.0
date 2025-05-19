@@ -1,151 +1,300 @@
-Return-Path: <linux-media+bounces-32835-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32836-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6D5ABC36A
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 18:02:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B27FFABC63B
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 19:57:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 199181B6106E
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 16:02:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 670A17A7A6C
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 17:54:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC8B12868BE;
-	Mon, 19 May 2025 16:02:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E317D288C3E;
+	Mon, 19 May 2025 17:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ea54zt69"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 819782868A0;
-	Mon, 19 May 2025 16:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9483B2874E6;
+	Mon, 19 May 2025 17:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747670539; cv=none; b=fVJIEih7V1Z6G0eufY1Z3OtM8L6X+isxePKve3vWU9lJDq8spuizsRy1Ds7Q8Qy4gfkH1U+dozQluZT57dpyqH6eLyyHiNmnTOQVbceKTkoAcgksuYnaKvRiNh6OoKqLgYSnce0Dp456qIj17l5jYKwYwLIQHTOO9oGVOtcmXkE=
+	t=1747677258; cv=none; b=Ib2YLsGTr6JpeL9b2jYbR0hojEj3651Tm4juaWGjUZDZ7ttnEAgfHH1abrpwvEya1FSogVYPDy/vqO3/t7cqwrguG8k8DcrNZIX0X8qA6QZH4bX4f/dNtcDzv7R89t3IbP0d8XZ094gLBiW9BogkCFqKUCSv25lpy8krqlexwdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747670539; c=relaxed/simple;
-	bh=+8khJrlf4fCxp1a/AShsnu+TQgUlHpw0DzI+o+u++gg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=X8vmreOQE+hYw5cfhOziZjPw5Mm+ub0XkxYgxcinSJwOGdf7Jy235luDrV6r5Clh1Pi3Vag5xxT1DglS85iP69cEkb4NDRj7n4g4nrwJ8gPLxsMBkddb78/qoMx9juLo3daq40BZ1T4tH/Wugn1u0xLE7bV6IEjA9C/8sFP09qM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67ADF153B;
-	Mon, 19 May 2025 09:02:02 -0700 (PDT)
-Received: from [10.57.24.231] (unknown [10.57.24.231])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD20F3F5A1;
-	Mon, 19 May 2025 09:02:12 -0700 (PDT)
-Message-ID: <6a00017f-89dd-47b9-a4db-ceedd63f456f@arm.com>
-Date: Mon, 19 May 2025 17:02:10 +0100
+	s=arc-20240116; t=1747677258; c=relaxed/simple;
+	bh=JqSbP2mRbsEIshyq4VeYctrtUBNxPieDIlhv0ksGXH8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BANQBb1HaMX8dxy7PI/70Ki0Wh9/2g52uoP3L4cVKZAYg5rGGBI2/4x/3fwksTyFUz7+nrUL99SoGyihoUMZMi5aRcBxZB7yxL6pwuQkUx8l0+gL2PF3jSnnuW3W5W6whC7fA0j78wuv3fekNGaiwAXnbemeR1iIs6ETuYLRs5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ea54zt69; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-306b6ae4fb2so3797817a91.3;
+        Mon, 19 May 2025 10:54:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747677256; x=1748282056; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eZAvWXQeJhHVypWidg5RnFUIsUxQ00MWa7gy2+exJW0=;
+        b=Ea54zt69Bd5LQ9GWTnDnBJd89FrZlTYf6v/FzFHpY7asYE5vabkNlHSbfQoSgetbCa
+         HECjjwLo9LJsU5w1kQSjDV/c0aBsOXeG+ANzSYjpNJG24SGzGX173uDttvVJOHFbNF9n
+         zwKtqIwtLw2OyPNBvJb/jH97/ExL0OK6EppLMOO+0l2SDGjHH/LZxT6w2QFCgCqFYHX0
+         cUOTZyfizOI8GtKnvNaeBsBrY2h+VcJte8DGlk330ScEiVpBEvN5P/ArSSaQN/zVyHJX
+         xTBqZRiF1tudcve4TAw7Ssp9iIKNesRY9BUxconmw5H2x2MjcQClSUbNJw3A6m4i7ry0
+         +lHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747677256; x=1748282056;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eZAvWXQeJhHVypWidg5RnFUIsUxQ00MWa7gy2+exJW0=;
+        b=qR2bkJJD8CKp5/5N96Oog+I6joljt4ITO/6hxRHAaxCGMqgx+Xea2Det7BwXZxqYE1
+         wP0LpE4lWokUcwz1j80iNRfV/1UivI3NlFtx851zov1S0q6W32jTQIZ9fR9dOvZymTbx
+         bBtbIDXoUbwYv6hSnoaFe8CsYZJC33OIo1y9QqozTIMDslx3glsrOzmOJPk0jkTx+Cd6
+         tjggM18sEzApW7LZYOsVFOyuCNywOKm3MCcxm0k8UnuV/4OWEwP14n64NUX6mG46aNjg
+         FxscqIb+VOhQC1pKZbR4/MYl3Y333hQvXe8e0nJ4plwgESzycmj0eqdm9jV+wQUvZQxy
+         y4Qw==
+X-Forwarded-Encrypted: i=1; AJvYcCULRyvhXC3MLuE+O61SjpwoP+aEDbPSHnJkkIAZqdJP41QKNhQ+YpSsU0Ef/2Vtz2/L0cQ23/eqyAGt1xfg@vger.kernel.org, AJvYcCWZZ4WNvgz4Tmu8BiYwAOsNieD6HwWZz5kAFvLanNzufGJAnpqCDOH4WXJmGi9zh1CsMctIIi+JAIJZWGM=@vger.kernel.org, AJvYcCXP5sWnswuldgIAI+/XPsxJjwaXU8yKkLmO6VTBhh63U2L1kKltkEy+/ex+j6OKk7hXzh04wH2P8Z4GZT0+@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC04srcClgVITjMEB2XXyAcA5Rvj9mzWUUqnvP2jwO9t8Ore0h
+	rjMsPO+vKRKzFfD9rzR5DTOQobCSeOn/YMkgEsUnwBODUvclo2arjeAD
+X-Gm-Gg: ASbGncsrJI84hJXyrEjSjSA1mA/2O4ZYtdhGcB350BZk+E1f1puz8nPlfpYQMzDA4Et
+	FSsGPGTU8K6u+YYDbj24Sh/JT3vyZhSMkmx+EAEKG/7bY32+bUVpKtwdNoGjPdx/3vDQbKB49KP
+	MhUn+Dvjds6HAyh2QxJCUPb2PaRewFyQNnRhbjE3w+JniuUkXE2AskmuOlKdRdhBGaCVaXktcL5
+	IVU3DK1OBO67Jmb3rjlGYrRZIgY/U+0RaSLaPe9g8Lbbv4vQVQCJAzF9d7yEIBGSOExWqM0XeK2
+	NugHlHwzMo9PdSsjWuaNk5z7anm18SvsaPP55YNFs3cOZG0u6dCmvT/rc1SL373s1++jLxc01Pq
+	N68UwtfKv0m0i7Td5w8RSjZZ0r6Jktiu2v7FR
+X-Google-Smtp-Source: AGHT+IH48ofu6vsBIRA77pQQk/Q03Uz8nSOktq6u6GzIKjiC5r3en5LiOZQS/u+qjGmMjOW/KPfXhA==
+X-Received: by 2002:a17:90b:4a50:b0:30e:7b26:f687 with SMTP id 98e67ed59e1d1-30e7d5cfb22mr21163448a91.29.1747677255528;
+        Mon, 19 May 2025 10:54:15 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30e899cbb20sm5509793a91.1.2025.05.19.10.54.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 May 2025 10:54:14 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	Connor Abbott <cwabbott0@gmail.com>,
+	Rob Clark <robdclark@chromium.org>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?UTF-8?q?Barnab=C3=A1s=20Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Christopher Snowhill <chris@kode54.net>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Eugene Lepshy <fekz115@gmail.com>,
+	iommu@lists.linux.dev (open list:IOMMU SUBSYSTEM),
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Joao Martins <joao.m.martins@oracle.com>,
+	Jonathan Marek <jonathan@marek.ca>,
+	Jun Nie <jun.nie@linaro.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sean Paul <sean@poorly.run>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH v5 00/40] drm/msm: sparse / "VM_BIND" support
+Date: Mon, 19 May 2025 10:51:23 -0700
+Message-ID: <20250519175348.11924-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/panfrost: show device-wide list of DRM GEM
- objects over DebugFS
-To: Daniel Stone <daniel@fooishbar.org>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>
-References: <20250507160713.1363985-1-adrian.larumbe@collabora.com>
- <20250507160713.1363985-4-adrian.larumbe@collabora.com>
- <9c0b95c8-bf2d-4689-ac1f-ccacba826060@arm.com>
- <CAPj87rOiEa1bTOPqyauYhoVoXEtNeDjE+DkLbzeGVJ1tW9fJcQ@mail.gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <CAPj87rOiEa1bTOPqyauYhoVoXEtNeDjE+DkLbzeGVJ1tW9fJcQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 15/05/2025 19:04, Daniel Stone wrote:
-> Hi Steven,
-> 
-> On Thu, 8 May 2025 at 11:42, Steven Price <steven.price@arm.com> wrote:
->> I'm also seeing a splat when running this, see below. I haven't got my
->> head around how this is happening, but I see it when glmark quits at the
->> end of the test.
->>
->> [  399.505066] Unable to handle kernel NULL pointer dereference at virtual address 00000004 when write
->> [...]
->> [  399.882216] Call trace:
->> [  399.882222]  panfrost_gem_free_object [panfrost] from drm_gem_handle_delete+0x84/0xb0
->> [  399.893813]  drm_gem_handle_delete from drm_ioctl+0x2b8/0x4f4
->> [  399.900237]  drm_ioctl from sys_ioctl+0x428/0xe30
->> [  399.905496]  sys_ioctl from ret_fast_syscall+0x0/0x1c
-> 
-> Soooo. Let's assume it has to actually occur in
-> panfrost_gem_debugfs_bo_rm(), since that's all that's changed here.
-> 
-> I don't think pfdev can be NULL here, because we've already
-> dereferenced ptdev and written to a structure member earlier in
-> panfrost_gem_free_object(). I don't think it can be the debugfs mutex,
-> because a) that's initialised with the device, and b) wouldn't be
-> offset 0x4.
-> 
-> I'm looking then at list_del_init(&bo->debugfs.node), which would
-> effectively execute bo->debugfs.node->next->prev =
-> bo->debugfs.node->prev. So if bo->debugfs.node->next was NULL, that
-> would explain a write to 0x4 on 32-bit systems.
+From: Rob Clark <robdclark@chromium.org>
 
-So I finally got some time to do some debugging on this. And you are
-absolutely correct on where the fault is triggered.
+Conversion to DRM GPU VA Manager[1], and adding support for Vulkan Sparse
+Memory[2] in the form of:
 
-The cause of it is that panfrost_gem_debugfs_bo_add() is called from
-panfrost_gem_create(), but that isn't the only place that Panfrost GEM
-objects are created - it turns out panfrost_perfcnt_enable_locked() also
-calls drm_gem_shmem_create(). And in that case the list next/prev
-pointers are left set to NULL, causing things to blow up when the GEM
-object is freed.
+1. A new VM_BIND submitqueue type for executing VM MSM_SUBMIT_BO_OP_MAP/
+   MAP_NULL/UNMAP commands
 
-The below patch gets things working, or alternatively just init the list
-in panfrost_gem_create_object() if we don't want to include the perfcnt
-buffer in the list.
+2. A new VM_BIND ioctl to allow submitting batches of one or more
+   MAP/MAP_NULL/UNMAP commands to a VM_BIND submitqueue
 
-Steve
+I did not implement support for synchronous VM_BIND commands.  Since
+userspace could just immediately wait for the `SUBMIT` to complete, I don't
+think we need this extra complexity in the kernel.  Synchronous/immediate
+VM_BIND operations could be implemented with a 2nd VM_BIND submitqueue.
 
----8<--
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c
-b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index fe2cdbe8baf0..51da13cd81f0 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -297,13 +297,14 @@ struct drm_gem_object
-*panfrost_gem_create_object(struct drm_device *dev, size_t
-        obj->base.map_wc = !pfdev->coherent;
-        mutex_init(&obj->label.lock);
+The corresponding mesa MR: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32533
 
-+       panfrost_gem_debugfs_bo_add(pfdev, obj);
-+
-        return &obj->base.base;
- }
+Changes in v5:
+- Improved drm/sched enqueue_credit comments, and better define the
+  return from drm_sched_entity_push_job()
+- Improve DRM_GPUVM_VA_WEAK_REF comments, and additional WARN_ON()s to
+  make it clear that some of the gpuvm functionality is not available
+  in this mode.
+- Link to v4: https://lore.kernel.org/all/20250514175527.42488-1-robdclark@gmail.com/
 
- struct panfrost_gem_object *
- panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
- {
--       struct panfrost_device *pfdev = dev->dev_private;
-        struct drm_gem_shmem_object *shmem;
-        struct panfrost_gem_object *bo;
+Changes in v4:
+- Various locking/etc fixes
+- Optimize the pgtable preallocation.  If userspace sorts the VM_BIND ops
+  then the kernel detects ops that fall into the same 2MB last level PTD
+  to avoid duplicate page preallocation.
+- Add way to throttle pushing jobs to the scheduler, to cap the amount of
+  potentially temporary prealloc'd pgtable pages.
+- Add vm_log to devcoredump for debugging.  If the vm_log_shift module
+  param is set, keep a log of the last 1<<vm_log_shift VM updates for
+  easier debugging of faults/crashes.
+- Link to v3: https://lore.kernel.org/all/20250428205619.227835-1-robdclark@gmail.com/
 
-@@ -319,8 +320,6 @@ panfrost_gem_create(struct drm_device *dev, size_t
-size, u32 flags)
-        bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
-        bo->is_heap = !!(flags & PANFROST_BO_HEAP);
+Changes in v3:
+- Switched to seperate VM_BIND ioctl.  This makes the UABI a bit
+  cleaner, but OTOH the userspace code was cleaner when the end result
+  of either type of VkQueue lead to the same ioctl.  So I'm a bit on
+  the fence.
+- Switched to doing the gpuvm bookkeeping synchronously, and only
+  deferring the pgtable updates.  This avoids needing to hold any resv
+  locks in the fence signaling path, resolving the last shrinker related
+  lockdep complaints.  OTOH it means userspace can trigger invalid
+  pgtable updates with multiple VM_BIND queues.  In this case, we ensure
+  that unmaps happen completely (to prevent userspace from using this to
+  access free'd pages), mark the context as unusable, and move on with
+  life.
+- Link to v2: https://lore.kernel.org/all/20250319145425.51935-1-robdclark@gmail.com/
 
--       panfrost_gem_debugfs_bo_add(pfdev, bo);
--
-        return bo;
- }
+Changes in v2:
+- Dropped Bibek Kumar Patro's arm-smmu patches[3], which have since been
+  merged.
+- Pre-allocate all the things, and drop HACK patch which disabled shrinker.
+  This includes ensuring that vm_bo objects are allocated up front, pre-
+  allocating VMA objects, and pre-allocating pages used for pgtable updates.
+  The latter utilizes io_pgtable_cfg callbacks for pgtable alloc/free, that
+  were initially added for panthor. 
+- Add back support for BO dumping for devcoredump.
+- Link to v1 (RFC): https://lore.kernel.org/dri-devel/20241207161651.410556-1-robdclark@gmail.com/T/#t
 
+[1] https://www.kernel.org/doc/html/next/gpu/drm-mm.html#drm-gpuvm
+[2] https://docs.vulkan.org/spec/latest/chapters/sparsemem.html
+[3] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=909700
+
+Rob Clark (40):
+  drm/gpuvm: Don't require obj lock in destructor path
+  drm/gpuvm: Allow VAs to hold soft reference to BOs
+  drm/gem: Add ww_acquire_ctx support to drm_gem_lru_scan()
+  drm/sched: Add enqueue credit limit
+  iommu/io-pgtable-arm: Add quirk to quiet WARN_ON()
+  drm/msm: Rename msm_file_private -> msm_context
+  drm/msm: Improve msm_context comments
+  drm/msm: Rename msm_gem_address_space -> msm_gem_vm
+  drm/msm: Remove vram carveout support
+  drm/msm: Collapse vma allocation and initialization
+  drm/msm: Collapse vma close and delete
+  drm/msm: Don't close VMAs on purge
+  drm/msm: drm_gpuvm conversion
+  drm/msm: Convert vm locking
+  drm/msm: Use drm_gpuvm types more
+  drm/msm: Split out helper to get iommu prot flags
+  drm/msm: Add mmu support for non-zero offset
+  drm/msm: Add PRR support
+  drm/msm: Rename msm_gem_vma_purge() -> _unmap()
+  drm/msm: Drop queued submits on lastclose()
+  drm/msm: Lazily create context VM
+  drm/msm: Add opt-in for VM_BIND
+  drm/msm: Mark VM as unusable on GPU hangs
+  drm/msm: Add _NO_SHARE flag
+  drm/msm: Crashdump prep for sparse mappings
+  drm/msm: rd dumping prep for sparse mappings
+  drm/msm: Crashdec support for sparse
+  drm/msm: rd dumping support for sparse
+  drm/msm: Extract out syncobj helpers
+  drm/msm: Use DMA_RESV_USAGE_BOOKKEEP/KERNEL
+  drm/msm: Add VM_BIND submitqueue
+  drm/msm: Support IO_PGTABLE_QUIRK_NO_WARN_ON
+  drm/msm: Support pgtable preallocation
+  drm/msm: Split out map/unmap ops
+  drm/msm: Add VM_BIND ioctl
+  drm/msm: Add VM logging for VM_BIND updates
+  drm/msm: Add VMA unmap reason
+  drm/msm: Add mmu prealloc tracepoint
+  drm/msm: use trylock for debugfs
+  drm/msm: Bump UAPI version
+
+ drivers/gpu/drm/drm_gem.c                     |   14 +-
+ drivers/gpu/drm/drm_gpuvm.c                   |   38 +-
+ drivers/gpu/drm/msm/Kconfig                   |    1 +
+ drivers/gpu/drm/msm/Makefile                  |    1 +
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c         |   25 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpummu.c      |    5 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c         |   17 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c         |   17 +-
+ drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |    4 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   22 +-
+ drivers/gpu/drm/msm/adreno/a5xx_power.c       |    2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c     |   10 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   32 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h         |    2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |   49 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c   |    6 +-
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c     |   10 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c    |    4 -
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   99 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h       |   23 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |   18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |    2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |    4 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |    6 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |   28 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c    |   12 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |    4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |   19 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c    |   12 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |   14 +-
+ drivers/gpu/drm/msm/msm_drv.c                 |  184 +--
+ drivers/gpu/drm/msm/msm_drv.h                 |   35 +-
+ drivers/gpu/drm/msm/msm_fb.c                  |   18 +-
+ drivers/gpu/drm/msm/msm_fbdev.c               |    2 +-
+ drivers/gpu/drm/msm/msm_gem.c                 |  494 +++---
+ drivers/gpu/drm/msm/msm_gem.h                 |  247 ++-
+ drivers/gpu/drm/msm/msm_gem_prime.c           |   15 +
+ drivers/gpu/drm/msm/msm_gem_shrinker.c        |  104 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c          |  295 ++--
+ drivers/gpu/drm/msm/msm_gem_vma.c             | 1471 ++++++++++++++++-
+ drivers/gpu/drm/msm/msm_gpu.c                 |  211 ++-
+ drivers/gpu/drm/msm/msm_gpu.h                 |  144 +-
+ drivers/gpu/drm/msm/msm_gpu_trace.h           |   14 +
+ drivers/gpu/drm/msm/msm_iommu.c               |  302 +++-
+ drivers/gpu/drm/msm/msm_kms.c                 |   18 +-
+ drivers/gpu/drm/msm/msm_kms.h                 |    2 +-
+ drivers/gpu/drm/msm/msm_mmu.h                 |   38 +-
+ drivers/gpu/drm/msm/msm_rd.c                  |   62 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c          |   10 +-
+ drivers/gpu/drm/msm/msm_submitqueue.c         |   96 +-
+ drivers/gpu/drm/msm/msm_syncobj.c             |  172 ++
+ drivers/gpu/drm/msm/msm_syncobj.h             |   37 +
+ drivers/gpu/drm/scheduler/sched_entity.c      |   19 +-
+ drivers/gpu/drm/scheduler/sched_main.c        |    3 +
+ drivers/iommu/io-pgtable-arm.c                |   27 +-
+ include/drm/drm_gem.h                         |   10 +-
+ include/drm/drm_gpuvm.h                       |   19 +-
+ include/drm/gpu_scheduler.h                   |   24 +-
+ include/linux/io-pgtable.h                    |    8 +
+ include/uapi/drm/msm_drm.h                    |  149 +-
+ 63 files changed, 3526 insertions(+), 1250 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/msm_syncobj.c
+ create mode 100644 drivers/gpu/drm/msm/msm_syncobj.h
+
+-- 
+2.49.0
 
 
