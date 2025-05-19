@@ -1,333 +1,369 @@
-Return-Path: <linux-media+bounces-32778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD789ABBE3F
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 14:48:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 681E4ABBE6F
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 14:58:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF2787AE165
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:46:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28FA617E9E5
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:58:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B715277816;
-	Mon, 19 May 2025 12:48:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4949C27935A;
+	Mon, 19 May 2025 12:58:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SzMtRY3N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzmTo5Hz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A36620C00E
-	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 12:48:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD87278E6B
+	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 12:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747658886; cv=none; b=N+jh1qmgeRUUcxZY2EvLx6FSh64dmgF9gf76ACKxpElpXL6xyyq+hBfGeaEAS4zWIxCrf4ZkdTMVpLvHpdyB+OCcO9HLADbHobT0RuJm80HsWj79xDIIBAP4SNko6m8JRqODp8F25RizDfdP634DxX/eVBEb0bgeM93bAXDUrh8=
+	t=1747659482; cv=none; b=j9WFU+PTY7gVpY9tszuYwJQJb15H7+SkBll2ANAIqzOvVUw7CykQpEonEDSmQ+2EDFrrK6TwVgYH6bbfekczerYWEAD4flCGeT5JSvsu00azR3fdC/zD/Z43nslEdAMrnvrbTX37XgSgb2gnPA2ivBoe/KoK+WfOUPx3DbM5AQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747658886; c=relaxed/simple;
-	bh=igubFTuiPkbS6JSKLxGsWich1XGl828jfLaDUGg0i/s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H04Jm/7cu1jr53/thlljlvEfGJ2jJn+1YTCxpeKR8pF3Owe0aoRynWQj6HftWxjSTdAkpsqXJkK5WW5eeJo7rCSAe+g3ckRYmKA5y9Etxz27E1WwtNbFWdDMucfDSSqJMysM8sQ7zPTcIGaDku/rsXNQ+Sx4gKbpYYsWKHWayb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SzMtRY3N; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D4A41446;
-	Mon, 19 May 2025 14:47:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747658862;
-	bh=igubFTuiPkbS6JSKLxGsWich1XGl828jfLaDUGg0i/s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SzMtRY3Nktc/zM2zVMlgWIL560Ck5gJPTqnTJoEOhfVS9HIgYxRxGj01DyGMO7dz8
-	 7jK1hu5b+rzFiqxUgZtdjeTdw/dgoh6XTT2MIQw3bSV3yIaTca3Yy2zwixZmYxYylm
-	 SOtls38KPr61m4bC2hqvoFdLN4ej9uM+FY2NkHh8=
-Message-ID: <ee50afef-7836-4e44-8cf7-007f4d4b6b1b@ideasonboard.com>
-Date: Mon, 19 May 2025 13:47:58 +0100
+	s=arc-20240116; t=1747659482; c=relaxed/simple;
+	bh=hD7ERRAJMisJOSS6wmm2Hwg+YGHAVZd6AYFoVsNeDQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tp0bm8GHgZDmrNcaHufZQQwsVdpssYPIulvo8Z/0m7JwVftGicJQdQKliRxiaeZUtOnTODNIxo5vYg0l9MEggd4thX6dO3oWwG7oCccjebU3K8bJe+3SOMhnmcemXDU3xx3LDuMjKsbI8GqEJpnPitz1nD4XRaNX+sZMTxvAxGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzmTo5Hz; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747659481; x=1779195481;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hD7ERRAJMisJOSS6wmm2Hwg+YGHAVZd6AYFoVsNeDQE=;
+  b=JzmTo5Hz0ZQZPoK7smYmwroAQ3SOWK8cItppV+dUbSa8u8CB3Bb9sMor
+   XO/dzHgYC/Z/l1oMMsZZV1IbkQ5Xq3gchIiUU2CPZQChL3wSG4zGEZ5wv
+   uhqIQ7Q1cQUDzfAqVb/WWqlGT05CzeLzkqFCSFTbp3HEMUZ1cwDdP5r9h
+   iwshasAUiyrpPRyadqmXAdTUpiW1oVXhTFSqDuMcEnfW/zQiFM6ghZ3Gm
+   r8o6Ndj1EsQjQjLYVr35X8u445Z78mJV7GiXL1j1PNADXg7husSwfL+3J
+   eX1k5jzXIzmAKmMVm02Mc/HAHYvg6P0beufAOjZwryGUhfxtgqTuvTnQg
+   Q==;
+X-CSE-ConnectionGUID: tc5oZ6czS06OT1Skw1anAw==
+X-CSE-MsgGUID: 0hj+nOtkTayu5os4PEVqWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="60210909"
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="60210909"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 05:58:00 -0700
+X-CSE-ConnectionGUID: R0mLot+JTo6s+dPAi+4yuA==
+X-CSE-MsgGUID: VVFS4hMkSGScfmRjLVn0oA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="140382253"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.190])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 05:57:58 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 27BFD12035C;
+	Mon, 19 May 2025 15:57:55 +0300 (EEST)
+Date: Mon, 19 May 2025 12:57:55 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	jacopo.mondi@ideasonboard.com,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v4 1/6] media: v4l2: Add Renesas Camera Receiver Unit
+ pixel formats
+Message-ID: <aCsq06etRXVRd2rn@kekkonen.localdomain>
+References: <20250506125015.567746-1-dan.scally@ideasonboard.com>
+ <20250506125015.567746-2-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/6] media: platform: rzg2l-cru: Use
- v4l2_get_link_freq()
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
- sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com,
- Daniel Scally <dan.scally+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20250506125015.567746-1-dan.scally@ideasonboard.com>
- <20250506125015.567746-4-dan.scally@ideasonboard.com>
- <aB4OfjTGktdu7Yos@tom-desktop>
- <i4g722z6a3i4xnre6b3ne76w7acxcjy2j3ztww4ndvabungeuw@ovecz2bqewr6>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <i4g722z6a3i4xnre6b3ne76w7acxcjy2j3ztww4ndvabungeuw@ovecz2bqewr6>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250506125015.567746-2-dan.scally@ideasonboard.com>
 
-Hi Jacopo
+Hi Daniel,
 
-On 09/05/2025 15:50, Jacopo Mondi wrote:
-> Hi Tommaso
->
-> On Fri, May 09, 2025 at 04:17:34PM +0200, Tommaso Merciai wrote:
->> Hi Daniel,
->> Thanks for your patch.
->>
->> On Tue, May 06, 2025 at 01:50:12PM +0100, Daniel Scally wrote:
->>> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->>>
->>> The rzg2l_csi2_calc_mbps() function currently tries to calculate the
->>> link frequency for a CSI2 bus using the V4L2_CID_PIXEL_RATE control
->>> of the remote subdevice. Switch the function to v4l2_get_link_freq()
->>> which correctly targets V4L2_CID_LINK_FREQ before falling back on
->>> V4L2_CID_PIXEL_RATE if the former is unavailable.
->>>
->>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->>> ---
->>> Changes in v4:
->>>
->>> 	- Used separate s64 variable as return value for v4l2_get_link_freq()
->>> 	  and as the mbps variable for do_div() to avoid compilation warnings.
->>>
->>> Changes in v3:
->>>
->>> 	- Fixed mbps sign
->>>
->>> Changes in v2:
->>>
->>> 	- None
->>>
->>>   .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 27 +++++++++----------
->>>   1 file changed, 12 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
->>> index 9243306e2aa9..8870c2cb8104 100644
->>> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
->>> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
->>> @@ -282,28 +282,25 @@ static int rzg2l_csi2_calc_mbps(struct rzg2l_csi2 *csi2)
->>>   	const struct rzg2l_csi2_format *format;
->>>   	const struct v4l2_mbus_framefmt *fmt;
->>>   	struct v4l2_subdev_state *state;
->>> -	struct v4l2_ctrl *ctrl;
->>>   	u64 mbps;
->>> -
->>> -	/* Read the pixel rate control from remote. */
->>> -	ctrl = v4l2_ctrl_find(source->ctrl_handler, V4L2_CID_PIXEL_RATE);
->>> -	if (!ctrl) {
->>> -		dev_err(csi2->dev, "no pixel rate control in subdev %s\n",
->>> -			source->name);
->>> -		return -EINVAL;
->>> -	}
->>> +	s64 ret;
->>>
->>>   	state = v4l2_subdev_lock_and_get_active_state(&csi2->subdev);
->>>   	fmt = v4l2_subdev_state_get_format(state, RZG2L_CSI2_SINK);
->>>   	format = rzg2l_csi2_code_to_fmt(fmt->code);
->>>   	v4l2_subdev_unlock_state(state);
->>>
->>> -	/*
->>> -	 * Calculate hsfreq in Mbps
->>> -	 * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
->>> -	 */
->>> -	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * format->bpp;
->>> -	do_div(mbps, csi2->lanes * 1000000);
->>> +	/* Read the link frequency from remote subdevice. */
->>> +	ret = v4l2_get_link_freq(source->ctrl_handler, format->bpp,
->>> +				 csi2->lanes);
->>> +	if (ret < 0) {
->>> +		dev_err(csi2->dev, "can't retrieve link freq from subdev %s\n",
->>> +			source->name);
->>> +		return -EINVAL;
->>> +	}
->>> +
->>> +	mbps = ret;
->>> +	do_div(mbps, 1000000);
->>>
->>>   	return mbps;
->>>   }
->> I tested this series with an imx219 image sensor connected to the CSI-2
->> RX IP of RZ/G3E:
->>
->> Some notes:
->>
->>   - pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample
->>   - hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
->>
->> Then hsfreq should be:
-> The old code seems to call 'hsfreq' the per-lane bandwidth
->
-> -	 * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
->
-> And not the per-lane frequency as the variable name and the commit message
-> suggest
->
->>   - hsfreq = link_freq * 2
-> if that's the intention, due to CSI-2 DDR, then you're correct I
-> think ?
->
-> Seeing that also Laurent has reviewed it, and Prabhakar tested it, I wonder
-> if we all have missed that the original code didn't have a / 2
->
-> Dan, did you ever notice issues during your testing ?
-I don't recall any, but this patch has been in my tree for a long time, so possibly hidden by it.
->
-> Also, with the introduction of 15f0035bfd0a ("media: v4l: Support
-> passing media pad argument to v4l2_get_link_freq()") it's probably now
-> better to pass the source's pad to v4l2_get_link_freq() ?
+Thanks for the set.
 
+On Tue, May 06, 2025 at 01:50:10PM +0100, Daniel Scally wrote:
+> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> 
+> The Renesas Camera Receiver Unit in the RZ/V2H SoC can output RAW
+> data captured from an image sensor without conversion to an RGB/YUV
+> format. In that case the data are packed into 64-bit blocks, with a
+> variable amount of padding in the most significant bits depending on
+> the bitdepth of the data. Add new V4L2 pixel format codes for the new
+> formats, along with documentation to describe them.
+> 
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> ---
+> Changes in v4:
+> 
+> 	- Removed references to "Bayer" or "srgb"
+> 
+> Changes in v3:
+> 
+> 	- Switched from bayer-order specific formats to generic RAWnn
+> 
+> Changes in v2:
+> 
+> 	- Added labels to the new formats in the documentation file
+> 	- Added 20-bit formats
+> 
+>  .../userspace-api/media/v4l/pixfmt-bayer.rst  |   1 +
+>  .../media/v4l/pixfmt-rawnn-cru.rst            | 143 ++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-common.c         |   4 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +
+>  include/uapi/linux/videodev2.h                |   6 +
+>  5 files changed, 158 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> index ed3eb432967d..20a8aa043304 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> @@ -31,3 +31,4 @@ orders. See also `the Wikipedia article on Bayer filter
+>      pixfmt-srggb14
+>      pixfmt-srggb14p
+>      pixfmt-srggb16
+> +    pixfmt-rawnn-cru
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> new file mode 100644
+> index 000000000000..d786833d0cf3
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> @@ -0,0 +1,143 @@
+> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> +
+> +.. _v4l2-pix-fmt-cru-raw10:
+> +.. _v4l2-pix-fmt-cru-raw12:
+> +.. _v4l2-pix-fmt-cru-raw14:
+> +.. _v4l2-pix-fmt-cru-raw20:
+> +
+> +**********************************************************************************************************************************
+> +V4L2_PIX_FMT_CRU_RAW10 ('CR10'), V4L2_PIX_FMT_CRU_RAW12 ('CR12'), V4L2_PIX_FMT_CRU_RAW14 ('CR14'), V4L2_PIX_FMT_CRU_RAW20 ('CR20')
+> +**********************************************************************************************************************************
+> +
+> +===============================================================
+> +Renesas RZ/V2H Camera Receiver Unit 64-bit packed pixel formats
+> +===============================================================
+> +
+> +| V4L2_PIX_FMT_CRU_RAW10 (CR10)
+> +| V4L2_PIX_FMT_CRU_RAW12 (CR12)
+> +| V4L2_PIX_FMT_CRU_RAW14 (CR14)
+> +| V4L2_PIX_FMT_CRU_RAW20 (CR20)
 
-Ah thanks for pointing that out - the _Generic() magic had hidden it so I hadn't noticed that it had 
-changed.
+Could these be called V4L2_PIX_FMT_GENERIC_CRU_RAW*, to align with
+V4L2_PIX_FMT_GENERIC_CSI2_RAW*?
 
->
->> Please correct me if I'm wrong.
->>
->>
->> After applying this series. I'm getting the following issue testing the
->> imx219 sensor with SRGGB8_1X8 and SGRBG10_1X10 color format.
-> Does the error go away if you multiply the link_freq by 2 ?
->
-> Thanks
->    j
->
->>
->> [  947.305876] rzg2l-cru 16000000.video: Invalid MB address 0xe8bf8300 (out of range)
->> [  947.305876] rzg2l-cru 16000000.video: Invalid MB address 0xe8bf8300 (out of range)
->> [  947.339165] rzg2l-cru 16000000.video: Invalid MB address 0xe8c9e900 (out of range)
->> [  947.339165] rzg2l-cru 16000000.video: Invalid MB address 0xe8c9e900 (out of range)
->>
->>
->> I'm suspecting that this could be related to this formula.
->> Let me know what do you think.
->>
->> Thanks in advance!
->>
->> Tested using:
->>
->> root@smarc-rzg3e:~# media-ctl -p
->> Media controller API version 6.15.0
->>
->> Media device information
->> ------------------------
->> driver          rzg2l_cru
->> model           renesas,r9a09g047-cru
->> serial
->> bus info        platform:16000000.video
->> hw revision     0x0
->> driver version  6.15.0
->>
->> Device topology
->> - entity 1: csi-16000400.csi2 (2 pads, 2 links, 0 routes)
->>              type V4L2 subdev subtype Unknown flags 0
->>              device node name /dev/v4l-subdev0
->>          pad0: Sink
->>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none]
->>                  <- "imx219 0-0010":0 [ENABLED,IMMUTABLE]
->>          pad1: Source
->>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none]
->>                  -> "cru-ip-16000000.video":0 [ENABLED,IMMUTABLE]
->>
->> - entity 4: cru-ip-16000000.video (2 pads, 2 links, 0 routes)
->>              type V4L2 subdev subtype Unknown flags 0
->>              device node name /dev/v4l-subdev1
->>          pad0: Sink
->>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none]
->>                  <- "csi-16000400.csi2":1 [ENABLED,IMMUTABLE]
->>          pad1: Source
->>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none]
->>                  -> "CRU output":0 [ENABLED,IMMUTABLE]
->>
->> - entity 7: imx219 0-0010 (1 pad, 1 link, 0 routes)
->>              type V4L2 subdev subtype Sensor flags 0
->>              device node name /dev/v4l-subdev2
->>          pad0: Source
->>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
->>                   crop.bounds:(8,8)/3280x2464
->>                   crop:(1008,760)/1280x960]
->>                  -> "csi-16000400.csi2":0 [ENABLED,IMMUTABLE]
->>
->> - entity 17: CRU output (1 pad, 1 link)
->>               type Node subtype V4L flags 0
->>               device node name /dev/video0
->>          pad0: Sink
->>                  <- "cru-ip-16000000.video":1 [ENABLED,IMMUTABLE]
->>
->> # IMX219 TESTING SGRBG10_1X10
->> v4l2-ctl -c horizontal_flip=1 -d /dev/v4l-subdev2
->>
->> media-ctl -d /dev/media0 --set-v4l2 '"imx219 0-0010":0[fmt:SGRBG10_1X10/640x480]'
->> media-ctl -d /dev/media0 --set-v4l2 '"csi-16000400.csi2":0[fmt:SGRBG10_1X10/640x480]'
->> media-ctl -d /dev/media0 --set-v4l2 '"cru-ip-16000000.video":0[fmt:SGRBG10_1X10/640x480]'
->>
->> v4l2-ctl -d0 --set-fmt-video pixelformat=CR10,width=640,height=480
->> v4l2-ctl -d0 --stream-mmap --stream-count=100
->>
->>
->> #  IMX219 TESTING SRGGB8_1X8
->> media-ctl -d /dev/media0 --set-v4l2 '"imx219 0-0010":0[fmt:SRGGB8_1X8/1920x1080]'
->> media-ctl -d /dev/media0 --set-v4l2 '"csi-16000400.csi2":0[fmt:SRGGB8_1X8/1920x1080]'
->> media-ctl -d /dev/media0 --set-v4l2 '"cru-ip-16000000.video":0[fmt:SRGGB8_1X8/1920x1080]'
->>
->>
->> v4l2-ctl -d0 --set-fmt-video pixelformat=RGGB,width=1920,height=1080
->> v4l2-ctl -d0 --stream-mmap --stream-count=32
->>
->> Thanks & Regards,
->> Tommaso
->>
->>> --
->>> 2.34.1
->>>
+> +
+> +Description
+> +===========
+> +
+> +These pixel formats are some of the RAW outputs for the Camera Receiver Unit in
+> +the Renesas RZ/V2H SoC. They are raw formats which pack pixels contiguously into
+> +64-bit units, with the 4 or 8 most significant bits padded.
+> +
+> +**Byte Order**
+> +
+> +.. flat-table:: RAW formats
+> +    :header-rows:  2
+> +    :stub-columns: 0
+> +    :widths: 36 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+> +    :fill-cells:
+> +
+> +    * - :rspan:`1` Pixel Format Code
+> +      - :cspan:`63` Data organization
+> +    * - 63
+> +      - 62
+> +      - 61
+> +      - 60
+> +      - 59
+> +      - 58
+> +      - 57
+> +      - 56
+> +      - 55
+> +      - 54
+> +      - 53
+> +      - 52
+> +      - 51
+> +      - 50
+> +      - 49
+> +      - 48
+> +      - 47
+> +      - 46
+> +      - 45
+> +      - 44
+> +      - 43
+> +      - 42
+> +      - 41
+> +      - 40
+> +      - 39
+> +      - 38
+> +      - 37
+> +      - 36
+> +      - 35
+> +      - 34
+> +      - 33
+> +      - 32
+> +      - 31
+> +      - 30
+> +      - 29
+> +      - 28
+> +      - 27
+> +      - 26
+> +      - 25
+> +      - 24
+> +      - 23
+> +      - 22
+> +      - 21
+> +      - 20
+> +      - 19
+> +      - 18
+> +      - 17
+> +      - 16
+> +      - 15
+> +      - 14
+> +      - 13
+> +      - 12
+> +      - 11
+> +      - 10
+> +      - 9
+> +      - 8
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +    * - V4L2_PIX_FMT_CRU_RAW10
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - :cspan:`9` P5
+> +      - :cspan:`9` P4
+> +      - :cspan:`9` P3
+> +      - :cspan:`9` P2
+> +      - :cspan:`9` P1
+> +      - :cspan:`9` P0
+> +    * - V4L2_PIX_FMT_CRU_RAW12
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - :cspan:`11` P4
+> +      - :cspan:`11` P3
+> +      - :cspan:`11` P2
+> +      - :cspan:`11` P1
+> +      - :cspan:`11` P0
+> +    * - V4L2_PIX_FMT_CRU_RAW14
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - :cspan:`13` P3
+> +      - :cspan:`13` P2
+> +      - :cspan:`13` P1
+> +      - :cspan:`13` P0
+> +    * - V4L2_PIX_FMT_CRU_RAW20
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - :cspan:`19` P2
+> +      - :cspan:`19` P1
+> +      - :cspan:`19` P0
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 4ee4aa19efe6..bfefd7d24fd8 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -332,10 +332,14 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>  		{ .format = V4L2_PIX_FMT_SGBRG10DPCM8,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SGRBG10DPCM8,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SRGGB10DPCM8,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_CRU_RAW10,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 6, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SBGGR12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SGBRG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SGRBG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SRGGB12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_CRU_RAW12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 5, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_CRU_RAW14,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 4, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_CRU_RAW20,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 3, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+
+I'd add a new section for these. The generic CSI-2 formats are actually
+missing there, it'd be nice to add them first. I can post a patch.
+
+>  	};
+>  	unsigned int i;
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index e97881f74c0d..606a385001d7 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1413,6 +1413,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_SGBRG10DPCM8:	descr = "8-bit Bayer GBGB/RGRG (DPCM)"; break;
+>  	case V4L2_PIX_FMT_SGRBG10DPCM8:	descr = "8-bit Bayer GRGR/BGBG (DPCM)"; break;
+>  	case V4L2_PIX_FMT_SRGGB10DPCM8:	descr = "8-bit Bayer RGRG/GBGB (DPCM)"; break;
+> +	case V4L2_PIX_FMT_CRU_RAW10:	descr = "10-bit Raw CRU Packed"; break;
+>  	case V4L2_PIX_FMT_SBGGR12:	descr = "12-bit Bayer BGBG/GRGR"; break;
+>  	case V4L2_PIX_FMT_SGBRG12:	descr = "12-bit Bayer GBGB/RGRG"; break;
+>  	case V4L2_PIX_FMT_SGRBG12:	descr = "12-bit Bayer GRGR/BGBG"; break;
+> @@ -1421,6 +1422,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_SGBRG12P:	descr = "12-bit Bayer GBGB/RGRG Packed"; break;
+>  	case V4L2_PIX_FMT_SGRBG12P:	descr = "12-bit Bayer GRGR/BGBG Packed"; break;
+>  	case V4L2_PIX_FMT_SRGGB12P:	descr = "12-bit Bayer RGRG/GBGB Packed"; break;
+> +	case V4L2_PIX_FMT_CRU_RAW12:	descr = "12-bit Raw CRU Packed"; break;
+>  	case V4L2_PIX_FMT_SBGGR14:	descr = "14-bit Bayer BGBG/GRGR"; break;
+>  	case V4L2_PIX_FMT_SGBRG14:	descr = "14-bit Bayer GBGB/RGRG"; break;
+>  	case V4L2_PIX_FMT_SGRBG14:	descr = "14-bit Bayer GRGR/BGBG"; break;
+> @@ -1429,10 +1431,12 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_SGBRG14P:	descr = "14-bit Bayer GBGB/RGRG Packed"; break;
+>  	case V4L2_PIX_FMT_SGRBG14P:	descr = "14-bit Bayer GRGR/BGBG Packed"; break;
+>  	case V4L2_PIX_FMT_SRGGB14P:	descr = "14-bit Bayer RGRG/GBGB Packed"; break;
+> +	case V4L2_PIX_FMT_CRU_RAW14:	descr = "14-bit Raw CRU Packed"; break;
+>  	case V4L2_PIX_FMT_SBGGR16:	descr = "16-bit Bayer BGBG/GRGR"; break;
+>  	case V4L2_PIX_FMT_SGBRG16:	descr = "16-bit Bayer GBGB/RGRG"; break;
+>  	case V4L2_PIX_FMT_SGRBG16:	descr = "16-bit Bayer GRGR/BGBG"; break;
+>  	case V4L2_PIX_FMT_SRGGB16:	descr = "16-bit Bayer RGRG/GBGB"; break;
+> +	case V4L2_PIX_FMT_CRU_RAW20:	descr = "14-bit Raw CRU Packed"; break;
+>  	case V4L2_PIX_FMT_SN9C20X_I420:	descr = "GSPCA SN9C20X I420"; break;
+>  	case V4L2_PIX_FMT_SPCA501:	descr = "GSPCA SPCA501"; break;
+>  	case V4L2_PIX_FMT_SPCA505:	descr = "GSPCA SPCA505"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index ca7b3e8863ca..a70a0c7224cc 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -840,6 +840,12 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_PISP_COMP2_BGGR	v4l2_fourcc('P', 'C', '2', 'B') /* PiSP 8-bit mode 2 compressed BGGR bayer */
+>  #define V4L2_PIX_FMT_PISP_COMP2_MONO	v4l2_fourcc('P', 'C', '2', 'M') /* PiSP 8-bit mode 2 compressed monochrome */
+>  
+> +/* Renesas RZ/V2H CRU packed formats. 64-bit units with contiguous pixels */
+> +#define V4L2_PIX_FMT_CRU_RAW10	v4l2_fourcc('C', 'R', '1', '0')
+> +#define V4L2_PIX_FMT_CRU_RAW12	v4l2_fourcc('C', 'R', '1', '2')
+> +#define V4L2_PIX_FMT_CRU_RAW14	v4l2_fourcc('C', 'R', '1', '4')
+> +#define V4L2_PIX_FMT_CRU_RAW20	v4l2_fourcc('C', 'R', '2', '0')
+> +
+>  /* SDR formats - used only for Software Defined Radio devices */
+>  #define V4L2_SDR_FMT_CU8          v4l2_fourcc('C', 'U', '0', '8') /* IQ u8 */
+>  #define V4L2_SDR_FMT_CU16LE       v4l2_fourcc('C', 'U', '1', '6') /* IQ u16le */
+
+-- 
+Regards,
+
+Sakari Ailus
 
