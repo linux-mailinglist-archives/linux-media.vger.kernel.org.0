@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-32736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32737-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3226AABB533
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 08:33:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC83ABB539
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 08:34:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 101F3175B58
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 06:33:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FE993B7254
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 06:33:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BEB52459F7;
-	Mon, 19 May 2025 06:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E46C2475C3;
+	Mon, 19 May 2025 06:32:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZhMR1wU/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNpER9zY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90E5245035;
-	Mon, 19 May 2025 06:32:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C70C24729E;
+	Mon, 19 May 2025 06:32:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747636376; cv=none; b=YbRWCLeOPFrJHCp7zf0bnkMB9RO3j/I5JTGW/6EdyfVN3Kc4qLTXnqRy636TdyKa1REY7odzfaMWV4ku0/ZRB83zjegqhXJYyJJwY09mQMpnbw9OmBWNEPcuDILcclqBSc93lJEPJlkPqMbfYC6hqoFn7G/8A9p1taf+oyWHT/Y=
+	t=1747636377; cv=none; b=V2bXXKbQHSWB7WSPHcT5o0A5pnjvnvNhqofidIbixqK+P5sxp+2VRL3BdCWdlqBOH6XfcHWWthItGn3iSVLB+tf7kFXggqP+LqaYLD7Eh10ueX2bXSI403HunCux3rPOiqIJQiBPOiS3G0RbtJn+POWZPZMmYHKUSPuJ//okueQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747636376; c=relaxed/simple;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	s=arc-20240116; t=1747636377; c=relaxed/simple;
+	bh=ky8ltk0PF8tipHAfrZMLL47eVSRk2GhrTPhK+KO2jkM=;
 	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=SrOPa+63X4Z/wclZ4LWTR3HetMWsUuUAsXSCm0TIWJhm2Sim5GcEoMeSqsdvYwGG5jNXBkNn68oFcRpFV5XIzTJHoG3oXgsyAAHNauhVZ2mWArybpqkfngBCGlt2bI7Uz9nHzMD7dJwFwqO3XcSjRFp/kKDQTaFgmX7G8c+k8VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZhMR1wU/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8470C4CEE4;
-	Mon, 19 May 2025 06:32:54 +0000 (UTC)
+	 Message-Id:Subject; b=YE4s4zfsIPXRSGO5FNf/oj+EMlkfN2V3UkHF2sLTGtkCMMYlAdo1RD2Ew7WoLG3DFI19PCgv6LDCyGlcPE7/cMKRxw3Vhj0IG61m0gbcyVIddjadx7ZPCMga/ULmWMHvClKUTjeEYeUCxzch6oSCGnLn3lpK1I0n++gLW6PUzUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNpER9zY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9174C4CEE4;
+	Mon, 19 May 2025 06:32:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747636375;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	s=k20201202; t=1747636377;
+	bh=ky8ltk0PF8tipHAfrZMLL47eVSRk2GhrTPhK+KO2jkM=;
 	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=ZhMR1wU/X0Ftyf6ohXFPrJXQwhkWzueNT8/spvuGLMldbiR4tGeBv435mgPBDj2fh
-	 h25+ZLh+a/oVqqUA5g0Ccm5c9J0tXEjJbDzOuHGcX5mBwdxO8AhQpofalAsMrAtDuI
-	 BvQN/BzF702ipIzpZ5PzL79fM7+EJ84LPtubD4wh4tD8ilYMNr5f3dWQJEDjpyzcBY
-	 m1aFqPnt6pLdPNgeIhHQD+2RALGu6wORmSWzaoT8REybCVfUD8Tb+snf3J9uDFIM3Z
-	 xyh3qQx4S/YK7PS+R2D1lczDI7cXCS5I1PU6CR1Ve2TSAfIiSA1ftZ1WaugAZ9Mt6H
-	 VqjHQ+lP7NuqA==
-Date: Mon, 19 May 2025 01:32:53 -0500
+	b=HNpER9zYHB2ceUS/GV3Zayu4TmyNLyXtBBbfzy7n2/bZ+YXrzkJwUNREWX7yN6/b0
+	 yfhgnI7mFrCpw90x3CrKhqm+DTdIplOHyemrEhC5vU/mgIuZzr4wMEezC3+HpagPoZ
+	 cgmrN6xkn4AS2TiuegAFfLsa4RMJbdw0t0la61pRhAErkjcDR8rc8FnF4PIf/Rabeu
+	 cwB6ScoL+EIc+sHv9gdTFgQMybpWietRuLyKavCaWBdmLEpjqjWAhzml3Pe+ST2xqy
+	 H9W0J+HzIaW9+qQiPVqc5c4WyOpxfiBwZVCrwYjSYfBBOHVa80WqqBFzXozV/Y/gUv
+	 TzNRFrzX+ILAg==
+Date: Mon, 19 May 2025 01:32:55 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -51,49 +51,28 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Cc: linux-media@vger.kernel.org, Robert Foss <rfoss@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Todor Tomov <todor.too@gmail.com>, linux-kernel@vger.kernel.org, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Wenmeng Liu <quic_wenmliu@quicinc.com>
+In-Reply-To: <20250518-qcs615_camss-v1-1-12723e26ea3e@quicinc.com>
+References: <20250518-qcs615_camss-v1-0-12723e26ea3e@quicinc.com>
+ <20250518-qcs615_camss-v1-1-12723e26ea3e@quicinc.com>
+Message-Id: <174755315042.2793587.17691583538434075316.robh@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: media: Add qcom,qcs615-camss binding
 
 
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
+On Sun, 18 May 2025 14:33:07 +0800, Wenmeng Liu wrote:
+> Add bindings for qcom,qcs615-camss in order to support the camera
+> subsystem for qcs615.
 > 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
 > ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
+>  .../bindings/media/qcom,qcs615-camss.yaml          | 356 +++++++++++++++++++++
+>  1 file changed, 356 insertions(+)
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -101,30 +80,18 @@ My bot found errors running 'make dt_binding_check' on your patch:
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+Documentation/devicetree/bindings/media/qcom,qcs615-camss.example.dts:25:18: fatal error: dt-bindings/clock/qcom,qcs615-camcc.h: No such file or directory
+   25 |         #include <dt-bindings/clock/qcom,qcs615-camcc.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/media/qcom,qcs615-camss.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1524: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250518-qcs615_camss-v1-1-12723e26ea3e@quicinc.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
