@@ -1,247 +1,283 @@
-Return-Path: <linux-media+bounces-32797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32798-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C036AABC03F
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 16:06:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3550ABC04F
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 16:10:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D91D7A0C84
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 14:05:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4452B3BA6C9
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 14:09:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61CAA280A20;
-	Mon, 19 May 2025 14:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50F3E27E1C8;
+	Mon, 19 May 2025 14:10:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u/JUJ9UF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WD1p41+v"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37E227CCEB
-	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 14:04:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1073520110B
+	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 14:10:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747663495; cv=none; b=Hjq0imhaq9wqpwc0+uCqn/H2vvvme2lTHw/qCB0Zhl1i6etOwBIgo+S1bZwx01akyMBQaINB4dvoNFrXXJFdAjxaDDTBHYBPyjK4YYlLWg5s0LWuwXH81hlxwC5lSy1vtoU1P0HfwKb2WjG4QTDLqr1F+X2W+XR1mvR6njpk+vs=
+	t=1747663804; cv=none; b=nWQD3dhNm9xfG0FUzGrQwjN+6ytHsmeB5YolPI626IHEQs24ZyWJBqbuXz3MwwzS9+einDaq0VCnHoOvyTjsea0bynVqiTNHk+MUxcdmzvq/wlsC8PciIAfafcT0CAIXT6QSSPubNA63hmrQgCRjSkqH7+djRGTAR4kJAYV1Wow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747663495; c=relaxed/simple;
-	bh=cI3qZu4Y+nInTOuUVLPy6HSJBiDDKcYEIqj7ekFwWj8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bV0D3ucmOoIzfCovBkH0EsvV5GOlrCvFAgmhaeM9MOo428nCd+m9ylPBopUoe8D0hrViAUhMyu/zUlmzagWDv2UUJgEj/RCnIjBmTyu9HGaQCAyHLqKD2Gvq43RI6UK6v+HazHO/MiCsln+89aLxN8OE1Cay/Xs3g1asr0zyTfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u/JUJ9UF; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1747663804; c=relaxed/simple;
+	bh=ACE9bUqyYnbK/KpVCffJMML8gsdYXWAj1K3CPqwjpOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d3JQgQJfwH4zlZKZMhwqnsKyDtjtc1NNwG/nTKEBcsL5OFRlO9BoVc8+7IdlMdqqxmTqz90b6p4eYg0JSGW0TNeixtM5Ml8SUO6QmKQZXe7bxq8143ngltYfAsV6k1UpH1xTP3qVXieLoG/Z+pFJyP4JiV+0oRGk8J3TeIjumW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WD1p41+v; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86EDF1116;
-	Mon, 19 May 2025 16:04:28 +0200 (CEST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0359583D;
+	Mon, 19 May 2025 16:09:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747663468;
-	bh=cI3qZu4Y+nInTOuUVLPy6HSJBiDDKcYEIqj7ekFwWj8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=u/JUJ9UFWvwWk2oY219eSFXL+/tKU7UsYsAqhkiKhjbLGMELiJxCVRDVptjUTctdC
-	 iUIaJvAdmZNGzoupSvOJ/ue3JfKvRi/3lFY6zjVhSbi5Zk1b9dYA1j7dPGEpMhnh/P
-	 0daYY96s6QJfz9Zlb9PXMlgab3G/KTLr/lo144z4=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com,
-	mchehab@kernel.org,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH 3/3] media: Documentation: Add documentation for media jobs
-Date: Mon, 19 May 2025 15:04:03 +0100
-Message-Id: <20250519140403.443915-4-dan.scally@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250519140403.443915-1-dan.scally@ideasonboard.com>
-References: <20250519140403.443915-1-dan.scally@ideasonboard.com>
+	s=mail; t=1747663781;
+	bh=ACE9bUqyYnbK/KpVCffJMML8gsdYXWAj1K3CPqwjpOI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WD1p41+vbOpidg1dYicwj3PHY8D0GAYkaNypP7TQ/OpiEqTMRIUtib3pr2fARB65L
+	 M5HQmgPbvGUHYw4JWUup121FdoRmErgr7WzpXWHWETpK5CeIWaTgj5FJyoiGmpFp3U
+	 RR3hezsf+1eCZv6gFSWO6vEmuS1Mj2sqn8q35YFc=
+Date: Mon, 19 May 2025 16:09:57 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Dan Scally <dan.scally@ideasonboard.com>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com, 
+	laurent.pinchart@ideasonboard.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v4 3/6] media: platform: rzg2l-cru: Use
+ v4l2_get_link_freq()
+Message-ID: <ol3hnn5e4srxx37cdxc4lutnwpu2u3i6bjzczz6zyinxwaq7o7@7rlp7dfhys3i>
+References: <20250506125015.567746-1-dan.scally@ideasonboard.com>
+ <20250506125015.567746-4-dan.scally@ideasonboard.com>
+ <aB4OfjTGktdu7Yos@tom-desktop>
+ <i4g722z6a3i4xnre6b3ne76w7acxcjy2j3ztww4ndvabungeuw@ovecz2bqewr6>
+ <3eb69cea-b511-412e-a126-ce246c2491df@bp.renesas.com>
+ <CA+V-a8v4rw9dD04obCT+gs1Npas3nopeC+xjU0bcBYCNwrqzhA@mail.gmail.com>
+ <dad4c6dd-b3d6-4a2e-a418-fe311cf871c4@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <dad4c6dd-b3d6-4a2e-a418-fe311cf871c4@ideasonboard.com>
 
-Add a segment to mc-core.rst that explains the purpose behind the
-media jobs framework and how to use it.
+Hi Dan
 
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
----
- Documentation/driver-api/media/mc-core.rst | 154 +++++++++++++++++++++
- 1 file changed, 154 insertions(+)
+On Mon, May 19, 2025 at 02:07:04PM +0100, Dan Scally wrote:
+> Hi again
+>
+> On 15/05/2025 12:59, Lad, Prabhakar wrote:
+> > Hi Tommaso,
+> >
+> > On Fri, May 9, 2025 at 4:41 PM Tommaso Merciai
+> > <tommaso.merciai.xr@bp.renesas.com> wrote:
+> > > Hi Jacopo,
+> > > Thanks for your comment.
+> > >
+> > > On 09/05/25 16:50, Jacopo Mondi wrote:
+> > > > Hi Tommaso
+> > > >
+> > > > On Fri, May 09, 2025 at 04:17:34PM +0200, Tommaso Merciai wrote:
+> > > > > Hi Daniel,
+> > > > > Thanks for your patch.
+> > > > >
+> > > > > On Tue, May 06, 2025 at 01:50:12PM +0100, Daniel Scally wrote:
+> > > > > > From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> > > > > >
+> > > > > > The rzg2l_csi2_calc_mbps() function currently tries to calculate the
+> > > > > > link frequency for a CSI2 bus using the V4L2_CID_PIXEL_RATE control
+> > > > > > of the remote subdevice. Switch the function to v4l2_get_link_freq()
+> > > > > > which correctly targets V4L2_CID_LINK_FREQ before falling back on
+> > > > > > V4L2_CID_PIXEL_RATE if the former is unavailable.
+> > > > > >
+> > > > > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> > > > > > ---
+> > > > > > Changes in v4:
+> > > > > >
+> > > > > >      - Used separate s64 variable as return value for v4l2_get_link_freq()
+> > > > > >        and as the mbps variable for do_div() to avoid compilation warnings.
+> > > > > >
+> > > > > > Changes in v3:
+> > > > > >
+> > > > > >      - Fixed mbps sign
+> > > > > >
+> > > > > > Changes in v2:
+> > > > > >
+> > > > > >      - None
+> > > > > >
+> > > > > >    .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 27 +++++++++----------
+> > > > > >    1 file changed, 12 insertions(+), 15 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > > > > > index 9243306e2aa9..8870c2cb8104 100644
+> > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > > > > > @@ -282,28 +282,25 @@ static int rzg2l_csi2_calc_mbps(struct rzg2l_csi2 *csi2)
+> > > > > >      const struct rzg2l_csi2_format *format;
+> > > > > >      const struct v4l2_mbus_framefmt *fmt;
+> > > > > >      struct v4l2_subdev_state *state;
+> > > > > > -   struct v4l2_ctrl *ctrl;
+> > > > > >      u64 mbps;
+> > > > > > -
+> > > > > > -   /* Read the pixel rate control from remote. */
+> > > > > > -   ctrl = v4l2_ctrl_find(source->ctrl_handler, V4L2_CID_PIXEL_RATE);
+> > > > > > -   if (!ctrl) {
+> > > > > > -           dev_err(csi2->dev, "no pixel rate control in subdev %s\n",
+> > > > > > -                   source->name);
+> > > > > > -           return -EINVAL;
+> > > > > > -   }
+> > > > > > +   s64 ret;
+> > > > > >
+> > > > > >      state = v4l2_subdev_lock_and_get_active_state(&csi2->subdev);
+> > > > > >      fmt = v4l2_subdev_state_get_format(state, RZG2L_CSI2_SINK);
+> > > > > >      format = rzg2l_csi2_code_to_fmt(fmt->code);
+> > > > > >      v4l2_subdev_unlock_state(state);
+> > > > > >
+> > > > > > -   /*
+> > > > > > -    * Calculate hsfreq in Mbps
+> > > > > > -    * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
+> > > > > > -    */
+> > > > > > -   mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * format->bpp;
+> > > > > > -   do_div(mbps, csi2->lanes * 1000000);
+> > > > > > +   /* Read the link frequency from remote subdevice. */
+> > > > > > +   ret = v4l2_get_link_freq(source->ctrl_handler, format->bpp,
+> > > > > > +                            csi2->lanes);
+> > div needs to be updated in v4l2_get_link_freq() as below so that when
+> > subdev has only V4L2_CID_PIXEL_RATE we get the correct value.
+> >
+> >          ret = v4l2_get_link_freq(source->ctrl_handler, format->bpp,
+> > -                                csi2->lanes);
+> > +                                csi2->lanes * 2);
+> >
+> > > > > > +   if (ret < 0) {
+> > > > > > +           dev_err(csi2->dev, "can't retrieve link freq from subdev %s\n",
+> > > > > > +                   source->name);
+> > > > > > +           return -EINVAL;
+> > > > > > +   }
+> > > > > > +
+> > > > > > +   mbps = ret;
+> > > > > > +   do_div(mbps, 1000000);
+> > > > > >
+> > > > > >      return mbps;
+> > > > > >    }
+> > > > > I tested this series with an imx219 image sensor connected to the CSI-2
+> > > > > RX IP of RZ/G3E:
+> > > > >
+> > > > > Some notes:
+> > > > >
+> > > > >    - pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample
+> > > > >    - hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
+> > > > >
+> > > > > Then hsfreq should be:
+> > > > The old code seems to call 'hsfreq' the per-lane bandwidth
+> > > >
+> > > > -      * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
+> > > >
+> > > > And not the per-lane frequency as the variable name and the commit message
+> > > > suggest
+> > > >
+> > > > >    - hsfreq = link_freq * 2
+> > > > if that's the intention, due to CSI-2 DDR, then you're correct I
+> > > > think ?
+> > > >
+> > > > Seeing that also Laurent has reviewed it, and Prabhakar tested it, I wonder
+> > > > if we all have missed that the original code didn't have a / 2
+> > I agree the orignal code missed a / 2. I think we need a fixup patch
+> > (so that this can be backported) and then this change to use
+> > v4l2_get_link_freq().
+> >
+> > > > Dan, did you ever notice issues during your testing ?
+> > > >
+> > > > Also, with the introduction of 15f0035bfd0a ("media: v4l: Support
+> > > > passing media pad argument to v4l2_get_link_freq()") it's probably now
+> > > > better to pass the source's pad to v4l2_get_link_freq() ?
+> > > >
+> > > > > Please correct me if I'm wrong.
+> > > > >
+> > > > >
+> > > > > After applying this series. I'm getting the following issue testing the
+> > > > > imx219 sensor with SRGGB8_1X8 and SGRBG10_1X10 color format.
+> > > > Does the error go away if you multiply the link_freq by 2 ?
+> > > Yes the error goes away on my side using:
+> > >
+> > > mbps = ret * 2;
+> > >
+> > I tested the above with an OV5645 sensor and see no issues.
+>
+>
+> Actually, I'm missing something here. Tommaso, you're using an imx219? So
+> V4L2_CID_LINK_FREQ should be 456000000 and V4L2_CID_PIXEL_RATE should be
+> 182400000. The original calculation (assuming a 10-bit format and 2 lanes)
+> is 182400000 * 10 / (2 * 1000000) = 912. That's double the link frequency in
+> Mbps (456) so I understand that the / 2 was missing...but the function with
+> this patch applied should return 456 already...so if that's the correct
+> value then I'm confused as to why you'd be seeing errors and why multiplying
+> the return by 2 would fix them. What am I missing?
 
-diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
-index 1d010bd7ec49..53f13f857c1f 100644
---- a/Documentation/driver-api/media/mc-core.rst
-+++ b/Documentation/driver-api/media/mc-core.rst
-@@ -327,6 +327,158 @@ Call :c:func:`media_device_register()`, if media devnode isn't registered
- Call :c:func:`media_device_delete()` to free the media_device. Freeing is
- handled by the kref put handler.
- 
-+Media Jobs Framework
-+^^^^^^^^^^^^^^^^^^^^
-+
-+The media jobs framework exists to facilitate situations in which multiple
-+drivers must work together to properly operate a media pipeline in a driver
-+agnostic way. The archetypical example is of a memory to memory ISP that does
-+not include its own DMA input engine, and which must interact with the driver
-+for one that has been integrated. Because the DMA engine and its driver may be
-+different between each implementation, hardcoding calls of functions exported by
-+the DMA engine driver would not be appropriate. The media jobs framework allows
-+the drivers to define the steps that each must execute to correctly push data
-+through the pipeline and then schedule the sequence of steps to run in a work
-+queue.
-+
-+To start with each driver must acquire a reference to a
-+:c:type:`media_jobs_scheduler` by calling :c:func:`media_jobs_get_scheduler()`,
-+passing the pointer to their :c:type:`media_device`. This ensures that all of
-+the drivers are working with the same scheduler. Drivers must then call
-+:c:func:`media_jobs_add_job_setup_func()` to register a function that populates
-+each job with the dependencies that must be cleared to allow it to operate, and
-+the steps that must be carried out to execute it. For example:
-+
-+.. code-block:: c
-+
-+   static void isp_driver_run_step(void *data)
-+   {
-+       struct isp *isp = data;
-+
-+       /*
-+        * Logic here to actually execute the necessary steps, for example we
-+        * might configure some hardware registers.
-+        */
-+       ...;
-+   }
-+
-+   static struct media_job_dep_ops ops = {
-+       ...,
-+   };
-+
-+   static int isp_driver_add_job_setup_func(struct media_job *job, void *data)
-+   {
-+       int ret;
-+
-+       ret = media_jobs_add_job_dep(job, &ops, data);
-+       if (ret)
-+           return ret;
-+
-+       ret = media_jobs_add_job_step(job, isp_driver_run_step, data,
-+                                     MEDIA_JOBS_FL_STEP_ANYWHERE, 0);
-+       if (ret)
-+           return ret;
-+
-+       return 0;
-+   }
-+
-+The flags parameter of `media_jobs_add_job_step()` must be one of
-+:c:macro:`MEDIA_JOBS_FL_STEP_ANYWHERE`, :c:macro:`MEDIA_JOBS_FL_STEP_FROM_FRONT`
-+or :c:macro:`MEDIA_JOBS_FL_STEP_FROM_BACK`. The flag and pos parameters together
-+define the order of the step within the job. Steps added with
-+`MEDIA_JOBS_FL_STEP_ANYWHERE` will go after all steps that are added with
-+`MEDIA_JOBS_FL_STEP_FROM_FRONT` and all steps with `MEDIA_JOBS_FL_STEP_ANYWHERE`
-+that either have a lower `pos` or were previously added. They will go before all
-+those added with `MEDIA_JOBS_FL_STEP_FROM_BACK` and all steps with
-+`MEDIA_JOBS_FL_STEP_ANYWHERE` that have a higher `pos`. Steps added with
-+`MEDIA_JOBS_FL_STEP_FROM_FRONT` will go `pos` places from the front of the list,
-+and steps added with `flags` set to `MEDIA_JOBS_FL_STEP_FROM_BACK`` will go
-+`pos` places from the end of the list. This allows multiple drivers to quite
-+precisely define which steps need to be executed and what order they should be
-+executed in.
-+
-+Adding a step with the same `flags` and `pos` as a previously added step will
-+result in an error.
-+
-+The functions held in :c:type:`media_job_dep_ops` define how the media jobs
-+framework handles job dependencies. It is expected that there will be some hard
-+dependencies before a job can be executed; for example pushing a buffer of image
-+data through an ISP pipeline necessarily requires that an input buffer be ready
-+and an output buffer be ready to accept the processed data. The operations ask
-+the driver if the dependencies are met, tell the driver that a job has been
-+queued and reset the dependencies in the event the job is cancelled:
-+
-+.. code-block:: c
-+
-+   struct isp {
-+
-+       ...;
-+
-+       struct {
-+           struct list_head pending;
-+	   struct list_head processing;
-+       } buffers;
-+   }
-+
-+   static bool isp_driver_check_dep(void *data)
-+   {
-+       struct isp *isp = data;
-+
-+       /*
-+        * Do we have a buffer queued ready to accept the ISP's output data?
-+        */
-+       if (list_empty(isp->buffers.pending))
-+           return false;
-+
-+       return true;
-+   }
-+
-+   static void isp_driver_clear_dep(void *data)
-+   {
-+       struct isp *isp = data;
-+       struct buf *buf;
-+
-+       /*
-+        * We need to "consume" the buffer so that it's not also considered as
-+        * meeting this dependency for the next attempt to queue a job
-+        */
-+       buf = list_first_entry(&isp->buffers.pending, struct buf, list);
-+       list_move_tail(&buf->list, isp->buffers.processing);
-+   }
-+
-+   static void isp_driver_reset_dep(void *data)
-+   {
-+       struct isp *isp = data;
-+       struct buf *buf;
-+
-+       /*
-+        * If a queued job is cancelled then we need to return the dependency to
-+        * its original state, which in this example means returning it to the
-+        * pending queue.
-+        */
-+       buf = list_first_entry(&isp->buffers.pending, struct buf, list);
-+       list_move_tail(&buf->list, isp->buffers.pending);
-+   }
-+
-+   static struct media_job_dep_ops ops = {
-+       .check_dep = isp_driver_check_dep,
-+       .clear_dep = isp_driver_clear_dep,
-+       .reset_dep = isp_driver_reset_dep,
-+   };
-+
-+The actual creation and queueing of the jobs should be done by the drivers by
-+calling :c:func:`media_jobs_try_queue_job()` at any time a dependency of the
-+job is met - for example (following the earlier example) when a buffer is queued
-+to either the ISP or DMA engine's driver. When all of the dependencies that are
-+necessary for a job to be queued are met, this function will push a job to the
-+scheduler's queue.
-+
-+The scheduler has a workqueue that runs the jobs. This is triggered by calls to
-+the :c:func:`media_jobs_run_jobs()` function, which must be called periodically
-+as the pipeline is running. When the streaming is finished the drivers should
-+shut down the workqueue and cancel the queued jobs by calling
-+:c:func:`media_jobs_cancel_jobs()`.
-+
- API Definitions
- ^^^^^^^^^^^^^^^
- 
-@@ -336,6 +488,8 @@ API Definitions
- 
- .. kernel-doc:: include/media/media-entity.h
- 
-+.. kernel-doc:: include/media/media-jobs.h
-+
- .. kernel-doc:: include/media/media-request.h
- 
- .. kernel-doc:: include/media/media-dev-allocator.h
--- 
-2.34.1
+It's the other way around actually.
 
+The function needs to calculate the lane bandwidth not the linke frequency (*),
+and as you confirmed the original code returned 912 Mbps.
+
+-	/*
+-	 * Calculate hsfreq in Mbps
+-	 * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
+-	 */
+-	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * format->bpp;
+-	do_div(mbps, csi2->lanes * 1000000);
+
+
+The new code returns the link frequency instead
+
++	/* Read the link frequency from remote subdevice. */
++	ret = v4l2_get_link_freq(source->ctrl_handler, format->bpp,
++				 csi2->lanes);
++
++	mbps = ret;
++	do_div(mbps, 1000000);
+
+Maybe I confused you when I've said "the original code didn't have a
+/ 2" but what I meant is that the original code should have had a / 2
+to behave like the new version (but what we actually want is the new
+code to behave like the old one, not the other way around :)
+
+so the new code should do
+
+        mbps = ret * 2;
+
+if it uses
+
+	ret = v4l2_get_link_freq(source->ctrl_handler, format->bpp,
+				 csi2->lanes * 2);
+
+Does it make sense ?
+
+
+
+(*) Table 35.7 of the RZ/G2LC datasheet doesn't actually specify that,
+but given that all values are in Mbps and not in MHz, and the old code
+calculaates the bandwidth and not link frequency, it's fair to assume this
+I guess...
+
+>
+>
+> Thanks
+>
+> Dan
+>
+> > Cheers,
+> > Prabhakar
 
