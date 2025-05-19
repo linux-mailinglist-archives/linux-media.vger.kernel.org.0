@@ -1,110 +1,142 @@
-Return-Path: <linux-media+bounces-32760-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32761-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7321ABBC07
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 13:10:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDC4ABBC34
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 13:20:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D48AC189C4F0
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 11:10:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8191E189CFD8
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 11:20:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC27274FED;
-	Mon, 19 May 2025 11:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8469727511A;
+	Mon, 19 May 2025 11:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqEK+6AK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93301269AFD
-	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 11:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D765F1DFFC;
+	Mon, 19 May 2025 11:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747652987; cv=none; b=V2/CAcZMHg3J8npeUpMSLZzgR0l0zfvZ5w8elGEg7lKeVkEui/uAS06mkumhP/Gf1e+TIp8CQsKWvi9CKsVbPVrLOw6v9M9Sa9986u+G19GmibNClhUmGXk7J4lIGFZs+rv83wXGbrB73QvT/QkhEVKq24b6CjVN6oohCj37V2Q=
+	t=1747653597; cv=none; b=mqi/YO4uC6RtqNQOx2d64rYf5cVaPU+AOBrQPeFgRxuMaWfls87yRacw3g3VdBb3XJs6Py1Wc2OOWW5AqWyfYtvhfKNtLeC4eVTGfB1EYLPmV/epGyi/cp3C1Kd3Qp+KquDEm4UdpLYl3TfVLvfo8Te0hxahb1GqjDeMvJvclgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747652987; c=relaxed/simple;
-	bh=0GTrluo9pSiVwiaHOxZqAPC8AXPUCY639K9l/g6tCzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sr9UCLGzbaEs592+2auURM+lt2YC/QhvIw4FnNGuDE/B4s3KEPC95WKRyPuyRfMnwPu07r6ToV2K2TTP+gELtHUWNvRH1fSMcq9oheROX5qU2mO/bZVFoGiuyysaihP4Bm5dtQilnFL2z2y9qvp2vMcmv59pE3hiq5w2TvqUsRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: iSrrJfpBS0my7IN5Bb4shQ==
-X-CSE-MsgGUID: e8+13XoLTtqT6OuCEBUnzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="49529868"
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="49529868"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:09:45 -0700
-X-CSE-ConnectionGUID: SWnwxUDCQxWfJzsNJyH/YQ==
-X-CSE-MsgGUID: j89EuJqPS/m+s8Dg8X/DLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="140229995"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:09:44 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andy@kernel.org>)
-	id 1uGyNJ-000000030sI-0KHd;
-	Mon, 19 May 2025 14:09:41 +0300
-Date: Mon, 19 May 2025 14:09:40 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 04/23] media: atomisp: gc0310: Switch to CCI register
- access helpers
-Message-ID: <aCsRdHCBcxqN4LnV@smile.fi.intel.com>
-References: <20250517114106.43494-1-hdegoede@redhat.com>
- <20250517114106.43494-5-hdegoede@redhat.com>
+	s=arc-20240116; t=1747653597; c=relaxed/simple;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=bItxB0ywQEu0Z1TKJlYg/liK+nLSuqbON+WOxL/JDajCw2SUDp2eQgACr6dYSZXzdnzWhYgXlxheZCPImlMw0WpZzLyJE3pgnOcqzE5nKG+l4pXyH0+M32Wdp8dD6qnyRlugN1cEuh+11W9Yl/UHuixr9VuGH97pK55EWfdwQE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqEK+6AK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A5E7C4CEE4;
+	Mon, 19 May 2025 11:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747653596;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=OqEK+6AK2uKE5zFJ+ALrpE14Q1x4tmTRKdHQRiEIIeMXqx8lH+/s5jA6qvCHCFltt
+	 9nWavAaEmqZmIIcbH5j5cPrIo5bUj7KjPQwBE9+qYujQ085zEsh/wbjKUlAzpwdtDG
+	 +g/a7aGMFjqCbNbqV0HrondaxTr+NzieLf4nGbYCN4PUu5VivlxwMePgQqz73Jrw4s
+	 Q+FX3VSmtdiiTs3H1ZcUwkEwpMB9Yn19l+bLYYDC4E5zoJki3feFBcoQHjA/Uvo6Ei
+	 hgvITtxOfJzZnv9GzbsBA0saW/NIRVKO5E6AN5hWxHKq7CyzBqvsE+yXFQiJQrRXpE
+	 NhiwlGpI5Xvzw==
+Date: Mon, 19 May 2025 06:19:54 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250517114106.43494-5-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
 
-On Sat, May 17, 2025 at 01:40:47PM +0200, Hans de Goede wrote:
-> Switch the GC0310 driver over to the CCI register access helpers.
+
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
 > 
-> While at it also add a _REG prefix to all register address defines
-> to make clear they are register addresses and group register value
-> defines together with the address definition.
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+> 
 
-...
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> -#define GC0310_RESET_RELATED			0xFE
-> +#define GC0310_RESET_RELATED_REG		CCI_REG8(0xfe)
+yamllint warnings/errors:
 
-Old style: CAPITAL
-New style: small
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
 
-...
+doc reference errors (make refcheckdocs):
 
-> +#define GC0310_AGC_ADJ_REG			CCI_REG8(0x48)
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
 
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-> +#define GC0310_V_CROP_START_REG			CCI_REG16(0x0B)
-> +#define GC0310_H_OUTSIZE_REG			CCI_REG16(0x0F)
-> +#define GC0310_V_OUTSIZE_REG			CCI_REG16(0x0D)
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-But can we be consistent with the style all over?
+pip3 install dtschema --upgrade
 
-...
-
-> -	dev_dbg(&client->dev, "sensor ID = 0x%x\n", ret);
-> +	dev_dbg(&client->dev, "sensor ID = 0x%llx\n", val);
-
-Perhaps %#llx?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
