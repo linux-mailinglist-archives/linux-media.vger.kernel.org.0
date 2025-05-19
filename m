@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-32734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32735-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CBEABB4C7
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 08:07:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3396FABB4CE
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 08:08:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A5D318934E9
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 06:07:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C7C53B66FD
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 06:08:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A524224223;
-	Mon, 19 May 2025 06:07:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EB4E224227;
+	Mon, 19 May 2025 06:08:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vz+gRGtD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kqMlFdjA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C2A223DDC;
-	Mon, 19 May 2025 06:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6021DA617;
+	Mon, 19 May 2025 06:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747634832; cv=none; b=GZritnfg2gCEoFhB3crsBrqkInol6SdegEAeuWC5widr97QYqCQqUkE2WYLIl5XQ7RZohQUUSZLbLjM43ml1zuVGIl39/Dl6zRC/K4mASP9NJ1Z5bYgs47r8c/S/bQdPDCFzD3rc2nD1dh93fOkFUrt0AsRHpu5G+jCArE5BKOw=
+	t=1747634903; cv=none; b=lLvmYgfVw3aU0HVUXlo4IDaDOqpYO5BlHklHzKmi88pWDnYT3JfvWqn1EmSshXaLtUtmDv+TZ/y37ncaR5wNZGfRRbOcAB/qSeZdGUmiFkADWfO9kuq0p79Hb0WKD2520opmIBh28ThDLines52cyAddk9EJktG9axH+kMkUeiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747634832; c=relaxed/simple;
-	bh=mzBMq3RddGmQcxuRxndTk8lILd7AX2RNmDvdUcdMMK4=;
+	s=arc-20240116; t=1747634903; c=relaxed/simple;
+	bh=khkf5Hr6A+z9H+5JhtMustxbwzXDheZ5mS+ZycrSGtg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rBdgTQI1oTyiaK+bMBo8lDFiPOWXwh8/FXML94ln+oirOavWw1vfJzejjMOJaI+zPHo/uyZE5OifedwtT7mQE5qY4/Ds3BB62cU99NQ+Sh2mEoyHGjoKoCMGcEI8zQanribN16ITEP5ErOW52bYSXX/pli7TN6kbZuGAVZC5OI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vz+gRGtD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13800C4CEE4;
-	Mon, 19 May 2025 06:07:04 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=LkzRX63KH/D+4EEcQexBvb54TxPlH8UoErZCZlxqUZxDKQgeoNNbSmVefnrVlZd6dCQdZA5Z0UNjI2iW6QqcsYDloY+2qcb7t7hSfmdAreaeN++we7pc0G0iXo0zHroByAZq4OA/982gRkWbyPRuLKaPLNqd9MbB46DhRynHgDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kqMlFdjA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A5B9C4CEE4;
+	Mon, 19 May 2025 06:08:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747634830;
-	bh=mzBMq3RddGmQcxuRxndTk8lILd7AX2RNmDvdUcdMMK4=;
+	s=k20201202; t=1747634902;
+	bh=khkf5Hr6A+z9H+5JhtMustxbwzXDheZ5mS+ZycrSGtg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Vz+gRGtDt6VGed2bxqKSTa24v11F/DvLPQWge23acgb7OGQkUW5WeTEIPixRdt4dg
-	 xB9qeCZKX8ioISOIS5G077S4ovErXGkrP6FAqIJyHVnKXDl3t0ASnpcaTLOOdNMESZ
-	 bQexZlAkZgFsCobmh1IbVGSQ9tVjuRyFmuWro0aCQDZbYNmSknpjOP3riAXhLbeAmx
-	 MOV/AKQPQMAro41bYbjJLDFgtKmXSDHkcx/PkilaDf3lpeQm7gHWELN9q3Zj5FRCN5
-	 zwIRzegP8Z+xTwXdG3LdGwAyJ5M6wySkdTB/BDKDvcLy53g9WdGjvuM+9LzPN5ac69
-	 NYHD558nOSHMQ==
-Message-ID: <3942413e-bbc0-4320-92ef-4a84b19dece2@kernel.org>
-Date: Mon, 19 May 2025 08:07:03 +0200
+	b=kqMlFdjAFSoaoseE+qIrSM1echp3RB4YyUbnNq9UoKz7zP8M+jbai7sUhda+zIAER
+	 aFj5hoM+AthVfBTRDR5Uw+wGKYQjHdZHbAJWQkjMTht0XYcuH/eFuK2NasiUBduvyz
+	 1gLfAXnYMhfbSQNXfC1mx+AEXpJIIvY4Df5l+cpcZgh/Z3ZxJwbvZubztkyQFLOTAs
+	 LWHJ3Up7FD4XcdwuHra6yIHERSQhsR5m/zls1YEU2GhTC4zdH5qcNwFC0ztxciqMs5
+	 SXfxVo2HV8DYRX0ZfmWgvEs85gijPDY1JLTWoKWgeM3Z4ga8xKhrtWEom5wIg8roWC
+	 TLbePYHrlHV/g==
+Message-ID: <4bd79c88-7da5-4bf0-9300-cfdb296c8919@kernel.org>
+Date: Mon, 19 May 2025 08:08:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Subject: Re: [PATCH v3 02/10] arm64: dts: rockchip: Add nodes for NPU and its
+ MMU to rk3588s
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
@@ -68,7 +69,7 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-2-7051ac9225db@tomeuvizoso.net>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -114,222 +115,54 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-2-7051ac9225db@tomeuvizoso.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 16/05/2025 18:53, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
+> See Chapter 36 "RKNN" from the RK3588 TRM (Part 1).
+> 
+> This is a derivative of NVIDIA's NVDLA, but with its own front-end
+> processor.
+> 
+> The IP is divided in three cores, programmed independently. The first
+> core though is special, requiring to be powered on before any of the
+> others can be used.
+> 
+> The IOMMU of the first core is also special in that it has two subunits
+> (read/write?) that need to be programmed in sync.
 > 
 > v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
+> - Have one device for each NPU core (Sebastian Reichel)
+> - Have one device for each IOMMU (Sebastian Reichel)
+> - Correctly sort nodes (Diederik de Haas)
+> - Add rockchip,iommu compatible to IOMMU nodes (Sebastian Reichel)
 > 
 > v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
+> - Adapt to a split of the register block in the DT bindings (Nicolas
+>   Frattaroli)
 > 
 > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
-
-
-Nothing here was tested, so limited review.
-
->  1 file changed, 162 insertions(+)
+>  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 85 +++++++++++++++++++++++++++
+>  1 file changed, 85 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..4572fb777f1454d0147da29791033fc27c53b8d2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> @@ -0,0 +1,162 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Neural Processing Unit IP from Rockchip
-> +
-> +maintainers:
-> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> +
-> +description:
-> +  Rockchip IP for accelerating inference of neural networks, based on NVIDIA's
-> +  open source NVDLA IP.
-> +
-> +  There is to be a node per each core in the NPU. In Rockchip's design there
-> +  will be one core that is special and needs to be powered on before any of the
-> +  other cores can be used. This special core is called the top core and should
-> +  have the compatible string that corresponds to top cores.
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^npu-core@[a-f0-9]+$'
-> +
-> +  compatible:
-> +    oneOf:
-> +      - items:
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+> index 1e18ad93ba0ebdad31642b88ff0f90ef4e8dc76f..7b961ab838212fad8e4a70390fdc917a828433a9 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+> @@ -1136,6 +1136,91 @@ power-domain@RK3588_PD_SDMMC {
+>  		};
+>  	};
+>  
+> +	rknn_core_top: npu-core@fdab0000 {
 
-Drop, just enum
-
-
-> +          - enum:
-> +              - rockchip,rk3588-rknn-core-top
-> +      - items:
-
-Drop
-
-> +          - enum:
-
-Drop, part of previous enum.
-
-> +              - rockchip,rk3588-rknn-core
-> +
-> +  reg:
-> +    minItems: 3
-
-No, maxItems instead
-
-> +
-> +  reg-names:
-> +    minItems: 3
-
-No, drop, makes no sense.
-
-> +    items:
-> +      - const: pc
-> +      - const: cna
-> +      - const: core
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 4
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: hclk
-> +      - const: npu
-> +      - const: pclk
-> +    minItems: 2
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  npu-supply: true
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    items:
-> +      - const: srst_a
-> +      - const: srst_h
-> +
-> +  sram-supply: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-
-reg-names
-
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - iommus
-> +  - power-domains
-> +  - resets
-> +  - reset-names
-> +  - npu-supply
-> +  - sram-supply
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - rockchip,rknn-core-top
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 4
-> +
-> +        clock-names:
-> +          minItems: 4
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - rockchip,rknn-core
-> +    then:
-> +      properties:
-> +        clocks:
-> +          maxItems: 2
-> +        clock-names:
-> +          maxItems: 2
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/rk3588-power.h>
-> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
-> +
-> +    bus {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +
-> +      rknn_core_top: npu-core@fdab0000 {
-
-Drop unused label
 npu@
 
-> +        compatible = "rockchip,rk3588-rknn-core-top", "rockchip,rknn-core-top";
+> +		compatible = "rockchip,rk3588-rknn-core-top", "rockchip,rknn-core-top";
 
-This makes no sense... If you change compatibles you must change example
-DTS and your DTS.
-
-> +        reg = <0x0 0xfdab0000 0x0 0x9000>;
-> +        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
-> +        assigned-clock-rates = <200000000>;
-> +        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
-> +                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
-> +        clock-names = "aclk", "hclk", "npu", "pclk";
-> +        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
-> +        iommus = <&rknn_mmu_top>;
-> +        npu-supply = <&vdd_npu_s0>;
-> +        power-domains = <&power RK3588_PD_NPUTOP>;
-> +        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
-> +        reset-names = "srst_a", "srst_h";
-> +        sram-supply = <&vdd_npu_mem_s0>;
-> +      };
-> +
-> +      rknn_core_1: npu-core@fdac0000 {
-> +        compatible = "rockchip,rk3588-rknn-core", "rockchip,rknn-core";
-> +        reg = <0x0 0xfdac0000 0x0 0x9000>;
-> +        clocks = <&cru ACLK_NPU1>, <&cru HCLK_NPU1>;
-
-Difference by one property does not really justify new example. Keep
-only one, which would halve the errors you have here. :/
-
+You never tested this. Test before sending instead of relying on us or
+after merging.
 
 Best regards,
 Krzysztof
