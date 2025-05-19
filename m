@@ -1,193 +1,191 @@
-Return-Path: <linux-media+bounces-32774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF60BABBD0B
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 13:57:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E52CABBD3C
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 14:03:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89CEA1788AE
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 11:57:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA636188636A
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:04:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF4CB265CDC;
-	Mon, 19 May 2025 11:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ANg2mois"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 154F527587C;
+	Mon, 19 May 2025 12:03:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9159C274656
-	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 11:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969511FC0F3;
+	Mon, 19 May 2025 12:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747655814; cv=none; b=RSwGfu2vV7q5pvuifXtWBfHFom26JYTQ1+Z3sXLurD865b7cyZJhybg1s9oiEQCXp4Kc1oO/KAlt8MnuoA6xvogqPFJQCD52QR9NgILAMzOwp34IjNRf3SQbW4kpNxSeKVrnEXLK4BnMyforRDUUtKa8fuwn2Khs1LW0o1qWsMc=
+	t=1747656223; cv=none; b=cg9FzO34r88T4lJuJAbndH4xGxsxt0MOh+GsovrjV1Yy7tN+721AuNtmSOfjrgufm5WYYzxeJixgld5CSHmST6wa0McVLmdl7fqVADKcAlgEKhFq0w9RtiwEshbiHhLZbMbItVSdCN+n5/xRAnBUIeveHXpq04viwq7969Z18Jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747655814; c=relaxed/simple;
-	bh=d6W8WsKL/Su4cw5zA1yzSqmSFabp12gnUvGJSpVCkxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=prUTkJWkRCBhbQmidgSEBGkLDhWsERruVvQSAtQ4VnjBVqJvLHFANy1wIPcKjvrwelZbzZKoWwjQoeuPdI8oJOzfp3ZK4rgEZJu4/pqn6bMfuwXKQShYxhWob1Dr8r4n+3io+isGVTeEMrH4VvOnpp+QgAhGuYEYNeWs1qUF3B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ANg2mois; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747655813; x=1779191813;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d6W8WsKL/Su4cw5zA1yzSqmSFabp12gnUvGJSpVCkxk=;
-  b=ANg2moispHb6/+zEisD5h7I2USRDQs66DzeyYW0WtGpnApZV72tfQNWS
-   yQUz75e/K0HQr/8dzLLnffpWNM2C7arYQ1mvoqIrv/J/R6XR4MbCbLyjm
-   81voDqs1F32kwuBXorhf8TNhxins9QfrQnumUxtD8dxtgbswntX2pwLuQ
-   8xwcsACmG8UFlZJi2UKipcO6f14+2oFG9j8/NrtBHNaRWHWJi7GuZMer1
-   yq6ZBsu5NAH6T69CIbFDhEhH4LfaxuoLMOBU6v/ktivEpk3NUb+dZ+Jg6
-   9bi+BWDl66nkx+ky1Cdy8uv6KknaOqWKOzLutFO8EmBG4Uc3LGjzIxKKu
-   g==;
-X-CSE-ConnectionGUID: W1s0r0N6RpCiLSPEUUE4xA==
-X-CSE-MsgGUID: xiYIktgaQ9mtC3+TmmA6JQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="60186032"
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="60186032"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:56:51 -0700
-X-CSE-ConnectionGUID: CedvRqOvR9qSRpXZZrLCVA==
-X-CSE-MsgGUID: oHMdxRizSo6oDRnw4WF9aA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="143349535"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.190])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:56:44 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BC206120297;
-	Mon, 19 May 2025 14:56:41 +0300 (EEST)
-Date: Mon, 19 May 2025 11:56:41 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sean Young <sean@mess.org>, Ricardo Ribalda <ribalda@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Tomasz Figa <tfiga@chromium.org>,
-	"Hu,               Jerry W" <jerry.w.hu@intel.com>,
-	Steve Cho <stevecho@chromium.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Devarsh Thakkar <devarsht@ti.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Naushir Patuck <naush@raspberrypi.com>
-Subject: Re: [PATCH 1/1] media: dt-bindings: Add bindings for camera modules
-Message-ID: <aCsceUYURNc8_C7E@kekkonen.localdomain>
-References: <20250507081338.53614-1-sakari.ailus@linux.intel.com>
- <174682345593.819131.7462679299915630940@ping.linuxembedded.co.uk>
+	s=arc-20240116; t=1747656223; c=relaxed/simple;
+	bh=hUBo8rXj9bnpirPP2TplX1SeY+0FD5i+gD1nC36ZKbc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=nxKpppiNZJ7w/m10Ixp7CwwA5R3A8GKpiFw1/bor2gNEy80iVjrj0oM6eePsQIbXhRoUedXPIASXOoV7AI5EmS2pYf9KpYM8IFd+5Ho39PPUHBz+hLh6fxJYRj4dzrGsPl8yrrA8ksYQdDK4uZC4qkgs4TExWjAucejqUvCasQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from w001.hihonor.com (unknown [10.68.25.235])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4b1GWF6gK9zYlGZh;
+	Mon, 19 May 2025 20:01:45 +0800 (CST)
+Received: from a006.hihonor.com (10.68.23.242) by w001.hihonor.com
+ (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 19 May
+ 2025 20:03:38 +0800
+Received: from a010.hihonor.com (10.68.16.52) by a006.hihonor.com
+ (10.68.23.242) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 19 May
+ 2025 20:03:37 +0800
+Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
+ a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
+ Mon, 19 May 2025 20:03:37 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: "T.J. Mercier" <tjmercier@google.com>,
+	=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>
+CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+	"Brian.Starkey@arm.com" <Brian.Starkey@arm.com>, "jstultz@google.com"
+	<jstultz@google.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "wangbintian(BintianWang)"
+	<bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
+	<liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
+Subject: RE: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
+ system_heap
+Thread-Topic: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
+ system_heap
+Thread-Index: AQHbw+qMldEo/aUx7kiLwLLmDDhXfrPP52GAgACTfSD//4oVgIAB7nTg//+OJQCAAiukIP//j3cAADMZG0D//5fGgIAAp/oA//s1a9A=
+Date: Mon, 19 May 2025 12:03:37 +0000
+Message-ID: <375f6aac8c2f4b84814251c5025ae6eb@honor.com>
+References: <20250513092803.2096-1-tao.wangtao@honor.com>
+	<fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
+	<5b68b2a50d48444b93d97f5d342f37c8@honor.com>
+	<ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
+	<9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com>
+	<50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
+	<2755aae2f1674b239569bf1acad765dc@honor.com>
+	<2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
+	<a3f57102bc6e4588bc7659485feadbc1@honor.com>
+	<5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
+ <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
+In-Reply-To: <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <174682345593.819131.7462679299915630940@ping.linuxembedded.co.uk>
 
-Hi Kieran,
-
-On Fri, May 09, 2025 at 09:44:15PM +0100, Kieran Bingham wrote:
-> Hi Sakari,
-> 
-> Quoting Sakari Ailus (2025-05-07 09:13:38)
-> > Add bindings for camera modules to allow telling especially the user space
-> > which module is found in the system. Camera modules do not have a device
-> > node so this is a property for the camera sensor device node. This allows
-> > describing modules that contain a single camera sensor.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > Hi all,
-> > 
-> > Here's the patch to give some advance warning for the camera module
-> > discussion. The good thing is that it's quite short.
-> > 
-> 
-> Thanks for starting this! Definitely something I would like to see a
-> solution for indeed.
-> 
-> > The intent indeed is to address the regular use case where we have a
-> > single sensor in a camera module. For cases where we have more, we'll need
-> > something else, not based on individual properties. I believe this is
-> > still the way to go, to address current issues and for a couple of
-> > additional reasons:
-> > 
-> > - Cameras with more than one sensor tend to be collections of camera
-> >   modules so this is still relevant in most cases.
-> > 
-> > - It's much simpler to have a single property than begin having new nodes
-> >   in DT. In practice such nodes would be a poor fit for DT generally as
-> >   they have (few or) no functions.
-> > 
-> > The biggest difficulty is still in module identification. These components
-> > tend to be often ignored and the best we have for a module name in that
-> > case is random-looking string if even that. Besides DT bindings, we need
-> > an additional (git?) tree to describe the modules that have no proper
-> > names but it could be also useful for those that do, for instance to
-> > include information on lens, field of view, IR filter, photos of the
-> > module etc. There is some overlap with what libcamera needs, too.
-> > 
-> 
-> One aspect that jumps to my mind here - is how do we handle variations
-> of modules?
-> 
-> For instance I have two IMX335 modules from Arducam - which are
-> otherwise identical except for different lenses with different
-> field-of-view.
-> 
-> Do we need more properties (later?) to express the different
-> configuration options of the module?
-
-I think I'd document these as two different modules. Arducam SKU
-identifiers are probably best to be used as models here and I presume SKU
-is different between your modules?
-
-> 
-> 
-> At some point I would love to be able to describe a 'module' as the
-> whole component including a VCM for instance - in a way that can be
-> abstracted as something that could be connected to a 'port' (see [0],
-> [1]) where it would be helpful to be able to group/abstract a movable
-> component and identify the full camera module in a way that doesn't have
-> to be duplicated in every platform configuration that it could be
-> connected.
-
-This would likely require having a node for the module, too. It's a
-heavy-weight solution compared to just a property (or a few).
-
-How commonly do you swap lenses outside R&D in practice?
-
-> 
-> [0] https://www.konsulko.com/wp-content/uploads/2016/09/portable-device-tree-connector.pdf
-> [1] https://lore.kernel.org/all/1464986273-12039-2-git-send-email-pantelis.antoniou@konsulko.com/
-
--- 
-Kind regards,
-
-Sakari Ailus
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVC5KLiBNZXJjaWVyIDx0
+am1lcmNpZXJAZ29vZ2xlLmNvbT4NCj4gU2VudDogU2F0dXJkYXksIE1heSAxNywgMjAyNSAyOjM3
+IEFNDQo+IFRvOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+
+IENjOiB3YW5ndGFvIDx0YW8ud2FuZ3Rhb0Bob25vci5jb20+OyBzdW1pdC5zZW13YWxAbGluYXJv
+Lm9yZzsNCj4gYmVuamFtaW4uZ2FpZ25hcmRAY29sbGFib3JhLmNvbTsgQnJpYW4uU3RhcmtleUBh
+cm0uY29tOw0KPiBqc3R1bHR6QGdvb2dsZS5jb207IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
+ZzsgZHJpLQ0KPiBkZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbmFyby1tbS1zaWdAbGlz
+dHMubGluYXJvLm9yZzsgbGludXgtDQo+IGtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IHdhbmdiaW50
+aWFuKEJpbnRpYW5XYW5nKQ0KPiA8YmludGlhbi53YW5nQGhvbm9yLmNvbT47IHlpcGVuZ3hpYW5n
+IDx5aXBlbmd4aWFuZ0Bob25vci5jb20+OyBsaXVsdQ0KPiAwMDAxMzE2NyA8bGl1bHUubGl1QGhv
+bm9yLmNvbT47IGhhbmZlbmcgMDAwMTI5ODUgPGZlbmcuaGFuQGhvbm9yLmNvbT4NCj4gU3ViamVj
+dDogUmU6IFtQQVRDSCAyLzJdIGRtYWJ1Zi9oZWFwczogaW1wbGVtZW50DQo+IERNQV9CVUZfSU9D
+VExfUldfRklMRSBmb3Igc3lzdGVtX2hlYXANCj4gDQo+IE9uIEZyaSwgTWF5IDE2LCAyMDI1IGF0
+IDE6MzbigK9BTSBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+
+IHdyb3RlOg0KPiA+DQo+ID4gT24gNS8xNi8yNSAwOTo0MCwgd2FuZ3RhbyB3cm90ZToNCj4gPiA+
+DQo+ID4gPg0KPiA+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPj4gRnJvbTog
+Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiA+ID4+IFNlbnQ6
+IFRodXJzZGF5LCBNYXkgMTUsIDIwMjUgMTA6MjYgUE0NCj4gPiA+PiBUbzogd2FuZ3RhbyA8dGFv
+Lndhbmd0YW9AaG9ub3IuY29tPjsgc3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc7DQo+ID4gPj4gYmVu
+amFtaW4uZ2FpZ25hcmRAY29sbGFib3JhLmNvbTsgQnJpYW4uU3RhcmtleUBhcm0uY29tOw0KPiA+
+ID4+IGpzdHVsdHpAZ29vZ2xlLmNvbTsgdGptZXJjaWVyQGdvb2dsZS5jb20NCj4gPiA+PiBDYzog
+bGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnOw0KPiA+ID4+IGxpbmFyby0gbW0tc2lnQGxpc3RzLmxpbmFyby5vcmc7IGxpbnV4LWtlcm5l
+bEB2Z2VyLmtlcm5lbC5vcmc7DQo+ID4gPj4gd2FuZ2JpbnRpYW4oQmludGlhbldhbmcpIDxiaW50
+aWFuLndhbmdAaG9ub3IuY29tPjsgeWlwZW5neGlhbmcNCj4gPiA+PiA8eWlwZW5neGlhbmdAaG9u
+b3IuY29tPjsgbGl1bHUgMDAwMTMxNjcgPGxpdWx1LmxpdUBob25vci5jb20+Ow0KPiA+ID4+IGhh
+bmZlbmcNCj4gPiA+PiAwMDAxMjk4NSA8ZmVuZy5oYW5AaG9ub3IuY29tPg0KPiA+ID4+IFN1Ympl
+Y3Q6IFJlOiBbUEFUQ0ggMi8yXSBkbWFidWYvaGVhcHM6IGltcGxlbWVudA0KPiA+ID4+IERNQV9C
+VUZfSU9DVExfUldfRklMRSBmb3Igc3lzdGVtX2hlYXANCj4gPiA+Pg0KPiA+ID4+IE9uIDUvMTUv
+MjUgMTY6MDMsIHdhbmd0YW8gd3JvdGU6DQo+ID4gPj4+IFt3YW5ndGFvXSBNeSBUZXN0IENvbmZp
+Z3VyYXRpb24gKENQVSAxR0h6LCA1LXRlc3QgYXZlcmFnZSk6DQo+ID4gPj4+IEFsbG9jYXRpb246
+IDMyeDMyTUIgYnVmZmVyIGNyZWF0aW9uDQo+ID4gPj4+IC0gZG1hYnVmIDUzbXMgdnMuIHVkbWFi
+dWYgNjk0bXMgKDEwWCBzbG93ZXIpDQo+ID4gPj4+IC0gTm90ZTogc2htZW0gc2hvd3MgZXhjZXNz
+aXZlIGFsbG9jYXRpb24gdGltZQ0KPiA+ID4+DQo+ID4gPj4gWWVhaCwgdGhhdCBpcyBzb21ldGhp
+bmcgYWxyZWFkeSBub3RlZCBieSBvdGhlcnMgYXMgd2VsbC4gQnV0IHRoYXQNCj4gPiA+PiBpcyBv
+cnRob2dvbmFsLg0KPiA+ID4+DQo+ID4gPj4+DQo+ID4gPj4+IFJlYWQgMTAyNE1CIEZpbGU6DQo+
+ID4gPj4+IC0gZG1hYnVmIGRpcmVjdCAzMjZtcyB2cy4gdWRtYWJ1ZiBkaXJlY3QgNDYxbXMgKDQw
+JSBzbG93ZXIpDQo+ID4gPj4+IC0gTm90ZTogcGluX3VzZXJfcGFnZXNfZmFzdCBjb25zdW1lcyBt
+YWpvcml0eSBDUFUgY3ljbGVzDQo+ID4gPj4+DQo+ID4gPj4+IEtleSBmdW5jdGlvbiBjYWxsIHRp
+bWluZzogU2VlIGRldGFpbHMgYmVsb3cuDQo+ID4gPj4NCj4gPiA+PiBUaG9zZSBhcmVuJ3QgdmFs
+aWQsIHlvdSBhcmUgY29tcGFyaW5nIGRpZmZlcmVudCBmdW5jdGlvbmFsaXRpZXMgaGVyZS4NCj4g
+PiA+Pg0KPiA+ID4+IFBsZWFzZSB0cnkgdXNpbmcgdWRtYWJ1ZiB3aXRoIHNlbmRmaWxlKCkgYXMg
+Y29uZmlybWVkIHRvIGJlIHdvcmtpbmcgYnkNCj4gVC5KLg0KPiA+ID4gW3dhbmd0YW9dIFVzaW5n
+IGJ1ZmZlciBJTyB3aXRoIGRtYWJ1ZiBmaWxlIHJlYWQvd3JpdGUgcmVxdWlyZXMgb25lDQo+IG1l
+bW9yeSBjb3B5Lg0KPiA+ID4gRGlyZWN0IElPIHJlbW92ZXMgdGhpcyBjb3B5IHRvIGVuYWJsZSB6
+ZXJvLWNvcHkuIFRoZSBzZW5kZmlsZSBzeXN0ZW0NCj4gPiA+IGNhbGwgcmVkdWNlcyBtZW1vcnkg
+Y29waWVzIGZyb20gdHdvIChyZWFkL3dyaXRlKSB0byBvbmUuIEhvd2V2ZXIsDQo+ID4gPiB3aXRo
+IHVkbWFidWYsIHNlbmRmaWxlIHN0aWxsIGtlZXBzIGF0IGxlYXN0IG9uZSBjb3B5LCBmYWlsaW5n
+IHplcm8tY29weS4NCj4gPg0KPiA+DQo+ID4gVGhlbiBwbGVhc2Ugd29yayBvbiBmaXhpbmcgdGhp
+cy4NCj4gPg0KPiA+IFJlZ2FyZHMsDQo+ID4gQ2hyaXN0aWFuLg0KPiA+DQo+ID4NCj4gPiA+DQo+
+ID4gPiBJZiB1ZG1hYnVmIHNlbmRmaWxlIHVzZXMgYnVmZmVyIElPIChmaWxlIHBhZ2UgY2FjaGUp
+LCByZWFkIGxhdGVuY3kNCj4gPiA+IG1hdGNoZXMgZG1hYnVmIGJ1ZmZlciByZWFkLCBidXQgYWxs
+b2NhdGlvbiB0aW1lIGlzIG11Y2ggbG9uZ2VyLg0KPiA+ID4gV2l0aCBEaXJlY3QgSU8sIHRoZSBk
+ZWZhdWx0IDE2LXBhZ2UgcGlwZSBzaXplIG1ha2VzIGl0IHNsb3dlciB0aGFuIGJ1ZmZlcg0KPiBJ
+Ty4NCj4gPiA+DQo+ID4gPiBUZXN0IGRhdGEgc2hvd3M6DQo+ID4gPiB1ZG1hYnVmIGRpcmVjdCBy
+ZWFkIGlzIG11Y2ggZmFzdGVyIHRoYW4gdWRtYWJ1ZiBzZW5kZmlsZS4NCj4gPiA+IGRtYWJ1ZiBk
+aXJlY3QgcmVhZCBvdXRwZXJmb3JtcyB1ZG1hYnVmIGRpcmVjdCByZWFkIGJ5IGEgbGFyZ2UgbWFy
+Z2luLg0KPiA+ID4NCj4gPiA+IElzc3VlOiBBZnRlciB1ZG1hYnVmIGlzIG1hcHBlZCB2aWEgbWFw
+X2RtYV9idWYsIGFwcHMgdXNpbmcgbWVtZmQgb3INCj4gPiA+IHVkbWFidWYgZm9yIERpcmVjdCBJ
+TyBtaWdodCBjYXVzZSBlcnJvcnMsIGJ1dCB0aGVyZSBhcmUgbm8NCj4gPiA+IHNhZmVndWFyZHMg
+dG8gcHJldmVudCB0aGlzLg0KPiA+ID4NCj4gPiA+IEFsbG9jYXRlIDMyeDMyTUIgYnVmZmVyIGFu
+ZCByZWFkIDEwMjQgTUIgZmlsZSBUZXN0Og0KPiA+ID4gTWV0cmljICAgICAgICAgICAgICAgICB8
+IGFsbG9jIChtcykgfCByZWFkIChtcykgfCB0b3RhbCAobXMpDQo+ID4gPiAtLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLXwtLS0tLS0tLS0tLS18LS0tLS0tLS0tLS18LS0tLS0tLS0tLS0NCj4gPiA+IHVk
+bWFidWYgYnVmZmVyIHJlYWQgICAgfCA1MzkgICAgICAgIHwgMjAxNyAgICAgIHwgMjU1NQ0KPiA+
+ID4gdWRtYWJ1ZiBkaXJlY3QgcmVhZCAgICB8IDUyMiAgICAgICAgfCA2NTggICAgICAgfCAxMTc5
+DQo+IA0KPiBJIGNhbid0IHJlcHJvZHVjZSB0aGUgcGFydCB3aGVyZSB1ZG1hYnVmIGRpcmVjdCBy
+ZWFkcyBhcmUgZmFzdGVyIHRoYW4NCj4gYnVmZmVyZWQgcmVhZHMuIFRoYXQncyB0aGUgb3Bwb3Np
+dGUgb2Ygd2hhdCBJJ2QgZXhwZWN0LiBTb21ldGhpbmcgc2VlbXMNCj4gd3Jvbmcgd2l0aCB0aG9z
+ZSBidWZmZXJlZCByZWFkcy4NCj4gDQo+ID4gPiB1ZG1hYnVmIGJ1ZmZlciBzZW5kZmlsZXwgNTA1
+ICAgICAgICB8IDEwNDAgICAgICB8IDE1NDYNCj4gPiA+IHVkbWFidWYgZGlyZWN0IHNlbmRmaWxl
+fCA1MTAgICAgICAgIHwgMjI2OSAgICAgIHwgMjc4MA0KPiANCj4gSSBjYW4gcmVwcm9kdWNlIHRo
+ZSAzLjV4IHNsb3dlciB1ZGFtYnVmIGRpcmVjdCBzZW5kZmlsZSBjb21wYXJlZCB0bw0KPiB1ZG1h
+YnVmIGRpcmVjdCByZWFkLiBJdCdzIGEgcHJldHR5IGRpc2FwcG9pbnRpbmcgcmVzdWx0LCBzbyBp
+dCBzZWVtcyBsaWtlDQo+IHNvbWV0aGluZyBjb3VsZCBiZSBpbXByb3ZlZCB0aGVyZS4NCj4gDQo+
+IDFHIGZyb20gZXh0NCBvbiA2LjEyLjE3IHwgcmVhZC9zZW5kZmlsZSAobXMpDQo+IC0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0tLS0tLS0tLS0tDQo+IHVkbWFidWYgYnVmZmVyIHJl
+YWQgICAgIHwgMzUxDQo+IHVkbWFidWYgZGlyZWN0IHJlYWQgICAgIHwgNTQwDQo+IHVkbWFidWYg
+YnVmZmVyIHNlbmRmaWxlIHwgMjU1DQo+IHVkbWFidWYgZGlyZWN0IHNlbmRmaWxlIHwgMTk5MA0K
+PiANClt3YW5ndGFvXSBCeSB0aGUgd2F5LCBkaWQgeW91IGNsZWFyIHRoZSBmaWxlIGNhY2hlIGR1
+cmluZyB0ZXN0aW5nPw0KTG9va2luZyBhdCB5b3VyIGRhdGEgYWdhaW4sIHJlYWQgYW5kIHNlbmRm
+aWxlIGJ1ZmZlcnMgYXJlDQpmYXN0ZXIgdGhhbiBEaXJlY3QgSS9PLCB3aGljaCBzdWdnZXN0cyB0
+aGUgZmlsZSBjYWNoZSB3YXNu4oCZdA0KY2xlYXJlZC4gSWYgeW91IGRpZG7igJl0IGNsZWFyIHRo
+ZSBmaWxlIGNhY2hlLCB0aGUgdGVzdCByZXN1bHRzDQphcmUgdW5mYWlyIGFuZCB1bnJlbGlhYmxl
+IGZvciByZWZlcmVuY2UuIE9uIGVtYmVkZGVkIGRldmljZXMsDQppdOKAmXMgbmVhcmx5IGltcG9z
+c2libGUgdG8gbWFpbnRhaW4gc3RhYmxlIGNhY2hpbmcgZm9yIG11bHRpLUdCDQpmaWxlcy4gSWYg
+c3VjaCBmaWxlcyBjb3VsZCBiZSBjYWNoZWQsIHdlIG1pZ2h0IGFzIHdlbGwgY2FjaGUNCmRtYWJ1
+ZnMgZGlyZWN0bHkgdG8gc2F2ZSB0aW1lIG9uIGNyZWF0aW5nIGRtYWJ1ZnMgYW5kIHJlYWRpbmcN
+CmZpbGUgZGF0YS4NCllvdSBjYW4gY2FsbCBwb3NpeF9mYWR2aXNlKGZpbGVfZmQsIDAsIGxlbiwg
+UE9TSVhfRkFEVl9ET05UTkVFRCkNCmFmdGVyIG9wZW5pbmcgdGhlIGZpbGUgb3IgYmVmb3JlIGNs
+b3NpbmcgaXQgdG8gY2xlYXIgdGhlIGZpbGUgY2FjaGUsDQplbnN1cmluZyBhY3R1YWwgZmlsZSBJ
+L08gb3BlcmF0aW9ucyBhcmUgdGVzdGVkLg0KDQo+IA0KPiA+ID4gZG1hYnVmIGJ1ZmZlciByZWFk
+ICAgICB8IDUxICAgICAgICAgfCAxMDY4ICAgICAgfCAxMTE4DQo+ID4gPiBkbWFidWYgZGlyZWN0
+IHJlYWQgICAgIHwgNTIgICAgICAgICB8IDI5NyAgICAgICB8IDM0OQ0KPiA+ID4NCj4gPiA+IHVk
+bWFidWYgc2VuZGZpbGUgdGVzdCBzdGVwczoNCj4gPiA+IDEuIE9wZW4gZGF0YSBmaWxlKDEwMjRN
+QiksIGdldCBiYWNrX2ZkIDIuIENyZWF0ZSBtZW1mZCgzMk1CKSAjIExvb3ANCj4gPiA+IHN0ZXBz
+IDItNiAzLiBBbGxvY2F0ZSB1ZG1hYnVmIHdpdGggbWVtZmQgNC4gQ2FsbCBzZW5kZmlsZShtZW1m
+ZCwNCj4gPiA+IGJhY2tfZmQpIDUuIENsb3NlIG1lbWZkIGFmdGVyIHNlbmRmaWxlIDYuIENsb3Nl
+IHVkbWFidWYgNy4gQ2xvc2UNCj4gPiA+IGJhY2tfZmQNCj4gPiA+DQo+ID4gPj4NCj4gPiA+PiBS
+ZWdhcmRzLA0KPiA+ID4+IENocmlzdGlhbi4NCj4gPiA+DQo+ID4NCg0K
 
