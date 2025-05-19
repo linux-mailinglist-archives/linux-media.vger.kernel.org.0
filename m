@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-32777-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32778-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD00ABBE2A
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 14:44:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD789ABBE3F
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 14:48:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BD1117CA07
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:44:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF2787AE165
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:46:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32263279327;
-	Mon, 19 May 2025 12:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B715277816;
+	Mon, 19 May 2025 12:48:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fFaoVOl7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SzMtRY3N"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2602326C39C
-	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 12:44:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A36620C00E
+	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 12:48:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747658675; cv=none; b=O9DU0272RI1e6t8+9X6pHspYfZE5LijanI+60x74DNGSp5m7NeSlCZwsh/u2wyMC77CQlHm6HqvDCb4g1v9hBpaj0B/xZmS33r32qy61FyeDU1EOIeqgObZuj/aA3c94aCk0z9HEeTH48Oj3UA0VIxtvHV5FNHljrwrfAusvles=
+	t=1747658886; cv=none; b=N+jh1qmgeRUUcxZY2EvLx6FSh64dmgF9gf76ACKxpElpXL6xyyq+hBfGeaEAS4zWIxCrf4ZkdTMVpLvHpdyB+OCcO9HLADbHobT0RuJm80HsWj79xDIIBAP4SNko6m8JRqODp8F25RizDfdP634DxX/eVBEb0bgeM93bAXDUrh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747658675; c=relaxed/simple;
-	bh=ZjbnRP8bhjMJ7e80OcIsCsfW4/dVgWxW1uoyLtAUT0w=;
+	s=arc-20240116; t=1747658886; c=relaxed/simple;
+	bh=igubFTuiPkbS6JSKLxGsWich1XGl828jfLaDUGg0i/s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sDBQ6B7xmYLURrjNLBxIksVmKQ9ouejHp5UOT3n/7brNQ7EKsc0ywZnn/Y9O83dQDUazLZGreLj/6OFZQA7XH4QHzOAjXOxS6icHSt5VjOTXHPsR5YnGhxfXDC3ul7JmaIWSHrn32ytyCttqkhLeXi10Su5FamdUx6k5JsL4s+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fFaoVOl7; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=H04Jm/7cu1jr53/thlljlvEfGJ2jJn+1YTCxpeKR8pF3Owe0aoRynWQj6HftWxjSTdAkpsqXJkK5WW5eeJo7rCSAe+g3ckRYmKA5y9Etxz27E1WwtNbFWdDMucfDSSqJMysM8sQ7zPTcIGaDku/rsXNQ+Sx4gKbpYYsWKHWayb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SzMtRY3N; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E2A8446;
-	Mon, 19 May 2025 14:44:04 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D4A41446;
+	Mon, 19 May 2025 14:47:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747658645;
-	bh=ZjbnRP8bhjMJ7e80OcIsCsfW4/dVgWxW1uoyLtAUT0w=;
+	s=mail; t=1747658862;
+	bh=igubFTuiPkbS6JSKLxGsWich1XGl828jfLaDUGg0i/s=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fFaoVOl7VORLCu9sfmBxTa1MOPyzS3i3cWNdl42hCf9KsbahT1YYDyKD/zAworDX8
-	 oG+bam8Xab9Bnw58hhHkovxSfyHEId6XxOPzv5HQ0d32TXfUWtPLLk3kKJ0OB5SVB2
-	 fYmCcDoFvlxyonpYy3EvhycBsvEfZLCH1p5MND9A=
-Message-ID: <46e839d5-db8d-432f-9eeb-0aa7112dfb79@ideasonboard.com>
-Date: Mon, 19 May 2025 13:44:20 +0100
+	b=SzMtRY3Nktc/zM2zVMlgWIL560Ck5gJPTqnTJoEOhfVS9HIgYxRxGj01DyGMO7dz8
+	 7jK1hu5b+rzFiqxUgZtdjeTdw/dgoh6XTT2MIQw3bSV3yIaTca3Yy2zwixZmYxYylm
+	 SOtls38KPr61m4bC2hqvoFdLN4ej9uM+FY2NkHh8=
+Message-ID: <ee50afef-7836-4e44-8cf7-007f4d4b6b1b@ideasonboard.com>
+Date: Mon, 19 May 2025 13:47:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,9 +52,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 3/6] media: platform: rzg2l-cru: Use
  v4l2_get_link_freq()
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
  sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
  prabhakar.mahadev-lad.rj@bp.renesas.com,
@@ -64,8 +63,6 @@ References: <20250506125015.567746-1-dan.scally@ideasonboard.com>
  <20250506125015.567746-4-dan.scally@ideasonboard.com>
  <aB4OfjTGktdu7Yos@tom-desktop>
  <i4g722z6a3i4xnre6b3ne76w7acxcjy2j3ztww4ndvabungeuw@ovecz2bqewr6>
- <3eb69cea-b511-412e-a126-ce246c2491df@bp.renesas.com>
- <CA+V-a8v4rw9dD04obCT+gs1Npas3nopeC+xjU0bcBYCNwrqzhA@mail.gmail.com>
 Content-Language: en-US
 From: Dan Scally <dan.scally@ideasonboard.com>
 Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
@@ -111,166 +108,226 @@ Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
  yMcoUWrTK0Uz6UzUGKoJVbxmSW/EJLEGoI5p3NWxWtScEVv8mO49gqQdrRIOheZycDmHnItt
  9Qjv00uFhEwv2YfiyGk6iGF2W40s2pH2t6oeuGgmiZ7g6d0MEK8Ql/4zPItvr1c1rpwpXUC1
  u1kQWgtnNjFHX3KiYdqjcZeRBiry1X0zY+4Y24wUU0KsEewJwjhmCKAsju1RpdlPg2kC
-In-Reply-To: <CA+V-a8v4rw9dD04obCT+gs1Npas3nopeC+xjU0bcBYCNwrqzhA@mail.gmail.com>
+In-Reply-To: <i4g722z6a3i4xnre6b3ne76w7acxcjy2j3ztww4ndvabungeuw@ovecz2bqewr6>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi all - sorry for the late response, I was away last week.
+Hi Jacopo
 
-On 15/05/2025 12:59, Lad, Prabhakar wrote:
-> Hi Tommaso,
+On 09/05/2025 15:50, Jacopo Mondi wrote:
+> Hi Tommaso
 >
-> On Fri, May 9, 2025 at 4:41 PM Tommaso Merciai
-> <tommaso.merciai.xr@bp.renesas.com> wrote:
->> Hi Jacopo,
->> Thanks for your comment.
+> On Fri, May 09, 2025 at 04:17:34PM +0200, Tommaso Merciai wrote:
+>> Hi Daniel,
+>> Thanks for your patch.
 >>
->> On 09/05/25 16:50, Jacopo Mondi wrote:
->>> Hi Tommaso
+>> On Tue, May 06, 2025 at 01:50:12PM +0100, Daniel Scally wrote:
+>>> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
 >>>
->>> On Fri, May 09, 2025 at 04:17:34PM +0200, Tommaso Merciai wrote:
->>>> Hi Daniel,
->>>> Thanks for your patch.
->>>>
->>>> On Tue, May 06, 2025 at 01:50:12PM +0100, Daniel Scally wrote:
->>>>> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->>>>>
->>>>> The rzg2l_csi2_calc_mbps() function currently tries to calculate the
->>>>> link frequency for a CSI2 bus using the V4L2_CID_PIXEL_RATE control
->>>>> of the remote subdevice. Switch the function to v4l2_get_link_freq()
->>>>> which correctly targets V4L2_CID_LINK_FREQ before falling back on
->>>>> V4L2_CID_PIXEL_RATE if the former is unavailable.
->>>>>
->>>>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>>> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>>> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->>>>> ---
->>>>> Changes in v4:
->>>>>
->>>>>      - Used separate s64 variable as return value for v4l2_get_link_freq()
->>>>>        and as the mbps variable for do_div() to avoid compilation warnings.
->>>>>
->>>>> Changes in v3:
->>>>>
->>>>>      - Fixed mbps sign
->>>>>
->>>>> Changes in v2:
->>>>>
->>>>>      - None
->>>>>
->>>>>    .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 27 +++++++++----------
->>>>>    1 file changed, 12 insertions(+), 15 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
->>>>> index 9243306e2aa9..8870c2cb8104 100644
->>>>> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
->>>>> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
->>>>> @@ -282,28 +282,25 @@ static int rzg2l_csi2_calc_mbps(struct rzg2l_csi2 *csi2)
->>>>>      const struct rzg2l_csi2_format *format;
->>>>>      const struct v4l2_mbus_framefmt *fmt;
->>>>>      struct v4l2_subdev_state *state;
->>>>> -   struct v4l2_ctrl *ctrl;
->>>>>      u64 mbps;
->>>>> -
->>>>> -   /* Read the pixel rate control from remote. */
->>>>> -   ctrl = v4l2_ctrl_find(source->ctrl_handler, V4L2_CID_PIXEL_RATE);
->>>>> -   if (!ctrl) {
->>>>> -           dev_err(csi2->dev, "no pixel rate control in subdev %s\n",
->>>>> -                   source->name);
->>>>> -           return -EINVAL;
->>>>> -   }
->>>>> +   s64 ret;
->>>>>
->>>>>      state = v4l2_subdev_lock_and_get_active_state(&csi2->subdev);
->>>>>      fmt = v4l2_subdev_state_get_format(state, RZG2L_CSI2_SINK);
->>>>>      format = rzg2l_csi2_code_to_fmt(fmt->code);
->>>>>      v4l2_subdev_unlock_state(state);
->>>>>
->>>>> -   /*
->>>>> -    * Calculate hsfreq in Mbps
->>>>> -    * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
->>>>> -    */
->>>>> -   mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * format->bpp;
->>>>> -   do_div(mbps, csi2->lanes * 1000000);
->>>>> +   /* Read the link frequency from remote subdevice. */
->>>>> +   ret = v4l2_get_link_freq(source->ctrl_handler, format->bpp,
->>>>> +                            csi2->lanes);
-> div needs to be updated in v4l2_get_link_freq() as below so that when
-> subdev has only V4L2_CID_PIXEL_RATE we get the correct value.
->
->          ret = v4l2_get_link_freq(source->ctrl_handler, format->bpp,
-> -                                csi2->lanes);
-> +                                csi2->lanes * 2);
-
-
-Ack
-
->
->>>>> +   if (ret < 0) {
->>>>> +           dev_err(csi2->dev, "can't retrieve link freq from subdev %s\n",
->>>>> +                   source->name);
->>>>> +           return -EINVAL;
->>>>> +   }
->>>>> +
->>>>> +   mbps = ret;
->>>>> +   do_div(mbps, 1000000);
->>>>>
->>>>>      return mbps;
->>>>>    }
->>>> I tested this series with an imx219 image sensor connected to the CSI-2
->>>> RX IP of RZ/G3E:
->>>>
->>>> Some notes:
->>>>
->>>>    - pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample
->>>>    - hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
->>>>
->>>> Then hsfreq should be:
->>> The old code seems to call 'hsfreq' the per-lane bandwidth
+>>> The rzg2l_csi2_calc_mbps() function currently tries to calculate the
+>>> link frequency for a CSI2 bus using the V4L2_CID_PIXEL_RATE control
+>>> of the remote subdevice. Switch the function to v4l2_get_link_freq()
+>>> which correctly targets V4L2_CID_LINK_FREQ before falling back on
+>>> V4L2_CID_PIXEL_RATE if the former is unavailable.
 >>>
->>> -      * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
+>>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+>>> ---
+>>> Changes in v4:
 >>>
->>> And not the per-lane frequency as the variable name and the commit message
->>> suggest
+>>> 	- Used separate s64 variable as return value for v4l2_get_link_freq()
+>>> 	  and as the mbps variable for do_div() to avoid compilation warnings.
 >>>
->>>>    - hsfreq = link_freq * 2
->>> if that's the intention, due to CSI-2 DDR, then you're correct I
->>> think ?
+>>> Changes in v3:
 >>>
->>> Seeing that also Laurent has reviewed it, and Prabhakar tested it, I wonder
->>> if we all have missed that the original code didn't have a / 2
-> I agree the orignal code missed a / 2. I think we need a fixup patch
-> (so that this can be backported) and then this change to use
-> v4l2_get_link_freq().
-
-
-I'll send a new version with that extra patch, plus the change you mention above and Jacopo's point 
-about passing the pad to v4l2_get_link_freq()
-
-
-Good spot Tommaso!
-
->
->>> Dan, did you ever notice issues during your testing ?
+>>> 	- Fixed mbps sign
 >>>
->>> Also, with the introduction of 15f0035bfd0a ("media: v4l: Support
->>> passing media pad argument to v4l2_get_link_freq()") it's probably now
->>> better to pass the source's pad to v4l2_get_link_freq() ?
+>>> Changes in v2:
 >>>
->>>> Please correct me if I'm wrong.
->>>>
->>>>
->>>> After applying this series. I'm getting the following issue testing the
->>>> imx219 sensor with SRGGB8_1X8 and SGRBG10_1X10 color format.
->>> Does the error go away if you multiply the link_freq by 2 ?
->> Yes the error goes away on my side using:
+>>> 	- None
+>>>
+>>>   .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 27 +++++++++----------
+>>>   1 file changed, 12 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+>>> index 9243306e2aa9..8870c2cb8104 100644
+>>> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+>>> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+>>> @@ -282,28 +282,25 @@ static int rzg2l_csi2_calc_mbps(struct rzg2l_csi2 *csi2)
+>>>   	const struct rzg2l_csi2_format *format;
+>>>   	const struct v4l2_mbus_framefmt *fmt;
+>>>   	struct v4l2_subdev_state *state;
+>>> -	struct v4l2_ctrl *ctrl;
+>>>   	u64 mbps;
+>>> -
+>>> -	/* Read the pixel rate control from remote. */
+>>> -	ctrl = v4l2_ctrl_find(source->ctrl_handler, V4L2_CID_PIXEL_RATE);
+>>> -	if (!ctrl) {
+>>> -		dev_err(csi2->dev, "no pixel rate control in subdev %s\n",
+>>> -			source->name);
+>>> -		return -EINVAL;
+>>> -	}
+>>> +	s64 ret;
+>>>
+>>>   	state = v4l2_subdev_lock_and_get_active_state(&csi2->subdev);
+>>>   	fmt = v4l2_subdev_state_get_format(state, RZG2L_CSI2_SINK);
+>>>   	format = rzg2l_csi2_code_to_fmt(fmt->code);
+>>>   	v4l2_subdev_unlock_state(state);
+>>>
+>>> -	/*
+>>> -	 * Calculate hsfreq in Mbps
+>>> -	 * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
+>>> -	 */
+>>> -	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * format->bpp;
+>>> -	do_div(mbps, csi2->lanes * 1000000);
+>>> +	/* Read the link frequency from remote subdevice. */
+>>> +	ret = v4l2_get_link_freq(source->ctrl_handler, format->bpp,
+>>> +				 csi2->lanes);
+>>> +	if (ret < 0) {
+>>> +		dev_err(csi2->dev, "can't retrieve link freq from subdev %s\n",
+>>> +			source->name);
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	mbps = ret;
+>>> +	do_div(mbps, 1000000);
+>>>
+>>>   	return mbps;
+>>>   }
+>> I tested this series with an imx219 image sensor connected to the CSI-2
+>> RX IP of RZ/G3E:
 >>
->> mbps = ret * 2;
+>> Some notes:
 >>
-> I tested the above with an OV5645 sensor and see no issues.
+>>   - pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample
+>>   - hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
+>>
+>> Then hsfreq should be:
+> The old code seems to call 'hsfreq' the per-lane bandwidth
 >
-> Cheers,
-> Prabhakar
+> -	 * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
+>
+> And not the per-lane frequency as the variable name and the commit message
+> suggest
+>
+>>   - hsfreq = link_freq * 2
+> if that's the intention, due to CSI-2 DDR, then you're correct I
+> think ?
+>
+> Seeing that also Laurent has reviewed it, and Prabhakar tested it, I wonder
+> if we all have missed that the original code didn't have a / 2
+>
+> Dan, did you ever notice issues during your testing ?
+I don't recall any, but this patch has been in my tree for a long time, so possibly hidden by it.
+>
+> Also, with the introduction of 15f0035bfd0a ("media: v4l: Support
+> passing media pad argument to v4l2_get_link_freq()") it's probably now
+> better to pass the source's pad to v4l2_get_link_freq() ?
+
+
+Ah thanks for pointing that out - the _Generic() magic had hidden it so I hadn't noticed that it had 
+changed.
+
+>
+>> Please correct me if I'm wrong.
+>>
+>>
+>> After applying this series. I'm getting the following issue testing the
+>> imx219 sensor with SRGGB8_1X8 and SGRBG10_1X10 color format.
+> Does the error go away if you multiply the link_freq by 2 ?
+>
+> Thanks
+>    j
+>
+>>
+>> [  947.305876] rzg2l-cru 16000000.video: Invalid MB address 0xe8bf8300 (out of range)
+>> [  947.305876] rzg2l-cru 16000000.video: Invalid MB address 0xe8bf8300 (out of range)
+>> [  947.339165] rzg2l-cru 16000000.video: Invalid MB address 0xe8c9e900 (out of range)
+>> [  947.339165] rzg2l-cru 16000000.video: Invalid MB address 0xe8c9e900 (out of range)
+>>
+>>
+>> I'm suspecting that this could be related to this formula.
+>> Let me know what do you think.
+>>
+>> Thanks in advance!
+>>
+>> Tested using:
+>>
+>> root@smarc-rzg3e:~# media-ctl -p
+>> Media controller API version 6.15.0
+>>
+>> Media device information
+>> ------------------------
+>> driver          rzg2l_cru
+>> model           renesas,r9a09g047-cru
+>> serial
+>> bus info        platform:16000000.video
+>> hw revision     0x0
+>> driver version  6.15.0
+>>
+>> Device topology
+>> - entity 1: csi-16000400.csi2 (2 pads, 2 links, 0 routes)
+>>              type V4L2 subdev subtype Unknown flags 0
+>>              device node name /dev/v4l-subdev0
+>>          pad0: Sink
+>>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none]
+>>                  <- "imx219 0-0010":0 [ENABLED,IMMUTABLE]
+>>          pad1: Source
+>>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none]
+>>                  -> "cru-ip-16000000.video":0 [ENABLED,IMMUTABLE]
+>>
+>> - entity 4: cru-ip-16000000.video (2 pads, 2 links, 0 routes)
+>>              type V4L2 subdev subtype Unknown flags 0
+>>              device node name /dev/v4l-subdev1
+>>          pad0: Sink
+>>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none]
+>>                  <- "csi-16000400.csi2":1 [ENABLED,IMMUTABLE]
+>>          pad1: Source
+>>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none]
+>>                  -> "CRU output":0 [ENABLED,IMMUTABLE]
+>>
+>> - entity 7: imx219 0-0010 (1 pad, 1 link, 0 routes)
+>>              type V4L2 subdev subtype Sensor flags 0
+>>              device node name /dev/v4l-subdev2
+>>          pad0: Source
+>>                  [stream:0 fmt:SGRBG10_1X10/640x480 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
+>>                   crop.bounds:(8,8)/3280x2464
+>>                   crop:(1008,760)/1280x960]
+>>                  -> "csi-16000400.csi2":0 [ENABLED,IMMUTABLE]
+>>
+>> - entity 17: CRU output (1 pad, 1 link)
+>>               type Node subtype V4L flags 0
+>>               device node name /dev/video0
+>>          pad0: Sink
+>>                  <- "cru-ip-16000000.video":1 [ENABLED,IMMUTABLE]
+>>
+>> # IMX219 TESTING SGRBG10_1X10
+>> v4l2-ctl -c horizontal_flip=1 -d /dev/v4l-subdev2
+>>
+>> media-ctl -d /dev/media0 --set-v4l2 '"imx219 0-0010":0[fmt:SGRBG10_1X10/640x480]'
+>> media-ctl -d /dev/media0 --set-v4l2 '"csi-16000400.csi2":0[fmt:SGRBG10_1X10/640x480]'
+>> media-ctl -d /dev/media0 --set-v4l2 '"cru-ip-16000000.video":0[fmt:SGRBG10_1X10/640x480]'
+>>
+>> v4l2-ctl -d0 --set-fmt-video pixelformat=CR10,width=640,height=480
+>> v4l2-ctl -d0 --stream-mmap --stream-count=100
+>>
+>>
+>> #  IMX219 TESTING SRGGB8_1X8
+>> media-ctl -d /dev/media0 --set-v4l2 '"imx219 0-0010":0[fmt:SRGGB8_1X8/1920x1080]'
+>> media-ctl -d /dev/media0 --set-v4l2 '"csi-16000400.csi2":0[fmt:SRGGB8_1X8/1920x1080]'
+>> media-ctl -d /dev/media0 --set-v4l2 '"cru-ip-16000000.video":0[fmt:SRGGB8_1X8/1920x1080]'
+>>
+>>
+>> v4l2-ctl -d0 --set-fmt-video pixelformat=RGGB,width=1920,height=1080
+>> v4l2-ctl -d0 --stream-mmap --stream-count=32
+>>
+>> Thanks & Regards,
+>> Tommaso
+>>
+>>> --
+>>> 2.34.1
+>>>
 
