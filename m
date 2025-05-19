@@ -1,191 +1,126 @@
-Return-Path: <linux-media+bounces-32775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32776-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E52CABBD3C
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 14:03:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AD3ABBD9A
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 14:19:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA636188636A
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:04:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54E343B05FB
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:19:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 154F527587C;
-	Mon, 19 May 2025 12:03:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28E8F2777E2;
+	Mon, 19 May 2025 12:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="uNJpjB3c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969511FC0F3;
-	Mon, 19 May 2025 12:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747656223; cv=none; b=cg9FzO34r88T4lJuJAbndH4xGxsxt0MOh+GsovrjV1Yy7tN+721AuNtmSOfjrgufm5WYYzxeJixgld5CSHmST6wa0McVLmdl7fqVADKcAlgEKhFq0w9RtiwEshbiHhLZbMbItVSdCN+n5/xRAnBUIeveHXpq04viwq7969Z18Jc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747656223; c=relaxed/simple;
-	bh=hUBo8rXj9bnpirPP2TplX1SeY+0FD5i+gD1nC36ZKbc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=nxKpppiNZJ7w/m10Ixp7CwwA5R3A8GKpiFw1/bor2gNEy80iVjrj0oM6eePsQIbXhRoUedXPIASXOoV7AI5EmS2pYf9KpYM8IFd+5Ho39PPUHBz+hLh6fxJYRj4dzrGsPl8yrrA8ksYQdDK4uZC4qkgs4TExWjAucejqUvCasQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from w001.hihonor.com (unknown [10.68.25.235])
-	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4b1GWF6gK9zYlGZh;
-	Mon, 19 May 2025 20:01:45 +0800 (CST)
-Received: from a006.hihonor.com (10.68.23.242) by w001.hihonor.com
- (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 19 May
- 2025 20:03:38 +0800
-Received: from a010.hihonor.com (10.68.16.52) by a006.hihonor.com
- (10.68.23.242) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 19 May
- 2025 20:03:37 +0800
-Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
- a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
- Mon, 19 May 2025 20:03:37 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: "T.J. Mercier" <tjmercier@google.com>,
-	=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>
-CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-	"benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-	"Brian.Starkey@arm.com" <Brian.Starkey@arm.com>, "jstultz@google.com"
-	<jstultz@google.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "wangbintian(BintianWang)"
-	<bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
-	<liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
-Subject: RE: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-Thread-Topic: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-Thread-Index: AQHbw+qMldEo/aUx7kiLwLLmDDhXfrPP52GAgACTfSD//4oVgIAB7nTg//+OJQCAAiukIP//j3cAADMZG0D//5fGgIAAp/oA//s1a9A=
-Date: Mon, 19 May 2025 12:03:37 +0000
-Message-ID: <375f6aac8c2f4b84814251c5025ae6eb@honor.com>
-References: <20250513092803.2096-1-tao.wangtao@honor.com>
-	<fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
-	<5b68b2a50d48444b93d97f5d342f37c8@honor.com>
-	<ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
-	<9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com>
-	<50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
-	<2755aae2f1674b239569bf1acad765dc@honor.com>
-	<2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
-	<a3f57102bc6e4588bc7659485feadbc1@honor.com>
-	<5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
- <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
-In-Reply-To: <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954A327466A
+	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 12:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747657164; cv=pass; b=sLnRdUYDedF1ACnXyXkk+uMyWi3RpjLje+ZvcWIRCfBrz0hEiskcQng7xkdcv0qv+zsI387x993SvEBPaehXQv4ri34KUfj95g4QX5Wllm4ZTDKLqPfb15tf2mHXYFhQ+RCLYXLb8aKuQ+f5zS1H0Goe1oGGF9kTjn4EVEQZulQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747657164; c=relaxed/simple;
+	bh=CEHYf1T11klF91HVfdAG+iLguAhg1a2dJ6rbhpXk8Lw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SeJ/42Hdtf0irj/CGyfKyGLoVLf1G2gKbHn03P1GY7nSgFhy4mg0ApGFewrRHXMFV86ufkAURZhQm5juipRG4QkG0BO1jMjHgrUZ+P+b0jNSiqI1pxLAZL4V6EqNNLT5FbDMs9izQqUGQWigp3pJw1PV8+xv3kDOIEpY7JKW9No=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=uNJpjB3c; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4b1GvP5xtDz49Py8;
+	Mon, 19 May 2025 15:19:13 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1747657154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3lKyQXvgWdSqT9FQ6fxgOxXDjc0oOU4e+wSCd1qtuo4=;
+	b=uNJpjB3c7PFDaaZMP0IsQ9xx+ocIFcTTSefSEHAiPSZ5jifjH7UXCnPZ3+GvTzuvr4z/2g
+	GGdvGYBWtOaWUQ3gWgovgEKBWR9I/FrQ/kAzhKCHtussfbVz0mBKdJEmMf5ZAU+pgosDtI
+	A4iIsTCMRnMGrGf3IbW4VgzEPMbDEEXGZHoqnNtyR9kJ1Na/Qvvu4JaFKKBrJF3DEtj+9B
+	IiyGzytnvEiw9Myp5dnzjniyyXj26LRO1KL0qRbKW0ZrZ+8FLgCn6KMRkBe7J5GyFf+dhW
+	KLFPFPafQJMb7/l2uE89fobxqewpIN1EytyvdUpW1tQDYNRT3o13TnIkMi2C9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1747657154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3lKyQXvgWdSqT9FQ6fxgOxXDjc0oOU4e+wSCd1qtuo4=;
+	b=pJA/dzBaJ0/zyMwbZosM2pqVzdCgT4UdHqp9o2UxqFBXgziuAAbBhwY5wzox7CYcXuwhzO
+	bsuOdH/iOSrzNxosCOdZsx02s7Pg3orowY+ENRKwjiy8tbNuDdO3FFvJl+XfBrqKbP/l2C
+	rCt4QRiQ8Ao5yhi24sylZpCVzEu1jL8KXARG2EdeVHs1HJV4/FgAsG0mr2JPcJjmvUZir3
+	J/kDvxsFcgFWREpLIAIPgy8f/0eFmxo0ZR6D8ijQp2lAcee2qIyQmpU9CUGiHerWgKc5Cg
+	iP7vrdHfIiFEWVhvcrV+A1j9QLtuoJX5o59iDXJEWKguejofhsavk5L5RcVezA==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1747657154; a=rsa-sha256;
+	cv=none;
+	b=Bx4oWCnbHcfaDA6ddFfzWgEpzTnT12bsTFrvmLLOBc0g1WQXAQQhC7vck/ocEBz4GW2v9A
+	cq99QvPAyJaEaUclCtiLrdjfdvBRruUdqTEGLZNddyjCqHdbmbYwPnESQz0FIhjZh1vIk1
+	/hqDiGMXKiY/N2iUdoT6v29mF1YHghlVb3P3iyRfsRr2yNKiXLvL3yXhUHJTXT5tWxsWyY
+	3d3yxUUc2Hrf13DgbwOcQN8vq8jaSnA577BX6nxrDBnfeWG+Hz2tuJytsqRHex3V4NceVM
+	sj90sBvBdSD1IZRMQltiKl3K/AOYmN2sOVfG4UiMJ4mvlxEX2n0S6oWQOrSytQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3FB0A634C93;
+	Mon, 19 May 2025 15:19:13 +0300 (EEST)
+Date: Mon, 19 May 2025 12:19:13 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 23/23] media: Move gc0310 sensor drivers to
+ drivers/media/i2c/
+Message-ID: <aCshwZqgTvmyzVzf@valkosipuli.retiisi.eu>
+References: <20250517114106.43494-1-hdegoede@redhat.com>
+ <20250517114106.43494-24-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250517114106.43494-24-hdegoede@redhat.com>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVC5KLiBNZXJjaWVyIDx0
-am1lcmNpZXJAZ29vZ2xlLmNvbT4NCj4gU2VudDogU2F0dXJkYXksIE1heSAxNywgMjAyNSAyOjM3
-IEFNDQo+IFRvOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+
-IENjOiB3YW5ndGFvIDx0YW8ud2FuZ3Rhb0Bob25vci5jb20+OyBzdW1pdC5zZW13YWxAbGluYXJv
-Lm9yZzsNCj4gYmVuamFtaW4uZ2FpZ25hcmRAY29sbGFib3JhLmNvbTsgQnJpYW4uU3RhcmtleUBh
-cm0uY29tOw0KPiBqc3R1bHR6QGdvb2dsZS5jb207IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
-ZzsgZHJpLQ0KPiBkZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbmFyby1tbS1zaWdAbGlz
-dHMubGluYXJvLm9yZzsgbGludXgtDQo+IGtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IHdhbmdiaW50
-aWFuKEJpbnRpYW5XYW5nKQ0KPiA8YmludGlhbi53YW5nQGhvbm9yLmNvbT47IHlpcGVuZ3hpYW5n
-IDx5aXBlbmd4aWFuZ0Bob25vci5jb20+OyBsaXVsdQ0KPiAwMDAxMzE2NyA8bGl1bHUubGl1QGhv
-bm9yLmNvbT47IGhhbmZlbmcgMDAwMTI5ODUgPGZlbmcuaGFuQGhvbm9yLmNvbT4NCj4gU3ViamVj
-dDogUmU6IFtQQVRDSCAyLzJdIGRtYWJ1Zi9oZWFwczogaW1wbGVtZW50DQo+IERNQV9CVUZfSU9D
-VExfUldfRklMRSBmb3Igc3lzdGVtX2hlYXANCj4gDQo+IE9uIEZyaSwgTWF5IDE2LCAyMDI1IGF0
-IDE6MzbigK9BTSBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+
-IHdyb3RlOg0KPiA+DQo+ID4gT24gNS8xNi8yNSAwOTo0MCwgd2FuZ3RhbyB3cm90ZToNCj4gPiA+
-DQo+ID4gPg0KPiA+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPj4gRnJvbTog
-Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiA+ID4+IFNlbnQ6
-IFRodXJzZGF5LCBNYXkgMTUsIDIwMjUgMTA6MjYgUE0NCj4gPiA+PiBUbzogd2FuZ3RhbyA8dGFv
-Lndhbmd0YW9AaG9ub3IuY29tPjsgc3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc7DQo+ID4gPj4gYmVu
-amFtaW4uZ2FpZ25hcmRAY29sbGFib3JhLmNvbTsgQnJpYW4uU3RhcmtleUBhcm0uY29tOw0KPiA+
-ID4+IGpzdHVsdHpAZ29vZ2xlLmNvbTsgdGptZXJjaWVyQGdvb2dsZS5jb20NCj4gPiA+PiBDYzog
-bGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnOw0KPiA+ID4+IGxpbmFyby0gbW0tc2lnQGxpc3RzLmxpbmFyby5vcmc7IGxpbnV4LWtlcm5l
-bEB2Z2VyLmtlcm5lbC5vcmc7DQo+ID4gPj4gd2FuZ2JpbnRpYW4oQmludGlhbldhbmcpIDxiaW50
-aWFuLndhbmdAaG9ub3IuY29tPjsgeWlwZW5neGlhbmcNCj4gPiA+PiA8eWlwZW5neGlhbmdAaG9u
-b3IuY29tPjsgbGl1bHUgMDAwMTMxNjcgPGxpdWx1LmxpdUBob25vci5jb20+Ow0KPiA+ID4+IGhh
-bmZlbmcNCj4gPiA+PiAwMDAxMjk4NSA8ZmVuZy5oYW5AaG9ub3IuY29tPg0KPiA+ID4+IFN1Ympl
-Y3Q6IFJlOiBbUEFUQ0ggMi8yXSBkbWFidWYvaGVhcHM6IGltcGxlbWVudA0KPiA+ID4+IERNQV9C
-VUZfSU9DVExfUldfRklMRSBmb3Igc3lzdGVtX2hlYXANCj4gPiA+Pg0KPiA+ID4+IE9uIDUvMTUv
-MjUgMTY6MDMsIHdhbmd0YW8gd3JvdGU6DQo+ID4gPj4+IFt3YW5ndGFvXSBNeSBUZXN0IENvbmZp
-Z3VyYXRpb24gKENQVSAxR0h6LCA1LXRlc3QgYXZlcmFnZSk6DQo+ID4gPj4+IEFsbG9jYXRpb246
-IDMyeDMyTUIgYnVmZmVyIGNyZWF0aW9uDQo+ID4gPj4+IC0gZG1hYnVmIDUzbXMgdnMuIHVkbWFi
-dWYgNjk0bXMgKDEwWCBzbG93ZXIpDQo+ID4gPj4+IC0gTm90ZTogc2htZW0gc2hvd3MgZXhjZXNz
-aXZlIGFsbG9jYXRpb24gdGltZQ0KPiA+ID4+DQo+ID4gPj4gWWVhaCwgdGhhdCBpcyBzb21ldGhp
-bmcgYWxyZWFkeSBub3RlZCBieSBvdGhlcnMgYXMgd2VsbC4gQnV0IHRoYXQNCj4gPiA+PiBpcyBv
-cnRob2dvbmFsLg0KPiA+ID4+DQo+ID4gPj4+DQo+ID4gPj4+IFJlYWQgMTAyNE1CIEZpbGU6DQo+
-ID4gPj4+IC0gZG1hYnVmIGRpcmVjdCAzMjZtcyB2cy4gdWRtYWJ1ZiBkaXJlY3QgNDYxbXMgKDQw
-JSBzbG93ZXIpDQo+ID4gPj4+IC0gTm90ZTogcGluX3VzZXJfcGFnZXNfZmFzdCBjb25zdW1lcyBt
-YWpvcml0eSBDUFUgY3ljbGVzDQo+ID4gPj4+DQo+ID4gPj4+IEtleSBmdW5jdGlvbiBjYWxsIHRp
-bWluZzogU2VlIGRldGFpbHMgYmVsb3cuDQo+ID4gPj4NCj4gPiA+PiBUaG9zZSBhcmVuJ3QgdmFs
-aWQsIHlvdSBhcmUgY29tcGFyaW5nIGRpZmZlcmVudCBmdW5jdGlvbmFsaXRpZXMgaGVyZS4NCj4g
-PiA+Pg0KPiA+ID4+IFBsZWFzZSB0cnkgdXNpbmcgdWRtYWJ1ZiB3aXRoIHNlbmRmaWxlKCkgYXMg
-Y29uZmlybWVkIHRvIGJlIHdvcmtpbmcgYnkNCj4gVC5KLg0KPiA+ID4gW3dhbmd0YW9dIFVzaW5n
-IGJ1ZmZlciBJTyB3aXRoIGRtYWJ1ZiBmaWxlIHJlYWQvd3JpdGUgcmVxdWlyZXMgb25lDQo+IG1l
-bW9yeSBjb3B5Lg0KPiA+ID4gRGlyZWN0IElPIHJlbW92ZXMgdGhpcyBjb3B5IHRvIGVuYWJsZSB6
-ZXJvLWNvcHkuIFRoZSBzZW5kZmlsZSBzeXN0ZW0NCj4gPiA+IGNhbGwgcmVkdWNlcyBtZW1vcnkg
-Y29waWVzIGZyb20gdHdvIChyZWFkL3dyaXRlKSB0byBvbmUuIEhvd2V2ZXIsDQo+ID4gPiB3aXRo
-IHVkbWFidWYsIHNlbmRmaWxlIHN0aWxsIGtlZXBzIGF0IGxlYXN0IG9uZSBjb3B5LCBmYWlsaW5n
-IHplcm8tY29weS4NCj4gPg0KPiA+DQo+ID4gVGhlbiBwbGVhc2Ugd29yayBvbiBmaXhpbmcgdGhp
-cy4NCj4gPg0KPiA+IFJlZ2FyZHMsDQo+ID4gQ2hyaXN0aWFuLg0KPiA+DQo+ID4NCj4gPiA+DQo+
-ID4gPiBJZiB1ZG1hYnVmIHNlbmRmaWxlIHVzZXMgYnVmZmVyIElPIChmaWxlIHBhZ2UgY2FjaGUp
-LCByZWFkIGxhdGVuY3kNCj4gPiA+IG1hdGNoZXMgZG1hYnVmIGJ1ZmZlciByZWFkLCBidXQgYWxs
-b2NhdGlvbiB0aW1lIGlzIG11Y2ggbG9uZ2VyLg0KPiA+ID4gV2l0aCBEaXJlY3QgSU8sIHRoZSBk
-ZWZhdWx0IDE2LXBhZ2UgcGlwZSBzaXplIG1ha2VzIGl0IHNsb3dlciB0aGFuIGJ1ZmZlcg0KPiBJ
-Ty4NCj4gPiA+DQo+ID4gPiBUZXN0IGRhdGEgc2hvd3M6DQo+ID4gPiB1ZG1hYnVmIGRpcmVjdCBy
-ZWFkIGlzIG11Y2ggZmFzdGVyIHRoYW4gdWRtYWJ1ZiBzZW5kZmlsZS4NCj4gPiA+IGRtYWJ1ZiBk
-aXJlY3QgcmVhZCBvdXRwZXJmb3JtcyB1ZG1hYnVmIGRpcmVjdCByZWFkIGJ5IGEgbGFyZ2UgbWFy
-Z2luLg0KPiA+ID4NCj4gPiA+IElzc3VlOiBBZnRlciB1ZG1hYnVmIGlzIG1hcHBlZCB2aWEgbWFw
-X2RtYV9idWYsIGFwcHMgdXNpbmcgbWVtZmQgb3INCj4gPiA+IHVkbWFidWYgZm9yIERpcmVjdCBJ
-TyBtaWdodCBjYXVzZSBlcnJvcnMsIGJ1dCB0aGVyZSBhcmUgbm8NCj4gPiA+IHNhZmVndWFyZHMg
-dG8gcHJldmVudCB0aGlzLg0KPiA+ID4NCj4gPiA+IEFsbG9jYXRlIDMyeDMyTUIgYnVmZmVyIGFu
-ZCByZWFkIDEwMjQgTUIgZmlsZSBUZXN0Og0KPiA+ID4gTWV0cmljICAgICAgICAgICAgICAgICB8
-IGFsbG9jIChtcykgfCByZWFkIChtcykgfCB0b3RhbCAobXMpDQo+ID4gPiAtLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLXwtLS0tLS0tLS0tLS18LS0tLS0tLS0tLS18LS0tLS0tLS0tLS0NCj4gPiA+IHVk
-bWFidWYgYnVmZmVyIHJlYWQgICAgfCA1MzkgICAgICAgIHwgMjAxNyAgICAgIHwgMjU1NQ0KPiA+
-ID4gdWRtYWJ1ZiBkaXJlY3QgcmVhZCAgICB8IDUyMiAgICAgICAgfCA2NTggICAgICAgfCAxMTc5
-DQo+IA0KPiBJIGNhbid0IHJlcHJvZHVjZSB0aGUgcGFydCB3aGVyZSB1ZG1hYnVmIGRpcmVjdCBy
-ZWFkcyBhcmUgZmFzdGVyIHRoYW4NCj4gYnVmZmVyZWQgcmVhZHMuIFRoYXQncyB0aGUgb3Bwb3Np
-dGUgb2Ygd2hhdCBJJ2QgZXhwZWN0LiBTb21ldGhpbmcgc2VlbXMNCj4gd3Jvbmcgd2l0aCB0aG9z
-ZSBidWZmZXJlZCByZWFkcy4NCj4gDQo+ID4gPiB1ZG1hYnVmIGJ1ZmZlciBzZW5kZmlsZXwgNTA1
-ICAgICAgICB8IDEwNDAgICAgICB8IDE1NDYNCj4gPiA+IHVkbWFidWYgZGlyZWN0IHNlbmRmaWxl
-fCA1MTAgICAgICAgIHwgMjI2OSAgICAgIHwgMjc4MA0KPiANCj4gSSBjYW4gcmVwcm9kdWNlIHRo
-ZSAzLjV4IHNsb3dlciB1ZGFtYnVmIGRpcmVjdCBzZW5kZmlsZSBjb21wYXJlZCB0bw0KPiB1ZG1h
-YnVmIGRpcmVjdCByZWFkLiBJdCdzIGEgcHJldHR5IGRpc2FwcG9pbnRpbmcgcmVzdWx0LCBzbyBp
-dCBzZWVtcyBsaWtlDQo+IHNvbWV0aGluZyBjb3VsZCBiZSBpbXByb3ZlZCB0aGVyZS4NCj4gDQo+
-IDFHIGZyb20gZXh0NCBvbiA2LjEyLjE3IHwgcmVhZC9zZW5kZmlsZSAobXMpDQo+IC0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0tLS0tLS0tLS0tDQo+IHVkbWFidWYgYnVmZmVyIHJl
-YWQgICAgIHwgMzUxDQo+IHVkbWFidWYgZGlyZWN0IHJlYWQgICAgIHwgNTQwDQo+IHVkbWFidWYg
-YnVmZmVyIHNlbmRmaWxlIHwgMjU1DQo+IHVkbWFidWYgZGlyZWN0IHNlbmRmaWxlIHwgMTk5MA0K
-PiANClt3YW5ndGFvXSBCeSB0aGUgd2F5LCBkaWQgeW91IGNsZWFyIHRoZSBmaWxlIGNhY2hlIGR1
-cmluZyB0ZXN0aW5nPw0KTG9va2luZyBhdCB5b3VyIGRhdGEgYWdhaW4sIHJlYWQgYW5kIHNlbmRm
-aWxlIGJ1ZmZlcnMgYXJlDQpmYXN0ZXIgdGhhbiBEaXJlY3QgSS9PLCB3aGljaCBzdWdnZXN0cyB0
-aGUgZmlsZSBjYWNoZSB3YXNu4oCZdA0KY2xlYXJlZC4gSWYgeW91IGRpZG7igJl0IGNsZWFyIHRo
-ZSBmaWxlIGNhY2hlLCB0aGUgdGVzdCByZXN1bHRzDQphcmUgdW5mYWlyIGFuZCB1bnJlbGlhYmxl
-IGZvciByZWZlcmVuY2UuIE9uIGVtYmVkZGVkIGRldmljZXMsDQppdOKAmXMgbmVhcmx5IGltcG9z
-c2libGUgdG8gbWFpbnRhaW4gc3RhYmxlIGNhY2hpbmcgZm9yIG11bHRpLUdCDQpmaWxlcy4gSWYg
-c3VjaCBmaWxlcyBjb3VsZCBiZSBjYWNoZWQsIHdlIG1pZ2h0IGFzIHdlbGwgY2FjaGUNCmRtYWJ1
-ZnMgZGlyZWN0bHkgdG8gc2F2ZSB0aW1lIG9uIGNyZWF0aW5nIGRtYWJ1ZnMgYW5kIHJlYWRpbmcN
-CmZpbGUgZGF0YS4NCllvdSBjYW4gY2FsbCBwb3NpeF9mYWR2aXNlKGZpbGVfZmQsIDAsIGxlbiwg
-UE9TSVhfRkFEVl9ET05UTkVFRCkNCmFmdGVyIG9wZW5pbmcgdGhlIGZpbGUgb3IgYmVmb3JlIGNs
-b3NpbmcgaXQgdG8gY2xlYXIgdGhlIGZpbGUgY2FjaGUsDQplbnN1cmluZyBhY3R1YWwgZmlsZSBJ
-L08gb3BlcmF0aW9ucyBhcmUgdGVzdGVkLg0KDQo+IA0KPiA+ID4gZG1hYnVmIGJ1ZmZlciByZWFk
-ICAgICB8IDUxICAgICAgICAgfCAxMDY4ICAgICAgfCAxMTE4DQo+ID4gPiBkbWFidWYgZGlyZWN0
-IHJlYWQgICAgIHwgNTIgICAgICAgICB8IDI5NyAgICAgICB8IDM0OQ0KPiA+ID4NCj4gPiA+IHVk
-bWFidWYgc2VuZGZpbGUgdGVzdCBzdGVwczoNCj4gPiA+IDEuIE9wZW4gZGF0YSBmaWxlKDEwMjRN
-QiksIGdldCBiYWNrX2ZkIDIuIENyZWF0ZSBtZW1mZCgzMk1CKSAjIExvb3ANCj4gPiA+IHN0ZXBz
-IDItNiAzLiBBbGxvY2F0ZSB1ZG1hYnVmIHdpdGggbWVtZmQgNC4gQ2FsbCBzZW5kZmlsZShtZW1m
-ZCwNCj4gPiA+IGJhY2tfZmQpIDUuIENsb3NlIG1lbWZkIGFmdGVyIHNlbmRmaWxlIDYuIENsb3Nl
-IHVkbWFidWYgNy4gQ2xvc2UNCj4gPiA+IGJhY2tfZmQNCj4gPiA+DQo+ID4gPj4NCj4gPiA+PiBS
-ZWdhcmRzLA0KPiA+ID4+IENocmlzdGlhbi4NCj4gPiA+DQo+ID4NCg0K
+Hi Hans,
+
+Thanks for the set.
+
+On Sat, May 17, 2025 at 01:41:06PM +0200, Hans de Goede wrote:
+> The atomisp gc0310 sensor driver has now been fully converted to
+> a standard v4l2 sensor driver. Move it to drivers/media/i2c/
+> to reflect this.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  MAINTAINERS                                            |  6 ++++++
+>  drivers/media/i2c/Kconfig                              | 10 ++++++++++
+>  drivers/media/i2c/Makefile                             |  1 +
+>  .../i2c/atomisp-gc0310.c => media/i2c/gc0310.c}        |  0
+
+Looks good to me, with comments addressed. As this is a staging driver
+before the last patch, I don't think the order of the patches matters that
+much. As you'll be sending v2, could you also drop the debug print in
+gc0310_remove() while at it?
+
+-- 
+Regards,
+
+Sakari Ailus
 
