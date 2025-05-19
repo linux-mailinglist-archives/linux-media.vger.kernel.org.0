@@ -1,158 +1,110 @@
-Return-Path: <linux-media+bounces-32759-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32760-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857A6ABBB85
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:55:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7321ABBC07
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 13:10:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E72D3BD953
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 10:55:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D48AC189C4F0
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 11:10:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD91D2749C4;
-	Mon, 19 May 2025 10:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="If2rhX/n"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC27274FED;
+	Mon, 19 May 2025 11:09:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6EC26FD85
-	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 10:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93301269AFD
+	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 11:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747652119; cv=none; b=fEOKvdsLoGpiDc0JeXI1btrybsIpjDfTlyqU4/IrVYMsj/E14zw1izQsD9K53kPyyXjToLq1fH4tqp2IOexHsgjeGnpLfou9l8wF9CuaL3JZNzqyjRK9cDHlT2xuF8FHPCz0XZ5qsl9c2quUgJQiwwT5oe5nVNSnjD5uWRYdqKk=
+	t=1747652987; cv=none; b=V2/CAcZMHg3J8npeUpMSLZzgR0l0zfvZ5w8elGEg7lKeVkEui/uAS06mkumhP/Gf1e+TIp8CQsKWvi9CKsVbPVrLOw6v9M9Sa9986u+G19GmibNClhUmGXk7J4lIGFZs+rv83wXGbrB73QvT/QkhEVKq24b6CjVN6oohCj37V2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747652119; c=relaxed/simple;
-	bh=PzfkeF67xi2GoMUYcGvqwEOhE8nFTMY+yeJf+y2fnOY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O4VsFq4DuRhqOKKUjk1mrHxue5I+LgFZY0WB/c8/I0SlDZgd8vNtjp3WKOZc2KOsQe5rTXKRKkfwDAF5tNSy9YfJ9XECBEr4RLrSFMaj0WoTTidpJhNtjDTCttCWpUPQHfwmEy7eGliv5HYP+ehjeb1Q9vURGGjago6lpwuLd3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=If2rhX/n; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-441d1ed82faso32038625e9.0
-        for <linux-media@vger.kernel.org>; Mon, 19 May 2025 03:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747652115; x=1748256915; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ueJhJRaSbKSvp1WqYqL5yk7HRHK1xuho6oDidakstGA=;
-        b=If2rhX/nr5v8PDP7bji+SCVMK+XXyBD72tweavL7Ip9meDI4Iv3NTfLO1VMrcSl+xs
-         OQMLLOTaRpGMvUToyCypuVLr39FYyPkp4x2U6c2yyD44EwJTFoXtoKHnNTnHKL8FF6fm
-         n+s+YEXQYtBgHiJw/ev97UNQJo9DOSc/feCVs0gdybUS7vUhRjB6oXQ8mW6i0hCfq259
-         Plall4NOjo9LzAayS6jc4MrzOiNs3GST5yO1h71KUdeZhcJiaHwtqZeSYUfYFeqUK4+z
-         KP5jKBSWu1qkRfc1zFTk2htUxQjnQ/8doolY7TfW8j4+AyZYBvmIyAXkuV7yRKbKTLdn
-         CHpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747652115; x=1748256915;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ueJhJRaSbKSvp1WqYqL5yk7HRHK1xuho6oDidakstGA=;
-        b=uFPoj9ygablWKeTc+hUNubfxcSoOk83uEghWdO7I8o9gnF7cdqbJ441yp96Gg8MQ5z
-         9yv3hy4hLIFucpicfg5Nro5Zzsr245hQxxxyNryiiZxcb2F9jcZyrEyrWK1w//TESzK7
-         0L7n0P2xCc5hl+TO7rvDPLXcXY8pk/GwsVM+ZNKx0CUWD0qo86XS6w2+Zzx2A+N+Kto0
-         lkyoeyD5WbGR0AEzcsSoyAJQS+oJmQrCQDBIlkKNSoZarPyZUXSxK6bpeA2ZdkJJhhbA
-         MV0Q3z3E0epx740wuqKCCOKlYnvXQJVwVWQe0DlWiVzClrKbaTgY6H85X/r3AwCemqgF
-         b4rg==
-X-Gm-Message-State: AOJu0YwmIaaftivqExcltcgbHRz4diYomedzilKekNUKfotDOLGiAjss
-	EApO5LPViFwMaBlt415sq39he7SZ/5WhAzHfPafpruETwzZ7ILoH/oDVDmkDz4M6c9I=
-X-Gm-Gg: ASbGnctflkDx2jsWcP/UknLnYbJITKIYQ7k4GE1gpMbaxIGLbM7bv+oZce7pVszXPxR
-	kcY8WzIy+4Lzt071OM8x7B2gjjm2RkT2VLbmD/sBlvsBgddve9mU2l+odszwngt1jHSP0wc5GY5
-	u1LT0i01Q3hEV4fw2c9NREDcIfg7pjbawEcJiDTaA00BL8Q1AOXmpmtq0VkP7Z7B7xWKK8o5p6l
-	HMeTrZ3Ygbj+TcldcB6lDLAKVEKnwpYPWyXc12buPpV1bnKPIPuLDCChVeqhJE0GO4LzaGIY1BZ
-	XwbBnXdybJw1e8vrch9x4MewjPeXWI6FYqNXW+VCBR+KEsgiGprS7cTWpygIYf5Qw68R9/pwl0i
-	Y/1YMaHg28MkJoSJp
-X-Google-Smtp-Source: AGHT+IECzMkl/j8ndcEIBGJahHduWyX4b0BqqSZwZhjdHPF7JoURouc9w8pWFfoFilDuHYffnnZaZw==
-X-Received: by 2002:a05:600c:c05:b0:43c:f689:dd with SMTP id 5b1f17b1804b1-442feffb593mr113388045e9.19.1747652115507;
-        Mon, 19 May 2025 03:55:15 -0700 (PDT)
-Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f8ab839esm166199545e9.17.2025.05.19.03.55.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 May 2025 03:55:15 -0700 (PDT)
-Message-ID: <88f6fea5-89f2-4128-a00b-dff760bc42b8@linaro.org>
-Date: Mon, 19 May 2025 11:55:14 +0100
+	s=arc-20240116; t=1747652987; c=relaxed/simple;
+	bh=0GTrluo9pSiVwiaHOxZqAPC8AXPUCY639K9l/g6tCzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sr9UCLGzbaEs592+2auURM+lt2YC/QhvIw4FnNGuDE/B4s3KEPC95WKRyPuyRfMnwPu07r6ToV2K2TTP+gELtHUWNvRH1fSMcq9oheROX5qU2mO/bZVFoGiuyysaihP4Bm5dtQilnFL2z2y9qvp2vMcmv59pE3hiq5w2TvqUsRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: iSrrJfpBS0my7IN5Bb4shQ==
+X-CSE-MsgGUID: e8+13XoLTtqT6OuCEBUnzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="49529868"
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="49529868"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:09:45 -0700
+X-CSE-ConnectionGUID: SWnwxUDCQxWfJzsNJyH/YQ==
+X-CSE-MsgGUID: j89EuJqPS/m+s8Dg8X/DLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="140229995"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:09:44 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andy@kernel.org>)
+	id 1uGyNJ-000000030sI-0KHd;
+	Mon, 19 May 2025 14:09:41 +0300
+Date: Mon, 19 May 2025 14:09:40 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 04/23] media: atomisp: gc0310: Switch to CCI register
+ access helpers
+Message-ID: <aCsRdHCBcxqN4LnV@smile.fi.intel.com>
+References: <20250517114106.43494-1-hdegoede@redhat.com>
+ <20250517114106.43494-5-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] media: venus: Add a check for packet size after
- reading from shared memory
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vedang Nagar <quic_vnagar@quicinc.com>
-References: <20250519-venus-fixes-v4-0-3ae91d81443d@quicinc.com>
- <20250519-venus-fixes-v4-1-3ae91d81443d@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250519-venus-fixes-v4-1-3ae91d81443d@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250517114106.43494-5-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 19/05/2025 08:12, Dikshita Agarwal wrote:
-> From: Vedang Nagar <quic_vnagar@quicinc.com>
+On Sat, May 17, 2025 at 01:40:47PM +0200, Hans de Goede wrote:
+> Switch the GC0310 driver over to the CCI register access helpers.
 > 
-> Add a check to ensure that the packet size does not exceed the number of
-> available words after reading the packet header from shared memory. This
-> ensures that the size provided by the firmware is safe to process and
-> prevent potential out-of-bounds memory access.
-> 
-> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
-> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
-> Co-developed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->   drivers/media/platform/qcom/venus/hfi_venus.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index b5f2ea8799507f9b83f1529e70061ea89a9cc5c8..c982f4527bb0b9f9ef9715c6c1dc26729f0fc079 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -239,6 +239,7 @@ static int venus_write_queue(struct venus_hfi_device *hdev,
->   static int venus_read_queue(struct venus_hfi_device *hdev,
->   			    struct iface_queue *queue, void *pkt, u32 *tx_req)
->   {
-> +	struct hfi_pkt_hdr *pkt_hdr = NULL;
->   	struct hfi_queue_header *qhdr;
->   	u32 dwords, new_rd_idx;
->   	u32 rd_idx, wr_idx, type, qsize;
-> @@ -304,6 +305,9 @@ static int venus_read_queue(struct venus_hfi_device *hdev,
->   			memcpy(pkt, rd_ptr, len);
->   			memcpy(pkt + len, queue->qmem.kva, new_rd_idx << 2);
->   		}
-> +		pkt_hdr = (struct hfi_pkt_hdr *)(pkt);
-> +		if ((pkt_hdr->size >> 2) != dwords)
-> +			return -EINVAL;
->   	} else {
->   		/* bad packet received, dropping */
->   		new_rd_idx = qhdr->write_idx;
-> 
+> While at it also add a _REG prefix to all register address defines
+> to make clear they are register addresses and group register value
+> defines together with the address definition.
 
-Yes, validating the pkt header against the expected/used dwords is a 
-valid check.
+...
 
-One thing I'm finding difficult to do with this code is get straight in 
-my head why we are continuously shifting >> 2 and then in the other 
-direction << 2
+> -#define GC0310_RESET_RELATED			0xFE
+> +#define GC0310_RESET_RELATED_REG		CCI_REG8(0xfe)
 
-Surely a candidate fragment for some rationalisation down to
+Old style: CAPITAL
+New style: small
 
-dwords = *rd_ptr >> 2;
-if (!dwords >> 2)
-     return -EBAD;
+...
 
-I count six shifts in twenty LOC or at least four shifts more than we 
-should be doing if we just worked this over a bit.
+> +#define GC0310_AGC_ADJ_REG			CCI_REG8(0x48)
 
-Anyway.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> +#define GC0310_V_CROP_START_REG			CCI_REG16(0x0B)
+> +#define GC0310_H_OUTSIZE_REG			CCI_REG16(0x0F)
+> +#define GC0310_V_OUTSIZE_REG			CCI_REG16(0x0D)
+
+But can we be consistent with the style all over?
+
+...
+
+> -	dev_dbg(&client->dev, "sensor ID = 0x%x\n", ret);
+> +	dev_dbg(&client->dev, "sensor ID = 0x%llx\n", val);
+
+Perhaps %#llx?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
