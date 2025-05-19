@@ -1,94 +1,92 @@
-Return-Path: <linux-media+bounces-32722-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32723-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6CAABB2D1
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 03:23:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD08ABB2D3
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 03:24:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A87741893CE9
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 01:23:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 970C53B3B57
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 01:24:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9FCD19DFA2;
-	Mon, 19 May 2025 01:23:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD92119EEBF;
+	Mon, 19 May 2025 01:24:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6mZkm1p"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FBAXuuhi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A869776026;
-	Mon, 19 May 2025 01:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D1814AD20;
+	Mon, 19 May 2025 01:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747617801; cv=none; b=RAz5J0Ldyg4IwCUyVx+aAxR1eSq3Bk7NVzajrsvMvgkwsC17RhLia4PqekT7rQnTKBWox5a1fHtPqaZGGSmAANIcgiKBFgiemWlY5CE81yXJn3x2HJUk/CbVTbuqwuvN5bQLmJDJ+E20Uh2KF6sbpPB0bVJ26fdoS8PEl2wWIzU=
+	t=1747617868; cv=none; b=dBx7b/HErCUhVi4c97i7dXse3bJCB2S7Pw5s9r7FX3eQItwk5CPL7IMcY2+va4ihg//GjnWFEax+lHUAsj1yYiXzb9fuUC8Sej0J1dfoXkIYeufAL2ANadHjZBnX2cy82TFCR093ZIYE8jC5D8JS8tHkeDyRRhyb91ThVERAUPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747617801; c=relaxed/simple;
-	bh=szWYp7O1akrqBtwUu5NvIsHLJaVg2FHDjHhZJoI8YT4=;
+	s=arc-20240116; t=1747617868; c=relaxed/simple;
+	bh=0Mn907apcqk4ftoWhNEr8s8u2ajYUpJbiKUPrJnj5VU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rjqdq7fn2S26ujZ50xlWLcuuRrgxNTUXgu4NSetePBIkcv8YfcAcXcjh2vuKXnFLkA1L260s+fSBaMlF8yV53UKOJy0nJZ4Kre8pJtYHKjzqjNF98LSrE/YvQOuHPs3dGkZALCv/DDwvx7NiaQCRuL9Afv6H3yjUIpJ8vu1t9fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6mZkm1p; arc=none smtp.client-ip=209.85.215.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=MhmsyGD9Am/glGb+Fi0NrS6c3nLkP5S0jIqH/SD9JCP6abssSIABUSqx9gd0cRm5rNjpyvido/S7lZxTDCN91c90f60rO9TCZGM+ZPIDkezYEAqp2CmWhFyEykbb/1inrXOTJiO/rp7o6BduBMdofXIWeBtz7ZmzcaUDHs9ww5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FBAXuuhi; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b0b2d0b2843so2800269a12.2;
-        Sun, 18 May 2025 18:23:19 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-74019695377so2955626b3a.3;
+        Sun, 18 May 2025 18:24:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747617799; x=1748222599; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747617866; x=1748222666; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1bGtewRmtax5G8PsycrpOk9GXsurx+/jHhRp4qP6ZQc=;
-        b=K6mZkm1poKTkvdU/yWCU54NqNoEjX6jtBEaW+3EidfKDRJJI36VutBfmG1O59IdOzp
-         J1+flNhpXeah482MmJGevepIdiNg/ofI1lT3Jm6jkYqsMN4TbOAhKBTLAl5VXHAEgVKP
-         Myi4/dSTuSp+zdO50szz7AOhopnYj7MvvxaEc+tDXYZOrMDU23rlw8ZdyRFX4Wqh2Z6A
-         HX33UXZK1rKgSjf0IFL/VrHfTY9IXc53+AhEBZkjgcC6MWzGKUg2TFw3ThM6fpVoljr+
-         1jGXi1yOavB4fzivzmBEBUBoaR302vf47V/mk9rHijpJBaXrDeBHwpi6sojh1QNnxvVK
-         PMYA==
+        bh=qb7uwEjaTjw03L+H0ygK9UsMO/p5h9HkBJdLou1UQ6A=;
+        b=FBAXuuhiUYb1avVdPZoNjYKMpQ+65HuNebcOa8dsU1NrOekS4Nt/tHszPEyGQPCQ0p
+         6glnJDh7ahCU4CoqyBkMfJcJDgivy3VFZzubEhReTGsOTH3lwuw+I13XYHX7naPGV3NJ
+         NxAmgsGLo6yRSSWFb/WYjdst/ca4bt8VVEwBeL4eQUvA+oPhh/KZJO0qxrtzvxMnEPbJ
+         81r35W79PfTuV2jvFx+qZhhUxKD4QpbkRsHS7MY8c2vq8/tm6uX5jniJQ2+WyofSJA78
+         GSOeWYkTHYAChZwf434NHIIKBliy9bi+Id2vwrUQ9Lk6qvzizNkjOsqgWbglHJqVxtkC
+         F8kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747617799; x=1748222599;
+        d=1e100.net; s=20230601; t=1747617866; x=1748222666;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1bGtewRmtax5G8PsycrpOk9GXsurx+/jHhRp4qP6ZQc=;
-        b=rg4C/evWlrn+9oew8yNc6+0TGZV9mj2gSDYKwZtzM7V8Yh+Wd/wYplXoIixL0HM37/
-         YtXlMn4foKsQgt+cnazeGQAyDh6Gri1Q60IPygkBRc5B8+xdiuAo/W+A8Sq3gcZXA8be
-         aQ7nFxC7peTwRnsYNtJsoz0HlcQIqLUTEivbFipuKFRVBoiroceZB5SqWU8zapKtqoGH
-         L+ciNK7EzjJCCG9OvtzYV7VLG09Z6ftw7GFIE6r8Rg/thePNEJ7IvN4QDjXU/7KabIbF
-         zsMpnYtMX2dcaivmJ4G5BhWmD/IoHoBx6gjkKueiTggZskfKApCrExzzr1oSBQxbW6Zw
-         vIZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWqyn5A87MMv3oovuk4xIVMNc7gC+cH3bbFVXNIDpVUvO2gU189E5OEqlcT6WwN9+y5RBq1YvE4PjJTToY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCV5d11KzvVeRitG2IeBpdlHWA2jNEb2MGhlGYLUJciKwuY+z3
-	+n5CfCyo/pH1SDOm4YoC1OysmFb49XvQb/iFY5osV9A85eMGzDNbFAca
-X-Gm-Gg: ASbGnctFHX46E5fT/z/5NLELSmcJbQtfK8wwq52AFBAV30wEo/8k50L7/L0hlmDJbIQ
-	f+mXNOSkvfghB6EPfaqj9kKMy2e+dplNAI2VOOYADfoNEiEkfV61LgLmA7rfhBrYoEvA3UTI/D8
-	36nJ+fnJLsuXEkQWHVinIa2/RkB0HipJE/KHppGdeSKro2qv7CW+O0SbOW4h/Lw1mvtJH82gEAn
-	Fcb07a8vhvCGbejDawVOQWWqFxK9ql3U6/EOjh0vXxTAkq4AtDmq7m1n4f477t8Is/RpJrXV2MM
-	7BChEUaQhp3CDZl3kKGATMluPv8U0GDomJjUX8q3Z8BNi2aPH8c=
-X-Google-Smtp-Source: AGHT+IGhp0HWQnVXgH14PYeJQ2R9fzT3qMmupNX50fb1NBX+cVX4ZTlETPO/cA9Q5e1EncDrB5Fikw==
-X-Received: by 2002:a17:90b:58e4:b0:30c:4b1d:330 with SMTP id 98e67ed59e1d1-30e7d5acb3bmr17124738a91.27.1747617798662;
-        Sun, 18 May 2025 18:23:18 -0700 (PDT)
+        bh=qb7uwEjaTjw03L+H0ygK9UsMO/p5h9HkBJdLou1UQ6A=;
+        b=EjGnUaHXIkWfqjsHTUFW+PNdm0B/aAwQtgAO3gpGJIwTERiVUfccLTl81MX3j/OwgQ
+         b/GCIhAV/CXeIH6RfM3PlhnMBGD+8UzrmfjVOJb/Xe0MxnPQtQ9/VH28i+TLa3bqyJnx
+         rjUe9KwqgTfLHflyV1AHeNPOwz7PAphLQvrXjxX8im76MCWHgHwapT0Z9NT0vjAZ1W0T
+         JfCZVzBlfw13W/M5l9HZW7ZnRb4Q8Zy3wyPMerL5qq99rCNdAIlEihDjrXsaVGDfAQCR
+         K+si56m1dki0j93O3l/5r8MmxQSzzo9bx41rDN/vs2XqaZXspIma+13r1iMf6aJLte+3
+         TwHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV104RzUCb3g6MAw9XUfJUfdNFHt8n6yAUFP/M5oYYO+ox5S9Si6nXolZx+mhI5lsrLY2IV4WVFZjCfbvU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbSqUc7gPy3cNdwrdkS44SJHh6BbW5mSzNruWVhw65UwSnE+Zt
+	fPMOZE6tkbi+vM/QRSemKpDRHgpLXspebdBFbOJcBMT4ZfGQD1x8oIRL
+X-Gm-Gg: ASbGncvMyOHVcnEl+sFE/pRpr23Wj8aQrkEIqSmWZqNiv3LV/itB8VI9NT5wE5xTuz5
+	c76zVEbktgozO5tUPXo4xQfpuRhsWMizQMy5hhC3I7WtUNbYiyNhHtN7f9FWBS/rGeoIaxAkHVw
+	ZhUExXaKu1vk6RhWdNmFp26L1NGVGgILRI6AQJ+fUmuI7bEnJwYikKNofmee++jAN0U5THl69MO
+	GulZ+vcw5qOgdvvpuM5/DD9op9udYkHiLnPFt/30cfeC4q4aMkd9vwm4GwhmiykhSbC4PpojSQQ
+	e12BLoIKDVCtwuZnOVQZfKwFmANK3hBZWHuTeDoiob07XVagvi8=
+X-Google-Smtp-Source: AGHT+IESt+JW3EmmZPX7JFCGdF4Y2iqQAYLZIpyJtPr2h5uP+J/IaSvOxp0AYEtOnIaJ31Fi/Xc4qA==
+X-Received: by 2002:a05:6a21:3384:b0:1f5:769a:a4bf with SMTP id adf61e73a8af0-21621a23f5fmr18441528637.36.1747617865723;
+        Sun, 18 May 2025 18:24:25 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30e9ad67011sm3905474a91.33.2025.05.18.18.23.17
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a98a314esm5060446b3a.165.2025.05.18.18.24.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 18:23:17 -0700 (PDT)
+        Sun, 18 May 2025 18:24:24 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 79F874208F51; Mon, 19 May 2025 08:23:14 +0700 (WIB)
-Date: Mon, 19 May 2025 08:23:14 +0700
+	id 756274208F51; Mon, 19 May 2025 08:24:21 +0700 (WIB)
+Date: Mon, 19 May 2025 08:24:21 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Hanne-Lotta =?utf-8?B?TcOkZW5ww6TDpA==?= <hannelotta@gmail.com>,
+To: Hanne-Lotta =?utf-8?B?TcOkZW5ww6TDpA==?= <hannelotta@gmail.com>,
 	mchehab@kernel.org, ribalda@chromium.org, hverkuil@xs4all.nl,
 	hljunggr@cisco.com, dave.jiang@intel.com, jgg@ziepe.ca,
-	saeedm@nvidia.com, Jonathan.Cameron@huawei.com,
+	saeedm@nvidia.com, Jonathan.Cameron@huawei.com, corbet@lwn.net,
 	ilpo.jarvinen@linux.intel.com, mario.limonciello@amd.com,
 	W_Armin@gmx.de, mpearson-lenovo@squebb.ca
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 2/4] docs: Improve grammar, formatting in Video4Linux
-Message-ID: <aCqIAkoVr2yvDJbN@archie.me>
+Subject: Re: [PATCH 4/4] docs: Fix typos, improve grammar in Userspace API
+Message-ID: <aCqIRTkUW6y7UiZH@archie.me>
 References: <20250517132711.117618-1-hannelotta@gmail.com>
- <20250517132711.117618-2-hannelotta@gmail.com>
- <871psml4t7.fsf@trenco.lwn.net>
+ <20250517132711.117618-4-hannelotta@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -96,58 +94,68 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/utPzO/+BR3FoDfM"
+	protocol="application/pgp-signature"; boundary="C27Db6pMBwsXho4s"
 Content-Disposition: inline
-In-Reply-To: <871psml4t7.fsf@trenco.lwn.net>
+In-Reply-To: <20250517132711.117618-4-hannelotta@gmail.com>
 
 
---/utPzO/+BR3FoDfM
+--C27Db6pMBwsXho4s
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 18, 2025 at 02:08:04AM -0600, Jonathan Corbet wrote:
-> >      description of the correct character encoding for Programme Service
-> >      name strings. Also from RDS specification, PS is usually a single
-> >      eight character text. However, it is also possible to find receive=
-rs
-> > -    which can scroll strings sized as 8 x N characters. So, this contr=
-ol
-> > +    which can scroll strings sized as 8 x N characters. Therefore this=
- control
->=20
-> This kind of change just seems like churn that isn't really improving
-> the content?
+On Sat, May 17, 2025 at 04:27:11PM +0300, Hanne-Lotta M=C3=A4enp=C3=A4=C3=
+=A4 wrote:
+> diff --git a/Documentation/userspace-api/sysfs-platform_profile.rst b/Doc=
+umentation/userspace-api/sysfs-platform_profile.rst
+> index 7f013356118a..6613e188242a 100644
+> --- a/Documentation/userspace-api/sysfs-platform_profile.rst
+> +++ b/Documentation/userspace-api/sysfs-platform_profile.rst
+> @@ -18,9 +18,9 @@ API for selecting the platform profile of these automat=
+ic mechanisms.
+>  Note that this API is only for selecting the platform profile, it is
+>  NOT a goal of this API to allow monitoring the resulting performance
+>  characteristics. Monitoring performance is best done with device/vendor
+> -specific tools such as e.g. turbostat.
+> +specific tools, e.g. turbostat.
+> =20
+> -Specifically when selecting a high performance profile the actual achiev=
+ed
+> +Specifically, when selecting a high performance profile the actual achie=
+ved
+>  performance may be limited by various factors such as: the heat generated
+>  by other components, room temperature, free air flow at the bottom of a
+>  laptop, etc. It is explicitly NOT a goal of this API to let userspace kn=
+ow
+> @@ -44,7 +44,7 @@ added. Drivers which wish to introduce new profile name=
+s must:
+>  "Custom" profile support
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  The platform_profile class also supports profiles advertising a "custom"
+> -profile. This is intended to be set by drivers when the setttings in the
+> +profile. This is intended to be set by drivers when the settings in the
+>  driver have been modified in a way that a standard profile doesn't repre=
+sent
+>  the current state.
+> =20
 
-I prefer the original as both so and therefore have the same meaning.
+LGTM, thanks!
 
-> >  ``V4L2_CID_RDS_TX_ALT_FREQS (__u32 array)``
-> >      The alternate frequencies in kHz units. The RDS standard allows for
-> > -    up to 25 frequencies to be defined. Drivers may support fewer
-> > -    frequencies so check the array size.
-> > +    up to 25 frequencies to be defined. Because drivers may support fe=
-wer
-> > +    frequencies, check the array size.
->=20
-> Here too, I'm not sure I see the value in this kind of change.
-
-Again I'm agree.
-
-Thanks.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---/utPzO/+BR3FoDfM
+--C27Db6pMBwsXho4s
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaCqH/gAKCRD2uYlJVVFO
-o6lDAQCh/VCPdKz68FdKnXg5XJbiBgln/GYY8iRzwFpsCPadfAD9HpM6f4+7YuDY
-jIyhgK1015KkczdjAzWsPn94D9NZGw4=
-=r/+a
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaCqIRQAKCRD2uYlJVVFO
+o6oRAQCch6ZyjQnZ+Ta0fpLCTrdGb9XDfOXLHyqm9LKjTOJqAAD/T0uDMjeMhCoN
++ThzRnw2EF3ot8Nzqi3EzdqC+4IQcQM=
+=bDnk
 -----END PGP SIGNATURE-----
 
---/utPzO/+BR3FoDfM--
+--C27Db6pMBwsXho4s--
 
