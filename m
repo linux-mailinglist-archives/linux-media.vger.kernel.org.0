@@ -1,116 +1,126 @@
-Return-Path: <linux-media+bounces-32829-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32830-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB86ABC2B0
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 17:40:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D8DABC314
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 17:51:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C72C7A1655
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 15:39:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 964B7189E75E
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 15:51:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1675F286406;
-	Mon, 19 May 2025 15:39:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B186E287506;
+	Mon, 19 May 2025 15:50:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BGDqFCfa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jv6Rkaog"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB4F1E32C3
-	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 15:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4EC28540A;
+	Mon, 19 May 2025 15:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747669194; cv=none; b=crLmdP6/ZzU5DCF85eF0WuQwnrHZL2/TnivNSemjzM8HdiHFSf/PB1OtjxRUsmsMbFxQeqrbCkgp7h8pZUbp5QxW/Koy7ujlJpPPMFLg0e7kLsAuBh+kEBJCe45WAiNg4r7EgYfgFS7Bikg/WV25ENVnOT6zP6qRbW3bMdyGR2s=
+	t=1747669836; cv=none; b=S5XEMvFUSIcwKfEBapth2OO2au3o7Yp9gk5sxu5Z4FDlpkoWSL8B+ClExWBsV4ui///tpcDGVk/lMgrxmskQJUYXHUaRSMFVb08sbLQsvoQ+z8Q01cp7dZJDh3ZOh5KVcMswhI9VwjniVEcu9gza4aujq57JmAZQ+XjfdhpqqoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747669194; c=relaxed/simple;
-	bh=x76n1Tv9ZW7E4BApp4Brk9GGaYCOkI4T9M+jWT/Pl40=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d+y3YuxEonidnANmkZ74OMBS/sGqawcesfe98wUrCPSpMh/IzaD0t/tY004mych20vkMLunKA2UDubE6fvUcq+5NhbO7aQFwV/Cj0zLz4F371HXzBYwdy3ZenIOUFwE50G1pJA1z0fBVVQBJ9iGGgEjj+irqBdkSUpPIIUyl0zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BGDqFCfa; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1747669836; c=relaxed/simple;
+	bh=OM71tk5T/64aulbLzWRQGCll0oMkJLT1iUSb8tfUYoo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gBQWYLo70dhxeG144WMeR6Klf5JccSHVqrCgzEaZwzNhwE+bLLXRDKsP9nvVI1DvgfdGC6mYKUqn+zCOF3AQPzCH4WKjvpSq0+c82SKFOdGmsR0F9CNXcrN/gJ6UC55C0aWzTcKvJWtoPZqxeOl/tozdr6Fsz7FOWNym2TNOGSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jv6Rkaog; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747669193; x=1779205193;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x76n1Tv9ZW7E4BApp4Brk9GGaYCOkI4T9M+jWT/Pl40=;
-  b=BGDqFCfapN+MIH+QnjPAfHhCb5NRscZ8cfRDky5KQYqjZFwHyEKuw431
-   pwhbwJJ/nZL1fbwMVuJNv/PjDpbptLI/FxutBxakScUf0R9SsSTkhj292
-   ONhf2tAYcAX3y6rLdhtQKOBT9J7zkSXxBGHMf3c/Fkw+pcS4sHzc6hV1c
-   t57itap7r2mDufhOW+hqna5E6MIdVtClsfPsmsFou/FFu1PABn3jzD5jL
-   43RdUq6W0fY/yjCjiEMdDDoe9R9KOUaGpTW/rgtVtD/HE8B4w2sPY0YZw
-   A3Sv51Cpn4lCY5xq7hs5YA9EaX+6Px5TSzNgu4R1xvLY2Vq6wAJSwOLLZ
-   A==;
-X-CSE-ConnectionGUID: dC9gvmR1QV6EAkQ25veiOA==
-X-CSE-MsgGUID: xA1M3hb9S5S/8GgAv5rk0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49449533"
+  t=1747669834; x=1779205834;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OM71tk5T/64aulbLzWRQGCll0oMkJLT1iUSb8tfUYoo=;
+  b=Jv6RkaogU87vEiyO8MLP4dzPpi0LLt8MBayzSzBbt/pUNbBndXorLDfy
+   5z1QVYKOET0T6y36YBiDFxV/BgtX3QoTElH5SBoyDNbHcjA3zG0QGInxW
+   +HdmonGofogUwsoDKxXYNbfyL/TEs5pjWV/FpZTnDVRO/WAddpvMCSXRK
+   +yWn5F97Pc/bDXwC7zziDUXt0kTr+0wT+dK7yf+YvzBFgIcx6mhmU8XP1
+   EZmyeKJ15sGlMO5/S+74Kq6kXpn/5DIjDvmQEkU44O0llHi2aCWlVL8w0
+   xugydh1yBwaVeAeK7Nl6bq1qqHS0Qb/rYqC01hg+dkga2g10yYBta20DU
+   g==;
+X-CSE-ConnectionGUID: h7iabiRpR5m1YI30RjQllQ==
+X-CSE-MsgGUID: 9VpRwlE8Qnm6GUe3v3ZW1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49480090"
 X-IronPort-AV: E=Sophos;i="6.15,301,1739865600"; 
-   d="scan'208";a="49449533"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 08:39:52 -0700
-X-CSE-ConnectionGUID: uTfu2hmbTzeN/9COXrhE/A==
-X-CSE-MsgGUID: ViCEJCRURo+7Ge4F78l1Bg==
+   d="scan'208";a="49480090"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 08:50:34 -0700
+X-CSE-ConnectionGUID: mzS3TaYtQ7OxenzVYaoisg==
+X-CSE-MsgGUID: E7V5tQ3xRSa+U9EUxnGAdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,301,1739865600"; 
-   d="scan'208";a="144658381"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.190])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 08:39:48 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 645FD1218BE;
-	Mon, 19 May 2025 18:39:45 +0300 (EEST)
-Date: Mon, 19 May 2025 15:39:45 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v4 1/6] media: v4l2: Add Renesas Camera Receiver Unit
- pixel formats
-Message-ID: <aCtQwdduJLc_BhYG@kekkonen.localdomain>
-References: <20250506125015.567746-1-dan.scally@ideasonboard.com>
- <20250506125015.567746-2-dan.scally@ideasonboard.com>
- <aCsq06etRXVRd2rn@kekkonen.localdomain>
- <ubyydsdcuks3io33kb35vd2w3gaxbak7qiwvfq6hxktixs6ywl@6r27hgvxwq5l>
+   d="scan'208";a="144405904"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa004.jf.intel.com with ESMTP; 19 May 2025 08:50:32 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 55A171EC; Mon, 19 May 2025 18:50:30 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [rft, PATCH v2 0/3] media: atomisp: replace math macros
+Date: Mon, 19 May 2025 18:46:46 +0300
+Message-ID: <20250519155028.526453-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ubyydsdcuks3io33kb35vd2w3gaxbak7qiwvfq6hxktixs6ywl@6r27hgvxwq5l>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+Kill unused definitions that may use custom macros from math_support.h
+and reduce usage of the latter and even kill some of them at the end
+of the series.
 
-On Mon, May 19, 2025 at 05:24:12PM +0200, Jacopo Mondi wrote:
-> > > +| V4L2_PIX_FMT_CRU_RAW10 (CR10)
-> > > +| V4L2_PIX_FMT_CRU_RAW12 (CR12)
-> > > +| V4L2_PIX_FMT_CRU_RAW14 (CR14)
-> > > +| V4L2_PIX_FMT_CRU_RAW20 (CR20)
-> >
-> > Could these be called V4L2_PIX_FMT_GENERIC_CRU_RAW*, to align with
-> > V4L2_PIX_FMT_GENERIC_CSI2_RAW*?
-> 
-> Is this a good idea ? I understand the CSI2 ones are "generic" when it
-> comes to both the Bayer pattern ordering and the platform.
-> 
-> The CRU codes are platforms specific, and while they're Bayer order
-> agnostic, calling them generic feels a bit of an overstretch ?
+Please, apply only after tests that confirm everything is working
+as expected.
 
-I think I checked outdated patches -- in fact in the latest patchset such
-formats are called V4L2_PIX_FMT_RAW_CSI2_X, where X is the bit depth. So
-this question doesn't need to be answered. :-)
+Changelog v2:
+- added a cleanup patch 1
+- removed potential div-by-0 conversions
+
+v1:
+https://lore.kernel.org/linux-media/20240923085652.3457117-1-andriy.shevchenko@linux.intel.com/
+
+Andy Shevchenko (3):
+  media: atomisp: Remove unused header
+  media: atomisp: Replace macros from math_support.h
+  media: atomisp: Remove no more used macros from math_support.h
+
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ .../kernels/anr/anr_1.0/ia_css_anr_types.h    |   4 +-
+ .../pci/isp/kernels/dpc2/ia_css_dpc2_param.h  |   6 +-
+ .../isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c |   4 +-
+ .../isp/kernels/eed1_8/ia_css_eed1_8_param.h  |  22 +--
+ .../isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c |   6 +-
+ .../isp/kernels/sc/sc_1.0/ia_css_sc_param.h   |   2 +-
+ .../pci/isp/modes/interface/input_buf.isp.h   |   6 +-
+ .../pci/isp/modes/interface/isp_const.h       | 157 ------------------
+ .../pci/runtime/debug/src/ia_css_debug.c      |   1 -
+ .../atomisp/pci/runtime/frame/src/frame.c     |  29 ++--
+ .../atomisp/pci/runtime/ifmtr/src/ifmtr.c     |  11 +-
+ .../pci/runtime/isys/src/virtual_isys.c       |   2 +-
+ .../staging/media/atomisp/pci/sh_css_defs.h   |  12 +-
+ .../media/atomisp/pci/sh_css_internal.h       |   8 +-
+ .../media/atomisp/pci/sh_css_param_dvs.h      |  22 +--
+ .../staging/media/atomisp/pci/sh_css_params.c |  12 +-
+ 17 files changed, 77 insertions(+), 232 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h
 
 -- 
-Regards,
+2.47.2
 
-Sakari Ailus
 
