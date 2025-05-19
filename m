@@ -1,109 +1,158 @@
-Return-Path: <linux-media+bounces-32758-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32759-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26595ABBB35
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:35:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 857A6ABBB85
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 12:55:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0E627A67D7
-	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 10:33:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E72D3BD953
+	for <lists+linux-media@lfdr.de>; Mon, 19 May 2025 10:55:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6DF1274FD0;
-	Mon, 19 May 2025 10:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD91D2749C4;
+	Mon, 19 May 2025 10:55:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MCAYRsag"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="If2rhX/n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108C32749C4;
-	Mon, 19 May 2025 10:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6EC26FD85
+	for <linux-media@vger.kernel.org>; Mon, 19 May 2025 10:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747650881; cv=none; b=kuZ1RKx7MNGKfUVgJesv5UF+UAA+zQM1vkMggAuJDU/PFtXIGM3VQxg6Nq9q4DXRWekTcdS3EzH6tvj7OKvtbfrLBbbLahyByInlxuoz7ngB0dIaODemss0aNzCWYnT2NI+u1lcu8seL2wB8/TPDBffSb8s9Oolr7+hE52vxZ8k=
+	t=1747652119; cv=none; b=fEOKvdsLoGpiDc0JeXI1btrybsIpjDfTlyqU4/IrVYMsj/E14zw1izQsD9K53kPyyXjToLq1fH4tqp2IOexHsgjeGnpLfou9l8wF9CuaL3JZNzqyjRK9cDHlT2xuF8FHPCz0XZ5qsl9c2quUgJQiwwT5oe5nVNSnjD5uWRYdqKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747650881; c=relaxed/simple;
-	bh=ky8ltk0PF8tipHAfrZMLL47eVSRk2GhrTPhK+KO2jkM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=EZa7zz0Pd23wK2EXnhI8fre85xwqzDmAeYtx19aM5YugTFjaHhbnfXG9U9z7Hja0dsRUpfJXd+Ag4vwhMZDhBKm72EgYoLa6hVg56Z2aunHvvZe6qRsiXBSWaNPZ7d6QYjCV9HHmz+bFBzPdBlh+YCj51FM7Z2wljxg1+z4GW9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MCAYRsag; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56FA3C4CEE4;
-	Mon, 19 May 2025 10:34:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747650880;
-	bh=ky8ltk0PF8tipHAfrZMLL47eVSRk2GhrTPhK+KO2jkM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=MCAYRsagL5VB2dWFE/kMu+f0+OFzLcPiQkPa4VbJbUqAhfjW2b90ISnwmu/DYgx0P
-	 pOU9wA3exDGWbiF/V4AuONyn4KCPELrziZo1Kt3qbrsYMeqLx5h//CSje36E5hMGrw
-	 IN/wkrOXN6w2XAo1lQ7YjDcJgEDlwsj3w+cU6zqTFBd1zraWS60zRafK0yxut1wt+7
-	 UgOIZCzGWkYm1uQrH46aOXOjd7NbgTTf1w0DE6dhnWZ3HYpBXLCnvRaqjcz/cnyRC0
-	 /TVsfAwo5FC+KjGAVzj1zFwNrLoIdHCY3qOec4cfZQGt9bPcxuhrjNwzkMl0bucCLS
-	 /defl4y6Q11KQ==
-Date: Mon, 19 May 2025 05:34:38 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1747652119; c=relaxed/simple;
+	bh=PzfkeF67xi2GoMUYcGvqwEOhE8nFTMY+yeJf+y2fnOY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O4VsFq4DuRhqOKKUjk1mrHxue5I+LgFZY0WB/c8/I0SlDZgd8vNtjp3WKOZc2KOsQe5rTXKRKkfwDAF5tNSy9YfJ9XECBEr4RLrSFMaj0WoTTidpJhNtjDTCttCWpUPQHfwmEy7eGliv5HYP+ehjeb1Q9vURGGjago6lpwuLd3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=If2rhX/n; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-441d1ed82faso32038625e9.0
+        for <linux-media@vger.kernel.org>; Mon, 19 May 2025 03:55:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747652115; x=1748256915; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ueJhJRaSbKSvp1WqYqL5yk7HRHK1xuho6oDidakstGA=;
+        b=If2rhX/nr5v8PDP7bji+SCVMK+XXyBD72tweavL7Ip9meDI4Iv3NTfLO1VMrcSl+xs
+         OQMLLOTaRpGMvUToyCypuVLr39FYyPkp4x2U6c2yyD44EwJTFoXtoKHnNTnHKL8FF6fm
+         n+s+YEXQYtBgHiJw/ev97UNQJo9DOSc/feCVs0gdybUS7vUhRjB6oXQ8mW6i0hCfq259
+         Plall4NOjo9LzAayS6jc4MrzOiNs3GST5yO1h71KUdeZhcJiaHwtqZeSYUfYFeqUK4+z
+         KP5jKBSWu1qkRfc1zFTk2htUxQjnQ/8doolY7TfW8j4+AyZYBvmIyAXkuV7yRKbKTLdn
+         CHpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747652115; x=1748256915;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ueJhJRaSbKSvp1WqYqL5yk7HRHK1xuho6oDidakstGA=;
+        b=uFPoj9ygablWKeTc+hUNubfxcSoOk83uEghWdO7I8o9gnF7cdqbJ441yp96Gg8MQ5z
+         9yv3hy4hLIFucpicfg5Nro5Zzsr245hQxxxyNryiiZxcb2F9jcZyrEyrWK1w//TESzK7
+         0L7n0P2xCc5hl+TO7rvDPLXcXY8pk/GwsVM+ZNKx0CUWD0qo86XS6w2+Zzx2A+N+Kto0
+         lkyoeyD5WbGR0AEzcsSoyAJQS+oJmQrCQDBIlkKNSoZarPyZUXSxK6bpeA2ZdkJJhhbA
+         MV0Q3z3E0epx740wuqKCCOKlYnvXQJVwVWQe0DlWiVzClrKbaTgY6H85X/r3AwCemqgF
+         b4rg==
+X-Gm-Message-State: AOJu0YwmIaaftivqExcltcgbHRz4diYomedzilKekNUKfotDOLGiAjss
+	EApO5LPViFwMaBlt415sq39he7SZ/5WhAzHfPafpruETwzZ7ILoH/oDVDmkDz4M6c9I=
+X-Gm-Gg: ASbGnctflkDx2jsWcP/UknLnYbJITKIYQ7k4GE1gpMbaxIGLbM7bv+oZce7pVszXPxR
+	kcY8WzIy+4Lzt071OM8x7B2gjjm2RkT2VLbmD/sBlvsBgddve9mU2l+odszwngt1jHSP0wc5GY5
+	u1LT0i01Q3hEV4fw2c9NREDcIfg7pjbawEcJiDTaA00BL8Q1AOXmpmtq0VkP7Z7B7xWKK8o5p6l
+	HMeTrZ3Ygbj+TcldcB6lDLAKVEKnwpYPWyXc12buPpV1bnKPIPuLDCChVeqhJE0GO4LzaGIY1BZ
+	XwbBnXdybJw1e8vrch9x4MewjPeXWI6FYqNXW+VCBR+KEsgiGprS7cTWpygIYf5Qw68R9/pwl0i
+	Y/1YMaHg28MkJoSJp
+X-Google-Smtp-Source: AGHT+IECzMkl/j8ndcEIBGJahHduWyX4b0BqqSZwZhjdHPF7JoURouc9w8pWFfoFilDuHYffnnZaZw==
+X-Received: by 2002:a05:600c:c05:b0:43c:f689:dd with SMTP id 5b1f17b1804b1-442feffb593mr113388045e9.19.1747652115507;
+        Mon, 19 May 2025 03:55:15 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f8ab839esm166199545e9.17.2025.05.19.03.55.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 May 2025 03:55:15 -0700 (PDT)
+Message-ID: <88f6fea5-89f2-4128-a00b-dff760bc42b8@linaro.org>
+Date: Mon, 19 May 2025 11:55:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-media@vger.kernel.org, Robert Foss <rfoss@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Todor Tomov <todor.too@gmail.com>, linux-kernel@vger.kernel.org, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Wenmeng Liu <quic_wenmliu@quicinc.com>
-In-Reply-To: <20250518-qcs615_camss-v1-1-12723e26ea3e@quicinc.com>
-References: <20250518-qcs615_camss-v1-0-12723e26ea3e@quicinc.com>
- <20250518-qcs615_camss-v1-1-12723e26ea3e@quicinc.com>
-Message-Id: <174755315042.2793587.17691583538434075316.robh@kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: media: Add qcom,qcs615-camss binding
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] media: venus: Add a check for packet size after
+ reading from shared memory
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vedang Nagar <quic_vnagar@quicinc.com>
+References: <20250519-venus-fixes-v4-0-3ae91d81443d@quicinc.com>
+ <20250519-venus-fixes-v4-1-3ae91d81443d@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250519-venus-fixes-v4-1-3ae91d81443d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-On Sun, 18 May 2025 14:33:07 +0800, Wenmeng Liu wrote:
-> Add bindings for qcom,qcs615-camss in order to support the camera
-> subsystem for qcs615.
+On 19/05/2025 08:12, Dikshita Agarwal wrote:
+> From: Vedang Nagar <quic_vnagar@quicinc.com>
 > 
-> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+> Add a check to ensure that the packet size does not exceed the number of
+> available words after reading the packet header from shared memory. This
+> ensures that the size provided by the firmware is safe to process and
+> prevent potential out-of-bounds memory access.
+> 
+> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
+> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
+> Co-developed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > ---
->  .../bindings/media/qcom,qcs615-camss.yaml          | 356 +++++++++++++++++++++
->  1 file changed, 356 insertions(+)
+>   drivers/media/platform/qcom/venus/hfi_venus.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+> index b5f2ea8799507f9b83f1529e70061ea89a9cc5c8..c982f4527bb0b9f9ef9715c6c1dc26729f0fc079 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+> @@ -239,6 +239,7 @@ static int venus_write_queue(struct venus_hfi_device *hdev,
+>   static int venus_read_queue(struct venus_hfi_device *hdev,
+>   			    struct iface_queue *queue, void *pkt, u32 *tx_req)
+>   {
+> +	struct hfi_pkt_hdr *pkt_hdr = NULL;
+>   	struct hfi_queue_header *qhdr;
+>   	u32 dwords, new_rd_idx;
+>   	u32 rd_idx, wr_idx, type, qsize;
+> @@ -304,6 +305,9 @@ static int venus_read_queue(struct venus_hfi_device *hdev,
+>   			memcpy(pkt, rd_ptr, len);
+>   			memcpy(pkt + len, queue->qmem.kva, new_rd_idx << 2);
+>   		}
+> +		pkt_hdr = (struct hfi_pkt_hdr *)(pkt);
+> +		if ((pkt_hdr->size >> 2) != dwords)
+> +			return -EINVAL;
+>   	} else {
+>   		/* bad packet received, dropping */
+>   		new_rd_idx = qhdr->write_idx;
 > 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Yes, validating the pkt header against the expected/used dwords is a 
+valid check.
 
-yamllint warnings/errors:
+One thing I'm finding difficult to do with this code is get straight in 
+my head why we are continuously shifting >> 2 and then in the other 
+direction << 2
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/media/qcom,qcs615-camss.example.dts:25:18: fatal error: dt-bindings/clock/qcom,qcs615-camcc.h: No such file or directory
-   25 |         #include <dt-bindings/clock/qcom,qcs615-camcc.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/media/qcom,qcs615-camss.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1524: dt_binding_check] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
+Surely a candidate fragment for some rationalisation down to
 
-doc reference errors (make refcheckdocs):
+dwords = *rd_ptr >> 2;
+if (!dwords >> 2)
+     return -EBAD;
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250518-qcs615_camss-v1-1-12723e26ea3e@quicinc.com
+I count six shifts in twenty LOC or at least four shifts more than we 
+should be doing if we just worked this over a bit.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+Anyway.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
