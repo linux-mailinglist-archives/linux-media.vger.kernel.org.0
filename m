@@ -1,63 +1,48 @@
-Return-Path: <linux-media+bounces-32893-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32894-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC44FABD449
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 12:13:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B84ABD475
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 12:23:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89F854A63B3
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 10:13:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A31384A4A0A
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 10:23:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6F5026A1DB;
-	Tue, 20 May 2025 10:12:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BC5C269D0B;
+	Tue, 20 May 2025 10:23:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="g4lnDYVH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gUXD1D52"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE3F265CC8;
-	Tue, 20 May 2025 10:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E76258CF9
+	for <linux-media@vger.kernel.org>; Tue, 20 May 2025 10:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747735973; cv=none; b=ki9f5wBy2b4g6x6Hxh3T+SjsD9us+nF0jtPopyNBkKms/DGkeLIM7w/oqme2EY24UvTwC/JWYzwiRWtok0QWcK7xQ8MvnUTP/rvNS/7TRN4C3Q6gwt7TIPjbZQzwc7luGJe9NLsm3RRSmohsAr/uyevbAGxFvLFi9nX4oyjfWUE=
+	t=1747736632; cv=none; b=a5u93HhUKCCzZRctEBVu8diJnDPAh4eXQphHNxtXjOGtDhDXFSGMligq4RZk9d+cLftI/BqPuLlcr+P5UNf83ofxHvvmi2M/2XGmsaUe/EZNYEtuFKpPGgeAJhJjnzCqd249elPlE6WKwdu6upmDCcoKTJ0rmiHnChLnNCUjU7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747735973; c=relaxed/simple;
-	bh=QoZ1MmMxWaYoZM2DGYGuiWzzzDqsnwlVTOVWkNBAoDo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ZLNDnaScztPflUXAaG0dnfQ3rMucUnPWXWLitAYiAlNjYTStmGQsV91e3yA2/kem+AXJoJjP+6YSeKxdnndSX5wkouTvmmZkiKQsY47sNzgTxXFcpMc3WiFsE/CvYTl+x9H9y/yxbKvWeNiNM2eX9KJkq2tu48ZG0YnE7d1s44E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=g4lnDYVH; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K7BGt8016028;
-	Tue, 20 May 2025 10:12:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	VHy10H/BTLtjK7UpT72cmGoRA/ruZ2FPFvwHxI9l8oc=; b=g4lnDYVHvnFDxY/z
-	92Gi4GvHFXCMgrcBDrA/29eKo29xfKVWYOdfnuDK0wESqNvolSGkb7iOh5GZhYdO
-	nSiExx1CBZ7ILAWq2zXKzHONqVUIzA2EgifRxeM8yAp3vF3lwlY6jZy/vOjKiDwy
-	9V1KdvbREMZAMNjNem1jxa9/AXF6edgyBbEt9gB/OnDCZx6mIHI/AV//nIcp73QH
-	iKClE3lyppAMPa/AuUstZgk87FKtoN5ex8KKvICwDNYeXzynlJb5v4uE3g0LAtNk
-	wk+maXgDByw8nGWMa3RqHMxSfTvcHAvfIV3iTBrKQ0E8NsM1bzyKyh6kuhIBMhDV
-	Y1v/zg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pjnyqd98-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 May 2025 10:12:47 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54KACkoO005766
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 May 2025 10:12:46 GMT
-Received: from [10.253.11.26] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 20 May
- 2025 03:12:42 -0700
-Message-ID: <322b6e06-8ca4-49b2-812d-ab7b798e1579@quicinc.com>
-Date: Tue, 20 May 2025 18:12:39 +0800
+	s=arc-20240116; t=1747736632; c=relaxed/simple;
+	bh=oapbsMcGFt0bywpaOD0sa9xdaE3WHyPzQ9a9m1WdFic=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jqH2VmtEoRJj6uhsnPbFQcxhZrGLu1NJFQC71FdICgQ+pLSEPzYVJ1mDTd24tZUhaYYmayI/cqGqZeW8YPBAcANpb7f8egdS5LhvHIsOBw+2iGT2HRwxX1C4xcZgIlYaqr87RWAzFSbbS3Pjcry8if/S2FQic59fH0pfB3jcSvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gUXD1D52; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE61374C;
+	Tue, 20 May 2025 12:23:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747736608;
+	bh=oapbsMcGFt0bywpaOD0sa9xdaE3WHyPzQ9a9m1WdFic=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gUXD1D52vL9IOWQ+Pj4Xp4/EOHvCZbBw5CdkqHyRrCDATyUp4Ih/Th+fHPIkXkjp7
+	 om9gF7y6aJyL3GUhcKPXmUoH+BNfVcbCNjBzLy6r5RqxcJHis6ULzaIG6+Ak1UUypr
+	 3OMT8GRFSDK7GnKR2bmC+y2MYo29eMUQXUJ3u7VI=
+Message-ID: <bed37cc9-7353-49dc-982e-19b448be8c7c@ideasonboard.com>
+Date: Tue, 20 May 2025 11:23:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,96 +50,88 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: dts: qcom: qcs8300: Add support for camss
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, <bryan.odonoghue@linaro.org>,
-        <todor.too@gmail.com>, <rfoss@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
-References: <20250520-qcs8300-camss-v1-1-1dfcb2e3bf93@quicinc.com>
- <db562aa7-98dc-4f0e-8b9c-4348b4c16384@kernel.org>
- <bb5c40be-85f0-497e-90de-7f7282f851e4@kernel.org>
+Subject: Re: [PATCH v4 1/6] media: v4l2: Add Renesas Camera Receiver Unit
+ pixel formats
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+ laurent.pinchart@ideasonboard.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ Daniel Scally <dan.scally+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20250506125015.567746-1-dan.scally@ideasonboard.com>
+ <20250506125015.567746-2-dan.scally@ideasonboard.com>
+ <aCsq06etRXVRd2rn@kekkonen.localdomain>
+ <ubyydsdcuks3io33kb35vd2w3gaxbak7qiwvfq6hxktixs6ywl@6r27hgvxwq5l>
+ <aCtQwdduJLc_BhYG@kekkonen.localdomain>
 Content-Language: en-US
-From: Wenmeng Liu <quic_wenmliu@quicinc.com>
-In-Reply-To: <bb5c40be-85f0-497e-90de-7f7282f851e4@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <aCtQwdduJLc_BhYG@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDA4MiBTYWx0ZWRfX9oNk24fL/5Bl
- 7xsDLryLHJurImdS+3VbLmC0cTxfrKl0tNwjikS9jD5AyRDmZpWcE0F73ZE17kEP0kuPcUk2i5h
- +HmPa8EcpH/NuPsx0sA+lEI48NXj94q7zl5sohpVDDwfDG0wFUypXTFsburj/orIeqg8mGxr1rO
- VAz1Jd3K/HxcPRdUoFK4I0SavzvZ1syfWlianyS2v4xSJ81yInidqzoM6MlqqhGMmoHJ22yu1sW
- Ph4A2HBRzGWvxLdWJWhwO3iF2OeDCnaB13FFEKp9ynxhzlBwgVuO3SdxQVbmR91uwQNch9ifEJq
- DhC4cQqh56Mfomhok06kGYKNs3GFm7/DqoLP50MuuUsPl2xaIfgbk5H2t0PHklZ34ZJn98eECPw
- SozorIcGM5FxggAqYee5i7tWhbfZjmFOz628SzyiSHHU9NRwNbPFFSMYuI+lfiEYnGc9P7WA
-X-Authority-Analysis: v=2.4 cv=Z9XsHGRA c=1 sm=1 tr=0 ts=682c559f cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=P-IC7800AAAA:8 a=kgcyKgTirjYJsoa9ePgA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-GUID: YVTNPLodSiVb90t7E4Wxz4JmuG4W2meR
-X-Proofpoint-ORIG-GUID: YVTNPLodSiVb90t7E4Wxz4JmuG4W2meR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-20_04,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
- adultscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1011
- malwarescore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505200082
 
+Hi Sakari, thanks for the comments
 
-
-On 2025/5/20 17:47, Krzysztof Kozlowski wrote:
-> On 20/05/2025 11:45, Krzysztof Kozlowski wrote:
->> On 20/05/2025 11:40, Wenmeng Liu wrote:
->>> This change enables camera driver for QCS8300 RIDE board.
->>>
->>> ---
->>> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
->>> ---
->>> This patch series depends on patch series:
->>> - https://lore.kernel.org/all/20250214095611.2498950-1-quic_vikramsa@quicinc.com/
->>> - https://lore.kernel.org/all/20250211-sa8775p_tpg-v1-1-3f76c5f8431f@quicinc.com/
->>> - https://lore.kernel.org/all/20250217-qcs8300_tpg-v1-1-6e0f4dd3ad1f@quicinc.com/
->>> - https://lore.kernel.org/all/20250214094747.2483058-1-quic_vikramsa@quicinc.com/
->> No, please stop for now and see my other comments. You cannot send patch
->> which depends on 4 different patchsets! This is making merging
->> impossible and puts effort on maintainer to track these dependencies.
+On 19/05/2025 16:39, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Mon, May 19, 2025 at 05:24:12PM +0200, Jacopo Mondi wrote:
+>>>> +| V4L2_PIX_FMT_CRU_RAW10 (CR10)
+>>>> +| V4L2_PIX_FMT_CRU_RAW12 (CR12)
+>>>> +| V4L2_PIX_FMT_CRU_RAW14 (CR14)
+>>>> +| V4L2_PIX_FMT_CRU_RAW20 (CR20)
+>>> Could these be called V4L2_PIX_FMT_GENERIC_CRU_RAW*, to align with
+>>> V4L2_PIX_FMT_GENERIC_CSI2_RAW*?
+>> Is this a good idea ? I understand the CSI2 ones are "generic" when it
+>> comes to both the Bayer pattern ordering and the platform.
 >>
->> Plus this was not even tested.
->>
-> ... and:
-> 
-> Please run scripts/checkpatch.pl on the patches and fix reported
-> warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
-> patches and (probably) fix more warnings. Some warnings can be ignored,
-> especially from --strict run, but the code here looks like it needs a
-> fix. Feel free to get in touch if the warning is not clear.
-> 
-> Please do not use "This commit/patch/change", but imperative mood. See
-> longer explanation here:
-> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-> 
-> I suggest to read your internal guideline before posting. It is quite
-> comprehensive.
-> 
-> Best regards,
-> Krzysztof
-
-
-Thank you for the reminder, Will make sure to pay attention to it.
-
-Thanks,
-Wenmeng
+>> The CRU codes are platforms specific, and while they're Bayer order
+>> agnostic, calling them generic feels a bit of an overstretch ?
+> I think I checked outdated patches -- in fact in the latest patchset such
+> formats are called V4L2_PIX_FMT_RAW_CSI2_X, where X is the bit depth. So
+> this question doesn't need to be answered. :-)
+>
+Done :) But I'll move the formats to a new section in v4l2_format_info() indeed.
 
