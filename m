@@ -1,135 +1,140 @@
-Return-Path: <linux-media+bounces-32918-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32919-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC7CABD81C
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 14:19:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF046ABD843
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 14:35:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C66717ACA5
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 12:19:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CC531B657BF
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 12:35:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB52C43159;
-	Tue, 20 May 2025 12:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cvJUbteA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 447C81A08B8;
+	Tue, 20 May 2025 12:35:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32A011713
-	for <linux-media@vger.kernel.org>; Tue, 20 May 2025 12:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8918719E966;
+	Tue, 20 May 2025 12:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747743578; cv=none; b=P0SC+kUBH3MU9AohBrKesjsZBE2ggnGTrOp4J6F0tyv1Xjgv5zn+hXkHw4ODTCaQlFqJ0qoXa/w/SQokgP6ijc3VqzBER0xJkhx0A4BwY/pMeHo3IV1Wl15DH2r3uS0GFasvTDspNwI8me/6zNj0mvoblREvGosD+9vzzkaAbzQ=
+	t=1747744524; cv=none; b=psAJov8QiGJ2znpBmeDvR7fRvVMLJ4CZeYHnBq4qgcfH4Ofj3GNEKatwRtR9LYla5K9sPC7TFg2lu5MiEBh3kOGsmKYL16DJ7yXI/J6VWNlw6bEgJ/DxdL1LbzA0tmdG0zcAKFRjJbeBMpdrmhTVgLyn5r+mcDR+0fi6YOgl5o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747743578; c=relaxed/simple;
-	bh=yN2oz4RGfjWsr3L/yxfEwmYkVPvraUmd8R28Gu6B0Yc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZZOdBOSdacJWmfeZjTTozFp7I7p61G8NG2U25ttEbFMNm1bKjVBA2wXzKup3+kKTXWU/mx3L/as1JxJDObJfPfDlX1fMpGpMAHv5EFEDyKAfYXXRnWwDGr9gahTBe3jWfY+YiVLo5Suvhgd97wXnttN9xrF57U7rI1WUXXk/x4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cvJUbteA; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-551f005fddcso277156e87.1
-        for <linux-media@vger.kernel.org>; Tue, 20 May 2025 05:19:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747743574; x=1748348374; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LGxzwmCx0aVZaskSD1cvnXeY9ifmH8LA11mbYYh9vMI=;
-        b=cvJUbteAf8Xw1WV0DNcfrB6Gq7qu3YaAU2jIeoXNxuwobYZJaM9B92l7zNJOqQ7tGE
-         stjLqXPn001yaYEfc53tGjDzdqAGecNhLq19p8afw4UyVsNZWuGFpv2QdL90Q5KFqoj0
-         KpXJRO10E0uhPM94iUjgwPzYjGhGHjYHOa9XNYDme7MzhPg+aM/Ek4Za3RBGg6dUeNSl
-         yp3S02zp6aioPjUmWbytHsQOtJp/gSgFtFEo3oKcr36DW6woZ3VGCpZ6yk9+yTRDgnxt
-         a09+1o9CkJubWKQWFqg8TUOZhOjbBr6RgKCD2SUO4HwMiEma8QiIYfTaxfi6pbImVEnz
-         Z6Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747743574; x=1748348374;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LGxzwmCx0aVZaskSD1cvnXeY9ifmH8LA11mbYYh9vMI=;
-        b=lm1ZwNjcbEi/mfCh6QXcPwiD5g/RIQQiBPFYicgOYiAxn8gM9F2tlb3jPhAjpzgX7x
-         QWXq9uR06CLCQ6fRPsXlDMgaJAv4FC56ax07GyqNMMCXkokEm9WWIhGYqvFPHS0GVZA/
-         rnIOq8+9rKNBiqeSpRLb/b6sG8bIqD4I4otcOj5j+Glbn9jshWu2H0Cp1cz3y87lIwka
-         3pyu8Ws/GluXrGyrnm3wL/LmrEg3TzJMRXUrWXfLgLee9V06yv1kgKMGYBPTAkAV03Ge
-         g2XtA18udJT0JxcpLyRql7TMHjDfj2qLmR61SUVHJWdKzCmtOnS1VG2L3HGLUOCI5XUV
-         T7dw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCXN0xOi1gsMbfvP29zmiI6HDSvjhhwdiYCGnSEvdSSjfug+skwj338XMly+UfSePaA23Tug7CblN0fg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSGHdZ8wvTXYsNAxcB3boC4tXebisDUdrjq6uJD+kE6agWMv3t
-	E3nEhhXF6/orCTUdyaEcRE5Iw0tbazm9pmyjJ9fAGdbMsIceNITj/CUYkDpu7g2LgzU=
-X-Gm-Gg: ASbGncvIiihyzbTyL7Q0tGqRcuKQFIYCI+jOrf1wV0NMgk0hdo5GlPYErxqdcc7WBHp
-	8Z8wG/ArNpMLuzzuWwBqViB7AYj/uqXVjZyTWi5+9ekABZIkA1jF5WD1c//XMDrFPnMtWROwVFq
-	wIyPQo4Kpu7D1loJYyv8SEDXXBCY71YAyfk03BNOhKfitgMIQ6bJYeWbfHlx3cP52iiZ1DgfAGe
-	S+a1PV+trtnO3Z9gaY763Kleue82ZtE5KOIh5rCFvFaD440NMN6aGJ4FPPvvq79yw8EHD+xXiIU
-	TBv/fBYngKrm5P6miZfwPfM2gCMI0qGgJWLoMjJ+AuQdQh0BhVcacBkvBenNAchgMqWTqbm3lsq
-	ydpcb5I8EHsieFvCHIvvQ54soDbkCqg==
-X-Google-Smtp-Source: AGHT+IFHmFbjhmDs8JEJN8j6pzPYHRP0s5f+jZkbENRKCNk16g6eKwVvixfcndrmuMQxR0FYU+h/Iw==
-X-Received: by 2002:a05:6512:2909:b0:550:ed9e:1b32 with SMTP id 2adb3069b0e04-550ed9e1fbfmr1194001e87.1.1747743573823;
-        Tue, 20 May 2025 05:19:33 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e6f2fcb3sm2327121e87.86.2025.05.20.05.19.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 05:19:33 -0700 (PDT)
-Message-ID: <748f96f7-d690-4823-845f-67642db97a06@linaro.org>
-Date: Tue, 20 May 2025 15:19:25 +0300
+	s=arc-20240116; t=1747744524; c=relaxed/simple;
+	bh=4yYh+52kFZWGuy7sYSIaRe8+zSWmoKcHoy3cEoyEaXQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=V7Bh8d78YwAOxy1jjFf/W13lykQnJRsGCmZoX1vn4Wf/xBrDkHzZjYNrC28uNHhjk3P+ZdAjr8cc3D+56yAOg+h7ucdy+H5FL2WUqTzrfDi3oL4U3YU9zHedfdnJNJ0cbhP83ONIsTiU7c9uLK2xHyj5PiQxG0odlGDnszjdPQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+	by ni.piap.pl (Postfix) with ESMTPS id A255FC405A49;
+	Tue, 20 May 2025 14:35:18 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl A255FC405A49
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>,  Martin Kepplinger
+ <martink@posteo.de>,  Purism Kernel Team <kernel@puri.sm>,  Mauro Carvalho
+ Chehab <mchehab@kernel.org>,  Shawn Guo <shawnguo@kernel.org>,  Sascha
+ Hauer <s.hauer@pengutronix.de>,  Pengutronix Kernel Team
+ <kernel@pengutronix.de>,  Fabio Estevam <festevam@gmail.com>,
+  linux-media@vger.kernel.org,  imx@lists.linux.dev,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Enable MIPI filtering by DT on i.MX8M*
+In-Reply-To: <20250509103733.GE28896@pendragon.ideasonboard.com> (Laurent
+	Pinchart's message of "Fri, 9 May 2025 12:37:33 +0200")
+References: <m3h61u9jy2.fsf@t19.piap.pl>
+	<20250509103733.GE28896@pendragon.ideasonboard.com>
+Sender: khalasa@piap.pl
+Date: Tue, 20 May 2025 14:35:18 +0200
+Message-ID: <m3o6vn8np5.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] arm64: dts: qcom: qcs615: Enable camss for
- qcs615-adp-air
-Content-Language: ru-RU
-To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, bryan.odonoghue@linaro.org, todor.too@gmail.com,
- rfoss@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250520-qcs615-adp-air-camss-v1-0-ac25ca137d34@quicinc.com>
- <20250520-qcs615-adp-air-camss-v1-2-ac25ca137d34@quicinc.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20250520-qcs615-adp-air-camss-v1-2-ac25ca137d34@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello Wenmeng,
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> writes:
 
-On 5/20/25 11:56, Wenmeng Liu wrote:
-> This change enables camera driver for QCS615 ADP AIR board.
+>> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+>> @@ -654,8 +654,7 @@ static void mipi_csis_set_params(struct mipi_csis_de=
+vice *csis,
+>>       val =3D mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
+>>       val &=3D ~MIPI_CSIS_CMN_CTRL_LANE_NR_MASK;
+>>       val |=3D (lanes - 1) << MIPI_CSIS_CMN_CTRL_LANE_NR_OFFSET;
+>> -     if (csis->info->version =3D=3D MIPI_CSIS_V3_3)
+>> -             val |=3D MIPI_CSIS_CMN_CTRL_INTER_MODE;
+>> +     val |=3D MIPI_CSIS_CMN_CTRL_INTER_MODE; /* enable filtering by DT =
+*/
+>
+> The condition was added because the CSIS in the i.MX8MM doesn't
+> implement the INTERLEAVE_MODE field. We can't remove it unconditionally.
 
-what is the rationale of enabling CAMSS on the board without giving any
-description of any sensors connected to the SoC?
+Is this confirmed (and not just an incidental omission from the docs)?
+Same version (3.6.3), and even earlier version (3.3) has it... It would
+mean MM can't work with those sensors producing extra packets.
 
-> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
-> ---
->   arch/arm64/boot/dts/qcom/qcs615-ride.dts | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-> index 2b5aa3c66867676bda59ff82b902b6e4974126f8..be8b829ec508d7de7a4cd6be6d1d4e83b09734bb 100644
-> --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-> +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-> @@ -211,6 +211,13 @@ vreg_l17a: ldo17 {
->   	};
->   };
->   
-> +&camss {
-> +	vdda-phy-supply = <&vreg_l5a>;
-> +	vdda-pll-supply = <&vreg_l12a>;
-> +
-> +	status = "ok";
-> +};
-> +
+I wonder what version is shown in the #0 register on 8MM (8MP shows
+3060301).
 
---
-Best wishes,
-Vladimir
+> You mentioned i.MX8MP, that's a platform where I'd like to see proper
+> support for *capturing* embedded data, not just dropping it. Have you
+> looked at how this could be implemented ?
+
+I had a brief look at it, but a) the embedded data is not very
+interesting in case of my IMX290, b) I don't want to interleave it with
+my image data (DMA buffers and what not) and I don't see a way to store
+it independently.
+
+If you want to store it along the image, the currect code does that -
+more or less correctly. This is the problem.
+
+The RM says "13.5.2.6.6 Null and Blanking Data
+For both the null and blanking data types CSIS V3.6.3 ignore the content
+of the packet payload data." which is half-truth, e.g. it needs the
+MIPI_CSIS_CMN_CTRL_INTER_MODE to do that, otherwise it messes it up.
+
+Several CSIC registers are named XXXXXn, suggesting more than one
+register, but the docs say only #0 exists. Nevertheless, the actual
+hardware seems to contain 3 packs of registers (the 4th one is weirder):
+
+32E40000:  3060301     4705    F0000 DEADCAFE
+32E40010: FFFFFFFF        0        0        0
+32E40020:       F0  900001F DEADCAFE DEADCAFE
+32E40030:      1F4        0        0        0
+32E40040:       B0  4380780        0 DEADCAFE <<< ISP_CONFIG0
+32E40050:      8FD 80008000        0 DEADCAFE <<< ISP_CONFIG1
+32E40060:      8FE 80008000        0 DEADCAFE <<< ISP_CONFIG2
+32E40070:      8FF 80008000        0 DEADCAFE ???
+32E40080:       B0  4380780        0 DEADCAFE <<< SHADOW_CONFIG0
+32E40090:      8FD 80008000        0 DEADCAFE <<< SHADOW_CONFIG1
+32E400A0:      8FE 80008000        0 DEADCAFE <<< SHADOW_CONFIG2
+32E400B0:        0        0        0 DEADCAFE
+32E400C0:        0 7FFFFFFF        0       E4
+32E400D0:        0        0        0 DEADCAFE
+32E400E0: DEADCAFE DEADCAFE DEADCAFE DEADCAFE
+32E400F0: DEADCAFE DEADCAFE DEADCAFE DEADCAFE
+32E40100:     22E1     22E1     22E1        0 <<< FRAME_COUNTER*
+32E40110:        0        0        0        0 <<< LINE_INTERRUPT_RATIO*
+32E40120:        0 DEADCAFE DEADCAFE DEADCAFE
+
+This is the first CSI. The 3 frame counters are visibly active as well.
+
+The manual states (MIPI_CSIx_ISP_CONFIGn) "NOTE: Not described types are
+ignored" and even if not, I can't see what could we do with this extra
+data.
+
+Perhaps the CSIC internally has 3 output ports, but only the first one
+is connected to ISI and ISP?
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
 
