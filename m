@@ -1,167 +1,137 @@
-Return-Path: <linux-media+bounces-32916-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32917-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FBDABD6D2
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 13:30:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0940CABD6FC
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 13:36:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B33E1BA3B20
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 11:31:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE8A717EDAA
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 11:36:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FD5B27A47F;
-	Tue, 20 May 2025 11:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="P6XloOu0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A370927B51C;
+	Tue, 20 May 2025 11:36:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B851F0984;
-	Tue, 20 May 2025 11:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747740647; cv=pass; b=qcJZalbR4vfgkonfiO9O3o5gIBcdyeSLtpS2v6skMXndB67+19+JjXJv3DwMebFrWe2zcl9pok1SB5HPFrhKheQNWAH0KNFK8SXDCCuA6eGJ6X51G+QomKODxDQsUfM7xM7jMCMg6oH1HEq3P6lKX5yNBAXpUurmGIYyrdvhGr0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747740647; c=relaxed/simple;
-	bh=YvgGfWJY5DvIz5iIyBCqQuZoMiDF090odSO8tP3apZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pNooQWLGMsxHNGptUOr3KD3Rn+yfDUpCstahFEDe/bGTmL9PMPt301DVg9uV4kBddBi1IvOWTS1pPqaxDIwOStWItDMDUM1JKM7gWjxixdWY3aSe6ZQf3uZdNrc5zsM93DmQHE9MdPVHP8BfhB3mlxD4yY57Q/n1XXj1NDcgrVE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=P6XloOu0; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1747740615; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=OAfR9+dfmGLx0obq9Sq2upth3x8aZfgbSaSOdAYvNeTrZLgGcS/qq+CEQrnF/b4iTKCs0bRHzXc2j//YdtR6R5420umkTC1ZcqWa/AaZkGCBDjXvF8xmWvPTDBqOXNpAVcEQkcJVheCp4/OsRBTFg5Ld6nuhG72HHGFIglu6P88=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1747740615; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=7rhiKLJdl6FOUBApCJlP99V++YwPM8GHJ2e/QuOQgt0=; 
-	b=lgOplfh1rpk/8dUIE/h/dxvqVVKnnxJg1Pzwd+xWxZ00ZOp8a3KVQOlLGrZR4f4Le54TjvNc/IfNyPmwE//aEPxT/DXviWNashz+0iPDYEW7KWz/Z7sdhTDoBIP14lD74OoboLA+O/xwQzde+9g9FqDcCBSu1viP2Z4ZJB8k7mQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747740615;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=7rhiKLJdl6FOUBApCJlP99V++YwPM8GHJ2e/QuOQgt0=;
-	b=P6XloOu0uzM18xb8tmeg//wX9uHe0HJlHmrG9zxCVuTl/YluAwoxMl/uXREwZgs4
-	DOGU/ad53sLOZLvPXwnq1mThzPPLgsq/AGhEWjs/97LnG//xLjg7+Qd2BJSkxcnszRP
-	NF0AadJ2qpr5Oe1HfZA/g2qE76bt0LOwzsr/g2ZQ=
-Received: by mx.zohomail.com with SMTPS id 1747740613390113.43210297175915;
-	Tue, 20 May 2025 04:30:13 -0700 (PDT)
-Date: Tue, 20 May 2025 12:30:08 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com, Rob Herring <robh@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 3/3] drm/panfrost: show device-wide list of DRM GEM
- objects over DebugFS
-Message-ID: <w2arwkbzomfwkdq3c5veavjcfj3tlcwckmmjjy6wn5kehd4lvm@j4nxi4zfl7pm>
-References: <20250507160713.1363985-1-adrian.larumbe@collabora.com>
- <20250507160713.1363985-4-adrian.larumbe@collabora.com>
- <9c0b95c8-bf2d-4689-ac1f-ccacba826060@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F048126C399;
+	Tue, 20 May 2025 11:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747740970; cv=none; b=jrapOtKBgX7H8oqfQIoEIbhy4asQBukBtcMIYWqI/HB25emH0UsoBZOyGdQLamQ8dWrO7f4dXULkERajYvpTkZHMPuqfHGA4s6v2bPi+fv1+xNhsFu7QHPjwoZgwB+7wbI0lPpavZphmzAJdb7V9vZFgq6NsaJKInWGUVh7vOlw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747740970; c=relaxed/simple;
+	bh=O1MESaAYRIIN7YsmXL47wtf1V+JVHZu+5Gl4iNSOAzY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=n1T8bhDuwrSCQSJoJRzUsnotVoxshyksb2XhuWXm8sh98PivgfWRpERbQQ1unue0Id4w4oC8yqsQg1f7CxPGgjLmwVBxVFCghzojtjwDPFWWX5zORDc2GViivNExdGp5AhJFWlNtEDRNOoD5AcHaaR9IwgF/8+MBbcM3fud1TI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Tue, 20 May
+ 2025 14:36:05 +0300
+Received: from localhost (10.0.253.101) by Ex16-01.fintech.ru (10.0.10.18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 20 May
+ 2025 14:36:04 +0300
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com>,
+	<lvc-project@linuxtesting.org>, Alan Stern <stern@rowland.harvard.edu>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, <gregkh@linuxfoundation.org>
+Subject: [PATCH] media: dvb-usb-v2: disallow 0-length I2C reads
+Date: Tue, 20 May 2025 14:35:58 +0300
+Message-ID: <20250520113600.2369541-1-n.zhandarovich@fintech.ru>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9c0b95c8-bf2d-4689-ac1f-ccacba826060@arm.com>
+Content-Type: text/plain
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
-Hi Steven,
+Syzkaller reported via syzbot a warning (see [1]) that occurs
+when the fuzzer manages to craft a I2C transfer with a 0-length read
+request. This in turn leads to an attempt at execution of a
+USB 0-length read (which is forbidden by USB protocol) leading to
+it being interpreted as a write.
 
-On 08.05.2025 11:42, Steven Price wrote:
-> On 07/05/2025 17:07, Adrián Larumbe wrote:
-> > This change is essentially a Panfrost port of commit a3707f53eb3f
-> > ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS").
-> >
-> > The DebugFS file is almost the same as in Panthor, minus the GEM object
-> > usage flags, since Panfrost has no kernel-only BO's.
-> >
-> > Two additional GEM state flags which are displayed but aren't relevant
-> > to Panthor are 'Purged' and 'Purgeable', since Panfrost implements an
-> > explicit shrinker and a madvise ioctl to flag objects as reclaimable.
-> >
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->
-> Minor point, but you've used "ptdev" rather than "pfdev" several times
-> in this patch - it would be good to avoid this.
+Enable I2C_AQ_NO_ZERO_LEN_READ adapter quirk for all devices
+managed by dvb-usb-v2 thus forbidding 0-length read messages
+altogether.
 
-I've noticed I also forgot to fix the spelling when porting some devfreq fix code from Panthor some time ago.
+P.S. This issue is eerily similar to the one in dib0700
+driver, see [2]. Alan suggested a solution which hasn't been committed
+yet in [3]. Mine is essentialy a copy of his, only for dvb-usb-v2
+devices. As far as I know, no I2C core level protection against
+such issues has been implemented either.
 
-I'll send a new patch within the same series to fix thosoe too.
+[1] Syzbot report
+usb 2-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
+WARNING: CPU: 0 PID: 5845 at drivers/usb/core/urb.c:413 usb_submit_urb+0x11dd/0x18c0 drivers/usb/core/urb.c:411
+...
+Call Trace:
+ <TASK>
+ usb_start_wait_urb+0x11a/0x530 drivers/usb/core/message.c:59
+ usb_internal_control_msg drivers/usb/core/message.c:103 [inline]
+ usb_control_msg+0x2b3/0x4c0 drivers/usb/core/message.c:154
+ gl861_ctrl_msg+0x332/0x6f0 drivers/media/usb/dvb-usb-v2/gl861.c:58
+ gl861_i2c_master_xfer+0x3b4/0x650 drivers/media/usb/dvb-usb-v2/gl861.c:144
+ __i2c_transfer+0x859/0x2250 drivers/i2c/i2c-core-base.c:-1
+ i2c_transfer+0x2c2/0x430 drivers/i2c/i2c-core-base.c:2315
+ i2cdev_ioctl_rdwr+0x488/0x780 drivers/i2c/i2c-dev.c:306
+ i2cdev_ioctl+0x78a/0xa20 drivers/i2c/i2c-dev.c:467
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:906 [inline]
+ __se_sys_ioctl+0xf1/0x160 fs/ioctl.c:892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xf3/0x210 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+...
 
-> I'm also seeing a splat when running this, see below. I haven't got my
-> head around how this is happening, but I see it when glmark quits at the
-> end of the test.
->
-> Steve
->
-> [  399.505066] Unable to handle kernel NULL pointer dereference at virtual address 00000004 when write
-> [  399.515519] [00000004] *pgd=00000000
-> [  399.519541] Internal error: Oops: 805 [#1] SMP ARM
-> [  399.524896] Modules linked in: panfrost gpu_sched drm_shmem_helper
-> [  399.531817] CPU: 1 UID: 1000 PID: 316 Comm: glmark2-es2-drm Not tainted 6.15.0-rc5-00731-g9cc5b4d7da27 #1 NONE
-> [  399.543098] Hardware name: Rockchip (Device Tree)
-> [  399.548350] PC is at panfrost_gem_free_object+0x8c/0x160 [panfrost]
-> [  399.555371] LR is at trace_contention_end+0x4c/0xfc
-> [  399.560822] pc : [<bf01a384>]    lr : [<c03d0170>]    psr: 60010013
-> [  399.567823] sp : f22b1df8  ip : c2163e00  fp : c4b15800
-> [  399.573658] r10: 00000009  r9 : c5f94c40  r8 : c4b15850
-> [  399.579492] r7 : c4b15884  r6 : c7813614  r5 : c5f94f30  r4 : c7813400
-> [  399.586784] r3 : 00000000  r2 : 00000000  r1 : 00000000  r0 : c5f94f30
-> [  399.594075] Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-> [  399.602048] Control: 10c5387d  Table: 06c6c06a  DAC: 00000051
-> [  399.608465] Register r0 information: slab kmalloc-1k start c5f94c00 pointer offset 816 size 1024
-> [  399.618296] Register r1 information: NULL pointer
-> [  399.623551] Register r2 information: NULL pointer
-> [  399.628804] Register r3 information: NULL pointer
-> [  399.634057] Register r4 information: slab kmalloc-1k start c7813400 pointer offset 0 size 1024
-> [  399.643690] Register r5 information: slab kmalloc-1k start c5f94c00 pointer offset 816 size 1024
-> [  399.653517] Register r6 information: slab kmalloc-1k start c7813400 pointer offset 532 size 1024
-> [  399.663344] Register r7 information: slab kmalloc-1k start c4b15800 pointer offset 132 size 1024
-> [  399.673171] Register r8 information: slab kmalloc-1k start c4b15800 pointer offset 80 size 1024
-> [  399.682901] Register r9 information: slab kmalloc-1k start c5f94c00 pointer offset 64 size 1024
-> [  399.692631] Register r10 information: non-paged memory
-> [  399.698370] Register r11 information: slab kmalloc-1k start c4b15800 pointer offset 0 size 1024
-> [  399.708101] Register r12 information: non-slab/vmalloc memory
-> [  399.714521] Process glmark2-es2-drm (pid: 316, stack limit = 0x178bc4ea)
-> [  399.722009] Stack: (0xf22b1df8 to 0xf22b2000)
-> [  399.726874] 1de0:                                                       00000000 c4b15884
-> [  399.736012] 1e00: c7813400 c4b15800 00000007 c4b15884 c4b15850 c6815000 00000009 c0bb3824
-> [  399.745150] 1e20: 00000000 40086409 c7860800 c15fd008 00000008 c0bb588c c6815630 0000013c
-> [  399.754288] 1e40: 0000e280 00000000 c1b35650 b235e000 f22b1f5c 00000008 f22b1e74 bec37550
-> [  399.763426] 1e60: c6815630 c694ea00 c0bb47cc 00000051 00000000 00000007 00000000 00000000
-> [  399.772564] 1e80: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [  399.781701] 1ea0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [  399.790839] 1ec0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [  399.799977] 1ee0: 00000000 00000000 00000000 00000000 00000000 356cc46f 00000000 40086409
-> [  399.809115] 1f00: c694ea00 c03000c0 bec37550 c694ea00 c6815000 00000006 c4bf9b70 c058d694
-> [  399.818253] 1f20: b2b47000 f22b1f50 00000001 c03002f0 00000000 c5f60900 00000000 b235e000
-> [  399.827391] 1f40: 007e9000 c053d874 f22b1f50 00000001 f22b1f50 f22b1f50 004e0b14 c5f60940
-> [  399.836528] 1f60: b235e000 b2b46fff c4abec0c b09e3000 b2bcffff 00000000 00000000 356cc46f
-> [  399.845666] 1f80: 00000003 004e6b40 bec37550 40086409 00000036 c03002f0 c6815000 00000036
-> [  399.854805] 1fa0: 01cb32a0 c03000c0 004e6b40 bec37550 00000006 40086409 bec37550 00000007
-> [  399.863943] 1fc0: 004e6b40 bec37550 40086409 00000036 00000000 00000000 01cb2da0 01cb32a0
-> [  399.873080] 1fe0: b6e4b08c bec37534 b6e3442f b6bb8f98 60010030 00000006 00000000 00000000
-> [  399.882216] Call trace:
-> [  399.882222]  panfrost_gem_free_object [panfrost] from drm_gem_handle_delete+0x84/0xb0
-> [  399.893813]  drm_gem_handle_delete from drm_ioctl+0x2b8/0x4f4
-> [  399.900237]  drm_ioctl from sys_ioctl+0x428/0xe30
-> [  399.905496]  sys_ioctl from ret_fast_syscall+0x0/0x1c
-> [  399.911141] Exception stack(0xf22b1fa8 to 0xf22b1ff0)
-> [  399.916783] 1fa0:                   004e6b40 bec37550 00000006 40086409 bec37550 00000007
-> [  399.925922] 1fc0: 004e6b40 bec37550 40086409 00000036 00000000 00000000 01cb2da0 01cb32a0
-> [  399.935058] 1fe0: b6e4b08c bec37534 b6e3442f b6bb8f98
-> [  399.940702] Code: eb0018fa e5943218 e5942214 e1a00005 (e5823004)
-> [  399.947532] ---[ end trace 0000000000000000 ]---
+[2] https://syzkaller.appspot.com/bug?extid=c38e5e60d0041a99dbf5
+[3] https://lore.kernel.org/all/c7f67d3b-f1e6-4d68-99aa-e462fdcb315f@rowland.harvard.edu/
+
+Reported-by: syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=721071c10f3c7e4e5dcb
+Tested-by: syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com
+Fixes: 776338e121b9 ("[PATCH] dvb: Add generalized dvb-usb driver")
+Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+---
+P.P.S. While this driver seems to be orphaned, I decided to
+send a patch anyway, perhaps someone will deem it worthy...
+
+ drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+index f1c79f351ec8..5c76116fd565 100644
+--- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
++++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+@@ -19,6 +19,10 @@ module_param_named(force_pid_filter_usage, dvb_usb_force_pid_filter_usage,
+ MODULE_PARM_DESC(force_pid_filter_usage,
+ 		"force all DVB USB devices to use a PID filter, if any (default: 0)");
+ 
++static const struct i2c_adapter_quirks i2c_usb_quirks = {
++	.flags = I2C_AQ_NO_ZERO_LEN_READ,
++};
++
+ static int dvb_usbv2_download_firmware(struct dvb_usb_device *d,
+ 		const char *name)
+ {
+@@ -63,6 +67,7 @@ static int dvb_usbv2_i2c_init(struct dvb_usb_device *d)
+ 
+ 	strscpy(d->i2c_adap.name, d->name, sizeof(d->i2c_adap.name));
+ 	d->i2c_adap.algo = d->props->i2c_algo;
++	d->i2c_adap.quirks = &i2c_usb_quirks;
+ 	d->i2c_adap.dev.parent = &d->udev->dev;
+ 	i2c_set_adapdata(&d->i2c_adap, d);
+ 
 
