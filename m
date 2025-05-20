@@ -1,159 +1,136 @@
-Return-Path: <linux-media+bounces-32885-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32886-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A650ABD39D
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 11:40:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62062ABD3AC
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 11:42:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39F6A1B65E97
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 09:40:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C47318A5BFC
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 09:42:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD3422686BC;
-	Tue, 20 May 2025 09:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C12F26988E;
+	Tue, 20 May 2025 09:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HTOny0PQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kmDkdezT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89E121C9EE;
-	Tue, 20 May 2025 09:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC1425DD18;
+	Tue, 20 May 2025 09:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747734027; cv=none; b=kYT5rRoA9eqcU9OBhWll8LfUKOa8w6abLnIrLeCWN4TecwIeCOzelsoA9Zph7WGHYmCBzUnsaIPa8apE0RYRaRLdXLJlrIBDxMVMCia3O25UbIQHzUh1CUjwKZkTMw3foaL82hK2gQNrWWlDSyLxgHqQ4wWHrRFqs3fWgLwDYTs=
+	t=1747734156; cv=none; b=IfloIdMDwGf3aOZ0m9WaJsCbOsOev1UqjUBl6GS1VINDYX/iZF+WjPQDuO9WdKXlPD8N0Ez5k2ji7L7DxYonejNzEwHzjD64Q6OtBPmis9vRZkqSqCIURPifN56WcIlvVis8vP0TxBPPBBnAu3O+w1b8Akc9pYus00zKSs2NTj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747734027; c=relaxed/simple;
-	bh=4Zqg9y1D4wtO3f7MXYXfgW6YWCxhagtCzvcbPjWy7lA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=g3rPD15A+LC0JEV9N9phwLaMy0DZrzEm26RDchq2U0yn73XN7LqxcuYNR2A9xC1bA/ThSlE+H6TsfCfHgyS/jfQHFi/7uYVEHQcEI+YrRCUtZ+fhSZaXVOfSoVbyH+Yxas6RbxR3DKFMjDYH3Lo+/xPMZF58FT3HD2kINyBn+wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HTOny0PQ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K8XOXu006521;
-	Tue, 20 May 2025 09:40:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=p2jw1Q/PYSxJiHCLXnQKKV
-	XiMD0BcVsnN56vuABQOPU=; b=HTOny0PQJH+ywEVZiYW9HVR9LHZalcm1Y11/t1
-	XhQFa1tnIsgYX4AMNoiZ++/iYTdx77GKRJ5kl7yRr3w5ga9rrwkJcBxYe03woMLI
-	c7le+KXTFtKT3UMVOAgH8jlPZlGkqoresc4yMIXgPUx5RX3zTO5nusrF/2uLpEDX
-	Qjh5N9loUnUO//DXWi0x4sdAmqgMYnuLBSFyMKPe/0PVSuc+KYox6INUxroROGgX
-	sGqFQiIBT7C3i47oer6cBAOgUqfKiSwi3IDtL9kMbfOJBWcAvpRLwZDfEqR8/xzX
-	BKQoWYjQti/KVPVbtDjFwAqsMaOJie5Tuz0oOoJV4azvOCng==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pjjsy5u7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 May 2025 09:40:21 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54K9eKNW024917
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 May 2025 09:40:20 GMT
-Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 20 May 2025 02:40:16 -0700
-From: Wenmeng Liu <quic_wenmliu@quicinc.com>
-Date: Tue, 20 May 2025 17:40:03 +0800
-Subject: [PATCH] arm64: dts: qcom: qcs8300: Add support for camss
+	s=arc-20240116; t=1747734156; c=relaxed/simple;
+	bh=scRTFg5Z/15G3T5ZwlK/DAxQySslJLmHICkOIOYLsbQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VMrp74+zXPRAUbagVST7LGkh6rOnQ2DfKR4pm8HOD7gRkqT4Ti9zrk/qVFwDsiN5IdZ3/peCiGa/uO22vuRpCYsWc6H6JFxvFh1Zuwgyyry0llkjh9mM5gxCGhzj5mw3LZs3rVTASLxAUml+nlGKKkpnBK9B6yT/3RkEzycAzIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kmDkdezT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81FF4C4CEEB;
+	Tue, 20 May 2025 09:42:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747734156;
+	bh=scRTFg5Z/15G3T5ZwlK/DAxQySslJLmHICkOIOYLsbQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kmDkdezTOgHiecsU+sNSU1PX+X1FeyQIpiks20/VgbkozAunNLjiygnSVNOn16qiK
+	 VXwpnjdYzYVIJQ4HaBZx20u1TG0eBJjZM3yEGGCY0zPxTH8kMwSQGWDpvRC9DUK00s
+	 xIsEgcgAg/tZCeJSV69RYdOiTw8OfaQ8Aee1hYM58FreDmC4cNo1G5+I61OqKaFEfV
+	 Nw5jEpvBgSKabD7SoJ/C12CLt8L4q2LGiUdEnHHacTik/OFxRTZ9iK3jWI0Yv782dU
+	 y1TufKO3hp7vEbBTVb5uRPNk4FtsPvchNh49xXcBcA9RInoHnHdYW6l6pxHWTmZdRU
+	 3KTPqMj7K4DRg==
+Message-ID: <b7bd8289-840b-47b8-ba66-d4dc865885ba@kernel.org>
+Date: Tue, 20 May 2025 11:42:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] arm64: dts: qcom: qcs615: Add support for camss
+To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, bryan.odonoghue@linaro.org, todor.too@gmail.com,
+ rfoss@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20250520-qcs615-adp-air-camss-v1-0-ac25ca137d34@quicinc.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250520-qcs615-adp-air-camss-v1-0-ac25ca137d34@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250520-qcs8300-camss-v1-1-1dfcb2e3bf93@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAPNNLGgC/x3MPQqAMAxA4atIZgsxpSJeRRxKTDWDfw2IIN7d4
- vgN7z1gklUM+uqBLJea7ltBU1fAS9xmcToVAyEFDITuZOs8ouO4mrmUmNAT+zZEKM2RJen9/4b
- xfT8T/O/hXwAAAA==
-X-Change-ID: 20250520-qcs8300-camss-ffc2032c365a
-To: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, <bryan.odonoghue@linaro.org>,
-        <todor.too@gmail.com>, <rfoss@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        Wenmeng Liu
-	<quic_wenmliu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747734016; l=1226;
- i=quic_wenmliu@quicinc.com; s=20250211; h=from:subject:message-id;
- bh=4Zqg9y1D4wtO3f7MXYXfgW6YWCxhagtCzvcbPjWy7lA=;
- b=8X8C6ORMpROHJ2BfJCG4w/FbGBaCNDtleLgEEqlp/KsiMI60i/N2Ip9udEEgCVDuFWhF9IAig
- OKjzdSRmadLCOndnI7un546afb1INNUNY06LZpAbITsPp8COIFvx7ds
-X-Developer-Key: i=quic_wenmliu@quicinc.com; a=ed25519;
- pk=PTegr3w0f1C9dOSL6CUdJR5+u+X/4vsW7VMfwIMeMXQ=
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Jhi8HQRFoZAxe7pYZhc4sjOf6NYj0Hjq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDA3OSBTYWx0ZWRfX+MSx1s8Wtm/D
- En83ys5ersY88ukiIo4qiLaWTl04ZlorKyb9Ad8V2cAjaBwXsX6Tv071JFpo6eebVJXapXXikFF
- KAA3VlG4dLRVEq65uKoQ+oEsI47gflMby9QsgYEYpFT2vZEQSjg/M8/dBNxZRWg3GjIF6ntiHbU
- rcpYa0DxPlOL8Obmr/sOfc0WdLKjaWn6+Tqfgbf/eE9ayn6hNJjuSK5Xb0UKBGx94L+ClAORkBu
- pmj8z3oPqnxdxiuOSt9Ydtcg803DobOlNO8vvH0LDEhCxs7XcYoDcnB4uQ1HPMyGE0Ee5ImYgyG
- eVTo2DemZeqSjrVBF83K4tJEfDMDseJWH6jQ2E29LRFsOMqzS2DiWwJfhrRT7fyCYEBNqvcs+4y
- ygUW2wTWTdYQiyoMcs8VRf2wdQYQuhDubk6pLCr3KaV+n478mukPgWFv3tEXI4A6zzGiBagn
-X-Authority-Analysis: v=2.4 cv=K4giHzWI c=1 sm=1 tr=0 ts=682c4e05 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=EnCy_5FHAvOwJ-fuopUA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: Jhi8HQRFoZAxe7pYZhc4sjOf6NYj0Hjq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-20_04,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0 mlxlogscore=525 suspectscore=0 phishscore=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 impostorscore=0
- priorityscore=1501 mlxscore=0 adultscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505070000 definitions=main-2505200079
 
-This change enables camera driver for QCS8300 RIDE board.
+On 20/05/2025 10:56, Wenmeng Liu wrote:
+> This series adds support to bring up the CSIPHY, CSID, VFE/RDI interfaces 
+> in QCS615. Tested this on QCS615 ADP AIR board with CSID TPG.
+> 
+> Tested with following commands:
+> media-ctl --reset
+> v4l2-ctl -d /dev/v4l-subdev3 -c test_pattern=0
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/1920x1080 field:none]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/1920x1080 field:none]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> v4l2-ctl -d /dev/v4l-subdev3 -c test_pattern=9
+> yavta -B capture-mplane -n 5 -f SRGGB10P -s 1920x1080 /dev/video0 --capture=7
+> 
+> This patch series depends on patch series:
+> https://lore.kernel.org/all/20250518-qcs615_camss-v1-0-12723e26ea3e@quicinc.com/
+> https://lore.kernel.org/all/20250518-qcs615_camss-v1-0-12723e26ea3e@quicinc.com/
+> https://lore.kernel.org/all/20250424-qcs615-mm-v7-clock-controllers-v8-0-bacad5b3659a@quicinc.com/
 
----
-Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
----
-This patch series depends on patch series:
-- https://lore.kernel.org/all/20250214095611.2498950-1-quic_vikramsa@quicinc.com/
-- https://lore.kernel.org/all/20250211-sa8775p_tpg-v1-1-3f76c5f8431f@quicinc.com/
-- https://lore.kernel.org/all/20250217-qcs8300_tpg-v1-1-6e0f4dd3ad1f@quicinc.com/
-- https://lore.kernel.org/all/20250214094747.2483058-1-quic_vikramsa@quicinc.com/
----
----
- arch/arm64/boot/dts/qcom/qcs8300-ride.dts | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
-index 3ff8f398cad31a36fa46060855b075c8c2020aa7..97281d6d7376a406e5c31466e175358b10441256 100644
---- a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
-@@ -207,6 +207,10 @@ vreg_l9c: ldo9 {
- 	};
- };
- 
-+&camss {
-+	status = "ok";
-+};
-+
- &ethernet0 {
- 	phy-mode = "2500base-x";
- 	phy-handle = <&phy0>;
-
----
-base-commit: b16751cc36fc42deedf4726683423e19939c1044
-change-id: 20250520-qcs8300-camss-ffc2032c365a
+Three dependencies? So this cannot be tested in any close future. You
+need to rework the way you upstream, to avoid multiple dependencies.
+This was already communicated multiple times.
 
 Best regards,
--- 
-Wenmeng Liu <quic_wenmliu@quicinc.com>
-
+Krzysztof
 
