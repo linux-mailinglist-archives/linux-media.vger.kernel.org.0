@@ -1,143 +1,162 @@
-Return-Path: <linux-media+bounces-32912-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32913-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D170ABD57F
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 12:49:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B9AABD595
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 12:53:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83F6E178923
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 10:45:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEBC21684F3
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 10:52:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83ACB280CCE;
-	Tue, 20 May 2025 10:42:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1DE1268682;
+	Tue, 20 May 2025 10:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="G2kGfE39"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B4F274673
-	for <linux-media@vger.kernel.org>; Tue, 20 May 2025 10:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F80255F22
+	for <linux-media@vger.kernel.org>; Tue, 20 May 2025 10:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747737750; cv=none; b=bDxsiw/yoXrsGaiVb+RoBw7yEQ6YE6KHUhWYdx6sUAf1PPVv9X0+obNhpXCPjhuMNQ/GJ0M07TszK0N1zl55eYHWLIkbZKHidag/xiV+QuwgWy/cQKBttC8RYDLFyVXdxip+7FU2AiOvMM5EFVVfuC9H+a1B28CJ5AhLEJyLcZ0=
+	t=1747738341; cv=none; b=JqVRTKHoDpEOmsQRTJBfFTpbv9UvIGRGDwPB3KNLEMrLLJ45dayuv5haj1dFjpvrSFrDxQH6VwWEobnDp2WZjHB1EtkAWwDq//FME0P2wALUdHSJK2uqV1uVwD2vOBI0YcxI0+H1zdmls+iIndIP+fxjUbbYmXLvtCTqiMQrWU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747737750; c=relaxed/simple;
-	bh=ypsgp/8EOQfhR3gpKtdjHjDSjKXledeokdgkhyDij6s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=j1pUZVRQA6sLlMheXAYz7w60meOF1kptrdfrjTiqvUJj468zwaKN0bRhgyLyYJiUoTU6pAD+hD5KWb3S6gXd8SHcimVh2L1/QZ/QcUXJwGtedShNRfs40asROQ8fPBb9CmLPz2N9IART09BTn1DGF2IzTExLY8ldsiRjQCAioOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1uHKPz-0001aN-MM; Tue, 20 May 2025 12:41:55 +0200
-Message-ID: <e7c08305612e7323ca9d9ff6c44f3e2b63f171ff.camel@pengutronix.de>
-Subject: Re: [PATCH v5 08/10] accel/rocket: Add IOCTLs for synchronizing
- memory accesses
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay
- <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Sebastian
- Reichel <sebastian.reichel@collabora.com>,  Nicolas Frattaroli
- <nicolas.frattaroli@collabora.com>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Date: Tue, 20 May 2025 12:41:47 +0200
-In-Reply-To: <20250520-6-10-rocket-v5-8-18c9ca0fcb3c@tomeuvizoso.net>
-References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
-	 <20250520-6-10-rocket-v5-8-18c9ca0fcb3c@tomeuvizoso.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	s=arc-20240116; t=1747738341; c=relaxed/simple;
+	bh=Oa9k0noCv5pfsZvbyv4j1AKu0STBRVDPhxiDXfVsT8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ADNsGeMs9KKhaCugxERNP7xdfNDBc14J8hASa5ies1r/kRrudIxfoZ2tYvhS5hxhOX1igZj5uhLpMHuPZPiJ8FuiRGDR/XQ7bPkZEHqOtsQIfAbEBqoETP3yvYlUp6xRKrpQMJ+sK4ZaouFR3GjjJUZRXW0Wqn+HFXHjeBqlvWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=G2kGfE39; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K2sH40010902
+	for <linux-media@vger.kernel.org>; Tue, 20 May 2025 10:52:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=iu6hQ3FOP9u9YuNt9OId1rpc
+	oHm2k7ZRa3DQfZxPW7A=; b=G2kGfE39xHXtJo3JfPN9p5Gbsjy6vaDU78zvVggd
+	AjNF77Cj64hMIZVcIkerHarinstxprWv0Up9BBc9pUu+TLfRGRs4PnUH8D1NvdDc
+	VHu+S+9PzQoCoryGCTmWAgf/iT7AMy4iL91HZALsh3BcUoDbOGErbnnmFGFvptxB
+	3B5wdgF8rxl76WznhcKzJKWhTFDVg7kNrMkT37VLPmDY9J2mBj2dbt9n5CODS6nm
+	/C2V946jtTtjlSYNn8C8XR6WSYG1zZ6WDwODyiA3niI9heI6SdvSLLa8vX6AcstA
+	d4xMglzrhiwYUmZYn7GX5+TZAF78n0Q4XYFZ0XD15gqeWQ==
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pjm4qbrp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 20 May 2025 10:52:18 +0000 (GMT)
+Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-52dbce1a18dso4773538e0c.3
+        for <linux-media@vger.kernel.org>; Tue, 20 May 2025 03:52:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747738336; x=1748343136;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iu6hQ3FOP9u9YuNt9OId1rpcoHm2k7ZRa3DQfZxPW7A=;
+        b=Ojqqd/ai7RMiNh5lojUvgTANWfJ5vEMuBuEpprC28aOkKrktqRg8p0EQLGRtpLa8t2
+         Mmu4jH6S4E57m1WXWK4BzKQSCzvT2YAunF/kBt5oNpamLwpPvgoITJbkko2K2j7X31c8
+         3331Ge/aJzZGVZWF9nHn67wwkAptjO5H5ft3EKPHcpJPs8q5vIrZuCNN9qklqqG0YDQh
+         nLYRIxVWLzMc6Mt4gOCBezcluk2LwPbiNqCD8oI4OdfOoenMk7s5A5DksL5jjXnrf0oB
+         HnfHNqCli90ELdIaYH8mrEDxJVMjY6xA+PWL1RTpZT/WYnqdeoLAJ9qfPoKlDq7/cM+Z
+         qVCw==
+X-Forwarded-Encrypted: i=1; AJvYcCXZp5GIX6ioQqfn/ZmrlmPbl2DoVZ4ogAcipMX4JMtcvIg8U+hpfIcq4wg2omxUcIxjDQPdUp2/fp7s7w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yza0985B6yN7Bp/6WsU0h9AGVoN57gcCqMLLjxLmoglK5oi6E9p
+	f7NW1vFFqWjK3VfW+YYszFktFp42QHocEc7aFV4vV0bMSvsNxX8NmcR6tTtlMR+K9Bj8eo5654I
+	IiYs+iGs9rrpMbaPb2/maJY7ajqBTDcd/bmXHtR1Cp2dSrRrAhtTN23BNmQW3tnRF6FL+BNQMmw
+	==
+X-Gm-Gg: ASbGnctdVz5Fn16kPTdY1jo+wMLa4fHjNEA6Pdx0EoiEeQLVQVnlF+84D62mj3r+hLL
+	LGml+tkbV4sQ/qwqcAuAS/g87uPXyv6Q94Pk48bNJg+X1mHiDOlOVQQ34kKLcDkmzc2OPydK4dJ
+	J6+ePnlG2eL9br/mrqLS+NjkKpYRryUbTxoHydbXHziUAgX8cY9kAo3ZNy8q1s+ccgbwUoBmFX2
+	Z2wfL1AEEsoV5P/tij4JoQYchQpNk+d4PGrHzUsAwOn1tOTPO5BmDxxpifWDfmpu8CmS4e76M8e
+	/Mrra61KEUHFEw6cFebywAzrfx/AJjklrDX0QJMUEsWCScjE3xzdg5tEb7mVSXzJ8CVvi0CWcyQ
+	=
+X-Received: by 2002:a05:6122:2492:b0:52c:54fc:745 with SMTP id 71dfb90a1353d-52dba83ecaemr14446979e0c.5.1747738335993;
+        Tue, 20 May 2025 03:52:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFKLSIG2Onln6gXMObDRG2o81ByYnYJZsZgsh86zfCf5MH9TVDxED5HmWvf5vBdtOWBgkCTTg==
+X-Received: by 2002:a05:620a:44cf:b0:7c5:95e6:ce1d with SMTP id af79cd13be357-7cd4608ea23mr2402476385a.0.1747738324922;
+        Tue, 20 May 2025 03:52:04 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e703f47csm2282736e87.237.2025.05.20.03.52.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 May 2025 03:52:04 -0700 (PDT)
+Date: Tue, 20 May 2025 13:52:02 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Wenmeng Liu <quic_wenmliu@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, bryan.odonoghue@linaro.org,
+        todor.too@gmail.com, rfoss@kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/2] arm64: dts: qcom: qcs615: Add support for camss
+Message-ID: <gsj7aya7lr3quuw56n6p3utvz27qaqn5rxoihkvecsgfy4itu3@zoekpc7fyabs>
+References: <20250520-qcs615-adp-air-camss-v1-0-ac25ca137d34@quicinc.com>
+ <20250520-qcs615-adp-air-camss-v1-1-ac25ca137d34@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520-qcs615-adp-air-camss-v1-1-ac25ca137d34@quicinc.com>
+X-Proofpoint-ORIG-GUID: 8ZunYjxuXXEVfiamqzsjAmI9SEvfcuPG
+X-Authority-Analysis: v=2.4 cv=C4bpyRP+ c=1 sm=1 tr=0 ts=682c5ee2 cx=c_pps
+ a=wuOIiItHwq1biOnFUQQHKA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=Sj07yxY_p6yHqL6ZhSQA:9 a=CjuIK1q_8ugA:10
+ a=XD7yVLdPMpWraOa8Un9W:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 8ZunYjxuXXEVfiamqzsjAmI9SEvfcuPG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDA4OSBTYWx0ZWRfXxey9rOZW3SbK
+ C0N/+IjrpSkrAxBhc1+jPsPRHkIZGig08Zqz4XNFr3566650B8BeGGV375YGz+AHqa65ctolKRW
+ qGpvjFFiTEXjrKabZglD9+qgl8KnuUEAVbsDccErX7EGkJkGlx3oN4UoyyJvQcKUkPu9F9SrDMq
+ zVqd4jFEa0J3SBMWfSX7+63lXTevLNiYVctb7Fttym0AMfut0kKiTKXYPN8HjfhDMzAQh7O0Qfg
+ ssgvfQXpVuIp138fOcHIiKI5Vo82m0mivX7daLIFgh+trlqXlBypDecy5Hw0tb4Lk2BxOK1z8Iy
+ 543+Vxmzlxm7ysME1rzaxkSIhWnfCWECJ4D3thU1vxk9hHsBtnEFfbZneCZ0uQ4xJvtJCxBP5oL
+ 7ciXWMgfUTIG09UvM+jxqU1brj/0LaQJ44/W2bPBs0bc11HtNEBgJnWD4TEXFVqNB7CNRvL/
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-20_04,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0
+ mlxlogscore=736 spamscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0
+ bulkscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
+ definitions=main-2505200089
 
-Hi Tomeu,
-
-Am Dienstag, dem 20.05.2025 um 12:27 +0200 schrieb Tomeu Vizoso:
-> The NPU cores have their own access to the memory bus, and this isn't
-> cache coherent with the CPUs.
->=20
-> Add IOCTLs so userspace can mark when the caches need to be flushed, and
-> also when a writer job needs to be waited for before the buffer can be
-> accessed from the CPU.
->=20
-> Initially based on the same IOCTLs from the Etnaviv driver.
->=20
-> v2:
-> - Don't break UABI by reordering the IOCTL IDs (Jeff Hugo)
->=20
-> v3:
-> - Check that padding fields in IOCTLs are zero (Jeff Hugo)
->=20
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+On Tue, May 20, 2025 at 04:56:51PM +0800, Wenmeng Liu wrote:
+> Add support for the camera subsystem on the QCS615 Qualcomm SoC. This
+> includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
+> 
+> QCS615 provides
+> - 2 x VFE, 3 RDI per VFE
+> - 1 x VFE Lite, 4 RDI per VFE
+> - 2 x CSID
+> - 1 x CSID Lite
+> - 3 x CSI PHY
+> 
+> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
 > ---
->  drivers/accel/rocket/rocket_drv.c |  2 +
->  drivers/accel/rocket/rocket_gem.c | 80 +++++++++++++++++++++++++++++++++=
-++++++
->  drivers/accel/rocket/rocket_gem.h |  5 +++
->  include/uapi/drm/rocket_accel.h   | 37 ++++++++++++++++++
->  4 files changed, 124 insertions(+)
->=20
-> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/roc=
-ket_drv.c
-> index fef9b93372d3f65c41c1ac35a9bfa0c01ee721a5..c06e66939e6c39909fe08bef3=
-c4f301b07bf8fbf 100644
-> --- a/drivers/accel/rocket/rocket_drv.c
-> +++ b/drivers/accel/rocket/rocket_drv.c
-> @@ -59,6 +59,8 @@ static const struct drm_ioctl_desc rocket_drm_driver_io=
-ctls[] =3D {
-> =20
->  	ROCKET_IOCTL(CREATE_BO, create_bo),
->  	ROCKET_IOCTL(SUBMIT, submit),
-> +	ROCKET_IOCTL(PREP_BO, prep_bo),
-> +	ROCKET_IOCTL(FINI_BO, fini_bo),
->  };
-> =20
->  DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
-> diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/roc=
-ket_gem.c
-> index 8a8a7185daac4740081293aae6945c9b2bbeb2dd..cdc5238a93fa5978129dc1ac8=
-ec8de955160dc18 100644
-> --- a/drivers/accel/rocket/rocket_gem.c
-> +++ b/drivers/accel/rocket/rocket_gem.c
-> @@ -129,3 +129,83 @@ int rocket_ioctl_create_bo(struct drm_device *dev, v=
-oid *data, struct drm_file *
-> =20
->  	return ret;
->  }
-> +
-> +static inline enum dma_data_direction rocket_op_to_dma_dir(u32 op)
-> +{
-> +	if (op & ROCKET_PREP_READ)
-> +		return DMA_FROM_DEVICE;
-> +	else if (op & ROCKET_PREP_WRITE)
-> +		return DMA_TO_DEVICE;
-> +	else
-> +		return DMA_BIDIRECTIONAL;
-> +}
+>  arch/arm64/boot/dts/qcom/qcs615.dtsi | 133 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 133 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+> index 47e350f175860e7b06f7b2c13fed75a65e489c8a..535251efc6b559447482b9ecc67ca26e7efbbb8c 100644
+> --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+> @@ -3242,6 +3242,139 @@ videocc: clock-controller@ab00000 {
+>                          #power-domain-cells = <1>;
+>                  };
+>  
+> +		camss: camss@acb3000 {
 
-This has copied over the bug fixed in etnaviv commit 58979ad6330a
-("drm/etnaviv: fix DMA direction handling for cached RW buffers")
+camss: isp@acb3000 {}
 
-Regards,
-Lucas
+
+-- 
+With best wishes
+Dmitry
 
