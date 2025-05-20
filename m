@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-32888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32889-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E92ABD3D4
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 11:46:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B194BABD3DA
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 11:47:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF33217AE3F
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 09:45:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E8751669A4
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 09:47:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2DE926A0CC;
-	Tue, 20 May 2025 09:45:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48CBA268C51;
+	Tue, 20 May 2025 09:47:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qlRxiSDz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EOlRQkmG"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116BE20E6E2;
-	Tue, 20 May 2025 09:45:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9374C1C3306;
+	Tue, 20 May 2025 09:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747734311; cv=none; b=KnfUD/tgVo+Ys1xEqUblK6mjNqD+Q95JJru671HctI6ooufzPuOeNMbMqz347tnOrLtpa7Tul1+OhJWWoJajPB3ZvZK8Nxl8262RkJGBsYV4e27AJgOfte8oJo7mL9vl6UhDAgw429cvIzsesIzgnx9A6fAmpJevpUNw1Ebx2Qo=
+	t=1747734442; cv=none; b=usXHI4FUAwRCYl9nQQwzyKwVr76gEhwwDwQ9Cr3NagdjfU4a84PhuDZ+vOcLd7UCOlHH8U8SlrUr97GwaWkHlNqov8Guzedia9wkVoluiq7wktncpujQdKM9XlIuWPnSLdnzbB++fdU3V188gYNX1jjIokr/0Kjjjkiey72w3W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747734311; c=relaxed/simple;
-	bh=hiOLZUcvLvL5jLhpCCULrHMfKbh+GeTcvsS/FTdduZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r4rHNS0bpLCLs/oBABkVylfMTn6sFea+ibDu/TKCq7t9TIfDHj5JA6j0TkN/7vNunS3JhpHs4B4eN0mcpxF97CeTM+ZKd/tdrTrQCR5gb6gIX0ld2BvPgt+GoHolojW71BQYfcGPTFXCGI6GmVQiHmDtDFdnPpz4vSbu4cvG7YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qlRxiSDz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 876CAC4CEE9;
-	Tue, 20 May 2025 09:45:07 +0000 (UTC)
+	s=arc-20240116; t=1747734442; c=relaxed/simple;
+	bh=dWHimpXPoPCKcZ8sMAVHTp3rSH4Zt3k4QDnJBWR4I38=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=m98tVVRPYh0yOx+1EhGPIj5x2+0cQTEGey69aCO+9SKMzDJHP42LX+hSL2N4dTZh2k117uOdN9yoWNlJiQ+mM+haM84luxGMUycDS5uYQZZXzdlNyoqkEFX5N9YJOtXeIraqosvf//khqBampT2LhXxNPWgXB981xU9FvErcPI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EOlRQkmG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25235C4CEE9;
+	Tue, 20 May 2025 09:47:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747734310;
-	bh=hiOLZUcvLvL5jLhpCCULrHMfKbh+GeTcvsS/FTdduZ8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qlRxiSDzN/61PT7ePC8ul/jY3dwAmJKg7DvCW8TRsWXLfhhl3KQcEUZ52dkQAi+Dc
-	 PqA7ByR6Ejlifoyc3Krh5SQLU0mAsNuekZ3vgY9K6fqtsdWyLwNAmYtCi2/osARL/M
-	 jfYcBsJD9CRvPz82lP8g2k20tlfe27lGZ4u0DMWfKP0xjtYs+HixaWjF6P9jN/ikza
-	 iL7vWA8EpabaZScBluZ50vcGFAx+gC9WQxWN16ANo+mfTrNpBTlwigEfAtqsui4apn
-	 8K6v9HmY9He/BkYx7g5UirsoF/xbTdLo+6jxRhxKBTbo/cmbSnLMkwbN/nXu2IdICu
-	 D0YDDgHEPfFVw==
-Message-ID: <db562aa7-98dc-4f0e-8b9c-4348b4c16384@kernel.org>
-Date: Tue, 20 May 2025 11:45:05 +0200
+	s=k20201202; t=1747734442;
+	bh=dWHimpXPoPCKcZ8sMAVHTp3rSH4Zt3k4QDnJBWR4I38=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=EOlRQkmG04bwPUP9diYMKNslNHhsLPSzB2Ny8fY1N/jmMzdkY48WeaXApv3kYi5y7
+	 Vf+9TS0Uw/bNs7zswuCZwilamleAUv3lRqfcQCynBy2olKiPA/xZ3Gu8MYslDO6KK7
+	 1axaUyjYdGwoMk/IhnR42T010rNBgvc59fq27EJyunaVo0llVs3vvajUQLB1y9kx+v
+	 yqX2+ZbUCu6X0kY013PLbPRGsPezS0vmVNMtz968D+D9aVMvjPTRwhgtliz2/b99Ec
+	 pmNGRv4chQwjP2CJLey6TeO6p9XJ4Um7oF76wnIQ4/vRvMOWF7e2x8taWHihmSbzRN
+	 UDJVoFABUkC6g==
+Message-ID: <bb5c40be-85f0-497e-90de-7f7282f851e4@kernel.org>
+Date: Tue, 20 May 2025 11:47:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,6 +51,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] arm64: dts: qcom: qcs8300: Add support for camss
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -60,7 +61,7 @@ To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
 Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 References: <20250520-qcs8300-camss-v1-1-1dfcb2e3bf93@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <db562aa7-98dc-4f0e-8b9c-4348b4c16384@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -105,26 +106,42 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250520-qcs8300-camss-v1-1-1dfcb2e3bf93@quicinc.com>
+In-Reply-To: <db562aa7-98dc-4f0e-8b9c-4348b4c16384@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/05/2025 11:40, Wenmeng Liu wrote:
-> This change enables camera driver for QCS8300 RIDE board.
+On 20/05/2025 11:45, Krzysztof Kozlowski wrote:
+> On 20/05/2025 11:40, Wenmeng Liu wrote:
+>> This change enables camera driver for QCS8300 RIDE board.
+>>
+>> ---
+>> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+>> ---
+>> This patch series depends on patch series:
+>> - https://lore.kernel.org/all/20250214095611.2498950-1-quic_vikramsa@quicinc.com/
+>> - https://lore.kernel.org/all/20250211-sa8775p_tpg-v1-1-3f76c5f8431f@quicinc.com/
+>> - https://lore.kernel.org/all/20250217-qcs8300_tpg-v1-1-6e0f4dd3ad1f@quicinc.com/
+>> - https://lore.kernel.org/all/20250214094747.2483058-1-quic_vikramsa@quicinc.com/
+> No, please stop for now and see my other comments. You cannot send patch
+> which depends on 4 different patchsets! This is making merging
+> impossible and puts effort on maintainer to track these dependencies.
 > 
-> ---
-> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
-> ---
-> This patch series depends on patch series:
-> - https://lore.kernel.org/all/20250214095611.2498950-1-quic_vikramsa@quicinc.com/
-> - https://lore.kernel.org/all/20250211-sa8775p_tpg-v1-1-3f76c5f8431f@quicinc.com/
-> - https://lore.kernel.org/all/20250217-qcs8300_tpg-v1-1-6e0f4dd3ad1f@quicinc.com/
-> - https://lore.kernel.org/all/20250214094747.2483058-1-quic_vikramsa@quicinc.com/
-No, please stop for now and see my other comments. You cannot send patch
-which depends on 4 different patchsets! This is making merging
-impossible and puts effort on maintainer to track these dependencies.
+> Plus this was not even tested.
+> 
+... and:
 
-Plus this was not even tested.
+Please run scripts/checkpatch.pl on the patches and fix reported
+warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+patches and (probably) fix more warnings. Some warnings can be ignored,
+especially from --strict run, but the code here looks like it needs a
+fix. Feel free to get in touch if the warning is not clear.
+
+Please do not use "This commit/patch/change", but imperative mood. See
+longer explanation here:
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+
+I suggest to read your internal guideline before posting. It is quite
+comprehensive.
 
 Best regards,
 Krzysztof
