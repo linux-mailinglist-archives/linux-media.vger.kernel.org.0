@@ -1,158 +1,138 @@
-Return-Path: <linux-media+bounces-32925-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32926-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA6BABD94D
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 15:27:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9175ABD9F8
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 15:52:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 731867A13CA
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 13:25:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42AA83ABE4B
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 13:52:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B91F0242923;
-	Tue, 20 May 2025 13:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED4AB24502E;
+	Tue, 20 May 2025 13:52:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12F4241CBA;
-	Tue, 20 May 2025 13:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFAB32459F3;
+	Tue, 20 May 2025 13:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747747624; cv=none; b=Hq7HuFhl1RYLDQhL/3By2iZuglnkdMk7dt+7aS3geNBtHNMbVd5N7+WwM07/QJx1Q7J0Ej913nBgR7Qt19DlaJZW8UI5rM5BS/x6nNZ/bVoTaTdfRuMU9E1rA2XDp7DhXXsz4rNoYlIm056/XxXo3EBMdY5ZbaiSYpj36ca4gM0=
+	t=1747749152; cv=none; b=MHtIyDKMRYcmaXXr4ioQk5N6XUN89F9yX6dlcI2WpXBlxq7BTDgwfWM+cpA2znjTquG+oqNEigKhnRtz9Ap/AmVs2aHVU4w0vPs8w2xpELX+0B8CSD9+PMSgLGKtalnhHoO6/dartJgnxIxuz/OODeSLZ6UVo8t0zZ7yz4BNil8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747747624; c=relaxed/simple;
-	bh=vykBg8ejrA86ORynX2aNEi6P3gRBY+QDembUBCdgmWE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BRQbOZ3CN4uhk6rW+JyZugboLUtbrNGQWqlrdKKEozTwivoHqrgX43Ceu78UgXwkeWEMAw5RyYxChZBlcHC21N5s0GA59YokKgIEuwohDnYze1GNgU31WAmAV2lMin+qr9sho2bUIi5/32+16+ecyY5OlANZI0bfJNDvkPHUPLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-	by ni.piap.pl (Postfix) with ESMTPS id B0B1EC405A46;
-	Tue, 20 May 2025 15:26:58 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl B0B1EC405A46
-From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To: Paul Elder <paul.elder@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>,  Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,  Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Heiko Stuebner <heiko@sntech.de>,
-  linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
-  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
-  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,  Ondrej Jirman
- <megi@xff.cz>,  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-  stefan.klug@ideasonboard.com
-Subject: Re: [PATCH] RKISP1: correct histogram window size
-In-Reply-To: <aB31Eg6oRpcHHEsb@pyrite.rasen.tech> (Paul Elder's message of
-	"Fri, 9 May 2025 14:29:06 +0200")
-References: <m3tt5u9q7h.fsf@t19.piap.pl> <aB31Eg6oRpcHHEsb@pyrite.rasen.tech>
-Sender: khalasa@piap.pl
-Date: Tue, 20 May 2025 15:26:58 +0200
-Message-ID: <m3jz6b8lb1.fsf@t19.piap.pl>
+	s=arc-20240116; t=1747749152; c=relaxed/simple;
+	bh=aLsYG0iaVoeHfcR0MEX9HAh93TMFwi48LEpL4BnDOTI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=U7yiaUojIeohIYBtyq0VQUb9n1EZ9nK27RSmqzm6oEjJaKW7BaLL5o7uoH9QWj+32QJDIYDuDEVCd1DI3DQdatkgdnR+yCypE4/U8r+AcWqHeEgNqiTnNTsOfWS2naAhQzaLdjCseSls81JMhlqOQuAGiSnVNgOfIS1hKa8MmVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Tue, 20 May
+ 2025 16:52:20 +0300
+Received: from localhost (10.0.253.101) by Ex16-01.fintech.ru (10.0.10.18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 20 May
+ 2025 16:52:19 +0300
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com>,
+	<lvc-project@linuxtesting.org>, Alan Stern <stern@rowland.harvard.edu>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, <gregkh@linuxfoundation.org>
+Subject: [PATCH v2] media: dvb-usb-v2: disallow 0-length I2C reads
+Date: Tue, 20 May 2025 16:52:15 +0300
+Message-ID: <20250520135216.2509505-1-n.zhandarovich@fintech.ru>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
-Hi Paul,
+Syzkaller reported via syzbot a warning (see [1]) that occurs
+when the fuzzer manages to craft a I2C transfer with a 0-length read
+request. This in turn leads to an attempt at execution of a
+USB 0-length read (which is forbidden by USB protocol) leading to
+it being interpreted as a write.
 
-I'm sorry it took that long.
+Enable I2C_AQ_NO_ZERO_LEN_READ adapter quirk for all devices
+managed by dvb-usb-v2 thus forbidding 0-length read messages
+altogether.
 
-Paul Elder <paul.elder@ideasonboard.com> writes:
+[1] Syzbot report
+usb 2-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
+WARNING: CPU: 0 PID: 5845 at drivers/usb/core/urb.c:413 usb_submit_urb+0x11dd/0x18c0 drivers/usb/core/urb.c:411
+...
+Call Trace:
+ <TASK>
+ usb_start_wait_urb+0x11a/0x530 drivers/usb/core/message.c:59
+ usb_internal_control_msg drivers/usb/core/message.c:103 [inline]
+ usb_control_msg+0x2b3/0x4c0 drivers/usb/core/message.c:154
+ gl861_ctrl_msg+0x332/0x6f0 drivers/media/usb/dvb-usb-v2/gl861.c:58
+ gl861_i2c_master_xfer+0x3b4/0x650 drivers/media/usb/dvb-usb-v2/gl861.c:144
+ __i2c_transfer+0x859/0x2250 drivers/i2c/i2c-core-base.c:-1
+ i2c_transfer+0x2c2/0x430 drivers/i2c/i2c-core-base.c:2315
+ i2cdev_ioctl_rdwr+0x488/0x780 drivers/i2c/i2c-dev.c:306
+ i2cdev_ioctl+0x78a/0xa20 drivers/i2c/i2c-dev.c:467
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:906 [inline]
+ __se_sys_ioctl+0xf1/0x160 fs/ioctl.c:892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xf3/0x210 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+...
 
->> Without the patch (i.MX8MP, all-white RGGB-12 full HD input from
->> the sensor, YUV NV12 output from ISP, full range, histogram Y mode).
->> HIST_STEPSIZE =3D 3 (lowest permitted):
->
-> According to the datasheet, the histogram bins are 16-bit integer with a
-> 4-bit fractional part. To prevent overflowing the 16-bit integer
-> counter, the step size should be 10.
->
-> Do you have any other information on this? Is it known that it's stable
-> and consistent to use all 20 bits anyway?
+Reported-by: syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=721071c10f3c7e4e5dcb
+Tested-by: syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com
+Fixes: 776338e121b9 ("[PATCH] dvb: Add generalized dvb-usb driver")
+Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+---
+v1 -> v2: fix description due to overly long lines.
 
-Interesting. I only have those mrv_*.h files which come with
-isp-imx-4.2.2.* package(s). Here we have (among others):
+P.S. This issue is eerily similar to the one in dib0700
+driver, see [2]. Alan suggested a solution which hasn't been committed
+yet in [3]. Mine is essentialy a copy of his, only for dvb-usb-v2
+devices. As far as I know, no I2C core level protection against
+such issues has been implemented either.
+[2] https://syzkaller.appspot.com/bug?extid=c38e5e60d0041a99dbf5
+[3] https://lore.kernel.org/all/c7f67d3b-f1e6-4d68-99aa-e462fdcb315f@rowland.harvard.edu/
 
-/*! Register: isp_hist_prop: Histogram properties (0x00000000)*/
-/*! Slice: stepsize:*/
-/*! histogram predivider, process every (stepsize)th pixel, all other pixel=
-s are skipped */
-/* 0,1,2: not allowed */
-/* 3: process every third input pixel */
-/* 4: process every fourth input pixel */
-/* ...*/
-/* 7FH: process every 127th pixel */
-#define MRV_HIST_STEPSIZE_MASK 0x000003F8
-#define MRV_HIST_STEPSIZE_SHIFT 3
+P.P.S. While this driver seems to be orphaned, I decided to
+send a patch anyway, perhaps someone will deem it worthy...
 
-In case of my IMX290 1920x1080 sensor, 1 doesn't work well (it stops
-counting before reaching $((1920x1080)) in each bin, and even if no bin
-reaches this magic value, the total count may be invalid (not equal to
-the number of pixels). IIRC, 2 worked well. Maybe with higher
-resolutions, I don't know.
+ drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-I'm currently using "3" per the .h file:
-isp_hist_prop:
-32E12400: 1Dh
-histogram_measurement_result:
-32E12414: 0 0 1 1004 569 476 633 1197 2373 2212 1923 2945 3632 3025 5821 20=
-4589
-which sums to 518400 =3D 1920*1080/9.
-
-Setting "2", the same input scene:
-32E12400: 15h
-32E12414: 0 0 0 2194 1263 1096 1406 2528 5228 5052 4291 6354 8322 6943 1320=
-1 460522
-which sums to 518400 =3D 1920*1080/4.
-
-Setting "1", the same input scene:
-32E12400: Dh
-32E12414: 0 0 25 9046 4924 4317 5435 10655 20781 18965 16051 24716 32681 28=
-368 54301 1048559
-which sums to 1278824 which is rather less than 2073600.
-The last number (1048559) is the magic one, no bin can go higher. Less ligh=
-ts and:
-32E12400: Dh
-32E12414: 0 0 0 0 0 0 184 3059 11970 75298 114898 211444 429772 439922 4003=
-58 386695
-total =3D 2073600. But don't rely on it too much, the "1" has problems.
-
-In short, those are integer values. One may use them as fractionals with
-some clever step size, I guess.
-
->> isp_hist_h_size: 383 (=3D 1920 / 5 - 1)
->> isp_hist_v_size: 215 (=3D 1080 / 5 - 1)
->> histogram_measurement_result[16]: 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 229401
->>
->> Apparently the histogram is missing the last column (3-pixel wide,
->> though only single pixels count) and the last (same idea) row
->> of the input image: 1917 * 1077 / 3 / 3 =3D 229401
->
-> I don't quite understand this. With a sub-window width of
-> 1920 / 5 - 1 =3D 383, shouldn't the resulting total window width be
-> 383 * 5 =3D 1915? Same idea for the height.
-
-It would, but the stepsize =3D 3 makes it ignore only the last one
-- i.e., normally the counted ones are 0, 3, ... 1914, 1917 (which makes
-1920/3) and with 383, it ends at 1914, thus only 3 pixels (1 really,
-instead of 2) are missing from calculations (not 5). I guess the same
-vertically, 1080 divides / 3 and 1075 doesn't.
-
-> The fix looks fine though. Although, I'm wondering if there's a reason
-> why there was a -1 in the first place. Does anybody know?
-
-There is slight chance it's different on some other SoC, but I would be
-surprised.
---=20
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+index f1c79f351ec8..5c76116fd565 100644
+--- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
++++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+@@ -19,6 +19,10 @@ module_param_named(force_pid_filter_usage, dvb_usb_force_pid_filter_usage,
+ MODULE_PARM_DESC(force_pid_filter_usage,
+ 		"force all DVB USB devices to use a PID filter, if any (default: 0)");
+ 
++static const struct i2c_adapter_quirks i2c_usb_quirks = {
++	.flags = I2C_AQ_NO_ZERO_LEN_READ,
++};
++
+ static int dvb_usbv2_download_firmware(struct dvb_usb_device *d,
+ 		const char *name)
+ {
+@@ -63,6 +67,7 @@ static int dvb_usbv2_i2c_init(struct dvb_usb_device *d)
+ 
+ 	strscpy(d->i2c_adap.name, d->name, sizeof(d->i2c_adap.name));
+ 	d->i2c_adap.algo = d->props->i2c_algo;
++	d->i2c_adap.quirks = &i2c_usb_quirks;
+ 	d->i2c_adap.dev.parent = &d->udev->dev;
+ 	i2c_set_adapdata(&d->i2c_adap, d);
+ 
 
