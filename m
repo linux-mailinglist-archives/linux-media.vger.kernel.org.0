@@ -1,226 +1,173 @@
-Return-Path: <linux-media+bounces-32857-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32858-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F002ABCEEC
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 08:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E652BABCEF8
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 08:06:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7EAD11B65D11
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 06:04:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 05A4A1B628DB
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 06:06:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEEFC25CC48;
-	Tue, 20 May 2025 06:03:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7F312571B9;
+	Tue, 20 May 2025 06:06:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y9je46LL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PMfinU2X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A02D25C805
-	for <linux-media@vger.kernel.org>; Tue, 20 May 2025 06:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605272571AE
+	for <linux-media@vger.kernel.org>; Tue, 20 May 2025 06:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747721006; cv=none; b=VdAYpqzsrx/lG6K0B0Adk93BmZHUuYYowVJcmkSEzdl0Jot6Tc4UxH5bjARJE0YycsXbfEa2tvWB3ZZ8KfHYPN1uZxDz3Pw9AVO0Q3AJQI9R+Egbd0M6GUxdNqKFPTWFzUvgmiezruC92UApjgro7ZWo3IACPNXTrk/Zto2jh/0=
+	t=1747721188; cv=none; b=ntGUcZM7sASoxIeRXZt4Ffo/5NMCVu0GlWrQNQFMgaJ7ALgYWMV1EIpZHBTxU+l38oFDqapya2LSRsxtF6TwetNBw+RID1vVX+LpEWq4eJwnMWIenoDwNenpnjmVkmEx1X5rKTo/hupjpJkpvxAlsHX62D7i+8odJrO8Sh5SuBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747721006; c=relaxed/simple;
-	bh=s5ZFlWa2MpdvYNmAn19sW48vqvwbzszHzHufPZ8IlvE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KeXdK2I2SZ6po/jknem0doNoM3AVt/924KDAlo/rCv34ylUp2drv+4g4DOK6sPW/6JHu2kud7gUm+vkQp6cua8GSl+v29EKtv3nEtu2pjwiOMluhQPNrgPuyNSJqmz4gdjmoRdmQ4uPSGnnxHKpMfj86ye3gB4GLVK2Qupf3lAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y9je46LL; arc=none smtp.client-ip=209.85.208.46
+	s=arc-20240116; t=1747721188; c=relaxed/simple;
+	bh=qe8n9yr/KVnjJYZeRg6hmqa/SikELRxG8dHd3eSVhZI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=jcsi8k3tU66AgiTADhKIx20z0+dDB1+Eq/VMaz0pOGwsBJZb19vu+lW4NZp7qNMsC8bs13Q6VRh69t47pqP40fITXVU6/d59VkNY+ZzpyYVlewR5fylp5IR+Y8SPH7EdiM5SUe8A0e4kZHzisUGN8tm5MNfqitZ612IMcdPbYGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PMfinU2X; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5faaa717cfbso898445a12.0
-        for <linux-media@vger.kernel.org>; Mon, 19 May 2025 23:03:24 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-601d91f36feso366926a12.3
+        for <linux-media@vger.kernel.org>; Mon, 19 May 2025 23:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747721003; x=1748325803; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GunpgoETVGf3K3HF59YPy781/KUyyc4hFczZi9N9xRw=;
-        b=Y9je46LLNnQXdbG7GCBaSwOXxuGl6ZS/bymKriIOQL3TflNf0zT73JntNhOoc8Qgo5
-         3GTGG8MIppdiPWRDTEFdE/Bbe9RINQZFywUu6ZDGSuoyWGNwPoep+nKZQLd6qfr4N8eT
-         TONcy13rfRk9QobZNqZtndAB8vupBiNnsTJoXTBxcuO5oDuKnwQRKFTlZzq67hIPsgN2
-         FxoMSaGswDEwJLV4eWycEzcOMDNYJf354UJ3FEf73LJCbjerD5FvENo+mW/9sj13C0TR
-         k0kPpKY0RGR6Qnti9bh/nu4PrQLrPXnq/vUaOQSzn0YTetNDkuyJ0iwDvIOKTTP3olQW
-         C1Mw==
+        d=linaro.org; s=google; t=1747721184; x=1748325984; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=H03K4o3BUXm9W7hTlzbRFAT1v6NSvYBisQhPrDY8gOQ=;
+        b=PMfinU2XOcRhTnsg1kTQyHyfpT0VAq2vtPeNV5eqqOo4XvWjS2YQDGRNvKVDkhxbDa
+         /QtKTpuwQ/6fVVcqM8zl84hDsGTnpOkitMr7V05zGW60lYtMvXjP45ZzgdCSLfCFkx6Y
+         TF62tH6RuFr2zG18c8sRfFaM+lqfhCk3O5zSQOS7aSRTya6ESRE5+47h9TGDeCzNxGKL
+         IKIToR8MDttgCVgOIvONXTYarVq+w2vwZXLqQL6IjuAPATq7Nzaq2NoseDFzINU2/DzY
+         7aZsglS9FU0G8zMmh39dz4OtYvfw46RR9YMIIIUwijEOYQcmVS9skZ0XzfE7/YOHp+OX
+         Wtng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747721003; x=1748325803;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GunpgoETVGf3K3HF59YPy781/KUyyc4hFczZi9N9xRw=;
-        b=caxeUbWxuXUN09PqjR5OUN4HedUWyKgDCLkM02WE/DVWoylamHGeGDxTd9K52E7XBV
-         dbOfcdOK3xqPCi25IfrjWzfcrbKf9zVl18GwXbKQPWCzHKoTUXc5qsc6izcdNxvP2wVd
-         DbU3jMeVvJu7/BFsW9Df4bA/qZvwYu6cydevDMYlRtsPz/O2aRce82FzKSzPHv9LA3fI
-         p8cej27LJlBWs2gcRfV3ogOJg4yX0LHtgyN+AirOUWlGgOgcgYw9L6ZzmQSwYni1qeK7
-         QDYq7YzwD2VEwBIHYVVyX+KOXtzljGPZHsOJeXUCaxJu/ePIdcIYpgGVw1Gy9Qejusaw
-         jB+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUxYC6WEdMJBXf0aID3AD1RDdjpeHYJA9hMuBY/ZFYLcaCfpofm3uUoVjjkEYa+YpQgWM1OFTP9coLPug==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0HTbu9aQYPY+so+9KQ9WeSoli7MDfvYHzXf9/16kAowS9I40G
-	ay9+KVLvnHGWfOj40YIaTQ8dmR8fD43vRkMyPqNzpMIq57wgZLLBp9AqpNWLzycphe8=
-X-Gm-Gg: ASbGnctvm1MhmGHkkIlQgK5NaGE/JMCADGp28vsAi6FXG+DvjJZmL7YmBBQBN7gBYRW
-	6f+VHgrjQqziva+W0f5fnrbRaMrWUE4XCrfr1wcUNTm+eIlWGpXb7aHRMS2Agan7vemLjAOC1uc
-	Wjna0/q3GrfHxrEQHwaw48oepRugd0qg8C1ZLvRALiqxCOyTS8SzCnw7WSDOgCTic7+hmH45I68
-	SaQapIRPEAVVeKNWpLxABELIqsgXq7mAzYqkboeUTTLgGZH7mRUYinZBfMFQkNFIIDkuR04pQxT
-	ou/fh9KWvRvVKFpm3kA+Ef7bBnoUmX+wl4/QRo+mkyoaFsxhKbLXxKdO22+cOA==
-X-Google-Smtp-Source: AGHT+IHxcxUmDMY6HrZgZSsQpx9fvPtvfK/+uzfpHOMfp00cUxC0UaWFC598+1/y+YpvBHLB6GAKmA==
-X-Received: by 2002:a05:6402:254b:b0:5fe:c344:5ed1 with SMTP id 4fb4d7f45d1cf-6008a3a25aemr5183705a12.1.1747721002546;
-        Mon, 19 May 2025 23:03:22 -0700 (PDT)
-Received: from kuoka.. ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6005ac33a88sm6698710a12.51.2025.05.19.23.03.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 23:03:21 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 3/3] media: qcom: camss: csiphy: Stop spamming logs with version
-Date: Tue, 20 May 2025 08:03:13 +0200
-Message-ID: <20250520060310.7543-6-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250520060310.7543-4-krzysztof.kozlowski@linaro.org>
-References: <20250520060310.7543-4-krzysztof.kozlowski@linaro.org>
+        d=1e100.net; s=20230601; t=1747721185; x=1748325985;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H03K4o3BUXm9W7hTlzbRFAT1v6NSvYBisQhPrDY8gOQ=;
+        b=bSeSw/6D/GtYP8jBWtOhDT+QhUdcYLreWOzbITmz0XgYDoFMd9r8VE/QAx2WmV9y92
+         BEzYVYLR3cAYrAbxWXzUg2JaUqcphcbk5eBZPCUMMpCD0yIfeEA4sxVuJzvtKxepJZNb
+         yy9P93BP2HyaU4fHsNxO26etz3MhZlQ+bQ+ZTgREXerswGLxxW+wMLfwlkylodgGQLAk
+         pjl77KFSxNyOXbiAzxaBDzpM5GIpTbn8dfn/Nv5sD8QxpuAINJRvpp0oVbK9w1Z6S00Z
+         fv4HcFlZZDXr0njPYSzignXkQ44Ri65t9EOPRBeZq1l6rvBoz5rAOeeFsLpleIE8tGrW
+         UUzA==
+X-Forwarded-Encrypted: i=1; AJvYcCXN7hvXBYFXEe57UOvaFh5/BKXTQzCg8RI28waAqeZ/JbWhAA/8AElbXhulXWSucCDbZlU5h+ltriVHzg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxILIoE5/qiWQDfPcDlJ15NYorM6G6a5+lFatn31iP4oQJXoAFz
+	CbmmA9CrvInC2BnhGFsTe6JVxtEFYco0BZ+xMJqAgfvCtLuqALzrXAiZx33dSG8M4eI=
+X-Gm-Gg: ASbGncspMfUR67KNGaom88bjp6SMlSEdD38tZRF7wW3Lt7VusXcs9aJ+djRs72O0W6Y
+	OabbDqrcwaF8FafSe3q67XfuYHEFj9bWJx59WIdrUoPUV2QLqpUgbXc1XHDlf9JIOSIm1DmJ0rW
+	j/cBPDfju5A9WmCqGKSlTSagarV42TGFjj1udUUM/JMxx4pT4TWMEF/STOFsQI3me2LMoKrQnlw
+	VGoH01sVjK6OOL8xFk3uoo8G/fAIeiPP2wst1uV8n+6C1wi2YDxWNvLQJJl+v1NG2FSJHgTtNqr
+	aYJXaZwqBkhs2DezWdYBzzYSZIHUGvoj0NhWKnvuHwTklfv2tfRXCwzUU+MJExsJUJERBiZS553
+	SUle+ow==
+X-Google-Smtp-Source: AGHT+IErREImXkZaxZPD9c5bEjI6k02z9QlHLE+XJwiq21FXcDHZilxrUPaPqcafWlQVzP6Iz3U2jQ==
+X-Received: by 2002:a05:6402:27c9:b0:602:14f8:9a29 with SMTP id 4fb4d7f45d1cf-60214f89df6mr176328a12.2.1747721184593;
+        Mon, 19 May 2025 23:06:24 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6005ae3953esm6728582a12.73.2025.05.19.23.06.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 May 2025 23:06:23 -0700 (PDT)
+Message-ID: <ea9f570c-b135-4a98-91ea-ceeb2f48a0e5@linaro.org>
+Date: Tue, 20 May 2025 08:06:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4539; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=s5ZFlWa2MpdvYNmAn19sW48vqvwbzszHzHufPZ8IlvE=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoLBsjSlBwNYTLmWtVGQ9R3zgaEbN1PnfIYX9vt
- xKiK0S8372JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaCwbIwAKCRDBN2bmhouD
- 1wnSD/92zfJ7ofRfnAh3nDOWREUebPj6OL6stRO4TTMWC+ve0bwjvTL2xJclxfPP/vSNOweYBJR
- Qj4tn/LR1At9cViTF5wlCsYntFeAA0GK3CkTUDjhiR8BEgXX2W69+4kk0zyHvpaczvgfSh0+XJd
- K6s3c3e++0Lhvxl09Z/uW44CSY6i43yxsr5UKeESV99YBMR431H0ejF1C9PeVtFflUFMI7M1H09
- TJ3KvM5A58DCLAAyvVNcJDewWD8SNG1kOJYwJFJl/LfZ6O+JtYLPjZJ1qPqUm+a61XBot0YyvU1
- BpmPRdQqqZytWC8vU2aqzHApJmvgO6L8S9Ei8J84ClZiZiUF9SNW8ksCCRMGJhMrry9dmUXGU1s
- hVawP8+q6gngjmuvvSXo7kjdozH76XnDS4uiMPvmo0c6roBywe4YhGTZZgxjnEbHY6te93tyuCl
- dD3tMa/1w8V6mYlkOSjfgXgMhVlwmkkJKRH6Dc9cJGpGBpCnJ0+PRWUC+OStUN7tkE8ocHlsFmZ
- w9fN10FvAjaVLlLe8cYvJYSZ03u+knWXhZj1mVYw+0/yP5hu3hY5rdRI1DV1HmfJDaubNUtUh0P
- LLPdYFpdXCgnYdc8eJ02wZb8/mCOWHQwaRIMJAVuxqZ9Dl2pPJra3sMnjaB1jNsmSna9XM5eTHL 1xpRnqEA9GityVQ==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] media: qcom: camss: vfe: Stop spamming logs with
+ version
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Johan Hovold <johan@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250429180828.950219-4-krzysztof.kozlowski@linaro.org>
+ <aBHQejn_ksLyyUm1@hovoldconsulting.com>
+ <3e34ce09-1207-4dba-bff8-38c01cad9b78@linaro.org>
+ <4d942a6c-cbff-41ac-af8b-12a1ff5181aa@linaro.org>
+ <883eb54a-fcaf-443c-a4d7-e1278fd43f5a@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <883eb54a-fcaf-443c-a4d7-e1278fd43f5a@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Camss drivers spam kernel dmesg with 64 useless messages during boot:
+On 30/04/2025 10:33, Krzysztof Kozlowski wrote:
+> On 30/04/2025 10:30, Bryan O'Donoghue wrote:
+>> On 30/04/2025 09:19, Krzysztof Kozlowski wrote:
+>>> If anyone wants to know it and cannot deduce from compatible, then add
+>>> debugfs interface.
+>>
+>> dev_dbg(); isn't too offensive really IMO but if it really bothers you 
+>> switching to debugfs would be fine.
+> 
+> Yes, please. Dmesg should be only contain issues or some useful
+> debugging data. Probe success is not useful. It duplicates sysfs and
+> tracing. Version of hardware - well, I am sure it duplicates the compatible.
 
-  qcom-camss acb7000.isp: VFE:1 HW Version = 3.0.2
-  qcom-camss acb7000.isp: VFE:2 HW Version = 2.4.0
+To recall: kernel coding style is also clear here:
+"When drivers are working properly they are quiet,"
+and kernel debugging guide as well:
+"In almost all cases the debug statements shouldn't be upstreamed, as a
+working driver is supposed to be silent."
 
-All of these messages are the same, so it makes no sense to print same
-information 32 times.
+So I really do not get why this driver deserved exception. Nevertheless
+I think we agreed that these logs can go away, thus I just sent a v2
+with a bit extended commit msg.
 
-The driver does not use read version at all, so if it was needed for any
-real debugging purpose it would be provided via debugfs interface.
-However even then printing this is pointless, because version of
-hardware block is deducible from the compatible.  Fix the code to adhere
-to Linux kernel coding style: being silent on success.  For the same
-reasons this should not be even dbg message (see driver development
-debug guide: "In almost all cases the debug statements shouldn't be
-upstreamed").
-
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
----
-
-Changes in v2:
-1. Extend commit msg, because apparently coding style and debug guide
-   has to be reminded in commit msg, otherwise rules don't apply.
----
- .../qcom/camss/camss-csiphy-2ph-1-0.c         | 10 ---------
- .../qcom/camss/camss-csiphy-3ph-1-0.c         | 22 -------------------
- .../media/platform/qcom/camss/camss-csiphy.c  |  2 --
- 3 files changed, 34 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-index 9d67e7fa6366..09d3b21e222f 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-@@ -40,15 +40,6 @@ static u8 csiphy_get_lane_mask(struct csiphy_lanes_cfg *lane_cfg)
- 	return lane_mask;
- }
- 
--static void csiphy_hw_version_read(struct csiphy_device *csiphy,
--				   struct device *dev)
--{
--	u8 hw_version = readl_relaxed(csiphy->base +
--				      CAMSS_CSI_PHY_HW_VERSION);
--
--	dev_dbg(dev, "CSIPHY HW Version = 0x%02x\n", hw_version);
--}
--
- /*
-  * csiphy_reset - Perform software reset on CSIPHY module
-  * @csiphy: CSIPHY device
-@@ -187,7 +178,6 @@ static int csiphy_init(struct csiphy_device *csiphy)
- 
- const struct csiphy_hw_ops csiphy_ops_2ph_1_0 = {
- 	.get_lane_mask = csiphy_get_lane_mask,
--	.hw_version_read = csiphy_hw_version_read,
- 	.reset = csiphy_reset,
- 	.lanes_enable = csiphy_lanes_enable,
- 	.lanes_disable = csiphy_lanes_disable,
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index f732a76de93e..bc605931278b 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -541,27 +541,6 @@ csiphy_lane_regs lane_regs_x1e80100[] = {
- 	{0x0C64, 0x7F, 0x00, CSIPHY_SKEW_CAL},
- };
- 
--static void csiphy_hw_version_read(struct csiphy_device *csiphy,
--				   struct device *dev)
--{
--	struct csiphy_device_regs *regs = csiphy->regs;
--	u32 hw_version;
--
--	writel(CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_SHOW_REV_ID, csiphy->base +
--	       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 6));
--
--	hw_version = readl_relaxed(csiphy->base +
--				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 12));
--	hw_version |= readl_relaxed(csiphy->base +
--				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 13)) << 8;
--	hw_version |= readl_relaxed(csiphy->base +
--				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 14)) << 16;
--	hw_version |= readl_relaxed(csiphy->base +
--				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 15)) << 24;
--
--	dev_dbg(dev, "CSIPHY 3PH HW Version = 0x%08x\n", hw_version);
--}
--
- /*
-  * csiphy_reset - Perform software reset on CSIPHY module
-  * @csiphy: CSIPHY device
-@@ -858,7 +837,6 @@ static int csiphy_init(struct csiphy_device *csiphy)
- 
- const struct csiphy_hw_ops csiphy_ops_3ph_1_0 = {
- 	.get_lane_mask = csiphy_get_lane_mask,
--	.hw_version_read = csiphy_hw_version_read,
- 	.reset = csiphy_reset,
- 	.lanes_enable = csiphy_lanes_enable,
- 	.lanes_disable = csiphy_lanes_disable,
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index c622efcc92ff..111c3a52a6d1 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -243,8 +243,6 @@ static int csiphy_set_power(struct v4l2_subdev *sd, int on)
- 		enable_irq(csiphy->irq);
- 
- 		csiphy->res->hw_ops->reset(csiphy);
--
--		csiphy->res->hw_ops->hw_version_read(csiphy, dev);
- 	} else {
- 		disable_irq(csiphy->irq);
- 
--- 
-2.45.2
-
+Best regards,
+Krzysztof
 
