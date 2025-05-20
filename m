@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-32901-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32902-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C50ABD4AF
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 12:28:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA95BABD4B3
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 12:28:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC99B7B38F4
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 10:26:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E56FF8A6907
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 10:27:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3F5D26AA99;
-	Tue, 20 May 2025 10:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BD7526B2D3;
+	Tue, 20 May 2025 10:27:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B632690FA;
-	Tue, 20 May 2025 10:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A931221C19E;
+	Tue, 20 May 2025 10:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747736849; cv=none; b=Sf5qPGeAhBri/WXPFwVPY0nHVZGs4qMdUA2JjAfdk3kmzX0JAMRPBQPd+OBeFq84OTTT8AlbMe/mv5H5Q7d/RKKjjCFd8a2Osg15EH2ufzMUSNmUy4cQIHTSNZWQg6OdTOCmkg9PFBvkAjhgIi/+NWZEXtXcnYmzSRIlOlK6MbM=
+	t=1747736850; cv=none; b=fdY2+XgeIMFjg0hG189Wuu6/RIVmOFaKgmc/Jcsu3spe5V84dVgaVna/nFvX/bJK5lf5wiy9ltCcdW0rWRXLkIKd6GeIhA/4rjhgjTlBqgU6zCTCsplsYA2cS1Ltpfbn54+mpgHpd3Q2x9R3twx9hGRWD2djFg0R+s6/ISl65HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747736849; c=relaxed/simple;
-	bh=OAYwGvEWo5oe4fMHjy+qHLBlwJPN9jWuTWM4Fktkb8c=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YX8XWeb08IGlzL4imYc+/0yIxBUkG/Qp8cILAAy+Kq+NAKVD/gN73Hb+A5k9YQC99VrDyYgKTGNstcEalaCZaq2rkWc78eTAU18UJeJI+oCCfeqkhDqhMphOtbInpQiKkOi0uaMzGOE2f07Mzal83shGhywVcsQa9jZfJ8PLztw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1747736850; c=relaxed/simple;
+	bh=+o7PLRyztiUT3BBNzHkyk2aF/xJ7+yHZvJb5sT+D7T4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=XxQaphcCV/nRabGcp69VnlCS0dwxcWduBPGNJRtLoadSaKgjtHNBZuKLJDNvFHjaAHT21goI+VHe7vIB/lj/X7qsp8X48OEMtjmWsGV4i+52SGEEyqgek0+Jkya/cW0A3CtsEX1DZpy7DloXqb80cIvVLaseBtKqIEQN7gadhjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so56763955e9.1;
-        Tue, 20 May 2025 03:27:26 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so60006145e9.2;
+        Tue, 20 May 2025 03:27:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747736845; x=1748341645;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oTqGUV4ksLYBe+HeSSbW60q/1vjC74ZoYzWhywmrigI=;
-        b=m9PcBuGP88DxAGQ5if+ZMpVWc1M9T96yVI1UjxvhSVFfHPCSrdSDxlC4+bVdHquNls
-         aRlVdVZZQjrqnTalsni44f4Fr2bl7o8tJJZceYHQ4TeakjEvShIpQKjDT5AdXmEmEO1A
-         Gafv3cDEkdA/S4iiCDExSiNIDazKcI3iSnzoasABKpo6I/jGZdYZ+16NNE5M2+ZtmJrY
-         l0LpxG6BtWCWvo/ILrUwwcbJ63rToUCFWwMfEOEOe6ZQL7ib/EQ4C4iY9yyCaGrpX3xS
-         /i/dh2+q41crPyU1MAp1NBNK12zH7cOqCLEmy02MIcljA9D1i/z9LYYQqGr8UfXCu2mO
-         vWgw==
-X-Forwarded-Encrypted: i=1; AJvYcCU39YR7fjqaVLiPJ2/8hr4N8KlfofwpxNULBGFBzt+w1HTbA4nJ8+ubOKjGRxFkgI8SCbPHuZ4BskROv+k=@vger.kernel.org, AJvYcCUyFKbmi8sTtc3GWaQ4epxriSElSGrW/nR39swnMDNiyVSY8asB3qSXT2/qgGmfpYdThVwWaPoWyBk=@vger.kernel.org, AJvYcCWun4dFYRBaDg0D0cygV3THRHY12ZdwFHVXuMR5trsqZbypK0nYcFA08Ji9O/2rW8xIxRzSb/d0lsYS4hiU@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLaB4reIwvO6E8I3Z/4iy31AHB8ulUXCaX/mcI3WkvzQ4lb1KD
-	dWDt0BSIawn/6dpDi9CqzjS/kvGqNEFFh2yrlmU+N0y79Reyo+roKIQFNuAzL494
-X-Gm-Gg: ASbGncv+M/eTVmf9fj5a/pSeswSuKz/DP7F5DTMJvbienWkQDOKFlKaWRPmHH2l5ekC
-	uIMDoZ5p14kxOw6bwFjml+BsiZ2/HSaxDjqG7YY46jaeLnxYCAZGl72uSwtHDfgXpDk/uUMFr4C
-	jKitpo9uwigCuSH2fgo56FdxJFJOpNLj7vMPlhinyM5BQZlyEWUZ/4hqzkhdYOqj7M+dsy58nUr
-	Vag1QML0XbfaXXm1iiSHnzrGQ41rMdWTuIn0U89xW2gao6dOWrRLw2hkwuwAJOWfskhERrcOPmW
-	Dt25UxNwpA/okfzyJ3Mwszwrr73iF8ju9kMmDXsOZSY8GBZFVWK4G5gGmWlzr5Sv3n9VNyKre0e
-	yLMBVTyVY0g==
-X-Google-Smtp-Source: AGHT+IGQIlUJcRyY3tl7EezqGJ1tIgqTCFM3lHfZujGm8AzrqDj+5VJitvVUKwA4G018r4RFcqgl6Q==
-X-Received: by 2002:a05:600c:6748:b0:442:e011:7eb with SMTP id 5b1f17b1804b1-442fd671befmr186270545e9.30.1747736845139;
-        Tue, 20 May 2025 03:27:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747736847; x=1748341647;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PXhoVUi0+m1gZCgJKohaV7IW2GiBpameMIg/gICe73c=;
+        b=P2979p6PY+Yt3bpWBulL3VUOJClD5zN4uQEmlI/4cAxFiT3zSngxQBZYeMYZwHlrlK
+         Az13vIbUet13rBfb9EvOGLXmhVzGupdGOcbHGcBz9ETjaLKHpPwqLNfg+GwtI8NO5low
+         WfQmeTQlCw6fVU0FU4j9/f8+y73mBdQInnBNNRv/PfrqAbFGgd+UJjqmyAA1ZZfWA6HF
+         F9MVhSAxycr1syjrUUrUZaQh7/5s13GLXkOa6gcK69m//VyzjyY5xSEqzyr3EJQ0yS10
+         TvkAo7byzXcasBaUJaFEBEzROSwNB3W/fQHmB4+za+Xx7itld0jcDR53FODrHSaIS0jo
+         FpOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBF8xW3DOI45vRq8V2P9gwLi7uZqH+mUmcSuHpusa0/JTeMJCs1qDTv6ZScM8sg7LsH8M+WRuKQN6a5vk=@vger.kernel.org, AJvYcCUJldLwMFVyHrjdhPDq7nr7fWcgrk0X8fc0zOcQBTtXLWJZm4LAGsvRUS8xHEMmaqHtidUZ/DMMZaI=@vger.kernel.org, AJvYcCVBU1s+vEiIDz++zmMZc4Dxly5cy3g9MzwTYDmmIdxhafd00NDAoZt9HOIL+OuAM4cm+rczYCEKqQIBb1Nj@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGW78INRKYnSKDeQ2pEIekMe8azF+6+lSq14hlJ3PSTdgcPolc
+	nrbbN5zl+jVbbHVxpgpFkBTljD8X5M8GcTzBaJKbTKmi1rjxSFhJLDIkXjTKe/cj
+X-Gm-Gg: ASbGncty4d/D42zbMneRkpHihlg25esKBbe3/0UoWPxdQ3gPK4+qg2J3cp7lW7KglIA
+	U15115X8Uzk4edvI99xE2m64xPi8pGVrAtEhEiP1GcnQfdKEnOtP0DFMsVimCgA8IELAVq3A2pi
+	q9CVtD2u4Fs8hrchdIo+pFK9abdW2U2tAnYb5quUjrYUGv1dffQV2gngioS6cT2L3qHQFN7Zp2C
+	ibm19aotZ1tqXYUvCl8T2QWZDO4qRYuJhStJg2nfnnVTTIb9Wr84hodS6phxuvueRiQ1v14r0Xs
+	v70v1tcR7B5mn1IOIhb8kqTYAHgKLnc7tp5UmbBNtCRhM8q7oHtX9leGVQ6zL8z2y8vIH0Z4Isu
+	zHLFwBAijng==
+X-Google-Smtp-Source: AGHT+IHv94G5hkxtUwn1EnqN1XVOVVJksOTAOYoYtlVyJF0D9UTpIdTOo1WTTeXt5HNCSsUqmuSgjw==
+X-Received: by 2002:a05:600c:1d8d:b0:43c:f44c:72a6 with SMTP id 5b1f17b1804b1-442fd60a41cmr168843945e9.2.1747736846693;
+        Tue, 20 May 2025 03:27:26 -0700 (PDT)
 Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f73d3defsm24680025e9.18.2025.05.20.03.27.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f73d3defsm24680025e9.18.2025.05.20.03.27.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 03:27:24 -0700 (PDT)
+        Tue, 20 May 2025 03:27:26 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: [PATCH v5 00/10] New DRM accel driver for Rockchip's RKNN NPU
-Date: Tue, 20 May 2025 12:26:53 +0200
-Message-Id: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+Date: Tue, 20 May 2025 12:26:54 +0200
+Subject: [PATCH v5 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,11 +70,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAO5YLGgC/23O0QrCIBgF4FcJrzN+nVrrqveILpz+lkQzdEk19
- u65IGq0y3PgfJyeJIweE9kuehIx++RDW4JcLog56faI1NuSCQcuQDFOFWVAYzBn7GhdMWXRGSb
- MmpTFNaLz97e2P5R88qkL8fHGMxvbeSczChQUoNggai5h14UL3rJ/hhRWLXZk1DL/CBI4l1OBF
- 8EK2xinxz9sXqi+gmRqKlRFWJdam7rotpkXxK9QTwUxflDWOdUIAxr/hWEYXhZ3XKNyAQAA
-X-Change-ID: 20240612-6-10-rocket-9316defc14c7
+Message-Id: <20250520-6-10-rocket-v5-1-18c9ca0fcb3c@tomeuvizoso.net>
+References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+In-Reply-To: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
  Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
@@ -93,85 +91,191 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Tomeu Vizoso <tomeu@tomeuvizoso.net>
 X-Mailer: b4 0.14.2
 
-This series adds a new driver for the NPU that Rockchip includes in its
-newer SoCs, developed by them on the NVDLA base.
+Add the bindings for the Neural Processing Unit IP from Rockchip.
 
-In its current form, it supports the specific NPU in the RK3588 SoC.
+v2:
+- Adapt to new node structure (one node per core, each with its own
+  IOMMU)
+- Several misc. fixes from Sebastian Reichel
 
-The userspace driver is part of Mesa and an initial draft can be found at:
+v3:
+- Split register block in its constituent subblocks, and only require
+  the ones that the kernel would ever use (Nicolas Frattaroli)
+- Group supplies (Rob Herring)
+- Explain the way in which the top core is special (Rob Herring)
 
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
+v4:
+- Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
+- Remove unneeded items: (Krzysztof Kozlowski)
+- Fix use of minItems/maxItems (Krzysztof Kozlowski)
+- Add reg-names to list of required properties (Krzysztof Kozlowski)
+- Fix example (Krzysztof Kozlowski)
 
+v5:
+- Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
+- Streamline compatible property (Krzysztof Kozlowski)
+
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
-Changes in v5:
-- Use bulk clk API
-- Rename bindings file
-- Syntax improvement to bindings
-- Link to v4: https://lore.kernel.org/r/20250519-6-10-rocket-v4-0-d6dff6b4c0ae@tomeuvizoso.net
+ .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 147 +++++++++++++++++++++
+ 1 file changed, 147 insertions(+)
 
-Changes in v4:
-- Several fixes to DT bindings.
-- Link to v3: https://lore.kernel.org/r/20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net
+diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..9eb426367afcbc03c387d43c4b8250cdd1b9ee86
+--- /dev/null
++++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
+@@ -0,0 +1,147 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Neural Processing Unit IP from Rockchip
++
++maintainers:
++  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
++
++description:
++  Rockchip IP for accelerating inference of neural networks, based on NVIDIA's
++  open source NVDLA IP.
++
++  There is to be a node per each core in the NPU. In Rockchip's design there
++  will be one core that is special and needs to be powered on before any of the
++  other cores can be used. This special core is called the top core and should
++  have the compatible string that corresponds to top cores.
++
++properties:
++  $nodename:
++    pattern: '^npu@[a-f0-9]+$'
++
++  compatible:
++    enum:
++      - rockchip,rk3588-rknn-core-top
++      - rockchip,rk3588-rknn-core
++
++  reg:
++    maxItems: 3
++
++  reg-names:
++    items:
++      - const: pc
++      - const: cna
++      - const: core
++
++  clocks:
++    minItems: 2
++    maxItems: 4
++
++  clock-names:
++    items:
++      - const: aclk
++      - const: hclk
++      - const: npu
++      - const: pclk
++    minItems: 2
++
++  interrupts:
++    maxItems: 1
++
++  iommus:
++    maxItems: 1
++
++  npu-supply: true
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 2
++
++  reset-names:
++    items:
++      - const: srst_a
++      - const: srst_h
++
++  sram-supply: true
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++  - interrupts
++  - iommus
++  - power-domains
++  - resets
++  - reset-names
++  - npu-supply
++  - sram-supply
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - rockchip,rknn-core-top
++    then:
++      properties:
++        clocks:
++          minItems: 4
++
++        clock-names:
++          minItems: 4
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - rockchip,rknn-core
++    then:
++      properties:
++        clocks:
++          maxItems: 2
++        clock-names:
++          maxItems: 2
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/rk3588-power.h>
++    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
++
++    bus {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      npu@fdab0000 {
++        compatible = "rockchip,rk3588-rknn-core-top";
++        reg = <0x0 0xfdab0000 0x0 0x1000>,
++              <0x0 0xfdab1000 0x0 0x1000>,
++              <0x0 0xfdab3000 0x0 0x1000>;
++        reg-names = "pc", "cna", "core";
++        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
++        assigned-clock-rates = <200000000>;
++        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
++                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
++        clock-names = "aclk", "hclk", "npu", "pclk";
++        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
++        iommus = <&rknn_mmu_top>;
++        npu-supply = <&vdd_npu_s0>;
++        power-domains = <&power RK3588_PD_NPUTOP>;
++        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
++        reset-names = "srst_a", "srst_h";
++        sram-supply = <&vdd_npu_mem_s0>;
++      };
++    };
++...
 
-Changes in v3:
-- Reference in the device tree only the register blocks that are
-  actually used.
-- Several style and robustness fixes suggested in the mailing list.
-- Added patches from Nicolas Frattaroli that add support to the NPU for
-  the Rock 5B board.
-- Link to v2: https://lore.kernel.org/r/20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net
-
-Changes in v2:
-- Drop patch adding the rk3588 compatible to rockchip-iommu (Sebastian Reichel)
-- Drop patch adding support for multiple power domains to rockchip-iommu (Sebastian Reichel)
-- Link to v1: https://lore.kernel.org/r/20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net
-
----
-Nicolas Frattaroli (2):
-      arm64: dts: rockchip: add pd_npu label for RK3588 power domains
-      arm64: dts: rockchip: enable NPU on ROCK 5B
-
-Tomeu Vizoso (8):
-      dt-bindings: npu: rockchip,rknn: Add bindings
-      arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588s
-      arm64: dts: rockchip: Enable the NPU on quartzpro64
-      accel/rocket: Add registers header
-      accel/rocket: Add a new driver for Rockchip's NPU
-      accel/rocket: Add IOCTL for BO creation
-      accel/rocket: Add job submission IOCTL
-      accel/rocket: Add IOCTLs for synchronizing memory accesses
-
- Documentation/accel/index.rst                      |    1 +
- Documentation/accel/rocket/index.rst               |   25 +
- .../bindings/npu/rockchip,rk3588-rknn-core.yaml    |  147 +
- MAINTAINERS                                        |   10 +
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi      |   87 +-
- .../arm64/boot/dts/rockchip/rk3588-quartzpro64.dts |   30 +
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts    |   56 +
- drivers/accel/Kconfig                              |    1 +
- drivers/accel/Makefile                             |    1 +
- drivers/accel/rocket/Kconfig                       |   25 +
- drivers/accel/rocket/Makefile                      |   10 +
- drivers/accel/rocket/rocket_core.c                 |   80 +
- drivers/accel/rocket/rocket_core.h                 |   59 +
- drivers/accel/rocket/rocket_device.c               |   36 +
- drivers/accel/rocket/rocket_device.h               |   31 +
- drivers/accel/rocket/rocket_drv.c                  |  316 ++
- drivers/accel/rocket/rocket_drv.h                  |   17 +
- drivers/accel/rocket/rocket_gem.c                  |  211 +
- drivers/accel/rocket/rocket_gem.h                  |   31 +
- drivers/accel/rocket/rocket_job.c                  |  723 ++++
- drivers/accel/rocket/rocket_job.h                  |   50 +
- drivers/accel/rocket/rocket_registers.h            | 4425 ++++++++++++++++++++
- include/uapi/drm/rocket_accel.h                    |  145 +
- 23 files changed, 6516 insertions(+), 1 deletion(-)
----
-base-commit: a6d708809579ed3d902465785666085ff07a1d7c
-change-id: 20240612-6-10-rocket-9316defc14c7
-
-Best regards,
 -- 
-Tomeu Vizoso <tomeu@tomeuvizoso.net>
+2.49.0
 
 
