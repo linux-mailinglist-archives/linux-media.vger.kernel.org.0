@@ -1,580 +1,194 @@
-Return-Path: <linux-media+bounces-32927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32938-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55308ABDEB0
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 17:20:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F899ABDF4B
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 17:40:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1FBB8C0A15
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 15:19:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 144227A7CB4
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 15:38:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBFD225D1F1;
-	Tue, 20 May 2025 15:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E03292571D7;
+	Tue, 20 May 2025 15:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QtzJzhXX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ggqk1DuP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E62220C473;
-	Tue, 20 May 2025 15:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F061FFC54
+	for <linux-media@vger.kernel.org>; Tue, 20 May 2025 15:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747754392; cv=none; b=lpxxmTUYQKjutTPbDTZn9QjvOeE5DeCXbveYtY2cflxLr9FgeFIZXNKjo6Ub2X8Kx3d2/vs7Bc003TUZpbkEPTFlL5aydlll/YPnb9gRnNp/d+eFjnqm7iSY0qoxaH4ezq8t7VgvFZuHvE4gLhajY6Z3Qz+t9Q8z/fZuXb06YOI=
+	t=1747755588; cv=none; b=ftlGdEY+3Xs6KnZmj71oWYXAc7u8VtD16jdwJ0XVNLgCOdv33feGKJN10/w+HA2zPDJ9mi0mquwD9+ynUlcoU+B9Sdw+uERcKMlV+ec79bQehiF1b5u0oAi0yT8vMwRyu1iTd+mOvTCkM/jc/EKKXfmODR/VFy9M72IjnBwUyVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747754392; c=relaxed/simple;
-	bh=sUWxgvc+AjITJw3hKk9+9ZMP5GHy5C9rYAKp8xc6kJU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=i/Xs3/qRaxRReZeY5f6rSN3mkZFxeMr7LIe2GTxf+te4IZ9EnugYBdtmAFX5zijTjec15lCKwLmjiH58wT9MScxXAnpK6Ipri7C7EKO0zEkMJLcjij29wO5byI7zMoGJ11E9t9RX5QV9Pxp5yvyq9usOlUssTHqS7NYKB67J3jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QtzJzhXX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E01C4CEE9;
-	Tue, 20 May 2025 15:19:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747754391;
-	bh=sUWxgvc+AjITJw3hKk9+9ZMP5GHy5C9rYAKp8xc6kJU=;
-	h=From:Date:Subject:To:Cc:From;
-	b=QtzJzhXXyZ3eM7AADdaGHIQF5vECZcBL1mrwkuHhRRfGJZbUFrG6PpvSXPANCYvNK
-	 mSwLNOaouWDZlEeA+E0dPG5HBmmlXbEIf2Htpq19jM6+kWNv33xt+8wO9PcOglP9tl
-	 smEWsrFoZ5fXMWGBAITuaFWPyuBb46uAJ5UFd5OaGDrhir34R2U76WLMIwmrrnS6v8
-	 zPMRg7Q4TibA2oeLZ0poP3ase/h3yBoa5gUSX4jC8SmHvzYTQUN6QWzwMl1N81BkKX
-	 umWsixXTQG44h6/CvL443yBIOqfNrOxBSjeRaioOd9ghq5BGZMpvMdYXcb+LZeBNQE
-	 F5DQZPTkZf6Ww==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 20 May 2025 17:19:46 +0200
-Subject: [PATCH v4] dma-buf: heaps: Introduce a new heap for reserved
- memory
+	s=arc-20240116; t=1747755588; c=relaxed/simple;
+	bh=s0LZ88Jtpzw+p4OyLOBjqCyG6m9rqkNIcq7ugHYKE+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KbH4zXqYG2rE7+QJ/7uPLrD5EjkryqBjNbVw7wxNEDn3KZYj3p9ejhdgxiR/1gjpKKDFmq2qqKrWzc/ZQmaHeQ26SDMXx0X1CZvwowOvY4Mo6o23zc91Ovg6aTzbXLiEACcWqmaHRchP/qJQrNvG1FMeWaac6EWWfbDKnpM0nNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ggqk1DuP; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6C7B74C;
+	Tue, 20 May 2025 17:39:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747755563;
+	bh=s0LZ88Jtpzw+p4OyLOBjqCyG6m9rqkNIcq7ugHYKE+o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ggqk1DuPZ73lzSe1XqNM7wvqBhYp986GCKj9COQObYgP53KV/Kpp4luustBKI3gey
+	 IqMsSqPMBJjqmgPJ2xKBJM5/eLqJI/895EkGKnD1ieNTcQiC6ihLqI2kysmuLtpshZ
+	 DMWvvImyDI5n6GLjDdQmhc9vTzIfR7g/nZDvQT8s=
+Date: Tue, 20 May 2025 17:39:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl
+Subject: Re: [RFC 1/1] media: mc: Add "kaboom" module parameter
+Message-ID: <20250520153938.GE8070@pendragon.ideasonboard.com>
+References: <20250519113809.296083-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-dma-buf-ecc-heap-v4-1-bd2e1f1bb42c@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAJGdLGgC/33NTQrCMBCG4auUrI3M5KdaV95DXKTJxAa1LakWp
- fTupgVBsbh8P5hnBtZRDNSxXTawSH3oQlOnUKuM2crUJ+LBpWYChAKNmrur4eXdc7KWV2RaLrZ
- GIjphC0UsnbWRfHjM5OGYugrdrYnP+UOP0/oH65ED18qWpQNVaMT9mWJNl3UTT2zSevEWNCjAB
- UEkAZT0DiA3aPyPID+FzYIgk1BsrHMyN9qL4ksYx/EFzFDmRTUBAAA=
-X-Change-ID: 20240515-dma-buf-ecc-heap-28a311d2c94e
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Andrew Davis <afd@ti.com>, 
- Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13989; i=mripard@kernel.org;
- h=from:subject:message-id; bh=sUWxgvc+AjITJw3hKk9+9ZMP5GHy5C9rYAKp8xc6kJU=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBk6c6c4dwWvVXBefUnHT+Dx/jNLg9bdUYvZmnPp68IED
- +cNfzbs7ZjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATebaOseFkj0J3Fv8exbSw
- /B9hE/QNXzFlcXJyHS2pf6kSPvWxfeZf9idVN3smu1966RRV0BAzj7GhJ+z+L4ZJonu8f7y1+R2
- htYqjgKk5Il8h9ln3nz3iBU2GqieL/ZSWxAhOlDl/oy2o5h4A
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250519113809.296083-1-sakari.ailus@linux.intel.com>
 
-Some reserved memory regions might have particular memory setup or
-attributes that make them good candidates for heaps.
+Hi Sakari,
 
-Let's provide a heap type that will create a new heap for each reserved
-memory region flagged as such.
+Thank you for the patch.
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-Hi,
+On Mon, May 19, 2025 at 02:38:09PM +0300, Sakari Ailus wrote:
+> Add "kaboom" module parameter for the "mc" module. Setting "kaboom" to a
+> non-zero value will delay calling media device IOCTLs by 5 s and if the
+> media device is unregistered and released during this time, NULL pointer
+> is dereferenced and at least a kernel oops will happen:
 
-This series is the follow-up of the discussion that John and I had some
-time ago here:
+This is useful for debugging, but do we really want to merge it in
+mainline ? Can't this patch be carried out-of-tree ?
 
-https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDHHqqyrroCMQ@mail.gmail.com/
+> 
+> [   63.754666] vim2m vim2m.0: Removing vim2m
+> [   63.754681] vim2m vim2m.0: media_gobj_destroy id 13: interface link id 12 ==> id 1
+> [   63.755611] vim2m vim2m.0: media_gobj_destroy id 9: data link id 2 ==> id 4
+> [   63.755618] vim2m vim2m.0: media_gobj_destroy id 8: data link id 2 ==> id 4
+> [   63.755622] vim2m vim2m.0: media_gobj_destroy id 2: source pad 'vim2m-source':0
+> [   63.755628] vim2m vim2m.0: media_gobj_destroy id 1: entity 'vim2m-source'
+> [   63.755633] vim2m vim2m.0: media_gobj_destroy id 11: data link id 5 ==> id 7
+> [   63.755637] vim2m vim2m.0: media_gobj_destroy id 10: data link id 5 ==> id 7
+> [   63.755641] vim2m vim2m.0: media_gobj_destroy id 4: sink pad 'vim2m-proc':0
+> [   63.755646] vim2m vim2m.0: media_gobj_destroy id 5: source pad 'vim2m-proc':1
+> [   63.755650] vim2m vim2m.0: media_gobj_destroy id 3: entity 'vim2m-proc'
+> [   63.755654] vim2m vim2m.0: media_gobj_destroy id 14: interface link id 12 ==> id 6
+> [   63.755659] vim2m vim2m.0: media_gobj_destroy id 7: sink pad 'vim2m-sink':0
+> [   63.755663] vim2m vim2m.0: media_gobj_destroy id 6: entity 'vim2m-sink'
+> [   63.755666] vim2m vim2m.0: media_gobj_destroy id 12: intf_devnode v4l-video - major: 81, minor: 0
+> [   63.755672] vim2m vim2m.0: Media device unregistered
+> [   68.105679] BUG: kernel NULL pointer dereference, address: 0000000000000000
+> [   68.107196] #PF: supervisor read access in kernel mode
+> [   68.108317] #PF: error_code(0x0000) - not-present page
+> [   68.109396] PGD 0 P4D 0
+> [   68.109596] Oops: Oops: 0000 [#1] SMP PTI
+> [   68.109596] CPU: 0 UID: 1000 PID: 957 Comm: media-ctl Tainted: G            E       6.15.0-rc1+ #20 PREEMPT(voluntary)
+> [   68.109596] Tainted: [E]=UNSIGNED_MODULE
+> [   68.109596] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+> [   68.109596] RIP: 0010:media_device_cleanup+0x20f/0xc00 [mc]
+> [   68.109596] Code: 00 00 00 89 43 7c 31 c0 5b 41 5c 41 5d 41 5e 5d 31 d2 31 c9 31 f6 31 ff c3 cc cc cc cc 49 8b 04 24 be 10 00 00 00 48 8b 40 68 <4c> 8b 28 4c 89 ef e8 f6 29 ca c3 48 89 c2 48 83 f8 ff 0f 85 e8 fe
+> [   68.109596] RSP: 0018:ffffb4efc0a6bd58 EFLAGS: 00010246
+> [   68.109596] RAX: 0000000000000000 RBX: ffffb4efc0a6bda0 RCX: 0000000000000000
+> [   68.109596] RDX: ffffffffc08244e0 RSI: 0000000000000010 RDI: ffffb4efc0a6bea0
+> [   68.109596] RBP: ffffb4efc0a6bd78 R08: ffff99a84a7f7e10 R09: 0000000000000000
+> [   68.109596] R10: 0000000000000000 R11: 0000000000000000 R12: ffff99a84a7f7cf8
+> [   68.109596] R13: 0000000000000000 R14: ffffb4efc0a6bda0 R15: ffff99a84a7f7cf8
+> [   68.109596] FS:  00007f5ceb8a4bc0(0000) GS:ffff99a9f24f3000(0000) knlGS:0000000000000000
+> [   68.109596] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   68.109596] CR2: 0000000000000000 CR3: 00000001108d2000 CR4: 00000000000006f0
+> [   68.109596] Call Trace:
+> [   68.109596]  <TASK>
+> [   68.109596]  media_device_cleanup+0x536/0xc00 [mc]
+> [   68.109596]  __media_device_usb_init+0x8ff/0xc00 [mc]
+> [   68.109596]  __x64_sys_ioctl+0xa7/0xe0
+> [   68.109596]  x64_sys_call+0xb40/0x2550
+> [   68.109596]  do_syscall_64+0x70/0x140
+> [   68.109596]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [   68.109596] RIP: 0033:0x7f5ceb9be8db
+> [   68.109596] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+> [   68.109596] RSP: 002b:00007ffdacd35bd0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> [   68.109596] RAX: ffffffffffffffda RBX: 000056536edc42a0 RCX: 00007f5ceb9be8db
+> [   68.109596] RDX: 000056536edc42b0 RSI: 00000000c1007c00 RDI: 0000000000000003
+> [   68.109596] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+> [   68.109596] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> [   68.109596] R13: 00007ffdacd35f10 R14: 00007f5cebb3d000 R15: 0000565362627d78
+> [   68.109596]  </TASK>
+> [   68.109596] Modules linked in: snd_seq_dummy(E) snd_hrtimer(E) snd_seq(E) snd_seq_device(E) sunrpc(E) vim2m(E) v4l2_mem2mem(E) videobuf2_vmalloc(E) videobuf2_memops(E) videobuf2_v4l2(E) videobuf2_common(E) videodev(E) mc(E) qrtr(E) binfmt_misc(E) snd_pcm(E) snd_timer(E) snd(E) soundcore(E) pcspkr(E) e1000(E) i2c_piix4(E) pata_acpi(E) i2c_smbus(E) joydev(E) sch_fq_codel(E) efi_pstore(E) drm(E) nfnetlink(E) vsock_loopback(E) vmw_vsock_virtio_transport_common(E) vmw_vsock_vmci_transport(E) vsock(E) vmw_vmci(E) dmi_sysfs(E) qemu_fw_cfg(E) ip_tables(E) x_tables(E) autofs4(E) input_leds(E) psmouse(E) serio_raw(E) virtio_blk(E) mac_hid(E)
+> [   68.109596] CR2: 0000000000000000
+> [   68.121045] ---[ end trace 0000000000000000 ]---
+> [   68.121203] RIP: 0010:media_device_cleanup+0x20f/0xc00 [mc]
+> [   68.121391] Code: 00 00 00 89 43 7c 31 c0 5b 41 5c 41 5d 41 5e 5d 31 d2 31 c9 31 f6 31 ff c3 cc cc cc cc 49 8b 04 24 be 10 00 00 00 48 8b 40 68 <4c> 8b 28 4c 89 ef e8 f6 29 ca c3 48 89 c2 48 83 f8 ff 0f 85 e8 fe
+> [   68.123005] RSP: 0018:ffffb4efc0a6bd58 EFLAGS: 00010246
+> [   68.123191] RAX: 0000000000000000 RBX: ffffb4efc0a6bda0 RCX: 0000000000000000
+> [   68.123433] RDX: ffffffffc08244e0 RSI: 0000000000000010 RDI: ffffb4efc0a6bea0
+> [   68.123679] RBP: ffffb4efc0a6bd78 R08: ffff99a84a7f7e10 R09: 0000000000000000
+> [   68.123925] R10: 0000000000000000 R11: 0000000000000000 R12: ffff99a84a7f7cf8
+> [   68.124307] R13: 0000000000000000 R14: ffffb4efc0a6bda0 R15: ffff99a84a7f7cf8
+> [   68.124563] FS:  00007f5ceb8a4bc0(0000) GS:ffff99a9f24f3000(0000) knlGS:0000000000000000
+> [   68.124849] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   68.125055] CR2: 0000000000000000 CR3: 00000001108d2000 CR4: 00000000000006f0
+> [   68.125618] platform vim2m.0: Media device released
+> [   68.125997] mc: media_devnode_release: Media Devnode Deallocated
+> 
+> Without this patch the time window typically remains small but it is still
+> always there.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/mc/mc-device.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> index c0dd4ae57227..116065b0038a 100644
+> --- a/drivers/media/mc/mc-device.c
+> +++ b/drivers/media/mc/mc-device.c
+> @@ -9,10 +9,12 @@
+>   */
+>  
+>  #include <linux/compat.h>
+> +#include <linux/delay.h>
+>  #include <linux/export.h>
+>  #include <linux/idr.h>
+>  #include <linux/ioctl.h>
+>  #include <linux/media.h>
+> +#include <linux/module.h>
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+>  #include <linux/pci.h>
+> @@ -26,6 +28,9 @@
+>  
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  
+> +static unsigned int kaboom;
+> +module_param(kaboom, int, 0600);
+> +
+>  /*
+>   * Legacy defines from linux/media.h. This is the only place we need this
+>   * so we just define it here. The media.h header doesn't expose it to the
+> @@ -441,6 +446,9 @@ static long media_device_ioctl(struct file *filp, unsigned int cmd,
+>  	char __karg[256], *karg = __karg;
+>  	long ret;
+>  
+> +	if (kaboom)
+> +		msleep(5000);
+> +
+>  	if (_IOC_NR(cmd) >= ARRAY_SIZE(ioctl_info)
+>  	    || ioctl_info[_IOC_NR(cmd)].cmd != cmd)
+>  		return -ENOIOCTLCMD;
 
-The initial problem we were discussing was that I'm currently working on
-a platform which has a memory layout with ECC enabled. However, enabling
-the ECC has a number of drawbacks on that platform: lower performance,
-increased memory usage, etc. So for things like framebuffers, the
-trade-off isn't great and thus there's a memory region with ECC disabled
-to allocate from for such use cases.
-
-After a suggestion from John, I chose to first start using heap
-allocations flags to allow for userspace to ask for a particular ECC
-setup. This is then backed by a new heap type that runs from reserved
-memory chunks flagged as such, and the existing DT properties to specify
-the ECC properties.
-
-After further discussion, it was considered that flags were not the
-right solution, and relying on the names of the heaps would be enough to
-let userspace know the kind of buffer it deals with.
-
-Thus, even though the uAPI part of it has been dropped in this second
-version, we still need a driver to create heaps out of carved-out memory
-regions. In addition to the original usecase, a similar driver can be
-found in BSPs from most vendors, so I believe it would be a useful
-addition to the kernel.
-
-I submitted a draft PR to the DT schema for the bindings used in this
-PR:
-https://github.com/devicetree-org/dt-schema/pull/138
-
-Let me know what you think,
-Maxime
----
-Changes in v4:
-- Rebased on 6.15-rc7
-- Map buffers only when map is actually called, not at allocation time
-- Deal with restricted-dma-pool and shared-dma-pool
-- Reword Kconfig options
-- Properly report dma_map_sgtable failures
-- Link to v3: https://lore.kernel.org/r/20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org
-
-Changes in v3:
-- Reworked global variable patch
-- Link to v2: https://lore.kernel.org/r/20250401-dma-buf-ecc-heap-v2-0-043fd006a1af@kernel.org
-
-Changes in v2:
-- Add vmap/vunmap operations
-- Drop ECC flags uapi
-- Rebase on top of 6.14
-- Link to v1: https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org
----
- drivers/dma-buf/heaps/Kconfig         |   8 +
- drivers/dma-buf/heaps/Makefile        |   1 +
- drivers/dma-buf/heaps/carveout_heap.c | 388 ++++++++++++++++++++++++++++++++++
- 3 files changed, 397 insertions(+)
-
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..1ce4f6828d8c06bfdd7bc2e5127707f1778586e6 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -1,5 +1,13 @@
-+config DMABUF_HEAPS_CARVEOUT
-+	bool "DMA-BUF Carveout Heaps"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable the carveout dmabuf heap. The carveout
-+	  heap is backed by pages from reserved memory regions flagged as
-+	  exportable. If in doubt, say Y.
-+
- config DMABUF_HEAPS_SYSTEM
- 	bool "DMA-BUF System Heap"
- 	depends on DMABUF_HEAPS
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 974467791032ffb8a7aba17b1407d9a19b3f3b44..b734647ad5c84f449106748160258e372f153df2 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_DMABUF_HEAPS_CARVEOUT)	+= carveout_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heaps/carveout_heap.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..3fac190545bc6f853c18a614f6d89176ed2d7df6
---- /dev/null
-+++ b/drivers/dma-buf/heaps/carveout_heap.c
-@@ -0,0 +1,388 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+#include <linux/genalloc.h>
-+#include <linux/highmem.h>
-+#include <linux/of_reserved_mem.h>
-+
-+struct carveout_heap_priv {
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+};
-+
-+struct carveout_heap_buffer_priv {
-+	struct mutex lock;
-+	struct list_head attachments;
-+
-+	unsigned long num_pages;
-+	struct carveout_heap_priv *heap;
-+	phys_addr_t paddr;
-+	void *vaddr;
-+	unsigned int vmap_cnt;
-+};
-+
-+struct carveout_heap_attachment {
-+	struct list_head head;
-+	struct sg_table table;
-+
-+	struct device *dev;
-+	bool mapped;
-+};
-+
-+static int carveout_heap_attach(struct dma_buf *buf,
-+				struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = buf->priv;
-+	struct carveout_heap_attachment *a;
-+	struct sg_table *sgt;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+	int ret;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+	INIT_LIST_HEAD(&a->head);
-+	a->dev = attachment->dev;
-+	attachment->priv = a;
-+
-+	sgt = &a->table;
-+	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-+	if (ret)
-+		goto err_cleanup_attach;
-+
-+	sg_set_buf(sgt->sgl, priv->vaddr, len);
-+
-+	mutex_lock(&priv->lock);
-+	list_add(&a->head, &priv->attachments);
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+
-+err_cleanup_attach:
-+	kfree(a);
-+	return ret;
-+}
-+
-+static void carveout_heap_detach(struct dma_buf *dmabuf,
-+				 struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&priv->lock);
-+	list_del(&a->head);
-+	mutex_unlock(&priv->lock);
-+
-+	sg_free_table(&a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *
-+carveout_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+			  enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+	struct sg_table *table = &a->table;
-+	int ret;
-+
-+	ret = dma_map_sgtable(a->dev, table, direction, 0);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	a->mapped = true;
-+
-+	return table;
-+}
-+
-+static void carveout_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+					struct sg_table *table,
-+					enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	a->mapped = false;
-+	dma_unmap_sgtable(a->dev, table, direction, 0);
-+}
-+
-+static int
-+carveout_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-+				       enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt)
-+		invalidate_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int
-+carveout_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
-+				     enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt)
-+		flush_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int carveout_heap_mmap(struct dma_buf *dmabuf,
-+			      struct vm_area_struct *vma)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	return vm_iomap_memory(vma, priv->paddr, len);
-+}
-+
-+static int carveout_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (!priv->vmap_cnt) {
-+		void *vaddr = memremap(priv->paddr, len, MEMREMAP_WB);
-+
-+		if (!vaddr) {
-+			mutex_unlock(&priv->lock);
-+			return -ENOMEM;
-+		}
-+
-+		priv->vaddr = vaddr;
-+	}
-+
-+	WARN_ON(!priv->vaddr);
-+	iosys_map_set_vaddr(map, priv->vaddr);
-+	priv->vmap_cnt++;
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static void carveout_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+
-+	mutex_lock(&priv->lock);
-+
-+	priv->vmap_cnt--;
-+	if (!priv->vmap_cnt) {
-+		memunmap(priv->vaddr);
-+		priv->vaddr = NULL;
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	iosys_map_clear(map);
-+}
-+
-+static void carveout_heap_dma_buf_release(struct dma_buf *buf)
-+{
-+	struct carveout_heap_buffer_priv *buffer_priv = buf->priv;
-+	struct carveout_heap_priv *heap_priv = buffer_priv->heap;
-+	unsigned long len = buffer_priv->num_pages * PAGE_SIZE;
-+
-+	gen_pool_free(heap_priv->pool, buffer_priv->paddr, len);
-+	kfree(buffer_priv);
-+}
-+
-+static const struct dma_buf_ops carveout_heap_buf_ops = {
-+	.attach		= carveout_heap_attach,
-+	.detach		= carveout_heap_detach,
-+	.map_dma_buf	= carveout_heap_map_dma_buf,
-+	.unmap_dma_buf	= carveout_heap_unmap_dma_buf,
-+	.begin_cpu_access	= carveout_heap_dma_buf_begin_cpu_access,
-+	.end_cpu_access	= carveout_heap_dma_buf_end_cpu_access,
-+	.mmap		= carveout_heap_mmap,
-+	.vmap		= carveout_heap_vmap,
-+	.vunmap		= carveout_heap_vunmap,
-+	.release	= carveout_heap_dma_buf_release,
-+};
-+
-+static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
-+					      unsigned long len,
-+					      u32 fd_flags,
-+					      u64 heap_flags)
-+{
-+	struct carveout_heap_priv *heap_priv = dma_heap_get_drvdata(heap);
-+	struct carveout_heap_buffer_priv *buffer_priv;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	struct dma_buf *buf;
-+	phys_addr_t paddr;
-+	/* len is guaranteed to be page-aligned by the framework, so we can use it as is. */
-+	size_t size = len;
-+	int ret;
-+
-+	buffer_priv = kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
-+	if (!buffer_priv)
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_LIST_HEAD(&buffer_priv->attachments);
-+	mutex_init(&buffer_priv->lock);
-+
-+	paddr = gen_pool_alloc(heap_priv->pool, size);
-+	if (!paddr) {
-+		ret = -ENOMEM;
-+		goto err_free_buffer_priv;
-+	}
-+
-+	buffer_priv->paddr = paddr;
-+	buffer_priv->heap = heap_priv;
-+	buffer_priv->num_pages = size >> PAGE_SHIFT;
-+
-+	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
-+	exp_info.ops = &carveout_heap_buf_ops;
-+	exp_info.size = size;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer_priv;
-+
-+	buf = dma_buf_export(&exp_info);
-+	if (IS_ERR(buf)) {
-+		ret = PTR_ERR(buf);
-+		goto err_free_buffer;
-+	}
-+
-+	return buf;
-+
-+err_free_buffer:
-+	gen_pool_free(heap_priv->pool, paddr, len);
-+err_free_buffer_priv:
-+	kfree(buffer_priv);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+static const struct dma_heap_ops carveout_heap_ops = {
-+	.allocate = carveout_heap_allocate,
-+};
-+
-+static int __init carveout_heap_setup(struct device_node *node)
-+{
-+	struct dma_heap_export_info exp_info = {};
-+	const struct reserved_mem *rmem;
-+	struct carveout_heap_priv *priv;
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+	int ret;
-+
-+	rmem = of_reserved_mem_lookup(node);
-+	if (!rmem)
-+		return -EINVAL;
-+
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	pool = gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
-+	if (!pool) {
-+		ret = -ENOMEM;
-+		goto err_cleanup_heap;
-+	}
-+	priv->pool = pool;
-+
-+	ret = gen_pool_add(pool, rmem->base, rmem->size, NUMA_NO_NODE);
-+	if (ret)
-+		goto err_release_mem_region;
-+
-+	exp_info.name = node->full_name;
-+	exp_info.ops = &carveout_heap_ops;
-+	exp_info.priv = priv;
-+
-+	heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(heap)) {
-+		ret = PTR_ERR(heap);
-+		goto err_release_mem_region;
-+	}
-+	priv->heap = heap;
-+
-+	return 0;
-+
-+err_release_mem_region:
-+	gen_pool_destroy(pool);
-+err_cleanup_heap:
-+	kfree(priv);
-+	return ret;
-+}
-+
-+static int __init carveout_heap_init(void)
-+{
-+	struct device_node *rmem_node;
-+	struct device_node *node;
-+	int ret;
-+
-+	rmem_node = of_find_node_by_path("/reserved-memory");
-+	if (!rmem_node)
-+		return 0;
-+
-+	for_each_child_of_node(rmem_node, node) {
-+		/*
-+		 * TODO: shared-dma-pools register either a CMA or
-+		 * coherent memory region depending on whether the
-+		 * reusable property is set.
-+		 *
-+		 * In order to avoid issues, we would need to use the
-+		 * respective allocators if the shared-dma-pool property
-+		 * was set.
-+		 */
-+		if (of_device_is_compatible(node, "shared-dma-pool")) {
-+			pr_warn("%pOFn: carveout heap driver doesn't support shared-dma-pools.",
-+				node);
-+			continue;
-+		}
-+
-+		/*
-+		 * TODO: restricted-dma-pools register in swiotlb. In
-+		 * order to avoid issues, we would need to use the
-+		 * swiotlb if that compatible was set.
-+		 */
-+		if (of_device_is_compatible(node, "restricted-dma-pool")) {
-+			pr_warn("%pOFn: carveout heap driver doesn't support restricted-dma-pools.",
-+				node);
-+			continue;
-+		}
-+
-+		if (!of_property_read_bool(node, "export"))
-+			continue;
-+
-+		ret = carveout_heap_setup(node);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+module_init(carveout_heap_init);
-
----
-base-commit: a17f109942554a751be2c3b05f898f1b3ae98c78
-change-id: 20240515-dma-buf-ecc-heap-28a311d2c94e
-
-Best regards,
 -- 
-Maxime Ripard <mripard@kernel.org>
+Regards,
 
+Laurent Pinchart
 
