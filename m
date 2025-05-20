@@ -1,172 +1,114 @@
-Return-Path: <linux-media+bounces-32920-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32921-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766CCABD893
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 14:54:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5842ABD921
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 15:18:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A51224A35AB
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 12:54:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 83D537A31F6
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 13:16:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DB551D435F;
-	Tue, 20 May 2025 12:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2E6D2417C4;
+	Tue, 20 May 2025 13:18:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="g3yvTSms"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mWJahKP+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0B7E573;
-	Tue, 20 May 2025 12:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747745655; cv=pass; b=J7fsz0VU3qqZGU328fT0bT0UiU4wokBs29TKIpSL4Lmu7VQvRTbQa5uFceeTUftmBiwXVATPx8nQXy4KhrIvG19cb693WmgkMW8yhB9Thy6ZTWgod7nklr74wqwWaqnXknpMrK4T/zdOchVtocOgEsRytsq+XkFLSH+SLK+pc34=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747745655; c=relaxed/simple;
-	bh=VyDRu5okBNYh0PPU8c6EFcuLKrl934GUxOrmkcF81Wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YZQFdL7w3GpQbcaisfUQbPr8ZkVlrIaW8bknOQJhNePQItar4aQNEHqUdQOAOZ3GFvP4RS1wCd0XPRmGYIl7NGpoDc9KnVns/Mfc7Q+QK5GQOteHCXQGbSCmW/b7dKNXCYNqqzj5+xM/NEM3xB0X/4EwMLPek8tDF0/Oj/w36ZU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=g3yvTSms; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1747745619; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=PtbyDuG+Xx8o4Fo82q7gnzgQXzDhkhuOwgpsBwhKqs1kN+veFb597R7SmL0acmpVblQKhP5T2//K2bvT3qGHZg8JX9PxK8Ukp3DMFEbXsXzYA2xWO8yeajGClzl6MaCP8H7HPytGyk6h7JQZuK0vVbYD85a2EDdZuhP7w/WoNRE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1747745619; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=xpT1I6OsQDTs/OF6TNihbbaghdO2wEfulzUIutllrog=; 
-	b=N/Vb1ix5HrbvV5ZA1XrkeBdi4W4mfR9AKiBeYZmGYvJPpeHpWoX0DiF0s4hSDw7zH1iLzyGg3NUBVPmHhDLei83LokqjKKsaxYN+8H/K2My/+tNmTwGe0b/D4G/nRr3kHqlPNKuZpFeq/ySiaQpKXsnKIhOuliGBXisUbZCHf3w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747745619;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=xpT1I6OsQDTs/OF6TNihbbaghdO2wEfulzUIutllrog=;
-	b=g3yvTSmsy65qXoWGb8uBaN+T4q/WMuNwAKSrRiKs8IJaXx9Gb62wGqL/XB0tPwZR
-	ZSBdWYFuEZAH+oHbqIMvyJ2BrPF5O1MM2wzxsCG506MnSTUCZygE2n+O3Fjd+b1coDP
-	+UhQicfjZXhr6yXQndXN/37rC1cLFkcyJUgp6Yh0=
-Received: by mx.zohomail.com with SMTPS id 1747745619348731.4739743284113;
-	Tue, 20 May 2025 05:53:39 -0700 (PDT)
-Date: Tue, 20 May 2025 13:53:33 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Daniel Stone <daniel@fooishbar.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com, Rob Herring <robh@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	"moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v2 3/3] drm/panfrost: show device-wide list of DRM GEM
- objects over DebugFS
-Message-ID: <3ufktxc3qkp6nimqkll2kju2iraopvy3cdfkrabqdoct2j5xkg@dv6xalz7jlvy>
-References: <20250507160713.1363985-1-adrian.larumbe@collabora.com>
- <20250507160713.1363985-4-adrian.larumbe@collabora.com>
- <9c0b95c8-bf2d-4689-ac1f-ccacba826060@arm.com>
- <CAPj87rOiEa1bTOPqyauYhoVoXEtNeDjE+DkLbzeGVJ1tW9fJcQ@mail.gmail.com>
- <6a00017f-89dd-47b9-a4db-ceedd63f456f@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2AF24168D;
+	Tue, 20 May 2025 13:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747747087; cv=none; b=pAjEKDNpli3O+ZBnC1QSLaeG8aBWbrc/XXK9Mueu1r2BxFjVqHnV8kCB6rfw6OSP5Ahibm/CX1sWxU7zZHoR/cqukhLYOR9gjUlN4O9R1yMhYQPmJk6y62sYth/updHqrb1cpW1C04Yjc7oIGCXIxXYffAZHWDnwj366Dl/o9PE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747747087; c=relaxed/simple;
+	bh=12sxSexrPftwam4EVzQzaBGgKY0Ix96koleT5+KTJ4g=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=o8LPWghZvJXBvZlLuaPd0qGAcCf5ZMYhLyWlQRrCNG+xphTwcFN5kaLfHMnwDUyJ5LxQnMJsaSEo6GeGlffuVQLpnizULZewtNz5USN03a+kfXWfRJ3H+9At9S/WZFEWWTkQQptXnhSu4SFmfpTrPDM69MhG5TIydMhoU3J8F3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mWJahKP+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F104D74C;
+	Tue, 20 May 2025 15:17:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747747057;
+	bh=12sxSexrPftwam4EVzQzaBGgKY0Ix96koleT5+KTJ4g=;
+	h=From:Subject:Date:To:Cc:From;
+	b=mWJahKP+H81H15HXLpZuXmzfRIWb0d+vDRGnwJAEpnaiedGEaLLaELvubI6L4aCTH
+	 Ep6Irt7j6bmoVKxIiMrSLPQLY7RAp2rdfv1ejcLwjceoYWC7A14ImxVBaK1Wp4R7xq
+	 eIoCGW7Ddpc1z7I7zJNUcmWI3TjQ2Vp+vg+MToD0=
+From: Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH v2 0/3] Support OV5670 on IPU3 devices
+Date: Tue, 20 May 2025 14:17:43 +0100
+Message-Id: <20250520-djrscally-ov5670-v2-0-104ae895aecf@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6a00017f-89dd-47b9-a4db-ceedd63f456f@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPeALGgC/x3MQQqAIBBA0avErBNkYoq6SrQQnWpCNBSikO6et
+ HyL/wtkTsIZpqZA4kuyxFCBbQN2N2FjJa4aUCNpQq3ckbI13j8qXtQPWhFbcuNqHHUGanYmXuX
+ +l/Pyvh9vGqTSYgAAAA==
+X-Change-ID: 20250520-djrscally-ov5670-5ec5d9fad53a
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Daniel Scally <djrscally@gmail.com>, Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ Daniel Scally <dan.scally@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=974;
+ i=dan.scally@ideasonboard.com; h=from:subject:message-id;
+ bh=12sxSexrPftwam4EVzQzaBGgKY0Ix96koleT5+KTJ4g=;
+ b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBoLID+yFr8c0e+05Cw895+RH/NrPZq/GofEakyF
+ QSLXscI0ESJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaCyA/gAKCRDISVd6bEV1
+ MvHdD/4zKyw0FyXpG6Tyxp0rIGtN5I0ip9KF/d/JZOkcgnq7U7GauXb8B3zgySf+mcQMZqnd8Et
+ zYrMXVIJ47SFg8BjrJtlHTLBVDP/71ip4EyE40NKsHqlfbrqnW6lStbD8QHbF7GNrsGDwN/+Vp6
+ cL5SE837tWJJV+j2c3IGQ+7uL3p2NMtZ6jcCfvdnDd4w31oLrcft2yx3UOdoyS4gtCoReGGQFji
+ h4ZzQiBEV3RzSlnlpjW+iEImaNelvoGlmJTeVNfjq6T1ryd1u8wW6madfhsLcK7NpC0/wkAqyOQ
+ HZObXr7CmJM21ikYYTUfH48t5FuQc0u41VoIHRtO0oyqJ60KGeObNDby+QtlGLEuL/m3NOyVUyO
+ 4Cia7eeoEbNmT8y81B/EoWYF3bvTqAIEfinM40/DqypPamWH36RShba0PnHk6pmqA39iVQXbIwu
+ p3nwb+9roxmbldb6sFMmfVx1FFC1o2yNllLPkJA/DSYpRzx8zI+TH/W4kliARTLX8r7LoPLp4lb
+ v/MiyQUD2UHQa5FcNoZuzv7CDrPgj3NryZ14PkLiYaEBoI9bFPVnWYSCsD7j/tdzhNhctAScIJr
+ xcQyCXq1lkmQGHrwTnsQYyOO0mR4pmaa8m1+Rq/SJFrjQOc+EAfEeqqxu3yvQNQw+M6VROXjNSp
+ /g0yCfBfbhKbhhw==
+X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
+ fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
 
-Hi Steven,
+Hello all
 
-Thanks for the fix, I've tested it and it fixes the outstanding issue.
+The OV5670 is found in the Dell 7212 tablet, along with an IPU3 ISP. This small
+series adds support for the sensor by connecting it through the ipu-bridge and
+adding board data for the PMIC so that it can be powered.
 
-However, including the perfcnt sample buffer in the DebugFS GEMs file raises the question of what
-to do with its labelling, because it isn't exposed to UM through a handle, so my previous assumption
-about not needing to handle static labels when tagging BO's within the driver no longer holds.
+Changes since v1:
 
-This might require some quick rewrite so that the sample BO can be displayed with a fitting name.
+* Commas following the final member in a struct definition in patch 2
 
-On 19.05.2025 17:02, Steven Price wrote:
-> On 15/05/2025 19:04, Daniel Stone wrote:
-> > Hi Steven,
-> >
-> > On Thu, 8 May 2025 at 11:42, Steven Price <steven.price@arm.com> wrote:
-> >> I'm also seeing a splat when running this, see below. I haven't got my
-> >> head around how this is happening, but I see it when glmark quits at the
-> >> end of the test.
-> >>
-> >> [  399.505066] Unable to handle kernel NULL pointer dereference at virtual address 00000004 when write
-> >> [...]
-> >> [  399.882216] Call trace:
-> >> [  399.882222]  panfrost_gem_free_object [panfrost] from drm_gem_handle_delete+0x84/0xb0
-> >> [  399.893813]  drm_gem_handle_delete from drm_ioctl+0x2b8/0x4f4
-> >> [  399.900237]  drm_ioctl from sys_ioctl+0x428/0xe30
-> >> [  399.905496]  sys_ioctl from ret_fast_syscall+0x0/0x1c
-> >
-> > Soooo. Let's assume it has to actually occur in
-> > panfrost_gem_debugfs_bo_rm(), since that's all that's changed here.
-> >
-> > I don't think pfdev can be NULL here, because we've already
-> > dereferenced ptdev and written to a structure member earlier in
-> > panfrost_gem_free_object(). I don't think it can be the debugfs mutex,
-> > because a) that's initialised with the device, and b) wouldn't be
-> > offset 0x4.
-> >
-> > I'm looking then at list_del_init(&bo->debugfs.node), which would
-> > effectively execute bo->debugfs.node->next->prev =
-> > bo->debugfs.node->prev. So if bo->debugfs.node->next was NULL, that
-> > would explain a write to 0x4 on 32-bit systems.
->
-> So I finally got some time to do some debugging on this. And you are
-> absolutely correct on where the fault is triggered.
->
-> The cause of it is that panfrost_gem_debugfs_bo_add() is called from
-> panfrost_gem_create(), but that isn't the only place that Panfrost GEM
-> objects are created - it turns out panfrost_perfcnt_enable_locked() also
-> calls drm_gem_shmem_create(). And in that case the list next/prev
-> pointers are left set to NULL, causing things to blow up when the GEM
-> object is freed.
->
-> The below patch gets things working, or alternatively just init the list
-> in panfrost_gem_create_object() if we don't want to include the perfcnt
-> buffer in the list.
+Regards
+Dan
 
-> Steve
->
-> ---8<--
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index fe2cdbe8baf0..51da13cd81f0 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -297,13 +297,14 @@ struct drm_gem_object
-> *panfrost_gem_create_object(struct drm_device *dev, size_t
->         obj->base.map_wc = !pfdev->coherent;
->         mutex_init(&obj->label.lock);
->
-> +       panfrost_gem_debugfs_bo_add(pfdev, obj);
-> +
->         return &obj->base.base;
->  }
->
->  struct panfrost_gem_object *
->  panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
->  {
-> -       struct panfrost_device *pfdev = dev->dev_private;
->         struct drm_gem_shmem_object *shmem;
->         struct panfrost_gem_object *bo;
->
-> @@ -319,8 +320,6 @@ panfrost_gem_create(struct drm_device *dev, size_t
-> size, u32 flags)
->         bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
->         bo->is_heap = !!(flags & PANFROST_BO_HEAP);
->
-> -       panfrost_gem_debugfs_bo_add(pfdev, bo);
-> -
->         return bo;
->  }
+---
+Daniel Scally (3):
+      media: i2c: Defer ov5670_probe() if endpoint not found
+      platform/x86: int3472: Add board data for Dell 7212
+      media: ipu-bridge: Add _HID for OV5670
+
+ drivers/media/i2c/ov5670.c                         |   9 +-
+ drivers/media/pci/intel/ipu-bridge.c               |   2 +
+ .../x86/intel/int3472/tps68470_board_data.c        | 128 +++++++++++++++++++++
+ 3 files changed, 137 insertions(+), 2 deletions(-)
+---
+base-commit: b64b134942c8cf4801ea288b3fd38b509aedec21
+change-id: 20250520-djrscally-ov5670-5ec5d9fad53a
+
+Best regards,
+-- 
+Daniel Scally <dan.scally@ideasonboard.com>
+
 
