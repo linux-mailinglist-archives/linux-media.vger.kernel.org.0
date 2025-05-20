@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-32886-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32887-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62062ABD3AC
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 11:42:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEC6ABD3C6
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 11:45:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C47318A5BFC
-	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 09:42:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8839E1707FC
+	for <lists+linux-media@lfdr.de>; Tue, 20 May 2025 09:44:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C12F26988E;
-	Tue, 20 May 2025 09:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F34D326A1B6;
+	Tue, 20 May 2025 09:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kmDkdezT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1/OQoEq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC1425DD18;
-	Tue, 20 May 2025 09:42:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED9E25DD18;
+	Tue, 20 May 2025 09:44:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747734156; cv=none; b=IfloIdMDwGf3aOZ0m9WaJsCbOsOev1UqjUBl6GS1VINDYX/iZF+WjPQDuO9WdKXlPD8N0Ez5k2ji7L7DxYonejNzEwHzjD64Q6OtBPmis9vRZkqSqCIURPifN56WcIlvVis8vP0TxBPPBBnAu3O+w1b8Akc9pYus00zKSs2NTj8=
+	t=1747734253; cv=none; b=gasWnobU8XaDajrBdjowpJmV9GvpbA4vcvC/kBLFq6Lf7bVDTIoOQWkxG4y6gRCQag4qd9P97YLO70SxXWdLtAvCjemMM82EB/1BCVH5lMbqgnaWg28L+ZO2tlKBMhTDhHciYmpGrBZByOYCNZPBDe8A+9Cbzw00JPhxd0dOiyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747734156; c=relaxed/simple;
-	bh=scRTFg5Z/15G3T5ZwlK/DAxQySslJLmHICkOIOYLsbQ=;
+	s=arc-20240116; t=1747734253; c=relaxed/simple;
+	bh=I5hdk7CmiqqljiPk7rERqOAz/3Y6nWF8ZmwbOjhbdTk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VMrp74+zXPRAUbagVST7LGkh6rOnQ2DfKR4pm8HOD7gRkqT4Ti9zrk/qVFwDsiN5IdZ3/peCiGa/uO22vuRpCYsWc6H6JFxvFh1Zuwgyyry0llkjh9mM5gxCGhzj5mw3LZs3rVTASLxAUml+nlGKKkpnBK9B6yT/3RkEzycAzIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kmDkdezT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81FF4C4CEEB;
-	Tue, 20 May 2025 09:42:33 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=sictePW1yUhGAiOX29hp6TCyI5zaQ43GIUd6uwMkSsp5foPLcd8vhpTdHLuL8Zpmm3shfQeFC4FKeFRj4+ON2MePVktYwmZYdQXAwdc875RmjR2WW8Zlf3L64x3xys38UL6iT1/3nCxppnD/U4WqtrRu7RKbKP8y+aHiuVpkpeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1/OQoEq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEF3BC4CEEF;
+	Tue, 20 May 2025 09:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747734156;
-	bh=scRTFg5Z/15G3T5ZwlK/DAxQySslJLmHICkOIOYLsbQ=;
+	s=k20201202; t=1747734252;
+	bh=I5hdk7CmiqqljiPk7rERqOAz/3Y6nWF8ZmwbOjhbdTk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kmDkdezTOgHiecsU+sNSU1PX+X1FeyQIpiks20/VgbkozAunNLjiygnSVNOn16qiK
-	 VXwpnjdYzYVIJQ4HaBZx20u1TG0eBJjZM3yEGGCY0zPxTH8kMwSQGWDpvRC9DUK00s
-	 xIsEgcgAg/tZCeJSV69RYdOiTw8OfaQ8Aee1hYM58FreDmC4cNo1G5+I61OqKaFEfV
-	 Nw5jEpvBgSKabD7SoJ/C12CLt8L4q2LGiUdEnHHacTik/OFxRTZ9iK3jWI0Yv782dU
-	 y1TufKO3hp7vEbBTVb5uRPNk4FtsPvchNh49xXcBcA9RInoHnHdYW6l6pxHWTmZdRU
-	 3KTPqMj7K4DRg==
-Message-ID: <b7bd8289-840b-47b8-ba66-d4dc865885ba@kernel.org>
-Date: Tue, 20 May 2025 11:42:31 +0200
+	b=A1/OQoEqRz95p61W1gEORNYYDJPls64x99WLv++oYWkir6nwE5CL7S1UNfYexLM/v
+	 4dBiHDiwNPfcamnaFlMVFuasOVibOovrl+98IVgyv0acg7xlJz/8cVuLnt45ud32wh
+	 4Q16jgtWCvSt7niuTL7OOOanPT/NB9JuNjdpdYt3xRbzMO5x4PN+UqnVunhdzFLMtA
+	 SyYjPHrD7e9ljDPZO0Pof4EpoFLuXW0LLtg4Q8apjSRuKirW8F4U/Fc0rWsCrZT1xW
+	 Z/W+Ywr/LCTifREHiUCNe9hvyXAwLuRI7/HelPZtjLaxUuu43k3LwYrJGcnJ5H3ytK
+	 5eTJK4FkVoy9A==
+Message-ID: <19efba52-7cb4-4c7e-9c97-779214d3ea2a@kernel.org>
+Date: Tue, 20 May 2025 11:44:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] arm64: dts: qcom: qcs615: Add support for camss
+Subject: Re: [PATCH 2/2] arm64: dts: qcom: qcs615: Enable camss for
+ qcs615-adp-air
 To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -60,8 +61,9 @@ To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
 Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 References: <20250520-qcs615-adp-air-camss-v1-0-ac25ca137d34@quicinc.com>
-Content-Language: en-US
+ <20250520-qcs615-adp-air-camss-v1-2-ac25ca137d34@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -105,31 +107,41 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250520-qcs615-adp-air-camss-v1-0-ac25ca137d34@quicinc.com>
+In-Reply-To: <20250520-qcs615-adp-air-camss-v1-2-ac25ca137d34@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 20/05/2025 10:56, Wenmeng Liu wrote:
-> This series adds support to bring up the CSIPHY, CSID, VFE/RDI interfaces 
-> in QCS615. Tested this on QCS615 ADP AIR board with CSID TPG.
+> This change enables camera driver for QCS615 ADP AIR board.
 > 
-> Tested with following commands:
-> media-ctl --reset
-> v4l2-ctl -d /dev/v4l-subdev3 -c test_pattern=0
-> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/1920x1080 field:none]'
-> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/1920x1080 field:none]'
-> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-> v4l2-ctl -d /dev/v4l-subdev3 -c test_pattern=9
-> yavta -B capture-mplane -n 5 -f SRGGB10P -s 1920x1080 /dev/video0 --capture=7
+> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/qcs615-ride.dts | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> This patch series depends on patch series:
-> https://lore.kernel.org/all/20250518-qcs615_camss-v1-0-12723e26ea3e@quicinc.com/
-> https://lore.kernel.org/all/20250518-qcs615_camss-v1-0-12723e26ea3e@quicinc.com/
-> https://lore.kernel.org/all/20250424-qcs615-mm-v7-clock-controllers-v8-0-bacad5b3659a@quicinc.com/
+> diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+> index 2b5aa3c66867676bda59ff82b902b6e4974126f8..be8b829ec508d7de7a4cd6be6d1d4e83b09734bb 100644
+> --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+> +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+> @@ -211,6 +211,13 @@ vreg_l17a: ldo17 {
+>  	};
+>  };
+>  
+> +&camss {
+> +	vdda-phy-supply = <&vreg_l5a>;
+> +	vdda-pll-supply = <&vreg_l12a>;
+> +
+> +	status = "ok";
+Standard qcom comment...
 
-Three dependencies? So this cannot be tested in any close future. You
-need to rework the way you upstream, to avoid multiple dependencies.
-This was already communicated multiple times.
+It does not look like you tested the DTS against bindings. Please run
+`make dtbs_check W=1` (see
+Documentation/devicetree/bindings/writing-schema.rst or
+https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
+for instructions).
+Maybe you need to update your dtschema and yamllint. Don't rely on
+distro packages for dtschema and be sure you are using the latest
+released dtschema.
 
 Best regards,
 Krzysztof
