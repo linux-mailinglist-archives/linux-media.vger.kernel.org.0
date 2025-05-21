@@ -1,210 +1,200 @@
-Return-Path: <linux-media+bounces-33012-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33013-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F10ABF2E5
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 13:34:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1052FABF35D
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 13:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94D961B67B5E
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 11:34:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F4053A7967
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 11:52:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9665263F47;
-	Wed, 21 May 2025 11:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BCF226460B;
+	Wed, 21 May 2025 11:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BxWo9dp5"
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="Upcp0xtd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCF825EF8B;
-	Wed, 21 May 2025 11:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D84261595
+	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 11:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747827277; cv=none; b=XHR/RQK3keeeuECAB9SyqZcqPm9mczeQ/pGj3hOeUBx3FCs4GSdQVG2NJ9j2KAsIU6VN4Ks31yD2EjsMVNA0BRJc7uBLZm4LgwmdKN/AtxQS7DR7Ncd+kK457jCNSudD3nKdn/XrNa7eWlL7h2SJz6VIgjy3yF0dgOPLF1J8FHs=
+	t=1747828368; cv=none; b=eoplkWMy8xEIFr6fonvJNwh3KT+iBNNj4hE3PBhcGDrBBB3s9ZVQC+mJEsZG1utzyqtKPdODOs/V1++5hBK8Ci0jvLZiU3jzQDWCtrR4SyDyEJaNupgTWoFGaVyWS2lZm25eMxDFaiEbApYLLHCJUgvJh00EVSkArtoEYI98zGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747827277; c=relaxed/simple;
-	bh=Mh1HSkD+W+jD0xGkcpOKJianUrmXNdpN6De05zeNjGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Azf/njxxQyWpq5rNj+1vcWaVPWdva7BDovTxcBtuv9Y3zfbsl/EOudHALxQyZfuB4LhVhvQfk108V6vGcriSN05RU5DTjp5onby+za+G/oUk1gv9iZIpw3jNTcI4P4ZNteB+9U+zdpWXiUPNCNQ0g0V4fKnsdkRb7l/lCNyM2jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BxWo9dp5; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747827276; x=1779363276;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Mh1HSkD+W+jD0xGkcpOKJianUrmXNdpN6De05zeNjGE=;
-  b=BxWo9dp5vufIYadaLtU+zfSFBMtIPVaEf7Nm9aU5Ahtn2JWzDr0HaV+g
-   jjM9DjwXcXLOyWGXbIrKgYAV4bc1Pa+NxCbUQ4KkZfUf1Hpf00KZFWzXQ
-   aNpA3FlCy5UvahXXJInhI4P5QXYSOBUxvWRv1ERsA3cCAJ2SxovVHsMpN
-   gC7lvobGjyET/AbrXrTdnsjh9NOWigM+Zu7ZLERiTBchwEav1HfIGw6tx
-   jgDs4bAwqPMxiX6BdMzuGSPz4nfW7BQwDXVae8usSM6K9Lg5lbbL2SfJH
-   Fs/fZ51xyECLw52oWpblFi6YFkNLadDHJXm5TEpOvsu/tJQSn7/9iSLtH
-   A==;
-X-CSE-ConnectionGUID: XtLAlc9eSFu+YqEtuvD7bw==
-X-CSE-MsgGUID: di3FqTajR26jAE/ZcB1fDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="67215376"
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="67215376"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 04:34:35 -0700
-X-CSE-ConnectionGUID: IB9wprPNTiy/FqIHQkPLmQ==
-X-CSE-MsgGUID: EUVSTCmPS06OMST+BICqBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="140550405"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.129])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 04:34:32 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2721F1201BE;
-	Wed, 21 May 2025 14:34:29 +0300 (EEST)
-Date: Wed, 21 May 2025 11:34:29 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-	hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com,
-	naush@raspberrypi.com, mchehab@kernel.org,
-	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v4] media: v4l2-common: Add a helper for obtaining
- the clock producer
-Message-ID: <aC26RUhpevSVXudw@kekkonen.localdomain>
-References: <20250321130329.342236-1-mehdi.djait@linux.intel.com>
- <f467e4a8-fcb2-4345-b8f7-7557c1a7552b@redhat.com>
- <20250515084403.GQ23592@pendragon.ideasonboard.com>
- <id2ikiio23ahslghpx56niwxrvaqdgmrgk3k647i3u27cptqgz@hwqrkdvljd3b>
- <20250515124050.GA12492@pendragon.ideasonboard.com>
- <2egx7hakxleahk5o3ngydrcgtlnpgpdj4kgcijfij2bmss7u4d@2yho4udpzjtm>
- <aCZTi2odVXVZjJE8@svinhufvud>
- <20250521105141.GF12514@pendragon.ideasonboard.com>
- <aC2wzFD_bPgESZpR@kekkonen.localdomain>
- <20250521110817.GA4116@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1747828368; c=relaxed/simple;
+	bh=p2Z7BCMzBQMXO7w4pVLaSsK3+xb41h9suko3HG35dsU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mkrv1nu7IDhBUuCwfIAbQSijiwNdMKeknTSGXo70RhpLxhKlCTgOrB4orYj9z/B3Z7n85lg0nlNMwqJ9Q/s+OE+p0yPh+pLA3Z+88Cef2kIMY2ntOqcyffOHIVwZ2kE+y2xQBlvh8Ac0FSPd+crdFgpZaQiH7VANdoSC2rDnehg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=Upcp0xtd; arc=none smtp.client-ip=185.233.34.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
+Received: from smtp.freedom.nl (unknown [10.10.4.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by dane.soverin.net (Postfix) with ESMTPS id 4b2VCl70Z4z182x;
+	Wed, 21 May 2025 11:52:35 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4b2VCl1dzfz4c;
+	Wed, 21 May 2025 11:52:35 +0000 (UTC)
+Authentication-Results: smtp.freedom.nl;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=Upcp0xtd;
+	dkim-atps=neutral
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
+	s=soverin1; t=1747828355;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=G+Ws+Va3Vk3I7uqQexKWqwH+hX1ysdpUGWYkiEYImMY=;
+	b=Upcp0xtdEoF95EZAsp1CoPKO0xGcL3WptAqapWhAwsDKCHPofU4GL57/JddJJI3+9AHWPM
+	O/x34WZu4tPa1osMcMETfy0nI+8R0jwFslkrUzQpdUPbMB2qFJJ36nixOaqXoafvzTF7nu
+	Q5YM3ex3T40Mysz7PHwGwN6vOWEiccxHDd9+o8kLr9M/8w/3pOacrJ76K6G109SSvcxYBf
+	nmIomWbHwgw2si64ojuy/NDy0uPTwvxBgIJ54lFbNdF2+etoiekLOrJW0jNAClInPr837T
+	Y02YL3Bo19pZqHU/jPsXkCJkp1G8dugbU9hIcPGVD/eXbwE3NHklFkVaqHQ8Mw==
+X-CM-Envelope: MS4xfEP+o2UAk+KS7hRcDWQy/NY6GkZH32c4tXc+B/CRasiCqet+Iktyei1j8QHN1AP5oFw1TcsyOLxwlgr9252NCL3aQ5DGCnPUaUxMKskG97/XLHS+ZW+W qsoK90zXJy8/KXmnbwR/HpB3XBO1ckCb8D5YVNUYdZHaRVvMB90mK2JVH7jUEEXYw70KbiV1/3JyuM8+13kVtL8p8Xgs7BZpVwYIpdUtpykvhN0lQuaqMMpV kObeL6T/i+LD4d1MHK/GtKQpZNmn1RZreL2pWLWOLtj2Ppb4h5Pb4E08ksFvLgf8
+X-CM-Analysis: v=2.4 cv=I7afRMgg c=1 sm=1 tr=0 ts=682dbe83 a=xVxOAnYOZqKVbrsbIgLjXQ==:117 a=xVxOAnYOZqKVbrsbIgLjXQ==:17 a=IkcTkHD0fZMA:10 a=QyXUC8HyAAAA:8 a=zkDc2X_-8vvzHvq_k9sA:9 a=QEXdDO2ut3YA:10
+Message-ID: <03611b42-937a-4f85-b822-bd0f652e6ccc@jjverkuil.nl>
+Date: Wed, 21 May 2025 13:52:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250521110817.GA4116@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 1/1] media: v4l2-ctrls: Don't reset handler's error in
+ v4l2_ctrl_handler_free()
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com
+References: <20250508160852.1090549-1-sakari.ailus@linux.intel.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hans@jjverkuil.nl>
+Autocrypt: addr=hans@jjverkuil.nl; keydata=
+ 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
+In-Reply-To: <20250508160852.1090549-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spampanel-Class: ham
 
-On Wed, May 21, 2025 at 01:08:17PM +0200, Laurent Pinchart wrote:
-> On Wed, May 21, 2025 at 10:54:04AM +0000, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > On Wed, May 21, 2025 at 12:51:41PM +0200, Laurent Pinchart wrote:
-> > > On Thu, May 15, 2025 at 11:50:19PM +0300, Sakari Ailus wrote:
-> > > > On Thu, May 15, 2025 at 03:51:33PM +0200, Mehdi Djait wrote:
-> > > > > On Thu, May 15, 2025 at 02:40:50PM +0200, Laurent Pinchart wrote:
-> > > > > > On Thu, May 15, 2025 at 11:17:37AM +0200, Mehdi Djait wrote:
-> > > > > > > On Thu, May 15, 2025 at 10:44:03AM +0200, Laurent Pinchart wrote:
-> > > > > > > > On Sat, May 10, 2025 at 04:21:09PM +0200, Hans de Goede wrote:
-> > > > > > > > > On 21-Mar-25 2:03 PM, Mehdi Djait wrote:
-> > > > > > > > > > Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-> > > > > > > > > > platforms to retrieve a reference to the clock producer from firmware.
-> > > > > > > > > > 
-> > > > > > > > > > This helper behaves the same as clk_get_optional() except where there is
-> > > > > > > > > > no clock producer like in ACPI-based platforms.
-> > > > > > > > > > 
-> > > > > > > > > > For ACPI-based platforms the function will read the "clock-frequency"
-> > > > > > > > > > ACPI _DSD property and register a fixed frequency clock with the frequency
-> > > > > > > > > > indicated in the property.
-> > > > > > > > > > 
-> > > > > > > > > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> > > > > > > > > 
-> > > > > > > > > This certainly looks quite useful, thank you for working
-> > > > > > > > > on this.
-> > > > > > > > > 
-> > > > > > > > > Note on some IPU3 platforms where the clk is provided by
-> > > > > > > > > a clk-generator which is part of a special sensor-PMIC
-> > > > > > > > > the situation is a bit more complicated.
-> > > > > > > > > 
-> > > > > > > > > Basically if there is both a clk provider and a clock-frequency
-> > > > > > > > > property then the clock-frequency value should be set as freq
-> > > > > > > > > to the clk-provider, see:
-> > > > > > > > > 
-> > > > > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/i2c/ov8865.c#n3020
-> > > > > > > > > 
-> > > > > > > > > for an example of a driver which handles this case.
-> > > > > > > > 
-> > > > > > > > On a side note, the DT bindings for the OV8865 doesn't specify the
-> > > > > > > > clock-frequency property...
-> > > > > > > 
-> > > > > > > Is this wrong ?
-> > > > > > > 
-> > > > > > > The OV8865 driver was introduced for DT-based systems, where you will
-> > > > > > > get a reference to the "struct clk corresponding to the clock producer"
-> > > > > > > and then get the clock-rate/frequency with a call to:
-> > > > > > > 
-> > > > > > > 	rate = clk_get_rate(sensor->extclk);
-> > > > > > > 
-> > > > > > > The patch "73dcffeb2ff9 media: i2c: Support 19.2MHz input clock in ov8865"
-> > > > > > > adding support for clock-frequency came later to support ACPI-based
-> > > > > > > systems (IPU3 here)
-> > > > > > 
-> > > > > > I'd expect all device properties to be documented in DT bindings. Is
-> > > > > > that an incorrect assumption ?
-> > > > > > 
-> > > > > 
-> > > > > I am actually genuinely asking, is the clock-frequency a device property
-> > > > > of the ov8865 camera sensor or the clock source, which is a separate device ?
-> > > > 
-> > > > The sensor's.
-> > > >
-> > > > Could we document how this is supposed to work on DT and ACPI?
-> > > 
-> > > Yes please. Would you like to send a patch ? :-)
-> > 
-> > I'd add this to the helper's documentation. We'll work this out with Mehdi.
-> > 
-> > > > I think we should also select COMMON_CLK on ACPI systems for sensor
-> > > > drivers (in a separate patch maybe?), instead of relying on distributions
-> > > > enabling it.
-> > > > 
-> > > > > Example the imx258 with a fixed-clock, which has its own compatible
-> > > > > and DT bindings under bindings/clock/fixed-clock.yaml
-> > > > > 
-> > > > > So when adding support for ACPI-based systems, the DT bindings should
-> > > > > not be changed because getting the clock-frequency from the ACPI _DSD
-> > > > > property is a workaround only needed on ACPI-based systems.
-> > > > 
-> > > > I wouldn't say it's a workaround, but something that's only needed on ACPI
-> > > > systems.
-> > > 
-> > > Does that mean that the clock-frequency property should be deprecated on
-> > > DT-based systems, and not used in any new sensor bindings ?
-> > 
-> > I don't think we've added any "clock-frequency" properties in DT bindings
-> > for camera sensors since around 2020 or so.
+On 08/05/2025 18:08, Sakari Ailus wrote:
+> It's a common pattern in drivers to free the control handler's resources
+> and then return the handler's error code on drivers' error handling paths.
+> Alas, the v4l2_ctrl_handler_free() function also zeroes the error field,
+> effectively indicating successful return to the caller.
 > 
-> That's good news, but I'm not sure it's well known or well documented.
+> There's no apparent need to touch the error field while releasing the
+> control handler's resources and cleaning up stale pointers. Not touching
+> the handler's error field is a more certain way to address this problem
+> than changing all the users, in which case the pattern would be likely to
+> re-emerge in new drivers.
 > 
-> On a side note, should we try to make the existing clock-frequency
-> properties optional (or even deprecate them and drop them from bindings)
-> when they are currently mandatory ? The following five YAML bindings
-> require the property:
-> 
-> - mipi-ccs.yaml
-> - ovti,ov02a10.yaml
-> - ovti,ov8856.yaml
-> - sony,imx214.yaml
-> - sony,imx290.yaml
-> 
-> The CCS driver treats the property as optional, the imx214 driver
-> doesn't use it at all, and the other drivers require it. There are other
-> drivers that require the property, in particular ACPI-only drivers.
+> Do just that, don't touch the control handler's error field in
+> v4l2_ctrl_handler_free().
 
-Given the discussion in the context of the André's imx214 patches, I think
-we can drop them all, both in drivers and DT.
+I think with this change the control framework documentation should be
+updated: Documentation/driver-api/media/v4l2-controls.rst
 
--- 
-Sakari Ailus
+There is a code example on line 197 that can be converted to the new
+approach.
+
+Also document that the error field is not touched by v4l2_ctrl_handler_free()
+in include/media/v4l2-ctrls.h.
+
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> Hi all,
+> 
+> This is currently affecting the following drivers:
+> 
+> 	drivers/media/i2c/imx334.c
+> 	drivers/media/i2c/imx335.c
+> 	drivers/media/i2c/imx412.c
+> 	drivers/media/i2c/ov2740.c
+> 	drivers/media/i2c/ov5675.c
+> 	drivers/media/i2c/ov9282.c
+> 	drivers/media/pci/tw68/tw68-core.c
+> 	drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> 	drivers/media/platform/samsung/s3c-camif/camif-capture.c
+> 	drivers/media/platform/verisilicon/hantro_drv.c
+> 	drivers/media/test-drivers/visl/visl-core.c
+
+also:
+
+drivers/input/touchscreen/sur40.c
+drivers/media/i2c/adv748x
+
+In any case, this looks good to me.
+
+Regards,
+
+	Hans
+
+> 
+> The fact that one of them is a test driver tells a lot. :-)
+> 
+> The patch is untested. If we agree to do this, the patch should probably
+> be cc'd to stable, too.
+> 
+> - Sakari
+> 
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index 90d25329661e..932aedc26049 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -1661,7 +1661,6 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
+>  	kvfree(hdl->buckets);
+>  	hdl->buckets = NULL;
+>  	hdl->cached = NULL;
+> -	hdl->error = 0;
+>  	mutex_unlock(hdl->lock);
+>  	mutex_destroy(&hdl->_lock);
+>  }
+
 
