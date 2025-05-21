@@ -1,238 +1,140 @@
-Return-Path: <linux-media+bounces-33055-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33057-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3679DABFD22
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 21:03:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E096CABFD6D
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 21:36:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58D3F1B621F4
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 19:03:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95BD14E469E
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 19:36:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D74728F945;
-	Wed, 21 May 2025 19:03:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2260E28FFF7;
+	Wed, 21 May 2025 19:35:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b2z2+Tyw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2GoH/v7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139A4230BE1;
-	Wed, 21 May 2025 19:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8EB23183D;
+	Wed, 21 May 2025 19:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747854199; cv=none; b=jFqBdgDitDDkRvfOUBnGNf4dTEgYvzC4J94CdALi4ncu8/tJOFQWM+A5wAh6ATik5kvEyoQyNzB1ArioYShSEnoZFGspszOTTCT4JWMQTtGrAj3f2SrnQ8FihhaJ3cQUkKiMzU1qPVoanBMvkORa7UC/vSSTyvjT7v0PJa4CtA0=
+	t=1747856151; cv=none; b=Md2qx0wK8ulb8sy/YQmG51b4cPjhn7atDT135/NOZmtWCwd3POYEO30OuKwlW3Kxm8H6s+uVZzCC8JH4pPu90ulU5PDn09oKVq3PqKfj7mGeJpWx/esJJyaPsrNpLBcY+pCuI/f8rgrfK9pEd9IXfGEIvBsQ0FLQT4wdLiHeLUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747854199; c=relaxed/simple;
-	bh=vPvuwM/u6pIaMk4JleeZDQfpq6e7V/QhYzjGPzUWzvU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G4zpwZrIkwpMiz4zhsYLMnd1zKPAYcIeNgiAq3s8vwE4xS9YhNDPglP8hpqTeE5yZ2m3zaqVb0g3aLfJqKl2YLG5lcO5/KhD+TKgMe/AimZo0LQhtYYBANH3USPDxHfAwJJ0Dp/E3oHwJ5ASHyUNfR5QXX30KRcLslzP9KkHZTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b2z2+Tyw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01FD36AF;
-	Wed, 21 May 2025 21:02:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747854173;
-	bh=vPvuwM/u6pIaMk4JleeZDQfpq6e7V/QhYzjGPzUWzvU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b2z2+Tyww+BF+od3NVjTp2B0clH/Tgpur5Oa7hsMZDItXAFI7fJ7LGL4PZr9IZrXk
-	 spTxfIW7+zUmBa3KN3286SE5SoeKNG1AzVLCfiAVx8wfgAXRaqAJABKFIwuViNMDGw
-	 kbahZi1oSnS+ziSLw/Qks9hTKeTtMqYOQD2bXpHU=
-Date: Wed, 21 May 2025 21:03:08 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Elder <paul.elder@ideasonboard.com>
-Cc: Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Ondrej Jirman <megi@xff.cz>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	stefan.klug@ideasonboard.com
-Subject: Re: [PATCH] RKISP1: correct histogram window size
-Message-ID: <20250521190308.GB6792@pendragon.ideasonboard.com>
-References: <m3tt5u9q7h.fsf@t19.piap.pl>
- <aB31Eg6oRpcHHEsb@pyrite.rasen.tech>
- <m3jz6b8lb1.fsf@t19.piap.pl>
- <20250521101042.GC12514@pendragon.ideasonboard.com>
- <174784811736.14042.11404187248848039485@calcite>
+	s=arc-20240116; t=1747856151; c=relaxed/simple;
+	bh=YCdymVDth/prPqkIK7W4QDnBSw+ChQ0vJvm38czsFpg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=js7EvzI4EgvC/3Xg3yXEhBMz1aD2eBH+AM94Mos23q28wcsodXqZ9cY98JYlHMqhmii4nYil7HnVh1tXhUO3LxDmr0C8b6dvYcayN3CbR+r3q0jrxY8immijG8i05JbBBE9fUIuMLvWocCcog8Yz4bZ7v5kuiTPhCFw1nm4ebdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2GoH/v7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 00428C4CEE4;
+	Wed, 21 May 2025 19:35:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747856151;
+	bh=YCdymVDth/prPqkIK7W4QDnBSw+ChQ0vJvm38czsFpg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=a2GoH/v7NCUwJStHohhcwr7SDmdK+nqKj00Ld255vw6AaGS7s2evcP2kdLUZ/05SL
+	 2g20KNGo37e6VbYkYB8+46wQLYBrmvwRYRgISjAdK9QIWeB1RBluxINAWT9FOpiPUY
+	 kRjkkFJrwjzJHhgV3ecyN1rt1LnPgR5+YEQharZlZqTIuEqvy0JEdq5VgKS8bDW8m3
+	 8dBIuQQHgdFjnPZ08lcAqhEzv8dDOZTzmLdJG/HX8F00S0t0uENuDlxDe4r5jAWz9n
+	 itthYIeR1peS47wUKaIaftFlSc5D60TnvetGhfh9pjCzprCVbNPWXb7xlasEzHFSf5
+	 23F8xhPYlCSfA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E08C54E90;
+	Wed, 21 May 2025 19:35:50 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Subject: [PATCH v3 0/5] media: i2c: imx214: Add support for more clock
+ frequencies
+Date: Wed, 21 May 2025 21:34:23 +0200
+Message-Id: <20250521-imx214_ccs_pll-v3-0-bfb4a2b53d14@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <174784811736.14042.11404187248848039485@calcite>
+X-B4-Tracking: v=1; b=H4sIAL8qLmgC/2XM0QqCMBTG8VeRXbfY5qbVVe8RIbad5QHTsdmwx
+ HdvShAV5+p/4PtNJIBHCOSQTcRDxIB9lyLfZEQ3dXcFiiY1EUwoJllB8TYKLiutQ+XaloKswTD
+ Yg8oFSSPnweK4gqdz6gbD0PvH6ke+fN8UV79U5JRRk5uylDtQ9mKOtcPhGXSzhTtZsCg+QLo/Q
+ CTAJlsJVnBr+Tcwz/MLkEYpUO8AAAA=
+X-Change-ID: 20250406-imx214_ccs_pll-e4aed0e9e532
+To: Ricardo Ribalda <ribalda@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747856148; l=1895;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=YCdymVDth/prPqkIK7W4QDnBSw+ChQ0vJvm38czsFpg=;
+ b=syVQLuePuGfp3dACqYgN2W+Ayfo4zcFv5KgkcjstEAWtm0hlQX+CxxZbPIZe6GwMN6KyO86Ns
+ /0lOZW8RTyTAklCrce5sVjlA8tuwqb/AzmNUrP5MyZOt5LtV/+4+vuG
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
-On Wed, May 21, 2025 at 07:21:57PM +0200, Paul Elder wrote:
-> Quoting Laurent Pinchart (2025-05-21 12:10:42)
-> > On Tue, May 20, 2025 at 03:26:58PM +0200, Krzysztof Hałasa wrote:
-> > > Paul Elder <paul.elder@ideasonboard.com> writes:
-> > > 
-> > > >> Without the patch (i.MX8MP, all-white RGGB-12 full HD input from
-> > > >> the sensor, YUV NV12 output from ISP, full range, histogram Y mode).
-> > > >> HIST_STEPSIZE = 3 (lowest permitted):
-> > > >
-> > > > According to the datasheet, the histogram bins are 16-bit integer with a
-> > > > 4-bit fractional part. To prevent overflowing the 16-bit integer
-> > > > counter, the step size should be 10.
-> > 
-> > That would be for combined RGB mode, as every pixel is accounted for
-> > three times in that mode. In other modes, a step size of 8 should be
-> > fine.
-> 
-> Ah, right.
-> 
-> > > >
-> > > > Do you have any other information on this? Is it known that it's stable
-> > > > and consistent to use all 20 bits anyway?
-> > 
-> > The documentation states that the width of the bin counter registers is
-> > 20 bits wide including a 4-bit fractional part, and that the software
-> > should use only the upper 16 bits of the bin counters. The fractional
-> > part is caused by the weights. There's a corresponding todo comment in
-> > libcamera:
-> > 
-> >         ...
-> >          *
-> >          * \todo Take into account weights. That is, if the weights are low
-> >          * enough we can potentially reduce the predivider to increase
-> >          * precision. This needs some investigation however, as this hardware
-> >          * behavior is undocumented and is only an educated guess.
-> >          */
-> >         int count = mode == RKISP1_CIF_ISP_HISTOGRAM_MODE_RGB_COMBINED ? 3 : 1;
-> >         double factor = size.width * size.height * count / 65536.0;
-> >         double root = std::sqrt(factor);
-> >         uint8_t predivider = static_cast<uint8_t>(std::ceil(root));
-> > 
-> >         return std::clamp<uint8_t>(predivider, 3, 127);
-> > 
-> > libcamera sets the default weights to 1, and discards the 4 fractional
-> > bits. It seems that the 
-> 
-> (what did you mean to finish saying...?)
+The imx214 driver currently supports only a 24 MHz external clock. But
+there are devices, like Qualcomm-MSM8916-based phones, which cannot
+provide this frequency. To make the sensor usable by those devices, add
+support for additional clock frequencies.
 
-Oops. Ignore that, I split my reasoning to two paragraphs and forgot to
-delete that half line.
+This series supersedes
+https://lore.kernel.org/linux-media/20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu/
 
-> > I expect that each pixel contributes to its bin by adding the weight
-> > value corresponding to its zone. Setting all weights to 1, I would
-> > expect that the 4 fractional bits could be used to increase the bin size
-> > to 1048575 pixels (20 bits), and therefore decrease the predivider from
-> > 10 to 3.
-> 
-> True. I suppose if all the weights are 1 then we can squeeze out more bit
-> precision then. But that's a todo for libcamera.
-> 
-> > > Interesting. I only have those mrv_*.h files which come with
-> > > isp-imx-4.2.2.* package(s). Here we have (among others):
-> > > 
-> > > /*! Register: isp_hist_prop: Histogram properties (0x00000000)*/
-> > > /*! Slice: stepsize:*/
-> > > /*! histogram predivider, process every (stepsize)th pixel, all other pixels are skipped */
-> > > /* 0,1,2: not allowed */
-> > > /* 3: process every third input pixel */
-> > > /* 4: process every fourth input pixel */
-> > > /* ...*/
-> > > /* 7FH: process every 127th pixel */
-> > > #define MRV_HIST_STEPSIZE_MASK 0x000003F8
-> > > #define MRV_HIST_STEPSIZE_SHIFT 3
-> > > 
-> > > In case of my IMX290 1920x1080 sensor, 1 doesn't work well (it stops
-> > > counting before reaching $((1920x1080)) in each bin, and even if no bin
-> > > reaches this magic value, the total count may be invalid (not equal to
-> > > the number of pixels). IIRC, 2 worked well. Maybe with higher
-> > > resolutions, I don't know.
-> > > 
-> > > I'm currently using "3" per the .h file:
-> > > isp_hist_prop:
-> > > 32E12400: 1Dh
-> > > histogram_measurement_result:
-> > > 32E12414: 0 0 1 1004 569 476 633 1197 2373 2212 1923 2945 3632 3025 5821 204589
-> > > which sums to 518400 = 1920*1080/9.
-> > > 
-> > > Setting "2", the same input scene:
-> > > 32E12400: 15h
-> > > 32E12414: 0 0 0 2194 1263 1096 1406 2528 5228 5052 4291 6354 8322 6943 13201 460522
-> > > which sums to 518400 = 1920*1080/4.
-> 
-> Yes, these look good (although I think you might've copy&pasted the wrong
-> number for the sum)
-> 
-> > > Setting "1", the same input scene:
-> > > 32E12400: Dh
-> > > 32E12414: 0 0 25 9046 4924 4317 5435 10655 20781 18965 16051 24716 32681 28368 54301 1048559
-> > > which sums to 1278824 which is rather less than 2073600.
-> > > The last number (1048559) is the magic one, no bin can go higher. Less lights and:
-> 
-> Oh? I would've expected 2^20-1 = 1048575 to be the magic number, but ok I
-> suppose the hardware caps at 1048559 instead. It probably overflowed and that's
-> why the sum is so low.
-> 
-> > > 32E12400: Dh
-> > > 32E12414: 0 0 0 0 0 0 184 3059 11970 75298 114898 211444 429772 439922 400358 386695
-> > > total = 2073600. But don't rely on it too much, the "1" has problems.
-> 
-> That's interesting. My guess would be that in practice a divider of 1 would
-> still work as long as you make sure that it doesn't overflow. Maybe the usage
-> documentation was based on a rule-of-thumb.
-> 
-> > > In short, those are integer values. One may use them as fractionals with
-> > > some clever step size, I guess.
-> > > 
-> > > >> isp_hist_h_size: 383 (= 1920 / 5 - 1)
-> > > >> isp_hist_v_size: 215 (= 1080 / 5 - 1)
-> > > >> histogram_measurement_result[16]: 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 229401
-> > > >>
-> > > >> Apparently the histogram is missing the last column (3-pixel wide,
-> > > >> though only single pixels count) and the last (same idea) row
-> > > >> of the input image: 1917 * 1077 / 3 / 3 = 229401
-> > > >
-> > > > I don't quite understand this. With a sub-window width of
-> > > > 1920 / 5 - 1 = 383, shouldn't the resulting total window width be
-> > > > 383 * 5 = 1915? Same idea for the height.
-> > > 
-> > > It would, but the stepsize = 3 makes it ignore only the last one
-> > > - i.e., normally the counted ones are 0, 3, ... 1914, 1917 (which makes
-> > > 1920/3) and with 383, it ends at 1914, thus only 3 pixels (1 really,
-> > > instead of 2) are missing from calculations (not 5). I guess the same
-> > > vertically, 1080 divides / 3 and 1075 doesn't.
-> 
-> Ah ok, I see. Thanks for the clarification.
-> 
-> > > 
-> > > > The fix looks fine though. Although, I'm wondering if there's a reason
-> > > > why there was a -1 in the first place. Does anybody know?
-> > > 
-> > > There is slight chance it's different on some other SoC, but I would be
-> > > surprised.
-> > 
-> > The documented constraint is
-> > 
-> >     hist_h_offset + hist_h_size x 5 should be less than or equal to the
-> >     horizontal size of the picture.
-> > 
-> > (and similar for the vertical direction). The initial -1 seems to be a
-> > bug.
-> 
-> Ok.
-> 
-> Looks go to me.
-> 
-> Reviewed-by: Paul ELder <paul.elder@ideasonboard.com>
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
+---
+Changes in v3:
+- Limit range of pll_ip_clk_freq_hz (Sakari)
+- Drop unneeded 'ret'
+- Use pll.pixel_rate_csi for bit rate calculation
+- Add patch that deprecates the clock-frequency property
+- Link to v2: https://lore.kernel.org/r/20250505-imx214_ccs_pll-v2-0-f50452061ff1@apitzsch.eu
 
-Should we update the commit message as you initially proposed ?
+Changes in v2:
+- Add A-b tags
+- Switch to v4l2_ctrl_s_ctrl_int64() to acquire the control handler mutex
+- Add error handling for v4l2_ctrl_s_ctrl_int64() and
+  imx214_pll_update()
+- Replace "read clock frequency from dt" patch by "remove hard-coded
+  external clock frequency" patch
+- Link to v1:
+  https://lore.kernel.org/r/20250415-imx214_ccs_pll-v1-0-d3d7748e5fbd@apitzsch.eu
 
+---
+André Apitzsch (5):
+      media: i2c: imx214: Reorder imx214_parse_fwnode call
+      media: i2c: imx214: Prepare for variable clock frequency
+      media: i2c: imx214: Make use of CCS PLL calculator
+      media: dt-bindings: sony,imx214: Deprecate property clock-frequency
+      media: i2c: imx214: Remove hard-coded external clock frequency
+
+ .../devicetree/bindings/media/i2c/sony,imx214.yaml |  29 ++-
+ drivers/media/i2c/Kconfig                          |   1 +
+ drivers/media/i2c/imx214.c                         | 263 ++++++++++++++++-----
+ 3 files changed, 217 insertions(+), 76 deletions(-)
+---
+base-commit: ae0384b772a260975af192746d900c328392e525
+change-id: 20250406-imx214_ccs_pll-e4aed0e9e532
+
+Best regards,
 -- 
-Regards,
+André Apitzsch <git@apitzsch.eu>
 
-Laurent Pinchart
+
 
