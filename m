@@ -1,222 +1,212 @@
-Return-Path: <linux-media+bounces-33014-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33015-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B37ABF385
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 13:57:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6D9ABF397
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 14:00:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 290033B1241
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 11:56:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A90721BC39C3
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 12:00:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2459264A65;
-	Wed, 21 May 2025 11:56:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59FFC2609ED;
+	Wed, 21 May 2025 12:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vzm7klO3"
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="B37zqwaZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2045.outbound.protection.outlook.com [40.107.237.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDF526460B;
-	Wed, 21 May 2025 11:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747828619; cv=fail; b=f5zY0Ov+yjYhmiBF7nuIXsUfxWVy6mbjv6jj2vg30vYl6X6WK+6ywB+uqVbrAkxjn8yazfpkm0miuZz7e85MNb9KpfJTSIoLMRcu9s4qQSIWkKPaVWNWjEcvJGRTlbguyqbDWZStZIm85Nt+ARzocg5sqFvK8w2t2SKOE5hmZLg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747828619; c=relaxed/simple;
-	bh=2prh8SBIO60N6y6oSmrxqdDxZ5yzT13WyIElNK7hAqY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=BOBNRQ6bzfQWaW/mvLziBvwPCZUkNvQIZC47vVCIM8mMQvXQt4ax9XUyLefRlr+tlgGD1O5He66Cy/f3bqyTAl1K9Kbwn3Oh3DNEq0fAlIDGJVo/rujFljo2AGtd61Uv8ccsbfyfFO2TEB6CFNqX+NuOodxyYrOcUacbjH+vJ2M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vzm7klO3; arc=fail smtp.client-ip=40.107.237.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GzXYu2zGcSYom5vTYJ1aF5AmtPrRbUzcqlFLuMDKEDZiQSsSo8KdtLTwerWsiJjnOLINXDdV1GJxFt0vIjYaHB3hoStscraf2b5ZJMg77KzNSaG6AY8ukS0aT6A6CMOW+BR+Ro/9cqsJL/JGDMOwys5KHCmLiwmJ5yWjcF45v5hi1+YhywALYFXf2rameAKHF2AGNKUv2zXeKqJCaeUE62uKUackY2Tq6jnbPcmgxAq21eOvgNnVry7wQ7qNsF3puXAPux1O24B3l5+AHEvWAeSmQXKXNTH+vGGgwZYz7jTDEc5pM2E1ex7zjE2idVYE1hYPtmzW6MNT/nHBJiVSvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2prh8SBIO60N6y6oSmrxqdDxZ5yzT13WyIElNK7hAqY=;
- b=NF92pO8DUEN/VYkYFNiZyAkivAbHeEoOCCFAc6Brp3ZSljYbiqx1lyoS+1PaX2KOOIfeKyhCKRgs161g8CFS+ExxVTQrkakTaxEF4uIBZdU63wjm3HbowYNNXvOjROzQ9IfThIFoejLmvMnmnT1oVmuGgn4m5ZC4CAzw8gu1BjZ2wgFJYr068c48sicQKydADspHlLg3mjBjh7A+m5nFpZDPbKQYyqsNVbmXAJmXB2NmhoOsmaByohBcVsDNlzpOF5M8iaexw7hEiM7H8SrcyxwSZdJSyu1/vth+2hpOyM31vHs552lIp9+3xDBUOXjaZtz0eLEFs+GWhdrIWJUVRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2prh8SBIO60N6y6oSmrxqdDxZ5yzT13WyIElNK7hAqY=;
- b=vzm7klO3VPOhr/IiEZt4t+cUKG/EOL8AWcLizRoNpqQIJHTx2C3cDX4rCb5OJscmA/joCNz3RiODvtKJZA2Dyx+YXjH5yu84cNJSemiojuPdrUqxAdEPBdQBWKXKnnYIsoM06lF1aSy6L5vrT8vNmNuX/D3psB7Ukw2MLBxvHxs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BN5PR12MB9537.namprd12.prod.outlook.com (2603:10b6:408:2a9::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Wed, 21 May
- 2025 11:56:54 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Wed, 21 May 2025
- 11:56:54 +0000
-Message-ID: <d786ff9f-9bf0-42e1-987f-f2091fd90279@amd.com>
-Date: Wed, 21 May 2025 13:56:46 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-To: wangtao <tao.wangtao@honor.com>, "T.J. Mercier" <tjmercier@google.com>
-Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "jstultz@google.com" <jstultz@google.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "wangbintian(BintianWang)" <bintian.wang@honor.com>,
- yipengxiang <yipengxiang@honor.com>, liulu 00013167 <liulu.liu@honor.com>,
- hanfeng 00012985 <feng.han@honor.com>,
- "amir73il@gmail.com" <amir73il@gmail.com>
-References: <20250513092803.2096-1-tao.wangtao@honor.com>
- <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
- <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
- <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
- <9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com>
- <50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
- <2755aae2f1674b239569bf1acad765dc@honor.com>
- <2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
- <a3f57102bc6e4588bc7659485feadbc1@honor.com>
- <5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
- <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
- <375f6aac8c2f4b84814251c5025ae6eb@honor.com>
- <38aa6cf19ce245578264aaa9062aa6dd@honor.com>
- <CABdmKX0nAYDdgq-PHv0HxucfYQzvvTAJjVCo7nQ0UtjwcF02aQ@mail.gmail.com>
- <7198873a044143c7be12f727b469649b@honor.com>
- <fdd7a11b-140c-40bd-a1c1-334d69256b92@amd.com>
- <e61fcdbf71ba4f9dbfef2f521d1b2fc1@honor.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <e61fcdbf71ba4f9dbfef2f521d1b2fc1@honor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BLAPR03CA0114.namprd03.prod.outlook.com
- (2603:10b6:208:32a::29) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE99236437
+	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 12:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747828815; cv=none; b=mEVLeTIOZdCOnM6YCU1m0aUfccWHGB2cOosTZ2wHe+gwg3z08iqE8YD7UFHaxCq6J5srZ+uVIvYfDJyY3bAUNl092SNgyMbzwruZmD9fBNIjV5rZOFrM/KL7OsGIeQLZpKsiQ6B6HlgYnkAaUEw9jaozL41Q3fuE9ihGvNcaG2k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747828815; c=relaxed/simple;
+	bh=k/WGBBL+gU1y7ps5iD6L114NTjbeXPJJJ1dSIxa4WDw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ctb2AzyXiHmV/WUmLgaLCrsJ8gk9A4daRLLQbXJz0y5C3pYlUDYZ+3eE1dB0BP2YjJphCNFkqpLvG6QRrjNVMKZzZJLEOoTiq1Bo//koIjwk6Uksr6auGM6MurA1MfA2VLYbFdcziCukqInBmrYrowA1aQhit2hmll8dPBUT/j0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=B37zqwaZ; arc=none smtp.client-ip=185.233.34.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
+Received: from smtp.freedom.nl (unknown [10.10.4.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by dane.soverin.net (Postfix) with ESMTPS id 4b2VNP0VPtz18JM;
+	Wed, 21 May 2025 12:00:05 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4b2VNN4TNZz4c;
+	Wed, 21 May 2025 12:00:04 +0000 (UTC)
+Authentication-Results: smtp.freedom.nl;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=B37zqwaZ;
+	dkim-atps=neutral
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
+	s=soverin1; t=1747828804;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=rStZcD47vUvZHkTmu0NpP1eiSM6l2Esu1tEIIyatBi0=;
+	b=B37zqwaZ+cZRC9qTYIjew4wz8p/zEwOo/Fse/wF/zgm52AKWEf8h1Z5DSlfC8w4aFKM+An
+	HdtbSscFHqFjirbcQJQM7uSKfhNjxp8CoyFh6ycEMX+Bpc4I6sLSIKarjULPYc3p3emgJ6
+	dSg32jLwkqIdZv9Br+nwSsXMnY/iAXlzrCjHDrshzKPndoynI7Ub4ftmXx2KCSn6K9/0/9
+	WDPYfj3ZcLs+ukpXzGq7gcSrD95UgJhknzL2zfhOADzoD52v5a0JrG8kdfbpGpnyBCD+kw
+	IfFKaexOz5pHT9K9PxXlLiGKntrcDvdFlSBbh319wuN2uWmKFSSpacZO6HaYUg==
+X-CM-Envelope: MS4xfPq2H6p/CwHSVqRy0oEPY58odXjak3m+SAUdueOfCjOC+7Oaic15Cd/zUKk5wAu/vx/ol9GOWvoq3lIVjO4yyb/SElWxiMoi+2c8F3Vq5el3ytcy5PlV JA9z43oz6SqvYYkYp/fexTpwlKh8cwojTP9rWRqAlpf4kawkb6VGkUQtOuaBIuKTW9zLZNmX0yG6O8mDpAbhOOoLzdbeUzb9iDZxlA1Fw/KhrBFQdKWSCMVp jARghHrQ22dqMpvAosDi/m/GDkQSkNNH8Kl9cvmXSeR8H9igMyRq/oLzjG7cJtfW
+X-CM-Analysis: v=2.4 cv=d/oPyQjE c=1 sm=1 tr=0 ts=682dc044 a=xVxOAnYOZqKVbrsbIgLjXQ==:117 a=xVxOAnYOZqKVbrsbIgLjXQ==:17 a=IkcTkHD0fZMA:10 a=QyXUC8HyAAAA:8 a=rv26NtdOXWA4f4aZhUoA:9 a=QEXdDO2ut3YA:10
+Message-ID: <21871bbe-c4c4-45a3-a21e-7822084db993@jjverkuil.nl>
+Date: Wed, 21 May 2025 14:00:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BN5PR12MB9537:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc3fc373-fb41-4bf1-fd68-08dd985e9484
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Nk1CYUcrVnBEN1RpTzFWNjgzaHlrUzFFRmxxNXhpb2xwZ243UVFqN211b3FN?=
- =?utf-8?B?eEt2NVVNNkx6VU5lcHBFaWRYVHBFTGtyQ0xzY01DTDBjZzVVaG9aaWlGdnRE?=
- =?utf-8?B?TVJwbk1SR1IzZzduRjR1d3NIUHd3QmE1Nk5tREpNQjk4akpaeG92diszWHNa?=
- =?utf-8?B?L3l0N2FYSlF6SWFZR0w5bUM0N3J2ODh4aURkdWJsR1FOUGJWSWtMYkV3Q2tL?=
- =?utf-8?B?dWgwb0VrN0daMWd2Vmh5SnJOWHBjeXE5akV4R1ZtYzlaL28xdTVmaExGYnNm?=
- =?utf-8?B?MHBwdnpzZW4vd3pMYmUyUTA2MS9hNUVhZWZ2TUZpU3BTVEdRMm01REI2dXZx?=
- =?utf-8?B?ZmozY3R2NVRSelFGakgvUXBtOUVXeGZGbTVYT2piUnRmY3d6VEY2dENNWWxQ?=
- =?utf-8?B?MS9ueXJQTmE4UzBwNjU0UU1Bd3RLZUFLUTV4ZVFQYnBZbkQ2MHpoZndvS1U4?=
- =?utf-8?B?L2k5bHRhZFFFcDJETk9xSUszbTV1endmai9MclpUd3NRMlNUYkMzYmI1UlY1?=
- =?utf-8?B?TVJ0Tmp0ZFM2VlAwZUF6N2wzaHBQRUlBZC9KaHA5NWplc21BM0dNL3k0aU9V?=
- =?utf-8?B?aTJKUzlMeERtQnNHaXhrZDhYQUlBN3loczFHQVRjODByOVVZWGhMZVBob1JP?=
- =?utf-8?B?RGJobjQ5b21Oa25YcVJnSktSeWZObzBueGJ5L2pJNWhGNUtTRzRyRmVVVHY0?=
- =?utf-8?B?U0gwSUNlYTF3VUw5Y3F6Z0NIODlTR0Jra2NNMHFiUHV5YW9OZjAyT2VjQkQz?=
- =?utf-8?B?UHY0cnltQWNnbHdjRjFCRHNQWk5CczVwRzl6eXRJc1VGOXFJa2xDNUF3aEx3?=
- =?utf-8?B?bHBsVGtWU1l3S1BFYmNQaHh1YW8rYjNuZmVWcTJLc1k1ajdENjV6T3dGS2ta?=
- =?utf-8?B?QkdxL0JraFY5Nm5PSnlydHVjVFNqc1hnQTdVc28yV3pIRkFUUFlaSm9PRS9s?=
- =?utf-8?B?R0R6eHpWTVhDQm5RTnJlUm5IbVIyZDVva2Z6ZDMxYzQzMnBsdHF0QUtPSXdW?=
- =?utf-8?B?emJubXNoSUEyWWJoK3BRWW1qR0h1bURFc2FnQnFEeU5vM0tMbEQ2QVgyRitw?=
- =?utf-8?B?ZFhuVXR2VDVqME9NaEZqLzBWaEJZblZsL0Rwd1Z4S01xNjNyby9LK1U0amRt?=
- =?utf-8?B?Y2QzblUwTTFOVkpHNXpvZVBhc0cyaVlpWDE2RHVxQ3l4ZnFUYi9udTF0SXA0?=
- =?utf-8?B?anluaUEwU0I0N2M4b1RmdFdrUWJlRldXMkJ1bG5sRlhnRlIyVTFhb090NUZU?=
- =?utf-8?B?RkN2RmlMZWxDTGxMU2ovdjhBV3pVMlpTaXcyK2o4eDg2S0ZlcEpEZFc0dU96?=
- =?utf-8?B?Z2dGOGowSVIwRnpZVWw0MGs5YUxUWGtkZEVkUlltVFU5Q2JCeTR1L3U3ZVhR?=
- =?utf-8?B?STVHWHhSNHl6Yk5leE9UOWQxY3J5REJ2c0tSUmhvcDJ5TE1XY04yRkF4S1pM?=
- =?utf-8?B?WFVQNjJSSHRvNzAwQkdGSnBIalVOb202bmIvOVUvV3VvS2ZmWGpTNnRaY252?=
- =?utf-8?B?OTdKOFdvanVaWkhJN1hKdy9OUklkWncycDRLMUFLMzVROEtiUmMxZHNwdFBP?=
- =?utf-8?B?WENON0RwMkI0T1RKREZGZkVFa1dWQzFDNHYyTmdvZnpISW5XcndFdVdrYXEy?=
- =?utf-8?B?Szh6TkQ4MVZ4Smg5SStqMHBGOGpBZUdDOGU4UnRnR2t2cTVqQW5EM0tmSnRM?=
- =?utf-8?B?VFhHY3A2dm9jSW4rTDlxbFJ6TlZnbjVyYytDU2xjcnlhWklSQ3Q5REd3ZEM1?=
- =?utf-8?B?NDJEYXZ3c012eGRFaUw3SU1vUCtYSC91YmIveW4xd0xvcEJFZmx4ODdHcitn?=
- =?utf-8?B?RUt1VTV2U2NmUGlZR2NXNUdiRkpTVHpsZUFiYXpwZ3kzTzlENnJZdktVWkZ0?=
- =?utf-8?B?c21GRHJTOEdqMVVpUXZYWFFNM253S2llc0FuRGRKcWE3UWl4ZXF3NnovUkVl?=
- =?utf-8?Q?OGTEyArG+Ws=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?STBZc1BhNXlsenNmSHVBLzV6QWJZVFVaWEpLcDZScmZSM0pWbGs4c3NOdDZD?=
- =?utf-8?B?RjJIVWNQdDRKTzU5V0oxUVRGOS9vS21WY2liMVlxL1MxaUNMSklVUlZzR0Uv?=
- =?utf-8?B?NUxiR1l2ZXEyQkM0VFVDajdIYjRYRWJVS1Rja0dycWlFY2MycnFHbzFSRkRk?=
- =?utf-8?B?L1drUy9UNzU4bzh4cUNRRmRVSE1kSU1QbEhRaWZIb1REK3ZwRlRqWk5mdUZa?=
- =?utf-8?B?UGpTdC9CS1AyOHgzb1JMd2JEMm9vNDg5Z29xYndPUzQvdUNwUHJONmpOemJT?=
- =?utf-8?B?MlZlRTVYc0dKdExJS3lVd3pUb041L00wRUhwbkVBVmxiQ1YwTEFZc25tZFlG?=
- =?utf-8?B?cW15WEVFYTBwUFdKOERIL3V6OWhQeVRXekFLclhQdkwwTFVXSk1HRWRSOWd2?=
- =?utf-8?B?aVZQajFvUDBvVDhqcmlXaXlVU1czUmFqSSswUVAxTllacWVOZHA0QXFkYXIw?=
- =?utf-8?B?dUVBa2hqOGxmbXE2cloyZEJ3V1dJck95L0tmeDY2cDlHZEJ6Q21MTGdrbmlQ?=
- =?utf-8?B?SXpreWZ6Kys5WGFpbGlhVDQ3Q0VWVzZMU0o1enVaKzhWVGRvZHFNdDgrRm03?=
- =?utf-8?B?UTFvd3JmMW14bFdPTks3THJMZDZONkdRUTY1ZjNGajl4N0VTRmdGckMxbytR?=
- =?utf-8?B?Q01KWEdZTkJTQ3FFV1ZxT3UrbC9RRCtrcTVObEt3REZJL01OOHZJQVhUSDBi?=
- =?utf-8?B?RFA3cXNjTi9HOFBIM1dzRDB0WUJ0NCtGQ2hUaXpNMEtKdWtMck5TckJyS25Z?=
- =?utf-8?B?em9pVTRsU25IazVsbGgvMlNwSVhPc1dROFNqclIyVHVicWNsbjFxaVE2NUFM?=
- =?utf-8?B?MVdRY29OVzJ5R0FJeUtqTXYxT2h6NE9WNVRpSXM5ZUJlSmJzVjFsMExubXRk?=
- =?utf-8?B?S2cvWkNRS3pWOG9aTVpTeFFXbExqd2gxZTU4OXNwOVlCN2ZkWjZNb3ozUUlr?=
- =?utf-8?B?R1hRQi9jOXorcEVocXpXSmJ1dE5iT04yU1JaWkNmVXkvVlRISVhFSGVDbjNk?=
- =?utf-8?B?QXFXbGtGbCtLY3EyUnM3VzRjck5ZbTRNbXJpL1ZzaTdUVk5ZSkpEaG4wekhZ?=
- =?utf-8?B?dFlaaDBrVE9nZ0o3Y2tnQzFQeTRnaWg1WWsvemNPaWlRWksrV25OUEtiZ1Nm?=
- =?utf-8?B?ZzcvdVFITFdRRHZqN0VJRWRXQmUvNDRZUHBnTVo2WCtJb05lU3NLMFZFK0tO?=
- =?utf-8?B?NEtqZlpFNEY0UmNhQmVORjRoZzFOR1BqZ2srdHFoOWt0N2ZmMUR3WDQ1Zkhw?=
- =?utf-8?B?OFFGQWkwVy9VdW1qd2hoSDc3Rk5sZ2lsYTMxVUxMRjl1eGVrc1RIOWhqcGNo?=
- =?utf-8?B?Rlp6T2liRTRucnZxTVM4TTVsWHYvUzdZd01NazFuSGRaMWxwSlhQdmlJUUJr?=
- =?utf-8?B?QnlrNEdMbUpzRVc1Z2l0OW9PdWVHVjlRM2h4MU5wZ01BYVl2UTg4Q1o4UEgv?=
- =?utf-8?B?QTFRQllWREl4b01KdUhBUEw4aXhNbkhnUkFHZUgwNWd3eGcrUjA5YlppQ3di?=
- =?utf-8?B?TmRXUlJkRG9jYlhFcXpRNXpIc0RzcC9iYVAzYTFWRHo3UnpVeTg1YmlMcGZM?=
- =?utf-8?B?eUplbTM5bXl3T3ZIQ0Q3UFRPODNvc0pqcTBoYVFmWHY0aE5FUGhpZ0s1ZHFu?=
- =?utf-8?B?MHhiL1ZobVI1elN2dVV0ZlR4aWFWNmtHU2tKSUxydm52ek8zNmszcENvVkM3?=
- =?utf-8?B?ZDAxT3dPOXRKeStWZzl4R0lLeDRXNjVWSkx2K1NFVkw2aExFNXRVL3pLd0sy?=
- =?utf-8?B?Q1RlZWNPaUM3d1ZXb0pJRjZkZktwYU9sVTlEaVM1c25QbDZqR3BMUXlueExq?=
- =?utf-8?B?Q2IvM2hUT3BOQnpRUEFSVkJ1WFNrSkhNc3YwOXNyazJJMitGZ3J6bG9ZQ1hJ?=
- =?utf-8?B?dk90dWl0NDI1OEFOWXVXVWt2RitvbWwyemNneHNUTEVSRFczeENmei9RTm9X?=
- =?utf-8?B?V09OMHZCL2JCNWJRUHlhNi9DdGV3eVd4TXlQcjhGbEVGeVh1bTVCKzdrdkVT?=
- =?utf-8?B?N1pSYlpUY2w5VkQwMEFRRnFreGNvRGRmMTlqcEVld25PcmNqUXowWTZuNUVU?=
- =?utf-8?B?Rko3Z3gxOFExS2hrQ3l6RUw2ekN2N2d0K0RkRjIxSWFkSzB0eUVuWktFZldY?=
- =?utf-8?Q?Bm9h2vGa6qivY1vXFrjIgW/T7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc3fc373-fb41-4bf1-fd68-08dd985e9484
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 11:56:54.4650
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1TCI22+QGCF2/WofeV/bMkxBqee7c5MvGzzDW0pS3ndRyULYiqU/Se8PGOf6gYTu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9537
+Subject: Re: [PATCH 1/1] media: v4l2-ctrls: Don't reset handler's error in
+ v4l2_ctrl_handler_free()
+From: Hans Verkuil <hans@jjverkuil.nl>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com
+References: <20250508160852.1090549-1-sakari.ailus@linux.intel.com>
+ <03611b42-937a-4f85-b822-bd0f652e6ccc@jjverkuil.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hans@jjverkuil.nl; keydata=
+ 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
+In-Reply-To: <03611b42-937a-4f85-b822-bd0f652e6ccc@jjverkuil.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spampanel-Class: ham
 
-On 5/21/25 12:25, wangtao wrote:
-> [wangtao] I previously explained that read/sendfile/splice/copy_file_range
-> syscalls can't achieve dmabuf direct IO zero-copy.
+On 21/05/2025 13:52, Hans Verkuil wrote:
+> On 08/05/2025 18:08, Sakari Ailus wrote:
+>> It's a common pattern in drivers to free the control handler's resources
+>> and then return the handler's error code on drivers' error handling paths.
+>> Alas, the v4l2_ctrl_handler_free() function also zeroes the error field,
+>> effectively indicating successful return to the caller.
+>>
+>> There's no apparent need to touch the error field while releasing the
+>> control handler's resources and cleaning up stale pointers. Not touching
+>> the handler's error field is a more certain way to address this problem
+>> than changing all the users, in which case the pattern would be likely to
+>> re-emerge in new drivers.
+>>
+>> Do just that, don't touch the control handler's error field in
+>> v4l2_ctrl_handler_free().
+> 
+> I think with this change the control framework documentation should be
+> updated: Documentation/driver-api/media/v4l2-controls.rst
+> 
+> There is a code example on line 197 that can be converted to the new
+> approach.
 
-And why can't you work on improving those syscalls instead of creating a new IOCTL?
-
-> My focus is enabling dmabuf direct I/O for [regular file] <--DMA--> [dmabuf]
-> zero-copy.
-
-Yeah and that focus is wrong. You need to work on a general solution to the issue and not specific to your problem.
-
-> Any API achieving this would work. Are there other uAPIs you think
-> could help? Could you recommend experts who might offer suggestions?
-
-Well once more: Either work on sendfile or copy_file_range or eventually splice to make it what you want to do.
-
-When that is done we can discuss with the VFS people if that approach is feasible.
-
-But just bypassing the VFS review by implementing a DMA-buf specific IOCTL is a NO-GO. That is clearly not something you can do in any way.
+And I think section 1.4 in that rst file should also explicitly mention
+that v4l2_ctrl_handler_free doesn't touch the error field.
 
 Regards,
-Christian.
+
+	Hans
+
+> 
+> Also document that the error field is not touched by v4l2_ctrl_handler_free()
+> in include/media/v4l2-ctrls.h.
+> 
+>>
+>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> ---
+>> Hi all,
+>>
+>> This is currently affecting the following drivers:
+>>
+>> 	drivers/media/i2c/imx334.c
+>> 	drivers/media/i2c/imx335.c
+>> 	drivers/media/i2c/imx412.c
+>> 	drivers/media/i2c/ov2740.c
+>> 	drivers/media/i2c/ov5675.c
+>> 	drivers/media/i2c/ov9282.c
+>> 	drivers/media/pci/tw68/tw68-core.c
+>> 	drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+>> 	drivers/media/platform/samsung/s3c-camif/camif-capture.c
+>> 	drivers/media/platform/verisilicon/hantro_drv.c
+>> 	drivers/media/test-drivers/visl/visl-core.c
+> 
+> also:
+> 
+> drivers/input/touchscreen/sur40.c
+> drivers/media/i2c/adv748x
+> 
+> In any case, this looks good to me.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>
+>> The fact that one of them is a test driver tells a lot. :-)
+>>
+>> The patch is untested. If we agree to do this, the patch should probably
+>> be cc'd to stable, too.
+>>
+>> - Sakari
+>>
+>>  drivers/media/v4l2-core/v4l2-ctrls-core.c | 1 -
+>>  1 file changed, 1 deletion(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> index 90d25329661e..932aedc26049 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> @@ -1661,7 +1661,6 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
+>>  	kvfree(hdl->buckets);
+>>  	hdl->buckets = NULL;
+>>  	hdl->cached = NULL;
+>> -	hdl->error = 0;
+>>  	mutex_unlock(hdl->lock);
+>>  	mutex_destroy(&hdl->_lock);
+>>  }
+> 
+> 
+
 
