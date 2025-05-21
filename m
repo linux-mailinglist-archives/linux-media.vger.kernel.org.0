@@ -1,114 +1,149 @@
-Return-Path: <linux-media+bounces-32999-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33000-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC16ABF16D
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 12:23:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E251ABF176
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 12:24:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A09E1B67543
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 10:23:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0EE91BA4C95
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 10:24:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ABA025B668;
-	Wed, 21 May 2025 10:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7915C25C71F;
+	Wed, 21 May 2025 10:24:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="a7Gn+EEu"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="hqJZh2Fp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398CE253946
-	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 10:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D5625A2CA;
+	Wed, 21 May 2025 10:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747822982; cv=none; b=TWghxTE9ucqEMsE7xjYIot1Qc7vWrFnOR5E1PyWatXF2ZP2ac2rnZs7l/eDnyUHF0dJuw7lgzK8upPYZedFVM9zCSq8LNNkJEnSlO91a2d9tZcfk/GteR1ytCc73tU/hdD7/rIDEGqE8EJlZJyKy9NDVGbPortAFlnVMwRy2JrA=
+	t=1747823076; cv=none; b=ZQoeooXRxWhCGq9MnTlTuSowea7OWvvPgFbLu8Nzv3fTaFMaxMTUyC36cT6xjlIjfW3osLE8tk1hCpk/W9+5I9nNzUJAyExjMfzF1MGNC0iKVM1XHS9bR5BNCG9Jx9vPuglOWuyAgk5PG3ZYxHr9H7bdqv0ImYkrjhBcvAAz2TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747822982; c=relaxed/simple;
-	bh=vMrbMPmnr66D9MoRLd3wHyOxUmuR8XEX65gucSkKivc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=otojfxPCaXj888pQn4Ly4pmHNpV8vP0bbfQAslHmcHlb5NLsIRUTXmWIF804GjjYWlzZiPzbCWcRpJbcvBO1BAhjxSnuYwdABSIEVIZaCTvIDsI/uqF3M8nEDp1X0yK0wfAt1otiper3qypvd1/vNWWuq1LXcXxD5TVMHlhsUFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=a7Gn+EEu; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=IiAE
-	xulbZyheoKVtSlmVQX3HQ/jEp/zeXoCUKpIHZ2E=; b=a7Gn+EEu/1STHTI4mszW
-	gti3C85BEwbaGL7CS6zbwEoiuqKOu3fh17VbDQYVEGEE6Jc1mHbxBx/fqGS3oFG+
-	SOOujXbnRcWy33F/YMuzrexsb1h2UwhjH/Gc2oH2mkklAMgjydc9A+hGKN6MAnEi
-	VCcV70+R69jpjlSnkKeA1Pi/XxfzhGEjoTYAFxJepII99KxFG4GH/d7/t3GD6fAo
-	K4IZe2rcMCVh7vAXmJcJtyrnFRxlDQUOjMdmd+2dURBJVPFdYXs6tB2MFrT1OUu6
-	smqt1ct0fCLCEGluitAuCrEzFmJO220FXyBDpSZmsuMMOGtWt1lGDEhAutJ059Yo
-	Gg==
-Received: (qmail 3220941 invoked from network); 21 May 2025 12:22:57 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 May 2025 12:22:57 +0200
-X-UD-Smtp-Session: l3s3148p1@dH+yv6I1pJtehhrc
-Date: Wed, 21 May 2025 12:22:57 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com,
-	lvc-project@linuxtesting.org,
-	Alan Stern <stern@rowland.harvard.edu>, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2] media: dvb-usb-v2: disallow 0-length I2C reads
-Message-ID: <aC2pgdt5IgzCWNMX@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com,
-	lvc-project@linuxtesting.org,
-	Alan Stern <stern@rowland.harvard.edu>, gregkh@linuxfoundation.org
-References: <20250520135216.2509505-1-n.zhandarovich@fintech.ru>
+	s=arc-20240116; t=1747823076; c=relaxed/simple;
+	bh=C+1xEe3s9JjsT10UoG+oCT3wx0kXuCpM+Riw2eersGo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DfoipmAvjkxvWO/k4qofbt1c8Pd4fRSzEWvvyz/zngKi7rTE76rIbse5CCO6i/VP5Qeet7FDD1yCqxbDYyrR3qGUqVw850OKr4DUZ24alxEi53RFxEitdYdKcA9bwGirPwQrWD/sZK351EjTBFUiWhmgldM1eWMK21KyuYv9nzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=hqJZh2Fp; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=eGUuBjf2T+dXYw2MgC/LPb3FuKSF2ONtaVy7uZ5dEvM=; b=hqJZh2Fp/94yukGVa+hvqy8C8f
+	B/l11rDtTHTtYYFVBcCrY+lBZspkSWtlCpnQISU3UmN2S1lR61KjCMU3vENAtzqrNnKxYfZS5iRzJ
+	MuEOO6vlKLxAPwdBnLuq5W4NTvpYaXFZ6lih7Klh+hhRrRbCOUaj5CoD492cXSlwYHsPM3rC6wooZ
+	blooi8k9qCrq5JCtBoJTCDKbvZtlbr2UV6CYY1ZyiYzZX0Pbi8ZTyLk5xRyJ7LOWD2g3nIuRsXzQV
+	OUE4XxPv9aj+8SD/49MQvSIlf8lp8EE36nrAYCSNtQGCVcTY8n/Lvqbupyj4w4BRd5afD/cdWLuNE
+	kE5nTTTQ==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1uHgcQ-00B99H-VX; Wed, 21 May 2025 12:24:15 +0200
+Message-ID: <29124381-6949-4828-9b57-dc2dc0f55107@igalia.com>
+Date: Wed, 21 May 2025 11:24:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SlaYVM44ag2fg58z"
-Content-Disposition: inline
-In-Reply-To: <20250520135216.2509505-1-n.zhandarovich@fintech.ru>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched/tests: Use one lock for fence context
+To: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20250521100440.110019-2-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250521100440.110019-2-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---SlaYVM44ag2fg58z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 21/05/2025 11:04, Philipp Stanner wrote:
+> When the unit tests were implemented, each scheduler job got its own,
+> distinct lock. This is not how dma_fence context locking rules are to be
+> implemented. All jobs belonging to the same fence context (in this case:
+> scheduler) should share a lock for their dma_fences. This is to comply
+> to various dma_fence rules, e.g., ensuring that only one fence gets
+> signaled at a time.
+> 
+> Use the fence context (scheduler) lock for the jobs.
 
+I think for the mock scheduler it works to share the lock, but I don't 
+think see that the commit message is correct. Where do you see the 
+requirement to share the lock? AFAIK fence->lock is a fence lock, 
+nothing more semantically.
 
-> +static const struct i2c_adapter_quirks i2c_usb_quirks = {
-> +	.flags = I2C_AQ_NO_ZERO_LEN_READ,
-> +};
+And what does "ensuring that only one fence gets signalled at a time" 
+mean? You mean signal in seqno order? Even that is not guaranteed in the 
+contract due opportunistic signalling.
 
-Maybe it makes sense to add a comment like
+Regards,
 
-/* would create an invalid usb_control_msg */
+Tvrtko
 
-?
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 5 ++---
+>   drivers/gpu/drm/scheduler/tests/sched_tests.h    | 1 -
+>   2 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> index f999c8859cf7..17023276f4b0 100644
+> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> @@ -64,7 +64,7 @@ static void drm_mock_sched_job_complete(struct drm_mock_sched_job *job)
+>   
+>   	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
+>   	list_move_tail(&job->link, &sched->done_list);
+> -	dma_fence_signal(&job->hw_fence);
+> +	dma_fence_signal_locked(&job->hw_fence);
+>   	complete(&job->done);
+>   }
+>   
+> @@ -123,7 +123,6 @@ drm_mock_sched_job_new(struct kunit *test,
+>   	job->test = test;
+>   
+>   	init_completion(&job->done);
+> -	spin_lock_init(&job->lock);
+>   	INIT_LIST_HEAD(&job->link);
+>   	hrtimer_setup(&job->timer, drm_mock_sched_job_signal_timer,
+>   		      CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
+> @@ -169,7 +168,7 @@ static struct dma_fence *mock_sched_run_job(struct drm_sched_job *sched_job)
+>   
+>   	dma_fence_init(&job->hw_fence,
+>   		       &drm_mock_sched_hw_fence_ops,
+> -		       &job->lock,
+> +		       &sched->lock,
+>   		       sched->hw_timeline.context,
+>   		       atomic_inc_return(&sched->hw_timeline.next_seqno));
+>   
+> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> index 27caf8285fb7..fbba38137f0c 100644
+> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> @@ -106,7 +106,6 @@ struct drm_mock_sched_job {
+>   	unsigned int		duration_us;
+>   	ktime_t			finish_at;
+>   
+> -	spinlock_t		lock;
+>   	struct dma_fence	hw_fence;
+>   
+>   	struct kunit		*test;
 
-
---SlaYVM44ag2fg58z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgtqX0ACgkQFA3kzBSg
-KbYFkA//QtjXiEHB24k7NBXnmE35+1sEdGGUJqw/W7Iaz3QNZnt7saB77mtzREH+
-jO7mzm92Pw5cc6cniRBK8FFJNguhexzASi6yKWJEmNKeiLUzEclX2+ZB6XVOBftx
-p/8J8m0oezpnbGUmPkVL3hOsa0gLGS+84SzhLGSWITGNSvCumPlCjTUXcje4CZJ3
-En+Ugla9BODJ4KiidLDQY1x3q6L5y4j3AHvYmq9L77hAKNWquEGs/MR5ERUMnY1Q
-txKoZ5jIsWV/U6f80TsxBozANkHFboZoibMsxYPamkFCdA/P2xOQeDTby7t2s7Ro
-E8Bbg4aMiqFISGzVvqXXb1O7MJctlrcE1b8B7xMhTGE/5AocHPGFEM0kNktTuuYX
-W9YWrGcQRAWg7mzpQvPLsdFAcjzZ4L7lYfqg+8QX8v4X8Sp0+YVwqBt/+IaqE8dZ
-Nidv6TeyjCdJUFwouEcZjsSU7LeZrOKurIlnjuHasF+UEnkOdnRsHvNQliON+3+z
-Sby9abOZ4uVFLGpn+4Is8p5yiSNfJfO9VI/GSRzYieajl0kxjlw9p/va78pGz5da
-hnlclcxc+o3H169XKy4gomTtwSYl/sgpeer0Xag4X2N3fYsJB104OoltOwLH25rx
-u1eXOxdO2UN4ZGaKVKKK5VlVElGeF/AZADs0pxYZx4D+MkeYnXU=
-=af27
------END PGP SIGNATURE-----
-
---SlaYVM44ag2fg58z--
 
