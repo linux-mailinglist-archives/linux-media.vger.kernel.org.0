@@ -1,992 +1,521 @@
-Return-Path: <linux-media+bounces-33052-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33053-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B52CABFCA0
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 20:10:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D63ABFCF1
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 20:40:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C623E9E80A0
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 18:10:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 104C216B194
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 18:40:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B16227F17A;
-	Wed, 21 May 2025 18:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51AB628F511;
+	Wed, 21 May 2025 18:39:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="USFKTUX8"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="aymjgJ1v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCF3231A3B
-	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 18:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC437289821
+	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 18:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747851024; cv=none; b=HlTqwbncgkDTpRJNYEdIc4f5CWGWde71x1lgpjz1ADyHlDawrZhTMhSteK81Mvm49lhiaF0sHEV3hsIKsX12GfpDp3sieWQF83QHJD8o1WKufDnmxaJp/jKrd949n4YqozCyyWQafQ/w1aWxBPAZNdvAcEOdFRPN2tifx796PTs=
+	t=1747852796; cv=none; b=UeNS0cNRjs7fHsRd0L71a9gRbWXEH+kd9teSpp7HoxJbV7VA5xlRTREUvy8mqYCyq/0T6JqG5QeAvsc1hCAPiEgAQmGb4x25GKYuWPG5ShGUma2ej+TvTmYAEQlxR9+z4USdZs/FqT6DKMHUXaor7zSNIxEDf6IWRbA99zkTdjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747851024; c=relaxed/simple;
-	bh=BePmZgEtiFDT9XDEBoUBSqwArxy+OB1G8f0TdXLmYRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e0/WC2aZqm0cshWgeK2IM0m6G/1yHVdi20gwiFRmwPEwtZYXjB9WNFpnlyJAyPbNfa4Uv6kR0RRoqifALNLlv9gl77f++D2/eBexHYVDPNBE3vujwAjGw+YZvDt4HiS9tLEr66m2RR4grE/x9DxSE/WjdZBj3kPtMKIkSVOmqx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=USFKTUX8; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A4233A4;
-	Wed, 21 May 2025 20:09:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747850997;
-	bh=BePmZgEtiFDT9XDEBoUBSqwArxy+OB1G8f0TdXLmYRQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=USFKTUX8LYVlZBqyoML1tIGZABrtLg8s/9L2y5Nmx+AUqpR2qKe1e7AtGjZTmqLsq
-	 8sIGGdqI0d4pFZF85/Y01RR3nUHUYStQDq8cbwxA776J9qkHH6IZkiaFeAUgAvo3Cu
-	 7TC/EVwzyjrWAX6skj851VwGKKVEJX6CDMNy5OLQ=
-Date: Wed, 21 May 2025 20:10:15 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, 
-	laurent.pinchart@ideasonboard.com, mchehab@kernel.org
-Subject: Re: [PATCH 2/3] media: mc: Add media jobs framework
-Message-ID: <egis6f4hxyq3sz4nmi3iywxtdqgxmnyw4ppngzr7m4l4ttohmb@cypd2odyc2ss>
-References: <20250519140403.443915-1-dan.scally@ideasonboard.com>
- <20250519140403.443915-3-dan.scally@ideasonboard.com>
+	s=arc-20240116; t=1747852796; c=relaxed/simple;
+	bh=t78CBbtKx4VCyGVqyGKwmC1MBF16ubBxQ702/ru36O4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WyhR9OA/X4basN4Wg3XXbuE628IF0rb25X4yesqNIjwOT4hJ7VqcoI+L/pL+1ibGVo10KdtsCYFcY+EOH8m5DJdkk7qYt+Rs8npfYMMsSTX/aXV34WjWqCKhwJRSmA9GitD+uiGWeEKzetYNA4BQZugy/FhywSZ6LrkkbB5BJOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=aymjgJ1v; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7c5f720c717so959852785a.0
+        for <linux-media@vger.kernel.org>; Wed, 21 May 2025 11:39:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1747852793; x=1748457593; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=C9hN/ALYj6MAmLNmuqeaYYS+ymrl+13ez5PlAjoRPF8=;
+        b=aymjgJ1vTf73h4tOmhLcN6n6POy4l2Yl7vIGEdSkjSmBc6lGu0e4DKk7srjpPmNttA
+         HBcSsXJd9rEYOVc/2aIOqgE2lwbV+4U4Ru/P6xWm+uTc9SdqzFp9uavehznqLjWZVWdb
+         3b1LcQPUWgEdXoK/jMalGOIeKaT1WAMldI6rtqnuswcPKMSQxyceeB4Nm+tvj+rbrKXG
+         ZaCZPxO3dQjq2BqHR8DGkslM8yi2Xw560RUrv3ZexJGohIRnFqZe4GLLr17F6PQn1vd8
+         nRRIoP7yvfTFUclyjfmKuobC2ojwJko/SMf6DlN7x9GljSawM7IPUjisdDawL+uiq2xV
+         IbvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747852793; x=1748457593;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C9hN/ALYj6MAmLNmuqeaYYS+ymrl+13ez5PlAjoRPF8=;
+        b=N3M91rTdzMldmVfbXsS4f/43AkdtYQ+FOj9V906NUcdF4P3FhRcbrZP4ImGLmL9WaH
+         yo9pAFJASBJi2UOGtVpGy/Jkk9AZ1cILbmxXumMyFf+qiIccI1mclRnjY2eLAtt4+MqG
+         vjFbBiqW0RA/MFM9dPPhVoEOvldRkUw1K4bNg6On9yJPEggM/iz0BHXIXM0hh13MS6UA
+         xd//VeZNy72+8VaxwGK0WRK8YE1vWMRobTah6jvyLLXJHVyqGA2yaJJ4GR2avWvfLY1n
+         v5BNcVpgTQr9TtOrESh7vPrV9Z9yiFmJbP7dhpyvw7CpDUznMEGEAodHc5eSE4tHTa4B
+         133Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVBKrJ3ke7TAhXCzYPVu4BntavjvNu2oEX1y3dCsTUUx9Jwo5wJzE7pr89+8VXGJHpv+Dt+MoLfCLmkwQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzASToUVxpKq5rt8IdCX+q8yTtSXP4jlV1ia8/vlwd1CUWKrKfC
+	RdXrVdV4vYD47KYdd1HJYnLnnCoAJ1AL53ZqyBr3zo+GRTFr0y+kZxCeprbYSmHt3JY=
+X-Gm-Gg: ASbGncvQ3KEMDfRzj6TlP8vKSKB30D6a+uroM6NprJ7EercmZYZXnz726a0VmmhJz25
+	TW4qTCVrtqtkONT6G/TxpW3Mxtf6WNfGYfSlpMts0Zl/Xn0xObBuahbSpzeDMJeg8Jy5JiOMcvl
+	DSAYA+hX1hR1KgtKx7dReiLtUMAkwZPZhqgmmY0CRLJxKiYcI8DIX7ZRelJTlkqM7fLKKBN4rS0
+	F8SMdLT7YsELaBskJIMm8y7ClIINyZS+bRBDMSgTG7SlgMlQSzWya3DSNfgXcW+pgIwQm3b5JIC
+	5irv3cid65ga1HMyIpqhpmGZh7vUo901nJjagDmnhJHVA6kZISZekrvM
+X-Google-Smtp-Source: AGHT+IEH1yg96f+6LtDU7dk/LUCmzgUoLgGpjjtmworILuCaY55up0WZsaGhvzPy17yVEqZT5x/cRQ==
+X-Received: by 2002:a05:620a:1982:b0:7c5:d71c:6a47 with SMTP id af79cd13be357-7cd46af8c77mr3443038785a.8.1747852792554;
+        Wed, 21 May 2025 11:39:52 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:b2fc::c41? ([2606:6d00:17:b2fc::c41])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd467bc2dbsm913992085a.15.2025.05.21.11.39.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 May 2025 11:39:52 -0700 (PDT)
+Message-ID: <0f751cf4a8998b6c6b9046d4e1cb25646709f75a.camel@ndufresne.ca>
+Subject: Re: [PATCH v4] media: amphion: Add H264 and HEVC profile and level
+ control
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>, mchehab@kernel.org, 
+	hverkuil-cisco@xs4all.nl
+Cc: shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com,
+ eagle.zhou@nxp.com, 	imx@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org
+Date: Wed, 21 May 2025 14:39:51 -0400
+In-Reply-To: <36d644aa-5143-4a5a-a01e-a67792288ba3@oss.nxp.com>
+References: <20250512020137.211-1-ming.qian@oss.nxp.com>
+	 <3e794e17ab846e29fb5922dc94b969b8cf9334a8.camel@ndufresne.ca>
+	 <36d644aa-5143-4a5a-a01e-a67792288ba3@oss.nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250519140403.443915-3-dan.scally@ideasonboard.com>
 
-Hi Dan,
-   just a few notes here and there, I will have to check users in more
-detail to comment on the interface
+Hi,
 
-On Mon, May 19, 2025 at 03:04:02PM +0100, Daniel Scally wrote:
-> Add a new framework to the media subsystem describing media jobs.
-> This framework is intended to be able to model the interactions
-> between multiple different drivers that need to be run in concert
-> to fully control a media pipeline, for example an ISP driver and a
-> driver controlling a DMA device that feeds data from memory in to
-> that ISP.
->
-> The new framework allows all drivers involved to add explicit steps
-> that need to be performed, and to control the ordering of those steps
-> precisely. Once the job with its steps has been created it's then
-> scheduled to be run with a workqueue which executes each step in the
-> defined order.
->
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> ---
->  drivers/media/mc/Makefile  |   2 +-
->  drivers/media/mc/mc-jobs.c | 446 +++++++++++++++++++++++++++++++++++++
->  include/media/media-jobs.h | 354 +++++++++++++++++++++++++++++
->  3 files changed, 801 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/mc/mc-jobs.c
->  create mode 100644 include/media/media-jobs.h
->
-> diff --git a/drivers/media/mc/Makefile b/drivers/media/mc/Makefile
-> index 2b7af42ba59c..9148bbfd1578 100644
-> --- a/drivers/media/mc/Makefile
-> +++ b/drivers/media/mc/Makefile
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->
->  mc-objs	:= mc-device.o mc-devnode.o mc-entity.o \
-> -	   mc-request.o
-> +	   mc-jobs.o mc-request.o
->
->  ifneq ($(CONFIG_USB),)
->  	mc-objs += mc-dev-allocator.o
-> diff --git a/drivers/media/mc/mc-jobs.c b/drivers/media/mc/mc-jobs.c
-> new file mode 100644
-> index 000000000000..1f04cdf63d27
-> --- /dev/null
-> +++ b/drivers/media/mc/mc-jobs.c
-> @@ -0,0 +1,446 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Media jobs framework
-> + *
-> + * Copyright 2025 Ideas on Board Oy
-> + *
-> + * Author: Daniel Scally <dan.scally@ideasonboard.com>
-> + */
-> +
-> +#include <linux/cleanup.h>
-> +#include <linux/kref.h>
-> +#include <linux/list.h>
-> +#include <linux/slab.h>
-> +#include <linux/spinlock.h>
+Le mercredi 21 mai 2025 =C3=A0 09:23 +0800, Ming Qian(OSS) a =C3=A9crit=C2=
+=A0:
+>=20
+> Hi Nicolas,
+>=20
+> On 2025/5/21 5:04, Nicolas Dufresne wrote:
+> > Hi Ming,
+> >=20
+> > got one final question below...
+> >=20
+> > Le lundi 12 mai 2025 =C3=A0 10:01 +0800, ming.qian@oss.nxp.com=C2=A0a =
+=C3=A9crit :
+> > > From: Ming Qian <ming.qian@oss.nxp.com>
+> > >=20
+> > > For format H264 and HEVC, the firmware can report the parsed profile =
+idc
+> > > and level idc to driver, these information may be useful.
+> > > Implement the H264 and HEVC profile and level control to report them.
+> > >=20
+> > > Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> > > ---
+> > > v4
+> > > - Fix a building warning reported by kernel test robot
+> > >=20
+> > > v3
+> > > - Check H264 Constrained Baseline Profile
+> > > - Check H264 Level 1b
+> > > - Remove support for V4L2_MPEG_VIDEO_H264_PROFILE_MULTIVIEW_HIGH
+> > > - Remove support for V4L2_MPEG_VIDEO_H264_PROFILE_STEREO_HIGH
+> > >=20
+> > > v2
+> > > - Add support for V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE
+> > > ---
+> > > =C2=A0 drivers/media/platform/amphion/vdec.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 59 +++++++++
+> > > =C2=A0 drivers/media/platform/amphion/vpu_defs.h=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 12 ++
+> > > =C2=A0 drivers/media/platform/amphion/vpu_helpers.c | 123 +++++++++++=
+++++++++
+> > > =C2=A0 drivers/media/platform/amphion/vpu_helpers.h |=C2=A0=C2=A0 7 +=
++
+> > > =C2=A0 drivers/media/platform/amphion/vpu_malone.c=C2=A0 |=C2=A0=C2=
+=A0 5 +-
+> > > =C2=A0 5 files changed, 205 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/pl=
+atform/amphion/vdec.c
+> > > index 85d518823159..55067d9405c2 100644
+> > > --- a/drivers/media/platform/amphion/vdec.c
+> > > +++ b/drivers/media/platform/amphion/vdec.c
+> > > @@ -232,6 +232,35 @@ static int vdec_ctrl_init(struct vpu_inst *inst)
+> > > =C2=A0=C2=A0			=C2=A0 V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE,
+> > > =C2=A0=C2=A0			=C2=A0 0, 1, 1, 0);
+> > > =C2=A0=20
+> > > +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_MPEG_VIDEO_H264_PRO=
+FILE,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE=
+_MULTIVIEW_HIGH,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ~((1 << V4L2_MPEG_VIDEO_H264=
+_PROFILE_BASELINE) |
+> > > +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
+> > > +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
+> > > +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED) |
+> > > +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE=
+_MAIN);
+> > > +
+> > > +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_MPEG_VIDEO_H264_LEV=
+EL,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_6=
+_2,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_4=
+_0);
+> > > +
+> > > +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_MPEG_VIDEO_HEVC_PRO=
+FILE,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_PROFILE=
+_MAIN_10,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ~((1 << V4L2_MPEG_VIDEO_HEVC=
+_PROFILE_MAIN) |
+> > > +				 (1 << V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10)),
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_PROFILE=
+_MAIN);
+> > > +
+> > > +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_MPEG_VIDEO_HEVC_LEV=
+EL,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_6=
+_2,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0,
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_4=
+);
+> > > +
+> > > =C2=A0=C2=A0	ctrl =3D v4l2_ctrl_new_std(&inst->ctrl_handler, &vdec_ct=
+rl_ops,
+> > > =C2=A0=C2=A0				 V4L2_CID_MIN_BUFFERS_FOR_CAPTURE, 1, 32, 1, 2);
+> > > =C2=A0=C2=A0	if (ctrl)
+> > > @@ -1166,6 +1195,35 @@ static void vdec_clear_slots(struct vpu_inst *=
+inst)
+> > > =C2=A0=C2=A0	}
+> > > =C2=A0 }
+> > > =C2=A0=20
+> > > +static void vdec_update_v4l2_ctrl(struct vpu_inst *inst, u32 id, u32=
+ val)
+> > > +{
+> > > +	struct v4l2_ctrl *ctrl =3D v4l2_ctrl_find(&inst->ctrl_handler, id);
+> > > +
+> > > +	if (ctrl)
+> > > +		v4l2_ctrl_s_ctrl(ctrl, val);
+> > > +}
+> > > +
+> > > +static void vdec_update_v4l2_profile_level(struct vpu_inst *inst, st=
+ruct vpu_dec_codec_info *hdr)
+> > > +{
+> > > +	switch (inst->out_format.pixfmt) {
+> > > +	case V4L2_PIX_FMT_H264:
+> > > +	case V4L2_PIX_FMT_H264_MVC:
+> > > +		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+> > > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vpu_get_h264_v4l2_profile(hdr));
+> > > +		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_H264_LEVEL,
+> > > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vpu_get_h264_v4l2_level(hdr));
+> > > +		break;
+> > > +	case V4L2_PIX_FMT_HEVC:
+> > > +		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
+> > > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vpu_get_hevc_v4l2_profile(hdr));
+> > > +		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_HEVC_LEVEL,
+> > > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vpu_get_hevc_v4l2_level(hdr));
+> > > +		break;
+> > > +	default:
+> > > +		return;
+> > > +	}
+> > > +}
+> > > +
+> > > =C2=A0 static void vdec_event_seq_hdr(struct vpu_inst *inst, struct v=
+pu_dec_codec_info *hdr)
+> > > =C2=A0 {
+> > > =C2=A0=C2=A0	struct vdec_t *vdec =3D inst->priv;
+> > > @@ -1189,6 +1247,7 @@ static void vdec_event_seq_hdr(struct vpu_inst =
+*inst, struct vpu_dec_codec_info
+> > > =C2=A0=C2=A0	vdec_init_crop(inst);
+> > > =C2=A0=C2=A0	vdec_init_mbi(inst);
+> > > =C2=A0=C2=A0	vdec_init_dcp(inst);
+> > > +	vdec_update_v4l2_profile_level(inst, hdr);
+> > > =C2=A0=C2=A0	if (!vdec->seq_hdr_found) {
+> > > =C2=A0=C2=A0		vdec->seq_tag =3D vdec->codec_info.tag;
+> > > =C2=A0=C2=A0		if (vdec->is_source_changed) {
+> > > diff --git a/drivers/media/platform/amphion/vpu_defs.h b/drivers/medi=
+a/platform/amphion/vpu_defs.h
+> > > index 428d988cf2f7..f56245ae2205 100644
+> > > --- a/drivers/media/platform/amphion/vpu_defs.h
+> > > +++ b/drivers/media/platform/amphion/vpu_defs.h
+> > > @@ -134,6 +134,7 @@ struct vpu_dec_codec_info {
+> > > =C2=A0=C2=A0	u32 decoded_height;
+> > > =C2=A0=C2=A0	struct v4l2_fract frame_rate;
+> > > =C2=A0=C2=A0	u32 dsp_asp_ratio;
+> > > +	u32 profile_idc;
+> > > =C2=A0=C2=A0	u32 level_idc;
+> > > =C2=A0=C2=A0	u32 bit_depth_luma;
+> > > =C2=A0=C2=A0	u32 bit_depth_chroma;
+> > > @@ -147,6 +148,17 @@ struct vpu_dec_codec_info {
+> > > =C2=A0=C2=A0	u32 mbi_size;
+> > > =C2=A0=C2=A0	u32 dcp_size;
+> > > =C2=A0=C2=A0	u32 stride;
+> > > +	union {
+> > > +		struct {
+> > > +			u32 constraint_set5_flag : 1;
+> > > +			u32 constraint_set4_flag : 1;
+> > > +			u32 constraint_set3_flag : 1;
+> > > +			u32 constraint_set2_flag : 1;
+> > > +			u32 constraint_set1_flag : 1;
+> > > +			u32 constraint_set0_flag : 1;
+> > > +		};
+> > > +		u32 constraint_set_flags;
+> >=20
+> > Shouldn't this be u8 all over to match the fact the firmware reports th=
+is over a single byte ?
+> >=20
+> > Nicolas
+> >=20
+>=20
+> firmware use u32 to transmit message data:
+> 	struct vpu_rpc_event_header {
+> 		u32 index;
+> 		u32 id;
+> 		u32 num;
+> 	};
+>=20
+> 	struct vpu_rpc_event {
+> 		struct vpu_rpc_event_header hdr;
+> 		u32 data[128];
+> 	};
+>=20
+> And in amphion vpu decoder firmware 1.10.0, it increase the data number o=
+f
+> SEQ_HDR_FOUND event from 28 to 29. the constraint_set_flags is stored in
+> the data[28], so although only 6 bits are used, u32 is still used here.
+>=20
+> 	if (pkt->hdr.num > 28)
+> 		info->constraint_set_flags =3D pkt->data[28];
 
-Some of these are included by the header file
+Ack, I should have checked the definition instead of assuming. Patch queued=
+.
 
-> +
-> +#include <media/media-device.h>
-> +#include <media/media-entity.h>
-> +#include <media/media-jobs.h>
-> +
-> +int media_jobs_add_job_step(struct media_job *job, void (*run_step)(void *data),
-> +			    void *data, unsigned int flags, unsigned int pos)
-> +{
-> +	struct media_job_step *step, *tmp;
-> +	unsigned int num = flags;
-> +	unsigned int count = 0;
-> +
-> +	guard(spinlock)(&job->lock);
-> +
-> +	if (!flags) {
-> +		WARN_ONCE(1, "%s(): No flag bits set\n", __func__);
-> +		return -EINVAL;
-> +	}
+regards
+Nicolas
 
-You could check this before taking the lock
-
-> +
-> +	/* Count the number of set flags; they're mutually exclusive. */
-
-if you want just to count flags you can use hweightX from bitops.h
-
-> +	while (num) {
-> +		num &= (num - 1);
-> +		count++;
-> +	}
-> +
-> +	if (count > 1) {
-> +		WARN_ONCE(1, "%s(): Multiple flag bits set\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	step = kzalloc(sizeof(*step), GFP_KERNEL);
-> +	if (!step)
-> +		return -ENOMEM;
-> +
-> +	step->run_step = run_step;
-> +	step->data = data;
-> +	step->flags = flags;
-> +	step->pos = pos;
-> +
-> +	/*
-> +	 * We need to decide where to place the step. If the list is empty that
-> +	 * is really easy (and also the later code is much easier if the code is
-> +	 * guaranteed not to be empty...)
-> +	 */
-> +	if (list_empty(&job->steps)) {
-> +		list_add_tail(&step->list, &job->steps);
-> +		return 0;
-> +	}
-> +
-> +	/*
-> +	 * If we've been asked to place it at a specific position from the end
-> +	 * of the list, we cycle back through it until either we exhaust the
-> +	 * list or find an entry that needs to go further from the back than the
-> +	 * new one.
-> +	 */
-> +	if ((flags & MEDIA_JOBS_FL_STEP_FROM_BACK)) {
-> +		list_for_each_entry_reverse(tmp, &job->steps, list) {
-> +			if (tmp->flags == flags && tmp->pos == pos)
-> +				return -EINVAL;
-> +
-> +			if (tmp->flags != MEDIA_JOBS_FL_STEP_FROM_BACK ||
-> +			    tmp->pos > pos)
-> +				break;
-> +		}
-> +
-> +		/*
-> +		 * If the entry we broke on is also one placed from the back and
-> +		 * should be closer to the back than the new one, we place the
-> +		 * new one in front of it...otherwise place the new one behind
-> +		 * it.
-> +		 */
-> +		if (tmp->flags == flags && tmp->pos < pos)
-> +			list_add_tail(&step->list, &tmp->list);
-> +		else
-> +			list_add(&step->list, &tmp->list);
-> +
-> +		return 0;
-> +	}
-> +
-> +	/*
-> +	 * If we've been asked to place it a specific position from the front of
-> +	 * the list we do the same kind of operation, but going from the front
-> +	 * instead.
-> +	 */
-> +	if (flags & MEDIA_JOBS_FL_STEP_FROM_FRONT) {
-> +		list_for_each_entry(tmp, &job->steps, list) {
-> +			if (tmp->flags == flags && tmp->pos == pos)
-> +				return -EINVAL;
-> +
-> +			if (tmp->flags != MEDIA_JOBS_FL_STEP_FROM_FRONT ||
-> +			    tmp->pos > pos)
-> +				break;
-> +		}
-> +
-> +		/*
-> +		 * If the entry we broke on is also placed from the front and
-> +		 * should be closed to the front than the new one, we place the
-> +		 * new one behind it, otherwise in front of it.
-> +		 */
-> +		if (tmp->flags == flags && tmp->pos < pos)
-> +			list_add(&step->list, &tmp->list);
-> +		else
-> +			list_add_tail(&step->list, &tmp->list);
-> +
-> +		return 0;
-> +	}
-
-There probably is room to factorize out the common code parts from
-here
-
-> +
-> +	/*
-> +	 * If the step is flagged as "can go anywhere" we just need to try to
-> +	 * find the first "from the back" entry and add it immediately before
-> +	 * that. If we can't find one, add it after whatever we did find.
-> +	 */
-> +	if (flags & MEDIA_JOBS_FL_STEP_ANYWHERE) {
-> +		list_for_each_entry(tmp, &job->steps, list)
-> +			if ((tmp->flags & MEDIA_JOBS_FL_STEP_FROM_BACK))
-> +				break;
-> +
-> +		if ((tmp->flags & MEDIA_JOBS_FL_STEP_FROM_BACK) ||
-> +		    list_entry_is_head(tmp, &job->steps, list))
-> +			list_add_tail(&step->list, &tmp->list);
-> +		else
-> +			list_add(&step->list, &tmp->list);
-> +
-> +		return 0;
-> +	}
-> +
-> +	/* Shouldn't get here, unless the flag value is wrong. */
-> +	WARN_ONCE(1, "%s(): Invalid flag value\n", __func__);
-> +	return -EINVAL;
-> +}
-> +EXPORT_SYMBOL_GPL(media_jobs_add_job_step);
-> +
-> +int media_jobs_add_job_dep(struct media_job *job, struct media_job_dep_ops *ops,
-> +			   void *data)
-> +{
-> +	struct media_job_dep *dep;
-> +
-> +	if (!ops || !ops->check_dep || !data)
-> +		return -EINVAL;
-> +
-> +	guard(spinlock)(&job->lock);
-> +
-> +	/* Confirm the same dependency hasn't already been added */
-> +	list_for_each_entry(dep, &job->deps, list)
-> +		if (dep->ops == ops && dep->data == data)
-> +			return -EINVAL;
-> +
-> +	dep = kzalloc(sizeof(*dep), GFP_KERNEL);
-> +	if (!dep)
-> +		return -ENOMEM;
-> +
-> +	dep->ops = ops;
-> +	dep->data = data;
-> +	list_add(&dep->list, &job->deps);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(media_jobs_add_job_dep);
-> +
-> +static bool media_jobs_check_pending_job(struct media_job *job,
-> +					 enum media_job_types type,
-> +					 struct media_job_dep_ops *dep_ops,
-> +					 void *data)
-> +{
-> +	struct media_job_dep *dep;
-> +
-> +	guard(spinlock)(&job->lock);
-> +
-> +	if (job->type != type)
-> +		return false;
-
-possibily moved outside of the lock as well
-
-> +
-> +	list_for_each_entry(dep, &job->deps, list) {
-> +		if (dep->ops == dep_ops && dep->data == data) {
-> +			if (dep->met)
-> +				return false;
-> +
-> +			break;
-> +		}
-> +	}
-> +
-> +	dep->met = true;
-> +	return true;
-> +}
-> +
-> +static struct media_job *media_jobs_get_job(struct media_job_scheduler *sched,
-> +					    enum media_job_types type,
-> +					    struct media_job_dep_ops *dep_ops,
-> +					    void *dep_data)
-> +{
-> +	struct media_job_setup_func *jsf;
-> +	struct media_job *job;
-> +	int ret;
-> +
-> +	list_for_each_entry(job, &sched->pending, list)
-> +		if (media_jobs_check_pending_job(job, type, dep_ops, dep_data))
-> +			return job;
-
-Not sure I got this part.
-
-media_jobs_get_job() has a single caller, and it either returns a
-pending job or allocates a new one.
-
-To check if a pending job should be returned you try to math the
-dep_ops and dep_data and if you get one that matches you identify the
-job and return it, but only once, as once a dependency is met it will
-then invalidate the search. What am I missing ?
-
-> +
-> +	job = kzalloc(sizeof(*job), GFP_KERNEL);
-> +	if (!job)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	spin_lock_init(&job->lock);
-> +	INIT_LIST_HEAD(&job->deps);
-> +	INIT_LIST_HEAD(&job->steps);
-> +	job->type = type;
-> +	job->sched = sched;
-> +
-> +	list_for_each_entry(jsf, &sched->setup_funcs, list) {
-> +		if (jsf->type != type)
-> +			continue;
-> +
-> +		ret = jsf->job_setup(job, jsf->data);
-> +		if (ret) {
-> +			kfree(job);
-
-do we need an operation to undo job_setup() or do you think
-it's not needed ?
-
-> +			return ERR_PTR(ret);
-> +		}
-> +	}
-> +
-> +	list_add_tail(&job->list, &sched->pending);
-> +
-> +	/* This marks the dependency as met */
-> +	media_jobs_check_pending_job(job, type, dep_ops, dep_data);
-> +
-> +	return job;
-> +}
-> +
-> +static void media_jobs_free_job(struct media_job *job, bool reset)
-> +{
-> +	struct media_job_step *step, *stmp;
-> +	struct media_job_dep *dep, *dtmp;
-> +
-> +	scoped_guard(spinlock, &job->lock) {
-> +		list_for_each_entry_safe(dep, dtmp, &job->deps, list) {
-> +			if (reset && dep->ops->reset_dep)
-> +				dep->ops->reset_dep(dep->data);
-> +
-> +			list_del(&dep->list);
-> +			kfree(dep);
-> +		}
-> +
-> +		list_for_each_entry_safe(step, stmp, &job->steps, list) {
-> +			list_del(&step->list);
-> +			kfree(step);
-> +		}
-> +	}
-> +
-> +	list_del(&job->list);
-
-Probably better to be done while holding the sched spinlock that
-protects the jobs list ?
-
-
-> +	kfree(job);
-> +}
-> +
-> +int media_jobs_try_queue_job(struct media_job_scheduler *sched,
-> +			     enum media_job_types type,
-> +			     struct media_job_dep_ops *dep_ops, void *dep_data)
-> +{
-> +	struct media_job_dep *dep;
-> +	struct media_job *job;
-> +
-> +	if (!sched)
-
-If this happens, I guess something went very wrong. Should we
-WARN_ONCE() to catch this during development ?
-
-> +		return 0;
-> +
-> +	guard(spinlock)(&sched->lock);
-> +
-> +	job = media_jobs_get_job(sched, type, dep_ops, dep_data);
-> +	if (IS_ERR(job))
-> +		return PTR_ERR(job);
-> +
-> +	list_for_each_entry(dep, &job->deps, list)
-> +		if (!dep->ops->check_dep(dep->data))
-
-Should you check if dep->ops->check_dep() is valid before calling it ?
-
-> +			return 0; /* Not a failure */
-> +
-> +	list_for_each_entry(dep, &job->deps, list)
-> +		if (dep->ops->clear_dep)
-> +			dep->ops->clear_dep(dep->data);
-> +
-> +	list_move_tail(&job->list, &sched->queue);
-> +	queue_work(sched->async_wq, &sched->work);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(media_jobs_try_queue_job);
-> +
-> +static void __media_jobs_run_jobs(struct work_struct *work)
-> +{
-> +	struct media_job_scheduler *sched = container_of(work,
-> +							 struct media_job_scheduler,
-> +							 work);
-> +	struct media_job_step *step;
-> +	struct media_job *job;
-> +
-> +	while (true) {
-> +		scoped_guard(spinlock, &sched->lock) {
-> +			if (list_empty(&sched->queue))
-> +				return;
-> +
-> +			job = list_first_entry(&sched->queue, struct media_job,
-> +					       list);
-> +		}
-> +
-> +		list_for_each_entry(step, &job->steps, list)
-
-I take this as step->run_step() has been validated
-
-> +			step->run_step(step->data);
-> +
-> +		media_jobs_free_job(job, false);
-> +	}
-> +}
-> +
-> +void media_jobs_run_jobs(struct media_job_scheduler *sched)
-> +{
-> +	if (!sched)
-> +		return;
-> +
-> +	queue_work(sched->async_wq, &sched->work);
-> +}
-> +EXPORT_SYMBOL_GPL(media_jobs_run_jobs);
-> +
-> +static void __media_jobs_cancel_jobs(struct media_job_scheduler *sched)
-> +{
-> +	struct media_job *job, *jtmp;
-> +
-
-if you want to make sure a lock is held when calling a function you
-could use lockdep_assert_held
-
-> +	list_for_each_entry_safe(job, jtmp, &sched->pending, list)
-> +		media_jobs_free_job(job, true);
-> +
-> +	list_for_each_entry_safe(job, jtmp, &sched->queue, list)
-> +		media_jobs_free_job(job, true);
-> +}
-> +
-> +void media_jobs_cancel_jobs(struct media_job_scheduler *sched)
-> +{
-> +	if (!sched)
-> +		return;
-> +
-> +	guard(spinlock)(&sched->lock);
-> +	__media_jobs_cancel_jobs(sched);
-> +}
-> +EXPORT_SYMBOL_GPL(media_jobs_cancel_jobs);
-> +
-> +int media_jobs_add_job_setup_func(struct media_job_scheduler *sched,
-> +				  int (*job_setup)(struct media_job *job, void *data),
-> +				  void *data, enum media_job_types type)
-> +{
-> +	struct media_job_setup_func *new_setup_func;
-> +
-> +	guard(spinlock)(&sched->lock);
-> +
-> +	new_setup_func = kzalloc(sizeof(*new_setup_func), GFP_KERNEL);
-> +	if (!new_setup_func)
-> +		return -ENOMEM;
-> +
-> +	new_setup_func->type = type;
-> +	new_setup_func->job_setup = job_setup;
-> +	new_setup_func->data = data;
-> +	list_add_tail(&new_setup_func->list, &sched->setup_funcs);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(media_jobs_add_job_setup_func);
-> +
-> +static void __media_jobs_put_scheduler(struct kref *kref)
-> +{
-> +	struct media_job_scheduler *sched =
-> +		container_of(kref, struct media_job_scheduler, kref);
-> +	struct media_job_setup_func *func, *ftmp;
-> +
-> +	cancel_work_sync(&sched->work);
-> +	destroy_workqueue(sched->async_wq);
-> +
-> +	scoped_guard(spinlock, &sched->lock) {
-> +		__media_jobs_cancel_jobs(sched);
-> +
-> +		list_for_each_entry_safe(func, ftmp, &sched->setup_funcs, list) {
-> +			list_del(&func->list);
-> +			kfree(func);
-> +		}
-> +	}
-> +
-> +	list_del(&sched->list);
-> +	kfree(sched);
-> +}
-> +
-> +void media_jobs_put_scheduler(struct media_job_scheduler *sched)
-> +{
-> +	kref_put(&sched->kref, __media_jobs_put_scheduler);
-> +}
-> +EXPORT_SYMBOL_GPL(media_jobs_put_scheduler);
-> +
-> +struct media_job_scheduler *media_jobs_get_scheduler(struct media_device *mdev)
-> +{
-> +	struct media_job_scheduler *sched;
-> +	char workqueue_name[32];
-> +	int ret;
-> +
-> +	guard(mutex)(&media_job_schedulers_lock);
-> +
-> +	list_for_each_entry(sched, &media_job_schedulers, list) {
-> +		if (sched->mdev == mdev) {
-> +			kref_get(&sched->kref);
-> +			return sched;
-> +		}
-> +	}
-
-Ok big question here: why are we keeping a static list of schedulers
-if a single scheduler can be associated to an mdev ?
-
-Thinking forward a bit here: once we have multiple contexts, each
-context should have its own scheduler ? Or are planning to a global
-scheduler per single media device ?
-
-> +
-> +	ret = snprintf(workqueue_name, sizeof(workqueue_name),
-> +		       "mc jobs (%s)", mdev->driver_name);
-> +	if (!ret)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	sched = kzalloc(sizeof(*sched), GFP_KERNEL);
-> +	if (!sched)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	sched->async_wq = alloc_workqueue(workqueue_name, 0, 0);
-> +	if (!sched->async_wq) {
-> +		kfree(sched);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	sched->mdev = mdev;
-> +	kref_init(&sched->kref);
-> +	spin_lock_init(&sched->lock);
-> +	INIT_LIST_HEAD(&sched->setup_funcs);
-> +	INIT_LIST_HEAD(&sched->pending);
-> +	INIT_LIST_HEAD(&sched->queue);
-> +	INIT_WORK(&sched->work, __media_jobs_run_jobs);
-> +
-> +	list_add_tail(&sched->list, &media_job_schedulers);
-> +
-> +	return sched;
-> +}
-> +EXPORT_SYMBOL_GPL(media_jobs_get_scheduler);
-> +
-> +LIST_HEAD(media_job_schedulers);
-> +
-> +/* Synchronise access to the global schedulers list */
-> +DEFINE_MUTEX(media_job_schedulers_lock);
-
-Still, even with a single scheduler per media device, I wonder why the
-scheduler cannot live in the mdev itself...
-
-I'll have a more detailed look at the users and I'll get back on the
-interface.
-
-In the meantime, I wonder if an introductory documentation page that
-explains why direct function calls are not always possible in drivers
-that interact in a pipeline and what the use case for media_job is,
-wouldn't help people getting familiar with it quicker.
-
-Thanks
-   j
-
-> diff --git a/include/media/media-jobs.h b/include/media/media-jobs.h
-> new file mode 100644
-> index 000000000000..a97270861251
-> --- /dev/null
-> +++ b/include/media/media-jobs.h
-> @@ -0,0 +1,354 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Media jobs framework
-> + *
-> + * Copyright 2025 Ideas on Board Oy
-> + *
-> + * Author: Daniel Scally <dan.scally@ideasonboard.com>
-> + */
-> +
-> +#include <linux/kref.h>
-> +#include <linux/list.h>
-> +#include <linux/mutex.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/types.h>
-> +#include <linux/workqueue.h>
-> +
-> +#ifndef _MEDIA_JOBS_H
-> +#define _MEDIA_JOBS_H
-> +
-> +struct media_device;
-> +struct media_entity;
-> +struct media_job;
-> +struct media_job_dep;
-> +
-> +/**
-> + * define MEDIA_JOBS_FL_STEP_ANYWHERE - \
-> + *    Flag a media job step as able to run anytime
-> + *
-> + * This flag informs the framework that a job step does not need a particular
-> + * position in the list of job steps and can be placed anywhere.
-> + */
-> +#define MEDIA_JOBS_FL_STEP_ANYWHERE			BIT(0)
-> +
-> +/**
-> + * define MEDIA_JOBS_FL_STEP_FROM_FRONT - \
-> + *    Flag a media job step as needing to be placed near the start of the list
-> + *
-> + * This flag informs the framework that a job step needs to be placed at a set
-> + * position from the start of the list of job steps.
-> + */
-> +#define MEDIA_JOBS_FL_STEP_FROM_FRONT			BIT(1)
-> +
-> +/**
-> + * define MEDIA_JOBS_FL_STEP_FROM_BACK - \
-> + *    Flag a media job step as needing to be placed near the end of the list
-> + *
-> + * This flag informs the framework that a job step needs to be placed at a set
-> + * position from the end of the list of job steps.
-> + */
-> +#define MEDIA_JOBS_FL_STEP_FROM_BACK			BIT(2)
-> +
-> +/**
-> + * enum media_job_types - Type of media job
-> + *
-> + * @MEDIA_JOB_TYPE_PIPELINE_PULSE:	A data event moving through the media
-> + *					pipeline
-> + *
-> + * This enumeration details different types of media jobs. The type can be used
-> + * to differentiate between which steps and dependencies a driver needs to add
-> + * to a job when it is created.
-> + */
-> +enum media_job_types {
-> +	MEDIA_JOB_TYPE_PIPELINE_PULSE,
-> +};
-> +
-> +/**
-> + * struct media_job_scheduler - A job scheduler for a particular media device
-> + *
-> + * @mdev:		Media device this scheduler is for
-> + * @list:		List head to attach to the global list of schedulers
-> + * @kref:		Reference counter
-> + * @lock:		Lock to protect access to the scheduler
-> + * @setup_funcs:	List of &struct media_job_setup_func to populate jobs
-> + * @pending:		List of &struct media_jobs created but not yet queued
-> + * @queue:		List of &struct media_jobs queued to the scheduler
-> + * @work:		Work item to run the jobs
-> + * @async_wq:		Workqueue to run the work on
-> + *
-> + * This struct is the main job scheduler struct - drivers wanting to use this
-> + * framework should acquire an instance through media_jobs_get_scheduler() and
-> + * subsequently populate it with job setup functions.
-> + */
-> +struct media_job_scheduler {
-> +	struct media_device *mdev;
-> +	struct list_head list;
-> +	struct kref kref;
-> +
-> +	spinlock_t lock; /* Synchronise access to the struct's lists */
-> +	struct list_head setup_funcs;
-> +	struct list_head pending;
-> +	struct list_head queue;
-> +	struct work_struct work;
-> +	struct workqueue_struct *async_wq;
-> +};
-> +
-> +/**
-> + * struct media_job_setup_func - A function to populate a media job with steps
-> + *				 and dependencies
-> + *
-> + * @list:	The list object to attach to the scheduler
-> + * @type:	The &enum media_job_types that this function populates a job for
-> + * @job_setup:	Function pointer to the driver's job setup function
-> + * @data:	Pointer to the driver data for use with @job_setup
-> + *
-> + * This struct holds data about the functions a driver registers with the jobs
-> + * framework in order to populate a new job with steps and dependencies.
-> + */
-> +struct media_job_setup_func {
-> +	struct list_head list;
-> +	enum media_job_types type;
-> +	int (*job_setup)(struct media_job *job, void *data);
-> +	void *data;
-> +};
-> +
-> +/**
-> + * struct media_job - A representation of a job to be run through the pipeline
-> + *
-> + * @lock:	Lock to protect access to the job's lists
-> + * @list:	List head to attach the job to &struct media_job_scheduler in
-> + *		either the pending or queue lists
-> + * @steps:	List of &struct media_job_step to run the job
-> + * @deps:	List of &struct media_job_dep to check that the job can be
-> + *		queued
-> + * @sched:	Pointer to the media job scheduler
-> + * @type:	The type of the job
-> + *
-> + * This struct holds lists of steps that need to be performed to carry out a
-> + * job in the pipeline. A separate list of dependencies allows the queueing of
-> + * the job to be delayed until all drivers are ready to carry it out.
-> + */
-> +struct media_job {
-> +	spinlock_t lock; /* Synchronise access to the struct's lists 6*/
-> +	struct list_head list;
-> +	struct list_head steps;
-> +	struct list_head deps;
-> +	struct media_job_scheduler *sched;
-> +	enum media_job_types type;
-> +};
-> +
-> +/**
-> + * struct media_job_step - A holder for a function to run as part of a job
-> + *
-> + * @list:	List head to attach the job step to a &struct media_job.steps
-> + * @run_step:	The function to run to perform the step
-> + * @data:	Data to pass to the .run_step() function
-> + * @flags:	Flags to control how the step is ordered within the job's list
-> + *		of steps
-> + * @pos:	Position indicator to control how the step is ordered within the
-> + *		job's list of steps
-> + *
-> + * This struct defines a function that needs to be run as part of the execution
-> + * of a job in a media pipeline, along with information that help the scheduler
-> + * determine what order it should be ran in in reference to the other steps that
-> + * are part of the same job.
-> + */
-> +struct media_job_step {
-> +	struct list_head list;
-> +	void (*run_step)(void *data);
-> +	void *data;
-> +	unsigned int flags;
-> +	unsigned int pos;
-> +};
-> +
-> +/**
-> + * struct media_job_dep_ops - Operations to manage a media job dependency
-> + *
-> + * @check_dep:	A function to ask the driver whether the dependency is met
-> + * @clear_dep:	A function to tell the driver that the job has been queued
-> + * @reset_dep:	A function to tell the driver that the job has been cancelled
-> + *
-> + * Media jobs have dependencies, such as requiring buffers to be queued. These
-> + * operations allow a driver to define how the media jobs framework should check
-> + * whether or not those dependencies are met and how it should inform them that
-> + * it is taking action based on the state of those dependencies.
-> + */
-> +struct media_job_dep_ops {
-> +	bool (*check_dep)(void *data);
-> +	void (*clear_dep)(void *data);
-> +	void (*reset_dep)(void *data);
-> +};
-> +
-> +/**
-> + * struct media_job_dep - Representation of media job dependency
-> + *
-> + * @list:	List head to attach to a &struct media_job.deps
-> + * @ops:	A pointer to the dependency's operations functions
-> + * @met:	A flag to record whether or not the dependency is met
-> + * @data:	Data to pass to the dependency's operations
-> + *
-> + * This struct represents a dependency of a media job. The operations member
-> + * holds pointers to functions allowing the framework to interact with the
-> + * driver to check whether or not the dependency is met.
-> + */
-> +struct media_job_dep {
-> +	struct list_head list;
-> +	struct media_job_dep_ops *ops;
-> +	bool met;
-> +	void *data;
-> +};
-> +
-> +/**
-> + * media_jobs_try_queue_job - Try to queue a &struct media_job
-> + *
-> + * @sched:	Pointer to the job scheduler
-> + * @type:	The type of the media job
-> + * @dep_ops:	A pointer to the dependency operations for this job
-> + * @dep_data:	A pointer to the dependency data for this job
-> + *
-> + * Try to queue a media job with the scheduler. This function should be called
-> + * by the drivers whenever a dependency for a media job is met - for example
-> + * when a buffer is queued to the driver. The framework will check to see if an
-> + * existing job on the scheduler's pending list shares the same type, dependency
-> + * operations and dependency data. If it does then that existing job will be
-> + * considered. If there is no extant job with those same parameters, a new job
-> + * is allocated and populated by calling the setup functions registered with
-> + * the framework.
-> + *
-> + * The function iterates over the dependencies that are registered with the job
-> + * and checks to see if they are met. If they're all met, they're cleared and
-> + * the job is placed onto the scheduler's queue.
-> + *
-> + * To help reduce conditionals in drivers where a driver supports both the use
-> + * of the media jobs framework and operation without it, this function is a no
-> + * op if @sched is NULL.
-> + *
-> + * Return: 0 on success or a negative error number
-> + */
-> +int media_jobs_try_queue_job(struct media_job_scheduler *sched,
-> +			     enum media_job_types type,
-> +			     struct media_job_dep_ops *dep_ops, void *dep_data);
-> +
-> +/**
-> + * media_jobs_add_job_step - Add a step to a media job
-> + *
-> + * @job:	Pointer to the &struct media_job
-> + * @run_step:	Pointer to the function to run to execute the step
-> + * @data:	Pointer to the data to pass to @run_ste
-> + * @flags:	One of the MEDIA_JOBS_FL_STEP_* flags
-> + * @pos:	A position indicator to use with @flags
-> + *
-> + * This function adds a step to the job and should be called from the drivers'
-> + * job setup functions as registered with the framework through
-> + * media_jobs_add_job_setup_func(). The @flags and @pos parameters are used
-> + * to determine the ordering of the steps within the job:
-> + *
-> + * If @flags has the MEDIA_JOBS_FL_STEP_ANYWHERE bit set, the step is placed
-> + * after all steps with MEDIA_JOBS_FL_STEP_FROM_FRONT and before all steps with
-> + * MEDIA_JOBS_FL_STEP_FROM_BACK bit set, but otherwise in whatever order this
-> + * function is called.
-> + *
-> + * If @flags has the MEDIA_JOBS_FL_STEP_FROM_FRONT bit set then the step is
-> + * placed @pos steps from the front of the list. Attempting to place multiple
-> + * steps in the same position will result in an error.
-> + *
-> + * If @flags has the MEDIA_JOBS_FL_STEP_FROM_BACK bit set then the step is
-> + * placed @pos steps from the back of the list. Attempting to place multiple
-> + * steps in the same position will result in an error.
-> + *
-> + * Return: 0 on success or a negative error number
-> + */
-> +int media_jobs_add_job_step(struct media_job *job, void (*run_step)(void *data),
-> +			    void *data, unsigned int flags, unsigned int pos);
-> +
-> +/**
-> + * media_jobs_add_job_dep - Add a dependency to a media job
-> + *
-> + * @job:	Pointer to the &struct media_job
-> + * @ops:	Pointer to the &struct media_job_dep_ops
-> + * @data:	Pointer to the data to pass to the dependency's operations
-> + *
-> + * This function adds a dependency to the job and should be called from the
-> + * drivers job setup functions as registered with the framework through the
-> + * media_jobs_add_job_setup_func() function.
-> + *
-> + * Return: 0 on success or a negative error number
-> + */
-> +int media_jobs_add_job_dep(struct media_job *job, struct media_job_dep_ops *ops,
-> +			   void *data);
-> +
-> +/**
-> + * media_jobs_add_job_setup_func - Add a function that populates a media job
-> + *
-> + * @sched:	Pointer to the media jobs scheduler
-> + * @job_setup:	Pointer to the new job setup function
-> + * @data:	Data to pass to the job setup function
-> + * @type:	The type of job that this function should be called for
-> + *
-> + * Drivers that wish to utilise the framework need to use this function to
-> + * register a callback that adds job steps and dependencies when one is created.
-> + * The function must call media_jobs_add_job_step() and media_jobs_add_job_dep()
-> + * to populate the job.
-> + *
-> + * Return: 0 on success or a negative error number
-> + */
-> +int media_jobs_add_job_setup_func(struct media_job_scheduler *sched,
-> +				  int (*job_setup)(struct media_job *job, void *data),
-> +				  void *data, enum media_job_types type);
-> +
-> +/**
-> + * media_jobs_put_scheduler - Put a reference to the media jobs scheduler
-> + *
-> + * @sched:	Pointer to the media jobs scheduler
-> + *
-> + * This function puts a reference to the media jobs scheduler, and is intended
-> + * to be called in error and exit paths for consuming drivers
-> + */
-> +void media_jobs_put_scheduler(struct media_job_scheduler *sched);
-> +
-> +/**
-> + * media_jobs_get_scheduler - Get a media jobs scheduler
-> + *
-> + * @mdev:	Pointer to the media device associated with the scheduler
-> + *
-> + * This function gets a pointer to a &struct media_job_scheduler associated with
-> + * the media device passed to @mdev. If one is not available then it is
-> + * allocated and returned. This allows multiple drivers sharing a media graph to
-> + * work with the same media job scheduler.
-> + *
-> + * Return: 0 on success or a negative error number
-> + */
-> +struct media_job_scheduler *media_jobs_get_scheduler(struct media_device *mdev);
-> +
-> +/**
-> + * media_jobs_run_jobs - Run any media jobs that are ready in the queue
-> + *
-> + * @sched:	Pointer to the media job scheduler
-> + *
-> + * This function triggers the workqueue that processes any jobs that have been
-> + * queued, and should be called whenever the pipeline is ready to do so.
-> + *
-> + * To help reduce conditionals in drivers where a driver supports both the use
-> + * of the media jobs framework and operation without it, this function is a no
-> + * op if @sched is NULL.
-> + */
-> +void media_jobs_run_jobs(struct media_job_scheduler *sched);
-> +
-> +/**
-> + * media_jobs_cancel_jobs - cancel all waiting jobs
-> + *
-> + * @sched:	Pointer to the media job scheduler
-> + *
-> + * This function iterates over any pending and queued jobs, resets their
-> + * dependencies and frees the job
-> + *
-> + * To help reduce conditionals in drivers where a driver supports both the use
-> + * of the media jobs framework and operation without it, this function is a no
-> + * op if @sched is NULL.
-> + */
-> +void media_jobs_cancel_jobs(struct media_job_scheduler *sched);
-> +
-> +extern struct list_head media_job_schedulers;
-> +extern struct mutex media_job_schedulers_lock;
-> +
-> +#endif /* _MEDIA_JOBS_H */
-> --
-> 2.34.1
->
->
+>=20
+> Regards,
+> Ming
+>=20
+> > > +	};
+> > > =C2=A0 };
+> > > =C2=A0=20
+> > > =C2=A0 struct vpu_dec_pic_info {
+> > > diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/m=
+edia/platform/amphion/vpu_helpers.c
+> > > index d12310af9ebc..886d5632388e 100644
+> > > --- a/drivers/media/platform/amphion/vpu_helpers.c
+> > > +++ b/drivers/media/platform/amphion/vpu_helpers.c
+> > > @@ -509,3 +509,126 @@ const char *vpu_codec_state_name(enum vpu_codec=
+_state state)
+> > > =C2=A0=C2=A0	}
+> > > =C2=A0=C2=A0	return "<unknown>";
+> > > =C2=A0 }
+> > > +
+> > > +struct codec_id_mapping {
+> > > +	u32 id;
+> > > +	u32 v4l2_id;
+> > > +};
+> > > +
+> > > +static struct codec_id_mapping h264_profiles[] =3D {
+> > > +	{66,=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE},
+> > > +	{77,=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE_MAIN},
+> > > +	{88,=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED},
+> > > +	{100, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH}
+> > > +};
+> > > +
+> > > +static struct codec_id_mapping h264_levels[] =3D {
+> > > +	{10,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1_0},
+> > > +	{9,=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1B},
+> > > +	{11,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1_1},
+> > > +	{12,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1_2},
+> > > +	{13,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1_3},
+> > > +	{20,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_2_0},
+> > > +	{21,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_2_1},
+> > > +	{22,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_2_2},
+> > > +	{30,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_3_0},
+> > > +	{31,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_3_1},
+> > > +	{32,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_3_2},
+> > > +	{40,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_4_0},
+> > > +	{41,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_4_1},
+> > > +	{42,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_4_2},
+> > > +	{50,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_5_0},
+> > > +	{51,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_5_1},
+> > > +	{52,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_5_2},
+> > > +	{60,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_6_0},
+> > > +	{61,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_6_1},
+> > > +	{62,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_6_2}
+> > > +};
+> > > +
+> > > +static struct codec_id_mapping hevc_profiles[] =3D {
+> > > +	{1,=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN},
+> > > +	{2,=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10}
+> > > +};
+> > > +
+> > > +static struct codec_id_mapping hevc_levels[] =3D {
+> > > +	{30,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_1},
+> > > +	{60,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_2},
+> > > +	{63,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_2_1},
+> > > +	{90,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_3},
+> > > +	{93,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_3_1},
+> > > +	{120, V4L2_MPEG_VIDEO_HEVC_LEVEL_4},
+> > > +	{123, V4L2_MPEG_VIDEO_HEVC_LEVEL_4_1},
+> > > +	{150, V4L2_MPEG_VIDEO_HEVC_LEVEL_5},
+> > > +	{153, V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1},
+> > > +	{156, V4L2_MPEG_VIDEO_HEVC_LEVEL_5_2},
+> > > +	{180, V4L2_MPEG_VIDEO_HEVC_LEVEL_6},
+> > > +	{183, V4L2_MPEG_VIDEO_HEVC_LEVEL_6_1},
+> > > +	{186, V4L2_MPEG_VIDEO_HEVC_LEVEL_6_2}
+> > > +};
+> > > +
+> > > +static u32 vpu_find_v4l2_id(u32 id, struct codec_id_mapping *array, =
+u32 array_sz)
+> > > +{
+> > > +	u32 i;
+> > > +
+> > > +	if (!array || !array_sz)
+> > > +		return 0;
+> > > +
+> > > +	for (i =3D 0; i < array_sz; i++) {
+> > > +		if (id =3D=3D array[i].id)
+> > > +			return array[i].v4l2_id;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +u32 vpu_get_h264_v4l2_profile(struct vpu_dec_codec_info *hdr)
+> > > +{
+> > > +	if (!hdr)
+> > > +		return 0;
+> > > +
+> > > +	/*
+> > > +	 * In H.264 Document section A.2.1.1 Constrained Baseline profile
+> > > +	 * Conformance of a bitstream to the Constrained Baseline profile i=
+s indicated by
+> > > +	 * profile_idc being equal to 66 with constraint_set1_flag being eq=
+ual to 1.
+> > > +	 */
+> > > +	if (hdr->profile_idc =3D=3D 66 && hdr->constraint_set1_flag)
+> > > +		return V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE;
+> > > +
+> > > +	return vpu_find_v4l2_id(hdr->profile_idc, h264_profiles, ARRAY_SIZE=
+(h264_profiles));
+> > > +}
+> > > +
+> > > +u32 vpu_get_h264_v4l2_level(struct vpu_dec_codec_info *hdr)
+> > > +{
+> > > +	if (!hdr)
+> > > +		return 0;
+> > > +
+> > > +	/*
+> > > +	 * In H.264 Document section 7.4.2.1.1 Sequence parameter set data =
+semantics
+> > > +	 * If profile_idc is equal to 66, 77, or 88 and level_idc is equal =
+to 11,
+> > > +	 * constraint_set3_flag equal to 1 indicates that the coded video s=
+equence
+> > > +	 * obeys all constraints specified in Annex A for level 1b
+> > > +	 * and constraint_set3_flag equal to 0 indicates that the coded vid=
+eo sequence
+> > > +	 * obeys all constraints specified in Annex A for level 1.1.
+> > > +	 */
+> > > +	if (hdr->level_idc =3D=3D 11 && hdr->constraint_set3_flag &&
+> > > +	=C2=A0=C2=A0=C2=A0 (hdr->profile_idc =3D=3D 66 || hdr->profile_idc =
+=3D=3D 77 || hdr->profile_idc =3D=3D 88))
+> > > +		return V4L2_MPEG_VIDEO_H264_LEVEL_1B;
+> > > +
+> > > +	return vpu_find_v4l2_id(hdr->level_idc, h264_levels, ARRAY_SIZE(h26=
+4_levels));
+> > > +}
+> > > +
+> > > +u32 vpu_get_hevc_v4l2_profile(struct vpu_dec_codec_info *hdr)
+> > > +{
+> > > +	if (!hdr)
+> > > +		return 0;
+> > > +
+> > > +	return vpu_find_v4l2_id(hdr->profile_idc, hevc_profiles, ARRAY_SIZE=
+(hevc_profiles));
+> > > +}
+> > > +
+> > > +u32 vpu_get_hevc_v4l2_level(struct vpu_dec_codec_info *hdr)
+> > > +{
+> > > +	if (!hdr)
+> > > +		return 0;
+> > > +
+> > > +	return vpu_find_v4l2_id(hdr->level_idc, hevc_levels, ARRAY_SIZE(hev=
+c_levels));
+> > > +}
+> > > diff --git a/drivers/media/platform/amphion/vpu_helpers.h b/drivers/m=
+edia/platform/amphion/vpu_helpers.h
+> > > index 0eaddb07190d..6c0554ccf3b3 100644
+> > > --- a/drivers/media/platform/amphion/vpu_helpers.h
+> > > +++ b/drivers/media/platform/amphion/vpu_helpers.h
+> > > @@ -6,6 +6,8 @@
+> > > =C2=A0 #ifndef _AMPHION_VPU_HELPERS_H
+> > > =C2=A0 #define _AMPHION_VPU_HELPERS_H
+> > > =C2=A0=20
+> > > +#include "vpu_defs.h"
+> > > +
+> > > =C2=A0 struct vpu_pair {
+> > > =C2=A0=C2=A0	u32 src;
+> > > =C2=A0=C2=A0	u32 dst;
+> > > @@ -70,4 +72,9 @@ int vpu_color_get_default(u32 primaries, u32 *ptran=
+sfers, u32 *pmatrix, u32 *pfu
+> > > =C2=A0=20
+> > > =C2=A0 int vpu_find_dst_by_src(struct vpu_pair *pairs, u32 cnt, u32 s=
+rc);
+> > > =C2=A0 int vpu_find_src_by_dst(struct vpu_pair *pairs, u32 cnt, u32 d=
+st);
+> > > +
+> > > +u32 vpu_get_h264_v4l2_profile(struct vpu_dec_codec_info *hdr);
+> > > +u32 vpu_get_h264_v4l2_level(struct vpu_dec_codec_info *hdr);
+> > > +u32 vpu_get_hevc_v4l2_profile(struct vpu_dec_codec_info *hdr);
+> > > +u32 vpu_get_hevc_v4l2_level(struct vpu_dec_codec_info *hdr);
+> > > =C2=A0 #endif
+> > > diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/me=
+dia/platform/amphion/vpu_malone.c
+> > > index feca7d4220ed..ba688566dffd 100644
+> > > --- a/drivers/media/platform/amphion/vpu_malone.c
+> > > +++ b/drivers/media/platform/amphion/vpu_malone.c
+> > > @@ -908,7 +908,8 @@ static void vpu_malone_unpack_seq_hdr(struct vpu_=
+rpc_event *pkt,
+> > > =C2=A0=C2=A0	info->frame_rate.numerator =3D 1000;
+> > > =C2=A0=C2=A0	info->frame_rate.denominator =3D pkt->data[8];
+> > > =C2=A0=C2=A0	info->dsp_asp_ratio =3D pkt->data[9];
+> > > -	info->level_idc =3D pkt->data[10];
+> > > +	info->profile_idc =3D (pkt->data[10] >> 8) & 0xff;
+> > > +	info->level_idc =3D pkt->data[10] & 0xff;
+> > > =C2=A0=C2=A0	info->bit_depth_luma =3D pkt->data[13];
+> > > =C2=A0=C2=A0	info->bit_depth_chroma =3D pkt->data[14];
+> > > =C2=A0=C2=A0	info->chroma_fmt =3D pkt->data[15];
+> > > @@ -925,6 +926,8 @@ static void vpu_malone_unpack_seq_hdr(struct vpu_=
+rpc_event *pkt,
+> > > =C2=A0=C2=A0		info->pixfmt =3D V4L2_PIX_FMT_NV12M_10BE_8L128;
+> > > =C2=A0=C2=A0	else
+> > > =C2=A0=C2=A0		info->pixfmt =3D V4L2_PIX_FMT_NV12M_8L128;
+> > > +	if (pkt->hdr.num > 28)
+> > > +		info->constraint_set_flags =3D pkt->data[28];
+> > > =C2=A0=C2=A0	if (info->frame_rate.numerator && info->frame_rate.denom=
+inator) {
+> > > =C2=A0=C2=A0		unsigned long n, d;
+> > > =C2=A0=20
+> > >=20
+> > > base-commit: b64b134942c8cf4801ea288b3fd38b509aedec21
 
