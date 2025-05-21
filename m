@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-33058-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33059-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C3E0ABFD6E
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 21:36:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4B3ABFD6C
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 21:36:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0D7C3A359B
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 19:36:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C8C54E43B8
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 19:36:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F38EE28FFEE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E779628FFEB;
 	Wed, 21 May 2025 19:35:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gPixCLIT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLsllN57"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C94725A321;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9C6264A7C;
 	Wed, 21 May 2025 19:35:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747856151; cv=none; b=pp+2FJKEcOddwRawX7YNp72hNNhCqf/1rNxBWqoUPsnNDMi+MrJnfDBYf/rVKmbKRtHi482QDe+PTAnbFCx8TXkkoBV8zkLtmSWn1oZwhMDYFXdZY/GhMYWydTVzAgN6E5mzLJqgYZa2wF5z0+8sbzQOY9nushyX5GhfMmdvUlU=
+	t=1747856151; cv=none; b=nN7MfWckzUu+nfjA7BJzuEt3Y6c1XGcIUkUFkIjUDDONrmu1WFDZ7xrQ3TkLZ5mYhooUQArPERo2gNFbzTLQJzq1uS8hxub/2Kx9ZYEff3i9S6TTgR9FnSr2EJK7b3phkTeQ3Y9GqkoGU6CquDg10mQTUkzwDfshr/XGdO3X74k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747856151; c=relaxed/simple;
-	bh=8a8vQY24kpOTOSPqYHfBqqeVHZ2y0yNa9wTnorDnezo=;
+	bh=L2WGN7X2JUviaBc60J76R20EMSD9EzQJaZPVXw+rN/E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OpDA8cq91zySFAwsBEblgxUYfOgC+Mmec7nK4bs1hl8W4hrwptCuehL1OiGjNETVRqqB7fI5Tixqu8UQ4hZMc2YBgfeRS2TOISXkYTtq1+oB9SD/WSWoK3hTr9hK5MNsi/d7nbTZGNXfb8uKUQrtjE+4Ub1q15lsppvtUH8dLFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gPixCLIT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0F7AEC4CEEA;
+	 In-Reply-To:To:Cc; b=JVuYhRYke43Po6tPZd8/QFztygUQsDo3/gYlZouFtFXBZU8x08coNzIE6RroSTb5jInCXpvIUWRul8GCAHdOq1QBi0GOvRLaQXTIM8C1QsY8Caf69vCe7g8wLkDWeg+44ScLkQzVivO0y8dSbBmS46L4DvIvN7Aa8R+oR0BqiME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLsllN57; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1B90EC4CEED;
 	Wed, 21 May 2025 19:35:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1747856151;
-	bh=8a8vQY24kpOTOSPqYHfBqqeVHZ2y0yNa9wTnorDnezo=;
+	bh=L2WGN7X2JUviaBc60J76R20EMSD9EzQJaZPVXw+rN/E=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=gPixCLITPfzRV8uPt7V2t9f6V9qhU2M2YG+Mc3CWFguXc0Bsj5xok3L0UCMq1cGo2
-	 pckvkX7/20Y2Rp6+Puhb3XO/dEycnFDSJZ7Dal9HBGiSiTxXRUG5HeNudBYfqZ3/tI
-	 xC0P+19Hw8KHRkanrGaae7ppIcicQmWcXJXrSBWj6Kjmi1RXn3VasF0F0X2ws6JCd8
-	 HncP052XNRzgj5hVZkv4RnxyW77O0aNh9vwb0cKbfjRD95kTiUlnVNf3XusS/lAgT0
-	 ZgdAFy4gZKP0veZCXJ3aXtatqDDDtdDj/GHoRQehc9He44+8XifXZLO1rB5dNiYI4N
-	 pBE2JhRXoDQVA==
+	b=MLsllN57CyodCPgX15zGM2Jd3ZOX7Fz7e+htMd/6mQXdlX9Zf7Mk8OK4OYrOu0uyl
+	 gMPV+Wzy8MDq8YlfE9DSlWnDdsFZOcac4du8Gfa/vjr4kUoI+paZ7F+Avt/jwYnWxk
+	 WYSR3ZPhWuIBovlLsKo6jOWCczpAB38H1oMF+DqX1ioh3mO/FKM2L5n1JY4G0gtSIv
+	 uS3v/OWQ4FlboNQJaboZlMFXh2Q4LsjeNArrep6zeVfpthHEZe/s5aa/WkOel6KCSD
+	 uvoc4MgDWJwTN+K8T56pkFGY79gG90/V9nt9iWI/kYrQnf7VuveKpmUm8V2qdNioZ8
+	 ZIt49M75SuR4g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0533C54E65;
-	Wed, 21 May 2025 19:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F02C54EDA;
+	Wed, 21 May 2025 19:35:51 +0000 (UTC)
 From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Wed, 21 May 2025 21:34:24 +0200
-Subject: [PATCH v3 1/5] media: i2c: imx214: Reorder imx214_parse_fwnode
- call
+Date: Wed, 21 May 2025 21:34:25 +0200
+Subject: [PATCH v3 2/5] media: i2c: imx214: Prepare for variable clock
+ frequency
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250521-imx214_ccs_pll-v3-1-bfb4a2b53d14@apitzsch.eu>
+Message-Id: <20250521-imx214_ccs_pll-v3-2-bfb4a2b53d14@apitzsch.eu>
 References: <20250521-imx214_ccs_pll-v3-0-bfb4a2b53d14@apitzsch.eu>
 In-Reply-To: <20250521-imx214_ccs_pll-v3-0-bfb4a2b53d14@apitzsch.eu>
 To: Ricardo Ribalda <ribalda@kernel.org>, 
@@ -75,11 +75,11 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747856148; l=1201;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747856148; l=3684;
  i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=JSOcAgvTpyrSY1gtujk/NN7HrGG2Tbe4hfXbnAXabfw=;
- b=cTQcAJeyjcHdCIB0CKYBFarIoEIQzEvH4tse6dqUe0Kr4oM9poMtr0ShJH2LQBm/nX4vg6mQZ
- dUqisuK/dOPApTwt5EGLeYXIPjbI1DoU/UFdNy0b08rFtHEn1K/PyiT
+ bh=ddkeGCuuPcPPzIbz+qwlV4L+uKUvrwzDr+fPplJy9lU=;
+ b=m0lrNrvqVmU0Mlud7HafGfd4RWckGidy15oW8sEPRDz+xylJVNPL3iedrBj3EJZUMtnUCuh4d
+ FairHJgObh8BJa+vQT6lWdFpguJdiBOriNzAzltFbbDMX4oKZZg4kLF
 X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
  pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
 X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
@@ -89,43 +89,109 @@ Reply-To: git@apitzsch.eu
 
 From: André Apitzsch <git@apitzsch.eu>
 
-Reorder imx214_parse_fwnode call to reduce goto paths in upcoming
-patches.
-
-No functional change intended.
+Move clock frequency related parameters out of the constant register
+sequences, such that the hard coded external clock frequency can be
+replaced by a variable in the upcoming patches.
 
 Acked-by: Ricardo Ribalda <ribalda@chromium.org>
 Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
- drivers/media/i2c/imx214.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/i2c/imx214.c | 54 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 31 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index dd7bc45523d8b5fcb3ec95728a6d32c4fddede72..0199195dcb7d12dc2ff253fe3eb77ddbcd0812a9 100644
+index 0199195dcb7d12dc2ff253fe3eb77ddbcd0812a9..3aca6ebb02d649c1b7f0b6a6049c1e3aa3d08951 100644
 --- a/drivers/media/i2c/imx214.c
 +++ b/drivers/media/i2c/imx214.c
-@@ -1261,10 +1261,6 @@ static int imx214_probe(struct i2c_client *client)
- 	struct imx214 *imx214;
- 	int ret;
+@@ -299,16 +299,6 @@ static const struct cci_reg_sequence mode_4096x2304[] = {
+ 	{ IMX214_REG_DIG_CROP_WIDTH, 4096 },
+ 	{ IMX214_REG_DIG_CROP_HEIGHT, 2304 },
  
--	ret = imx214_parse_fwnode(dev);
--	if (ret)
--		return ret;
+-	{ IMX214_REG_VTPXCK_DIV, 5 },
+-	{ IMX214_REG_VTSYCK_DIV, 2 },
+-	{ IMX214_REG_PREPLLCK_VT_DIV, 3 },
+-	{ IMX214_REG_PLL_VT_MPY, 150 },
+-	{ IMX214_REG_OPPXCK_DIV, 10 },
+-	{ IMX214_REG_OPSYCK_DIV, 1 },
+-	{ IMX214_REG_PLL_MULT_DRIV, IMX214_PLL_SINGLE },
 -
- 	imx214 = devm_kzalloc(dev, sizeof(*imx214), GFP_KERNEL);
- 	if (!imx214)
- 		return -ENOMEM;
-@@ -1295,6 +1291,10 @@ static int imx214_probe(struct i2c_client *client)
- 		return dev_err_probe(dev, PTR_ERR(imx214->regmap),
- 				     "failed to initialize CCI\n");
+-	{ IMX214_REG_REQ_LINK_BIT_RATE, IMX214_LINK_BIT_RATE_MBPS(4800) },
+-
+ 	{ CCI_REG8(0x3A03), 0x09 },
+ 	{ CCI_REG8(0x3A04), 0x50 },
+ 	{ CCI_REG8(0x3A05), 0x01 },
+@@ -362,16 +352,6 @@ static const struct cci_reg_sequence mode_1920x1080[] = {
+ 	{ IMX214_REG_DIG_CROP_WIDTH, 1920 },
+ 	{ IMX214_REG_DIG_CROP_HEIGHT, 1080 },
  
-+	ret = imx214_parse_fwnode(dev);
-+	if (ret)
-+		return ret;
+-	{ IMX214_REG_VTPXCK_DIV, 5 },
+-	{ IMX214_REG_VTSYCK_DIV, 2 },
+-	{ IMX214_REG_PREPLLCK_VT_DIV, 3 },
+-	{ IMX214_REG_PLL_VT_MPY, 150 },
+-	{ IMX214_REG_OPPXCK_DIV, 10 },
+-	{ IMX214_REG_OPSYCK_DIV, 1 },
+-	{ IMX214_REG_PLL_MULT_DRIV, IMX214_PLL_SINGLE },
+-
+-	{ IMX214_REG_REQ_LINK_BIT_RATE, IMX214_LINK_BIT_RATE_MBPS(4800) },
+-
+ 	{ CCI_REG8(0x3A03), 0x04 },
+ 	{ CCI_REG8(0x3A04), 0xF8 },
+ 	{ CCI_REG8(0x3A05), 0x02 },
+@@ -405,9 +385,6 @@ static const struct cci_reg_sequence mode_table_common[] = {
+ 	/* ATR setting */
+ 	{ IMX214_REG_ATR_FAST_MOVE, 2 },
+ 
+-	/* external clock setting */
+-	{ IMX214_REG_EXCK_FREQ, IMX214_EXCK_FREQ(IMX214_DEFAULT_CLK_FREQ / 1000000) },
+-
+ 	/* global setting */
+ 	/* basic config */
+ 	{ IMX214_REG_MASK_CORR_FRAMES, IMX214_CORR_FRAMES_MASK },
+@@ -777,6 +754,24 @@ static int imx214_entity_init_state(struct v4l2_subdev *subdev,
+ 	return 0;
+ }
+ 
++static int imx214_configure_pll(struct imx214 *imx214)
++{
++	int ret = 0;
 +
- 	v4l2_i2c_subdev_init(&imx214->sd, client, &imx214_subdev_ops);
- 	imx214->sd.internal_ops = &imx214_internal_ops;
++	cci_write(imx214->regmap, IMX214_REG_VTPXCK_DIV, 5, &ret);
++	cci_write(imx214->regmap, IMX214_REG_VTSYCK_DIV, 2, &ret);
++	cci_write(imx214->regmap, IMX214_REG_PREPLLCK_VT_DIV, 3, &ret);
++	cci_write(imx214->regmap, IMX214_REG_PLL_VT_MPY, 150, &ret);
++	cci_write(imx214->regmap, IMX214_REG_OPPXCK_DIV, 10, &ret);
++	cci_write(imx214->regmap, IMX214_REG_OPSYCK_DIV, 1, &ret);
++	cci_write(imx214->regmap, IMX214_REG_PLL_MULT_DRIV,
++		  IMX214_PLL_SINGLE, &ret);
++	cci_write(imx214->regmap, IMX214_REG_EXCK_FREQ,
++		  IMX214_EXCK_FREQ(IMX214_DEFAULT_CLK_FREQ / 1000000), &ret);
++
++	return ret;
++}
++
+ static int imx214_update_digital_gain(struct imx214 *imx214, u32 val)
+ {
+ 	int ret = 0;
+@@ -1020,6 +1015,19 @@ static int imx214_start_streaming(struct imx214 *imx214)
+ 		return ret;
+ 	}
  
++	ret = imx214_configure_pll(imx214);
++	if (ret) {
++		dev_err(imx214->dev, "failed to configure PLL %d\n", ret);
++		return ret;
++	}
++
++	ret = cci_write(imx214->regmap, IMX214_REG_REQ_LINK_BIT_RATE,
++			IMX214_LINK_BIT_RATE_MBPS(4800), NULL);
++	if (ret) {
++		dev_err(imx214->dev, "failed to configure link bit rate\n");
++		return ret;
++	}
++
+ 	ret = cci_write(imx214->regmap, IMX214_REG_CSI_LANE_MODE,
+ 			IMX214_CSI_4_LANE_MODE, NULL);
+ 	if (ret) {
 
 -- 
 2.49.0
