@@ -1,161 +1,155 @@
-Return-Path: <linux-media+bounces-32979-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32980-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B095AABEA06
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 04:47:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 981D1ABEA0B
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 04:49:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3D681B66F4C
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 02:47:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3D3C3B04AC
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 02:48:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A792E22C34A;
-	Wed, 21 May 2025 02:46:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F27E722B8D9;
+	Wed, 21 May 2025 02:48:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DypL6xK1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4mNxSKi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3241314F9F7
-	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 02:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127EEC133;
+	Wed, 21 May 2025 02:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747795615; cv=none; b=JF/wYODMmgfSouXfVMH+lRtnr15szexbha7pFwcE0F8mka+PaeDvrb9knI/3YZmyrsuFS9keFY4w0TUaRhcrHsuqBUhzV0Ratf8oH2xcoemMG9p/RzWc8NGp+xhCDmmcDBSiviIDc6Er6bU+Fx/63M1FI42IT+npG0FbwjhZ0u8=
+	t=1747795732; cv=none; b=XWxjMH+2AfqJ7N3WSTIUTpVz+CoGV6Yw7lfN+sn6MU+0xj95K9wF2TZ56UJv0NJD2UVrYO/Dhl479rACjSFaOg1FSEXNFHjpumpA26kk2SbLsnoY7Me32ks8PDR0GHxAiCusIwOjVVPsQMjta8N0BkZHgZm5Jzghya0/vRzvarQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747795615; c=relaxed/simple;
-	bh=s0Yv5qpAybqDPz+g5ZEmMpZGSzKgHGyyNvk9T13DIOk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LPPIKaNkQ4GH8QLqGQjJVW41ZaAyG7sMfojL0QyQ2jbvCGPElEe57rNMWVdRbB5WR2yMx9DYxZdw4KB4dNf6bmgY86tePuChVczK93c32JXYYYEGJu3J2lISbqCUlDNtVWLWxv/YFMBm+KIeIWXorD0H3I2HH4YIy9EZ/z3QAwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DypL6xK1; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-32934448e8bso4934051fa.3
-        for <linux-media@vger.kernel.org>; Tue, 20 May 2025 19:46:52 -0700 (PDT)
+	s=arc-20240116; t=1747795732; c=relaxed/simple;
+	bh=pQWwG4FE7E75O7y9KDeZqn7/YOWBpQ604/XkiidUzBw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eRQ7f38C9D7BIebjyi0aHovtFDlFBlk7AjzHu4uwqno24OC0tw+T3n5InHAuVViphT+yAaAjdwRLCKNMSptYFo5/u/kxLRFh2i1mFwUpOfYeEI0Z2KjTYnfuWAZywxSm/PMihhSDWz2OJFZmpnfthGWJHs/dSTJyeD8SyoD0mok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4mNxSKi; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-742c46611b6so4418742b3a.1;
+        Tue, 20 May 2025 19:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1747795611; x=1748400411; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Nxt6arEcdTzqN2aNV7xZMthDenOsecbhCIniDpCb5w8=;
-        b=DypL6xK1BLywsaU4fe8cPvIMG+7dD3qHaq8yz1alNmpjfQMo/zNWIvu/Ni1xhGSy8M
-         T6L3HMmI9gcFBpeN8HI8/O8+AX5FG7gl3mEJvACKExL1TFEq+EQ589D/JIjlBdH8KMZn
-         rwJH4VhzO7k8H2+NiGqcVw64qEzWfqUfwOaisWypKacxwCHlcVs8G4tcjVizcHgYBw2G
-         ucQojIMv9ozfTzKWeQemfPd60/KESoa39kfvOAoUYD7GGTAKsJmS1pa/d42Hm829jHhh
-         5QQ7RhYIRFne9dOnEeZoUOeByyb4OjdKPHRdTLwr3JhAWqNLBNQhLwDsFFQ6Dzy0C7GH
-         OLHQ==
+        d=gmail.com; s=20230601; t=1747795730; x=1748400530; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=t2NbDA114bT4M3eihLnGg0sok4WOyWpUmS0wQOI9syg=;
+        b=Z4mNxSKicEnBsDWJm6ldbg+dX3lCvcKdO+lYBTCwdVnUtYtJHKOP3xp8mOcWvDVSPg
+         qLp7B5IBbRcGVoThnQpQg4GCghe12/9mqHgUwazErzd8NHPakd3Gw40FbMsN10zY4UwR
+         BrKX//P6MAhb2BBHQ4MN/dmoo+0RekOH20GkMc3ipMbBVvPA2+UzU1hu/SbaGRvsfbEr
+         7vKifYmI4ZVEiClp1gGuVz8i211aYWdoF/z8wRIMgs9MULObuJS9FwoNGVs7rSfVseRS
+         MP6ukVnjDO7mQObzQBBumrXIqZztx6LrF8IJN3wq9pga6yxX74958NXdhK9Kd/Ypz4pZ
+         8PuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747795611; x=1748400411;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Nxt6arEcdTzqN2aNV7xZMthDenOsecbhCIniDpCb5w8=;
-        b=dUr1v1RIK1s48OxsM65MGF7B5i6+wpHwK2vhhxnYOhP3t2NRL17u27jwLkPtyIKT0j
-         jD4P1GpzLdY17eRXF/XaOkdoz5q6UOTXWwqlv8q6lOriAV+I/CRwyiYx/zPz5AaQ7C93
-         h/h6936x2wHGJmsfPzTcKETbMhPZV/nR7ee7aHzd16r6i+7me2A0c81Dmx5i2mFdZIwR
-         iobUOb59XT1BGaF3Ev63gABBqI4dAZOkISyxB8bOizV4o3ZUnTckK8QPCa2gGf2meus+
-         HBTxRADsp4QQYIGE06UaDe7NQWFvoGzlK3wHdiIdmh4STkS6pxaOw/dFzeYAEkBSouaI
-         KgZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJ2F1jdoqs8Qt/hruylHGguzv+E70wDAB1qZBEKTdMk5PLUZ+O9bYT0iQX6Ctw2Rxix5idzRpsPPeCLQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSx1T5l1r/x+LUdW3kunAgh0AvqFIA2Fyw+5TNhP/nvPF/Ko39
-	JfcRoMkyg82rTBHaFRahjul3mE7GK/JI/N9g07F8l1zIEehIBvaklzL8/rfOAaIpR/uWZ1rkAyK
-	xldDTZ9iRj+Rh243VKwGRZG1dsT17IH1yarc7Cdw=
-X-Gm-Gg: ASbGncvojgZyWZqcR3oX8BCEB/1c9PVkibKEi9m2mpgk6VxDObTYs4YxS0xbz6Ju3zw
-	+eckazIPGjvs/+5PBeIxniSa/eSlFAfbOhJMbyIofXUqM4a0vEwewexjhFYmAF5STCfnu3dtz/v
-	FhVDv8+ihShBBqbXJfipZvJMRACl8rKaDbvbMoKFYWLe/r3PC8mzaRVobcBxhVs6Wi7lk/B14=
-X-Google-Smtp-Source: AGHT+IHPiBTH/IUONoliZXjExrOKudiG9XvffXjRUKLNtiXlLaXy9m8H+bx6CRbSWTdibiF38hi9o5vXfOGfvKq6xdY=
-X-Received: by 2002:a05:651c:54c:b0:30c:201a:149a with SMTP id
- 38308e7fff4ca-328077a9f1bmr71629351fa.25.1747795611095; Tue, 20 May 2025
- 19:46:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747795730; x=1748400530;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t2NbDA114bT4M3eihLnGg0sok4WOyWpUmS0wQOI9syg=;
+        b=HF0tHM1zGxQLs34Ztc/FwD2nrGTHoWCs90UjwfSKMd7bP4Nbq0A3F/YJf3H3qpZ2XI
+         UwKRhcm2wokh0awJMtJ67Ygtw6Md7jdG1AkygyApzTtZ0mGjYLKEoMklb3MGsuqRdhOC
+         +9ywreKED4ZKqF0v9jrVt5iKM8crCH3RPvfJccnVUQG4M3hUyvsjIf1m2wOqbsizZqUh
+         kd018d+18n7kkwBMU/2Lylk9xhejgxXSEgLpcAQaqHmPnSXmLgwqjVUT1bwMjvtw7euD
+         yWZ5QrN+TGgTI8WIgmOPqoS7oy2DpG5W/X+DZZIbLQoGCF7x1c7ayyBUoAbAEmlZnh0Q
+         q/wg==
+X-Forwarded-Encrypted: i=1; AJvYcCVeqDcpx68faBo9RiOEyIizCS4lYWDalA5692Sk12GI9DHsfJQlBKqRrD7U06YlepJYWKvSeaOtlF3dByI=@vger.kernel.org, AJvYcCXqSAysWoew6Uz75LUmBnoFhhzrna07dW3hh/YTkn+P36vub/woxEwTCccI36wSge11VQegFuJbVLRfyoA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytssCg5eNSbAwj4OKgZxptg7sbPPDuHnJ5hk+Y7YeIxjURKu8n
+	zyjYgRxZSr2Vke8v4kDdid+06MWBEqHeoaMNJC974E1d+ly0OpffYYBz
+X-Gm-Gg: ASbGnctoWkAyu+LxKmIrAoGgpHhpa4d4F9L2hO71dXGMgC5LcT5uJdgtMXTTiZK58eE
+	+vqfXy8yx/Y3eruUmtzsrbqGC3KXFAxOF6rWgX1gO6V/8gGg+U5zivAdJB6X14aVxnT5f0pcxC6
+	w/gb9sAbVgHfVL3Ldugt5HMWKNGu9ybES7SEstpc1cDjOqaJkrDlkDHyKIHyPpKMgjJhbsDkDML
+	/by5VxVdHE1UXODDVRKyfVSRPxLOy9d17vsJ5VNaFRYllrGJEb2Ec0r+qM1226FOJjwbvsNH0eS
+	6f5jhDrY3DNyuZQAw98O+nK72tUpOrXS/OF6o8J7JAODxDnAdeo=
+X-Google-Smtp-Source: AGHT+IFX+g62ovxud3Kx3IZsJ/gdDGHXTo7y+fh/QB6c4bXsAVjJmkxY8O/Y1Pe1xDdgpFg9+SxQkw==
+X-Received: by 2002:a05:6a21:1089:b0:1f5:6b36:f56c with SMTP id adf61e73a8af0-2170ce39a55mr25774895637.39.1747795730168;
+        Tue, 20 May 2025 19:48:50 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f364fffb2sm2516031a91.33.2025.05.20.19.48.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 May 2025 19:48:48 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id F08AE42439C3; Wed, 21 May 2025 09:48:45 +0700 (WIB)
+Date: Wed, 21 May 2025 09:48:45 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc: Hanne-Lotta =?utf-8?B?TcOkZW5ww6TDpA==?= <hannelotta@gmail.com>,
+	mchehab@kernel.org, ribalda@chromium.org, hverkuil@xs4all.nl,
+	hljunggr@cisco.com, dave.jiang@intel.com, jgg@ziepe.ca,
+	saeedm@nvidia.com, Jonathan.Cameron@huawei.com, corbet@lwn.net,
+	mario.limonciello@amd.com, W_Armin@gmx.de,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH 3/4] docs: Improve grammar in Userspace API/fwctl
+Message-ID: <aC0_Dbx4rZkiwkxe@archie.me>
+References: <20250517132711.117618-1-hannelotta@gmail.com>
+ <20250517132711.117618-3-hannelotta@gmail.com>
+ <aCqKNg3p_VlGbce_@archie.me>
+ <264386b3-075d-ef1d-e3b2-9a2937ca05cb@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org>
-In-Reply-To: <20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org>
-From: John Stultz <jstultz@google.com>
-Date: Tue, 20 May 2025 19:46:39 -0700
-X-Gm-Features: AX0GCFvaIAnE0yZNsTcLxjSWVR6RvkV3hbcw5IoUnGn4QI2anEO8q4-VMGo9Bvw
-Message-ID: <CANDhNCoQ=V5Uk0ThmeHdn20xmUucPb-mjCjX5pbM94EvzGRZMw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: dma-buf: heaps: Add naming guidelines
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0QQaGeC0l+16FwB6"
+Content-Disposition: inline
+In-Reply-To: <264386b3-075d-ef1d-e3b2-9a2937ca05cb@linux.intel.com>
+
+
+--0QQaGeC0l+16FwB6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 20, 2025 at 3:00=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
->
-> We've discussed a number of times of how some heap names are bad, but
-> not really what makes a good heap name.
->
-> Let's document what we expect the heap names to look like.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  Documentation/userspace-api/dma-buf-heaps.rst | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentatio=
-n/userspace-api/dma-buf-heaps.rst
-> index 535f49047ce6450796bf4380c989e109355efc05..b24618e360a9a9ba0bd85135d=
-8c1760776f1a37f 100644
-> --- a/Documentation/userspace-api/dma-buf-heaps.rst
-> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> @@ -21,5 +21,24 @@ following heaps:
->     usually created either through the kernel commandline through the
->     `cma` parameter, a memory region Device-Tree node with the
->     `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
->     `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
->     might be called ``reserved``, ``linux,cma``, or ``default-pool``.
-> +
-> +Naming Convention
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +A good heap name is a name that:
-> +
-> +- Is stable, and won't change from one version to the other;
-> +
-> +- Describes the memory region the heap will allocate from, and will
-> +  uniquely identify it in a given platform;
-> +
-> +- Doesn't use implementation details, such as the allocator;
-> +
-> +- Can describe intended usage.
-> +
+On Mon, May 19, 2025 at 04:01:11PM +0300, Ilpo J=C3=A4rvinen wrote:
+> On Mon, 19 May 2025, Bagas Sanjaya wrote:
+>=20
+> > On Sat, May 17, 2025 at 04:27:10PM +0300, Hanne-Lotta M=C3=A4enp=C3=A4=
+=C3=A4 wrote:
+> > >   3. Write access to function & child debug information strictly comp=
+atible with
+> > >      the principles of kernel lockdown and kernel integrity protectio=
+n. Triggers
+> > > -    a kernel Taint.
+> > > +    a kernel taint.
+> >=20
+> > Improving grammar includes s/Taint/taint/?
+> >=20
+> > Confused...
+>=20
+> To be fair, the changelog also said "Fix typos". So Bagas, do you mean=20
+> "Taint" should be always capitalized? At least this doesn't support=20
+> that position:
+>=20
+> git grep -i  taint Documentation
+>=20
 
-Thanks again for sending this out. Sorry I've been spotty in some of
-the discussions (I'm really trying to step back from this area).
+Nope. What I mean is the opposite - lowercasing taint word as it is not in
+first word of sentence nor a proper (named) noun. And yes, I was writing in=
+ sed
+syntax.
 
-I might only suggest you provide a bit more "why" to the list of
-qualities you highlight here, just to communicate more of the
-spirit/philosophy of how these might be judged or reviewed in the
-future.
+Thanks.
 
-> +For example, assuming a platform with a reserved memory region located
-> +at the RAM address 0x42000000, intended to allocate video framebuffers,
-> +and backed by the CMA kernel allocator. Good names would be
-> +`memory@42000000` or `video@42000000`, but `cma-video` wouldn't.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-The point about avoiding the allocator details, just so I better
-understand the criteria: Would distinguishing from a contiguous pool
-vs non-contiguous in the name be considered ok? As it's a property of
-the buffer returned, and one that is critically important for some
-devices. Or do you intend that to be opaque, and the usage->heap
-mapping logic to provide that itself? (Effectively avoiding folks from
-being able to make potentially problematic assumptions from the name?)
+--0QQaGeC0l+16FwB6
+Content-Type: application/pgp-signature; name=signature.asc
 
-Similarly, how would you suggest naming a heap that provides 32bit
-allocations?   Similarly for "protected' allocations, which are being
-proposed?
+-----BEGIN PGP SIGNATURE-----
 
-thanks
--john
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaC0/CQAKCRD2uYlJVVFO
+o6esAP9/bJwCrrj/nib8pSzd6lPgroUAO4W0naZG7b26fSq4bgD8CE7syGvkZQVR
+G7IhqPXv6+OnwWkVI43fqKeA+7bUqAM=
+=TDrk
+-----END PGP SIGNATURE-----
+
+--0QQaGeC0l+16FwB6--
 
