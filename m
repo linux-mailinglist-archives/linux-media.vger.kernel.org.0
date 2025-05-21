@@ -1,138 +1,161 @@
-Return-Path: <linux-media+bounces-32975-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32979-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366A6ABE9E6
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 04:26:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B095AABEA06
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 04:47:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 54C6B1774CC
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 02:25:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3D681B66F4C
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 02:47:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 001CD233721;
-	Wed, 21 May 2025 02:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A792E22C34A;
+	Wed, 21 May 2025 02:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="pM6X6wth"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DypL6xK1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A4E23026F;
-	Wed, 21 May 2025 02:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3241314F9F7
+	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 02:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747794222; cv=none; b=l+GH+k1iJBDHSk75ZAdgog5iuWYGIJ1eI7bo/lUJXE60rL0vVPPhOMcPUWIyZ+PROrrCY4wPAlez8djzZhH+OtVuQrcvJHNevw9U5efcEEuZ2e66Y5wyES02oRhgMbNCq+xJiDvKPpVjs26JwF9uY55YtMkMZTc0YT71k63fdU8=
+	t=1747795615; cv=none; b=JF/wYODMmgfSouXfVMH+lRtnr15szexbha7pFwcE0F8mka+PaeDvrb9knI/3YZmyrsuFS9keFY4w0TUaRhcrHsuqBUhzV0Ratf8oH2xcoemMG9p/RzWc8NGp+xhCDmmcDBSiviIDc6Er6bU+Fx/63M1FI42IT+npG0FbwjhZ0u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747794222; c=relaxed/simple;
-	bh=vbgGqaUjmC7X3jr8emhPQRlwWfsREiCDK2Qcp0HoCw0=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gpFeeywDBw9da0hpnEHo6QgYs2ojUr+4MhhUlq2Lz8FCunoiu2HNr8Or3y2STzkLaEO424C5dn2n0+k4I4AkqDbIHznGck/LbQw725GRBUsxMlnhyXpu9GiTEEpaKRkGVRIh5ZJynXLd9aAADpkjV4E8tCeZDUW4ic/3xlNG55k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=pM6X6wth; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 99e49ee435ea11f0813e4fe1310efc19-20250521
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From; bh=voJtxz07cvFdIZAVC3CJIYYyf2kty3bRZc+zfXUZii8=;
-	b=pM6X6wthAQKjmkg03Cs6barY5kl4XkF52H9uSjem1IoYZwXZS2B39UVDCk5eTlzhVdhVdbqdLXSg1fb3TyKbNCUrp4q3Ozup5H7Cffvw9OI383RBZW0i2cQ313iMZsnZuGKC1ijqU/52vqSdBhiAKRPCF2g0ntm3FQUII9YU8Q8=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1,REQID:fc426ebb-bab7-4db2-b796-a0b1a5abb61d,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:0ef645f,CLOUDID:479cd0a0-0aa5-46e0-8e34-50f0206e6f15,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 99e49ee435ea11f0813e4fe1310efc19-20250521
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
-	(envelope-from <kyrie.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 159924216; Wed, 21 May 2025 10:23:36 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Wed, 21 May 2025 10:23:34 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Wed, 21 May 2025 10:23:34 +0800
-From: Kyrie Wu <kyrie.wu@mediatek.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
-	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>
-Subject: [PATCH v4 12/12] media: mediatek: jpeg: fix remove buffer operation for multi-core
-Date: Wed, 21 May 2025 10:23:22 +0800
-Message-ID: <20250521022322.27576-13-kyrie.wu@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250521022322.27576-1-kyrie.wu@mediatek.com>
-References: <20250521022322.27576-1-kyrie.wu@mediatek.com>
+	s=arc-20240116; t=1747795615; c=relaxed/simple;
+	bh=s0Yv5qpAybqDPz+g5ZEmMpZGSzKgHGyyNvk9T13DIOk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LPPIKaNkQ4GH8QLqGQjJVW41ZaAyG7sMfojL0QyQ2jbvCGPElEe57rNMWVdRbB5WR2yMx9DYxZdw4KB4dNf6bmgY86tePuChVczK93c32JXYYYEGJu3J2lISbqCUlDNtVWLWxv/YFMBm+KIeIWXorD0H3I2HH4YIy9EZ/z3QAwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DypL6xK1; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-32934448e8bso4934051fa.3
+        for <linux-media@vger.kernel.org>; Tue, 20 May 2025 19:46:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747795611; x=1748400411; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nxt6arEcdTzqN2aNV7xZMthDenOsecbhCIniDpCb5w8=;
+        b=DypL6xK1BLywsaU4fe8cPvIMG+7dD3qHaq8yz1alNmpjfQMo/zNWIvu/Ni1xhGSy8M
+         T6L3HMmI9gcFBpeN8HI8/O8+AX5FG7gl3mEJvACKExL1TFEq+EQ589D/JIjlBdH8KMZn
+         rwJH4VhzO7k8H2+NiGqcVw64qEzWfqUfwOaisWypKacxwCHlcVs8G4tcjVizcHgYBw2G
+         ucQojIMv9ozfTzKWeQemfPd60/KESoa39kfvOAoUYD7GGTAKsJmS1pa/d42Hm829jHhh
+         5QQ7RhYIRFne9dOnEeZoUOeByyb4OjdKPHRdTLwr3JhAWqNLBNQhLwDsFFQ6Dzy0C7GH
+         OLHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747795611; x=1748400411;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Nxt6arEcdTzqN2aNV7xZMthDenOsecbhCIniDpCb5w8=;
+        b=dUr1v1RIK1s48OxsM65MGF7B5i6+wpHwK2vhhxnYOhP3t2NRL17u27jwLkPtyIKT0j
+         jD4P1GpzLdY17eRXF/XaOkdoz5q6UOTXWwqlv8q6lOriAV+I/CRwyiYx/zPz5AaQ7C93
+         h/h6936x2wHGJmsfPzTcKETbMhPZV/nR7ee7aHzd16r6i+7me2A0c81Dmx5i2mFdZIwR
+         iobUOb59XT1BGaF3Ev63gABBqI4dAZOkISyxB8bOizV4o3ZUnTckK8QPCa2gGf2meus+
+         HBTxRADsp4QQYIGE06UaDe7NQWFvoGzlK3wHdiIdmh4STkS6pxaOw/dFzeYAEkBSouaI
+         KgZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJ2F1jdoqs8Qt/hruylHGguzv+E70wDAB1qZBEKTdMk5PLUZ+O9bYT0iQX6Ctw2Rxix5idzRpsPPeCLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSx1T5l1r/x+LUdW3kunAgh0AvqFIA2Fyw+5TNhP/nvPF/Ko39
+	JfcRoMkyg82rTBHaFRahjul3mE7GK/JI/N9g07F8l1zIEehIBvaklzL8/rfOAaIpR/uWZ1rkAyK
+	xldDTZ9iRj+Rh243VKwGRZG1dsT17IH1yarc7Cdw=
+X-Gm-Gg: ASbGncvojgZyWZqcR3oX8BCEB/1c9PVkibKEi9m2mpgk6VxDObTYs4YxS0xbz6Ju3zw
+	+eckazIPGjvs/+5PBeIxniSa/eSlFAfbOhJMbyIofXUqM4a0vEwewexjhFYmAF5STCfnu3dtz/v
+	FhVDv8+ihShBBqbXJfipZvJMRACl8rKaDbvbMoKFYWLe/r3PC8mzaRVobcBxhVs6Wi7lk/B14=
+X-Google-Smtp-Source: AGHT+IHPiBTH/IUONoliZXjExrOKudiG9XvffXjRUKLNtiXlLaXy9m8H+bx6CRbSWTdibiF38hi9o5vXfOGfvKq6xdY=
+X-Received: by 2002:a05:651c:54c:b0:30c:201a:149a with SMTP id
+ 38308e7fff4ca-328077a9f1bmr71629351fa.25.1747795611095; Tue, 20 May 2025
+ 19:46:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+References: <20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org>
+In-Reply-To: <20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org>
+From: John Stultz <jstultz@google.com>
+Date: Tue, 20 May 2025 19:46:39 -0700
+X-Gm-Features: AX0GCFvaIAnE0yZNsTcLxjSWVR6RvkV3hbcw5IoUnGn4QI2anEO8q4-VMGo9Bvw
+Message-ID: <CANDhNCoQ=V5Uk0ThmeHdn20xmUucPb-mjCjX5pbM94EvzGRZMw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: dma-buf: heaps: Add naming guidelines
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-move remove buffer code to spinlock protect area for multi-core
+On Tue, May 20, 2025 at 3:00=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> We've discussed a number of times of how some heap names are bad, but
+> not really what makes a good heap name.
+>
+> Let's document what we expect the heap names to look like.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  Documentation/userspace-api/dma-buf-heaps.rst | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentatio=
+n/userspace-api/dma-buf-heaps.rst
+> index 535f49047ce6450796bf4380c989e109355efc05..b24618e360a9a9ba0bd85135d=
+8c1760776f1a37f 100644
+> --- a/Documentation/userspace-api/dma-buf-heaps.rst
+> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
+> @@ -21,5 +21,24 @@ following heaps:
+>     usually created either through the kernel commandline through the
+>     `cma` parameter, a memory region Device-Tree node with the
+>     `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
+>     `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
+>     might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+> +
+> +Naming Convention
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +A good heap name is a name that:
+> +
+> +- Is stable, and won't change from one version to the other;
+> +
+> +- Describes the memory region the heap will allocate from, and will
+> +  uniquely identify it in a given platform;
+> +
+> +- Doesn't use implementation details, such as the allocator;
+> +
+> +- Can describe intended usage.
+> +
 
-Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
----
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Thanks again for sending this out. Sorry I've been spotty in some of
+the discussions (I'm really trying to step back from this area).
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index eba9f58b9198..34fa03bcfdd3 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1684,9 +1684,6 @@ static void mtk_jpegenc_worker(struct work_struct *work)
- 		goto enc_end;
- 	}
- 
--	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
--	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
--
- 	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
- 			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
- 
-@@ -1707,6 +1704,8 @@ static void mtk_jpegenc_worker(struct work_struct *work)
- 			     &src_buf->vb2_buf);
- 	mtk_jpeg_set_enc_params(ctx, comp_jpeg[hw_id]->reg_base);
- 	mtk_jpeg_enc_start(comp_jpeg[hw_id]->reg_base);
-+	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-+	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
- 	jpeg_buf_queue_inc(ctx);
- 	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
- 	spin_unlock_irqrestore(&comp_jpeg[hw_id]->hw_lock, flags);
-@@ -1803,9 +1802,6 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 		goto dec_end;
- 	}
- 
--	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
--	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
--
- 	mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
- 	if (mtk_jpeg_set_dec_dst(ctx,
- 				 &jpeg_src_buf->dec_param,
-@@ -1833,6 +1829,8 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 				jpeg_src_buf->bs_size,
- 				&bs,
- 				&fb);
-+	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-+	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
- 	mtk_jpeg_dec_start(comp_jpeg[hw_id]->reg_base);
- 	jpeg_buf_queue_inc(ctx);
- 	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
--- 
-2.46.0
+I might only suggest you provide a bit more "why" to the list of
+qualities you highlight here, just to communicate more of the
+spirit/philosophy of how these might be judged or reviewed in the
+future.
 
+> +For example, assuming a platform with a reserved memory region located
+> +at the RAM address 0x42000000, intended to allocate video framebuffers,
+> +and backed by the CMA kernel allocator. Good names would be
+> +`memory@42000000` or `video@42000000`, but `cma-video` wouldn't.
+
+The point about avoiding the allocator details, just so I better
+understand the criteria: Would distinguishing from a contiguous pool
+vs non-contiguous in the name be considered ok? As it's a property of
+the buffer returned, and one that is critically important for some
+devices. Or do you intend that to be opaque, and the usage->heap
+mapping logic to provide that itself? (Effectively avoiding folks from
+being able to make potentially problematic assumptions from the name?)
+
+Similarly, how would you suggest naming a heap that provides 32bit
+allocations?   Similarly for "protected' allocations, which are being
+proposed?
+
+thanks
+-john
 
