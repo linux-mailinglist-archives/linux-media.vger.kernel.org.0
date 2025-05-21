@@ -1,162 +1,264 @@
-Return-Path: <linux-media+bounces-33037-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E2DABFA07
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 17:49:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 410D7ABFA31
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 17:53:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F41B9E547A
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 15:43:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA3BB1BC5FC6
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 15:49:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B77E1223704;
-	Wed, 21 May 2025 15:38:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4939D1DDC11;
+	Wed, 21 May 2025 15:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bEhNxhO4"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vCFnANwx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2080.outbound.protection.outlook.com [40.107.236.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA9E21579C;
-	Wed, 21 May 2025 15:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747841895; cv=none; b=aiJTQq5mx7je0l9+XHh1SM7EtRpFaniWTh8WlKUJMTrEnX9VAFtWO9znrY3iLgyr1/jIZZ/NuduaYAJFa6csUIQkIb2UtEVVQne2F46Yklf7Q7+iw7jCJ2MlyJgPpvoaEWCLC5AqIyfhtU1cDPbQkLyuooEAegz4xgZF2cKcmqE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747841895; c=relaxed/simple;
-	bh=j7sDhLAJG1NCqa/6sMKvVWjsSSAhvNNZC8wGEuMPu5o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TsohMNCNsz5oVGdJcGgbgoBVJhESRwt1QC/1VB2Atkss3XbgnEbE4weBbJkvkCYHtVrWn9e2Bn8j8mqKx2bK9GHEbWc3dEbmS8pgBLYVlVMVLGWhkCvkwHpf9FCynZDyeU46GY/N3q0VQTEU/jjdsjdtuS3BQDLiRixXq33CLUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bEhNxhO4; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5499614d3d2so8542565e87.3;
-        Wed, 21 May 2025 08:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747841891; x=1748446691; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xX1GdWOhUQkZGneOEdWqA8kdYMe8hW7mvNhj+I9O+wM=;
-        b=bEhNxhO4X8MG8eEB8Qfrr7VJ6sBLkhdoUDXGQiYYQQEMYG/jZQk1EfQw3jLRg45A2F
-         ZccldgAhyIB+yOrwkgoxr/8j3c4u48+Ai9z8OE5nNpkt2E9ZUyAEEhOyCGJfbIH4cBBC
-         0Iupb4zP810Xbb1vai3ysljislp6nA7qegoV8Ba/ZNLMmrT35+J0mSQvkUHG/qOc+gUQ
-         RGTD24ZbU3sPGT8pvNgeUzQijub5yekvb/clBfWQmVtOCAKsBDzvs9XbJg9thuJktzuq
-         ZZ5O5AmneLduMUoWClaozYBs7DtEcspRKG2x5dwZ28vzZ3AJkYAb6BtzKOUAvRuGPbGU
-         pMAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747841891; x=1748446691;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xX1GdWOhUQkZGneOEdWqA8kdYMe8hW7mvNhj+I9O+wM=;
-        b=wSe8xqJKqfzok3CJugvOkd878S2Khjgfq94SI7dDhU5XCS7VF5oqjVo6fWn01CqdLq
-         /l7zHKlKlT8ph/GaZLBA3z89oZ3MJF9UxKCAKZy0k+LT2VDkqpZhXwt4HwIi4SHmNldZ
-         UrzkANdYKRkZfry9k43zR7iEdraP+jJmExlyNrOM1QvQCvLi5+4V55YZ4M3SYxsJk4yv
-         eG3OvUO4Fo1JR/UFcruy6RU8tQhWfnF8pJiqjYbmzfmVuvbE17E2m6UaQqh+ZP+MSXTU
-         TluPPUdtBOlIaAxp3hi2ELHtMci1wp+O+BUQWsMjjA8bEfazTe1QLEE8NfW3lv23sXMJ
-         uz1w==
-X-Forwarded-Encrypted: i=1; AJvYcCXn+XL1v/fEWtAV+WqHyXFtk7DPOgqfgKGnfnAjTojncgTUgUqqqUHzWCn3se2ZVwjRmHVq8PGiKx4zG2E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpCX47nlBWgMtgBswb+GVFaRR05MhRoaSuUwKwiih7loAp+QVQ
-	KDAhHBgGs+xZ+EHkzlyD3BvxApbTcfxEEM0rVF1s+J4dH3FDbto6hZYZ
-X-Gm-Gg: ASbGncug614nQ9hLn+dIb0kKGMunGkCpkjOydrcAv+k7PZgYo53bbrybnbQwEt2p15/
-	Vaf7wYB4azE2JPg5MLAFvV7DSYtSM+FxGXlfpA9BnEBkZhv0ObT2etLVRyz6VkFrZki6n71s7hh
-	9c9GMDGdixqGH4o8zAezQmtT/ZpT18HATDd3Mi9TOpQyc5WsN86VZEW8MHFO6Dwi3O2nTZcpKot
-	Kqu2/Zy6nBP8kz9lRC7uWqd1YxSvb4JXfswX6GAQ7wlrqOtYBidqiidHJei3i/aLDR2oub98EE6
-	/5CQCD2mltrskqLdjsdKR1CwDRh1paBeY93iTmqJxdPV9xuwuoQNgf5DRrp/HdkQzKJISiB+OgC
-	jzinoT7pGMpAp9q+ZD3Q6FMJsY2GyRBeDFYoyZMX2Lk+BcRPfeaPav0SNnxZpJjSVMmUhPgrOlc
-	KsjNOSscalo+Bp
-X-Google-Smtp-Source: AGHT+IGJk/QA3hPb0+7+lQT4VfmFwPDxyEv47UVCzN+pVXLWlFipTvOAW7WEP1E09sDDyJ2Vmg3EGw==
-X-Received: by 2002:a05:6512:1049:b0:549:55df:8af6 with SMTP id 2adb3069b0e04-550e726a158mr5906365e87.53.1747841891225;
-        Wed, 21 May 2025 08:38:11 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:53:1500:e8f4:97c2:d311:5b15? (2001-14ba-53-1500-e8f4-97c2-d311-5b15.rev.dnainternet.fi. [2001:14ba:53:1500:e8f4:97c2:d311:5b15])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e9cb4d69sm2793218e87.21.2025.05.21.08.38.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 May 2025 08:38:10 -0700 (PDT)
-Message-ID: <8bd31e5e-9f0a-48cc-9727-d2e6475ce046@gmail.com>
-Date: Wed, 21 May 2025 18:38:10 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7BE21CA0E;
+	Wed, 21 May 2025 15:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.80
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747842365; cv=fail; b=lETPZStNbvlk1ah6d3imqUdOzahbglD+2YUPCjQ/YqoxWwvRW/MR/qEqaYE144k5O6mIs/NWMThkZJLUjUs0IxyLJoJYnZvufGlYcktcaqkoVyOQDwtcYcn1RsLHaBMlvZuFb/no1bOc7MgZLtBqPYrd2KYX/FNcf8L4YPB4azs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747842365; c=relaxed/simple;
+	bh=lnXwW1zI7N8abAk3OPbw2zzGpROi7sJiooPA1OgZMh8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Uz0ce7/IoJQCEo4G5iscMF+4wBMlZ+bHRCPZEyTvTyKMCfRLaomjIi7fFbwtn6w5KODIQuaZV2b61caooXUqRY/gfa45eBqrmp02SisLsaMrcICHC3xrF7kbiVdBSg2dmQC43zsomUVzuyGVc4nlgUqGR4Cu7DDk9BqRY3WRpKk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vCFnANwx; arc=fail smtp.client-ip=40.107.236.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BIQf42pqK0O5KesoWLgYck2mjtStAwn8CRFkIt6fTLE69vpIHASZUxKpMFzAJWXdKru3AsgLeLITYttatjY02V7FMXjKqynEg1VyI3F5EvmeRJkdkjlmgpP3EsM5BbsI8ED96Lc1JwHDXujtN436J3wuND1P20eWOoTAjJk8OLpUS2kVUpjIWr11x1EBmrcKveFbi28ZIJIb2yHb8aS8xCaBTKj6tufpXRb9ZcuASV6eFfhZop8y4a1LAf3cKmk/A0uKQY5BJkDajbYiJhLTOxTR5qrYfCh7SyU+B6OO3P3geI5Z209gLC0OQD504XeJTC9VWJmfF7vdGM4ZFOKXag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N1b89WLcsFg8CSvbQz6tPUPNbJWiERNve+JswxAVQVw=;
+ b=NzPU6cNKtwNol5nvXBo9J6yhpEoEE/k861IpbyDaBnxB2WD6Bvi7k7Zl3BJtUiVsDxfXt4JzScIubgwGLAXaNk3xy78MzIL/f7N8Y8Ck4Vd2mNsMoWtcQ3CsLGW/aWcntYLIkgPYHZn1ZLuf6bolVc1fada5T6kRDPffBO3TL+cev00bZ60WqZoRWP/FDh4LQGc8zo5pjKmLjIMzH06xjN7VM0R8kKv0kV208uK2PK7Ebf2Dq10tEFpIVc/O7TFTqdHaZ3lCY80ZzyB6MnS941kLQ6sERZBROgr3RD4ZdgyPcgQpfsb8JKgRuOlgNK0IBDDPGDpojmFRIMxeT2dxZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=igalia.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N1b89WLcsFg8CSvbQz6tPUPNbJWiERNve+JswxAVQVw=;
+ b=vCFnANwxMRDeL5OHh/drEEzEqsTrl9pVaqpmWVwwPW/aCWq8F3ePbcdW+IQlf7mUglPtdDf8AF7YK9zLo1mJgSna1ILIrn1rUO84zELN1fIccOFhKLRAkg5Ol3NGhK1ChzLBhofWXJYSkkg9W3XN2SlVzE+AQPb8Tgzbwjk73nQ=
+Received: from BYAPR05CA0040.namprd05.prod.outlook.com (2603:10b6:a03:74::17)
+ by SJ2PR12MB7800.namprd12.prod.outlook.com (2603:10b6:a03:4c1::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Wed, 21 May
+ 2025 15:45:58 +0000
+Received: from SJ1PEPF00001CE9.namprd03.prod.outlook.com
+ (2603:10b6:a03:74:cafe::bc) by BYAPR05CA0040.outlook.office365.com
+ (2603:10b6:a03:74::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Wed,
+ 21 May 2025 15:45:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00001CE9.mail.protection.outlook.com (10.167.242.25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8769.18 via Frontend Transport; Wed, 21 May 2025 15:45:57 +0000
+Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 21 May
+ 2025 10:45:50 -0500
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To:
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Alex Deucher
+	<alexander.deucher@amd.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+	Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, "Dmitry
+ Baryshkov" <lumag@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+	"Frank Binns" <frank.binns@imgtec.com>, Jonathan Corbet <corbet@lwn.net>,
+	Liviu Dudau <liviu.dudau@arm.com>, Lizhi Hou <lizhi.hou@amd.com>, Lucas De
+ Marchi <lucas.demarchi@intel.com>, Lucas Stach <l.stach@pengutronix.de>,
+	Lyude Paul <lyude@redhat.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Matt Coster <matt.coster@imgtec.com>,
+	Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Melissa Wen <mwen@igalia.com>, Min Ma <min.ma@amd.com>, Oded Gabbay
+	<ogabbay@kernel.org>, Philipp Stanner <phasta@kernel.org>, Qiang Yu
+	<yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>, Rob Herring
+	<robh@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter
+	<simona@ffwll.ch>, Steven Price <steven.price@arm.com>, Sumit Semwal
+	<sumit.semwal@linaro.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<etnaviv@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+	<intel-xe@lists.freedesktop.org>, <lima@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <nouveau@lists.freedesktop.org>
+Subject: [PATCH v10 00/10] Improve gpu_scheduler trace events + UAPI
+Date: Wed, 21 May 2025 17:45:02 +0200
+Message-ID: <20250521154531.10541-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] docs: Improve grammar in Userspace API/fwctl
-To: Bagas Sanjaya <bagasdotme@gmail.com>, mchehab@kernel.org,
- ribalda@chromium.org, hverkuil@xs4all.nl, hljunggr@cisco.com,
- dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
- Jonathan.Cameron@huawei.com, corbet@lwn.net, ilpo.jarvinen@linux.intel.com,
- mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250517132711.117618-1-hannelotta@gmail.com>
- <20250517132711.117618-3-hannelotta@gmail.com> <aCqKNg3p_VlGbce_@archie.me>
-Content-Language: en-US
-From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
-In-Reply-To: <aCqKNg3p_VlGbce_@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE9:EE_|SJ2PR12MB7800:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c4978cc-11d2-4c80-7b45-08dd987e945c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aFllR0tJWVpNTFZwNm4vMDhXejBPYmZLazE4MmxKWDFUN0EyejhDNndnOHpq?=
+ =?utf-8?B?d0VOY3gzdENzbmczUUdnbkQyVURQYytPVjRhaSs2S05jUHZLQUFDNXIyeWRi?=
+ =?utf-8?B?LzMxZmQxc2ZkZDVSVmU4MTB4ZEYra0J6cGtlRHBIZ05uMnVvQ3NpUXVmd0oz?=
+ =?utf-8?B?aDlPSkRrdm84TG0yR0JXZU4yL01LdGRyVDVERWZSUGpUQnhwRGEyVHUyV0tr?=
+ =?utf-8?B?T1A3ZzVtWG1NcHVLRHlYVzRIU3M4OGhqckVmYzlCci9aVThMajUzVGpnTkND?=
+ =?utf-8?B?bnk1dDhFRXB2aGxpcm0rMmNlYnEvS1c3dmVlQTRic2VJaUhQZEpIMWIvN01l?=
+ =?utf-8?B?MlF6STZrdkRzZk1iR3g0QXFXZkV1UnhaTTh4Q043dWEwaEd3Vmx5ZU1TaUVQ?=
+ =?utf-8?B?MXBUU0pvT1ZqNmNWMzZlZmhUYXdaYmRuSkQwTUxMY3ptVENyWS8ybHRwYjdM?=
+ =?utf-8?B?R3FwWE96TDJXVFVaeEtzeHIzVVJSNG1FbnNjUzVhYWZkTTRwVEJVNWFoazlx?=
+ =?utf-8?B?Rm9UWG81VlpoUFpMbmZqT00zSjJCNnBuMEl2VTFxVXZmNjFxTUIvUjk0cTFt?=
+ =?utf-8?B?YWU1Um9TZXB5VzJyclkrekFZTU5Rb0pNT0FTd1dTTCtpSjJnNlFta0JSanYx?=
+ =?utf-8?B?NkJlcXkzQk5ERzFwT2xrQ1haQ2QyV3hmbnhaRlU3MDhCTFp3cm0vYjYvWEp5?=
+ =?utf-8?B?bGtIaE9PZndlWk1mUzJKOGYreng2Y2t3U3hEeVNtYStuSlFabUwzaTliSUM3?=
+ =?utf-8?B?VnRSWTZuamZkUzM3Y2hwTTVjakZBUUlZckRabkVMWjV5VVBZMi9FTjNOUG16?=
+ =?utf-8?B?a2c3RUV5WHpmRExzelprT1ZmWDBjTk9BYmF0d0lmMVpCSlUzV25qNm44dEFl?=
+ =?utf-8?B?NEJXazZjcExOaEROazF1WS85SVpjUEVSYUIvWk9oVG92RExKa0krWHg5bWhD?=
+ =?utf-8?B?SUxXQmx6TEhCb2loend2Y1JKbkhUR1IrM0gxMFA0c0IwMzJuM1JhMGE5MGF6?=
+ =?utf-8?B?U0x6bEtueE9MSSs3NG5pMGJZZlJRSjNrZnpwKytxT3J2MTd3L3M2dWlJMzhQ?=
+ =?utf-8?B?Ryt4ODRKSzYrbEh5LzNjM3MvSy8wbGNuNkt6Z2lrTklJb1BxMDAyTXlsdlA3?=
+ =?utf-8?B?OEdGZ05DWVBQY21ZNFo5SFZWRUFYKzY2RThSc1BVdFJzVFpTVTNMN1E0dDhm?=
+ =?utf-8?B?NmRTNmdjVzRTWWJmbnUyU2NJVkh5ZVZYaTdaOFZpeFc4cHFpeCtMM1lDR2xQ?=
+ =?utf-8?B?SUVuTFdMS3RmYlpDbytidXdnS2JROTdienVKeUJJRDdFYmIydlhFTmpyK2gv?=
+ =?utf-8?B?Ris4NTR1ald0bTBJNVkvOGpZaThxVStzL0YrTi8yTENpRmRHeVVTcWRHNjBn?=
+ =?utf-8?B?UDVHc01aTTJSRDMxUUZXbHNyVTdORVdQNWp6TUhKYityK3JyNmMrYzFzS0ZV?=
+ =?utf-8?B?c3ZGTGxKWUxQWDFSNjVhUkVLT05CNm9KcGlZaUdMU0JQSFlQSUpIWG1NekJ6?=
+ =?utf-8?B?YVdsdEdMTFQ3SnQ2NXVieFEzaU5oaW82Nm81WmdSRnJnYkNhVDU0ck5tWEN0?=
+ =?utf-8?B?UHRPYzZFblJjTmhaOFNHSndIRnlmdnZ6dHpwMW8xV1gvNlRJaVFJWGhYcyt2?=
+ =?utf-8?B?UG16akZqdzAvZENGVkhmanY1NEpEZ1o3RG1Gb2tVUktlbGJoM1lEbGlHQ1F5?=
+ =?utf-8?B?R3AzQVVVYVFEK2p5ZVdBOWRzbGlKemNERG8rUEtncTlCR01OOWczM3pXRjFn?=
+ =?utf-8?B?dnlMZzgvL202a0dOdC93VTRFdi9sUUxNbklENW9XdDgzOUVTMVp4U0txNTJ6?=
+ =?utf-8?B?S3pVb09rSE1QL01JaEZzS0hCNTBYRXh3czVJamJRYW9TUEJ0SVN0RnF3b1B0?=
+ =?utf-8?B?cUU1Mno3NkVmeVdScnVPd0FSYzJXeGhkV3RLUlIyTENjT3hrYUp1ZVBVakc4?=
+ =?utf-8?B?Q3RpYXlOaDJ5eHZGV09USml1SW1vUnlwN2d4UEpyUWUxNC9aSnU0cXNQdjE4?=
+ =?utf-8?B?cFVuZkNZTThRPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 15:45:57.7610
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c4978cc-11d2-4c80-7b45-08dd987e945c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CE9.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7800
 
-Hello,
+Hi,
 
-On 5/19/25 04:32, Bagas Sanjaya wrote:
-> On Sat, May 17, 2025 at 04:27:10PM +0300, Hanne-Lotta Mäenpää wrote:
->> Fix typos and improve grammar in the documentation for
->> fwctl subsystem.
->>
->> Use the word user space consistently, instead of having
->> two variants (user space vs. userspace).
->>
->> Change wording of denied behaviour to be disallowed
->> behaviour when describing the interface.
->>
->> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
->> ---
->>   Documentation/userspace-api/fwctl/fwctl.rst | 30 ++++++++++-----------
->>   1 file changed, 15 insertions(+), 15 deletions(-)
->>
->> diff --git a/Documentation/userspace-api/fwctl/fwctl.rst b/Documentation/userspace-api/fwctl/fwctl.rst
->> index fdcfe418a83f..a74eab8d14c6 100644
->> --- a/Documentation/userspace-api/fwctl/fwctl.rst
->> +++ b/Documentation/userspace-api/fwctl/fwctl.rst
->> @@ -54,7 +54,7 @@ operated by the block layer but also comes with a set of RPCs to administer the
->>   construction of drives within the HW RAID.
->>   
->>   In the past when devices were more single function, individual subsystems would
-> 
-> Do you mean that devices used to be singleton in its functionality? Or having
-> multiple functions?
+The initial goal of this series was to improve the drm and amdgpu
+trace events to be able to expose more of the inner workings of
+the scheduler and drivers to developers via tools.
 
-On this line I did not include any changes. On the next line I have 
-added a comma. To answer your question though, the original author may 
-have meant that devices had less functionality earlier, which resulted 
-in multiple implementations of the common functions, and now with a lot 
-more functionality it makes sense to have a common interface for those.
+Then, the series evolved to become focused only on gpu_scheduler.
+The changes around vblank events will be part of a different
+series, as well as the amdgpu ones.
 
-> 
->> -grow different approaches to solving some of these common problems. For instance
->> +grow different approaches to solving some of these common problems. For instance,
->>   monitoring device health, manipulating its FLASH, debugging the FW,
->>   provisioning, all have various unique interfaces across the kernel.
->>   
->> <snipped>...
->>    3. Write access to function & child debug information strictly compatible with
->>       the principles of kernel lockdown and kernel integrity protection. Triggers
->> -    a kernel Taint.
->> +    a kernel taint.
-> 
-> Improving grammar includes s/Taint/taint/?
-> 
-> Confused...
-> 
+Moreover Sima suggested to make some trace events stable uAPI,
+so tools can rely on them long term.
 
-Here the capitalized word is not in the beginning of a sentence or a 
-name, which is why lowercase would be correct.
+The first patches extend and cleanup the gpu scheduler events,
+then add a documentation entry in drm-uapi.rst.
 
-Best regards,
+The last 2 patches are new in v8. One is based on a suggestion
+from Tvrtko and gets rid of drm_sched_job::id. The other is a
+cleanup of amdgpu trace events to use the fence=%llu:%llu format.
 
-Hanne-Lotta Mäenpää
+The drm_sched_job patches don't affect gpuvis which has code to parse
+the gpu_scheduler events but these events are not enabled.
+
+Changes since v9:
+* fixed documentation link syntax
+* fixed typos in commit messages
+* spelled out that these events cannot be used before
+  drm_sched_job_arm has been called
+
+Changes since v8:
+* swapped patches 8 & 9
+* rebased on drm-next
+
+Changes since v7:
+* uint64_t -> u64
+* reworked dependencies tracing (Tvrtko)
+* use common name prefix for all events (Tvrtko)
+* dropped drm_sched_job::id (Tvrtko)
+
+Useful links:
+- userspace tool using the updated events:
+https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
+- v8:
+https://lists.freedesktop.org/archives/dri-devel/2025-March/496781.html
+
+Pierre-Eric Pelloux-Prayer (10):
+  drm/debugfs: Output client_id in in drm_clients_info
+  drm/sched: Store the drm client_id in drm_sched_fence
+  drm/sched: Add device name to the drm_sched_process_job event
+  drm/sched: Cleanup gpu_scheduler trace events
+  drm/sched: Trace dependencies for GPU jobs
+  drm/sched: Add the drm_client_id to the drm_sched_run/exec_job events
+  drm/sched: Cleanup event names
+  drm: Get rid of drm_sched_job.id
+  drm/doc: Document some tracepoints as uAPI
+  drm/amdgpu: update trace format to match gpu_scheduler_trace
+
+ Documentation/gpu/drm-uapi.rst                |  19 ++++
+ drivers/accel/amdxdna/aie2_ctx.c              |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  32 ++----
+ drivers/gpu/drm/drm_debugfs.c                 |  10 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
+ drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
+ drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
+ drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
+ drivers/gpu/drm/lima/lima_gem.c               |   2 +-
+ drivers/gpu/drm/lima/lima_sched.c             |   6 +-
+ drivers/gpu/drm/lima/lima_sched.h             |   3 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
+ drivers/gpu/drm/panthor/panthor_drv.c         |   3 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c         |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c       |   5 +-
+ drivers/gpu/drm/panthor/panthor_sched.h       |   3 +-
+ .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 103 +++++++++++++-----
+ drivers/gpu/drm/scheduler/sched_entity.c      |  16 ++-
+ drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
+ drivers/gpu/drm/scheduler/sched_internal.h    |   2 +-
+ drivers/gpu/drm/scheduler/sched_main.c        |  12 +-
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  |   2 +-
+ drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
+ drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
+ include/drm/gpu_scheduler.h                   |  13 ++-
+ 31 files changed, 188 insertions(+), 97 deletions(-)
+
+-- 
+2.43.0
 
 
