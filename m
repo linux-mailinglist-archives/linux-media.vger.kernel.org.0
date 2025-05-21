@@ -1,164 +1,221 @@
-Return-Path: <linux-media+bounces-33018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D180ABF3EB
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 14:14:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F8EABF49C
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 14:45:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E73816AFF1
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 12:14:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B0001BA5C7F
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 12:45:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CD36266B77;
-	Wed, 21 May 2025 12:14:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73B4239E91;
+	Wed, 21 May 2025 12:45:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aAZagPXE"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IdLtfyzm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C13264FA6
-	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 12:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534F02673BA
+	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 12:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747829660; cv=none; b=YPSd5dDz3PO/TDlNtOp4NcY/unMKS2e38VZSWv6Yc7Rco59YZaVUUO26veD8SDbbMVvERQ6ewXo10kq1q2QaXgG/GEmHHSHt8vHHZ+LJr/h8929wo7thqkQoGO5Z9z+3CAYn2g3DqNPLADYJipw3sl+kkezfbzhOwd2Q0zluvP0=
+	t=1747831512; cv=none; b=GdEXnhOOJqTo97RnzxpymY5hF0sZptSa5DIEfQLbipuEuximPjm85bNIZx2Vayukw2T/94w2Oh8HhoRUi8eGGhJ78WmWEfxboWXxPs4g9qV3jweNjnXchdiS58+BsZlKfIb+oAA4eUQGaSdHmQCMd3lrAvO8o3Z55Fxe/v9DwOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747829660; c=relaxed/simple;
-	bh=gTNj5oY74nbf/wF7bCZFcu0xFJhBfJvcw8eqi29huYg=;
+	s=arc-20240116; t=1747831512; c=relaxed/simple;
+	bh=zkGUkrSlpCDvrhHcI1g4oFe3ljg20Lkj9XiFeqwuju4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MZyWsq9UlB3Yp2CpyRlIIWGVdq0gEmitCKJ0YvsOmU+udGrqHPK5MLg11NUMMSAXJq6+BK1MA/elbXTogVTpC71uedpLQKPAT7X/2hI6JtOtQNLclxkOBBbKYJ0VMtYN9yUzmMcNNAotIU7L8VGIEl5a/s0nQGpgplNDdYPHCvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aAZagPXE; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747829659; x=1779365659;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gTNj5oY74nbf/wF7bCZFcu0xFJhBfJvcw8eqi29huYg=;
-  b=aAZagPXELhHojtwnonyarofIBgMVYxvjreGVsZIIbMIhMP+R4ncr9p4L
-   FIyFItDBGz0yFpIZ7KpF8KQznMany48AoIc89m8BxXjEKnOgRIrCeVjuY
-   UM22VGCR9qd9o3lZMlaZcPZnZb7JZoB8yBDLCHkeHlxXb15IFZSKLS/++
-   DDB2CcZgTpgyjDiYC3aGnxwdAgdXiAcPBrqDIptuhTUvhwuC1vRcnb74B
-   kU9QBkJE/AaUMGBiMjd9PiPwQFUrpDulkaJ+87f8HePdpdEMEAc6uSJem
-   5RsnsMxxxJ/cL0TyjCKRhRNBdUH9a89boHvhyQQq4Hj9Bxrdg8R/4JaYn
-   A==;
-X-CSE-ConnectionGUID: icDTARDMS3e6sK8kYsbHHg==
-X-CSE-MsgGUID: qTfIcOomQkSGuM0s5VKVvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="60040060"
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="60040060"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 05:14:19 -0700
-X-CSE-ConnectionGUID: O8sW7k0qTxKPT8DUc43gTw==
-X-CSE-MsgGUID: mv/zkygsStiWgadulz90ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="140568747"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.129])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 05:14:16 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6AE3511F746;
-	Wed, 21 May 2025 15:14:14 +0300 (EEST)
-Date: Wed, 21 May 2025 12:14:14 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl
-Subject: Re: [PATCH 1/1] media: v4l2-ctrls: Don't reset handler's error in
- v4l2_ctrl_handler_free()
-Message-ID: <aC3Dlgu9OiYAhoPq@kekkonen.localdomain>
-References: <20250508160852.1090549-1-sakari.ailus@linux.intel.com>
- <20250521120242.GJ12514@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=B9JinmUKtouaUYRPBoE2o7HA9OnUlpKL5VGnELtAaE9dDB5NHy0+BeM4/DNiXvN9CHgxHo25GnTA4bUTqyPTt4ZzLvuD38imIxGj+mVTckyPszBCQbd4N64nwgYEmobB/5XIHwWqHkv6p0O8Jw25/Oo9FIdpbyde6/E+mNMxrAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IdLtfyzm; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54L9XKJ6020585
+	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 12:45:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ks52ly5XzSYN1dVT8m4NLznvkKylPvB/qklENFGmQ+s=; b=IdLtfyzmj4AkBBcd
+	pOsyTHt2WNba+cTJwRZHEVuXYR+0O+I1Sr5W/TCKfs9o6qFw2fvhKbTBZXvKtDag
+	/hNxDYBjGD2CPh4/KDEBmc0nbU4jf/su49/+iaSwa2VOO1BeyxQOQkwpPTKE1AN5
+	9JHzIPEd3XuQAzdZtvXAU7bXtHtamGCvjkmVr3jeI80PWOKSqX7lTFR0VyYLhL/c
+	NLMSoz7DNf7BCtISBaoJqunJ1pAVv3nz52kDXW0bP+GmbeWesLNRJ/MfLkNgdsyc
+	jsNK3TJ/J7oCI7uHeuz8aa2DWbNVeIaB2DM+vc8APWxbuWx9it9S+LXWyzgP0zTl
+	06WXEw==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46s9pb16sm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 12:45:09 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6f8d3f48f35so61171496d6.0
+        for <linux-media@vger.kernel.org>; Wed, 21 May 2025 05:45:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747831508; x=1748436308;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ks52ly5XzSYN1dVT8m4NLznvkKylPvB/qklENFGmQ+s=;
+        b=iYZbSdD0hR3aF5nSlqODKNRcxSl68U6xJ3/UGFZ4KEay/H7elwc71Z+y+Z1aQZG9cF
+         36BiR/JD4HP23djMF1Deu1apbUhBendF1GAHE1yyO9RKo03xMjJi2zazwkp0Tt7v6xtg
+         uLrGwHpuPa8gxp4W+5RxN6bFiuXBA9ZRLt+iI4ZL29j54kefujVOHZYfa17nL4V06x5b
+         R720NiGQRljLs34GadsVbjncAR4NZNNz1p0iWN99yG5qEAWgiEuSOb37eYfk0uDsAnrX
+         YowkkbVFyB4wgvuBagRxcaRMlw4jeYsL1PgfuCCTdgtcY0u7ISYUM45H6v80IXeThtzI
+         4RAA==
+X-Forwarded-Encrypted: i=1; AJvYcCWP3JA77qp2zMujm1k4H2eIvGoeUwdFJTcSlAD+cuDP968geUrRZiA5Y7S48jKXLzQlOk6XtWfhKDEOjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK8ntsCwRtFy/jg0TwWaGgfOoLb80hYYJ5rtuVyE3R3MtutUlb
+	LUWZsYsdGUljAvYIsS7R0CSzNSKp5uS/8dQSF/A4akbEXjfBozqClibrbdVIWEvgFzv+0/gnmIS
+	PAMmI5tFIWqKgSlW8HVMnqpGjljExQkaXycDJe0ur6JTLT5HkLmOxzm4EKxpSaWRcHw==
+X-Gm-Gg: ASbGncsqv+HPpq5kT8TJkpB0F9lrSs5Xii9JkbgePySg17v1iTeixvl65z3OHC/JaUh
+	GWVqE7A89tOjwNNgwQhhczC9N2MiMJWL/EP22WOTDT8HQsYGTiMcs0xZs4gg+LYUqk0WDZf/ieN
+	mbCZ6oS0EMtyNGjN3kg9kXhXpVZv8npZ8RVQRgPPgm3x+3c+Nu2/X9g4gcESaytoZMoNvuzoMbd
+	VbC/H5Uw4wLG0APWwGQBX8Hnw6wCKhkBC8THZu6/qhtXLmA4V216DCDTI53WVeJgY6RIsTsoqdv
+	SKPT0N0taIQNwXGHJvO6AnKGKtIXWY251APCAuP5up4mHH950gS8qR0dMJPLXke3Bdels8yINTg
+	=
+X-Received: by 2002:a05:6214:14ec:b0:6f8:c23c:5257 with SMTP id 6a1803df08f44-6f8c23c82b2mr198868536d6.11.1747831507823;
+        Wed, 21 May 2025 05:45:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEShz+g9YiDU5OL+/RiZ6SU1Z6wT5YO4aHSX5TPMnkQqGJbcSQrWsL19HoCgqDtp3hVG17QAA==
+X-Received: by 2002:a05:6214:14ec:b0:6f8:c23c:5257 with SMTP id 6a1803df08f44-6f8c23c82b2mr198868336d6.11.1747831507432;
+        Wed, 21 May 2025 05:45:07 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e7017e6esm2826955e87.136.2025.05.21.05.45.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 May 2025 05:45:06 -0700 (PDT)
+Date: Wed, 21 May 2025 15:45:04 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+Cc: Vinod Koul <vkoul@kernel.org>,
+        Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
+Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+Message-ID: <w6epbao7dwwx65crst6md4uxi3iivkcj55mhr2ko3z5olezhdl@ffam3xif6tmh>
+References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
+ <20250506111844.1726-3-quic_jseerapu@quicinc.com>
+ <qizkfszruwcny7f3g3i7cjst342s6ma62k5sgc6pg6yfoti7b3@fo2ssj7jvff2>
+ <3aa92123-e43e-4bf5-917a-2db6f1516671@quicinc.com>
+ <a98f0f1a-d814-4c6a-9235-918091399e4b@oss.qualcomm.com>
+ <ba7559c8-36b6-4628-8fc4-26121f00abd5@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250521120242.GJ12514@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ba7559c8-36b6-4628-8fc4-26121f00abd5@quicinc.com>
+X-Authority-Analysis: v=2.4 cv=WJl/XmsR c=1 sm=1 tr=0 ts=682dcad5 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=dt9VzEwgFbYA:10 a=O67JBuyAYGrhvE3k4OkA:9 a=3ZKOabzyN94A:10
+ a=wPNLvfGTeEIA:10 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-ORIG-GUID: SWyyMxPsq51Nnlb6yBwfaUNfFasT9Ich
+X-Proofpoint-GUID: SWyyMxPsq51Nnlb6yBwfaUNfFasT9Ich
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDEyMyBTYWx0ZWRfXwhDsMpuWS1s7
+ pNOQ/mGZphu/ufBDkK5QWU/YXC6kFlmTxn5a7x9UQBlcm7M/X46p5HnY8wCom/sFgQvEW5d7hoS
+ eM2t69lhshgM2I/0xRlfU02/+flAGdUYQWoMzbv+dsonc7LHmcVzqNWtUt1JOIqes7RVOS79oL1
+ cxl+OFtgmv3RbnUWSgi0KatDNAPugyi2/2fC/neIKABXXDjkLxSZfP0wornrJD+q90G/DNGpjYR
+ 0s0tECwBELTG433AOV9Rw3T6k0oj9vgenEF89umLK2g0cXh3px1XMITba30d9K8BKcW3R15VaNQ
+ S9weBMopArH9oXVfHRPdxLwoDKmg4GxgMWCwnSsMM7diK/jSn5B5blTYvws4QnTNECpHlvBgR1H
+ bWdeLVvXVVG9XSdN9E5KAJ4E9Gogbz7mcGb5GwvypRATy8bqGZH4jlSzH5CZjLjAXVM3Qjlj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-21_04,2025-05-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 bulkscore=0
+ malwarescore=0 impostorscore=0 mlxscore=0 adultscore=0 phishscore=0
+ mlxlogscore=999 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505210123
 
-Hi Laurent,
+On Wed, May 21, 2025 at 03:58:48PM +0530, Jyothi Kumar Seerapu wrote:
+> 
+> 
+> On 5/9/2025 9:31 PM, Dmitry Baryshkov wrote:
+> > On 09/05/2025 09:18, Jyothi Kumar Seerapu wrote:
+> > > Hi Dimitry, Thanks for providing the review comments.
+> > > 
+> > > On 5/6/2025 5:16 PM, Dmitry Baryshkov wrote:
+> > > > On Tue, May 06, 2025 at 04:48:44PM +0530, Jyothi Kumar Seerapu wrote:
+> > > > > The I2C driver gets an interrupt upon transfer completion.
+> > > > > When handling multiple messages in a single transfer, this
+> > > > > results in N interrupts for N messages, leading to significant
+> > > > > software interrupt latency.
+> > > > > 
+> > > > > To mitigate this latency, utilize Block Event Interrupt (BEI)
+> > > > > mechanism. Enabling BEI instructs the hardware to prevent interrupt
+> > > > > generation and BEI is disabled when an interrupt is necessary.
+> > > > > 
+> > > > > Large I2C transfer can be divided into chunks of 8 messages internally.
+> > > > > Interrupts are not expected for the first 7 message completions, only
+> > > > > the last message triggers an interrupt, indicating the completion of
+> > > > > 8 messages. This BEI mechanism enhances overall transfer efficiency.
+> > > > 
+> > > > Why do you need this complexity? Is it possible to set the
+> > > > DMA_PREP_INTERRUPT flag on the last message in the transfer?
+> > > 
+> > > If i undertsand correctly, the suggestion is to get the single
+> > > intetrrupt for last i2c message only.
+> > > 
+> > > But With this approach, we can't handle large number of i2c messages
+> > > in the transfer.
+> > > 
+> > > In GPI driver, number of max TREs support is harcoded to 64 (#define
+> > > CHAN_TRES   64) and for I2C message, we need Config TRE, GO TRE and
+> > > DMA TREs. So, the avilable TREs are not sufficient to handle all the
+> > > N messages.
+> > 
+> > It sounds like a DMA driver issue. In other words, the DMA driver can
+> > know that it must issue an interrupt before exausting 64 TREs in order
+> > to
+> > 
+> > > 
+> > > Here, the plan is to queue i2c messages (QCOM_I2C_GPI_MAX_NUM_MSGS
+> > > or 'num' incase for less messsages), process and unmap/free upon the
+> > > interrupt based on QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
+> > 
+> > Why? This is some random value which has no connection with CHAN_TREs.
+> > Also, what if one of the platforms get a 'liter' GPI which supports less
+> > TREs in a single run? Or a super-premium platform which can use 256
+> > TREs? Please don't workaround issues from one driver in another one.
+> 
+> We are trying to utilize the existing CHAN_TRES mentioned in the GPI driver.
+> With the following approach, the GPI hardware can process N number of I2C
+> messages, thereby improving throughput and transfer efficiency.
+> 
+> The main design consideration for using the block event interrupt is as
+> follows:
+> 
+> Allow the hardware to process the TREs (I2C messages), while the software
+> concurrently prepares the next set of TREs to be submitted to the hardware.
+> Once the TREs are processed, they can be freed, enabling the software to
+> queue new TREs. This approach enhances overall optimization.
+> 
+> Please let me know if you have any questions, concerns, or suggestions.
 
-On Wed, May 21, 2025 at 02:02:42PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
+The question was why do you limit that to QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
+What is the reason for that limit, etc. If you think about it, The GENI
+/ I2C doesn't impose any limit on the number of messages processed in
+one go (if I understand it correctly). Instead the limit comes from the
+GPI DMA driver. As such, please don't add extra 'handling' to the I2C
+driver. Make GPI DMA driver responsible for saying 'no more for now',
+then I2C driver can setup add an interrupt flag and proceed with
+submitting next messages, etc.
 
-Thank you for the review!
-
-> 
-> On Thu, May 08, 2025 at 07:08:52PM +0300, Sakari Ailus wrote:
-> > It's a common pattern in drivers to free the control handler's resources
-> > and then return the handler's error code on drivers' error handling paths.
-> > Alas, the v4l2_ctrl_handler_free() function also zeroes the error field,
-> > effectively indicating successful return to the caller.
-> > 
-> > There's no apparent need to touch the error field while releasing the
-> > control handler's resources and cleaning up stale pointers. Not touching
-> > the handler's error field is a more certain way to address this problem
-> > than changing all the users, in which case the pattern would be likely to
-> > re-emerge in new drivers.
-> > 
-> > Do just that, don't touch the control handler's error field in
-> > v4l2_ctrl_handler_free().
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > Hi all,
-> > 
-> > This is currently affecting the following drivers:
-> > 
-> > 	drivers/media/i2c/imx334.c
-> > 	drivers/media/i2c/imx335.c
-> > 	drivers/media/i2c/imx412.c
-> > 	drivers/media/i2c/ov2740.c
-> > 	drivers/media/i2c/ov5675.c
-> > 	drivers/media/i2c/ov9282.c
-> > 	drivers/media/pci/tw68/tw68-core.c
-> > 	drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> > 	drivers/media/platform/samsung/s3c-camif/camif-capture.c
-> > 	drivers/media/platform/verisilicon/hantro_drv.c
-> > 	drivers/media/test-drivers/visl/visl-core.c
-> > 
-> > The fact that one of them is a test driver tells a lot. :-)
-> > 
-> > The patch is untested. If we agree to do this, the patch should probably
-> > be cc'd to stable, too.
-> > 
-> > - Sakari
-> > 
-> >  drivers/media/v4l2-core/v4l2-ctrls-core.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > index 90d25329661e..932aedc26049 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > @@ -1661,7 +1661,6 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
-> >  	kvfree(hdl->buckets);
-> >  	hdl->buckets = NULL;
-> >  	hdl->cached = NULL;
-> > -	hdl->error = 0;
-> >  	mutex_unlock(hdl->lock);
-> >  	mutex_destroy(&hdl->_lock);
-> 
-> The function could even return hdl->error, in which case drivers could
-> do
-> 
-> 	if (handler->error)
-> 		return v4l2_ctrl_handler_free(handler);
-> 
-> Up to you. The change is good either way.
-
-I agree. But I'll add another patch for that. This one should be backported
-whereas the return type change probably shouldn't.
+I really don't see a reason for additional complicated handling in the
+geni driver that you've implemented. Maybe I misunderstand something. In
+such a case it usually means that you have to explain the design in the
+commit message / in-code comments.
 
 -- 
-Regards,
-
-Sakari Ailus
+With best wishes
+Dmitry
 
