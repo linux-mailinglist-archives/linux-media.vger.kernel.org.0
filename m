@@ -1,157 +1,301 @@
-Return-Path: <linux-media+bounces-33032-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33033-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E893ABF70D
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 16:04:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF5FABF8F2
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 17:12:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51A689E651D
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 14:04:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E63A37B0713
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 15:11:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BB1A18B492;
-	Wed, 21 May 2025 14:04:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF3731E25F2;
+	Wed, 21 May 2025 15:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dCyLIY2o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ja8+gXFI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514A518FDBE
-	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 14:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339451DEFFC;
+	Wed, 21 May 2025 15:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747836258; cv=none; b=cHHpjN3AEY6RbYqez+yrnS3S1X0FDyOjy6BDX6WjjNAb2u8veP+BMqGdN/ZMIpktdz0Q16ZNu477uLrrJYpSln4xrEvj7A94qjxvU/CmqSQMdg8M0F0QHBBszRtWwCPxDW3mQqlxao8Db8qVXmLTcE5OxWMtZE0mLCBpYVXJhNw=
+	t=1747840338; cv=none; b=m+AMXp2c0RR9Cj2wdq5VfdQNGx/8Qi6kg+6+hE93MueHhOFFhOJ/Vi2FZPEqlS1F2Zl9WxF+QLK3b+A4DhpjIDmH57REVkULCd9DS9mTC6V9vyyDYcrlgHwvINxXKP+G4IM/GofOHmpTF2akFNHAZK/jdIVgvkai7/GajcyDRng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747836258; c=relaxed/simple;
-	bh=pJCChIdYPmV8Y8I6TxXcKEu87kmLmAblkQhuBNTT6ZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oal50sLbqc3LQiW1BHIK0/e3PJu8gLAoaNPWXmrdXCXp56Rz7RdDYPLXdLcAovQBfkOi5OHBMSX4bLMGTNiyWYliDv3pUdiHpUn8noyvRNIm/vWt0lZxvqciQpJqedIo8Hd890k/RHaW3ZINwwibFW9gZRi7Tv+pI2wA3VVbWVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dCyLIY2o; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 143DF6B5;
-	Wed, 21 May 2025 16:03:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747836227;
-	bh=pJCChIdYPmV8Y8I6TxXcKEu87kmLmAblkQhuBNTT6ZU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dCyLIY2obwiLIaA4LvsV61MsrbPq4D1Ft9DP3G4BQAWvnDsZXGQOvw7fgj1T2uzH7
-	 Ul8WVNchLa357d54EF6HXDCYWw2/dDBDT+4iT/pg8P9aSeQ6rJ+3ccGWRM9kprb+1r
-	 1Qqs8LqnrFa4BYaZYZNr0lCm1euyu0r2MHGP8nY8=
-Date: Wed, 21 May 2025 16:04:02 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 05/23] media: atomisp: gc0310: Use V4L2_CID_ANALOGUE_GAIN
- for gain control
-Message-ID: <20250521140402.GL12514@pendragon.ideasonboard.com>
-References: <20250517114106.43494-1-hdegoede@redhat.com>
- <20250517114106.43494-6-hdegoede@redhat.com>
- <174751615300.335894.3402272890581119176@ping.linuxembedded.co.uk>
- <174756137675.4012029.11818241234579920414@ping.linuxembedded.co.uk>
+	s=arc-20240116; t=1747840338; c=relaxed/simple;
+	bh=lBxYD/sxdLohBQL8cWaUPlf5GpBoIKjD4XqJjlAAIHE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y8QhN2Z+AtJxKIIwX21R+9czU2G/jg2J5PvBT9mLJrPesaAfneNZWchnaJKOHd3/BrLZ2VnoSO0Z9Z4Opmpuzhmd2TWGTjNyEJ7witJdOdOA/WptruvwKgFnHYzEp/hD18QlaOJnVPdAthKgLuR/lF2YhkXCbNI+bNB4YoQ09Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ja8+gXFI; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-551fe46934eso2099433e87.1;
+        Wed, 21 May 2025 08:12:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747840334; x=1748445134; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=78yUaku+TH3kluaZNv1nUHa1ojNV1Bp7GzsWKhmIOkM=;
+        b=Ja8+gXFIKawuDN9dhrBANBiWGT3QQ6v/aqKFGfEfz8fk0EhIVNwHGzSbf7010qHjA4
+         Jb/O4iSa5kKjdZRhDcmYBHjlF78Jh+zB42QMXRLKnWW2nhX89+X6yDNjj2DZKKFRVRcs
+         4Eg0iuhXwqRgBEVjOafuPkJ2M3CgBPqH/LLn2TuxLdaXwIg3MUVFDxR8Saf3P9buQQxc
+         yAlc0WC7Mc8+x89SirQISyN9589z9DYiC0Jt2s9SayzjKkHReQUQhltmdrhpjnr93UbA
+         cslnFNuK797F0EnTx4Q4WtVBT2kUCRgVplGKeEUBuwcMSfasbVH4GzuYpQynl6Kpim3/
+         zGAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747840334; x=1748445134;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=78yUaku+TH3kluaZNv1nUHa1ojNV1Bp7GzsWKhmIOkM=;
+        b=T1mnq2JRLZUghIfcpIEJPGl5GAvh7rD+1OJYptyKY321brX3UmQyLsBGyymSYrHZxr
+         SER4PpryWAXuP1F0fMY/lkc9y1ehTMZNxfgi/HoYpKKpWABsAonr97tz8Nc+OADrApb/
+         ogaFjhWbJ+SrPc7IHXgMfLiOzorh2xd4QepFZLXXM5hPHrNb11UwTqGc9ayBe3Q/EAIY
+         vYTTjbFGMEno3X5omrKFJ3HJAFZd07tY08sUrPqKEVHB/mXHgQegD+CY1+D7jaVQ+rD1
+         DhtQRdBIXUDK+O9onE5oaL2xHDSr5hMdrUbT72AHWN2psHf9c0TBOh2TStPYHGQ2i08p
+         TFsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUnMBky76LvFIu/oyTg4g7YXC+o1H49LMloct7yHOnIOH7fl7r/bwGno87M6gdi4ej1ojOfYHLwax/r8x0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTjG/8S4+nK36XmzHkIwiWrpkTVMsFpig0VuUajjtaexsjQgqj
+	7u7k4hdZcTOh2tlSxoz60sU7X1H7oZrAVSLifAFdvW4r7RaKbziTuju5
+X-Gm-Gg: ASbGncsLSLARZG2XFKk3GFW2i+YD5Eoy21lI7JZcKm5p9SBAAQS3xC2Va9BSWwLGmtG
+	aIqWPEuoamnQsaLeP7pkgllurouPh5i84BE06YL9ATWnFkANYZJzl3Gy4tFwjh0wuFA/KYbuN+N
+	WLseMWvIsVxL91K7i7ZMo0etv/OlGjZDSlAARtst7hstVNL6IhAmI4GhD1296nBln2x4ibVGlCw
+	7XhtQqQ6GnATgf6ILP5BspZLVJ5oYnevFCjYekFqSTeapjIS7hxifEw+D/CKPnJfgayuiW9reUj
+	Ukl2DmlaIYDeqOPMmZ6pk5NKgEo+9bNg9O2DSPwoBLRLm7BlnirxCexFLFv4toJVpNgTdNHM7vL
+	DYGwqCCno1y94FTh92+/qDm2McYYecN09fPKcY1BNJPHPs2/YotA64xIZGHJfDdiY+aMyO1QYt3
+	cPTdLLvt2nWyOS
+X-Google-Smtp-Source: AGHT+IE9nd0GLoOgLFJQSLE1qR86a3SC8JADuKGwq7KtdwEH8Z7iFSIf3vIA5YyerQWwhQK4eZ1fzQ==
+X-Received: by 2002:a05:6512:2251:b0:54f:bc96:72dc with SMTP id 2adb3069b0e04-550e752d995mr7692943e87.26.1747840333818;
+        Wed, 21 May 2025 08:12:13 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:53:1500:e8f4:97c2:d311:5b15? (2001-14ba-53-1500-e8f4-97c2-d311-5b15.rev.dnainternet.fi. [2001:14ba:53:1500:e8f4:97c2:d311:5b15])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e7018123sm2871400e87.140.2025.05.21.08.12.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 May 2025 08:12:13 -0700 (PDT)
+Message-ID: <2099f0bf-fee7-4037-9e49-2b4bd8e507c8@gmail.com>
+Date: Wed, 21 May 2025 18:12:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <174756137675.4012029.11818241234579920414@ping.linuxembedded.co.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] docs: Improve grammar, formatting in Video4Linux
+To: Jonathan Corbet <corbet@lwn.net>, mchehab@kernel.org,
+ ribalda@chromium.org, hverkuil@xs4all.nl, hljunggr@cisco.com,
+ dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
+ Jonathan.Cameron@huawei.com, ilpo.jarvinen@linux.intel.com,
+ mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20250517132711.117618-1-hannelotta@gmail.com>
+ <20250517132711.117618-2-hannelotta@gmail.com>
+ <871psml4t7.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
+In-Reply-To: <871psml4t7.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 18, 2025 at 10:42:56AM +0100, Kieran Bingham wrote:
-> Hi Hans,
-> 
-> +Cc: libcamera-devel
-> 
-> Digging in here I found this part interesting (i.e. perhaps we need to
-> clarify the expected behavours better)
-> 
-> Quoting Kieran Bingham (2025-05-17 22:09:13)
-> > Quoting Hans de Goede (2025-05-17 12:40:48)
-> > > Use V4L2_CID_ANALOGUE_GAIN for gain control, as expected by userspace.
-> > > 
-> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > > ---
-> > >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > index ee039f3be4da..756e56f639b7 100644
-> > > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > @@ -289,7 +289,7 @@ static int gc0310_s_ctrl(struct v4l2_ctrl *ctrl)
-> > >                 ret = cci_write(sensor->regmap, GC0310_AEC_PK_EXPO_REG,
-> > >                                 ctrl->val, NULL);
-> > >                 break;
-> > > -       case V4L2_CID_GAIN:
-> > > +       case V4L2_CID_ANALOGUE_GAIN:
-> > >                 ret = gc0310_gain_set(sensor, ctrl->val);
-> > >                 break;
-> > >         default:
-> > > @@ -533,7 +533,7 @@ static int gc0310_init_controls(struct gc0310_device *sensor)
-> > >  
-> > >         /* 32 steps at base gain 1 + 64 half steps at base gain 2 */
-> > 
-> > sounds like a curious gain model...
-> > 
-> > Will be interesting when we get the sensor calibration tools up and
-> > running to plot this. (Or is there already a public datasheet
-> > documenting this?)
-> > 
-> > Is there a split here between analogue gain and digital gain ? Or is it
-> > all expected to be 'analogue gain' ?
-> 
-> I looked deeper, and this does seem to be a split between analogue and
-> digital gain. It also seems like this control might be doing additional
-> calculations which would then have to be accounted for as part of the
-> gain model in libcamera, so then instead of 'sensor specific' it would
-> be 'this linux sensor driver specific' - so maybe the gain functions
-> should be simplified more.
-> 
-> Adding in libcamera-devel - because I think we need to figure out what's
-> best for handling this (overall for all sensors with A+D gain)
-> 
-> There are some sensors I've seen where the digital gain can only be
-> applied 'on top' of the analogue gain, and so it does act like a single
-> control ...
+Hello,
 
-I've seen other sensors (in particular the AR0830) that also combine
-analogue and digital gains in a single register. The analogue gain is
-typically quite coarse in that case, and the digital gain is used for
-fine adjustments. In the ar0830 driver I'm writing, I've split the two
-components in two separate controls.
-
-> But we probably want to be able to distinguish between analogue gain and
-> digital gain in libcamera / userspace.
+On 5/18/25 11:08, Jonathan Corbet wrote:
+> Thanks for working to improve our documentation!
 > 
-> However, even if we distinguish ... I suspect there are cases where if
-> we need more gain than just the analogue gain can provide - adding the
-> large steps at the sensor - and then only applying very small amounts of
-> fine-grain digital gain on an ISP would make things simpler or easier
-> overall.
+> Hanne-Lotta Mäenpää <hannelotta@gmail.com> writes:
 > 
-> So somehow I think we need to figure out and correctly document and
-> manage the splits between analogue and digital gains, and that will
-> likely have to have a corresponding mapping in either the camera sensor
-> helpers or the tuning files in some part.
+>> Fix typos, punctuation and improve grammar and formatting
+>> in documentation for Video4Linux (V4L).
+>>
+>> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
+>> ---
+>>   .../userspace-api/media/v4l/biblio.rst        |  8 ++---
+>>   .../media/v4l/dev-sliced-vbi.rst              |  4 +--
+>>   .../media/v4l/ext-ctrls-fm-rx.rst             | 15 ++++------
+>>   .../media/v4l/ext-ctrls-fm-tx.rst             | 29 +++++++------------
+>>   .../media/v4l/pixfmt-srggb12p.rst             |  4 +--
+>>   .../media/v4l/pixfmt-srggb14p.rst             |  2 +-
+>>   6 files changed, 25 insertions(+), 37 deletions(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
+>> index 35674eeae20d..c3f7c466e287 100644
+>> --- a/Documentation/userspace-api/media/v4l/biblio.rst
+>> +++ b/Documentation/userspace-api/media/v4l/biblio.rst
+>> @@ -53,7 +53,7 @@ ISO 13818-1
+>>   
+>>   :title:     ITU-T Rec. H.222.0 | ISO/IEC 13818-1 "Information technology --- Generic coding of moving pictures and associated audio information: Systems"
+>>   
+>> -:author:    International Telecommunication Union (http://www.itu.ch), International Organisation for Standardisation (http://www.iso.ch)
+>> +:author:    International Telecommunication Union (http://www.itu.ch), International Organization for Standardization (http://www.iso.ch)
 > 
-> > >         sensor->ctrls.gain =
-> > > -               v4l2_ctrl_new_std(hdl, &ctrl_ops, V4L2_CID_GAIN, 0, 95, 1, 31);
-> > > +               v4l2_ctrl_new_std(hdl, &ctrl_ops, V4L2_CID_ANALOGUE_GAIN, 0, 95, 1, 31);
-> > >  
-> > >         return hdl->error;
-> > >  }
+> Please do not "fix" the use of either British or American spellings;
+> both are explicitly just fine for kernel docs.
 
--- 
-Regards,
+Okay, good to know. The ISO name is spelled in two different ways on 
+this documentation page:
 
-Laurent Pinchart
+https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/biblio.html
+
+Making them consistent with the official English spelling, which is 
+mentioned on ISO's website, was my reason to change this.
+
+At any rate, I can leave this change out of the patch.
+
+> 
+>>   .. _mpeg2part2:
+>>   
+>> @@ -63,7 +63,7 @@ ISO 13818-2
+>>   
+>>   :title:     ITU-T Rec. H.262 | ISO/IEC 13818-2 "Information technology --- Generic coding of moving pictures and associated audio information: Video"
+>>   
+>> -:author:    International Telecommunication Union (http://www.itu.ch), International Organisation for Standardisation (http://www.iso.ch)
+>> +:author:    International Telecommunication Union (http://www.itu.ch), International Organization for Standardization (http://www.iso.ch)
+>>   
+>>   .. _itu470:
+>>   
+>> @@ -131,7 +131,7 @@ ITU H.265/HEVC
+>>   
+>>   :title:     ITU-T Rec. H.265 | ISO/IEC 23008-2 "High Efficiency Video Coding"
+>>   
+>> -:author:    International Telecommunication Union (http://www.itu.ch), International Organisation for Standardisation (http://www.iso.ch)
+>> +:author:    International Telecommunication Union (http://www.itu.ch), International Organization for Standardization (http://www.iso.ch)
+>>   
+>>   .. _jfif:
+>>   
+>> @@ -150,7 +150,7 @@ ITU-T.81
+>>   ========
+>>   
+>>   
+>> -:title:     ITU-T Recommendation T.81 "Information Technology --- Digital Compression and Coding of Continous-Tone Still Images --- Requirements and Guidelines"
+>> +:title:     ITU-T Recommendation T.81 "Information Technology --- Digital Compression and Coding of Continuous-Tone Still Images --- Requirements and Guidelines"
+>>   
+>>   :author:    International Telecommunication Union (http://www.itu.int)
+>>   
+>> diff --git a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+>> index 42cdb0a9f786..96e0e85a822c 100644
+>> --- a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+>> +++ b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+>> @@ -48,7 +48,7 @@ capabilities, and they may support :ref:`control` ioctls.
+>>   The :ref:`video standard <standard>` ioctls provide information vital
+>>   to program a sliced VBI device, therefore must be supported.
+>>   
+>> -.. _sliced-vbi-format-negotitation:
+>> +.. _sliced-vbi-format-negotiation:
+>>   
+>>   Sliced VBI Format Negotiation
+>>   =============================
+>> @@ -377,7 +377,7 @@ Sliced VBI Data in MPEG Streams
+>>   
+>>   If a device can produce an MPEG output stream, it may be capable of
+>>   providing
+>> -:ref:`negotiated sliced VBI services <sliced-vbi-format-negotitation>`
+>> +:ref:`negotiated sliced VBI services <sliced-vbi-format-negotiation>`
+>>   as data embedded in the MPEG stream. Users or applications control this
+>>   sliced VBI data insertion with the
+>>   :ref:`V4L2_CID_MPEG_STREAM_VBI_FMT <v4l2-mpeg-stream-vbi-fmt>`
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-fm-rx.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-fm-rx.rst
+>> index b6cfc0e823d2..565157709911 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-fm-rx.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-fm-rx.rst
+>> @@ -35,7 +35,7 @@ FM_RX Control IDs
+>>       description of the correct character encoding for Programme Service
+>>       name strings. Also from RDS specification, PS is usually a single
+>>       eight character text. However, it is also possible to find receivers
+>> -    which can scroll strings sized as 8 x N characters. So, this control
+>> +    which can scroll strings sized as 8 x N characters. Therefore this control
+> 
+> This kind of change just seems like churn that isn't really improving
+> the content?
+
+The content is good already. Here, it is a bit more formal to use the 
+word therefore, since this is technical documentation, and the word so
+is considered more appropriate for informal contexts.
+
+I can leave this change out of the patch series.
+
+> 
+>>       must be configured with steps of 8 characters. The result is it must
+>>       always contain a string with size multiple of 8.
+>>   
+>> @@ -49,7 +49,7 @@ FM_RX Control IDs
+>>       Radio Text strings depends on which RDS Block is being used to
+>>       transmit it, either 32 (2A block) or 64 (2B block). However, it is
+>>       also possible to find receivers which can scroll strings sized as 32
+>> -    x N or 64 x N characters. So, this control must be configured with
+>> +    x N or 64 x N characters. Therefore this control must be configured with
+>>       steps of 32 or 64 characters. The result is it must always contain a
+>>       string with size multiple of 32 or 64.
+>>   
+>> @@ -64,17 +64,12 @@ FM_RX Control IDs
+>>       broadcasts speech. If the transmitter doesn't make this distinction,
+>>       then it will be set.
+>>   
+>> -``V4L2_CID_TUNE_DEEMPHASIS``
+>> -    (enum)
+>> -
+>> -enum v4l2_deemphasis -
+>> +``V4L2_CID_TUNE_DEEMPHASIS (enum)``
+>>       Configures the de-emphasis value for reception. A de-emphasis filter
+>>       is applied to the broadcast to accentuate the high audio
+>>       frequencies. Depending on the region, a time constant of either 50
+>> -    or 75 useconds is used. The enum v4l2_deemphasis defines possible
+>> -    values for de-emphasis. Here they are:
+>> -
+>> -
+>> +    or 75 microseconds is used. The enum v4l2_deemphasis defines possible
+>> +    values for de-emphasis. They are:
+>>   
+>>   .. flat-table::
+>>       :header-rows:  0
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-fm-tx.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-fm-tx.rst
+>> index 04c997c9a4c3..aa509039bd27 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-fm-tx.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-fm-tx.rst
+>> @@ -41,7 +41,7 @@ FM_TX Control IDs
+>>       description of the correct character encoding for Programme Service
+>>       name strings. Also from RDS specification, PS is usually a single
+>>       eight character text. However, it is also possible to find receivers
+>> -    which can scroll strings sized as 8 x N characters. So, this control
+>> +    which can scroll strings sized as 8 x N characters. Therefore this control
+>>       must be configured with steps of 8 characters. The result is it must
+>>       always contain a string with size multiple of 8.
+>>   
+>> @@ -55,7 +55,7 @@ FM_TX Control IDs
+>>       E of :ref:`iec62106`. The length of Radio Text strings depends on
+>>       which RDS Block is being used to transmit it, either 32 (2A block)
+>>       or 64 (2B block). However, it is also possible to find receivers
+>> -    which can scroll strings sized as 32 x N or 64 x N characters. So,
+>> +    which can scroll strings sized as 32 x N or 64 x N characters. Therefore
+>>       this control must be configured with steps of 32 or 64 characters.
+>>       The result is it must always contain a string with size multiple of
+>>       32 or 64.
+>> @@ -94,8 +94,8 @@ FM_TX Control IDs
+>>   
+>>   ``V4L2_CID_RDS_TX_ALT_FREQS (__u32 array)``
+>>       The alternate frequencies in kHz units. The RDS standard allows for
+>> -    up to 25 frequencies to be defined. Drivers may support fewer
+>> -    frequencies so check the array size.
+>> +    up to 25 frequencies to be defined. Because drivers may support fewer
+>> +    frequencies, check the array size.
+> 
+> Here too, I'm not sure I see the value in this kind of change.
+
+Similar reason here regarding formal wording.
+
+Again, I can send in a version 2 without this change.
+
+> 
+> Thanks,
+> 
+> jon
+
+Thank you for reviewing so quickly!
+
+Best regards,
+
+Hanne-Lotta Mäenpää
+
 
