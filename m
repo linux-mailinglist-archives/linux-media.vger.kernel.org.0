@@ -1,142 +1,168 @@
-Return-Path: <linux-media+bounces-33023-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33024-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDECABF5DC
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 15:18:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48319ABF5E8
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 15:21:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D3101BC3E93
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 13:18:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 089173AC77C
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 13:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4A0327CB36;
-	Wed, 21 May 2025 13:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D47A270547;
+	Wed, 21 May 2025 13:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="TCz6zwkl";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nQXxs0mj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC9C262FFE;
-	Wed, 21 May 2025 13:18:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFA5230BEF;
+	Wed, 21 May 2025 13:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747833492; cv=none; b=llsWs+npO8TYuXRLTe4SXMVLFPhrvVm8kOmv5fRi9H1ZLs1ulhXGZ4bDVBiPvaQpnRT9dhjCzru7tKFcOOeAC3pRf+hsDXKijX5GVNcRjv0hN5ocjCl1469PXWCTcxRpY89EjduuKWZy1csvL0wmNxTPvtJR8x88SkNnXBI6fU4=
+	t=1747833687; cv=none; b=XqeEvtrv+LTYSTC8UwCkoIbVyqO0JaKgYBvqwbjJ1c9qqYelUWM39aUUw7RLr87mL+xA1YcGVfaUCtwEYXJtU2WT95qKr7trzYS6S+Yyr1JX0qS61/QvvPRhBwhEmpQtnSlIgpEJoGatb3P7cgyap8fkoKRmhWiAykYEXCxDoI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747833492; c=relaxed/simple;
-	bh=VPSIgRG+z7ZPpjp1AXcFSZ0nKQ/0lck0aPhY1NPcsSU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=vGPokdP3R+aUvAI9fpAK0uYGuhNwSo5cxEo3oGS++mGiDZOyNO6fioj8Rvt5y9GhEFK5tEekBd9zs4TCLjQAhfb3kfby9/DzlaMuBcmPexnB1sh4Vu2ctVk0VwVEn3Jhw5KegN9hLs7IP9fjWKS4eDPwl/aqlvXOCUVfrn7iSXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 21 May
- 2025 16:18:03 +0300
-Received: from localhost (10.0.253.101) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 21 May
- 2025 16:18:03 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com>,
-	<lvc-project@linuxtesting.org>, Alan Stern <stern@rowland.harvard.edu>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, <gregkh@linuxfoundation.org>
-Subject: [PATCH v3] media: dvb-usb-v2: disallow 0-length I2C reads
-Date: Wed, 21 May 2025 16:17:49 +0300
-Message-ID: <20250521131752.2566007-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1747833687; c=relaxed/simple;
+	bh=GlJseDisEcxA2R8GEbmSOE/JLVmbv6FzrpREDGnTlx8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QjspePhFvZtUNyWpbtCpybUCrwB6Ct3VFtwMiCpX20eGGzIFT/M4crgYTYzIiiPVuYBwVqUgQ4B1Bczfo9WdA+O++Y8M5JFay6kN1VHbA6yNcoJzm7RBBCFIjQ2JoWkpkMYrqNug8gst+K0TQ0ic31kHutmZFj282zkDQV4MtPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=TCz6zwkl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nQXxs0mj; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id EFC172540149;
+	Wed, 21 May 2025 09:21:23 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 21 May 2025 09:21:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1747833683; x=1747920083; bh=2v
+	CRVl6gIJjBSwTFBa/VhOrNIz2Hh5RatasoLQgCO1g=; b=TCz6zwklTAZ4XZsozG
+	VsVHuBqslnLBbRrpMxSOFgIr14krgmr6LRZYnrIJCfmty7V6V9remLs2nIPfgIFf
+	eLiHjWf4db0d9xm/AfThpQs0n6ACuryZavPpOajq16oih9RXNJCdYGi2u4gz83q+
+	cvWZ70+vR8HezJzfG/acfl2puhkj1HM/Nw1Q2PbGTlNmueYeXTxj/etxujolwbSs
+	4gNzLtnphyYi7/pi4txA0LodhVfMJqqFFiFnuMO64zJJskBy94koY0OHeUb+zrqN
+	gsv9e12U1NoGv7RDzwGxDj8BG4RA7hTaCRuUt3Tve6qqWU38agu5PIAE7dfs4rqT
+	55Dw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1747833683; x=1747920083; bh=2vCRVl6gIJjBSwTFBa/VhOrNIz2H
+	h5RatasoLQgCO1g=; b=nQXxs0mjtA9/qiCK9+ZJ7KhN8xQ6V/SkZJVbmkox4DbL
+	Pz2/5bwDDmfrJ5j4/z2qvZEFy4N6raOw0+xBlRE10aG/BI+mP4COM2H2ZJwryfIO
+	WQsWTDZQdeNezuDW18lH+Pw1ZqU0BMaKC+FJk9/5hojpUti1GCcUCho2CkLT+laE
+	uQDsywinj2WrL1hqlX8aZI/n44y1h54zFLk27uazOgSGd6RI5yw/IY+rx508hghK
+	QZ21CshxXWWwRBG8JRR3NHYmKP2Ipqn0bTuuRpnvQL+/GRYR/NqjLPpM2L2/JXAC
+	45AEp18wgEFLkPb12MM3XE8FKMdmMRRfWa0p/JAT4A==
+X-ME-Sender: <xms:U9MtaGXqycpVOdXTlLln3yGQNvscWJSgBXJyLD5OkNYkDrd4KsjNcA>
+    <xme:U9MtaCmnobNjjatPyutijxFDqArPjdquy-VTRJQ_J6skBEz2kfPKAvLlUnNZ-VeC6
+    dxIi4hVUhvX5Z7Bt2I>
+X-ME-Received: <xmr:U9MtaKZaL1eFVFCdF6CVqQ0VNcSahfpgARPnre9hBg23V7FNhTHPnVP7AlMVuLEoK5OEooGptvyZwyxlRfiLmPpm>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdefudekucdltddurdegfedvrddttd
+    dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgf
+    nhhsuhgsshgtrhhisggvpdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttd
+    enucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgg
+    tgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoe
+    hnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdr
+    shgvqeenucggtffrrghtthgvrhhnpeehudelteetkefgffefudefuedvjeeivdekhfevie
+    efgeffheeltddvvefhfeetgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthh
+    drshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtth
+    hopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgr
+    lhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtg
+    hpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdr
+    tghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrd
+    horhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorh
+    gvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:U9MtaNUohnSwKxh_nwI-j4YEVXlvzsFkWl6rRHJYLpEqQJRJBXEJxg>
+    <xmx:U9MtaAmFbrzFoQAFKa02ip5YxVcMzLD1GzezNTnDeLpewLlSb7kbdg>
+    <xmx:U9MtaCdXx3m2og4qYTupM2KmKv-hnifDVO8I_cBufPlEmjdcxr3qWw>
+    <xmx:U9MtaCG3vo76WnVp3uRwWZAoTd4Q66sW2ciiSkSEws4EUrqfK2fGGg>
+    <xmx:U9MtaAlEsmOidpnTG43gbjZsig-kCxWe5EK5-AqoPTQTt5xgBswCL5Oh>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 May 2025 09:21:23 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v4 0/6] media: rcar-vin: Unify notifiers and enable MC on Gen2
+Date: Wed, 21 May 2025 15:20:31 +0200
+Message-ID: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
 
-Syzkaller reported via syzbot a warning (see [1]) that occurs
-when the fuzzer manages to craft a I2C transfer with a 0-length read
-request. This in turn leads to an attempt at execution of a
-USB 0-length read (which is forbidden by USB protocol) leading to
-it being interpreted as a write.
+Hello,
 
-Enable I2C_AQ_NO_ZERO_LEN_READ adapter quirk for all devices
-managed by dvb-usb-v2 thus forbidding 0-length read messages
-altogether.
+This series completes the conversion of the soc_camera VIN driver to a
+full fledge media-graph enabled driver for R-Car Gen2 devices, Gen3 and
+later have been media-graph centric from the start. Having a single
+driver supporting both MC and non-MC operation have lead do odd design
+decisions in the driver, and it have prevented improving the driver over
+all.
 
-[1] Syzbot report
-usb 2-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
-WARNING: CPU: 0 PID: 5845 at drivers/usb/core/urb.c:413 usb_submit_urb+0x11dd/0x18c0 drivers/usb/core/urb.c:411
-...
-Call Trace:
- <TASK>
- usb_start_wait_urb+0x11a/0x530 drivers/usb/core/message.c:59
- usb_internal_control_msg drivers/usb/core/message.c:103 [inline]
- usb_control_msg+0x2b3/0x4c0 drivers/usb/core/message.c:154
- gl861_ctrl_msg+0x332/0x6f0 drivers/media/usb/dvb-usb-v2/gl861.c:58
- gl861_i2c_master_xfer+0x3b4/0x650 drivers/media/usb/dvb-usb-v2/gl861.c:144
- __i2c_transfer+0x859/0x2250 drivers/i2c/i2c-core-base.c:-1
- i2c_transfer+0x2c2/0x430 drivers/i2c/i2c-core-base.c:2315
- i2cdev_ioctl_rdwr+0x488/0x780 drivers/i2c/i2c-dev.c:306
- i2cdev_ioctl+0x78a/0xa20 drivers/i2c/i2c-dev.c:467
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl+0xf1/0x160 fs/ioctl.c:892
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xf3/0x210 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-...
+New features and bug fixes have always been more important then fixing
+this old generation to be MC-centric. But in order to start to play with
+libcamera support for the R-Car pipeline it have become more pressing to
+make take the time to make this driver MC-only, and more importantly
+test it to make sure nothing really breaks.
 
-Reported-by: syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=721071c10f3c7e4e5dcb
-Tested-by: syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com
-Fixes: 776338e121b9 ("[PATCH] dvb: Add generalized dvb-usb driver")
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
----
-v1 -> v2: fix description due to overly long lines.
+Patch 1/6 and 2/6 are drive-by fixes correcting issues in the existing
+design. Patch 3/6 prepares for Gen2 MC by making sure each VIN instance
+on Gen2 gets a unique ID which will be needed to support VIN groups.
+Compared to Gen3 and later the group ID does not match what it can do in
+the group and does not need to be set from DT, all that matters is that
+each VIN instance have a unique ID.
 
-v2 -> v3: add a comment explaining the need for a i2c/usb quirk
-per Wolfram's suggestion.
+Patch 4/6 and 5/6 uses the fact that VIN instances on Gen2 now have
+unique IDs and greatly simplifies the unnecessarily complex vl4-async
+notifier usage in the VIN driver. This have in the past lead to some
+subtle bugs and having only a single notifier for all VIN will remove a
+lot of possibilities for this to go wrong in the future.
 
-P.S. This issue is eerily similar to the one in dib0700
-driver, see [2]. Alan suggested a solution which hasn't been committed
-yet in [3]. Mine is essentialy a copy of his, only for dvb-usb-v2
-devices. As far as I know, no I2C core level protection against
-such issues has been implemented either.
-[2] https://syzkaller.appspot.com/bug?extid=c38e5e60d0041a99dbf5
-[3] https://lore.kernel.org/all/c7f67d3b-f1e6-4d68-99aa-e462fdcb315f@rowland.harvard.edu/
+Finally patch 6/6 removes all non MC code paths and have the Gen2
+devices register a media device and configure links.
 
-P.P.S. While this driver seems to be orphaned, I decided to
-send a patch anyway, perhaps someone will deem it worthy...
+This have been tested on Gen3 and Gen4 devices without any regressions.
+And on Gen2 to make sure the media-graph behaves as it should. As a
+bonus the Gen2 devices can now join the VIN CI and any future issues
+should be caught as they are for Gen3 and Gen4.
 
- drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+See individual patches for changelog.
 
-diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-index f1c79f351ec8..5d6ff0ddd349 100644
---- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-+++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-@@ -19,6 +19,11 @@ module_param_named(force_pid_filter_usage, dvb_usb_force_pid_filter_usage,
- MODULE_PARM_DESC(force_pid_filter_usage,
- 		"force all DVB USB devices to use a PID filter, if any (default: 0)");
- 
-+/* prevent invalid 0-length usb_control_msg */
-+static const struct i2c_adapter_quirks i2c_usb_quirks = {
-+	.flags = I2C_AQ_NO_ZERO_LEN_READ,
-+};
-+
- static int dvb_usbv2_download_firmware(struct dvb_usb_device *d,
- 		const char *name)
- {
-@@ -63,6 +68,7 @@ static int dvb_usbv2_i2c_init(struct dvb_usb_device *d)
- 
- 	strscpy(d->i2c_adap.name, d->name, sizeof(d->i2c_adap.name));
- 	d->i2c_adap.algo = d->props->i2c_algo;
-+	d->i2c_adap.quirks = &i2c_usb_quirks;
- 	d->i2c_adap.dev.parent = &d->udev->dev;
- 	i2c_set_adapdata(&d->i2c_adap, d);
- 
+Niklas Söderlund (6):
+  media: rcar-vin: Use correct count of remote subdevices
+  media: rcar-vin: Change link setup argument
+  media: rcar-vin: Generate a VIN group ID for Gen2
+  media: rcar-vin: Prepare for unifying all v4l-async notifiers
+  media: rcar-vin: Merge all notifiers
+  media: rcar-vin: Enable media-graph on Gen2
+
+ .../platform/renesas/rcar-vin/rcar-core.c     | 706 +++++++-----------
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     | 488 +-----------
+ .../platform/renesas/rcar-vin/rcar-vin.h      |  14 +-
+ 4 files changed, 305 insertions(+), 919 deletions(-)
+
+-- 
+2.49.0
+
 
