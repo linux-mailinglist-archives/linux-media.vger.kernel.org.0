@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-33043-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33044-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56597ABFAE4
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 18:11:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6884DABFAC6
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 18:08:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21026A257DE
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 16:02:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD3C5188D075
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 16:03:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3619422A4FE;
-	Wed, 21 May 2025 15:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2074022CBDC;
+	Wed, 21 May 2025 15:56:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="I5ELHjt1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VnXi/AlJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C59220F3B;
-	Wed, 21 May 2025 15:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9FD22A7F1;
+	Wed, 21 May 2025 15:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747842999; cv=none; b=DQxlCaMk2jFtORrguUGh5goB898z1Sye0ucFyIjT4++sBlFyWC5xtGER1999eJ4FKg4ptoUnSrYd0bKT10QDVVr1h6R3Hn6SI0Rc3kl+b+7flv3Z5ScffiROo+0NkANXdJRMDfZiGS2ODK3UU7cxw9iB5y+mTEtvnTN8pHk5IPo=
+	t=1747843006; cv=none; b=RYufftd5yYyI6TxmVGE5bh9BZWWjKdtNR9cBo6mOYnspFbh8EYRoZCc/jCMP9XTDwfdLafVXTg+oluGb/hrdHWPrOzNGdnXj9y0yUES6pOizu4L3fjsBhMcyo5xS8gtGqOY/hcSrTw3mVkSSixPxdpLEzEJte7LA8dTiNtyKNik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747842999; c=relaxed/simple;
-	bh=5Doh5G+A/5vZANC2hFIuj+z2N+72ML0y3weAUvUWF60=;
+	s=arc-20240116; t=1747843006; c=relaxed/simple;
+	bh=yJ9/X43KMZHFpownfVvDmm7ntUx5NZaTJWs64dTYo1o=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XytLvjt13BGAbVFdGR14vp06hY7pEH+leIfZZ3EpdWEEBodDNW9Cp2c5AnhO6SyqYwpzdINVF0QFnyfuOt+QJwSu7Rox/EXfTycAPJQZYFpW42IP9Vleu+5Zf9DuCwB0JMlC1voTsNKLUpje52pyKMoXAssH+cHq/4awWouOY0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=I5ELHjt1; arc=none smtp.client-ip=217.70.183.195
+	 MIME-Version:Content-Type; b=VCiCzvvu37GlzaTLt3P6PwLP4ihzapmqSB7/KKKYFcA+ZxXtvh5SqVvvFk4/yjxd35pPu3dOmnGVEVCSUPo0MJ9RYMcYvGvpXiRcnYriKt0BMhP7ocU/cYdW47FA2WiVQpE3TIDcjt+aJhXG0VCoADh0meei5VY6xewunmPo4Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VnXi/AlJ; arc=none smtp.client-ip=217.70.183.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1D9E41FCF1;
-	Wed, 21 May 2025 15:56:34 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9D3D743944;
+	Wed, 21 May 2025 15:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1747842995;
+	t=1747843000;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YMt3+zKh8MFrX6ZVemx3nyqzynGMPwR2F6IMelQXdhA=;
-	b=I5ELHjt14Y9TpOPAjHO+Oh5J98liJodWmTRQNUrZu0Cx9jwLUagLp+R7iHi/P0Y46kTirn
-	vfbVifyDkwPfL2ZEfrbdOizwsS8cOnLgjKdMXvDfIaQ/8GTlsyd5K6IRnj+cE1vcKN4Rb1
-	FKzfTjS+NcvppGVsVCpLIp+4cv58yzPOgeWE0roMetS7Rt6LVP+fjkY1EsHVKxbE3wWtMV
-	Z0lX83KE6wcdaxODTlPLjgsMoKthXhybWYnzrzJQ01KOCPQDH+jCv1IzWosVTWGygYmrp9
-	t3B+ME+MXbneoHM6v6jJryrmMuvEbZ4N2yYrTX4sIpZ1B+RayOFavfkzw7gkVA==
-Date: Wed, 21 May 2025 17:56:31 +0200
+	bh=RWRLMRWo16jpVRYnJdVly8AWOZADjFL/Y7YUgRpYoes=;
+	b=VnXi/AlJgIjoOUrlGyrmHsAOwVof7q8B6WXkpHxpgPxm2UQOi1pg8atYMgkpJxkvBjo/YA
+	KChgIuBw74gM9EY7BpgcILaNZsnEPm6oEEBt2tHsFvsjqYVnzgXYmCw9eMNyye+hsdUxnq
+	QcBb2WVk17dRDccOJmYzOlZV38QXB3QxyezSL9ssm2SsMkM6ROr+ppDsoCLj11qBehfTTQ
+	83cTgAr3IVRYk89ZU5O/hQOP0hoEx0tPeqrDVJO/frlbcM8gN4dSJjwJkk3EK5LP+Br0Nr
+	JgRDDSjavf0qWqWjOAc3SzGtncs51+qtqP8u3ksHF/jisdQhdVXmhjc9phIWLg==
+Date: Wed, 21 May 2025 17:56:37 +0200
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Cosmin Tanislav <demonsingur@gmail.com>
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Tomi Valkeinen
@@ -54,11 +54,12 @@ Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Tomi Valkeinen
  Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 8/9] i2c: atr: add static flag
-Message-ID: <20250521175631.0af904e9@booty>
-In-Reply-To: <20250507121917.2364416-9-demonsingur@gmail.com>
+Subject: Re: [PATCH v5 6/9] i2c: atr: allow replacing mappings in
+ attach_addr()
+Message-ID: <20250521175637.610245e3@booty>
+In-Reply-To: <20250507121917.2364416-7-demonsingur@gmail.com>
 References: <20250507121917.2364416-1-demonsingur@gmail.com>
-	<20250507121917.2364416-9-demonsingur@gmail.com>
+	<20250507121917.2364416-7-demonsingur@gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
@@ -71,24 +72,19 @@ Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdefgeelucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepuggvmhhonhhsihhnghhurhesghhmrghilhdrtghomhdprhgtphhtthhopeifshgrodhrvghnvghsrghssehsrghnghdqvghnghhinhgvvghrihhnghdrtghomhdprhgtphhtt
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdefhedtucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepuggvmhhonhhsihhnghhurhesghhmrghilhdrtghomhdprhgtphhtthhopeifshgrodhrvghnvghsrghssehsrghnghdqvghnghhinhgvvghrihhnghdrtghomhdprhgtphhtt
  hhopehtohhmihdrvhgrlhhkvghinhgvnhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhomhgrihhnrdhgrghnthhoihhssegsohhothhlihhnrdgtohhmpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhivdgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Wed,  7 May 2025 15:19:14 +0300
+On Wed,  7 May 2025 15:19:12 +0300
 Cosmin Tanislav <demonsingur@gmail.com> wrote:
 
-> Some I2C ATRs do not support dynamic remapping, only static mapping
-> of direct children.
+> It is possible for aliases to be exhausted while we are still attaching
+> children.
 > 
-> Mappings will only be added or removed as a result of devices being
-> added or removed from a child bus.
-> 
-> The ATR pool will have to be big enough to accomodate all devices
-> expected to be added to the child buses.
-> 
-> Add a new flag that prevents old mappings to be replaced or new mappings
-> to be created in the alias finding code paths.
+> Allow replacing mapping on attach by calling
+> i2c_atr_replace_mapping_by_addr() if i2c_atr_create_mapping_by_addr()
+> fails.
 > 
 > Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 
