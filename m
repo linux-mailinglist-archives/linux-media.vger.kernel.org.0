@@ -1,309 +1,368 @@
-Return-Path: <linux-media+bounces-32964-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-32965-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD59DABE969
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 03:55:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C313ABE978
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 04:01:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E09841BA77D5
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 01:55:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 706997B1170
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 01:59:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49E77221567;
-	Wed, 21 May 2025 01:55:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E74F22A4F8;
+	Wed, 21 May 2025 02:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="kFJcvYzz"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z1/T37bv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2051.outbound.protection.outlook.com [40.107.21.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE4E7081A;
-	Wed, 21 May 2025 01:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747792515; cv=fail; b=UFIREd4BbvSb4CFaFhPMt0lOCYliAxZfWZy+3p4Bz7ZMQZqfLW5Q7cb3vHt8kVA+H3D8/6puU1JZtQyq0RpXtPJ+8Q8SUXl0zebuT1euOssQvL1yZGs0vfkujxnQ/jHnNjdpUE/ShUeAcORmBYzwDO7VfxHa3TeUP/xjTgNTvUs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747792515; c=relaxed/simple;
-	bh=XAR1k72g09SOfumt9KDnms5q1wmLPNU+r2AA7s1U0XY=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=kU3n+VXltLRttE2vpg3o9cP2wPJ8yqNhoLNcFQIaqiSlIyqgkCN9ImpdcjH0kyhMGJQZbgUUy1MFG7XIjydy4UwquabZbp4kZCoRlKdh+qAvvxso+T4F/7zILvwp7kVq0XdDDPTicQSREGv3ct3eXqEV6UoJ8oRZ7tGAmTqnDdk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=kFJcvYzz; arc=fail smtp.client-ip=40.107.21.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N68PJuWQYZgRo6iOWwRcP3157tE7+vylihhnTqET9hVS3cg6uCqJRbH3ipnMSZl2vGXLAGKm14Xwg7rHPfyy4m1ps8bu03FMnMwWaSeitqQdMjm833Hmm4mu6r60laJdsPoWIe9R2a7LzmNVdEyCAWkOOWR5saSnn4r+K9ZeY3nctEsaEq6D3/DAMQUlxk9fn14d+Dnb6w67oMRLr1EEUTBrEjjy/YN8yGlDiQZRyF8dcM24W3lA8oCEOhZxcvzx4nvYr8jXWh5fZEter6wU34gPguNbQd9SHklgSkhMcZKbYEaPJSdtYEsuhvx+lPaXdSDe6Iw+/jxYaTM9yTSA0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D1l5Y26fE31eA+2VlxwXfT3gELk5pZJS8QoxYnKKdj8=;
- b=gAz+RWhQYYzRNHDFcfTbr5VO9TeFSrvwHbRL36ayv0IcrPrSM3q2658PvRnMJ7ENs4j73YyHDXIb4Ug0eAWERn+3CvR65t3V1vDlaglQ9u3o2VsZeOm1RBVaWi7+Q6EXrIMYQsHd91ZSnS1QOrsTD+xe2Ab7/foMHA1p6MFXIyfpbxi5/1a2JuBtMxgKOAv9kfEJ02rDsHuXRMOtJybZfqLhuyBwt7KKPNi+wVRhSMfPVLUcnFIlzgohhVYxsxQqJwnJp+OR5Jte4aALw6wOpBGsRnPudVW6U0JWz1gEPS0GuZDfn53G4XLpbSPMcNB0KyXsFZDXuhm+28yV5yAWzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D1l5Y26fE31eA+2VlxwXfT3gELk5pZJS8QoxYnKKdj8=;
- b=kFJcvYzz8zi3nW1qG8dc3uDP+4ryqZ6o0vJV9psHx454m5hyoWs3A/bWn63QWELvJl0Hiz4oAJ9DRlUJNjOv/DqGQPmAiBCAng6sVBrYB2fsQtXhfH3pARQl7ky1b8Mf4vqVW9PBtCz9HD0vyDGzz2fA9PRjiL8ZNmOHUNNv/NyYLHLa0sHDLVE+8Ztye8ejSuR6qkvKgG+mGovqlgpovLgE+4U0dLxmqfl+ue/L594aHt4dCRD3Q6uUbeCSDSoR7upqydWLnm+GoUMzyOgAC+QGoHuNm8H7rU9ExTkIuONU7tDyyxdb2LcSsb6mOTDoka55BV5UrDlVPc+g9UYloQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by AS8PR04MB8948.eurprd04.prod.outlook.com (2603:10a6:20b:42f::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Wed, 21 May
- 2025 01:55:09 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%7]) with mapi id 15.20.8722.031; Wed, 21 May 2025
- 01:55:09 +0000
-From: ming.qian@oss.nxp.com
-To: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	mirela.rabulea@oss.nxp.com
-Cc: nicolas@ndufresne.ca,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	xiahong.bao@nxp.com,
-	eagle.zhou@nxp.com,
-	linux-imx@nxp.com,
-	imx@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3] media: imx-jpeg: Account for data_offset when getting image address
-Date: Wed, 21 May 2025 09:54:07 +0800
-Message-ID: <20250521015408.261-1-ming.qian@oss.nxp.com>
-X-Mailer: git-send-email 2.48.1.windows.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0021.apcprd02.prod.outlook.com
- (2603:1096:4:195::10) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819E822A1F1
+	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 02:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747792864; cv=none; b=eNQFeRL1F4nm1JeRFocu6zlN+RSV/Z0c/O4rzO/Jp26+g07T3UeefdtlEOs0BMiTVBjIOuelh/P14z+3BterXr66BXVEPFTeYSzCS9rFWYT+Dlw3SuHKcG0LosQzs1+d89Vh3DbfbRqHTJonB33F3Yp9MXVxAs/c9g7m95Pw2R4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747792864; c=relaxed/simple;
+	bh=hzslMfLtFyZpt+0gjk0h5LXgMS30Bpsn+OmL1bwl1AI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pB1dZlURsdBs+TR0Fd1t7q/j7i4lMFiKkgv032eHevr0AJ/wd5965mfvPq9al3O0tRMAAQjoK+QmSWWtXoRMxCA0LOOlJ4YkE+ih7dWGaddMbsn3bs12PLNyHKjf2uxwDnXPp0lXWXKSj8YDoT2ogKe2ZaT2YAQmui+lI8BLkTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z1/T37bv; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43d5f10e1aaso213595e9.0
+        for <linux-media@vger.kernel.org>; Tue, 20 May 2025 19:01:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747792861; x=1748397661; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ljM9MFjV46ZMOOlPbOCsrBTlpQns4bVhtSel8RxQlJw=;
+        b=Z1/T37bv6nN0Qrp53WcHTN2h1dh5GfKcC1j2Czg7pw0lb2Qylwu9NhZtS1NzdY0cpb
+         OwYoxP5LycxgHRxm/YhgtZodBdcuX9p4Q74Ev83iq//ADqjmGeuIjGwI8cwp6v5Xn29b
+         bcXaI+cL6vZ3ZxMJQcvjhDJjaELW6+McTbwsgcZ6O1zSY6lQP2HSEXaQmDZlSWC1OEl0
+         x4MFnCS2R4AwK7yny8hzeGuX3OJl39YfrZ5Mo66R9gX4UedMK5h1VndnG2RZmAS19Lmp
+         4FuqU38UTz0KY0xF+az/RKho7sgU7xS1US9WiGcDjRScNjueEgGi34h/P0f8dQSu6idc
+         6jgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747792861; x=1748397661;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ljM9MFjV46ZMOOlPbOCsrBTlpQns4bVhtSel8RxQlJw=;
+        b=UDuphvRWp8Y1jS7kA6Y4ea2BLwlLsgIfB65x/JL8JUVRWrgYGMw1eQX4BlvP/IeqfG
+         FlD73VAHZ7WAUTAN0dIpWgUHOtR2cH7Ot1Dlsqz1BnWOiKmcAriYCk0KcT3pHrYXYb6p
+         kXXMrcBTxDY0P7j37u8zxmrdzpcsqwrQTCxqC3KRtOyBjgaZmdOoCXFqqKWs76lZ23um
+         FDNYjHXxP6iwT72xzgvad8TekkeSoKu+8TnrSZdiEjkH/H4gu+DPDS9NfD2XL17zZGwJ
+         zUKGGZlN7kp490l2oN+WUo2sRRwTZB5IN5QsJVJXLrTEerGeBlaUB0NgKHJy8ShBqB1A
+         hcBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHev5+GwMqROmiXt5kWiVyq7axzCEV9JwwcCd4rZrgvv913Q/m+Bwh4iWi5XxYkn7OEh+f8Bs49VSUlw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywbt78TlwyTFB+tAObS2E8UTDK+FfHYlXoqZ93tea2lzWgM+Q2j
+	rK4RBTjlkE2y7uc4/tQI4DMuJ56NyQjFuCTsn0kuiOCCLpS8TURGjEaJhaYL7XJ3paG1A4VKhKf
+	5fJaC++JEUfd1Vf8JlYo36Gvkp+vvF1MbcI1JgkU0
+X-Gm-Gg: ASbGncvz4lK6gfkhHap2QfxLzDGZgW4QM5WFUDshhf4jOLF9kz0lCmldjMVuCS1ygDJ
+	tD5YpADH9kKdMU2WhAWBu/wh0KehVX4Pg6NOZ2HeM8IKwzpVBGiv9HoGbUARXGZv++bYO6+X11o
+	5dFOQeagNwqNQLw+AjToYUMMDt0agss+FA36XPJWqCAEPlggHtvr7n
+X-Google-Smtp-Source: AGHT+IEOHcOov2/pSfQJlxmzfo/j5bxNT/KSdVuGZ+JO7ohIG2u0emG4Wmu+Pqb7f9nl4M3gSpf5HPUdsVJMnqqY0MU=
+X-Received: by 2002:a05:600c:8289:b0:43b:bfe9:8b43 with SMTP id
+ 5b1f17b1804b1-443ae0e958amr6941745e9.4.1747792860664; Tue, 20 May 2025
+ 19:01:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|AS8PR04MB8948:EE_
-X-MS-Office365-Filtering-Correlation-Id: 062635bc-fcec-4b4c-a32a-08dd980a83db
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|52116014|1800799024|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KHn1+pirKjfhhavRBZwqMd52SHVsW8s1jW6hk6fmpz8IAXgrwAuYJ7e21Mxo?=
- =?us-ascii?Q?2MPMfWI/pLapH8aoWRVdBV9me+hS+zH2jqY/BZ3Qdwl5qceugRL+atxU42Dk?=
- =?us-ascii?Q?LIMuahBdJ7XK2jQjJPtRgT6kP2fEDBk9Zcyf+n6mbrhkpAQbAPrH8Ez6fT6s?=
- =?us-ascii?Q?jv3IvtLupjdeTqbmG+9jeK5rvJGFJ/RxJGgslRn8TinzcpGoXRcm/7QtM6ap?=
- =?us-ascii?Q?aC2/+4/tTBLUuK5nvPh528+jOUuZzhR2y3HRkOv5/HVqnI9aOkf1C0db94Kl?=
- =?us-ascii?Q?go70yFlphgjmuW3PX1oJ0RdlYzKlaiJyyfTd2bizsNK7lezOb1kfHFEsQr7v?=
- =?us-ascii?Q?DMQT1pKkYasiOzdPgR75jqyh23VuBx4Rmop2lXpSFYIyuaai+Kic8QU3V5xt?=
- =?us-ascii?Q?wk5Yy4slmnmq3vSzXjGziHDEYMx4dd38LcALuuz5Do49DQD5nDpFxs/wr+if?=
- =?us-ascii?Q?6OeAhAbG9KFLvqsZN5tquiY2pJltgy4oYebtLMw0I90NKldvUT9Gx/PWJJCk?=
- =?us-ascii?Q?LzQ/2l4lUGk8Fx7nY8RsHmjS1qo8sSOhr+ULJzhd9x6gC5DXu2dN7QEVgSbr?=
- =?us-ascii?Q?7CI21nDcnLanzPKFjL7xRaaO0I7RU1BjZbs6516+jiLytTUg2VarMUjmInmS?=
- =?us-ascii?Q?QFFPmMGPW6snxaW/PCytwBdWmuBgEuV0yQj6sxow4S/63NoZlJq1cJRZFeAl?=
- =?us-ascii?Q?mak81t4Oti7ntO4W4mphOzMA5GZKbyhUb85bLnM2tKjKep3ROXh+nEHsz1Hh?=
- =?us-ascii?Q?OFSG2hfwPspug5yr7zXD7qO8K3oI8pT0+lbwz9glvhDS1vNVSxgASDTOl3Xr?=
- =?us-ascii?Q?5kptvOnGg0RRTmn7F+2CcZe5YHn3rYbyjVzlWj7yJNDq+gOiM9PSL0eLg3t9?=
- =?us-ascii?Q?x5XrP4Ds3dGQCvrmDrGxgDHsPwRAR5o+brVQ+ZGbEdFCcVa7pDbTYBq91oU7?=
- =?us-ascii?Q?w81c8s6Nxqzx14S9GxW97JRi8hMei6ApMakzR75yWiyomyBNYrfcb/gEWesR?=
- =?us-ascii?Q?N1lZrVnwizrQpKbTjSmfDJHHKZT3uZa5dh1r1gTH0WwMCCeJB/E9vGAJ0fEr?=
- =?us-ascii?Q?gk0LdF/84EUroaDslaxjSjqw0EhP1RBM4TDtHAGqBDxfJ0d6oaM3NtGxhGME?=
- =?us-ascii?Q?+tVFcyl7+PZQ6qlgjT3uxlndDYYR9E9q5aVJ1KWOKvOtpeFDh4qYXrHJ9iD6?=
- =?us-ascii?Q?U87ZdDWU5yebrDy/rIP/Wihd6oXK28SgMb8ftFGEVktQvacOQIZEPWbM83rg?=
- =?us-ascii?Q?oT9Ljr+E4tQwrnHzwvPngiKLDe66cJS2TFphtgXuePXYopH5FbrHcsvIsyZx?=
- =?us-ascii?Q?N19dKOkfW1AAVfOYLKVruxxiZ6+985Dk3KCWQ26owBwAyGXuuWoDrnrI+8by?=
- =?us-ascii?Q?b3v/oszAg8m+4I7kRzGZNICeFIxxWC8NPmL0OMHNcE6LIqE9g3eFks9pYrM1?=
- =?us-ascii?Q?isOUbqzA86FbIMTWmn986Qt6OEjxAKW+ZlZwlti0GpdaeHDjJZ2o/w=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(52116014)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Y7v5X0bvbvmF12aeaPeUDKmjhdrnsXPSIb+swHIQu5duVp9QGDOkVmxZ9xrI?=
- =?us-ascii?Q?2KGu1t354AKuWsr5W/ht7llQKc2icz9wbZMYg1mzan7LMNkyag8t/uONyHbb?=
- =?us-ascii?Q?aqXwGNBp7ZibRtbu+9yIUf9hWYK6k/ysWP6vsu7qdzvWYZqrSbXWN0rXP9F3?=
- =?us-ascii?Q?M35EutiyyhSatocBqrprcJM/uZDMoO8MkyhUmFrjwCpykEvqMfjlx1f4RUH/?=
- =?us-ascii?Q?0xP0Nh9Vdl94rpbpCV5sik43AbaLtmiOMqpp41algmxwGLWH1/FXu6Loeeq8?=
- =?us-ascii?Q?K2FGtxX8zdfvNLC7cNSALhxHfse4K3ov1OeEl5Z28ZrIxaUq3KN7BvcdqzM3?=
- =?us-ascii?Q?DKMEIXsacsOZ99LIBTF3ym89EBjjhrlqYvm/DbmaqZTsB41RsgrNpAgNo8Yu?=
- =?us-ascii?Q?vd0dkBkmT7ZLf5h4xhMoPRl7exH2WQajE/TXHGzsIVPp6UiF/pKvOru0QxRu?=
- =?us-ascii?Q?TK8F+wcHs23dohGGMiDNHPnZYK1ZS+8XvFonPYeug2ynq/Oy32eOq0fvanCy?=
- =?us-ascii?Q?XFxBBOT8jRUOzxUHA6XqH824UWsK8Lg+WoGNL2hMkycJpWcsoRotPYFywTGz?=
- =?us-ascii?Q?bk/UxfG83y6vBaepcQ/Xik0AYWQX7lIR9J5HV11ro0OuIpb1UJGSf9nATHAm?=
- =?us-ascii?Q?rjwEZcA1rrs/atNr2cvyyzAPXm56NvdlL+oIKNnVtSm47zFieftk4ZpIkyJ2?=
- =?us-ascii?Q?g+cYnFbVbOJh2y6H+vRvtWnxwVllf2KEpGVC2girSPNppgHuKUbiEBJS1174?=
- =?us-ascii?Q?ZJ7kPsM721FCbm5C12pYQAfTSwmMrRPtzRlWtQoZwbtHU1XQXd0waYFDeNpj?=
- =?us-ascii?Q?WvMTuc6CoOAI9Ma4QyeoslRewkoMkxl/oU3LHCUx+8prbeLxU+//d9RIOnSj?=
- =?us-ascii?Q?Izr9VJNLGrYBf207JWNTvkZtqSg0EQermdhSXZHQe90Ny+4RSUkErMIyUZ6Z?=
- =?us-ascii?Q?XdhO5YalSPdn8ifP1OUKXIGMcs5WRBnf4SWvylWum93D2wESYDDaJKJwXyRe?=
- =?us-ascii?Q?Usqe07aEPkjZey3S7/ubXmsiFOVw4HDIJ8sj3MW8SLAA6svRovgVbLSDDu4V?=
- =?us-ascii?Q?20/P4jKBCcahFlwUiVqmqodOMeqSa94x1ZQw9tdKs5My2L9P7zEbVZG1aKuh?=
- =?us-ascii?Q?pmUbRpnGXQnDybUKd534HY1vMM5KC9EZeWkup6t3nn45xe56Dssok+b4ZxIO?=
- =?us-ascii?Q?znEJ68kuBJrbaLjIwf4XQNZ2VXopZX6ecIAfIOdvkxX4kVYDhVLNuJPkmW3a?=
- =?us-ascii?Q?s49w05C9yXJ9tfuChWj2ATG2IrFZVXngY05M5l1SWDJZYGSvwv0CfT3P446d?=
- =?us-ascii?Q?SH40VRZAOi8yy4/D0B0kqICKh1oH1YqLPGNmRUSZwD4XWWpLaTEfxlNz93wV?=
- =?us-ascii?Q?Nh2a1T23tbatIh2wEKDDpU+by8XeLvbjotqfV9okQsg+6fD4Ou89soj6uD2l?=
- =?us-ascii?Q?F/dthxGQmIfvOuXAdo0vX71MUNxww5DxuJy5CKrQjXfhuQoVY7ylvPgncg+L?=
- =?us-ascii?Q?iVi8BmX0qizhrhPhFgTVtty6obMB0GxWky1jYOvPjJ2DwPD1pHVkTYixStBw?=
- =?us-ascii?Q?w0CgadRVe3MEeF8vy3eiFakhS5SJ4/zGUqwafTD1?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 062635bc-fcec-4b4c-a32a-08dd980a83db
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 01:55:08.9544
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Uye58QsAwZ62W7y0wnV0nu9MatzbsdE3DfvyVA8a7zCh6ZxtagFOSXY1ODOQxkIKX/qycjrrlwUnw6Bo74ncOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8948
+References: <20250513092803.2096-1-tao.wangtao@honor.com> <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
+ <5b68b2a50d48444b93d97f5d342f37c8@honor.com> <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
+ <9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com> <50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
+ <2755aae2f1674b239569bf1acad765dc@honor.com> <2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
+ <a3f57102bc6e4588bc7659485feadbc1@honor.com> <5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
+ <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
+ <375f6aac8c2f4b84814251c5025ae6eb@honor.com> <38aa6cf19ce245578264aaa9062aa6dd@honor.com>
+In-Reply-To: <38aa6cf19ce245578264aaa9062aa6dd@honor.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 20 May 2025 19:00:48 -0700
+X-Gm-Features: AX0GCFvF9TZhpylv_JsP4r1YP9UqnDVjU8qQ_qNh30hYmp66TjxqNc3-mHZgPD0
+Message-ID: <CABdmKX0nAYDdgq-PHv0HxucfYQzvvTAJjVCo7nQ0UtjwcF02aQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for system_heap
+To: wangtao <tao.wangtao@honor.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, 
+	"benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>, 
+	"Brian.Starkey@arm.com" <Brian.Starkey@arm.com>, "jstultz@google.com" <jstultz@google.com>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"wangbintian(BintianWang)" <bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, 
+	liulu 00013167 <liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Ming Qian <ming.qian@oss.nxp.com>
+On Mon, May 19, 2025 at 9:06=E2=80=AFPM wangtao <tao.wangtao@honor.com> wro=
+te:
+>
+>
+>
+> > -----Original Message-----
+> > From: wangtao
+> > Sent: Monday, May 19, 2025 8:04 PM
+> > To: 'T.J. Mercier' <tjmercier@google.com>; Christian K=C3=B6nig
+> > <christian.koenig@amd.com>
+> > Cc: sumit.semwal@linaro.org; benjamin.gaignard@collabora.com;
+> > Brian.Starkey@arm.com; jstultz@google.com; linux-media@vger.kernel.org;
+> > dri-devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; linux-
+> > kernel@vger.kernel.org; wangbintian(BintianWang)
+> > <bintian.wang@honor.com>; yipengxiang <yipengxiang@honor.com>; liulu
+> > 00013167 <liulu.liu@honor.com>; hanfeng 00012985 <feng.han@honor.com>
+> > Subject: RE: [PATCH 2/2] dmabuf/heaps: implement
+> > DMA_BUF_IOCTL_RW_FILE for system_heap
+> >
+> >
+> >
+> > > -----Original Message-----
+> > > From: T.J. Mercier <tjmercier@google.com>
+> > > Sent: Saturday, May 17, 2025 2:37 AM
+> > > To: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > Cc: wangtao <tao.wangtao@honor.com>; sumit.semwal@linaro.org;
+> > > benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
+> > > jstultz@google.com; linux-media@vger.kernel.org; dri-
+> > > devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; linux-
+> > > kernel@vger.kernel.org; wangbintian(BintianWang)
+> > > <bintian.wang@honor.com>; yipengxiang <yipengxiang@honor.com>; liulu
+> > > 00013167 <liulu.liu@honor.com>; hanfeng 00012985
+> > <feng.han@honor.com>
+> > > Subject: Re: [PATCH 2/2] dmabuf/heaps: implement
+> > DMA_BUF_IOCTL_RW_FILE
+> > > for system_heap
+> > >
+> > > On Fri, May 16, 2025 at 1:36=E2=80=AFAM Christian K=C3=B6nig
+> > > <christian.koenig@amd.com>
+> > > wrote:
+> > > >
+> > > > On 5/16/25 09:40, wangtao wrote:
+> > > > >
+> > > > >
+> > > > >> -----Original Message-----
+> > > > >> From: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > >> Sent: Thursday, May 15, 2025 10:26 PM
+> > > > >> To: wangtao <tao.wangtao@honor.com>; sumit.semwal@linaro.org;
+> > > > >> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
+> > > > >> jstultz@google.com; tjmercier@google.com
+> > > > >> Cc: linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org=
+;
+> > > > >> linaro- mm-sig@lists.linaro.org; linux-kernel@vger.kernel.org;
+> > > > >> wangbintian(BintianWang) <bintian.wang@honor.com>; yipengxiang
+> > > > >> <yipengxiang@honor.com>; liulu 00013167 <liulu.liu@honor.com>;
+> > > > >> hanfeng
+> > > > >> 00012985 <feng.han@honor.com>
+> > > > >> Subject: Re: [PATCH 2/2] dmabuf/heaps: implement
+> > > > >> DMA_BUF_IOCTL_RW_FILE for system_heap
+> > > > >>
+> > > > >> On 5/15/25 16:03, wangtao wrote:
+> > > > >>> [wangtao] My Test Configuration (CPU 1GHz, 5-test average):
+> > > > >>> Allocation: 32x32MB buffer creation
+> > > > >>> - dmabuf 53ms vs. udmabuf 694ms (10X slower)
+> > > > >>> - Note: shmem shows excessive allocation time
+> > > > >>
+> > > > >> Yeah, that is something already noted by others as well. But tha=
+t
+> > > > >> is orthogonal.
+> > > > >>
+> > > > >>>
+> > > > >>> Read 1024MB File:
+> > > > >>> - dmabuf direct 326ms vs. udmabuf direct 461ms (40% slower)
+> > > > >>> - Note: pin_user_pages_fast consumes majority CPU cycles
+> > > > >>>
+> > > > >>> Key function call timing: See details below.
+> > > > >>
+> > > > >> Those aren't valid, you are comparing different functionalities =
+here.
+> > > > >>
+> > > > >> Please try using udmabuf with sendfile() as confirmed to be
+> > > > >> working by
+> > > T.J.
+> > > > > [wangtao] Using buffer IO with dmabuf file read/write requires on=
+e
+> > > memory copy.
+> > > > > Direct IO removes this copy to enable zero-copy. The sendfile
+> > > > > system call reduces memory copies from two (read/write) to one.
+> > > > > However, with udmabuf, sendfile still keeps at least one copy, fa=
+iling
+> > zero-copy.
+> > > >
+> > > >
+> > > > Then please work on fixing this.
+> > > >
+> > > > Regards,
+> > > > Christian.
+> > > >
+> > > >
+> > > > >
+> > > > > If udmabuf sendfile uses buffer IO (file page cache), read latenc=
+y
+> > > > > matches dmabuf buffer read, but allocation time is much longer.
+> > > > > With Direct IO, the default 16-page pipe size makes it slower tha=
+n
+> > > > > buffer
+> > > IO.
+> > > > >
+> > > > > Test data shows:
+> > > > > udmabuf direct read is much faster than udmabuf sendfile.
+> > > > > dmabuf direct read outperforms udmabuf direct read by a large mar=
+gin.
+> > > > >
+> > > > > Issue: After udmabuf is mapped via map_dma_buf, apps using memfd
+> > > > > or udmabuf for Direct IO might cause errors, but there are no
+> > > > > safeguards to prevent this.
+> > > > >
+> > > > > Allocate 32x32MB buffer and read 1024 MB file Test:
+> > > > > Metric                 | alloc (ms) | read (ms) | total (ms)
+> > > > > -----------------------|------------|-----------|-----------
+> > > > > udmabuf buffer read    | 539        | 2017      | 2555
+> > > > > udmabuf direct read    | 522        | 658       | 1179
+> > >
+> > > I can't reproduce the part where udmabuf direct reads are faster than
+> > > buffered reads. That's the opposite of what I'd expect. Something
+> > > seems wrong with those buffered reads.
+> > >
+> > > > > udmabuf buffer sendfile| 505        | 1040      | 1546
+> > > > > udmabuf direct sendfile| 510        | 2269      | 2780
+> > >
+> > > I can reproduce the 3.5x slower udambuf direct sendfile compared to
+> > > udmabuf direct read. It's a pretty disappointing result, so it seems
+> > > like something could be improved there.
+> > >
+> > > 1G from ext4 on 6.12.17 | read/sendfile (ms)
+> > > ------------------------|-------------------
+> > > udmabuf buffer read     | 351
+> > > udmabuf direct read     | 540
+> > > udmabuf buffer sendfile | 255
+> > > udmabuf direct sendfile | 1990
+> > >
+> > [wangtao] By the way, did you clear the file cache during testing?
+> > Looking at your data again, read and sendfile buffers are faster than D=
+irect
+> > I/O, which suggests the file cache wasn=E2=80=99t cleared. If you didn=
+=E2=80=99t clear the file
+> > cache, the test results are unfair and unreliable for reference. On emb=
+edded
+> > devices, it=E2=80=99s nearly impossible to maintain stable caching for =
+multi-GB files. If
+> > such files could be cached, we might as well cache dmabufs directly to =
+save
+> > time on creating dmabufs and reading file data.
+> > You can call posix_fadvise(file_fd, 0, len, POSIX_FADV_DONTNEED) after
+> > opening the file or before closing it to clear the file cache, ensuring=
+ actual file
+> > I/O operations are tested.
+> >
+> [wangtao] Please confirm if cache clearing was performed during testing.
+> I reduced the test scope from 3GB to 1GB. While results without
+> cache clearing show general alignment, udmabuf buffer read remains
+> slower than direct read. Comparative data:
+>
+> Your test reading 1GB(ext4 on 6.12.17:
+> Method                | read/sendfile (ms) | read vs. (%)
+> ----------------------------------------------------------
+> udmabuf buffer read   | 351                | 138%
+> udmabuf direct read   | 540                | 212%
+> udmabuf buffer sendfile | 255              | 100%
+> udmabuf direct sendfile | 1990             | 780%
+>
+> My 3.5GHz tests (f2fs):
+> Without cache clearing:
+> Method                | alloc | read  | vs. (%)
+> -----------------------------------------------
+> udmabuf buffer read   | 140   | 386   | 310%
+> udmabuf direct read   | 151   | 326   | 262%
+> udmabuf buffer sendfile | 136 | 124   | 100%
+> udmabuf direct sendfile | 132 | 892   | 717%
+> dmabuf buffer read    | 23    | 154   | 124%
+> patch direct read     | 29    | 271   | 218%
+>
+> With cache clearing:
+> Method                | alloc | read  | vs. (%)
+> -----------------------------------------------
+> udmabuf buffer read   | 135   | 546   | 180%
+> udmabuf direct read   | 159   | 300   | 99%
+> udmabuf buffer sendfile | 134 | 303   | 100%
+> udmabuf direct sendfile | 141 | 912   | 301%
+> dmabuf buffer read    | 22    | 362   | 119%
+> patch direct read     | 29    | 265   | 87%
+>
+> Results without cache clearing aren't representative for embedded
+> mobile devices. Notably, on low-power CPUs @1GHz, sendfile latency
+> without cache clearing exceeds dmabuf direct I/O read time.
+>
+> Without cache clearing:
+> Method                | alloc | read  | vs. (%)
+> -----------------------------------------------
+> udmabuf buffer read   | 546   | 1745  | 442%
+> udmabuf direct read   | 511   | 704   | 178%
+> udmabuf buffer sendfile | 496 | 395   | 100%
+> udmabuf direct sendfile | 498 | 2332  | 591%
+> dmabuf buffer read    | 43    | 453   | 115%
+> my patch direct read  | 49    | 310   | 79%
+>
+> With cache clearing:
+> Method                | alloc | read  | vs. (%)
+> -----------------------------------------------
+> udmabuf buffer read   | 552   | 2067  | 198%
+> udmabuf direct read   | 540   | 627   | 60%
+> udmabuf buffer sendfile | 497 | 1045  | 100%
+> udmabuf direct sendfile | 527 | 2330  | 223%
+> dmabuf buffer read    | 40    | 1111  | 106%
+> my patch direct read  | 44    | 310   | 30%
+>
+> Reducing CPU overhead/power consumption is critical for mobile devices.
+> We need simpler and more efficient dmabuf direct I/O support.
+>
+> As Christian evaluated sendfile performance based on your data, could
+> you confirm whether the cache was cleared? If not, please share the
+> post-cache-clearing test data. Thank you for your support.
 
-Applications may set data_offset when it refers to an output queue. So
-driver need to account for it when getting the start address of input
-image in the plane.
+Yes sorry, I was out yesterday riding motorcycles. I did not clear the
+cache for the buffered reads, I didn't realize you had. The IO plus
+the copy certainly explains the difference.
 
-Meanwhile the mxc-jpeg codec requires the address (plane address +
-data_offset) to be 16-aligned.
+Your point about the unlikelihood of any of that data being in the
+cache also makes sense.
 
-Fixes: 2db16c6ed72c ("media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder")
-Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
----
-v3
-- Add Fixes tag, it's a bug fix, as missed consider data_offset
+I'm not sure it changes anything about the ioctl approach though.
+Another way to do this would be to move the (optional) support for
+direct IO into the exporter via dma_buf_fops and dma_buf_ops. Then
+normal read() syscalls would just work for buffers that support them.
+I know that's more complicated, but at least it doesn't require
+inventing new uapi to do it.
 
-v2
-- Verify the address alignment
----
- .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 47 ++++++++++++++-----
- .../media/platform/nxp/imx-jpeg/mxc-jpeg.h    |  1 +
- 2 files changed, 37 insertions(+), 11 deletions(-)
+1G from ext4 on 6.12.20 | read/sendfile (ms) w/ 3 > drop_caches
+------------------------|-------------------
+udmabuf buffer read     | 1210
+udmabuf direct read     | 671
+udmabuf buffer sendfile | 1096
+udmabuf direct sendfile | 2340
 
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index 5c17bc58181e..8681dd193033 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -598,6 +598,27 @@ static void _bswap16(u16 *a)
- 	*a = ((*a & 0x00FF) << 8) | ((*a & 0xFF00) >> 8);
- }
- 
-+static dma_addr_t mxc_jpeg_get_plane_dma_addr(struct vb2_buffer *buf, unsigned int plane_no)
-+{
-+	if (plane_no >= buf->num_planes)
-+		return 0;
-+	return vb2_dma_contig_plane_dma_addr(buf, plane_no) + buf->planes[plane_no].data_offset;
-+}
-+
-+static void *mxc_jpeg_get_plane_vaddr(struct vb2_buffer *buf, unsigned int plane_no)
-+{
-+	if (plane_no >= buf->num_planes)
-+		return NULL;
-+	return vb2_plane_vaddr(buf, plane_no) + buf->planes[plane_no].data_offset;
-+}
-+
-+static unsigned long mxc_jpeg_get_plane_payload(struct vb2_buffer *buf, unsigned int plane_no)
-+{
-+	if (plane_no >= buf->num_planes)
-+		return 0;
-+	return vb2_get_plane_payload(buf, plane_no) - buf->planes[plane_no].data_offset;
-+}
-+
- static void print_mxc_buf(struct mxc_jpeg_dev *jpeg, struct vb2_buffer *buf,
- 			  unsigned long len)
- {
-@@ -610,11 +631,11 @@ static void print_mxc_buf(struct mxc_jpeg_dev *jpeg, struct vb2_buffer *buf,
- 		return;
- 
- 	for (plane_no = 0; plane_no < buf->num_planes; plane_no++) {
--		payload = vb2_get_plane_payload(buf, plane_no);
-+		payload = mxc_jpeg_get_plane_payload(buf, plane_no);
- 		if (len == 0)
- 			len = payload;
--		dma_addr = vb2_dma_contig_plane_dma_addr(buf, plane_no);
--		vaddr = vb2_plane_vaddr(buf, plane_no);
-+		dma_addr = mxc_jpeg_get_plane_dma_addr(buf, plane_no);
-+		vaddr = mxc_jpeg_get_plane_vaddr(buf, plane_no);
- 		v4l2_dbg(3, debug, &jpeg->v4l2_dev,
- 			 "plane %d (vaddr=%p dma_addr=%x payload=%ld):",
- 			  plane_no, vaddr, dma_addr, payload);
-@@ -712,16 +733,15 @@ static void mxc_jpeg_addrs(struct mxc_jpeg_desc *desc,
- 	struct mxc_jpeg_q_data *q_data;
- 
- 	q_data = mxc_jpeg_get_q_data(ctx, raw_buf->type);
--	desc->buf_base0 = vb2_dma_contig_plane_dma_addr(raw_buf, 0);
-+	desc->buf_base0 = mxc_jpeg_get_plane_dma_addr(raw_buf, 0);
- 	desc->buf_base1 = 0;
- 	if (img_fmt == STM_CTRL_IMAGE_FORMAT(MXC_JPEG_YUV420)) {
- 		if (raw_buf->num_planes == 2)
--			desc->buf_base1 = vb2_dma_contig_plane_dma_addr(raw_buf, 1);
-+			desc->buf_base1 = mxc_jpeg_get_plane_dma_addr(raw_buf, 1);
- 		else
- 			desc->buf_base1 = desc->buf_base0 + q_data->sizeimage[0];
- 	}
--	desc->stm_bufbase = vb2_dma_contig_plane_dma_addr(jpeg_buf, 0) +
--		offset;
-+	desc->stm_bufbase = mxc_jpeg_get_plane_dma_addr(jpeg_buf, 0) + offset;
- }
- 
- static bool mxc_jpeg_is_extended_sequential(const struct mxc_jpeg_fmt *fmt)
-@@ -1029,8 +1049,8 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
- 			vb2_set_plane_payload(&dst_buf->vb2_buf, 1, payload);
- 		}
- 		dev_dbg(dev, "Decoding finished, payload size: %ld + %ld\n",
--			vb2_get_plane_payload(&dst_buf->vb2_buf, 0),
--			vb2_get_plane_payload(&dst_buf->vb2_buf, 1));
-+			mxc_jpeg_get_plane_payload(&dst_buf->vb2_buf, 0),
-+			mxc_jpeg_get_plane_payload(&dst_buf->vb2_buf, 1));
- 	}
- 
- 	/* short preview of the results */
-@@ -1889,8 +1909,8 @@ static int mxc_jpeg_parse(struct mxc_jpeg_ctx *ctx, struct vb2_buffer *vb)
- 	struct mxc_jpeg_sof *psof = NULL;
- 	struct mxc_jpeg_sos *psos = NULL;
- 	struct mxc_jpeg_src_buf *jpeg_src_buf = vb2_to_mxc_buf(vb);
--	u8 *src_addr = (u8 *)vb2_plane_vaddr(vb, 0);
--	u32 size = vb2_get_plane_payload(vb, 0);
-+	u8 *src_addr = (u8 *)mxc_jpeg_get_plane_vaddr(vb, 0);
-+	u32 size = mxc_jpeg_get_plane_payload(vb, 0);
- 	int ret;
- 
- 	memset(&header, 0, sizeof(header));
-@@ -2027,6 +2047,11 @@ static int mxc_jpeg_buf_prepare(struct vb2_buffer *vb)
- 				i, vb2_plane_size(vb, i), sizeimage);
- 			return -EINVAL;
- 		}
-+		if (!IS_ALIGNED(mxc_jpeg_get_plane_dma_addr(vb, i), MXC_JPEG_ADDR_ALIGNMENT)) {
-+			dev_err(dev, "planes[%d] address is not %d aligned\n",
-+				i, MXC_JPEG_ADDR_ALIGNMENT);
-+			return -EINVAL;
-+		}
- 	}
- 	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type)) {
- 		vb2_set_plane_payload(vb, 0, 0);
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
-index fdde45f7e163..44e46face6d1 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
-@@ -30,6 +30,7 @@
- #define MXC_JPEG_MAX_PLANES		2
- #define MXC_JPEG_PATTERN_WIDTH		128
- #define MXC_JPEG_PATTERN_HEIGHT		64
-+#define MXC_JPEG_ADDR_ALIGNMENT		16
- 
- enum mxc_jpeg_enc_state {
- 	MXC_JPEG_ENCODING	= 0, /* jpeg encode phase */
 
-base-commit: b64b134942c8cf4801ea288b3fd38b509aedec21
-prerequisite-patch-id: 0000000000000000000000000000000000000000
--- 
-2.43.0-rc1
 
+>
+> > >
+> > > > > dmabuf buffer read     | 51         | 1068      | 1118
+> > > > > dmabuf direct read     | 52         | 297       | 349
+> > > > >
+> > > > > udmabuf sendfile test steps:
+> > > > > 1. Open data file(1024MB), get back_fd 2. Create memfd(32MB) #
+> > > > > Loop steps 2-6 3. Allocate udmabuf with memfd 4. Call
+> > > > > sendfile(memfd,
+> > > > > back_fd) 5. Close memfd after sendfile 6. Close udmabuf 7. Close
+> > > > > back_fd
+> > > > >
+> > > > >>
+> > > > >> Regards,
+> > > > >> Christian.
+> > > > >
+> > > >
+>
 
