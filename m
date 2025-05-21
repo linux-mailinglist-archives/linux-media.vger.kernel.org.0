@@ -1,148 +1,157 @@
-Return-Path: <linux-media+bounces-33031-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C4BABF63A
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 15:36:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E893ABF70D
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 16:04:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 263C24E7F15
-	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 13:36:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51A689E651D
+	for <lists+linux-media@lfdr.de>; Wed, 21 May 2025 14:04:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03EEE2777E4;
-	Wed, 21 May 2025 13:36:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BB1A18B492;
+	Wed, 21 May 2025 14:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jB7m7lEq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dCyLIY2o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D685238C04
-	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 13:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514A518FDBE
+	for <linux-media@vger.kernel.org>; Wed, 21 May 2025 14:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747834581; cv=none; b=k+4aS6TuJqkRLWvUByGUfXIAKN1d7icziDinbIGBwGS9SfFfO3qfTmocUdrwMvluj+vJGJEZXAEoU8oQJOztpacQ5a4Kog0Jz732nYCs6xMmJAvRiQBvcEbONuAiwgguUxcenxe2QSa8N60LF85T7CbV5T27KDF6QEwqAIdUrsI=
+	t=1747836258; cv=none; b=cHHpjN3AEY6RbYqez+yrnS3S1X0FDyOjy6BDX6WjjNAb2u8veP+BMqGdN/ZMIpktdz0Q16ZNu477uLrrJYpSln4xrEvj7A94qjxvU/CmqSQMdg8M0F0QHBBszRtWwCPxDW3mQqlxao8Db8qVXmLTcE5OxWMtZE0mLCBpYVXJhNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747834581; c=relaxed/simple;
-	bh=FVc1lT+6MUgP+aqATKpAccsnoaZ/PgmLo8/TCMrPuuM=;
+	s=arc-20240116; t=1747836258; c=relaxed/simple;
+	bh=pJCChIdYPmV8Y8I6TxXcKEu87kmLmAblkQhuBNTT6ZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hi9Ls0oM+KS3H2p/iO0Dja7RjZHBL6u+MewjMQ/NIaidLMdnHsNXkReDa3PHCj1udJqVLNhYvssOctfZwKKsQ0vNUu746pfRi0J83kzAc1MPuQNPxTxPihHFaXhOE5y9LeojJCBgqxH1fgCIyBhuLDQsf1yyjqaloRnqVTEgfdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jB7m7lEq; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=sREZ
-	jNvnTamxNsDE//SKr3Dk4siUClTKDShNmscMEaw=; b=jB7m7lEqubWg8y2Ug7Tu
-	7TqbVefY6Dsmmuv3yRdeBOgG8X+vGTVUS/4AaycBthRjjJ67kzlhB3LHOHXgQaDO
-	9XtZhZux5WxkPmZRF3q/OvXaW1X4GSHByBUkncm/DBqe1v5blNKFcLND1NHUlwn3
-	sic26f0rgGOoAdV1fYKlTY5XbTPeD9ttYPs57hJFXJwUIJlsuVeWufWl+NFQWXUf
-	RTM5rsEJaIrfJ9cdJ+22aQzeJVUMCVv/JTP2P6JJ5DGIDIYIb/yRq/vOadeo1tOv
-	7Gk2LFgzuWIKJ3bXMIZr3XFXJ7TmFraa7CufbEFyuiDlfkz0gwNUIYHA4C41PDvU
-	jA==
-Received: (qmail 3285083 invoked from network); 21 May 2025 15:36:14 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 May 2025 15:36:14 +0200
-X-UD-Smtp-Session: l3s3148p1@K3TtcqU1bslehhrc
-Date: Wed, 21 May 2025 15:36:14 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com,
-	lvc-project@linuxtesting.org,
-	Alan Stern <stern@rowland.harvard.edu>, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v3] media: dvb-usb-v2: disallow 0-length I2C reads
-Message-ID: <aC3WzokLRhxJ1t9M@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oal50sLbqc3LQiW1BHIK0/e3PJu8gLAoaNPWXmrdXCXp56Rz7RdDYPLXdLcAovQBfkOi5OHBMSX4bLMGTNiyWYliDv3pUdiHpUn8noyvRNIm/vWt0lZxvqciQpJqedIo8Hd890k/RHaW3ZINwwibFW9gZRi7Tv+pI2wA3VVbWVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dCyLIY2o; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 143DF6B5;
+	Wed, 21 May 2025 16:03:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747836227;
+	bh=pJCChIdYPmV8Y8I6TxXcKEu87kmLmAblkQhuBNTT6ZU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dCyLIY2obwiLIaA4LvsV61MsrbPq4D1Ft9DP3G4BQAWvnDsZXGQOvw7fgj1T2uzH7
+	 Ul8WVNchLa357d54EF6HXDCYWw2/dDBDT+4iT/pg8P9aSeQ6rJ+3ccGWRM9kprb+1r
+	 1Qqs8LqnrFa4BYaZYZNr0lCm1euyu0r2MHGP8nY8=
+Date: Wed, 21 May 2025 16:04:02 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com,
-	lvc-project@linuxtesting.org,
-	Alan Stern <stern@rowland.harvard.edu>, gregkh@linuxfoundation.org
-References: <20250521131752.2566007-1-n.zhandarovich@fintech.ru>
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH 05/23] media: atomisp: gc0310: Use V4L2_CID_ANALOGUE_GAIN
+ for gain control
+Message-ID: <20250521140402.GL12514@pendragon.ideasonboard.com>
+References: <20250517114106.43494-1-hdegoede@redhat.com>
+ <20250517114106.43494-6-hdegoede@redhat.com>
+ <174751615300.335894.3402272890581119176@ping.linuxembedded.co.uk>
+ <174756137675.4012029.11818241234579920414@ping.linuxembedded.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gQiwaaZdNNFghSHu"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250521131752.2566007-1-n.zhandarovich@fintech.ru>
+In-Reply-To: <174756137675.4012029.11818241234579920414@ping.linuxembedded.co.uk>
 
+On Sun, May 18, 2025 at 10:42:56AM +0100, Kieran Bingham wrote:
+> Hi Hans,
+> 
+> +Cc: libcamera-devel
+> 
+> Digging in here I found this part interesting (i.e. perhaps we need to
+> clarify the expected behavours better)
+> 
+> Quoting Kieran Bingham (2025-05-17 22:09:13)
+> > Quoting Hans de Goede (2025-05-17 12:40:48)
+> > > Use V4L2_CID_ANALOGUE_GAIN for gain control, as expected by userspace.
+> > > 
+> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > > ---
+> > >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > > index ee039f3be4da..756e56f639b7 100644
+> > > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > > @@ -289,7 +289,7 @@ static int gc0310_s_ctrl(struct v4l2_ctrl *ctrl)
+> > >                 ret = cci_write(sensor->regmap, GC0310_AEC_PK_EXPO_REG,
+> > >                                 ctrl->val, NULL);
+> > >                 break;
+> > > -       case V4L2_CID_GAIN:
+> > > +       case V4L2_CID_ANALOGUE_GAIN:
+> > >                 ret = gc0310_gain_set(sensor, ctrl->val);
+> > >                 break;
+> > >         default:
+> > > @@ -533,7 +533,7 @@ static int gc0310_init_controls(struct gc0310_device *sensor)
+> > >  
+> > >         /* 32 steps at base gain 1 + 64 half steps at base gain 2 */
+> > 
+> > sounds like a curious gain model...
+> > 
+> > Will be interesting when we get the sensor calibration tools up and
+> > running to plot this. (Or is there already a public datasheet
+> > documenting this?)
+> > 
+> > Is there a split here between analogue gain and digital gain ? Or is it
+> > all expected to be 'analogue gain' ?
+> 
+> I looked deeper, and this does seem to be a split between analogue and
+> digital gain. It also seems like this control might be doing additional
+> calculations which would then have to be accounted for as part of the
+> gain model in libcamera, so then instead of 'sensor specific' it would
+> be 'this linux sensor driver specific' - so maybe the gain functions
+> should be simplified more.
+> 
+> Adding in libcamera-devel - because I think we need to figure out what's
+> best for handling this (overall for all sensors with A+D gain)
+> 
+> There are some sensors I've seen where the digital gain can only be
+> applied 'on top' of the analogue gain, and so it does act like a single
+> control ...
 
---gQiwaaZdNNFghSHu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I've seen other sensors (in particular the AR0830) that also combine
+analogue and digital gains in a single register. The analogue gain is
+typically quite coarse in that case, and the digital gain is used for
+fine adjustments. In the ar0830 driver I'm writing, I've split the two
+components in two separate controls.
 
-On Wed, May 21, 2025 at 04:17:49PM +0300, Nikita Zhandarovich wrote:
-> Syzkaller reported via syzbot a warning (see [1]) that occurs
-> when the fuzzer manages to craft a I2C transfer with a 0-length read
-> request. This in turn leads to an attempt at execution of a
-> USB 0-length read (which is forbidden by USB protocol) leading to
-> it being interpreted as a write.
->=20
-> Enable I2C_AQ_NO_ZERO_LEN_READ adapter quirk for all devices
-> managed by dvb-usb-v2 thus forbidding 0-length read messages
-> altogether.
->=20
-> [1] Syzbot report
-> usb 2-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
-> WARNING: CPU: 0 PID: 5845 at drivers/usb/core/urb.c:413 usb_submit_urb+0x=
-11dd/0x18c0 drivers/usb/core/urb.c:411
-> ...
-> Call Trace:
->  <TASK>
->  usb_start_wait_urb+0x11a/0x530 drivers/usb/core/message.c:59
->  usb_internal_control_msg drivers/usb/core/message.c:103 [inline]
->  usb_control_msg+0x2b3/0x4c0 drivers/usb/core/message.c:154
->  gl861_ctrl_msg+0x332/0x6f0 drivers/media/usb/dvb-usb-v2/gl861.c:58
->  gl861_i2c_master_xfer+0x3b4/0x650 drivers/media/usb/dvb-usb-v2/gl861.c:1=
-44
->  __i2c_transfer+0x859/0x2250 drivers/i2c/i2c-core-base.c:-1
->  i2c_transfer+0x2c2/0x430 drivers/i2c/i2c-core-base.c:2315
->  i2cdev_ioctl_rdwr+0x488/0x780 drivers/i2c/i2c-dev.c:306
->  i2cdev_ioctl+0x78a/0xa20 drivers/i2c/i2c-dev.c:467
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:906 [inline]
->  __se_sys_ioctl+0xf1/0x160 fs/ioctl.c:892
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0xf3/0x210 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> ...
->=20
-> Reported-by: syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D721071c10f3c7e4e5dcb
-> Tested-by: syzbot+721071c10f3c7e4e5dcb@syzkaller.appspotmail.com
-> Fixes: 776338e121b9 ("[PATCH] dvb: Add generalized dvb-usb driver")
-> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> But we probably want to be able to distinguish between analogue gain and
+> digital gain in libcamera / userspace.
+> 
+> However, even if we distinguish ... I suspect there are cases where if
+> we need more gain than just the analogue gain can provide - adding the
+> large steps at the sensor - and then only applying very small amounts of
+> fine-grain digital gain on an ISP would make things simpler or easier
+> overall.
+> 
+> So somehow I think we need to figure out and correctly document and
+> manage the splits between analogue and digital gains, and that will
+> likely have to have a corresponding mapping in either the camera sensor
+> helpers or the tuning files in some part.
+> 
+> > >         sensor->ctrls.gain =
+> > > -               v4l2_ctrl_new_std(hdl, &ctrl_ops, V4L2_CID_GAIN, 0, 95, 1, 31);
+> > > +               v4l2_ctrl_new_std(hdl, &ctrl_ops, V4L2_CID_ANALOGUE_GAIN, 0, 95, 1, 31);
+> > >  
+> > >         return hdl->error;
+> > >  }
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+-- 
+Regards,
 
-
---gQiwaaZdNNFghSHu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgt1soACgkQFA3kzBSg
-Kbb6CBAAl2NC3Z2B0lqNl3MImsZfKKawyrNKVPf6PhYBaU3KQdhfsdH/7MZhimHH
-hexO3spyem6FGFhWyawF3RxcBTRJTkVDjLB0wQe/GwhyHxWxUKfBtV8JpWIzirkj
-46VSfi8FAKQjSsX83qLg9a06SHYU2TTbXVe8l3F0KZENGsTpEGTULJ/QxSSqz5V6
-OfiF22H/vsrSlQ0xc0pHmQw4VlD/CUmvLvyoN6BlDSM6bligeIfbuYRbX2fI6afT
-ZqEGQfFbVXfJvPw5Ts78i3ri8nT4NIDPbDPwy5xqp3t4Liq3cHjR4/qZMEfkHRYr
-QYoou7jzIRusl22tdWosX+qFXFJuUeGsuuXXpDFn5WXkZCMapW8XeUlzPEYylZzy
-0Ah+r44QG+g60t5gQgZposIfYIoNCw2wChR/do266IrvMFJGjpPRkeoLvKv1FGR7
-vudD8129T3V5+lvYXT+sri8QlaiSHzH9Emxp5zVVWGn/nZtuT9H0ldkzRQubZOrZ
-rngkt8bUS44ELsFXTmxaVRK10kWdyrX+WNTs9G1JWgyQLZSHISymOd2xqWGlB+Xy
-FROg0Kl+gAxYzgTbs3gLg0h8PzbUsLI+Eyqo0PlpdIZkzCqAhr8tZJlN+AutiHT6
-ulMvqQNDMnYYaPkq3yxmGf862O43muBqiJODeGgaTSy7DvgN+Ss=
-=3aKd
------END PGP SIGNATURE-----
-
---gQiwaaZdNNFghSHu--
+Laurent Pinchart
 
