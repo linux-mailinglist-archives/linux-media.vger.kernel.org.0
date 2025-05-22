@@ -1,172 +1,209 @@
-Return-Path: <linux-media+bounces-33193-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33195-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7664AC12EE
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 20:01:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CFEDAC12FC
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 20:03:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B8771BA0F6E
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 18:01:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F2D737B1857
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 18:01:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C62EC29ACCF;
-	Thu, 22 May 2025 17:58:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66DCA1A0BE0;
+	Thu, 22 May 2025 18:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="m7Zo6JR5"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="oh9YootI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384FA15F306
-	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 17:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE5419C554
+	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 18:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747936733; cv=none; b=QtyXdleSpQ7v+HBRcs+umiscUredP7UzERpvrh4KBQqZugKU8npqQK15akod4xs0FblNau8AMGl+PKAEcmZFYjCXECcTSv+RNrdnBS3Gt9VR4W+8JYpXaZCZsQvSA5CUA1mYP4mz4Kjh5ALAf8oy2uMX1rKQRYaTWY7jVfQccQg=
+	t=1747936984; cv=none; b=P70RmzLzJLKzDi95mQBrko9kuE4IxLS1GynIEEXrfvOD1zXnEAKTGSh25mDQg58R4emV3aSyEmC2WYoYdPP1jHGu3aiKyOcSZuxLWC118B9UfcvjhBca821cURCwLFAInaccmlYzD4oZxKuTNE07hiZx3ydUdWScetg2nrq2nH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747936733; c=relaxed/simple;
-	bh=bydw5Ui1Tm31HV00k8hjsx9u+m7wpL+0gQpn2hpNiaY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Rtgcof5Ac73KrcX9MtVZIWc0UXAzLEMxi9khGLWW25wSFOFmLAub7a/VV/+mbnmyS6Xh9tbJhN84ET8Ya+Xi4KboxV3OEhlZnciBq3WW9bKtpzf0A4sbk2jCrV5IQXczo55DlOO2Xcsn7pjsfaNike4jhramDToi110p5F5fYiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=m7Zo6JR5; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-551eb17123cso7887422e87.1
-        for <linux-media@vger.kernel.org>; Thu, 22 May 2025 10:58:50 -0700 (PDT)
+	s=arc-20240116; t=1747936984; c=relaxed/simple;
+	bh=FxxX0vUJtKaNXqzLdoqggeCYHolCl4yYnO/ZhwccBfg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=H+VdiiOxT64FdlMHSC6x3eDRuDp3BRpW7CVWa2JWUVM81mzqEma5ssDJQPhQeWjzHvGRAPy2EvGpF0QGW4XVmIWJauF1CyJNfuRzCP03Heoo5bwMuBEaOgbBCcCgR8AtIFH/fZuMPJoB7rkiSUjPE9X5OoOvJrIB2DBixPIxqH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=oh9YootI; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c9677cd6d7so850765285a.3
+        for <linux-media@vger.kernel.org>; Thu, 22 May 2025 11:03:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1747936729; x=1748541529; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e2ietCEWaMSFLfYqQUoQI2jJOy0qZzPyzPT/ShmHYYA=;
-        b=m7Zo6JR5wnDeVYbQYBslCHS/SZ/rlaHxWQ4Irk04m5KnDD1nRRasEMQVUN0C70A8o2
-         rdp8bFLlCnI907fjAX+zUP6RLskaSp9SARmEZlwO5tyDggOIbWzVTsBUWi261AO2NB7z
-         rYfKP3uAqMgykqrBVPDkuhkOQ8+MFd+TC4Tlg=
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1747936982; x=1748541782; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=J/udtId/XxzUAgerzFd20anDTdLUkEu2nN7uwbduy4g=;
+        b=oh9YootIbWnH8SMykgh6BWZEzVgesUrH2Ho0VNkUAcUNLj1Yhl8iWMUHRliFvWUpuy
+         8PvUSME4aSfj1KLSivcB3HMw9dbOZ6EW39KqyIf5OFNMNZrV+Q4tQwjtRnNpSexsVwi+
+         8xA8y3cO4hipcEC/hkCpPR7ro6hmDiHbLsTo5z6qu9lU3AHOll0SXjn2YkxET1ejUOHm
+         LFT666MyneQv6QpOMSLcbra1Fj8Kfuc9j8eeqqKiR3GGmosCWtfdlxpd/Kawb+4nXEXD
+         BERGxsqQiU59hmeoZuhzB4KoGXeRtQNtjdhugNh9fJwrI3MzR4LNt1TPdzYMaRBqXliY
+         hRnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747936729; x=1748541529;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e2ietCEWaMSFLfYqQUoQI2jJOy0qZzPyzPT/ShmHYYA=;
-        b=sBFmvc1hR87iTMNTWSHS4R4YgKWWbgZEsOmXXtH1w2LNa/AAEFT3D3PyWklYb1zaWl
-         2lwmH+HqMDGFGq1m2UQedPgncteOE+sRgq9a+QrqxHF65bN+xy2SHImShjHjfLwBoREN
-         j06gTTLY0XCVyLx0hl2aUGhMPziVh+IEwPc6AHo0W/dBIVR2JKmRNUh/n7j0LUTVPMaO
-         21y82CLvqXg+kheLCt4v0xFAuw7y6VAAy8z9w1WAnETBSXBkkfGimUxnwFY3fPfqzt48
-         3AIhdJqK6ekjJqvxyswnoOjm7ic6u8aa/+GC8JzKHA/2PEKx3Jo5uyeCzOBND0YkAxpC
-         2SJw==
-X-Gm-Message-State: AOJu0YzeHFDFg0u2GYUWAZyrvWOeDKbM0fKQ0GU5q7PUHVU9Fv1pUgaS
-	mgooulCgDezIGojc4H63MMQxRJE9FVBJNf4Ppl9rGxfqall3juHVmCqWfWXGMJwneQ==
-X-Gm-Gg: ASbGncsf76ps621GTwzl5YL8tnoJfpz5Q10hQCNx0yN77rGWIQb20y2XNzFcWzOqfLH
-	HcMweV1FJ9jXMvivg0CGBPYrymvqbjvauH4ijgbcfszTFrDkqlI/cBvrNRNOlb82qyhqc0/zftM
-	pA1/6hK0HylWFR9LwS6VsVkYLaDamVkbYc7cDhuoglg6u55rh547wVhj2KGhDu7bxMIMSsh6xNt
-	8beqwqFDLJ9BFa7GoEkiQaEofPIZ3QeqH0zZiiA5PVP1ZwffYJpC+w+35UMkBBDDYaHg+4UJ2Zv
-	uqUXqayyNbx6j1Yqqov+GBkPJQqpg7nB1MVO5yPWsLMjOp+znj6JwpF6wZNJALDqEIvpayY/2NK
-	h91Dz/HQMKqxQSx+746Wpj+2cr8YYj8LKZCIN
-X-Google-Smtp-Source: AGHT+IFQHiACQws5UAdZS7de+bdyVNoxTk6zhZQaW3UjcwLI08Kw75LBltk94ixJi/18ILaVsZ5dGw==
-X-Received: by 2002:a05:6512:3f27:b0:551:f76c:59fb with SMTP id 2adb3069b0e04-551f76c5c68mr5405231e87.40.1747936729292;
-        Thu, 22 May 2025 10:58:49 -0700 (PDT)
-Received: from ribalda.c.googlers.com (90.52.88.34.bc.googleusercontent.com. [34.88.52.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e703e858sm3483992e87.227.2025.05.22.10.58.48
+        d=1e100.net; s=20230601; t=1747936982; x=1748541782;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J/udtId/XxzUAgerzFd20anDTdLUkEu2nN7uwbduy4g=;
+        b=XuVnWe1svc2ZOosthKMJyp9aNpHohVyXZHOlQqjU6COsbeXz2WOceHKUnSVx25ovPZ
+         8JXyvwrPRSupNKUSICY/Azs7o1BUupaf7cEO5nXyy125WQu5CdjdP4loAbqD+EZLdaM9
+         TpwYx0WiemWur+oEypu4n1VNFzX5prIGS9ROCbRqjIcNyAfiDdLk/tg3UDaQv8pjn1sr
+         IlrGqI7dpb5a1JOTUyByINp8eV0ZylxoF+o46UseEEwZkWmyYZK0fsBUXABBAKfogy8a
+         QWV2Bm10TR8g/krK6iDaRe029U2itZw1izkUQnrMM5rez/o9TTq7YLmi3/aeFP9nFGA0
+         4umA==
+X-Forwarded-Encrypted: i=1; AJvYcCU1G82xAgOGBnt5TJLkgLzItWNYNnD9zXyOQ6wm1fLgqkpYcVE6ntN6vLSarTQAqZ5HMjWuVG0wSa19EA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy12m26vhAdb7aq1CrTDz4seVVvOuWEtd76WDJqIoNd6mSsS2c9
+	AQWFKSemYfbDzWgKyVfr1bKd571pImWBWai7XZLzgGrVRZnzST0vZE1Lx8W7G+S3SE8=
+X-Gm-Gg: ASbGncuyuVEv/yNUykeCJK9qtgG9oBTtIkAxhzjYFs3lMZ2TEn0zN/ORxr0Pu5aCKIX
+	YhTsd2Yc36AgZCLYJkLSI1zdinLkMz9gMI0M8RMVkywiwcJcR8JcBGYBmF5T84AicI1/HbJxeU3
+	8kSjBkuDsvwmw5MP5NiYymRS10V7VUn7EpjkaVaDN8UTLFNBnF2e8+wxQoDTaUmkk1/z08Eyvow
+	NSm3XwcT8AzymuF13stJQ1YJaP1RVU3KDzvfLQSSPzIU33ffaMiJY4t87HKMmvqCjGigu2aehTw
+	aw5KrMspDDNrqReILJnCJ4UD2f79gQ4c+J7cUKqhok8vo2JkNAAiSzZzIgq1VWhiNXA=
+X-Google-Smtp-Source: AGHT+IHh4iw4dgUV3S3EY22uzVTY0YQII61ellrTPDPBr9fV911fwzk1oNA0AI/vndoigz6Eq9Za+A==
+X-Received: by 2002:a05:620a:d8d:b0:7c5:60c7:339 with SMTP id af79cd13be357-7cd46718a88mr4026950085a.9.1747936981809;
+        Thu, 22 May 2025 11:03:01 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:b2fc::5ac? ([2606:6d00:17:b2fc::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd468b62ecsm1052642185a.82.2025.05.22.11.03.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 10:58:49 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 22 May 2025 17:58:48 +0000
-Subject: [PATCH 3/3] media: uvcvideo: Remove stream->is_streaming field
+        Thu, 22 May 2025 11:03:01 -0700 (PDT)
+Message-ID: <0c261c9aad759d791e0a576a47bbd064f28148e9.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: "Rob Herring (Arm)" <robh@kernel.org>, Tomeu Vizoso
+ <tomeu@tomeuvizoso.net>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org,  Conor Dooley <conor+dt@kernel.org>, Oded
+ Gabbay <ogabbay@kernel.org>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ Christian =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, Jeff Hugo
+ <jeff.hugo@oss.qualcomm.com>, Sumit Semwal <sumit.semwal@linaro.org>, Heiko
+ Stuebner <heiko@sntech.de>, Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,  Simona Vetter
+ <simona@ffwll.ch>, linux-rockchip@lists.infradead.org,
+ linux-doc@vger.kernel.org
+Date: Thu, 22 May 2025 14:03:00 -0400
+In-Reply-To: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+	 <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+	 <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250522-uvc-fop-v1-3-3bfe7a00f31d@chromium.org>
-References: <20250522-uvc-fop-v1-0-3bfe7a00f31d@chromium.org>
-In-Reply-To: <20250522-uvc-fop-v1-0-3bfe7a00f31d@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hans@jjverkuil.nl>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
 
-The is_streaming field is used by modular PM to know if the device is
-currently streaming or not.
+Hi Rob,
 
-With the transition to vb2 and fop helpers, we can use vb2 functions for
-the same functionality.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_v4l2.c | 12 +++++-------
- drivers/media/usb/uvc/uvcvideo.h |  1 -
- 2 files changed, 5 insertions(+), 8 deletions(-)
+Le lundi 19 mai 2025 =C3=A0 06:35 -0500, Rob Herring (Arm) a =C3=A9crit=C2=
+=A0:
+>=20
+> On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> > Add the bindings for the Neural Processing Unit IP from Rockchip.
+> >=20
+> > v2:
+> > - Adapt to new node structure (one node per core, each with its own
+> > =C2=A0 IOMMU)
+> > - Several misc. fixes from Sebastian Reichel
+> >=20
+> > v3:
+> > - Split register block in its constituent subblocks, and only require
+> > =C2=A0 the ones that the kernel would ever use (Nicolas Frattaroli)
+> > - Group supplies (Rob Herring)
+> > - Explain the way in which the top core is special (Rob Herring)
+> >=20
+> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> > ---
+> > =C2=A0.../bindings/npu/rockchip,rknn-core.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 162 +++++++++++++++++++++
+> > =C2=A01 file changed, 162 insertions(+)
+> >=20
+>=20
+> My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 7a5ecbefa32c0a6b74c85d7f77a25b433598471e..51419f443f2c43dfd17a9782352bd2cde1094732 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -617,7 +617,8 @@ static int uvc_v4l2_release(struct file *file)
- 
- 	uvc_ctrl_cleanup_fh(handle);
- 
--	if (handle->is_streaming)
-+	if (stream->queue.queue.owner == file->private_data &&
-+	    uvc_queue_streaming(&stream->queue))
- 		uvc_pm_put(stream->dev);
- 
- 	/* Release the file handle. */
-@@ -684,7 +685,7 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
- 	struct uvc_streaming *stream = handle->stream;
- 	int ret;
- 
--	if (handle->is_streaming)
-+	if (uvc_queue_streaming(&stream->queue))
- 		return 0;
- 
- 	ret = uvc_pm_get(stream->dev);
-@@ -697,8 +698,6 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
- 		return ret;
- 	}
- 
--	handle->is_streaming = true;
--
- 	return 0;
- }
- 
-@@ -707,16 +706,15 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_streaming *stream = handle->stream;
-+	bool was_streaming = uvc_queue_streaming(&stream->queue);
- 	int ret;
- 
- 	ret = vb2_ioctl_streamoff(file, fh, type);
- 	if (ret)
- 		return ret;
- 
--	if (handle->is_streaming) {
--		handle->is_streaming = false;
-+	if (was_streaming)
- 		uvc_pm_put(stream->dev);
--	}
- 
- 	return 0;
- }
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 3ddbf065a2cbae40ee48cb06f84ca8f0052990c4..f895f690f7cdc1af942d5f3a5f10e9dd1c956a35 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -626,7 +626,6 @@ struct uvc_fh {
- 	struct uvc_video_chain *chain;
- 	struct uvc_streaming *stream;
- 	unsigned int pending_async_ctrls;
--	bool is_streaming;
- };
- 
- /* ------------------------------------------------------------------------
+Yes, and it found and reported it 25 times, can you fix it please ?
 
--- 
-2.49.0.1151.ga128411c76-goog
+Nicolas
 
+>=20
+> yamllint warnings/errors:
+>=20
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/n=
+pu/rockchip,rknn-core.yaml: properties:reg-
+> names: 'oneOf' conditional failed, one must be fixed:
+> 	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+> 	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+> 	False schema does not allow 3
+> 	1 was expected
+> 	3 is greater than the maximum of 2
+> 	hint: "minItems" is only needed if less than the "items" list length
+> 	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/n=
+pu/rockchip,rknn-core.example.dtb:
+> npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' co=
+nditional failed, one must be fixed:
+> 	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+> 	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-cor=
+e']
+> 	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.ya=
+ml#
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/n=
+pu/rockchip,rknn-core.example.dtb:
+> npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, =
+0, 36864]] is too short
+> 	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.ya=
+ml#
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/n=
+pu/rockchip,rknn-core.example.dtb:
+> npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' condit=
+ional failed, one must be fixed:
+> 	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+> 	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-to=
+p']
+> 	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.ya=
+ml#
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/n=
+pu/rockchip,rknn-core.example.dtb:
+> npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 3=
+6864]] is too short
+> 	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.ya=
+ml#
+>=20
+> doc reference errors (make refcheckdocs):
+>=20
+> See
+> https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6=
+-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+>=20
+> The base for the series is generally the latest rc1. A different dependen=
+cy
+> should be noted in *this* patch.
+>=20
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>=20
+> pip3 install dtschema --upgrade
+>=20
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your sch=
+ema.
+>=20
 
