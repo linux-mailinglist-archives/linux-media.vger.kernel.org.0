@@ -1,67 +1,68 @@
-Return-Path: <linux-media+bounces-33187-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33188-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D773BAC12DE
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 19:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB613AC12E2
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 20:00:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 61097188D646
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 17:59:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1BE7E1C01756
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 17:59:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 514B229B8F1;
-	Thu, 22 May 2025 17:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E73729C338;
+	Thu, 22 May 2025 17:57:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="jNQrgQpr"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="PBk/3T1l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2081.outbound.protection.outlook.com [40.107.21.81])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2075.outbound.protection.outlook.com [40.107.22.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C60C29B8DB;
-	Thu, 22 May 2025 17:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65F229B8FB;
+	Thu, 22 May 2025 17:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.75
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747936671; cv=fail; b=KoXjdegrhyh+tdPOyGlfmOGQfGodkxW6MpH2hJpngqxZCjNtslhFcCGYPq0RqFYN2axiR94jv3hZ+8wqkrC36NCS0bawtwUpe160pCYlnS6ZLZT1i5nJXWyP09y+yBBJhTdkc7q7pPSlLZNgF0+YXmWEDdFfVUh9j06W7Ysrf74=
+	t=1747936676; cv=fail; b=L0QVflmOaoI4tAekveSQT65pkBR59FhuIOwiD4pB/O6+dp3bvLGc/oBOIUwqZTD3R2LnIAF7TkFt+N+bB0MCqV6X3qRGFwaC0sDru4F9A2WCgAb+5RWJZEbuPWA+xBPyx45Ys9w08PPCt9pAmrkoISvzVS+HWLwPOcudWk57+UE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747936671; c=relaxed/simple;
-	bh=FPa4YzYlpLsluVUau8kaPkuqmo5jDaC+9IpQrQmhdAE=;
+	s=arc-20240116; t=1747936676; c=relaxed/simple;
+	bh=oW5ipeKWAHmosKFFGfvIRVJLzT1z/FcSu6Yka546tVw=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=m3vAO6Cv7UROvhATaPshnzuxNpP2RpPesJfEXbUlzVZsxVgTk1U/ESOpVPj674Rz0D/oXJlE9QEL3m28EvBG3qfBtzpqXc9YDpeySMgmw+fHrZazeMwiLs4rifGkWp/OaG7nRugxcAAzTffVc+/iM+mcIIkD0H2ZrGSQJuLinW0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=jNQrgQpr; arc=fail smtp.client-ip=40.107.21.81
+	 To:Cc:MIME-Version; b=qA9oP4fiGKozxg5JhgEGXJqkUD8rcF7XdLYSWWznuVCZlb6Ei977tzW+QvMNEh6qSxFl4pqCbUBx83Fwc89nTcVGUxi+8CEptouwtyy19sHiWTk8UQEwhj3v6M5ZwXLJeJOwfKBYRVGIwFYmv3pP67kmcLIIvxnAaTOCEvjMxyM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=PBk/3T1l; arc=fail smtp.client-ip=40.107.22.75
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cisLzvNniZLuzUT6pYGvK/230WE6g/O8SDT2rzC4JE/aDGILolQj2R4RHjrUqkFz0BXqJRHDGV7HtyQYH6DYJFd2RMF7To1GQKUpShS1j76DK3vXo10p305Eb4gyMSUB5NHTPUOCt8+FsHf6svAzKTYON+YgzDhCMlWNSyR44SUfIfMeqCfX0+k/p3WZGSSfMnGhOqKRy9kdv7yGvjlzJIILm76thJsuayGu+4PLIXYFlKVmP05C10HpBoXZe+M+tQzgwjPr2981yKbn5ZuRUAeciavS2+R5EHWftMqyHWTK3qqPHprESQwqXcfUBQHPjtyIiTkuTJo/RR5RQqyC+Q==
+ b=JYzQz1TpNLTT4ZT8VAQVLDxmzLylIJuJWT2j5LqKzw46Uk3Qk72HkzoqJoUBW3Wm8NTQOsrR6Yv0kzT97x4pyCswfGiG4vZIgsGo8j0+FpC1MY9v+hrG8nZRvCYhtpHq8Jd24A5gentV2k2nk7q6Rle2Keo6ovrcS5Vem/ZyZkGMIcCg1Q+jxc2I47JP5WXWjJOjO46LmO0PiX+x1BsBGzs0iRLdXTeND+ot0EMTWh9CenJx/e5HbgEpxsVt/aXe3SdVSURDrpZMLU11UU1ASAsKNvogDTZnVV1pyokrSEm2zKIl6sgO/evJSISmxOrA6jIESZF6SlUM0r/gHv1Anw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/MMt3cwDxpKSObS3qUWZGqRJJRxSNYTh00DQoNXLMuc=;
- b=qVVTReSD5tuIqKhaevzlr2QtslDbUST4PUdjlKK94f7AEu6GDYKdUK38nL+nqLk/ENIBJ9VIYdvr+FKgI3Dwef+9UBvnU9F+UXU1vcxsZiA1ujMKsSbeMyfsdwO6z9W5WmUep5v5MPpRaI6IazTZAWPOsIu0/9CV+FNIvbRlD6axWU3Xxq5NnteuXr530lCQh2uEbc2I/nRe+NC1bm+zBJNlv9tm9fuw8++l/z26RfSETk42Xz3h9gtikFLunz+ZEHrpV5/2PTxQKsmWb371vMFrfDLboPs3Y7kRQmnPUopMjpspQPQbyJrdukCBehwLra4VobWde37KOrUnS6db7g==
+ bh=OsmGa4p3hq8x8QvfgwAJcxEfigVWmO2iO73/gHLBBBk=;
+ b=ymBxbf7+t4tCUTb9zH6BS7CstJPCgNCDwCKNTq/bIuGz9m0+qNV9OdBmT/EWaS6v5LbWwgg1dsROs4Jy3mmVGEhtNerbjAWrdjKGkRMszWqzKWqNO7M7nJkmDUCfwcWnUmeER6sifH5ZgDB9VRShvntIwnoskDBiomscHwKLL5FNZC6OtVavECdCqMNKPK6KcUUhGcUdfssqzy8ckAqSshGv0VM8iS0zuNLoxX36kZJX/NUVpcHtdofo9kYgjOiAgg4RQMYhQfCH/Ktvn40YEOPKMzm9ADX77T5ZhziUMaq2/VegmtXXcNoYUA7mI4tDQvW6RTgv/BhZYBNTi+vLEw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/MMt3cwDxpKSObS3qUWZGqRJJRxSNYTh00DQoNXLMuc=;
- b=jNQrgQproRQOPyNk35ETmBKCnZW/uELJW4Pm03W3zilYkn1S4TItaHCgocWZI0Bgo5wOJI2SxHAdrwpp5wYm4xojzJj6wuJBRgqgHt/elTZJRwFYXmSg6KFAt8+I2qkOVWLVDxxXN7De63HfHS4p1oRMM3HOKt3SJ4BHQW1lzOs/r3SipYmZ86D+zIVNjA39B+U2lEqqTaHej4X3MRAFyRKWlxTTtXsK5Sw+5760TKAA+Sn9MCGcGgQ/YKH1tD02dZxwap5ZR28q9AAfQtT2D5HQJh+vWIuQgnIGDHdOwHkJXg5h0fP4DLkPYSvVv2qnEne5cPZ/m5YNqD5/pI+sHQ==
+ bh=OsmGa4p3hq8x8QvfgwAJcxEfigVWmO2iO73/gHLBBBk=;
+ b=PBk/3T1lZvDoglmiRaNVv6ixdiMPU+LfkJcqZUmWqu1Z3+zs6O2COsAAO2upH9ef1U7bq/I9aUAPeR+kV+l1ZD1MbIU67DZXCn+acW+4+eMVmRdy66e/EzHVbwoVRglut+LDIXsyU6OcQZKoK8HDatsKw4RmcDi37618N4a3hT1XPuREeMIfacLZ4b8vofNxKPlkFshlF1fLwcxnAR2cqyJOQdZVOvS/0SuIudWq3r7oHdGfV5L5n+b81doWbjAVAxuHeOE+NajNqn/JsB2frGsiVoLTo5d6VUz0n8iZiDZc6vfLAWCkNWAKfzHeD3zyPp8riI9VCiFXYY0fQDEiwA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
  by FRWPR04MB11272.eurprd04.prod.outlook.com (2603:10a6:d10:19c::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Thu, 22 May
- 2025 17:57:46 +0000
+ 2025 17:57:51 +0000
 Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
  ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
  ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.8746.030; Thu, 22 May 2025
- 17:57:46 +0000
+ 17:57:51 +0000
 From: Frank Li <Frank.Li@nxp.com>
-Date: Thu, 22 May 2025 13:56:48 -0400
-Subject: [PATCH v5 10/13] media: imx8mq-mipi-csi2: Add support for i.MX8QXP
+Date: Thu, 22 May 2025 13:56:49 -0400
+Subject: [PATCH v5 11/13] arm64: dts: imx8: add capture controller for
+ i.MX8's img subsystem
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250522-8qxp_camera-v5-10-d4be869fdb7e@nxp.com>
+Message-Id: <20250522-8qxp_camera-v5-11-d4be869fdb7e@nxp.com>
 References: <20250522-8qxp_camera-v5-0-d4be869fdb7e@nxp.com>
 In-Reply-To: <20250522-8qxp_camera-v5-0-d4be869fdb7e@nxp.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -78,11 +79,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Robert Chiras <robert.chiras@nxp.com>, 
  "Guoniu.zhou" <guoniu.zhou@nxp.com>
 X-Mailer: b4 0.13-dev-e586c
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747936611; l=6189;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747936611; l=17996;
  i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=FPa4YzYlpLsluVUau8kaPkuqmo5jDaC+9IpQrQmhdAE=;
- b=43RmRaZd/pPjCZ1Xh/WtGWTMTBIFQwxsYHgOPtkAUrgsyv8Zo1GSGbW3attfaWJBvUJmPwYXN
- nyxDjZP6JT5DPIsg5u6W6BHZ0cwJaVTtLo9fA9B7E2k04O3EuXnjPpw
+ bh=oW5ipeKWAHmosKFFGfvIRVJLzT1z/FcSu6Yka546tVw=;
+ b=RAUy60Wwe5S6NB8hzDCVM/fyNeu3Usc/R1zNriZYdoL+VFMqJo5xJ79LyeD3Mwh4UZhldHNiE
+ ggGbGbgBQv7BF+5AekpUQAGuZBcYYXRvf50+5CwWcLpm0WOvEj56VSX
 X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
  pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
 X-ClientProxiedBy: BY5PR04CA0006.namprd04.prod.outlook.com
@@ -96,283 +97,736 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|FRWPR04MB11272:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef1d61e6-4b75-437a-19b7-08dd995a2858
+X-MS-Office365-Filtering-Correlation-Id: b610eb57-dcfd-4bf4-26e0-08dd995a2b60
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
  BCL:0;ARA:13230040|366016|7416014|52116014|376014|1800799024|921020|38350700014;
 X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?QWJZQ2NLcmtlTk5zZUlIZjVxMTRYdFhETERaNG1pZDAya05kNVRZZ3JwY3dR?=
- =?utf-8?B?TDJGOU5yRjVrK2kvWmt4RWlLV2pmOVBrVVBHVVIvQnJpL2Z1d0FQa2JYZ2tw?=
- =?utf-8?B?ekJORnRpcG5pQ2RlU3lzOGZXUFVoYXE1N0xBRERNYzNXMURyK3dOQkVVeGQ1?=
- =?utf-8?B?dEtsMitWalZ6MzFmRjZsNFBpZFhRbW50Sng4QnMwQ25IR0JRVDN2cUtiU3ZM?=
- =?utf-8?B?SmsrS29lQ096WCtVSEQzeXdFa0pJUmJOd2RwblVRWGJKUHc3elNaZkRHc3pQ?=
- =?utf-8?B?bEkvVWk0WmxSZHVqelFaRk1ZeGQ1NWZBSmZUK0FLVlNyZGozY211NXBELzZE?=
- =?utf-8?B?ZTE3aXZNNm1SS1YrUWJ5NGNnbnpxUE9VcVhUbUFWTGdhUHZWRCs3L1ZmRndS?=
- =?utf-8?B?NytkV0F1KzJzd1RYdTFYa0c4bGtYazNXUDVETG5GWEtOd1dhVHVxVjB3WDFo?=
- =?utf-8?B?R2NCbFh6ZnJhWjhsUG80U2lUOHZrb2FsMTc5RTlURnRucVBVYU1BVElpOEhC?=
- =?utf-8?B?N2tPT0E4RWtoL0hERmdJMlNQOG1tVzdzdHZZREhPTWhwMTJMV29jUmx5VjJl?=
- =?utf-8?B?VXR5V1NRV1FtcTZTZkhFZlByMyt1WE1Gcml3WWxWSXlOK0FYRCtIUS9jZWJm?=
- =?utf-8?B?RmNVcWVhQklFdjVjN0Zrb0RnU1B1U3FRanJ6T01JRGYvanhEamw2Q0YycTI5?=
- =?utf-8?B?Ty9OTHc0RW83eGtWU1hxRExoMTlyc1V1OWxoWUdrOU9iMFZKSmxGSFVMMEJ0?=
- =?utf-8?B?WFZCT2gzdDNPM0NiUmxGU1B1alFEaThNanVUa2RFOGhtL1F5em1DcU8vWjZ0?=
- =?utf-8?B?cXVYWlQwekVuMXZhNUpHcjl0T0RTSTBWMlZxRUdkYzAvT3hqTWZWOXRZYkNn?=
- =?utf-8?B?QWpYT2k5QlNFcHppTndZVFMyR29jbTVvUFJodllTNzVzNThaZG8rWmtna2pB?=
- =?utf-8?B?WUFnSDZzZCttS2t0cjZuTkVZbkM4QTltNVBIaGtQSmhkd2loY295YmlzcDRR?=
- =?utf-8?B?Ullma3dtYkRMbk5MTTNEVXYzSFg4enhWVHc1c0hGYlhoYytxWlEvYlZSaEhM?=
- =?utf-8?B?MlFEUWZ0eVptSHBRWFhyTDBUUGJyU29jWDlqblVXaW9QZlliYTNlZDhsTkFZ?=
- =?utf-8?B?UFovYlRmYWxMZHNFZmpHeURRUm1YdDY3Q0ZaUkJod2czVTRzZzRLd0t1am5k?=
- =?utf-8?B?NnNJZFhVSE0yM3FRTHpEMkhRbXk5eStCRm5mMnVoakJudDJ1TW9uVVl1Yzl0?=
- =?utf-8?B?OXVXZTEzeTZpd0xYcHZYRXN5aWorRFRWZ2NsMi9qNWV3SzN0dUpSVzVST0d5?=
- =?utf-8?B?OGhCMSsyUnBTY1J5blQwcmRIWDVGOUVnT1dzOXd5ZjZLbmJhL2FlQ0hFWXA4?=
- =?utf-8?B?ZHl0VXpON2hKQ0VHZDVEdWV4dXlTVzZ6R21ZeC93cW1DeUtuMEVNZGFrYTky?=
- =?utf-8?B?YXl5VzdJT1hhVVNWVEtoaFhhak50eXBWL0ZSVlFHWk5QaU5SaFNNdGhzNkNI?=
- =?utf-8?B?TUxrWWM0TmlvNGo5WW4yQTV2UkdKS1U2Zlk1ZnZObndVV253YjY1SUVKTmp2?=
- =?utf-8?B?SUN1ZG9aUzRtZ2FoSThyYnRsUnpPYjd2ZExmakVac3Q3RWtnMklMUWkvdm12?=
- =?utf-8?B?WWMySDduU1NoOU9FUzhiMnorOThuVWRReXJzNmNLdVZoNVE2R3JsWThKWkF4?=
- =?utf-8?B?Z1NsaWdqTkJhdFI3RjN2bk44ZXJ1WWxrY3FKdVluV3pRZjJmZ00rcm5hblpJ?=
- =?utf-8?B?emt0WTl3YmVTNk5vYUZYdTcyb3gwejNGalptVmNicys1QzNrSFNObHIxeGc5?=
- =?utf-8?B?MmFweXBaS3VRb2JnM1ZUOXB4NWRyYVA4SWV6ZllNNm93RnQzbWZIam1VTHlU?=
- =?utf-8?B?STRlNlkzbks4a2pRQ3A4UWhaSDg3emZJRzg0bVVVdFFPbXFmVVhra1E5em1Y?=
- =?utf-8?B?YnZVOTM2TnBIOGRia2MyQkMwV2czYzBOcjZJT2t6dnZCdkFxdnIyRStNd1NK?=
- =?utf-8?Q?/vKY3uGKvlYyOOHOKW2zWlSuEZhccA=3D?=
+ =?utf-8?B?a3RVOWVJZDAwbHZHNGl2WCtTTTdXWHZVSDJYbERnTjVMUnNsNGlBYnpGNk5t?=
+ =?utf-8?B?YUFWaDhycE1oWW5PRXEwOHVUdWx4eHdDMVQxcEh0QkNjOGl1ZnJ2bVVtWFZI?=
+ =?utf-8?B?RXhINGd2ZGRvdFBtS1F2am5KdjVIQ2RRM2o2d0NqTnRPWDg2S0F2ZXJQS0FY?=
+ =?utf-8?B?VU5kdEtxMEdXK2dud3F5Q2RKdXVUMVIxNG5iNWdMYm1kSVlYOXRWTGtNL3Y0?=
+ =?utf-8?B?SFlNQXg0cVpaNXJtSXhXdkFjM045c09QQi9VTXVkNnJCb3dRc3FGTlkwWm5z?=
+ =?utf-8?B?ZTc5OU1vczFjWjR3MXVvODl3ZTNjZFg3T2NDaTJiQ3NPbEtJU0poQ3R6Q2Zz?=
+ =?utf-8?B?dTNCTElkQmNzMnF6Y1hIMlQzamZ2QjFCaUlBeEdxU21QYS92ZGEvMUlRVjhE?=
+ =?utf-8?B?M1VaeFRqN1p1WWFiL01SamZEd0x2cUFBbmhib2l4RllRZCtkbUJiNHdyUG1l?=
+ =?utf-8?B?OXZIMlZCL2FFbmJpaTU5czFJT1NuOUhHMXhCUWp1Ylh0UXJ6SUtEUmlFQ1Zk?=
+ =?utf-8?B?cVVUYWxVTzU2NmZoVTZCc216NVY2Qmc0Y3E0QkF4WCt6UGJSZmkzVzJBMlhv?=
+ =?utf-8?B?RjFlU0NVL1VhRXZQVHl3Znc2bTRUVjhrZTNkdzlicXM4NW03YytPVVpZL2Jl?=
+ =?utf-8?B?aWM0NFF2ZG5rTzR4U3F0eXQxYXllNEZuZUVBSUlHT1RDVGE5ZUJkb2hDbDNM?=
+ =?utf-8?B?d3ViWURJMUNveHNldmNEazR0ODRHQkthbUhFTmVTNzN6dG9mc2J3MTVxR1J2?=
+ =?utf-8?B?SWJwRDdmSG91YTFVZUlOekFLdTVEcXFMK3h1QlNBeXF6VTNDSlVMb3YycTdk?=
+ =?utf-8?B?M1h6cGdJTHVqdHR3MTVjMzlKMFB4NFJTY0x1UjNrMC9TMFhSbWc2ZGtwWFBR?=
+ =?utf-8?B?a0k2aCtuOE9Gem9KKzBQNHRER3k1VERqSEthcmpHWTV6L3hrNE53TVNWb0dO?=
+ =?utf-8?B?dkRIUERBTDdjQWUzVHRhV3BYQTBWOFRmOTZnMmdiYW1PSjVXR0Y4VFNna29F?=
+ =?utf-8?B?Yk9aTjM1eHVUbU1ZMzFTRUsybEZRMkJnUjB5VC9uUU10NENTV2k5ek5uMDls?=
+ =?utf-8?B?dmxsbTloREd6bkVvRVJLaVZMLzk3TkVRTmRHUW91Nm8rNE5wZFR3OE5qSm1P?=
+ =?utf-8?B?bW1MRm1GbW5pSUl4ejhUZC9WMFBCdVVObjkwUG5YQitGamdlRkk3NENXb1FU?=
+ =?utf-8?B?aGpUTk9uZkRsRWgyRUg5MG5FQVplWm9paVBFUzBmRmtrTXNJclJiZkZ5WHMr?=
+ =?utf-8?B?dFdvNkJkSzdEeWZiaVJVM2VQYkF1amFTbWdNNGdyV2lJTnN3NTU3aGxnM2Rs?=
+ =?utf-8?B?UTRuZzZxdmVHNlRocUFWRDd3R2FJN3ZrVmE4dTA4OWx0MTdsdklIejN5d09E?=
+ =?utf-8?B?SC9USVE1bEcvUDZJYTRQRytCMDF5TGpNeUM4UVBwOFRES25ydXBuNjVXSkNp?=
+ =?utf-8?B?Q3lxRFphRFdGM2NjRUtXM1IwcktsWVgxQkNHTE9CRzhTTXpLRlR2dTBSK3Fy?=
+ =?utf-8?B?Z0ViZ25RMjhWbVMxS0RZWkhMcFFqNzAvbWpqdWZZenJxanFDZHA0alRicHE0?=
+ =?utf-8?B?akF3SXRTTForQ0U4dlNQQi9XUFRYcWptb21JdDFzYUhXaXo4L1NsVkhLbTcy?=
+ =?utf-8?B?ZHljM2lOUEFiNlAvQ0hUclkzUnc0VHRGQ2haZlowRU1SdlNnUTlGelFVU29B?=
+ =?utf-8?B?Z2FZb0pOekFIY3N1enpPamltcjlXUHh3OUcwZzZ3clA2UE9nZzlvY2hzV1g2?=
+ =?utf-8?B?OHp4MEZsbkc1QTdCenFJME1Ba1dYbnluL3VwYU4wOVdSUU1WWklXdzZXWnYy?=
+ =?utf-8?B?ZEhPNWZvUVAzRys2M1RkRXp6V1Y3NHRvT3V1OUErUTQxMjlFTkpzYnpQTkZC?=
+ =?utf-8?B?N203R3JSYktoUDJ3WW02Ylpuc0hCTXFVeGl6TVZjZVZWdWgzaXFORE0zdVBm?=
+ =?utf-8?B?ZDdTMUFYQ3JlRkt0UUZyczZaZzZUcGFKT01LaUF6QmhySkpjcndKOWIrTlNO?=
+ =?utf-8?Q?tLCIxO9iSyY8RLClw4sHWf+vic7CgM=3D?=
 X-Forefront-Antispam-Report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(52116014)(376014)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?RDVXNEpTY1BROXlPSXFPRVhCU3FIQXUwQnJxZG95UnZleG5FTEtqVUFxQjBv?=
- =?utf-8?B?bWJlam1TT09CM0lEV0NkWkN1WWxJK295V2pUdERBTzdRU1dJMzg5d01YbkpQ?=
- =?utf-8?B?eTVmWHJxTkozalNiNldTVVY4cEgvd2JsenYvTkpYRXJlSXNZUFlWWDZnWGNS?=
- =?utf-8?B?RTJZeE1tdWFpMmF6SVVROS9iL2lxWHhqbEVOaEdMWXh4eG5yUFhZditERzkr?=
- =?utf-8?B?cm5vWmRkaGkrRy9jeHFQU0k0dldHdmhXckdFR1M3ZEZLUzVuenE1dHloZmtL?=
- =?utf-8?B?ZTcwR1FDNUF5dEtOSEtjS1hiT3JUeWU3ZUtjTHEzZWlhRU1zUmFZSkZGenFr?=
- =?utf-8?B?ZVJ5bWdoMHc5TUR1Vi9haHpXUmRRb0FvcVQyWnl5NUpGd2FTZHoyZ294dWZh?=
- =?utf-8?B?Q3FtWmw5Sm0xb0JYZmN3dGxmZWlEa1J0enZhNTY2OWhOM0s3Z29WM1dkaGlN?=
- =?utf-8?B?K0YvM2tUMFNSQW9WZ2pmWU14enFxWkpuMXVtWHhIMm9haklzaXhCYyt4U0w0?=
- =?utf-8?B?K0tjM3UxaURGNUhYTDNzRE9nTXlGY0xwU3FadEtTR0cxdVVvbHJ4a2Y0RWRR?=
- =?utf-8?B?ekpqWk95djVNTXBZVVIyMm5GaVJkakozT0ZmNGVnWUdyRVRqZ1k2SnNGZFF2?=
- =?utf-8?B?dDdVYWl2dXBxNDBzUWhJKzNxWEJxYWJFMWg1eTVVL0dKYnk1cEpLT3d5T2RD?=
- =?utf-8?B?TVhUejZCQVZiVXNvdlRYVFdJSWMvNXlCNlJqOXZmVVUza0twS1RYbUFtVWti?=
- =?utf-8?B?YkRuKzRCYXVWbnZkUXZpRGVnWDFvemZkSnBKWFZRZmtUZ3dyZHJFZms5WlZY?=
- =?utf-8?B?UFc2YW5FaG43L0k2bVBQd0tEcDRpa2RSTzlPTU5kMG5MWDVaUFU0dlVSTHN4?=
- =?utf-8?B?R1RmTW1UaVBsK3R4dkZubXcxY3RoMVNyY1d3cmlGZWJDOU16bnRvYzVzaXll?=
- =?utf-8?B?UFk1VjFuaGh3ZHkzWEVQMFRia3FHdndEd3A5WG1QT1pvZW9Fb2Zhd1oyRjE3?=
- =?utf-8?B?SzBlMTBxbnJ3RzVDMlVlRTBTZUlwT1hxZVVyMURudTRkdk9UWHN4cFVPcGxU?=
- =?utf-8?B?bHk0UWl4NE1rWFJXODlkQm5EaFVsL1poNTJESGU5QzR1eGxxSEM0S2RZNDQ3?=
- =?utf-8?B?R0NkZFdWeWFCRFRwV3JBdXM4cng1dWdib3cvZm83cmpBZnNyeE5OYTUvWVdM?=
- =?utf-8?B?eDBYOHlhZTdONkZiSXJvVkVSd2ZCbDNuNzhMbE5oRFVORzRMOHc0SXhvWUIy?=
- =?utf-8?B?UnF4RlIwZXEvTWcrb2g0ZmEvN0ZqSUdsZ0d2Rnl3WU40QXVmOXVZaHRDVUxZ?=
- =?utf-8?B?TXh5WHc4SEh6Z2M5Yyt4UE1pZHhiNUVHdHE2alAxa2J6amdFRXNEd0x1SXJr?=
- =?utf-8?B?SzJVNWRUdVF2VTNhQmdYdmZFM2ZOZ1dGS2Z0dkNLSUtMNFVWajVMNVFWQnpV?=
- =?utf-8?B?V1gzTjJYRHE5UVlUTTFWUUYrYTdUN2p3akx0WFBIUmpJTk1XRW84aDJaRzdE?=
- =?utf-8?B?WWdnVFNxQ2tjYUtKNTluMlY1QXl1ekFEU3JFUEtXY0lNSUkxalJ6TFNmclh5?=
- =?utf-8?B?cmNsR1g3dGZvSzZma2dwNG5ISHZCaUVNa0sweTh6SzROWlZDK3ZsZS83OTEw?=
- =?utf-8?B?Y3NNNWIrNnJaN3pIaHpWdHFtRlUyWVgvRzBBUExWbFE1Mi9XTVpFcHkrT1RC?=
- =?utf-8?B?NEZ2aHRVZ2cvUnZPcVUyRkR2bFFTb0xXeUwzLy9saWtiMkVTSFVseUN6QW9G?=
- =?utf-8?B?MWRsM25xSlZuL1hWWFg4M0REUTVHZHltbXZjTjZRaVloREczbWxEdGhmY1NK?=
- =?utf-8?B?dG5Jeit5blNhelZjTllQeFVTOXcxQUNEYWNxZWgrT1ZGSk1ITDhGVEhpYitr?=
- =?utf-8?B?T2cxY1B5TW1LMnJXcXB6KzlyMThjTjJPZ3Z0UVQ1K0k4TWJmRVRJUEZjdkg5?=
- =?utf-8?B?Ykd1SzFmRHhQeVk0L04wc21JN3dKcjEzMTRldjFSU0RqeXNSNFIwR3ErSTQ1?=
- =?utf-8?B?SVVma0htYWFGc0M2RHE1S2FsUlZoRnRha09GdGdPckNuTnVCU3A4VEtKcHNB?=
- =?utf-8?B?Y2dzS3hGNnRmVjlXTFVqdC9MQXVMVUpiTXFKUUJab1dWc25UbEV5Y0lpQll1?=
- =?utf-8?Q?4hp0lNiN6NYMayAbo2zK3C/ED?=
+ =?utf-8?B?ZnRBQUo1bERzOVdRYVQydGRxNmNQYzh6Q3d6TzkvZVVTd0hEaHdYRmk1VUV4?=
+ =?utf-8?B?dmwwYVl4T0ZaN3Q0SE5uWlIybjNkUFBZT2s2UytERmk5ZnN2TDR1ZXNWSHUr?=
+ =?utf-8?B?RVB6c3RwcmdVc01qcVpxdnBaV0JFaXV4UUgvZjVEcUV3bnF3Sy9rQ3BGUkdu?=
+ =?utf-8?B?aVJFdmVjTzF1M3NqVkdPQ2VEL3hEQS9UOC9LUFdUdDU3T0xEdy93LzBuSHlS?=
+ =?utf-8?B?TFBQcGloRnczTTc4MzVTTXZFci93VVRBc0EzTExxQjduQVU1anZlbk9zSm5L?=
+ =?utf-8?B?aFZpNG1waTd2U2NTbVRMdThqTE1QK2tZZnV3cC9rMEtBcFlCSW9KaytQN0FI?=
+ =?utf-8?B?Z2p5aG9RSGRrYXpwaXZlQ3NaQ1gyeTZOdmtkUmpNZkFrTHFtUDNJMFRpYkh2?=
+ =?utf-8?B?U2FnZVNTTFI5eHI2aEV5OGdNTTlBeEx4ZmF0NXZQL3pZTUhCS2lBMGF4ZkJX?=
+ =?utf-8?B?VC9DK1A5eHA3YytpK0NiKy9TSGdKd2lwdWdqY3ZYZWxLWGREUlpNT0dpekxW?=
+ =?utf-8?B?SDVJalQyTjM1ZUd6R0R1UllOMVZrc3hqZFV4RXlOZEVPM1JTK1U5S2ZuRy9Q?=
+ =?utf-8?B?bVVjOHllSXFBci9nZXNXcm5yY2drMCtENE0wR3BoNHd1Mm9DSmFxRXJ4SkJN?=
+ =?utf-8?B?d05SL3lySjJ2ckhUc05raDQ1R21kSWxYYkxiUUQ4MmtzRE1PMEVpZXAxTHdm?=
+ =?utf-8?B?UHd1YVFFZzFPeVRLSVNZY29ZaXJuanlCY0ZYNlBFSTdSd2swRkZiVUhCWm4x?=
+ =?utf-8?B?Z29WemxWeExVbnlzcWs1VkhKNWE0MUVqWjdaZk5lYUFDRm9mT09CTDllWUVY?=
+ =?utf-8?B?TlhhcmlUcVAvWm05ZXF6NEUvdU4vUG5FY0xIbk5CRXhpN0RUVFI5R3dKazdo?=
+ =?utf-8?B?WDM1R2VocFpkdTgyRmZEWlBucStXK1lFR1JVcG0xUDRRT0Z4WmZicEo4cTMw?=
+ =?utf-8?B?VVQzOWJZbU1RWGlqNXhaQ1hqK1VUcXExOEkxUCs0VFVBWGNnS0dhSVJ3YXg5?=
+ =?utf-8?B?SjNOdDg5cnRnd3B4Y3ViR0lhYWI2a3NhSGJpK3RYUU90MXVYZWY4Vyt6SCtZ?=
+ =?utf-8?B?eWdVTHc0SVdBa1loRUlVRHM3WE9iVUVESFpTaEU3TFRxU29vWVFoUW4vbURy?=
+ =?utf-8?B?WWZ6RmlTY0NOZ1FQR2hKYW9aYWJBTHAyUFFZWHpCQTVyVnM2bnFMQVJpaWZW?=
+ =?utf-8?B?enlqQ1hwYzViRDcyUGN5YllOVm9iUjhsNWZxZ3NRTkhMLy9kSkhQSThhRjkr?=
+ =?utf-8?B?cXp0NmZHTHJ0VWFqWkVtZWNIOFBOWlpxMjRYRU5aU0x6elE3T2ZYdDRzbTIr?=
+ =?utf-8?B?UFd1UWhsUnJZU2Z4bTFkR0ZUcktHUlY5cUR5Q3B4WkpjYWhpaHQ4TEZkLzVP?=
+ =?utf-8?B?d3lLMTYzKzJ1Qnl5WHJYSTJXRUwyMkdSNUZBdjYvalE3QUx1dGdKcS9rS1dk?=
+ =?utf-8?B?Ly84Z0V1RFFFUGMxVWQxS0tFSmVoclZEcWxRb0lWY29xcHpPaVlEZ0p3ZXR4?=
+ =?utf-8?B?L1Q2Q2NlUUxzNXdTSldBZHNJVzRDd1R1c01wOVFLT0J3b05jS0YraXI2ampU?=
+ =?utf-8?B?TUhuYXQrV0lpSzZuRVBHSElFdDVnTi93ejAzZnBlZCtpQjE0MjdQbVhBelgx?=
+ =?utf-8?B?aGZuWFo4SnZIQy9LWDNRdTFWRW1LbGZOYnNKZGFlOGlYT0hSb0FUVnZxM2Ns?=
+ =?utf-8?B?ZG1oWGxieG9FQkNyK0FFL0s5K2E3VTdhOFQ1bzFEVW83V0RxR1hvSGduVkxT?=
+ =?utf-8?B?K1o1MDBrNGd5QW4xYzlVZmxOQ3ZTdnVaK05WVjlaZmJpMmxYNHpKUUowN3h3?=
+ =?utf-8?B?elo4Y1lLeTlDTm1HVXpQNVpjQkt1Sy83Z2RTemNBL2ljdXB3Vk9iZGN0cTVa?=
+ =?utf-8?B?M0NWMzZhL2NRQjVrclgrRmVCeUlabytqaTYzWWdKQ0cyUGpYWEFrNmtwclls?=
+ =?utf-8?B?b1Myd2hGWHdMd1hINEY5TVlMYVBuMjhhTFoxYVk1MVp0UlVYYnN3UkkvOGtm?=
+ =?utf-8?B?OVlrQzIxcnI0bWF2MENTMzN4Ymo0ZVdQeDRmRFBlRlMyMmNWRVk5akwvVTkw?=
+ =?utf-8?B?QlFQdHNQSG1PSDhjSVkxT3IwcHdicHpmODhzSGVZZ3FiU0Z0eEtmWkdCZ0Vh?=
+ =?utf-8?Q?Kyg+wRHq2a+RiJxoQP2VY1mFy?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef1d61e6-4b75-437a-19b7-08dd995a2858
+X-MS-Exchange-CrossTenant-Network-Message-Id: b610eb57-dcfd-4bf4-26e0-08dd995a2b60
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 17:57:46.1390
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 17:57:51.2600
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3Howfv+0X/ygdAMcIheZgO1P1tZS9eKpSDmPa1vcTXCy2O0u2CN0Bobrv5G1/+VNmr1QWcBrmRklJXSGvSr5Lg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ilT6WyOBW28pf8v5KYdsfVrAdzX/b8KKbyV06b58GqFjYRI3FJ93VRVbSs4ECsbl32KvfReX8/6XsREIQz0yFg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRWPR04MB11272
 
-Add support for i.MX8QXP, which has a dedicated control and status register
-(CSR) space. Enable obtaining the second register space and initializing
-PHY and link settings accordingly.
+Add CSI related nodes (i2c, irqsteer, csi, lpcg) for i.MX8 img subsystem.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
 change from v4 to v5
-- add Laurent Pinchart review tag
-- wrap some reg_map functions args
-- add missed \n at error message
+- remove empty endpoint
 
-change from v3 to v4
-- remove reset_delay
-- sort register field defination
-- fix error messag in dev_err_probe
-- fix comments
-- use true for 1
-- regmap_clear_bits(state->phy_gpr, CSI2SS_CTRL_CLK_RESET, CSI2SS_CTRL_CLK_RESET_EN);
-in imx8qxp_gpr_disable()
-- use regmap_write to clean register at imx8qxp_gpr_enable()
-- remove reduntant CSI2SS_PLM_CTRL_POLARITY
-- rename register DATA_TYPE to DATA_TYPE_DISABLE_BF
+Change from v3 to v4
+- remove unused clock clock-img-axi
+- add ports information for isi and csi
+- Fix 8qxp clock, irq and power domain
+- Fix reg size
 
-change from v2 to v3
-- use dedicate csr reg to control phy and link settings.
+Change from v2 to v3
+- remove phy and put csr register space under mipi csi2
 
-Change from v1 to v2
-- change 8QM go 8QXP, 8QM will failback to 8QXP to keep consisense with
-phy drivers
+change from v1 to v2
+- move scu reset under scu node
+- add 8qm comaptible string for mipi csi2 and mipi csi phys.
 ---
- drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 111 ++++++++++++++++++++++++++
- 1 file changed, 111 insertions(+)
+ arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi    | 362 ++++++++++++++++++++++
+ arch/arm64/boot/dts/freescale/imx8qm-ss-img.dtsi  |  79 +++++
+ arch/arm64/boot/dts/freescale/imx8qm.dtsi         |   5 +
+ arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi |  83 +++++
+ arch/arm64/boot/dts/freescale/imx8qxp.dtsi        |   5 +
+ 5 files changed, 534 insertions(+)
 
-diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-index 59ec7107b4508..6501843ae72db 100644
---- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-+++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2021 Purism SPC
+diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+index d39242c1b9f79..2cf0f7208350a 100644
+--- a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+@@ -10,12 +10,264 @@ img_ipg_clk: clock-img-ipg {
+ 	clock-output-names = "img_ipg_clk";
+ };
+ 
++img_pxl_clk: clock-img-pxl {
++	compatible = "fixed-clock";
++	#clock-cells = <0>;
++	clock-frequency = <600000000>;
++	clock-output-names = "img_pxl_clk";
++};
++
+ img_subsys: bus@58000000 {
+ 	compatible = "simple-bus";
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+ 	ranges = <0x58000000 0x0 0x58000000 0x1000000>;
+ 
++	isi: isi@58100000 {
++		reg = <0x58100000 0x80000>;
++		interrupts = <GIC_SPI 297 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 298 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&pdma0_lpcg IMX_LPCG_CLK_0>,
++			 <&pdma1_lpcg IMX_LPCG_CLK_0>,
++			 <&pdma2_lpcg IMX_LPCG_CLK_0>,
++			 <&pdma3_lpcg IMX_LPCG_CLK_0>,
++			 <&pdma4_lpcg IMX_LPCG_CLK_0>,
++			 <&pdma5_lpcg IMX_LPCG_CLK_0>,
++			 <&pdma6_lpcg IMX_LPCG_CLK_0>,
++			 <&pdma7_lpcg IMX_LPCG_CLK_0>;
++		clock-names = "per0", "per1", "per2", "per3",
++			      "per4", "per5", "per6", "per7";
++		interrupt-parent = <&gic>;
++		power-domains = <&pd IMX_SC_R_ISI_CH0>,
++				<&pd IMX_SC_R_ISI_CH1>,
++				<&pd IMX_SC_R_ISI_CH2>,
++				<&pd IMX_SC_R_ISI_CH3>,
++				<&pd IMX_SC_R_ISI_CH4>,
++				<&pd IMX_SC_R_ISI_CH5>,
++				<&pd IMX_SC_R_ISI_CH6>,
++				<&pd IMX_SC_R_ISI_CH7>;
++		status = "disabled";
++	};
++
++	irqsteer_csi0: irqsteer@58220000 {
++		compatible = "fsl,imx8qm-irqsteer", "fsl,imx-irqsteer";
++		reg = <0x58220000 0x1000>;
++		#interrupt-cells = <1>;
++		interrupt-controller;
++		interrupts = <GIC_SPI 320 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&img_ipg_clk>;
++		clock-names = "ipg";
++		interrupt-parent = <&gic>;
++		power-domains = <&pd IMX_SC_R_CSI_0>;
++		fsl,channel = <0>;
++		fsl,num-irqs = <32>;
++		status = "disabled";
++	};
++
++	gpio0_mipi_csi0: gpio@58222000 {
++		compatible = "fsl,imx8qm-gpio", "fsl,imx35-gpio";
++		reg = <0x58222000 0x1000>;
++		#interrupt-cells = <2>;
++		interrupt-controller;
++		interrupts = <0>;
++		#gpio-cells = <2>;
++		gpio-controller;
++		interrupt-parent = <&irqsteer_csi0>;
++		power-domains = <&pd IMX_SC_R_CSI_0>;
++	};
++
++	csi0_core_lpcg: clock-controller@58223018 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58223018 0x4>;
++		clocks = <&clk IMX_SC_R_CSI_0 IMX_SC_PM_CLK_PER>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_4>;
++		clock-output-names = "csi0_lpcg_core_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++	};
++
++	csi0_esc_lpcg: clock-controller@5822301c {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x5822301c 0x4>;
++		clocks = <&clk IMX_SC_R_CSI_0 IMX_SC_PM_CLK_MISC>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_4>;
++		clock-output-names = "csi0_lpcg_esc_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++	};
++
++	i2c_mipi_csi0: i2c@58226000 {
++		compatible = "fsl,imx8qxp-lpi2c", "fsl,imx7ulp-lpi2c";
++		reg = <0x58226000 0x1000>;
++		interrupts = <8>;
++		clocks = <&clk IMX_SC_R_CSI_0_I2C_0 IMX_SC_PM_CLK_PER>,
++			 <&img_ipg_clk>;
++		clock-names = "per", "ipg";
++		assigned-clocks = <&clk IMX_SC_R_CSI_0_I2C_0 IMX_SC_PM_CLK_PER>;
++		assigned-clock-rates = <24000000>;
++		interrupt-parent = <&irqsteer_csi0>;
++		power-domains = <&pd IMX_SC_R_CSI_0_I2C_0>;
++		status = "disabled";
++	};
++
++	mipi_csi_0: csi@58227000 {
++		compatible = "fsl,imx8qxp-mipi-csi2";
++		reg = <0x58227000 0x1000>,
++		      <0x58221000 0x1000>;
++		clocks = <&csi0_core_lpcg IMX_LPCG_CLK_4>,
++			 <&csi0_esc_lpcg IMX_LPCG_CLK_4>,
++			 <&csi0_pxl_lpcg IMX_LPCG_CLK_0>;
++		clock-names = "core", "esc", "ui";
++		assigned-clocks = <&csi0_core_lpcg IMX_LPCG_CLK_4>,
++				  <&csi0_esc_lpcg IMX_LPCG_CLK_4>;
++		assigned-clock-rates = <360000000>, <72000000>;
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++		resets = <&scu_reset IMX_SC_R_CSI_0>;
++		status = "disabled";
++	};
++
++	irqsteer_csi1: irqsteer@58240000 {
++		compatible = "fsl,imx8qm-irqsteer", "fsl,imx-irqsteer";
++		reg = <0x58240000 0x1000>;
++		#interrupt-cells = <1>;
++		interrupt-controller;
++		interrupts = <GIC_SPI 321 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&img_ipg_clk>;
++		clock-names = "ipg";
++		interrupt-parent = <&gic>;
++		power-domains = <&pd IMX_SC_R_CSI_1>;
++		fsl,channel = <0>;
++		fsl,num-irqs = <32>;
++		status = "disabled";
++	};
++
++	gpio0_mipi_csi1: gpio@58242000 {
++		compatible = "fsl,imx8qm-gpio", "fsl,imx35-gpio";
++		reg = <0x58242000 0x1000>;
++		#interrupt-cells = <2>;
++		interrupt-controller;
++		interrupts = <0>;
++		#gpio-cells = <2>;
++		gpio-controller;
++		interrupt-parent = <&irqsteer_csi1>;
++		power-domains = <&pd IMX_SC_R_CSI_1>;
++	};
++
++	csi1_core_lpcg: clock-controller@58243018 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58243018 0x4>;
++		clocks = <&clk IMX_SC_R_CSI_1 IMX_SC_PM_CLK_PER>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_4>;
++		clock-output-names = "csi1_lpcg_core_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++	};
++
++	csi1_esc_lpcg: clock-controller@5824301c {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x5824301c 0x4>;
++		clocks = <&clk IMX_SC_R_CSI_1 IMX_SC_PM_CLK_MISC>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_4>;
++		clock-output-names = "csi1_lpcg_esc_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++	};
++
++	i2c_mipi_csi1: i2c@58246000 {
++		compatible = "fsl,imx8qxp-lpi2c", "fsl,imx7ulp-lpi2c";
++		reg = <0x58246000 0x1000>;
++		interrupts = <8>;
++		clocks = <&clk IMX_SC_R_CSI_1_I2C_0 IMX_SC_PM_CLK_PER>,
++			 <&img_ipg_clk>;
++		clock-names = "per", "ipg";
++		assigned-clocks = <&clk IMX_SC_R_CSI_1_I2C_0 IMX_SC_PM_CLK_PER>;
++		assigned-clock-rates = <24000000>;
++		interrupt-parent = <&irqsteer_csi1>;
++		power-domains = <&pd IMX_SC_R_CSI_1_I2C_0>;
++		status = "disabled";
++	};
++
++	mipi_csi_1: csi@58247000 {
++		compatible = "fsl,imx8qxp-mipi-csi2";
++		reg = <0x58247000 0x1000>,
++		      <0x58241000 0x1000>;
++		clocks = <&csi1_core_lpcg IMX_LPCG_CLK_4>,
++			 <&csi1_esc_lpcg IMX_LPCG_CLK_4>,
++			 <&csi1_pxl_lpcg IMX_LPCG_CLK_0>;
++		clock-names = "core", "esc", "ui";
++		assigned-clocks = <&csi1_core_lpcg IMX_LPCG_CLK_4>,
++				  <&csi1_esc_lpcg IMX_LPCG_CLK_4>;
++		assigned-clock-rates = <360000000>, <72000000>;
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++		resets = <&scu_reset IMX_SC_R_CSI_1>;
++		status = "disabled";
++	};
++
++	irqsteer_parallel: irqsteer@58260000 {
++		compatible = "fsl,imx8qm-irqsteer", "fsl,imx-irqsteer";
++		reg = <0x58260000 0x1000>;
++		#interrupt-cells = <1>;
++		interrupt-controller;
++		interrupts = <GIC_SPI 322 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&clk_dummy>;
++		clock-names = "ipg";
++		interrupt-parent = <&gic>;
++		power-domains = <&pd IMX_SC_R_PI_0>;
++		fsl,channel = <0>;
++		fsl,num-irqs = <32>;
++		status = "disabled";
++	};
++
++	pi0_ipg_lpcg: clock-controller@58263004 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58263004 0x4>;
++		clocks = <&clk IMX_SC_R_PI_0 IMX_SC_PM_CLK_PER>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_4>;
++		clock-output-names = "pi0_lpcg_ipg_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++	};
++
++	pi0_pxl_lpcg: clock-controller@58263018 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58263018 0x4>;
++		clocks = <&clk IMX_SC_R_PI_0 IMX_SC_PM_CLK_PER>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pi0_lpcg_pxl_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++	};
++
++	pi0_misc_lpcg: clock-controller@5826301c {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x5826301c 0x4>;
++		clocks = <&clk IMX_SC_R_PI_0 IMX_SC_PM_CLK_MISC0>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pi0_lpcg_misc_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++	};
++
++	i2c0_parallel: i2c@58266000 {
++		compatible = "fsl,imx8qxp-lpi2c", "fsl,imx7ulp-lpi2c";
++		reg = <0x58266000 0x1000>;
++		interrupts = <8>;
++		clocks = <&clk IMX_SC_R_PI_0_I2C_0 IMX_SC_PM_CLK_PER>,
++			 <&img_ipg_clk>;
++		clock-names = "per", "ipg";
++		assigned-clocks = <&clk IMX_SC_R_PI_0_I2C_0 IMX_SC_PM_CLK_PER>;
++		assigned-clock-rates = <24000000>;
++		interrupt-parent = <&irqsteer_parallel>;
++		power-domains = <&pd IMX_SC_R_PI_0_I2C_0>;
++		status = "disabled";
++	};
++
+ 	jpegdec: jpegdec@58400000 {
+ 		reg = <0x58400000 0x00050000>;
+ 		interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>;
+@@ -40,6 +292,116 @@ jpegenc: jpegenc@58450000 {
+ 				<&pd IMX_SC_R_MJPEG_ENC_S0>;
+ 	};
+ 
++	pdma0_lpcg: clock-controller@58500000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58500000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pdma0_lpcg_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH0>;
++	};
++
++	pdma1_lpcg: clock-controller@58510000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58510000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pdma1_lpcg_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH1>;
++	};
++
++	pdma2_lpcg: clock-controller@58520000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58520000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pdma2_lpcg_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH2>;
++	};
++
++	pdma3_lpcg: clock-controller@58530000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58530000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pdma3_lpcg_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH3>;
++	};
++
++	pdma4_lpcg: clock-controller@58540000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58540000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pdma4_lpcg_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH4>;
++	};
++
++	pdma5_lpcg: clock-controller@58550000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58550000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pdma5_lpcg_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH5>;
++	};
++
++	pdma6_lpcg: clock-controller@58560000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58560000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pdma6_lpcg_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH6>;
++	};
++
++	pdma7_lpcg: clock-controller@58570000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58570000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "pdma7_lpcg_clk";
++		power-domains = <&pd IMX_SC_R_ISI_CH7>;
++	};
++
++	csi0_pxl_lpcg: clock-controller@58580000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58580000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "csi0_lpcg_pxl_clk";
++		power-domains = <&pd IMX_SC_R_CSI_0>;
++	};
++
++	csi1_pxl_lpcg: clock-controller@58590000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x58590000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "csi1_lpcg_pxl_clk";
++		power-domains = <&pd IMX_SC_R_CSI_1>;
++	};
++
++	hdmi_rx_pxl_link_lpcg: clock-controller@585a0000 {
++		compatible = "fsl,imx8qxp-lpcg";
++		reg = <0x585a0000 0x10000>;
++		clocks = <&img_pxl_clk>;
++		#clock-cells = <1>;
++		clock-indices = <IMX_LPCG_CLK_0>;
++		clock-output-names = "hdmi_rx_lpcg_pxl_link_clk";
++		power-domains = <&pd IMX_SC_R_HDMI_RX>;
++	};
++
+ 	img_jpeg_dec_lpcg: clock-controller@585d0000 {
+ 		compatible = "fsl,imx8qxp-lpcg";
+ 		reg = <0x585d0000 0x10000>;
+diff --git a/arch/arm64/boot/dts/freescale/imx8qm-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8qm-ss-img.dtsi
+index 2bbdacb1313f9..4b7e685daa024 100644
+--- a/arch/arm64/boot/dts/freescale/imx8qm-ss-img.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8qm-ss-img.dtsi
+@@ -3,6 +3,31 @@
+  * Copyright 2021 NXP
   */
  
-+#include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/delay.h>
-@@ -88,6 +89,7 @@ static const char * const imx8mq_mipi_csi_clk_id[CSI2_NUM_CLKS] = {
- struct imx8mq_plat_data {
- 	int (*enable)(struct csi_state *state, u32 hs_settle);
- 	void (*disable)(struct csi_state *state);
-+	bool use_reg_csr;
- };
- 
- /*
-@@ -167,6 +169,95 @@ static const struct imx8mq_plat_data imx8mq_data = {
- 	.enable = imx8mq_gpr_enable,
- };
- 
-+/* -----------------------------------------------------------------------------
-+ * i.MX8QXP
-+ */
++&isi {
++	compatible = "fsl,imx8qm-isi";
 +
-+#define CSI2SS_PL_CLK_INTERVAL_US		100
-+#define CSI2SS_PL_CLK_TIMEOUT_US		100000
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
 +
-+#define CSI2SS_PLM_CTRL				0x0
-+#define CSI2SS_PLM_CTRL_ENABLE_PL		BIT(0)
-+#define CSI2SS_PLM_CTRL_VSYNC_OVERRIDE		BIT(9)
-+#define CSI2SS_PLM_CTRL_HSYNC_OVERRIDE		BIT(10)
-+#define CSI2SS_PLM_CTRL_VALID_OVERRIDE		BIT(11)
-+#define CSI2SS_PLM_CTRL_POLARITY_HIGH		BIT(12)
-+#define CSI2SS_PLM_CTRL_PL_CLK_RUN		BIT(31)
++		port@2 {
++			reg = <2>;
 +
-+#define CSI2SS_PHY_CTRL				0x4
-+#define CSI2SS_PHY_CTRL_RX_ENABLE		BIT(0)
-+#define CSI2SS_PHY_CTRL_AUTO_PD_EN		BIT(1)
-+#define CSI2SS_PHY_CTRL_DDRCLK_EN		BIT(2)
-+#define CSI2SS_PHY_CTRL_CONT_CLK_MODE		BIT(3)
-+#define CSI2SS_PHY_CTRL_RX_HS_SETTLE_MASK	GENMASK(9, 4)
-+#define CSI2SS_PHY_CTRL_RTERM_SEL		BIT(21)
-+#define CSI2SS_PHY_CTRL_PD			BIT(22)
-+
-+#define CSI2SS_DATA_TYPE_DISABLE_BF		0x38
-+#define CSI2SS_DATA_TYPE_DISABLE_BF_MASK	GENMASK(23, 0)
-+
-+#define CSI2SS_CTRL_CLK_RESET			0x44
-+#define CSI2SS_CTRL_CLK_RESET_EN		BIT(0)
-+
-+static int imx8qxp_gpr_enable(struct csi_state *state, u32 hs_settle)
-+{
-+	int ret;
-+	u32 val;
-+
-+	/* Clear format */
-+	regmap_clear_bits(state->phy_gpr, CSI2SS_DATA_TYPE_DISABLE_BF,
-+			  CSI2SS_DATA_TYPE_DISABLE_BF_MASK);
-+
-+	regmap_write(state->phy_gpr, CSI2SS_PLM_CTRL, 0x0);
-+
-+	regmap_write(state->phy_gpr, CSI2SS_PHY_CTRL,
-+		     FIELD_PREP(CSI2SS_PHY_CTRL_RX_HS_SETTLE_MASK, hs_settle) |
-+		     CSI2SS_PHY_CTRL_RX_ENABLE | CSI2SS_PHY_CTRL_DDRCLK_EN |
-+		     CSI2SS_PHY_CTRL_CONT_CLK_MODE | CSI2SS_PHY_CTRL_PD |
-+		     CSI2SS_PHY_CTRL_RTERM_SEL | CSI2SS_PHY_CTRL_AUTO_PD_EN);
-+
-+	ret = regmap_read_poll_timeout(state->phy_gpr, CSI2SS_PLM_CTRL,
-+				       val, !(val & CSI2SS_PLM_CTRL_PL_CLK_RUN),
-+				       CSI2SS_PL_CLK_INTERVAL_US,
-+				       CSI2SS_PL_CLK_TIMEOUT_US);
-+
-+	if (ret) {
-+		dev_err(state->dev, "Timeout waiting for Pixel-Link clock\n");
-+		return ret;
-+	}
-+
-+	/* Enable Pixel link Master */
-+	regmap_set_bits(state->phy_gpr, CSI2SS_PLM_CTRL,
-+			CSI2SS_PLM_CTRL_ENABLE_PL | CSI2SS_PLM_CTRL_VALID_OVERRIDE);
-+
-+	/* PHY Enable */
-+	regmap_clear_bits(state->phy_gpr, CSI2SS_PHY_CTRL,
-+			  CSI2SS_PHY_CTRL_PD | CSI2SS_PLM_CTRL_POLARITY_HIGH);
-+
-+	/* Release Reset */
-+	regmap_set_bits(state->phy_gpr, CSI2SS_CTRL_CLK_RESET, CSI2SS_CTRL_CLK_RESET_EN);
-+
-+	return ret;
-+}
-+
-+static void imx8qxp_gpr_disable(struct csi_state *state)
-+{
-+	/* Disable Pixel Link */
-+	regmap_write(state->phy_gpr, CSI2SS_PLM_CTRL, 0x0);
-+
-+	/* Disable PHY */
-+	regmap_write(state->phy_gpr, CSI2SS_PHY_CTRL, 0x0);
-+
-+	regmap_clear_bits(state->phy_gpr, CSI2SS_CTRL_CLK_RESET,
-+			  CSI2SS_CTRL_CLK_RESET_EN);
-+};
-+
-+static const struct imx8mq_plat_data imx8qxp_data = {
-+	.enable = imx8qxp_gpr_enable,
-+	.disable = imx8qxp_gpr_disable,
-+	.use_reg_csr = true,
-+};
-+
- static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
- 	/* RAW (Bayer and greyscale) formats. */
- 	{
-@@ -865,6 +956,25 @@ static int imx8mq_mipi_csi_parse_dt(struct csi_state *state)
- 		return PTR_ERR(state->rst);
- 	}
- 
-+	if (state->pdata->use_reg_csr) {
-+		const struct regmap_config regmap_config = {
-+			.reg_bits = 32,
-+			.val_bits = 32,
-+			.reg_stride = 4,
++			isi_in_2: endpoint {
++				remote-endpoint = <&mipi_csi0_out>;
++			};
 +		};
-+		void __iomem *base;
 +
-+		base = devm_platform_ioremap_resource(to_platform_device(dev), 1);
-+		if (IS_ERR(base))
-+			return dev_err_probe(dev, IS_ERR(base), "Missing CSR register\n");
++		port@3 {
++			reg = <3>;
 +
-+		state->phy_gpr = devm_regmap_init_mmio(dev, base, &regmap_config);
-+		if (IS_ERR(state->phy_gpr))
-+			return dev_err_probe(dev, PTR_ERR(state->phy_gpr),
-+					     "Failed to init CSI MMIO regmap\n");
-+		return 0;
-+	}
++			isi_in_3: endpoint {
++				remote-endpoint = <&mipi_csi1_out>;
++			};
++		};
++	};
++};
 +
- 	ret = of_property_read_u32_array(np, "fsl,mipi-phy-gpr", out_val,
- 					 ARRAY_SIZE(out_val));
- 	if (ret) {
-@@ -984,6 +1094,7 @@ static void imx8mq_mipi_csi_remove(struct platform_device *pdev)
- 
- static const struct of_device_id imx8mq_mipi_csi_of_match[] = {
- 	{ .compatible = "fsl,imx8mq-mipi-csi2", .data = &imx8mq_data },
-+	{ .compatible = "fsl,imx8qxp-mipi-csi2", .data = &imx8qxp_data },
- 	{ /* sentinel */ },
+ &jpegdec {
+ 	compatible = "nxp,imx8qm-jpgdec", "nxp,imx8qxp-jpgdec";
  };
- MODULE_DEVICE_TABLE(of, imx8mq_mipi_csi_of_match);
+@@ -10,3 +35,57 @@ &jpegdec {
+ &jpegenc {
+ 	compatible = "nxp,imx8qm-jpgenc", "nxp,imx8qxp-jpgenc";
+ };
++
++&mipi_csi_0 {
++	compatible = "fsl,imx8qm-mipi-csi2", "fsl,imx8qxp-mipi-csi2";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++		};
++
++		port@1 {
++			reg = <1>;
++
++			mipi_csi0_out: endpoint {
++				remote-endpoint = <&isi_in_2>;
++			};
++		};
++	};
++};
++
++&mipi_csi_1 {
++	compatible = "fsl,imx8qm-mipi-csi2", "fsl,imx8qxp-mipi-csi2";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++		};
++
++		port@1 {
++			reg = <1>;
++
++			mipi_csi1_out: endpoint {
++				remote-endpoint = <&isi_in_3>;
++			};
++		};
++	};
++};
++
++&pi0_ipg_lpcg {
++	status = "disabled";
++};
++
++&pi0_misc_lpcg {
++	status = "disabled";
++};
++
++&pi0_pxl_lpcg {
++	status = "disabled";
++};
+diff --git a/arch/arm64/boot/dts/freescale/imx8qm.dtsi b/arch/arm64/boot/dts/freescale/imx8qm.dtsi
+index 6fa31bc9ece8f..c6a17a0d739c5 100644
+--- a/arch/arm64/boot/dts/freescale/imx8qm.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8qm.dtsi
+@@ -333,6 +333,11 @@ iomuxc: pinctrl {
+ 			compatible = "fsl,imx8qm-iomuxc";
+ 		};
+ 
++		scu_reset: reset-controller {
++			compatible = "fsl,imx-scu-reset";
++			#reset-cells = <1>;
++		};
++
+ 		rtc: rtc {
+ 			compatible = "fsl,imx8qxp-sc-rtc";
+ 		};
+diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi
+index 3a087317591d8..50015f8dd4e43 100644
+--- a/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi
+@@ -4,6 +4,85 @@
+  *	Dong Aisheng <aisheng.dong@nxp.com>
+  */
+ 
++&csi1_pxl_lpcg {
++	status = "disabled";
++};
++
++&csi1_core_lpcg {
++	status = "disabled";
++};
++
++&csi1_esc_lpcg {
++	status = "disabled";
++};
++
++&gpio0_mipi_csi1 {
++	status = "disabled";
++};
++
++&i2c_mipi_csi1 {
++	status = "disabled";
++};
++
++&irqsteer_csi1 {
++	status = "disabled";
++};
++
++&isi {
++	compatible = "fsl,imx8qxp-isi";
++	reg = <0x58100000 0x60000>;
++	interrupts = <GIC_SPI 297 IRQ_TYPE_LEVEL_HIGH>,
++		     <GIC_SPI 298 IRQ_TYPE_LEVEL_HIGH>,
++		     <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>,
++		     <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>,
++		     <GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>,
++		     <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>;
++	clocks = <&pdma0_lpcg IMX_LPCG_CLK_0>,
++		 <&pdma1_lpcg IMX_LPCG_CLK_0>,
++		 <&pdma2_lpcg IMX_LPCG_CLK_0>,
++		 <&pdma3_lpcg IMX_LPCG_CLK_0>,
++		 <&pdma4_lpcg IMX_LPCG_CLK_0>,
++		 <&pdma5_lpcg IMX_LPCG_CLK_0>;
++	clock-names = "per0", "per1", "per2", "per3", "per4", "per5";
++	power-domains = <&pd IMX_SC_R_ISI_CH0>,
++			<&pd IMX_SC_R_ISI_CH1>,
++			<&pd IMX_SC_R_ISI_CH2>,
++			<&pd IMX_SC_R_ISI_CH3>,
++			<&pd IMX_SC_R_ISI_CH4>,
++			<&pd IMX_SC_R_ISI_CH5>;
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@2 {
++			reg = <2>;
++
++			isi_in_2: endpoint {
++				remote-endpoint = <&mipi_csi0_out>;
++			};
++		};
++	};
++};
++
++&mipi_csi_0 {
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++		};
++
++		port@1 {
++			reg = <1>;
++			mipi_csi0_out: endpoint {
++				remote-endpoint = <&isi_in_2>;
++			};
++		};
++	};
++};
++
+ &jpegdec {
+ 	compatible = "nxp,imx8qxp-jpgdec";
+ };
+@@ -11,3 +90,7 @@ &jpegdec {
+ &jpegenc {
+ 	compatible = "nxp,imx8qxp-jpgenc";
+ };
++
++&mipi_csi_1 {
++	status = "disabled";
++};
+diff --git a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+index 05138326f0a57..c078d92f76c0e 100644
+--- a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+@@ -241,6 +241,11 @@ scu_key: keys {
+ 			status = "disabled";
+ 		};
+ 
++		scu_reset: reset-controller {
++			compatible = "fsl,imx-scu-reset";
++			#reset-cells = <1>;
++		};
++
+ 		rtc: rtc {
+ 			compatible = "fsl,imx8qxp-sc-rtc";
+ 		};
 
 -- 
 2.34.1
