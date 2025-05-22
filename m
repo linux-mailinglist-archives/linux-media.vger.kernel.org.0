@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-33101-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33102-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD455AC0A46
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 13:05:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5BEAC0A91
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 13:25:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8E661BC4F29
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 11:05:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C27CE4A26EC
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 11:25:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50231286415;
-	Thu, 22 May 2025 11:05:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CD9728935D;
+	Thu, 22 May 2025 11:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="v3E5dntI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eY5dxXxz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046A2221FAA
-	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 11:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A072B9A9
+	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 11:24:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747911929; cv=none; b=WFjeBxSCWW8D+kGd+GXUfaRXfWH616u3pi2oAiAwzxYoZl64W9u9COrh88Al9cDgi9wuxUQ4dhHeW2bdbEIosBbqDoRGWQ4vAKF26Itp+RhCEYtTZkrIDfEEkzKZJJnFVcQqU5E5jF1bmGA0v/Z5wRDY33qNvZc6roa/FsDOoVs=
+	t=1747913094; cv=none; b=JiDBbob93iljWysEm1gX1RVqa6BKRoKzc5jXSEZOyXhIMbwFFezDMiqPvGzqIjXTD+SWfcd50XECjEAOJ4ZnR9W5KnnR21Stw2E0nX+fG0uoyocZ1sMs6qsoMTi1jTsmtj0ie2nnrykmD15rbhramN6wGPFqHqfyONVfgETiCZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747911929; c=relaxed/simple;
-	bh=L/zv/HlBLw1FS8j0W6/HbmJwtdRwgdaChLuXdSqrAb4=;
+	s=arc-20240116; t=1747913094; c=relaxed/simple;
+	bh=1NWrtO7jsg60po6wKlUPmef80Pga5sUCKmobw1I9UtY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AleS0xi9En90E91RHj5GPPsuffGBR4DNjnsxvEEMHuN7GM0LENd2OsedaDa8ftvnvn4PsiAeVOuCTFzIoByLFRaU4ttQ9F8jfbMwLOyYVrcmlGuvL3lgDHknje8o/PTVzbIPvnXZ/0ch3YpHbFk4JJ552SeCWYnksB6R8F4oxt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=v3E5dntI; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=Av5T7Ls55VyKD5Yy7yEy3VJyuHhpbAQmsZ5PCzcYZU2o0kMVxgrjk5ieqOfQ8rlQVfBEqggtXdoXHo50RnqrHSRRpuEKql2/f5SJeVsGJfUfZ3D8P7tdwyAmQSUch/GMrnbLr8fjYYlwoUX39Za7WgQIE1ZvUmz6PJaqKq2r6p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eY5dxXxz; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEA891127;
-	Thu, 22 May 2025 13:05:02 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3AFB89E5;
+	Thu, 22 May 2025 13:24:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747911903;
-	bh=L/zv/HlBLw1FS8j0W6/HbmJwtdRwgdaChLuXdSqrAb4=;
+	s=mail; t=1747913067;
+	bh=1NWrtO7jsg60po6wKlUPmef80Pga5sUCKmobw1I9UtY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=v3E5dntIIk0l+9A1aicSwUQMT0xWtTd3TtUrpCKY8KC+9podmU3wS0qAqtUNsABfl
-	 VBCmf/9WK2faLTeEqMsAwDzbuJj/QzGzKRTAdpq821lx/jrFRSWHroL+/gYWkwhTeJ
-	 evAAM9ivOtInLMTAiom7FkEF7Pd7atT14h2lto8Y=
-Message-ID: <99ca8f9a-ac57-4c9c-9fd9-0308a59a6d7a@ideasonboard.com>
-Date: Thu, 22 May 2025 12:05:21 +0100
+	b=eY5dxXxzluMm4OzwVmAlhBAwZwe27xl8Hlnlz7X2HUgBRzag7ChsFILXkmFt0tTf7
+	 3rOConRjcUh8Zn9/A041mfh2HUgvK/FQODjRoUvx2CuU9a1pM/uwaFPe3a+Z5j2Uk+
+	 voDQjX+rKkWlHUwCcLMx2EGt2LwXbVD013EdeUjY=
+Message-ID: <6816a396-010a-4551-b20e-dc54b023c6cf@ideasonboard.com>
+Date: Thu, 22 May 2025 12:24:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
  laurent.pinchart@ideasonboard.com, mchehab@kernel.org
 References: <20250519140403.443915-1-dan.scally@ideasonboard.com>
  <20250519140403.443915-3-dan.scally@ideasonboard.com>
- <egis6f4hxyq3sz4nmi3iywxtdqgxmnyw4ppngzr7m4l4ttohmb@cypd2odyc2ss>
+ <wns3szkk5p2nfq2ad42ph3lzfg3iwdwz2iumumegfpzlijd7g5@fqes6vkqya26>
 Content-Language: en-US
 From: Dan Scally <dan.scally@ideasonboard.com>
 Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
@@ -102,16 +102,14 @@ Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
  yMcoUWrTK0Uz6UzUGKoJVbxmSW/EJLEGoI5p3NWxWtScEVv8mO49gqQdrRIOheZycDmHnItt
  9Qjv00uFhEwv2YfiyGk6iGF2W40s2pH2t6oeuGgmiZ7g6d0MEK8Ql/4zPItvr1c1rpwpXUC1
  u1kQWgtnNjFHX3KiYdqjcZeRBiry1X0zY+4Y24wUU0KsEewJwjhmCKAsju1RpdlPg2kC
-In-Reply-To: <egis6f4hxyq3sz4nmi3iywxtdqgxmnyw4ppngzr7m4l4ttohmb@cypd2odyc2ss>
+In-Reply-To: <wns3szkk5p2nfq2ad42ph3lzfg3iwdwz2iumumegfpzlijd7g5@fqes6vkqya26>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Jacopo - thanks a lot for the review
+Hi Jacopo
 
-On 21/05/2025 19:10, Jacopo Mondi wrote:
-> Hi Dan,
->     just a few notes here and there, I will have to check users in more
-> detail to comment on the interface
+On 22/05/2025 12:00, Jacopo Mondi wrote:
+> Hi Dan, back with more questions :)
 >
 > On Mon, May 19, 2025 at 03:04:02PM +0100, Daniel Scally wrote:
 >> Add a new framework to the media subsystem describing media jobs.
@@ -169,12 +167,6 @@ On 21/05/2025 19:10, Jacopo Mondi wrote:
 >> +#include <linux/list.h>
 >> +#include <linux/slab.h>
 >> +#include <linux/spinlock.h>
-> Some of these are included by the header file
-
-
-Ack
-
->
 >> +
 >> +#include <media/media-device.h>
 >> +#include <media/media-entity.h>
@@ -193,20 +185,8 @@ Ack
 >> +		WARN_ONCE(1, "%s(): No flag bits set\n", __func__);
 >> +		return -EINVAL;
 >> +	}
-> You could check this before taking the lock
-
-
-Good point
-
->
 >> +
 >> +	/* Count the number of set flags; they're mutually exclusive. */
-> if you want just to count flags you can use hweightX from bitops.h
-
-
-I knew there must be a better way of doing this - thanks!
-
->
 >> +	while (num) {
 >> +		num &= (num - 1);
 >> +		count++;
@@ -293,14 +273,6 @@ I knew there must be a better way of doing this - thanks!
 >> +
 >> +		return 0;
 >> +	}
-> There probably is room to factorize out the common code parts from
-> here
-Agreed, and indeed it was shorter in an earlier iteration, but I found it quite difficult to follow 
-what was going on so in the end rewrote it like this to make the code easier to understand and 
-debug, which certainly helped during development. I think there's value in that that's worth the 
-extra length but I don't feel too strongly about it, so I'm happy to shorten it if the consensus is 
-that that's better.
->
 >> +
 >> +	/*
 >> +	 * If the step is flagged as "can go anywhere" we just need to try to
@@ -365,9 +337,6 @@ that that's better.
 >> +
 >> +	if (job->type != type)
 >> +		return false;
-> possibily moved outside of the lock as well
-Ack
->
 >> +
 >> +	list_for_each_entry(dep, &job->deps, list) {
 >> +		if (dep->ops == dep_ops && dep->data == data) {
@@ -394,27 +363,73 @@ Ack
 >> +	list_for_each_entry(job, &sched->pending, list)
 >> +		if (media_jobs_check_pending_job(job, type, dep_ops, dep_data))
 >> +			return job;
-> Not sure I got this part.
->
-> media_jobs_get_job() has a single caller, and it either returns a
-> pending job or allocates a new one.
->
-> To check if a pending job should be returned you try to math the
-> dep_ops and dep_data and if you get one that matches you identify the
-> job and return it, but only once, as once a dependency is met it will
-> then invalidate the search. What am I missing ?
-
-
-Nothing - that's right. So the point is that in the typical use case the dependencies might be 
-buffers queued to a video device, and in the mali-c55 case there's at least the stats, params, 
-capture and output devices. The drivers call media_job_try_queue_job() in .buf_queue() for the video 
-devices, which then checks the list of pending jobs to see if it has one already allocated for which 
-this dependency is not yet met, and if so returns that. The next time .buf_queue() is called for the 
-same video device though we don't want to return that same pending job, so instead a new one is 
-allocated.
-
->
 >> +
+> Thanks to your offline explanation, I got how this works now, however
+> some questions here
+>
+> The basic idea is that each driver that registers a 'setup' function
+> adds to a job, when its created, its list of dependencies.
+>
+> When a job is "try_queue" and we get here, to decide if a new job has
+> to be created or if we have to run one which is already in the pending
+> queue.
+>
+> How is this identification performed ? Each entry point (assume it's a
+> video device op) will populate the job with its own dependencies,
+> identified by the dep_ops and data address.
+>
+> We walk the 'pending' queue in the media_jobs_check_pending_job()
+> function and we search for one job not already visited from the same
+> entry point, identified by the dep_ops (the 'visited' state is kept by
+> the deps->met flag).
+>
+> Let's assume 2 video devices X and Y
+>
+> qbuf(x) -> try_queue_job() -> new job created on 'pending'
+> qbuf(x) -> try_queue_job() -> the job in the queue has 'deps->met' set, skip
+> it and create a new one
+> qbuf(y) -> try_queue_job() -> the first job in the queue has not
+> deps->set, so return it
+>
+> All in all I would describe this as: when requesting a job try to find
+> the first one not already visited by this entry point, if none is
+> available create a new one.
+
+
+Yep, all seems fine.
+
+> Now, we briefly discussed that when moving to multi-context comparing
+> dep_ops and data to identify an entry point won't be enough: buffers
+> from the same video device but from different contexts do not have to
+> be associated together. So we'll need to extend the identification
+> criteria. Also, I don't find the idea of using dep_ops and data for
+> this purpose particularly neat, as it makes mandatory to add
+> dependencies to a job in the setup function, something not all driver
+> might want to do ?
+
+I don't think it's mandatory for a driver to add dependencies to a job; the implication of lacking 
+them is that whatever step the driver is running for the job takes no input (no buffers need to be 
+available, no parameters need to have been set, no per-requisites need to have been met) in which 
+case it can simply be ignored for the purposes of evaluating whether the job can be queued or not, 
+because it's always ready by definition...does that make sense?
+
+> There might be ways to handle this "track the entry point" thing that
+> could be separated by deps, making deps do what they actually are
+> described for: track dependencies to validate if a job can be run or
+> not. Before exploring options, I would like to know if this only mine
+> concern or is it shared by others.
+
+
+I do agree that a nicer way of tracking them rather than dep_ops and data would be better...perhaps 
+tying it to the entry point as you've conceptualised here is the right thing to do, and the pointer 
+to the function calling media_jobs_try_queue_job() should be passed, along with a context ID?
+
+
+Thanks
+
+Dan
+
+>
 >> +	job = kzalloc(sizeof(*job), GFP_KERNEL);
 >> +	if (!job)
 >> +		return ERR_PTR(-ENOMEM);
@@ -432,13 +447,6 @@ allocated.
 >> +		ret = jsf->job_setup(job, jsf->data);
 >> +		if (ret) {
 >> +			kfree(job);
-> do we need an operation to undo job_setup() or do you think
-> it's not needed ?
-
-
-It's done by media_jobs_free_job()
-
->
 >> +			return ERR_PTR(ret);
 >> +		}
 >> +	}
@@ -472,12 +480,6 @@ It's done by media_jobs_free_job()
 >> +	}
 >> +
 >> +	list_del(&job->list);
-> Probably better to be done while holding the sched spinlock that
-> protects the jobs list ?
-Hmmmm yes. sched->lock is held for one callsite but not the other...but it probably should be. I'll 
-look into why I specifically didn't include it in the locked portion there, thanks.
->
->
 >> +	kfree(job);
 >> +}
 >> +
@@ -489,16 +491,6 @@ look into why I specifically didn't include it in the locked portion there, than
 >> +	struct media_job *job;
 >> +
 >> +	if (!sched)
-> If this happens, I guess something went very wrong. Should we
-> WARN_ONCE() to catch this during development ?
-
-
-This is intentional actually, because there's situations in which a driver might not want the 
-framework to take effect. The C55 driver for example might be working in inline mode rather than 
-memory input mode, in which case it's not needed...the point of making them no-ops was to reduce the 
-amount of "if (!inline)..." stuff in the drivers...perhaps a debug statement here to flag it?
-
->
 >> +		return 0;
 >> +
 >> +	guard(spinlock)(&sched->lock);
@@ -509,9 +501,6 @@ amount of "if (!inline)..." stuff in the drivers...perhaps a debug statement her
 >> +
 >> +	list_for_each_entry(dep, &job->deps, list)
 >> +		if (!dep->ops->check_dep(dep->data))
-> Should you check if dep->ops->check_dep() is valid before calling it ?
-I guess so to be safe, though it is checked in media_jobs_add_job_dep()
->
 >> +			return 0; /* Not a failure */
 >> +
 >> +	list_for_each_entry(dep, &job->deps, list)
@@ -543,10 +532,6 @@ I guess so to be safe, though it is checked in media_jobs_add_job_dep()
 >> +		}
 >> +
 >> +		list_for_each_entry(step, &job->steps, list)
-> I take this as step->run_step() has been validated
-Hmm this actually **isn't** validated in media_jobs_add_job_step(). Better fix that, and I can add a 
-guard here yes.
->
 >> +			step->run_step(step->data);
 >> +
 >> +		media_jobs_free_job(job, false);
@@ -566,9 +551,6 @@ guard here yes.
 >> +{
 >> +	struct media_job *job, *jtmp;
 >> +
-> if you want to make sure a lock is held when calling a function you
-> could use lockdep_assert_held
->
 >> +	list_for_each_entry_safe(job, jtmp, &sched->pending, list)
 >> +		media_jobs_free_job(job, true);
 >> +
@@ -649,19 +631,6 @@ guard here yes.
 >> +			return sched;
 >> +		}
 >> +	}
-> Ok big question here: why are we keeping a static list of schedulers
-> if a single scheduler can be associated to an mdev ?
->
-> Thinking forward a bit here: once we have multiple contexts, each
-> context should have its own scheduler ? Or are planning to a global
-> scheduler per single media device ?
-
-
-I would still expect a single scheduler per media device even in a multi context situation - the 
-thinking behind the complete separation was that it would be easier to compartmentalise...but 
-there's no functional reason, it could just be embedded into a media device if that's a better approach.
-
->
 >> +
 >> +	ret = snprintf(workqueue_name, sizeof(workqueue_name),
 >> +		       "mc jobs (%s)", mdev->driver_name);
@@ -696,23 +665,6 @@ there's no functional reason, it could just be embedded into a media device if t
 >> +
 >> +/* Synchronise access to the global schedulers list */
 >> +DEFINE_MUTEX(media_job_schedulers_lock);
-> Still, even with a single scheduler per media device, I wonder why the
-> scheduler cannot live in the mdev itself...
->
-> I'll have a more detailed look at the users and I'll get back on the
-> interface.
->
-> In the meantime, I wonder if an introductory documentation page that
-> explains why direct function calls are not always possible in drivers
-> that interact in a pipeline and what the use case for media_job is,
-> wouldn't help people getting familiar with it quicker.
-
-
-I hope that the documentation patch will cover that, but perhaps it should come first in the series then
-
-> Thanks
->     j
->
 >> diff --git a/include/media/media-jobs.h b/include/media/media-jobs.h
 >> new file mode 100644
 >> index 000000000000..a97270861251
