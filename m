@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-33143-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33144-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA5FAC0DC1
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 16:11:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B69AC0DC7
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 16:12:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89DB8A26CCC
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 14:09:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C0D63B5F0E
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 14:11:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5CA128C867;
-	Thu, 22 May 2025 14:08:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B4A228C5A0;
+	Thu, 22 May 2025 14:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKNzHXXi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eS+mlcC4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380ED28C2A9;
-	Thu, 22 May 2025 14:08:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE71828C029;
+	Thu, 22 May 2025 14:11:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747922935; cv=none; b=o+G68gn4yWDzpDBre9nApjLW+MpCSJ9++31Q7GMm9oLSP2guLpfHmw47gvMo/Ec44UMo6O3g/I307u9yOfJ5T0G8qc6zaPemcKWXZliof6xIKaQcPhc9Nc5F0VU3Xl8FoKZKn3Zyfo1pi/yJt9I8j4qWWOwG8AJMbjqjUO/oCCM=
+	t=1747923119; cv=none; b=G6/Zp+riEaq6UGFCjZ6WF/S2SJy3XgFb+J4wmE5ZC7kylbKmBDyFim8XNDzX0Jr22EI8NgviyRDCYcKdds/+gho5uqOyPqAk/Ko5JKMV4c2/lNU77SPygr67olQtZ7vH6YWK9Zn74SzQCAn9Y4q1HoncLgzUGxV+wKEcGjtM5Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747922935; c=relaxed/simple;
-	bh=Qd0u1pVRf75cfmJWnRwpiBVuBtAVgpNpqtGWG9kpfRo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DahejXaILrlwP2BGeOzkJ4uWo179cyLjjOAhHKL6vSxpKKiCYPNbl/IfM555fhK7/ScQcH6HkRstNmJxHI9yst0IXTTFsfZbaiFFiMtRr80sK3cGQJOA6F5HlmRQCrAk2ZrW+fsgfNyuGUjx+0AMZ4nGVaqCWzC7uuwRmy3e74A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKNzHXXi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF32FC4CEEB;
-	Thu, 22 May 2025 14:08:49 +0000 (UTC)
+	s=arc-20240116; t=1747923119; c=relaxed/simple;
+	bh=UeD4D3pbnrKEkEqFUZMYLNvrthMcWJ/loMFW1A9Tn6I=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=PbLcvKv19I4iEo994OUsi95F/RtICaRe+3NX06TTPUImanbkJoG+pqucm/E/sqgDD6i7cgMzSPnxx0E20oz/RWo0MTtIXq3H5qsQQ+Y69o5nIOhrkMU2b/3wBxFj+6HWCNLVbkJLHXue1ItporZLwFbIcYP5MMOEYkwcp+ixwdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eS+mlcC4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BD9C4CEEB;
+	Thu, 22 May 2025 14:11:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747922934;
-	bh=Qd0u1pVRf75cfmJWnRwpiBVuBtAVgpNpqtGWG9kpfRo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JKNzHXXibnt68hBktEQUQ/Q9PoJtprV1HPyTwR15uUsgyQmX7k4qUzVFIJfgt+QAh
-	 PELU+wA/IX+HEn2SQodO5K+98Vy5ZS7bcC6MOvqAk97Q4UO0whbeXGQo2rh9ajOFfJ
-	 VTwD6DmUtDx4CizX8sXfpI44btgGWZKnu6vHib+SBjrtCaHmuD5Ooexmra7TwATMbL
-	 TQaYbJqJVa73huCVOgmtKBlJTdd2jPlWDm1P8ZABxLQFpN7u4hd86mKTO21NGdoZ6/
-	 5IWRqaBZ/2HVxuInixVog/gQtKo79eTh8OCJjBlbfV25huSBElclHJqUiKs57qlye2
-	 xn47/r7wl8K8w==
-Message-ID: <b8058efa-ce38-4615-9e43-43d1fd114b39@kernel.org>
-Date: Thu, 22 May 2025 16:08:47 +0200
+	s=k20201202; t=1747923119;
+	bh=UeD4D3pbnrKEkEqFUZMYLNvrthMcWJ/loMFW1A9Tn6I=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=eS+mlcC49iGkK6FGyWf2Jw9jQnou4dfdefuaDVTZl2gkIZOldwYcTRbVxG18geAO0
+	 Ndu3Fhj5n5I6GfRgnAppttLmjcns1nPyA4flX35ioSBwVrGxxiNxZyShk0J4ey11x1
+	 ANjAOb3G+IXxwUPRPLvOtW4pBXV18HnhzljV3TcLSFscugdfezskQS/Akj88OcIVmD
+	 mCbOeAO78n9fVROq4OmQ6MjVraGtypnhQ4SE5StguT5gzdTPndSQtpqVa9wDluRxB1
+	 oh/i25LNd2EJM6lr/gLW9cttfqnv/yYjZ/ibYYx/J/foHrT4y5zsiOJ1R+uzga/rJI
+	 ItBzFJ4HT9rxg==
+Message-ID: <8716115d-60fa-4057-82af-c4ab2efc3952@kernel.org>
+Date: Thu, 22 May 2025 16:11:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,6 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 1/7] media: dt-bindings: mt9m114: Add slew-rate
  DT-binding
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Mathis Foerst <mathis.foerst@mt.com>, linux-kernel@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -68,7 +69,7 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  manuel.traut@mt.com, mathis.foerst@zuehlke.com
 References: <20250522140613.104963-1-mathis.foerst@mt.com>
  <20250522140613.104963-2-mathis.foerst@mt.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <b8058efa-ce38-4615-9e43-43d1fd114b39@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -113,40 +114,31 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250522140613.104963-2-mathis.foerst@mt.com>
+In-Reply-To: <b8058efa-ce38-4615-9e43-43d1fd114b39@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/05/2025 16:06, Mathis Foerst wrote:
-> The MT9M114 supports the different slew rates (0 to 7) on the output pads.
-> At the moment, this is hardcoded to 7 (the fastest rate).
-> The user might want to change this values due to EMC requirements.
+On 22/05/2025 16:08, Krzysztof Kozlowski wrote:
+> On 22/05/2025 16:06, Mathis Foerst wrote:
+>> The MT9M114 supports the different slew rates (0 to 7) on the output pads.
+>> At the moment, this is hardcoded to 7 (the fastest rate).
+>> The user might want to change this values due to EMC requirements.
+>>
+>> Add the 'slew-rate' property to the MT9M114 DT-bindings for selecting
+>> the desired slew rate.
+>>
+>> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
+>> ---
 > 
-> Add the 'slew-rate' property to the MT9M114 DT-bindings for selecting
-> the desired slew rate.
+> <form letter>
+> This is a friendly reminder during the review process.
 > 
-> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-> ---
+> It looks like you received a tag and forgot to add it.
+> 
+Crap, you actually received review almost three months ago at v2! Then
+on v3 Rob did job second time and me on v4 did third time.
 
-<form letter>
-This is a friendly reminder during the review process.
-
-It looks like you received a tag and forgot to add it.
-
-If you do not know the process, here is a short explanation:
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
-of patchset, under or above your Signed-off-by tag, unless patch changed
-significantly (e.g. new properties added to the DT bindings). Tag is
-"received", when provided in a message replied to you on the mailing
-list. Tools like b4 can help here. However, there's no need to repost
-patches *only* to add the tags. The upstream maintainer will do that for
-tags received on the version they apply.
-
-Please read:
-https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
-
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
+How many times this has to be reviewed?
 
 Best regards,
 Krzysztof
