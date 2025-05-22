@@ -1,278 +1,111 @@
-Return-Path: <linux-media+bounces-33128-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33129-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BF4AC0CC0
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 15:28:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D99B9AC0D10
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 15:42:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74DDAA23A0E
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 13:27:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A05D31BC3462
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 13:42:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68D8028C030;
-	Thu, 22 May 2025 13:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC84228C00A;
+	Thu, 22 May 2025 13:42:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kr/2Y0d/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ObjMY9jM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E5C28BAA5;
-	Thu, 22 May 2025 13:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277413010C;
+	Thu, 22 May 2025 13:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747920463; cv=none; b=sBC/tHRUwLUhLh6AbqSJALo+pcFNybBZxK21tVCw+pCqgcfMK6CpSiClzvQnDE+Gz0AaHOr48kH14G/IQA/aJnvrL3vSNJG73OQn5j95FNPYoWdeQvSs/eg9vE17HbKd/lpvhLa17QXFwAGboaMO/ra/7IHZ5YZwoswuVTSAysE=
+	t=1747921325; cv=none; b=hl2KcusOtZ/zOwa+WOBdzcB9ctYSiouRlMp6jYVMexQLf3gXo4UEXXf4spevXdPHK4DraQsotm46PbpACsaapupd1Ho+6JmyL+FXMZoJQyISy2QReO9A5iBlo4WBs+CbNwUfqFO6f6FmnGQkJeSpGvIGWZrKbyAK/4k/fF8WrQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747920463; c=relaxed/simple;
-	bh=cJNuW3zH0qjXlA45002BD/Dtos0XNMa8OTsI5lQbPfU=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=oT2wSUgqDu0IvG8o7FKZrM7W3GdGn6FDrOeVvOcEG2ZG95xf5VtMlYmgcUowZPxkuADIYjVlZF5RII8wNqc/FcB4BzWJRvmrJkW0JAMOWjGukjaifRFlh5+496usyXwMZiV0CNNvHAFFmcyPCmAK70PcboaxvgY9nVfKAk8x528=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Kr/2Y0d/; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pyrite.rasen.tech (unknown [IPv6:2001:268:981f:5766:be7:6ccd:96ed:1622])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 880FA8FA;
-	Thu, 22 May 2025 15:27:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747920437;
-	bh=cJNuW3zH0qjXlA45002BD/Dtos0XNMa8OTsI5lQbPfU=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=Kr/2Y0d/gd2BhNkN7MtPfgXpskHmAsUValzoPjS57Q+R/wGHuW4OEiUsb7mytpuGN
-	 Pdi1PZecPcuRbQ0Y+9PQlon/bKXSIMNMk9uzLsKV8txt0ELTlPAqDvinkPnhUWm+a3
-	 lOP6x66vqqeHbq5gv1HoSu4etbmL5xsVEcdpEjIQ=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1747921325; c=relaxed/simple;
+	bh=aefwlKfamE6DcffrjNWnfeFHK+8y3ocMVzuWPfH954s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iMj2D4hxNYvCZjO7RdJIipkar00R0E8woF7RADw4C3hNxW/g7dIuuGmUQ/c68hbhMDya58wGwmTgVya52cqxzK2G4SdpyAT/bAXnccZwLBqaWHQZ21wfYSNilZYRgetFgKj5SOwU97S/LfJbddRTzFtKZhCBOYnHwtwGnN/46JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ObjMY9jM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF16C4CEED;
+	Thu, 22 May 2025 13:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747921324;
+	bh=aefwlKfamE6DcffrjNWnfeFHK+8y3ocMVzuWPfH954s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ObjMY9jM8+iR0WfaQGVtqUs8mWYuWJLr19dnGRpII49sMuQT0btj1FoAvJsQNfIT0
+	 0GH+iILZyxixLeDBM1bjjRpV3Szg3hMtglKlC9VE+PdJ+BWB1OMPKGAeyEdwFtfCmx
+	 2EU4RIebtM5oLlIrL+RJHEXTX+45JcNdxJ6B+Ja5UBEkiz5wV1F9UT/tNSCjazYv0X
+	 6wDeSwFBTwrS2LDGMBkOA/Z+we1vvKq3g9yrKjujeCE2L0eGvky1NAM41DeYx+Kxul
+	 WE3JIjr1cOhpr35d3hawVY/xNrAZ88LfnUHHxAa8yWFSE4mM1sAls6nm3JnMJwCiOL
+	 aznOAGZ/eoVrQ==
+Date: Thu, 22 May 2025 15:41:59 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] drm/nouveau: Don't signal when killing the fence
+ context
+Message-ID: <aC8pp1tOUkikGPKx@pollux>
+References: <20250522112540.161411-2-phasta@kernel.org>
+ <20250522112540.161411-3-phasta@kernel.org>
+ <af03b541-0b69-4b3d-b498-b68e0beb3dcb@amd.com>
+ <06210b9dc5e5ea8365295b77942c3ca030f02729.camel@mailbox.org>
+ <eae0ff0f-31a6-433a-b255-9bdb4727a940@amd.com>
+ <aC8fpEXYWZ9Oy41J@pollux>
+ <ebedece4-9758-47e9-b621-37b40e3f0fc3@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250521190308.GB6792@pendragon.ideasonboard.com>
-References: <m3tt5u9q7h.fsf@t19.piap.pl> <aB31Eg6oRpcHHEsb@pyrite.rasen.tech> <m3jz6b8lb1.fsf@t19.piap.pl> <20250521101042.GC12514@pendragon.ideasonboard.com> <174784811736.14042.11404187248848039485@calcite> <20250521190308.GB6792@pendragon.ideasonboard.com>
-Subject: Re: [PATCH] RKISP1: correct histogram window size
-From: Paul Elder <paul.elder@ideasonboard.com>
-Cc: Krzysztof =?utf-8?q?Ha=C5=82asa?= <khalasa@piap.pl>, Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Ondrej Jirman <megi@xff.cz>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, stefan.klug@ideasonboard.com
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Thu, 22 May 2025 22:27:26 +0900
-Message-ID: <174792044639.778642.7190019361640032369@calcite>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ebedece4-9758-47e9-b621-37b40e3f0fc3@amd.com>
 
-Quoting Laurent Pinchart (2025-05-22 04:03:08)
-> On Wed, May 21, 2025 at 07:21:57PM +0200, Paul Elder wrote:
-> > Quoting Laurent Pinchart (2025-05-21 12:10:42)
-> > > On Tue, May 20, 2025 at 03:26:58PM +0200, Krzysztof Ha=C5=82asa wrote:
-> > > > Paul Elder <paul.elder@ideasonboard.com> writes:
-> > > >=20
-> > > > >> Without the patch (i.MX8MP, all-white RGGB-12 full HD input from
-> > > > >> the sensor, YUV NV12 output from ISP, full range, histogram Y mo=
-de).
-> > > > >> HIST_STEPSIZE =3D 3 (lowest permitted):
-> > > > >
-> > > > > According to the datasheet, the histogram bins are 16-bit integer=
- with a
-> > > > > 4-bit fractional part. To prevent overflowing the 16-bit integer
-> > > > > counter, the step size should be 10.
-> > >=20
-> > > That would be for combined RGB mode, as every pixel is accounted for
-> > > three times in that mode. In other modes, a step size of 8 should be
-> > > fine.
-> >=20
-> > Ah, right.
-> >=20
-> > > > >
-> > > > > Do you have any other information on this? Is it known that it's =
-stable
-> > > > > and consistent to use all 20 bits anyway?
-> > >=20
-> > > The documentation states that the width of the bin counter registers =
-is
-> > > 20 bits wide including a 4-bit fractional part, and that the software
-> > > should use only the upper 16 bits of the bin counters. The fractional
-> > > part is caused by the weights. There's a corresponding todo comment in
-> > > libcamera:
-> > >=20
-> > >         ...
-> > >          *
-> > >          * \todo Take into account weights. That is, if the weights a=
-re low
-> > >          * enough we can potentially reduce the predivider to increase
-> > >          * precision. This needs some investigation however, as this =
-hardware
-> > >          * behavior is undocumented and is only an educated guess.
-> > >          */
-> > >         int count =3D mode =3D=3D RKISP1_CIF_ISP_HISTOGRAM_MODE_RGB_C=
-OMBINED ? 3 : 1;
-> > >         double factor =3D size.width * size.height * count / 65536.0;
-> > >         double root =3D std::sqrt(factor);
-> > >         uint8_t predivider =3D static_cast<uint8_t>(std::ceil(root));
-> > >=20
-> > >         return std::clamp<uint8_t>(predivider, 3, 127);
-> > >=20
-> > > libcamera sets the default weights to 1, and discards the 4 fractional
-> > > bits. It seems that the=20
-> >=20
-> > (what did you mean to finish saying...?)
->=20
-> Oops. Ignore that, I split my reasoning to two paragraphs and forgot to
-> delete that half line.
->=20
-> > > I expect that each pixel contributes to its bin by adding the weight
-> > > value corresponding to its zone. Setting all weights to 1, I would
-> > > expect that the 4 fractional bits could be used to increase the bin s=
-ize
-> > > to 1048575 pixels (20 bits), and therefore decrease the predivider fr=
-om
-> > > 10 to 3.
-> >=20
-> > True. I suppose if all the weights are 1 then we can squeeze out more b=
-it
-> > precision then. But that's a todo for libcamera.
-> >=20
-> > > > Interesting. I only have those mrv_*.h files which come with
-> > > > isp-imx-4.2.2.* package(s). Here we have (among others):
-> > > >=20
-> > > > /*! Register: isp_hist_prop: Histogram properties (0x00000000)*/
-> > > > /*! Slice: stepsize:*/
-> > > > /*! histogram predivider, process every (stepsize)th pixel, all oth=
-er pixels are skipped */
-> > > > /* 0,1,2: not allowed */
-> > > > /* 3: process every third input pixel */
-> > > > /* 4: process every fourth input pixel */
-> > > > /* ...*/
-> > > > /* 7FH: process every 127th pixel */
-> > > > #define MRV_HIST_STEPSIZE_MASK 0x000003F8
-> > > > #define MRV_HIST_STEPSIZE_SHIFT 3
-> > > >=20
-> > > > In case of my IMX290 1920x1080 sensor, 1 doesn't work well (it stops
-> > > > counting before reaching $((1920x1080)) in each bin, and even if no=
- bin
-> > > > reaches this magic value, the total count may be invalid (not equal=
- to
-> > > > the number of pixels). IIRC, 2 worked well. Maybe with higher
-> > > > resolutions, I don't know.
-> > > >=20
-> > > > I'm currently using "3" per the .h file:
-> > > > isp_hist_prop:
-> > > > 32E12400: 1Dh
-> > > > histogram_measurement_result:
-> > > > 32E12414: 0 0 1 1004 569 476 633 1197 2373 2212 1923 2945 3632 3025=
- 5821 204589
-> > > > which sums to 518400 =3D 1920*1080/9.
-> > > >=20
-> > > > Setting "2", the same input scene:
-> > > > 32E12400: 15h
-> > > > 32E12414: 0 0 0 2194 1263 1096 1406 2528 5228 5052 4291 6354 8322 6=
-943 13201 460522
-> > > > which sums to 518400 =3D 1920*1080/4.
-> >=20
-> > Yes, these look good (although I think you might've copy&pasted the wro=
-ng
-> > number for the sum)
-> >=20
-> > > > Setting "1", the same input scene:
-> > > > 32E12400: Dh
-> > > > 32E12414: 0 0 25 9046 4924 4317 5435 10655 20781 18965 16051 24716 =
-32681 28368 54301 1048559
-> > > > which sums to 1278824 which is rather less than 2073600.
-> > > > The last number (1048559) is the magic one, no bin can go higher. L=
-ess lights and:
-> >=20
-> > Oh? I would've expected 2^20-1 =3D 1048575 to be the magic number, but =
-ok I
-> > suppose the hardware caps at 1048559 instead. It probably overflowed an=
-d that's
-> > why the sum is so low.
-> >=20
-> > > > 32E12400: Dh
-> > > > 32E12414: 0 0 0 0 0 0 184 3059 11970 75298 114898 211444 429772 439=
-922 400358 386695
-> > > > total =3D 2073600. But don't rely on it too much, the "1" has probl=
-ems.
-> >=20
-> > That's interesting. My guess would be that in practice a divider of 1 w=
-ould
-> > still work as long as you make sure that it doesn't overflow. Maybe the=
- usage
-> > documentation was based on a rule-of-thumb.
-> >=20
-> > > > In short, those are integer values. One may use them as fractionals=
- with
-> > > > some clever step size, I guess.
-> > > >=20
-> > > > >> isp_hist_h_size: 383 (=3D 1920 / 5 - 1)
-> > > > >> isp_hist_v_size: 215 (=3D 1080 / 5 - 1)
-> > > > >> histogram_measurement_result[16]: 0 0 0 0  0 0 0 0  0 0 0 0  0 0=
- 0 229401
-> > > > >>
-> > > > >> Apparently the histogram is missing the last column (3-pixel wid=
-e,
-> > > > >> though only single pixels count) and the last (same idea) row
-> > > > >> of the input image: 1917 * 1077 / 3 / 3 =3D 229401
-> > > > >
-> > > > > I don't quite understand this. With a sub-window width of
-> > > > > 1920 / 5 - 1 =3D 383, shouldn't the resulting total window width =
-be
-> > > > > 383 * 5 =3D 1915? Same idea for the height.
-> > > >=20
-> > > > It would, but the stepsize =3D 3 makes it ignore only the last one
-> > > > - i.e., normally the counted ones are 0, 3, ... 1914, 1917 (which m=
-akes
-> > > > 1920/3) and with 383, it ends at 1914, thus only 3 pixels (1 really,
-> > > > instead of 2) are missing from calculations (not 5). I guess the sa=
-me
-> > > > vertically, 1080 divides / 3 and 1075 doesn't.
-> >=20
-> > Ah ok, I see. Thanks for the clarification.
-> >=20
-> > > >=20
-> > > > > The fix looks fine though. Although, I'm wondering if there's a r=
-eason
-> > > > > why there was a -1 in the first place. Does anybody know?
-> > > >=20
-> > > > There is slight chance it's different on some other SoC, but I woul=
-d be
-> > > > surprised.
-> > >=20
-> > > The documented constraint is
-> > >=20
-> > >     hist_h_offset + hist_h_size x 5 should be less than or equal to t=
-he
-> > >     horizontal size of the picture.
-> > >=20
-> > > (and similar for the vertical direction). The initial -1 seems to be a
-> > > bug.
-> >=20
-> > Ok.
-> >=20
-> > Looks go to me.
-> >=20
-> > Reviewed-by: Paul ELder <paul.elder@ideasonboard.com>
->=20
-> Should we update the commit message as you initially proposed ?
+On Thu, May 22, 2025 at 03:09:49PM +0200, Christian König wrote:
+> On 5/22/25 14:59, Danilo Krummrich wrote:
+> > On Thu, May 22, 2025 at 02:34:33PM +0200, Christian König wrote:
+> >> See all the functions inside include/linux/dma-fence.h can be used by everybody. It's basically the public interface of the dma_fence object.
+> > 
+> > As you write below, in certain cases it is valid to call this from drivers, so
+> > it's not unreasonable to have it as part of the public API.
+> 
+> The question is from which drivers?
 
-Although I don't remember explicitly proposing updating the commit message,=
- yes
-I would like an upgrade to it.
+Well, any driver that uses it to check its own fences, as you say below.
 
-For one the subject should be prefixed with "media: rkisp1:" as opposed to =
-just
-"RKISP1:".
+> >> So testing if a fence is signaled without calling the callback is only allowed by whoever implemented the fence.
+> >>
+> >> In other words nouveau can test nouveau fences, i915 can test i915 fences, amdgpu can test amdgpu fences etc... But if you have the wrapper that makes it officially allowed that nouveau starts testing i915 fences and that would be problematic.
+> > 
+> > In general, I like the  __dma_fence_is_signaled() helper, because this way we
+> > can document in which cases it is allowed to be used, i.e. the ones you descibe
+> > above.
+> > 
+> > test_bit() can be called by anyone and there is no documentation comment
+> > explaining that it is only allowed under certain conditions.
+> 
+> That's a rather good argument.
+> 
+> > Having the __dma_fence_is_signaled() helper properly documented could get you
+> > rid of having to explain in which case the test_bit() dance is allowed to do
+> > over and over again. :-)
+> 
+> That's an even better argument. 
+> 
+> > I also think the name is good, since the '__' prefix already implies that there
+> > are some restrictions on the use of this helper.
+> 
+> I'm still hesitating. Adding something to the API always made it usable by everybody.
 
-I'd also like a bit of clarification in the commit message about where 1917=
- and
-1077 came from. A copy of what you explained to me, Krzysztof, would be
-sufficient imo.
-
-I think that should be good enough. The predivider discussion is technically
-not in scope of this so I don't mind it not being mentioned. That or just
-mention that it seems like a weight of 1 means that all 20 bits can be used=
- as
-an integer value. Up to you Krzysztof.
-
-
-Thanks,
-
-Paul
+You can't prevent that, the test_bit() dance can be done by anyone, but you can
+document it properly with this helper. :-)
 
