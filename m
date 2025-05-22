@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-33144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B69AC0DC7
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 16:12:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCFFAC0DE3
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 16:17:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C0D63B5F0E
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 14:11:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5F1916210B
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 14:17:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B4A228C5A0;
-	Thu, 22 May 2025 14:12:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4CFB28C5AC;
+	Thu, 22 May 2025 14:17:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eS+mlcC4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FpdkCoBE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE71828C029;
-	Thu, 22 May 2025 14:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE3541AAC;
+	Thu, 22 May 2025 14:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747923119; cv=none; b=G6/Zp+riEaq6UGFCjZ6WF/S2SJy3XgFb+J4wmE5ZC7kylbKmBDyFim8XNDzX0Jr22EI8NgviyRDCYcKdds/+gho5uqOyPqAk/Ko5JKMV4c2/lNU77SPygr67olQtZ7vH6YWK9Zn74SzQCAn9Y4q1HoncLgzUGxV+wKEcGjtM5Gg=
+	t=1747923438; cv=none; b=gwjnd5ZaoQ4jLwEct3lqgF9PHEAfaRHvYInh3IpIFHVYkb4yY+wBf8XXK6Dx7Hz8AkV1s5KBFz0kAm29aK6LEjFDl/igIV5HQTIUJ8HRLVJRGWM1dlBUt5l5oQdpgdWGhsIvhab4BVDlB8o9yfqwNWrzLyvrLye0NmBzkT45Sm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747923119; c=relaxed/simple;
-	bh=UeD4D3pbnrKEkEqFUZMYLNvrthMcWJ/loMFW1A9Tn6I=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PbLcvKv19I4iEo994OUsi95F/RtICaRe+3NX06TTPUImanbkJoG+pqucm/E/sqgDD6i7cgMzSPnxx0E20oz/RWo0MTtIXq3H5qsQQ+Y69o5nIOhrkMU2b/3wBxFj+6HWCNLVbkJLHXue1ItporZLwFbIcYP5MMOEYkwcp+ixwdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eS+mlcC4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BD9C4CEEB;
-	Thu, 22 May 2025 14:11:54 +0000 (UTC)
+	s=arc-20240116; t=1747923438; c=relaxed/simple;
+	bh=FIAP5ivOA9Tc52MccphjuWXYgFP4ivGn13zAzEuvEOg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YoxtbTphaPKeg2efVq/+PBilS6YS6zkF24vx88N/0vbN6YLdHQ+wX2MFpz6eLuPFXIm6s0oC4yv8LOpPZnj/id3F04VQlFGuQ1W+aU573rUhDUpJo5SNDbn5n0o1qDtpCCznHJJpqCs+BZ+2lsh3B6q4Qrdaz7Dvri7isis5huY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FpdkCoBE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F4F2C4CEE4;
+	Thu, 22 May 2025 14:17:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747923119;
-	bh=UeD4D3pbnrKEkEqFUZMYLNvrthMcWJ/loMFW1A9Tn6I=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=eS+mlcC49iGkK6FGyWf2Jw9jQnou4dfdefuaDVTZl2gkIZOldwYcTRbVxG18geAO0
-	 Ndu3Fhj5n5I6GfRgnAppttLmjcns1nPyA4flX35ioSBwVrGxxiNxZyShk0J4ey11x1
-	 ANjAOb3G+IXxwUPRPLvOtW4pBXV18HnhzljV3TcLSFscugdfezskQS/Akj88OcIVmD
-	 mCbOeAO78n9fVROq4OmQ6MjVraGtypnhQ4SE5StguT5gzdTPndSQtpqVa9wDluRxB1
-	 oh/i25LNd2EJM6lr/gLW9cttfqnv/yYjZ/ibYYx/J/foHrT4y5zsiOJ1R+uzga/rJI
-	 ItBzFJ4HT9rxg==
-Message-ID: <8716115d-60fa-4057-82af-c4ab2efc3952@kernel.org>
-Date: Thu, 22 May 2025 16:11:52 +0200
+	s=k20201202; t=1747923436;
+	bh=FIAP5ivOA9Tc52MccphjuWXYgFP4ivGn13zAzEuvEOg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FpdkCoBEgERzSMO4wqrP46cxPcN7MTgEhi9c3w0XYPP3iOpAR+5Jn/e6iz4QQujOY
+	 37hQXKQs3dfh1b8mqu23o1LZOBNATvSG0HPkvJE25vu+tiQf04tli6W13ORP/RgY+b
+	 pee+yIJ+r+7cIB7fGiub5BwQcclB6ngvniO9xJCdwP+pbCWHqNx5t8tp3XzM7Rx1hn
+	 9XhwsTnsINcnew/jOlZxQBd+0vT7EspvsbFP6ewcxhQgtGzxw+epMbEZasiOhvHdtY
+	 v9Do9My08L3NdnoJs4WioUZbK/EgTvtfsonWrmKzOAumZXT26a7de4OXd+jH9fOZ59
+	 nP5wkVWDRcvhw==
+Message-ID: <2567dc7e-f88d-475e-9ae8-a454416251c2@kernel.org>
+Date: Thu, 22 May 2025 16:17:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,9 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/7] media: dt-bindings: mt9m114: Add slew-rate
- DT-binding
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v5 0/7] MT9M114 driver bugfix and improvements
 To: Mathis Foerst <mathis.foerst@mt.com>, linux-kernel@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -68,8 +66,7 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  manuel.traut@mt.com, mathis.foerst@zuehlke.com
 References: <20250522140613.104963-1-mathis.foerst@mt.com>
- <20250522140613.104963-2-mathis.foerst@mt.com>
- <b8058efa-ce38-4615-9e43-43d1fd114b39@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -114,31 +111,51 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <b8058efa-ce38-4615-9e43-43d1fd114b39@kernel.org>
+In-Reply-To: <20250522140613.104963-1-mathis.foerst@mt.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/05/2025 16:08, Krzysztof Kozlowski wrote:
-> On 22/05/2025 16:06, Mathis Foerst wrote:
->> The MT9M114 supports the different slew rates (0 to 7) on the output pads.
->> At the moment, this is hardcoded to 7 (the fastest rate).
->> The user might want to change this values due to EMC requirements.
->>
->> Add the 'slew-rate' property to the MT9M114 DT-bindings for selecting
->> the desired slew rate.
->>
->> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
->> ---
+On 22/05/2025 16:06, Mathis Foerst wrote:
+> Hi,
 > 
-> <form letter>
-> This is a friendly reminder during the review process.
+> this patch series contains the following bugfix and improvements
+> for the MT9M114 camera driver:
 > 
-> It looks like you received a tag and forgot to add it.
+> Changelog:
 > 
-Crap, you actually received review almost three months ago at v2! Then
-on v3 Rob did job second time and me on v4 did third time.
+> v4 -> v5:
+> - Apply reformatings and small refactorings as suggested in review comments
+> - Split PATCH 4 into two parts: One for applying HFLIP / VFLIP while 
+>   streaming, one for applying set_selection while streaming.
+> - Add condition to apply set_selection immediately only if the size of the
+>   cropping rectangle does not change in PATCH 5
+> - Use device_property_read_u32 instead of of_property_read_u32 in PATCH 7
+> 
+> v3 -> v4:
+> - Rename DT binding from "onnn,slew-rate" to "slew-rate" in PATCH 1 and 6 as
+>   requested in the review comment.
+> 
+> v2 -> v3:
+> - Dropped PATCH 2 ("media: mt9m114: Add get_mbus_config").
+>   Based on the comments, this issure won't be fixed in the MT9M114
+>   driver but in "imx-media-csi.c" in a separate patch.
+> - Renumbered patches accordingly.
+> - Fix the incomplete renaming of the DT property from 'pad-slew-rate'
+>   to 'onnn,slew-rate' in PATCH 1 and 6.
+> - Fix checkpatch formatting suggestions in PATCH 2 and 6.
+> 
+> v1 -> v2:
+> - Fix the subjects of the patches
+> - Dropped PATCH 1 ("Add bypass-pll DT-binding") as it can be automatically
+>   detected if the PLL should be bypassed.
+> - Renumbered patches accordingly
+> - Switch to uint32, add default value and clarify documentation in PATCH 1
+> - Add 'Fixes' and 'Cc' tags as suggested in PATCH 6
+> 
+I am looking at this changelog and cannot find:
 
-How many times this has to be reviewed?
+Where did you mention and explain dropping two reviews which you
+received (see submitting patches)?
 
 Best regards,
 Krzysztof
