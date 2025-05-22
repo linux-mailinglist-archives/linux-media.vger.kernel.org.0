@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-33150-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33151-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FC2AC0E39
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 16:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1923DAC0E3E
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 16:36:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF09D1BA8092
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 14:36:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 57FD01BA86D0
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 14:36:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9148628C86E;
-	Thu, 22 May 2025 14:35:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E04C28D837;
+	Thu, 22 May 2025 14:35:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="lRqzMNoG"
+	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="fuT+otJ/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2044.outbound.protection.outlook.com [40.107.20.44])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2057.outbound.protection.outlook.com [40.107.22.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530D428A1EE;
-	Thu, 22 May 2025 14:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FD028A1EE;
+	Thu, 22 May 2025 14:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.57
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747924543; cv=fail; b=E9/Pf3vnWffxm09jnzOpfyHvvJzjbiwD9Z2ZepEFVtbbNhD60b7M7vgrhDNIsg/Sr2xmSopcL/QPeTSyHaxjcUjVZBGfbVxEc62Od7B2sOTCPGw/8lCH6wRyPrq6Z9kRly/IfY3QbIIC4B2CPOiUKqT6TuGbRftbGhNCwCzVKy4=
+	t=1747924553; cv=fail; b=XWxRTrwRq0BrznPcvuo4/es9LW5k85G+MxkmoWyKaofG9APanZhjSl5KXZsbIhGGDh+Lcz99kwPr8+xBvVjKfM4r5miGGQn1m+Tecyy2JnN3I+VN3imIgiK/oFpjD1jroN89hkINNmAR1eBKC2DLI5+a/07n4GKoFToy7hFvA1Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747924543; c=relaxed/simple;
-	bh=NstTd+C8GlzCMnrOSZLpB0mH4EhSO1Qx5EQ9kMntzjE=;
+	s=arc-20240116; t=1747924553; c=relaxed/simple;
+	bh=p3cAlDG2oe7D64MGpf/kBy8cafnimbqAZ0Fxql0rm2U=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=S/1PkpWXWtbU703Yyfsz1wAJ4XtxSbKiviOopBJkvnyZz/tdl82m08IX3MJdxUlRx/5S/Hj12N8b3nYHZgFYVmJE3yyOpCkglX5ffAO9uzUH4vcyGQzaD8DjKqnKeHNwq8vHdrQsdfG2nrsJPYlo2ft+/iDOvLZ7zNQtNDBMRHs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=fail smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=lRqzMNoG; arc=fail smtp.client-ip=40.107.20.44
+	 Content-Type:MIME-Version; b=uMaKE+Aj3kYg48LzFZnRIkHCFvaPh8wTV/uDWww4btEg0GyVRrAtvLjPNWF7d+ijReUJ1yiEUYjNVarebaYC+8jzlJ0fZBkQCcWl5pSXU6K/vPIivt2ZgJIPTY2nyJIGF9t1Wjc+3qIO+VND+Sachl42PTW4n/yP3vBaztnA+s8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=fail smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=fuT+otJ/; arc=fail smtp.client-ip=40.107.22.57
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mt.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Jy1ss1003x1U2y9QjSt5N0aB0MJ+Rk4wroYHdi4dafFew+0D3ond7NOY+x+dfQ6lUz8sOnsPJ4jN9XqcpbFRvOF3dk+N+D91Dz7AXtliI4GudWLC8AMosT3WPiD3xVcDZlonJO6eF2VT4Z/FsSwCI6hkqwhRjLcwcspFN1KAx7tCUA2Y4nxRnV4UMm4jUVuFcSxWJXa9DwsnhMQtuPhUTnTsP6+o8QCLEAlAmVocXSRuiKzhNemDIYmO4VrqXJGNZziNYbcMpcfVD67jEa7tTnPFoAMxlPxFupzV9fEgzZbImPAUmdWqBjJGVMlOq8kEvqIrXbdfux9baQFvfi8X3g==
+ b=KevpjyG3ZJoAia2hYmASsSI7pSEgyduUrgeDNZ/wRrZRfcuTenNi78P+T8QqNAwKd+Q1ROuF9+HzJyTmPHXYkIIxhS1jvYbkBYuqfKU8sVs6iHbO+JZcF+PTGJ6uDgrsuEqkU8Mz81HBfklThYE81lL5lZgSXEr3EVkDqUBpBizDyAOqpnztF/bmgbIMDiQkwMgju7drm+IwyedpLgUir8klLB6lQ7AtvtckPuCAF9r5nQPv/XtofYmgPnPPmUWRIdFLyw3auYYjkYM+Iu3/KKMQY/yopROy6PbdlmeYLtZTJB7B27nSA3v44C4VP52Vi0pEeByne7Chig0EL1B5yA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ez5frIHCpCaG5LWVaidEt551wM6S4v7q5YLEmwrSDCs=;
- b=UQ0E64MveMom8yVaAEML2LwGubvFco1+nE3bvBG3Rclqd5Nvc3wY4cItXjQkIpvvR684OfjVPXhpDnxBi+dQdNBhOsFufIyuVrHoB7dGHR88y4n8GFTXUAo30M9GJpYxdEPibEFVElM2i5cREoSR/3sBytPTBOR3nXCQHvKyiZlPjqNmxDzjB4SuMmjHUrv9T9wp3r4dTma6XWTO/nFx5d2YogW6kQckFPipiwAFTyEBu9bBuuYqQhv11iK6Rs+pvoOTiYzY4yrcpS41VENQxaRJ698kwVcVSU9GcFEZQ2rFVYjcQcN0M65aY53vEh+hbj6wSfSaFhYQv+ga5I42+Q==
+ bh=UQcYv33i+9n3cu/hqEBCZHrKU4GwhJibwK0luUi434s=;
+ b=eQwOs0dJ5E6Y3gv+EmErI9rOJ1WE4UivK2/VWkZiX0K+/+iyDKnWYVKpuyum6iMXIE+qLZhBwauGCYZX3JM4OcW3iQ1DLgcwY0iEIj46IUA3Oq2062/SDW96v0kwojis3YPSoKtzUgmovEuYUWvhXgiuB6UOYt+SwlrLncYhwSTnE2Igf363EkaXzL17z0jNyn+AfhESU8Y7aqRdm3/fVIoqlGsmQ3fab6G7/ijGdJp70MjirJc4umfsoyeMgsg0gdNHZqGwVQXCjl/oXso66NAW+4xEoLV+WMqrGz2StkpAecrcDt2HW1smf8ZJBFtSbpTvpmnk/+n0s4f5iEH3TQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
  header.d=mt.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ez5frIHCpCaG5LWVaidEt551wM6S4v7q5YLEmwrSDCs=;
- b=lRqzMNoGHfjjVOdcTbIfPXNcVcOhTL3cNxXSbUKiAQ+aBDYRU9ptkxYH5kkJFZNYPrSC2JeZ2HgOLtqzueNhwtSFQ1KlrslPa208fVSimolyVdcRJQSCrcePmJ72G+f1RlunII9Igv6pjVYcaAy0jxu/Oe+NARzygIVRUTZb1CfztSyKmpqOXY/vYsun8BTiw7UhSaYDtL9ICtQag3IFUvd4eBf452QCSlSJkTuDt0Ym5+A3IqAENr2IBp3Pp2g4YaL4qYVYLOtl8aY1nrxhWDxifnrqDdnu5fzHTki1VZUvMXSZQKwi0pwEzY/mfk8hTZi6X4ekEefvEjJ7rMTMpw==
+ bh=UQcYv33i+9n3cu/hqEBCZHrKU4GwhJibwK0luUi434s=;
+ b=fuT+otJ/rWIFV8/B4ANZaQgdJfnc5O3aidrjvvz59rVGQjbgO1g1iXIee8mflcCHkT07CE1L9XJ0nZgcPYP3gsvMmFOdAMgTlKwvW2QnE1FGcF9pxEmB1KDDzYS7r3pbXJwzL+CgGcQW73x0VqT5BTl6AwHsjQeA3eo/rkBzQn4PikOBA9E969437pWeCw/j/1+GWjx28pvzquAEMovtR2mPH0C95sf2tDXNiTtkAssBD6T9Z3IgEZpeJ9Bcb8X1o+jlSuZEJxwuOjaIVMsqk0PB7rrGi0KYHUiKB82UKTys4Ki8h6QMYIQfLyDN/mftpKR+ZD6GxDeubjNksAlSYw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=mt.com;
 Received: from DBBPR03MB10396.eurprd03.prod.outlook.com (2603:10a6:10:53a::11)
- by AS2PR03MB10153.eurprd03.prod.outlook.com (2603:10a6:20b:64b::9) with
+ by AS8PR03MB9912.eurprd03.prod.outlook.com (2603:10a6:20b:636::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Thu, 22 May
- 2025 14:35:39 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.20; Thu, 22 May
+ 2025 14:35:49 +0000
 Received: from DBBPR03MB10396.eurprd03.prod.outlook.com
  ([fe80::ee3c:c9be:681:c0bf]) by DBBPR03MB10396.eurprd03.prod.outlook.com
  ([fe80::ee3c:c9be:681:c0bf%2]) with mapi id 15.20.8746.030; Thu, 22 May 2025
- 14:35:39 +0000
+ 14:35:49 +0000
 From: Mathis Foerst <mathis.foerst@mt.com>
 To: linux-kernel@vger.kernel.org
 Cc: Mathis Foerst <mathis.foerst@mt.com>,
@@ -78,18 +78,17 @@ Cc: Mathis Foerst <mathis.foerst@mt.com>,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	manuel.traut@mt.com,
-	mathis.foerst@zuehlke.com,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v6 1/7] media: dt-bindings: mt9m114: Add slew-rate DT-binding
-Date: Thu, 22 May 2025 16:35:05 +0200
-Message-Id: <20250522143512.112043-2-mathis.foerst@mt.com>
+	mathis.foerst@zuehlke.com
+Subject: [PATCH v6 2/7] media: mt9m114: Bypass PLL if required
+Date: Thu, 22 May 2025 16:35:06 +0200
+Message-Id: <20250522143512.112043-3-mathis.foerst@mt.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250522143512.112043-1-mathis.foerst@mt.com>
 References: <20250522143512.112043-1-mathis.foerst@mt.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: ZR0P278CA0105.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:23::20) To DBBPR03MB10396.eurprd03.prod.outlook.com
+X-ClientProxiedBy: ZR2P278CA0001.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:50::9) To DBBPR03MB10396.eurprd03.prod.outlook.com
  (2603:10a6:10:53a::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -98,114 +97,216 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBBPR03MB10396:EE_|AS2PR03MB10153:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9afa3615-54ad-4e05-3a7b-08dd993dec14
+X-MS-TrafficTypeDiagnostic: DBBPR03MB10396:EE_|AS8PR03MB9912:EE_
+X-MS-Office365-Filtering-Correlation-Id: e756516b-560c-404b-70e8-08dd993df239
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|7416014|366016|1800799024|38350700014;
+	BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?dDgNjSl31QboW5KYt3hoSCf4aNqz/tiWNP3di+zpJCaZFkafOr0vscF31Ead?=
- =?us-ascii?Q?dBrfHWM3kPZgW7Ahq1cHH+EfH0HQhCmurstBrG6nfZIcPCW7keHPzRF7ArAm?=
- =?us-ascii?Q?Q12PbtsOsDoTLgBeWM3DRwFHRd7JXqGxFaQ+7wRJ38edlVthwZIxGaMj0ptA?=
- =?us-ascii?Q?TRbeCdBkfX6OQsabQ7ul+JeFaI2KRMgacR04u4HdVaSjTMC7+iryvPW5MdSI?=
- =?us-ascii?Q?VLkGSsDYpSck/SZzFVo29M6ncOF6JTlR6MII9Y1bCCfPDb3mflfNcxRouhD2?=
- =?us-ascii?Q?KKygUNgqr61EsEsjOOyfLEeB0bOwnCq+Ua9ZnzC0fjAmqtZ6cGBdK8fhzAsR?=
- =?us-ascii?Q?6gc+Y5MN0FlwqOw7fK7zVP1cNyr/VbOB4Wvcf6ESPG1Ezg+GdbLzoTDODla3?=
- =?us-ascii?Q?W51gjlnhhRJEtEJv4AVaZ7V6KQwMPwNdngSEQdfzwRLYAmuFORoLmLtgyCoi?=
- =?us-ascii?Q?x1MSJmTYOgJolJrIJM62WNDe33FfJr9KTuwc+EdtRRMWu/qPOOEEIHk1eJZZ?=
- =?us-ascii?Q?P21bZ4AU28eWlf4pYbxKfBxb3XOsyOmJOXiWXFjMir3+wtV4gW3RHx/DgpeY?=
- =?us-ascii?Q?guE4hczlipDAIeQOgtu5FVweMlycxQ5SSQLa+foEx2TimTAnFKSKfqM/6yxC?=
- =?us-ascii?Q?Xj7LqJYo1yb6LLQ2NV65Xouc0IcMjHwCW1Jv70dFGRCIMWoy8zS9g0W0xpor?=
- =?us-ascii?Q?jSrG3X1mh3xsmwnccX1zCGVhdLCGC8oPGLhE6o8i8uCBfz+k7gD0YV77w/lk?=
- =?us-ascii?Q?gRylOL2cHMH3nuPrz3R/VtPhvTLO6SIav9AzCIVH1484zvtzIJ3Ecs6ZmcEU?=
- =?us-ascii?Q?fW8XgAHIw5wmGL+UzlZni3HgkyOL2ZuFaqDp3MsJl77dwpJ1fX5FZcPrJ3nf?=
- =?us-ascii?Q?o1yZxQl9C8B2+uTp/LRsmIS/DeP8XvCnlgl8b1Xzxou9+t7VphoVwp65/sJQ?=
- =?us-ascii?Q?SHvAunC75471zffDf79ZFtjDyIxKZUWFRlCNKVvUB9owAXNBJA1AViXORKh3?=
- =?us-ascii?Q?zcHFSHjtJu5N/VK5ONLywWZCnehCfgJBcZBOmJxvKsf9DtA/HLUTypNqVyFc?=
- =?us-ascii?Q?PbAovEFfvzC78y9e5NeN/VzsR+bwlZKS3Et2W58984O8kIha7LK7Q/6NG8YC?=
- =?us-ascii?Q?GWgbSK6rgEJR2xNQ4F/9wU40ZZuS1Ih8vT2fmubihevzgJ6XEzSeSzpreRoV?=
- =?us-ascii?Q?9sK5Es3oT1U+kS21p4uW9B2X1ewc3DXRkPFijsFPjNmhDs8s2XEi/gwExhjn?=
- =?us-ascii?Q?9cnb3gAAdoliVboE2Mj8amKv5yl6qYR0FlQSCixo9dx/gCuytILZfeU+G0NA?=
- =?us-ascii?Q?MNH94nb6Gfc7u3JGe2Mf+OGtMDFR2sZ87nlaqFHkXzFhxvwQ/6NJf/LuHEVH?=
- =?us-ascii?Q?edfxZ4xn1jty9cGqCSqafLjqovxN58meULWFiBqxzVK+Y/9F+LBdWBywssx2?=
- =?us-ascii?Q?UxRihNjPD5ISE+0YpDaMvxW8mvInOpqYoO/x5kHMoU4e5dzNzwakMA=3D=3D?=
+	=?us-ascii?Q?SVOggW/9C+VZNQIhug+JCoip/kW3VPm/nwVkz2ce8uGpiEi42cYQ48hnpGbc?=
+ =?us-ascii?Q?Kjl6w7k11hKcVQCKt7y3QWcNX817XdHWBVm+gaa0v3ejONCzsQiZJHrBIMNp?=
+ =?us-ascii?Q?IDkN9DtP9zfaVlrYuxYJ1qQNd9CB77qRBRuQMJKhd7RWVAhh425q04i8nSgO?=
+ =?us-ascii?Q?YoCOqere4BQZT90PyIw7BWxkLd8+6Ifow8szymYYi2x3R34rQhdB35rO3M+Q?=
+ =?us-ascii?Q?hu7FhKKTlM6ljJY8x6M/RUtUCllagprJbbnvPRbYc8uxsTni+/eWhwNzcRUg?=
+ =?us-ascii?Q?dx0Uqn73NuIrkcjpjNusl4JAWpVKA5VQuS8rosss5bNTbsTbcYD8YLramJQK?=
+ =?us-ascii?Q?jMoBA1FfawoBBuKb72WLX4S4pbrBV65UdR+lL8kwZR/BwxwwJW+aiWZY6Dpf?=
+ =?us-ascii?Q?3nYI/BzJFM+DbIYeHlxf2DckhxWdbi77currwCRFWYeqZghwdxsUsVEBzQ/w?=
+ =?us-ascii?Q?WLbmxpO6YCzrP9pWNVg8idqzNTWaVJvN7CCB+JKaXSB2H3IS6CqGMGoadiWD?=
+ =?us-ascii?Q?woVHTR5zkMtw1A7sSAVBylmumDq5d9Bj4qPH4jaIogXeXFKxsxkYPn6VDaNd?=
+ =?us-ascii?Q?q2AnYMfYS2HA9hBq5yej2AcdU1ciXjUISLRC2Xw9Eqjtlj11XkxzPUPzFQ6o?=
+ =?us-ascii?Q?Hc4gwS2pdGYH+SW+qGIpEKoZMlE1j3tZafuAOZzF1g64fjDyyJgTQcP6NpbW?=
+ =?us-ascii?Q?CsYA/rnmOToN1H3hqnfhcurZV8mq4ht+fNQIkHyOS6H6TGnhzSo+gHOZazGf?=
+ =?us-ascii?Q?iWU49ZlM4B7ZbhZ46SAIwEmHlO3h7Ja4WieFdocFjMHNjuRw6FtVKs5Gci01?=
+ =?us-ascii?Q?2gua5eBNOo2KRw6yUgN0v2U/oJaZyXSdvEQMQgVBxp8uwuGL6QnH1WJwzXMP?=
+ =?us-ascii?Q?REbXuvEm3Mp0xJcO3++SQkxu+45nw2A+95HZ9/6ePwPanzqbzgwaVwbawL5M?=
+ =?us-ascii?Q?fC1CsOqyXW5Iz8eaVfxfbuNprL6yPzIzXnrk4Sf8ulRx6UD3BCTwzcfSyph/?=
+ =?us-ascii?Q?ZW/M4kH/PIQg+uGl9+4VVxH9qcUiQGnA1s0TodA1oJO+xvacBAWUGPY2jWPO?=
+ =?us-ascii?Q?krDH1OwUzkFtbW29Wl8r9QoG49UvFQuC88vJBefCEY3db40SaM0bcPCWfoha?=
+ =?us-ascii?Q?ClYekji3FNJQzEWPHMw6geedIeU90/fFC1Gr19OeClIAbryGy+QWy+sYjzih?=
+ =?us-ascii?Q?/EX6Dnsma5pcFpbiZOvYamfn27ZI9ms2gO7FNWfXUtrFerxLxjBHOQTMetjq?=
+ =?us-ascii?Q?3QXOKWfwCIVjbPN0ZoHxdLjULLxPvzH6zx3tCPcM6aJLEfl017NbZMADQfUR?=
+ =?us-ascii?Q?9FqwlA6CDpK9XaJYVsyLPZ01TPm5UgDRV7IZAPHqH2axR+2Zi+/L+pCCrBko?=
+ =?us-ascii?Q?grZMwdUR+yytK7t4I2DeyarfjJam2GgND/SDBwUEFh4X6FfedCX8ZTzuffwU?=
+ =?us-ascii?Q?XA0rxO88xaAXECD9f6SkEWza7hX7uoEHDit+ZU61nudGHj38RhogdA=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR03MB10396.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(7416014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR03MB10396.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7u0NuStoQ0W1PlpcOBRxIM3K7crb6i6jFIdV7zxVUCnhgVjRAiwrCLakeL9E?=
- =?us-ascii?Q?UdmHJvgMK2jjiTGCkkM0cqnOvCoLAJ/mzwQe6/vyGHFjwyxD+BcIRxC/pK2A?=
- =?us-ascii?Q?9+R7gJTIAf2qa0xyIDqPUOXt65PlMT5ZrqxGbsCMrSK95WEta8zMVZO4BWSZ?=
- =?us-ascii?Q?ClZUfMoJIrSjTRuOWoh6I2kEruYjZiXWhByzK74h75C9nDGdgWJkc7hF7ek5?=
- =?us-ascii?Q?trWD3Bph4PeGb3848wxZeiE36qdNM3BDc0LtKnKQiAio2kfjsFv+GHNzsse/?=
- =?us-ascii?Q?6PAaDKisoM/TQCLxi3UIzX4JSLULAhh4nZX/ryG4CckuOmBQbMInrYgzcAjN?=
- =?us-ascii?Q?OYzSuhD5rDxCdCPkHIa2yDsJq0RYQYpODFhLk1c3NHSiPv0ULXy6z11UoDOe?=
- =?us-ascii?Q?+QYnpZkGr21IjayVdLyuwRaAatmZKkWB5gaqPDTHs/H6csp6oGuwKPDmQ+Ky?=
- =?us-ascii?Q?9j+tjrDPnBd/xP1c6PjB7kviECNX4VNqbXmhxpCD+cdLJuPmo0O9pTQPfimP?=
- =?us-ascii?Q?BWaPmabGckvld2BvY1+vFRtRG1jbJhc/cTXQ+pWPcTCA3b15bzJlUYye9WMN?=
- =?us-ascii?Q?+9/HOJjtzX4uF2VU+QN0TuW0SSA31iK2BOQxR7iFO89GC9GXyPpsb3tS7Xh6?=
- =?us-ascii?Q?VxTZkA0txpBGZ3TNhQJNOeFbDhh7/0xsvAEb2Ti/B34vpJOIey7KEUjFWyoo?=
- =?us-ascii?Q?QObEln/dx3NVJCWytLpg8PDFc+MysFsx0JGBWPs8LpI/LJ7Ds6OMKI/QHUt7?=
- =?us-ascii?Q?Sz5F5Pyde4vefmITZ5Li9eAjjFHTuMdDvB+NuIid5kV8xHk6LfeteNoR+cQD?=
- =?us-ascii?Q?qj/UWm1d8bpNOIMjIrdxRhb8ccKHxX+1z485XemJYB6bzglA99f37Jbar53d?=
- =?us-ascii?Q?6yfA1ARFq1Is+0DoAT4Yy5SuPbP95sTBIRmzHaYvLmCVyQzUQhMxoJKUyvQ8?=
- =?us-ascii?Q?/SWJFMXDwyiCFWOQU5BuzOhBzEFTM3ySJe0dFND9TQ9LIbsrF8Lf0tSos4pD?=
- =?us-ascii?Q?aL0Xaf2XXfThVoQ+xoNr4MIT99NAV6HgAugiWmFdYi076MOFKg6dtsEXONNS?=
- =?us-ascii?Q?vESdN73b+xo9qiX7gsP0D14PkrMKxGUDWrZqTdr0+vEHjPLoPouYeqKxhE26?=
- =?us-ascii?Q?gQObCCL15/pzGqGmDg1ge2dRvY9uG9lasVwCLSOTYPyl5pZNcbwzc41auL9e?=
- =?us-ascii?Q?fFyiFj5Ht4nm8BTw42AnfwJv/XVj13Qf18fXMClAIbTJF+QOa94yoCeY+6MM?=
- =?us-ascii?Q?91urF7KaB6wkCDBeMW4GmrSTRuBxkeWmliq825hqXinoxwDT5KRDjH4SuD0S?=
- =?us-ascii?Q?pUR/awgvKABEZ7wvtoky2589QwihJkJFHhnaUS7W2mks+JEQKSesg+Wbh3pi?=
- =?us-ascii?Q?MJitllJGMlXdCfPq54GlA+t+f+WbdzLwHU/E5KlL5b4jOwp7tEokXNGtgecl?=
- =?us-ascii?Q?zG79hfmSnsk18jybVBjOkuYeinQhu+x7q4cofs1k2773L/zlCliPDmPZkyvl?=
- =?us-ascii?Q?3/GFfjXd4DMhKvZf9V357kL6PhaeZxZrGmuhIhqeA7Co0Vo45J2773VO5uSD?=
- =?us-ascii?Q?Xq8up2Xe8OqEb7gTcNsV0MfNTLgJ9Uy1986Sw5PM?=
+	=?us-ascii?Q?ymym+1iq9xh0Wa5WDRPxkfn3fb17A5DeiVVoOkSNLegSeSEk0gjBMIjazIj0?=
+ =?us-ascii?Q?wx22kXJngLfgmW4/f4Ubhb5w61seFbBzqP8hAQqquMfrx9/ulBN9NP2CBdM1?=
+ =?us-ascii?Q?OM2ah6IZdhlUaSbE2P1Rfq4iUYJwGG5ErZIbLj2t8XrK3ox+1J0XQFmA/OSE?=
+ =?us-ascii?Q?MDB4ov5bDsjObihiKohK9W+Q6Pepk3H5TzF7uu6GOZudZpt+6/OrcBdVifXV?=
+ =?us-ascii?Q?lcNPFSczt3nnpdO61BI7gAS7wr+O32LE3F9x23O2o946WAgEWVpjD3L+Oupp?=
+ =?us-ascii?Q?AJ0WNaW95yUADIvAsCBOPHIY4p5qlJo+/Xi0EkxG9JMe+TZcSUWkiXUIWMNu?=
+ =?us-ascii?Q?reGJSPwlwUbPp6gTXJ0DfrU9TwRPPv5CCP4XysylTrphunlSQHrFz5mJJpAo?=
+ =?us-ascii?Q?9zGCnipoJ1Y4VgAM7BeFFIZPCR/ZZVbN3ToXrpjXxKUbZapAs6N0xDdj0khE?=
+ =?us-ascii?Q?iZFUATctC7TiuMV+/YzK5mdKSplOzFUOsDkVN/7jdSEoFpQxB7yfQnWSftP4?=
+ =?us-ascii?Q?BdzuTrgErgkqq7U/l88tt1uds4IM8T4bb6gPxaI5nW3BWzoolEWvV/VE70Aa?=
+ =?us-ascii?Q?OZ+PSO51tx8tPYFkC82UOjYm1kIzx5eG6u/erQv9CTLfzagEUX+NzB0vtILR?=
+ =?us-ascii?Q?aU7ceJcrYCd9JiTCbmzpnIDlfXlLkv56OT3TfHbSxSX+pL5zf2fAolU8gnzn?=
+ =?us-ascii?Q?LCgCdTAjJsS4onKdUjhjTpgFr2pJDn5S5vhL8gw3wcLwZ1rhNRBxW9KUup+n?=
+ =?us-ascii?Q?zZMAEFze7ytZ5+ltLtdBLjb1u9rxiQaGIq5ucaVsLPdiDaC9AEifIxuXF29s?=
+ =?us-ascii?Q?Ovzk369j1XdosIF/bCqqgAccuJ9ZyfnlIF0haOUjVf4KuzqtlSDjMa+aAXYf?=
+ =?us-ascii?Q?LP70/QratlrVtRdEfsdGa10a8s09xgxEJdE2eIQdpHtg8B3hjuuypN4SXkWT?=
+ =?us-ascii?Q?E8zZukT0UE5oyZ/3/I2S4rJfXED2EOviaYwsaLa1CB9j/ZMdCZWOr3mBicT8?=
+ =?us-ascii?Q?LCJ+Y0G4nUmhElFb64rvg7dcbuNJatz6BoQNkb1cBRMpwVsAV4urUmAcdAO4?=
+ =?us-ascii?Q?yP/5aUXtJgWLsGydVaBOtn5kDg3lewklcJVdMpwVwujpjk9WDEeuyvtITkXn?=
+ =?us-ascii?Q?3g1a8sENx9f6vI4R46uBwnnbPgKW16RnDPaQIV1pRTgqI8gqT1X8ipNkgeRj?=
+ =?us-ascii?Q?DuAS4JMmdqe5Kby0tD6Lx6xBnA2kKzLFG4OWWX2V4+W/cQthcPsUtPA6qBUm?=
+ =?us-ascii?Q?UTe+M+PkEP+3KbyzAwvXgjuSbcew8DAHcHaXVSgpZ0a6/nxxG+xr38TwOgBK?=
+ =?us-ascii?Q?IhV+4dXUOSJxYuQF5t3mdxZCDxgTRbg2rsPedjU48JC0ts4oP4gzj0RZx9Pw?=
+ =?us-ascii?Q?aSV52ew2pZ83BibgGtL3WChwsgrT388nJd+VeDvtH6b5gUaixVzfR98iz+5Y?=
+ =?us-ascii?Q?G+W5Osc7yyjP8ByZVv1zbR6Sh1t0O9Kh145Pk/hhss0dacB/J3XWgUNm2rqg?=
+ =?us-ascii?Q?/whkx9zOuq3ly8zjskQIVkWmDb5+FDz3S5+Yb1XTZqaiqHS1zAs+4YidO98Z?=
+ =?us-ascii?Q?DcfF4XgomMBUBlwLQZ3dXv5FErs//FVGiVE2HGiR?=
 X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9afa3615-54ad-4e05-3a7b-08dd993dec14
+X-MS-Exchange-CrossTenant-Network-Message-Id: e756516b-560c-404b-70e8-08dd993df239
 X-MS-Exchange-CrossTenant-AuthSource: DBBPR03MB10396.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 14:35:39.0883
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 14:35:49.3646
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RQdtaOT76s2qbHQX/2ytxLKhhayi5dqrYWMirG3QIhvOTCfqQMWCKkChU3Obo2D5a/GFVkh/RT6UwrhzY+HVDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR03MB10153
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9ggnIXBFpEx4nbT+Tk798tAdvxSHpbT/xgI7cLcMxzuOjqaznPW7YsZHcBCgVB+IGNi2JZPUw7B5OVPe1TzXcw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR03MB9912
 
-The MT9M114 supports the different slew rates (0 to 7) on the output pads.
-At the moment, this is hardcoded to 7 (the fastest rate).
-The user might want to change this values due to EMC requirements.
+The MT9M114 sensor has an internal PLL that generates the required SYSCLK
+from EXTCLK. It also has the option to bypass the PLL and use EXTCLK
+directly as SYSCLK.
+The current driver implementation uses a hardcoded PLL configuration that
+requires a specific EXTCLK frequency. Depending on the available clocks,
+it can be desirable to use a different PLL configuration or to bypass it.
 
-Add the 'slew-rate' property to the MT9M114 DT-bindings for selecting
-the desired slew rate.
+The link-frequency of the output bus (Parallel or MIPI-CSI) is configured
+in the device tree.
+
+Check if EXTCLK can be used as SYSCLK to achieve this link-frequency. If
+yes, bypass the PLL.
+Otherwise, (as before) check if EXTCLK and the default PLL configuration
+provide the required SYSCLK to achieve the link-frequency. If yes, use the
+PLL. If no, throw an error.
 
 Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../devicetree/bindings/media/i2c/onnn,mt9m114.yaml      | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/media/i2c/mt9m114.c | 68 +++++++++++++++++++++++++++----------
+ 1 file changed, 50 insertions(+), 18 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-index f6b87892068a..a89f740214f7 100644
---- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-@@ -70,6 +70,15 @@ properties:
-           - bus-type
-           - link-frequencies
+diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+index 5f0b0ad8f885..c3ec2eb0b134 100644
+--- a/drivers/media/i2c/mt9m114.c
++++ b/drivers/media/i2c/mt9m114.c
+@@ -261,6 +261,7 @@
+ #define MT9M114_CAM_PGA_PGA_CONTROL			CCI_REG16(0xc95e)
+ #define MT9M114_CAM_SYSCTL_PLL_ENABLE			CCI_REG8(0xc97e)
+ #define MT9M114_CAM_SYSCTL_PLL_ENABLE_VALUE			BIT(0)
++#define MT9M114_CAM_SYSCTL_PLL_DISABLE_VALUE			0x00
+ #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_M_N		CCI_REG16(0xc980)
+ #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(m, n)		(((n) << 8) | (m))
+ #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P		CCI_REG16(0xc982)
+@@ -377,6 +378,7 @@ struct mt9m114 {
+ 	struct gpio_desc *reset;
+ 	struct regulator_bulk_data supplies[3];
+ 	struct v4l2_fwnode_endpoint bus_cfg;
++	bool bypass_pll;
  
-+  slew-rate:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      Slew rate ot the output pads DOUT[7:0], LINE_VALID, FRAME_VALID and
-+      PIXCLK. Higher values imply steeper voltage-flanks on the pads.
-+    minimum: 0
-+    maximum: 7
-+    default: 7
+ 	struct {
+ 		unsigned int m;
+@@ -743,14 +745,21 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
+ 	}
+ 
+ 	/* Configure the PLL. */
+-	cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_ENABLE,
+-		  MT9M114_CAM_SYSCTL_PLL_ENABLE_VALUE, &ret);
+-	cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_M_N,
+-		  MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(sensor->pll.m,
+-						       sensor->pll.n),
+-		  &ret);
+-	cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_P,
+-		  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p), &ret);
++	if (sensor->bypass_pll) {
++		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_ENABLE,
++			  MT9M114_CAM_SYSCTL_PLL_DISABLE_VALUE, &ret);
++	} else {
++		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_ENABLE,
++			  MT9M114_CAM_SYSCTL_PLL_ENABLE_VALUE, &ret);
++		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_M_N,
++			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(sensor->pll.m,
++							       sensor->pll.n),
++			  &ret);
++		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_P,
++			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p),
++			  &ret);
++	}
 +
- required:
-   - compatible
-   - reg
+ 	cci_write(sensor->regmap, MT9M114_CAM_SENSOR_CFG_PIXCLK,
+ 		  sensor->pixrate, &ret);
+ 
+@@ -2235,9 +2244,22 @@ static const struct dev_pm_ops mt9m114_pm_ops = {
+  * Probe & Remove
+  */
+ 
++static int mt9m114_verify_link_frequency(struct mt9m114 *sensor,
++					 unsigned int pixrate)
++{
++	unsigned int link_freq = sensor->bus_cfg.bus_type == V4L2_MBUS_CSI2_DPHY
++			       ? pixrate * 8 : pixrate * 2;
++
++	if (sensor->bus_cfg.nr_of_link_frequencies != 1 ||
++	    sensor->bus_cfg.link_frequencies[0] != link_freq)
++		return -EINVAL;
++
++	return 0;
++}
++
+ static int mt9m114_clk_init(struct mt9m114 *sensor)
+ {
+-	unsigned int link_freq;
++	unsigned int pixrate;
+ 
+ 	/* Hardcode the PLL multiplier and dividers to default settings. */
+ 	sensor->pll.m = 32;
+@@ -2249,19 +2271,29 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
+ 	 * for 16-bit per pixel, transmitted in DDR over a single lane. For
+ 	 * parallel mode, the sensor ouputs one pixel in two PIXCLK cycles.
+ 	 */
+-	sensor->pixrate = clk_get_rate(sensor->clk) * sensor->pll.m
+-			/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
+ 
+-	link_freq = sensor->bus_cfg.bus_type == V4L2_MBUS_CSI2_DPHY
+-		  ? sensor->pixrate * 8 : sensor->pixrate * 2;
++	/*
++	 * Check if EXTCLK fits the configured link frequency. Bypass the PLL
++	 * in this case.
++	 */
++	pixrate = clk_get_rate(sensor->clk) / 2;
++	if (mt9m114_verify_link_frequency(sensor, pixrate) == 0) {
++		sensor->pixrate = pixrate;
++		sensor->bypass_pll = true;
++		return 0;
++	}
+ 
+-	if (sensor->bus_cfg.nr_of_link_frequencies != 1 ||
+-	    sensor->bus_cfg.link_frequencies[0] != link_freq) {
+-		dev_err(&sensor->client->dev, "Unsupported DT link-frequencies\n");
+-		return -EINVAL;
++	/* Check if the PLL configuration fits the configured link frequency. */
++	pixrate = clk_get_rate(sensor->clk) * sensor->pll.m
++		/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
++	if (mt9m114_verify_link_frequency(sensor, pixrate) == 0) {
++		sensor->pixrate = pixrate;
++		sensor->bypass_pll = false;
++		return 0;
+ 	}
+ 
+-	return 0;
++	dev_err(&sensor->client->dev, "Unsupported DT link-frequencies\n");
++	return -EINVAL;
+ }
+ 
+ static int mt9m114_identify(struct mt9m114 *sensor)
 -- 
 2.34.1
 
