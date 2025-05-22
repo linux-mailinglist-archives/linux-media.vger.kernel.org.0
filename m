@@ -1,264 +1,147 @@
-Return-Path: <linux-media+bounces-33170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33171-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75FDAC107F
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 17:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FAFAC110D
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 18:30:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55A775015EE
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 15:57:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA17B4E836A
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 16:30:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF669299ABA;
-	Thu, 22 May 2025 15:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 299E329AAF1;
+	Thu, 22 May 2025 16:30:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gkuK0lqi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LJoybMKE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D582980C3;
-	Thu, 22 May 2025 15:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10EA29AAEC;
+	Thu, 22 May 2025 16:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747929412; cv=none; b=INH0GXNc1yiWSJJ+Vqmf626+j5lShsPEVsh8oFkHw3xfefqlMP0c/73hJN99nNV8nhJsvb4NjEgfRxVXT583hCQACLatJjMlGhaKPQiLxPSSFpAvVGG0N2AD/QQJdmANfLu65RJMFT7Dn1qB1rS8RtW+frvY/DmxWpLjdtbejDI=
+	t=1747931431; cv=none; b=AI05TnJsaS9Z7YSTNx0b+GBw/u77lCt2WBvSdV8z9jfYuLGlFgxPYKSb4KnLPYdd7ujUUcagCDIdU2mSzrmYkPpLWHRADsg2Q/4joVk0c8LMKvm4IBjWc4dGSiordNeOo8gslQyAg5OgbwaIm8NSYhUMIjTbW45PjJ6EfhvTsgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747929412; c=relaxed/simple;
-	bh=b780aQpCLRpCOmLNeLkROM5sv2ZJNKVOY4HQDdMxrXw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sp8q6hnTmLtdwGVNP0FWQDE2RB/Fkg5Uo5BbHAbl5oAvqLQhKs/1Tc5iEI/jWLr464EfAkcdn7MrXf8lkPm4XC1NNQx5NQ5cuX3DI+r6MiMEyjGMzkdMDw3fB2dqlTZEKhT8HTuKE0LkjEDsKKrL12fGqP7AQQf2f3kHpsWIrg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gkuK0lqi; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1747931431; c=relaxed/simple;
+	bh=9w6AYxG86+ShRJPYPhJz6k6F0yijUzIA6kRpB5v/haw=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=fgAFpk+YVHUThDOi/2+62FAJA2+UlUXakWnGMt9lYVXw3y5hBhiZ4wcWpIY433bg61n5TKME2F2QESJwGoTIj8SjiGU/Z1rllAD1+F7Mt6QPuuyNPaiJ/o1Bo++2E53lurjdKIqAhPQcjuzrzELaC5l0F56JqP/yiw9OyPc33ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LJoybMKE; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A22DA8FA;
-	Thu, 22 May 2025 17:56:26 +0200 (CEST)
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:30c3:8bbb:632f:b0c9])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A740165B;
+	Thu, 22 May 2025 18:30:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747929386;
-	bh=b780aQpCLRpCOmLNeLkROM5sv2ZJNKVOY4HQDdMxrXw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gkuK0lqiuCBDnrAc4xt543RZcM9WlHCTLtuCyFKJ/zw/PvPsBBAd4QDc4jxiGsTj5
-	 kGzA7bcoAZWh5ZtKPQT694gX5O69Ttx+OJhmTSVtvOadBmLUZl7cZnlvxVozpRqlFY
-	 oc7GAyg6qTu7NjD6YL0sOQbLPfCfIV9dE15hd9GM=
-Date: Thu, 22 May 2025 17:56:41 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Hans Verkuil <hans@jjverkuil.nl>
-Subject: Re: [PATCH 2/3] media: rkisp1: Add
- RKISP1_CID_SUPPORTED_PARAMS_BLOCKS control
-Message-ID: <20250522155641.GU12514@pendragon.ideasonboard.com>
-References: <20250522150944.400046-2-stefan.klug@ideasonboard.com>
- <20250522150944.400046-4-stefan.klug@ideasonboard.com>
+	s=mail; t=1747931405;
+	bh=9w6AYxG86+ShRJPYPhJz6k6F0yijUzIA6kRpB5v/haw=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=LJoybMKE0uXs+gwjKFQvbLyn6wocyrg3eCl8WJTj/sXmpHKBUm+AM3k9a5zKRFdSS
+	 g5piWZPdx2GI3MLodcLSG5eI6ECcYbSPmoYoMlXJwF51Krs6c4Ju7n4+X65mlQ890g
+	 2eaoiPS9Yuhf3RDo+4YYHObk40iw7ZpnAoPXTFJw=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250522150944.400046-4-stefan.klug@ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250522154210.GT12514@pendragon.ideasonboard.com>
+References: <20250522150944.400046-2-stefan.klug@ideasonboard.com> <20250522150944.400046-3-stefan.klug@ideasonboard.com> <20250522154210.GT12514@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 1/3] media: rkisp1: Cleanup error handling
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Thu, 22 May 2025 18:30:25 +0200
+Message-ID: <174793142530.244022.2578213319638259858@localhost>
+User-Agent: alot/0.12.dev16+g501a9541e2e6.d20250519
 
-Hi Stefan,
+Hi Laurent,
 
-Thank you for the patch.
+Thank you for the review.
 
-On Thu, May 22, 2025 at 05:08:39PM +0200, Stefan Klug wrote:
-> Add a RKISP1_CID_SUPPORTED_PARAMS_BLOCKS V4L2 control to be able to
-> query the parameters blocks supported by the current kernel on the
-> current hardware from user space.
-> 
-> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 +
->  .../platform/rockchip/rkisp1/rkisp1-params.c  | 50 ++++++++++++++++++-
->  include/uapi/linux/rkisp1-config.h            | 10 ++++
->  include/uapi/linux/v4l2-controls.h            |  6 +++
->  4 files changed, 67 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index ca952fd0829b..5f187f9efc7b 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -415,6 +415,8 @@ struct rkisp1_params {
->  	spinlock_t config_lock; /* locks the buffers list 'params' */
->  	struct list_head params;
->  
-> +	struct v4l2_ctrl_handler ctrls;
-> +
->  	const struct v4l2_meta_format *metafmt;
->  
->  	enum v4l2_quantization quantization;
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> index 918eb06c7465..60c9b3c46593 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> @@ -2736,6 +2736,45 @@ static int rkisp1_params_init_vb2_queue(struct vb2_queue *q,
->  	return vb2_queue_init(q);
->  }
->  
-> +static int rkisp1_ctrl_init(struct rkisp1_params *params)
-> +{
-> +	int ret;
-> +
-> +	v4l2_ctrl_handler_init(&params->ctrls, 1);
-> +
-> +	struct v4l2_ctrl_config ctrl_config = {
-> +		.id = RKISP1_CID_SUPPORTED_PARAMS_BLOCKS,
-> +		.name = "Supported Params Blocks",
-> +		.type = V4L2_CTRL_TYPE_BITMASK,
-> +		.flags = V4L2_CTRL_FLAG_READ_ONLY,
-> +	};
+Quoting Laurent Pinchart (2025-05-22 17:42:10)
+> Hi Stefan,
+>=20
+> Thank you for the patch.
+>=20
+> On Thu, May 22, 2025 at 05:08:38PM +0200, Stefan Klug wrote:
+> > Do not call media_entity_cleanup() when media_entity_pads_init() fails.
+>=20
+> Why is it an issue ? The media_entity_cleanup() documentation clearly
+> states
+>=20
+>  * Calling media_entity_cleanup() on a media_entity whose memory has been
+>  * zeroed but that has not been initialized with media_entity_pad_init() =
+is
+>  * valid and is a no-op.
+>=20
+> This is by design to simplify error handling in drivers.
 
-	struct v4l2_ctrl_config ctrl_config = {
-		.id = RKISP1_CID_SUPPORTED_PARAMS_BLOCKS,
-		.name = "Supported Params Blocks",
-		.type = V4L2_CTRL_TYPE_BITMASK,
-		.flags = V4L2_CTRL_FLAG_READ_ONLY,
-	};
-	int ret;
+Oops. It was simple mechanical thing. I'll remove it in v2.
 
-	v4l2_ctrl_handler_init(&params->ctrls, 1);
+Regrads,
+Stefan
 
-Mixing code and variable declarations is still usually frown upon in the
-kernel.
-
-> +
-> +	for (unsigned int i = 0; i < ARRAY_SIZE(rkisp1_ext_params_handlers); i++) {
-> +		const struct rkisp1_ext_params_handler *block_handler;
-> +
-> +		block_handler = &rkisp1_ext_params_handlers[i];
-> +		ctrl_config.max |= BIT(i);
-> +
-> +		if ((params->rkisp1->info->features & block_handler->features) !=
-> +		    block_handler->features)
-> +			continue;
-> +
-> +		ctrl_config.def |= BIT(i);
-> +	}
-> +
-> +	v4l2_ctrl_new_custom(&params->ctrls, &ctrl_config, NULL);
-> +
-> +	params->vnode.vdev.ctrl_handler = &params->ctrls;
-> +
-> +	if (params->ctrls.error) {
-> +		ret = params->ctrls.error;
-> +		v4l2_ctrl_handler_free(&params->ctrls);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int rkisp1_params_register(struct rkisp1_device *rkisp1)
->  {
->  	struct rkisp1_params *params = &rkisp1->params;
-> @@ -2776,10 +2815,16 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1)
->  
->  	video_set_drvdata(vdev, params);
->  
-> +	ret = rkisp1_ctrl_init(params);
-> +	if (ret) {
-> +		dev_err(rkisp1->dev, "Control initialization error %d\n", ret);
-> +		goto err_mutex;
-> +	}
-> +
->  	node->pad.flags = MEDIA_PAD_FL_SOURCE;
->  	ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
->  	if (ret)
-> -		goto err_mutex;
-> +		goto err_ctrl;
->  
->  	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->  	if (ret) {
-> @@ -2792,6 +2837,8 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1)
->  
->  err_media:
->  	media_entity_cleanup(&vdev->entity);
-> +err_ctrl:
-> +	v4l2_ctrl_handler_free(&params->ctrls);
->  err_mutex:
->  	mutex_destroy(&node->vlock);
->  	return ret;
-> @@ -2808,5 +2855,6 @@ void rkisp1_params_unregister(struct rkisp1_device *rkisp1)
->  
->  	vb2_video_unregister_device(vdev);
->  	media_entity_cleanup(&vdev->entity);
-> +	v4l2_ctrl_handler_free(&params->ctrls);
->  	mutex_destroy(&node->vlock);
->  }
-> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> index 2d995f3c1ca3..4fc8f221d0c4 100644
-> --- a/include/uapi/linux/rkisp1-config.h
-> +++ b/include/uapi/linux/rkisp1-config.h
-> @@ -1086,6 +1086,9 @@ enum rkisp1_ext_params_block_type {
->  #define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
->  #define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	(1U << 1)
->  
-> +/* A bitmask of parameters blocks supported on the current hardware. */
-> +#define RKISP1_CID_SUPPORTED_PARAMS_BLOCKS	(V4L2_CID_USER_RKISP1_BASE + 0x01)
-> +
->  /**
->   * struct rkisp1_ext_params_block_header - RkISP1 extensible parameters block
->   *					   header
-> @@ -1520,6 +1523,13 @@ enum rksip1_ext_param_buffer_version {
->   * V4L2 control. If such control is not available, userspace should assume only
->   * RKISP1_EXT_PARAM_BUFFER_V1 is supported by the driver.
->   *
-> + * The read-only V4L2 control ``RKISP1_CID_SUPPORTED_PARAMS_BLOCKS`` can be used
-> + * to query the blocks supported by the current hardware. It contains a bitmask
-
-s/current hardware/device/
-
-> + * where each bit represents the availability of the corresponding entry
-> + * from the :c:type:`rkisp1_ext_params_block_type` enum. The max value of the
-> + * control represents the blocks supported by the current kernel (independent of
-> + * the current hardware).
-
- * from the :c:type:`rkisp1_ext_params_block_type` enum. The current and default
- * values of the control represents the blocks supported by the device instance,
- * while the maximum value represents the blocks supported by the kernel driver,
- * independently of the device instance.
-
-I was going to say that the control should be documented in
-Documentation/userspace-api/drivers/rkisp1.rst, but rkisp1-config.h is
-pulled in the documentation tree by
-Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst, so I'm OK with
-this. Hans, Mauro, are you fine as well with documenting the control
-here ?
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> + *
->   * For each ISP block that userspace wants to configure, a block-specific
->   * structure is appended to the @data buffer, one after the other without gaps
->   * in between nor overlaps. Userspace shall populate the @data_size field with
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 72e32814ea83..f836512e9deb 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -222,6 +222,12 @@ enum v4l2_colorfx {
->   */
->  #define V4L2_CID_USER_UVC_BASE			(V4L2_CID_USER_BASE + 0x11e0)
->  
-> +/*
-> + * The base for Rockchip ISP1 driver controls.
-> + * We reserve 16 controls for this driver.
-> + */
-> +#define V4L2_CID_USER_RKISP1_BASE		(V4L2_CID_USER_BASE + 0x1220)
-> +
->  /* MPEG-class control IDs */
->  /* The MPEG controls are applicable to all codec controls
->   * and the 'MPEG' part of the define is historical */
-
--- 
-Regards,
-
-Laurent Pinchart
+>=20
+> > As a drive-by fix handle an (very unlikely) error in
+> > rkisp1_params_init_vb2_queue().
+> >=20
+> > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> > ---
+> >  .../media/platform/rockchip/rkisp1/rkisp1-params.c    | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/d=
+rivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > index b28f4140c8a3..918eb06c7465 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > @@ -2763,7 +2763,9 @@ int rkisp1_params_register(struct rkisp1_device *=
+rkisp1)
+> >       vdev->queue =3D &node->buf_queue;
+> >       vdev->device_caps =3D V4L2_CAP_STREAMING | V4L2_CAP_META_OUTPUT;
+> >       vdev->vfl_dir =3D VFL_DIR_TX;
+> > -     rkisp1_params_init_vb2_queue(vdev->queue, params);
+> > +     ret =3D rkisp1_params_init_vb2_queue(vdev->queue, params);
+> > +     if (ret)
+> > +             goto err_mutex;
+> > =20
+> >       params->metafmt =3D &rkisp1_params_formats[RKISP1_PARAMS_FIXED];
+> > =20
+> > @@ -2777,19 +2779,20 @@ int rkisp1_params_register(struct rkisp1_device=
+ *rkisp1)
+> >       node->pad.flags =3D MEDIA_PAD_FL_SOURCE;
+> >       ret =3D media_entity_pads_init(&vdev->entity, 1, &node->pad);
+> >       if (ret)
+> > -             goto error;
+> > +             goto err_mutex;
+> > =20
+> >       ret =3D video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+> >       if (ret) {
+> >               dev_err(rkisp1->dev,
+> >                       "failed to register %s, ret=3D%d\n", vdev->name, =
+ret);
+> > -             goto error;
+> > +             goto err_media;
+> >       }
+> > =20
+> >       return 0;
+> > =20
+> > -error:
+> > +err_media:
+> >       media_entity_cleanup(&vdev->entity);
+> > +err_mutex:
+> >       mutex_destroy(&node->vlock);
+> >       return ret;
+> >  }
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
 
