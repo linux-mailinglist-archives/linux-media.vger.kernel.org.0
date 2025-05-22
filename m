@@ -1,147 +1,239 @@
-Return-Path: <linux-media+bounces-33208-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33209-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A68A0AC14E6
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 21:38:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD44AC14EE
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 21:44:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FBAFA2151F
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 19:38:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F0554E114C
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 19:44:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C622BE7B7;
-	Thu, 22 May 2025 19:38:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 433E62BE7B7;
+	Thu, 22 May 2025 19:43:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Yl7DB/jz"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="eKf8AiD0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAB6266B76
-	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 19:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CB61DF975
+	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 19:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747942706; cv=none; b=ZfP+xcujrQY5Ha6mh9PL33aN5iFvznxpqoo9Ov2jGPfLzR1UWM4V1J+H2yW1kfnaJB/RWZtpD8JOmqSskLYdDY5uJT3RCSktCMu706b0h7ymHDRqb9ymlGiWrzTM2yEBy4/BN6iuv/p+BNY1IdqK8ut/G59/p+q76spEyYQYBK8=
+	t=1747943037; cv=none; b=fsJyuWFRQpKvELlJVHaBjszX6VIavqENs3tZohGTdrQIYSYGhdk3LQGrqwhSpOb8N6cLON6NELBsiwSoY+AS38zkrZ/4FbTUl1MDsw09DBCKg8HHnsvpKNs6opsUFCdaTwU2SqYN2DMZMD7GLhPzW02cGG10SRHjh4QKvODaG1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747942706; c=relaxed/simple;
-	bh=q7mqLfjENNgNP706ckkvIptpsi1F/7KGa9dgbFNqNAQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vta3V/8TqZLSlLKwZG/T+GRx7frskwjThzFpZYf+78MEPnV9/m3Zd+QDiAMf1OPHZCBlIHmLSudEa6f1PF0grDQ17qdU82OqI+EYp8zcNyFRgbhjfByG6n0Bn1eSGxM8cDjMykUG5fVGERvsb6nKdBvXxX3cGFpbM7H52aIquus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Yl7DB/jz; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54MGFA1G016644
-	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 19:38:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	nSVLbWs9WEhXD8F0quIy3d6Y384Oh4iaFb1o02G72Cc=; b=Yl7DB/jz0EzwSBp1
-	LqD9BO8Gf8Oe41PkxdLkvnWz71ywYoNrRJByZVuwQCZpbI0SCe+QXfnte0oFdzCy
-	LQ6Rv71FcJuZwHVsdCkcBCOwnM6JXUUWn2sInzckyHhlm7Cx5LB4ZiXhwBkDX+Bx
-	30dEFEjYktbBvPTDDAQSD/RJLmgR6LMgb0pT5SbEj5H41jadXGLJPl7FwAxwSPKj
-	dnV1tAoYU/R3iL9/bSzpLBQ9DuzkzgnzOT6ihjsklgxWs/xv6Vd12vygPyRu35Rn
-	0kVz7H2QAUGTs/NQJ3e3G3Ra52P1czVLB5TI4WO1tBqWaGdchtxoT3NxYGMWl/o9
-	6JF+9A==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf9yhuw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 19:38:22 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c552802e9fso205804385a.0
-        for <linux-media@vger.kernel.org>; Thu, 22 May 2025 12:38:22 -0700 (PDT)
+	s=arc-20240116; t=1747943037; c=relaxed/simple;
+	bh=/Z5Ze8or+JRgFSFweK/yZujXEyGXXBti7Q46Zw3/Tmo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=dbGnWcLLXRDhPnQjHnHKZG25iom857XH+bSTeVkkfaEAwyaZBEO7RYBRhKpYMWXTz910i1ElaGClD3ifVcrCppdSx/20N8m1elNsf9GQk/mAMthYQAaAbszrve7nW1Z0a2SE4bD3o//+pfoiBilWMFV88tvt5bbtCuOjLNXN0yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=eKf8AiD0; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7c54b651310so1203269985a.0
+        for <linux-media@vger.kernel.org>; Thu, 22 May 2025 12:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1747943035; x=1748547835; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=sJXIaFr6+YHPCMEw9fLiEbl1hSwx4GvnoilfxQICzcs=;
+        b=eKf8AiD0PzwpWNNWW4El0ue5/kKr847sR1R6GXsZl3aSWKc+UndJ+T1vTwgTu1/EXk
+         6gwvo6co3sANSZOSombpZ0RJR1zHyizbIKYIPpy5Rqew4WeedA4IrQUaORYfk3hSn/2O
+         ryV5t1fqbPqcXQiqJMCTHx1nJR0pOyyqopu5Pm8iJ9glGY7TgiM4ELD2VWtblXiIFLTF
+         u6+wtXjlTuMUnJ22okHzJ/qOcH0HLDgK9zb53hJKQWQpH9emSp0SCxhi8Wb2J0YVQq+9
+         wz0f9nXWbfso59aYQstVFxI6myscbaky6ekpfPPOfFiRFsEWgM2BnAUfICkG1AVUiVtS
+         sz5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747942702; x=1748547502;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nSVLbWs9WEhXD8F0quIy3d6Y384Oh4iaFb1o02G72Cc=;
-        b=fLEyGly8ugDuPtH97dKZlquI0/DPCqnC0xckzi3VxZgCtlgrnshnkE5MPK5f7nec3k
-         CJj9QD72Xwno7NrpyrIQHtBmcku1DYU2TauiJOIcoEh+ytoG9AyK+fitlnCd5LyPjGy0
-         he39PFzDpECq45Wk7cO4xJ4Im0619b0mMG8Uj6if5yyztnaqCcY8URgRdyQuJ/M9lUpI
-         Iq8YIJVMEl0jMSw6SpnpYHGp3kVT3kWOkwAsaplFWpKFTInjperklKIL7KfgMPq/3PiX
-         DVJPqTY1wDUGLf7+3X4dUwFUiG00ngAiKjTDSySyZuhX/TQSpmFzoiNRRSZhNKZPzI0t
-         O60w==
-X-Forwarded-Encrypted: i=1; AJvYcCUdgIzgjBZuyMshwIjhR/29BjK8O9ih6VS3CYLdvR9I3qEIlZIcLXdZb8ZPmxjIddGWdJKQXNbw6pTjbw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu4Xyk56eZK/RAXPzVOB0Wzcg0JSS/9p08TXzqf7H59q6HLFz5
-	PuiuFnNQqSjVVIWY+n5BhEqL1+jOTScPAkNg41hP10jV2ZyOvaCtcpSZ0u5GHS1clNn6m5Vrsd6
-	NMN6yfoWoBYljVYKsAgWjQGYS1znymldC/15aY5yQKydTpF49bZxlB5TpxzIs6xSI8Q==
-X-Gm-Gg: ASbGncsL/lO+ASk/hwMOVfXH1yuLMAiRaG0vmR0W2vrXuLqyJnTQ1Otct3dZdumTLx2
-	1dRyYoOlvvDWo/pNyoXw/zRfaLrC4KRr4HOIP65DH3zKr9eZYxzoTVKuUth+IdfyJFx0LaseGH/
-	+82j/7rQLpDfjNcdOVJHG7B7JBM6bKpsDta8prAeiwu0QCh84Olwk6DP8G5NYkLVkXz+7RXzhLY
-	ehAp4he1JM0myjEhCaqlfGUoXM4XETd6+MnzwkGsUcE6EOFjDBZx9EuU4hkgQ4UKRaaBB8omaAq
-	BNrUHkJ0/hocda2P5km7q7smgu43PzSgSwKtTaq6wPMVt+JFX1s8yZVqHDMICcm0Mw==
-X-Received: by 2002:a05:620a:8812:b0:7ca:d396:1460 with SMTP id af79cd13be357-7cd467aa279mr1659322585a.14.1747942702222;
-        Thu, 22 May 2025 12:38:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF1KQbgFQvKgKzZOxfQl4P+o0nz/PMO7DCB/IkhNmAwt/2Mx+vUW+hul4ymo+fK/nT3VCXeEQ==
-X-Received: by 2002:a05:620a:8812:b0:7ca:d396:1460 with SMTP id af79cd13be357-7cd467aa279mr1659320485a.14.1747942701886;
-        Thu, 22 May 2025 12:38:21 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d278290sm1112380366b.78.2025.05.22.12.38.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 12:38:21 -0700 (PDT)
-Message-ID: <be9a5e0a-1314-44ba-a8d0-f1071138c86b@oss.qualcomm.com>
-Date: Thu, 22 May 2025 21:38:18 +0200
+        d=1e100.net; s=20230601; t=1747943035; x=1748547835;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sJXIaFr6+YHPCMEw9fLiEbl1hSwx4GvnoilfxQICzcs=;
+        b=rQA/4366ManA6ihsCs+BD2sarVgi+e0JxGPR3m7BqFDC8xhylRVXzdS6ESxP85T3zK
+         wfRcQYrT0pVrOK7Jg/3i1wDEghAZlX2hamehyvKVvAWWPoVyycriWe8TlMS+BJplMXbX
+         a560GIlPKW6pT7l3cvR2bNTqkDLiimZToieq/3Qb1clpjIySfiCbFq9O4O3zWdB37876
+         Q8fA0yJfANPxw6VL2iYWOeowVfFeMZ+DAH333LSq3+99URrWkTp6Jj3j5yKUvECmvK4M
+         tGuhuOXqSkyInNlgjwKjaGoXJRz7I5g15vNDCRZrWkvhcT4H0gAWm0cGavAIvLXujrbr
+         wMow==
+X-Forwarded-Encrypted: i=1; AJvYcCU3Usu/CPpemXjDydQoUaQWNZPw+/nKT2bk4cEZ8Rp1w0hr/lXOq5qQQSzFjZAi6D/pR4HWPCMtTJ3irg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6yDNaqzcXMPtMJbn8SUT/l6DedLailnmSYzn3cS0DLo8ufeve
+	xhwkAx9/7yusppPraRBOWdSfBO0eqKWNvQSoZ2eOfKuwyrq6PxgDGZbwpxqg1YSWqXQ=
+X-Gm-Gg: ASbGncscjizv+sPoqzuxbCyA5zbT8C/yt3sjtf2UayG2Pc1KGGx4expydWdG+lfjCG9
+	HLxV4NdGRSpFVYqPVCAgUaichg/OOt30hKEgqiLa2uK8gCFolGBKbLerU/ji03kkimmErl09yqm
+	AIGJV1WKFdnqunVpo7CPG49lk49D/kvknYCP4vbLTGFgKbdDyOZ+MrbGntrPKeM93rqvNDEK9fe
+	E4uYwo3maoxJy38xOp+GV3fN50nbaIDPkT5rGQUG1nJLDyKBV/jnJcG873as37feDJSv9qeuA4B
+	3bKOPdOwz0zo4GOMYUwI9Qx7TaMZob5N2zXTGw0ioEogB214aUrh2TAM
+X-Google-Smtp-Source: AGHT+IFDXMxGr02MLC9kNByDKOUfa4jgk4t3IVO8hLQ2xi5sOOYcAhMjd53IsbZuvN4a00OyXQwcQA==
+X-Received: by 2002:a05:620a:288d:b0:7c5:3e89:c6df with SMTP id af79cd13be357-7cd47effed9mr3281280685a.12.1747943034939;
+        Thu, 22 May 2025 12:43:54 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:b2fc::5ac? ([2606:6d00:17:b2fc::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd468cc89fsm1063450285a.105.2025.05.22.12.43.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 12:43:54 -0700 (PDT)
+Message-ID: <5872699dd6f06a3516fb7a8ecac76ed955ce937b.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/3] media: mc: entity: Add pipeline_started/stopped ops
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org
+Cc: sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com, 
+	mchehab@kernel.org
+Date: Thu, 22 May 2025 15:43:53 -0400
+In-Reply-To: <20250519140403.443915-2-dan.scally@ideasonboard.com>
+References: <20250519140403.443915-1-dan.scally@ideasonboard.com>
+	 <20250519140403.443915-2-dan.scally@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: Fix SM8250 IFE0/1 max clock rate
-To: Konrad Dybcio <konradybcio@kernel.org>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil
- <hverkuil@xs4all.nl>, Jonathan Marek <jonathan@marek.ca>,
-        Julian Grahsl <jgrahsl@snap.com>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jordan Crouse <jordan@cosmicpenguin.net>
-References: <20250522-topic-8250_camss_ifeclkfix-v1-1-349350d31238@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250522-topic-8250_camss_ifeclkfix-v1-1-349350d31238@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=V9990fni c=1 sm=1 tr=0 ts=682f7d2e cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=MmXTpdYTAAAA:8
- a=TH8GZ54sAHZQbr7yu8oA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
- a=7hoCnnChfAR1N-e-f1W3:22
-X-Proofpoint-ORIG-GUID: 1e2N-ix9jtlWGfJkQzo4LpM3cDOoPUPQ
-X-Proofpoint-GUID: 1e2N-ix9jtlWGfJkQzo4LpM3cDOoPUPQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDE5NyBTYWx0ZWRfX7A8tJJL2HOUH
- eRssVJog9Pfjn1eGE/KscOVE1XP+Ah/rhaDPuiZ0gFqIB1R6u/pZgCp0HAxhet1HZI4gKwXYM8W
- N1zWH6dDOAXN1brGPSRqjpqtEGkeNdEqe6jYMK4Xk4m0pU4+voRgHppavCrRwUM2JpZRChURx7S
- kHB8Xhozp/RGjAxOdHBLGE6dbMbSWIpZK2KUy67jePdsxR4AtV7poPka6JkkvwiDyXmWwPdwsdy
- bWOnN+BEFzNHUI7l9ukSaFOzJ1T0Qmryi83QJShAI/evvV5efeJTTxXNKb581p8m0zBN/HUwy4f
- DY6Ca2I/xVrMiLPDulp1ckSipqNsReGLqO7HNGSdQI8i4/NBhqpyt9GmLHAsgKDdr7cujhcA2JG
- AkSEwNotTZHeylVfUW29VHa5zfEi6kro/mZy85aYx1v5h8B9/GespEKPPXkObK4SgcCdPQf7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-22_09,2025-05-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 spamscore=0 phishscore=0 suspectscore=0
- adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505220197
 
-On 5/22/25 9:37 PM, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> 720 MHz was used on the prototype revision (v1), use the 680 MHz that
-> our clock driver expects.
-> 
-> Fixes: b4436a18eedb ("media: camss: add support for SM8250 camss")
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Hi,
+
+Le lundi 19 mai 2025 =C3=A0 15:04 +0100, Daniel Scally a =C3=A9crit=C2=A0:
+> Add two new members to struct media_entity_operations, along with new
+> functions in media-entity.c to traverse a media pipeline and call the
+> new operations. The new functions are intended to be used to signal
+> to a media pipeline that it has fully started, with the entity ops
+> allowing drivers to define some action to be taken when those
+> conditions are met.
+>=20
+> The combination of the new functions and operations allows drivers
+> which are part of a multi-driver pipeline to delay actually starting
+> streaming until all of the conditions for streaming succcessfully are
+> met across all drivers.
+>=20
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 > ---
-> Jordan Crouse <jordan@cosmicpenguin.net>
+> =C2=A0drivers/media/mc/mc-entity.c | 45 +++++++++++++++++++++++++++++++++=
++++
+> =C2=A0include/media/media-entity.h | 24 +++++++++++++++++++
+> =C2=A02 files changed, 69 insertions(+)
+>=20
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index 045590905582..e36b1710669d 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -1053,6 +1053,51 @@ __media_pipeline_entity_iter_next(struct media_pip=
+eline *pipe,
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL_GPL(__media_pipeline_entity_iter_next);
+> =C2=A0
+> +int media_pipeline_started(struct media_pipeline *pipe)
+> +{
+> +	struct media_pipeline_entity_iter iter;
+> +	struct media_entity *entity;
+> +	int ret;
+> +
+> +	ret =3D media_pipeline_entity_iter_init(pipe, &iter);
+> +	if (ret)
+> +		return ret;
+> +
+> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
+> +		ret =3D media_entity_call(entity, pipeline_started);
+> +		if (ret && ret !=3D -ENOIOCTLCMD)
+> +			goto err_notify_stopped;
+> +	}
 
-I meant to Cc him (re: irc discussion on #linux-msm).. oops!
+Would this be more useful if it had a specified traversal order ? Perhaps
+sink to source traversal?
 
-Konrad
+Nicolas
+
+> +
+> +	media_pipeline_entity_iter_cleanup(&iter);
+> +
+> +	return ret =3D=3D -ENOIOCTLCMD ? 0 : ret;
+> +
+> +err_notify_stopped:
+> +	media_pipeline_stopped(pipe);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(media_pipeline_started);
+> +
+> +int media_pipeline_stopped(struct media_pipeline *pipe)
+> +{
+> +	struct media_pipeline_entity_iter iter;
+> +	struct media_entity *entity;
+> +	int ret;
+> +
+> +	ret =3D media_pipeline_entity_iter_init(pipe, &iter);
+> +	if (ret)
+> +		return ret;
+> +
+> +	media_pipeline_for_each_entity(pipe, &iter, entity)
+> +		media_entity_call(entity, pipeline_stopped);
+> +
+> +	media_pipeline_entity_iter_cleanup(&iter);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(media_pipeline_stopped);
+> +
+> =C2=A0/* ----------------------------------------------------------------=
+-------------
+> =C2=A0 * Links management
+> =C2=A0 */
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index 64cf590b1134..e858326b95cb 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -269,6 +269,10 @@ struct media_pad {
+> =C2=A0 *			media_entity_has_pad_interdep().
+> =C2=A0 *			Optional: If the operation isn't implemented all pads
+> =C2=A0 *			will be considered as interdependent.
+> + * @pipeline_started:	Notify this entity that the pipeline it is a part =
+of has
+> + *			been started
+> + * @pipeline_stopped:	Notify this entity that the pipeline it is a part =
+of has
+> + *			been stopped
+> =C2=A0 *
+> =C2=A0 * .. note::
+> =C2=A0 *
+> @@ -284,6 +288,8 @@ struct media_entity_operations {
+> =C2=A0	int (*link_validate)(struct media_link *link);
+> =C2=A0	bool (*has_pad_interdep)(struct media_entity *entity, unsigned int=
+ pad0,
+> =C2=A0				 unsigned int pad1);
+> +	int (*pipeline_started)(struct media_entity *entity);
+> +	void (*pipeline_stopped)(struct media_entity *entity);
+> =C2=A0};
+> =C2=A0
+> =C2=A0/**
+> @@ -1261,6 +1267,24 @@ __media_pipeline_entity_iter_next(struct media_pip=
+eline *pipe,
+> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0 entity !=3D NULL;							\
+> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0 entity =3D __media_pipeline_entity_iter_n=
+ext((pipe), iter, entity))
+> =C2=A0
+> +/**
+> + * media_pipeline_started - Inform entities in a pipeline that it has st=
+arted
+> + * @pipe:	The pipeline
+> + *
+> + * Iterate on all entities in a media pipeline and call their pipeline_s=
+tarted
+> + * member of media_entity_operations.
+> + */
+> +int media_pipeline_started(struct media_pipeline *pipe);
+> +
+> +/**
+> + * media_pipeline_stopped - Inform entities in a pipeline that it has st=
+opped
+> + * @pipe:	The pipeline
+> + *
+> + * Iterate on all entities in a media pipeline and call their pipeline_s=
+topped
+> + * member of media_entity_operations.
+> + */
+> +int media_pipeline_stopped(struct media_pipeline *pipe);
+> +
+> =C2=A0/**
+> =C2=A0 * media_pipeline_alloc_start - Mark a pipeline as streaming
+> =C2=A0 * @pad: Starting pad
 
