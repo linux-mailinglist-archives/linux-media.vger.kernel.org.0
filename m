@@ -1,86 +1,140 @@
-Return-Path: <linux-media+bounces-33131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33132-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EECEAC0D50
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 15:51:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BEC4AC0D5A
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 15:54:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6821D7B6F4D
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 13:49:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A36DC1BC4C87
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 13:54:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9097E28C2A9;
-	Thu, 22 May 2025 13:50:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B87828C2B4;
+	Thu, 22 May 2025 13:53:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oCEI14UI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XOgVJBYd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FF328B3F7;
-	Thu, 22 May 2025 13:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669CA28B4EB
+	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 13:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747921810; cv=none; b=mh9d0acTk0mJLsai4+++QnAzLvCEjYV0iK0uRstS/v25YrOmqApKJupp/J+mJbaMMk8KW9ttUEirAY593GcC7LKEc+E6Fz9F5Ky+j7xowx18/vFoeBf1hS9bSdk84p3wnyggjrgCl1SiWjDfpi1p2iV+skd4gpV2ByS8mVe6CCY=
+	t=1747922033; cv=none; b=Bmd+PSrrwAjy5B80xKOqIssYTZpLFf7dmDlf76LQIdHyLDFI63cuSVoUp3b/mw+4zVK0ipSN7pRRaUqFJYjypfBD8e+NT9ZwoFD5jShgW3DxCMk19F5guMrTmPjp0ZPUQgGphXoLaPawJd3Rwvx+AUcEIaraWBldAVTom11NKBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747921810; c=relaxed/simple;
-	bh=ktheC8UrqvazeBtNepLrvQqF9eDTiWiVXke3rVgh9vk=;
+	s=arc-20240116; t=1747922033; c=relaxed/simple;
+	bh=ojmwXsKnN12PQfNVzmnMorUlKwCaq5wQhn3eVS6G9hU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EAXmLRrCgZOh30tY97QDADgUq4LNWI2XKZNAa+mdov8Z9i7zGX8lOwHQvPJ42p0qefhNbZGu/N8Q0wTi8DHIRG6PQ1Pl8OYhckwMLKjsBWQ5ExwrfggFaOKEUOE2nISzC87ncU3Yluxylmq339dJaRadls8bKJrrjRYEl9tK4i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oCEI14UI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B238C4CEE4;
-	Thu, 22 May 2025 13:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747921809;
-	bh=ktheC8UrqvazeBtNepLrvQqF9eDTiWiVXke3rVgh9vk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oCEI14UIkH/IO/X9oU9p5cjgx2Au6n8zDfWPWZeMznx02//mHz1Kd5F5Gm7642Jrt
-	 OYhUlzxB2Wf+re6OM3zIj00XcwvAq2elObtX3IwmcIKa/r+bpBoOu651q2jHxzwQQ/
-	 PJq+X6sONf5ygxiibdx8fPHY1/dHdTTjVwsTIfBPdhWxvP2YKZXogSFfDPTxGvA2RA
-	 Y3LtLbypAKGmaVDBEqTsFWSZE2NdHu3P7pYplEXSUpWhNeRxcmsnKpT9PG0QqNhn07
-	 3B8lK+Pt0UBbzd6UiEAUYuC8Kfhl726PBJLkn7l0RzTpdqOXMLs9vJfE54RcRLY0/9
-	 9z6otqMAX86oQ==
-Date: Thu, 22 May 2025 15:50:04 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/nouveau: Don't signal when killing the fence
- context
-Message-ID: <aC8rjBuqzst-SHMD@pollux>
-References: <20250522112540.161411-2-phasta@kernel.org>
- <20250522112540.161411-3-phasta@kernel.org>
- <af03b541-0b69-4b3d-b498-b68e0beb3dcb@amd.com>
- <06210b9dc5e5ea8365295b77942c3ca030f02729.camel@mailbox.org>
- <eae0ff0f-31a6-433a-b255-9bdb4727a940@amd.com>
- <e5d74c0be68d641171271cdff2e71ec5eb312377.camel@mailbox.org>
- <aac87a7e-5a45-4b54-a43b-cb92c5df669c@amd.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=SltpyNBpbI4utFnwJl838sDeLvkiQer7MiKp2092GCVApWK1LOQ2SlFFzroZHLlpCm4YQf53kJqoiu2jmK1RO4+Zz8E8Mg/BKR+Dx2Q3fzidv+lWtSskFno0tUpe0tVAp/u37eJiNb1exZghrOCHFXgmSHYDZJ/9uEZ4zbDlq30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XOgVJBYd; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747922032; x=1779458032;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ojmwXsKnN12PQfNVzmnMorUlKwCaq5wQhn3eVS6G9hU=;
+  b=XOgVJBYdimNe+dWKE3QYG4XafVx5vhHSFxz40WoJJwLAxa2mo0pn8WQn
+   KSGe9vWDu0mdT9AtE9Gfr9iqyWaO0lJBm77zZtvztj0++ddYiizXUN6gh
+   6yACI96D1/jmivtN/2DD0Pvim78i9kAIbJXNYPwemqlxBqNoiVkSsznKz
+   4CN7hairNQCxj8J7sYj5QQK6JL3PLa7tXAPsxnYM+l0HZIbxCwuERKE8F
+   Hslh4UdU6hcK6NXyIec9Cu9Vg5TMzHycQ4EmTQ+fvvBT9n38RuL93MKeK
+   s9JHlbYif5iyoaEaAA/n575WviPur8NWogwSBOPF4oKYQLXMNMi8R7Xlr
+   A==;
+X-CSE-ConnectionGUID: H35Z29meSy23qqp03gTFqg==
+X-CSE-MsgGUID: IzBC9a+zSG6DAjP8EEmNVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="60995238"
+X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
+   d="scan'208";a="60995238"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 06:53:52 -0700
+X-CSE-ConnectionGUID: vhNfBnfFQSK0bL1Gvz+l6w==
+X-CSE-MsgGUID: bhh7yZ12RvOb/kIbzLtkTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
+   d="scan'208";a="145850403"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 22 May 2025 06:53:50 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uI6Mm-000POS-0w;
+	Thu, 22 May 2025 13:53:48 +0000
+Date: Thu, 22 May 2025 21:53:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH 1/3] media: mc: entity: Add pipeline_started/stopped ops
+Message-ID: <202505222107.vNoAm2e7-lkp@intel.com>
+References: <20250519140403.443915-2-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aac87a7e-5a45-4b54-a43b-cb92c5df669c@amd.com>
+In-Reply-To: <20250519140403.443915-2-dan.scally@ideasonboard.com>
 
-On Thu, May 22, 2025 at 03:05:02PM +0200, Christian König wrote:
-> E.g. when you don't know the implementation side use the defined API and don't mess with the internals. If you do know the implementation side then it's valid that you check the internals.
+Hi Daniel,
 
-I assume you meant this as "bothering with the internals of you *own* fence is
-fine, but not with foreign ones".
+kernel test robot noticed the following build warnings:
 
-And if the driver messes with the internals of its own fence code that's fine,
-but in this case we talk about the generic dma_fence implementation, i.e. an
-internal flag of the dma_fence implementation.
+[auto build test WARNING on linuxtv-media-pending/master]
+[also build test WARNING on linus/master sailus-media-tree/master media-tree/master v6.15-rc7 next-20250522]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-In general, a driver should *never* bother with implementation details of a
-generic component, regardless whether the author knows the internal details.
-Things are *always* prone to change and then this may result into subtle bugs.
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-mc-entity-Add-pipeline_started-stopped-ops/20250519-222333
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20250519140403.443915-2-dan.scally%40ideasonboard.com
+patch subject: [PATCH 1/3] media: mc: entity: Add pipeline_started/stopped ops
+config: m68k-randconfig-r111-20250522 (https://download.01.org/0day-ci/archive/20250522/202505222107.vNoAm2e7-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250522/202505222107.vNoAm2e7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505222107.vNoAm2e7-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/mc/mc-entity.c:1093:17: sparse: sparse: incompatible types in conditional expression (different base types):
+   drivers/media/mc/mc-entity.c:1093:17: sparse:    void
+   drivers/media/mc/mc-entity.c:1093:17: sparse:    int
+
+vim +1093 drivers/media/mc/mc-entity.c
+
+  1081	
+  1082	int media_pipeline_stopped(struct media_pipeline *pipe)
+  1083	{
+  1084		struct media_pipeline_entity_iter iter;
+  1085		struct media_entity *entity;
+  1086		int ret;
+  1087	
+  1088		ret = media_pipeline_entity_iter_init(pipe, &iter);
+  1089		if (ret)
+  1090			return ret;
+  1091	
+  1092		media_pipeline_for_each_entity(pipe, &iter, entity)
+> 1093			media_entity_call(entity, pipeline_stopped);
+  1094	
+  1095		media_pipeline_entity_iter_cleanup(&iter);
+  1096	
+  1097		return 0;
+  1098	}
+  1099	EXPORT_SYMBOL_GPL(media_pipeline_stopped);
+  1100	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
