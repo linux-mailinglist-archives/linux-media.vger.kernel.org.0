@@ -1,260 +1,311 @@
-Return-Path: <linux-media+bounces-33106-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33107-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB965AC0AD7
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 13:52:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8CECAC0AD9
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 13:53:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A878016E9D0
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 11:52:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 369EA7B1285
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 11:52:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B147228A1CB;
-	Thu, 22 May 2025 11:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F43128A1FB;
+	Thu, 22 May 2025 11:53:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="BruNwTXg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="duNmFUPk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2065.outbound.protection.outlook.com [40.107.223.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70908230BC2;
-	Thu, 22 May 2025 11:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747914749; cv=fail; b=ZV5FZNo/NYGHphhg985dMwV+aRd6Nkbz02l3pjVEmrKZwtIeYt33F5+Pcq7eo8aCksV5Gn7BkOnzz6ZCyzSCHNChR1OEvBURd3tl2MnVsUbGCstYMMZtchIgDWh2opZfyQiiKHbv7Sp1CIrCAw3xeNZlnTFFfMNfmpFNa7gy3a0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747914749; c=relaxed/simple;
-	bh=BYSgxqJjqSbs8ZJslSNC+/A+w+v6q5C/DEpynjdj+Ng=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EX3xitA3g11ZfEqUnEO2MCXXrSF3R3exVG3WjhZLfIk71wsWL4bXAnoh92sHmahpqjhpseH8w3jnO9QehcZW25cKR96iffExJglQEEx9JVktCsDjg3nEHCfSuOui3EqRkdHYdOW0TLJIElG+jwzB1w73EY3TmSV0iYEMmtHx5D0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=BruNwTXg; arc=fail smtp.client-ip=40.107.223.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GVOge2Z3l6Unukpuzsr4gzsRsyc8yQ33gkv+Ghk+P2ETEtMpBxaHsqU66KyeYxvhbcj+uWMuGxCjR048o3ECT6B4IqlANiAl5k3lOK9KyNMmPJCa203L1xbYBoNHKoGPFLYq4v5x17i9SgOfqv4j2Td3YoabMdg9LYQOFGqbCtgiA0yY27hJtV9APM6fWVNULHyOwOrSlhZmyy+VYBggWlMw36ASW0COXm32FLggMcVirhQnFcE3N5HdGYKdbgS22kw3j6MXHjoiODNeVqqm3lRstx1EsVyseSnCzUvlkHGQAeGMabQ5z1GeArNDJOW7EMwnvW4UxsafSrwc8ix32Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bHFj+wccSli4xIjqO4ThZCUElvKzih5X1GTp4368Ubc=;
- b=p5I9PyUt6E2z1dtB1UjpJL6eWzxk+CzjE2az8To3Oj7HiRS2MJxtk2Hkdb4ZJa0fRJLG9+lzviGhD4UgOaq2d7VoRWaf6JzJURsRArFjWVlbaW7xX+QK8kfcbFAQi0FMJM10g2IkkgSuNAZY/oXEx7f9TyYUoZ0DhcrHxjx8VnqdUANH4m95cVEDK87MtPgY+pnNn2a9Idl9aN/u1YmBlVyeIbjC+Pjm69TpxrsmCZXRprUMfKjwyFhIpDLHacbYy0dSgLH6OCKB9OP5huQpuWyW8gqN4B4EQySFs1dl7qD5XxnTiGhAvPaEs2OHBDyzFFSRYJICtknXkDk/bSdeMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bHFj+wccSli4xIjqO4ThZCUElvKzih5X1GTp4368Ubc=;
- b=BruNwTXgSjzZwZkFtzU/SHg8BDeooZ4HPbU04ZXgzP9/ejX8OpT1HREZ+0HfdH+TDdNTr7gedrMa9fqI7fCrDGGmTjPFMudnK8P3pGBOExIHLHbelR5E7E/G3Jxp5uzFcXsk7BVaBQ/5txXRHqaAI04O2tLApt2bjTGdAYgji1E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB7570.namprd12.prod.outlook.com (2603:10b6:610:149::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.22; Thu, 22 May
- 2025 11:52:23 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Thu, 22 May 2025
- 11:52:22 +0000
-Message-ID: <1a65f370-2df2-4169-85f9-c45e7c537447@amd.com>
-Date: Thu, 22 May 2025 13:52:14 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/9] dma-buf: dma-heap: export declared functions
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>, Sumit Garg
- <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>
-References: <20250520152436.474778-1-jens.wiklander@linaro.org>
- <20250520152436.474778-3-jens.wiklander@linaro.org>
- <dffbd709-def0-47af-93ff-a48686f04153@amd.com>
- <CAHUa44Ec0+GPoDkcEG+Vg9_TY1NC=nh3yr0F=ezHMbaeX_A0Bg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAHUa44Ec0+GPoDkcEG+Vg9_TY1NC=nh3yr0F=ezHMbaeX_A0Bg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0163.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE3D288C36;
+	Thu, 22 May 2025 11:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747914797; cv=none; b=pBhR+D/WHJw0PhubZgtMsmNFlpqcGprIahmLatpRdwyiEN+qE5nyxwGZl7+Askt5USsYiCObXKrxGcmBZxqZb0jXYDkL/J/JYZKxiYpFShaxUqzVe0xp4MyJtn8fU5/I7/zFDKoJ0ItObzH3IEbQv1uxhTKxmvLdm9garfrSK4Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747914797; c=relaxed/simple;
+	bh=pWgg5uHq1Hj4byR4xuPyJSNZim4/mrvZNsi9sBCeduk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=F4BL+Q5V/LdO0gFjEcWk1E4Yn/pWtbwij/X+A4QSF/wNfpk4HW+d+LE3GlDfYCh+oowjDvdGk02Gfyy5mepN32VxakYpVVgoaawEN2Ij4IAQtPUEpUILvcurl9pWffscOAC+D9hMm3VQsi2ww6Gz3abiwVO60A7LGvvl3XuzaEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=duNmFUPk; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-551ed563740so6597378e87.2;
+        Thu, 22 May 2025 04:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747914794; x=1748519594; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yUl8p2w7XYKuy3CZvywHLks0IKC7NaJ4hSD5ixu79mY=;
+        b=duNmFUPkw2xmBCdtjhzOxN5TDhkmk7IdVvWgSl+WGEuxVfGHmYbT/XdI3pmCiUZhRr
+         Zli92W7Oup2cS7EMO1zLpN0Vpf4PSc5YJRAcPL+w/WBoFEbL0nOKxVACk88UbjSzdrfV
+         +BpRfvr7VWEE4N9oRtefiVJMiI7pO7dzImNcYFM8WhhVMLvPutwKpqYYhlNUOzFpFSSG
+         MmxnzHzr7iDK6ZpfYjXP/xnB6sginusYN/TivhDi+mHPZ610z8iEPxNKyGLJuttYvnu5
+         3RvVbl9JVxwAARsV50HLe/dU+Hiq0iuptxp17xZnZy9AtXcOIdta5MkzTMEV4x9rO861
+         PgMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747914794; x=1748519594;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yUl8p2w7XYKuy3CZvywHLks0IKC7NaJ4hSD5ixu79mY=;
+        b=E3fI4+ETDPoTgyNEUcVJpxNa+vLv96e9n/vxHtPS+6RFY3G8WtIdNikhNvG0lKVzWt
+         zU2qRUH0qCker/pbYyz+1xKshbvU8pbNNh2SWyI/LgTzLrh01yS8eyZY9bRXPvydVR9I
+         Hv7TlJMjxu1AL1OYuJKjGFrJhpjqhzn22XjDmUvqLTHsjjo4+MZzwz5XRx2MIz8gOut0
+         +AptVTLXaoKULcy7LkI/eJzgw/5LT9wE0Obdgkz46ktPdKW3TcsFBl8BSR8pk95NPhd0
+         /6762c7upXGg4JVOAeKqN7VMO+Apd7gFg0DJes/6B7jDxc/ztlySjr4vOfUeq/LM3Fii
+         Segg==
+X-Forwarded-Encrypted: i=1; AJvYcCUfSlY7HyqOfimE0wnpvEGnnqhxnRJDy1ECMdk0KJe+v1T/PF2slaMKpq96zp0XXUI79kuWbudouZB1HnQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/cXUVzdavn+H2AMZbnzrtiamcCDk7vGrzF0W/n8E2htJ7fn5b
+	5MKuo8X4I1GEmXAhfgX7obfg6d7EklnLQsOcOWJdgY96Xw57Os29cDtm
+X-Gm-Gg: ASbGncv9TFsdj0oWNWcYUzmfiyldA5Ek8NUzGt2ZRGRMoV9ra91mTVVj4FIi7h5Qebb
+	N7K45lWUakt5Fe3HAzIqJ0pGIgkqLmGSYInXyPzzsDJN8D/GgCWByqso1eRbCFaXiqTt05nN8Tf
+	SEpM8undp7qKXmNe2JyHgrd6zh8RKpdHzgvCiUusGjm4Q9v1Cumvjg75Xuf/QlVH840SCtvo1cB
+	KMNTJdyCYIZl4Eea093TlGqVh6rz5cfgNP8kXq2Gper7Hs7j7kb+L+7hh1YwAzJLS+kXPQEtump
+	ndTLOE1VV6h7I8omzIftmqks706Qc8lzCd/W7YRmICiivOy0loYhGxLIfcFIhpMSlU7biGjLXac
+	taHiMyubVPmGBQk3ssd/gtIvpyVIVRcoJVMsu2fjDLFv0Mw==
+X-Google-Smtp-Source: AGHT+IFlEASRKAIWw5pz50sIKoDkCSz9iHN2U6yfJV8d32kyTIT5U4beqYHrTP+oBiblg0zjCifuNw==
+X-Received: by 2002:a05:6512:2616:b0:54f:c35a:3754 with SMTP id 2adb3069b0e04-550e71cef3amr6410581e87.27.1747914793247;
+        Thu, 22 May 2025 04:53:13 -0700 (PDT)
+Received: from uuba.fritz.box (2001-14ba-53-1500-7c4-bcaf-182a-540c.rev.dnainternet.fi. [2001:14ba:53:1500:7c4:bcaf:182a:540c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e7017e79sm3343760e87.154.2025.05.22.04.53.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 04:53:12 -0700 (PDT)
+From: =?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
+To: mchehab@kernel.org,
+	ribalda@chromium.org,
+	hverkuil@xs4all.nl,
+	sebastian.fricke@collabora.com,
+	hljunggr@cisco.com,
+	dave.jiang@intel.com,
+	jgg@ziepe.ca,
+	saeedm@nvidia.com,
+	Jonathan.Cameron@huawei.com,
+	corbet@lwn.net,
+	ilpo.jarvinen@linux.intel.com,
+	mario.limonciello@amd.com,
+	W_Armin@gmx.de,
+	mpearson-lenovo@squebb.ca,
+	skhan@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	=?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
+Subject: [PATCH v2 1/4] docs: Improve grammar in Userspace API/DVB API
+Date: Thu, 22 May 2025 14:52:52 +0300
+Message-Id: <20250522115255.137450-1-hannelotta@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB7570:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2b15f38-9e26-48d0-a632-08dd99271d10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Y2VndmVVNTFvcWNvckk4M0hJRXUyTUN2amFaSWRzeE5iWUhKdnlobDNyeStW?=
- =?utf-8?B?ZVcrWkVUYVhsaDFEWllxL2UzVktCQ0g4R3kwZDVENmVWOElqSGc4QWhWKzhG?=
- =?utf-8?B?RDVWSjRGbGxrZU5Vc0Q5VTRFNlFFYmdYanVqTUIvYXRTdEFFaEtvKzFGOTVn?=
- =?utf-8?B?SFVGazFPUXVKYUFnZ3Q5enUxSHBUYU1BK1REdzY1eEs2OTF5STRTTzRwczZU?=
- =?utf-8?B?bnFjdnFvZGFaWUk1bUxRTXNBM3BOaXBtRFZZQmhHbHdER3dPRFZObkswd1hT?=
- =?utf-8?B?RitWWk93YkVScmtSdWRKYWsvbWRjMytyVFdEMHhMbXZ2cEFnS0hCS3V5a2FW?=
- =?utf-8?B?OTdqVTJkVlFsSE1MMHk3b2JFZG5DdHpuRytqQjV3dktibk9aQStqZHZ3ZmEy?=
- =?utf-8?B?Ry9kTjVuTUx0ZDJEb2J4SVZNNCtscHhncWJ1cXR2MGxPdlZCUnFjTEs5Qlp0?=
- =?utf-8?B?UEJ4Q1FaNndpUTZFOHBaRytoVjFCMEg3WjcxY24wZi9xTVRJTkt3YW9yR3RM?=
- =?utf-8?B?eVA4WTA1VnlENVZLNk1BQlNjVFBIeEpjSHZNYUZaT2cwWHhwRDNoQ3d3aUV6?=
- =?utf-8?B?MkJ3WEtwbVZaZGlkemRhUGp0WWloYUh3cVFGSXlYSUN4bWQrNE9Kc1dlUks1?=
- =?utf-8?B?SlhZRlZiM3BMWmtZWjNvZVpGWE84enJIdUNOblVmYnFqTDdjTlAzUG5TcTNi?=
- =?utf-8?B?TzVOcmt5NlpFclJrWVFFK3gyNExkZ3FUSUEzNnhpZHNqTE52U09LVGxXcFRC?=
- =?utf-8?B?cW9hS1ZIaXFQUGtoU2N5UlhhQm4raVA5eTcxaEFhL2lSdjM4ZkFvbm1KSngw?=
- =?utf-8?B?NkZWTE9VZVA2K1pIWnF0MjMxS05OeGhQN3ZnNlBUTWhzcjViV3M1a2Ntak9G?=
- =?utf-8?B?aDlTRjV4Uk1mYkFGOGxQS05qQUc2TllLUlY2WDNHMThuSTUrOXlKWkRDK2Jp?=
- =?utf-8?B?RXFKZUhiVU5HK0ZBaXhUeVZKKzJET2t6MHFWK0FjYi9yU2cxZnBZb0kwdjFE?=
- =?utf-8?B?Wk5UWVZNdkxWNzdNN2hGZWl1TmlxeTVHczdydUdQYkYwRlg5SzRRTWt5RnlM?=
- =?utf-8?B?Y1hMaTBvUEZWTHB6V3B2bndxN05NOWxOQ0dNYm9ubVZmVHNmUkdIYzJEU3Qy?=
- =?utf-8?B?aDZrVWJ1T3ZBY3JnT0VpdFBSanp0OXpZUzFXaWVtdnJPR1p1OHlLMWplMWc4?=
- =?utf-8?B?RFFtN29ZejkxenBtUHlQdld0NGdxaURILzAraDEzQVczUzRPYUkva3dIdnJJ?=
- =?utf-8?B?RS9rMFNzTXlkZGk3Wis4eG5Zb2VBWmdOVjJTS0hwRzhzMnZ2NGZqRCtmZGJW?=
- =?utf-8?B?Mk5DM2MxWlZvc1NPQ0R4eEtmU1dCRENmNW11KzhITnhKMUh4TWJxZEtkSGp6?=
- =?utf-8?B?eWdjVkl0RVdWM3hTMEM4ZklVZkNRWHF6SVcrL0liUFlQWE03QVErK1hLeGRV?=
- =?utf-8?B?V2dpSjAvY1hxWmo2ZTZSbTJGRTZIdlBiY0xSQTdWUzZmUE5rdlNJR0NNVE1i?=
- =?utf-8?B?VUliU2RSWVdPdXJhaDB6aGYrSkpIUFc1aU1OY3Z0MGI5SUkzWDhYV3BwWDd4?=
- =?utf-8?B?ckw1by85ZFB4QXJqMWRqeEY4N1I1Y1NTK3djQUNHdkFncmd4Y01kcmNhK0Vn?=
- =?utf-8?B?OUJtYVlObzY3RGdWQ3Y0ZzlKbEVtLzl2RE4zOCtqZEIzU2R6QjJydzdFTjhT?=
- =?utf-8?B?MkdvWExKdkltSkErdFNYWUZYWVY3emNwVmU0eGhRMithWkNHVFdZYU5ISTRq?=
- =?utf-8?B?ck1XYWMxNGhYMElROS9BZFhrT0JqaWllUkZjRFpGUktQYTh3RjdGVGE1RE40?=
- =?utf-8?B?R1JhTHo0clhLdXFmTFBrbFJPTGtTVW03VjNSY1F1MGtXd2VmeEZBRkpaZU1V?=
- =?utf-8?B?OGRiRWRRZFJEOGpXTm9hcXd3Wlp4VC9GNkYzRDhMZERESG9HSWhSTkpyeER6?=
- =?utf-8?Q?x5RELh5ZnqY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y2wwbzIvWnduczh4MkYzV09pMWF2cUE1Um01djFFNjdRMmQvby9RYWVVckNv?=
- =?utf-8?B?TVB6OHpEaGZmT2wvVWF2amNqMnRTOUdneGRtbHRuaExTaStpOElHOUZ5eGRi?=
- =?utf-8?B?NEpkWTIyeEcwdjVOWEVpMUJ4QzB4QUpvd3I2RkVjOHpkVUVLZmpBTFhydVA0?=
- =?utf-8?B?T21OTThReFA3L3ZQWUVHcS9ydzV0T0h6Ukltc1lkS2ljNFhyQUFLaXVXYWdJ?=
- =?utf-8?B?NFUvM3dWTWVrNnN5SVhOKzhVM3R0TWhtOGJLWFBTQS93U1Q3MllhZ3lRSU9p?=
- =?utf-8?B?aXNhcklmbkwxbDg0cEg1c0duVVk0aDEyV3NBSEZBTU9aeGZSUlh2TVFoQjBK?=
- =?utf-8?B?MGxEZWFIK0FRbG1Wc1M3aVFRZjZBemRxNUc1V2ZaZEgzelRYeG1wZ1NhOUhh?=
- =?utf-8?B?NmY1RUV4c2JHdjREY1JKZ2NQRWx4Tlc2MVZ3V3lZR3FKaHA1d0JQbXhkTm1O?=
- =?utf-8?B?VUc5dHl5bHJwak1HT3lsaVRiRS9jMTlxSlFVd3FwcFZhQVFMNVI5ZWRrMUJk?=
- =?utf-8?B?VC9iWmhmZWNrZ1hoQVNQbTFNKy9zaFJ3a3JreXFzZVVCSkRLRU5FSXBoOUtk?=
- =?utf-8?B?WXFZY04zb1ZvRmg4dmhQOEg4dWlsSXZLL1hIcU0wL1MzTnRYTkNneW1RNy9U?=
- =?utf-8?B?OUI2aGIyczRGQTZhZWcwNEhFM2V1cndWZ0hzSERlcjZNak02akU3dkhyeWNw?=
- =?utf-8?B?SDVUWG44MHNwelFvMEc5ck1HV3NzZmJDcm9hWWFLQ1VYdUF0SDVpeDNuZE1k?=
- =?utf-8?B?akUxU0U3UWJDOEpUMTlraWtjMVh3TW44cENnbFFvRkZlWHV1NEltRDdhRTZo?=
- =?utf-8?B?NHh3SDk3M2dUMDJaTC85ZldyTEF6RFRPanBwWDY5L0FPVWZVbzhCSmpKaW5n?=
- =?utf-8?B?V205Y3B2V09SR0F1eXhPODdmTU1OTGYvV1Z3WEZDQjZSeUorTVpCUFNtOVYy?=
- =?utf-8?B?cUxFQ0dQcTM1V25Sc0lPaDVxcEhvblpTL0FxQ0JpeDVqcVVjNjFTRVBYTHdS?=
- =?utf-8?B?UXJmcUhHTFBWWllhbGo2cU5TN0FwZFBSRTlqWE9Wd2tMd1plU0phZUcrSlNw?=
- =?utf-8?B?Zld6b0pmZ1FtemxQY2VERFliS3p3RC9tbEV6OHFNcjZvQWdHVnFPNlpGREJN?=
- =?utf-8?B?alIzeGNiKzhMNWtRWUZ6R2lSakVnT21xcmhSVzhHWVp4cisydmo0VjZkUjJp?=
- =?utf-8?B?emNZTzVTNkFMc3FZK05hSVZFUEZZVFhFc3pDNG9uUzRrTVQxT2JrV1d0YjJF?=
- =?utf-8?B?ang2YWhmOHRQUUwwOWg3QkNUb2l6Tk96TXR6dG5kQVN2Q2ZGR3FSWnVLQ2dT?=
- =?utf-8?B?RDdRTjNwblRjTGt6eXFVRW1YZFhwYXk5QXZrTTc2RzFtMzFnc01BL2d2VFho?=
- =?utf-8?B?WGY1TE1UQVhMOWtWSC9sZUhrRldOajNnU1dudkN1ZllwZkxWbzlmS3BFeDda?=
- =?utf-8?B?YkpaV1BKcjZkeWZycW8zMk1wbUthTDdhYVJhNGs2NFZISWNHTnRORVVhejRa?=
- =?utf-8?B?aFdLay9kRGxYdEVaTURPNFM0Y3JYNTRuOVR5Y1VUZ2UvTENJd24vTlJuK1NN?=
- =?utf-8?B?ZWRnb09XdGlieXNxSmpvU0ZsR2hDVUhzY2dtb01lQWNTQVRRekcwUWZSeEFa?=
- =?utf-8?B?NFd1RUlnTHp2OVNUSWRiNVYvU1FVZloyYzJrbkhPR24yMUFFeWIrWE5aYXJL?=
- =?utf-8?B?K1ZMY1E2RWJaeGFMN3JmQlNuaEI5bGdyM09uM2NJWlpyQlZsL3NaVjc5UXFi?=
- =?utf-8?B?ZnJFQ1A0U01KbHpaeVQ2NGtzcE0zYUtBWEsxWk80ZTZ1QllKMmVWS3VWWmE1?=
- =?utf-8?B?bWI1aXE1Zm1sdGVyRmJud3FqWkxwb1JNdWdQSUpMMTVScnJEdHdJL0ZJRExx?=
- =?utf-8?B?SWNIUzJwQVJnN3BveFEwWllnS2k3RUREMEpCOWVKTWxHZmpiSDVLNHpDWmxv?=
- =?utf-8?B?bGx2elZSaDdVUUVKK211Vk9xR1F4dXM3OGZqVEZuTEo5ZzBKSkhpWjFSQkpV?=
- =?utf-8?B?VlVwS21wNFFCaS92LzhxYXZvcEV0VDR2dFlhVUptRUNnSWZCNzBOM3lRdng3?=
- =?utf-8?B?eXlWNGhoeVVndVVhZlVHMytqWVF5bS92TUd1Vy8vZmNZQ090SjJvVWpjbi9W?=
- =?utf-8?Q?hyjYIEmdK3JBltDZRQdzkRRxD?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2b15f38-9e26-48d0-a632-08dd99271d10
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 11:52:22.8505
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MAPxFLrPdHlcv8RI+ytpTaoy1EM341EWrGrCDQXmruHCeI55a84ea09tpug2H3yU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7570
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 5/22/25 08:56, Jens Wiklander wrote:
-> On Wed, May 21, 2025 at 9:13 AM Christian König
-> <christian.koenig@amd.com> wrote:
->>
->> On 5/20/25 17:16, Jens Wiklander wrote:
->>> Export the dma-buf heap functions declared in <linux/dma-heap.h>.
->>
->> That is what this patch does and that should be obvious by looking at it. You need to explain why you do this.
->>
->> Looking at the rest of the series it's most likely ok, but this commit message should really be improved.
-> 
-> I'm considering something like this for the next version:
-> Export the dma-buf heap functions declared in <linux/dma-heap.h> to allow
-> them to be used by kernel modules. This will enable drivers like the OP-TEE
-> driver, to utilize these interfaces for registering and managing their
-> specific DMA heaps.
+Fix typos and punctuation and improve grammar in documentation
+for Digital TV API, also known as Linux DVB API.
 
-Works for me, but it doesn't needs to be so detailed.
+Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
+---
 
-Something like this here would be optimal I think:
+Notes:
+    v1 -> v2:
+    
+    Left out changes based on feedback from Jonathan Corbet
+    <corbet@lwn.net> and Bagas Sanjaya <bagasdotme@gmail.com>
 
-Export the dma-buf heap functions to allow them to be used by the OP-TEE driver.
-The OP-TEE driver wants to register and manage specific secure DMA heaps with it.
+ .../media/dvb/fe-diseqc-send-burst.rst        |  2 +-
+ .../userspace-api/media/dvb/fe-set-tone.rst   |  2 +-
+ .../media/dvb/fe-set-voltage.rst              |  2 +-
+ .../media/dvb/fe_property_parameters.rst      | 23 +++++++++----------
+ .../frontend-property-terrestrial-systems.rst |  2 +-
+ .../userspace-api/media/dvb/intro.rst         |  4 ++--
+ .../media/dvb/legacy_dvb_audio.rst            |  4 ++--
+ 7 files changed, 19 insertions(+), 20 deletions(-)
 
-Regards,
-Christian.
-
-> 
-> Thanks,
-> Jens
-> 
->>
->> Regards,
->> Christian.
->>
->>>
->>> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
->>> ---
->>>  drivers/dma-buf/dma-heap.c | 3 +++
->>>  1 file changed, 3 insertions(+)
->>>
->>> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
->>> index 3cbe87d4a464..cdddf0e24dce 100644
->>> --- a/drivers/dma-buf/dma-heap.c
->>> +++ b/drivers/dma-buf/dma-heap.c
->>> @@ -202,6 +202,7 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
->>>  {
->>>       return heap->priv;
->>>  }
->>> +EXPORT_SYMBOL(dma_heap_get_drvdata);
->>>
->>>  /**
->>>   * dma_heap_get_name - get heap name
->>> @@ -214,6 +215,7 @@ const char *dma_heap_get_name(struct dma_heap *heap)
->>>  {
->>>       return heap->name;
->>>  }
->>> +EXPORT_SYMBOL(dma_heap_get_name);
->>>
->>>  /**
->>>   * dma_heap_add - adds a heap to dmabuf heaps
->>> @@ -303,6 +305,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->>>       kfree(heap);
->>>       return err_ret;
->>>  }
->>> +EXPORT_SYMBOL(dma_heap_add);
->>>
->>>  static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
->>>  {
->>
+diff --git a/Documentation/userspace-api/media/dvb/fe-diseqc-send-burst.rst b/Documentation/userspace-api/media/dvb/fe-diseqc-send-burst.rst
+index 8fb73ee29951..6ac1e5cd50ce 100644
+--- a/Documentation/userspace-api/media/dvb/fe-diseqc-send-burst.rst
++++ b/Documentation/userspace-api/media/dvb/fe-diseqc-send-burst.rst
+@@ -26,7 +26,7 @@ Arguments
+     File descriptor returned by :c:func:`open()`.
+ 
+ ``tone``
+-    An integer enumered value described at :c:type:`fe_sec_mini_cmd`.
++    An integer enumerated value described at :c:type:`fe_sec_mini_cmd`.
+ 
+ Description
+ ===========
+diff --git a/Documentation/userspace-api/media/dvb/fe-set-tone.rst b/Documentation/userspace-api/media/dvb/fe-set-tone.rst
+index 9f44bf946183..41cd7111a243 100644
+--- a/Documentation/userspace-api/media/dvb/fe-set-tone.rst
++++ b/Documentation/userspace-api/media/dvb/fe-set-tone.rst
+@@ -26,7 +26,7 @@ Arguments
+     File descriptor returned by :c:func:`open()`.
+ 
+ ``tone``
+-    an integer enumered value described at :c:type:`fe_sec_tone_mode`
++    An integer enumerated value described at :c:type:`fe_sec_tone_mode`
+ 
+ Description
+ ===========
+diff --git a/Documentation/userspace-api/media/dvb/fe-set-voltage.rst b/Documentation/userspace-api/media/dvb/fe-set-voltage.rst
+index c66771830be1..4d09ca5876f0 100644
+--- a/Documentation/userspace-api/media/dvb/fe-set-voltage.rst
++++ b/Documentation/userspace-api/media/dvb/fe-set-voltage.rst
+@@ -26,7 +26,7 @@ Arguments
+     File descriptor returned by :c:func:`open()`.
+ 
+ ``voltage``
+-    an integer enumered value described at :c:type:`fe_sec_voltage`
++    An integer enumerated value described at :c:type:`fe_sec_voltage`
+ 
+ Description
+ ===========
+diff --git a/Documentation/userspace-api/media/dvb/fe_property_parameters.rst b/Documentation/userspace-api/media/dvb/fe_property_parameters.rst
+index 1717a0565fe8..2e067fac1ce7 100644
+--- a/Documentation/userspace-api/media/dvb/fe_property_parameters.rst
++++ b/Documentation/userspace-api/media/dvb/fe_property_parameters.rst
+@@ -72,11 +72,11 @@ DTV_MODULATION
+ ==============
+ 
+ Specifies the frontend modulation type for delivery systems that
+-supports more multiple modulations.
++support multiple modulations.
+ 
+ The modulation can be one of the types defined by enum :c:type:`fe_modulation`.
+ 
+-Most of the digital TV standards offers more than one possible
++Most of the digital TV standards offer more than one possible
+ modulation type.
+ 
+ The table below presents a summary of the types of modulation types
+@@ -143,9 +143,8 @@ ISDB-T			5MHz, 6MHz, 7MHz and 8MHz, although most places
+      (DTV_ISDBT_SB_SEGMENT_IDX, DTV_ISDBT_SB_SEGMENT_COUNT).
+ 
+   #. On Satellite and Cable delivery systems, the bandwidth depends on
+-     the symbol rate. So, the Kernel will silently ignore any setting
+-     :ref:`DTV-BANDWIDTH-HZ`. I will however fill it back with a
+-     bandwidth estimation.
++     the symbol rate. The kernel will silently ignore any setting
++     :ref:`DTV-BANDWIDTH-HZ` and overwrites it with bandwidth estimation.
+ 
+      Such bandwidth estimation takes into account the symbol rate set with
+      :ref:`DTV-SYMBOL-RATE`, and the rolloff factor, with is fixed for
+@@ -200,7 +199,7 @@ DTV_VOLTAGE
+ Used on satellite delivery systems.
+ 
+ The voltage is usually used with non-DiSEqC capable LNBs to switch the
+-polarzation (horizontal/vertical). When using DiSEqC epuipment this
++polarization (horizontal/vertical). When using DiSEqC equipment this
+ voltage has to be switched consistently to the DiSEqC commands as
+ described in the DiSEqC spec.
+ 
+@@ -280,7 +279,7 @@ DTV_ISDBT_PARTIAL_RECEPTION
+ 
+ Used only on ISDB.
+ 
+-If ``DTV_ISDBT_SOUND_BROADCASTING`` is '0' this bit-field represents
++If ``DTV_ISDBT_SOUND_BROADCASTING`` is '0' this bit field represents
+ whether the channel is in partial reception mode or not.
+ 
+ If '1' ``DTV_ISDBT_LAYERA_*`` values are assigned to the center segment
+@@ -331,8 +330,8 @@ broadcaster has several possibilities to put those channels in the air:
+ Assuming a normal 13-segment ISDB-T spectrum he can align the 8 segments
+ from position 1-8 to 5-13 or anything in between.
+ 
+-The underlying layer of segments are subchannels: each segment is
+-consisting of several subchannels with a predefined IDs. A sub-channel
++The underlying layer of segments are sub-channels: each segment is
++consisting of several sub-channels with a predefined IDs. A sub-channel
+ is used to help the demodulator to synchronize on the channel.
+ 
+ An ISDB-T channel is always centered over all sub-channels. As for the
+@@ -728,7 +727,7 @@ DTV_ATSCMH_RS_FRAME_ENSEMBLE
+ 
+ Used only on ATSC-MH.
+ 
+-Reed Solomon(RS) frame ensemble.
++Reed Solomon (RS) frame ensemble.
+ 
+ The acceptable values are defined by :c:type:`atscmh_rs_frame_ensemble`.
+ 
+@@ -954,14 +953,14 @@ DTV_ENUM_DELSYS
+ 
+ A Multi standard frontend needs to advertise the delivery systems
+ provided. Applications need to enumerate the provided delivery systems,
+-before using any other operation with the frontend. Prior to it's
++before using any other operation with the frontend. Prior to its
+ introduction, FE_GET_INFO was used to determine a frontend type. A
+ frontend which provides more than a single delivery system,
+ FE_GET_INFO doesn't help much. Applications which intends to use a
+ multistandard frontend must enumerate the delivery systems associated
+ with it, rather than trying to use FE_GET_INFO. In the case of a
+ legacy frontend, the result is just the same as with FE_GET_INFO, but
+-in a more structured format
++in a more structured format.
+ 
+ The acceptable values are defined by :c:type:`fe_delivery_system`.
+ 
+diff --git a/Documentation/userspace-api/media/dvb/frontend-property-terrestrial-systems.rst b/Documentation/userspace-api/media/dvb/frontend-property-terrestrial-systems.rst
+index 8cd461ceeea7..8aad9ea817f2 100644
+--- a/Documentation/userspace-api/media/dvb/frontend-property-terrestrial-systems.rst
++++ b/Documentation/userspace-api/media/dvb/frontend-property-terrestrial-systems.rst
+@@ -52,7 +52,7 @@ DVB-T2 delivery system
+ ======================
+ 
+ DVB-T2 support is currently in the early stages of development, so
+-expect that this section maygrow and become more detailed with time.
++expect that this section may grow and become more detailed with time.
+ 
+ The following parameters are valid for DVB-T2:
+ 
+diff --git a/Documentation/userspace-api/media/dvb/intro.rst b/Documentation/userspace-api/media/dvb/intro.rst
+index 6784ae79657c..854c2073e69a 100644
+--- a/Documentation/userspace-api/media/dvb/intro.rst
++++ b/Documentation/userspace-api/media/dvb/intro.rst
+@@ -1,6 +1,6 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+ 
+-.. _dvb_introdution:
++.. _dvb_introduction:
+ 
+ ************
+ Introduction
+@@ -125,7 +125,7 @@ demux, CA and IP-over-DVB networking. The video and audio devices
+ control the MPEG2 decoder hardware, the frontend device the tuner and
+ the Digital TV demodulator. The demux device gives you control over the PES
+ and section filters of the hardware. If the hardware does not support
+-filtering these filters can be implemented in software. Finally, the CA
++filtering, these filters can be implemented in software. Finally, the CA
+ device controls all the conditional access capabilities of the hardware.
+ It can depend on the individual security requirements of the platform,
+ if and how many of the CA functions are made available to the
+diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+index b46fe2becd02..81b762ef17c4 100644
+--- a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
++++ b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+@@ -195,7 +195,7 @@ Description
+ ~~~~~~~~~~~
+ 
+ The audio channel selected via `AUDIO_CHANNEL_SELECT`_ is determined by
+-this values.
++this value.
+ 
+ 
+ -----
+@@ -413,7 +413,7 @@ Constants
+        -  ``AUDIO_CAP_MP3``
+ 
+        -  The hardware accepts MPEG-1 Audio Layer III.
+-          Commomly known as .mp3.
++          Commonly known as .mp3.
+ 
+     -  ..
+ 
+-- 
+2.39.5
 
 
