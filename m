@@ -1,219 +1,224 @@
-Return-Path: <linux-media+bounces-33113-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33114-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D3AAC0B15
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 14:06:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93B5AC0B58
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 14:09:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FD48A26EFC
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 12:06:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0ED8CA28255
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 12:09:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FE1828A1EA;
-	Thu, 22 May 2025 12:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cVyLveeb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE7EC28C86B;
+	Thu, 22 May 2025 12:07:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2076.outbound.protection.outlook.com [40.107.92.76])
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2F433DB;
-	Thu, 22 May 2025 12:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747915577; cv=fail; b=avPnM2NIJAbEk+Hu3qG0DxXV0Kx64JrdWgQ13G45tLHYksC/GdTmBoighAsI93I1i6+IeY9nrwOX/Xnpaex6GlZJXvF4hMmhY87iD+Vk5GC2APf1AqLF50qHnqFu8mB+ncrTOxgi1bkwNAmU7USNAcMEghXnjcjsJS6nmRtzBl8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747915577; c=relaxed/simple;
-	bh=ZZ1Y+LQtMmwcRE5YOC8X39Y8+gLLim/DMOLYGnmrHjg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rYUzWbDy+nAcHjHw28wNGiAi3/vuygpvgKsbiPmXgx6CnA9O19DODYst0KOQVd58Ga3MoW+UKzFqDyduTC+NJVs76RiWyMVfApm+gQxFxFTqlTrNYvKz8XnnlYU8aSaT3SqY5Vpk/wZL/GHjoXxoQ3f1u2LtYYxHbl/u4IZaLH8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cVyLveeb; arc=fail smtp.client-ip=40.107.92.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WBWcXReSGxokMawDNRJ7RvcOFqK/6nOB0f3Ub86/cTK65+n9pcdfzb8ifvhbmvvId1i7NhLdRRzi3JWeJYxwaZ8KaOYv7VenHuM4r6LiG3H8OGzLypILR4HD3FlnOQna9TZCwVfWw5Ke/Q/ie9SJKxqs0Dw1K13YhY1DBGd0pv05X5EAbe6cNjYF2nkAFlMUsRZkPEUtWBw2l539OIOVaSsonwOMtXKmu4aGdN1wgPgw+JDQHCQTlJBHO4nYD4p5gRStoLAWx7y2ZpSHaJdfwZYiQERIwAJqgkxd0QIOxUDD2cS5TRmXXnYEYvD7EErKAcM+2+TC+ArYXyr218vU5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1vw8V+WllNfpKnQS8hsDnauAE2OG/zRh+5luxeOQuvs=;
- b=EFVclOHAemm8Q/MCnphOxd4YqdSJDZB1yTNXQpV77pKyea+8oqC58IDu2H0yOGYqclkOTmew8xEyeH0sijIzkB8IaddvZjFyVfw0PlOMQ0TYm7QCODyr7zRP63bjXmwYH/ygwD1fBCag2RJqNryn+37lL01n0QqoltI1aedjLip6bNqb6IfgT6fHHrRJ8FtLBimLjzegAim9beHYNxofb0OnLKV59a4QhmuJdoSz+bbSWxiCngeZJZ8oi1n4cLbFq+C2p6BEJCg4wsm9Wlit3oESc8QEDxK1yZbvfpOndPq3nmT/VsYc109lxBUqUCdHVPM2Mj4fRuJajOo4Yz3DFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1vw8V+WllNfpKnQS8hsDnauAE2OG/zRh+5luxeOQuvs=;
- b=cVyLveebGP/hAwOXNOXpKrdJwuqvuLMJaIYanYOT/WBs8T9Sp7Uvy3nZppMWGclFND5VDFqZuUO+elS9/tssqazcXFpdJfT8x/uhEuNPdTfqsyE5FzJ17H6hHhRaZ2HoKvuFHasyCgt+bFndZHBLynF4U50Ho4+bB896mSbzpS4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB8213.namprd12.prod.outlook.com (2603:10b6:930:71::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.20; Thu, 22 May
- 2025 12:06:11 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Thu, 22 May 2025
- 12:06:11 +0000
-Message-ID: <af03b541-0b69-4b3d-b498-b68e0beb3dcb@amd.com>
-Date: Thu, 22 May 2025 14:06:05 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/nouveau: Don't signal when killing the fence
- context
-To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250522112540.161411-2-phasta@kernel.org>
- <20250522112540.161411-3-phasta@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250522112540.161411-3-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR01CA0064.prod.exchangelabs.com (2603:10b6:208:23f::33)
- To PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F340E28C2C5;
+	Thu, 22 May 2025 12:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747915620; cv=none; b=eq/8uta3O8JYL2ytprZvqww1Se7jZes6HJdMjjIl409l2D9snGAe5aQFSlmqhgehJAjjgTA9Khuw7WQnlk6CxfEthLXfcbPTG/D5a8zDD8nHbD5AflNxk63vT3lqQ3ccS/pUkZNUE1glaKUek5VJye6QqnwtVW8Xu1VDCDV5+wI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747915620; c=relaxed/simple;
+	bh=9qp3Kd8ijlu4et/Q0UdxfQJ7ibFlI/xNi3I8Q++iEC4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lcyj1T5DzPwuBhk0ztS+Hd4OoIDfTxPeqJrB84sVq8mpbJyvvP3e+LpY2riSoMHVMBUp6B4EwtejcitMlN4Ruv4yPJIVgvGk+PL61+30uuE/OoX34r14ORtUMo9ackmbhx1r8JRI2P84NCWyhLsDdUnBVYK0/tUxP0ObpYpIfrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+	by ni.piap.pl (Postfix) with ESMTPS id 9ED24C405A45;
+	Thu, 22 May 2025 14:06:49 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 9ED24C405A45
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,  Rui Miguel Silva
+ <rmfrfs@gmail.com>,  Martin Kepplinger <martink@posteo.de>,  Purism Kernel
+ Team <kernel@puri.sm>,  Mauro Carvalho Chehab <mchehab@kernel.org>,  Shawn
+ Guo <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
+  Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
+ <festevam@gmail.com>,  linux-media@vger.kernel.org,  imx@lists.linux.dev,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Enable MIPI filtering by DT on i.MX8M*
+In-Reply-To: <iegnn5xoosqpk52hvipcr73aliwhqtsq6r6ctvt5756bhy6yen@rqcdongb7fdf>
+	(Jacopo Mondi's message of "Wed, 21 May 2025 11:08:13 +0200")
+References: <m3h61u9jy2.fsf@t19.piap.pl>
+	<20250509103733.GE28896@pendragon.ideasonboard.com>
+	<m3o6vn8np5.fsf@t19.piap.pl>
+	<iegnn5xoosqpk52hvipcr73aliwhqtsq6r6ctvt5756bhy6yen@rqcdongb7fdf>
+Sender: khalasa@piap.pl
+Date: Thu, 22 May 2025 14:06:49 +0200
+Message-ID: <m31psg97dy.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8213:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0dff931e-5302-4ea6-bf82-08dd99290ab4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WXdkeUgrV2pGdWNmY2x4cXZTTGVuTlhoK0lITTBCVGhmL2d2K0RoN1BJUHFs?=
- =?utf-8?B?T2ZRRndlM3U5blpmYjZocThXSGo0VWZINkJ6bjVJVzFqNWM0RW1JSUt3aXBo?=
- =?utf-8?B?R2M4WEs5UFpTUGgwTmJiU2lXYUpFWHJKT3lneU9YYkdaWU1BVG9VU2UxNnIx?=
- =?utf-8?B?Ymh5SStHclNLOHloRWQyaUphUnpVVjZDaW5xRjdzRnduRmZFdlhjQmNsaGpk?=
- =?utf-8?B?ek5jcUNSZFNBUEk0UU9td0tsQTFOblN6WjF3RndEWHkrdkNMYzBRV2lCTXZa?=
- =?utf-8?B?ck1nSllYVzN3RHBXZEpXeHNqTFNLOUljNy9GQVpFQ1VWaHIxTWQxeWdlWVo4?=
- =?utf-8?B?SUU2Umt3ekVQaE45b2k4ZzU4NVhYTUF6ZW5mQ2xKajNIQkJ5bkovaG91Lyta?=
- =?utf-8?B?SzlYU2Q0NGtxMmczUU8waFhHVFVMRXFnN3paQ3NqY3RVVWI2UlVzdWUyWk84?=
- =?utf-8?B?OVJiam9zbVJrYlJ2OFlYRG80dkxKNmpkNXRkSTR6SEtYU3ZZc2hvbEFDMjBt?=
- =?utf-8?B?RzhHWjBOZzByek9VM3I3OGVZdm5jeHA2NUpIR0RYbnJ6cGpVbWRvV1czQ3R1?=
- =?utf-8?B?QUMyYm5HTGNOMi9tejk0UG44cE1KaWN3RlFiWGtqY25BZW4vSWhoMEN0U1hO?=
- =?utf-8?B?M25BOXAvSURreGJFbzV0N00vL3lSV0JkY0ZtZUU4U3dLNmRKeXk1WElaYmF6?=
- =?utf-8?B?SHIyRlI2TFBSUWJwMEhSS0U3anRlblNVaGZwOTdRNnl6RHdTY2pUdklGMnVy?=
- =?utf-8?B?c3FXK1VrcDdwUnRwTklOR0d1Vmt0dUdhZXhzYzBnaGtUSEI4b1p4U1Z4VVRB?=
- =?utf-8?B?RXRTWDcvVTBsTFJvR1V6RWdoaWFtYWdCcmlkSmFRQUYxSEMzV1Z5L2Ryd3E2?=
- =?utf-8?B?K0owR05zcVVwY1NtWXZxMFBRWTdKemwzTUVlK203OWtNamtMOCs4QXJnYlVs?=
- =?utf-8?B?TmRndnJVVnpraTFRTExlMEhWamR0RGtYeEJKaTRkZ1hMYmlsMnpKejVDb0gv?=
- =?utf-8?B?ano3L09wSVpsMmhYNmhtR1EvVkJWRDIwM0RMcEFFZyt1ZzlxLy8reXluWHk2?=
- =?utf-8?B?SHRYcURxeU50WmdGN09CeU5HbWtWU0VvT1VqZlRmV0p3NHZnTWlmYm1MdUJF?=
- =?utf-8?B?anpLUVNETUEwTS8zMlBCYkdZVXN5a2Q0d1F5UjdVVUJiMUE5K0ZGeFJVYklW?=
- =?utf-8?B?UmpFMFpBQ2JxaXhqM3FxcjFoRm5VWitzZ2NhMEdJVkZzbUpxYTF1all5OFV6?=
- =?utf-8?B?SmJKaE1MeEIwVTcweEpkVDVrNUpFK0tQZUlwRHJOT0h2SUNFbStydTVWeVNX?=
- =?utf-8?B?cW45dzZ6WEtVOUJFTSs2MEtud2RycWIrazlwR2h3V2VncTkxaSt0S1N0YUZT?=
- =?utf-8?B?dk9MUUJnUGJMN3dxL1Y4QUlNMUdGdDBjSlBTZG1GWWdheGFIUXRXeVV3NXE4?=
- =?utf-8?B?TFplWGU4NmVEcXBEUkkybFdUcEMwVitjUHY2NFZDc2lBK3FGSEFvbFZGT0Ex?=
- =?utf-8?B?aXIwQXNWZ0FnZHB0M0JjREpWRTcrL1NhYmVwb3dkamRQV0I2SVF1VWVtMGV6?=
- =?utf-8?B?eXVrWnE2TjZYeFIzTHF4eGtYcTdsdGluSDRSZkw2cmt6WStIRkpJZlZSbG5o?=
- =?utf-8?B?SmdaVXhCQU1KaWJqZ0NqR0cyNlRWMVQrSEc0RzZEeW1DWFk3b1hFZitrMW92?=
- =?utf-8?B?SVFEcTM4SzFDRDkxTURPamc2ck5EcE51cEVvaVB2bVFGUDd5NFhrZDB6STJq?=
- =?utf-8?B?OGVURnBSdkhwVzVMV1pWemlVRThzVFE1Zk9tWHNSOTRNRDY5RjM1dUFQWmtN?=
- =?utf-8?B?aVZNU3cwaklUVVdDSVc5NFNxczg0YTJ5SEFzWVJsZkptOUtkVDgyRDJZb3Rj?=
- =?utf-8?B?ZU9Calh4aVdqYW5GUjdTVVBqTENRZ2txakFKSVJ2Qmh3OUphVXp6SlhOVXdI?=
- =?utf-8?Q?FWWo/nGrwfQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dXlvZWQwem0yYVBvOW5EWDBCQUtDeGl3SWJrWlhEKzJoZnJtNVpFRDFGMkJB?=
- =?utf-8?B?QWd5RjZhTDFEQlZ2SXQzdmxqdjdMNHB0TEtJalpqcExLSkR0OWdRZzhNbDZy?=
- =?utf-8?B?NG0rTTFQdXVISlJWb21QZDBOVUtDNlZXU3o3Q3VZQ09hU2pFREp3bDV4eW5T?=
- =?utf-8?B?eDhiV1grNm1YQTlJaTk4ZzBrOEFsUGdCQStWNWJoVkZWYXJjK29oc3htVUov?=
- =?utf-8?B?c1lnTy8rTkdSWWZISDdJV3NzbDZhMmdXTkZXekZlOHJkd0xXbVl4VVBiOUpP?=
- =?utf-8?B?MDI3SW1HZUVYMXIxNEhxVTFHMzdYWnpGVGp5L1lUdDY4M1B6QW85WTRDaVJa?=
- =?utf-8?B?ODdRb05NYk9nbTIxV1Bpb0dBcG9PVFo3MExLQUxVenEyU0RxVzNsWGpMSkZV?=
- =?utf-8?B?TDlTZHhkeTNKN1Z6WnE2N1M2RENTQmpHRTRaR3Bmb1RDNDV1b3JzS2s4bC9a?=
- =?utf-8?B?WUdyV3YrUE9ZeTJtNzFrVmx4SU9FdnFwL2RWdDNSQkJETzB2RHppQTF4Rkoy?=
- =?utf-8?B?NE81U0txdmFWSXFxSEwxeCtLZFliRkgxcEtXNk5ZMEs5eXQ3eVVFODJ6TWU2?=
- =?utf-8?B?dTRrUlJ4V1gwbHdQR2NMTkN5czBpTDVxQVl0TGhnU2Faa05hUVhkRm1pUCt1?=
- =?utf-8?B?NDdTNEtBYm9kNlk1ekEwa0MvaTcvSFMvSWUxZnVqNCtuc1FjbzlHQyszUWZ4?=
- =?utf-8?B?NEY0b3QzNFlDMkJXNklZcWtvbWxkU1hGMXlsY0VnWFdCbG03akhnL0dBNkpO?=
- =?utf-8?B?MEdLWDR5THIxUGptR2YvdjduV243L2pVbFNINGxZMWxjbkFZc3dzUGN3MHVa?=
- =?utf-8?B?VWMyaitHY1M1ZzBCK2ZXY3M4c3kxZm9mYzlQZlJ0UTkwMFIrOHRWTjdMb2RF?=
- =?utf-8?B?S0RvL0NmdHJVeTRBQ2I5OTI4VTZ2NHpRbGtraTY0b2FiVEdyYTZMaUE5UmpJ?=
- =?utf-8?B?bEhTNlFPQzhnLzZmQmorN2tBbGRoRFdzS1NMNG9BS1YxbmNjd2NFdDJJNFFC?=
- =?utf-8?B?Rk5uc2lVVktFWm9iMWhwTWxSSXF1bWtSTjM1LzM3Ym05NTgyQTM4Yzh2RThZ?=
- =?utf-8?B?MkxPYmp6SnF0a2ZDckdVZk94VDZEMjF6cnQ2eStzUGtza2pnUzRIUTluWHNU?=
- =?utf-8?B?anhaTXRuZERMSWdvOGZPZHZoWVdhYXNRNjBRTzRtQW5nZk10ZzQxMUw4RmtZ?=
- =?utf-8?B?VDByRHJYVUpDRFlsUFdJVkNNVW16czMxQTFQY2hTVHFCb2VLTHpoOUdST21Y?=
- =?utf-8?B?MGE2ZStnY1d1R3BydFdBSlIvSHdTNGNKeFpoSWhUaU1vUkIxdVZKU2Y1UEdB?=
- =?utf-8?B?ZU9BWi9nY0lZenZvdlpkenB6TkdkSWZWNEpaQ0hHVU5oRUZhZWs1VDhNaytM?=
- =?utf-8?B?YTh1djJ5NlIvSGVaeFQ5SHVUbVlQUVJJY2J5WUhPYW5yc3lKTit3N0dBQ3h3?=
- =?utf-8?B?czhHUU1qNXdlYzc4a1M5b0FxMWszUGRkemdJRGk3WmZQTm5nTytJNXpZWk1s?=
- =?utf-8?B?anJ0cXZUcXRiLzI1NEJWUVBmb3ozNUQrVVRhSXQ5V3A0UkdGbkpGYVV1UFZu?=
- =?utf-8?B?bmVreFg1SVc5NlA1OWFoNjdQMkdHVjRxQVBmbVJiMk1IblZsaWZ6bTVVQ0VJ?=
- =?utf-8?B?TnlxQ1VoODEzeFI1MmwydlI1MEZwa1B0clFONXNNWGFaM3dCcFBoUTlueUZE?=
- =?utf-8?B?RElNeHpXYVlwN1BvWDNUMHRIOXQzRldNeElmc1VOQ21UWldKbnZqS2x0ek9o?=
- =?utf-8?B?WFkrWE0xTmpoZ1BwYjhEZzkzN1d4VkhJSlYydHo3dXpLcjZZVEp5OU5nL3Bl?=
- =?utf-8?B?NG5SL2ZPZjNHUzk0b2ltNnVmUkpKaVAwdVAyUjJNU0ZXTmJhRjZsK0FxTHho?=
- =?utf-8?B?T2plRURsNUZ2aDYva3VOUEpnU2RzRGp2SzZEd2VYNnhLenF4NlVpeEhraWZQ?=
- =?utf-8?B?ZHlYRmJQWVYxMmM2c3lncmpCYmV6WHVXbDRMNUdCNThQak9kcktXTFl3RWlI?=
- =?utf-8?B?bDRZTUtpc0FXUlFtM2pqUXJ0bVI3RDVMMWhMT3JGb1hWWlJrZU55cnN1YkZ0?=
- =?utf-8?B?M3BVMjRka0NRaDZsbXF4RlhhbnlRdTl2NjNSU0Mwci95eDFkUGtJUFhLKzk2?=
- =?utf-8?Q?wHeMJR+dYZsD2IJGfaUYRWGJE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0dff931e-5302-4ea6-bf82-08dd99290ab4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 12:06:11.0455
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ww+B8l58g3elfrEY309oh2HcnKIsYbEZpMK3SzGMw3A+CUssQ8nxaWiuyIDBHYXh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8213
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/22/25 13:25, Philipp Stanner wrote:
-> dma_fence_is_signaled_locked(), which is used in
-> nouveau_fence_context_kill(), can signal fences below the surface
-> through a callback.
-> 
-> There is neither need for nor use in doing that when killing a fence
-> context.
-> 
-> Replace dma_fence_is_signaled_locked() with __dma_fence_is_signaled(), a
-> function which only checks, never signals.
+Hi Jacopo,
 
-That is not a good approach.
+Jacopo Mondi <jacopo.mondi@ideasonboard.com> writes:
 
-Having the __dma_fence_is_signaled() means that other would be allowed to call it as well.
+> However the i.MX8MP does implement INTERLEAVE_MODE, and it's anyway
+> marked as V3.6.3, so DT filtering is there disabled as well. I guess
+> this is intentional, see below...
 
-But nouveau can do that here only because it knows that the fence was issued by nouveau.
+BTW the version register on iMX8MP is 3060301, which may possibly mean
+something like 3.6.3.1. I wonder if 8MM has the same.
 
-What nouveau can to is to test the signaled flag directly, but that's what you try to avoid as well.
+> some registers like 32E4_000C are not listed in the peripheral memory
+> map, so you're probably reading an invalid memory area there
 
-Regards,
-Christian.
+Sure - those are apparently wired to contain "DEADCAFE" (a hex value).
 
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> index d5654e26d5bc..993b3dcb5db0 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> @@ -88,7 +88,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
->  
->  	spin_lock_irqsave(&fctx->lock, flags);
->  	list_for_each_entry_safe(fence, tmp, &fctx->pending, head) {
-> -		if (error && !dma_fence_is_signaled_locked(&fence->base))
-> +		if (error && !__dma_fence_is_signaled(&fence->base))
->  			dma_fence_set_error(&fence->base, error);
->  
->  		if (nouveau_fence_signal(fence))
+> If you're capturing RAW12 in 1920x1080 these two registers are
+>
+> 32E40040: (MIPI_CSI1_ISP_CONFIG_CH0) =3D 0xb0
+> 32E40044: (MIPI_CSI1_ISP_RESOLUTION_CH0) =3D 0x4380780
+> 32E40048: (MIPI_CSI1_ISP_SYNC_CH0) =3D 0
+> 32E4004c: invalid
 
+Sure.
+
+>> 32E40050:      8FD 80008000        0 DEADCAFE <<< ISP_CONFIG1
+>> 32E40060:      8FE 80008000        0 DEADCAFE <<< ISP_CONFIG2
+>> 32E40070:      8FF 80008000        0 DEADCAFE ???
+>
+> All of these are invalid registers
+
+Only those DEADCAFEs are strictly invalid, the rest is just
+undocumented. With the notable exception of version register, they
+aren't probably useful, though - due to the way the CSIC is connected to
+the rest of the chip.
+
+I only mentioned them because Laurent asked about capturing embedded
+data - I guess the registers could be used for that on some other chip
+(apparently not on i.MX8MP).
+
+> We have been using 8mp extensively with sensors that produce embedded
+> data and afaict ED are not in the final image.
+
+Well, I admit I haven't looked it down to this finest detail. The
+visible effect was the image was slightly corrupted without the DT
+filtering, so I assumed ED was doing that.
+
+I use two similar sensors: IMX290 (on CSI1) and IMX462 (CSI2). It
+appears IMX290 doesn't cause the problem, while IMX462 does. This may
+depend on the CSI used, though. Both sensors seem to produce the
+following MIPI packets (counting from start of video frame, 1920x1080p25
+raw 12 bit):
+- Frame Start: DT=3D0
+- a short Embedded data packet, DT=3D12h
+- a NULL packet, line-sized, DT=3D0x10
+- 10 User Defined 8-bit Data Type 8 packets, line-sized, DT=3D0x37, called
+  apparently "Vertical OB" by Sony datasheet
+- 1080 real lines, DT=3D0x2C, 12-bit RGGB data
+- short Frame End packet, DT=3D1
+
+I hope I got this right, this is straight from oscilloscope (only
+checked IDs on IMX462, will confirm IMX290 later but it looks the same).
+In 1280x1080p25 mode there are 4 (not 10) "vertical OB" packets, and 720
+RGGB lines instead of 1080.
+
+The ED packet is much shorted than an RGGB line data (2.32us vs 13.57 us
+or 3.54us vs 13.88us - 1080p and 720p use different MIPI clock rates).
+
+So yes, this whole ED packet definitely doesn't end up in the image.
+IMX462 produces just a tiny 2-pixel dot in the left top corner, possibly
+shifting some data to the right (I remember it did that, but I can't
+observe it now - could be a kernel (driver) version change?).
+
+> My understanding is that the gasket that connects the CSIS to the ISI
+> and the ISP has a filtering register has well, and there is where ED
+> gets discarded. Could you maybe check the value of register GASKET_0_CTRL
+> to confirm this ?
+
+(with the filtering)
+
+MEDIA_BLOCK_CTRL:
+   32EC0000h   1FFFFFFh Media Mix Software Reset Register (IMX_MEDIA_BLK_CT=
+RL_SFT_RSTN)
+   32EC0004h     70700h Media Mix Clock Enable Register (IMX_MEDIA_BLK_CTRL=
+_CLK_EN)
+      Clock enabled: ISP_CLKs MIPI_CSI2_CLKs BUS_BLK_CLK
+   32EC0008h  40000000h MIPI PHY Control Register (MIPI_RESET_DIV)
+   32EC004Ch      FC00h LCDIF ARCACHE Control Register (LCDIF_ARCACHE_CTRL)
+   32EC0050h  1FF00000h ISI CACHE Control Register (ISI_CACHE_CTRL)
+   32EC0060h          0 Gasket 0 output disabled
+   32EC0090h          0 Gasket 1 output disabled
+   32EC0138h    2D8000h ISP Dewarp Control Register (ISP_DEWARP_CONTROL)
+      ISP ID mode 0, ISP1: DT 0h (unknown), ISP2: DT 2Ch (RAW12) left-just =
+mode
+
+MIPI_CSI2:
+   32E50000h   3060301h CSIS version (MIPI_CSIS_VERSION)
+   32E50004h      4705h CSIS Common Control Register (MIPI_CSIS_CMN_CTRL)
+      Filtering by DT, Update shadow ctrl, 4 data lanes
+   32E50008h     F0000h CSIS Clock Control Register (MIPI_CSIS_CLK_CTRL)
+   32E50010h  FFFFFFFFh Interrupt mask register 0 (MIPI_CSIS_INTMSK)
+   32E50020h        F0h D-PHY status register (MIPI_CSIS_DPHYSTATUS)
+      Clock lane: Active, Data lanes: 0: Stop, 1: Stop, 2: Stop, 3: Stop
+   32E50024h   600001Fh D-PHY common control register (MIPI_CSIS_DPHYCTRL)
+   32E50030h       1F4h D-PHY Master and Slave Control register Low (DPHY_M=
+ASTER_SLAVE_CTRL_LOW)
+   32E50040h        B0h ISP Configuration Register (MIPI_CSIS_ISPCONFIG_CH0)
+      DT 2Ch (RAW12)
+   32E50044h   2D00500h ISP Resolution Register (MIPI_CSIS_ISPRESOL_CH0) =
+=3D> 1280 * 720
+   32E50080h        B0h Shadow Configuration Register (MIPI_CSIS_ISPCONFIG_=
+CH0)
+      DT 2Ch (RAW12)
+   32E50084h   2D00500h Shadow Resolution Register (MIPI_CSIS_ISPRESOL_CH0)=
+ =3D> 1280 * 720
+   32E50100h      25E2h Frame Counter (FRAME_COUNTER_CH0)
+
+This produces (test_pattern=3D5 which starts with black, using ISP):
+Y =3D  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00...
+UV =3D 80 80 80 80  80 80 80 80  80 80 80 80  80 80 80 80...
+
+Now I do (perhaps I should revert the patch instead):
+./devmem write32 0x32E50004 0x14305
+
+and this does:
+Y =3D  E6 FF 36 1B  00 00 00 00  00 00 00 00  00 00 00 00...
+UV =3D 85 6A 74 B4  7D 8C 80 80  80 80 80 80  80 80 80 80...
+
+Maybe I could see where these values come from.
+
+
+With test_pattern =3D 4
+Y =3D  52 52 4E 4D  14 14 00 00  00 00 00 51  52 52 4E 4D...
+UV =3D 82 83 82 83  81 81 80 80  80 80 81 80  82 83 82 83...
+changes into (without filtering):
+Y =3D  9B 99 58 53  14 14 00 00  00 00 00 51  52 52 4E 4D...
+UV =3D 77 AE 78 9A  81 83 80 80  80 80 81 80  82 83 82 83...
+
+The values are stable but it seems they are added/xored/etc. with the
+original image data or something.
+
+> In particular the "Gasket 0 data type" is programmed in
+> drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c with the data
+> type of the first stream reported by the sensor with get_frame_desc().
+> In your case, assuming RAW12 you should have 101100b in that register.
+
+Gaskets are disabled. I will try to do some tests tomorrow.
+
+> Now, I think the idea was to use the gasket for filtering ED (and
+> other non-image data) to be able to route them to the ISI for capture,
+> while images are sent to the ISP for processing. This is currently not
+> implemented and there are some unclear parts in the documentation
+> about this, but overall my expectation is that ED are filtered by the
+> gasket so you shouldn't need to enable DT filtering on the CSIS.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
 
