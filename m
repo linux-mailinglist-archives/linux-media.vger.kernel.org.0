@@ -1,308 +1,271 @@
-Return-Path: <linux-media+bounces-33211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33212-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6305AC15E7
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 23:31:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C867FAC15EB
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 23:31:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20E821C01FC5
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 21:31:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 862E85028FE
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 21:31:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F8CC255F36;
-	Thu, 22 May 2025 21:31:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C205255F54;
+	Thu, 22 May 2025 21:31:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qemR8d2H"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aE2yuxZl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98296F9DA;
-	Thu, 22 May 2025 21:30:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21754255F4F
+	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 21:31:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747949461; cv=none; b=PWITve6AFA9hj+DxdKfa22XS1gAX7keUDHjy1heNPuo0v9Nfe03fkDyL81FpcxWSd00ixpZmTcgCxtvqhDwDaCRtVjMfsnTBGPbIN8TOSHFvWIc784JyzU0zTRSVSIX1oUIiNc6aT/Lq3AcpPawj42mQK85DtbH9a3DrR1FHCao=
+	t=1747949480; cv=none; b=QXlq0QAYyhjSj8qBx8jksKK8ekwpMNS/iKbA+g/yZywNhwTX5XJsCNNR2x+nwHkvW3+rbCZowfGMCBz02mBueCau3QhdB9UAl96Z/CTiK6HIXN0+qhDoDB/+k3RbEho6WL0X0AGbTPqTvt5prgGtI7NLrso0iPzOCoh8+dKdESY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747949461; c=relaxed/simple;
-	bh=KugpDzRoAvY4WZBqml977Rl1f6eI5c0/HaSaeb+pPhA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o2J+qFp12LIBzHuBhqR2ys5rrlN17uSm1PruyqSjN1zGT6tp+M+gyhuFWg7lIsSiTcXR+GPJy9eKxmcnfVj403vxoHRe3qBm1Fx63r8PQ12ng6fLE8DgGE7++zxrbcAFGiO6YrKp8EJS0vg9Mxl4x4QCuqVfgBSdf74MyJoojgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qemR8d2H; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1747949480; c=relaxed/simple;
+	bh=VEYA4G1pTJzoUFND8ROQiMzxZewm4J9o9nm2XFPXjr4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XRBt93JShKPHx819/9tkSY+Aie6vGsXkA33hymqYDgaLuaYh9EIlwLI09pZNRtxMVMXPC63afaQUwmdlmaLtyVQCU8DkzDLQk+RDIVUkh0sj4q7bSh4hASC4d7hvMcF+eDx9ghdaMlbVWm6iisJGDtXlv5rwF8kXNetO9y/XZLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aE2yuxZl; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2921D605;
-	Thu, 22 May 2025 23:30:35 +0200 (CEST)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 130B1605;
+	Thu, 22 May 2025 23:30:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747949435;
-	bh=KugpDzRoAvY4WZBqml977Rl1f6eI5c0/HaSaeb+pPhA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qemR8d2HFVNFg0Qba7eXJqiQ+T+pbqLk9Gmg9EUEDcX1T6FrOfVxfbN+MGAprvZoQ
-	 vVArRQYCbZqLncLYz0v8D/EHM1WfrZi07i2tXoaqmcWe0fVw1ScBAKjH4F7jWxDyHd
-	 sTRhAQENv01jr29wreghMWQ0nruTduoB8s1HOXT0=
-Date: Thu, 22 May 2025 23:30:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Hans Verkuil <hans@jjverkuil.nl>
-Subject: Re: [PATCH 2/3] media: rkisp1: Add
- RKISP1_CID_SUPPORTED_PARAMS_BLOCKS control
-Message-ID: <20250522213050.GX12514@pendragon.ideasonboard.com>
-References: <20250522150944.400046-2-stefan.klug@ideasonboard.com>
- <20250522150944.400046-4-stefan.klug@ideasonboard.com>
- <20250522155641.GU12514@pendragon.ideasonboard.com>
- <174793176608.244022.1396416000017796106@localhost>
- <20250522164147.GV12514@pendragon.ideasonboard.com>
- <174793383823.244022.8319148306028952702@localhost>
+	s=mail; t=1747949455;
+	bh=VEYA4G1pTJzoUFND8ROQiMzxZewm4J9o9nm2XFPXjr4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aE2yuxZlv+VKPRnXPJ5ZmqEdyg24c1Hnl48U3xt825fAfN3TZY18K4hT+xv7LqC3Q
+	 l0Jq0d1ba+7fzycMJLTcVcmSf66enezaZrps91W4qW5wgIU/434EeHTpu3RoBFKt0S
+	 sOecL10w7YU+hfIoZO6AlJKZh12TBHSC9P5GDhdE=
+Message-ID: <378e058d-01d8-43de-a61c-76f1b431e115@ideasonboard.com>
+Date: Thu, 22 May 2025 22:31:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <174793383823.244022.8319148306028952702@localhost>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] media: mc: entity: Add pipeline_started/stopped ops
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+ laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+References: <20250519140403.443915-1-dan.scally@ideasonboard.com>
+ <20250519140403.443915-2-dan.scally@ideasonboard.com>
+ <wqkgrdijdwbnqltyzbxcy7krktec4xh2p23lov2vayqgls4wmt@gmn2twyhaods>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <wqkgrdijdwbnqltyzbxcy7krktec4xh2p23lov2vayqgls4wmt@gmn2twyhaods>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 22, 2025 at 07:10:38PM +0200, Stefan Klug wrote:
-> Quoting Laurent Pinchart (2025-05-22 18:41:47)
-> > On Thu, May 22, 2025 at 06:36:06PM +0200, Stefan Klug wrote:
-> > > Hi Laurent,
-> > > 
-> > > Thank you for the review.
-> > > 
-> > > Quoting Laurent Pinchart (2025-05-22 17:56:41)
-> > > > Hi Stefan,
-> > > > 
-> > > > Thank you for the patch.
-> > > > 
-> > > > On Thu, May 22, 2025 at 05:08:39PM +0200, Stefan Klug wrote:
-> > > > > Add a RKISP1_CID_SUPPORTED_PARAMS_BLOCKS V4L2 control to be able to
-> > > > > query the parameters blocks supported by the current kernel on the
-> > > > > current hardware from user space.
-> > > > > 
-> > > > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> > > > > ---
-> > > > >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 +
-> > > > >  .../platform/rockchip/rkisp1/rkisp1-params.c  | 50 ++++++++++++++++++-
-> > > > >  include/uapi/linux/rkisp1-config.h            | 10 ++++
-> > > > >  include/uapi/linux/v4l2-controls.h            |  6 +++
-> > > > >  4 files changed, 67 insertions(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > > > index ca952fd0829b..5f187f9efc7b 100644
-> > > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > > > @@ -415,6 +415,8 @@ struct rkisp1_params {
-> > > > >       spinlock_t config_lock; /* locks the buffers list 'params' */
-> > > > >       struct list_head params;
-> > > > >  
-> > > > > +     struct v4l2_ctrl_handler ctrls;
-> > > > > +
-> > > > >       const struct v4l2_meta_format *metafmt;
-> > > > >  
-> > > > >       enum v4l2_quantization quantization;
-> > > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> > > > > index 918eb06c7465..60c9b3c46593 100644
-> > > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> > > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> > > > > @@ -2736,6 +2736,45 @@ static int rkisp1_params_init_vb2_queue(struct vb2_queue *q,
-> > > > >       return vb2_queue_init(q);
-> > > > >  }
-> > > > >  
-> > > > > +static int rkisp1_ctrl_init(struct rkisp1_params *params)
-> > > > > +{
-> > > > > +     int ret;
-> > > > > +
-> > > > > +     v4l2_ctrl_handler_init(&params->ctrls, 1);
-> > > > > +
-> > > > > +     struct v4l2_ctrl_config ctrl_config = {
-> > > > > +             .id = RKISP1_CID_SUPPORTED_PARAMS_BLOCKS,
-> > > > > +             .name = "Supported Params Blocks",
-> > > > > +             .type = V4L2_CTRL_TYPE_BITMASK,
-> > > > > +             .flags = V4L2_CTRL_FLAG_READ_ONLY,
-> > > > > +     };
-> > > > 
-> > > >         struct v4l2_ctrl_config ctrl_config = {
-> > > >                 .id = RKISP1_CID_SUPPORTED_PARAMS_BLOCKS,
-> > > >                 .name = "Supported Params Blocks",
-> > > >                 .type = V4L2_CTRL_TYPE_BITMASK,
-> > > >                 .flags = V4L2_CTRL_FLAG_READ_ONLY,
-> > > >         };
-> > > >         int ret;
-> > > > 
-> > > >         v4l2_ctrl_handler_init(&params->ctrls, 1);
-> > > > 
-> > > > Mixing code and variable declarations is still usually frown upon in the
-> > > > kernel.
-> > > 
-> > > I thought frown upon is not a no. And as this structure is not yet
-> > > complete and is modified afterwards it feels natural to me to put it
-> > > close to that place. But I can move it above the function. You decide.
-> > 
-> > It obviously take someone to make the first move for things to change
-> > :-) I however tend to favour consistency in coding style within a
-> > driver.
-> 
-> Ahh, maybe I misread the comment. You meant to move it above ret. Not
-> outside the function. Right? That is easy to do. And I saw that pattern
-> in vivid-ctrls.c
+Hi Jacopo
 
-Yes, just above the ret.
+On 21/05/2025 16:18, Jacopo Mondi wrote:
+> Hi Dan
+>
+> On Mon, May 19, 2025 at 03:04:01PM +0100, Daniel Scally wrote:
+>> Add two new members to struct media_entity_operations, along with new
+>> functions in media-entity.c to traverse a media pipeline and call the
+>> new operations. The new functions are intended to be used to signal
+>> to a media pipeline that it has fully started, with the entity ops
+>> allowing drivers to define some action to be taken when those
+>> conditions are met.
+>>
+>> The combination of the new functions and operations allows drivers
+>> which are part of a multi-driver pipeline to delay actually starting
+>> streaming until all of the conditions for streaming succcessfully are
+>> met across all drivers.
+> Maybe s/succcessfully are/are successfully/
+>
+> Or was this (the three 'c' apart) intentional ?
 
-static int rkisp1_ctrl_init(struct rkisp1_params *params)
-{
-	struct v4l2_ctrl_config ctrl_config = {
-		.id = RKISP1_CID_SUPPORTED_PARAMS_BLOCKS,
-		.name = "Supported Params Blocks",
-		.type = V4L2_CTRL_TYPE_BITMASK,
-		.flags = V4L2_CTRL_FLAG_READ_ONLY,
-	};
-	int ret;
- 
-	v4l2_ctrl_handler_init(&params->ctrls, 1);
 
-	...
+It was intentional as-is but I think it reads just fine the other way round too; happy to change to 
+that.
 
-> > > > > +
-> > > > > +     for (unsigned int i = 0; i < ARRAY_SIZE(rkisp1_ext_params_handlers); i++) {
-> > > > > +             const struct rkisp1_ext_params_handler *block_handler;
-> > > > > +
-> > > > > +             block_handler = &rkisp1_ext_params_handlers[i];
-> > > > > +             ctrl_config.max |= BIT(i);
-> > > > > +
-> > > > > +             if ((params->rkisp1->info->features & block_handler->features) !=
-> > > > > +                 block_handler->features)
-> > > > > +                     continue;
-> > > > > +
-> > > > > +             ctrl_config.def |= BIT(i);
-> > > > > +     }
-> > > > > +
-> > > > > +     v4l2_ctrl_new_custom(&params->ctrls, &ctrl_config, NULL);
-> > > > > +
-> > > > > +     params->vnode.vdev.ctrl_handler = &params->ctrls;
-> > > > > +
-> > > > > +     if (params->ctrls.error) {
-> > > > > +             ret = params->ctrls.error;
-> > > > > +             v4l2_ctrl_handler_free(&params->ctrls);
-> > > > > +             return ret;
-> > > > > +     }
-> > > > > +
-> > > > > +     return 0;
-> > > > > +}
-> > > > > +
-> > > > >  int rkisp1_params_register(struct rkisp1_device *rkisp1)
-> > > > >  {
-> > > > >       struct rkisp1_params *params = &rkisp1->params;
-> > > > > @@ -2776,10 +2815,16 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1)
-> > > > >  
-> > > > >       video_set_drvdata(vdev, params);
-> > > > >  
-> > > > > +     ret = rkisp1_ctrl_init(params);
-> > > > > +     if (ret) {
-> > > > > +             dev_err(rkisp1->dev, "Control initialization error %d\n", ret);
-> > > > > +             goto err_mutex;
-> > > > > +     }
-> > > > > +
-> > > > >       node->pad.flags = MEDIA_PAD_FL_SOURCE;
-> > > > >       ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
-> > > > >       if (ret)
-> > > > > -             goto err_mutex;
-> > > > > +             goto err_ctrl;
-> > > > >  
-> > > > >       ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
-> > > > >       if (ret) {
-> > > > > @@ -2792,6 +2837,8 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1)
-> > > > >  
-> > > > >  err_media:
-> > > > >       media_entity_cleanup(&vdev->entity);
-> > > > > +err_ctrl:
-> > > > > +     v4l2_ctrl_handler_free(&params->ctrls);
-> > > > >  err_mutex:
-> > > > >       mutex_destroy(&node->vlock);
-> > > > >       return ret;
-> > > > > @@ -2808,5 +2855,6 @@ void rkisp1_params_unregister(struct rkisp1_device *rkisp1)
-> > > > >  
-> > > > >       vb2_video_unregister_device(vdev);
-> > > > >       media_entity_cleanup(&vdev->entity);
-> > > > > +     v4l2_ctrl_handler_free(&params->ctrls);
-> > > > >       mutex_destroy(&node->vlock);
-> > > > >  }
-> > > > > diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> > > > > index 2d995f3c1ca3..4fc8f221d0c4 100644
-> > > > > --- a/include/uapi/linux/rkisp1-config.h
-> > > > > +++ b/include/uapi/linux/rkisp1-config.h
-> > > > > @@ -1086,6 +1086,9 @@ enum rkisp1_ext_params_block_type {
-> > > > >  #define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE   (1U << 0)
-> > > > >  #define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE    (1U << 1)
-> > > > >  
-> > > > > +/* A bitmask of parameters blocks supported on the current hardware. */
-> > > > > +#define RKISP1_CID_SUPPORTED_PARAMS_BLOCKS   (V4L2_CID_USER_RKISP1_BASE + 0x01)
-> > > > > +
-> > > > >  /**
-> > > > >   * struct rkisp1_ext_params_block_header - RkISP1 extensible parameters block
-> > > > >   *                                      header
-> > > > > @@ -1520,6 +1523,13 @@ enum rksip1_ext_param_buffer_version {
-> > > > >   * V4L2 control. If such control is not available, userspace should assume only
-> > > > >   * RKISP1_EXT_PARAM_BUFFER_V1 is supported by the driver.
-> > > > >   *
-> > > > > + * The read-only V4L2 control ``RKISP1_CID_SUPPORTED_PARAMS_BLOCKS`` can be used
-> > > > > + * to query the blocks supported by the current hardware. It contains a bitmask
-> > > > 
-> > > > s/current hardware/device/
-> > > > 
-> > > > > + * where each bit represents the availability of the corresponding entry
-> > > > > + * from the :c:type:`rkisp1_ext_params_block_type` enum. The max value of the
-> > > > > + * control represents the blocks supported by the current kernel (independent of
-> > > > > + * the current hardware).
-> > > > 
-> > > >  * from the :c:type:`rkisp1_ext_params_block_type` enum. The current and default
-> > > >  * values of the control represents the blocks supported by the device instance,
-> > > >  * while the maximum value represents the blocks supported by the kernel driver,
-> > > >  * independently of the device instance.
-> > > > 
-> > > > I was going to say that the control should be documented in
-> > > > Documentation/userspace-api/drivers/rkisp1.rst, but rkisp1-config.h is
-> > > > pulled in the documentation tree by
-> > > > Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst, so I'm OK with
-> > > > this. Hans, Mauro, are you fine as well with documenting the control
-> > > > here ?
-> > > 
-> > > Looking at the docs, I realized that most people will read the already
-> > > existing docs. So creating a completely new file just for the single
-> > > control didn't feel good. As you like.
-> > > 
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > 
-> > > > > + *
-> > > > >   * For each ISP block that userspace wants to configure, a block-specific
-> > > > >   * structure is appended to the @data buffer, one after the other without gaps
-> > > > >   * in between nor overlaps. Userspace shall populate the @data_size field with
-> > > > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > > > > index 72e32814ea83..f836512e9deb 100644
-> > > > > --- a/include/uapi/linux/v4l2-controls.h
-> > > > > +++ b/include/uapi/linux/v4l2-controls.h
-> > > > > @@ -222,6 +222,12 @@ enum v4l2_colorfx {
-> > > > >   */
-> > > > >  #define V4L2_CID_USER_UVC_BASE                       (V4L2_CID_USER_BASE + 0x11e0)
-> > > > >  
-> > > > > +/*
-> > > > > + * The base for Rockchip ISP1 driver controls.
-> > > > > + * We reserve 16 controls for this driver.
-> > > > > + */
-> > > > > +#define V4L2_CID_USER_RKISP1_BASE            (V4L2_CID_USER_BASE + 0x1220)
-> > > > > +
-> > > > >  /* MPEG-class control IDs */
-> > > > >  /* The MPEG controls are applicable to all codec controls
-> > > > >   * and the 'MPEG' part of the define is historical */
+>
+>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>> ---
+>>   drivers/media/mc/mc-entity.c | 45 ++++++++++++++++++++++++++++++++++++
+>>   include/media/media-entity.h | 24 +++++++++++++++++++
+>>   2 files changed, 69 insertions(+)
+>>
+>> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+>> index 045590905582..e36b1710669d 100644
+>> --- a/drivers/media/mc/mc-entity.c
+>> +++ b/drivers/media/mc/mc-entity.c
+>> @@ -1053,6 +1053,51 @@ __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
+>>   }
+>>   EXPORT_SYMBOL_GPL(__media_pipeline_entity_iter_next);
+>>
+>> +int media_pipeline_started(struct media_pipeline *pipe)
+>> +{
+>> +	struct media_pipeline_entity_iter iter;
+>> +	struct media_entity *entity;
+>> +	int ret;
+>> +
+>> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
+>> +		ret = media_entity_call(entity, pipeline_started);
+>> +		if (ret && ret != -ENOIOCTLCMD)
+>> +			goto err_notify_stopped;
+>> +	}
+>> +
+>> +	media_pipeline_entity_iter_cleanup(&iter);
+>> +
+>> +	return ret == -ENOIOCTLCMD ? 0 : ret;
+> Shouldn't you just return 0 ? If a ret < 0 is encoutered in the loop
+> we just to the below label
+Oh yeah; good point.
+>
+>> +
+>> +err_notify_stopped:
+>> +	media_pipeline_stopped(pipe);
+> Do you need to media_pipeline_entity_iter_cleanup() ?
 
--- 
-Regards,
 
-Laurent Pinchart
+Yes - thanks.
+
+>
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL_GPL(media_pipeline_started);
+>> +
+>> +int media_pipeline_stopped(struct media_pipeline *pipe)
+>> +{
+>> +	struct media_pipeline_entity_iter iter;
+>> +	struct media_entity *entity;
+>> +	int ret;
+>> +
+>> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	media_pipeline_for_each_entity(pipe, &iter, entity)
+>> +		media_entity_call(entity, pipeline_stopped);
+>> +
+>> +	media_pipeline_entity_iter_cleanup(&iter);
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(media_pipeline_stopped);
+>> +
+>>   /* -----------------------------------------------------------------------------
+>>    * Links management
+>>    */
+>> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+>> index 64cf590b1134..e858326b95cb 100644
+>> --- a/include/media/media-entity.h
+>> +++ b/include/media/media-entity.h
+>> @@ -269,6 +269,10 @@ struct media_pad {
+>>    *			media_entity_has_pad_interdep().
+>>    *			Optional: If the operation isn't implemented all pads
+>>    *			will be considered as interdependent.
+>> + * @pipeline_started:	Notify this entity that the pipeline it is a part of has
+>> + *			been started
+>> + * @pipeline_stopped:	Notify this entity that the pipeline it is a part of has
+>> + *			been stopped
+>>    *
+>>    * .. note::
+>>    *
+>> @@ -284,6 +288,8 @@ struct media_entity_operations {
+>>   	int (*link_validate)(struct media_link *link);
+>>   	bool (*has_pad_interdep)(struct media_entity *entity, unsigned int pad0,
+>>   				 unsigned int pad1);
+>> +	int (*pipeline_started)(struct media_entity *entity);
+>> +	void (*pipeline_stopped)(struct media_entity *entity);
+>>   };
+>>
+>>   /**
+>> @@ -1261,6 +1267,24 @@ __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
+>>   	     entity != NULL;							\
+>>   	     entity = __media_pipeline_entity_iter_next((pipe), iter, entity))
+>>
+>> +/**
+>> + * media_pipeline_started - Inform entities in a pipeline that it has started
+>> + * @pipe:	The pipeline
+>> + *
+>> + * Iterate on all entities in a media pipeline and call their pipeline_started
+>> + * member of media_entity_operations.
+>> + */
+>> +int media_pipeline_started(struct media_pipeline *pipe);
+>> +
+>> +/**
+>> + * media_pipeline_stopped - Inform entities in a pipeline that it has stopped
+>> + * @pipe:	The pipeline
+>> + *
+>> + * Iterate on all entities in a media pipeline and call their pipeline_stopped
+>> + * member of media_entity_operations.
+>> + */
+>> +int media_pipeline_stopped(struct media_pipeline *pipe);
+>> +
+> All good, but I don't see these operations being used at all in this
+> series ?
+
+
+Ah, yeah...organisational deficiency on my part; it's used by the ISP and IVC drivers in the series' 
+which are based on this one, and it's kinda related in that it's required to get the multiple 
+drivers registering video devices into the same media device to play nicely together, so I bundled 
+them into the same series. I could send it alone, or update the series cover message to make more 
+clear it's encompassing a few things?
+
+>
+>>   /**
+>>    * media_pipeline_alloc_start - Mark a pipeline as streaming
+>>    * @pad: Starting pad
+>> --
+>> 2.34.1
+>>
+>>
 
