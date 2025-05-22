@@ -1,127 +1,96 @@
-Return-Path: <linux-media+bounces-33162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33163-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BF4AC0F55
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 17:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E306AC0F99
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 17:13:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39732188685B
-	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 15:04:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC36F1B6589E
+	for <lists+linux-media@lfdr.de>; Thu, 22 May 2025 15:13:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE7F928D823;
-	Thu, 22 May 2025 15:04:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ECB42900BF;
+	Thu, 22 May 2025 15:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Mgs3MbYH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZnjC3QpF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B4935977;
-	Thu, 22 May 2025 15:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747926277; cv=pass; b=gMS/QecaJ+3l+Ax3Af4Zsl8XwWuWbeEggbDVH61p55npRmWorm3ugJY7PJlCpfZbdBaU52OWYSx4kqnS7shj9gg4SpCgITWvCiQ52ZGzGnPiRssRCk6KbcsYppkMygWdVUaa2EHs3l13HmFKty/A7wKM0UHUOyHFg2MSwMswXy4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747926277; c=relaxed/simple;
-	bh=y1QZHCVzfxwbLKbffCkbbTuzNdwB0qlTI7Ka0fWBIBc=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=NulGZL+hWHoP4t145HAbNIa6UAcq8YnA1Qx8kxiC5nYqHXEIIBKh97S8Qk81Y9KRRV4DgnnpD+PRfASSMINKnNz80Un7YuUZKb18k2Yn2PD7THsYt2zh1aneP+PeaeKXKThTN4GhwWm6Js7VUtR2yOeK4LxGv69p7ugFMVcpbHc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=Mgs3MbYH; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1747926226; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=VaT0+rMMISfANLEhrx1eJeDw3XEdDuO0H1+K3rgnnBDqIhYyPwBvEIb4HnAuAHld5i/OkBw8g+VA9uKWADhzCXZfnA2lpBpMb5jGpgGFugvuuHPiPtxWzmeKgtYsh9LHcfhnGkKtC3Q6H6lhLtHfzMiufoR8/wEOIzNHr0K5aLM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1747926226; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=y1QZHCVzfxwbLKbffCkbbTuzNdwB0qlTI7Ka0fWBIBc=; 
-	b=gMpBT9qIfc/XFVFWHYwam0lFFmgvEiiNypO+KQcTDDVcRS9aBiQJcBt6jY56hZGpN4FI8cMeG2a48TniWiea5cHULyqfXkUBMtFDf7mI1EpOFdogjXlBhq3X8j7gHZY4XaDc9HULJqkABKXByJ6GOfyNrs5YgLlHszF1+FUHnmA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747926226;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=y1QZHCVzfxwbLKbffCkbbTuzNdwB0qlTI7Ka0fWBIBc=;
-	b=Mgs3MbYHIxOzfkKPolz5IJUMnnuNafNkYVitKYXys0UNAyR4GHJanrBMy4XvsHm5
-	opbJkiwT7CEaSZv8wfHbWnY8eSWB5JDW8sN4VjVeU0VoKaZr9vLBb59OOkUjrsRDd5H
-	UEpcGnyY2QiJCi4vSI+hJJMujGz/TGg25Bj+KE98=
-Received: by mx.zohomail.com with SMTPS id 1747926224476523.4321217431499;
-	Thu, 22 May 2025 08:03:44 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB6D28FFF0
+	for <linux-media@vger.kernel.org>; Thu, 22 May 2025 15:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747926719; cv=none; b=Epl5Hbz8Ljgn1D8FZzDO/uN1xfYOJGxNYj1JoJ+LjOOpLtC99G9TfDMrF1pj0WlEFzH5/NbkBx0ngt3t8BmJhD5FF/Z8XOb/oh7TC6wvPzMgLNNP1/ioZZIwgdo1dAVASRogdZHbR4wATJXSRvjwtqyOeyMum9WWhisS/VjfnKk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747926719; c=relaxed/simple;
+	bh=btoWRSJKO+dK9LY+uanPmK5o4UNbVfmlEw5MxPRgIbk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fv0O/xcZcrHFyVtLKzhHrSROyerv3J8ToNOAUZYcnvrEW10ZUt+Vo6TUWoKPUz3e9HmkDh2gkLBcVRgLaf0g+sQ0J3Ej5nXeKVsqrcFNdQlUjUTMp01BsDlA+WWu20l23R5AkB/l7s2ZRoYolBnYocfaFtY/x1U66ViTT1Fpk5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZnjC3QpF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:30c3:8bbb:632f:b0c9])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA6938FA;
+	Thu, 22 May 2025 17:11:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747926694;
+	bh=btoWRSJKO+dK9LY+uanPmK5o4UNbVfmlEw5MxPRgIbk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZnjC3QpFYcDj6M1xRfvWAVbFExjF8xQc5uB7+gohu/B80omw3KMiWi8Ik0DqseshO
+	 TsYplKm9DdyyJ+OXjTH+Iqm6Sy8ZouHLTyR5qvpw3ji/cNhWJ/nZTiLfkVUKezmA9s
+	 6eZllKNAydmupIFZcZHaTmD4UzlHlHMVAcbH4MNY=
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>
+Subject: [PATCH 0/3] media: rkisp1: Add RKISP1_CID_SUPPORTED_PARAMS_BLOCKS ctrl and WDR support
+Date: Thu, 22 May 2025 17:08:37 +0200
+Message-ID: <20250522150944.400046-2-stefan.klug@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.500.181.1.5\))
-Subject: Re: [PATCH v2 01/12] rust: helpers: Add bindings/wrappers for
- dma_resv_lock
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <ab32a3ea-84a0-484c-a07b-85aecf99ae00@amd.com>
-Date: Thu, 22 May 2025 12:03:27 -0300
-Cc: Lyude Paul <lyude@redhat.com>,
- dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>,
- Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linaro-mm-sig@lists.linaro.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <56CCCD08-01BB-40F0-B7BA-CD7DAE2C23D3@collabora.com>
-References: <20250521204654.1610607-1-lyude@redhat.com>
- <20250521204654.1610607-2-lyude@redhat.com>
- <ab32a3ea-84a0-484c-a07b-85aecf99ae00@amd.com>
-To: =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-X-Mailer: Apple Mail (2.3826.500.181.1.5)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Christian
+Hi all,
 
-> On 22 May 2025, at 05:44, Christian K=C3=B6nig =
-<christian.koenig@amd.com> wrote:
->=20
-> On 5/21/25 22:29, Lyude Paul wrote:
->> From: Asahi Lina <lina@asahilina.net>
->>=20
->> This is just for basic usage in the DRM shmem abstractions for =
-implied
->> locking, not intended as a full DMA Reservation abstraction yet.
->=20
-> Looks good in general, but my question is if it wouldn't be better to =
-export the higher level drm_exec component instead?
->=20
-> The drm_exec component implements the necessary loop if you want to =
-lock multiple GEM objects at the same time. As well as makes sure that =
-those GEM objects can't be released while working with them.
->=20
-> Regtards,
-> Christian.
->=20
+This series adds RKISP1_CID_SUPPORTED_PARAMS_BLOCKS control to query the
+parameters blocks that are supported by the current kernel on the
+current hardware. This is required to be able to enable/disable the
+corresponding algorithms in user space without relying solely on the
+kernel version.
 
-I guess Danilo is the right person to ask, but IIRC the plan was to =
-expose the
-exec logic as part of the GPUVM abstraction, which is currently work in
-progress.
+In addition to that it includes the WDR patch by Jai which is already in v5 and
+was reviewed here:
+https://lore.kernel.org/linux-media/20250521231355.GN12514@pendragon.ideasonboard.com/
 
-=E2=80=94 Daniel=
+Patch 1 is only a small preparatory cleanup. Patch 2 adds the
+RKISP1_CID_SUPPORTED_PARAMS_BLOCKS control and patch 3 adds WDR support.
+
+It is based on v6.15-rc7
+
+Best regards,
+Stefan
+
+Jai Luthra (1):
+  media: rockchip: rkisp1: Add support for Wide Dynamic Range
+
+Stefan Klug (2):
+  media: rkisp1: Cleanup error handling
+  media: rkisp1: Add RKISP1_CID_SUPPORTED_PARAMS_BLOCKS control
+
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |   2 +
+ .../platform/rockchip/rkisp1/rkisp1-params.c  | 152 +++++++++++++++++-
+ .../platform/rockchip/rkisp1/rkisp1-regs.h    |  99 +++---------
+ include/uapi/linux/rkisp1-config.h            | 102 ++++++++++++
+ include/uapi/linux/v4l2-controls.h            |   6 +
+ 5 files changed, 283 insertions(+), 78 deletions(-)
+
+base-commit: a5806cd506af
+-- 
+2.43.0
+
 
