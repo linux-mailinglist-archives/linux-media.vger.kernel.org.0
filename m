@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-33282-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33283-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85942AC2843
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 19:11:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA20DAC284C
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 19:13:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41FF617F190
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 17:11:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4380A43458
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 17:13:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32814297A7B;
-	Fri, 23 May 2025 17:11:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD50922318;
+	Fri, 23 May 2025 17:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iyN9GWjK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UmcEwK22"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A0929713F;
-	Fri, 23 May 2025 17:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8F4297A4E;
+	Fri, 23 May 2025 17:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748020271; cv=none; b=rBP9+7cKlVqlE1//R50BOGZa88/BDa/KnFw85HVQV49fmYYFE0RHtmMtXg23tVcrXJpyUN8ln79sd5ehAH15d1XtZZdH7su2j/XJzY++JhQ/EjB1c1xYPd7hPmK5TOtD+lrAxM8GrzU0HYO/sSAtC2nmuvq3nB8vFwsdxi3t6NI=
+	t=1748020411; cv=none; b=snsbn6O87C7j5QJ0bUyvi50RGy9HTSMmayfK2DaaG/+EBc2przipbRwDkJVD0TacKDt5Qui845/Y2XlMuNU8dsP2nABnZUyHBc4c+hs0v+/38Y0YiAkdxERN26HCQ82oTHa5iwvv9Q9fROI6nvYZ7StNyPWvhJbEMT4rBiTtwdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748020271; c=relaxed/simple;
-	bh=jtB2uVmrXtqqoGZt4WqQ63S0AdDXsWckFPVPcwRkHK8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=qkM8DGgS+2jR5mVsldHaMU611g4pzCvasdUIml84wkzZUF9LQgpRabMWVMtGWHbHq9L9o2mv+VnOVbyzPMv3GhxaLLQNeHGe/1lqix+PIQHM/1UqxLz33Vt8mbrrbUVEiLx0pPA9F1xh3jjWU7nPe91EQT2/JjlOeDLTS807Bfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iyN9GWjK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D135C4CEE9;
-	Fri, 23 May 2025 17:11:04 +0000 (UTC)
+	s=arc-20240116; t=1748020411; c=relaxed/simple;
+	bh=CM2YSBRDVbQ2Tip6KbC9msTac7mVKD3F26J+rwHCgYk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=Z5pnFqq+7flL1Rruig63xMxbngZtjo1OQmuNNd2Xn3qbcqem8a+nmzmYR+KJ9JvFi59Koi5cKwVLeyrHxohjQuIBrE8wAbsK5ZpXyXFb/YJsMHnauxX6T4Jqaal/dwt9UiGnydQv5N0790QMs7q9MXyyamZUgygFwUxHrhYPAY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UmcEwK22; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49814C4CEE9;
+	Fri, 23 May 2025 17:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748020270;
-	bh=jtB2uVmrXtqqoGZt4WqQ63S0AdDXsWckFPVPcwRkHK8=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=iyN9GWjKB/r0eN+R54nFFxc4UnVJYKtq2KzLvatdaYx/6bc6kUeJDp7UDajMi19K8
-	 R09SiOFhqeeU+rfeCeT8QfxuAW9fUVkYtX6EFwZrAe51OI+5CSBoo+YkElKea7jX3i
-	 oFqn9PcpsnKDbF0zCW3/IKz7f/31IdmZnyEItk7f+qDy77NNZxo78vfGL1FQlekzsf
-	 1sEaLIAugU9GGTaJkV2qxR327/bn/ufqz/huxU2g0QCIYG0nJ39JP6TlEE9BA9W7qF
-	 t0FWac8/DaGLIuZP+Exv6zAhpyHM2W/x0dsaAd0v6/R+G9hmj/0rgfHONF8/0nZObP
-	 F/2DKNTQk58lQ==
-Message-ID: <3e6be40a-2644-416a-bd32-f6256f1501ff@kernel.org>
-Date: Fri, 23 May 2025 19:11:03 +0200
+	s=k20201202; t=1748020411;
+	bh=CM2YSBRDVbQ2Tip6KbC9msTac7mVKD3F26J+rwHCgYk=;
+	h=Date:Subject:From:To:References:In-Reply-To:From;
+	b=UmcEwK22KUkeTn/gYLBXsOSWo0YO95b1CdFk07pMlqttNTtNPE9iYBcuwmxYsCaCO
+	 GJiKi/i21UvXRZre0vpQDVRNOi5cKHYfKBViEVLljKLNixJjrPwD4bSY8S0SmIwKRt
+	 l/C3WfhcDzaH+7eQxAoA+4fN+PfPQnGsyDoOvUQ4npzxZmLraXCsOOnZq6DPqfUPpi
+	 Vdl2hlT2aSg/Zn3RI4tuVGjR/BgZvCcRjs9ipcORfZ1MeDsaT1q1Kc2kL6xV9lR87J
+	 jg9wa2QPgAHApi6HkTdxUyt3KibhYVi4krY3HT7jngetunNPoiogDKlUf6pE9N8dOu
+	 lJkYu+QDOdaWg==
+Message-ID: <7863d15a-fa20-4db5-89b5-77a026d3f937@kernel.org>
+Date: Fri, 23 May 2025 19:13:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,6 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/5] dt-bindings: media: allegro-dvt: add decoder
  dt-bindings for Gen3 IP
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -74,7 +75,7 @@ To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>,
  linux-arm-kernel@lists.infradead.org
 References: <20250523134207.68481-1-yassine.ouaissa@allegrodvt.com>
  <20250523134207.68481-3-yassine.ouaissa@allegrodvt.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <3e6be40a-2644-416a-bd32-f6256f1501ff@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -119,24 +120,29 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250523134207.68481-3-yassine.ouaissa@allegrodvt.com>
+In-Reply-To: <3e6be40a-2644-416a-bd32-f6256f1501ff@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 23/05/2025 15:41, Yassine Ouaissa wrote:
-> Add compatible for video decoder on allegrodvt Gen 3 IP.
+On 23/05/2025 19:11, Krzysztof Kozlowski wrote:
+> On 23/05/2025 15:41, Yassine Ouaissa wrote:
+>> Add compatible for video decoder on allegrodvt Gen 3 IP.
+>>
+>> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+> Please do not send the same patches over and over again. You got review
+> which you need to address.
 > 
-> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
-Please do not send the same patches over and over again. You got review
-which you need to address.
-
-Once address you send NEXT version with proper CHANGELOG for each patch
-or top of cover letter. See submitting patches... or just use b4. This
-should be actually requirement for this work.
-
-Anyway, I see all of previous review ignored so let's be explicit:
-
-NAK
+> Once address you send NEXT version with proper CHANGELOG for each patch
+> or top of cover letter. See submitting patches... or just use b4. This
+> should be actually requirement for this work.
+> 
+> Anyway, I see all of previous review ignored so let's be explicit:
+> 
+> NAK
+> 
+Now I noticed you actually sent the same second time ignoring review and
+I asked to stop and implement review, so this is the third time. This is
+very disappointing.
 
 Best regards,
 Krzysztof
