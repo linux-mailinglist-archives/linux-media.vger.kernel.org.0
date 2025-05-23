@@ -1,211 +1,489 @@
-Return-Path: <linux-media+bounces-33260-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33261-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74608AC23A7
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 15:19:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3288AAC2410
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 15:33:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68B49A475B8
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 13:19:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9DD85188A2DB
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 13:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F4D2920B7;
-	Fri, 23 May 2025 13:19:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AC9E293744;
+	Fri, 23 May 2025 13:31:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="aSbNNCve"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q4sG/xzz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1507C4437C
-	for <linux-media@vger.kernel.org>; Fri, 23 May 2025 13:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50146293475;
+	Fri, 23 May 2025 13:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748006385; cv=none; b=O+HEv0ehGcE/ii6e3Fb/8+svFhn6n7An8F+APRZnznvH66bvXbYuI+a81rPLR4WEu2kULqwRJGHlMS/jceeOLifF6FTwtmVn/nALY9HbDWgq74dAxkQu0+fVI0O7SLcoZy0Pw11XJUVylEXJEuhW5AIOIBXrsELLGTHJLndEPvg=
+	t=1748007096; cv=none; b=LlYJwBWL/BpRxFY5BiIR34aibjddurj2Rg/V3fJlC0I2zNXjuo+P9mNmdms2OLNkWQslIwzhQuhFw7BYLoJSqG+rA6g2dpIRJvJwBY1HzYfcpNBHEGjP2eyL0VJwqw8sAbOiuSZ95DKnoYfKQltWh6xxCebQESHW05FmAxArJa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748006385; c=relaxed/simple;
-	bh=vJcshC/sfTpYGZq7vfTspgsnH3QNbvRTzezqqAYWGnw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=MAnaoqyISnLhpL8kNJbx2lVKW2NOVU2qjfiBZC8tu3TCIFOzTdiFi9uhQpmQGzTDIdeV8n/fek+UsQlwd8DuksO6OVvWEg95jOEolYNr3J6dC0bk2sd6k82j2LqWLZakzW02GVnhvB+fXGyyLUPdP2FSkpD/6N2weocrdoA2I4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=aSbNNCve; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54NCvrMk005085;
-	Fri, 23 May 2025 15:18:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	E9gOeFM3/s6P1Th6CKvzWGGfb7Dg1vtxolArjL1T3PA=; b=aSbNNCveWWIxacie
-	VwXIMmxvoNlhrrX0pyoa6TMZouMAPTET23td4UmAjNWZ0jXef53hqkHNAUD/w/6x
-	nlclKETizGznz7l6GBg++2uR9L9wu1VIZtYBjmYxVerUJ2MvMC6Gy5YJ/CgmTQ34
-	XyBZPkfQa3F4ysWfU53ENRKnNjt9z0/bT+jzI7bd6Uv9pfiqz3osBlzZ2hWHes2Y
-	atvzdzZVRQt3RKmEDrFMYyRIpOf5m1qtK+CJCncwddqRJiFWwbEuPeZSrvbTiDLU
-	TE3xtsT5zBXVmn+gOSXESMg5edRWk6p3NmFHI55oC2Enza5DcofnDK0pyaUMdh5A
-	aZQH0Q==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46rwfae3u9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 May 2025 15:18:33 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 6021740049;
-	Fri, 23 May 2025 15:16:29 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1C97BA3DBE8;
-	Fri, 23 May 2025 15:15:50 +0200 (CEST)
-Received: from [10.252.4.195] (10.252.4.195) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 23 May
- 2025 15:15:48 +0200
-Message-ID: <c2736f05-e2ca-4e03-befb-d4da3717ced8@foss.st.com>
-Date: Fri, 23 May 2025 15:15:47 +0200
+	s=arc-20240116; t=1748007096; c=relaxed/simple;
+	bh=faO7xv/FpWJV7MKksY+5JznU0/E9sVeaKOsouSG4ffI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gkNZgAyVbgIvUnhwkpSXLDi6qsln69Kx4R9cyQYYzx0lOO33oQTJaJl1mFI79A+lPNkLBKagB+t63JGkRbdBHVaaQVjShYM7wEkXYDrKASR9rFQJV6ugZPGGjGglaR4hCnbvxEkxodbTJpDH4B0ZRTmA8uxsPaeNpZs9BnY81jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q4sG/xzz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0896C4CEF0;
+	Fri, 23 May 2025 13:31:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748007095;
+	bh=faO7xv/FpWJV7MKksY+5JznU0/E9sVeaKOsouSG4ffI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q4sG/xzz2A8O6AfkTf/d7ll8vClkS5LeIlQIh3Vje5vT0x/w/gPJdVRuUrJQBwPbl
+	 ML0curKBoAEfAJ7PNAEklMDyBSbzAZF5kdlLNSkM8hf+8jJfe76DDHNrJSSEzpGn6p
+	 fmpuPu0me2pyBkU87b24t7a9H2qD8FINTFlwfK5xvqmdITZ0B/xzkn7FSAMMrnBPPZ
+	 mUzzXHsx5aAu4b4cNA7R+b0M/BD8ksH39nZm7EsYvtcZKR+8462Ln9h/SyEm4t0PD7
+	 37YkZVbW6g9HtQRF26Iq4HqOKXdGGPyjtej7fruYHi3MzLIwYGyRsITN1VDHnrxcvx
+	 AW4a4DO4qe+jQ==
+Date: Fri, 23 May 2025 19:01:15 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	op-tee@lists.trustedfirmware.org,
+	linux-arm-kernel@lists.infradead.org,
+	Olivier Masse <olivier.masse@nxp.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+	Daniel Stone <daniel@fooishbar.org>,
+	Rouven Czerwinski <rouven.czerwinski@linaro.org>,
+	Etienne Carriere <etienne.carriere@foss.st.com>
+Subject: Re: [PATCH v9 5/9] tee: new ioctl to a register tee_shm from a
+ dmabuf file descriptor
+Message-ID: <aDB4oxesn5iIM4l8@sumit-X1>
+References: <20250520152436.474778-1-jens.wiklander@linaro.org>
+ <20250520152436.474778-6-jens.wiklander@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: libcamera workshop 2025 - WildCamera
-To: <w.robertson@cairnwater.com>,
-        Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>
-CC: Alain Volmat <alain.volmat@foss.st.com>,
-        Andrej Gardijan
-	<andrej.gardijan@tuta.com>,
-        David Plowman <david.plowman@raspberrypi.com>,
-        Devarsh Thakkar <devarsht@ti.com>, Hans de Goede <hdegoede@redhat.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Jerry Wu
-	<jerry.w.hu@intel.com>,
-        =?UTF-8?Q?Jesper_Taxb=C3=B8l?= <jesper@taxboel.dk>,
-        Josuah Demangeon <me@josuah.net>,
-        Kieran Bingham
-	<kieran.bingham@ideasonboard.com>,
-        Mattijs Korpershoek
-	<mkorpershoek@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Naush Patuck <naush@raspberrypi.com>,
-        Nicolas Dufresne
-	<nicolas@ndufresne.ca>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?=
-	<niklas.soderlund@ragnatech.se>,
-        Ricardo Ribalda <ricardo.ribalda@gmail.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Stefan Klug
-	<stefan.klug@ideasonboard.com>,
-        <libcamera-devel@lists.libcamera.org>, <linux-media@vger.kernel.org>,
-        Urs Fassler <urs.fassler@iqilio.ch>
-References: <20250512154445.GA4523@pendragon.ideasonboard.com>
- <20250516070137.GA20271@pendragon.ideasonboard.com>
- <4b162dd50b40acdfd2c26bb7b9ff2d75@cairnwater.com>
-Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <4b162dd50b40acdfd2c26bb7b9ff2d75@cairnwater.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-23_04,2025-05-22_01,2025-03-28_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520152436.474778-6-jens.wiklander@linaro.org>
 
-Hi Will,
-
-On 5/23/25 11:38, w.robertson@cairnwater.com wrote:
-> Hello everyone,
+On Tue, May 20, 2025 at 05:16:48PM +0200, Jens Wiklander wrote:
+> From: Etienne Carriere <etienne.carriere@foss.st.com>
 > 
-> It was great to join you all at the libcamera workshop and to learn more
-> about the internal architecture of libcamera!
+> Add a userspace API to create a tee_shm object that refers to a dmabuf
+> reference.
+> 
+> Userspace registers the dmabuf file descriptor as in a tee_shm object.
+> The registration is completed with a tee_shm returned file descriptor.
+> 
+> Userspace is free to close the dmabuf file descriptor after it has been
+> registered since all the resources are now held via the new tee_shm
+> object.
+> 
+> Closing the tee_shm file descriptor will eventually release all
+> resources used by the tee_shm object when all references are released.
+> 
+> The new IOCTL, TEE_IOC_SHM_REGISTER_FD, supports dmabuf references to
+> physically contiguous memory buffers. Dmabuf references acquired from
+> the TEE DMA-heap can be used as protected memory for Secure Video Path
+> and such use cases. It depends on the TEE and the TEE driver if dmabuf
+> references acquired by other means can be used.
+> 
+> A new tee_shm flag is added to identify tee_shm objects built from a
+> registered dmabuf, TEE_SHM_DMA_BUF.
+> 
+> Signed-off-by: Etienne Carriere <etienne.carriere@foss.st.com>
+> Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/tee_core.c    |  63 +++++++++++++++++++++-
+>  drivers/tee/tee_private.h |  10 ++++
+>  drivers/tee/tee_shm.c     | 111 ++++++++++++++++++++++++++++++++++++--
+>  include/linux/tee_core.h  |   1 +
+>  include/linux/tee_drv.h   |  10 ++++
+>  include/uapi/linux/tee.h  |  31 +++++++++++
+>  6 files changed, 221 insertions(+), 5 deletions(-)
 
-Personally, it was really refreshing and insightful to have you explain
-your camera needs for such a good cause. Thank you.
+With below minor comments fixed, feel free to add:
 
-I also take this opportunity to thank all the libcamera team for
-organizing this great event.
+Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 
 > 
-> If folk have any questions or suggestions about WildCamera please let me
-> know - I'd be very happy to hear comments, ideas and suggestions for
-> improvements by email or voice or video call.
-> 
-> I'm often in the tree crowns chainsaw carving nest holes and setting up
-> field studies but the mobile signal is fairly good and I'm always happy
-> to hear people's ideas and suggestions.
-> 
-> Thank you all again for everything!
-> 
-> Have a great weekend!
-> 
-> Will
-> 
-> On 2025-05-16 08:01, Laurent Pinchart wrote:
->> Hello everybody,
->>
->> Here's a link to the etherpad we will use to take notes today.
->>
->> https://pad.systemli.org/p/libcamera-workshop-nice-2025
->>
->> On Mon, May 12, 2025 at 05:44:45PM +0200, Laurent Pinchart wrote:
->>> Hello everybody,
->>>
->>> I'm looking forward to seeing you all on Friday the 16th of May for the
->>> libcamera workshop. Here is the first agenda draft, along with logistic
->>> information for on-site and remote attendees.
->>>
->>> As all workshop agendas, this is tentative and we will adjust the exact
->>> timing depending on how the discussions progress.
->>>
->>> 09:00 - 09:10  Welcome and agenda bashing
->>> 09:10 - 09:40  Software ISP status and future plans (Hans de Goede)
->>> 09:40 - 10:00  Slowing down the soft ISP CPU implementation (Laurent
->>> Pinchart)
->>> 10:00 - 10:30  Using a single IPA with multiple pipeline handlers
->>> (Hans de Goede)
->>> 10:30 - 11:00  Break
->>> 11:00 - 11:45  Bayer reprocessing (David Plowman)
->>> 11:45 - 12:30  Startup frames (David Plowman)
->>> 12:30 - 13:30  Lunch
->>> 13:30 - 14:00  State of gstreamer support (Nicolas Dufresne)
->>> 14:00 - 14:30  Multi-context support (Nicolas Dufresne)
->>> 14:30 - 15:30  Per frame control (David Plowman)
->>> 15:30 - 16:00  Break
->>> 16:00 - 16:45  libcamera on Zephyr (Josuah Demangeon)
->>> 16:45 - 17:15  The importance of libcamera to WildCamera
->>> 17:15 - 17:45  TBD
->>>
->>> Each agenda item is listed with the name of the person who proposed it.
->>> We expect those persons to introduce the topic (orally or with slides,
->>> at your discretion) and drive the discussion.
->>>
->>> We will use Jitsi Meet for remote access. The event will be accessible
->>> at https://meet.jit.si/libcamera-workshop-nice-2025. We can however
->>> not guarantee the quality of the network connection on site.
->>>
->>> All times are in the CEST (UTC+2) time zone. If you plan to attend
->>> remotely and are located in a time zone that makes the agenda items you
->>> are most interested in occur at an inconvenient time, please let me know
->>> and we will try to reorder the discussion topics.
->>>
->>> Discussions will not be recorded, but the minutes of the workshop will
->>> be posted to the mailing list after the event.
->>>
->>> The workshop will be hosted by Embedded Recipes as part of their
->>> workshop day (https://embedded-recipes.org/2025/workshops/) and will be
->>> located at the Sheraton Nice Airport
->>> (https://www.openstreetmap.org/way/1084319591)
->>> a few minutes away from the Embedded Recipes location. For more
->>> information refer to
->>> https://embedded-recipes.org/2025/attend/#getting-there-block.
->>>
->>> Lunch is included and complimentary for attendees. We will go off-site
->>> to Fragrance Culinaire - Arénas
->>> (https://maps.app.goo.gl/cKuspzV8PSKeWuqD9).
->>> The restaurant offers salads and sandwiches and can cater for vegetarian
->>> diets. If you have a more restrictive diet, please let me know.
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index 5259b8223c27..0e9d9e5872a4 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -353,11 +353,49 @@ tee_ioctl_shm_register(struct tee_context *ctx,
+>  	return ret;
+>  }
+>  
+> +static int
+> +tee_ioctl_shm_register_fd(struct tee_context *ctx,
+> +			  struct tee_ioctl_shm_register_fd_data __user *udata)
+> +{
+> +	struct tee_ioctl_shm_register_fd_data data;
+> +	struct tee_shm *shm;
+> +	long ret;
+> +
+> +	if (copy_from_user(&data, udata, sizeof(data)))
+> +		return -EFAULT;
+> +
+> +	/* Currently no input flags are supported */
+> +	if (data.flags)
+> +		return -EINVAL;
+> +
+> +	shm = tee_shm_register_fd(ctx, data.fd);
+> +	if (IS_ERR(shm))
+> +		return -EINVAL;
+> +
+> +	data.id = shm->id;
+> +	data.flags = shm->flags;
+> +	data.size = shm->size;
+> +
+> +	if (copy_to_user(udata, &data, sizeof(data)))
+> +		ret = -EFAULT;
+> +	else
+> +		ret = tee_shm_get_fd(shm);
+> +
+> +	/*
+> +	 * When user space closes the file descriptor the shared memory
+> +	 * should be freed or if tee_shm_get_fd() failed then it will
+> +	 * be freed immediately.
+> +	 */
+> +	tee_shm_put(shm);
+> +	return ret;
+> +}
+> +
+>  static int param_from_user_memref(struct tee_context *ctx,
+>  				  struct tee_param_memref *memref,
+>  				  struct tee_ioctl_param *ip)
+>  {
+>  	struct tee_shm *shm;
+> +	size_t offs = 0;
+>  
+>  	/*
+>  	 * If a NULL pointer is passed to a TA in the TEE,
+> @@ -388,6 +426,26 @@ static int param_from_user_memref(struct tee_context *ctx,
+>  			tee_shm_put(shm);
+>  			return -EINVAL;
+>  		}
+> +
+> +		if (shm->flags & TEE_SHM_DMA_BUF) {
+> +			struct tee_shm_dmabuf_ref *ref;
+> +
+> +			ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
+> +			if (ref->parent_shm) {
+> +				/*
+> +				 * The shm already has one reference to
+> +				 * ref->parent_shm so we are clear of 0.
+> +				 * We're getting another reference since
+> +				 * this shm will be used in the parameter
+> +				 * list instead of the shm we got with
+> +				 * tee_shm_get_from_id() above.
+> +				 */
+> +				refcount_inc(&ref->parent_shm->refcount);
+> +				tee_shm_put(shm);
+> +				shm = ref->parent_shm;
+> +				offs = ref->offset;
+> +			}
+> +		}
+>  	} else if (ctx->cap_memref_null) {
+>  		/* Pass NULL pointer to OP-TEE */
+>  		shm = NULL;
+> @@ -395,7 +453,7 @@ static int param_from_user_memref(struct tee_context *ctx,
+>  		return -EINVAL;
+>  	}
+>  
+> -	memref->shm_offs = ip->a;
+> +	memref->shm_offs = ip->a + offs;
 
--- 
-Regards,
-Benjamin
+Is this an issue being detected now? If yes then shouldn't it be a
+separate fix eligible for backport?
+
+>  	memref->size = ip->b;
+>  	memref->shm = shm;
+>  
+> @@ -841,6 +899,8 @@ static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+>  		return tee_ioctl_shm_alloc(ctx, uarg);
+>  	case TEE_IOC_SHM_REGISTER:
+>  		return tee_ioctl_shm_register(ctx, uarg);
+> +	case TEE_IOC_SHM_REGISTER_FD:
+> +		return tee_ioctl_shm_register_fd(ctx, uarg);
+>  	case TEE_IOC_OPEN_SESSION:
+>  		return tee_ioctl_open_session(ctx, uarg);
+>  	case TEE_IOC_INVOKE:
+> @@ -1300,3 +1360,4 @@ MODULE_AUTHOR("Linaro");
+>  MODULE_DESCRIPTION("TEE Driver");
+>  MODULE_VERSION("1.0");
+>  MODULE_LICENSE("GPL v2");
+> +MODULE_IMPORT_NS("DMA_BUF");
+> diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
+> index 6c6ff5d5eed2..308467705da6 100644
+> --- a/drivers/tee/tee_private.h
+> +++ b/drivers/tee/tee_private.h
+> @@ -13,6 +13,16 @@
+>  #include <linux/mutex.h>
+>  #include <linux/types.h>
+>  
+> +/* extra references appended to shm object for registered shared memory */
+> +struct tee_shm_dmabuf_ref {
+> +	struct tee_shm shm;
+> +	size_t offset;
+> +	struct dma_buf *dmabuf;
+> +	struct dma_buf_attachment *attach;
+> +	struct sg_table *sgt;
+> +	struct tee_shm *parent_shm;
+> +};
+> +
+>  int tee_shm_get_fd(struct tee_shm *shm);
+>  
+>  bool tee_device_get(struct tee_device *teedev);
+> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> index daf6e5cfd59a..e1ed52ee0a16 100644
+> --- a/drivers/tee/tee_shm.c
+> +++ b/drivers/tee/tee_shm.c
+> @@ -4,6 +4,7 @@
+>   */
+>  #include <linux/anon_inodes.h>
+>  #include <linux/device.h>
+> +#include <linux/dma-buf.h>
+>  #include <linux/idr.h>
+>  #include <linux/io.h>
+>  #include <linux/mm.h>
+> @@ -45,7 +46,23 @@ static void release_registered_pages(struct tee_shm *shm)
+>  
+>  static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
+>  {
+> -	if (shm->flags & TEE_SHM_POOL) {
+> +	struct tee_shm *parent_shm = NULL;
+> +	void *p = shm;
+> +
+> +	if (shm->flags & TEE_SHM_DMA_BUF) {
+> +		struct tee_shm_dmabuf_ref *ref;
+> +
+> +		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
+> +		parent_shm = ref->parent_shm;
+> +		p = ref;
+> +		if (ref->attach) {
+> +			dma_buf_unmap_attachment(ref->attach, ref->sgt,
+> +						 DMA_BIDIRECTIONAL);
+> +
+> +			dma_buf_detach(ref->dmabuf, ref->attach);
+> +		}
+> +		dma_buf_put(ref->dmabuf);
+> +	} else if (shm->flags & TEE_SHM_POOL) {
+>  		teedev->pool->ops->free(teedev->pool, shm);
+>  	} else if (shm->flags & TEE_SHM_DYNAMIC) {
+>  		int rc = teedev->desc->ops->shm_unregister(shm->ctx, shm);
+> @@ -57,9 +74,10 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
+>  		release_registered_pages(shm);
+>  	}
+>  
+> -	teedev_ctx_put(shm->ctx);
+> +	if (shm->ctx)
+> +		teedev_ctx_put(shm->ctx);
+
+redundant change?
+
+>  
+> -	kfree(shm);
+> +	kfree(p);
+>  
+>  	tee_device_put(teedev);
+>  }
+> @@ -169,7 +187,7 @@ struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, size_t size)
+>   * tee_client_invoke_func(). The memory allocated is later freed with a
+>   * call to tee_shm_free().
+>   *
+> - * @returns a pointer to 'struct tee_shm'
+> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on failure
+>   */
+>  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size)
+>  {
+> @@ -179,6 +197,91 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size)
+>  }
+>  EXPORT_SYMBOL_GPL(tee_shm_alloc_kernel_buf);
+>  
+> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
+> +{
+> +	struct tee_shm_dmabuf_ref *ref;
+> +	int rc;
+> +
+> +	if (!tee_device_get(ctx->teedev))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	teedev_ctx_get(ctx);
+> +
+> +	ref = kzalloc(sizeof(*ref), GFP_KERNEL);
+> +	if (!ref) {
+> +		rc = -ENOMEM;
+> +		goto err_put_tee;
+> +	}
+> +
+> +	refcount_set(&ref->shm.refcount, 1);
+> +	ref->shm.ctx = ctx;
+> +	ref->shm.id = -1;
+> +	ref->shm.flags = TEE_SHM_DMA_BUF;
+> +
+> +	ref->dmabuf = dma_buf_get(fd);
+> +	if (IS_ERR(ref->dmabuf)) {
+> +		rc = PTR_ERR(ref->dmabuf);
+> +		goto err_kfree_ref;
+> +	}
+> +
+> +	rc = tee_heap_update_from_dma_buf(ctx->teedev, ref->dmabuf,
+> +					  &ref->offset, &ref->shm,
+> +					  &ref->parent_shm);
+> +	if (!rc)
+> +		goto out;
+> +	if (rc != -EINVAL)
+> +		goto err_put_dmabuf;
+> +
+> +	ref->attach = dma_buf_attach(ref->dmabuf, &ctx->teedev->dev);
+> +	if (IS_ERR(ref->attach)) {
+> +		rc = PTR_ERR(ref->attach);
+> +		goto err_put_dmabuf;
+> +	}
+> +
+> +	ref->sgt = dma_buf_map_attachment(ref->attach, DMA_BIDIRECTIONAL);
+> +	if (IS_ERR(ref->sgt)) {
+> +		rc = PTR_ERR(ref->sgt);
+> +		goto err_detach;
+> +	}
+> +
+> +	if (sg_nents(ref->sgt->sgl) != 1) {
+> +		rc = -EINVAL;
+> +		goto err_unmap_attachement;
+> +	}
+> +
+> +	ref->shm.paddr = page_to_phys(sg_page(ref->sgt->sgl));
+> +	ref->shm.size = ref->sgt->sgl->length;
+> +
+> +out:
+> +	mutex_lock(&ref->shm.ctx->teedev->mutex);
+> +	ref->shm.id = idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
+> +				1, 0, GFP_KERNEL);
+> +	mutex_unlock(&ref->shm.ctx->teedev->mutex);
+> +	if (ref->shm.id < 0) {
+> +		rc = ref->shm.id;
+> +		if (ref->attach)
+> +			goto err_unmap_attachement;
+> +		goto err_put_dmabuf;
+> +	}
+> +
+> +	return &ref->shm;
+> +
+> +err_unmap_attachement:
+> +	dma_buf_unmap_attachment(ref->attach, ref->sgt, DMA_BIDIRECTIONAL);
+> +err_detach:
+> +	dma_buf_detach(ref->dmabuf, ref->attach);
+> +err_put_dmabuf:
+> +	dma_buf_put(ref->dmabuf);
+> +err_kfree_ref:
+> +	kfree(ref);
+> +err_put_tee:
+> +	teedev_ctx_put(ctx);
+> +	tee_device_put(ctx->teedev);
+> +
+> +	return ERR_PTR(rc);
+> +}
+> +EXPORT_SYMBOL_GPL(tee_shm_register_fd);
+> +
+>  /**
+>   * tee_shm_alloc_priv_buf() - Allocate shared memory for a privately shared
+>   *			      kernel buffer
+> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
+> index b8b99c97e00c..02c07f661349 100644
+> --- a/include/linux/tee_core.h
+> +++ b/include/linux/tee_core.h
+> @@ -28,6 +28,7 @@
+>  #define TEE_SHM_USER_MAPPED	BIT(1)  /* Memory mapped in user space */
+>  #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
+>  #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
+> +#define TEE_SHM_DMA_BUF		BIT(4)	/* Memory with dma-buf handle */
+>  
+>  #define TEE_DEVICE_FLAG_REGISTERED	0x1
+>  #define TEE_MAX_DEV_NAME_LEN		32
+> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> index a54c203000ed..824f1251de60 100644
+> --- a/include/linux/tee_drv.h
+> +++ b/include/linux/tee_drv.h
+> @@ -116,6 +116,16 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size);
+>  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
+>  					    void *addr, size_t length);
+>  
+> +/**
+> + * tee_shm_register_fd() - Register shared memory from file descriptor
+> + *
+> + * @ctx:	Context that allocates the shared memory
+> + * @fd:		Shared memory file descriptor reference
+> + *
+> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on failure
+> + */
+> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd);
+> +
+>  /**
+>   * tee_shm_free() - Free shared memory
+>   * @shm:	Handle to shared memory to free
+> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> index d0430bee8292..8ec5f46fbfbe 100644
+> --- a/include/uapi/linux/tee.h
+> +++ b/include/uapi/linux/tee.h
+> @@ -118,6 +118,37 @@ struct tee_ioctl_shm_alloc_data {
+>  #define TEE_IOC_SHM_ALLOC	_IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1, \
+>  				     struct tee_ioctl_shm_alloc_data)
+>  
+> +/**
+> + * struct tee_ioctl_shm_register_fd_data - Shared memory registering argument
+> + * @fd:		[in] File descriptor identifying dmabuf reference
+> + * @size:	[out] Size of referenced memory
+> + * @flags:	[in] Flags to/from allocation.
+> + * @id:		[out] Identifier of the shared memory
+> + *
+> + * The flags field should currently be zero as input. Updated by the call
+> + * with actual flags as defined by TEE_IOCTL_SHM_* above.
+> + * This structure is used as argument for TEE_IOC_SHM_REGISTER_FD below.
+> + */
+> +struct tee_ioctl_shm_register_fd_data {
+> +	__s64 fd;
+> +	__u64 size;
+> +	__u32 flags;
+> +	__s32 id;
+> +};
+> +
+> +/**
+> + * TEE_IOC_SHM_REGISTER_FD - register a shared memory from a file descriptor
+> + *
+> + * Returns a file descriptor on success or < 0 on failure
+> + *
+> + * The returned file descriptor refers to the shared memory object in the
+> + * kernel. The supplied file deccriptor can be closed if it's not needed
+> + * for other purposes. The shared memory is freed when the descriptor is
+> + * closed.
+> + */
+> +#define TEE_IOC_SHM_REGISTER_FD	_IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 8, \
+> +				     struct tee_ioctl_shm_register_fd_data)
+
+Please add this IOCTL in correct sequence order.
+
+-Sumit
+
+> +
+>  /**
+>   * struct tee_ioctl_buf_data - Variable sized buffer
+>   * @buf_ptr:	[in] A __user pointer to a buffer
+> -- 
+> 2.43.0
+> 
 
