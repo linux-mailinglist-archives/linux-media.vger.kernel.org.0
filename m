@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-33286-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33287-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF2BAC28F1
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 19:41:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F78AC28F4
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 19:42:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35E463A23E2
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 17:41:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 186891BA3395
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 17:42:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AA86298996;
-	Fri, 23 May 2025 17:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB91298998;
+	Fri, 23 May 2025 17:42:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gCthoF2Q"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GbqsbwsG"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C3E297130;
-	Fri, 23 May 2025 17:41:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01547367;
+	Fri, 23 May 2025 17:42:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748022085; cv=none; b=Fus5iDN+K2wIHqzMA1n+sSBLNkR6/u84S4RuSPTRXiEcsBzOMJefIOvx+t0eIQnmyiCtsKj5uACfL+A3Ee5bP9cRiNJTCkleyraxUnmWWVUagolKR3j4hkBxZWdZGiUbSdtxSwihgwnYcGvflTxsrDre0gk0mzwwOvIc053atx0=
+	t=1748022132; cv=none; b=s9/TYwAjypT+NfoQbK2j7fRYCrhd7b7QG2KjjawdJeN18E5ngfeytsg8tR+dKHy6syFFTPbwOtHPaPGqbDJ8dc3KiTObkLRTfjhce0Mp1XPx9TdYrn5ahtqzYIEiNnpdKcdKLRLOrwZGv8UiuE2ARB2V4yEPyJVYuPf812gvoUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748022085; c=relaxed/simple;
-	bh=KXzeAjYGWYxpzCQl/ulh4lqpOBCCKxz+EIeek8nD1Cg=;
+	s=arc-20240116; t=1748022132; c=relaxed/simple;
+	bh=8xnFGfZkpvX17dDBlT2Te+gCXFgL6HH6WpSwzTZZvB4=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=U6hlDdYWw6XDmye7SgDLn92WiQCgprg9QyYTBaYEd+w28tz1+SKmhU/YUl0LVC+CL3/I2XnsCrnNs6oZ9KbscmJ+pFL9yeGqL8PwH8vyJjJKMC1htuOJr+Xpo789pnrMl4B+2vBnJldkLmzaxwMkIQAOobT2MZMY5ETqxioFjvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gCthoF2Q; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=KQo1mwKqtNUE3OUp++gc/y+mtlXVWwZSUijlpWPFrdkuupUg/395+/9QSPCUpmVNJqwyRFC/OCmlY8b8zfTLeIL7rQaB+WyWm1Pj5ur5O3bpZHh3QGEHHbcEsRg3wemghbATOyZ1YHsiv89QZBsoN7anY5Woj/SgdFZfGRAEGrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GbqsbwsG; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1748022082;
-	bh=KXzeAjYGWYxpzCQl/ulh4lqpOBCCKxz+EIeek8nD1Cg=;
+	s=mail; t=1748022129;
+	bh=8xnFGfZkpvX17dDBlT2Te+gCXFgL6HH6WpSwzTZZvB4=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=gCthoF2QtNe6lVEitsdxQRvcGNwlyZjI9MjW0QIYZvM9MkeKiie/pgYB0gh56p32j
-	 Gyb4PlVK3B9i7sZZWFYXnFNvPUJTOsNoE5y0CbH/4U4MIzWH8H/OxpIz/veUT3EKDp
-	 GNN7nwZhibwts6/dxZzrjDQnaGXox/VYIGeSRYRdPIWhj8hX/EZe6D31TkauKHazex
-	 TDHm+bQ1qKPHnaHBdGgyUzSTqvgi/2jGrK2yvPmpW83WXPqMXymj/NanatGzTrjE8r
-	 2kLJmAs7+y7B6Jc6DqqPAjzkteDx0XCzhYN8EwyyddCrMmVZYcJgp9Deh60PGP3bO+
-	 qu1rDmSQOyM1Q==
+	b=GbqsbwsG8/gAI475WJiVMV2cUrcqVA80u0sojp00wG6kR/RA+eXIMmxkzNcIWDoXF
+	 wT0XL8aFFELFc5SAClifJtdJRJx/0oweYyxdquwjPe+oC8nhUCC2BRFgs0fqwnTcpD
+	 KO5ZhZ4NaVtcBck31o7MtIw5J6m4HajXhysB6m17GI50DT7p39wZEgGo34TnHOmw5R
+	 QXu2BhhB0eivSNGFBSyQrUxW5hzRuVRKig9tzbe3lUw1/wKWMudBz6LoM8MCB3ty9t
+	 mHyRBbqZlsA9dwtufDjfyCkC+deVIc6EFtXOTterIoPRvW/aEWY8lz+vH7wmrohkgy
+	 ZlxWz8oKrjVuA==
 Received: from [IPv6:2606:6d00:17:b2fc::5ac] (unknown [IPv6:2606:6d00:17:b2fc::5ac])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9489317E0A5F;
-	Fri, 23 May 2025 19:41:20 +0200 (CEST)
-Message-ID: <effe40f0d4caef43bf772d350a67d68833941cbb.camel@collabora.com>
-Subject: Re: [PATCH v2 4/7] media: chips-media: wave5: Use spinlock whenever
- statue is changed
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C660417E1135;
+	Fri, 23 May 2025 19:42:07 +0200 (CEST)
+Message-ID: <ab06cbe0d1c30e8fde725eabbc504932a9512692.camel@collabora.com>
+Subject: Re: [PATCH v2 5/7] media: chips-media: wave5: Fix not to free
+ resources normally when instance was destroyed
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
 	hverkuil-cisco@xs4all.nl, sebastian.fricke@collabora.com, 
@@ -58,10 +58,10 @@ To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	lafley.kim@chipsnmedia.com, b-brnich@ti.com, hverkuil@xs4all.nl, 
 	nas.chung@chipsnmedia.com
-Date: Fri, 23 May 2025 13:41:18 -0400
-In-Reply-To: <20250522072606.51-5-jackson.lee@chipsnmedia.com>
+Date: Fri, 23 May 2025 13:42:06 -0400
+In-Reply-To: <20250522072606.51-6-jackson.lee@chipsnmedia.com>
 References: <20250522072606.51-1-jackson.lee@chipsnmedia.com>
-	 <20250522072606.51-5-jackson.lee@chipsnmedia.com>
+	 <20250522072606.51-6-jackson.lee@chipsnmedia.com>
 Organization: Collabora Canada
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
@@ -73,16 +73,17 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
-
 Le jeudi 22 mai 2025 à 16:26 +0900, Jackson.lee a écrit :
 > From: Jackson Lee <jackson.lee@chipsnmedia.com>
 > 
-> The device_run and finish_decode is not any more synchronized,
-> so lock was needed in the device_run whenever state was changed.
+> Since applying performance patch, there was a problem not to free
+> resources, the root cause was that timeout sometimes happened after
+> calling the wave5_vpu_dec_finish_seq() when application was closed
+> forcibly,so if failure reason is WAVE5_SYSERR_VPU_STILL_RUNNING,
+> the wave5_vpu_dec_get_output_info() should be called to flush videos
+> decoded before closed.
 
-Can you try to introduce the locking ahead of the patches, otherwise
-this break bisectability as the in-between become racy.
+Either squash, or try to bring before too.
 
 Nicolas
 
@@ -90,51 +91,49 @@ Nicolas
 > Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
 > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 > ---
->  drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  .../platform/chips-media/wave5/wave5-vpuapi.c | 20 +++++++++++++++++--
+>  1 file changed, 18 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-
-> media/wave5/wave5-vpu-dec.c
-> index 42981c3b49bc..719c5527eb7f 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> @@ -1577,6 +1577,7 @@ static void wave5_vpu_dec_device_run(void *priv)
->  	struct queue_status_info q_status;
->  	u32 fail_res = 0;
->  	int ret = 0;
-> +	unsigned long flags;
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/drivers/media/platform/chips-media/wave5/wave5-
+> vpuapi.c
+> index 68d86625538f..d7318d596b73 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> @@ -209,6 +209,7 @@ int wave5_vpu_dec_close(struct vpu_instance *inst, u32 *fail_res)
+>  	int i;
+>  	int inst_count = 0;
+>  	struct vpu_instance *inst_elm;
+> +	struct dec_output_info dec_info;
 >  
->  	dev_dbg(inst->dev->dev, "%s: Fill the ring buffer with new bitstream data", __func__);
->  	pm_runtime_resume_and_get(inst->dev->dev);
-> @@ -1617,7 +1618,9 @@ static void wave5_vpu_dec_device_run(void *priv)
->  			}
->  			spin_unlock_irqrestore(&inst->state_spinlock, flags);
->  		} else {
-> +			spin_lock_irqsave(&inst->state_spinlock, flags);
->  			switch_state(inst, VPU_INST_STATE_INIT_SEQ);
-> +			spin_unlock_irqrestore(&inst->state_spinlock, flags);
+>  	*fail_res = 0;
+>  	if (!inst->codec_info)
+> @@ -229,11 +230,26 @@ int wave5_vpu_dec_close(struct vpu_instance *inst, u32 *fail_res)
+>  			goto unlock_and_return;
 >  		}
 >  
->  		break;
-> @@ -1628,8 +1631,9 @@ static void wave5_vpu_dec_device_run(void *priv)
->  		 * we had a chance to switch, which leads to an invalid state
->  		 * change.
->  		 */
-> +		spin_lock_irqsave(&inst->state_spinlock, flags);
->  		switch_state(inst, VPU_INST_STATE_PIC_RUN);
-> -
-> +		spin_unlock_irqrestore(&inst->state_spinlock, flags);
->  		/*
->  		 * During DRC, the picture decoding remains pending, so just leave the job
->  		 * active until this decode operation completes.
-> @@ -1643,7 +1647,9 @@ static void wave5_vpu_dec_device_run(void *priv)
->  		ret = wave5_prepare_fb(inst);
->  		if (ret) {
->  			dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
-> +			spin_lock_irqsave(&inst->state_spinlock, flags);
->  			switch_state(inst, VPU_INST_STATE_STOP);
-> +			spin_unlock_irqrestore(&inst->state_spinlock, flags);
->  			break;
+> -		if (*fail_res == WAVE5_SYSERR_VPU_STILL_RUNNING &&
+> -		    retry++ >= MAX_FIRMWARE_CALL_RETRY) {
+> +		if (ret == 0)
+> +			break;
+> +
+> +		if (*fail_res != WAVE5_SYSERR_VPU_STILL_RUNNING) {
+> +			dev_warn(inst->dev->dev, "dec_finish_seq timed out\n");
+> +			goto unlock_and_return;
+> +		}
+> +
+> +		if (retry++ >= MAX_FIRMWARE_CALL_RETRY) {
+>  			ret = -ETIMEDOUT;
+>  			goto unlock_and_return;
 >  		}
+> +
+> +		mutex_unlock(&vpu_dev->hw_lock);
+> +		wave5_vpu_dec_get_output_info(inst, &dec_info);
+> +		ret = mutex_lock_interruptible(&vpu_dev->hw_lock);
+> +		if (ret) {
+> +			pm_runtime_put_sync(inst->dev->dev);
+> +			return ret;
+> +		}
+>  	} while (ret != 0);
 >  
+>  	dev_dbg(inst->dev->dev, "%s: dec_finish_seq complete\n", __func__);
 
