@@ -1,186 +1,141 @@
-Return-Path: <linux-media+bounces-33244-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33243-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8E1AC2079
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 12:03:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69384AC2071
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 12:03:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE2491C04F4D
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 10:03:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F41AD1C0536F
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 10:02:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38F1123C4F4;
-	Fri, 23 May 2025 09:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=cairnwater.com header.i=@cairnwater.com header.b="WXC023Yi"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EF5D2288EE;
+	Fri, 23 May 2025 09:58:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from euk33.eukhosting.net (euk33.eukhosting.net [213.175.196.64])
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664E2228CA3
-	for <linux-media@vger.kernel.org>; Fri, 23 May 2025 09:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.175.196.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B26238179;
+	Fri, 23 May 2025 09:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747994386; cv=none; b=K7EqoOgg66bDEr/v0inlRNuh1EmYaY+PqAy+SezvDZJu6/eD7lJ4VO/hCC3MLA0axqWrMOM9/mndc4nEk1QDm0GzpnwXpREqW6Fcn++alXzGRhiqLd0FOqvAPp9PYziURPMWDkfS/cYz4B87k7cY4bhebFI1Ie/z5sGV4Zex1Tg=
+	t=1747994308; cv=none; b=Y180Nsx5vBWY+Zvpmo6f20aFUskP4s7KHvTt1C2SVNYn3qssdEUCgSFdLwD56h69LTQfrcvtWIJ89XEzhx0UMtuRHkKUJE05IVVBHuyUzRdb+z6K5esAKIMmNsFB/tqhAIPhDboWcXa1JfLZKjsGdxm8WGWay7/B0lOrQKAmI9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747994386; c=relaxed/simple;
-	bh=CtTdU3mdhgphWtQI95b25v5M4/TOxNoVp/C/BAaTGyk=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=uvwkOsz5wbtxLPNGeb9zIHE0EsS3gE21dK4qS1kuipvqgRg60JoMWAu9HpwcgqDzghVNMSyHV9qq4Dz3wuOYjhEn74B8Q/kFyXopJIKtpQZ0j0xyPbnS46jeLfopKmmkmNs2zEbxIFduSzBk0oDTeqWzcu+PWFLZo1rRCRCTGb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cairnwater.com; spf=pass smtp.mailfrom=cairnwater.com; dkim=pass (2048-bit key) header.d=cairnwater.com header.i=@cairnwater.com header.b=WXC023Yi; arc=none smtp.client-ip=213.175.196.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cairnwater.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cairnwater.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=cairnwater.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VisDispum4PmX8Z0hmErUoCE/VW/CMOuctQqhpQq6rw=; b=WXC023Yi9P7aGFNKdGEhD5i870
-	QV74oC8OzPFCkWtbWyipjKpljRxsEYyqlbeSCtIMMsmNPK9N1nA6/1oW/sKcUV0BnjV2Co1RoXM21
-	vTXO7Mzg5I2FqOieIl+8F7c4wxSOxdDUpc1HVlWY7WotcOT+51JdER9Hj8X6Pe7TIZWpaYJ0x4YbF
-	/ezJaK74t5YeSoExYot3IaQBa/cT+eks5FrAp5WAd0VgTCME51r62jz2Yn0hM3uDGOwwJ4Ke1Mw1Q
-	dtqBovJ4UIM1vQY32TiuYvdHMMecO5I+GNPTrHpjQql4CggvnRp95sDYuKx5OqWtrJy937wn25dRG
-	rrFU2k1A==;
-Received: from [::1] (port=52376 helo=euk33.eukhosting.net)
-	by euk33.eukhosting.net with esmtpa (Exim 4.98.1)
-	(envelope-from <w.robertson@cairnwater.com>)
-	id 1uIOqr-00000002uAF-0uKQ;
-	Fri, 23 May 2025 10:38:05 +0100
+	s=arc-20240116; t=1747994308; c=relaxed/simple;
+	bh=08fg3jpSPJOEN6w8dbd543RIPo/ty5tra/UHgFDBq9g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=jvILEnWifyAcoRu0TyJP3NRQwedSTYzDjG0P2jVCY6LS1KJREjE97pJ3NRAgksd1BydX/SGHbtZne/wkxOKiexclqi13yEFeALdMDdUYXswlgxaeUVjcfeiIDsC8B7rFhx8L9HnCWb5yJiUkUZ69KEAsg/NPXv/clQqXNEWjW4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+	by ni.piap.pl (Postfix) with ESMTPS id 9A651C405A4C;
+	Fri, 23 May 2025 11:58:23 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 9A651C405A4C
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,  Rui Miguel Silva
+ <rmfrfs@gmail.com>,  Martin Kepplinger <martink@posteo.de>,  Purism Kernel
+ Team <kernel@puri.sm>,  Mauro Carvalho Chehab <mchehab@kernel.org>,  Shawn
+ Guo <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
+  Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
+ <festevam@gmail.com>,  linux-media@vger.kernel.org,  imx@lists.linux.dev,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Enable MIPI filtering by DT on i.MX8M*
+In-Reply-To: <m31psg97dy.fsf@t19.piap.pl> ("Krzysztof =?utf-8?Q?Ha=C5=82as?=
+ =?utf-8?Q?a=22's?= message of
+	"Thu, 22 May 2025 14:06:49 +0200")
+References: <m3h61u9jy2.fsf@t19.piap.pl>
+	<20250509103733.GE28896@pendragon.ideasonboard.com>
+	<m3o6vn8np5.fsf@t19.piap.pl>
+	<iegnn5xoosqpk52hvipcr73aliwhqtsq6r6ctvt5756bhy6yen@rqcdongb7fdf>
+	<m31psg97dy.fsf@t19.piap.pl>
+Sender: khalasa@piap.pl
+Date: Fri, 23 May 2025 11:58:23 +0200
+Message-ID: <m3plfz7io0.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 23 May 2025 10:38:03 +0100
-From: w.robertson@cairnwater.com
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Alain Volmat <alain.volmat@foss.st.com>, Andrej Gardijan
- <andrej.gardijan@tuta.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- David Plowman <david.plowman@raspberrypi.com>, Devarsh Thakkar
- <devarsht@ti.com>, Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi
- <jacopo.mondi@ideasonboard.com>, Jerry Wu <jerry.w.hu@intel.com>,
- =?UTF-8?Q?Jesper_Taxb=C3=B8l?= <jesper@taxboel.dk>, Josuah Demangeon
- <me@josuah.net>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mattijs
- Korpershoek <mkorpershoek@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Naush Patuck <naush@raspberrypi.com>, Nicolas
- Dufresne <nicolas@ndufresne.ca>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund@ragnatech.se>, Ricardo Ribalda
- <ricardo.ribalda@gmail.com>, Sakari Ailus <sakari.ailus@iki.fi>, Stefan Klug
- <stefan.klug@ideasonboard.com>, libcamera-devel@lists.libcamera.org,
- linux-media@vger.kernel.org, Urs Fassler <urs.fassler@iqilio.ch>
-Subject: libcamera workshop 2025 - WildCamera
-In-Reply-To: <20250516070137.GA20271@pendragon.ideasonboard.com>
-References: <20250512154445.GA4523@pendragon.ideasonboard.com>
- <20250516070137.GA20271@pendragon.ideasonboard.com>
-User-Agent: Roundcube Webmail/1.6.9
-Message-ID: <4b162dd50b40acdfd2c26bb7b9ff2d75@cairnwater.com>
-X-Sender: w.robertson@cairnwater.com
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - euk33.eukhosting.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - cairnwater.com
-X-Get-Message-Sender-Via: euk33.eukhosting.net: authenticated_id: w.robertson@cairnwater.com
-X-Authenticated-Sender: euk33.eukhosting.net: w.robertson@cairnwater.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello everyone,
+I wrote:
 
-It was great to join you all at the libcamera workshop and to learn more 
-about the internal architecture of libcamera!
+> This produces (test_pattern=3D5 which starts with black, using ISP):
+> Y =3D  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00...
+> UV =3D 80 80 80 80  80 80 80 80  80 80 80 80  80 80 80 80...
+>
+> Now I do (perhaps I should revert the patch instead):
+> ./devmem write32 0x32E50004 0x14305
+>
+> and this does (=3D without DT filtering):
+> Y =3D  E6 FF 36 1B  00 00 00 00  00 00 00 00  00 00 00 00...
+> UV =3D 85 6A 74 B4  7D 8C 80 80  80 80 80 80  80 80 80 80...
 
-If folk have any questions or suggestions about WildCamera please let me 
-know - I'd be very happy to hear comments, ideas and suggestions for 
-improvements by email or voice or video call.
+The corruption is visible in ISP RAW-12 mode as well: CSI2 + ISP2 without
+DT filtering: IMX462 test patterns, Linux v6.14, 1280x720p25.
 
-I'm often in the tree crowns chainsaw carving nest holes and setting up 
-field studies but the mobile signal is fairly good and I'm always happy 
-to hear people's ideas and suggestions.
+Only 3 first 16-bit (12-bit on MIPI) RGGB values in each frame are
+changed (bits 3-0 of the third pixel aren't changed).
 
-Thank you all again for everything!
+32EC0060h          0 Gasket 0 output disabled
+32EC0090h          0 Gasket 1 output disabled
+32EC0138h    2D8000h ISP Dewarp Control Register (ISP_DEWARP_CONTROL)
+      ISP ID mode 0, ISP1: DT 0, ISP2: DT 2Ch (RAW12) left-just mode
 
-Have a great weekend!
+32E50040h        B0h ISP Configuration Register (MIPI_CSIS_ISPCONFIG_CH0)
+      DT 2Ch (RAW12)
 
-Will
+pattern 1:   0 800   0 2AB changed into 2AA B02 B00 2AB
+pattern 2 and 3: FFF FFF FFF FFF... not altered at all
+pattern 4: 501 501 4C2 4C2 changed into FFF 7FF 7F2 4C2
+pattern 5:   0   0   0   0 changed into 7EF FF7 FF0   0
+pattern 6:   0   1   0 101 changed into FFF FFF FF0 101
+pattern 7:   0 2AB   0 2AB changed into BAA BAB BA0 2AB
 
-On 2025-05-16 08:01, Laurent Pinchart wrote:
-> Hello everybody,
-> 
-> Here's a link to the etherpad we will use to take notes today.
-> 
-> https://pad.systemli.org/p/libcamera-workshop-nice-2025
-> 
-> On Mon, May 12, 2025 at 05:44:45PM +0200, Laurent Pinchart wrote:
->> Hello everybody,
->> 
->> I'm looking forward to seeing you all on Friday the 16th of May for 
->> the
->> libcamera workshop. Here is the first agenda draft, along with 
->> logistic
->> information for on-site and remote attendees.
->> 
->> As all workshop agendas, this is tentative and we will adjust the 
->> exact
->> timing depending on how the discussions progress.
->> 
->> 09:00 - 09:10  Welcome and agenda bashing
->> 09:10 - 09:40  Software ISP status and future plans (Hans de Goede)
->> 09:40 - 10:00  Slowing down the soft ISP CPU implementation (Laurent 
->> Pinchart)
->> 10:00 - 10:30  Using a single IPA with multiple pipeline handlers 
->> (Hans de Goede)
->> 10:30 - 11:00  Break
->> 11:00 - 11:45  Bayer reprocessing (David Plowman)
->> 11:45 - 12:30  Startup frames (David Plowman)
->> 12:30 - 13:30  Lunch
->> 13:30 - 14:00  State of gstreamer support (Nicolas Dufresne)
->> 14:00 - 14:30  Multi-context support (Nicolas Dufresne)
->> 14:30 - 15:30  Per frame control (David Plowman)
->> 15:30 - 16:00  Break
->> 16:00 - 16:45  libcamera on Zephyr (Josuah Demangeon)
->> 16:45 - 17:15  The importance of libcamera to WildCamera
->> 17:15 - 17:45  TBD
->> 
->> Each agenda item is listed with the name of the person who proposed 
->> it.
->> We expect those persons to introduce the topic (orally or with slides,
->> at your discretion) and drive the discussion.
->> 
->> We will use Jitsi Meet for remote access. The event will be accessible
->> at https://meet.jit.si/libcamera-workshop-nice-2025. We can however
->> not guarantee the quality of the network connection on site.
->> 
->> All times are in the CEST (UTC+2) time zone. If you plan to attend
->> remotely and are located in a time zone that makes the agenda items 
->> you
->> are most interested in occur at an inconvenient time, please let me 
->> know
->> and we will try to reorder the discussion topics.
->> 
->> Discussions will not be recorded, but the minutes of the workshop will
->> be posted to the mailing list after the event.
->> 
->> The workshop will be hosted by Embedded Recipes as part of their
->> workshop day (https://embedded-recipes.org/2025/workshops/) and will 
->> be
->> located at the Sheraton Nice Airport 
->> (https://www.openstreetmap.org/way/1084319591)
->> a few minutes away from the Embedded Recipes location. For more
->> information refer to 
->> https://embedded-recipes.org/2025/attend/#getting-there-block.
->> 
->> Lunch is included and complimentary for attendees. We will go off-site
->> to Fragrance Culinaire - Arénas 
->> (https://maps.app.goo.gl/cKuspzV8PSKeWuqD9).
->> The restaurant offers salads and sandwiches and can cater for 
->> vegetarian
->> diets. If you have a more restrictive diet, please let me know.
+RAW-12 on MIPI goes like this:
+ lane0    lane1   lane2 7:4   lane2 3:0   lane3
+----------- MIPI Header (all 4 lanes) ----------
+P1-11:4  P2-11:4    P1-3:0      P2-3:0   P3-11:4
+P4-11:4  ...
+
+This means all the changed values are located in the first 4 bytes after
+the packet header (i.e., in the first byte after the header for each
+lane). Which IMHO smells like a hardware bug - especially given the
+problem manifests itself only on CSI2 (+ISP2, I haven't tried using
+ISI).
+
+Fortunately enabling DT filtering fixes it.
+
+I remember I was getting a bit different results on, I believe, the
+NXP's 5.15 kernels (with their =3D Verisilicon VVCam driver). Instead of
+simply changing the first 32 bits of the MIPI payload, the rest of the
+RGGB data was shifted a couple of pixels or so.
+
+
+Now, what do we do with it?
+Is anybody able to verify the CSIC version register value on i.MX8MM?
+Something like devmem read32 0x32E50000 (or 0x32E40000 for CSI1) WHILE
+RUNNING CAPTURE on that very CSI would do the trick (using your
+favorite instance of devmem/devmem2/etc). Alternatively one could add
+a debug printk to the csic module.
+
+And: is anybody able to check if the DT filtering works on i.MX8MM
+(=3D if my patch doesn't break it on 8MM)?
+
+Alternatively I guess we can add MIPI_CSIS_V3_6_3_1 for 8MP only.
+
+Anybody using i.MX8MM with ISP2 + CSI2 BTW? Is the corruption there as
+well? I understand it may be hard to spot, it's (usually a bright) dot
+in the left top corner.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
 
