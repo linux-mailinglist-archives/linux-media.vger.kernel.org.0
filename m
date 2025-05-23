@@ -1,168 +1,188 @@
-Return-Path: <linux-media+bounces-33231-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33232-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77D3AC1DDC
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 09:45:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F20AC1E2C
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 10:03:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D432A24DB4
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 07:44:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 959327BBA51
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 08:01:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C7B3227EA0;
-	Fri, 23 May 2025 07:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB0C6284B5A;
+	Fri, 23 May 2025 08:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IoVrpkCx"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gHdPFiDD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279E92080C8
-	for <linux-media@vger.kernel.org>; Fri, 23 May 2025 07:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70998198E9B
+	for <linux-media@vger.kernel.org>; Fri, 23 May 2025 08:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747986296; cv=none; b=qIXf9o6ANVVdqoHg9UMg5xab+sB8naGkqvA0NFc04aDW/JLHkj2wn6flB+N7CVMVjXlbXT8HQMzIvNjwjSgdIegf4/CDCJDNA53zG6vWpfVsLqKDOT/gJHgN+kv6GZ/9cXgUWd7vqLn6zL1iuu2nwBEs8F2MiKvylIHSVMt0iJ0=
+	t=1747987390; cv=none; b=XyEV/1pJLu10eXzuEYjJY1iw5RXlbzeHBzIOol12ClkkoS74zMXDvwkMAQEXC4HVFTuPIjwqUzLO+vtLI0D622vlnpJDPqsW39PJllCZx/FRxNooxbigr8faYucAUKzBqIDV34VTe3ixo74t1JW6MiTAUq6g58WzyH4J5r7daMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747986296; c=relaxed/simple;
-	bh=iEq39/wjtR3s0C+z3oPs0UaJ/LJdHtfnxUOR4aef97I=;
+	s=arc-20240116; t=1747987390; c=relaxed/simple;
+	bh=Z9wdvBlSi3BObVddybjKovmq3bYiwy0P8Il9XeqD+jA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q9WKVZGIx9k58JQzotmGcgd2GWelYuy1CvFC0Y7o2GS2T0cdbv3eQc2w6GpwrkW/9DnNIKERp2aiJu+OQmQJIR1QrPZ7JFFVuxK2qtKhs8j5Exp7ywG2/AkV7p3IFptbhvRXXFbCLwDr+BeUn4uesShfUJD/mIsqs5kp66m1+2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IoVrpkCx; arc=none smtp.client-ip=209.85.167.41
+	 To:Cc:Content-Type; b=jpU70tCYVGWrvwQRji1FK6M4zu6zHrtxtcPGwJmGiQpKJ6nZJoHpZUsryjKPuZI7rH0gK7b8A39VO9KH7HmOx23/VT+4zO9nBG6wb+PnZiKEl7d2Q/bBBWK4CfK9kaSOmRtI9Ius+jmWCJBKlFknAosChih+ZhgirCfq4FeJA/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gHdPFiDD; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-551f00720deso5500660e87.0
-        for <linux-media@vger.kernel.org>; Fri, 23 May 2025 00:44:54 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-54998f865b8so9719122e87.3
+        for <linux-media@vger.kernel.org>; Fri, 23 May 2025 01:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1747986293; x=1748591093; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Iuc9W+ryC1YyeQDNKOCf6Uzg63zQlxEysMeSbkSkY1w=;
-        b=IoVrpkCx9Na6WdVnBBrRQSYBKUFHYDbIi/2L56wRvl5w+E3rWm0Y5gGp/ygOmSMNKd
-         qrFYoSzO4Mxrm0tO6e/rv811ohU5Y00NoclWrie4jMsK9PXJpk0ZIRirrF7QShTavtxk
-         vj9yfW6HGRS4uk75Ck1GugTFjREvMSCjxKYZs=
+        d=chromium.org; s=google; t=1747987386; x=1748592186; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h/6sGKaUm1itIb8350SqqYclw+MJpBJzbhFCfRRStfo=;
+        b=gHdPFiDD+v1tjJn07UfxPOwGFqvzVeqmxhCVaScSCurfBZS0PHMo5DDsDTKt8JV92b
+         is5GRgVw+ChR9x3mD6fW/+Ze8vxlm0yuj7CQgx7H7UPthZDV9U3I0ZWmHqZD8TzSd8Dc
+         NEmXv1hkT5uuQqmdO4ichGhaGB/iD2z/62mTg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747986293; x=1748591093;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Iuc9W+ryC1YyeQDNKOCf6Uzg63zQlxEysMeSbkSkY1w=;
-        b=Xy6UcNrejQDmynPFddaGp5TPmNhCPoWvK+1/+I9QELBx0D1v7Wc+eZ/rW28L6nhwBm
-         lMPSnKwP1aKmLWAH8BisZ6Ajv/PMegtBQL9OJlsKvTKAa1NzKoGqI1QoKbfi14WWylS+
-         Wi0Ob6N+u69FzSpuFrAR5Mzd3KWq+C1f2+kV8glmIr/WvrpOp4lGvh3D+m+aXt/Ex7Io
-         HSCQHFJfw65ODioj1OzTu6kO1iKRqRYO/0MSelCklYia2AzGHZV46pyZWS/l+WP1cjLY
-         cyedui7xQQd2CIPpXNI/t4K7xTHfAmdzj7+R5vck5V9AiC5kzvL5aQ4MI6N7+3uNFH7X
-         JqcA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEoS2qbZyzDBNFbMYXdt7uhiw1rXHsGJuDg8cK7pb2GiMO9dpjzR1oSjcwb1QDmKgFPCbLAYA7aTXyng==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl23W3203czd9WXKOY8c2fTP/O6Egi7dQwEKFjtMyimpD2LhDd
-	1q3KFO5OYhzPxjuhfhMTkddF7wgQkB7IanO6VrHA56i4RAjR7iOinOGTKJPiFdet5PS/PJ1Ar9s
-	pYOc9nw==
-X-Gm-Gg: ASbGncs2LeKUh8X1zXMP+xpaSO432M2SQ6nsjUQT5UaO2++Lv0LBEkh1//CxDA4simW
-	LhTqb4K4uB1TJW4ZuJbiQAgX1xsrdZZji8GDrpy24ROz3FUNfM1zFxsKK1/U5/ZgXl8gogSgW66
-	pQq5Zx3b2kS9rKhkraWpnV0IW/Zem1si7ILOpBlcHQBOSUqmulZu13qXSom3+a86n6tBhOlHDkV
-	AhsaZhCY5JaO1C+bfbMTBs4a3cW9inEA1qLYpICcKh9m8+91FBhnbefMH/CFfZh7I9uK45C4Ibw
-	qnZB3yB3yqDYX1aNyI5ZC9a34ck21crDanPblXepGL5IQ6b0ugb4CqRd+7IcmEdIlknVMNd7TxW
-	kIsbM8FPPwENI0itT/g==
-X-Google-Smtp-Source: AGHT+IFe1XUSUxZNfaQfVavRTV9dEYOT5Qz5JjaB45ozipzg/D4kcd6dTXpQDskUn9HqcuQN1V3c3g==
-X-Received: by 2002:a05:651c:146b:b0:310:856b:6875 with SMTP id 38308e7fff4ca-328096d3b9bmr93643641fa.14.1747986293109;
-        Fri, 23 May 2025 00:44:53 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-328084c8c91sm36229641fa.25.2025.05.23.00.44.51
+        d=1e100.net; s=20230601; t=1747987386; x=1748592186;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h/6sGKaUm1itIb8350SqqYclw+MJpBJzbhFCfRRStfo=;
+        b=I7hu7S5/qgLujURBApUY6KouWGEAOO89/3ETzByeeFlzNxP/x0bZbi9TN15DLHJbn9
+         jQS0JxNj3PBaNADziTswKxAbbpbwO9a8ce4gBwOC2vM8vRSHEqA78lE/MvREVzf085Dg
+         VZ+K5UlecinT/v5gtoPPjuMpHqQaBafr2p4CWFdhLwP26WM9apFEIga22yYoLeQb2yDi
+         OWBU4zeWyDWVWmdqPJQkbvxq431Mhw4ulYtWx/CqTH7aCEGgflMHlCY/WKvW0FQuBxEF
+         kObToBhBGmDPnivDo74zCaha9yYKeYfbQQzTtDH3wwDXC1ndNWK5W6nNvA3O+OecyG6M
+         2UJQ==
+X-Gm-Message-State: AOJu0YzVuZuFCMAjvIsaYXwc3nDjjAK4lPZyU8nvhFC2TZRHMHkA+bCz
+	kdrpYk6jwu6kTGU6P0aL8k8vPofDXWm7H9Q3B1ZMmyMwQQs1r1JZvuYw7IdGn7s/Mw6x0kVAeXj
+	SPRW/ag==
+X-Gm-Gg: ASbGncsMPx2CO2JF/o8LstL9LDQQWG1h2tan+wT+PbFzWceKslFRsjzChqFEaxf1epa
+	2IzjRf+vbxzliOlnFsONTJ0+dyn5Nr6P0lqKAnJl+olpfk/TAZmJOkHhDYHg9I8/OWz1y35kLR4
+	utpGD0VBtWocNH4Llxq5s2lF09Dil+ve/+GPet4QBxpIlF2QcVYI7GwfEbnajequxOoo8x3TSIi
+	rVCYgJGL7kcBA4eiFPqhR658HehEqlTqhE4dZMcxlz/SYX80ove9tImISy5CyOx37xA1Ou4l4hi
+	ZC7STPK0WPxjlDstlzG++nxiANfrqIylmW1SYEJpsEUAnYsCJ3eTsgNm/I70/jN7n5x5TptMq2L
+	D2RxBWJapJHsrxA==
+X-Google-Smtp-Source: AGHT+IHBgE84VHfZ6xRNVqsCsOv7dVTGV158QnfUlDZouQL5v7FaMwf8ts752AclgzYuQZkFrhNReg==
+X-Received: by 2002:a05:6512:630e:b0:54f:c233:9969 with SMTP id 2adb3069b0e04-550e719791dmr6851513e87.2.1747987386209;
+        Fri, 23 May 2025 01:03:06 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e6f163edsm3735018e87.52.2025.05.23.01.03.05
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 May 2025 00:44:51 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-327fcd87a3cso73867291fa.0
-        for <linux-media@vger.kernel.org>; Fri, 23 May 2025 00:44:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXDu97dae9Fzd9q8ScRyndHKXWURa3Av6PztJu6C1c1VA+ACXqk3EP8erZDHx4qaNjCI8G7AHDP1sSQcA==@vger.kernel.org
-X-Received: by 2002:a05:651c:31cf:b0:30b:ba06:b6f9 with SMTP id
- 38308e7fff4ca-3280978063fmr81120791fa.26.1747986291131; Fri, 23 May 2025
- 00:44:51 -0700 (PDT)
+        Fri, 23 May 2025 01:03:05 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54998f865b8so9719106e87.3
+        for <linux-media@vger.kernel.org>; Fri, 23 May 2025 01:03:05 -0700 (PDT)
+X-Received: by 2002:a05:6512:3e04:b0:550:d5cb:3490 with SMTP id
+ 2adb3069b0e04-550e7245369mr10690126e87.43.1747987385237; Fri, 23 May 2025
+ 01:03:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250522-uvc-fop-v1-0-3bfe7a00f31d@chromium.org>
- <20250522-uvc-fop-v1-1-3bfe7a00f31d@chromium.org> <20250522214002.GY12514@pendragon.ideasonboard.com>
-In-Reply-To: <20250522214002.GY12514@pendragon.ideasonboard.com>
+References: <CAB=g0fRy-JFPqCGa+06Asop7mev+1Kx35gdyA7X=gtujOndgUw@mail.gmail.com>
+ <CANiDSCvbyx2=Vwso7pPNs_0-pvXaK+q2-hdTZnDqrzazMcQuHw@mail.gmail.com> <CAB=g0fSq5BB_zvyQvZtPuFZ4iuTqyAQqPVpMHYHm6N7Exfthng@mail.gmail.com>
+In-Reply-To: <CAB=g0fSq5BB_zvyQvZtPuFZ4iuTqyAQqPVpMHYHm6N7Exfthng@mail.gmail.com>
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 23 May 2025 09:44:38 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvesD5QzVuAAG6ofZ3NT0z9yVkycS3VSnxeGTqK4UP18Q@mail.gmail.com>
-X-Gm-Features: AX0GCFvNrvNAQBnuQSv3by2k1BtXIm9DTlqmbPAmI-OeK7Jiu_yB7sYrt-v0HME
-Message-ID: <CANiDSCvesD5QzVuAAG6ofZ3NT0z9yVkycS3VSnxeGTqK4UP18Q@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: uvcvideo: Refactor uvc_queue_streamon
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hans@jjverkuil.nl>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Fri, 23 May 2025 10:02:53 +0200
+X-Gmail-Original-Message-ID: <CANiDSCtzzNGDmKsL-YPQbycxQqGDnJkh-ojrEJJYWkXRC9fqsA@mail.gmail.com>
+X-Gm-Features: AX0GCFtww-lsC1SLXlsInl_X905vaNsPW49POsngakdvSi9373zSEsGvXsEe3eM
+Message-ID: <CANiDSCtzzNGDmKsL-YPQbycxQqGDnJkh-ojrEJJYWkXRC9fqsA@mail.gmail.com>
+Subject: Re: 0bda:5558 on ubuntu 22.04
+To: Raul Negreiros <raulnegreiros@gmail.com>
+Cc: linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent
+Hi Raul
 
-Thanks for your review
+The last log shows some USB errors:
 
-On Thu, 22 May 2025 at 23:40, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+[  330.820439] usb 3-6: reset high-speed USB device number 6 using xhci_hcd
+[  330.936287] usb 3-6: device descriptor read/64, error -71
+[  331.156204] usb 3-6: device descriptor read/64, error -71
+[  331.381190] usb 3-6: reset high-speed USB device number 6 using xhci_hcd
+[  331.495288] usb 3-6: Device not responding to setup address.
+[  331.697115] usb 3-6: Device not responding to setup address.
+[  331.905070] usb 3-6: device not accepting address 6, error -71
+[  332.020090] usb 3-6: reset high-speed USB device number 6 using xhci_hcd
+[  332.020262] usb 3-6: Device not responding to setup address.
+[  332.225143] usb 3-6: Device not responding to setup address.
+[  332.433009] usb 3-6: device not accepting address 6, error -71
+[  332.546898] usb 3-6: reset high-speed USB device number 6 using xhci_hcd
+[  332.559654] usb 3-6: device descriptor read/all, error -71
+[  332.559949] usb 3-6: USB disconnect, device number 6
+[  332.673926] usb 3-6: new high-speed USB device number 7 using xhci_hcd
+[  332.789028] usb 3-6: device descriptor read/64, error -71
+[  333.010874] usb 3-6: device descriptor read/64, error -71
+[  333.226659] usb 3-6: new high-speed USB device number 8 using xhci_hcd
+[  333.349364] usb 3-6: Device not responding to setup address.
+[  333.555557] usb 3-6: Device not responding to setup address.
+[  333.760631] usb 3-6: device not accepting address 8, error -71
+[  333.760695] usb usb3-port6: attempt power cycle
+[  334.148438] usb 3-6: new high-speed USB device number 9 using xhci_hcd
+[  334.148522] usb 3-6: Device not responding to setup address.
+[  334.352458] usb 3-6: Device not responding to setup address.
+[  334.560417] usb 3-6: device not accepting address 9, error -71
+[  334.674310] usb 3-6: new high-speed USB device number 10 using xhci_hcd
+[  334.688683] usb 3-6: unable to get BOS descriptor set
+[  334.689345] usb 3-6: unable to read config index 0 descriptor/start: -71
+[  334.689350] usb 3-6: can't read configurations, error -71
+[  334.689461] usb usb3-port6: unable to enumerate USB device
+
+
+Could it be that your camera firmware is somehow corrupted?
+
+Try checking if your camera is supported by fwupd, or if the notebook
+vendor has an "updater" tool for your camera.
+
+
+Regards!
+
+On Wed, 14 May 2025 at 01:43, Raul Negreiros <raulnegreiros@gmail.com> wrot=
+e:
 >
-> Hi Ricardo,
+> Thank you for the fast reply, unfortunately, it does not help.
+> Are there some logs that I can collect to help?
 >
-> Thank you for the patch.
->
-> On Thu, May 22, 2025 at 05:58:46PM +0000, Ricardo Ribalda wrote:
-> > Do uvc_pm_get before we call uvc_queue_streamon. Although the current
-> > code is correct, uvc_ioctl_streamon is allways called after uvc_pm_get,
-> > this change makes the code more resiliant to future changes.
-> >
-> > Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Unless you say otherwise I will copy this Review-by to the original
-series where this patch belongs to.
-https://patchwork.linuxtv.org/project/linux-media/list/?series=15227
-
-Thanks!
-
-
->
-> > ---
-> >  drivers/media/usb/uvc/uvc_v4l2.c | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > index 668a4e9d772c6d91f045ca75e2744b3a6c69da6b..862b4e34e5b629cf324479a9bb59ebe8784ccd5d 100644
-> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > @@ -853,15 +853,16 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
-> >       if (handle->is_streaming)
-> >               return 0;
-> >
-> > -     ret = uvc_queue_streamon(&stream->queue, type);
-> > +     ret = uvc_pm_get(stream->dev);
-> >       if (ret)
-> >               return ret;
-> >
-> > -     ret = uvc_pm_get(stream->dev);
-> > +     ret = uvc_queue_streamon(&stream->queue, type);
-> >       if (ret) {
-> > -             uvc_queue_streamoff(&stream->queue, type);
-> > +             uvc_pm_put(stream->dev);
-> >               return ret;
-> >       }
-> > +
-> >       handle->is_streaming = true;
-> >
-> >       return 0;
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> On Tue, May 13, 2025 at 7:47=E2=80=AFPM Ricardo Ribalda <ribalda@chromium=
+.org> wrote:
+>>
+>> Hi Raul
+>>
+>> Thanks for the report
+>>
+>>
+>> Could you try setting quirks to 16?
+>>
+>> rmmod uvcvideo; modprobe uvcvideo quirks=3D16
+>>
+>> Regards
+>>
+>> On Tue, 13 May 2025 at 02:24, Raul Negreiros <raulnegreiros@gmail.com> w=
+rote:
+>> >
+>> > Hello,
+>> >
+>> > The camera 0bda:5558 is not working on Ubuntu 22.04
+>> >
+>> > Linux 18343-nb 6.8.0-59-generic #61~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC=
+ Tue Apr 15 17:03:15 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+>> >
+>> > Please let me know if I can provide more information. During the tests=
+, I tried to open Cheese and Google Meet.
+>> >
+>> > Best regards
+>>
+>>
+>>
+>> --
+>> Ricardo Ribalda
 
 
 
--- 
+--=20
 Ricardo Ribalda
 
