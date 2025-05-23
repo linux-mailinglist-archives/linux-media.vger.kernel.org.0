@@ -1,174 +1,139 @@
-Return-Path: <linux-media+bounces-33224-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33225-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B083AC1BC6
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 07:21:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D977CAC1CB4
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 07:58:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C2A04E3C4F
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 05:21:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D27A21BC4EF8
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 05:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 263BD22541F;
-	Fri, 23 May 2025 05:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A02C225A32;
+	Fri, 23 May 2025 05:58:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZxRZPTP3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L09WXxAe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82F22DCBE6
-	for <linux-media@vger.kernel.org>; Fri, 23 May 2025 05:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8F6204C0F;
+	Fri, 23 May 2025 05:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747977701; cv=none; b=N+D/DhSDdhzxQ528oNH+zrjKVL6z0JfTxV8wkwkZzqPHb9JDTEj8MJfFOnHoSLJBq7qyHkh7MFk0Z54T6dRKdoOxa1ovoveReik5FrncGfhGR1pNejqKuNCCClBPB5g6EUBhowNTqMbuycCdNCB9DzLZDGw4Q43OCfgPD8nNNws=
+	t=1747979916; cv=none; b=hFOFwvI0+7dAqGeOtxCq49+38lbKpCEFqVlwYoOgAVsgT6sh+2ucupfKsUqvFJRdVrUmo6YJt2Oj2jURrhYoMkofv75zgzA97qdZEPNPeJkLZscYpDg/OD+J51ttgmll7NpYqa88DtZeil/phiIS/ddcoF618gex69zcUy9hzug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747977701; c=relaxed/simple;
-	bh=1XaKlxFq3LcO0C0H1z1jUvbx3gvMbLvHbJSSMxMwTjU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k8uWmnGKYeQBaJfwkxvE+kUT4xxy57y5/Q7tbeAbLFoKPxoDgpDDfeVO2jQUvttuEim1M1mm/4DhbQckl5DB4gozbSGQsXqkf34T7TgyLkGlWjvyivxlrPtg+ludcGVx+/8JtEC+knTmai5RZmXMH793JSUjoODl/MpgXJJbAs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZxRZPTP3; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-acbb85ce788so1709980566b.3
-        for <linux-media@vger.kernel.org>; Thu, 22 May 2025 22:21:39 -0700 (PDT)
+	s=arc-20240116; t=1747979916; c=relaxed/simple;
+	bh=owZ/lU8dtupeRTF15mnxjml4CvEQKy8zwKtEkgHkWn4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NH9kMgmmDvUPyeA0Fq5lk0CfAkDtytxqtT9dg6gBo28M3x9PrrWY1+xIocNsSeKvuv3FEWj07GwA+4ss0+ELC7XzTKqY+BxQE4exoZhmIBJw4/EnDFIP+FtOcH6UZxCVdDVXZEki0FOiPwK4/W722ThsGLQGTvj9WSi8MjGFN2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L09WXxAe; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b26f5cd984cso6566843a12.3;
+        Thu, 22 May 2025 22:58:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1747977698; x=1748582498; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FQeCqANX1ggEdGfmr4oIV52QyNc90KVYuZrjHaO5Wxg=;
-        b=ZxRZPTP3Pf2cSQys2ZAqSKfkR0rEvwQp1jIhy/3ZPu6lsy7VrjKdlaDCEWM4XqgFqm
-         yJ/I8SQy6RlofoGc5RicbNtUZK+6SOuUMRQ9Zm/qZctgZItr/NKh0AK/evTn3orogenP
-         Z0If6mUfgXwjWYsX20RcHq7HTGvrkT/KDNVsU=
+        d=gmail.com; s=20230601; t=1747979914; x=1748584714; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2yC9lrfG1PxVLBogrteX7LxyUkKTOJwJKIR9j9soKH4=;
+        b=L09WXxAelekOeOZmJU3KEAUMMa+dqDZ7E91l8WZ06pErCMNgPTtPRTdP5JVhVQG8dj
+         +tAqGaGmYYlHZwmtRKxtrEX89jT4Ic5tO0DMAaUJLsTyQMq+7iHY/GqEAajTUbuqTtPp
+         hgoY+XjCu3YJyuGUxsAqg/FPx4lXG5jXxLuJcGJ00b6w2aRbf3YHq4QkKOZcTsBrSiTc
+         kRiEFu0TzHzYoRudEzXLIbSauQpea8sfHdDuvRkmn0ly4DcWPjFQTCL4JZXoAGAJfoJq
+         C7reCcc+4TvDFgptuA0ZbeU+rpSC0mybV5IMgyGJSqJ0ezNU7r55zHpmL7+5sGY3rC09
+         VrXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747977698; x=1748582498;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FQeCqANX1ggEdGfmr4oIV52QyNc90KVYuZrjHaO5Wxg=;
-        b=UT5R6pj+0WP+6aDOit3TAOBySLJfMdrAFh47EVTwRmh6bh9hheP5PegJJ0Qv0b9WwF
-         6/xMFzo1nekKie6lagVLE9naxdrozi+15FxbrjF3XTYdKDGS8pQClfMQjBq/a2zQvae9
-         xOX+7zOOuzTX81vLdv1a4E8mh/6KI2fTg7mSj8YXUfpnfFD8kmB5lTe/whb4lVYEc6JF
-         Ph2L0TdVze7mwbLMsEm5sx/9q9aE5g0GX5LWKWg0/DjuI9chOjKv90YT81p7lvOVtMZW
-         cpotmAWlWfq4MB502tpUeleVUU5lhKzzaCzxsX7UveT9OhiJMZfelTOSdVYWfmhC5oCs
-         mdKQ==
-X-Gm-Message-State: AOJu0YyYPhJUjlDdJmYlQkSwpcLlii70Uj+6JruVCskvvVkPse7ObMT9
-	KMyYHy3OYemfs7xMAWO6y0hL8sRXVq28ghSpULpJpTKN0azHNe4P9YQjmOC+4wfhM+qb4UDjlko
-	n9R8GNg==
-X-Gm-Gg: ASbGncszxlVj/tB3m7eaDUYYa3/3mWuziX9MzzIZ5yLP/8u8/qZpxkiqG8dLY3F8ZN2
-	Fq/oL86EEkhtDsCyC9MS0du/zawwLrZ+To7rK/P7mOg+MlKPQ6sAjLtVQP9M5/DyXZql4ENTtM6
-	OizNfUkezfpUYyGMVWeHX/C1GVTqvYxaOCiAU6UBLLD+3jN5olVR27y1iWPFGj05QOSM+8sWheo
-	FtK3O3iEEgOn0dH0FN0liBPD3niYwA/+mPJQRVxzIlDYkusOsH4yDYq4vU/WVMK94OVSmaV0Yy4
-	LGwXmMw43D9vafaerH29u4k+ysr9VHmu9wwPXKOVOKH9MHgoxIxN+ZfGOvlCe1jHe7N3NlFpuYa
-	pcfatf0gAtV3p6A==
-X-Google-Smtp-Source: AGHT+IEwLyMJ4Cc6tfS7GbMCfmGN1rcPlEMve/0HwMQdvJ1Bcu2UzttTPOxDm1dpQaH3tIXGpggqIg==
-X-Received: by 2002:a17:907:97ca:b0:ace:f2c2:5a4 with SMTP id a640c23a62f3a-ad52d49e2c7mr2542975866b.13.1747977697757;
-        Thu, 22 May 2025 22:21:37 -0700 (PDT)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d4cadc5sm1162184566b.167.2025.05.22.22.21.37
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 22:21:37 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ad1b94382b8so1588967066b.0
-        for <linux-media@vger.kernel.org>; Thu, 22 May 2025 22:21:37 -0700 (PDT)
-X-Received: by 2002:a05:6512:428b:b0:54f:c074:869a with SMTP id
- 2adb3069b0e04-550e72463admr7176236e87.45.1747977686106; Thu, 22 May 2025
- 22:21:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747979914; x=1748584714;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2yC9lrfG1PxVLBogrteX7LxyUkKTOJwJKIR9j9soKH4=;
+        b=t0v8yhwwIswlNeM+zgHxDlo7FjfIhA9Nk8bhyF+6MmH3O3MmyleQtNt1PmMbhlv4XN
+         zRo2s9OtiSSlKYZsF6fvpA20WjnIihh60DszLsNkXA2Dq9pwNpoDQyGKNxaIxA0PNlel
+         BJf/Yg4gUi9GDFeQAlHmIHJ8wCvEW1eGNjfAQm/x9AK0Z8rwERxfculQumr947+Bm5o0
+         dHWY4EVrurm+JXGN1tVk+mkBdNeTMfm+dYa+SZCFVFAyIkHM9Tdb9AYO2a0qSwjyzdiG
+         nUL/T0suVKOCoz1ww6QCOv09IFM4KeWXcZaoNyfBBnXV6ibFucJ9RF3FNhbHXcB8VMkB
+         CvQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVDxjXxf8oN3Semj7h0jJBRX0cYj4IaFg2S7TckL2HKbTlcfaSttGXuZE2eFMa/o1pDgcmBUHAdML8dTn4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaboCOJe5MdOq5BSZzv7vwvORKI8YzBnNKYGfx9RhAlWx0hu4J
+	SJB8rVsqslqclZ1vlwG4mYgbqV9zeRLl++epQYmLgNEORJj53mLGowyE
+X-Gm-Gg: ASbGnctsjIGSuNeL7yOJ141cBj1MqnJ2ihtIKjyHqb99j8NtKE4jAd8Y1dWqo0rgffW
+	9XoLjOlVJgHO0hROKU/Mi0S5bCVPh9FuS+COkxd0+vMC8FpBdeLbFN4ejZ3N68CmwH0fG4d7jAO
+	r/1xnPR6c/J5WxbiH0nSnPu3SrbZWZ5VGEV685JNKOKNHSNZRkHaH0vpebgsJqA1kDUqLyuCt09
+	AYu0ahc2jzSDEK4WTJqvdYDcEg0QVpisYU3dix3uV/d1ftxit9nNf9dlA5Lqy8qzUFxRTfPWaDY
+	+QC42tqSNhRCQMLWehiU/B0zb4/jbUrpqb1PmCTTMoVBtwmxUMs=
+X-Google-Smtp-Source: AGHT+IF64/8o+6vAg+hZspj9EWdeCaklWFEjqbqK4Y+/f1M+1By+5sa1g2OuLuYF++Vswc8mONqEyA==
+X-Received: by 2002:a17:902:e844:b0:224:1c41:a4bc with SMTP id d9443c01a7336-233f219a0d8mr26981835ad.12.1747979914443;
+        Thu, 22 May 2025 22:58:34 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4ac959esm117665315ad.33.2025.05.22.22.58.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 22:58:33 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 5474C42439C3; Fri, 23 May 2025 12:58:30 +0700 (WIB)
+Date: Fri, 23 May 2025 12:58:30 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Hanne-Lotta =?utf-8?B?TcOkZW5ww6TDpA==?= <hannelotta@gmail.com>,
+	mchehab@kernel.org, ribalda@chromium.org, hverkuil@xs4all.nl,
+	sebastian.fricke@collabora.com, hljunggr@cisco.com,
+	dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
+	Jonathan.Cameron@huawei.com, corbet@lwn.net,
+	ilpo.jarvinen@linux.intel.com, mario.limonciello@amd.com,
+	W_Armin@gmx.de, mpearson-lenovo@squebb.ca,
+	skhan@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2 1/4] docs: Improve grammar in Userspace API/DVB API
+Message-ID: <aDAOhl7gKhkcTEjk@archie.me>
+References: <20250522115255.137450-1-hannelotta@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOzCab90jOw9Euh84T301WOxh1R_TJse+AbNupYHR_1MF9vYLg@mail.gmail.com>
-In-Reply-To: <CAOzCab90jOw9Euh84T301WOxh1R_TJse+AbNupYHR_1MF9vYLg@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 23 May 2025 07:21:13 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuKHWCQbKZcFCWZ8hP2ZLNEYQYTL0w3S6sZFHp428A5PA@mail.gmail.com>
-X-Gm-Features: AX0GCFtPwRkvFFtnUoXLDiZXl1Y_oTTdkyEE3Fn0CvvFGXCaHAps71e5vjHIugY
-Message-ID: <CANiDSCuKHWCQbKZcFCWZ8hP2ZLNEYQYTL0w3S6sZFHp428A5PA@mail.gmail.com>
-Subject: Re: USB UVC webcam cannot capture
-To: Jerry Quinn <quinnj@gmail.com>
-Cc: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Jerry
-
-In your dmesg I am seeing some
-usb 3-11.3: USB disconnect, device number 17
-
-I am not sure if that is you removing the camera or the camera
-deciding to leave the party on its own.
-Have you tried connecting the camera to a different port? And using a
-powered usb hub?
-
-If that doesn't work:
-
-Could you try to increase the trace level to the max?:
-rmmod uvcvideo; modprobe uvcvideo trace=0xffffffff
-
-And enabling v4l2 debugging:
-echo 255 > /sys/class/video4linux/video0/dev_debug
-
-Then capture a frame with v4l2-ctl or cheese.
-
-and then share the dmesg output.
-
-Thanks!
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mw+femNPDBom7NIr"
+Content-Disposition: inline
+In-Reply-To: <20250522115255.137450-1-hannelotta@gmail.com>
 
 
-On Fri, 23 May 2025 at 01:57, Jerry Quinn <quinnj@gmail.com> wrote:
->
-> Hi folks,
-> I have a USB Sonix Technology L01 HD webcam that fails to capture
-> video.  I get a protocol error when trying to capture frames with the
-> current mainline kernel.
->
-> I'm running the following to try to debug it:
->
-> jlquinn@cerberus:~$ v4l2-ctl --device /dev/video0 --stream-mmap
-> --stream-to=frame.raw --stream-count=1
-> VIDIOC_STREAMON returned -1 (Protocol error)
->
-> I've created a bugzilla report for this issue:
-> https://bugzilla.kernel.org/show_bug.cgi?id=220148
->
-> This is the kernel build I used:
-> https://kernel.ubuntu.com/mainline/v6.15-rc7/amd64/
->
-> jlquinn@cerberus:~/sw/src/cod/mainline/v6.15-rc7$ cat /proc/version
-> Linux version 6.15.0-061500rc7-generic (kernel@balboa)
-> (x86_64-linux-gnu-gcc-14 (Ubuntu 14.2.0-23ubuntu1) 14.2.0, GNU ld (GNU
-> Binutils for Ubuntu) 2.44) #202505182143 SMP PREEMPT_DYNAMIC Sun May
-> 18 22:13:39 UTC 2025
->
-> jlquinn@cerberus:~/sw/src/cod/mainline/v6.15-rc7$ hostnamectl | grep
-> "Operating System"
-> Operating System: Ubuntu 24.04.2 LTS
->
->
-> My device is:
-> [ 2047.142578] usb 3-11.3: New USB device found, idVendor=26e0,
-> idProduct=6230, bcdDevice= 1.00
-> [ 2047.142594] usb 3-11.3: New USB device strings: Mfr=2, Product=1,
-> SerialNumber=3
-> [ 2047.142600] usb 3-11.3: Product: L01 HD Webcam
-> [ 2047.142604] usb 3-11.3: Manufacturer: Sonix Technology Co., Ltd.
-> [ 2047.142608] usb 3-11.3: SerialNumber: SN0001
-> [ 2047.144927] usb 3-11.3: Found UVC 1.00 device L01 HD Webcam   (26e0:6230)
->
-> dmesg, lsusb, and v4lc-compliance output and kernel config are
-> attached to the bug report.
->
-> Please let me know if I can provide anything else to help with looking
-> at this issue.
->
-> Thanks
-> Jerry Quinn
->
+--mw+femNPDBom7NIr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 22, 2025 at 02:52:52PM +0300, Hanne-Lotta M=C3=A4enp=C3=A4=C3=
+=A4 wrote:
+>    #. On Satellite and Cable delivery systems, the bandwidth depends on
+> -     the symbol rate. So, the Kernel will silently ignore any setting
+> -     :ref:`DTV-BANDWIDTH-HZ`. I will however fill it back with a
+> -     bandwidth estimation.
+> +     the symbol rate. The kernel will silently ignore any setting
+> +     :ref:`DTV-BANDWIDTH-HZ` and overwrites it with bandwidth estimation.
+"The kernel will silently ignore any :ref:`DTV-BANDWIDTH-HZ` setting ..."
+> =20
+>       Such bandwidth estimation takes into account the symbol rate set wi=
+th
+>       :ref:`DTV-SYMBOL-RATE`, and the rolloff factor, with is fixed for
 
--- 
-Ricardo Ribalda
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--mw+femNPDBom7NIr
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDAOgAAKCRD2uYlJVVFO
+o9u0AP0Xys56re20EnXGptNdWmdJS8g6Z+F9QJt+Wr6I4Kqf3gD+PQUaje/WI57e
+sdkr/fLl5iCAx/bAYBG+rx1FZAPTegg=
+=TzqD
+-----END PGP SIGNATURE-----
+
+--mw+femNPDBom7NIr--
 
