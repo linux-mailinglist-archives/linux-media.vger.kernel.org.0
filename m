@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-33273-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33274-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A26AC261E
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 17:15:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A53AC261C
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 17:15:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D082C7BDEF7
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 15:13:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98577A44BC5
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 15:14:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48FBC296FA8;
-	Fri, 23 May 2025 15:14:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E85D296FCB;
+	Fri, 23 May 2025 15:14:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fXJ7NTFq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QXEFZOpu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D490294A04;
-	Fri, 23 May 2025 15:14:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56A8296D2C;
+	Fri, 23 May 2025 15:14:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748013277; cv=none; b=aXlK9dix/UTqu0SG/VOB/ChhuZjA8Eyhx96oOW37WhsJ+ToUlBn+ma0RmBOdbm685QIVOmTXg0Ro2rqdpp2fWFji5Aiwa25hk7r7O44ekyy5faSB/6zI7O/L7q4NpKhr3wVwIn/Z5Tf3naOLYeQhQPjBfNX/2nU3aK8tv9ug/44=
+	t=1748013279; cv=none; b=d1ZnvqYgG9Ynddk2DfmvGdvcHtAhQbHw86N3DdpNZ/af9WGCj8ml7DPtQqpXDtbBGU7sYiQ2XipmxXQGbbC6PX/mmcSCKc24M2MLhHSAZsGZcSA2XhkWrK0jRQo0CXiX34/jYgCLWXC85QQzgfMOaets0aDllmfufjy22s9ubTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748013277; c=relaxed/simple;
-	bh=agOJvT2/i6EmhSZhAs95f9ecZVtjJRDEFx8kLbUoK5w=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=j7kiyx+PDEP7aIfxnif5bwS+JZJNi6lq0cAB8FdDVr+DNRtntunRuFInMiVnzvyp25bVMWNceFsujYcahkxjed8Yf/XK90Z6eOn+hZynQELjLeMHxRcA5/1rQdKtLBErSCJYG1MVc6fKl5Ksc3ivD2sAlKc94wmUd+da9ckx7Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fXJ7NTFq; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1748013279; c=relaxed/simple;
+	bh=uPGmW5BZEjqSxL72Eg9qbe0NAJhFfcaFI1Vo//ykHrA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=S9RldiQw+KGFnfj3005GU6FDJi34DOKWk3q7404Aa2el5L8tcDsZMPeNqz1HwUfohaCU+v6uPgXpTW2gU8BSIPteA3f/UjmLpaPkbLKgn4ExVdIzCqLwR6QQB9WClC5JMEhHMonTbrRKEk+mBtDKZAR3vnoXw442cxSsUqlJH6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QXEFZOpu; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:a882:21a2:2327:ac4f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A4BF346;
-	Fri, 23 May 2025 17:14:11 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C03A4A4;
+	Fri, 23 May 2025 17:14:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748013251;
-	bh=agOJvT2/i6EmhSZhAs95f9ecZVtjJRDEFx8kLbUoK5w=;
-	h=From:Subject:Date:To:Cc:From;
-	b=fXJ7NTFqAcFttwQE77Ek19k2Gg0g1T6AKnCdXJna7q06cNpUuN0fLt3d2hI4x7CJo
-	 tY6UEYwxM8pTKqcYwQImwBGI1lu+IwaaIugEEOPdlqz20h8pcJpw8vXwFEhABKUwlW
-	 YeiweFYKxxVio7H9lflBDttID1QmEUlMTbMSZYKw=
+	s=mail; t=1748013253;
+	bh=uPGmW5BZEjqSxL72Eg9qbe0NAJhFfcaFI1Vo//ykHrA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=QXEFZOpumio/6D6zu95bgODt1cAwPpdqxCwzA2yhHd2QBXDsVcvUbiJ9QVkqq680q
+	 DO/9ygJB0wUWmXY06ndtGnPbR5UqKbmzVR6vWgVI9TriA/HryDcaRHNuu6hrTZwklY
+	 6mBZKVI9Q0kpKPDg5FQ28gaEucrgscQkDVCn/nWs=
 From: Stefan Klug <stefan.klug@ideasonboard.com>
-Subject: [PATCH v3 0/3] media: rkisp1: Add
- RKISP1_CID_SUPPORTED_PARAMS_BLOCKS ctrl and WDR support
-Date: Fri, 23 May 2025 17:14:29 +0200
-Message-Id: <20250523-supported-params-and-wdr-v3-0-7283b8536694@ideasonboard.com>
+Date: Fri, 23 May 2025 17:14:30 +0200
+Subject: [PATCH v3 1/3] media: rkisp1: Properly handle result of
+ rkisp1_params_init_vb2_queue()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,60 +53,74 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANWQMGgC/43OQQ6CMBCF4auYrh1Sh9aoK+9hXIx0kEZpmymgh
- nB3wZWJG5f/4n15o8osnrM6rEYlPPjsY5ijXK9U1VC4Mng3t0KNVlssIfcpRenYQSKhNgMFBw8
- nsCltuTcXxq0zap4n4do/P/TpPHctsYWuEaZvEDdW740pjNbabAEhd1xTKG73/nr0jinHcIkkr
- qhiu7CNz12U1+fwgAv+x7cBQYOl3c5VZGuD+pc+T9P0BsdqknMOAQAA
+Message-Id: <20250523-supported-params-and-wdr-v3-1-7283b8536694@ideasonboard.com>
+References: <20250523-supported-params-and-wdr-v3-0-7283b8536694@ideasonboard.com>
+In-Reply-To: <20250523-supported-params-and-wdr-v3-0-7283b8536694@ideasonboard.com>
 To: Dafna Hirschfeld <dafna@fastmail.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Heiko Stuebner <heiko@sntech.de>
 Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Stefan Klug <stefan.klug@ideasonboard.com>, 
- Paul Elder <paul.elder@ideasonboard.com>, 
- Jai Luthra <jai.luthra@ideasonboard.com>
+ Stefan Klug <stefan.klug@ideasonboard.com>
 X-Mailer: b4 0.13.0
 
-Hi all,
+Properly handle the return of rkisp1_params_init_vb2_queue(). It is very
+unlikely that this ever fails without code changes but should be handled
+anyways.
 
-This series adds RKISP1_CID_SUPPORTED_PARAMS_BLOCKS control to query the
-parameters blocks that are supported by the current kernel on the
-current hardware. This is required to be able to enable/disable the
-corresponding algorithms in user space without relying solely on the
-kernel version.
+While at it rename the error label for easier extension in the upcoming
+patch.
 
-In addition to that it includes the WDR patch by Jai which is already in v5 and
-was reviewed here:
-https://lore.kernel.org/linux-media/20250521231355.GN12514@pendragon.ideasonboard.com/
-
-Version 2 of this series drops the unnecessary initial cleanup patch.
-Patch 1 was updated and has a local changelog. Patch 2 is unmodified.
-
-Version 3 splits off the first commit again as it was considered worth
-an own patch. Patch 2 was improved a bit based on review comments (see
-local changelog).
+Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
 
 ---
-Jai Luthra (1):
-      media: rockchip: rkisp1: Add support for Wide Dynamic Range
 
-Stefan Klug (2):
-      media: rkisp1: Properly handle result of rkisp1_params_init_vb2_queue()
-      media: rkisp1: Add RKISP1_CID_SUPPORTED_PARAMS_BLOCKS control
-
- .../media/platform/rockchip/rkisp1/rkisp1-common.h |   2 +
- .../media/platform/rockchip/rkisp1/rkisp1-params.c | 150 ++++++++++++++++++++-
- .../media/platform/rockchip/rkisp1/rkisp1-regs.h   |  99 ++++----------
- include/uapi/linux/rkisp1-config.h                 | 103 ++++++++++++++
- include/uapi/linux/v4l2-controls.h                 |   6 +
- 5 files changed, 282 insertions(+), 78 deletions(-)
+Changes in v3:
+- Moved these changes into its own patch
 ---
-base-commit: a5806cd506af5a7c19bcd596e4708b5c464bfd21
-change-id: 20250523-supported-params-and-wdr-135394be26d4
+ drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Best regards,
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+index b28f4140c8a3..24a8de697f2b 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+@@ -2763,7 +2763,9 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1)
+ 	vdev->queue = &node->buf_queue;
+ 	vdev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_META_OUTPUT;
+ 	vdev->vfl_dir = VFL_DIR_TX;
+-	rkisp1_params_init_vb2_queue(vdev->queue, params);
++	ret = rkisp1_params_init_vb2_queue(vdev->queue, params);
++	if (ret)
++		goto err_media;
+ 
+ 	params->metafmt = &rkisp1_params_formats[RKISP1_PARAMS_FIXED];
+ 
+@@ -2777,18 +2779,18 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1)
+ 	node->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
+ 	if (ret)
+-		goto error;
++		goto err_media;
+ 
+ 	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+ 	if (ret) {
+ 		dev_err(rkisp1->dev,
+ 			"failed to register %s, ret=%d\n", vdev->name, ret);
+-		goto error;
++		goto err_media;
+ 	}
+ 
+ 	return 0;
+ 
+-error:
++err_media:
+ 	media_entity_cleanup(&vdev->entity);
+ 	mutex_destroy(&node->vlock);
+ 	return ret;
+
 -- 
-Stefan Klug <stefan.klug@ideasonboard.com>
+2.43.0
 
 
