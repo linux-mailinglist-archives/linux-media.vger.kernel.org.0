@@ -1,142 +1,136 @@
-Return-Path: <linux-media+bounces-33279-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33280-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C214AAC26E0
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 17:55:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE731AC27ED
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 18:51:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 901DE3B1A49
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 15:55:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90EA34E78D5
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 16:51:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C75ED2957B6;
-	Fri, 23 May 2025 15:55:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE74429713A;
+	Fri, 23 May 2025 16:51:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+sLCNU8"
+	dkim=pass (2048-bit key) header.d=armadeus.com header.i=@armadeus.com header.b="Ao/o+l/x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from 13.mo583.mail-out.ovh.net (13.mo583.mail-out.ovh.net [87.98.182.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA5E19CC29;
-	Fri, 23 May 2025 15:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B02A296D26
+	for <linux-media@vger.kernel.org>; Fri, 23 May 2025 16:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.98.182.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748015716; cv=none; b=mXvqNNzlUziDE2BGC/x1dXYlzzQJF9VuXeL28ulkDoA1qsG6mwtQtMzK8d0gXWCpeqjth2fuRDQFIhQEdpcbM1ud5DD7DEtXfVRa/LE9LuET1A5G86a6djTJ/rhjENmaLeCQiyYioXCu7aZUj0Yn9zJmxzVilJ2dvvZhHffYFeQ=
+	t=1748019077; cv=none; b=peEmBmFpjcZ6tUSORV4iRjuLL++RWlcuhIHGW0wsWvlEnJhwppdBTFgNDtJgvuaTRGsBOWmEjpB2KLCySE5y+FwbMk9gXriK92JBKNWhDo2qm73gMtIpsjEv8E2IpKY4Fnaut9AagkkGIgb9OJK8gRBLc0ryUSodsk+IXP9su34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748015716; c=relaxed/simple;
-	bh=dSPDygJYnFeb8HQfhHNr6stBiS3NmukCn/fuMALXfRA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d0R+S25GZL61pyTZhLw4v4q/2E3oLOAlcUNBGnI+FKrAc79S2xZyeX6+/b10x5RB2GgF4Cxv2ipqCKDi50GHX1EnwwHDVCFBXcdX0JPbNQU6teEeg/Uwytj7aE5pgHigp/yFkVeLp+PQPBgUY4YfMX8obsm1AEqOfTQlL38qqxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J+sLCNU8; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748015714; x=1779551714;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dSPDygJYnFeb8HQfhHNr6stBiS3NmukCn/fuMALXfRA=;
-  b=J+sLCNU8kidFEoBCgRVDaaKWjeCCLGmJ03B3aT/+v76jqWW1j6OROxHv
-   9xgsb0HioRFzxgAKIzVD1ZaAQH7+5NWopRziuNxV0LoAG2wFLRZmxxVky
-   ecXZgJiCdhSP/IxQ17jlgp0RLFoU1lswOC5xaSbhqyOByIo9lEFpzRUyX
-   WN2nkK1xfrSKmuy7sb7AhsiInpigT7K1h7v/Sir/KnYAIsGWLirRHvlQ1
-   BzOu4vnMRRkN+IQW1In5JfbW79vBqSk0r2jEApb6BLSc5zb6y1JTjHTa4
-   FakMMMF/dMWF6b+lRbwJui0sOww/5MWkOv6sfRHp0dVDCbd+zIiXX8v4d
-   A==;
-X-CSE-ConnectionGUID: y4H3gEO+Q3Srivln5PoqHA==
-X-CSE-MsgGUID: QhoQv0WaRAOKFUKJBkZI5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="75473540"
-X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="75473540"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 08:55:13 -0700
-X-CSE-ConnectionGUID: jO/6bONhRzGM65BqpeZgHg==
-X-CSE-MsgGUID: rHpnhg5iTee+1ZEuHgZMAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="146173586"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 May 2025 08:55:08 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uIUjh-000QWy-0r;
-	Fri, 23 May 2025 15:55:05 +0000
-Date: Fri, 23 May 2025 23:54:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Michal Simek <monstr@monstr.eu>, Heiko Stuebner <heiko@sntech.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Junhao Xie <bigfoot@classfun.cn>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Gaosheng Cui <cuigaosheng1@huawei.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Ricardo Ribalda <ribalda@chromium.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/5] dt-bindings: media: allegro-dvt: add decoder
- dt-bindings for Gen3 IP
-Message-ID: <202505232350.HEuJSo1z-lkp@intel.com>
-References: <20250523134207.68481-3-yassine.ouaissa@allegrodvt.com>
+	s=arc-20240116; t=1748019077; c=relaxed/simple;
+	bh=xuueZm23eh49YiSgqxfgFZPFyU4JQVsCTAJLi+OWt98=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HrKvheIwv+YhHiEFl1HZaSZOSKa5UQGqlZWV0f5PLc3QdeKmf1dMugpR8ZTJIjFu/gJDelYP8HS7p+pVSJiPIxoIbislTtIrAP2MHagJamtpaBR9cxdLF/O2SJuJAZIKtN1v+K0Vdt480z1hj6ibwecMpWzqg6817ljB0nhqRvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=armadeus.com; spf=pass smtp.mailfrom=armadeus.com; dkim=pass (2048-bit key) header.d=armadeus.com header.i=@armadeus.com header.b=Ao/o+l/x; arc=none smtp.client-ip=87.98.182.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=armadeus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=armadeus.com
+Received: from director6.ghost.mail-out.ovh.net (unknown [10.109.148.34])
+	by mo583.mail-out.ovh.net (Postfix) with ESMTP id 4b3q2P1Rmcz1ZtZ
+	for <linux-media@vger.kernel.org>; Fri, 23 May 2025 15:34:05 +0000 (UTC)
+Received: from ghost-submission-5b5ff79f4f-fwdt7 (unknown [10.108.54.213])
+	by director6.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 8C56190E15;
+	Fri, 23 May 2025 15:34:02 +0000 (UTC)
+Received: from armadeus.com ([37.59.142.106])
+	by ghost-submission-5b5ff79f4f-fwdt7 with ESMTPSA
+	id 48OmEWqVMGjaMwEAmS5tiw
+	(envelope-from <sebastien.szymanski@armadeus.com>); Fri, 23 May 2025 15:34:02 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-106R00618957c2c-41e2-45dd-a874-a02a4f70d8a2,
+                    E55FAF7D42BA6FEE76EB3B6A0F061FDB1FCDFC7F) smtp.auth=sebastien.szymanski@armadeus.com
+X-OVh-ClientIp:86.243.209.203
+Message-ID: <65670a02-e217-4d0f-955d-d13ca0240819@armadeus.com>
+Date: Fri, 23 May 2025 17:34:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250523134207.68481-3-yassine.ouaissa@allegrodvt.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Enable MIPI filtering by DT on i.MX8M*
+To: =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>,
+ Purism Kernel Team <kernel@puri.sm>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <m3h61u9jy2.fsf@t19.piap.pl>
+ <20250509103733.GE28896@pendragon.ideasonboard.com>
+ <m3o6vn8np5.fsf@t19.piap.pl>
+ <iegnn5xoosqpk52hvipcr73aliwhqtsq6r6ctvt5756bhy6yen@rqcdongb7fdf>
+ <m31psg97dy.fsf@t19.piap.pl> <m3plfz7io0.fsf@t19.piap.pl>
+Content-Language: en-US
+From: =?UTF-8?Q?S=C3=A9bastien_Szymanski?= <sebastien.szymanski@armadeus.com>
+Autocrypt: addr=sebastien.szymanski@armadeus.com; keydata=
+ xsBNBFNfZLEBCACv1lqSePHJNpRgcnER+3emy+Arjz84zFax3XkogjY/e3ZneihIgWrVKe5M
+ ql16pX4KTkzNgMUKz4bG/XwT3kjcrXshxFLlg7KrHMl287C+W+QOUjnjVeRi/su+SPmjz8VD
+ yr11h+ZkVLAWhS+uQJ93jy1NwG8M4t1kBLAVHHD5Vw4FJ+3ouaVYIp1X1Cr8bVKQw33Q1aTd
+ ro0kMBb96B9vNu7ciJZ3gvlaBzUEKOgNnq9KaywuLnqrqr4HUIn5JuxZjCjJzt9kTAKcTfp2
+ cJM8qpp+2FF5qtbkse9fZ6M64qozgOPr9Tk4Amf9fZEUQ6UNw14mmBZuXSzoHe75gI7TABEB
+ AAHNN1PDqWJhc3RpZW4gU1pZTUFOU0tJIDxzZWJhc3RpZW4uc3p5bWFuc2tpQGFybWFkZXVz
+ LmNvbT7CwJAEEwEIADoCGyMHCwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgBYhBJwGygpYm/1C
+ /GCmwbCaKeiBMmTiBQJdhIHLAAoJELCaKeiBMmTixXIH/2W3kbzRG0UF81jtRRnp0H83rjDT
+ v0H+8fgFMRL/7HCJ1QPArkfRJlM2wlJkN+ChP09CCarYfUEHfRCHlTb7At6Yyrz1jziD7ZwX
+ 8IWHYRXnZkY5eZc5DsiUgq6JH49kt+GPzK8UVP9MTa6zkBpPCUf7LzZ4pD3FihdkT52BU3gI
+ d9P49fSI0TYySlb/VKn815aOhvwEr7+Dh3mZUjSh7saofbRmVUOr7p+R3MvvGI19/IJZjeOE
+ ZWliODDOt6HnBOtoGSXMcNIFF6snH52D5N5gY88njZjTwhgGGUBix1bsgf/EY0v4R5itZBXB
+ B/Ze4Tm++YHaB75hZK6PQu/YRv7OwE0EU19ksQEIALo7jhXddrXBTRu5SAjelV53jyHBJTX/
+ vN4nL/VbbW/saca+NJjDSxx5DBmotZbQdWIyZiSIjU/xnTREvtDrl6ZeSsKWd7ZqiuiY4fSR
+ zwuQp9rd0yqRuxesrWeyJB1zCSdEvLyKASERt+nxkOA+IzJ4y1qLtvnWr+SL1AXgTMw+Tkyw
+ KIDCRWHTIYas11ldGj82gOIpYeXnapeNLHfT4EQwg0NeWYHynJxAQWiX5aPlw0uSpAQSsBXQ
+ FIe3fpoveMSnXK+PG2BBOzexYv7r4S70a6sF9sgTTPpfKqUaqqC+u1+bUX6alTAKhGKJywaF
+ 6ViqLlgY8PfwohSyAlqlTRMAEQEAAcLAdgQYAQgAIAIbDBYhBJwGygpYm/1C/GCmwbCaKeiB
+ MmTiBQJdhIHSAAoJELCaKeiBMmTitU8IAK7NQM3fEwaF5XaKtepYWsVka44CD8A9e4r7NVK9
+ ugirKvXirIxBSDmN/Db862NmVpITsZ6ERNSNZLm/7k55N+TexKYiFZeU7G92TEfAM6qPElvx
+ DLEcrkNMq9r08YZeUloacsq31AL5fK4LW+xdvXudkdiKRMJsdTpmff3x5kIziGOHjwFP9wve
+ ZgEH52gpbRsP8Whx/Z2lNX/BBRmFM8OnEXFsjjqDzYThdxTq85wGPpkgvvUGyPNRD7TpbB1C
+ pajOUUkPxgj5LKt77HD1afeZNudWhgcdkbtT5PMQTT0WY6wvMEj9S1+bGPeXRGWLYB7gHQ+L
+ JNoSD7Kz6Y9qnKo=
+In-Reply-To: <m3plfz7io0.fsf@t19.piap.pl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 10767262288169724891
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdelvddvucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefurogsrghsthhivghnucfuiiihmhgrnhhskhhiuceoshgvsggrshhtihgvnhdrshiihihmrghnshhkihesrghrmhgruggvuhhsrdgtohhmqeenucggtffrrghtthgvrhhnpedtgeehtdduledtudevveekveevveefffdthedtieekgeeukeevtdffieegteekhfenucfkphepuddvjedrtddrtddruddpkeeirddvgeefrddvtdelrddvtdefpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpehsvggsrghsthhivghnrdhsiiihmhgrnhhskhhisegrrhhmrgguvghushdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehkeefmgdpmhhouggvpehsmhhtphhouhht
+DKIM-Signature: a=rsa-sha256; bh=l5StDh65JnrKX3boH0CcwErYPyl25P8m60tElznRk+w=;
+ c=relaxed/relaxed; d=armadeus.com; h=From; s=ovhmo103079-selector1;
+ t=1748014445; v=1;
+ b=Ao/o+l/xZNPvZ518fBJ3ik06H2HDn2vcsaVQP3ik/XBaVb+Lui0D/KE2wImz5uiJNwNrxw0M
+ S1LgXSY9mR6CRVVcIjAFCEGjTMzGCcM2UYtZ24n5zxfOSb8SoijOv6oXeEe2Y+rPR1Lh7SDDJdw
+ dQv2g4aaCzcYgaR0TYd71WMTiyS82u7088wPo5S2srNBjiGXRnpA6cZMjbRrYOWTipejim1yq6W
+ yNF/BVQQ4RSnt7l88AK4X9k4Et8yExKTMYYxYDotP2JtEHILBRV0o8FUgQNCdh6YseCAIpUVlka
+ sxhfqDHidl2AaGy3SbWD/j18CE7rBjjAj2HM1lu7ZazbA==
 
-Hi Yassine,
+Hello,
 
-kernel test robot noticed the following build warnings:
+On 5/23/25 11:58 AM, Krzysztof Hałasa wrote:
+> Now, what do we do with it?
+> Is anybody able to verify the CSIC version register value on i.MX8MM?
+> Something like devmem read32 0x32E50000 (or 0x32E40000 for CSI1) WHILE
+> RUNNING CAPTURE on that very CSI would do the trick (using your
+> favorite instance of devmem/devmem2/etc). Alternatively one could add
+> a debug printk to the csic module.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linuxtv-media-pending/master linus/master v6.15-rc7 next-20250523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On i.MX8MM mipi_csi is at 32e30000. NXP kernel (6.12.3) with ov5640 camera:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yassine-Ouaissa/media-allegro-dvt-Move-the-current-driver-to-a-subdirectory/20250523-214946
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250523134207.68481-3-yassine.ouaissa%40allegrodvt.com
-patch subject: [PATCH 2/5] dt-bindings: media: allegro-dvt: add decoder dt-bindings for Gen3 IP
-reproduce: (https://download.01.org/0day-ci/archive/20250523/202505232350.HEuJSo1z-lkp@intel.com/reproduce)
+# devmem 0x32E30000 32
+0x03060301
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505232350.HEuJSo1z-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/allegrodvt,al300-vdec.yaml
-   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
-   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
-   make[1]: *** [Makefile:1801: htmldocs] Error 2
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'htmldocs' not remade because of errors.
+Regards,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sébastien Szymanski, Armadeus Systems
+Software engineer
 
