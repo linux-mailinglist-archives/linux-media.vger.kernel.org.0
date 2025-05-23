@@ -1,263 +1,143 @@
-Return-Path: <linux-media+bounces-33281-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33282-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8B5AC27F5
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 18:53:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85942AC2843
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 19:11:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D8DAA423F3
-	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 16:53:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41FF617F190
+	for <lists+linux-media@lfdr.de>; Fri, 23 May 2025 17:11:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7544D297130;
-	Fri, 23 May 2025 16:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32814297A7B;
+	Fri, 23 May 2025 17:11:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cRMsfUbH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iyN9GWjK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1705E221547;
-	Fri, 23 May 2025 16:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A0929713F;
+	Fri, 23 May 2025 17:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748019216; cv=none; b=nFUUo6CrCCZMzbIQ7M2mhS1IvutI9eKE8qkVfClM/z7ArdaMNpul1YNDoX+XW+74/fnXcAB9fw+9jPQamaUTbsiD4JBDlp5xnb6UO1OhODdSshIrKmp7iR2m+qU0rZXJ0n7Hf63Psad5i1QgFRsDTbzAVn4UbbDGdWIDmcqhXRc=
+	t=1748020271; cv=none; b=rBP9+7cKlVqlE1//R50BOGZa88/BDa/KnFw85HVQV49fmYYFE0RHtmMtXg23tVcrXJpyUN8ln79sd5ehAH15d1XtZZdH7su2j/XJzY++JhQ/EjB1c1xYPd7hPmK5TOtD+lrAxM8GrzU0HYO/sSAtC2nmuvq3nB8vFwsdxi3t6NI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748019216; c=relaxed/simple;
-	bh=7vPG/vp7sl4OImEeVueSFERD4i0cKqTC9I6nhMiwNis=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=ipFjJAqHVy4c7b8XsQ33oaG0W+Apo9JK6ykt5Gyx5sjthhBA54VXBoya5MzniHLngShMU6um/SC5d6zjafiNDXX2zpZ5NqYsl60ZqhqN0XmRp5bnN7WRWIODHgk2f76fG3rRtQdVEQIaPhtE9geDOb1b1aOQp2K7ElyysX9Digo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cRMsfUbH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:b8ba:6efe:8413:cff8:dd59])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 241464A4;
-	Fri, 23 May 2025 18:53:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748019189;
-	bh=7vPG/vp7sl4OImEeVueSFERD4i0cKqTC9I6nhMiwNis=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=cRMsfUbH7i5mxtR8mZEQ4nJQsnu9h4Y1CDyXqkj9mgRp+C6gznDtib3km3s6vS5AD
-	 q1OnahOfYX1I81PfDdaYJmI49rCxqDsXNow4hCh5a1lDchZBvSWp9DZn8JqeX1wmZJ
-	 mLcsiRtv7Eg2SVNqou+v9DWSXSCuB/ZIaISdOIIs=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1748020271; c=relaxed/simple;
+	bh=jtB2uVmrXtqqoGZt4WqQ63S0AdDXsWckFPVPcwRkHK8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=qkM8DGgS+2jR5mVsldHaMU611g4pzCvasdUIml84wkzZUF9LQgpRabMWVMtGWHbHq9L9o2mv+VnOVbyzPMv3GhxaLLQNeHGe/1lqix+PIQHM/1UqxLz33Vt8mbrrbUVEiLx0pPA9F1xh3jjWU7nPe91EQT2/JjlOeDLTS807Bfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iyN9GWjK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D135C4CEE9;
+	Fri, 23 May 2025 17:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748020270;
+	bh=jtB2uVmrXtqqoGZt4WqQ63S0AdDXsWckFPVPcwRkHK8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=iyN9GWjKB/r0eN+R54nFFxc4UnVJYKtq2KzLvatdaYx/6bc6kUeJDp7UDajMi19K8
+	 R09SiOFhqeeU+rfeCeT8QfxuAW9fUVkYtX6EFwZrAe51OI+5CSBoo+YkElKea7jX3i
+	 oFqn9PcpsnKDbF0zCW3/IKz7f/31IdmZnyEItk7f+qDy77NNZxo78vfGL1FQlekzsf
+	 1sEaLIAugU9GGTaJkV2qxR327/bn/ufqz/huxU2g0QCIYG0nJ39JP6TlEE9BA9W7qF
+	 t0FWac8/DaGLIuZP+Exv6zAhpyHM2W/x0dsaAd0v6/R+G9hmj/0rgfHONF8/0nZObP
+	 F/2DKNTQk58lQ==
+Message-ID: <3e6be40a-2644-416a-bd32-f6256f1501ff@kernel.org>
+Date: Fri, 23 May 2025 19:11:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250523083655.3876005-3-y-abhilashchandra@ti.com>
-References: <20250523083655.3876005-1-y-abhilashchandra@ti.com> <20250523083655.3876005-3-y-abhilashchandra@ti.com>
-Subject: Re: [PATCH 2/2] media: i2c: ds90ub960: Add support for DS90UB954-Q1
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: hverkuil@xs4all.nl, sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com, vaishnav.a@ti.com, u-kumar1@ti.com, jai.luthra@linux.dev, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, y-abhilashchandra@ti.com
-To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, conor+dt@kernel.org, krzk+dt@kernel.org, mchehab@kernel.org, robh@kernel.org, tomi.valkeinen@ideasonboard.com
-Date: Fri, 23 May 2025 22:23:26 +0530
-Message-ID: <174801920679.2094995.12860064357887094874@freya>
-User-Agent: alot/0.12.dev28+gd2c823fe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] dt-bindings: media: allegro-dvt: add decoder
+ dt-bindings for Gen3 IP
+To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Michael Tretter <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Michal Simek <michal.simek@amd.com>, Heiko Stuebner <heiko@sntech.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Junhao Xie
+ <bigfoot@classfun.cn>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Gaosheng Cui <cuigaosheng1@huawei.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20250523134207.68481-1-yassine.ouaissa@allegrodvt.com>
+ <20250523134207.68481-3-yassine.ouaissa@allegrodvt.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250523134207.68481-3-yassine.ouaissa@allegrodvt.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Abhilash,
+On 23/05/2025 15:41, Yassine Ouaissa wrote:
+> Add compatible for video decoder on allegrodvt Gen 3 IP.
+> 
+> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+Please do not send the same patches over and over again. You got review
+which you need to address.
 
-Thanks for the patch.
+Once address you send NEXT version with proper CHANGELOG for each patch
+or top of cover letter. See submitting patches... or just use b4. This
+should be actually requirement for this work.
 
-Quoting Yemike Abhilash Chandra (2025-05-23 14:06:55)
-> DS90UB954-Q1 is an FPDLink-III deserializer that is mostly register
-> compatible with DS90UB960-Q1. The main difference is that it supports
-> half of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX
-> port.
->=20
-> Some other registers are marked as reserved in the datasheet as well,
-> notably around CSI-TX frame and line-count monitoring and some other
-> status registers. The datasheet also does not mention anything about
+Anyway, I see all of previous review ignored so let's be explicit:
 
-So what happens when userspace calls LOG_STATUS and the driver tries to
-read these monitoring registers? Are these populated in the device but just
-marked as reserved in the datasheet?
+NAK
 
-Whatever is the case, please make sure the driver doesn't crash, and update
-the commit message with the reality if the datasheet is wrong.
-
-> setting strobe position, and fails to lock the RX ports if we forcefully
-> set it, so disable it through the hw_data.
->=20
-> Link: https://www.ti.com/lit/gpn/ds90ub954-q1
-> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> ---
->  drivers/media/i2c/Kconfig     |  2 +-
->  drivers/media/i2c/ds90ub960.c | 46 +++++++++++++++++++++++++++++++++++
->  2 files changed, 47 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index e68202954a8f..6e265e1cec20 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1662,7 +1662,7 @@ config VIDEO_DS90UB960
->         select V4L2_FWNODE
->         select VIDEO_V4L2_SUBDEV_API
->         help
-> -         Device driver for the Texas Instruments DS90UB960
-> +         Device driver for the Texas Instruments DS90UB954/DS90UB960
->           FPD-Link III Deserializer and DS90UB9702 FPD-Link IV Deserializ=
-er.
-
-nit:
-           Device driver for the Texas Instruments DS90UB954, DS90UB960
-           FPD-Link III Deserializers and DS90UB9702 FPD-Link IV Deserializ=
-er.
-
-> =20
->  config VIDEO_MAX96714
-> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index ed2cf9d247d1..38e4f006d098 100644
-> --- a/drivers/media/i2c/ds90ub960.c
-> +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -460,6 +460,7 @@ struct ub960_hw_data {
->         u8 num_txports;
->         bool is_ub9702;
->         bool is_fpdlink4;
-> +       bool is_ub954;
->  };
-> =20
->  enum ub960_rxport_mode {
-> @@ -982,6 +983,10 @@ static int ub960_txport_select(struct ub960_data *pr=
-iv, u8 nport)
-> =20
->         lockdep_assert_held(&priv->reg_lock);
-> =20
-> +       /* TX port registers are shared for UB954*/
-> +       if (priv->hw_data->is_ub954)
-> +               return 0;
-> +
-
-nit: This could be moved above the assertion
-
->         if (priv->reg_current.txport =3D=3D nport)
->                 return 0;
-> =20
-> @@ -1415,6 +1420,13 @@ static int ub960_parse_dt_txport(struct ub960_data=
- *priv,
->                 goto err_free_vep;
->         }
-> =20
-> +       /* UB954 does not support 1.2 Gbps */
-> +       if (priv->tx_data_rate =3D=3D MHZ(1200) && priv->hw_data->is_ub95=
-4) {
-> +               dev_err(dev, "tx%u: invalid 'link-frequencies' value\n", =
-nport);
-> +               ret =3D -EINVAL;
-> +               goto err_free_vep;
-> +       }
-> +
-
-The error handling is exactly the same as the previous if {} block that
-checks the allowed data rates for UB960. IMO cleaner to move this condition
-in that block.
-
-Maybe even a separate table for allowed data-rates for each chip, but that
-is probably overkill.
-
->         v4l2_fwnode_endpoint_free(&vep);
-> =20
->         priv->txports[nport] =3D txport;
-> @@ -1572,6 +1584,10 @@ static int ub960_rxport_set_strobe_pos(struct ub96=
-0_data *priv,
->         u8 clk_delay, data_delay;
->         int ret =3D 0;
-> =20
-> +       /* FIXME: After writing to this area the UB954 chip no longer res=
-ponds */
-> +       if (priv->hw_data->is_ub954)
-> +               return 0;
-> +
-
-It would be good to understand if this is a hardware limitation or not.
-Tomi, do you have any idea?
-
->         clk_delay =3D UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
->         data_delay =3D UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
-> =20
-> @@ -5021,6 +5037,27 @@ static int ub960_enable_core_hw(struct ub960_data =
-*priv)
->         if (priv->hw_data->is_ub9702)
->                 ret =3D ub960_read(priv, UB9702_SR_REFCLK_FREQ, &refclk_f=
-req,
->                                  NULL);
-> +       else if (priv->hw_data->is_ub954) {
-> +               /* From DS90UB954-Q1 datasheet:
-> +                * "REFCLK_FREQ measurement is not synchronized. Value in=
- this
-> +                * register should read twice and only considered valid if
-
-                   * register should be read twice and only considered vali=
-d if
-
-> +                * REFCLK_FREQ is unchanged between reads."
-> +                */
-> +               unsigned long timeout =3D jiffies + msecs_to_jiffies(100);
-> +
-> +               do {
-> +                       u8 refclk_new;
-> +
-> +                       ret =3D ub960_read(priv, UB960_XR_REFCLK_FREQ, &r=
-efclk_new,
-> +                                        NULL);
-> +                       if (ret)
-> +                               goto err_pd_gpio;
-> +
-> +                       if (refclk_new =3D=3D refclk_freq)
-> +                               break;
-> +                       refclk_freq =3D refclk_new;
-> +               } while (time_before(jiffies, timeout));
-> +       }
-
-Hmm.. in your testing did you find this actually requiring more than one
-read?
-
-I'm surprised because this is missing from UB960 which is an older device.
-
->         else
->                 ret =3D ub960_read(priv, UB960_XR_REFCLK_FREQ, &refclk_fr=
-eq,
->                                  NULL);
-> @@ -5177,6 +5214,13 @@ static void ub960_remove(struct i2c_client *client)
->         mutex_destroy(&priv->reg_lock);
->  }
-> =20
-> +static const struct ub960_hw_data ds90ub954_hw =3D {
-> +       .model =3D "ub954",
-> +       .num_rxports =3D 2,
-> +       .num_txports =3D 1,
-> +       .is_ub954 =3D true,
-> +};
-> +
->  static const struct ub960_hw_data ds90ub960_hw =3D {
->         .model =3D "ub960",
->         .num_rxports =3D 4,
-> @@ -5192,6 +5236,7 @@ static const struct ub960_hw_data ds90ub9702_hw =3D=
- {
->  };
-> =20
->  static const struct i2c_device_id ub960_id[] =3D {
-> +       { "ds90ub954-q1", (kernel_ulong_t)&ds90ub954_hw },
->         { "ds90ub960-q1", (kernel_ulong_t)&ds90ub960_hw },
->         { "ds90ub9702-q1", (kernel_ulong_t)&ds90ub9702_hw },
->         {}
-> @@ -5199,6 +5244,7 @@ static const struct i2c_device_id ub960_id[] =3D {
->  MODULE_DEVICE_TABLE(i2c, ub960_id);
-> =20
->  static const struct of_device_id ub960_dt_ids[] =3D {
-> +       { .compatible =3D "ti,ds90ub954-q1", .data =3D &ds90ub954_hw },
->         { .compatible =3D "ti,ds90ub960-q1", .data =3D &ds90ub960_hw },
->         { .compatible =3D "ti,ds90ub9702-q1", .data =3D &ds90ub9702_hw },
->         {}
-> --=20
-> 2.34.1
->=20
->
-
-Thanks,
-Jai
+Best regards,
+Krzysztof
 
