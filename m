@@ -1,199 +1,264 @@
-Return-Path: <linux-media+bounces-33301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33302-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4815AC2CB8
-	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 02:30:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 682AFAC2CBF
+	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 02:32:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C78F67AD70F
-	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 00:29:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20F165428DF
+	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 00:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C04D21C5490;
-	Sat, 24 May 2025 00:30:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 077B41DE2CC;
+	Sat, 24 May 2025 00:31:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="XyZBH6vi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NuBZq+9F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3FF19D06A
-	for <linux-media@vger.kernel.org>; Sat, 24 May 2025 00:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AC93234;
+	Sat, 24 May 2025 00:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748046622; cv=none; b=iegbn0t8leCVduRvxYDbvTHkK4hMs1AYVqr7ga4xo/8zIlqAJNZw9e0tX4lUDdnSPJrWqiITiP/jk/gfP77t3nN0ynKvBG7OtP1HXEC7OFXcWGf8pkg+054u8zelkJbqFYsfKc+Wv0fm3XjZwdhfXcLU7cEvShc+aJdly3/jYRc=
+	t=1748046718; cv=none; b=E3bJT11xz81gyWW4c6D8+AY++8AJoYJVU0QqL5tL1UjZHNIxaAvNVhngdBujDk58FOP8vemUGfL60t540nPwvLp7xvCU7UkkSCtxbGlJAwDYGjiaS+MuHPuCPfKPVjrA9oOqbbq8/FzP5yRcNKipZmXlW0EqW8TgMfCgJ/vsgwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748046622; c=relaxed/simple;
-	bh=Z3vQxLcTpDMFbmhqz80TZkS1cBKQmNM3Hvh7L+Ojb0c=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KUyjUxxBNGBAX5KeXSpDpWQ+nv7fxbfBz3NHkt3fe9hPoVtVSJarIbom4NOu4LPcIfiD/2WcNcsHQ2l47ACDUftnFlwrdHN8RXOHmTFap8IOJ5b+0EgcHFPltJtEuIqLd0qnH9cEigWNfxyaMM3qYbDD1OCg0FbUdhvU4OJtTL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=XyZBH6vi; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7c5b2472969so35956685a.1
-        for <linux-media@vger.kernel.org>; Fri, 23 May 2025 17:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1748046619; x=1748651419; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Z3vQxLcTpDMFbmhqz80TZkS1cBKQmNM3Hvh7L+Ojb0c=;
-        b=XyZBH6vizpgpRCeZTyKCanfnijS/hfS2cqHTp68TiMC2+Rpkt1qIzoAIJxU1ET9OWJ
-         x6q+v9DyfJ7y0AYGt4tvsCsQYgeb9yL7R3cDjmPCP7VhDCt2IVMuZRDVIPnDamW8YJ0q
-         vadw/4btZjnz6gm2QHFx8oO88bhxmEy6s5liOaG3S0H2nSgK9PvzaMkmvjRwdXFr+nS8
-         mpKJhNqRAvfFm+Wh+X8AK32vB1GmRblw+vAspkOQiBZaRtDRPZqbFZPDs8CqwkqMPpwf
-         EMIRn07nBYutQqGXxKCOlc10TOyYnuS2rg6w+ywH/jDW5KXYw7DlEMayChptN0XodZ5N
-         Xi9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748046619; x=1748651419;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z3vQxLcTpDMFbmhqz80TZkS1cBKQmNM3Hvh7L+Ojb0c=;
-        b=MXTayYhMe2rK2yC6ssnGfldBVnO9c661qSEU33Anl4CIclpz1j7HpolzSu8Sx/vKAb
-         yZH366vre4ywGjwdCEsaUG5hUnFw0qOm5TKs9hrKvM5TGgpR2e7bFUVbaGgNOFmqf2L5
-         g4GUWJt6M3wxohoVIsauwT22OnakDr237fpP0fw1K5qBGHjs1orhYwbJSyW59s+p2549
-         Vm40K1NKYvHevsyroy2gXPWpYayvuYoHrpOLmYenAxEOYCT7X0SnD839BM30UJivMiU0
-         d2nHk6zJTvvZ611in4dlMNOV6nbqpgR/YQSHH6zKruvr4hC3H1IC7akn3PQ4srPe48dS
-         hTwA==
-X-Forwarded-Encrypted: i=1; AJvYcCV5ZV4M/42MltRPl8qFjLRCrgEc/9VM6PTyI6yt2nMGbRltKIUw1y7pSe1pZ4lTdTzFxcdYE9Yd54rxrQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0p+Haq3ykxFjy6XwOPOkMRfXjIQXyTk7pWATue+H74j0E/TEL
-	UEkeCqxZ39a8V7pkpftj8SFyvuu/J2ylGgon990xTIfJ6+/jbcYNCvYceq/frzHK3S8=
-X-Gm-Gg: ASbGncupoOGgnwZuBt/EN38jljP/GDotgREYaO58EtCbEaKUVecZlz5xpt8GlpnFTQy
-	C3xsLdOoHJ/p95Vw+qfVEAJ1wX2WHMBVQe8u9Bt3FXbrVf4EAp8BqEGY6hTaGSw2gXyDYPPoNvq
-	fEqod0YZV61BjKWW6NXrjkL6XF6AHfqed/TpX5b5KLfcdI+cEisK24ArRqI5bAByVQBCu+u2KhE
-	ONUZAaPujJumMJZYVT6fqX36MGaZA4wfWNXdrZviqUnEgcN8FUHZ9pdFsJdj6YxVvVJ2oUe5tei
-	9U2E+bSwsu3WJtIZgOjGWxazI+W3OYbazvdh1jwAxnUZpbN8Xa1wf5Fq
-X-Google-Smtp-Source: AGHT+IEdDR8OXzB8US60Ph044RM+6ozSx842gNCE6DrnFPv+fhbjtE54fFC5D64DrrpFCuVDHM+uHA==
-X-Received: by 2002:a05:620a:45a7:b0:7cd:53cc:c60c with SMTP id af79cd13be357-7ceecc2b5d3mr205043985a.37.1748046619377;
-        Fri, 23 May 2025 17:30:19 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:17:b2fc::c41? ([2606:6d00:17:b2fc::c41])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd468b7400sm1254895885a.66.2025.05.23.17.30.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 17:30:18 -0700 (PDT)
-Message-ID: <b1d8b6407bcaea4e12ff1c6c206c8d3b591ac2a9.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 1/5] docs: uapi: media: Document Raspberry Pi NV12
- column format
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>, Sakari Ailus	
- <sakari.ailus@linux.intel.com>, Laurent Pinchart	
- <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list	
- <bcm-kernel-feedback-list@broadcom.com>, John Cox
- <john.cox@raspberrypi.com>,  Dom Cobley <dom@raspberrypi.com>, review list
- <kernel-list@raspberrypi.com>, Ezequiel Garcia	
- <ezequiel@vanguardiasur.com.ar>
-Cc: John Cox <jc@kynesim.co.uk>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Date: Fri, 23 May 2025 20:30:17 -0400
-In-Reply-To: <20250423-media-rpi-hevc-dec-v3-1-8fd3fad1d6fb@raspberrypi.com>
-References: <20250423-media-rpi-hevc-dec-v3-0-8fd3fad1d6fb@raspberrypi.com>
-	 <20250423-media-rpi-hevc-dec-v3-1-8fd3fad1d6fb@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
+	s=arc-20240116; t=1748046718; c=relaxed/simple;
+	bh=8B9ms8skaqPcUFNLJygoW8B0+g4QerMXzcmxHo4OEu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MeFmUuYvad9Il10Yj/UI5YIAFgiFbgHSRMLYHqa76+OJdzbGOfYwZkwbmo8785Arvcld6Wk6WqVbjNhJP9ujB/HEBOlzG73qau7Erfw99+ScL9ShJi32M5enZDH1PhwFmf3+cPjp4I4UvXklx1A5wJr75L7U/9a90QKFnMiX0VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NuBZq+9F; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748046717; x=1779582717;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8B9ms8skaqPcUFNLJygoW8B0+g4QerMXzcmxHo4OEu4=;
+  b=NuBZq+9FMTQo3tB/3cSB1KGfuekrPV0wDuu02Lunk/WZf8ILQnN7pCW4
+   iCWhLZ65xHf5OQo6AA/bBoUrp4bMqrYGKfSCQooEq8g7SV5tMDKJiM4g9
+   RPJyYjeII8A5Byno9Q91OU9DeYvRU5ANGgT47rNYtwc+YahpHUJZmleyS
+   AiHf5WpGXMnYy6v2Ij5Ey4gW0J5gGHmLgwbgTgQLbQdvFB3fikMRdU8e9
+   o1bth+5MERALTEtsqJn0npxq15V6XLr6QOkSJhP82wwqCparVGQjWPGpR
+   7lDtvof3nmT1pRVR1eCQC5C/fJneoaS3dcJkxxX0+BU/arEeN0Ke7/zTn
+   g==;
+X-CSE-ConnectionGUID: s7ZResBwTxinqwuazyR+eg==
+X-CSE-MsgGUID: PkUUD9aUTMuec80uiKsEbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="61461808"
+X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
+   d="scan'208";a="61461808"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 17:31:54 -0700
+X-CSE-ConnectionGUID: 9h/MQO37R5W9JlftX8/ReQ==
+X-CSE-MsgGUID: wPol45gnQbWLbG9ApDYacw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
+   d="scan'208";a="146554279"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 23 May 2025 17:31:48 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uIcnh-000Qpc-1q;
+	Sat, 24 May 2025 00:31:45 +0000
+Date: Sat, 24 May 2025 08:31:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Michal Simek <monstr@monstr.eu>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Junhao Xie <bigfoot@classfun.cn>,
+	Kever Yang <kever.yang@rock-chips.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Gaosheng Cui <cuigaosheng1@huawei.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Ricardo Ribalda <ribalda@chromium.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH 5/5] media: allegro-dvt: Add Gen 3 IP stateful decoder
+ driver
+Message-ID: <202505240808.VaN58jYa-lkp@intel.com>
+References: <20250523134207.68481-6-yassine.ouaissa@allegrodvt.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250523134207.68481-6-yassine.ouaissa@allegrodvt.com>
 
-Le mercredi 23 avril 2025 =C3=A0 18:20 +0100, Dave Stevenson a =C3=A9crit=
-=C2=A0:
-> The Raspberry Pi HEVC decoder uses a tiled format based on
-> columns for 8 and 10 bit YUV images, so document them as
-> NV12MT_COL128 and NV12MT_10_COL128.
->=20
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
-> =C2=A0.../userspace-api/media/v4l/pixfmt-yuv-planar.rst=C2=A0 | 42 ++++++=
-++++++++++++++++
-> =C2=A01 file changed, 42 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst =
-b/Documentation/userspace-
-> api/media/v4l/pixfmt-yuv-planar.rst
-> index b788f6933855..b5b590f234b0 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> @@ -827,6 +827,48 @@ Data in the 12 high bits, zeros in the 4 low bits, a=
-rranged in little endian ord
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Cb\ :sub:`11`
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Cr\ :sub:`11`
-> =C2=A0
-> +V4L2_PIX_FMT_NV12MT_COL128 and V4L2_PIX_FMT_NV12MT_10_COL128
-> +------------------------------------------------------------
-> +
-> +``V4L2_PIX_FMT_NV12MT_COL128`` is a tiled version of
-> +``V4L2_PIX_FMT_NV12M`` where the two planes are split into 128 byte wide=
- columns
-> +of Y or interleaved CbCr.
-> +
-> +V4L2_PIX_FMT_NV12MT_10_COL128 expands that as a 10 bit format where 3 10=
- bit
-> +values are packed into a 32bit word. A 128 byte wide column therefore ho=
-lds 96
-> +samples (either Y or interleaved CrCb). That effectively makes it 6 valu=
-es in a
-> +64 bit word for the CbCr plane, as the values always go in pairs.
+Hi Yassine,
 
-Could be nice to mention that this has a verticalement alignment of 8, allo=
-wing
-to represent it as a 128x8 tiled format with a column layout. This was hand=
-y for
-the GStreamer integration your showed me.
+kernel test robot noticed the following build warnings:
 
-Nicolas
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linuxtv-media-pending/master linus/master v6.15-rc7 next-20250523]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> +
-> +Bit-packed representation.
-> +
-> +.. tabularcolumns:: |p{1.2cm}||p{1.2cm}||p{1.2cm}||p{1.2cm}|p{3.2cm}|p{3=
-.2cm}|
-> +
-> +.. flat-table::
-> +=C2=A0=C2=A0=C2=A0 :header-rows:=C2=A0 0
-> +=C2=A0=C2=A0=C2=A0 :stub-columns: 0
-> +=C2=A0=C2=A0=C2=A0 :widths: 8 8 8 8
-> +
-> +=C2=A0=C2=A0=C2=A0 * - Y'\ :sub:`00[7:0]`
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Y'\ :sub:`01[5:0] (bits 7--2)` Y'\ :sub=
-:`00[9:8]`\ (bits 1--0)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Y'\ :sub:`02[3:0] (bits 7--4)` Y'\ :sub=
-:`01[9:6]`\ (bits 3--0)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - unused (bits 7--6)` Y'\ :sub:`02[9:4]`\=
- (bits 5--0)
-> +
-> +.. tabularcolumns:: |p{1.2cm}||p{1.2cm}||p{1.2cm}||p{1.2cm}|p{3.2cm}|p{3=
-.2cm}|
-> +
-> +.. flat-table::
-> +=C2=A0=C2=A0=C2=A0 :header-rows:=C2=A0 0
-> +=C2=A0=C2=A0=C2=A0 :stub-columns: 0
-> +=C2=A0=C2=A0=C2=A0 :widths: 12 12 12 12 12 12 12 12
-> +
-> +=C2=A0=C2=A0=C2=A0 * - Cb\ :sub:`00[7:0]`
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Cr\ :sub:`00[5:0]`\ (bits 7--2) Cb\ :su=
-b:`00[9:8]`\ (bits 1--0)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Cb\ :sub:`01[3:0]`\ (bits 7--4) Cr\ :su=
-b:`00[9:6]`\ (bits 3--0)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - unused (bits 7--6) Cb\ :sub:`02[9:4]`\ =
-(bits 5--0)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Cr\ :sub:`01[7:0]`
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Cb\ :sub:`02[5:0]`\ (bits 7--2) Cr\ :su=
-b:`01[9:8]`\ (bits 1--0)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Cr\ :sub:`02[3:0]`\ (bits 7--4) Cb\ :su=
-b:`02[9:6]`\ (bits 3--0)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - unused (bits 7--6) Cr\ :sub:`02[9:4]`\ =
-(bits 5--0)
-> +
-> =C2=A0
-> =C2=A0Fully Planar YUV Formats
-> =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
+url:    https://github.com/intel-lab-lkp/linux/commits/Yassine-Ouaissa/media-allegro-dvt-Move-the-current-driver-to-a-subdirectory/20250523-214946
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250523134207.68481-6-yassine.ouaissa%40allegrodvt.com
+patch subject: [PATCH 5/5] media: allegro-dvt: Add Gen 3 IP stateful decoder driver
+config: i386-randconfig-014-20250524 (https://download.01.org/0day-ci/archive/20250524/202505240808.VaN58jYa-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505240808.VaN58jYa-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505240808.VaN58jYa-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/platform/allegro-dvt/al300/al_codec_common.c:251:9: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+     250 |                 al_codec_err(dev, "mem check failed for 0x%16llx of size %zu",
+         |                                                           ~~~~~~
+         |                                                           %16x
+     251 |                              *paddr, size);
+         |                              ^~~~~~
+   drivers/media/platform/allegro-dvt/al300/al_codec_util.h:82:25: note: expanded from macro 'al_codec_err'
+      81 |         dev_err(&(al_dev)->pdev->dev, "[ALG_CODEC][ERROR] %s():%d: " fmt "\n",  \
+         |                                                                      ~~~
+      82 |                 __func__, __LINE__, ##args)
+         |                                       ^~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/media/platform/allegro-dvt/al300/al_codec_common.c:249:22: warning: result of comparison of constant 549755813887 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+     249 |         if ((*paddr + size) > AL_CODEC_MAX_ADDR) {
+         |             ~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
+   drivers/media/platform/allegro-dvt/al300/al_codec_common.c:508:50: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+     508 |         al_codec_dbg(dev, "periph address = 0x%016llx", dev->apb);
+         |                                               ~~~~~~~   ^~~~~~~~
+         |                                               %016x
+   drivers/media/platform/allegro-dvt/al300/al_codec_util.h:120:60: note: expanded from macro 'al_codec_dbg'
+     120 |         dev_dbg(&(al_dev)->pdev->dev, "[ALG_CODEC]: " fmt "\n", ##args)
+         |                                                       ~~~         ^~~~
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+>> drivers/media/platform/allegro-dvt/al300/al_codec_common.c:712:8: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     711 |         al_codec_dbg(dev, "Send req to mcu %d : %ld ", req->req_type,
+         |                                                 ~~~
+         |                                                 %zu
+     712 |                      req->req_size);
+         |                      ^~~~~~~~~~~~~
+   drivers/media/platform/allegro-dvt/al300/al_codec_util.h:120:60: note: expanded from macro 'al_codec_dbg'
+     120 |         dev_dbg(&(al_dev)->pdev->dev, "[ALG_CODEC]: " fmt "\n", ##args)
+         |                                                       ~~~         ^~~~
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   4 warnings generated.
+
+
+vim +712 drivers/media/platform/allegro-dvt/al300/al_codec_common.c
+
+   680	
+   681	int al_common_send_req_reply(struct al_codec_dev *dev,
+   682				     struct list_head *cmd_list,
+   683				     struct msg_itf_header *hdr,
+   684				     struct al_common_mcu_req *req)
+   685	{
+   686		struct al_codec_cmd *cmd = NULL;
+   687		int ret;
+   688	
+   689		hdr->drv_cmd_hdl = 0;
+   690	
+   691		if (req->reply_size && req->reply) {
+   692			cmd = al_codec_cmd_create(req->reply_size);
+   693			if (!cmd)
+   694				return -ENOMEM;
+   695	
+   696			hdr->drv_cmd_hdl = al_virt_to_phys(cmd);
+   697		}
+   698	
+   699		hdr->drv_ctx_hdl = req->pCtx;
+   700		hdr->type = req->req_type;
+   701		hdr->payload_len = req->req_size;
+   702	
+   703		/* Add the list to the cmd list */
+   704		if (cmd)
+   705			list_add(&cmd->list, cmd_list);
+   706	
+   707		ret = al_common_send(dev, hdr);
+   708		if (ret)
+   709			goto remove_cmd;
+   710	
+   711		al_codec_dbg(dev, "Send req to mcu %d : %ld ", req->req_type,
+ > 712			     req->req_size);
+   713	
+   714		if (!cmd)
+   715			return 0;
+   716	
+   717		ret = wait_for_completion_timeout(&cmd->done, 5 * HZ);
+   718		if (ret <= 0) {
+   719			al_codec_err(dev, "cmd %p has %d (%s)", cmd, ret,
+   720				     (ret == 0) ? "failed" : "timedout");
+   721			ret = -ETIMEDOUT;
+   722			goto remove_cmd;
+   723		}
+   724	
+   725		ret = 0;
+   726		memcpy(req->reply, cmd->reply, req->reply_size);
+   727	
+   728	remove_cmd:
+   729	
+   730		if (cmd) {
+   731			list_del(&cmd->list);
+   732			al_codec_cmd_put(cmd);
+   733		}
+   734		return ret;
+   735	}
+   736	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
