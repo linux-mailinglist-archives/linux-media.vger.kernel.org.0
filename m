@@ -1,243 +1,170 @@
-Return-Path: <linux-media+bounces-33305-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33306-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B870EAC2D3D
-	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 05:39:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 317E1AC2DF7
+	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 08:27:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 694854E6E36
-	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 03:39:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92B8B3BF79E
+	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 06:27:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E1AB1A4F0A;
-	Sat, 24 May 2025 03:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C61001DA0E0;
+	Sat, 24 May 2025 06:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XrqQljMu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n00KdUe3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AD4101FF;
-	Sat, 24 May 2025 03:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B5E1B0416
+	for <linux-media@vger.kernel.org>; Sat, 24 May 2025 06:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748057976; cv=none; b=sA/Nz95HDKe6ylt/T6/DBSgfVqxMpBKcx318xx5omDg7MUIRU4Jy//m8rgkhCwEVb39ra/mpjVCMrzPG1uIYJONYwAnaiQEWxOAoIW+HfGIqfmUj5lCzJF7RCA7soIAXZGB/7R682oliLEJpcrZHxkzcvtdHVWlmb18TMgOixMg=
+	t=1748068050; cv=none; b=XjBlNJULlxmolFloXvp6PoDyXt/3whPEAmCbuLe3I2kUi55knsEe0zEKqcZkFxIAzZDU2gUC9pnNFEtNEQ/vDEJp1xjuvLRUIhrbV5lMbC/rwSzOU2iloG39vdws/QeQti9WOIa8IX+NJTyOxD3+ohPcMypn6TKzmXJ6fsBYfbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748057976; c=relaxed/simple;
-	bh=7IzTik7Z1oQYNbi1ZtvITH1vtj4QWC1+x7Q28RIHobI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R6w0DmHEqdXbKlatfy802Y8vNbzvyKZrAvAABTSCZvruHp5JqHJBO87vuNReAlR4ou5dnwsuucLkozeBUSs1KT099TutJ1McDPttcQI5wCRs0hZx1LRx1hJ/H15fCVSvEMfEzrGgfHwznxEi8Y/LRtlhGYbK/7i0GQ7lK0TVVSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XrqQljMu; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748057973; x=1779593973;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7IzTik7Z1oQYNbi1ZtvITH1vtj4QWC1+x7Q28RIHobI=;
-  b=XrqQljMuPCnydCrBKUKNKl/sgSQfxikD0pa/vGCzEh+3uD626/s9zZDc
-   EO3AC0d2NgeD0yYnCfyevH1Y4E2XMzvb1Np7NTndSyUdz5XYT+TikLzE6
-   m7xgw7H9oRGhjCa1/OxVMBhyszM1JdSOoQsP/DKlzL9f1KH8llAp5qZmY
-   lqCT2qtLb32zsdz3Tp8+bEYsZRZkZ5Av3G+K1HvosWbuz0WE88UsKMSBv
-   0ejLYZni7BmK6MQGgV+CjTz9DMKG3TgZCwmectd4OHkeKIuLrB38Fmal3
-   TCVFX9ywp4P/r/lCXS3MqoJPVYH3LdexcxL0+zaANRalL5y3oU1wJnUPV
-   A==;
-X-CSE-ConnectionGUID: hCdmmq9kSAmjcMsWfSWjKg==
-X-CSE-MsgGUID: jiAD3MUdS92tITHvGVGJPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50227673"
-X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="50227673"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 20:39:32 -0700
-X-CSE-ConnectionGUID: zcZxj8dbTb+bAaFrzD0SGA==
-X-CSE-MsgGUID: DCJiGGXWQl+UORP1bJyepw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="141966994"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orviesa007.jf.intel.com with ESMTP; 23 May 2025 20:39:28 -0700
-Date: Sat, 24 May 2025 11:33:25 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: Zhi Wang <zhiw@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
-	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aDE+BaMo+X75QaEW@yilunxu-OptiPlex-7050>
-References: <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
- <20250509184318.GD5657@nvidia.com>
- <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
- <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
- <20250513130315.0158a626.zhiw@nvidia.com>
- <aCRmoDupzK9zTqFL@yilunxu-OptiPlex-7050>
- <20250514230502.6b64da7f.zhiw@nvidia.com>
- <aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050>
- <3909686a-be14-4b0b-8336-0674667d5159@amd.com>
+	s=arc-20240116; t=1748068050; c=relaxed/simple;
+	bh=I6HEzLGnLMV/1y8If1T3+TyLatSI7Db52eFHOCDQc6E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ACIUZuiTDnIIydyda1yvvsuBd3QiaGI9ZsSnKSXY3EMYggXtSdwjF2qW6DT8HeCZz2wnMX4+DaykydTlQxjvznXktNKGzFRPY0FOvQH4w/BYyMaeHjk9hZw2wqvB/H3tn2B821vM+G8XLDkE39tgkuHFq3MlsEU7sORSnoWgsxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n00KdUe3; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ad55ded6e84so13736466b.1
+        for <linux-media@vger.kernel.org>; Fri, 23 May 2025 23:27:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748068046; x=1748672846; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=SrCnX7ZGW71AQWL3Tr85Pt+nNECZZ216v6JjnroPo+c=;
+        b=n00KdUe38jMT7uHSqtSacA7F8jAyxrr48zZjnQ4eAg3aFEamf5PamFg5Wu5ab8p3PO
+         xoYE17njQCesAWUJyaz+tBdcypmaBnZWSRo1TC84nyLQ+gcrT0fcw5Rql57T/hUR/Scm
+         G7mVjJ+fTaDqe+7pF7MDcRYtecjkIFZn8VEmaqBgAqntUulV/cofCveqIklAmJim7N65
+         HYeJiSiHkb25kufVgXY7ygGD8GiJF+nkB1jvEsffuuiVLSpT+JYEJSCGIdaHHNHkpkaJ
+         6XJuDeIB12SWOsELqK5KC/y8Cdcs5f3brVbee3UHtZ8ul2hEvts7bUdXR+e8NhD64m7N
+         y5/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748068046; x=1748672846;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SrCnX7ZGW71AQWL3Tr85Pt+nNECZZ216v6JjnroPo+c=;
+        b=Est7yrKEp2C4+ybo0xx+1LBNhSXcsYhKFu/FToE/lf9hY/PPkyLCgh3/SqQdfUsskP
+         NAhMQ65Y7ep0sfAsEB5VXIIe7vHKCL5/ACeIqrPWggDr6p8gnxbyQw2uhYTWw8s0tAZo
+         GSYG5KhO/XL1xjjxTzxVoz24B7Q4uf9W/wpiZDPRsdXXlybFb0XYOMmJK9J1PXyLhAGP
+         3yIFS6xO21+F0+LnH0LYJkTJBFAgltnWom6LPHs4fOrM4RhY+deblefamXuXl1WkXkCl
+         qIwiWqt1qYGWlvsoTNwiEBuvdDgDajI5ySckvbi9LGzntzdofHe7Cc5g3ihQDmnUBfey
+         9Eqw==
+X-Forwarded-Encrypted: i=1; AJvYcCX+olf/qKOJUVgbBTaR+cHmbSiffACA/fA3LfhkTOVVzGg3MWIA/0Hw2wIdCFUAHs38xI8LTt7ho9pCQA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/tr/ubdnQa1A8YSa+Zw+UzLWzYqlBvf5Y3I6gYHY3Bh5//thP
+	gjVUF88RI6SKf8nXDBqr64SWV48fpKXCok/etN8pLV1p/l1OQmGK7Vm9TVdE6d+CgmP/j+gQ93D
+	At/E3
+X-Gm-Gg: ASbGnctpOtO8d32Itfcp2zfnzVoF35ZyxnfqgEaXs9l9lBIv9WMg2JltKcvpLwwCbHO
+	dRtYCklUo8p8nKLG29s/EUoeoYFvqv10kNFx4m/W/luBsGYCs5Cla5Wo9e1mF3h8GhPqCIPoiM3
+	BubphbgsY7W1iQnfr51AF3WiGc3qxNJ/TynASR1lEp2SwhJP5ZswfBi9R/TvjPWqKpx06P5/Tpd
+	5E/eR4Ct4aWqDICbZ4ta0iic7p+N9To+dWhDQ5aHzBb0MNk8xBzWbsqAeSPiZ0Gl1nemBjfeeQb
+	A5U4HhJWGkt8gYjvrsASmizDDhPryOHiE58UZEYOzOk9IGziAcPODXNpJuWWQ7IRWQMrpOU=
+X-Google-Smtp-Source: AGHT+IFrGOHRDPV2gmNCJFm1ILCmmRF9v/HBorbGU1yfb5w8KGXInfeDVlK0y6rEslMoaySXGbfAkw==
+X-Received: by 2002:a17:907:2e01:b0:ace:ef48:c7c1 with SMTP id a640c23a62f3a-ad85ae6d64fmr40696166b.0.1748068045678;
+        Fri, 23 May 2025 23:27:25 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d04af2asm1357676766b.4.2025.05.23.23.27.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 May 2025 23:27:24 -0700 (PDT)
+Message-ID: <fdd10564-2041-4ee4-9546-fbcce12e1d52@linaro.org>
+Date: Sat, 24 May 2025 08:27:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3909686a-be14-4b0b-8336-0674667d5159@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND 1/2] media: dt-bindings: nxp,imx8-jpeg: Add
+ compatible strings for IMX95 JPEG
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, Frank Li <Frank.Li@nxp.com>,
+ mirela.rabulea@nxp.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com
+Cc: imx@lists.linux.dev, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, ming.qian@nxp.com
+References: <20250521-95_jpeg-v1-0-392de5d29672@nxp.com>
+ <20250521173444.310641-1-Frank.Li@nxp.com>
+ <eef5ccd99d82dd33e3a4ecdb5d4a5b75ccb0b972.camel@ndufresne.ca>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <eef5ccd99d82dd33e3a4ecdb5d4a5b75ccb0b972.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 20, 2025 at 08:57:42PM +1000, Alexey Kardashevskiy wrote:
+On 24/05/2025 01:22, Nicolas Dufresne wrote:
+> Hi,
 > 
+> Le mercredi 21 mai 2025 à 13:34 -0400, Frank Li a écrit :
+>> Add compatible strings "nxp,imx95-jpgdec" and "nxp,imx95-jpgenc", which
+>> are backward compatible with "nxp,imx8qxp-jpgdec" and
+>> "nxp,imx8qxp-jpegenc". i.MX95 just need one power domain which combine
+>> wrap and all slots together. Reduce minItems of power-domains to 1 for
+>> i.MX95 and keep the same restriction for others.
+>>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > 
-> On 16/5/25 04:02, Xu Yilun wrote:
-> > > IMHO, I think it might be helpful that you can picture out what are the
-> > > minimum requirements (function/life cycle) to the current IOMMUFD TSM
-> > > bind architecture:
-> > > 
-> > > 1.host tsm_bind (preparation) is in IOMMUFD, triggered by QEMU handling
-> > > the TVM-HOST call.
-> > > 2. TDI acceptance is handled in guest_request() to accept the TDI after
-> > > the validation in the TVM)
-> > 
-> > I'll try my best to brainstorm and make a flow in ASCII.
-> > 
-> > (*) means new feature
-> > 
-> > 
-> >        Guest          Guest TSM       QEMU           VFIO            IOMMUFD       host TSM          KVM
-> >        -----          ---------       ----           ----            -------       --------          ---
-> > 1.                                                                               *Connect(IDE)
-> > 2.                                 Init vdev
-> > 3.                                *create dmabuf
-> > 4.                                               *export dmabuf
-> > 5.                                create memslot
-> > 6.                                                                                              *import dmabuf
-> > 7.                                setup shared DMA
-> > 8.                                                                 create hwpt
-> > 9.                                               attach hwpt
-> > 10.                                  kvm run
-> > 11.enum shared dev
-> > 12.*Connect(Bind)
-> > 13.                  *GHCI Bind
-> > 14.                                  *Bind
-> > 15                                                                 CC viommu alloc
-> > 16.                                                                vdevice allloc
-> > 16.                                              *attach vdev
+> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > 
+> Krzysztof, will you take this one once the DTS part is ready ?
 > 
-> This "attach vdev" - we are still deciding if it goes to IOMMUFD or VFIO, right?
+No, that's a media patch, not a Samsung or any other subsystem I
+maintain. I do not have write access to media tree.
 
-This should be "tsm bind". Seems Jason's suggestion is place the IOCTL
-against VFIO, then VFIO reach into IOMMUFD to do the real
-pci_tsm_bind().
-
-https://lore.kernel.org/all/20250515175658.GR382960@nvidia.com/
-
-> 
-> 
-> > 17.                                                               *setup CC viommu
-> > 18                                                                 *tsm_bind
-> > 19.                                                                                  *bind
-> > 20.*Attest
-> > 21.               *GHCI get CC info
-> > 22.                                 *get CC info
-> > 23.                                                                *vdev guest req
-> > 24.                                                                                 *guest req
-> > 25.*Accept
-> > 26.             *GHCI accept MMIO/DMA
-> > 27.                                *accept MMIO/DMA
-> > 28.                                                               *vdev guest req
-> > 29.                                                                                 *guest req
-> > 30.                                                                                              *map private MMIO
-> > 31.             *GHCI start tdi
-> > 32.                                *start tdi
-> > 33.                                                               *vdev guest req
-> > 34.                                                                                 *guest req
-> 
-> 
-> I am not sure I follow the layout here. "start tdi" and "accept MMIO/DMA" are under "QEMU" but QEMU cannot do anything by itself and has to call VFIO or some other driver...
-> 
-
-Yes. Call IOCTL(iommufd, IOMMUFD_VDEVICE_GUEST_REQUEST, vdevice_id)
-
-> > 35.Workload...
-> > 36.*disconnect(Unbind)
-> 
-> Is this a case of PCI hotunplug? Or just killing QEMU/shutting down the VM? Or stopping trusting the device and switching it to untrusted mode, to work with SWIOTLB or DiscardManager?
-> 
-
-switching to untrusted mode. But I think hotunplug would finally trigger
-the same host side behavior, only no need the guest to "echo 0 > connect"
-
-> > 37.              *GHCI unbind
-> > 38.                                *Unbind
-> > 39.                                            *detach vdev
-> > 40.                                                               *tsm_unbind
-> > 41.                                                                                 *TDX stop tdi
-> > 42.                                                                                 *TDX disable mmio cb
-> > 43.                                            *cb dmabuf revoke
-> 
-> 
-> ... like VFIO and hostTSM - "TDX stop tdi" and "cb dmabuf revoke" are not under QEMU.
-
-Correct. These are TDX Module specific requirements, we don't want them
-to make the general APIs unnecessary verbose.
-
-> 
-> 
-> > 44.                                                                                               *unmap private MMIO
-> > 45.                                                                                 *TDX disable dma cb
-> > 46.                                                              *cb disable CC viommu
-> > 47.                                                                                 *TDX tdi free
-> > 48.                                                                                 *enable mmio
-> > 49.                                            *cb dmabuf recover
-> 
-> 
-> What is the difference between "cb dmabuf revoke" and "cb dmabuf recover"?
-
-revoke revokes private S-EPT mapping, recover means KVM could then do
-shared MMIO mapping on EPT.
-
-Thanks,
-Yilun
-
-> 
-> 
-> > 50.workable shared dev
-> > 
-> > TSM unbind is a little verbos & specific to TDX Connect, but SEV TSM could
-> > ignore these callback. Just implement an "unbind" tsm ops.
-> 
-> 
-> Well, something need to clear RMP entries, can be done in the TDI unbind or whenever you will do it.
-> 
-> And the chart applies for AMD too, more or less. Thanks,
-> 
-> 
-> > Thanks,
-> > Yilun
-> > 
-> > > 
-> > > and which part/where need to be modified in the current architecture to
-> > > reach there. Try to fold vendor-specific knowledge as much as possible,
-> > > but still keep them modular in the TSM driver and let's see how it looks
-> > > like. Maybe some example TSM driver code to demonstrate together with
-> > > VFIO dma-buf patch.
-> > > 
-> > > If some where is extremely hacky in the TSM driver, let's see how they
-> > > can be lift to the upper level or the upper call passes more parameters
-> > > to them.
-> 
-> 
-> 
-> -- 
-> Alexey
-> 
+Best regards,
+Krzysztof
 
