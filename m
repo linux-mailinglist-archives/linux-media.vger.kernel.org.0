@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-33324-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33325-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43A8AC2FE3
-	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 15:37:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C1BAC2FE7
+	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 15:38:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 152033BAE00
-	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 13:37:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E350189DD41
+	for <lists+linux-media@lfdr.de>; Sat, 24 May 2025 13:38:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4FC1E47A8;
-	Sat, 24 May 2025 13:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30F4D1E7C08;
+	Sat, 24 May 2025 13:37:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eOIIg87z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FISFleck"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC07182D0;
-	Sat, 24 May 2025 13:37:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844411E5B62;
+	Sat, 24 May 2025 13:37:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748093863; cv=none; b=P63ql6Hsc3QJm3jXYrIDWZ96/tg5Z8csF37x/9q2jHbp7K7D76qr7odOREUk3G/7sFuXcF0FrzpfKGrttpCC1T+JZvDNyCcFc/Y6akzshIoVkKeB8T4ZsGxcxsMhKq4h89hVj9TrB92cheW9b74haC7eI/kaFfUHqq6SRfFogRY=
+	t=1748093865; cv=none; b=iZVezpURCuC+sivn0PcEpjcwtmM1izECZgqLAxSRNtpZKSU0hMyqQt9ALURcTt4oLOxNNkjV0tPB3O6v3ua6TPP7Y8/Sxj7NQ6Gn+k3iVANzZaCrA8VY6d8zKGe+q8ZuJ10AwrvOnRMRkr7kfKcqZqsM/gKWvQKfPrZ/4kOUfW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748093863; c=relaxed/simple;
-	bh=Dy6g9iTJD8/sXEcSHCbtuzEf0zlqojTeZLePMYmRv+w=;
+	s=arc-20240116; t=1748093865; c=relaxed/simple;
+	bh=Rr1Xa7yDBxx2hT3ic3Dq3kYtEe67rYrGKMaE4/DKIwA=;
 	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=OzGmSIAuJqreR/jsPDBzMOubFv6kg/szzKTJoX3tpDpsqjgDP0BXss+QLf0smHfENeHF9iL/Qn1BDVHoruNBugYba4/8UrXnapBG+545Gl2IuBF0NmeffeomaauK1oszb9vyNVkz9mX3NzViEY2BlrH2tcuJmnhVJtQlvWp3eIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eOIIg87z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03C23C4CEE4;
-	Sat, 24 May 2025 13:37:42 +0000 (UTC)
+	 Message-Id:Subject; b=WnUrjhHf6H/B5Y4353VZ2bMHDTizQpHbjnNWVOQvftOxeWgBj5Q8wK1GGr5Ac/aQqjlrjUdijwnRRMpxJ2MCAqKppsq4UyeN8nBMuOrFdgqjxWeu67yequCFboIN3qpdPWHBf3AdiAOefsJuKev8olSFzDgHgo/s469VJq45uRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FISFleck; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33215C4CEE4;
+	Sat, 24 May 2025 13:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748093863;
-	bh=Dy6g9iTJD8/sXEcSHCbtuzEf0zlqojTeZLePMYmRv+w=;
+	s=k20201202; t=1748093865;
+	bh=Rr1Xa7yDBxx2hT3ic3Dq3kYtEe67rYrGKMaE4/DKIwA=;
 	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=eOIIg87zh16DG5Ntu2dB+0edVj7Y2lCGJkJb5PPPgPxMknBBYeI/bGEcagqr2lCgr
-	 M64M3gQLleXjic+p5O+b3eEmbIoapNkQLziZv4RN0U9kzMotl28HijCMHRYRJFdO57
-	 a6f4PLTUdcu1GehK2z1NK/hsxdX5U88+UgMAXJeIAzgCnvygIzMZYGroaGJa3Aktln
-	 8xtc1vwFlXb0FLf5+2tJp2W9AaF7KRWJz4R+usnWbM8399sg6wn3KW8kIT1oQcj4vs
-	 g+wfQKDQHnOKclykBkDi/k245pxD4r/2eAr0fWYzWQRTzw97nSIvSGs+qcwLhl6pYy
-	 DrKSNNenJ0PwA==
-Date: Sat, 24 May 2025 08:37:41 -0500
+	b=FISFleckQqpX8PG34UP4oEbwrm5iGq6A8n3X69FzrvWxQWwvKJzQ9e+P/QM8S0u35
+	 y9n1I82g2LTp2zNrb2xfRdZ7JifsjuiAoz0sGOLuGOCOUhedonT5hTdnLmSCyY1aHH
+	 phoDVeau2VmbN8+vmT8zCRMxfo03oJiYSOBc+Z1ZBLrLgZnw/1I7lpWT+jaw/2q/R8
+	 mF5JROn1rARZWhV8uFmDmYFt0739S8Sq2Znd411d+ouNpV793Xjc4/O42jyztXmXQt
+	 WvmY9P9uXAh0I5kD/gpzTjz8ovjRIDyUf3Jf7GNoH+YOfOWB2vavu+xY3DHSHTtYEX
+	 1PQL8CGIz1edA==
+Date: Sat, 24 May 2025 08:37:43 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -51,31 +51,34 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: teddy.chen@mediatek.com, linux-arm-kernel@lists.infradead.org, 
- yunkec@chromium.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-mediatek@lists.infradead.org, 
- devicetree@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>, 
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- linux-media@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+Cc: teddy.chen@mediatek.com, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com, 
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org, 
+ yunkec@chromium.org
 To: Olivia Wen <olivia.wen@mediatek.com>
-In-Reply-To: <20250524115144.3832748-2-olivia.wen@mediatek.com>
+In-Reply-To: <20250524115144.3832748-3-olivia.wen@mediatek.com>
 References: <20250524115144.3832748-1-olivia.wen@mediatek.com>
- <20250524115144.3832748-2-olivia.wen@mediatek.com>
-Message-Id: <174809386038.549652.1263468272508643617.robh@kernel.org>
-Subject: Re: [PATCH v1 01/10] dt-bindings: media: Add MediaTek mt8188
- ImgSys components
+ <20250524115144.3832748-3-olivia.wen@mediatek.com>
+Message-Id: <174809386113.549698.18274088720500456314.robh@kernel.org>
+Subject: Re: [PATCH v1 02/10] dt-bindings: media: Add MT8188 ImgSys's LARB
 
 
-On Sat, 24 May 2025 19:49:53 +0800, Olivia Wen wrote:
-> Introduce more Image System (ImgSys) components present in MT8188.
+On Sat, 24 May 2025 19:49:54 +0800, Olivia Wen wrote:
+> This patch adds support for the MT8188 Image System's Local Arbiter
+> (LARB) in the device tree bindings. The LARB is a crucial component in
+> MediaTek's ImgSys architecture, responsible for managing memory access
+> and arbitration between various hardware modules.
 > 
 > Signed-off-by: Olivia Wen <olivia.wen@mediatek.com>
 > ---
->  .../bindings/media/mediatek,imgsys.yaml       | 180 ++++++++++++++++++
->  1 file changed, 180 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,imgsys.yaml
+>  .../bindings/media/mediatek,imgsys-larbs.yaml | 75 +++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,imgsys-larbs.yaml
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -83,12 +86,11 @@ My bot found errors running 'make dt_binding_check' on your patch:
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/mediatek,imgsys.example.dtb: imgsys-fw@15000000 (mediatek,mt8188-isp-imgsys): reg: [[0, 352321536], [0, 16384], [0, 352452608], [0, 65536], [0, 352583680], [0, 65536], [0, 358875136], [0, 65536], [0, 353370112], [0, 65536], [0, 353697792], [0, 65536], [0, 354484224], [0, 65536], [0, 357629952], [0, 65536], [0, 354418688], [0, 65536], [0, 357564416], [0, 65536], [0, 358612992], [0, 65536], [0, 354549760], [0, 256], [0, 355598336], [0, 65536], [0, 357695488], [0, 256], [0, 358744064], [0, 256], [0, 353435648], [0, 256], [0, 353566720], [0, 256]] is too long
-	from schema $id: http://devicetree.org/schemas/media/mediatek,imgsys.yaml#
+Documentation/devicetree/bindings/media/mediatek,imgsys-larbs.example.dtb: /example-0/imgsys-l11b: failed to match any schema with compatible: ['mediatek,mt8188-imgsys-larb']
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250524115144.3832748-2-olivia.wen@mediatek.com
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250524115144.3832748-3-olivia.wen@mediatek.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
