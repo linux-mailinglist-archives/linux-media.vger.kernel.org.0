@@ -1,256 +1,150 @@
-Return-Path: <linux-media+bounces-33329-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33331-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98D1AC3579
-	for <lists+linux-media@lfdr.de>; Sun, 25 May 2025 17:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5C0AC366C
+	for <lists+linux-media@lfdr.de>; Sun, 25 May 2025 21:25:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 94A403B5C9C
-	for <lists+linux-media@lfdr.de>; Sun, 25 May 2025 15:50:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 546DA3B5030
+	for <lists+linux-media@lfdr.de>; Sun, 25 May 2025 19:25:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 089A51F790F;
-	Sun, 25 May 2025 15:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D32BD264FA6;
+	Sun, 25 May 2025 19:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="YXLFAE69"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nTrLLJI5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D134A1D
-	for <linux-media@vger.kernel.org>; Sun, 25 May 2025 15:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E7272637;
+	Sun, 25 May 2025 19:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748188222; cv=none; b=dNyqAc8ymh2rpY4ahzG/xoFMmrzEg2qEP7XxhpWo+GbxcOvrPfg5sK7HDMU8CeCM6dePo7mc6oCDBzUf7+nDjDOeqZZQjlS4bDgL7pSmmQiITZySABjaUA1LFd4zYPfytwwc9drEwC7dYYqiC/kRa4ZdO9YlGkeflv73je3pQGM=
+	t=1748201105; cv=none; b=iasVIqDqRFGCXf01CKG6ad4Cp3xJ0KV+MggsFsDco06cm/XpVgwEVE3gqNBJPew0zCpWV2HhZgVQeNtk7F1b+oLEfFsEe1vSYdc//+8CTwNv/JA3yK8beBiLqrNC+qW9xaUYbeDxFZIBxpVLU0+blc3J45v527cbMsYBMMg7Cak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748188222; c=relaxed/simple;
-	bh=2V2OtQBaJ9u+7m8UqZqTQPPEl5D7FC54G0PsYlF80y0=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=Jde+kUqOhQn2e+WK0sVZC5hMgUC7fxV536Ad7dz2DfOs45KPl8fMn6h0nr/XEgNxeaqrLpRGNvgYdI4Xbs+wVum9GDhrlnXq1yXj2nN/r/NzvpqXSGFcbhykLjWyq0stN356JYRXLE1rJmOqogiSlYJpWDJHkbtykrk5Cect3T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=YXLFAE69; arc=none smtp.client-ip=88.97.38.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1748187686; bh=2V2OtQBaJ9u+7m8UqZqTQPPEl5D7FC54G0PsYlF80y0=;
-	h=From:To:Subject:Date:From;
-	b=YXLFAE69nYhupYRHGc0BgRpAkcVMBmN/9hfj9VxaO4FqjWxn4o5P1aH81Oml29orV
-	 L3i9cip6rYF16VwGLMWjLq/QNBn1pTop9+Rk4PT9mHJ3psYMGQxHWtHHKT6ZtbfPYQ
-	 nvalJCjOY6m/+7TVUpNAR90uJ2rh2X5mWAABWH3fA2zHpEjgLu7AMf2J6vcUWlcaTz
-	 BCZcN6Um+ju/eN4LF67FrxYP4PewjJ5TOEhyKKNVzchcu3E6t1hJE1aWc2TirJB794
-	 nSz4O3IPtvZo+O96Gmda2dO5atr1e4APBtndfXvD1ATVW7eQm84k5a3oUFJA/w/jtY
-	 3UAKXSVuVasEA==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id A3E9010007D; Sun, 25 May 2025 16:41:26 +0100 (BST)
-From: Sean Young <sean@mess.org>
-To: linux-media@vger.kernel.org
-Subject: [PATCH v4l-utils]: ir-ctl: remove quirky -rmw command line parsing
-Date: Sun, 25 May 2025 16:41:26 +0100
-Message-Id: <20250525154126.1546895-1-sean@mess.org>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1748201105; c=relaxed/simple;
+	bh=Rfp4t3oNNdUnf4CSzby65fbywfI+1IZsu6oziz1pucM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MVAPPHWNLqlrDEhAQcZWNUuI5XWXRMR8cfXg4JKxkBVeWxYz1oYBIfbXFtLKLPmDYULnTsqeCBqdhkXDghOGRvmc5lWnVdB5wJmilova6EYD8+LIvs3A6LYh1+P3qPoCJKt5x8uxXPmBBY0BJ953VZABXG1/JQZNTvwz6JvVn3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nTrLLJI5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 81EE0C4CEEA;
+	Sun, 25 May 2025 19:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748201104;
+	bh=Rfp4t3oNNdUnf4CSzby65fbywfI+1IZsu6oziz1pucM=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=nTrLLJI5TxFJJSJtg7QqTXJZY7W+rRq4Ndi7OLyAwtjCUqyNYNcBVbcqVgSVxye/c
+	 YCYAHTz1QTfBOb1riBBI+iNZdMKJiB3992LOMl86KfJ3MYZyiDLrF4R2KcpgtTgSkX
+	 +W6XHPKFMqlvMfEjS2TAvceRvdbKApFQaKnUp/1mvFN6MUw9jCLBWkpbZQ90ij3F/x
+	 TKvkMeQIG2MYp8R5EqJmGV03cKIXIOxodGUL7Jns1RzRflHkwDX3mOCJfMHyETkLHp
+	 DkPJd1B5VEme85Zz23RHbznjufg9spZ6ptjc87DSf3BeLbzDtk2WjgS6mGjYtKgram
+	 OxcBbukxNvYDA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 730A0C5AE59;
+	Sun, 25 May 2025 19:25:04 +0000 (UTC)
+From: Vincent Knecht via B4 Relay <devnull+vincent.knecht.mailoo.org@kernel.org>
+Subject: [PATCH v2 0/4] CAMSS support for MSM8939
+Date: Sun, 25 May 2025 21:25:00 +0200
+Message-Id: <20250525-camss-8x39-vbif-v2-0-6d3d5c5af456@mailoo.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIxuM2gC/2WNwQ7CIBAFf6XZs2sAQwue/A/TA1JoN7GlAUNqG
+ v5dbLx5nEnevB2Si+QSXJsdosuUKCwVxKkBO5lldEhDZRBMSCZ5h9bMKaHaLhrzgzzqTnovFdd
+ cK6irNTpP21G895UnSq8Q38dB5l/7awn218ocGRou7NAy1hqvb7OhZwjnEEfoSykfDlOAh68AA
+ AA=
+X-Change-ID: 20250517-camss-8x39-vbif-975ff5819198
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ Vincent Knecht <vincent.knecht@mailoo.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748201103; l=2711;
+ i=vincent.knecht@mailoo.org; s=20250414; h=from:subject:message-id;
+ bh=Rfp4t3oNNdUnf4CSzby65fbywfI+1IZsu6oziz1pucM=;
+ b=cLggF4BQt2BLpzNbBwUmm3+tg/OQMV89+wZPGaUmai4j0vcMpvStMPHX2s3775Ku65XtuxSWc
+ FldLQSyTYygChOTnfZpgEXXvtklI9dzyIXgbslaompIW/2JT5MNqfbg
+X-Developer-Key: i=vincent.knecht@mailoo.org; a=ed25519;
+ pk=MFCVQkhL3+d3NHDzNPWpyZ4isxJvT+QTqValj5gSkm4=
+X-Endpoint-Received: by B4 Relay for vincent.knecht@mailoo.org/20250414
+ with auth_id=377
+X-Original-From: Vincent Knecht <vincent.knecht@mailoo.org>
+Reply-To: vincent.knecht@mailoo.org
 
-The receive option takes an optional file name, even when specified as a
-short option without an `='. So, ir-ctl -rmw saves the output to a file
-called mw. You would expect the -r, -m, and -w options to be specified.
+This series adds CAMSS support for MSM8939.
+It's mostly identical to MSM8916, except for some clocks
+and an additional CSI.
 
-This commit removes the file argument completely. Saving to a file is
-confusing and does not really have a good use-case. I've never heard of
-anyone using this feature.
+To fix black stripes across sensor output, and garbage in
+CSID TPG output, 2 VFE VBIF register settings are needed.
+So the 1st patch adds helper functions to do just that.
 
-On top of that, I'm implementing a ir-ctl compatibility mode in cir[1],
-and clap does not support short options with an optional value without
-`='; see the note[2].
+Patch 1: adds helper for VFE VBIF settings
+Patch 2: adds CAMSS_8x39 version in CAMSS driver
+Patch 3: documents qcom,msm8939-camss DT bindings
+Patch 4: adds camss and cci in msm8939.dtsi
 
-[1] https://gitlab.freedesktop.org/linux-media/tools/cir
-[2] https://docs.rs/clap/latest/clap/struct.Arg.html#method.default_missing_value
-
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
 ---
- utils/ir-ctl/ir-ctl.1.in |  9 +++-----
- utils/ir-ctl/ir-ctl.c    | 46 ++++++++++++----------------------------
- 2 files changed, 17 insertions(+), 38 deletions(-)
+Changes in v2:
+- Patch 1:
+  - Fix devm_platform_ioremap_resource_byname line to not end with
+    opening parenthesis (media-ci/1-checkpatch)
+  - Move camss-vfe-4-1.c handling of VBIF previously in patch 2 here
+    (Dmitry)
+- Patch 2:
+  - Declare regulators in PHY entries, not CSID ones (Bryan)
+- Patch 3: (bindings)
+  - Fix bindings checks for new errors (Rob)
+  - Fix properties ordering, code-style and example (Krzysztof)
+  - Sort reg-names, clock-names and interrupt-names alphanumerically (Bryan)
+- Patch 4: (dtsi)
+  - Move #address/#size cells before status (Konrad)
+  - Aligned CCI with msm8916, thus removing ispif_ahb mention (Konrad)
+    If "camss_ahb should be unnecessary", it's still required by qcom,i2c-cci.yaml
+- Link to v1: https://lore.kernel.org/r/20250520-camss-8x39-vbif-v1-0-a12cd6006af9@mailoo.org
 
-diff --git a/utils/ir-ctl/ir-ctl.1.in b/utils/ir-ctl/ir-ctl.1.in
-index f1ed2640..8fe74675 100644
---- a/utils/ir-ctl/ir-ctl.1.in
-+++ b/utils/ir-ctl/ir-ctl.1.in
-@@ -18,7 +18,7 @@ ir\-ctl \- a swiss\-knife tool to handle raw IR and to set lirc options
- [\fIOPTION\fR]... \fI\-\-keycode\fR [\fIkeycode to send\fR]
- .br
- .B ir\-ctl
--[\fIOPTION\fR]... \fI\-\-receive\fR [\fIsave to file\fR]
-+[\fIOPTION\fR]... \fI\-\-receive\fR
- .SH DESCRIPTION
- ir\-ctl is a tool that allows one to list the features of a lirc device,
- set its options, receive raw IR, and send IR.
-@@ -36,9 +36,8 @@ lirc device to control, /dev/lirc0 by default
- \fB\-f\fR, \fB\-\-features\fR
- List the features of the lirc device.
- .TP
--\fB\-r\fR, \fB\-\-receive\fR[=\fIFILE\fR]
--Receive IR and print to standard output if no file is specified, else
--save to the filename.
-+\fB\-r\fR, \fB\-\-receive\fR
-+Receive IR and print to standard output.
- .TP
- \fB\-s\fR, \fB\-\-send\fR=\fIFILE\fR
- Send IR in text file. It must be in the format described below. If this
-@@ -238,8 +237,6 @@ To show the IR of the first button press on a remote in learning mode:
- .br
- 	\fBir\-ctl \-r \-m \-w\fR
- .PP
--Note that \fBir\-ctl \-rmw\fR would receive to a file called \fBmw\fR.
--.PP
- To restore the normal (longer distance) receiver:
- .br
- 	\fBir\-ctl \-n \-M\fR
-diff --git a/utils/ir-ctl/ir-ctl.c b/utils/ir-ctl/ir-ctl.c
-index e662651e..8600fbe6 100644
---- a/utils/ir-ctl/ir-ctl.c
-+++ b/utils/ir-ctl/ir-ctl.c
-@@ -100,7 +100,6 @@ struct arguments {
- 	struct keymap *keymap;
- 	struct send *send;
- 	bool oneshot;
--	char *savetofile;
- 	int wideband;
- 	unsigned carrier_low, carrier_high;
- 	unsigned timeout;
-@@ -115,7 +114,7 @@ struct arguments {
- static const struct argp_option options[] = {
- 	{ "device",	'd',	N_("DEV"),	0,	N_("lirc device to use") },
- 	{ "features",	'f',	0,		0,	N_("list lirc device features") },
--	{ "receive",	'r',	N_("FILE"),	OPTION_ARG_OPTIONAL,	N_("receive IR to stdout or file") },
-+	{ "receive",	'r',	0,		0,	N_("receive IR to stdout") },
- 	{ "send",	's',	N_("FILE"),	0,	N_("send IR pulse and space file") },
- 	{ "scancode",	'S',	N_("SCANCODE"),	0,	N_("send IR scancode in protocol specified") },
- 	{ "keycode",	'K',	N_("KEYCODE"),	0,	N_("send IR keycode from keymap") },
-@@ -140,7 +139,7 @@ static const struct argp_option options[] = {
- 
- static const char args_doc[] = N_(
- 	"--features\n"
--	"--receive [save to file]\n"
-+	"--receive\n"
- 	"--send [file to send]\n"
- 	"--scancode [scancode to send]\n"
- 	"--keycode [keycode to send]\n"
-@@ -602,12 +601,6 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
- 			argp_error(state, _("receive can not be combined with features or send option"));
- 
- 		arguments->receive = true;
--		if (arg) {
--			if (arguments->savetofile)
--				argp_error(state, _("receive filename already set"));
--
--			arguments->savetofile = arg;
--		}
- 		break;
- 	case '1':
- 		arguments->oneshot = true;
-@@ -1126,7 +1119,6 @@ static int lirc_send(struct arguments *args, int fd, unsigned features, struct s
- int lirc_receive(struct arguments *args, int fd, unsigned features)
- {
- 	char *dev = args->device;
--	FILE *out = stdout;
- 	int rc = EX_IOERR;
- 	int mode = LIRC_MODE_MODE2;
- 
-@@ -1141,13 +1133,6 @@ int lirc_receive(struct arguments *args, int fd, unsigned features)
- 		return EX_IOERR;
- 	}
- 
--	if (args->savetofile) {
--		out = fopen(args->savetofile, "w");
--		if (!out) {
--			fprintf(stderr, _("%s: failed to open for writing: %m\n"), args->savetofile);
--			return EX_CANTCREAT;
--		}
--	}
- 	unsigned buf[LIRCBUF_SIZE];
- 
- 	bool keep_reading = true;
-@@ -1188,20 +1173,20 @@ int lirc_receive(struct arguments *args, int fd, unsigned features)
- 			if (args->mode2) {
- 				switch (msg) {
- 				case LIRC_MODE2_TIMEOUT:
--					fprintf(out, "timeout %u\n", val);
-+					printf("timeout %u\n", val);
- 					leading_space = true;
- 					break;
- 				case LIRC_MODE2_PULSE:
--					fprintf(out, "pulse %u\n", val);
-+					printf("pulse %u\n", val);
- 					break;
- 				case LIRC_MODE2_SPACE:
--					fprintf(out, "space %u\n", val);
-+					printf("space %u\n", val);
- 					break;
- 				case LIRC_MODE2_FREQUENCY:
--					fprintf(out, "carrier %u\n", val);
-+					printf("carrier %u\n", val);
- 					break;
- 				case LIRC_MODE2_OVERFLOW:
--					fprintf(out, "overflow\n");
-+					printf("overflow\n");
- 					leading_space = true;
- 					break;
- 				}
-@@ -1209,41 +1194,38 @@ int lirc_receive(struct arguments *args, int fd, unsigned features)
- 				switch (msg) {
- 				case LIRC_MODE2_TIMEOUT:
- 					if (carrier)
--						fprintf(out, "-%u # carrier %uHz\n", val, carrier);
-+						printf("-%u # carrier %uHz\n", val, carrier);
- 					else
--						fprintf(out, "-%u\n", val);
-+						printf("-%u\n", val);
- 					leading_space = true;
- 					carrier = 0;
- 					break;
- 				case LIRC_MODE2_PULSE:
--					fprintf(out, "+%u ", val);
-+					printf("+%u ", val);
- 					break;
- 				case LIRC_MODE2_SPACE:
--					fprintf(out, "-%u ", val);
-+					printf("-%u ", val);
- 					break;
- 				case LIRC_MODE2_FREQUENCY:
- 					carrier = val;
- 					break;
- 				case LIRC_MODE2_OVERFLOW:
- 					if (carrier)
--						fprintf(out, "# carrier %uHz, overflow\n", carrier);
-+						printf("# carrier %uHz, overflow\n", carrier);
- 					else
--						fprintf(out, "# overflow\n");
-+						printf("# overflow\n");
- 					leading_space = true;
- 					carrier = 0;
- 					break;
- 				}
- 			}
- 
--			fflush(out);
-+			fflush(stdout);
- 		}
- 	}
- 
- 	rc = 0;
- err:
--	if (args->savetofile)
--		fclose(out);
--
- 	return rc;
- }
- 
+---
+Vincent Knecht (4):
+      media: qcom: camss: vfe: Add VBIF setting support
+      media: qcom: camss: Add support for MSM8939
+      media: dt-bindings: Add qcom,msm8939-camss
+      arm64: dts: qcom: msm8939: Add camss and cci
+
+ .../bindings/media/qcom,msm8939-camss.yaml         | 253 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8939-pm8916.dtsi       |   4 +
+ arch/arm64/boot/dts/qcom/msm8939.dtsi              | 146 ++++++++++++
+ drivers/media/platform/qcom/camss/Makefile         |   1 +
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
+ drivers/media/platform/qcom/camss/camss-ispif.c    |   8 +-
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c  |  11 +
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.c |  37 +++
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.h |  19 ++
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  10 +
+ drivers/media/platform/qcom/camss/camss-vfe.h      |   3 +
+ drivers/media/platform/qcom/camss/camss.c          | 157 +++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 13 files changed, 649 insertions(+), 2 deletions(-)
+---
+base-commit: 8566fc3b96539e3235909d6bdda198e1282beaed
+change-id: 20250517-camss-8x39-vbif-975ff5819198
+
+Best regards,
 -- 
-2.49.0
+Vincent Knecht <vincent.knecht@mailoo.org>
+
 
 
