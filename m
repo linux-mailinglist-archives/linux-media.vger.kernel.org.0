@@ -1,150 +1,153 @@
-Return-Path: <linux-media+bounces-33409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33410-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935BBAC4303
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 18:28:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C539AC43E1
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 20:41:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 464267A2281
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 16:27:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3896F3ACEF1
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 18:41:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88BCC23E336;
-	Mon, 26 May 2025 16:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D07623ED6A;
+	Mon, 26 May 2025 18:41:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailoo.org header.i=@mailoo.org header.b="Z19Do2EK"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ICp9nTJQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailo.com (msg-3.mailo.com [213.182.54.8])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7D7202C26;
-	Mon, 26 May 2025 16:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.182.54.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E931B4236
+	for <linux-media@vger.kernel.org>; Mon, 26 May 2025 18:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748276926; cv=none; b=mNS4WgMLqAw1g8iVE6KcRbh1yEgA9P+9yOtXbvad2FXBdWnulXyWv6+L27RICZJDtN/Ss/+4YzROhI3eWFAAFFx2HHulADtbyar//UnAHOmZzWGlLeB0gtDIkxPaprtwFXNMAF7k50Alk1yDkKqICe7iJW7X5QJ5b3/9eOur18A=
+	t=1748284910; cv=none; b=nmXTXa3JOzZyrHZYmAVKb3SSvZKdSMrq7/ee6bM/nxPmciYeCv/UwetseQSyIhm8Nb86Q0fY3K5emEfAfK/qoesn4mnaEzRPwy/blWUxhngZo3/vCsCYkSpbTpJ+SNk129vQun8KUZcfurJ4jKQ+ZkpN1AIZbYTZ9ERzd9/p8nA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748276926; c=relaxed/simple;
-	bh=WesYvToAs6WtM8/JvS/w8lPmZbCAauuQs9r0LMUFeFE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hhkbETGAzVDb6nb7b3An9f7PIZBuW5Mt31uEwM6I3CSblFzFor4ykdkPgpVdyYxssWfuxRc/in774rw7Xe8wf9kQ12bBQu0G/ONyQtwcJv3SqAAZmGR+TxPwqsWabF60H9Dcj59jp2oLvcs6F9jfFi8rTUsAUg2+T6y0+hjFax8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mailoo.org; spf=pass smtp.mailfrom=mailoo.org; dkim=pass (1024-bit key) header.d=mailoo.org header.i=@mailoo.org header.b=Z19Do2EK; arc=none smtp.client-ip=213.182.54.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mailoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailoo.org
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
-	t=1748276913; bh=WesYvToAs6WtM8/JvS/w8lPmZbCAauuQs9r0LMUFeFE=;
-	h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=Z19Do2EKRVwFrJHxN1AoJcz9J3VcCpGqfS0gsNY0Nn9dsvxE8wC1GwQFRJQI5tvk0
-	 kQNNoZ13VhGNjRcgRrmwkXClnvzCaKD1GRO5Mb5Yo54me8ne+ZqYX43/VwQBY+1XtG
-	 H+r53OMlqUbJzdLHXCzLzDPgPJsAxxZIzf044/98=
-Received: by b221-5.in.mailobj.net [192.168.90.25] with ESMTP
-	via ip-22.mailoo.org [213.182.54.22]
-	Mon, 26 May 2025 18:28:31 +0200 (CEST)
-X-EA-Auth: thZI+eq+wJnB9pJ071hare+VCuHcapIAEi1zIKZM2k/VH4RxG/+cQFwy5X4Kg1nKahXEAeXZY5flnhMcupOr8OYi0eaUG8aXoIBwG0RcQos=
-Message-ID: <a1645a74b59c29a567477e4b3a42391f40ba0591.camel@mailoo.org>
-Subject: Re: [PATCH v2 2/4] media: qcom: camss: Add support for MSM8939
-From: Vincent Knecht <vincent.knecht@mailoo.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Robert Foss	
- <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, Mauro Carvalho
- Chehab	 <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn
- Andersson	 <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- =?ISO-8859-1?Q?Andr=E9?= Apitzsch
-	 <git@apitzsch.eu>, phone-devel@vger.kernel.org, 
-	~postmarketos/upstreaming@lists.sr.ht
-Date: Mon, 26 May 2025 18:28:30 +0200
-In-Reply-To: <cc43d9b7-13ba-44ea-9b37-fc54c0d1f2e0@linaro.org>
-References: <20250525-camss-8x39-vbif-v2-0-6d3d5c5af456@mailoo.org>
-	 <20250525-camss-8x39-vbif-v2-2-6d3d5c5af456@mailoo.org>
-	 <cc43d9b7-13ba-44ea-9b37-fc54c0d1f2e0@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1 (3.56.1-1.fc42app2) 
+	s=arc-20240116; t=1748284910; c=relaxed/simple;
+	bh=gCWLJXPUdN7SbsvQhoScbIfa0JccmKZuImwSO62Gkjc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rXgDD6DepTPKYehB3GHS5gLF3BdtGZGW1/gCrAaRfZXm499NoDmt0r508HPtXeGijtGLMOD3CHZF1PjFxo5tXa6AIaJnCcTkv/48ReXXis/nw++pN25T9mlS74POIzh1duqaqP+Gs0B3LplFxjHQEOa1rVq/Dvn2KDS/fMf+5k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ICp9nTJQ; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Mon, 26 May 2025 20:41:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1748284904;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=//3/4X1smOTo9euxVEzxPhU9KUsw8GBWxPVsUHdLyyQ=;
+	b=ICp9nTJQnuxWSIdzUsh0s7zukSsXAjgwAi5llaPPxzco7xWEkEo6SHVbtIGZsJcAc22E9Z
+	IDsxwjFLF79ggT+HholkwP3OMfGm8/dAz0P8J0vmIpGNLmdTcagiWfjskFTHZxl8ce96Tx
+	/iyD4pD57StExoWa9bVT0i5/puCFU3Y=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v4 00/10] Add strobe/flash duration v4l2 ctrl & use it
+ for ov9282
+Message-ID: <kcobmtzu4zseepn5y6mf2kbnmmsqfewxkzpy5twvm32k6jr3iz@y2clbikgcxcw>
+References: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 
-Le lundi 26 mai 2025 =C3=A0 09:20 +0100, Bryan O'Donoghue a =C3=A9crit=C2=
-=A0:
-> On 25/05/2025 20:25, Vincent Knecht via B4 Relay wrote:
-> > From: Vincent Knecht <vincent.knecht@mailoo.org>
-> >=20
-> > The camera subsystem for the MSM8939 is the same as MSM8916 except with
-> > 3 CSID instead of 2, and some higher clock rates.
-> >=20
-> > As a quirk, this SoC needs writing values to 2 VFE VBIF registers
-> > (see downstream msm8939-camera.dtsi vbif-{regs,settings} properties).
-> > This fixes black stripes across sensor and garbage in CSID TPG outputs.
-> >=20
-> > Add support for the MSM8939 camera subsystem.
-> >=20
-> > Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
-> > ---
-> > =C2=A0 drivers/media/platform/qcom/camss/camss-csiphy.c=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 1 +
-> > =C2=A0 drivers/media/platform/qcom/camss/camss-ispif.c=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 8 +-
-> > =C2=A0 drivers/media/platform/qcom/camss/camss-vfe-vbif.c |=C2=A0=C2=A0=
- 7 +
-> > =C2=A0 drivers/media/platform/qcom/camss/camss-vfe.c=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> > =C2=A0 drivers/media/platform/qcom/camss/camss.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 157 +++++++++++++++++++++
-> > =C2=A0 drivers/media/platform/qcom/camss/camss.h=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> > =C2=A0 6 files changed, 173 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers=
-/media/platform/qcom/camss/camss-csiphy.c
-> > index c622efcc92ff3781d7fc3ace0253c2d64c91e847..6311fc2975aa1345e430a47=
-7c8a6476f1d7e5663 100644
-> > --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> > +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> > @@ -605,6 +605,7 @@ int msm_csiphy_subdev_init(struct camss *camss,
-> > =C2=A0=C2=A0		return PTR_ERR(csiphy->base);
-> > =C2=A0=20
-> > =C2=A0=C2=A0	if (camss->res->version =3D=3D CAMSS_8x16 ||
-> > +	=C2=A0=C2=A0=C2=A0 camss->res->version =3D=3D CAMSS_8x39 ||
-> > =C2=A0=C2=A0	=C2=A0=C2=A0=C2=A0 camss->res->version =3D=3D CAMSS_8x53 |=
-|
-> > =C2=A0=C2=A0	=C2=A0=C2=A0=C2=A0 camss->res->version =3D=3D CAMSS_8x96) =
-{
-> > =C2=A0=C2=A0		csiphy->base_clk_mux =3D
-> > diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/=
-media/platform/qcom/camss/camss-ispif.c
-> > index 2dc585c6123dd248a5bacd9c7a88cb5375644311..aaf3caa42d33dcb641651e7=
-f5bc0c2a564d85bfa 100644
-> > --- a/drivers/media/platform/qcom/camss/camss-ispif.c
-> > +++ b/drivers/media/platform/qcom/camss/camss-ispif.c
-> > @@ -1112,6 +1112,8 @@ int msm_ispif_subdev_init(struct camss *camss,
-> > =C2=A0=C2=A0	/* Number of ISPIF lines - same as number of CSID hardware=
- modules */
-> > =C2=A0=C2=A0	if (camss->res->version =3D=3D CAMSS_8x16)
-> > =C2=A0=C2=A0		ispif->line_num =3D 2;
-> > +	else if (camss->res->version =3D=3D CAMSS_8x39)
-> > +		ispif->line_num =3D 3;
->=20
-> > +		.interrupt =3D { "vfe0" },
-> > +		.vfe =3D {
-> > +			.line_num =3D 3,
->=20
-> Hmm should we really be setting line_num inline in the code ?
->=20
-> I don't believe we should.
->=20
-> These parameters should be passed from the resources structures.
->=20
+Hi everybody,
+
+this is a friendly ping :-)
+
+Any feedback on this version of the series?
+(except for that one approved patch ;-) )
+
+Thanks & regards;
+rl
+
+On Wed, May 07, 2025 at 09:51:29AM +0200, Richard Leitner wrote:
+> This series adds a new v4l2 controls named "strobe duration" with id
+> V4L2_CID_FLASH_DURATION. This control enables setting a desired
+> flash/strobe length/duration in µs.
+> 
+> As a first user of this new control add basic flash/strobe support for
+> ov9282 sensors using their "hardware strobe output". The duration
+> calculation is only interpolated from various measurements, as no
+> documentation was found.
+> 
+> Further flash/strobe-related controls as well as a migration to v4l2-cci
+> helpers for ov9282 will likely be implemented in future series.
+> 
+> All register addresses/values are based on the OV9281 datasheet v1.53
+> (january 2019). This series was tested using an ov9281 VisionComponents
+> camera module.
+> 
+> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
 > ---
-> bod
-
-I've just followed suit, no strong opinion about it.
-Can we agree this could be changed in another series ?
-
-
+> Changes in v4:
+> - Fix FLASH_DURATION implementation in v4l2-flash-led-class.c by adding a
+>   missing brace and enum entry (thanks Sakari)
+> - Fix format of multiline comment in ov9282.c (thanks Sakari)
+> - Add missing NULL check in ov9282.c (thanks Sakari)
+> - Adapt nr_of_controls_hint for v4l2 handler in ov9282.c (thanks Sakari)
+> - Add patch for implementing try_ctrl for strobe_duration (thanks Sakari)
+> - Link to v3: https://lore.kernel.org/r/20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev
+> 
+> Changes in v3:
+> - create separate patch for leds driver changes (thanks Lee)
+> - Link to v2: https://lore.kernel.org/r/20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev
+> 
+> Changes in v2:
+> - remove not needed controls in struct ov9282 (thanks Dave)
+> - Fix commit message of 3/3 regarding framerate get/set (thanks Dave)
+> - Add V4L2_CID_FLASH_STROBE_SOURCE impementation to ov9282
+> - Add new V4L2_CID_FLASH_DURATION control (as suggested by Laurent)
+> - Use FLASH_DURATION instead of FLASH_TIMEOUT for ov9282
+> - Link to v1: https://lore.kernel.org/r/20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev
+> 
+> ---
+> Richard Leitner (10):
+>       media: v4l: ctrls: add a control for flash/strobe duration
+>       leds: flash: add support for flash/stobe duration
+>       media: v4l2-flash: add support for flash/strobe duration
+>       media: v4l2-flash: fix flash_timeout comment
+>       Documentation: uAPI: media: add V4L2_CID_FLASH_DURATION
+>       media: i2c: ov9282: add output enable register definitions
+>       media: i2c: ov9282: add led_mode v4l2 control
+>       media: i2c: ov9282: add strobe_duration v4l2 control
+>       media: i2c: ov9282: add strobe_source v4l2 control
+>       media: i2c: ov9282: implement try_ctrl for strobe_duration
+> 
+>  .../userspace-api/media/v4l/ext-ctrls-flash.rst    |   5 +
+>  drivers/leds/led-class-flash.c                     |  15 +++
+>  drivers/media/i2c/ov9282.c                         | 148 ++++++++++++++++++++-
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |   1 +
+>  drivers/media/v4l2-core/v4l2-flash-led-class.c     |  25 ++++
+>  include/linux/led-class-flash.h                    |  18 ++-
+>  include/uapi/linux/v4l2-controls.h                 |   1 +
+>  7 files changed, 208 insertions(+), 5 deletions(-)
+> ---
+> base-commit: 92a09c47464d040866cf2b4cd052bc60555185fb
+> change-id: 20250303-ov9282-flash-strobe-ac6bd00c9de6
+> prerequisite-change-id: 20250225-b4-ov9282-gain-ef1cdaba5bfd:v1
+> prerequisite-patch-id: 86f2582378ff7095ab65ce4bb25a143eb639e840
+> prerequisite-patch-id: b06eb6ec697aaf0b3155b4b2370f171d0d304ae2
+> prerequisite-patch-id: b123047d71bfb9b93f743bbdd6893d5a98495801
+> 
+> Best regards,
+> -- 
+> Richard Leitner <richard.leitner@linux.dev>
+> 
+> 
 
