@@ -1,147 +1,111 @@
-Return-Path: <linux-media+bounces-33354-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33355-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAAE5AC3B13
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 10:05:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDA2AC3B19
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 10:05:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 429AA168932
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 08:05:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6785F1895A0F
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 08:06:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D0431DED56;
-	Mon, 26 May 2025 08:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1NWBRxa"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C76C1E1DE0;
+	Mon, 26 May 2025 08:05:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED878256D
-	for <linux-media@vger.kernel.org>; Mon, 26 May 2025 08:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7B11B0439;
+	Mon, 26 May 2025 08:05:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748246704; cv=none; b=XbU44mVw60jGnX0bkkQLSmLFiFPpay3lT8Gqs56oNjNEaWe5WShuxKcfg73tIQNY+dxEp1fMJSMPRFmPVB6qH99wSIeuicnyPRLZq2NTL0d2WyELu2kGHiCjSQ/YN0PkzGzMH/+til4NRp8aCj3Lu/vSbx5DsfKNSOZzMb5qnIk=
+	t=1748246751; cv=none; b=HWezS5Xu7mgylgTHhwHkh87aS6Rp188aHYdIBZofvN5xXR45YpocKGCAa8XCvroXtZ7K0XaL6bU0+gEWJ32Qdmp0EEj8Nq77Z495nhp29oYupwtzAWfhWiOs+XrOuVvUOLRxOFbXDWwcIspZAc7AdggGv5/E1qCk8F1e+pPxHNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748246704; c=relaxed/simple;
-	bh=pk8u74y+7mkO96EwpNRIF0jRbpYncYqLssKAOyfnB1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OyHXQPmV3i2W2MJULGmLH560//B8tjTHnJJYKG4D7Yswm8PMdOmgtszZqsUtRlI6plnMJBWaLs+9fWly5tJfN53hybeVHxWN5n8NVVS8vITZBn/QVbwXVCg+agaeXyzUWnO1lrf/EWcRhtwhuWKxUbqEvOwJDp/IMQgkzRC+Np0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1NWBRxa; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748246703; x=1779782703;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pk8u74y+7mkO96EwpNRIF0jRbpYncYqLssKAOyfnB1U=;
-  b=C1NWBRxa2qjD1QrmwcxbV1LbGCu6sK2evL90uzqIVAXBNoo3HpiRAiBL
-   7M6/g/wvyyrGZZ8LK+nvrpGwebw3rkvtUQd33OhakhyBAN4OH0ImXlMRK
-   fgTbbVW1hGyZpRttC/sLpsr5cBdkNzqcokAYJRFfsj6aM5YBPpWkwHdXP
-   X0gcliUcalaR198IOk0sxwRNpxJx0Y+WuPnZOhVex9no1Q5b1g3x+jow3
-   zMGqt31xr+MeVyCikEY4l9HqS1rXAgxm1rua/MFNcX9ySMYUWBfWf+zGU
-   LLCnVRduoReyxSQcpHHZyEJBFAn1YBIylRdbHhWb5WETgl0tuZc2xpGXB
-   w==;
-X-CSE-ConnectionGUID: ZZMfMSExTZikOOQl3Zmn+Q==
-X-CSE-MsgGUID: kdb+4JufTlKlEU8RXzhtnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="60843094"
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="60843094"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 01:05:02 -0700
-X-CSE-ConnectionGUID: 1XoswmuxS4CT/ns962AEGA==
-X-CSE-MsgGUID: SdLah10hQtKlwbE9hqwqWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="165447361"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.125])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 01:05:00 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1346211F731;
-	Mon, 26 May 2025 11:04:58 +0300 (EEST)
-Date: Mon, 26 May 2025 08:04:58 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: mhecht73@googlemail.com
-Cc: linux-media@vger.kernel.org, tomm.merciai@gmail.com,
-	martin.hecht@avnet.com, Martin Hecht <mhecht73@gmail.com>
-Subject: Re: [PATCH] media: i2c: alvium: Accelerated alvium_set_power
-Message-ID: <aDQgqo8NBB-tXOpt@kekkonen.localdomain>
-References: <20250513141019.3871882-2-mhecht73@gmail.com>
+	s=arc-20240116; t=1748246751; c=relaxed/simple;
+	bh=VAks8kelq3T1bF1cj0QNfQxuyzA2YkGqf6FnO2lYeYY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZJ3DFi5l6JWVA5xgCmV7ysyYmfHmpxvHEkH+sm55WGTHE+t/qfLp5WAH+sNUnM4aRylYf18j0kYcCXW4NJbak2tkU4xaPgnZ3UW3krtd1V4t5CKhSTyFv3Ej6rtHEBWnDGViafmmIszig06sGLvCbszkUf3D1lgyUi76gGuR+Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-527a2b89a11so661310e0c.2;
+        Mon, 26 May 2025 01:05:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748246748; x=1748851548;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IZExsB6c5QDJ1XTRzVwWuTeLT5rh0r2AKMowtMpKktA=;
+        b=cby/Yh6jYi3WpU8pmE9Zp6j8f0MA4jc4wTBehQZJFSQJR9/XPUv6foxXjikSV1P9yS
+         sQDRwCxu9N2aZgSpYbQ5etSBifFL8+aKpL27ubKZAXhHz7+Gh76Ck2qnP8o+gKwF3a6S
+         avre684meAUst4PewOlQyQw65xJer2WlEFmYvCtGYG2fGJ3Udan+O6ztIkcLXnWgCm9y
+         gfD93D7npJ4GJ2e/+/uuNFnOT+VYO/QteF/rRd5yH66cV6MINjm/rXeKwfA3XIup/vwi
+         STr9VrHCgT3eKP42OqA3Z2vs6nfgvIz4VdqMJCuC0y8S4L0mex/Y9jud2uXfm4NqZ9sV
+         cb6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUAa2qa5CJw/nbK63QB2yXNaDuucu0OTet6zMn+hsiTujRQ0rgqx9IetM3RlPceutkvwKtxccaWGrjHB/Y=@vger.kernel.org, AJvYcCVhQSw2EZeSb4Yk3/v+vUyN5ySqSVTYkBP3AS0IcweyexnBqIiX1q/64Jbtw8K3NrfmQiAUM2uYnwlegyjhg9ypQiY=@vger.kernel.org, AJvYcCWhratJEzOxh/g1w3o255uIQ7UOGKQnrOEQXdXoo7/L4wANNYniL7NPtHMzAOuBWCyEmRWNToc/1CnVDxM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzh9fbPBQIJCVdK/UEemXwW+DbhDnMNzkKceh9xOKAa7Af82IKa
+	r1xPQCVQrLKeFAkpooEyGOl0y1qmgnF4PMNLfU0HHbjh3yY8mg54ZfvjjOFFkclF
+X-Gm-Gg: ASbGnctEJsFMBN5PABzyCFTASPvd6d+cgnSrz+d6yHrGtF1TJPFxmSU7MD4ov40SDye
+	hmeDZvM+/uVn7M0cSXN0Yx/5Lfz7iC2Ywgg9xDS5s+KRD3496simBsaCUUF4RAJQo9DhwRHd/q3
+	glBtAMvaivXjwmylcXlW4kVChEF4HG4mRSdj969fFw6bdISu7YjKtXvYBhQRaX/Y/SXDjBElo0y
+	iBK8ItY9nBNX5xjFmKeibkZuEpBTCCsdKxdRs4iTcdoAplFWk/tUuhrA6RBmAIg78jd17nWEFAp
+	jxuW0GTmxRvJYdnq+ywcj4VbzcTjxcYKD1E8dFpDaDR2QQvvCIp0fTaR8fDqXhxAPKUgxvmDM9w
+	rGXCsRMtxPw4u1Q==
+X-Google-Smtp-Source: AGHT+IFqt+kNOXU/fUK2YfRkmNHuU3HzVNV8qFPCdwb0iQhdJqM30k5qEiQF2MbkYcnH6r0Uc0o5Jg==
+X-Received: by 2002:a05:6122:30e4:b0:52a:791f:7e20 with SMTP id 71dfb90a1353d-52f2c4ca21fmr6157940e0c.4.1748246747737;
+        Mon, 26 May 2025 01:05:47 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53011b001fesm75002e0c.18.2025.05.26.01.05.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 May 2025 01:05:47 -0700 (PDT)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4dfa5cee94fso304470137.1;
+        Mon, 26 May 2025 01:05:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUZaUY3MnM9YwHAmOhU8SCQbr5luXhsQ+TIlmtlkjKzjz8bGLxsOVjy+3F80vn+DJ8zl8GaXXhvTFvxIzg=@vger.kernel.org, AJvYcCVHJSxmzD+NgMCIngo0VcXBBVWlY60ooiax59OsE2JcP8zroWBDLa0XTfGfETylPr2otp/8y0OtPt6l39jjClL/368=@vger.kernel.org, AJvYcCX1bpJGvfGdOH4R+c3smEFG7FGNvrzU5leRrmu587I0n7x0N4ixzwlHJRCGVgn3rd1TXyVH9b15TyWh3YI=@vger.kernel.org
+X-Received: by 2002:a05:6102:3e24:b0:4dd:ad88:b9bb with SMTP id
+ ada2fe7eead31-4e424094745mr6288510137.10.1748246747377; Mon, 26 May 2025
+ 01:05:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250513141019.3871882-2-mhecht73@gmail.com>
+References: <20250526075236.13489-1-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20250526075236.13489-1-tommaso.merciai.xr@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 26 May 2025 10:05:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVeeYzJpw0KV+0jCys2hFGu6W3247dh92_jeAAznMy9-w@mail.gmail.com>
+X-Gm-Features: AX0GCFudv3U8dEnoIEg69dXge7iYJr7SZXstqqV0oANNyqHo0hGk0mjtoQN8w1o
+Message-ID: <CAMuHMdVeeYzJpw0KV+0jCys2hFGu6W3247dh92_jeAAznMy9-w@mail.gmail.com>
+Subject: Re: [PATCH] media: rzg2l-cru: Fix typo in rzg2l_cru_of_id_table struct
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Martin,
+On Mon, 26 May 2025 at 09:53, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> Correct the misnamed .data member for the RZ/G2L CRU. Rename
+> `rzgl2_cru_info` to `rzg2l_cru_info` to match the intended
+> naming convention.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-Thanks for the patch.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Tue, May 13, 2025 at 04:10:20PM +0200, mhecht73@googlemail.com wrote:
-> From: Martin Hecht <mhecht73@gmail.com>
-> 
-> Now alvium_set_power tests if Alvium is up and running already instead
-> of waiting for the period of a full reboot. This safes about 7 seconds
-> delay for each connected and already booted camera especially when
-> using multiple Alvium cameras.
-> 
-> Signed-off-by: Martin Hecht <mhecht73@gmail.com>
-> ---
->  drivers/media/i2c/alvium-csi2.c | 21 +++++++++++++++++++--
->  1 file changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-> index 05b708bd0a64..c7d39b10d1a2 100644
-> --- a/drivers/media/i2c/alvium-csi2.c
-> +++ b/drivers/media/i2c/alvium-csi2.c
-> @@ -2367,6 +2367,9 @@ static int alvium_get_dt_data(struct alvium_dev *alvium)
->  static int alvium_set_power(struct alvium_dev *alvium, bool on)
->  {
->  	int ret;
-> +	int alvium_boot_time_timout = 7000;
-> +	const int alvium_poll_interval = 500;
-> +	u64 val = 0;
->  
->  	if (!on)
->  		return regulator_disable(alvium->reg_vcc);
-> @@ -2375,8 +2378,22 @@ static int alvium_set_power(struct alvium_dev *alvium, bool on)
->  	if (ret)
->  		return ret;
->  
-> -	/* alvium boot time 7s */
-> -	msleep(7000);
-> +	/* alvium boot time is less than 7s, but eventually it's already on */
-> +	do {
-> +		alvium_read(alvium, REG_BCRM_HEARTBEAT_RW, &val, &ret);
-> +		if (ret >= 0)
-> +			break;
-> +
-> +		msleep(alvium_poll_interval);
-> +		alvium_boot_time_timout -= alvium_poll_interval;
-> +	} while (alvium_boot_time_timout > 0);
+Gr{oetje,eeting}s,
 
-Please use read_poll_timeout() for this.
-
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (alvium_boot_time_timout <= 0)
-> +		return -ETIMEDOUT;
-> +
->  	return 0;
->  }
->  
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Sakari Ailus
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
