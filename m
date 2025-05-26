@@ -1,1610 +1,848 @@
-Return-Path: <linux-media+bounces-33344-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748C8AC3A7A
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 09:19:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC3EAC3A65
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 09:12:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BFE5717354E
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 07:19:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF25D17301A
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 07:12:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E4D11E25F9;
-	Mon, 26 May 2025 07:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C45781DE3AC;
+	Mon, 26 May 2025 07:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="efYL7hD6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S9FgvSAn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541001E1E19;
-	Mon, 26 May 2025 07:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BA41D8E01
+	for <linux-media@vger.kernel.org>; Mon, 26 May 2025 07:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748243934; cv=none; b=tKFt7ZLlLgwRECT8x84OmAALj64XMoAEXB/1N8zVGG7zCA4HCAy/tYwSzOj3EVHM2vRIEwLBMtf0xS+8NqGa0vfWBUsbbU3/tNmYcEQzkWsH8zfbegVdvBwghRMurwGOK3dsdpW7Tyv/eIYIECzejOkTAk9gwE9+17b0qAv77A8=
+	t=1748243523; cv=none; b=B8gjcL+sOC7GE16tJFQg0JaimuNv+2iT7N/vSK4kTCHPggEoh5nQEwAgGjfj8iLG09A+kyuKtzggsxVSEfn0guGQhw19XgpggyGZEoiUJQzL0/yoi6Esy6AQLHAb/5EW4hOOZAmoa3d/6QZ30NS70dcGQz/4nUVzNaVRWobG2JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748243934; c=relaxed/simple;
-	bh=U3B8AC0M8oiRDlHWX7UZPYdiDhL0VlgPObqlL9RcmFg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tj8qH+eSLiyT1z5ssHkhiTIQpemk5bBOU+nzgqElPuoKUIqh6QvhHL1Yh/T9A26rzILUvKyVx3VxiwXfGwTCzvHY9+hIKvTe3UlMwHQe7jJGAufP+xZwqFra+0482chj8j5k92OahCMXccDifkeqT7f7uIyuuLK8GiAhCjjF/Yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=efYL7hD6; arc=none smtp.client-ip=168.119.41.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
-	 s=mail; h=Cc:To:In-Reply-To:References:Message-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=7kFDn3VHFeXX3ECMTFwgtuqlDSbuIjuMf1ftv/S2F7c=; b=efYL7hD61z7yDz24Icsyuno7/b
-	hyTdxSAMKDfDifu4SKioEgdI6GcEXq7pS3/p/iAm5r63asTXfPZgO833/N0MHV8gbTQATszePQ1U/
-	55pd/jmLSWtjws0jBshmFA9vdkot0CX6vbTWCurGfjvmfgXcZ5YsKCQwMb/5SydQV8Nc=;
-Received: from 194-208-208-245.tele.net ([194.208.208.245]:50860 helo=[127.0.1.1])
-	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <matthias.fend@emfend.at>)
-	id 1uJRo5-0004nZ-RD; Mon, 26 May 2025 08:59:36 +0200
-From: Matthias Fend <matthias.fend@emfend.at>
-Date: Mon, 26 May 2025 08:59:28 +0200
-Subject: [PATCH v2 2/2] media: i2c: add Himax HM1246 image sensor driver
+	s=arc-20240116; t=1748243523; c=relaxed/simple;
+	bh=iEZIyN4x5qAjfyYUgyg3BcUHslqkfsUGijX78+YU59A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OuKfauRIJ/laoXu2CKrLrAxZh+0COf6YiVVa6fZskjVnddpYnBRCEw6nwq08tPlw4nS0Rm+LrmKJU6Y4bSlHyHRsi8WpFlWkO42GlB8Ganb+n337rg7xxWLZDnGpryVeufXd0NxWb2qQGxgGUNoPPCw0tDt2rrJbGk7tAJAG+/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S9FgvSAn; arc=none smtp.client-ip=209.85.167.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-401c43671ecso872063b6e.0
+        for <linux-media@vger.kernel.org>; Mon, 26 May 2025 00:12:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748243520; x=1748848320; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yeNh+Gu5PRtxOVqfnwNssRFyT5wNEca2MVYLgQyAyLI=;
+        b=S9FgvSAnyus2EdcDExPoOLUtDBIqAdw0nA9NnTECCrcrPA8MDTZvr4qmriTaMswy9x
+         kn4HUySEJS4jlytzEwVqic7EH/cij7TIajMBTQVLljun4sNPIkxng6b5KhiyzN+Bi6TL
+         pTbsGTz3VA/svAe/C5eHKmD9TLdrZHesfYd3+CoWolrdaPdzLVqolIDVlRiVL/IDFLzA
+         qeTBaZsFcqbcTd8C31LvaCmqU+AasL+SLG2heA8XoOZMD8mij95cls0AibXkcS7w1mUq
+         kU9kTPnKplyx34AN2e89xkqw2Pv7gIp4flIwy+noUjzglUSiJ9ghCznqq0UWwjQ2PCRf
+         kZ3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748243520; x=1748848320;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yeNh+Gu5PRtxOVqfnwNssRFyT5wNEca2MVYLgQyAyLI=;
+        b=vBMj/amkI8oyHqlxlquM+jG4Tpvw4ehIDog3f6ZgbLgJQyE2CYPDGRfMsLacMjb2j/
+         2TpHJ8kZQEQzjJMbXAO+Z4u6pMNKvVN48MGwtGe/ePJdumzazlJNHMgASgJ8+5Jy1dFe
+         2XiM3YUMGoxr3G8PBok8zGw9hfY1DicAP2egakXraxnwQmBzbdPq0qdpQObuKxPYRE3n
+         gxWlsejjUpcm8bOq3Ptans/e7w0H+Bo53oeAYYXxZATvfsVKJB6CmCZ3ds0j/vpYJY32
+         djHlCpb//9ReCL7GwrqbpWG/oHqyTzqWu5ABhgNrSAOEv+pQo3UuJZQC3X0kx9ThinEm
+         h+8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW5xrFcaSRtA0OJKv9CxRZpIOHpTvvr96z/bQjVPvSwmwRIybE8rLmIw/0s5BGmYmI1//kC+4d5FokJPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxsd1rQLbG1A7fM6WlxRBZcjzgPoOYz7p736tfVKsmtGc7uyTQa
+	qQRALCYBp09foqazrUWMGsOA5w1T3h9+gN27k+WC5hejPt53D4vZPqsVphA8WCjat4fEKY4N8x9
+	wdd3vSScYXNeJiU1sPJXHNdQJF8jUPwwt3CIWMeP2VQ==
+X-Gm-Gg: ASbGncuVR6v8HYWji1zn+0UkuvccVVYxOsN+GGgkNIbdn+SxUTVoZ4I8vXUiayX2wl/
+	JQtHlcmVAeU9raQkmnxbrn2v8JSGPAOou77i9IYu91LXekAav8wWIbsxF0WI5hHc1Yh8lvuCdem
+	WXBu2Dfujs9TMHTT8f1Z5rC5raKb/1ZEBu7A==
+X-Google-Smtp-Source: AGHT+IGUgea18RDjcBJX7VXut+VCDWeAAmx9LttthUJiEbSZwF+n/XzCDyzJGmDSGPISGKHv7co5D1JDGrjDQLgtFCc=
+X-Received: by 2002:a05:6808:319a:b0:3f3:d699:e1a8 with SMTP id
+ 5614622812f47-4063d028e28mr7961742b6e.13.1748243519586; Mon, 26 May 2025
+ 00:11:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250526-hm1246-v2-2-6b882827a3a5@emfend.at>
-References: <20250526-hm1246-v2-0-6b882827a3a5@emfend.at>
-In-Reply-To: <20250526-hm1246-v2-0-6b882827a3a5@emfend.at>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>, 
- bsp-development.geo@leica-geosystems.com
-X-Mailer: b4 0.14.2
-X-Spam-Score: -0.7
-X-Spam-Bar: /
-X-Spam-Report: Spam detection software, running on the system "lx20.hoststar.hosting",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- 
- Content preview:  Add YAML device tree binding for Himax HM1246 image sensor.
-    Reviewed-by: Rob Herring (Arm) <robh@kernel.org> Signed-off-by: Matthias
-   Fend <matthias.fend@emfend.at> --- .../bindings/media/i2c/himax,hm1246.yaml
-    | 111 +++++++++++++++++++++ 1 file changed, 111 ins [...] 
- 
- Content analysis details:   (-0.7 points, 5.0 required)
- 
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
-  0.0 Local_hs1_NotHoststar  Sender is not from hoststar.ch|de|com
-  0.0 TVD_RCVD_IP            Message was received from an IP address
-  0.0 URIBL_DBL_BLOCKED_OPENDNS ADMINISTRATOR NOTICE: The query to
-                             dbl.spamhaus.org was blocked due to usage
-                             of an open resolver. See
-                             https://www.spamhaus.org/returnc/pub/
-                             [URIs: devicetree.org]
-  0.0 URIBL_ZEN_BLOCKED_OPENDNS ADMINISTRATOR NOTICE: The query to
-                             zen.spamhaus.org was blocked due to usage
-                             of an open resolver. See
-                             https://www.spamhaus.org/returnc/pub/
-                             [URIs: devicetree.org]
-  0.1 POISEN_SPAM_PILL_3     BODY: random spam to be learned in bayes
-  0.0 URIBL_BLOCKED          ADMINISTRATOR NOTICE: The query to URIBL was
-                             blocked.  See
-                             http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-                              for more information.
-                             [URIs: devicetree.org]
-  0.1 POISEN_SPAM_PILL_1     RAW: random spam to be learned in bayes
-  0.0 KAM_DMARC_STATUS       Test Rule for DKIM or SPF Failure with Strict
-                             Alignment
-  0.1 POISEN_SPAM_PILL       Meta: its spam
+References: <20250520152436.474778-1-jens.wiklander@linaro.org>
+ <20250520152436.474778-4-jens.wiklander@linaro.org> <aDByJpX9sBZTNXjJ@sumit-X1>
+In-Reply-To: <aDByJpX9sBZTNXjJ@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Mon, 26 May 2025 09:11:48 +0200
+X-Gm-Features: AX0GCFvTqAuNlFNlvMJUs40N7o0plSJW769t7mk3VndbEW_eiuoxy9DxDeXtQDs
+Message-ID: <CAHUa44FGbXWtnkcXt7kq0SK9XyKXNUp0dsEbzQzQm8p6_gvTAw@mail.gmail.com>
+Subject: Re: [PATCH v9 3/9] tee: implement protected DMA-heap
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+	Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a V4L2 sub-device driver for Himax HM1246 image sensor.
+On Fri, May 23, 2025 at 3:03=E2=80=AFPM Sumit Garg <sumit.garg@kernel.org> =
+wrote:
+>
+> + Robin
+>
+> Jens,
+>
+> I suppose you missed to add Robin who has earlier reviewed this patch.
 
-The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
-array size of 1296 x 976. It is programmable through an I2C interface and
-connected via parallel bus.
+Yes, you're right, sorry. Thanks for catching this.
 
-The sensor has an internal ISP with a complete image processing pipeline
-including control loops. However, this driver uses the sensor in raw mode
-and the entire ISP is bypassed.
+>
+> On Tue, May 20, 2025 at 05:16:46PM +0200, Jens Wiklander wrote:
+> > Implement DMA heap for protected DMA-buf allocation in the TEE
+> > subsystem.
+> >
+> > Restricted memory refers to memory buffers behind a hardware enforced
+>
+> s/Restricted/Protected/
+>
+> > firewall. It is not accessible to the kernel during normal circumstance=
+s
+> > but rather only accessible to certain hardware IPs or CPUs executing in
+> > higher or differently privileged mode than the kernel itself. This
+> > interface allows to allocate and manage such protected memory buffers
+> > via interaction with a TEE implementation.
+> >
+> > The protected memory is allocated for a specific use-case, like Secure
+> > Video Playback, Trusted UI, or Secure Video Recording where certain
+> > hardware devices can access the memory.
+> >
+> > The DMA-heaps are enabled explicitly by the TEE backend driver. The TEE
+> > backend drivers needs to implement protected memory pool to manage the
+> > protected memory.
+> >
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >  drivers/tee/Makefile      |   1 +
+> >  drivers/tee/tee_heap.c    | 487 ++++++++++++++++++++++++++++++++++++++
+> >  drivers/tee/tee_private.h |   6 +
+> >  include/linux/tee_core.h  |  65 +++++
+> >  4 files changed, 559 insertions(+)
+> >  create mode 100644 drivers/tee/tee_heap.c
+> >
+> > diff --git a/drivers/tee/Makefile b/drivers/tee/Makefile
+> > index 5488cba30bd2..949a6a79fb06 100644
+> > --- a/drivers/tee/Makefile
+> > +++ b/drivers/tee/Makefile
+> > @@ -1,6 +1,7 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >  obj-$(CONFIG_TEE) +=3D tee.o
+> >  tee-objs +=3D tee_core.o
+> > +tee-objs +=3D tee_heap.o
+> >  tee-objs +=3D tee_shm.o
+> >  tee-objs +=3D tee_shm_pool.o
+> >  obj-$(CONFIG_OPTEE) +=3D optee/
+> > diff --git a/drivers/tee/tee_heap.c b/drivers/tee/tee_heap.c
+> > new file mode 100644
+> > index 000000000000..a332805f9f26
+> > --- /dev/null
+> > +++ b/drivers/tee/tee_heap.c
+> > @@ -0,0 +1,487 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (c) 2025, Linaro Limited
+> > + */
+> > +
+> > +#include <linux/dma-buf.h>
+> > +#include <linux/dma-heap.h>
+> > +#include <linux/genalloc.h>
+> > +#include <linux/module.h>
+> > +#include <linux/scatterlist.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/tee_core.h>
+> > +#include <linux/xarray.h>
+> > +
+> > +#include "tee_private.h"
+> > +
+> > +struct tee_dma_heap {
+> > +     struct dma_heap *heap;
+> > +     enum tee_dma_heap_id id;
+> > +     struct tee_protmem_pool *pool;
+> > +     struct tee_device *teedev;
+> > +     /* Protects pool and teedev above */
+> > +     struct mutex mu;
+> > +};
+> > +
+> > +struct tee_heap_buffer {
+> > +     struct tee_protmem_pool *pool;
+> > +     struct tee_device *teedev;
+> > +     size_t size;
+> > +     size_t offs;
+> > +     struct sg_table table;
+> > +};
+> > +
+> > +struct tee_heap_attachment {
+> > +     struct sg_table table;
+> > +     struct device *dev;
+> > +};
+> > +
+> > +struct tee_protmem_static_pool {
+> > +     struct tee_protmem_pool pool;
+> > +     struct gen_pool *gen_pool;
+> > +     phys_addr_t pa_base;
+> > +     void *base;
+> > +};
+> > +
+> > +#if IS_ENABLED(CONFIG_DMABUF_HEAPS)
+> > +static DEFINE_XARRAY_ALLOC(tee_dma_heap);
+> > +
+> > +static int copy_sg_table(struct sg_table *dst, struct sg_table *src)
+> > +{
+> > +     struct scatterlist *dst_sg;
+> > +     struct scatterlist *src_sg;
+> > +     int ret;
+> > +     int i;
+> > +
+> > +     ret =3D sg_alloc_table(dst, src->orig_nents, GFP_KERNEL);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     dst_sg =3D dst->sgl;
+> > +     for_each_sgtable_sg(src, src_sg, i) {
+> > +             sg_set_page(dst_sg, sg_page(src_sg), src_sg->length,
+> > +                         src_sg->offset);
+> > +             dst_sg =3D sg_next(dst_sg);
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int tee_heap_attach(struct dma_buf *dmabuf,
+> > +                        struct dma_buf_attachment *attachment)
+> > +{
+> > +     struct tee_heap_buffer *buf =3D dmabuf->priv;
+> > +     struct tee_heap_attachment *a;
+> > +     int ret;
+> > +
+> > +     a =3D kzalloc(sizeof(*a), GFP_KERNEL);
+> > +     if (!a)
+> > +             return -ENOMEM;
+> > +
+> > +     ret =3D copy_sg_table(&a->table, &buf->table);
+> > +     if (ret) {
+> > +             kfree(a);
+> > +             return ret;
+> > +     }
+> > +
+> > +     a->dev =3D attachment->dev;
+> > +     attachment->priv =3D a;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void tee_heap_detach(struct dma_buf *dmabuf,
+> > +                         struct dma_buf_attachment *attachment)
+> > +{
+> > +     struct tee_heap_attachment *a =3D attachment->priv;
+> > +
+> > +     sg_free_table(&a->table);
+> > +     kfree(a);
+> > +}
+> > +
+> > +static struct sg_table *
+> > +tee_heap_map_dma_buf(struct dma_buf_attachment *attachment,
+> > +                  enum dma_data_direction direction)
+> > +{
+> > +     struct tee_heap_attachment *a =3D attachment->priv;
+> > +     int ret;
+> > +
+> > +     ret =3D dma_map_sgtable(attachment->dev, &a->table, direction,
+> > +                           DMA_ATTR_SKIP_CPU_SYNC);
+> > +     if (ret)
+> > +             return ERR_PTR(ret);
+> > +
+> > +     return &a->table;
+> > +}
+> > +
+> > +static void tee_heap_unmap_dma_buf(struct dma_buf_attachment *attachme=
+nt,
+> > +                                struct sg_table *table,
+> > +                                enum dma_data_direction direction)
+> > +{
+> > +     struct tee_heap_attachment *a =3D attachment->priv;
+> > +
+> > +     WARN_ON(&a->table !=3D table);
+> > +
+> > +     dma_unmap_sgtable(attachment->dev, table, direction,
+> > +                       DMA_ATTR_SKIP_CPU_SYNC);
+> > +}
+> > +
+> > +static void tee_heap_buf_free(struct dma_buf *dmabuf)
+> > +{
+> > +     struct tee_heap_buffer *buf =3D dmabuf->priv;
+> > +     struct tee_device *teedev =3D buf->teedev;
+> > +
+> > +     buf->pool->ops->free(buf->pool, &buf->table);
+> > +     tee_device_put(teedev);
+> > +}
+> > +
+> > +static const struct dma_buf_ops tee_heap_buf_ops =3D {
+> > +     .attach =3D tee_heap_attach,
+> > +     .detach =3D tee_heap_detach,
+> > +     .map_dma_buf =3D tee_heap_map_dma_buf,
+> > +     .unmap_dma_buf =3D tee_heap_unmap_dma_buf,
+> > +     .release =3D tee_heap_buf_free,
+> > +};
+> > +
+> > +static struct dma_buf *tee_dma_heap_alloc(struct dma_heap *heap,
+> > +                                       unsigned long len, u32 fd_flags=
+,
+> > +                                       u64 heap_flags)
+> > +{
+> > +     struct tee_dma_heap *h =3D dma_heap_get_drvdata(heap);
+> > +     DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> > +     struct tee_device *teedev =3D NULL;
+> > +     struct tee_heap_buffer *buf;
+> > +     struct tee_protmem_pool *pool;
+> > +     struct dma_buf *dmabuf;
+> > +     int rc;
+> > +
+> > +     mutex_lock(&h->mu);
+> > +     if (tee_device_get(h->teedev)) {
+> > +             teedev =3D h->teedev;
+> > +             pool =3D h->pool;
+> > +     }
+> > +     mutex_unlock(&h->mu);
+> > +
+> > +     if (!teedev)
+> > +             return ERR_PTR(-EINVAL);
+> > +
+> > +     buf =3D kzalloc(sizeof(*buf), GFP_KERNEL);
+> > +     if (!buf) {
+> > +             dmabuf =3D ERR_PTR(-ENOMEM);
+> > +             goto err;
+> > +     }
+> > +     buf->size =3D len;
+> > +     buf->pool =3D pool;
+> > +     buf->teedev =3D teedev;
+> > +
+> > +     rc =3D pool->ops->alloc(pool, &buf->table, len, &buf->offs);
+> > +     if (rc) {
+> > +             dmabuf =3D ERR_PTR(rc);
+> > +             goto err_kfree;
+> > +     }
+> > +
+> > +     exp_info.ops =3D &tee_heap_buf_ops;
+> > +     exp_info.size =3D len;
+> > +     exp_info.priv =3D buf;
+> > +     exp_info.flags =3D fd_flags;
+> > +     dmabuf =3D dma_buf_export(&exp_info);
+> > +     if (IS_ERR(dmabuf))
+> > +             goto err_protmem_free;
+> > +
+> > +     return dmabuf;
+> > +
+> > +err_protmem_free:
+> > +     pool->ops->free(pool, &buf->table);
+> > +err_kfree:
+> > +     kfree(buf);
+> > +err:
+> > +     tee_device_put(h->teedev);
+> > +     return dmabuf;
+> > +}
+> > +
+> > +static const struct dma_heap_ops tee_dma_heap_ops =3D {
+> > +     .allocate =3D tee_dma_heap_alloc,
+> > +};
+> > +
+> > +static const char *heap_id_2_name(enum tee_dma_heap_id id)
+> > +{
+> > +     switch (id) {
+> > +     case TEE_DMA_HEAP_SECURE_VIDEO_PLAY:
+> > +             return "protected,secure-video";
+> > +     case TEE_DMA_HEAP_TRUSTED_UI:
+> > +             return "protected,trusted-ui";
+> > +     case TEE_DMA_HEAP_SECURE_VIDEO_RECORD:
+> > +             return "protected,secure-video-record";
+> > +     default:
+> > +             return NULL;
+> > +     }
+> > +}
+> > +
+> > +static int alloc_dma_heap(struct tee_device *teedev, enum tee_dma_heap=
+_id id,
+> > +                       struct tee_protmem_pool *pool)
+> > +{
+> > +     struct dma_heap_export_info exp_info =3D {
+> > +             .ops =3D &tee_dma_heap_ops,
+> > +             .name =3D heap_id_2_name(id),
+> > +     };
+> > +     struct tee_dma_heap *h;
+> > +     int rc;
+> > +
+> > +     if (!exp_info.name)
+> > +             return -EINVAL;
+> > +
+> > +     if (xa_reserve(&tee_dma_heap, id, GFP_KERNEL)) {
+> > +             if (!xa_load(&tee_dma_heap, id))
+> > +                     return -EEXIST;
+> > +             return -ENOMEM;
+> > +     }
+> > +
+> > +     h =3D kzalloc(sizeof(*h), GFP_KERNEL);
+> > +     if (!h)
+> > +             return -ENOMEM;
+> > +     h->id =3D id;
+> > +     h->teedev =3D teedev;
+> > +     h->pool =3D pool;
+> > +     mutex_init(&h->mu);
+> > +
+> > +     exp_info.priv =3D h;
+> > +     h->heap =3D dma_heap_add(&exp_info);
+> > +     if (IS_ERR(h->heap)) {
+> > +             rc =3D PTR_ERR(h->heap);
+> > +             kfree(h);
+> > +
+> > +             return rc;
+> > +     }
+> > +
+> > +     /* "can't fail" due to the call to xa_reserve() above */
+> > +     return WARN(xa_store(&tee_dma_heap, id, h, GFP_KERNEL),
+> > +                 "xa_store() failed");
+>
+> I think this can rather be simplified to:
+>
+>         return WARN_ON(xa_is_err(xa_store(&tee_dma_heap, id, h, GFP_KERNE=
+L)));
 
-Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
----
- MAINTAINERS                |    8 +
- drivers/media/i2c/Kconfig  |    9 +
- drivers/media/i2c/Makefile |    1 +
- drivers/media/i2c/hm1246.c | 1421 ++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 1439 insertions(+)
+OK
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dd844ac8d9107b0a9d1dd3cf592f0637bd6fdc38..12f156f742eddac0e41f6bb909d0247cbc8ac2a2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10642,6 +10642,14 @@ L:	linux-kernel@vger.kernel.org
- S:	Maintained
- F:	drivers/misc/hisi_hikey_usb.c
- 
-+HIMAX HM1246 SENSOR DRIVER
-+M:	Matthias Fend <matthias.fend@emfend.at>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
-+F:	drivers/media/i2c/hm1246.c
-+
- HIMAX HX83112B TOUCHSCREEN SUPPORT
- M:	Job Noorman <job@noorman.info>
- L:	linux-input@vger.kernel.org
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index e45ba127069fc0848f1a06ceb789efd3c222c008..70de3d5a186c0bfb439fc81b52a221c2f37a2ca2 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -127,6 +127,15 @@ config VIDEO_HI847
-           To compile this driver as a module, choose M here: the
-           module will be called hi847.
- 
-+config VIDEO_HM1246
-+	tristate "Himax HM1246 sensor support"
-+	help
-+	  This is a Video4Linux2 sensor driver for the Himax
-+	  HM1246 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called hm1246.
-+
- config VIDEO_IMX208
- 	tristate "Sony IMX208 sensor support"
- 	help
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 6c23a4463527cf762032df663bbfe26be29018c8..9a3bf03c0a4de318294be70bcffc7df713fe7ef9 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -44,6 +44,7 @@ obj-$(CONFIG_VIDEO_GC2145) += gc2145.o
- obj-$(CONFIG_VIDEO_HI556) += hi556.o
- obj-$(CONFIG_VIDEO_HI846) += hi846.o
- obj-$(CONFIG_VIDEO_HI847) += hi847.o
-+obj-$(CONFIG_VIDEO_HM1246) += hm1246.o
- obj-$(CONFIG_VIDEO_I2C) += video-i2c.o
- obj-$(CONFIG_VIDEO_IMX208) += imx208.o
- obj-$(CONFIG_VIDEO_IMX214) += imx214.o
-diff --git a/drivers/media/i2c/hm1246.c b/drivers/media/i2c/hm1246.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..5fe228ae9a433fd5fc89d8f57f0a2fc7c16e182f
---- /dev/null
-+++ b/drivers/media/i2c/hm1246.c
-@@ -0,0 +1,1421 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for Himax HM1246 image sensor
-+ *
-+ * Copyright 2025 Matthias Fend <matthias.fend@emfend.at>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/units.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-fwnode.h>
-+
-+/* Status registers */
-+#define HM1246_MODEL_ID_REG		 CCI_REG16(0x0000)
-+
-+/* General setup registers */
-+#define HM1246_MODE_SELECT_REG		 CCI_REG8(0x0100)
-+#define HM1246_MODE_SELECT_STANDBY	 0x00
-+#define HM1246_MODE_SELECT_STREAM	 0x01
-+#define HM1246_MODE_SELECT_STOP		 0x02
-+#define HM1246_IMAGE_ORIENTATION_REG	 CCI_REG8(0x0101)
-+#define HM1246_IMAGE_ORIENTATION_VFLIP	 BIT(1)
-+#define HM1246_IMAGE_ORIENTATION_HFLIP	 BIT(0)
-+#define HM1246_CMU_UPDATE_REG		 CCI_REG8(0x0104)
-+
-+/* Output setup registers */
-+#define HM1246_COARSE_INTG_REG		 CCI_REG16(0x0202)
-+#define HM1246_ANALOG_GLOBAL_GAIN_REG	 CCI_REG8(0x0205)
-+
-+/* Clock setup registers */
-+#define HM1246_PLL1CFG_REG		 CCI_REG8(0x0303)
-+#define HM1246_PLL1CFG_MULTIPLIER(x)	 (((x) & 0xFF) << 0)
-+#define HM1246_PLL2CFG_REG		 CCI_REG8(0x0305)
-+#define HM1246_PLL2CFG_PRE_DIV(x)	 (((x) & 0x1F) << 1)
-+#define HM1246_PLL2CFG_MULTIPLIER(x)	 (((x) & 0x01) << 0)
-+#define HM1246_PLL3CFG_REG		 CCI_REG8(0x0307)
-+#define HM1246_PLL3CFG_POST_DIV(x)	 (((x) & 0x3) << 6)
-+#define HM1246_PLL3CFG_SYSCLK_DIV(x)	 (((x) & 0x3) << 4)
-+#define HM1246_PLL3CFG_PCLK_DIV(x)	 (((x) & 0x7) << 0)
-+
-+/* Frame timing registers */
-+#define HM1246_FRAME_LENGTH_LINES_REG	 CCI_REG16(0x0340)
-+#define HM1246_LINE_LENGTH_PCK_REG	 CCI_REG16(0x0342)
-+
-+/* Image size registers */
-+#define HM1246_X_ADDR_START_REG		 CCI_REG16(0x0344)
-+#define HM1246_Y_ADDR_START_REG		 CCI_REG16(0x0346)
-+#define HM1246_X_ADDR_END_REG		 CCI_REG16(0x0348)
-+#define HM1246_Y_ADDR_END_REG		 CCI_REG16(0x034A)
-+#define HM1246_X_LA_START_REG		 CCI_REG16(0x0351)
-+#define HM1246_X_LA_END_REG		 CCI_REG16(0x0353)
-+#define HM1246_Y_LA_START_REG		 CCI_REG16(0x0355)
-+#define HM1246_Y_LA_END_REG		 CCI_REG16(0x0357)
-+
-+/* Test pattern registers */
-+#define HM1246_TEST_PATTERN_MODE_REG	 CCI_REG8(0x0601)
-+#define HM1246_TEST_PATTERN_MODE_MODE(x) (((x) & 0xF) << 4)
-+#define HM1246_TEST_PATTERN_MODE_ENABLE	 BIT(0)
-+#define HM1246_TEST_DATA_BLUE_REG	 CCI_REG16(0x0602)
-+#define HM1246_TEST_DATA_GB_REG		 CCI_REG16(0x0604)
-+#define HM1246_TEST_DATA_RED_REG	 CCI_REG16(0x0606)
-+#define HM1246_TEST_DATA_GR_REG		 CCI_REG16(0x0608)
-+
-+/* SBC registers */
-+#define HM1246_SBC_BOOT_REF2_REG	 CCI_REG8(0x2001)
-+#define HM1246_SBC_BOOT_REF2_PLL_LOCK	 BIT(4)
-+#define HM1246_SBC_CTRL_REG		 CCI_REG8(0x2003)
-+#define HM1246_SBC_CTRL_PLL_EN		 BIT(0)
-+
-+/* System registers */
-+#define HM1246_OUTPUT_PRT_CTRL_REG	 CCI_REG8(0x2F02)
-+#define HM1246_POLARITY_CTRL_REG	 CCI_REG8(0x2F20)
-+#define HM1246_POLARITY_CTRL_HSYNC	 BIT(7)
-+#define HM1246_POLARITY_CTRL_VSYNC	 BIT(6)
-+#define HM1246_PCLK_CTRL_REG		 CCI_REG8(0x2F24)
-+#define HM1246_PCLK_CTRL_POL		 BIT(3)
-+
-+/* Digital window control & parameter registers */
-+#define HM1246_DWIN_XOFFSET_REG		 CCI_REG16(0xD5E4)
-+#define HM1246_DWIN_XSIZE_REG		 CCI_REG16(0xD5E6)
-+#define HM1246_DWIN_YOFFSET_REG		 CCI_REG16(0xD5E8)
-+#define HM1246_DWIN_YSIZE_REG		 CCI_REG16(0xD5EA)
-+
-+#define HM1246_MODEL_ID			 0x1245
-+
-+#define HM1246_NATIVE_WIDTH		 1296
-+#define HM1246_NATIVE_HEIGHT		 976
-+
-+#define HM1246_VTS_MAX			 65535
-+
-+#define HM1246_COARSE_INTG_MARGIN	 2
-+#define HM1246_COARSE_INTG_MIN		 4
-+#define HM1246_COARSE_INTG_STEP		 1
-+
-+#define HM1246_ANALOG_GLOBAL_GAIN_MIN	 0x00
-+#define HM1246_ANALOG_GLOBAL_GAIN_MAX	 0xE8
-+#define HM1246_ANALOG_GLOBAL_GAIN_STEP	 1
-+
-+#define HM1246_XCLK_MIN			 (6 * HZ_PER_MHZ)
-+#define HM1246_XCLK_MAX			 (27 * HZ_PER_MHZ)
-+
-+#define HM1246_PCLK_MIN			 (8 * HZ_PER_MHZ)
-+#define HM1246_PCLK_MAX			 (96 * HZ_PER_MHZ)
-+
-+#define HM1246_PLL_VCO_MIN		 360000000
-+#define HM1246_PLL_VCO_MAX		 680000000
-+
-+#define HM1246_PLL_INCLK_MIN		 1000000
-+#define HM1246_PLL_INCLK_MAX		 2500000
-+
-+#define HM1246_PLL_MULTI_L_MIN		 1
-+#define HM1246_PLL_MULTI_L_MAX		 256
-+
-+#define HM1246_PLL_MULTI_H_MIN		 2
-+#define HM1246_PLL_MULTI_H_MAX		 3
-+
-+#define HM1246_PLL_MULTI_MIN \
-+	(HM1246_PLL_MULTI_H_MIN * HM1246_PLL_MULTI_L_MIN)
-+#define HM1246_PLL_MULTI_MAX \
-+	(HM1246_PLL_MULTI_H_MAX * HM1246_PLL_MULTI_L_MAX)
-+
-+static const char *const hm1246_test_pattern_menu[] = {
-+	"Disabled",
-+	"Checkboard",
-+	"Ramp",
-+	"Moving ones",
-+	"Blending color bars",
-+	"Color bars",
-+	"Solid white",
-+	"Solid black",
-+	"Solid red",
-+	"Solid green",
-+	"Solid blue",
-+};
-+
-+static const s64 hm1246_link_freqs[] = {
-+	42174000, /* 1420x990 @ 30Hz (RAW) */
-+};
-+
-+static const char *const hm1246_supply_names[] = {
-+	"avdd",
-+	"iovdd",
-+	"dvdd",
-+};
-+
-+struct hm1246 {
-+	struct device *dev;
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(hm1246_supply_names)];
-+	struct clk *xclk;
-+	unsigned long xclk_freq;
-+	struct gpio_desc *reset_gpio;
-+	unsigned int mbus_flags;
-+
-+	struct v4l2_ctrl_handler ctrls;
-+	struct v4l2_ctrl *pixel_rate_ctrl;
-+	struct v4l2_ctrl *link_freq_ctrl;
-+	struct v4l2_ctrl *exposure_ctrl;
-+	struct v4l2_ctrl *vblank_ctrl;
-+	struct v4l2_ctrl *hblank_ctrl;
-+	struct v4l2_ctrl *hflip_ctrl;
-+	struct v4l2_ctrl *vflip_ctrl;
-+
-+	struct regmap *regmap;
-+
-+	bool identified;
-+	const struct hm1246_mode *cur_mode;
-+};
-+
-+static const struct cci_reg_sequence mode_1296x976_raw[] = {
-+	{ HM1246_X_LA_START_REG, 60 },
-+	{ HM1246_X_LA_END_REG, 1355 },
-+	{ HM1246_Y_LA_START_REG, 0 },
-+	{ HM1246_Y_LA_END_REG, 975 },
-+	{ HM1246_OUTPUT_PRT_CTRL_REG, 0x20 },
-+	{ CCI_REG8(0x300A), 0x01 },
-+	{ CCI_REG8(0x300B), 0x00 },
-+	{ CCI_REG8(0x50F5), 0x01 },
-+	{ CCI_REG8(0x50DD), 0x00 },
-+	{ CCI_REG8(0x50A1), 0x02 },
-+	{ CCI_REG8(0x50AA), 0x1C },
-+	{ CCI_REG8(0x50AC), 0xDD },
-+	{ CCI_REG8(0x50AD), 0x08 },
-+	{ CCI_REG8(0x50AB), 0x04 },
-+	{ CCI_REG8(0x50A0), 0x40 },
-+	{ CCI_REG8(0x50A2), 0x12 },
-+	{ CCI_REG8(0x50AE), 0x30 },
-+	{ CCI_REG8(0x50B3), 0x04 },
-+	{ CCI_REG8(0x5200), 0x04 },
-+	{ CCI_REG8(0x5204), 0x40 },
-+	{ CCI_REG8(0x5208), 0x55 },
-+	{ CCI_REG8(0x5209), 0x06 },
-+	{ CCI_REG8(0x520B), 0x05 },
-+	{ CCI_REG8(0x520D), 0x40 },
-+	{ CCI_REG8(0x5214), 0x18 },
-+	{ CCI_REG8(0x5215), 0x0F },
-+	{ CCI_REG8(0x5217), 0x01 },
-+	{ CCI_REG8(0x5218), 0x07 },
-+	{ CCI_REG8(0x5219), 0x01 },
-+	{ CCI_REG8(0x521A), 0x50 },
-+	{ CCI_REG8(0x521B), 0x24 },
-+	{ CCI_REG8(0x5232), 0x01 },
-+	{ CCI_REG8(0x5220), 0x11 },
-+	{ CCI_REG8(0x5227), 0x01 },
-+	{ CCI_REG8(0x5106), 0xC1 },
-+	{ CCI_REG8(0x5115), 0xC0 },
-+	{ CCI_REG8(0x5116), 0xC1 },
-+	{ CCI_REG8(0x5138), 0x40 },
-+	{ CCI_REG8(0x5139), 0x60 },
-+	{ CCI_REG8(0x513A), 0x80 },
-+	{ CCI_REG8(0x513B), 0xA0 },
-+	{ CCI_REG8(0x513C), 0xA1 },
-+	{ CCI_REG8(0x513D), 0xA2 },
-+	{ CCI_REG8(0x513E), 0xA3 },
-+	{ CCI_REG8(0x5140), 0x40 },
-+	{ CCI_REG8(0x5141), 0x60 },
-+	{ CCI_REG8(0x5142), 0x80 },
-+	{ CCI_REG8(0x5143), 0x81 },
-+	{ CCI_REG8(0x5144), 0x82 },
-+	{ CCI_REG8(0x5145), 0x83 },
-+	{ CCI_REG8(0x5146), 0x93 },
-+	{ CCI_REG8(0x51C1), 0xC3 },
-+	{ CCI_REG8(0x51C5), 0xC3 },
-+	{ CCI_REG8(0x51C9), 0xC3 },
-+	{ CCI_REG8(0x51CD), 0xC2 },
-+	{ CCI_REG8(0x51D1), 0xC1 },
-+	{ CCI_REG8(0x51D5), 0xC1 },
-+	{ CCI_REG8(0x51D9), 0x81 },
-+	{ CCI_REG8(0x51DD), 0x81 },
-+	{ CCI_REG8(0x51C2), 0x49 },
-+	{ CCI_REG8(0x51C6), 0x49 },
-+	{ CCI_REG8(0x51CA), 0x49 },
-+	{ CCI_REG8(0x51CE), 0x49 },
-+	{ CCI_REG8(0x51D2), 0x49 },
-+	{ CCI_REG8(0x51D6), 0x59 },
-+	{ CCI_REG8(0x51DA), 0x59 },
-+	{ CCI_REG8(0x51DE), 0x59 },
-+	{ CCI_REG8(0x51C3), 0x20 },
-+	{ CCI_REG8(0x51C7), 0x38 },
-+	{ CCI_REG8(0x51CB), 0x21 },
-+	{ CCI_REG8(0x51CF), 0x11 },
-+	{ CCI_REG8(0x51D3), 0x11 },
-+	{ CCI_REG8(0x51D7), 0x13 },
-+	{ CCI_REG8(0x51DB), 0x13 },
-+	{ CCI_REG8(0x51DF), 0x13 },
-+	{ CCI_REG8(0x51E0), 0x03 },
-+	{ CCI_REG8(0x51E2), 0x03 },
-+	{ CCI_REG8(0x51F0), 0x42 },
-+	{ CCI_REG8(0x51F1), 0x40 },
-+	{ CCI_REG8(0x51F2), 0x4A },
-+	{ CCI_REG8(0x51F3), 0x48 },
-+	{ CCI_REG8(0x5015), 0x73 },
-+	{ CCI_REG8(0x504A), 0x04 },
-+	{ CCI_REG8(0x5044), 0x07 },
-+	{ CCI_REG8(0x5040), 0x03 },
-+	{ CCI_REG8(0x5135), 0xC4 },
-+	{ CCI_REG8(0x5136), 0xC5 },
-+	{ CCI_REG8(0x5166), 0xC4 },
-+	{ CCI_REG8(0x5196), 0xC4 },
-+	{ CCI_REG8(0x51C0), 0x10 },
-+	{ CCI_REG8(0x51C4), 0x10 },
-+	{ CCI_REG8(0x51C8), 0xA0 },
-+	{ CCI_REG8(0x51CC), 0xA0 },
-+	{ CCI_REG8(0x51D0), 0xA1 },
-+	{ CCI_REG8(0x51D4), 0xA5 },
-+	{ CCI_REG8(0x51D8), 0xA5 },
-+	{ CCI_REG8(0x51DC), 0xA5 },
-+	{ CCI_REG8(0x5200), 0xE4 },
-+	{ CCI_REG8(0x5209), 0x04 },
-+	{ CCI_REG8(0x301B), 0x01 },
-+	{ CCI_REG8(0x3130), 0x01 },
-+	{ CCI_REG8(0x5013), 0x07 },
-+	{ CCI_REG8(0x5016), 0x01 },
-+	{ CCI_REG8(0x501D), 0x50 },
-+	{ CCI_REG8(0x0350), 0xFE },
-+	{ CCI_REG8(0x0343), 0x8C },
-+	{ CCI_REG8(0x2F03), 0x15 },
-+	{ CCI_REG8(0xD380), 0x00 },
-+	{ CCI_REG8(0x3047), 0x7F },
-+	{ CCI_REG8(0x304D), 0x34 },
-+	{ CCI_REG8(0x3041), 0x4B },
-+	{ CCI_REG8(0x3042), 0x2D },
-+	{ CCI_REG8(0x3056), 0x64 },
-+	{ CCI_REG8(0x3059), 0x1E },
-+	{ CCI_REG8(0x305E), 0x10 },
-+	{ CCI_REG8(0x305F), 0x10 },
-+	{ CCI_REG8(0x306D), 0x10 },
-+	{ CCI_REG8(0x306E), 0x0C },
-+	{ CCI_REG8(0x3064), 0x50 },
-+	{ CCI_REG8(0x3067), 0x78 },
-+	{ CCI_REG8(0x3068), 0x4B },
-+	{ CCI_REG8(0x306A), 0x78 },
-+	{ CCI_REG8(0x306B), 0x4B },
-+	{ CCI_REG8(0xD442), 0x3D },
-+	{ CCI_REG8(0xD443), 0x06 },
-+	{ CCI_REG8(0xD440), 0x63 },
-+	{ CCI_REG8(0xD446), 0xB0 },
-+	{ CCI_REG8(0xD447), 0x60 },
-+	{ CCI_REG8(0xD448), 0x48 },
-+	{ CCI_REG8(0xD449), 0x30 },
-+	{ CCI_REG8(0xD44A), 0x18 },
-+	{ CCI_REG8(0xD360), 0x03 },
-+	{ CCI_REG8(0x30AC), 0x10 },
-+	{ CCI_REG8(0x30AD), 0x10 },
-+	{ CCI_REG8(0x30AE), 0x10 },
-+	{ CCI_REG8(0x3040), 0x0B },
-+	{ CCI_REG8(0x2002), 0x00 },
-+	{ CCI_REG8(0x2000), 0x08 },
-+};
-+
-+struct hm1246_reg_list {
-+	u32 num_of_regs;
-+	const struct cci_reg_sequence *regs;
-+};
-+
-+struct hm1246_mode {
-+	u32 codes[4];
-+	u32 link_freq_index;
-+	u32 clocks_per_pixel;
-+	u32 top;
-+	u32 left;
-+	u32 width;
-+	u32 height;
-+	u32 hts;
-+	u32 vts_min;
-+	const struct hm1246_reg_list reg_list;
-+};
-+
-+#define FLIP_FORMAT_INDEX(v, h) ((v ? 2 : 0) | (h ? 1 : 0))
-+
-+/* Get the format code of the mode considering current flip setting. */
-+static u32 hm1246_get_format_code(struct hm1246 *hm1246,
-+				  const struct hm1246_mode *hm1246_mode)
-+{
-+	return hm1246_mode->codes[FLIP_FORMAT_INDEX(hm1246->vflip_ctrl->val,
-+						    hm1246->hflip_ctrl->val)];
-+}
-+
-+static const struct hm1246_mode hm1246_modes[] = {
-+	{
-+		.codes = {
-+			[FLIP_FORMAT_INDEX(0, 0)] = MEDIA_BUS_FMT_SBGGR10_1X10,
-+			[FLIP_FORMAT_INDEX(0, 1)] = MEDIA_BUS_FMT_SGBRG10_1X10,
-+			[FLIP_FORMAT_INDEX(1, 0)] = MEDIA_BUS_FMT_SGRBG10_1X10,
-+			[FLIP_FORMAT_INDEX(1, 1)] = MEDIA_BUS_FMT_SRGGB10_1X10,
-+		},
-+		.link_freq_index = 0,
-+		.clocks_per_pixel = 1,
-+		.top = 0,
-+		.left = 0,
-+		.width = 1296,
-+		.height = 976,
-+		.hts = 1420,
-+		.vts_min = 990,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_1296x976_raw),
-+			.regs = mode_1296x976_raw,
-+		},
-+	},
-+};
-+
-+static inline struct hm1246 *to_hm1246(struct v4l2_subdev *sd)
-+{
-+	return container_of(sd, struct hm1246, sd);
-+}
-+
-+static const struct hm1246_mode *
-+hm1246_find_mode_by_mbus_code(struct hm1246 *hm1246, u32 code)
-+{
-+	for (int i = 0; i < ARRAY_SIZE(hm1246_modes); i++) {
-+		if (code == hm1246_get_format_code(hm1246, &hm1246_modes[i]))
-+			return &hm1246_modes[i];
-+	}
-+
-+	return ERR_PTR(-EINVAL);
-+}
-+
-+static int hm1246_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(hm1246_supply_names),
-+				    hm1246->supplies);
-+	if (ret) {
-+		dev_err(hm1246->dev, "failed to enable regulators\n");
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(hm1246->xclk);
-+	if (ret) {
-+		regulator_bulk_disable(ARRAY_SIZE(hm1246_supply_names),
-+				       hm1246->supplies);
-+		dev_err(hm1246->dev, "failed to enable clock\n");
-+		return ret;
-+	}
-+
-+	gpiod_set_value_cansleep(hm1246->reset_gpio, 0);
-+
-+	/*
-+	 * XSHUTDOWN to crystal clock oscillation:  tcrystal typ.  650us
-+	 * Sample bootstrap pin:                    tsample  max. 2000us
-+	 * Built in self test:                      tbist    max. 3000us
-+	 */
-+	fsleep(6000);
-+
-+	return 0;
-+}
-+
-+static int hm1246_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+
-+	gpiod_set_value_cansleep(hm1246->reset_gpio, 1);
-+
-+	clk_disable_unprepare(hm1246->xclk);
-+
-+	regulator_bulk_disable(ARRAY_SIZE(hm1246_supply_names),
-+			       hm1246->supplies);
-+
-+	return 0;
-+}
-+
-+static int hm1246_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+
-+	if (code->index >= ARRAY_SIZE(hm1246_modes))
-+		return -EINVAL;
-+
-+	code->code = hm1246_get_format_code(hm1246, &hm1246_modes[code->index]);
-+
-+	return 0;
-+}
-+
-+static int hm1246_enum_frame_size(struct v4l2_subdev *subdev,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	struct hm1246 *hm1246 = to_hm1246(subdev);
-+	const struct hm1246_mode *mode = NULL;
-+
-+	if (fse->index > 0)
-+		return -EINVAL;
-+
-+	mode = hm1246_find_mode_by_mbus_code(hm1246, fse->code);
-+	if (IS_ERR(mode))
-+		return PTR_ERR(mode);
-+
-+	fse->min_width = mode->width;
-+	fse->max_width = mode->width;
-+	fse->min_height = mode->height;
-+	fse->max_height = mode->height;
-+
-+	return 0;
-+}
-+
-+static int hm1246_update_controls(struct hm1246 *hm1246,
-+				  const struct hm1246_mode *mode)
-+{
-+	s64 pixel_rate, exposure_max, vblank, hblank;
-+	int ret;
-+
-+	ret = __v4l2_ctrl_s_ctrl(hm1246->link_freq_ctrl, mode->link_freq_index);
-+	if (ret) {
-+		dev_err(hm1246->dev, "link_freq ctrl range update failed\n");
-+		return ret;
-+	}
-+
-+	pixel_rate = div_u64(hm1246_link_freqs[mode->link_freq_index],
-+			     mode->clocks_per_pixel);
-+	ret = __v4l2_ctrl_modify_range(hm1246->pixel_rate_ctrl, pixel_rate,
-+				       pixel_rate, 1, pixel_rate);
-+	if (ret) {
-+		dev_err(hm1246->dev, "pixel_rate ctrl range update failed\n");
-+		return ret;
-+	}
-+
-+	vblank = mode->vts_min - mode->height,
-+	ret = __v4l2_ctrl_modify_range(hm1246->vblank_ctrl, vblank,
-+				       HM1246_VTS_MAX - mode->height, 1,
-+				       vblank);
-+	if (ret) {
-+		dev_err(hm1246->dev, "vblank ctrl range update failed\n");
-+		return ret;
-+	}
-+
-+	hblank = mode->hts - mode->width;
-+	ret = __v4l2_ctrl_modify_range(hm1246->hblank_ctrl, hblank, hblank, 1,
-+				       hblank);
-+	if (ret) {
-+		dev_err(hm1246->dev, "hblank ctrl range update failed\n");
-+		return ret;
-+	}
-+
-+	exposure_max = mode->vts_min - HM1246_COARSE_INTG_MARGIN;
-+	ret = __v4l2_ctrl_modify_range(hm1246->exposure_ctrl,
-+				       HM1246_COARSE_INTG_MIN, exposure_max,
-+				       HM1246_COARSE_INTG_STEP, exposure_max);
-+	if (ret) {
-+		dev_err(hm1246->dev, "exposure ctrl range update failed\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void hm1246_update_pad_format(struct hm1246 *hm1246,
-+				     const struct hm1246_mode *hm1246_mode,
-+				     struct v4l2_mbus_framefmt *fmt)
-+{
-+	fmt->width = hm1246_mode->width;
-+	fmt->height = hm1246_mode->height;
-+	fmt->code = hm1246_get_format_code(hm1246, hm1246_mode);
-+	fmt->field = V4L2_FIELD_NONE;
-+	fmt->colorspace = V4L2_COLORSPACE_RAW;
-+	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-+	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
-+}
-+
-+static int hm1246_set_format(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state,
-+			     struct v4l2_subdev_format *fmt)
-+{
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+	struct v4l2_mbus_framefmt *mbus_fmt;
-+	struct v4l2_rect *crop;
-+	const struct hm1246_mode *mode;
-+
-+	mode = hm1246_find_mode_by_mbus_code(hm1246, fmt->format.code);
-+	if (IS_ERR(mode))
-+		mode = &hm1246_modes[0];
-+
-+	crop = v4l2_subdev_state_get_crop(state, 0);
-+	crop->top = mode->top;
-+	crop->left = mode->left;
-+	crop->width = mode->width;
-+	crop->height = mode->height;
-+
-+	hm1246_update_pad_format(hm1246, mode, &fmt->format);
-+	mbus_fmt = v4l2_subdev_state_get_format(state, 0);
-+	*mbus_fmt = fmt->format;
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-+		return 0;
-+
-+	hm1246->cur_mode = mode;
-+	hm1246_update_controls(hm1246, mode);
-+
-+	return 0;
-+}
-+
-+static int hm1246_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+	const struct hm1246_mode *mode = hm1246->cur_mode;
-+
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		sel->r = *v4l2_subdev_state_get_crop(state, 0);
-+		return 0;
-+
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = HM1246_NATIVE_WIDTH;
-+		sel->r.height = HM1246_NATIVE_HEIGHT;
-+		return 0;
-+
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.top = mode->top;
-+		sel->r.left = mode->left;
-+		sel->r.width = mode->width;
-+		sel->r.height = mode->height;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hm1246_init_state(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state)
-+{
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_TRY,
-+		.pad = 0,
-+		.format = {
-+			.code = hm1246_get_format_code(hm1246,
-+						       &hm1246_modes[0]),
-+			.width = hm1246_modes[0].width,
-+			.height = hm1246_modes[0].height,
-+		},
-+	};
-+
-+	hm1246_set_format(sd, state, &fmt);
-+
-+	return 0;
-+}
-+
-+static int hm1246_calc_pll(struct hm1246 *hm1246, u32 xclk, u32 link_freq,
-+			   u32 clocks_per_pixel, u8 *pll1, u8 *pll2, u8 *pll3)
-+{
-+	const u8 pclk_div_table[] = { 4, 5, 6, 7, 8, 12, 14, 16 };
-+	const u8 sysclk_div_table[] = { 1, 2, 3, 4 };
-+	const u8 post_div_table[] = { 1, 2, 4, 8 };
-+	const int sysclk_pclk_ratio = 3; /* Recommended value */
-+	u32 pclk, vco_out, best_vco_diff;
-+	int pclk_div_index, sysclk_div_index, post_div_index;
-+	u8 pre_div, multiplier_h, multiplier_l;
-+	bool sysclk_pclk_ratio_found = false;
-+
-+	if (link_freq < HM1246_PCLK_MIN || link_freq > HM1246_PCLK_MAX)
-+		return -EINVAL;
-+
-+	/* In raw mode (1 pixel per clock) the pixel clock is internally
-+	 * divided by two.
-+	 */
-+	pclk = (2 * link_freq) / clocks_per_pixel;
-+
-+	/* Find suitable PCLK and SYSCLK dividers. */
-+	for (pclk_div_index = 0; pclk_div_index < ARRAY_SIZE(pclk_div_table);
-+	     pclk_div_index++) {
-+		for (sysclk_div_index = 0;
-+		     sysclk_div_index < ARRAY_SIZE(sysclk_div_table);
-+		     sysclk_div_index++) {
-+			if (sysclk_div_table[sysclk_div_index] *
-+				    sysclk_pclk_ratio ==
-+			    pclk_div_table[pclk_div_index]) {
-+				sysclk_pclk_ratio_found = true;
-+				break;
-+			}
-+		}
-+		if (sysclk_pclk_ratio_found)
-+			break;
-+	}
-+
-+	if (!sysclk_pclk_ratio_found)
-+		return -EINVAL;
-+
-+	/* Determine an appropriate post divider. */
-+	for (post_div_index = 0; post_div_index < ARRAY_SIZE(post_div_table);
-+	     post_div_index++) {
-+		vco_out = pclk * (pclk_div_table[pclk_div_index] *
-+				  post_div_table[post_div_index]);
-+
-+		if (vco_out >= HM1246_PLL_VCO_MIN &&
-+		    vco_out <= HM1246_PLL_VCO_MAX)
-+			break;
-+	}
-+	if (post_div_index >= ARRAY_SIZE(post_div_table))
-+		return -EINVAL;
-+
-+	/* Find best pre-divider and multiplier values. */
-+	best_vco_diff = U32_MAX;
-+	for (u32 div = DIV_ROUND_UP(xclk, HM1246_PLL_INCLK_MAX);
-+	     div <= (xclk / HM1246_PLL_INCLK_MIN); div++) {
-+		u32 multi, multi_h, multi_l, vco, diff;
-+
-+		multi = DIV_ROUND_CLOSEST_ULL((u64)vco_out * div, xclk);
-+		if (multi < HM1246_PLL_MULTI_MIN ||
-+		    multi > HM1246_PLL_MULTI_MAX)
-+			continue;
-+
-+		multi_h = multi / (HM1246_PLL_MULTI_H_MIN *
-+				   HM1246_PLL_MULTI_L_MAX) +
-+			  2;
-+		multi_l = multi / multi_h;
-+		vco = div_u64((u64)xclk * multi_h * multi_l, div);
-+
-+		diff = abs(vco_out - vco);
-+		if (diff < best_vco_diff) {
-+			best_vco_diff = diff;
-+			pre_div = div;
-+			multiplier_h = multi_h;
-+			multiplier_l = multi_l;
-+		}
-+
-+		if (!diff)
-+			break;
-+	}
-+
-+	if (best_vco_diff == U32_MAX)
-+		return -EINVAL;
-+
-+	*pll1 = HM1246_PLL1CFG_MULTIPLIER(multiplier_l - 1);
-+	*pll2 = HM1246_PLL2CFG_PRE_DIV(pre_div - 1) |
-+		HM1246_PLL2CFG_MULTIPLIER(multiplier_h - 2);
-+	*pll3 = HM1246_PLL3CFG_POST_DIV(post_div_index) |
-+		HM1246_PLL3CFG_SYSCLK_DIV(sysclk_div_index) |
-+		HM1246_PLL3CFG_PCLK_DIV(pclk_div_index);
-+
-+	return 0;
-+}
-+
-+static int hm1246_cci_write_pll(struct hm1246 *hm1246, u8 pll1, u8 pll2,
-+				u8 pll3)
-+{
-+	struct cci_reg_sequence pll_regs[] = {
-+		{ HM1246_PLL1CFG_REG, pll1 },
-+		{ HM1246_PLL2CFG_REG, pll2 },
-+		{ HM1246_PLL3CFG_REG, pll3 },
-+		{ HM1246_SBC_CTRL_REG, HM1246_SBC_CTRL_PLL_EN },
-+	};
-+
-+	return cci_multi_reg_write(hm1246->regmap, pll_regs,
-+				   ARRAY_SIZE(pll_regs), NULL);
-+}
-+
-+static int hm1246_pll_check_locked(struct hm1246 *hm1246)
-+{
-+	u64 boot_ref2;
-+	int ret;
-+
-+	ret = cci_read(hm1246->regmap, HM1246_SBC_BOOT_REF2_REG, &boot_ref2,
-+		       NULL);
-+	if (ret)
-+		return ret;
-+
-+	return (boot_ref2 & HM1246_SBC_BOOT_REF2_PLL_LOCK) ? 0 : -EIO;
-+}
-+
-+static int hm1246_setup_pll(struct hm1246 *hm1246,
-+			    const struct hm1246_mode *mode)
-+{
-+	u8 pll1, pll2, pll3;
-+	int ret;
-+
-+	ret = hm1246_calc_pll(hm1246, hm1246->xclk_freq,
-+			      hm1246_link_freqs[mode->link_freq_index],
-+			      mode->clocks_per_pixel, &pll1, &pll2, &pll3);
-+	if (ret)
-+		return ret;
-+
-+	ret = hm1246_cci_write_pll(hm1246, pll1, pll2, pll3);
-+	if (ret)
-+		return ret;
-+
-+	/* PLL lock time: tpll typ. 100us */
-+	fsleep(200);
-+
-+	ret = hm1246_pll_check_locked(hm1246);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int hm1246_cci_write_test_pattern(struct hm1246 *hm1246, u8 mode, u16 r,
-+					 u16 g, u16 b)
-+{
-+	struct cci_reg_sequence tpg_enable_regs[] = {
-+		{ HM1246_TEST_DATA_RED_REG, r },
-+		{ HM1246_TEST_DATA_GR_REG, g },
-+		{ HM1246_TEST_DATA_GB_REG, g },
-+		{ HM1246_TEST_DATA_BLUE_REG, b },
-+		{ HM1246_TEST_PATTERN_MODE_REG, mode },
-+	};
-+
-+	return cci_multi_reg_write(hm1246->regmap, tpg_enable_regs,
-+				   ARRAY_SIZE(tpg_enable_regs), NULL);
-+}
-+
-+static int hm1246_test_pattern(struct hm1246 *hm1246, u32 pattern_index)
-+{
-+	const u16 RGBMAX = 0x3FF;
-+	int pattern;
-+	u8 mode = HM1246_TEST_PATTERN_MODE_ENABLE;
-+	u16 r = 0, g = 0, b = 0;
-+
-+	switch (pattern_index) {
-+	case 1: /* Checkboard Pattern */
-+		pattern = 0;
-+		break;
-+	case 2: /* Ramp */
-+		pattern = 1;
-+		break;
-+	case 3: /* Moving ones */
-+		pattern = 2;
-+		break;
-+	case 4: /* Blending color bars */
-+		pattern = 3;
-+		break;
-+	case 5: /* Color bars */
-+		pattern = 4;
-+		break;
-+	case 6: /* Solid white */
-+		pattern = 15;
-+		r = RGBMAX;
-+		g = RGBMAX;
-+		b = RGBMAX;
-+		break;
-+	case 7: /* Solid black */
-+		pattern = 15;
-+		break;
-+	case 8: /* Solid red */
-+		pattern = 15;
-+		r = RGBMAX;
-+		break;
-+	case 9: /* Solid green */
-+		pattern = 15;
-+		g = RGBMAX;
-+		break;
-+	case 10: /* Solid blue */
-+		pattern = 15;
-+		b = RGBMAX;
-+		break;
-+
-+	case 0: /* Disabled */
-+	default:
-+		mode = 0;
-+		pattern = 0;
-+		break;
-+	}
-+
-+	mode |= HM1246_TEST_PATTERN_MODE_MODE(pattern);
-+
-+	return hm1246_cci_write_test_pattern(hm1246, mode, r, g, b);
-+}
-+
-+static int hm1246_cci_write_cmu(struct hm1246 *hm1246, u32 reg, u64 val)
-+{
-+	struct cci_reg_sequence reg_seq[] = {
-+		{ reg, val },
-+		{ HM1246_CMU_UPDATE_REG, 0 },
-+	};
-+
-+	return cci_multi_reg_write(hm1246->regmap, reg_seq, ARRAY_SIZE(reg_seq),
-+				   NULL);
-+}
-+
-+static int hm1246_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct hm1246 *hm1246 = container_of(ctrl->handler, struct hm1246,
-+					     ctrls);
-+	const struct v4l2_mbus_framefmt *format;
-+	struct v4l2_subdev_state *state;
-+	u32 val;
-+	int ret;
-+
-+	state = v4l2_subdev_get_locked_active_state(&hm1246->sd);
-+	format = v4l2_subdev_state_get_format(state, 0);
-+
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		s64 exposure_max;
-+
-+		exposure_max =
-+			format->height + ctrl->val - HM1246_COARSE_INTG_MARGIN;
-+		ret = __v4l2_ctrl_modify_range(hm1246->exposure_ctrl,
-+					       hm1246->exposure_ctrl->minimum,
-+					       exposure_max,
-+					       hm1246->exposure_ctrl->step,
-+					       exposure_max);
-+
-+		if (ret) {
-+			dev_err(hm1246->dev, "exposure ctrl range update failed\n");
-+			return ret;
-+		}
-+	}
-+
-+	if (!pm_runtime_get_if_active(hm1246->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_EXPOSURE:
-+		ret = hm1246_cci_write_cmu(hm1246, HM1246_COARSE_INTG_REG,
-+					   ctrl->val);
-+		break;
-+
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		ret = hm1246_cci_write_cmu(hm1246,
-+					   HM1246_ANALOG_GLOBAL_GAIN_REG,
-+					   ctrl->val);
-+		break;
-+
-+	case V4L2_CID_VBLANK:
-+		val = hm1246->cur_mode->height + ctrl->val;
-+		ret = hm1246_cci_write_cmu(hm1246,
-+					   HM1246_FRAME_LENGTH_LINES_REG, val);
-+		break;
-+
-+	case V4L2_CID_HFLIP:
-+	case V4L2_CID_VFLIP:
-+		val = 0;
-+		if (hm1246->hflip_ctrl->val)
-+			val |= HM1246_IMAGE_ORIENTATION_HFLIP;
-+		if (hm1246->vflip_ctrl->val)
-+			val |= HM1246_IMAGE_ORIENTATION_VFLIP;
-+
-+		ret = hm1246_cci_write_cmu(hm1246, HM1246_IMAGE_ORIENTATION_REG,
-+					   val);
-+		break;
-+
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = hm1246_test_pattern(hm1246, ctrl->val);
-+		break;
-+
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	pm_runtime_put(hm1246->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops hm1246_ctrl_ops = {
-+	.s_ctrl = hm1246_set_ctrl,
-+};
-+
-+static int hm1246_identify_module(struct hm1246 *hm1246)
-+{
-+	u64 model_id;
-+	int ret;
-+
-+	if (hm1246->identified)
-+		return 0;
-+
-+	ret = cci_read(hm1246->regmap, HM1246_MODEL_ID_REG, &model_id, NULL);
-+	if (ret)
-+		return ret;
-+
-+	if (model_id != HM1246_MODEL_ID) {
-+		dev_err(hm1246->dev, "model id mismatch: 0x%llx!=0x%x\n",
-+			model_id, HM1246_MODEL_ID);
-+		return -ENXIO;
-+	}
-+
-+	hm1246->identified = true;
-+
-+	return 0;
-+}
-+
-+static int hm1246_setup_moderegs(struct hm1246 *hm1246,
-+				 const struct hm1246_mode *mode)
-+{
-+	const struct hm1246_reg_list *reg_list = &mode->reg_list;
-+	const struct cci_reg_sequence modeaw[] = {
-+		{ HM1246_X_ADDR_START_REG, mode->left },
-+		{ HM1246_Y_ADDR_START_REG, mode->top },
-+		{ HM1246_X_ADDR_END_REG, mode->width - 1 },
-+		{ HM1246_Y_ADDR_END_REG, mode->height - 1 },
-+		{ HM1246_DWIN_XOFFSET_REG, mode->left },
-+		{ HM1246_DWIN_YOFFSET_REG, mode->top },
-+		{ HM1246_DWIN_XSIZE_REG, mode->width },
-+		{ HM1246_DWIN_YSIZE_REG, mode->height },
-+		{ HM1246_LINE_LENGTH_PCK_REG, mode->hts },
-+	};
-+	int ret = 0;
-+
-+	cci_multi_reg_write(hm1246->regmap, modeaw, ARRAY_SIZE(modeaw), &ret);
-+	cci_multi_reg_write(hm1246->regmap, reg_list->regs,
-+			    reg_list->num_of_regs, &ret);
-+
-+	return ret;
-+}
-+
-+static int hm1246_setup_bus(struct hm1246 *hm1246)
-+{
-+	u64 polarity_ctrl = 0, pclk_ctrl = 0;
-+	int ret = 0;
-+
-+	if (hm1246->mbus_flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
-+		polarity_ctrl |= HM1246_POLARITY_CTRL_HSYNC;
-+
-+	if (hm1246->mbus_flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
-+		polarity_ctrl |= HM1246_POLARITY_CTRL_VSYNC;
-+
-+	cci_write(hm1246->regmap, HM1246_POLARITY_CTRL_REG, polarity_ctrl,
-+		  &ret);
-+
-+	/* If the clock output polarity flag PCLK_CTRL[3] is set (high), the
-+	 * data lines change state on the falling edge of PCLK and should
-+	 * therefore be sampled on the rising edge.
-+	 * This is different than described in the data sheet.
-+	 */
-+	if (hm1246->mbus_flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-+		pclk_ctrl |= HM1246_PCLK_CTRL_POL;
-+
-+	cci_write(hm1246->regmap, HM1246_PCLK_CTRL_REG, pclk_ctrl, &ret);
-+
-+	return ret;
-+}
-+
-+static int hm1246_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
-+{
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+	const struct hm1246_mode *mode = hm1246->cur_mode;
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(hm1246->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = hm1246_identify_module(hm1246);
-+	if (ret)
-+		goto err_rpm_put;
-+
-+	ret = hm1246_setup_pll(hm1246, mode);
-+	if (ret) {
-+		dev_err(hm1246->dev, "failed to setup PLL\n");
-+		goto err_rpm_put;
-+	}
-+
-+	ret = hm1246_setup_moderegs(hm1246, mode);
-+	if (ret)
-+		goto err_rpm_put;
-+
-+	ret = hm1246_setup_bus(hm1246);
-+	if (ret)
-+		goto err_rpm_put;
-+
-+	ret = __v4l2_ctrl_handler_setup(&hm1246->ctrls);
-+	if (ret) {
-+		dev_err(hm1246->dev, "failed to setup v4l2 controls\n");
-+		goto err_rpm_put;
-+	}
-+
-+	ret = cci_write(hm1246->regmap, HM1246_MODE_SELECT_REG,
-+			HM1246_MODE_SELECT_STREAM, NULL);
-+	if (ret)
-+		goto err_rpm_put;
-+
-+	/* Since mirroring may change the actual pixel format, it must not be
-+	 * changed during streaming.
-+	 */
-+	__v4l2_ctrl_grab(hm1246->vflip_ctrl, true);
-+	__v4l2_ctrl_grab(hm1246->hflip_ctrl, true);
-+
-+	return 0;
-+
-+err_rpm_put:
-+	pm_runtime_put(hm1246->dev);
-+
-+	return ret;
-+}
-+
-+static int hm1246_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
-+{
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+	int ret;
-+
-+	ret = cci_write(hm1246->regmap, HM1246_MODE_SELECT_REG,
-+			HM1246_MODE_SELECT_STANDBY, NULL);
-+
-+	__v4l2_ctrl_grab(hm1246->vflip_ctrl, false);
-+	__v4l2_ctrl_grab(hm1246->hflip_ctrl, false);
-+
-+	pm_runtime_put(hm1246->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_subdev_video_ops hm1246_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+
-+};
-+
-+static const struct v4l2_subdev_pad_ops hm1246_subdev_pad_ops = {
-+	.enum_mbus_code = hm1246_enum_mbus_code,
-+	.enum_frame_size = hm1246_enum_frame_size,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = hm1246_set_format,
-+	.get_selection = hm1246_get_selection,
-+	.enable_streams = hm1246_enable_streams,
-+	.disable_streams = hm1246_disable_streams,
-+};
-+
-+static int __maybe_unused hm1246_g_register(struct v4l2_subdev *sd,
-+					    struct v4l2_dbg_register *reg)
-+{
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+	u64 val;
-+	int ret;
-+
-+	if (!pm_runtime_get_if_in_use(sd->dev))
-+		return 0;
-+
-+	ret = cci_read(hm1246->regmap, CCI_REG8(reg->reg), &val, NULL);
-+	reg->val = val;
-+
-+	pm_runtime_put(sd->dev);
-+
-+	return ret;
-+}
-+
-+static int __maybe_unused hm1246_s_register(struct v4l2_subdev *sd,
-+					    const struct v4l2_dbg_register *reg)
-+{
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+	int ret;
-+
-+	if (!pm_runtime_get_if_in_use(sd->dev))
-+		return 0;
-+
-+	ret = cci_write(hm1246->regmap, CCI_REG8(reg->reg), (u64)reg->val,
-+			NULL);
-+
-+	pm_runtime_put(sd->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_subdev_core_ops hm1246_core_ops = {
-+#ifdef CONFIG_VIDEO_ADV_DEBUG
-+	.g_register = hm1246_g_register,
-+	.s_register = hm1246_s_register,
-+#endif
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
-+static const struct v4l2_subdev_ops hm1246_subdev_ops = {
-+	.core = &hm1246_core_ops,
-+	.video = &hm1246_video_ops,
-+	.pad = &hm1246_subdev_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops hm1246_internal_ops = {
-+	.init_state = hm1246_init_state,
-+};
-+
-+static int hm1246_get_regulators(struct device *dev, struct hm1246 *hm1246)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(hm1246_supply_names); i++)
-+		hm1246->supplies[i].supply = hm1246_supply_names[i];
-+
-+	return devm_regulator_bulk_get(dev, ARRAY_SIZE(hm1246_supply_names),
-+				       hm1246->supplies);
-+}
-+
-+static int hm1246_parse_fwnode(struct hm1246 *hm1246)
-+{
-+	struct fwnode_handle *endpoint;
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_PARALLEL,
-+	};
-+	struct device *dev = hm1246->dev;
-+	int ret;
-+
-+	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
-+						   FWNODE_GRAPH_ENDPOINT_NEXT);
-+	if (!endpoint)
-+		return dev_err_probe(dev, -EINVAL, "missing endpoint node\n");
-+
-+	ret = v4l2_fwnode_endpoint_parse(endpoint, &bus_cfg);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "parsing endpoint node failed\n");
-+		goto done;
-+	}
-+
-+	hm1246->mbus_flags = bus_cfg.bus.parallel.flags;
-+
-+done:
-+	fwnode_handle_put(endpoint);
-+
-+	return ret;
-+}
-+
-+static int hm1246_init_controls(struct hm1246 *hm1246)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&hm1246->sd);
-+	const struct hm1246_mode *mode = &hm1246_modes[0];
-+	const struct v4l2_ctrl_ops *ops = &hm1246_ctrl_ops;
-+	struct v4l2_fwnode_device_properties props;
-+	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	s64 pixel_rate, exposure_max, vblank_min, hblank;
-+	int ret;
-+
-+	ctrl_hdlr = &hm1246->ctrls;
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 9);
-+	if (ret)
-+		return ret;
-+
-+	hm1246->hflip_ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &hm1246_ctrl_ops,
-+					       V4L2_CID_HFLIP, 0, 1, 1, 0);
-+	if (hm1246->hflip_ctrl)
-+		hm1246->hflip_ctrl->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+
-+	hm1246->vflip_ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &hm1246_ctrl_ops,
-+					       V4L2_CID_VFLIP, 0, 1, 1, 0);
-+	if (hm1246->vflip_ctrl)
-+		hm1246->vflip_ctrl->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+
-+	v4l2_ctrl_cluster(2, &hm1246->hflip_ctrl);
-+
-+	hm1246->link_freq_ctrl =
-+		v4l2_ctrl_new_int_menu(ctrl_hdlr,
-+				       &hm1246_ctrl_ops,
-+				       V4L2_CID_LINK_FREQ,
-+				       ARRAY_SIZE(hm1246_link_freqs) - 1,
-+				       0,
-+				       hm1246_link_freqs);
-+	if (hm1246->link_freq_ctrl)
-+		hm1246->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	pixel_rate = div_u64(hm1246_link_freqs[mode->link_freq_index],
-+			     mode->clocks_per_pixel);
-+	hm1246->pixel_rate_ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &hm1246_ctrl_ops,
-+						    V4L2_CID_PIXEL_RATE, 0,
-+						    pixel_rate, 1, pixel_rate);
-+
-+	vblank_min = mode->vts_min - mode->height;
-+	hm1246->vblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &hm1246_ctrl_ops,
-+						V4L2_CID_VBLANK, vblank_min,
-+						HM1246_VTS_MAX - mode->height,
-+						1, vblank_min);
-+
-+	hblank = mode->hts - mode->width;
-+	hm1246->hblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &hm1246_ctrl_ops,
-+						V4L2_CID_HBLANK, hblank, hblank,
-+						1, hblank);
-+	if (hm1246->hblank_ctrl)
-+		hm1246->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &hm1246_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
-+			  HM1246_ANALOG_GLOBAL_GAIN_MIN,
-+			  HM1246_ANALOG_GLOBAL_GAIN_MAX,
-+			  HM1246_ANALOG_GLOBAL_GAIN_STEP,
-+			  HM1246_ANALOG_GLOBAL_GAIN_MIN);
-+
-+	exposure_max = mode->vts_min - HM1246_COARSE_INTG_MARGIN;
-+	hm1246->exposure_ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &hm1246_ctrl_ops,
-+						  V4L2_CID_EXPOSURE,
-+						  HM1246_COARSE_INTG_MIN,
-+						  exposure_max,
-+						  HM1246_COARSE_INTG_STEP,
-+						  exposure_max);
-+
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &hm1246_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(hm1246_test_pattern_menu) - 1,
-+				     0, 0, hm1246_test_pattern_menu);
-+
-+	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-+	if (ret)
-+		goto err_v4l2_ctrl_handler_free;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, ops, &props);
-+	if (ret)
-+		goto err_v4l2_ctrl_handler_free;
-+
-+	if (ctrl_hdlr->error) {
-+		ret = ctrl_hdlr->error;
-+		goto err_v4l2_ctrl_handler_free;
-+	}
-+
-+	hm1246->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+
-+err_v4l2_ctrl_handler_free:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+
-+	return ret;
-+}
-+
-+static int hm1246_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct hm1246 *hm1246;
-+	int ret;
-+
-+	hm1246 = devm_kzalloc(dev, sizeof(*hm1246), GFP_KERNEL);
-+	if (!hm1246)
-+		return -ENOMEM;
-+
-+	hm1246->dev = dev;
-+
-+	ret = hm1246_parse_fwnode(hm1246);
-+	if (ret)
-+		return ret;
-+
-+	hm1246->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(hm1246->regmap))
-+		return dev_err_probe(dev, PTR_ERR(hm1246->regmap),
-+				     "failed to init CCI\n");
-+
-+	hm1246->xclk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(hm1246->xclk))
-+		return dev_err_probe(dev, PTR_ERR(hm1246->xclk),
-+				     "failed to get xclk\n");
-+
-+	hm1246->xclk_freq = clk_get_rate(hm1246->xclk);
-+	if (hm1246->xclk_freq < HM1246_XCLK_MIN ||
-+	    hm1246->xclk_freq > HM1246_XCLK_MAX)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "xclk frequency out of range: %luHz\n",
-+				     hm1246->xclk_freq);
-+
-+	ret = hm1246_get_regulators(dev, hm1246);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to get regulators\n");
-+
-+	hm1246->reset_gpio =
-+		devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(hm1246->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(hm1246->reset_gpio),
-+				     "failed to get reset GPIO\n");
-+
-+	v4l2_i2c_subdev_init(&hm1246->sd, client, &hm1246_subdev_ops);
-+	hm1246->sd.internal_ops = &hm1246_internal_ops;
-+	hm1246->cur_mode = &hm1246_modes[0];
-+
-+	ret = hm1246_init_controls(hm1246);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to init controls\n");
-+
-+	hm1246->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+			    V4L2_SUBDEV_FL_HAS_EVENTS;
-+	hm1246->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	hm1246->sd.dev = &client->dev;
-+	hm1246->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	ret = media_entity_pads_init(&hm1246->sd.entity, 1, &hm1246->pad);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "failed to init media pads\n");
-+		goto err_v4l2_ctrl_handler_free;
-+	}
-+
-+	hm1246->sd.state_lock = hm1246->ctrls.lock;
-+	ret = v4l2_subdev_init_finalize(&hm1246->sd);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "failed to init v4l2 subdev\n");
-+		goto err_media_entity_cleanup;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor(&hm1246->sd);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "failed to register v4l2 subdev\n");
-+		goto err_subdev_cleanup;
-+	}
-+
-+	pm_runtime_enable(hm1246->dev);
-+	pm_runtime_set_autosuspend_delay(hm1246->dev, 1000);
-+	pm_runtime_use_autosuspend(hm1246->dev);
-+	pm_runtime_idle(hm1246->dev);
-+
-+	return 0;
-+
-+err_subdev_cleanup:
-+	v4l2_subdev_cleanup(&hm1246->sd);
-+	pm_runtime_disable(hm1246->dev);
-+	pm_runtime_set_suspended(hm1246->dev);
-+
-+err_media_entity_cleanup:
-+	media_entity_cleanup(&hm1246->sd.entity);
-+
-+err_v4l2_ctrl_handler_free:
-+	v4l2_ctrl_handler_free(&hm1246->ctrls);
-+
-+	return ret;
-+}
-+
-+static void hm1246_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct hm1246 *hm1246 = to_hm1246(sd);
-+
-+	v4l2_async_unregister_subdev(&hm1246->sd);
-+	v4l2_subdev_cleanup(sd);
-+	media_entity_cleanup(&hm1246->sd.entity);
-+	v4l2_ctrl_handler_free(&hm1246->ctrls);
-+
-+	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev)) {
-+		hm1246_power_off(hm1246->dev);
-+		pm_runtime_set_suspended(&client->dev);
-+	}
-+}
-+
-+static const struct of_device_id hm1246_of_match[] = {
-+	{ .compatible = "himax,hm1246" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, hm1246_of_match);
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(hm1246_pm_ops, hm1246_power_off,
-+				 hm1246_power_on, NULL);
-+
-+static struct i2c_driver hm1246_i2c_driver = {
-+	.driver = {
-+		.of_match_table = hm1246_of_match,
-+		.pm = pm_ptr(&hm1246_pm_ops),
-+		.name = "hm1246",
-+	},
-+	.probe = hm1246_probe,
-+	.remove = hm1246_remove,
-+};
-+module_i2c_driver(hm1246_i2c_driver);
-+
-+MODULE_DESCRIPTION("Himax HM1246 camera driver");
-+MODULE_AUTHOR("Matthias Fend <matthias.fend@emfend.at>");
-+MODULE_LICENSE("GPL");
+>
+> > +}
+> > +
+> > +int tee_device_register_dma_heap(struct tee_device *teedev,
+> > +                              enum tee_dma_heap_id id,
+> > +                              struct tee_protmem_pool *pool)
+> > +{
+> > +     struct tee_dma_heap *h;
+> > +     int rc;
+> > +
+> > +     h =3D xa_load(&tee_dma_heap, id);
+> > +     if (h) {
+> > +             mutex_lock(&h->mu);
+> > +             if (h->teedev) {
+> > +                     rc =3D -EBUSY;
+> > +             } else {
+> > +                     h->teedev =3D teedev;
+> > +                     h->pool =3D pool;
+> > +                     rc =3D 0;
+> > +             }
+> > +             mutex_unlock(&h->mu);
+> > +     } else {
+> > +             rc =3D alloc_dma_heap(teedev, id, pool);
+> > +     }
+> > +
+> > +     if (rc)
+> > +             dev_err(&teedev->dev, "can't register DMA heap id %d (%s)=
+\n",
+> > +                     id, heap_id_2_name(id));
+> > +
+> > +     return rc;
+> > +}
+> > +EXPORT_SYMBOL_GPL(tee_device_register_dma_heap);
+> > +
+> > +void tee_device_unregister_all_dma_heaps(struct tee_device *teedev)
+> > +{
+> > +     struct tee_protmem_pool *pool;
+> > +     struct tee_dma_heap *h;
+> > +     u_long i;
+> > +
+> > +     xa_for_each(&tee_dma_heap, i, h) {
+> > +             if (h) {
+> > +                     pool =3D NULL;
+> > +                     mutex_lock(&h->mu);
+> > +                     if (h->teedev =3D=3D teedev) {
+> > +                             pool =3D h->pool;
+> > +                             h->teedev =3D NULL;
+> > +                             h->pool =3D NULL;
+> > +                     }
+> > +                     mutex_unlock(&h->mu);
+> > +                     if (pool)
+> > +                             pool->ops->destroy_pool(pool);
+> > +             }
+> > +     }
+> > +}
+> > +EXPORT_SYMBOL_GPL(tee_device_unregister_all_dma_heaps);
+> > +
+> > +int tee_heap_update_from_dma_buf(struct tee_device *teedev,
+> > +                              struct dma_buf *dmabuf, size_t *offset,
+> > +                              struct tee_shm *shm,
+> > +                              struct tee_shm **parent_shm)
+> > +{
+> > +     struct tee_heap_buffer *buf;
+> > +     int rc;
+> > +
+> > +     /* The DMA-buf must be from our heap */
+> > +     if (dmabuf->ops !=3D &tee_heap_buf_ops)
+> > +             return -EINVAL;
+> > +
+> > +     buf =3D dmabuf->priv;
+> > +     /* The buffer must be from the same teedev */
+> > +     if (buf->teedev !=3D teedev)
+> > +             return -EINVAL;
+> > +
+> > +     shm->size =3D buf->size;
+> > +
+> > +     rc =3D buf->pool->ops->update_shm(buf->pool, &buf->table, buf->of=
+fs, shm,
+> > +                                     parent_shm);
+> > +     if (!rc && *parent_shm)
+> > +             *offset =3D buf->offs;
+> > +
+> > +     return rc;
+> > +}
+> > +#else
+> > +int tee_device_register_dma_heap(struct tee_device *teedev __always_un=
+used,
+> > +                              enum tee_dma_heap_id id __always_unused,
+> > +                              struct tee_protmem_pool *pool __always_u=
+nused)
+> > +{
+> > +     return -EINVAL;
+> > +}
+> > +EXPORT_SYMBOL_GPL(tee_device_register_dma_heap);
+> > +
+> > +void
+> > +tee_device_unregister_all_dma_heaps(struct tee_device *teedev __always=
+_unused)
+> > +{
+> > +}
+> > +EXPORT_SYMBOL_GPL(tee_device_unregister_all_dma_heaps);
+> > +
+> > +int tee_heap_update_from_dma_buf(struct tee_device *teedev __always_un=
+used,
+> > +                              struct dma_buf *dmabuf __always_unused,
+> > +                              size_t *offset __always_unused,
+> > +                              struct tee_shm *shm __always_unused,
+> > +                              struct tee_shm **parent_shm __always_unu=
+sed)
+> > +{
+> > +     return -EINVAL;
+> > +}
+> > +#endif
+> > +
+> > +static struct tee_protmem_static_pool *
+> > +to_protmem_static_pool(struct tee_protmem_pool *pool)
+> > +{
+> > +     return container_of(pool, struct tee_protmem_static_pool, pool);
+> > +}
+> > +
+> > +static int protmem_pool_op_static_alloc(struct tee_protmem_pool *pool,
+> > +                                     struct sg_table *sgt, size_t size=
+,
+> > +                                     size_t *offs)
+> > +{
+> > +     struct tee_protmem_static_pool *stp =3D to_protmem_static_pool(po=
+ol);
+> > +     phys_addr_t pa;
+> > +     int ret;
+> > +
+> > +     pa =3D gen_pool_alloc(stp->gen_pool, size);
+> > +     if (!pa)
+> > +             return -ENOMEM;
+> > +
+> > +     ret =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
+> > +     if (ret) {
+> > +             gen_pool_free(stp->gen_pool, pa, size);
+> > +             return ret;
+> > +     }
+> > +
+> > +     sg_set_page(sgt->sgl, phys_to_page(pa), size, 0);
+>
+> Did you missed pfn_valid() check from prior v8 review comments?
 
--- 
-2.34.1
+No, I tried it, but pfn_valid() didn't like the address, so I had to
+find a way to fix it.
+tee_protmem_static_pool_alloc(), below, calls memremap() on the range,
+and that should make pfn_valid() redundant.
 
+>
+> > +     *offs =3D pa - stp->pa_base;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void protmem_pool_op_static_free(struct tee_protmem_pool *pool,
+> > +                                     struct sg_table *sgt)
+> > +{
+> > +     struct tee_protmem_static_pool *stp =3D to_protmem_static_pool(po=
+ol);
+> > +     struct scatterlist *sg;
+> > +     int i;
+> > +
+> > +     for_each_sgtable_sg(sgt, sg, i)
+> > +             gen_pool_free(stp->gen_pool, sg_phys(sg), sg->length);
+> > +     sg_free_table(sgt);
+> > +}
+> > +
+> > +static int protmem_pool_op_static_update_shm(struct tee_protmem_pool *=
+pool,
+> > +                                          struct sg_table *sgt, size_t=
+ offs,
+> > +                                          struct tee_shm *shm,
+> > +                                          struct tee_shm **parent_shm)
+> > +{
+> > +     struct tee_protmem_static_pool *stp =3D to_protmem_static_pool(po=
+ol);
+> > +
+> > +     shm->paddr =3D stp->pa_base + offs;
+> > +     *parent_shm =3D NULL;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void protmem_pool_op_static_destroy_pool(struct tee_protmem_poo=
+l *pool)
+> > +{
+> > +     struct tee_protmem_static_pool *stp =3D to_protmem_static_pool(po=
+ol);
+> > +
+> > +     gen_pool_destroy(stp->gen_pool);
+> > +     memunmap(stp->base);
+> > +     kfree(stp);
+> > +}
+> > +
+> > +static struct tee_protmem_pool_ops protmem_pool_ops_static =3D {
+> > +     .alloc =3D protmem_pool_op_static_alloc,
+> > +     .free =3D protmem_pool_op_static_free,
+> > +     .update_shm =3D protmem_pool_op_static_update_shm,
+> > +     .destroy_pool =3D protmem_pool_op_static_destroy_pool,
+> > +};
+> > +
+> > +struct tee_protmem_pool *tee_protmem_static_pool_alloc(phys_addr_t pad=
+dr,
+> > +                                                    size_t size)
+> > +{
+> > +     const size_t page_mask =3D PAGE_SIZE - 1;
+> > +     struct tee_protmem_static_pool *stp;
+> > +     int rc;
+> > +
+> > +     /* Check it's page aligned */
+> > +     if ((paddr | size) & page_mask)
+> > +             return ERR_PTR(-EINVAL);
+> > +
+> > +     stp =3D kzalloc(sizeof(*stp), GFP_KERNEL);
+> > +     if (!stp)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     /*
+> > +      * Map the memory as uncached to make sure the kernel can work wi=
+th
+> > +      * __pfn_to_page() and friends since that's needed when passing t=
+he
+> > +      * protected DMA-buf to a device. The memory should otherwise not
+> > +      * be touched by the kernel since it's likely to cause an externa=
+l
+> > +      * abort due to the protection status.
+> > +      */
+> > +     stp->base =3D memremap(paddr, size, MEMREMAP_WC);
+> > +     if (!stp->base) {
+> > +             rc =3D -EINVAL;
+> > +             goto err_free;
+> > +     }
+> > +
+> > +     stp->gen_pool =3D gen_pool_create(PAGE_SHIFT, -1);
+> > +     if (!stp->gen_pool) {
+> > +             rc =3D -ENOMEM;
+> > +             goto err_unmap;
+> > +     }
+> > +
+> > +     rc =3D gen_pool_add(stp->gen_pool, paddr, size, -1);
+> > +     if (rc)
+> > +             goto err_free_pool;
+> > +
+> > +     stp->pool.ops =3D &protmem_pool_ops_static;
+> > +     stp->pa_base =3D paddr;
+> > +     return &stp->pool;
+> > +
+> > +err_free_pool:
+> > +     gen_pool_destroy(stp->gen_pool);
+> > +err_unmap:
+> > +     memunmap(stp->base);
+> > +err_free:
+> > +     kfree(stp);
+> > +
+> > +     return ERR_PTR(rc);
+> > +}
+> > +EXPORT_SYMBOL_GPL(tee_protmem_static_pool_alloc);
+> > diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
+> > index 9bc50605227c..6c6ff5d5eed2 100644
+> > --- a/drivers/tee/tee_private.h
+> > +++ b/drivers/tee/tee_private.h
+> > @@ -8,6 +8,7 @@
+> >  #include <linux/cdev.h>
+> >  #include <linux/completion.h>
+> >  #include <linux/device.h>
+> > +#include <linux/dma-buf.h>
+> >  #include <linux/kref.h>
+> >  #include <linux/mutex.h>
+> >  #include <linux/types.h>
+> > @@ -24,4 +25,9 @@ struct tee_shm *tee_shm_alloc_user_buf(struct tee_con=
+text *ctx, size_t size);
+> >  struct tee_shm *tee_shm_register_user_buf(struct tee_context *ctx,
+> >                                         unsigned long addr, size_t leng=
+th);
+> >
+> > +int tee_heap_update_from_dma_buf(struct tee_device *teedev,
+> > +                              struct dma_buf *dmabuf, size_t *offset,
+> > +                              struct tee_shm *shm,
+> > +                              struct tee_shm **parent_shm);
+> > +
+> >  #endif /*TEE_PRIVATE_H*/
+> > diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
+> > index a38494d6b5f4..b8b99c97e00c 100644
+> > --- a/include/linux/tee_core.h
+> > +++ b/include/linux/tee_core.h
+> > @@ -8,9 +8,11 @@
+> >
+> >  #include <linux/cdev.h>
+> >  #include <linux/device.h>
+> > +#include <linux/dma-buf.h>
+> >  #include <linux/idr.h>
+> >  #include <linux/kref.h>
+> >  #include <linux/list.h>
+> > +#include <linux/scatterlist.h>
+> >  #include <linux/tee.h>
+> >  #include <linux/tee_drv.h>
+> >  #include <linux/types.h>
+> > @@ -30,6 +32,12 @@
+> >  #define TEE_DEVICE_FLAG_REGISTERED   0x1
+> >  #define TEE_MAX_DEV_NAME_LEN         32
+> >
+> > +enum tee_dma_heap_id {
+> > +     TEE_DMA_HEAP_SECURE_VIDEO_PLAY =3D 1,
+> > +     TEE_DMA_HEAP_TRUSTED_UI,
+> > +     TEE_DMA_HEAP_SECURE_VIDEO_RECORD,
+> > +};
+> > +
+> >  /**
+> >   * struct tee_device - TEE Device representation
+> >   * @name:    name of device
+> > @@ -116,6 +124,36 @@ struct tee_desc {
+> >       u32 flags;
+> >  };
+> >
+> > +/**
+> > + * struct tee_protmem_pool - protected memory pool
+> > + * @ops:             operations
+> > + *
+> > + * This is an abstract interface where this struct is expected to be
+> > + * embedded in another struct specific to the implementation.
+> > + */
+> > +struct tee_protmem_pool {
+> > +     const struct tee_protmem_pool_ops *ops;
+> > +};
+> > +
+> > +/**
+> > + * struct tee_protmem_pool_ops - protected memory pool operations
+> > + * @alloc:           called when allocating protected memory
+> > + * @free:            called when freeing protected memory
+> > + * @update_shm:              called when registering a dma-buf to upda=
+te the @shm
+> > + *                   with physical address of the buffer or to return =
+the
+> > + *                   @parent_shm of the memory pool
+> > + * @destroy_pool:    called when destroying the pool
+> > + */
+> > +struct tee_protmem_pool_ops {
+> > +     int (*alloc)(struct tee_protmem_pool *pool, struct sg_table *sgt,
+> > +                  size_t size, size_t *offs);
+> > +     void (*free)(struct tee_protmem_pool *pool, struct sg_table *sgt)=
+;
+> > +     int (*update_shm)(struct tee_protmem_pool *pool, struct sg_table =
+*sgt,
+> > +                       size_t offs, struct tee_shm *shm,
+> > +                       struct tee_shm **parent_shm);
+> > +     void (*destroy_pool)(struct tee_protmem_pool *pool);
+> > +};
+> > +
+> >  /**
+> >   * tee_device_alloc() - Allocate a new struct tee_device instance
+> >   * @teedesc: Descriptor for this driver
+> > @@ -154,6 +192,11 @@ int tee_device_register(struct tee_device *teedev)=
+;
+> >   */
+> >  void tee_device_unregister(struct tee_device *teedev);
+> >
+> > +int tee_device_register_dma_heap(struct tee_device *teedev,
+> > +                              enum tee_dma_heap_id id,
+> > +                              struct tee_protmem_pool *pool);
+> > +void tee_device_unregister_all_dma_heaps(struct tee_device *teedev);
+> > +
+> >  /**
+> >   * tee_device_set_dev_groups() - Set device attribute groups
+> >   * @teedev:  Device to register
+> > @@ -229,6 +272,28 @@ static inline void tee_shm_pool_free(struct tee_sh=
+m_pool *pool)
+> >       pool->ops->destroy_pool(pool);
+> >  }
+> >
+> > +/**
+> > + * tee_protmem_static_pool_alloc() - Create a protected memory manager
+> > + * @paddr:   Physical address of start of pool
+> > + * @size:    Size in bytes of the pool
+> > + *
+> > + * @returns pointer to a 'struct tee_shm_pool' or an ERR_PTR on failur=
+e.
+>
+> s/tee_shm_pool/tee_protmem_pool/
+
+I'll fix it.
+
+>
+> Rest looks fine to me.
+
+Thanks,
+Jens
+
+>
+> -Sumit
+>
+> > + */
+> > +struct tee_protmem_pool *tee_protmem_static_pool_alloc(phys_addr_t pad=
+dr,
+> > +                                                    size_t size);
+> > +
+> > +/**
+> > + * tee_protmem_pool_free() - Free a protected memory pool
+> > + * @pool:    The protected memory pool to free
+> > + *
+> > + * There must be no remaining protected memory allocated from this poo=
+l
+> > + * when this function is called.
+> > + */
+> > +static inline void tee_protmem_pool_free(struct tee_protmem_pool *pool=
+)
+> > +{
+> > +     pool->ops->destroy_pool(pool);
+> > +}
+> > +
+> >  /**
+> >   * tee_get_drvdata() - Return driver_data pointer
+> >   * @returns the driver_data pointer supplied to tee_register().
+> > --
+> > 2.43.0
+> >
 
