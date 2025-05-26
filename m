@@ -1,285 +1,711 @@
-Return-Path: <linux-media+bounces-33356-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33357-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85B3AC3B27
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 10:08:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40DF4AC3B2E
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 10:09:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B05D43B6BE5
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 08:08:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F36E03B6849
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 08:09:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB1DC1E51F6;
-	Mon, 26 May 2025 08:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC4B81E261F;
+	Mon, 26 May 2025 08:09:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vw0lfOGW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kj6CU9mG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECA11D6DA9
-	for <linux-media@vger.kernel.org>; Mon, 26 May 2025 08:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C71B4D599;
+	Mon, 26 May 2025 08:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748246901; cv=none; b=QUKOVD/9ii3YDiod/eaQsXQDngSUSigScR9kPGBYo6Ms4hKuSvLm0l+DccpmPMfj62bM5iTMu0H/e+D2c67jvTl7MOhQ8UVwM4AekxDqOxVqZtRgZxNaqlIK8JSdKRmLvXRZ3G1J9R/AE4IXjkEgOBIoULh+inNmwSaqfFwL2io=
+	t=1748246968; cv=none; b=rge/VKcldjlVyh6ZxdT5/+e+wo7BB121pSDfnc1e9suwM6xZUQOuB5iQBulwFndFkMm9xxzVCmidrfDd6QRGn1gEi/TEbCdckcIMPIyv0Mx5gVnF2RJbMj7dY1xjN6LGWEO9QFD2TIqxiz5aDAFlQthmsjkFCVmLc8Bzr3q9+pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748246901; c=relaxed/simple;
-	bh=qikYQ594dHPzQSHOybBoJ/egvS0Gkm2FJWnwnF9iYIw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=le2vDmEBAvcdnO2+O/86k/otI5lvjvtYs2GsnqDQSaAqUEIexOGr4K1wY7onBapquZjYxXF7REFL0ulQmJB8GHlIkeWWwUHjhMYGyAVh2asR918Ox6bOLaVr9AQHBUCW53WUjXsL3j3h/GKgIB1taIYiYae0lsUCgig7OLzJO6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vw0lfOGW; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so26361955e9.3
-        for <linux-media@vger.kernel.org>; Mon, 26 May 2025 01:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748246897; x=1748851697; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PNtdNqosyMirRG+hBdGG1axM0lRFh93U59Adrxl0txw=;
-        b=Vw0lfOGWgzvwSI4uK896G9Z27CaRXl27MbQr9VEotgiWI1ImbleC8vhIlp2e3IXdgh
-         qy7T7G07VgqbRs496UH/szi1RDW5wbXG6UjPouHX4B/U0E6tGw+f1Dxb7rhCZhmoxJAa
-         83K7Rrxyami+nplaDVsDt4BqTjosWEYwx5LHYcLHeuzJ4YrK9SdVb6BzLYOo67SMjeHj
-         zoSW4xIqwxlIAxoFOlihrvw1Vrtpor3bTOFLqUMpVG2vq0popAVKEll9jktQwtW+t0Uu
-         saAyrSgJPba8HVV6xsMaDSOFIp2iJjvZT5v/X5zchkwLCNfHwyyxHzt7Mw364QAHYhW7
-         9uWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748246897; x=1748851697;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PNtdNqosyMirRG+hBdGG1axM0lRFh93U59Adrxl0txw=;
-        b=Pgf94PAseC+xWMR4mBJLhrd+2aBkleHbgtyuVP35TYXMM5mj193N8F5PhQwenXzWeH
-         TYeQ3z5Zyfvy9jA2JiwIgZuCdvdZcQNSubEb/pUxV4pWIhzNsaDWgPEbqxjNmRk8jh0G
-         B0PjXSd9k7vPK3Z0PpTBCy5ZLOQqM5MdOI87sWv5gjyn6Vq4zAi3m7+VVptZ3JyKZDXV
-         wf8Wg+2GPGIQlNkn1ogq5X6Hnn1wMhmtJUI8wtVMl3scdHhNZiUhgHbNqZ486fkwqMmD
-         cL1qAilGNVh4PZa0i1E/mY8RDZEiKCtDAlqIibJZfnUi+o61NwnlTkaj1set4gjI/spQ
-         adhA==
-X-Forwarded-Encrypted: i=1; AJvYcCXyymvbdUndNniGGa1c9nvGe+R2aqfF2TZ/DMoZe0fRuTvtNIkFyVktnUBJK3cZrUDAKMqpqInbI1J9sA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy28DAeNRGRTRNMjAsifUSjwsA0xHmYsTPsUE7ZuqWX1dcC3OQo
-	NzyfOrAMdJWRXcKuwuRfl8scSQALOyDNyGLEaz2GWI6vaq27MTSFaVn0742jn8jF9RY=
-X-Gm-Gg: ASbGncur3hKMwUpbLBq1/UUXJLRDfsycRwCdD5RPOtwfAAuKXgB0YJN4wti4D00n6ZT
-	7OwCzREwYs1o0Kn7LijO1P2hhj6LBM/D6b3OUqQVMHDoMWEY8cWbShWzOoL+TAbQLnuHvjjUUCw
-	9VjJpmegoKq8QQOZjXG7Z7OXfVaturjRdTg3dqASF3C1KpoVsXWx9d7chHUqHADRbKEAjKPNEaR
-	VckdWM4Th2jKUzNvMqdOssFtFbivYVQpnfyCBi5SB53lSnWEIhWb//m9Fsg6jo9J4jRORnsXqvt
-	k9lNRNWl+OYmzwB+5EvGKeSxSfyvQ06NGf8TiyUFr8wh4e9vDIoOXVMTn+OU7XZ2C12hw66/NWq
-	Vt3X01Yt8LwM+Ozfr
-X-Google-Smtp-Source: AGHT+IE+GT/k7iSve/MABXaWUg+ZYYfI2oijlh2cTs+Cmlin8FoBbD6JtFcM6qKiPeDGC3ExVb+yAQ==
-X-Received: by 2002:a05:600c:5294:b0:442:dc6f:7a20 with SMTP id 5b1f17b1804b1-44c93da7cdbmr59657575e9.7.1748246897252;
-        Mon, 26 May 2025 01:08:17 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f1ef0ac6sm230479385e9.15.2025.05.26.01.08.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 May 2025 01:08:16 -0700 (PDT)
-Message-ID: <f2162241-6423-43b3-a6b5-74e373cd8834@linaro.org>
-Date: Mon, 26 May 2025 09:08:15 +0100
+	s=arc-20240116; t=1748246968; c=relaxed/simple;
+	bh=VffDxCYUabbsAEoTUh8EtxgYtKu++laK2VjaqHD5FbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TAfxicBQe5aqNa1b37XAwvs7GBrkND12SaaZEFi+8iWvEHSlBP/3+sNhkMOEQL07k+6lZFq195dUa333cnegKm0c8/mBh9KBtl/plhQXAWMoZrjmNkPABgSinuooB/OxHkRV9sKhe1smuCeqZv/5PVXVl6k1u2+jlGCqw1QECyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kj6CU9mG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4972EC4CEE7;
+	Mon, 26 May 2025 08:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748246967;
+	bh=VffDxCYUabbsAEoTUh8EtxgYtKu++laK2VjaqHD5FbM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Kj6CU9mGPOB1gC3XGDKJMwO+2/iyzJBcK6FGezAzpjbbfdNrrvboFGoXMZNFGu4oP
+	 3XFKIJZDSI8fWC+rkjhLBSAUt+SEHbY4Yx3aZQKE50k7prGpWdcNO1Vv+B5px1Y2uh
+	 /wTMNB/pNvZr92xAyXwEgQ8nBu+3BORKZdZ7d/Zp3C672+HTr2rT/z2V2ffr4dXwVP
+	 uUH+ki9/mvSZJiZ/eYr+TVCq5Hs1NVr0WJXP27WBLMRd3UZue+jhCU7F7nJW3H4EXD
+	 Eugv2wMj2HVOWcC4NFSkeyMqei5lr6ZTcJsGejKX8TfKAcnZ6YrTcLY0rWQ6SjmXKj
+	 r4mgfrSx503LA==
+Date: Mon, 26 May 2025 13:39:03 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	op-tee@lists.trustedfirmware.org,
+	linux-arm-kernel@lists.infradead.org,
+	Olivier Masse <olivier.masse@nxp.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+	Daniel Stone <daniel@fooishbar.org>,
+	Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Subject: Re: [PATCH v9 8/9] optee: FF-A: dynamic protected memory allocation
+Message-ID: <aDQhn9_fezC42GwS@sumit-X1>
+References: <20250520152436.474778-1-jens.wiklander@linaro.org>
+ <20250520152436.474778-9-jens.wiklander@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] media: qcom: camss: vfe: Add VBIF setting support
-To: vincent.knecht@mailoo.org, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20250525-camss-8x39-vbif-v2-0-6d3d5c5af456@mailoo.org>
- <20250525-camss-8x39-vbif-v2-1-6d3d5c5af456@mailoo.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250525-camss-8x39-vbif-v2-1-6d3d5c5af456@mailoo.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520152436.474778-9-jens.wiklander@linaro.org>
 
-On 25/05/2025 20:25, Vincent Knecht via B4 Relay wrote:
-> From: Vincent Knecht <vincent.knecht@mailoo.org>
+On Tue, May 20, 2025 at 05:16:51PM +0200, Jens Wiklander wrote:
+> Add support in the OP-TEE backend driver dynamic protected memory
+> allocation with FF-A.
 > 
-> Some devices need writing values to VFE VBIF registers.
-> Add helper functions to do this.
+> The protected memory pools for dynamically allocated protected memory
+> are instantiated when requested by user-space. This instantiation can
+> fail if OP-TEE doesn't support the requested use-case of protected
+> memory.
 > 
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> Restricted memory pools based on a static carveout or dynamic allocation
+> can coexist for different use-cases. We use only dynamic allocation with
+> FF-A.
+> 
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 > ---
->   drivers/media/platform/qcom/camss/Makefile         |  1 +
->   drivers/media/platform/qcom/camss/camss-vfe-4-1.c  | 11 ++++++++
->   drivers/media/platform/qcom/camss/camss-vfe-vbif.c | 30 ++++++++++++++++++++++
->   drivers/media/platform/qcom/camss/camss-vfe-vbif.h | 19 ++++++++++++++
->   drivers/media/platform/qcom/camss/camss-vfe.c      |  9 +++++++
->   drivers/media/platform/qcom/camss/camss-vfe.h      |  3 +++
->   6 files changed, 73 insertions(+)
+>  drivers/tee/optee/Makefile        |   1 +
+>  drivers/tee/optee/ffa_abi.c       | 147 ++++++++++++-
+>  drivers/tee/optee/optee_private.h |  13 +-
+>  drivers/tee/optee/protmem.c       | 332 ++++++++++++++++++++++++++++++
+>  4 files changed, 490 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/tee/optee/protmem.c
 > 
-> diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-> index d26a9c24a430a831e0d865db4d96142da5276653..4c66d29ae505ae5adc717ae98f77fb736a6e15b9 100644
-> --- a/drivers/media/platform/qcom/camss/Makefile
-> +++ b/drivers/media/platform/qcom/camss/Makefile
-> @@ -21,6 +21,7 @@ qcom-camss-objs += \
->   		camss-vfe-680.o \
->   		camss-vfe-780.o \
->   		camss-vfe-gen1.o \
-> +		camss-vfe-vbif.o \
->   		camss-vfe.o \
->   		camss-video.o \
->   		camss-format.o \
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-> index 901677293d971cf761944a660ef719af38203f22..520bc16f2a05e34f457a828ecdb1f9502a0470c1 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-> @@ -15,6 +15,7 @@
->   #include "camss.h"
->   #include "camss-vfe.h"
->   #include "camss-vfe-gen1.h"
-> +#include "camss-vfe-vbif.h"
->   
->   #define VFE_0_HW_VERSION		0x000
->   
-> @@ -733,6 +734,7 @@ static void vfe_set_qos(struct vfe_device *vfe)
->   {
->   	u32 val = VFE_0_BUS_BDG_QOS_CFG_0_CFG;
->   	u32 val7 = VFE_0_BUS_BDG_QOS_CFG_7_CFG;
-> +	int ret;
->   
->   	writel_relaxed(val, vfe->base + VFE_0_BUS_BDG_QOS_CFG_0);
->   	writel_relaxed(val, vfe->base + VFE_0_BUS_BDG_QOS_CFG_1);
-> @@ -742,6 +744,15 @@ static void vfe_set_qos(struct vfe_device *vfe)
->   	writel_relaxed(val, vfe->base + VFE_0_BUS_BDG_QOS_CFG_5);
->   	writel_relaxed(val, vfe->base + VFE_0_BUS_BDG_QOS_CFG_6);
->   	writel_relaxed(val7, vfe->base + VFE_0_BUS_BDG_QOS_CFG_7);
-> +
-> +	/* SoC-specific VBIF settings */
-> +	if (vfe->res->has_vbif) {
-> +		ret = vfe_vbif_apply_settings(vfe);
-> +		if (ret < 0)
-> +			dev_err_ratelimited(vfe->camss->dev,
-> +					    "VFE: VBIF error %d\n",
-> +					    ret);
-
-Over multiple lines encapsulate with {}
-
-> +	}
->   }
->   
->   static void vfe_set_ds(struct vfe_device *vfe)
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-vbif.c b/drivers/media/platform/qcom/camss/camss-vfe-vbif.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..2ae61b7baa148f0ad63fe3b8751aeb7b8fc12d81
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-vbif.c
-> @@ -0,0 +1,30 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * camss-vfe-vbif.c
-> + *
-> + * Qualcomm MSM Camera Subsystem - VFE VBIF Module
-> + *
-> + * Copyright (c) 2025, The Linux Foundation. All rights reserved.
-> + *
-> + */
-> +
-> +#include <linux/io.h>
-> +
-> +#include "camss.h"
-> +#include "camss-vfe.h"
-> +#include "camss-vfe-vbif.h"
-> +
-> +void vfe_vbif_reg_write(struct vfe_device *vfe, u32 reg, u32 val)
+> diff --git a/drivers/tee/optee/Makefile b/drivers/tee/optee/Makefile
+> index a6eff388d300..ad7049c1c107 100644
+> --- a/drivers/tee/optee/Makefile
+> +++ b/drivers/tee/optee/Makefile
+> @@ -4,6 +4,7 @@ optee-objs += core.o
+>  optee-objs += call.o
+>  optee-objs += notif.o
+>  optee-objs += rpc.o
+> +optee-objs += protmem.o
+>  optee-objs += supp.o
+>  optee-objs += device.o
+>  optee-objs += smc_abi.o
+> diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c
+> index f3af5666bb11..b9cbd733e5c6 100644
+> --- a/drivers/tee/optee/ffa_abi.c
+> +++ b/drivers/tee/optee/ffa_abi.c
+> @@ -649,6 +649,124 @@ static int optee_ffa_do_call_with_arg(struct tee_context *ctx,
+>  	return optee_ffa_yielding_call(ctx, &data, rpc_arg, system_thread);
+>  }
+>  
+> +static int do_call_lend_protmem(struct optee *optee, u64 cookie, u32 use_case)
 > +{
-> +	writel_relaxed(val, vfe->vbif_base + reg);
+> +	struct optee_shm_arg_entry *entry;
+> +	struct optee_msg_arg *msg_arg;
+> +	struct tee_shm *shm;
+> +	u_int offs;
+> +	int rc;
+> +
+> +	msg_arg = optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs);
+> +	if (IS_ERR(msg_arg))
+> +		return PTR_ERR(msg_arg);
+> +
+> +	msg_arg->cmd = OPTEE_MSG_CMD_ASSIGN_PROTMEM;
+> +	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
+> +	msg_arg->params[0].u.value.a = cookie;
+> +	msg_arg->params[0].u.value.b = use_case;
+> +
+> +	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
+> +	if (rc)
+> +		goto out;
+> +	if (msg_arg->ret != TEEC_SUCCESS) {
+> +		rc = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +out:
+> +	optee_free_msg_arg(optee->ctx, entry, offs);
+> +	return rc;
 > +}
 > +
-> +int vfe_vbif_apply_settings(struct vfe_device *vfe)
+> +static int optee_ffa_lend_protmem(struct optee *optee, struct tee_shm *protmem,
+> +				  u16 *end_points, unsigned int ep_count,
+> +				  u32 use_case)
 > +{
-> +	switch (vfe->camss->res->version) {
-> +	default:
-> +		break;
+> +	struct ffa_device *ffa_dev = optee->ffa.ffa_dev;
+> +	const struct ffa_mem_ops *mem_ops = ffa_dev->ops->mem_ops;
+> +	const struct ffa_msg_ops *msg_ops = ffa_dev->ops->msg_ops;
+> +	struct ffa_send_direct_data data;
+> +	struct ffa_mem_region_attributes *mem_attr;
+> +	struct ffa_mem_ops_args args = {
+> +		.use_txbuf = true,
+> +		.tag = use_case,
+> +	};
+> +	struct page *page;
+> +	struct scatterlist sgl;
+> +	unsigned int n;
+> +	int rc;
+> +
+> +	mem_attr = kcalloc(ep_count, sizeof(*mem_attr), GFP_KERNEL);
+> +	for (n = 0; n < ep_count; n++) {
+> +		mem_attr[n].receiver = end_points[n];
+> +		mem_attr[n].attrs = FFA_MEM_RW;
 > +	}
+> +	args.attrs = mem_attr;
+> +	args.nattrs = ep_count;
+> +
+> +	page = phys_to_page(protmem->paddr);
+> +	sg_init_table(&sgl, 1);
+> +	sg_set_page(&sgl, page, protmem->size, 0);
+> +
+> +	args.sg = &sgl;
+> +	rc = mem_ops->memory_lend(&args);
+> +	kfree(mem_attr);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = do_call_lend_protmem(optee, args.g_handle, use_case);
+> +	if (rc)
+> +		goto err_reclaim;
+> +
+> +	rc = optee_shm_add_ffa_handle(optee, protmem, args.g_handle);
+> +	if (rc)
+> +		goto err_unreg;
+> +
+> +	protmem->sec_world_id = args.g_handle;
+> +
+> +	return 0;
+> +
+> +err_unreg:
+> +	data = (struct ffa_send_direct_data){
+> +		.data0 = OPTEE_FFA_RELEASE_PROTMEM,
+> +		.data1 = (u32)args.g_handle,
+> +		.data2 = (u32)(args.g_handle >> 32),
+> +	};
+> +	msg_ops->sync_send_receive(ffa_dev, &data);
+> +err_reclaim:
+> +	mem_ops->memory_reclaim(args.g_handle, 0);
+> +	return rc;
+> +}
+> +
+> +static int optee_ffa_reclaim_protmem(struct optee *optee,
+> +				     struct tee_shm *protmem)
+> +{
+> +	struct ffa_device *ffa_dev = optee->ffa.ffa_dev;
+> +	const struct ffa_msg_ops *msg_ops = ffa_dev->ops->msg_ops;
+> +	const struct ffa_mem_ops *mem_ops = ffa_dev->ops->mem_ops;
+> +	u64 global_handle = protmem->sec_world_id;
+> +	struct ffa_send_direct_data data = {
+> +		.data0 = OPTEE_FFA_RELEASE_PROTMEM,
+> +		.data1 = (u32)global_handle,
+> +		.data2 = (u32)(global_handle >> 32)
+> +	};
+> +	int rc;
+> +
+> +	optee_shm_rem_ffa_handle(optee, global_handle);
+> +	protmem->sec_world_id = 0;
+> +
+> +	rc = msg_ops->sync_send_receive(ffa_dev, &data);
+> +	if (rc)
+> +		pr_err("Release SHM id 0x%llx rc %d\n", global_handle, rc);
+> +
+> +	rc = mem_ops->memory_reclaim(global_handle, 0);
+> +	if (rc)
+> +		pr_err("mem_reclaim: 0x%llx %d", global_handle, rc);
+> +
+> +	return rc;
+> +}
+> +
+>  /*
+>   * 6. Driver initialization
+>   *
+> @@ -810,6 +928,8 @@ static const struct optee_ops optee_ffa_ops = {
+>  	.do_call_with_arg = optee_ffa_do_call_with_arg,
+>  	.to_msg_param = optee_ffa_to_msg_param,
+>  	.from_msg_param = optee_ffa_from_msg_param,
+> +	.lend_protmem = optee_ffa_lend_protmem,
+> +	.reclaim_protmem = optee_ffa_reclaim_protmem,
+>  };
+>  
+>  static void optee_ffa_remove(struct ffa_device *ffa_dev)
+> @@ -868,6 +988,25 @@ static int optee_ffa_async_notif_init(struct ffa_device *ffa_dev,
+>  	return rc;
+>  }
+>  
+> +static int optee_ffa_protmem_pool_init(struct optee *optee, u32 sec_caps)
+> +{
+> +	enum tee_dma_heap_id id = TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
+> +	struct tee_protmem_pool *pool;
+> +	int rc = 0;
+> +
+> +	if (sec_caps & OPTEE_FFA_SEC_CAP_PROTMEM) {
+> +		pool = optee_protmem_alloc_dyn_pool(optee, id);
+> +		if (IS_ERR(pool))
+> +			return PTR_ERR(pool);
+> +
+> +		rc = tee_device_register_dma_heap(optee->teedev, id, pool);
+> +		if (rc)
+> +			pool->ops->destroy_pool(pool);
+> +	}
+> +
+> +	return rc;
+> +}
+> +
+>  static int optee_ffa_probe(struct ffa_device *ffa_dev)
+>  {
+>  	const struct ffa_notifier_ops *notif_ops;
+> @@ -918,7 +1057,7 @@ static int optee_ffa_probe(struct ffa_device *ffa_dev)
+>  				  optee);
+>  	if (IS_ERR(teedev)) {
+>  		rc = PTR_ERR(teedev);
+> -		goto err_free_pool;
+> +		goto err_free_shm_pool;
+>  	}
+>  	optee->teedev = teedev;
+>  
+> @@ -965,6 +1104,9 @@ static int optee_ffa_probe(struct ffa_device *ffa_dev)
+>  			       rc);
+>  	}
+>  
+> +	if (optee_ffa_protmem_pool_init(optee, sec_caps))
 
-You have both
+Let's add a Kconfig check for DMABUF heaps support here as well.
 
-if (vfe->res->has_vbif) {
+> +		pr_info("Protected memory service not available\n");
+> +
+>  	rc = optee_enumerate_devices(PTA_CMD_GET_DEVICES);
+>  	if (rc)
+>  		goto err_unregister_devices;
+> @@ -978,6 +1120,7 @@ static int optee_ffa_probe(struct ffa_device *ffa_dev)
+>  
+>  err_unregister_devices:
+>  	optee_unregister_devices();
+> +	tee_device_unregister_all_dma_heaps(optee->teedev);
+>  	if (optee->ffa.bottom_half_value != U32_MAX)
+>  		notif_ops->notify_relinquish(ffa_dev,
+>  					     optee->ffa.bottom_half_value);
+> @@ -995,7 +1138,7 @@ static int optee_ffa_probe(struct ffa_device *ffa_dev)
+>  	tee_device_unregister(optee->supp_teedev);
+>  err_unreg_teedev:
+>  	tee_device_unregister(optee->teedev);
+> -err_free_pool:
+> +err_free_shm_pool:
+>  	tee_shm_pool_free(pool);
+>  err_free_optee:
+>  	kfree(optee);
+> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
+> index 5e3c34802121..68e94856205c 100644
+> --- a/drivers/tee/optee/optee_private.h
+> +++ b/drivers/tee/optee/optee_private.h
+> @@ -174,9 +174,14 @@ struct optee;
+>   * @do_call_with_arg:	enters OP-TEE in secure world
+>   * @to_msg_param:	converts from struct tee_param to OPTEE_MSG parameters
+>   * @from_msg_param:	converts from OPTEE_MSG parameters to struct tee_param
+> + * @lend_protmem:	lends physically contiguous memory as restricted
+> + *			memory, inaccessible by the kernel
+> + * @reclaim_protmem:	reclaims restricted memory previously lent with
+> + *			@lend_protmem() and makes it accessible by the
+> + *			kernel again
+>   *
+>   * These OPs are only supposed to be used internally in the OP-TEE driver
+> - * as a way of abstracting the different methogs of entering OP-TEE in
+> + * as a way of abstracting the different methods of entering OP-TEE in
+>   * secure world.
+>   */
+>  struct optee_ops {
+> @@ -189,6 +194,10 @@ struct optee_ops {
+>  	int (*from_msg_param)(struct optee *optee, struct tee_param *params,
+>  			      size_t num_params,
+>  			      const struct optee_msg_param *msg_params);
+> +	int (*lend_protmem)(struct optee *optee, struct tee_shm *protmem,
+> +			    u16 *end_points, unsigned int ep_count,
+> +			    u32 use_case);
+> +	int (*reclaim_protmem)(struct optee *optee, struct tee_shm *protmem);
+>  };
+>  
+>  /**
+> @@ -285,6 +294,8 @@ u32 optee_supp_thrd_req(struct tee_context *ctx, u32 func, size_t num_params,
+>  void optee_supp_init(struct optee_supp *supp);
+>  void optee_supp_uninit(struct optee_supp *supp);
+>  void optee_supp_release(struct optee_supp *supp);
+> +struct tee_protmem_pool *optee_protmem_alloc_dyn_pool(struct optee *optee,
+> +						      enum tee_dma_heap_id id);
+>  
+>  int optee_supp_recv(struct tee_context *ctx, u32 *func, u32 *num_params,
+>  		    struct tee_param *param);
+> diff --git a/drivers/tee/optee/protmem.c b/drivers/tee/optee/protmem.c
+> new file mode 100644
+> index 000000000000..f7e4f1068ef1
+> --- /dev/null
+> +++ b/drivers/tee/optee/protmem.c
+> @@ -0,0 +1,332 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2025, Linaro Limited
+> + */
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+> +#include <linux/errno.h>
+> +#include <linux/genalloc.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
+> +#include <linux/tee_core.h>
+> +#include <linux/types.h>
+> +#include "optee_private.h"
+> +
+> +struct optee_protmem_dyn_pool {
+> +	struct tee_protmem_pool pool;
+> +	struct gen_pool *gen_pool;
+> +	struct optee *optee;
+> +	size_t page_count;
+> +	u16 *end_points;
+> +	u_int end_point_count;
+> +	refcount_t refcount;
+> +	u32 use_case;
+> +	struct tee_shm *protmem;
+> +	/* Protects when initializing and tearing down this struct */
+> +	struct mutex mutex;
+> +};
+> +
+> +static struct optee_protmem_dyn_pool *
+> +to_protmem_dyn_pool(struct tee_protmem_pool *pool)
+> +{
+> +	return container_of(pool, struct optee_protmem_dyn_pool, pool);
+> +}
+> +
+> +static int init_dyn_protmem(struct optee_protmem_dyn_pool *rp)
+> +{
+> +	int rc;
+> +
+> +	rp->protmem = tee_shm_alloc_dma_mem(rp->optee->ctx, rp->page_count);
+> +	if (IS_ERR(rp->protmem)) {
+> +		rc = PTR_ERR(rp->protmem);
+> +		goto err_null_protmem;
+> +	}
+> +
+> +	/*
+> +	 * TODO unmap the memory range since the physical memory will
+> +	 * become inaccesible after the lend_protmem() call.
 
-and the above switch, there's no point in checking this twice in two 
-different ways.
+Let's ellaborate this comment to also say that unmap isn't strictly
+needed here in case a platform supports hypervisor in EL2 which can
+perform unmapping as part for memory lending to secure world as that
+will avoid any cache pre-fetch of memory lent to secure world.
 
-Choose one, suggest has_vbif is enough.
+With that I can live with this as a ToDo in kernel which can be
+implemented once we see platforms requiring this change to happen.
 
+> +	 */
+> +	rc = rp->optee->ops->lend_protmem(rp->optee, rp->protmem,
+> +					  rp->end_points,
+> +					  rp->end_point_count, rp->use_case);
+> +	if (rc)
+> +		goto err_put_shm;
+> +	rp->protmem->flags |= TEE_SHM_DYNAMIC;
+> +
+> +	rp->gen_pool = gen_pool_create(PAGE_SHIFT, -1);
+> +	if (!rp->gen_pool) {
+> +		rc = -ENOMEM;
+> +		goto err_reclaim;
+> +	}
+> +
+> +	rc = gen_pool_add(rp->gen_pool, rp->protmem->paddr,
+> +			  rp->protmem->size, -1);
+> +	if (rc)
+> +		goto err_free_pool;
+> +
+> +	refcount_set(&rp->refcount, 1);
+> +	return 0;
+> +
+> +err_free_pool:
+> +	gen_pool_destroy(rp->gen_pool);
+> +	rp->gen_pool = NULL;
+> +err_reclaim:
+> +	rp->optee->ops->reclaim_protmem(rp->optee, rp->protmem);
+> +err_put_shm:
+> +	tee_shm_put(rp->protmem);
+> +err_null_protmem:
+> +	rp->protmem = NULL;
+> +	return rc;
+> +}
+> +
+> +static int get_dyn_protmem(struct optee_protmem_dyn_pool *rp)
+> +{
+> +	int rc = 0;
+> +
+> +	if (!refcount_inc_not_zero(&rp->refcount)) {
+> +		mutex_lock(&rp->mutex);
+> +		if (rp->gen_pool) {
+> +			/*
+> +			 * Another thread has already initialized the pool
+> +			 * before us, or the pool was just about to be torn
+> +			 * down. Either way we only need to increase the
+> +			 * refcount and we're done.
+> +			 */
+> +			refcount_inc(&rp->refcount);
+> +		} else {
+> +			rc = init_dyn_protmem(rp);
+> +		}
+> +		mutex_unlock(&rp->mutex);
+> +	}
+> +
+> +	return rc;
+> +}
+> +
+> +static void release_dyn_protmem(struct optee_protmem_dyn_pool *rp)
+> +{
+> +	gen_pool_destroy(rp->gen_pool);
+> +	rp->gen_pool = NULL;
+> +
+> +	rp->optee->ops->reclaim_protmem(rp->optee, rp->protmem);
+> +	rp->protmem->flags &= ~TEE_SHM_DYNAMIC;
+> +
+> +	WARN(refcount_read(&rp->protmem->refcount) != 1, "Unexpected refcount");
+> +	tee_shm_put(rp->protmem);
+> +	rp->protmem = NULL;
+> +}
+> +
+> +static void put_dyn_protmem(struct optee_protmem_dyn_pool *rp)
+> +{
+> +	if (refcount_dec_and_test(&rp->refcount)) {
+> +		mutex_lock(&rp->mutex);
+> +		if (rp->gen_pool)
+> +			release_dyn_protmem(rp);
+> +		mutex_unlock(&rp->mutex);
+> +	}
+> +}
+> +
+> +static int protmem_pool_op_dyn_alloc(struct tee_protmem_pool *pool,
+> +				     struct sg_table *sgt, size_t size,
+> +				     size_t *offs)
+> +{
+> +	struct optee_protmem_dyn_pool *rp = to_protmem_dyn_pool(pool);
+> +	size_t sz = ALIGN(size, PAGE_SIZE);
+> +	phys_addr_t pa;
+> +	int rc;
+> +
+> +	rc = get_dyn_protmem(rp);
+> +	if (rc)
+> +		return rc;
+> +
+> +	pa = gen_pool_alloc(rp->gen_pool, sz);
+> +	if (!pa) {
+> +		rc = -ENOMEM;
+> +		goto err_put;
+> +	}
+> +
+> +	rc = sg_alloc_table(sgt, 1, GFP_KERNEL);
+> +	if (rc)
+> +		goto err_free;
+> +
+> +	sg_set_page(sgt->sgl, phys_to_page(pa), size, 0);
+> +	*offs = pa - rp->protmem->paddr;
+> +
+> +	return 0;
+> +err_free:
+> +	gen_pool_free(rp->gen_pool, pa, size);
+> +err_put:
+> +	put_dyn_protmem(rp);
+> +
+> +	return rc;
+> +}
+> +
+> +static void protmem_pool_op_dyn_free(struct tee_protmem_pool *pool,
+> +				     struct sg_table *sgt)
+> +{
+> +	struct optee_protmem_dyn_pool *rp = to_protmem_dyn_pool(pool);
+> +	struct scatterlist *sg;
+> +	int i;
+> +
+> +	for_each_sgtable_sg(sgt, sg, i)
+> +		gen_pool_free(rp->gen_pool, sg_phys(sg), sg->length);
+> +	sg_free_table(sgt);
+> +	put_dyn_protmem(rp);
+> +}
+> +
+> +static int protmem_pool_op_dyn_update_shm(struct tee_protmem_pool *pool,
+> +					  struct sg_table *sgt, size_t offs,
+> +					  struct tee_shm *shm,
+> +					  struct tee_shm **parent_shm)
+> +{
+> +	struct optee_protmem_dyn_pool *rp = to_protmem_dyn_pool(pool);
+> +
+> +	*parent_shm = rp->protmem;
 > +
 > +	return 0;
 > +}
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-vbif.h b/drivers/media/platform/qcom/camss/camss-vfe-vbif.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..cef1e17dba1f2335a2c8de070bcb6afde98eef87
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-vbif.h
-> @@ -0,0 +1,19 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * camss-vfe-vbif.h
-> + *
-> + * Qualcomm MSM Camera Subsystem - VFE VBIF Module
-> + *
-> + * Copyright (c) 2025, The Linux Foundation. All rights reserved.
-> + *
-> + */
-> +#ifndef QC_MSM_CAMSS_VFE_VBIF_H
-> +#define QC_MSM_CAMSS_VFE_VBIF_H
 > +
-> +#include "camss-vfe.h"
+> +static void pool_op_dyn_destroy_pool(struct tee_protmem_pool *pool)
+> +{
+> +	struct optee_protmem_dyn_pool *rp = to_protmem_dyn_pool(pool);
 > +
-> +void vfe_vbif_reg_write(struct vfe_device *vfe, u32 reg, u32 val);
+> +	mutex_destroy(&rp->mutex);
+> +	kfree(rp);
+> +}
 > +
-> +int vfe_vbif_apply_settings(struct vfe_device *vfe);
+> +static struct tee_protmem_pool_ops protmem_pool_ops_dyn = {
+> +	.alloc = protmem_pool_op_dyn_alloc,
+> +	.free = protmem_pool_op_dyn_free,
+> +	.update_shm = protmem_pool_op_dyn_update_shm,
+> +	.destroy_pool = pool_op_dyn_destroy_pool,
+> +};
 > +
-> +#endif /* QC_MSM_CAMSS_VFE_VBIF_H */
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-> index 4bca6c3abaff9b898ea879674a3ff8f3592d3139..3138562d399444c5cf2ae96bf16b75b85ff5c5ca 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-> @@ -1807,6 +1807,15 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
->   		return PTR_ERR(vfe->base);
->   	}
->   
-> +	if (vfe->res->has_vbif) {
-> +		vfe->vbif_base = devm_platform_ioremap_resource_byname(pdev,
-> +					vfe->res->vbif_name);
-> +		if (IS_ERR(vfe->vbif_base)) {
-> +			dev_err(dev, "could not map vbif memory\n");
-> +			return PTR_ERR(vfe->vbif_base);
-> +		}
+> +static int get_protmem_config(struct optee *optee, u32 use_case,
+> +			      size_t *min_size, u_int *pa_width,
+> +			      u16 *end_points, u_int *ep_count)
+> +{
+> +	struct tee_param params[2] = {
+> +		[0] = {
+> +			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT,
+> +			.u.value.a = use_case,
+> +		},
+> +		[1] = {
+> +			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT,
+> +		},
+> +	};
+> +	struct optee_shm_arg_entry *entry;
+> +	struct tee_shm *shm_param = NULL;
+> +	struct optee_msg_arg *msg_arg;
+> +	struct tee_shm *shm;
+> +	u_int offs;
+> +	int rc;
+> +
+> +	if (end_points && *ep_count) {
+> +		params[1].u.memref.size = *ep_count * sizeof(*end_points);
+> +		shm_param = tee_shm_alloc_priv_buf(optee->ctx,
+> +						   params[1].u.memref.size);
+> +		if (IS_ERR(shm_param))
+> +			return PTR_ERR(shm_param);
+> +		params[1].u.memref.shm = shm_param;
 > +	}
 > +
->   	/* Interrupt */
->   
->   	ret = platform_get_irq_byname(pdev, res->interrupt[0]);
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
-> index a23f666be7531e0366c73faea44ed245e7a8e30f..614e932c33da78e02e0800ce6534af7b14822f83 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe.h
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe.h
-> @@ -136,6 +136,8 @@ struct vfe_subdev_resources {
->   	u8 line_num;
->   	bool has_pd;
->   	char *pd_name;
-> +	bool has_vbif;
-> +	char *vbif_name;
->   	const struct vfe_hw_ops *hw_ops;
->   	const struct camss_formats *formats_rdi;
->   	const struct camss_formats *formats_pix;
-> @@ -145,6 +147,7 @@ struct vfe_device {
->   	struct camss *camss;
->   	u8 id;
->   	void __iomem *base;
-> +	void __iomem *vbif_base;
->   	u32 irq;
->   	char irq_name[30];
->   	struct camss_clock *clock;
-> 
+> +	msg_arg = optee_get_msg_arg(optee->ctx, ARRAY_SIZE(params), &entry,
+> +				    &shm, &offs);
+> +	if (IS_ERR(msg_arg)) {
+> +		rc = PTR_ERR(msg_arg);
+> +		goto out_free_shm;
+> +	}
+> +	msg_arg->cmd = OPTEE_MSG_CMD_GET_PROTMEM_CONFIG;
+> +
+> +	rc = optee->ops->to_msg_param(optee, msg_arg->params,
+> +				      ARRAY_SIZE(params), params);
+> +	if (rc)
+> +		goto out_free_msg;
+> +
+> +	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
+> +	if (rc)
+> +		goto out_free_msg;
+> +	if (msg_arg->ret && msg_arg->ret != TEEC_ERROR_SHORT_BUFFER) {
+> +		rc = -EINVAL;
+> +		goto out_free_msg;
+> +	}
+> +
+> +	rc = optee->ops->from_msg_param(optee, params, ARRAY_SIZE(params),
+> +					msg_arg->params);
+> +	if (rc)
+> +		goto out_free_msg;
+> +
+> +	if (!msg_arg->ret && end_points &&
+> +	    *ep_count < params[1].u.memref.size / sizeof(u16)) {
+> +		rc = -EINVAL;
+> +		goto out_free_msg;
+> +	}
+> +
+> +	*min_size = params[0].u.value.a;
+> +	*pa_width = params[0].u.value.c;
+> +	*ep_count = params[1].u.memref.size / sizeof(u16);
+> +
+> +	if (msg_arg->ret == TEEC_ERROR_SHORT_BUFFER) {
+> +		rc = -ENOSPC;
+> +		goto out_free_msg;
+> +	}
+> +
+> +	if (end_points)
+> +		memcpy(end_points, tee_shm_get_va(shm_param, 0),
+> +		       params[1].u.memref.size);
+> +
+> +out_free_msg:
+> +	optee_free_msg_arg(optee->ctx, entry, offs);
+> +out_free_shm:
+> +	if (shm_param)
+> +		tee_shm_free(shm_param);
+> +	return rc;
+> +}
+> +
+> +struct tee_protmem_pool *optee_protmem_alloc_dyn_pool(struct optee *optee,
+> +						      enum tee_dma_heap_id id)
+> +{
+> +	struct optee_protmem_dyn_pool *rp;
+> +	u32 use_case = id;
 
+Here we can get rid of redundant extra variable with s/id/use_case/.
+
+-Sumit
+
+> +	size_t min_size;
+> +	u_int pa_width;
+> +	int rc;
+> +
+> +	rp = kzalloc(sizeof(*rp), GFP_KERNEL);
+> +	if (!rp)
+> +		return ERR_PTR(-ENOMEM);
+> +	rp->use_case = use_case;
+> +
+> +	rc = get_protmem_config(optee, use_case, &min_size, &pa_width, NULL,
+> +				&rp->end_point_count);
+> +	if (rc) {
+> +		if (rc != -ENOSPC)
+> +			goto err;
+> +		rp->end_points = kcalloc(rp->end_point_count,
+> +					 sizeof(*rp->end_points), GFP_KERNEL);
+> +		if (!rp->end_points) {
+> +			rc = -ENOMEM;
+> +			goto err;
+> +		}
+> +		rc = get_protmem_config(optee, use_case, &min_size, &pa_width,
+> +					rp->end_points, &rp->end_point_count);
+> +		if (rc)
+> +			goto err_kfree_eps;
+> +	}
+> +
+> +	rc = optee_set_dma_mask(optee, pa_width);
+> +	if (rc)
+> +		goto err_kfree_eps;
+> +
+> +	rp->pool.ops = &protmem_pool_ops_dyn;
+> +	rp->optee = optee;
+> +	rp->page_count = min_size / PAGE_SIZE;
+> +	mutex_init(&rp->mutex);
+> +
+> +	return &rp->pool;
+> +
+> +err_kfree_eps:
+> +	kfree(rp->end_points);
+> +err:
+> +	kfree(rp);
+> +	return ERR_PTR(rc);
+> +}
+> -- 
+> 2.43.0
+> 
 
