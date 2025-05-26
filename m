@@ -1,130 +1,115 @@
-Return-Path: <linux-media+bounces-33401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33402-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D418DAC4114
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 16:13:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B57BAC4122
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 16:16:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 921123AED5B
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 14:13:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18CAA1897182
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 14:16:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46AF720E70A;
-	Mon, 26 May 2025 14:13:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97DD8202C31;
+	Mon, 26 May 2025 14:16:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZSlUmImI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZE0Dl0Ar"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B351F37D4;
-	Mon, 26 May 2025 14:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6791C19BBA;
+	Mon, 26 May 2025 14:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748268812; cv=none; b=dTUh6kbB3jiJsTB9NnRCl9WE7H4x/VOQEkO4guCqfEeNCwybXNl3wpkQQKipDY0URbEGqAY9tquaXCan/gGalIH+MVDNFR+Xea8SlW5kOjQiKWNZ13WjQGVCb3Qxbnmf0jzVByQJLQvOcdRMNRlmS3h0ZA+d1gmUrCsYUL7Hw6w=
+	t=1748268968; cv=none; b=tXVC8cd6X0OlOO0qk0iWiTu1R/qL+8G1+ZkdVxHQz9g99TKRxO0ij7rhRZrllyqlsGYZO7tY6F/C+J020Q8qAEqFLdqpjm8ip+sycqXYfYAb0UXmga1g1JfdKkd3u/aIV2dej08q11I9qj6RCtEJuCIZvuHuCfCl+z2W1JSl+yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748268812; c=relaxed/simple;
-	bh=RfOzpjQyx5CF5y4v62KF88B1iYfZaFwCnC7uIMdlFKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BGzv4D/Rg6iIB0WzltgHiiHfMk3VRm65C6V7l5CintGyuMFKWxry8r5jpUKFwuQlXImOAm0ep0FZkH1EVoPHzmn+YE7op0UPOavvj3RowkybdMYlRbWw4jQwL/lkX6yHwbTJeAxpuz+OrnvMkji/L706wBA5sQWscGMt1m48YV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZSlUmImI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (237.69-130-109.adsl-dyn.isp.belgacom.be [109.130.69.237])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BAD7743;
-	Mon, 26 May 2025 16:13:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748268784;
-	bh=RfOzpjQyx5CF5y4v62KF88B1iYfZaFwCnC7uIMdlFKg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZSlUmImITcHygktdRLQLpoApXk0GjqO0wVOKgXdSY2bxdMiXtI7RH+0Wlfln5hxck
-	 shVUOzZDPWJFKoeuWHXQ4wuRZSEkuULuwko3eeLK8ChKipuLOMmXAfjRwEOl0PLD4O
-	 MbAIreXkJkUbnAphO18C5mrZJMwG/beoysi0Buwg=
-Date: Mon, 26 May 2025 16:13:23 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] media: Documentation: Add note about UVCH length
- field
-Message-ID: <20250526141323.GQ17743@pendragon.ideasonboard.com>
-References: <20250404-uvc-meta-v5-0-f79974fc2d20@chromium.org>
- <20250404-uvc-meta-v5-2-f79974fc2d20@chromium.org>
- <20250526134946.GN17743@pendragon.ideasonboard.com>
- <CANiDSCvPG_3qc4Emhat=NdRZXsmNDD0pwh182bXDFK2TgYN_ug@mail.gmail.com>
+	s=arc-20240116; t=1748268968; c=relaxed/simple;
+	bh=yS4lvg5BCVIIEJbHc6Mprc6sI5O+lunrZT59p/2eUL4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M5hvU+ZC/MZtbzgBm7hjzhWnBbmIdRB723zoEHrde2W0VAfSoTE6F2QAoT1yb8EC7EVr/tAbcFw09jfKEdrehrzWzyxu0pkPCiRepOBn85aw+CqV1Nq7Qnwt9oqmiok7ZBrVHb6TsmBa4FC4D6lYb5KSukPBkZJYCPJ7/M3TyPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZE0Dl0Ar; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-60462000956so2112198a12.0;
+        Mon, 26 May 2025 07:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748268965; x=1748873765; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=k/crlRBagCnIOIZRNJ+r+raWiHrCUa2+Lr7j4P1GLWY=;
+        b=ZE0Dl0Arw6UBPxSKo/fwyOqHK3PhX7AqW66TWDIm8Z3AkkiTzjjd/3PO9KZhC3tt6k
+         rc8TRGg2S1qAFMwsEpQAGKTxnCp5q5AgP6081mTLmdk6+yrVB7UzB+roCnb6AQ+MJ+9y
+         /Jtlz9PbZy7VyKOZYgO6NTURDWwV3ikb45nCwoPrlrWPIIfqVETOFx9nNxFGvEVo0Zka
+         gZa/+qX3feqm9j5VNjxi+q4JH4asgrUYCADDLKVgn3/7btYGbZ98hI70gT7UT5VOEg52
+         1DbXfQZGoBKRLz8pJtmjG1OLt3Lv26smYQh7q7xlJnHrTQDi/cfa5Jt2j4Dbgh4tNvsy
+         bRVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748268965; x=1748873765;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k/crlRBagCnIOIZRNJ+r+raWiHrCUa2+Lr7j4P1GLWY=;
+        b=AdrEdqRMsH/hNlovAI24JYV+yNhrX6NsMV3CrMZq5myj1r8GTpMG+cXr7F2/Ep2AHj
+         +4zIACj0+oyvh+WcaD2sXEPFck9+asUEjDdCkTNo9+9pjgefO3i0n3DFFrs5oB+NKbb7
+         RPsw0g/KN7aLuaOPrKT3E0b9t1OWP0nw8OuPPDrmazR/x4FQjXm1+gyQTcmF6TMCu0ZR
+         iwdlqYNKVx37Kxsd+WSRUVU+EqcT7el74Asi/T6/OA4BWxkU75SBPrjkAg8rNz7rpkhD
+         9lE4HCUoNGFeD7jdopBrZGIL3mYEI97H5JwSRWJ+XzRY6U4/4xpqNT6P9tRUP9qf2GWy
+         PYBA==
+X-Forwarded-Encrypted: i=1; AJvYcCXW7Uu/bqAoLqcdkUkrtfToeswMyezVZG8j5I4LbzIAq1Vxus2Yum4lPD9hfRsUAcX9kSWLqHMUwbA3s9Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxH8o6RrD0fsLrG3H2dfJ61DSUvUjAVhnYek1lhsllF0v7+77x6
+	kkuSdSSvPnpgVlyRLWV9blvsk9ZkiwUzGsz0NqNg1UfYnjAy9aM2rRe/+WuwCNMR9RE=
+X-Gm-Gg: ASbGncsEp6/70Cjt9aXxcYwm6XQXfbFBihsk5Rl0vjbMoTHkjJhKHEoktbzPwpcBk1l
+	B/g1pZ6nsZx5PJwAYNaeTqH3zj53jBRlvymVzNWy5QSw6V/o4I1qoQMSYmpB+3jCL9ZmNw3C+z5
+	SBXEdK3WVj+l+pJeKvjaxAugoikaWahFrx/+m1+XzHav3M4t/puWvSjQfqesXmLk3q+ipr4mhSb
+	MrqkzWQkKdvuZeSX/K4iM0yoa9MWepIl4pyxal+BlXwdPAoL29mUE6bY6cT25LimZzdDAIzosJV
+	fCEZ7np243bHlAXa9DYU/efxqVuo9+km3x1dD8Fo6NCMXt4FOoRhwtF6mtaERj15BYvm1TNOQfw
+	RRViib3oqyh7oVhq36Xb7sM8ZUgz7tLKmPmo=
+X-Google-Smtp-Source: AGHT+IF0pFk+od97RSJU8Mzlpr1c0Tay/B2Ch7lBQWROD9O/7pqRN+VP9iEbsYTEaCtevx0JLeAh/Q==
+X-Received: by 2002:a17:907:8e87:b0:ad5:3504:a6d with SMTP id a640c23a62f3a-ad85b2d6e72mr665567566b.47.1748268964486;
+        Mon, 26 May 2025 07:16:04 -0700 (PDT)
+Received: from ?IPV6:2a02:8109:8617:d700:125e:f885:2a24:cf3d? ([2a02:8109:8617:d700:125e:f885:2a24:cf3d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d06b105sm1671885866b.41.2025.05.26.07.16.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 May 2025 07:16:04 -0700 (PDT)
+Message-ID: <4e97af0e-0cc1-4b92-9876-927624a981f7@gmail.com>
+Date: Mon, 26 May 2025 16:16:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCvPG_3qc4Emhat=NdRZXsmNDD0pwh182bXDFK2TgYN_ug@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] MAINTAINERS: Update my email address to gmail.com
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mchehab@kernel.org, hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+ tomm.merciai@gmail.com, martin.hecht@avnet.eu, michael.roeder@avnet.eu
+References: <20250515145150.1419247-2-mhecht73@gmail.com>
+ <aDQfcnIzJDLcK-U-@kekkonen.localdomain>
+Content-Language: en-US
+From: Martin Hecht <mhecht73@gmail.com>
+In-Reply-To: <aDQfcnIzJDLcK-U-@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 26, 2025 at 04:04:03PM +0200, Ricardo Ribalda wrote:
-> On Mon, 26 May 2025 at 15:49, Laurent Pinchart wrote:
-> > On Fri, Apr 04, 2025 at 06:37:35AM +0000, Ricardo Ribalda wrote:
-> > > The documentation currently describes the UVC length field as the "length
-> > > of the rest of the block", which can be misleading. The driver limits the
-> > > data copied to a maximum of 12 bytes.
-> > >
-> > > This change adds a clarifying sentence to the documentation to make this
-> > > restriction explicit.
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  Documentation/userspace-api/media/v4l/metafmt-uvc.rst | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/userspace-api/media/v4l/metafmt-uvc.rst b/Documentation/userspace-api/media/v4l/metafmt-uvc.rst
-> > > index 784346d14bbdbf28348262084d5b0646d30bd1da..42599875331c0066cf529153caccb731148023b9 100644
-> > > --- a/Documentation/userspace-api/media/v4l/metafmt-uvc.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/metafmt-uvc.rst
-> > > @@ -44,7 +44,9 @@ Each individual block contains the following fields:
-> > >          them
-> > >      * - :cspan:`1` *The rest is an exact copy of the UVC payload header:*
-> > >      * - __u8 length;
-> > > -      - length of the rest of the block, including this field
-> > > +      - length of the rest of the block, including this field. Please note that
-> > > +        regardless of the this value, for V4L2_META_FMT_UVC the kernel will
-> >
-> > "the this value" looks like a typo.
-> 
-> Thanks! Will fix in v2
-> 
-> >
-> > > +        never copy more than 2-12 bytes.
-> >
-> > Are you saying here that length can be larger than 12, but only up to 12
-> > bytes will be copied (when both SCR and PTS are present) ? If that's the
-> > case, it would be better to fix the driver to clamp the length value to
-> > the number of bytes actually present in the buffer.
-> 
-> As the documentation says, this is an exact copy of the UVC payload header.
-> 
-> Assuming SCR and PTS, for devices that have metadata length will be
-> the real length provided by the hardware. but buf[] will only contain
-> 12 bytes.
-> 
-> Replacing the value of length with the actual value will be a uAPI
-> breakage. I do not think that is a very good idea to change it,
-> considering that this number is used by parsers.
+Hi Sakari,
 
-Do you think there could be userspace code that relies on the value
-being larger than 12, even though the metadata after the standard UVC
-block isn't present in the buffer ? Are you aware of any particular
-implementation of such userspace code ?
+On 5/26/25 09:59, Sakari Ailus wrote:
+> Hi Martin,
+> 
+> On Thu, May 15, 2025 at 04:51:50PM +0200, Martin Hecht wrote:
+>> Replace my corporate email address by @gmail.com.
+>>
+>> Signed-off-by: Martin Hecht <mhecht73@gmail.com>
+> 
+> I've picked this patch but do the other instances also need updating?
+> 
 
-> > >      * - __u8 flags;
-> > >        - Flags, indicating presence of other standard UVC fields
-> > >      * - __u8 buf[];
+Thank you. If it is okay I will update this later. Both email addresses 
+are valid.
 
--- 
-Regards,
 
-Laurent Pinchart
 
