@@ -1,848 +1,317 @@
-Return-Path: <linux-media+bounces-33340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33341-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC3EAC3A65
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 09:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228D5AC3A6C
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 09:17:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF25D17301A
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 07:12:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ABEFD16FAC4
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 07:17:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C45781DE3AC;
-	Mon, 26 May 2025 07:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50A7A1DE4DB;
+	Mon, 26 May 2025 07:16:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S9FgvSAn"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="EUXn/+S+";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="hdgp0gE7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BA41D8E01
-	for <linux-media@vger.kernel.org>; Mon, 26 May 2025 07:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748243523; cv=none; b=B8gjcL+sOC7GE16tJFQg0JaimuNv+2iT7N/vSK4kTCHPggEoh5nQEwAgGjfj8iLG09A+kyuKtzggsxVSEfn0guGQhw19XgpggyGZEoiUJQzL0/yoi6Esy6AQLHAb/5EW4hOOZAmoa3d/6QZ30NS70dcGQz/4nUVzNaVRWobG2JA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748243523; c=relaxed/simple;
-	bh=iEZIyN4x5qAjfyYUgyg3BcUHslqkfsUGijX78+YU59A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OuKfauRIJ/laoXu2CKrLrAxZh+0COf6YiVVa6fZskjVnddpYnBRCEw6nwq08tPlw4nS0Rm+LrmKJU6Y4bSlHyHRsi8WpFlWkO42GlB8Ganb+n337rg7xxWLZDnGpryVeufXd0NxWb2qQGxgGUNoPPCw0tDt2rrJbGk7tAJAG+/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S9FgvSAn; arc=none smtp.client-ip=209.85.167.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-401c43671ecso872063b6e.0
-        for <linux-media@vger.kernel.org>; Mon, 26 May 2025 00:12:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11A2F9D9;
+	Mon, 26 May 2025 07:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=60.244.123.138
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748243818; cv=fail; b=UYPZTuJtVSa1+/6TOcQnkn8isHuHmWClK/AtsTe0FT5uqtWszg6+D/eCxCpXeGYmy2gkgcPQuaQQakya+W6xsgj4O363hgk01OHxPzHWeHWrmfP5HQuJWFyort2jrRHooFy6Pqypy8bWrFu8lz35IesPuLLvnH+G+KwOKT5r9io=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748243818; c=relaxed/simple;
+	bh=ZpJSF9sgjAEKVXVcVGdgMD1UpGfwiGLBMDevG9jBck0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=YBlTaoDBg+TbmcCMASl9hbY5L3K08+DjqKsYwlT06hd0jL72nFyIB1jbCWJ+vTyjtOvxxyMMyOK0VsH40TLn+nl3ka/vkR8fqdpzFQ5bUEoS/LQYFkNkGS8eqjvrM/KyUQfRWgmcHwRbA6iXzldTnNoCJkGt3PE72QXfjqwub+M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=EUXn/+S+; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=hdgp0gE7; arc=fail smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 645ad64c3a0111f0813e4fe1310efc19-20250526
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=ZpJSF9sgjAEKVXVcVGdgMD1UpGfwiGLBMDevG9jBck0=;
+	b=EUXn/+S+PS9FkpzgWwMfHb+AhW15abHGVmjgLZGB2VWeTdzxM7NHwYipFo+37nvW94Dh3E2LnQjSJvjUJePHz5EiiQPOUgoVJy8fW1RCkLu9GZEoFnC1H+tj5vHmAYk/yuq0/uSqDtmFUgiFQqflCcClT58Bms30ig5Qvskj8Q4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.2.1,REQID:732c254a-2290-490a-953a-aeca18f8f4c9,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:0ef645f,CLOUDID:88321d59-eac4-4b21-88a4-d582445d304a,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111,TC:nil,Conte
+	nt:0|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
+	OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 645ad64c3a0111f0813e4fe1310efc19-20250526
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
+	(envelope-from <ck.hu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 99158231; Mon, 26 May 2025 15:16:50 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Mon, 26 May 2025 15:16:48 +0800
+Received: from HK3PR03CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Mon, 26 May 2025 15:16:49 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=U0EqK2wvx2L/bnOTtwAkW32YgAGWcAEt0jkli3vCF4CC9d6le44my8kwfFSLgrT+yLXbUH9TaXphVVU+NGqQQLu7OWcDT+8I6HGydfH6+Mg8phliZ4Oxyy90Fr6UweI1j/gqNOvluslnnbAPk3/Bu+7LTTchI1FQlkH+m/jUF3UcR6GEO6rY0hBWLXyWqlZ8WoRSCnoU15ungOQYHDA6O45r1sv7xNpN/R1JIajGTAH0AG/Rg4TbP1b/8aTTe9xAp9GO4NuzshORSm7l86R22DXQVkjhfr8ou+R501A5vfPo6FubijtrvWX/o73EapDLhlMHznR+wTH1nmM3Te3L7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZpJSF9sgjAEKVXVcVGdgMD1UpGfwiGLBMDevG9jBck0=;
+ b=oOLZOj73CmomGwYjL3LHN5XaMcLMs7+oKdsDiFm4e/JRMFjOMiw4QO6dtyLySEYurBc91R5hYwqhrYv/HKKBFy/ns57Qs8w8D2TI9bFwr/1F2sLgcthfB6DRSBZhICKkaZr8u1pZkmMXlPHlii07BnoBgvTNz619xLcqXVH7ijlRN6LaA3UW+QbsLWsORQjpdigroOHL0FZbPS3gRwtWcrRNslamt/2uiFJKce7HxVRW5CSyWiIh4geczi4RTzfqaUYEHd4uQOg0WFKD9WxF9vHoDhqGPb4C6p5Qjp1rtyq3pMGmR3QNNU0kv/d1HLJnEFz4TaQkaZ4FJ1iems3DyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748243520; x=1748848320; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yeNh+Gu5PRtxOVqfnwNssRFyT5wNEca2MVYLgQyAyLI=;
-        b=S9FgvSAnyus2EdcDExPoOLUtDBIqAdw0nA9NnTECCrcrPA8MDTZvr4qmriTaMswy9x
-         kn4HUySEJS4jlytzEwVqic7EH/cij7TIajMBTQVLljun4sNPIkxng6b5KhiyzN+Bi6TL
-         pTbsGTz3VA/svAe/C5eHKmD9TLdrZHesfYd3+CoWolrdaPdzLVqolIDVlRiVL/IDFLzA
-         qeTBaZsFcqbcTd8C31LvaCmqU+AasL+SLG2heA8XoOZMD8mij95cls0AibXkcS7w1mUq
-         kU9kTPnKplyx34AN2e89xkqw2Pv7gIp4flIwy+noUjzglUSiJ9ghCznqq0UWwjQ2PCRf
-         kZ3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748243520; x=1748848320;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yeNh+Gu5PRtxOVqfnwNssRFyT5wNEca2MVYLgQyAyLI=;
-        b=vBMj/amkI8oyHqlxlquM+jG4Tpvw4ehIDog3f6ZgbLgJQyE2CYPDGRfMsLacMjb2j/
-         2TpHJ8kZQEQzjJMbXAO+Z4u6pMNKvVN48MGwtGe/ePJdumzazlJNHMgASgJ8+5Jy1dFe
-         2XiM3YUMGoxr3G8PBok8zGw9hfY1DicAP2egakXraxnwQmBzbdPq0qdpQObuKxPYRE3n
-         gxWlsejjUpcm8bOq3Ptans/e7w0H+Bo53oeAYYXxZATvfsVKJB6CmCZ3ds0j/vpYJY32
-         djHlCpb//9ReCL7GwrqbpWG/oHqyTzqWu5ABhgNrSAOEv+pQo3UuJZQC3X0kx9ThinEm
-         h+8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW5xrFcaSRtA0OJKv9CxRZpIOHpTvvr96z/bQjVPvSwmwRIybE8rLmIw/0s5BGmYmI1//kC+4d5FokJPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxsd1rQLbG1A7fM6WlxRBZcjzgPoOYz7p736tfVKsmtGc7uyTQa
-	qQRALCYBp09foqazrUWMGsOA5w1T3h9+gN27k+WC5hejPt53D4vZPqsVphA8WCjat4fEKY4N8x9
-	wdd3vSScYXNeJiU1sPJXHNdQJF8jUPwwt3CIWMeP2VQ==
-X-Gm-Gg: ASbGncuVR6v8HYWji1zn+0UkuvccVVYxOsN+GGgkNIbdn+SxUTVoZ4I8vXUiayX2wl/
-	JQtHlcmVAeU9raQkmnxbrn2v8JSGPAOou77i9IYu91LXekAav8wWIbsxF0WI5hHc1Yh8lvuCdem
-	WXBu2Dfujs9TMHTT8f1Z5rC5raKb/1ZEBu7A==
-X-Google-Smtp-Source: AGHT+IGUgea18RDjcBJX7VXut+VCDWeAAmx9LttthUJiEbSZwF+n/XzCDyzJGmDSGPISGKHv7co5D1JDGrjDQLgtFCc=
-X-Received: by 2002:a05:6808:319a:b0:3f3:d699:e1a8 with SMTP id
- 5614622812f47-4063d028e28mr7961742b6e.13.1748243519586; Mon, 26 May 2025
- 00:11:59 -0700 (PDT)
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZpJSF9sgjAEKVXVcVGdgMD1UpGfwiGLBMDevG9jBck0=;
+ b=hdgp0gE7dAU4rKJSVAOdDDt9ikIOv6oV7EdsRev+oviOYAzJPUEsbnXKao8jwD1/bXUIKvtf0OUX/67re/RY/M2Tt4fMwgoreU7/Biodt1BX62u31Roui48VW7cGEPHN2gMNs/uIQv2M/NbzMdgqtBr9pvIWd29qgT8efL0DfTY=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by TYSPR03MB7370.apcprd03.prod.outlook.com (2603:1096:400:414::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.22; Mon, 26 May
+ 2025 07:16:45 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%5]) with mapi id 15.20.8769.021; Mon, 26 May 2025
+ 07:16:45 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "robh@kernel.org" <robh@kernel.org>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, =?utf-8?B?T2xpdmlhIFdlbiAo5rip5YCp6IuTKQ==?=
+	<Olivia.Wen@mediatek.com>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Project_Global_Chrome_Upstream_Group
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>,
+	=?utf-8?B?VGVkZHkgQ2hlbiAo6Zmz5Lm+5YWDKQ==?= <Teddy.Chen@mediatek.com>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"yunkec@chromium.org" <yunkec@chromium.org>
+Subject: Re: [PATCH v1 04/10] media: mediatek: isp: Add V4L2 flow support for
+ ImgSys driver
+Thread-Topic: [PATCH v1 04/10] media: mediatek: isp: Add V4L2 flow support for
+ ImgSys driver
+Thread-Index: AQHbzKSIGGgUkn/qAU6laecwNoJPfrPkgvsA
+Date: Mon, 26 May 2025 07:16:45 +0000
+Message-ID: <07ce826311b73276bc30d29c141b24223319c932.camel@mediatek.com>
+References: <20250524115144.3832748-1-olivia.wen@mediatek.com>
+	 <20250524115144.3832748-5-olivia.wen@mediatek.com>
+In-Reply-To: <20250524115144.3832748-5-olivia.wen@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYSPR03MB7370:EE_
+x-ms-office365-filtering-correlation-id: ad513698-eaa4-4a57-21a6-08dd9c2545a9
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?eUhpc2x3dWRycnZ3VGRLdXppSk9UWi8yTjVEbEh1Y0pVYzl2UXgvQ285WlAv?=
+ =?utf-8?B?TURwcGJ4cGRwY2VBcXVZb0VBb09NdzVJaVF4bXFxTWtMdklRaHFLZkNMZCtR?=
+ =?utf-8?B?Vm1HR2JNY0NZUFFybGgzUTVnZSs4U0hXdGVRdUM3UVFXK2JzMjhETFZ3N0ly?=
+ =?utf-8?B?N2h6dkVwKysrbU52b25MRVdKZDFwSHhVdUJna2hkeDZVR0N2eEI2dzBzNFJj?=
+ =?utf-8?B?N1pzZGh5ZHc0SGFFckFXWkVmZzZIY1Fnb2dYbDhrbWtwMjBPL1grcW9ORHR2?=
+ =?utf-8?B?VHhFT0Z2Wlc1dWhhL0duYUgyUW92M1dnNm5mVGJQc21UWStOWmZlYnIwREt4?=
+ =?utf-8?B?M2tMaEZTS1JRUjlIYWJjTnM2aU1YT2JuNGNrbkgxSisva0Z3eTFSYko1cXAx?=
+ =?utf-8?B?dmNwVmlSSk5vVFZxQ1N5dDc5dWR4RXR6aVBibWdTOHVnZ2dHaDY3TTJyNjQv?=
+ =?utf-8?B?WUpvUlhPaC9mMmF4Wjl4WFIvVkFWVFluWEt1cEFTVUMrclU1ZG9OSlhaZDg3?=
+ =?utf-8?B?Y1lzcFFtTm5VYkJNM2ZFRHNSTTh0YlFjVmxyR3UyV3BEQVZXbDVqNzIrc2dS?=
+ =?utf-8?B?QTVRWUY2UHdINGwwYVJrK0tON1lqenFjLy9VY0tUQi9DT3RuZHJUd1JsZ2d2?=
+ =?utf-8?B?dkpua1dhTWxqZzVBQjRzYlB2YVFUdnZ3WnZwNElPQ3VJQXlPK2Y3OHR5OVlj?=
+ =?utf-8?B?QlQ5UmtZZ2xiVW9CMnlYbm1mV2wrZkVuSUpEVUdCYXVVWG0zazVDcU1DS3hU?=
+ =?utf-8?B?L05EUHZsR01vbks0K0xjMFc5U0dCL1RKdnpzV0I3MUJ4Uk1yRDV1Rk9HOE5L?=
+ =?utf-8?B?T3pOUXJuVWRtNjlQV3o2dStCV05McVVpOXplRlJHeXdMVmZGQzRsQXJGeEpG?=
+ =?utf-8?B?dTY2NmdzMUl5Z05QMkR2UXNlLzkydnh1UGFTS3d4VU5JdWRNREZzZ29qMGlK?=
+ =?utf-8?B?WXk3TlIrS2M1cW1YOENVN2owaTQ5VzJObnltWE01dGV1bjhSSS9lK1g0M0lW?=
+ =?utf-8?B?OEI1dGQvVFZlM3FFeEp4M2M1eVBKMWVuRnVvU0dFQVJQRy9ZN3k4REZNcG5n?=
+ =?utf-8?B?R2NmOUsvVFR6V2EyT0tZQUdtd212Mis2Y24zd3l0UHdHcnY1Qy9GSkpRUFBZ?=
+ =?utf-8?B?TEtSZ3pZZU5zMHF1Kzg2Z3paQmlTbVUrU2tERGpDQXZHZjNYWndZUC9mRjd4?=
+ =?utf-8?B?OUNMUWNBeXNvVWFNc2FDcXVZWHl1ZDFDenpyek52YWROQ0NBYWthV2NoRkFl?=
+ =?utf-8?B?Z1hPRVlGOG4rTUZNdVhxcUFpRzBMeVRoVlJ6Uko1eWhmOU5VWm5IZ25pcnJu?=
+ =?utf-8?B?QTJzNlVtdVI3dVFKUjRBcHpXS2kzaHFWbWozVXh1ZUlURXpJbDVneFM3Z2R3?=
+ =?utf-8?B?QVNxVkM2SWw2eThhYU44K3lpOWVhalpoYVcrQlkxRVJ2NzQ5M2s1UHI3a09l?=
+ =?utf-8?B?L1duUDhJclBkbnRQUWNielM2aDFSYjVFUU5VN2RqSlljRExUeHVqN3IveFR3?=
+ =?utf-8?B?UVV6d1c3bkhTZDM2bks5Zkx4WW5uNDZvQXBsa1g3UFRmb0ViNktMUzVZdHhF?=
+ =?utf-8?B?S1FIMnhqZ1A1UzV4aytPMTRsbmJGZU9Dc3o4TEMrdU51a3hFMVpGODNGMlRp?=
+ =?utf-8?B?RFhPclFpeEVZUXhvREk3eGdsaUpZL0sycks5RW8rc0NweFdWWmZTeXhmSEtW?=
+ =?utf-8?B?bEgwYnhqRHl6b3VlSDRDSmJKY29BWXBnS1IvYnNRZm01UTJWT29ScHRXTFA4?=
+ =?utf-8?B?VEtFeEE1KzZHNk1YSk5MNVBVOUoxQWxpUjJhRFJQZDVkMFJkK3VNc0V6Z3hT?=
+ =?utf-8?B?Mkhrd1VabVRrSFpIbmFIWkZMMkNlMUxVSFM1NEh0VVN6cXh4TTRWYVZtSEJ1?=
+ =?utf-8?B?UXZVZ2w4b1ozMDV0cmg5OGZxc0Q2TGdaUFRDc3VSTVQyMXdEaFFYd1J6L1FE?=
+ =?utf-8?B?aE8zL3BxUUV0Snd3cVF1bC90d1lsRld5SUJiOHNuUGZUTzdNYk16NFF4Tk5Y?=
+ =?utf-8?Q?p1jU9MjsbunIUNM+sHJBIqpEHL9F9c=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB6624.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QzI3Y210TStTdlJ2Q0JVTGc2NVcyZ1EzcUJDazVKRHJLa3JycG1UNXFkM28z?=
+ =?utf-8?B?ZkR1MlBTV3dDdy9obVFBMlZKeW14Y2ZDOVRDV093QUh0Vk9pQXdNM0p0aHJw?=
+ =?utf-8?B?Ty9TTFN2NEgwL3c4djZReXlpQkt0NEhTN1lISWVUZWFWMmpwN21DOCtIelo4?=
+ =?utf-8?B?eWJvVDI2TVBQb2lZdmhSWXErcmRDRkpkSHl2c0RIV2VpbEoxektTd2NJKy9X?=
+ =?utf-8?B?amx4WldMdFRCKzVidEFHZDlMZWtTT0ovRUlxSVp6TCtyYmpkRXdTbjhUcWpy?=
+ =?utf-8?B?SDk4RHNuYjl2bGZJUTRBN1MyVUhPMkgwdmk1Y3ZPSlNPdktBMXNjZ3JTbG9R?=
+ =?utf-8?B?U2dJVGJoa2xhV0k2cm9FWlU2VTlSdy9jV00xQVRhL3ZXQmduR3dpR2Q0Q0N2?=
+ =?utf-8?B?eXhZREc4OUV6WmUvNmlvcXpPdk9BSGZ3THJHZXBRNDh1Y1FZTHl6R3h6S3Yr?=
+ =?utf-8?B?dUhuWGk4ZjZidGkyckpYQnlsc29EMjFYZFlCVnVwdVQxSTI4MmtlV21QTTI3?=
+ =?utf-8?B?U2cwTThKcGZjRmlDYm1kVzBsYnNBeE94UWptNHV0d0tSWVp0SUpBYlFRVUc4?=
+ =?utf-8?B?TDVkdStuV25hMDJaZ0F6L1g1dWhQWC9DZ3FCRXhDUmRlZ3RaczZXZ2JtZ0Uv?=
+ =?utf-8?B?b2tkT1UyeEdyMmdUZTBmcHNBNDd5RTUybExmd3dYdlFsTTl4WW9Balh1QjB1?=
+ =?utf-8?B?L0VwN3hlK0hnN2p6aTYyMjNtUHNCY0hKZGVOZW5vKzFwTWs0cVhaL01WNkFB?=
+ =?utf-8?B?NFB5VXNNMjI1SzFpY0pmR2dUdklUU2g2dmdsYnVRY1g1cUdJVjBzUkZxcVpC?=
+ =?utf-8?B?clN0azk0MXdDOFEyQVNGQXNIVHFoaE1iSFU3dWQ2akxqdjM5WWJZOVFlbEti?=
+ =?utf-8?B?S0czK25BQm1EZkhhRE8zV2ozYmZkZzY4WHArUjl6bU1RS0Q2Yll4bnZsQlIx?=
+ =?utf-8?B?d09OMUJPVzZTamJrMHhWQ0dTMVRrY0pTVm12dzhJaEI3bHhvSEpyeTd0NEVh?=
+ =?utf-8?B?NjE2dDBwRWI0dkxlNkE5M1NQeFMyc3IvajBRUlNnMjVOODQyRi9xUFhTc0FN?=
+ =?utf-8?B?OU5tUUUvWGo2VXpseE1pWm1KMGxPbHhFSHg2YkxjREFicG5CNjZ1WU9ialRE?=
+ =?utf-8?B?WjJwZlV6YnBreFAzbVFKdE5MczNWR29WSDMyYzQyYmorUTRHaXFYaUxtVndp?=
+ =?utf-8?B?RjNzZkRjMXpORmoyUjIvbzJGa2pFSHRtT2dCazEzTXQvRGtzWlQwNGdYQXFW?=
+ =?utf-8?B?bGlJQ0lYdXNuOWFIcE42VFVpa3U0SUg4bUkxZG4rNlNBbHpjQWFsRTRjUFBo?=
+ =?utf-8?B?TEpJdVVWN0NKQzBJTmtZNEk0Z2RFQ2gxb04zZ01zNUhOd2ExdW1EYzdiVkhY?=
+ =?utf-8?B?amNPQnZxTHU5Y3J3MVJxTGlqMVQ2eE1YQVMySVRVSktDeVFkT251V29JYTNR?=
+ =?utf-8?B?UHoyU0pEMmUyZmducHRIT2pCK0NZcEhuSXlleHFxaTBVQUR1WXR2TGFvSzll?=
+ =?utf-8?B?azVuVko1UlluNS9WRkdsWWZNaFpHa0N5aWlNYkF6UjRZdjZUS2hveUg3ejlY?=
+ =?utf-8?B?RG1zZmRoQVR4ZUMzQlB5RVl4U0RsZHNaUG16WFBPaWdJZmluTGljNEV5bEV1?=
+ =?utf-8?B?NTRseWxsNm5KblpaZ2FRYUhLdVBZd2RFaC95amtVWFZSbVBYcnlPdnFSbmhN?=
+ =?utf-8?B?d3A2RGNHbVUrYVN5UmRDU0xjeCtsTG81eDNiVGVFOVRLK2dSM3c5MUZLVzRJ?=
+ =?utf-8?B?bWpjTlp2V1l3MHVkSVNvckNMcDhPWFFUSWV3ejgzd0xrcFlPU1hNS2Rrb2dt?=
+ =?utf-8?B?RUo5NmZuNUNmb0NYT1YyM0h2bkc3NFFKcE9NSm1vYUtsOWZhbmcxbTUyWUdQ?=
+ =?utf-8?B?Vm5JbzRvTFJIWlpXYlhueEVxankvUWxiUXd1TCtkWHNVbFdTdk5iSFNvU21E?=
+ =?utf-8?B?NlJNUTlHQkxxd1d5VzMrRkNhc1ZpYklsVEtTdnVqZnBJN2oyNm5GMVM1d3Fn?=
+ =?utf-8?B?eU5ma25sempUYlV2OVIwRWtPdDRrWU50VGhEWHRqMHRMdlJtRXdhTDRXRVV1?=
+ =?utf-8?B?MU9mTUJYRGlhT2ZjZG42eTJqUXZKWkZFVS95c3d3RnRNeDBwWEVyZm5Wd0ky?=
+ =?utf-8?Q?cHNTJanUw1f1qAizRobXQ0yLs?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6EBC0BCB9F892B459989FC2A525737B1@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250520152436.474778-1-jens.wiklander@linaro.org>
- <20250520152436.474778-4-jens.wiklander@linaro.org> <aDByJpX9sBZTNXjJ@sumit-X1>
-In-Reply-To: <aDByJpX9sBZTNXjJ@sumit-X1>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Mon, 26 May 2025 09:11:48 +0200
-X-Gm-Features: AX0GCFvTqAuNlFNlvMJUs40N7o0plSJW769t7mk3VndbEW_eiuoxy9DxDeXtQDs
-Message-ID: <CAHUa44FGbXWtnkcXt7kq0SK9XyKXNUp0dsEbzQzQm8p6_gvTAw@mail.gmail.com>
-Subject: Re: [PATCH v9 3/9] tee: implement protected DMA-heap
-To: Sumit Garg <sumit.garg@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
-	Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad513698-eaa4-4a57-21a6-08dd9c2545a9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2025 07:16:45.2853
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lbma8V+OP2uM4RnMeRBD8uyVdOp+rdedSiQWaq2VDGBHaLSRvgcDy85528H5UYc2Wl9kVYDH9Pqs4TQC5z+tSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB7370
 
-On Fri, May 23, 2025 at 3:03=E2=80=AFPM Sumit Garg <sumit.garg@kernel.org> =
-wrote:
->
-> + Robin
->
-> Jens,
->
-> I suppose you missed to add Robin who has earlier reviewed this patch.
-
-Yes, you're right, sorry. Thanks for catching this.
-
->
-> On Tue, May 20, 2025 at 05:16:46PM +0200, Jens Wiklander wrote:
-> > Implement DMA heap for protected DMA-buf allocation in the TEE
-> > subsystem.
-> >
-> > Restricted memory refers to memory buffers behind a hardware enforced
->
-> s/Restricted/Protected/
->
-> > firewall. It is not accessible to the kernel during normal circumstance=
-s
-> > but rather only accessible to certain hardware IPs or CPUs executing in
-> > higher or differently privileged mode than the kernel itself. This
-> > interface allows to allocate and manage such protected memory buffers
-> > via interaction with a TEE implementation.
-> >
-> > The protected memory is allocated for a specific use-case, like Secure
-> > Video Playback, Trusted UI, or Secure Video Recording where certain
-> > hardware devices can access the memory.
-> >
-> > The DMA-heaps are enabled explicitly by the TEE backend driver. The TEE
-> > backend drivers needs to implement protected memory pool to manage the
-> > protected memory.
-> >
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >  drivers/tee/Makefile      |   1 +
-> >  drivers/tee/tee_heap.c    | 487 ++++++++++++++++++++++++++++++++++++++
-> >  drivers/tee/tee_private.h |   6 +
-> >  include/linux/tee_core.h  |  65 +++++
-> >  4 files changed, 559 insertions(+)
-> >  create mode 100644 drivers/tee/tee_heap.c
-> >
-> > diff --git a/drivers/tee/Makefile b/drivers/tee/Makefile
-> > index 5488cba30bd2..949a6a79fb06 100644
-> > --- a/drivers/tee/Makefile
-> > +++ b/drivers/tee/Makefile
-> > @@ -1,6 +1,7 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >  obj-$(CONFIG_TEE) +=3D tee.o
-> >  tee-objs +=3D tee_core.o
-> > +tee-objs +=3D tee_heap.o
-> >  tee-objs +=3D tee_shm.o
-> >  tee-objs +=3D tee_shm_pool.o
-> >  obj-$(CONFIG_OPTEE) +=3D optee/
-> > diff --git a/drivers/tee/tee_heap.c b/drivers/tee/tee_heap.c
-> > new file mode 100644
-> > index 000000000000..a332805f9f26
-> > --- /dev/null
-> > +++ b/drivers/tee/tee_heap.c
-> > @@ -0,0 +1,487 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (c) 2025, Linaro Limited
-> > + */
-> > +
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/dma-heap.h>
-> > +#include <linux/genalloc.h>
-> > +#include <linux/module.h>
-> > +#include <linux/scatterlist.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/tee_core.h>
-> > +#include <linux/xarray.h>
-> > +
-> > +#include "tee_private.h"
-> > +
-> > +struct tee_dma_heap {
-> > +     struct dma_heap *heap;
-> > +     enum tee_dma_heap_id id;
-> > +     struct tee_protmem_pool *pool;
-> > +     struct tee_device *teedev;
-> > +     /* Protects pool and teedev above */
-> > +     struct mutex mu;
-> > +};
-> > +
-> > +struct tee_heap_buffer {
-> > +     struct tee_protmem_pool *pool;
-> > +     struct tee_device *teedev;
-> > +     size_t size;
-> > +     size_t offs;
-> > +     struct sg_table table;
-> > +};
-> > +
-> > +struct tee_heap_attachment {
-> > +     struct sg_table table;
-> > +     struct device *dev;
-> > +};
-> > +
-> > +struct tee_protmem_static_pool {
-> > +     struct tee_protmem_pool pool;
-> > +     struct gen_pool *gen_pool;
-> > +     phys_addr_t pa_base;
-> > +     void *base;
-> > +};
-> > +
-> > +#if IS_ENABLED(CONFIG_DMABUF_HEAPS)
-> > +static DEFINE_XARRAY_ALLOC(tee_dma_heap);
-> > +
-> > +static int copy_sg_table(struct sg_table *dst, struct sg_table *src)
-> > +{
-> > +     struct scatterlist *dst_sg;
-> > +     struct scatterlist *src_sg;
-> > +     int ret;
-> > +     int i;
-> > +
-> > +     ret =3D sg_alloc_table(dst, src->orig_nents, GFP_KERNEL);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     dst_sg =3D dst->sgl;
-> > +     for_each_sgtable_sg(src, src_sg, i) {
-> > +             sg_set_page(dst_sg, sg_page(src_sg), src_sg->length,
-> > +                         src_sg->offset);
-> > +             dst_sg =3D sg_next(dst_sg);
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int tee_heap_attach(struct dma_buf *dmabuf,
-> > +                        struct dma_buf_attachment *attachment)
-> > +{
-> > +     struct tee_heap_buffer *buf =3D dmabuf->priv;
-> > +     struct tee_heap_attachment *a;
-> > +     int ret;
-> > +
-> > +     a =3D kzalloc(sizeof(*a), GFP_KERNEL);
-> > +     if (!a)
-> > +             return -ENOMEM;
-> > +
-> > +     ret =3D copy_sg_table(&a->table, &buf->table);
-> > +     if (ret) {
-> > +             kfree(a);
-> > +             return ret;
-> > +     }
-> > +
-> > +     a->dev =3D attachment->dev;
-> > +     attachment->priv =3D a;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void tee_heap_detach(struct dma_buf *dmabuf,
-> > +                         struct dma_buf_attachment *attachment)
-> > +{
-> > +     struct tee_heap_attachment *a =3D attachment->priv;
-> > +
-> > +     sg_free_table(&a->table);
-> > +     kfree(a);
-> > +}
-> > +
-> > +static struct sg_table *
-> > +tee_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-> > +                  enum dma_data_direction direction)
-> > +{
-> > +     struct tee_heap_attachment *a =3D attachment->priv;
-> > +     int ret;
-> > +
-> > +     ret =3D dma_map_sgtable(attachment->dev, &a->table, direction,
-> > +                           DMA_ATTR_SKIP_CPU_SYNC);
-> > +     if (ret)
-> > +             return ERR_PTR(ret);
-> > +
-> > +     return &a->table;
-> > +}
-> > +
-> > +static void tee_heap_unmap_dma_buf(struct dma_buf_attachment *attachme=
-nt,
-> > +                                struct sg_table *table,
-> > +                                enum dma_data_direction direction)
-> > +{
-> > +     struct tee_heap_attachment *a =3D attachment->priv;
-> > +
-> > +     WARN_ON(&a->table !=3D table);
-> > +
-> > +     dma_unmap_sgtable(attachment->dev, table, direction,
-> > +                       DMA_ATTR_SKIP_CPU_SYNC);
-> > +}
-> > +
-> > +static void tee_heap_buf_free(struct dma_buf *dmabuf)
-> > +{
-> > +     struct tee_heap_buffer *buf =3D dmabuf->priv;
-> > +     struct tee_device *teedev =3D buf->teedev;
-> > +
-> > +     buf->pool->ops->free(buf->pool, &buf->table);
-> > +     tee_device_put(teedev);
-> > +}
-> > +
-> > +static const struct dma_buf_ops tee_heap_buf_ops =3D {
-> > +     .attach =3D tee_heap_attach,
-> > +     .detach =3D tee_heap_detach,
-> > +     .map_dma_buf =3D tee_heap_map_dma_buf,
-> > +     .unmap_dma_buf =3D tee_heap_unmap_dma_buf,
-> > +     .release =3D tee_heap_buf_free,
-> > +};
-> > +
-> > +static struct dma_buf *tee_dma_heap_alloc(struct dma_heap *heap,
-> > +                                       unsigned long len, u32 fd_flags=
-,
-> > +                                       u64 heap_flags)
-> > +{
-> > +     struct tee_dma_heap *h =3D dma_heap_get_drvdata(heap);
-> > +     DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> > +     struct tee_device *teedev =3D NULL;
-> > +     struct tee_heap_buffer *buf;
-> > +     struct tee_protmem_pool *pool;
-> > +     struct dma_buf *dmabuf;
-> > +     int rc;
-> > +
-> > +     mutex_lock(&h->mu);
-> > +     if (tee_device_get(h->teedev)) {
-> > +             teedev =3D h->teedev;
-> > +             pool =3D h->pool;
-> > +     }
-> > +     mutex_unlock(&h->mu);
-> > +
-> > +     if (!teedev)
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     buf =3D kzalloc(sizeof(*buf), GFP_KERNEL);
-> > +     if (!buf) {
-> > +             dmabuf =3D ERR_PTR(-ENOMEM);
-> > +             goto err;
-> > +     }
-> > +     buf->size =3D len;
-> > +     buf->pool =3D pool;
-> > +     buf->teedev =3D teedev;
-> > +
-> > +     rc =3D pool->ops->alloc(pool, &buf->table, len, &buf->offs);
-> > +     if (rc) {
-> > +             dmabuf =3D ERR_PTR(rc);
-> > +             goto err_kfree;
-> > +     }
-> > +
-> > +     exp_info.ops =3D &tee_heap_buf_ops;
-> > +     exp_info.size =3D len;
-> > +     exp_info.priv =3D buf;
-> > +     exp_info.flags =3D fd_flags;
-> > +     dmabuf =3D dma_buf_export(&exp_info);
-> > +     if (IS_ERR(dmabuf))
-> > +             goto err_protmem_free;
-> > +
-> > +     return dmabuf;
-> > +
-> > +err_protmem_free:
-> > +     pool->ops->free(pool, &buf->table);
-> > +err_kfree:
-> > +     kfree(buf);
-> > +err:
-> > +     tee_device_put(h->teedev);
-> > +     return dmabuf;
-> > +}
-> > +
-> > +static const struct dma_heap_ops tee_dma_heap_ops =3D {
-> > +     .allocate =3D tee_dma_heap_alloc,
-> > +};
-> > +
-> > +static const char *heap_id_2_name(enum tee_dma_heap_id id)
-> > +{
-> > +     switch (id) {
-> > +     case TEE_DMA_HEAP_SECURE_VIDEO_PLAY:
-> > +             return "protected,secure-video";
-> > +     case TEE_DMA_HEAP_TRUSTED_UI:
-> > +             return "protected,trusted-ui";
-> > +     case TEE_DMA_HEAP_SECURE_VIDEO_RECORD:
-> > +             return "protected,secure-video-record";
-> > +     default:
-> > +             return NULL;
-> > +     }
-> > +}
-> > +
-> > +static int alloc_dma_heap(struct tee_device *teedev, enum tee_dma_heap=
-_id id,
-> > +                       struct tee_protmem_pool *pool)
-> > +{
-> > +     struct dma_heap_export_info exp_info =3D {
-> > +             .ops =3D &tee_dma_heap_ops,
-> > +             .name =3D heap_id_2_name(id),
-> > +     };
-> > +     struct tee_dma_heap *h;
-> > +     int rc;
-> > +
-> > +     if (!exp_info.name)
-> > +             return -EINVAL;
-> > +
-> > +     if (xa_reserve(&tee_dma_heap, id, GFP_KERNEL)) {
-> > +             if (!xa_load(&tee_dma_heap, id))
-> > +                     return -EEXIST;
-> > +             return -ENOMEM;
-> > +     }
-> > +
-> > +     h =3D kzalloc(sizeof(*h), GFP_KERNEL);
-> > +     if (!h)
-> > +             return -ENOMEM;
-> > +     h->id =3D id;
-> > +     h->teedev =3D teedev;
-> > +     h->pool =3D pool;
-> > +     mutex_init(&h->mu);
-> > +
-> > +     exp_info.priv =3D h;
-> > +     h->heap =3D dma_heap_add(&exp_info);
-> > +     if (IS_ERR(h->heap)) {
-> > +             rc =3D PTR_ERR(h->heap);
-> > +             kfree(h);
-> > +
-> > +             return rc;
-> > +     }
-> > +
-> > +     /* "can't fail" due to the call to xa_reserve() above */
-> > +     return WARN(xa_store(&tee_dma_heap, id, h, GFP_KERNEL),
-> > +                 "xa_store() failed");
->
-> I think this can rather be simplified to:
->
->         return WARN_ON(xa_is_err(xa_store(&tee_dma_heap, id, h, GFP_KERNE=
-L)));
-
-OK
-
->
-> > +}
-> > +
-> > +int tee_device_register_dma_heap(struct tee_device *teedev,
-> > +                              enum tee_dma_heap_id id,
-> > +                              struct tee_protmem_pool *pool)
-> > +{
-> > +     struct tee_dma_heap *h;
-> > +     int rc;
-> > +
-> > +     h =3D xa_load(&tee_dma_heap, id);
-> > +     if (h) {
-> > +             mutex_lock(&h->mu);
-> > +             if (h->teedev) {
-> > +                     rc =3D -EBUSY;
-> > +             } else {
-> > +                     h->teedev =3D teedev;
-> > +                     h->pool =3D pool;
-> > +                     rc =3D 0;
-> > +             }
-> > +             mutex_unlock(&h->mu);
-> > +     } else {
-> > +             rc =3D alloc_dma_heap(teedev, id, pool);
-> > +     }
-> > +
-> > +     if (rc)
-> > +             dev_err(&teedev->dev, "can't register DMA heap id %d (%s)=
-\n",
-> > +                     id, heap_id_2_name(id));
-> > +
-> > +     return rc;
-> > +}
-> > +EXPORT_SYMBOL_GPL(tee_device_register_dma_heap);
-> > +
-> > +void tee_device_unregister_all_dma_heaps(struct tee_device *teedev)
-> > +{
-> > +     struct tee_protmem_pool *pool;
-> > +     struct tee_dma_heap *h;
-> > +     u_long i;
-> > +
-> > +     xa_for_each(&tee_dma_heap, i, h) {
-> > +             if (h) {
-> > +                     pool =3D NULL;
-> > +                     mutex_lock(&h->mu);
-> > +                     if (h->teedev =3D=3D teedev) {
-> > +                             pool =3D h->pool;
-> > +                             h->teedev =3D NULL;
-> > +                             h->pool =3D NULL;
-> > +                     }
-> > +                     mutex_unlock(&h->mu);
-> > +                     if (pool)
-> > +                             pool->ops->destroy_pool(pool);
-> > +             }
-> > +     }
-> > +}
-> > +EXPORT_SYMBOL_GPL(tee_device_unregister_all_dma_heaps);
-> > +
-> > +int tee_heap_update_from_dma_buf(struct tee_device *teedev,
-> > +                              struct dma_buf *dmabuf, size_t *offset,
-> > +                              struct tee_shm *shm,
-> > +                              struct tee_shm **parent_shm)
-> > +{
-> > +     struct tee_heap_buffer *buf;
-> > +     int rc;
-> > +
-> > +     /* The DMA-buf must be from our heap */
-> > +     if (dmabuf->ops !=3D &tee_heap_buf_ops)
-> > +             return -EINVAL;
-> > +
-> > +     buf =3D dmabuf->priv;
-> > +     /* The buffer must be from the same teedev */
-> > +     if (buf->teedev !=3D teedev)
-> > +             return -EINVAL;
-> > +
-> > +     shm->size =3D buf->size;
-> > +
-> > +     rc =3D buf->pool->ops->update_shm(buf->pool, &buf->table, buf->of=
-fs, shm,
-> > +                                     parent_shm);
-> > +     if (!rc && *parent_shm)
-> > +             *offset =3D buf->offs;
-> > +
-> > +     return rc;
-> > +}
-> > +#else
-> > +int tee_device_register_dma_heap(struct tee_device *teedev __always_un=
-used,
-> > +                              enum tee_dma_heap_id id __always_unused,
-> > +                              struct tee_protmem_pool *pool __always_u=
-nused)
-> > +{
-> > +     return -EINVAL;
-> > +}
-> > +EXPORT_SYMBOL_GPL(tee_device_register_dma_heap);
-> > +
-> > +void
-> > +tee_device_unregister_all_dma_heaps(struct tee_device *teedev __always=
-_unused)
-> > +{
-> > +}
-> > +EXPORT_SYMBOL_GPL(tee_device_unregister_all_dma_heaps);
-> > +
-> > +int tee_heap_update_from_dma_buf(struct tee_device *teedev __always_un=
-used,
-> > +                              struct dma_buf *dmabuf __always_unused,
-> > +                              size_t *offset __always_unused,
-> > +                              struct tee_shm *shm __always_unused,
-> > +                              struct tee_shm **parent_shm __always_unu=
-sed)
-> > +{
-> > +     return -EINVAL;
-> > +}
-> > +#endif
-> > +
-> > +static struct tee_protmem_static_pool *
-> > +to_protmem_static_pool(struct tee_protmem_pool *pool)
-> > +{
-> > +     return container_of(pool, struct tee_protmem_static_pool, pool);
-> > +}
-> > +
-> > +static int protmem_pool_op_static_alloc(struct tee_protmem_pool *pool,
-> > +                                     struct sg_table *sgt, size_t size=
-,
-> > +                                     size_t *offs)
-> > +{
-> > +     struct tee_protmem_static_pool *stp =3D to_protmem_static_pool(po=
-ol);
-> > +     phys_addr_t pa;
-> > +     int ret;
-> > +
-> > +     pa =3D gen_pool_alloc(stp->gen_pool, size);
-> > +     if (!pa)
-> > +             return -ENOMEM;
-> > +
-> > +     ret =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
-> > +     if (ret) {
-> > +             gen_pool_free(stp->gen_pool, pa, size);
-> > +             return ret;
-> > +     }
-> > +
-> > +     sg_set_page(sgt->sgl, phys_to_page(pa), size, 0);
->
-> Did you missed pfn_valid() check from prior v8 review comments?
-
-No, I tried it, but pfn_valid() didn't like the address, so I had to
-find a way to fix it.
-tee_protmem_static_pool_alloc(), below, calls memremap() on the range,
-and that should make pfn_valid() redundant.
-
->
-> > +     *offs =3D pa - stp->pa_base;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void protmem_pool_op_static_free(struct tee_protmem_pool *pool,
-> > +                                     struct sg_table *sgt)
-> > +{
-> > +     struct tee_protmem_static_pool *stp =3D to_protmem_static_pool(po=
-ol);
-> > +     struct scatterlist *sg;
-> > +     int i;
-> > +
-> > +     for_each_sgtable_sg(sgt, sg, i)
-> > +             gen_pool_free(stp->gen_pool, sg_phys(sg), sg->length);
-> > +     sg_free_table(sgt);
-> > +}
-> > +
-> > +static int protmem_pool_op_static_update_shm(struct tee_protmem_pool *=
-pool,
-> > +                                          struct sg_table *sgt, size_t=
- offs,
-> > +                                          struct tee_shm *shm,
-> > +                                          struct tee_shm **parent_shm)
-> > +{
-> > +     struct tee_protmem_static_pool *stp =3D to_protmem_static_pool(po=
-ol);
-> > +
-> > +     shm->paddr =3D stp->pa_base + offs;
-> > +     *parent_shm =3D NULL;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void protmem_pool_op_static_destroy_pool(struct tee_protmem_poo=
-l *pool)
-> > +{
-> > +     struct tee_protmem_static_pool *stp =3D to_protmem_static_pool(po=
-ol);
-> > +
-> > +     gen_pool_destroy(stp->gen_pool);
-> > +     memunmap(stp->base);
-> > +     kfree(stp);
-> > +}
-> > +
-> > +static struct tee_protmem_pool_ops protmem_pool_ops_static =3D {
-> > +     .alloc =3D protmem_pool_op_static_alloc,
-> > +     .free =3D protmem_pool_op_static_free,
-> > +     .update_shm =3D protmem_pool_op_static_update_shm,
-> > +     .destroy_pool =3D protmem_pool_op_static_destroy_pool,
-> > +};
-> > +
-> > +struct tee_protmem_pool *tee_protmem_static_pool_alloc(phys_addr_t pad=
-dr,
-> > +                                                    size_t size)
-> > +{
-> > +     const size_t page_mask =3D PAGE_SIZE - 1;
-> > +     struct tee_protmem_static_pool *stp;
-> > +     int rc;
-> > +
-> > +     /* Check it's page aligned */
-> > +     if ((paddr | size) & page_mask)
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     stp =3D kzalloc(sizeof(*stp), GFP_KERNEL);
-> > +     if (!stp)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     /*
-> > +      * Map the memory as uncached to make sure the kernel can work wi=
-th
-> > +      * __pfn_to_page() and friends since that's needed when passing t=
-he
-> > +      * protected DMA-buf to a device. The memory should otherwise not
-> > +      * be touched by the kernel since it's likely to cause an externa=
-l
-> > +      * abort due to the protection status.
-> > +      */
-> > +     stp->base =3D memremap(paddr, size, MEMREMAP_WC);
-> > +     if (!stp->base) {
-> > +             rc =3D -EINVAL;
-> > +             goto err_free;
-> > +     }
-> > +
-> > +     stp->gen_pool =3D gen_pool_create(PAGE_SHIFT, -1);
-> > +     if (!stp->gen_pool) {
-> > +             rc =3D -ENOMEM;
-> > +             goto err_unmap;
-> > +     }
-> > +
-> > +     rc =3D gen_pool_add(stp->gen_pool, paddr, size, -1);
-> > +     if (rc)
-> > +             goto err_free_pool;
-> > +
-> > +     stp->pool.ops =3D &protmem_pool_ops_static;
-> > +     stp->pa_base =3D paddr;
-> > +     return &stp->pool;
-> > +
-> > +err_free_pool:
-> > +     gen_pool_destroy(stp->gen_pool);
-> > +err_unmap:
-> > +     memunmap(stp->base);
-> > +err_free:
-> > +     kfree(stp);
-> > +
-> > +     return ERR_PTR(rc);
-> > +}
-> > +EXPORT_SYMBOL_GPL(tee_protmem_static_pool_alloc);
-> > diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
-> > index 9bc50605227c..6c6ff5d5eed2 100644
-> > --- a/drivers/tee/tee_private.h
-> > +++ b/drivers/tee/tee_private.h
-> > @@ -8,6 +8,7 @@
-> >  #include <linux/cdev.h>
-> >  #include <linux/completion.h>
-> >  #include <linux/device.h>
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/kref.h>
-> >  #include <linux/mutex.h>
-> >  #include <linux/types.h>
-> > @@ -24,4 +25,9 @@ struct tee_shm *tee_shm_alloc_user_buf(struct tee_con=
-text *ctx, size_t size);
-> >  struct tee_shm *tee_shm_register_user_buf(struct tee_context *ctx,
-> >                                         unsigned long addr, size_t leng=
-th);
-> >
-> > +int tee_heap_update_from_dma_buf(struct tee_device *teedev,
-> > +                              struct dma_buf *dmabuf, size_t *offset,
-> > +                              struct tee_shm *shm,
-> > +                              struct tee_shm **parent_shm);
-> > +
-> >  #endif /*TEE_PRIVATE_H*/
-> > diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> > index a38494d6b5f4..b8b99c97e00c 100644
-> > --- a/include/linux/tee_core.h
-> > +++ b/include/linux/tee_core.h
-> > @@ -8,9 +8,11 @@
-> >
-> >  #include <linux/cdev.h>
-> >  #include <linux/device.h>
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/idr.h>
-> >  #include <linux/kref.h>
-> >  #include <linux/list.h>
-> > +#include <linux/scatterlist.h>
-> >  #include <linux/tee.h>
-> >  #include <linux/tee_drv.h>
-> >  #include <linux/types.h>
-> > @@ -30,6 +32,12 @@
-> >  #define TEE_DEVICE_FLAG_REGISTERED   0x1
-> >  #define TEE_MAX_DEV_NAME_LEN         32
-> >
-> > +enum tee_dma_heap_id {
-> > +     TEE_DMA_HEAP_SECURE_VIDEO_PLAY =3D 1,
-> > +     TEE_DMA_HEAP_TRUSTED_UI,
-> > +     TEE_DMA_HEAP_SECURE_VIDEO_RECORD,
-> > +};
-> > +
-> >  /**
-> >   * struct tee_device - TEE Device representation
-> >   * @name:    name of device
-> > @@ -116,6 +124,36 @@ struct tee_desc {
-> >       u32 flags;
-> >  };
-> >
-> > +/**
-> > + * struct tee_protmem_pool - protected memory pool
-> > + * @ops:             operations
-> > + *
-> > + * This is an abstract interface where this struct is expected to be
-> > + * embedded in another struct specific to the implementation.
-> > + */
-> > +struct tee_protmem_pool {
-> > +     const struct tee_protmem_pool_ops *ops;
-> > +};
-> > +
-> > +/**
-> > + * struct tee_protmem_pool_ops - protected memory pool operations
-> > + * @alloc:           called when allocating protected memory
-> > + * @free:            called when freeing protected memory
-> > + * @update_shm:              called when registering a dma-buf to upda=
-te the @shm
-> > + *                   with physical address of the buffer or to return =
-the
-> > + *                   @parent_shm of the memory pool
-> > + * @destroy_pool:    called when destroying the pool
-> > + */
-> > +struct tee_protmem_pool_ops {
-> > +     int (*alloc)(struct tee_protmem_pool *pool, struct sg_table *sgt,
-> > +                  size_t size, size_t *offs);
-> > +     void (*free)(struct tee_protmem_pool *pool, struct sg_table *sgt)=
-;
-> > +     int (*update_shm)(struct tee_protmem_pool *pool, struct sg_table =
-*sgt,
-> > +                       size_t offs, struct tee_shm *shm,
-> > +                       struct tee_shm **parent_shm);
-> > +     void (*destroy_pool)(struct tee_protmem_pool *pool);
-> > +};
-> > +
-> >  /**
-> >   * tee_device_alloc() - Allocate a new struct tee_device instance
-> >   * @teedesc: Descriptor for this driver
-> > @@ -154,6 +192,11 @@ int tee_device_register(struct tee_device *teedev)=
-;
-> >   */
-> >  void tee_device_unregister(struct tee_device *teedev);
-> >
-> > +int tee_device_register_dma_heap(struct tee_device *teedev,
-> > +                              enum tee_dma_heap_id id,
-> > +                              struct tee_protmem_pool *pool);
-> > +void tee_device_unregister_all_dma_heaps(struct tee_device *teedev);
-> > +
-> >  /**
-> >   * tee_device_set_dev_groups() - Set device attribute groups
-> >   * @teedev:  Device to register
-> > @@ -229,6 +272,28 @@ static inline void tee_shm_pool_free(struct tee_sh=
-m_pool *pool)
-> >       pool->ops->destroy_pool(pool);
-> >  }
-> >
-> > +/**
-> > + * tee_protmem_static_pool_alloc() - Create a protected memory manager
-> > + * @paddr:   Physical address of start of pool
-> > + * @size:    Size in bytes of the pool
-> > + *
-> > + * @returns pointer to a 'struct tee_shm_pool' or an ERR_PTR on failur=
-e.
->
-> s/tee_shm_pool/tee_protmem_pool/
-
-I'll fix it.
-
->
-> Rest looks fine to me.
-
-Thanks,
-Jens
-
->
-> -Sumit
->
-> > + */
-> > +struct tee_protmem_pool *tee_protmem_static_pool_alloc(phys_addr_t pad=
-dr,
-> > +                                                    size_t size);
-> > +
-> > +/**
-> > + * tee_protmem_pool_free() - Free a protected memory pool
-> > + * @pool:    The protected memory pool to free
-> > + *
-> > + * There must be no remaining protected memory allocated from this poo=
-l
-> > + * when this function is called.
-> > + */
-> > +static inline void tee_protmem_pool_free(struct tee_protmem_pool *pool=
-)
-> > +{
-> > +     pool->ops->destroy_pool(pool);
-> > +}
-> > +
-> >  /**
-> >   * tee_get_drvdata() - Return driver_data pointer
-> >   * @returns the driver_data pointer supplied to tee_register().
-> > --
-> > 2.43.0
-> >
+T24gU2F0LCAyMDI1LTA1LTI0IGF0IDE5OjQ5ICswODAwLCBPbGl2aWEgV2VuIHdyb3RlOg0KPiBU
+aGUgSW1nU3lzIGRyaXZlciBpcyBpbXBsZW1lbnRlZCBhcyBhIHNlcmllcyBvZiBwYXRjaGVzLCB3
+aXRoIHRoaXMgcGF0Y2gNCj4gZm9jdXNpbmcgb24gdGhlIFY0TDIgZmxvdy4gVGhlIE1lZGlhVGVr
+J3MgSW1hZ2UgU3lzdGVtIChJbWdTeXMpLCBhbHNvDQo+IGtub3duIGFzIElTUCBQYXNzMi4gSW1n
+U3lzIGlzIGEgbWVtb3J5LXRvLW1lbW9yeSBoYXJkd2FyZSBkZXZpY2UNCj4gZGVzaWduZWQgZm9y
+IGFkdmFuY2VkIGltYWdlIHByb2Nlc3NpbmcgdGFza3MuIEl0IGlzIGNvbXBvc2VkIG9mIG11bHRp
+cGxlDQo+IGhhcmR3YXJlIGNvbXBvbmVudHMsIGluY2x1ZGluZyBUUkFXLCBESVAsIFBRRElQLCBN
+RSwgYW5kIFdQRS4NCj4gDQo+IFRSQVcgKFRpbGUgUkFXKToNCj4gLSBQcm92aWRlcyBtdWx0aXBs
+ZSBkb3duc2NhbGVkIHJlc2l6ZXJzIHRvIHN1cHBvcnQgbXVsdGktc2NhbGUgbm9pc2UNCj4gICBy
+ZWR1Y3Rpb24uDQo+IC0gU3VwcG9ydHMgUkFXL1JHQiBmb3JtYXQgY29udmVyc2lvbi4NCj4gDQo+
+IERJUCAoRGlnaXRhbCBJbWFnZSBQcm9jZXNzaW5nKSBhbmQgUFFESVAgKFBpY3R1cmUgUXVhbGl0
+eSBESVApOg0KPiAtIFN1cHBvcnRzIHN1Y2ggYXMgdGVtcG9yYWwgYW5kIHNwYXRpYWwgbm9pc2Ug
+cmVkdWN0aW9uIChUTlIvU05SKSwNCj4gICBlZGdlIGVuaGFuY2VtZW50IChFRSksIGFuZCBzaGFy
+cG5lc3MgKFNIUCkuDQo+IC0gUFFESVAgYWxzbyBzdXBwb3J0cyBpbWFnZSBzY2FsaW5nIGFuZCBy
+b3RhdGlvbi4NCj4gDQo+IE1FIChNb3Rpb24gRXN0aW1hdGlvbik6DQo+IC0gU3VwcG9ydHMgbW90
+aW9uIGVzdGltYXRpb24gYmV0d2VlbiB0d28gY29uc2VjdXRpdmUgZnJhbWVzLg0KPiANCj4gV1BF
+IChXYXJwaW5nIEVuZ2luZSk6DQo+IC0gSGFuZGxlcyBpbWFnZSB3YXJwaW5nIGFuZCBkZS13YXJw
+aW5nIHByb2Nlc3Nlcy4NCj4gDQo+IFRoZSBJbWdTeXMgZHJpdmVyLCBwcmltYXJpbHkgdXRpbGl6
+ZWQgZm9yIEdvb2dsZSBDaHJvbWVib29rIHByb2R1Y3RzLA0KPiB1c2VzIE11bHRpLUZyYW1lIENv
+bWJpbmVkIE5vaXNlIFJlZHVjdGlvbiB0ZWNobm9sb2d5IHRvIGVuaGFuY2UgaW1hZ2UNCj4gcXVh
+bGl0eS4NCj4gDQo+IEJlbG93IGlzIGEgc2ltcGxpZmllZCBhcmNoaXRlY3R1cmUgb2YgdGhlIElt
+Z1N5cyBkcml2ZXI6DQo+IFVzZXIgLT4gVjRMMiBGcmFtZXdvcmsgLT4gSW1nU3lzIERyaXZlcg0K
+PiAgICAgIC0+IFNDUCAoSXQgcGFja2FnZXMgdGhlIGhhcmR3YXJlIHNldHRpbmdzIGludG8gY29t
+bWFuZHMpDQo+ICAgICAgLT4gSW1nU3lzIERyaXZlcg0KPiAgICAgIC0+IENNRFEgKFRoZSBwYWNr
+YWdlZCBjb21tYW5kcyBhcmUgc2VudCB0byB0aGUgaGFyZHdhcmUgdmlhIEdDRSkNCj4gICAgICAt
+PiBIYXJkd2FyZQ0KDQpZb3UgYnJlYWsgdGhpcyBkcml2ZXIgaW50byBtdWx0aXBsZSBwYXRjaGVz
+IGJ5IHRoZXNlIGZ1bmN0aW9uIGJsb2NrLA0KYnV0IHRoaXMgd291bGQgbWFrZSByZXZpZXdlciAo
+aW5jbHVkZSBtZSkgaGFyZCB0byByZXZpZXcuDQpUaGUgYmV0dGVyIHdheSBpcw0KDQoxLiBBZGQg
+aW1nc3lzIGRyaXZlciB3aXRoIGJhc2ljIGZ1bmN0aW9uIChpbmNsdWRlIHY0bDIgZnJhbWV3b3Jr
+LCBzY3AsIGNtZHEuIFRoZSBiYXNpYyBmdW5jdGlvbiBtYXkgYmUgZG93bnNjYWxlIGFuZCBmb3Jt
+YXQgY29udmVydCBvbmx5KQ0KMi4gQWRkIERJUCBmdW5jdGlvbg0KMy4gQWRkIE1FIGZ1bmN0aW9u
+DQo0LiBBZGQgV1BFIGZ1bmN0aW9uDQoNCkxldCB0aGUgZmlyc3QgcGF0Y2ggYXMgc2ltcGxlIGFz
+IHBvc3NpYmxlIGJ1dCBpdCBzaG91bGQgd29yay4NCg0KPiANCj4gU2lnbmVkLW9mZi1ieTogT2xp
+dmlhIFdlbiA8b2xpdmlhLndlbkBtZWRpYXRlay5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9tZWRp
+YS9wbGF0Zm9ybS9tZWRpYXRlay9LY29uZmlnICAgICAgIHwgICAgMSArDQo+ICBkcml2ZXJzL21l
+ZGlhL3BsYXRmb3JtL21lZGlhdGVrL01ha2VmaWxlICAgICAgfCAgICAxICsNCj4gIGRyaXZlcnMv
+bWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvaXNwL0tjb25maWcgICB8ICAgMjMgKw0KPiAgLi4uL3Bs
+YXRmb3JtL21lZGlhdGVrL2lzcC9pc3BfN3gvTWFrZWZpbGUgICAgIHwgICAgNiArDQo+ICAuLi4v
+bWVkaWF0ZWsvaXNwL2lzcF83eC9pbWdzeXMvTWFrZWZpbGUgICAgICAgfCAgIDExICsNCj4gIC4u
+Li9pbWdzeXMvbW9kdWxlcy9tdGtfZGlwX3Y0bDJfdm5vZGUuaCAgICAgICB8ICA1OTQgKysrKysr
+DQo+ICAuLi4vaXNwXzd4L2ltZ3N5cy9tb2R1bGVzL210a19tZV92NGwyX3Zub2RlLmggfCAgMzg2
+ICsrKysNCj4gIC4uLi9pbWdzeXMvbW9kdWxlcy9tdGtfcHFkaXBfdjRsMl92bm9kZS5oICAgICB8
+ICAxNDkgKysNCj4gIC4uLi9pbWdzeXMvbW9kdWxlcy9tdGtfdHJhd192NGwyX3Zub2RlLmggICAg
+ICB8ICAzNzEgKysrKw0KPiAgLi4uL2ltZ3N5cy9tb2R1bGVzL210a193cGVfdjRsMl92bm9kZS5o
+ICAgICAgIHwgIDMxNyArKysrDQo+ICAuLi4vaXNwL2lzcF83eC9pbWdzeXMvbXRrX2hlYWRlcl9k
+ZXNjLmggICAgICAgfCAgIDI4ICsNCj4gIC4uLi9pc3AvaXNwXzd4L2ltZ3N5cy9tdGtfaW1nc3lz
+LWRldi5jICAgICAgICB8ICAyMzggKysrDQo+ICAuLi4vaXNwL2lzcF83eC9pbWdzeXMvbXRrX2lt
+Z3N5cy1kZXYuaCAgICAgICAgfCAgNDI3ICsrKysrDQo+ICAuLi4vaXNwL2lzcF83eC9pbWdzeXMv
+bXRrX2ltZ3N5cy1mb3JtYXRzLmMgICAgfCAgMTM5ICsrDQo+ICAuLi4vaXNwL2lzcF83eC9pbWdz
+eXMvbXRrX2ltZ3N5cy1mb3JtYXRzLmggICAgfCAgIDcyICsNCj4gIC4uLi9pc3AvaXNwXzd4L2lt
+Z3N5cy9tdGtfaW1nc3lzLW1vZHVsZV9vcHMuaCB8ICAgMjcgKw0KPiAgLi4uL2lzcC9pc3BfN3gv
+aW1nc3lzL210a19pbWdzeXMtb2YuYyAgICAgICAgIHwgICAzOSArDQo+ICAuLi4vaXNwL2lzcF83
+eC9pbWdzeXMvbXRrX2ltZ3N5cy1vZi5oICAgICAgICAgfCAgIDU1ICsNCj4gIC4uLi9pc3AvaXNw
+Xzd4L2ltZ3N5cy9tdGtfaW1nc3lzLXN5cy5jICAgICAgICB8ICAgMjcgKw0KPiAgLi4uL2lzcC9p
+c3BfN3gvaW1nc3lzL210a19pbWdzeXMtc3lzLmggICAgICAgIHwgICA1MCArDQo+ICAuLi4vaXNw
+L2lzcF83eC9pbWdzeXMvbXRrX2ltZ3N5cy12NGwyLmMgICAgICAgfCAxNjg0ICsrKysrKysrKysr
+KysrKysrDQo+ICAuLi4vaXNwL2lzcF83eC9pbWdzeXMvbXRrX2ltZ3N5cy12bm9kZV9pZC5oICAg
+fCAgMTAwICsNCj4gIC4uLi9pc3AvaXNwXzd4L2ltZ3N5cy9tdGtfaW1nc3lzX3Y0bDJfdm5vZGUu
+aCB8ICAxMzUgKysNCj4gIDIzIGZpbGVzIGNoYW5nZWQsIDQ4ODAgaW5zZXJ0aW9ucygrKQ0KPiAg
+Y3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvaXNwL0tj
+b25maWcNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlh
+dGVrL2lzcC9pc3BfN3gvTWFrZWZpbGUNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21l
+ZGlhL3BsYXRmb3JtL21lZGlhdGVrL2lzcC9pc3BfN3gvaW1nc3lzL01ha2VmaWxlDQo+ICBjcmVh
+dGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9pc3AvaXNwXzd4
+L2ltZ3N5cy9tb2R1bGVzL210a19kaXBfdjRsMl92bm9kZS5oDQo+ICBjcmVhdGUgbW9kZSAxMDA2
+NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9pc3AvaXNwXzd4L2ltZ3N5cy9tb2R1
+bGVzL210a19tZV92NGwyX3Zub2RlLmgNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21l
+ZGlhL3BsYXRmb3JtL21lZGlhdGVrL2lzcC9pc3BfN3gvaW1nc3lzL21vZHVsZXMvbXRrX3BxZGlw
+X3Y0bDJfdm5vZGUuaA0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZv
+cm0vbWVkaWF0ZWsvaXNwL2lzcF83eC9pbWdzeXMvbW9kdWxlcy9tdGtfdHJhd192NGwyX3Zub2Rl
+LmgNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVr
+L2lzcC9pc3BfN3gvaW1nc3lzL21vZHVsZXMvbXRrX3dwZV92NGwyX3Zub2RlLmgNCj4gIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL2lzcC9pc3BfN3gv
+aW1nc3lzL210a19oZWFkZXJfZGVzYy5oDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9t
+ZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9pc3AvaXNwXzd4L2ltZ3N5cy9tdGtfaW1nc3lzLWRldi5j
+DQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9p
+c3AvaXNwXzd4L2ltZ3N5cy9tdGtfaW1nc3lzLWRldi5oDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQg
+ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9pc3AvaXNwXzd4L2ltZ3N5cy9tdGtfaW1n
+c3lzLWZvcm1hdHMuYw0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZv
+cm0vbWVkaWF0ZWsvaXNwL2lzcF83eC9pbWdzeXMvbXRrX2ltZ3N5cy1mb3JtYXRzLmgNCj4gIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL2lzcC9pc3Bf
+N3gvaW1nc3lzL210a19pbWdzeXMtbW9kdWxlX29wcy5oDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQg
+ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9pc3AvaXNwXzd4L2ltZ3N5cy9tdGtfaW1n
+c3lzLW9mLmMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL21l
+ZGlhdGVrL2lzcC9pc3BfN3gvaW1nc3lzL210a19pbWdzeXMtb2YuaA0KPiAgY3JlYXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvaXNwL2lzcF83eC9pbWdzeXMv
+bXRrX2ltZ3N5cy1zeXMuYw0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vbWVkaWF0ZWsvaXNwL2lzcF83eC9pbWdzeXMvbXRrX2ltZ3N5cy1zeXMuaA0KPiAgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvaXNwL2lzcF83
+eC9pbWdzeXMvbXRrX2ltZ3N5cy12NGwyLmMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
+L21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL2lzcC9pc3BfN3gvaW1nc3lzL210a19pbWdzeXMtdm5v
+ZGVfaWQuaA0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVk
+aWF0ZWsvaXNwL2lzcF83eC9pbWdzeXMvbXRrX2ltZ3N5c192NGwyX3Zub2RlLmgNCg0KUGxhY2Ug
+dGhlc2UgZmlsZXMgaW4gZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9pbWdzeXMuDQpU
+aGlzIGlzIHRoZSBmaXJzdCBTb0Mgd2hpY2ggc3VwcG9ydCBpbWdzeXMgZHJpdmVyIHNvIGl0J3Mg
+bm90IG5lY2Vzc2FyeSB0byB1c2Ugc28gZGVlcCBmb2xkZXIgc3RydWN0dXJlLg0KDQpSZWdhcmRz
+LA0KQ0sNCg0KDQo=
 
