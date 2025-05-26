@@ -1,237 +1,366 @@
-Return-Path: <linux-media+bounces-33377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33378-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0227DAC3F52
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 14:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 866EBAC3F6D
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 14:43:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 319C03B8C3A
-	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 12:27:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA1043B9652
+	for <lists+linux-media@lfdr.de>; Mon, 26 May 2025 12:43:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5E0201013;
-	Mon, 26 May 2025 12:27:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80C15202C30;
+	Mon, 26 May 2025 12:43:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b="eFeXD7HD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PcogCTkA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PAUP264CU001.outbound.protection.outlook.com (mail-francecentralazon11021093.outbound.protection.outlook.com [40.107.160.93])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63156156C62;
-	Mon, 26 May 2025 12:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.160.93
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748262438; cv=fail; b=LXaa7xzEB8YTTnhO4OH2Sw7omBZBOWi3gyhe81E7Sp8JlpJcr2BQ1BKqXT8EXXIkiszSdiC/+i2M9FW6a4nPuj5G6MJ7nZ81bteSTw/RG4dY1u+ICwez1XFBthzeKwHLSN0l1HiR3k8W2JnYGD/E62EoFHL2F+nKNGmFdP0tCk4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748262438; c=relaxed/simple;
-	bh=zvFkKS19Tk8Yoi/P10WUDFGc81JmtSZlIVv8S/JUa/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tcftcHe1Un/SgTYRMGEzTxbX3yAKXVPj5LYQXprCxQlBLQqqjntM0biNG67fJ8kaQh7VOoXAZgdGnb9DnI8o3sTDpIVH5Yg+0LgMyHz9GggwJ/tsRrMzt5O0FTAWkQ4fPg5SEVSP+NcT+neTiYbJAudmMCfgDggsIN+BdRqyWXM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com; spf=pass smtp.mailfrom=allegrodvt.com; dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b=eFeXD7HD; arc=fail smtp.client-ip=40.107.160.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=allegrodvt.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UIQDqY+VigV9sKaM0mHKS6TEmHvDD0LVbhgcAtPFPdEAViVo6Ge/w4qcfPBZwcbNLBYFybDwqJ5axoMyf8YDBSoJRwFzJ6mwg/PO440VJjHjd6swdZlTniHfN+qsfdPaQn59oAoMT2DHcsuaZvSdROF9gQv8z/hWV+eYwZdHhUoAXxD3T69zkmeuB59Lff5IAhIKwCusMS6nypD7d8wPBZbdQ+ey10qLy1v25V3eSzE614ik6YFCh/5W1ESJz7EBZ+xpFMdZLIFQqkekDDYWDSS5lcsjEt3okQehUa7/lCTZLXaQViN1qkqruVCPtybGSyfdqyVegalLihes5jDHrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zvFkKS19Tk8Yoi/P10WUDFGc81JmtSZlIVv8S/JUa/c=;
- b=PK/MOSOucHzpJ5qsPrTQ5ZXRQ93JzKaTxr+umc0iwf9N5jFDfrR7zf3mVvXxR4nqUMJQpq/qOuscpTEMbJJ5VFCVSh+ANOU3CsiygPGNt4p72pre592xvJn7zJpKj//Aw0eVj90DP2gwzEpKEPFuWrzDH6dtA5y5Xs/Ibznmcj2bYcTMj2TQ91mcgGhxYgKKEDGFL3RsFkA+C6dAB8PM5GPPox4U2zHOoFa5NCTGpa4GCiJ0v0v6Ey+MvY2592yD5ZtEvjWYNjPTsG8mtoZaWVKtbplXbXww5i8hqBciATvRHR6z8mZyKOuvWZUiR/rAbATXiJ3ZlJbqnRAyoxYaNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=allegrodvt.com; dmarc=pass action=none
- header.from=allegrodvt.com; dkim=pass header.d=allegrodvt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=allegrodvt.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zvFkKS19Tk8Yoi/P10WUDFGc81JmtSZlIVv8S/JUa/c=;
- b=eFeXD7HDjiNK52ZCCQ6P9Jw1Ozg6gD7oX9+QVtNavdLvUMoPlKf/UXJbfBSVLfu7mQDbBsVGXDtxmP0UQeYKnisLO+CH4lqRZRikAS4qgFG1EJwt3UBMQIkpb8IvhF10O2QabjFm0UEkuu0ZugAYbR/fB0FsRRKFvV+7Ay09qdhatw5oz+RKFKsyAPc/2FJ2KZAw42j9ifEaj9PH06+3+HtZ/fN/WENAtuFtwTwYPUUapJk2BChUuGmkXPJ0FIjBK4ves5S9pAxuUdBZxrFcnPpGkwyf0bjsxQLgZcxnWuY7bYKrNSmeOU9YnWfA1CnxPmOW3zkTC9EYPUxh23uG2g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=allegrodvt.com;
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:3d::18)
- by PATP264MB5094.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:3f5::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.26; Mon, 26 May
- 2025 12:27:09 +0000
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5]) by MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5%2]) with mapi id 15.20.8769.019; Mon, 26 May 2025
- 12:27:09 +0000
-Date: Mon, 26 May 2025 12:27:07 +0000
-From: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Michael Tretter <m.tretter@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Michal Simek <michal.simek@amd.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Junhao Xie <bigfoot@classfun.cn>, Rafa?? Mi??ecki <rafal@milecki.pl>, 
-	Kever Yang <kever.yang@rock-chips.com>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Gaosheng Cui <cuigaosheng1@huawei.com>, 
-	Uwe Kleine-K??nig <u.kleine-koenig@baylibre.com>, Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Ricardo Ribalda <ribalda@chromium.org>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/5] dt-bindings: media: allegro-dvt: add decoder
- dt-bindings for Gen3 IP
-Message-ID: <flwocneutp64bxxwfkfqvm6dq7klc2nu33ybr3ap6qeovopfq7@7qognvdf4zew>
-References: <20250523134207.68481-1-yassine.ouaissa@allegrodvt.com>
- <20250523134207.68481-3-yassine.ouaissa@allegrodvt.com>
- <3e6be40a-2644-416a-bd32-f6256f1501ff@kernel.org>
- <7863d15a-fa20-4db5-89b5-77a026d3f937@kernel.org>
- <a72z6exgol5cbur2cy7wjwyroi4zddtki5ab3zdkfuwpskpavr@r26wahldhd3r>
- <b5bb919e-6273-48ed-b5d8-29177dbbfb76@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <b5bb919e-6273-48ed-b5d8-29177dbbfb76@kernel.org>
-X-ClientProxiedBy: PA7P264CA0098.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:348::9) To MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:3d::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FA81876
+	for <linux-media@vger.kernel.org>; Mon, 26 May 2025 12:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748263408; cv=none; b=u4mRit2xP0KYcHZj81yP8KWRmXeyf+HgRydvqtpcqZpa3vYlHar3H2RVYvp+QVoDk/KN1XhNnH0CeUUHmxoFXCFttIak0MsaUoBBrM+sPssV7TBXbJHrF9ykrQrN5mf1wUFjZID2qSRmjwEh6tQ4OrmOAwIsi8s5Age7MPHo5k8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748263408; c=relaxed/simple;
+	bh=MY7Mww48Wb2heP6kP4DbISMh3gCNbdAFLdWx6dh/D5U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hBoDwhabB38B4JnzI+BoB9flqK4m1Qwr5BRjsMjlTguOCSws8HrrOhqZ9bOYcX5VexMcDDHwchkF7vQKY1NTo9FOhcccQg/ZOBZuEoemsUaXmgUWiElm6J/TNBp48BjBk3ctunPAKQtcj+uSmFzvn1cQ4CrTrktVeleINLlJxxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PcogCTkA; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1748263404;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pC/xh3DosBNUBs4qr5hgqy7gIKboDid152+Tr30uYck=;
+	b=PcogCTkAYs2UxJfFIGuuIfkA+Y3po1phv6FN4/QuTntYzAbtPwLA0FmoGjr1UXnk/QPkre
+	iSl+KLFFTzc/F9bKUPJf78LDJVNJrGaRcbIy1zxmAPe1+6vEzZ2/NYaeSu1ZNwE1/xQvMm
+	CgHbWo96w/O4aXVg573TAYiee6YfTbw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-327-WA8oituzPM6tstQi7qM9sA-1; Mon, 26 May 2025 08:43:23 -0400
+X-MC-Unique: WA8oituzPM6tstQi7qM9sA-1
+X-Mimecast-MFC-AGG-ID: WA8oituzPM6tstQi7qM9sA_1748263402
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-60488876b2bso913033a12.3
+        for <linux-media@vger.kernel.org>; Mon, 26 May 2025 05:43:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748263402; x=1748868202;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pC/xh3DosBNUBs4qr5hgqy7gIKboDid152+Tr30uYck=;
+        b=ciHpJ5bIyMkejSfFHKiXrY49SJ6ePtS1CCD7ixJyaWnekhWk+YOk0v88pVrWP9/zeW
+         PzzlwhuBSsiYa7USq/ObqLnmpzt9qkcFqllpdreekXasTh8Qjk+ymo4hEpMowgb4/6Cv
+         H6FC5hljLNa9R5F8Z66C1O77SPHTkPmHoH74SAR5J37IU+Di/fmyK8xch0Oy1djltcUF
+         XyGx91+LhYq1aE+mYRtIfVqmVc2Z8V00ntvqWIqzt4HVXGGUkDpTiSCpjSXuX+c6tKVn
+         T24SqEgGhhU1u3oQdUiiit2Mn96vpZqSgltEWV+zRA99Ml8owzqRPK4lsEjHjQnEl6sb
+         Cvjw==
+X-Gm-Message-State: AOJu0Yytce/+iqoEZO+DUR/814PFBllUy1DAgevEFR2IM/wVUImxCUzI
+	M25OB3fl+6Q5lLPlecOxauyNpwBVoTjoQbFHtKK1js5XbKanuqao7qwaJxuv9aA/3IXt29afRzL
+	lcHjcKSMhnGX63nBkrFeQNE7vAcScH/R/yFnZ5kl5Ps/WkUQC5GKAW5cXq2hZpDhi
+X-Gm-Gg: ASbGncvv9fyJVrB4sMtPEjPvorrh8+/1XIGOkyQqv37l/1qDVZMLzmS5naj7uS9ZOX3
+	mLWQHL5muQqZMHFUXGSyXfHIP0vNZ3GaO7TQgQSPygUDIujLbvvXx6sbwT17b4Azn6wUqpgeVi5
+	IJCee9+/BA6p19rKAUtI8u2Oc6dVbtO2CB4MOUlrOLUfeNSyANI9Z/rWugukh/AeZUIh9DljW3z
+	OYaTrMQ6xqAjuyiBXpxn65HW0jtk1gzMpmvawMvvldl1hFm8C2vIyVxC9acL/shliPLFNEljiXJ
+	UJ8gL18GiqL+DT4=
+X-Received: by 2002:a05:6402:2713:b0:602:2d06:6b19 with SMTP id 4fb4d7f45d1cf-602d8e4f276mr6583273a12.1.1748263402036;
+        Mon, 26 May 2025 05:43:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGPGDt6d7DUrLAEESyxOXfmu6xxR7R70aSYpwzwapfP4Cv1cX7iXwygc7puv0N/t7SWTSh8IA==
+X-Received: by 2002:a05:6402:2713:b0:602:2d06:6b19 with SMTP id 4fb4d7f45d1cf-602d8e4f276mr6583245a12.1.1748263401517;
+        Mon, 26 May 2025 05:43:21 -0700 (PDT)
+Received: from [10.40.98.122] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6005ae3888esm16106821a12.65.2025.05.26.05.43.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 May 2025 05:43:20 -0700 (PDT)
+Message-ID: <df397c55-c3e5-42f9-bd69-d5356d517eb1@redhat.com>
+Date: Mon, 26 May 2025 14:43:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MR1P264MB3140:EE_|PATP264MB5094:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0bc174d-43dd-486a-4d45-08dd9c50a241
-X-LD-Processed: 6c7a5ec0-2d92-465a-a3e1-9e3f1e9fd917,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?NVArN29oU0pJT3J0aytmWVJWY3BoTWVTTDVMMFJqWWRaQm9jYXIrU1dZU1Nw?=
- =?utf-8?B?S29pVVVOcEhBaytQbGI2NjFoY2krZzExdDNQS1ZLc3Rra0RqK3J2YUxuM3hC?=
- =?utf-8?B?NlZvcXlreWxVRlhodEQwdktKWTJTdG9keDFDV09PSXBSRlFvNlh4OUxaSnNU?=
- =?utf-8?B?eVFpR2k4eHlmY0U0TlFmM1J2OGZiWHVBYXo2WEVoVG5DZC8zWFl5TkxQQ0hW?=
- =?utf-8?B?NVR5aEN0QVBDWEIxOHNLS0VPNDNVRWwvbkIyRkQ3ZFRUT01pSUs5bkt6U3dQ?=
- =?utf-8?B?N3creGNvdDhNSlp3Y1Fkay9BZmRIVGJhMEcwRThoL0M5NFYyN1d0SWtpd21G?=
- =?utf-8?B?WXplYm5xYm5NY2tNZml5NnRvK0R1NHJESnpqRlZaemtLcmNKOTI2YWw0VDJM?=
- =?utf-8?B?N09QdkFkZElIMS9KeXNsSlQxWlNicUIrQ3NPQVNjUVdSNUxOK3FHdE1vM3pl?=
- =?utf-8?B?YkwzcTc1Q1NSUWZzbWwzZUkyQTc0dFZJTENGRWc2SFRHeVZhejlFNXNrUzVT?=
- =?utf-8?B?cmxFRDA0L2V2Rlk0aytBZ01jekNYbmFWM0sxL0l2eXIzLzBRcnNtZ3pSMysz?=
- =?utf-8?B?Ly9iaFUyejllcDhJa3RyU0h0YllqRjlBTXo5ZThPbGNqY1VweGVTdkFGWGdy?=
- =?utf-8?B?bXdBVER3L3l1YUFqNlF0Yk8rcCs3b1kwMitTMGw4T01vUkRmSmpRZ2FxdWUy?=
- =?utf-8?B?NUVyMjU5b3djeVZlWjNIMDMzUXpPbndDcTBnZGpEM1cydG5jWHFUZFpOQlFo?=
- =?utf-8?B?cFNvWlpCUGg5c01LRk0xUzFQQmp3d1pZUXEycVZsc0FWMCtJQXBYWkt3QnZk?=
- =?utf-8?B?MFh0QTBqNGRXUlZmQ3ZFeGlFdlBGK1ZHcklINjlZck9RWnZibEgvcFN5N3Ft?=
- =?utf-8?B?b2RJVWU5dXJwYTN2T2tCbFd6ZmdNNTB3TzJDMGlBM0lLY1A0cVhGRjJLRFp5?=
- =?utf-8?B?WEhPZExuMGMyeG4xOW9MRW9kSERkSitpRHlLOFRtV2NZZGFEZkpCVktudFNO?=
- =?utf-8?B?ZXVmQjFlMzFTYkNmV3BoUTVkc0tzcG9oZVlpQ09MVUJaTDZwM1B3eE4rdTQx?=
- =?utf-8?B?RUY2TkJVZ3RUUXJ4alh1dHp3OUVXdVA3bjQ2b0NwZU5WR3ZxbGhKbnBYM1Vo?=
- =?utf-8?B?NXpaOFJZekN4UE9iaEgrRFFHMHBrYUtHMGNaZ0hsdGFOcW5jQ3ZHSVRXTVp1?=
- =?utf-8?B?Unp6ZlY0bzVYS2V3dkg1Tk96d3dlVmpaeU03Mm5ORXp1U25lR2U1ZUpTSUFJ?=
- =?utf-8?B?QXN5NUdHQnM3dnpNRTFCNWN6WnQvbEFNcUYvSXBva0x5aldWSXNML2xxWmVL?=
- =?utf-8?B?a3p1U3Q4K2hUdHM3VGJrajIxSS9rbTA5b3lSWE80bUJBaDFtS3BZQ1FpTTNB?=
- =?utf-8?B?aGNxNWZqTWhNS2RENmhhMGFuR2EvN0l4SXBoSklQZXNHSFpvZHZFSytDWVdh?=
- =?utf-8?B?S2JhenZhOXVqWTJ3MmdiN202TFJESmVad21OWmt0K0UxK05VV0EyZktucDlo?=
- =?utf-8?B?UWVydXRJQ1NvS0h0UGk1VUtpa1lIUCtKRDc4VnhST0hjY0lnSHk5MUxGUXFO?=
- =?utf-8?B?Y0pkaTBSLzhqS1dQL2p3ZzRFaGkvTU9ha3crdU1TVDJqaHJmdVFJN1cwUldD?=
- =?utf-8?B?SWVXdGRnSDM3ZFpaemNYd3d2SGJwSFJncVMydmVscUE3WC8wZXlNVGpNQmMy?=
- =?utf-8?B?azgwdlNFc1lJSkdPa1pWSjVwaGFtMTVDVC82MmJaV1h5NVlDczJ0N0t3MUd0?=
- =?utf-8?B?Mlh3Y20wT3g2dU5YR2JUVU5obG40K3pjVDJTY3poRWxLN2hJVFVEMk1QRjIw?=
- =?utf-8?B?SDBkL0FIUStSQWJWNmFRN3Bld3QrYVdIbkhiRXRXVFk1cjRxMXFiU1loOTIz?=
- =?utf-8?B?ZFIvcGlodEF6RVBWS3laKzhuZlp6WG16M0E5RE1rT2p0eXhwL0doRVRySnBu?=
- =?utf-8?Q?bqvdZt0wjoE=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?WjZwelpidUoxNE5URVBKZDJYZnhCU2JtbU5Vc091azAyOUtkYUVvNUJBalFj?=
- =?utf-8?B?R1FVSmVvNkNpbXRXUXk4NGttVzJJa0NaQ1ZIOTFnRWtUTFVCV003TU9BVGp0?=
- =?utf-8?B?bnN4UzljWDVROUZXaDdKY2RhR3NpTWF2WFdmRUNKZmpsZldnemczdjVaSXl1?=
- =?utf-8?B?Q0ZxQ0RZSGxGVGJzUTk2ZEF6ZnZlS1ZPMy9RekpKYVJIeE5LTmNuaXB3Qkk2?=
- =?utf-8?B?MlZJdVd0dEp5SWp0TlFmb0d4VmZSakYxa3pSTzhXTVpaYzBuY3hKaDhGR1J1?=
- =?utf-8?B?TTk1bmFqd3F4cms0dTNQY3l6aXc4eXNndy9MbHAyVktqUmFKc3ZKMWpOaXkr?=
- =?utf-8?B?V3BBbjJxS24xeVRTZXpyZDZ1VTJPQnV3aDJQSWo5RjZtYlc2eExZN3dCWjhF?=
- =?utf-8?B?bHEwVCtWeE9VWHgzd0pLUDduSFM3SVQzNXdsVVFWd2JVMGNNdTM3ZEJtSkE5?=
- =?utf-8?B?ZDJKVllLUlZvV01VVVE2aGhYb0xHZmdFL3BmVm5iUFFVNVJyMkRScWhUaHBH?=
- =?utf-8?B?Q2RMWDk5T1BqSE00Tjg3MURUeWhvV3p4WEM0STRxUkErTm1vTGI5VXJsbmd2?=
- =?utf-8?B?TlFGdjFIVUlSc3c5Zk9jTHoxZFdRc3RFdExDaTl3RnRWU1BsNThrK0xyc3p0?=
- =?utf-8?B?ZzNMdXNNaHFtTTJEUS9yK1djZytQQnVGVitudElrZTQ2MTdvT1VKMmlKYzFK?=
- =?utf-8?B?RXBXNTdZZU03OWR4dUVncnFYakZNSXBwVVhiUzRPVmJJeVBsYTFDSlQ0ckRN?=
- =?utf-8?B?bGNlVmJXTHV4d0V1ejQ5UU1uMUdmYk1ueWFsdFRMQjRKWUo3T1I5WThBdDBZ?=
- =?utf-8?B?bFVOM0Q3YVJFVWhXalBpQUFOT3lqMk1jelNNUC9xM3NueERMcnVTTkdxbjl5?=
- =?utf-8?B?UVVyS1NLa1J3MVVNTS9FOUMzUDd6djJabjd1bUtQZklackQ2YmdMeHlTRjhO?=
- =?utf-8?B?a01vMFVIVGtKZlpSVSt5cjlUdGZQNEZkdmhvU3lURFdCdVR0a1hEdmJPWFkz?=
- =?utf-8?B?QldNNFNad3hrOUcwaDNHRDZrS29MTDdpZ3RDUXVYTjFmUUoxMDhnV1p4b2Ny?=
- =?utf-8?B?VlpaTHh0bHRoMW5EUjYrbWxJZ09vOEtQQXVLaEFCZUplRWhGUy9vYklVTWRO?=
- =?utf-8?B?SWpRQVZGNlo3WmNqQndpSHUvMnlZSHNhVGNFa3BBeE0zb1ErUzJGeGc4Qnhm?=
- =?utf-8?B?NXRVWTZXWUJHS0orN1k0M2MvRWgrOEJJVHp5RENreDlhc1lSVVUzYnkrVFVJ?=
- =?utf-8?B?dHN6SDJ5Z255c0JMK2p5V1BQMFhuZlpSOHJTQ0NLL0JUanM2dXB0SXZJZ3lh?=
- =?utf-8?B?ZnpTWC91NWtaejczV2UrT2NVYjFkeitERHNDNGZKdXU0S3hrNGdvVGhYWDRl?=
- =?utf-8?B?Mng1bU9MbzFpclJEMFhqUzBLbzJlMEZFS1g5TmpKekY3Sml5dmFEcXdmcktH?=
- =?utf-8?B?WXJSMGhNdzFFQ3h6aUdFQ0FXY21xeTFMUm5rRUxGWFgwR1YrTHc3ZXZsdkNo?=
- =?utf-8?B?ZTZTU2I4ZHlCK2tIUjlCeUIyT1JIZVk1MjlFc2tYWDZ6am83eEl6N0VPbFVJ?=
- =?utf-8?B?WndJN3c0MzkyNThyL3lMd0JBV2luWERPcER4VGdkUGNwNTRrc2JlUE5kdDJB?=
- =?utf-8?B?MUF1LzltOUZUUVFkMkZkeWVZQUpzTmxVeHprdlJLU29pNlMyc1hzczdxdktz?=
- =?utf-8?B?TU1XWUNIQ0xReWRQWENaRlZqOVpXTy9CRVpIbzFqQ0JzVVVpTmdld1kyZzdU?=
- =?utf-8?B?alJ1MEV1a1o1ekhpUDVyTEliU25KL1FvSmJ3MmdSN1MwaE8wUlE2OFJPMVhT?=
- =?utf-8?B?YkVOeXZtWmU0Mnk2OC83dmNzVHpMbDh4UUhIWDdlTUxpd1RhYitLWnBRNGx3?=
- =?utf-8?B?UStvYWo4MHJ4d3RheXBQTEpGNElqQmpZd0hyd1BDTmV6MDZkVkhsZW5yR3lN?=
- =?utf-8?B?UGRLbEd4Q0NNMDE4elpxdXFVSkE2dDVxajlYczUvd0ZYVm1JbmIrTllPeWpD?=
- =?utf-8?B?Rmk2UG1UTGdCaUJ3anpncVEvb1M5YVZDVkRLOVpob0U0MVh1bjg4Qzc0MTZ4?=
- =?utf-8?B?bFpDbkxVeENqR0psWmlmNWJBN1REdEZxbXQ3OFZheElSQTdkMVA4Y0VCNnJj?=
- =?utf-8?B?dFA1RXFkYUp4blJkdXM2NzFPK0Q0Qzk0bWlOYWRnV3BUK3BYMWYzaEJ5OU12?=
- =?utf-8?B?SkE9PQ==?=
-X-OriginatorOrg: allegrodvt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0bc174d-43dd-486a-4d45-08dd9c50a241
-X-MS-Exchange-CrossTenant-AuthSource: MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 12:27:09.4098
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6c7a5ec0-2d92-465a-a3e1-9e3f1e9fd917
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tr984dTGtRGU4WvR81Itl3hNsopuzfV0Wkqi38jIpEKvhAimMR9Dno5gtCt9cmq4FIsmKUuLbZSNIhoVuohlczBZtbro1UNyGeHrjaaDbjk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PATP264MB5094
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8] media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during
+ queryctrl errors
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hans@jjverkuil.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250502-uvc-eaccess-v8-1-0b8b58ac1142@chromium.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250502-uvc-eaccess-v8-1-0b8b58ac1142@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 26.05.2025 12:57, Krzysztof Kozlowski wrote:
->On 26/05/2025 09:25, Yassine Ouaissa wrote:
->> On 23.05.2025 19:13, Krzysztof Kozlowski wrote:
->>> On 23/05/2025 19:11, Krzysztof Kozlowski wrote:
->>>> On 23/05/2025 15:41, Yassine Ouaissa wrote:
->>>>> Add compatible for video decoder on allegrodvt Gen 3 IP.
->>>>>
->>>>> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
->>>> Please do not send the same patches over and over again. You got review
->>>> which you need to address.
->>>>
->>>> Once address you send NEXT version with proper CHANGELOG for each patch
->>>> or top of cover letter. See submitting patches... or just use b4. This
->>>> should be actually requirement for this work.
->>>>
->>>> Anyway, I see all of previous review ignored so let's be explicit:
->>>>
->>>> NAK
->>>>
->> Hi Krzysztof,
->>
->> Make sure that i'm not ignoring anyone reviews, i sent a new set of
->> patches to start cleanly, and i have sent you an email about this.
->
->It is still v1 - the same? - while you already sent three patchsets before.
+Hi Ricardo,
 
-As i mentioned, this patch is sent to start cleanly, so it still v1.
-And the previous patchsets should be ignored.
+On 2-May-25 09:48, Ricardo Ribalda wrote:
+> To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
+> step and flags of the control. For some of the controls, this involves
+> querying the actual hardware.
+> 
+> Some non-compliant cameras produce errors when we query them. These
+> error can be triggered every time, sometimes, or when other controls do
+> not have the "right value". Right now, we populate that error to userspace.
+> When an error happens, the v4l2 framework does not copy the v4l2_queryctrl
+> struct to userspace. Also, userspace apps are not ready to handle any
+> other error than -EINVAL.
+> 
+> One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
+> of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
+> that usecase, a non-compliant control will make it almost impossible to
+> enumerate all controls of the device.
+> 
+> A control with an invalid max/min/step/flags is better than non being
+> able to enumerate the rest of the controls.
+> 
+> This patch:
+> - Retries for an extra attempt to read the control, to avoid spurious
+>   errors. More attempts do not seem to produce better results in the
+>   tested hardware.
+> - Makes VIDIOC_QUERYCTRL return 0 for -EIO errors.
+> - Introduces a warning in dmesg so we can have a trace of what has happened
+>   and sets the V4L2_CTRL_FLAG_DISABLED.
+> - Makes sure we keep returning V4L2_CTRL_FLAG_DISABLED for all the next
+>   attempts to query that control (other operations have the same
+>   functionality as now).
+> 
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
->
->>
->> Also, for this patch (dt-bindings), i respected your previous reviews.
->I did not check every previous comment, since this is v1, but at least
->subject did not improve which with lack of changelog and versioning
->suggests nothing else changed either.
->
->OK, if you implemented the reviews, please point me to the changelog
->listing all the changes you done from each previous version?
->
-I'll make the v2 patches that should point all changes.
+Thank you for your patch.
 
->Best regards,
->Krzysztof
+I have merged this into:
 
-Best regards,
-Yassine OUAISSA
+https://gitlab.freedesktop.org/linux-media/users/uvc/-/commits/next/
+
+Regards,
+
+Hans
+
+
+
+
+> ---
+> Hi 2*Hans and Laurent!
+> 
+> I came around a device that was listing just a couple of controls when
+> it should be listing much more.
+> 
+> Some debugging later I found that the device was returning -EIO when
+> all the focal controls were read.
+> 
+> Lots of good arguments in favor/against this patch in the v1. Please
+> check!
+> 
+> Without this patch:
+> $ v4l2-ctl --list-ctrls
+> User Controls
+> 
+>                      brightness 0x00980900 (int)    : min=0 max=255 step=1 default=128 value=128
+>                        contrast 0x00980901 (int)    : min=0 max=100 step=1 default=32 value=32
+>                      saturation 0x00980902 (int)    : min=0 max=100 step=1 default=64 value=64
+>                             hue 0x00980903 (int)    : min=-180 max=180 step=1 default=0 value=0
+>         white_balance_automatic 0x0098090c (bool)   : default=1 value=1
+>                           gamma 0x00980910 (int)    : min=90 max=150 step=1 default=120 value=120
+>            power_line_frequency 0x00980918 (menu)   : min=0 max=2 default=2 value=2 (60 Hz)
+>       white_balance_temperature 0x0098091a (int)    : min=2800 max=6500 step=1 default=4600 value=4600 flags=inactive
+> 
+> With this patch:
+> $ v4l2-ctl --list-ctrls
+> 
+> User Controls
+> 
+>                      brightness 0x00980900 (int)    : min=0 max=255 step=1 default=128 value=128
+>                        contrast 0x00980901 (int)    : min=0 max=100 step=1 default=32 value=32
+>                      saturation 0x00980902 (int)    : min=0 max=100 step=1 default=64 value=64
+>                             hue 0x00980903 (int)    : min=-180 max=180 step=1 default=0 value=0
+>         white_balance_automatic 0x0098090c (bool)   : default=1 value=1
+>                           gamma 0x00980910 (int)    : min=90 max=150 step=1 default=120 value=120
+>            power_line_frequency 0x00980918 (menu)   : min=0 max=2 default=2 value=2 (60 Hz)
+>       white_balance_temperature 0x0098091a (int)    : min=2800 max=6500 step=1 default=4600 value=4600 flags=inactive
+>                       sharpness 0x0098091b (int)    : min=0 max=0 step=0 default=0 value=3 flags=disabled
+>          backlight_compensation 0x0098091c (int)    : min=0 max=2 step=1 default=1 value=1
+> 
+> Camera Controls
+> 
+>                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+>          exposure_time_absolute 0x009a0902 (int)    : min=2 max=1250 step=1 default=156 value=156 flags=inactive
+>      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=1
+>                         privacy 0x009a0910 (bool)   : default=0 value=0 flags=read-only
+>    region_of_interest_rectangle 0x009a1901 (rect)   : value=(0,0)/1924x1084 flags=has-payload
+> 
+> Emulating error with:
+> +       if (cs == UVC_PU_SHARPNESS_CONTROL && query == UVC_GET_MAX) {
+> +               printk(KERN_ERR "%s:%d %s\n", __FILE__, __LINE__, __func__);
+> +               return -EIO;
+> +       }
+> In uvc_query_ctrl()
+> ---
+> Changes in v8:
+> - Return error when != -EIO
+> - Fix typo in comment
+> - Link to v7: https://lore.kernel.org/r/20250403-uvc-eaccess-v7-1-033d0c3d6368@chromium.org
+> 
+> Changes in v7:
+> - Only retry on -EIO (Thanks Hans).
+> - Add comment for retry (Thanks Hans).
+> - Rebase patch
+> - Check master_map->disabled before reading the master control.
+> - Link to v6: https://lore.kernel.org/r/20250310-uvc-eaccess-v6-1-bf4562f7cabd@chromium.org
+> 
+> Changes in v6:
+> - Keep returning V4L2_CTRL_FLAG_DISABLED in future control queries.
+> - Link to v5: https://lore.kernel.org/r/20250224-uvc-eaccess-v5-1-690d73bcef28@chromium.org
+> 
+> Changes in v5:
+> - Explain the retry in the commit message (Thanks Laurent).
+> - Link to v4: https://lore.kernel.org/r/20250111-uvc-eaccess-v4-1-c7759bfd1bd4@chromium.org
+> 
+> Changes in v4:
+> - Display control name (Thanks Hans)
+> - Link to v3: https://lore.kernel.org/r/20250107-uvc-eaccess-v3-1-99f3335d5133@chromium.org
+> 
+> Changes in v3:
+> - Add a retry mechanism during error.
+> - Set V4L2_CTRL_FLAG_DISABLED flag.
+> - Link to v2: https://lore.kernel.org/r/20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org
+> 
+> Changes in v2:
+> - Never return error, even if we are not enumerating the controls
+> - Improve commit message.
+> - Link to v1: https://lore.kernel.org/r/20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 55 ++++++++++++++++++++++++++++++++++------
+>  drivers/media/usb/uvc/uvcvideo.h |  2 ++
+>  2 files changed, 49 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 44b6513c526421943bb9841fb53dc5f8e9f93f02..f24272d483a2d77f01e072684fc9f67899a48801 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1483,14 +1483,28 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
+>  	return ~0;
+>  }
+>  
+> +/*
+> + * Maximum retry count to avoid spurious errors with controls. Increasing this
+> + * value does no seem to produce better results in the tested hardware.
+> + */
+> +#define MAX_QUERY_RETRIES 2
+> +
+>  static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
+>  				      struct uvc_control *ctrl,
+>  				      struct uvc_control_mapping *mapping,
+>  				      struct v4l2_query_ext_ctrl *v4l2_ctrl)
+>  {
+>  	if (!ctrl->cached) {
+> -		int ret = uvc_ctrl_populate_cache(chain, ctrl);
+> -		if (ret < 0)
+> +		unsigned int retries;
+> +		int ret;
+> +
+> +		for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
+> +			ret = uvc_ctrl_populate_cache(chain, ctrl);
+> +			if (ret != -EIO)
+> +				break;
+> +		}
+> +
+> +		if (ret)
+>  			return ret;
+>  	}
+>  
+> @@ -1567,6 +1581,7 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  {
+>  	struct uvc_control_mapping *master_map = NULL;
+>  	struct uvc_control *master_ctrl = NULL;
+> +	int ret;
+>  
+>  	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
+>  	v4l2_ctrl->id = mapping->id;
+> @@ -1587,18 +1602,31 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  		__uvc_find_control(ctrl->entity, mapping->master_id,
+>  				   &master_map, &master_ctrl, 0, 0);
+>  	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> +		unsigned int retries;
+>  		s32 val;
+>  		int ret;
+>  
+>  		if (WARN_ON(uvc_ctrl_mapping_is_compound(master_map)))
+>  			return -EIO;
+>  
+> -		ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> -		if (ret < 0)
+> -			return ret;
+> +		for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
+> +			ret = __uvc_ctrl_get(chain, master_ctrl, master_map,
+> +					     &val);
+> +			if (!ret)
+> +				break;
+> +			if (ret < 0 && ret != -EIO)
+> +				return ret;
+> +		}
+>  
+> -		if (val != mapping->master_manual)
+> -			v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> +		if (ret == -EIO) {
+> +			dev_warn_ratelimited(&chain->dev->udev->dev,
+> +					     "UVC non compliance: Error %d querying master control %x (%s)\n",
+> +					     ret, master_map->id,
+> +					     uvc_map_get_name(master_map));
+> +		} else {
+> +			if (val != mapping->master_manual)
+> +				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> +		}
+>  	}
+>  
+>  	v4l2_ctrl->elem_size = uvc_mapping_v4l2_size(mapping);
+> @@ -1613,7 +1641,18 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  		return 0;
+>  	}
+>  
+> -	return __uvc_queryctrl_boundaries(chain, ctrl, mapping, v4l2_ctrl);
+> +	ret = __uvc_queryctrl_boundaries(chain, ctrl, mapping, v4l2_ctrl);
+> +	if (ret && !mapping->disabled) {
+> +		dev_warn(&chain->dev->udev->dev,
+> +			 "UVC non compliance: permanently disabling control %x (%s), due to error %d\n",
+> +			 mapping->id, uvc_map_get_name(mapping), ret);
+> +		mapping->disabled = true;
+> +	}
+> +
+> +	if (mapping->disabled)
+> +		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
+> +
+> +	return 0;
+>  }
+>  
+>  int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index b9f8eb62ba1d82ea7788cf6c10cc838a429dbc9e..11d6e3c2ebdfbabd7bbe5722f88ff85f406d9bb6 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -134,6 +134,8 @@ struct uvc_control_mapping {
+>  	s32 master_manual;
+>  	u32 slave_ids[2];
+>  
+> +	bool disabled;
+> +
+>  	const struct uvc_control_mapping *(*filter_mapping)
+>  				(struct uvc_video_chain *chain,
+>  				struct uvc_control *ctrl);
+> 
+> ---
+> base-commit: d0faa9505840c711740eca80e255fdabafbcdb1a
+> change-id: 20250403-uvc-eaccess-8f3666151830
+> 
+> Best regards,
+
 
