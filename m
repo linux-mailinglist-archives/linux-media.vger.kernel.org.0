@@ -1,161 +1,193 @@
-Return-Path: <linux-media+bounces-33433-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33434-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF48BAC4832
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 08:15:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AF5AC4880
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 08:37:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DD351897F6A
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 06:15:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 968D37A8F12
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 06:35:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F290193402;
-	Tue, 27 May 2025 06:14:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0919C1F8724;
+	Tue, 27 May 2025 06:36:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrB0SoUz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kAbAHH40"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADD23FC7;
-	Tue, 27 May 2025 06:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6700A1F540F;
+	Tue, 27 May 2025 06:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748326497; cv=none; b=aMy9kx+3nOOuLxiRnpWarABq703A6J6enPbAEYWHrZmwdMRyhKIS4v7+YvhdJxuTFUmR9aMXCUtA5X+ssjX0iIaND3h4WhK1uiY+KfdQ2WPHNeiZb69+EEynkYH+pw6EHF4ZQy4Z4UAH3+AX1DEBIlnQV8fF/L+TrkW7EsnpdEc=
+	t=1748327815; cv=none; b=q3zx3SQ/cOJDgyn4EbZGYmvt0wbAplDl+gXF/SMsBXNQHbv5U/X1VZZ9bkftbJhFNC/TQHxpCb36f2hID0eusnZE1LXlWSXyiZ9wjZLF5V/pZ9jnapUCwE4KI//ujNcUXweEFehFMSApP82nFVQZ0QJN1jS7V6Xvr6fOkNCgp8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748326497; c=relaxed/simple;
-	bh=bPZlBi/TrOB7P9Rl1Y3T5ifdw7rwhtu0psVkBPl9Cy0=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:Mime-Version:
-	 References:In-Reply-To; b=Guazwvbn0wNhmEFnYrs37zonJowb2b56IcjgfEsSgoFlIc4q5W3NXizE+tIDRpFitGY2Gj0tsOFCT7o9vwwPoZT3VvmPBX1H46nNrjHP4upkjwt2wexV5IGTw7BBOp6GjW5HV7MzeXyWqjoccpptvFF+e2eFuaxBZ9YMwR8XSV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrB0SoUz; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b0b2d0b2843so1601836a12.2;
-        Mon, 26 May 2025 23:14:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748326495; x=1748931295; darn=vger.kernel.org;
-        h=in-reply-to:references:content-transfer-encoding:mime-version:to
-         :from:subject:cc:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eBBkE8s/YVneLq+9AwE4ItbtcJd3DVQnda+tTZ0Bolk=;
-        b=WrB0SoUzCwPKtDZE74SKv+fw7OEisPVYv6y8qDTv8CiBvf6zvQPPxknDnN9CM0pkju
-         j4LH/lC/xCu2jYFBigp7DKD4iq27ztNEVVvJK5H5Mv7TE9p38mwxd2n7izHQ5r1O3bUM
-         0GAF74wIDybJ1qdKJZAJfD7AomRM64u4dUYM49V86WuOQh3hgk9yEW8lgWfFVnWdcmka
-         9UJ4U42HDWmKkxLt9D9AtwJ2tPgDqFREzhIr8hlVQLjPxyQhCPabP63KiFMaLoFJur7H
-         /pbS56tYrnfGsFVUpAZAVjRFg30RdAH21DMMHsxK5KvJuncHmtLpEjyBVNcHRCuqioEg
-         +Oag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748326495; x=1748931295;
-        h=in-reply-to:references:content-transfer-encoding:mime-version:to
-         :from:subject:cc:message-id:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eBBkE8s/YVneLq+9AwE4ItbtcJd3DVQnda+tTZ0Bolk=;
-        b=YDz7Up50ffIlOYg+LGs2JkBuzB1Ug7uePXxBw4spbThV4Gkj8Daa/5Yg4HR/kqBtpX
-         p5358CgNMu/LY8oChAv3udxn+YxlS0lZ7BrQJa53gmHm1J7tSkN3tJ5kokLu3SIuE1UA
-         w+Fygs7QMd+MoS+S4RzhBCO5VJbEv7p+e+v36imgvH80mwSmsEBTxRgRa13JTH/BbT1U
-         59BDtujr5MnC5LIuchjpohXNEtYifnQ5C7AZS0ck5PmqUOSzjFh3BaWVEabO1ncwIph9
-         vHGVBhErk0J5/UB0FJIo454Zo1UvmkZ0qdB7fZoJxJaXcWmKN3+9V97Mbs9lElXEhPdW
-         RTzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVeucTpthVNM2NP2Oz2b5hCeXp2H8OpR8hFbFCdqsQNqxuhK1Rau2Jmz1ihpKcBl7nw5zOhLexMr6ATJFc=@vger.kernel.org, AJvYcCWMbPhXHTaBuzNOzcpWP4zvI0sdSWgcef0ls6WzaCmkuuCxcHuCcgpWQVe9fQo8KvyNaTHINbeS2ifPVZk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvRSOh9E3oqVPHXIOxSLFAQZRDdrSFLhczPAVdLOYbXIJejMUl
-	3AiZQxY8btTraTzuyVqmv+5M7J39Nkov4+UEkLeS6wYt9O74FCSGt+Vr
-X-Gm-Gg: ASbGncukGsW5765eQNSVKv+JPQ6Id++baZtOz8vOX6x0b+RhhM70e4uouMZlLMzsT9B
-	CJ1qSbvFYbgmsN1W1cPPWZkaVxSkLUxNHfb/JWgRL2JrQ+Q/ncq9A3RIwXHEuakdLh+PFNTQT1w
-	D8VBQ/TpSD5m2pleQJd6GLvgz7cSvwCzBOJ142rxDx/iX0eXEuJGMJGyr3NBYS+xWmjD+G2v1jT
-	ldySYpAJWR6Awl9NzKK+WPJqwhlw7/cgXwHySR2n/ufPesTqIxnNgn83/VBRXjbQORecZUgEdrD
-	gvTi4yJ/nXhs6heLkqM0dOK70wV4r75JuDTu/0J0644=
-X-Google-Smtp-Source: AGHT+IH4ynIKhX0Q/W63W+KiOzYy2HiXf351MI+w2/z045fkfOry3JXmUePfhPVwSC7VlMVwFg7M1A==
-X-Received: by 2002:a17:90a:c2c3:b0:30e:8f60:b4c with SMTP id 98e67ed59e1d1-3110f30d933mr19804287a91.16.1748326494695;
-        Mon, 26 May 2025 23:14:54 -0700 (PDT)
-Received: from localhost ([240d:1a:f76:b500:4431:46e3:c76b:79bc])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365e5bd3sm13413809a91.37.2025.05.26.23.14.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 May 2025 23:14:53 -0700 (PDT)
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 27 May 2025 15:14:50 +0900
-Message-Id: <DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
-Cc: "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Hans Verkuil"
- <hverkuil@xs4all.nl>, "Albert Esteve" <aesteve@redhat.com>, "Jason Wang"
- <jasowang@redhat.com>, "Xuan Zhuo" <xuanzhuo@linux.alibaba.com>,
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- <gurchetansingh@google.com>, <daniel.almeida@collabora.com>,
- <adelva@google.com>, <changyeon@google.com>,
- <nicolas.dufresne@collabora.com>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <virtualization@lists.linux.dev>, "Alexandre
- Courbot" <acourbot@google.com>
-Subject: Re: [PATCH v3] media: add virtio-media driver
-From: "Alexandre Courbot" <gnurou@gmail.com>
-To: "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>, "Michael S.
- Tsirkin" <mst@redhat.com>
+	s=arc-20240116; t=1748327815; c=relaxed/simple;
+	bh=J7zeaY485iuldgqut5ZbwwPrllwA1ayRl+Nd/rGxucU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uk92nLhw0qilMDxonbJ3YXiNWs48YUArYFXIRq+8MggxD+3U+lbTFXwEzGgICnPwj+Jfp/hWO3jCf4zbBHpJi9NtXYkjHj9BVNr7gm65Fblr6wL0yuk4eQTK2ZGK7y24zLEcUlHDn79YWSq9OAICOgTEzdqqwGpsJIgb+tcTJMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kAbAHH40; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748327812; x=1779863812;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J7zeaY485iuldgqut5ZbwwPrllwA1ayRl+Nd/rGxucU=;
+  b=kAbAHH40v0nm++UVRCgxOvUj08BXtcLtUiSnSgYG5wA7WlUR4mTySMe8
+   vBKLtkcacYAlBdwvT6DLk0CTJyQBsHJF7nTYM6ogzaka4kIaBpxtTgOhr
+   3NdzqWJU+rxYgFxlfEdGgjQT887+jb+BNOq2yW3sqbW+bRohsG5R++h9j
+   xp790byv/3WTO3Heq8tcvvXT0Vfd96JIg/Qtx15Sag9Ew1kK5r+D1cBRN
+   UXj51oY7/XVEl4iCfB42Lz6vRcaK4fsxMjOcjXgrCh79M6JLXELnEytu4
+   yZh38MIyI2u+Iuh/jZaR5r3K7rgZ5lcIyAjS+FIbkjIr+QIYz2TANqzoy
+   g==;
+X-CSE-ConnectionGUID: uryOrqVIQlmk0b1A26zSPg==
+X-CSE-MsgGUID: FwVmXF5HT+6AuqYOD/LVyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="75693434"
+X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
+   d="scan'208";a="75693434"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 23:36:51 -0700
+X-CSE-ConnectionGUID: /PhxJ89BSNaYc6wNOcq0Vg==
+X-CSE-MsgGUID: xA3sQva5RqaRW2I2vgVTEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
+   d="scan'208";a="146557371"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.73])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 23:36:47 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id ACC1511F738;
+	Tue, 27 May 2025 09:36:42 +0300 (EEST)
+Date: Tue, 27 May 2025 06:36:42 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mathis Foerst <mathis.foerst@mt.com>
+Cc: linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	manuel.traut@mt.com, mathis.foerst@zuehlke.com
+Subject: Re: [PATCH v6 7/7] media: mt9m114: Set pad-slew-rate
+Message-ID: <aDVdekApG-GT5BHj@kekkonen.localdomain>
+References: <20250522143512.112043-1-mathis.foerst@mt.com>
+ <20250522143512.112043-8-mathis.foerst@mt.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
- <20250526141316.7e907032@foz.lan>
-In-Reply-To: <20250526141316.7e907032@foz.lan>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250522143512.112043-8-mathis.foerst@mt.com>
 
-Hi Mauro,
+Hi Mathis,
 
-On Mon May 26, 2025 at 9:13 PM JST, Mauro Carvalho Chehab wrote:
-> Hi Michael,
->
-> Em Sat, 12 Apr 2025 13:08:01 +0900
-> Alexandre Courbot <gnurou@gmail.com> escreveu:
->
->> Add the first version of the virtio-media driver.
->>
->> This driver acts roughly as a V4L2 relay between user-space and the
->> virtio virtual device on the host, so it is relatively simple, yet
->> unconventional. It doesn't use VB2 or other frameworks typically used in
->> a V4L2 driver, and most of its complexity resides in correctly and
->> efficiently building the virtio descriptor chain to pass to the host,
->> avoiding copies whenever possible. This is done by
->> scatterlist_builder.[ch].
->>
->> virtio_media_ioctls.c proxies each supported ioctl to the host, using
->> code generated through macros for ioctls that can be forwarded directly,
->> which is most of them.
->>
->> virtio_media_driver.c provides the expected driver hooks, and support
->> for mmapping and polling.
->>
->>  This version supports MMAP buffers, while USERPTR buffers can also be
->>  enabled through a driver option. DMABUF support is still pending.
->
-> It sounds that you applied this one at the virtio tree, but it hasn't
-> being reviewed or acked by media maintainers.
->
-> Please drop it.
->
-> Alexandre,
->
-> Please send media patches to media maintainers, c/c other subsystem
-> maintainers, as otherwise they might end being merged without a
-> proper review.
+On Thu, May 22, 2025 at 04:35:11PM +0200, Mathis Foerst wrote:
+> The MT9M114 supports the different slew rates (0 to 7) on the output pads.
+> At the moment, this is hardcoded to 7 (the fastest rate).
+> The user might want to change this values due to EMC requirements.
+> 
+> Read the 'slew-rate' from the DT and configure the pad slew rates of
+> the output pads accordingly in mt9m114_initialize().
+> Remove the hardcoded slew rate setting from the mt9m114_init table.
+> 
+> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/mt9m114.c | 26 +++++++++++++++++++++++---
+>  1 file changed, 23 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index 9ff46c72dbc1..f3f9ecc0866c 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/property.h>
+>  #include <linux/regmap.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/types.h>
+> @@ -42,6 +43,9 @@
+>  #define MT9M114_RESET_AND_MISC_CONTROL			CCI_REG16(0x001a)
+>  #define MT9M114_RESET_SOC					BIT(0)
+>  #define MT9M114_PAD_SLEW				CCI_REG16(0x001e)
+> +#define MT9M114_PAD_SLEW_MIN					0
+> +#define MT9M114_PAD_SLEW_MAX					7
+> +#define MT9M114_PAD_SLEW_DEFAULT				7
+>  #define MT9M114_PAD_CONTROL				CCI_REG16(0x0032)
+>  
+>  /* XDMA registers */
+> @@ -388,6 +392,7 @@ struct mt9m114 {
+>  
+>  	unsigned int pixrate;
+>  	bool streaming;
+> +	u32 pad_slew_rate;
+>  
+>  	/* Pixel Array */
+>  	struct {
+> @@ -650,9 +655,6 @@ static const struct cci_reg_sequence mt9m114_init[] = {
+>  	{ MT9M114_CAM_SENSOR_CFG_FINE_INTEG_TIME_MAX,	1459 },
+>  	{ MT9M114_CAM_SENSOR_CFG_FINE_CORRECTION,	96 },
+>  	{ MT9M114_CAM_SENSOR_CFG_REG_0_DATA,		32 },
+> -
+> -	/* Miscellaneous settings */
+> -	{ MT9M114_PAD_SLEW,				0x0777 },
+>  };
+>  
+>  /* -----------------------------------------------------------------------------
+> @@ -784,6 +786,13 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> +	value = (sensor->pad_slew_rate)
+> +	      | (sensor->pad_slew_rate) << 4
+> +	      |	(sensor->pad_slew_rate) << 8;
 
-Sorry about that, I put everyone in "To:" without giving it a second
-thought.
+Please drop the redundant parentheses.
 
->
-> In this particular case, we need to double-check if this won't cause
-> any issues, in special with regards to media locks and mutexes.
+> +	cci_write(sensor->regmap, MT9M114_PAD_SLEW, value, &ret);
+> +	if (ret < 0)
+> +		return ret;
+> +
+>  	ret = mt9m114_set_state(sensor, MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
+>  	if (ret < 0)
+>  		return ret;
+> @@ -2398,6 +2407,17 @@ static int mt9m114_parse_dt(struct mt9m114 *sensor)
+>  		goto error;
+>  	}
+>  
+> +	sensor->pad_slew_rate = MT9M114_PAD_SLEW_DEFAULT;
+> +	device_property_read_u32(&sensor->client->dev, "slew-rate",
+> +				 &sensor->pad_slew_rate);
+> +
+> +	if (sensor->pad_slew_rate < MT9M114_PAD_SLEW_MIN ||
+> +	    sensor->pad_slew_rate > MT9M114_PAD_SLEW_MAX) {
+> +		dev_err(&sensor->client->dev, "Invalid slew-rate %u\n",
+> +			sensor->pad_slew_rate);
+> +		return -EINVAL;
+> +	}
+> +
+>  	return 0;
+>  
+>  error:
 
-Agreed, I am not 100% confident about that part myself.
-
->
-> I'll try to look on it after this merge window, as it is too late
-> for it to be applied during this one.
-
-Appreciate that - given the high traffic on the list I was worried that
-this patch would eventually be overlooked. Not making it for this merge
-window should not be a problem, so please take the time you need.
-
-Cheers,
-Alex.
+-- 
+Sakari Ailus
 
