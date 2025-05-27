@@ -1,279 +1,262 @@
-Return-Path: <linux-media+bounces-33470-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33471-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404E7AC50F2
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA578AC50F4
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:33:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB31F1BA10B7
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:33:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E5421BA11AB
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:33:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5769A27814A;
-	Tue, 27 May 2025 14:33:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 923D4277815;
+	Tue, 27 May 2025 14:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z0+NSg1j"
+	dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b="eRQE5ceo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PAUP264CU001.outbound.protection.outlook.com (mail-francecentralazon11021134.outbound.protection.outlook.com [40.107.160.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B20B2AE99
-	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 14:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748356386; cv=none; b=kxhODAfPtwUhmzlhcQFtspdXj61LmLZhuAUdvYi0keoGAGvQvuIIP8GxxdKtlszII1mVnKOCxX/DT18KVCGXah1foPaRCgdSNczJ68AqSrHMD6k58XxsRYmIYV1DyGUH/z5RmnD4pHZR+Uu8mu4AgX2VvtvOhjZUwBWqRvU+7lM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748356386; c=relaxed/simple;
-	bh=s+3Vk9WFAT05g8lRaeeDQOJGk6XsJsn5lqXjRugeDIs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A0aB8YYnE0bC7MYzmWd25DbiLtcXflcAI84ZvoMVRfsrKnifsDwHMvlE+Ch14lXmyn6f5kz0rXbVPsgY3N9sV5jl02E2e7mOA3MLEQ24QWGUssKwJqK6UsAE50fTi3L6zt3IeNxYkhFINk3lLGoef1S6DajJoCH/jtIn6M8umvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z0+NSg1j; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3114560d74aso2292272a91.0
-        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 07:33:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748356384; x=1748961184; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GRDZ/LCrpqxKUX7yBP1lPoeGMYrX58ozdV1M2xTcqr0=;
-        b=z0+NSg1jHjYzE2u6/GSM4OU/JT/LBJDw8n5r9h0hnMs8ukI6le8mKOnCcCgk/Rggih
-         4eNZAAEVWtDeeUtZYgLELCmys1XWh3uVkcCeXMNPByICQOkdTr9qfewO0bEy5320Yb26
-         Hhbo90crxmvsfYg6ulQlZPYNLrBK2U8/+0b76rQXlgyUa4Z0PrDRUQyIAD0FH+4Qytyz
-         L4xyRb9ARBFgmGqwYqlYfgdrQTOGRWS7ITiSQoM/tKI01vpQsjIvrTBVX4aaJsjxpLs1
-         4MWKRtQMsy2fuCrQRWX25bdvK3SoFfuaeOEyR/RjqPOi08ReXlJtj6JHg6nLhC3EkzWO
-         d4og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748356384; x=1748961184;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GRDZ/LCrpqxKUX7yBP1lPoeGMYrX58ozdV1M2xTcqr0=;
-        b=qFQyhjuVrSi6R1AAre5ev/DgVB11ZBVFg2NiDp1JqXUkxl8Ek5dMN8JjmQ30pkYLOV
-         8T0/wbDDs8kB3dF+EGujoAJc1EUiaVQQvqG3oNcSOnsPkR8OSLcB7dMqA/AAjWD+ticz
-         0/O+o3PgUwqJ3YXjEIg65UURl9jFykJmrc+B7yDWzmWbx2Ima4xt7gOHoYJ43y3dSZum
-         VsO9WaH3kPe32rAANiuvvgZCXEf1FttG+9QQGOFD0acI4anohicIoWYUYkbKtTb9O/RZ
-         3mHhm18KRozBAi9jKQjSg860igNcAJnMtHfHVrFNPEcICwGlYkqbU4GNdVhchnFt6qlt
-         O8Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCU7Q71poTF6qWLYkR8x9g7lLd3vZUekCZFcD9fHZKaFlJ+cM9T3CB9klYpl9TBx8daDWHwRYSs6BJxd3A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+A95bV10/MeKsKZ8KxrWC9F1N/MAmcpUNrN2VrC3sLZU9Pd0E
-	+f06NrH7Sxf5QPboapD30IdZwqOcvtsxyDAvONAxd3XlaMkuD/vq0ytWsltDSHCgb6hHGLuKBW5
-	4j/kXjPVXshFvC58K5s40DTvpg8RXLMvaOXYSPrEDNM27y29wEylY
-X-Gm-Gg: ASbGncuXz+eBZQ/XR86miuGZOv7ZOwVZPABRIbJ2exmcKpGFLOha2r7zz+VlqzphRJG
-	sjM6yRCaYph+92IUdf57Lh+W0flfbNxPvCc6Xr2j1C/L6Veq3D8F9VTzm9qNqAuYrMqapdvjrX1
-	vLa59xe25KPy5rAN5YIqTx0/U0VJMR4BdmPw==
-X-Google-Smtp-Source: AGHT+IG+kMuaBsaWSffxs+4dopBi6c2UidFw8vqj94comKMts1HGzvEPJpkPt4sT0Oi5flOvsO/w4xlAVEH4ZILhoBI=
-X-Received: by 2002:a05:6808:6c93:b0:403:35ba:f91a with SMTP id
- 5614622812f47-406468ba8c7mr7824256b6e.34.1748356373410; Tue, 27 May 2025
- 07:32:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DA715746F;
+	Tue, 27 May 2025 14:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.160.134
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748356398; cv=fail; b=mkiuckCmBQiqpVBa0dbvZj/rn7lUv8f3Dx/tAS1vD+TGSRw5UtwVE/wCr9PWvBGL1RkIBquEM4CbHGbLDmKxiBCR2OSJDY22Snur9OJNyAGEFJ5TTftxEVb3fIOq/zIxYcAJyBqRz1sPRVi3+Y8FkvAvn7VJgVSEh34Yrce2uno=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748356398; c=relaxed/simple;
+	bh=ucUwK4rEk0oYEyui/mSutx+FXN8EabrmuN51kFpED0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=GmJ5c3IrZznALljXApMfaHFVsu/YjV+RK/VdeEku5UnlvDwPrr2frvmOrl2FdcmcJRdwrhoXE1Ll916RF4GcZ4qx7HLieJmGedY1LaHgNzNVmxcjrrDTVqjdhAbcocxf8ygbsMJr5DPqkxdfx5m5qwES2Rww8QNos7iiOFCGgms=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com; spf=pass smtp.mailfrom=allegrodvt.com; dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b=eRQE5ceo; arc=fail smtp.client-ip=40.107.160.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=allegrodvt.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mbmVu5krHPSvSsr/MijOVafdW8hyDGl+gSi9XiRB+7yz2q3iiro8DkOm+1f7B0PLXdBU6YqFwZ2/IzB/HVI/1ydWriU3GUUz8oA/Bk9X30/kIRz38iXj2sBQ+X1e+oQGCfgGIelGLeqqoq3swEcKT+WAGJiaWFfhPUlAzylYSsTQo+C+8Ozh/L2IAHLUIUZWkD4OX0rx9PLln/IqDF2Cotkp+HrZkG/EP+qnbz/wwbZoON5uj3CDIOQLnR3KWcfoJ4bYOXju27tKTnsbNjWaT3RItjKJlDdPACIBQeJeoML1t9m4hlydnuTTvVAgJNy6g4ovtejqPmqItToCcRs9Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ucUwK4rEk0oYEyui/mSutx+FXN8EabrmuN51kFpED0Y=;
+ b=otwTOsdcVaT+T6TObV1pFfIhnVvqKyzw6COe9KHogvDEjgz7ViFBMEAE/vOVqUJqSLISQsIdHqYghpL3HFDcyHqMwt27lVdb3btgnseQPbj3YXcwd7PTesxGnBCWAhLiXmGrbsKW+L46wmHi+WEZh87xMig3ArOAhjIAv+ey+rY/CnU/2TXJaSsn9/z6X7L0gujtho3t1kiA50B9UsFat7pqOY7u5r+1xuTCEpgoLpF2Ry0sjJpszmX2LwMtFyrHv+Zr7KCBgrHNItc9GmyTU3S7cZhj6uwglW4JsclVmtn28AArZfm8GN+0Qe7GluksrID+DFpVYfDqG0qTWRhXcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=allegrodvt.com; dmarc=pass action=none
+ header.from=allegrodvt.com; dkim=pass header.d=allegrodvt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=allegrodvt.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ucUwK4rEk0oYEyui/mSutx+FXN8EabrmuN51kFpED0Y=;
+ b=eRQE5ceoJnafQbIdDbBmAbRFFi90m7ONrugnlfLDkm3+2W1pnVtyvNu8Hd98bnDokUKLuClhvcBqo5RNPcA03ZKF0ilH+nZya3gUnK79TlvLqy5fAahzz9tN1Q1RcbvpMX4LWZyaaXR+O0Lf8AmA3XsGiY/UcLl0iXyUZmzZLbndTDSlFdt0jA5hcmsjWJ/SSPJjp1h9ifnEXrS92H7DWm9TQnLrDV6ZLG4sDsYNr9Fr5W586BLCXADuB772eEi88/fOKStKM2hUZINAD3RElZ+qGEdMS9tNbu+6jE2qRnEVCeG1GauCUvWnZpeS4I5YWEuyymwdsd00RIU5Wnecrg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=allegrodvt.com;
+Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:3d::18)
+ by MR1P264MB3042.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:3b::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.24; Tue, 27 May
+ 2025 14:33:10 +0000
+Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::4281:c926:ecc4:8ba5]) by MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::4281:c926:ecc4:8ba5%2]) with mapi id 15.20.8769.019; Tue, 27 May 2025
+ 14:33:10 +0000
+Date: Tue, 27 May 2025 14:33:09 +0000
+From: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Tretter <m.tretter@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Michal Simek <michal.simek@amd.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Junhao Xie <bigfoot@classfun.cn>, 
+	Rafa?? Mi??ecki <rafal@milecki.pl>, Kever Yang <kever.yang@rock-chips.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	Gaosheng Cui <cuigaosheng1@huawei.com>, Uwe Kleine-K??nig <u.kleine-koenig@baylibre.com>, 
+	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/5] dt-bindings: media: allegro-dvt: add decoder
+ dt-bindings for Gen3 IP
+Message-ID: <kqrngtgusod4cczeh33lz4seclgzn655ucnuhu76zh7ylrsybo@ndrecjbqvma4>
+References: <20250523134207.68481-1-yassine.ouaissa@allegrodvt.com>
+ <20250523134207.68481-3-yassine.ouaissa@allegrodvt.com>
+ <3e6be40a-2644-416a-bd32-f6256f1501ff@kernel.org>
+ <7863d15a-fa20-4db5-89b5-77a026d3f937@kernel.org>
+ <a72z6exgol5cbur2cy7wjwyroi4zddtki5ab3zdkfuwpskpavr@r26wahldhd3r>
+ <b5bb919e-6273-48ed-b5d8-29177dbbfb76@kernel.org>
+ <flwocneutp64bxxwfkfqvm6dq7klc2nu33ybr3ap6qeovopfq7@7qognvdf4zew>
+ <04e1f361-b3cf-4fdb-a008-42eb489f6c4d@kernel.org>
+ <uys462vhrhzeapzkve7z5k3xg6bjvpdne4xw44voqn6uhjdkmc@owrdgvraiqyb>
+ <30acbaadc08869687c22e6a70052571c99556979.camel@ndufresne.ca>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <30acbaadc08869687c22e6a70052571c99556979.camel@ndufresne.ca>
+X-ClientProxiedBy: PR0P264CA0282.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1::30) To MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:3d::18)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250520152436.474778-1-jens.wiklander@linaro.org>
- <20250520152436.474778-8-jens.wiklander@linaro.org> <aDQZN-frPnr1_N5I@sumit-X1>
-In-Reply-To: <aDQZN-frPnr1_N5I@sumit-X1>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 27 May 2025 16:32:42 +0200
-X-Gm-Features: AX0GCFtCRIMnpa06u8yxs_HtV-u6PU01-LbWY3-lo5Z1TuKmqqUniPvzQcB1mdY
-Message-ID: <CAHUa44FHav67VAQK7o-S3Xhx-j_VypAX9Ya0dATty7RhdCbgJA@mail.gmail.com>
-Subject: Re: [PATCH v9 7/9] optee: support protected memory allocation
-To: Sumit Garg <sumit.garg@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
-	Rouven Czerwinski <rouven.czerwinski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MR1P264MB3140:EE_|MR1P264MB3042:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba083bde-b756-46fa-f0a0-08dd9d2b67c2
+X-LD-Processed: 6c7a5ec0-2d92-465a-a3e1-9e3f1e9fd917,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?bndnbFJHUFhid1VtSm5udnIrVDBzK1NiRjRwanBHaSt5RVVOQ0g2Nzk5UVNm?=
+ =?utf-8?B?b05xZkpuRDl2NjNVTjdQSm9OVHZ5V2lzTVNoajI2clo4MmFrSVZrMTZONi9F?=
+ =?utf-8?B?NUxsbnh0RkZEZUhMYXpjYVZtdXdCTDdQZUFUYVhFSVVhOW1ZVUtYVCtFNnAx?=
+ =?utf-8?B?eW05alJqQjlHSjg5a0xvRENyUlhMcHE0QWVncEIxeFlWbUdra2o1TCtQbDFL?=
+ =?utf-8?B?WW1lQVhBYUNySlhVcG42WTIyUEpPQit0bXA4aUdFN3JCekJabzJsVUJtNGhr?=
+ =?utf-8?B?MmVhMDlvUi9VL05WV0VvdDlqTHdlMC9oSWxobmsvRGZJeFBRdnJISld6TnlL?=
+ =?utf-8?B?UHZMWnVCQi9EbUN6MGR1bDd2YzRKMGJpeE81YmxyOENrdWVtd2ZOOHJlWjBj?=
+ =?utf-8?B?b052K1hnQUhaQzFIZjh1ZzZDSWRCVEFFN1JFYWpPK0VQSTFHeUYzejYrc3d1?=
+ =?utf-8?B?QVFOd0FRYWMwTHdkSnpQYVBKM05BT0RCK2pwVkZLNmFZZG5GMGJEbG5SU1Rz?=
+ =?utf-8?B?TUUzcGZXVzFIMXZxVzB4cENTN29tSDkyZ2RDbU1uOUd1UDNXM0dWRnhBUEc2?=
+ =?utf-8?B?TGp6S0swY0h3NUxPaGVPS24zLzZyZVZpcEY5ODlGUEZoRm1TaGY4Tm5DKys4?=
+ =?utf-8?B?anhmUDYwMkdVSnhpcnZKNktmcWxkbjVhZHhVTkFJaFlQNXROeXVXaW8vQWRX?=
+ =?utf-8?B?RVRCeDFUQWcvQVk5R1Awd0hCRHprYTBvb2RIU0lLZ0xRMHl1OXJBV29BMElm?=
+ =?utf-8?B?a081aERlSEFDb1VXeU1HdERFZzRLcmc5QXZadDNOa2RUNHFBdmFQZVNPSTBJ?=
+ =?utf-8?B?RXZDUHRSVnRQZ0pPK0ZwYSt0TzlxdWhxV2FrdXdRM1Vkd09LMEhlelNGdWY2?=
+ =?utf-8?B?VGlPVHhEY1FhZWR2dllTeHBRdFBvZHQyamRZZE1zYStVTWpoTTMxV0JaeEp5?=
+ =?utf-8?B?b0ZDaSttWUh0Tzk1akpDUlNvUUtOa3ZXSDJ1aUNWWGhmdm9nUUNzT2hvV0Nn?=
+ =?utf-8?B?WkhTcmhWY1J0R1A2Y09rOExIV0o4Sk0xYUZ4Q2RvU0wwN2NFVWMrZWUzbGtq?=
+ =?utf-8?B?ZFp4TzNOUFJTZXoyTndnWVR3YWxjVENjcitLbDR3TURtQUVvcExaZk1UdUxm?=
+ =?utf-8?B?Y1hHaHZhNzQvSkgvU3hxdGV6WW1YK1JYcWR5MUk3S3FsUVNlKzgyODhkejJN?=
+ =?utf-8?B?TFdMYWFwRUVGc2RDdXI0VWRCS0t5dlV5bTBTVTdiRkllYW1Da0YwT25waVNm?=
+ =?utf-8?B?a0lqeU5LRXdZckg3ZzNtRFlIcTdoRjMxNG5hL3pKRXB0UWNXWUxrMnJGZ0g4?=
+ =?utf-8?B?VEt1NjRaV3dzY2NkUW43aGVPSG1aaTQ2VXY3S1lTZzlSWEtuMjBTVVhMQVpH?=
+ =?utf-8?B?cGhjcS9SOU9KMXBleTNCQU45UWMwSjVXdFBaaE9lSmtOc3NDOERlQkQva2dO?=
+ =?utf-8?B?Nzk0bndKOVVpaUIyS0FJMkYzM0FmWmlVWUlEU1dZMkR3UTFIOWxVN2kzVzZs?=
+ =?utf-8?B?MGxKcVd2SnBHcDQ4VDdvdnhnV1N6WVNnOFlxaWhLL1E1ZGhpNmI4V1dWOFNC?=
+ =?utf-8?B?R01vc0ZWeWdlWEE1dmJ4SHNIcWVoZnlVcGxDTjZLS3FLRURQbXZzdERkd2tl?=
+ =?utf-8?B?YlZ1N2VWcE14aDhEbXJFNkxLQVYvUEx1Y01sak40anUwZ3JhN3VwQWZ4YjFL?=
+ =?utf-8?B?OXp3NUlUc1FGcU04dDFvd001cXZFZ1JVOHNBOTZZM25jY054UHpkdFRJSnIy?=
+ =?utf-8?B?c3VBLzVpcnNRUndQYUNwVzUrNE5GczJNbGVNQThTTGhxNm03UWp4em5XS2wz?=
+ =?utf-8?B?cGJwejFMWjc3a25Rc1ZPK1BTbmpkNFR3ZGxwU3UxS1FaUmdodC96bVl3YTN1?=
+ =?utf-8?B?S0xuNHVSb1VHSnIwaUtSY1F4cVZYdFFNWDZhMzJjbExtUTNQNzY0RXNaN3d0?=
+ =?utf-8?Q?bZCUsqqAemg=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?Q3NmazlmY05CbGhVOFluK3UwUU1OejZRWkJmdnlOcUFkaVlIRjBDTTNXcE5m?=
+ =?utf-8?B?UUwwTmYyQWVvWVp5Q2tmaytwQmxEK3Z4MzRUMzJnanZGMjZMTURRbGd5YVow?=
+ =?utf-8?B?bVlqUG11VlQyemxFZ1hLV1l5RGFUcDI1UnZWYnkzMm8wRnVEWm4vSkJWdEdp?=
+ =?utf-8?B?UjV0eUlpZnJqNmtDTlZyZU8rMkJKcGYyTDhublM4eTZsZVlYaTUwZFlpSVA1?=
+ =?utf-8?B?cm5IQWRKV0pRQUtlTDE3OVlBRzQweFNOTTNhWFgvaDAwT2ZBNjdIY0JCTXRt?=
+ =?utf-8?B?c2llaDRNazdldFhBZkp6ci8vc1NaWWpFbllhMVMvd3FFTFRtSnNIVVFIalo3?=
+ =?utf-8?B?ZnpSR09qdkIwQ3dPem5xcEVJVGhUSE1aOHF5bEpOMVNmV0dYVWQxeVpGUnFY?=
+ =?utf-8?B?Tk90NitZQlpiTE02SzJweWcxUFNBeGl5OXZiRnV4ZVZHNEU2VUMvVmN1NmFD?=
+ =?utf-8?B?UjBJUTFVUCs2bVQvaUJxa2tPWURWeHN1QkgrT2tUVm1FM3R6ZmRDVnl1aW5U?=
+ =?utf-8?B?WnNVNFNFejJhSkJYQzIzcDh4T3I0elpYaG43V0U4RGFIa05uMnhzNW1ZOGVa?=
+ =?utf-8?B?bWNIY1Q1NGJicy9SUnpXaWVhcXBqSTJCNjk3cy9OWWJ0NEkwbUJGd3B3eXlB?=
+ =?utf-8?B?VVNuZFJ0NDR4NFRkcWlDSXhENHpTdHdXNlRqeHF0bHdLTU9hM0ZtQThMa3Nk?=
+ =?utf-8?B?djBDeThzNGt4YXNFaFlZK2ZsY3ZkRXIyclhLWFRvYzE5SnFiMU5XVlJrL0JL?=
+ =?utf-8?B?Q2hCK3BuaURkWW5uMm1XUWNJUFZGRk9FY3VhYSttcm4xY1hWd0hsZWZEOStx?=
+ =?utf-8?B?cHl1Z2U4Nm1pWFRLLzF1UlRKRXBJbTNaMWs3OUUzbVFqUXhxcGJNWUJvYmdt?=
+ =?utf-8?B?ek13eGRGTi9EbTZpMzdDakV4UDNFSk1ta0s4dTJMUFNrWTBqdE81N1ozSVpy?=
+ =?utf-8?B?cVRTM2pnOFkwVE93V1pWR3BZR3FCdWxDeENUV3poSkxoVXZJZHRZOWZiTTlX?=
+ =?utf-8?B?N2FkU25WWW8zTHZ4TlZzQXluSFp2QndaclUzb1JUTGR3UWRPL2hncDVrOWxs?=
+ =?utf-8?B?UklzUHVZT0p5bFFDY05DSmx3dGU5Ui96K1poSmswNGpFVitubmNLQXpGUEty?=
+ =?utf-8?B?OWtlVnV2czVnMDNZdTlRNGl1dUNabE5FWXExSlY5TEJaWmVzSjJEcHFLQW13?=
+ =?utf-8?B?S2VZdHJ4SjhIM1EvQjc0N3Bsd2ZtSjBYbUlmSUxJalF4WDJRdXdpcDJXZ3JJ?=
+ =?utf-8?B?OGNycFpHWjUzQWxFOG56TXdWSlRzRHZIdnNKcEdOemhSTlJVNlE4YWZrTHRu?=
+ =?utf-8?B?eG5WSEdiUStMS2lhZTNrajN4NG5IMjhWSEZyQk1lSlpUZEZ4Y3JKbFVUdnI5?=
+ =?utf-8?B?RE9TcHNpKy92cmVqVGNVeXdRVktRMlFNNjQ2R1B6dWxrWHNRcEU1K1FvTm00?=
+ =?utf-8?B?ZUU0Rm1WY1JuSzAzbU5qVHh5SFlkemFKWWRQL0MzSEUrcnlYc3dJTUt4MTVE?=
+ =?utf-8?B?VUNScW1mNWFyRTBuZFJqRlFBdXUxYjVDMXV2QTUxdmJRQmp6YU5xV1UrTVY5?=
+ =?utf-8?B?eExScnB3M1AyakNLVFpoWDZaM2lBZ0VBNy9yT3BSWFE0L3hFYnhFTnkzaG5Q?=
+ =?utf-8?B?S2lNaUN2bE1lZGdaOWVudmR4eUY5S3ZIdlFCSXZjcGw4V2ZhL0MrMVpnMEFr?=
+ =?utf-8?B?REcxY0pxbDM3R3cvaTBzeE92dXNTV2RKZmRwREpnb3VaUjAvdWJaUUdmeUV5?=
+ =?utf-8?B?Qkx4TlZFbWVZcEVoRndqZkEvNDVJMVNIL0RaNGhVV1JZT2cwd3lxTGUrYnNT?=
+ =?utf-8?B?dmo2QVluaWJLb1FiN29qdnRLTE5vajlNY1hFU0I2a3krMDRkUGR4dGFxMjZG?=
+ =?utf-8?B?bFZkUk82V0EraWNQUGJRMVdCYkUvUFhZUjNDaExUMng1YUJCMXlRNnFNTzQz?=
+ =?utf-8?B?ekN0YU9xY0pabDNicVAyT3ZUUjZQZlpyeE9jWmFLcnM2MFNqL2ZqY0kxRzho?=
+ =?utf-8?B?T0E4a0RIWEE1alhSNFhjZDgyZFdmMUZRdEw3V3JVSzVNRzFzR1BOSVk4aytn?=
+ =?utf-8?B?TERRaHVZTUFka2RUbXY3MDdhNXlxbnRQOVQ5ZHg5dUlUcnJ4cGdaVVpBRjFV?=
+ =?utf-8?B?cGR5QkpyOFNSVWpqTW44ZERGeVhlTmtCRWJHZDZnNXdVMW1LNGcyQ2dtMno5?=
+ =?utf-8?B?Y1E9PQ==?=
+X-OriginatorOrg: allegrodvt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba083bde-b756-46fa-f0a0-08dd9d2b67c2
+X-MS-Exchange-CrossTenant-AuthSource: MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2025 14:33:10.7933
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6c7a5ec0-2d92-465a-a3e1-9e3f1e9fd917
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bon5bLTi1R5+DMWHXmJxyZt8DJRslkyeC7RTBP6I4QFw1wbdS0PCkks6yAKA+oUpIwczidjdUOPcgzIAft/mfqNLQLip1t7EknkV5p1jqtA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR1P264MB3042
 
-On Mon, May 26, 2025 at 9:33=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> =
-wrote:
+On 27.05.2025 09:21, Nicolas Dufresne wrote:
+>Hi Yassine,
 >
-> On Tue, May 20, 2025 at 05:16:50PM +0200, Jens Wiklander wrote:
-> > Add support in the OP-TEE backend driver for protected memory
-> > allocation. The support is limited to only the SMC ABI and for secure
-> > video buffers.
-> >
-> > OP-TEE is probed for the range of protected physical memory and a
-> > memory pool allocator is initialized if OP-TEE have support for such
-> > memory.
-> >
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >  drivers/tee/optee/core.c          | 10 +++++++
-> >  drivers/tee/optee/optee_private.h |  2 ++
-> >  drivers/tee/optee/smc_abi.c       | 45 +++++++++++++++++++++++++++++--
-> >  3 files changed, 55 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-> > index c75fddc83576..4b14a7ac56f9 100644
-> > --- a/drivers/tee/optee/core.c
-> > +++ b/drivers/tee/optee/core.c
-> > @@ -56,6 +56,15 @@ int optee_rpmb_intf_rdev(struct notifier_block *intf=
-, unsigned long action,
-> >       return 0;
-> >  }
-> >
-> > +int optee_set_dma_mask(struct optee *optee, u_int pa_width)
-> > +{
-> > +     u64 mask =3D DMA_BIT_MASK(min(64, pa_width));
-> > +
-> > +     optee->teedev->dev.dma_mask =3D &optee->teedev->dev.coherent_dma_=
-mask;
-> > +
-> > +     return dma_set_mask_and_coherent(&optee->teedev->dev, mask);
-> > +}
-> > +
-> >  static void optee_bus_scan(struct work_struct *work)
-> >  {
-> >       WARN_ON(optee_enumerate_devices(PTA_CMD_GET_DEVICES_SUPP));
-> > @@ -181,6 +190,7 @@ void optee_remove_common(struct optee *optee)
-> >       tee_device_unregister(optee->supp_teedev);
-> >       tee_device_unregister(optee->teedev);
-> >
-> > +     tee_device_unregister_all_dma_heaps(optee->teedev);
-> >       tee_shm_pool_free(optee->pool);
-> >       optee_supp_uninit(&optee->supp);
-> >       mutex_destroy(&optee->call_queue.mutex);
-> > diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/opte=
-e_private.h
-> > index dc0f355ef72a..5e3c34802121 100644
-> > --- a/drivers/tee/optee/optee_private.h
-> > +++ b/drivers/tee/optee/optee_private.h
-> > @@ -272,6 +272,8 @@ struct optee_call_ctx {
-> >
-> >  extern struct blocking_notifier_head optee_rpmb_intf_added;
-> >
-> > +int optee_set_dma_mask(struct optee *optee, u_int pa_width);
-> > +
-> >  int optee_notif_init(struct optee *optee, u_int max_key);
-> >  void optee_notif_uninit(struct optee *optee);
-> >  int optee_notif_wait(struct optee *optee, u_int key, u32 timeout);
-> > diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-> > index f0c3ac1103bb..f3cae8243785 100644
-> > --- a/drivers/tee/optee/smc_abi.c
-> > +++ b/drivers/tee/optee/smc_abi.c
-> > @@ -1584,6 +1584,42 @@ static inline int optee_load_fw(struct platform_=
-device *pdev,
-> >  }
-> >  #endif
-> >
-> > +static int optee_protmem_pool_init(struct optee *optee)
-> > +{
-> > +     enum tee_dma_heap_id heap_id =3D TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
-> > +     struct tee_protmem_pool *pool;
-> > +     int rc;
-> > +
-> > +     if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM) {
-> > +             union {
-> > +                     struct arm_smccc_res smccc;
-> > +                     struct optee_smc_get_protmem_config_result result=
-;
-> > +             } res;
-> > +
-> > +             optee->smc.invoke_fn(OPTEE_SMC_GET_PROTMEM_CONFIG, 0, 0, =
-0, 0,
-> > +                                  0, 0, 0, &res.smccc);
-> > +             if (res.result.status !=3D OPTEE_SMC_RETURN_OK) {
-> > +                     pr_err("Secure Data Path service not available\n"=
-);
-> > +                     return 0;
-> > +             }
-> > +             rc =3D optee_set_dma_mask(optee, res.result.pa_width);
-> > +             if (!rc)
-> > +                     pool =3D tee_protmem_static_pool_alloc(res.result=
-.start,
-> > +                                                          res.result.s=
-ize);
-> > +             if (IS_ERR(pool))
-> > +                     return PTR_ERR(pool);
-> > +
-> > +             rc =3D tee_device_register_dma_heap(optee->teedev, heap_i=
-d, pool);
-> > +             if (rc)
-> > +                     goto err;
-> > +     }
-> > +
-> > +     return 0;
-> > +err:
-> > +     pool->ops->destroy_pool(pool);
-> > +     return rc;
-> > +}
-> > +
-> >  static int optee_probe(struct platform_device *pdev)
-> >  {
-> >       optee_invoke_fn *invoke_fn;
-> > @@ -1679,7 +1715,7 @@ static int optee_probe(struct platform_device *pd=
-ev)
-> >       optee =3D kzalloc(sizeof(*optee), GFP_KERNEL);
-> >       if (!optee) {
-> >               rc =3D -ENOMEM;
-> > -             goto err_free_pool;
-> > +             goto err_free_shm_pool;
-> >       }
-> >
-> >       optee->ops =3D &optee_ops;
-> > @@ -1752,6 +1788,10 @@ static int optee_probe(struct platform_device *p=
-dev)
-> >               pr_info("Asynchronous notifications enabled\n");
-> >       }
-> >
-> > +     rc =3D optee_protmem_pool_init(optee);
+>Le lundi 26 mai 2025 à 12:58 +0000, Yassine Ouaissa a écrit :
+>> On 26.05.2025 14:46, Krzysztof Kozlowski wrote:
+>> > On 26/05/2025 14:27, Yassine Ouaissa wrote:
+>> > > On 26.05.2025 12:57, Krzysztof Kozlowski wrote:
+>> > > > On 26/05/2025 09:25, Yassine Ouaissa wrote:
+>> > > > > On 23.05.2025 19:13, Krzysztof Kozlowski wrote:
+>> > > > > > On 23/05/2025 19:11, Krzysztof Kozlowski wrote:
+>> > > > > > > On 23/05/2025 15:41, Yassine Ouaissa wrote:
+>> > > > > > > > Add compatible for video decoder on allegrodvt Gen 3 IP.
+>> > > > > > > >
+>> > > > > > > > Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+>> > > > > > > Please do not send the same patches over and over again. You got review
+>> > > > > > > which you need to address.
+>> > > > > > >
+>> > > > > > > Once address you send NEXT version with proper CHANGELOG for each patch
+>> > > > > > > or top of cover letter. See submitting patches... or just use b4. This
+>> > > > > > > should be actually requirement for this work.
+>> > > > > > >
+>> > > > > > > Anyway, I see all of previous review ignored so let's be explicit:
+>> > > > > > >
+>> > > > > > > NAK
+>> > > > > > >
+>> > > > > Hi Krzysztof,
+>> > > > >
+>> > > > > Make sure that i'm not ignoring anyone reviews, i sent a new set of
+>> > > > > patches to start cleanly, and i have sent you an email about this.
+>> > > >
+>> > > > It is still v1 - the same? - while you already sent three patchsets before.
+>> > >
+>> > > As i mentioned, this patch is sent to start cleanly, so it still v1.
+>> > > And the previous patchsets should be ignored.
+>> > This is not how the process works and it is not making reviewers life
+>> > easier. It makes it impossible for us to compare (try yourself with `b4
+>> > diff`) and forces to re-review everything every time.
+>>
+>> I know that i made a mistake by not respecting the "submitting patches".
+>> this is why, i prefer to start from a good base ( clean patches ).
+>>  From this patchsets, You & I can use the b4 or other tools to get the diffs.
 >
-> Here we should do a Kconfig check for CONFIG_DMABUF_HEAPS so that we
-> don't proceed any further with initialization.
+>For future submissions, once there is a base, don't try and "fix" things, just do
+>add V2, V3 on future submissions, even if its completely rewritten. Just say so in
+>your cover letter change log. If everyone was to reset to V1 all the time our work
+>as reviewer and maintainers would be completely un-manageable. Please understand
+>and take our explanations for the future. There is no need for you to argue on this,
+>this is not just personal preference. Same driver, second submission mean v2. That is
+>even true if you take over someone else series.
 
-Why? If OP-TEE is configured for protected memory but the kernel
-isn't, something isn't right, and a print could be useful.
+I'm aware of that, sins i started using the b4 tool.
+Thanks.
+>
+>regards,
+>Nicolas
+>
+>>
 
-Cheers,
-Jens
-
->
-> Rest looks good to me.
->
-> -Sumit
->
-> > +     if (rc)
-> > +             goto err_notif_uninit;
-> > +
-> >       /*
-> >        * Ensure that there are no pre-existing shm objects before enabl=
-ing
-> >        * the shm cache so that there's no chance of receiving an invali=
-d
-> > @@ -1787,6 +1827,7 @@ static int optee_probe(struct platform_device *pd=
-ev)
-> >               optee_disable_shm_cache(optee);
-> >       optee_smc_notif_uninit_irq(optee);
-> >       optee_unregister_devices();
-> > +     tee_device_unregister_all_dma_heaps(optee->teedev);
-> >  err_notif_uninit:
-> >       optee_notif_uninit(optee);
-> >  err_close_ctx:
-> > @@ -1803,7 +1844,7 @@ static int optee_probe(struct platform_device *pd=
-ev)
-> >       tee_device_unregister(optee->teedev);
-> >  err_free_optee:
-> >       kfree(optee);
-> > -err_free_pool:
-> > +err_free_shm_pool:
-> >       tee_shm_pool_free(pool);
-> >       if (memremaped_shm)
-> >               memunmap(memremaped_shm);
-> > --
-> > 2.43.0
-> >
+Best regards,
+Yassine OUAISSA
+>> >
+>> > Best regards,
+>> > Krzysztof
+>>
+>> Best regards,
+>> Yassine OUAISSA
 
