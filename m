@@ -1,129 +1,213 @@
-Return-Path: <linux-media+bounces-33478-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33479-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22CCAC5196
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 17:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE42AC519D
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 17:07:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7B85E7ADF69
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 15:05:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 569777A5B0C
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 15:06:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DB1327A445;
-	Tue, 27 May 2025 15:06:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C457727A124;
+	Tue, 27 May 2025 15:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="erkcgR94"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ITMeFhf7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3023A126C02
-	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 15:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A0419D092
+	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 15:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748358393; cv=none; b=mzBvnIbgeKd4oo5IykpY42aipUlZpPX1/71wM0PqguHqKYY5ZKIQKRH1HPDJ8DtGBUIbEsMx008SV+2SApR7+mTkHQpVsSytmOpbiInWq1UA3DzrEL6g/5dzdXdwQGGqk2kg9GLgwjsN/HMh5Nm7Z9dwWDRVMykD3SBTlDM4Wlc=
+	t=1748358456; cv=none; b=E/UKZTbWx3dbEMa8pwnkTr8+aQwI+3XEbJ5U29Ep97Lm13ofmOFKr46a40Dzb0cyEGQPL45xthCPYSM9nx+XG6Z6h6yjtJzAP5B4+fL//UrSf7/LqgmtfUH8ZHhPQZLfaigH7fBC+Lj9KLqxNpVJ/9cxQvPc4/XTPZS6gMGTkNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748358393; c=relaxed/simple;
-	bh=OeMg/n4s+XUyV+zOygmzjEvKMcK4qz4amGuZH9Z+N+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N8POQacDXNfcBVyEtXqHxOLItPJnu5Ula5zrkItuuEAb5MHFqB6UjHUk6zcw0+sS/oOR6x/az4Rka3QGRJKbGLCX/kjEw7IgXR2MQ8ZInMnYQno6WtDl116YUvLcAdHVvlNBsr3pDJ3LkP5tIvMCx2XIHZhdVke+4wY9nqTUqt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=erkcgR94; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748358390;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XZ29RQMR69m4K9xLY43phEvDycHRnJ7kzp42BGznxp0=;
-	b=erkcgR94j+n1GRaGfxd+TrzE6ucnxJrRKb1FH2wHFIAfmOFJQEZ+TKp8vdjTTOt31NLUts
-	ChS5GAIyG8LvnyIsd+nl5RyvAVtkA3cdSHjYYh/UkMF3aVBDSlqRzDMhCURMxfRVf315WC
-	NRipkKCh45TDidgioHQIM2h1hjkLmcg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-368-pD0BlcY3PwqjWs8PFNxgrQ-1; Tue, 27 May 2025 11:06:29 -0400
-X-MC-Unique: pD0BlcY3PwqjWs8PFNxgrQ-1
-X-Mimecast-MFC-AGG-ID: pD0BlcY3PwqjWs8PFNxgrQ_1748358388
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a4d6453521so1267966f8f.1
-        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 08:06:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748358388; x=1748963188;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	s=arc-20240116; t=1748358456; c=relaxed/simple;
+	bh=pUaNeTHTCwKFPAoMIgJmb5zAeyUnC0gPJ5nIg5WMFEs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EnL3RNyRFzK/6ZpegCrMbQeco8PO5BvvWA1BEm+JYhcHG1x/DA+laJujrqgKgsMP6/gJKFS6B84o3Iicybgzf8EUUlPLxpjqZnvCOo2frL7E8xTcx6p9f6Zisy8E5MYz0+Ky2sLCwtSbQ4OgRdxF6SBhYij9+gQ/ZdnJusm6LdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ITMeFhf7; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6065803ef35so715833eaf.1
+        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 08:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748358452; x=1748963252; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XZ29RQMR69m4K9xLY43phEvDycHRnJ7kzp42BGznxp0=;
-        b=dmFsfoymVAQ5/3SM1+ZeGpwJVf/4FR/5nCgdBjmdFKnoYaVYBC2WZb3mAMouKxHwQF
-         7x9hcMd098ecWCs+gBsY7ta6/U+1SMGRPN4HJTyZUMpU2ZqxTN4ZkoAF+ahWYyO8F197
-         SYYlz6FWSC3MfUe40UmDvrvBvjfUenCAtRSO/9x7CYS0O2zsKkO/2ZFv34otPa/xh3tt
-         aS3g+IAo0/XFeUIBuqz3eRoJRYV/vnFkdDnc8M9/PpY0cLqmdYKqJy179bKeLDkOQcmS
-         Qole1oWk7DUbgYfOuIUhcRTX7blYsW2chQM9DCgjzurngGNKezbnJAviXoLtM5m5JNm1
-         3BpA==
-X-Forwarded-Encrypted: i=1; AJvYcCXeR1otsjsWSsJL6pxldHk1Altb6KvUSc1NAQjrExzexUPd+wkRE/0ooZ8b4iXzmGtMuWGaFXzhJ8WJvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4hspvhrzLPwUuCoJcI4MIhvr0Kx6m61OEjPyR40NvilUy85yl
-	jl+5I00BohnmQPdJON1kgCRAJtxmv3wP1ZWiBqgYl3JrhRCrxasaHh0zlT5u1nE2fWJYSQtE9Nj
-	NARB77JCDrmS/a47zgUB6TVPPceoTdYg/XDlAcPZnBV5is3ZukuIsllgKEIzkP6Iu
-X-Gm-Gg: ASbGnctSIkkAYvqzA1BCEiGVuutxhXHdBz3PHR9O8e5Xlsdy8ExeGDyU0TITAkSREAt
-	Pf/ljRezfC5AoxygYSA4FBK8Fbxogk4d6oQcCaEsuxIAc7IY0SkBTCn4l8BqW8FOr2yXJSKRueV
-	2SS8zVmQzWNztfp3UtcuWjgorG2ZG817OfJI2gw616cRzyoYj5mHZ0d5NwT0hBcTwMXIaLMDXzl
-	PLqMelch3r48FDK+h8lVJiPm7cATdYzZOIk/PFOaZ3zczgKYqmVe6++t0ch6EPj/Q7fldAOA9Bf
-	ZkTOIQ==
-X-Received: by 2002:a05:6000:2890:b0:3a4:d7ba:940f with SMTP id ffacd0b85a97d-3a4d7ba9678mr6493695f8f.8.1748358387820;
-        Tue, 27 May 2025 08:06:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHnxRACmfRB0RLkxdi7utBGmJ2uHTW6WSbB3UldnlI9CQBfujtwCkHpHjFnwqjC0VngKmP3KQ==
-X-Received: by 2002:a05:6000:2890:b0:3a4:d7ba:940f with SMTP id ffacd0b85a97d-3a4d7ba9678mr6493637f8f.8.1748358387264;
-        Tue, 27 May 2025 08:06:27 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:1517:1000:ea83:8e5f:3302:3575])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4e1632825sm2396185f8f.43.2025.05.27.08.06.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 08:06:26 -0700 (PDT)
-Date: Tue, 27 May 2025 11:06:23 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Alexandre Courbot <gnurou@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Albert Esteve <aesteve@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	gurchetansingh@google.com, daniel.almeida@collabora.com,
-	adelva@google.com, changyeon@google.com,
-	nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, virtualization@lists.linux.dev,
-	Alexandre Courbot <acourbot@google.com>
-Subject: Re: [PATCH v3] media: add virtio-media driver
-Message-ID: <20250527110444-mutt-send-email-mst@kernel.org>
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
- <20250526141316.7e907032@foz.lan>
- <20250527102111-mutt-send-email-mst@kernel.org>
- <20250527163927.02924adc@sal.lan>
+        bh=4HvNpqBKFOVDi+Mx9KGaepBPynHnQJMRXklI5JhKtbg=;
+        b=ITMeFhf7EM7SPiwjbX3ys37gJh1R3yyljtbFwVkWbQzSFHKLzrwV8RFHeFQTUu5KHp
+         30TMmrTu6ooC5GLUBA3BV8pkUcHTdeV1vSap4BAtdnSL3IBB4D/jGzjx5WOFltnoeECB
+         YsfpEn3FGD+oFm4b4bwDeZHG0EmkNDfrPc7BkZHR4pdVy/WFMSHCgkkxuoh41887oQ9V
+         jBUcmQ86o7HQOZZbLWSs2t48OB16eO0lkL7+jCLO6q1t/LO63v4zEuwGuIlRxM+18BTr
+         X05yYFJs+08cd9t3MSM+KTH56Wr1K7x9IBBN+LG00SdPWBKR6wdntS5rK/0kEd1kImWx
+         uapQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748358452; x=1748963252;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4HvNpqBKFOVDi+Mx9KGaepBPynHnQJMRXklI5JhKtbg=;
+        b=wRNV9EZC251y01v4yDF/IzcRM8H8ZyVD0bY8n7NUwCmDnwsUE+F7GYdlle4CjNU9vb
+         LdqpQtzFG/JT0THDk5mJjhpaPjpyjUzpmPkNEfrLs0Ns2SuQ9wTNd8XZeKGrrhgaS0jZ
+         VySGW9bY7R4yd5WNSDKXo75aaGxqAJtQ/OSBOUrqFdpUa4bt0vNCr8fXsqQn5DOkCxaH
+         EotDb0SlRXlSeVSW1oSa3wIOti/+k11WV+By9nY3njF7qBreiSCq37eNv7XL4zvPnQuB
+         QrySfYGXhivjSuH2qwYY6FE7vkiyi/YOqzIUAYc00G6WNV/m3W8er60GvtuOZeuM0bAA
+         HlLw==
+X-Forwarded-Encrypted: i=1; AJvYcCWeXr6kAYD+0DTRi45WxakzRz4WQbM/gYqxQNx6MIJ9ZZAlI7oUrHWPfnnqJz70TfNs6MtpFXxEqc841g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfanEnhkylXPcxLo5tcOWPOoxespdl2yI2u1dUrCaVUJGBwzr6
+	0aEmIzg8HzFhwwUK1s9NuXO/gsObVGL0NKUXXzyWRygmx0xUKySh36Fm3QB4PqtUOSUt+Rcss4N
+	ib6F/9ngL1ihLlK7lNVaQvd4QTG+95kyvTj4fGdihfw==
+X-Gm-Gg: ASbGncuzh2m4Yi+3vkLXkD62RjDC92OVEb/KLmGu4Xev7wRUPhFXYWKpcIrM2a3rB6q
+	R9DAJw5BOzaTgsFQg7EJmpP0iqSyavZXlVNlFuMDYqUck9h++Lw31BnYMtaam1UJySZoJYoosrd
+	lZZa4o21ycHDpWOFQS85iLxBp1Z5rPHrn3IA==
+X-Google-Smtp-Source: AGHT+IHcnwyoLk78Sdyqna09vDLwno8N4DKtCoMRIDEgmxMn5EJ8+I+135oFuaEbt0jukPgDX+G63PqFO04gyL6xVSo=
+X-Received: by 2002:a05:6820:2610:b0:5fe:9edb:eafe with SMTP id
+ 006d021491bc7-60b9fba1696mr6694046eaf.5.1748358452253; Tue, 27 May 2025
+ 08:07:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250527163927.02924adc@sal.lan>
+References: <20250520152436.474778-1-jens.wiklander@linaro.org>
+ <20250520152436.474778-9-jens.wiklander@linaro.org> <aDQhn9_fezC42GwS@sumit-X1>
+In-Reply-To: <aDQhn9_fezC42GwS@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 27 May 2025 17:07:18 +0200
+X-Gm-Features: AX0GCFv4xwxS381XBNqHvZmFreXW7Y4SbgNJb3O8wPMOP2rKatTJj8xDdz14iuA
+Message-ID: <CAHUa44HFPu87JCHDxu6HWAp6YaXrHFwi55JHTb9X=JvTz30XpA@mail.gmail.com>
+Subject: Re: [PATCH v9 8/9] optee: FF-A: dynamic protected memory allocation
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+	Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 27, 2025 at 04:39:27PM +0200, Mauro Carvalho Chehab wrote:
-> > It's up to you though.
-> > I can keep it in next for now, so it gets some coverage by
-> > tools scanning that tree.
-> 
-> Sure, feel free to keep it on next if you prefer so. Just
-> please don't submit it upstream while we don't review and
-> properly test it.
+On Mon, May 26, 2025 at 10:09=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org>=
+ wrote:
+>
+> On Tue, May 20, 2025 at 05:16:51PM +0200, Jens Wiklander wrote:
+> > Add support in the OP-TEE backend driver dynamic protected memory
+> > allocation with FF-A.
+> >
+> > The protected memory pools for dynamically allocated protected memory
+> > are instantiated when requested by user-space. This instantiation can
+> > fail if OP-TEE doesn't support the requested use-case of protected
+> > memory.
+> >
+> > Restricted memory pools based on a static carveout or dynamic allocatio=
+n
+> > can coexist for different use-cases. We use only dynamic allocation wit=
+h
+> > FF-A.
+> >
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+[...]
+> > +static int optee_ffa_protmem_pool_init(struct optee *optee, u32 sec_ca=
+ps)
+> > +{
+> > +     enum tee_dma_heap_id id =3D TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
+> > +     struct tee_protmem_pool *pool;
+> > +     int rc =3D 0;
+> > +
+> > +     if (sec_caps & OPTEE_FFA_SEC_CAP_PROTMEM) {
+> > +             pool =3D optee_protmem_alloc_dyn_pool(optee, id);
+> > +             if (IS_ERR(pool))
+> > +                     return PTR_ERR(pool);
+> > +
+> > +             rc =3D tee_device_register_dma_heap(optee->teedev, id, po=
+ol);
+> > +             if (rc)
+> > +                     pool->ops->destroy_pool(pool);
+> > +     }
+> > +
+> > +     return rc;
+> > +}
+> > +
+> >  static int optee_ffa_probe(struct ffa_device *ffa_dev)
+> >  {
+> >       const struct ffa_notifier_ops *notif_ops;
+> > @@ -918,7 +1057,7 @@ static int optee_ffa_probe(struct ffa_device *ffa_=
+dev)
+> >                                 optee);
+> >       if (IS_ERR(teedev)) {
+> >               rc =3D PTR_ERR(teedev);
+> > -             goto err_free_pool;
+> > +             goto err_free_shm_pool;
+> >       }
+> >       optee->teedev =3D teedev;
+> >
+> > @@ -965,6 +1104,9 @@ static int optee_ffa_probe(struct ffa_device *ffa_=
+dev)
+> >                              rc);
+> >       }
+> >
+> > +     if (optee_ffa_protmem_pool_init(optee, sec_caps))
+>
+> Let's add a Kconfig check for DMABUF heaps support here as well.
 
-No prob. I just want to see it get reviewed and merged.
-My understanding is, it wasn't because maintainers were
-not Cc'd so that should be all ironed out now.
-Alexandre, do you want this in next for now or just drop it?
+I prefer complaining in the log if there's something wrong with the
+configuration.
 
--- 
-MST
+>
+> > +             pr_info("Protected memory service not available\n");
+> > +
+[...]
+> > +static int init_dyn_protmem(struct optee_protmem_dyn_pool *rp)
+> > +{
+> > +     int rc;
+> > +
+> > +     rp->protmem =3D tee_shm_alloc_dma_mem(rp->optee->ctx, rp->page_co=
+unt);
+> > +     if (IS_ERR(rp->protmem)) {
+> > +             rc =3D PTR_ERR(rp->protmem);
+> > +             goto err_null_protmem;
+> > +     }
+> > +
+> > +     /*
+> > +      * TODO unmap the memory range since the physical memory will
+> > +      * become inaccesible after the lend_protmem() call.
+>
+> Let's ellaborate this comment to also say that unmap isn't strictly
+> needed here in case a platform supports hypervisor in EL2 which can
+> perform unmapping as part for memory lending to secure world as that
+> will avoid any cache pre-fetch of memory lent to secure world.
+>
+> With that I can live with this as a ToDo in kernel which can be
+> implemented once we see platforms requiring this change to happen.
 
+OK, I'll add something.
+
+[...]
+> > +
+> > +struct tee_protmem_pool *optee_protmem_alloc_dyn_pool(struct optee *op=
+tee,
+> > +                                                   enum tee_dma_heap_i=
+d id)
+> > +{
+> > +     struct optee_protmem_dyn_pool *rp;
+> > +     u32 use_case =3D id;
+>
+> Here we can get rid of redundant extra variable with s/id/use_case/.
+
+OK, I'll update.
+
+Cheers,
+Jens
 
