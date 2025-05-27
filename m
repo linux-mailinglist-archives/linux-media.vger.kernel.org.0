@@ -1,1117 +1,279 @@
-Return-Path: <linux-media+bounces-33469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33470-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9489AC50E8
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:30:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 404E7AC50F2
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:33:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7DFE1BA047C
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:30:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB31F1BA10B7
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:33:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B183A15A864;
-	Tue, 27 May 2025 14:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5769A27814A;
+	Tue, 27 May 2025 14:33:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b="eQeSMpar"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z0+NSg1j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PAUP264CU001.outbound.protection.outlook.com (mail-francecentralazon11021108.outbound.protection.outlook.com [40.107.160.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBC5192D87;
-	Tue, 27 May 2025 14:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.160.108
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748356205; cv=fail; b=FGLGkdpMFNWQ3qz6qM2jRVIhGBTWmB7+KpWEMycAyMUWRZ/6Epm/f4oymWzHbOY+uEJ81WhM5d/IDNh4pOnUeTrOi4K0gfaH1iakBwww0ypKLZUeIQB/wK/v3zvrA1RVHqFM+GhpcZvaFr0MO6zWVDiIpvYqKGCkH5/4xYk1CTg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748356205; c=relaxed/simple;
-	bh=4XlI4nhmKVmq7S3oe3PwHKc38jCgNOpZfysRGV/mMaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=iLtcoOzxxavCIq2K/C0dcWKgjEz6OoHQ+72Jki2pYdrwX+ljQAaCYgDSsNA8f11xvXTTIKl2Wa4gkW1y7iXyiO5nyLDTlI77lXenJy9nI369afHdzamy/31LkloZmJyMWGl/+v8Zkckp1isyguzKVD2X3FlXSY2CnIBQb9/B0zI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com; spf=pass smtp.mailfrom=allegrodvt.com; dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b=eQeSMpar; arc=fail smtp.client-ip=40.107.160.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=allegrodvt.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YA7tgSJ+w9r2xSo4OWoLatfVZQeF67M8TXflMUdpoNzBv9RAKZvVMRG4nyo1W4UovKtCx9mdxOmIupk4oEftlboAuz/eDi+OvR+lc8cQxqBLxnhfTB6FIOK2nVqWPB5AkbGm67nHo0K191KQFytjBClq8ADE8QbeOQEvT1ldwbV2DM4m7TimhhGXkrta2jFg20u/SajqFTv6kQJvs+/kjBJPrcIeoikBLUBW1BLtMQrr18pj4HqlIPDKiYU6mp7FszVjQ4MZ0kj3o1HalD0tPV1SZL1FXC+8XcH4gkGwbg5GhgBmSJhg4BfcI66xuXwgOUkPUKAZRKcr6Xd2M/Bd4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4XlI4nhmKVmq7S3oe3PwHKc38jCgNOpZfysRGV/mMaE=;
- b=DTET8C57GZcRmwW6DY6YaM+U9eTL9WlT5ph8fa4CAhec8YLoopo0aDQ6uBVy4c/VSvK9BEi2ZS7wshFPxWViVlxOM+Oo57oWlGkmCzClqaNz8n0EQgzNTaM9ZZI5jcExsfrDoFXh4Dct46sp+JC1BYOtNXl0Lo+hWBcfFqmJThAynYjOcl6belbdRu8SuzFWWFEEtTyUIH0AXiXR/F5a2QuS3qiVm0Ay0jhDSMQriN0I17Naar0S8LEuUF0ZwkFdRHges+/Fmbc0ryKVince4h92k7dskD83W8KLTRsngQHdIib7sjQHSl3aMJGaPJ2BiDQ1YcYvvLfbMKpJDbtWAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=allegrodvt.com; dmarc=pass action=none
- header.from=allegrodvt.com; dkim=pass header.d=allegrodvt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=allegrodvt.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4XlI4nhmKVmq7S3oe3PwHKc38jCgNOpZfysRGV/mMaE=;
- b=eQeSMparYCcJqFMLEcChAOpMAb0RI8ofXQPj1WjlT7c2ymetZGI7UzUJj5J8SOhDI1YQ7cgZQ3c7QXOxn/Ra7qC1hBML9fkG2+cGzQMY6FiCTtSlFPopUXHYH00BDPPxqxdX+b0H6EAOkJde/a7oICdUSwgWXRCcBNH8CmRfjmUGVWYqOSSBjLS5CpwJ0Y5ZALE1p0OsrQaC5LuI26Xd2ON/Br0mnPanlrgXj0WSDIFppKwUFd6XvxAIG+bfPGLfiGP4exXi5xosU8P/+kcTikvvriZU0xj26L3gyvAfp9Ykd/+/2mH2wFUYnwZbiNNB4/sVP6RkWcNJIxqO7EPZuA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=allegrodvt.com;
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:3d::18)
- by PR0P264MB1723.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:16e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.27; Tue, 27 May
- 2025 14:29:53 +0000
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5]) by MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5%2]) with mapi id 15.20.8769.019; Tue, 27 May 2025
- 14:29:53 +0000
-Date: Tue, 27 May 2025 14:29:51 +0000
-From: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Michael Tretter <m.tretter@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Michal Simek <michal.simek@amd.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Rafa?? Mi??ecki <rafal@milecki.pl>, Junhao Xie <bigfoot@classfun.cn>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Kever Yang <kever.yang@rock-chips.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Uwe Kleine-K??nig <u.kleine-koenig@baylibre.com>, 
-	Gaosheng Cui <cuigaosheng1@huawei.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, Ricardo Ribalda <ribalda@chromium.org>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 0/5] media: Add Gen 3 IP stateful decoder driver
-Message-ID: <httdxwps63bj4bsfd7bmtlqepym4fgk6q7v2yo5xkug6fpl3nc@6d3t4ak5qwqs>
-References: <20250523134207.68481-1-yassine.ouaissa@allegrodvt.com>
- <01224e75f52cafdf51035df386af88c30a3a46e0.camel@ndufresne.ca>
- <q2mvw5iuhul7uyt7oefuptlqsj3wi6nmv22jsjqxq7mbeudldu@64nfbngabhep>
- <548745f64a17f8cd6470d2b3699f3dc52291a9ac.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <548745f64a17f8cd6470d2b3699f3dc52291a9ac.camel@ndufresne.ca>
-X-ClientProxiedBy: PA7P264CA0480.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:3dc::19) To MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:3d::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B20B2AE99
+	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 14:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748356386; cv=none; b=kxhODAfPtwUhmzlhcQFtspdXj61LmLZhuAUdvYi0keoGAGvQvuIIP8GxxdKtlszII1mVnKOCxX/DT18KVCGXah1foPaRCgdSNczJ68AqSrHMD6k58XxsRYmIYV1DyGUH/z5RmnD4pHZR+Uu8mu4AgX2VvtvOhjZUwBWqRvU+7lM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748356386; c=relaxed/simple;
+	bh=s+3Vk9WFAT05g8lRaeeDQOJGk6XsJsn5lqXjRugeDIs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A0aB8YYnE0bC7MYzmWd25DbiLtcXflcAI84ZvoMVRfsrKnifsDwHMvlE+Ch14lXmyn6f5kz0rXbVPsgY3N9sV5jl02E2e7mOA3MLEQ24QWGUssKwJqK6UsAE50fTi3L6zt3IeNxYkhFINk3lLGoef1S6DajJoCH/jtIn6M8umvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z0+NSg1j; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3114560d74aso2292272a91.0
+        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 07:33:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748356384; x=1748961184; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GRDZ/LCrpqxKUX7yBP1lPoeGMYrX58ozdV1M2xTcqr0=;
+        b=z0+NSg1jHjYzE2u6/GSM4OU/JT/LBJDw8n5r9h0hnMs8ukI6le8mKOnCcCgk/Rggih
+         4eNZAAEVWtDeeUtZYgLELCmys1XWh3uVkcCeXMNPByICQOkdTr9qfewO0bEy5320Yb26
+         Hhbo90crxmvsfYg6ulQlZPYNLrBK2U8/+0b76rQXlgyUa4Z0PrDRUQyIAD0FH+4Qytyz
+         L4xyRb9ARBFgmGqwYqlYfgdrQTOGRWS7ITiSQoM/tKI01vpQsjIvrTBVX4aaJsjxpLs1
+         4MWKRtQMsy2fuCrQRWX25bdvK3SoFfuaeOEyR/RjqPOi08ReXlJtj6JHg6nLhC3EkzWO
+         d4og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748356384; x=1748961184;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GRDZ/LCrpqxKUX7yBP1lPoeGMYrX58ozdV1M2xTcqr0=;
+        b=qFQyhjuVrSi6R1AAre5ev/DgVB11ZBVFg2NiDp1JqXUkxl8Ek5dMN8JjmQ30pkYLOV
+         8T0/wbDDs8kB3dF+EGujoAJc1EUiaVQQvqG3oNcSOnsPkR8OSLcB7dMqA/AAjWD+ticz
+         0/O+o3PgUwqJ3YXjEIg65UURl9jFykJmrc+B7yDWzmWbx2Ima4xt7gOHoYJ43y3dSZum
+         VsO9WaH3kPe32rAANiuvvgZCXEf1FttG+9QQGOFD0acI4anohicIoWYUYkbKtTb9O/RZ
+         3mHhm18KRozBAi9jKQjSg860igNcAJnMtHfHVrFNPEcICwGlYkqbU4GNdVhchnFt6qlt
+         O8Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCU7Q71poTF6qWLYkR8x9g7lLd3vZUekCZFcD9fHZKaFlJ+cM9T3CB9klYpl9TBx8daDWHwRYSs6BJxd3A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+A95bV10/MeKsKZ8KxrWC9F1N/MAmcpUNrN2VrC3sLZU9Pd0E
+	+f06NrH7Sxf5QPboapD30IdZwqOcvtsxyDAvONAxd3XlaMkuD/vq0ytWsltDSHCgb6hHGLuKBW5
+	4j/kXjPVXshFvC58K5s40DTvpg8RXLMvaOXYSPrEDNM27y29wEylY
+X-Gm-Gg: ASbGncuXz+eBZQ/XR86miuGZOv7ZOwVZPABRIbJ2exmcKpGFLOha2r7zz+VlqzphRJG
+	sjM6yRCaYph+92IUdf57Lh+W0flfbNxPvCc6Xr2j1C/L6Veq3D8F9VTzm9qNqAuYrMqapdvjrX1
+	vLa59xe25KPy5rAN5YIqTx0/U0VJMR4BdmPw==
+X-Google-Smtp-Source: AGHT+IG+kMuaBsaWSffxs+4dopBi6c2UidFw8vqj94comKMts1HGzvEPJpkPt4sT0Oi5flOvsO/w4xlAVEH4ZILhoBI=
+X-Received: by 2002:a05:6808:6c93:b0:403:35ba:f91a with SMTP id
+ 5614622812f47-406468ba8c7mr7824256b6e.34.1748356373410; Tue, 27 May 2025
+ 07:32:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MR1P264MB3140:EE_|PR0P264MB1723:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce328871-a119-4423-165b-08dd9d2af1d6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UThZNS9WdytWYTZRa1hvU0ZIdU56UCt5SzBuMzl6UTE0MTBReS9aVUg5UHpm?=
- =?utf-8?B?YW1jUHdQRE5HT1lZUnlmY0ZjTWZVbG82MFFRSWxRUndHOXUwMWNoMjVFV3Bi?=
- =?utf-8?B?MFFTd0ZkVmlLOExOeWRsdzFIOGJkQW5CcHBNS1NaS2dRZXcwbEpmdzJTS0pi?=
- =?utf-8?B?T1lKU3JmWlF2YzdzQ3dWNWZyWGwwSUc5TUlhSE5Qd1liT3FlL0ZGM212Ukln?=
- =?utf-8?B?dk1CdWc4dDBLTVJPZDZCK0cybm1ZNFZVODVOSm9WWi9peFcyOGJtbVBFM0ZJ?=
- =?utf-8?B?Qit3ekFQYXBVSU12U3pJN1VtdGg4YmFscGNWQVdHMk5HVzlBeEN5NUMvYTgy?=
- =?utf-8?B?VzFEYk9sdGs1N0Vkd0NFdlBxa0Z3RmxRbTlZRUZ4SHpsOXlIam9vZkZjNEFs?=
- =?utf-8?B?S2dnb1JSa3FHUE9TVXFQcld4aHJ0cEgrMlE0YjRja2p4alVCdjkzbVBXeWVK?=
- =?utf-8?B?bDAzOUthYzRqWVdnVmNVMHZCRjM3TGpuelRvc1F0RFhXWklWbWRTbVZ5dlIx?=
- =?utf-8?B?bDdXSmxBRUdCOHo2UnFFR29nbG1PYXlGWnhDdWQvczdEWEwvdllQQ29iQWJB?=
- =?utf-8?B?RW9BclQ1RzhZQklQVFFLSHUybnBOS0hDeDRQZDRIWENqS1l1NWFDWWdUVno5?=
- =?utf-8?B?SHU1SWpQQ3BjTFlKTW5laDBpaWxpNWxlaURDRTdwQnlYYTkyYUZDbDdwTHJB?=
- =?utf-8?B?WXMxb0lZRFlXbStIRnhNY1lHOGRCMnpTMEg5ZVVpZXdURmZ5NC9UK05FNGF4?=
- =?utf-8?B?Uk1YUGRMeVVVSWJYMk8vSzFJOThPTTBmUnZWMnZMa2t5SzNtc0F1eU00UlpF?=
- =?utf-8?B?OWZ1bERVSnZvUjBVWEVNRFlIOUlsbmdGZmJwSmI2YXhkVEdHRWRUTGk2OCtZ?=
- =?utf-8?B?c3ZzREhPNVNIb3UzbDRuaVFzK09rUkpsRUsxV1ZVcG04MWQvdHdIakJTUVVz?=
- =?utf-8?B?VFN6cmwxS2tVdkp6by9jOXlnRnJLRHZTMGJiR0Q1MUQxNEdpYk9xTFh1L0hT?=
- =?utf-8?B?TWhtcUdCOXAwU0JVaHlicFpkZFFBdWN6TEhqTEZRcmpCTXNyYjZaZ3c5QzVu?=
- =?utf-8?B?S0ZsbFduZ2NVRmphVGtGYk84UlFWRUV4OTFyQ2hEemN5UDhFZnZFRURVWTFH?=
- =?utf-8?B?TTRFM0pYc21COGsrekdGbVQzMDhBUVF5R0t0UEkrK2xrT3N1SUI4ZFZodWp2?=
- =?utf-8?B?OHpkVE5QT1l0dmJGTUZTSWp0NVc0cDZKalhYZkNoSjJ4STV4K1dNS2NOZW9V?=
- =?utf-8?B?OGJmeEVpRmZjcUlIOFVDMjV3bGtxMHU1aDNLOGczYUtVQXF1KzR2TE1Sd0pT?=
- =?utf-8?B?SEJyaWhHRGZPVmVZSzNxSUJnaWxncUFXc3hOeUpYNExzZmxPZTd3WGY2REdO?=
- =?utf-8?B?a1haQ3NaYytFVnlLZ0ovWndxS0E4YnBrb2N4eGhJV1dtUFdwMExOQ3hlZlBx?=
- =?utf-8?B?Z2N2S0oxZE1jWXo5ei91UysvYWFFSEY0NGNDaEZVRFlJRm9paGVTSytSY0Qx?=
- =?utf-8?B?K0I4djVpSGtOVU9yR3dMdUMwWk1SV1NNSmZqRkNqOWJhbXQvaGdxOXBtdE1W?=
- =?utf-8?B?eEtSc1A5clhqdHhVdThmOGZRQVJsQkNudWJIR3FaWU4rdE9pazhnSHl1Qkdi?=
- =?utf-8?B?YzdWbVJGLzNNc2ZncXZ4SGJSb2RZVTZOUTBRb3FJWTE3TDJ3UkdzSlFPaDBL?=
- =?utf-8?B?RjV0bjkydmFxNU5iaHRqcEFUcS9LaXk0aklWNEpWNDZ0ZGpycXQwSmxPb2Y3?=
- =?utf-8?B?S2dVTHdYL1RrL05xVFNxVFpJdzU5aWViR3FaUE8vNnB2b1Y5SGEzdlRUTXM4?=
- =?utf-8?B?eTZRbkVacklTUEpFcFJ4OXJSSUxPa0NHeTByQ1gyaHBsUG5hcVM5UGtoL0RY?=
- =?utf-8?B?d3JpbWQ0WXVOQVBqTVNZZXFPZTZ2N1ZOZU8zRTAwUFd1UHNIWHEzdDhwYXJG?=
- =?utf-8?Q?ix5fOYBwUyI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UkJrbHJ6U2xrS2RETWgvRWpYcUF1RTI3NmFWYWlHSk4ycTZsYUx2QnlOQmFy?=
- =?utf-8?B?am10N3c0bm5aeVVnUSs3WUU3ajFpbzlXN0RNNXdydklycDJ5aXJVc05BZW5r?=
- =?utf-8?B?RDBUSEhuTVg5Ym4yZW12b29vbTY3K2Z1M2pGa3EvRkZ3Y2FQeHVzOUhYdnNy?=
- =?utf-8?B?NWRWSFRFUGZLVUJmQUhuaGhNSnV2bEMzZy83UXUwMnJpbDdRcFZDN3JxVERB?=
- =?utf-8?B?RE4xODlRRUQ1ZUpaa0VySlp6SnVWRWhTbG1za0d3bEV5cjNDR0tvU01xcUkx?=
- =?utf-8?B?TkEzaGgzZE8vSExqVTJYaXpIZ3Jmdm9pMGNIVUpBR2hjcUh6bE93d0VNbVJz?=
- =?utf-8?B?Q2lCdTZQb3lsdEVvRVpGTTB6MDhhdXZmV0RJNXd6ZlNCMUM1djhCR1U2QTN3?=
- =?utf-8?B?eVV5amIwdnZOWmQySUVrL01aWHpadjIzZDBqbDRnV25JNlV2VEEvYVpUa0I2?=
- =?utf-8?B?R05KM2VxZzJ3M0d1T0JmK1JtUjF6MXZCbFRxRmRsK1M0emx2SWVFVVd6UHh3?=
- =?utf-8?B?bjR4ZUJpZzdzLyt3c01uTHhtS0lTTDE4WmY1enF4RzA3RzlMNkVuSUQrVWNV?=
- =?utf-8?B?QlpoZnVhOGZONUlxZGhDQ2NtL1I1V0NVTkllaDRlVXBmMklndGlyRzh4WW0y?=
- =?utf-8?B?aWFnQU9aUUduQ2VDOGdGMnBtb2pnVXB2WjNpQTUzb3lqaUk5Vk9NWGQxbUhp?=
- =?utf-8?B?OW0yQTVsUWwyd0pSQXNneFpiM2w4UlNieWJoVWRvNmV5ekFwdzl6aTdPaGQ1?=
- =?utf-8?B?L3BUQ25GZU0zbTR1WDFBWWNTSGZQZ0Z1TXA3ZEcrclJoSEQvZWNDeVhOcXBn?=
- =?utf-8?B?OVpFV1JNdWh0QUtpKzRMT3hLbzZHWEg4VGFRWkkvMnQwbUFncU1CUjV4YUF4?=
- =?utf-8?B?aW1OR1R4Zi9Fd0tJeUNJZWQrSU90NlQyOGNoUVlGYkJucldrVjJ6V2M5UjM1?=
- =?utf-8?B?MFlqeVhReWRpeENpMFhNdWN0Q2lzTmY1bGRrbllxdjlrMXdjckJHZmlEdDR2?=
- =?utf-8?B?dXNxQmxyaGl5QTc0dnIvTWVwMlJYOGdzWFA0MVRtVW5JUGUyU3RSS25YaUkx?=
- =?utf-8?B?VVhUQ2pZYWxud2gyMHA3cjB3VTNWNmN6aFFwMmR6WUt5UVV1WjBPQXNsWG8r?=
- =?utf-8?B?UkVGY1dPNGVFVFBPOWoyK0FqTW10WmJkRHJoelNUOUl1UldxQ0N6MGI3NUx3?=
- =?utf-8?B?UU5iTGdqRjdwS1kvQUEzVTg1U2V3dHIyV0EvS3NSb2JuTm82Mng5QlpzMWZ5?=
- =?utf-8?B?Y1Bka1JUR0ZUUStKRFcxRmtLQkluTk5iRzkzYTFxU0ErcThmUUoxQkJ6bExR?=
- =?utf-8?B?N1VpSndwbG9QcFJRQ29kaXhCY1NPY1oyUEdta2lOb2dsYmFUZjBlU2ROb2Vx?=
- =?utf-8?B?NzFZS1ZkRHFmZnFPM2trblBMVjk1bTJjMG1qNUk5dDBPOGUrK2JhcTZ5Rkps?=
- =?utf-8?B?cmdiL1p4MmY2UnhDcDNrNmlWVVBDaTZ3K1EvQmZwcys1a0h1bjI3WGlyeEdl?=
- =?utf-8?B?VXBVZDAyMmRFSTM1alZoeFAvdzgwamJybWV5b0tWdVNIb3c5OEV3NU1hOUhQ?=
- =?utf-8?B?T1pXM25sNXh1RjJIUzRQb0grdkc0c080ajZNUW4raTYvemhoOVlRc0dPS0Z4?=
- =?utf-8?B?clZjV1pzRXpQbGlLcXZzYjl6WHJ1TFRta1RrQnpxWWxlRlhCMWY0Rjl1VEJq?=
- =?utf-8?B?YlM4Z21Jb1VnLzNwb2RjNWNVVHBqWDYvK2lHWnlJVnZaOFNKN0Z4WUJYdlVa?=
- =?utf-8?B?dXByckdxcVExVHdPOWF6Uy9pZGdZT1ZhZTQxMlcxQU56YXFKYXAyS2k3V2Vp?=
- =?utf-8?B?c2pjSlg5bWl6VmlJcFJkUjBza3pza3oweXJmRUVpbjZERDdpOVg0ampETGZ0?=
- =?utf-8?B?bWptdS9iSGQrdkdQd1ZlZDhDS0JnSmlJREl2TzdCU0lDMlZZNkthZVdmTFdL?=
- =?utf-8?B?U3ZTbkJaYTZhWDFFL1hMQStoSlQwL2hHclBKdldQUThnOWVLZzU5NDVIbWM2?=
- =?utf-8?B?TTkyNjZ2VG1uK09mVFcrY3NRYUxPZi9NK2lXb3dmdnA1MDFpMTJiZ2RJZ2hZ?=
- =?utf-8?B?WHNMR2ZjUDlpS3JHVVROZ3JrTWM1MUE0d2ZnNWZvd1J1SmRkRjNhOHFLZ3hm?=
- =?utf-8?B?Q0cwZWRON01KSGVXZnVoVzZRLzJOMjNRb2RjeWtmMk5TRkN1ZzhnNnpseS9H?=
- =?utf-8?B?aUE9PQ==?=
-X-OriginatorOrg: allegrodvt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce328871-a119-4423-165b-08dd9d2af1d6
-X-MS-Exchange-CrossTenant-AuthSource: MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2025 14:29:53.0620
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6c7a5ec0-2d92-465a-a3e1-9e3f1e9fd917
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0VS4zkJW80I6kg3byEpF6wPYqibLkuMCLx5e6o3lUNWFHM6JD+QrxWt7krl4KFHiilLAaSrJeT2Vle1KXVrIz77uSleHN/8MAhgsWZSS6qE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR0P264MB1723
+References: <20250520152436.474778-1-jens.wiklander@linaro.org>
+ <20250520152436.474778-8-jens.wiklander@linaro.org> <aDQZN-frPnr1_N5I@sumit-X1>
+In-Reply-To: <aDQZN-frPnr1_N5I@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 27 May 2025 16:32:42 +0200
+X-Gm-Features: AX0GCFtCRIMnpa06u8yxs_HtV-u6PU01-LbWY3-lo5Z1TuKmqqUniPvzQcB1mdY
+Message-ID: <CAHUa44FHav67VAQK7o-S3Xhx-j_VypAX9Ya0dATty7RhdCbgJA@mail.gmail.com>
+Subject: Re: [PATCH v9 7/9] optee: support protected memory allocation
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+	Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27.05.2025 09:26, Nicolas Dufresne wrote:
-Hi Nicolas,
->Hi,
+On Mon, May 26, 2025 at 9:33=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> =
+wrote:
 >
->Le lundi 26 mai 2025 à 13:16 +0000, Yassine Ouaissa a écrit :
->> On 23.05.2025 15:01, Nicolas Dufresne wrote:
->> > Hi Yassine,
->> >
->> > Le vendredi 23 mai 2025 à 15:41 +0200, Yassine Ouaissa a écrit :
->> > > ---> NOTE <---- : PLEASE Ignore the old patches.
->> > >       These new patches will replace all previous submissions.
->> Hi Nicolas,
->> >
->> > Our tools will take care of that normally, but for that to work, you need
->> > to version your patch. My best advised is to use "b4" to prepare and
->> > submit, it will assist you in doing it right.
->> >
->> I started using this tool, Cool. Thanks.
->> > This should have been a v2 here. Make sure you next submission is set
->>
->> You have all your time, i really dont want reviews get confused ( with my
->> mistake ).
->> > to v3, but prior to that, give us time to review again.
->> >
->>
->> The next submission will be v2, considering this patch is a v1.
->>
->> The changelog will be set on the next version as well, to identify the
->> changes that i have made sins the first patchsets.
+> On Tue, May 20, 2025 at 05:16:50PM +0200, Jens Wiklander wrote:
+> > Add support in the OP-TEE backend driver for protected memory
+> > allocation. The support is limited to only the SMC ABI and for secure
+> > video buffers.
+> >
+> > OP-TEE is probed for the range of protected physical memory and a
+> > memory pool allocator is initialized if OP-TEE have support for such
+> > memory.
+> >
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >  drivers/tee/optee/core.c          | 10 +++++++
+> >  drivers/tee/optee/optee_private.h |  2 ++
+> >  drivers/tee/optee/smc_abi.c       | 45 +++++++++++++++++++++++++++++--
+> >  3 files changed, 55 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+> > index c75fddc83576..4b14a7ac56f9 100644
+> > --- a/drivers/tee/optee/core.c
+> > +++ b/drivers/tee/optee/core.c
+> > @@ -56,6 +56,15 @@ int optee_rpmb_intf_rdev(struct notifier_block *intf=
+, unsigned long action,
+> >       return 0;
+> >  }
+> >
+> > +int optee_set_dma_mask(struct optee *optee, u_int pa_width)
+> > +{
+> > +     u64 mask =3D DMA_BIT_MASK(min(64, pa_width));
+> > +
+> > +     optee->teedev->dev.dma_mask =3D &optee->teedev->dev.coherent_dma_=
+mask;
+> > +
+> > +     return dma_set_mask_and_coherent(&optee->teedev->dev, mask);
+> > +}
+> > +
+> >  static void optee_bus_scan(struct work_struct *work)
+> >  {
+> >       WARN_ON(optee_enumerate_devices(PTA_CMD_GET_DEVICES_SUPP));
+> > @@ -181,6 +190,7 @@ void optee_remove_common(struct optee *optee)
+> >       tee_device_unregister(optee->supp_teedev);
+> >       tee_device_unregister(optee->teedev);
+> >
+> > +     tee_device_unregister_all_dma_heaps(optee->teedev);
+> >       tee_shm_pool_free(optee->pool);
+> >       optee_supp_uninit(&optee->supp);
+> >       mutex_destroy(&optee->call_queue.mutex);
+> > diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/opte=
+e_private.h
+> > index dc0f355ef72a..5e3c34802121 100644
+> > --- a/drivers/tee/optee/optee_private.h
+> > +++ b/drivers/tee/optee/optee_private.h
+> > @@ -272,6 +272,8 @@ struct optee_call_ctx {
+> >
+> >  extern struct blocking_notifier_head optee_rpmb_intf_added;
+> >
+> > +int optee_set_dma_mask(struct optee *optee, u_int pa_width);
+> > +
+> >  int optee_notif_init(struct optee *optee, u_int max_key);
+> >  void optee_notif_uninit(struct optee *optee);
+> >  int optee_notif_wait(struct optee *optee, u_int key, u32 timeout);
+> > diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> > index f0c3ac1103bb..f3cae8243785 100644
+> > --- a/drivers/tee/optee/smc_abi.c
+> > +++ b/drivers/tee/optee/smc_abi.c
+> > @@ -1584,6 +1584,42 @@ static inline int optee_load_fw(struct platform_=
+device *pdev,
+> >  }
+> >  #endif
+> >
+> > +static int optee_protmem_pool_init(struct optee *optee)
+> > +{
+> > +     enum tee_dma_heap_id heap_id =3D TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
+> > +     struct tee_protmem_pool *pool;
+> > +     int rc;
+> > +
+> > +     if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM) {
+> > +             union {
+> > +                     struct arm_smccc_res smccc;
+> > +                     struct optee_smc_get_protmem_config_result result=
+;
+> > +             } res;
+> > +
+> > +             optee->smc.invoke_fn(OPTEE_SMC_GET_PROTMEM_CONFIG, 0, 0, =
+0, 0,
+> > +                                  0, 0, 0, &res.smccc);
+> > +             if (res.result.status !=3D OPTEE_SMC_RETURN_OK) {
+> > +                     pr_err("Secure Data Path service not available\n"=
+);
+> > +                     return 0;
+> > +             }
+> > +             rc =3D optee_set_dma_mask(optee, res.result.pa_width);
+> > +             if (!rc)
+> > +                     pool =3D tee_protmem_static_pool_alloc(res.result=
+.start,
+> > +                                                          res.result.s=
+ize);
+> > +             if (IS_ERR(pool))
+> > +                     return PTR_ERR(pool);
+> > +
+> > +             rc =3D tee_device_register_dma_heap(optee->teedev, heap_i=
+d, pool);
+> > +             if (rc)
+> > +                     goto err;
+> > +     }
+> > +
+> > +     return 0;
+> > +err:
+> > +     pool->ops->destroy_pool(pool);
+> > +     return rc;
+> > +}
+> > +
+> >  static int optee_probe(struct platform_device *pdev)
+> >  {
+> >       optee_invoke_fn *invoke_fn;
+> > @@ -1679,7 +1715,7 @@ static int optee_probe(struct platform_device *pd=
+ev)
+> >       optee =3D kzalloc(sizeof(*optee), GFP_KERNEL);
+> >       if (!optee) {
+> >               rc =3D -ENOMEM;
+> > -             goto err_free_pool;
+> > +             goto err_free_shm_pool;
+> >       }
+> >
+> >       optee->ops =3D &optee_ops;
+> > @@ -1752,6 +1788,10 @@ static int optee_probe(struct platform_device *p=
+dev)
+> >               pr_info("Asynchronous notifications enabled\n");
+> >       }
+> >
+> > +     rc =3D optee_protmem_pool_init(optee);
 >
->Thanks. One last hint, when you do a new version, over time some patches
->will become stable and will have people comment with possibly Tested-by:
->Reviewed-by: or Acked-by:, please make sure to edit your commit message
->and include these in the the patch. If you endup rewriting a patch that had
->some of these tags, please make sure to drop them and be clear in the cover
->that this patch needs renewed attention.
+> Here we should do a Kconfig check for CONFIG_DMABUF_HEAPS so that we
+> don't proceed any further with initialization.
 
-Thanks for the help.
-It clear, and make sense.
+Why? If OP-TEE is configured for protected memory but the kernel
+isn't, something isn't right, and a print could be useful.
+
+Cheers,
+Jens
 
 >
->I do review the comments against the code by the end of the process, but
->while iterating, we work forward trusting what is documented.
+> Rest looks good to me.
 >
->Nicolas
+> -Sumit
 >
-Best regards,
-Yassine OUAISSA
-
->> > Nicolas
->> >
->> Best regards,
->> Yassine OUAISSA
->>
->> > >
->> > > # V4L2 Video Decoder Driver System Description
->> > >
->> > > ** Hardware Architecture **
->> > >
->> > > The system implements a heterogeneous computing architecture with two primary components:
->> > >
->> > > - **Host Subsystem**: Linux-based CPU running the V4L2 framework and associated drivers
->> > > - **IP Subsystem**: Dedicated hardware containing an MCU and a hardware video CODEC
->> > >
->> > > The communication between the two subsystems uses a shared DDR shared memory with bidirectional interrupt
->> > > mechanism
->> > > for synchronization.
->> > >
->> > > The architecture is represented in the following diagram:
->> > >
->> > > ```
->> > > +---------------------+                  +----------------------+
->> > > >       Host          |                  |        IP            |
->> > > >                     |                  |                      |
->> > > >  +---------------+  |                  |  +----------------+  |
->> > > >  |               |  |   DDR Shared     |  |                |  |
->> > > >  | Linux Kernel  |<-|----------------->|->|     MCU        |  |
->> > > >  | (CPU)         |  |    Memory        |  |                |  |
->> > > >  |   +--------+  |  |                  |  +----------------+  |
->> > > >  |   |        |  |  |    IRQ when      |           ^          |
->> > > >  |   | V4L2   |  |<-|----new message-->|           |          |
->> > > >  |   | Drivers|  |  |                  |           |          |
->> > > >  |   |        |  |  |                  |           | APB      |
->> > > >  |   +--------+  |  |                  |           |          |
->> > > >  |               |  |                  |           v          |
->> > > >  +---------------+  |                  |  +----------------+  |
->> > > >                     |                  |  |                |  |
->> > > >                     |                  |  |     CODEC      |  |
->> > > >                     |                  |  |                |  |
->> > > >                     |                  |  |                |  |
->> > > +---------------------+                  +----------------------+
->> > > ```
->> > >
->> > > ** Communication Protocol **
->> > >
->> > > -- Current Implementation - Custom Mailbox --
->> > >
->> > > The host CPU and MCU currently communicate through a custom mailbox protocol implemented over shared memory. The
->> > > protocol operates as follows:
->> > >
->> > > 1. When the host has a new message for the MCU:
->> > >    - The host writes data to a dedicated shared memory region
->> > >    - The host triggers an interrupt to the MCU
->> > >    - The MCU reads the shared memory to obtain the message type and data
->> > >
->> > > 2. Similarly, when the MCU has a message for the host:
->> > >    - The MCU writes to the shared memory
->> > >    - The MCU triggers an interrupt to the host
->> > >    - The host reads the shared memory to process the message
->> > >
->> > > -- Migration to RPMSG --
->> > >
->> > > The custom mailbox implementation will be replaced by the standard Linux RPMSG framework.
->> > >
->> > > ** Driver Implementation **
->> > >
->> > > This driver implements a V4L2-compliant stateful video decoder with the following characteristics:
->> > >
->> > > -- Technical Specifications --
->> > >
->> > > - **Codec Support**: AVC (H.264), HEVC (H.265), and JPEG
->> > > - **Resolution Support**: Up to 4K
->> > > - **Pixel Formats**:
->> > >   - Currently supported: V4L2_PIX_FMT_NV12, V4L2_PIX_FMT_NV16, V4L2_PIX_FMT_P010
->> > >   - Additional formats planned for future releases
->> > > - **Buffer Configuration**: Currently supports semi-planar format only; multiplanar support forthcoming
->> > >
->> > > -- Initialization Sequence --
->> > >
->> > > During probe, the driver performs the following operations:
->> > >
->> > > 1. Allocates memory for the MCU firmware
->> > > 2. Loads the firmware into the allocated memory
->> > > 3. Initializes the MCU by configuring internal registers (e.g BOOT_ADDR)
->> > > 4. Establishes the shared memory communication interface (to be replaced by RPMSG)
->> > > 5. Sets up interrupt handlers for MCU communication
->> > >
->> > > -- Processing Model --
->> > >
->> > > The driver implements a stateful decoding model with the following workflow:
->> > >
->> > > -- Stream Initialization --
->> > >
->> > > 1. Upon `VIDIOC_STREAMON` on the OUTPUT queue:
->> > >    - The driver sends a context creation request to the MCU
->> > >    - This operation is blocking; the driver waits until the MCU responds with a context handler
->> > >    - The context handler is stored in a driver-maintained list for subsequent operations
->> > >    - Each context has its own unique handler to support multiple simultaneous streams
->> > >
->> > > 2. Initial stream analysis:
->> > >    - The driver submits the first compressed buffer (OUTPUT queue)
->> > >    - The MCU analyzes the stream and reports capability via:
->> > >      - `resolution_found_event`: Stream is supported, includes stream parameters
->> > >      - `error_event`: Stream format is unsupported or invalid
->> > >
->> > > -- Decoding Pipeline --
->> > >
->> > > 1. After successful stream initialization and receiving the resolution_found_evt:
->> > >    - The driver can begin normal decoding operations
->> > >    - V4L2 framework can be informed of format requirements
->> > >
->> > > 2. For each compressed buffer (OUTPUT queue):
->> > >    - The driver submits buffer to MCU with the appropriate context handler
->> > >    - The MCU processes the buffer and sends `release_bitstream_evt` when complete
->> > >    - This event signals that the input buffer can be returned to the application
->> > >
->> > > 3. For each decoded buffer (CAPTURE queue):
->> > >    - The MCU fills the buffer with decoded frame data
->> > >    - The MCU sends `frame_buffer_decode_evt` with important metadata including:
->> > >      - Original source buffer timestamp
->> > >      - Flags
->> > >      - Timecode
->> > >      - Actual payload size (bytes used in the decoded frame)
->> > >    - This enables the driver to properly queue the filled buffer to the application
->> > >
->> > > 4. End-of-stream handling:
->> > >    - The MCU sends an event with `eos_evt` when reaching the end of stream
->> > >    - This allows proper handling of end-of-stream conditions
->> > >
->> > > -- Multi-stream Support --
->> > >
->> > > The driver architecture supports multiple simultaneous decoding contexts with the following characteristics:
->> > >
->> > > 1. Each context maintains separate state information
->> > > 2. The driver manages multiple context handlers returned by the MCU
->> > > 3. Buffer submissions include the appropriate context handler for routing
->> > > 4. The system can decode multiple independent streams concurrently
->> > >
->> > > -- Stream Termination --
->> > >
->> > > When `VIDIOC_STREAMOFF` is called:
->> > >
->> > > 1. The driver sends a flush command to the MCU for the specific context
->> > > 2. The driver issues a non-blocking destroy context message
->> > > 3. All associated resources are released
->> > > 4. The context handler is removed from the driver's context list
->> > >
->> > > ** Error Handling **
->> > >
->> > > The driver implements comprehensive error handling including:
->> > >
->> > > 1. Firmware loading failures
->> > > 2. MCU initialization errors
->> > > 3. Context creation failures
->> > > 4. Unsupported stream formats
->> > > 5. Decoding errors reported by the MCU
->> > > 6. Timeout handling for unresponsive hardware
->> > >
->> > > ** Memory Management **
->> > >
->> > > The system uses the following memory management strategy:
->> > >
->> > > 1. Firmware memory is allocated during probe
->> > > 2. Buffer memory is managed through the V4L2 buffer management interfaces
->> > > 3. DMA-capable memory is used for buffer transfers between host and MCU
->> > > 4. The driver properly synchronizes memory access to avoid coherency issues
->> > >
->> > > ** Future Enhancements **
->> > >
->> > > Planned future enhancements include:
->> > >
->> > > 1. Migration from custom mailbox to RPMSG (in progress)
->> > > 2. Support for additional pixel formats
->> > > 3. Implementation of multiplanar buffer support
->> > >
->> > > This comprehensive architecture enables efficient hardware-accelerated video decoding while adhering to standard
->> > > V4L2
->> > > interfaces, making it suitable for upstream inclusion in the Linux kernel.
->> > >
->> > > ** Decoder Compliance Testing **
->> > >
->> > > -- AVC and HEVC Fluster Report --
->> > >
->> > > This section contains the compliance test results from Fluster framework for both AVC and HEVC decoders.
->> > > The reports validate the decoder's conformance to relevant standards and demonstrate compatibility with a wide
->> > > range
->> > > of video streams.
->> > >
->> > > [FLUSTER REPORT FOR THE H.264]
->> > >  -- JVT-AVC_V1
->> > >
->> > > > Test                     | FFmpeg-H.264-v4l2m2m |
->> > > > ------------------------ | -------------------- |
->> > > > TOTAL                    | 79/135               |
->> > > > TOTAL TIME               | 437.031s             |
->> > > > -                        | -                    |
->> > > > AUD_MW_E                 | OK                   |
->> > > > BA1_FT_C                 | OK                   |
->> > > > BA1_Sony_D               | OK                   |
->> > > > BA2_Sony_F               | OK                   |
->> > > > BA3_SVA_C                | OK                   |
->> > > > BA_MW_D                  | OK                   |
->> > > > BAMQ1_JVC_C              | OK                   |
->> > > > BAMQ2_JVC_C              | OK                   |
->> > > > BANM_MW_D                | OK                   |
->> > > > BASQP1_Sony_C            | OK                   |
->> > > > CABA1_Sony_D             | OK                   |
->> > > > CABA1_SVA_B              | OK                   |
->> > > > CABA2_Sony_E             | OK                   |
->> > > > CABA2_SVA_B              | OK                   |
->> > > > CABA3_Sony_C             | OK                   |
->> > > > CABA3_SVA_B              | OK                   |
->> > > > CABA3_TOSHIBA_E          | OK                   |
->> > > > cabac_mot_fld0_full      | ER                   |
->> > > > cabac_mot_frm0_full      | OK                   |
->> > > > cabac_mot_mbaff0_full    | ER                   |
->> > > > cabac_mot_picaff0_full   | KO                   |
->> > > > CABACI3_Sony_B           | OK                   |
->> > > > CABAST3_Sony_E           | OK                   |
->> > > > CABASTBR3_Sony_B         | OK                   |
->> > > > CABREF3_Sand_D           | ER                   |
->> > > > CACQP3_Sony_D            | OK                   |
->> > > > CAFI1_SVA_C              | ER                   |
->> > > > CAMA1_Sony_C             | ER                   |
->> > > > CAMA1_TOSHIBA_B          | ER                   |
->> > > > cama1_vtc_c              | ER                   |
->> > > > cama2_vtc_b              | ER                   |
->> > > > CAMA3_Sand_E             | ER                   |
->> > > > cama3_vtc_b              | ER                   |
->> > > > CAMACI3_Sony_C           | ER                   |
->> > > > CAMANL1_TOSHIBA_B        | ER                   |
->> > > > CAMANL2_TOSHIBA_B        | ER                   |
->> > > > CAMANL3_Sand_E           | ER                   |
->> > > > CAMASL3_Sony_B           | ER                   |
->> > > > CAMP_MOT_MBAFF_L30       | ER                   |
->> > > > CAMP_MOT_MBAFF_L31       | ER                   |
->> > > > CANL1_Sony_E             | OK                   |
->> > > > CANL1_SVA_B              | OK                   |
->> > > > CANL1_TOSHIBA_G          | OK                   |
->> > > > CANL2_Sony_E             | OK                   |
->> > > > CANL2_SVA_B              | OK                   |
->> > > > CANL3_Sony_C             | OK                   |
->> > > > CANL3_SVA_B              | OK                   |
->> > > > CANL4_SVA_B              | OK                   |
->> > > > CANLMA2_Sony_C           | ER                   |
->> > > > CANLMA3_Sony_C           | ER                   |
->> > > > CAPA1_TOSHIBA_B          | ER                   |
->> > > > CAPAMA3_Sand_F           | ER                   |
->> > > > CAPCM1_Sand_E            | OK                   |
->> > > > CAPCMNL1_Sand_E          | OK                   |
->> > > > CAPM3_Sony_D             | OK                   |
->> > > > CAQP1_Sony_B             | OK                   |
->> > > > cavlc_mot_fld0_full_B    | ER                   |
->> > > > cavlc_mot_frm0_full_B    | OK                   |
->> > > > cavlc_mot_mbaff0_full_B  | ER                   |
->> > > > cavlc_mot_picaff0_full_B | KO                   |
->> > > > CAWP1_TOSHIBA_E          | OK                   |
->> > > > CAWP5_TOSHIBA_E          | OK                   |
->> > > > CI1_FT_B                 | OK                   |
->> > > > CI_MW_D                  | OK                   |
->> > > > CVBS3_Sony_C             | OK                   |
->> > > > CVCANLMA2_Sony_C         | ER                   |
->> > > > CVFC1_Sony_C             | OK                   |
->> > > > CVFI1_Sony_D             | ER                   |
->> > > > CVFI1_SVA_C              | ER                   |
->> > > > CVFI2_Sony_H             | ER                   |
->> > > > CVFI2_SVA_C              | ER                   |
->> > > > CVMA1_Sony_D             | ER                   |
->> > > > CVMA1_TOSHIBA_B          | ER                   |
->> > > > CVMANL1_TOSHIBA_B        | ER                   |
->> > > > CVMANL2_TOSHIBA_B        | ER                   |
->> > > > CVMAPAQP3_Sony_E         | ER                   |
->> > > > CVMAQP2_Sony_G           | ER                   |
->> > > > CVMAQP3_Sony_D           | ER                   |
->> > > > CVMP_MOT_FLD_L30_B       | ER                   |
->> > > > CVMP_MOT_FRM_L31_B       | ER                   |
->> > > > CVNLFI1_Sony_C           | ER                   |
->> > > > CVNLFI2_Sony_H           | ER                   |
->> > > > CVPA1_TOSHIBA_B          | ER                   |
->> > > > CVPCMNL1_SVA_C           | OK                   |
->> > > > CVPCMNL2_SVA_C           | OK                   |
->> > > > CVSE2_Sony_B             | OK                   |
->> > > > CVSE3_Sony_H             | OK                   |
->> > > > CVSEFDFT3_Sony_E         | OK                   |
->> > > > CVWP1_TOSHIBA_E          | OK                   |
->> > > > CVWP2_TOSHIBA_E          | OK                   |
->> > > > CVWP3_TOSHIBA_E          | OK                   |
->> > > > CVWP5_TOSHIBA_E          | OK                   |
->> > > > FI1_Sony_E               | ER                   |
->> > > > FM1_BT_B                 | ER                   |
->> > > > FM1_FT_E                 | KO                   |
->> > > > FM2_SVA_C                | ER                   |
->> > > > HCBP1_HHI_A              | OK                   |
->> > > > HCBP2_HHI_A              | OK                   |
->> > > > HCMP1_HHI_A              | OK                   |
->> > > > LS_SVA_D                 | OK                   |
->> > > > MIDR_MW_D                | OK                   |
->> > > > MPS_MW_A                 | OK                   |
->> > > > MR1_BT_A                 | OK                   |
->> > > > MR1_MW_A                 | OK                   |
->> > > > MR2_MW_A                 | OK                   |
->> > > > MR2_TANDBERG_E           | OK                   |
->> > > > MR3_TANDBERG_B           | OK                   |
->> > > > MR4_TANDBERG_C           | OK                   |
->> > > > MR5_TANDBERG_C           | OK                   |
->> > > > MR6_BT_B                 | ER                   |
->> > > > MR7_BT_B                 | OK                   |
->> > > > MR8_BT_B                 | ER                   |
->> > > > MR9_BT_B                 | ER                   |
->> > > > MV1_BRCM_D               | OK                   |
->> > > > NL1_Sony_D               | OK                   |
->> > > > NL2_Sony_H               | OK                   |
->> > > > NL3_SVA_E                | OK                   |
->> > > > NLMQ1_JVC_C              | OK                   |
->> > > > NLMQ2_JVC_C              | OK                   |
->> > > > NRF_MW_E                 | OK                   |
->> > > > Sharp_MP_Field_1_B       | ER                   |
->> > > > Sharp_MP_Field_2_B       | ER                   |
->> > > > Sharp_MP_Field_3_B       | ER                   |
->> > > > Sharp_MP_PAFF_1r2        | ER                   |
->> > > > Sharp_MP_PAFF_2r         | ER                   |
->> > > > SL1_SVA_B                | OK                   |
->> > > > SP1_BT_A                 | ER                   |
->> > > > sp2_bt_b                 | ER                   |
->> > > > SVA_BA1_B                | OK                   |
->> > > > SVA_BA2_D                | OK                   |
->> > > > SVA_Base_B               | OK                   |
->> > > > SVA_CL1_E                | OK                   |
->> > > > SVA_FM1_E                | OK                   |
->> > > > SVA_NL1_B                | OK                   |
->> > > > SVA_NL2_E                | OK                   |
->> > > > -                        | -                    |
->> > > > Test                     | FFmpeg-H.264-v4l2m2m |
->> > > > TOTAL                    | 79/135               |
->> > > > TOTAL TIME               | 439.031s             |
->> > >
->> > > NOTE: The ER (ERROR) streams are not supported by the decoder.
->> > >       The driver print error message "Unsupported stream"
->> > >
->> > > - JVT-FR-EXT
->> > >
->> > > > Test                | FFmpeg-H.264-v4l2m2m |
->> > > > ------------------- | -------------------- |
->> > > > TOTAL               | 23/69                |
->> > > > TOTAL TIME          | 182.362s             |
->> > > > -                   | -                    |
->> > > > alphaconformanceG   | OK                   |
->> > > > brcm_freh10         | ER                   |
->> > > > brcm_freh11         | ER                   |
->> > > > brcm_freh3          | OK                   |
->> > > > brcm_freh4          | ER                   |
->> > > > brcm_freh5          | ER                   |
->> > > > brcm_freh6          | ER                   |
->> > > > brcm_freh8          | OK                   |
->> > > > brcm_freh9          | OK                   |
->> > > > FREH10-1            | ER                   |
->> > > > FREH10-2            | ER                   |
->> > > > freh12_b            | OK                   |
->> > > > freh1_b             | OK                   |
->> > > > freh2_b             | OK                   |
->> > > > freh7_b             | ER                   |
->> > > > FREXT01_JVC_D       | ER                   |
->> > > > FREXT02_JVC_C       | ER                   |
->> > > > FRExt1_Panasonic_D  | OK                   |
->> > > > FREXT1_TANDBERG_A   | ER                   |
->> > > > FRExt2_Panasonic_C  | ER                   |
->> > > > FREXT2_TANDBERG_A   | ER                   |
->> > > > FRExt3_Panasonic_E  | OK                   |
->> > > > FREXT3_TANDBERG_A   | ER                   |
->> > > > FRExt4_Panasonic_B  | ER                   |
->> > > > FRExt_MMCO4_Sony_B  | OK                   |
->> > > > HCAFF1_HHI_B        | ER                   |
->> > > > HCAFR1_HHI_C        | OK                   |
->> > > > HCAFR2_HHI_A        | OK                   |
->> > > > HCAFR3_HHI_A        | OK                   |
->> > > > HCAFR4_HHI_A        | OK                   |
->> > > > HCAMFF1_HHI_B       | ER                   |
->> > > > HCHP1_HHI_B         | OK                   |
->> > > > HCHP2_HHI_A         | OK                   |
->> > > > HCHP3_HHI_A         | ER                   |
->> > > > Hi422FR10_SONY_A    | ER                   |
->> > > > Hi422FR11_SONY_A    | ER                   |
->> > > > Hi422FR12_SONY_A    | ER                   |
->> > > > Hi422FR13_SONY_A    | ER                   |
->> > > > Hi422FR14_SONY_A    | ER                   |
->> > > > Hi422FR15_SONY_A    | ER                   |
->> > > > Hi422FR1_SONY_A     | ER                   |
->> > > > Hi422FR2_SONY_A     | ER                   |
->> > > > Hi422FR3_SONY_A     | ER                   |
->> > > > Hi422FR4_SONY_A     | ER                   |
->> > > > Hi422FR6_SONY_A     | ER                   |
->> > > > Hi422FR7_SONY_A     | ER                   |
->> > > > Hi422FR8_SONY_A     | ER                   |
->> > > > Hi422FR9_SONY_A     | ER                   |
->> > > > Hi422FREXT16_SONY_A | ER                   |
->> > > > Hi422FREXT17_SONY_A | ER                   |
->> > > > Hi422FREXT18_SONY_A | ER                   |
->> > > > Hi422FREXT19_SONY_A | ER                   |
->> > > > HPCA_BRCM_C         | OK                   |
->> > > > HPCADQ_BRCM_B       | OK                   |
->> > > > HPCAFL_BRCM_C       | ER                   |
->> > > > HPCAFLNL_BRCM_C     | ER                   |
->> > > > HPCALQ_BRCM_B       | OK                   |
->> > > > HPCAMAPALQ_BRCM_B   | ER                   |
->> > > > HPCAMOLQ_BRCM_B     | ER                   |
->> > > > HPCANL_BRCM_C       | OK                   |
->> > > > HPCAQ2LQ_BRCM_B     | OK                   |
->> > > > HPCV_BRCM_A         | OK                   |
->> > > > HPCVFL_BRCM_A       | ER                   |
->> > > > HPCVFLNL_BRCM_A     | ER                   |
->> > > > HPCVMOLQ_BRCM_B     | ER                   |
->> > > > HPCVNL_BRCM_A       | OK                   |
->> > > > HVLCFI0_Sony_B      | ER                   |
->> > > > HVLCMFF0_Sony_B     | ER                   |
->> > > > HVLCPFF0_Sony_B     | ER                   |
->> > > > -                   | -                    |
->> > > > Test                | FFmpeg-H.264-v4l2m2m |
->> > > > TOTAL               | 23/69                |
->> > > > TOTAL TIME          | 182.362s             |
->> > >
->> > > NOTE: The ER (ERROR) streams are not supported by the decoder.
->> > >       The driver print error message "Unsupported stream"
->> > >
->> > > - JVT-MVC
->> > >
->> > > > Test       | FFmpeg-H.264-v4l2m2m |
->> > > > ---------- | -------------------- |
->> > > > TOTAL      | 18/20                |
->> > > > TOTAL TIME | 147.076s             |
->> > > > -          | -                    |
->> > > > MVCDS-4    | OK                   |
->> > > > MVCDS-5    | OK                   |
->> > > > MVCDS-6    | OK                   |
->> > > > MVCDS1     | OK                   |
->> > > > MVCDS2     | OK                   |
->> > > > MVCDS3     | OK                   |
->> > > > MVCICT-1   | ER                   |
->> > > > MVCICT-2   | ER                   |
->> > > > MVCNV-2    | OK                   |
->> > > > MVCNV-3    | OK                   |
->> > > > MVCNV1     | OK                   |
->> > > > MVCNV4     | OK                   |
->> > > > MVCRP_1    | OK                   |
->> > > > MVCRP_2    | OK                   |
->> > > > MVCRP_3    | OK                   |
->> > > > MVCRP_4    | OK                   |
->> > > > MVCRP_5    | OK                   |
->> > > > MVCRP_6    | OK                   |
->> > > > MVCSPS-1   | OK                   |
->> > > > MVCSPS-2   | OK                   |
->> > > > -          | -                    |
->> > > > Test       | FFmpeg-H.264-v4l2m2m |
->> > > > TOTAL      | 18/20                |
->> > > > TOTAL TIME | 147.076s             |
->> > >
->> > > - JVT-SVC
->> > >
->> > >
->> > > > Test            | FFmpeg-H.264-v4l2m2m |
->> > > > --------------- | -------------------- |
->> > > > TOTAL           | 75/185               |
->> > > > TOTAL TIME      | 727.240s             |
->> > > > -               | -                    |
->> > > > SVCBC-1-L0      | OK                   |
->> > > > SVCBC-1-L1      | KO                   |
->> > > > SVCBCT-1-L0     | OK                   |
->> > > > SVCBCT-1-L1     | KO                   |
->> > > > SVCBCTS-1-r1-L0 | OK                   |
->> > > > SVCBCTS-1-r1-L1 | KO                   |
->> > > > SVCBCTS-1-r1-L2 | KO                   |
->> > > > SVCBCTS-2-r1-L0 | OK                   |
->> > > > SVCBCTS-2-r1-L1 | KO                   |
->> > > > SVCBCTS-2-r1-L2 | KO                   |
->> > > > SVCBCTS-3-L0    | OK                   |
->> > > > SVCBCTS-3-L1    | KO                   |
->> > > > SVCBCTS-3-L2    | KO                   |
->> > > > SVCBM-1-L0      | OK                   |
->> > > > SVCBM-1-L1      | KO                   |
->> > > > SVCBM-2-L0      | OK                   |
->> > > > SVCBM-2-L1      | KO                   |
->> > > > SVCBM-3-L0      | OK                   |
->> > > > SVCBM-3-L1      | KO                   |
->> > > > SVCBM-4-r1-L0   | OK                   |
->> > > > SVCBM-4-r1-L1   | KO                   |
->> > > > SVCBM-4-r1-L2   | KO                   |
->> > > > SVCBM-5-L0      | OK                   |
->> > > > SVCBM-5-L1      | KO                   |
->> > > > SVCBM-5-L2      | KO                   |
->> > > > SVCBM-5-L3      | KO                   |
->> > > > SVCBMST-1-L0    | OK                   |
->> > > > SVCBMST-1-L1    | KO                   |
->> > > > SVCBMST-1-L2    | KO                   |
->> > > > SVCBMST-2-L0    | OK                   |
->> > > > SVCBMST-2-L1    | KO                   |
->> > > > SVCBMST-2-L2    | KO                   |
->> > > > SVCBMST-3-L0    | OK                   |
->> > > > SVCBMST-3-L1    | KO                   |
->> > > > SVCBMST-3-L2    | KO                   |
->> > > > SVCBMT-1-L0     | OK                   |
->> > > > SVCBMT-1-L1     | KO                   |
->> > > > SVCBMT-10-L0    | OK                   |
->> > > > SVCBMT-10-L1    | KO                   |
->> > > > SVCBMT-11-L0    | OK                   |
->> > > > SVCBMT-11-L1    | KO                   |
->> > > > SVCBMT-12-L0    | OK                   |
->> > > > SVCBMT-12-L1    | KO                   |
->> > > > SVCBMT-13-L0    | OK                   |
->> > > > SVCBMT-13-L1    | KO                   |
->> > > > SVCBMT-13-L2    | KO                   |
->> > > > SVCBMT-2-L0     | OK                   |
->> > > > SVCBMT-2-L1     | KO                   |
->> > > > SVCBMT-3-L0     | OK                   |
->> > > > SVCBMT-3-L1     | KO                   |
->> > > > SVCBMT-4-L0     | OK                   |
->> > > > SVCBMT-4-L1     | KO                   |
->> > > > SVCBMT-5-L0     | OK                   |
->> > > > SVCBMT-5-L1     | KO                   |
->> > > > SVCBMT-6-L0     | OK                   |
->> > > > SVCBMT-6-L1     | KO                   |
->> > > > SVCBMT-7-L0     | OK                   |
->> > > > SVCBMT-7-L1     | KO                   |
->> > > > SVCBMT-8-L0     | OK                   |
->> > > > SVCBMT-8-L1     | KO                   |
->> > > > SVCBMT-9-L0     | OK                   |
->> > > > SVCBMT-9-L1     | KO                   |
->> > > > SVCBS-1-L0      | OK                   |
->> > > > SVCBS-1-L1      | KO                   |
->> > > > SVCBS-2-L0      | OK                   |
->> > > > SVCBS-2-L1      | KO                   |
->> > > > SVCBS-3-r1-L0   | OK                   |
->> > > > SVCBS-3-r1-L1   | KO                   |
->> > > > SVCBS-4-r1-L0   | OK                   |
->> > > > SVCBS-4-r1-L1   | KO                   |
->> > > > SVCBS-5-r1-L0   | OK                   |
->> > > > SVCBS-5-r1-L1   | KO                   |
->> > > > SVCBS-6-r1-L0   | OK                   |
->> > > > SVCBS-6-r1-L1   | KO                   |
->> > > > SVCBS-6-r1-L2   | KO                   |
->> > > > SVCBS-7-L0      | OK                   |
->> > > > SVCBS-7-L1      | KO                   |
->> > > > SVCBS-8-L0      | OK                   |
->> > > > SVCBS-8-L1      | KO                   |
->> > > > SVCBST-1-L0     | OK                   |
->> > > > SVCBST-1-L1     | KO                   |
->> > > > SVCBST-10-r1-L0 | OK                   |
->> > > > SVCBST-10-r1-L1 | KO                   |
->> > > > SVCBST-11-r1-L0 | OK                   |
->> > > > SVCBST-11-r1-L1 | KO                   |
->> > > > SVCBST-12-r1-L0 | OK                   |
->> > > > SVCBST-12-r1-L1 | KO                   |
->> > > > SVCBST-13-L0    | OK                   |
->> > > > SVCBST-13-L1    | KO                   |
->> > > > SVCBST-14-L0    | OK                   |
->> > > > SVCBST-14-L1    | KO                   |
->> > > > SVCBST-14-L2    | KO                   |
->> > > > SVCBST-15-L0    | OK                   |
->> > > > SVCBST-15-L1    | KO                   |
->> > > > SVCBST-15-L2    | KO                   |
->> > > > SVCBST-16-r1-L0 | OK                   |
->> > > > SVCBST-16-r1-L1 | KO                   |
->> > > > SVCBST-16-r1-L2 | KO                   |
->> > > > SVCBST-17-r1-L0 | OK                   |
->> > > > SVCBST-17-r1-L1 | KO                   |
->> > > > SVCBST-17-r1-L2 | KO                   |
->> > > > SVCBST-18-r1-L0 | OK                   |
->> > > > SVCBST-18-r1-L1 | KO                   |
->> > > > SVCBST-18-r1-L2 | KO                   |
->> > > > SVCBST-19-L0    | OK                   |
->> > > > SVCBST-19-L1    | KO                   |
->> > > > SVCBST-2-L0     | OK                   |
->> > > > SVCBST-2-L1     | KO                   |
->> > > > SVCBST-20-L0    | OK                   |
->> > > > SVCBST-20-L1    | KO                   |
->> > > > SVCBST-3-L0     | OK                   |
->> > > > SVCBST-3-L1     | KO                   |
->> > > > SVCBST-4-L0     | OK                   |
->> > > > SVCBST-4-L1     | KO                   |
->> > > > SVCBST-5-L0     | OK                   |
->> > > > SVCBST-5-L1     | KO                   |
->> > > > SVCBST-6-r1-L0  | OK                   |
->> > > > SVCBST-6-r1-L1  | KO                   |
->> > > > SVCBST-7-r1-L0  | OK                   |
->> > > > SVCBST-7-r1-L1  | KO                   |
->> > > > SVCBST-8-r1-L0  | OK                   |
->> > > > SVCBST-8-r1-L1  | KO                   |
->> > > > SVCBST-9-r1-L0  | OK                   |
->> > > > SVCBST-9-r1-L1  | KO                   |
->> > > > SVCBSTC-1-L0    | OK                   |
->> > > > SVCBSTC-1-L1    | KO                   |
->> > > > SVCBSTC-1-L2    | KO                   |
->> > > > SVCHCTS-1-r1-L0 | OK                   |
->> > > > SVCHCTS-1-r1-L1 | KO                   |
->> > > > SVCHCTS-1-r1-L2 | KO                   |
->> > > > SVCHCTS-1-r1-L3 | KO                   |
->> > > > SVCHCTS-1-r1-L4 | KO                   |
->> > > > SVCHCTS-1-r1-L5 | KO                   |
->> > > > SVCHCTS-1-r1-L6 | KO                   |
->> > > > SVCHCTS-1-r1-L7 | KO                   |
->> > > > SVCHICS-1-L0    | OK                   |
->> > > > SVCHICS-1-L1    | KO                   |
->> > > > SVCHICS-1-L2    | KO                   |
->> > > > SVCHICS-1-L3    | KO                   |
->> > > > SVCHIS-1-L0     | OK                   |
->> > > > SVCHIS-1-L1     | KO                   |
->> > > > SVCHIS-1-L2     | KO                   |
->> > > > SVCHIS-2-L0     | OK                   |
->> > > > SVCHIS-2-L1     | KO                   |
->> > > > SVCHIS-2-L2     | KO                   |
->> > > > SVCHIS-3-L0     | OK                   |
->> > > > SVCHIS-3-L1     | KO                   |
->> > > > SVCHIS-3-L2     | KO                   |
->> > > > SVCHM-1-L0      | OK                   |
->> > > > SVCHM-1-L1      | KO                   |
->> > > > SVCHM-1-L2      | KO                   |
->> > > > SVCHM-1-L3      | KO                   |
->> > > > SVCHM-2-L0      | OK                   |
->> > > > SVCHM-2-L1      | OK                   |
->> > > > SVCHM-3-L0      | OK                   |
->> > > > SVCHM-3-L1      | OK                   |
->> > > > SVCHM-4-L0      | OK                   |
->> > > > SVCHM-4-L1      | OK                   |
->> > > > SVCHM-4-L2      | OK                   |
->> > > > SVCHMTS-1-r1-L0 | OK                   |
->> > > > SVCHMTS-1-r1-L1 | KO                   |
->> > > > SVCHMTS-1-r1-L2 | KO                   |
->> > > > SVCHMTS-1-r1-L3 | KO                   |
->> > > > SVCHMTS-1-r1-L4 | KO                   |
->> > > > SVCHMTS-1-r1-L5 | KO                   |
->> > > > SVCHMTS-2-r1-L0 | OK                   |
->> > > > SVCHMTS-2-r1-L1 | KO                   |
->> > > > SVCHMTS-2-r1-L2 | KO                   |
->> > > > SVCHS-1-r1-L0   | OK                   |
->> > > > SVCHS-1-r1-L1   | KO                   |
->> > > > SVCHS-2-r1-L0   | OK                   |
->> > > > SVCHS-2-r1-L1   | KO                   |
->> > > > SVCHST-1-r1-L0  | OK                   |
->> > > > SVCHST-1-r1-L1  | KO                   |
->> > > > SVCHST-1-r1-L2  | KO                   |
->> > > > SVCHST-2-r1-L0  | OK                   |
->> > > > SVCHST-2-r1-L1  | KO                   |
->> > > > SVCHST-2-r1-L2  | KO                   |
->> > > > SVCHST-3-r1-L0  | ER                   |
->> > > > SVCHST-3-r1-L1  | ER                   |
->> > > > SVCHST-4-r1-L0  | ER                   |
->> > > > SVCHST-4-r1-L1  | ER                   |
->> > > > SVCHSTC-1-r1-L0 | OK                   |
->> > > > SVCHSTC-1-r1-L1 | KO                   |
->> > > > SVCHSTC-1-r1-L2 | KO                   |
->> > > > -               | -                    |
->> > > > Test            | FFmpeg-H.264-v4l2m2m |
->> > > > TOTAL           | 75/185               |
->> > > > TOTAL TIME      | 727.240s             |
->> > >
->> > > NOTE: The current implementation of the decoder only supports Layer 0 (base layer) processing.
->> > > When attempting to decode streams that contain multiple layers (such as scalable or multi-view content), the
->> > > decoding
->> > > operation fails.
->> > > This limitation means that enhanced features requiring layer-based processing beyond the base layer cannot be
->> > > properly
->> > > handled by the current decoder.
->> > > For successful decoding, input streams must be limited to single-layer content only.
->> > >
->> > > [FLUSTER REPORT FOR THE H.265]
->> > >
->> > > > -                               | -                    |
->> > > > AMP_A_Samsung_7                 | OK                   |
->> > > > AMP_B_Samsung_7                 | OK                   |
->> > > > AMP_D_Hisilicon_3               | OK                   |
->> > > > AMP_E_Hisilicon_3               | OK                   |
->> > > > AMP_F_Hisilicon_3               | ER                   |
->> > > > AMVP_A_MTK_4                    | ER                   |
->> > > > AMVP_B_MTK_4                    | OK                   |
->> > > > AMVP_C_Samsung_7                | ER                   |
->> > > > BUMPING_A_ericsson_1            | OK                   |
->> > > > CAINIT_A_SHARP_4                | OK                   |
->> > > > CAINIT_B_SHARP_4                | OK                   |
->> > > > CAINIT_C_SHARP_3                | OK                   |
->> > > > CAINIT_D_SHARP_3                | OK                   |
->> > > > CAINIT_E_SHARP_3                | OK                   |
->> > > > CAINIT_F_SHARP_3                | OK                   |
->> > > > CAINIT_G_SHARP_3                | OK                   |
->> > > > CAINIT_H_SHARP_3                | OK                   |
->> > > > CIP_A_Panasonic_3               | OK                   |
->> > > > cip_B_NEC_3                     | OK                   |
->> > > > CIP_C_Panasonic_2               | OK                   |
->> > > > CONFWIN_A_Sony_1                | OK                   |
->> > > > DBLK_A_MAIN10_VIXS_4            | ER                   |
->> > > > DBLK_A_SONY_3                   | OK                   |
->> > > > DBLK_B_SONY_3                   | OK                   |
->> > > > DBLK_C_SONY_3                   | OK                   |
->> > > > DBLK_D_VIXS_2                   | OK                   |
->> > > > DBLK_E_VIXS_2                   | OK                   |
->> > > > DBLK_F_VIXS_2                   | OK                   |
->> > > > DBLK_G_VIXS_2                   | OK                   |
->> > > > DELTAQP_A_BRCM_4                | OK                   |
->> > > > DELTAQP_B_SONY_3                | OK                   |
->> > > > DELTAQP_C_SONY_3                | OK                   |
->> > > > DSLICE_A_HHI_5                  | OK                   |
->> > > > DSLICE_B_HHI_5                  | OK                   |
->> > > > DSLICE_C_HHI_5                  | OK                   |
->> > > > ENTP_A_QUALCOMM_1               | OK                   |
->> > > > ENTP_B_Qualcomm_1               | OK                   |
->> > > > ENTP_C_Qualcomm_1               | OK                   |
->> > > > EXT_A_ericsson_4                | OK                   |
->> > > > FILLER_A_Sony_1                 | OK                   |
->> > > > HRD_A_Fujitsu_3                 | OK                   |
->> > > > INITQP_A_Sony_1                 | OK                   |
->> > > > INITQP_B_Main10_Sony_1          | ER                   |
->> > > > ipcm_A_NEC_3                    | OK                   |
->> > > > ipcm_B_NEC_3                    | OK                   |
->> > > > ipcm_C_NEC_3                    | OK                   |
->> > > > ipcm_D_NEC_3                    | OK                   |
->> > > > ipcm_E_NEC_2                    | OK                   |
->> > > > IPRED_A_docomo_2                | OK                   |
->> > > > IPRED_B_Nokia_3                 | OK                   |
->> > > > IPRED_C_Mitsubishi_3            | OK                   |
->> > > > LS_A_Orange_2                   | OK                   |
->> > > > LS_B_Orange_4                   | OK                   |
->> > > > LTRPSPS_A_Qualcomm_1            | KO                   |
->> > > > MAXBINS_A_TI_5                  | OK                   |
->> > > > MAXBINS_B_TI_5                  | OK                   |
->> > > > MAXBINS_C_TI_5                  | OK                   |
->> > > > MERGE_A_TI_3                    | OK                   |
->> > > > MERGE_B_TI_3                    | OK                   |
->> > > > MERGE_C_TI_3                    | OK                   |
->> > > > MERGE_D_TI_3                    | OK                   |
->> > > > MERGE_E_TI_3                    | OK                   |
->> > > > MERGE_F_MTK_4                   | OK                   |
->> > > > MERGE_G_HHI_4                   | OK                   |
->> > > > MVCLIP_A_qualcomm_3             | OK                   |
->> > > > MVDL1ZERO_A_docomo_4            | OK                   |
->> > > > MVEDGE_A_qualcomm_3             | OK                   |
->> > > > NoOutPrior_A_Qualcomm_1         | OK                   |
->> > > > NoOutPrior_B_Qualcomm_1         | OK                   |
->> > > > NUT_A_ericsson_5                | OK                   |
->> > > > OPFLAG_A_Qualcomm_1             | OK                   |
->> > > > OPFLAG_B_Qualcomm_1             | OK                   |
->> > > > OPFLAG_C_Qualcomm_1             | OK                   |
->> > > > PICSIZE_A_Bossen_1              | OK                   |
->> > > > PICSIZE_B_Bossen_1              | ER                   |
->> > > > PICSIZE_C_Bossen_1              | OK                   |
->> > > > PICSIZE_D_Bossen_1              | ER                   |
->> > > > PMERGE_A_TI_3                   | OK                   |
->> > > > PMERGE_B_TI_3                   | OK                   |
->> > > > PMERGE_C_TI_3                   | OK                   |
->> > > > PMERGE_D_TI_3                   | OK                   |
->> > > > PMERGE_E_TI_3                   | OK                   |
->> > > > POC_A_Bossen_3                  | OK                   |
->> > > > PPS_A_qualcomm_7                | OK                   |
->> > > > PS_B_VIDYO_3                    | ER                   |
->> > > > RAP_A_docomo_6                  | OK                   |
->> > > > RAP_B_Bossen_2                  | OK                   |
->> > > > RPLM_A_qualcomm_4               | OK                   |
->> > > > RPLM_B_qualcomm_4               | OK                   |
->> > > > RPS_A_docomo_5                  | OK                   |
->> > > > RPS_B_qualcomm_5                | OK                   |
->> > > > RPS_C_ericsson_5                | OK                   |
->> > > > RPS_D_ericsson_6                | OK                   |
->> > > > RPS_E_qualcomm_5                | OK                   |
->> > > > RPS_F_docomo_2                  | OK                   |
->> > > > RQT_A_HHI_4                     | OK                   |
->> > > > RQT_B_HHI_4                     | OK                   |
->> > > > RQT_C_HHI_4                     | OK                   |
->> > > > RQT_D_HHI_4                     | OK                   |
->> > > > RQT_E_HHI_4                     | OK                   |
->> > > > RQT_F_HHI_4                     | OK                   |
->> > > > RQT_G_HHI_4                     | OK                   |
->> > > > SAO_A_MediaTek_4                | OK                   |
->> > > > SAO_B_MediaTek_5                | OK                   |
->> > > > SAO_C_Samsung_5                 | OK                   |
->> > > > SAO_D_Samsung_5                 | OK                   |
->> > > > SAO_E_Canon_4                   | OK                   |
->> > > > SAO_F_Canon_3                   | OK                   |
->> > > > SAO_G_Canon_3                   | OK                   |
->> > > > SAO_H_Parabola_1                | OK                   |
->> > > > SAODBLK_A_MainConcept_4         | OK                   |
->> > > > SAODBLK_B_MainConcept_4         | OK                   |
->> > > > SDH_A_Orange_4                  | OK                   |
->> > > > SLICES_A_Rovi_3                 | OK                   |
->> > > > SLIST_A_Sony_5                  | OK                   |
->> > > > SLIST_B_Sony_9                  | OK                   |
->> > > > SLIST_C_Sony_4                  | OK                   |
->> > > > SLIST_D_Sony_9                  | OK                   |
->> > > > SLPPLP_A_VIDYO_2                | ER                   |
->> > > > STRUCT_A_Samsung_7              | ER                   |
->> > > > STRUCT_B_Samsung_7              | ER                   |
->> > > > TILES_A_Cisco_2                 | ER                   |
->> > > > TILES_B_Cisco_1                 | ER                   |
->> > > > TMVP_A_MS_3                     | OK                   |
->> > > > TSCL_A_VIDYO_5                  | OK                   |
->> > > > TSCL_B_VIDYO_4                  | ER                   |
->> > > > TSKIP_A_MS_3                    | OK                   |
->> > > > TSUNEQBD_A_MAIN10_Technicolor_2 | ER                   |
->> > > > TUSIZE_A_Samsung_1              | OK                   |
->> > > > VPSID_A_VIDYO_2                 | ER                   |
->> > > > VPSSPSPPS_A_MainConcept_1       | KO                   |
->> > > > WP_A_MAIN10_Toshiba_3           | ER                   |
->> > > > WP_A_Toshiba_3                  | ER                   |
->> > > > WP_B_Toshiba_3                  | OK                   |
->> > > > WP_MAIN10_B_Toshiba_3           | ER                   |
->> > > > WPP_A_ericsson_MAIN10_2         | ER                   |
->> > > > WPP_A_ericsson_MAIN_2           | OK                   |
->> > > > WPP_B_ericsson_MAIN10_2         | ER                   |
->> > > > WPP_B_ericsson_MAIN_2           | OK                   |
->> > > > WPP_C_ericsson_MAIN10_2         | ER                   |
->> > > > WPP_C_ericsson_MAIN_2           | OK                   |
->> > > > WPP_D_ericsson_MAIN10_2         | ER                   |
->> > > > WPP_D_ericsson_MAIN_2           | OK                   |
->> > > > WPP_E_ericsson_MAIN10_2         | ER                   |
->> > > > WPP_E_ericsson_MAIN_2           | OK                   |
->> > > > WPP_F_ericsson_MAIN10_2         | ER                   |
->> > > > WPP_F_ericsson_MAIN_2           | OK                   |
->> > > > -                               | -                    |
->> > > > Test                            | FFmpeg-H.265-v4l2m2m |
->> > > > TOTAL                           | 120/147              |
->> > > > TOTAL TIME                      | 12669.641s           |
->> > >
->> > >
->> > > Failed streams :
->> > >  - VPSSPSPPS_A_MainConcept_1 : Failed due to evolutive dynamic resolution increases. The decoder cannot properly
->> > > handle upward resolution changes within the same stream.
->> > >  - LTRPSPS_A_Qualcomm_1
->> > >
->> > > This patch series introduces a new stateful decoder driver for the
->> > > allegrodvt GEN 3 IPs.
->> > >
->> > >
->> > > Yassine Ouaissa (5):
->> > >   media: allegro-dvt: Move the current driver to a subdirectory
->> > >   dt-bindings: media: allegro-dvt: add decoder dt-bindings for Gen3 IP
->> > >   MAINTAINERS: Add entry for allegrodvt Gen 3 drivers
->> > >   dt-bindings: vendor-prefixes: Update the description of allegro prefix
->> > >   media: allegro-dvt: Add Gen 3 IP stateful decoder driver
->> > >
->> > >  .../bindings/media/allegro,al300-vdec.yaml    |   75 +
->> > >  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +-
->> > >  MAINTAINERS                                   |    5 +-
->> > >  drivers/media/platform/allegro-dvt/Kconfig    |   17 +-
->> > >  drivers/media/platform/allegro-dvt/Makefile   |    6 +-
->> > >  .../media/platform/allegro-dvt/al300/Kconfig  |   23 +
->> > >  .../media/platform/allegro-dvt/al300/Makefile |    6 +
->> > >  .../allegro-dvt/al300/al_codec_common.c       |  754 ++++++++
->> > >  .../allegro-dvt/al300/al_codec_common.h       |  247 +++
->> > >  .../allegro-dvt/al300/al_codec_util.c         |  177 ++
->> > >  .../allegro-dvt/al300/al_codec_util.h         |  185 ++
->> > >  .../platform/allegro-dvt/al300/al_vdec_drv.c  | 1530 +++++++++++++++++
->> > >  .../platform/allegro-dvt/al300/al_vdec_drv.h  |   94 +
->> > >  .../media/platform/allegro-dvt/zynqmp/Kconfig |   17 +
->> > >  .../platform/allegro-dvt/zynqmp/Makefile      |    6 +
->> > >  .../allegro-dvt/{ => zynqmp}/allegro-core.c   |    0
->> > >  .../allegro-dvt/{ => zynqmp}/allegro-mail.c   |    0
->> > >  .../allegro-dvt/{ => zynqmp}/allegro-mail.h   |    0
->> > >  .../allegro-dvt/{ => zynqmp}/nal-h264.c       |    0
->> > >  .../allegro-dvt/{ => zynqmp}/nal-h264.h       |    0
->> > >  .../allegro-dvt/{ => zynqmp}/nal-hevc.c       |    0
->> > >  .../allegro-dvt/{ => zynqmp}/nal-hevc.h       |    0
->> > >  .../allegro-dvt/{ => zynqmp}/nal-rbsp.c       |    0
->> > >  .../allegro-dvt/{ => zynqmp}/nal-rbsp.h       |    0
->> > >  24 files changed, 3123 insertions(+), 21 deletions(-)
->> > >  create mode 100644 Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/al300/Kconfig
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/al300/Makefile
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/al300/al_codec_common.c
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/al300/al_codec_common.h
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/al300/al_codec_util.c
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/al300/al_codec_util.h
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/al300/al_vdec_drv.c
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/al300/al_vdec_drv.h
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/zynqmp/Kconfig
->> > >  create mode 100644 drivers/media/platform/allegro-dvt/zynqmp/Makefile
->> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/allegro-core.c (100%)
->> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/allegro-mail.c (100%)
->> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/allegro-mail.h (100%)
->> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-h264.c (100%)
->> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-h264.h (100%)
->> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-hevc.c (100%)
->> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-hevc.h (100%)
->> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-rbsp.c (100%)
->> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-rbsp.h (100%)
+> > +     if (rc)
+> > +             goto err_notif_uninit;
+> > +
+> >       /*
+> >        * Ensure that there are no pre-existing shm objects before enabl=
+ing
+> >        * the shm cache so that there's no chance of receiving an invali=
+d
+> > @@ -1787,6 +1827,7 @@ static int optee_probe(struct platform_device *pd=
+ev)
+> >               optee_disable_shm_cache(optee);
+> >       optee_smc_notif_uninit_irq(optee);
+> >       optee_unregister_devices();
+> > +     tee_device_unregister_all_dma_heaps(optee->teedev);
+> >  err_notif_uninit:
+> >       optee_notif_uninit(optee);
+> >  err_close_ctx:
+> > @@ -1803,7 +1844,7 @@ static int optee_probe(struct platform_device *pd=
+ev)
+> >       tee_device_unregister(optee->teedev);
+> >  err_free_optee:
+> >       kfree(optee);
+> > -err_free_pool:
+> > +err_free_shm_pool:
+> >       tee_shm_pool_free(pool);
+> >       if (memremaped_shm)
+> >               memunmap(memremaped_shm);
+> > --
+> > 2.43.0
+> >
 
