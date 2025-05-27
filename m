@@ -1,201 +1,236 @@
-Return-Path: <linux-media+bounces-33460-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33461-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25010AC4F32
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 15:05:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F0FAC4F9B
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 15:22:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2F901887ECD
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 13:05:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04EF98A09A0
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 13:21:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC40F2701AE;
-	Tue, 27 May 2025 13:05:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36EF8271479;
+	Tue, 27 May 2025 13:21:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Si/NPXgd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JOGd606e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446021F4CBB;
-	Tue, 27 May 2025 13:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0BD271459;
+	Tue, 27 May 2025 13:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748351111; cv=none; b=tAA/eiw+PMTEAx8WE0+Lmqdj6jr2J0trZlPuzMlRD5+qVhdZFdH1fBYJl1LCEQUOaSBrhzKTo+IUf6hDKVXnTae3mdQxrDqUP7ofZKutlYOISX8ib32WZ42beq3AOvW6B1STnaF/W2Dui6sgmFwQinSyMCkQMRcZ4Kdb2xe5NTc=
+	t=1748352118; cv=none; b=Gp25Ik/ajKx01WleCLXO48E9peEtZN0S2yBNT9yNki9oDvbcxpGQCE3hS241rlY4MBTnh4JL/7xLsIj1YeEfA30XijGdbeWMasjZFQrTEe92XpHPWMqNjXlAE1vvByGTce3gG7dcW8fD7bawKA50zRfZmPwWMO0AxmXiySJj7Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748351111; c=relaxed/simple;
-	bh=Ompy122E7fHKg2aBu7QUio5qAZ+AuN85g7YTBOJaKyA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fjq+HZSUxcayKa5Ek9rAaX1aaJr4dsNZV6Ao5JEI0QhZuZ1juveiV9RW5QLmRBLftBKqy45YAKkFnKvVW548cKYfqgCNWS2yOHzHbg3N6KEp9h29Y+t2lxcCXIm61PQGiok4mJW8hgyouTo+MR9cTLh2XV+aiFqJuAjfHGMNJlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Si/NPXgd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB640C4CEE9;
-	Tue, 27 May 2025 13:05:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748351111;
-	bh=Ompy122E7fHKg2aBu7QUio5qAZ+AuN85g7YTBOJaKyA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Si/NPXgd83sNoeKHHt6o4b0SsEwFNoMY1gMTUuBC5hYiTLDcCbgFB8ndUekZgLMIN
-	 GufD2uZnoWccEpfAvoIQ5W7US/1fV+tzdu39X8Wy4ZyXl5n3K/zUqztPlb1k1ZMk9a
-	 YR+BnKcygGqQ8+0LSqyk34Cr1bPmyXzjTQFZ5qFNne1GsEd7EKcKe3oWwRekAgNluw
-	 4HX17jP4ZSqJmT7uKOg5iWe1/WrKbCcx1w5RrxB5HjCsTqGzV/oPfhHfS1G8PtSACA
-	 qLd4GhMHxK1j/3VN8peAyDplQSYF6ywMyPTmfQ6Z442X0+zNDBC/JkvSPeI2fWqLkk
-	 b0jK0FaKigWvw==
-Date: Tue, 27 May 2025 15:05:08 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Jared Kangas <jkangas@redhat.com>
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, 
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, 
-	christian.koenig@amd.com, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] dma-buf: heaps: Give default CMA heap a fixed name
-Message-ID: <20250527-gainful-jaguar-of-honor-a72e15@houat>
-References: <20250522191418.442390-1-jkangas@redhat.com>
- <20250522191418.442390-4-jkangas@redhat.com>
+	s=arc-20240116; t=1748352118; c=relaxed/simple;
+	bh=PkDtbY9NEhKa9GACDKZJ5O4QTzYKQGEbJ1wQlG1blCI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mWTjyvWRA8z6QcmfsO+ML1dnAppb+T+HJ9fO0rkCWEUGwPRiOboi0R7DsvUt4MKEjq+8uvdv85JcpZ8YFdnSnCJGgAEEgRtKBZaj0sDTqfn58Q6iP1Md8YjlBEgB+vV+oLG6+PmVV6/Z3vFyN+c5cYC0+CZqDjjGTiEAXJxyGGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JOGd606e; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30c416cdcc0so31019061fa.2;
+        Tue, 27 May 2025 06:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748352115; x=1748956915; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L8+3+XMtXOHDfLv/T+tosvnFUIfhw16R2sRDYOxTnxg=;
+        b=JOGd606ea7mRURHKp7/R90Q8yW9D/+WHkMFO2ZFRQSCF3wYWYCejYI7ZeUOTsK3CKm
+         kZLpmcsmQ3d7yYxxqBxPXClQcQ39mFErTkeOa/daa5HIJKC8iOfcKp3hkSc1KVC9XKU4
+         l+RJx7BYSD83gzt3JMg0p4reXiNl0jsLWgzufFkVwLnnpeAYU6Yf5Mv8NICfnGXEcRcU
+         uKY4TnI0Ursi+q+0hLhTd1ORUZX4nNsPwWMUL6aqOOYpYQKMXGNQtTQB83PofKCpHMHc
+         kqYJZgtDEvRHnest3KX2/Ztm2IW9Yz6pslbFtTy7rBj9VHfs2aJg0MEKjCbcKg9AKvnm
+         IewQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748352115; x=1748956915;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L8+3+XMtXOHDfLv/T+tosvnFUIfhw16R2sRDYOxTnxg=;
+        b=JWmpA2nTpFcl+qezQAzFVQb7P7niFBaYjXz8kGgfKUBpVCxbTFZXBj/IZjXM1V/4Cc
+         j6IuQdOiku9CdtOpyVnm0TBIrBMhJLxapfW61t+OogAkJVpAHGEpVadILR/+bi3uVmtD
+         hO0/NpqXcrhlp31xltJ9wWfjs3VQIx6Xa2IvY4YGImkzpavNphRNt50rTR2gFO08Lkbf
+         +4V3sNipo3eAtnCEDAfJYpe2WlgzMwIPALKeRaNHyOlrI+ndgfANOjhfW2wFrN4qhhI3
+         RctjpbgbpxePrU5CLsk2MtO8oFf2I+z2PXZjcuNuX5oZXqNHLAZpwrvOvb+EyRxoHjCZ
+         EyTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4n7vInZQUSf3eLLQ0AbqYPzNP5toeVWa6gb2j+BJKfAJSZCenZSYA0aNnHjAuDNmD+QHY3YqqUXJxN3c=@vger.kernel.org, AJvYcCURBmKUEVi2N35xy5AGE15nLw1KoNzD+0vLopwX1W3frvZIn53ovxI3grQVr65WPADj47FZEZQLHZDFYhg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmjATFDl6E+Ro1YjeCUhFo+Ul8z4MmBIn/Je6f5pyk8fhF4VVW
+	0ZcSovwUOVbGLyXbarxgYX2JYAoUvYRK7zR3V72NWYgTQ/hP1AopUwxAfOEYbeGPu/84FArzsyf
+	P+JzRmGi25u9ww/pLvDd1H38uogBen6k=
+X-Gm-Gg: ASbGncs0em0Zxuy6XL3vck1/+itTvhI+V+X0mQ9q9Lt3iyHderjj3eL3HjARXt1wbr/
+	QpMezIMYqjKCFIv4GQ+NYhYypvadpF8DeiqXKepM6svIoZCvc+GIiffm8KRiSqwNOZAssijZcH1
+	hw1933XiKIdqqNo4hu61HuuX5fGr0KnQVV3cP8Ysy3PRoOXLaERY03ftFowCzl/nc=
+X-Google-Smtp-Source: AGHT+IH+Ewdr9vonbIrOxmcRvgKd7RAjJeriFO+MISpkVPDe4B9w4hYy1Ur6cSAtblGN0SDU+7GGDJpmokKirdXlHAc=
+X-Received: by 2002:a2e:be8c:0:b0:2ff:56a6:2992 with SMTP id
+ 38308e7fff4ca-3295ba7a1fdmr42809711fa.37.1748352114324; Tue, 27 May 2025
+ 06:21:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="r3bmleoevfwb3cbp"
-Content-Disposition: inline
-In-Reply-To: <20250522191418.442390-4-jkangas@redhat.com>
-
-
---r3bmleoevfwb3cbp
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
+ <20250526141316.7e907032@foz.lan> <DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com> <20250527111311.105246f2@sal.lan>
+In-Reply-To: <20250527111311.105246f2@sal.lan>
+From: Alexandre Courbot <gnurou@gmail.com>
+Date: Tue, 27 May 2025 22:21:42 +0900
+X-Gm-Features: AX0GCFs6w_wf6YTjIybZZwQbdYAW7uiqsMchgBmAWJsp_ED2VhKs0cAbQv4ghpY
+Message-ID: <CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
+Subject: Re: [PATCH v3] media: add virtio-media driver
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Albert Esteve <aesteve@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	gurchetansingh@google.com, daniel.almeida@collabora.com, adelva@google.com, 
+	changyeon@google.com, nicolas.dufresne@collabora.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	virtualization@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 3/3] dma-buf: heaps: Give default CMA heap a fixed name
-MIME-Version: 1.0
 
-Hi,
+On Tue, May 27, 2025 at 6:13=E2=80=AFPM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Em Tue, 27 May 2025 15:14:50 +0900
+> "Alexandre Courbot" <gnurou@gmail.com> escreveu:
+>
+> > Hi Mauro,
+> >
+> > On Mon May 26, 2025 at 9:13 PM JST, Mauro Carvalho Chehab wrote:
+> > > Hi Michael,
+> > >
+> > > Em Sat, 12 Apr 2025 13:08:01 +0900
+> > > Alexandre Courbot <gnurou@gmail.com> escreveu:
+> > >
+> > >> Add the first version of the virtio-media driver.
+> > >>
+> > >> This driver acts roughly as a V4L2 relay between user-space and the
+> > >> virtio virtual device on the host, so it is relatively simple, yet
+> > >> unconventional. It doesn't use VB2 or other frameworks typically use=
+d in
+> > >> a V4L2 driver, and most of its complexity resides in correctly and
+> > >> efficiently building the virtio descriptor chain to pass to the host=
+,
+> > >> avoiding copies whenever possible. This is done by
+> > >> scatterlist_builder.[ch].
+> > >>
+> > >> virtio_media_ioctls.c proxies each supported ioctl to the host, usin=
+g
+> > >> code generated through macros for ioctls that can be forwarded direc=
+tly,
+> > >> which is most of them.
+> > >>
+> > >> virtio_media_driver.c provides the expected driver hooks, and suppor=
+t
+> > >> for mmapping and polling.
+> > >>
+> > >>  This version supports MMAP buffers, while USERPTR buffers can also =
+be
+> > >>  enabled through a driver option. DMABUF support is still pending.
+> > >
+> > > It sounds that you applied this one at the virtio tree, but it hasn't
+> > > being reviewed or acked by media maintainers.
+> > >
+> > > Please drop it.
+> > >
+> > > Alexandre,
+> > >
+> > > Please send media patches to media maintainers, c/c other subsystem
+> > > maintainers, as otherwise they might end being merged without a
+> > > proper review.
+> >
+> > Sorry about that, I put everyone in "To:" without giving it a second
+> > thought.
+> >
+> > >
+> > > In this particular case, we need to double-check if this won't cause
+> > > any issues, in special with regards to media locks and mutexes.
+> >
+> > Agreed, I am not 100% confident about that part myself.
+> >
+> > >
+> > > I'll try to look on it after this merge window, as it is too late
+> > > for it to be applied during this one.
+> >
+> > Appreciate that - given the high traffic on the list I was worried that
+> > this patch would eventually be overlooked. Not making it for this merge
+> > window should not be a problem, so please take the time you need.
+>
+> Provided that your patch was caught by patchwork, it won't be lost:
+>         https://patchwork.linuxtv.org/project/linux-media/patch/20250412-=
+virtio-media-v3-1-97dc94c18398@gmail.com/
+>
+> Please notice that our CI got a number of checkpatch issues there.
+> Please check and fix the non-false-positive ones.
 
-On Thu, May 22, 2025 at 12:14:18PM -0700, Jared Kangas wrote:
-> The CMA heap's name in devtmpfs can vary depending on how the heap is
-> defined. Its name defaults to "reserved", but if a CMA area is defined
-> in the devicetree, the heap takes on the devicetree node's name, such as
-> "default-pool" or "linux,cma". To simplify naming, unconditionally name
-> it "default_cma_region", but keep a legacy node in place backed by the
-> same underlying allocator for backwards compatibility.
->=20
-> Signed-off-by: Jared Kangas <jkangas@redhat.com>
-> ---
->  Documentation/userspace-api/dma-buf-heaps.rst |  7 +++++--
->  drivers/dma-buf/heaps/Kconfig                 | 10 ++++++++++
->  drivers/dma-buf/heaps/cma_heap.c              | 20 ++++++++++++++++++-
->  3 files changed, 34 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentatio=
-n/userspace-api/dma-buf-heaps.rst
-> index 23bd0bd7b0654..1dfe5e7acd5a3 100644
-> --- a/Documentation/userspace-api/dma-buf-heaps.rst
-> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> @@ -21,5 +21,8 @@ following heaps:
->     usually created either through the kernel commandline through the
->     ``cma`` parameter, a memory region Device-Tree node with the
->     ``linux,cma-default`` property set, or through the ``CMA_SIZE_MBYTES`=
-` or
-> -   ``CMA_SIZE_PERCENTAGE`` Kconfig options. Depending on the platform, it
-> -   might be called ``reserved``, ``linux,cma``, or ``default-pool``.
-> +   ``CMA_SIZE_PERCENTAGE`` Kconfig options. The heap's name in devtmpfs =
-is
-> +   ``default_cma_region``. For backwards compatibility, when the
-> +   ``DMABUF_HEAPS_CMA_LEGACY`` Kconfig option is set, a duplicate node is
-> +   created following legacy naming conventions; the legacy name might be
-> +   ``reserved``, ``linux,cma``, or ``default-pool``.
-> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-> index a5eef06c42264..bb369b38b001a 100644
-> --- a/drivers/dma-buf/heaps/Kconfig
-> +++ b/drivers/dma-buf/heaps/Kconfig
-> @@ -12,3 +12,13 @@ config DMABUF_HEAPS_CMA
->  	  Choose this option to enable dma-buf CMA heap. This heap is backed
->  	  by the Contiguous Memory Allocator (CMA). If your system has these
->  	  regions, you should say Y here.
-> +
-> +config DMABUF_HEAPS_CMA_LEGACY
-> +	bool "Legacy DMA-BUF CMA Heap"
-> +	default y
-> +	depends on DMABUF_HEAPS_CMA
-> +	help
-> +	  Add a duplicate CMA-backed dma-buf heap with legacy naming derived
-> +	  from the CMA area's devicetree node, or "reserved" if the area is not
-> +	  defined in the devicetree. This uses the same underlying allocator as
-> +	  CONFIG_DMABUF_HEAPS_CMA.
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
-_heap.c
-> index e998d8ccd1dc6..dfeccafc6ae3c 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -9,6 +9,9 @@
->   * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
->   *	Andrew F. Davis <afd@ti.com>
->   */
-> +
-> +#define pr_fmt(fmt) "cma_heap: " fmt
-> +
->  #include <linux/cma.h>
->  #include <linux/dma-buf.h>
->  #include <linux/dma-heap.h>
-> @@ -22,6 +25,7 @@
->  #include <linux/slab.h>
->  #include <linux/vmalloc.h>
-> =20
-> +#define DEFAULT_CMA_NAME "default_cma_region"
-> =20
->  struct cma_heap {
->  	struct dma_heap *heap;
-> @@ -394,15 +398,29 @@ static int __init __add_cma_heap(struct cma *cma, c=
-onst char *name)
->  static int __init add_default_cma_heap(void)
->  {
->  	struct cma *default_cma =3D dev_get_cma_area(NULL);
-> +	const char *legacy_cma_name;
->  	int ret;
-> =20
->  	if (!default_cma)
->  		return 0;
-> =20
-> -	ret =3D __add_cma_heap(default_cma, cma_get_name(default_cma));
-> +	ret =3D __add_cma_heap(default_cma, DEFAULT_CMA_NAME);
->  	if (ret)
->  		return ret;
-> =20
-> +	if (IS_ENABLED(CONFIG_DMABUF_HEAPS_CMA_LEGACY)) {
-> +		legacy_cma_name =3D cma_get_name(default_cma);
-> +		if (!strcmp(legacy_cma_name, DEFAULT_CMA_NAME)) {
-> +			pr_warn("legacy name and default name are the same, skipping legacy h=
-eap\n");
-> +			return 0;
-> +		}
-> +
-> +		ret =3D __add_cma_heap(default_cma, legacy_cma_name);
-> +		if (ret)
-> +			pr_warn("failed to add legacy heap: %pe\n",
-> +				ERR_PTR(-ret));
+Will do. The macro-related ones are false-positives AFAICT. Some of
+the "lines should not end with a '('" are actually the result of
+applying clang-format with the kernel-provided style...
 
-Are you sure about the -ret? ret should already be a negative number if it =
-failed?
+>
+> Btw, I was looking at:
+>
+>         https://github.com/chromeos/virtio-media
+>
+> (I'm assuming that this is the QEMU counterpart, right?)
 
-With that fixed,
+crosvm actually, but QEMU support is also being worked on.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+>
+> And I noticed something weird there:
+>
+>         "Unsupported ioctls
+>
+>          A few ioctls are replaced by other, more suitable mechanisms. If=
+ being requested these ioctls, the device must return the same response as =
+it would for an unknown ioctl, i.e. ENOTTY.
+>
+>             VIDIOC_QUERYCAP is replaced by reading the configuration area=
+.
+>             VIDIOC_DQBUF is replaced by a dedicated event.
+>             VIDIOC_DQEVENT is replaced by a dedicated event."
+>
+> While this could be ok for cromeOS, this will be broken for guests with
+> Linux, as all Linux applications rely on VIDIOC_QUERYCAP and VIDIOC_DQBUF
+> to work. Please implement support for it, as otherwise we won't even be
+> able to test the driver with the v4l2-compliance tool (*).
 
-Maxime
+The phrasing was a bit confusing. The guest driver does support these
+ioctls, and passes v4l2-compliance. So there is no problem here.
 
---r3bmleoevfwb3cbp
-Content-Type: application/pgp-signature; name="signature.asc"
+Where these ioctls are not supported is between the guest and the
+host, i.e. as ioctls encapsulated into a virtio request. For QUERYCAP,
+that's because the virtio configuration area already provides the same
+information. For DQBUF and DQEVENT, that's because we want to serve
+these asynchronously for performance reasons (hence the dedicated
+events).
 
------BEGIN PGP SIGNATURE-----
+But these differences don't affect guest user applications which will
+be able to perform these ioctls exactly as they expect.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaDW4hAAKCRAnX84Zoj2+
-drI1AYCje0uQohcShZdmczyCGhShy69dOYUIKlNGxe50CzVnAnj5Dj376Hc/uoWi
-/BLvaSoBfA+MFBNwCyZaxzRtUi9UC6/G0Wqz4e2xpBB8vDFuKRyiSYThzz3yJMSA
-erPg189vdQ==
-=m8g+
------END PGP SIGNATURE-----
+>
+> (*) Passing at v4l2-compliance is a requirement for any media driver
+>     to be merged.
+>
+> With regards to testing, what's the expected testing scenario?
+> My guess is that, as a virtio device, a possible test scenario would be
+> to have the UVC camera from the host OS mapped using virtio-camera into
+> the guest OS, allowing a V4L2 application running at the guest to map the
+> camera from the host, right?
 
---r3bmleoevfwb3cbp--
+That's one of the scenarios, yes. Another one is to expose an
+accelerated decoder on the host to the guest. One can also create
+"fake" devices backed by software on the host for testing purposes.
+
+That's actually the benefit of using V4L2 as a guest/host protocol:
+the same guest and the same software stack on the host can be used to
+virtualize multiple kinds of media devices, removing the need to have
+e.g. virtio-camera and virtio-codec. This removes a ton of work (and
+code).
 
