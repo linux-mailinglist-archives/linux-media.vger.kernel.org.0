@@ -1,129 +1,169 @@
-Return-Path: <linux-media+bounces-33442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517B9AC4A59
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 10:32:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5511DAC4B4B
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 11:13:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC8603AF740
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 08:31:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD04A7AD7BB
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 09:12:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C292E23FC6B;
-	Tue, 27 May 2025 08:32:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B9FE24EABD;
+	Tue, 27 May 2025 09:13:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Yb8vv4qc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RdxIgbYz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849D51F8722
-	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 08:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52761EF09D;
+	Tue, 27 May 2025 09:13:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748334726; cv=none; b=tY0GBy7iyFRBwBSgqoFKOtC9fK1AjzygAx0ey1HhY/+5JF7Uu83TP8wnNaS99tIp6h5iKh8pgIbOwrowWjEcVjYLJEaGEnE7AQS8OMTGCLYoWmKYO4B4yL7Y/D0+zHL2RiVhNUCbuZOBhmAXBLBYAXcxkk2ZU1qEePjOSUKYm0I=
+	t=1748337201; cv=none; b=OOdKqciwtSg18zXq8JquhzV49ZoQiZM0lMAzT59474yGyBFJslLyVeeq8LxZfoTnVzXwZKYcgAAOXEu3S1a77NVhwGpwz6Rap7XxTXRkvMRxkte5e33N1++UMX9EDfVoIZhZIpRiO+k++q1fsfCa17qquvZ8y0zUUd4PvKf/Vy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748334726; c=relaxed/simple;
-	bh=z2sfmjl6Pw/ZBMKqzA4OOm9ek6mcObEXGfFNcGUeqd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o69rSdT6bSVwubVRTOGVJ74uBFA9+4KHwrfK+QSSJ7biOhi8I7k0qVRDd0q1Fm+teSzRzFrrAa6iHuFiA/LZyHzH8wphsDcg/9tFbCeoBxx+CTQ59bK96YoQe7rem7Uy0YXEazkb48WbrMdHPEkSQ7hXGt/pWLjj3pShX/e6SCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Yb8vv4qc; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [178.248.166.46])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DA7F2B3;
-	Tue, 27 May 2025 10:31:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748334697;
-	bh=z2sfmjl6Pw/ZBMKqzA4OOm9ek6mcObEXGfFNcGUeqd4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yb8vv4qcouliHvZjrdSaBM+WQQ7FhpqBTSxeItN9oYMZWMhInlnsQc4b3dnt1rMML
-	 cDAzXhxhUEsFWo7+T0eaiP44wzepkQRdthj/Y7RGun+Ju2B7HO0Jzn/aUGgF37at+H
-	 Y5IJaKq4Pmdx3pS5TRWtDEK3YNzPkt1b/Oq0ubnk=
-Date: Tue, 27 May 2025 10:31:57 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hans@jjverkuil.nl>, linux-media@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [GIT PULL FOR v6.16] uvcvideo improvements
-Message-ID: <20250527083157.GH2942@pendragon.ideasonboard.com>
-References: <20250509124615.GA12452@pendragon.ideasonboard.com>
- <20250527090824.3ecb413f@foz.lan>
+	s=arc-20240116; t=1748337201; c=relaxed/simple;
+	bh=GHEa/3EewNxTfyve9NOUlR4JsutG0Ky+D56r4P9yjYE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JWPZK1zZI4PDAQ5c3YMqmszCEUvB3ICmD+O5ogCOEGsKu4dLTKP9qc/JyK7WjDq1DfrWYkX7IrcRlwJa+o4FcIaSDUJfp+wfPw0ukupgXucMm2EN61C0j+aB9AZ52tTHNI3YZYiiIHSR/PrN4AzTkeaKVtWOzUqzXcqLjhBe/WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RdxIgbYz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE208C4CEEA;
+	Tue, 27 May 2025 09:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748337200;
+	bh=GHEa/3EewNxTfyve9NOUlR4JsutG0Ky+D56r4P9yjYE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RdxIgbYzJHmH0ve1BcXCbISj1dNK0UDFufvdbIYgU1SQi6LGqIZ/ZyJFzijubqOys
+	 a07UZyb74bFBKpkD8SL94NrbT9rVprYDZktxc/N2o3JsZkBECKk6KQ+nAUDoFZngyM
+	 d+E1q7nT0IFn2UTq5qPK698LdEgeKQYDk3j9extgk5h5tExDHkBKAQE/Ti9jt41OTs
+	 tr+SSjqZMG+rPP+ncbVtF/LMIABHTaR/u1ZlDSefVsMllLkixQalm4uNbP1rk66E9u
+	 AZt206y0isVn0T66pQpwbTNBxg2jHF1sG/WW+XW4sPdnPmD318EIFLou03SUd21BTT
+	 HM6VbLpZ3c8qA==
+Date: Tue, 27 May 2025 11:13:11 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Alexandre Courbot" <gnurou@gmail.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Hans Verkuil" <hverkuil@xs4all.nl>, "Albert Esteve"
+ <aesteve@redhat.com>, "Jason Wang" <jasowang@redhat.com>, "Xuan Zhuo"
+ <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
+ <eperezma@redhat.com>, <gurchetansingh@google.com>,
+ <daniel.almeida@collabora.com>, <adelva@google.com>,
+ <changyeon@google.com>, <nicolas.dufresne@collabora.com>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <virtualization@lists.linux.dev>, "Alexandre Courbot" <acourbot@google.com>
+Subject: Re: [PATCH v3] media: add virtio-media driver
+Message-ID: <20250527111311.105246f2@sal.lan>
+In-Reply-To: <DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
+References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
+	<20250526141316.7e907032@foz.lan>
+	<DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250527090824.3ecb413f@foz.lan>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Mauro,
+Em Tue, 27 May 2025 15:14:50 +0900
+"Alexandre Courbot" <gnurou@gmail.com> escreveu:
 
-On Tue, May 27, 2025 at 09:08:31AM +0200, Mauro Carvalho Chehab wrote:
-> Em Fri, 9 May 2025 14:46:15 +0200 Laurent Pinchart escreveu:
+> Hi Mauro,
 > 
-> > Hi Mauro, Hans,
-> > 
-> > The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
-> > 
-> >   Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   https://gitlab.freedesktop.org/linux-media/users/pinchartl.git tags/next-media-uvc-20250509
-> > 
-> > for you to fetch changes up to 9882222fa76450e545aeb625522ced7a78ff79a0:
-> > 
-> >   media: uvcvideo: Use dev_err_probe for devm_gpiod_get_optional (2025-04-07 15:31:55 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > uvcvideo improvements:
-> > 
-> > - Granular power saving
-> > - Controls cache sync fix
-> > - GPIO deferred probe error fix
+> On Mon May 26, 2025 at 9:13 PM JST, Mauro Carvalho Chehab wrote:
+> > Hi Michael,
+> >
+> > Em Sat, 12 Apr 2025 13:08:01 +0900
+> > Alexandre Courbot <gnurou@gmail.com> escreveu:
+> >  
+> >> Add the first version of the virtio-media driver.
+> >>
+> >> This driver acts roughly as a V4L2 relay between user-space and the
+> >> virtio virtual device on the host, so it is relatively simple, yet
+> >> unconventional. It doesn't use VB2 or other frameworks typically used in
+> >> a V4L2 driver, and most of its complexity resides in correctly and
+> >> efficiently building the virtio descriptor chain to pass to the host,
+> >> avoiding copies whenever possible. This is done by
+> >> scatterlist_builder.[ch].
+> >>
+> >> virtio_media_ioctls.c proxies each supported ioctl to the host, using
+> >> code generated through macros for ioctls that can be forwarded directly,
+> >> which is most of them.
+> >>
+> >> virtio_media_driver.c provides the expected driver hooks, and support
+> >> for mmapping and polling.
+> >>
+> >>  This version supports MMAP buffers, while USERPTR buffers can also be
+> >>  enabled through a driver option. DMABUF support is still pending.  
+> >
+> > It sounds that you applied this one at the virtio tree, but it hasn't
+> > being reviewed or acked by media maintainers.
+> >
+> > Please drop it.
+> >
+> > Alexandre,
+> >
+> > Please send media patches to media maintainers, c/c other subsystem
+> > maintainers, as otherwise they might end being merged without a
+> > proper review.  
 > 
-> It doesn't seem to be the case of this PR, since it sounds mostly fixes,
-> but if a driver is getting some relevant improvement from user's perspective,
-> please be a little bit more verbose at the e-mail's subject. Something like:
+> Sorry about that, I put everyone in "To:" without giving it a second
+> thought.
 > 
-> 	Subject: uvcvideo: added support for xxx
+> >
+> > In this particular case, we need to double-check if this won't cause
+> > any issues, in special with regards to media locks and mutexes.  
 > 
-> As otherwise, I'll simply ignore the PR's subject when submitting
-> upstream pull requests.
+> Agreed, I am not 100% confident about that part myself.
+> 
+> >
+> > I'll try to look on it after this merge window, as it is too late
+> > for it to be applied during this one.  
+> 
+> Appreciate that - given the high traffic on the list I was worried that
+> this patch would eventually be overlooked. Not making it for this merge
+> window should not be a problem, so please take the time you need.
 
-Do you mean the subject line of the pull request, as in "[GIT PULL FOR
-v6.16] ..." ? There's very little space there to list all changes, which
-is why the pull request body contains a summary for your convenience
-that you can integrate in merge commit messages or in pull requests
-mails to Linus.
+Provided that your patch was caught by patchwork, it won't be lost:
+	https://patchwork.linuxtv.org/project/linux-media/patch/20250412-virtio-media-v3-1-97dc94c18398@gmail.com/
 
-> > ----------------------------------------------------------------
-> > Ricardo Ribalda (10):
-> >       media: uvcvideo: Keep streaming state in the file handle
-> >       media: uvcvideo: Create uvc_pm_(get|put) functions
-> >       media: uvcvideo: Increase/decrease the PM counter per IOCTL
-> >       media: uvcvideo: Make power management granular
-> >       media: uvcvideo: Do not turn on the camera for some ioctls
-> >       media: uvcvideo: Return the number of processed controls
-> >       media: uvcvideo: Send control events for partial succeeds
-> >       media: uvcvideo: Rollback non processed entities on error
-> >       media: uvcvideo: Fix deferred probing error
-> >       media: uvcvideo: Use dev_err_probe for devm_gpiod_get_optional
-> > 
-> >  drivers/media/usb/uvc/uvc_ctrl.c   |  91 +++++++++++++++++++++--------
-> >  drivers/media/usb/uvc/uvc_driver.c |  38 ++++++++----
-> >  drivers/media/usb/uvc/uvc_v4l2.c   | 117 +++++++++++++++++++++++++++++--------
-> >  drivers/media/usb/uvc/uvcvideo.h   |   5 ++
-> >  4 files changed, 190 insertions(+), 61 deletions(-)
+Please notice that our CI got a number of checkpatch issues there. 
+Please check and fix the non-false-positive ones.
 
--- 
+Btw, I was looking at:
+
+	https://github.com/chromeos/virtio-media
+
+(I'm assuming that this is the QEMU counterpart, right?)
+
+And I noticed something weird there:
+
+	"Unsupported ioctls
+
+	 A few ioctls are replaced by other, more suitable mechanisms. If being requested these ioctls, the device must return the same response as it would for an unknown ioctl, i.e. ENOTTY.
+
+	    VIDIOC_QUERYCAP is replaced by reading the configuration area.
+	    VIDIOC_DQBUF is replaced by a dedicated event.
+	    VIDIOC_DQEVENT is replaced by a dedicated event."
+
+While this could be ok for cromeOS, this will be broken for guests with 
+Linux, as all Linux applications rely on VIDIOC_QUERYCAP and VIDIOC_DQBUF
+to work. Please implement support for it, as otherwise we won't even be
+able to test the driver with the v4l2-compliance tool (*).
+
+(*) Passing at v4l2-compliance is a requirement for any media driver
+    to be merged.
+
+With regards to testing, what's the expected testing scenario?
+My guess is that, as a virtio device, a possible test scenario would be
+to have the UVC camera from the host OS mapped using virtio-camera into 
+the guest OS, allowing a V4L2 application running at the guest to map the 
+camera from the host, right?
+
 Regards,
-
-Laurent Pinchart
+Mauro
 
