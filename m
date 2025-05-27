@@ -1,308 +1,217 @@
-Return-Path: <linux-media+bounces-33466-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33467-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E821DAC5078
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:04:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E70CBAC50BB
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:21:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C3C3189EAF3
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:04:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A20113A5D68
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:21:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF88127703D;
-	Tue, 27 May 2025 14:03:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0812527876E;
+	Tue, 27 May 2025 14:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="THm8f57x"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ydimUZxf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6001C3F02;
-	Tue, 27 May 2025 14:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF288253F3D
+	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 14:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748354637; cv=none; b=l9mV4ppC5bd42cT5YQfuXv4L11q6EkiLyuCtGBDv3YXMd8dm7NqhE744Y432WAtuYQ6IClhnVKGMsuMBo7GHaA0NNMs7K0dg6w0038g7ezfNIJyWNkI+xjFow6olcAyHtpyNJqU8RyjM1bOBbG0nvazVq5SvjxCnzAB3833HueI=
+	t=1748355702; cv=none; b=kGMEnjQnfycMk+zmlVUNfeYbBnknSz6JLRfdffYmVB3YpPab16zyU9Ql7no1CZT63rvga1cFU+2KRbydqm19xJZFH6ew/vtjaApqmVUJRb2ATxXosE2szPKkMxrqKakH7NTopOQ4ZSlWeaxptKWVCw2AEPJH7Nnuma+LIVPMt5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748354637; c=relaxed/simple;
-	bh=PfYHN7ZvbjqF1SZrJiDI+N31npoIF2JXnH9nV3P+NF4=;
+	s=arc-20240116; t=1748355702; c=relaxed/simple;
+	bh=CIpAbQ5tZU/9b/y93vCZiejAH1XRyfu6DUA9IGbLifI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mnIDKo5x/+lulZR6S/tX8q9S83HNXDKKiAfztJkr2Rad/GLDHD7PYbMoewv534ZnfHXQJM/BqGI/iZ4kiNObosoljWKGFKqlrQ7j+kBGyQeoZyxs2d8PvPS6KuOJeXLY9UA4p4tvT4HN2QXWRQoAZgEIF5hFK6qskpYyhl9BIOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=THm8f57x; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54e7967cf67so4151248e87.0;
-        Tue, 27 May 2025 07:03:52 -0700 (PDT)
+	 To:Cc:Content-Type; b=X0oNjDRJa8lkng8ZNqOE7FmaPu7TUqkmoDnqTggpu4HPn1ssIpLKDe6eA22IDw8Pi4KYhWyCpQKu9iF4fU5lVaL+qpXFackehB0z481Y3I9EcOcS3yPwhUvKerEup50dcB04S71AnWf82Gg/EzMEQBydwVYvo6iK1dRM1pi5K4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ydimUZxf; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-72c173211feso885173a34.1
+        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 07:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748354631; x=1748959431; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1748355699; x=1748960499; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xsFURRaAVAF5NyqQux52FKE+IWC38BqGr/pMMame8ds=;
-        b=THm8f57xi8E9vNggMn5YenWYpSbnT/7nnofbS0LdBHgpkZ8aSqnXbSy799JVHTg8Sv
-         6j0QBP3iUnO+cLetBFeAAXqVQ3aH7twi7fQ+m8XCNeZ+dCXMhkETE2JDNcJJkhir9F0F
-         93zZ1bMOIhJijkDG3NWW+qXspI1HLTw+B5suOdJC63XbRTp+YPrK69fZkoldiu24XgQY
-         EhiEoeoQffVukXeSup/zB5pjA18Zmy7V+wG4mA12SDsxA2WpRlLrOPAU0L7OQ8oSrKPI
-         fUEpYoKVZZUNAkg7/CF79d4omzQlMwkwMkwTn2jcKx8jN1cYlFn/LYGdavh4skF09p/8
-         yy0w==
+        bh=hwr1gpmj/Y5xrm528qSwLq/tkBaVoA9zaC9zXNPG4sg=;
+        b=ydimUZxfWoHD1FLHL3R1fYD2Wbp1hhSgv2ssLBfGPEijc91q711V3wzlKe0bRC9eJJ
+         ylHqf+55yMEYnnrKTvDnsev8taf0duLgQJc3m1Lfw55RCxo4m3ZnFjqil1bgG1r/9bTj
+         g028P8njdOHsmkCRhggS6g6Ssb5m30Ebrfe9PpEnnguaZoDzooyhtsW7OgfAwjMBhL2o
+         ZHAAYbMDuBrU9c4Arxl+qXquSUnX57RQEz4wHlyiCQ4Gze92/Rrs9rvVPdhpWMRqsRnZ
+         6VKxZFW/lElCBFDu61j7zhuvAKEkb3qCRTAikZAUJwAsH2NkrGHsUBMYycwkkxpX3NuT
+         Nrng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748354631; x=1748959431;
+        d=1e100.net; s=20230601; t=1748355699; x=1748960499;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xsFURRaAVAF5NyqQux52FKE+IWC38BqGr/pMMame8ds=;
-        b=IcwCp1cGQifek75TNE+WMYUndf041J5/5RN4c+HeeL5YsOiNUrOr8pVXuMDeIffx44
-         RaE4blSK4Kp3aeTUd9rFEyaXlmUo1aR3H+aamsyCIobSPeaI1wfmRuQ0ATPWQ4Kb8YnH
-         kTUFD+mub9UVUIrYHAhP988XP4Mu47yd08TSGmq8eR/uKwXJpVyZgXkqLO1DPf+GLJ71
-         0XzeqOkIxmigBpbOaKmfO+P0VBdytkClovOotltl+2Mjp0TN5bqEG12qX9fJj5Ovb2Wz
-         JzFOTrUytrMxyiRhZyOgrsp6vESsGNvC+8YUFZqoBzO9s1Js3vJ61sx8Ih2OQ74OnmeU
-         PRUA==
-X-Forwarded-Encrypted: i=1; AJvYcCWe6zgdg3YxuC6aC4fFtG0aND121H2f/C8o2NQccZYt1VRCoQhCq8qUL+9ZZr38IMYp0qoMmIpJdbb85ws=@vger.kernel.org, AJvYcCX49V/agAhvy8yqKKRISwc4bTDNG4FcrIKxgemy6ZLVojP+VUJoThDZCgXuOtDX30Z1/b7bk0Ho75mDVCQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJuVmZ1r4d+pd82ug9+S/UFPqLruqQkjTE9Irj6teSCTL7muum
-	6p/wT0lopfBVk5f4IGxlugUNL0M32LHY+PpotlMKwK97OMNHZT5NLzGWctgfOHEISUaBXnonHJP
-	sHcwu5xyFs2f8R/GjVJWo62RPVWg9SGRL/NIdgY4=
-X-Gm-Gg: ASbGncvKeSjX0+cHYpEY8kITOIwmIRAeB8XnSGQ8R0SrJ3BBgC7DjCx95kiZvIep+TX
-	BMQpssbALkdZNsUNgYVQC6DddGjONn7hLJk8ThNWqQme1YhW8zRP9sOtmxGKNWCxOiHZ0pMxaD6
-	ODr3qlqBHrCLfV42z8yRWENzEC1ErS2MxjX3FVzC/dFIXvodr/7TiWJl3fhK9Wj/ZBvJThbX5+U
-	Q==
-X-Google-Smtp-Source: AGHT+IE3sOdVMBPm6Ph+lDBvdIisLgXQVbeEI/OwtwfoXYAZvm9V6hdGhNRWj6AmrFGMfg3LNZwv9XRpjINn0fwcvBE=
-X-Received: by 2002:a05:651c:f01:b0:32a:664e:a932 with SMTP id
- 38308e7fff4ca-32a664eaa5bmr18000161fa.37.1748354631031; Tue, 27 May 2025
- 07:03:51 -0700 (PDT)
+        bh=hwr1gpmj/Y5xrm528qSwLq/tkBaVoA9zaC9zXNPG4sg=;
+        b=LW6RK63O8JSsuhdLzwL9E08T4M2ZxYP1e3TyJN30qRXVJ+rfbtElQtfPfllvF3SmQ4
+         jIGw/cGEDUE4YMUJ+6rqYnBn+7Lm9bTwzccU/wGaFI1Nt1JB0bvo5lVFmPb+OzlpXOeK
+         V/46oQUrK4mohuDuBrPTTrtAxhABqKgVuZ5HKBn5aIy6R61X/ey+BRrsTYR0Pk4Z+jCz
+         P4I+2gndSpSC+4Smw4uSCgw2n5uZH+5URcVD51CwUZGCjrvPFIwqKxliSBkbvObHpnJU
+         Upr5wzelz/Dsy/wUpSTVrfKLiy07D8lUJbG0OeVl4N+OnDDJnd0cIImSNgSD+iOytEjf
+         gT2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWIZ03+GoDp/AnBpwWWhXx/gWyG47/OG/frdVh04PeAnVu9/aOQSI/g+uyenmXIwTjEwRbsvwk1XLDDoA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwQpritfkO5G62jcb7HqrnUO6g3N1bwD0cx+7CPDn1eceApcBO
+	UyuXd6EWCk5n+eG8vGXcYRbrn9o0ZVoHqb7eH+peO+xNky0bRtyvvBC34B+qqUu0BLtDUZtuuHP
+	MZeZcJTzHhBczHVEa4AB9sV6K9PAXcSSNs1nfX4F1xw==
+X-Gm-Gg: ASbGnct+K5B0+Wv6Kcosvl7/9yQ4eiU6ntStGDz+UFPexdY540pjqfoJE6/Kob2fLvt
+	awJcF6JPrDTJRXSiO5isJ5PJAP0uYaX2p1kIth5q20nos0FkbAHOyz3NgDW5Sq+j7a3NG6n3VDM
+	AYgl71YqNlix3b4l1Nwx+kZGrhnk5TfEZsrA==
+X-Google-Smtp-Source: AGHT+IHSldvXeMA/elq5GvdUeZXIE9U2qVSq25l+1UuvJ7nlZ4QemLu8hmu4wkxm84jlPfHrWshtHT5sVpyeKj3x5HU=
+X-Received: by 2002:a05:6808:1b85:b0:402:ebf9:b770 with SMTP id
+ 5614622812f47-40646855c6dmr6484125b6e.28.1748355698671; Tue, 27 May 2025
+ 07:21:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
- <20250526141316.7e907032@foz.lan> <DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
- <20250527111311.105246f2@sal.lan> <CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
- <20250527153547.6603eaf4@sal.lan>
-In-Reply-To: <20250527153547.6603eaf4@sal.lan>
-From: Alexandre Courbot <gnurou@gmail.com>
-Date: Tue, 27 May 2025 23:03:39 +0900
-X-Gm-Features: AX0GCFsjbpsQ1gE__bp7WHcbUJ9r5cDGiNxMBHIwTxLbUSGCpF8_YZBzNIeqr7k
-Message-ID: <CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
-Subject: Re: [PATCH v3] media: add virtio-media driver
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Albert Esteve <aesteve@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	gurchetansingh@google.com, daniel.almeida@collabora.com, adelva@google.com, 
-	changyeon@google.com, nicolas.dufresne@collabora.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	virtualization@lists.linux.dev
+References: <20250520152436.474778-1-jens.wiklander@linaro.org>
+ <20250520152436.474778-7-jens.wiklander@linaro.org> <aDQWt5Ck1Bo01Z_4@sumit-X1>
+ <CAHUa44E4-z7-7DQjyGXYRiZDf6mRBKYZDuxWFGy+3JxtWO1ocg@mail.gmail.com> <aDQ1YR5jbcOFctty@sumit-X1>
+In-Reply-To: <aDQ1YR5jbcOFctty@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 27 May 2025 16:21:27 +0200
+X-Gm-Features: AX0GCFufndHj8dMt0PaaB1DfiHys-ZIzTuXpul-y9wKknnwSsO_zDsCVnQgE3aw
+Message-ID: <CAHUa44HUzfWXEdLeAVimDM0DTFaTbCa4SSTcy8YPhDjWHR352Q@mail.gmail.com>
+Subject: Re: [PATCH v9 6/9] tee: add tee_shm_alloc_dma_mem()
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+	Rouven Czerwinski <rouven.czerwinski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 27, 2025 at 10:35=E2=80=AFPM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Mon, May 26, 2025 at 11:33=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org>=
+ wrote:
 >
-> Em Tue, 27 May 2025 22:21:42 +0900
-> Alexandre Courbot <gnurou@gmail.com> escreveu:
->
-> > On Tue, May 27, 2025 at 6:13=E2=80=AFPM Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:
+> On Mon, May 26, 2025 at 11:21:47AM +0200, Jens Wiklander wrote:
+> > On Mon, May 26, 2025 at 9:22=E2=80=AFAM Sumit Garg <sumit.garg@kernel.o=
+rg> wrote:
 > > >
-> > > Em Tue, 27 May 2025 15:14:50 +0900
-> > > "Alexandre Courbot" <gnurou@gmail.com> escreveu:
-> > >
-> > > > Hi Mauro,
-> > > >
-> > > > On Mon May 26, 2025 at 9:13 PM JST, Mauro Carvalho Chehab wrote:
-> > > > > Hi Michael,
-> > > > >
-> > > > > Em Sat, 12 Apr 2025 13:08:01 +0900
-> > > > > Alexandre Courbot <gnurou@gmail.com> escreveu:
-> > > > >
-> > > > >> Add the first version of the virtio-media driver.
-> > > > >>
-> > > > >> This driver acts roughly as a V4L2 relay between user-space and =
-the
-> > > > >> virtio virtual device on the host, so it is relatively simple, y=
-et
-> > > > >> unconventional. It doesn't use VB2 or other frameworks typically=
- used in
-> > > > >> a V4L2 driver, and most of its complexity resides in correctly a=
-nd
-> > > > >> efficiently building the virtio descriptor chain to pass to the =
-host,
-> > > > >> avoiding copies whenever possible. This is done by
-> > > > >> scatterlist_builder.[ch].
-> > > > >>
-> > > > >> virtio_media_ioctls.c proxies each supported ioctl to the host, =
-using
-> > > > >> code generated through macros for ioctls that can be forwarded d=
-irectly,
-> > > > >> which is most of them.
-> > > > >>
-> > > > >> virtio_media_driver.c provides the expected driver hooks, and su=
-pport
-> > > > >> for mmapping and polling.
-> > > > >>
-> > > > >>  This version supports MMAP buffers, while USERPTR buffers can a=
-lso be
-> > > > >>  enabled through a driver option. DMABUF support is still pendin=
-g.
-> > > > >
-> > > > > It sounds that you applied this one at the virtio tree, but it ha=
-sn't
-> > > > > being reviewed or acked by media maintainers.
-> > > > >
-> > > > > Please drop it.
-> > > > >
-> > > > > Alexandre,
-> > > > >
-> > > > > Please send media patches to media maintainers, c/c other subsyst=
-em
-> > > > > maintainers, as otherwise they might end being merged without a
-> > > > > proper review.
-> > > >
-> > > > Sorry about that, I put everyone in "To:" without giving it a secon=
-d
-> > > > thought.
-> > > >
-> > > > >
-> > > > > In this particular case, we need to double-check if this won't ca=
-use
-> > > > > any issues, in special with regards to media locks and mutexes.
-> > > >
-> > > > Agreed, I am not 100% confident about that part myself.
-> > > >
-> > > > >
-> > > > > I'll try to look on it after this merge window, as it is too late
-> > > > > for it to be applied during this one.
-> > > >
-> > > > Appreciate that - given the high traffic on the list I was worried =
-that
-> > > > this patch would eventually be overlooked. Not making it for this m=
-erge
-> > > > window should not be a problem, so please take the time you need.
-> > >
-> > > Provided that your patch was caught by patchwork, it won't be lost:
-> > >         https://patchwork.linuxtv.org/project/linux-media/patch/20250=
-412-virtio-media-v3-1-97dc94c18398@gmail.com/
-> > >
-> > > Please notice that our CI got a number of checkpatch issues there.
-> > > Please check and fix the non-false-positive ones.
-> >
-> > Will do. The macro-related ones are false-positives AFAICT. Some of
-> > the "lines should not end with a '('" are actually the result of
-> > applying clang-format with the kernel-provided style...
->
-> I don't know any lint tool that honors kernel style. The best one
-> is checkpatch with the auto-correcting parameter in pedantic mode,
-> but still one needs to manually review its output.
->
-> >
-> > >
-> > > Btw, I was looking at:
-> > >
-> > >         https://github.com/chromeos/virtio-media
-> > >
-> > > (I'm assuming that this is the QEMU counterpart, right?)
-> >
-> > crosvm actually, but QEMU support is also being worked on.
->
-> Do you have already QEMU patches? The best is to have the Kernel driver
-> submitted altogether with QEMU, as Kernel developers need it to do the
-> tests. In my case, I never use crosvm, and I don't have any Chromebook
-> anymore.
-
-IIRC Albert Esteve was working on this, maybe he can share the current stat=
-us.
-
-Note that crosvm does not require a Chromebook, you can build and run
-it pretty easily on a regular PC. I have put together a document to
-help with that:
-
-https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md
-
-It also shows how to proxy a host UVC camera into the guest and use
-some of the "fake" devices I talked about earlier. If following these
-steps is too much friction, just reading through the document should
-give you a decent idea of what virtio-media can do.
-
->
-> > > And I noticed something weird there:
-> > >
-> > >         "Unsupported ioctls
-> > >
-> > >          A few ioctls are replaced by other, more suitable mechanisms=
-. If being requested these ioctls, the device must return the same response=
- as it would for an unknown ioctl, i.e. ENOTTY.
-> > >
-> > >             VIDIOC_QUERYCAP is replaced by reading the configuration =
-area.
-> > >             VIDIOC_DQBUF is replaced by a dedicated event.
-> > >             VIDIOC_DQEVENT is replaced by a dedicated event."
-> > >
-> > > While this could be ok for cromeOS, this will be broken for guests wi=
-th
-> > > Linux, as all Linux applications rely on VIDIOC_QUERYCAP and VIDIOC_D=
-QBUF
-> > > to work. Please implement support for it, as otherwise we won't even =
-be
-> > > able to test the driver with the v4l2-compliance tool (*).
-> >
-> > The phrasing was a bit confusing. The guest driver does support these
-> > ioctls, and passes v4l2-compliance. So there is no problem here.
->
-> Please add v4l2-compliance output on the next patch series.
-
-Certainly. Note that the output is dependent on what the host provides
-for a device. If it e.g. proxies something that is not fully
-compliant, the guest will reflect the same errors.
-
->
-> > Where these ioctls are not supported is between the guest and the
-> > host, i.e. as ioctls encapsulated into a virtio request. For QUERYCAP,
-> > that's because the virtio configuration area already provides the same
-> > information. For DQBUF and DQEVENT, that's because we want to serve
-> > these asynchronously for performance reasons (hence the dedicated
-> > events).
-> >
-> > But these differences don't affect guest user applications which will
-> > be able to perform these ioctls exactly as they expect.
->
-> OK. Better to let it clear then at the documentation.
->
-> > >
-> > > (*) Passing at v4l2-compliance is a requirement for any media driver
-> > >     to be merged.
-> > >
-> > > With regards to testing, what's the expected testing scenario?
-> > > My guess is that, as a virtio device, a possible test scenario would =
-be
-> > > to have the UVC camera from the host OS mapped using virtio-camera in=
+> > > On Tue, May 20, 2025 at 05:16:49PM +0200, Jens Wiklander wrote:
+> > > > Add tee_shm_alloc_dma_mem() to allocate DMA memory. The memory is
+> > > > represented by a tee_shm object using the new flag TEE_SHM_DMA_MEM =
 to
-> > > the guest OS, allowing a V4L2 application running at the guest to map=
- the
-> > > camera from the host, right?
+> > > > identify it as DMA memory. The allocated memory will later be lent =
+to
+> > > > the TEE to be used as protected memory.
+> > > >
+> > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > > ---
+> > > >  drivers/tee/tee_shm.c    | 74 ++++++++++++++++++++++++++++++++++++=
+++--
+> > > >  include/linux/tee_core.h |  5 +++
+> > > >  2 files changed, 77 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> > > > index e1ed52ee0a16..92a6a35e1a1e 100644
+> > > > --- a/drivers/tee/tee_shm.c
+> > > > +++ b/drivers/tee/tee_shm.c
+> > > > @@ -5,6 +5,8 @@
+> > > >  #include <linux/anon_inodes.h>
+> > > >  #include <linux/device.h>
+> > > >  #include <linux/dma-buf.h>
+> > > > +#include <linux/dma-mapping.h>
+> > > > +#include <linux/highmem.h>
+> > > >  #include <linux/idr.h>
+> > > >  #include <linux/io.h>
+> > > >  #include <linux/mm.h>
+> > > > @@ -13,9 +15,14 @@
+> > > >  #include <linux/tee_core.h>
+> > > >  #include <linux/uaccess.h>
+> > > >  #include <linux/uio.h>
+> > > > -#include <linux/highmem.h>
+> > > >  #include "tee_private.h"
+> > > >
+> > > > +struct tee_shm_dma_mem {
+> > > > +     struct tee_shm shm;
+> > > > +     dma_addr_t dma_addr;
+> > > > +     struct page *page;
+> > > > +};
+> > > > +
+> > > >  static void shm_put_kernel_pages(struct page **pages, size_t page_=
+count)
+> > > >  {
+> > > >       size_t n;
+> > > > @@ -49,7 +56,14 @@ static void tee_shm_release(struct tee_device *t=
+eedev, struct tee_shm *shm)
+> > > >       struct tee_shm *parent_shm =3D NULL;
+> > > >       void *p =3D shm;
+> > > >
+> > > > -     if (shm->flags & TEE_SHM_DMA_BUF) {
+> > > > +     if (shm->flags & TEE_SHM_DMA_MEM) {
+> > > > +             struct tee_shm_dma_mem *dma_mem;
+> > > > +
+> > > > +             dma_mem =3D container_of(shm, struct tee_shm_dma_mem,=
+ shm);
+> > > > +             p =3D dma_mem;
+> > > > +             dma_free_pages(&teedev->dev, shm->size, dma_mem->page=
+,
+> > > > +                            dma_mem->dma_addr, DMA_BIDIRECTIONAL);
+> > >
+> > > Although the kernel bot already found a randconfig issue, it looks li=
+ke
+> > > we need to add Kconfig dependencies like HAS_DMA, DMA_CMA etc.
+> > >
+> > > Also, I was thinking if we should rather add a new TEE subsystem
+> > > specific Kconfig option like: TEE_DMABUF_HEAPS which can then be used=
+ to
+> > > select whatever dependency is needed as well as act as a gating Kconf=
+ig
+> > > for relevant features.
 > >
-> > That's one of the scenarios, yes.
+> > You mean something like this?
+> >
+> > --- a/drivers/tee/Kconfig
+> > +++ b/drivers/tee/Kconfig
+> > @@ -13,6 +13,14 @@ menuconfig TEE
+> >
+> >  if TEE
+> >
+> > +config TEE_DMABUF_HEAPS
+> > +       bool
+> > +       depends on HAS_DMA && DMABUF_HEAPS
 >
-> Ok, this is the easiest test scenario for media developers.
->
-> > Another one is to expose an accelerated decoder on the host to the gues=
-t.
->
-> > One can also create
-> > "fake" devices backed by software on the host for testing purposes.
->
-> That sounds interesting. It probably makes sense to have some test
-> scenario using such fake devices plus v4l2-compliance test to check
-> for regressions running on some CI engine.
+> Yeah this looks fine to me but needs to be tested if DMA_CMA is a
+> dependency here too.
 
-Yes, regression catching in a CI is one of the use-cases we thought about.
+Why? It can work without CMA for small allocations.
 
 >
-> > That's actually the benefit of using V4L2 as a guest/host protocol:
-> > the same guest and the same software stack on the host can be used to
+> > +
+> > +config TEE_STATIC_PROTMEM_POOL
+> > +       bool
+> > +       depends on HAS_IOMEM && TEE_DMABUF_HEAPS
+>
+> The static and dynamic protected memory pools should get auto enabled if
+> TEE_DMABUF_HEAPS is enabled since they are pre-requisite to provide the
+> protected heaps support. Something like:
+>
+> +config TEE_STATIC_PROTMEM_POOL
+> +       bool
+> +       default y if TEE_DMABUF_HEAPS
+> +       depends on HAS_IOMEM
 
-I made a typo here: "the same guest DRIVER". That's an important point. :)
+Right, I'll update as needed.
 
 Cheers,
-Alex.
+Jens
 
