@@ -1,307 +1,304 @@
-Return-Path: <linux-media+bounces-33475-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33476-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFFFAC5119
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:43:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2012EAC511E
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:44:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDFD13AEE3E
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:42:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ACD391BA1829
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:44:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0118F2798F0;
-	Tue, 27 May 2025 14:42:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9782797B4;
+	Tue, 27 May 2025 14:44:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djyVeERZ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RNWhymBY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB741F941;
-	Tue, 27 May 2025 14:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3ECF3209
+	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 14:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748356971; cv=none; b=mKLC8+ycHDtRf0HiIDYdRXbB7m+hmG/08Z3fYwIdCvGT1OOb3tvcrQ8S/QLCFvTpWvUpOG1Ys7l4W0djkhHat/TOk+iVKtHLwNbg7lp6vrH8PnBszInadb1L9GwXUEmMviZ2TOCxaOnKOciWHh4d0GvW9jG8IKtFvDmxfOO6GUU=
+	t=1748357039; cv=none; b=PvTJzTKkmBc3OYstRs3MQjQDMSrPo3/jICJpkXRKmKXEN+KBOu72XCE/jKvHWUEjrNi2xUcGFHkEHFrYWt7mDWN2GWhnrQh1FQDxuVlY6ophSjVeHiyE9qEPzX+m84TdMaIVNijd1OK2YveIAGJBbtbdkfZdtz5wxpoWBh6fMdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748356971; c=relaxed/simple;
-	bh=8geZ4qXr1FSvl4Ew6bYQUl/LC8TNtcxxw9kuy8qjcrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u2qE3qge/IsSxWriJzlJu7lhikjRHGWfvalA04OHNW+SthnJkXkpD5OuCabzcqUVLSG5h75mcGN7RFkD+XfweNlohknnQHUbJI0cIvr99KBCiDzqUzQzMLxKdJNDS+nJXdgGF6ilh4Y6X4l4AXpaRzYiiGICjf0lycZwS/CbqPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djyVeERZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC387C4CEE9;
-	Tue, 27 May 2025 14:42:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748356970;
-	bh=8geZ4qXr1FSvl4Ew6bYQUl/LC8TNtcxxw9kuy8qjcrs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=djyVeERZ9tAKT02w/1kww+yWBYTOlyoJRMAcZc9ymzt7bzmMgSnPWgxqujR6yaW1q
-	 fBdt1Wj2TzcQz3TFtKww8rJ9pK2diXabPC6XkEzU3WVTEZ9b4rqRCPbNFQrLm55kRt
-	 /roFRZz6aqGFMwGWKi9lKmh2apG0KfRKlbXLo8mf78lZKfpYJYZeyozWemCiXhSiE2
-	 jlZ3/uvDax4gDk5Q+tkMBIWy6aCTtwwIeT1vRKGrerAC1mOB8K+H7CYwLwHZHvXoqz
-	 ydnG3cPmpWz/e/2eQuGbBVGi2SrPZH09UOss6GSEIQ1exbGGyoXIVJtDDaUI3quwyO
-	 ZKuwFuhzItjoA==
-Date: Tue, 27 May 2025 16:42:43 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Alexandre Courbot <gnurou@gmail.com>
-Cc: Albert Esteve <aesteve@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, gurchetansingh@google.com,
- daniel.almeida@collabora.com, adelva@google.com, changyeon@google.com,
- nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH v3] media: add virtio-media driver
-Message-ID: <20250527164243.092e8aae@sal.lan>
-In-Reply-To: <CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
-	<20250526141316.7e907032@foz.lan>
-	<DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
-	<20250527111311.105246f2@sal.lan>
-	<CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
-	<20250527153547.6603eaf4@sal.lan>
-	<CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1748357039; c=relaxed/simple;
+	bh=NcHpXxTOV7lxe0Br6GDtv1Xwjlkejzd3tO8+v713i8s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QegTJdTpWDIbKmcXqo7E0o4HjaI1OxqUo+dOwj/SIbsekNXjQfXOv6hJBKT9tqKNbCIlkWxsBu8QgTOJesofiys1uVy3vB5ft7TzuhzGYOD/N+vU/VQtpb9L+78/Ia7J4GaLZoerOBIE1dQrV58vEYhmwFB6+pkqIy1LWm/2QU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RNWhymBY; arc=none smtp.client-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3f94b7bd964so1977097b6e.1
+        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 07:43:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748357037; x=1748961837; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=95DgJLZjEvQybIlPP+VCo5ApfOw6ewx9PjK94wls/Kk=;
+        b=RNWhymBY7M2CBFav0CuXizK8wVg8Z2WWKxHJwO91F0Mptl8i2rzWTthJD5n/w1QMTi
+         wb7n9TtlMSKwLqc/wShGZ3B9Nk4Rs94/O2GZjjytkZ3PaT1rOco00jueDrNmsf0lyO+N
+         S2a/oNKqkp/5AGCL8heTJlLa0QwEfPGeZoblz1GKL+otamSZvaS8lxvDwBIW6O1TBglJ
+         EyRcD+jVC5Zbwhwz6ikg3A1E4HGrqr6Fo31yDyWzbgVF0FSW8bwC5VosFUgS3XFFKSQg
+         vTckSkqMUogxyOEbOLI597u9l1avmtxMVYeu8iWfuv3w7ZQdscM3DhEC/X0PHggcdU3S
+         4trg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748357037; x=1748961837;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=95DgJLZjEvQybIlPP+VCo5ApfOw6ewx9PjK94wls/Kk=;
+        b=Y3X9xDV2SMMRpdgTk2zdGVdsQpwbN2IRwp9Ju/bBVRDZ1WdDQczHkzJFXREuDoSsfH
+         TKwMliezJuA/td+l7/F+UuGpejOOII6QRmacoEPdnH8Ky28+iX7vLVWtQYiJTP16UczK
+         kEwhj5nMykE536MZGLNA5HGQ5fdLX+KPbZQsLxNPTZgLNGslp5UWtI1mXI2YVAyRWV8E
+         2ngWBKoekwBJskL4UQgwEYZpPM0tXKnvNqsul8HhLmUqnrGFO6tDQjeSG9119R8PvYp/
+         3N4h4kHMkwWaGFdMNik5Bm+LmEGPmWIFSzi/1UV7XwIArtZgJupsSpKcaPExy7LdlwGy
+         ixdw==
+X-Forwarded-Encrypted: i=1; AJvYcCWy9xb+xpvIesUeBk5l8omueOkTZ15S6uKkN/1YRuDMhBCgRYNUfPPztvd/d4WvHu8wvGOd8yfucYWgyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqPWFJKgARGMdf6EEh9oAQwOP6DwW7kgeviU9iuVBFciKLRUZm
+	2er2nxTsQ8i5I3o79x1Fgqn7tC6OdpP61yGZkr1IO6r5ekYi8EToNfsezL7MuLXV8W5NJETEzmR
+	hSfWoM9+f5lfqs08dNrmCRh42Qt9G0a5nRLNy4rscMg==
+X-Gm-Gg: ASbGncuYeNn2U1dumuTZo7MRbE4KOLNLscVCV05fCXV+coKwvkjwXuYb56VwkBHXgC9
+	qXEHwgPKzezRUnMpkYQ53GgIRQqlIedRj5FseTg0Wrvw84H1qRQ/R5/3ckVPJJLrc+WTEvHUclL
+	r77u9vw6rzExhHMtTGtGrfl5nE0IEgEAj3/A==
+X-Google-Smtp-Source: AGHT+IHpSqYMZnJIwMvd/4lAF+O9cYNaktKk9pOe7eLVIejN5m7i3i+I+Kqp9vE8g8yw+eb4yKgrKppgkbkYaaS4u4c=
+X-Received: by 2002:a05:6808:3a19:b0:403:3195:58cf with SMTP id
+ 5614622812f47-406467f6a5emr7481831b6e.1.1748357036861; Tue, 27 May 2025
+ 07:43:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250520152436.474778-1-jens.wiklander@linaro.org>
+ <20250520152436.474778-10-jens.wiklander@linaro.org> <aDQitSd27Z4qC0xT@sumit-X1>
+In-Reply-To: <aDQitSd27Z4qC0xT@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 27 May 2025 16:43:44 +0200
+X-Gm-Features: AX0GCFsAg3SlBrsMFYU7wBuZbNCOqXi00PEfamwreFmZfzirEP5JjBZls3rnlgg
+Message-ID: <CAHUa44E=FKAGWk-pjq176b9ri7kgL8PqN6rpBeoPKgfj5EuWTA@mail.gmail.com>
+Subject: Re: [PATCH v9 9/9] optee: smc abi: dynamic protected memory allocation
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+	Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Em Tue, 27 May 2025 23:03:39 +0900
-Alexandre Courbot <gnurou@gmail.com> escreveu:
-
-> On Tue, May 27, 2025 at 10:35=E2=80=AFPM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
+On Mon, May 26, 2025 at 10:13=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org>=
+ wrote:
+>
+> On Tue, May 20, 2025 at 05:16:52PM +0200, Jens Wiklander wrote:
+> > Add support in the OP-TEE backend driver for dynamic protected memory
+> > allocation using the SMC ABI.
 > >
-> > Em Tue, 27 May 2025 22:21:42 +0900
-> > Alexandre Courbot <gnurou@gmail.com> escreveu:
-> > =20
-> > > On Tue, May 27, 2025 at 6:13=E2=80=AFPM Mauro Carvalho Chehab
-> > > <mchehab+huawei@kernel.org> wrote: =20
-> > > >
-> > > > Em Tue, 27 May 2025 15:14:50 +0900
-> > > > "Alexandre Courbot" <gnurou@gmail.com> escreveu:
-> > > > =20
-> > > > > Hi Mauro,
-> > > > >
-> > > > > On Mon May 26, 2025 at 9:13 PM JST, Mauro Carvalho Chehab wrote: =
-=20
-> > > > > > Hi Michael,
-> > > > > >
-> > > > > > Em Sat, 12 Apr 2025 13:08:01 +0900
-> > > > > > Alexandre Courbot <gnurou@gmail.com> escreveu:
-> > > > > > =20
-> > > > > >> Add the first version of the virtio-media driver.
-> > > > > >>
-> > > > > >> This driver acts roughly as a V4L2 relay between user-space an=
-d the
-> > > > > >> virtio virtual device on the host, so it is relatively simple,=
- yet
-> > > > > >> unconventional. It doesn't use VB2 or other frameworks typical=
-ly used in
-> > > > > >> a V4L2 driver, and most of its complexity resides in correctly=
- and
-> > > > > >> efficiently building the virtio descriptor chain to pass to th=
-e host,
-> > > > > >> avoiding copies whenever possible. This is done by
-> > > > > >> scatterlist_builder.[ch].
-> > > > > >>
-> > > > > >> virtio_media_ioctls.c proxies each supported ioctl to the host=
-, using
-> > > > > >> code generated through macros for ioctls that can be forwarded=
- directly,
-> > > > > >> which is most of them.
-> > > > > >>
-> > > > > >> virtio_media_driver.c provides the expected driver hooks, and =
-support
-> > > > > >> for mmapping and polling.
-> > > > > >>
-> > > > > >>  This version supports MMAP buffers, while USERPTR buffers can=
- also be
-> > > > > >>  enabled through a driver option. DMABUF support is still pend=
-ing. =20
-> > > > > >
-> > > > > > It sounds that you applied this one at the virtio tree, but it =
-hasn't
-> > > > > > being reviewed or acked by media maintainers.
-> > > > > >
-> > > > > > Please drop it.
-> > > > > >
-> > > > > > Alexandre,
-> > > > > >
-> > > > > > Please send media patches to media maintainers, c/c other subsy=
-stem
-> > > > > > maintainers, as otherwise they might end being merged without a
-> > > > > > proper review. =20
-> > > > >
-> > > > > Sorry about that, I put everyone in "To:" without giving it a sec=
-ond
-> > > > > thought.
-> > > > > =20
-> > > > > >
-> > > > > > In this particular case, we need to double-check if this won't =
-cause
-> > > > > > any issues, in special with regards to media locks and mutexes.=
- =20
-> > > > >
-> > > > > Agreed, I am not 100% confident about that part myself.
-> > > > > =20
-> > > > > >
-> > > > > > I'll try to look on it after this merge window, as it is too la=
-te
-> > > > > > for it to be applied during this one. =20
-> > > > >
-> > > > > Appreciate that - given the high traffic on the list I was worrie=
-d that
-> > > > > this patch would eventually be overlooked. Not making it for this=
- merge
-> > > > > window should not be a problem, so please take the time you need.=
- =20
-> > > >
-> > > > Provided that your patch was caught by patchwork, it won't be lost:
-> > > >         https://patchwork.linuxtv.org/project/linux-media/patch/202=
-50412-virtio-media-v3-1-97dc94c18398@gmail.com/
-> > > >
-> > > > Please notice that our CI got a number of checkpatch issues there.
-> > > > Please check and fix the non-false-positive ones. =20
-> > >
-> > > Will do. The macro-related ones are false-positives AFAICT. Some of
-> > > the "lines should not end with a '('" are actually the result of
-> > > applying clang-format with the kernel-provided style... =20
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >  drivers/tee/optee/smc_abi.c | 102 ++++++++++++++++++++++++++++++------
+> >  1 file changed, 85 insertions(+), 17 deletions(-)
 > >
-> > I don't know any lint tool that honors kernel style. The best one
-> > is checkpatch with the auto-correcting parameter in pedantic mode,
-> > but still one needs to manually review its output.
-> > =20
-> > > =20
-> > > >
-> > > > Btw, I was looking at:
-> > > >
-> > > >         https://github.com/chromeos/virtio-media
-> > > >
-> > > > (I'm assuming that this is the QEMU counterpart, right?) =20
-> > >
-> > > crosvm actually, but QEMU support is also being worked on. =20
+> > diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> > index f3cae8243785..6b3fbe7f0909 100644
+> > --- a/drivers/tee/optee/smc_abi.c
+> > +++ b/drivers/tee/optee/smc_abi.c
+> > @@ -965,6 +965,70 @@ static int optee_smc_do_call_with_arg(struct tee_c=
+ontext *ctx,
+> >       return rc;
+> >  }
 > >
-> > Do you have already QEMU patches? The best is to have the Kernel driver
-> > submitted altogether with QEMU, as Kernel developers need it to do the
-> > tests. In my case, I never use crosvm, and I don't have any Chromebook
-> > anymore. =20
->=20
-> IIRC Albert Esteve was working on this, maybe he can share the current st=
-atus.
-
-That would be nice.
-
->=20
-> Note that crosvm does not require a Chromebook, you can build and run
-> it pretty easily on a regular PC. I have put together a document to
-> help with that:
->=20
-> https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md
->=20
-> It also shows how to proxy a host UVC camera into the guest and use
-> some of the "fake" devices I talked about earlier.
-
-Ok, I'll look on it, thanks for the hint!
-
-> If following these
-> steps is too much friction, just reading through the document should
-> give you a decent idea of what virtio-media can do.
->=20
-> > =20
-> > > > And I noticed something weird there:
-> > > >
-> > > >         "Unsupported ioctls
-> > > >
-> > > >          A few ioctls are replaced by other, more suitable mechanis=
-ms. If being requested these ioctls, the device must return the same respon=
-se as it would for an unknown ioctl, i.e. ENOTTY.
-> > > >
-> > > >             VIDIOC_QUERYCAP is replaced by reading the configuratio=
-n area.
-> > > >             VIDIOC_DQBUF is replaced by a dedicated event.
-> > > >             VIDIOC_DQEVENT is replaced by a dedicated event."
-> > > >
-> > > > While this could be ok for cromeOS, this will be broken for guests =
-with
-> > > > Linux, as all Linux applications rely on VIDIOC_QUERYCAP and VIDIOC=
-_DQBUF
-> > > > to work. Please implement support for it, as otherwise we won't eve=
-n be
-> > > > able to test the driver with the v4l2-compliance tool (*). =20
-> > >
-> > > The phrasing was a bit confusing. The guest driver does support these
-> > > ioctls, and passes v4l2-compliance. So there is no problem here. =20
+> > +static int optee_smc_lend_protmem(struct optee *optee, struct tee_shm =
+*protmem,
+> > +                               u16 *end_points, unsigned int ep_count,
+> > +                               u32 use_case)
+> > +{
+> > +     struct optee_shm_arg_entry *entry;
+> > +     struct optee_msg_arg *msg_arg;
+> > +     struct tee_shm *shm;
+> > +     u_int offs;
+> > +     int rc;
+> > +
+> > +     msg_arg =3D optee_get_msg_arg(optee->ctx, 2, &entry, &shm, &offs)=
+;
+> > +     if (IS_ERR(msg_arg))
+> > +             return PTR_ERR(msg_arg);
+> > +
+> > +     msg_arg->cmd =3D OPTEE_MSG_CMD_LEND_PROTMEM;
+> > +     msg_arg->params[0].attr =3D OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
+> > +     msg_arg->params[0].u.value.a =3D use_case;
+> > +     msg_arg->params[1].attr =3D OPTEE_MSG_ATTR_TYPE_TMEM_INPUT;
+> > +     msg_arg->params[1].u.tmem.buf_ptr =3D protmem->paddr;
+> > +     msg_arg->params[1].u.tmem.size =3D protmem->size;
+> > +     msg_arg->params[1].u.tmem.shm_ref =3D (u_long)protmem;
+> > +
+> > +     rc =3D optee->ops->do_call_with_arg(optee->ctx, shm, offs, false)=
+;
+> > +     if (rc)
+> > +             goto out;
+> > +     if (msg_arg->ret !=3D TEEC_SUCCESS) {
+> > +             rc =3D -EINVAL;
+> > +             goto out;
+> > +     }
+> > +     protmem->sec_world_id =3D (u_long)protmem;
+> > +
+> > +out:
+> > +     optee_free_msg_arg(optee->ctx, entry, offs);
+> > +     return rc;
+> > +}
+> > +
+> > +static int optee_smc_reclaim_protmem(struct optee *optee,
+> > +                                  struct tee_shm *protmem)
+> > +{
+> > +     struct optee_shm_arg_entry *entry;
+> > +     struct optee_msg_arg *msg_arg;
+> > +     struct tee_shm *shm;
+> > +     u_int offs;
+> > +     int rc;
+> > +
+> > +     msg_arg =3D optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs)=
+;
+> > +     if (IS_ERR(msg_arg))
+> > +             return PTR_ERR(msg_arg);
+> > +
+> > +     msg_arg->cmd =3D OPTEE_MSG_CMD_RECLAIM_PROTMEM;
+> > +     msg_arg->params[0].attr =3D OPTEE_MSG_ATTR_TYPE_RMEM_INPUT;
+> > +     msg_arg->params[0].u.rmem.shm_ref =3D (u_long)protmem;
+> > +
+> > +     rc =3D optee->ops->do_call_with_arg(optee->ctx, shm, offs, false)=
+;
+> > +     if (rc)
+> > +             goto out;
+> > +     if (msg_arg->ret !=3D TEEC_SUCCESS)
+> > +             rc =3D -EINVAL;
+> > +
+> > +out:
+> > +     optee_free_msg_arg(optee->ctx, entry, offs);
+> > +     return rc;
+> > +}
+> > +
+> >  /*
+> >   * 5. Asynchronous notification
+> >   */
+> > @@ -1216,6 +1280,8 @@ static const struct optee_ops optee_ops =3D {
+> >       .do_call_with_arg =3D optee_smc_do_call_with_arg,
+> >       .to_msg_param =3D optee_to_msg_param,
+> >       .from_msg_param =3D optee_from_msg_param,
+> > +     .lend_protmem =3D optee_smc_lend_protmem,
+> > +     .reclaim_protmem =3D optee_smc_reclaim_protmem,
+> >  };
 > >
-> > Please add v4l2-compliance output on the next patch series. =20
->=20
-> Certainly. Note that the output is dependent on what the host provides
-> for a device. If it e.g. proxies something that is not fully
-> compliant, the guest will reflect the same errors.
-
-Makes sense. In this case, the best is to add at the PR the v4l2-compliance
-output for both the host real V4L2 driver and the guest one.
-
->=20
-> > =20
-> > > Where these ioctls are not supported is between the guest and the
-> > > host, i.e. as ioctls encapsulated into a virtio request. For QUERYCAP,
-> > > that's because the virtio configuration area already provides the same
-> > > information. For DQBUF and DQEVENT, that's because we want to serve
-> > > these asynchronously for performance reasons (hence the dedicated
-> > > events).
-> > >
-> > > But these differences don't affect guest user applications which will
-> > > be able to perform these ioctls exactly as they expect. =20
+> >  static int enable_async_notif(optee_invoke_fn *invoke_fn)
+> > @@ -1586,11 +1652,14 @@ static inline int optee_load_fw(struct platform=
+_device *pdev,
 > >
-> > OK. Better to let it clear then at the documentation.
-> > =20
-> > > >
-> > > > (*) Passing at v4l2-compliance is a requirement for any media driver
-> > > >     to be merged.
-> > > >
-> > > > With regards to testing, what's the expected testing scenario?
-> > > > My guess is that, as a virtio device, a possible test scenario woul=
-d be
-> > > > to have the UVC camera from the host OS mapped using virtio-camera =
-into
-> > > > the guest OS, allowing a V4L2 application running at the guest to m=
-ap the
-> > > > camera from the host, right? =20
-> > >
-> > > That's one of the scenarios, yes. =20
+> >  static int optee_protmem_pool_init(struct optee *optee)
+> >  {
+> > +     bool protm =3D optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM;
+> > +     bool dyn_protm =3D optee->smc.sec_caps &
+> > +                      OPTEE_SMC_SEC_CAP_DYNAMIC_PROTMEM;
+> >       enum tee_dma_heap_id heap_id =3D TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
+> > -     struct tee_protmem_pool *pool;
+> > -     int rc;
+> > +     struct tee_protmem_pool *pool =3D ERR_PTR(-EINVAL);
+> > +     int rc =3D -EINVAL;
 > >
-> > Ok, this is the easiest test scenario for media developers.
-> > =20
-> > > Another one is to expose an accelerated decoder on the host to the gu=
-est. =20
-> > =20
-> > > One can also create
-> > > "fake" devices backed by software on the host for testing purposes. =
-=20
+> > -     if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM) {
+> > +     if (protm) {
+> >               union {
+> >                       struct arm_smccc_res smccc;
+> >                       struct optee_smc_get_protmem_config_result result=
+;
+> > @@ -1598,26 +1667,26 @@ static int optee_protmem_pool_init(struct optee=
+ *optee)
 > >
-> > That sounds interesting. It probably makes sense to have some test
-> > scenario using such fake devices plus v4l2-compliance test to check
-> > for regressions running on some CI engine. =20
->=20
-> Yes, regression catching in a CI is one of the use-cases we thought about.
->=20
-> > =20
-> > > That's actually the benefit of using V4L2 as a guest/host protocol:
-> > > the same guest and the same software stack on the host can be used to=
- =20
->=20
-> I made a typo here: "the same guest DRIVER". That's an important point. :)
+> >               optee->smc.invoke_fn(OPTEE_SMC_GET_PROTMEM_CONFIG, 0, 0, =
+0, 0,
+> >                                    0, 0, 0, &res.smccc);
+> > -             if (res.result.status !=3D OPTEE_SMC_RETURN_OK) {
+> > -                     pr_err("Secure Data Path service not available\n"=
+);
+> > -                     return 0;
+> > -             }
+> > -             rc =3D optee_set_dma_mask(optee, res.result.pa_width);
+> > +             if (res.result.status =3D=3D OPTEE_SMC_RETURN_OK)
+> > +                     rc =3D optee_set_dma_mask(optee, res.result.pa_wi=
+dth);
+>
+> This change should be folded in patch 7/9.
 
-It was clear enough to me ;-)
+OK
 
->=20
-> Cheers,
-> Alex.
+>
+> >               if (!rc)
+> >                       pool =3D tee_protmem_static_pool_alloc(res.result=
+.start,
+> >                                                            res.result.s=
+ize);
+> > -             if (IS_ERR(pool))
+> > -                     return PTR_ERR(pool);
+> > +     }
+> >
+> > +     if (dyn_protm && IS_ERR(pool))
+> > +             pool =3D optee_protmem_alloc_dyn_pool(optee, heap_id);
+> > +
+> > +     if (!IS_ERR(pool)) {
+> >               rc =3D tee_device_register_dma_heap(optee->teedev, heap_i=
+d, pool);
+> >               if (rc)
+> > -                     goto err;
+> > +                     pool->ops->destroy_pool(pool);
+> >       }
+> >
+> > +     if (protm || dyn_protm)
+> > +             return rc;
+> > +
+> >       return 0;
+> > -err:
+> > -     pool->ops->destroy_pool(pool);
+> > -     return rc;
+> >  }
+> >
+> >  static int optee_probe(struct platform_device *pdev)
+> > @@ -1788,9 +1857,8 @@ static int optee_probe(struct platform_device *pd=
+ev)
+> >               pr_info("Asynchronous notifications enabled\n");
+> >       }
+> >
+> > -     rc =3D optee_protmem_pool_init(optee);
+> > -     if (rc)
+> > -             goto err_notif_uninit;
+> > +     if (optee_protmem_pool_init(optee))
+> > +             pr_info("Protected memory service not available\n");
+>
+> This change can be folded in patch 7/9.
+
+Yes, that makes sense.
+
+Cheers,
+Jens
+
+>
+> Rest looks good to me.
+>
+> -Sumit
+>
+> >
+> >       /*
+> >        * Ensure that there are no pre-existing shm objects before enabl=
+ing
+> > --
+> > 2.43.0
+> >
 
