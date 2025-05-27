@@ -1,128 +1,129 @@
-Return-Path: <linux-media+bounces-33441-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33442-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFBBAC4A09
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 10:19:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 517B9AC4A59
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 10:32:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6DE717516F
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 08:19:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC8603AF740
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 08:31:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76CC7248F70;
-	Tue, 27 May 2025 08:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C292E23FC6B;
+	Tue, 27 May 2025 08:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pVTYCAhX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Yb8vv4qc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0796248867
-	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 08:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849D51F8722
+	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 08:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748333974; cv=none; b=nvWb4PuhPexOO3KniwB1kn1CHLmoXPg/bQ4fAIABfPbzRc3R6DMb1oFI6xUnKLsQkPOJGcjqyHjrf2Plu3ff0LtwjcXFXBahtezCHPDKUL69Mg/JeW+5Sx14kLc/HKsznIlklQvISXfaMWjKJCXLhEcljqusBSwDZ2p03bz4614=
+	t=1748334726; cv=none; b=tY0GBy7iyFRBwBSgqoFKOtC9fK1AjzygAx0ey1HhY/+5JF7Uu83TP8wnNaS99tIp6h5iKh8pgIbOwrowWjEcVjYLJEaGEnE7AQS8OMTGCLYoWmKYO4B4yL7Y/D0+zHL2RiVhNUCbuZOBhmAXBLBYAXcxkk2ZU1qEePjOSUKYm0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748333974; c=relaxed/simple;
-	bh=ia8kZdP0HFoJkRuqfb9xYK3PP1X9WFdfCow4Ewno8P0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iP6QtXdnHBoEPHzlexrampZaNF7/ldwE9V1YM2YRpKg2XvK0lPgg4y83OBsTGXNcGX1jKSV4WV3/7rFX71FmFbo3Zesf1LPOkAXBF4Z6r6esG3mGGRI9ivpXzj5yLy9OuhX2QJGE1ZTu98kA6s7wr29VvZtVGNnlyHepWxJpB2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pVTYCAhX; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-441ab63a415so35960305e9.3
-        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 01:19:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748333971; x=1748938771; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dMOUzI+Rl9kCd96v3bJcE+T2pFM5Ij46/8q1c510Oug=;
-        b=pVTYCAhXK0P46qJjOhOoNjEwGWdy7Z6CbVLokeqZf5mbK9vDAB/ep6MskK6VIrTfQM
-         EcTNKvJs+jSB34M0oV7Na+ujMXdhffd4tDC/8qp063d2j4XOksNeFdgISMj/X30xiJty
-         gM+/hTM8P4rLkgm6gk2IOrhD/j7Ci+M7BfWzfv9DnF6kAqPTK2xRO1y0N6Ys3TGzHWo0
-         jvogReYJOQsXzrxW+qlqyBAHShL3nJ0lctCRC0DL2X8DM5+R6m5IQS9P03ZJenMhK1Zd
-         Uw4mVOIF5+8jAq/hpmbzULXJXPlhDQVhVoIvDYV/IacmYptdI0gtYpQbDqi5O1XyNlnJ
-         3w6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748333971; x=1748938771;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dMOUzI+Rl9kCd96v3bJcE+T2pFM5Ij46/8q1c510Oug=;
-        b=VaptTMmYuLTK5NueRUMZtd9cfDI43DdCOTqmBoYOmKB4GPStlIwqx/U77tl9/OfEFQ
-         9B7cFeeZ11RerhGfkBeLqVshyKTN3sHtcqqEDbTzoRDF+wGfBKPfQ4FXSuDSN6EQhSR4
-         YtyJ7wy3mzp6AcfLFYod83+zYvWU3/r01z4i9cOUUXRKQL9Ulv3dp87nRD4T5q9UMYCQ
-         TEa/xs5Ku1ob+b1G2YbqNgWlHRKhGpAapvYED/oydmZTLvW7AGzKitB4vC35OBOqgxHi
-         UQPrlf+i/HdNBNEPmIBQX7suQN2ZfiUIgAFGc8i+dRkMhEmp8Kd6cENjQxZmJejemuty
-         8z4g==
-X-Forwarded-Encrypted: i=1; AJvYcCW9jHNx7oGjMIiV5u0vYu7+INOJhJH3UMZ0e+5+U9Ve8i2nWml7WnctW2XLlzGRpnzhWx6yxtarpkCOXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+MwLSBPtOS+y6iubXpkv+JWA7Us7GOyUqfZtgXxZ6tBIRVImq
-	aIYNyhfadx7qr66S7LcpbZyMD5UmMU1xC5OkUvxwQLa3CBNv/3Mpxfkqgm4aBRIEOCE=
-X-Gm-Gg: ASbGncudJHM4yWuQ+0ebo7wjfXbT+7Jyont0egbHXaDLLdIoA8pg/4Y8T2mIP3Q2iy7
-	/bekwdaNehEiahmo8hr9QgNJpXrh0ask7UWcxSE9o8pDe2kRVmuwTxSH4rbBLxglUqcbial2pKp
-	rlL871UodqAGRJ5Oah4iZKc7uKn5yy0QW72bfC78kOqLZh6k+QCA71HDt4DwzPcO8w9GdYMdgzR
-	7B+AFeQTQ/o6Nd6oc3BeE/Znnd5UeMpWXHN3AIr5A8nMbD/n/Uqx0itbA/EAe3RmyUf/OK4Sj8T
-	O+dBNMkcgz7OWmUD5rRu5fdtA2QRDO6Tla3vssEm6Jq8YSvHR/wjKpxjvvYJSjRZGWOCZKVu4NC
-	gE9OCFe7C4krzWnWu
-X-Google-Smtp-Source: AGHT+IFjTsGVi2CK4OkLJrI3Smdv4M+APjpCmrgDiR1D6zlgPXvjVIxxpzIlokGl7A7BbOpPT/vmFw==
-X-Received: by 2002:a05:600c:a13:b0:440:6852:5b31 with SMTP id 5b1f17b1804b1-44c91dd151amr132439605e9.10.1748333971167;
-        Tue, 27 May 2025 01:19:31 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4d53ce0b4sm6807921f8f.37.2025.05.27.01.19.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 May 2025 01:19:30 -0700 (PDT)
-Message-ID: <b3d4b080-5a9e-4af0-bce7-41c06d1d27f0@linaro.org>
-Date: Tue, 27 May 2025 09:19:29 +0100
+	s=arc-20240116; t=1748334726; c=relaxed/simple;
+	bh=z2sfmjl6Pw/ZBMKqzA4OOm9ek6mcObEXGfFNcGUeqd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o69rSdT6bSVwubVRTOGVJ74uBFA9+4KHwrfK+QSSJ7biOhi8I7k0qVRDd0q1Fm+teSzRzFrrAa6iHuFiA/LZyHzH8wphsDcg/9tFbCeoBxx+CTQ59bK96YoQe7rem7Uy0YXEazkb48WbrMdHPEkSQ7hXGt/pWLjj3pShX/e6SCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Yb8vv4qc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [178.248.166.46])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DA7F2B3;
+	Tue, 27 May 2025 10:31:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748334697;
+	bh=z2sfmjl6Pw/ZBMKqzA4OOm9ek6mcObEXGfFNcGUeqd4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yb8vv4qcouliHvZjrdSaBM+WQQ7FhpqBTSxeItN9oYMZWMhInlnsQc4b3dnt1rMML
+	 cDAzXhxhUEsFWo7+T0eaiP44wzepkQRdthj/Y7RGun+Ju2B7HO0Jzn/aUGgF37at+H
+	 Y5IJaKq4Pmdx3pS5TRWtDEK3YNzPkt1b/Oq0ubnk=
+Date: Tue, 27 May 2025 10:31:57 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hans@jjverkuil.nl>, linux-media@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [GIT PULL FOR v6.16] uvcvideo improvements
+Message-ID: <20250527083157.GH2942@pendragon.ideasonboard.com>
+References: <20250509124615.GA12452@pendragon.ideasonboard.com>
+ <20250527090824.3ecb413f@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] media: qcom: camss: vfe: Add VBIF setting support
-To: Vincent Knecht <vincent.knecht@mailoo.org>, Robert Foss
- <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20250525-camss-8x39-vbif-v2-0-6d3d5c5af456@mailoo.org>
- <20250525-camss-8x39-vbif-v2-1-6d3d5c5af456@mailoo.org>
- <f2162241-6423-43b3-a6b5-74e373cd8834@linaro.org>
- <10c45ae1d2453f7c81dadeb132b6c2911ab7d95c.camel@mailoo.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <10c45ae1d2453f7c81dadeb132b6c2911ab7d95c.camel@mailoo.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250527090824.3ecb413f@foz.lan>
 
-On 26/05/2025 17:20, Vincent Knecht wrote:
->> You have both
->>
->> if (vfe->res->has_vbif) {
->>
->> and the above switch, there's no point in checking this twice in two
->> different ways.
->>
->> Choose one, suggest has_vbif is enough.
-> I think the switch is still needed, so that distinct settings
-> can be applied for different SoCs.
+Hi Mauro,
+
+On Tue, May 27, 2025 at 09:08:31AM +0200, Mauro Carvalho Chehab wrote:
+> Em Fri, 9 May 2025 14:46:15 +0200 Laurent Pinchart escreveu:
 > 
-> Or should I just apply the 8939 settings unconditionally, and keep it
-> as an exercice for the next dev who need other settings for another SoC
-> to deal with ? 🙂
+> > Hi Mauro, Hans,
+> > 
+> > The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
+> > 
+> >   Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   https://gitlab.freedesktop.org/linux-media/users/pinchartl.git tags/next-media-uvc-20250509
+> > 
+> > for you to fetch changes up to 9882222fa76450e545aeb625522ced7a78ff79a0:
+> > 
+> >   media: uvcvideo: Use dev_err_probe for devm_gpiod_get_optional (2025-04-07 15:31:55 +0200)
+> > 
+> > ----------------------------------------------------------------
+> > uvcvideo improvements:
+> > 
+> > - Granular power saving
+> > - Controls cache sync fix
+> > - GPIO deferred probe error fix
 > 
-> Thanks
+> It doesn't seem to be the case of this PR, since it sounds mostly fixes,
+> but if a driver is getting some relevant improvement from user's perspective,
+> please be a little bit more verbose at the e-mail's subject. Something like:
+> 
+> 	Subject: uvcvideo: added support for xxx
+> 
+> As otherwise, I'll simply ignore the PR's subject when submitting
+> upstream pull requests.
 
-The flag should be enough.
+Do you mean the subject line of the pull request, as in "[GIT PULL FOR
+v6.16] ..." ? There's very little space there to list all changes, which
+is why the pull request body contains a summary for your convenience
+that you can integrate in merge commit messages or in pull requests
+mails to Linus.
 
----
-bod
+> > ----------------------------------------------------------------
+> > Ricardo Ribalda (10):
+> >       media: uvcvideo: Keep streaming state in the file handle
+> >       media: uvcvideo: Create uvc_pm_(get|put) functions
+> >       media: uvcvideo: Increase/decrease the PM counter per IOCTL
+> >       media: uvcvideo: Make power management granular
+> >       media: uvcvideo: Do not turn on the camera for some ioctls
+> >       media: uvcvideo: Return the number of processed controls
+> >       media: uvcvideo: Send control events for partial succeeds
+> >       media: uvcvideo: Rollback non processed entities on error
+> >       media: uvcvideo: Fix deferred probing error
+> >       media: uvcvideo: Use dev_err_probe for devm_gpiod_get_optional
+> > 
+> >  drivers/media/usb/uvc/uvc_ctrl.c   |  91 +++++++++++++++++++++--------
+> >  drivers/media/usb/uvc/uvc_driver.c |  38 ++++++++----
+> >  drivers/media/usb/uvc/uvc_v4l2.c   | 117 +++++++++++++++++++++++++++++--------
+> >  drivers/media/usb/uvc/uvcvideo.h   |   5 ++
+> >  4 files changed, 190 insertions(+), 61 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
 
