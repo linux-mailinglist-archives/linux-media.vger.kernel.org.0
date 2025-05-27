@@ -1,236 +1,193 @@
-Return-Path: <linux-media+bounces-33461-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33462-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F0FAC4F9B
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 15:22:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCD6AC4F98
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 15:22:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04EF98A09A0
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 13:21:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 571C717EF97
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 13:22:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36EF8271479;
-	Tue, 27 May 2025 13:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0CE9274668;
+	Tue, 27 May 2025 13:22:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JOGd606e"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="0zUaUtqo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0BD271459;
-	Tue, 27 May 2025 13:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47AD2741AB
+	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 13:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748352118; cv=none; b=Gp25Ik/ajKx01WleCLXO48E9peEtZN0S2yBNT9yNki9oDvbcxpGQCE3hS241rlY4MBTnh4JL/7xLsIj1YeEfA30XijGdbeWMasjZFQrTEe92XpHPWMqNjXlAE1vvByGTce3gG7dcW8fD7bawKA50zRfZmPwWMO0AxmXiySJj7Kw=
+	t=1748352123; cv=none; b=Aym+s5sqQ1j/CNrH4D3o3dxESDjBPr4bk9T3vMj38wcg60K6unBkdMkQqy8bqGYWoLmnw5QNjTl/BSKLewJZP2TN6c+eaIN10Q1NlZ2Im0wDtBCaEJKvKj6zCzhGD68g2cEEbeWdTJcD/SBI7hp9zeMfBRC7cquxAAOwmP1rQTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748352118; c=relaxed/simple;
-	bh=PkDtbY9NEhKa9GACDKZJ5O4QTzYKQGEbJ1wQlG1blCI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mWTjyvWRA8z6QcmfsO+ML1dnAppb+T+HJ9fO0rkCWEUGwPRiOboi0R7DsvUt4MKEjq+8uvdv85JcpZ8YFdnSnCJGgAEEgRtKBZaj0sDTqfn58Q6iP1Md8YjlBEgB+vV+oLG6+PmVV6/Z3vFyN+c5cYC0+CZqDjjGTiEAXJxyGGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JOGd606e; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30c416cdcc0so31019061fa.2;
-        Tue, 27 May 2025 06:21:56 -0700 (PDT)
+	s=arc-20240116; t=1748352123; c=relaxed/simple;
+	bh=VyWGs92VxZHmYWq/MBjeYIKfJS3oITyIiMO5I+wjqS4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XlR4opPnmYIvf2AHVnGegQHPCDx+cdjv+cp6U11/dsHKI0lIdzHLHzwWapxupRVQrywMvg27hkiezkazvWe0bUEyHUNTmPuY7k/jyyNy2nBeJsFfdR2YvA2TON4E4VpZRK86t7m9vWfFN7+pQQZtq7hsJglnB8hBzDhYl1mQBBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=0zUaUtqo; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7c5e39d1db2so183823385a.3
+        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 06:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748352115; x=1748956915; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L8+3+XMtXOHDfLv/T+tosvnFUIfhw16R2sRDYOxTnxg=;
-        b=JOGd606ea7mRURHKp7/R90Q8yW9D/+WHkMFO2ZFRQSCF3wYWYCejYI7ZeUOTsK3CKm
-         kZLpmcsmQ3d7yYxxqBxPXClQcQ39mFErTkeOa/daa5HIJKC8iOfcKp3hkSc1KVC9XKU4
-         l+RJx7BYSD83gzt3JMg0p4reXiNl0jsLWgzufFkVwLnnpeAYU6Yf5Mv8NICfnGXEcRcU
-         uKY4TnI0Ursi+q+0hLhTd1ORUZX4nNsPwWMUL6aqOOYpYQKMXGNQtTQB83PofKCpHMHc
-         kqYJZgtDEvRHnest3KX2/Ztm2IW9Yz6pslbFtTy7rBj9VHfs2aJg0MEKjCbcKg9AKvnm
-         IewQ==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1748352120; x=1748956920; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VyWGs92VxZHmYWq/MBjeYIKfJS3oITyIiMO5I+wjqS4=;
+        b=0zUaUtqop5RzqVPB8/4UsJPZFJastdqhSXlSQMVoQLBR+RuECoVeTEn8t89DMSYbuC
+         qRPd2APug4sGJbzeSosJXs/QNIdBDIdmP9sRRasfzgVd7+e0SXiGzXCL0v006MjoOLX9
+         0Vro09AbATX26oJi+aW0SfJHiZPzCzzAa8WUCoHgIaCXm8r/RXYUYmpVGs1gxjQqMDly
+         9PT2Tj8XuL11YIEeYX7DcA9HKdGNEXC9jsffJiSHi8bgKoTKpoeWDqHhwDLRpLFb4R+t
+         0WRIzzscMTxAuUM2vIxZkalDR25rMgRkGx6A5ABGKDyuPP6udzlj9faZWlv3nphWUwbE
+         CVRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748352115; x=1748956915;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L8+3+XMtXOHDfLv/T+tosvnFUIfhw16R2sRDYOxTnxg=;
-        b=JWmpA2nTpFcl+qezQAzFVQb7P7niFBaYjXz8kGgfKUBpVCxbTFZXBj/IZjXM1V/4Cc
-         j6IuQdOiku9CdtOpyVnm0TBIrBMhJLxapfW61t+OogAkJVpAHGEpVadILR/+bi3uVmtD
-         hO0/NpqXcrhlp31xltJ9wWfjs3VQIx6Xa2IvY4YGImkzpavNphRNt50rTR2gFO08Lkbf
-         +4V3sNipo3eAtnCEDAfJYpe2WlgzMwIPALKeRaNHyOlrI+ndgfANOjhfW2wFrN4qhhI3
-         RctjpbgbpxePrU5CLsk2MtO8oFf2I+z2PXZjcuNuX5oZXqNHLAZpwrvOvb+EyRxoHjCZ
-         EyTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4n7vInZQUSf3eLLQ0AbqYPzNP5toeVWa6gb2j+BJKfAJSZCenZSYA0aNnHjAuDNmD+QHY3YqqUXJxN3c=@vger.kernel.org, AJvYcCURBmKUEVi2N35xy5AGE15nLw1KoNzD+0vLopwX1W3frvZIn53ovxI3grQVr65WPADj47FZEZQLHZDFYhg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmjATFDl6E+Ro1YjeCUhFo+Ul8z4MmBIn/Je6f5pyk8fhF4VVW
-	0ZcSovwUOVbGLyXbarxgYX2JYAoUvYRK7zR3V72NWYgTQ/hP1AopUwxAfOEYbeGPu/84FArzsyf
-	P+JzRmGi25u9ww/pLvDd1H38uogBen6k=
-X-Gm-Gg: ASbGncs0em0Zxuy6XL3vck1/+itTvhI+V+X0mQ9q9Lt3iyHderjj3eL3HjARXt1wbr/
-	QpMezIMYqjKCFIv4GQ+NYhYypvadpF8DeiqXKepM6svIoZCvc+GIiffm8KRiSqwNOZAssijZcH1
-	hw1933XiKIdqqNo4hu61HuuX5fGr0KnQVV3cP8Ysy3PRoOXLaERY03ftFowCzl/nc=
-X-Google-Smtp-Source: AGHT+IH+Ewdr9vonbIrOxmcRvgKd7RAjJeriFO+MISpkVPDe4B9w4hYy1Ur6cSAtblGN0SDU+7GGDJpmokKirdXlHAc=
-X-Received: by 2002:a2e:be8c:0:b0:2ff:56a6:2992 with SMTP id
- 38308e7fff4ca-3295ba7a1fdmr42809711fa.37.1748352114324; Tue, 27 May 2025
- 06:21:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748352120; x=1748956920;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VyWGs92VxZHmYWq/MBjeYIKfJS3oITyIiMO5I+wjqS4=;
+        b=EO1kccCOtWkfROLB+gerz+NiXlB5bhZTmRcFbzqFPd/JEh/wCH2VpwLH4nkhZH5DLS
+         obzfcQDC4WSrZXhs6aG1lTGOVv3fsANChVBDsjGNRWqPHPticr1a5Fg9VYGRdYmmN45x
+         5PTviX7iynxmrU8J+CmY7CpZ3dCwT5MK8qjDZv+kcnxEbjmDuNPze+PQPHhVfBmGfaZQ
+         OsEG5/h3PlkUcdPFnQnMtABKzryw1IojwTl6UP7dLJ1XrZx2M/98s6Pj66Um9KCu1g0I
+         VpJ/lPpuf5vlJSroBozPMLj5vp8KWt+lW5uwmA9zd5BU0yYz1qDwk9RCQ3Jgj04wgmRE
+         V3BA==
+X-Forwarded-Encrypted: i=1; AJvYcCXtkF6sHPxCpxDgGJp7pO+YYL3rvvetLuS99pDPPS1b7CC+cCRB5WhWE2vxlyBbckT9aqu5gCqLOh7XBg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwN4K1YM3ghYz9db3uiU+7mpV8z+PukVbtqJPD2zGjph3Ky5kc7
+	Z1sK91lqzsFrwgRiGG4DFTXOCFO4pamRc2cx9j4aefpTKqV0J1zNfyEX00MdMPY2Sbw=
+X-Gm-Gg: ASbGnctMfSd3s70Sa6hD8CJY0P/OX8wasBd8EP3cX9gu5WQSjlHmwslsFj/EMeSMq5i
+	XtYGD7gOnYbcOuIG2IJWI1MaUnT8IZXSO0oiXHO69gfvU3x4cjr25Szw/4eyD524k32XXT6b38q
+	ktOPPa3i3McS5qM3eiGQ+d1u74I3Oi+LQgqS8hmsnaFMBv9yYxPVtZZWx2Q95m+sGxauSrLsWQr
+	lsySuKT58VvDBlr/x7JZZVUPIunwSFbfqaQdP9jvuVNjZF1JWSKlh8J4Wr8lLFG1bKTZ6BtV2Em
+	KWTkESpB1mIbalQs6qQ1xrXZIdagH/RyMSd4gLixyKVxGd64X/go+KpX
+X-Google-Smtp-Source: AGHT+IGqjEuOc/rQc0o4CTVNkvRn1LeoDd94pgaJaN+RFhGpz7B5jdeGPrzKG2P1R07nsKaMUvmdnQ==
+X-Received: by 2002:a05:620a:c4a:b0:7c5:e226:9da2 with SMTP id af79cd13be357-7ceecbf9338mr2045791485a.47.1748352120422;
+        Tue, 27 May 2025 06:22:00 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:b2fc::5ac? ([2606:6d00:17:b2fc::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd467dd34csm1725927585a.47.2025.05.27.06.21.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 May 2025 06:21:59 -0700 (PDT)
+Message-ID: <30acbaadc08869687c22e6a70052571c99556979.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/5] dt-bindings: media: allegro-dvt: add decoder
+ dt-bindings for Gen3 IP
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>, Krzysztof Kozlowski
+	 <krzk@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Michael Tretter	 <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,  Michal Simek
+ <michal.simek@amd.com>, Heiko Stuebner <heiko@sntech.de>, Neil Armstrong	
+ <neil.armstrong@linaro.org>, Junhao Xie <bigfoot@classfun.cn>, Rafa??
+ Mi??ecki	 <rafal@milecki.pl>, Kever Yang <kever.yang@rock-chips.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Christophe JAILLET	 <christophe.jaillet@wanadoo.fr>,
+ Sebastian Fricke	 <sebastian.fricke@collabora.com>, Gaosheng Cui
+ <cuigaosheng1@huawei.com>,  Uwe Kleine-K??nig
+ <u.kleine-koenig@baylibre.com>, Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
+ Wolfram Sang	 <wsa+renesas@sang-engineering.com>, Ricardo Ribalda
+ <ribalda@chromium.org>, 	linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Date: Tue, 27 May 2025 09:21:58 -0400
+In-Reply-To: <uys462vhrhzeapzkve7z5k3xg6bjvpdne4xw44voqn6uhjdkmc@owrdgvraiqyb>
+References: <20250523134207.68481-1-yassine.ouaissa@allegrodvt.com>
+	 <20250523134207.68481-3-yassine.ouaissa@allegrodvt.com>
+	 <3e6be40a-2644-416a-bd32-f6256f1501ff@kernel.org>
+	 <7863d15a-fa20-4db5-89b5-77a026d3f937@kernel.org>
+	 <a72z6exgol5cbur2cy7wjwyroi4zddtki5ab3zdkfuwpskpavr@r26wahldhd3r>
+	 <b5bb919e-6273-48ed-b5d8-29177dbbfb76@kernel.org>
+	 <flwocneutp64bxxwfkfqvm6dq7klc2nu33ybr3ap6qeovopfq7@7qognvdf4zew>
+	 <04e1f361-b3cf-4fdb-a008-42eb489f6c4d@kernel.org>
+	 <uys462vhrhzeapzkve7z5k3xg6bjvpdne4xw44voqn6uhjdkmc@owrdgvraiqyb>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
- <20250526141316.7e907032@foz.lan> <DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com> <20250527111311.105246f2@sal.lan>
-In-Reply-To: <20250527111311.105246f2@sal.lan>
-From: Alexandre Courbot <gnurou@gmail.com>
-Date: Tue, 27 May 2025 22:21:42 +0900
-X-Gm-Features: AX0GCFs6w_wf6YTjIybZZwQbdYAW7uiqsMchgBmAWJsp_ED2VhKs0cAbQv4ghpY
-Message-ID: <CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
-Subject: Re: [PATCH v3] media: add virtio-media driver
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Albert Esteve <aesteve@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	gurchetansingh@google.com, daniel.almeida@collabora.com, adelva@google.com, 
-	changyeon@google.com, nicolas.dufresne@collabora.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	virtualization@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 27, 2025 at 6:13=E2=80=AFPM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Em Tue, 27 May 2025 15:14:50 +0900
-> "Alexandre Courbot" <gnurou@gmail.com> escreveu:
->
-> > Hi Mauro,
-> >
-> > On Mon May 26, 2025 at 9:13 PM JST, Mauro Carvalho Chehab wrote:
-> > > Hi Michael,
-> > >
-> > > Em Sat, 12 Apr 2025 13:08:01 +0900
-> > > Alexandre Courbot <gnurou@gmail.com> escreveu:
-> > >
-> > >> Add the first version of the virtio-media driver.
-> > >>
-> > >> This driver acts roughly as a V4L2 relay between user-space and the
-> > >> virtio virtual device on the host, so it is relatively simple, yet
-> > >> unconventional. It doesn't use VB2 or other frameworks typically use=
-d in
-> > >> a V4L2 driver, and most of its complexity resides in correctly and
-> > >> efficiently building the virtio descriptor chain to pass to the host=
-,
-> > >> avoiding copies whenever possible. This is done by
-> > >> scatterlist_builder.[ch].
-> > >>
-> > >> virtio_media_ioctls.c proxies each supported ioctl to the host, usin=
-g
-> > >> code generated through macros for ioctls that can be forwarded direc=
-tly,
-> > >> which is most of them.
-> > >>
-> > >> virtio_media_driver.c provides the expected driver hooks, and suppor=
-t
-> > >> for mmapping and polling.
-> > >>
-> > >>  This version supports MMAP buffers, while USERPTR buffers can also =
-be
-> > >>  enabled through a driver option. DMABUF support is still pending.
-> > >
-> > > It sounds that you applied this one at the virtio tree, but it hasn't
-> > > being reviewed or acked by media maintainers.
-> > >
-> > > Please drop it.
-> > >
-> > > Alexandre,
-> > >
-> > > Please send media patches to media maintainers, c/c other subsystem
-> > > maintainers, as otherwise they might end being merged without a
-> > > proper review.
-> >
-> > Sorry about that, I put everyone in "To:" without giving it a second
-> > thought.
-> >
-> > >
-> > > In this particular case, we need to double-check if this won't cause
-> > > any issues, in special with regards to media locks and mutexes.
-> >
-> > Agreed, I am not 100% confident about that part myself.
-> >
-> > >
-> > > I'll try to look on it after this merge window, as it is too late
-> > > for it to be applied during this one.
-> >
-> > Appreciate that - given the high traffic on the list I was worried that
-> > this patch would eventually be overlooked. Not making it for this merge
-> > window should not be a problem, so please take the time you need.
->
-> Provided that your patch was caught by patchwork, it won't be lost:
->         https://patchwork.linuxtv.org/project/linux-media/patch/20250412-=
-virtio-media-v3-1-97dc94c18398@gmail.com/
->
-> Please notice that our CI got a number of checkpatch issues there.
-> Please check and fix the non-false-positive ones.
+Hi Yassine,
 
-Will do. The macro-related ones are false-positives AFAICT. Some of
-the "lines should not end with a '('" are actually the result of
-applying clang-format with the kernel-provided style...
-
->
-> Btw, I was looking at:
->
->         https://github.com/chromeos/virtio-media
->
-> (I'm assuming that this is the QEMU counterpart, right?)
-
-crosvm actually, but QEMU support is also being worked on.
-
->
-> And I noticed something weird there:
->
->         "Unsupported ioctls
->
->          A few ioctls are replaced by other, more suitable mechanisms. If=
- being requested these ioctls, the device must return the same response as =
-it would for an unknown ioctl, i.e. ENOTTY.
->
->             VIDIOC_QUERYCAP is replaced by reading the configuration area=
+Le lundi 26 mai 2025 =C3=A0 12:58 +0000, Yassine Ouaissa a =C3=A9crit=C2=A0=
+:
+> On 26.05.2025 14:46, Krzysztof Kozlowski wrote:
+> > On 26/05/2025 14:27, Yassine Ouaissa wrote:
+> > > On 26.05.2025 12:57, Krzysztof Kozlowski wrote:
+> > > > On 26/05/2025 09:25, Yassine Ouaissa wrote:
+> > > > > On 23.05.2025 19:13, Krzysztof Kozlowski wrote:
+> > > > > > On 23/05/2025 19:11, Krzysztof Kozlowski wrote:
+> > > > > > > On 23/05/2025 15:41, Yassine Ouaissa wrote:
+> > > > > > > > Add compatible for video decoder on allegrodvt Gen 3 IP.
+> > > > > > > >=20
+> > > > > > > > Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.=
+com>
+> > > > > > > Please do not send the same patches over and over again. You =
+got review
+> > > > > > > which you need to address.
+> > > > > > >=20
+> > > > > > > Once address you send NEXT version with proper CHANGELOG for =
+each patch
+> > > > > > > or top of cover letter. See submitting patches... or just use=
+ b4. This
+> > > > > > > should be actually requirement for this work.
+> > > > > > >=20
+> > > > > > > Anyway, I see all of previous review ignored so let's be expl=
+icit:
+> > > > > > >=20
+> > > > > > > NAK
+> > > > > > >=20
+> > > > > Hi Krzysztof,
+> > > > >=20
+> > > > > Make sure that i'm not ignoring anyone reviews, i sent a new set =
+of
+> > > > > patches to start cleanly, and i have sent you an email about this=
 .
->             VIDIOC_DQBUF is replaced by a dedicated event.
->             VIDIOC_DQEVENT is replaced by a dedicated event."
->
-> While this could be ok for cromeOS, this will be broken for guests with
-> Linux, as all Linux applications rely on VIDIOC_QUERYCAP and VIDIOC_DQBUF
-> to work. Please implement support for it, as otherwise we won't even be
-> able to test the driver with the v4l2-compliance tool (*).
+> > > >=20
+> > > > It is still v1 - the same? - while you already sent three patchsets=
+ before.
+> > >=20
+> > > As i mentioned, this patch is sent to start cleanly, so it still v1.
+> > > And the previous patchsets should be ignored.
+> > This is not how the process works and it is not making reviewers life
+> > easier. It makes it impossible for us to compare (try yourself with `b4
+> > diff`) and forces to re-review everything every time.
+>=20
+> I know that i made a mistake by not respecting the "submitting patches".
+> this is why, i prefer to start from a good base ( clean patches ).
+> =C2=A0From this patchsets, You & I can use the b4 or other tools to get t=
+he diffs.
 
-The phrasing was a bit confusing. The guest driver does support these
-ioctls, and passes v4l2-compliance. So there is no problem here.
+For future submissions, once there is a base, don't try and "fix" things, j=
+ust do
+add V2, V3 on future submissions, even if its completely rewritten. Just sa=
+y so in
+your cover letter change log. If everyone was to reset to V1 all the time o=
+ur work
+as reviewer and maintainers would be completely un-manageable. Please under=
+stand
+and take our explanations for the future. There is no need for you to argue=
+ on this,
+this is not just personal preference. Same driver, second submission mean v=
+2. That is
+even true if you take over someone else series.
 
-Where these ioctls are not supported is between the guest and the
-host, i.e. as ioctls encapsulated into a virtio request. For QUERYCAP,
-that's because the virtio configuration area already provides the same
-information. For DQBUF and DQEVENT, that's because we want to serve
-these asynchronously for performance reasons (hence the dedicated
-events).
+regards,
+Nicolas
 
-But these differences don't affect guest user applications which will
-be able to perform these ioctls exactly as they expect.
-
->
-> (*) Passing at v4l2-compliance is a requirement for any media driver
->     to be merged.
->
-> With regards to testing, what's the expected testing scenario?
-> My guess is that, as a virtio device, a possible test scenario would be
-> to have the UVC camera from the host OS mapped using virtio-camera into
-> the guest OS, allowing a V4L2 application running at the guest to map the
-> camera from the host, right?
-
-That's one of the scenarios, yes. Another one is to expose an
-accelerated decoder on the host to the guest. One can also create
-"fake" devices backed by software on the host for testing purposes.
-
-That's actually the benefit of using V4L2 as a guest/host protocol:
-the same guest and the same software stack on the host can be used to
-virtualize multiple kinds of media devices, removing the need to have
-e.g. virtio-camera and virtio-codec. This removes a ton of work (and
-code).
+>=20
+> >=20
+> > Best regards,
+> > Krzysztof
+>=20
+> Best regards,
+> Yassine OUAISSA
 
