@@ -1,128 +1,157 @@
-Return-Path: <linux-media+bounces-33473-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33474-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31942AC5108
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:37:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13385AC5114
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 16:39:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4464E3AC929
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:37:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C066A16D6D9
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 14:39:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA4AF278772;
-	Tue, 27 May 2025 14:37:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1C527979A;
+	Tue, 27 May 2025 14:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gRKkMsG/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZDpTc8I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7CB192D87
-	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 14:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E2F15853B;
+	Tue, 27 May 2025 14:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748356659; cv=none; b=SfmONlqEW8aE2SaBWLuWACMcvBOqMWufAAQBGWoQDviMuvlCI1zPHe4VUlTlCRRlPvJIYb5tG8slt9N4zaIpJxs78FdnuJooE2Fawy+uy8nCac8eBYbkub4GBwegvTVcCwmu4bY7pLbrgCMJObxJ5x8E0LceP9AiFKDpb3R5gNA=
+	t=1748356777; cv=none; b=Omr8LiVxt+CzYQNHHsX18cHAeHSXEEQ+c12/eULud8rfS/xLjpXtAAFblOCLQMQyplfoDnAv6f/p95DSqhtOgndJy4++hbN16GOq74kh4/rugbakVFZ6aOHLPyE1uQv/KBz7MPdbTAjEpTkgGVPqun+A5pQPBBtEV2byq5ysiCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748356659; c=relaxed/simple;
-	bh=jvS1PbADz+Us91X2hWOLlEMb1Nws+URp8Zsi3PzRt1U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RNKXTqVc4paggqjWXrwLNZDbgsX4qTARwyJ+tnTkQ6oFLs6D5KCsL6UQYz/MFKEIzLauhR6yK2Fwl9//dDBRrQEdksIqnDWhq24q4Y9rOfcm/1aENpdR/I5kj7IMnqMWPO72OfwYFpfFA3sHb7nuxEO2eiRb7zN4RTqLLrsRcX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gRKkMsG/; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a3673e12c4so2245132f8f.2
-        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 07:37:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748356655; x=1748961455; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VvXJBVqr2AtSIqf+uhP51ScRsxX090wAOja9HSyfRT0=;
-        b=gRKkMsG/Ra7r8iIVSImB/43nZCSi4IdNNNaz26J3LNRgSZdKASRzklJ1drk1TMUfTu
-         Y6Z0d+EyWKnDg20KBE52VJ83oonjQoh0VJ1gC8AwC061O0TGuPd2zPp/HUqtLoAtL0MG
-         aidoWwPfwBe701ZwrwK4qGuBQDxvp8FN4PNp1mrw0Q2PLCnI8+YLDH7FmChEqIhJ/0Z6
-         6Wf7ICdu73nW2f1mxjaK/ptIUvUoS+9/eY4ODi02xwv0S8pI1/yzMhL/1aewf6ZoZcNN
-         37Eq1kXM83ZGryZNcxKbYlEbQPFuoauoDfGLt8r53SZiSrJGwYEaPLbfP738jIbCEmvR
-         6SIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748356655; x=1748961455;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VvXJBVqr2AtSIqf+uhP51ScRsxX090wAOja9HSyfRT0=;
-        b=CpNTDdQL8Ejd/ifnvnG+8NSkH6kqG+kVGMbDTwQAm0REg6oajhriTvMBrplAkVs1O9
-         +jYmDfHvXCTq+IgWI11THHa/AyMo1ejfKQ1bLU50s4DQjkpTatc8x6SiO5RXYnckvQQc
-         UFK4hzvdNPv/j2zhYmUiqpN0D3JXmBWxByKLIBJBssMpBEUqjqOSR1lDW9B6y6PnYqcz
-         zTrB5cUiw7giZbg7SEJS3ApRElxX/VcgVT/B0TvghcQvhdCX9RHNcKGwPFf/OmRgXa5B
-         NiJ+8MaABByFLk8oIBbKmY5teGCl8kK3DZOl5VZNezUet7Y9xwJJNMrLw8+6ZmdQ5k9F
-         gn5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXBo1X+R3x2hLPd72w3grbBGRQXqSg0tQhWsi2qAJbicXja8DV5Lhges79i6ZbgMazi2GKamLNMRkXXuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPssP1JkTsDst2Lj/Of4HzxrhT1oQEPOaYRfXT81mXIaCav5cn
-	iBAPmGgYFiK7K707ENreZ2igqrxtdiDIrsGLVOqGz9t/s3J1GM1oZnaQA8FSNBNqHzQ=
-X-Gm-Gg: ASbGncu1BKgNnckJBfqTTMRwf7p32URt6Ln2xA8+IbdTi9w9PERbTQWnkyZeQ2APckH
-	E/RxANted2NwTffa7U4ijvyvv/uLIrBW8LUDI921B3wSxSSWTIgF0YIwUjnkLja8WKkv3KtcbZM
-	EkG1YNZsmh6Matz9C2IgTxoC/8r1xNJVxCackM1nEGsgDZbkEXZEGWpPdL6k4eMZjJqOzRNvOmn
-	dUIC7Hzy+5tD2W2S+HpI8jrmebY/eJtKqTZe8lVLJ02Kdiy/5QAa5O3/uNwppDvCmVh+AweWpbg
-	+b5DwPqENZkLfLlMNP+zLem86TXRclD2AhLnfnYHnQXWyQsHbWL2Z4J7+XZmPFWiSmpNMCxZB41
-	k1tuyR5mbn6Kb2Is0
-X-Google-Smtp-Source: AGHT+IHkWKsTTmphkcqPjmLfxusLGxXp8SFULw1PQIe5/AO75A5L3yTYl8KjtZzqIfX32dcuOV75+g==
-X-Received: by 2002:a05:6000:430a:b0:3a4:d1d0:6f97 with SMTP id ffacd0b85a97d-3a4d1d071acmr9279310f8f.36.1748356655614;
-        Tue, 27 May 2025 07:37:35 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4dc1172ecsm5285610f8f.48.2025.05.27.07.37.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 May 2025 07:37:35 -0700 (PDT)
-Message-ID: <5c326be6-816f-4417-a715-86fea92aadb3@linaro.org>
-Date: Tue, 27 May 2025 15:37:33 +0100
+	s=arc-20240116; t=1748356777; c=relaxed/simple;
+	bh=SIHiBuhpjPK/1AtoijPPLN7AI4IqXBz7Iaq9I7uU1FU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bz5o7p1BrTjel2yBWkAMf28VqfbR8gNQrVuQP81uNOJGwL6iy5Zr7tir8JWRHfp8kd8L0NCpWyE1V6HomybOGfFsIOfFNZ7EsyaNKfiR1ThEriRb8qHbToeNTlECvgLlxYcDavRM6Ezo4tpy03CARB5SWOVBrOa0ibV9lK3/g8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZDpTc8I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6750FC4CEE9;
+	Tue, 27 May 2025 14:39:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748356776;
+	bh=SIHiBuhpjPK/1AtoijPPLN7AI4IqXBz7Iaq9I7uU1FU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IZDpTc8IzRgKdv1zX5MrPbKN19+wzSY+NBMXsU73mRn/C3V3Rg33h1YJ+L7GLtJoj
+	 sz/9XpbV2MrHGQhXcJLpoWsfafqcPlFqBE0/25wKCOpbyKizkz/3YgO1MPsMV1kEEN
+	 WoAS2CAybUcKcs7GL6W9+UU6rQvemC+c01OdJecEX1hXlbNTpGU2MZ2rU3BHgJIls5
+	 QvtGWeypR86j+6BvWwF3fwf/yAtA4PDbWsomHw0KNrRaoB9UfP2b5RGgH6isafP6x5
+	 u4Y/f1asnKlT5GYOA7PVKZITQDCkDRGuJXTjizyqaFuiQaXGn7KZQPl2gHt95nGRw7
+	 Jcz54BgLU9ttw==
+Date: Tue, 27 May 2025 16:39:27 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Alexandre Courbot <gnurou@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Albert Esteve
+ <aesteve@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
+ <eperezma@redhat.com>, gurchetansingh@google.com,
+ daniel.almeida@collabora.com, adelva@google.com, changyeon@google.com,
+ nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, virtualization@lists.linux.dev, Alexandre
+ Courbot <acourbot@google.com>
+Subject: Re: [PATCH v3] media: add virtio-media driver
+Message-ID: <20250527163927.02924adc@sal.lan>
+In-Reply-To: <20250527102111-mutt-send-email-mst@kernel.org>
+References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
+	<20250526141316.7e907032@foz.lan>
+	<20250527102111-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: Power pipeline only when streaming
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Richard Acayan <mailingradian@gmail.com>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20250526232837.686822-3-mailingradian@gmail.com>
- <CAFEp6-2mhuLptwA4JYJm2cvftZxufoJGB0y94LAd5ZWGP1e-RA@mail.gmail.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <CAFEp6-2mhuLptwA4JYJm2cvftZxufoJGB0y94LAd5ZWGP1e-RA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 27/05/2025 09:03, Loic Poulain wrote:
-> On Tue, May 27, 2025 at 1:28 AM Richard Acayan<mailingradian@gmail.com> wrote:
->> The libcamera plugin for Pipewire may keep an open file descriptor to
->> the video device, even while streaming. This simplifies its operation,
->> as it only needs to keep track of a number instead of a file path. When
->> the video device is open but not streaming, the pipeline can be powered
->> off. Move the pipeline power management to the prepare_streaming and
->> unprepare_streaming functions.
-> It seems to affect more than just this specific driver then? According
-> to the documentation in v4l2-mc.h, v4l2_pipeline_pm_get() is intended
-> to be called during video node open. If we're changing that behavior,
-> we should also update the function's documentation accordingly so the
-> change can be properly discussed and understood by a broader audience.
+Em Tue, 27 May 2025 10:23:32 -0400
+"Michael S. Tsirkin" <mst@redhat.com> escreveu:
 
-True but then the patch that added that comment also contains
+> On Mon, May 26, 2025 at 02:13:16PM +0200, Mauro Carvalho Chehab wrote:
+> > Hi Michael,
+> > 
+> > Em Sat, 12 Apr 2025 13:08:01 +0900
+> > Alexandre Courbot <gnurou@gmail.com> escreveu:
+> >   
+> > > Add the first version of the virtio-media driver.
+> > > 
+> > > This driver acts roughly as a V4L2 relay between user-space and the
+> > > virtio virtual device on the host, so it is relatively simple, yet
+> > > unconventional. It doesn't use VB2 or other frameworks typically used in
+> > > a V4L2 driver, and most of its complexity resides in correctly and
+> > > efficiently building the virtio descriptor chain to pass to the host,
+> > > avoiding copies whenever possible. This is done by
+> > > scatterlist_builder.[ch].
+> > > 
+> > > virtio_media_ioctls.c proxies each supported ioctl to the host, using
+> > > code generated through macros for ioctls that can be forwarded directly,
+> > > which is most of them.
+> > > 
+> > > virtio_media_driver.c provides the expected driver hooks, and support
+> > > for mmapping and polling.
+> > > 
+> > >  This version supports MMAP buffers, while USERPTR buffers can also be
+> > >  enabled through a driver option. DMABUF support is still pending.  
+> > 
+> > It sounds that you applied this one at the virtio tree, but it hasn't
+> > being reviewed or acked by media maintainers.
+> > 
+> > Please drop it.
+> > 
+> > Alexandre,
+> > 
+> > Please send media patches to media maintainers, c/c other subsystem
+> > maintainers, as otherwise they might end being merged without a
+> > proper review.
+> > 
+> > In this particular case, we need to double-check if this won't cause
+> > any issues, in special with regards to media locks and mutexes.
+> > 
+> > I'll try to look on it after this merge window, as it is too late
+> > for it to be applied during this one.
+> > 
+> > Regards,
+> > Mauro  
+> 
+> New drivers generally can be merged during the merge window,
+> especially early. 
 
-@@ -999,7 +996,7 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, 
-unsigned int count)
-                 dev_err(cap->rkisp1->dev, "power up failed %d\n", ret);
-                 goto err_destroy_dummy;
-         }
--       ret = v4l2_pipeline_pm_use(entity, 1);
-+       ret = v4l2_pipeline_pm_get(entity);
+Sure, but this one was not reviewed or tested yet by media maintainers,
+nor its submission came with the tests from the regression tool
+we use (v4l2-compliance). In particular, we need to double-check
+if it won't cause any issues with the complex set of mutexes and
+spinlocks that we have within the core.
 
-Seems to me like a perfectly valid use-case to have a persistent handle 
-but only want to power-up the pipeline when you have work to-do.
+There is an additional concern related to V4L2: on media, only one
+process is allowed to have exclusive streaming access to the
+device: all other opens on the same device get permission denied
+(by default - there is an optional ioctl that allows a process
+to "abdicate" its streaming rights). We need to double-check how this
+is implemented and how this would behavior when multiple VMs have
+the driver installed and might try to use (or not), and how this
+would affect the host access to the device.
 
----
-bod
+There are also some coding style issues that cause our CI to
+complain. Those are minor and could be fixed by a separate patch,
+but better to have them placed altogether as otherwise our CI
+will keep complaining about until the fix is merged.
+
+On other words, this driver is not ready for merge yet.
+We need some time to test and review it properly.
+
+> It's up to you though.
+> I can keep it in next for now, so it gets some coverage by
+> tools scanning that tree.
+
+Sure, feel free to keep it on next if you prefer so. Just
+please don't submit it upstream while we don't review and
+properly test it.
+
+Thanks!
+Mauro
 
