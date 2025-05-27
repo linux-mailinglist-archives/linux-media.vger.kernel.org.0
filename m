@@ -1,249 +1,203 @@
-Return-Path: <linux-media+bounces-33464-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33465-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E381CAC4FEB
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 15:36:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF0DAC5059
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 15:57:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13E26189C763
-	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 13:36:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AFC018992EF
+	for <lists+linux-media@lfdr.de>; Tue, 27 May 2025 13:57:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 774D12749CA;
-	Tue, 27 May 2025 13:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D01B02749D9;
+	Tue, 27 May 2025 13:57:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NnLBVP8q"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="a7AujiWH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAF4270572;
-	Tue, 27 May 2025 13:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C417E13A41F
+	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 13:57:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748352956; cv=none; b=tHMw1Ziae/kp34BPUb6c3/X0RxIyGMMxGV1iUyW+YgKs8fU0q4KwdJ0mGsiORexQuMrHgR26p9+tE7XqQys3ETaEcL6hnOnN3mbp4+Ar7XgZQPxh9gmb9mYQXGJujtHTkUFIG4OaXEyvnD0WdeRDI0TMypDzMIsInDQaAKbOzSA=
+	t=1748354246; cv=none; b=cZTvPBPKOEgbK7apc4hTi/Bope26EQpUpGrCyAfLGG9KQOO8OI8o6dVA24VarxGHFv5WtzkyLS7pPswLUsNZu/EiSQ1FgoGFRSEYFwofJ98l9NmlzwaKU6qTr7HEd2OXBDqc5j0rzfY1TqX4qYoMSv8swVenV7Qq7VPWY2iLQwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748352956; c=relaxed/simple;
-	bh=8lfh6bvcEFYdSzOgfOnnU+yhKsW3ISNP3ikpxpfHbCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IGzDxbVQXL74WwVNro0S8M4sy7KBQ1/EfJ+K5PE8tsL+7qI31tA52c+N6lXkQMN2mVA06IY0wvKX6ZGtlQq1+kSuacxZUPkZKUQ9DtyCQR4sA5BHHLLQAKbJtFtMVgwOgtY9x2n/bLY26RmguGToW3RbwOt4Sd98B0+yIJvnpaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NnLBVP8q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D30EBC4CEE9;
-	Tue, 27 May 2025 13:35:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748352956;
-	bh=8lfh6bvcEFYdSzOgfOnnU+yhKsW3ISNP3ikpxpfHbCI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NnLBVP8qDQHfegA+pmu+8JlZiD4Su8VU3PPKiE+ubOZ7I0L0QwRZsjPxq0wBVd/v0
-	 NLs9oYdYLVr/AYwGFRIF0N1a2ASguKEf8J2l9QZt+yQgBm8yMPVzGDQqYky0OFoWd7
-	 MRUJnxoSQq/8iUixwLqnh86vuDSlCwW7Ndra+64yVv1fqMfXXEAmNdghiACN7ILknZ
-	 etoKTATaDfHAQiFEqIJRqdtCQ+6PyaNN2C5Iu8ruQ7k+lmkMNjTId1jrAnCr8Rxyvv
-	 Ip+AR9GMfOL3invz+sTrTdtUoTmxQLHubTzJnM9gAi/jXHUVP26UWAkWUZWAThLcWO
-	 d9PPo9QxOn7TQ==
-Date: Tue, 27 May 2025 15:35:47 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Alexandre Courbot <gnurou@gmail.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Albert Esteve
- <aesteve@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, gurchetansingh@google.com,
- daniel.almeida@collabora.com, adelva@google.com, changyeon@google.com,
- nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH v3] media: add virtio-media driver
-Message-ID: <20250527153547.6603eaf4@sal.lan>
-In-Reply-To: <CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
-	<20250526141316.7e907032@foz.lan>
-	<DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
-	<20250527111311.105246f2@sal.lan>
-	<CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1748354246; c=relaxed/simple;
+	bh=Jf0YCPf8g0x+7itY5WOSav/lMYNDlkwoS2veAsYnXII=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CMc9bVb1HVJth+s6qgPX7wxnZW5mgEqFaieDN4SSrg7tR6kXHs7HaX6yyL0ihUDREtJRi/ZmPfK97Nvpx794bAK/eLOc866nYAyAsIH/Wp82FbNOg9qxQkG+sHa/+Rj82+2k6FKM9UmiqZefdb1+ViOY4Td6r0oS2oMJ/dhaOAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=a7AujiWH; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54RAGEgC013673
+	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 13:57:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vyW9uKYhLOSUBJHa/KU3PEprBrYxrl5Dljp8vZpViOU=; b=a7AujiWHdvmjqQnv
+	cEknsSF/Aq3dRo0wPjl7o6AHVK2Z2UUKs5YzTfI9nyEbtB4CBm3LkKtJobx0yLrd
+	DmP4IoifQAT+9t822m+ZTVYsK94Nor4yNM3XIxc3tw/JsycII4/EMoPlPFjeJhJx
+	49hGHT9ZdOGLGTVE99O7UNbQmFfTRNQ62EudwCA05J1zDNcvfZSmin2/3U+YxyBc
+	DeeX/vLxo0VK/bPxCRzM9SU1wQ609ZM7L0r5WnJReQBG1RJQF4wrsg3Qvgc4/2Rl
+	gxydZ4UxjM2NYLY3kBkayoH5QE9KB60PoJcc+dW92sGhaU9u6uopWdi6j+Qoa7P9
+	KLKmTw==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u3fq77vs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 27 May 2025 13:57:23 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6fa9cc8eb70so1666736d6.0
+        for <linux-media@vger.kernel.org>; Tue, 27 May 2025 06:57:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748354243; x=1748959043;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vyW9uKYhLOSUBJHa/KU3PEprBrYxrl5Dljp8vZpViOU=;
+        b=A8iUWy96SLz8ybwqmrKjJxiGA8WgQTLYgyqMYq6VUuQJOvOys4xcxxuYXRWWRJ9X5G
+         6q++dSX2IXpnmZdpyWpQsbd8CSXh/B0hXabnY0Cf1CuajR1KmPAxDHnhYfHc0wcehOY7
+         JalGb90yd8tMm2f2mAHz7bmOX8COxMh2lgieBfhz+TeX0B9G48jid3CbIVS8pR7yNK+y
+         sAsm8spW7fni5piXy8MyMPcPW0r9vnmhLiUDZHuu9oFulrVzf/6qDwgGJDPSY//xPwnh
+         VM2ez9gQUUZqIRf3y55AAB3C3x8e8tyS182gAWJX27EDG1Zw/uNKTRjbZKi7iz6ZWiQp
+         sqRg==
+X-Gm-Message-State: AOJu0YwWH8QogY77E+2TA5PO3hDs6eWHYjdRiT088wl0Lz+yNKAWra75
+	tRlbygSazS4prlCHyxWFO480rmDXsxXtf6ePTlf0PNXTq43oNonI2ZogpOoY+VHBIpJDgd38E3i
+	qgRY3cb9gZJWzXmkiF3yUpo+J9CFAhLnOICYX9rs7MkjZa0DMDuLBsDWKUkbo39xdiw==
+X-Gm-Gg: ASbGncsZ/Zc+kwohPFa5WlOguwATpTwmMSXWdsbDCH/N8DRPDwOb6Kvf7C0vslsCski
+	rNHzqID0CyznJX4qCBBJM3OYRd9paWvuERaNNlFIKJbqys6buadbtAZ+TQwjm8pGWRWxltOJ+Kp
+	pStknQN03JAXQ2JsUH4Fu4AGr18mKQ1IUJF95/ltBUwbcGvW8niqSQ9NS1cQKiOfJeZ56KNSea6
+	BYBg3qaypNJ6tI1PFrIJQYLQuUppb948ZlZQUfO68vVVJrSxdNTUZjTw6sQKEjof2c1Wefb+zLp
+	tdxO0Um5JiFGFz3XojlsKmVBq7t0fgoER/+vcUosEIacucMyYUP7XDkr0k/V7daCpA==
+X-Received: by 2002:a05:6214:2025:b0:6e8:fee2:aae2 with SMTP id 6a1803df08f44-6fa9d35e356mr81224686d6.9.1748354242752;
+        Tue, 27 May 2025 06:57:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGy8CpXFq9dIDx07jLGkQ8eE6QzLzCZcUSNuxAodp8IkcqCYpVd2hVBDPcVrD9eccP7q+X0qA==
+X-Received: by 2002:a05:6214:2025:b0:6e8:fee2:aae2 with SMTP id 6a1803df08f44-6fa9d35e356mr81224466d6.9.1748354242360;
+        Tue, 27 May 2025 06:57:22 -0700 (PDT)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d443a0fsm1868061866b.97.2025.05.27.06.57.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 May 2025 06:57:21 -0700 (PDT)
+Message-ID: <429b4c99-b312-4015-8678-0371eac86de4@oss.qualcomm.com>
+Date: Tue, 27 May 2025 15:57:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/3] arm64: dts: qcom: qcs615: add venus node to
+ devicetree
+To: Renjiang Han <quic_renjiang@quicinc.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250527-add-venus-for-qcs615-v7-0-cca26e2768e3@quicinc.com>
+ <20250527-add-venus-for-qcs615-v7-2-cca26e2768e3@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250527-add-venus-for-qcs615-v7-2-cca26e2768e3@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 3InoczdVJQDyJ5xG_E9v-b75YYPil5AU
+X-Proofpoint-ORIG-GUID: 3InoczdVJQDyJ5xG_E9v-b75YYPil5AU
+X-Authority-Analysis: v=2.4 cv=X8FSKHTe c=1 sm=1 tr=0 ts=6835c4c3 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=pe7rIdR15tyH1Ib53uMA:9
+ a=6SDWfad8ZZyXS8WB:21 a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI3MDExNCBTYWx0ZWRfX1GKJwTEmdBwV
+ IzaZTaYzj7TKYPM4lV7DJ6KEboL3ORLmuc+icFclhonuRDV3zcM/jg4+g11wu3bPwkIobfutneG
+ RhbtusoJvjgUumfAi5lACtZY0O210y7jifgd7Zm1IU4hEeV13cn9q+JEu+PsljF+qjPfcJpKM6l
+ /l3ZeeYXGkyhIpvcDQyJhRUE7NrwrVTgN5HiZk0vmYlmtDONg1ksnDJrOdIdM6v9G+SSlIdQv1w
+ DSwpIrkrlKfWsJ/PxLj5FFMQKhKhlZPIQ0KTrkwSPDyE90ZQj2pr6uFL9pfSfjw4oWL8/NChC6+
+ 2RwPYMhV/5iTbJuZL7CmBwuZJxmw1a50bw2d2uYRW7n53foIS1W3Ic5rR1Fd/G012ccZGKBUTC3
+ 3A5ZiDmc+FMbWZadThiQGwGwvZbyyL5LNGm0S65LXIt7R8dwOghg8/aUzHSVmduprfR/c2HV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-27_07,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
+ mlxscore=0 clxscore=1015 priorityscore=1501 spamscore=0 adultscore=0
+ malwarescore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505270114
 
-Em Tue, 27 May 2025 22:21:42 +0900
-Alexandre Courbot <gnurou@gmail.com> escreveu:
+On 5/27/25 5:32 AM, Renjiang Han wrote:
+> Add the venus node to the devicetree for the qcs615 platform to enable
+> video functionality. The qcs615 platform currently lacks video
+> functionality due to the absence of the venus node. Fallback to sc7180 due
+> to the same video core.
+> 
+> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+> ---
 
-> On Tue, May 27, 2025 at 6:13=E2=80=AFPM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > Em Tue, 27 May 2025 15:14:50 +0900
-> > "Alexandre Courbot" <gnurou@gmail.com> escreveu:
-> > =20
-> > > Hi Mauro,
-> > >
-> > > On Mon May 26, 2025 at 9:13 PM JST, Mauro Carvalho Chehab wrote: =20
-> > > > Hi Michael,
-> > > >
-> > > > Em Sat, 12 Apr 2025 13:08:01 +0900
-> > > > Alexandre Courbot <gnurou@gmail.com> escreveu:
-> > > > =20
-> > > >> Add the first version of the virtio-media driver.
-> > > >>
-> > > >> This driver acts roughly as a V4L2 relay between user-space and the
-> > > >> virtio virtual device on the host, so it is relatively simple, yet
-> > > >> unconventional. It doesn't use VB2 or other frameworks typically u=
-sed in
-> > > >> a V4L2 driver, and most of its complexity resides in correctly and
-> > > >> efficiently building the virtio descriptor chain to pass to the ho=
-st,
-> > > >> avoiding copies whenever possible. This is done by
-> > > >> scatterlist_builder.[ch].
-> > > >>
-> > > >> virtio_media_ioctls.c proxies each supported ioctl to the host, us=
-ing
-> > > >> code generated through macros for ioctls that can be forwarded dir=
-ectly,
-> > > >> which is most of them.
-> > > >>
-> > > >> virtio_media_driver.c provides the expected driver hooks, and supp=
-ort
-> > > >> for mmapping and polling.
-> > > >>
-> > > >>  This version supports MMAP buffers, while USERPTR buffers can als=
-o be
-> > > >>  enabled through a driver option. DMABUF support is still pending.=
- =20
-> > > >
-> > > > It sounds that you applied this one at the virtio tree, but it hasn=
-'t
-> > > > being reviewed or acked by media maintainers.
-> > > >
-> > > > Please drop it.
-> > > >
-> > > > Alexandre,
-> > > >
-> > > > Please send media patches to media maintainers, c/c other subsystem
-> > > > maintainers, as otherwise they might end being merged without a
-> > > > proper review. =20
-> > >
-> > > Sorry about that, I put everyone in "To:" without giving it a second
-> > > thought.
-> > > =20
-> > > >
-> > > > In this particular case, we need to double-check if this won't cause
-> > > > any issues, in special with regards to media locks and mutexes. =20
-> > >
-> > > Agreed, I am not 100% confident about that part myself.
-> > > =20
-> > > >
-> > > > I'll try to look on it after this merge window, as it is too late
-> > > > for it to be applied during this one. =20
-> > >
-> > > Appreciate that - given the high traffic on the list I was worried th=
-at
-> > > this patch would eventually be overlooked. Not making it for this mer=
-ge
-> > > window should not be a problem, so please take the time you need. =20
-> >
-> > Provided that your patch was caught by patchwork, it won't be lost:
-> >         https://patchwork.linuxtv.org/project/linux-media/patch/2025041=
-2-virtio-media-v3-1-97dc94c18398@gmail.com/
-> >
-> > Please notice that our CI got a number of checkpatch issues there.
-> > Please check and fix the non-false-positive ones. =20
->=20
-> Will do. The macro-related ones are false-positives AFAICT. Some of
-> the "lines should not end with a '('" are actually the result of
-> applying clang-format with the kernel-provided style...
+[...]
 
-I don't know any lint tool that honors kernel style. The best one
-is checkpatch with the auto-correcting parameter in pedantic mode,
-but still one needs to manually review its output.
+> +			interconnects = <&mmss_noc MASTER_VIDEO_P0 QCOM_ICC_TAG_ALWAYS
+> +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+> +					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
+> +					 &config_noc SLAVE_VENUS_CFG QCOM_ICC_TAG_ALWAYS>;
 
->=20
-> >
-> > Btw, I was looking at:
-> >
-> >         https://github.com/chromeos/virtio-media
-> >
-> > (I'm assuming that this is the QEMU counterpart, right?) =20
->=20
-> crosvm actually, but QEMU support is also being worked on.
+QCOM_ICC_TAG_ACTIVE_ONLY on the second path
 
-Do you have already QEMU patches? The best is to have the Kernel driver
-submitted altogether with QEMU, as Kernel developers need it to do the
-tests. In my case, I never use crosvm, and I don't have any Chromebook
-anymore.
+> +			interconnect-names = "video-mem",
+> +					     "cpu-cfg";
+> +
+> +			iommus = <&apps_smmu 0xe40 0x20>;
 
-> > And I noticed something weird there:
-> >
-> >         "Unsupported ioctls
-> >
-> >          A few ioctls are replaced by other, more suitable mechanisms. =
-If being requested these ioctls, the device must return the same response a=
-s it would for an unknown ioctl, i.e. ENOTTY.
-> >
-> >             VIDIOC_QUERYCAP is replaced by reading the configuration ar=
-ea.
-> >             VIDIOC_DQBUF is replaced by a dedicated event.
-> >             VIDIOC_DQEVENT is replaced by a dedicated event."
-> >
-> > While this could be ok for cromeOS, this will be broken for guests with
-> > Linux, as all Linux applications rely on VIDIOC_QUERYCAP and VIDIOC_DQB=
-UF
-> > to work. Please implement support for it, as otherwise we won't even be
-> > able to test the driver with the v4l2-compliance tool (*). =20
->=20
-> The phrasing was a bit confusing. The guest driver does support these
-> ioctls, and passes v4l2-compliance. So there is no problem here.
+fwiw docs mention 0xe60 0x20 (which result in the exact same resulting sid)
 
-Please add v4l2-compliance output on the next patch series.
+> +
+> +			memory-region = <&pil_video_mem>;
+> +
+> +			status = "disabled";
+> +
+> +			venus_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +
+> +				opp-133330000 {
+> +					opp-hz = /bits/ 64 <133330000>;
+> +					required-opps = <&rpmhpd_opp_low_svs>;
+> +				};
+> +
+> +				opp-240000000 {
+> +					opp-hz = /bits/ 64 <240000000>;
+> +					required-opps = <&rpmhpd_opp_svs>;
+> +				};
+> +
+> +				opp-300000000 {
+> +					opp-hz = /bits/ 64 <300000000>;
+> +					required-opps = <&rpmhpd_opp_svs_l1>;
+> +				};
+> +
+> +				opp-380000000 {
+> +					opp-hz = /bits/ 64 <380000000>;
+> +					required-opps = <&rpmhpd_opp_nom>;
+> +				};
+> +
+> +				opp-410000000 {
+> +					opp-hz = /bits/ 64 <410000000>;
+> +					required-opps = <&rpmhpd_opp_turbo>;
 
-> Where these ioctls are not supported is between the guest and the
-> host, i.e. as ioctls encapsulated into a virtio request. For QUERYCAP,
-> that's because the virtio configuration area already provides the same
-> information. For DQBUF and DQEVENT, that's because we want to serve
-> these asynchronously for performance reasons (hence the dedicated
-> events).
->=20
-> But these differences don't affect guest user applications which will
-> be able to perform these ioctls exactly as they expect.
+nom_l1
 
-OK. Better to let it clear then at the documentation.
+> +				};
+> +
+> +				opp-460000000 {
+> +					opp-hz = /bits/ 64 <460000000>;
+> +					required-opps = <&rpmhpd_opp_turbo_l1>;
 
-> >
-> > (*) Passing at v4l2-compliance is a requirement for any media driver
-> >     to be merged.
-> >
-> > With regards to testing, what's the expected testing scenario?
-> > My guess is that, as a virtio device, a possible test scenario would be
-> > to have the UVC camera from the host OS mapped using virtio-camera into
-> > the guest OS, allowing a V4L2 application running at the guest to map t=
-he
-> > camera from the host, right? =20
->=20
-> That's one of the scenarios, yes.=20
+turbo
 
-Ok, this is the easiest test scenario for media developers.
-
-> Another one is to expose an accelerated decoder on the host to the guest.=
-=20
-
-> One can also create
-> "fake" devices backed by software on the host for testing purposes.
-
-That sounds interesting. It probably makes sense to have some test
-scenario using such fake devices plus v4l2-compliance test to check
-for regressions running on some CI engine.
-
-> That's actually the benefit of using V4L2 as a guest/host protocol:
-> the same guest and the same software stack on the host can be used to
-> virtualize multiple kinds of media devices, removing the need to have
-> e.g. virtio-camera and virtio-codec. This removes a ton of work (and
-> code).
-
-Makes sense.
-
-Regards,
-Mauro
+Konrad
 
