@@ -1,141 +1,264 @@
-Return-Path: <linux-media+bounces-33513-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33514-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046EEAC6636
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 11:47:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE127AC66EE
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 12:27:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 307274A5659
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 09:47:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 977D31BA2EAC
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 10:27:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E32CC27816D;
-	Wed, 28 May 2025 09:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B184027874A;
+	Wed, 28 May 2025 10:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nCceK5O3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKHDQo4n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C622211A35
-	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 09:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A4A3398A;
+	Wed, 28 May 2025 10:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748425617; cv=none; b=GAcfz2jEVibKVnvfsHJZE09py/FgwU85SE2RMwpz3FLhcrC+2Yo+d8lNWF5V1vOyOLT+a9S8H951YJlZHwofK2dOxz77hDEUGKDiNVzjhdnFjf66SO8TSLq/EtMSnOytBTZThctQfVkF9KBxQL/V/cYKro2E7DSa4uk8/IPtPH4=
+	t=1748428042; cv=none; b=GLY1rVnX9TWsraCHKXHPcEWy6WD6FufQwwp2tLtyiKomjmGSpxhntz9p0cPtcSk/FVqSjgB8jn5ym9HZKGDRQRJgw7yHejabOxnUidM0Q6qJJOG1fUh6onBmF73WJ8zYBP5BE+U6OMdc4pd9DeEJauihcF0vYWeZKp7pbPcaMb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748425617; c=relaxed/simple;
-	bh=ahUZkqPwadES68HTIhQm8fxXZkps7dNBsaVEhNXvlxs=;
+	s=arc-20240116; t=1748428042; c=relaxed/simple;
+	bh=qXX3RBy7FaLfsbPVhYF8K2BxUXDasKCG7xQakUwEPIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hyD62CiY0HlMUl18zKheLuEA0TMZueFppS/OXCekwr8NNmRxZahoevk5+VrWfSs5IDNS5J3CTHfXsVPI/Ia1yA242pFT6/Zzv7AAPOXhJSSGWtXmInL+bYuXGYfDIh1sl1bR9RYjW652my5MbJeqATfsKy+cwreoRRom1d07KFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nCceK5O3; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Wed, 28 May 2025 11:46:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1748425602;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0a0vAQ+z6APVJCVEpoJNU8cjAHQkqm8VO7jrgFhVbN4=;
-	b=nCceK5O33h6MW3MeSC6j/jdBqEBmeaoq6jiOkX1MsDGOwJTP96XsmbJp3Yfabz/U2xc5qQ
-	sl0iwE8vJDlXhAx/PwyP6gtuhxXT5S4QjC9jYdK/uUKwCP1v0OtslKSwe18Ke4ta+b+dX7
-	cmgsBqgDzmoCQLL+OuK074hdGKyVjYo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4 09/10] media: i2c: ov9282: add strobe_source v4l2
- control
-Message-ID: <jsohv4yhopqla6gvae76qqtat7ekeqxvjvxvcaxjaw2th7hq32@uupjpwho3b5d>
-References: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
- <20250507-ov9282-flash-strobe-v4-9-72b299c1b7c9@linux.dev>
- <aDTOCC1wE26Md_Zo@kekkonen.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=eM27oLyu9mwKPMS5LbimrMARUS6YzUN9suuovKS63mff0jhNGDMm8T4kKCUuPji8AsSzVRXwprWTzYOQhXGd/R+W3yUyNDlRDGU94PZIe4OfuVsak54I74lTQsgBOJCBvZdLXBhGdxJv7Kb07UOq1IkljsbjD7kBnik1+xkqBz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKHDQo4n; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748428041; x=1779964041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=qXX3RBy7FaLfsbPVhYF8K2BxUXDasKCG7xQakUwEPIs=;
+  b=YKHDQo4nT+PQD+pIGOTll6+9ZwtBPRzPi6gIh9RTrwPDwYeTMC/i4dd2
+   4YlTKsscnkSuH8IcoA3o5ebBsbxIDQ0AQNQ9+0HE74+hAIjIpYBRUUQCa
+   cgjK1EUqmKbku15VhivTd6blUob3kI0BX+TNk1l0ABuLiDo/1oK9g97bl
+   /6/h1E+2wNFs0/gWDK2QLwrMqp5lUTU4BtH1YtYN6gCTvGQTkFXN63FbP
+   O1y4Dx//8AaLMAJDt8vi4AetwVBoyHTWyL6Vrj+Kl53Mge+dGCh9dpg1n
+   tei2VOYBFFrJ4UWb3U5f7Auhj9ZKXZHwH4Gcj6kO79fGAKtdJphV8vKL4
+   w==;
+X-CSE-ConnectionGUID: Y/z+Y1d+Tw2UsoFT3QaFLA==
+X-CSE-MsgGUID: KldjUmjZRqOUfECy6ZdfaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="53073284"
+X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
+   d="scan'208";a="53073284"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 03:27:18 -0700
+X-CSE-ConnectionGUID: M7BN0y+pTPCQS0eGzp5CHw==
+X-CSE-MsgGUID: Wu9/qOBSS9C+sbGibUPusA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
+   d="scan'208";a="144179791"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.50])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 03:27:16 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id AED5D11F741;
+	Wed, 28 May 2025 13:27:12 +0300 (EEST)
+Date: Wed, 28 May 2025 10:27:12 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 4/6] media: rcar-vin: Prepare for unifying all
+ v4l-async notifiers
+Message-ID: <aDblAEnmaunbaZeg@kekkonen.localdomain>
+References: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250521132037.1463746-5-niklas.soderlund+renesas@ragnatech.se>
+ <aDVjW_k_keyFQbPT@kekkonen.localdomain>
+ <20250527110647.GG12492@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <aDTOCC1wE26Md_Zo@kekkonen.localdomain>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250527110647.GG12492@pendragon.ideasonboard.com>
 
-On Mon, May 26, 2025 at 08:24:40PM +0000, Sakari Ailus wrote:
-> Hi Richard,
+Hi Laurent,
 
-Hi Sakari,
-
-thanks for the review!
-
-> 
-> On Wed, May 07, 2025 at 09:51:38AM +0200, Richard Leitner wrote:
-> > Add read-only V4L2_CID_FLASH_STROBE_SOURCE control. Its value is fixed
-> > to V4L2_FLASH_STROBE_SOURCE_EXTERNAL as the camera sensor triggers the
-> > strobe based on its register settings.
-> 
-> Is strobe source control relevant for the sensor? It's triggering the flash
-> but the flash LED isn't connected to it, is it?
-
-Exactly. The sensor is only triggering a "strobe output" pin, but no
-LEDs are on the sensor module. Nonetheless at least in our use-case the LEDs
-are switched directly by this output pin of the sensor (via some FET
-circuit).
-
-So to be honest I don't know if it is relevant, or not. I guess the
-sensor in this case is a "external strobe source" as seen from the
-kernel, isn't it?
-
-> 
+On Tue, May 27, 2025 at 01:06:47PM +0200, Laurent Pinchart wrote:
+> On Tue, May 27, 2025 at 07:01:47AM +0000, Sakari Ailus wrote:
+> > On Wed, May 21, 2025 at 03:20:35PM +0200, Niklas Söderlund wrote:
+> > > The R-Car VIN driver is needless complex and uses more then one
 > > 
-> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > ---
-> >  drivers/media/i2c/ov9282.c | 11 ++++++++++-
-> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> > s/needless\K/ly/
 > > 
-> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > index 0bbdf08d7cda8f72e05fdc292aa69a4c821e4e03..09d522d5977ec6fb82028ddb6015f05c9328191d 100644
-> > --- a/drivers/media/i2c/ov9282.c
-> > +++ b/drivers/media/i2c/ov9282.c
-> > @@ -1368,11 +1368,12 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  	struct v4l2_ctrl_handler *ctrl_hdlr = &ov9282->ctrl_handler;
-> >  	const struct ov9282_mode *mode = ov9282->cur_mode;
-> >  	struct v4l2_fwnode_device_properties props;
-> > +	struct v4l2_ctrl *ctrl;
-> >  	u32 hblank_min;
-> >  	u32 lpfr;
-> >  	int ret;
-> >  
-> > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
-> > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 13);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > @@ -1447,6 +1448,14 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-> >  			  0, 13900, 1, 8);
-> >  
-> > +	ctrl = v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
-> > +				      V4L2_CID_FLASH_STROBE_SOURCE,
-> > +				      V4L2_FLASH_STROBE_SOURCE_EXTERNAL,
-> > +				      ~(1 << V4L2_FLASH_STROBE_SOURCE_EXTERNAL),
-> > +				      V4L2_FLASH_STROBE_SOURCE_EXTERNAL);
-> > +	if (ctrl)
-> > +		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > +
-> >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> >  	if (!ret) {
-> >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+> > > v4l-async notifier to attach to all its subdevices. Prepare for unifying
+> > > them by moving rvin_parallel_parse_of() to where it needs to be when
+> > > they are unified.
+> > > 
+> > > The function is moved verbatim and there is no change in behavior.
+> > > 
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > >  .../platform/renesas/rcar-vin/rcar-core.c     | 106 +++++++++---------
+> > >  1 file changed, 53 insertions(+), 53 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > index d9ad56fb2aa9..60ec57d73a12 100644
+> > > --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > @@ -337,6 +337,59 @@ static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
+> > >  	}
+> > >  }
+> > >  
+> > > +static int rvin_parallel_parse_of(struct rvin_dev *vin)
+> > > +{
+> > > +	struct fwnode_handle *ep, *fwnode;
+> > > +	struct v4l2_fwnode_endpoint vep = {
+> > > +		.bus_type = V4L2_MBUS_UNKNOWN,
+> > > +	};
+> > > +	struct v4l2_async_connection *asc;
+> > > +	int ret;
+> > > +
+> > > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+> > > +	if (!ep)
+> > > +		return 0;
+> > > +
+> > > +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > > +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > > +	fwnode_handle_put(ep);
+> > > +	if (ret) {
+> > > +		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
+> 
+> I just noticed that this error message isn't correct. The endpoint
+> before parsed is ep, not fwnode, so you should write
+> 
+> 		vin_err(vin, "Failed to parse %pOF\n", to_of_node(ep));
+> 
+> > > +		ret = -EINVAL;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	switch (vep.bus_type) {
+> > > +	case V4L2_MBUS_PARALLEL:
+> > > +	case V4L2_MBUS_BT656:
+> > > +		vin_dbg(vin, "Found %s media bus\n",
+> > > +			vep.bus_type == V4L2_MBUS_PARALLEL ?
+> > > +			"PARALLEL" : "BT656");
+> > > +		vin->parallel.mbus_type = vep.bus_type;
+> > > +		vin->parallel.bus = vep.bus.parallel;
+> > > +		break;
+> > > +	default:
+> > > +		vin_err(vin, "Unknown media bus type\n");
+> > > +		ret = -EINVAL;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+> > > +				       struct v4l2_async_connection);
 > > 
+> > If you use v4l2_async_nf_add_fwnode_remote() here, you can omit
+> > fwnode_graph_get_remote_endpoint() call above. Also the error handling
+> > becomes more simple.
 > 
-> -- 
-> Regards,
-> 
-> Sakari Ailus
+> That would contradict the commit message that indicates the function is
+> moved without being modified. I'd rather keep the patch as-is, and then
+> improve the function in a separate patch.
 
-thanks & regards;rl
+Sounds like a good idea.
+
+> 
+> Regarding improvements, declaring ep and fwnode as
+> 
+> 	struct fwnode_handle __free(fwnode_handle) *ep = NULL;
+> 	struct fwnode_handle __free(fwnode_handle) *fwnode = NULL;
+> 
+> would also simplify error handling.
+> 
+> > > +	if (IS_ERR(asc)) {
+> > > +		ret = PTR_ERR(asc);
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	vin->parallel.asc = asc;
+> > > +
+> > > +	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+> > > +out:
+> > > +	fwnode_handle_put(fwnode);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > >  static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
+> > >  				    unsigned int max_id)
+> > >  {
+> > > @@ -635,59 +688,6 @@ static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
+> > >  	.complete = rvin_parallel_notify_complete,
+> > >  };
+> > >  
+> > > -static int rvin_parallel_parse_of(struct rvin_dev *vin)
+> > > -{
+> > > -	struct fwnode_handle *ep, *fwnode;
+> > > -	struct v4l2_fwnode_endpoint vep = {
+> > > -		.bus_type = V4L2_MBUS_UNKNOWN,
+> > > -	};
+> > > -	struct v4l2_async_connection *asc;
+> > > -	int ret;
+> > > -
+> > > -	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+> > > -	if (!ep)
+> > > -		return 0;
+> > > -
+> > > -	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > > -	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > > -	fwnode_handle_put(ep);
+> > > -	if (ret) {
+> > > -		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
+> > > -		ret = -EINVAL;
+> > > -		goto out;
+> > > -	}
+> > > -
+> > > -	switch (vep.bus_type) {
+> > > -	case V4L2_MBUS_PARALLEL:
+> > > -	case V4L2_MBUS_BT656:
+> > > -		vin_dbg(vin, "Found %s media bus\n",
+> > > -			vep.bus_type == V4L2_MBUS_PARALLEL ?
+> > > -			"PARALLEL" : "BT656");
+> > > -		vin->parallel.mbus_type = vep.bus_type;
+> > > -		vin->parallel.bus = vep.bus.parallel;
+> > > -		break;
+> > > -	default:
+> > > -		vin_err(vin, "Unknown media bus type\n");
+> > > -		ret = -EINVAL;
+> > > -		goto out;
+> > > -	}
+> > > -
+> > > -	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+> > > -				       struct v4l2_async_connection);
+> > > -	if (IS_ERR(asc)) {
+> > > -		ret = PTR_ERR(asc);
+> > > -		goto out;
+> > > -	}
+> > > -
+> > > -	vin->parallel.asc = asc;
+> > > -
+> > > -	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+> > > -out:
+> > > -	fwnode_handle_put(fwnode);
+> > > -
+> > > -	return ret;
+> > > -}
+> > > -
+> > >  static void rvin_parallel_cleanup(struct rvin_dev *vin)
+> > >  {
+> > >  	v4l2_async_nf_unregister(&vin->notifier);
+
+-- 
+Regards,
+
+Sakari Ailus
 
