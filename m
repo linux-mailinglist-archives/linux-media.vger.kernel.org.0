@@ -1,237 +1,751 @@
-Return-Path: <linux-media+bounces-33527-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33528-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606EEAC6B95
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 16:19:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EC0AC6BB2
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 16:32:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EBAB81BC3DE2
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 14:19:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8FCBA3B2947
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 14:32:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 829B5288C00;
-	Wed, 28 May 2025 14:18:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38A81288C1F;
+	Wed, 28 May 2025 14:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="TJnJr1yD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="k3/LHcVm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C4413AF2;
-	Wed, 28 May 2025 14:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AF86F06B;
+	Wed, 28 May 2025 14:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748441937; cv=none; b=uiJ+Ir9u1lvau6hkwg+8uhE19adYBCq13UtttWlTqmPdxO8sFP79c0vxi8LNv+6xRSAFhhiEQERLCP8E+KghptFHkn5I3IgC5ftDiPhCLVweAlAJZG1AXbVyO59poD9pZJJ6g/8W7mCQi+dH8hBlrWMICvgRW1nexL8MH2mbInA=
+	t=1748442747; cv=none; b=rmwnXpauiWC/wXvVnsGVVhrQF7IHL11xvQ+k6BIB8gfngHwSyaFjfYQTHUecfiBU/dWniuRWesEpZTAAsluf6B8RC/XeYFmeXILQYqBZHOEdO0tqv70g13e/HERiWkm75ZKtri5EaYnzZEOPS9IhjUQJCG4DjPBjMXnNWIJLtAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748441937; c=relaxed/simple;
-	bh=zJx6vFfwz0MYTEHthiU61dRG76ot+J1AonqUVhsuUz0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=evvXz9IVJOAQwf6nNXsbCSpa+V4ZasYurtbf3PymtNeOLR3sROJtf3rAHjytJXLyYiVzMosHd+JQsxE9ovrzKWswigpM55NoxmcpueNIeBe04UCPGfw6e+TCbxyanGCGUHvLg8kdbr4MEAHK9zsycdRpJOXqPfSwWwyvm7YtPZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=TJnJr1yD; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4b6s792zx3z9swD;
-	Wed, 28 May 2025 16:18:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1748441925; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zJx6vFfwz0MYTEHthiU61dRG76ot+J1AonqUVhsuUz0=;
-	b=TJnJr1yDLKr7T7cAmicStZcRlA8JXH9j13Oh8esWSeeepjouJBcnEQdg5nD8+CN6fFcVRD
-	nyrSXhLPlMvsOWb5dmXyV57DQWLs4lCg8h21dj0UV1gLhSQ+PqoHzrs0MktM3kcTQOv3Tz
-	VBqJRrdR/oGhIs7WY3mzAjxbRQUhpSTKVqH+6d5h7HpRjGCQIeCsy3PugkdN2ZlS2D8x5G
-	Ft+kRUI2xzuE9c13mTzMYRXoC4wd517ZaJxnNNCcHX1K9j00VDmjGPj748+hdBLFjt/1kN
-	JiF1Ken79t+9APOBjhHOqbJPNBQOCon9xR24tXyu9T4k9QG4wIkinlKw8bWbog==
-Message-ID: <f46f73db6594c7cd40149e35da9f188baa5961a2.camel@mailbox.org>
-Subject: Re: [PATCH v11 00/10] Improve gpu_scheduler trace events + UAPI
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Thomas
- =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Abhinav
- Kumar <quic_abhinavk@quicinc.com>,  Alex Deucher
- <alexander.deucher@amd.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Danilo Krummrich <dakr@kernel.org>, David
- Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>, Felix
- Kuehling <Felix.Kuehling@amd.com>, Frank Binns <frank.binns@imgtec.com>,
- Jonathan Corbet <corbet@lwn.net>, Liviu Dudau <liviu.dudau@arm.com>, Lizhi
- Hou <lizhi.hou@amd.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Lucas
- Stach <l.stach@pengutronix.de>, Lyude Paul <lyude@redhat.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>,  Matt Coster
- <matt.coster@imgtec.com>, Matthew Brost <matthew.brost@intel.com>, Maxime
- Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>, Min Ma
- <min.ma@amd.com>,  Oded Gabbay <ogabbay@kernel.org>, Philipp Stanner
- <phasta@kernel.org>, Qiang Yu <yuq825@gmail.com>, Rob Clark
- <robdclark@gmail.com>, Rob Herring <robh@kernel.org>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, Steven Price
- <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>, Thomas
- Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,  etnaviv@lists.freedesktop.org,
- freedreno@lists.freedesktop.org,  intel-xe@lists.freedesktop.org,
- lima@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org,
- linux-arm-msm@vger.kernel.org,  linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-media@vger.kernel.org,
- nouveau@lists.freedesktop.org
-Date: Wed, 28 May 2025 16:18:30 +0200
-In-Reply-To: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1748442747; c=relaxed/simple;
+	bh=2EUi9iPPrQCNVHWtZg8ULvpJtEZ7YxRxlQ+2BtOquyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pm38fsXWXu1BAcIb9cn2t8209VthxBAc+yTvEx16I+NEu2eOTicLiXuXiAT3esdZEA79XOh7Dn5me/gBCPWUoLkba0XlMXbtufH4DYnlZydsbSf1ThBXxTKfmiCdsaRSiOr2fhYIkYAjrqHk8f6VEB4W2cxltCTPp1BXAxO5Z3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=k3/LHcVm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-143-118.net.vodafone.it [5.90.143.118])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E33FD6;
+	Wed, 28 May 2025 16:31:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748442714;
+	bh=2EUi9iPPrQCNVHWtZg8ULvpJtEZ7YxRxlQ+2BtOquyU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k3/LHcVm7MXTfAjHr5SErQChuBgIS6002q1qH8kaHvR6mK3h19/ONa1TSyw/LbDvy
+	 Na3GhwBdQezb+fsaYbgGSaiLO3vmvoysXkGBp+Y7+hdZtsKdB3gvJS3/3/rVpXF0uW
+	 kOfnJ9/j33+tAw5Snt93GiqieyprVP/dL8B/yD4E=
+Date: Wed, 28 May 2025 16:32:17 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 1/7] media: renesas: vsp1: Store supported media bus
+ codes in vsp1_entity
+Message-ID: <liemlgpb3ft6znyxuoiokfdaxizgsvc4uf2n2dxdxvaenkd3qe@wvu47bmb3ixd>
+References: <20250429235322.29826-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20250429235322.29826-2-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 71bbfe2918ed815d7c0
-X-MBO-RS-META: 1d87cwrtfwt5qgx3mzet88gb4nq4xi15
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250429235322.29826-2-laurent.pinchart+renesas@ideasonboard.com>
 
-On Mon, 2025-05-26 at 14:54 +0200, Pierre-Eric Pelloux-Prayer wrote:
-> Hi,
->=20
-> The initial goal of this series was to improve the drm and amdgpu
-> trace events to be able to expose more of the inner workings of
-> the scheduler and drivers to developers via tools.
->=20
-> Then, the series evolved to become focused only on gpu_scheduler.
-> The changes around vblank events will be part of a different
-> series, as well as the amdgpu ones.
->=20
-> Moreover Sima suggested to make some trace events stable uAPI,
-> so tools can rely on them long term.
->=20
-> The first patches extend and cleanup the gpu scheduler events,
-> then add a documentation entry in drm-uapi.rst.
->=20
-> The last 2 patches are new in v8. One is based on a suggestion
-> from Tvrtko and gets rid of drm_sched_job::id. The other is a
-> cleanup of amdgpu trace events to use the fence=3D%llu:%llu format.
->=20
-> The drm_sched_job patches don't affect gpuvis which has code to parse
-> the gpu_scheduler events but these events are not enabled.
->=20
-> Changes since v10:
-> * fixed 2 errors reported by kernel test robot
-> * rebased on drm-misc-next
->=20
-> Changes since v9:
-> * fixed documentation link syntax
-> * fixed typos in commit messages
-> * spelled out that these events cannot be used before
-> =C2=A0 drm_sched_job_arm has been called
->=20
-> Changes since v8:
-> * swapped patches 8 & 9
-> * rebased on drm-next
->=20
-> Changes since v7:
-> * uint64_t -> u64
-> * reworked dependencies tracing (Tvrtko)
-> * use common name prefix for all events (Tvrtko)
-> * dropped drm_sched_job::id (Tvrtko)
->=20
-> Useful links:
-> - userspace tool using the updated events:
-> https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
-> - v8:
-> https://lists.freedesktop.org/archives/dri-devel/2025-March/496781.html
->=20
-> Pierre-Eric Pelloux-Prayer (10):
-> =C2=A0 drm/debugfs: Output client_id in in drm_clients_info
-> =C2=A0 drm/sched: Store the drm client_id in drm_sched_fence
-> =C2=A0 drm/sched: Add device name to the drm_sched_process_job event
-> =C2=A0 drm/sched: Cleanup gpu_scheduler trace events
-> =C2=A0 drm/sched: Trace dependencies for GPU jobs
-> =C2=A0 drm/sched: Add the drm_client_id to the drm_sched_run/exec_job
-> events
-> =C2=A0 drm/sched: Cleanup event names
-> =C2=A0 drm: Get rid of drm_sched_job.id
-> =C2=A0 drm/doc: Document some tracepoints as uAPI
-> =C2=A0 drm/amdgpu: update trace format to match gpu_scheduler_trace
+Hi Laurent
 
+On Wed, Apr 30, 2025 at 02:53:16AM +0300, Laurent Pinchart wrote:
+> Most entities use the vsp1_subdev_enum_mbus_code() and
+> vsp1_subdev_set_pad_format() helper functions to implement the
+> corresponding subdev operations. Both helpers are given the list of
+> supported media bus codes as arguments, requiring each entity to
+> implement a wrapper.
+>
+> Replace the function arguments with storing the supported media bus
+> codes in the vsp1_entity structure. This allows dropping most of the
+> .enum_mbus_code() wrappers from entities.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Applied to drm-misc-next
-
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 Thanks
-P.
+  j
 
->=20
-> =C2=A0Documentation/gpu/drm-uapi.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 19 ++++
-> =C2=A0drivers/accel/amdxdna/aie2_ctx.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 2 +-
-> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_job.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 8 +-
-> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_job.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 32 ++----
-> =C2=A0drivers/gpu/drm/drm_debugfs.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 +-
-> =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c=C2=A0 |=C2=A0=C2=A0 2 =
-+-
-> =C2=A0drivers/gpu/drm/imagination/pvr_job.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0drivers/gpu/drm/imagination/pvr_queue.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 5 +-
-> =C2=A0drivers/gpu/drm/imagination/pvr_queue.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0drivers/gpu/drm/lima/lima_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0drivers/gpu/drm/lima/lima_sched.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +-
-> =C2=A0drivers/gpu/drm/lima/lima_sched.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> =C2=A0drivers/gpu/drm/lima/lima_trace.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +-
-> =C2=A0drivers/gpu/drm/msm/msm_gem_submit.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +-
-> =C2=A0drivers/gpu/drm/nouveau/nouveau_sched.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> =C2=A0drivers/gpu/drm/panfrost/panfrost_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0drivers/gpu/drm/panthor/panthor_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> =C2=A0drivers/gpu/drm/panthor/panthor_mmu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0drivers/gpu/drm/panthor/panthor_sched.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 5 +-
-> =C2=A0drivers/gpu/drm/panthor/panthor_sched.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> =C2=A0.../gpu/drm/scheduler/gpu_scheduler_trace.h=C2=A0=C2=A0 | 103 +++++=
-++++++++---
+> ---
+>  .../media/platform/renesas/vsp1/vsp1_brx.c    | 22 +++++++----------
+>  .../media/platform/renesas/vsp1/vsp1_clu.c    | 20 +++++-----------
+>  .../media/platform/renesas/vsp1/vsp1_entity.c | 21 +++++++---------
+>  .../media/platform/renesas/vsp1/vsp1_entity.h |  7 +++---
+>  .../media/platform/renesas/vsp1/vsp1_histo.c  | 18 ++++----------
+>  .../media/platform/renesas/vsp1/vsp1_histo.h  |  2 --
+>  .../media/platform/renesas/vsp1/vsp1_hsit.c   | 13 +++++++---
+>  .../media/platform/renesas/vsp1/vsp1_lif.c    | 20 +++++-----------
+>  .../media/platform/renesas/vsp1/vsp1_lut.c    | 20 +++++-----------
+>  .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 24 ++++++++++---------
+>  .../media/platform/renesas/vsp1/vsp1_sru.c    | 20 ++++++----------
+>  .../media/platform/renesas/vsp1/vsp1_uds.c    | 20 ++++++----------
+>  .../media/platform/renesas/vsp1/vsp1_uif.c    | 20 +++++-----------
+>  13 files changed, 86 insertions(+), 141 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> index 5fc2e5a3bb30..3890adc8073e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> @@ -59,25 +59,17 @@ static const struct v4l2_ctrl_ops brx_ctrl_ops = {
+>   * V4L2 Subdevice Operations
+>   */
+>
+> +static const unsigned int brx_codes[] = {
+> +	MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	MEDIA_BUS_FMT_AYUV8_1X32,
+> +};
+> +
+>  /*
+>   * The BRx can't perform format conversion, all sink and source formats must be
+>   * identical. We pick the format on the first sink pad (pad 0) and propagate it
+>   * to all other pads.
+>   */
+>
+> -static int brx_enum_mbus_code(struct v4l2_subdev *subdev,
+> -			      struct v4l2_subdev_state *sd_state,
+> -			      struct v4l2_subdev_mbus_code_enum *code)
+> -{
+> -	static const unsigned int codes[] = {
+> -		MEDIA_BUS_FMT_ARGB8888_1X32,
+> -		MEDIA_BUS_FMT_AYUV8_1X32,
+> -	};
+> -
+> -	return vsp1_subdev_enum_mbus_code(subdev, sd_state, code, codes,
+> -					  ARRAY_SIZE(codes));
+> -}
+> -
+>  static int brx_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+> @@ -262,7 +254,7 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
+>  }
+>
+>  static const struct v4l2_subdev_pad_ops brx_pad_ops = {
+> -	.enum_mbus_code = brx_enum_mbus_code,
+> +	.enum_mbus_code = vsp1_subdev_enum_mbus_code,
+>  	.enum_frame_size = brx_enum_frame_size,
+>  	.get_fmt = vsp1_subdev_get_pad_format,
+>  	.set_fmt = brx_set_format,
+> @@ -416,6 +408,8 @@ struct vsp1_brx *vsp1_brx_create(struct vsp1_device *vsp1,
+>  	brx->base = type == VSP1_ENTITY_BRU ? VI6_BRU_BASE : VI6_BRS_BASE;
+>  	brx->entity.ops = &brx_entity_ops;
+>  	brx->entity.type = type;
+> +	brx->entity.codes = brx_codes;
+> +	brx->entity.num_codes = ARRAY_SIZE(brx_codes);
+>
+>  	if (type == VSP1_ENTITY_BRU) {
+>  		num_pads = vsp1->info->num_bru_inputs + 1;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_clu.c b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
+> index 98645bd2a983..a16c9c941512 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_clu.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
+> @@ -122,30 +122,20 @@ static const unsigned int clu_codes[] = {
+>  	MEDIA_BUS_FMT_AYUV8_1X32,
+>  };
+>
+> -static int clu_enum_mbus_code(struct v4l2_subdev *subdev,
+> -			      struct v4l2_subdev_state *sd_state,
+> -			      struct v4l2_subdev_mbus_code_enum *code)
+> -{
+> -	return vsp1_subdev_enum_mbus_code(subdev, sd_state, code, clu_codes,
+> -					  ARRAY_SIZE(clu_codes));
+> -}
+> -
+>  static int clu_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	return vsp1_subdev_enum_frame_size(subdev, sd_state, fse,
+> -					   CLU_MIN_SIZE,
+> -					   CLU_MIN_SIZE, CLU_MAX_SIZE,
+> -					   CLU_MAX_SIZE);
+> +					   CLU_MIN_SIZE, CLU_MIN_SIZE,
+> +					   CLU_MAX_SIZE, CLU_MAX_SIZE);
+>  }
+>
+>  static int clu_set_format(struct v4l2_subdev *subdev,
+>  			  struct v4l2_subdev_state *sd_state,
+>  			  struct v4l2_subdev_format *fmt)
+>  {
+> -	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt, clu_codes,
+> -					  ARRAY_SIZE(clu_codes),
+> +	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt,
+>  					  CLU_MIN_SIZE, CLU_MIN_SIZE,
+>  					  CLU_MAX_SIZE, CLU_MAX_SIZE);
+>  }
+> @@ -155,7 +145,7 @@ static int clu_set_format(struct v4l2_subdev *subdev,
+>   */
+>
+>  static const struct v4l2_subdev_pad_ops clu_pad_ops = {
+> -	.enum_mbus_code = clu_enum_mbus_code,
+> +	.enum_mbus_code = vsp1_subdev_enum_mbus_code,
+>  	.enum_frame_size = clu_enum_frame_size,
+>  	.get_fmt = vsp1_subdev_get_pad_format,
+>  	.set_fmt = clu_set_format,
+> @@ -247,6 +237,8 @@ struct vsp1_clu *vsp1_clu_create(struct vsp1_device *vsp1)
+>
+>  	clu->entity.ops = &clu_entity_ops;
+>  	clu->entity.type = VSP1_ENTITY_CLU;
+> +	clu->entity.codes = clu_codes;
+> +	clu->entity.num_codes = ARRAY_SIZE(clu_codes);
+>
+>  	ret = vsp1_entity_init(vsp1, &clu->entity, "clu", 2, &clu_ops,
+>  			       MEDIA_ENT_F_PROC_VIDEO_LUT);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> index 9f93ae86b1da..e658a6ee5793 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> @@ -176,8 +176,6 @@ int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+>   * @subdev: V4L2 subdevice
+>   * @sd_state: V4L2 subdev state
+>   * @code: Media bus code enumeration
+> - * @codes: Array of supported media bus codes
+> - * @ncodes: Number of supported media bus codes
+>   *
+>   * This function implements the subdev enum_mbus_code pad operation for entities
+>   * that do not support format conversion. It enumerates the given supported
+> @@ -186,16 +184,15 @@ int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+>   */
+>  int vsp1_subdev_enum_mbus_code(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+> -			       struct v4l2_subdev_mbus_code_enum *code,
+> -			       const unsigned int *codes, unsigned int ncodes)
+> +			       struct v4l2_subdev_mbus_code_enum *code)
+>  {
+>  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+>
+>  	if (code->pad == 0) {
+> -		if (code->index >= ncodes)
+> +		if (code->index >= entity->num_codes)
+>  			return -EINVAL;
+>
+> -		code->code = codes[code->index];
+> +		code->code = entity->codes[code->index];
+>  	} else {
+>  		struct v4l2_subdev_state *state;
+>  		struct v4l2_mbus_framefmt *format;
+> @@ -285,15 +282,13 @@ int vsp1_subdev_enum_frame_size(struct v4l2_subdev *subdev,
+>   * @subdev: V4L2 subdevice
+>   * @sd_state: V4L2 subdev state
+>   * @fmt: V4L2 subdev format
+> - * @codes: Array of supported media bus codes
+> - * @ncodes: Number of supported media bus codes
+>   * @min_width: Minimum image width
+>   * @min_height: Minimum image height
+>   * @max_width: Maximum image width
+>   * @max_height: Maximum image height
+>   *
+>   * This function implements the subdev set_fmt pad operation for entities that
+> - * do not support scaling or cropping. It defaults to the first supplied media
+> + * do not support scaling or cropping. It defaults to the first supported media
+>   * bus code if the requested code isn't supported, clamps the size to the
+>   * supplied minimum and maximum, and propagates the sink pad format to the
+>   * source pad.
+> @@ -301,7 +296,6 @@ int vsp1_subdev_enum_frame_size(struct v4l2_subdev *subdev,
+>  int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+>  			       struct v4l2_subdev_format *fmt,
+> -			       const unsigned int *codes, unsigned int ncodes,
+>  			       unsigned int min_width, unsigned int min_height,
+>  			       unsigned int max_width, unsigned int max_height)
+>  {
+> @@ -332,12 +326,13 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+>  	 * Default to the first media bus code if the requested format is not
+>  	 * supported.
+>  	 */
+> -	for (i = 0; i < ncodes; ++i) {
+> -		if (fmt->format.code == codes[i])
+> +	for (i = 0; i < entity->num_codes; ++i) {
+> +		if (fmt->format.code == entity->codes[i])
+>  			break;
+>  	}
+>
+> -	format->code = i < ncodes ? codes[i] : codes[0];
+> +	format->code = i < entity->num_codes
+> +		     ? entity->codes[i] : entity->codes[0];
+>  	format->width = clamp_t(unsigned int, fmt->format.width,
+>  				min_width, max_width);
+>  	format->height = clamp_t(unsigned int, fmt->format.height,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+> index ce4a09610164..6b42fd5ad7e8 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+> @@ -112,6 +112,9 @@ struct vsp1_entity {
+>  	unsigned int index;
+>  	const struct vsp1_route *route;
+>
+> +	const u32 *codes;
+> +	unsigned int num_codes;
+> +
+>  	struct vsp1_pipeline *pipe;
+>
+>  	struct list_head list_dev;
+> @@ -180,13 +183,11 @@ int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+>  int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+>  			       struct v4l2_subdev_format *fmt,
+> -			       const unsigned int *codes, unsigned int ncodes,
+>  			       unsigned int min_width, unsigned int min_height,
+>  			       unsigned int max_width, unsigned int max_height);
+>  int vsp1_subdev_enum_mbus_code(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+> -			       struct v4l2_subdev_mbus_code_enum *code,
+> -			       const unsigned int *codes, unsigned int ncodes);
+> +			       struct v4l2_subdev_mbus_code_enum *code);
+>  int vsp1_subdev_enum_frame_size(struct v4l2_subdev *subdev,
+>  				struct v4l2_subdev_state *sd_state,
+>  				struct v4l2_subdev_frame_size_enum *fse,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> index c762202877ba..631751dbc6d3 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> @@ -167,16 +167,12 @@ static int histo_enum_mbus_code(struct v4l2_subdev *subdev,
+>  				struct v4l2_subdev_state *sd_state,
+>  				struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+> -
+>  	if (code->pad == HISTO_PAD_SOURCE) {
+>  		code->code = MEDIA_BUS_FMT_FIXED;
+>  		return 0;
+>  	}
+>
+> -	return vsp1_subdev_enum_mbus_code(subdev, sd_state, code,
+> -					  histo->formats,
+> -					  histo->num_formats);
+> +	return vsp1_subdev_enum_mbus_code(subdev, sd_state, code);
+>  }
+>
+>  static int histo_enum_frame_size(struct v4l2_subdev *subdev,
+> @@ -187,9 +183,8 @@ static int histo_enum_frame_size(struct v4l2_subdev *subdev,
+>  		return -EINVAL;
+>
+>  	return vsp1_subdev_enum_frame_size(subdev, sd_state, fse,
+> -					   HISTO_MIN_SIZE,
+> -					   HISTO_MIN_SIZE, HISTO_MAX_SIZE,
+> -					   HISTO_MAX_SIZE);
+> +					   HISTO_MIN_SIZE, HISTO_MIN_SIZE,
+> +					   HISTO_MAX_SIZE, HISTO_MAX_SIZE);
+>  }
+>
+>  static int histo_get_selection(struct v4l2_subdev *subdev,
+> @@ -354,8 +349,6 @@ static int histo_set_format(struct v4l2_subdev *subdev,
+>  			    struct v4l2_subdev_state *sd_state,
+>  			    struct v4l2_subdev_format *fmt)
+>  {
+> -	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+> -
+>  	if (fmt->pad == HISTO_PAD_SOURCE) {
+>  		fmt->format.code = MEDIA_BUS_FMT_FIXED;
+>  		fmt->format.width = 0;
+> @@ -367,7 +360,6 @@ static int histo_set_format(struct v4l2_subdev *subdev,
+>  	}
+>
+>  	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt,
+> -					  histo->formats, histo->num_formats,
+>  					  HISTO_MIN_SIZE, HISTO_MIN_SIZE,
+>  					  HISTO_MAX_SIZE, HISTO_MAX_SIZE);
+>  }
+> @@ -490,8 +482,6 @@ int vsp1_histogram_init(struct vsp1_device *vsp1, struct vsp1_histogram *histo,
+>  {
+>  	int ret;
+>
+> -	histo->formats = formats;
+> -	histo->num_formats = num_formats;
+>  	histo->data_size = data_size;
+>  	histo->meta_format = meta_format;
+>
+> @@ -506,6 +496,8 @@ int vsp1_histogram_init(struct vsp1_device *vsp1, struct vsp1_histogram *histo,
+>  	/* Initialize the VSP entity... */
+>  	histo->entity.ops = ops;
+>  	histo->entity.type = type;
+> +	histo->entity.codes = formats;
+> +	histo->entity.num_codes = num_formats;
+>
+>  	ret = vsp1_entity_init(vsp1, &histo->entity, name, 2, &histo_ops,
+>  			       MEDIA_ENT_F_PROC_VIDEO_STATISTICS);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.h b/drivers/media/platform/renesas/vsp1/vsp1_histo.h
+> index 06f029846244..227db810da52 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.h
+> @@ -36,8 +36,6 @@ struct vsp1_histogram {
+>  	struct video_device video;
+>  	struct media_pad pad;
+>
+> -	const u32 *formats;
+> -	unsigned int num_formats;
+>  	size_t data_size;
+>  	u32 meta_format;
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+> index 1fcd1967d3b2..927dc185b8f7 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+> @@ -34,6 +34,11 @@ static inline void vsp1_hsit_write(struct vsp1_hsit *hsit,
+>   * V4L2 Subdevice Operations
+>   */
+>
+> +static const unsigned int hsit_codes[] = {
+> +	MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	MEDIA_BUS_FMT_AHSV8888_1X32,
+> +};
+> +
+>  static int hsit_enum_mbus_code(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+>  			       struct v4l2_subdev_mbus_code_enum *code)
+> @@ -57,9 +62,8 @@ static int hsit_enum_frame_size(struct v4l2_subdev *subdev,
+>  				struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	return vsp1_subdev_enum_frame_size(subdev, sd_state, fse,
+> -					   HSIT_MIN_SIZE,
+> -					   HSIT_MIN_SIZE, HSIT_MAX_SIZE,
+> -					   HSIT_MAX_SIZE);
+> +					   HSIT_MIN_SIZE, HSIT_MIN_SIZE,
+> +					   HSIT_MAX_SIZE, HSIT_MAX_SIZE);
+>  }
+>
+>  static int hsit_set_format(struct v4l2_subdev *subdev,
+> @@ -175,6 +179,9 @@ struct vsp1_hsit *vsp1_hsit_create(struct vsp1_device *vsp1, bool inverse)
+>  	else
+>  		hsit->entity.type = VSP1_ENTITY_HST;
+>
+> +	hsit->entity.codes = hsit_codes;
+> +	hsit->entity.num_codes = ARRAY_SIZE(hsit_codes);
+> +
+>  	ret = vsp1_entity_init(vsp1, &hsit->entity, inverse ? "hsi" : "hst",
+>  			       2, &hsit_ops,
+>  			       MEDIA_ENT_F_PROC_VIDEO_PIXEL_ENC_CONV);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> index b3d83d1c5306..6c1cbe2d8524 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> @@ -39,36 +39,26 @@ static const unsigned int lif_codes[] = {
+>  	MEDIA_BUS_FMT_AYUV8_1X32,
+>  };
+>
+> -static int lif_enum_mbus_code(struct v4l2_subdev *subdev,
+> -			      struct v4l2_subdev_state *sd_state,
+> -			      struct v4l2_subdev_mbus_code_enum *code)
+> -{
+> -	return vsp1_subdev_enum_mbus_code(subdev, sd_state, code, lif_codes,
+> -					  ARRAY_SIZE(lif_codes));
+> -}
+> -
+>  static int lif_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	return vsp1_subdev_enum_frame_size(subdev, sd_state, fse,
+> -					   LIF_MIN_SIZE,
+> -					   LIF_MIN_SIZE, LIF_MAX_SIZE,
+> -					   LIF_MAX_SIZE);
+> +					   LIF_MIN_SIZE, LIF_MIN_SIZE,
+> +					   LIF_MAX_SIZE, LIF_MAX_SIZE);
+>  }
+>
+>  static int lif_set_format(struct v4l2_subdev *subdev,
+>  			  struct v4l2_subdev_state *sd_state,
+>  			  struct v4l2_subdev_format *fmt)
+>  {
+> -	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt, lif_codes,
+> -					  ARRAY_SIZE(lif_codes),
+> +	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt,
+>  					  LIF_MIN_SIZE, LIF_MIN_SIZE,
+>  					  LIF_MAX_SIZE, LIF_MAX_SIZE);
+>  }
+>
+>  static const struct v4l2_subdev_pad_ops lif_pad_ops = {
+> -	.enum_mbus_code = lif_enum_mbus_code,
+> +	.enum_mbus_code = vsp1_subdev_enum_mbus_code,
+>  	.enum_frame_size = lif_enum_frame_size,
+>  	.get_fmt = vsp1_subdev_get_pad_format,
+>  	.set_fmt = lif_set_format,
+> @@ -162,6 +152,8 @@ struct vsp1_lif *vsp1_lif_create(struct vsp1_device *vsp1, unsigned int index)
+>  	lif->entity.ops = &lif_entity_ops;
+>  	lif->entity.type = VSP1_ENTITY_LIF;
+>  	lif->entity.index = index;
+> +	lif->entity.codes = lif_codes;
+> +	lif->entity.num_codes = ARRAY_SIZE(lif_codes);
+>
+>  	/*
+>  	 * The LIF is never exposed to userspace, but media entity registration
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lut.c b/drivers/media/platform/renesas/vsp1/vsp1_lut.c
+> index dd264e6532e0..46c79cdccd69 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_lut.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_lut.c
+> @@ -98,30 +98,20 @@ static const unsigned int lut_codes[] = {
+>  	MEDIA_BUS_FMT_AYUV8_1X32,
+>  };
+>
+> -static int lut_enum_mbus_code(struct v4l2_subdev *subdev,
+> -			      struct v4l2_subdev_state *sd_state,
+> -			      struct v4l2_subdev_mbus_code_enum *code)
+> -{
+> -	return vsp1_subdev_enum_mbus_code(subdev, sd_state, code, lut_codes,
+> -					  ARRAY_SIZE(lut_codes));
+> -}
+> -
+>  static int lut_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	return vsp1_subdev_enum_frame_size(subdev, sd_state, fse,
+> -					   LUT_MIN_SIZE,
+> -					   LUT_MIN_SIZE, LUT_MAX_SIZE,
+> -					   LUT_MAX_SIZE);
+> +					   LUT_MIN_SIZE, LUT_MIN_SIZE,
+> +					   LUT_MAX_SIZE, LUT_MAX_SIZE);
+>  }
+>
+>  static int lut_set_format(struct v4l2_subdev *subdev,
+>  			  struct v4l2_subdev_state *sd_state,
+>  			  struct v4l2_subdev_format *fmt)
+>  {
+> -	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt, lut_codes,
+> -					  ARRAY_SIZE(lut_codes),
+> +	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt,
+>  					  LUT_MIN_SIZE, LUT_MIN_SIZE,
+>  					  LUT_MAX_SIZE, LUT_MAX_SIZE);
+>  }
+> @@ -131,7 +121,7 @@ static int lut_set_format(struct v4l2_subdev *subdev,
+>   */
+>
+>  static const struct v4l2_subdev_pad_ops lut_pad_ops = {
+> -	.enum_mbus_code = lut_enum_mbus_code,
+> +	.enum_mbus_code = vsp1_subdev_enum_mbus_code,
+>  	.enum_frame_size = lut_enum_frame_size,
+>  	.get_fmt = vsp1_subdev_get_pad_format,
+>  	.set_fmt = lut_set_format,
+> @@ -208,6 +198,8 @@ struct vsp1_lut *vsp1_lut_create(struct vsp1_device *vsp1)
+>
+>  	lut->entity.ops = &lut_entity_ops;
+>  	lut->entity.type = VSP1_ENTITY_LUT;
+> +	lut->entity.codes = lut_codes;
+> +	lut->entity.num_codes = ARRAY_SIZE(lut_codes);
+>
+>  	ret = vsp1_entity_init(vsp1, &lut->entity, "lut", 2, &lut_ops,
+>  			       MEDIA_ENT_F_PROC_VIDEO_LUT);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> index 9c8085d5d306..304a2f618777 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> @@ -21,20 +21,20 @@
+>   * V4L2 Subdevice Operations
+>   */
+>
+> +static const unsigned int rwpf_codes[] = {
+> +	MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	MEDIA_BUS_FMT_AHSV8888_1X32,
+> +	MEDIA_BUS_FMT_AYUV8_1X32,
+> +};
+> +
+>  static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev,
+>  				    struct v4l2_subdev_state *sd_state,
+>  				    struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -	static const unsigned int codes[] = {
+> -		MEDIA_BUS_FMT_ARGB8888_1X32,
+> -		MEDIA_BUS_FMT_AHSV8888_1X32,
+> -		MEDIA_BUS_FMT_AYUV8_1X32,
+> -	};
+> -
+> -	if (code->index >= ARRAY_SIZE(codes))
+> +	if (code->index >= ARRAY_SIZE(rwpf_codes))
+>  		return -EINVAL;
+>
+> -	code->code = codes[code->index];
+> +	code->code = rwpf_codes[code->index];
+>
+>  	if (code->pad == RWPF_PAD_SOURCE &&
+>  	    code->code == MEDIA_BUS_FMT_AYUV8_1X32)
+> @@ -51,9 +51,8 @@ static int vsp1_rwpf_enum_frame_size(struct v4l2_subdev *subdev,
+>  	struct vsp1_rwpf *rwpf = to_rwpf(subdev);
+>
+>  	return vsp1_subdev_enum_frame_size(subdev, sd_state, fse,
+> -					   RWPF_MIN_WIDTH,
+> -					   RWPF_MIN_HEIGHT, rwpf->max_width,
+> -					   rwpf->max_height);
+> +					   RWPF_MIN_WIDTH, RWPF_MIN_HEIGHT,
+> +					   rwpf->max_width, rwpf->max_height);
+>  }
+>
+>  static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+> @@ -311,6 +310,9 @@ static const struct v4l2_ctrl_ops vsp1_rwpf_ctrl_ops = {
+>
+>  int vsp1_rwpf_init_ctrls(struct vsp1_rwpf *rwpf, unsigned int ncontrols)
+>  {
+> +	rwpf->entity.codes = rwpf_codes;
+> +	rwpf->entity.num_codes = ARRAY_SIZE(rwpf_codes);
+> +
+>  	v4l2_ctrl_handler_init(&rwpf->ctrls, ncontrols + 1);
+>  	v4l2_ctrl_new_std(&rwpf->ctrls, &vsp1_rwpf_ctrl_ops,
+>  			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> index bba2872afaf2..8e587efc0dc2 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> @@ -106,18 +106,10 @@ static const struct v4l2_ctrl_config sru_intensity_control = {
+>   * V4L2 Subdevice Operations
+>   */
+>
+> -static int sru_enum_mbus_code(struct v4l2_subdev *subdev,
+> -			      struct v4l2_subdev_state *sd_state,
+> -			      struct v4l2_subdev_mbus_code_enum *code)
+> -{
+> -	static const unsigned int codes[] = {
+> -		MEDIA_BUS_FMT_ARGB8888_1X32,
+> -		MEDIA_BUS_FMT_AYUV8_1X32,
+> -	};
+> -
+> -	return vsp1_subdev_enum_mbus_code(subdev, sd_state, code, codes,
+> -					  ARRAY_SIZE(codes));
+> -}
+> +static const unsigned int sru_codes[] = {
+> +	MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	MEDIA_BUS_FMT_AYUV8_1X32,
+> +};
+>
+>  static int sru_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+> @@ -257,7 +249,7 @@ static int sru_set_format(struct v4l2_subdev *subdev,
+>  }
+>
+>  static const struct v4l2_subdev_pad_ops sru_pad_ops = {
+> -	.enum_mbus_code = sru_enum_mbus_code,
+> +	.enum_mbus_code = vsp1_subdev_enum_mbus_code,
+>  	.enum_frame_size = sru_enum_frame_size,
+>  	.get_fmt = vsp1_subdev_get_pad_format,
+>  	.set_fmt = sru_set_format,
+> @@ -370,6 +362,8 @@ struct vsp1_sru *vsp1_sru_create(struct vsp1_device *vsp1)
+>
+>  	sru->entity.ops = &sru_entity_ops;
+>  	sru->entity.type = VSP1_ENTITY_SRU;
+> +	sru->entity.codes = sru_codes;
+> +	sru->entity.num_codes = ARRAY_SIZE(sru_codes);
+>
+>  	ret = vsp1_entity_init(vsp1, &sru->entity, "sru", 2, &sru_ops,
+>  			       MEDIA_ENT_F_PROC_VIDEO_SCALER);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> index 2db473b6f83c..928b09e20add 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> @@ -111,18 +111,10 @@ static unsigned int uds_compute_ratio(unsigned int input, unsigned int output)
+>   * V4L2 Subdevice Pad Operations
+>   */
+>
+> -static int uds_enum_mbus_code(struct v4l2_subdev *subdev,
+> -			      struct v4l2_subdev_state *sd_state,
+> -			      struct v4l2_subdev_mbus_code_enum *code)
+> -{
+> -	static const unsigned int codes[] = {
+> -		MEDIA_BUS_FMT_ARGB8888_1X32,
+> -		MEDIA_BUS_FMT_AYUV8_1X32,
+> -	};
+> -
+> -	return vsp1_subdev_enum_mbus_code(subdev, sd_state, code, codes,
+> -					  ARRAY_SIZE(codes));
+> -}
+> +static const unsigned int uds_codes[] = {
+> +	MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	MEDIA_BUS_FMT_AYUV8_1X32,
+> +};
+>
+>  static int uds_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+> @@ -244,7 +236,7 @@ static int uds_set_format(struct v4l2_subdev *subdev,
+>   */
+>
+>  static const struct v4l2_subdev_pad_ops uds_pad_ops = {
+> -	.enum_mbus_code = uds_enum_mbus_code,
+> +	.enum_mbus_code = vsp1_subdev_enum_mbus_code,
+>  	.enum_frame_size = uds_enum_frame_size,
+>  	.get_fmt = vsp1_subdev_get_pad_format,
+>  	.set_fmt = uds_set_format,
+> @@ -410,6 +402,8 @@ struct vsp1_uds *vsp1_uds_create(struct vsp1_device *vsp1, unsigned int index)
+>  	uds->entity.ops = &uds_entity_ops;
+>  	uds->entity.type = VSP1_ENTITY_UDS;
+>  	uds->entity.index = index;
+> +	uds->entity.codes = uds_codes;
+> +	uds->entity.num_codes = ARRAY_SIZE(uds_codes);
+>
+>  	sprintf(name, "uds.%u", index);
+>  	ret = vsp1_entity_init(vsp1, &uds->entity, name, 2, &uds_ops,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uif.c b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+> index edaf28b544d2..e1bb6c709721 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+> @@ -53,30 +53,20 @@ static const unsigned int uif_codes[] = {
+>  	MEDIA_BUS_FMT_AYUV8_1X32,
+>  };
+>
+> -static int uif_enum_mbus_code(struct v4l2_subdev *subdev,
+> -			      struct v4l2_subdev_state *sd_state,
+> -			      struct v4l2_subdev_mbus_code_enum *code)
+> -{
+> -	return vsp1_subdev_enum_mbus_code(subdev, sd_state, code, uif_codes,
+> -					  ARRAY_SIZE(uif_codes));
+> -}
+> -
+>  static int uif_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_state *sd_state,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	return vsp1_subdev_enum_frame_size(subdev, sd_state, fse,
+> -					   UIF_MIN_SIZE,
+> -					   UIF_MIN_SIZE, UIF_MAX_SIZE,
+> -					   UIF_MAX_SIZE);
+> +					   UIF_MIN_SIZE, UIF_MIN_SIZE,
+> +					   UIF_MAX_SIZE, UIF_MAX_SIZE);
+>  }
+>
+>  static int uif_set_format(struct v4l2_subdev *subdev,
+>  			    struct v4l2_subdev_state *sd_state,
+>  			    struct v4l2_subdev_format *fmt)
+>  {
+> -	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt, uif_codes,
+> -					  ARRAY_SIZE(uif_codes),
+> +	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt,
+>  					  UIF_MIN_SIZE, UIF_MIN_SIZE,
+>  					  UIF_MAX_SIZE, UIF_MAX_SIZE);
+>  }
+> @@ -171,7 +161,7 @@ static int uif_set_selection(struct v4l2_subdev *subdev,
+>   */
+>
+>  static const struct v4l2_subdev_pad_ops uif_pad_ops = {
+> -	.enum_mbus_code = uif_enum_mbus_code,
+> +	.enum_mbus_code = vsp1_subdev_enum_mbus_code,
+>  	.enum_frame_size = uif_enum_frame_size,
+>  	.get_fmt = vsp1_subdev_get_pad_format,
+>  	.set_fmt = uif_set_format,
+> @@ -250,6 +240,8 @@ struct vsp1_uif *vsp1_uif_create(struct vsp1_device *vsp1, unsigned int index)
+>  	uif->entity.ops = &uif_entity_ops;
+>  	uif->entity.type = VSP1_ENTITY_UIF;
+>  	uif->entity.index = index;
+> +	uif->entity.codes = uif_codes;
+> +	uif->entity.num_codes = ARRAY_SIZE(uif_codes);
+>
+>  	/* The datasheet names the two UIF instances UIF4 and UIF5. */
+>  	sprintf(name, "uif.%u", index + 4);
 > --
-> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 16 ++-
-> =C2=A0drivers/gpu/drm/scheduler/sched_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> =C2=A0drivers/gpu/drm/scheduler/sched_internal.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 2 +-
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 12 +-
-> =C2=A0.../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 |=C2=A0=C2=A0 3 =
-+-
-> =C2=A0drivers/gpu/drm/v3d/v3d_submit.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0drivers/gpu/drm/xe/xe_sched_job.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 13 ++-
-> =C2=A032 files changed, 191 insertions(+), 101 deletions(-)
->=20
-
+> Regards,
+>
+> Laurent Pinchart
+>
+>
 
