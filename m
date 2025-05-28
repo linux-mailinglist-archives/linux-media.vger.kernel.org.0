@@ -1,208 +1,157 @@
-Return-Path: <linux-media+bounces-33505-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33507-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26822AC6364
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 09:52:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 429CFAC64AC
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 10:43:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DABAF4E01AE
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 07:52:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D2B34A49BD
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 08:43:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 318F72459FB;
-	Wed, 28 May 2025 07:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESe2jQpO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15DF0272E66;
+	Wed, 28 May 2025 08:43:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1AC2459FE
-	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 07:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A16F1F63F9
+	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 08:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748418734; cv=none; b=GDvPScOUzLkqsz12yFWU1HU+xQVIPJ5oI19s4Ohzxx3ZZ8Td6euSp0xdCIl8egKZdAmCoSezMQeJ0HZC0w7JOvee1gZ0/IrlUBHAeOfCICKZAeea8o5r32rkqHn17cfO6nScPm2PtTZa0xiIOSNipcTMWpt++gBPBnE+jH81ieE=
+	t=1748421797; cv=none; b=GSH4HAib8avO4eQwUZONm5XOnmEH2cyY8UMcVAt0O+YS3U4p5YNozCalO8q6+wVIl5vikkMf9zRV2DBThv5C1q4uN3fzq+sRMe5sKQgglTF5O406RyxL7XLJTJ/GaPuF/HomDsKPTY8cy1bUhFMOtYgqFzpqwJWlt0anQGBZgyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748418734; c=relaxed/simple;
-	bh=EBIXLSlKnhdLfilxK+ybGTsTMexpm63r/GH9hyYAXYY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=m54nsurR9kZTy2XH1woQn2U6vP26Z9HBAcApyBAEfCQnVO7nTxPUOVH7shMCcVhKx/63gBdgJZhJaNRHbRxVQKErkOTXlfKqwiBBm60lECXkrsDsv45Fs2DAhxaZswr6HGkMVp+G8tsFXJSENLlVBqd8oHXhjDQpR3jfRnZaw+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESe2jQpO; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748418733; x=1779954733;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EBIXLSlKnhdLfilxK+ybGTsTMexpm63r/GH9hyYAXYY=;
-  b=ESe2jQpOZrMDxn8rQZv7p11e6i0AZvhnA358qBo2nUrhc0EiUc9GS5qF
-   Fd1qIs+YkzLDHvpE0W/Xa1SVILczDrIODvEbuDWA5DGIDF2XDswhFIcZd
-   /mGsIGQQFqptZur9qgYga7OveRcYbg5CUzjEMyfcAPE50FDWVMRVgY0AB
-   ZHe/Alhqej8d1qR93yjeG55KKy2EDMRA2edtCrRwS0sH4rcDrEZp7vfRy
-   1nDy/AOycwsoUFaqQpgIQV6CsP3UM680/I11avroWt3bS9spnqwtDlQB9
-   VZ0IqStlusB+C7rlj0K32GmJRNM2+OrQm7SXbRbpz78OIzwPMOrLd45kd
-   g==;
-X-CSE-ConnectionGUID: gU60v2I/Rru6sA+bGUB7rg==
-X-CSE-MsgGUID: 6Zh+gwH7TkKQd3hjqUG97g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="61092605"
-X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
-   d="scan'208";a="61092605"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 00:52:13 -0700
-X-CSE-ConnectionGUID: CwhdTI6VRPuzSoMPijl3RA==
-X-CSE-MsgGUID: ZHsCZ06hQOShYLxJQqiTyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
-   d="scan'208";a="144132744"
-Received: from vtg-chrome.bj.intel.com ([172.16.127.120])
-  by fmviesa009.fm.intel.com with ESMTP; 28 May 2025 00:52:10 -0700
-From: bingbu.cao@intel.com
-To: linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com
-Cc: laurent.pinchart@ideasonboard.com,
-	jerry.w.hu@intel.com,
-	hao.yao@intel.com,
-	tian.shu.qiu@intel.com,
-	bingbu.cao@intel.com,
-	bingbu.cao@linux.intel.com
-Subject: [PATCH v2 8/8] media: staging/ipu7: add Makefile, Kconfig and to-do file for IPU7
-Date: Wed, 28 May 2025 15:51:46 +0800
-Message-Id: <20250528075146.1763079-9-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250528075146.1763079-1-bingbu.cao@intel.com>
-References: <20250528075146.1763079-1-bingbu.cao@intel.com>
+	s=arc-20240116; t=1748421797; c=relaxed/simple;
+	bh=AF42yE5eaiMw9g4IvDqTKH/lawldAZudRQ3yzq7M0X0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VMtELOZJGJKCn4ByD+/+4jUQsR45xBgFcvd80tyNS4mq7xWbJR38SMq9MykL7jjjwMfHQqfneehF7Vuv9bMXmPa3/zofNQHyDPb21Tmj4dWA1Ux1nWfbygI/5EAp2mYSHFVabh63z5YkZ89OOSG18veJW6jhcSN1P+iLR6sr2lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1uKCN9-00033D-JK; Wed, 28 May 2025 10:42:51 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1uKCN8-000YbX-0F;
+	Wed, 28 May 2025 10:42:50 +0200
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1uKCN7-00ER89-34;
+	Wed, 28 May 2025 10:42:49 +0200
+Date: Wed, 28 May 2025 10:42:49 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Adam Ford <aford173@gmail.com>
+Cc: nicolas.dufresne@collabora.com, benjamin.gaignard@collabora.com,
+	p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
+	Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de,
+	festevam@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, paulk@sys-base.io, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com, sebastian.fricke@collabora.com,
+	ming.qian@nxp.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [RFC PATCH 07/11] arm64: dts: imx8mp: fix VPU_BUS clock setting
+Message-ID: <20250528084249.6qn2mnu2rmrv7xhi@pengutronix.de>
+References: <20250502150513.4169098-1-m.felsch@pengutronix.de>
+ <20250502150513.4169098-8-m.felsch@pengutronix.de>
+ <CAHCN7x+Lu9momgX3Vwp+Yu+Tet5Q=k2vCL83SMLuad24SDchEg@mail.gmail.com>
+ <20250502165535.aeb2osq2vnxsudmq@pengutronix.de>
+ <CAHCN7xLecU12XtXFuwfNP+eee+9RLCSB9iErNmk7VFV+WrozJA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHCN7xLecU12XtXFuwfNP+eee+9RLCSB9iErNmk7VFV+WrozJA@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+Hi Adam,
 
-Add Kconfig and Makefile for IPU7 driver and also update
-the Makefile to build the IPU7 driver.
+thanks for testing.
 
-Also add a to-do file to list the TODOs.
+On 25-05-27, Adam Ford wrote:
+> On Fri, May 2, 2025 at 11:55 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> >
+> > On 25-05-02, Adam Ford wrote:
+> > > On Fri, May 2, 2025 at 10:10 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> > > >
+> > > > The VPU_PLL clock must be set before the VPU_BUS clock which is derived
+> > > > from the VPU_PLL clock else the VPU_BUS clock is 300MHz and not 600MHz.
+> 
+> I did verify the current clock rate ends up at 300MHz instead of the
+> desired 600 or 800MHz, so we should do something.
+> 
+> > > >
+> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > > ---
+> > > >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > > index 97b09b647ec7..7f4bdefb3480 100644
+> > > > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > > @@ -2289,8 +2289,8 @@ vpumix_blk_ctrl: blk-ctrl@38330000 {
+> > > >                                  <&clk IMX8MP_CLK_VPU_G2_ROOT>,
+> > > >                                  <&clk IMX8MP_CLK_VPU_VC8KE_ROOT>;
+> > > >                         clock-names = "g1", "g2", "vc8000e";
+> > > > -                       assigned-clocks = <&clk IMX8MP_CLK_VPU_BUS>, <&clk IMX8MP_VPU_PLL>;
+> > > > -                       assigned-clock-parents = <&clk IMX8MP_VPU_PLL_OUT>;
+> > > > +                       assigned-clocks = <&clk IMX8MP_VPU_PLL>, <&clk IMX8MP_CLK_VPU_BUS>;
+> > > > +                       assigned-clock-parents = <0>, <&clk IMX8MP_VPU_PLL_OUT>;
+> > > >                         assigned-clock-rates = <600000000>, <600000000>;
+> > >
+> > > I think there was a move to make the default be overdrive [1]  and [2]
+> > > and use a 'nominal' device tree for those who are not in overdrive
+> > > mode.  According to the TRM, the VPU_BUS_CLK_ROOT, the nominal is
+> > > 600MHz and the overdrive is 800MHz.  Based on that, I wonder if the
+> > > values here should be 800MHz and if we should add the nominal values
+> > > of 600MHz to the imx8m-nominal.dtsi file.
+> >
+> > You're right, Ahamd and Lucas did change this. I will adapt it later on.
+> 
+> I updated my device tree to run in overdrive mode and ran fluster at
+> the higher rates:
+> VPU_G1 - 800MHz,
+> VPU-G2 - 700MHz
+> VPU-Bus - 800MHz
+> 
+> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> Ran 57/61 tests successfully               in 5.922 secs
+> (vs 7.059 secs at nominal speed)
+> 
+> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> Ran 129/135 tests successfully               in 40.107 secs
+> (vs 45.741 secs at nominal speed)
+> 
+> If you want, I can submit the clock updates I have for overdrive or
+> send them to you to save you some time.
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/staging/media/Kconfig       |  2 ++
- drivers/staging/media/Makefile      |  1 +
- drivers/staging/media/ipu7/Kconfig  | 18 ++++++++++++++++++
- drivers/staging/media/ipu7/Makefile | 23 +++++++++++++++++++++++
- drivers/staging/media/ipu7/TODO     | 19 +++++++++++++++++++
- 5 files changed, 63 insertions(+)
- create mode 100644 drivers/staging/media/ipu7/Kconfig
- create mode 100644 drivers/staging/media/ipu7/Makefile
- create mode 100644 drivers/staging/media/ipu7/TODO
+Sure, you can pick-up my patches or add new ones. Either way you're
+right, the clock fixes can go in separately.
 
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index b44214854399..043ffbc472fb 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -28,6 +28,8 @@ source "drivers/staging/media/imx/Kconfig"
- 
- source "drivers/staging/media/ipu3/Kconfig"
- 
-+source "drivers/staging/media/ipu7/Kconfig"
-+
- source "drivers/staging/media/max96712/Kconfig"
- 
- source "drivers/staging/media/meson/vdec/Kconfig"
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index ad4e9619a9e0..177dfe95289b 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -9,4 +9,5 @@ obj-$(CONFIG_VIDEO_STARFIVE_CAMSS)	+= starfive/
- obj-$(CONFIG_VIDEO_SUNXI)	+= sunxi/
- obj-$(CONFIG_VIDEO_TEGRA)	+= tegra-video/
- obj-$(CONFIG_VIDEO_IPU3_IMGU)	+= ipu3/
-+obj-$(CONFIG_VIDEO_INTEL_IPU7)	+= ipu7/
- obj-$(CONFIG_DVB_AV7110)	+= av7110/
-diff --git a/drivers/staging/media/ipu7/Kconfig b/drivers/staging/media/ipu7/Kconfig
-new file mode 100644
-index 000000000000..5b800e9b09c4
---- /dev/null
-+++ b/drivers/staging/media/ipu7/Kconfig
-@@ -0,0 +1,18 @@
-+config VIDEO_INTEL_IPU7
-+	tristate "Intel IPU7 driver"
-+	depends on ACPI || COMPILE_TEST
-+	depends on VIDEO_DEV
-+	depends on X86 && HAS_DMA
-+	depends on IPU_BRIDGE || !IPU_BRIDGE
-+	select AUXILIARY_BUS
-+	select IOMMU_IOVA
-+	select VIDEO_V4L2_SUBDEV_API
-+	select MEDIA_CONTROLLER
-+	select VIDEOBUF2_DMA_SG
-+	select V4L2_FWNODE
-+	help
-+	  This is the 7th Gen Intel Image Processing Unit, found in Intel SoCs
-+	  and used for capturing images and video from camera sensors.
-+
-+	  To compile this driver, say Y here! It contains 2 modules -
-+	  intel_ipu7 and intel_ipu7_isys.
-diff --git a/drivers/staging/media/ipu7/Makefile b/drivers/staging/media/ipu7/Makefile
-new file mode 100644
-index 000000000000..6d2aec219e65
---- /dev/null
-+++ b/drivers/staging/media/ipu7/Makefile
-@@ -0,0 +1,23 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (c) 2017 - 2025 Intel Corporation.
-+
-+intel-ipu7-objs				+= ipu7.o \
-+					   ipu7-bus.o \
-+					   ipu7-dma.o \
-+					   ipu7-mmu.o \
-+					   ipu7-buttress.o \
-+					   ipu7-cpd.o \
-+					   ipu7-syscom.o \
-+					   ipu7-boot.o
-+
-+obj-$(CONFIG_VIDEO_INTEL_IPU7)		+= intel-ipu7.o
-+
-+intel-ipu7-isys-objs			+= ipu7-isys.o \
-+					   ipu7-isys-csi2.o \
-+					   ipu7-isys-csi-phy.o \
-+					   ipu7-fw-isys.o \
-+					   ipu7-isys-video.o \
-+					   ipu7-isys-queue.o \
-+					   ipu7-isys-subdev.o
-+
-+obj-$(CONFIG_VIDEO_INTEL_IPU7)		+= intel-ipu7-isys.o
-diff --git a/drivers/staging/media/ipu7/TODO b/drivers/staging/media/ipu7/TODO
-new file mode 100644
-index 000000000000..7031d0179c7d
---- /dev/null
-+++ b/drivers/staging/media/ipu7/TODO
-@@ -0,0 +1,19 @@
-+This is a list of things that need to be done to get this driver out of the
-+staging directory.
-+
-+- ABI headers cleanup
-+  Cleanup the firmware ABI headers
-+
-+- Add metadata capture support
-+  The IPU7 hardware should support metadata capture, but it is not
-+  fully verified with IPU7 firmware ABI so far, need to add the metadata
-+  capture support.
-+
-+- Refine CSI2 PHY code
-+  Refine the ipu7-isys-csi2-phy.c, move the hardware specific variant
-+  into structure, clarify and explain the PHY registers to make it more
-+  readable.
-+
-+- Work with the common IPU module
-+  Sakari commented much of the driver code is the same than the IPU6 driver.
-+  IPU7 driver is expected to work with the common IPU module in future.
--- 
-2.34.1
+Regards,
+  Marco
 
+> 
+> adam
+> 
+> >
+> > Regards,
+> >   Marco
+> 
 
