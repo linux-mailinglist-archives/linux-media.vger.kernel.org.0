@@ -1,78 +1,79 @@
-Return-Path: <linux-media+bounces-33548-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33550-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C713AC707C
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 19:59:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3BDAC7081
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 20:00:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9A574E616D
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 17:59:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 694084E4BD0
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 17:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05B9428F520;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D90128F959;
 	Wed, 28 May 2025 17:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fVxEhKAY"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Dz3ENNmK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B01628EA45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E9528EA65
 	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 17:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748455101; cv=none; b=nJJOrbICeE/SgcE/vTEOZ0bJ4i/0ffFzcfkXykjaIofXmZkEb6S4KGES1TVXHHjoOwatPbL5LoGe3/+EfGc3+A0wDbAJnlE6MBnDq6+zQshrG3G8NEFubzSIZf0CuUAwC/5j2Fx5OHpxg0gc+Xz2hDPwT6ZdZOCLfr58P/4NhsU=
+	t=1748455102; cv=none; b=oWeAjQqqtBgkpo4M13cTGt9yYTM9G8/Nir3muIzkbTmtWsRfGuGRzZ9zUncZDALtnIKaaN5nTyccv4zatj/7zbnb1hD6K0ToqtSHoTlChyu8uMFKTiA/bvUm+a3OpoqO3Ye41Xme9lU72oTCFTQjOpGUVMAEPaRPHbqpvRgb0lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748455101; c=relaxed/simple;
-	bh=HA5ZQn5fQPLOOloa5F6rQaFQ9FTy8GVrXJ6ypXARzQk=;
+	s=arc-20240116; t=1748455102; c=relaxed/simple;
+	bh=0tY2vHO1hSHETEU5NJ28ZPlV9OSEuEIkkxCtmk8GL9A=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GjNgl76thxEr6MQqypogdnASW0sSb5D8H/oTVZOyPit7lwfNt/aNeczi+sHiMNuBJOmMdfVXq22GbOvTLaUUPl2tsaz8l9vmAdvy0JLp8EeAuELshdD+qlvRX5kWmnj6Zh7BAGVabQc94Q36O/JNPR551LgmBOefMv4ejfrq88M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fVxEhKAY; arc=none smtp.client-ip=209.85.167.46
+	 In-Reply-To:To:Cc; b=W0HIbUDSi2ViJynlmQjeZJgyDKcS7RJ3Hxf/XiOKGWruokNTT9hGB9jkhfRsp29BJLZT4/3TCcE4+Yiv7kXGRJpw8UKWReaTyjLAoGuS3hUiyg/qHjH4lc/pwoWM4eOahGSPhbUiUTa9hDdAlwemOyRBeAyxNaKnHuAeqSqzk5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Dz3ENNmK; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-549b116321aso6423665e87.3
-        for <linux-media@vger.kernel.org>; Wed, 28 May 2025 10:58:18 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54e816aeca6so4407e87.2
+        for <linux-media@vger.kernel.org>; Wed, 28 May 2025 10:58:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1748455097; x=1749059897; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1748455098; x=1749059898; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tCuIJR/iChkHw0yEIzz8Ln6RB6qmCdhlawG29rZoR8U=;
-        b=fVxEhKAYkteC/GmhLOQRS9CdyTGTW7VFyGZ5pGSaPKQBvO83pUc3JAhf6erkAJxYKq
-         pApgD6o10uMLuJ3EJuZiwIqhRcyri0moiUsULKc7waR6VaYzseDI0eV6mA1Iwlcy2iGX
-         UPc+mOZVOz60NuwcvXgtXcipml+gc6442gtCY=
+        bh=iGJ1fPweFHWMTsg0HgqwvAn1DtJjgjoW0O70zAHXxoM=;
+        b=Dz3ENNmKoU+mAMXgz8KIWjqTGBN8zmTObQjYBzI21qU84i+VLiF7YKYLToF5nTOjRk
+         VmNnVcYhbjTF9BmG4rtUHxu8vc95ritG9Am2+O8OQp4F28KNENBECNk5oQUZGyk/YEkD
+         Db5pxNDQcgO8wZ+ftDnMw0n+A9J7HswAOqd74=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748455097; x=1749059897;
+        d=1e100.net; s=20230601; t=1748455098; x=1749059898;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tCuIJR/iChkHw0yEIzz8Ln6RB6qmCdhlawG29rZoR8U=;
-        b=Hrl11GuEaPmjLMMTZ9CHSCloGbmLjxfAPfiQEfT/fxcQ1m9Qe7N1yrhCg4jTrO8JD4
-         JwwGaeYVKNc6mDHaU+gMIaLQxJqUM4R6VSjYL9nv8TAJ1RvRwZ1wJ46q6p75cuJ5vMRx
-         ikZUivyhqfIQK22lnch74shfXST1DViPyLeJOTDwgL/BmGtfCEICFmah7eOAd710u9Fx
-         apPRV+rLC+ZSj6A44NZR9Z9femRNWqEc06CfZ6cMy3UbDx5MVULCKua0AfpjNR7amBMx
-         HoUpdJJTEW7YPPSqwZLiwAN5lGGwPm107KY0OlAbWCZvnbn+fvEjT3SB71H+0IrAtBOB
-         D56Q==
-X-Gm-Message-State: AOJu0YwJis9YRpXYbjZ0H7I66mTfLITHPA6u31BuLniTdGjNQ/h6zxyd
-	FNsCvp9y6Dl7su5eqH2JhrK4c1pEBcGDr1cHCTI0/JDi/TaaE9Z1uSUti66yOpZ+9Q==
-X-Gm-Gg: ASbGncuIcAlj1763CrPjmjAo2adOo8V1rBcyAsO9rMWUhQBifG8YBMwzxHTCJLr3ptS
-	yMNjsEv0c+5uvBD+AcT7FTwDoYRyZs4AfW/m/+vZ0Go0iqRWpQ4i4ApmzvnDKPsTfW+NGp9IeiI
-	OU1B99GH+8uyM8YofO8Oyig4xexZbabeRjsfV3QulgEP8d68cOHiGUJS6gamC2DHFkkziTZXdpX
-	lyVOvkTbU1kTAR38CFi8bWmYeQK2fc4SZUNd6pcFYLOEL7MdptJooiRpVtl49NQT5Pr/zJ0OhMn
-	O4NVqveXRiZvhU9LvaYaUS8NRWqxxRJ3ss20Iy6aZ6YghwswlxxDI2xbERT+H9vAFpqX2yd277T
-	W8O6IPNQAIKvNtaSbPvyRuHHG3A==
-X-Google-Smtp-Source: AGHT+IEfb/5c0hVCUbJITUofOqtObUG+Si5mZBkEHtSmk+GA/XRbpdGOGTWRjSo++W26qr16iDNv9w==
-X-Received: by 2002:a05:6512:23aa:b0:553:2480:2309 with SMTP id 2adb3069b0e04-553248024ffmr3984960e87.3.1748455097320;
+        bh=iGJ1fPweFHWMTsg0HgqwvAn1DtJjgjoW0O70zAHXxoM=;
+        b=w7SNgNhoqU3xAgL/kHQGYZa92XxKYslTnVT3aFcCkXixD5xWQlQUtNeZOWoH906sYi
+         dS3OY0OdPxDBYJgcGWTdFeR4FQNYHm/mt9u5R8cdMlxhniUxtdLEDtTHosBM3ZyA9quY
+         JgDjk/APt3qCbMXWh9MeCqQ0608tNqJIoSCHYX8lX1InRcDe4xxMSeVyRv98kOjokAgJ
+         HOAqaQxe0RRclTnTIcs+GgF7+P0/28XBSx2RvQk9OpcOIPwIcOdAnmgNruc91QSAHlX1
+         AOUD09hq9GRGetI5wwbFJ80B33yaNldaUw9BEogkPR9pZyeTFCnqGonSeh1iR8JSp8Jn
+         2XEA==
+X-Gm-Message-State: AOJu0YzgzYkfYLmLgZEq1/LZ6r9b+71SceXcqnMJEizjblTyX4tEZ8y0
+	sj2sDg9mee8IIxpWtGFvISzYIH51MQv5AyeUKBzec0czIqy/fGEbDCQTm8oQpNfWWQJyZjzehYA
+	8EyHIuQ==
+X-Gm-Gg: ASbGncuKj/d4DemGV6KHV5rAom7Bpn43jxpEwIK3cBbT3mOPFLY96jH8GVh2/3qHXp5
+	1I2nLvTmVB3MFKVzZS9B9700gg347+uMRk1GqkjamC/qxzDyyju6Qq1DFiJnbD4WdE0dmhlUwNg
+	QHlsbSDwWb8F4VcJevMQL8DPFAPpxjhAmvDPgIMXpsHsPVYFHXVcLdFT/nhZcwLI+t+i1lffCj0
+	T7728KH7f3hqOHh/uJ6TFfWBwEtfS1II+Fb6eITVDKVFT9o+nTqTf6xYfN7GIdmsPg4TvT81K60
+	Tbf8AdNBnYccGCSeAclVL+nJOf5XQJT5zhN7GKQHXjd2yXuq7EvQ+xJwZPTg9uvwsF/0xHHzfD6
+	dn1JaMHEzo/gnumYBEl6e+VhAFQ==
+X-Google-Smtp-Source: AGHT+IHg4uwY5pHE8HQz7g2AWH8xW287i0HnJpxZMDaAgSGjEn7J8TG2eBQXfzqvF/9EN1laDtI8Ew==
+X-Received: by 2002:a05:6512:2388:b0:553:252f:ade9 with SMTP id 2adb3069b0e04-553252fafc9mr3783218e87.4.1748455097777;
         Wed, 28 May 2025 10:58:17 -0700 (PDT)
 Received: from ribalda.c.googlers.com (90.52.88.34.bc.googleusercontent.com. [34.88.52.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5532f62a6eesm376805e87.98.2025.05.28.10.58.16
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5532f62a6eesm376805e87.98.2025.05.28.10.58.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 10:58:16 -0700 (PDT)
+        Wed, 28 May 2025 10:58:17 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 28 May 2025 17:58:03 +0000
-Subject: [PATCH 8/9] media: uvcvideo: Do not turn on the camera unless is
- needed
+Date: Wed, 28 May 2025 17:58:04 +0000
+Subject: [PATCH 9/9] media: uvcvideo: Support granular power saving for
+ compat syscalls
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,7 +82,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250528-uvc-grannular-invert-v1-8-d01581f9cc25@chromium.org>
+Message-Id: <20250528-uvc-grannular-invert-v1-9-d01581f9cc25@chromium.org>
 References: <20250528-uvc-grannular-invert-v1-0-d01581f9cc25@chromium.org>
 In-Reply-To: <20250528-uvc-grannular-invert-v1-0-d01581f9cc25@chromium.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -92,98 +93,74 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-There are a lot of IOCTLs that do not need to turn on the camera. Eg:
-- They only operate to internal data, like UVCIOC_CTRL_MAP.
-- They are not applicable to the uvc driver, like VIDIOC_G_AUDIO.
-- They are handled by the uvc framework, like VIDIOC_STREAMON.
+Right now we cannot support granular power saving on compat syscalls
+because the VIDIOC_*32 NRs defines are not accessible to drivers.
 
-Remove them from the turn-on list.
+Use the video_translate_cmd() helper to convert the compat syscall NRs
+into syscall NRs.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_v4l2.c | 57 ----------------------------------------
- 1 file changed, 57 deletions(-)
+ drivers/media/usb/uvc/uvc_v4l2.c     | 9 ++-------
+ drivers/media/v4l2-core/v4l2-ioctl.c | 3 ++-
+ include/media/v4l2-ioctl.h           | 1 +
+ 3 files changed, 5 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index e7373a2ae3c37ca02f9076773154901a603820ac..fcb1b79c214849ce4da96a86a688d777b32cc688 100644
+index fcb1b79c214849ce4da96a86a688d777b32cc688..048ee7e01808c8944f9bd46e5df2931b9c146ad5 100644
 --- a/drivers/media/usb/uvc/uvc_v4l2.c
 +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -1291,75 +1291,18 @@ static long uvc_v4l2_unlocked_ioctl(struct file *file,
+@@ -1282,15 +1282,10 @@ static long uvc_v4l2_pm_ioctl(struct file *file,
+ static long uvc_v4l2_unlocked_ioctl(struct file *file,
+ 				    unsigned int cmd, unsigned long arg)
+ {
+-	/*
+-	 * For now, we do not support granular power saving for compat
+-	 * syscalls.
+-	 */
+-	if (in_compat_syscall())
+-		return uvc_v4l2_pm_ioctl(file, cmd, arg);
++	unsigned int converted_cmd = video_translate_cmd(cmd);
  
  	/* The following IOCTLs do need to turn on the camera. */
- 	switch (cmd) {
--	case UVCIOC_CTRL_MAP:
+-	switch (cmd) {
++	switch (converted_cmd) {
  	case UVCIOC_CTRL_QUERY:
--	case VIDIOC_CROPCAP:
--	case VIDIOC_DBG_G_CHIP_INFO:
--	case VIDIOC_DBG_G_REGISTER:
--	case VIDIOC_DBG_S_REGISTER:
--	case VIDIOC_DECODER_CMD:
--	case VIDIOC_DQEVENT:
--	case VIDIOC_DV_TIMINGS_CAP:
--	case VIDIOC_ENCODER_CMD:
--	case VIDIOC_ENUMAUDIO:
--	case VIDIOC_ENUMAUDOUT:
--	case VIDIOC_ENUMOUTPUT:
--	case VIDIOC_ENUMSTD:
--	case VIDIOC_ENUM_DV_TIMINGS:
--	case VIDIOC_ENUM_FREQ_BANDS:
--	case VIDIOC_G_AUDIO:
--	case VIDIOC_G_AUDOUT:
--	case VIDIOC_G_CROP:
  	case VIDIOC_G_CTRL:
--	case VIDIOC_G_DV_TIMINGS:
--	case VIDIOC_G_EDID:
--	case VIDIOC_G_ENC_INDEX:
  	case VIDIOC_G_EXT_CTRLS:
--	case VIDIOC_G_FBUF:
--	case VIDIOC_G_FREQUENCY:
- 	case VIDIOC_G_INPUT:
--	case VIDIOC_G_JPEGCOMP:
--	case VIDIOC_G_MODULATOR:
--	case VIDIOC_G_OUTPUT:
--	case VIDIOC_G_PRIORITY:
--	case VIDIOC_G_SLICED_VBI_CAP:
--	case VIDIOC_G_STD:
--	case VIDIOC_G_TUNER:
--	case VIDIOC_LOG_STATUS:
--	case VIDIOC_OVERLAY:
--	case VIDIOC_PREPARE_BUF:
--	case VIDIOC_QUERYBUF:
--	case VIDIOC_QUERYCAP:
- 	case VIDIOC_QUERYCTRL:
- 	case VIDIOC_QUERYMENU:
--	case VIDIOC_QUERYSTD:
--	case VIDIOC_QUERY_DV_TIMINGS:
- 	case VIDIOC_QUERY_EXT_CTRL:
--	case VIDIOC_REMOVE_BUFS:
--	case VIDIOC_STREAMOFF:
--	case VIDIOC_STREAMON:
--	case VIDIOC_S_AUDIO:
--	case VIDIOC_S_AUDOUT:
--	case VIDIOC_S_CROP:
- 	case VIDIOC_S_CTRL:
--	case VIDIOC_S_DV_TIMINGS:
--	case VIDIOC_S_EDID:
- 	case VIDIOC_S_EXT_CTRLS:
--	case VIDIOC_S_FBUF:
- 	case VIDIOC_S_FMT:
--	case VIDIOC_S_FREQUENCY:
--	case VIDIOC_S_HW_FREQ_SEEK:
- 	case VIDIOC_S_INPUT:
--	case VIDIOC_S_JPEGCOMP:
--	case VIDIOC_S_MODULATOR:
--	case VIDIOC_S_OUTPUT:
- 	case VIDIOC_S_PARM:
--	case VIDIOC_S_PRIORITY:
--	case VIDIOC_S_SELECTION:
--	case VIDIOC_S_STD:
--	case VIDIOC_S_TUNER:
--	case VIDIOC_TRY_DECODER_CMD:
--	case VIDIOC_TRY_ENCODER_CMD:
- 	case VIDIOC_TRY_EXT_CTRLS:
- 	case VIDIOC_TRY_FMT:
- 		return uvc_v4l2_pm_ioctl(file, cmd, arg);
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 650dc1956f73d2f1943b56c42140c7b8d757259f..6fbd28f911cf23eec43ef1adcf64bd46ef067c81 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -3245,7 +3245,7 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
+ 	return ret;
+ }
+ 
+-static unsigned int video_translate_cmd(unsigned int cmd)
++unsigned int video_translate_cmd(unsigned int cmd)
+ {
+ #if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
+ 	switch (cmd) {
+@@ -3266,6 +3266,7 @@ static unsigned int video_translate_cmd(unsigned int cmd)
+ 
+ 	return cmd;
+ }
++EXPORT_SYMBOL(video_translate_cmd);
+ 
+ static int video_get_user(void __user *arg, void *parg,
+ 			  unsigned int real_cmd, unsigned int cmd,
+diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+index c6ec87e88dfef9e6cfe1d1fb587c1600882fb14d..437b9f90714c62e0ba434ce47391ef64d88110aa 100644
+--- a/include/media/v4l2-ioctl.h
++++ b/include/media/v4l2-ioctl.h
+@@ -687,6 +687,7 @@ int v4l2_compat_get_array_args(struct file *file, void *mbuf,
+ int v4l2_compat_put_array_args(struct file *file, void __user *user_ptr,
+ 			       void *mbuf, size_t array_size,
+ 			       unsigned int cmd, void *arg);
++unsigned int video_translate_cmd(unsigned int cmd);
+ 
+ /**
+  * typedef v4l2_kioctl - Typedef used to pass an ioctl handler.
 
 -- 
 2.49.0.1266.g31b7d2e469-goog
