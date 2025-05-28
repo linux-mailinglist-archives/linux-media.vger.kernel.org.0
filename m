@@ -1,53 +1,57 @@
-Return-Path: <linux-media+bounces-33520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33521-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20F6AC6A1F
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 15:15:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E83BDAC6A55
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 15:26:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 614351BC0686
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 13:16:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3641B9E559B
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 13:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5FB7286D72;
-	Wed, 28 May 2025 13:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9627F286D7D;
+	Wed, 28 May 2025 13:26:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KJFEDu7G"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vQuWunED"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B66C8634A
-	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 13:15:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE2D1FAA;
+	Wed, 28 May 2025 13:26:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748438137; cv=none; b=E3inC3bzGmX0sl3huS+i1uKVO1HDGXwUU9OxODRsjOkKdEP7PtGK3iVgFoAvTzQA2Esxh40XCG72lK0cBATHpsMdyI2iXQ5O9jxxhJCiQu69ZYs/AAbB8IVCWqrGo6/yfnHJZ29qhS6Qwmlea+NFs2wgY5TNpvgyNzlKAEgiKzE=
+	t=1748438780; cv=none; b=hUDlMHED+n1Jd/kwPscPZn4Yrn9P6f9oevJUt/BVmHbA31Eh1bUddehoiWOM0JWYO/9+ZDkqM4EHlyNv6fkHO6MNrRjq4drk2YHA3IE3IwHX007O2r6QXWUdu1eHPH92SHr5dibOBMj8zmeZwTbtm8dhtOCSzoDCiVht7X5DKIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748438137; c=relaxed/simple;
-	bh=WgoJ3yuhlrwphX8yWQ+b2zfIlSfGiZoYNelu4AV1lq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RZc2D4BljRQzraDlMxXE6nad+AAL51259M9I+NpKHQEIU950NLxCj0r0sotsxcQ8+i3G7miLtUMHnN7V/2nRKPTfrd3jH8B153/NS89r30nzGKWB4HTOTQrGnKgIc9DolEBfZmDdwlOwlozyu1au2UR5FQ85cAEpseRQ/SaWaEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KJFEDu7G; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1748438780; c=relaxed/simple;
+	bh=XMGNhI9fBkrxtwurbJE/6u1mIEa0syiV8NRp/CIqE5E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IiCGebnMoNLg/xQ+HThrMOtxKXv/1XoDC9ctKz1qhRK0J4J7y3z6Tm0+J9Tr7Z/9KBHk31CkSxYWmzErUZ+0ySY/LBJ9nhKMoeAQ3EMS7TNRnPE7UF60Spx8rzcQsTkEGnyjBrxJxRz/NVTKQ4+XFtOc8g7obM2nZZub+xcnnUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vQuWunED; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [77.241.226.16])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9FBEED6;
-	Wed, 28 May 2025 15:15:05 +0200 (CEST)
+Received: from ideasonboard.com (mob-5-90-143-118.net.vodafone.it [5.90.143.118])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86D6CD0;
+	Wed, 28 May 2025 15:25:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748438105;
-	bh=WgoJ3yuhlrwphX8yWQ+b2zfIlSfGiZoYNelu4AV1lq4=;
-	h=Date:From:To:Cc:Subject:From;
-	b=KJFEDu7GRA7yPUgNe1bqZow5u+WA5jgx3+jigZ8GUv0dQeuTJ6QH0uJx4zj/fIgOr
-	 ouGdb8MYN6daknoPMPHxnZynYFuTGUCQsXjbi2gBrwCqIq/hRpJHB7tIv3pzbEkRCD
-	 suLn89ou+kjU/tZTw/OX/+Us38nDVdqfBmdQRqVI=
-Date: Wed, 28 May 2025 15:15:27 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: libcamera-devel@lists.libcamera.org
-Cc: linux-media@vger.kernel.org
-Subject: [ANNOUNCEMENT] Minutes from the libcamera workshop 2025 - Nice, May
- 16th
-Message-ID: <20250528131527.GA20738@pendragon.ideasonboard.com>
+	s=mail; t=1748438748;
+	bh=XMGNhI9fBkrxtwurbJE/6u1mIEa0syiV8NRp/CIqE5E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vQuWunEDpWlHiXroy5o6tMNAPz9yWu8qC59EugsPfp4cG2Qmxlr59I9fZGS2XYXPG
+	 OCDtaZdbEkurp5735/mQvcxcVIScZeUyo0o1pOTGJcYMPLqjhg6SOnbANqQJD3Rn4X
+	 2EzR2ehvqTlQfZ2y5WDfJFzVI93/CeIiilF6e9vU=
+Date: Wed, 28 May 2025 15:26:10 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	p.zabel@pengutronix.de, geert+renesas@glider.be, magnus.damm@gmail.com
+Subject: Re: [PATCH 2/3] media: platform: Add Renesas Input Video Control
+ block driver
+Message-ID: <hz5yboj7ey6vefebsn5lzb4myuybrg2c3tnkkfgdfladc6xym3@uqamdopvwiyo>
+References: <20250519145754.454005-1-dan.scally@ideasonboard.com>
+ <20250519145754.454005-3-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,749 +60,1784 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-Hello everybody,
-
-We have hosted our most popular workshop so far (in terms of number of
-attendees) on May the 16th, as part of the Embedded Recipes workshops
-day. I would like to thank all the participants, both local and remote,
-who made this a success.
-
-You will find the notes we have taken during the workshop below. Slides
-from the presentations can be found at
-https://libcamera.org/workshops/2025/.
-
-# libcamera workshop Nice 2025
-
-Attendees
-
-* Advait Dhamorikar <> (remote)
-* Alain Volmat <alain.volmat@foss.st.com> (remote)
-* Barnabás Pőcze <barnabas.pocze@ideasonboard.com>
-* Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-* David Plowman <david.plowman@raspberrypi.com>
-* Devarsh Thakkar <devarsht@ti.com>
-* Hans de Goede <hdegoede@redhat.com>
-* Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-* Jai Luthra <jai.luthra@ideasonboard.com>
-* Jamie C <> (remote)
-* Jerry Wu <jerry.w.hu@intel.com> (remote)
-* Jesper Taxbøl <jesper@taxboel.dk>
-* Josuah Demangeon <me@josuah.net>
-* Julian Vuillaumier <julien.vuillaumier@nxp.com> (remote)
-* Karthik Poduval <kpoduval@lab126.com> (remote)
-* Kieran Bingham <kieran.bingham@ideasonboard.com>
-* Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-* Loic Poulain <loic.poulain@oss.qualcomm.com>
-* Mattijs Korpershoek <mkorpershoek@kernel.org>
-* Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-* Mehdi Jait <mehdi.djait@linux.intel.com> (remote)
-* Naush Patuck <naush@raspberrypi.com>
-* Nicolas Dufresne <nicolas@ndufresne.ca>
-* Niklas Söderlund <niklas.soderlund@ragnatech.se>
-* Paul Kocialkowski <paulk@sys-base.io> (remote)
-* Petr Hodina <> (remote)
-* Ricardo Ribalda <ricardo.ribalda@gmail.com>
-* Rishikesh Donadkar <r-donadkar@ti.com>
-* Sakari Ailus <sakari.ailus@linux.intel.com>
-* Sam Noble <> (remote)
-* Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com> (remote)
-* Stefan Klug <stefan.klug@ideasonboard.com>
-* Umang Jain <uajain@igalia.com> (remote)
-* Víctor Jáquez <vjaquez@igalia.com> (remote)
-* Will Robertson <w.robertson@cairnwater.com> (remote)
-* Xavier Roumegue <xavier.roumegue@oss.nxp.com> (remote)
-
-Agenda
-
-- 09:00 - 09:10  Welcome and agenda bashing
-- 09:10 - 09:40  Software ISP status and future plans (Hans de Goede)
-- 09:40 - 10:00  Slowing down the soft ISP CPU implementation (Laurent Pinchart)
-- 10:00 - 10:30  Using a single IPA with multiple pipeline handlers (Hans de Goede)
-- 10:30 - 11:00  Break
-- 11:00 - 11:45  Bayer reprocessing (David Plowman)
-- 11:45 - 12:30  Startup frames (David Plowman)
-- 12:30 - 13:30  Lunch
-- 13:30 - 14:00  State of gstreamer support (Nicolas Dufresne)
-- 14:00 - 14:30  Multi-context support (Jacopo Mondi)
-- 14:30 - 15:30  Per-frame control (David Plowman)
-- 15:30 - 16:00  Break
-- 16:00 - 16:45  libcamera on Zephyr (Josuah Demangeon)
-- 16:45 - 17:15  The importance of libcamera to WildCamera (Will Robertson)
-- 17:15 - 17:45  TBD
-
-## Welcome and agenda bashing
-
-## Software ISP status and future plans (Hans de Goede)
-
-Hans plans to add auto-focus support to the soft ISP. Jacopo mentioned there's
-an interest for AF on rkisp1 as well, and collaboration would be good. There is
-lots of stuff to do there, including possibly locking AGC while doing an AF
-sweep.  For the moment a region of the image is used, doing it on the whole
-image is too expensive for CPU based implementations. LSC only on GPU, too
-expensive for CPU (might be there but disabled by default).
-
-Current code is single-threaded C, there is room for optimization.
-
-GPU implementation is currently OpenGL based, might move to Vulkan Compute. GPU
-based implementation is in early stage. There is lots of work to be done on the
-current implementation, so many opportunities to collaborate.
-
-Nicolas said that libcamera has no memory model (padding, cache, ...). Most
-GPUs can't deal with odd resolutions, with "odd" being platform-dependent (e.g.
-256 bytes alignment for the stride for AMD, 64 pixels in both directions for
-Mali, ...). The kernel doesn't expose those constraints, which is problematic.
-Android has some API to get a buffer that can be used for specified purposes.
-Nicolas doesn't expect us to solve this problem, this should be offloaded to
-the outside world. V4L2 encoders give us the padding. The uvcvideo driver
-doesn't support strides, that should be fixed in the kernel.
-
-Hans said this is a wider topic than libcamera. Nicolas said it's a solved
-problem in GStreamer for codecs <-> GPUs, with a best-effort trial and error.
-
-Laurent explained that libcamera (and V4L2) should not allocate buffers. We
-should have a centralized memory allocator. The topic was discussed at XDC
-2024. Nicolas asked if libcamera needs to wait for missing fetures to be add to
-the kernel, or if we could e.g. copy frames. Laurent said that the stride bug,
-and the missing data offset feature in V4L2, should really be handled in the
-kernel. Boris made a proposal a couple of years ago, and yak-shaving killed it.
-
-Naush said RPi started their implementation using V4L2-allocated buffers, but
-found no way to control cacheability. V4L2 is making progress. The cache hints
-have been broken for dmabuf for years, but patches were posted recently. Stefan
-asked if there was a central place where we track the use case combinations
-that work and don't work.
-
-The discussion then moved to memory allocation patterns, limitation in
-videobuf2 for cached/uncached memory allocation and dmabuf heaps cache
-handling. Example of users experiencing problems with cached memory handling
-[https://lkml.org/lkml/2025/3/9/524](https://lkml.org/lkml/2025/3/9/524)
-
-### Actions
-
-* [ ] UVC Video Pipeline handler needs a stride handling fix
-* [ ] libcamera stride handling also needs to expose an offset
-* [ ] V4L2 allocated buffers need to be able to request cached buffers
-
-## Slowing down the soft ISP CPU implementation (Laurent Pinchart)
-
-SoftISP combines different processing steps together in a way that doesn't
-match an HW ISP design.
-
-Moving to a GPU implementation might help as it might easily offload tasks that
-are CPU intensive.
-
-GPU and CPU implementation will initially be the same and then later diverge.
-Laurent thinks a pixel-perfect copy of the GPU implementation should be
-replicated on a CPU implementation for easier testing, resulting in a slower
-version. Should the two CPU versions diverge or be kept together ?
-
-There seems to be consensus on diverging, not to slow down the existing CPU
-implementation. Hans however said he would try to move BLC before debayering.
-That would then allow adding LSC to the soft ISP, in a way that we be disabled
-for people who care about performance.
-
-Acceptance criteria for CPU implementation: 720p@30FPS on a modern laptop.
-
-David would expect to have two soft ISPs, a quick one and a higher quality one.
-Naush said it's not only about enabling and disabling features, but also about
-having e.g. fast denoising for video capture and high quality denoising for
-single image capture. This could even apply to the GPU ISP.
-
-Hans said we may get ahead of the curve here, maybe we should first see if we
-have issues developing and debugging GPU-based algorithms before committing to
-a CPU-based ISP used for debugging only.
-
-Nicolas points out that frameworks like OpenCL could generate C code that is
-CPU runnable.
-
-Contributing to both the CPU and GPU part is duplicated effort and hard to ask
-to contributors.
-
-Once the GPU/CPU implementation diverge what about the IPA ? Should we have two
-IPAs for GPU/CPU versions ? Hans think it depends on the algorithms. IPA
-modules will be developed for the GPU and adapted to the CPU implementation
-handling the translation of the params/stats formats in the SoftISP
-implementation.
-
-### Actions
-
-* [ ] SoftIPA will target the GPU ISP Parameters to drive the interface, the
-  CPU will keep up where it can and decide what parameters it should utilise or
-  ignore.
-
-## Using a single IPA with multiple pipeline handlers (Hans de Goede)
-
-AtomISP is now working with libcamera thanks to Hans' work. However is not
-using an IPA and making it work would be a lot of work for a 'dead' platform so
-the softISP stats and algos have been reused. Similarlys ome USB cameras has
-movable lens and could re-use the stats processing from the SoftISP. Does it
-make sense to re-use IPA like from the SoftISP for other platforms ?
-
-Hans sent a patch to allow AtomISP to re-use the softISP:
-
-[https://patchwork.libcamera.org/patch/23359/](https://patchwork.libcamera.org/patch/23359/)
-
-Laurent is concerned about maintainability. Duplicating the IPA should be
-rather cheap especially if more code is moved to libIPA.
-
-For AtomISP since a sub-set of the IPA is needed, it might make sense to
-duplicate the IPA.
-
-Hans asked if we can have a mode in the libipa AGC to slowly walk the sensor
-gain curve when we don't know the gain curve of the sensor. Otherwise AGC
-oscillates. Kieran and Laurent said the gain curve should be calibrated, and
-libcamera should have a script to help users doing so. Naush said that in cases
-where we really can't know the gain curve, it's better to disable analog gain
-completely and only use exposure time.
-
-Laurent said a mode where libcamera can run on an unknown sensor without
-recompiling is useful for bring up, with a 1:1 analog gain mapping. This will
-be gated by an environment variable (or configuration file). If we want people
-to find this mechanism, we can document it in the error message.
-
-Niklas would like to support using a new Pipeline handler with an existing IPA
-also. Laurent suggests that that platform may also be likely to diverge in the
-future. But as an initial step - it can still make sense to re-use the same
-IPA. Maintenance problems will be the main concern, but when they diverge it
-would then become a separate IPA.
-
-### Actions
-
-* [ ] Create a 'Calibration Only' Camera Sensor Helper that passes V4L2
-  controls through 1:1 allowing a calibration tool to capture and process RAW
-  images.
-* [ ] Sensors with unknown gain curves should realistically set or leave the
-  gain to a default value and not change it - providing limiting functionality
-  but with a more consistent behavior
-
-## Bayer reprocessing (David Plowman)
-
-The most interesting use case for Raspberry Pi is AI processing of Bayer frames
-before ISP processing. The ISP can also be used to process DNG files completely
-offline.
-
-Kieran asked if this should be called a camera, or if we should expose an ISP
-object. Devarsh asked why this was called "reprocessing". Nicolas asked if
-statistics should be passed to the ISP, along raw frames. The feature reminds
-him of two-pass encoding. One of the controls the application would put back in
-is statistics.
-
-Nicolas asked what applications could expect from the ISP in reprocessing use
-cases. Could user create e.g. image editing software that would use the ISP for
-faster processing. David said a Pi Zero 2 could then run darktable in real
-time. It's however not the main use case.
-
-Jacopo asked what's blocking to implement this. David said we just need an
-agreement that we want such an API.
-
-Naush suggests that this should be likely handled with two different libcamera
-instances, one for live preview and one just for reprocessing. Laurent wonders
-if fully off-line processing needs any state coming from the live capture
-processing. Naush said that they used to copy the whole state from one instance
-to the other. It's not nice but possible. Some context, like the algorithms
-state is mostly static, so they might be easily isolated.
-
-Nicolas asked if the overall pipeline would be a live pipeline. Jacopo asked if
-the reprocessing context should be isolated from the live capture context.
-Nicolas assumes the data used in reprocessing is isolated, but reprocessing
-can't have exclusive access to the ISP as the live capture session runs in
-parallel. Jacopo said we shouldn't rule out platforms that would require due to
-system design the capture session and reprocessing session to run together, not
-in separate contexts.
-
-David feels like working with isolated instances of libcamera is easier, but we
-shouldn't rule out the ability to run live capture and live capture at the same
-time.
-
-How does it work with desktop application using frameworks like pipewire
-wanting to do reprocessing ?
-
-Nicolas suggests that this could be represented as an isolated "reprocessing"
-node.  This would require representing all parameters as streams, with
-corresponding formats.
-
-Raspberry Pi has no interest in Pipewire, however the libcamera API should
-support the Pipewire use case. Nicolas showed an example of a pipewire
-patchbay, which would still be a useful feature for Raspberry Pi.
-
-Compared to the past years the introduction of vendor controls make it easier
-to seed the algorithms with a self-contained state that comes from controls and
-not from the algorithms state.
-
-Laurent points out that the current pipelines we have are [sensor + ISP]. In
-systems with additional components (GPU, DSP, NPU) etc. The pipelines will
-become way more heterogeneous. This should be abstracted from users, but might
-be interesting to expose to applications to control the composition of the
-pipeline. Naush thinks that there is scope, like placing AI before the ISP but
-unlikely people wirting apps wanting to recompile/modify libcamera for that.
-
-Jacopo asks what should be considered as part of an imagine pipeline. He
-mentioned dewarpers, which should be part of the pipeline and handled
-internally in libcamera, but wondered if libcamera should be concerned about
-AI. Naush said it's a decision for libcamera maintainers whether or not to
-accept "AI feature creep". He said he wouldn't want to see object detection as
-part of libcamera.
-
-The discussion progressed on how much the processing of images will be
-off-loaded to accellerators. There is consensus that we're not there yet at
-all, but we should prepare for some processing blocks to be offloaded to
-components external to the capture pipeline. David said denoising would be an
-important use case, but he doesn't see a good reason to dedicate lots of NPU
-silicon space for e.g. debayering. Laurent said the NPU wouldn't just debayer,
-but perform all processing steps in one go.
-
-Jacopo asked if the only decision we need to make is if the capture and
-reprocessing sessions are fully separate or if they share state. David and
-Naush prefer having separate states. Nicolas said it could cause some
-performance issues as we have to copy state data back and forth. Laurent said
-that once we'll have a C API the controls and metadata will be put in memory
-buffers.
-
-Technical issues we raised in the past an need to handle are
-
-* Adding input streams (there is a consensus on this)
-* Passing state to applications and back
-* Sharing the memory-to-memory ISP between multiple libcamera instances (will
-  be helped by the V4L2 multi-context work)
-* Loading an application-specific tuning file (for the reprocessing pipeline)
-
-David says he doesn't want to lose track of the configuration file issue: there
-is no way to load a config file that is not tied to the sensor in use. Stefan
-says we have a similar issue with regular cameras where supplying a config file
-at runtime might be desirable.
-
-Laurent said in the past there were issue sharing ISP resources, but with
-multi-context support should solve the issue, providing isolation at the
-process level context (separate instances of libcamera). He asked how to ensure
-applications will not cause resource starvation. An ISP scheduler will likely
-be needed.
-
-Laurent wonder how the "state" from a live pipeline could be transferred to the
-reprocessing pipeline. Naush points out that this is a concern for off-line
-pipelines as well.
-
-A proposal for the creation of an INPUT stream is required to evaluate the
-viability.
-
-Niklas wonders why not always separate the ISP processing from capture. That
-would create complexity on the application that will have to handle themselves
-the composition of the pipeline (like they will always have to do
-reprocessing). Niklas suggests that an helper could be provided to "hide" to
-applications the complexity. Laurent says that something similar is in scope to
-simplify the pipeline handler creation, to create blocks that can be composed,
-but not as the main API exposed towards applications.
-
-Laurent points out a difference between the Android reprocessing API that
-allows applications to extend the capture pipeline with additional steps, while
-the proposal by RPi is mostly about using the ISP as an isolated component
-after an external processing step.
-
-### **Actions**
-
-* [ ] libcamera needs an 'input camera device'
-* [ ] libcamera needs an 'input stream'
-* [ ] Each 'input camera' instance will need a configuration file (or config
-  parameters structure). Perhaps even current cameras should already allow a
-  config file to be passed at Camera creation time from the application
-* [ ] Decide (and publish) where AI / NPU feature creep is allowed into
-  libcamera
-
-## Startup frames (David Plowman)
-
-Startup frames are frames coming out from the camera from cold start:
-potentially bad and not consumable by application. Currently RPi has dedicated
-buffers that are discarded.
-
-Two classes of "bad frames":
-
-* Frames generated as corrupted by the sensor at the very beginning of the
-  streaming session
-  * Still pretty common
-  * Some sensors do that only at power-up, some also a stop-start sequence
-  * Sensor-depended parameter
-  * Typically 1/2 frames
-* Frames where algorithms have not yet converged
-  * Wild oscillations, not consumable by application
-  * Typically 5/6 frames
-
-Naush proposed flag to "flag" a frame buffer as bad.
-
-[https://patchwork.libcamera.org/project/libcamera/list/?series=5164](https://patchwork.libcamera.org/project/libcamera/list/?series=5164)
-
-Nicolas points out that currently apps like cam and qcam do not inspect the
-FrameMetadata State.
-
-Mauro wonders where the information about the number of bad frames comes from:
-sensor datasheet and sensor database.
-
-Devarsh asks why report frames to applications in first place and not drop
-them: Naush points out that discarding frames requires ad-hoc memory allocation
-of scratch buffer, which might be complex and tedious.
-
-Nicolas points out that gstreamer wants to classify corrupted frames as well.
-An identifier for bad frames should be provided for that. It's up to the
-application using gstreamer to decide if the frame should be used or not.
-
-Should this be per 'buffer' or 'per request'
-
-### **Actions**
-
-* [ ] We can extend the gstreamer element to incorporate this update to
-  demonstrate the functionality.
-* [ ] Decide if the output should be in a control/metadata or stay in the Frame
-  error flags. It may be easier for Applications if it's on the request (or
-  that the request flags are updated from the buffer flags)
-
-## State of GStreamer support (Nicolas Dufresne)
-
-Can controls be changed at runtime ?
-
-- gstreamer has a property to flag controls that can be changed
-- all libcamera controls are now gstreamer controls
-
-Kieran: what happens if you set a control that a Camera has not registered ? If
-gstreamer let it pass, it will cause and assertion in libcamera.
-
-Kieran: what testing can we do on gstreamer ?
-
-- We have unit tests
-
-David: What is the situation about selecting camera modes on gstreamer ?
-(sensor configuration)
-
-- "Camera modes" are not a thing in libcamera
-- Only set if explicitly request by the user (expert only)
-- Feasible but no action planned
-
-gstreamer 1.14 is old and EOL; but is still shipped in Debian 10/11. Once they
-reach EOL will drop 1.14
-
-Is 0-copy support there with kms-sync: yes if buffers are compatible with your
-display controller (requires stride support). Cannot allocate in KMS and import
-in libcamera, missing implementation in the gstreamer element.
-
-Usage of DRM formats and modifiers (introduced in 1.26) allows the use of
-compression through modifiers.
-
-HDMI capture could be implemented in libcamera without changing the API.
-
-libav latency keeps increasing, but this can end up holding frames (there's a 4
-frame deadlock) because libav needs more frames to hold on to.
-
-We need to fix the number of buffers available, and we will update this to fix
-rkisp1 to parse the buffercount accordingly.
-
-Pipewire has a "use case" oriented approach, the definition of a use case has
-to be better specified (we can't query HW capabilities as the same camera
-hardware can generate a variable number of streams). The way Pipewire creates
-use cases has to be clarified, in order to understand how to better support
-them.
-
-### Actions
-
-* [ ] What tests for gstreamer element can we add to either unit tests or CI
-  tests
-  * Add role / raw stream tests
-  * Add more control setting tests
-  * Add mode configuration tests
-  * We should test gstreamer on many pipeline handlers (rkisp1, rpi5...)
-* [ ] Check what happens in gstreamer if we set an unsupported control on a
-  camera.
-
-## Multi-context support (Jacopo Mondi)
-
-Jacopo quickly summarised the presentation he gave at the Linux media summit.
-
-Paul said that the Allwinner ISP driver has a copy of the context, and copies
-it to the device during vblank. Jacopo said he is working on a platform that
-has a similar mechanism, so it will be supported.
-
-Nicolas stated all this would be easier with (V4L2) requests. There was a
-consensus requests would be nice, but are an orthogonal issue.
-
-## Per-frame control (David Plowman)
-
-David started with a demo of a per-frame control prototype, in Python. Nicolas
-asked if the Python API could use futures.
-
-Jacopo said we have been going around in circles with per-frame controls. The
-Raspberry Pi use cases only care about applying controls atomically, and
-reporting when a "pack" of controls has been applied. Synchronisation with
-sensor frames is not needed. libcamera, on the other hand, partly because of
-the need to implement the Android camera HAL 3 API, defines per-frame controls
-as synchronised with a specific request. Nicolas said the former is more
-"atomic controls" than "per-frame controls". Naush said that the API proposal
-still allows changing controls back-to-back for every frame.
-
-Sakari mentioned that real-time constraints could be missed, causing issues.
-PREEMPT\_RT could help, and ensuring that the process doesn't get paged out
-could make a difference. Stefan said we need to handle fault conditions,
-resynchronisation needs to be guaranteed. Sakari said PREEMPT\_RT would still
-minimise the probability of glitches. Naush said the issue starts appearing
-around 90 fps on Pi 4, 60 fps works typically quite fine.
-
-Stefan asked about frame drop behaviour. If the system drops a frame, control
-packs needs to be squashed to catch up. The behaviour is anyway configurable
-and up to the application to control
-
-Kieran wonders if the HDR demo that was presented a long time ago requires this
-method of PFC. Stefan think this won't work, but David mentions that watching
-the ControlListId allows you to skip a Frame with a ControlList that has not
-been applied correctly.
-
-Stefan think that after a long discussion is possible to unify the two
-behaviour. RPi wants to apply a control list as fast as possible, without
-waiting for being in the queue to be consumed.
-
-David think the way Controls and Buffers are queued to the Camera should be
-reworked.
-
-For sensor controls the max delay of sensor controls should be taken into
-account, while for ISP controls they can be applied immediately. David thinks
-everything could be delayed by a fixed amount. Digital zoom is an example where
-delaying by a fixed amount of frames won't work well. Some controls might be
-prioritization.
-
-RPi "jumps the queue" to the next request that has a ControlList set, basically
-ignoring all other requests in the queue. Right now, with a single queue for
-requests and controls, it's hard to model a "skip the queue" while with
-separate queues for Requests and Control the two can be easily handled
-separately (and allow to implement different behavior).
-
-Difference between Android and RPi model discussed; david and naush thinks the
-difference is minimal.
-
-Stefan ControlListId might make sense even with "hardcore per frame control"
-and could help with error condition. Matching ControlListId with the one
-returned in metadata makes it way easier to check if PFC was realized rather
-than inspecting an error flag condition.
-
-David thinks the idea of separating Controls, Buffer and Request is a good for
-everyone, will make RPi happy and will make it possible to realize both
-behavior.
-
-Stefan is uneasy on letting go the "android per frame control" mode, but a set
-of tests that allows to validate both behaviour would make things easier to
-accept.
-
-Karthik points out that it's hard to exactly match control values by just
-comparing them because the HW quantize them, ControlListId might help
-validating the behavior.
-
-Stefan has been experimenting with these topics in camshark, and using a
-capture script to define the expected frame controls delivery - while showing
-the results plotted on a real time graph.
-
-## libcamera on Zephyr (Josuah Demangeon)
-
-Josuah presented an overview of Zephyr and its camera API
-([https://docs.zephyrproject.org/latest/doxygen/html/group\_\_video\_\_interface.html)](https://docs.zephyrproject.org/latest/doxygen/html/group\_\_video\_\_interface.html)).
-He started working on a software ISP for Zephyr, as there is very rarely a
-hardware ISP. This comes with specific challenges, such as processing frames
-without enough memory to store a full frame in memory
-([https://github.com/zephyrproject-rtos/zephyr/issues/86669)](https://github.com/zephyrproject-rtos/zephyr/issues/86669)).
-
-An important question to answer is what platforms are in scope (the lower the
-cost and the broader the scope, the lower the CPU power and RAM size). Another
-question from Josuah was if libcamera had attempted to use microcontroller in
-the imaging pipeline, for any purpose (not constrained to image processing, but
-also e.g. to implement a VCM controller). Kieran asked about camera features
-for STM32 chips running Zephyr. Alain said there was relevant platforms. Kieran
-asked if we could share any code between Zephyr and the Linux kernel. Devarsh
-said TI has a Cortex-M core driving an ISP, on a platform running Linux on
-larger cores.
-
-Zephyr is licensed under Apache-2, while the Linux kernel is licensed under
-GPL-2.0. No Linux kernel code can be ported copied to Zephyr, drivers need to
-be reimplemented from scratch. Jacopo asked how it applied to libcamera. The
-parts of libcamera that handle V4L2 abstractions are not relevant for Zephyr.
-How about e.g. the ISP algorithms ? Josuah said sources can be published, but
-binaries may not be distributable. Laurent said that in that case nobody could
-make a product out of it. libcamera is licensed under LGPL, which according to
-Laurent could have less compatibility issues with Apache-2. It would need to be
-checked. Devarsh asked if some IPC mechanisms could help.
-
-There are lots of sensors used on Zephyr that have a built-in ISP. With
-Cortex-M55 devices, ISP in the MPU may become more common. UVC may be coming to
-Zephyr too, with Zephyr running in the camera. Josuah would like to extend UVC
-to have h/v flip.
-
-Porting libcamera to Zephyr as-is is a big challenge, but cooperation between
-the two projects could start small and increase over time. Zephyr can help
-libcamera by being used as an open-source base for a UVC webcam firmware or a
-Cortex-M ISP control firmware (for instance on TI AM69x platforms).
-
-Kieran mentioned the OpenIPC project
-([https://openipc.org/)](https://openipc.org/)), which is an open firmware for
-IP cameras. There could be lots of overlap there.
-
-## The importance of libcamera to WildCamera (Will Robertson)
-
-Existing hunting cameras are good at detecting large slow-moving animals, but
-not for small fast-moving animals. Probability of getting footage is very low
-in that case. The best quality cameras are expensive (600€ to 1000€), and the
-average life time on the field is about 3 years. This is an issue for
-conservation researchers, as the budget in that field is low. Devices use
-antiquated file systems, with a 64GB SD card limit that fills up quickly.
-Losing several weeks of data is typical. Travelling to the field to handle
-those issues takes a lot of time and money, not to mention how dangerous
-climbing in those trees can be.
-
-Lots of species that WildCamera is caring for are on the brink of extinction.
-There is a scientific need to find ways to help with conservation efforts.
-There is also a public need, most people don't know that those species are
-getting extinct within just a few dozens of kilometres from their home. This is
-a big extinction problem, caused by climate change and destruction of habitat.
-Many people think extinction happens on the other side of the planet, but this
-is happening in Europe.
-
-What can we do about this? Small off-the-shelf Raspberry Pi camera modules are
-much better than what commercial wild life cameras provide. They can help
-getting footage of small mammals that would be impossible to get otherwise.
-
-A solution has to be open-source. Will said that any SoC vendor that will not
-embrace open-source cameras within 10 years will be out of business. i.MX8MP is
-a front-runner thanks to NXP's support for open-source. There's hardware
-support for Linux going to sleep states. This is very important for
-solar-powered devices in forests.
-
-The big technical challenges are lack of experience in embedded Linux or in the
-Linux kernel. With help from the team, Will managed to get a system running. He
-needs to get a monochrome camera module running, with IR support. The
-flexibility of Linux is great, but for some operations it would be better to
-use a real-time operating system with lower power but also lower power
-consumption. HDR capabilities will also be very valuable. Jacopo said there are
-lots of mechanical challenges, and maker communities such as the Raspberry Pi
-community could help. Has Will considered starting with a Raspberry Pi ? Will
-said the major problem with Raspberry Pi is the lack of support for deep sleep
-states with low power consumption. Naush said there could be a sleep mode on
-Raspberry Pi 5.
-
-Our GitHub repository (sorry this is only in English at the moment):
-
-[https://github.com/William-Robert-Robertson/WildCamera](https://github.com/William-Robert-Robertson/WildCamera)
-
-Our conservation work in English - maybe not worth reading my text but worth it
-for the cuddly animals in the photos and videos😉:
-
-[https://new-homes-for-old-friends.cairnwater.com/](https://new-homes-for-old-friends.cairnwater.com/)
-
-German (apologies for grammar - I was tired while I was writing this 🙈)
-
-[https://new-homes-for-old-friends.cairnwater.com/de/neue-heimat-fur-alte-freunde/](https://new-homes-for-old-friends.cairnwater.com/de/neue-heimat-fur-alte-freunde/)
-
-A quick summary of what we're doing in Switzerland in English, French and
-German:
-
-[https://new-homes-for-old-friends.cairnwater.com/quick-summary-new-homes-for-old-friends-switzerland/](https://new-homes-for-old-friends.cairnwater.com/quick-summary-new-homes-for-old-friends-switzerland/)
-
-Our work in Belgium with Goedele Verbeylen (only in English at the moment -
-I'll try to translate this to Flemish soon):
-
-[https://new-homes-for-old-friends.cairnwater.com/quick-summary-new-homes-for-old-friends-belgium/](https://new-homes-for-old-friends.cairnwater.com/quick-summary-new-homes-for-old-friends-belgium/)
-
-Is it possible to train a tree-dwelling primate to rebuild the Linux kernel?
-The evidence seems to be that - with a lot of exasperation - the answer is -
-eventually - yes!
-
-* [    4.738207] devtmpfs: mounted
-* [    4.741902] Freeing unused kernel memory: 2944K
-* [    4.746521] Run /sbin/init as init process
-* [    4.894477] EXT4-fs (mmcblk1p1): re-mounted 322a6ff4-2e9e-4d20-b379-8ac86ca9a018 r/w. Quota mode: none.
-* Seeding 256 bits without crediting
-* Saving 256 bits of non-creditable seed for next boot
-* Starting syslogd: OK
-* Starting klogd: OK
-* Running sysctl: OK
-* Starting network: OK
-* Starting crond: OK
-*
-
-* Welcome to Buildroot
-* buildroot login:
-
-## Extra
-
-### DT Connectors
-
-Kieran met with Pantelis Antoniou in the Hallway Track, and has discussed
-progression of DT Connectors which will help device tree overlays for camera
-modules. This work was started back in 2016[0][1] but hasn't been worked on
-since. There are no specific blockers on this other than needing the use cases
-to be revived and worked on.
-
-[0] [https://www.konsulko.com/wp-content/uploads/2016/09/portable-device-tree-connector.pdf](https://www.konsulko.com/wp-content/uploads/2016/09/portable-device-tree-connector.pdf)
-[1] [https://lore.kernel.org/all/1464986273-12039-2-git-send-email-pantelis.antoniou@konsulko.com/](https://lore.kernel.org/all/1464986273-12039-2-git-send-email-pantelis.antoniou@konsulko.com/)
-
-### Remote attendees questions
-
-Q: [Karthik Poduval] A lot of new drivers like rkisp1 and mali-c55 appear to
-use a param video device node for ISP controls as opposed to using V4L2
-Controls, is this preferred (over V4L2 Control) or done for convenience (to
-avoid defining umpteen V4L2 Custom Controls for ISP)  ?
-
-A: [Laurent] Both. The V4L2 control API and framework has a too large overhead
-for ISPs. Upstream ISP drivers are required to use parameters buffers (very,
-very simple ISPs with just a couple of controls could be granted an exception,
-this would need to be discussed).
-
-[Karthik Poduval]  But with param buffer we lose all the great property of
-controls like bounds check, also isn't media request API also built to support
-per frame controls.
-
-[Laurent] Yes, bound checks are lost. This implies that userspace won't be able
-to query bounds for the ISP controls, but userspace will contain ISP-specific
-code anyway. The ISP driver will also need to manually validate/adjust the
-parameters from the parameters buffer. For parameters that could impact system
-stability, that's crucial. For parameters that would just cause artifacts in
-images, if userspace doesn't do its job, no validation is needed and it's valid
-to return sub-optimal images. As for the request API, it's currently
-half-implemented, for codec use cases only, and is inefficient. We could
-reconsider this when we'll be able to queue a request with a single IOCTL on
-the media device, but even then, handling controls through the control
-framework will likely be expensive for very little gain.
-
-Q: [Karthik Poduval] Is there any work to support WIP pipeline handlers compile
-out of libcamera tree ? The monolithic approach makes it harder to upgrade
-and/or contribute back. I used this kind of an approach for making an app using
-libcamera library helpers (not the camera API) to create a V4L2 M2M application
-[https://github.com/karthikpoduval/meta-v4l2-m2m-example/blob/elc-2022/recipes-multimedia/m2m-scaler-test/src/m2m-example.cpp](https://github.com/karthikpoduval/meta-v4l2-m2m-example/blob/elc-2022/recipes-multimedia/m2m-scaler-test/src/m2m-example.cpp),
-but would be useful to support pipeline handlers and generic support for other
-V4L2 M2M devices (that can benefit from libcamera's powerful abstraction)
-
-A: [Kieran] I also think some of the 'internal' libcamera classes could be
-useful outside of libcamera - but it's tricky to use those without making them
-part of the libcamera public API ... we could make a separate library - that
-libcamera 'uses' but that can be used independently - but that may then add
-more ABI burden to us ... so we haven't done that (but I do think it would be a
-helpful set of classes to make a library from).
-
-[Karthik Poduval] I have just being doing something like this to use
-libcamera's helpers outside of libcamera.
-[https://github.com/karthikpoduval/meta-v4l2-m2m-example/blob/elc-2022/recipes-multimedia/libcamera/libcamera/0001-libcamera-export-internal-headers-to-libcamera-inter.patch](https://github.com/karthikpoduval/meta-v4l2-m2m-example/blob/elc-2022/recipes-multimedia/libcamera/libcamera/0001-libcamera-export-internal-headers-to-libcamera-inter.patch)
-
-[Kieran] How about could you try doing it 'properly' and split out the v4l2
-device helpers to libv4l2++ (ok the name might clash?) and have that built
-separately in libcamera, but used - and installed as a separate usable library
-to see how it work ? If it works well - then that could be something we can
-review.
-
-[Karthik Poduval] Sure can try that, I also had a 2nd need to build WIP
-pipeline handlers out of tree just like out of tree kernel modules
-(conceptually). This to allow for rapid update of libcamera from upstream and
-also making it easy to contribute any libcamera patches or enhancements from
-WIP pipeline handler implementers. Any thoughts or comments ?
-
-[Kieran] When will you upstream the pipeline handler - then you won't have out
-of tree issues ;-)
-
-[Laurent] Can you tell which platform (SoC/ISP) you're working on, or is that
-secret at the moment ?
-
--- 
-Regards,
-
-Laurent Pinchart
+In-Reply-To: <20250519145754.454005-3-dan.scally@ideasonboard.com>
+
+Hi Dan
+
+On Mon, May 19, 2025 at 03:57:53PM +0100, Daniel Scally wrote:
+> Add a driver for the Input Video Control block in an RZ/V2H SoC which
+> feeds data into the Arm Mali-C55 ISP.
+>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/Kconfig        |   2 +
+>  drivers/media/platform/renesas/Makefile       |   1 +
+>  .../media/platform/renesas/rzv2h-ivc/Kconfig  |  11 +
+>  .../media/platform/renesas/rzv2h-ivc/Makefile |   7 +
+>  .../renesas/rzv2h-ivc/rzv2h-ivc-dev.c         | 239 ++++++
+>  .../renesas/rzv2h-ivc/rzv2h-ivc-subdev.c      | 376 ++++++++++
+>  .../renesas/rzv2h-ivc/rzv2h-ivc-video.c       | 703 ++++++++++++++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc.h    | 141 ++++
+>  8 files changed, 1480 insertions(+)
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/Makefile
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
+>
+> diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
+> index c7fc718a30a5..b09c026c129e 100644
+> --- a/drivers/media/platform/renesas/Kconfig
+> +++ b/drivers/media/platform/renesas/Kconfig
+> @@ -58,6 +58,8 @@ config VIDEO_SH_VOU
+>
+>  source "drivers/media/platform/renesas/rcar-vin/Kconfig"
+>  source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
+> +source "drivers/media/platform/renesas/rzv2h-ivc/Kconfig"
+> +
+>
+>  # Mem2mem drivers
+>
+> diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
+> index 50774a20330c..f29c8ade0e4e 100644
+> --- a/drivers/media/platform/renesas/Makefile
+> +++ b/drivers/media/platform/renesas/Makefile
+> @@ -5,6 +5,7 @@
+>
+>  obj-y += rcar-vin/
+>  obj-y += rzg2l-cru/
+> +obj-y += rzv2h-ivc/
+>  obj-y += vsp1/
+>
+>  obj-$(CONFIG_VIDEO_RCAR_CSI2) += rcar-csi2.o
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/Kconfig b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> new file mode 100644
+> index 000000000000..0702f9fbf699
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> @@ -0,0 +1,11 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config VIDEO_RZV2H_IVC
+> +	tristate "Renesas RZ/V2H Input Video Control block driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV
+
+depends on ARCH_RENESAS || COMPILE_TEST
+depends on OF
+
+?
+
+> +	select VIDEOBUF2_DMA_CONTIG
+
+Do you need to
+
+       	select MEDIA_CONTROLLER
+	select VIDEO_V4L2_SUBDEV_API
+
+?
+
+Also the driver uses the common clock framework and reset controller.
+None of the renesas media driver select HAVE_CLK or COMMON_CLK but
+many do select RESET_CONTROLLER so you probably need to do the same.
+
+> +	help
+> +	  Support for the Video Input Block found in the RZ/V2H SoC. Enable this
+> +	  to support the block, and by extension the Arm Mali-C55 ISP to which
+
+Should we actually say
+
+        "Enable this to support the block and by extension the ISP"
+
+given that this Kconfig option doesn't enable the ISP ?
+
+
+> +	  it feeds data.
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/Makefile b/drivers/media/platform/renesas/rzv2h-ivc/Makefile
+> new file mode 100644
+> index 000000000000..17dfd3a165bc
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/Makefile
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +rzv2h-ivc-y := rzv2h-ivc-dev.o \
+> +	       rzv2h-ivc-subdev.o \
+> +	       rzv2h-ivc-video.o
+> +
+
+Fits on a single line
+
+> +obj-$(CONFIG_VIDEO_RZV2H_IVC) += rzv2h-ivc.o
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c
+> new file mode 100644
+> index 000000000000..a9b0c6b39d14
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c
+> @@ -0,0 +1,239 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/V2H Input Video Control Block driver
+> + *
+> + * Copyright (C) 2024 Ideas on Board Oy
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/device.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/reset.h>
+
+some of these headers are already included by the below rzv2h-ivc.h
+
+> +
+> +#include "rzv2h-ivc.h"
+
+I think it's a good practice to include the driver header first to
+make sure it's self-contained ?
+
+> +
+> +inline void rzv2h_ivc_write(struct rzv2h_ivc *ivc, u32 addr, u32 val)
+> +{
+> +	writel(val, ivc->base + addr);
+> +}
+> +
+> +void rzv2h_ivc_update_bits(struct rzv2h_ivc *ivc, unsigned int addr,
+> +			   u32 mask, u32 val)
+> +{
+> +	u32 orig, new;
+> +
+> +	orig = readl(ivc->base + addr);
+> +
+> +	new = orig & ~mask;
+> +	new |= val & mask;
+> +
+> +	if (new != orig)
+> +		writel(new, ivc->base + addr);
+> +}
+> +
+> +static int rzv2h_ivc_get_hardware_resources(struct rzv2h_ivc *ivc,
+> +					    struct platform_device *pdev)
+> +{
+> +	const char * const reset_names[RZV2H_IVC_NUM_RESETS] = {
+> +		"presetn",
+> +		"vin_aresetn",
+> +		"sresetn",
+> +	};
+> +	const char * const clk_names[RZV2H_IVC_NUM_CLOCKS] = {
+> +		"pclk",
+> +		"vin_aclk",
+> +		"sclk",
+> +	};
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	ivc->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(ivc->base))
+> +		return dev_err_probe(ivc->dev, PTR_ERR(ivc->base),
+> +				     "failed to map IO memory\n");
+> +
+> +	for (unsigned int i; i < ARRAY_SIZE(clk_names); i++)
+
+You should initialize i = 0 ?
+
+> +		ivc->clks[i].id = clk_names[i];
+> +
+> +	ret = devm_clk_bulk_get(ivc->dev, ARRAY_SIZE(clk_names), ivc->clks);
+> +	if (ret)
+> +		return dev_err_probe(ivc->dev, ret, "failed to acquire clks\n");
+> +
+> +	for (unsigned int i = 0; i < ARRAY_SIZE(reset_names); i++)
+> +		ivc->resets[i].id = reset_names[i];
+> +
+> +	ret = devm_reset_control_bulk_get_optional_shared(
+> +		ivc->dev, ARRAY_SIZE(reset_names), ivc->resets);
+> +	if (ret)
+> +		return dev_err_probe(ivc->dev, ret, "failed to acquire resets\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_global_config(struct rzv2h_ivc *ivc)
+> +{
+> +	/* Currently we only support single-exposure input */
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_PLNUM, RZV2H_IVC_ONE_EXPOSURE);
+> +
+> +	/*
+> +	 * Datasheet says we should disable the interrupts before changing mode
+> +	 * to avoid spurious IFP interrupt.
+> +	 */
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_INT_EN, 0x0);
+> +
+> +	/*
+> +	 * RZ/V2H documentation says software controlled configuration is not
+> +	 * supported, and currently neither is multi-context mode. That being so
+> +	 * we just set single context sw-hw mode.
+> +	 */
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_CONTEXT,
+> +			RZV2H_IVC_SINGLE_CONTEXT_SW_HW_CFG);
+> +
+> +	/*
+> +	 * We enable the frame end interrupt so that we know when we should send
+> +	 * follow-up frames.
+> +	 */
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_INT_EN, RZV2H_IVC_VVAL_IFPE);
+> +}
+> +
+> +static irqreturn_t rzv2h_ivc_isr(int irq, void *context)
+> +{
+> +	struct device *dev = context;
+> +	struct rzv2h_ivc *ivc = dev_get_drvdata(dev);
+> +
+> +	guard(spinlock)(&ivc->spinlock);
+> +	--ivc->vvalid_ifp;
+
+You could simply decrement vvalid_ifp until it reaches 0,
+re-initialize it to 2, and then call
+wake_up(). The waiter could wait_even_..(.., true);
+
+I'm not sure that's better though.
+
+> +	wake_up_all(&ivc->buffers.wq);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int rzv2h_ivc_runtime_resume(struct device *dev)
+> +{
+> +	struct rzv2h_ivc *ivc = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = request_threaded_irq(ivc->irqnum, NULL, rzv2h_ivc_isr,
+> +				   IRQF_ONESHOT, dev_driver_string(dev), dev);
+> +	if (ret) {
+> +		dev_err(dev, "failed to request irq\n");
+> +		return ret;
+> +	}
+
+Why are you requesting/free the interrupt every suspend/resume ?
+
+> +
+> +	ret = clk_bulk_prepare_enable(ARRAY_SIZE(ivc->clks), ivc->clks);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to enable clocks\n");
+> +		goto err_free_irqnum;
+> +	}
+> +
+> +	ret = reset_control_bulk_deassert(ARRAY_SIZE(ivc->resets), ivc->resets);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to deassert resets\n");
+> +		goto err_disable_clks;
+> +	}
+> +
+> +	rzv2h_ivc_global_config(ivc);
+> +
+> +	return 0;
+> +
+> +err_disable_clks:
+> +	clk_bulk_disable_unprepare(ARRAY_SIZE(ivc->clks), ivc->clks);
+> +err_free_irqnum:
+> +	free_irq(ivc->irqnum, dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rzv2h_ivc_runtime_suspend(struct device *dev)
+> +{
+> +	struct rzv2h_ivc *ivc = dev_get_drvdata(dev);
+> +
+> +	reset_control_bulk_assert(ARRAY_SIZE(ivc->resets), ivc->resets);
+> +	clk_bulk_disable_unprepare(ARRAY_SIZE(ivc->clks), ivc->clks);
+> +	free_irq(ivc->irqnum, dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops rzv2h_ivc_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +				pm_runtime_force_resume)
+
+You got a warning from the robots about a defined but not used.
+Either use __maybe_unused or use the SYSTEM/RUNTIME_PM_OPS() which are
+not conditional on #ifdef CONFIG_PM (as far as I understand)
+
+> +	SET_RUNTIME_PM_OPS(rzv2h_ivc_runtime_suspend, rzv2h_ivc_runtime_resume,
+> +			   NULL)
+> +};
+> +
+> +static int rzv2h_ivc_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct rzv2h_ivc *ivc;
+> +	int ret;
+> +
+> +	ivc = devm_kzalloc(dev, sizeof(*ivc), GFP_KERNEL);
+> +	if (!ivc)
+> +		return -ENOMEM;
+> +
+> +	ivc->dev = dev;
+> +	platform_set_drvdata(pdev, ivc);
+> +	mutex_init(&ivc->lock);
+
+You should destroy the mutex
+
+> +	spin_lock_init(&ivc->spinlock);
+> +
+> +	ret = rzv2h_ivc_get_hardware_resources(ivc, pdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = rzv2h_ivc_initialise_subdevice(ivc);
+> +	if (ret)
+> +		return ret;
+
+As soon as you register a subdev userspace might start using it.
+Probably it's better to enable the PM framework before ?
+
+> +
+> +	pm_runtime_set_autosuspend_delay(dev, 2000);
+> +	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_enable(dev);
+> +
+> +	spin_lock(&ivc->spinlock);
+> +	ivc->vvalid_ifp = 2;
+> +	spin_unlock(&ivc->spinlock);
+
+Do you need to lock if you initialize this to 2 before registering the
+subdev ?
+
+> +
+> +	ivc->irqnum = platform_get_irq(pdev, 0);
+> +	if (ivc->irqnum < 0) {
+> +		dev_err(dev, "failed to get interrupt\n");
+> +		goto err_pm_runtime_disable;
+> +	}
+
+I would also do this before registering the subdev unless I'm missing
+something obvious
+
+> +
+> +	return 0;
+> +
+> +err_pm_runtime_disable:
+> +	pm_runtime_disable(dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static void rzv2h_ivc_remove(struct platform_device *pdev)
+> +{
+
+You need to destroy the mutex
+
+> +}
+> +
+> +static const struct of_device_id rzv2h_ivc_of_match[] = {
+> +	{ .compatible = "renesas,r9a09g057-ivc", },
+> +	{ /* Sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, rzv2h_ivc_of_match);
+> +
+> +static struct platform_driver rzv2h_ivc_driver = {
+> +	.driver = {
+> +		.name = "rzv2h-ivc",
+> +		.of_match_table = rzv2h_ivc_of_match,
+> +		.pm = &rzv2h_ivc_pm_ops,
+> +	},
+> +	.probe = rzv2h_ivc_probe,
+> +	.remove = rzv2h_ivc_remove,
+> +};
+> +
+> +module_platform_driver(rzv2h_ivc_driver);
+> +
+> +MODULE_AUTHOR("Daniel Scally <dan.scally@ideasonboard.com>");
+> +MODULE_DESCRIPTION("Renesas RZ/V2H Input Video Control Block driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c
+> new file mode 100644
+> index 000000000000..479a71fab7ea
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c
+> @@ -0,0 +1,376 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/V2H Input Video Control Block driver
+> + *
+> + * Copyright (C) 2024 Ideas on Board Oy
+> + */
+> +
+> +#include <linux/media.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/v4l2-mediabus.h>
+> +
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-dev.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +#include "rzv2h-ivc.h"
+> +
+> +#define RZV2H_IVC_N_INPUTS_PER_OUTPUT		6
+> +
+> +/*
+> + * We support 8/10/12/14/16/20 bit input in any bayer order, but the output
+> + * format is fixed at 20-bits with the same order as the input.
+> + */
+> +static const struct {
+> +	u32 inputs[RZV2H_IVC_N_INPUTS_PER_OUTPUT];
+> +	u32 output;
+> +} rzv2h_ivc_formats[] = {
+> +	{
+> +		.inputs = {
+> +			MEDIA_BUS_FMT_SBGGR8_1X8,
+> +			MEDIA_BUS_FMT_SBGGR10_1X10,
+> +			MEDIA_BUS_FMT_SBGGR12_1X12,
+> +			MEDIA_BUS_FMT_SBGGR14_1X14,
+> +			MEDIA_BUS_FMT_SBGGR16_1X16,
+> +			MEDIA_BUS_FMT_SBGGR20_1X20,
+> +		},
+> +		.output = MEDIA_BUS_FMT_SBGGR20_1X20
+> +	},
+> +	{
+> +		.inputs = {
+> +			MEDIA_BUS_FMT_SGBRG8_1X8,
+> +			MEDIA_BUS_FMT_SGBRG10_1X10,
+> +			MEDIA_BUS_FMT_SGBRG12_1X12,
+> +			MEDIA_BUS_FMT_SGBRG14_1X14,
+> +			MEDIA_BUS_FMT_SGBRG16_1X16,
+> +			MEDIA_BUS_FMT_SGBRG20_1X20,
+> +		},
+> +		.output = MEDIA_BUS_FMT_SGBRG20_1X20
+> +	},
+> +	{
+> +		.inputs = {
+> +			MEDIA_BUS_FMT_SGRBG8_1X8,
+> +			MEDIA_BUS_FMT_SGRBG10_1X10,
+> +			MEDIA_BUS_FMT_SGRBG12_1X12,
+> +			MEDIA_BUS_FMT_SGRBG14_1X14,
+> +			MEDIA_BUS_FMT_SGRBG16_1X16,
+> +			MEDIA_BUS_FMT_SGRBG20_1X20,
+> +		},
+> +		.output = MEDIA_BUS_FMT_SGRBG20_1X20
+> +	},
+> +	{
+> +		.inputs = {
+> +			MEDIA_BUS_FMT_SRGGB8_1X8,
+> +			MEDIA_BUS_FMT_SRGGB10_1X10,
+> +			MEDIA_BUS_FMT_SRGGB12_1X12,
+> +			MEDIA_BUS_FMT_SRGGB14_1X14,
+> +			MEDIA_BUS_FMT_SRGGB16_1X16,
+> +			MEDIA_BUS_FMT_SRGGB20_1X20,
+> +		},
+> +		.output = MEDIA_BUS_FMT_SRGGB20_1X20
+> +	},
+> +};
+> +
+> +static u32 rzv2h_ivc_get_mbus_output_from_input(u32 mbus_code)
+> +{
+> +	unsigned int i, j;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(rzv2h_ivc_formats); i++) {
+> +		for (j = 0; j < RZV2H_IVC_N_INPUTS_PER_OUTPUT; j++) {
+> +			if (rzv2h_ivc_formats[i].inputs[j] == mbus_code)
+> +				return rzv2h_ivc_formats[i].output;
+> +		}
+> +	}
+
+You could save a few loops by
+
+        switch (mbus_code) {
+        case MEDIA_BUS_FMT_SBGGR8_1X8:
+        case MEDIA_BUS_FMT_SBGGR10_1X10:
+        case MEDIA_BUS_FMT_SBGGR12_1X12:
+        case MEDIA_BUS_FMT_SBGGR14_1X14:
+        case MEDIA_BUS_FMT_SBGGR16_1X16:
+        case MEDIA_BUS_FMT_SBGGR20_1X20:
+                return MEDIA_BUS_FMT_SBGGR20_1X20;
+
+
+etc
+
+up to you, it might not be worth it as you need rzv2h_ivc_formats[]
+anyhow, so doing what I suggested would actually duplicate the same
+information
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_enum_mbus_code(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_state *state,
+> +				    struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	const struct v4l2_mbus_framefmt *fmt;
+> +	unsigned int order_index;
+> +	unsigned int index;
+> +
+> +	/*
+> +	 * On the source pad, only the 20-bit format corresponding to the sink
+> +	 * pad format's bayer order is supported.
+> +	 */
+> +	if (code->pad == RZV2H_IVC_SUBDEV_SOURCE_PAD) {
+> +		if (code->index)
+> +			return -EINVAL;
+> +
+> +		fmt = v4l2_subdev_state_get_format(state,
+> +						   RZV2H_IVC_SUBDEV_SINK_PAD);
+> +		code->code = fmt->code;
+
+Or return here and drop the else {}
+
+> +	} else {
+> +		if (code->index >= ARRAY_SIZE(rzv2h_ivc_formats) *
+> +				   RZV2H_IVC_N_INPUTS_PER_OUTPUT)
+> +			return -EINVAL;
+> +
+> +		order_index = code->index / RZV2H_IVC_N_INPUTS_PER_OUTPUT;
+> +		index = code->index % RZV2H_IVC_N_INPUTS_PER_OUTPUT;
+> +
+> +		code->code = rzv2h_ivc_formats[order_index].inputs[index];
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_enum_frame_size(struct v4l2_subdev *sd,
+> +				     struct v4l2_subdev_state *state,
+> +				     struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	const struct v4l2_mbus_framefmt *fmt;
+> +
+> +	if (fse->index > 0)
+> +		return -EINVAL;
+> +
+> +	if (fse->pad == RZV2H_IVC_SUBDEV_SOURCE_PAD) {
+> +		fmt = v4l2_subdev_state_get_format(state,
+> +						   RZV2H_IVC_SUBDEV_SINK_PAD);
+> +
+> +		if (fse->code != fmt->code)
+> +			return -EINVAL;
+> +
+> +		fse->min_width = fmt->width;
+> +		fse->max_width = fmt->width;
+> +		fse->min_height = fmt->height;
+> +		fse->max_height = fmt->height;
+
+Likewise. Up to you
+
+> +	} else {
+> +		if (!rzv2h_ivc_get_mbus_output_from_input(fse->code))
+> +			return -EINVAL;
+> +
+> +		fse->min_width = RZV2H_IVC_MIN_WIDTH;
+> +		fse->max_width = RZV2H_IVC_MAX_WIDTH;
+> +		fse->min_height = RZV2H_IVC_MIN_HEIGHT;
+> +		fse->max_height = RZV2H_IVC_MAX_HEIGHT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_set_fmt(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *state,
+> +			     struct v4l2_subdev_format *format)
+> +{
+> +	struct v4l2_mbus_framefmt *fmt = &format->format;
+> +	struct v4l2_mbus_framefmt *src_fmt, *sink_fmt;
+> +
+> +	if (format->pad == RZV2H_IVC_SUBDEV_SOURCE_PAD)
+> +		return v4l2_subdev_get_fmt(sd, state, format);
+> +
+> +	sink_fmt = v4l2_subdev_state_get_format(state, RZV2H_IVC_SUBDEV_SINK_PAD);
+
+v4l2 is a little picky on 80 cols.. I don't personally mind very much,
+but I think --max-line-length=80  is passed to checkpatch in the CI
+loop
+
+> +
+> +	sink_fmt->code = rzv2h_ivc_get_mbus_output_from_input(fmt->code) ?
+> +			 fmt->code : rzv2h_ivc_formats[0].inputs[0];
+> +
+> +	sink_fmt->width = clamp(fmt->width, RZV2H_IVC_MIN_WIDTH,
+> +				RZV2H_IVC_MAX_WIDTH);
+> +	sink_fmt->height = clamp(fmt->height, RZV2H_IVC_MIN_HEIGHT,
+> +				 RZV2H_IVC_MAX_HEIGHT);
+> +
+> +	*fmt = *sink_fmt;
+> +
+> +	src_fmt = v4l2_subdev_state_get_format(state,
+> +					       RZV2H_IVC_SUBDEV_SOURCE_PAD);
+> +
+> +	src_fmt->code = rzv2h_ivc_get_mbus_output_from_input(sink_fmt->code);
+> +	src_fmt->width = sink_fmt->width;
+> +	src_fmt->height = sink_fmt->height;
+
+What about all other fields of v4l2_mbus_framefmt ?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_enable_streams(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_state *state, u32 pad,
+> +				    u64 streams_mask)
+> +{
+> +	/*
+> +	 * We have a single source pad, which has a single stream. V4L2 core has
+> +	 * already validated those things. The actual power-on and programming
+> +	 * of registers will be done through the video device's .vidioc_streamon
+> +	 * so there's nothing to actually do here...
+> +	 */
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_disable_streams(struct v4l2_subdev *sd,
+> +				     struct v4l2_subdev_state *state, u32 pad,
+> +				     u64 streams_mask)
+> +{
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_pad_ops rzv2h_ivc_pad_ops = {
+> +	.enum_mbus_code		= rzv2h_ivc_enum_mbus_code,
+> +	.enum_frame_size	= rzv2h_ivc_enum_frame_size,
+> +	.get_fmt		= v4l2_subdev_get_fmt,
+> +	.set_fmt		= rzv2h_ivc_set_fmt,
+> +	.enable_streams		= rzv2h_ivc_enable_streams,
+> +	.disable_streams	= rzv2h_ivc_disable_streams,
+> +};
+> +
+> +static const struct v4l2_subdev_core_ops rzv2h_ivc_core_ops = {
+> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +};
+> +
+> +static const struct v4l2_subdev_ops rzv2h_ivc_subdev_ops = {
+> +	.core	= &rzv2h_ivc_core_ops,
+> +	.pad	= &rzv2h_ivc_pad_ops,
+> +};
+> +
+> +static int rzv2h_ivc_init_state(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *state)
+> +{
+> +	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
+> +
+> +	sink_fmt = v4l2_subdev_state_get_format(state,
+> +						RZV2H_IVC_SUBDEV_SINK_PAD);
+> +	sink_fmt->width = RZV2H_IVC_DEFAULT_WIDTH;
+> +	sink_fmt->height = RZV2H_IVC_DEFAULT_HEIGHT;
+> +	sink_fmt->field = V4L2_FIELD_NONE;
+> +	sink_fmt->code = MEDIA_BUS_FMT_SRGGB16_1X16;
+> +	sink_fmt->colorspace = V4L2_COLORSPACE_RAW;
+> +	sink_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
+> +	sink_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
+> +	sink_fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(false,
+> +							  sink_fmt->colorspace,
+> +							  sink_fmt->ycbcr_enc);
+
+Does this give you FULL or LIMITED ?
+
+> +
+> +	src_fmt = v4l2_subdev_state_get_format(state,
+> +					       RZV2H_IVC_SUBDEV_SOURCE_PAD);
+> +
+> +	*src_fmt = *sink_fmt;
+> +	src_fmt->code = MEDIA_BUS_FMT_SRGGB20_1X20;
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_registered(struct v4l2_subdev *sd)
+> +{
+> +	struct rzv2h_ivc *ivc = container_of(sd, struct rzv2h_ivc, subdev.sd);
+> +
+> +	return rzv2h_initialise_video_dev_and_queue(ivc, sd->v4l2_dev);
+
+This name can possibily be shortened
+
+> +}
+> +
+> +static const struct v4l2_subdev_internal_ops rzv2h_ivc_subdev_internal_ops = {
+> +	.init_state = rzv2h_ivc_init_state,
+> +	.registered = rzv2h_ivc_registered,
+> +};
+> +
+> +static int rzv2h_ivc_link_validate(struct media_link *link)
+> +{
+> +	struct video_device *vdev =
+> +		media_entity_to_video_device(link->source->entity);
+> +	struct rzv2h_ivc *ivc = video_get_drvdata(vdev);
+> +	struct v4l2_subdev *sd =
+> +		media_entity_to_v4l2_subdev(link->sink->entity);
+> +	const struct rzv2h_ivc_format  *fmt;
+                                      ^ additional empty space
+
+> +	const struct v4l2_pix_format *pix;
+> +	struct v4l2_subdev_state *state;
+> +	struct v4l2_mbus_framefmt *mf;
+> +	unsigned int i;
+> +	int ret = 0;
+> +
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> +	mf = v4l2_subdev_state_get_format(state, link->sink->index);
+> +
+> +	pix = &ivc->format.pix;
+> +	fmt = ivc->format.fmt;
+> +
+> +	if (mf->width != pix->width || mf->height != pix->height) {
+> +		dev_dbg(ivc->dev,
+> +			"link '%s':%u -> '%s':%u not valid: %ux%u != %ux%u\n",
+> +			link->source->entity->name, link->source->index,
+> +			link->sink->entity->name, link->sink->index,
+> +			mf->width, mf->height,
+> +			pix->width, pix->height);
+> +		ret = -EPIPE;
+
+do you need to continue validation or can you return here ?
+Ah maybe this is just to fall on unlock_state()
+
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(fmt->mbus_codes); i++)
+> +		if (mf->code == fmt->mbus_codes[i])
+> +			break;
+> +
+> +	if (i == ARRAY_SIZE(fmt->mbus_codes)) {
+> +		dev_dbg(ivc->dev,
+> +			"link '%s':%u -> '%s':%u not valid: pixel format %p4cc cannot produce mbus_code 0x%04x\n",
+> +			link->source->entity->name, link->source->index,
+> +			link->sink->entity->name, link->sink->index,
+> +			&pix->pixelformat, mf->code);
+> +		ret = -EPIPE;
+> +	}
+> +
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct media_entity_operations rzv2h_ivc_media_ops = {
+> +	.link_validate = rzv2h_ivc_link_validate,
+> +};
+> +
+> +int rzv2h_ivc_initialise_subdevice(struct rzv2h_ivc *ivc)
+> +{
+> +	struct v4l2_subdev *sd;
+> +	int ret;
+> +
+> +	/* Initialise subdevice */
+> +	sd = &ivc->subdev.sd;
+> +	sd->dev = ivc->dev;
+> +	v4l2_subdev_init(sd, &rzv2h_ivc_subdev_ops);
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+> +	sd->entity.function = MEDIA_ENT_F_IO_V4L;
+> +	sd->internal_ops = &rzv2h_ivc_subdev_internal_ops;
+> +	sd->entity.ops = &rzv2h_ivc_media_ops;
+> +
+> +	ivc->subdev.pads[RZV2H_IVC_SUBDEV_SINK_PAD].flags = MEDIA_PAD_FL_SINK;
+> +	ivc->subdev.pads[RZV2H_IVC_SUBDEV_SOURCE_PAD].flags = MEDIA_PAD_FL_SOURCE;
+> +
+> +	snprintf(sd->name, sizeof(sd->name), "rzv2h ivc block");
+> +
+> +	ret = media_entity_pads_init(&sd->entity, RZV2H_IVC_NUM_SUBDEV_PADS,
+> +				     ivc->subdev.pads);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to initialise media entity\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = v4l2_async_register_subdev(sd);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to register subdevice\n");
+> +		goto err_cleanup_subdev_entity;
+> +	}
+> +
+> +	ret = v4l2_subdev_init_finalize(sd);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to finalize subdev init\n");
+> +		goto err_unregister_subdev;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_unregister_subdev:
+> +	v4l2_async_unregister_subdev(sd);
+> +err_cleanup_subdev_entity:
+> +	media_entity_cleanup(&sd->entity);
+> +
+> +	return ret;
+> +}
+> +
+> +void rzv2h_ivc_deinit_subdevice(struct rzv2h_ivc *ivc)
+> +{
+> +	struct v4l2_subdev *sd = &ivc->subdev.sd;
+> +
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_remove_links(&sd->entity);
+> +	v4l2_async_unregister_subdev(sd);
+> +	media_entity_cleanup(&sd->entity);
+> +}
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> new file mode 100644
+> index 000000000000..da6184823784
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> @@ -0,0 +1,703 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/V2H Input Video Control Block driver
+> + *
+> + * Copyright (C) 2024 Ideas on Board Oy
+> + */
+> +
+> +#include <linux/cleanup.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/list.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/minmax.h>
+> +#include <linux/mutex.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/videodev2.h>
+> +#include <linux/wait.h>
+> +
+> +#include <media/media-jobs.h>
+> +#include <media/mipi-csi2.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-dev.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-fh.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/videobuf2-core.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +#include <media/videobuf2-v4l2.h>
+> +
+> +#include "rzv2h-ivc.h"
+> +
+> +#define RZV2H_IVC_FIXED_HBLANK			0x20
+> +#define RZV2H_IVC_MIN_VBLANK			27
+
+Either both 0x or decimal maybe ?
+
+> +
+> +#define to_rzv2h_ivc_buf(vbuf) \
+> +	container_of(vbuf, struct rzv2h_ivc_buf, vb)
+> +
+> +static const struct rzv2h_ivc_format rzv2h_ivc_formats[] = {
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SBGGR8,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR8_1X8,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SGBRG8,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SGBRG8_1X8,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SGRBG8,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SGRBG8_1X8,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SRGGB8,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SRGGB8_1X8,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW8,
+> +	},
+
+Now I get why we want to get rid of bayer permutations in the media
+bus code :)
+
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_CRU_RAW10,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR10_1X10,
+> +			MEDIA_BUS_FMT_SGBRG10_1X10,
+> +			MEDIA_BUS_FMT_SGRBG10_1X10,
+> +			MEDIA_BUS_FMT_SRGGB10_1X10
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW10,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_CRU_RAW12,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR12_1X12,
+> +			MEDIA_BUS_FMT_SGBRG12_1X12,
+> +			MEDIA_BUS_FMT_SGRBG12_1X12,
+> +			MEDIA_BUS_FMT_SRGGB12_1X12
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW12,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_CRU_RAW14,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR14_1X14,
+> +			MEDIA_BUS_FMT_SGBRG14_1X14,
+> +			MEDIA_BUS_FMT_SGRBG14_1X14,
+> +			MEDIA_BUS_FMT_SRGGB14_1X14
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW14,
+> +	},
+
+Interesting, so all formats > 8 and < 16 get compressed to a
+bayer-agnostic CRU formats, while 8 and 16 are not modified...
+
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SBGGR16,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR16_1X16,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW16,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SGBRG16,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SGBRG16_1X16,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW16,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SGRBG16,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SGRBG16_1X16,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW16,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SRGGB16,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SRGGB16_1X16,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW16,
+> +	},
+> +};
+> +
+> +static int rzv2h_ivc_pipeline_started(struct media_entity *entity)
+> +{
+> +	struct video_device *vdev = media_entity_to_video_device(entity);
+> +	struct rzv2h_ivc *ivc = video_get_drvdata(vdev);
+> +
+> +	/*
+> +	 * With min_queued_buffers set to 1, we know that we must have at least
+> +	 * a single buffer to start feeding, so we can fetch that now and fire
+> +	 * it off to the ISP.
+> +	 */
+> +	ivc->buffers.sequence = 0;
+> +	rzv2h_ivc_send_next_buffer(ivc);
+> +
+
+Uh, why can't we do that at pipeline_start ?
+
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_pipeline_stopped(struct media_entity *entity)
+> +{
+> +	struct video_device *vdev = media_entity_to_video_device(entity);
+> +	struct rzv2h_ivc *ivc = video_get_drvdata(vdev);
+> +	u32 val = 0;
+> +
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_STOP, 0x1);
+> +	readl_poll_timeout(ivc->base + RZV2H_IVC_REG_FM_STOP,
+> +			   val, !val, 10 * USEC_PER_MSEC, 250 * USEC_PER_MSEC);
+> +}
+> +
+> +static const struct media_entity_operations rzv2h_ivc_media_ops = {
+> +	.pipeline_started = rzv2h_ivc_pipeline_started,
+> +	.pipeline_stopped = rzv2h_ivc_pipeline_stopped,
+> +};
+> +
+> +static bool rzv2h_ivc_job_check_dep(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +
+> +	if (list_empty(&ivc->buffers.pending))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +static void rzv2h_ivc_job_clear_dep(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +	struct rzv2h_ivc_buf *buf;
+> +
+> +	/*
+> +	 * We need to move an entry from the pending queue to the input queue
+> +	 * here. We know that there is one, or .check_dep() would not have
+> +	 * allowed us to get this far. The entry needs to be removed or the same
+> +	 * check would allow a new job to be queued for the exact same buffer.
+> +	 */
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +	buf = list_first_entry(&ivc->buffers.pending,
+> +			       struct rzv2h_ivc_buf, queue);
+> +	list_move_tail(&buf->queue, &ivc->buffers.queue);
+> +}
+> +
+> +static void rzv2h_ivc_job_reset_dep(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +	struct rzv2h_ivc_buf *buf;
+> +
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +	buf = list_first_entry(&ivc->buffers.queue,
+> +			       struct rzv2h_ivc_buf, queue);
+> +
+> +	if (buf)
+> +		list_move(&buf->queue, &ivc->buffers.pending);
+> +}
+> +
+> +static void rzv2h_ivc_job_set_next_buffer(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +
+> +	rzv2h_ivc_set_next_buffer(ivc);
+
+This has a single caller, why do you need a wrapper ?
+Also why define the function after its single caller ?
+
+> +}
+> +
+> +static void rzv2h_ivc_job_send_next_buffer(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +
+> +	rzv2h_ivc_send_next_buffer(ivc);
+
+This seems to be a "start transfer" or something similar, which would
+remove the two very similar names set_next_buffer() and
+send_next_buffer().
+
+Same question, why define the function after its two callers ?
+
+> +}
+> +
+> +static struct media_job_dep_ops rzv2h_ivc_media_job_dep_ops = {
+> +	.check_dep = rzv2h_ivc_job_check_dep,
+> +	.clear_dep = rzv2h_ivc_job_clear_dep,
+> +	.reset_dep = rzv2h_ivc_job_reset_dep,
+> +};
+> +
+> +static int rzv2h_ivc_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+> +				 unsigned int *num_planes, unsigned int sizes[],
+> +				 struct device *alloc_devs[])
+> +{
+> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
+> +
+> +	if (*num_planes && *num_planes > 1)
+> +		return -EINVAL;
+> +
+> +	if (sizes[0] && sizes[0] < ivc->format.pix.sizeimage)
+> +		return -EINVAL;
+> +
+> +	*num_planes = 1;
+> +
+> +	if (!sizes[0])
+> +		sizes[0] = ivc->format.pix.sizeimage;
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_buf_queue(struct vb2_buffer *vb)
+> +{
+> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct rzv2h_ivc_buf *buf = to_rzv2h_ivc_buf(vbuf);
+> +
+> +	spin_lock(&ivc->buffers.lock);
+> +	list_add_tail(&buf->queue, &ivc->buffers.pending);
+> +	spin_unlock(&ivc->buffers.lock);
+
+scoped_guards are nice
+
+> +
+> +	media_jobs_try_queue_job(ivc->sched, MEDIA_JOB_TYPE_PIPELINE_PULSE,
+> +				 &rzv2h_ivc_media_job_dep_ops, ivc);
+> +}
+> +
+> +static int rzv2h_ivc_buf_init(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct rzv2h_ivc_buf *buf = to_rzv2h_ivc_buf(vbuf);
+> +
+> +	buf->addr = vb2_dma_contig_plane_dma_addr(vb, 0);
+
+Do you need an init function instead of just retrieveing the bus
+address before writing it to RZV2H_IVC_REG_AXIRX_SADDL_P0 ?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_format_configure(struct rzv2h_ivc *ivc)
+> +{
+> +	const struct rzv2h_ivc_format *fmt = ivc->format.fmt;
+> +	struct v4l2_pix_format *pix = &ivc->format.pix;
+> +	unsigned int min_vblank;
+> +	unsigned int vblank;
+> +	unsigned int hts;
+> +
+> +	/* Currently only CRU packed pixel formats are supported */
+
+Which I presume include the 8 and 16 bits variants ?
+
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_PXFMT,
+> +			RZV2H_IVC_INPUT_FMT_CRU_PACKED);
+> +
+> +	rzv2h_ivc_update_bits(ivc, RZV2H_IVC_REG_AXIRX_PXFMT,
+> +			      RZV2H_IVC_PXFMT_DTYPE, fmt->dtype);
+> +
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_HSIZE, pix->width);
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_VSIZE, pix->height);
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_STRD, pix->bytesperline);
+> +
+> +	/*
+> +	 * The ISP has minimum vertical blanking requirements that must be
+> +	 * adhered to by the IVC. The minimum is a function of the Iridix blocks
+> +	 * clocking requirements and the width of the image and horizontal
+> +	 * blanking, but if we assume the worst case then it boils down to the
+> +	 * below (plus one to the numerator to ensure the answer is rounded up)
+> +	 */
+> +
+> +	hts = pix->width + RZV2H_IVC_FIXED_HBLANK;
+> +	min_vblank = 15 + (120501 / hts);
+
+This is the actual vblank or the min_vblank ?
+
+> +	vblank = max(min_vblank, RZV2H_IVC_MIN_VBLANK);
+> +
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_BLANK,
+> +			RZV2H_IVC_VBLANK(vblank));
+> +}
+> +
+> +void rzv2h_ivc_set_next_buffer(struct rzv2h_ivc *ivc)
+> +{
+> +	struct rzv2h_ivc_buf *buf;
+> +
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +
+> +	if (ivc->buffers.curr) {
+> +		ivc->buffers.curr->vb.sequence = ivc->buffers.sequence++;
+> +		vb2_buffer_done(&ivc->buffers.curr->vb.vb2_buf,
+> +				VB2_BUF_STATE_DONE);
+> +		ivc->buffers.curr = NULL;
+> +	}
+> +
+> +	buf = list_first_entry_or_null(&ivc->buffers.queue,
+> +				       struct rzv2h_ivc_buf, queue);
+> +	if (buf)
+> +		list_del(&buf->queue);
+> +	else
+> +		return;
+
+What happens in this case ? Will the HW keep overwriting the same
+memory buffer even if it has been just returned to userspace ? Will it
+discard frames ? Do you need a scratch buffer where to dump frames
+into ?
+
+> +
+> +	ivc->buffers.curr = buf;
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_SADDL_P0, buf->addr);
+> +}
+> +
+> +void rzv2h_ivc_send_next_buffer(struct rzv2h_ivc *ivc)
+> +{
+> +	wait_event_interruptible_timeout(ivc->buffers.wq, !ivc->vvalid_ifp,
+> +					 msecs_to_jiffies(20));
+> +
+> +	spin_lock(&ivc->spinlock);
+> +	ivc->vvalid_ifp = 2;
+> +	spin_unlock(&ivc->spinlock);
+
+maybe scoped guards, and if you count in the -dev.c file you might
+even save this
+
+> +
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_FRCON, 0x1);
+> +}
+> +
+> +static void rzv2h_ivc_return_buffers(struct rzv2h_ivc *ivc,
+> +				     enum vb2_buffer_state state)
+> +{
+> +	struct rzv2h_ivc_buf *buf, *tmp;
+> +
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +
+> +	if (ivc->buffers.curr) {
+> +		vb2_buffer_done(&ivc->buffers.curr->vb.vb2_buf, state);
+> +		ivc->buffers.curr = NULL;
+> +	}
+> +
+> +	list_for_each_entry_safe(buf, tmp, &ivc->buffers.pending, queue) {
+> +		list_del(&buf->queue);
+> +		vb2_buffer_done(&buf->vb.vb2_buf, state);
+> +	}
+> +
+> +	list_for_each_entry_safe(buf, tmp, &ivc->buffers.queue, queue) {
+> +		list_del(&buf->queue);
+> +		vb2_buffer_done(&buf->vb.vb2_buf, state);
+> +	}
+> +}
+> +
+> +static bool rzv2h_ivc_pipeline_ready(struct media_pipeline *pipe)
+> +{
+> +	struct media_pipeline_entity_iter iter;
+> +	unsigned int n_video_devices = 0;
+> +	struct media_entity *entity;
+> +	int ret;
+> +
+> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
+> +	if (ret)
+> +		return ret;
+> +
+> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
+> +		if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
+> +			n_video_devices++;
+> +	}
+> +
+> +	media_pipeline_entity_iter_cleanup(&iter);
+> +
+> +	return n_video_devices == pipe->start_count;
+
+Ah maybe I know get why you need pipeline_started
+
+> +}
+> +
+> +static int rzv2h_ivc_start_streaming(struct vb2_queue *q, unsigned int count)
+> +{
+> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
+> +	struct media_pipeline *pipe;
+> +	int ret;
+> +
+> +	ret = pm_runtime_resume_and_get(ivc->dev);
+> +	if (ret)
+> +		goto err_return_buffers;
+> +
+> +	ret = video_device_pipeline_alloc_start(&ivc->vdev.dev);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to start media pipeline\n");
+> +		goto err_pm_runtime_put;
+> +	}
+> +
+> +	rzv2h_ivc_format_configure(ivc);
+> +
+> +	ivc->buffers.sequence = 0;
+> +
+> +	spin_lock(&ivc->spinlock);
+> +	ivc->vvalid_ifp = 0;
+> +	spin_unlock(&ivc->spinlock);
+> +
+> +	pipe = video_device_pipeline(&ivc->vdev.dev);
+> +	if (rzv2h_ivc_pipeline_ready(pipe)) {
+> +		ret = media_pipeline_started(pipe);
+> +		if (ret)
+> +			goto err_stop_pipeline;
+> +
+> +		media_jobs_run_jobs(ivc->sched);
+> +	}
+> +
+> +	return 0;
+> +
+> +err_stop_pipeline:
+> +	video_device_pipeline_stop(&ivc->vdev.dev);
+> +err_pm_runtime_put:
+> +	pm_runtime_put(ivc->dev);
+> +err_return_buffers:
+> +	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_QUEUED);
+> +
+> +	return ret;
+> +}
+> +
+> +static void rzv2h_ivc_stop_streaming(struct vb2_queue *q)
+> +{
+> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
+> +	struct media_pipeline *pipe;
+> +
+> +	pipe = video_device_pipeline(&ivc->vdev.dev);
+> +	if (rzv2h_ivc_pipeline_ready(pipe)) {
+
+How is this possible that this returns true if we have just been
+stopped ?
+
+> +		media_pipeline_stopped(pipe);
+> +		media_jobs_cancel_jobs(ivc->sched);
+> +	}
+> +
+> +	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_ERROR);
+> +	video_device_pipeline_stop(&ivc->vdev.dev);
+> +	pm_runtime_put_autosuspend(ivc->dev);
+> +	pm_runtime_mark_last_busy(ivc->dev);
+
+Maybe first mark then suspend ?
+
+> +}
+> +
+> +static const struct vb2_ops rzv2h_ivc_vb2_ops = {
+> +	.queue_setup		= &rzv2h_ivc_queue_setup,
+> +	.buf_queue		= &rzv2h_ivc_buf_queue,
+> +	.buf_init		= &rzv2h_ivc_buf_init,
+> +	.wait_prepare		= vb2_ops_wait_prepare,
+> +	.wait_finish		= vb2_ops_wait_finish,
+> +	.start_streaming	= &rzv2h_ivc_start_streaming,
+> +	.stop_streaming		= &rzv2h_ivc_stop_streaming,
+> +};
+> +
+> +static const struct rzv2h_ivc_format *
+> +rzv2h_ivc_format_from_pixelformat(u32 fourcc)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(rzv2h_ivc_formats); i++)
+> +		if (fourcc == rzv2h_ivc_formats[i].fourcc)
+> +			return &rzv2h_ivc_formats[i];
+> +
+> +	return &rzv2h_ivc_formats[0];
+> +}
+> +
+> +static int rzv2h_ivc_enum_fmt_vid_out(struct file *file, void *fh,
+> +				      struct v4l2_fmtdesc *f)
+> +{
+> +	if (f->index >= ARRAY_SIZE(rzv2h_ivc_formats))
+> +		return -EINVAL;
+> +
+> +	f->pixelformat = rzv2h_ivc_formats[f->index].fourcc;
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_g_fmt_vid_out(struct file *file, void *fh,
+> +				   struct v4l2_format *f)
+> +{
+> +	struct rzv2h_ivc *ivc = video_drvdata(file);
+> +
+> +	f->fmt.pix = ivc->format.pix;
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_try_fmt(struct v4l2_pix_format *pix)
+> +{
+> +	const struct rzv2h_ivc_format *fmt;
+> +
+> +	fmt = rzv2h_ivc_format_from_pixelformat(pix->pixelformat);
+> +	pix->pixelformat = fmt->fourcc;
+> +
+> +	pix->width = clamp(pix->width, RZV2H_IVC_MIN_WIDTH,
+> +			   RZV2H_IVC_MAX_WIDTH);
+> +	pix->height = clamp(pix->height, RZV2H_IVC_MIN_HEIGHT,
+> +			    RZV2H_IVC_MAX_HEIGHT);
+> +
+> +	pix->field = V4L2_FIELD_NONE;
+> +	pix->colorspace = V4L2_COLORSPACE_RAW;
+> +	pix->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+
+For the subdev this was 601 if I'm not mistaken
+
+> +	pix->quantization = V4L2_QUANTIZATION_DEFAULT;
+
+And the quantization full range ?
+
+Also set xfer_func to V4L2_XFER_FUNC_NONE
+
+
+> +
+> +	v4l2_fill_pixfmt(pix, pix->pixelformat, pix->width, pix->height);
+> +}
+> +
+> +static void rzv2h_ivc_set_format(struct rzv2h_ivc *ivc,
+> +				 struct v4l2_pix_format *pix)
+> +{
+> +	rzv2h_ivc_try_fmt(pix);
+> +	ivc->format.pix = *pix;
+> +	ivc->format.fmt = rzv2h_ivc_format_from_pixelformat(pix->pixelformat);
+
+try_fmt calls this function, maybe you could pass it as parameter as
+well ?(however you should allocate one in rzv2h_ivc_try_fmt_vid_out()
+
+> +}
+> +
+> +static int rzv2h_ivc_s_fmt_vid_out(struct file *file, void *fh,
+> +				   struct v4l2_format *f)
+> +{
+> +	struct rzv2h_ivc *ivc = video_drvdata(file);
+> +	struct v4l2_pix_format *pix = &f->fmt.pix;
+> +
+> +	if (vb2_is_busy(&ivc->vdev.vb2q))
+> +		return -EBUSY;
+> +
+> +	rzv2h_ivc_set_format(ivc, pix);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_try_fmt_vid_out(struct file *file, void *fh,
+> +				     struct v4l2_format *f)
+> +{
+> +	rzv2h_ivc_try_fmt(&f->fmt.pix);
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_querycap(struct file *file, void *fh,
+> +			      struct v4l2_capability *cap)
+> +{
+> +	strscpy(cap->driver, "rzv2h-ivc", sizeof(cap->driver));
+> +	strscpy(cap->card, "Renesas Input Video Control", sizeof(cap->card));
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ioctl_ops rzv2h_ivc_v4l2_ioctl_ops = {
+> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
+> +	.vidioc_querybuf = vb2_ioctl_querybuf,
+> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
+> +	.vidioc_qbuf = vb2_ioctl_qbuf,
+> +	.vidioc_expbuf = vb2_ioctl_expbuf,
+> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
+> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
+> +	.vidioc_streamon = vb2_ioctl_streamon,
+> +	.vidioc_streamoff = vb2_ioctl_streamoff,
+> +	.vidioc_enum_fmt_vid_out = rzv2h_ivc_enum_fmt_vid_out,
+> +	.vidioc_g_fmt_vid_out = rzv2h_ivc_g_fmt_vid_out,
+> +	.vidioc_s_fmt_vid_out = rzv2h_ivc_s_fmt_vid_out,
+> +	.vidioc_try_fmt_vid_out = rzv2h_ivc_try_fmt_vid_out,
+> +	.vidioc_querycap = rzv2h_ivc_querycap,
+> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+> +};
+> +
+> +static const struct v4l2_file_operations rzv2h_ivc_v4l2_fops = {
+> +	.owner = THIS_MODULE,
+> +	.unlocked_ioctl = video_ioctl2,
+> +	.open = v4l2_fh_open,
+> +	.release = vb2_fop_release,
+> +	.poll = vb2_fop_poll,
+> +	.mmap = vb2_fop_mmap,
+> +};
+> +
+> +static int rzv2h_ivc_populate_media_job(struct media_job *job, void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +	int ret;
+> +
+> +	ret = media_jobs_add_job_dep(job, &rzv2h_ivc_media_job_dep_ops, ivc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = media_jobs_add_job_step(job, rzv2h_ivc_job_set_next_buffer, ivc,
+> +				      MEDIA_JOBS_FL_STEP_ANYWHERE, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * This stage will be the second to last one to run - the ISP driver may
+> +	 * have some post-frame processing to do.
+> +	 */
+> +	ret = media_jobs_add_job_step(job, rzv2h_ivc_job_send_next_buffer, ivc,
+> +				      MEDIA_JOBS_FL_STEP_FROM_BACK, 1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +int rzv2h_initialise_video_dev_and_queue(struct rzv2h_ivc *ivc,
+> +					 struct v4l2_device *v4l2_dev)
+> +{
+> +	struct v4l2_pix_format pix;
+> +	struct video_device *vdev;
+> +	struct vb2_queue *vb2q;
+> +	int ret;
+> +
+> +	spin_lock_init(&ivc->buffers.lock);
+> +	INIT_LIST_HEAD(&ivc->buffers.queue);
+> +	INIT_LIST_HEAD(&ivc->buffers.pending);
+> +	init_waitqueue_head(&ivc->buffers.wq);
+> +
+> +	/* Initialise vb2 queue */
+> +	vb2q = &ivc->vdev.vb2q;
+> +	vb2q->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> +	vb2q->io_modes = VB2_MMAP | VB2_DMABUF;
+> +	vb2q->drv_priv = ivc;
+> +	vb2q->mem_ops = &vb2_dma_contig_memops;
+> +	vb2q->ops = &rzv2h_ivc_vb2_ops;
+> +	vb2q->buf_struct_size = sizeof(struct rzv2h_ivc_buf);
+> +	vb2q->min_queued_buffers = 1;
+
+Ideally, we want this to be 0. You would need a scratch buffer for
+this
+
+> +	vb2q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +	vb2q->lock = &ivc->lock;
+> +	vb2q->dev = ivc->dev;
+> +
+> +	ret = vb2_queue_init(vb2q);
+> +	if (ret)
+> +		return dev_err_probe(ivc->dev, ret, "vb2 queue init failed\n");
+> +
+> +	/* Initialise Video Device */
+> +	vdev = &ivc->vdev.dev;
+> +	strscpy(vdev->name, "rzv2h-ivc", sizeof(vdev->name));
+> +	vdev->release = video_device_release_empty;
+> +	vdev->fops = &rzv2h_ivc_v4l2_fops;
+> +	vdev->ioctl_ops = &rzv2h_ivc_v4l2_ioctl_ops;
+> +	vdev->lock = &ivc->lock;
+> +	vdev->v4l2_dev = v4l2_dev;
+> +	vdev->queue = vb2q;
+> +	vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
+> +	vdev->vfl_dir = VFL_DIR_TX;
+> +	video_set_drvdata(vdev, ivc);
+> +
+> +	memset(&pix, 0, sizeof(pix));
+
+As you declare it here on the stack you can initialize it with = {};
+
+> +	pix.pixelformat = V4L2_PIX_FMT_SRGGB16;
+> +	pix.width = RZV2H_IVC_DEFAULT_WIDTH;
+> +	pix.height = RZV2H_IVC_DEFAULT_HEIGHT;
+> +	rzv2h_ivc_set_format(ivc, &pix);
+> +
+> +	ivc->vdev.pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	ivc->vdev.dev.entity.ops = &rzv2h_ivc_media_ops;
+> +	ret = media_entity_pads_init(&ivc->vdev.dev.entity, 1, &ivc->vdev.pad);
+> +	if (ret)
+> +		goto err_release_vb2q;
+> +
+> +	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to register params video device\n");
+
+Not params :)
+
+> +		goto err_cleanup_vdev_entity;
+> +	}
+> +
+> +	ret = media_create_pad_link(&vdev->entity, 0, &ivc->subdev.sd.entity,
+> +				    RZV2H_IVC_SUBDEV_SINK_PAD,
+> +				    MEDIA_LNK_FL_ENABLED |
+> +				    MEDIA_LNK_FL_IMMUTABLE);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to create media link\n");
+> +		goto err_unregister_vdev;
+> +	}
+> +
+> +	ivc->sched = media_jobs_get_scheduler(vdev->entity.graph_obj.mdev);
+> +	if (IS_ERR(ivc->sched)) {
+> +		ret = PTR_ERR(ivc->sched);
+> +		goto err_remove_link;
+> +	}
+> +
+> +	ret = media_jobs_add_job_setup_func(ivc->sched,
+> +					    rzv2h_ivc_populate_media_job, ivc,
+> +					    MEDIA_JOB_TYPE_PIPELINE_PULSE);
+> +	if (ret)
+> +		goto err_put_media_job_scheduler;
+> +
+> +	return 0;
+> +
+> +err_put_media_job_scheduler:
+> +	media_jobs_put_scheduler(ivc->sched);
+> +err_remove_link:
+> +	media_entity_remove_links(&vdev->entity);
+> +err_unregister_vdev:
+> +	video_unregister_device(vdev);
+> +err_cleanup_vdev_entity:
+> +	media_entity_cleanup(&vdev->entity);
+> +err_release_vb2q:
+> +	vb2_queue_release(vb2q);
+> +
+> +	return ret;
+> +}
+> +
+> +void rzv2h_deinit_video_dev_and_queue(struct rzv2h_ivc *ivc)
+> +{
+> +	struct video_device *vdev = &ivc->vdev.dev;
+> +	struct vb2_queue *vb2q = &ivc->vdev.vb2q;
+> +
+> +	media_jobs_put_scheduler(ivc->sched);
+> +	vb2_video_unregister_device(vdev);
+> +	media_entity_cleanup(&vdev->entity);
+> +	vb2_queue_release(vb2q);
+> +}
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
+> new file mode 100644
+> index 000000000000..6deee1c61a86
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
+> @@ -0,0 +1,141 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Renesas RZ/V2H Input Video Control Block driver
+> + *
+> + * Copyright (C) 2024 Ideas on Board Oy
+
+2025... time flies...
+
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/list.h>
+> +#include <linux/mutex.h>
+> +#include <linux/reset.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/types.h>
+> +#include <linux/videodev2.h>
+> +#include <linux/wait.h>
+> +
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-subdev.h>
+> +#include <media/videobuf2-core.h>
+> +#include <media/videobuf2-v4l2.h>
+
+You can remove these from the .c files that include this header and
+include this first
+
+> +
+> +#define RZV2H_IVC_REG_AXIRX_PLNUM			0x0000
+> +#define RZV2H_IVC_ONE_EXPOSURE				0x00
+> +#define RZV2H_IVC_TWO_EXPOSURE				0x01
+> +#define RZV2H_IVC_REG_AXIRX_PXFMT			0x0004
+> +#define RZV2H_IVC_INPUT_FMT_MIPI			(0 << 16)
+> +#define RZV2H_IVC_INPUT_FMT_CRU_PACKED			(1 << 16)
+> +#define RZV2H_IVC_PXFMT_DTYPE				GENMASK(7, 0)
+> +#define RZV2H_IVC_REG_AXIRX_SADDL_P0			0x0010
+> +#define RZV2H_IVC_REG_AXIRX_SADDH_P0			0x0014
+> +#define RZV2H_IVC_REG_AXIRX_SADDL_P1			0x0018
+> +#define RZV2H_IVC_REG_AXIRX_SADDH_P1			0x001c
+> +#define RZV2H_IVC_REG_AXIRX_HSIZE			0x0020
+> +#define RZV2H_IVC_REG_AXIRX_VSIZE			0x0024
+> +#define RZV2H_IVC_REG_AXIRX_BLANK			0x0028
+> +#define RZV2H_IVC_VBLANK(x)				((x) << 16)
+> +#define RZV2H_IVC_REG_AXIRX_STRD			0x0030
+> +#define RZV2H_IVC_REG_AXIRX_ISSU			0x0040
+> +#define RZV2H_IVC_REG_AXIRX_ERACT			0x0048
+> +#define RZV2H_IVC_REG_FM_CONTEXT			0x0100
+> +#define RZV2H_IVC_SOFTWARE_CFG				0x00
+> +#define RZV2H_IVC_SINGLE_CONTEXT_SW_HW_CFG		BIT(0)
+> +#define RZV2H_IVC_MULTI_CONTEXT_SW_HW_CFG		BIT(1)
+> +#define RZV2H_IVC_REG_FM_MCON				0x0104
+> +#define RZV2H_IVC_REG_FM_FRCON				0x0108
+> +#define RZV2H_IVC_REG_FM_STOP				0x010c
+> +#define RZV2H_IVC_REG_FM_INT_EN				0x0120
+> +#define RZV2H_IVC_VVAL_IFPE				BIT(0)
+> +#define RZV2H_IVC_REG_FM_INT_STA			0x0124
+> +#define RZV2H_IVC_REG_AXIRX_FIFOCAP0			0x0208
+> +#define RZV2H_IVC_REG_CORE_CAPCON			0x020c
+> +#define RZV2H_IVC_REG_CORE_FIFOCAP0			0x0228
+> +#define RZV2H_IVC_REG_CORE_FIFOCAP1			0x022c
+> +
+> +#define RZV2H_IVC_MIN_WIDTH				640
+> +#define RZV2H_IVC_MAX_WIDTH				4096
+> +#define RZV2H_IVC_MIN_HEIGHT				480
+> +#define RZV2H_IVC_MAX_HEIGHT				4096
+> +#define RZV2H_IVC_DEFAULT_WIDTH				1920
+> +#define RZV2H_IVC_DEFAULT_HEIGHT			1080
+> +
+> +#define RZV2H_IVC_NUM_CLOCKS				3
+> +#define RZV2H_IVC_NUM_RESETS				3
+> +
+> +struct device;
+> +
+> +enum rzv2h_ivc_subdev_pads {
+> +	RZV2H_IVC_SUBDEV_SINK_PAD,
+> +	RZV2H_IVC_SUBDEV_SOURCE_PAD,
+> +	RZV2H_IVC_NUM_SUBDEV_PADS
+> +};
+> +
+> +struct rzv2h_ivc_buf {
+> +	struct vb2_v4l2_buffer vb;
+> +	struct list_head queue;
+> +	dma_addr_t addr;
+> +};
+
+Only used in video.c ?
+
+> +
+> +struct rzv2h_ivc_format {
+> +	u32 fourcc;
+> +	/*
+> +	 * The CRU packed pixel formats are bayer-order agnostic, so each could
+> +	 * support any one of the 4 possible media bus formats.
+> +	 */
+> +	u32 mbus_codes[4];
+> +	u8 dtype;
+> +};
+> +
+> +struct rzv2h_ivc {
+> +	struct device *dev;
+> +	void __iomem *base;
+> +	struct clk_bulk_data clks[RZV2H_IVC_NUM_CLOCKS];
+> +	struct reset_control_bulk_data resets[RZV2H_IVC_NUM_RESETS];
+> +	int irqnum;
+> +	u8 vvalid_ifp;
+> +
+> +	struct {
+> +		struct video_device dev;
+> +		struct vb2_queue vb2q;
+> +		struct media_pad pad;
+> +	} vdev;
+> +
+> +	struct {
+> +		struct v4l2_subdev sd;
+> +		struct media_pad pads[RZV2H_IVC_NUM_SUBDEV_PADS];
+> +	} subdev;
+> +
+> +	struct {
+> +		/* Spinlock to guard buffer queue */
+> +		spinlock_t lock;
+> +		wait_queue_head_t wq;
+> +		struct list_head queue;
+> +		struct list_head pending;
+> +		struct rzv2h_ivc_buf *curr;
+> +		unsigned int sequence;
+> +	} buffers;
+> +
+> +	struct media_job_scheduler *sched;
+> +
+> +	struct {
+> +		struct v4l2_pix_format pix;
+> +		const struct rzv2h_ivc_format *fmt;
+> +	} format;
+> +
+> +	/* Mutex to provide to vb2 */
+> +	struct mutex lock;
+> +	/* Lock to protect the interrupt counter */
+> +	spinlock_t spinlock;
+> +};
+> +
+> +int rzv2h_initialise_video_dev_and_queue(struct rzv2h_ivc *ivc,
+> +					 struct v4l2_device *v4l2_dev);
+> +void rzv2h_deinit_video_dev_and_queue(struct rzv2h_ivc *ivc);
+> +int rzv2h_ivc_initialise_subdevice(struct rzv2h_ivc *ivc);
+> +void rzv2h_ivc_deinit_subdevice(struct rzv2h_ivc *ivc);
+> +void rzv2h_ivc_write(struct rzv2h_ivc *ivc, u32 addr, u32 val);
+> +void rzv2h_ivc_update_bits(struct rzv2h_ivc *ivc, unsigned int addr,
+> +			   u32 mask, u32 val);
+> +void rzv2h_ivc_send_next_buffer(struct rzv2h_ivc *ivc);
+> +void rzv2h_ivc_set_next_buffer(struct rzv2h_ivc *ivc);
+
+Thanks, very nice and clever way to have this working with a different
+driver in a single pipeline! looking forward to v2 !
+
+> --
+> 2.34.1
+>
+>
 
