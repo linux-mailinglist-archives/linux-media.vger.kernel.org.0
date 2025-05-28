@@ -1,162 +1,179 @@
-Return-Path: <linux-media+bounces-33525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33526-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92171AC6B7E
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 16:14:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD34AC6B88
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 16:16:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC1CB3B4A3B
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 14:14:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 852B11BC5702
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 14:16:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D233E28852C;
-	Wed, 28 May 2025 14:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E44288C38;
+	Wed, 28 May 2025 14:15:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lVVoA1jc"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OHUtPla8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D411F37D3;
-	Wed, 28 May 2025 14:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D008288C1F
+	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 14:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748441662; cv=none; b=VXDucbNJ2Bqy8Oor47Ls/Vw3s3GkiVD8SnxMFlh0Pt+2UpvLm7zVvFmGTSJ1tN1MIgcwWHGUriags6pf7ggjgeXhah7yBEUOHHrpqEGMwaZVpxzxMzQUdWtrZkv1zqPkdxrKkDoXcR9bfTm6VWLPORt3ocIgJyMVLDXa2HNLja4=
+	t=1748441751; cv=none; b=CTO4ZshRgE49lNiq3WFaa8q5NGga8b0KUxjVoy20VmRV0Up4SXtA3RwYbIfMsOoShRzPXIi0cGL608h+eQjDNFDitWLBDQ6yk0p2SQU6L8t+XrwhNJri8hNwF6lBPTf0SrZwl6nilbk/3sKjvjbAiattUbdeoyqKSMlG1YYzFbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748441662; c=relaxed/simple;
-	bh=Xck/nwOYiqy1ZVp9Sss2kWwcLSvKVmGgOkD7OBgsZBA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BNJvlo543y8RY3naKobMMhnHKGZWlwPYnt3Z4kpqojYCoQVOCzkhYufW5WYCl0uS4WnRFMb30O8RdRRBDTn7aFQ6nsFoqCCKgFawjGGyiPSCYHJBqUjPXF9VY4GtUumu72R016FWHlT2shv4pHqkoScYlUTbbupW0ssrP/ayF4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lVVoA1jc; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1748441656;
-	bh=Xck/nwOYiqy1ZVp9Sss2kWwcLSvKVmGgOkD7OBgsZBA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=lVVoA1jctbfwewW2KGob5hfTDoq2NQRzQk9gxJCzi1YcEl/+KT9lpM1mZDY7EpwAz
-	 C01gp7g9uaW3/+R4aPvO6wDfW5R1enrQHhY17Rc4ZbwusXt7h3uDWywQzwv3+uHrrJ
-	 eyXVnqTow726pX7uJU1Zh9KVXNThuEmBMg///ei+djpn3Olt5z7LlLIGYfjVzSUyVS
-	 Cob+tignic8jH9R0rI61lG5DM3Ej2AQt6cNGR2LAloGMo6fvEbUWpg5GqiDbnM6mLF
-	 WDNyYPavHzBqZqlWkUbSY/zfiMhnakM4/8bZ+WN4gDOyZVH9dAF3IHgby93SQWFHEg
-	 LI1+Pb7C4IL6Q==
-Received: from [IPv6:2606:6d00:17:b2fc::5ac] (unknown [IPv6:2606:6d00:17:b2fc::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 524C317E3700;
-	Wed, 28 May 2025 16:14:14 +0200 (CEST)
-Message-ID: <7cf3e219758a67d08137ebea5e52a1abad835e65.camel@collabora.com>
-Subject: Re: [RFC PATCH 07/11] arm64: dts: imx8mp: fix VPU_BUS clock setting
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Adam Ford <aford173@gmail.com>, Marco Felsch <m.felsch@pengutronix.de>
-Cc: benjamin.gaignard@collabora.com, p.zabel@pengutronix.de,
- mchehab@kernel.org, 	shawnguo@kernel.org, Sascha Hauer
- <s.hauer@pengutronix.de>, 	kernel@pengutronix.de, festevam@gmail.com,
- robh@kernel.org, krzk+dt@kernel.org, 	conor+dt@kernel.org,
- paulk@sys-base.io, hverkuil@xs4all.nl, 	laurent.pinchart@ideasonboard.com,
- sebastian.fricke@collabora.com, 	ming.qian@nxp.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Date: Wed, 28 May 2025 10:14:12 -0400
-In-Reply-To: <CAHCN7xLecU12XtXFuwfNP+eee+9RLCSB9iErNmk7VFV+WrozJA@mail.gmail.com>
-References: <20250502150513.4169098-1-m.felsch@pengutronix.de>
-	 <20250502150513.4169098-8-m.felsch@pengutronix.de>
-	 <CAHCN7x+Lu9momgX3Vwp+Yu+Tet5Q=k2vCL83SMLuad24SDchEg@mail.gmail.com>
-	 <20250502165535.aeb2osq2vnxsudmq@pengutronix.de>
-	 <CAHCN7xLecU12XtXFuwfNP+eee+9RLCSB9iErNmk7VFV+WrozJA@mail.gmail.com>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1748441751; c=relaxed/simple;
+	bh=oH5seIgO7GikF7klnt9IfbiX24eWzPldETBsqQsbdgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TsX55xME79aHQyoeoJ7eCuc3WDuaaUE24DZ29G/JGvOSzHp9Xh0OPUHKFlkkZ1OMP2tKV9PqGdM47jvNRVCAF+c9Ko2HHYguIs9al1sP6RfTsY0NH6h4W6i7ga1MOZLj6ZTD+YmyN+mD+kCxCHCyHJsDZJtwggZjrAfBbeqgUHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OHUtPla8; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S800Do003699
+	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 14:15:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=PKKIFVUFjBYMIYlOdCe4wRf/
+	gEEm+3cc8dZgEMLxB3Y=; b=OHUtPla8m4LJ8EO6FaK2J/jO34HZo7XpCdeRqzZI
+	+85e80eqy4DYaXc166F9v9bHMULmTJzO/vm3OT+ECGY1sF/rsa1sgCW0NkxW1KVX
+	5hS9E8cAAlqLwAegGxNzciC5i6/CJyTSnIpWiX/vRhdnVcj+d1SrqxD94V56PrBP
+	5if2AJG2tm5HBCF3/j6BQfNTJm3B87B7tQ//3qJstJotYnePjPhAMrxiPYLh3a5W
+	MtDPDGkYf1t/4Ebb6GDZZS0hqn7plCK00DkYhu+Wq7jX1e0HxIZeB1fGQxM02tfM
+	pZiITSdgaPzglE4bBiaXpe61OKXuSjQgwXxo1Gk6efO0QA==
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com [209.85.219.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u3fqan5j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 14:15:48 +0000 (GMT)
+Received: by mail-yb1-f200.google.com with SMTP id 3f1490d57ef6-e7dbb4aa3beso3422659276.1
+        for <linux-media@vger.kernel.org>; Wed, 28 May 2025 07:15:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748441748; x=1749046548;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PKKIFVUFjBYMIYlOdCe4wRf/gEEm+3cc8dZgEMLxB3Y=;
+        b=ODuNosw4+T6Qhpafkakr4Y73AaOPPScZz+T3Sg8QJJL001pmdAughRuBE7JCqZZlbE
+         i4UmBzs+GrCq5GovfPWOLGeQ+JhAX32hPfliIJ1lCF1fUOql+WOH6nI9PLvC5ZmLXXXC
+         Yhc64j232UAnfeIghSU4Kr/FhDoA3A6FjBUS8Fa/cHWglhY9gXwuvDTTtF5A166OfhMs
+         O6CUr4eCnJPLNx9Rir6bC3Q+iGWd3++bnL2xb6x7TUqwRmntvNylbQLNjgxu4D5m1qUx
+         gjCg/Jn+TOyv87zNfkcYIA1efCIwj7OuGAxxYnqMGwj4Ct6rewaNWNScFnpSfS/xPXIy
+         VJqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVqnAkQrz885KTsrfHPIaJOdDskUVDvsNG1exGHCWrZ5ZqO6bbtbjJtPV3uvwtBO41/Mwv4Jj1TzRDCQA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfdieszWFBuiNkLIMJ3JaxCLSdd9VyQmprvNHrMTSZ7UO49uuL
+	DIXUx6zn4xH2c+qFFGcwLRbykj20387zvpqmO2yXctoln+c8HM+nxNnt7UHauO+fIsoB7DylOFk
+	7M+cGLi63+X9ZMUgg/A0QFA/3kMXGRE6rtk+di7H/IXM2hw9cLyPp9uBlRuXa8jHR0w==
+X-Gm-Gg: ASbGncsIq1l7Z611kaALCsXX+WraoPwa1r7scrBCP1dQAUYrIFaXwZH5ojK/X+bn2Fw
+	zPNdOP2cYC0k3D9izYtEaW+1EZrpCvabM0kOYesIZLWIBa6ekOB0KPFT5fH2KFDYKJiioDuMPrA
+	10uunBmfnkrgW2fB36oIbK6v5P0Bs+bDS6VZWbLhX5g5Aah2NdkzGsNIwz6STB5H9CucXfUrpNy
+	UKnnJcTfjQqSuAl1XEwSwkDGg9Lc0rfMm6YQOC1qM80kKNPDg2NWiIdRpeMqq2mW3OW+QjZMiZ0
+	Q5DZQpnZAn7mVr6teR7nTjKgIATd8h2M/e6AjdIUP4vm+yXB0Q5gfHFYsTny+ClfxWlsIShz/ew
+	=
+X-Received: by 2002:a05:6e02:1c0c:b0:3db:754c:63b with SMTP id e9e14a558f8ab-3dc9b6d3b48mr187418635ab.12.1748441736749;
+        Wed, 28 May 2025 07:15:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFO/qLKlIuHWvcnnRm0piuVuCFI+VpDYEPSMU6XOu9GU61UnMzyorzXe9JnyOOAIzHoUfmr3Q==
+X-Received: by 2002:a05:6e02:1c0c:b0:3db:754c:63b with SMTP id e9e14a558f8ab-3dc9b6d3b48mr187412855ab.12.1748441732235;
+        Wed, 28 May 2025 07:15:32 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5532f62a635sm297843e87.86.2025.05.28.07.15.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 May 2025 07:15:31 -0700 (PDT)
+Date: Wed, 28 May 2025 17:15:28 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>
+Subject: Re: [PATCH 0/8] Reup: SM8350 and SC8280XP venus support
+Message-ID: <d7gvn7awccrhg4ie2c3vicxpknqteo27rxnlh4lfsecobz2zpp@vpwug3qhufkk>
+References: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-0-279c7ea55493@linaro.org>
+ <8cfaeb25-2657-9df4-5cea-018aad62f579@quicinc.com>
+ <it3njgklhnedjzojafuxpjy3o5zfulgdclweyobv7kjgtpjmzx@6opje7yms4yg>
+ <1dd6e03d-09be-4853-741a-4fb47b7619a0@quicinc.com>
+ <70891a99-d2ca-4fd3-a88d-2f66a9a78f66@kernel.org>
+ <aDWZmJMIOVyzu1Lc@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aDWZmJMIOVyzu1Lc@hovoldconsulting.com>
+X-Proofpoint-GUID: CqPxnxTV3CsXaJqet5UBIt0rjNFESv2I
+X-Proofpoint-ORIG-GUID: CqPxnxTV3CsXaJqet5UBIt0rjNFESv2I
+X-Authority-Analysis: v=2.4 cv=X8FSKHTe c=1 sm=1 tr=0 ts=68371a94 cx=c_pps
+ a=peiObFy/9J5zY6vzkL/ViA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=NEAV23lmAAAA:8 a=kLdZMHmJudiyi1bg_n4A:9 a=CjuIK1q_8ugA:10
+ a=uSskPZdq7w8du69dlLff:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDEyNSBTYWx0ZWRfX3UI5LskbwD9f
+ Kg47HK18UIlJ/laMypovg1mIfzNJCpWYBkNXthIhGZ9YAlI9FpEDaKse4fCzVRVuT6KZbemHSA0
+ V8lXGsfiTeiwaJ642Y5M9xFLCuS5STjd2Hquui2ZydxjJQG1Y/aNcr6pdyo6hUC8TUUSJq4ZWVA
+ OBMIkkxAeyCtfjTP9XGNvbAO8AGDbjSCvs/gweOB84QecgKdF6IxuF/0ohTdlFEnZr72zxVjYfU
+ gfSGL9lLGBSbWXYi8VwEV/4NgEEo9iZdRzc2Srs36cZiKg1kZCOpZ99QTELl1jEJRv2CBkFcpI0
+ NK2alMlHgU/cIXvvXy83bOt51vDsz1Yfke40KINDvz87c+Wby1GlQF8yWVAQJw8ngM1mlWT8+oz
+ rL03xN5GUYknieqh3k6il79dnfHvXyfxVXWPVggHcUiIvMbJwstyF4qutVSYqql8n1XTO8pc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-28_07,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
+ mlxscore=0 clxscore=1015 priorityscore=1501 spamscore=0 adultscore=0
+ malwarescore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505280125
 
-Hi,
-
-Le mardi 27 mai 2025 à 22:05 -0500, Adam Ford a écrit :
-> On Fri, May 2, 2025 at 11:55 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+On Tue, May 27, 2025 at 12:53:12PM +0200, Johan Hovold wrote:
+> Hi Bryan,
+> 
+> On Fri, Apr 04, 2025 at 10:02:47AM +0100, Bryan O'Donoghue wrote:
+> > On 04/04/2025 06:24, Vikash Garodia wrote:
+> > >>> How different is this from sm8250 which is already enabled on iris driver ?
+> > >> As far as I remember, SM8250 support in Iris did not reach
+> > >> feature-parity yet. So in my opinion it is fine to add new platforms to
+> > >> the Venus driver, that will later migrate to the Iris driver.
+> > > I would say, from decoder side all codecs are there now on Iris. H264 merged,
+> > > while h265 and VP9 dec are posted as RFC, there is one compliance failure which
+> > > is under debug to post them as regular patches.
+> > > If we are mainly looking for decode usecases, then we should be on Iris.
+> > > Preference would be to stay on Iris, otherwise we would have that extra ask to
+> > > port it later from venus to iris.
 > > 
-> > On 25-05-02, Adam Ford wrote:
-> > > On Fri, May 2, 2025 at 10:10 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
-> > > > 
-> > > > The VPU_PLL clock must be set before the VPU_BUS clock which is derived
-> > > > from the VPU_PLL clock else the VPU_BUS clock is 300MHz and not 600MHz.
-> 
-> I did verify the current clock rate ends up at 300MHz instead of the
-> desired 600 or 800MHz, so we should do something.
-> 
-
-This reminded me of: 
-
-https://patchwork.linuxtv.org/project/linux-media/patch/20250217-b4-hantro-av1-clock-rate-v2-1-e179fad52641@collabora.com/
-
-Which also made me discover that this patch wasn't picked despite being mark accepted. We
-will favour DT clock settings from here, since its not really managable otherwise, old board
-will stay like this, otherwise we face backward compatibility issues.
-
-Note that G2 and VC8K can be run at higher rate, but to be stable, you need
-to also control voltage and proper cooling, not something we want "by default".
-
-Nicolas
-
-> 
-> > > > 
-> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > ---
-> > > >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > > > index 97b09b647ec7..7f4bdefb3480 100644
-> > > > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > > > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > > > @@ -2289,8 +2289,8 @@ vpumix_blk_ctrl: blk-ctrl@38330000 {
-> > > >                                  <&clk IMX8MP_CLK_VPU_G2_ROOT>,
-> > > >                                  <&clk IMX8MP_CLK_VPU_VC8KE_ROOT>;
-> > > >                         clock-names = "g1", "g2", "vc8000e";
-> > > > -                       assigned-clocks = <&clk IMX8MP_CLK_VPU_BUS>, <&clk IMX8MP_VPU_PLL>;
-> > > > -                       assigned-clock-parents = <&clk IMX8MP_VPU_PLL_OUT>;
-> > > > +                       assigned-clocks = <&clk IMX8MP_VPU_PLL>, <&clk IMX8MP_CLK_VPU_BUS>;
-> > > > +                       assigned-clock-parents = <0>, <&clk IMX8MP_VPU_PLL_OUT>;
-> > > >                         assigned-clock-rates = <600000000>, <600000000>;
-> > > 
-> > > I think there was a move to make the default be overdrive [1]  and [2]
-> > > and use a 'nominal' device tree for those who are not in overdrive
-> > > mode.  According to the TRM, the VPU_BUS_CLK_ROOT, the nominal is
-> > > 600MHz and the overdrive is 800MHz.  Based on that, I wonder if the
-> > > values here should be 800MHz and if we should add the nominal values
-> > > of 600MHz to the imx8m-nominal.dtsi file.
+> > Right now venus represents 9/20 - 45% of the patches being churned for 
+> > sc8280xp.
 > > 
-> > You're right, Ahamd and Lucas did change this. I will adapt it later on.
-> 
-> I updated my device tree to run in overdrive mode and ran fluster at
-> the higher rates:
-> VPU_G1 - 800MHz,
-> VPU-G2 - 700MHz
-> VPU-Bus - 800MHz
-> 
-> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> Ran 57/61 tests successfully               in 5.922 secs
-> (vs 7.059 secs at nominal speed)
-> 
-> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> Ran 129/135 tests successfully               in 40.107 secs
-> (vs 45.741 secs at nominal speed)
-> 
-> If you want, I can submit the clock updates I have for overdrive or
-> send them to you to save you some time.
-> 
-> adam
-> 
+> > https://github.com/jhovold/linux/tree/wip/sc8280xp-6.14-rc7
 > > 
-> > Regards,
-> >   Marco
+> > This is a good debate to have, however my memory of what we collectively 
+> > agreed both in public and private was to continue to merge new silicon 
+> > <= HFI6XX into venus unless and until iris hit feature parity for HFI6XX 
+> > and to continue with venus at that point for < HFI6XX.
+> > 
+> > So merging sc8280xp - HFI6XX is consistent with our agreement, the right 
+> > thing to do for our users and a big win in terms of technical debt 
+> > reduction.
+> > 
+> > I will post an update to this series ASAP.
+> 
+> It seems things may be moving again on the firmware front, so could you
+> please respin this series so we can have video acceleration support for
+> the X13s in 6.17?
+
+And thanks to Mark, we indeed now have qcvss8280.mbn in linux-firmware.
+It would be nice to get driver bits reposted and hopefully merged
+
+-- 
+With best wishes
+Dmitry
 
