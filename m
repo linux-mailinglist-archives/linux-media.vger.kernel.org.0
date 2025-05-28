@@ -1,194 +1,191 @@
-Return-Path: <linux-media+bounces-33518-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33519-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E17EAC6877
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 13:38:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EEBEAC68FB
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 14:16:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD40D1BA2452
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 11:38:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9671EA20D24
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 12:15:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF82F2836A2;
-	Wed, 28 May 2025 11:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 680F4283CBF;
+	Wed, 28 May 2025 12:15:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ey3e/e+q"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="btONvrwB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5E5229B30
-	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 11:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74E21531E3
+	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 12:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748432274; cv=none; b=ZllH09Myf9easCMAJQQiAk3x6pkMH0q2I9uH2OrEAivS8ofCKziEFyVZz43gb55lKfPvEtDGHWxGYNxe+8zppTohUHLdJwnNP5/d09LC4I5w6c/oiwagGVsd9w4ADaDqllqgZmADWnpZcFc7pBS7JLlfu4l35Y3Tf+a7+BD/UEc=
+	t=1748434552; cv=none; b=KKoX+cGZujxcztbcV2UqgiHgq03pT38pkrGJ4DLHcKczlTQMTeeTx99KwoJOJCaX+d89yZVtQOrUR5zCxNdUnfUj7gGYiVqAvL1cO2ZM/UNuP6jQncd2c7vg4W1DNX0JjI24H9LhIYS8TO9JN6I1D7FGETx0VjJusz/9EYYsj+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748432274; c=relaxed/simple;
-	bh=aRw4CAux7kom39FiphGx9QzBWUL7vSSSVdFLSzPwl5g=;
+	s=arc-20240116; t=1748434552; c=relaxed/simple;
+	bh=anNOxNhTmr/QW22GBuugjQkfUTz6mqXQB+pAiBjysSE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VgxDJasT2M1lRplZ+GwoJ1UToDj25AQFkeULKLy6CsCGf/0saU5usOUyJie14hVQhSYFeU3o9+Z7+ou9z0R11H0T1/PfGVAZuLsy/8KDyYXxNSe7Lthf2s6OUmkNINyL50BGhAqRvaKlcNBfnxfFAZAxpw1hmwQJMJ5sNfOyaW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ey3e/e+q; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748432272; x=1779968272;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=aRw4CAux7kom39FiphGx9QzBWUL7vSSSVdFLSzPwl5g=;
-  b=ey3e/e+qOs8O28sdNxUZa4f3sYzuB6JhLtB8x4Zxg0FZuYhgE+EbCxhI
-   aUpl96Qq7Y/gk17LVOubjLD+Kd6pAYQvU6+Saf6lvVR8s1SEzhZQ1kAEf
-   Q7iRv7KVs2H1d79wDAaa5xIOxPE1yroLoKY3eYjsFPj4rzb0tueSeg6cq
-   GIQ5vUxt76+gXbiSzXMokiljtlQ1wNKTNKXH/pN1OCVOq86lXNPUx/QQj
-   C2fCU1+8MI1J/VmbPGJ/9nER2/EE+Yt/9r7Zm/yHfvW5oEwZ8qEercyfY
-   ifejGqo+9nXGnsbkAI5IHhddBbiqWc6NuK0ue4LwuAdz6L4ckxRL5m4bc
-   A==;
-X-CSE-ConnectionGUID: fp7aCZ5LRQWmoWf2q6ruVg==
-X-CSE-MsgGUID: fdpKm+qvR+KownTi8h4vLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="61113135"
-X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="61113135"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 04:37:51 -0700
-X-CSE-ConnectionGUID: 7tXgKpYZQgmtw2oVPDweww==
-X-CSE-MsgGUID: Z5lR7MfiTc+cIiNhSP64Pw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="143558268"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.50])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 04:37:49 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1273611F741;
-	Wed, 28 May 2025 14:37:47 +0300 (EEST)
-Date: Wed, 28 May 2025 11:37:47 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
-	stanislaw.gruszka@linux.intel.com,
-	laurent.pinchart@ideasonboard.com, jerry.w.hu@intel.com,
-	hao.yao@intel.com, tian.shu.qiu@intel.com
-Subject: Re: [PATCH v2 1/8] media: Rename the IPU PCI device table header and
- add IPU7 PCI IDs
-Message-ID: <aDb1i2ly1dlHIccL@kekkonen.localdomain>
-References: <20250528075146.1763079-1-bingbu.cao@intel.com>
- <20250528075146.1763079-2-bingbu.cao@intel.com>
- <eec99ae8-d168-428b-c713-e00ab7de0572@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QWHMCYuItgVXb0uahmwBIs/ER37IHG4xGW4qnM7YaDdQQNsy7cI4sIx4xVxFT5KaBa70RzrJJ1beXi/KAnx/HMDCI1zxn973+B7UlOGWD1RujSrq28iqd6hL8Pp13A/RezuOUHkkqnMPB3NAAdacVcH5d6nWtTqeaYbjnwjMvP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=btONvrwB; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Wed, 28 May 2025 14:15:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1748434538;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F5dbCg1gXdtP3wVHnkQdduOjmohgVv2E1pqRMKiFkFE=;
+	b=btONvrwBrnIzQe3VF8Tz5lvz+LWsW0C9DgizsnehcMNebYn74vVCsrE6oVFe1PZKGDhCgS
+	Xffdnp0Odh9Xk74GrYpqNHsP75mTQ9qqJQEBavrD1pNy7trG2g8glPaUvJp52AepkcyIDd
+	yn5mQNpmt46mmzncsfYo4foEJU0ru9o=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v4 07/10] media: i2c: ov9282: add led_mode v4l2 control
+Message-ID: <ns3aybw7nvxrcowprdwbwcn6zpuybkbfmtv44emy567dryszih@yp4hgpgtbvnt>
+References: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
+ <20250507-ov9282-flash-strobe-v4-7-72b299c1b7c9@linux.dev>
+ <aDTR5JrYIvj2gxHR@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <eec99ae8-d168-428b-c713-e00ab7de0572@linux.intel.com>
+In-Reply-To: <aDTR5JrYIvj2gxHR@kekkonen.localdomain>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Bingbu,
+Hi Sakari,
 
-On Wed, May 28, 2025 at 05:18:54PM +0800, Bingbu Cao wrote:
-> Sakari,
+On Mon, May 26, 2025 at 08:41:08PM +0000, Sakari Ailus wrote:
+> Hi Richard,
 > 
-> On 5/28/25 3:51 PM, bingbu.cao@intel.com wrote:
-> > From: Bingbu Cao <bingbu.cao@intel.com>
+> On Wed, May 07, 2025 at 09:51:36AM +0200, Richard Leitner wrote:
+> > Add V4L2_CID_FLASH_LED_MODE support using the "strobe output enable"
+> > feature of the sensor. This implements following modes:
+> 
+> The flash LED mode control is, well, setting the flash LED mode. There's no
+> LED on the sensor so I think I'd add a new control for this.
+> 
+> I'd call it V4L2_FLASH_LED_STROBE_ENABLE, and make it a boolean control.
+> 
+> (My apologies for not giving a better review for this set earlier on.)
+
+No problem. I'm open for discussions all the time ;-)
+
+I'm basically fine with renaming this, but is there any benefit we get
+by introducing such a new control?
+
+IMHO V4L2_CID_FLASH_LED_MODE and V4L2_FLASH_LED_STROBE_ENABLE sound
+pretty similar and I'm not sure this is "worth" a new v4l2 control.
+
+But of course, you guys are the domain expert, so please feel free to
+"overrule" my gut feeling. ;-)
+
+> 
+> How does this sensor make use the information? E.g. what's the latching
+> point this setting in relation to a given frame?
+
+I'm not sure if I understand you correctly, but the strobe pulse
+"starting time" is configurable using registers on the sensor. To keep
+this patchset small I've decided to not include this
+"strobe_frame_shift" setting (which may be positive or negative) here.
+
+Nonetheless I'm planning to send another series adding more features of
+the sensors as soon as this got merged.
+
+IMHO we would need another new v4l2 control for this then (something
+like V4L2_FLASH_LED_STROBE_SHIFT).
+
+Does that answer your question?
+
+> 
 > > 
-> > Rename the IPU PCI device table header file and add the IPU7 PCI device
-> > IDs.
+> >  - V4L2_FLASH_LED_MODE_NONE, which disables the strobe output
+> >  - V4L2_FLASH_LED_MODE_FLASH, which enables the strobe output
 > > 
-> > Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> > All values are based on the OV9281 datasheet v1.53 (january 2019) and
+> > tested using an ov9281 VisionComponents module.
+> > 
+> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
 > > ---
-> >  drivers/media/pci/intel/ipu6/ipu6.c                |  2 +-
-> >  drivers/media/pci/intel/ivsc/mei_csi.c             |  2 +-
-> >  .../media/{ipu6-pci-table.h => ipu-pci-table.h}    | 14 +++++++++++---
-> >  3 files changed, 13 insertions(+), 5 deletions(-)
-> >  rename include/media/{ipu6-pci-table.h => ipu-pci-table.h} (68%)
+> >  drivers/media/i2c/ov9282.c | 29 ++++++++++++++++++++++++++++-
+> >  1 file changed, 28 insertions(+), 1 deletion(-)
 > > 
-> > diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
-> > index 277af7cda8ee..aa859220ba94 100644
-> > --- a/drivers/media/pci/intel/ipu6/ipu6.c
-> > +++ b/drivers/media/pci/intel/ipu6/ipu6.c
-> > @@ -21,7 +21,7 @@
-> >  #include <linux/types.h>
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index f42e0d439753e74d14e3a3592029e48f49234927..b6de96997426f7225a061bfdc841aa062e8d0891 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -670,6 +670,23 @@ static int ov9282_set_ctrl_vflip(struct ov9282 *ov9282, int value)
+> >  				current_val);
+> >  }
 > >  
-> >  #include <media/ipu-bridge.h>
-> > -#include <media/ipu6-pci-table.h>
-> > +#include <media/ipu-pci-table.h>
-> >  
-> >  #include "ipu6.h"
-> >  #include "ipu6-bus.h"
-> > diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
-> > index 92d871a378ba..47fc48c7619b 100644
-> > --- a/drivers/media/pci/intel/ivsc/mei_csi.c
-> > +++ b/drivers/media/pci/intel/ivsc/mei_csi.c
-> > @@ -27,7 +27,7 @@
-> >  #include <linux/workqueue.h>
-> >  
-> >  #include <media/ipu-bridge.h>
-> > -#include <media/ipu6-pci-table.h>
-> > +#include <media/ipu-pci-table.h>
-> >  #include <media/v4l2-async.h>
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-fwnode.h>
-> > diff --git a/include/media/ipu6-pci-table.h b/include/media/ipu-pci-table.h
-> > similarity index 68%
-> > rename from include/media/ipu6-pci-table.h
-> > rename to include/media/ipu-pci-table.h
-> > index 0899d9d2f978..528080c6f742 100644
-> > --- a/include/media/ipu6-pci-table.h
-> > +++ b/include/media/ipu-pci-table.h
-> > @@ -3,8 +3,8 @@
-> >   * Copyright (C) 2024 Intel Corporation
-> >   */
-> >  
-> > -#ifndef __IPU6_PCI_TBL_H__
-> > -#define __IPU6_PCI_TBL_H__
-> > +#ifndef __IPU_PCI_TBL_H__
-> > +#define __IPU_PCI_TBL_H__
-> >  
-> >  #include <linux/pci.h>
-> >  
-> > @@ -15,6 +15,9 @@
-> >  #define PCI_DEVICE_ID_INTEL_IPU6EP_RPLP		0xa75d
-> >  #define PCI_DEVICE_ID_INTEL_IPU6EP_MTL		0x7d19
-> >  
-> > +#define PCI_DEVICE_ID_INTEL_IPU7_PCI_ID		0x645d
-> > +#define PCI_DEVICE_ID_INTEL_IPU7P5_PCI_ID	0xb05d
+> > +static int ov9282_set_ctrl_flash_led_mode(struct ov9282 *ov9282, int mode)
+> > +{
+> > +	u32 current_val;
+> > +	int ret = ov9282_read_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
+> > +				  &current_val);
+> > +	if (ret)
+> > +		return ret;
 > > +
-> >  static const struct pci_device_id ipu6_pci_tbl[] = {
-> >  	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IPU6) },
-> >  	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IPU6SE) },
-> > @@ -25,4 +28,9 @@ static const struct pci_device_id ipu6_pci_tbl[] = {
-> >  	{ }
-> >  };
+> > +	if (mode == V4L2_FLASH_LED_MODE_FLASH)
+> > +		current_val |= OV9282_OUTPUT_ENABLE6_STROBE;
+> > +	else
+> > +		current_val &= ~OV9282_OUTPUT_ENABLE6_STROBE;
+> > +
+> > +	return ov9282_write_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
+> > +				current_val);
+> > +}
+> > +
+> >  /**
+> >   * ov9282_set_ctrl() - Set subdevice control
+> >   * @ctrl: pointer to v4l2_ctrl structure
+> > @@ -736,6 +753,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+> >  		ret = ov9282_write_reg(ov9282, OV9282_REG_TIMING_HTS, 2,
+> >  				       (ctrl->val + ov9282->cur_mode->width) >> 1);
+> >  		break;
+> > +	case V4L2_CID_FLASH_LED_MODE:
+> > +		ret = ov9282_set_ctrl_flash_led_mode(ov9282, ctrl->val);
+> > +		break;
+> >  	default:
+> >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
+> >  		ret = -EINVAL;
+> > @@ -1326,7 +1346,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  	u32 lpfr;
+> >  	int ret;
 > >  
-> > -#endif /* __IPU6_PCI_TBL_H__ */
-> > +static const struct pci_device_id ipu7_pci_tbl[] = {
-> 
-> I got media-ci build errors:
-> In file included from drivers/media/pci/intel/ivsc/mei_csi.c:30:
-> ./include/media/ipu-pci-table.h:31:35: warning: ‘ipu7_pci_tbl’
-> defined but not used [-Wunused-const-variable=]
-> 
-> Do you think is it OK using 1 table to cover IPU6 and IPU7?
-
-Static const tables in a header isn't that great to begin with, but the
-alternative would be another module which is way overkill. Two headers
-would make sense in this case I think -- the tables are separate in any
-case.
-
-> 
-> > +	{PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IPU7_PCI_ID)},
-> > +	{PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IPU7P5_PCI_ID)},
-> > +	{ }
-> > +};
-> > +#endif /* __IPU_PCI_TBL_H__ */
+> > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+> > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > @@ -1391,6 +1411,13 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  						OV9282_TIMING_HTS_MAX - mode->width,
+> >  						1, hblank_min);
+> >  
+> > +	/* Flash/Strobe controls */
+> > +	v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
+> > +			       V4L2_CID_FLASH_LED_MODE,
+> > +			       V4L2_FLASH_LED_MODE_TORCH,
+> > +			       (1 << V4L2_FLASH_LED_MODE_TORCH),
+> > +			       V4L2_FLASH_LED_MODE_NONE);
+> > +
+> >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
+> >  	if (!ret) {
+> >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
 > > 
 > 
-
--- 
-Regards,
-
-Sakari Ailus
+> -- 
+> Regards,
+> 
+> Sakari Ailus
 
