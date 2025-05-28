@@ -1,119 +1,143 @@
-Return-Path: <linux-media+bounces-33516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2051AC6818
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 13:08:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E013AAC6866
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 13:32:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77CCA9E39DE
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 11:07:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A3F816D43A
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 11:32:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C8C827AC54;
-	Wed, 28 May 2025 11:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E172D2836AF;
+	Wed, 28 May 2025 11:32:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6qL6lSp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXZNXs96"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AB818DB03;
-	Wed, 28 May 2025 11:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8D96A33B;
+	Wed, 28 May 2025 11:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748430471; cv=none; b=jF/fXKQlaKb4utv8vVjVrilDqnAXffO4HZbxblot5AjwWBXk1ZveeT95b5Vm7roVbQT4+BfOoEqIILxfnWzdMwidVO8ubpk4YecFRfXTEyi4cBMcV6fCvLjVpKYjwkVCReMjYDUm3XpAt2PnTuGa0psnsOQjfcIhBLLjbpJUO/Q=
+	t=1748431935; cv=none; b=qtr6Bc/TOvijMghSm+sPCKHxvFLAUE75XukLtYCtIMXUMmG30ORjijIeZ8tX0KeG8k+vWAu6NSy6kyQgIMGBT29MChNZ8Cj8jyp4MiVt1jVe0Aw7TuYgn3TnpuVxWiRVZFFPto1cW+SMpiWIzqYSXVxIkiAYNFUDHqUR1233tlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748430471; c=relaxed/simple;
-	bh=jF/5ubFo89BoEZAJxrybV/UPR1THG6liaCfHYoxNyQY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sCD3b7z02W1LLpe+huiluNBb2LlcvrSmn+7l1nJeAwW0ptNrRdYFd2I4wOgDIPZuZ5m/mkMOqCYgVUjk2IkcPirUIcPj2Inl7WYnFeonxEobA53jRtCBWEo7cOhLlhSxMZymiZqluusC9+APmLyQQhiZG4O+biMpUEU05qiDPH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b6qL6lSp; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30f30200b51so45438671fa.3;
-        Wed, 28 May 2025 04:07:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748430468; x=1749035268; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jF/5ubFo89BoEZAJxrybV/UPR1THG6liaCfHYoxNyQY=;
-        b=b6qL6lSp+TO++Yk9IN5BKjSS4hGsMaa0Cm5Hfs2vPno8sKnkhYvB/TA+MQChRulII7
-         I5kPPk01XKd9gqODSidUtUHgcsdbth8HYW8qM//6oVDrIUPx5ddGFs709K+T1tdi0G5i
-         3v8j/s3hC5WFScpDcR2h8aHwxSxsIKmBKME75UHkdQHv1g1In7aU8CuW0rzJCSYo0Ubv
-         5ARDr+gDG1yaNPsiLNn2tWP3kscl2Ho5/rHIdViWqlWh9O0ANX85b/wMzPVBLtZuDWNq
-         QbRX3p7QBGAqOVghobhEEGmb7A9ievWEdPnCP+vhIWvzLYIWzSNMeTKVvcbTpAKahdzE
-         vA5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748430468; x=1749035268;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jF/5ubFo89BoEZAJxrybV/UPR1THG6liaCfHYoxNyQY=;
-        b=rO02wN9tgThCCmV2QSrwRNoaezEGnAy2+1G70SSW6FEy4hCgn9PLiF+Nwsyl493sSU
-         N3LSJuVo5/6xgY3MSJ0YFs7b11JC5ych0BykIHuOMC0ySXjk8vesr/LIe4ljxe+gQIaY
-         5glrwA0zXdretXeRVQwQQkxB1s7Frlnhznp299gdpL9FuPa0WwsaRAsZtKwR+Tlg2GBl
-         KSImf4OIPNCejcx2tV+8+5cAbR7dyWS7nHyPNZpNoHEyBuvqB0B5H3iA+kK6lcLtF6oi
-         UQM8PObI/zWspjGSKChcc0jcXmpUE1DcaDHMmyA+rFPBF5YFoFbNQCkvxWIA6NAjMQx0
-         iY6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUn8kDdt1nYlMA3GlGQXHSRwVPkDpEdB5Us0kMxpuxKa9MPpMgtc5ePq587umAclyq3Z+9tiPOAQ+6XAOs=@vger.kernel.org, AJvYcCWJcwZgcpSetDLs+yFfVFjVD0ZDtV4yyditiqkiZm3ecwbUQ+FfggYMI3bB4U77wzdsHTaN+0DP8UKtPoQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkdPdOOUUPxbRVbVo7teQuWUyOzQlNtbVCVstuw4Q74Cb0iWqC
-	Hkp6dFTtKJRZxnQEryRHltsRyN7sIFAGCxdq2rlTwJoxV626HJtXM9h7DAMvtRS2rjP5/Dehqdb
-	2E5j2WNLQ2rQBKWXiaAMFN4+F3iFZFEs=
-X-Gm-Gg: ASbGncvdgnt9yCG3nbgmDxw5sfXIEZm4530WufI+v6WnjfzcvFj/QvhDsDaUglhMyxp
-	XjUVXj8VRvJkFgE9UAnsCdkd6M38w4wcar6Muyj3gyaoLqg8jHrPaR0wx3WScmaKO8CoqoeaaOt
-	ytmwT4wyZ+kCNiyDGCUUFGrU+9HBT3rhOexWXf1NszSqUvCa+wO7ozP+j59FDQSlc=
-X-Google-Smtp-Source: AGHT+IE1hcIMK7m1GKoGJB24P7DGefofaI/Vg8OKATdfKWNBjeH6OMyp4e7LeetXAmTIp+kezDsWsaZdJxJ8WU97Ous=
-X-Received: by 2002:a2e:a9ab:0:b0:327:fec0:b85d with SMTP id
- 38308e7fff4ca-3295b9e5920mr57437991fa.21.1748430467655; Wed, 28 May 2025
- 04:07:47 -0700 (PDT)
+	s=arc-20240116; t=1748431935; c=relaxed/simple;
+	bh=iv4qvN2l1NEUV02CdKzcBJCMlMmP0+cKrnFzewtczAw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PKm5t8vxYHzj3kPBmtX9Qx2+GmhRRB/ymNqV7bC5mcdEcHm9kiVnm1YUmwCnGdaHhnxSbGtnU5GhomikesioC/MsYKW/IZOsJHEeizCyNneyymBnJmRljEUitglCmtUunTBuUSuEMjjdimstvTKYzn7wcJewtNMljv3D1GsQeYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mXZNXs96; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748431933; x=1779967933;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iv4qvN2l1NEUV02CdKzcBJCMlMmP0+cKrnFzewtczAw=;
+  b=mXZNXs968t/bhEbLGrEPtx1Cctcqs4wPg6nSkFPeU2wR/bzc4Ynom2pg
+   p2TFOBW7WiXLuKt3YosTLUGQG5DQRdjvQc2rpItkFItuqjifI6nUSQ2yX
+   ygr5b8hpJjwo9eItDOfoGiwQ5rJmy/T26jK1AZcAycFfyiFWtZjc4IQ9a
+   ZC8ZXgZyJxSQJbr60EfOA7m5YWdGvOqbVnv9ywe5kF8Hk09TibaFkYYML
+   Gv1ofXfaEkXTa+IeUaWkfFhfu7SmHy59l+v8YIZqvg7w1S4CGCK9aBDp6
+   k/HSmJyMjaYVkCypc491S2130IkHpF+CbtME7cTE1+VLmpyCqx+5hzUay
+   A==;
+X-CSE-ConnectionGUID: /NHq0J9uTF+vUJ2IQ+cpSQ==
+X-CSE-MsgGUID: Qb3rCX7tS9ebxusYl3fXdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="49567371"
+X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
+   d="scan'208";a="49567371"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 04:32:13 -0700
+X-CSE-ConnectionGUID: WjIP6fTUQraUPHaLMfMzbQ==
+X-CSE-MsgGUID: WOX10nMwRAaLnfbp/fXXZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
+   d="scan'208";a="166386899"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa002.fm.intel.com with ESMTP; 28 May 2025 04:32:11 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 4F862193; Wed, 28 May 2025 14:32:10 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Andy Walls <awalls@md.metrocast.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v1 1/1] media: cx18: Replace custom implementation of list_entry_is_head()
+Date: Wed, 28 May 2025 14:32:04 +0300
+Message-ID: <20250528113204.2742626-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
- <20250526141316.7e907032@foz.lan> <20250527102111-mutt-send-email-mst@kernel.org>
- <20250527163927.02924adc@sal.lan> <20250527110444-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20250527110444-mutt-send-email-mst@kernel.org>
-From: Alexandre Courbot <gnurou@gmail.com>
-Date: Wed, 28 May 2025 20:07:34 +0900
-X-Gm-Features: AX0GCFt5INry7hbLxnLIuUw8ffHrRUe_PZb75vuWFFXrALkR7hnpqJJcOCl5zNg
-Message-ID: <CAAVeFuJ-zbbUT3ss5rw-=Sx52aoLxf7BCLz9tPxcA2AY+PX+yQ@mail.gmail.com>
-Subject: Re: [PATCH v3] media: add virtio-media driver
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Albert Esteve <aesteve@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	gurchetansingh@google.com, daniel.almeida@collabora.com, adelva@google.com, 
-	changyeon@google.com, nicolas.dufresne@collabora.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	virtualization@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Michael,
+Besides list_entry_is_past_end() is the same as list_entry_is_head(),
+it's implemented in the list namespace. Fix both of the issue by replacing
+the custom version with list_entry_is_head() calls.
 
-On Wed, May 28, 2025 at 12:06=E2=80=AFAM Michael S. Tsirkin <mst@redhat.com=
-> wrote:
->
-> On Tue, May 27, 2025 at 04:39:27PM +0200, Mauro Carvalho Chehab wrote:
-> > > It's up to you though.
-> > > I can keep it in next for now, so it gets some coverage by
-> > > tools scanning that tree.
-> >
-> > Sure, feel free to keep it on next if you prefer so. Just
-> > please don't submit it upstream while we don't review and
-> > properly test it.
->
-> No prob. I just want to see it get reviewed and merged.
-> My understanding is, it wasn't because maintainers were
-> not Cc'd so that should be all ironed out now.
-> Alexandre, do you want this in next for now or just drop it?
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/media/pci/cx18/cx18-driver.h  | 12 ------------
+ drivers/media/pci/cx18/cx18-fileops.c |  2 +-
+ drivers/media/pci/cx18/cx18-ioctl.c   |  2 +-
+ 3 files changed, 2 insertions(+), 14 deletions(-)
 
-I think it doesn't hurt to give some exposure to this driver, if Mauro
-is ok with it (and it eventually gets merged through the media tree).
+diff --git a/drivers/media/pci/cx18/cx18-driver.h b/drivers/media/pci/cx18/cx18-driver.h
+index af05bde75816..485ca9747c4c 100644
+--- a/drivers/media/pci/cx18/cx18-driver.h
++++ b/drivers/media/pci/cx18/cx18-driver.h
+@@ -271,18 +271,6 @@ struct cx18_options {
+ #define CX18_SLICED_TYPE_WSS_625        (5)
+ #define CX18_SLICED_TYPE_VPS            (7)
+ 
+-/**
+- * list_entry_is_past_end - check if a previous loop cursor is off list end
+- * @pos:	the type * previously used as a loop cursor.
+- * @head:	the head for your list.
+- * @member:	the name of the list_head within the struct.
+- *
+- * Check if the entry's list_head is the head of the list, thus it's not a
+- * real entry but was the loop cursor that walked past the end
+- */
+-#define list_entry_is_past_end(pos, head, member) \
+-	(&pos->member == (head))
+-
+ struct cx18_vb2_buffer {
+ 	/* Common video buffer sub-system struct */
+ 	struct vb2_v4l2_buffer vb;
+diff --git a/drivers/media/pci/cx18/cx18-fileops.c b/drivers/media/pci/cx18/cx18-fileops.c
+index 7e742733391b..25aa38a55674 100644
+--- a/drivers/media/pci/cx18/cx18-fileops.c
++++ b/drivers/media/pci/cx18/cx18-fileops.c
+@@ -371,7 +371,7 @@ static size_t cx18_copy_mdl_to_user(struct cx18_stream *s,
+ 		mdl->curr_buf = list_first_entry(&mdl->buf_list,
+ 						 struct cx18_buffer, list);
+ 
+-	if (list_entry_is_past_end(mdl->curr_buf, &mdl->buf_list, list)) {
++	if (list_entry_is_head(mdl->curr_buf, &mdl->buf_list, list)) {
+ 		/*
+ 		 * For some reason we've exhausted the buffers, but the MDL
+ 		 * object still said some data was unread.
+diff --git a/drivers/media/pci/cx18/cx18-ioctl.c b/drivers/media/pci/cx18/cx18-ioctl.c
+index 1817b9ed042c..9a1512b1ccaa 100644
+--- a/drivers/media/pci/cx18/cx18-ioctl.c
++++ b/drivers/media/pci/cx18/cx18-ioctl.c
+@@ -764,7 +764,7 @@ static int cx18_process_idx_data(struct cx18_stream *s, struct cx18_mdl *mdl,
+ 		mdl->curr_buf = list_first_entry(&mdl->buf_list,
+ 						 struct cx18_buffer, list);
+ 
+-	if (list_entry_is_past_end(mdl->curr_buf, &mdl->buf_list, list)) {
++	if (list_entry_is_head(mdl->curr_buf, &mdl->buf_list, list)) {
+ 		/*
+ 		 * For some reason we've exhausted the buffers, but the MDL
+ 		 * object still said some data was unread.
+-- 
+2.47.2
+
 
