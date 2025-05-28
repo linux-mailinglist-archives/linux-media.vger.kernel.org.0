@@ -1,265 +1,191 @@
-Return-Path: <linux-media+bounces-33553-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33554-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041B1AC70CC
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 20:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7640BAC70ED
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 20:30:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A62FF4E0A4C
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 18:18:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3068C1621C2
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 18:30:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5123428CF61;
-	Wed, 28 May 2025 18:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 833B220E6E4;
+	Wed, 28 May 2025 18:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d4FXRBH+"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jd1UUUrD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCF8199939
-	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 18:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331AF43147
+	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 18:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748456310; cv=none; b=oMlwVMy4DYgSULiqnayQJqZO+fYjgJWyu6geMiy4LbznlMEDegavLbQSoJQzRjoBAu4Q4ji8A1ZynpqfFbwdpkozC4qR++dZ73tubN00rnbnZYke1To3Qa98BxwVnJJTrYq7H5EDQe07wyqAdtPVw4kpGJxYI0heX1pmZS7x4aI=
+	t=1748457041; cv=none; b=DEZQXvkirU3pIWiRvr5UswvYsz+725Eo4v5Eh1kcTFkfWhlBzy0RzLwuwmKkbagrD3IHCzEzHmnK8ycsz9tIhny+3xHnXr6NVr+RS5iYmpdxwbZbF1JYU2fHm4geVB0UfrFItSmYX3gm+x/o5L9rTeEMu5mR+FO8CVbCZnrGYJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748456310; c=relaxed/simple;
-	bh=6gBrNiC+NaIDs3ADdGZzQILZWuFY4xVh1jGuQDWImdI=;
+	s=arc-20240116; t=1748457041; c=relaxed/simple;
+	bh=VcHk4A5APx5MgwHuMS/DXh2U3W1e9vpFhkxKNj8JdcY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ult02S6O+cgkXYutol8gs4ZSOU9c0WHDgevAVh96RNgkc0Mi/fomS9rgTc61KuPQdWo28x6g94cYVUWLymlrZwR4e2lKvORSxy4owg6L88ykAVvSh0pMvIcpqCavmikuhjdWfrLUA9vMoTP+wR+3/CUh4DjF7yULkF5fxCeOLdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d4FXRBH+; arc=none smtp.client-ip=209.85.208.177
+	 To:Cc:Content-Type; b=hnARnGBCVx2Z6L5XKQJIMthx9NIlHqfzZqeZu7JiOtyeu/dEEEj2Mbztw7ZvB+xyhg3ZUTQ2Ci/Yq/okSUcxNUQlTTc13XqexU4YRuVlyerbFz5nmByF5PH01lj/yqNfjEn0my611jhwCJBbBpDpUUjqFHzhbzT5GZVAIwf1Et4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jd1UUUrD; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-32923999549so479561fa.2
-        for <linux-media@vger.kernel.org>; Wed, 28 May 2025 11:18:28 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54d6f93316dso30901e87.2
+        for <linux-media@vger.kernel.org>; Wed, 28 May 2025 11:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1748456306; x=1749061106; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1748457037; x=1749061837; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mRp+V0HV0mVraNOeN9022BfyyPuk2W/wDSjr+K3uRmw=;
-        b=d4FXRBH+Hfgtqng9D4n16akO0XuPMUdeaILnP2BezS3kmwteu5Ckm05VtswyqNckI+
-         XVxMQjXCRCwVgwpZCYkTX2hGIKKXhoFhROk4Kw063abFUtar4Mb36z3rXyVipwEaY1pr
-         V54eDBENZGA7jFdkKBjyVPdimD8zH1OBUSyT0=
+        bh=KOC9P0AevgKbOlqYcGYv2bGZ2F2NQtUFPNxcZKliwp0=;
+        b=jd1UUUrDfEOCbxlNoZw9ZPfiCTjpudmoIDYqb3SdSk/t3yn2sKixSbp8EV1beB9395
+         gNriNW7Um66+0HVGIqrRgmvY1tYvMx2rAujVSPVFjUaQ9LVMFd+OG1ZYQEsfR0RjvJwQ
+         et2UbypbdLvFPW+JMObt2TXGTHdi499tS1JKQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748456306; x=1749061106;
+        d=1e100.net; s=20230601; t=1748457037; x=1749061837;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mRp+V0HV0mVraNOeN9022BfyyPuk2W/wDSjr+K3uRmw=;
-        b=g2nWrLzLHtKqSMcFwD4avaLiGvh+IHUr13AQm4DrWLfXBjFFIgYdtJRf5tC/ee7whD
-         nya/qM/+qmh/RYNT6z2Mxmk5Ln4oBqbmxK1VtMtxCsrAWcHBpDU1k75pMSnCehc+t4QP
-         C8GE0tjz8MudIXdxLNcAFHLe98svDCKridiEbeFu1hIEF2VT/+4HoxApm7JZJ6I9YhuM
-         H4r73qnKGfr2q2mQHNXh20vBdfk8ziXoNFupcH/mX5ox6Jur7RoMyhRmdpdDmSAbSTBc
-         HPvSwPj694SCLsn1aom7mom8aLD89D0lHuzXBkcHi1EZji/IZeJxd/b62gyhBLtcS8Lo
-         4bgQ==
-X-Gm-Message-State: AOJu0Yzqpj+KWlW+qNuPhxJ/1d28uKGHouTwMmWLBL5iWMF72QinbzQ+
-	0y4yqCwUubYP96nIhjoZs1OSJCCrsbhnAcU+rjS3bqC4wKuJIrGZ6eEg6f9hUUcyHUvnKGHIk+L
-	J/J8GTrpb
-X-Gm-Gg: ASbGncs5Myklbc1HlfOVfzeolQKBiAQ1WRg4hrC0yd4aW/GVv58FWileG7I52a2+OB6
-	mPF08Xuu9bcIENjeh+vAq4yuLlNqDjZty8Pozyrx9mnFQO4uyO6nRX2Gb7/+I+aPfM8yz7aF6OV
-	uVxpoNlXsMth4mAExIpXfm01YBLSmwWFnm2GubTzTeWqXkg7GJoVUHOrIVwF2qIqoRiFEcSUhC7
-	Ov73bd/Y+UgI6vGGH/1y2uW1R/tGlvDA/1GcD60HAgkZ2ibwkBm3oxl/0WAm48935kRg1/sBp+A
-	+vvmqMnTj7QsYVxlxFk8C65MeZRBxFdjNZq31GxxwogyN/zX0tersz1owC1KwW5F2Ex4e6Y1Nvo
-	OARYUYVJ9lWrepg==
-X-Google-Smtp-Source: AGHT+IHew/rWHKJwe8I0RXjhctkU3K5W2fOkox/FPSwUuTD20lyAFw3ewzyHW0lBdqOo4xYwKUhezA==
-X-Received: by 2002:a2e:b888:0:b0:30b:ad2c:dfe4 with SMTP id 38308e7fff4ca-3295ba5e23emr64191691fa.30.1748456306468;
-        Wed, 28 May 2025 11:18:26 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32a79ee1856sm3412091fa.57.2025.05.28.11.18.26
+        bh=KOC9P0AevgKbOlqYcGYv2bGZ2F2NQtUFPNxcZKliwp0=;
+        b=TVMF+B8eoSCt8AIkJ8wylyCPQFJvRqZGi0Jpf6xL7LEmXoIAEyHKp49cpdr0s1XnDB
+         zfs4eKZWGcF2wC8G5lRbdyPCjM0tlzpgsB8DSMWtfdQ1BME/fPo4cyTKKnDj3HSylrQr
+         HXKBNiOvcUaMojbc8zdELeGdAMDI8lDU+8LnF/pyCsJehiiV5I6okMSfOuzULqMA8hWd
+         cvZnPu5g76k2iGjfOtsepcidCZX50v/hGBJwQnqWFhrJ/OFWRm9OH8y4o5Hi0Vs2gZqA
+         vsPzMlJqrcZKNfN7BCIpaLLs/0JnDjBWNaJ0YqvVBN1Log8IYcUBZ96ivoXOfZsjw3uR
+         YgLA==
+X-Gm-Message-State: AOJu0YztSBs75CuUXUcaBj8jHfIBy0s1NQZ5WKk90LPw/cLuQlU3jk3I
+	0knDJMB8xSf8kStKg+k9er+4pIfude3vJ+LaBuadeF+fVF8/ECpPcD8B/AXp4talRPbkgf66zQD
+	lCE2rYtps
+X-Gm-Gg: ASbGncshjqRzQCvl2WQB6K7RsBQnE28I4rNavqHC/YpmDfWVdsEr+5CQf2YOknsd0lr
+	1QJEF35vHzEi/vEsZ34g8N7u1fp08xQLZ945Umosy5HqFWfDs/eHg96X3PXJ8IU4b0fdHiVPkU3
+	xO6u3FDx9UhwqVw1vjff8uK9caVOwyTzn6HHtxnmXeJNsLZCwWNh3roFHTgIEAYSmtu7SlXmm+a
+	cBt9xDg94otumqSz0e2RTBl08t/K2qdP2NzBy2iOwMYY6KVax9g+eQasFZeHXXlncbBBHyMg65p
+	cOEYld0D4QGobvz77289Gnb4AAK95ho+Ceaj6nqEXBe4sKYOD2zMYcNqPW5jxW5Los6fSBT4d9O
+	08tGya12z+x+zSw==
+X-Google-Smtp-Source: AGHT+IFmTvfZ/DXyTDL0+KZ46j0ExMQKiTh60CXRTx3+cUkxhnonta6ccbeJHrfBH2tgHSqp1Ptmeg==
+X-Received: by 2002:a05:6512:671a:b0:553:2191:d32f with SMTP id 2adb3069b0e04-5532191d4f6mr3735107e87.44.1748457036960;
+        Wed, 28 May 2025 11:30:36 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5532f629a79sm382917e87.55.2025.05.28.11.30.36
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 11:18:26 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-553331c3dc7so18291e87.3
-        for <linux-media@vger.kernel.org>; Wed, 28 May 2025 11:18:26 -0700 (PDT)
+        Wed, 28 May 2025 11:30:36 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-553331c3dc7so31808e87.3
+        for <linux-media@vger.kernel.org>; Wed, 28 May 2025 11:30:36 -0700 (PDT)
 X-Received: by 2002:a05:6512:12ca:b0:553:2698:99c5 with SMTP id
- 2adb3069b0e04-55326989b58mr2972822e87.39.1748456305616; Wed, 28 May 2025
- 11:18:25 -0700 (PDT)
+ 2adb3069b0e04-55326989b58mr2983836e87.39.1748457035780; Wed, 28 May 2025
+ 11:30:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CA+q66aSkTee-JbFg2Yg+NddiVYJWdf4P86tiUF=bo1iahCOFMQ@mail.gmail.com>
- <CANiDSCvb8G9m1Fif-HSQQLQZrAJTTEzhNGf=kkQQXBCpR8svEQ@mail.gmail.com>
- <CA+q66aSipHBid9swM_rWf7ewB31GmMX4ThfKWkQ23JqUDpNtDA@mail.gmail.com>
- <CANiDSCthwYj6ijX68EQz=YO9ra24EME+MSL2msA867Kj0Ayg1A@mail.gmail.com>
- <CA+q66aQNHdn5SSu918xEQhiGQ8m0d91rX7P=AbXLnX3YukyFig@mail.gmail.com>
- <CANiDSCvjiSJFLq0XzTUt3piurO-oGgNpHjEFAuNoBFkfAZ61vg@mail.gmail.com> <CA+q66aSo1tLsbnTsc3w9D_LTnhb1OcoZxSApNBiu7wRP0SyEoQ@mail.gmail.com>
-In-Reply-To: <CA+q66aSo1tLsbnTsc3w9D_LTnhb1OcoZxSApNBiu7wRP0SyEoQ@mail.gmail.com>
+References: <CAME8Xxh9KhiWD3xu3O19Av6KWTsKa_eUT6q+Pk4ECMC3PQYWAw@mail.gmail.com>
+ <CANiDSCtaRH7Oi4mDTg0Ptou=-SZwu_AiOJQBgYwRSncNUm-NqQ@mail.gmail.com>
+ <CANiDSCvFQ2e_EH7Yop3K41X5KzL55bzjJvk7U9etN4NAefBkAA@mail.gmail.com> <CAME8XxgGLyOsvX+wFix_y3+k0DRqxHX+E0M8Mz64ymbGaf9iCA@mail.gmail.com>
+In-Reply-To: <CAME8XxgGLyOsvX+wFix_y3+k0DRqxHX+E0M8Mz64ymbGaf9iCA@mail.gmail.com>
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 28 May 2025 20:18:12 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsQtd2tk4XhvH0nbZr=KHymdPDrFwhM4umX8igyFQ3Qjg@mail.gmail.com>
-X-Gm-Features: AX0GCFt4ENqYPgW3YyZVaXkmo_UNwRCR8d5aQar7w6NHaRY9Earzgr8TXv4CB9o
-Message-ID: <CANiDSCsQtd2tk4XhvH0nbZr=KHymdPDrFwhM4umX8igyFQ3Qjg@mail.gmail.com>
-Subject: Re: Missing support for webcam HP HD 2300 (0bda / 5822)
-To: =?UTF-8?Q?Micha=C3=ABl_Melchiore?= <rohel01@gmail.com>
+Date: Wed, 28 May 2025 20:30:20 +0200
+X-Gmail-Original-Message-ID: <CANiDSCsdweqtnjnmo7or0_Jt0p4-AkRc2hqmvsCBqGDSoteX2g@mail.gmail.com>
+X-Gm-Features: AX0GCFs8SeTJOozUhi8ttLmmi8VkbLcOPZ4gqjN6_-yVPyuVpyrD9_1KkQkREJ0
+Message-ID: <CANiDSCsdweqtnjnmo7or0_Jt0p4-AkRc2hqmvsCBqGDSoteX2g@mail.gmail.com>
+Subject: Re: Device not support on new Lenovo Legion laptop
+To: Flavio F Lima <flavioislima@gmail.com>
 Cc: linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Michael
+Hi Flavio
 
-In your original email, the device is:
-USB Camera (0bda:5822)
+On Wed, 28 May 2025 at 20:10, Flavio F Lima <flavioislima@gmail.com> wrote:
+>
+> Hi Ricardo. Sorry for the delay in response.
+>
+> Yes, actually I tried different values and none of them worked. I even tr=
+ied using a conf inside modprobe.d with this and other configs but without =
+luck.
 
-but in your last log, the device is:
-HP Webcam HD 2300 (03f0:e207)
+Sad to hear that :(
 
-Sorry to ask.... are you sure you were testing the correct device?
+If you are comfortable building your own kernel. you could try with this pa=
+tch:
 
-On Fri, 21 Mar 2025 at 13:46, Micha=C3=ABl Melchiore <rohel01@gmail.com> wr=
-ote:
+diff --git a/drivers/media/usb/uvc/uvc_video.c
+b/drivers/media/usb/uvc/uvc_video.c
+index e3567aeb0007..bad773fe9cfd 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -1153,10 +1153,13 @@ static int uvc_video_decode_start(struct
+uvc_streaming *stream,
+         * - bHeaderLength value can't be larger than the packet size.
+         */
+        if (len < 2 || data[0] < 2 || data[0] > len) {
++               printk(KERN_ERR "%s:%d data[0]=3D0x%.2x len=3D%d\n",
+__FILE__, __LINE__, data[0], len);
+                stream->stats.frame.nb_invalid++;
+                return -EINVAL;
+        }
+
++       printk(KERN_ERR "%s:%d data[0]=3D0x%.2x data[1]=3D0x%.2x\n",
+__FILE__, __LINE__, data[0], data[1]);
++
+        header_len =3D data[0];
+        fid =3D data[1] & UVC_STREAM_FID;
+
+and then report back the output of dmesg.
+
 >
-> I have never submitted a patch before, but I will try after I come back f=
-rom work!
+> Thanks!
 >
-> Thanks for your help.
 >
-> Micha=C3=ABl
->
-> Le ven. 21 mars 2025 =C3=A0 13:37, Ricardo Ribalda <ribalda@chromium.org>=
- a =C3=A9crit :
+> Em qua., 28 de mai. de 2025, 19:03, Ricardo Ribalda <ribalda@chromium.org=
+> escreveu:
 >>
->> Hi Micha=C3=ABl
+>> Hi Flavio
 >>
+>> Did it worked for you?
 >>
->> On Fri, 21 Mar 2025 at 13:29, Micha=C3=ABl Melchiore <rohel01@gmail.com>=
- wrote:
+>> On Mon, 19 May 2025 at 23:35, Ricardo Ribalda <ribalda@chromium.org> wro=
+te:
 >> >
->> > Ricardo,
+>> > Hi Flavio
 >> >
->> > Setting quirks to 16, the webcam now works. Please find the dmsg logs =
-attached.
->> > What should I do to make it permanent?
->>
->> Short term you can set a modprobe.d file with the required options.
->>
->> Long term, a patch should be added to uvcvideo.c. Something similar
->> to: https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
-it/commit/drivers/media/usb/uvc/uvc_driver.c?id=3Db2ec92bb5605452d539a7aa1e=
-42345b95acd8583
->>
->> Maybe you want to try preparing that patch?
->>
->> Regards!
->>
+>> > Thanks for the report
 >> >
->> > Cheers,
+>> > Could you try setting quirks to 16?
 >> >
->> > Micha=C3=ABl
+>> > rmmod uvcvideo; modprobe uvcvideo quirks=3D16
 >> >
->> > Le ven. 21 mars 2025 =C3=A0 12:38, Ricardo Ribalda <ribalda@chromium.o=
-rg> a =C3=A9crit :
->> >>
->> >> Hi Micha=C3=ABl
->> >>
->> >> Could you try setting quirks to 16?
->> >>
->> >> rmmod uvcvideo; modprobe uvcvideo quirks=3D16
->> >>
->> >> and then try the same test (you can also try Cheese after you capture=
- the logs)
->> >>
->> >> Regards!
->> >>
->> >>
->> >> On Fri, 21 Mar 2025 at 11:49, Micha=C3=ABl Melchiore <rohel01@gmail.c=
-om> wrote:
->> >> >
->> >> > Hello Ricardo,
->> >> >
->> >> > This webcam is indeed connected through a KVM USB port.
->> >> >
->> >> > I followed your instructions with the webcam first connected throug=
-h the KVM and then directly to the laptop. See the attached logs.
->> >> >
->> >> > Please noted I ran the command yavta -c /dev/video2 since this lapt=
-op already has an integrated webcam, registered as /dev/video0 and /dev/vid=
-eo1
->> >> >
->> >> > Thanks for your help!
->> >> >
->> >> > Micha=C3=ABl
->> >> >
->> >> >
->> >> >
->> >> > Le ven. 21 mars 2025 =C3=A0 10:56, Ricardo Ribalda <ribalda@chromiu=
-m.org> a =C3=A9crit :
->> >> >>
->> >> >> Hi Micha=C3=ABl
->> >> >>
->> >> >> By looking at your dmesg.log. This sees to be the culprit:
->> >> >>
->> >> >> [123030.111453] uvcvideo 1-8.4:1.1: Failed to resubmit video URB (=
--1).
->> >> >>
->> >> >> Unfortunately, it happened before you enabled the trace in uvc.
->> >> >>
->> >> >> Could you try again but this this time do this:
->> >> >>
->> >> >> 1) enable trace
->> >> >> 2) connect the camera
->> >> >> 3) try to capture frames with yavta.
->> >> >> yavta -c /dev/video0
->> >> >> 4) share the logs
->> >> >>
->> >> >> Also try to connect the device to a different port in your noteboo=
-k,
->> >> >> preferably being the only thing connected to that port.
->> >> >>
->> >> >> Thanks!
->> >> >>
->> >> >>
->> >> >>
->> >> >> On Thu, 20 Mar 2025 at 23:30, Micha=C3=ABl Melchiore <rohel01@gmai=
-l.com> wrote:
->> >> >> >
->> >> >> > Hi. I just want to report on a non working webcam. Details is as=
- below
->> >> >> >
->> >> >> > Device details
->> >> >> >
->> >> >> >  1. Vendor Id / Device Id : 0bda / 5822
->> >> >> >  2. Device name : Realtek Semiconductor Corp. USB Camera
->> >> >> >  3. Vendor : HP
->> >> >> >
->> >> >> > My laptop details
->> >> >> >
->> >> >> >  1. Lenovo Legion Pro 5 16IRX9
->> >> >> >  2. Linux kernel : 6.11.0-19-generic
->> >> >> >  4. My operating system : Ubuntu 24.04.2 LTS
->> >> >> >
->> >> >> > I tried using this webcam with GMeet, Cheese and Kamoso. In all =
-cases,
->> >> >> > I get a blank screen even though the LED on the webcam lights-up=
- as if
->> >> >> > it was working: all programs seem stuck displaying a "Starting u=
-p your
->> >> >> > webcam..." phase.
->> >> >> >
->> >> >> > As requested in the FAQ, I have attached my dmesg.log and lsusb.=
-log
->> >> >> > files. Please note this laptop has an integrated webcam which is
->> >> >> > working fine. My problem is with HP HD 2300 webcam.
->> >> >> >
->> >> >> > Let me know if can help investigate!
->> >> >> >
->> >> >> > Cheers,
->> >> >> >
->> >> >> > Micha=C3=ABl
->> >> >>
->> >> >>
->> >> >>
->> >> >> --
->> >> >> Ricardo Ribalda
->> >>
->> >>
->> >>
->> >> --
->> >> Ricardo Ribalda
+>> > And then retrying?
+>> >
+>> > Regards
+>> >
+>> > On Mon, 19 May 2025 at 22:18, Flavio F Lima <flavioislima@gmail.com> w=
+rote:
+>> > >
+>> > > Hi!
+>> > >
+>> > > Thanks for working on the Linux UVC drivers.
+>> > > I am contacting you since I have a new Lenovo laptop and I am using =
+it with OpenSuse Tumbleweed but the camera won't work at all. It simply sta=
+ys black on any app I open.
+>> > >
+>> > > So I found out about your website and followed the step-by-step to p=
+rovide the info so you folks can debug the issue.
+>> > >
+>> > > I am sending both the lsusb and the dmesg log attached.
+>> > > Let me know if you need any more info.
+>> > >
+>> > > Thanks!
+>> > >
+>> > > Fl=C3=A1vio F Lima
+>> >
+>> >
+>> >
+>> > --
+>> > Ricardo Ribalda
 >>
 >>
 >>
