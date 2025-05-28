@@ -1,143 +1,194 @@
-Return-Path: <linux-media+bounces-33517-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33518-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E013AAC6866
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 13:32:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E17EAC6877
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 13:38:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A3F816D43A
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 11:32:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD40D1BA2452
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 11:38:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E172D2836AF;
-	Wed, 28 May 2025 11:32:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF82F2836A2;
+	Wed, 28 May 2025 11:37:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXZNXs96"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ey3e/e+q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8D96A33B;
-	Wed, 28 May 2025 11:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5E5229B30
+	for <linux-media@vger.kernel.org>; Wed, 28 May 2025 11:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748431935; cv=none; b=qtr6Bc/TOvijMghSm+sPCKHxvFLAUE75XukLtYCtIMXUMmG30ORjijIeZ8tX0KeG8k+vWAu6NSy6kyQgIMGBT29MChNZ8Cj8jyp4MiVt1jVe0Aw7TuYgn3TnpuVxWiRVZFFPto1cW+SMpiWIzqYSXVxIkiAYNFUDHqUR1233tlg=
+	t=1748432274; cv=none; b=ZllH09Myf9easCMAJQQiAk3x6pkMH0q2I9uH2OrEAivS8ofCKziEFyVZz43gb55lKfPvEtDGHWxGYNxe+8zppTohUHLdJwnNP5/d09LC4I5w6c/oiwagGVsd9w4ADaDqllqgZmADWnpZcFc7pBS7JLlfu4l35Y3Tf+a7+BD/UEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748431935; c=relaxed/simple;
-	bh=iv4qvN2l1NEUV02CdKzcBJCMlMmP0+cKrnFzewtczAw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PKm5t8vxYHzj3kPBmtX9Qx2+GmhRRB/ymNqV7bC5mcdEcHm9kiVnm1YUmwCnGdaHhnxSbGtnU5GhomikesioC/MsYKW/IZOsJHEeizCyNneyymBnJmRljEUitglCmtUunTBuUSuEMjjdimstvTKYzn7wcJewtNMljv3D1GsQeYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mXZNXs96; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1748432274; c=relaxed/simple;
+	bh=aRw4CAux7kom39FiphGx9QzBWUL7vSSSVdFLSzPwl5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VgxDJasT2M1lRplZ+GwoJ1UToDj25AQFkeULKLy6CsCGf/0saU5usOUyJie14hVQhSYFeU3o9+Z7+ou9z0R11H0T1/PfGVAZuLsy/8KDyYXxNSe7Lthf2s6OUmkNINyL50BGhAqRvaKlcNBfnxfFAZAxpw1hmwQJMJ5sNfOyaW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ey3e/e+q; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748431933; x=1779967933;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iv4qvN2l1NEUV02CdKzcBJCMlMmP0+cKrnFzewtczAw=;
-  b=mXZNXs968t/bhEbLGrEPtx1Cctcqs4wPg6nSkFPeU2wR/bzc4Ynom2pg
-   p2TFOBW7WiXLuKt3YosTLUGQG5DQRdjvQc2rpItkFItuqjifI6nUSQ2yX
-   ygr5b8hpJjwo9eItDOfoGiwQ5rJmy/T26jK1AZcAycFfyiFWtZjc4IQ9a
-   ZC8ZXgZyJxSQJbr60EfOA7m5YWdGvOqbVnv9ywe5kF8Hk09TibaFkYYML
-   Gv1ofXfaEkXTa+IeUaWkfFhfu7SmHy59l+v8YIZqvg7w1S4CGCK9aBDp6
-   k/HSmJyMjaYVkCypc491S2130IkHpF+CbtME7cTE1+VLmpyCqx+5hzUay
+  t=1748432272; x=1779968272;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=aRw4CAux7kom39FiphGx9QzBWUL7vSSSVdFLSzPwl5g=;
+  b=ey3e/e+qOs8O28sdNxUZa4f3sYzuB6JhLtB8x4Zxg0FZuYhgE+EbCxhI
+   aUpl96Qq7Y/gk17LVOubjLD+Kd6pAYQvU6+Saf6lvVR8s1SEzhZQ1kAEf
+   Q7iRv7KVs2H1d79wDAaa5xIOxPE1yroLoKY3eYjsFPj4rzb0tueSeg6cq
+   GIQ5vUxt76+gXbiSzXMokiljtlQ1wNKTNKXH/pN1OCVOq86lXNPUx/QQj
+   C2fCU1+8MI1J/VmbPGJ/9nER2/EE+Yt/9r7Zm/yHfvW5oEwZ8qEercyfY
+   ifejGqo+9nXGnsbkAI5IHhddBbiqWc6NuK0ue4LwuAdz6L4ckxRL5m4bc
    A==;
-X-CSE-ConnectionGUID: /NHq0J9uTF+vUJ2IQ+cpSQ==
-X-CSE-MsgGUID: Qb3rCX7tS9ebxusYl3fXdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="49567371"
+X-CSE-ConnectionGUID: fp7aCZ5LRQWmoWf2q6ruVg==
+X-CSE-MsgGUID: fdpKm+qvR+KownTi8h4vLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="61113135"
 X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="49567371"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 04:32:13 -0700
-X-CSE-ConnectionGUID: WjIP6fTUQraUPHaLMfMzbQ==
-X-CSE-MsgGUID: WOX10nMwRAaLnfbp/fXXZQ==
+   d="scan'208";a="61113135"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 04:37:51 -0700
+X-CSE-ConnectionGUID: 7tXgKpYZQgmtw2oVPDweww==
+X-CSE-MsgGUID: Z5lR7MfiTc+cIiNhSP64Pw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="166386899"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa002.fm.intel.com with ESMTP; 28 May 2025 04:32:11 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 4F862193; Wed, 28 May 2025 14:32:10 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Andy Walls <awalls@md.metrocast.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v1 1/1] media: cx18: Replace custom implementation of list_entry_is_head()
-Date: Wed, 28 May 2025 14:32:04 +0300
-Message-ID: <20250528113204.2742626-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
+   d="scan'208";a="143558268"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.50])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 04:37:49 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1273611F741;
+	Wed, 28 May 2025 14:37:47 +0300 (EEST)
+Date: Wed, 28 May 2025 11:37:47 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+	stanislaw.gruszka@linux.intel.com,
+	laurent.pinchart@ideasonboard.com, jerry.w.hu@intel.com,
+	hao.yao@intel.com, tian.shu.qiu@intel.com
+Subject: Re: [PATCH v2 1/8] media: Rename the IPU PCI device table header and
+ add IPU7 PCI IDs
+Message-ID: <aDb1i2ly1dlHIccL@kekkonen.localdomain>
+References: <20250528075146.1763079-1-bingbu.cao@intel.com>
+ <20250528075146.1763079-2-bingbu.cao@intel.com>
+ <eec99ae8-d168-428b-c713-e00ab7de0572@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <eec99ae8-d168-428b-c713-e00ab7de0572@linux.intel.com>
 
-Besides list_entry_is_past_end() is the same as list_entry_is_head(),
-it's implemented in the list namespace. Fix both of the issue by replacing
-the custom version with list_entry_is_head() calls.
+Hi Bingbu,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/media/pci/cx18/cx18-driver.h  | 12 ------------
- drivers/media/pci/cx18/cx18-fileops.c |  2 +-
- drivers/media/pci/cx18/cx18-ioctl.c   |  2 +-
- 3 files changed, 2 insertions(+), 14 deletions(-)
+On Wed, May 28, 2025 at 05:18:54PM +0800, Bingbu Cao wrote:
+> Sakari,
+> 
+> On 5/28/25 3:51 PM, bingbu.cao@intel.com wrote:
+> > From: Bingbu Cao <bingbu.cao@intel.com>
+> > 
+> > Rename the IPU PCI device table header file and add the IPU7 PCI device
+> > IDs.
+> > 
+> > Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> > ---
+> >  drivers/media/pci/intel/ipu6/ipu6.c                |  2 +-
+> >  drivers/media/pci/intel/ivsc/mei_csi.c             |  2 +-
+> >  .../media/{ipu6-pci-table.h => ipu-pci-table.h}    | 14 +++++++++++---
+> >  3 files changed, 13 insertions(+), 5 deletions(-)
+> >  rename include/media/{ipu6-pci-table.h => ipu-pci-table.h} (68%)
+> > 
+> > diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+> > index 277af7cda8ee..aa859220ba94 100644
+> > --- a/drivers/media/pci/intel/ipu6/ipu6.c
+> > +++ b/drivers/media/pci/intel/ipu6/ipu6.c
+> > @@ -21,7 +21,7 @@
+> >  #include <linux/types.h>
+> >  
+> >  #include <media/ipu-bridge.h>
+> > -#include <media/ipu6-pci-table.h>
+> > +#include <media/ipu-pci-table.h>
+> >  
+> >  #include "ipu6.h"
+> >  #include "ipu6-bus.h"
+> > diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
+> > index 92d871a378ba..47fc48c7619b 100644
+> > --- a/drivers/media/pci/intel/ivsc/mei_csi.c
+> > +++ b/drivers/media/pci/intel/ivsc/mei_csi.c
+> > @@ -27,7 +27,7 @@
+> >  #include <linux/workqueue.h>
+> >  
+> >  #include <media/ipu-bridge.h>
+> > -#include <media/ipu6-pci-table.h>
+> > +#include <media/ipu-pci-table.h>
+> >  #include <media/v4l2-async.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-fwnode.h>
+> > diff --git a/include/media/ipu6-pci-table.h b/include/media/ipu-pci-table.h
+> > similarity index 68%
+> > rename from include/media/ipu6-pci-table.h
+> > rename to include/media/ipu-pci-table.h
+> > index 0899d9d2f978..528080c6f742 100644
+> > --- a/include/media/ipu6-pci-table.h
+> > +++ b/include/media/ipu-pci-table.h
+> > @@ -3,8 +3,8 @@
+> >   * Copyright (C) 2024 Intel Corporation
+> >   */
+> >  
+> > -#ifndef __IPU6_PCI_TBL_H__
+> > -#define __IPU6_PCI_TBL_H__
+> > +#ifndef __IPU_PCI_TBL_H__
+> > +#define __IPU_PCI_TBL_H__
+> >  
+> >  #include <linux/pci.h>
+> >  
+> > @@ -15,6 +15,9 @@
+> >  #define PCI_DEVICE_ID_INTEL_IPU6EP_RPLP		0xa75d
+> >  #define PCI_DEVICE_ID_INTEL_IPU6EP_MTL		0x7d19
+> >  
+> > +#define PCI_DEVICE_ID_INTEL_IPU7_PCI_ID		0x645d
+> > +#define PCI_DEVICE_ID_INTEL_IPU7P5_PCI_ID	0xb05d
+> > +
+> >  static const struct pci_device_id ipu6_pci_tbl[] = {
+> >  	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IPU6) },
+> >  	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IPU6SE) },
+> > @@ -25,4 +28,9 @@ static const struct pci_device_id ipu6_pci_tbl[] = {
+> >  	{ }
+> >  };
+> >  
+> > -#endif /* __IPU6_PCI_TBL_H__ */
+> > +static const struct pci_device_id ipu7_pci_tbl[] = {
+> 
+> I got media-ci build errors:
+> In file included from drivers/media/pci/intel/ivsc/mei_csi.c:30:
+> ./include/media/ipu-pci-table.h:31:35: warning: ‘ipu7_pci_tbl’
+> defined but not used [-Wunused-const-variable=]
+> 
+> Do you think is it OK using 1 table to cover IPU6 and IPU7?
 
-diff --git a/drivers/media/pci/cx18/cx18-driver.h b/drivers/media/pci/cx18/cx18-driver.h
-index af05bde75816..485ca9747c4c 100644
---- a/drivers/media/pci/cx18/cx18-driver.h
-+++ b/drivers/media/pci/cx18/cx18-driver.h
-@@ -271,18 +271,6 @@ struct cx18_options {
- #define CX18_SLICED_TYPE_WSS_625        (5)
- #define CX18_SLICED_TYPE_VPS            (7)
- 
--/**
-- * list_entry_is_past_end - check if a previous loop cursor is off list end
-- * @pos:	the type * previously used as a loop cursor.
-- * @head:	the head for your list.
-- * @member:	the name of the list_head within the struct.
-- *
-- * Check if the entry's list_head is the head of the list, thus it's not a
-- * real entry but was the loop cursor that walked past the end
-- */
--#define list_entry_is_past_end(pos, head, member) \
--	(&pos->member == (head))
--
- struct cx18_vb2_buffer {
- 	/* Common video buffer sub-system struct */
- 	struct vb2_v4l2_buffer vb;
-diff --git a/drivers/media/pci/cx18/cx18-fileops.c b/drivers/media/pci/cx18/cx18-fileops.c
-index 7e742733391b..25aa38a55674 100644
---- a/drivers/media/pci/cx18/cx18-fileops.c
-+++ b/drivers/media/pci/cx18/cx18-fileops.c
-@@ -371,7 +371,7 @@ static size_t cx18_copy_mdl_to_user(struct cx18_stream *s,
- 		mdl->curr_buf = list_first_entry(&mdl->buf_list,
- 						 struct cx18_buffer, list);
- 
--	if (list_entry_is_past_end(mdl->curr_buf, &mdl->buf_list, list)) {
-+	if (list_entry_is_head(mdl->curr_buf, &mdl->buf_list, list)) {
- 		/*
- 		 * For some reason we've exhausted the buffers, but the MDL
- 		 * object still said some data was unread.
-diff --git a/drivers/media/pci/cx18/cx18-ioctl.c b/drivers/media/pci/cx18/cx18-ioctl.c
-index 1817b9ed042c..9a1512b1ccaa 100644
---- a/drivers/media/pci/cx18/cx18-ioctl.c
-+++ b/drivers/media/pci/cx18/cx18-ioctl.c
-@@ -764,7 +764,7 @@ static int cx18_process_idx_data(struct cx18_stream *s, struct cx18_mdl *mdl,
- 		mdl->curr_buf = list_first_entry(&mdl->buf_list,
- 						 struct cx18_buffer, list);
- 
--	if (list_entry_is_past_end(mdl->curr_buf, &mdl->buf_list, list)) {
-+	if (list_entry_is_head(mdl->curr_buf, &mdl->buf_list, list)) {
- 		/*
- 		 * For some reason we've exhausted the buffers, but the MDL
- 		 * object still said some data was unread.
+Static const tables in a header isn't that great to begin with, but the
+alternative would be another module which is way overkill. Two headers
+would make sense in this case I think -- the tables are separate in any
+case.
+
+> 
+> > +	{PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IPU7_PCI_ID)},
+> > +	{PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IPU7P5_PCI_ID)},
+> > +	{ }
+> > +};
+> > +#endif /* __IPU_PCI_TBL_H__ */
+> > 
+> 
+
 -- 
-2.47.2
+Regards,
 
+Sakari Ailus
 
