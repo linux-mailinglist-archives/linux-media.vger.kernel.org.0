@@ -1,72 +1,73 @@
-Return-Path: <linux-media+bounces-33524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33525-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF5AAC6AF6
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 15:49:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92171AC6B7E
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 16:14:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E5824E505B
-	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 13:49:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC1CB3B4A3B
+	for <lists+linux-media@lfdr.de>; Wed, 28 May 2025 14:14:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 991132882D4;
-	Wed, 28 May 2025 13:49:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D233E28852C;
+	Wed, 28 May 2025 14:14:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hCLTUpWl"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lVVoA1jc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCF22882A8;
-	Wed, 28 May 2025 13:49:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D411F37D3;
+	Wed, 28 May 2025 14:14:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748440165; cv=none; b=dyCqxKdxc4rRyDTMPQxEcJV3UkKrxJ2iQVE0ghuW1VyTz5+lsdqtU5QoBMhaQrEA3JyTDXy58Pj+/aUjk9cFVflrAlufh6Cpgn9W5wc8BJdiUUMY2/islT5aG1kBU3FBg7ugpN0w7L/H05PLN0DEVBcfO4TXNdbw4d70eBtaf64=
+	t=1748441662; cv=none; b=VXDucbNJ2Bqy8Oor47Ls/Vw3s3GkiVD8SnxMFlh0Pt+2UpvLm7zVvFmGTSJ1tN1MIgcwWHGUriags6pf7ggjgeXhah7yBEUOHHrpqEGMwaZVpxzxMzQUdWtrZkv1zqPkdxrKkDoXcR9bfTm6VWLPORt3ocIgJyMVLDXa2HNLja4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748440165; c=relaxed/simple;
-	bh=xnT/zC5PKsZjc9EY6L5bqKkp0emOIn4winQ+EC8I16g=;
+	s=arc-20240116; t=1748441662; c=relaxed/simple;
+	bh=Xck/nwOYiqy1ZVp9Sss2kWwcLSvKVmGgOkD7OBgsZBA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QL3fyl0yJ0jhij9/UHGs8HC+y0P07rU2/cd/kOHWoXmQAY049zOnMSTrU74EXa+mv44Vji9ez/4KGldy6bKoubRzSDLHzVu2MnlwjZTnKN99C+BRrsBzbeGPjTVraDyJJcQbDzS0W5pIVCPr/bTemb7MiGRTYdfOrX/XW7XnTVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hCLTUpWl; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=BNJvlo543y8RY3naKobMMhnHKGZWlwPYnt3Z4kpqojYCoQVOCzkhYufW5WYCl0uS4WnRFMb30O8RdRRBDTn7aFQ6nsFoqCCKgFawjGGyiPSCYHJBqUjPXF9VY4GtUumu72R016FWHlT2shv4pHqkoScYlUTbbupW0ssrP/ayF4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lVVoA1jc; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1748440160;
-	bh=xnT/zC5PKsZjc9EY6L5bqKkp0emOIn4winQ+EC8I16g=;
+	s=mail; t=1748441656;
+	bh=Xck/nwOYiqy1ZVp9Sss2kWwcLSvKVmGgOkD7OBgsZBA=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=hCLTUpWlgZGE12nzg409+ZreJkdgk5SVxC1ZmySY3dHveR1YLSMfHIwXlh3r1JtIZ
-	 hofR4c4sYzrFsKxCExNjEEJQaGOnQCWDcvJTDYI9H2pXkLGMM+R8ucU1hq9urEF1DA
-	 0NlwS3soyZPxy4KiaXfk7NzYWVdnXLUrjMGssqQX8dY/pCUXxz3+WVsL4ygwFN28lY
-	 6r6n15I9ELj/1iSKDYoJV0c1TFJYgxUL0OCcbN1U/ySiIuPo40+XvJHG1MxCEV6ebK
-	 M3vnSvQeDz1lpKpLgQoP4JS+LectKNx1TEMM8CUDpf9sXXiNrAdUKzOc2o9egRPMEB
-	 obv24a9KI0h7w==
+	b=lVVoA1jctbfwewW2KGob5hfTDoq2NQRzQk9gxJCzi1YcEl/+KT9lpM1mZDY7EpwAz
+	 C01gp7g9uaW3/+R4aPvO6wDfW5R1enrQHhY17Rc4ZbwusXt7h3uDWywQzwv3+uHrrJ
+	 eyXVnqTow726pX7uJU1Zh9KVXNThuEmBMg///ei+djpn3Olt5z7LlLIGYfjVzSUyVS
+	 Cob+tignic8jH9R0rI61lG5DM3Ej2AQt6cNGR2LAloGMo6fvEbUWpg5GqiDbnM6mLF
+	 WDNyYPavHzBqZqlWkUbSY/zfiMhnakM4/8bZ+WN4gDOyZVH9dAF3IHgby93SQWFHEg
+	 LI1+Pb7C4IL6Q==
 Received: from [IPv6:2606:6d00:17:b2fc::5ac] (unknown [IPv6:2606:6d00:17:b2fc::5ac])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9D59617E153E;
-	Wed, 28 May 2025 15:49:19 +0200 (CEST)
-Message-ID: <43d3d88e292c3aaf25eda8514451ef1949612620.camel@collabora.com>
-Subject: Re: [PATCH v2 4/7] media: chips-media: wave5: Use spinlock whenever
- statue is changed
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 524C317E3700;
+	Wed, 28 May 2025 16:14:14 +0200 (CEST)
+Message-ID: <7cf3e219758a67d08137ebea5e52a1abad835e65.camel@collabora.com>
+Subject: Re: [RFC PATCH 07/11] arm64: dts: imx8mp: fix VPU_BUS clock setting
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"	
- <mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl"
- <hverkuil-cisco@xs4all.nl>,  "bob.beckett@collabora.com"	
- <bob.beckett@collabora.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
- "lafley.kim" <lafley.kim@chipsnmedia.com>,  "b-brnich@ti.com"	
- <b-brnich@ti.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung	
- <nas.chung@chipsnmedia.com>
-Date: Wed, 28 May 2025 09:49:18 -0400
-In-Reply-To: <SE1P216MB130368B2DDB6A235D2603E04ED64A@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-References: <20250522072606.51-1-jackson.lee@chipsnmedia.com>
-		 <20250522072606.51-5-jackson.lee@chipsnmedia.com>
-	 <effe40f0d4caef43bf772d350a67d68833941cbb.camel@collabora.com>
-	 <SE1P216MB130368B2DDB6A235D2603E04ED64A@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+To: Adam Ford <aford173@gmail.com>, Marco Felsch <m.felsch@pengutronix.de>
+Cc: benjamin.gaignard@collabora.com, p.zabel@pengutronix.de,
+ mchehab@kernel.org, 	shawnguo@kernel.org, Sascha Hauer
+ <s.hauer@pengutronix.de>, 	kernel@pengutronix.de, festevam@gmail.com,
+ robh@kernel.org, krzk+dt@kernel.org, 	conor+dt@kernel.org,
+ paulk@sys-base.io, hverkuil@xs4all.nl, 	laurent.pinchart@ideasonboard.com,
+ sebastian.fricke@collabora.com, 	ming.qian@nxp.com,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Date: Wed, 28 May 2025 10:14:12 -0400
+In-Reply-To: <CAHCN7xLecU12XtXFuwfNP+eee+9RLCSB9iErNmk7VFV+WrozJA@mail.gmail.com>
+References: <20250502150513.4169098-1-m.felsch@pengutronix.de>
+	 <20250502150513.4169098-8-m.felsch@pengutronix.de>
+	 <CAHCN7x+Lu9momgX3Vwp+Yu+Tet5Q=k2vCL83SMLuad24SDchEg@mail.gmail.com>
+	 <20250502165535.aeb2osq2vnxsudmq@pengutronix.de>
+	 <CAHCN7xLecU12XtXFuwfNP+eee+9RLCSB9iErNmk7VFV+WrozJA@mail.gmail.com>
 Organization: Collabora Canada
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
@@ -78,105 +79,84 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Le mardi 27 mai 2025 à 05:02 +0000, jackson.lee a écrit :
-> Hi Nicolas
-> 
-> > -----Original Message-----
-> > From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > Sent: Saturday, May 24, 2025 2:41 AM
-> > To: jackson.lee <jackson.lee@chipsnmedia.com>; mchehab@kernel.org;
-> > hverkuil-cisco@xs4all.nl; sebastian.fricke@collabora.com;
-> > bob.beckett@collabora.com; dafna.hirschfeld@collabora.com
-> > Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org; lafley.kim
-> > <lafley.kim@chipsnmedia.com>; b-brnich@ti.com; hverkuil@xs4all.nl; Nas
-> > Chung <nas.chung@chipsnmedia.com>
-> > Subject: Re: [PATCH v2 4/7] media: chips-media: wave5: Use spinlock
-> > whenever statue is changed
-> > 
-> > Hi,
-> > 
-> > Le jeudi 22 mai 2025 à 16:26 +0900, Jackson.lee a écrit :
-> > > From: Jackson Lee <jackson.lee@chipsnmedia.com>
-> > > 
-> > > The device_run and finish_decode is not any more synchronized, so lock
-> > > was needed in the device_run whenever state was changed.
-> > 
-> > Can you try to introduce the locking ahead of the patches, otherwise this
-> > break bisectability as the in-between become racy.
-> 
-> 
-> Do you want to introduce this patch ahead of the performance patch?
+Hi,
 
-I'm sure you can find the right anwser if you understand why I'm asking this. The way
-patchset should be layout is so that at any step applying the set, the driver
-should remain stable. If one patch above breaks something, and you fix it in the
-next patch, this is not a bisectable set.
+Le mardi 27 mai 2025 à 22:05 -0500, Adam Ford a écrit :
+> On Fri, May 2, 2025 at 11:55 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> > 
+> > On 25-05-02, Adam Ford wrote:
+> > > On Fri, May 2, 2025 at 10:10 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> > > > 
+> > > > The VPU_PLL clock must be set before the VPU_BUS clock which is derived
+> > > > from the VPU_PLL clock else the VPU_BUS clock is 300MHz and not 600MHz.
+> 
+> I did verify the current clock rate ends up at 300MHz instead of the
+> desired 600 or 800MHz, so we should do something.
+> 
 
-git bisect does not know about "sets" and shouldn't need to know about it either.
+This reminded me of: 
 
-regards,
+https://patchwork.linuxtv.org/project/linux-media/patch/20250217-b4-hantro-av1-clock-rate-v2-1-e179fad52641@collabora.com/
+
+Which also made me discover that this patch wasn't picked despite being mark accepted. We
+will favour DT clock settings from here, since its not really managable otherwise, old board
+will stay like this, otherwise we face backward compatibility issues.
+
+Note that G2 and VC8K can be run at higher rate, but to be stable, you need
+to also control voltage and proper cooling, not something we want "by default".
+
 Nicolas
 
 > 
-> Thanks
-> Jackson
+> > > > 
+> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > > ---
+> > > >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > > index 97b09b647ec7..7f4bdefb3480 100644
+> > > > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > > @@ -2289,8 +2289,8 @@ vpumix_blk_ctrl: blk-ctrl@38330000 {
+> > > >                                  <&clk IMX8MP_CLK_VPU_G2_ROOT>,
+> > > >                                  <&clk IMX8MP_CLK_VPU_VC8KE_ROOT>;
+> > > >                         clock-names = "g1", "g2", "vc8000e";
+> > > > -                       assigned-clocks = <&clk IMX8MP_CLK_VPU_BUS>, <&clk IMX8MP_VPU_PLL>;
+> > > > -                       assigned-clock-parents = <&clk IMX8MP_VPU_PLL_OUT>;
+> > > > +                       assigned-clocks = <&clk IMX8MP_VPU_PLL>, <&clk IMX8MP_CLK_VPU_BUS>;
+> > > > +                       assigned-clock-parents = <0>, <&clk IMX8MP_VPU_PLL_OUT>;
+> > > >                         assigned-clock-rates = <600000000>, <600000000>;
+> > > 
+> > > I think there was a move to make the default be overdrive [1]  and [2]
+> > > and use a 'nominal' device tree for those who are not in overdrive
+> > > mode.  According to the TRM, the VPU_BUS_CLK_ROOT, the nominal is
+> > > 600MHz and the overdrive is 800MHz.  Based on that, I wonder if the
+> > > values here should be 800MHz and if we should add the nominal values
+> > > of 600MHz to the imx8m-nominal.dtsi file.
+> > 
+> > You're right, Ahamd and Lucas did change this. I will adapt it later on.
+> 
+> I updated my device tree to run in overdrive mode and ran fluster at
+> the higher rates:
+> VPU_G1 - 800MHz,
+> VPU-G2 - 700MHz
+> VPU-Bus - 800MHz
+> 
+> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> Ran 57/61 tests successfully               in 5.922 secs
+> (vs 7.059 secs at nominal speed)
+> 
+> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> Ran 129/135 tests successfully               in 40.107 secs
+> (vs 45.741 secs at nominal speed)
+> 
+> If you want, I can submit the clock updates I have for overdrive or
+> send them to you to save you some time.
+> 
+> adam
 > 
 > > 
-> > Nicolas
-> > 
-> > > 
-> > > Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
-> > > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-> > > ---
-> > >  drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > > b/drivers/media/platform/chips- media/wave5/wave5-vpu-dec.c index
-> > > 42981c3b49bc..719c5527eb7f 100644
-> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > > @@ -1577,6 +1577,7 @@ static void wave5_vpu_dec_device_run(void *priv)
-> > >  	struct queue_status_info q_status;
-> > >  	u32 fail_res = 0;
-> > >  	int ret = 0;
-> > > +	unsigned long flags;
-> > > 
-> > >  	dev_dbg(inst->dev->dev, "%s: Fill the ring buffer with new
-> > bitstream data", __func__);
-> > >  	pm_runtime_resume_and_get(inst->dev->dev);
-> > > @@ -1617,7 +1618,9 @@ static void wave5_vpu_dec_device_run(void *priv)
-> > >  			}
-> > >  			spin_unlock_irqrestore(&inst->state_spinlock, flags);
-> > >  		} else {
-> > > +			spin_lock_irqsave(&inst->state_spinlock, flags);
-> > >  			switch_state(inst, VPU_INST_STATE_INIT_SEQ);
-> > > +			spin_unlock_irqrestore(&inst->state_spinlock, flags);
-> > >  		}
-> > > 
-> > >  		break;
-> > > @@ -1628,8 +1631,9 @@ static void wave5_vpu_dec_device_run(void *priv)
-> > >  		 * we had a chance to switch, which leads to an invalid state
-> > >  		 * change.
-> > >  		 */
-> > > +		spin_lock_irqsave(&inst->state_spinlock, flags);
-> > >  		switch_state(inst, VPU_INST_STATE_PIC_RUN);
-> > > -
-> > > +		spin_unlock_irqrestore(&inst->state_spinlock, flags);
-> > >  		/*
-> > >  		 * During DRC, the picture decoding remains pending, so just
-> > leave the job
-> > >  		 * active until this decode operation completes.
-> > > @@ -1643,7 +1647,9 @@ static void wave5_vpu_dec_device_run(void *priv)
-> > >  		ret = wave5_prepare_fb(inst);
-> > >  		if (ret) {
-> > >  			dev_warn(inst->dev->dev, "Framebuffer preparation,
-> > fail: %d\n",
-> > > ret);
-> > > +			spin_lock_irqsave(&inst->state_spinlock, flags);
-> > >  			switch_state(inst, VPU_INST_STATE_STOP);
-> > > +			spin_unlock_irqrestore(&inst->state_spinlock, flags);
-> > >  			break;
-> > >  		}
-> > > 
+> > Regards,
+> >   Marco
 
