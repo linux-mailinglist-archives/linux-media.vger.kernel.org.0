@@ -1,208 +1,242 @@
-Return-Path: <linux-media+bounces-33570-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33572-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC11AC770A
-	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 06:13:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5F4AC77C3
+	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 07:41:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E7A34E4D10
-	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 04:13:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1BC4188854F
+	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 05:42:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE01E24EF6B;
-	Thu, 29 May 2025 04:13:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47A86254876;
+	Thu, 29 May 2025 05:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBjP1ggE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTx9ig1C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5CE24E4C3
-	for <linux-media@vger.kernel.org>; Thu, 29 May 2025 04:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DDB25394F;
+	Thu, 29 May 2025 05:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748492031; cv=none; b=ZnIg+V50HwEC/fsfPa0Om1hRPoLrdljdG40lFRObp+UokO/kmoIxgB9NpnRT6hai2C3EfxI8rb9d6BhayT6scSgStmFYg4lFyYLio+1vGDcDC1H8Ngkgx4I5z+9+CGstA562q+4cKPs6TqLCMZQKfcaEZy+fBDRLDniz7o9OujQ=
+	t=1748497299; cv=none; b=CR4MkAns61HJdAwsj9me88KnEYjQHTkuri3Bmuswf5F7Ixmt8BaVi7cMkwRDBMtnVhRGNG5r7gZ6swmCeyhno2MxY98WW4/a34WG4hth0YWHuUzDwlb6XWqh190Eu6KCfX5AaUpt+wA+t88PogfeXK32UR6l0C4Ab9bLs4VtM+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748492031; c=relaxed/simple;
-	bh=EBIXLSlKnhdLfilxK+ybGTsTMexpm63r/GH9hyYAXYY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=E37gfRp8yRdmJSCY43/Y4i3bcTAHWukMnmjMBVmRUmZEJktvLjj7GveBO1qUE+I+0htDEKMUkXek04501Wszulw0RkQwy5h4wcJJ6Y2ubiGQOFO9Q42GwTjIGAyPDDy2UQm+6vlSOM6jPaiQUZV6m9f9LF9DTqHCTg2ChiKhWxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBjP1ggE; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1748497299; c=relaxed/simple;
+	bh=3W0vPV+xt1laPx1GlvtRmUQDEr7o4pclP/jpfWpkmNo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=VR+qlgsd4CfNewaDl8aQSAcTO9WrCFELEiUIMmaIhtT/EYSg/zVn8es0BA3tDRQPLj2SJtwYbJC/NdT2wxgVb2kOZsHolN4E+jlCNn9bDyfnl6/IWM+TqGYSw9SpYiF2mgPQvDQDAwJp6BMQLWoZFQEr+qAaQ3JjUkMl8/AthU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JTx9ig1C; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748492030; x=1780028030;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EBIXLSlKnhdLfilxK+ybGTsTMexpm63r/GH9hyYAXYY=;
-  b=PBjP1ggE1b/OyzEufDTvi9i9yheMhoEVB1FC0VHgcUhpG8uiAvcoGFz1
-   cO+q4Vh1+ZNYr9VrXvqKE//ymaNEJWOibBlQ74EiC1rgdF1xAGWUXVbXn
-   qjxqcknGYs+2wVpLGSs9vQjJ4BTNrbmSCfbm9uDrrcgNOTNP6izYWDK6Z
-   mBFDaFSMrDdR5CpmgxU/5jBxAQRCPz3wgY+48HWsQdoE7jkaHw/uKpwLI
-   mTzKmt39gGS1FvFLyo5yaKIp9mBKovyBNx/V0W7SWIEqrDbD4Dhl9SFVX
-   GRR0j1J+BInid4PAWCfPRCrevahrtRdJ3MwOW39+K8CdFoxwUEWGO3NoS
+  t=1748497298; x=1780033298;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3W0vPV+xt1laPx1GlvtRmUQDEr7o4pclP/jpfWpkmNo=;
+  b=JTx9ig1CnQa3RX8+baCDSE+QwVq0WUnuShr5uUBm5HMmpj+VcH0HRIi0
+   TNBwCq+CM/sMjSOKuiCnawd4Zcg0B7MkiNRXRvN2cpHkPXd7Pr9/bFQsf
+   h3a7fUx1RW6chcQBlYowhhz31bT6kCEYjgZ7uSeM/8Rvk4QBPfJuhvgLn
+   sfBC0oFnHGbnIMvALKI7ZhOpU12niQj/2vQgv7RIVEubNo66QX1EL6V55
+   neloZyk2f1+NWPKUvsy6Dn+thxiYWt0/EMP7SP0yBKpEYuyIzAiihdbFs
+   p9Msbak+jRNcHICHFswBUb68d7qPzQLYf0qt80Oog3FLVjC0U2E0CW6QR
    g==;
-X-CSE-ConnectionGUID: CWgHEjAkSpau/caTY6r2ug==
-X-CSE-MsgGUID: sTHJG9T4TFykjK7BJHFEUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="75928593"
-X-IronPort-AV: E=Sophos;i="6.15,322,1739865600"; 
-   d="scan'208";a="75928593"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 21:13:49 -0700
-X-CSE-ConnectionGUID: ejuFbWkrRQ+M8SxegthXjA==
-X-CSE-MsgGUID: Q9er7DqSSLOk2fossR0/+Q==
+X-CSE-ConnectionGUID: NdMr94bMT3SzHjoSmZ4F1A==
+X-CSE-MsgGUID: OT9wjN8QSq+esDFaIgrdWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67962860"
+X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
+   d="scan'208";a="67962860"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 22:41:37 -0700
+X-CSE-ConnectionGUID: RvMnXIMXTeecNPbA3HQ1fA==
+X-CSE-MsgGUID: k9XihmlSTX+401gEmTOQxQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,322,1739865600"; 
-   d="scan'208";a="148211596"
-Received: from vtg-chrome.bj.intel.com ([172.16.127.120])
-  by orviesa003.jf.intel.com with ESMTP; 28 May 2025 21:13:47 -0700
-From: bingbu.cao@intel.com
-To: linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com
-Cc: laurent.pinchart@ideasonboard.com,
-	jerry.w.hu@intel.com,
-	hao.yao@intel.com,
-	tian.shu.qiu@intel.com,
-	bingbu.cao@intel.com,
-	bingbu.cao@linux.intel.com
-Subject: [PATCH v3 7/7] media: staging/ipu7: add Makefile, Kconfig and to-do file for IPU7
-Date: Thu, 29 May 2025 12:13:23 +0800
-Message-Id: <20250529041323.3026998-8-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250529041323.3026998-1-bingbu.cao@intel.com>
-References: <20250529041323.3026998-1-bingbu.cao@intel.com>
+X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
+   d="scan'208";a="144443212"
+Received: from yilunxu-optiplex-7050.sh.intel.com ([10.239.159.165])
+  by fmviesa009.fm.intel.com with ESMTP; 28 May 2025 22:41:31 -0700
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: kvm@vger.kernel.org,
+	sumit.semwal@linaro.org,
+	christian.koenig@amd.com,
+	pbonzini@redhat.com,
+	seanjc@google.com,
+	alex.williamson@redhat.com,
+	jgg@nvidia.com,
+	dan.j.williams@intel.com,
+	aik@amd.com,
+	linux-coco@lists.linux.dev
+Cc: dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	vivek.kasireddy@intel.com,
+	yilun.xu@intel.com,
+	yilun.xu@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	lukas@wunner.de,
+	yan.y.zhao@intel.com,
+	daniel.vetter@ffwll.ch,
+	leon@kernel.org,
+	baolu.lu@linux.intel.com,
+	zhenzhong.duan@intel.com,
+	tao1.su@intel.com,
+	linux-pci@vger.kernel.org,
+	zhiw@nvidia.com,
+	simona.vetter@ffwll.ch,
+	shameerali.kolothum.thodi@huawei.com,
+	aneesh.kumar@kernel.org,
+	iommu@lists.linux.dev,
+	kevin.tian@intel.com
+Subject: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP using TSM
+Date: Thu, 29 May 2025 13:34:43 +0800
+Message-Id: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+This series is the generic host side (KVM/VFIO/IOMMUFD) support for the
+whole life cycle of private device assignment. It follows the
+previously discussed flow chart [1], aim to better illustrate the
+overall flow of private device assignment, find out and narrow down the
+gaps of different vendors, and reach some common directions.
 
-Add Kconfig and Makefile for IPU7 driver and also update
-the Makefile to build the IPU7 driver.
+This series is based on Dan's Core TSM infrastructure series [2].  To
+give a clear overview of what components are needed, it also includes
+some existing WIP patchsets in community.
 
-Also add a to-do file to list the TODOs.
+This series has 3 sections:
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/staging/media/Kconfig       |  2 ++
- drivers/staging/media/Makefile      |  1 +
- drivers/staging/media/ipu7/Kconfig  | 18 ++++++++++++++++++
- drivers/staging/media/ipu7/Makefile | 23 +++++++++++++++++++++++
- drivers/staging/media/ipu7/TODO     | 19 +++++++++++++++++++
- 5 files changed, 63 insertions(+)
- create mode 100644 drivers/staging/media/ipu7/Kconfig
- create mode 100644 drivers/staging/media/ipu7/Makefile
- create mode 100644 drivers/staging/media/ipu7/TODO
+Patch 1 - 11 deal with the private MMIO mapping in KVM MMU via DMABUF.
+Leverage Jason & Vivek's latest VFIO dmabuf series [3], see Patch 2 - 4.
+The concern for get_pfn() kAPI [4] is not addressed so are marked as
+HACK, will investigate later.
 
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index b44214854399..043ffbc472fb 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -28,6 +28,8 @@ source "drivers/staging/media/imx/Kconfig"
- 
- source "drivers/staging/media/ipu3/Kconfig"
- 
-+source "drivers/staging/media/ipu7/Kconfig"
-+
- source "drivers/staging/media/max96712/Kconfig"
- 
- source "drivers/staging/media/meson/vdec/Kconfig"
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index ad4e9619a9e0..177dfe95289b 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -9,4 +9,5 @@ obj-$(CONFIG_VIDEO_STARFIVE_CAMSS)	+= starfive/
- obj-$(CONFIG_VIDEO_SUNXI)	+= sunxi/
- obj-$(CONFIG_VIDEO_TEGRA)	+= tegra-video/
- obj-$(CONFIG_VIDEO_IPU3_IMGU)	+= ipu3/
-+obj-$(CONFIG_VIDEO_INTEL_IPU7)	+= ipu7/
- obj-$(CONFIG_DVB_AV7110)	+= av7110/
-diff --git a/drivers/staging/media/ipu7/Kconfig b/drivers/staging/media/ipu7/Kconfig
-new file mode 100644
-index 000000000000..5b800e9b09c4
---- /dev/null
-+++ b/drivers/staging/media/ipu7/Kconfig
-@@ -0,0 +1,18 @@
-+config VIDEO_INTEL_IPU7
-+	tristate "Intel IPU7 driver"
-+	depends on ACPI || COMPILE_TEST
-+	depends on VIDEO_DEV
-+	depends on X86 && HAS_DMA
-+	depends on IPU_BRIDGE || !IPU_BRIDGE
-+	select AUXILIARY_BUS
-+	select IOMMU_IOVA
-+	select VIDEO_V4L2_SUBDEV_API
-+	select MEDIA_CONTROLLER
-+	select VIDEOBUF2_DMA_SG
-+	select V4L2_FWNODE
-+	help
-+	  This is the 7th Gen Intel Image Processing Unit, found in Intel SoCs
-+	  and used for capturing images and video from camera sensors.
-+
-+	  To compile this driver, say Y here! It contains 2 modules -
-+	  intel_ipu7 and intel_ipu7_isys.
-diff --git a/drivers/staging/media/ipu7/Makefile b/drivers/staging/media/ipu7/Makefile
-new file mode 100644
-index 000000000000..6d2aec219e65
---- /dev/null
-+++ b/drivers/staging/media/ipu7/Makefile
-@@ -0,0 +1,23 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (c) 2017 - 2025 Intel Corporation.
-+
-+intel-ipu7-objs				+= ipu7.o \
-+					   ipu7-bus.o \
-+					   ipu7-dma.o \
-+					   ipu7-mmu.o \
-+					   ipu7-buttress.o \
-+					   ipu7-cpd.o \
-+					   ipu7-syscom.o \
-+					   ipu7-boot.o
-+
-+obj-$(CONFIG_VIDEO_INTEL_IPU7)		+= intel-ipu7.o
-+
-+intel-ipu7-isys-objs			+= ipu7-isys.o \
-+					   ipu7-isys-csi2.o \
-+					   ipu7-isys-csi-phy.o \
-+					   ipu7-fw-isys.o \
-+					   ipu7-isys-video.o \
-+					   ipu7-isys-queue.o \
-+					   ipu7-isys-subdev.o
-+
-+obj-$(CONFIG_VIDEO_INTEL_IPU7)		+= intel-ipu7-isys.o
-diff --git a/drivers/staging/media/ipu7/TODO b/drivers/staging/media/ipu7/TODO
-new file mode 100644
-index 000000000000..7031d0179c7d
---- /dev/null
-+++ b/drivers/staging/media/ipu7/TODO
-@@ -0,0 +1,19 @@
-+This is a list of things that need to be done to get this driver out of the
-+staging directory.
-+
-+- ABI headers cleanup
-+  Cleanup the firmware ABI headers
-+
-+- Add metadata capture support
-+  The IPU7 hardware should support metadata capture, but it is not
-+  fully verified with IPU7 firmware ABI so far, need to add the metadata
-+  capture support.
-+
-+- Refine CSI2 PHY code
-+  Refine the ipu7-isys-csi2-phy.c, move the hardware specific variant
-+  into structure, clarify and explain the PHY registers to make it more
-+  readable.
-+
-+- Work with the common IPU module
-+  Sakari commented much of the driver code is the same than the IPU6 driver.
-+  IPU7 driver is expected to work with the common IPU module in future.
+Patch 12 - 22 is about TSM Bind/Unbind/Guest request management in VFIO
+& IOMMUFD. Picks some of Shameer's patch in [5], see Patch 12 & 14.
+
+Patch 23 - 30 is a solution to meet the TDX specific sequence
+enforcement on various device Unbind cases, including converting device
+back to shared, hot unplug, TD destroy. Start with a tdx_tsm driver
+prototype and finally implement the Unbind enforcement inside the
+driver. To be honest it is still awkward to me, but I need help.
+
+This series don't include the VMEXIT handle for GHCI/GHCB calls for
+Bind/Unbind/Guest request, cause it involves vendor specific code. The
+general idea is KVM should just pass these calls to QEMU, QEMU parses
+out the command and call the newly introduced VFIO/IOMMUFD IOCTLs.
+
+With additional TDX Connect specific patches (not published), passed
+engineering test for trusted DMA in TD.
+
+[1]: https://lore.kernel.org/all/aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050/
+[2]: https://lore.kernel.org/all/20250516054732.2055093-1-dan.j.williams@intel.com/
+[3]: https://lore.kernel.org/kvm/20250307052248.405803-1-vivek.kasireddy@intel.com/
+[4]: https://lore.kernel.org/all/20250107142719.179636-1-yilun.xu@linux.intel.com/
+[5]: https://lore.kernel.org/all/20250319173202.78988-3-shameerali.kolothum.thodi@huawei.com/
+
+
+Alexey Kardashevskiy (1):
+  iommufd/vdevice: Add TSM Guest request uAPI
+
+Dan Williams (2):
+  coco/tdx_tsm: Introduce a "tdx" subsystem and "tsm" device
+  coco/tdx_tsm: TEE Security Manager driver for TDX
+
+Shameer Kolothum (2):
+  iommufd/device: Associate a kvm pointer to iommufd_device
+  iommu/arm-smmu-v3-iommufd: Pass in kvm pointer to viommu_alloc
+
+Vivek Kasireddy (3):
+  vfio: Export vfio device get and put registration helpers
+  vfio/pci: Share the core device pointer while invoking feature
+    functions
+  vfio/pci: Allow MMIO regions to be exported through dma-buf
+
+Wu Hao (1):
+  coco/tdx_tsm: Add connect()/disconnect() handlers prototype
+
+Xu Yilun (21):
+  HACK: dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI
+  fixup! vfio/pci: fix dma-buf revoke typo on reset
+  HACK: vfio/pci: Support get_pfn() callback for dma-buf
+  KVM: Support vfio_dmabuf backed MMIO region
+  KVM: x86/mmu: Handle page fault for vfio_dmabuf backed MMIO
+  KVM: x86/mmu: Handle page fault for private MMIO
+  vfio/pci: Export vfio dma-buf specific info for importers
+  KVM: vfio_dmabuf: Fetch VFIO specific dma-buf data for sanity check
+  fixup! iommufd/selftest: Sync iommufd_device_bind() change to selftest
+  fixup: iommu/selftest: Sync .viommu_alloc() change to selftest
+  iommufd/viommu: track the kvm pointer & its refcount in viommu core
+  iommufd/device: Add TSM Bind/Unbind for TIO support
+  iommufd/viommu: Add trusted IOMMU configuration handlers for vdev
+  vfio/pci: Add TSM TDI bind/unbind IOCTLs for TEE-IO support
+  vfio/pci: Do TSM Unbind before zapping bars
+  fixup! PCI/TSM: Change the guest request type definition
+  coco/tdx_tsm: Add bind()/unbind()/guest_req() handlers prototype
+  PCI/TSM: Add PCI driver callbacks to handle TSM requirements
+  vfio/pci: Implement TSM handlers for MMIO
+  iommufd/vdevice: Implement TSM handlers for trusted DMA
+  coco/tdx_tsm: Manage TDX Module enforced operation sequences for
+    Unbind
+
+ Documentation/virt/kvm/api.rst                |   7 +
+ arch/x86/Kconfig                              |   1 +
+ arch/x86/kvm/mmu/mmu.c                        |  25 +-
+ drivers/dma-buf/dma-buf.c                     |  87 +++-
+ .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |   1 +
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |   1 +
+ drivers/iommu/iommufd/device.c                |  89 +++-
+ drivers/iommu/iommufd/iommufd_private.h       |  10 +
+ drivers/iommu/iommufd/main.c                  |   3 +
+ drivers/iommu/iommufd/selftest.c              |   3 +-
+ drivers/iommu/iommufd/viommu.c                | 202 ++++++++-
+ drivers/vfio/iommufd.c                        |  24 +-
+ drivers/vfio/pci/Makefile                     |   1 +
+ drivers/vfio/pci/vfio_pci.c                   |   1 +
+ drivers/vfio/pci/vfio_pci_config.c            |  26 +-
+ drivers/vfio/pci/vfio_pci_core.c              | 161 ++++++-
+ drivers/vfio/pci/vfio_pci_dmabuf.c            | 411 ++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h              |  26 ++
+ drivers/vfio/vfio_main.c                      |   2 +
+ drivers/virt/coco/host/Kconfig                |  10 +
+ drivers/virt/coco/host/Makefile               |   3 +
+ drivers/virt/coco/host/tdx_tsm.c              | 328 ++++++++++++++
+ drivers/virt/coco/host/tdx_tsm_bus.c          |  70 +++
+ include/linux/dma-buf.h                       |  13 +
+ include/linux/iommu.h                         |   4 +-
+ include/linux/iommufd.h                       |  12 +-
+ include/linux/kvm_host.h                      |  25 +-
+ include/linux/pci-tsm.h                       |  19 +-
+ include/linux/pci.h                           |   3 +
+ include/linux/tdx_tsm_bus.h                   |  17 +
+ include/linux/vfio.h                          |  27 ++
+ include/linux/vfio_pci_core.h                 |   3 +
+ include/uapi/linux/iommufd.h                  |  36 ++
+ include/uapi/linux/kvm.h                      |   1 +
+ include/uapi/linux/vfio.h                     |  67 +++
+ virt/kvm/Kconfig                              |   6 +
+ virt/kvm/Makefile.kvm                         |   1 +
+ virt/kvm/kvm_main.c                           |  32 +-
+ virt/kvm/kvm_mm.h                             |  19 +
+ virt/kvm/vfio_dmabuf.c                        | 151 +++++++
+ 40 files changed, 1868 insertions(+), 60 deletions(-)
+ create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+ create mode 100644 drivers/virt/coco/host/tdx_tsm.c
+ create mode 100644 drivers/virt/coco/host/tdx_tsm_bus.c
+ create mode 100644 include/linux/tdx_tsm_bus.h
+ create mode 100644 virt/kvm/vfio_dmabuf.c
+
+
+base-commit: 88c473f04098a0f5ac6fbaceaad2daa842006b6a
 -- 
-2.34.1
+2.25.1
 
 
