@@ -1,49 +1,59 @@
-Return-Path: <linux-media+bounces-33606-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33607-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B3FAC7B09
-	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 11:29:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48EBDAC7CF0
+	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 13:28:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAC649E0D85
-	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 09:29:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE7981BC25C8
+	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 11:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B56CC21CA0E;
-	Thu, 29 May 2025 09:29:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF0ED28E5F8;
+	Thu, 29 May 2025 11:28:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDD7214232;
-	Thu, 29 May 2025 09:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB3F347B4;
+	Thu, 29 May 2025 11:28:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748510984; cv=none; b=lxK7kH2vNi9RBUkw30TP8cgNf/b+bhrq0TnJ3vwU1IWUOI+6sekIhk/XYej3hPfnD/XGmTiOhhXHaKK516DcBsYI2bZIPP4liZ9uWO8EwQ1MgVa5QE6AE3jGPoJ8OB5VN7q9vsIHL0nDtDeCBG9rh681s4bMLPp7C5jmGBwFupk=
+	t=1748518088; cv=none; b=FR8J1OUE3hOnvVCdx7fH8hx68HCRTcSX7u0QgwtJEg/JHkQt4Xas60tEiynaBt2B4yJW06ho0w/vRECdrIOMzzChh14tR7B9h1XUJDhJW6lMe07nHtVGpZyJ77FHzyPoGdsqNH2RZ1vQI/ZuKCYjTI3F3kMADN7IgPtkbxkJDGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748510984; c=relaxed/simple;
-	bh=H2adK2TBdCylg3qnTpN93mTeHPKayl2jZjFbC0Xl6DQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tEqxrSUgV28th6IQkLsSr47u5kqvq1KsON4pHaZcWki3MD3tkBQP4rTFpWD7qnRaqETJZ/L1h1wnLAtvzT+Ix2j9n/GDStZQBmj3Cdh+2zzKGQP8va2UiT8eUz6wKgXnuJQfYVhMK7i0reFHgie5nadJfasM/FFUdWXVs/k2Xlo=
+	s=arc-20240116; t=1748518088; c=relaxed/simple;
+	bh=PAc90FkBogXphiQNzm6JktCd4gi/msjSow0cS2MEApc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HJ3a03tJBQHi1ri2iPrtymM0pQefIsjEVGaIEz59EEhVir3in5HVYWLhzcHOBAHr6JuGEXsTOJxdsMG1iK5gftZ9Vxaxi0+twtBhlQ8ghG4Rs7kn6sSCRTw3/EopqQsG8RinsbNE5JeohbzcOgvGZdHvxUoUAs0eMky6NKLVo/g=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
 Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-	by ni.piap.pl (Postfix) with ESMTPS id 68AFEC3EEAC9;
-	Thu, 29 May 2025 11:29:39 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 68AFEC3EEAC9
-From: Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-To: Dafna Hirschfeld <dafna@fastmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Jacopo
- Mondi <jacopo.mondi@ideasonboard.com>, Paul Elder
- <paul.elder@ideasonboard.com>, Ondrej Jirman <megi@xff.cz>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH] media: rkisp1: correct histogram window size
-Date: Thu, 29 May 2025 11:29:39 +0200
-Message-ID: <m3sekn69z0.fsf@t19.piap.pl>
+	by ni.piap.pl (Postfix) with ESMTPS id 6F8B5C405A4C;
+	Thu, 29 May 2025 13:27:57 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 6F8B5C405A4C
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,  Rui Miguel Silva
+ <rmfrfs@gmail.com>,  Martin Kepplinger <martink@posteo.de>,  Purism Kernel
+ Team <kernel@puri.sm>,  Mauro Carvalho Chehab <mchehab@kernel.org>,  Shawn
+ Guo <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
+  Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
+ <festevam@gmail.com>,  linux-media@vger.kernel.org,  imx@lists.linux.dev,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Enable MIPI filtering by DT on i.MX8M*
+In-Reply-To: <jqjptsphbtdtziuucehxutseaz7j4kjiirz2hk77f3dznswvza@avbjjzu3jcam>
+	(Jacopo Mondi's message of "Fri, 23 May 2025 13:33:24 +0200")
+References: <m3h61u9jy2.fsf@t19.piap.pl>
+	<20250509103733.GE28896@pendragon.ideasonboard.com>
+	<m3o6vn8np5.fsf@t19.piap.pl>
+	<iegnn5xoosqpk52hvipcr73aliwhqtsq6r6ctvt5756bhy6yen@rqcdongb7fdf>
+	<m31psg97dy.fsf@t19.piap.pl>
+	<jqjptsphbtdtziuucehxutseaz7j4kjiirz2hk77f3dznswvza@avbjjzu3jcam>
+Sender: khalasa@piap.pl
+Date: Thu, 29 May 2025 13:27:56 +0200
+Message-ID: <m3o6vb64hv.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,59 +63,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-The histogram window dimensions are unnecessarily decremented. This can be
-seen in the following example, where when all pixels are of maximum intensi=
-ty
-there are pixels that we expect to be counted but are missing from the high=
-est
-bin. Fix this by removing the unnecessary decrement.
+Hi Jacopo,
 
-Without the patch (i.MX8MP, all-white RGGB-12 full HD input from
-the sensor, YUV NV12 output from ISP, full range, histogram Y mode).
-HIST_STEPSIZE =3D 3 (lowest permitted), all weights are set to 1:
+Jacopo Mondi <jacopo.mondi@ideasonboard.com> writes:
 
-isp_hist_h_size: 383 (=3D 1920 / 5 - 1)
-isp_hist_v_size: 215 (=3D 1080 / 5 - 1)
-histogram_measurement_result[16]: 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 229401
+>> - 10 User Defined 8-bit Data Type 8 packets, line-sized, DT=3D0x37, call=
+ed
+>>   apparently "Vertical OB" by Sony datasheet
+>
+> These are optically black pixels and should probably be discarded by
+> the gasket as well as embedded data ?
 
-Apparently the histogram is missing the last column (3-pixel wide,
-though only single pixels count) and the last (same idea) row
-of the input image: 1917 * 1077 / 3 / 3 =3D 229401.
+Yes, apparently.
 
-E.g. without the patch, the pixels counted in lines are:
-0, 3, ... 1914 (which makes 1917/3), and patched:
-0, 3, ... 1914, 1917 (which makes 1920/3).
-The same is true for rows.
+>> I hope I got this right, this is straight from oscilloscope (only
+>> checked IDs on IMX462, will confirm IMX290 later but it looks the same).
+>> In 1280x1080p25 mode there are 4 (not 10) "vertical OB" packets, and 720
+>> RGGB lines instead of 1080.
+>
+> Is this correct ? you ask for 1280x1080 and get back 720 lines ?
 
-With the patch applied:
-isp_hist_h_size: 384 (=3D 1920 / 5)
-isp_hist_v_size: 216 (=3D 1080 / 5)
-histogram_measurement_result[16]: 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 230400
+Well, no, I just checked both modes and these are the differences.
+IOW, nothing unexpected. Wrong copy & paste or so.
 
-1920 * 1080 / 3 / 3 =3D 230400
+>> IMX462 produces just a tiny 2-pixel dot in the left top corner, possibly
+>> shifting some data to the right (I remember it did that, but I can't
+>> observe it now - could be a kernel (driver) version change?).
+>
+> What are those two pixels ? Does the datasheet describes them ?
 
-Signed-off-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+Nope, I guess it's a silicon bug. It corrupts 3 RAW-12 pixels, though
+(32 bits > 2 * 12 bits).
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drive=
-rs/media/platform/rockchip/rkisp1/rkisp1-params.c
-index b28f4140c8a3..ca9b3e711e5f 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-@@ -819,8 +819,8 @@ static void rkisp1_hst_config_v10(struct rkisp1_params =
-*params,
- 		     arg->meas_window.v_offs);
-=20
- 	block_hsize =3D arg->meas_window.h_size /
--		      RKISP1_CIF_ISP_HIST_COLUMN_NUM_V10 - 1;
--	block_vsize =3D arg->meas_window.v_size / RKISP1_CIF_ISP_HIST_ROW_NUM_V10=
- - 1;
-+		      RKISP1_CIF_ISP_HIST_COLUMN_NUM_V10;
-+	block_vsize =3D arg->meas_window.v_size / RKISP1_CIF_ISP_HIST_ROW_NUM_V10;
-=20
- 	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_HIST_H_SIZE_V10,
- 		     block_hsize);
+>>    32EC0138h    2D8000h ISP Dewarp Control Register (ISP_DEWARP_CONTROL)
+>>       ISP ID mode 0, ISP1: DT 0h (unknown), ISP2: DT 2Ch (RAW12) left-ju=
+st mode
+>
+> But this other register has (again) one other filtering option and
+> reading the value here it is set to filter RAW12 (mipi_isp2_data_type)
+>
+> Weirdly enough, I don't see this register being programmed in the
+> mainline gasket driver...
 
+I guess it's drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:
+
+static int rkisp1_gasket_enable(struct rkisp1_device *rkisp1,
+                                struct media_pad *source)
+{
+...
+        regmap_update_bits(rkisp1->gasket, ISP_DEWARP_CONTROL, mask, val);
+
+Now this register doesn't filter data: if you set it with a different
+value, the data still goes through. It's just processed differently.
+For example, my sensor is 12-bit (in addition to 10-bit). If I set
+ISP_DEWARP_CONTROL to 0xB68 (or 0x368) meaning RAW 14-bit, the image
+only gets darker - ISP thinks it's getting 14-bit samples.
+
+The only filtering (while using ISP) is, apparently, in the ISP
+Configuration Register (MIPI_CSIS_ISPCONFIG_CH0) and subsequently in its
+shadow counterpart. And it somehow may be enabled in CSIS Common Control
+Register (MIPI_CSIS_CMN_CTRL). But if you don't enable it there, the
+data is still filtered (e.g. wrong value in MIPI_CSIS_ISPCONFIG_CH0
+prevents data flow). The filtering is only needed for preventing pixel
+corruption (these 3 pixels).
+
+So it means, for at least i.MX8MP, the DT filtering bit in
+MIPI_CSIS_CMN_CTRL should always be enabled.
+
+>> MIPI_CSI2:
+>>    32E50004h      4705h CSIS Common Control Register (MIPI_CSIS_CMN_CTRL)
+>
+> Do you mean 0x14705 ? I'm asking because Shadow Crtl is BIT(16). Surprisi=
+ngly
+> BIT(14) is marked as reserved in the datasheet version I have
+
+No, it's 0x4705 (usually).
+With 0xFF05 (resulting from write with 0xfffffffd) it's still working
+correctly (with DT filtering). Write 0xfffffbfd (=3D no DT filtering) and
+the magic light pixels in the left top corner reappear. So it means the
+INTERLEAVE_MODE bits (11 and 10) are probably two independent bits, with
+bit 11 probably not used at all.
+
+
+In my copy (i.MX 8M Plus Applications Processor Reference Manual, Rev.
+1, 06/2021), CSIS Common Control Register (MIPI_CSIx_CSIS_COMMON_CTRL):
+- bits 31-17, 15, 13, 12, 7-2 are zero and reserved (though bits 12 and
+  2 are additionally marked "This read-only field is reserved and always
+  has the value 0")
+- bit 14 is reserved and shown as "1"
+- bit 16 is "UPDATE_SHADOW", and it clears itself after a write (unless
+  the pipeline locks up or something alike)
+- bits 11 and 10 are "INTERLEAVE_MODE":
+    Select Interleave mode
+    ISP Configuration register of CH# is used for data interleave.
+      00 CH0 only, no data interleave
+      01 DT (Data type) only
+      10 Reserved
+      11 Reserved
+- bits 9 and 8 are LANE_NUMBER, 0 to 3 means 1 to 4.
+- bit 1 is SW_RESET
+- bit 0 is CSI_EN
+
+In fact, bit 2 does not "always have the value 0", it's set to 1. Both
+bits 14 and 2 can be reset to 0, though (without apparent change in the
+image).
 --=20
 Krzysztof "Chris" Ha=C5=82asa
 
