@@ -1,62 +1,49 @@
-Return-Path: <linux-media+bounces-33605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25ACAC7AF9
-	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 11:25:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B3FAC7B09
+	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 11:29:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DAF787A564B
-	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 09:24:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAC649E0D85
+	for <lists+linux-media@lfdr.de>; Thu, 29 May 2025 09:29:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ECFF21C9E5;
-	Thu, 29 May 2025 09:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B56CC21CA0E;
+	Thu, 29 May 2025 09:29:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2AC219302;
-	Thu, 29 May 2025 09:25:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDD7214232;
+	Thu, 29 May 2025 09:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748510722; cv=none; b=EsFv9QsCsKvqx0TuxbPwqJ7LJRfzdFwmEMsAIl1KjyX/kI8A/MYO+hKXMxcytLz04LITVooMlCnL+iRwFj+CNn53nFZZuTzdOdyul7QVjgtJi23DZCrVHlytN0/2v91PShzHIE8tlRgqq95WoqZhGuOR9WoXcpK8AzzjDCoIv3I=
+	t=1748510984; cv=none; b=lxK7kH2vNi9RBUkw30TP8cgNf/b+bhrq0TnJ3vwU1IWUOI+6sekIhk/XYej3hPfnD/XGmTiOhhXHaKK516DcBsYI2bZIPP4liZ9uWO8EwQ1MgVa5QE6AE3jGPoJ8OB5VN7q9vsIHL0nDtDeCBG9rh681s4bMLPp7C5jmGBwFupk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748510722; c=relaxed/simple;
-	bh=9c2gFsqymeTMgjQSpuDxPYXz1vt/sj891vlHdiB3At8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fM3qFJhBfU7uc/F+TbxzgsCcwyl/Y6/rxH9Td1uVGV8g54Zy954YXe+4pjmmfagWolXeqYWONsP+LKk4VJe1EokgPuA6xqyei2AD/SHsQze4DhYj3R7s1RTm+nZxcwDzRZ1v61YPFKGwjC5iWGLgrLCaHEN/ci8tElsmhMXw4eg=
+	s=arc-20240116; t=1748510984; c=relaxed/simple;
+	bh=H2adK2TBdCylg3qnTpN93mTeHPKayl2jZjFbC0Xl6DQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tEqxrSUgV28th6IQkLsSr47u5kqvq1KsON4pHaZcWki3MD3tkBQP4rTFpWD7qnRaqETJZ/L1h1wnLAtvzT+Ix2j9n/GDStZQBmj3Cdh+2zzKGQP8va2UiT8eUz6wKgXnuJQfYVhMK7i0reFHgie5nadJfasM/FFUdWXVs/k2Xlo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
 Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-	by ni.piap.pl (Postfix) with ESMTPS id CC1DBC3EEAC9;
-	Thu, 29 May 2025 11:25:08 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl CC1DBC3EEAC9
-From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To: =?utf-8?Q?S=C3=A9bastien?= Szymanski <sebastien.szymanski@armadeus.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,  Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,  Rui Miguel Silva <rmfrfs@gmail.com>,
-  Martin Kepplinger <martink@posteo.de>,  Purism Kernel Team
- <kernel@puri.sm>,  Mauro Carvalho Chehab <mchehab@kernel.org>,  Shawn Guo
- <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
-  Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
- <festevam@gmail.com>,  <linux-media@vger.kernel.org>,
-  <imx@lists.linux.dev>,  <linux-arm-kernel@lists.infradead.org>,
-  <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Enable MIPI filtering by DT on i.MX8M*
-In-Reply-To: <65670a02-e217-4d0f-955d-d13ca0240819@armadeus.com>
- (=?utf-8?Q?=22S=C3=A9bastien?=
-	Szymanski"'s message of "Fri, 23 May 2025 17:34:01 +0200")
-References: <m3h61u9jy2.fsf@t19.piap.pl>
-	<20250509103733.GE28896@pendragon.ideasonboard.com>
-	<m3o6vn8np5.fsf@t19.piap.pl>
-	<iegnn5xoosqpk52hvipcr73aliwhqtsq6r6ctvt5756bhy6yen@rqcdongb7fdf>
-	<m31psg97dy.fsf@t19.piap.pl> <m3plfz7io0.fsf@t19.piap.pl>
-	<65670a02-e217-4d0f-955d-d13ca0240819@armadeus.com>
-Sender: khalasa@piap.pl
-Date: Thu, 29 May 2025 11:25:08 +0200
-Message-ID: <m3v7pj6a6j.fsf@t19.piap.pl>
+	by ni.piap.pl (Postfix) with ESMTPS id 68AFEC3EEAC9;
+	Thu, 29 May 2025 11:29:39 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 68AFEC3EEAC9
+From: Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+To: Dafna Hirschfeld <dafna@fastmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Jacopo
+ Mondi <jacopo.mondi@ideasonboard.com>, Paul Elder
+ <paul.elder@ideasonboard.com>, Ondrej Jirman <megi@xff.cz>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH] media: rkisp1: correct histogram window size
+Date: Thu, 29 May 2025 11:29:39 +0200
+Message-ID: <m3sekn69z0.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,49 +53,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi S=C3=A9bastien,
+The histogram window dimensions are unnecessarily decremented. This can be
+seen in the following example, where when all pixels are of maximum intensi=
+ty
+there are pixels that we expect to be counted but are missing from the high=
+est
+bin. Fix this by removing the unnecessary decrement.
 
-S=C3=A9bastien Szymanski <sebastien.szymanski@armadeus.com> writes:
+Without the patch (i.MX8MP, all-white RGGB-12 full HD input from
+the sensor, YUV NV12 output from ISP, full range, histogram Y mode).
+HIST_STEPSIZE =3D 3 (lowest permitted), all weights are set to 1:
 
-> On i.MX8MM mipi_csi is at 32e30000. NXP kernel (6.12.3) with ov5640 camer=
-a:
->
-> # devmem 0x32E30000 32
-> 0x03060301
+isp_hist_h_size: 383 (=3D 1920 / 5 - 1)
+isp_hist_v_size: 215 (=3D 1080 / 5 - 1)
+histogram_measurement_result[16]: 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 229401
 
-Thanks a lot. So at least the version register is the same as on
-i.MX8MP.
-I wonder if you could test if the CSIC possibly supports filtering by
-DT.
+Apparently the histogram is missing the last column (3-pixel wide,
+though only single pixels count) and the last (same idea) row
+of the input image: 1917 * 1077 / 3 / 3 =3D 229401.
 
-How would such a test be performed?
+E.g. without the patch, the pixels counted in lines are:
+0, 3, ... 1914 (which makes 1917/3), and patched:
+0, 3, ... 1914, 1917 (which makes 1920/3).
+The same is true for rows.
 
-Maybe: while streaming (otherwise the system may lock up):
+With the patch applied:
+isp_hist_h_size: 384 (=3D 1920 / 5)
+isp_hist_v_size: 216 (=3D 1080 / 5)
+histogram_measurement_result[16]: 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 230400
 
-I assume 'devmem 0x32E30004 32' shows 0x4305.
-# devmem 0x32E30004 32 0x14705
+1920 * 1080 / 3 / 3 =3D 230400
 
-and:
-- does it change anything? If the streaming stops, you may try
-  restarting and writing with devmem again - writing to this register
-  directly frequently stops streaming on my 8MP.
+Signed-off-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 
-- what does the register contain after write?
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drive=
+rs/media/platform/rockchip/rkisp1/rkisp1-params.c
+index b28f4140c8a3..ca9b3e711e5f 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+@@ -819,8 +819,8 @@ static void rkisp1_hst_config_v10(struct rkisp1_params =
+*params,
+ 		     arg->meas_window.v_offs);
+=20
+ 	block_hsize =3D arg->meas_window.h_size /
+-		      RKISP1_CIF_ISP_HIST_COLUMN_NUM_V10 - 1;
+-	block_vsize =3D arg->meas_window.v_size / RKISP1_CIF_ISP_HIST_ROW_NUM_V10=
+ - 1;
++		      RKISP1_CIF_ISP_HIST_COLUMN_NUM_V10;
++	block_vsize =3D arg->meas_window.v_size / RKISP1_CIF_ISP_HIST_ROW_NUM_V10;
+=20
+ 	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_HIST_H_SIZE_V10,
+ 		     block_hsize);
 
-- you may also try:
-  # devmem 0x32E30004 32 0xfffffffd
-  # devmem 0x32E30004 32
-
-On i.MX8MP the above returns:
-# ./devmem write32 0x32Ex0004 0xfffffffd
-# ./devmem read32 0x32Ex0004
-0x0000FF05
-(and the streaming still works, usually).
-
-The above is not a very good test, I admit, but it may show 8MM really
-doesn't have those/that bit.
-
-TIA.
 --=20
 Krzysztof "Chris" Ha=C5=82asa
 
