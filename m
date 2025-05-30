@@ -1,299 +1,163 @@
-Return-Path: <linux-media+bounces-33666-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33667-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979B7AC9075
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 15:44:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8281CAC908D
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 15:51:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0AE73BCF9A
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 13:43:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8FD113B2304
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 13:51:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A36E4225403;
-	Fri, 30 May 2025 13:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F106A21D3D3;
+	Fri, 30 May 2025 13:51:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IuxaBeRf"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="i1M12tVG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341CC17A2F5;
-	Fri, 30 May 2025 13:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE48C749C;
+	Fri, 30 May 2025 13:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748612639; cv=none; b=GfExJfj5cG8K3Y+c2tRKSuylPCh2UdZaUrXmMy1Lx2TnPdXuomnvj7qBa6oWf1/QLROq1VUFfPfg+9uGy8TRpw5FcRB2WOdJ2KOJPTtNlbuQO7dDc/VvnfWHUYxRANw9YrJwcv8HbpaVi9OGOLzJ9wutAFzvTakZvU6xzzqxpoQ=
+	t=1748613093; cv=none; b=r/Dx191InRGJbnQUpAKDByztjAv+EHS29MLlSLtvxlOYpY++PTZCePzouHu0f2pZFDQr+q7E9Il1hQpYMa6Do8O8Qhvm9CaAyF8pa5TLjPXqX+xiwEZzLa+kyMdagmp0gVfoh/A4Iz4090gFBjo8Khwj5XWdmmHFHxfDm2435Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748612639; c=relaxed/simple;
-	bh=QjSHNJemlr/cCBeYAFj5VuIcFvzHgKsz0ql6A50+TTE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DIVSslnpv+aU1wtmPOJDGkw+bp2gwd2an662Cb4MibPkW1ch1/69GGnb68//bWmblwdi/5dFecsqhb/IBceSIK8q3iSPgDCGXmMTDnWGEV46Cbm3IdVFWERfTBlDjoLHuaSh7/NjOYuCCcmfP8c2lWNnDKFgbg3IBPzFVUZcZaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IuxaBeRf; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ad572ba1347so311796866b.1;
-        Fri, 30 May 2025 06:43:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748612634; x=1749217434; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cg27jRbqgT6Vx96cOZmKzT7mRTBBHTh/rcABmd3nHl0=;
-        b=IuxaBeRf4QM+uTXGvHnvFsXmDdyWhz4MoH+x8mT8j6KFAWGkRZgI74THgzqhjdXXRn
-         pWt4KLonV81vrT8UkFrnd0LHThfkgXvIjf6SwP1oQ2Z1WxqbOdR68Rjx0c7P4gsLn3UV
-         nzcjOqY2zzbxn7B92cC9m8Cv9sxm8eVIAOAMt6IeMnepx+Nh4fDD1dlGoxoXNDTNws7A
-         411eoSyXCz3DKdosX//90XdiYPTfq9RkOSCuZBoOF4mMkL+XdeUYJekm9Oe0gxvl3X1w
-         ELjsMn36HguhK4O60fjUnBGJV2kSY272Ih7PjeyThV0YVfKB9ehfOZ3sU2iqDOWRlMsq
-         s36g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748612634; x=1749217434;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cg27jRbqgT6Vx96cOZmKzT7mRTBBHTh/rcABmd3nHl0=;
-        b=AtLOjOmsWZh34Dkd+HGjG+zaDyJ83P+1SCnVUiqfnPcY+C85n1J/7cYyTjpRBck8Wo
-         8kboM2Jhnl7Tj9pdvRkozlelop9kvyFE2ohPPNVr0tJCKLL33ZzZSH++GHSyUe8uNk+U
-         6QaxMDdcRhKJmXiWo91q8PxzkDLkfX004PCMbTA25GqLb5S2uTqc7Srx3+eOORS3l+9W
-         t1U3Ok4ZOynuM2XhnkW9JVDTXkUmmmGbwDI7cpSSPBDGvMju14PTivraJ6X/VkuaaVug
-         nrKkyUBO6hipza6udVAC/BeySiUtJMPAxrY+djd9XR2Pz9v4qdZGnZqTuOB787AlkeFG
-         eg1w==
-X-Forwarded-Encrypted: i=1; AJvYcCUg9aB2+ooDnDNLCHpThien9AgURJA7xGgffEvAMfJPVhO2DIJUL/ZgtX03hMQkas1Vqkr0egx75BSp/Eo=@vger.kernel.org, AJvYcCVhFchcC6nb5dTndkkAuHup8nV8jZh/XdTg56ReLe3H73V5jni1qfxVABpi4OX0eMw9HXtTR4HJMg+0I22q@vger.kernel.org, AJvYcCVwMR6/StDUcJ6oi4UkZlqU169/UqLmJNbzGFoRsvIXs73agUBbqFYjLUgA2G0DHV0W5f6UrByHC6fa0Q1e@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeZoCAAes2EzDumzqgQCpcakKRPMX4btmN2EXn1fRujV5w+08L
-	OiqfXJSTsEx51XP2ychTBcecAUyXAbH7F/V8ppSKet6gxvGvWY3lWT5HX+VJEwFV7hp6hCkMKdG
-	mS/K4EZ/PFC8AVs4TGp+4aPQqb0EPgDU=
-X-Gm-Gg: ASbGncvmo0mLEYV5bH5Ehv73Cm+ktzXuguoi8SlmF4y0PolszRZAv6rLAZSFKetMAxE
-	AYn44ExuojL/kVaqYZ+Baao/eW451EK3bTTrkkyFggNZZ5YmnOC/Jr05cAuDe8+OWZ+oRoaqi+c
-	XksggAoZWM45ybSZahRon1v7o3qm+l9bvC
-X-Google-Smtp-Source: AGHT+IHvBpjR/endSRQUt5FTF0eDLYH+Kdk5Qc8W51rWZR6eg4HtuFzDot8VeE8MsEjFbuxlldLzfxh7KxymP/Pqh8M=
-X-Received: by 2002:a17:907:9282:b0:ad8:959c:c55d with SMTP id
- a640c23a62f3a-adb322457f2mr313580966b.2.1748612634069; Fri, 30 May 2025
- 06:43:54 -0700 (PDT)
+	s=arc-20240116; t=1748613093; c=relaxed/simple;
+	bh=3g+2Gt6ki2RAC1y5hKm8yLn0M1lJ0n9JI1E/PiZVHHU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=AJRU9SwfpvezdfAsUe9k11bpsIRz+n788u2TsIZdkPJgvmHIhtkHpY1vrvxct8Wjt6Jisb/zWrRLrazGouTsieKJhZqeurAI9e7FGvE75oxEAD08Xs1h6BEIVBFwgvPOuFv80JVzcCEeZwxURSaFL0oZrMRh3+jWHx5OB70Ptnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=i1M12tVG; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1751E89A;
+	Fri, 30 May 2025 15:51:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748613061;
+	bh=3g+2Gt6ki2RAC1y5hKm8yLn0M1lJ0n9JI1E/PiZVHHU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=i1M12tVGYn+8VKsu5Ynf0+EMtK1xNPbCFvcVpzJnaZyAF/KWnXM6QGBX28SRFyf33
+	 2+c+jlP5uWjqIakiqY7pTYFcyorH7J10whgGT3vVul31gJVERbbjBff7BaiYWDJQ0J
+	 t0WTa+dnWJzIBvYV6Y7aDqr9TswFYZUl4gouON68=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v3 00/15] media: rcar: Streams support
+Date: Fri, 30 May 2025 16:50:29 +0300
+Message-Id: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250530103941.11092-1-tao.wangtao@honor.com> <20250530103941.11092-2-tao.wangtao@honor.com>
-In-Reply-To: <20250530103941.11092-2-tao.wangtao@honor.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 30 May 2025 15:43:43 +0200
-X-Gm-Features: AX0GCFshwnygoYp9lqAc5QflEKgeVEHCIAtDwsKnm5KS2y3iB6_sX14JgNpIns4
-Message-ID: <CAOQ4uxid9dn3akvN3gMBVOJXoazF5gm6xO+=eaRCzDaC62K5OA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] fs: allow cross-FS copy_file_range for
- memory-backed files
-To: wangtao <tao.wangtao@honor.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, kraxel@redhat.com, 
-	vivek.kasireddy@intel.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	hughd@google.com, akpm@linux-foundation.org, benjamin.gaignard@collabora.com, 
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, jack@suse.cz, 
-	baolin.wang@linux.alibaba.com, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, bintian.wang@honor.com, yipengxiang@honor.com, 
-	liulu.liu@honor.com, feng.han@honor.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKe3OWgC/23Pz26DMAwG8FdBOc9T/gABTnuPaYeQOCUHSGtTt
+ Kni3ZfSSZWmHj9L/n32TTBSQhZDdROEW+KUlxLMWyX85JYTQgolCy11I7Xqgbwj4JXQzQwqBnR
+ d10psUJSVM2FM3wf3+fXIhJdrUdfH8IkO1R/ZQSQ3IwRkD2fHvE6Ur6cJ2raTDdbK9LYetvruj
+ 44RfJ7ntA5VgypGbVRteyvubVPiNdPP8cumjrrXZ28KJEQ19gaNlc6NH6n8wXkZs6PwXgoOb9N
+ Pw+j2n6GLEWSwUmrf1iq+MPZ9/wXk0UXuYQEAAA==
+X-Change-ID: 20250219-rcar-streams-1fdea8860e5e
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3422;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=3g+2Gt6ki2RAC1y5hKm8yLn0M1lJ0n9JI1E/PiZVHHU=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBoObfXwcE6IVUVE1gp9AlBNelbeUah8nxwL6Np8
+ mJ9QXH5376JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaDm31wAKCRD6PaqMvJYe
+ 9QIwD/9wd3vPznS65rKMksb0n7MwmVbwHpZdGoAWZTlf3iRw1doPJatGO1DikKJvBOOcivz1Csh
+ TotwicEnhkhrQBJz3FQ/kdrSqdC0BK3srbHc9u3AcESRIORKlXLf2y+fGjsqq98cQzYqg/yK7VL
+ mE5QbW22KGdDO4m23o52fXmr2/PQd48SDRxcdb0BnVa2pR9aZsG/K20rW2rpvPmfNY2JqUozIq2
+ Pk1pvGwqfuwP7E3a+GbPdL0Kr8tS9ry800MWmu6HEMvuaYSuwp+K3TM8ExV6ssw9byGP3IQNtCq
+ 4TNeASOWTGenhxEyh/OFyQKbHAC672FVpPqv5vVW4TnZ5dofGe9WIYCXPRVio6sQT3IwP/sEact
+ eiQr6gJTjqjFZwSgh98pEY49D6uyaGRnN0w7gZ5d9WwMRg9xKi9jGjEC48YU3w/ZV1JC7HCODBG
+ ShF9CTGz8xhw0y1eso0bOEhvCPQHkx0dAMg8zBFlpLAT0Fgh/f9KD1DL7A1sHBvNbBHtB6k+63b
+ Lghmp3Uxo8/Kbz4A16RG7jVZtG5Jhc2qtxgwnnhvfwYle0LecTB5f9sKtjeYVApzGcWRhLxR6VF
+ F/O9NcFlfIqeqjoskflduB/3S+v+OBm5vSsHOVJPC+1X1WjXGwRS+68sV8lRagigzDQKMwMT2iD
+ 4HSfbZODaMp0uqQ==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On Fri, May 30, 2025 at 12:40=E2=80=AFPM wangtao <tao.wangtao@honor.com> wr=
-ote:
->
-> Memory-backed files can optimize copy performance via
-> copy_file_range callbacks. Compared to mmap&read: reduces
-> GUP (get_user_pages) overhead; vs sendfile/splice: eliminates
-> one memory copy; supports dmabuf zero-copy implementation.
->
-> Signed-off-by: wangtao <tao.wangtao@honor.com>
-> ---
+Add streams support to Renesas rcar platform driver.
 
-Hi wangtao,
+The series attempts to keep compatibility with the current upstream.
+However, in upstream there's some kind of custom multi-stream support
+implemented to the rcar driver, which breaks at patch "media: rcar-csi2:
+Simplify rcsi2_calc_mbps()".
 
-Let me rephrase my reaction gently:
-Regardless of the proposed API extension, and referring to the
-implementation itself -
-I wrote the current code and I can barely understand the logic every time
-I come back to read it.
+The behavior should not change when using a single stream.
 
-Your changes make it too messy to be reviewed/maintained.
-I have a few suggestions for simplifications (see below).
+Testing is problematic, as the only way currently for me to get multiple
+streams is by using the GMSL2 deserializer add-on board with GMSL2
+serializers. These are not supported in upstream. If someone has the
+hardware and wants to test, I can share the very-WIP branch that
+contains the missing pieces.
 
-The complication arise from the fact that normally the destination fops
-are used to call the copy_range() method and this case is a deviation
-from this standard, we need to make the cope simpler using a helper
-to choose the fops to use.
+ Tomi
 
->  fs/read_write.c    | 71 +++++++++++++++++++++++++++++++++-------------
->  include/linux/fs.h |  2 ++
->  2 files changed, 54 insertions(+), 19 deletions(-)
->
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index bb0ed26a0b3a..591c6db7b785 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -1469,6 +1469,20 @@ COMPAT_SYSCALL_DEFINE4(sendfile64, int, out_fd, in=
-t, in_fd,
->  }
->  #endif
->
-> +static inline bool is_copy_memory_file_to_file(struct file *file_in,
-> +                               struct file *file_out)
-> +{
-> +       return (file_in->f_op->fop_flags & FOP_MEMORY_FILE) &&
-> +               file_in->f_op->copy_file_range && file_out->f_op->write_i=
-ter;
-> +}
-> +
-> +static inline bool is_copy_file_to_memory_file(struct file *file_in,
-> +                               struct file *file_out)
-> +{
-> +       return (file_out->f_op->fop_flags & FOP_MEMORY_FILE) &&
-> +               file_in->f_op->read_iter && file_out->f_op->copy_file_ran=
-ge;
-> +}
-> +
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Changes in v3:
+- Rebased on top of latest linux-media
+- Dropped dependencies which are already in linux-media (only remaining
+  dependency is v4l2_subdev_get_frame_desc_passthrough)
+- Tested on white-hawk board, using the staging deser TPG
+- Also tested in a WIP branch for GMSL2 (two video streams)
+- Link to v2: https://lore.kernel.org/r/20250326-rcar-streams-v2-0-d0d7002c641f@ideasonboard.com
 
-Please combine that to a helper:
-const struct file_operations *memory_copy_file_ops(struct file
-*file_in, struct file *file_out)
-which returns either file_in->f_op, file_out->f_op or NULL.
+Changes in v2:
+- Rebased on top of latest upstream, and updated the dependencies to
+  match the latest serieses sent.
+- Add new patch "media: rcar-csi2: Use the pad version of v4l2_get_link_freq()"
+- Drop "media: rcar-csi2: Fix typo" (it was not a typo)
+- Update the code in calc_mbps(). The previous method relied on
+  V4L2_CID_LINK_FREQ, but that's not available if the link-freq is
+  provided via get_mbus_config().
+- Dropped dependencies to Niklas' old series which doesn't apply
+  cleanly. It's needed for multi-stream, but not for the current
+  upstream which only has a single stream use case.
+- Link to v1: https://lore.kernel.org/r/20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com
 
+---
+Tomi Valkeinen (15):
+      media: rcar-csi2: Use the pad version of v4l2_get_link_freq()
+      media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
+      media: rcar-isp: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Move rcar2_calc_mbps()
+      media: rcar-csi2: Simplify rcsi2_calc_mbps()
+      media: rcar-csi2: Optimize rcsi2_calc_mbps()
+      media: rcar-csi2: Switch to Streams API
+      media: rcar-isp: Switch to Streams API
+      media: rcar-csi2: Add .get_frame_desc op
+      media: rcar-isp: Call get_frame_desc to find out VC & DT
+      media: rcar-csi2: Add more stream support to rcsi2_calc_mbps()
+      media: rcar-csi2: Call get_frame_desc to find out VC & DT (Gen3)
+      media: rcar-csi2: Add full streams support
+      media: rcar-isp: Add full streams support
 
->  /*
->   * Performs necessary checks before doing a file copy
->   *
-> @@ -1484,11 +1498,23 @@ static int generic_copy_file_checks(struct file *=
-file_in, loff_t pos_in,
->         struct inode *inode_out =3D file_inode(file_out);
->         uint64_t count =3D *req_count;
->         loff_t size_in;
-> +       bool splice =3D flags & COPY_FILE_SPLICE;
-> +       bool has_memory_file;
->         int ret;
->
-> -       ret =3D generic_file_rw_checks(file_in, file_out);
-> -       if (ret)
-> -               return ret;
-> +       /* Skip generic checks, allow cross-sb copies for dma-buf/tmpfs *=
-/
-> +       has_memory_file =3D is_copy_memory_file_to_file(file_in, file_out=
-) ||
-> +                         is_copy_file_to_memory_file(file_in, file_out);
-> +       if (!splice && has_memory_file) {
-> +               if (!(file_in->f_mode & FMODE_READ) ||
-> +                   !(file_out->f_mode & FMODE_WRITE) ||
-> +                   (file_out->f_flags & O_APPEND))
-> +                       return -EBADF;
+ drivers/media/platform/renesas/rcar-csi2.c      | 426 +++++++++++++++++-------
+ drivers/media/platform/renesas/rcar-isp/csisp.c | 228 ++++++++++---
+ 2 files changed, 479 insertions(+), 175 deletions(-)
+---
+base-commit: 5e1ff2314797bf53636468a97719a8222deca9ae
+change-id: 20250219-rcar-streams-1fdea8860e5e
+prerequisite-change-id: 20250218-frame-desc-passthrough-66805e413974:v4
+prerequisite-patch-id: bce4a915a29a64f88ed1bb600c08df37d2ba20c6
+prerequisite-patch-id: 69b75e7dad9ced905cb39a72f18bebbf3e8f998a
+prerequisite-patch-id: 58463f6944c76acd6cf203b14a2836cdb0db2461
 
-I don't like that this both duplicates code and does not check all the chec=
-ks in
-generic_file_rw_checks() for the non-memory file side.
-I do not currently have a suggestion how to make this less messy,
-more human readable and correct.
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-> +       } else {
-> +               ret =3D generic_file_rw_checks(file_in, file_out);
-> +               if (ret)
-> +                       return ret;
-> +       }
->
->         /*
->          * We allow some filesystems to handle cross sb copy, but passing
-> @@ -1500,7 +1526,7 @@ static int generic_copy_file_checks(struct file *fi=
-le_in, loff_t pos_in,
->          * and several different sets of file_operations, but they all en=
-d up
->          * using the same ->copy_file_range() function pointer.
->          */
-> -       if (flags & COPY_FILE_SPLICE) {
-> +       if (splice || has_memory_file) {
->                 /* cross sb splice is allowed */
-
-This comment is not accurate - it should say "cross fs-type", because it sk=
-ips
-the test that compares the ->copy_file_range pointers, not the sb.
-If you are making changes to this function, this should be clarified.
-
->         } else if (file_out->f_op->copy_file_range) {
->                 if (file_in->f_op->copy_file_range !=3D
-> @@ -1581,23 +1607,30 @@ ssize_t vfs_copy_file_range(struct file *file_in,=
- loff_t pos_in,
->          * same sb using clone, but for filesystems where both clone and =
-copy
->          * are supported (e.g. nfs,cifs), we only call the copy method.
->          */
-> -       if (!splice && file_out->f_op->copy_file_range) {
-> -               ret =3D file_out->f_op->copy_file_range(file_in, pos_in,
-> -                                                     file_out, pos_out,
-> -                                                     len, flags);
-> -       } else if (!splice && file_in->f_op->remap_file_range && samesb) =
-{
-> -               ret =3D file_in->f_op->remap_file_range(file_in, pos_in,
-> -                               file_out, pos_out,
-> -                               min_t(loff_t, MAX_RW_COUNT, len),
-> -                               REMAP_FILE_CAN_SHORTEN);
-> -               /* fallback to splice */
-> -               if (ret <=3D 0)
-> +       if (!splice) {
-> +               if (is_copy_memory_file_to_file(file_in, file_out)) {
-> +                       ret =3D file_in->f_op->copy_file_range(file_in, p=
-os_in,
-> +                                       file_out, pos_out, len, flags);
-> +               } else if (is_copy_file_to_memory_file(file_in, file_out)=
-) {
-> +                       ret =3D file_out->f_op->copy_file_range(file_in, =
-pos_in,
-> +                                       file_out, pos_out, len, flags);
-> +               } else if (file_out->f_op->copy_file_range) {
-> +                       ret =3D file_out->f_op->copy_file_range(file_in, =
-pos_in,
-> +                                                       file_out, pos_out=
-,
-> +                                                       len, flags);
-> +               } else if (file_in->f_op->remap_file_range && samesb) {
-> +                       ret =3D file_in->f_op->remap_file_range(file_in, =
-pos_in,
-> +                                       file_out, pos_out,
-> +                                       min_t(loff_t, MAX_RW_COUNT, len),
-> +                                       REMAP_FILE_CAN_SHORTEN);
-> +                       /* fallback to splice */
-> +                       if (ret <=3D 0)
-> +                               splice =3D true;
-> +               } else if (samesb) {
-> +                       /* Fallback to splice for same sb copy for backwa=
-rd compat */
->                         splice =3D true;
-> -       } else if (samesb) {
-> -               /* Fallback to splice for same sb copy for backward compa=
-t */
-> -               splice =3D true;
-> +               }
-
-This is the way-too-ugly-to-live part.
-Was pretty bad before and now it is unacceptable.
-way too much unneeded nesting and too hard to follow.
-
-First of all, please use splice label and call goto splice (before the comm=
-ent)
-instead of adding another nesting level.
-I would do that even if not adding memory fd copy support.
-
-Second, please store result of mem_fops =3D memory_copy_file_ops()
-and start with:
-+    if (mem_fops) {
-+        ret =3D mem_fops->copy_file_range(file_in, pos_in,
-+
-file_out, pos_out,
-+                                                               len, flags)=
-;
- +   } else if (file_out->f_op->copy_file_range) { ...
-
-and update the comment above to say that:
-+ * For copy to/from memory fd, we alway call the copy method of the memory=
- fd.
-   */
-
-I think that makes the code not more ugly than it already is.
-
-Thanks,
-Amir.
 
