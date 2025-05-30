@@ -1,189 +1,245 @@
-Return-Path: <linux-media+bounces-33682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33683-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC99AC90C7
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 15:56:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE53AC9121
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 16:07:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A85F71C01547
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 13:55:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D5453AA3EA
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 14:06:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7B212356A2;
-	Fri, 30 May 2025 13:51:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17CF722FE10;
+	Fri, 30 May 2025 14:05:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IYRF1N2S"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dMc4ePrL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B570D235065;
-	Fri, 30 May 2025 13:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D14622D7AC;
+	Fri, 30 May 2025 14:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748613117; cv=none; b=ZHYzIPvakn67Hq2wjMXGrpnTfHy1Dn0yjmJI1ZM0CCnuxVI7P4rJjpIoFuzCOU1YZOtVbasm0S+yolrPOqgy91+mHFf1ffy+QImW7V3nGDQHqFndZByvzb0x3wKFvmABBBOzTTqyTL1i/6UUXGc/V65/nxNkqV13/h5v7zC8u3s=
+	t=1748613935; cv=none; b=e6DOCJl28xpA2VNz7U9r2QZXbl4GebeVJqq8G8g5fy8BkgcGKkRlVJX7algjtjp4/zHRu6zSQBaxAWjst8DMAKDS+7gpinxD+ESq2cXx4pa7U++AF9vnKa+QkoSV8znHmj9WEcDRfHd140ewnAXJhI7z/24OahmMiywS8fB9hmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748613117; c=relaxed/simple;
-	bh=89CbSrBJkWcuOU906rNizxWcRDno1foXQRch/TOtTL4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Qz2VLXrvC7bmsvQr3e7A9k2l5DluBkYAjNlBknJKi4xyyOR8LEf5kXkjn7drU+Rk0w5rxfPSdFizOBVMAc39m02rtdLj17+cn+BIwE9anU/nL0fEAac7HbOVesjroxRPxgwcqITspgjYV8moRDCshpSMASGSH75a+oOtbsFBZ/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IYRF1N2S; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 016EF1AC5;
-	Fri, 30 May 2025 15:51:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748613072;
-	bh=89CbSrBJkWcuOU906rNizxWcRDno1foXQRch/TOtTL4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=IYRF1N2SuLYO6k0F01Bcp0fm+sgyk0CRUeECEBqR/uQ7NItDJD2A3+Axg2wxVwRrB
-	 8gBtbCHoCBkwwtCCXxc2YeCk7f06Wsx+BAbgtHd96wfR9hGiFupARw4FEQ9Sns852z
-	 EWu2RXINsJMFgQmb/Avsr5qrk9hLSzSjJfKmZg1A=
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Date: Fri, 30 May 2025 16:50:44 +0300
-Subject: [PATCH v3 15/15] media: rcar-isp: Add full streams support
+	s=arc-20240116; t=1748613935; c=relaxed/simple;
+	bh=4gkgjY5kGR6zQCrqpo0+hFqLbpk3iPh4aMlab+1tfiU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=iVj6TgK/kjvXhfpWQ8AUlR+weAgXWlYZk6UQ+UaLA3QGCR3RG/cGb56SUFfpkw/rqyjnVhyCuaqAtI6tQY6pLNg0dDcAKqpitd8q/v6PD/sPV4yrXigz7HAFMoufZtIN6NZvjWuzcqvUoYJEfsTPLZsPPYsOhSNu3bDOtDnDsqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dMc4ePrL; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UAWXnH008272;
+	Fri, 30 May 2025 14:05:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	4iVEmPMyZopwyfXJVjKqstdsuW2AD1p5Y2D0gUSNpEw=; b=dMc4ePrL76kNx+9n
+	My70cNWd/sP9JsoWAOv45q6M+2OYDHgBI5CBMoUcYFhBd1aSb60ufxk+VyJwyu8K
+	c37PZxSr6IZ5FVzxDF4ZXWaFlamwYQMCcY/dvnyOOLe1f31j4hXXESvcqMMDqkpJ
+	UJfIMYHYJxrUcL0SOZWDDlVMXxlgfCik6khXQmEM3MSLA/fyJDZ3kCk4x43haruL
+	zMHRdORwR6Ft+9Z8kpWoNFDAy7NL7ZJS+ZvNaq7rlXhc/AGbN1j9OkCyo3N5Iajh
+	ldOvnqowz2h2O4hvjKmkAAiQ0gZx92PRzIQaPHMhVFCns5s5fTnRjb5eFf1g5YGp
+	w2glDg==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46w992uetx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 30 May 2025 14:05:17 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54UE5HKX001222
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 30 May 2025 14:05:17 GMT
+Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 May
+ 2025 07:05:12 -0700
+Message-ID: <de00809a-2775-4417-b987-5f557962ec31@quicinc.com>
+Date: Fri, 30 May 2025 19:35:10 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250530-rcar-streams-v3-15-026655df7138@ideasonboard.com>
-References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
-In-Reply-To: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
-To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3084;
- i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=89CbSrBJkWcuOU906rNizxWcRDno1foXQRch/TOtTL4=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBoObfgHUbawz0aW0hTJhZs6yMIY6sIJd2+aI03f
- i1YEfrtuiSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaDm34AAKCRD6PaqMvJYe
- 9bRYEACvjIzmj8rx3lxrXsE3XqIPjaXAe+CRiexW6+YxMFWsTgI40RjNK9m5KkcsPoddBmojJkw
- Jq9xy68N81yezJGwrJk1pt9BCyI57GiUKITFB/ZeiU+j+XmodLMuUPbzSiOii/iXCY0SWiXDVTA
- ROixDUamy1rR8VuQzU8HVhulO/J1vrnpUPkIwTxmmbSS6viKv1KVPdYMhnJXre6naD7Ev0jvXdp
- 1zIjYcwpNMNa9WT+SzhnnOFAuHgod3xn1X1kIeJe7knJNcymMlnFTd86zJoLDRCelzeC4KiTD40
- f54D4hLpgUxIDL0XJrv1lqUWp6Z0BMfAmw/pO+Z7hBWQHx6hA/QyqtSm2KrCq73zjmOGOOgZ2Ya
- q5iMCkkJIKl1JRgiQkoA5Bg7MRJqiymEfxZ0ulZPMnUT0zKfVFc6TObILpKwA9uR/GtVzWnJVEe
- Bpl4bmtUAKTp7QFmjVJmt4Dq2U+fcSbyUbHiy1ZQyUXNCvePnDjf+oOSyFCKyO5fkc2uRvZrQDp
- c0itZHzrS5cvzCEBG+DgrKpeneTgXkQc7xsTFuA76ZmT8354MoPGlQAgaLLlhyx5AqiAph4bBEF
- qiKXrXOlHmgzov/cSoo/wEigT8XdAJhVpyhrHIrdkzPUatoslSMxYa0KSlf86RYv8HneOY63QL6
- pKUByQChLNkCYeA==
-X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/2] dmaengine: qcom: gpi: Add GPI Block event
+ interrupt support
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: Vinod Koul <vkoul@kernel.org>,
+        Mukesh Kumar Savaliya
+	<quic_msavaliy@quicinc.com>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
+ <20250506111844.1726-2-quic_jseerapu@quicinc.com>
+ <ze5y6llgo2qx4nvilaqcmkam5ywqa76d6uetn34iblz4nefpeu@ozbgzwbyd54u>
+ <4456d0e2-3451-4749-acda-3b75ae99e89b@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <4456d0e2-3451-4749-acda-3b75ae99e89b@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDEyNCBTYWx0ZWRfX+HFHJqP6AUQh
+ /F7kIWa/YYSTMBf+9sF8PbIxkXJ2TGSP6218m4NSYH0l3bn/6/kk+MM5wxOXJF1c6hNA9U5H956
+ XUGqLTH7KtUNW+PXf0GlAAYt9o6fQ+AGwsGWsciTdTNRxIbasz8boxUF1Ch24gw/rJf5QqmS3Km
+ fpqoUdRLu4U9ETmDNSAn3G4WcLmIRmLe0eRuFa46+dSl7RfKmkY1ICAXZfp1fPPzY3l6/aYrwdf
+ 3t2EE3VM154j9J7eYpPC/riJlJ61/TYI5QnpCVgxLvCk68OGk+RyDFZcENc1DIY2SwmHj/t7vhW
+ Ex+r5AsExKFqytrNh1IkLVn8uXj5FphgdNVt9o/fc2hDJcJxJ1ywZXAuOioWhEvMY8Lnlil1s8L
+ tkhyWoT5VnUyjR0wWjU1C84lpNPuVnL2oYi6q2xurLqra2EnWP75ohGUVKHXCz6C6ch86a/7
+X-Authority-Analysis: v=2.4 cv=Fes3xI+6 c=1 sm=1 tr=0 ts=6839bb1d cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
+ a=ABChF0pPfgsoSLu0HJQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: Jal4qF9HP_k9GDbkw8uB1H7T2eq9ttJO
+X-Proofpoint-ORIG-GUID: Jal4qF9HP_k9GDbkw8uB1H7T2eq9ttJO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-30_06,2025-05-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
+ adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505300124
 
-Add the missing pieces to enable full streams support:
 
-- Add set_routing
-- Drop the explicit uses of a single stream, and instead use the streams
-  mask.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- drivers/media/platform/renesas/rcar-isp/csisp.c | 41 +++++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
+On 5/9/2025 11:48 AM, Jyothi Kumar Seerapu wrote:
+> 
+> 
+> On 5/6/2025 5:02 PM, Dmitry Baryshkov wrote:
+>> On Tue, May 06, 2025 at 04:48:43PM +0530, Jyothi Kumar Seerapu wrote:
+>>> GSI hardware generates an interrupt for each transfer completion.
+>>> For multiple messages within a single transfer, this results in
+>>> N interrupts for N messages, leading to significant software
+>>> interrupt latency.
+>>>
+>>> To mitigate this latency, utilize Block Event Interrupt (BEI) mechanism.
+>>> Enabling BEI instructs the GSI hardware to prevent interrupt generation
+>>> and BEI is disabled when an interrupt is necessary.
+>>>
+>>> When using BEI, consider splitting a single multi-message transfer into
+>>> chunks of 8 messages internally and so interrupts are not expected for
+>>> the first 7 message completions, only the last message triggers
+>>> an interrupt, indicating the completion of 8 messages.
+>>>
+>>> This BEI mechanism enhances overall transfer efficiency.
+>>>
+>>> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+>>> ---
+>>> v5 ->v6:
+>>>    - For updating the block event interrupt bit, instead of relying on
+>>>      bei_flag, decision check is moved with DMA_PREP_INTERRUPT flag.
+>>> v4 -> v5:
+>>>    - BEI flag naming changed from flags to bei_flag.
+>>>    - QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
+>>>      file, and Block event interrupt support is checked with bei_flag.
+>>>
+>>> v3 -> v4:
+>>>    - API's added for Block event interrupt with multi descriptor 
+>>> support for
+>>>      I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+>>>    - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+>>>      I2C driver.
+>>>
+>>> v2-> v3:
+>>>     - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+>>>     - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+>>>     - Added documentation for newly added changes in "qcom-gpi-dma.h" 
+>>> file
+>>>     - Updated commit description.
+>>>
+>>> v1 -> v2:
+>>>     - Changed dma_addr type from array of pointers to array.
+>>>     - To support BEI functionality with the TRE size of 64 defined in 
+>>> GPI driver,
+>>>       updated QCOM_GPI_MAX_NUM_MSGS to 16 and NUM_MSGS_PER_IRQ to 4.
+>>>
+>>>   drivers/dma/qcom/gpi.c           | 3 +++
+>>>   include/linux/dma/qcom-gpi-dma.h | 2 ++
+>>>   2 files changed, 5 insertions(+)
+>>>
+>>> diff --git a/drivers/dma/qcom/gpi.c b/drivers/dma/qcom/gpi.c
+>>> index b1f0001cc99c..7e511f54166a 100644
+>>> --- a/drivers/dma/qcom/gpi.c
+>>> +++ b/drivers/dma/qcom/gpi.c
+>>> @@ -1695,6 +1695,9 @@ static int gpi_create_i2c_tre(struct gchan 
+>>> *chan, struct gpi_desc *desc,
+>>>           tre->dword[3] = u32_encode_bits(TRE_TYPE_DMA, TRE_FLAGS_TYPE);
+>>>           tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_IEOT);
+>>> +
+>>> +        if (!(i2c->dma_flags & DMA_PREP_INTERRUPT))
+>>> +            tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_BEI);
+>>>       }
+>>>       for (i = 0; i < tre_idx; i++)
+>>> diff --git a/include/linux/dma/qcom-gpi-dma.h b/include/linux/dma/ 
+>>> qcom-gpi-dma.h
+>>> index 6680dd1a43c6..ebac0d3edff2 100644
+>>> --- a/include/linux/dma/qcom-gpi-dma.h
+>>> +++ b/include/linux/dma/qcom-gpi-dma.h
+>>> @@ -65,6 +65,7 @@ enum i2c_op {
+>>>    * @rx_len: receive length for buffer
+>>>    * @op: i2c cmd
+>>>    * @muli-msg: is part of multi i2c r-w msgs
+>>> + * @dma_flags: Flags indicating DMA capabilities
+>>>    */
+>>>   struct gpi_i2c_config {
+>>>       u8 set_config;
+>>> @@ -78,6 +79,7 @@ struct gpi_i2c_config {
+>>>       u32 rx_len;
+>>>       enum i2c_op op;
+>>>       bool multi_msg;
+>>> +    unsigned int dma_flags;
+>>
+>> Why do you need extra field instead of using
+>> dma_async_tx_descriptor.flags?
+> 
+> In the original I2C QCOM GENI driver, using the local variable (unsigned 
+> in flags) and updating the "DMA_PREP_INTERRUPT" flag.
+> 
+> Sure, i will review if "dma_async_tx_descriptor.flags" can be retrieved 
+> in GPI driver for DMA_PREP_INTERRUPT flag status.
 
-diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
-index 887d8eb21a3a..101d69a2eba4 100644
---- a/drivers/media/platform/renesas/rcar-isp/csisp.c
-+++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
-@@ -342,6 +342,7 @@ static int risp_enable_streams(struct v4l2_subdev *sd,
- {
- 	struct rcar_isp *isp = sd_to_isp(sd);
- 	int ret = 0;
-+	u64 sink_streams;
- 
- 	if (source_streams_mask != 1)
- 		return -EINVAL;
-@@ -355,8 +356,13 @@ static int risp_enable_streams(struct v4l2_subdev *sd,
- 			return ret;
- 	}
- 
-+	sink_streams = v4l2_subdev_state_xlate_streams(state,
-+						       source_pad,
-+						       RCAR_ISP_SINK,
-+						       &source_streams_mask);
-+
- 	ret = v4l2_subdev_enable_streams(isp->remote, isp->remote_pad,
--					 BIT_ULL(0));
-+					 sink_streams);
- 	if (ret) {
- 		risp_stop(isp);
- 		return ret;
-@@ -372,6 +378,7 @@ static int risp_disable_streams(struct v4l2_subdev *sd,
- 				u64 source_streams_mask)
- {
- 	struct rcar_isp *isp = sd_to_isp(sd);
-+	u64 sink_streams;
- 
- 	if (source_streams_mask != 1)
- 		return -EINVAL;
-@@ -379,7 +386,12 @@ static int risp_disable_streams(struct v4l2_subdev *sd,
- 	if (!isp->remote)
- 		return -ENODEV;
- 
--	v4l2_subdev_disable_streams(isp->remote, isp->remote_pad, BIT_ULL(0));
-+	sink_streams = v4l2_subdev_state_xlate_streams(state,
-+						       source_pad,
-+						       RCAR_ISP_SINK,
-+						       &source_streams_mask);
-+
-+	v4l2_subdev_disable_streams(isp->remote, isp->remote_pad, sink_streams);
- 
- 	if (isp->stream_count == 1)
- 		risp_stop(isp);
-@@ -419,12 +431,37 @@ static int risp_set_pad_format(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static int risp_set_routing(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *state,
-+			    enum v4l2_subdev_format_whence which,
-+			    struct v4l2_subdev_krouting *routing)
-+{
-+	int ret;
-+
-+	if (routing->num_routes > V4L2_FRAME_DESC_ENTRY_MAX)
-+		return -EINVAL;
-+
-+	ret = v4l2_subdev_routing_validate(sd, routing,
-+					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 |
-+					   V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING);
-+	if (ret)
-+		return ret;
-+
-+	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing,
-+					       &risp_default_fmt);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
- static const struct v4l2_subdev_pad_ops risp_pad_ops = {
- 	.enable_streams = risp_enable_streams,
- 	.disable_streams = risp_disable_streams,
- 	.set_fmt = risp_set_pad_format,
- 	.get_fmt = v4l2_subdev_get_fmt,
- 	.link_validate = v4l2_subdev_link_validate_default,
-+	.set_routing = risp_set_routing,
- };
- 
- static const struct v4l2_subdev_ops rcar_isp_subdev_ops = {
+Hi Dmitry,
 
--- 
-2.43.0
+In the I2C Geni driver, the dma flags are primarily used in the 
+dmaengine_prep_slave_single() function, which expects the argument type 
+to be unsigned int. Therefore, the flags should be defined either as
+enum dma_ctrl_flags, or unsigned int.
+
+In the GPI driver, specifically within the gpi_prep_slave_sg() function, 
+the flags are correctly received from the I2C driver. However, these 
+flags are not currently passed to the gpi_create_i2c_tre() function.
+
+If we pass the existing flags variable to the gpi_create_i2c_tre() 
+function, we can retrieve the DMA flags information without introducing 
+any additional or external variables.
+
+Please confirm if this approach—reusing the existing flags argument in 
+the GPI driver—is acceptable and good to proceed with.
+
+>>
+>>>   };
+>>>   #endif /* QCOM_GPI_DMA_H */
+>>> -- 
+>>> 2.17.1
+>>>
+>>
+> 
+> 
 
 
