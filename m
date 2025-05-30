@@ -1,86 +1,87 @@
-Return-Path: <linux-media+bounces-33709-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33710-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8B5AC9688
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 22:26:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF83AC968E
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 22:28:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6675B504773
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 20:26:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 827C21C0754C
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 20:28:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D2BB2820C6;
-	Fri, 30 May 2025 20:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDCFE278E7A;
+	Fri, 30 May 2025 20:27:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jwLaF4YX"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DoZawHgs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6298D22B8C6
-	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 20:26:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3948148850
+	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 20:27:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748636805; cv=none; b=VkjoUArlwWkA2cEisQV6f3R9/JR6CO0hQQf/SwdhI/GIu2SRmeUtdvzITfc6HV7TZ5516iC7Vx92hHptMDsIh3CgaBMtA7hyC8QlN6l0JGFnrbPI1x6BJcGFyeFponiv/O5ju48tFfTZkEf/VuzKRR0VMWQdGKF/4WH6ofXqr78=
+	t=1748636874; cv=none; b=HMJXQuk6ZhKIFuq15aOjEIp8LZ6T8X/WCR4qvx69LNUXevEFshEyglypdKJh5TvFpvpm9nidHlvPru37L8qF0Bxc8Z7UfAJgIYKhV6gHCc2PMjaYELEY3sTGgWWEs08Xqw6O347oWOTErpKYGikZxmMBvI4AMwLIGHvEtN8oU1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748636805; c=relaxed/simple;
-	bh=UbC2ciAwBnXn3leWtQ8ADE+eX3jl61pPiAdh+E1mrx0=;
+	s=arc-20240116; t=1748636874; c=relaxed/simple;
+	bh=yzLs/F7IOX8OsZ82RoPOjGVV3J0Q5pBDHcSeYhHwVqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sXi97F2K01qA7ldZ4iRtgCksZalO4nq0tZ+ESbwcirP42/dLP2xtPxnnBL7qxE8LtLSKdXNi+/QQeFWNI5CtAvlN6hnTGN82Fyacf9gj1hwn27Zntpb/JhvD8gL7qqA72KAZstNapjJYfolqV01GuEbD2FxNY7Irf91hHZAi+e4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jwLaF4YX; arc=none smtp.client-ip=205.220.180.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=pfWTCkTx5BQshvk9vNdL0zNHaUlAFKuyv1SUUqbO2puqbAHEDT9M38uLcr7hdHzeyOqfmvUshKRP26/Ya2QNPUBbwNKMD3YeBYnt2+eXZ293PK6MYtcCHMsA9ECI1O1mh2D1Gi6wsifsNSuOyCO+mZGY12UVEfVZxTcrkdGUeTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DoZawHgs; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UAavrC024051
-	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 20:26:42 GMT
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UBgUgU006918
+	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 20:27:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=2Smv5QWNwygSvZBVOmLYL3h4
-	69JjSVp7Jf4WZWmUL3Y=; b=jwLaF4YX7rih8RAmco5UlwNGxmCbwx0bmdvHL62H
-	safGvXEkAV536kdCF0Y676trAumd4gfdM7ovwvrDNxMgO0VVa4uSd+xJWaYnE3QM
-	HfC0w/4qu9hVQpEcgKPcBAeRQrYGcAEFTIe6hly9GdAsVOWIfSkeqrhU0byI1Lmf
-	OxbE16Le4w3tOWheuyOJoFR/Z/HSmihxnTq0a6MaT6bj2yOyQ1/dAqA8Ewj2Mjqs
-	wWm+0HWkh0/rScJ7+TgmTbSXU1qQYomMNrVITwSA48E73U4RQ5v7TqILvQm20kge
-	t88C6MDoh3tQ5HvLlPOxwrrENYRMq3hfZAFnPX8/TNltlg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46x8d7f3n4-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Z5v2/xYy+7yiHHDvsqhV++GxT3PiJTHR6Maiy6xrQ50=; b=DoZawHgsjojpUFwt
+	SxU4H9LTBQluKMO/HZnm5sxe2h1vqOEFvx7Gz/9JuOfw7wPWD6h02kNcEQWibGVO
+	NucV4bBn4RrJdVZXrULABC9+K+faeWvYooMJkTvnbYRU7K9y4qmmXHbXPxhYg9Kh
+	WD7fqJkfZiBKGVUP5RK+ZNcVjXRho8vPppCM52clw7MBMQTnpp0ROCYlh1Pd4o3K
+	EyUXftTZlmN8v67aefQMAJ8LW5UXSVaF6MhUmuUjMK8+/qVhDANozNqqls4dZcjV
+	Ilyai2Q/NjehoN5dadv5+ifQV2m0w6rLZpJcO2nzraqKTuHF4LyCj5B7wXH4VBP7
+	pHZZWQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u3fqjkqv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 20:26:41 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c955be751aso385090185a.2
-        for <linux-media@vger.kernel.org>; Fri, 30 May 2025 13:26:41 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 20:27:51 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c760637fe5so376286185a.0
+        for <linux-media@vger.kernel.org>; Fri, 30 May 2025 13:27:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748636801; x=1749241601;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Smv5QWNwygSvZBVOmLYL3h469JjSVp7Jf4WZWmUL3Y=;
-        b=d7pPUmeztewlQViy6xRTD6pBVGW/PhMKBEe3eH7tN8NdCkys3TMcGEAjk6jGEu8kar
-         6srSiLlbaNMUxNw82uNQ2C2jdbHpr9rKRLCwdoVy9LEzSGg+k/bakBkQTmi0qr3GQ5JW
-         zfuF6KzSIs/wwVQH1w8uV5EBH/kATCKeN5V8bZ315HI7XaFF7lSQbbSyCBQcQdDw1fdY
-         ZEPm8TGD0kjYH+KmhJOC0wCh2CSSJOd3eounhcvtMuLot2vvCD7+UD8HNpxteQ9rHzLE
-         c7TzvkukmDWbcVrnHbBU7TGiQvjqfV25ETBjHLFrWPIfvgRNd+8mgVSyN+azwQ8bsGpp
-         wwLA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZGbyrlxkPdCQzwivi8xheSW4cYPrw3QAJZCcCdtRbbFV0ZyHCV9V1JcbxKpd53n2/E5NMJVesw+FzBw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwF527yATa0C9PPTdm10Y0V760atXoDIbpRmhju2iow9LxcFYD1
-	IXaX6uak2h6CVyRGc87tn5Wgi4yeoptAH+UBwdY8ffSWHfj+7mGsvlYY6hSvbFOtK0FAInZJeoV
-	hTfJSe8yemvPW45sahB8VwU0tKHtNMMCWoEgjwfQJf4udW+Xulu50DPHBz6HhYJ6H3w==
-X-Gm-Gg: ASbGnctjOH9O6sCdaDyMyXaHn7EOQdGFOwLzSIOyLZbQHytd16XSmytDNihMYvgD+7h
-	euJJhSpNW4P4tSvgBEG9ySamxDjwr5sPriF02OddlYLNSbyFd7t8tfAe/sWy7bdxzQg0Z4lTCGJ
-	8JZEDiVGMQl06CSJrnIECChxtw4ZIbdtgFPLnRCT6CQfPA4fqC6p1hv/cLggPC60DlP4UmSLQds
-	Utg9YPvLWhI6uRU+pFYtZ+Fz0YX9sbM137uCQCtMlYPYqMq5hsj0pa0pnFSXz6luFlQyRilMG5R
-	9/5NlurpUrPvw2DRDtJ2Qo+HdJ3uss1LGoXm9eZoX86m2OE7T9gZ4HmsvrI7vPvA7O2qf6g074s
+        d=1e100.net; s=20230601; t=1748636870; x=1749241670;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z5v2/xYy+7yiHHDvsqhV++GxT3PiJTHR6Maiy6xrQ50=;
+        b=Uuf5Oap1aHCIhQb/3bn86PsB1HVdPRCUGiSZ4y9d5Kmxzzq7gWTOpG8Fh+EqhjsjhC
+         eXCREi1R3/Add6xxXW0Wt26DqD7xxkVd6/EjnyHRnNBgsdnhi693IsbDQfrlf5rTAWY8
+         3Nnzs3eqtUdvsM0taQDRNSiK8JExLnge8Azs2py99qvR96/ezUZvECqTyr1y1mXVAauj
+         njt0dWtsT6vSbzetXms186dl7/eDYcsKm66WIFN1kD+UzosM/qoG7xqPpBrAgv/MHnKq
+         JOiBMioqtU99oJ82sdGplpzQGqGlHFqzmoMlQzWkK+d0Re9HnK0MFw8VRX8bEdlrkkhJ
+         giQg==
+X-Forwarded-Encrypted: i=1; AJvYcCWn06e2FbCP3qjp+HbLIRbvYb0ZzFO4kUCetPShIrpc+G2Hi+7cZL8vvkGtzNeGutQ1hHLQLdCq+y4HYQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBYc40vTRDplcC9658T8lZ+EIHLnbUL6POoR9MfyIehyR0BBZ1
+	4WnG/2C7ndfHQKpwNjYM1IkYR83y/uydqtfHIGBngF89pDxmlolsm0JKseciyqIV8cSNbRmDI/9
+	UgRSSdnaGDPegnt3tOCY9Pcj6ORPrcQuvZLOWQInNdEULjJ3ahLOdoJuAUOqGe0s0qA==
+X-Gm-Gg: ASbGncvzmq3P4te/WbT2MLm+z1dJAwdPnPsjAaOC3QatvSj3OOvjXoLklcH/mDuM6Q+
+	0W6L/LkoMASiphu7lDpbX7UCQRi3gXGjUB1KfCpuKRWTAND6k2qhOiZ7MMdY5AOrIrUDeKgQ8qN
+	L8L0DbSv0CYAHoW0vUO7ETfmg9JCuSw86o0Fo2hjmvCo3MMsTV8TbRRuoGg8RuWttB0K5e80V9H
+	txZ0z3y7LaepBDlrA9nQxp1XAI/Qc6d4TuQ/mFcMnbUEzES9pGoZAncqUryIBhFIazmX1fkc0Ti
+	TTizdYV9zgBhAF6mupFmSxToUDWV/pIiT5khULlMztswpX3GeJpDZrBDy3TLu5PElNIl4nkvgOQ
 	=
-X-Received: by 2002:a05:620a:2789:b0:7d0:96d9:f8c3 with SMTP id af79cd13be357-7d0a1feb55dmr653462285a.34.1748636801206;
-        Fri, 30 May 2025 13:26:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFIWZaLbiNV5l4FpFBJv9XiFQqN5ZB1DIRxf8JfhoR2XVZtRVyRKE7qzxT+Kk2KYko6yQKGew==
-X-Received: by 2002:a05:620a:2789:b0:7d0:96d9:f8c3 with SMTP id af79cd13be357-7d0a1feb55dmr653458785a.34.1748636800784;
-        Fri, 30 May 2025 13:26:40 -0700 (PDT)
+X-Received: by 2002:a05:620a:600b:b0:7c5:4194:bbcc with SMTP id af79cd13be357-7d0a1fb84a1mr641656185a.29.1748636870545;
+        Fri, 30 May 2025 13:27:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEJJZTqm6jwxr1YWdBtUnb7udcZWcz5bEinUQHIB1V9RBVrg2BBGhknwbIWpcoCnMmf4vwrxw==
+X-Received: by 2002:a05:620a:600b:b0:7c5:4194:bbcc with SMTP id af79cd13be357-7d0a1fb84a1mr641651485a.29.1748636870139;
+        Fri, 30 May 2025 13:27:50 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55337910f0dsm831084e87.119.2025.05.30.13.26.38
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5533791cdcesm819614e87.164.2025.05.30.13.27.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 13:26:40 -0700 (PDT)
-Date: Fri, 30 May 2025 23:26:37 +0300
+        Fri, 30 May 2025 13:27:49 -0700 (PDT)
+Date: Fri, 30 May 2025 23:27:47 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Renjiang Han <quic_renjiang@quicinc.com>
 Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -92,176 +93,151 @@ Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v8 1/3] media: venus: pm_helpers: use opp-table for the
- frequency
-Message-ID: <pyaoow6swlbazljgvav2vghixmb7swd4nkahqvxnhd6gsde26f@myhtwp72qxz7>
+        devicetree@vger.kernel.org,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [PATCH v8 0/3] media: venus: enable venus on qcs615
+Message-ID: <wmri66tkksq6i3hfyoveedq5slghnnpozjzx6gck5r3zsiwsg6@xevgh54rnlqd>
 References: <20250530-add-venus-for-qcs615-v8-0-c0092ac616d0@quicinc.com>
- <20250530-add-venus-for-qcs615-v8-1-c0092ac616d0@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250530-add-venus-for-qcs615-v8-1-c0092ac616d0@quicinc.com>
-X-Proofpoint-GUID: FBq0hFCk4jOpAG1LtTk5tRxMo0CYQ5Qf
-X-Proofpoint-ORIG-GUID: FBq0hFCk4jOpAG1LtTk5tRxMo0CYQ5Qf
-X-Authority-Analysis: v=2.4 cv=X8pSKHTe c=1 sm=1 tr=0 ts=683a1482 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=4WTgWidf2JFRtI-FBxYA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE4MiBTYWx0ZWRfX/mtVxCERLL6N
- NzLC90vQ3Ruu8zE9Ct2wz0soVfaaFUgZULl3IQeBfMdvv2OAXP8rb3PACwDNzTVghsg4Z7TnrGZ
- 2nwp/IgjUdlc3z6f6YNX+PINzAWmiBOMmcrZZI2JcQUn/4pnh0++eWFdr5bv7qf1X4FkYMo9Wju
- ulfmavfhJd9NHbFcQ+0qcS8eT2S5p/vASyqarvghcnZhQ8IqM4YefZ3nGSlmbWhZYQd9L6+cIgb
- SW9UKdCuOflSXkeTePNNkRYaGiZgU1hjsKCUZUsIYjabI48I4ho11AKGYctj1/lDKhJxh70ulB3
- uG3/yOjWqoufNAuMW4Z+pwETQWPMBPoGqES4jCoschZSwq6e5FxaD37FyRgk3aOcd5q+Ijw+N8v
- o+5Kr7UNsRFizPk65GHRZK7h1VGmpLWgskhao4gEF7RdVTzu0my8SyKwqio3Ht8a6YLxkfmg
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250530-add-venus-for-qcs615-v8-0-c0092ac616d0@quicinc.com>
+X-Proofpoint-GUID: RJZTKRky-pVbEEc-7PIOUcOZ2Fzk-6nE
+X-Proofpoint-ORIG-GUID: RJZTKRky-pVbEEc-7PIOUcOZ2Fzk-6nE
+X-Authority-Analysis: v=2.4 cv=X8FSKHTe c=1 sm=1 tr=0 ts=683a14c7 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=Q_scCxKseVub0b0m9SMA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE4MiBTYWx0ZWRfXyWMZvZwL6Sdu
+ 3yLUpCyuECaeH3NSRw//QdGXN7vJFOmCaOB2+mkcZaQvvIp4fyx2o3+PQ3Cr1oee8rVNAovKdb/
+ cshyLxOMjo70l+KynUemNiM7hRCU+dH+m4XZ0nwt96tR17YckctAapzOjHM3zR7QE9K61Ld3Cs5
+ HTPG/ZEc6b0KkJInFRUXtcqde8+p7NUzxM1k4ovZoBi0bWZbMXolmVS7bgMvLjTsvdyYCizn3Qy
+ u964R8Q5D9We7GROva9EErt/D2F9kFLecregVQ67J6gHuKvSeC5YFKqbVNfSGH6gym43THI1azw
+ YbsH+rX76n6h4ubMM/wx2NYBeTNHGbC5cNSbfjNkzvggj/8Ys9Q3EQNIcMRNAj9T0wfy7jepLmw
+ PL5HYMNzr+LpVZe8v/Dh4W8Vdi0oncTtLnroNJivWUHeZp6HHiqbIND2XPrfGRxEAFKw4ED+
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-30_09,2025-05-30_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
- adultscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
- clxscore=1015 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505300182
+ impostorscore=0 suspectscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
+ mlxscore=0 clxscore=1015 priorityscore=1501 spamscore=0 adultscore=0
+ malwarescore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505300182
 
-On Fri, May 30, 2025 at 09:32:13AM +0530, Renjiang Han wrote:
-> The frequency value in the opp-table in the device tree and the freq_tbl
-> in the driver are the same.
+On Fri, May 30, 2025 at 09:32:12AM +0530, Renjiang Han wrote:
+> QCS615 uses the same video core as SC7180, so reuse the same resource
+> data of SC7180 for QCS615 to enable video functionality.
 > 
-> Therefore, update pm_helpers.c to use the opp-table for frequency values
-> for the v4 core.
-
-You are kind of missing the linking between the first two sentences. "The
-tables are the same, so use the second one." You need to explain that
-some of the platforms (provide examples) use the same core, but
-different frequency tables. Using OPP tables allows us to abstract core
-description from the frequency data and use fallback compatibles.
-
-> If getting data from the opp table fails, fall back to using the frequency
-> table.
+> There are no resources for the video-decoder and video-encoder nodes
+> in the device tree, so remove these two nodes from the device tree. In
+> addition, to ensure that the video codec functions properly, use [3]
+> to add encoder and decoder node entries in the venus driver.
 > 
-> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Validated this series on QCS615 and SC7180.
+> 
+> Note:
+> This series consist of DT patches and a venus driver patch. The patch
+> 1/3, which is venus driver patch, can be picked independently without
+> having any functional dependency. But patch 2/3 & patch 3/3, which are
+> DT patches, still depend on [1].
+
+I'd say 2/3 and 3/3 still depend on 1/3, otherwise we can get video core
+on QCS615 over(?)clocked.
+
+> 
+> [1] https://lore.kernel.org/all/20250119-qcs615-mm-v2-dt-nodes-v2-0-c46ab4080989@quicinc.com
+> 
 > Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
 > ---
->  drivers/media/platform/qcom/venus/pm_helpers.c | 53 +++++++++++++++++++-------
->  1 file changed, 39 insertions(+), 14 deletions(-)
+> Changes in v8:
+> - 1. Add missing tags.
+> - 2. Fix the dependency to point to videoCC series alone.
+> - 3. Fix review comments from Konrad.
+> - Link to v7: https://lore.kernel.org/r/20250527-add-venus-for-qcs615-v7-0-cca26e2768e3@quicinc.com
 > 
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 409aa9bd0b5d099c993eedb03177ec5ed918b4a0..434dd66076e8faf7f3feac6c29152789f8d2f81b 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -43,14 +43,20 @@ static int core_clks_enable(struct venus_core *core)
->  	const struct venus_resources *res = core->res;
->  	const struct freq_tbl *freq_tbl = core->res->freq_tbl;
->  	unsigned int freq_tbl_size = core->res->freq_tbl_size;
-> +	struct device *dev = core->dev;
-> +	struct dev_pm_opp *opp;
->  	unsigned long freq;
->  	unsigned int i;
->  	int ret;
->  
-> -	if (!freq_tbl)
-> -		return -EINVAL;
-> -
-> -	freq = freq_tbl[freq_tbl_size - 1].freq;
-> +	opp = dev_pm_opp_find_freq_ceil(dev, &freq);
-> +	if (IS_ERR(opp)) {
-> +		if (!freq_tbl)
-> +			return -EINVAL;
-> +		freq = freq_tbl[freq_tbl_size - 1].freq;
-> +	} else {
-> +		dev_pm_opp_put(opp);
-> +	}
->  
->  	for (i = 0; i < res->clks_num; i++) {
->  		if (IS_V6(core)) {
-> @@ -631,12 +637,15 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load, bool lo
->  
->  static int decide_core(struct venus_inst *inst)
->  {
-> +	const struct freq_tbl *freq_tbl = inst->core->res->freq_tbl;
->  	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
->  	struct venus_core *core = inst->core;
->  	u32 min_coreid, min_load, cur_inst_load;
->  	u32 min_lp_coreid, min_lp_load, cur_inst_lp_load;
->  	struct hfi_videocores_usage_type cu;
-> -	unsigned long max_freq;
-> +	unsigned long max_freq = ULONG_MAX;
-> +	struct device *dev = core->dev;
-> +	struct dev_pm_opp *opp;
->  	int ret = 0;
->  
->  	if (legacy_binding) {
-> @@ -659,7 +668,11 @@ static int decide_core(struct venus_inst *inst)
->  	cur_inst_lp_load *= inst->clk_data.low_power_freq;
->  	/*TODO : divide this inst->load by work_route */
->  
-> -	max_freq = core->res->freq_tbl[0].freq;
-> +	opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
-> +	if (IS_ERR(opp))
-> +		max_freq = freq_tbl[0].freq;
-> +	else
-> +		dev_pm_opp_put(opp);
->  
->  	min_loaded_core(inst, &min_coreid, &min_load, false);
->  	min_loaded_core(inst, &min_lp_coreid, &min_lp_load, true);
-> @@ -1082,7 +1095,9 @@ static int load_scale_v4(struct venus_inst *inst)
->  	unsigned int num_rows = core->res->freq_tbl_size;
->  	struct device *dev = core->dev;
->  	unsigned long freq = 0, freq_core1 = 0, freq_core2 = 0;
-> +	unsigned long max_freq = ULONG_MAX;
->  	unsigned long filled_len = 0;
-> +	struct dev_pm_opp *opp;
->  	int i, ret = 0;
->  
->  	for (i = 0; i < inst->num_input_bufs; i++)
-> @@ -1108,19 +1123,29 @@ static int load_scale_v4(struct venus_inst *inst)
->  
->  	freq = max(freq_core1, freq_core2);
->  
-> -	if (freq > table[0].freq) {
-> -		dev_dbg(dev, VDBGL "requested clock rate: %lu scaling clock rate : %lu\n",
-> -			freq, table[0].freq);
-> +	opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
-> +	if (IS_ERR(opp))
-> +		max_freq = table[0].freq;
-> +	else
-> +		dev_pm_opp_put(opp);
->  
-> -		freq = table[0].freq;
-> +	if (freq > max_freq) {
-> +		dev_dbg(dev, VDBGL "requested clock rate: %lu scaling clock rate : %lu\n",
-> +			freq, max_freq);
-> +		freq = max_freq;
->  		goto set_freq;
->  	}
->  
-> -	for (i = num_rows - 1 ; i >= 0; i--) {
-> -		if (freq <= table[i].freq) {
-> -			freq = table[i].freq;
-> -			break;
-> +	opp = dev_pm_opp_find_freq_ceil(dev, &freq);
-> +	if (IS_ERR(opp)) {
-> +		for (i = num_rows - 1 ; i >= 0; i--) {
-> +			if (freq <= table[i].freq) {
-> +				freq = table[i].freq;
-> +				break;
-> +			}
->  		}
-> +	} else {
-> +		dev_pm_opp_put(opp);
->  	}
->  
->  set_freq:
+> Changes in v7:
+> - 1. Update devicetree patch to fix the cherry-pick patch conflict issue.
+> - 2. Remove dt-bindings patch from this patch series due to it has been
+> picked.
+> - Link to v6: https://lore.kernel.org/r/20241219-add-venus-for-qcs615-v6-0-e9a74d3b003d@quicinc.com
 > 
+> Changes in v6:
+> - 1. Remove video-decoder and video-encoder nodes from the device tree
+> - 2. Add a new dependency.
+> - 3. Fix missing tag.
+> - 4. Update commit message.
+> - Link to v5: https://lore.kernel.org/r/20241217-add-venus-for-qcs615-v5-0-747395d9e630@quicinc.com
+> 
+> Changes in v5:
+> - 1. Remove extra blank lines in yaml files.
+> - 2. Add new variables in the driver while keeping the order of the
+> original variables. And remove unnecessary variable initialization.
+> - 3. Update commit message.
+> - 4. Update the order of nodes in the device tree.
+> - Link to v4: https://lore.kernel.org/r/20241213-add-venus-for-qcs615-v4-0-7e2c9a72d309@quicinc.com
+> 
+> Changes in v4:
+> - 1. Remove qcom,qcs615-venus.yaml and use qcom,sc7180-venus.yaml for
+> qcs615 dt-bindings.
+> - 2. Add "qcom,qcs615-venus" compatible into qcom,sc7180-venus.yaml.
+> - 3. Remove qcs615 resource from the driver and use sc7180 resource for
+> the qcs615.
+> - 4. Use the frequency in the opp-table in devicetree for the driver.
+> For compatibility, if getting data from the opp table fails, the data
+> in the frequency table will be used.
+> - 5. Keep the reverse Christmas tree order coding style.
+> - 6. Add "qcom,sc7180-venus" compatible in devicetree.
+> - 7. Update cover letter message.
+> - Link to v3: https://lore.kernel.org/r/20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com
+> 
+> Changes in v3:
+> - 1. Remove the ‘|’ after 'description' in the qcom,qcs615-venus.yaml.
+> - 2. Add a blank line before 'opp-table' in the qcom,qcs615-venus.yaml.
+> - 3. Put ‘additionalProperties’ before ‘properties’ in the
+> qcom,qcs615-venus.yaml.
+> - 4. Update the subject of qcom,qcs615-venus.yaml patch.
+> - Link to v2: https://lore.kernel.org/r/20241112-add-venus-for-qcs615-v2-0-e67947f957af@quicinc.com
+> 
+> Changes in v2:
+> - 1. The change-id of DT and driver are removed.
+> - 2. Add qcom,qcs615-venus.yaml files to explain DT.
+> - 3. The order of driver's commit and DT's commit is adjusted. Place the
+> driver's commit before the DT's commit.
+> - 4. Extends driver's commit message.
+> - 5. Split DT's commit into two commits. Add the venus node to the
+> qcs615.dtsi file. Then in the qcs615-ride.dts file enable the venus node.
+> - 6. Modify alignment, sort, upper and lower case letters issue.
+> - 7. Update cover letter message description.
+> - Link to v1: https://lore.kernel.org/r/20241008-add_qcs615_video-v1-0-436ce07bfc63@quicinc.com
+> 
+> ---
+> Renjiang Han (3):
+>       media: venus: pm_helpers: use opp-table for the frequency
+>       arm64: dts: qcom: qcs615: add venus node to devicetree
+>       arm64: dts: qcom: qcs615-ride: enable venus node to initialize video codec
+> 
+>  arch/arm64/boot/dts/qcom/qcs615-ride.dts       |  4 ++
+>  arch/arm64/boot/dts/qcom/qcs615.dtsi           | 78 ++++++++++++++++++++++++++
+>  drivers/media/platform/qcom/venus/pm_helpers.c | 53 ++++++++++++-----
+>  3 files changed, 121 insertions(+), 14 deletions(-)
+> ---
+> base-commit: 176e917e010cb7dcc605f11d2bc33f304292482b
+> change-id: 20250526-add-venus-for-qcs615-a547540656d1
+> prerequisite-message-id: <20250119-qcs615-mm-v2-dt-nodes-v2-0-c46ab4080989@quicinc.com>
+> prerequisite-patch-id: afd2dce9e6066b1f6ce0b41ceafe0dd47ad97c40
+> prerequisite-patch-id: f8d64c8cf6cd883dc7bbb2a4ed6d5a4db85c536d
+> 
+> Best regards,
 > -- 
-> 2.34.1
+> Renjiang Han <quic_renjiang@quicinc.com>
 > 
 
 -- 
