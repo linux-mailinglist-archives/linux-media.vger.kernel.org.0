@@ -1,214 +1,187 @@
-Return-Path: <linux-media+bounces-33647-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33648-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC489AC8C4D
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 12:41:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C38AC8C5E
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 12:48:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D2BA7B2D8D
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 10:40:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13408A4077B
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 10:48:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D3DC22ACDB;
-	Fri, 30 May 2025 10:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8DB5221DA6;
+	Fri, 30 May 2025 10:48:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A901DA5F;
-	Fri, 30 May 2025 10:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9991E1A31;
+	Fri, 30 May 2025 10:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748601662; cv=none; b=izmFJcEuhaz0dti9dFI3ji1InIE6Gy+B+djpp5xfZXEweBGjkF2/qsgF5bG3LlMwyeI2HIgVKd0l027QA95X+/gadQltfAqZGHon3Q2227sljfatRZQc5TSYc36Cvzgo4TnRwa9q2mFhTJd/5hOhaMx3GP972VW5WSH21LnJRUY=
+	t=1748602131; cv=none; b=TO7pRmfRKhlGYbVYKZiMGVZ1ZZKxWpULuk0O/htgi4xiUy2Scpdip1g7kpEhyPgTiDrTvZM/FIBFn4bw1XDBcDuENPXqQqKC5NbGIkzej5xYuahVrYEwI8vEN9U6zLt/o5567Hzkx99tpzCWUwF2D84wzScYvqd97LB+VaFwPv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748601662; c=relaxed/simple;
-	bh=RzPnU0Bkpy/sjTHlR6rlb6bBzrtLK8bjYM4mKwg7rIY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WBt49K9oK4qty9vbdI6+UUi7tsrE7WZUa+boatyusRBD3groi0zEqi0gvGBFR/ls4ZfvqxLY6rmBlRO13ES+BrS5nsYdAtSd06yx8IAfqgnDEHHuqjs+XfGmISQ4gHDv96UH923OPCBiKWcDEPuXz4aH1DkTa2GSmOSj+REnz48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from w013.hihonor.com (unknown [10.68.26.19])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4b808G4q3zzYl7DQ;
-	Fri, 30 May 2025 18:38:38 +0800 (CST)
-Received: from a010.hihonor.com (10.68.16.52) by w013.hihonor.com
- (10.68.26.19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 30 May
- 2025 18:40:52 +0800
-Received: from localhost.localdomain (10.144.18.117) by a010.hihonor.com
- (10.68.16.52) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 30 May
- 2025 18:40:52 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-	<kraxel@redhat.com>, <vivek.kasireddy@intel.com>, <viro@zeniv.linux.org.uk>,
-	<brauner@kernel.org>, <hughd@google.com>, <akpm@linux-foundation.org>,
-	<amir73il@gmail.com>
-CC: <benjamin.gaignard@collabora.com>, <Brian.Starkey@arm.com>,
-	<jstultz@google.com>, <tjmercier@google.com>, <jack@suse.cz>,
-	<baolin.wang@linux.alibaba.com>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-	<linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <bintian.wang@honor.com>, <yipengxiang@honor.com>,
-	<liulu.liu@honor.com>, <feng.han@honor.com>, wangtao <tao.wangtao@honor.com>
-Subject: [PATCH v3 4/4] dmabuf:system_heap Implement system_heap exporter's rw_file callback.
-Date: Fri, 30 May 2025 18:39:41 +0800
-Message-ID: <20250530103941.11092-5-tao.wangtao@honor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20250530103941.11092-1-tao.wangtao@honor.com>
-References: <20250530103941.11092-1-tao.wangtao@honor.com>
+	s=arc-20240116; t=1748602131; c=relaxed/simple;
+	bh=UesS92bhejRVBi1FrU3ctF6c0bUMAZZJnak0MPJk3vc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dAebg4xaODaOmQ/Eul6oYieCCweQEKs1sHILe1GYD3ORill0WpUgNvzUyEZherKUy7mM1bGMWCxqjOxPjW4ur31kZzQgeoBIfvcX7qi1TckYuAQMyu9IlIPp/yrvfhP6HRi2OokY4rkeOfhuWjbO3roA7v4q5hM57B0UuZryOho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+	by ni.piap.pl (Postfix) with ESMTPS id D12B4C405A45;
+	Fri, 30 May 2025 12:48:39 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl D12B4C405A45
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Xavier Roumegue <xavier.roumegue@oss.nxp.com>,  Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,  Rui Miguel Silva <rmfrfs@gmail.com>,
+  Martin Kepplinger <martink@posteo.de>,  Purism Kernel Team
+ <kernel@puri.sm>,  Mauro Carvalho Chehab <mchehab@kernel.org>,  Shawn Guo
+ <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
+  Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
+ <festevam@gmail.com>,  linux-media@vger.kernel.org,  imx@lists.linux.dev,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Enable MIPI filtering by DT on i.MX8M*
+In-Reply-To: <2fd6wgsiwfx4raharcrpmmtayhkipjnz64u2cbprhsxkna3lhv@yshftexhmgns>
+	(Jacopo Mondi's message of "Fri, 30 May 2025 09:56:32 +0200")
+References: <m3h61u9jy2.fsf@t19.piap.pl>
+	<20250509103733.GE28896@pendragon.ideasonboard.com>
+	<m3o6vn8np5.fsf@t19.piap.pl>
+	<iegnn5xoosqpk52hvipcr73aliwhqtsq6r6ctvt5756bhy6yen@rqcdongb7fdf>
+	<m31psg97dy.fsf@t19.piap.pl>
+	<jqjptsphbtdtziuucehxutseaz7j4kjiirz2hk77f3dznswvza@avbjjzu3jcam>
+	<m3o6vb64hv.fsf@t19.piap.pl>
+	<2fd6wgsiwfx4raharcrpmmtayhkipjnz64u2cbprhsxkna3lhv@yshftexhmgns>
+Sender: khalasa@piap.pl
+Date: Fri, 30 May 2025 12:48:38 +0200
+Message-ID: <m3frgm5q7t.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: w011.hihonor.com (10.68.20.122) To a010.hihonor.com
- (10.68.16.52)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-First verify system_heap exporter has exclusive dmabuf access.
-Build bio_vec from sgtable, then invoke target file's r/w callbacks for IO.
-Outperforms buffer IO mmap/read by 250%, beats direct I/O udmabuf
-copy_file_range by over 30% with initialization time significantly lower
-than udmabuf.
+Jacopo,
 
-Test data:
-|    32x32MB Read 1024MB  |Creat-ms|Close-ms|  I/O-ms|I/O-MB/s| I/O%
-|-------------------------|--------|--------|--------|--------|-----
-| 1)Beg  dmabuf buffer R/W|     47 |      5 |   1125 |    954 | 100%
-| 2)    udmabuf buffer R/W|    576 |    323 |   1228 |    874 |  91%
-| 3) udma+memfd buffer R/W|    596 |    340 |   2166 |    495 |  51%
-| 4) udma+memfd direct R/W|    570 |    338 |    711 |   1510 | 158%
-| 5)  udmabuf buffer c_f_r|    578 |    329 |   1128 |    952 |  99%
-| 6)  udmabuf direct c_f_r|    570 |    324 |    405 |   2651 | 277%
-| 7)   dmabuf buffer c_f_r|     47 |      5 |   1035 |   1037 | 108%
-| 8)   dmabuf direct c_f_r|     51 |      5 |    309 |   3480 | 364%
-| 9)End  dmabuf buffer R/W|     48 |      5 |   1153 |    931 |  97%
+> Let me recap all of this.
+>
+> With:
+>
+> - MIPI_CSIx_CSIS_COMMON_CTRL[11:10]
+>  "Select Interleave mode" =3D 0x00 =3D CH0 only, no data interleave
+>
+> - MIPI_CSIx_ISP_CONFIGn[7:2]
+>   "Image Data Format" =3D 0x2c =3D RAW12
+>
+> Embedded data and OB pixels are filtered (which means we're filtering
+> on DT even if MIPI_CSIx_CSIS_COMMON_CTRL[11:10] =3D 0x0x would suggest
+> filtering is not enabled)
+>
+> However corrupted pixels are still sent through.
 
-|    32x32MB Write 1024MB |Creat-ms|Close-ms|  I/O-ms|I/O-MB/s| I/O%
-|-------------------------|--------|--------|--------|--------|-----
-| 1)Beg  dmabuf buffer R/W|     50 |      5 |   1405 |    764 | 100%
-| 2)    udmabuf buffer R/W|    580 |    341 |   1337 |    803 | 105%
-| 3) udma+memfd buffer R/W|    588 |    331 |   1820 |    590 |  77%
-| 4) udma+memfd direct R/W|    585 |    333 |    662 |   1622 | 212%
-| 5)  udmabuf buffer c_f_r|    577 |    329 |   1326 |    810 | 106%
-| 6)  udmabuf direct c_f_r|    580 |    330 |    602 |   1784 | 233%
-| 7)   dmabuf buffer c_f_r|     49 |      5 |   1330 |    807 | 105%
-| 8)   dmabuf direct c_f_r|     49 |      5 |    344 |   3127 | 409%
-| 9)End  dmabuf buffer R/W|     50 |      5 |   1442 |    745 |  97%
+Right.
 
-Signed-off-by: wangtao <tao.wangtao@honor.com>
----
- drivers/dma-buf/heaps/system_heap.c | 79 +++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+But there is more: there are 3 separate "DT filters":
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 26d5dc89ea16..d3a1956ebad8 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -20,6 +20,9 @@
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
-+#include <linux/bvec.h>
-+#include <linux/bio.h>
-+#include <linux/uio.h>
- 
- static struct dma_heap *sys_heap;
- 
-@@ -281,6 +284,81 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
- 	iosys_map_clear(map);
- }
- 
-+static ssize_t system_heap_buffer_rw_other(struct system_heap_buffer *buffer,
-+			loff_t my_pos, struct file *other, loff_t pos,
-+			size_t count, bool is_write)
-+{
-+	struct sg_table *sgt = &buffer->sg_table;
-+	struct scatterlist *sg;
-+	loff_t my_end = my_pos + count, bv_beg, bv_end = 0;
-+	pgoff_t pg_idx = my_pos / PAGE_SIZE;
-+	pgoff_t pg_end = DIV_ROUND_UP(my_end, PAGE_SIZE);
-+	size_t i, bv_off, bv_len, bv_num, bv_idx = 0, bv_total = 0;
-+	struct bio_vec *bvec;
-+	struct kiocb kiocb;
-+	struct iov_iter iter;
-+	unsigned int direction = is_write ? ITER_SOURCE : ITER_DEST;
-+	ssize_t ret = 0, rw_total = 0;
-+
-+	bv_num = min_t(size_t, pg_end - pg_idx + 1, 1024);
-+	bvec = kvcalloc(bv_num, sizeof(*bvec), GFP_KERNEL);
-+	if (!bvec)
-+		return -ENOMEM;
-+
-+	init_sync_kiocb(&kiocb, other);
-+	kiocb.ki_pos = pos;
-+
-+	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-+		if (my_pos >= my_end)
-+			break;
-+		bv_beg = bv_end;
-+		bv_end += sg->length;
-+		if (bv_end <= my_pos)
-+			continue;
-+
-+		bv_len = min(bv_end, my_end) - my_pos;
-+		bv_off = sg->offset + my_pos - bv_beg;
-+		my_pos += bv_len;
-+		bv_total += bv_len;
-+		bvec_set_page(&bvec[bv_idx], sg_page(sg), bv_len, bv_off);
-+		if (++bv_idx < bv_num && my_pos < my_end)
-+			continue;
-+
-+		/* start R/W if bvec is full or count reaches zero. */
-+		iov_iter_bvec(&iter, direction, bvec, bv_idx, bv_total);
-+		if (is_write)
-+			ret = other->f_op->write_iter(&kiocb, &iter);
-+		else
-+			ret = other->f_op->read_iter(&kiocb, &iter);
-+		if (ret <= 0)
-+			break;
-+		rw_total += ret;
-+		if (ret < bv_total || fatal_signal_pending(current))
-+			break;
-+
-+		bv_idx = bv_total = 0;
-+	}
-+	kvfree(bvec);
-+
-+	return rw_total > 0 ? rw_total : ret;
-+}
-+
-+static ssize_t system_heap_dma_buf_rw_file(struct dma_buf *dmabuf,
-+			loff_t my_pos, struct file *file, loff_t pos,
-+			size_t count, bool is_write)
-+{
-+	struct system_heap_buffer *buffer = dmabuf->priv;
-+	ssize_t ret = -EBUSY;
-+
-+	mutex_lock(&buffer->lock);
-+	if (list_empty(&buffer->attachments) && !buffer->vmap_cnt)
-+		ret = system_heap_buffer_rw_other(buffer, my_pos,
-+			file, pos, count, is_write);
-+	mutex_unlock(&buffer->lock);
-+
-+	return ret;
-+}
-+
- static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
- {
- 	struct system_heap_buffer *buffer = dmabuf->priv;
-@@ -308,6 +386,7 @@ static const struct dma_buf_ops system_heap_buf_ops = {
- 	.mmap = system_heap_mmap,
- 	.vmap = system_heap_vmap,
- 	.vunmap = system_heap_vunmap,
-+	.rw_file = system_heap_dma_buf_rw_file,
- 	.release = system_heap_dma_buf_release,
- };
- 
--- 
-2.17.1
+0x32E40040       0xB0 ISP Configuration Register (ISP_CONFIG_CH0)
+   DT 2Ch (RAW12)
+0x32E40044  0x2D00500 ISP Resolution Register (ISP_RESOLUTION_CH0) =3D> 128=
+0 * 720
 
+0x32E40050       0xDC ISP Configuration Register (ISP_CONFIG_CH1)
+   DT 37h (User Defined 8-bit Data Type 8)
+0x32E40054  0x2D00500 ISP Resolution Register (ISP_RESOLUTION_CH1) =3D> 128=
+0 * 720
+
+0x32E40060       0x48 ISP Configuration Register (ISP_CONFIG_CH2)
+   DT 12h (Embedded 8-bit non Image Data)
+0x32E40064  0x2D00500 ISP Resolution Register (ISP_RESOLUTION_CH2) =3D> 128=
+0 * 720
+
+The 4th set looks the same, but doesn't appear to have its SHADOW
+register set, so I'll ignore it for now. I'm ignoring the SYNC registers
+as well (offsets ...0x58) - they are zeroed.
+
+It appears the 2 LS bits of ISP_CONFIG_CH* are the number of some output
+port. #0 goes to ISP, not sure about the others. Will have a look.
+
+I.e., I can disable CH0 and use CH1 or CH2 to feed image data do ISP -
+it works.
+
+MIPI_CSIx_CSIS_COMMON_CTRL:
+Bits 18, 17 and 16 respectively reload SHADOW registers for CH2, CH1 and
+CH0. For these tests, I have to use
+"devmem write 32-bit CSIS_COMMON_CTRL 0x7xxxx" instead of 0x1xxxx so that
+all 3 shadow sets are updated (and not only #0, the one in the docs and
+used by the drivers).
+
+0x32E40080       0xB0 Shadow Configuration Register (SHADOW_CONFIG_CH0)
+   DT 2Ch (RAW12)
+0x32E40084  0x2D00500 Shadow Resolution Register (SHADOW_RESOLUTION_CH0) =
+=3D> 1280 * 720
+0x32E40090       0xDC Shadow Configuration Register (SHADOW_CONFIG_CH1)
+   DT 37h (User Defined 8-bit Data Type 8)
+0x32E40094  0x2D00500 Shadow Resolution Register (SHADOW_RESOLUTION_CH1) =
+=3D> 1280 * 720
+0x32E400A0       0x48 Shadow Configuration Register (SHADOW_CONFIG_CH2)
+   DT 12h (Embedded 8-bit non Image Data)
+0x32E400A4  0x2D00500 Shadow Resolution Register (SHADOW_RESOLUTION_CH2) =
+=3D> 1280 * 720
+
+Also:
+0x32E40100     0x5F10 Frame Counter (FRAME_COUNTER_CH0)
+0x32E40104     0x57C4 Frame Counter (FRAME_COUNTER_CH1)
+0x32E40108     0x33CF Frame Counter (FRAME_COUNTER_CH2)
+
+Data selected by all 3 sets is somehow fed to the ISP. Now the data
+isn't simply appended to the previous fragment. It seems the DT 37h
+lines (which appear before the actual image data on the MIPI bus)
+somehow overwrite (only) the first line of the image. I'm looking at
+it.
+
+INTERLEAVE_MODE =3D 0 or 2 =3D> only CH0 is used, the first 32 bit in the i=
+mage
+		on CSI1 are corrupted.
+INTERLEAVE_MODE =3D 1 =3D> all 3 CHannels are used, no corruption
+
+There appear to be some subtle differences between 0 and 2, and 1 vs 3.
+
+> If you
+>
+> - MIPI_CSIx_CSIS_COMMON_CTRL[11:10]
+>  "Select Interleave mode" =3D 0x01 =3D DT (Data type) only
+>
+> Embedded data and OB pixels are still filtered, and your corrupt
+> pixels are filtered as well.
+
+Right.
+
+> Now, why are "corrupted pixels" filtered away by enabling this option ?
+>
+> As far as I understand bad pixels are corrupt in their data values,
+> the CSI-2 packet header which contains the DT is correct. Is my
+> understanding correct ?
+
+I think so. Maybe the corruption happens after the packets are received,
+on the 32-bit internal bus maybe.
+
+> It would be nice to actually understand what it does before enabling
+> it unconditionally.
+
+Still trying :-) Next Monday, maybe.
+
+Especially I don't know how do I receive multiple DT types, including
+12-bit RAW pixels and 8-bit user data. I know it wasn't probably
+designed for this, but nevertheless.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
 
