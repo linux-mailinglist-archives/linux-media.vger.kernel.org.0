@@ -1,80 +1,48 @@
-Return-Path: <linux-media+bounces-33655-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33656-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1CFCAC8D33
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 13:53:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE9DAC8D40
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 13:58:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 88C444E5AAD
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 11:53:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D7091889797
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 11:58:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B91922A813;
-	Fri, 30 May 2025 11:53:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1D022A813;
+	Fri, 30 May 2025 11:58:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kuJgAGYB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iS5+W6B7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E963227EB9
-	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 11:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D3F221566;
+	Fri, 30 May 2025 11:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748606017; cv=none; b=qiQct4hDCpn8woNu2Ohdwz603Jj/Vc/j5yHNv1SXQZNsmWmA/S16WEObUcHkhWrRXniGnHOkTj09M0ZoruLfSZxWSwEtqzyGPnx3htZrRtdWAOojMjVKysi6618uT1P3L5MjH8dcNMcUCAKx3HGzjDlUjyf/CYg+54jzcLOcl8A=
+	t=1748606305; cv=none; b=m2v1QU0YUFqb4ClmBF/++NWsGEMEDKHlB+br/oMyWvqbwU92BClEcKivjjzu4elR83B6+cnnbSJ0bgbGDvG/6hs8Jzvq0jQnAxM5crNroU5KAb7AA2X1NZBYf5FHgaRkRBI7qWOqHA6fHejCBM0h/P2L5QYEKyXvavKA4MA7gIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748606017; c=relaxed/simple;
-	bh=S3VeWtxKlJvzTgUsBlJdwT0AenvLuNtDX75s3YzO5DM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FUilAUy/F9EaBotHy1P+67KmoBUYLXNZeZcJUo0gAPU+5h8mL4dO2CqtkHDssaJ+10I4b7ZF7JbKxyzkK17p4T8M+DwNN7QQejJtliVoNxtreT5gukxW4qPGOZGYVPm7milobBOy7qrVesELUBjKmHSPKJFmARB/zif+1zENOMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kuJgAGYB; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so14261645e9.0
-        for <linux-media@vger.kernel.org>; Fri, 30 May 2025 04:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748606013; x=1749210813; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4UPJVljTY3N7PN9rlPr1KNAMnaMWaV65uercPLaJI+o=;
-        b=kuJgAGYBzJCf6Ip7t/utX+OMl1melh/8OtH6rBCZ8QfFzYHE5lbO+ozlZFdYfxqPON
-         4VVf8TjtC90VND4TUeJORRMOWTRJf5bbtecJO7/ov+ahPz0RPwLRYPqBDmFHAd2f227k
-         33J5AC2X6UdxnmHqyN7u/D+xvwgKIAd4ARHwjQu5pOMdPX3nGIIVA7f+IL2dyzcuSnWZ
-         AjPHEn5RCVB3uAz1WUuRx7Jc1zO/ZAENf9PIi8jLL+KlyN28g6Rm1yznEC4DyrZpYaPV
-         qKNrLaGMkDLhVFKe0w5xs2DGvxc/Ud3ez4L0yifW+29KEuWhk9UotL7u+UWBWohbg07I
-         8hhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748606013; x=1749210813;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4UPJVljTY3N7PN9rlPr1KNAMnaMWaV65uercPLaJI+o=;
-        b=WBbediWjsRSR/Dxrfm2tZpA8aWTsiD0SzR4OIlnmTOFcq5C3bh68Wwlor6qvhz2r6w
-         sRMetLlEnnupmoM9zudy0OETNk8gxuXlSoHWWyvBWyvP1S42lNwwXgJluHd4vvNjayn/
-         fCC1fVlIrDEHCykJBmSriVA9OxogynkTCKbl2Mch0jV0hKxby/e1Prs+mDRFn9wIGTnc
-         xinynaV4dCnkydjc9rFJvMiCctt0XE2ZBIi9gMYEHa8HD0wPZdDfqEpLSJG13DbHxrii
-         McSxX9hogEcPVafXRynhSgYMAp0rTp1ABA+jk8Tt9ZSkNfvhSEGGgnh9VZbskyGz4cXW
-         F75Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW0UyBBipHhRjK5ImgiwVzRo+xnMnK2SpPhTh4O6PF4z+rVfzmQrPdqb5ggnMvC2fUE+GCn+kMmSeVzyQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjcuPd4WPq0NNBgLcC+WBmGoyrj61pTiOEqei/u3hznPGL+Pqq
-	RltIUH4dDwGhw3SAomZcmcbFP4jcnUWUbiqZUW+G145TZ1gBCVyWOJCU+Xu3LeQwY5Q=
-X-Gm-Gg: ASbGncu6IUB9Zx9kOjnowZQLzQDgwHTMHyzLu7yyKOl5nsV4EPuYBEj/yXrHn1U0kH0
-	RT6kZ/hhbYBVMsgOcPpCsLgygjo92hm9HNwbCMKhzoF7px+IU/0br8bZWJGkfnI4ppeoizvWTKk
-	zwqDCuS/7usp4uCRziw/TSxvBgQv4US1vkJfqDuqpnKc5wKpMq5qLERBS/nrTWxW5VbqeC1eRdm
-	OgbDByrUq21IWsdB0zN0lZOe68HJQmND2xYxIWJ1apu00DNN1OGnVSMvMnIc3Z3EDyKXE2184l2
-	LzWFLpPTIjc1gtxwNx53jf5HJX1Jp4r51C4dSEuN0aSa7ETQ8Z9XnuigXjBMUdsNjUJ6n8G0XA0
-	vJevavq3iNQNVZ7qnE0BYLkwJz20=
-X-Google-Smtp-Source: AGHT+IEf5MxDQRZ1AOD7sTcnaYqSwj8ugFOpC72ckU4hsD9LywwTEslaQnTKyHBKOB6AHALVuW7X/A==
-X-Received: by 2002:a05:600c:348c:b0:450:d07e:ee14 with SMTP id 5b1f17b1804b1-450d8874cecmr19582285e9.17.1748606013438;
-        Fri, 30 May 2025 04:53:33 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d8000d8csm16096695e9.24.2025.05.30.04.53.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 May 2025 04:53:32 -0700 (PDT)
-Message-ID: <05ac9918-cc95-4288-a185-48bd4b31b77c@linaro.org>
-Date: Fri, 30 May 2025 12:53:31 +0100
+	s=arc-20240116; t=1748606305; c=relaxed/simple;
+	bh=Q09kJEccQ9ehv/UlvNwuXD0ZbzoJ84GZhOVmRxyiVi8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=oaHSXHN4Oz6/peq/3CgpVar1L5XFJg9gpjfQySaq47JMB06CeLWqvl9E0v6IHB26HN8UsMEA2Iw8QpUxjMkeVOCVupCZPZnpiD9vafZ9Mpnqqt6Jzoo8l3cx0y+ptj63GQw2GRbglZfmiUqh9edVVuP4dvedZIaX43Z3ebJ2dqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iS5+W6B7; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E02689A;
+	Fri, 30 May 2025 13:57:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748606273;
+	bh=Q09kJEccQ9ehv/UlvNwuXD0ZbzoJ84GZhOVmRxyiVi8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=iS5+W6B7mtkRL6TxMjibedoVjCoMI9IbC5+t4ts0idW3XHZapz7cBdRHZIir7D0It
+	 nmt9EKMz2d6t1NMRUTTeX9fcsK6HNN57EbYMJUDaxm8ei6UCogeFChW0j4/IZ0Frov
+	 OBY55vKcWJG219yFeDfmR0ylvvU78wF16nySvYOk=
+Message-ID: <4ea2b464-81d8-486d-bce1-540e1cecb87b@ideasonboard.com>
+Date: Fri, 30 May 2025 14:58:17 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,43 +50,68 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] media: qcom: camss: Add support for MSM8939
-To: Bryan O'Donoghue <bod.linux@nxsw.ie>, vincent.knecht@mailoo.org,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20250530-camss-8x39-vbif-v3-0-fc91d15bb5d6@mailoo.org>
- <20250530-camss-8x39-vbif-v3-2-fc91d15bb5d6@mailoo.org>
- <e28b518b-26ac-4d3c-bfaa-21a7cce63366@nxsw.ie>
+Subject: Re: [PATCH] media: rcar-vin: Fix stride setting for RAW8 formats
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250402183302.140055-1-niklas.soderlund+renesas@ragnatech.se>
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <e28b518b-26ac-4d3c-bfaa-21a7cce63366@nxsw.ie>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <20250402183302.140055-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 30/05/2025 12:49, Bryan O'Donoghue wrote:
-> On 30/05/2025 10:00, Vincent Knecht via B4 Relay wrote:
->> +	    camss->res->version == CAMSS_8x39 ||
-> This is not correct - it should be 893x since 8939 and 8936 are ~ the
-> same SoC - probably 36 is just a binned version of 39.
+Hi,
+
+On 02/04/2025 21:33, Niklas Söderlund wrote:
+> Earlier versions of the datasheet where unclear about the stride setting
+> for RAW8 capture formats. Later datasheets clarifies that the stride
+> only process in this mode for non-image data. For image data the full
+> stride shall be used. Compare section "RAW: 8 Bits and Embedded 8-Bit
+> Non-Image Data, User Defined 8-bit Data" vs "RAW: 8 Bits".
 > 
-> Anyway the x is the least significant digit.
+> Remove the special case from pixel formats that carry image data and
+> treat it as any other image format.
 > 
-> Please fix
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
-> bod
+>  .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 ----------------
+>  1 file changed, 16 deletions(-)
 > 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> index f8394be8a922..fdf0f86c801f 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> @@ -680,22 +680,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  
+>  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+>  	stride = vin->format.bytesperline / fmt->bpp;
+> -
+> -	/* For RAW8 format bpp is 1, but the hardware process RAW8
+> -	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
+> -	 */
+> -	switch (vin->format.pixelformat) {
+> -	case V4L2_PIX_FMT_SBGGR8:
+> -	case V4L2_PIX_FMT_SGBRG8:
+> -	case V4L2_PIX_FMT_SGRBG8:
+> -	case V4L2_PIX_FMT_SRGGB8:
+> -	case V4L2_PIX_FMT_GREY:
+> -		stride /= 2;
+> -		break;
+> -	default:
+> -		break;
+> -	}
+> -
+>  	rvin_write(vin, stride, VNIS_REG);
+>  }
+>  
 
-No wait I'm wrong 8939 or 8039 - when adding 36 we will probably just 
-use the compat string to differentiate.
+This one breaks RAW8 for me (V4H, streams, GMSL2 + imx219 sensors). How
+did you test this?
 
-This is fine.
+ Tomi
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
