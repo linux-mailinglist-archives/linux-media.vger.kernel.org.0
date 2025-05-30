@@ -1,158 +1,270 @@
-Return-Path: <linux-media+bounces-33708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33709-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F776AC9602
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 21:24:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8B5AC9688
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 22:26:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACE15A20783
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 19:24:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6675B504773
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 20:26:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19BF5279781;
-	Fri, 30 May 2025 19:24:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D2BB2820C6;
+	Fri, 30 May 2025 20:26:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="kyvE7PA7"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jwLaF4YX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9E723CF12;
-	Fri, 30 May 2025 19:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6298D22B8C6
+	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 20:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748633060; cv=none; b=t5Q0TCcCPDFSmxhgI9tpm48pKxRj1G+ZBZAKn3IzV49XaO6aJ0YivfLato3/ZBTO5uGfhhWSBry3LRrv/MqvYyQhr3Vx1zpIaVWCZNS1XuvgG7zlnRmrxEciYXepW+TWAb/qdqa8bwDODmzzKBkLsfqIyTasaN+UqtkMAiBiluA=
+	t=1748636805; cv=none; b=VkjoUArlwWkA2cEisQV6f3R9/JR6CO0hQQf/SwdhI/GIu2SRmeUtdvzITfc6HV7TZ5516iC7Vx92hHptMDsIh3CgaBMtA7hyC8QlN6l0JGFnrbPI1x6BJcGFyeFponiv/O5ju48tFfTZkEf/VuzKRR0VMWQdGKF/4WH6ofXqr78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748633060; c=relaxed/simple;
-	bh=z/qsxRJp1ih7OapyULQrwJClrlRerJEVqq9AO2OpQwQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=RDqD8268URU6XQdaofz/p4SKgaY8cmFW5Iec8ok17x9WdbCdfLS/HzjrPH3vBj2JdQdaXboAoq/WNabaEGTJFTugX9ZZpsfzgzu5LQT+Y48F417xutLWNHQ5evbjux/kVYXGbtrzU62K4jj/S4mH9hgR1EjaI71sf4qHeRow/Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=kyvE7PA7; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1748633008; x=1749237808; i=markus.elfring@web.de;
-	bh=YzuQuC7sn5PBb4ns91bPPloT1UdWXsXMfl5wY33MO64=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=kyvE7PA74L78Utz28nWNsZqamtts5b1StlC07tyCaBgVHjLaAdyPsAlTWl2KxcyV
-	 m5+BdhORHybz9qrCFDKFASbBwJggutJ78wO+54Fa7j13m1c9lNyHkO9xeSpE2DEpm
-	 DIbd1jPgdmPUsyTOv7HLEue5IIZkyNKJjHISO1O1cTGEWHawQ+Yyd4sdm46h8Uy2f
-	 HHG/y/YwrYsaoyR3+znWCkgblZC3ojed/mwT/D1SXN2oCJlKW9PQJe38qMhfOJo3i
-	 aacpjvQU19GO6gfHIwRw+jV4AHarnWfv4vNvbYbr5Yz3j+ZUgRSIi8NJ2VJJhOgIv
-	 wshZoUbh6ljMAmzP4Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.250]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MC0PP-1uBUwH1eIv-00CjAk; Fri, 30
- May 2025 21:23:28 +0200
-Message-ID: <cc0b88b2-c34a-4d19-a222-afc2cbfe8055@web.de>
-Date: Fri, 30 May 2025 21:23:15 +0200
+	s=arc-20240116; t=1748636805; c=relaxed/simple;
+	bh=UbC2ciAwBnXn3leWtQ8ADE+eX3jl61pPiAdh+E1mrx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sXi97F2K01qA7ldZ4iRtgCksZalO4nq0tZ+ESbwcirP42/dLP2xtPxnnBL7qxE8LtLSKdXNi+/QQeFWNI5CtAvlN6hnTGN82Fyacf9gj1hwn27Zntpb/JhvD8gL7qqA72KAZstNapjJYfolqV01GuEbD2FxNY7Irf91hHZAi+e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jwLaF4YX; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UAavrC024051
+	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 20:26:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=2Smv5QWNwygSvZBVOmLYL3h4
+	69JjSVp7Jf4WZWmUL3Y=; b=jwLaF4YX7rih8RAmco5UlwNGxmCbwx0bmdvHL62H
+	safGvXEkAV536kdCF0Y676trAumd4gfdM7ovwvrDNxMgO0VVa4uSd+xJWaYnE3QM
+	HfC0w/4qu9hVQpEcgKPcBAeRQrYGcAEFTIe6hly9GdAsVOWIfSkeqrhU0byI1Lmf
+	OxbE16Le4w3tOWheuyOJoFR/Z/HSmihxnTq0a6MaT6bj2yOyQ1/dAqA8Ewj2Mjqs
+	wWm+0HWkh0/rScJ7+TgmTbSXU1qQYomMNrVITwSA48E73U4RQ5v7TqILvQm20kge
+	t88C6MDoh3tQ5HvLlPOxwrrENYRMq3hfZAFnPX8/TNltlg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46x8d7f3n4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 20:26:41 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c955be751aso385090185a.2
+        for <linux-media@vger.kernel.org>; Fri, 30 May 2025 13:26:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748636801; x=1749241601;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Smv5QWNwygSvZBVOmLYL3h469JjSVp7Jf4WZWmUL3Y=;
+        b=d7pPUmeztewlQViy6xRTD6pBVGW/PhMKBEe3eH7tN8NdCkys3TMcGEAjk6jGEu8kar
+         6srSiLlbaNMUxNw82uNQ2C2jdbHpr9rKRLCwdoVy9LEzSGg+k/bakBkQTmi0qr3GQ5JW
+         zfuF6KzSIs/wwVQH1w8uV5EBH/kATCKeN5V8bZ315HI7XaFF7lSQbbSyCBQcQdDw1fdY
+         ZEPm8TGD0kjYH+KmhJOC0wCh2CSSJOd3eounhcvtMuLot2vvCD7+UD8HNpxteQ9rHzLE
+         c7TzvkukmDWbcVrnHbBU7TGiQvjqfV25ETBjHLFrWPIfvgRNd+8mgVSyN+azwQ8bsGpp
+         wwLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZGbyrlxkPdCQzwivi8xheSW4cYPrw3QAJZCcCdtRbbFV0ZyHCV9V1JcbxKpd53n2/E5NMJVesw+FzBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF527yATa0C9PPTdm10Y0V760atXoDIbpRmhju2iow9LxcFYD1
+	IXaX6uak2h6CVyRGc87tn5Wgi4yeoptAH+UBwdY8ffSWHfj+7mGsvlYY6hSvbFOtK0FAInZJeoV
+	hTfJSe8yemvPW45sahB8VwU0tKHtNMMCWoEgjwfQJf4udW+Xulu50DPHBz6HhYJ6H3w==
+X-Gm-Gg: ASbGnctjOH9O6sCdaDyMyXaHn7EOQdGFOwLzSIOyLZbQHytd16XSmytDNihMYvgD+7h
+	euJJhSpNW4P4tSvgBEG9ySamxDjwr5sPriF02OddlYLNSbyFd7t8tfAe/sWy7bdxzQg0Z4lTCGJ
+	8JZEDiVGMQl06CSJrnIECChxtw4ZIbdtgFPLnRCT6CQfPA4fqC6p1hv/cLggPC60DlP4UmSLQds
+	Utg9YPvLWhI6uRU+pFYtZ+Fz0YX9sbM137uCQCtMlYPYqMq5hsj0pa0pnFSXz6luFlQyRilMG5R
+	9/5NlurpUrPvw2DRDtJ2Qo+HdJ3uss1LGoXm9eZoX86m2OE7T9gZ4HmsvrI7vPvA7O2qf6g074s
+	=
+X-Received: by 2002:a05:620a:2789:b0:7d0:96d9:f8c3 with SMTP id af79cd13be357-7d0a1feb55dmr653462285a.34.1748636801206;
+        Fri, 30 May 2025 13:26:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFIWZaLbiNV5l4FpFBJv9XiFQqN5ZB1DIRxf8JfhoR2XVZtRVyRKE7qzxT+Kk2KYko6yQKGew==
+X-Received: by 2002:a05:620a:2789:b0:7d0:96d9:f8c3 with SMTP id af79cd13be357-7d0a1feb55dmr653458785a.34.1748636800784;
+        Fri, 30 May 2025 13:26:40 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55337910f0dsm831084e87.119.2025.05.30.13.26.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 May 2025 13:26:40 -0700 (PDT)
+Date: Fri, 30 May 2025 23:26:37 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Renjiang Han <quic_renjiang@quicinc.com>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v8 1/3] media: venus: pm_helpers: use opp-table for the
+ frequency
+Message-ID: <pyaoow6swlbazljgvav2vghixmb7swd4nkahqvxnhd6gsde26f@myhtwp72qxz7>
+References: <20250530-add-venus-for-qcs615-v8-0-c0092ac616d0@quicinc.com>
+ <20250530-add-venus-for-qcs615-v8-1-c0092ac616d0@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Oded Gabbay <ogabbay@kernel.org>, Rob Herring <robh@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-References: <20250519-6-10-rocket-v4-6-d6dff6b4c0ae@tomeuvizoso.net>
-Subject: Re: [PATCH v4 06/10] accel/rocket: Add IOCTL for BO creation
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250519-6-10-rocket-v4-6-d6dff6b4c0ae@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HFzd8EbAUS7gPnlLaRPoXFKFCXHYM0+iZRfId96iz/pIETQ8DjB
- UwtJ045ZUn9fSfs7UUrsGBpuj7Y4TLmhMm4EQmGmFFQlLqpm94zvHttDB0OzNpTcHV3h4m5
- Z0dX2buTbBbXaQvkhcCN4TtazSW5QbEpdAvjOdbA4f1dMMQGEnhujbwaHYag+gWniKk4/hI
- 6TbhC2YmzO1aXvF7Ycyyw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:L1POOr7Oz40=;T/qhLYsi3B790BwpMqQVLmrI+qf
- r2imYana4jqlgGndSry8fKl6oFrXkVnIsDGNhZGyjFC5mmVaBZczNaYhpqLVHfVwDE8fK7R3T
- 3QzNnzgt8XjFyyLYRo1LsQjCyHbkuTLouMAA7nCB9lm6SHTnnJlcJnmAYNgUEqjsyGSBqz1co
- k9Fcmb9SQ7o5hp0CyKh/fD26BDKNcHhX2Op4VqJVVzuVUU1WCb/a0+VJyDZjyQ6/aKJyv/yhN
- ZZ3fZq/O7UrLzercLr88untq2E6cRJZSeRvYvBoHAlDhSZ41v0ajvMYv+BHSXdDMvV15Midym
- zb6ZcDVIwV/bRWb/CUlI726Mpd6YYCbYuIC33WwwksPzGF27UX7bNMe03SbsX6Y0bnkbsoYnj
- M+dVao4TuBq4zFUKP2tsnbDOQ0Hn+/lP5YVyR07o0Xz35SWGRyzPJaYQLZULPVakDgpkFeeP+
- DXa5fkCs58vfafj5vi6jbWBJIg+Z5nto4LuGOeoMOwdTs63FeKmB25xNIpoVdtgshOr4DjGdw
- sAgPTfrrdlHReefDvXz+MckRrJPK/PWI5Tyso9uOvkIJZ3ugONsHB6XvwjObmUE/g6EG5TJhd
- 13Fh24pJUwJDd7Hdh5td9cytpGt7G8fpdD0oeLTryCy9XwDcPdSKxca3ACc78pRMH0uXfwhdq
- w7zP189dMnOuPIJ+blfA83ZYMAwQCXzZpuoaF2wpFFLl1QPQqEu5y5uMGDHPMUcs6VjF2ia9+
- xBQCGSRAj2KdTDo5zez4g0XsOfHx+WsetFMXu68la5g8M5yKXHhnJFCgJdJws70C+AyVQwmCa
- Loq3oNli6g+qlp622HXsYAtTw7waX4CtjlUxKpn/kiPQ6Rhcje+iDkV2NvnzqNakkGuyjhIsH
- /4WKnkgFBf3GB06FDmRjbpFDqKgvLF0hU5E6UDhLDjfGI5V1jyRD08L7dAPDBCl3EMxdrKZVX
- NhPFwN0KRysUZpHFWNd2RXhxlQz7sSW59mmCs4YIreY9w4hm0nbZPYwawc4yD20SLCCiD1xf1
- UUh6jznGVX0F6tiHiwA0D1RwO7VNa8vj/PwMJeGKZE4TMdgQEDIj8M6bimimufDCq//Uzf/Ce
- XBLVAD0gR0RkQQhQnwGij2SjAKWNT6cGdgEVYt14Zg8Dybcro2J8/mHlUpzvsmGt09gkcY9wH
- EbDEmUqCqblc6GLX8m9z6pSKh0S/Y616rxrkRKljH7Y3gFGF78WUrjdogz1jSvkyXx4jt2DcC
- U1A+jkwhjRmBJvwkBYu0p7pxUyoumSGe/ohuUEL+JWdUkdiwua8mrKqwEb6Wa2yn47XZnzz5i
- wnQlf/iWVou+pV0Lz7iOvloOgfRK+nUo0fEgw0CfAm4l53Ru5kpzyy/fMBQEAbdsF0xeyZCIy
- TMBNi6Zz+tcudj+OzQmTCe8WGKynNy4fK7+caKi6X4BHqg6pOmzEaslqeiHUZ1EnA4ZTqSkqf
- a6W9EmRPt3lSosjIO9Zdwu1U8eqjc2wQ0MHFDgUB/2EaoRFrrncQb564IG3DCUIOgIVeNRvz/
- fNvaD4t8QO+qj4kq/8IXnwHrYgg3EUnxnXoXduEGFYUH1kGT8zRHdPh5wiRD54G5umzBxXIAN
- mQk4gYmqF3jILMyxu2ycUNyZdk4cXexcVuCsw+2AS3ZXTsqNrUbVVEyrJ/Gk7mT+XsBCicXKB
- 9bD5PEAJgrBAF10mBc3RL8izPRKI5CcfmzoF6f5mlT1Qg2BAyLuOfcjLaLRe9FpMQ44ldhxvp
- /t7PzfNBwHeR4+IxjU5MUcqBAlaWVtWPPzvo46NOYDPAa6FfCVZHudpN1nEpRnSrcEju6om2B
- pHHK7AXANwvBnzoLaKMl77e+/CHMo8qFBPjAW9x2drM8M+Lsft5b7QH8oN9YhnUreY1r6nC8H
- ZMQbTcBPlPtdssUpzfO3wEhEswEDQn5Q4O+YUPdHJxPpefKKSHcxjsvkSxycsSxtIx5tBjQ85
- D3NvvgRDhmniC0/NqpqFXxGxmM7u6R/J/t5YjtO+1taP7zsvQtQfh2E5aOALhRwOtVx8ZJ6ri
- FqiN+AUW8CpBHBvHTX8XWVlpKgzkuSjjzIH6YLl/Y74C3Iyyh27jg8pIi0aomZ5RbQk/hNWzG
- /nt6SZCuSLm5yweueeCFAgXiJtCkUOsQMPsUYhJdogYX9Ry8goRfadec7l6mpK/fqCqlyu47U
- lXLS4FXOf2ND/gdLkabzGAr1vmn4Wf0PEsmL/BoZcxEzpk+2SXRLaNhmutbDnOHRebpSa1LRK
- BF4+o1sxeShyavetkeCrUBz0hwXv7GD7SBAUktWJbNMSeTRKfaWehC6XURJzKHUTnQL9ds22w
- G75KUoMvZCuB8fw2rS5h8sXabPSldxoUjO8Gg91X6VNl89ONZ7M63OhUgP7tc0zQZ6mWIka3G
- 8oIJjOCk0x4dkFqELcxoUJBNh8+RRTXTrQOO3oAYZwD/4zltpkVwQTWa7ruCWcJUFtGkTVlt3
- 9/VQB9O2PHJhnW/0LHqdMkwq7X1zFx4fWhLCRCSDBQP0onsyaMZUNhQDVsAXyiy/HXT7NNtEN
- E8B64ODCTNVvc12UM2y1glGUGjVS/64/klJzCc5/Be1BHlezYGLc6moC9kX7G+04UvznWODzh
- 7PSfvzv3oYTh0ARwCE90ISoXJWr9Z3IQhBLKsYECq1K8dDSwpAQmbZRlzTpSjFA95890Oaf7q
- tVm0zmB8FjZJCoQKtwUElSzaThi0PHEKPbgD1ax112YK6ZauSduGQYwOoJSBo4wz9YohwNhmb
- 6DnWOdVXMyrTD9CG/RhNThEHTewMRCUr4Fape6bTRcgR3BUCNmophSUYXU/qMO+kBWLtt6ieW
- +vPm3U+QqWGJ2CKNnnEF0yKcwrB515LIDU+73xPxsZMGRkFVfMHN3Bp2o+67dUGdDQLPyYD2z
- LPMy4kZ3WLNw/DKAbiRVJbGqNfmMRjLR+5s/GP3YFxH2tvP6+P5e2WmRCmStYBW/igzZfta3K
- nnK2hIPzHnJa0RikhUlW1BvTguSjapcrcjK1SMrTdhiQq7wXILbLHBQX6+4BRjvdP+sBiHkfr
- swt6qIM3Z6ND9fHni3jh9CFFtId5MbVt2TBKnf9YQksrK+Z6DRsNYXJt9VzRV9AmsveUQ7JhR
- Ulmyg9u7+gOm+ij2d9xi1c7YeZEJrbPEC/7WgPPUIxG7/kcCuTNvSez0dv2woa4S3n9Xp6QfC
- EzWQ+CDoFUr5NCPyn41AGvhQNeu9wL9b3fhJDkdetpip0BA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250530-add-venus-for-qcs615-v8-1-c0092ac616d0@quicinc.com>
+X-Proofpoint-GUID: FBq0hFCk4jOpAG1LtTk5tRxMo0CYQ5Qf
+X-Proofpoint-ORIG-GUID: FBq0hFCk4jOpAG1LtTk5tRxMo0CYQ5Qf
+X-Authority-Analysis: v=2.4 cv=X8pSKHTe c=1 sm=1 tr=0 ts=683a1482 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=4WTgWidf2JFRtI-FBxYA:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE4MiBTYWx0ZWRfX/mtVxCERLL6N
+ NzLC90vQ3Ruu8zE9Ct2wz0soVfaaFUgZULl3IQeBfMdvv2OAXP8rb3PACwDNzTVghsg4Z7TnrGZ
+ 2nwp/IgjUdlc3z6f6YNX+PINzAWmiBOMmcrZZI2JcQUn/4pnh0++eWFdr5bv7qf1X4FkYMo9Wju
+ ulfmavfhJd9NHbFcQ+0qcS8eT2S5p/vASyqarvghcnZhQ8IqM4YefZ3nGSlmbWhZYQd9L6+cIgb
+ SW9UKdCuOflSXkeTePNNkRYaGiZgU1hjsKCUZUsIYjabI48I4ho11AKGYctj1/lDKhJxh70ulB3
+ uG3/yOjWqoufNAuMW4Z+pwETQWPMBPoGqES4jCoschZSwq6e5FxaD37FyRgk3aOcd5q+Ijw+N8v
+ o+5Kr7UNsRFizPk65GHRZK7h1VGmpLWgskhao4gEF7RdVTzu0my8SyKwqio3Ht8a6YLxkfmg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-30_09,2025-05-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
+ clxscore=1015 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505300182
 
-=E2=80=A6
-> +++ b/drivers/accel/rocket/rocket_gem.c
-> @@ -0,0 +1,131 @@
-=E2=80=A6
-> +static void rocket_gem_bo_free(struct drm_gem_object *obj)
-> +{
-=E2=80=A6
-> +	mutex_lock(&rdev->iommu_lock);
-> +
-> +	sgt =3D drm_gem_shmem_get_pages_sgt(&bo->base);
-=E2=80=A6
-> +	drm_gem_shmem_free(&bo->base);
-> +
-> +	mutex_unlock(&rdev->iommu_lock);
-> +}
-=E2=80=A6
+On Fri, May 30, 2025 at 09:32:13AM +0530, Renjiang Han wrote:
+> The frequency value in the opp-table in the device tree and the freq_tbl
+> in the driver are the same.
+> 
+> Therefore, update pm_helpers.c to use the opp-table for frequency values
+> for the v4 core.
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&rdev->iommu_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.15/source/include/linux/mutex.h#L201
+You are kind of missing the linking between the first two sentences. "The
+tables are the same, so use the second one." You need to explain that
+some of the platforms (provide examples) use the same core, but
+different frequency tables. Using OPP tables allows us to abstract core
+description from the frequency data and use fallback compatibles.
 
-Regards,
-Markus
+> If getting data from the opp table fails, fall back to using the frequency
+> table.
+> 
+> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/venus/pm_helpers.c | 53 +++++++++++++++++++-------
+>  1 file changed, 39 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index 409aa9bd0b5d099c993eedb03177ec5ed918b4a0..434dd66076e8faf7f3feac6c29152789f8d2f81b 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -43,14 +43,20 @@ static int core_clks_enable(struct venus_core *core)
+>  	const struct venus_resources *res = core->res;
+>  	const struct freq_tbl *freq_tbl = core->res->freq_tbl;
+>  	unsigned int freq_tbl_size = core->res->freq_tbl_size;
+> +	struct device *dev = core->dev;
+> +	struct dev_pm_opp *opp;
+>  	unsigned long freq;
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	if (!freq_tbl)
+> -		return -EINVAL;
+> -
+> -	freq = freq_tbl[freq_tbl_size - 1].freq;
+> +	opp = dev_pm_opp_find_freq_ceil(dev, &freq);
+> +	if (IS_ERR(opp)) {
+> +		if (!freq_tbl)
+> +			return -EINVAL;
+> +		freq = freq_tbl[freq_tbl_size - 1].freq;
+> +	} else {
+> +		dev_pm_opp_put(opp);
+> +	}
+>  
+>  	for (i = 0; i < res->clks_num; i++) {
+>  		if (IS_V6(core)) {
+> @@ -631,12 +637,15 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load, bool lo
+>  
+>  static int decide_core(struct venus_inst *inst)
+>  {
+> +	const struct freq_tbl *freq_tbl = inst->core->res->freq_tbl;
+>  	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
+>  	struct venus_core *core = inst->core;
+>  	u32 min_coreid, min_load, cur_inst_load;
+>  	u32 min_lp_coreid, min_lp_load, cur_inst_lp_load;
+>  	struct hfi_videocores_usage_type cu;
+> -	unsigned long max_freq;
+> +	unsigned long max_freq = ULONG_MAX;
+> +	struct device *dev = core->dev;
+> +	struct dev_pm_opp *opp;
+>  	int ret = 0;
+>  
+>  	if (legacy_binding) {
+> @@ -659,7 +668,11 @@ static int decide_core(struct venus_inst *inst)
+>  	cur_inst_lp_load *= inst->clk_data.low_power_freq;
+>  	/*TODO : divide this inst->load by work_route */
+>  
+> -	max_freq = core->res->freq_tbl[0].freq;
+> +	opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
+> +	if (IS_ERR(opp))
+> +		max_freq = freq_tbl[0].freq;
+> +	else
+> +		dev_pm_opp_put(opp);
+>  
+>  	min_loaded_core(inst, &min_coreid, &min_load, false);
+>  	min_loaded_core(inst, &min_lp_coreid, &min_lp_load, true);
+> @@ -1082,7 +1095,9 @@ static int load_scale_v4(struct venus_inst *inst)
+>  	unsigned int num_rows = core->res->freq_tbl_size;
+>  	struct device *dev = core->dev;
+>  	unsigned long freq = 0, freq_core1 = 0, freq_core2 = 0;
+> +	unsigned long max_freq = ULONG_MAX;
+>  	unsigned long filled_len = 0;
+> +	struct dev_pm_opp *opp;
+>  	int i, ret = 0;
+>  
+>  	for (i = 0; i < inst->num_input_bufs; i++)
+> @@ -1108,19 +1123,29 @@ static int load_scale_v4(struct venus_inst *inst)
+>  
+>  	freq = max(freq_core1, freq_core2);
+>  
+> -	if (freq > table[0].freq) {
+> -		dev_dbg(dev, VDBGL "requested clock rate: %lu scaling clock rate : %lu\n",
+> -			freq, table[0].freq);
+> +	opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
+> +	if (IS_ERR(opp))
+> +		max_freq = table[0].freq;
+> +	else
+> +		dev_pm_opp_put(opp);
+>  
+> -		freq = table[0].freq;
+> +	if (freq > max_freq) {
+> +		dev_dbg(dev, VDBGL "requested clock rate: %lu scaling clock rate : %lu\n",
+> +			freq, max_freq);
+> +		freq = max_freq;
+>  		goto set_freq;
+>  	}
+>  
+> -	for (i = num_rows - 1 ; i >= 0; i--) {
+> -		if (freq <= table[i].freq) {
+> -			freq = table[i].freq;
+> -			break;
+> +	opp = dev_pm_opp_find_freq_ceil(dev, &freq);
+> +	if (IS_ERR(opp)) {
+> +		for (i = num_rows - 1 ; i >= 0; i--) {
+> +			if (freq <= table[i].freq) {
+> +				freq = table[i].freq;
+> +				break;
+> +			}
+>  		}
+> +	} else {
+> +		dev_pm_opp_put(opp);
+>  	}
+>  
+>  set_freq:
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
 
