@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-33702-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33703-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DA9AC94E0
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 19:40:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CAA0AC94E7
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 19:43:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8D227ADE64
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 17:39:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85805A42340
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 17:43:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E99D7256C87;
-	Fri, 30 May 2025 17:40:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77829242D76;
+	Fri, 30 May 2025 17:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="bw7qB5G4"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ik8pxQvf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7897823C4E0
-	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 17:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0028A23A9AC
+	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 17:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748626840; cv=none; b=BPaulxCEDqBa8hfd1s1PXyPb5zqETmrBVTDpED96uj+ba85egzRs1ZD27Gswa5vFOpiHE7GRNVCoQcv3sHKZjqF9vTD7LhqwvmYkBY53pjmSo5/rldWTEqiv3OZ3F40aBWPLMmzKGAZS0Zz9knPokt9IhAp8rXdcwGh6EksAxG8=
+	t=1748627010; cv=none; b=s0y8BkszT47eZR5Q4xD8p3xZBUmqzkIKwKMOFgWJsz+uhEaxWBgBS52XaWAqAyNT7fX17zLbcq6UMUKrCRtj6FFSI/axGMkx7XUlT4ooVquLTLcoL89FuWNbiaswlrBg1+JOUQ8zyhSt50pIXKh7x9O6zD9bSWfSfBfmUtQT5K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748626840; c=relaxed/simple;
-	bh=TjE3TuWTC7ZxWpCD4mVw/9MZkDd71cvrQk0Vn2fYkRU=;
+	s=arc-20240116; t=1748627010; c=relaxed/simple;
+	bh=dgde/hm/N9Jq9+T2j89gusjOZI2jhU5AquYbJxKzPn8=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YJh3Nmw3/aRb6Zf1M6DFh9gy9s8RqRi97rUCSHGfmS8TIrJUhCzzM/6ySnHX7UpObz7l00eqEE+0phd/TQZJNAE50vMmlVDt2+RFJqrLkm6CruSpZENEWZVRRMQFYnCPTZfDG0CGyhTe/v4VzxoOboAUWoAdTBYRufKSZbqY+To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=bw7qB5G4; arc=none smtp.client-ip=209.85.219.47
+	 Content-Type:MIME-Version; b=N87DgEcRWej7iRtRD+GYuLN/4uBTXkvL7LTTzVn4IFClsRAMUKx6tQ/I2HTsSD2zfjBR5c7onw+UMT/Hm9ep1+O3N7U8tVu+09j/x7OmqNR7Sgwg+Ev1XhP63ZlE2HXggUXlf5Q1cFVjeTgOl9CXaRsrrIDnSzGeKz1xFAycmu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=ik8pxQvf; arc=none smtp.client-ip=209.85.222.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6fabe9446a0so26085346d6.2
-        for <linux-media@vger.kernel.org>; Fri, 30 May 2025 10:40:38 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7c5f720c717so375471785a.0
+        for <linux-media@vger.kernel.org>; Fri, 30 May 2025 10:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1748626837; x=1749231637; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1748627008; x=1749231808; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=OGIt7fGfLkqkmefeoi/6+HBzHwhg6ItEe9YbKim/Fn4=;
-        b=bw7qB5G4wtQ1Zwk2XQFBbCqALOS3snbsDKdFSQt7DvUJ7fvK+V3UnLjkT2fG5LR0ON
-         luu8PlG3TohvAC6/VTz1lUqHoZglUlQA9zs2Vloh9bST2kMJBQlzW9SYlLLDwScqMNj8
-         7lQwWRBafmlNIYvz0k5e2NZDZEILknELnyfYKr6zfz7DZFOZBjiNuTLdx7DI6tRdIFSJ
-         iJO11ckNNnpwBBg0VKZRSRaA87mR96xWFwEVNda9QdJ6AnLlN8W7L28FTKMtOqpRevNi
-         4iS3v2bImY8EDtLmt7Hy3WxngEdq8X8xunFmy52KEcTsHei+5GMrvY/VfEzXlSOJDSBa
-         Sj5g==
+        bh=CugiFgaF8cV3/dThOCPe5O8k9DqeJCQ4MP4Ml/URQdU=;
+        b=ik8pxQvfI/EFDGf9oQs1de7B9JiN2bSgdk1XCfg4T+Mc9pjM/O9Kje6OsCSNJPwQ1/
+         Cgm4PXfdYMpWWNmdvKAWuWNpXjO4zmneayUB2YifhEDuvX0TEUaInDdnzOSgV3KMr8JB
+         lXQYf9rrSFLricxZkBpngz1lvIDdHEvuMzd80bQ2vwm6Dc6Op5aUwqJ+jVtKmwAwv7dz
+         IyPbVQ6/sJFEVCykDg+N4zHCFm27od7wdT9mPJQjSmmq0UzbS58g83XaJBUIR5PEWydO
+         iqPV8gtDAq21VXUlYoszzSVlcUfwF0RBQChhOntCMjF9MS8aXamHsIc4s0ZC2RfhfNP0
+         pShQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748626837; x=1749231637;
+        d=1e100.net; s=20230601; t=1748627008; x=1749231808;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=OGIt7fGfLkqkmefeoi/6+HBzHwhg6ItEe9YbKim/Fn4=;
-        b=m5UEUOi1Y1NjDHfS0rj0xtsvLbnYiAIBIWGKicjNK+jP2KltpdOMLkoTwSQdr7de7T
-         VilI6Y6yy/3tPlnddz15LjCUr1GBWQksPJvcbAwOyBS+HeRj3vq1AFkG+VUmcu3M0Dbc
-         6yz0vLgWNxidLXqsZKL2ZC0lUQQrV0S9GhlwKUJUapZFcK8WblJzeTFAo9j/w0Desw2d
-         AqVuSHag13dcQtoRVM9HfZ2SCuBEJJh1wpPxquGRUtskyjAuo0NyV1bPqiFLT/zIBqk0
-         VlkqElaT2A5QjW1qow11GUvuoOfiVv/6rRwfz8UfNrChj9Qpjcpb2Qih0KsBr82EQqJR
-         rMyg==
-X-Forwarded-Encrypted: i=1; AJvYcCWD8X1wxFeEIsKYC1+mw2wYOC3Dnp1zJkJO8B1gyMCrUxElubIEY8CTY3JgpP1f5dMEeUTV965o5KnsbQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOQX5OFtGNXfpjzwTSk0xt0ozEcVpcRZcL15OYlKszhW6Cx+Yy
-	v6H1/6vKdLb1aTvFJg2hB/o0oO9z/yVfEXptlUOBn4bt1ITReo87zmbffEcb1oBhmmQ=
-X-Gm-Gg: ASbGncsy/+fesfhBMmHq54MAG11jjYumk0n+2D8+/5FIXAY84hVTPtqmplEolmV+mAu
-	XSsrujAKTM/uXPHxx7jGAFDSxnjHG2WpfVBype78BlAtUEZjF/TULWUjrWFBwy7Ap1h45io4N23
-	J1JLT4U8N3MiBQse60ly/Pt5hx5bPxKUazWCRYKKvcbTIyDTjUl1CMxRAyxKAkpVnN0wWrJ+E95
-	jrcwK8u4B4q/DYh6BuDri5tHuU7Sz0woQ+tWWfQEHmKYBoMuSYihu1iY35FmrNsqru+VWVjizlk
-	IPnIbj6GGagVF/vdbLQQe89hHMFDaU/hzeYTVTvUog5S9XZqvfUz/spb
-X-Google-Smtp-Source: AGHT+IFFphelem2lT7rPHImGcfd36APqsIVAJRjaAQXe+AmpHPVBtHn4sk8+HSeIEdlDtXFWhnj1Hg==
-X-Received: by 2002:ad4:5d49:0:b0:6eb:2fd4:30a7 with SMTP id 6a1803df08f44-6facec00e29mr76555746d6.33.1748626837277;
-        Fri, 30 May 2025 10:40:37 -0700 (PDT)
+        bh=CugiFgaF8cV3/dThOCPe5O8k9DqeJCQ4MP4Ml/URQdU=;
+        b=onaazWuhAxCMaDtx9CIIf3zCduMIh0bnu/XygDnLru100jYgrRPOZqKzNPGSOZSJge
+         5qSk4SsJSJkRyuKFSm4m8y8fQdZJmSGmj0SVZdoLVhEwdWAQ3cUj1JJsqvRvIK5s1+7f
+         jGmY4BiGSi8FJs52MIogETblgsrS+YgB0kTcMdFiYrgGNJYpiNoUOz+8k6JdQSls6QgC
+         kP9Rcu2lWcBTp1reRyVHdnPr4NFgCVc4EDw2FycrIUk990UmGcsfTZbejlX2LWAeqJOw
+         8KmsV7X6o52dqmS99QRj+Rmbfs/J/BlfwQ88Kpj4/9oex86vb8cKofy5d1iWwdoX47gn
+         KnUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXyTeKoKUE5PmXjbLr6dzxeztw3tTUhOLYLUNDCBt/CZFZOxz1G1QUmAvwOIhZaPz0lexQU86NVg5z59g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwmmxnPInS00SqeEBoEY17+EASJeUpmiVzLX7OdUh0zK+nIx90
+	ODrmdgrmFoqV2cbpqi4zESys3RNE6QewAuZ53TIKPDFHEFiiE6tAsZtaBtSy/MJzwMA=
+X-Gm-Gg: ASbGncvadkBMvCRu1xhVwpOCM/vOwHj/+b3Ld/vC+66sTc+fMJ1qV1MaZ5axwvgyoRP
+	HCHgluDDxSPcJYEr/+dN6zeEzZzRPklnbIWYc2Sr1PBb8okhcuV2C+ZXZMRpTrNYJRFqaWp8vIo
+	Bj4dJ6ZTW1ltzqqyXrnK157FGKktzoqcXJQebOwNgbEc0SHdmLQdAd+zEw3btyY/Ly/MmWW5l0Q
+	3CJ4XEPNkpeQS4qHrM0DbN9riy96TxKfm0nVDeG+iR1tqX52QnUNrYFMsTVSJgpENc7xh4TI1mp
+	UTYxL3hBe7BQouPgn3e61R8/oZGEvn6DM+bGPTL9k0v0csDIsGZNz8ha
+X-Google-Smtp-Source: AGHT+IEqVszFCVyM2GhwMbXsI8xtVBtEFkmw/qP0M9bEN5pAdb7NtRmnfyG1MEJy5baKQoLnMuV0cQ==
+X-Received: by 2002:a05:620a:172a:b0:7ce:b782:8931 with SMTP id af79cd13be357-7d0a2387041mr603525985a.2.1748627007702;
+        Fri, 30 May 2025 10:43:27 -0700 (PDT)
 Received: from ?IPv6:2606:6d00:10:5285::5ac? ([2606:6d00:10:5285::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d09a0e35e4sm269580285a.15.2025.05.30.10.40.36
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d09a0e3fdfsm268588685a.9.2025.05.30.10.43.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 10:40:36 -0700 (PDT)
-Message-ID: <8ff9cf88b2498e4bfd4c12b9c01cfaf046b92fd6.camel@ndufresne.ca>
-Subject: Re: [PATCH v5 08/12] media: mediatek: jpeg: fix stop streaming flow
- for multi-core
+        Fri, 30 May 2025 10:43:27 -0700 (PDT)
+Message-ID: <8ab1b3166cbb972dbd5984fa591b42dbf984fc3b.camel@ndufresne.ca>
+Subject: Re: [PATCH v5 09/12] media: mediatek: jpeg: refactor multi-core clk
+ suspend and resume setting
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
 To: Kyrie Wu <kyrie.wu@mediatek.com>, Hans Verkuil
  <hverkuil-cisco@xs4all.nl>,  Mauro Carvalho Chehab	 <mchehab@kernel.org>,
@@ -85,10 +85,10 @@ To: Kyrie Wu <kyrie.wu@mediatek.com>, Hans Verkuil
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 Cc: srv_heupstream@mediatek.com
-Date: Fri, 30 May 2025 13:40:35 -0400
-In-Reply-To: <20250530074537.26338-9-kyrie.wu@mediatek.com>
+Date: Fri, 30 May 2025 13:43:26 -0400
+In-Reply-To: <20250530074537.26338-10-kyrie.wu@mediatek.com>
 References: <20250530074537.26338-1-kyrie.wu@mediatek.com>
-	 <20250530074537.26338-9-kyrie.wu@mediatek.com>
+	 <20250530074537.26338-10-kyrie.wu@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
@@ -102,227 +102,359 @@ MIME-Version: 1.0
 Hi,
 
 Le vendredi 30 mai 2025 =C3=A0 15:45 +0800, Kyrie Wu a =C3=A9crit=C2=A0:
-> 1. For multi-core jpegdec, the all hws may run at the same time,
-> if one hw decoded firstly, the function of mtk_jpeg_dec_stop_streaming
-> would be called, but others input buffers are decoding, this will
-> cause some running buffers to be buffer done, causing errors;
-> 2. add a parameter to calculate the decoding buffer counts, it
-> wil decrease to 0 until the all buffers decoded and the
-> mtk_jpeg_dec_stop_streaming could continue to be executed.
+> refactor jpeg clk suspend and resume setting for multi-core
 
-This one is equally unclear to me. If you run different queues per core,
-why does this matter ?
+You'll have to write a lot more to support such a large and I
+must say slightly convoluted change. Why do you need a special
+case for 1 core in the first place ? What about multi-core
+design that support from 1 to N cores without using different
+code path ?
 
 Nicolas
 
 >=20
 > Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
 > ---
-> =C2=A0.../media/platform/mediatek/jpeg/mtk_jpeg_core.c | 16 +++++++++++++=
-+++
-> =C2=A0.../media/platform/mediatek/jpeg/mtk_jpeg_core.h |=C2=A0 2 ++
-> =C2=A0.../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 9 +++++++++
-> =C2=A0.../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 9 +++++++++
-> =C2=A04 files changed, 36 insertions(+)
+> =C2=A0.../platform/mediatek/jpeg/mtk_jpeg_core.c=C2=A0=C2=A0=C2=A0 | 28 +=
+++----
+> =C2=A0.../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c=C2=A0 | 75 +++++++++++=
++++++++-
+> =C2=A0.../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c=C2=A0 | 75 +++++++++++=
++++++++-
+> =C2=A03 files changed, 151 insertions(+), 27 deletions(-)
 >=20
 > diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
 > b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index 7e3509be6f69..1d3df1230191 100644
+> index 1d3df1230191..c1d2de92f125 100644
 > --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
 > +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -861,8 +861,12 @@ static struct vb2_v4l2_buffer *mtk_jpeg_buf_remove(s=
-truct mtk_jpeg_ctx *ctx,
-> =C2=A0static void mtk_jpeg_enc_stop_streaming(struct vb2_queue *q)
+> @@ -1126,6 +1126,9 @@ static void mtk_jpeg_clk_on(struct mtk_jpeg_dev *jp=
+eg)
 > =C2=A0{
-> =C2=A0	struct mtk_jpeg_ctx *ctx =3D vb2_get_drv_priv(q);
-> +	struct mtk_jpeg_dev *jpeg =3D ctx->jpeg;
-> =C2=A0	struct vb2_v4l2_buffer *vb;
+> =C2=A0	int ret;
 > =C2=A0
 > +	if (jpeg->variant->multi_core)
-> +		wait_event(jpeg->hw_wq, (atomic_read(&ctx->buf_list_cnt) =3D=3D 0));
+> +		return;
 > +
-> =C2=A0	while ((vb =3D mtk_jpeg_buf_remove(ctx, q->type)))
-> =C2=A0		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_ERROR);
-> =C2=A0}
-> @@ -870,6 +874,7 @@ static void mtk_jpeg_enc_stop_streaming(struct vb2_qu=
-eue *q)
-> =C2=A0static void mtk_jpeg_dec_stop_streaming(struct vb2_queue *q)
-> =C2=A0{
-> =C2=A0	struct mtk_jpeg_ctx *ctx =3D vb2_get_drv_priv(q);
-> +	struct mtk_jpeg_dev *jpeg =3D ctx->jpeg;
-> =C2=A0	struct vb2_v4l2_buffer *vb;
+> =C2=A0	ret =3D clk_bulk_prepare_enable(jpeg->variant->num_clks,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 jpeg->variant->clks);
+> =C2=A0	if (ret)
+> @@ -1134,6 +1137,9 @@ static void mtk_jpeg_clk_on(struct mtk_jpeg_dev *jp=
+eg)
 > =C2=A0
-> =C2=A0	/*
-> @@ -877,6 +882,9 @@ static void mtk_jpeg_dec_stop_streaming(struct vb2_qu=
-eue *q)
-> =C2=A0	 * Before STREAMOFF, we still have to return the old resolution an=
-d
-> =C2=A0	 * subsampling. Update capture queue when the stream is off.
-> =C2=A0	 */
+> =C2=A0static void mtk_jpeg_clk_off(struct mtk_jpeg_dev *jpeg)
+> =C2=A0{
 > +	if (jpeg->variant->multi_core)
-> +		wait_event(jpeg->hw_wq, (atomic_read(&ctx->buf_list_cnt) =3D=3D 0));
+> +		return;
 > +
-> =C2=A0	if (ctx->state =3D=3D MTK_JPEG_SOURCE_CHANGE &&
-> =C2=A0	=C2=A0=C2=A0=C2=A0 V4L2_TYPE_IS_CAPTURE(q->type)) {
-> =C2=A0		struct mtk_jpeg_src_buf *src_buf;
-> @@ -1186,6 +1194,7 @@ static int mtk_jpeg_open(struct file *file)
-> =C2=A0	v4l2_fh_init(&ctx->fh, vfd);
-> =C2=A0	file->private_data =3D &ctx->fh;
-> =C2=A0	v4l2_fh_add(&ctx->fh);
-> +	atomic_set(&ctx->buf_list_cnt, 0);
-> =C2=A0
-> =C2=A0	ctx->jpeg =3D jpeg;
-> =C2=A0	ctx->fh.m2m_ctx =3D v4l2_m2m_ctx_init(jpeg->m2m_dev, ctx,
-> @@ -1568,6 +1577,11 @@ static int mtk_jpegdec_set_hw_param(struct mtk_jpe=
-g_ctx *ctx,
-> =C2=A0	return 0;
+> =C2=A0	clk_bulk_disable_unprepare(jpeg->variant->num_clks,
+> =C2=A0				=C2=A0=C2=A0 jpeg->variant->clks);
 > =C2=A0}
+> @@ -1677,13 +1683,6 @@ static void mtk_jpegenc_worker(struct work_struct =
+*work)
+> =C2=A0		goto enc_end;
+> =C2=A0	}
 > =C2=A0
-> +static void jpeg_buf_queue_inc(struct mtk_jpeg_ctx *ctx)
-> +{
-> +	atomic_inc(&ctx->buf_list_cnt);
-> +}
-> +
-> =C2=A0static irqreturn_t mtk_jpeg_enc_done(struct mtk_jpeg_dev *jpeg)
-> =C2=A0{
-> =C2=A0	struct mtk_jpeg_ctx *ctx;
-> @@ -1693,6 +1707,7 @@ static void mtk_jpegenc_worker(struct work_struct *=
+> -	ret =3D clk_prepare_enable(comp_jpeg[hw_id]->venc_clk.clks->clk);
+> -	if (ret) {
+> -		dev_err(jpeg->dev, "%s : %d, jpegenc clk_prepare_enable fail\n",
+> -			__func__, __LINE__);
+> -		goto enc_end;
+> -	}
+> -
+> =C2=A0	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+> =C2=A0	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> =C2=A0
+> @@ -1798,20 +1797,13 @@ static void mtk_jpegdec_worker(struct work_struct=
+ *work)
+> =C2=A0	jpeg_dst_buf->frame_num =3D ctx->total_frame_num;
+> =C2=A0
+> =C2=A0	mtk_jpegdec_set_hw_param(ctx, hw_id, src_buf, dst_buf);
+> -	ret =3D pm_runtime_get_sync(comp_jpeg[hw_id]->dev);
+> +	ret =3D pm_runtime_resume_and_get(comp_jpeg[hw_id]->dev);
+> =C2=A0	if (ret < 0) {
+> =C2=A0		dev_err(jpeg->dev, "%s : %d, pm_runtime_get_sync fail !!!\n",
+> =C2=A0			__func__, __LINE__);
+> =C2=A0		goto dec_end;
+> =C2=A0	}
+> =C2=A0
+> -	ret =3D clk_prepare_enable(comp_jpeg[hw_id]->jdec_clk.clks->clk);
+> -	if (ret) {
+> -		dev_err(jpeg->dev, "%s : %d, jpegdec clk_prepare_enable fail\n",
+> -			__func__, __LINE__);
+> -		goto clk_end;
+> -	}
+> -
+> =C2=A0	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+> =C2=A0	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> =C2=A0
+> @@ -1821,7 +1813,7 @@ static void mtk_jpegdec_worker(struct work_struct *=
 work)
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 &src_buf->vb2_buf);
-> =C2=A0	mtk_jpeg_set_enc_params(ctx, comp_jpeg[hw_id]->reg_base);
-> =C2=A0	mtk_jpeg_enc_start(comp_jpeg[hw_id]->reg_base);
-> +	jpeg_buf_queue_inc(ctx);
-> =C2=A0	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> =C2=A0	spin_unlock_irqrestore(&comp_jpeg[hw_id]->hw_lock, flags);
+> =C2=A0				 &dst_buf->vb2_buf, &fb)) {
+> =C2=A0		dev_err(jpeg->dev, "%s : %d, mtk_jpeg_set_dec_dst fail\n",
+> =C2=A0			__func__, __LINE__);
+> -		goto setdst_end;
+> +		goto set_dst_fail;
+> =C2=A0	}
 > =C2=A0
-> @@ -1825,6 +1840,7 @@ static void mtk_jpegdec_worker(struct work_struct *=
+> =C2=A0	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
+> @@ -1846,9 +1838,7 @@ static void mtk_jpegdec_worker(struct work_struct *=
 work)
-> =C2=A0				&bs,
-> =C2=A0				&fb);
-> =C2=A0	mtk_jpeg_dec_start(comp_jpeg[hw_id]->reg_base);
-> +	jpeg_buf_queue_inc(ctx);
-> =C2=A0	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> =C2=A0	spin_unlock_irqrestore(&comp_jpeg[hw_id]->hw_lock, flags);
 > =C2=A0
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> index 186cd1862028..6e8304680393 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> @@ -303,6 +303,7 @@ struct mtk_jpeg_q_data {
-> =C2=A0 * @dst_done_queue:		encoded frame buffer queue
-> =C2=A0 * @done_queue_lock:		encoded frame operation spinlock
-> =C2=A0 * @last_done_frame_num:	the last encoded frame number
-> + * @buf_list_cnt:		the frame buffer count own by jpeg driver
-> =C2=A0 */
-> =C2=A0struct mtk_jpeg_ctx {
-> =C2=A0	struct mtk_jpeg_dev		*jpeg;
-> @@ -321,6 +322,7 @@ struct mtk_jpeg_ctx {
-> =C2=A0	/* spinlock protecting the encode done buffer */
-> =C2=A0	spinlock_t done_queue_lock;
-> =C2=A0	u32 last_done_frame_num;
-> +	atomic_t buf_list_cnt;
-> =C2=A0};
+> =C2=A0	return;
 > =C2=A0
-> =C2=A0#endif /* _MTK_JPEG_CORE_H */
+> -setdst_end:
+> -	clk_disable_unprepare(comp_jpeg[hw_id]->jdec_clk.clks->clk);
+> -clk_end:
+> +set_dst_fail:
+> =C2=A0	pm_runtime_put(comp_jpeg[hw_id]->dev);
+> =C2=A0dec_end:
+> =C2=A0	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
 > diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
 > b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> index 2200f3b628dc..2e6da8617484 100644
+> index 2e6da8617484..db2afc5151ad 100644
 > --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
 > +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> @@ -522,6 +522,11 @@ static void mtk_jpegdec_put_buf(struct mtk_jpegdec_c=
-omp_dev *jpeg)
-> =C2=A0	spin_unlock_irqrestore(&ctx->done_queue_lock, flags);
-> =C2=A0}
-> =C2=A0
-> +static void jpeg_buf_queue_dec(struct mtk_jpeg_ctx *ctx)
-> +{
-> +	atomic_dec(&ctx->buf_list_cnt);
-> +}
-> +
-> =C2=A0static void mtk_jpegdec_timeout_work(struct work_struct *work)
-> =C2=A0{
-> =C2=A0	enum vb2_buffer_state buf_state =3D VB2_BUF_STATE_ERROR;
-> @@ -530,9 +535,11 @@ static void mtk_jpegdec_timeout_work(struct work_str=
-uct *work)
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 job_timeout_work.work);
-> =C2=A0	struct mtk_jpeg_dev *master_jpeg =3D cjpeg->master_dev;
-> =C2=A0	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-> +	struct mtk_jpeg_ctx *ctx;
-> =C2=A0
-> =C2=A0	src_buf =3D cjpeg->hw_param.src_buffer;
-> =C2=A0	dst_buf =3D cjpeg->hw_param.dst_buffer;
-> +	ctx =3D cjpeg->hw_param.curr_ctx;
+> @@ -543,14 +543,13 @@ static void mtk_jpegdec_timeout_work(struct work_st=
+ruct *work)
 > =C2=A0	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
 > =C2=A0
 > =C2=A0	mtk_jpeg_dec_reset(cjpeg->reg_base);
-> @@ -543,6 +550,7 @@ static void mtk_jpegdec_timeout_work(struct work_stru=
-ct *work)
+> -	clk_disable_unprepare(cjpeg->jdec_clk.clks->clk);
+> -	pm_runtime_put(cjpeg->dev);
+> =C2=A0	cjpeg->hw_state =3D MTK_JPEG_HW_IDLE;
+> =C2=A0	atomic_inc(&master_jpeg->hw_rdy);
 > =C2=A0	wake_up(&master_jpeg->hw_wq);
 > =C2=A0	v4l2_m2m_buf_done(src_buf, buf_state);
 > =C2=A0	mtk_jpegdec_put_buf(cjpeg);
-> +	jpeg_buf_queue_dec(ctx);
+> =C2=A0	jpeg_buf_queue_dec(ctx);
+> +	pm_runtime_put(cjpeg->dev);
 > =C2=A0}
 > =C2=A0
 > =C2=A0static irqreturn_t mtk_jpegdec_hw_irq_handler(int irq, void *priv)
-> @@ -583,6 +591,7 @@ static irqreturn_t mtk_jpegdec_hw_irq_handler(int irq=
-, void *priv)
-> =C2=A0	buf_state =3D VB2_BUF_STATE_DONE;
+> @@ -592,12 +591,11 @@ static irqreturn_t mtk_jpegdec_hw_irq_handler(int i=
+rq, void *priv)
 > =C2=A0	v4l2_m2m_buf_done(src_buf, buf_state);
 > =C2=A0	mtk_jpegdec_put_buf(jpeg);
-> +	jpeg_buf_queue_dec(ctx);
-> =C2=A0	pm_runtime_put(ctx->jpeg->dev);
-> =C2=A0	clk_disable_unprepare(jpeg->jdec_clk.clks->clk);
+> =C2=A0	jpeg_buf_queue_dec(ctx);
+> -	pm_runtime_put(ctx->jpeg->dev);
+> -	clk_disable_unprepare(jpeg->jdec_clk.clks->clk);
+> =C2=A0
+> =C2=A0	jpeg->hw_state =3D MTK_JPEG_HW_IDLE;
+> =C2=A0	wake_up(&master_jpeg->hw_wq);
+> =C2=A0	atomic_inc(&master_jpeg->hw_rdy);
+> +	pm_runtime_put(jpeg->dev);
+> =C2=A0
+> =C2=A0	return IRQ_HANDLED;
+> =C2=A0}
+> @@ -703,15 +701,84 @@ static int mtk_jpegdec_hw_probe(struct platform_dev=
+ice *pdev)
+> =C2=A0
+> =C2=A0	platform_set_drvdata(pdev, dev);
+> =C2=A0	pm_runtime_enable(&pdev->dev);
+> +	ret =3D devm_clk_bulk_get(dev->dev,
+> +				jpegdec_clk->clk_num,
+> +				jpegdec_clk->clks);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to init clk\n");
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void mtk_jpeg_clk_on(struct mtk_jpegdec_comp_dev *jpeg)
+> +{
+> +	int ret;
+> +
+> +	ret =3D clk_bulk_prepare_enable(jpeg->jdec_clk.clk_num,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 jpeg->jdec_clk.clks);
+> +	if (ret)
+> +		dev_err(jpeg->dev, "%s : %d, jpegdec clk_prepare_enable fail\n",
+> +			__func__, __LINE__);
+> +}
+> +
+> +static void mtk_jpeg_clk_off(struct mtk_jpegdec_comp_dev *jpeg)
+> +{
+> +	clk_bulk_disable_unprepare(jpeg->jdec_clk.clk_num,
+> +				=C2=A0=C2=A0 jpeg->jdec_clk.clks);
+> +}
+> +
+> +static __maybe_unused int mtk_jpegdec_pm_suspend(struct device *dev)
+> +{
+> +	struct mtk_jpegdec_comp_dev *jpeg =3D dev_get_drvdata(dev);
+> +
+> +	mtk_jpeg_clk_off(jpeg);
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> =C2=A0
+> +static __maybe_unused int mtk_jpegdec_pm_resume(struct device *dev)
+> +{
+> +	struct mtk_jpegdec_comp_dev *jpeg =3D dev_get_drvdata(dev);
+> +
+> +	mtk_jpeg_clk_on(jpeg);
+> +
+> +	return 0;
+> +}
+> +
+> +static __maybe_unused int mtk_jpegdec_suspend(struct device *dev)
+> +{
+> +	struct mtk_jpegdec_comp_dev *jpeg =3D dev_get_drvdata(dev);
+> +
+> +	v4l2_m2m_suspend(jpeg->master_dev->m2m_dev);
+> +	return pm_runtime_force_suspend(dev);
+> +}
+> +
+> +static __maybe_unused int mtk_jpegdec_resume(struct device *dev)
+> +{
+> +	struct mtk_jpegdec_comp_dev *jpeg =3D dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret =3D pm_runtime_force_resume(dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	v4l2_m2m_resume(jpeg->master_dev->m2m_dev);
+> +	return ret;
+> +}
+> +
+> +static const struct dev_pm_ops mtk_jpegdec_pm_ops =3D {
+> +	SET_SYSTEM_SLEEP_PM_OPS(mtk_jpegdec_suspend, mtk_jpegdec_resume)
+> +	SET_RUNTIME_PM_OPS(mtk_jpegdec_pm_suspend, mtk_jpegdec_pm_resume, NULL)
+> +};
+> +
+> =C2=A0static struct platform_driver mtk_jpegdec_hw_driver =3D {
+> =C2=A0	.probe =3D mtk_jpegdec_hw_probe,
+> =C2=A0	.driver =3D {
+> =C2=A0		.name =3D "mtk-jpegdec-hw",
+> =C2=A0		.of_match_table =3D mtk_jpegdec_hw_ids,
+> +		.pm=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 =3D &mtk_jpegdec_pm_ops,
+> =C2=A0	},
+> =C2=A0};
 > =C2=A0
 > diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
 > b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-> index 4c264c14ad83..ff73393a2417 100644
+> index ff73393a2417..27da2a9922a6 100644
 > --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
 > +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-> @@ -251,6 +251,11 @@ static void mtk_jpegenc_put_buf(struct mtk_jpegenc_c=
-omp_dev *jpeg)
-> =C2=A0	spin_unlock_irqrestore(&ctx->done_queue_lock, flags);
-> =C2=A0}
-> =C2=A0
-> +static void jpeg_buf_queue_dec(struct mtk_jpeg_ctx *ctx)
-> +{
-> +	atomic_dec(&ctx->buf_list_cnt);
-> +}
-> +
-> =C2=A0static void mtk_jpegenc_timeout_work(struct work_struct *work)
-> =C2=A0{
-> =C2=A0	struct delayed_work *dly_work =3D to_delayed_work(work);
-> @@ -261,9 +266,11 @@ static void mtk_jpegenc_timeout_work(struct work_str=
-uct *work)
-> =C2=A0	struct mtk_jpeg_dev *master_jpeg =3D cjpeg->master_dev;
-> =C2=A0	enum vb2_buffer_state buf_state =3D VB2_BUF_STATE_ERROR;
-> =C2=A0	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-> +	struct mtk_jpeg_ctx *ctx;
-> =C2=A0
-> =C2=A0	src_buf =3D cjpeg->hw_param.src_buffer;
-> =C2=A0	dst_buf =3D cjpeg->hw_param.dst_buffer;
-> +	ctx =3D cjpeg->hw_param.curr_ctx;
+> @@ -274,14 +274,13 @@ static void mtk_jpegenc_timeout_work(struct work_st=
+ruct *work)
 > =C2=A0	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
 > =C2=A0
 > =C2=A0	mtk_jpeg_enc_reset(cjpeg->reg_base);
-> @@ -274,6 +281,7 @@ static void mtk_jpegenc_timeout_work(struct work_stru=
-ct *work)
+> -	clk_disable_unprepare(cjpeg->venc_clk.clks->clk);
+> -	pm_runtime_put(cjpeg->dev);
+> =C2=A0	cjpeg->hw_state =3D MTK_JPEG_HW_IDLE;
+> =C2=A0	atomic_inc(&master_jpeg->hw_rdy);
 > =C2=A0	wake_up(&master_jpeg->hw_wq);
 > =C2=A0	v4l2_m2m_buf_done(src_buf, buf_state);
 > =C2=A0	mtk_jpegenc_put_buf(cjpeg);
-> +	jpeg_buf_queue_dec(ctx);
+> =C2=A0	jpeg_buf_queue_dec(ctx);
+> +	pm_runtime_put(cjpeg->dev);
 > =C2=A0}
 > =C2=A0
 > =C2=A0static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq, void *priv)
-> @@ -307,6 +315,7 @@ static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq=
-, void *priv)
-> =C2=A0	buf_state =3D VB2_BUF_STATE_DONE;
+> @@ -316,12 +315,11 @@ static irqreturn_t mtk_jpegenc_hw_irq_handler(int i=
+rq, void *priv)
 > =C2=A0	v4l2_m2m_buf_done(src_buf, buf_state);
 > =C2=A0	mtk_jpegenc_put_buf(jpeg);
-> +	jpeg_buf_queue_dec(ctx);
-> =C2=A0	pm_runtime_put(ctx->jpeg->dev);
-> =C2=A0	clk_disable_unprepare(jpeg->venc_clk.clks->clk);
+> =C2=A0	jpeg_buf_queue_dec(ctx);
+> -	pm_runtime_put(ctx->jpeg->dev);
+> -	clk_disable_unprepare(jpeg->venc_clk.clks->clk);
+> =C2=A0
+> =C2=A0	jpeg->hw_state =3D MTK_JPEG_HW_IDLE;
+> =C2=A0	wake_up(&master_jpeg->hw_wq);
+> =C2=A0	atomic_inc(&master_jpeg->hw_rdy);
+> +	pm_runtime_put(jpeg->dev);
+> =C2=A0
+> =C2=A0	return IRQ_HANDLED;
+> =C2=A0}
+> @@ -425,15 +423,84 @@ static int mtk_jpegenc_hw_probe(struct platform_dev=
+ice *pdev)
+> =C2=A0
+> =C2=A0	platform_set_drvdata(pdev, dev);
+> =C2=A0	pm_runtime_enable(&pdev->dev);
+> +	ret =3D devm_clk_bulk_get(dev->dev,
+> +				jpegenc_clk->clk_num,
+> +				jpegenc_clk->clks);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to init clk\n");
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void mtk_jpeg_clk_on(struct mtk_jpegenc_comp_dev *jpeg)
+> +{
+> +	int ret;
+> +
+> +	ret =3D clk_bulk_prepare_enable(jpeg->venc_clk.clk_num,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 jpeg->venc_clk.clks);
+> +	if (ret)
+> +		dev_err(jpeg->dev, "%s : %d, jpegenc clk_prepare_enable fail\n",
+> +			__func__, __LINE__);
+> +}
+> +
+> +static void mtk_jpeg_clk_off(struct mtk_jpegenc_comp_dev *jpeg)
+> +{
+> +	clk_bulk_disable_unprepare(jpeg->venc_clk.clk_num,
+> +				=C2=A0=C2=A0 jpeg->venc_clk.clks);
+> +}
+> +
+> +static __maybe_unused int mtk_jpegenc_pm_suspend(struct device *dev)
+> +{
+> +	struct mtk_jpegenc_comp_dev *jpeg =3D dev_get_drvdata(dev);
+> +
+> +	mtk_jpeg_clk_off(jpeg);
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> =C2=A0
+> +static __maybe_unused int mtk_jpegenc_pm_resume(struct device *dev)
+> +{
+> +	struct mtk_jpegenc_comp_dev *jpeg =3D dev_get_drvdata(dev);
+> +
+> +	mtk_jpeg_clk_on(jpeg);
+> +
+> +	return 0;
+> +}
+> +
+> +static __maybe_unused int mtk_jpegenc_suspend(struct device *dev)
+> +{
+> +	struct mtk_jpegenc_comp_dev *jpeg =3D dev_get_drvdata(dev);
+> +
+> +	v4l2_m2m_suspend(jpeg->master_dev->m2m_dev);
+> +	return pm_runtime_force_suspend(dev);
+> +}
+> +
+> +static __maybe_unused int mtk_jpegenc_resume(struct device *dev)
+> +{
+> +	struct mtk_jpegenc_comp_dev *jpeg =3D dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret =3D pm_runtime_force_resume(dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	v4l2_m2m_resume(jpeg->master_dev->m2m_dev);
+> +	return ret;
+> +}
+> +
+> +static const struct dev_pm_ops mtk_jpegenc_pm_ops =3D {
+> +	SET_SYSTEM_SLEEP_PM_OPS(mtk_jpegenc_suspend, mtk_jpegenc_resume)
+> +	SET_RUNTIME_PM_OPS(mtk_jpegenc_pm_suspend, mtk_jpegenc_pm_resume, NULL)
+> +};
+> +
+> =C2=A0static struct platform_driver mtk_jpegenc_hw_driver =3D {
+> =C2=A0	.probe =3D mtk_jpegenc_hw_probe,
+> =C2=A0	.driver =3D {
+> =C2=A0		.name =3D "mtk-jpegenc-hw",
+> =C2=A0		.of_match_table =3D mtk_jpegenc_drv_ids,
+> +		.pm =3D &mtk_jpegenc_pm_ops,
+> =C2=A0	},
+> =C2=A0};
 > =C2=A0
 
