@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-33656-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33657-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE9DAC8D40
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 13:58:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3918AC8D55
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 14:09:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D7091889797
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 11:58:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 718507A440D
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 12:07:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1D022A813;
-	Fri, 30 May 2025 11:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D7E022ACFB;
+	Fri, 30 May 2025 12:09:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iS5+W6B7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XaOl3FJ1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D3F221566;
-	Fri, 30 May 2025 11:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE28F21CA1C;
+	Fri, 30 May 2025 12:09:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748606305; cv=none; b=m2v1QU0YUFqb4ClmBF/++NWsGEMEDKHlB+br/oMyWvqbwU92BClEcKivjjzu4elR83B6+cnnbSJ0bgbGDvG/6hs8Jzvq0jQnAxM5crNroU5KAb7AA2X1NZBYf5FHgaRkRBI7qWOqHA6fHejCBM0h/P2L5QYEKyXvavKA4MA7gIk=
+	t=1748606942; cv=none; b=HWJD+4XDPE6JospCmtyI6j5qrKn34a+Lm5mqxeunSD5lRLuibwcGAz4FWNfb/QfGo451FfuKZO/AYz5y7RQZY2Ok7pG3RxxmWsbM38o9L8ZnWdSQdwPSU6nXchyCsU1rpZRPBuBCgPMv2fedEYIX1Ozi1WF357zu83flbvGrFMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748606305; c=relaxed/simple;
-	bh=Q09kJEccQ9ehv/UlvNwuXD0ZbzoJ84GZhOVmRxyiVi8=;
+	s=arc-20240116; t=1748606942; c=relaxed/simple;
+	bh=aGKmdWDo6AjEAjmm5qJD+uoDVfL5gYDm36emMKgChNo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=oaHSXHN4Oz6/peq/3CgpVar1L5XFJg9gpjfQySaq47JMB06CeLWqvl9E0v6IHB26HN8UsMEA2Iw8QpUxjMkeVOCVupCZPZnpiD9vafZ9Mpnqqt6Jzoo8l3cx0y+ptj63GQw2GRbglZfmiUqh9edVVuP4dvedZIaX43Z3ebJ2dqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iS5+W6B7; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=WdRWVMKpvC86dZYmTI2Q1j7VFG2Z93gO3WD9XyaAYdP8nk6Iy0uu0LrDWLdZmpvVoDCIt7y8DWiBQqOj3FSDQ6+OYrY6xmaCq5YM7ZvqcW5XzPOPEp5I2JOj5zUxdsieD8oLUkIc3kZXlCqj5lle3hxPQArgMfEdVvLutrJFvBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XaOl3FJ1; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E02689A;
-	Fri, 30 May 2025 13:57:53 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2969B82E;
+	Fri, 30 May 2025 14:08:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748606273;
-	bh=Q09kJEccQ9ehv/UlvNwuXD0ZbzoJ84GZhOVmRxyiVi8=;
+	s=mail; t=1748606911;
+	bh=aGKmdWDo6AjEAjmm5qJD+uoDVfL5gYDm36emMKgChNo=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=iS5+W6B7mtkRL6TxMjibedoVjCoMI9IbC5+t4ts0idW3XHZapz7cBdRHZIir7D0It
-	 nmt9EKMz2d6t1NMRUTTeX9fcsK6HNN57EbYMJUDaxm8ei6UCogeFChW0j4/IZ0Frov
-	 OBY55vKcWJG219yFeDfmR0ylvvU78wF16nySvYOk=
-Message-ID: <4ea2b464-81d8-486d-bce1-540e1cecb87b@ideasonboard.com>
-Date: Fri, 30 May 2025 14:58:17 +0300
+	b=XaOl3FJ1WglSuAYnOUcr6UXjuYRMPDS/5J+g89EQWdeIt9Ov8TV4fT/KtDxPAYnlf
+	 0A/SJ+m3VdZh6CZwtDzYfVCdsw9i3AKfFIlL25BiK39v4l/Z9LCp+3lcvnf03W/hak
+	 a+acx34SbBfRuBf0tNKUzF1h5ojhJWb1C1BpqvJs=
+Message-ID: <62b34d44-14d3-4096-ba13-edd53bd3eb7c@ideasonboard.com>
+Date: Fri, 30 May 2025 15:08:56 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,6 +72,30 @@ On 02/04/2025 21:33, Niklas Söderlund wrote:
 > only process in this mode for non-image data. For image data the full
 > stride shall be used. Compare section "RAW: 8 Bits and Embedded 8-Bit
 > Non-Image Data, User Defined 8-bit Data" vs "RAW: 8 Bits".
+
+Looking at the V4H manual, I see:
+
+"
+RAW: 8 Bits and Embedded 8-Bit Non-Image Data, User Defined 8-bit Data
+
+The 8-bit RAW image data format, Embedded 8-bit non image data and User
+Defined 8-bit data format are shown below. Notes: 1. These data are
+transferred by 2-Byte unit.
+"
+
+and
+
+"
+RAW: 8 Bits (16 Bits/Pixel) Data
+
+The 8-bit RAW (16 bits/pixel) image data format is shown below.
+Notes: 1. These data are transferred by 2-Byte unit.
+"
+
+I don't see "RAW: 8 Bits". In both cases above the text says "2-byte unit".
+
+ Tomi
+
 > 
 > Remove the special case from pixel formats that carry image data and
 > treat it as any other image format.
@@ -108,10 +132,5 @@ On 02/04/2025 21:33, Niklas Söderlund wrote:
 >  	rvin_write(vin, stride, VNIS_REG);
 >  }
 >  
-
-This one breaks RAW8 for me (V4H, streams, GMSL2 + imx219 sensors). How
-did you test this?
-
- Tomi
 
 
