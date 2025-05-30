@@ -1,77 +1,90 @@
-Return-Path: <linux-media+bounces-33651-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33652-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14AEAC8C9D
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 13:09:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B220AC8D03
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 13:35:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B193C1BA53D2
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 11:09:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 764A43B1F68
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 11:35:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D5B42248AC;
-	Fri, 30 May 2025 11:09:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C38E21D3EC;
+	Fri, 30 May 2025 11:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKEQMIAe"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="iQXAYQqy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF3F1D47B4
-	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 11:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748603354; cv=none; b=KaGlfGPN/8O31eWidZAiapwbS8kVjnxAT3nddpH2SazQn6OzhLRoOefWwnFCUnip9WX+OKS4u0/XgsXq18+fU6qzW+ckaIXn6OcBXui8jYBu6fY9adllSEQ1DQs+HgS4xM7CDaF0Qc2HOeJBQ4ZddzGzIaUpoJ4f2eWUMHk296A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748603354; c=relaxed/simple;
-	bh=35l9XPVSJXhj5GMtwiWCEqAEdQ/AGTsTrs3qVF3Ck2c=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FE219F10A
+	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 11:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748604932; cv=pass; b=o7fHCSjJ48YM4StZYC58ZNnYKsoAFrz7jVkRfaKaPdhaUL/AQWLbhPIkLEYa0/TDUYDtuz55a719A8SdBp1w3OqVs8UbcMwV4WLef9a5rbntKDIv3X6df9MV1Mu168z0CekGDwUtOoYm8x99raXRnDolahjIBPSlRvGKfYmclRE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748604932; c=relaxed/simple;
+	bh=RG+NmCzhBiI4c5OnstToBhf7APOQE3lTOP2DLE+IfRQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jobDE7jW1748QdNbH9uDlVywrBBqC1d+nmYbaKmzY+sMg0Djh8NRvfgbsikLxs3QBeOhRNiytpoGID1qKA+Ab1aqtXsItyk0C2DEhRMoVyJ8MGGSQkMQL8j48gQBMBSO5MT1+sXtKA5z0P5i5VxHnEVaQ2TF5ArmWnt9tOiE6wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aKEQMIAe; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748603353; x=1780139353;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=35l9XPVSJXhj5GMtwiWCEqAEdQ/AGTsTrs3qVF3Ck2c=;
-  b=aKEQMIAeCM+laUBtFkxmGGW/ZVZEoQyvU/aY3mqj/cDgNyn6hq8yQSAr
-   yVFUMPhakYi++bHN9iU+LpWOQ9zpgX8k3uFN4ELIutB8SvPrNsArurJrq
-   hCv1upZq1lsu+Hbj6PvE/evcWpI/0Ei+1WvXHTe97cFAjIaa0ZLWHkEiZ
-   wXdhpAG/uwVSQ0D6rg4jKXyN4ASMuuXHNxB3Des1BLnUFEHaFueVAEYCh
-   WQusC4juiXhqFTzrHZZ7/u+eDPmD7xJH3RbqhSJrRfPfIXmlrMCAnffZD
-   QjHT5TyHw9SB0zvnVNX4NqInWP6Aj6RwOU7QeO955jqeF4XF2CZ5EFUHb
-   g==;
-X-CSE-ConnectionGUID: tupDcdtUQkeNpDW1hqfImQ==
-X-CSE-MsgGUID: A4IKnv9cTZOy67TLZK7QAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="49934099"
-X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="49934099"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 04:09:12 -0700
-X-CSE-ConnectionGUID: GD1dpHR0SXqMYDsPU/rMTQ==
-X-CSE-MsgGUID: IOiDXgHkSim4IIzbXaYVrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="148990344"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.167])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 04:09:10 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A3DC811FBA7;
-	Fri, 30 May 2025 14:09:07 +0300 (EEST)
-Date: Fri, 30 May 2025 11:09:07 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: bingbu.cao@intel.com
-Cc: linux-media@vger.kernel.org, stanislaw.gruszka@linux.intel.com,
-	laurent.pinchart@ideasonboard.com, jerry.w.hu@intel.com,
-	hao.yao@intel.com, tian.shu.qiu@intel.com,
-	bingbu.cao@linux.intel.com
-Subject: Re: [PATCH v3 0/7] Intel IPU7 PCI and input system device drivers
-Message-ID: <aDmR04fbmHTdOa1_@kekkonen.localdomain>
-References: <20250529041323.3026998-1-bingbu.cao@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=u2zIM600oVfQv58f2SDfEO9LVpD/JY84Q2xoIYacSFWP8CEdtr5Z4u7i25CYU8Y7AlwlpahEaZR5SEH9GFIge/2JVYgse2rc+VYihe+FEd2ouqCLpT1xo67xd45QplBZgYDmA3ojT8wsZ8NVxhUYeOcDnz8Qnuq4xjUWvQYeQS4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=iQXAYQqy; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4b81Ph273lz49QBY;
+	Fri, 30 May 2025 14:35:20 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1748604920;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d1t8LGkhWA2mr9H6izbeJAVhYUZkIymgKuCFL6o07co=;
+	b=iQXAYQqyuiLQwujAslFh0tVlVQAOwrJqP2RS+HNCOPM7UQqoJUmNJv/i/9MWLzM7HwhoAQ
+	nNPR6DRYEOov5H0Fn4k6EtjcO6hzbV/qs3V5xIf8j22n00dcce3Rrbbpx0S3+SbMdLIRO+
+	OIztTq2IX3dfhxpyjpWq9rTmEggdPVzlGYCQaaqTucORsqWbBUmAQfSfrdxAA9x9F9mRHE
+	FT/ySQHNDFp6KjLefHm/Wl/UiyjZ3zOXhdITvOGOhKbIWJcvXorFmkGd+woZHOq7kzhCS0
+	UFbmhByh+97hYRkd0c0MP26kpSKDoZCMixlJ3WbRZ3LkzpKTdA+pdNAb/W9ycA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1748604920;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d1t8LGkhWA2mr9H6izbeJAVhYUZkIymgKuCFL6o07co=;
+	b=sLjouUosSHEhW3pz2VjKmCHtVl8uipEAEWO0EDGpCEAbuKH6CR+fHASmE38aff5bDQdHYZ
+	ZDmHwiX+xrORcwQnNUlS29A4ucuQzMa8FP3wHkempXML76WoGoVgxmV1oPYdwRyhyukJav
+	DMbi5axhG3bWXf2DWNaYLqmGXyw4t06JFp5mp8G5tb46Hpjn2j9q1bGNg3c9T42ETsMO/8
+	ncy3iRjGEzxxmeYh/3ZT5EHKtYQfMdGv1wTWP/3nV6XQRwIe2IM6vqweFxIptLcP/lcrHG
+	1FALupxx7U5UjPyvESpAtBt1nRVidMN/Jsc2/rTcGO3eD6Gb3RuWQk4T5AQWxw==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1748604920; a=rsa-sha256;
+	cv=none;
+	b=Pyqd3lj3N2EtJe1sB0BOIP6tuxqSmWVGP79wctDO4cEdFqPJHQEZf6HLr02OeLU8xoOa6N
+	woUSLG02IQMOYFfHZo9JkEtR6zDDeaTsb222I5HxolrHL/thF9qx0EvQfxK8Ggq0jMYHIv
+	OLHjPsfzTBpC2ILBeV40ck29PEDlIEXBRg2sHXX6tXB1vKCxFuZa5d2Q1vdwGuxn2+8fnj
+	mfbXBYwurySjQg1VykO7+0ZEVQIw8K75jNrA26XhKONq045lBcn1+uTT0DaXCOG+juch3M
+	qKnWmLDhuw8tqOFD94nx5K3MfndtEe0Xdx+mYfSZXVQ+geUi01TtJfICKpIhMQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C0307634C93;
+	Fri, 30 May 2025 14:35:18 +0300 (EEST)
+Date: Fri, 30 May 2025 11:35:18 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Subject: Re: [PATCH 2/3] media: mc: Add media jobs framework
+Message-ID: <aDmX9oEiGxyA18yQ@valkosipuli.retiisi.eu>
+References: <20250519140403.443915-1-dan.scally@ideasonboard.com>
+ <20250519140403.443915-3-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,44 +93,878 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250529041323.3026998-1-bingbu.cao@intel.com>
+In-Reply-To: <20250519140403.443915-3-dan.scally@ideasonboard.com>
 
-Hi Bingbu,
+Hi Daniel,
 
-On Thu, May 29, 2025 at 12:13:16PM +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
+On Mon, May 19, 2025 at 03:04:02PM +0100, Daniel Scally wrote:
+> Add a new framework to the media subsystem describing media jobs.
+> This framework is intended to be able to model the interactions
+> between multiple different drivers that need to be run in concert
+> to fully control a media pipeline, for example an ISP driver and a
+> driver controlling a DMA device that feeds data from memory in to
+> that ISP.
 > 
-> This patch series adds a driver for Intel IPU7 input system.
-> IPU7 is the seventh generation of Imaging Processing Unit, it is a
-> PCI device which can be found in some Intel Client Platforms such as
-> Intel Lunar Lake and Panther Lake, etc.
-> User can use IPU7 to capture images from MIPI camera sensors, support
-> both MIPI CSI DPHY and CPHY.
+> The new framework allows all drivers involved to add explicit steps
+> that need to be performed, and to control the ordering of those steps
+> precisely. Once the job with its steps has been created it's then
+> scheduled to be run with a workqueue which executes each step in the
+> defined order.
 > 
-> Sakari suggest during RFC patch review it is better to separate
-> the common code between IPU6 and IPU7 into a standalone module.
-> So it is expected to move this driver out of staging tree in future
-> once the common code separation complete for IPU6.
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+>  drivers/media/mc/Makefile  |   2 +-
+>  drivers/media/mc/mc-jobs.c | 446 +++++++++++++++++++++++++++++++++++++
+>  include/media/media-jobs.h | 354 +++++++++++++++++++++++++++++
+>  3 files changed, 801 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/media/mc/mc-jobs.c
+>  create mode 100644 include/media/media-jobs.h
 > 
-> Changes since v2:
-> - Remove IPU7 PCI table from UAPI header
-> 
-> Changes since v1:
-> - Some coding style fix
-> - Update firmware ABI header and remove some unused code
-> - Remove unnecessary need_reset logic
-> - Remove some 'U' suffixes
+> diff --git a/drivers/media/mc/Makefile b/drivers/media/mc/Makefile
+> index 2b7af42ba59c..9148bbfd1578 100644
+> --- a/drivers/media/mc/Makefile
+> +++ b/drivers/media/mc/Makefile
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  
+>  mc-objs	:= mc-device.o mc-devnode.o mc-entity.o \
+> -	   mc-request.o
+> +	   mc-jobs.o mc-request.o
+>  
+>  ifneq ($(CONFIG_USB),)
+>  	mc-objs += mc-dev-allocator.o
+> diff --git a/drivers/media/mc/mc-jobs.c b/drivers/media/mc/mc-jobs.c
+> new file mode 100644
+> index 000000000000..1f04cdf63d27
+> --- /dev/null
+> +++ b/drivers/media/mc/mc-jobs.c
+> @@ -0,0 +1,446 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Media jobs framework
+> + *
+> + * Copyright 2025 Ideas on Board Oy
+> + *
+> + * Author: Daniel Scally <dan.scally@ideasonboard.com>
+> + */
+> +
+> +#include <linux/cleanup.h>
+> +#include <linux/kref.h>
+> +#include <linux/list.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +
+> +#include <media/media-device.h>
+> +#include <media/media-entity.h>
+> +#include <media/media-jobs.h>
+> +
+> +int media_jobs_add_job_step(struct media_job *job, void (*run_step)(void *data),
+> +			    void *data, unsigned int flags, unsigned int pos)
+> +{
+> +	struct media_job_step *step, *tmp;
+> +	unsigned int num = flags;
+> +	unsigned int count = 0;
+> +
+> +	guard(spinlock)(&job->lock);
+> +
+> +	if (!flags) {
+> +		WARN_ONCE(1, "%s(): No flag bits set\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Count the number of set flags; they're mutually exclusive. */
+> +	while (num) {
+> +		num &= (num - 1);
 
-I did a bit more research on this topic and I actully think it's fine to
-use the U (plus the rest) suffixes albeit they seem to be uncommon in the
-kernel. Up to you.
+Extra parentheses.
 
-For decimal numbers that are unsigned, U suffix should be used.
+But is this correct? Maybe for the purpose it does the right thing, even if
+the naming suggests it does something else it does?
 
-I also think the register definitions are indeed in need for a cleanup.
-This should go to the TODO file as well. Could you post a patch on top of
-this set, touching just the TODO file, instead of reposting the entire set,
-if there are no other changes?
+I'd use ffs() / ffz().
+
+> +		count++;
+> +	}
+> +
+> +	if (count > 1) {
+> +		WARN_ONCE(1, "%s(): Multiple flag bits set\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	step = kzalloc(sizeof(*step), GFP_KERNEL);
+> +	if (!step)
+> +		return -ENOMEM;
+> +
+> +	step->run_step = run_step;
+> +	step->data = data;
+> +	step->flags = flags;
+> +	step->pos = pos;
+> +
+> +	/*
+> +	 * We need to decide where to place the step. If the list is empty that
+> +	 * is really easy (and also the later code is much easier if the code is
+> +	 * guaranteed not to be empty...)
+> +	 */
+> +	if (list_empty(&job->steps)) {
+> +		list_add_tail(&step->list, &job->steps);
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * If we've been asked to place it at a specific position from the end
+> +	 * of the list, we cycle back through it until either we exhaust the
+> +	 * list or find an entry that needs to go further from the back than the
+> +	 * new one.
+> +	 */
+> +	if ((flags & MEDIA_JOBS_FL_STEP_FROM_BACK)) {
+
+Extra parentheses.
+
+> +		list_for_each_entry_reverse(tmp, &job->steps, list) {
+> +			if (tmp->flags == flags && tmp->pos == pos)
+> +				return -EINVAL;
+> +
+> +			if (tmp->flags != MEDIA_JOBS_FL_STEP_FROM_BACK ||
+> +			    tmp->pos > pos)
+> +				break;
+> +		}
+> +
+> +		/*
+> +		 * If the entry we broke on is also one placed from the back and
+> +		 * should be closer to the back than the new one, we place the
+> +		 * new one in front of it...otherwise place the new one behind
+> +		 * it.
+> +		 */
+> +		if (tmp->flags == flags && tmp->pos < pos)
+> +			list_add_tail(&step->list, &tmp->list);
+> +		else
+> +			list_add(&step->list, &tmp->list);
+> +
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * If we've been asked to place it a specific position from the front of
+> +	 * the list we do the same kind of operation, but going from the front
+> +	 * instead.
+> +	 */
+> +	if (flags & MEDIA_JOBS_FL_STEP_FROM_FRONT) {
+> +		list_for_each_entry(tmp, &job->steps, list) {
+> +			if (tmp->flags == flags && tmp->pos == pos)
+> +				return -EINVAL;
+> +
+> +			if (tmp->flags != MEDIA_JOBS_FL_STEP_FROM_FRONT ||
+> +			    tmp->pos > pos)
+> +				break;
+> +		}
+> +
+> +		/*
+> +		 * If the entry we broke on is also placed from the front and
+> +		 * should be closed to the front than the new one, we place the
+> +		 * new one behind it, otherwise in front of it.
+> +		 */
+> +		if (tmp->flags == flags && tmp->pos < pos)
+> +			list_add(&step->list, &tmp->list);
+> +		else
+> +			list_add_tail(&step->list, &tmp->list);
+> +
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * If the step is flagged as "can go anywhere" we just need to try to
+> +	 * find the first "from the back" entry and add it immediately before
+> +	 * that. If we can't find one, add it after whatever we did find.
+> +	 */
+> +	if (flags & MEDIA_JOBS_FL_STEP_ANYWHERE) {
+> +		list_for_each_entry(tmp, &job->steps, list)
+> +			if ((tmp->flags & MEDIA_JOBS_FL_STEP_FROM_BACK))
+> +				break;
+> +
+> +		if ((tmp->flags & MEDIA_JOBS_FL_STEP_FROM_BACK) ||
+> +		    list_entry_is_head(tmp, &job->steps, list))
+> +			list_add_tail(&step->list, &tmp->list);
+> +		else
+> +			list_add(&step->list, &tmp->list);
+> +
+> +		return 0;
+> +	}
+> +
+> +	/* Shouldn't get here, unless the flag value is wrong. */
+> +	WARN_ONCE(1, "%s(): Invalid flag value\n", __func__);
+> +	return -EINVAL;
+> +}
+> +EXPORT_SYMBOL_GPL(media_jobs_add_job_step);
+> +
+> +int media_jobs_add_job_dep(struct media_job *job, struct media_job_dep_ops *ops,
+> +			   void *data)
+> +{
+> +	struct media_job_dep *dep;
+> +
+> +	if (!ops || !ops->check_dep || !data)
+> +		return -EINVAL;
+> +
+> +	guard(spinlock)(&job->lock);
+> +
+> +	/* Confirm the same dependency hasn't already been added */
+> +	list_for_each_entry(dep, &job->deps, list)
+> +		if (dep->ops == ops && dep->data == data)
+> +			return -EINVAL;
+> +
+> +	dep = kzalloc(sizeof(*dep), GFP_KERNEL);
+> +	if (!dep)
+> +		return -ENOMEM;
+> +
+> +	dep->ops = ops;
+> +	dep->data = data;
+> +	list_add(&dep->list, &job->deps);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(media_jobs_add_job_dep);
+> +
+> +static bool media_jobs_check_pending_job(struct media_job *job,
+> +					 enum media_job_types type,
+> +					 struct media_job_dep_ops *dep_ops,
+> +					 void *data)
+> +{
+> +	struct media_job_dep *dep;
+> +
+> +	guard(spinlock)(&job->lock);
+> +
+> +	if (job->type != type)
+> +		return false;
+> +
+> +	list_for_each_entry(dep, &job->deps, list) {
+> +		if (dep->ops == dep_ops && dep->data == data) {
+> +			if (dep->met)
+> +				return false;
+> +
+> +			break;
+> +		}
+> +	}
+> +
+> +	dep->met = true;
+
+How about a newline here?
+
+> +	return true;
+> +}
+> +
+> +static struct media_job *media_jobs_get_job(struct media_job_scheduler *sched,
+> +					    enum media_job_types type,
+> +					    struct media_job_dep_ops *dep_ops,
+> +					    void *dep_data)
+> +{
+> +	struct media_job_setup_func *jsf;
+> +	struct media_job *job;
+> +	int ret;
+> +
+
+How about lockdep_assert_held(&sched->lock) here?
+
+> +	list_for_each_entry(job, &sched->pending, list)
+> +		if (media_jobs_check_pending_job(job, type, dep_ops, dep_data))
+> +			return job;
+> +
+> +	job = kzalloc(sizeof(*job), GFP_KERNEL);
+> +	if (!job)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	spin_lock_init(&job->lock);
+> +	INIT_LIST_HEAD(&job->deps);
+> +	INIT_LIST_HEAD(&job->steps);
+> +	job->type = type;
+> +	job->sched = sched;
+> +
+> +	list_for_each_entry(jsf, &sched->setup_funcs, list) {
+> +		if (jsf->type != type)
+> +			continue;
+> +
+> +		ret = jsf->job_setup(job, jsf->data);
+> +		if (ret) {
+> +			kfree(job);
+> +			return ERR_PTR(ret);
+> +		}
+> +	}
+> +
+> +	list_add_tail(&job->list, &sched->pending);
+> +
+> +	/* This marks the dependency as met */
+> +	media_jobs_check_pending_job(job, type, dep_ops, dep_data);
+> +
+> +	return job;
+> +}
+> +
+> +static void media_jobs_free_job(struct media_job *job, bool reset)
+> +{
+> +	struct media_job_step *step, *stmp;
+> +	struct media_job_dep *dep, *dtmp;
+> +
+> +	scoped_guard(spinlock, &job->lock) {
+> +		list_for_each_entry_safe(dep, dtmp, &job->deps, list) {
+> +			if (reset && dep->ops->reset_dep)
+> +				dep->ops->reset_dep(dep->data);
+> +
+> +			list_del(&dep->list);
+> +			kfree(dep);
+> +		}
+> +
+> +		list_for_each_entry_safe(step, stmp, &job->steps, list) {
+> +			list_del(&step->list);
+> +			kfree(step);
+> +		}
+> +	}
+> +
+> +	list_del(&job->list);
+> +	kfree(job);
+> +}
+> +
+> +int media_jobs_try_queue_job(struct media_job_scheduler *sched,
+> +			     enum media_job_types type,
+> +			     struct media_job_dep_ops *dep_ops, void *dep_data)
+> +{
+> +	struct media_job_dep *dep;
+> +	struct media_job *job;
+> +
+> +	if (!sched)
+> +		return 0;
+> +
+> +	guard(spinlock)(&sched->lock);
+> +
+> +	job = media_jobs_get_job(sched, type, dep_ops, dep_data);
+> +	if (IS_ERR(job))
+> +		return PTR_ERR(job);
+> +
+> +	list_for_each_entry(dep, &job->deps, list)
+> +		if (!dep->ops->check_dep(dep->data))
+> +			return 0; /* Not a failure */
+> +
+> +	list_for_each_entry(dep, &job->deps, list)
+> +		if (dep->ops->clear_dep)
+> +			dep->ops->clear_dep(dep->data);
+> +
+> +	list_move_tail(&job->list, &sched->queue);
+> +	queue_work(sched->async_wq, &sched->work);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(media_jobs_try_queue_job);
+> +
+> +static void __media_jobs_run_jobs(struct work_struct *work)
+> +{
+> +	struct media_job_scheduler *sched = container_of(work,
+> +							 struct media_job_scheduler,
+> +							 work);
+> +	struct media_job_step *step;
+> +	struct media_job *job;
+> +
+> +	while (true) {
+> +		scoped_guard(spinlock, &sched->lock) {
+> +			if (list_empty(&sched->queue))
+> +				return;
+> +
+> +			job = list_first_entry(&sched->queue, struct media_job,
+> +					       list);
+> +		}
+> +
+> +		list_for_each_entry(step, &job->steps, list)
+> +			step->run_step(step->data);
+> +
+> +		media_jobs_free_job(job, false);
+> +	}
+> +}
+> +
+> +void media_jobs_run_jobs(struct media_job_scheduler *sched)
+> +{
+> +	if (!sched)
+> +		return;
+> +
+> +	queue_work(sched->async_wq, &sched->work);
+> +}
+> +EXPORT_SYMBOL_GPL(media_jobs_run_jobs);
+> +
+> +static void __media_jobs_cancel_jobs(struct media_job_scheduler *sched)
+> +{
+> +	struct media_job *job, *jtmp;
+> +
+> +	list_for_each_entry_safe(job, jtmp, &sched->pending, list)
+> +		media_jobs_free_job(job, true);
+> +
+> +	list_for_each_entry_safe(job, jtmp, &sched->queue, list)
+> +		media_jobs_free_job(job, true);
+> +}
+> +
+> +void media_jobs_cancel_jobs(struct media_job_scheduler *sched)
+> +{
+> +	if (!sched)
+> +		return;
+> +
+> +	guard(spinlock)(&sched->lock);
+> +	__media_jobs_cancel_jobs(sched);
+> +}
+> +EXPORT_SYMBOL_GPL(media_jobs_cancel_jobs);
+> +
+> +int media_jobs_add_job_setup_func(struct media_job_scheduler *sched,
+> +				  int (*job_setup)(struct media_job *job, void *data),
+> +				  void *data, enum media_job_types type)
+> +{
+> +	struct media_job_setup_func *new_setup_func;
+> +
+> +	guard(spinlock)(&sched->lock);
+
+This can be acquired just before touching the list.
+
+> +
+> +	new_setup_func = kzalloc(sizeof(*new_setup_func), GFP_KERNEL);
+> +	if (!new_setup_func)
+> +		return -ENOMEM;
+> +
+> +	new_setup_func->type = type;
+> +	new_setup_func->job_setup = job_setup;
+> +	new_setup_func->data = data;
+> +	list_add_tail(&new_setup_func->list, &sched->setup_funcs);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(media_jobs_add_job_setup_func);
+> +
+> +static void __media_jobs_put_scheduler(struct kref *kref)
+> +{
+> +	struct media_job_scheduler *sched =
+> +		container_of(kref, struct media_job_scheduler, kref);
+> +	struct media_job_setup_func *func, *ftmp;
+> +
+> +	cancel_work_sync(&sched->work);
+> +	destroy_workqueue(sched->async_wq);
+> +
+> +	scoped_guard(spinlock, &sched->lock) {
+> +		__media_jobs_cancel_jobs(sched);
+> +
+> +		list_for_each_entry_safe(func, ftmp, &sched->setup_funcs, list) {
+> +			list_del(&func->list);
+> +			kfree(func);
+> +		}
+> +	}
+> +
+> +	list_del(&sched->list);
+> +	kfree(sched);
+> +}
+> +
+> +void media_jobs_put_scheduler(struct media_job_scheduler *sched)
+> +{
+> +	kref_put(&sched->kref, __media_jobs_put_scheduler);
+> +}
+> +EXPORT_SYMBOL_GPL(media_jobs_put_scheduler);
+> +
+> +struct media_job_scheduler *media_jobs_get_scheduler(struct media_device *mdev)
+> +{
+> +	struct media_job_scheduler *sched;
+> +	char workqueue_name[32];
+> +	int ret;
+> +
+> +	guard(mutex)(&media_job_schedulers_lock);
+> +
+> +	list_for_each_entry(sched, &media_job_schedulers, list) {
+> +		if (sched->mdev == mdev) {
+> +			kref_get(&sched->kref);
+> +			return sched;
+> +		}
+> +	}
+> +
+> +	ret = snprintf(workqueue_name, sizeof(workqueue_name),
+> +		       "mc jobs (%s)", mdev->driver_name);
+> +	if (!ret)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	sched = kzalloc(sizeof(*sched), GFP_KERNEL);
+> +	if (!sched)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	sched->async_wq = alloc_workqueue(workqueue_name, 0, 0);
+> +	if (!sched->async_wq) {
+> +		kfree(sched);
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	sched->mdev = mdev;
+> +	kref_init(&sched->kref);
+> +	spin_lock_init(&sched->lock);
+> +	INIT_LIST_HEAD(&sched->setup_funcs);
+> +	INIT_LIST_HEAD(&sched->pending);
+> +	INIT_LIST_HEAD(&sched->queue);
+> +	INIT_WORK(&sched->work, __media_jobs_run_jobs);
+> +
+> +	list_add_tail(&sched->list, &media_job_schedulers);
+> +
+> +	return sched;
+> +}
+> +EXPORT_SYMBOL_GPL(media_jobs_get_scheduler);
+> +
+> +LIST_HEAD(media_job_schedulers);
+> +
+> +/* Synchronise access to the global schedulers list */
+> +DEFINE_MUTEX(media_job_schedulers_lock);
+> diff --git a/include/media/media-jobs.h b/include/media/media-jobs.h
+> new file mode 100644
+> index 000000000000..a97270861251
+> --- /dev/null
+> +++ b/include/media/media-jobs.h
+> @@ -0,0 +1,354 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Media jobs framework
+> + *
+> + * Copyright 2025 Ideas on Board Oy
+> + *
+> + * Author: Daniel Scally <dan.scally@ideasonboard.com>
+> + */
+> +
+> +#include <linux/kref.h>
+> +#include <linux/list.h>
+> +#include <linux/mutex.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/types.h>
+> +#include <linux/workqueue.h>
+> +
+> +#ifndef _MEDIA_JOBS_H
+> +#define _MEDIA_JOBS_H
+> +
+> +struct media_device;
+> +struct media_entity;
+> +struct media_job;
+> +struct media_job_dep;
+> +
+> +/**
+> + * define MEDIA_JOBS_FL_STEP_ANYWHERE - \
+> + *    Flag a media job step as able to run anytime
+> + *
+> + * This flag informs the framework that a job step does not need a particular
+> + * position in the list of job steps and can be placed anywhere.
+> + */
+> +#define MEDIA_JOBS_FL_STEP_ANYWHERE			BIT(0)
+> +
+> +/**
+> + * define MEDIA_JOBS_FL_STEP_FROM_FRONT - \
+> + *    Flag a media job step as needing to be placed near the start of the list
+> + *
+> + * This flag informs the framework that a job step needs to be placed at a set
+> + * position from the start of the list of job steps.
+> + */
+> +#define MEDIA_JOBS_FL_STEP_FROM_FRONT			BIT(1)
+> +
+> +/**
+> + * define MEDIA_JOBS_FL_STEP_FROM_BACK - \
+> + *    Flag a media job step as needing to be placed near the end of the list
+> + *
+> + * This flag informs the framework that a job step needs to be placed at a set
+> + * position from the end of the list of job steps.
+> + */
+> +#define MEDIA_JOBS_FL_STEP_FROM_BACK			BIT(2)
+> +
+> +/**
+> + * enum media_job_types - Type of media job
+> + *
+> + * @MEDIA_JOB_TYPE_PIPELINE_PULSE:	A data event moving through the media
+> + *					pipeline
+> + *
+> + * This enumeration details different types of media jobs. The type can be used
+> + * to differentiate between which steps and dependencies a driver needs to add
+> + * to a job when it is created.
+> + */
+> +enum media_job_types {
+> +	MEDIA_JOB_TYPE_PIPELINE_PULSE,
+> +};
+> +
+> +/**
+> + * struct media_job_scheduler - A job scheduler for a particular media device
+> + *
+> + * @mdev:		Media device this scheduler is for
+> + * @list:		List head to attach to the global list of schedulers
+> + * @kref:		Reference counter
+> + * @lock:		Lock to protect access to the scheduler
+> + * @setup_funcs:	List of &struct media_job_setup_func to populate jobs
+> + * @pending:		List of &struct media_jobs created but not yet queued
+> + * @queue:		List of &struct media_jobs queued to the scheduler
+> + * @work:		Work item to run the jobs
+> + * @async_wq:		Workqueue to run the work on
+> + *
+> + * This struct is the main job scheduler struct - drivers wanting to use this
+> + * framework should acquire an instance through media_jobs_get_scheduler() and
+> + * subsequently populate it with job setup functions.
+> + */
+> +struct media_job_scheduler {
+> +	struct media_device *mdev;
+> +	struct list_head list;
+> +	struct kref kref;
+> +
+> +	spinlock_t lock; /* Synchronise access to the struct's lists */
+> +	struct list_head setup_funcs;
+> +	struct list_head pending;
+> +	struct list_head queue;
+> +	struct work_struct work;
+> +	struct workqueue_struct *async_wq;
+> +};
+> +
+> +/**
+> + * struct media_job_setup_func - A function to populate a media job with steps
+> + *				 and dependencies
+> + *
+> + * @list:	The list object to attach to the scheduler
+> + * @type:	The &enum media_job_types that this function populates a job for
+> + * @job_setup:	Function pointer to the driver's job setup function
+> + * @data:	Pointer to the driver data for use with @job_setup
+> + *
+> + * This struct holds data about the functions a driver registers with the jobs
+> + * framework in order to populate a new job with steps and dependencies.
+> + */
+> +struct media_job_setup_func {
+> +	struct list_head list;
+> +	enum media_job_types type;
+> +	int (*job_setup)(struct media_job *job, void *data);
+> +	void *data;
+> +};
+> +
+> +/**
+> + * struct media_job - A representation of a job to be run through the pipeline
+> + *
+> + * @lock:	Lock to protect access to the job's lists
+> + * @list:	List head to attach the job to &struct media_job_scheduler in
+> + *		either the pending or queue lists
+> + * @steps:	List of &struct media_job_step to run the job
+> + * @deps:	List of &struct media_job_dep to check that the job can be
+> + *		queued
+> + * @sched:	Pointer to the media job scheduler
+> + * @type:	The type of the job
+> + *
+> + * This struct holds lists of steps that need to be performed to carry out a
+> + * job in the pipeline. A separate list of dependencies allows the queueing of
+> + * the job to be delayed until all drivers are ready to carry it out.
+> + */
+> +struct media_job {
+> +	spinlock_t lock; /* Synchronise access to the struct's lists 6*/
+> +	struct list_head list;
+> +	struct list_head steps;
+> +	struct list_head deps;
+> +	struct media_job_scheduler *sched;
+> +	enum media_job_types type;
+> +};
+> +
+> +/**
+> + * struct media_job_step - A holder for a function to run as part of a job
+> + *
+> + * @list:	List head to attach the job step to a &struct media_job.steps
+> + * @run_step:	The function to run to perform the step
+> + * @data:	Data to pass to the .run_step() function
+> + * @flags:	Flags to control how the step is ordered within the job's list
+> + *		of steps
+> + * @pos:	Position indicator to control how the step is ordered within the
+> + *		job's list of steps
+> + *
+> + * This struct defines a function that needs to be run as part of the execution
+> + * of a job in a media pipeline, along with information that help the scheduler
+> + * determine what order it should be ran in in reference to the other steps that
+> + * are part of the same job.
+> + */
+> +struct media_job_step {
+> +	struct list_head list;
+> +	void (*run_step)(void *data);
+> +	void *data;
+> +	unsigned int flags;
+> +	unsigned int pos;
+> +};
+> +
+> +/**
+> + * struct media_job_dep_ops - Operations to manage a media job dependency
+> + *
+> + * @check_dep:	A function to ask the driver whether the dependency is met
+> + * @clear_dep:	A function to tell the driver that the job has been queued
+> + * @reset_dep:	A function to tell the driver that the job has been cancelled
+> + *
+> + * Media jobs have dependencies, such as requiring buffers to be queued. These
+> + * operations allow a driver to define how the media jobs framework should check
+> + * whether or not those dependencies are met and how it should inform them that
+> + * it is taking action based on the state of those dependencies.
+> + */
+> +struct media_job_dep_ops {
+> +	bool (*check_dep)(void *data);
+> +	void (*clear_dep)(void *data);
+> +	void (*reset_dep)(void *data);
+> +};
+> +
+> +/**
+> + * struct media_job_dep - Representation of media job dependency
+> + *
+> + * @list:	List head to attach to a &struct media_job.deps
+> + * @ops:	A pointer to the dependency's operations functions
+> + * @met:	A flag to record whether or not the dependency is met
+> + * @data:	Data to pass to the dependency's operations
+> + *
+> + * This struct represents a dependency of a media job. The operations member
+> + * holds pointers to functions allowing the framework to interact with the
+> + * driver to check whether or not the dependency is met.
+> + */
+> +struct media_job_dep {
+> +	struct list_head list;
+> +	struct media_job_dep_ops *ops;
+> +	bool met;
+> +	void *data;
+> +};
+> +
+> +/**
+> + * media_jobs_try_queue_job - Try to queue a &struct media_job
+> + *
+> + * @sched:	Pointer to the job scheduler
+> + * @type:	The type of the media job
+> + * @dep_ops:	A pointer to the dependency operations for this job
+> + * @dep_data:	A pointer to the dependency data for this job
+> + *
+> + * Try to queue a media job with the scheduler. This function should be called
+> + * by the drivers whenever a dependency for a media job is met - for example
+> + * when a buffer is queued to the driver. The framework will check to see if an
+> + * existing job on the scheduler's pending list shares the same type, dependency
+> + * operations and dependency data. If it does then that existing job will be
+> + * considered. If there is no extant job with those same parameters, a new job
+> + * is allocated and populated by calling the setup functions registered with
+> + * the framework.
+> + *
+> + * The function iterates over the dependencies that are registered with the job
+> + * and checks to see if they are met. If they're all met, they're cleared and
+> + * the job is placed onto the scheduler's queue.
+> + *
+> + * To help reduce conditionals in drivers where a driver supports both the use
+> + * of the media jobs framework and operation without it, this function is a no
+> + * op if @sched is NULL.
+> + *
+> + * Return: 0 on success or a negative error number
+> + */
+> +int media_jobs_try_queue_job(struct media_job_scheduler *sched,
+> +			     enum media_job_types type,
+> +			     struct media_job_dep_ops *dep_ops, void *dep_data);
+> +
+> +/**
+> + * media_jobs_add_job_step - Add a step to a media job
+> + *
+> + * @job:	Pointer to the &struct media_job
+> + * @run_step:	Pointer to the function to run to execute the step
+> + * @data:	Pointer to the data to pass to @run_ste
+> + * @flags:	One of the MEDIA_JOBS_FL_STEP_* flags
+> + * @pos:	A position indicator to use with @flags
+> + *
+> + * This function adds a step to the job and should be called from the drivers'
+> + * job setup functions as registered with the framework through
+> + * media_jobs_add_job_setup_func(). The @flags and @pos parameters are used
+> + * to determine the ordering of the steps within the job:
+> + *
+> + * If @flags has the MEDIA_JOBS_FL_STEP_ANYWHERE bit set, the step is placed
+> + * after all steps with MEDIA_JOBS_FL_STEP_FROM_FRONT and before all steps with
+> + * MEDIA_JOBS_FL_STEP_FROM_BACK bit set, but otherwise in whatever order this
+> + * function is called.
+> + *
+> + * If @flags has the MEDIA_JOBS_FL_STEP_FROM_FRONT bit set then the step is
+> + * placed @pos steps from the front of the list. Attempting to place multiple
+> + * steps in the same position will result in an error.
+> + *
+> + * If @flags has the MEDIA_JOBS_FL_STEP_FROM_BACK bit set then the step is
+> + * placed @pos steps from the back of the list. Attempting to place multiple
+> + * steps in the same position will result in an error.
+> + *
+> + * Return: 0 on success or a negative error number
+> + */
+> +int media_jobs_add_job_step(struct media_job *job, void (*run_step)(void *data),
+> +			    void *data, unsigned int flags, unsigned int pos);
+> +
+> +/**
+> + * media_jobs_add_job_dep - Add a dependency to a media job
+> + *
+> + * @job:	Pointer to the &struct media_job
+> + * @ops:	Pointer to the &struct media_job_dep_ops
+> + * @data:	Pointer to the data to pass to the dependency's operations
+> + *
+> + * This function adds a dependency to the job and should be called from the
+> + * drivers job setup functions as registered with the framework through the
+> + * media_jobs_add_job_setup_func() function.
+> + *
+> + * Return: 0 on success or a negative error number
+> + */
+> +int media_jobs_add_job_dep(struct media_job *job, struct media_job_dep_ops *ops,
+> +			   void *data);
+> +
+> +/**
+> + * media_jobs_add_job_setup_func - Add a function that populates a media job
+> + *
+> + * @sched:	Pointer to the media jobs scheduler
+> + * @job_setup:	Pointer to the new job setup function
+> + * @data:	Data to pass to the job setup function
+> + * @type:	The type of job that this function should be called for
+> + *
+> + * Drivers that wish to utilise the framework need to use this function to
+> + * register a callback that adds job steps and dependencies when one is created.
+> + * The function must call media_jobs_add_job_step() and media_jobs_add_job_dep()
+> + * to populate the job.
+> + *
+> + * Return: 0 on success or a negative error number
+> + */
+> +int media_jobs_add_job_setup_func(struct media_job_scheduler *sched,
+> +				  int (*job_setup)(struct media_job *job, void *data),
+> +				  void *data, enum media_job_types type);
+> +
+> +/**
+> + * media_jobs_put_scheduler - Put a reference to the media jobs scheduler
+> + *
+> + * @sched:	Pointer to the media jobs scheduler
+> + *
+> + * This function puts a reference to the media jobs scheduler, and is intended
+> + * to be called in error and exit paths for consuming drivers
+> + */
+> +void media_jobs_put_scheduler(struct media_job_scheduler *sched);
+> +
+> +/**
+> + * media_jobs_get_scheduler - Get a media jobs scheduler
+> + *
+> + * @mdev:	Pointer to the media device associated with the scheduler
+> + *
+> + * This function gets a pointer to a &struct media_job_scheduler associated with
+> + * the media device passed to @mdev. If one is not available then it is
+> + * allocated and returned. This allows multiple drivers sharing a media graph to
+> + * work with the same media job scheduler.
+> + *
+> + * Return: 0 on success or a negative error number
+> + */
+> +struct media_job_scheduler *media_jobs_get_scheduler(struct media_device *mdev);
+> +
+> +/**
+> + * media_jobs_run_jobs - Run any media jobs that are ready in the queue
+> + *
+> + * @sched:	Pointer to the media job scheduler
+> + *
+> + * This function triggers the workqueue that processes any jobs that have been
+> + * queued, and should be called whenever the pipeline is ready to do so.
+> + *
+> + * To help reduce conditionals in drivers where a driver supports both the use
+> + * of the media jobs framework and operation without it, this function is a no
+> + * op if @sched is NULL.
+> + */
+> +void media_jobs_run_jobs(struct media_job_scheduler *sched);
+> +
+> +/**
+> + * media_jobs_cancel_jobs - cancel all waiting jobs
+> + *
+> + * @sched:	Pointer to the media job scheduler
+> + *
+> + * This function iterates over any pending and queued jobs, resets their
+> + * dependencies and frees the job
+> + *
+> + * To help reduce conditionals in drivers where a driver supports both the use
+> + * of the media jobs framework and operation without it, this function is a no
+> + * op if @sched is NULL.
+> + */
+> +void media_jobs_cancel_jobs(struct media_job_scheduler *sched);
+> +
+> +extern struct list_head media_job_schedulers;
+> +extern struct mutex media_job_schedulers_lock;
+> +
+> +#endif /* _MEDIA_JOBS_H */
 
 -- 
 Regards,
