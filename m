@@ -1,201 +1,181 @@
-Return-Path: <linux-media+bounces-33695-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33696-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E59FAC9368
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 18:21:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CC9AC9394
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 18:30:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A9A0160B68
-	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 16:21:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1281B9E4A0A
+	for <lists+linux-media@lfdr.de>; Fri, 30 May 2025 16:29:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8990B258A;
-	Fri, 30 May 2025 16:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7976A230BD0;
+	Fri, 30 May 2025 16:29:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mNjXMMHH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lNKdW1SA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945DF5674E
-	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 16:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEBF1DDC07;
+	Fri, 30 May 2025 16:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748622055; cv=none; b=SIwOUsGff8vtGu0y9SvNOXa/TYl6rplj1WlOuaHNgosgfnE66nImBCgVw3wS1L9ChcGUaDJviusrl2G3bP3hT/Fjf9d+kvalZNmvVVYEkjLxOaS1AGmwZBfGl0U+mDKHUwZrTkqRO0iILMJPdUivSRFbpNIMUFULPextjH0HJO4=
+	t=1748622596; cv=none; b=lFnaYW166DwK6ad896Od8n5IChRotMm4WGgcmpO7XKDoO263UMtXzOQA2qUHhoZKJyu0cYnmBEio96d1BTc/D1WSzMitVhyOKYPnXFmOOi/RdvW3hrD4W+CL7V0GFsvVChbYre04MxDuNV6MlBqfV1gkRLFOy/NQwEPDf8mvLc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748622055; c=relaxed/simple;
-	bh=eFE+NqKb4FGUzqVJCt/1VJwNtjUVrG/QUobe9Pt85YU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YE8dJ345N7KzKhr0g4Rk5o1PbRej2+x7K8eYnQr8HKhPFJ063/JsvRCcjQRULfVpG7PRNVpiZuPtGJx46QNP0RWi1xJfoXXI4L9my6zqzsynhJevFePJhsPaWiwjOeUv5VQEIZnudFh370r0dHAC0GpeSzpCuXcj2BWhpO/OW8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mNjXMMHH; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UBo2ec017995
-	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 16:20:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MqTzkJ+m0M+WwOs1Ufc/BTxcDL+AaLfZVAxh4o4YAwY=; b=mNjXMMHHA9/IsnPJ
-	bLB6OGDnRHH6TsGyzMA9Y6YkKzuXxYzxYKwYBQX+y+WDSDMLnUbl3xlPyN9RKEFU
-	VR3/076P8sMLc4qnBFFmc4zhLDyfAcT7Lbljewd8Rk48yxywVfXPLzNIH2pSUDeV
-	FpSbfvepy+aBXNj6PUFKHihnQ8dK3XhbEU6CuA1z0EsuVpqK7yNpuQ4kySb2CHsp
-	VDzwbNirXwHGIaLJfPCVsmK4kjj2HUigxBXP08htjUMTjgmKTfbGe5A9aAilBuOV
-	Bc70kDQml7vGlIt3HFedEAWQGOLVSgL82pvT9rhxMt5NwjuYCgdvp5QjQ+fvWGFd
-	tM5RYA==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46yc4yrtqj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 30 May 2025 16:20:51 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-745fd5b7b65so1784467b3a.0
-        for <linux-media@vger.kernel.org>; Fri, 30 May 2025 09:20:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748622051; x=1749226851;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MqTzkJ+m0M+WwOs1Ufc/BTxcDL+AaLfZVAxh4o4YAwY=;
-        b=ktjKQabpSOi87kjUax0bUPYSbpQRE95lMNDDIbErY7qD6QqioWMqJpnSLdGikxrJEx
-         iGzIhwFgruVHo3OhocrbX2LsdyW9oA4BPJ4ijEq9IrhVcXz3Sf6nl4GNRWV5tkRknLFW
-         I5pb7NtuM4NkrEvqcsi+TnT/BFWxgUczociiDvy3RZBeRhA8aOyhPykDXcxOdmD5B4IU
-         AbGM5YA694IZDCTszKSk8CZ72ApWI4iuZzhVk0QeIV29KKdC38SPUv+o4zh/3Q60H1N4
-         dJ+z10COw2anVzEKUuOiW2Ae/plFZ4CLIgRZPVpP4LD0P6NclfJwz+L2TEiK5Af1/uMR
-         HB7g==
-X-Forwarded-Encrypted: i=1; AJvYcCWRnWgiIhpV6OO1NOO+jPPMiW7nTZfPP5Ip1B4EKjD3pCcLLzxBaAj70e1VILZhJfZc2xs9PRdNyBTPRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQvFHOqC6gpLPBaBMSDGdYHR03+hmGXoh/PaeqTi0vWciIPn+f
-	/QtgRenUrw7uWYe97jpLZTyL9oCrdw/jYMNIZ6Zfl5bFoaD8FkWLPRYDABAJAZc2dUdjZfxJ79P
-	vSSYo2QEBMNwMjVZLkjBxMrrQLGZVPqcq388DyWuwhteCqnNH1ejbH14QNRUlogiq3A==
-X-Gm-Gg: ASbGncs2NIL75SGPFqRS20F/nfw/zohe8rSw/0VcYMzzxiR+2bDNpdChvTqOA5CcrlN
-	hjQrnyy0qW/ZAP13oVr0Ulk0WjYGYLhu3LDnGp+Zv143euRbYe2dtlJ8EN9ffCTnGYWnzgNsLiO
-	v4o1eqPtJPD6IkzrPQW5/pUFfOmzV0b8hj/3KD3chw18t+tnzynNtkZ1Jd+erJB4JdrGDjXNY7k
-	KU/3BxKwZtIzxU2DYP3BXFkEUOMOFCKit1kXeXRil2AhXZ2lswD77cehgvU9BIibO+6ReqqHYzr
-	w3MKFjo4Jp2Vu/q8WWdWWLODJNEZZV2R6opdVCiEBzc6vHYex4B6s1vXJZKFCh25X9Bb7m8B
-X-Received: by 2002:a05:6a00:7491:b0:740:6615:33c7 with SMTP id d2e1a72fcca58-747c1c83852mr2995547b3a.23.1748622050765;
-        Fri, 30 May 2025 09:20:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH3KvuYJT4qbQ5u5CbTu0XT/yKXicfsd+dn08wq+4nYHqmMZGv9KAdolvB8TbaAHA/+TUu3/A==
-X-Received: by 2002:a05:6a00:7491:b0:740:6615:33c7 with SMTP id d2e1a72fcca58-747c1c83852mr2995515b3a.23.1748622050335;
-        Fri, 30 May 2025 09:20:50 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747affd2c86sm3325986b3a.144.2025.05.30.09.20.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 May 2025 09:20:49 -0700 (PDT)
-Message-ID: <463162bb-5e2d-4768-8811-ede7b2063c85@oss.qualcomm.com>
-Date: Fri, 30 May 2025 10:20:47 -0600
+	s=arc-20240116; t=1748622596; c=relaxed/simple;
+	bh=D2scOJFObbCx4KXsuqN5hyJ1uWi4EUmVo0sfkDiPW9Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTzt9oQ7OG9yCvDkB5rJrJtAYR1yTxoALCCzp8ILnhIHNW7q1Vpu0eEchcIxSHhfGe/ppwAwrtcktwutefp2fqr05sDFSZ99coE/6pj7OYE9gfGPhk8jbR4LwJv+7zjz9nSAmiIoV6RbqZtnyJHDlM4LMoq508YKK18Lb4+cjLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lNKdW1SA; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748622595; x=1780158595;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D2scOJFObbCx4KXsuqN5hyJ1uWi4EUmVo0sfkDiPW9Q=;
+  b=lNKdW1SAoWgKbPkdhUOEMWrEZ1SbSJ20BjGsdaahXZf6Asn+e6cSy5fT
+   5K7QdXKlq7y/uXHbv+jU1HzC0KpX0nK0ULHWYmSEUERJPgzjGLDNzRltt
+   RxFpsxpdyyApcvwzeEECotNZVDBJVmxLypfu4Q3ciKEzQwQ540bC2jZpI
+   TgBWiMLj+Zy0/Bz0yXhnyfnPDi4PqTHcUaMM4NNRV6hh86yOb/0W4IkIy
+   2Mnqfr/NcFMFNcj09pmQ+OhDNOHvwvhaovDgpe3pkd4ZKay0q6NiwXtqP
+   tpLDUNlA1u4+2yttNJhyDg1zGJ84ccYgiNDlpenpaj3DpbY7HQaqUjKQ8
+   Q==;
+X-CSE-ConnectionGUID: l2qV2cjhQ1CJ4bxNRU2v6A==
+X-CSE-MsgGUID: Neis9g1nRiKdsU3ZsIXtNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="60977538"
+X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
+   d="scan'208";a="60977538"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 09:29:54 -0700
+X-CSE-ConnectionGUID: gSdMvp93Re2stAr5qQaSYg==
+X-CSE-MsgGUID: xmWbXOtqSKqnqwM/UkPvTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
+   d="scan'208";a="149061981"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmviesa004.fm.intel.com with ESMTP; 30 May 2025 09:29:49 -0700
+Date: Sat, 31 May 2025 00:23:28 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Alexey Kardashevskiy <aik@amd.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+	christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
+	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+	dan.j.williams@intel.com, yilun.xu@intel.com,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
+	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com
+Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
+Message-ID: <aDnbgBbxF8IkH/cq@yilunxu-OptiPlex-7050>
+References: <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
+ <20250512140617.GA285583@nvidia.com>
+ <aCRAHRCKP1s0Oi0c@yilunxu-OptiPlex-7050>
+ <20250514163339.GD382960@nvidia.com>
+ <aCYQdDrYYZRAgsen@yilunxu-OptiPlex-7050>
+ <9dea400f-a57b-43be-a2e4-24a9f51e6ba0@amd.com>
+ <aDE5SPzOAU0sNIt+@yilunxu-OptiPlex-7050>
+ <ae16db07-5fca-4369-aa67-cbe2e0fd60fd@amd.com>
+ <aDhyC73r149syMpc@yilunxu-OptiPlex-7050>
+ <79872224-4e81-446b-a451-28260f449ea9@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/10] accel/rocket: Add a new driver for Rockchip's
- NPU
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
- <20250520-6-10-rocket-v5-5-18c9ca0fcb3c@tomeuvizoso.net>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20250520-6-10-rocket-v5-5-18c9ca0fcb3c@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE0NCBTYWx0ZWRfXy5ZrRL6QAEGq
- StcQcOuk+23yP9HxEIvlqyxJ6zdddKE6kO0mNVyoOvdj/Ii8+Oc0Gzw5k724EaICrwuIQflVg/9
- WAh59SBEY7Y3YeH67n1DCpPPIxUm3jf6W4ZqFwFSPJyzt4Px3C/DPSgA0CEOy738RqDKxGDIn15
- fgKFmNrv2V3yKV1WRxkFMhit2XgPuC5dTz/0jt6Ck/wAZj0ySXt16oGlzt6rgDL0QG6NlLEPh4o
- gL8u58SLQD5AnztUQxpzNBTJRE34PW4/gozIhvkvdspBvT+4SQBXt7padZ6gcuK3cWHdFEkoD+8
- OBc5Gjr2kgITYROJGoyZEDfPYnZ3F0i09X6+cdeSDbdDc71M297V9fbW3G8rclfoJi/es9Lj01I
- qgrqpQwTNHcVur62fw366tpLfG290tNsimkn4dXzRsVbu9ArM1U5l8U+nyXx0A6toDHK5O38
-X-Authority-Analysis: v=2.4 cv=Ybe95xRf c=1 sm=1 tr=0 ts=6839dae3 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=DISFzqtZAAAA:8 a=HlDAqVJfg7-00m_e3XEA:9
- a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22 a=aug85vrO5LANNmmtkfAW:22
-X-Proofpoint-GUID: X_8-W8MXfctr1iGxyaqmDLwbWNdT5be1
-X-Proofpoint-ORIG-GUID: X_8-W8MXfctr1iGxyaqmDLwbWNdT5be1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-30_07,2025-05-30_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0 priorityscore=1501 mlxlogscore=898 malwarescore=0
- lowpriorityscore=0 clxscore=1011 phishscore=0 impostorscore=0 mlxscore=0
- adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505300144
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <79872224-4e81-446b-a451-28260f449ea9@amd.com>
 
-On 5/20/2025 4:26 AM, Tomeu Vizoso wrote:
-> diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/rocket/rocket_device.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..55f4da252cfbd1f102c56e5009472deff59aaaec
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_device.h
-> @@ -0,0 +1,27 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#ifndef __ROCKET_DEVICE_H__
-> +#define __ROCKET_DEVICE_H__
-> +
-> +#include <drm/drm_device.h>
-> +#include <linux/clk.h>
-> +
-> +#include "rocket_core.h"
-> +
-> +struct rocket_device {
-> +	struct drm_device ddev;
-> +
-> +	struct clk_bulk_data clks[2];
-> +
-> +	struct rocket_core *cores;
-> +	unsigned int num_cores;
-> +};
-> +
-> +int rocket_device_init(struct rocket_device *rdev);
-> +void rocket_device_fini(struct rocket_device *rdev);
-> +
-> +#define to_rocket_device(drm_dev) \
-> +	((struct rocket_device *)container_of(drm_dev, struct rocket_device, ddev))
+On Fri, May 30, 2025 at 12:29:30PM +1000, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 30/5/25 00:41, Xu Yilun wrote:
+> > > > > > 
+> > > > > > FLR to a bound device is absolutely fine, just break the CC state.
+> > > > > > Sometimes it is exactly what host need to stop CC immediately.
+> > > > > > The problem is in VFIO's pre-FLR handling so we need to patch VFIO, not
+> > > > > > PCI core.
+> > > > > 
+> > > > > What is a problem here exactly?
+> > > > > FLR by the host which equals to any other PCI error? The guest may or may not be able to handle it, afaik it does not handle any errors now, QEMU just stops the guest.
+> > > > 
+> > > > It is about TDX Connect.
+> > > > 
+> > > > According to the dmabuf patchset, the dmabuf needs to be revoked before
+> > > > FLR. That means KVM unmaps MMIOs when the device is in LOCKED/RUN state.
+> > > > That is forbidden by TDX Module and will crash KVM.
+> > > 
+> > > 
+> > > FLR is something you tell the device to do, how/why would TDX know about it?
+> > 
+> > I'm talking about FLR in VFIO driver. The VFIO driver would zap bar
+> > before FLR. The zapping would trigger KVM unmap MMIOs. See
+> > vfio_pci_zap_bars() for legacy case, and see [1] for dmabuf case.
+> 
+> oh I did not know that we do this zapping, thanks for the pointer.
+> > [1] https://lore.kernel.org/kvm/20250307052248.405803-4-vivek.kasireddy@intel.com/
+> > 
+> > A pure FLR without zapping bar is absolutely OK.
+> > 
+> > > Or it check the TDI state on every map/unmap (unlikely)?
+> > 
+> > Yeah, TDX Module would check TDI state on every unmapping.
+> 
+> _every_? Reading the state from DOE mailbox is not cheap enough (imho) to do on every unmap.
 
-Include container_of.h?
+Sorry for confusing. TDX firmware just checks if STOP TDI firmware call
+is executed, will not check the real device state via DOE. That means
+even if device has physically exited to UNLOCKED, TDX host should still
+call STOP TDI fwcall first, then MMIO unmap.
 
-> +static int rocket_drm_bind(struct device *dev)
-> +{
-> +	struct device_node *core_node;
-> +	struct rocket_device *rdev;
-> +	struct drm_device *ddev;
-> +	unsigned int num_cores = 1;
-> +	int err;
-> +
-> +	rdev = devm_drm_dev_alloc(dev, &rocket_drm_driver, struct rocket_device, ddev);
-> +	if (IS_ERR(rdev))
-> +		return PTR_ERR(rdev);
-> +
-> +	ddev = &rdev->ddev;
-> +	dev_set_drvdata(dev, rdev);
-> +
-> +	for_each_compatible_node(core_node, NULL, "rockchip,rk3588-rknn-core")
-> +		if (of_device_is_available(core_node))
-> +			num_cores++;
-> +
-> +	rdev->cores = devm_kmalloc_array(dev, num_cores, sizeof(*rdev->cores),
-> +					 GFP_KERNEL | __GFP_ZERO);
+> 
+> > > 
+> > > > So the safer way is
+> > > > to unbind the TDI first, then revoke MMIOs, then do FLR.
+> > > > 
+> > > > I'm not sure when p2p dma is involved AMD will have the same issue.
+> > > 
+> > > On AMD, the host can "revoke" at any time, at worst it'll see RMP events from IOMMU. Thanks,
+> > 
+> > Is the RMP event firstly detected by host or guest? If by host,
+> 
+> Host.
+> 
+> > host could fool guest by just suppress the event. Guest thought the
+> > DMA writting is successful but it is not and may cause security issue.
+> 
+> An RMP event on the host is an indication that RMP check has failed and DMA to the guest did not complete so the guest won't see new data. Same as other PCI errors really. RMP acts like a firewall, things behind it do not need to know if something was dropped. Thanks,
 
-devm_kcalloc will handle the ZERO flag for you.
+Not really, guest thought the data is changed but it actually doesn't.
+I.e. data integrity is broken.
 
+Also please help check if the following relates to this issue:
 
+SEV-TIO Firmware Interface SPEC, Section 2.11
+
+If a bound TDI sends a request to the root complex, and the IOMMU detects a fault caused by host
+configuration, the root complex fences the ASID from all further I/O to or from that guest. A host
+fault is either a host page table fault or an RMP check violation. ASID fencing means that the
+IOMMU blocks all further I/O from the root complex to the guest that the TDI was bound, and the
+root complex blocks all MMIO accesses by the guest. When a guest writes to MMIO, the write is
+silently dropped. When a guest reads from MMIO, the guest reads 1s.
+
+Thanks,
+Yilun
+
+> 
+> > 
+> > Thanks,
+> > Yilun
+> 
+> -- 
+> Alexey
+> 
 
