@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-33721-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33722-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739E1AC9BB9
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 403CAAC9BB8
 	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 18:32:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D20FE3B1C22
-	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 16:31:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98FA5189A1A3
+	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 16:32:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41E743770B;
-	Sat, 31 May 2025 16:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E833B18B47C;
+	Sat, 31 May 2025 16:32:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6Mgc+90"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPKIkMHM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A2017A2F7
-	for <linux-media@vger.kernel.org>; Sat, 31 May 2025 16:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5570113CA97
+	for <linux-media@vger.kernel.org>; Sat, 31 May 2025 16:32:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748709121; cv=none; b=QzKAO5PYKR81jDtEbnjES/Apmkp4/6Z0/eqQijUMftSu3a/RjEINcUtveozNEsAF82pUyKmHQegLf/bV2uFA29KJUfC5BajPunpeedSMbvN6B4WVIixnL81skmpo6sUI2mXC9fhXfGrffQpPzMIaeW5Mm/jQCSr9Nq2stKjFBLI=
+	t=1748709123; cv=none; b=BKvp+vss/7AKhH+f8piJfmzNTePaglMmNYOa3ez2AFXgRGVIBDxML10pZXlgy78ZSTHB5llRFKsriDCr+Vh9KvlSGUf7k4FxHia63d8AbR/9iXUbJ0lXlTU5n9ip0DPixW97MZKvTZWKpCoGjkRf1yFyfkFTkuCdLapCF4vc9yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748709121; c=relaxed/simple;
-	bh=S74UMftPAlRwGiL4tm80DNwdcWwLDYkmDZTnhCtBExw=;
+	s=arc-20240116; t=1748709123; c=relaxed/simple;
+	bh=voer7miYAFU+uyWXu5yCJhGNfL1zEk8UsA8rG5NtZuk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kjT5GvueKfBiIatdMMSkIlQ1xeL+Bzg0nvcM26Nu65PJdqWLU3lk5xnp7AcrjwbD0f/tzrDoiwqEfa/0NP19zuSbXW/45kgIOfFGxbXica4KuCZApWFWkzW4hUlUmkcETBjjmKx5xZWT/XCqinBXK/kQ9GAXbjOobrqDGQ5ercY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6Mgc+90; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EC02C4CEE3;
-	Sat, 31 May 2025 16:31:59 +0000 (UTC)
+	 MIME-Version; b=aL33SJ7LzYg/aZ9sMhMlulNhiafscapho3j6FEwAUwFeZGD2hKZuOIPOsSb9/XORIC+wJkYATh7xmTgIzK/Rthlwywh47vvqhaQLSYCu9oLDIan0pAgYNP3eYkZ+QY9GdBX52Fx/1IW+zffuheAqVQ19AKPtnf3znqQvSN+YyeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPKIkMHM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 995DDC4CEEF;
+	Sat, 31 May 2025 16:32:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748709121;
-	bh=S74UMftPAlRwGiL4tm80DNwdcWwLDYkmDZTnhCtBExw=;
+	s=k20201202; t=1748709123;
+	bh=voer7miYAFU+uyWXu5yCJhGNfL1zEk8UsA8rG5NtZuk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r6Mgc+90dt+G/UhjsWFTnLZqMGAbJ5g0zevKveJSOVuIS7R3tCXT/lda2rLwKFCop
-	 TZSVw33QJ3aORAJjNf5FDvirjO8OtIYl3nxoCieJzQiLUeu6qCy9hp111d4iFiie4o
-	 i7lRHMdbYGGYSyRt6PSvQf5RsewK10V3p8oWt6obypD53H6NoPaumAfxUE2NIDy0NU
-	 YQv3i020MnYlUKZBARNf45Uu+Fzwni+ZiimKeapoQoPdyj4pk/ak8n4m5ojEncICYH
-	 VjExTHQxmnzeT6xMbE8LesSNOR0QmAQla6gZn9KPFVHXWwokPDukJZ/V+cqla2IWjX
-	 4mw/8zzHf2Mcg==
+	b=XPKIkMHMmybMrUVzREsFshALsZQ4aIoqJkJCix+Hh1Cw09/9gNqk60mBctw4S3GSZ
+	 Ksv620GdP6ojZPip78Y+xCciXFD3z2rIFTFmd87asMmrMauTGlmPAflireCqhrjlOt
+	 BPzLR4F+9l8grNXxrc9VYvIw1F+aE6pZd1tOfDuL7kG+Sjg2AhfzMlT5AMBWptow41
+	 OQKVmgxg/3fo8cDXgxDz7AhdoGvLXQKOt+8AOEYopuI/5/qqP87XVJDnWyt6jn7Qoj
+	 Zy0qyOXzNJ/PPuRXd3uAoNi64z8cw5W3BQzCA4TWDKc42Oea82zXDt2WzjNxm/mnWC
+	 ypqm5kARtM4qg==
 From: Hans de Goede <hansg@kernel.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -49,9 +49,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org,
 	Hans de Goede <hansg@kernel.org>
-Subject: [PATCH v2 02/12] media: mt9m114: Add support for clock-frequency property
-Date: Sat, 31 May 2025 18:31:37 +0200
-Message-ID: <20250531163148.83497-3-hansg@kernel.org>
+Subject: [PATCH v2 03/12] media: mt9m114: Use aptina-PLL helper to get PLL values
+Date: Sat, 31 May 2025 18:31:38 +0200
+Message-ID: <20250531163148.83497-4-hansg@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250531163148.83497-1-hansg@kernel.org>
 References: <20250531163148.83497-1-hansg@kernel.org>
@@ -61,101 +61,157 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add support for platforms that do not have a clock provider, but instead
-specify the clock frequency by using the "clock-frequency" property.
+Before this change the driver used hardcoded PLL m, n and p values to
+achieve a 48MHz pixclock when used with an external clock with a frequency
+of 24 MHz.
 
-E.g. ACPI platforms turn the clock on/off through ACPI power-resources
-depending on the runtime-pm state, so there is no clock provider.
+Use aptina_pll_calculate() to allow the driver to work with different
+external clock frequencies. The m, n, and p values will be unchanged
+with a 24 MHz extclk and this has also been tested with a 19.2 MHz
+clock where m gets increased from 32 to 40.
 
+Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Hans de Goede <hansg@kernel.org>
 ---
-Note as discussed during review of v1, this needs to be moved over to
-the solution from:
-
-https://lore.kernel.org/r/20250321130329.342236-1-mehdi.djait@linux.intel.com
-
-once that has landed upstream. I'll submit a follow-up patch to move to
-that solution once it has landed upstream.
+Changes in v2:
+- Add select VIDEO_APTINA_PLL to Kconfig
+- Use correct aptina_pll_limits
 ---
- drivers/media/i2c/mt9m114.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ drivers/media/i2c/Kconfig   |  1 +
+ drivers/media/i2c/mt9m114.c | 54 ++++++++++++++++++++++++++-----------
+ 2 files changed, 40 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index dc2c429734fc..1820ec37404a 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -285,6 +285,7 @@ config VIDEO_MT9M111
+ config VIDEO_MT9M114
+ 	tristate "onsemi MT9M114 sensor support"
+ 	select V4L2_CCI_I2C
++	select VIDEO_APTINA_PLL
+ 	help
+ 	  This is a Video4Linux2 sensor-level driver for the onsemi MT9M114
+ 	  camera.
 diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-index 3f540ca40f3c..5a7c45ce2169 100644
+index 5a7c45ce2169..e12c69dc9df0 100644
 --- a/drivers/media/i2c/mt9m114.c
 +++ b/drivers/media/i2c/mt9m114.c
-@@ -388,6 +388,7 @@ struct mt9m114 {
+@@ -31,6 +31,8 @@
+ #include <media/v4l2-mediabus.h>
+ #include <media/v4l2-subdev.h>
+ 
++#include "aptina-pll.h"
++
+ /* Sysctl registers */
+ #define MT9M114_CHIP_ID					CCI_REG16(0x0000)
+ #define MT9M114_COMMAND_REGISTER			CCI_REG16(0x0080)
+@@ -263,9 +265,9 @@
+ #define MT9M114_CAM_SYSCTL_PLL_ENABLE_VALUE			BIT(0)
+ #define MT9M114_CAM_SYSCTL_PLL_DISABLE_VALUE			0x00
+ #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_M_N		CCI_REG16(0xc980)
+-#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(m, n)		(((n) << 8) | (m))
++#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(m, n)		((((n) - 1) << 8) | (m))
+ #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P		CCI_REG16(0xc982)
+-#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(p)		((p) << 8)
++#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(p)		(((p) - 1) << 8)
+ #define MT9M114_CAM_PORT_OUTPUT_CONTROL			CCI_REG16(0xc984)
+ #define MT9M114_CAM_PORT_PORT_SELECT_PARALLEL			(0 << 0)
+ #define MT9M114_CAM_PORT_PORT_SELECT_MIPI			(1 << 0)
+@@ -326,7 +328,7 @@
+  * minimum values that have been seen in register lists are 303 and 38, use
+  * them.
+  *
+- * Set the default to achieve 1280x960 at 30fps.
++ * Set the default to achieve 1280x960 at 30fps with a 48 MHz pixclock.
+  */
+ #define MT9M114_MIN_HBLANK				303
+ #define MT9M114_MIN_VBLANK				38
+@@ -336,6 +338,8 @@
+ #define MT9M114_DEF_FRAME_RATE				30
+ #define MT9M114_MAX_FRAME_RATE				120
+ 
++#define MT9M114_DEF_PIXCLOCK				48000000
++
+ #define MT9M114_PIXEL_ARRAY_WIDTH			1296U
+ #define MT9M114_PIXEL_ARRAY_HEIGHT			976U
+ 
+@@ -380,11 +384,7 @@ struct mt9m114 {
+ 	struct v4l2_fwnode_endpoint bus_cfg;
+ 	bool bypass_pll;
+ 
+-	struct {
+-		unsigned int m;
+-		unsigned int n;
+-		unsigned int p;
+-	} pll;
++	struct aptina_pll pll;
  
  	unsigned int pixrate;
  	bool streaming;
-+	u32 clk_freq;
+@@ -757,7 +757,7 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
+ 							       sensor->pll.n),
+ 			  &ret);
+ 		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_P,
+-			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p),
++			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p1),
+ 			  &ret);
+ 	}
  
- 	/* Pixel Array */
- 	struct {
-@@ -2134,14 +2135,13 @@ static int mt9m114_power_on(struct mt9m114 *sensor)
+@@ -2262,12 +2262,29 @@ static int mt9m114_verify_link_frequency(struct mt9m114 *sensor,
  
- 	/* Perform a hard reset if available, or a soft reset otherwise. */
- 	if (sensor->reset) {
--		long freq = clk_get_rate(sensor->clk);
- 		unsigned int duration;
+ static int mt9m114_clk_init(struct mt9m114 *sensor)
+ {
++	static const struct aptina_pll_limits limits = {
++		.ext_clock_min = 6000000,
++		.ext_clock_max = 54000000,
++		/* int_clock_* limits are not documented taken from mt9p031.c */
++		.int_clock_min = 2000000,
++		.int_clock_max = 13500000,
++		/*
++		 * out_clock_min is not documented, taken from mt9p031.c.
++		 * out_clock_max is documented as 768MHz, but this leads to
++		 * different PLL settings then used by the vendor's drivers.
++		 */
++		.out_clock_min = 180000000,
++		.out_clock_max = 400000000,
++		.pix_clock_max = 48000000,
++		.n_min = 1,
++		.n_max = 64,
++		.m_min = 16,
++		.m_max = 192,
++		.p1_min = 1,
++		.p1_max = 64,
++	};
+ 	unsigned int pixrate;
+-
+-	/* Hardcode the PLL multiplier and dividers to default settings. */
+-	sensor->pll.m = 32;
+-	sensor->pll.n = 1;
+-	sensor->pll.p = 7;
++	int ret;
  
- 		/*
- 		 * The minimum duration is 50 clock cycles, thus typically
- 		 * around 2µs. Double it to be safe.
- 		 */
--		duration = DIV_ROUND_UP(2 * 50 * 1000000, freq);
-+		duration = DIV_ROUND_UP(2 * 50 * 1000000, sensor->clk_freq);
- 
- 		gpiod_set_value(sensor->reset, 1);
- 		fsleep(duration);
-@@ -2279,7 +2279,7 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
- 	 * Check if EXTCLK fits the configured link frequency. Bypass the PLL
- 	 * in this case.
- 	 */
--	pixrate = clk_get_rate(sensor->clk) / 2;
-+	pixrate = sensor->clk_freq / 2;
- 	if (mt9m114_verify_link_frequency(sensor, pixrate) == 0) {
- 		sensor->pixrate = pixrate;
- 		sensor->bypass_pll = true;
-@@ -2287,7 +2287,7 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
+ 	/*
+ 	 * Calculate the pixel rate and link frequency. The CSI-2 bus is clocked
+@@ -2287,8 +2304,15 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
  	}
  
  	/* Check if the PLL configuration fits the configured link frequency. */
--	pixrate = clk_get_rate(sensor->clk) * sensor->pll.m
-+	pixrate = sensor->clk_freq * sensor->pll.m
- 		/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
++	sensor->pll.ext_clock = sensor->clk_freq;
++	sensor->pll.pix_clock = MT9M114_DEF_PIXCLOCK;
++
++	ret = aptina_pll_calculate(&sensor->client->dev, &limits, &sensor->pll);
++	if (ret)
++		return ret;
++
+ 	pixrate = sensor->clk_freq * sensor->pll.m
+-		/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
++		/ (sensor->pll.n * sensor->pll.p1);
  	if (mt9m114_verify_link_frequency(sensor, pixrate) == 0) {
  		sensor->pixrate = pixrate;
-@@ -2395,13 +2395,25 @@ static int mt9m114_probe(struct i2c_client *client)
- 		return ret;
- 
- 	/* Acquire clocks, GPIOs and regulators. */
--	sensor->clk = devm_clk_get(dev, NULL);
-+	sensor->clk = devm_clk_get_optional(dev, NULL);
- 	if (IS_ERR(sensor->clk)) {
- 		ret = PTR_ERR(sensor->clk);
- 		dev_err_probe(dev, ret, "Failed to get clock\n");
- 		goto error_ep_free;
- 	}
- 
-+	if (sensor->clk) {
-+		sensor->clk_freq = clk_get_rate(sensor->clk);
-+	} else {
-+		ret = fwnode_property_read_u32(dev_fwnode(dev),
-+					       "clock-frequency",
-+					       &sensor->clk_freq);
-+		if (ret) {
-+			dev_err_probe(dev, ret, "Failed to read clock-freq\n");
-+			goto error_ep_free;
-+		}
-+	}
-+
- 	sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(sensor->reset)) {
- 		ret = PTR_ERR(sensor->reset);
+ 		sensor->bypass_pll = false;
 -- 
 2.49.0
 
