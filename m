@@ -1,162 +1,184 @@
-Return-Path: <linux-media+bounces-33714-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33715-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48842AC9896
-	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 02:07:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11362AC99DE
+	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 09:34:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 149E4500D92
-	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 00:07:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E35D71BA28F3
+	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 07:34:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78C452904;
-	Sat, 31 May 2025 00:07:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6208122CBEC;
+	Sat, 31 May 2025 07:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SZ3WEEmu"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="gYx5slE+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MGmNjSH0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF1520EB;
-	Sat, 31 May 2025 00:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD60195;
+	Sat, 31 May 2025 07:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748650039; cv=none; b=H1LXE46e8/lzCE1KzbGf4I5P1/Os/9Qt96fSkMQcVZtMACA2KaIF7SP8CBastOZOE9LNSD3I6uasjmvMbeA+EEpg5+J7QTSrlk06UXNMdL0U8g7+79e7O+zsGVqdwrwXX1yOAMn0tPdxbwjIZldbspnUyIa8LlHKfxdTxte3kSM=
+	t=1748676873; cv=none; b=V6wXwiDb0YdOgP0ksxML3mv5716RGidoplUP+doH7VQyYC6I1XiR/aM7DPrSMOrHLagcZQB+p5QIYoWeGGlt1fHFmlw27YMtjhltFr+rNoH/qgKlmPRbnyI80ii43szbTqrduvPfsBkBXd3avDzCtxn3Iy3hOeOudPjpyKI47rE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748650039; c=relaxed/simple;
-	bh=6P2BOfkmq6SK+1DJGmrhFE0FP889wpKT8Pb6lR+FzAM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nlouQPGwOYNVq8LooOd/ZGqZ6JiCmDgzzmgKh/CrQciIhpdSlykMhgqRErFOkm1bsMXh6i7zjdFSfezDxl+MCtXGaqLrCReTETfkCatKaLQ7OUFBi5yp/UbT0byIPBnJjrGLFqOkPgd2gefdr3OrNuUc6nt/ubhvOnncphLYcFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SZ3WEEmu; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UK5P9x031636;
-	Sat, 31 May 2025 00:07:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	R1DxtKSUm4YO/O6cfYrBMX3tv7BN7U6IHTFgw0lhgAw=; b=SZ3WEEmuu0uAC0t+
-	KHiDZfwsAagFasols/zHyQ82gitS+AAd7pSmHHMfGTfSjW5/vp1j3dAC5I9zblrh
-	7pFQAHAEPxHCEpKfB+8dn16okKdYTBguWT8rE/Ze4FFJB4V9TREo8WXSZKzrkKU+
-	As0YWK869gUjQ+iD8MqnBR6Uw27KqAWV0NuIwLilwMebBF2bvYA5dH+of3bcxE7d
-	pzQtc9PSJOkuoeCL+YDSLbK5XAIZtT3Sc/AB4DybOI2POcNfniwlOlwSGKqyFjF4
-	EvXa3F5GWD338ZuzQhu1BVctHPXy7KWoeoKbUM5nnd6B7ODHCUFGWpjk68FCK5hN
-	IVxeDQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6vk2srm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 31 May 2025 00:07:13 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54V07DdG017063
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 31 May 2025 00:07:13 GMT
-Received: from [10.253.36.123] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 May
- 2025 17:07:08 -0700
-Message-ID: <05ccb3ce-1954-4a6c-8cfc-edc8313e9875@quicinc.com>
-Date: Sat, 31 May 2025 08:07:06 +0800
+	s=arc-20240116; t=1748676873; c=relaxed/simple;
+	bh=tdiP19824atWDqmVyCJmb/N3MwpNgOA3BvVGBRXCthw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ilBlNJ3igWgy7JLQtkOqxLC/fgC7awoGX53IOeIfJHPG2yspLXxTX9Kww4fUluUshCggbEcyPJzfUGhwbdZGN2BwKAuLmJ9+73ETDAcU2fgg+ua/52e/ohvPcQetGkRtFIT6DWLhCWKiQ+usD/Gz7Yq+K62AqQUot8YP8gmO3f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=gYx5slE+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MGmNjSH0; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id EE8351140158;
+	Sat, 31 May 2025 03:34:29 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Sat, 31 May 2025 03:34:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1748676869;
+	 x=1748763269; bh=kTmUc4L0SF252/oTp6ysS4H5+yaET3jZeIYizi1TdlE=; b=
+	gYx5slE+wKduZUzwY4Ufkd7ulqPlnWmjiO0GGCFSTBab9zPZhUMA5vpw3jyh1TBp
+	Hobipi2eSzhkwrGyl8PSb2K/JJ7nPOwHjyZTjJH7HRgCtunX2OQPn0xEHA0EMono
+	XBe8ZbeeIBjLX5SsEqUUqzS2FmVfsUXgGRwGjOARP6AD4GQ8p6Z8F7TtZ5TVHARv
+	a3twbhalqJjb6SeU/CS+Joau1b3nfjY36uJtATEslUBR0ukP2xJBb1JTEwuHOpUg
+	A4hxIn8XQ58JyXdwOncJO8S8j+XmP5Y3o3N0Yj4msNL4fCgg/4Cb7v95j0+55v5q
+	xhuvGVYZnXmFnaCh9819RQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1748676869; x=
+	1748763269; bh=kTmUc4L0SF252/oTp6ysS4H5+yaET3jZeIYizi1TdlE=; b=M
+	GmNjSH0kG4zqp0vy8MbEf4K46rt98u8Rh49ouvVWmBSO3GzkPgkGqAN2l7T30Z9G
+	EtggP/hsVuMqK8MJzWr9Hw1Vzdf+OufI4RJeHY8SIVzpCiTS3SrBu2rO1sxsYGEA
+	eouQjMocSZfLSxgDRSR/qpLhtILMCzKVYha+HYGCq7mQSAaPAETBy4PjodOJ2pSB
+	j2Gw0FW+oJibDa+FOW9pqd5trJ0+cqZqwgfzq9s5JDJZkcsPMhpDZqnsurPZEZEE
+	Y+4s6B5Szwn9bwdzyqNPWtZc99kZAJlyMA/IJzovWM10+AwgBMYw0BLiceFixOFC
+	+NyWue1Nc9TpoWu/xHitw==
+X-ME-Sender: <xms:BbE6aDrxANPQT7KFfzMy_xdMj2ASRBZV8SZ05kZCNtcXJivC68IH7Q>
+    <xme:BbE6aNrtjqU0XIUEh16fpOEaTSNAuwCHQMY0YuERyqxyatxUGC36Xofw1H5_gFIaz
+    mbelrjEBxspX02gMTM>
+X-ME-Received: <xmr:BbE6aAN65S8OepEw-W1v8FvSuAvgAJohiNt48gfW3J7xfhghwnqSDsHKKMq1A_3jOqDxHWDXI3qrevq5wr_HhY-rz1_c6HPO7g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdefudefvdculddtuddrgeefvddrtd
+    dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
+    fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
+    dtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhf
+    gggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunh
+    guuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgv
+    tghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevhe
+    eikefhueelgfdtfeeuhefftddvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+    rghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
+    hssehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhht
+    phhouhhtpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrghsse
+    hiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehsrghkrghrihdrrghilhhu
+    sheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihgu
+    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvh
+    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghs
+    qdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:BbE6aG4R--msOlaAHm03cUaOy7WkBfXjB1UZEDXruWZQbure5xdg9g>
+    <xmx:BbE6aC4EO-OZPFH_BxkCU_oHOGY6kZqi4l9ONGPw81XCpz9LNF8EHw>
+    <xmx:BbE6aOi3MAUrnGiQ1rhXW2jacD7HWC6vbkSU5hhtxE-SW3kG8ro1Qw>
+    <xmx:BbE6aE5Pdidlq7719cJX2axeQ2CtsZN6Ctk9Wvp-6LClHfiU0A9oWA>
+    <xmx:BbE6aHW_mGtj7EgSNATLWc3k0kzM8NR9Ur9I4unjIoMH4C1ZowcESpcQ>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 31 May 2025 03:34:29 -0400 (EDT)
+Date: Sat, 31 May 2025 09:34:22 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-vin: Fix stride setting for RAW8 formats
+Message-ID: <20250531073422.GA3849429@ragnatech.se>
+References: <20250402183302.140055-1-niklas.soderlund+renesas@ragnatech.se>
+ <4ea2b464-81d8-486d-bce1-540e1cecb87b@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/3] arm64: dts: qcom: qcs615-ride: enable venus node
- to initialize video codec
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>
-References: <20250530-add-venus-for-qcs615-v8-0-c0092ac616d0@quicinc.com>
- <20250530-add-venus-for-qcs615-v8-3-c0092ac616d0@quicinc.com>
- <qeuxv2mpnnsieygdwvsb63k4n53tnc6yekiv2wels4jjwwpxf3@wutnfkefi7yj>
-Content-Language: en-US
-From: Renjiang Han <quic_renjiang@quicinc.com>
-In-Reply-To: <qeuxv2mpnnsieygdwvsb63k4n53tnc6yekiv2wels4jjwwpxf3@wutnfkefi7yj>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=UOXdHDfy c=1 sm=1 tr=0 ts=683a4831 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=QX4gbG5DAAAA:8
- a=COk6AnOGAAAA:8 a=fn3D7n7na-j4QsXFkkQA:9 a=QEXdDO2ut3YA:10
- a=AbAUZ8qAyYyZVLSsDulk:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: Fd3sYspjoHUdzUYZmKFbQ5lhkuufbabZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDIxNyBTYWx0ZWRfXyNmtBR/E8z1Z
- 99cleeQHqNMgjr2vYGvbHh3oIAvGTlTXETUtNm6MxJ385B8rXljs8azfJot52xB1rB/mUXH6+F5
- a7LWKKuO5nGJhfPUBnTRq88iYeLxj0CWh4WvGuMBr1T6VFFEIF/XuNrurvGzSvDEkGx/bmhVsX0
- DincYf8jMp+Ah6MR59VxRLzB/pGVNqOnDJYELgx2HHeH2w3B8yPEL8BFXsvQ2v5abMc22E/CtrC
- ACRDcIJqDqJSp8tU0x8scGKDFID5Ix5Z9rGxezLtr+lx8oHEAe7BvOIOfCg9apB8eGC0322NDXi
- 4v/DANsWvhl/YFneUYkXARToPmJmResG92reND60H+Ve97CqlTKIUpN2ltIIU4qLYF8YkCWEFw+
- RaparYTTX5lYOxgisdqJ7G8iCUVKnWQQN7RLaKWPxYD9PP8XAlZbBlDj29mEOccVTJXLsltN
-X-Proofpoint-GUID: Fd3sYspjoHUdzUYZmKFbQ5lhkuufbabZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-30_10,2025-05-30_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 mlxscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=919 bulkscore=0 malwarescore=0 impostorscore=0 spamscore=0
- suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505300217
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4ea2b464-81d8-486d-bce1-540e1cecb87b@ideasonboard.com>
 
+Hi Tomi,
 
-On 5/31/2025 4:31 AM, Dmitry Baryshkov wrote:
-> On Fri, May 30, 2025 at 09:32:15AM +0530, Renjiang Han wrote:
->> Enable the venus node to allow the video codec to start working properly
->> by setting its status to "okay".
->>
->> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
->> ---
->>   arch/arm64/boot/dts/qcom/qcs615-ride.dts | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
->> index 2b5aa3c66867676bda59ff82b902b6e4974126f8..0686f5c10bdaf7ba3f522e16acd2107d25742dd9 100644
->> --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
->> +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
->> @@ -338,6 +338,10 @@ &ufs_mem_phy {
->>   	status = "okay";
->>   };
->>   
->> +&venus {
->> +	status = "okay";
-> Does QCS615 work with existing qcom/venus-5.4/venus.mbn or does it need
-> another VPU firmware?
-yes, QCS615 works with existing qcom/venus-5.4/venus.mbn.
->
->> +};
->> +
->>   &watchdog {
->>   	clocks = <&sleep_clk>;
->>   };
->>
->> -- 
->> 2.34.1
->>
+On 2025-05-30 14:58:17 +0300, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 02/04/2025 21:33, Niklas Söderlund wrote:
+> > Earlier versions of the datasheet where unclear about the stride setting
+> > for RAW8 capture formats. Later datasheets clarifies that the stride
+> > only process in this mode for non-image data. For image data the full
+> > stride shall be used. Compare section "RAW: 8 Bits and Embedded 8-Bit
+> > Non-Image Data, User Defined 8-bit Data" vs "RAW: 8 Bits".
+> > 
+> > Remove the special case from pixel formats that carry image data and
+> > treat it as any other image format.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 ----------------
+> >  1 file changed, 16 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > index f8394be8a922..fdf0f86c801f 100644
+> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > @@ -680,22 +680,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+> >  
+> >  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+> >  	stride = vin->format.bytesperline / fmt->bpp;
+> > -
+> > -	/* For RAW8 format bpp is 1, but the hardware process RAW8
+> > -	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
+> > -	 */
+> > -	switch (vin->format.pixelformat) {
+> > -	case V4L2_PIX_FMT_SBGGR8:
+> > -	case V4L2_PIX_FMT_SGBRG8:
+> > -	case V4L2_PIX_FMT_SGRBG8:
+> > -	case V4L2_PIX_FMT_SRGGB8:
+> > -	case V4L2_PIX_FMT_GREY:
+> > -		stride /= 2;
+> > -		break;
+> > -	default:
+> > -		break;
+> > -	}
+> > -
+> >  	rvin_write(vin, stride, VNIS_REG);
+> >  }
+> >  
+> 
+> This one breaks RAW8 for me (V4H, streams, GMSL2 + imx219 sensors). How
+> did you test this?
+
+I tested this with V4H and IMX219 and IMX462.
+
+As you point out in your other reply the documentation is a tad unclear.  
+I don't have access to it atm, but from memory there where two 8-bit 
+modes. One operated in 1-byte units, the other in 2-byte units. This fix 
+addresses the 1-byt use-case.
+
+I will get back to you when I'm back in the office with better 
+references to the documentation. Just wanted to let you know how this 
+was tested.
+
+> 
+>  Tomi
+> 
+
 -- 
-Best Regards,
-Renjiang
-
+Kind Regards,
+Niklas Söderlund
 
