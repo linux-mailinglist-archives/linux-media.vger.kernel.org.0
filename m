@@ -1,55 +1,57 @@
-Return-Path: <linux-media+bounces-33733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86B8AC9C68
-	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 21:05:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D650EAC9C69
+	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 21:05:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC3C57A8AB9
-	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 19:04:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F2789E1AC8
+	for <lists+linux-media@lfdr.de>; Sat, 31 May 2025 19:05:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 311C218858C;
-	Sat, 31 May 2025 19:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 933B41A23A2;
+	Sat, 31 May 2025 19:05:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M8vJuXn+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h189i8ts"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922DB12F5A5
-	for <linux-media@vger.kernel.org>; Sat, 31 May 2025 19:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0090E12F5A5
+	for <linux-media@vger.kernel.org>; Sat, 31 May 2025 19:05:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748718346; cv=none; b=YA6Gy8t7LCto1d2a6feici8qiNRNlJo464h/xtULg7WUTsGyuZOEaSTwuuyF03WRW+mze56k+s3CZiNEQ1dXA7iQhg9Du/wex4+OHCWUdPbWhit8SCxHQexQZeXD1T6peDt47HcOiupTdrESFRWzDY127NNbOPKtygWH1t4X/XI=
+	t=1748718348; cv=none; b=H75WLDZiIAuPvpD9Z0173eWA8HfdUEuVeIVfGMyXcTBLn4bfelNTQ6wDXOGHf+3M4mmdVuBY+MpYh46FfLpI+mOLFLGr7ULbRyG67OihfucUmv0+XVl4717crNSKevDW9EavOthGVRU3qXoJtfNZTGVIAMDIxIAS7aPRGvhb4sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748718346; c=relaxed/simple;
-	bh=hfqT1K1YNBQ0jG6Gw32ksAY2H/ONxB3WnTwm0fqtCq4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z9n83vcb+Vz8Kn9VHLY5CwGLPnitC/k0Ez23wDySc0QiUIuWi8JBEEP1YZt6jE8/HrfUgIwSonQztrXWhyzvSGpelSd1MBPVsOAh9FPeA1okTBTNjbOz0iNhZ/VcAQ6Ob0ouzFuADI7pi1md+fbAzIBbhuuXJQtYcNgSXbPYiBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M8vJuXn+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6CFEC4CEEA;
-	Sat, 31 May 2025 19:05:44 +0000 (UTC)
+	s=arc-20240116; t=1748718348; c=relaxed/simple;
+	bh=NJxGEEqwVUy5+P3xBlsdxuhfnXnZJv09UJtoUr64rak=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QeuXEAMpOxoh3MQ5BCB7TTdCT+RMAVaRyoMU3uGuO80rsB67Z1DkQAznvT6nA5O2c9YeDnRnjFpum72k9u6wPArS5iRgHvQdne53obpYlGZ55npJkVBKUKngkCIdduteOCRxxcYY8mU+Ny/s9uNL8EgExT/unsDHQSrh7cYVR3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h189i8ts; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7234DC4CEF1;
+	Sat, 31 May 2025 19:05:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748718346;
-	bh=hfqT1K1YNBQ0jG6Gw32ksAY2H/ONxB3WnTwm0fqtCq4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=M8vJuXn+mX3+Bdg12mormhGZbpuLALbhVrqKK3UbIdIqYlrJM5wUWL8evte4ImUzd
-	 DgfcGQ8mQtWJVBgEf24kXHC1KvwSS/nmOhNQpnw7DIwQ0AYTnuNL84gRcGFvRD6axe
-	 RVeWgp1ou+BI8rGHIQ9uFXOpEOD1hUm+jj5w4UhnY/8nRmUGACO5MTvdayBjIVjydc
-	 dLDWxFegTPtISAsAIatybdY8io5ODx+dFlEjALq1jZVygbQs9/ayYbuti4Lbf1iqKJ
-	 FeRucJunGtKhzeEZG2Cg2WfAbR8AewsGcRJi3KMUMdVK93R24qZWI3HSJAvhixodaf
-	 0l+P3VQ+2JJzA==
+	s=k20201202; t=1748718347;
+	bh=NJxGEEqwVUy5+P3xBlsdxuhfnXnZJv09UJtoUr64rak=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=h189i8tsHm+6AYBlhFyg42H5lvGwaWMF9uAdICglCIxrgHP1P8Per80LZXzg/v/sA
+	 Nl99VPG28WDo56zjYagd5ZMTbFfJYMHMFFaCoz0rApAFy6VZpeb3sKHI0IZmn5WCuI
+	 MVoy3zAeFzIzzVaUU0sY5/fkaX+WvlBDlyUPyt8AHcTYuJYgDI/48g/KWxF0fQfVOq
+	 hwSFY/RaOGvRMn1lFJXwaRkr+83eydD0WCgO/HwtnCaBp39lOBdKTOYCoq/qzwXcJv
+	 N3PF6I4sEePyPRimUN27uTk6Y4QOaM8T4nYnJr7sH/xY+TKI/40MwEFLmncMdAIYAy
+	 UCLGefyy6R2hQ==
 From: Hans de Goede <hansg@kernel.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>
-Subject: [PATCH 0/2] media: hi556: Fixes for x86 support
-Date: Sat, 31 May 2025 21:05:32 +0200
-Message-ID: <20250531190534.94684-1-hansg@kernel.org>
+	linux-media@vger.kernel.org
+Subject: [PATCH 1/2] media: hi556: Fix reset GPIO timings
+Date: Sat, 31 May 2025 21:05:33 +0200
+Message-ID: <20250531190534.94684-2-hansg@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250531190534.94684-1-hansg@kernel.org>
+References: <20250531190534.94684-1-hansg@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,29 +60,45 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi All,
+From: Hans de Goede <hdegoede@redhat.com>
 
-Here are 2 hi556 fixes which together fix hi556 camera sensors not working
-on various x86 laptop models. This has been tested and confirmed to fix
-the camera not working on a Dell Latitude 7450:
-https://bugzilla.redhat.com/show_bug.cgi?id=2368506
+probe() requests the reset GPIO to be set to high when getting it.
+Immeditately after this hi556_resume() is called and sets the GPIO low.
 
-It would be nice if these can be queued up as fixes for 6.16-rc#.
+If the GPIO was low before requesting it this will result in the GPIO
+only very briefly spiking high and the sensor not being properly reset.
+The same problem also happens on back to back runtime suspend + resume.
 
-Regards,
+Fix this by adding a sleep of 2 ms in hi556_resume() before setting
+the GPIO low (if there is a reset GPIO).
 
-Hans
+The final sleep is kept unconditional, because if there is e.g. no reset
+GPIO but a controllable clock then the sensor also needs some time after
+enabling the clock.
 
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/media/i2c/hi556.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Hans de Goede (2):
-  media: hi556: Fix reset GPIO timings
-  media: hi556: Support full range of power rails
-
- drivers/media/i2c/hi556.c | 47 +++++++++++++++++++++++----------------
- 1 file changed, 28 insertions(+), 19 deletions(-)
-
-
-base-commit: 5e1ff2314797bf53636468a97719a8222deca9ae
+diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
+index aed258211b8a..d3cc65b67855 100644
+--- a/drivers/media/i2c/hi556.c
++++ b/drivers/media/i2c/hi556.c
+@@ -1321,7 +1321,12 @@ static int hi556_resume(struct device *dev)
+ 		return ret;
+ 	}
+ 
+-	gpiod_set_value_cansleep(hi556->reset_gpio, 0);
++	if (hi556->reset_gpio) {
++		/* Assert reset for at least 2ms on back to back off-on */
++		usleep_range(2000, 2200);
++		gpiod_set_value_cansleep(hi556->reset_gpio, 0);
++	}
++
+ 	usleep_range(5000, 5500);
+ 	return 0;
+ }
 -- 
 2.49.0
 
