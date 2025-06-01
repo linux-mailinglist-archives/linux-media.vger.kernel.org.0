@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-33822-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33823-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE9EACA5CB
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 02:38:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D12C4ACA5CF
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 02:38:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCE293A1E8A
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 00:37:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5AF83AD9BA
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 00:37:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B31830DF54;
-	Sun,  1 Jun 2025 23:38:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A87030DF7F;
+	Sun,  1 Jun 2025 23:38:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WYA5SP0e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qi71ZWvB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B28830CDB7;
-	Sun,  1 Jun 2025 23:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A3630DF6B;
+	Sun,  1 Jun 2025 23:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821123; cv=none; b=KItssjxopNDH9/Vc+rQkXYmf4XBjyfZ38w5ajUB5Yx4FVLNRMDNiYCQ9rEdG0Zaa4e888jPZ829kTkjlScJb1HuTq5gmSc7OumXT5nJrdNXYBzaxcWeGXFLhADhlitJgMQgl3egB36LcQ75kukWagdLmNnHgK2KbKBthqw+qEiQ=
+	t=1748821125; cv=none; b=rrBo0uV/BVldv2+W2B1IbiqdodNAi7rZS4jswr67fUi4u2/exnnuCPYj4un12owNa4bK8D2iFG+z1483TcjZB4FOKR1vB8COEa0+5KADGnWxj32AJDkau5/uBVfGIJMokZarIr9oPs7VK2h8ooAQ1nbla1BHpZNxWyfG7qGKSls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821123; c=relaxed/simple;
-	bh=enVBd5wX1FcRRsgwC8GLfh0btdfTdiaerIpumAjfMUU=;
+	s=arc-20240116; t=1748821125; c=relaxed/simple;
+	bh=g2F4vzkzTTPU/IWfSwX6xQlQ6NNT67JUmaMDhlXdfow=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DUVoq1D8pYpHi/EJfSiKN0M3r8yshphmDCJU72FYOHIbGDtVXdAnG+zwC9kYBPYSD3NfRjTS/gVfwRb5sEE08fEqmn2zjKmLtK8syeMB8iFzJu31Mwi0KgvCn+iSZdlMi2kefJ59FV5oiqxZNaEoy16m2loNhkoWValCaGVvs7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WYA5SP0e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69341C4CEF2;
-	Sun,  1 Jun 2025 23:38:42 +0000 (UTC)
+	 MIME-Version:Content-Type; b=AtglrpBuxtLIuhnj6Z8f3zNCfl4dn4qQRxES/DaiCGDaF/WKIcqxWPbT/W8Q3CdXK3VEFFQ+Fd/QT+w0x2+KOhzazxz85iVAZoU/Uoi9d7OGxx8oBbq8cs6FKs2sop0jlobFncylWvzmqY0Sex0lC6kzy3nsQcheXHnM/oqdesM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qi71ZWvB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1D45C4CEE7;
+	Sun,  1 Jun 2025 23:38:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821123;
-	bh=enVBd5wX1FcRRsgwC8GLfh0btdfTdiaerIpumAjfMUU=;
+	s=k20201202; t=1748821125;
+	bh=g2F4vzkzTTPU/IWfSwX6xQlQ6NNT67JUmaMDhlXdfow=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WYA5SP0esi2Y3P/2fP6Tznmn1rvIOUctyB4g/V1MgezkXyLtm+Z0rivaIajFi3yD1
-	 KVdtXyBebBKkz5pNxLd0LDRwfw/8AwpfRPl7LXnM011uhEv5yVHtu4XScjrt4dQm0F
-	 CwF/65N9pHCeEpPGgS056R0jJvih0cht9h+yp9+zMlDbmmMx48IbMLqsw4MEr5q40+
-	 byCwA+/JB9e51aYr7TfEtek9uDju73S8Tl5Y/vvfa4/1ACEo92j++C6pBrI+K7h29X
-	 NzeLfrASQSA6LFmEvdGfrt+qpAzGpLrJODyDJojTepJZtvVM4GsmrrBSH3s92Y9+vn
-	 uROKPSoKg9ZVg==
+	b=Qi71ZWvBWWANSMl4kVe8Q5rzoDpGiNAJbSVcE8y7EB3JWxV2Xh5IO4BWqVpgmT0Di
+	 Ifb+2jqCuoz5YRrLlV+w2iKBh3Q4DZQ/eWGum6n+8RVxRxYH9t0ofkYZMlv36NmDZR
+	 2VbgDpdFv0qzB0wCq7SFX/gc5rwtbQHjX2VC3djL4Dq/xdRGeSqFWUKcwD7rUDZ/0J
+	 IpWkzRTlp9yywn/1574wSfliVTjYTnuIC7x+rM8k2R6SmOZ8M4eb6ayjHGGpJ9TPu1
+	 EU0NVFMWSCnaOOTgt3HTCgf+fCVKMk8H24B/Y4Gml1q9xSTxziLjzqGtO3FqtbEsJk
+	 MTzRyfJsxds3g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc: Nas Chung <nas.chung@chipsnmedia.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 23/66] media: ccs-pll: Better validate VT PLL branch
-Date: Sun,  1 Jun 2025 19:37:00 -0400
-Message-Id: <20250601233744.3514795-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 24/66] media: uapi: v4l: Change V4L2_TYPE_IS_CAPTURE condition
+Date: Sun,  1 Jun 2025 19:37:01 -0400
+Message-Id: <20250601233744.3514795-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601233744.3514795-1-sashal@kernel.org>
 References: <20250601233744.3514795-1-sashal@kernel.org>
@@ -69,118 +70,101 @@ X-stable-base: Linux 6.6.92
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+From: Nas Chung <nas.chung@chipsnmedia.com>
 
-[ Upstream commit cd9cb0313a42ae029cd5af9293b0add984ed252e ]
+[ Upstream commit ad2698efce37e910dcf3c3914263e6cb3e86f8cd ]
 
-Check that the VT PLL dividers are actually found, don't trust they always
-are even though they should be.
+Explicitly compare a buffer type only with valid buffer types,
+to avoid matching a buffer type outside of the valid buffer type set.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
+Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-Based on my analysis of the commit and its context within the Linux
-kernel repository, here is my assessment: **YES** This commit should be
-backported to stable kernel trees. Here's my extensive analysis: ##
-Commit Analysis ### Bug Fix Nature This commit is clearly a bug fix that
-addresses a potential logical error in the VT PLL branch calculation.
-The key changes are: 1. **Return type change**: `ccs_pll_calculate_vt()`
-changes from `void` to `int`, enabling error reporting 2. **Validation
-addition**: A check `if (best_pix_div == SHRT_MAX >> 1) return -EINVAL;`
-is added to detect when no valid divisor is found 3. **Error
-propagation**: The caller now checks the return value and properly
-handles failures ### Critical Issue Being Fixed The original code had a
-serious flaw where if the algorithm failed to find valid VT PLL
-divisors, it would: - Continue execution with uninitialized or invalid
-values (`best_pix_div` remains at `SHRT_MAX >> 1`) - Use these invalid
-values in subsequent calculations: `pll->vt_bk.sys_clk_div =
-DIV_ROUND_UP(vt_div, best_pix_div)` - Potentially cause system
-instability or incorrect camera operation ### Code Analysis of the Fix
-**Before the fix:** ```c static void ccs_pll_calculate_vt(...) { u16
-best_pix_div = SHRT_MAX >> 1; // ... search algorithm ... // No
-validation if search failed! pll->vt_bk.sys_clk_div =
-DIV_ROUND_UP(vt_div, best_pix_div); pll->vt_bk.pix_clk_div =
-best_pix_div; } ``` **After the fix:** ```c static int
-ccs_pll_calculate_vt(...) { u16 best_pix_div = SHRT_MAX >> 1; // ...
-search algorithm ... if (best_pix_div == SHRT_MAX >> 1) return -EINVAL;
-// Proper error handling! pll->vt_bk.sys_clk_div = DIV_ROUND_UP(vt_div,
-best_pix_div); pll->vt_bk.pix_clk_div = best_pix_div; return 0; } ```
-### Backport Suitability Assessment **✅ Meets Stable Criteria:** 1.
-**Important Bug Fix**: Prevents potential system instability from
-invalid PLL calculations 2. **Small and Contained**: Only 8 lines of
-actual changes, very minimal risk 3. **No Architectural Changes**: Pure
-validation enhancement, no new features 4. **Clear Risk/Benefit**: High
-benefit (prevents crashes) with minimal regression risk 5. **Subsystem
-Confined**: Changes are isolated to the CCS PLL calculation function **✅
-Security Implications:** Based on my analysis of the kernel repository,
-the CCS driver handles complex mathematical operations that could be
-exploited. This validation prevents: - Use of uninitialized divisor
-values that could cause division errors - Potential integer overflow
-scenarios in subsequent calculations - System crashes from invalid
-camera configuration **✅ User Impact:** - Prevents camera subsystem
-failures that could crash the system - Provides proper error reporting
-instead of silent failures - Critical for embedded systems and mobile
-devices using MIPI cameras ### Comparison with Historical Commits Unlike
-the reference commits which were mostly code refactoring and
-optimizations (all marked "NO" for backporting), this commit: - Fixes an
-actual bug rather than improving code structure - Adds missing error
-handling that could prevent system failures - Has clear user-visible
-benefits (stability improvement) ### Conclusion This is a textbook
-example of a stable-worthy commit: it's a small, focused bug fix that
-prevents potential system instability with minimal regression risk. The
-fix adds proper validation that was missing and could prevent real-world
-failures in camera-enabled devices.
+**YES** This commit should be backported to stable kernel trees based on
+the following analysis: ## Code Change Analysis The commit fixes a
+logical flaw in the `V4L2_TYPE_IS_CAPTURE` macro in
+`include/uapi/linux/videodev2.h`. **Before the patch:** ```c #define
+V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type)) ``` **After the
+patch:** ```c #define V4L2_TYPE_IS_VALID(type) \ ((type) >=
+V4L2_BUF_TYPE_VIDEO_CAPTURE && (type) <= V4L2_BUF_TYPE_META_OUTPUT)
+#define V4L2_TYPE_IS_CAPTURE(type) \ (V4L2_TYPE_IS_VALID(type) &&
+!V4L2_TYPE_IS_OUTPUT(type)) ``` ## The Bug and Its Impact The original
+implementation has a critical flaw: **invalid buffer type values
+incorrectly return true for `V4L2_TYPE_IS_CAPTURE`**. Here's why: 1. For
+invalid buffer types (e.g., 0, 15, 100, 0x80), `V4L2_TYPE_IS_OUTPUT()`
+returns false 2. The negation `!V4L2_TYPE_IS_OUTPUT()` makes these
+invalid types appear as "capture" types 3. This can lead to incorrect
+code paths being taken in media drivers throughout the kernel ## Why
+This Should Be Backported 1. **Affects User-Facing API**: This is a UAPI
+header that defines kernel-userspace interface behavior. Incorrect
+behavior here can affect any V4L2 application. 2. **Potential
+Security/Stability Risk**: The bug could lead to: - Wrong buffer
+handling paths in media drivers - Potential out-of-bounds access or
+incorrect memory management - Driver state corruption when invalid
+buffer types are misclassified 3. **Small, Contained Fix**: The change
+is minimal and contained to macro definitions with clear semantics. It
+only adds proper validation without changing valid type behavior. 4.
+**No Regression Risk**: The fix only affects the handling of invalid
+buffer types, making them correctly return false instead of incorrectly
+returning true. Valid buffer types retain their existing behavior. 5.
+**Wide Impact**: Looking at the kernel tree, `V4L2_TYPE_IS_CAPTURE` is
+used extensively in media drivers: -
+`/drivers/media/v4l2-core/v4l2-mem2mem.c` - Multiple platform-specific
+drivers (Samsung, Mediatek, Verisilicon, etc.) - Any incorrect behavior
+propagates to all these drivers 6. **Consistent with Historical
+Pattern**: Looking at similar commits like commit 4b837c6d7ee7 ("media:
+v4l: uAPI: V4L2_BUF_TYPE_META_OUTPUT is an output buffer type"), UAPI
+fixes for buffer type handling have been backported before. ## Backport
+Criteria Met - ✅ **Fixes important bugs**: Corrects fundamental macro
+logic affecting buffer type validation - ✅ **Minimal risk**: Only adds
+validation, doesn't change existing valid behavior - ✅ **Small and
+contained**: Changes only macro definitions in header file - ✅ **No
+architectural changes**: Pure bug fix without feature additions - ✅
+**Affects critical subsystem**: Media/V4L2 is widely used across many
+device drivers The fix ensures that only valid buffer types (1-14) can
+be classified as capture types, preventing potential mishandling of
+invalid values throughout the media subsystem.
 
- drivers/media/i2c/ccs-pll.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ include/uapi/linux/videodev2.h | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
-index cf8858cb13d4c..fc196632df166 100644
---- a/drivers/media/i2c/ccs-pll.c
-+++ b/drivers/media/i2c/ccs-pll.c
-@@ -435,7 +435,7 @@ static int ccs_pll_calculate_vt_tree(struct device *dev,
- 	return -EINVAL;
- }
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index eeb57e7673732..d9dd72860de38 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -153,10 +153,18 @@ enum v4l2_buf_type {
+ 	V4L2_BUF_TYPE_SDR_OUTPUT           = 12,
+ 	V4L2_BUF_TYPE_META_CAPTURE         = 13,
+ 	V4L2_BUF_TYPE_META_OUTPUT	   = 14,
++	/*
++	 * Note: V4L2_TYPE_IS_VALID and V4L2_TYPE_IS_OUTPUT must
++	 * be updated if a new type is added.
++	 */
+ 	/* Deprecated, do not use */
+ 	V4L2_BUF_TYPE_PRIVATE              = 0x80,
+ };
  
--static void
-+static int
- ccs_pll_calculate_vt(struct device *dev, const struct ccs_pll_limits *lim,
- 		     const struct ccs_pll_branch_limits_bk *op_lim_bk,
- 		     struct ccs_pll *pll, struct ccs_pll_branch_fr *pll_fr,
-@@ -558,6 +558,8 @@ ccs_pll_calculate_vt(struct device *dev, const struct ccs_pll_limits *lim,
- 		if (best_pix_div < SHRT_MAX >> 1)
- 			break;
- 	}
-+	if (best_pix_div == SHRT_MAX >> 1)
-+		return -EINVAL;
- 
- 	pll->vt_bk.sys_clk_div = DIV_ROUND_UP(vt_div, best_pix_div);
- 	pll->vt_bk.pix_clk_div = best_pix_div;
-@@ -570,6 +572,8 @@ ccs_pll_calculate_vt(struct device *dev, const struct ccs_pll_limits *lim,
- out_calc_pixel_rate:
- 	pll->pixel_rate_pixel_array =
- 		pll->vt_bk.pix_clk_freq_hz * pll->vt_lanes;
++#define V4L2_TYPE_IS_VALID(type)		 \
++	((type) >= V4L2_BUF_TYPE_VIDEO_CAPTURE &&\
++	 (type) <= V4L2_BUF_TYPE_META_OUTPUT)
 +
-+	return 0;
- }
+ #define V4L2_TYPE_IS_MULTIPLANAR(type)			\
+ 	((type) == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE	\
+ 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+@@ -170,7 +178,8 @@ enum v4l2_buf_type {
+ 	 || (type) == V4L2_BUF_TYPE_SDR_OUTPUT			\
+ 	 || (type) == V4L2_BUF_TYPE_META_OUTPUT)
  
- /*
-@@ -843,8 +847,10 @@ int ccs_pll_calculate(struct device *dev, const struct ccs_pll_limits *lim,
- 		if (pll->flags & CCS_PLL_FLAG_DUAL_PLL)
- 			break;
+-#define V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type))
++#define V4L2_TYPE_IS_CAPTURE(type)	\
++	(V4L2_TYPE_IS_VALID(type) && !V4L2_TYPE_IS_OUTPUT(type))
  
--		ccs_pll_calculate_vt(dev, lim, op_lim_bk, pll, op_pll_fr,
--				     op_pll_bk, cphy, phy_const);
-+		rval = ccs_pll_calculate_vt(dev, lim, op_lim_bk, pll, op_pll_fr,
-+					    op_pll_bk, cphy, phy_const);
-+		if (rval)
-+			continue;
- 
- 		rval = check_bk_bounds(dev, lim, pll, PLL_VT);
- 		if (rval)
+ enum v4l2_tuner_type {
+ 	V4L2_TUNER_RADIO	     = 1,
 -- 
 2.39.5
 
