@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-33856-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33857-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEF7ACA76C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:12:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F81ACA776
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:13:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D831188A6DA
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:11:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CA11189163F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:12:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E70A82BF158;
-	Sun,  1 Jun 2025 23:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD60A33393B;
+	Sun,  1 Jun 2025 23:44:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAG3c/G3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ceMvrswo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465B62BF153;
-	Sun,  1 Jun 2025 23:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407B6333926;
+	Sun,  1 Jun 2025 23:44:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821456; cv=none; b=OPAO8UcLQFQhVX/0aFIxvw87199EMBzF6AueH9Q1SFoF+jSnIVwDbz9gjsLgU3B70PXOKLqm70abh7Fx3wzPzcbg4MX7Ry9Y2FcONjN9+9MEAM3X8hCsLs9wQeo9+RlTHfN/iujnNwuMD0aL3Cli95czPp+y8brJ3TW9Dd5q3/4=
+	t=1748821467; cv=none; b=tamNjTwWIzLbfcqT7okGkMfFOw/i9LdhwwXjBZ7seYcYwBu+Aol4wu5eTLGEaxxQ7hgqUNjvdhm4XEzWpQC1QLx+Z/p9l1UyZxG4O9+PE20NixF43gAhnrmNkXj6Gn/r4InYfXb4diyEkquBHsyAhImb8oP3e/+/0OOWFx3lG6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821456; c=relaxed/simple;
-	bh=8kNAsxe2XFqwi3UdzHc4hv1CdFs1BxJUYHZXRFwPH70=;
+	s=arc-20240116; t=1748821467; c=relaxed/simple;
+	bh=GpzfAzYfIDfzlhf4NnvgTC+Dm6bHYR+PDwYXkiwrRHc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fq4y1aC8QCUVyX8oZVB2/pfA6eaGRlQInDOvaJvF/Iqx6dcuB57nz5ZubpVbhmJPk66Lo60k+w+/hVZ6TxHBWhveeRLU1Jxe1cHZrMTowhtjfPJMRVGA/qhsy/iQJ8z0xZgyBkpdAb3DGZcCXbV3aVf/tnbNkmmFfc8oj+ZColo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAG3c/G3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD861C4CEEE;
-	Sun,  1 Jun 2025 23:44:14 +0000 (UTC)
+	 MIME-Version:Content-Type; b=Prcmeua1or1x0lNUJBNBwRWu4vypIT4BQ97M3BehFoY6lrk6VmOGy+3+3SPhw9R1fGRof6hx4x5foBj6LioJovmmabC3/lVKUOzx0W8H8pRCgFPnuiKDGgPuUV2JgsTtndA5nuphhxDSl7r8SY7V4M8NEDCc2qja7w/HcqyX9z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ceMvrswo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D0D8C4CEEE;
+	Sun,  1 Jun 2025 23:44:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821455;
-	bh=8kNAsxe2XFqwi3UdzHc4hv1CdFs1BxJUYHZXRFwPH70=;
+	s=k20201202; t=1748821466;
+	bh=GpzfAzYfIDfzlhf4NnvgTC+Dm6bHYR+PDwYXkiwrRHc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fAG3c/G39B3eLDmCLW8G8hBHgkX4Phk4OC6uXZmDw3ZAOFVIyCgohUjsD31SrEZKt
-	 VFjcQbchbe7DNBu772Qj1+4h6lfzWnS3cYH+3NCddkD/z78eik1kr6Di9Vj78dnefQ
-	 h/nc5ILSlJpLoyvbdNPyzNwmcLdHgsW5+zpVzMANlyzrND0S1rCLsYkGxdTr2Mc6V9
-	 p/3Y87TOrdaqOfTeQWjo/yAahuZ7dk1COBubksKmdRKweTjjmB2UijadSqeL55Q4gf
-	 +8w/Wb7D5QBk35cY4YpWNEhDTOYwnMoD0cYlB7zZq3GBnNdatwZnJkfVgZSWTCeM+O
-	 d/CGbarL6Cd+g==
+	b=ceMvrswoiR1j90BQk6BjFfZf8PjFltKzpUrwxaVDLjcfZAHoQ7EzdS+xqabV7ONCJ
+	 BfPmdO8e8sVodUJ1Pa+8uLn1+DGmhGO38wPUWELoyxojtboxyCSBG/yiyt5rz/Hc1v
+	 Yasjfpvp1uXWzcDWBo02SrzoxrI709WYHS1e/ew5tF0VzTZCxGBrAmSHB6Jdbpe31K
+	 DvszMP4S8Tj6udfVTGQ3R43uj8lYH/4J+QRd+CMkSxhMJsZvkjC2CM3lmaZieD1969
+	 uvu0BLN+rvpbQch0t+GTdWfjFkL5LtC1kUNm6QTZkq+uiuQtJmmPIcrKzFT3F8jShM
+	 D7trHysZJY4/Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
 Cc: Nas Chung <nas.chung@chipsnmedia.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
 	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 07/34] media: uapi: v4l: Fix V4L2_TYPE_IS_OUTPUT condition
-Date: Sun,  1 Jun 2025 19:43:31 -0400
-Message-Id: <20250601234359.3518595-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 11/34] media: uapi: v4l: Change V4L2_TYPE_IS_CAPTURE condition
+Date: Sun,  1 Jun 2025 19:43:35 -0400
+Message-Id: <20250601234359.3518595-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601234359.3518595-1-sashal@kernel.org>
 References: <20250601234359.3518595-1-sashal@kernel.org>
@@ -71,69 +72,99 @@ Content-Transfer-Encoding: 8bit
 
 From: Nas Chung <nas.chung@chipsnmedia.com>
 
-[ Upstream commit f81f69a0e3da141bdd73a16b8676f4e542533d87 ]
+[ Upstream commit ad2698efce37e910dcf3c3914263e6cb3e86f8cd ]
 
-V4L2_TYPE_IS_OUTPUT() returns true for V4L2_BUF_TYPE_VIDEO_OVERLAY
-which definitely belongs to CAPTURE.
+Explicitly compare a buffer type only with valid buffer types,
+to avoid matching a buffer type outside of the valid buffer type set.
 
 Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees.
-**Detailed Analysis:** **1. Nature of the Bug:** The commit fixes a
-fundamental logic error in the `V4L2_TYPE_IS_OUTPUT` macro that has
-existed since 2012 (commit 607ca46e97a1b). The macro incorrectly
-classifies `V4L2_BUF_TYPE_VIDEO_OVERLAY` as an OUTPUT buffer type when
-it should be classified as a CAPTURE type. This is a clear logical bug
-in a core V4L2 API macro. **2. Code Impact Analysis:** The fix removes
-this line from the macro: ```c || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY
-``` My investigation shows the macro is used in critical V4L2 core
-functions, particularly in: - **Crop/Selection handling**
-(`drivers/media/v4l2-core/v4l2-ioctl.c:2517, 2547, 2597`): The macro
-determines whether to use `V4L2_SEL_TGT_COMPOSE` (for output) vs
-`V4L2_SEL_TGT_CROP` (for capture) targets - **Parameter handling**
-(`drivers/media/v4l2-core/v4l2-ioctl.c:2269`): Affects how output vs
-capture parameters are processed - **Buffer management** in videobuf2
-framework: Affects buffer direction logic **3. User Impact:**
-Applications using video overlay functionality have been subject to
-incorrect behavior where: - Overlay buffers were processed with output
-buffer logic instead of capture buffer logic - Wrong selection targets
-were used for crop operations on overlay devices - Parameter handling
-followed the wrong code paths **4. Risk Assessment:** - **Low regression
-risk**: The fix corrects clearly wrong behavior - there's no valid use
-case where VIDEO_OVERLAY should be treated as OUTPUT - **Contained
-scope**: Only affects the classification logic for one specific buffer
-type - **Clear correctness**: The fix aligns the code with the V4L2
-specification and logical expectations **5. Comparison with Similar
-Commits:** Looking at the historical commits provided, while they show
-refactoring and API improvements that were not backported, this commit
-fixes a fundamental logical bug in core API behavior, which is different
-from cosmetic or enhancement changes. **6. Backport Suitability:** This
-meets all stable backport criteria: - ✅ Fixes a clear bug affecting
-users - ✅ Small, contained change with minimal risk - ✅ No new features
-or architectural changes - ✅ Affects core V4L2 functionality that could
-cause incorrect application behavior - ✅ Logic error that has persisted
-for over a decade The fix should be backported to ensure VIDEO_OVERLAY
-applications work correctly across all supported kernel versions.
+**YES** This commit should be backported to stable kernel trees based on
+the following analysis: ## Code Change Analysis The commit fixes a
+logical flaw in the `V4L2_TYPE_IS_CAPTURE` macro in
+`include/uapi/linux/videodev2.h`. **Before the patch:** ```c #define
+V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type)) ``` **After the
+patch:** ```c #define V4L2_TYPE_IS_VALID(type) \ ((type) >=
+V4L2_BUF_TYPE_VIDEO_CAPTURE && (type) <= V4L2_BUF_TYPE_META_OUTPUT)
+#define V4L2_TYPE_IS_CAPTURE(type) \ (V4L2_TYPE_IS_VALID(type) &&
+!V4L2_TYPE_IS_OUTPUT(type)) ``` ## The Bug and Its Impact The original
+implementation has a critical flaw: **invalid buffer type values
+incorrectly return true for `V4L2_TYPE_IS_CAPTURE`**. Here's why: 1. For
+invalid buffer types (e.g., 0, 15, 100, 0x80), `V4L2_TYPE_IS_OUTPUT()`
+returns false 2. The negation `!V4L2_TYPE_IS_OUTPUT()` makes these
+invalid types appear as "capture" types 3. This can lead to incorrect
+code paths being taken in media drivers throughout the kernel ## Why
+This Should Be Backported 1. **Affects User-Facing API**: This is a UAPI
+header that defines kernel-userspace interface behavior. Incorrect
+behavior here can affect any V4L2 application. 2. **Potential
+Security/Stability Risk**: The bug could lead to: - Wrong buffer
+handling paths in media drivers - Potential out-of-bounds access or
+incorrect memory management - Driver state corruption when invalid
+buffer types are misclassified 3. **Small, Contained Fix**: The change
+is minimal and contained to macro definitions with clear semantics. It
+only adds proper validation without changing valid type behavior. 4.
+**No Regression Risk**: The fix only affects the handling of invalid
+buffer types, making them correctly return false instead of incorrectly
+returning true. Valid buffer types retain their existing behavior. 5.
+**Wide Impact**: Looking at the kernel tree, `V4L2_TYPE_IS_CAPTURE` is
+used extensively in media drivers: -
+`/drivers/media/v4l2-core/v4l2-mem2mem.c` - Multiple platform-specific
+drivers (Samsung, Mediatek, Verisilicon, etc.) - Any incorrect behavior
+propagates to all these drivers 6. **Consistent with Historical
+Pattern**: Looking at similar commits like commit 4b837c6d7ee7 ("media:
+v4l: uAPI: V4L2_BUF_TYPE_META_OUTPUT is an output buffer type"), UAPI
+fixes for buffer type handling have been backported before. ## Backport
+Criteria Met - ✅ **Fixes important bugs**: Corrects fundamental macro
+logic affecting buffer type validation - ✅ **Minimal risk**: Only adds
+validation, doesn't change existing valid behavior - ✅ **Small and
+contained**: Changes only macro definitions in header file - ✅ **No
+architectural changes**: Pure bug fix without feature additions - ✅
+**Affects critical subsystem**: Media/V4L2 is widely used across many
+device drivers The fix ensures that only valid buffer types (1-14) can
+be classified as capture types, preventing potential mishandling of
+invalid values throughout the media subsystem.
 
- include/uapi/linux/videodev2.h | 1 -
- 1 file changed, 1 deletion(-)
+ include/uapi/linux/videodev2.h | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 1bbd81f031fe0..a0671e510bc4a 100644
+index a0671e510bc4a..1ee25344c0760 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -164,7 +164,6 @@ enum v4l2_buf_type {
- #define V4L2_TYPE_IS_OUTPUT(type)				\
- 	((type) == V4L2_BUF_TYPE_VIDEO_OUTPUT			\
- 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE		\
--	 || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY		\
- 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY	\
- 	 || (type) == V4L2_BUF_TYPE_VBI_OUTPUT			\
- 	 || (type) == V4L2_BUF_TYPE_SLICED_VBI_OUTPUT		\
+@@ -153,10 +153,18 @@ enum v4l2_buf_type {
+ 	V4L2_BUF_TYPE_SDR_OUTPUT           = 12,
+ 	V4L2_BUF_TYPE_META_CAPTURE         = 13,
+ 	V4L2_BUF_TYPE_META_OUTPUT	   = 14,
++	/*
++	 * Note: V4L2_TYPE_IS_VALID and V4L2_TYPE_IS_OUTPUT must
++	 * be updated if a new type is added.
++	 */
+ 	/* Deprecated, do not use */
+ 	V4L2_BUF_TYPE_PRIVATE              = 0x80,
+ };
+ 
++#define V4L2_TYPE_IS_VALID(type)		 \
++	((type) >= V4L2_BUF_TYPE_VIDEO_CAPTURE &&\
++	 (type) <= V4L2_BUF_TYPE_META_OUTPUT)
++
+ #define V4L2_TYPE_IS_MULTIPLANAR(type)			\
+ 	((type) == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE	\
+ 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+@@ -170,7 +178,8 @@ enum v4l2_buf_type {
+ 	 || (type) == V4L2_BUF_TYPE_SDR_OUTPUT			\
+ 	 || (type) == V4L2_BUF_TYPE_META_OUTPUT)
+ 
+-#define V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type))
++#define V4L2_TYPE_IS_CAPTURE(type)	\
++	(V4L2_TYPE_IS_VALID(type) && !V4L2_TYPE_IS_OUTPUT(type))
+ 
+ enum v4l2_tuner_type {
+ 	V4L2_TUNER_RADIO	     = 1,
 -- 
 2.39.5
 
