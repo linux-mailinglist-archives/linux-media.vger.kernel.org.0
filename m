@@ -1,60 +1,68 @@
-Return-Path: <linux-media+bounces-33857-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33858-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F81ACA776
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:13:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0104FACA771
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:13:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CA11189163F
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:12:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D2437A6D42
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:11:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD60A33393B;
-	Sun,  1 Jun 2025 23:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E452C06C8;
+	Sun,  1 Jun 2025 23:44:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ceMvrswo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HtLiz12l"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407B6333926;
-	Sun,  1 Jun 2025 23:44:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E2F33429E;
+	Sun,  1 Jun 2025 23:44:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821467; cv=none; b=tamNjTwWIzLbfcqT7okGkMfFOw/i9LdhwwXjBZ7seYcYwBu+Aol4wu5eTLGEaxxQ7hgqUNjvdhm4XEzWpQC1QLx+Z/p9l1UyZxG4O9+PE20NixF43gAhnrmNkXj6Gn/r4InYfXb4diyEkquBHsyAhImb8oP3e/+/0OOWFx3lG6c=
+	t=1748821476; cv=none; b=HgvPr3lNFPPV/Yk4QPyX3S6pC1/oWNAaVtEJYLVGc9DSoo60fYTKCQEkvopZdAX5baK6ZWYnuGLahq8MR3/UJVnbPC3HMLuQhhQSlRUEIJnssOxwnIlxoDweTJ9LJWku56vsIJNsuL9sxX1u4IIlB3Wy8uBC+0emFc0F9Z9cb3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821467; c=relaxed/simple;
-	bh=GpzfAzYfIDfzlhf4NnvgTC+Dm6bHYR+PDwYXkiwrRHc=;
+	s=arc-20240116; t=1748821476; c=relaxed/simple;
+	bh=Qry0W7+8+DMWlUTxM4kClLEnmvalIp8zlvCEMMvluoQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Prcmeua1or1x0lNUJBNBwRWu4vypIT4BQ97M3BehFoY6lrk6VmOGy+3+3SPhw9R1fGRof6hx4x5foBj6LioJovmmabC3/lVKUOzx0W8H8pRCgFPnuiKDGgPuUV2JgsTtndA5nuphhxDSl7r8SY7V4M8NEDCc2qja7w/HcqyX9z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ceMvrswo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D0D8C4CEEE;
-	Sun,  1 Jun 2025 23:44:25 +0000 (UTC)
+	 MIME-Version; b=hOWQGYb1bylLlefnvIflbvFDpFBlLdQjxpGoXHp6pYxHXFoswE1nqD8GQ0/KzvGFDjuH4ZPLwQd48IOM1aNoIgMdFqKyGJXVTtwAkdAUoyIWLLTrIa/nyrQbP9aPujy8bKQyTfjdut0ia/BqhdvOLyl3ckWM+x25M2Hr3Ng0ojk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HtLiz12l; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C857DC4CEF1;
+	Sun,  1 Jun 2025 23:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821466;
-	bh=GpzfAzYfIDfzlhf4NnvgTC+Dm6bHYR+PDwYXkiwrRHc=;
+	s=k20201202; t=1748821475;
+	bh=Qry0W7+8+DMWlUTxM4kClLEnmvalIp8zlvCEMMvluoQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ceMvrswoiR1j90BQk6BjFfZf8PjFltKzpUrwxaVDLjcfZAHoQ7EzdS+xqabV7ONCJ
-	 BfPmdO8e8sVodUJ1Pa+8uLn1+DGmhGO38wPUWELoyxojtboxyCSBG/yiyt5rz/Hc1v
-	 Yasjfpvp1uXWzcDWBo02SrzoxrI709WYHS1e/ew5tF0VzTZCxGBrAmSHB6Jdbpe31K
-	 DvszMP4S8Tj6udfVTGQ3R43uj8lYH/4J+QRd+CMkSxhMJsZvkjC2CM3lmaZieD1969
-	 uvu0BLN+rvpbQch0t+GTdWfjFkL5LtC1kUNm6QTZkq+uiuQtJmmPIcrKzFT3F8jShM
-	 D7trHysZJY4/Q==
+	b=HtLiz12lL6qeT7hA7ybRZ+hPxil6/e2Y56lwhU6U5KKSihTamCg984L1jONHDmwQR
+	 mAXvPwtVJTfd0PyAwlySNZmU9ZJU4QuhFp1FEQGcNkWPzYikuQDlw0PobBH8qxSPJG
+	 CmMETk3fuybXR6IbdTN1IPM8Rzd63iISw5BaVXOimbSOCKddhe7pwYrdiQrJnS8ZSu
+	 dIZrqqE8vDG919YRcKRnCuXMgSAyrTKprKGf7tlN0phGWiT4F1rA05i1lac+NkKtyc
+	 jH98hIdP0x0S+kzZtHCrAysPYYHmiflADTDBbvXiiHKseECpGd9eocqvffjHiXtBDv
+	 U/WtN2Kbmv7oQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Nas Chung <nas.chung@chipsnmedia.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
+Cc: Jonas Karlman <jonas@kwiboo.se>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Christopher Obbard <chris.obbard@collabora.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	ezequiel@vanguardiasur.com.ar,
 	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 11/34] media: uapi: v4l: Change V4L2_TYPE_IS_CAPTURE condition
-Date: Sun,  1 Jun 2025 19:43:35 -0400
-Message-Id: <20250601234359.3518595-11-sashal@kernel.org>
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 15/34] media: rkvdec: h264: Use bytesperline and buffer height as virstride
+Date: Sun,  1 Jun 2025 19:43:39 -0400
+Message-Id: <20250601234359.3518595-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601234359.3518595-1-sashal@kernel.org>
 References: <20250601234359.3518595-1-sashal@kernel.org>
@@ -67,104 +75,111 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.10.237
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Nas Chung <nas.chung@chipsnmedia.com>
+From: Jonas Karlman <jonas@kwiboo.se>
 
-[ Upstream commit ad2698efce37e910dcf3c3914263e6cb3e86f8cd ]
+[ Upstream commit d5e0aa61470c48ddc04d433a00e79cef8716377a ]
 
-Explicitly compare a buffer type only with valid buffer types,
-to avoid matching a buffer type outside of the valid buffer type set.
+Use bytesperline and buffer height to calculate the strides configured.
 
-Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
-Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+This does not really change anything other than ensuring the
+bytesperline that is signaled to userspace matches what is configured
+in HW.
+
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees based on
-the following analysis: ## Code Change Analysis The commit fixes a
-logical flaw in the `V4L2_TYPE_IS_CAPTURE` macro in
-`include/uapi/linux/videodev2.h`. **Before the patch:** ```c #define
-V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type)) ``` **After the
-patch:** ```c #define V4L2_TYPE_IS_VALID(type) \ ((type) >=
-V4L2_BUF_TYPE_VIDEO_CAPTURE && (type) <= V4L2_BUF_TYPE_META_OUTPUT)
-#define V4L2_TYPE_IS_CAPTURE(type) \ (V4L2_TYPE_IS_VALID(type) &&
-!V4L2_TYPE_IS_OUTPUT(type)) ``` ## The Bug and Its Impact The original
-implementation has a critical flaw: **invalid buffer type values
-incorrectly return true for `V4L2_TYPE_IS_CAPTURE`**. Here's why: 1. For
-invalid buffer types (e.g., 0, 15, 100, 0x80), `V4L2_TYPE_IS_OUTPUT()`
-returns false 2. The negation `!V4L2_TYPE_IS_OUTPUT()` makes these
-invalid types appear as "capture" types 3. This can lead to incorrect
-code paths being taken in media drivers throughout the kernel ## Why
-This Should Be Backported 1. **Affects User-Facing API**: This is a UAPI
-header that defines kernel-userspace interface behavior. Incorrect
-behavior here can affect any V4L2 application. 2. **Potential
-Security/Stability Risk**: The bug could lead to: - Wrong buffer
-handling paths in media drivers - Potential out-of-bounds access or
-incorrect memory management - Driver state corruption when invalid
-buffer types are misclassified 3. **Small, Contained Fix**: The change
-is minimal and contained to macro definitions with clear semantics. It
-only adds proper validation without changing valid type behavior. 4.
-**No Regression Risk**: The fix only affects the handling of invalid
-buffer types, making them correctly return false instead of incorrectly
-returning true. Valid buffer types retain their existing behavior. 5.
-**Wide Impact**: Looking at the kernel tree, `V4L2_TYPE_IS_CAPTURE` is
-used extensively in media drivers: -
-`/drivers/media/v4l2-core/v4l2-mem2mem.c` - Multiple platform-specific
-drivers (Samsung, Mediatek, Verisilicon, etc.) - Any incorrect behavior
-propagates to all these drivers 6. **Consistent with Historical
-Pattern**: Looking at similar commits like commit 4b837c6d7ee7 ("media:
-v4l: uAPI: V4L2_BUF_TYPE_META_OUTPUT is an output buffer type"), UAPI
-fixes for buffer type handling have been backported before. ## Backport
-Criteria Met - ✅ **Fixes important bugs**: Corrects fundamental macro
-logic affecting buffer type validation - ✅ **Minimal risk**: Only adds
-validation, doesn't change existing valid behavior - ✅ **Small and
-contained**: Changes only macro definitions in header file - ✅ **No
-architectural changes**: Pure bug fix without feature additions - ✅
-**Affects critical subsystem**: Media/V4L2 is widely used across many
-device drivers The fix ensures that only valid buffer types (1-14) can
-be classified as capture types, preventing potential mishandling of
-invalid values throughout the media subsystem.
+### Key Reasons for NO Backport: 1. **Not a Bug Fix**: The commit
+message explicitly states "This does not really change anything other
+than ensuring the bytesperline that is signaled to userspace matches
+what is configured in HW." This is not fixing a functional bug but
+rather improving consistency between userspace and hardware
+configuration. 2. **Code Quality/Consistency Improvement**: The changes
+are primarily about code correctness and consistency rather than fixing
+a critical issue that affects users. This aligns with similar commits
+#1, #2, and #4 which were marked as NO for backporting. 3. **Staging
+Driver**: The rkvdec driver is in `drivers/staging/media/`, which
+indicates it's still under development and not considered stable.
+Staging drivers typically have more relaxed backporting requirements. 4.
+**Specific Code Changes Analysis**: - **Before**: `hor_virstride =
+(sps->bit_depth_luma_minus8 + 8) 0001-Fix-Clippy-warnings.patch
+0002-Enhance-inference-prompt-to-utilize-CVEKERNELDIR-whe.patch
+0003-Update-to-latest-version-of-clap.patch Cargo.lock Cargo.toml
+LICENSE README.md adreno_acd_support_analysis.md
+amd_display_ips_sequential_ono_backport_analysis.md
+analyze_merge_commit.sh dpp_rcg_backport_analysis.md
+drm_amd_display_vertical_interrupt_dcn32_dcn401_backport_analysis.md
+drm_bridge_analysis.txt drm_format_helper_24bit_analysis.md
+drm_imagination_register_update_analysis.md
+drm_mediatek_mtk_dpi_refactoring_analysis.md
+intel_ipu6_constify_analysis.md io_uring_analysis.txt ksmbd_analysis.txt
+merge_commit_analysis.txt model prompt src target test_gpio_cleanup.txt
+test_patch.txt verisilicon_av1_4k_analysis.md dst_fmt->width / 8;` -
+**After**: `hor_virstride = dst_fmt->plane_fmt[0].bytesperline;` -
+**Before**: `ver_virstride = round_up(dst_fmt->height, 16);` -
+**After**: `ver_virstride = dst_fmt->height;` 5. **No Risk Indication**:
+The changes don't indicate they're fixing crashes, data corruption,
+security issues, or other critical problems that would warrant stable
+backporting. 6. **Pattern Match with Similar Commits**: Looking at the
+provided examples: - Similar commits #1, #2, #4, and #5 that make
+stride/calculation improvements were marked as NO - Only commit #3 that
+increased max supported height (a clear functional limitation fix) was
+marked as YES 7. **No Stable Tree Mention**: The commit message contains
+no indication of stable tree inclusion via Fixes: tags or explicit
+stable tree requests. ### Conclusion: This commit improves code
+consistency by using the actual bytesperline values from userspace
+instead of calculating them from SPS parameters, but it doesn't fix a
+user-impacting bug. It's a code quality improvement that follows the
+pattern of other NO-backport commits in the provided examples.
 
- include/uapi/linux/videodev2.h | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index a0671e510bc4a..1ee25344c0760 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -153,10 +153,18 @@ enum v4l2_buf_type {
- 	V4L2_BUF_TYPE_SDR_OUTPUT           = 12,
- 	V4L2_BUF_TYPE_META_CAPTURE         = 13,
- 	V4L2_BUF_TYPE_META_OUTPUT	   = 14,
-+	/*
-+	 * Note: V4L2_TYPE_IS_VALID and V4L2_TYPE_IS_OUTPUT must
-+	 * be updated if a new type is added.
-+	 */
- 	/* Deprecated, do not use */
- 	V4L2_BUF_TYPE_PRIVATE              = 0x80,
- };
+diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+index ddccd97a359fa..a5c37c5c3e518 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
++++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+@@ -907,9 +907,9 @@ static void config_registers(struct rkvdec_ctx *ctx,
+ 	dma_addr_t rlc_addr;
+ 	dma_addr_t refer_addr;
+ 	u32 rlc_len;
+-	u32 hor_virstride = 0;
+-	u32 ver_virstride = 0;
+-	u32 y_virstride = 0;
++	u32 hor_virstride;
++	u32 ver_virstride;
++	u32 y_virstride;
+ 	u32 yuv_virstride = 0;
+ 	u32 offset;
+ 	dma_addr_t dst_addr;
+@@ -920,16 +920,16 @@ static void config_registers(struct rkvdec_ctx *ctx,
  
-+#define V4L2_TYPE_IS_VALID(type)		 \
-+	((type) >= V4L2_BUF_TYPE_VIDEO_CAPTURE &&\
-+	 (type) <= V4L2_BUF_TYPE_META_OUTPUT)
-+
- #define V4L2_TYPE_IS_MULTIPLANAR(type)			\
- 	((type) == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE	\
- 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-@@ -170,7 +178,8 @@ enum v4l2_buf_type {
- 	 || (type) == V4L2_BUF_TYPE_SDR_OUTPUT			\
- 	 || (type) == V4L2_BUF_TYPE_META_OUTPUT)
+ 	f = &ctx->decoded_fmt;
+ 	dst_fmt = &f->fmt.pix_mp;
+-	hor_virstride = (sps->bit_depth_luma_minus8 + 8) * dst_fmt->width / 8;
+-	ver_virstride = round_up(dst_fmt->height, 16);
++	hor_virstride = dst_fmt->plane_fmt[0].bytesperline;
++	ver_virstride = dst_fmt->height;
+ 	y_virstride = hor_virstride * ver_virstride;
  
--#define V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type))
-+#define V4L2_TYPE_IS_CAPTURE(type)	\
-+	(V4L2_TYPE_IS_VALID(type) && !V4L2_TYPE_IS_OUTPUT(type))
+ 	if (sps->chroma_format_idc == 0)
+ 		yuv_virstride = y_virstride;
+ 	else if (sps->chroma_format_idc == 1)
+-		yuv_virstride += y_virstride + y_virstride / 2;
++		yuv_virstride = y_virstride + y_virstride / 2;
+ 	else if (sps->chroma_format_idc == 2)
+-		yuv_virstride += 2 * y_virstride;
++		yuv_virstride = 2 * y_virstride;
  
- enum v4l2_tuner_type {
- 	V4L2_TUNER_RADIO	     = 1,
+ 	reg = RKVDEC_Y_HOR_VIRSTRIDE(hor_virstride / 16) |
+ 	      RKVDEC_UV_HOR_VIRSTRIDE(hor_virstride / 16) |
 -- 
 2.39.5
 
