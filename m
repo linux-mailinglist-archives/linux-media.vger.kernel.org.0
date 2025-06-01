@@ -1,230 +1,194 @@
-Return-Path: <linux-media+bounces-33741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33760-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F517AC9E5C
-	for <lists+linux-media@lfdr.de>; Sun,  1 Jun 2025 12:46:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B29D6AC9FF9
+	for <lists+linux-media@lfdr.de>; Sun,  1 Jun 2025 19:38:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1F961897320
-	for <lists+linux-media@lfdr.de>; Sun,  1 Jun 2025 10:46:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 956E61893C29
+	for <lists+linux-media@lfdr.de>; Sun,  1 Jun 2025 17:37:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABC851B0412;
-	Sun,  1 Jun 2025 10:45:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AF83221545;
+	Sun,  1 Jun 2025 17:34:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qDYV1/ZA"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="BZPOJ5HA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52D17DA66;
-	Sun,  1 Jun 2025 10:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290FF1FDE19;
+	Sun,  1 Jun 2025 17:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748774746; cv=none; b=Ugfpw/hgy5dkHWrtKgc61CZfviDwCPhMmh7Ov+aKPTcohRE/LX1vrI8IOHqng5ppRzNB4sdBe13LLDz/qnUUYvTmYX6iGVnTBPhHWeVjXRhQ56rOuFQpDX/k18fC0+bWBiL9Pd3r2RW3wHDCx6Ft61cC9rGYPY1FqcEY+IQa/A4=
+	t=1748799265; cv=none; b=CBCCXwvHpTwwEqunWWblpjR1bw4YELsT+4dU+K1+lBekN2PxvZMVPY3tvE13B9izAm0x8L+IKFj6H/GsZBgHESwRf5B8UTV+SS0a9RCuchebBizPqjpnXFDaYFLhMzqnauc++RAHkNNfnVLZar4ZE4aDF5MaUcqqpIG1ZahDx5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748774746; c=relaxed/simple;
-	bh=knDZgzB0R6dEpWPhQ7xIaO+LHFR6wi+XZqOGDMJ/B0w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FthLmwVD6K/JEGR68OFMve7n9MmIOF410LZ+UTc3wgqDuM2PcnC+o9/+cTTdaQq+eiXEdDM8U++ZTjC+rTdPQRgVeKoUiCXpS2TpOl/nFC67F2Oi59f7fK+fLAShWHfrQIhmFcSR8h5UU36QRH5xq3RFR44eYW+cZsuwc0kDZms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qDYV1/ZA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C73FC4CEE7;
-	Sun,  1 Jun 2025 10:45:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748774745;
-	bh=knDZgzB0R6dEpWPhQ7xIaO+LHFR6wi+XZqOGDMJ/B0w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=qDYV1/ZAycrdKvqDBdRG18s72KjUVe1utEyYr/NWAvvRLiRpjj/EBvjGqxUkYxBc9
-	 5x2s3Z6wQm87Uqy4ekxSFAj6UeNcohh5VOsC8TP2dS5WqYvlV5lrNmU5gLPFBhqCw9
-	 1Q/8/QBKQSXyfxk9GsA1FNMKeNCTuuUojMDBd/c7FV1vTtZjb6wCZyl+X8FCk16/v+
-	 xP5yeouaAVK5TT5TRkyZ3Gkrdn2CbPJkMjJLE/TWcnD9eXCnUb7tqIxmDlA3e7c4fj
-	 Hl7zyUiXQUEGRHrd6c9q5jweG0Ck/87xImFcW4s+4EfdqM57o+nW0XIkgpJpoPfn4T
-	 6Maoj+pH2Rttw==
-X-Mailer: emacs 30.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
-	linux-coco@lists.linux.dev
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
-	yilun.xu@intel.com, yilun.xu@linux.intel.com,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com,
-	linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
-	shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
-	kevin.tian@intel.com
-Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
- TEE-IO support
-In-Reply-To: <20250529053513.1592088-20-yilun.xu@linux.intel.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-20-yilun.xu@linux.intel.com>
-Date: Sun, 01 Jun 2025 16:15:32 +0530
-Message-ID: <yq5aplfn210z.fsf@kernel.org>
+	s=arc-20240116; t=1748799265; c=relaxed/simple;
+	bh=l2S8GWb+y5W8OkMiqjwD9a00gezPSB4gUaUw5CbW7yQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UfgqkHFblkgioRXy3RLSJ8Prp6iywjYdWegQY+pOpeAO1lGuXj/5u9G9Xj9dAfKQVkmIYzPSOCBrvi4NEw9kYwDkREWrVQvmHhlpqERkemHAmPAEx8sxop6H+KmpMCG9mZQpfufcaWHff9ZGMUyr1hRyOnP9IagD7CrzofuBXzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=BZPOJ5HA; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 9d7309f63f0e11f0813e4fe1310efc19-20250602
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=PY+ALpqUBHRjs74wiRoQJwK5x0+HaE1qFxtkUe6SylM=;
+	b=BZPOJ5HA3FIdhH4yrcMHVZbYbxafOzazghA1349BO9ciTNxgUYiekfj9o0FuuuB1EQj/mkxOWOqhOego3okI8lcv1Zv+HIJe/So6zKrZa+AKQhB4vzbvqtVr0V25jIM7B7a3rSgYkKklhxPzc/kbYqPMQ4mTdoCe5PFqsP0mbaE=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.2.1,REQID:91dcb454-0409-489e-93c7-f7a36de8c2b5,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:0ef645f,CLOUDID:e3315659-eac4-4b21-88a4-d582445d304a,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
+	l,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
+	LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 9d7309f63f0e11f0813e4fe1310efc19-20250602
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1699391817; Mon, 02 Jun 2025 01:34:05 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Mon, 2 Jun 2025 01:34:02 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Mon, 2 Jun 2025 01:34:02 +0800
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: Matthias Brugger <matthias.bgg@gmail.com>, Jason-JH Lin
+	<jason-jh.lin@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, Singo Chang
+	<singo.chang@mediatek.com>, Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy
+ Ho <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
+	Xiandong Wang <xiandong.wang@mediatek.com>, Sirius Wang
+	<sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>, Chen-yu Tsai
+	<wenst@chromium.org>, <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>
+Subject: [PATCH v6 00/20] Add GCE support for MT8196
+Date: Mon, 2 Jun 2025 01:31:32 +0800
+Message-ID: <20250601173355.1731140-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-MTK: N
 
-Xu Yilun <yilun.xu@linux.intel.com> writes:
+This patch series adds support for the MediaTek MT8196 SoC in the CMDQ
+driver and related subsystems. The changes include adding compatible
+names and iommus property, updating driver data to accommodate hardware
+changes, and modifying the usage of CMDQ APIs to support non-subsys ID
+hardware.
 
-> Add new IOCTLs to do TSM based TDI bind/unbind. These IOCTLs are
-> expected to be called by userspace when CoCo VM issues TDI bind/unbind
-> command to VMM. Specifically for TDX Connect, these commands are some
-> secure Hypervisor call named GHCI (Guest-Hypervisor Communication
-> Interface).
->
-> The TSM TDI bind/unbind operations are expected to be initiated by a
-> running CoCo VM, which already have the legacy assigned device in place.
-> The TSM bind operation is to request VMM make all secure configurations
-> to support device work as a TDI, and then issue TDISP messages to move
-> the TDI to CONFIG_LOCKED or RUN state, waiting for guest's attestation.
->
-> Do TSM Unbind before vfio_pci_core_disable(), otherwise will lead
-> device to TDISP ERROR state.
->
+---
 
-Any reason these need to be a vfio ioctl instead of iommufd ioctl?
-For ex: https://lore.kernel.org/all/20250529133757.462088-3-aneesh.kumar@kernel.org/
+Change in v6:
+1. Move the removal patches to the end of series.
+2. Fix build error for cmdq_pkt_jump_rel_temp patch.
 
->
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Wu Hao <hao.wu@intel.com>
-> Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
-> ---
->  drivers/vfio/iommufd.c           | 22 ++++++++++
->  drivers/vfio/pci/vfio_pci_core.c | 74 ++++++++++++++++++++++++++++++++
->  include/linux/vfio.h             |  7 +++
->  include/linux/vfio_pci_core.h    |  1 +
->  include/uapi/linux/vfio.h        | 42 ++++++++++++++++++
->  5 files changed, 146 insertions(+)
->
-> diff --git a/drivers/vfio/iommufd.c b/drivers/vfio/iommufd.c
-> index 3441d24538a8..33fd20ffaeee 100644
-> --- a/drivers/vfio/iommufd.c
-> +++ b/drivers/vfio/iommufd.c
-> @@ -297,3 +297,25 @@ void vfio_iommufd_emulated_detach_ioas(struct vfio_device *vdev)
->  	vdev->iommufd_attached = false;
->  }
->  EXPORT_SYMBOL_GPL(vfio_iommufd_emulated_detach_ioas);
-> +
-> +int vfio_iommufd_tsm_bind(struct vfio_device *vdev, u32 vdevice_id)
-> +{
-> +	lockdep_assert_held(&vdev->dev_set->lock);
-> +
-> +	if (WARN_ON(!vdev->iommufd_device))
-> +		return -EINVAL;
-> +
-> +	return iommufd_device_tsm_bind(vdev->iommufd_device, vdevice_id);
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_iommufd_tsm_bind);
-> +
-> +void vfio_iommufd_tsm_unbind(struct vfio_device *vdev)
-> +{
-> +	lockdep_assert_held(&vdev->dev_set->lock);
-> +
-> +	if (WARN_ON(!vdev->iommufd_device))
-> +		return;
-> +
-> +	iommufd_device_tsm_unbind(vdev->iommufd_device);
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_iommufd_tsm_unbind);
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index 116964057b0b..92544e54c9c3 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -692,6 +692,13 @@ void vfio_pci_core_close_device(struct vfio_device *core_vdev)
->  #if IS_ENABLED(CONFIG_EEH)
->  	eeh_dev_release(vdev->pdev);
->  #endif
-> +
-> +	if (vdev->is_tsm_bound) {
-> +		vfio_iommufd_tsm_unbind(&vdev->vdev);
-> +		pci_release_regions(vdev->pdev);
-> +		vdev->is_tsm_bound = false;
-> +	}
-> +
->  	vfio_pci_core_disable(vdev);
->  
->  	vfio_pci_dma_buf_cleanup(vdev);
-> @@ -1447,6 +1454,69 @@ static int vfio_pci_ioctl_ioeventfd(struct vfio_pci_core_device *vdev,
->  				  ioeventfd.fd);
->  }
->  
-> +static int vfio_pci_ioctl_tsm_bind(struct vfio_pci_core_device *vdev,
-> +				   void __user *arg)
-> +{
-> +	unsigned long minsz = offsetofend(struct vfio_pci_tsm_bind, vdevice_id);
-> +	struct vfio_pci_tsm_bind tsm_bind;
-> +	struct pci_dev *pdev = vdev->pdev;
-> +	int ret;
-> +
-> +	if (copy_from_user(&tsm_bind, arg, minsz))
-> +		return -EFAULT;
-> +
-> +	if (tsm_bind.argsz < minsz || tsm_bind.flags)
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&vdev->vdev.dev_set->lock);
-> +
-> +	/* To ensure no host side MMIO access is possible */
-> +	ret = pci_request_regions_exclusive(pdev, "vfio-pci-tsm");
-> +	if (ret)
-> +		goto out_unlock;
->
+Change in RESEND v5:
+1. Separate the removal of cmdq_get_shift_pa() from [PATCH v5 03/19] to a
+   single patch [PATCH RESEND v5 10/20].
 
-This should be part of pci_tsm_bind() ? 
+Change in v5:
+1. Rebase on tag: next-20250424 + patch [1].
+2. Split adding driver data for MT8196 patch to 3 independent patch
+   and add more detail commit message to each patch.
+3. Refine passing shift_pa as the parameter in API to storing it into
+   the cmdq_pkt.
+4. Refine DMA address potential issue in cmdq mailbox driver.
+5. Change the mminfra_offset related mbox API to passing it by cmdq_pkt.
+6. Add new cmdq_pkt_write_pa() and cmdq_pkt_write_subsys() APIs to
+   replace the cmdq_pkt_write().
 
-> +
-> +	ret = vfio_iommufd_tsm_bind(&vdev->vdev, tsm_bind.vdevice_id);
-> +	if (ret)
-> +		goto out_release_region;
-> +
-> +	vdev->is_tsm_bound = true;
-> +	mutex_unlock(&vdev->vdev.dev_set->lock);
-> +
-> +	return 0;
-> +
-> +out_release_region:
-> +	pci_release_regions(pdev);
-> +out_unlock:
-> +	mutex_unlock(&vdev->vdev.dev_set->lock);
-> +	return ret;
-> +}
-> +
-> +static int vfio_pci_ioctl_tsm_unbind(struct vfio_pci_core_device *vdev,
-> +				     void __user *arg)
-> +{
-> +	unsigned long minsz = offsetofend(struct vfio_pci_tsm_unbind, flags);
-> +	struct vfio_pci_tsm_unbind tsm_unbind;
-> +	struct pci_dev *pdev = vdev->pdev;
-> +
-> +	if (copy_from_user(&tsm_unbind, arg, minsz))
-> +		return -EFAULT;
-> +
-> +	if (tsm_unbind.argsz < minsz || tsm_unbind.flags)
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&vdev->vdev.dev_set->lock);
-> +
-> +	if (!vdev->is_tsm_bound)
-> +		return 0;
-> +
-> +	vfio_iommufd_tsm_unbind(&vdev->vdev);
-> +	pci_release_regions(pdev);
-> +	vdev->is_tsm_bound = false;
-> +	mutex_unlock(&vdev->vdev.dev_set->lock);
-> +
-> +	return 0;
-> +}
-> +
+[1] mailbox: mtk-cmdq: Refine GCE_GCTL_VALUE setting
+- https://patchwork.kernel.org/project/linux-mediatek/patch/20250421035650.441383-1-jason-jh.lin@mediatek.com/
 
+Change in v4:
+1. Remove dt-binding header and add a gce header in dts folder.
+2. Remove dot in sign-off name.
+3. Change addr type from u32 to dma_addr_t for cmdq_reg_shift_addr() and
+   cmdq_reg_revert_addr().
 
--aneesh
+Change in v3:
+1. Merge 2 dt-bindings pathes together and add more detail commit message.
+2. Change type u32 to phys_addr_t for pa_base of struct cmdq_client_reg.
+3. Remove cmdq_subsys_is_valid() and subsys_num in CMDQ driver.
+4. Add CMDQ_SUBSYS_INVALID to check subsys instead of using
+   cmdq_subsys_is_invalid().
+5. Make use of CMDQ_THR_SPR0 define to the parameter of CMDQ APIs.
+6. Rebase on the new MACRO in mtk-mdp3-comp.h.
+
+Change in v2:
+1. Remove the constant and fix warning in dt-bindings.
+2. Remove the pa_base parameter of CMDQ APIs and related modification.
+3. Move subsys checking to client drivers and use 2 alternative
+   CMDQ APIs to achieve the same functionality.
+
+---
+
+Jason-JH Lin (20):
+  arm64: dts: mediatek: Add GCE header for MT8196
+  mailbox: mtk-cmdq: Refine DMA address handling for the command buffer
+  mailbox: mtk-cmdq: Add cmdq private data to cmdq_pkt for generating
+    instruction
+  soc: mediatek: mtk-cmdq: Add cmdq_get_mbox_priv() in cmdq_pkt_create()
+  soc: mediatek: mtk-cmdq: Add cmdq_pkt_jump_rel_temp() for removing
+    shift_pa
+  mailbox: mtk-cmdq: Add GCE hardware virtualization configuration
+  mailbox: mtk-cmdq: Add mminfra_offset configuration for DRAM
+    transaction
+  mailbox: mtk-cmdq: Add driver data to support for MT8196
+  soc: mediatek: mtk-cmdq: Add pa_base parsing for hardware without
+    subsys ID support
+  soc: mediatek: mtk-cmdq: Add new APIs to replace cmdq_pkt_write() and
+    cmdq_pkt_write_mask()
+  soc: mediatek: mtk-cmdq: Add mminfra_offset adjustment for DRAM
+    addresses
+  soc: mediatek: Add programming flow for unsupported subsys ID hardware
+  drm/mediatek: Add programming flow for unsupported subsys ID hardware
+  media: platform: mtk-mdp3: Add programming flow for unsupported subsys
+    ID hardware
+  media: platform: mtk-mdp3: Change cmdq_pkt_jump_rel() to
+    cmdq_pkt_jump_rel_temp()
+  soc: mediatek: mtk-cmdq: Remove shift_pa parameter from
+    cmdq_pkt_jump()
+  media: platform: mtk-mdp3: Use cmdq_pkt_jump_rel() without shift_pa
+  soc: mediatek: mtk-cmdq: Remove cmdq_pkt_jump() and
+    cmdq_pkt_jump_rel_temp()
+  soc: mediatek: mtk-cmdq: Remove cmdq_pkt_write() and
+    cmdq_pkt_write_mask()
+  mailbox: mtk-cmdq: Remove unsued cmdq_get_shift_pa()
+
+ arch/arm64/boot/dts/mediatek/mt8196-gce.h     | 612 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  24 +-
+ drivers/mailbox/mtk-cmdq-mailbox.c            | 115 +++-
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |  16 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  70 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    |   2 -
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |   1 -
+ drivers/soc/mediatek/mtk-cmdq-helper.c        |  68 +-
+ drivers/soc/mediatek/mtk-mmsys.c              |  12 +-
+ drivers/soc/mediatek/mtk-mutex.c              |   8 +-
+ include/linux/mailbox/mtk-cmdq-mailbox.h      |  19 +-
+ include/linux/soc/mediatek/mtk-cmdq.h         |  83 ++-
+ 12 files changed, 941 insertions(+), 89 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8196-gce.h
+
+-- 
+2.43.0
+
 
