@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-33846-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33847-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0101ACA6EA
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:02:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C61ACA70F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:05:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B904817BCE6
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:02:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AE0D3B0A27
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:02:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FE5F328E42;
-	Sun,  1 Jun 2025 23:42:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58EF33297D0;
+	Sun,  1 Jun 2025 23:42:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a7oX0YP4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M3iSliEK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9010827AC31;
-	Sun,  1 Jun 2025 23:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22372BD312;
+	Sun,  1 Jun 2025 23:42:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821366; cv=none; b=fOWa7L6ioy8piT916qZ6lySfDsBaDy312b3CDvz5SaLf4ETrUhw6mKDk1aEnxz+kRjCyudv1Cv9A7bf+e9lBeqvt7kidCc0uBfk8TGFRPkWitsWuC+Epnsrmr8ypYpNlEpyCRyZfLt82jpfD11gjr4sZVgJEYmscgmGK53h3GbU=
+	t=1748821374; cv=none; b=NNl+p0QxMgyEBQH+DVX7QuZuH0BqFEcs/t+YVhmqDt8XnylS2goJyURDKCexk+0kCbKIauf6rFadqAzUKJhasseOgdXTbph/IGiGQ4ONemROVJWTMBE1yv2xiIOWwHgmsKwcXC/I9OE1iZBToWhlgahLmfwMbMoq50sEZlGpgnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821366; c=relaxed/simple;
-	bh=zu66mvTVePrWdN/ISMqpR/1Ir0uaZrX0iKbwpZdsaEU=;
+	s=arc-20240116; t=1748821374; c=relaxed/simple;
+	bh=izvMzs+0Ffyxl0wJNeiQeI9uo5d2xCTUdG2LEFZDhJk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mY2+EMfqDEIQNAhPAGEwfFLyS4086I+Woe8aAj03RP5OG9is5lfG+ejsegcDYOG8vSX+0evx1drbWhIWvx5SvmhoGKn+vHq0Dy0Y3Ei69dAHuCVfzKHrCuEWBxVm6GOq0+r5e7pZKfp55RGiv8qNETl1vg42E+XxmEV8zSD7S38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a7oX0YP4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70DCEC4CEE7;
-	Sun,  1 Jun 2025 23:42:45 +0000 (UTC)
+	 MIME-Version:Content-Type; b=t6SAmRuj4HGP2BlZO5Y6coWMfyyeI/mVCPbaDQ62bygwwrLatMVIRBy8S1TWSj6JYLghi5r7+btV/svT82QxROefo+CBmzoCftDmCdME43Qccb9ocDlsKbTJLV6TkLgtwOB9eMqbZYe52zpnBIlF45TUp8C7oWx7ymQ1HKxx+bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M3iSliEK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F597C4CEEE;
+	Sun,  1 Jun 2025 23:42:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821366;
-	bh=zu66mvTVePrWdN/ISMqpR/1Ir0uaZrX0iKbwpZdsaEU=;
+	s=k20201202; t=1748821374;
+	bh=izvMzs+0Ffyxl0wJNeiQeI9uo5d2xCTUdG2LEFZDhJk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=a7oX0YP4yvyygeGX7iN6Sl+lWhi5ObXQEppvawMlzZz3GZj3VO8apWqhxY4Bm540C
-	 5GjSClNHWfFWzoQ3TpmgeQxLP3LUEigHcuFgAD7A9RE2OutuYAgow4KrzJhjZV2DCL
-	 5bRsBWkP0/CrEedPGCqgnf6VZE8k77sN+Lk6gEFORleJCMbVsD0UNceSF29mHhucGL
-	 4EEHUR0f3QZdgYflFOGtrsvT7JvdzdVDTN8GDHU+WGlFZjPBGpgtvPE1Zl6JaAygX1
-	 7wN+Sbd2YAqXiicbzXgLK0C6SvzAGo8vIKj6XaDaitE+BxMgezdlCNmKCOK/WjVxuW
-	 WEGoATw0XrRlw==
+	b=M3iSliEKNlXkEPguD01n2w3hyrET9JVZPmsnDQORXS9uWaT/huVvIA6a8XCKC/pQq
+	 Wzmh5OMveEs8lw5rCdSgz0DY61srUiIeg4Sd8rZUDhCCHIhFXMti9vFaNRRPdjMgl9
+	 7fpLp94wx6SoMk/BEVW+IH0QUGALg3IHOZWkw0MVauRKzyDhWJ/eGC1XReLxLUV0e/
+	 THjiGjfqaov1Lb7qpa6BXg0OW7hqo14/+uS4+q2V9N6qV7jwlMxjj+3RD6ve5OIA1x
+	 5aJ+43KZJp4O7fAtwa1jOFS3s0dFn86kG895yx/aCaMAOH5yUn2HZ1mmNx2N44vgrq
+	 10K96wjjfGtog==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Nas Chung <nas.chung@chipsnmedia.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
+Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 09/43] media: uapi: v4l: Fix V4L2_TYPE_IS_OUTPUT condition
-Date: Sun,  1 Jun 2025 19:41:49 -0400
-Message-Id: <20250601234224.3517599-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 12/43] media: i2c: imx334: Fix runtime PM handling in remove function
+Date: Sun,  1 Jun 2025 19:41:52 -0400
+Message-Id: <20250601234224.3517599-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601234224.3517599-1-sashal@kernel.org>
 References: <20250601234224.3517599-1-sashal@kernel.org>
@@ -69,71 +69,97 @@ X-stable-base: Linux 5.15.184
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Nas Chung <nas.chung@chipsnmedia.com>
+From: Tarang Raval <tarang.raval@siliconsignals.io>
 
-[ Upstream commit f81f69a0e3da141bdd73a16b8676f4e542533d87 ]
+[ Upstream commit b493cd3c03641f9bbaa9787e43ca92163cb50051 ]
 
-V4L2_TYPE_IS_OUTPUT() returns true for V4L2_BUF_TYPE_VIDEO_OVERLAY
-which definitely belongs to CAPTURE.
+pm_runtime_suspended() only checks the current runtime PM status and does
+not modify it, making it ineffective in this context. This could result in
+improper power management if the device remains active when removed.
 
-Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+This patch fixes the issue by introducing a check with
+pm_runtime_status_suspended() to determine if the device is already
+suspended. If it is not, it calls imx334_power_off() to power down the
+device and then uses pm_runtime_set_suspended() to correctly update the
+runtime PM status to suspended.
+
+Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees.
-**Detailed Analysis:** **1. Nature of the Bug:** The commit fixes a
-fundamental logic error in the `V4L2_TYPE_IS_OUTPUT` macro that has
-existed since 2012 (commit 607ca46e97a1b). The macro incorrectly
-classifies `V4L2_BUF_TYPE_VIDEO_OVERLAY` as an OUTPUT buffer type when
-it should be classified as a CAPTURE type. This is a clear logical bug
-in a core V4L2 API macro. **2. Code Impact Analysis:** The fix removes
-this line from the macro: ```c || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY
-``` My investigation shows the macro is used in critical V4L2 core
-functions, particularly in: - **Crop/Selection handling**
-(`drivers/media/v4l2-core/v4l2-ioctl.c:2517, 2547, 2597`): The macro
-determines whether to use `V4L2_SEL_TGT_COMPOSE` (for output) vs
-`V4L2_SEL_TGT_CROP` (for capture) targets - **Parameter handling**
-(`drivers/media/v4l2-core/v4l2-ioctl.c:2269`): Affects how output vs
-capture parameters are processed - **Buffer management** in videobuf2
-framework: Affects buffer direction logic **3. User Impact:**
-Applications using video overlay functionality have been subject to
-incorrect behavior where: - Overlay buffers were processed with output
-buffer logic instead of capture buffer logic - Wrong selection targets
-were used for crop operations on overlay devices - Parameter handling
-followed the wrong code paths **4. Risk Assessment:** - **Low regression
-risk**: The fix corrects clearly wrong behavior - there's no valid use
-case where VIDEO_OVERLAY should be treated as OUTPUT - **Contained
-scope**: Only affects the classification logic for one specific buffer
-type - **Clear correctness**: The fix aligns the code with the V4L2
-specification and logical expectations **5. Comparison with Similar
-Commits:** Looking at the historical commits provided, while they show
-refactoring and API improvements that were not backported, this commit
-fixes a fundamental logical bug in core API behavior, which is different
-from cosmetic or enhancement changes. **6. Backport Suitability:** This
-meets all stable backport criteria: - ✅ Fixes a clear bug affecting
-users - ✅ Small, contained change with minimal risk - ✅ No new features
-or architectural changes - ✅ Affects core V4L2 functionality that could
-cause incorrect application behavior - ✅ Logic error that has persisted
-for over a decade The fix should be backported to ensure VIDEO_OVERLAY
-applications work correctly across all supported kernel versions.
+**YES** This commit should **definitely** be backported to stable kernel
+trees. Here's my extensive analysis: ## Bug Analysis **The Core Issue**:
+Line 1435 in the current `imx334_remove()` function contains a critical
+bug: ```c pm_runtime_suspended(&client->dev); // WRONG - this is a
+boolean query function ``` This should be: ```c
+pm_runtime_set_suspended(&client->dev); // CORRECT - this sets the PM
+state ``` ## Evidence from Code Analysis 1. **Function Signature
+Mismatch**: - `pm_runtime_suspended()` returns `bool` and only
+**queries** the current state - `pm_runtime_set_suspended()` returns
+`void` and **modifies** the runtime PM state 2. **Comparison with
+Similar Drivers**: Every other IMX sensor driver in the kernel uses the
+correct pattern: - **imx290.c**:
+`pm_runtime_set_suspended(imx290->dev);` - **imx258.c**:
+`pm_runtime_set_suspended(&client->dev);` - **imx412.c**:
+`pm_runtime_set_suspended(&client->dev);` - **imx274.c**:
+`pm_runtime_set_suspended(&client->dev);` - **imx415.c**:
+`pm_runtime_set_suspended(&client->dev);` 3. **Missing Power
+Management**: The current imx334 driver fails to ensure the device is
+powered off during removal, unlike the established pattern: ```c if
+(!pm_runtime_status_suspended(&client->dev)) {
+imx334_power_off(&client->dev); pm_runtime_set_suspended(&client->dev);
+} ``` ## Impact Assessment **Why This Is Critical for Stable
+Backporting**: 1. **Resource Leaks**: If the device is powered on during
+removal, the clock (`imx334->inclk`) and GPIO resources may not be
+properly released, leading to resource leaks. 2. **Runtime PM State
+Corruption**: The kernel's runtime PM subsystem maintains internal state
+that becomes inconsistent when `pm_runtime_suspended()` is called
+instead of `pm_runtime_set_suspended()`. 3. **Driver Reload Issues**: If
+the driver is unloaded and reloaded, the inconsistent PM state can cause
+subsequent power management operations to fail. 4. **System Power
+Management**: Improper PM cleanup can affect system-wide power
+management, potentially preventing proper suspend/resume cycles. ##
+Stable Tree Suitability Criteria ✅ **Fixes a clear bug**: Yes - wrong
+function call causing runtime PM state corruption ✅ **Small and
+contained**: Yes - 3-line change in one function ✅ **Minimal regression
+risk**: Yes - follows established patterns from other drivers ✅
+**Important bugfix**: Yes - affects device cleanup and system stability
+✅ **No architectural changes**: Yes - simple correction to existing code
+✅ **Follows similar pattern**: Yes - matches Similar Commit #2 which was
+marked "YES" ## Comparison with Similar Commits This commit closely
+matches **Similar Commit #2** (CCS driver runtime PM fix) which was
+marked for backporting because it: - Fixed runtime PM status handling in
+remove function - Had minimal risk and clear benefit - Followed
+established patterns The commit is much more suitable than **Similar
+Commits #1, #3, #4, #5** which were marked "NO" because they involved: -
+Code cleanup/refactoring (#1) - Redundant code removal (#3) - Complex
+error handling changes (#4) - Major feature additions (#5) ## Conclusion
+This is a textbook example of a stable tree candidate: it fixes a clear,
+impactful bug with minimal code change and follows well-established
+patterns. The fix prevents resource leaks and runtime PM state
+corruption that can affect system stability.
 
- include/uapi/linux/videodev2.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/media/i2c/imx334.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index f5c6758464f25..4e305496edf27 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -164,7 +164,6 @@ enum v4l2_buf_type {
- #define V4L2_TYPE_IS_OUTPUT(type)				\
- 	((type) == V4L2_BUF_TYPE_VIDEO_OUTPUT			\
- 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE		\
--	 || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY		\
- 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY	\
- 	 || (type) == V4L2_BUF_TYPE_VBI_OUTPUT			\
- 	 || (type) == V4L2_BUF_TYPE_SLICED_VBI_OUTPUT		\
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index 57b7416bbfab3..af09aafeddf78 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -1102,7 +1102,10 @@ static int imx334_remove(struct i2c_client *client)
+ 	v4l2_ctrl_handler_free(sd->ctrl_handler);
+ 
+ 	pm_runtime_disable(&client->dev);
+-	pm_runtime_suspended(&client->dev);
++	if (!pm_runtime_status_suspended(&client->dev)) {
++		imx334_power_off(&client->dev);
++		pm_runtime_set_suspended(&client->dev);
++	}
+ 
+ 	mutex_destroy(&imx334->mutex);
+ 
 -- 
 2.39.5
 
