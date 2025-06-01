@@ -1,59 +1,62 @@
-Return-Path: <linux-media+bounces-33776-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33777-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9C4ACA2E3
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:41:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFDFACA2B9
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:39:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E5F41886DDE
-	for <lists+linux-media@lfdr.de>; Sun,  1 Jun 2025 23:39:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C25AD7A39D8
+	for <lists+linux-media@lfdr.de>; Sun,  1 Jun 2025 23:38:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F9EF270542;
-	Sun,  1 Jun 2025 23:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F9CF25D522;
+	Sun,  1 Jun 2025 23:28:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dj/tfNih"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7BzAQ1B"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64762701C0;
-	Sun,  1 Jun 2025 23:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A13727056E;
+	Sun,  1 Jun 2025 23:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748820490; cv=none; b=Tv7/wAEt8dJ+f0/P4lr8inSzefj5+BoiAY1Gp6wvokRzNt6HMYIKURUZ0X9e8xZ07L0NHQ16okUHC/hPaMqxh0ITK5Ck/OIkEmWhuo9lOSIO0gOw3/h5pPb3liLRAxoy919+3QEGISqP36Ypqezya6z9RWhAGzsGEYKQ6SSAfz8=
+	t=1748820492; cv=none; b=GB/FO5+JqSJtmfWEXTHaFF/G7ALaGJuND5zu3Nzn+PCzR6Ja+puqbIAdwENT4xgXBmKD6ew17q1PL0G2uwMnNc2xrWM8gKAgGKlixJL6wJQtgmSj70asYmZA+/MANcJUtielNPuVDEiOgBZTqyrGDV3vP1rtILcdqzSWYZd1UWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748820490; c=relaxed/simple;
-	bh=ghErqaSpcDpOJk2ObSUp/P2A+UkyfZm0TonD2b2hyTM=;
+	s=arc-20240116; t=1748820492; c=relaxed/simple;
+	bh=A48W80d/OvYkJUwQnKQg9w4xhc8rbidgZOgmvwELG1g=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gg5arInPsdWRn6fjEPzXlmq209hzvjBXxaW6JcgJn34oa6UyTeOAedjEcFbWwzbVkNPohZ6C6TQyCk6Rhjv1q39b9Vh10NPRjiyQgOfM+64udfZ0fHUHk4NiqI4GrYaNuI7dF+EQ1pCNeuZZ+lmqxJ9+1rNYYBz/F3UepdvHsHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dj/tfNih; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A407C4CEE7;
-	Sun,  1 Jun 2025 23:28:09 +0000 (UTC)
+	 MIME-Version:Content-Type; b=R6yeBt6XKnKuoN9a8GICHvH8PrG9ufXm30FDAE+8OmZxF9+sUAgznuYlCGTEMtRJrvGeRZ/pTsqeIlF56MR9bE5mz38wPbHtJ5hkl9/AF+jJxlojrzNB0meNi0pvHWJF6aHJDpF0RmfuSQAChJOIUTT7zud2Jg1Q0WSm5jt9SfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7BzAQ1B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF40EC4CEEE;
+	Sun,  1 Jun 2025 23:28:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748820490;
-	bh=ghErqaSpcDpOJk2ObSUp/P2A+UkyfZm0TonD2b2hyTM=;
+	s=k20201202; t=1748820492;
+	bh=A48W80d/OvYkJUwQnKQg9w4xhc8rbidgZOgmvwELG1g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dj/tfNihDFjd8lCZoeqI3W61CuKXe732EWCtLfCcWWPGabEDU3tRhLNNIAwxu4zuO
-	 TZY7MtnCoqy23fW+CIrgWzLDGEIvke5V624SaqR8510s/odML9xxOvVqA4PW0bYSuO
-	 R16qinUwXk7tyQKMeF6Og+LiRLQoKh8LO79+5fgelg7IFTYQU1T9BcMPzN+lvPSoqW
-	 OX/0GCJvUWEf+B60vUTlG1OfL0nUE3ojn/SFXV2BLSzs0JAKK3e7nwUyro4Ez1TgP0
-	 AgDJyW9loFSOJlQLhFVhxH1Kkf6lt3x8lrxJn3PkzlWfheasT/3DN0cz2Bm2ovEY8r
-	 DUt9Ec5FitRqQ==
+	b=O7BzAQ1B1LZX/kxrhvTgcmSXd1zf/rY/vBE756LvkPJ1NxWthxQ95tXla3eZvU9bS
+	 ZwYRctcz3wml2+HYhsUgy9MuitS2J/6HeoGpGPr4Ymanj7vh0uq8lZith9rrHj5jMn
+	 zjCRoSLSk6bZrBCcBJa3GBE8rKrepexpImGqpw0GtegG7zYm/VJLhykx1zHBV2UsN7
+	 O/4hax8WqX7HMCMst2Ow0jHa1lnsm8HjHnMIS7QIJ4UvOyj0dslGby76SDvALEeOzW
+	 igdI/i7yRacVanFJXMEKEd5fh4o3iRtOfbmKl92cnVFHt7R8g4G1j7bBg26sYcBmwI
+	 DjVbRlfSvDlJw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	Maxime Ripard <mripard@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Wentao Liang <vulab@iscas.ac.cn>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	s.nawrocki@samsung.com,
 	mchehab@kernel.org,
+	krzk@kernel.org,
 	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 070/110] media: tc358743: ignore video while HPD is low
-Date: Sun,  1 Jun 2025 19:23:52 -0400
-Message-Id: <20250601232435.3507697-70-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.15 071/110] media: platform: exynos4-is: Add hardware sync wait to fimc_is_hw_change_mode()
+Date: Sun,  1 Jun 2025 19:23:53 -0400
+Message-Id: <20250601232435.3507697-71-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601232435.3507697-1-sashal@kernel.org>
 References: <20250601232435.3507697-1-sashal@kernel.org>
@@ -69,94 +72,78 @@ X-stable-base: Linux 6.15
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Hans Verkuil <hverkuil@xs4all.nl>
+From: Wentao Liang <vulab@iscas.ac.cn>
 
-[ Upstream commit 6829c5b5d26b1be31880d74ec24cb32d2d75f1ae ]
+[ Upstream commit bd9f6ce7d512fa21249415c16af801a4ed5d97b6 ]
 
-If the HPD is low (happens if there is no EDID or the
-EDID is being updated), then return -ENOLINK in
-tc358743_get_detected_timings() instead of detecting video.
+In fimc_is_hw_change_mode(), the function changes camera modes without
+waiting for hardware completion, risking corrupted data or system hangs
+if subsequent operations proceed before the hardware is ready.
 
-This avoids userspace thinking that it can start streaming when
-the HPD is low.
+Add fimc_is_hw_wait_intmsr0_intmsd0() after mode configuration, ensuring
+hardware state synchronization and stable interrupt handling.
 
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Tested-by: Maxime Ripard <mripard@kernel.org>
-Link: https://lore.kernel.org/linux-media/20240628-stoic-bettong-of-fortitude-e25611@houat/
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. Here's
-my extensive analysis: ## Analysis of Code Changes The commit adds a
-simple but important HPD (Hot Plug Detect) check to the
-`tc358743_get_detected_timings()` function: ```c /bin /bin.usr-is-merged
-/boot /dev /etc /home /init /lib /lib.usr-is-merged /lib64 /lost+found
-/media /mnt /opt /proc /root /run /sbin /sbin.usr-is-merged /snap /srv
-/sys /tmp /usr /var if HPD is low, ignore any video */ if (!(i2c_rd8(sd,
-HPD_CTL) & MASK_HPD_OUT0)) return -ENOLINK; ``` This 4-line addition is
-strategically placed **before** any video detection logic, creating an
-early exit when HPD is low. ## Why This Qualifies for Backporting ### 1.
-**Fixes Real User-Facing Bug** The commit addresses a genuine functional
-issue where the driver would incorrectly report video timings when no
-valid HDMI source was connected. This leads to: - Userspace applications
-attempting to stream when HPD is low - Resource waste and potential
-system instability - Poor user experience during cable
-connect/disconnect cycles ### 2. **Minimal and Contained Fix** - **Small
-scope**: Only 4 lines of code added - **Single function**: Only affects
-`tc358743_get_detected_timings()` - **Standard error handling**: Uses
-existing `-ENOLINK` return code - **No architectural changes**: Follows
-established driver patterns ### 3. **Low Regression Risk** - **Early
-return pattern**: Adds validation before existing logic - **Established
-error code**: `-ENOLINK` is already used elsewhere in the function -
-**No side effects**: Doesn't modify hardware state or driver data
-structures - **Conservative approach**: Only prevents false positives,
-doesn't change valid detection ### 4. **Quality Indicators** - **Expert
-authorship**: Hans Verkuil is a well-known V4L2 maintainer - **Proper
-testing**: Tested by Maxime Ripard, a significant kernel contributor -
-**Standard pattern**: Similar HPD checks exist in related HDMI bridge
-drivers - **Clear commit message**: Explains both the problem and
-solution ### 5. **Production Impact** - **Critical hardware**: tc358743
-is used in production embedded systems (Raspberry Pi, industrial vision)
-- **Core functionality**: HDMI input capture is essential for these
-systems - **Embedded stability**: Stable kernels are crucial for
-embedded deployments ## Comparison to Reference Commits This commit
-aligns well with **Similar Commit #1** (backport status: YES), which
-also: - Fixed HPD-related detection logic - Made a small, contained
-change - Addressed user-facing functionality issues - Had minimal
-regression risk ## Technical Correctness The HPD check is technically
-sound: - **Hardware reality**: HPD low means no valid HDMI source is
-connected - **Logical placement**: Check occurs before expensive video
-detection - **Proper signaling**: `-ENOLINK` correctly indicates no link
-is available - **Resource efficiency**: Prevents unnecessary processing
-when no valid signal exists ## Stable Tree Criteria Met ✅ **Important
-bugfix**: Fixes streaming issues affecting end users ✅ **Small and
-contained**: 4-line addition with clear scope ✅ **Minimal risk**: Early
-return with existing error handling ✅ **No new features**: Pure bugfix
-without functional additions ✅ **Production relevance**: Affects systems
-in active deployment The commit represents exactly the type of targeted,
-low-risk fix that stable trees are designed to include - addressing real
-user issues without introducing architectural changes or significant
-regression risk.
+Based on my analysis of the commit and examination of the kernel code,
+here is my assessment: **YES** This commit should be backported to
+stable kernel trees for the following reasons: ## Analysis of the Code
+Change The commit adds a single line
+`fimc_is_hw_wait_intmsr0_intmsd0(is);` at line 167 in the
+`fimc_is_hw_change_mode()` function in
+`drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c`. ## Why This
+Should Be Backported 1. **Clear Bug Fix**: The commit message explicitly
+states this fixes a race condition where "the function changes camera
+modes without waiting for hardware completion, risking corrupted data or
+system hangs if subsequent operations proceed before the hardware is
+ready." This is a classic hardware synchronization bug. 2. **Consistent
+Pattern**: Examining the surrounding code shows that ALL other similar
+hardware control functions (`fimc_is_hw_get_setfile_addr()`,
+`fimc_is_hw_load_setfile()`, `fimc_is_hw_stream_on()`,
+`fimc_is_hw_stream_off()`) already call
+`fimc_is_hw_wait_intmsr0_intmsd0()` before writing to hardware
+registers. The `fimc_is_hw_change_mode()` function was the only outlier
+missing this synchronization. 3. **Minimal and Safe**: The change is
+extremely small (one line) and uses an existing, well-tested
+synchronization primitive. The `fimc_is_hw_wait_intmsr0_intmsd0()`
+function implements a timeout-based wait with proper error handling. 4.
+**Critical Subsystem**: This affects camera hardware control in Samsung
+Exynos4 SoCs. Hardware synchronization issues in camera drivers can
+cause: - System hangs (as mentioned in commit message) - Data corruption
+- Unpredictable hardware state 5. **Runtime Safety**: The wait function
+has built-in timeout protection (2000 iterations with 1μs delay each),
+so it cannot cause infinite hangs even if hardware fails. 6. **Follows
+Hardware Protocol**: The pattern clearly shows the proper hardware
+protocol is: wait for ready state → write command → trigger interrupt.
+The missing wait was a protocol violation. ## Comparison with Historical
+References Looking at the provided similar commits marked "NO" for
+backporting, they were all: - Documentation/binding changes (commits #1,
+#2) - Code cleanup/feature removal (commit #3) - Architecture changes
+(commit #4) The one commit marked "YES" (commit #5) was a simple bug fix
+correcting a return value check, very similar in nature to this
+synchronization fix. This commit fits the stable tree criteria
+perfectly: it's a small, contained bug fix addressing a real hardware
+synchronization issue that could cause system instability, with minimal
+risk of regression.
 
- drivers/media/i2c/tc358743.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index 2d5f42f111583..dcef93e1a3bcd 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -313,6 +313,10 @@ static int tc358743_get_detected_timings(struct v4l2_subdev *sd,
+diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c b/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c
+index 366e6393817d2..5f9c44e825a5f 100644
+--- a/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c
++++ b/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c
+@@ -164,6 +164,7 @@ int fimc_is_hw_change_mode(struct fimc_is *is)
+ 	if (WARN_ON(is->config_index >= ARRAY_SIZE(cmd)))
+ 		return -EINVAL;
  
- 	memset(timings, 0, sizeof(struct v4l2_dv_timings));
- 
-+	/* if HPD is low, ignore any video */
-+	if (!(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0))
-+		return -ENOLINK;
-+
- 	if (no_signal(sd)) {
- 		v4l2_dbg(1, debug, sd, "%s: no valid signal\n", __func__);
- 		return -ENOLINK;
++	fimc_is_hw_wait_intmsr0_intmsd0(is);
+ 	mcuctl_write(cmd[is->config_index], is, MCUCTL_REG_ISSR(0));
+ 	mcuctl_write(is->sensor_index, is, MCUCTL_REG_ISSR(1));
+ 	mcuctl_write(is->setfile.sub_index, is, MCUCTL_REG_ISSR(2));
 -- 
 2.39.5
 
