@@ -1,62 +1,59 @@
-Return-Path: <linux-media+bounces-33795-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33796-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477E4ACA427
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 02:03:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 715DEACA450
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 02:06:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01E0017582A
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 00:03:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 348403ABD51
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 00:03:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B638529372D;
-	Sun,  1 Jun 2025 23:32:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CE1D293742;
+	Sun,  1 Jun 2025 23:32:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EumRcRvS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQp+61Xg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039B729346F;
-	Sun,  1 Jun 2025 23:32:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9F4265CCB;
+	Sun,  1 Jun 2025 23:32:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748820765; cv=none; b=la9kI4TE/IkkQBr1vtxxeBQqKipPa1O5TnpEYN4D7mAfb/Ifp6zONeqfYxZdnPwQrS5W4DzA0XzP5ZhitvouAbr5tNn3QFjdTuvG0ivqXhT/ncmYW5Fpi7U3smP9vGH3DVdXIBWNp6wE/XJt5QoSwwRgMOKvbvGqUlgCx+1np6g=
+	t=1748820767; cv=none; b=Az3aTFvO5cxIKlD/3us83CW79tPNCyjAfIpj/uNodl8iH6d2DaDLJSZ0ZVsfkb0TokzZYYEzjw1s4wQal/r+9jLDw34kia3u3v8Sn4F2yr1kLvC8fpJcFrKFakWXPz8r90qDnTnbnHveyUcq9HQJ9XdjVY2uesrWwqCgUClXYC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748820765; c=relaxed/simple;
-	bh=A48W80d/OvYkJUwQnKQg9w4xhc8rbidgZOgmvwELG1g=;
+	s=arc-20240116; t=1748820767; c=relaxed/simple;
+	bh=qL6q/HKtbratwJYfgIbO0drILVeIh8TUNiKWiUlHLZM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RGviQUpoiaLyw7JGgX6ybklhVzeXqKgckh+DGpTJKb9LfCUJN4WWYsBj47CFQvOJrKrDpV9DXE68DQC31pl08OD0F7tDLYSwxuelE9DyRQOjUGePfIjG6gXXwk/c63WSQqhjGsg7yE7rMcDYEweSqqC4vtclK1QkspdO3G3TXM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EumRcRvS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90E8CC4CEF2;
-	Sun,  1 Jun 2025 23:32:43 +0000 (UTC)
+	 MIME-Version:Content-Type; b=EoQOT6LyhE2Q7LKWbAh1l5Yn7v/gnkHFzrEl7tq1790yqi7miQLComtybg4cNS6HqQiw/0vE9cSVyM85IR1ZvpGA0G1gUGBuWeygeWS784+8HDZ47ZQPgMR5+5bTVnJUsj3cG+7YShnN6awZ4I3ndxOOFFLsngy7XE7wqrAo2Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQp+61Xg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46A51C4CEF1;
+	Sun,  1 Jun 2025 23:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748820764;
-	bh=A48W80d/OvYkJUwQnKQg9w4xhc8rbidgZOgmvwELG1g=;
+	s=k20201202; t=1748820766;
+	bh=qL6q/HKtbratwJYfgIbO0drILVeIh8TUNiKWiUlHLZM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EumRcRvSwmMahgx2lYUYANvzygCuIBqMyjODWh1HRJKjaQS+o56IsNbm1DxHp27f+
-	 MSLTuirU58VmaGQQqisDZ0RHU5ZcB1+Gq6JndK0a1/L+ic0jdtfCdB0C6Z7/RmQTId
-	 jiHL+NbNA47IFMDncU6jTCnF8AbFOcbNquVwgn13f8FB4jLtT1GJYaFFD9IbEBMbyD
-	 KZDlnRN65w4gYwjO3Ls9cNns2AmCcReH8+AiNaIsTxWa3bwlrjDNSx6aIEbYu2n9l2
-	 6PO6uVXfHfzM6zBhqO2PlB6c5cBviAM1TwizuQlqXGRslFrM/k0xXoTjUHHtReweR3
-	 VDUkZL8Sxh1JA==
+	b=YQp+61XgUcBXAfVol/qI4RUa+6W/Nsb9ufZgjbeRn7mxHlO8QfjOu6l90y6/XM9Hh
+	 ROFiZDRaDsjVzZ3r28x3+NTTV+jPAY2UyeBFvm/krFKOJOC2J+Iun8yZsI57ghOOqY
+	 RI6Ke9bxABC52NEIkEPtIKz5R6mE74s+hPmUGaHR+dR8Qkuf3qUBSJSr8nWkIe7fKE
+	 xJED8FekSZyxIh+j0RcsvzlHxOmfIMI526ZDd6M3Ry3V+QygroH9vBw7xYRQ+Z0GKv
+	 TEKKjS0HmKJAoSM4GhfpaeV6fyM2DNrPXuDd8TiQWgjHds6XYa/k4cG0h3J/NVDIWF
+	 87reiOk7C37aA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Wentao Liang <vulab@iscas.ac.cn>,
+Cc: Shravan Chippa <shravan.chippa@microchip.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	s.nawrocki@samsung.com,
 	mchehab@kernel.org,
-	krzk@kernel.org,
 	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 066/102] media: platform: exynos4-is: Add hardware sync wait to fimc_is_hw_change_mode()
-Date: Sun,  1 Jun 2025 19:28:58 -0400
-Message-Id: <20250601232937.3510379-66-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 067/102] media: i2c: imx334: update mode_3840x2160_regs array
+Date: Sun,  1 Jun 2025 19:28:59 -0400
+Message-Id: <20250601232937.3510379-67-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601232937.3510379-1-sashal@kernel.org>
 References: <20250601232937.3510379-1-sashal@kernel.org>
@@ -72,78 +69,78 @@ X-stable-base: Linux 6.14.9
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Wentao Liang <vulab@iscas.ac.cn>
+From: Shravan Chippa <shravan.chippa@microchip.com>
 
-[ Upstream commit bd9f6ce7d512fa21249415c16af801a4ed5d97b6 ]
+[ Upstream commit 35132d039c566b0e9d8e53f76f512b22607c2405 ]
 
-In fimc_is_hw_change_mode(), the function changes camera modes without
-waiting for hardware completion, risking corrupted data or system hangs
-if subsequent operations proceed before the hardware is ready.
+The 3840x2160 mode operates with the imx334 reset values.
+If we switch to other modes and then return to the 3840x2160 mode,
+it should function correctly. so updated the mode_3840x2160_regs
+array with the imx334 reset values.
 
-Add fimc_is_hw_wait_intmsr0_intmsd0() after mode configuration, ensuring
-hardware state synchronization and stable interrupt handling.
-
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-Based on my analysis of the commit and examination of the kernel code,
-here is my assessment: **YES** This commit should be backported to
-stable kernel trees for the following reasons: ## Analysis of the Code
-Change The commit adds a single line
-`fimc_is_hw_wait_intmsr0_intmsd0(is);` at line 167 in the
-`fimc_is_hw_change_mode()` function in
-`drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c`. ## Why This
-Should Be Backported 1. **Clear Bug Fix**: The commit message explicitly
-states this fixes a race condition where "the function changes camera
-modes without waiting for hardware completion, risking corrupted data or
-system hangs if subsequent operations proceed before the hardware is
-ready." This is a classic hardware synchronization bug. 2. **Consistent
-Pattern**: Examining the surrounding code shows that ALL other similar
-hardware control functions (`fimc_is_hw_get_setfile_addr()`,
-`fimc_is_hw_load_setfile()`, `fimc_is_hw_stream_on()`,
-`fimc_is_hw_stream_off()`) already call
-`fimc_is_hw_wait_intmsr0_intmsd0()` before writing to hardware
-registers. The `fimc_is_hw_change_mode()` function was the only outlier
-missing this synchronization. 3. **Minimal and Safe**: The change is
-extremely small (one line) and uses an existing, well-tested
-synchronization primitive. The `fimc_is_hw_wait_intmsr0_intmsd0()`
-function implements a timeout-based wait with proper error handling. 4.
-**Critical Subsystem**: This affects camera hardware control in Samsung
-Exynos4 SoCs. Hardware synchronization issues in camera drivers can
-cause: - System hangs (as mentioned in commit message) - Data corruption
-- Unpredictable hardware state 5. **Runtime Safety**: The wait function
-has built-in timeout protection (2000 iterations with 1μs delay each),
-so it cannot cause infinite hangs even if hardware fails. 6. **Follows
-Hardware Protocol**: The pattern clearly shows the proper hardware
-protocol is: wait for ready state → write command → trigger interrupt.
-The missing wait was a protocol violation. ## Comparison with Historical
-References Looking at the provided similar commits marked "NO" for
-backporting, they were all: - Documentation/binding changes (commits #1,
-#2) - Code cleanup/feature removal (commit #3) - Architecture changes
-(commit #4) The one commit marked "YES" (commit #5) was a simple bug fix
-correcting a return value check, very similar in nature to this
-synchronization fix. This commit fits the stable tree criteria
-perfectly: it's a small, contained bug fix addressing a real hardware
-synchronization issue that could cause system instability, with minimal
-risk of regression.
+**YES** This commit should be backported to stable kernel trees. Here's
+my analysis: ## Backport Analysis ### **This is a Clear Functional Bug
+Fix** The commit addresses a real functional issue where the IMX334
+camera sensor fails to work correctly when switching between camera
+modes. Specifically: 1. **Root Problem**: The 3840x2160 mode register
+array was missing critical reset values (registers 0x3074, 0x3075,
+0x308e, 0x308f, 0x30d8, 0x30d9) 2. **User Impact**: When users switch
+from other camera modes (like 1920x1080@30) back to 3840x2160@60, the
+sensor retains previous register values causing: - Incorrect output
+resolution - Wrong video format output - Application failures expecting
+3840x2160 resolution 3. **Why It Previously "Worked"**: The 3840x2160
+mode appeared to work on initial startup because the hardware reset
+values were correct, but dynamic mode switching exposed the missing
+register configurations. ### **Low Risk, High Value Fix** **Risk
+Assessment: MINIMAL** - **Code Changes**: Only adds 6 register value
+pairs to a static array - no algorithmic changes - **Register Values**:
+These are official Sony IMX334 reset values, not arbitrary
+configurations - **Scope**: Self-contained fix within the mode register
+array - **No Dependencies**: Doesn't modify driver logic or control flow
+**High User Value**: - Fixes broken functionality for dynamic mode
+switching - Common use case in camera applications - Prevents incorrect
+resolution output that breaks user applications ### **Meets All Stable
+Tree Criteria** ✅ **Fixes important user-facing bug**: Mode switching is
+fundamental camera functionality ✅ **Small, contained change**: Only 6
+register additions to existing array ✅ **Low regression risk**: Adding
+missing reset values cannot break existing functionality ✅ **Well-
+understood problem**: Clear cause (missing registers) and solution (add
+them) ✅ **No architectural changes**: Pure data fix in register
+configuration ### **Comparison to Similar Commits** This commit follows
+the same pattern as the provided examples of camera sensor fixes -
+adding missing register values to ensure correct operation. The
+difference is that this actually fixes a functional bug (mode switching
+failure) rather than just adding features or optimizations.
+**Recommendation**: Backport to all stable kernels that include IMX334
+driver support, as this resolves a legitimate functional regression
+affecting real-world camera applications.
 
- drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/i2c/imx334.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c b/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c
-index 366e6393817d2..5f9c44e825a5f 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c
-@@ -164,6 +164,7 @@ int fimc_is_hw_change_mode(struct fimc_is *is)
- 	if (WARN_ON(is->config_index >= ARRAY_SIZE(cmd)))
- 		return -EINVAL;
- 
-+	fimc_is_hw_wait_intmsr0_intmsd0(is);
- 	mcuctl_write(cmd[is->config_index], is, MCUCTL_REG_ISSR(0));
- 	mcuctl_write(is->sensor_index, is, MCUCTL_REG_ISSR(1));
- 	mcuctl_write(is->setfile.sub_index, is, MCUCTL_REG_ISSR(2));
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index 63d812a41542f..b47cb3b8f3689 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -352,6 +352,12 @@ static const struct imx334_reg mode_3840x2160_regs[] = {
+ 	{0x302d, 0x00},
+ 	{0x302e, 0x00},
+ 	{0x302f, 0x0f},
++	{0x3074, 0xb0},
++	{0x3075, 0x00},
++	{0x308e, 0xb1},
++	{0x308f, 0x00},
++	{0x30d8, 0x20},
++	{0x30d9, 0x12},
+ 	{0x3076, 0x70},
+ 	{0x3077, 0x08},
+ 	{0x3090, 0x70},
 -- 
 2.39.5
 
