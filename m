@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-33818-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33819-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3C3ACA5A1
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 02:35:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B4CACA5D1
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 02:39:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF1A2176607
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 00:35:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CB8518868A3
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 00:35:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67DB125D20A;
-	Sun,  1 Jun 2025 23:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4340826E15F;
+	Sun,  1 Jun 2025 23:38:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rRbz9A04"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJ04gW5o"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5FE30B273;
-	Sun,  1 Jun 2025 23:38:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8736E298333;
+	Sun,  1 Jun 2025 23:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821096; cv=none; b=pbf3/oonQ+mRMP3CXz2UvmkvzXWXNZkj/UGSHL0d5PCL834Ydg4HbUDQGBrHXjRBSdejsh10z1nkNxgHW9G+J5UvzZHz7Ay4HhT0vpN/EgNPl231mzkknj0HFoBJhwGRyd07N3s77gvEJNXzohwb+iW7jCKWTvoJ3drG1ma6jEw=
+	t=1748821101; cv=none; b=CUFy5ddZ/thtQ/YE1OBwFgDK4pxarT94uMcA7/bYExAMy9X0jEg1bmpF5shmY9RehaWMaU+6PPWCwkpml/iUqg6ApYeIuQ1NogO1lf+dMHoFMQidwb0uxXf6yvpqg4N8p+zLohd+ek3lypkiU7v7dsasm3nQYVHxtNAUcHXu36g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821096; c=relaxed/simple;
-	bh=DPW/mxmqE8kptU0FJz52kd9MSqj3dwHJwCCEoieXtbI=;
+	s=arc-20240116; t=1748821101; c=relaxed/simple;
+	bh=1fMqaXTqZyQdK4kOw7+b4DlUAkyq4bXIYupkzak7I+g=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mReBz/846/n3Z6fUC5Z2QqLbDOjw8IBHKDS2ysW08HcVDZtolHaW1Njy9G2Ep0Zm7gBNKNHW8bvus3Kj3c6Ir7kBb0wqkVjB0P5jgAbNmDrijAcwkM/7/Fac7bwD55NBLzT4U317W2kofdLxMueBoJhDHtspavfjuMRFrmpLl4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rRbz9A04; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97D83C4CEE7;
-	Sun,  1 Jun 2025 23:38:15 +0000 (UTC)
+	 MIME-Version:Content-Type; b=uPA7GzKfHY6TZ8EaKLqALqwB3m9UcvsapU1IsjPcmzU2pNApaDpEvMwh9qJb4a0Sat13m46PZvRVeNwSmEo0/a9KF4QS4Lg/xwyHGGZWEADqnwCo0IS2oRHulGhaTNFGp5/w76HfvrvG4Fw5ZU2dG/Wvt7ECDIMwQSiHaruYLJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJ04gW5o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F730C4CEEE;
+	Sun,  1 Jun 2025 23:38:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821096;
-	bh=DPW/mxmqE8kptU0FJz52kd9MSqj3dwHJwCCEoieXtbI=;
+	s=k20201202; t=1748821101;
+	bh=1fMqaXTqZyQdK4kOw7+b4DlUAkyq4bXIYupkzak7I+g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rRbz9A04+xwx4Jn81r+h9UoHxLctsfvHgrysA4WlWL04RdJdIlUxF+B3r6vCxmzse
-	 37e21Cu632vFUzYj0vRi2okn/oRw4Vmpnqr5XJZOmzDWAHyFs5Qkgng4RsKC4PxxE5
-	 8pnxSoqy9vG27l1Zo4DpZP1+PNNUKFEXLPRS96JoJLtmWRGJqwKDa/WJNwVjf3ckP3
-	 xzvqRIBSiwAuTWeE3VHj0HrgycS+UO6jnPn1OvhS2x9zb5fsm8O6U5o+NKAyrO9e91
-	 5HzbPV6XCy3xzKq/LsqJlYOiGML/eeUg1xHKrM9vA0+wJBg1s1skFUzDWpW/93qq8c
-	 7AshGCmJPoIuA==
+	b=GJ04gW5oZ3my4aKDW8GrGei4dP0WESsJpX8cU/C/asaijQf+zaNZ5+yKoij1mMkhC
+	 f2/UrLojUzAdvEI8JsF2FarKy8pgPsyuOHk97XE05I4H3ZLCD6FwTu+k4/5reeBIZM
+	 xtJICU30NyPkQJzSOsazN/zqx11Mc7hLNquXSvKdAJAEvzPnxKu89etd7WSiNWWdk6
+	 33wwuwnUBaux3TVFwMQQHF1SzRg72YiF2g05urAfq4mkQRGevOvtD0gAEMdVDqEJ1Y
+	 6XmdiZ/vIDniK83iXIOz6+H7Paxc739NtkCG0r4mGHhOSLmqsv4aXmDifyS82xpS8x
+	 E67JItL65fokA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Nas Chung <nas.chung@chipsnmedia.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 12/66] media: i2c: imx334: Enable runtime PM before sub-device registration
-Date: Sun,  1 Jun 2025 19:36:49 -0400
-Message-Id: <20250601233744.3514795-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 14/66] media: uapi: v4l: Fix V4L2_TYPE_IS_OUTPUT condition
+Date: Sun,  1 Jun 2025 19:36:51 -0400
+Message-Id: <20250601233744.3514795-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601233744.3514795-1-sashal@kernel.org>
 References: <20250601233744.3514795-1-sashal@kernel.org>
@@ -69,94 +69,71 @@ X-stable-base: Linux 6.6.92
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Tarang Raval <tarang.raval@siliconsignals.io>
+From: Nas Chung <nas.chung@chipsnmedia.com>
 
-[ Upstream commit 01dfdf6a80c57151af0589af0db7adbbdd1361c7 ]
+[ Upstream commit f81f69a0e3da141bdd73a16b8676f4e542533d87 ]
 
-Runtime PM is fully initialized before calling
-v4l2_async_register_subdev_sensor(). Moving the runtime PM initialization
-earlier prevents potential access to an uninitialized or powered-down
-device.
+V4L2_TYPE_IS_OUTPUT() returns true for V4L2_BUF_TYPE_VIDEO_OVERLAY
+which definitely belongs to CAPTURE.
 
-Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 **YES** This commit should be backported to stable kernel trees.
-**Analysis:** **1. Pattern Recognition from Similar Commits:** The
-provided historical commits show a clear pattern: - **Similar commits
-marked YES**: imx355 and smiapp drivers with identical runtime PM
-ordering fixes - **Similar commits marked NO**: imx319, ov4689, ov2740
-commits that appear to be more general cleanup/improvement rather than
-bug fixes **2. Code Analysis:** The imx334 commit makes the exact same
-critical fix as the accepted imx355 commit: **Before (problematic):**
-```c ret = v4l2_async_register_subdev_sensor(&imx334->sd); // Device
-becomes accessible /bin /bin.usr-is-merged /boot /dev /etc /home /init
-/lib /lib.usr-is-merged /lib64 /lost+found /media /mnt /opt /proc /root
-/run /sbin /sbin.usr-is-merged /snap /srv /sys /tmp /usr /var ... model/
-prompt/ src/ target/ pm_runtime_set_active(imx334->dev); // Runtime PM
-enabled AFTER pm_runtime_enable(imx334->dev); ``` **After (fixed):**
-```c pm_runtime_set_active(imx334->dev); // Runtime PM enabled BEFORE
-pm_runtime_enable(imx334->dev); ret =
-v4l2_async_register_subdev_sensor(&imx334->sd); // Device becomes
-accessible ``` **3. Bug Significance:** The commit message explicitly
-states this prevents "potential access to an uninitialized or powered-
-down device." This is a **race condition bug** where: - The sensor
-device becomes accessible via v4l2_async_register_subdev_sensor() -
-Other components (like ipu-bridge) may immediately try to access the
-device via runtime PM - If runtime PM isn't initialized yet, these
-accesses will fail **4. Backport Criteria Assessment:** ✓ **Fixes a
-user-affecting bug**: Race condition causing device access failures ✓
-**Small and contained**: Only reorders initialization, no logic changes
-✓ **No architectural changes**: Pure initialization ordering fix ✓
-**Minimal regression risk**: The change aligns with established patterns
-✓ **Follows stable tree rules**: Important bugfix with minimal risk **5.
-Consistency with Accepted Patterns:** The imx355 commit (marked YES) has
-an identical issue and fix pattern. The key difference from rejected
-commits is that imx355 and imx334 explicitly mention preventing device
-access failures, while others were general improvements. **6. Error
-Handling Analysis:** The commit properly adds runtime PM cleanup in
-error paths: ```c error_media_entity: pm_runtime_disable(imx334->dev);
-pm_runtime_set_suspended(imx334->dev); ``` This is a critical race
-condition fix that prevents real-world device access failures, follows
-established successful backport patterns, and has minimal risk - making
-it an excellent stable backport candidate.
+**Detailed Analysis:** **1. Nature of the Bug:** The commit fixes a
+fundamental logic error in the `V4L2_TYPE_IS_OUTPUT` macro that has
+existed since 2012 (commit 607ca46e97a1b). The macro incorrectly
+classifies `V4L2_BUF_TYPE_VIDEO_OVERLAY` as an OUTPUT buffer type when
+it should be classified as a CAPTURE type. This is a clear logical bug
+in a core V4L2 API macro. **2. Code Impact Analysis:** The fix removes
+this line from the macro: ```c || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY
+``` My investigation shows the macro is used in critical V4L2 core
+functions, particularly in: - **Crop/Selection handling**
+(`drivers/media/v4l2-core/v4l2-ioctl.c:2517, 2547, 2597`): The macro
+determines whether to use `V4L2_SEL_TGT_COMPOSE` (for output) vs
+`V4L2_SEL_TGT_CROP` (for capture) targets - **Parameter handling**
+(`drivers/media/v4l2-core/v4l2-ioctl.c:2269`): Affects how output vs
+capture parameters are processed - **Buffer management** in videobuf2
+framework: Affects buffer direction logic **3. User Impact:**
+Applications using video overlay functionality have been subject to
+incorrect behavior where: - Overlay buffers were processed with output
+buffer logic instead of capture buffer logic - Wrong selection targets
+were used for crop operations on overlay devices - Parameter handling
+followed the wrong code paths **4. Risk Assessment:** - **Low regression
+risk**: The fix corrects clearly wrong behavior - there's no valid use
+case where VIDEO_OVERLAY should be treated as OUTPUT - **Contained
+scope**: Only affects the classification logic for one specific buffer
+type - **Clear correctness**: The fix aligns the code with the V4L2
+specification and logical expectations **5. Comparison with Similar
+Commits:** Looking at the historical commits provided, while they show
+refactoring and API improvements that were not backported, this commit
+fixes a fundamental logical bug in core API behavior, which is different
+from cosmetic or enhancement changes. **6. Backport Suitability:** This
+meets all stable backport criteria: - ✅ Fixes a clear bug affecting
+users - ✅ Small, contained change with minimal risk - ✅ No new features
+or architectural changes - ✅ Affects core V4L2 functionality that could
+cause incorrect application behavior - ✅ Logic error that has persisted
+for over a decade The fix should be backported to ensure VIDEO_OVERLAY
+applications work correctly across all supported kernel versions.
 
- drivers/media/i2c/imx334.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ include/uapi/linux/videodev2.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index d722c9b7cd31d..fccf474752797 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -1358,6 +1358,9 @@ static int imx334_probe(struct i2c_client *client)
- 		goto error_handler_free;
- 	}
- 
-+	pm_runtime_set_active(imx334->dev);
-+	pm_runtime_enable(imx334->dev);
-+
- 	ret = v4l2_async_register_subdev_sensor(&imx334->sd);
- 	if (ret < 0) {
- 		dev_err(imx334->dev,
-@@ -1365,13 +1368,13 @@ static int imx334_probe(struct i2c_client *client)
- 		goto error_media_entity;
- 	}
- 
--	pm_runtime_set_active(imx334->dev);
--	pm_runtime_enable(imx334->dev);
- 	pm_runtime_idle(imx334->dev);
- 
- 	return 0;
- 
- error_media_entity:
-+	pm_runtime_disable(imx334->dev);
-+	pm_runtime_set_suspended(imx334->dev);
- 	media_entity_cleanup(&imx334->sd.entity);
- error_handler_free:
- 	v4l2_ctrl_handler_free(imx334->sd.ctrl_handler);
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 78260e5d9985f..eeb57e7673732 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -164,7 +164,6 @@ enum v4l2_buf_type {
+ #define V4L2_TYPE_IS_OUTPUT(type)				\
+ 	((type) == V4L2_BUF_TYPE_VIDEO_OUTPUT			\
+ 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE		\
+-	 || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY		\
+ 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY	\
+ 	 || (type) == V4L2_BUF_TYPE_VBI_OUTPUT			\
+ 	 || (type) == V4L2_BUF_TYPE_SLICED_VBI_OUTPUT		\
 -- 
 2.39.5
 
