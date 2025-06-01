@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-33862-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33863-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63306ACA7BF
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:19:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67541ACA7F3
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:24:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 50F27188811F
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:19:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 252D93A2E52
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:20:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6942C33A30A;
-	Sun,  1 Jun 2025 23:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B1DE33D2CD;
+	Sun,  1 Jun 2025 23:45:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Py2nfANx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1CbMcfs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD87233A2F6;
-	Sun,  1 Jun 2025 23:45:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A9A33C732;
+	Sun,  1 Jun 2025 23:45:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821527; cv=none; b=rOKcl4idmykGWoQyuaK8LWKyRAxhfQ8CpEGMkSVrVzD1yBOymDbMF1iMFTMgdHJQbCYAxrOOeD0Szp7o6u8eGS87MSTa+YRjZtEOpdHuMqNT3fuD4zxISCtZp1rC/Ia/jUv86ItCosVgV1kAm2wTz2FPQ19bq0+JqSJFdWmofG4=
+	t=1748821555; cv=none; b=kCXV6gOy8tMMuNKOzRKTPkgyDTvCE5URsXS3zNJjVZqfxcfydKpXIxrPVIPNIHJKpIB5TXVNp4AfonQOku7V6BYIJcJkOP0bY8xikxIV38zAR+3VUoBsRbXZyISlYwB3zIeuZTPtq6LUo4BPdjoBy6Tj7FHSxAFIOTOSM20ZGFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821527; c=relaxed/simple;
-	bh=VLTGo5xwWipZlvN4HWxdPpyZ9bNbu92XxO+N1Y2H4zM=;
+	s=arc-20240116; t=1748821555; c=relaxed/simple;
+	bh=kUGwDRq+MjUiyxVnJChfdYbnrlb+IJMC0fgD+z+UX7I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TB3tIle3BAma5Dt5HL5PeEauCcjEBLZ58jZPI4R4LEcTGJ45Z/ehiOPKg6i4BJPADC7OGFAAbsXezaFkrObfEgdiZeWlivpsoRXGKNCile5VAulJ9dnJpzivoYzjk0gmYKouRMyvJbGI0VEXLfPqOFV8Rtgc1tp9/Pqfl3IadyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Py2nfANx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91D8FC4CEE7;
-	Sun,  1 Jun 2025 23:45:26 +0000 (UTC)
+	 MIME-Version:Content-Type; b=qUUdBHzIdx8PNyzT4cYeYKSsUtjPlL1DiFUfvNg29cyCFBSObUv7hRJ9J8xq1rcoapFuyhXYdY0BFqJ4VNf6eYf716Y54aTWw88hTY0Rcdembw3muIuBRWJ8GtNZ7cOD7iNxz9APWZyfPDLcgno2wDRpUqwiPhBwZrGTvvo8/Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1CbMcfs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F652C4CEE7;
+	Sun,  1 Jun 2025 23:45:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821527;
-	bh=VLTGo5xwWipZlvN4HWxdPpyZ9bNbu92XxO+N1Y2H4zM=;
+	s=k20201202; t=1748821554;
+	bh=kUGwDRq+MjUiyxVnJChfdYbnrlb+IJMC0fgD+z+UX7I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Py2nfANxmU0nqySiQiDdSfoftzKr+SxaIj1XShDb19Sap7po+Q6OiHMVTuL7BpNUH
-	 6+ZE7Ew4J5MGLGlC1E8tJGhdLgRW2qbslDQLpnvebmRSM7UDh9mly7DTSR0biASJJr
-	 wSgNe8sbZdxu5X8w0D0xEPGeux41e/MDlAaDtKBL307FUmIaaayRhyjr48KmHlJpMl
-	 PQTtcDjtwyfAkzyATv+5Yv9c+8t38VSmemU5TA/OQUdSAJZH7/BncFwmj9rrQNhYF6
-	 O/c7jFAeQwmDavtoxZwDAh5Fw96mKEXL7kTFeMVGwjl0uXusjLDMVNdHUvmbe+4L8R
-	 +MtLf4jHUqBfw==
+	b=f1CbMcfsTObBM9COWIyxdj7DzUKgOESZFohfr+yMM60a6gbXvl5lBsr213LoXWTA1
+	 LhEfQ+fi0Np7L79HaQiOpZp6Abd7G3TQPZe1QTbjCyXN3dPKkKFR4yNTDtrvYIAWDS
+	 M3ASALb8d/lRw66SauV8aUd6utFvcJubO7DVSD30nA321cs2tIYJHtzLKm0ajRsaDe
+	 Js5la4O02fOsjNR4ZZbLtO1bEkgijocgUPxcatQkZsdGSlk1yokE8yEO8jeekncajc
+	 NBRBpfLTMmNMz17pNjOU7tjfBDyOMtq+KIXdcxlIK9FfIl/hvWI4Zhd/BZcgqsVyKi
+	 OI7vqUaMiRizw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Nas Chung <nas.chung@chipsnmedia.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 05/22] media: uapi: v4l: Fix V4L2_TYPE_IS_OUTPUT condition
-Date: Sun,  1 Jun 2025 19:44:56 -0400
-Message-Id: <20250601234515.3519309-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 15/22] media: tc358743: ignore video while HPD is low
+Date: Sun,  1 Jun 2025 19:45:06 -0400
+Message-Id: <20250601234515.3519309-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601234515.3519309-1-sashal@kernel.org>
 References: <20250601234515.3519309-1-sashal@kernel.org>
@@ -69,71 +69,94 @@ X-stable-base: Linux 5.4.293
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Nas Chung <nas.chung@chipsnmedia.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
 
-[ Upstream commit f81f69a0e3da141bdd73a16b8676f4e542533d87 ]
+[ Upstream commit 6829c5b5d26b1be31880d74ec24cb32d2d75f1ae ]
 
-V4L2_TYPE_IS_OUTPUT() returns true for V4L2_BUF_TYPE_VIDEO_OVERLAY
-which definitely belongs to CAPTURE.
+If the HPD is low (happens if there is no EDID or the
+EDID is being updated), then return -ENOLINK in
+tc358743_get_detected_timings() instead of detecting video.
 
-Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+This avoids userspace thinking that it can start streaming when
+the HPD is low.
+
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Tested-by: Maxime Ripard <mripard@kernel.org>
+Link: https://lore.kernel.org/linux-media/20240628-stoic-bettong-of-fortitude-e25611@houat/
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees.
-**Detailed Analysis:** **1. Nature of the Bug:** The commit fixes a
-fundamental logic error in the `V4L2_TYPE_IS_OUTPUT` macro that has
-existed since 2012 (commit 607ca46e97a1b). The macro incorrectly
-classifies `V4L2_BUF_TYPE_VIDEO_OVERLAY` as an OUTPUT buffer type when
-it should be classified as a CAPTURE type. This is a clear logical bug
-in a core V4L2 API macro. **2. Code Impact Analysis:** The fix removes
-this line from the macro: ```c || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY
-``` My investigation shows the macro is used in critical V4L2 core
-functions, particularly in: - **Crop/Selection handling**
-(`drivers/media/v4l2-core/v4l2-ioctl.c:2517, 2547, 2597`): The macro
-determines whether to use `V4L2_SEL_TGT_COMPOSE` (for output) vs
-`V4L2_SEL_TGT_CROP` (for capture) targets - **Parameter handling**
-(`drivers/media/v4l2-core/v4l2-ioctl.c:2269`): Affects how output vs
-capture parameters are processed - **Buffer management** in videobuf2
-framework: Affects buffer direction logic **3. User Impact:**
-Applications using video overlay functionality have been subject to
-incorrect behavior where: - Overlay buffers were processed with output
-buffer logic instead of capture buffer logic - Wrong selection targets
-were used for crop operations on overlay devices - Parameter handling
-followed the wrong code paths **4. Risk Assessment:** - **Low regression
-risk**: The fix corrects clearly wrong behavior - there's no valid use
-case where VIDEO_OVERLAY should be treated as OUTPUT - **Contained
-scope**: Only affects the classification logic for one specific buffer
-type - **Clear correctness**: The fix aligns the code with the V4L2
-specification and logical expectations **5. Comparison with Similar
-Commits:** Looking at the historical commits provided, while they show
-refactoring and API improvements that were not backported, this commit
-fixes a fundamental logical bug in core API behavior, which is different
-from cosmetic or enhancement changes. **6. Backport Suitability:** This
-meets all stable backport criteria: - ✅ Fixes a clear bug affecting
-users - ✅ Small, contained change with minimal risk - ✅ No new features
-or architectural changes - ✅ Affects core V4L2 functionality that could
-cause incorrect application behavior - ✅ Logic error that has persisted
-for over a decade The fix should be backported to ensure VIDEO_OVERLAY
-applications work correctly across all supported kernel versions.
+**YES** This commit should be backported to stable kernel trees. Here's
+my extensive analysis: ## Analysis of Code Changes The commit adds a
+simple but important HPD (Hot Plug Detect) check to the
+`tc358743_get_detected_timings()` function: ```c /bin /bin.usr-is-merged
+/boot /dev /etc /home /init /lib /lib.usr-is-merged /lib64 /lost+found
+/media /mnt /opt /proc /root /run /sbin /sbin.usr-is-merged /snap /srv
+/sys /tmp /usr /var if HPD is low, ignore any video */ if (!(i2c_rd8(sd,
+HPD_CTL) & MASK_HPD_OUT0)) return -ENOLINK; ``` This 4-line addition is
+strategically placed **before** any video detection logic, creating an
+early exit when HPD is low. ## Why This Qualifies for Backporting ### 1.
+**Fixes Real User-Facing Bug** The commit addresses a genuine functional
+issue where the driver would incorrectly report video timings when no
+valid HDMI source was connected. This leads to: - Userspace applications
+attempting to stream when HPD is low - Resource waste and potential
+system instability - Poor user experience during cable
+connect/disconnect cycles ### 2. **Minimal and Contained Fix** - **Small
+scope**: Only 4 lines of code added - **Single function**: Only affects
+`tc358743_get_detected_timings()` - **Standard error handling**: Uses
+existing `-ENOLINK` return code - **No architectural changes**: Follows
+established driver patterns ### 3. **Low Regression Risk** - **Early
+return pattern**: Adds validation before existing logic - **Established
+error code**: `-ENOLINK` is already used elsewhere in the function -
+**No side effects**: Doesn't modify hardware state or driver data
+structures - **Conservative approach**: Only prevents false positives,
+doesn't change valid detection ### 4. **Quality Indicators** - **Expert
+authorship**: Hans Verkuil is a well-known V4L2 maintainer - **Proper
+testing**: Tested by Maxime Ripard, a significant kernel contributor -
+**Standard pattern**: Similar HPD checks exist in related HDMI bridge
+drivers - **Clear commit message**: Explains both the problem and
+solution ### 5. **Production Impact** - **Critical hardware**: tc358743
+is used in production embedded systems (Raspberry Pi, industrial vision)
+- **Core functionality**: HDMI input capture is essential for these
+systems - **Embedded stability**: Stable kernels are crucial for
+embedded deployments ## Comparison to Reference Commits This commit
+aligns well with **Similar Commit #1** (backport status: YES), which
+also: - Fixed HPD-related detection logic - Made a small, contained
+change - Addressed user-facing functionality issues - Had minimal
+regression risk ## Technical Correctness The HPD check is technically
+sound: - **Hardware reality**: HPD low means no valid HDMI source is
+connected - **Logical placement**: Check occurs before expensive video
+detection - **Proper signaling**: `-ENOLINK` correctly indicates no link
+is available - **Resource efficiency**: Prevents unnecessary processing
+when no valid signal exists ## Stable Tree Criteria Met ✅ **Important
+bugfix**: Fixes streaming issues affecting end users ✅ **Small and
+contained**: 4-line addition with clear scope ✅ **Minimal risk**: Early
+return with existing error handling ✅ **No new features**: Pure bugfix
+without functional additions ✅ **Production relevance**: Affects systems
+in active deployment The commit represents exactly the type of targeted,
+low-risk fix that stable trees are designed to include - addressing real
+user issues without introducing architectural changes or significant
+regression risk.
 
- include/uapi/linux/videodev2.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/media/i2c/tc358743.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 895c5ba8b6ac2..5384c9d61d510 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -164,7 +164,6 @@ enum v4l2_buf_type {
- #define V4L2_TYPE_IS_OUTPUT(type)				\
- 	((type) == V4L2_BUF_TYPE_VIDEO_OUTPUT			\
- 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE		\
--	 || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY		\
- 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY	\
- 	 || (type) == V4L2_BUF_TYPE_VBI_OUTPUT			\
- 	 || (type) == V4L2_BUF_TYPE_SLICED_VBI_OUTPUT		\
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index f042570bc5cae..f4ebe93a495c4 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -309,6 +309,10 @@ static int tc358743_get_detected_timings(struct v4l2_subdev *sd,
+ 
+ 	memset(timings, 0, sizeof(struct v4l2_dv_timings));
+ 
++	/* if HPD is low, ignore any video */
++	if (!(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0))
++		return -ENOLINK;
++
+ 	if (no_signal(sd)) {
+ 		v4l2_dbg(1, debug, sd, "%s: no valid signal\n", __func__);
+ 		return -ENOLINK;
 -- 
 2.39.5
 
