@@ -1,61 +1,68 @@
-Return-Path: <linux-media+bounces-33771-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33772-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BBEACA263
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:36:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9D0ACA26A
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:36:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0CF411893983
-	for <lists+linux-media@lfdr.de>; Sun,  1 Jun 2025 23:34:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 458FD3B21E2
+	for <lists+linux-media@lfdr.de>; Sun,  1 Jun 2025 23:35:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 924DE267F73;
-	Sun,  1 Jun 2025 23:26:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 496BB269819;
+	Sun,  1 Jun 2025 23:27:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GpJvT7qZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdIqWb8r"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ADC267F53;
-	Sun,  1 Jun 2025 23:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA762690EA;
+	Sun,  1 Jun 2025 23:27:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748820394; cv=none; b=VwR/Kux/1SzjKTWGF64WXNj842r14eQbzkb3YFmc+yxXUBtlAXPfVObu83a5w77tlUjUzKDbmerOiz5i9Y+SeHpDFkQqnSQsNn31f8fvsJ9yTyJK+M/f1hw3QrI8aDv0DEA+I2D+S4wQuYuyCHEnsPOCHwdV2WDwtCmqbqMYdQE=
+	t=1748820421; cv=none; b=ZQ0O9/QRzLcs0IUMCTNOqEeNN2Rzym71WI+b9DV7rSQwlIyJgLz0o+Jn1Trip+wrnoVpp9KpP76le3LxwIUc/Se/hsLTuvG2gFSjrjgvD7ZuFugpSQiXwlrpiwF12H1pAyflQav7mfoLUHc63MUohTcduQwveIdJQ81XYGGIR+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748820394; c=relaxed/simple;
-	bh=WWweUVkZLxToskZKMTXLs4Hq2iUwmPhSIni0qTxLnYY=;
+	s=arc-20240116; t=1748820421; c=relaxed/simple;
+	bh=dt8kPgWDpFu2sSg07IECaKF33MJ/jwpv24xF5OlDrII=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iPALnj2P9ZGQjn/aL2zRmlOHm3dDzGEd4oPeyPP+VTpHjqA1nFO5imsaRd5LN8qVfJZ89R74xtiZMNYtGi9W1bsmSy88QZXKK1hcSsT1L83fCIuMAO0L6zcJtTdrPR5ABZxwwlnNM/LNrG//ajcglq2JHnIvaiaQqVCqQHoBN/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GpJvT7qZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D0FFC4CEEE;
-	Sun,  1 Jun 2025 23:26:32 +0000 (UTC)
+	 MIME-Version; b=QTsSZY+xbPyZ+d5NWMe/61W+lJknr/RWVLQcTs6nApl9NQVEUwfiiUfd0XWZSQg+oEPNWrZhlJ8g4MfS5FZw7pkevv0ivoOfoAhMcD9yy2zJtWWFB10A265fVJWG3FUPe1dO13HNzktVvdwfaiWtPST8VdKl+MmYIkhlmZbUnUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdIqWb8r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5424EC4CEF1;
+	Sun,  1 Jun 2025 23:26:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748820393;
-	bh=WWweUVkZLxToskZKMTXLs4Hq2iUwmPhSIni0qTxLnYY=;
+	s=k20201202; t=1748820421;
+	bh=dt8kPgWDpFu2sSg07IECaKF33MJ/jwpv24xF5OlDrII=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GpJvT7qZdz6lrVt2LnFZAKaxsCdMus8ml53088KQ/tFc1hOGjuGkC7EAMTomrB9+t
-	 CcE5oK4ityETmyUt5PZxNioOxUMT/6D97RcTSVbKSBJ9pRJNS2tBvkeV41hyfZ5oQF
-	 Vm3gdFQeopGjvpS/hBZMv9c6W4PvFFwBm/zue/ZjfDZ6xfxgwfhr+yS2kHFJpCQVV7
-	 AQgdjdFzjJW8GJu0ZSgeHlR2ynMrnzw+lA22b+wDMi/VKSjpFe1FKGnMufCgMojKO1
-	 xzkosYHcK6z4QksPZbbtEEBLldHwSTPZ1sBjihXv2dLWyooqt84EQS6XKnYD3z1gME
-	 ZVqDQJ45KCcZQ==
+	b=WdIqWb8r4kt6iAIp6YlsqR9MdecVFUAQ8eMwaUmdTyRQnMOsbObHG6QOmgYKL7rfS
+	 intzkTDS2nZ0cSYR3AAYU8CLIdj+CNNal4/nDMvvO8TzcW+LwTEtuES+9uYDNT74Bj
+	 UJvNe4ywNdjBtbsIhhZ9jdmEbFeuj1NVgpKTdeMYj7s46soV0F+mnG/7+BV+fOyIbE
+	 Zr8ZOPc4+plT7HZU1Mx3ZJV7/oFi23qUbLE7KhYU4CYXflRAhijNSQI8mCrWbTItLx
+	 eDZfmvQgno/Ty1N4pyYW+KbZLvWcr3+ZtLi/a+ybPS7Lj4ln/CAPVZZFYjAJavS30h
+	 OWgAKT+QjMPyw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Jonas Karlman <jonas@kwiboo.se>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Christopher Obbard <chris.obbard@collabora.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	bparrot@ti.com,
+	ezequiel@vanguardiasur.com.ar,
 	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 047/110] media: ti: cal: Fix wrong goto on error path
-Date: Sun,  1 Jun 2025 19:23:29 -0400
-Message-Id: <20250601232435.3507697-47-sashal@kernel.org>
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.15 052/110] media: rkvdec: h264: Use bytesperline and buffer height as virstride
+Date: Sun,  1 Jun 2025 19:23:34 -0400
+Message-Id: <20250601232435.3507697-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601232435.3507697-1-sashal@kernel.org>
 References: <20250601232435.3507697-1-sashal@kernel.org>
@@ -68,90 +75,111 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.15
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+From: Jonas Karlman <jonas@kwiboo.se>
 
-[ Upstream commit a5b18fd769b7dc2e77a9e6a390844cbf50626ae8 ]
+[ Upstream commit d5e0aa61470c48ddc04d433a00e79cef8716377a ]
 
-If pm_runtime_resume_and_get() fails, we should unprepare the context,
-but currently we skip that as we goto to a later line.
+Use bytesperline and buffer height to calculate the strides configured.
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+This does not really change anything other than ensuring the
+bytesperline that is signaled to userspace matches what is configured
+in HW.
+
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. Here's
-my detailed analysis: ## Bug Analysis The commit fixes a **resource leak
-bug** in the error handling path of the CAL (Camera Abstraction Layer)
-media driver. The specific issue is: 1. **What happens**: In
-`cal_start_streaming()`, if `pm_runtime_resume_and_get()` fails after
-`cal_ctx_prepare()` has been successfully called, the code incorrectly
-jumps to `error_pipeline` instead of `error_unprepare`. 2. **The
-resource leak**: This means `cal_ctx_unprepare()` is never called, which
-fails to: - Release any reserved pixel processor units (via
-`cal_release_pix_proc()`) - Properly clean up context resources that
-were allocated in `cal_ctx_prepare()` 3. **Impact**: This creates a
-**hardware resource leak** where pixel processor units become
-permanently unavailable, potentially preventing future camera operations
-from working properly. ## Code Change Analysis The fix is **minimal and
-surgical**: - **Before**: `goto error_pipeline;` (line 761) - skips
-cal_ctx_unprepare() - **After**: `goto error_unprepare;` (line 761) -
-properly calls cal_ctx_unprepare() first The fix adds a new label
-`error_unprepare:` that ensures: 1. `cal_ctx_unprepare(ctx)` is called
-to release resources 2. Control then flows to `error_pipeline:` for
-remaining cleanup 3. The error handling sequence becomes: unprepare →
-pipeline cleanup → buffer release ## Stable Tree Criteria Assessment **✅
-Fixes important bug**: Resource leaks in hardware drivers can cause
-system instability and prevent devices from working correctly. **✅ Small
-and contained**: Single line change plus one new label - extremely
-minimal modification. **✅ Low regression risk**: The fix only changes
-the error path to properly clean up resources that were already being
-cleaned up in the success path. **✅ Clear side effects**: No
-architectural changes, just proper resource cleanup ordering. **✅
-Critical subsystem**: Media drivers are important for many embedded
-systems and devices. **✅ Clear benefit**: Prevents hardware resource
-exhaustion that could break camera functionality. ## Historical Context
-Looking at the similar commits provided: - **Similar Commit #5**: Also a
-CAL driver fix that was marked "Backport Status: YES" for fixing initial
-buffer handling - The pattern shows CAL driver bug fixes are considered
-appropriate for backporting when they fix real functional issues ##
-Conclusion This is a textbook stable tree candidate: it fixes a real
-resource leak bug with a minimal, safe change that has clear benefits
-and virtually no regression risk. The fix ensures proper cleanup of
-hardware resources (pixel processors) that are limited in number and
-critical for camera operation.
+### Key Reasons for NO Backport: 1. **Not a Bug Fix**: The commit
+message explicitly states "This does not really change anything other
+than ensuring the bytesperline that is signaled to userspace matches
+what is configured in HW." This is not fixing a functional bug but
+rather improving consistency between userspace and hardware
+configuration. 2. **Code Quality/Consistency Improvement**: The changes
+are primarily about code correctness and consistency rather than fixing
+a critical issue that affects users. This aligns with similar commits
+#1, #2, and #4 which were marked as NO for backporting. 3. **Staging
+Driver**: The rkvdec driver is in `drivers/staging/media/`, which
+indicates it's still under development and not considered stable.
+Staging drivers typically have more relaxed backporting requirements. 4.
+**Specific Code Changes Analysis**: - **Before**: `hor_virstride =
+(sps->bit_depth_luma_minus8 + 8) 0001-Fix-Clippy-warnings.patch
+0002-Enhance-inference-prompt-to-utilize-CVEKERNELDIR-whe.patch
+0003-Update-to-latest-version-of-clap.patch Cargo.lock Cargo.toml
+LICENSE README.md adreno_acd_support_analysis.md
+amd_display_ips_sequential_ono_backport_analysis.md
+analyze_merge_commit.sh dpp_rcg_backport_analysis.md
+drm_amd_display_vertical_interrupt_dcn32_dcn401_backport_analysis.md
+drm_bridge_analysis.txt drm_format_helper_24bit_analysis.md
+drm_imagination_register_update_analysis.md
+drm_mediatek_mtk_dpi_refactoring_analysis.md
+intel_ipu6_constify_analysis.md io_uring_analysis.txt ksmbd_analysis.txt
+merge_commit_analysis.txt model prompt src target test_gpio_cleanup.txt
+test_patch.txt verisilicon_av1_4k_analysis.md dst_fmt->width / 8;` -
+**After**: `hor_virstride = dst_fmt->plane_fmt[0].bytesperline;` -
+**Before**: `ver_virstride = round_up(dst_fmt->height, 16);` -
+**After**: `ver_virstride = dst_fmt->height;` 5. **No Risk Indication**:
+The changes don't indicate they're fixing crashes, data corruption,
+security issues, or other critical problems that would warrant stable
+backporting. 6. **Pattern Match with Similar Commits**: Looking at the
+provided examples: - Similar commits #1, #2, #4, and #5 that make
+stride/calculation improvements were marked as NO - Only commit #3 that
+increased max supported height (a clear functional limitation fix) was
+marked as YES 7. **No Stable Tree Mention**: The commit message contains
+no indication of stable tree inclusion via Fixes: tags or explicit
+stable tree requests. ### Conclusion: This commit improves code
+consistency by using the actual bytesperline values from userspace
+instead of calculating them from SPS parameters, but it doesn't fix a
+user-impacting bug. It's a code quality improvement that follows the
+pattern of other NO-backport commits in the provided examples.
 
- drivers/media/platform/ti/cal/cal-video.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
-index e29743ae61e27..c16754c136ca0 100644
---- a/drivers/media/platform/ti/cal/cal-video.c
-+++ b/drivers/media/platform/ti/cal/cal-video.c
-@@ -758,7 +758,7 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+index 4fc167b42cf0c..7a1e76d423df5 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
++++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+@@ -896,9 +896,9 @@ static void config_registers(struct rkvdec_ctx *ctx,
+ 	dma_addr_t rlc_addr;
+ 	dma_addr_t refer_addr;
+ 	u32 rlc_len;
+-	u32 hor_virstride = 0;
+-	u32 ver_virstride = 0;
+-	u32 y_virstride = 0;
++	u32 hor_virstride;
++	u32 ver_virstride;
++	u32 y_virstride;
+ 	u32 yuv_virstride = 0;
+ 	u32 offset;
+ 	dma_addr_t dst_addr;
+@@ -909,16 +909,16 @@ static void config_registers(struct rkvdec_ctx *ctx,
  
- 	ret = pm_runtime_resume_and_get(ctx->cal->dev);
- 	if (ret < 0)
--		goto error_pipeline;
-+		goto error_unprepare;
+ 	f = &ctx->decoded_fmt;
+ 	dst_fmt = &f->fmt.pix_mp;
+-	hor_virstride = (sps->bit_depth_luma_minus8 + 8) * dst_fmt->width / 8;
+-	ver_virstride = round_up(dst_fmt->height, 16);
++	hor_virstride = dst_fmt->plane_fmt[0].bytesperline;
++	ver_virstride = dst_fmt->height;
+ 	y_virstride = hor_virstride * ver_virstride;
  
- 	cal_ctx_set_dma_addr(ctx, addr);
- 	cal_ctx_start(ctx);
-@@ -775,8 +775,8 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
- error_stop:
- 	cal_ctx_stop(ctx);
- 	pm_runtime_put_sync(ctx->cal->dev);
-+error_unprepare:
- 	cal_ctx_unprepare(ctx);
--
- error_pipeline:
- 	video_device_pipeline_stop(&ctx->vdev);
- error_release_buffers:
+ 	if (sps->chroma_format_idc == 0)
+ 		yuv_virstride = y_virstride;
+ 	else if (sps->chroma_format_idc == 1)
+-		yuv_virstride += y_virstride + y_virstride / 2;
++		yuv_virstride = y_virstride + y_virstride / 2;
+ 	else if (sps->chroma_format_idc == 2)
+-		yuv_virstride += 2 * y_virstride;
++		yuv_virstride = 2 * y_virstride;
+ 
+ 	reg = RKVDEC_Y_HOR_VIRSTRIDE(hor_virstride / 16) |
+ 	      RKVDEC_UV_HOR_VIRSTRIDE(hor_virstride / 16) |
 -- 
 2.39.5
 
