@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-33855-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33856-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07893ACA745
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BEF7ACA76C
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 03:12:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 99ED41895742
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:07:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D831188A6DA
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 01:11:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E98A32E32D;
-	Sun,  1 Jun 2025 23:43:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E70A82BF158;
+	Sun,  1 Jun 2025 23:44:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RPuznvg9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAG3c/G3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D206D32E312;
-	Sun,  1 Jun 2025 23:43:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465B62BF153;
+	Sun,  1 Jun 2025 23:44:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821416; cv=none; b=PWZ46WCqxY7xidw1AvL/82B/b28kfTACoFMBCHVSerFGy3SbtFuKTdNL265XTpLbXoMczSD9G5gmvkLa3MJfihnRs7ivkoIwNT2rtx3+0SdSh+Sbeb8GxEwDbbpSU6Ljd+wJwrYL0c4I6bVnA1Jnx7VnYKYZ9rnIYiTqT04TqK4=
+	t=1748821456; cv=none; b=OPAO8UcLQFQhVX/0aFIxvw87199EMBzF6AueH9Q1SFoF+jSnIVwDbz9gjsLgU3B70PXOKLqm70abh7Fx3wzPzcbg4MX7Ry9Y2FcONjN9+9MEAM3X8hCsLs9wQeo9+RlTHfN/iujnNwuMD0aL3Cli95czPp+y8brJ3TW9Dd5q3/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821416; c=relaxed/simple;
-	bh=zdsIpsY3ukYMSisWBI4urTiGDxZf3jxekgnBpnTTW0o=;
+	s=arc-20240116; t=1748821456; c=relaxed/simple;
+	bh=8kNAsxe2XFqwi3UdzHc4hv1CdFs1BxJUYHZXRFwPH70=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sL+D8QCLJq1gCVMRXKbWJKwcXQ4qCv8TVfV5oeLiEAIRWaflCTLqy/FlPfNva35ELZI62wxV3403xbisVQzDuWg3nBksjLqqodobNfbJcDEIWLRh88AIVcVGRbRvTLDnYe96NQ9bhiFD47Nbb1aNulPUSDe7L8DtPCLhaFBCy5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RPuznvg9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5959DC4CEF1;
-	Sun,  1 Jun 2025 23:43:35 +0000 (UTC)
+	 MIME-Version:Content-Type; b=fq4y1aC8QCUVyX8oZVB2/pfA6eaGRlQInDOvaJvF/Iqx6dcuB57nz5ZubpVbhmJPk66Lo60k+w+/hVZ6TxHBWhveeRLU1Jxe1cHZrMTowhtjfPJMRVGA/qhsy/iQJ8z0xZgyBkpdAb3DGZcCXbV3aVf/tnbNkmmFfc8oj+ZColo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAG3c/G3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD861C4CEEE;
+	Sun,  1 Jun 2025 23:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821416;
-	bh=zdsIpsY3ukYMSisWBI4urTiGDxZf3jxekgnBpnTTW0o=;
+	s=k20201202; t=1748821455;
+	bh=8kNAsxe2XFqwi3UdzHc4hv1CdFs1BxJUYHZXRFwPH70=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RPuznvg9szaFMSRXEsnfK78RLDyzOsu3O2vdmWkuhAne/nrz5Y1rO4cp0jN4Tpu5l
-	 0zvd2tQdK1SRGP1e4GoQMBaW401RwStYSZWhqIT4oHA3WdFHJnr1+ewP6weCOw7gd7
-	 m+ihlHnRiWjMg1byTaTbn0dF7IIKMgWLPRkBl++urOiSUIJ4aJ7ux98az2Ik7kGE7U
-	 dvWtUT+TmqUicLIzu8Lm+b8kslFNpul64LNjvPVEmFTrD+JsLW6AJjLRGlZ2vgVnqC
-	 eVcbI2AYLWGCPf6WCSh6TShMciAAH8IkaJIlTxiJSbVtG8RfSoN15wj0UjqEg5jJP8
-	 Tm9Gf+D+gWazw==
+	b=fAG3c/G39B3eLDmCLW8G8hBHgkX4Phk4OC6uXZmDw3ZAOFVIyCgohUjsD31SrEZKt
+	 VFjcQbchbe7DNBu772Qj1+4h6lfzWnS3cYH+3NCddkD/z78eik1kr6Di9Vj78dnefQ
+	 h/nc5ILSlJpLoyvbdNPyzNwmcLdHgsW5+zpVzMANlyzrND0S1rCLsYkGxdTr2Mc6V9
+	 p/3Y87TOrdaqOfTeQWjo/yAahuZ7dk1COBubksKmdRKweTjjmB2UijadSqeL55Q4gf
+	 +8w/Wb7D5QBk35cY4YpWNEhDTOYwnMoD0cYlB7zZq3GBnNdatwZnJkfVgZSWTCeM+O
+	 d/CGbarL6Cd+g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Shravan Chippa <shravan.chippa@microchip.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Nas Chung <nas.chung@chipsnmedia.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 31/43] media: i2c: imx334: update mode_3840x2160_regs array
-Date: Sun,  1 Jun 2025 19:42:11 -0400
-Message-Id: <20250601234224.3517599-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 07/34] media: uapi: v4l: Fix V4L2_TYPE_IS_OUTPUT condition
+Date: Sun,  1 Jun 2025 19:43:31 -0400
+Message-Id: <20250601234359.3518595-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250601234224.3517599-1-sashal@kernel.org>
-References: <20250601234224.3517599-1-sashal@kernel.org>
+In-Reply-To: <20250601234359.3518595-1-sashal@kernel.org>
+References: <20250601234359.3518595-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,82 +65,75 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.184
+X-stable-base: Linux 5.10.237
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+From: Nas Chung <nas.chung@chipsnmedia.com>
 
-[ Upstream commit 35132d039c566b0e9d8e53f76f512b22607c2405 ]
+[ Upstream commit f81f69a0e3da141bdd73a16b8676f4e542533d87 ]
 
-The 3840x2160 mode operates with the imx334 reset values.
-If we switch to other modes and then return to the 3840x2160 mode,
-it should function correctly. so updated the mode_3840x2160_regs
-array with the imx334 reset values.
+V4L2_TYPE_IS_OUTPUT() returns true for V4L2_BUF_TYPE_VIDEO_OVERLAY
+which definitely belongs to CAPTURE.
 
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. Here's
-my analysis: ## Backport Analysis ### **This is a Clear Functional Bug
-Fix** The commit addresses a real functional issue where the IMX334
-camera sensor fails to work correctly when switching between camera
-modes. Specifically: 1. **Root Problem**: The 3840x2160 mode register
-array was missing critical reset values (registers 0x3074, 0x3075,
-0x308e, 0x308f, 0x30d8, 0x30d9) 2. **User Impact**: When users switch
-from other camera modes (like 1920x1080@30) back to 3840x2160@60, the
-sensor retains previous register values causing: - Incorrect output
-resolution - Wrong video format output - Application failures expecting
-3840x2160 resolution 3. **Why It Previously "Worked"**: The 3840x2160
-mode appeared to work on initial startup because the hardware reset
-values were correct, but dynamic mode switching exposed the missing
-register configurations. ### **Low Risk, High Value Fix** **Risk
-Assessment: MINIMAL** - **Code Changes**: Only adds 6 register value
-pairs to a static array - no algorithmic changes - **Register Values**:
-These are official Sony IMX334 reset values, not arbitrary
-configurations - **Scope**: Self-contained fix within the mode register
-array - **No Dependencies**: Doesn't modify driver logic or control flow
-**High User Value**: - Fixes broken functionality for dynamic mode
-switching - Common use case in camera applications - Prevents incorrect
-resolution output that breaks user applications ### **Meets All Stable
-Tree Criteria** ✅ **Fixes important user-facing bug**: Mode switching is
-fundamental camera functionality ✅ **Small, contained change**: Only 6
-register additions to existing array ✅ **Low regression risk**: Adding
-missing reset values cannot break existing functionality ✅ **Well-
-understood problem**: Clear cause (missing registers) and solution (add
-them) ✅ **No architectural changes**: Pure data fix in register
-configuration ### **Comparison to Similar Commits** This commit follows
-the same pattern as the provided examples of camera sensor fixes -
-adding missing register values to ensure correct operation. The
-difference is that this actually fixes a functional bug (mode switching
-failure) rather than just adding features or optimizations.
-**Recommendation**: Backport to all stable kernels that include IMX334
-driver support, as this resolves a legitimate functional regression
-affecting real-world camera applications.
+**YES** This commit should be backported to stable kernel trees.
+**Detailed Analysis:** **1. Nature of the Bug:** The commit fixes a
+fundamental logic error in the `V4L2_TYPE_IS_OUTPUT` macro that has
+existed since 2012 (commit 607ca46e97a1b). The macro incorrectly
+classifies `V4L2_BUF_TYPE_VIDEO_OVERLAY` as an OUTPUT buffer type when
+it should be classified as a CAPTURE type. This is a clear logical bug
+in a core V4L2 API macro. **2. Code Impact Analysis:** The fix removes
+this line from the macro: ```c || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY
+``` My investigation shows the macro is used in critical V4L2 core
+functions, particularly in: - **Crop/Selection handling**
+(`drivers/media/v4l2-core/v4l2-ioctl.c:2517, 2547, 2597`): The macro
+determines whether to use `V4L2_SEL_TGT_COMPOSE` (for output) vs
+`V4L2_SEL_TGT_CROP` (for capture) targets - **Parameter handling**
+(`drivers/media/v4l2-core/v4l2-ioctl.c:2269`): Affects how output vs
+capture parameters are processed - **Buffer management** in videobuf2
+framework: Affects buffer direction logic **3. User Impact:**
+Applications using video overlay functionality have been subject to
+incorrect behavior where: - Overlay buffers were processed with output
+buffer logic instead of capture buffer logic - Wrong selection targets
+were used for crop operations on overlay devices - Parameter handling
+followed the wrong code paths **4. Risk Assessment:** - **Low regression
+risk**: The fix corrects clearly wrong behavior - there's no valid use
+case where VIDEO_OVERLAY should be treated as OUTPUT - **Contained
+scope**: Only affects the classification logic for one specific buffer
+type - **Clear correctness**: The fix aligns the code with the V4L2
+specification and logical expectations **5. Comparison with Similar
+Commits:** Looking at the historical commits provided, while they show
+refactoring and API improvements that were not backported, this commit
+fixes a fundamental logical bug in core API behavior, which is different
+from cosmetic or enhancement changes. **6. Backport Suitability:** This
+meets all stable backport criteria: - ✅ Fixes a clear bug affecting
+users - ✅ Small, contained change with minimal risk - ✅ No new features
+or architectural changes - ✅ Affects core V4L2 functionality that could
+cause incorrect application behavior - ✅ Logic error that has persisted
+for over a decade The fix should be backported to ensure VIDEO_OVERLAY
+applications work correctly across all supported kernel versions.
 
- drivers/media/i2c/imx334.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/uapi/linux/videodev2.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index af09aafeddf78..88ce5ec9c1822 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -168,6 +168,12 @@ static const struct imx334_reg mode_3840x2160_regs[] = {
- 	{0x302c, 0x3c},
- 	{0x302e, 0x00},
- 	{0x302f, 0x0f},
-+	{0x3074, 0xb0},
-+	{0x3075, 0x00},
-+	{0x308e, 0xb1},
-+	{0x308f, 0x00},
-+	{0x30d8, 0x20},
-+	{0x30d9, 0x12},
- 	{0x3076, 0x70},
- 	{0x3077, 0x08},
- 	{0x3090, 0x70},
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 1bbd81f031fe0..a0671e510bc4a 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -164,7 +164,6 @@ enum v4l2_buf_type {
+ #define V4L2_TYPE_IS_OUTPUT(type)				\
+ 	((type) == V4L2_BUF_TYPE_VIDEO_OUTPUT			\
+ 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE		\
+-	 || (type) == V4L2_BUF_TYPE_VIDEO_OVERLAY		\
+ 	 || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY	\
+ 	 || (type) == V4L2_BUF_TYPE_VBI_OUTPUT			\
+ 	 || (type) == V4L2_BUF_TYPE_SLICED_VBI_OUTPUT		\
 -- 
 2.39.5
 
