@@ -1,65 +1,62 @@
-Return-Path: <linux-media+bounces-33831-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33832-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D7BACA629
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 02:45:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 441F1ACA64F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 02:49:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4F251884FC3
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 00:42:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAE277A3849
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 00:47:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8E45299B4B;
-	Sun,  1 Jun 2025 23:39:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF7B131AAC3;
+	Sun,  1 Jun 2025 23:40:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="klkgVwaL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tJ9tqLEE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159BF299B2D;
-	Sun,  1 Jun 2025 23:39:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1543331AAD1;
+	Sun,  1 Jun 2025 23:40:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821170; cv=none; b=n9UD3ea7qKTJmhcsaebBdYFLf/WpRP7HlEULcz+6icyHrlbEMO9FijMHxNmUXGKoo0e48O3VlQGiwJk6u4f8rGMu3NuZOWNKGvlWgGUYQugHj0FsOAf0BxekUvzCEunanLM2yYS6i2C9WHY8fE5ChaV5WDFGEl87HH1HwXAcypA=
+	t=1748821241; cv=none; b=VoNSrJHUDnBOnp1K7NQdebMMPcM24ah/tIE+r1vD3eQ+0tkgbfSwzfcHCBio9YWp29+PWX0CHYhIgQqrE2UYF24c5ypz70dEDAkEl3Lq6Ar8NXL9cYJxFbj547Ugcbc+i47RrPa/yImyfm3/hhzxEfx4As+uEQRzOOZxgY/AeYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821170; c=relaxed/simple;
-	bh=yY2QiiKQ0YNTBP+D1ov4NyY2s6Q7aaOk1qqCp6J7Whk=;
+	s=arc-20240116; t=1748821241; c=relaxed/simple;
+	bh=komVdlTqNRZ4B+bjFxnWO5uOOWl7Xtd/GRk+z+9e/R8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EoXKkaLs4vrVzllo9IhptzJnujRj/XeWaO/P09yyN2cBbHFQFG1+Gs39Im9aHtAwcvI4n2p1PeyYsGWR1RwWM7tqu/cog4ID5q0R1FZr8AgchbzSxC+yRHnz4gsI2mDXLzFINAtcT6yVZmkOUvM2E0uKcIV2BposOw5gT5F8c9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=klkgVwaL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E05C4CEF2;
-	Sun,  1 Jun 2025 23:39:28 +0000 (UTC)
+	 MIME-Version:Content-Type; b=We8SA6eetW+HdH4stDHTcSYmhbERhqqonDnvLCpAQ+X4GfM7reW2PN7Mrk9Qam/7ldxz0BY2Ox1uu21KR3zyk5WqUJc2sF8ezyrlu2LKFIXY8D+8pDK3MGV9gwWqzXUpcc5whhWm9dn20WFW6mWfaPUxtgrJ0MbC4vLTLqUKVPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tJ9tqLEE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E44C5C4CEE7;
+	Sun,  1 Jun 2025 23:40:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821170;
-	bh=yY2QiiKQ0YNTBP+D1ov4NyY2s6Q7aaOk1qqCp6J7Whk=;
+	s=k20201202; t=1748821241;
+	bh=komVdlTqNRZ4B+bjFxnWO5uOOWl7Xtd/GRk+z+9e/R8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=klkgVwaLwEi8BCncuCtR19DvIs7qj9VKgmEmhIDw0fn3OLbylN44PFX2ppbzxzuLD
-	 RrfjrIPWEGPqDIsnqPj6hD+hEQKsilejZZ7IKbMIB+7EEgJoNzLC2Wg/i/MVjVzPns
-	 Ow63ht3D33+Z0UkDGQFGghn0+I9QPXQtN8g/0acv4iJoLIaUCMt8MFv8IOCmb8y2Qs
-	 AGApOFXUak1ShBUVChQFqi49cAXGpk0EtMnxd5tJH0ksMfbrWcfmA57KgUFPFO1p+q
-	 rUgmNlT1VwfRTdT9R6AvVVBS8bOrPYV9OMeRqXs+9TKBngfGWLMeL4ewZu3KbDD5tp
-	 hUYo9vTyyYOKw==
+	b=tJ9tqLEEjNILCSCRTpOVwCd6LJ/0vgoKQwbjS+tjpVpUe36IuXbPjl4W0jdBRCrFl
+	 DobrO/tRmtAkCIQhVPjManif1cHa1zIkC3YWGyOa3bS6mFm84j17L5Z2N1jVCtc86T
+	 HW1aJE9wVbfALBL/DPw80Iww4GUjMEhHhmEUsCx+JHhZltdbY9n+j8dEAKIDC3aWaV
+	 5mP6+iuWyXFXxsQN1lCu4Tl3TDreAL6jJPdXgBronxKq6fv/ep8rguLx9o5D0VSRM8
+	 KCczrzPl7cDB8USBCh7LAySo7NObzLpXde4Y3vXlZoXjLQ3ekjBUvDRcPcfUF/sG/e
+	 x3ltSO9dM8jTg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Nas Chung <nas.chung@chipsnmedia.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
+Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	quic_vgarodia@quicinc.com,
-	quic_dikshita@quicinc.com,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 44/66] media: qcom: venus: Fix uninitialized variable warning
-Date: Sun,  1 Jun 2025 19:37:21 -0400
-Message-Id: <20250601233744.3514795-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 10/58] media: i2c: imx334: Enable runtime PM before sub-device registration
+Date: Sun,  1 Jun 2025 19:39:23 -0400
+Message-Id: <20250601234012.3516352-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250601233744.3514795-1-sashal@kernel.org>
-References: <20250601233744.3514795-1-sashal@kernel.org>
+In-Reply-To: <20250601234012.3516352-1-sashal@kernel.org>
+References: <20250601234012.3516352-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,78 +65,98 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.92
+X-stable-base: Linux 6.1.140
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Nas Chung <nas.chung@chipsnmedia.com>
+From: Tarang Raval <tarang.raval@siliconsignals.io>
 
-[ Upstream commit 8e172e38a623ce284baf2514f963b29e4d47c62e ]
+[ Upstream commit 01dfdf6a80c57151af0589af0db7adbbdd1361c7 ]
 
-Avoid uninitialized variable when both V4L2_TYPE_IS_OUTPUT() and
-V4L2_TYPE_IS_CAPTURE() return false.
+Runtime PM is fully initialized before calling
+v4l2_async_register_subdev_sensor(). Moving the runtime PM initialization
+earlier prevents potential access to an uninitialized or powered-down
+device.
 
-Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 **YES** This commit should be backported to stable kernel trees.
-**Analysis:** This commit fixes a legitimate uninitialized variable bug
-in the `find_format_by_index()` function in
-`drivers/media/platform/qcom/venus/vdec.c`. Here's why it meets the
-criteria for stable backporting: 1. **Bug Fix Nature**: The commit
-addresses a clear code defect where the `valid` variable could be used
-uninitialized. In the original code at line 157, `bool valid;` is
-declared but not initialized. The logic then uses an `if-else if`
-construct: - `if (V4L2_TYPE_IS_OUTPUT(type))` - sets `valid` - `else if
-(V4L2_TYPE_IS_CAPTURE(type))` - sets `valid` - But if neither condition
-is true, `valid` remains uninitialized 2. **Potential Impact**: Based on
-the V4L2 macro definitions, `V4L2_TYPE_IS_CAPTURE(type)` is defined as
-`(!V4L2_TYPE_IS_OUTPUT(type))`, which means these should be mutually
-exclusive and cover all cases. However, the bug exists because the
-original code used `else if` instead of just `else`, creating a
-theoretical path where neither executes. 3. **Minimal Risk Fix**: The
-fix is extremely simple and safe - changing `bool valid;` to `bool valid
-= false;` and replacing `else if` with `else`. This ensures the variable
-is always initialized and the logic covers all possible cases. 4.
-**Consistency with Similar Commits**: This fix is very similar to
-"Similar Commit #1" which was marked as "Backport Status: YES". That
-commit also fixed an uninitialized variable in the venus driver with a
-simple initialization. The pattern and impact are nearly identical. 5.
-**No Side Effects**: The change is purely defensive programming - it
-doesn't alter the intended behavior but prevents undefined behavior in
-edge cases. 6. **Compiler/Static Analysis Issue**: This type of
-uninitialized variable warning is commonly flagged by static analysis
-tools and newer compiler versions, indicating it's a legitimate code
-quality issue that should be fixed. The commit follows stable tree rules
-perfectly: it's a small, contained bugfix with minimal regression risk
-that addresses a potential runtime issue in the venus media driver.
+**Analysis:** **1. Pattern Recognition from Similar Commits:** The
+provided historical commits show a clear pattern: - **Similar commits
+marked YES**: imx355 and smiapp drivers with identical runtime PM
+ordering fixes - **Similar commits marked NO**: imx319, ov4689, ov2740
+commits that appear to be more general cleanup/improvement rather than
+bug fixes **2. Code Analysis:** The imx334 commit makes the exact same
+critical fix as the accepted imx355 commit: **Before (problematic):**
+```c ret = v4l2_async_register_subdev_sensor(&imx334->sd); // Device
+becomes accessible /bin /bin.usr-is-merged /boot /dev /etc /home /init
+/lib /lib.usr-is-merged /lib64 /lost+found /media /mnt /opt /proc /root
+/run /sbin /sbin.usr-is-merged /snap /srv /sys /tmp /usr /var ... model/
+prompt/ src/ target/ pm_runtime_set_active(imx334->dev); // Runtime PM
+enabled AFTER pm_runtime_enable(imx334->dev); ``` **After (fixed):**
+```c pm_runtime_set_active(imx334->dev); // Runtime PM enabled BEFORE
+pm_runtime_enable(imx334->dev); ret =
+v4l2_async_register_subdev_sensor(&imx334->sd); // Device becomes
+accessible ``` **3. Bug Significance:** The commit message explicitly
+states this prevents "potential access to an uninitialized or powered-
+down device." This is a **race condition bug** where: - The sensor
+device becomes accessible via v4l2_async_register_subdev_sensor() -
+Other components (like ipu-bridge) may immediately try to access the
+device via runtime PM - If runtime PM isn't initialized yet, these
+accesses will fail **4. Backport Criteria Assessment:** ✓ **Fixes a
+user-affecting bug**: Race condition causing device access failures ✓
+**Small and contained**: Only reorders initialization, no logic changes
+✓ **No architectural changes**: Pure initialization ordering fix ✓
+**Minimal regression risk**: The change aligns with established patterns
+✓ **Follows stable tree rules**: Important bugfix with minimal risk **5.
+Consistency with Accepted Patterns:** The imx355 commit (marked YES) has
+an identical issue and fix pattern. The key difference from rejected
+commits is that imx355 and imx334 explicitly mention preventing device
+access failures, while others were general improvements. **6. Error
+Handling Analysis:** The commit properly adds runtime PM cleanup in
+error paths: ```c error_media_entity: pm_runtime_disable(imx334->dev);
+pm_runtime_set_suspended(imx334->dev); ``` This is a critical race
+condition fix that prevents real-world device access failures, follows
+established successful backport patterns, and has minimal risk - making
+it an excellent stable backport candidate.
 
- drivers/media/platform/qcom/venus/vdec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/i2c/imx334.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 884ee6e9d4bd1..0cf95bfff86ac 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -154,14 +154,14 @@ find_format_by_index(struct venus_inst *inst, unsigned int index, u32 type)
- 		return NULL;
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index 7b0a9086447d1..6ddfaa2d3c3eb 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -1058,6 +1058,9 @@ static int imx334_probe(struct i2c_client *client)
+ 		goto error_handler_free;
+ 	}
  
- 	for (i = 0; i < size; i++) {
--		bool valid;
-+		bool valid = false;
++	pm_runtime_set_active(imx334->dev);
++	pm_runtime_enable(imx334->dev);
++
+ 	ret = v4l2_async_register_subdev_sensor(&imx334->sd);
+ 	if (ret < 0) {
+ 		dev_err(imx334->dev,
+@@ -1065,13 +1068,13 @@ static int imx334_probe(struct i2c_client *client)
+ 		goto error_media_entity;
+ 	}
  
- 		if (fmt[i].type != type)
- 			continue;
+-	pm_runtime_set_active(imx334->dev);
+-	pm_runtime_enable(imx334->dev);
+ 	pm_runtime_idle(imx334->dev);
  
- 		if (V4L2_TYPE_IS_OUTPUT(type)) {
- 			valid = venus_helper_check_codec(inst, fmt[i].pixfmt);
--		} else if (V4L2_TYPE_IS_CAPTURE(type)) {
-+		} else {
- 			valid = venus_helper_check_format(inst, fmt[i].pixfmt);
+ 	return 0;
  
- 			if (fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
+ error_media_entity:
++	pm_runtime_disable(imx334->dev);
++	pm_runtime_set_suspended(imx334->dev);
+ 	media_entity_cleanup(&imx334->sd.entity);
+ error_handler_free:
+ 	v4l2_ctrl_handler_free(imx334->sd.ctrl_handler);
 -- 
 2.39.5
 
