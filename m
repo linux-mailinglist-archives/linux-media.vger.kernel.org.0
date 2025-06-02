@@ -1,296 +1,196 @@
-Return-Path: <linux-media+bounces-33922-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33923-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4299ACAF14
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:33:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E9EACAF37
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:39:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64B7F174C5F
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:33:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFD784022BC
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:38:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9524220685;
-	Mon,  2 Jun 2025 13:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F027D221F00;
+	Mon,  2 Jun 2025 13:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="S7EitV+w"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IqN3wAdo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479151925AB
-	for <linux-media@vger.kernel.org>; Mon,  2 Jun 2025 13:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748871218; cv=none; b=j07OKUdZFXpzU5Y1C3zEsGY6t4SFmzAvU3BSD2MxYgADYsr0gK0E5DWvqsKB7MqhCBGZZdOkH8fGiy381vL6MrR47fuixxxWGj1hxgyiws4PkRp2HFNXbD5F2kcvrl9Dk7B/Z4xfA7UdWeEWe99PNiN0bqLL4HkbMy/SRTJpCTI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748871218; c=relaxed/simple;
-	bh=KYCRxiQL70L4+2PWY0E6du2ZC74eLxX3dPGCO9GJb/4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pogk7DdxtAW1Rla8tjeZSUVivy2gsRKfxcG4yyRQCjhyPlaA3jgc0I1pSqBAy2+xQz3RCWBH63Dj1T7LQzdYnTENAElN1rlsSIuE0+xpeL3URbAst9mk0+hhv+qM2O+pAtrhhjrToeAgwdRTLoZeqb50qfKeDKnHpUQi//jk8fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=S7EitV+w; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55324587a53so6150131e87.0
-        for <linux-media@vger.kernel.org>; Mon, 02 Jun 2025 06:33:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1748871214; x=1749476014; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LKecjCGbso1LbBogQRI837OEfYyXk7pBW0fhUFW97Z0=;
-        b=S7EitV+wj68iVnhYb4DGlsOi00Xusv2gbLtFXjlBbS6xYYaBFpO+auU9kxG9ypVlxn
-         PZ81inVZ0pPaVLf5JBKMLjk+1bjmCjEBDyfHq3FlL5sqt3aJWujwzGvXgS6hpkKEaBQc
-         +DhwIwhdcjPGWO0o+8DDv7emI0Vm5WtqhVJJQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748871214; x=1749476014;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LKecjCGbso1LbBogQRI837OEfYyXk7pBW0fhUFW97Z0=;
-        b=FsTcBx5DSbVPkfcjocvPsg4lhPXmoj5PfGHbiPcHJxkWfkpptTtgGdNMBfsXVde/S/
-         U8FN+W/YLJjH4aZt7/Hzrj532UsIDT/9oA9lXvn31s5lV4Nh734n0+Pmpt3xt6UUPniH
-         79ugMvM+kakEQGUJPHJzE4iv/dtncDIYT+kmop5s3YJiXrjd8CdMgMHwLWge9G1ZBU8w
-         Vo4oe6h4b5spv+hkWZLjqdiGIbbcxBX23iSPginkZuxcO9UvBZsHM0+gICHiRt6LqUxo
-         uX8KqY9jOmgScluxGJMtPnXxXTnyM+1s4/LvpwSC43E6vhwLyY64YAEdCfALyyAqSgFt
-         phpw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4K1u8nNpWT5uPZn/Q4/wek2e1DwCv9YauwWjtxDtq+nxe165HNP4YH/Fn0JyR1uaNIVHlHrhm1WO/NQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZjC4f1+bT/7JcNmLbqklnA51y9AxVHRGzTZXGc0tlR6SToquf
-	ZVnfU85qZuwP/dxttUCclEV/rAQ64wz1UvxumETJEckyw0TJ955Gv5gt9Tt8eOutwZ0dJ3wl8Gj
-	9sqU=
-X-Gm-Gg: ASbGncuSBpbzrtZn9UXjTjcSc2UR4OkAu8VGwYZoPj+pDn+kD/Q14QMocmtQPztKCO9
-	5LwjYmJ3Tm6e+77jzCVjMm92EHeOD9R/eOHCjNzoDH5pW7U4mOzlVRroPlIB31uQibR9iof4XTH
-	zaP67BuF7jWGubMpeFo4nTXTz3vjT6NHNq2h1xl/TDjueTEBemQjBnz107aIPSaSgNtNFBjCN3p
-	QaystPmadu9KkBQPv8mlH8odP9MGHzuHXmsmM0P72ZIzOXfuhdHCzlN5YLGOAISMUYIlOQt0Zs0
-	qBtjbis5eWIO09sjFqq5ChSo4fEuccePUfq89SHoUwINJOjerRuGfCvTToWfPzTI6XPnzC10IWw
-	vRNTRy8ov1+4+OA==
-X-Google-Smtp-Source: AGHT+IHTO0gIqSAa5HTCFu90cS03uVGwhhW/ohgVsZElweMtTO0wim/JBNPO+QiBjMMqF/XH5GDMcg==
-X-Received: by 2002:a05:6512:10c7:b0:553:2969:1d6d with SMTP id 2adb3069b0e04-5533ba54fd6mr3997923e87.13.1748871214189;
-        Mon, 02 Jun 2025 06:33:34 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55337910f39sm1580039e87.156.2025.06.02.06.33.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 06:33:32 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5532a30ac45so4437381e87.0
-        for <linux-media@vger.kernel.org>; Mon, 02 Jun 2025 06:33:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWuHydpmrUWy+UY94I5iD0Ey7XV1aEk8oxEP9u7QlF4RCTaQ+LsrRiICeegyVj0sL81BbL6LdPxMI4/WA==@vger.kernel.org
-X-Received: by 2002:a05:6512:31d4:b0:551:ecf4:2cd8 with SMTP id
- 2adb3069b0e04-55335b4524dmr5202823e87.23.1748871211916; Mon, 02 Jun 2025
- 06:33:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D930522156D;
+	Mon,  2 Jun 2025 13:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748871454; cv=fail; b=N1u/d0Sk9fOrbp5gA7IjGrTTYi4MmVLhv+3YV1ErVwNOiy+3DgfrFV3hVGyEZTqygVH0p4EgAMjk4tapFTgA7orriSLRguBA/ZwZLmXCtS1xKHO0jzlh0vhuJlbEIPODg4EKah9xbUyYsyzym5+it9n3Kn/1VK5kPM6knHbODF4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748871454; c=relaxed/simple;
+	bh=2XHIYLoX1WFvw2VFbZAj2JPYRWILjCdpLDI9nOs+pf0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=N05RqQ7i0Esrev2E9MZ7A56Fhjm1UCJR48CZwTw3WmxCjhoiuVS1kLAzZb0NkX/++dWYEEDj5W0mlx/yjgEzXvcN65XoK4EVOp7xr5P4Mf/D2Fhp/G2srzvG74RwmxB6A5/ayt2K8nH14F0WwVAehlOlZDYXFZQ/429DkZd/U2k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IqN3wAdo; arc=fail smtp.client-ip=40.107.244.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=i4iNyQrKp6L1yqX2/v19ndhwgbJDjdJjhpY1MdHEY9mfJJTJCL4f47fksaymlfP23tdpTh99c48VQXdrzeSy82eyPNng/rR2qB0bkFfFWPnJf0+LWwgtu4asWV6Ks77Kyh+MSCPPxQUkuTsYCP4cd5eh0X6ARdONpAZED8CPQW88EXmxxe2WS914DVtFyo7HLwE/WuGGTYsPKNbvqIu8TUxJyULg2zYgz4CecTjOyOOWyFV/sWbaj0ZFLT/wP5plLaQReInYX3wGOlG2t4SuzMwzIxuAYRqR2yWuBlMGq9G1KkHcp2qRUhTLQDBFt2/9nazuBBplIKvVpwaEQRmGPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h9VAB4/NzddGRa8m/xw1WcrnSYdfOaaaX8v8/NQQDI0=;
+ b=evVEOOCUMM8Fi+kETgH5vLCAfRFbQko1vZbwv0lQJtc+hoZQfthFqDH+8cytDOX6H4dcu7jC3cFeHxGV7QIYz6d3MulMq87DdC/06XJ+NFPcP1zk8/CPvYmXgYRZ2MpWAapfNFakDIoWEfPAihiBO80YmNqVU25aInM0gHs9MFLACKQdnZSVEP1c5+tLGljw8ASRJT5Mu+iH5S6sPQLfAf+h2QrqwICYYKYXF+LhCAI3uUWNc2Rp2eUAVI/zzl0ef8vC4MbW3b624WFMR6QCaoUsK4LJ1eAvP1AfrIJzpA/X33iepBr3m6QltCKq/JDh0jTe1Col8nbd1TRVVaBvRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h9VAB4/NzddGRa8m/xw1WcrnSYdfOaaaX8v8/NQQDI0=;
+ b=IqN3wAdopsXvxwZLqROWx8ZcFZR4fiahHko4swyi+OSPLv7HoUWhW+2JUZycn/jhdKeHJu3pCj8B0gl+b98jB3faYINjIxE0nmT0sdTGh1JauiF1FRDYoRIKFUPb6iXwx/L/nP1KX90Nc9He9rDTlIATrjDFyQ8jI06BIad7gBpzkrR22cPShIXMWSy/15RTGPU/8vSLvcBaAZmeIl100JS1ggkivG6BwjIhMOQyZHFPUFLMMU7Zr798v0it+gcSIuKp9yKVOBIC6qtaU2t21HjwYNRWRvjVs3oKo0aBKMB3ccVfGvMY/1Pm8O9O6CkD6lU9azxOhTEkDkiDKsI+bw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW6PR12MB8663.namprd12.prod.outlook.com (2603:10b6:303:240::9)
+ by PH8PR12MB8606.namprd12.prod.outlook.com (2603:10b6:510:1ce::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.31; Mon, 2 Jun
+ 2025 13:37:29 +0000
+Received: from MW6PR12MB8663.namprd12.prod.outlook.com
+ ([fe80::594:5be3:34d:77f]) by MW6PR12MB8663.namprd12.prod.outlook.com
+ ([fe80::594:5be3:34d:77f%7]) with mapi id 15.20.8769.033; Mon, 2 Jun 2025
+ 13:37:29 +0000
+Date: Mon, 2 Jun 2025 10:37:27 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
+	yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
+	yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
+	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
+	simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
+	aneesh.kumar@kernel.org, iommu@lists.linux.dev,
+	kevin.tian@intel.com
+Subject: Re: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP
+ using TSM
+Message-ID: <20250602133727.GD233377@nvidia.com>
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+X-ClientProxiedBy: BLAPR03CA0111.namprd03.prod.outlook.com
+ (2603:10b6:208:32a::26) To MW6PR12MB8663.namprd12.prod.outlook.com
+ (2603:10b6:303:240::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250602-uvc-fop-v2-0-508a293eae81@chromium.org>
- <20250602-uvc-fop-v2-3-508a293eae81@chromium.org> <dba66347-7b6c-49b5-8d31-166845efd1a0@jjverkuil.nl>
-In-Reply-To: <dba66347-7b6c-49b5-8d31-166845efd1a0@jjverkuil.nl>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 2 Jun 2025 15:33:18 +0200
-X-Gmail-Original-Message-ID: <CANiDSCttXAu0bJHG7L=Y4Y0LqfRQa=Y-wC8PKr1Pv7Hwpq6Txg@mail.gmail.com>
-X-Gm-Features: AX0GCFugWcSvqTWPR3e5MqLoEg2ncrSKg_eltqcjsGw5OBv6lBxhcg923Rgn4hI
-Message-ID: <CANiDSCttXAu0bJHG7L=Y4Y0LqfRQa=Y-wC8PKr1Pv7Hwpq6Txg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] media: uvcvideo: Remove stream->is_streaming field
-To: Hans Verkuil <hans@jjverkuil.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW6PR12MB8663:EE_|PH8PR12MB8606:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f05a891-d785-430b-faa4-08dda1da9e9c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?iBfdb+PeKZuBXEqkTfkrkRN3OGczj0g/mpSAMeJakRUd8PI9Ib4P3ZMxyODl?=
+ =?us-ascii?Q?+f+llrNg8Em8DjCvrUa1Vd839gK2j7GC13CnAwe/rkhLeiNe5bn0tDu/MLj3?=
+ =?us-ascii?Q?R2F1PmUZ2dpRcXTieALeXalr79mUbettQ7b1VWtBMK4iGnF2rVHnpAxvesVt?=
+ =?us-ascii?Q?ZqzCtCG21WgXzT+yeh6LQFtplT/HeV6Op65HNAoZJi1dzMcIHU1RuIMRQSV1?=
+ =?us-ascii?Q?LOxI8nKh8Toz3JUoAjlrnQ1MXazsMKS3Kx9CoPsBwL2VocugThQioIwGWxhu?=
+ =?us-ascii?Q?3Fxw0PnCE5RBW+QFYJK3N9vemCJp21EUEWR1s06wyBpbtsS+BKchTzjgcL3D?=
+ =?us-ascii?Q?cAN/dNdA2za0/yvrGPg4aaOy+vvRqAUlVsat03uQ8jD8IC4ykyCw5vfoEqBv?=
+ =?us-ascii?Q?uwmIPu0T2hQMyOC2r9AiWtz6eZ4DB26foWzRiEWXXvR6UMOa+p6oQTwrx7sc?=
+ =?us-ascii?Q?7tSUuQSFOCfkTOfoPuM/7ymjoSubNXy6IXi4hFwKnowrFZy5WPOaA7EE/Zat?=
+ =?us-ascii?Q?SPvQ3Vo8/6MTvY7Tg51acjcgBmgxbMYtotj6G928jGSDGpzE/utDUDqbJc4H?=
+ =?us-ascii?Q?yaJ9M0oWlPY4V4hnOwAdBVbXwRaEEe9tUbV0JHg5i/nS/0mEPMmhFyRugP1I?=
+ =?us-ascii?Q?rWiya9jG+oI2ou0uvUe1za8eJ5sizRttN96AzwgM7SfPj5LhA/jBO3KkI9xC?=
+ =?us-ascii?Q?qf8q9PZ5v6QSMzZ2IaG+hk+4nMg/C7UxxTOF4+hx2dw7MHvO8rkCqQhUSRu7?=
+ =?us-ascii?Q?wqGtywE4QZjEqt3dmRzASGl0HNnhpvbO6oW5THKSNVA367k2CzEEim0NPLOV?=
+ =?us-ascii?Q?dHJvssDQM5N5EbCXwRCGH7zC++mSYgkuyrxJElpjLiuB1D7NRX5YSnifP6OQ?=
+ =?us-ascii?Q?3PDhpOf02dD5YG6v3XptTRhzJ5aJfwRtGdV8KiP/CkNZPVzPg8IWRNPDMx3t?=
+ =?us-ascii?Q?dmwQ6vXHQH+FaKGqNQwvx4rA2wIz8ZisVR9ueDEJgcT+rRjSyScmHf1CMHl4?=
+ =?us-ascii?Q?rItlKbdQ/YddZe1yMu6t0/tvu3BQL5v543jrYr/UGXJusZTfPbWzDYil6o3e?=
+ =?us-ascii?Q?znEe9sjmS2kNCdSJzpyfr7jbft7SNN64dspws+HDXT90v+kgefuLA16KaWr1?=
+ =?us-ascii?Q?b52grpCKzFQ23gH0GSQ8NH0eZJe3Mi/Sj9iNO05UvDPE5qXg0spVzFCg5dj4?=
+ =?us-ascii?Q?5UU1v/8fpshgHjnJbGOTCqBiDBG1VkaEaMd7rM3Lf28mDQj53+gvUN65ybrX?=
+ =?us-ascii?Q?dAQ6jxDybbPszWm3pS/T4lb8zujq0f//OyFvTDJP79lQnc8wscTZPzprs3Wq?=
+ =?us-ascii?Q?6S/hUV2Dgau1A1tRsMArMIR2+Mar/h+Tcyt9+xv70cRYX3rBXndg2fywpf0n?=
+ =?us-ascii?Q?3jM1gchYmHOTZEN+iqPW+R1wG75RSNe7+GFISWjkZ7J4dRBQhlZUgQIcL3qV?=
+ =?us-ascii?Q?DwtTi3i8+84=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW6PR12MB8663.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?zcu3E2DELorEYTVMSuYUxDdRuhYqHNqOxQ0gtjJ2FgCxvvk3jlQuKAwVkRdn?=
+ =?us-ascii?Q?gcYzyfAJnknOSA7SZIDq3V0GzFYb+0qpLCJmv9K8PHon3016lxFbhNdnBNb8?=
+ =?us-ascii?Q?nwW0bxwtWjUVFbODONcRB9VDAHnUKNxn/uuJhh4+Nrwv4q6rruu2kF9CF0yq?=
+ =?us-ascii?Q?GbDCDbzLIYtpgRxU6cIfWfNcHcDk0wzTqPIWHWf6UcCRW3nZeaUkfLKIjFPm?=
+ =?us-ascii?Q?0DVVfg6eB6hxkqO9sXnWeauKCT9rhLheJeCX5UJHTceewCjgnbCJA/z2QvRf?=
+ =?us-ascii?Q?tfwbw8HHMaKw+kkl5L4c2TX7J2TfvyN+n6sMReoy+VlUPre0/LDd8KSaMqOY?=
+ =?us-ascii?Q?6qsAjAB9dTa80DU8VQ6LVJH4v+zfzDpcDzImYJWxnbvlT44p1MdftS9KBqLc?=
+ =?us-ascii?Q?iG9TuRW9J+SzDRwCM4JYt8SnoqwWTmT0BhsXwUPQc3hnS7dDRm0iLFIq9NUl?=
+ =?us-ascii?Q?MuXp4iXiCIW9oj280bhgVQEGVyKWaaUIZ/EU/h0jBC182+2nt61UhzAV0WVC?=
+ =?us-ascii?Q?FCmMJjSXU2eEiBbrieY6uhJQMWwa3plXAg0kwjODssOBq7n138GvZtZ9Ut2C?=
+ =?us-ascii?Q?57FYMvbnFoyOkzXbp5QXnlbS/DTil3lTkbCl31R6jM9dyGYWO12wQfp5D+WJ?=
+ =?us-ascii?Q?+xqyKBvExUQzk/dPAh2GOWmvoMsYsSvdsgjVu+mrY+k8s4O5wJIzsCcI/HvM?=
+ =?us-ascii?Q?feBqYODdRw2bE+ur4ET+IPLznMmRMtHLyNL1dql4Mm8/kK6pmFwjLE+6/1BJ?=
+ =?us-ascii?Q?UPAhn6YpnrvSqVPMxqOKC/FuuP+iM595gt3c4lp7VSs7ht7cZmmLFg+RWlOC?=
+ =?us-ascii?Q?/8Oqhim8CTwYVnYbUd/B8T4WIqxc0/VimInwEWT/X+oFOdTi6QoQU3LSL9xT?=
+ =?us-ascii?Q?/IHJXRc4x3GalB2TBoBqzHYdBzfOHezk/PdzGoxOzvJNBR9mt44LVdSVxt7M?=
+ =?us-ascii?Q?xAh1uv3lOvssuQRUQdGNV93utJqc1lgGyVdcRou12KboTfh7ESemwSkTfTtw?=
+ =?us-ascii?Q?4uj3OWKkP1zziwyYmeDgqlXf5SLxU67WEF6080C+MNPzdQY7AUvwYVIKBQeG?=
+ =?us-ascii?Q?DWRPhtsAMWCmVwuNEdcyZKiDtBS4bNPiShsXZXtcPIs3UDnDjtjoeayf7qT0?=
+ =?us-ascii?Q?xg6mfPl8d/eUaRPwjLLaYFFjz1htmTh1ON/ts0Htl527BJPOL6jvEKq4z/sz?=
+ =?us-ascii?Q?k5wmPWaJQ3vEn4j2IfAYRZcBcjusPPytimx3ubiyoT8tXW69OFLdt/rlNiJB?=
+ =?us-ascii?Q?x601gc9eDwZ08kyUxzUB4VEDSVWpKLwrh/2j5ujYui+OVOofOi01EvjD6O21?=
+ =?us-ascii?Q?qrVIqgkmYD0LwEVf917M+g3YeWNcRmpo+TSB1JBVOF3XB4+lc8SssAso44pf?=
+ =?us-ascii?Q?P2rL/qjZfSrIVCgtRxqzzd/XTdh0kl1Pfvfl0SsXq5VU4b4t2H7k4bTX2knb?=
+ =?us-ascii?Q?k+k43pvZmoBAe5mNGYq3p6h7l79To94AilfdHOxME4K3YiQB2Bo95M4RA63b?=
+ =?us-ascii?Q?IhvNVBFGkgYg11zyMJ0tNCIa62ZMPobAV3ijkPs4p43NeFiwZcMpNe1c10Na?=
+ =?us-ascii?Q?2XfBGcJqVHGSiniccTHyzbVyHM/4pWsGu+/TeB6w?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f05a891-d785-430b-faa4-08dda1da9e9c
+X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8663.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2025 13:37:29.4987
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EkQqPnTyUvSlpQIhhn22hOF7b+wyWOkOmmu2+SUjgOS0K4ZDHRQE6zMvy6w1g+9E
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB8606
 
-Hi Hans
+On Thu, May 29, 2025 at 01:34:43PM +0800, Xu Yilun wrote:
 
-On Mon, 2 Jun 2025 at 15:23, Hans Verkuil <hans@jjverkuil.nl> wrote:
->
-> On 02/06/2025 14:59, Ricardo Ribalda wrote:
-> > The is_streaming field is used by modular PM to know if the device is
-> > currently streaming or not.
-> >
-> > With the transition to vb2 and fop helpers, we can use vb2 functions for
-> > the same functionality. The great benefit is that vb2 already takes
-> > track of the streaming state for us.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_queue.c | 11 ++++++++-
-> >  drivers/media/usb/uvc/uvc_v4l2.c  | 51 ++-------------------------------------
-> >  drivers/media/usb/uvc/uvcvideo.h  |  1 -
-> >  3 files changed, 12 insertions(+), 51 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> > index 72c5494dee9f46ff61072e7d293bfaddda40e615..dff93bec204428b8aebc09332e0322fa68823fa4 100644
-> > --- a/drivers/media/usb/uvc/uvc_queue.c
-> > +++ b/drivers/media/usb/uvc/uvc_queue.c
-> > @@ -165,12 +165,18 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >
-> >       lockdep_assert_irqs_enabled();
-> >
-> > +     ret = uvc_pm_get(stream->dev);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> >       queue->buf_used = 0;
-> >
-> >       ret = uvc_video_start_streaming(stream);
->
-> I'm not sure this is correct. See comments below.
->
-> >       if (ret == 0)
-> >               return 0;
-> >
-> > +     uvc_pm_put(stream->dev);
-> > +
-> >       spin_lock_irq(&queue->irqlock);
-> >       uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
-> >       spin_unlock_irq(&queue->irqlock);
-> > @@ -181,11 +187,14 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >  static void uvc_stop_streaming(struct vb2_queue *vq)
-> >  {
-> >       struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> > +     struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-> >
-> >       lockdep_assert_irqs_enabled();
-> >
-> > -     if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
-> > +     if (vq->type != V4L2_BUF_TYPE_META_CAPTURE) {
-> > +             uvc_pm_put(stream->dev);
->
-> This doesn't look right, for both video and metadata uvc_pm_get is called,
-> but only for video is put called.
+> This series has 3 sections:
 
-Please take a look at
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_queue.c#n195
+I really think this is too big to try to progress, even in RFC
+form.
+ 
+> Patch 1 - 11 deal with the private MMIO mapping in KVM MMU via DMABUF.
+> Leverage Jason & Vivek's latest VFIO dmabuf series [3], see Patch 2 - 4.
+> The concern for get_pfn() kAPI [4] is not addressed so are marked as
+> HACK, will investigate later.
 
-start_streaming is not called for metadata nodes, only for video nodes.
+I would probably split this out entirely into its own topic. It
+doesn't seem directly related to TSM as KVM can use DMABUF for good
+reasons independently .
 
+> Patch 12 - 22 is about TSM Bind/Unbind/Guest request management in VFIO
+> & IOMMUFD. Picks some of Shameer's patch in [5], see Patch 12 & 14.
 
+This is some reasonable topic on its own after Dan's series
+ 
+> Patch 23 - 30 is a solution to meet the TDX specific sequence
+> enforcement on various device Unbind cases, including converting device
+> back to shared, hot unplug, TD destroy. Start with a tdx_tsm driver
+> prototype and finally implement the Unbind enforcement inside the
+> driver. To be honest it is still awkward to me, but I need help.
 
->
-> >               uvc_video_stop_streaming(uvc_queue_to_stream(queue));
->
-> And this is odd too.
->
-> > +     }
->
-> My assumption is that uvc_video_start_streaming and uvc_video_stop_streaming
-> are valid for both video and meta: i.e. the first time you start streaming
-> (either video or meta) you call uvc_video_start_streaming. If you were already
-> streaming for e.g. video, then start streaming metadata (or vice versa), then
-> you don't need to do anything in start_streaming.
->
-> Same for stop_streaming: only if both video and metadata stopped streaming
-> is uvc_video_stop_streaming called.
->
-> Please correct me if I am wrong.
->
-> In any case, if I am right, then you have to rework this code accordingly.
->
-> Regardless, you need to test various sequences of streaming video and metadata
-> in different orders and make sure this is handled correctly.
+Then you have a series or two to implement TDX using the infrastructure.
 
-I have tried streaming and getting frames. After some seconds the
-device turns off as expected.
-
->
-> Regards,
->
->         Hans
->
-> >
-> >       spin_lock_irq(&queue->irqlock);
-> >       uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
-> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > index 7a5ecbefa32c0a6b74c85d7f77a25b433598471e..d4bee0d4334b764c0cf02363b573b55fb44eb228 100644
-> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > @@ -617,9 +617,6 @@ static int uvc_v4l2_release(struct file *file)
-> >
-> >       uvc_ctrl_cleanup_fh(handle);
-> >
-> > -     if (handle->is_streaming)
-> > -             uvc_pm_put(stream->dev);
-> > -
-> >       /* Release the file handle. */
-> >       vb2_fop_release(file);
-> >       file->private_data = NULL;
-> > @@ -677,50 +674,6 @@ static int uvc_ioctl_try_fmt(struct file *file, void *fh,
-> >       return uvc_v4l2_try_format(stream, fmt, &probe, NULL, NULL);
-> >  }
-> >
-> > -static int uvc_ioctl_streamon(struct file *file, void *fh,
-> > -                           enum v4l2_buf_type type)
-> > -{
-> > -     struct uvc_fh *handle = fh;
-> > -     struct uvc_streaming *stream = handle->stream;
-> > -     int ret;
-> > -
-> > -     if (handle->is_streaming)
-> > -             return 0;
-> > -
-> > -     ret = uvc_pm_get(stream->dev);
-> > -     if (ret)
-> > -             return ret;
-> > -
-> > -     ret = vb2_ioctl_streamon(file, fh, type);
-> > -     if (ret) {
-> > -             uvc_pm_put(stream->dev);
-> > -             return ret;
-> > -     }
-> > -
-> > -     handle->is_streaming = true;
-> > -
-> > -     return 0;
-> > -}
-> > -
-> > -static int uvc_ioctl_streamoff(struct file *file, void *fh,
-> > -                            enum v4l2_buf_type type)
-> > -{
-> > -     struct uvc_fh *handle = fh;
-> > -     struct uvc_streaming *stream = handle->stream;
-> > -     int ret;
-> > -
-> > -     ret = vb2_ioctl_streamoff(file, fh, type);
-> > -     if (ret)
-> > -             return ret;
-> > -
-> > -     if (handle->is_streaming) {
-> > -             handle->is_streaming = false;
-> > -             uvc_pm_put(stream->dev);
-> > -     }
-> > -
-> > -     return 0;
-> > -}
-> > -
-> >  static int uvc_ioctl_enum_input(struct file *file, void *fh,
-> >                               struct v4l2_input *input)
-> >  {
-> > @@ -1323,8 +1276,8 @@ const struct v4l2_ioctl_ops uvc_ioctl_ops = {
-> >       .vidioc_expbuf = vb2_ioctl_expbuf,
-> >       .vidioc_dqbuf = vb2_ioctl_dqbuf,
-> >       .vidioc_create_bufs = vb2_ioctl_create_bufs,
-> > -     .vidioc_streamon = uvc_ioctl_streamon,
-> > -     .vidioc_streamoff = uvc_ioctl_streamoff,
-> > +     .vidioc_streamon = vb2_ioctl_streamon,
-> > +     .vidioc_streamoff = vb2_ioctl_streamoff,
-> >       .vidioc_enum_input = uvc_ioctl_enum_input,
-> >       .vidioc_g_input = uvc_ioctl_g_input,
-> >       .vidioc_s_input = uvc_ioctl_s_input,
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index 3ddbf065a2cbae40ee48cb06f84ca8f0052990c4..f895f690f7cdc1af942d5f3a5f10e9dd1c956a35 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -626,7 +626,6 @@ struct uvc_fh {
-> >       struct uvc_video_chain *chain;
-> >       struct uvc_streaming *stream;
-> >       unsigned int pending_async_ctrls;
-> > -     bool is_streaming;
-> >  };
-> >
-> >  /* ------------------------------------------------------------------------
-> >
->
-
-
--- 
-Ricardo Ribalda
+Jason
 
