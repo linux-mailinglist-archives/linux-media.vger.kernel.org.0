@@ -1,90 +1,111 @@
-Return-Path: <linux-media+bounces-33879-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33880-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A326ACAB61
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 11:28:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1DEACABA1
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 11:43:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28E4C3BD6F7
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 09:28:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7213B3A6A51
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 09:42:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 577B11E0DD9;
-	Mon,  2 Jun 2025 09:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC5471E3DDE;
+	Mon,  2 Jun 2025 09:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qBBzFnU6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8D91DF757;
-	Mon,  2 Jun 2025 09:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57761E25F2;
+	Mon,  2 Jun 2025 09:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748856497; cv=none; b=QAzriUo96KAh4U1H3SW6z+8rYEk1+qnRopTD0WSacyKaKf90G62RMe6oKljjKaAffN+XbRPd67QsAyWNSqqOVJ6dP3gbvwnwUAXUBIuvo7Q6oW4odohnLvMA6AMTNOdcQn1bSGjMyuyQVfF2CG/J2nZn15mIMDY3anU74HbsBm8=
+	t=1748857392; cv=none; b=P49nKvviqyXfLr447cacHpnDMBBE5jZAWfQ4BKQPy2Zrqv/dKgssVtQRc7fI3JXJV0Ihsl5jCYYn1QFpbw3skId+veb65UGOWY2Bd/c/4xOMhkPSp6fziKsGjOJr2S0hNeATmLLO3OsVf4pz/ArZHE6xj+TIFga345MEXRcqGNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748856497; c=relaxed/simple;
-	bh=Lupz2iTDHGUuhlaI2fVwSrIneOs8j+pnxEeTB6pHpRE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DvldS6JfoBE0pBMJqRQc7aJGRC9PDJ4qzfOqfX8nUrYxeaLdK9Cq8lIJQQOD8nFuQV+C14kCW/cY+nqhsLv97DxKB4UEXbBV8lVEP38agvcGOqvfFKJhlGkKFdtc/2N6qCri6hYiq1xnsQ3stwh96EROpNXqyny8OtNaJKKaZBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from mgb4.. (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id B936879B9E;
-	Mon, 02 Jun 2025 11:28:04 +0200 (CEST)
-From: tumic@gpxsee.org
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-Subject: [PATCH v2] media: mgb4: Enumerate only the available timings
-Date: Mon,  2 Jun 2025 11:27:51 +0200
-Message-ID: <20250602092751.2529-1-tumic@gpxsee.org>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1748857392; c=relaxed/simple;
+	bh=vIRe6cKd12B8t+yiWvuIHeSQLk9JJzo9vl8Uowwj+Zw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YkMJih6NxHFDgrwqrtCWYHISQwl0xiNT+GCvkbj9E4dEDcJaU/NGuneGqnGCxa8DSd/eNOzjRyNf26C7aQWCSA/zYI2/6M31lAOHcCi7boyRRV9GR2DFuEkyzMm08Jwdx395QChpLtJj9Du14/X2v3rh56BGloJLB44kikIL5WA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qBBzFnU6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB80D379;
+	Mon,  2 Jun 2025 11:43:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748857388;
+	bh=vIRe6cKd12B8t+yiWvuIHeSQLk9JJzo9vl8Uowwj+Zw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qBBzFnU6u/rfHefpoodyZXzLZvDGMPy770jkK2/Za+gRnRhB/TQh5D7Juu8Zkd4gC
+	 PXzb0MOWlWgWAU+Z3UFo6o5yFle6Tq5Y4Gxn314osaKjxef6pbTsiPCcPnjES833vW
+	 a/Bgn2vjaSu2yM7xSsM4glcRi+PxSt4gWY5f6mvk=
+Date: Mon, 2 Jun 2025 12:43:00 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/2] media: dt-bindings: media: renesas,fcp: Document
+ RZ/V2N SoC
+Message-ID: <20250602052028.GB11750@pendragon.ideasonboard.com>
+References: <20250530154148.374663-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250530154148.374663-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250530154148.374663-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+Hi Prabhakar,
 
-Enumerate only the available (as given by the sysfs setup - our "EDID
-replacement") timings, not all theoretically possible. This is the video
-outputs part of the previous inputs patch that somehow got "lost in
-translation".
+Thank you for the patch.
 
-Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
----
- drivers/media/pci/mgb4/mgb4_vout.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+On Fri, May 30, 2025 at 04:41:47PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The FCPVD block on the RZ/V2N SoC is identical to the one found on the
+> RZ/G2L SoC.
+> 
+> No driver changes are required, as `renesas,fcpv` will be used as a
+> fallback compatible string on the RZ/V2N SoC.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
-index 14c5725bd4d8..c179c425e167 100644
---- a/drivers/media/pci/mgb4/mgb4_vout.c
-+++ b/drivers/media/pci/mgb4/mgb4_vout.c
-@@ -492,7 +492,14 @@ static int vidioc_s_dv_timings(struct file *file, void *fh,
- static int vidioc_enum_dv_timings(struct file *file, void *fh,
- 				  struct v4l2_enum_dv_timings *timings)
- {
--	return v4l2_enum_dv_timings_cap(timings, &video_timings_cap, NULL, NULL);
-+	struct mgb4_vout_dev *voutdev = video_drvdata(file);
-+
-+	if (timings->index != 0)
-+		return -EINVAL;
-+
-+	get_timings(voutdev, &timings->timings);
-+
-+	return 0;
- }
- 
- static int vidioc_dv_timings_cap(struct file *file, void *fh,
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-base-commit: 5e1ff2314797bf53636468a97719a8222deca9ae
+> ---
+>  Documentation/devicetree/bindings/media/renesas,fcp.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> index 5ed9427fb757..074be99ca004 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> @@ -30,6 +30,7 @@ properties:
+>                - renesas,r9a07g043u-fcpvd # RZ/G2UL
+>                - renesas,r9a07g044-fcpvd # RZ/G2{L,LC}
+>                - renesas,r9a07g054-fcpvd # RZ/V2L
+> +              - renesas,r9a09g056-fcpvd # RZ/V2N
+>                - renesas,r9a09g057-fcpvd # RZ/V2H(P)
+>            - const: renesas,fcpv         # Generic FCP for VSP fallback
+>  
+
 -- 
-2.48.1
+Regards,
 
+Laurent Pinchart
 
