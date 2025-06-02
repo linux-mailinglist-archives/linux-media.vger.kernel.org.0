@@ -1,188 +1,350 @@
-Return-Path: <linux-media+bounces-33905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6254BACAE6C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:01:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CE9ACAE84
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:05:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 92B6A1BA096D
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:01:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04C6E3AD28B
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:05:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F35121B9E3;
-	Mon,  2 Jun 2025 13:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2C74218587;
+	Mon,  2 Jun 2025 13:05:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="T9HGC4tt"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="lSemoB3K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C99AC8CE;
-	Mon,  2 Jun 2025 13:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855D82D7BF
+	for <linux-media@vger.kernel.org>; Mon,  2 Jun 2025 13:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748869249; cv=none; b=XDWbAvFS2Q7BTwl+qYF1uzj+6bwY54pIrID/gyVY3ZUwrD2ffDZW+gyJm8CmhJjPy++S14AhW7U/WVDx6bFs4sjdWCsPNhV4NB0p6cuo2Kt25+RI+eoSKiew8cR+Q5NOOK2phCosUcuo63FE525B6cHzDiEpSSu8UuHh/BUUal4=
+	t=1748869550; cv=none; b=nOAKsJLg4XWX1VKTIO67uKXEG8bQbojPxALnH0yNIQFjYpn8ZpoTe88zDhg0AucfKHFmJ91jut4Eikkm/LdDQ0Der6Q5mgWfbUIreKiNmP6J83VX86Z0xi4YYjmOqGRncDps9TMVwhDbAQ6uhhHaNL+DvOahyAYLto0Skz5bcP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748869249; c=relaxed/simple;
-	bh=ujsjFmfmKNY3XZSEPL45VVklZB5mdxfIdwBl8x+CdSw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YC9T+PgHLX5B0ParW88Iv2CI1cqrj+Se2OSPG350xEiORbxRxgMt8Gw3ua9IcDSGkaARO3D75l8gPv4SOGqvRMMVPEE1jGFoQuvXeLWRCPEnkFpeXMGigungvfdkAF81V9iL8SOufIE7iQTyhOnPGyLK1xAVseQPz98v0xPpHrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=T9HGC4tt; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1748869240;
-	bh=ujsjFmfmKNY3XZSEPL45VVklZB5mdxfIdwBl8x+CdSw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=T9HGC4ttEOut4U5T98eg8qP2EaOlhNuuiQkfOgbQNPK6+DQapTUSxzlb5OK3ATb0M
-	 OaTzO64G77yCGN/dk+E6bxaArLjh1pPQXrV5zTf4t2+Di+Fk1yb8WLWSi2JRnA85zv
-	 6MmAOq/zEDfHYoe3M1Xv2/oGT1j43UJNdrmX7/X2xl+/VaoTG/sZ5O6HpEssEvvn28
-	 NYwhMFAFSFletYthThItKCxaoAImwRAsn4vDmBnFKrVp+s9Bqh2kIhOdnGJJ09aoyA
-	 jMXXlvIhQc8Cw2u1bY0z/WiXBFtp1+V/X8Zadvy86eL0aEb2HKP+dGiHEhQs/anCPQ
-	 obYtdpp99cWuw==
-Received: from [IPv6:2606:6d00:10:5285::5ac] (unknown [IPv6:2606:6d00:10:5285::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1CCD017E01FD;
-	Mon,  2 Jun 2025 15:00:39 +0200 (CEST)
-Message-ID: <4d34103cf31df1cf10dd95f33a285c54249d6e3b.camel@collabora.com>
-Subject: Re: [PATCH AUTOSEL 6.15 054/110] media: rkvdec: Initialize the m2m
- context before the controls
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Sasha Levin <sashal@kernel.org>, patches@lists.linux.dev, 
-	stable@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, ezequiel@vanguardiasur.com.ar, 
-	mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-media@vger.kernel.org, 	linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, 	linux-kernel@vger.kernel.org
-Date: Mon, 02 Jun 2025 09:00:37 -0400
-In-Reply-To: <20250601232435.3507697-54-sashal@kernel.org>
-References: <20250601232435.3507697-1-sashal@kernel.org>
-	 <20250601232435.3507697-54-sashal@kernel.org>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1748869550; c=relaxed/simple;
+	bh=NC0GJp+IXARutepXq/zjr4cfbfrFiXvRZzFKV9koYak=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MUVL/poXWdG1PhgRRxQVgXFkgOgX62Vwth2PYOiWrsFrEi+7l0FREiXuXQYj7MucJA6NA4P+aPMIjSTm7wh+7jyNIGkD3+oYjDTDkyTLdido/MCJTdTV4Vxsm4Ki+i0MO8B/DEmfSHGGJrrOD1zsZ6fkrnC0IQQGNuypwiYEf5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=lSemoB3K; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=trlQBZ+NItaU//lHOT4H++EBW6iykhaqcQo7T+bv8Cw=; b=lSemoB3KyeXrhMFJ3+ArOD3xky
+	WlImlzAOXcWmwBMyQrwyFGtsvo3SXlxNZFoJxnu0YMYbtq6wYg0h7sS6jtRMJN5OeYD7Tz3NbPcyD
+	a+R6U4X+stCLU7ddsIRX9IsqrSP5ZqQXMO9M4soECOSwjpY2NHXXershLvECYKT6hRjokQa44gJf1
+	BfUmvfjZ7RG/YI9te1uDW8jCaR5A0zr3mEiQsyfu13fRYWuhONjSYe7wvNwZbQMVRJiiEsUvPocIP
+	9KtZCt6eZ3TzNTuO2GSmuNgojU6unyz5cbaVw8SowpI4mUDiAEJKDSK+u56FXZFHAaHNZBXH+Kezj
+	AWpurN3g==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1uM4r6-00GHa9-Oy; Mon, 02 Jun 2025 15:05:32 +0200
+Message-ID: <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
+Date: Mon, 2 Jun 2025 14:05:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/9] dma-fence: Use a flag for 64-bit seqnos
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, kernel-dev@igalia.com
+References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
+ <20250515095004.28318-3-tvrtko.ursulin@igalia.com>
+ <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le dimanche 01 juin 2025 à 19:23 -0400, Sasha Levin a écrit :
-> From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+Hi,
+
+On 15/05/2025 14:15, Christian König wrote:
+> Hey drm-misc maintainers,
 > 
-> [ Upstream commit d43d7db3c8a1868dcbc6cb8de90a3cdf309d6cbb ]
+> can you guys please backmerge drm-next into drm-misc-next?
 > 
-> Setting up the control handler calls into .s_ctrl ops. While validating
-> the controls the ops may need to access some of the context state, which
-> could lead to a crash if not properly initialized.
+> I want to push this patch here but it depends on changes which are partially in drm-next and partially in drm-misc-next.
+
+Looks like the backmerge is still pending?
+
+In the meantime, Christian, any chance you will have some bandwith to 
+think about the tail end of the series? Specifically patch 6 and how 
+that is used onward.
+
+Regards,
+
+Tvrtko
+
+> On 5/15/25 11:49, Tvrtko Ursulin wrote:
+>> With the goal of reducing the need for drivers to touch (and dereference)
+>> fence->ops, we move the 64-bit seqnos flag from struct dma_fence_ops to
+>> the fence->flags.
+>>
+>> Drivers which were setting this flag are changed to use new
+>> dma_fence_init64() instead of dma_fence_init().
+>>
+>> v2:
+>>   * Streamlined init and added kerneldoc.
+>>   * Rebase for amdgpu userq which landed since.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Reviewed-by: Christian König <christian.koenig@amd.com> # v1
+>> ---
+>>   drivers/dma-buf/dma-fence-chain.c             |  5 +-
+>>   drivers/dma-buf/dma-fence.c                   | 69 ++++++++++++++-----
+>>   .../drm/amd/amdgpu/amdgpu_eviction_fence.c    |  7 +-
+>>   .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   |  5 +-
+>>   .../gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c  |  5 +-
+>>   include/linux/dma-fence.h                     | 14 ++--
+>>   6 files changed, 64 insertions(+), 41 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+>> index 90424f23fd73..a8a90acf4f34 100644
+>> --- a/drivers/dma-buf/dma-fence-chain.c
+>> +++ b/drivers/dma-buf/dma-fence-chain.c
+>> @@ -218,7 +218,6 @@ static void dma_fence_chain_set_deadline(struct dma_fence *fence,
+>>   }
+>>   
+>>   const struct dma_fence_ops dma_fence_chain_ops = {
+>> -	.use_64bit_seqno = true,
+>>   	.get_driver_name = dma_fence_chain_get_driver_name,
+>>   	.get_timeline_name = dma_fence_chain_get_timeline_name,
+>>   	.enable_signaling = dma_fence_chain_enable_signaling,
+>> @@ -262,8 +261,8 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>>   			seqno = max(prev->seqno, seqno);
+>>   	}
+>>   
+>> -	dma_fence_init(&chain->base, &dma_fence_chain_ops,
+>> -		       &chain->lock, context, seqno);
+>> +	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
+>> +			 context, seqno);
+>>   
+>>   	/*
+>>   	 * Chaining dma_fence_chain container together is only allowed through
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index f0cdd3e99d36..705b59787731 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -989,24 +989,9 @@ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
+>>   }
+>>   EXPORT_SYMBOL(dma_fence_describe);
+>>   
+>> -/**
+>> - * dma_fence_init - Initialize a custom fence.
+>> - * @fence: the fence to initialize
+>> - * @ops: the dma_fence_ops for operations on this fence
+>> - * @lock: the irqsafe spinlock to use for locking this fence
+>> - * @context: the execution context this fence is run on
+>> - * @seqno: a linear increasing sequence number for this context
+>> - *
+>> - * Initializes an allocated fence, the caller doesn't have to keep its
+>> - * refcount after committing with this fence, but it will need to hold a
+>> - * refcount again if &dma_fence_ops.enable_signaling gets called.
+>> - *
+>> - * context and seqno are used for easy comparison between fences, allowing
+>> - * to check which fence is later by simply using dma_fence_later().
+>> - */
+>> -void
+>> -dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>> -	       spinlock_t *lock, u64 context, u64 seqno)
+>> +static void
+>> +__dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>> +	         spinlock_t *lock, u64 context, u64 seqno, unsigned long flags)
+>>   {
+>>   	BUG_ON(!lock);
+>>   	BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
+>> @@ -1017,9 +1002,55 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>   	fence->lock = lock;
+>>   	fence->context = context;
+>>   	fence->seqno = seqno;
+>> -	fence->flags = 0UL;
+>> +	fence->flags = flags;
+>>   	fence->error = 0;
+>>   
+>>   	trace_dma_fence_init(fence);
+>>   }
+>> +
+>> +/**
+>> + * dma_fence_init - Initialize a custom fence.
+>> + * @fence: the fence to initialize
+>> + * @ops: the dma_fence_ops for operations on this fence
+>> + * @lock: the irqsafe spinlock to use for locking this fence
+>> + * @context: the execution context this fence is run on
+>> + * @seqno: a linear increasing sequence number for this context
+>> + *
+>> + * Initializes an allocated fence, the caller doesn't have to keep its
+>> + * refcount after committing with this fence, but it will need to hold a
+>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
+>> + *
+>> + * context and seqno are used for easy comparison between fences, allowing
+>> + * to check which fence is later by simply using dma_fence_later().
+>> + */
+>> +void
+>> +dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>> +	       spinlock_t *lock, u64 context, u64 seqno)
+>> +{
+>> +	__dma_fence_init(fence, ops, lock, context, seqno, 0UL);
+>> +}
+>>   EXPORT_SYMBOL(dma_fence_init);
+>> +
+>> +/**
+>> + * dma_fence_init64 - Initialize a custom fence with 64-bit seqno support.
+>> + * @fence: the fence to initialize
+>> + * @ops: the dma_fence_ops for operations on this fence
+>> + * @lock: the irqsafe spinlock to use for locking this fence
+>> + * @context: the execution context this fence is run on
+>> + * @seqno: a linear increasing sequence number for this context
+>> + *
+>> + * Initializes an allocated fence, the caller doesn't have to keep its
+>> + * refcount after committing with this fence, but it will need to hold a
+>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
+>> + *
+>> + * Context and seqno are used for easy comparison between fences, allowing
+>> + * to check which fence is later by simply using dma_fence_later().
+>> + */
+>> +void
+>> +dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>> +		 spinlock_t *lock, u64 context, u64 seqno)
+>> +{
+>> +	__dma_fence_init(fence, ops, lock, context, seqno,
+>> +			 BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
+>> +}
+>> +EXPORT_SYMBOL(dma_fence_init64);
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
+>> index 1a7469543db5..79713421bffe 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
+>> @@ -134,7 +134,6 @@ static bool amdgpu_eviction_fence_enable_signaling(struct dma_fence *f)
+>>   }
+>>   
+>>   static const struct dma_fence_ops amdgpu_eviction_fence_ops = {
+>> -	.use_64bit_seqno = true,
+>>   	.get_driver_name = amdgpu_eviction_fence_get_driver_name,
+>>   	.get_timeline_name = amdgpu_eviction_fence_get_timeline_name,
+>>   	.enable_signaling = amdgpu_eviction_fence_enable_signaling,
+>> @@ -160,9 +159,9 @@ amdgpu_eviction_fence_create(struct amdgpu_eviction_fence_mgr *evf_mgr)
+>>   	ev_fence->evf_mgr = evf_mgr;
+>>   	get_task_comm(ev_fence->timeline_name, current);
+>>   	spin_lock_init(&ev_fence->lock);
+>> -	dma_fence_init(&ev_fence->base, &amdgpu_eviction_fence_ops,
+>> -		       &ev_fence->lock, evf_mgr->ev_fence_ctx,
+>> -		       atomic_inc_return(&evf_mgr->ev_fence_seq));
+>> +	dma_fence_init64(&ev_fence->base, &amdgpu_eviction_fence_ops,
+>> +			 &ev_fence->lock, evf_mgr->ev_fence_ctx,
+>> +			 atomic_inc_return(&evf_mgr->ev_fence_seq));
+>>   	return ev_fence;
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+>> index 029cb24c28b3..5e92d00a591f 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+>> @@ -239,8 +239,8 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
+>>   	fence = &userq_fence->base;
+>>   	userq_fence->fence_drv = fence_drv;
+>>   
+>> -	dma_fence_init(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
+>> -		       fence_drv->context, seq);
+>> +	dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
+>> +			 fence_drv->context, seq);
+>>   
+>>   	amdgpu_userq_fence_driver_get(fence_drv);
+>>   	dma_fence_get(fence);
+>> @@ -334,7 +334,6 @@ static void amdgpu_userq_fence_release(struct dma_fence *f)
+>>   }
+>>   
+>>   static const struct dma_fence_ops amdgpu_userq_fence_ops = {
+>> -	.use_64bit_seqno = true,
+>>   	.get_driver_name = amdgpu_userq_fence_get_driver_name,
+>>   	.get_timeline_name = amdgpu_userq_fence_get_timeline_name,
+>>   	.signaled = amdgpu_userq_fence_signaled,
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+>> index 51cddfa3f1e8..5d26797356a3 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+>> @@ -71,7 +71,6 @@ static void amdgpu_tlb_fence_work(struct work_struct *work)
+>>   }
+>>   
+>>   static const struct dma_fence_ops amdgpu_tlb_fence_ops = {
+>> -	.use_64bit_seqno = true,
+>>   	.get_driver_name = amdgpu_tlb_fence_get_driver_name,
+>>   	.get_timeline_name = amdgpu_tlb_fence_get_timeline_name
+>>   };
+>> @@ -101,8 +100,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
+>>   	INIT_WORK(&f->work, amdgpu_tlb_fence_work);
+>>   	spin_lock_init(&f->lock);
+>>   
+>> -	dma_fence_init(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
+>> -		       vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
+>> +	dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
+>> +			 vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
+>>   
+>>   	/* TODO: We probably need a separate wq here */
+>>   	dma_fence_get(&f->base);
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index 48b5202c531d..a34a0dcdc446 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -97,6 +97,7 @@ struct dma_fence {
+>>   };
+>>   
+>>   enum dma_fence_flag_bits {
+>> +	DMA_FENCE_FLAG_SEQNO64_BIT,
+>>   	DMA_FENCE_FLAG_SIGNALED_BIT,
+>>   	DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>>   	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>> @@ -124,14 +125,6 @@ struct dma_fence_cb {
+>>    *
+>>    */
+>>   struct dma_fence_ops {
+>> -	/**
+>> -	 * @use_64bit_seqno:
+>> -	 *
+>> -	 * True if this dma_fence implementation uses 64bit seqno, false
+>> -	 * otherwise.
+>> -	 */
+>> -	bool use_64bit_seqno;
+>> -
+>>   	/**
+>>   	 * @get_driver_name:
+>>   	 *
+>> @@ -262,6 +255,9 @@ struct dma_fence_ops {
+>>   void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>   		    spinlock_t *lock, u64 context, u64 seqno);
+>>   
+>> +void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>> +		      spinlock_t *lock, u64 context, u64 seqno);
+>> +
+>>   void dma_fence_release(struct kref *kref);
+>>   void dma_fence_free(struct dma_fence *fence);
+>>   void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
+>> @@ -454,7 +450,7 @@ static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
+>>   	 * 32bit sequence numbers. Use a 64bit compare when the driver says to
+>>   	 * do so.
+>>   	 */
+>> -	if (fence->ops->use_64bit_seqno)
+>> +	if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
+>>   		return f1 > f2;
+>>   
+>>   	return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
 > 
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
-> 
-> Now let me analyze the specific changes proposed in the commit: ##
-> Analysis **YES** This commit should be backported to stable kernel
-> trees. Here's my extensive analysis: ### Core Issue Analysis The commit
-> addresses a critical initialization order bug that can lead to crashes.
 
-"While validating the controls the ops **may** need"
-
-It wasn't the case yet, so its not as critical as this analyses made
-it sound like. The changes that came next, removes superfluous branches
-that was only there for the purpose of avoiding the crash.
-
-It is harmless otherwise, the change is good practice and at best may
-help people backportin more patches. But not worth "Fixes:" and
-"CC: Stable" in my opinion. You are free to proceed.
-
-> The problem occurs in the `rkvdec_open()` function at lines 822-830 in
-> the current code: 1. **Current problematic order:** - Line 822:
-> `rkvdec_init_ctrls(ctx)` is called first - Line 826-830:
-> `v4l2_m2m_ctx_init()` is called second 2. **The problem:** According to
-> the commit message and my analysis of the kernel documentation,
-> `v4l2_ctrl_handler_setup()` (called inside `rkvdec_init_ctrls()`) calls
-> `.s_ctrl` for all controls unconditionally to initialize hardware to
-> default values. The `.s_ctrl` handlers may need to access the m2m
-> context state, but if the m2m context (`ctx->fh.m2m_ctx`) isn't
-> initialized yet, this can cause a crash or undefined behavior. ### Code
-> Changes Analysis The fix is minimal and surgical: - **Lines moved:** The
-> initialization order is swapped - m2m context initialization moves
-> before control handler setup - **Error handling updated:** The error
-> handling paths are correctly updated to match the new initialization
-> order - **No functional changes:** The fix doesn't change driver
-> functionality, only initialization sequence ### Why This Should Be
-> Backported 1. **Fixes a real crash bug:** This addresses a potential
-> crash scenario that affects users 2. **Small and contained:** The change
-> is minimal - just reordering initialization and updating error paths 3.
-> **Low regression risk:** Moving m2m init before control init is safer
-> since m2m context doesn't depend on controls, but controls may depend on
-> m2m context 4. **Follows established patterns:** Similar commit #2 in
-> the historical examples shows a "YES" backport for proper initialization
-> order in V4L2 drivers 5. **Critical subsystem:** Media drivers crashing
-> can affect user applications ### Comparison with Historical Commits -
-> **Similar to commit #2 (YES):** Also fixes initialization order in V4L2
-> media driver to prevent crashes - **Similar to commit #4 (YES):** Media
-> driver fix that's low-risk and contained - **Unlike commits #1, #3, #5
-> (NO):** This actually fixes a bug rather than just cleanup/code style
-> improvements ### Stable Tree Criteria Met ✅ **Important bugfix:**
-> Prevents crashes ✅ **Minimal risk:** Simple reordering with no side
-> effects ✅ **Small change:** Only affects initialization sequence ✅ **No
-> architectural changes:** Pure bug fix ✅ **Confined to subsystem:** Only
-> affects rkvdec driver The fix follows the stable tree rules perfectly -
-> it's an important crash prevention fix with minimal regression risk,
-> making it an ideal backport candidate.
-
-Suggestion for improving the report, perhaps adding line breaks for
-each items ?
-
-best regards,
-Nicolas
-
-> 
->  drivers/staging/media/rkvdec/rkvdec.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index f9bef5173bf25..4702df5b095b7 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -819,24 +819,24 @@ static int rkvdec_open(struct file *filp)
->  	rkvdec_reset_decoded_fmt(ctx);
->  	v4l2_fh_init(&ctx->fh, video_devdata(filp));
->  
-> -	ret = rkvdec_init_ctrls(ctx);
-> -	if (ret)
-> -		goto err_free_ctx;
-> -
->  	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(rkvdec->m2m_dev, ctx,
->  					    rkvdec_queue_init);
->  	if (IS_ERR(ctx->fh.m2m_ctx)) {
->  		ret = PTR_ERR(ctx->fh.m2m_ctx);
-> -		goto err_cleanup_ctrls;
-> +		goto err_free_ctx;
->  	}
->  
-> +	ret = rkvdec_init_ctrls(ctx);
-> +	if (ret)
-> +		goto err_cleanup_m2m_ctx;
-> +
->  	filp->private_data = &ctx->fh;
->  	v4l2_fh_add(&ctx->fh);
->  
->  	return 0;
->  
-> -err_cleanup_ctrls:
-> -	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
-> +err_cleanup_m2m_ctx:
-> +	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->  
->  err_free_ctx:
->  	kfree(ctx);
 
