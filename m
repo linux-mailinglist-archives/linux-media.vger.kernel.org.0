@@ -1,238 +1,188 @@
-Return-Path: <linux-media+bounces-33904-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33905-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06803ACAE68
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:00:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6254BACAE6C
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:01:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63C541BA0CFC
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:00:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 92B6A1BA096D
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:01:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25B2722068F;
-	Mon,  2 Jun 2025 12:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F35121B9E3;
+	Mon,  2 Jun 2025 13:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="B3myRb9y"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="T9HGC4tt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D283A21FF21
-	for <linux-media@vger.kernel.org>; Mon,  2 Jun 2025 12:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C99AC8CE;
+	Mon,  2 Jun 2025 13:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748869156; cv=none; b=HICzEncFy75aNqBoD5eHUlI1hg6TOVKMMfaklaSZFRuVC7D/Pqy9/s5tSpXe35yt/tpHk/+arBsY5/qcgJ6YVY0k/EtiTDXjT1VMooD1598U5U7ZznUKps834drtAgFj/8MRNCNnyrzF80LL/AqEtO4rtVB2Swis8PeCsn9fMdg=
+	t=1748869249; cv=none; b=XDWbAvFS2Q7BTwl+qYF1uzj+6bwY54pIrID/gyVY3ZUwrD2ffDZW+gyJm8CmhJjPy++S14AhW7U/WVDx6bFs4sjdWCsPNhV4NB0p6cuo2Kt25+RI+eoSKiew8cR+Q5NOOK2phCosUcuo63FE525B6cHzDiEpSSu8UuHh/BUUal4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748869156; c=relaxed/simple;
-	bh=FGQS/DPv/UfUtSlsCQ6Vvh4EyONjnUMmQIJCXsOyPcw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PfEmKQcHQ/kBTNjRhmRq1RLRbMHHHTM85ca8e3cC26OKF2n3TIbHnAD21sQMaC/Mfa/GLmkIIxELANz6vqWP9C3hPv30a7MrUGGAvtW/UuOMuKFi4rmGfCCpIKCbpp5EAbSNsWKzMFjq8VNvBAQb40FBMsACNTLooqAuc+1nJ7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=B3myRb9y; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54afb5fcebaso5663320e87.3
-        for <linux-media@vger.kernel.org>; Mon, 02 Jun 2025 05:59:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1748869153; x=1749473953; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ToC+Tc0dmXcPfX/TTDxCxEcN/r59cEY9PxQCySvBfGI=;
-        b=B3myRb9ybenA/oQbk7UzqtOVkZbBywmaWMxqBNc4aXFLXkob9QXrNlGcPUt9vmjdML
-         I58F8eA7z/6SXPKurqtdSziOqbp56/bfBU1gVuPWAYV6jotVoRcfQk9l5Agbn2ClIN1D
-         DXIuCFf/TYnRnKe8bo65C9BoLPV0zPK8ltf1k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748869153; x=1749473953;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ToC+Tc0dmXcPfX/TTDxCxEcN/r59cEY9PxQCySvBfGI=;
-        b=vQ4WOd3Hx5rLrnMgsV91ZcsD67QsMEV8K1L8ZZ36WTPzV1uz55eNVZTVFkUT0Z4TIw
-         tVCNBepk+PIrZWAKmxT+Jeahn8GSs80APX77jXcKO2HdMJNSftv3dKBqWbD6lFuV6+il
-         TnIDN+zeGaL8Nbqxfoa966prZ2bYYBf3iaBc6YQ7FKfjirWObKQp4u3mlyfZgXdTWcql
-         GrtqOxhmX9a6J8ii4TOLdcAVXwas9hQQFSBUNJw88qIQb0NngfJOTkx1ZHHkZ52NirX8
-         C4md6weOnnMxBOjuFpuog3GFmR+cMAYFkgq87VyYT7NN1qYPJH80AKIjKfmL7SzhoKtk
-         RasQ==
-X-Gm-Message-State: AOJu0Yx0hUPIMtn0iLv1yHzxDr6v3rCz37RP0JSM20N85VnabhU/cNOs
-	k0JGIn0mJz1YicoOw2BNJWTv7UwcM32SDbyNfiKWTnOVizqu5x8/Y1x0PGF2iDTcJg==
-X-Gm-Gg: ASbGnctTL0rFZc5JDtuo0c/JjqXNHLGQGTadZ90YMjB2TF/C3xgPSIXXg5/YPRGSU87
-	L73jAmeSoT4MvoND/LGnT45NncwRhszu5KCKAdZX11yrzi3VnnsRW22qZSpdMZSRMN0kBWICvVK
-	/qFZegfLXuvnsTBlPy4A8jMm32JSXjdox83Us04NYd+P3RjZNuShFGrhzulyudSY9trrsTJIIIx
-	oao1KmETve1/6a3rRhTtNR1/pOauWxmChg/YGBgfwghaDHUdMqdN0mYJW7jCttaxjsLJoe3BCKS
-	bNw2VgKxE9bZ2OkNnxtiGWReiW/s37dYk2kuXrcjcmteKzsEduif/AJA4upyKf69qQcwpG7N18Y
-	hsOfc1bWyRLz5vCnSZH8aqVMY1w==
-X-Google-Smtp-Source: AGHT+IFdCNN4YdbC1Vdbn+B7IdgBUiXxK5TObG5L1wn0bDYUQJ6e5TVqvDwWnb2mlTLtx31JnwUl8Q==
-X-Received: by 2002:a05:6512:1318:b0:553:3332:b652 with SMTP id 2adb3069b0e04-5533b8fcdf3mr3719422e87.23.1748869152987;
-        Mon, 02 Jun 2025 05:59:12 -0700 (PDT)
-Received: from ribalda.c.googlers.com (90.52.88.34.bc.googleusercontent.com. [34.88.52.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553379377a8sm1601140e87.239.2025.06.02.05.59.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jun 2025 05:59:11 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 02 Jun 2025 12:59:04 +0000
-Subject: [PATCH v2 3/3] media: uvcvideo: Remove stream->is_streaming field
+	s=arc-20240116; t=1748869249; c=relaxed/simple;
+	bh=ujsjFmfmKNY3XZSEPL45VVklZB5mdxfIdwBl8x+CdSw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YC9T+PgHLX5B0ParW88Iv2CI1cqrj+Se2OSPG350xEiORbxRxgMt8Gw3ua9IcDSGkaARO3D75l8gPv4SOGqvRMMVPEE1jGFoQuvXeLWRCPEnkFpeXMGigungvfdkAF81V9iL8SOufIE7iQTyhOnPGyLK1xAVseQPz98v0xPpHrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=T9HGC4tt; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1748869240;
+	bh=ujsjFmfmKNY3XZSEPL45VVklZB5mdxfIdwBl8x+CdSw=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=T9HGC4ttEOut4U5T98eg8qP2EaOlhNuuiQkfOgbQNPK6+DQapTUSxzlb5OK3ATb0M
+	 OaTzO64G77yCGN/dk+E6bxaArLjh1pPQXrV5zTf4t2+Di+Fk1yb8WLWSi2JRnA85zv
+	 6MmAOq/zEDfHYoe3M1Xv2/oGT1j43UJNdrmX7/X2xl+/VaoTG/sZ5O6HpEssEvvn28
+	 NYwhMFAFSFletYthThItKCxaoAImwRAsn4vDmBnFKrVp+s9Bqh2kIhOdnGJJ09aoyA
+	 jMXXlvIhQc8Cw2u1bY0z/WiXBFtp1+V/X8Zadvy86eL0aEb2HKP+dGiHEhQs/anCPQ
+	 obYtdpp99cWuw==
+Received: from [IPv6:2606:6d00:10:5285::5ac] (unknown [IPv6:2606:6d00:10:5285::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1CCD017E01FD;
+	Mon,  2 Jun 2025 15:00:39 +0200 (CEST)
+Message-ID: <4d34103cf31df1cf10dd95f33a285c54249d6e3b.camel@collabora.com>
+Subject: Re: [PATCH AUTOSEL 6.15 054/110] media: rkvdec: Initialize the m2m
+ context before the controls
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Sasha Levin <sashal@kernel.org>, patches@lists.linux.dev, 
+	stable@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, ezequiel@vanguardiasur.com.ar, 
+	mchehab@kernel.org, gregkh@linuxfoundation.org,
+ linux-media@vger.kernel.org, 	linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, 	linux-kernel@vger.kernel.org
+Date: Mon, 02 Jun 2025 09:00:37 -0400
+In-Reply-To: <20250601232435.3507697-54-sashal@kernel.org>
+References: <20250601232435.3507697-1-sashal@kernel.org>
+	 <20250601232435.3507697-54-sashal@kernel.org>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250602-uvc-fop-v2-3-508a293eae81@chromium.org>
-References: <20250602-uvc-fop-v2-0-508a293eae81@chromium.org>
-In-Reply-To: <20250602-uvc-fop-v2-0-508a293eae81@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hans@jjverkuil.nl>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 
-The is_streaming field is used by modular PM to know if the device is
-currently streaming or not.
+Le dimanche 01 juin 2025 à 19:23 -0400, Sasha Levin a écrit :
+> From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> 
+> [ Upstream commit d43d7db3c8a1868dcbc6cb8de90a3cdf309d6cbb ]
+> 
+> Setting up the control handler calls into .s_ctrl ops. While validating
+> the controls the ops may need to access some of the context state, which
+> could lead to a crash if not properly initialized.
+> 
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+> 
+> Now let me analyze the specific changes proposed in the commit: ##
+> Analysis **YES** This commit should be backported to stable kernel
+> trees. Here's my extensive analysis: ### Core Issue Analysis The commit
+> addresses a critical initialization order bug that can lead to crashes.
 
-With the transition to vb2 and fop helpers, we can use vb2 functions for
-the same functionality. The great benefit is that vb2 already takes
-track of the streaming state for us.
+"While validating the controls the ops **may** need"
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_queue.c | 11 ++++++++-
- drivers/media/usb/uvc/uvc_v4l2.c  | 51 ++-------------------------------------
- drivers/media/usb/uvc/uvcvideo.h  |  1 -
- 3 files changed, 12 insertions(+), 51 deletions(-)
+It wasn't the case yet, so its not as critical as this analyses made
+it sound like. The changes that came next, removes superfluous branches
+that was only there for the purpose of avoiding the crash.
 
-diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-index 72c5494dee9f46ff61072e7d293bfaddda40e615..dff93bec204428b8aebc09332e0322fa68823fa4 100644
---- a/drivers/media/usb/uvc/uvc_queue.c
-+++ b/drivers/media/usb/uvc/uvc_queue.c
-@@ -165,12 +165,18 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
- 
- 	lockdep_assert_irqs_enabled();
- 
-+	ret = uvc_pm_get(stream->dev);
-+	if (ret)
-+		return ret;
-+
- 	queue->buf_used = 0;
- 
- 	ret = uvc_video_start_streaming(stream);
- 	if (ret == 0)
- 		return 0;
- 
-+	uvc_pm_put(stream->dev);
-+
- 	spin_lock_irq(&queue->irqlock);
- 	uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
- 	spin_unlock_irq(&queue->irqlock);
-@@ -181,11 +187,14 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
- static void uvc_stop_streaming(struct vb2_queue *vq)
- {
- 	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-+	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
- 
- 	lockdep_assert_irqs_enabled();
- 
--	if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
-+	if (vq->type != V4L2_BUF_TYPE_META_CAPTURE) {
-+		uvc_pm_put(stream->dev);
- 		uvc_video_stop_streaming(uvc_queue_to_stream(queue));
-+	}
- 
- 	spin_lock_irq(&queue->irqlock);
- 	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 7a5ecbefa32c0a6b74c85d7f77a25b433598471e..d4bee0d4334b764c0cf02363b573b55fb44eb228 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -617,9 +617,6 @@ static int uvc_v4l2_release(struct file *file)
- 
- 	uvc_ctrl_cleanup_fh(handle);
- 
--	if (handle->is_streaming)
--		uvc_pm_put(stream->dev);
--
- 	/* Release the file handle. */
- 	vb2_fop_release(file);
- 	file->private_data = NULL;
-@@ -677,50 +674,6 @@ static int uvc_ioctl_try_fmt(struct file *file, void *fh,
- 	return uvc_v4l2_try_format(stream, fmt, &probe, NULL, NULL);
- }
- 
--static int uvc_ioctl_streamon(struct file *file, void *fh,
--			      enum v4l2_buf_type type)
--{
--	struct uvc_fh *handle = fh;
--	struct uvc_streaming *stream = handle->stream;
--	int ret;
--
--	if (handle->is_streaming)
--		return 0;
--
--	ret = uvc_pm_get(stream->dev);
--	if (ret)
--		return ret;
--
--	ret = vb2_ioctl_streamon(file, fh, type);
--	if (ret) {
--		uvc_pm_put(stream->dev);
--		return ret;
--	}
--
--	handle->is_streaming = true;
--
--	return 0;
--}
--
--static int uvc_ioctl_streamoff(struct file *file, void *fh,
--			       enum v4l2_buf_type type)
--{
--	struct uvc_fh *handle = fh;
--	struct uvc_streaming *stream = handle->stream;
--	int ret;
--
--	ret = vb2_ioctl_streamoff(file, fh, type);
--	if (ret)
--		return ret;
--
--	if (handle->is_streaming) {
--		handle->is_streaming = false;
--		uvc_pm_put(stream->dev);
--	}
--
--	return 0;
--}
--
- static int uvc_ioctl_enum_input(struct file *file, void *fh,
- 				struct v4l2_input *input)
- {
-@@ -1323,8 +1276,8 @@ const struct v4l2_ioctl_ops uvc_ioctl_ops = {
- 	.vidioc_expbuf = vb2_ioctl_expbuf,
- 	.vidioc_dqbuf = vb2_ioctl_dqbuf,
- 	.vidioc_create_bufs = vb2_ioctl_create_bufs,
--	.vidioc_streamon = uvc_ioctl_streamon,
--	.vidioc_streamoff = uvc_ioctl_streamoff,
-+	.vidioc_streamon = vb2_ioctl_streamon,
-+	.vidioc_streamoff = vb2_ioctl_streamoff,
- 	.vidioc_enum_input = uvc_ioctl_enum_input,
- 	.vidioc_g_input = uvc_ioctl_g_input,
- 	.vidioc_s_input = uvc_ioctl_s_input,
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 3ddbf065a2cbae40ee48cb06f84ca8f0052990c4..f895f690f7cdc1af942d5f3a5f10e9dd1c956a35 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -626,7 +626,6 @@ struct uvc_fh {
- 	struct uvc_video_chain *chain;
- 	struct uvc_streaming *stream;
- 	unsigned int pending_async_ctrls;
--	bool is_streaming;
- };
- 
- /* ------------------------------------------------------------------------
+It is harmless otherwise, the change is good practice and at best may
+help people backportin more patches. But not worth "Fixes:" and
+"CC: Stable" in my opinion. You are free to proceed.
 
--- 
-2.49.0.1266.g31b7d2e469-goog
+> The problem occurs in the `rkvdec_open()` function at lines 822-830 in
+> the current code: 1. **Current problematic order:** - Line 822:
+> `rkvdec_init_ctrls(ctx)` is called first - Line 826-830:
+> `v4l2_m2m_ctx_init()` is called second 2. **The problem:** According to
+> the commit message and my analysis of the kernel documentation,
+> `v4l2_ctrl_handler_setup()` (called inside `rkvdec_init_ctrls()`) calls
+> `.s_ctrl` for all controls unconditionally to initialize hardware to
+> default values. The `.s_ctrl` handlers may need to access the m2m
+> context state, but if the m2m context (`ctx->fh.m2m_ctx`) isn't
+> initialized yet, this can cause a crash or undefined behavior. ### Code
+> Changes Analysis The fix is minimal and surgical: - **Lines moved:** The
+> initialization order is swapped - m2m context initialization moves
+> before control handler setup - **Error handling updated:** The error
+> handling paths are correctly updated to match the new initialization
+> order - **No functional changes:** The fix doesn't change driver
+> functionality, only initialization sequence ### Why This Should Be
+> Backported 1. **Fixes a real crash bug:** This addresses a potential
+> crash scenario that affects users 2. **Small and contained:** The change
+> is minimal - just reordering initialization and updating error paths 3.
+> **Low regression risk:** Moving m2m init before control init is safer
+> since m2m context doesn't depend on controls, but controls may depend on
+> m2m context 4. **Follows established patterns:** Similar commit #2 in
+> the historical examples shows a "YES" backport for proper initialization
+> order in V4L2 drivers 5. **Critical subsystem:** Media drivers crashing
+> can affect user applications ### Comparison with Historical Commits -
+> **Similar to commit #2 (YES):** Also fixes initialization order in V4L2
+> media driver to prevent crashes - **Similar to commit #4 (YES):** Media
+> driver fix that's low-risk and contained - **Unlike commits #1, #3, #5
+> (NO):** This actually fixes a bug rather than just cleanup/code style
+> improvements ### Stable Tree Criteria Met ✅ **Important bugfix:**
+> Prevents crashes ✅ **Minimal risk:** Simple reordering with no side
+> effects ✅ **Small change:** Only affects initialization sequence ✅ **No
+> architectural changes:** Pure bug fix ✅ **Confined to subsystem:** Only
+> affects rkvdec driver The fix follows the stable tree rules perfectly -
+> it's an important crash prevention fix with minimal regression risk,
+> making it an ideal backport candidate.
 
+Suggestion for improving the report, perhaps adding line breaks for
+each items ?
+
+best regards,
+Nicolas
+
+> 
+>  drivers/staging/media/rkvdec/rkvdec.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index f9bef5173bf25..4702df5b095b7 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -819,24 +819,24 @@ static int rkvdec_open(struct file *filp)
+>  	rkvdec_reset_decoded_fmt(ctx);
+>  	v4l2_fh_init(&ctx->fh, video_devdata(filp));
+>  
+> -	ret = rkvdec_init_ctrls(ctx);
+> -	if (ret)
+> -		goto err_free_ctx;
+> -
+>  	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(rkvdec->m2m_dev, ctx,
+>  					    rkvdec_queue_init);
+>  	if (IS_ERR(ctx->fh.m2m_ctx)) {
+>  		ret = PTR_ERR(ctx->fh.m2m_ctx);
+> -		goto err_cleanup_ctrls;
+> +		goto err_free_ctx;
+>  	}
+>  
+> +	ret = rkvdec_init_ctrls(ctx);
+> +	if (ret)
+> +		goto err_cleanup_m2m_ctx;
+> +
+>  	filp->private_data = &ctx->fh;
+>  	v4l2_fh_add(&ctx->fh);
+>  
+>  	return 0;
+>  
+> -err_cleanup_ctrls:
+> -	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+> +err_cleanup_m2m_ctx:
+> +	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+>  
+>  err_free_ctx:
+>  	kfree(ctx);
 
