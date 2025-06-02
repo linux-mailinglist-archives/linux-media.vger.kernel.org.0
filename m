@@ -1,307 +1,175 @@
-Return-Path: <linux-media+bounces-33948-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33951-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2424FACB9B4
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 18:37:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BABEEACBA45
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 19:28:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D30B189B08A
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 16:38:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84BC53AA5AF
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 17:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7AB32248B0;
-	Mon,  2 Jun 2025 16:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 548BA22A1C5;
+	Mon,  2 Jun 2025 17:27:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HIMX0fSY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BL6i4uQH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388482C3258
-	for <linux-media@vger.kernel.org>; Mon,  2 Jun 2025 16:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9001E1C8629;
+	Mon,  2 Jun 2025 17:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748882260; cv=none; b=s9UnP2nwH2atTvta+kMrBk9IJXT8yKecW/azzOV6NU8kiVqer9iLehDRBZcpF52zwKhM6LKyhbH8WCk7N8fgi8MgoPnj1JO93apRk3HIqvSFPyy06TlJHpNMIgcP0CHe0BCefrvlwYX3bR/8AD1e079budQdeaBym6A5Cssty3A=
+	t=1748885256; cv=none; b=gtIrxU+LGaNr/1J/5WZRBYX3NTA9L9fmc9+qsw9kVbagGZNK/l0HlIOTAyHSQ5+ODrkSK8o6JBiH4CJeMfgZL2Ad3nDuTlGvkY0R11spmgAMPuj4vYzQ/SAMRPSdB5r/o1NNHPK4pG3YC7sY19HJ0c8YM1HkG2KWlDirFHjij90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748882260; c=relaxed/simple;
-	bh=rVB2GycsQvyKE5QG3Rna4kAt1U38SwUBPHmNGU3MrfI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LAKrBVSFXVk4weDN/Bw6hsktSwY/WGGtW89Q1wssVw8zJFtGAiw6p5BRCd3Y9obomozfKU20AraL5yTPzrIWrBg15MYc6cG830K9EctJHPh3AnfThddK+oeRq2DPJabSWZXPKFFw4UDqS6qReXygZAGtTgJSTG/hJlOj9h0LBRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HIMX0fSY; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3105ef2a08dso38751481fa.0
-        for <linux-media@vger.kernel.org>; Mon, 02 Jun 2025 09:37:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1748882256; x=1749487056; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=esggCOS0GA/dt9SZuSC/VmOqfVdUNlIuXRi1OF+fKAs=;
-        b=HIMX0fSYS7P6FaF+pe2whERCupnCmjKCNz6e+ccNy3ipEO3DFfHuhHtj9uxRMoF5Yo
-         qqYNaVKB142DbSm+J/VsKEoH5N35TeyM2fY8o9NIL6CX1j6XJvkcZoG+ByGflOMr0MZQ
-         QgQympv7tdbfI86pNEH4T8SzMUSiKnOhSqwN4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748882256; x=1749487056;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=esggCOS0GA/dt9SZuSC/VmOqfVdUNlIuXRi1OF+fKAs=;
-        b=ic5oE07GZvnx6sS/x/78q4IDFDv8x7NZzCryF0KYVvZQez8VCxYCnj/WS1zwvbqDpF
-         NcKTYRFQP0DYn4uStnK/MXlzAhc6iEw8yEtvMM1n0awEtu9hrQMrDZAJJXguo/AboeoA
-         WYITV+/fLNjQABe2nzLd5Fcw7mSdiEl+mL7Kk+cJtc+uQBpN6BturZPbFjFEf8b6TfJY
-         eg/dc+OlOzYs0/x9MsKjxnS0nt00hVIv+A9P8+cUC7wA75HXOrae9EbsSQCPMITa3sxA
-         jHvVDC6+Cmw+9efJxjNsSj1qO/S4u+QYShc0Q993SezVeqXVUE9CvHr1cNwE8aaYAj7D
-         QOLQ==
-X-Gm-Message-State: AOJu0YwtmOnamb6ZNvFCCrvEQS8WUi4cnz2gWewxIyPYZ566SO1hzt9i
-	9DwDWOaUp8gkFSFDhdExdjUNlmzimWTuI3Hts1/Wf6UrkZUxRPoFPxyts7X34f2rXwtFanOqlbm
-	2MZg=
-X-Gm-Gg: ASbGncuVdqAc0c67NelQ7P9Ou5g38blgpOQMuka19YnhGncYwMcTOM3V0BI5Wwyto8y
-	if0woRiGpF2lgrgPxY8fXeU5v1q/tsGFB4TiYd3VCOooN1o93qoZK8Fk3kHwDfbGZW9RE+cLhzR
-	d/GbiKqWCOkC8NhogjYBtXrMVxZVzJsyPAhltBXsuwWlmp5gEiGI57vic0pB3enfjcpuVaujL3r
-	pOcX8rlpYzii2Cy+Uj3c4HACWRahRpwOaYhsBe7Q0Rz9T04Q+cCYqkZK5ECPOisE01jXLJ3mxDn
-	KXxswkVRAOuKLue5JbsSm3vxo+5j+36/GwT97EPNDfHNZSr6XQTHEdmdTepLl17iXLmzfBzIcfu
-	Or69oHTqgaq8b9w==
-X-Google-Smtp-Source: AGHT+IFfe2SXWAwVGE3rFgmBpq07aoX50BLIlbqNB2qLjunDIfyJFSj/EGmrIkar1U8aHL4XCrkI+g==
-X-Received: by 2002:a05:651c:211c:b0:32a:866e:2ed8 with SMTP id 38308e7fff4ca-32a9ea67212mr37045041fa.28.1748882255947;
-        Mon, 02 Jun 2025 09:37:35 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32a85bf510csm15841051fa.111.2025.06.02.09.37.35
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 09:37:35 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54b10594812so5627382e87.1
-        for <linux-media@vger.kernel.org>; Mon, 02 Jun 2025 09:37:35 -0700 (PDT)
-X-Received: by 2002:a05:6512:3090:b0:553:28a6:4384 with SMTP id
- 2adb3069b0e04-55342f54674mr2581755e87.10.1748882254843; Mon, 02 Jun 2025
- 09:37:34 -0700 (PDT)
+	s=arc-20240116; t=1748885256; c=relaxed/simple;
+	bh=tusFr6vqIW4SyQkabsISqQQ1/RpKHpF913C78L81Pys=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ggF3KUhoO4gmDc6V2W4Wh2ywvkg4/I7YGX7PKSGMdUFe/E4JhOS/xzjlRrgd8iZAWfS5V9tDkZHOn+GXRn4VgsJgN8tceUOzbDv7kemIBatK6Jt7aZwMevwQjLJyH07LC8yHUDbzQFlD34WQod5fOG4C7a1NeVUJgUBVXPzy28k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BL6i4uQH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EBAF9C4CEEB;
+	Mon,  2 Jun 2025 17:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748885256;
+	bh=tusFr6vqIW4SyQkabsISqQQ1/RpKHpF913C78L81Pys=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=BL6i4uQHaOIc7/IKHElWCtNY2uNf2dwHwqRNtBMKLY/JMCXLkbeB/oFeeYZOU1FYd
+	 xW5Fe9fL/Y+PggZMp8pkGfr9uMOXwyQXY9trnuLy0ylsxfWLYYEd011a4chyGhO0SE
+	 g7whqdazHS1IaoquSFvJPeXTuFt9uUptQicPG5BkYee7D04uFa0PWwT3X13MhuWjbK
+	 arsIRZ6Mxjg6reNup/B2DUzMQ0AUxu5ZBeRQOoOrjVJYfoTvLIyOYE0z7JbfUUJClH
+	 QGfaERwqwEGD4HrstKWPQlzgUu+0onn7fOGQHZWx6YfUUOWUYSuj/AoyHvbfJo2/1O
+	 01YsY4n9XcmPQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0DA2C5AD49;
+	Mon,  2 Jun 2025 17:27:35 +0000 (UTC)
+From: Vincent Knecht via B4 Relay <devnull+vincent.knecht.mailoo.org@kernel.org>
+Subject: [PATCH v4 0/4] CAMSS support for MSM8939
+Date: Mon, 02 Jun 2025 19:27:26 +0200
+Message-Id: <20250602-camss-8x39-vbif-v4-0-32c277d8f9bf@mailoo.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CA+q66aSkTee-JbFg2Yg+NddiVYJWdf4P86tiUF=bo1iahCOFMQ@mail.gmail.com>
- <CANiDSCvb8G9m1Fif-HSQQLQZrAJTTEzhNGf=kkQQXBCpR8svEQ@mail.gmail.com>
- <CA+q66aSipHBid9swM_rWf7ewB31GmMX4ThfKWkQ23JqUDpNtDA@mail.gmail.com>
- <CANiDSCthwYj6ijX68EQz=YO9ra24EME+MSL2msA867Kj0Ayg1A@mail.gmail.com>
- <CA+q66aQNHdn5SSu918xEQhiGQ8m0d91rX7P=AbXLnX3YukyFig@mail.gmail.com>
- <CANiDSCvjiSJFLq0XzTUt3piurO-oGgNpHjEFAuNoBFkfAZ61vg@mail.gmail.com>
- <CA+q66aSo1tLsbnTsc3w9D_LTnhb1OcoZxSApNBiu7wRP0SyEoQ@mail.gmail.com>
- <CANiDSCsQtd2tk4XhvH0nbZr=KHymdPDrFwhM4umX8igyFQ3Qjg@mail.gmail.com> <CA+q66aQ8h01Z1fE0uk+C4jdH_o9CcZ6_1KQ-FzSjL0HrEd0spg@mail.gmail.com>
-In-Reply-To: <CA+q66aQ8h01Z1fE0uk+C4jdH_o9CcZ6_1KQ-FzSjL0HrEd0spg@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 2 Jun 2025 18:37:21 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvT=D-gQvF4o6BGb_iH2xY1ksp9iAe0_jO2B9fKNnkorA@mail.gmail.com>
-X-Gm-Features: AX0GCFtEIonb7hEnJeDPLKjjkM0IRfXxkld35nUMG68oYKRvtYe_-DG8Y5Ov9Wk
-Message-ID: <CANiDSCvT=D-gQvF4o6BGb_iH2xY1ksp9iAe0_jO2B9fKNnkorA@mail.gmail.com>
-Subject: Re: Missing support for webcam HP HD 2300 (0bda / 5822)
-To: =?UTF-8?Q?Micha=C3=ABl_Melchiore?= <rohel01@gmail.com>
-Cc: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAP7ePWgC/23OSw6CMBCA4auQrq3pgwHqynsYF6UPaCLUtKbBE
+ O5uIS4wuPwnmW9mRtEEZyK6FDMKJrno/JijPBVI9XLsDHY6N2KEAQFaYyWHGHEzcYFT6ywWNVg
+ LDRVUNChvPYOxbtrE2z137+LLh/d2INF1+rUYOViJYoIlZUpXhFTSiusg3cP7sw8dWrHE9gAcA
+ ZaBSnMNCqQtoToAfAfwPx/wDFglqKbQtqB/gWVZPoZh4WExAQAA
+X-Change-ID: 20250517-camss-8x39-vbif-975ff5819198
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ Vincent Knecht <vincent.knecht@mailoo.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748885254; l=3491;
+ i=vincent.knecht@mailoo.org; s=20250414; h=from:subject:message-id;
+ bh=tusFr6vqIW4SyQkabsISqQQ1/RpKHpF913C78L81Pys=;
+ b=CtN63Fz0a4w/C6OpUXiNhepIpVTVRQhV29+1YLr9zR9PJ/u/SC5stRtQcILD9q0zerTS75ynf
+ MnXruY3VRnbBOA/zGLiBDwRdS7sE8XjgP9Hu3DkLmuO/7oJV3piC/UG
+X-Developer-Key: i=vincent.knecht@mailoo.org; a=ed25519;
+ pk=MFCVQkhL3+d3NHDzNPWpyZ4isxJvT+QTqValj5gSkm4=
+X-Endpoint-Received: by B4 Relay for vincent.knecht@mailoo.org/20250414
+ with auth_id=377
+X-Original-From: Vincent Knecht <vincent.knecht@mailoo.org>
+Reply-To: vincent.knecht@mailoo.org
 
-Hi Micha=C3=ABl
+This series adds CAMSS support for MSM8939.
+It's mostly identical to MSM8916, except for some clocks
+and an additional CSI.
 
-Thanks for the confirmation. Could you share the lsusb for this device:
+To fix black stripes across sensor output, and garbage in
+CSID TPG output, 2 VFE VBIF register settings are needed.
+So the 1st patch adds helper functions to do just that.
 
-HP Webcam HD 2300 (03f0:e207)
+Patch 1: adds helper for VFE VBIF settings
+Patch 2: adds CAMSS_8x39 version in CAMSS driver
+Patch 3: documents qcom,msm8939-camss DT bindings
+Patch 4: adds camss and cci in msm8939.dtsi
 
-Thanks!
+Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+---
+Changes in v4:
+- Picked up tags
+- Patch 1:
+  - Fix alignment to match opening parenthesis (Bryan)
+- Patch 2: no change
+- Patch 3:
+  - Wrap line at 80 chars (Krzysztof)
+- Patch 4: no change
+- Link to v3: https://lore.kernel.org/r/20250530-camss-8x39-vbif-v3-0-fc91d15bb5d6@mailoo.org
 
-On Sat, 31 May 2025 at 16:28, Micha=C3=ABl Melchiore <rohel01@gmail.com> wr=
-ote:
->
-> Hello Ricardo,
->
-> This laptop has a built-in webcam, but I wanted to use the HP Webcam HD 2=
-300.
-> I confirm your proposed fixed made the HP Webcam HD 2300working.
->
-> Kind regards,
->
-> Micha=C3=ABl
->
->
-> Le mer. 28 mai 2025 =C3=A0 20:18, Ricardo Ribalda <ribalda@chromium.org> =
-a =C3=A9crit :
-> >
-> > Hi Michael
-> >
-> > In your original email, the device is:
-> > USB Camera (0bda:5822)
-> >
-> > but in your last log, the device is:
-> > HP Webcam HD 2300 (03f0:e207)
-> >
-> > Sorry to ask.... are you sure you were testing the correct device?
-> >
-> > On Fri, 21 Mar 2025 at 13:46, Micha=C3=ABl Melchiore <rohel01@gmail.com=
-> wrote:
-> > >
-> > > I have never submitted a patch before, but I will try after I come ba=
-ck from work!
-> > >
-> > > Thanks for your help.
-> > >
-> > > Micha=C3=ABl
-> > >
-> > > Le ven. 21 mars 2025 =C3=A0 13:37, Ricardo Ribalda <ribalda@chromium.=
-org> a =C3=A9crit :
-> > >>
-> > >> Hi Micha=C3=ABl
-> > >>
-> > >>
-> > >> On Fri, 21 Mar 2025 at 13:29, Micha=C3=ABl Melchiore <rohel01@gmail.=
-com> wrote:
-> > >> >
-> > >> > Ricardo,
-> > >> >
-> > >> > Setting quirks to 16, the webcam now works. Please find the dmsg l=
-ogs attached.
-> > >> > What should I do to make it permanent?
-> > >>
-> > >> Short term you can set a modprobe.d file with the required options.
-> > >>
-> > >> Long term, a patch should be added to uvcvideo.c. Something similar
-> > >> to: https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/lin=
-ux.git/commit/drivers/media/usb/uvc/uvc_driver.c?id=3Db2ec92bb5605452d539a7=
-aa1e42345b95acd8583
-> > >>
-> > >> Maybe you want to try preparing that patch?
-> > >>
-> > >> Regards!
-> > >>
-> > >> >
-> > >> > Cheers,
-> > >> >
-> > >> > Micha=C3=ABl
-> > >> >
-> > >> > Le ven. 21 mars 2025 =C3=A0 12:38, Ricardo Ribalda <ribalda@chromi=
-um.org> a =C3=A9crit :
-> > >> >>
-> > >> >> Hi Micha=C3=ABl
-> > >> >>
-> > >> >> Could you try setting quirks to 16?
-> > >> >>
-> > >> >> rmmod uvcvideo; modprobe uvcvideo quirks=3D16
-> > >> >>
-> > >> >> and then try the same test (you can also try Cheese after you cap=
-ture the logs)
-> > >> >>
-> > >> >> Regards!
-> > >> >>
-> > >> >>
-> > >> >> On Fri, 21 Mar 2025 at 11:49, Micha=C3=ABl Melchiore <rohel01@gma=
-il.com> wrote:
-> > >> >> >
-> > >> >> > Hello Ricardo,
-> > >> >> >
-> > >> >> > This webcam is indeed connected through a KVM USB port.
-> > >> >> >
-> > >> >> > I followed your instructions with the webcam first connected th=
-rough the KVM and then directly to the laptop. See the attached logs.
-> > >> >> >
-> > >> >> > Please noted I ran the command yavta -c /dev/video2 since this =
-laptop already has an integrated webcam, registered as /dev/video0 and /dev=
-/video1
-> > >> >> >
-> > >> >> > Thanks for your help!
-> > >> >> >
-> > >> >> > Micha=C3=ABl
-> > >> >> >
-> > >> >> >
-> > >> >> >
-> > >> >> > Le ven. 21 mars 2025 =C3=A0 10:56, Ricardo Ribalda <ribalda@chr=
-omium.org> a =C3=A9crit :
-> > >> >> >>
-> > >> >> >> Hi Micha=C3=ABl
-> > >> >> >>
-> > >> >> >> By looking at your dmesg.log. This sees to be the culprit:
-> > >> >> >>
-> > >> >> >> [123030.111453] uvcvideo 1-8.4:1.1: Failed to resubmit video U=
-RB (-1).
-> > >> >> >>
-> > >> >> >> Unfortunately, it happened before you enabled the trace in uvc=
-.
-> > >> >> >>
-> > >> >> >> Could you try again but this this time do this:
-> > >> >> >>
-> > >> >> >> 1) enable trace
-> > >> >> >> 2) connect the camera
-> > >> >> >> 3) try to capture frames with yavta.
-> > >> >> >> yavta -c /dev/video0
-> > >> >> >> 4) share the logs
-> > >> >> >>
-> > >> >> >> Also try to connect the device to a different port in your not=
-ebook,
-> > >> >> >> preferably being the only thing connected to that port.
-> > >> >> >>
-> > >> >> >> Thanks!
-> > >> >> >>
-> > >> >> >>
-> > >> >> >>
-> > >> >> >> On Thu, 20 Mar 2025 at 23:30, Micha=C3=ABl Melchiore <rohel01@=
-gmail.com> wrote:
-> > >> >> >> >
-> > >> >> >> > Hi. I just want to report on a non working webcam. Details i=
-s as below
-> > >> >> >> >
-> > >> >> >> > Device details
-> > >> >> >> >
-> > >> >> >> >  1. Vendor Id / Device Id : 0bda / 5822
-> > >> >> >> >  2. Device name : Realtek Semiconductor Corp. USB Camera
-> > >> >> >> >  3. Vendor : HP
-> > >> >> >> >
-> > >> >> >> > My laptop details
-> > >> >> >> >
-> > >> >> >> >  1. Lenovo Legion Pro 5 16IRX9
-> > >> >> >> >  2. Linux kernel : 6.11.0-19-generic
-> > >> >> >> >  4. My operating system : Ubuntu 24.04.2 LTS
-> > >> >> >> >
-> > >> >> >> > I tried using this webcam with GMeet, Cheese and Kamoso. In =
-all cases,
-> > >> >> >> > I get a blank screen even though the LED on the webcam light=
-s-up as if
-> > >> >> >> > it was working: all programs seem stuck displaying a "Starti=
-ng up your
-> > >> >> >> > webcam..." phase.
-> > >> >> >> >
-> > >> >> >> > As requested in the FAQ, I have attached my dmesg.log and ls=
-usb.log
-> > >> >> >> > files. Please note this laptop has an integrated webcam whic=
-h is
-> > >> >> >> > working fine. My problem is with HP HD 2300 webcam.
-> > >> >> >> >
-> > >> >> >> > Let me know if can help investigate!
-> > >> >> >> >
-> > >> >> >> > Cheers,
-> > >> >> >> >
-> > >> >> >> > Micha=C3=ABl
-> > >> >> >>
-> > >> >> >>
-> > >> >> >>
-> > >> >> >> --
-> > >> >> >> Ricardo Ribalda
-> > >> >>
-> > >> >>
-> > >> >>
-> > >> >> --
-> > >> >> Ricardo Ribalda
-> > >>
-> > >>
-> > >>
-> > >> --
-> > >> Ricardo Ribalda
-> >
-> >
-> >
-> > --
-> > Ricardo Ribalda
+Changes in v3:
+- Patch 1:
+  - Use braces around multiline (Bryan)
+  - Rename vfe_vbif_reg_write to vfe_vbif_write_reg (Bryan)
+  - Get rid of switch block on CAMSS version (Bryan)
+- Patch 2:
+  - Get rid of switch block on CAMSS version (Bryan)
+- Patch 3: no change
+- Patch 4: no change
+  - Tried to get rid of CCI camss_ahb but this resulted in device
+    freeze+reboot (Konrad)
+- Link to v2: https://lore.kernel.org/r/20250525-camss-8x39-vbif-v2-0-6d3d5c5af456@mailoo.org
+
+Changes in v2:
+- Patch 1:
+  - Fix devm_platform_ioremap_resource_byname line to not end with
+    opening parenthesis (media-ci/1-checkpatch)
+  - Move camss-vfe-4-1.c handling of VBIF previously in patch 2 here
+    (Dmitry)
+- Patch 2:
+  - Declare regulators in PHY entries, not CSID ones (Bryan)
+- Patch 3: (bindings)
+  - Fix bindings checks for new errors (Rob)
+  - Fix properties ordering, code-style and example (Krzysztof)
+  - Sort reg-names, clock-names and interrupt-names alphanumerically (Bryan)
+- Patch 4: (dtsi)
+  - Move #address/#size cells before status (Konrad)
+  - Aligned CCI with msm8916, thus removing ispif_ahb mention (Konrad)
+    If "camss_ahb should be unnecessary", it's still required by qcom,i2c-cci.yaml
+- Link to v1: https://lore.kernel.org/r/20250520-camss-8x39-vbif-v1-0-a12cd6006af9@mailoo.org
+
+---
+Vincent Knecht (4):
+      media: qcom: camss: vfe: Add VBIF setting support
+      media: qcom: camss: Add support for MSM8939
+      media: dt-bindings: Add qcom,msm8939-camss
+      arm64: dts: qcom: msm8939: Add camss and cci
+
+ .../bindings/media/qcom,msm8939-camss.yaml         | 254 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8939-pm8916.dtsi       |   4 +
+ arch/arm64/boot/dts/qcom/msm8939.dtsi              | 146 ++++++++++++
+ drivers/media/platform/qcom/camss/Makefile         |   1 +
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
+ drivers/media/platform/qcom/camss/camss-ispif.c    |   8 +-
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c  |  12 +
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.c |  31 +++
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.h |  19 ++
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  10 +
+ drivers/media/platform/qcom/camss/camss-vfe.h      |   3 +
+ drivers/media/platform/qcom/camss/camss.c          | 157 +++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 13 files changed, 645 insertions(+), 2 deletions(-)
+---
+base-commit: 8566fc3b96539e3235909d6bdda198e1282beaed
+change-id: 20250517-camss-8x39-vbif-975ff5819198
+
+Best regards,
+-- 
+Vincent Knecht <vincent.knecht@mailoo.org>
 
 
-
---=20
-Ricardo Ribalda
 
