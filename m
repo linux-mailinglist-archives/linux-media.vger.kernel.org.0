@@ -1,350 +1,151 @@
-Return-Path: <linux-media+bounces-33906-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33907-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CE9ACAE84
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7B1ACAE86
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:06:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04C6E3AD28B
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:05:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C5883AE7E0
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:06:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2C74218587;
-	Mon,  2 Jun 2025 13:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F4C121C19B;
+	Mon,  2 Jun 2025 13:06:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="lSemoB3K"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EQzFupVg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855D82D7BF
-	for <linux-media@vger.kernel.org>; Mon,  2 Jun 2025 13:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F0942A92
+	for <linux-media@vger.kernel.org>; Mon,  2 Jun 2025 13:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748869550; cv=none; b=nOAKsJLg4XWX1VKTIO67uKXEG8bQbojPxALnH0yNIQFjYpn8ZpoTe88zDhg0AucfKHFmJ91jut4Eikkm/LdDQ0Der6Q5mgWfbUIreKiNmP6J83VX86Z0xi4YYjmOqGRncDps9TMVwhDbAQ6uhhHaNL+DvOahyAYLto0Skz5bcP0=
+	t=1748869581; cv=none; b=HKyJMN49Od0wNLkZ54P85jpnTmKuOXe8eudnpwYD/ENZZygwCmN23DNQ3nQBDtPr6X0Jji5iIK525X8kD69ul+OM2QukP2am6/SMhVK4RS1tGfdh6YOtioG3wQTzjZSLmorhhnsUcdgXgE3LKi5ge7GJlrcJhacDS75hldw1wOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748869550; c=relaxed/simple;
-	bh=NC0GJp+IXARutepXq/zjr4cfbfrFiXvRZzFKV9koYak=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MUVL/poXWdG1PhgRRxQVgXFkgOgX62Vwth2PYOiWrsFrEi+7l0FREiXuXQYj7MucJA6NA4P+aPMIjSTm7wh+7jyNIGkD3+oYjDTDkyTLdido/MCJTdTV4Vxsm4Ki+i0MO8B/DEmfSHGGJrrOD1zsZ6fkrnC0IQQGNuypwiYEf5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=lSemoB3K; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=trlQBZ+NItaU//lHOT4H++EBW6iykhaqcQo7T+bv8Cw=; b=lSemoB3KyeXrhMFJ3+ArOD3xky
-	WlImlzAOXcWmwBMyQrwyFGtsvo3SXlxNZFoJxnu0YMYbtq6wYg0h7sS6jtRMJN5OeYD7Tz3NbPcyD
-	a+R6U4X+stCLU7ddsIRX9IsqrSP5ZqQXMO9M4soECOSwjpY2NHXXershLvECYKT6hRjokQa44gJf1
-	BfUmvfjZ7RG/YI9te1uDW8jCaR5A0zr3mEiQsyfu13fRYWuhONjSYe7wvNwZbQMVRJiiEsUvPocIP
-	9KtZCt6eZ3TzNTuO2GSmuNgojU6unyz5cbaVw8SowpI4mUDiAEJKDSK+u56FXZFHAaHNZBXH+Kezj
-	AWpurN3g==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1uM4r6-00GHa9-Oy; Mon, 02 Jun 2025 15:05:32 +0200
-Message-ID: <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
-Date: Mon, 2 Jun 2025 14:05:31 +0100
+	s=arc-20240116; t=1748869581; c=relaxed/simple;
+	bh=YjwDw5Dg5h3IS7aOLbbJcHTFYc+Cn/5+FgNseRUWlV8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=L0HuRN/H9wz1Zl+b3L0NGjD3dW+xigbCIsv3I5T28KZyWBRp2x3Pb3QT+z/vARJHKrkyaEa0Xn8JQfE4F0pkR7R75fxAu0bhlbL85MVn4/fF458QeX0ZoD8DsiCGMd/eRwGIKBAH9ilK+vWU6MrFeIFuv96P9UosFe6VvdJEmdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EQzFupVg; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54b10594812so5328840e87.1
+        for <linux-media@vger.kernel.org>; Mon, 02 Jun 2025 06:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1748869577; x=1749474377; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wYdIj1JHXrltKCsXIaqKuGXb+KSTjSklYpchtb4ThlI=;
+        b=EQzFupVgV9+Hdi5tzMfE4ag1COG53AXGcgKGeCNDXUakPfONqoKymduk5FnWDUnZkA
+         L4zXNUwxZVaw5j5yPNrEru4n9gK4SWeUYuE+dLGNeARabtGArqkTLpYpThucb1VdXJsi
+         blSH+SjqZ2JCjua/Y8jt6bwBPAYa6mbqAZDJI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748869577; x=1749474377;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wYdIj1JHXrltKCsXIaqKuGXb+KSTjSklYpchtb4ThlI=;
+        b=d5lOtCGdH5LITnZGOImdakN27ZNCkPchNOnEFRJafXBWkL/TnNozbY9bNuwb9IQ+v3
+         EfwaEHdSxJFgxQLxmQ8nLvgWZ9/ogy9p6esGWILi4W+PWi2GRRaZJaEvuWx3XG7j+b2u
+         2t5zirHFqhUhu6u9GruC9Giiok1UtalcZD5KQZ0gCNM9cGa/MpCjonVMVqdRYD4BhBBV
+         gQOgTFM4lYq44JnrG3CkTzrD1mG+WpsqEHtRVSpbd4hYKn2Xg/bw8pB8qJUcSNrkQtvw
+         9YdL+q/3CaNeAON7m2LD8Ay+5JbEgFlR11wm2me7aV6A5ur15yNI4emvwtZJatV6R+jE
+         qdwA==
+X-Gm-Message-State: AOJu0YzztVvfN+hQfg7/iJOm0cTnGxXABRs9D7xhCatPszwAHoLg7RUi
+	rVqViul8RjvKdMizMsHNgTFmcW2EpEorgt10lsGfhjkX/u2Muso9DdandmFMxHX1OA==
+X-Gm-Gg: ASbGnctBC5VI5UzWndE6HdQF6h/A/dgmwZlrIT7Y+nD3duviP60pmzH0ViK2tEbTIKb
+	YoxITShVlH54HSlD8j9BM6+X5kGsYA6MpOlFXhZ1jYlFU+6QHn6r7Fidu4XJ48Y0mI38bvg5gjP
+	mOcH5EHuWZoCjE5sjQAWaUhH41WxHDvLCZ2M7NiZllVD8qmB9iPFMaVlmIXMMiNrlOQqkKqJjUc
+	2cddTz96h7sRWWAIV1O8Mjse6hJnPdYEdfSOqaGhW7QKM9PHdgl3ci7qw4LANMYtraVarHHiawT
+	JK6/s2Uuec1+dcJoOg5W8GyoydGrsEWSULrzJzCn4clU/yKoaN4R/+KpmazU2BR+6TfNIxTtWcN
+	v3QkZz78M4kGe8LC6HaDD+HMokA==
+X-Google-Smtp-Source: AGHT+IHzdiYmRvKi9DTg5saWyBpGd8AvTFyUfEM2bxHJLynZbkqRb8Qsu0kgCMO4IGCXxQvzZApMzg==
+X-Received: by 2002:a05:6512:b95:b0:553:32f3:7ec4 with SMTP id 2adb3069b0e04-55342f927abmr1729925e87.29.1748869576794;
+        Mon, 02 Jun 2025 06:06:16 -0700 (PDT)
+Received: from ribalda.c.googlers.com (90.52.88.34.bc.googleusercontent.com. [34.88.52.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5533787d26esm1590160e87.41.2025.06.02.06.06.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jun 2025 06:06:15 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 0/9] media: uvcvideo: Invert granular PM logic + PM fix
+Date: Mon, 02 Jun 2025 13:06:12 +0000
+Message-Id: <20250602-uvc-grannular-invert-v2-0-c871934ad880@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/9] dma-fence: Use a flag for 64-bit seqnos
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, kernel-dev@igalia.com
-References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
- <20250515095004.28318-3-tvrtko.ursulin@igalia.com>
- <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMShPWgC/4WNQQqDMBBFryKz7pQkNmC66j3ERYhRB2pSJia0i
+ Hdv6gW6fA/++zskz+QT3Jsd2BdKFEMFdWnALTbMHmmsDEooLbTqMBeHM9sQ8tMyUiieN5TGju3
+ NadMaCXX6Yj/R+8z2Q+WF0hb5c74U+bN/gkWiwFFI3cnJOKf0wy0cV8rrNfIMw3EcX72H4TO7A
+ AAA
+X-Change-ID: 20250528-uvc-grannular-invert-19ad34c59391
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>, Hans Verkuil <hans@jjverkuil.nl>, 
+ Hans de Goede <hansg@kernel.org>
+X-Mailer: b4 0.14.2
 
+It makes more sense to have a list of the ioctls that need power than
+the other way around. This patchset takes care of this.
 
-Hi,
+It also fixes one error in the PM logic introduced in a recent patchset.
 
-On 15/05/2025 14:15, Christian König wrote:
-> Hey drm-misc maintainers,
-> 
-> can you guys please backmerge drm-next into drm-misc-next?
-> 
-> I want to push this patch here but it depends on changes which are partially in drm-next and partially in drm-misc-next.
+To support CI I have included two patches that are in uvc/next but not
+in media-committer:
+media: uvcvideo: Refactor uvc_queue_streamon
+media: uvcvideo: Refactor uvc_v4l2_compat_ioctl32
+Do not review them again.
 
-Looks like the backmerge is still pending?
+To avoid conflicts I am adding the fop patchset as well:
+media: uvcvideo: Use vb2 ioctl and fop helpers
+media: uvcvideo: Remove stream->is_streaming field
+Please review them in https://patchwork.linuxtv.org/project/linux-media/list/?series=15664
 
-In the meantime, Christian, any chance you will have some bandwith to 
-think about the tail end of the series? Specifically patch 6 and how 
-that is used onward.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2. Thanks HdG:
+- Rebase fop
+- CodeStyle
+- Refactor SEND_INITIAL to avoid lis_del()
+- Squash "invert PM logic" and "unless is needed"
+- Link to v1: https://lore.kernel.org/r/20250528-uvc-grannular-invert-v1-0-d01581f9cc25@chromium.org
 
-Regards,
+---
+Hans Verkuil (1):
+      media: uvcvideo: Use vb2 ioctl and fop helpers
 
-Tvrtko
+Ricardo Ribalda (8):
+      media: uvcvideo: Refactor uvc_queue_streamon
+      media: uvcvideo: Refactor uvc_v4l2_compat_ioctl32
+      media: uvcvideo: Remove stream->is_streaming field
+      media: uvcvideo: Turn on the camera if V4L2_EVENT_SUB_FL_SEND_INITIAL
+      media: uvcvideo: Do not enable camera during UVCIOC_CTRL_MAP*
+      media: uvcvideo: uvc_v4l2_unlocked_ioctl: Invert PM logic
+      media: core: export v4l2_compat_translate_cmd()
+      media: uvcvideo: Support granular power saving for compat syscalls
 
-> On 5/15/25 11:49, Tvrtko Ursulin wrote:
->> With the goal of reducing the need for drivers to touch (and dereference)
->> fence->ops, we move the 64-bit seqnos flag from struct dma_fence_ops to
->> the fence->flags.
->>
->> Drivers which were setting this flag are changed to use new
->> dma_fence_init64() instead of dma_fence_init().
->>
->> v2:
->>   * Streamlined init and added kerneldoc.
->>   * Rebase for amdgpu userq which landed since.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com> # v1
->> ---
->>   drivers/dma-buf/dma-fence-chain.c             |  5 +-
->>   drivers/dma-buf/dma-fence.c                   | 69 ++++++++++++++-----
->>   .../drm/amd/amdgpu/amdgpu_eviction_fence.c    |  7 +-
->>   .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   |  5 +-
->>   .../gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c  |  5 +-
->>   include/linux/dma-fence.h                     | 14 ++--
->>   6 files changed, 64 insertions(+), 41 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
->> index 90424f23fd73..a8a90acf4f34 100644
->> --- a/drivers/dma-buf/dma-fence-chain.c
->> +++ b/drivers/dma-buf/dma-fence-chain.c
->> @@ -218,7 +218,6 @@ static void dma_fence_chain_set_deadline(struct dma_fence *fence,
->>   }
->>   
->>   const struct dma_fence_ops dma_fence_chain_ops = {
->> -	.use_64bit_seqno = true,
->>   	.get_driver_name = dma_fence_chain_get_driver_name,
->>   	.get_timeline_name = dma_fence_chain_get_timeline_name,
->>   	.enable_signaling = dma_fence_chain_enable_signaling,
->> @@ -262,8 +261,8 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
->>   			seqno = max(prev->seqno, seqno);
->>   	}
->>   
->> -	dma_fence_init(&chain->base, &dma_fence_chain_ops,
->> -		       &chain->lock, context, seqno);
->> +	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
->> +			 context, seqno);
->>   
->>   	/*
->>   	 * Chaining dma_fence_chain container together is only allowed through
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index f0cdd3e99d36..705b59787731 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -989,24 +989,9 @@ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
->>   }
->>   EXPORT_SYMBOL(dma_fence_describe);
->>   
->> -/**
->> - * dma_fence_init - Initialize a custom fence.
->> - * @fence: the fence to initialize
->> - * @ops: the dma_fence_ops for operations on this fence
->> - * @lock: the irqsafe spinlock to use for locking this fence
->> - * @context: the execution context this fence is run on
->> - * @seqno: a linear increasing sequence number for this context
->> - *
->> - * Initializes an allocated fence, the caller doesn't have to keep its
->> - * refcount after committing with this fence, but it will need to hold a
->> - * refcount again if &dma_fence_ops.enable_signaling gets called.
->> - *
->> - * context and seqno are used for easy comparison between fences, allowing
->> - * to check which fence is later by simply using dma_fence_later().
->> - */
->> -void
->> -dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->> -	       spinlock_t *lock, u64 context, u64 seqno)
->> +static void
->> +__dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->> +	         spinlock_t *lock, u64 context, u64 seqno, unsigned long flags)
->>   {
->>   	BUG_ON(!lock);
->>   	BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
->> @@ -1017,9 +1002,55 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>   	fence->lock = lock;
->>   	fence->context = context;
->>   	fence->seqno = seqno;
->> -	fence->flags = 0UL;
->> +	fence->flags = flags;
->>   	fence->error = 0;
->>   
->>   	trace_dma_fence_init(fence);
->>   }
->> +
->> +/**
->> + * dma_fence_init - Initialize a custom fence.
->> + * @fence: the fence to initialize
->> + * @ops: the dma_fence_ops for operations on this fence
->> + * @lock: the irqsafe spinlock to use for locking this fence
->> + * @context: the execution context this fence is run on
->> + * @seqno: a linear increasing sequence number for this context
->> + *
->> + * Initializes an allocated fence, the caller doesn't have to keep its
->> + * refcount after committing with this fence, but it will need to hold a
->> + * refcount again if &dma_fence_ops.enable_signaling gets called.
->> + *
->> + * context and seqno are used for easy comparison between fences, allowing
->> + * to check which fence is later by simply using dma_fence_later().
->> + */
->> +void
->> +dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->> +	       spinlock_t *lock, u64 context, u64 seqno)
->> +{
->> +	__dma_fence_init(fence, ops, lock, context, seqno, 0UL);
->> +}
->>   EXPORT_SYMBOL(dma_fence_init);
->> +
->> +/**
->> + * dma_fence_init64 - Initialize a custom fence with 64-bit seqno support.
->> + * @fence: the fence to initialize
->> + * @ops: the dma_fence_ops for operations on this fence
->> + * @lock: the irqsafe spinlock to use for locking this fence
->> + * @context: the execution context this fence is run on
->> + * @seqno: a linear increasing sequence number for this context
->> + *
->> + * Initializes an allocated fence, the caller doesn't have to keep its
->> + * refcount after committing with this fence, but it will need to hold a
->> + * refcount again if &dma_fence_ops.enable_signaling gets called.
->> + *
->> + * Context and seqno are used for easy comparison between fences, allowing
->> + * to check which fence is later by simply using dma_fence_later().
->> + */
->> +void
->> +dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->> +		 spinlock_t *lock, u64 context, u64 seqno)
->> +{
->> +	__dma_fence_init(fence, ops, lock, context, seqno,
->> +			 BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
->> +}
->> +EXPORT_SYMBOL(dma_fence_init64);
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->> index 1a7469543db5..79713421bffe 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->> @@ -134,7 +134,6 @@ static bool amdgpu_eviction_fence_enable_signaling(struct dma_fence *f)
->>   }
->>   
->>   static const struct dma_fence_ops amdgpu_eviction_fence_ops = {
->> -	.use_64bit_seqno = true,
->>   	.get_driver_name = amdgpu_eviction_fence_get_driver_name,
->>   	.get_timeline_name = amdgpu_eviction_fence_get_timeline_name,
->>   	.enable_signaling = amdgpu_eviction_fence_enable_signaling,
->> @@ -160,9 +159,9 @@ amdgpu_eviction_fence_create(struct amdgpu_eviction_fence_mgr *evf_mgr)
->>   	ev_fence->evf_mgr = evf_mgr;
->>   	get_task_comm(ev_fence->timeline_name, current);
->>   	spin_lock_init(&ev_fence->lock);
->> -	dma_fence_init(&ev_fence->base, &amdgpu_eviction_fence_ops,
->> -		       &ev_fence->lock, evf_mgr->ev_fence_ctx,
->> -		       atomic_inc_return(&evf_mgr->ev_fence_seq));
->> +	dma_fence_init64(&ev_fence->base, &amdgpu_eviction_fence_ops,
->> +			 &ev_fence->lock, evf_mgr->ev_fence_ctx,
->> +			 atomic_inc_return(&evf_mgr->ev_fence_seq));
->>   	return ev_fence;
->>   }
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->> index 029cb24c28b3..5e92d00a591f 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->> @@ -239,8 +239,8 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
->>   	fence = &userq_fence->base;
->>   	userq_fence->fence_drv = fence_drv;
->>   
->> -	dma_fence_init(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
->> -		       fence_drv->context, seq);
->> +	dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
->> +			 fence_drv->context, seq);
->>   
->>   	amdgpu_userq_fence_driver_get(fence_drv);
->>   	dma_fence_get(fence);
->> @@ -334,7 +334,6 @@ static void amdgpu_userq_fence_release(struct dma_fence *f)
->>   }
->>   
->>   static const struct dma_fence_ops amdgpu_userq_fence_ops = {
->> -	.use_64bit_seqno = true,
->>   	.get_driver_name = amdgpu_userq_fence_get_driver_name,
->>   	.get_timeline_name = amdgpu_userq_fence_get_timeline_name,
->>   	.signaled = amdgpu_userq_fence_signaled,
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->> index 51cddfa3f1e8..5d26797356a3 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->> @@ -71,7 +71,6 @@ static void amdgpu_tlb_fence_work(struct work_struct *work)
->>   }
->>   
->>   static const struct dma_fence_ops amdgpu_tlb_fence_ops = {
->> -	.use_64bit_seqno = true,
->>   	.get_driver_name = amdgpu_tlb_fence_get_driver_name,
->>   	.get_timeline_name = amdgpu_tlb_fence_get_timeline_name
->>   };
->> @@ -101,8 +100,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
->>   	INIT_WORK(&f->work, amdgpu_tlb_fence_work);
->>   	spin_lock_init(&f->lock);
->>   
->> -	dma_fence_init(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->> -		       vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->> +	dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->> +			 vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->>   
->>   	/* TODO: We probably need a separate wq here */
->>   	dma_fence_get(&f->base);
->> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->> index 48b5202c531d..a34a0dcdc446 100644
->> --- a/include/linux/dma-fence.h
->> +++ b/include/linux/dma-fence.h
->> @@ -97,6 +97,7 @@ struct dma_fence {
->>   };
->>   
->>   enum dma_fence_flag_bits {
->> +	DMA_FENCE_FLAG_SEQNO64_BIT,
->>   	DMA_FENCE_FLAG_SIGNALED_BIT,
->>   	DMA_FENCE_FLAG_TIMESTAMP_BIT,
->>   	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
->> @@ -124,14 +125,6 @@ struct dma_fence_cb {
->>    *
->>    */
->>   struct dma_fence_ops {
->> -	/**
->> -	 * @use_64bit_seqno:
->> -	 *
->> -	 * True if this dma_fence implementation uses 64bit seqno, false
->> -	 * otherwise.
->> -	 */
->> -	bool use_64bit_seqno;
->> -
->>   	/**
->>   	 * @get_driver_name:
->>   	 *
->> @@ -262,6 +255,9 @@ struct dma_fence_ops {
->>   void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>   		    spinlock_t *lock, u64 context, u64 seqno);
->>   
->> +void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->> +		      spinlock_t *lock, u64 context, u64 seqno);
->> +
->>   void dma_fence_release(struct kref *kref);
->>   void dma_fence_free(struct dma_fence *fence);
->>   void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
->> @@ -454,7 +450,7 @@ static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
->>   	 * 32bit sequence numbers. Use a 64bit compare when the driver says to
->>   	 * do so.
->>   	 */
->> -	if (fence->ops->use_64bit_seqno)
->> +	if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
->>   		return f1 > f2;
->>   
->>   	return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
-> 
+ drivers/media/usb/uvc/uvc_ctrl.c              |   8 +-
+ drivers/media/usb/uvc/uvc_driver.c            |  34 +--
+ drivers/media/usb/uvc/uvc_metadata.c          |   8 +-
+ drivers/media/usb/uvc/uvc_queue.c             | 154 +----------
+ drivers/media/usb/uvc/uvc_v4l2.c              | 367 +++++---------------------
+ drivers/media/usb/uvc/uvcvideo.h              |  38 +--
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c |   1 +
+ 7 files changed, 87 insertions(+), 523 deletions(-)
+---
+base-commit: 5e1ff2314797bf53636468a97719a8222deca9ae
+change-id: 20250528-uvc-grannular-invert-19ad34c59391
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
 
