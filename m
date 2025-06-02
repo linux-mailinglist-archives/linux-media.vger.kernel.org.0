@@ -1,248 +1,102 @@
-Return-Path: <linux-media+bounces-33866-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33865-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BED2ACA91D
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 07:50:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D032ACA8E4
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 07:31:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D07317A4E9
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 05:50:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 677883B8268
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 05:31:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58001191F95;
-	Mon,  2 Jun 2025 05:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD0081885B4;
+	Mon,  2 Jun 2025 05:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G5Sd2nst"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="d1CpqV/Y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B82B65C;
-	Mon,  2 Jun 2025 05:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEBE2C3255;
+	Mon,  2 Jun 2025 05:31:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748843417; cv=none; b=l5SH4oYBVewRRragluhLnAcKVsrsp6jNv9Swfzs/Ogm4zZnOGNgTcozP1/YBjaYbRHC61aKhag6LHGs7CBbouGtsip9uiZFlmMaydriKhILBfQLWfdiU6CqPdIVXl4QcD1cyLgn94+JL9TTne8fH/gGuFF4exM/N5w+69bgpKys=
+	t=1748842283; cv=none; b=pZGFmbr81UR/fR8bPkg/biOr9HgqXFU8m+rLo5sOXHKdgKHqSFmlPPgH96kxqTrgPkYgb4Imee47JzJvzdypGmhQdJ0wkNPeAHkU1YFO5UABN05RDYAbzM56xVgzZfMaDTPM23Omzeo2eyfjAzshuOj3O9q+E+v0lxBk1FEmZAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748843417; c=relaxed/simple;
-	bh=dhCKdaNGVDVa0JTWjU+OMRG/7HWBCYhvLNRz1AVVfXE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Nd6QOPe/BUlSpZF5WgJpDN8AhhP+G2tN9KLLDsR9OqjJ18gB++9svNGu2XQxqbE3zbkqx3RzkeJTOlK7pvomaabv2xZgKlNwe2NVjsqYPYAuSiZthY4YLlmxPCw0igyHD1zFU8dv/uiOPi8hsUiaSf8nO2OTjgrFRpuXSoF2Fug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G5Sd2nst; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44666C4CEEB;
-	Mon,  2 Jun 2025 05:50:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748843416;
-	bh=dhCKdaNGVDVa0JTWjU+OMRG/7HWBCYhvLNRz1AVVfXE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=G5Sd2nstABBUN5D1nIItdFgV+88+1UPejyKervnRfy9iyIoVp/dv1N7AW4iwLkkRq
-	 9Eaaml3nHfPK1UNp1BNYzXmIcjmoirTwXw8t9nerrBwlWIWg9YJCgVbWITI15QZdMD
-	 bwGsYls8TnqnHrr04C2Suw2oQm16OycxnhpeYbkvRO+ByiC8T618kZzC59zz4MXo9H
-	 3TEefc7NGVkny+vE1KqLfupzE09RfLCTPXhTnpdNVEbeikKzA5ycSQZnGmumbAG1z3
-	 lzzGIWiZdry/9Lom+86S8+B7hlr5uZ4IRzUOl8kSR1VdzaSVTOxAbWTZuye6KCHguS
-	 AgRkt5LjU0ATw==
-X-Mailer: emacs 30.1 (via feedmail 11-beta-1 Q)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
-	linux-coco@lists.linux.dev
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
-	yilun.xu@intel.com, yilun.xu@linux.intel.com,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com,
-	linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
-	shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
-	kevin.tian@intel.com
-Subject: Re: [RFC PATCH 20/30] vfio/pci: Do TSM Unbind before zapping bars
-In-Reply-To: <20250529053513.1592088-21-yilun.xu@linux.intel.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-21-yilun.xu@linux.intel.com>
-Date: Mon, 02 Jun 2025 10:50:11 +0530
-Message-ID: <yq5a34cilnxw.fsf@kernel.org>
+	s=arc-20240116; t=1748842283; c=relaxed/simple;
+	bh=htmy+IjUpSNIPz1gu7az+7dIDslLsgMksI5QpgRTWMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ad5xrurzY8Y/V2sXd9JO99gUq3fYGVK9HFSoZjb5mrWpP+b2vF4P0Ic9ktMS2QhxeCA1NrnUIeJi1uT70YoINFeV+4aAQBh9bCu7xGHgsY8ILItirpVG0++wXB1GCKpzAP2jN+6BMwnJcn99ODHb5zWL0FqawkRkZMaf7I4fAFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=d1CpqV/Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB996C4CEEB;
+	Mon,  2 Jun 2025 05:31:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1748842282;
+	bh=htmy+IjUpSNIPz1gu7az+7dIDslLsgMksI5QpgRTWMg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d1CpqV/YCZGbD2mb0xnDolaakWCo40GeeaZKc3TU44PLnRq3UwxEamArfybPHO8Cq
+	 OdWIZxumNk0N7f8r3Aycu6ziAGjbGQd71Uz9YJQ1+h8FRXyGszY104AfDJE03V3hWU
+	 Eyj649v0TJI9iCSf+46GVyJqBZX9QgCXfA7nVzsI=
+Date: Mon, 2 Jun 2025 07:31:19 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: patches@lists.linux.dev, stable@vger.kernel.org,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Christopher Obbard <chris.obbard@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, ezequiel@vanguardiasur.com.ar,
+	mchehab@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH AUTOSEL 6.15 052/110] media: rkvdec: h264: Use
+ bytesperline and buffer height as virstride
+Message-ID: <2025060258-properly-pristine-f112@gregkh>
+References: <20250601232435.3507697-1-sashal@kernel.org>
+ <20250601232435.3507697-52-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250601232435.3507697-52-sashal@kernel.org>
 
-Xu Yilun <yilun.xu@linux.intel.com> writes:
-
-> When device is TSM Bound, some of its MMIO regions are controlled by
-> secure firmware. E.g. TDX Connect would require these MMIO regions
-> mappeed in S-EPT and never unmapped until device Unbound. Zapping bars
-> irrespective of TSM Bound state may cause unexpected secure firmware
-> errors. It is always safe to do TSM Unbind first, transiting the device
-> to shared, then do whatever needed as before.
->
-> Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
+On Sun, Jun 01, 2025 at 07:23:34PM -0400, Sasha Levin wrote:
+> From: Jonas Karlman <jonas@kwiboo.se>
+> 
+> [ Upstream commit d5e0aa61470c48ddc04d433a00e79cef8716377a ]
+> 
+> Use bytesperline and buffer height to calculate the strides configured.
+> 
+> This does not really change anything other than ensuring the
+> bytesperline that is signaled to userspace matches what is configured
+> in HW.
+> 
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 > ---
->  drivers/vfio/pci/vfio_pci_config.c |  4 +++
->  drivers/vfio/pci/vfio_pci_core.c   | 41 +++++++++++++++++++-----------
->  drivers/vfio/pci/vfio_pci_priv.h   |  3 +++
->  3 files changed, 33 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
-> index 7ac062bd5044..4ffe661c9e59 100644
-> --- a/drivers/vfio/pci/vfio_pci_config.c
-> +++ b/drivers/vfio/pci/vfio_pci_config.c
-> @@ -590,6 +590,7 @@ static int vfio_basic_config_write(struct vfio_pci_core_device *vdev, int pos,
->  		new_mem = !!(new_cmd & PCI_COMMAND_MEMORY);
->  
->  		if (!new_mem) {
-> +			vfio_pci_tsm_unbind(vdev);
->  			vfio_pci_zap_and_down_write_memory_lock(vdev);
->  			vfio_pci_dma_buf_move(vdev, true);
->
+> 
+> ### Key Reasons for NO Backport: 1. **Not a Bug Fix**: The commit
+> message explicitly states "This does not really change anything other
+> than ensuring the bytesperline that is signaled to userspace matches
+> what is configured in HW." This is not fixing a functional bug but
+> rather improving consistency between userspace and hardware
+> configuration.
 
-Don't we need to re-bind the vdev with tsm_bind for the continued use of TDI?
+As the bot said "NO", why was this picked up?
 
->  		} else {
-> @@ -712,6 +713,7 @@ static void vfio_lock_and_set_power_state(struct vfio_pci_core_device *vdev,
->  					  pci_power_t state)
->  {
->  	if (state >= PCI_D3hot) {
-> +		vfio_pci_tsm_unbind(vdev);
->  		vfio_pci_zap_and_down_write_memory_lock(vdev);
->  		vfio_pci_dma_buf_move(vdev, true);
->  	} else {
-> @@ -907,6 +909,7 @@ static int vfio_exp_config_write(struct vfio_pci_core_device *vdev, int pos,
->  						 &cap);
->  
->  		if (!ret && (cap & PCI_EXP_DEVCAP_FLR)) {
-> +			vfio_pci_tsm_unbind(vdev);
->  			vfio_pci_zap_and_down_write_memory_lock(vdev);
->  			vfio_pci_dma_buf_move(vdev, true);
->  			pci_try_reset_function(vdev->pdev);
-> @@ -992,6 +995,7 @@ static int vfio_af_config_write(struct vfio_pci_core_device *vdev, int pos,
->  						&cap);
->  
->  		if (!ret && (cap & PCI_AF_CAP_FLR) && (cap & PCI_AF_CAP_TP)) {
-> +			vfio_pci_tsm_unbind(vdev);
->  			vfio_pci_zap_and_down_write_memory_lock(vdev);
->  			vfio_pci_dma_buf_move(vdev, true);
->  			pci_try_reset_function(vdev->pdev);
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index 92544e54c9c3..a8437fcecca1 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -286,6 +286,7 @@ static int vfio_pci_runtime_pm_entry(struct vfio_pci_core_device *vdev,
->  	 * The vdev power related flags are protected with 'memory_lock'
->  	 * semaphore.
->  	 */
-> +	vfio_pci_tsm_unbind(vdev);
->  	vfio_pci_zap_and_down_write_memory_lock(vdev);
->  	vfio_pci_dma_buf_move(vdev, true);
->  
-> @@ -693,11 +694,7 @@ void vfio_pci_core_close_device(struct vfio_device *core_vdev)
->  	eeh_dev_release(vdev->pdev);
->  #endif
->  
-> -	if (vdev->is_tsm_bound) {
-> -		vfio_iommufd_tsm_unbind(&vdev->vdev);
-> -		pci_release_regions(vdev->pdev);
-> -		vdev->is_tsm_bound = false;
-> -	}
-> +	__vfio_pci_tsm_unbind(vdev);
->  
->  	vfio_pci_core_disable(vdev);
->  
-> @@ -1222,6 +1219,7 @@ static int vfio_pci_ioctl_reset(struct vfio_pci_core_device *vdev,
->  	if (!vdev->reset_works)
->  		return -EINVAL;
->  
-> +	vfio_pci_tsm_unbind(vdev);
->  	vfio_pci_zap_and_down_write_memory_lock(vdev);
->  
->  	/*
-> @@ -1491,12 +1489,32 @@ static int vfio_pci_ioctl_tsm_bind(struct vfio_pci_core_device *vdev,
->  	return ret;
->  }
->  
-> +void __vfio_pci_tsm_unbind(struct vfio_pci_core_device *vdev)
-> +{
-> +	struct pci_dev *pdev = vdev->pdev;
-> +
-> +	lockdep_assert_held(&vdev->vdev.dev_set->lock);
-> +
-> +	if (!vdev->is_tsm_bound)
-> +		return;
-> +
-> +	vfio_iommufd_tsm_unbind(&vdev->vdev);
-> +	pci_release_regions(pdev);
-> +	vdev->is_tsm_bound = false;
->
+thanks,
 
-Do we really need to check vdev->is_tsm_bound? The tsm_ops lock already
-ensures that concurrent TSM operations can't happen, and repeated calls
-to bind()/unbind() seem to be handled safely by pci_tsm_bind and pci_tsm_unbind.
-
-> +}
-> +
-> +void vfio_pci_tsm_unbind(struct vfio_pci_core_device *vdev)
-> +{
-> +	mutex_lock(&vdev->vdev.dev_set->lock);
-> +	__vfio_pci_tsm_unbind(vdev);
-> +	mutex_unlock(&vdev->vdev.dev_set->lock);
-> +}
->
-
-If is_tsm_bound is no longer needed, and pci_release_regions /
-request_region_exclusive are now handled within pci_tsm_unbind / bind,
-do we still need mutex_lock() to guard this path?
-
-> +
->  static int vfio_pci_ioctl_tsm_unbind(struct vfio_pci_core_device *vdev,
->  				     void __user *arg)
->  {
->  	unsigned long minsz = offsetofend(struct vfio_pci_tsm_unbind, flags);
->  	struct vfio_pci_tsm_unbind tsm_unbind;
-> -	struct pci_dev *pdev = vdev->pdev;
->  
->  	if (copy_from_user(&tsm_unbind, arg, minsz))
->  		return -EFAULT;
-> @@ -1504,15 +1522,7 @@ static int vfio_pci_ioctl_tsm_unbind(struct vfio_pci_core_device *vdev,
->  	if (tsm_unbind.argsz < minsz || tsm_unbind.flags)
->  		return -EINVAL;
->  
-> -	mutex_lock(&vdev->vdev.dev_set->lock);
-> -
-> -	if (!vdev->is_tsm_bound)
-> -		return 0;
-> -
-> -	vfio_iommufd_tsm_unbind(&vdev->vdev);
-> -	pci_release_regions(pdev);
-> -	vdev->is_tsm_bound = false;
-> -	mutex_unlock(&vdev->vdev.dev_set->lock);
-> +	vfio_pci_tsm_unbind(vdev);
->  
->  	return 0;
->  }
-> @@ -2526,6 +2536,7 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->  			break;
->  		}
->  
-> +		__vfio_pci_tsm_unbind(vdev);
->  		/*
->  		 * Take the memory write lock for each device and zap BAR
->  		 * mappings to prevent the user accessing the device while in
-> diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
-> index 6f3e8eafdc35..e5bf27f46a73 100644
-> --- a/drivers/vfio/pci/vfio_pci_priv.h
-> +++ b/drivers/vfio/pci/vfio_pci_priv.h
-> @@ -130,4 +130,7 @@ static inline void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev,
->  }
->  #endif
->  
-> +void __vfio_pci_tsm_unbind(struct vfio_pci_core_device *vdev);
-> +void vfio_pci_tsm_unbind(struct vfio_pci_core_device *vdev);
-> +
->  #endif
-> -- 
-> 2.25.1
+greg k-h
 
