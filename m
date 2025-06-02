@@ -1,159 +1,192 @@
-Return-Path: <linux-media+bounces-33873-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33874-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4106ACAA2C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 09:56:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4B4ACAA3A
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 09:57:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B547178886
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 07:56:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F06A83BB633
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 07:57:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAB6D1BE251;
-	Mon,  2 Jun 2025 07:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABC141C5D53;
+	Mon,  2 Jun 2025 07:57:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F311B392B;
-	Mon,  2 Jun 2025 07:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A2170805;
+	Mon,  2 Jun 2025 07:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748850960; cv=none; b=m+fCE3YnBK+5U18BynXsK2buAIu31wgQGKtfE+Nn0BfNVeed7vNEsc4vphL9gaJvBPJzWLLhcyh7eZstkTGuxs5G1s6s1SDSH0OOky09jbAZ6KWh6hKZpWnCSGFm1Y7cOJckGI0PcayeMG82laNuXzVDnjwF2E3oCNd/4f9oCUA=
+	t=1748851067; cv=none; b=FYEBGGVSg0nujYo8C3JV699e7yrydrwo/T+IK/OcL1jm65SDX3HKWoFisuVaME5yLpO8KKEGKLS2huGSBsFTs4zUjoGrC5cEwnS24pgVpABFeuwSdBzojrc0gF3qZWVFTe2yxYkDS2dnBwwXJ2k6HsyBGlEQEfIUH3Lby7291+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748850960; c=relaxed/simple;
-	bh=B15AgqqqGyCqalqFTP+VV8MwbgSSyKqpjTLHMsgdLco=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mcyr/g8fNMUFzSQLk75prsZdpI3vKvGjIFevSjaQCaWMjngxZ0rep41P3yIjQOElrx7TTyu2uJ2jPzWK7YS6pgXVRawH3nvNwR/Ol3no12eFfXRCF4RFVZfRWmj8l/sFOLIW9ewHpudbh1GGbFlU/Q9rbaKlCMQm5dILBwrmhqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-87dfeb9d0c9so590977241.3;
-        Mon, 02 Jun 2025 00:55:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748850956; x=1749455756;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CvjFcJSjf93yv/L0XJYogWZSsozSNrFmoQSEWs7TRus=;
-        b=qVl+lAZiaGj/Q8RRHBt/Z51iMlA+/CzrqR4ipCro6jtHcHE7e0E6xVd6YNXGwKcb9G
-         85xyS5gA2P7u4tnpYbCP3YxsToixYrvR4OnybLD0w5XqPxcKP4tc/kAmffLiO4RhaB2U
-         bSFQZ/jHuMAWQn05xb1agGhNZlCwqNhtvvDkvNHa0/mLuqMIn9qspzUL3J2TJs6aWV9l
-         1gTGVUvjU2KHx3oyEdoQllhP4f5F0sW2c8b5KM1HrHIhsJA4V0raNrjZni/XuzkAsMzZ
-         7TrrOEzAaikPm4kEh3UL1gnRpg2iNCf9+eO06tV/2YHJfymsveU3qaezZYaSk9IgS2Fq
-         al1w==
-X-Forwarded-Encrypted: i=1; AJvYcCWnQoKDG3P0MpxkkH2dd9jYk/G2TBgudadjILIZTAcIzRG856ZV/LN0niWn96S01sebRL3BwkAS1JepVg==@vger.kernel.org, AJvYcCXeZSH0XZfztVSazqSLyGkHfYui/TZAY+MhTybK7JBl46AE4b3J/c47ghEoPwYNNItw2vc3pXfU5SMVV3VCiFAc158=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyh045rU8isxZDVnDH2gPXAFJVBzSnX+gugsfP1broib1v54WgQ
-	rFous4znVA0810JgOx+gC3qWEId4gaN+DLcYDhMdwUO04cnAmlJ9RhzN0/MYkbkQ
-X-Gm-Gg: ASbGncurRGlAu88ALkdlgmFOKI0eGG4Oce0H1bHh5VzXBjLMk6pYc012DlWuRF4oEwa
-	2RAR9xMvew13/2V4wfdVkcLvQXNaTUTfRQpVUwgy1m0iS8Cu6OXxzRY+sKPmxPHJU6kSUwSuGWa
-	DupY0ollC8D3k8JZRJ9PBOu5jDLXBSYYTv3lgTHSNWfdzavAIpiSTT7avNQPrAM61rdGlwQIk2x
-	Qqqvq6glSnHqnp466rbJNScvgBMQmNbbpbZDbReU9ZSRwEG+HkP+CRwnZ6E0hX3kkS532OjxUle
-	plYcCKGIaDFM2RbnPCYJV44VocR6YOxMX8NoTPIYoIUPA/VsKb9JJqcMNUPOqyVuO0VrdRIcGHB
-	yzMNeN0mpuO12yg==
-X-Google-Smtp-Source: AGHT+IHuFibk6ftwJvZjWi466yc3lFvzhRa0SZRHmfuq4lKhYaoWMcSIJE8nOBUffExKgXwAzv3sYQ==
-X-Received: by 2002:a05:6102:54ab:b0:4bb:d45c:7f4b with SMTP id ada2fe7eead31-4e701c022b9mr4198408137.11.1748850955845;
-        Mon, 02 Jun 2025 00:55:55 -0700 (PDT)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87e2a2c5531sm5710154241.17.2025.06.02.00.55.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 00:55:54 -0700 (PDT)
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4e591544d42so1358788137.3;
-        Mon, 02 Jun 2025 00:55:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWo44+ZtQc3Xr2K5Z4ikZL2mk752pHoU6NRksV4u72Ui5dreuzN00K6oHp2Gd6ybk73b2MWgxuThWeGmYNew8xZAEI=@vger.kernel.org, AJvYcCXeqPC/c2N1hg50RlrjR3DP5Gsa+5QWhsZEkcpS57oy7tgTa5EpIkbo+pfIDMp0FCOmnB6SVQZLiJWcFg==@vger.kernel.org
-X-Received: by 2002:a05:6102:160d:b0:4e6:ddd0:96ea with SMTP id
- ada2fe7eead31-4e701bd6207mr3987508137.10.1748850954431; Mon, 02 Jun 2025
- 00:55:54 -0700 (PDT)
+	s=arc-20240116; t=1748851067; c=relaxed/simple;
+	bh=K0O63BQ0OAbxm8V42IWUNC3tMzh+WxnHeSXMQRI4VtM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DEAoVwAhp34K1T6R41bBzEuDBjiYlboyM1h4Z+KUzWDPKSPJsCdNfTmdtjEgYTW1AwFQ33agt1XeIdu36CZQ39gpt3utW6ixr8PX6e9zC+1Zg5OM3YvpkbIEUOMHSEFZzi075rjDIbxl9MQx+i3RoCl0Ocbxyh4RZYlQpBt+iOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0EF0C4CEF2;
+	Mon,  2 Jun 2025 07:57:45 +0000 (UTC)
+Message-ID: <adb22c62-94c8-4ab5-8aea-cc204affba3c@xs4all.nl>
+Date: Mon, 2 Jun 2025 09:57:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250402183302.140055-1-niklas.soderlund+renesas@ragnatech.se> <4ea2b464-81d8-486d-bce1-540e1cecb87b@ideasonboard.com>
-In-Reply-To: <4ea2b464-81d8-486d-bce1-540e1cecb87b@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 2 Jun 2025 09:55:42 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWamcsZcOe0XoTPm8oouV6Gn7y8SG-xJz-R+ey9CCd9Qw@mail.gmail.com>
-X-Gm-Features: AX0GCFstx-_fpX7hVAmspm6dEGG1jF-90ua0PhdcocE69TaY9YRvLV8bRajWybY
-Message-ID: <CAMuHMdWamcsZcOe0XoTPm8oouV6Gn7y8SG-xJz-R+ey9CCd9Qw@mail.gmail.com>
-Subject: Re: [PATCH] media: rcar-vin: Fix stride setting for RAW8 formats
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] media: uvcvideo: Remove stream->is_streaming field
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250522-uvc-fop-v1-0-3bfe7a00f31d@chromium.org>
+ <20250522-uvc-fop-v1-3-3bfe7a00f31d@chromium.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20250522-uvc-fop-v1-3-3bfe7a00f31d@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Tomi,
+On 22/05/2025 19:58, Ricardo Ribalda wrote:
+> The is_streaming field is used by modular PM to know if the device is
+> currently streaming or not.
+> 
+> With the transition to vb2 and fop helpers, we can use vb2 functions for
+> the same functionality.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 12 +++++-------
+>  drivers/media/usb/uvc/uvcvideo.h |  1 -
+>  2 files changed, 5 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 7a5ecbefa32c0a6b74c85d7f77a25b433598471e..51419f443f2c43dfd17a9782352bd2cde1094732 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -617,7 +617,8 @@ static int uvc_v4l2_release(struct file *file)
+>  
+>  	uvc_ctrl_cleanup_fh(handle);
+>  
+> -	if (handle->is_streaming)
+> +	if (stream->queue.queue.owner == file->private_data &&
 
-On Mon, 2 Jun 2025 at 09:12, Tomi Valkeinen
-<tomi.valkeinen+renesas@ideasonboard.com> wrote:
-> On 02/04/2025 21:33, Niklas S=C3=B6derlund wrote:
-> > Earlier versions of the datasheet where unclear about the stride settin=
-g
-> > for RAW8 capture formats. Later datasheets clarifies that the stride
-> > only process in this mode for non-image data. For image data the full
-> > stride shall be used. Compare section "RAW: 8 Bits and Embedded 8-Bit
-> > Non-Image Data, User Defined 8-bit Data" vs "RAW: 8 Bits".
-> >
-> > Remove the special case from pixel formats that carry image data and
-> > treat it as any other image format.
-> >
-> > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatec=
-h.se>
-> > ---
-> >  .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 ----------------
-> >  1 file changed, 16 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drive=
-rs/media/platform/renesas/rcar-vin/rcar-dma.c
-> > index f8394be8a922..fdf0f86c801f 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > @@ -680,22 +680,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
-> >
-> >       fmt =3D rvin_format_from_pixel(vin, vin->format.pixelformat);
-> >       stride =3D vin->format.bytesperline / fmt->bpp;
-> > -
-> > -     /* For RAW8 format bpp is 1, but the hardware process RAW8
-> > -      * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
-> > -      */
-> > -     switch (vin->format.pixelformat) {
-> > -     case V4L2_PIX_FMT_SBGGR8:
-> > -     case V4L2_PIX_FMT_SGBRG8:
-> > -     case V4L2_PIX_FMT_SGRBG8:
-> > -     case V4L2_PIX_FMT_SRGGB8:
-> > -     case V4L2_PIX_FMT_GREY:
-> > -             stride /=3D 2;
-> > -             break;
-> > -     default:
-> > -             break;
-> > -     }
-> > -
-> >       rvin_write(vin, stride, VNIS_REG);
-> >  }
-> >
->
-> This one breaks RAW8 for me (V4H, streams, GMSL2 + imx219 sensors). How
-> did you test this?
+Use vb2_queue_is_busy(&stream->queue) instead of directly accessing the owner field.
+But see below, since this can be dropped altogether.
 
-Note that this is being backported right now:
-https://lore.kernel.org/all/20250601234012.3516352-39-sashal@kernel.org/
+> +	    uvc_queue_streaming(&stream->queue))
+>  		uvc_pm_put(stream->dev);
 
-Gr{oetje,eeting}s,
+I think patch 1/3 can be improved, which likely makes this patch obsolete.
 
-                        Geert
+The uvc_pm_get/put should be placed in the start/stop_streaming callbacks. That's
+where you need them, and it avoids all these is_streaming tests. And it allows you to
+use the vb2_ioctl_streamon/off helpers in patch 2, since the streamon/off functions
+no longer mess with the uvc_pm_get/put functions.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+	Hans
+
+>  
+>  	/* Release the file handle. */
+> @@ -684,7 +685,7 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
+>  	struct uvc_streaming *stream = handle->stream;
+>  	int ret;
+>  
+> -	if (handle->is_streaming)
+> +	if (uvc_queue_streaming(&stream->queue))
+>  		return 0;
+>  
+>  	ret = uvc_pm_get(stream->dev);
+> @@ -697,8 +698,6 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
+>  		return ret;
+>  	}
+>  
+> -	handle->is_streaming = true;
+> -
+>  	return 0;
+>  }
+>  
+> @@ -707,16 +706,15 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_streaming *stream = handle->stream;
+> +	bool was_streaming = uvc_queue_streaming(&stream->queue);
+>  	int ret;
+>  
+>  	ret = vb2_ioctl_streamoff(file, fh, type);
+>  	if (ret)
+>  		return ret;
+>  
+> -	if (handle->is_streaming) {
+> -		handle->is_streaming = false;
+> +	if (was_streaming)
+>  		uvc_pm_put(stream->dev);
+> -	}
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 3ddbf065a2cbae40ee48cb06f84ca8f0052990c4..f895f690f7cdc1af942d5f3a5f10e9dd1c956a35 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -626,7 +626,6 @@ struct uvc_fh {
+>  	struct uvc_video_chain *chain;
+>  	struct uvc_streaming *stream;
+>  	unsigned int pending_async_ctrls;
+> -	bool is_streaming;
+>  };
+>  
+>  /* ------------------------------------------------------------------------
+> 
+
 
