@@ -1,187 +1,296 @@
-Return-Path: <linux-media+bounces-33921-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33922-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE00ACAF08
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:30:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4299ACAF14
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:33:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 409B61896CD8
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:30:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64B7F174C5F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:33:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A572F221540;
-	Mon,  2 Jun 2025 13:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9524220685;
+	Mon,  2 Jun 2025 13:33:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Y7N5aaqI"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="S7EitV+w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECADA2576;
-	Mon,  2 Jun 2025 13:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748871023; cv=fail; b=JIoKdPLcParpPrjzkSUvCjtyHQ8wsxeNtnlS/00s1u0F0tSUaaeQ94UTeNoYF4tZTCYt3FjRAnzYnMR5o+UINg5BjgE7IDNBSBboMw3LiUOKWqT95Obkq+xKQowTEkg4zEASaDFd2tNAY3xhByBeTrnRscX4d/Wh2tt/2rCy56A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748871023; c=relaxed/simple;
-	bh=JN7iVHVoHviouDMVJRyzoR/0hrI4mGE2jn/rruL6Mb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tkgFnWQ8Zv6N+97EUywFb9ZDK9zbCGp2DQRMqkIPpyEOJkXx3LKvXZ6c9e75Y/vvSnQ14PTxkVK84wAOB6xC6srmrfqffKmENQ1B7KCu2DDDZPrwyqVboNDk04IplSc5t3jl4+a+aWMUTeTxzRaFwK5zW9VgTe3VFW63x3I8dRg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Y7N5aaqI; arc=fail smtp.client-ip=40.107.223.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UaNy1gAFB6gJ9yjLQ2Ffd64I948wREEOcfn/Y+lMy/t2hmiekSH/TS5DZT8Tj4rG9jYxDI8pIQ3fOQODvVfOIh7mMi8ULU4O+KXhV8Yu/Fkgq27ESTK/xT2dXrT2NG/cach9/M5TvsjMEL+7h6TgZd4EOG8prugvC2x3dL0+q32MjOWgq+YzilLHXDHj0vj23ErnUIkrtshOlUwT6OBB1E312VwgHbxVvNOgg8Lfd0wb+DT/39gn2QitUHgH91T4TcKlmsw62sVY3qP1CNNaIA9PRUeWQXUf46RXYB/7ufOtIOLpb/U5kZdjMAY2e5rXF2q08/u6WrMJ3PhDlBMQ1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kRHrq2t4mM/OkPlSiWYjCEGe9bhzW13lxytzpnMudDg=;
- b=SqO7N5lb+66tEGBKkGAnNBJis7EzS0oV40RMxLwJZ7ouJflAzsQoy+de698prKP34OdPLhN1293JUgbjmhXZczur5qSlg6Oz7AFNjurttn6llbpXhy9RKt6VyWKp3HXqTga4VSBkKr7hM1Ab+4aXIJp4pvH4hKox9Tm7bzpO2+xsFnMTyivMRRQM/ZVnnudIwkKIdMdT905JdWD8EK+pUy3BIXcpHu0woI0pkUTRW0Ir+RWEcULOnqU6h4NNTUznhRgx16IvT8CGG4wi0UtPCGuxNjipnybOiJWoT1+kZUvemxNPeUqS0y5jiDl4yfmCd1TA2gjhd2VZy3DhLDbc/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kRHrq2t4mM/OkPlSiWYjCEGe9bhzW13lxytzpnMudDg=;
- b=Y7N5aaqIyWQI4noEe9LQKVizn+U7lyr/9+bgJ39oSAorXZjQUaRWunFY+pXNcf9v9MPRzB9qv0RMenCam1qJWlWleTSkQCqsA6oqVXml2oBmqmMK0AlzTGj8lDy2oNG81C96E9hKgR/BCm975uOjyVvHY5lSFb2tjeeh5rU8WpHmJ/bD7RcOkdyddxkufvVHmL42Db9wT6nQzOn84zHMvNQM8LcPaYAF69wL+tEX4rZbb5OenbOIHNR1VxffmEH8rbw1rTQH9YnopspSmmIVq5Y+jndUI5BJD/ggSpeXRI85uWCwvFJxuzlruPu8cUXdHVsOnps355fIyvGKIlWrxg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW6PR12MB8663.namprd12.prod.outlook.com (2603:10b6:303:240::9)
- by SJ2PR12MB8782.namprd12.prod.outlook.com (2603:10b6:a03:4d0::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Mon, 2 Jun
- 2025 13:30:11 +0000
-Received: from MW6PR12MB8663.namprd12.prod.outlook.com
- ([fe80::594:5be3:34d:77f]) by MW6PR12MB8663.namprd12.prod.outlook.com
- ([fe80::594:5be3:34d:77f%7]) with mapi id 15.20.8769.033; Mon, 2 Jun 2025
- 13:30:11 +0000
-Date: Mon, 2 Jun 2025 10:30:09 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
-	yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
-	yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
-	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
-	simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
-	aneesh.kumar@kernel.org, iommu@lists.linux.dev,
-	kevin.tian@intel.com
-Subject: Re: [RFC PATCH 10/30] vfio/pci: Export vfio dma-buf specific info
- for importers
-Message-ID: <20250602133009.GC233377@nvidia.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-11-yilun.xu@linux.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250529053513.1592088-11-yilun.xu@linux.intel.com>
-X-ClientProxiedBy: BN9PR03CA0538.namprd03.prod.outlook.com
- (2603:10b6:408:131::33) To MW6PR12MB8663.namprd12.prod.outlook.com
- (2603:10b6:303:240::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479151925AB
+	for <linux-media@vger.kernel.org>; Mon,  2 Jun 2025 13:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748871218; cv=none; b=j07OKUdZFXpzU5Y1C3zEsGY6t4SFmzAvU3BSD2MxYgADYsr0gK0E5DWvqsKB7MqhCBGZZdOkH8fGiy381vL6MrR47fuixxxWGj1hxgyiws4PkRp2HFNXbD5F2kcvrl9Dk7B/Z4xfA7UdWeEWe99PNiN0bqLL4HkbMy/SRTJpCTI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748871218; c=relaxed/simple;
+	bh=KYCRxiQL70L4+2PWY0E6du2ZC74eLxX3dPGCO9GJb/4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pogk7DdxtAW1Rla8tjeZSUVivy2gsRKfxcG4yyRQCjhyPlaA3jgc0I1pSqBAy2+xQz3RCWBH63Dj1T7LQzdYnTENAElN1rlsSIuE0+xpeL3URbAst9mk0+hhv+qM2O+pAtrhhjrToeAgwdRTLoZeqb50qfKeDKnHpUQi//jk8fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=S7EitV+w; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55324587a53so6150131e87.0
+        for <linux-media@vger.kernel.org>; Mon, 02 Jun 2025 06:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1748871214; x=1749476014; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=LKecjCGbso1LbBogQRI837OEfYyXk7pBW0fhUFW97Z0=;
+        b=S7EitV+wj68iVnhYb4DGlsOi00Xusv2gbLtFXjlBbS6xYYaBFpO+auU9kxG9ypVlxn
+         PZ81inVZ0pPaVLf5JBKMLjk+1bjmCjEBDyfHq3FlL5sqt3aJWujwzGvXgS6hpkKEaBQc
+         +DhwIwhdcjPGWO0o+8DDv7emI0Vm5WtqhVJJQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748871214; x=1749476014;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LKecjCGbso1LbBogQRI837OEfYyXk7pBW0fhUFW97Z0=;
+        b=FsTcBx5DSbVPkfcjocvPsg4lhPXmoj5PfGHbiPcHJxkWfkpptTtgGdNMBfsXVde/S/
+         U8FN+W/YLJjH4aZt7/Hzrj532UsIDT/9oA9lXvn31s5lV4Nh734n0+Pmpt3xt6UUPniH
+         79ugMvM+kakEQGUJPHJzE4iv/dtncDIYT+kmop5s3YJiXrjd8CdMgMHwLWge9G1ZBU8w
+         Vo4oe6h4b5spv+hkWZLjqdiGIbbcxBX23iSPginkZuxcO9UvBZsHM0+gICHiRt6LqUxo
+         uX8KqY9jOmgScluxGJMtPnXxXTnyM+1s4/LvpwSC43E6vhwLyY64YAEdCfALyyAqSgFt
+         phpw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4K1u8nNpWT5uPZn/Q4/wek2e1DwCv9YauwWjtxDtq+nxe165HNP4YH/Fn0JyR1uaNIVHlHrhm1WO/NQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZjC4f1+bT/7JcNmLbqklnA51y9AxVHRGzTZXGc0tlR6SToquf
+	ZVnfU85qZuwP/dxttUCclEV/rAQ64wz1UvxumETJEckyw0TJ955Gv5gt9Tt8eOutwZ0dJ3wl8Gj
+	9sqU=
+X-Gm-Gg: ASbGncuSBpbzrtZn9UXjTjcSc2UR4OkAu8VGwYZoPj+pDn+kD/Q14QMocmtQPztKCO9
+	5LwjYmJ3Tm6e+77jzCVjMm92EHeOD9R/eOHCjNzoDH5pW7U4mOzlVRroPlIB31uQibR9iof4XTH
+	zaP67BuF7jWGubMpeFo4nTXTz3vjT6NHNq2h1xl/TDjueTEBemQjBnz107aIPSaSgNtNFBjCN3p
+	QaystPmadu9KkBQPv8mlH8odP9MGHzuHXmsmM0P72ZIzOXfuhdHCzlN5YLGOAISMUYIlOQt0Zs0
+	qBtjbis5eWIO09sjFqq5ChSo4fEuccePUfq89SHoUwINJOjerRuGfCvTToWfPzTI6XPnzC10IWw
+	vRNTRy8ov1+4+OA==
+X-Google-Smtp-Source: AGHT+IHTO0gIqSAa5HTCFu90cS03uVGwhhW/ohgVsZElweMtTO0wim/JBNPO+QiBjMMqF/XH5GDMcg==
+X-Received: by 2002:a05:6512:10c7:b0:553:2969:1d6d with SMTP id 2adb3069b0e04-5533ba54fd6mr3997923e87.13.1748871214189;
+        Mon, 02 Jun 2025 06:33:34 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55337910f39sm1580039e87.156.2025.06.02.06.33.32
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Jun 2025 06:33:32 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5532a30ac45so4437381e87.0
+        for <linux-media@vger.kernel.org>; Mon, 02 Jun 2025 06:33:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWuHydpmrUWy+UY94I5iD0Ey7XV1aEk8oxEP9u7QlF4RCTaQ+LsrRiICeegyVj0sL81BbL6LdPxMI4/WA==@vger.kernel.org
+X-Received: by 2002:a05:6512:31d4:b0:551:ecf4:2cd8 with SMTP id
+ 2adb3069b0e04-55335b4524dmr5202823e87.23.1748871211916; Mon, 02 Jun 2025
+ 06:33:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW6PR12MB8663:EE_|SJ2PR12MB8782:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7678dc16-bfd0-4d3c-b4b7-08dda1d99938
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?jHqxO4I/G138o6R+ppyCgotBuPIsYc2e16lEvNPHdwQ+j0zR309L5Q8J1yoE?=
- =?us-ascii?Q?CqDw1m8fMTCPz8s3BQ6ooQ3dBOZbnmPgXMYJQ2z6ArXtXm8sxvKuj5JciLvI?=
- =?us-ascii?Q?wwngXq91zXYrc8mVDhzbIXBvVI9jxBobwHcZSCR7qQsBtmZYTNTYk0C2uUqM?=
- =?us-ascii?Q?DJ5PJLNpo9HMN3KzTCodxjHtC8CkU6kk4Il8rxlSIjC9O3BS81D3pur2ED5d?=
- =?us-ascii?Q?HBgTM1lEXmbTjgrd3Vpcy1tkTnyww5hiJXNJ2dLEYHztaulzFn2Fyvgs5V2u?=
- =?us-ascii?Q?hzhCYHOqtZm4B//KUZHnwXkCeooV+4NVPST2HayYyXpVOeHwcJ9i5ziEJ2vS?=
- =?us-ascii?Q?ChrfZUDSAdHyBzGxD43tlDEEYTBPn0tCc6QzU8qU2dDipsT74b+Cm/Iwfbuo?=
- =?us-ascii?Q?0gpfBeKY0XHN3WVCRQksFsmuvQYbt/7gUVgrWBPDoe1WymzNhHovG6/0yfsW?=
- =?us-ascii?Q?qaYsZJbaPd0ZM2VqH4PqjgEa4QBlWnG1qYvxeKMsaqvnwaFlimC3kaoTVpvT?=
- =?us-ascii?Q?e11hRoQnMv5l6MGTqLhjO4SdbaKRYzkHZAuWBRiTk1oHl0wpORa1KfLUNK6a?=
- =?us-ascii?Q?VSdUs4HlhXT7AMJE4OwzsUWUdTH4fvHYCul6A44i7FcVwC4353fEjWuphVN9?=
- =?us-ascii?Q?UAW8ndjHHoq+A0fT+1Cdd8SGUa0wMKKirngD4IaoqlmHefHegHj4tifrbU0L?=
- =?us-ascii?Q?RbNDApEtngogQ/yCQwmx9nUvbHaCjHK8IANKmv5mPx12Z2G+WGYsSj9btEY4?=
- =?us-ascii?Q?A0ao08The9jdfbfEQfWWMkL2sPvxyUFZZBtfr4007Z7tNiXUN0RZvXN86UUU?=
- =?us-ascii?Q?KEF+XKCPk00aq+n92onxWxZYyVFL2osOfT8ajOw4K9mZUrnIcDcB5ltwXBpI?=
- =?us-ascii?Q?gFpyoJgEz7ohApKkdH/EPHZFW69Oz+IPB8gvyv3YEeub94LK/ISnuHRBSTux?=
- =?us-ascii?Q?Skb79S8OQINy204gzV8uuJEDH0YI8rB9NZrn5lp9ZTnd03wi7pENrsEqDdCY?=
- =?us-ascii?Q?8daqUTJvdC7yUYa4PuSiq9UzqyipSiPgUJa84H/fcvv/CvH6UgsE9dIzT/wc?=
- =?us-ascii?Q?1r6cx1YHaEVItfz3Z76vlJhL7aI/OHtA2zUBMcNKyRbtXfkNVTsJgXZyBCjO?=
- =?us-ascii?Q?9ji4/ANmI2fD01XSguT73vSSXhAuIyBy7Icd7VK/UITiujYVUnsRYw59bD36?=
- =?us-ascii?Q?oVY9rdZbDVNUE2TTcvw+/iU9Teb86DMFiaY82rU+3IEhuuQGQmRFvygLKQvD?=
- =?us-ascii?Q?bDA7/viL5yyVOKYW0/wDNwjbUDH+Zir+IO/Uj+iMnz9zwOSE3KDGtvsI0hd4?=
- =?us-ascii?Q?Es3tTZMkTBmI6mSfueilAIBajnftUHoFY3u3nKYLoci/YVl7V1r6LFM5Xuba?=
- =?us-ascii?Q?Z/7iJaa2Zrfz8hQdvJ4f0So/IUahXmE99DP5Uw/gS4+x1FCu5952IQLAxCaQ?=
- =?us-ascii?Q?EaqIWMBNvSY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW6PR12MB8663.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ldX/IEfozltGIWPtAPfM7V5BAUuiF9lAV3n3FWlcW/cdCBrL/d7s3ZiaH4Jd?=
- =?us-ascii?Q?oEuUP8XQea0O//W/3DHRYxa1MpW7yrTwk+gcL0cwxtlyO2xLZ96h6EWkiSpz?=
- =?us-ascii?Q?Tc7CvfgWZYh+SLXb2kRk/HiDaNpQVP0ILNpmVXEgeKIuQE7QMr3Ee64TrsiP?=
- =?us-ascii?Q?YaFLEVllB+nb0cs/GuRbFscim5e4lcVhUBEkchR+MBRC7JnnPCM1vCO3Q233?=
- =?us-ascii?Q?0DfKj6j2539M3vGXAMGRwBYFbRPYNaTSc2H5sT53mon0a1Rjggj/5YZFZPHZ?=
- =?us-ascii?Q?cjb/AfQORn8HeY8M6uEUFlS9jO4VIc8/gK8B8IVw5JG9jSJPSSi8/7ucmeH1?=
- =?us-ascii?Q?zs0OEawXdkXi/bgcckrI7vwWszasjWeSHUyJtRDxWtVzxUmoqwIjqc6yeDvp?=
- =?us-ascii?Q?/q86zGkxaL3UnVRG+CWDkm1lCMGwQClzOUwGVKrTm6XCfz+31ixTPBELF5o+?=
- =?us-ascii?Q?GYwCchIaVV6y31lSZfyTXYWHRoavFMUCTm5VKWeQjrNWCVCElkWGwpON2FhB?=
- =?us-ascii?Q?TOaX36bBiFUfSEporQ5DEgh/J5ZuOTRvsmRHJQ0bqsBYDBheydVjPFF2w0Rx?=
- =?us-ascii?Q?HihQlJlBeVVMHyjs+sR6imHSA2xlqKaBjUc+Vpo/ZUuXE8ilg36ErKpL4G0i?=
- =?us-ascii?Q?REZOCmg0g1Ae1UGiC43qceNHWe4a/MVBZ4owyVvbpmAZO1a0WRqbLXLvgfRb?=
- =?us-ascii?Q?p57SOD4szg83wDN24SUfL0m7aJjhGGdFvNwkP47lgSaoB3qZGwFpIIMD22N7?=
- =?us-ascii?Q?Qzz8n1JiURFE5bkLyv6J+EatWUKFO0e/HBAQFd7kn5sL6KtVpUnc8ucExbQV?=
- =?us-ascii?Q?Q+0EG+BDGprGH4C13SX93iQMBHBr9sRc4KmZ57h5RMFJ385lxGHLoa2qU4hO?=
- =?us-ascii?Q?ZfFcBx70VkeWEmyImgxrfB7qm4lO3YXAO+0gLbyDsH9Je2F5eksHL9Fhp4BS?=
- =?us-ascii?Q?NX+dE65bKVANeOSExEsCWETEMQbM1X1X/Fr7DBdOjHcEJu1KpQFqCBXFetyG?=
- =?us-ascii?Q?mXe+wvGHgqBFPJu56lFparKUrTwT6nhCIaXzZL3AN52wrQwyRcEs9ro7rtF/?=
- =?us-ascii?Q?SXI2w+RHPk3hn75Xk8fI7vMzWGFBK78wdJqt8okniGuOZUAltcY4Rn1JLtdz?=
- =?us-ascii?Q?DjCVMT+rcPw+CjYsgQIHeGmZPawNOWzH8fGoEoTyWzCcbnU9LUff1YGgCFlN?=
- =?us-ascii?Q?VStxTpf1JiVj4JuOJeG9H/7JcNRajzfNEqalbZndZE/169wgM0QqEoZwmcL2?=
- =?us-ascii?Q?kRu7Q+RAqScUbmpz8BgWw+IGUxFHAIPS9Pm8PDh2PfCXKyG5sEfCw5ezV2a0?=
- =?us-ascii?Q?gyBNfXjxLOAFxdwOQskQsJJbCc4L5NDkBq6mumhVOfu/fK+JxYjEACFuv3y+?=
- =?us-ascii?Q?XdF1/u8unYxlZOp0EjRq9zYzVxuhZm77j40OaKb17cwc5Cy5sTl/Kp44QMhD?=
- =?us-ascii?Q?RMHWGw64677pAJbKk0THkt3pc8TSq163DrSEQsiD2q0nc44Ab3bqWTFOI6Wm?=
- =?us-ascii?Q?QPZEfJifJJI4cr3WPKhVSkyDARxW0tKoDLAN9oEJ26jY1p9JiHryNL9dqT46?=
- =?us-ascii?Q?Vo3g0hfBz12eZxVzd0dJqd6fB68+a8ChisYfRqzw?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7678dc16-bfd0-4d3c-b4b7-08dda1d99938
-X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8663.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2025 13:30:10.9345
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e/+MfIZlMU7cmurItncCeG7Fi6ydaM64YqlNkbHqupblFZAQOPB12ENxw5Dri0aX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8782
+References: <20250602-uvc-fop-v2-0-508a293eae81@chromium.org>
+ <20250602-uvc-fop-v2-3-508a293eae81@chromium.org> <dba66347-7b6c-49b5-8d31-166845efd1a0@jjverkuil.nl>
+In-Reply-To: <dba66347-7b6c-49b5-8d31-166845efd1a0@jjverkuil.nl>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 2 Jun 2025 15:33:18 +0200
+X-Gmail-Original-Message-ID: <CANiDSCttXAu0bJHG7L=Y4Y0LqfRQa=Y-wC8PKr1Pv7Hwpq6Txg@mail.gmail.com>
+X-Gm-Features: AX0GCFugWcSvqTWPR3e5MqLoEg2ncrSKg_eltqcjsGw5OBv6lBxhcg923Rgn4hI
+Message-ID: <CANiDSCttXAu0bJHG7L=Y4Y0LqfRQa=Y-wC8PKr1Pv7Hwpq6Txg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] media: uvcvideo: Remove stream->is_streaming field
+To: Hans Verkuil <hans@jjverkuil.nl>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 29, 2025 at 01:34:53PM +0800, Xu Yilun wrote:
-> Export vfio dma-buf specific info by attaching vfio_dma_buf_data in
-> struct dma_buf::priv. Provide a helper vfio_dma_buf_get_data() for
-> importers to fetch these data. Exporters identify VFIO dma-buf by
-> successfully getting these data.
-> 
-> VFIO dma-buf supports disabling host access to these exported MMIO
-> regions when the device is converted to private. Exporters like KVM
-> need to identify this type of dma-buf to decide if it is good to use.
-> KVM only allows host unaccessible MMIO regions been mapped in private
-> roots.
-> 
-> Export struct kvm * handler attached to the vfio device. This
-> allows KVM to do another sanity check. MMIO should only be assigned to
-> a CoCo VM if its owner device is already assigned to the same VM.
+Hi Hans
 
-This doesn't seem right, it should be encapsulated into the standard
-DMABUF API in some way.
+On Mon, 2 Jun 2025 at 15:23, Hans Verkuil <hans@jjverkuil.nl> wrote:
+>
+> On 02/06/2025 14:59, Ricardo Ribalda wrote:
+> > The is_streaming field is used by modular PM to know if the device is
+> > currently streaming or not.
+> >
+> > With the transition to vb2 and fop helpers, we can use vb2 functions for
+> > the same functionality. The great benefit is that vb2 already takes
+> > track of the streaming state for us.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_queue.c | 11 ++++++++-
+> >  drivers/media/usb/uvc/uvc_v4l2.c  | 51 ++-------------------------------------
+> >  drivers/media/usb/uvc/uvcvideo.h  |  1 -
+> >  3 files changed, 12 insertions(+), 51 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> > index 72c5494dee9f46ff61072e7d293bfaddda40e615..dff93bec204428b8aebc09332e0322fa68823fa4 100644
+> > --- a/drivers/media/usb/uvc/uvc_queue.c
+> > +++ b/drivers/media/usb/uvc/uvc_queue.c
+> > @@ -165,12 +165,18 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >
+> >       lockdep_assert_irqs_enabled();
+> >
+> > +     ret = uvc_pm_get(stream->dev);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> >       queue->buf_used = 0;
+> >
+> >       ret = uvc_video_start_streaming(stream);
+>
+> I'm not sure this is correct. See comments below.
+>
+> >       if (ret == 0)
+> >               return 0;
+> >
+> > +     uvc_pm_put(stream->dev);
+> > +
+> >       spin_lock_irq(&queue->irqlock);
+> >       uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
+> >       spin_unlock_irq(&queue->irqlock);
+> > @@ -181,11 +187,14 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >  static void uvc_stop_streaming(struct vb2_queue *vq)
+> >  {
+> >       struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+> > +     struct uvc_streaming *stream = uvc_queue_to_stream(queue);
+> >
+> >       lockdep_assert_irqs_enabled();
+> >
+> > -     if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
+> > +     if (vq->type != V4L2_BUF_TYPE_META_CAPTURE) {
+> > +             uvc_pm_put(stream->dev);
+>
+> This doesn't look right, for both video and metadata uvc_pm_get is called,
+> but only for video is put called.
 
-Jason
+Please take a look at
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_queue.c#n195
+
+start_streaming is not called for metadata nodes, only for video nodes.
+
+
+
+>
+> >               uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+>
+> And this is odd too.
+>
+> > +     }
+>
+> My assumption is that uvc_video_start_streaming and uvc_video_stop_streaming
+> are valid for both video and meta: i.e. the first time you start streaming
+> (either video or meta) you call uvc_video_start_streaming. If you were already
+> streaming for e.g. video, then start streaming metadata (or vice versa), then
+> you don't need to do anything in start_streaming.
+>
+> Same for stop_streaming: only if both video and metadata stopped streaming
+> is uvc_video_stop_streaming called.
+>
+> Please correct me if I am wrong.
+>
+> In any case, if I am right, then you have to rework this code accordingly.
+>
+> Regardless, you need to test various sequences of streaming video and metadata
+> in different orders and make sure this is handled correctly.
+
+I have tried streaming and getting frames. After some seconds the
+device turns off as expected.
+
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >       spin_lock_irq(&queue->irqlock);
+> >       uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> > index 7a5ecbefa32c0a6b74c85d7f77a25b433598471e..d4bee0d4334b764c0cf02363b573b55fb44eb228 100644
+> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > @@ -617,9 +617,6 @@ static int uvc_v4l2_release(struct file *file)
+> >
+> >       uvc_ctrl_cleanup_fh(handle);
+> >
+> > -     if (handle->is_streaming)
+> > -             uvc_pm_put(stream->dev);
+> > -
+> >       /* Release the file handle. */
+> >       vb2_fop_release(file);
+> >       file->private_data = NULL;
+> > @@ -677,50 +674,6 @@ static int uvc_ioctl_try_fmt(struct file *file, void *fh,
+> >       return uvc_v4l2_try_format(stream, fmt, &probe, NULL, NULL);
+> >  }
+> >
+> > -static int uvc_ioctl_streamon(struct file *file, void *fh,
+> > -                           enum v4l2_buf_type type)
+> > -{
+> > -     struct uvc_fh *handle = fh;
+> > -     struct uvc_streaming *stream = handle->stream;
+> > -     int ret;
+> > -
+> > -     if (handle->is_streaming)
+> > -             return 0;
+> > -
+> > -     ret = uvc_pm_get(stream->dev);
+> > -     if (ret)
+> > -             return ret;
+> > -
+> > -     ret = vb2_ioctl_streamon(file, fh, type);
+> > -     if (ret) {
+> > -             uvc_pm_put(stream->dev);
+> > -             return ret;
+> > -     }
+> > -
+> > -     handle->is_streaming = true;
+> > -
+> > -     return 0;
+> > -}
+> > -
+> > -static int uvc_ioctl_streamoff(struct file *file, void *fh,
+> > -                            enum v4l2_buf_type type)
+> > -{
+> > -     struct uvc_fh *handle = fh;
+> > -     struct uvc_streaming *stream = handle->stream;
+> > -     int ret;
+> > -
+> > -     ret = vb2_ioctl_streamoff(file, fh, type);
+> > -     if (ret)
+> > -             return ret;
+> > -
+> > -     if (handle->is_streaming) {
+> > -             handle->is_streaming = false;
+> > -             uvc_pm_put(stream->dev);
+> > -     }
+> > -
+> > -     return 0;
+> > -}
+> > -
+> >  static int uvc_ioctl_enum_input(struct file *file, void *fh,
+> >                               struct v4l2_input *input)
+> >  {
+> > @@ -1323,8 +1276,8 @@ const struct v4l2_ioctl_ops uvc_ioctl_ops = {
+> >       .vidioc_expbuf = vb2_ioctl_expbuf,
+> >       .vidioc_dqbuf = vb2_ioctl_dqbuf,
+> >       .vidioc_create_bufs = vb2_ioctl_create_bufs,
+> > -     .vidioc_streamon = uvc_ioctl_streamon,
+> > -     .vidioc_streamoff = uvc_ioctl_streamoff,
+> > +     .vidioc_streamon = vb2_ioctl_streamon,
+> > +     .vidioc_streamoff = vb2_ioctl_streamoff,
+> >       .vidioc_enum_input = uvc_ioctl_enum_input,
+> >       .vidioc_g_input = uvc_ioctl_g_input,
+> >       .vidioc_s_input = uvc_ioctl_s_input,
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index 3ddbf065a2cbae40ee48cb06f84ca8f0052990c4..f895f690f7cdc1af942d5f3a5f10e9dd1c956a35 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -626,7 +626,6 @@ struct uvc_fh {
+> >       struct uvc_video_chain *chain;
+> >       struct uvc_streaming *stream;
+> >       unsigned int pending_async_ctrls;
+> > -     bool is_streaming;
+> >  };
+> >
+> >  /* ------------------------------------------------------------------------
+> >
+>
+
+
+-- 
+Ricardo Ribalda
 
