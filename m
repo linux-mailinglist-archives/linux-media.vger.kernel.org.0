@@ -1,176 +1,239 @@
-Return-Path: <linux-media+bounces-33917-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33918-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2436ACAEA3
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08B5ACAEE2
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 15:22:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8293A3BC3C6
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:08:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1C0A3AF578
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jun 2025 13:21:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F815223DEF;
-	Mon,  2 Jun 2025 13:06:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42FA221FF39;
+	Mon,  2 Jun 2025 13:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TawVPv/t"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AGCOzzb5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E6F21C171;
-	Mon,  2 Jun 2025 13:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C286ADD;
+	Mon,  2 Jun 2025 13:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748869609; cv=none; b=oXBnYQtVO1yUtRyFKB4HaCnaM6VhQLcNmJWa3GHUiiFLwRNqZKM1pALbb/Pi9Jn9lKJeozoz9huYxnsOXuCBuwbtTCrldCQTe/z1oNk2ULC749Qw6H5LMFOVYnXmbEDS8bHKV5Wfy8FdOtgq+PIy7dQVoakMS8mDpopSR2eehOo=
+	t=1748870534; cv=none; b=c5pFAdnHXJB8p4r8y5QZeOKwGIlsvfX9kIB+8ELGHWEJsP7Eg7lGecNrKDEr803RaWoimGetJ4YyVnxcKVAl9w1Cvqw/hhdb1uR1UMymuUIbn/6rPaZbg7sUsr4OYsilt7cAnxeBPEMGjtbGSp3Pz3zPSaHTb8vJoYOHlOO81lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748869609; c=relaxed/simple;
-	bh=4W5iJT4qvv4gvMCawcbl0T+06lxem7eK5CvC/5B+TB4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ca0GwhgPXuNZH3crDNTJ9/xHn5mj0O+qQK3lntMVQDP8CsWlVtu76LeMXSRzY32LAaoLB+UfkxsGjcZDMajFY9fPllcCB1zQ//FwJjdPQ940nrotx80kQa4JOqsgxHt561vEwWxwIuX1Krl39KigJoImPCB+eVSfLUKnpiGlYAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TawVPv/t; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 324FBC4CEEB;
-	Mon,  2 Jun 2025 13:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748869608;
-	bh=4W5iJT4qvv4gvMCawcbl0T+06lxem7eK5CvC/5B+TB4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TawVPv/tvXjNYu/rpoIY0xKb56cIrEzo/Xi15r9UhZm6ST7F8uZRggpBglucfv0OU
-	 fsHecQy2i+3R6StrqiyZ6+WbK1fBuyOOfDjuRY+qZdGcuTMpMU4V3iBvt8C7YOe9Fk
-	 AeANcDJVE2xFX5rVcndQarTYonhfBLoOLXf16W5fpWDJYWAdrVcH/jUkt/x4gjBZ3H
-	 8eqmpd4LBkQa2/ePs8uEuA7RgwViEilepLeNbKnD3qSfjvAj/4Bu32knsaAXXkmcNd
-	 64KU6I9drm5O9owkC0XB56VL5w4W7x2IWVrg/7h3WWu9rhR8qXoNZIaQy1nzyYO7gm
-	 5pbeIcOww2Sxg==
-X-Mailer: emacs 30.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
-	linux-coco@lists.linux.dev
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
-	yilun.xu@intel.com, yilun.xu@linux.intel.com,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com,
-	linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
-	shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
-	kevin.tian@intel.com
-Subject: Re: [RFC PATCH 27/30] PCI/TSM: Add PCI driver callbacks to handle
- TSM requirements
-In-Reply-To: <20250529053513.1592088-28-yilun.xu@linux.intel.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-28-yilun.xu@linux.intel.com>
-Date: Mon, 02 Jun 2025 18:36:37 +0530
-Message-ID: <yq5att4yjns2.fsf@kernel.org>
+	s=arc-20240116; t=1748870534; c=relaxed/simple;
+	bh=jtsqkwWxMJ59NBFXcigEZb33daclENidcJqgOzkwCto=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ToKFjKDtuEfWRyxncq+PII0qhVpkJjvWRO6bC4F75DKVHUFd2hdn0jXYLbY7W6neHJCkW3PQFEZ7Q9Zsncgh04evp/g8N7J26aqZvm91vXBeyikUR3c9XU3poXHNQGBPOVh3mjjOvTjfJN4ETHX1Zz2H5n8iZFz8ZL4xB4rdsO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AGCOzzb5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37F5DC9;
+	Mon,  2 Jun 2025 15:22:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748870529;
+	bh=jtsqkwWxMJ59NBFXcigEZb33daclENidcJqgOzkwCto=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AGCOzzb50CMOQSA7hqRykeGk5q0JAOcnGdChqGWnWf6jtBhBv5DftkpvYp5v4qKJS
+	 j3KTJQdcv6zAyaY3Ka2dzUc3RsH5Sff2EqV7iiPiBu5yfN/JftKJGC4sEA0x6emxsp
+	 Rv6ADD7vUFYgH8m3p+0NOUJzN4GjbHqKWW6WVKl0=
+Date: Mon, 2 Jun 2025 16:22:02 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v3 11/15] media: rcar-isp: Call get_frame_desc to find
+ out VC & DT
+Message-ID: <20250602132202.GD11750@pendragon.ideasonboard.com>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-11-026655df7138@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250530-rcar-streams-v3-11-026655df7138@ideasonboard.com>
 
-Xu Yilun <yilun.xu@linux.intel.com> writes:
+Hi Tomi,
 
-> Add optional PCI driver callbacks to notify TSM events. For now, these
-> handlers may be called during pci_tsm_unbind(). By calling these
-> handlers, TSM driver askes for external collaboration to finish entire
-> TSM unbind flow.
->
-> If platform TSM driver could finish TSM bind/unbind all by itself, don't
-> call these handlers.
->
-> Host may need to configure various system components according to
-> platform trusted firmware's requirements. E.g. for Intel TDX Connect,
-> host should do private MMIO mapping in S-EPT, trusted DMA setup, device
-> ownership claiming and device TDISP state transition. Some operations are
-> out of control of PCI TSM, so need collaboration by external components
-> like IOMMU driver, KVM.
->
-> Further more, trusted firmware may enforce executing these operations
-> in a fixed sequence. E.g. Intel TDX Connect enforces the following
-> sequences for TSM unbind:
->
->   1. STOP TDI via TDISP message STOP_INTERFACE
->   2. Private MMIO unmap from Secure EPT
->   3. Trusted Device Context Table cleanup for the TDI
->   4. TDI ownership reclaim and metadata free
->
-> PCI TSM could do Step 1 and 4, but need KVM for Step 2 and IOMMU driver
-> for Step 3. While it is possible TSM provides finer grained APIs like
-> tdi_stop() & tdi_free(), and the caller ensures the sequence, it is
-> better these specific enforcement could be managed in platform TSM
-> driver. By introducing TSM handlers, platform TSM driver controls the
-> operation sequence and notify other components to do the real work.
->
-> Currently add 3 callbacks for TDX Connect. disable_mmio() is for
-> VFIO to invalidate MMIO so that KVM could unmap them from S-EPT.
-> recover_mmio() is to re-validate MMIO so that KVM could map them
-> again for shared assigned device. disable_trusted_dma() is to cleanup
-> trusted IOMMU setup.
->
-> Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
+Thank you for the patch.
+
+On Fri, May 30, 2025 at 04:50:40PM +0300, Tomi Valkeinen wrote:
+> Call get_frame_desc to find out VC & DT, instead of hardcoding the VC
+> routing and deducing the DT based on the mbus format.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > ---
->  include/linux/pci-tsm.h | 7 +++++++
->  include/linux/pci.h     | 3 +++
->  2 files changed, 10 insertions(+)
->
-> diff --git a/include/linux/pci-tsm.h b/include/linux/pci-tsm.h
-> index 737767f8a9c5..ed549724eb5b 100644
-> --- a/include/linux/pci-tsm.h
-> +++ b/include/linux/pci-tsm.h
-> @@ -157,6 +157,13 @@ struct pci_tsm_ops {
->  	int (*accept)(struct pci_dev *pdev);
->  };
+>  drivers/media/platform/renesas/rcar-isp/csisp.c | 108 +++++++++++++++++-------
+>  1 file changed, 77 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+> index a04cbf96b809..887d8eb21a3a 100644
+> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
+> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
+> @@ -225,24 +225,86 @@ static void risp_power_off(struct rcar_isp *isp)
+>  	pm_runtime_put(isp->dev);
+>  }
 >  
-> +/* pci drivers callbacks for TSM */
-> +struct pci_tsm_handlers {
-> +	void (*disable_mmio)(struct pci_dev *dev);
-> +	void (*recover_mmio)(struct pci_dev *dev);
-> +	void (*disable_trusted_dma)(struct pci_dev *dev);
-> +};
+> -static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+> +static int risp_configure_routing(struct rcar_isp *isp,
+> +				  struct v4l2_subdev_state *state)
+>  {
+> -	const struct v4l2_mbus_framefmt *fmt;
+> -	const struct rcar_isp_format *format;
+> -	unsigned int vc;
+> -	u32 sel_csi = 0;
+> +	struct v4l2_mbus_frame_desc source_fd;
+> +	struct v4l2_subdev_route *route;
+>  	int ret;
+>  
+> -	fmt = v4l2_subdev_state_get_format(state, RCAR_ISP_SINK, 0);
+> -	if (!fmt)
+> -		return -EINVAL;
+> +	ret = v4l2_subdev_call(isp->remote, pad, get_frame_desc,
+> +			       isp->remote_pad, &source_fd);
+> +	if (ret)
+> +		return ret;
+>  
+> -	format = risp_code_to_fmt(fmt->code);
+> -	if (!format) {
+> -		dev_err(isp->dev, "Unsupported bus format\n");
+> -		return -EINVAL;
+> +	/* Clear the channel registers */
+> +	for (unsigned int ch = 0; ch < 12; ++ch) {
+
+A macro for the number of channels would be nice.
+
+> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), 0);
+> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch), 0);
+>  	}
+>  
+> +	/* Clear the proc mode registers */
+> +	for (unsigned int dt = 0; dt < 64; ++dt)
+> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), 0);
+
+Do we really need to clear those ? These registers seem to be used to
+select how to process a particular DT, likely to allow overriding the
+default processing method. 0 means RAW8, so it's not a magic disable
+value as far as I can tell. I think we can leave the registers as-is.
+
 > +
->  enum pci_doe_proto {
->  	PCI_DOE_PROTO_CMA = 1,
->  	PCI_DOE_PROTO_SSESSION = 2,
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 5f37957da18f..4f768b4658e8 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -545,6 +545,7 @@ struct pci_dev {
->  #endif
->  #ifdef CONFIG_PCI_TSM
->  	struct pci_tsm *tsm;		/* TSM operation state */
-> +	void *trusted_dma_owner;
->  #endif
->  	u16		acs_cap;	/* ACS Capability offset */
->  	u8		supported_speeds; /* Supported Link Speeds Vector */
-> @@ -957,6 +958,7 @@ struct module;
->   * @sriov_get_vf_total_msix: PF driver callback to get the total number of
->   *              MSI-X vectors available for distribution to the VFs.
->   * @err_handler: See Documentation/PCI/pci-error-recovery.rst
-> + * @tsm_handler: Optional driver callbacks to handle TSM requirements.
->   * @groups:	Sysfs attribute groups.
->   * @dev_groups: Attributes attached to the device that will be
->   *              created once it is bound to the driver.
-> @@ -982,6 +984,7 @@ struct pci_driver {
->  	int  (*sriov_set_msix_vec_count)(struct pci_dev *vf, int msix_vec_count); /* On PF */
->  	u32  (*sriov_get_vf_total_msix)(struct pci_dev *pf);
->  	const struct pci_error_handlers *err_handler;
-> +	struct pci_tsm_handlers *tsm_handler;
->  	const struct attribute_group **groups;
->  	const struct attribute_group **dev_groups;
->  	struct device_driver	driver;
-> -- 
-> 2.25.1
+> +	for_each_active_route(&state->routing, route) {
+> +		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
+> +		const struct rcar_isp_format *format;
+> +		const struct v4l2_mbus_framefmt *fmt;
+> +		unsigned int i;
+> +		u8 vc, dt, ch;
+> +		u32 v;
+> +
+> +		for (i = 0; i < source_fd.num_entries; i++) {
+> +			if (source_fd.entry[i].stream == route->sink_stream) {
+> +				source_entry = &source_fd.entry[i];
+> +				break;
+> +			}
+> +		}
+> +
+> +		if (!source_entry) {
+> +			dev_err(isp->dev,
+> +				"Failed to find stream from source frame desc\n");
 
-It looks like the TSM feature is currently interacting with several
-components: struct pci_driver, VFIO, iommufd, and pci_tsm_ops.
+Isn't it rather "Failed to find source frame desc for stream" ?
 
-Should we consider limiting this scattering? Would it make sense to
-encapsulate this logic within pci_tsm_ops?
+> +			return -EPIPE;
+> +		}
+> +
+> +		vc = source_entry->bus.csi2.vc;
+> +		dt = source_entry->bus.csi2.dt;
+> +		/* Channels 4 - 11 go to VIN */
+> +		ch = route->source_pad - 1 + 4;
+> +
+> +		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
+> +						   route->sink_stream);
+> +		if (!fmt)
+> +			return -EINVAL;
+> +
+> +		format = risp_code_to_fmt(fmt->code);
+> +		if (!format) {
+> +			dev_err(isp->dev, "Unsupported bus format\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		/* VC Filtering */
+> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+> +
+> +		/* DT Filtering */
+> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
+> +			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+> +
+> +		/* Proc mode */
+> +		v = risp_read_cs(isp, ISPPROCMODE_DT_REG(dt));
+> +		v |= ISPPROCMODE_DT_PROC_MODE_VCn(vc, format->procmode);
+> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), v);
 
--aneesh
+If we want to minimize the register writes, we could store the
+ISPPROCMODE_DT_REG values in a local variable and write all of them in
+one go. Possible/probably overkill.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+> +{
+> +	u32 sel_csi = 0;
+> +	int ret;
+> +
+>  	ret = risp_power_on(isp);
+>  	if (ret) {
+>  		dev_err(isp->dev, "Failed to power on ISP\n");
+> @@ -256,25 +318,9 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+>  	risp_write_cs(isp, ISPINPUTSEL0_REG,
+>  		      risp_read_cs(isp, ISPINPUTSEL0_REG) | sel_csi);
+>  
+> -	/* Configure Channel Selector. */
+> -	for (vc = 0; vc < 4; vc++) {
+> -		u8 ch = vc + 4;
+> -		u8 dt = format->datatype;
+> -
+> -		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+> -		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
+> -			      ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
+> -			      ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
+> -			      ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
+> -			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+> -	}
+> -
+> -	/* Setup processing method. */
+> -	risp_write_cs(isp, ISPPROCMODE_DT_REG(format->datatype),
+> -		      ISPPROCMODE_DT_PROC_MODE_VCn(3, format->procmode) |
+> -		      ISPPROCMODE_DT_PROC_MODE_VCn(2, format->procmode) |
+> -		      ISPPROCMODE_DT_PROC_MODE_VCn(1, format->procmode) |
+> -		      ISPPROCMODE_DT_PROC_MODE_VCn(0, format->procmode));
+> +	ret = risp_configure_routing(isp, state);
+> +	if (ret)
+> +		return ret;
+>  
+>  	/* Start ISP. */
+>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
+
+-- 
+Regards,
+
+Laurent Pinchart
 
