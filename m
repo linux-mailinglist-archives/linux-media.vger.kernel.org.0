@@ -1,70 +1,76 @@
-Return-Path: <linux-media+bounces-34030-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34031-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1394DACCE0F
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 22:17:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80957ACCFA0
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jun 2025 00:11:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF75B3A375F
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 20:17:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16B8B7A9AE6
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 22:09:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8335221D92;
-	Tue,  3 Jun 2025 20:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8BE722D4C0;
+	Tue,  3 Jun 2025 22:10:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="COHJ4WCl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JdW1pHQZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153E52EB1D;
-	Tue,  3 Jun 2025 20:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC61226CE6
+	for <linux-media@vger.kernel.org>; Tue,  3 Jun 2025 22:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748981844; cv=none; b=iApVGHBtDN4oUw8+/D/IygGfXA9AAEm0rZmKKTgzVvAUjwtVeGsrfoeP6efRYEDGbvE0mGxukaKebtocgPkE3961DNzUfaFg9loNyWfR5ore+HYwevHfQs1MQOlQPrr7eJ4s+QzSIAw1sFjrbVoJM8JDPJpjc/ahXbsr8112ric=
+	t=1748988637; cv=none; b=k3oxZ38n+td6EhRZxGYQa3tB3XopSz21L1J4qeJLOTijXNkbcuvfoqRZF0UN0c2CfVk4WNNE7IGof+svG2ZVeVMzdsEnsTrOOrhdGfxiDV0Pdcp27bx78LqKYjtSNd2L2xZ/fM0u0vjEt3/83RyQIosr9r/n3kwutaYbsJwXDZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748981844; c=relaxed/simple;
-	bh=yV4ekByytzguS9M+Qf6n8nfcrxTdF0tMI0CZ/FW+ZhI=;
+	s=arc-20240116; t=1748988637; c=relaxed/simple;
+	bh=+xR+DnNGT7WzXSdTYBzeZb9zqYYE9cyTvVMdCr5ZD0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bpUANnfm6cul9Te2e3khhEhWlui6RFwR1yGFyik4ur4HBL5FmEmq4OM+gYMO+xsNIVVEB88f074lPfvX9c4SJ8pv2TU8QmYzZyGHMes/4JtFU8pg6eLV+UICICKl5+k3Q/arZG+eZw+kIEvuFM0apouGFN2fDQT7CaZpUI+fESI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=COHJ4WCl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5E28C4CEED;
-	Tue,  3 Jun 2025 20:17:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748981843;
-	bh=yV4ekByytzguS9M+Qf6n8nfcrxTdF0tMI0CZ/FW+ZhI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=COHJ4WCl7wgYi/p077xcxhMr+c0ECulzW+gv4fS4wPm2p4q7u4MZnD98iq1rKD+em
-	 WFFr3W/IsOPLbgashjQK3TtL/CaAUWHvYgvItY+J0Nk/9UQOw1zIdDuasY65jYDvBD
-	 xuQG9QjyHYQ/fycBwT9/n72StDDKeNnuBpuLd6JA9lu4ibSfRyQ5STGHCdTVu5uoFp
-	 rLOnLO2zdlz9l//CCQTnruR35L602rP83EgxTdgpLBIh3La6ojwmvQ7VS1XmZr7Hdy
-	 vsjNh0XF/J/ZOxRGGONIIdFYW4QI2FYApB//Hvt+YHkuO3id79x08lA7lOBc/Qipct
-	 g+maGoP328NCg==
-Date: Tue, 3 Jun 2025 15:17:20 -0500
-From: Rob Herring <robh@kernel.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 07/10] accel/rocket: Add job submission IOCTL
-Message-ID: <20250603201720.GA2119676-robh@kernel.org>
-References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
- <20250520-6-10-rocket-v5-7-18c9ca0fcb3c@tomeuvizoso.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sw6h+MH7V+EyFB5G4F1iYMqzIpxBPgUym3EM+DuhxtTx7HS5aGH27BRdXq1/cdfXB+Zt8CXWdJuMT90EioCOGlG1qMh2REfvC8pI6FkWRyPIHZza2hdy3MgIn7SMzS+bARIgxo2k37Dmt32HsNWHYikHExQjooTdrJDbILxBKQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JdW1pHQZ; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748988636; x=1780524636;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+xR+DnNGT7WzXSdTYBzeZb9zqYYE9cyTvVMdCr5ZD0o=;
+  b=JdW1pHQZQEhZUJl9fAmlPz67hnHTD3xbgZSCk7wg9rkps5ypaOzotnXb
+   /UE/xia6nexbCoCOX4PaBgj/I5cvWXqAIEzfzpnTb1ISW/mcatwVttfOy
+   LeZ5/gdaYO+tlSHZzh4p7P2vsL3GLFZ7E0VcwCOwE0/6ini1l20aDQSHX
+   iLymKzbCAZr/7xZIfkedcYcVJaHMYcN/i+CLNuDh79xNdCky1BuWbFbwp
+   5uHKBJIAIIJV0QwvXhHKMMjzhz8lKJ+d+11UaO2Uxa8SkxpA5bx/WMlmF
+   4GWqdHFUxaKTdaHlvbv1JV3J8IXF3RjlrFohJr3jUrNEWmYHCp+hr8LhO
+   g==;
+X-CSE-ConnectionGUID: 5Hxng3ykQfq2cbLgAdwGRQ==
+X-CSE-MsgGUID: x4zR2n5cSEO6yqDikY4d1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="53676996"
+X-IronPort-AV: E=Sophos;i="6.16,207,1744095600"; 
+   d="scan'208";a="53676996"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 15:10:35 -0700
+X-CSE-ConnectionGUID: tDthVrysSlmWaZSH107HeQ==
+X-CSE-MsgGUID: bu1mhP3fRmKBjNQvQgayKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,207,1744095600"; 
+   d="scan'208";a="145466307"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.17])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 15:10:34 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 503D011FC2C;
+	Wed,  4 Jun 2025 01:10:31 +0300 (EEST)
+Date: Tue, 3 Jun 2025 22:10:31 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: bingbu.cao@intel.com
+Cc: linux-media@vger.kernel.org, stanislaw.gruszka@linux.intel.com,
+	bingbu.cao@linux.intel.com
+Subject: Re: [PATCH 1/3] media: staging/ipu7: add register definitions
+ cleanup in TODO
+Message-ID: <aD9y18qTzyQOA_51@kekkonen.localdomain>
+References: <20250603074914.2494111-1-bingbu.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,76 +79,48 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250520-6-10-rocket-v5-7-18c9ca0fcb3c@tomeuvizoso.net>
+In-Reply-To: <20250603074914.2494111-1-bingbu.cao@intel.com>
 
-On Tue, May 20, 2025 at 12:27:00PM +0200, Tomeu Vizoso wrote:
-> Using the DRM GPU scheduler infrastructure, with a scheduler for each
-> core.
-> 
-> Userspace can decide for a series of tasks to be executed sequentially
-> in the same core, so SRAM locality can be taken advantage of.
-> 
-> The job submission code was initially based on Panfrost.
-> 
-> v2:
-> - Remove hardcoded number of cores
-> - Misc. style fixes (Jeffrey Hugo)
-> - Repack IOCTL struct (Jeffrey Hugo)
-> 
-> v3:
-> - Adapt to a split of the register block in the DT bindings (Nicolas
->   Frattaroli)
-> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-> - Use drm_* logging functions (Thomas Zimmermann)
-> - Rename reg i/o macros (Thomas Zimmermann)
-> - Add padding to ioctls and check for zero (Jeff Hugo)
-> - Improve error handling (Nicolas Frattaroli)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Hi Bingbu,
 
+Thanks for the patch.
 
-> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..aee6ebdb2bd227439449fdfcab3ce7d1e39cd4c4
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_job.c
-> @@ -0,0 +1,723 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> +/* Copyright 2019 Collabora ltd. */
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
+On Tue, Jun 03, 2025 at 03:49:12PM +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+> 
+> Some register definitions need a cleanup, so add a new item
+> in TODO.
+> 
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> ---
+>  drivers/staging/media/ipu7/TODO | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/staging/media/ipu7/TODO b/drivers/staging/media/ipu7/TODO
+> index 7031d0179c7d..3351720125f8 100644
+> --- a/drivers/staging/media/ipu7/TODO
+> +++ b/drivers/staging/media/ipu7/TODO
+> @@ -17,3 +17,7 @@ staging directory.
+>  - Work with the common IPU module
+>    Sakari commented much of the driver code is the same than the IPU6 driver.
+>    IPU7 driver is expected to work with the common IPU module in future.
 > +
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/rocket_accel.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include "rocket_core.h"
-> +#include "rocket_device.h"
-> +#include "rocket_drv.h"
-> +#include "rocket_job.h"
-> +#include "rocket_registers.h"
-> +
-> +#define JOB_TIMEOUT_MS 500
-> +
-> +static struct rocket_job *
-> +to_rocket_job(struct drm_sched_job *sched_job)
-> +{
-> +	return container_of(sched_job, struct rocket_job, base);
-> +}
-> +
-> +struct rocket_fence {
-> +	struct dma_fence base;
-> +	struct drm_device *dev;
-> +	/* rocket seqno for signaled() test */
-> +	u64 seqno;
-> +	int queue;
+> +- Register definition cleanup
+> +  Cleanup the register definitions, remove some unnecessary macros
+> +  and 'U' suffix.
 
-AFAICT, you are not using any of the elements here. So you can just drop 
-rocket_fence and use dma_fence.
+As noted, after reflecting on the topic, I'm fine with that (as long as the
+figure is meant to be unsigned, decimal or hexadecimal).
 
-Rob
+This should be really about the fitness for the purpose of the register
+definitions as well as their naming (e.g. missing IPU7 prefix).
+
+> \ No newline at end of file
+
+Please add the newline.
+
+-- 
+Regards,
+
+Sakari Ailus
 
