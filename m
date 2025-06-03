@@ -1,234 +1,231 @@
-Return-Path: <linux-media+bounces-33995-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33996-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847ADACC4C2
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 12:57:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6CBACC4C7
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 12:57:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 797C1188FD21
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 10:57:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F20A41891D53
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 10:57:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4278122D4C8;
-	Tue,  3 Jun 2025 10:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D29322CBD9;
+	Tue,  3 Jun 2025 10:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WxsHB3Mi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ov5cuvIH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D938222ACF3;
-	Tue,  3 Jun 2025 10:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748BE22B8AA
+	for <linux-media@vger.kernel.org>; Tue,  3 Jun 2025 10:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748948216; cv=none; b=sypD9qiLsQRju6j+F651fvfLZ99WpE2aJQkD1AQMepAAXe1FmoyVIL0cKONZdyqzFxCBfus9V9kO0FPAiO/LodAFHMr5PUKJ1HqzFBwj+2ObPdl/73SAIv1Pk41Fl4pRcOpxXtmkRyob8lV2OK4iFUcZLl64tZp6NNZrBl6m5Co=
+	t=1748948247; cv=none; b=RWMK92JBeXJkw33+vVKWFLFtJL5CZup057mN87Bas+t98jkRhZYCigCwcPJWoG7g8eE/kYV2888dhWspOBMzHNodCB0YENfnOBmE8uumpjE1f5ERmYrg7KjlEQOnMXpdkicFRrvwWGuglTXKHOtE51vfvjKOJDdOa5BT6w0HNbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748948216; c=relaxed/simple;
-	bh=Ur6vVLpxNkxNbe7dEIuP263XbOpSu+doBc10oy7vIqg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iT/sj6XaCrSJYHeDoiEHacBD6YbOl94o1F7TC+SMs00V4meUsxQjOXIUq242pUCRIH6kI6Eferu68z//TZ2VKIhSv10/30bSHx/YT4dktoQda8DUD+MGqGQ3RTCXW0pgy2ejQ+svgljyXE62CzoPxiPCsJ0HguN/9UxsmiyJHkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WxsHB3Mi; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-addcea380eeso354551766b.0;
-        Tue, 03 Jun 2025 03:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748948213; x=1749553013; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/7blXBO4JKraFXyZYVYjtLes0xIhtY9NoXA5LD7gBEk=;
-        b=WxsHB3Mi2xyaN+Ch+hqxTtwIM15ZZ8nFVMbY8KqIXbHoxTMHJL5JJmpNEWdjGSVwEL
-         RO/f3LUlbLFJt/aPS1IwUy9EpCIJiJ0Pp1+Z1IcPeuUPjjmFvUEP1QHMWIwjNv1GW4MS
-         Bn4GFzUvIDgNGlD8IqQzSa9hef4/iyIX/Wkdjto0BndP9a1VvSpuhCz5eG2mL4U0Z2fG
-         5qIgaZX0QpwYw9uSDLjoXZU7yBcFNC8UU5+xIQ6BnrRz8M5A2NRyIMMXPMa7B8kWY1Yp
-         lidrS++Q+DJvbF64JweuGkpYK7uNOKyAB7K1ioilm8U66jp457qGKZYjO9zdDdEwioCJ
-         mzIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748948213; x=1749553013;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/7blXBO4JKraFXyZYVYjtLes0xIhtY9NoXA5LD7gBEk=;
-        b=RcfdwUzEiBNDYs1ZgGEXFpueZCf5IAJ8tQh++VMjZvgP5+NQSBdi6ts8/A2ak+0ieR
-         k+RIo8f9jC9Y5Jovpt0jy0QBeAw5mDOwFrAEBq9DcmfIuezKpgt7gEmxOV6FpJxZKBOh
-         Ik3s/fxgt7YJ+CkfPOwa2596wR+uTaUgF+N35HXxdFvjCOPHy5ezFxssPMPCJYJ8iPzE
-         jGfbRaFRNoAvGgZcbcHvaZmbeoglMfpw27eOB7ZWFeo+p7IwYYpBXC4t5PC0U8rdhFLo
-         BinyRf/D3gfD9mQyPkmIwOTSeO47XLotXxS1M5/UPvQqRzbDXhpTPGSOVuydf/BzzQDD
-         m+5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVPjIr9i6a5ZRPd5EPn0VAMqGbL/gO/vTHM9sZzHoxemXl3GP0Vhfh1SmsRjAefVlZLR5OP6JiswYo+33jo@vger.kernel.org, AJvYcCVt73TN3oZTlurl2CaGveBnOmhVoxzV+a0qn/R5X7HwDjNPplFd7V5DsHUUeLDJNG4eiE3wKmLUzSfiq9Cj@vger.kernel.org, AJvYcCWe1Hg6vagO094ZdkUEFQNpdFMFkmDFGJKWK6ETvkx2bpXFQvJTZQ62E17CRZns1UVA9ePiRFXhAnB3OcA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmEglB7h2UcVx3Ant0yzngolMvzR0z8YGZehi1Ov6llMkgrvg6
-	JFbX1iYltG+dkphZFyhhKJxJWmYqG+J8y+ef+/NanR9LppvdHTz6PLnl4V36F34gjnQD9tKqb/c
-	GL7j6P6g2Of5gYNN/FjQSutGNj97PIoA=
-X-Gm-Gg: ASbGncsJzPgWAhYlDv81OiHu1MZcbrLRBjCVp/7UOnJZrdJSni5X4QF1+ZSVr9jgZ0Y
-	qIARXsO0g+i/ICEDDP7oi6+k/bZnDAqU1+NGeg1PNk0s8v9yC99R8onbINOooJc/MSw6TEREXzL
-	MlNo+2F0+CE5KW2KQM3BDetmOzMTdxtMAQ
-X-Google-Smtp-Source: AGHT+IGpvLn8hqrgPkcWVTHoe15k+0yqKJqtqmp3PMmzbuAIudjHSPH95skJXXoflNa4a233DOM5y2pvJ1SiAlHm6rU=
-X-Received: by 2002:a17:907:da9:b0:ad8:97d8:a52e with SMTP id
- a640c23a62f3a-adb495983admr1239171966b.55.1748948212831; Tue, 03 Jun 2025
- 03:56:52 -0700 (PDT)
+	s=arc-20240116; t=1748948247; c=relaxed/simple;
+	bh=xP8/o8VC1aQzBAnz31x4dFkGGtCzo+1W4r3JIWnzaEs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VFj9RAH+Wt+kaamRL14zKPo61OIs6wsoU/40IFoPDoDS90fIedBKXJ4osGPQgARobrk1Vwn/gyCz+QDvElK/ZYIIjI6+3FcYf7G4UpcW00/wUkyOe4id8HcQKiDP06aELwgIYe0Eh34gI6cCyNWWmeS097t1vjUfaj/2BpGqr24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ov5cuvIH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F55ED7;
+	Tue,  3 Jun 2025 12:57:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748948241;
+	bh=xP8/o8VC1aQzBAnz31x4dFkGGtCzo+1W4r3JIWnzaEs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ov5cuvIHmR3XTjBOjqYlbTY4i6TvMfBlQLrtWNpLIsVXZAbw5jPdMgrjG9iKaz2T9
+	 HaSzuMAeyiL6s5URCsKLvJZnhOV0cSgxDbZVXHhjXFmN/Cpw7NpIgQ17QzktJnN7z2
+	 jgAPc4DnYd0X2/Np2x1Ks7rnQ9QGAluGitS04MXw=
+Date: Tue, 3 Jun 2025 13:57:12 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mathis Foerst <mathis.foerst@mt.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 03/12] media: mt9m114: Use aptina-PLL helper to get
+ PLL values
+Message-ID: <20250603105712.GA27361@pendragon.ideasonboard.com>
+References: <20250531163148.83497-1-hansg@kernel.org>
+ <20250531163148.83497-4-hansg@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250603095245.17478-1-tao.wangtao@honor.com> <20250603095245.17478-2-tao.wangtao@honor.com>
-In-Reply-To: <20250603095245.17478-2-tao.wangtao@honor.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 3 Jun 2025 12:56:41 +0200
-X-Gm-Features: AX0GCFvUGt-jkPjKb-TaQfCiyDY6ri9AEn30VaTl2bfo8Rvzx6IYm2tIEQwOB0U
-Message-ID: <CAOQ4uxgYmSLY25WtQjHxvViG0eNSSsswF77djBJZsSJCq1OyLA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] fs: allow cross-FS copy_file_range for memory file
- with direct I/O
-To: wangtao <tao.wangtao@honor.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, kraxel@redhat.com, 
-	vivek.kasireddy@intel.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	hughd@google.com, akpm@linux-foundation.org, benjamin.gaignard@collabora.com, 
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, jack@suse.cz, 
-	baolin.wang@linux.alibaba.com, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, bintian.wang@honor.com, yipengxiang@honor.com, 
-	liulu.liu@honor.com, feng.han@honor.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250531163148.83497-4-hansg@kernel.org>
 
-On Tue, Jun 3, 2025 at 11:53=E2=80=AFAM wangtao <tao.wangtao@honor.com> wro=
-te:
->
-> Memory files can optimize copy performance via copy_file_range callbacks:
-> -Compared to mmap&read: reduces GUP (get_user_pages) overhead
-> -Compared to sendfile/splice: eliminates one memory copy
-> -Supports dma-buf direct I/O zero-copy implementation
->
-> Suggested by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Suggested by: Amir Goldstein <amir73il@gmail.com>
-> Signed-off-by: wangtao <tao.wangtao@honor.com>
+Hi Hans,
+
+Thank you for the patch.
+
+On Sat, May 31, 2025 at 06:31:38PM +0200, Hans de Goede wrote:
+> Before this change the driver used hardcoded PLL m, n and p values to
+> achieve a 48MHz pixclock when used with an external clock with a frequency
+> of 24 MHz.
+> 
+> Use aptina_pll_calculate() to allow the driver to work with different
+> external clock frequencies. The m, n, and p values will be unchanged
+> with a 24 MHz extclk and this has also been tested with a 19.2 MHz
+> clock where m gets increased from 32 to 40.
+> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Hans de Goede <hansg@kernel.org>
 > ---
->  fs/read_write.c    | 64 +++++++++++++++++++++++++++++++++++++---------
->  include/linux/fs.h |  2 ++
->  2 files changed, 54 insertions(+), 12 deletions(-)
->
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index bb0ed26a0b3a..ecb4f753c632 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -1469,6 +1469,31 @@ COMPAT_SYSCALL_DEFINE4(sendfile64, int, out_fd, in=
-t, in_fd,
->  }
->  #endif
->
-> +static const struct file_operations *memory_copy_file_ops(
-> +                       struct file *file_in, struct file *file_out)
-> +{
-> +       if ((file_in->f_op->fop_flags & FOP_MEMORY_FILE) &&
-> +           (file_in->f_mode & FMODE_CAN_ODIRECT) &&
-> +           file_in->f_op->copy_file_range && file_out->f_op->write_iter)
-> +               return file_in->f_op;
-> +       else if ((file_out->f_op->fop_flags & FOP_MEMORY_FILE) &&
-> +                (file_out->f_mode & FMODE_CAN_ODIRECT) &&
-> +                file_in->f_op->read_iter && file_out->f_op->copy_file_ra=
-nge)
-> +               return file_out->f_op;
-> +       else
-> +               return NULL;
-> +}
+> Changes in v2:
+> - Add select VIDEO_APTINA_PLL to Kconfig
+> - Use correct aptina_pll_limits
+> ---
+>  drivers/media/i2c/Kconfig   |  1 +
+>  drivers/media/i2c/mt9m114.c | 54 ++++++++++++++++++++++++++-----------
+>  2 files changed, 40 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index dc2c429734fc..1820ec37404a 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -285,6 +285,7 @@ config VIDEO_MT9M111
+>  config VIDEO_MT9M114
+>  	tristate "onsemi MT9M114 sensor support"
+>  	select V4L2_CCI_I2C
+> +	select VIDEO_APTINA_PLL
+>  	help
+>  	  This is a Video4Linux2 sensor-level driver for the onsemi MT9M114
+>  	  camera.
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index 5a7c45ce2169..e12c69dc9df0 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -31,6 +31,8 @@
+>  #include <media/v4l2-mediabus.h>
+>  #include <media/v4l2-subdev.h>
+>  
+> +#include "aptina-pll.h"
 > +
-> +static int essential_file_rw_checks(struct file *file_in, struct file *f=
-ile_out)
-> +{
-> +       if (!(file_in->f_mode & FMODE_READ) ||
-> +           !(file_out->f_mode & FMODE_WRITE) ||
-> +           (file_out->f_flags & O_APPEND))
-> +               return -EBADF;
-> +
-> +       return 0;
-> +}
-> +
->  /*
->   * Performs necessary checks before doing a file copy
+>  /* Sysctl registers */
+>  #define MT9M114_CHIP_ID					CCI_REG16(0x0000)
+>  #define MT9M114_COMMAND_REGISTER			CCI_REG16(0x0080)
+> @@ -263,9 +265,9 @@
+>  #define MT9M114_CAM_SYSCTL_PLL_ENABLE_VALUE			BIT(0)
+>  #define MT9M114_CAM_SYSCTL_PLL_DISABLE_VALUE			0x00
+>  #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_M_N		CCI_REG16(0xc980)
+> -#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(m, n)		(((n) << 8) | (m))
+> +#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(m, n)		((((n) - 1) << 8) | (m))
+>  #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P		CCI_REG16(0xc982)
+> -#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(p)		((p) << 8)
+> +#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(p)		(((p) - 1) << 8)
+>  #define MT9M114_CAM_PORT_OUTPUT_CONTROL			CCI_REG16(0xc984)
+>  #define MT9M114_CAM_PORT_PORT_SELECT_PARALLEL			(0 << 0)
+>  #define MT9M114_CAM_PORT_PORT_SELECT_MIPI			(1 << 0)
+> @@ -326,7 +328,7 @@
+>   * minimum values that have been seen in register lists are 303 and 38, use
+>   * them.
 >   *
-> @@ -1484,9 +1509,16 @@ static int generic_copy_file_checks(struct file *f=
-ile_in, loff_t pos_in,
->         struct inode *inode_out =3D file_inode(file_out);
->         uint64_t count =3D *req_count;
->         loff_t size_in;
-> +       bool splice =3D flags & COPY_FILE_SPLICE;
-> +       const struct file_operations *mem_fops;
->         int ret;
->
-> -       ret =3D generic_file_rw_checks(file_in, file_out);
-> +       /* The dma-buf file is not a regular file. */
-> +       mem_fops =3D memory_copy_file_ops(file_in, file_out);
-> +       if (splice || mem_fops =3D=3D NULL)
-
-nit: use !mem_fops please
-
-Considering that the flag COPY_FILE_SPLICE is not allowed
-from userspace and is only called by nfsd and ksmbd
-I think we should assert and deny the combination of
-mem_fops && splice because it is very much unexpected.
-
-After asserting this, it would be nicer to write as:
-        if (mem_fops)
-               ret =3D essential_file_rw_checks(file_in, file_out);
-        else
-               ret =3D generic_file_rw_checks(file_in, file_out);
-
-> +       else
-> +               ret =3D essential_file_rw_checks(file_in, file_out);
->         if (ret)
->                 return ret;
->
-> @@ -1500,8 +1532,10 @@ static int generic_copy_file_checks(struct file *f=
-ile_in, loff_t pos_in,
->          * and several different sets of file_operations, but they all en=
-d up
->          * using the same ->copy_file_range() function pointer.
->          */
-> -       if (flags & COPY_FILE_SPLICE) {
-> +       if (splice) {
->                 /* cross sb splice is allowed */
-> +       } else if (mem_fops !=3D NULL) {
-
-With the assertion that splice && mem_fops is not allowed
-if (splice || mem_fops) {
-
-would go well together because they both allow cross-fs
-copy not only cross sb.
-
-> +               /* cross-fs copy is allowed for memory file. */
->         } else if (file_out->f_op->copy_file_range) {
->                 if (file_in->f_op->copy_file_range !=3D
->                     file_out->f_op->copy_file_range)
-> @@ -1554,6 +1588,7 @@ ssize_t vfs_copy_file_range(struct file *file_in, l=
-off_t pos_in,
->         ssize_t ret;
->         bool splice =3D flags & COPY_FILE_SPLICE;
->         bool samesb =3D file_inode(file_in)->i_sb =3D=3D file_inode(file_=
-out)->i_sb;
-> +       const struct file_operations *mem_fops;
->
->         if (flags & ~COPY_FILE_SPLICE)
->                 return -EINVAL;
-> @@ -1574,18 +1609,27 @@ ssize_t vfs_copy_file_range(struct file *file_in,=
- loff_t pos_in,
->         if (len =3D=3D 0)
->                 return 0;
->
-> +       if (splice)
-> +               goto do_splice;
+> - * Set the default to achieve 1280x960 at 30fps.
+> + * Set the default to achieve 1280x960 at 30fps with a 48 MHz pixclock.
+>   */
+>  #define MT9M114_MIN_HBLANK				303
+>  #define MT9M114_MIN_VBLANK				38
+> @@ -336,6 +338,8 @@
+>  #define MT9M114_DEF_FRAME_RATE				30
+>  #define MT9M114_MAX_FRAME_RATE				120
+>  
+> +#define MT9M114_DEF_PIXCLOCK				48000000
 > +
->         file_start_write(file_out);
->
+>  #define MT9M114_PIXEL_ARRAY_WIDTH			1296U
+>  #define MT9M114_PIXEL_ARRAY_HEIGHT			976U
+>  
+> @@ -380,11 +384,7 @@ struct mt9m114 {
+>  	struct v4l2_fwnode_endpoint bus_cfg;
+>  	bool bypass_pll;
+>  
+> -	struct {
+> -		unsigned int m;
+> -		unsigned int n;
+> -		unsigned int p;
+> -	} pll;
+> +	struct aptina_pll pll;
+>  
+>  	unsigned int pixrate;
+>  	bool streaming;
+> @@ -757,7 +757,7 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
+>  							       sensor->pll.n),
+>  			  &ret);
+>  		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_P,
+> -			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p),
+> +			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p1),
+>  			  &ret);
+>  	}
+>  
+> @@ -2262,12 +2262,29 @@ static int mt9m114_verify_link_frequency(struct mt9m114 *sensor,
+>  
+>  static int mt9m114_clk_init(struct mt9m114 *sensor)
+>  {
+> +	static const struct aptina_pll_limits limits = {
+> +		.ext_clock_min = 6000000,
+> +		.ext_clock_max = 54000000,
+> +		/* int_clock_* limits are not documented taken from mt9p031.c */
+> +		.int_clock_min = 2000000,
+> +		.int_clock_max = 13500000,
+> +		/*
+> +		 * out_clock_min is not documented, taken from mt9p031.c.
+> +		 * out_clock_max is documented as 768MHz, but this leads to
+> +		 * different PLL settings then used by the vendor's drivers.
 
-goto do_splice needs to be after file_start_write
+s/then/than/
 
-Please wait for feedback from vfs maintainers before posting another
-version addressing my review comments.
+Is that an issue though ? Does it prevent the sensor from working ?
 
-Thanks,
-Amir.
+> +		 */
+> +		.out_clock_min = 180000000,
+> +		.out_clock_max = 400000000,
+> +		.pix_clock_max = 48000000,
+> +		.n_min = 1,
+> +		.n_max = 64,
+> +		.m_min = 16,
+> +		.m_max = 192,
+> +		.p1_min = 1,
+> +		.p1_max = 64,
+> +	};
+>  	unsigned int pixrate;
+> -
+> -	/* Hardcode the PLL multiplier and dividers to default settings. */
+> -	sensor->pll.m = 32;
+> -	sensor->pll.n = 1;
+> -	sensor->pll.p = 7;
+> +	int ret;
+>  
+>  	/*
+>  	 * Calculate the pixel rate and link frequency. The CSI-2 bus is clocked
+> @@ -2287,8 +2304,15 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
+>  	}
+>  
+>  	/* Check if the PLL configuration fits the configured link frequency. */
+> +	sensor->pll.ext_clock = sensor->clk_freq;
+> +	sensor->pll.pix_clock = MT9M114_DEF_PIXCLOCK;
+> +
+> +	ret = aptina_pll_calculate(&sensor->client->dev, &limits, &sensor->pll);
+> +	if (ret)
+> +		return ret;
+> +
+>  	pixrate = sensor->clk_freq * sensor->pll.m
+> -		/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
+> +		/ (sensor->pll.n * sensor->pll.p1);
+>  	if (mt9m114_verify_link_frequency(sensor, pixrate) == 0) {
+>  		sensor->pixrate = pixrate;
+>  		sensor->bypass_pll = false;
+
+-- 
+Regards,
+
+Laurent Pinchart
 
