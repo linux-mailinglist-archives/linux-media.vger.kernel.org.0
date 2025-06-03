@@ -1,187 +1,85 @@
-Return-Path: <linux-media+bounces-33968-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33969-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DC5ACC033
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 08:27:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB3FACC076
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 08:50:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC438166CD7
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 06:27:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F8073A4314
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 06:49:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC20625D8E0;
-	Tue,  3 Jun 2025 06:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0uoxgea"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24BB4268685;
+	Tue,  3 Jun 2025 06:50:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B39425D522;
-	Tue,  3 Jun 2025 06:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1D01F4CBD;
+	Tue,  3 Jun 2025 06:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.20.114.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748932052; cv=none; b=ojwEwhuZnJG4Vn7vzbKRYQEjBzlxb8S7Qudlw5ajAwG5IdMrivbi3Wozoh+gW1yQH+AhMK9Q8qGmkBbk3lSfAWweJ9xnduZ/KmK0AO6nqvYdSpTnVeScbH9quRy2yW9DGFupLyjv0pQao+UFIvTG/XGeofSDol9qLOx6PGTDQqA=
+	t=1748933413; cv=none; b=pP/ofPFmEu9ItaDap/5qDhSvFr/aZeThrFMHNJ8nlIJptCZ4fu0+sQQXPGxrjzswCL0odHwHko+/sJcRhO5lk3QefKPySsePUX9RX6k9Bj7pdwZrxNGbjIz8F/NR1ode/k229ri/HZFxDJx4183YIqgEZRJXg2rcLBh2A+wg/Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748932052; c=relaxed/simple;
-	bh=IWFtaiDn/XO87fJC+ux27MBKi9oToFneDr8KRC5wsd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bRofTm8vcIStCP6A7SUG/x0skL+9tGlYCgiksRhInOda7F7cRg2dXPCBX5+V1/5uhLmjBzHJM9cYfmlFnEWE8D08ZSt9ez1YFpZfXX1d0R79q9XUW+Wls6r6PJgOjlI2gEQ1n+JESHCemCwLxSQ7W6ldY9Z0hp2kaUVcN+3VgBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0uoxgea; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748932051; x=1780468051;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=IWFtaiDn/XO87fJC+ux27MBKi9oToFneDr8KRC5wsd4=;
-  b=U0uoxgeawyvclHb5hdYsWIOOoeDl3TmeUIODdYphdGDX0SSeGvKYbBYb
-   iRBBsqsB7TgPFFOFiQ+o/e2hkw6dXDOZRRCaFQSB0KT3SR+bFovjsNl5Z
-   htllbiJis8vmcHHiZ5UvxgzaHuvFBtXJQGBTByXj32aw1RIiVPZp6nJAb
-   Hdxi2DXdDonz5owd04UFS0H6n7XFFlorvs/PsMfd/Yi4QTu7KXtVojEje
-   IyF0FEpE57yGR6n1A6W7yizvRV8H6fDRrBwiHUGSWz6/xT/18b14iWlJf
-   dm+j/eACdH511C6NS1g1R6Bi+iGS4MbkMhd7nrAm9rxom4g6/dHD5oGPa
-   w==;
-X-CSE-ConnectionGUID: RFnmvnBqS0qc7Hr1FFNIsw==
-X-CSE-MsgGUID: RxgOwsoAQkiYQ9Xp/S241Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="62314591"
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; 
-   d="scan'208";a="62314591"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2025 23:27:29 -0700
-X-CSE-ConnectionGUID: BBpJLW0fTIe4Bl5L9UVquA==
-X-CSE-MsgGUID: NtyakwF0TsCvZXIGBKTDHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; 
-   d="scan'208";a="149539306"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orviesa003.jf.intel.com with ESMTP; 02 Jun 2025 23:27:23 -0700
-Date: Tue, 3 Jun 2025 14:20:51 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
-	linux-coco@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	vivek.kasireddy@intel.com, yilun.xu@intel.com,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com,
-	linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
-	shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
-	kevin.tian@intel.com
-Subject: Re: [RFC PATCH 17/30] iommufd/device: Add TSM Bind/Unbind for TIO
- support
-Message-ID: <aD6UQy4KwKcdSvVE@yilunxu-OptiPlex-7050>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-18-yilun.xu@linux.intel.com>
- <yq5awm9ujouz.fsf@kernel.org>
+	s=arc-20240116; t=1748933413; c=relaxed/simple;
+	bh=7ArF5YzrxRPHNf7/61zGZMMOUvKVPDKgRU1KI+bNLDY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ueSyd/sKq+kw/LTgmJzn4u87q69mjPffNGy7onUeyphClSxbV3fW8LyCdWwyJInsRX5S+ytLdcs/Wyo+kJ12fF4h7DoaF8c9/cw25BY/g9p1LFMgji0Vv2bn2rnaDI97fXbrCBG3CEYypzb15KgQA4A01YRAhs5gLN2mj19QJl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; arc=none smtp.client-ip=211.20.114.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 3 Jun
+ 2025 14:45:00 +0800
+Received: from twmbx02.aspeed.com (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Tue, 3 Jun 2025 14:45:00 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+	<andrew@aj.id.au>, <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v7 0/1] media: aspeed: Allow to capture from SoC display (GFX)
+Date: Tue, 3 Jun 2025 14:44:59 +0800
+Message-ID: <20250603064500.94048-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <yq5awm9ujouz.fsf@kernel.org>
+Content-Type: text/plain
 
-On Mon, Jun 02, 2025 at 06:13:16PM +0530, Aneesh Kumar K.V wrote:
-> Xu Yilun <yilun.xu@linux.intel.com> writes:
-> 
-> ....
-> 
-> > +/**
-> > + * iommufd_device_tsm_bind - Move a device to TSM Bind state
-> > + * @idev: device to attach
-> > + * @vdev_id: Input a IOMMUFD_OBJ_VDEVICE
-> > + *
-> > + * This configures for device Confidential Computing(CC), and moves the device
-> > + * to the TSM Bind state. Once this completes the device is locked down (TDISP
-> > + * CONFIG_LOCKED or RUN), waiting for guest's attestation.
-> > + *
-> > + * This function is undone by calling iommufd_device_tsm_unbind().
-> > + */
-> > +int iommufd_device_tsm_bind(struct iommufd_device *idev, u32 vdevice_id)
-> > +{
-> > +	struct iommufd_vdevice *vdev;
-> > +	int rc;
-> > +
-> > +	if (!dev_is_pci(idev->dev))
-> > +		return -ENODEV;
-> > +
-> > +	vdev = container_of(iommufd_get_object(idev->ictx, vdevice_id, IOMMUFD_OBJ_VDEVICE),
-> > +			    struct iommufd_vdevice, obj);
-> > +	if (IS_ERR(vdev))
-> > +		return PTR_ERR(vdev);
-> > +
-> > +	if (vdev->dev != idev->dev) {
-> > +		rc = -EINVAL;
-> > +		goto out_put_vdev;
-> > +	}
-> > +
-> > +	mutex_lock(&idev->igroup->lock);
-> > +	if (idev->vdev) {
-> > +		rc = -EEXIST;
-> > +		goto out_unlock;
-> > +	}
-> > +
-> > +	rc = iommufd_vdevice_tsm_bind(vdev);
-> > +	if (rc)
-> > +		goto out_unlock;
-> > +
-> > +	idev->vdev = vdev;
-> > +	refcount_inc(&vdev->obj.users);
-> > +	mutex_unlock(&idev->igroup->lock);
-> > +
-> > +	/*
-> > +	 * Pairs with iommufd_device_tsm_unbind() - catches caller bugs attempting
-> > +	 * to destroy a bound device.
-> > +	 */
-> > +	refcount_inc(&idev->obj.users);
-> >
-> 
-> Do we really need this refcount_inc? As I understand it, the objects
+ v7 changes:
+  - The change for Documentation is moved to a separate patch and has
+    been accepted.
+ v6 changes:
+  - Replace aspeed-video.txt with aspeed,video-engine.yaml.
+ v5 changes:
+  - Remove dts.
+  - Add doc, aspeed,video.yaml.
+  - Simplify aspeed_regmap_lookup.
+ v4 changes:
+  - Use scoped/cleanup to make aspeed_regmap_lookup simpler.
+  - Update dts
+ v3 changes:
+  - Update for enum_input.
+ v2 changes:
+  - Update patch subject and comments.
 
-The idev refcount is not necessary, it is just to "catch caller bug".
+Jammy Huang (1):
+  media: aspeed: Allow to capture from SoC display (GFX)
 
-> aren't being pinned directly. Instead, the reference count seems to be
-> used more as a way to establish an object hierarchy, ensuring that
-> objects are freed in the correct order.
-> 
-> In vfio_pci_core_close_device(), you’re decrementing the reference, and
-> on the iommufd side, we’re covered because the VFIO bind operation takes
-> a file reference (fget)—so iommufd_fops_release() won’t be called
-> prematurely.
+ drivers/media/platform/aspeed/aspeed-video.c | 189 ++++++++++++++++---
+ include/uapi/linux/aspeed-video.h            |   7 +
+ 2 files changed, 168 insertions(+), 28 deletions(-)
 
-Correct.
 
-> 
-> Wouldn’t it be simpler to skip the reference count increment altogether
-> and just call tsm_unbind in the virtual device’s destroy callback?
-> (iommufd_vdevice_destroy())
+base-commit: b6ea1680d0ac0e45157a819c41b46565f4616186
+-- 
+2.25.1
 
-The vdevice refcount is the main concern, there is also an IOMMU_DESTROY
-ioctl. User could just free the vdevice instance if no refcount, while VFIO
-is still in bound state. That seems not the correct free order.
-
-Thanks,
-Yilun
-
-> 
-> > +	goto out_put_vdev;
-> > +
-> > +out_unlock:
-> > +	mutex_unlock(&idev->igroup->lock);
-> > +out_put_vdev:
-> > +	iommufd_put_object(idev->ictx, &vdev->obj);
-> > +	return rc;
-> > +}
-> > +EXPORT_SYMBOL_NS_GPL(iommufd_device_tsm_bind, "IOMMUFD");
-> 
-> -aneesh
 
