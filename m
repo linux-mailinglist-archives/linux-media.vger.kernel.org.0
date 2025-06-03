@@ -1,413 +1,245 @@
-Return-Path: <linux-media+bounces-34007-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34008-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F39ACC702
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 14:49:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4446BACC6FD
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 14:49:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F3201744F7
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 12:48:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78881188E820
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 12:49:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2D18230BD5;
-	Tue,  3 Jun 2025 12:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 064EE231826;
+	Tue,  3 Jun 2025 12:48:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="N5g65S2f"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O+ClEhH+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EF678F24
-	for <linux-media@vger.kernel.org>; Tue,  3 Jun 2025 12:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE9722F767
+	for <linux-media@vger.kernel.org>; Tue,  3 Jun 2025 12:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748954906; cv=none; b=OxaG/5pOeaIEKoKZ7+sBUTjkNBsJoqYxo08J5E3RaHnspNNWEkj5Km98VJPQRp00rxGXP4o1zVqTVUMEHDQEtik3d+0ues7PB2ngxM0+yP+Y5c5HIJ3hJJEwubxlHikeQEp6Snk03xeHwRPk6LvShb9FuQ3BQ/FAhU1yagb/Ydo=
+	t=1748954907; cv=none; b=Q8UWp96C3ruHyBMKfdTsNUyWwjd9Ek9sP9n9xxVeIsnXL07VwSzxfEz99t7IMMAC/b6Je386HHKAlvDvpNAgLChBx9tkJXCmbKD/0GzyIXQttmvELfV8Q95IEj2KH+iodgY1xLbVKh9SoQxYIYGfHS9WFF2r6uWcvjoHuSXWoyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748954906; c=relaxed/simple;
-	bh=MpBzNNy89cv+4CrYxkPBUw0Mc1Ym0jWdi7N3YvDhe3w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ur3ffkPhgDNWpJSCTgyCH1ZiLNDO/B2+giR/A3x7IzimzydiLO2KjeWi84oPWFqAnAxrVm/Kb1N3KWvf2PFTmOTBRtgvysjBYlXF3/5BMAo7f3VQYSf8Q0p+4IaCE2/WOwG2c0yjsli2dCy2CE63+dBFwmOQL9OiGDVUyN168Qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=N5g65S2f; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=3InMgABg9NO7XhBQpLAgrQxBXcqf1LN/zpr5RMZQo64=; b=N5g65S2fvOmUfs/vc0mZh2JjWF
-	l9CTXy+VURRAJjWoYTWo9cOg0YGm2LhaYqsjB+4h6dVqeA2wbVlCdgDMr+1hDPRtCkSFEYTb2pc5r
-	xohG0vOrPTQG9/PznGguV7ceyHQCJjMAKh6V8fzU6QPWzykS5AxRjxd9ovMEBEXZX9TfGE4qVOHz6
-	JlXp5OtJwIWjiJKwmDWL8m+AcS7RQ4Peb5Ki4z6mv1wwuKKQDtuvYepS2rxN1cfP6nmHg88ukRq78
-	C3rIIlqbq/3jKIr2nrZ5QopJJTkvuJlhrHCNr+BNFL78xeoWcWpS/bMHy9NcEYSnW+LfPsekdJ2q4
-	UvubWiEQ==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1uMR3s-00Gg4w-Oe; Tue, 03 Jun 2025 14:48:12 +0200
-Message-ID: <055d9c65-b338-406f-a0e1-1e1b80b89566@igalia.com>
-Date: Tue, 3 Jun 2025 13:48:11 +0100
+	s=arc-20240116; t=1748954907; c=relaxed/simple;
+	bh=i8MbJHvdnda/GDGCLP0CKmrQaSbQXmAFXUm3vqdaBHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nR5xHLS8krTt19PCPrzojQxtYgyzndOUoeOgdDXq5amTQ45xQg8IZ8I7cAa2QzzbMJypIbCWyleFxLPEwG3TL3Y9I4f8kMJqyeTs7laLKVrM6RbjtI2QyeE8JCoKhQY2Y+s+NmI3bo8+RiNF4YmrcU22b21HU1p+AnQvvHJwKJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O+ClEhH+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86BB1D7;
+	Tue,  3 Jun 2025 14:48:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748954901;
+	bh=i8MbJHvdnda/GDGCLP0CKmrQaSbQXmAFXUm3vqdaBHA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O+ClEhH+SuxZ9Tub0LehShn+J+EGLwNblOmMOfup1UT4tTSmSNKo1hWXPda+PP+c4
+	 k90nDmXNoSRCDNbkgTbxfDel+uRtsVVo2khpG7aSy4p6C2H7SxeuD8ZE2XnZ+wjLEI
+	 vsDZDR5yWaI7J+nspS9SeFQF3QO16Oweir+Xyivg=
+Date: Tue, 3 Jun 2025 15:48:14 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mathis Foerst <mathis.foerst@mt.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 09/12] media: mt9m114: Fix scaler bypass mode
+Message-ID: <20250603124814.GF27361@pendragon.ideasonboard.com>
+References: <20250531163148.83497-1-hansg@kernel.org>
+ <20250531163148.83497-10-hansg@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/9] dma-fence: Use a flag for 64-bit seqnos
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, kernel-dev@igalia.com
-References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
- <20250515095004.28318-3-tvrtko.ursulin@igalia.com>
- <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
- <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
- <13c5edf6-ccad-4a06-85d4-dccf2afd0c62@amd.com>
- <d483076a-b12f-4ade-b699-ee488df298ba@igalia.com>
- <2ffc513c-2d11-4b76-b9c9-c7cb7841e386@amd.com>
- <7598fd9c-7169-4a01-a24a-b9e666e9a915@igalia.com>
- <3b614b74-4e6a-4e8a-9390-6f65ce788d02@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <3b614b74-4e6a-4e8a-9390-6f65ce788d02@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250531163148.83497-10-hansg@kernel.org>
 
+Hi Hans,
 
-On 03/06/2025 13:40, Christian König wrote:
-> On 6/3/25 13:30, Tvrtko Ursulin wrote:
->>
->> On 02/06/2025 19:00, Christian König wrote:
->>> On 6/2/25 17:25, Tvrtko Ursulin wrote:
->>>>
->>>> On 02/06/2025 15:42, Christian König wrote:
->>>>> On 6/2/25 15:05, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> Hi,
->>>>>>
->>>>>> On 15/05/2025 14:15, Christian König wrote:
->>>>>>> Hey drm-misc maintainers,
->>>>>>>
->>>>>>> can you guys please backmerge drm-next into drm-misc-next?
->>>>>>>
->>>>>>> I want to push this patch here but it depends on changes which are partially in drm-next and partially in drm-misc-next.
->>>>>>
->>>>>> Looks like the backmerge is still pending?
->>>>>
->>>>> Yes, @Maarten, @Maxime and @Thomas ping on this.
->>>>>
->>>>>> In the meantime, Christian, any chance you will have some bandwith to think about the tail end of the series? Specifically patch 6 and how that is used onward.
->>>>>
->>>>> Well the RCU grace period is quite a nifty hack. I wanted to go over it again after merging the first patches from this series.
->>>>>
->>>>> In general looks like a good idea to me, I just don't like that we explicitely need to expose dma_fence_access_begin() and dma_fence_access_end().
->>>>>
->>>>> Especially we can't do that while calling fence->ops->release.
->>>>
->>>> Hm why not? You think something will take offence of the rcu_read_lock()?
->>>
->>> Yes, especially it is perfectly legitimate to call synchronize_rcu() or lock semaphores/mutexes from that callback.
->>>
->>> Either keep the RCU critical section only for the trace or even better come up with some different approach, e.g. copying the string under the RCU lock or something like that.
->>
->> Hmm but the kerneldoc explicity says callback can be called from irq context:
->>
->>      /**
->>       * @release:
->>       *
->>       * Called on destruction of fence to release additional resources.
->>       * Can be called from irq context.  This callback is optional. If it is
->>       * NULL, then dma_fence_free() is instead called as the default
->>       * implementation.
->>       */
->>      void (*release)(struct dma_fence *fence);
+Thank you for the patch.
+
+On Sat, May 31, 2025 at 06:31:44PM +0200, Hans de Goede wrote:
+> As indicated by the comment in mt9m114_ifp_set_fmt():
 > 
-> Ah, right. I mixed that up with the dma-buf object.
+> 	/* If the output format is RAW10, bypass the scaler. */
+> 	if (format->code == MEDIA_BUS_FMT_SGRBG10_1X10)
+> 		...
 > 
-> Yeah in that case that is probably harmless. We delegate the final free to a work item if necessary anyway.
+> The intend of the driver is that the scalar is bypassed when the ISP
+> source/output pad's pixel-format is set to MEDIA_BUS_FMT_SGRBG10_1X10.
 > 
-> But I would still like to avoid having the RCU cover the release as well. Or why is there any reason why we would explicitely want to do this?
+> This patch makes 2 changes which are required to get this to work properly:
+> 
+> 1. Set the MT9M114_CAM_OUTPUT_FORMAT_BT656_CROP_SCALE_DISABLE bit in
+>    the MT9M114_CAM_OUTPUT_FORMAT register.
 
-I can't remember there was a particular reason. Obviously the 
-driver/timeline name vfunc access I needed a 
-dma_fence_access_begin/end() block so maybe I was just sloppy and put 
-the end at the end of the function instead of at the end of the block 
-which can dereference them.
+Does that bit actually make a difference ? It's documented as only being
+effective when MT9M114_CAM_OUTPUT_FORMAT_BT656_ENABLE is also set, and
+the driver never sets that.
 
-I will pull it earlier for the next respin, assuming no gotchas get 
-discovered in the process.
+> 
+> 2. Disable cropping/composing by setting crop and compose selections on
+>    the ISP sink/input format to the format widthxheight @ 0x0.
+> 
+> Signed-off-by: Hans de Goede <hansg@kernel.org>
+> ---
+> Changes in v2:
+> - When bypassing the scalar make ifp_get_selection() / ifp_set_selection()
+>   fill sel->r with a rectangle of (0,0)/wxh and return 0 instead of
+>   returning -EINVAL
+> ---
+>  drivers/media/i2c/mt9m114.c | 35 ++++++++++++++++++++++++++++++-----
+>  1 file changed, 30 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index 7a1451006cfe..d954f2be8f0d 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -467,7 +467,8 @@ static const struct mt9m114_format_info mt9m114_format_infos[] = {
+>  		/* Keep the format compatible with the IFP sink pad last. */
+>  		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+>  		.output_format = MT9M114_CAM_OUTPUT_FORMAT_BAYER_FORMAT_RAWR10
+> -			| MT9M114_CAM_OUTPUT_FORMAT_FORMAT_BAYER,
+> +			| MT9M114_CAM_OUTPUT_FORMAT_FORMAT_BAYER
+> +			| MT9M114_CAM_OUTPUT_FORMAT_BT656_CROP_SCALE_DISABLE,
+>  		.flags = MT9M114_FMT_FLAG_PARALLEL | MT9M114_FMT_FLAG_CSI2,
+>  	}
+>  };
+> @@ -850,6 +851,7 @@ static int mt9m114_configure_ifp(struct mt9m114 *sensor,
+>  	const struct v4l2_mbus_framefmt *format;
+>  	const struct v4l2_rect *crop;
+>  	const struct v4l2_rect *compose;
+> +	unsigned int border;
+>  	u64 output_format;
+>  	int ret = 0;
+>  
+> @@ -869,10 +871,12 @@ static int mt9m114_configure_ifp(struct mt9m114 *sensor,
+>  	 * by demosaicing that are taken into account in the crop rectangle but
+>  	 * not in the hardware.
+>  	 */
 
+The comment should be updated.
+
+> +	border = (format->code == MEDIA_BUS_FMT_SGRBG10_1X10) ? 0 : 4;
+
+No need for parentheses.
+
+> +
+>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_XOFFSET,
+> -		  crop->left - 4, &ret);
+> +		  crop->left - border, &ret);
+>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_YOFFSET,
+> -		  crop->top - 4, &ret);
+> +		  crop->top - border, &ret);
+>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_WIDTH,
+>  		  crop->width, &ret);
+>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_HEIGHT,
+> @@ -911,7 +915,8 @@ static int mt9m114_configure_ifp(struct mt9m114 *sensor,
+>  			   MT9M114_CAM_OUTPUT_FORMAT_BAYER_FORMAT_MASK |
+>  			   MT9M114_CAM_OUTPUT_FORMAT_FORMAT_MASK |
+>  			   MT9M114_CAM_OUTPUT_FORMAT_SWAP_BYTES |
+> -			   MT9M114_CAM_OUTPUT_FORMAT_SWAP_RED_BLUE);
+> +			   MT9M114_CAM_OUTPUT_FORMAT_SWAP_RED_BLUE |
+> +			   MT9M114_CAM_OUTPUT_FORMAT_BT656_CROP_SCALE_DISABLE);
+>  	output_format |= info->output_format;
+>  
+>  	cci_write(sensor->regmap, MT9M114_CAM_OUTPUT_FORMAT,
+> @@ -1810,6 +1815,7 @@ static int mt9m114_ifp_set_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
+>  	struct v4l2_mbus_framefmt *format;
+> +	struct v4l2_rect *crop;
+>  
+>  	format = v4l2_subdev_state_get_format(state, fmt->pad);
+>  
+> @@ -1830,8 +1836,15 @@ static int mt9m114_ifp_set_fmt(struct v4l2_subdev *sd,
+>  		format->code = info->code;
+>  
+>  		/* If the output format is RAW10, bypass the scaler. */
+> -		if (format->code == MEDIA_BUS_FMT_SGRBG10_1X10)
+> +		if (format->code == MEDIA_BUS_FMT_SGRBG10_1X10) {
+>  			*format = *v4l2_subdev_state_get_format(state, 0);
+> +			crop = v4l2_subdev_state_get_crop(state, 0);
+> +			crop->left = 0;
+> +			crop->top = 0;
+> +			crop->width = format->width;
+> +			crop->height = format->height;
+> +			*v4l2_subdev_state_get_compose(state, 0) = *crop;
+> +		}
+
+This one is annoying. Normally changing a format or selection rectangle
+in a subdev should only propagate the configuration downstream. Here
+you're modiying selection rectangles upstream of the source pad. I think
+we'll need to live with it, I don't really see a way around that. It's a
+non-standard behaviour though, and would require sensor-specific
+userspace to handle this right.
+
+There's however one issue. When switching back from a raw output to a
+processed output, the crop and compose rectangles will remain the same,
+and will have values that are not valid for processed output as they
+won't have the 4 pixels border subtracted. I think you'll need to update
+them, but only when the source format actually changes. Setting the
+source format without modifying the media bus code should not result in
+the selection rectangles being reset.
+
+All this needs to be explained in a comment in the code.
+
+>  	}
+>  
+>  	fmt->format = *format;
+> @@ -1851,6 +1864,12 @@ static int mt9m114_ifp_get_selection(struct v4l2_subdev *sd,
+>  	if (sel->pad != 0)
+>  		return -EINVAL;
+>  
+> +	/* Crop and compose cannot be changed when bypassing the scaler */
+
+s/scaler/scaler./
+
+Same below.
+
+> +	if (v4l2_subdev_state_get_format(state, 1)->code == MEDIA_BUS_FMT_SGRBG10_1X10) {
+> +		sel->r = *v4l2_subdev_state_get_crop(state, 0);
+> +		return 0;
+> +	}
+
+Instead of special-casing this, can you use a similar approach as in
+mt9m114_configure_ifp() and replace the 4 and 8 below with border and
+boarder * 2 (with an update to the comment too) ?
+
+> +
+>  	switch (sel->target) {
+>  	case V4L2_SEL_TGT_CROP:
+>  		sel->r = *v4l2_subdev_state_get_crop(state, 0);
+> @@ -1911,6 +1930,12 @@ static int mt9m114_ifp_set_selection(struct v4l2_subdev *sd,
+>  	if (sel->pad != 0)
+>  		return -EINVAL;
+>  
+> +	/* Crop and compose cannot be changed when bypassing the scaler */
+> +	if (v4l2_subdev_state_get_format(state, 1)->code == MEDIA_BUS_FMT_SGRBG10_1X10) {
+> +		sel->r = *v4l2_subdev_state_get_crop(state, 0);
+> +		return 0;
+> +	}
+
+Let's add a source_format variable to avoid duplicating the
+v4l2_subdev_state_get_format(), call, as we use the source format at the
+end of the function.
+
+> +
+>  	format = v4l2_subdev_state_get_format(state, 0);
+>  	crop = v4l2_subdev_state_get_crop(state, 0);
+>  	compose = v4l2_subdev_state_get_compose(state, 0);
+
+-- 
 Regards,
 
-Tvrtko
-
-> 
-> Regards,
-> Christian.
-> 
->>
->>
->> Regards,
->>
->> Tvrtko
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>>
->>>>>>> On 5/15/25 11:49, Tvrtko Ursulin wrote:
->>>>>>>> With the goal of reducing the need for drivers to touch (and dereference)
->>>>>>>> fence->ops, we move the 64-bit seqnos flag from struct dma_fence_ops to
->>>>>>>> the fence->flags.
->>>>>>>>
->>>>>>>> Drivers which were setting this flag are changed to use new
->>>>>>>> dma_fence_init64() instead of dma_fence_init().
->>>>>>>>
->>>>>>>> v2:
->>>>>>>>      * Streamlined init and added kerneldoc.
->>>>>>>>      * Rebase for amdgpu userq which landed since.
->>>>>>>>
->>>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>>>> Reviewed-by: Christian König <christian.koenig@amd.com> # v1
->>>>>>>> ---
->>>>>>>>      drivers/dma-buf/dma-fence-chain.c             |  5 +-
->>>>>>>>      drivers/dma-buf/dma-fence.c                   | 69 ++++++++++++++-----
->>>>>>>>      .../drm/amd/amdgpu/amdgpu_eviction_fence.c    |  7 +-
->>>>>>>>      .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   |  5 +-
->>>>>>>>      .../gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c  |  5 +-
->>>>>>>>      include/linux/dma-fence.h                     | 14 ++--
->>>>>>>>      6 files changed, 64 insertions(+), 41 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
->>>>>>>> index 90424f23fd73..a8a90acf4f34 100644
->>>>>>>> --- a/drivers/dma-buf/dma-fence-chain.c
->>>>>>>> +++ b/drivers/dma-buf/dma-fence-chain.c
->>>>>>>> @@ -218,7 +218,6 @@ static void dma_fence_chain_set_deadline(struct dma_fence *fence,
->>>>>>>>      }
->>>>>>>>        const struct dma_fence_ops dma_fence_chain_ops = {
->>>>>>>> -    .use_64bit_seqno = true,
->>>>>>>>          .get_driver_name = dma_fence_chain_get_driver_name,
->>>>>>>>          .get_timeline_name = dma_fence_chain_get_timeline_name,
->>>>>>>>          .enable_signaling = dma_fence_chain_enable_signaling,
->>>>>>>> @@ -262,8 +261,8 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
->>>>>>>>                  seqno = max(prev->seqno, seqno);
->>>>>>>>          }
->>>>>>>>      -    dma_fence_init(&chain->base, &dma_fence_chain_ops,
->>>>>>>> -               &chain->lock, context, seqno);
->>>>>>>> +    dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
->>>>>>>> +             context, seqno);
->>>>>>>>            /*
->>>>>>>>           * Chaining dma_fence_chain container together is only allowed through
->>>>>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->>>>>>>> index f0cdd3e99d36..705b59787731 100644
->>>>>>>> --- a/drivers/dma-buf/dma-fence.c
->>>>>>>> +++ b/drivers/dma-buf/dma-fence.c
->>>>>>>> @@ -989,24 +989,9 @@ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
->>>>>>>>      }
->>>>>>>>      EXPORT_SYMBOL(dma_fence_describe);
->>>>>>>>      -/**
->>>>>>>> - * dma_fence_init - Initialize a custom fence.
->>>>>>>> - * @fence: the fence to initialize
->>>>>>>> - * @ops: the dma_fence_ops for operations on this fence
->>>>>>>> - * @lock: the irqsafe spinlock to use for locking this fence
->>>>>>>> - * @context: the execution context this fence is run on
->>>>>>>> - * @seqno: a linear increasing sequence number for this context
->>>>>>>> - *
->>>>>>>> - * Initializes an allocated fence, the caller doesn't have to keep its
->>>>>>>> - * refcount after committing with this fence, but it will need to hold a
->>>>>>>> - * refcount again if &dma_fence_ops.enable_signaling gets called.
->>>>>>>> - *
->>>>>>>> - * context and seqno are used for easy comparison between fences, allowing
->>>>>>>> - * to check which fence is later by simply using dma_fence_later().
->>>>>>>> - */
->>>>>>>> -void
->>>>>>>> -dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>> -           spinlock_t *lock, u64 context, u64 seqno)
->>>>>>>> +static void
->>>>>>>> +__dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>> +             spinlock_t *lock, u64 context, u64 seqno, unsigned long flags)
->>>>>>>>      {
->>>>>>>>          BUG_ON(!lock);
->>>>>>>>          BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
->>>>>>>> @@ -1017,9 +1002,55 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>>          fence->lock = lock;
->>>>>>>>          fence->context = context;
->>>>>>>>          fence->seqno = seqno;
->>>>>>>> -    fence->flags = 0UL;
->>>>>>>> +    fence->flags = flags;
->>>>>>>>          fence->error = 0;
->>>>>>>>            trace_dma_fence_init(fence);
->>>>>>>>      }
->>>>>>>> +
->>>>>>>> +/**
->>>>>>>> + * dma_fence_init - Initialize a custom fence.
->>>>>>>> + * @fence: the fence to initialize
->>>>>>>> + * @ops: the dma_fence_ops for operations on this fence
->>>>>>>> + * @lock: the irqsafe spinlock to use for locking this fence
->>>>>>>> + * @context: the execution context this fence is run on
->>>>>>>> + * @seqno: a linear increasing sequence number for this context
->>>>>>>> + *
->>>>>>>> + * Initializes an allocated fence, the caller doesn't have to keep its
->>>>>>>> + * refcount after committing with this fence, but it will need to hold a
->>>>>>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
->>>>>>>> + *
->>>>>>>> + * context and seqno are used for easy comparison between fences, allowing
->>>>>>>> + * to check which fence is later by simply using dma_fence_later().
->>>>>>>> + */
->>>>>>>> +void
->>>>>>>> +dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>> +           spinlock_t *lock, u64 context, u64 seqno)
->>>>>>>> +{
->>>>>>>> +    __dma_fence_init(fence, ops, lock, context, seqno, 0UL);
->>>>>>>> +}
->>>>>>>>      EXPORT_SYMBOL(dma_fence_init);
->>>>>>>> +
->>>>>>>> +/**
->>>>>>>> + * dma_fence_init64 - Initialize a custom fence with 64-bit seqno support.
->>>>>>>> + * @fence: the fence to initialize
->>>>>>>> + * @ops: the dma_fence_ops for operations on this fence
->>>>>>>> + * @lock: the irqsafe spinlock to use for locking this fence
->>>>>>>> + * @context: the execution context this fence is run on
->>>>>>>> + * @seqno: a linear increasing sequence number for this context
->>>>>>>> + *
->>>>>>>> + * Initializes an allocated fence, the caller doesn't have to keep its
->>>>>>>> + * refcount after committing with this fence, but it will need to hold a
->>>>>>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
->>>>>>>> + *
->>>>>>>> + * Context and seqno are used for easy comparison between fences, allowing
->>>>>>>> + * to check which fence is later by simply using dma_fence_later().
->>>>>>>> + */
->>>>>>>> +void
->>>>>>>> +dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>> +         spinlock_t *lock, u64 context, u64 seqno)
->>>>>>>> +{
->>>>>>>> +    __dma_fence_init(fence, ops, lock, context, seqno,
->>>>>>>> +             BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
->>>>>>>> +}
->>>>>>>> +EXPORT_SYMBOL(dma_fence_init64);
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->>>>>>>> index 1a7469543db5..79713421bffe 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->>>>>>>> @@ -134,7 +134,6 @@ static bool amdgpu_eviction_fence_enable_signaling(struct dma_fence *f)
->>>>>>>>      }
->>>>>>>>        static const struct dma_fence_ops amdgpu_eviction_fence_ops = {
->>>>>>>> -    .use_64bit_seqno = true,
->>>>>>>>          .get_driver_name = amdgpu_eviction_fence_get_driver_name,
->>>>>>>>          .get_timeline_name = amdgpu_eviction_fence_get_timeline_name,
->>>>>>>>          .enable_signaling = amdgpu_eviction_fence_enable_signaling,
->>>>>>>> @@ -160,9 +159,9 @@ amdgpu_eviction_fence_create(struct amdgpu_eviction_fence_mgr *evf_mgr)
->>>>>>>>          ev_fence->evf_mgr = evf_mgr;
->>>>>>>>          get_task_comm(ev_fence->timeline_name, current);
->>>>>>>>          spin_lock_init(&ev_fence->lock);
->>>>>>>> -    dma_fence_init(&ev_fence->base, &amdgpu_eviction_fence_ops,
->>>>>>>> -               &ev_fence->lock, evf_mgr->ev_fence_ctx,
->>>>>>>> -               atomic_inc_return(&evf_mgr->ev_fence_seq));
->>>>>>>> +    dma_fence_init64(&ev_fence->base, &amdgpu_eviction_fence_ops,
->>>>>>>> +             &ev_fence->lock, evf_mgr->ev_fence_ctx,
->>>>>>>> +             atomic_inc_return(&evf_mgr->ev_fence_seq));
->>>>>>>>          return ev_fence;
->>>>>>>>      }
->>>>>>>>      diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>>>>>>> index 029cb24c28b3..5e92d00a591f 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>>>>>>> @@ -239,8 +239,8 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
->>>>>>>>          fence = &userq_fence->base;
->>>>>>>>          userq_fence->fence_drv = fence_drv;
->>>>>>>>      -    dma_fence_init(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
->>>>>>>> -               fence_drv->context, seq);
->>>>>>>> +    dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
->>>>>>>> +             fence_drv->context, seq);
->>>>>>>>            amdgpu_userq_fence_driver_get(fence_drv);
->>>>>>>>          dma_fence_get(fence);
->>>>>>>> @@ -334,7 +334,6 @@ static void amdgpu_userq_fence_release(struct dma_fence *f)
->>>>>>>>      }
->>>>>>>>        static const struct dma_fence_ops amdgpu_userq_fence_ops = {
->>>>>>>> -    .use_64bit_seqno = true,
->>>>>>>>          .get_driver_name = amdgpu_userq_fence_get_driver_name,
->>>>>>>>          .get_timeline_name = amdgpu_userq_fence_get_timeline_name,
->>>>>>>>          .signaled = amdgpu_userq_fence_signaled,
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->>>>>>>> index 51cddfa3f1e8..5d26797356a3 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->>>>>>>> @@ -71,7 +71,6 @@ static void amdgpu_tlb_fence_work(struct work_struct *work)
->>>>>>>>      }
->>>>>>>>        static const struct dma_fence_ops amdgpu_tlb_fence_ops = {
->>>>>>>> -    .use_64bit_seqno = true,
->>>>>>>>          .get_driver_name = amdgpu_tlb_fence_get_driver_name,
->>>>>>>>          .get_timeline_name = amdgpu_tlb_fence_get_timeline_name
->>>>>>>>      };
->>>>>>>> @@ -101,8 +100,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
->>>>>>>>          INIT_WORK(&f->work, amdgpu_tlb_fence_work);
->>>>>>>>          spin_lock_init(&f->lock);
->>>>>>>>      -    dma_fence_init(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->>>>>>>> -               vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->>>>>>>> +    dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->>>>>>>> +             vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->>>>>>>>            /* TODO: We probably need a separate wq here */
->>>>>>>>          dma_fence_get(&f->base);
->>>>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>>>>>>> index 48b5202c531d..a34a0dcdc446 100644
->>>>>>>> --- a/include/linux/dma-fence.h
->>>>>>>> +++ b/include/linux/dma-fence.h
->>>>>>>> @@ -97,6 +97,7 @@ struct dma_fence {
->>>>>>>>      };
->>>>>>>>        enum dma_fence_flag_bits {
->>>>>>>> +    DMA_FENCE_FLAG_SEQNO64_BIT,
->>>>>>>>          DMA_FENCE_FLAG_SIGNALED_BIT,
->>>>>>>>          DMA_FENCE_FLAG_TIMESTAMP_BIT,
->>>>>>>>          DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
->>>>>>>> @@ -124,14 +125,6 @@ struct dma_fence_cb {
->>>>>>>>       *
->>>>>>>>       */
->>>>>>>>      struct dma_fence_ops {
->>>>>>>> -    /**
->>>>>>>> -     * @use_64bit_seqno:
->>>>>>>> -     *
->>>>>>>> -     * True if this dma_fence implementation uses 64bit seqno, false
->>>>>>>> -     * otherwise.
->>>>>>>> -     */
->>>>>>>> -    bool use_64bit_seqno;
->>>>>>>> -
->>>>>>>>          /**
->>>>>>>>           * @get_driver_name:
->>>>>>>>           *
->>>>>>>> @@ -262,6 +255,9 @@ struct dma_fence_ops {
->>>>>>>>      void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>>                  spinlock_t *lock, u64 context, u64 seqno);
->>>>>>>>      +void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>> +              spinlock_t *lock, u64 context, u64 seqno);
->>>>>>>> +
->>>>>>>>      void dma_fence_release(struct kref *kref);
->>>>>>>>      void dma_fence_free(struct dma_fence *fence);
->>>>>>>>      void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
->>>>>>>> @@ -454,7 +450,7 @@ static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
->>>>>>>>           * 32bit sequence numbers. Use a 64bit compare when the driver says to
->>>>>>>>           * do so.
->>>>>>>>           */
->>>>>>>> -    if (fence->ops->use_64bit_seqno)
->>>>>>>> +    if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
->>>>>>>>              return f1 > f2;
->>>>>>>>            return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
-> 
-
+Laurent Pinchart
 
