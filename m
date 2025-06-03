@@ -1,498 +1,283 @@
-Return-Path: <linux-media+bounces-34005-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34006-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB3EACC6CA
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 14:40:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F39AACC6E5
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 14:44:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6181F171FF6
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 12:40:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73C99188A57A
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 12:44:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9577322F763;
-	Tue,  3 Jun 2025 12:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 427E4231A51;
+	Tue,  3 Jun 2025 12:43:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="17FfEH+7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k4+ur3P2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2078.outbound.protection.outlook.com [40.107.223.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE848228CB0
-	for <linux-media@vger.kernel.org>; Tue,  3 Jun 2025 12:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748954421; cv=fail; b=DnIKTfJCQ7f+FlD7528axQ/sYuBYWWDgbqIQ3kkxBxT027q5kGQQ0gUT/NKR4GXHMHgmTdwysY418vtwsH9tzsOeuq4RX3HfCRgAtRZ088IFP1difLu3pOSOOsaHn8hw2a25tiLQGd6reO9ksXM5Hcr/Rm6Yv4BoAgc55d/3014=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748954421; c=relaxed/simple;
-	bh=OlLN52ysHyGgxFkVzFBnqhnwItO0hW0OwSBtmLe+nbc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kJVYesx3uv7h9fxNBtjH7I70f4B1ZWIh6GO/eXh80FlfP/v9PIEQDPHXQ71ZBsl+qdhAswqOVM94Q5157lWvQ3T8FLWOaiVUgbX6I+HogngYUs1JFizcjjTiEmD+djDHlOhh6NdelqR/E5nNjIHGUGvJTEnyAVW8YO/idrIafAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=17FfEH+7; arc=fail smtp.client-ip=40.107.223.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZEpn5WLJgAtHdrmgRlvOJO2KUH1eSg+DVv1tTfYJlnTiYegdH02+kmI6PW8UDRe9gsl0fhvueSSOQnGcpIEYAYVZEHnIqyLhzDJdpw9ed1+o/KavG7/tMoIbtsQPzkxBvT4wh7ENMC09O2voV1jPZMEmqT+bAKxblasdlJImtgmtv6pSRCnI85T/EgGMxq1jlhkD3atZJa7S0xDrvwGFBAvQvnFdAgOqvjsFay2D/bf4GjEIx+GnC/vzpDd6bxEH78zQraU07g5OGyO08a0tEVQgTq0SEaerBycuSr/pjZROppxZrnIHj5ZjFjxQuSvKRvH7efL4bfnsOyiee1spNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sfBIlId1mNKskJDJnbtKi35W7rmS8Ux4nC8aHsLNIbg=;
- b=M43aZji7ByXbc1l7aXkFWu8XmEAetxeKMcXQbTbA01VX+nSr/qrPHGKILcuw3QOeoY8Kz4SDF5kvrvRZD0/7nlDl1brSmIJAzXx/rImGWII92kYICmLVREgZpGQdWkuFkh3JSYSh2H2ZCS/q0FOS+UjplEceXCOfs2l5yEHzo2jkhcckHdtMs6LDoj7iN7oWk7wBycxyVvJEl7s11MqedoSOeSJGvk52Fs9mE3ykyNwqtz8dkuvkg90/6rcsG7GbNpqMG/TyFJBW6UciUeNTDi2d+GJ9H7dldwhpP5L9XPtqgbml9jQGZ3bQCk65qrbqtr0rF5xmADKJlB67jOZ5Og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sfBIlId1mNKskJDJnbtKi35W7rmS8Ux4nC8aHsLNIbg=;
- b=17FfEH+72bUCsOOFowghByqyXDHDx1AKFwztCzO6+5YyC+8lbnSW0io1SsnGJxc/xB32Gj++1pl02WotQF4eLWzoGGznjdGzl2qEm+wa+9KGraIFp+XudWHU5q0ryEaowPNpvNdNNhVAO46hwh2DlNygShNdCMJ+tW+3a+RXf0w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ0PR12MB7081.namprd12.prod.outlook.com (2603:10b6:a03:4ae::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Tue, 3 Jun
- 2025 12:40:15 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Tue, 3 Jun 2025
- 12:40:15 +0000
-Message-ID: <3b614b74-4e6a-4e8a-9390-6f65ce788d02@amd.com>
-Date: Tue, 3 Jun 2025 14:40:07 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/9] dma-fence: Use a flag for 64-bit seqnos
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, kernel-dev@igalia.com
-References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
- <20250515095004.28318-3-tvrtko.ursulin@igalia.com>
- <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
- <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
- <13c5edf6-ccad-4a06-85d4-dccf2afd0c62@amd.com>
- <d483076a-b12f-4ade-b699-ee488df298ba@igalia.com>
- <2ffc513c-2d11-4b76-b9c9-c7cb7841e386@amd.com>
- <7598fd9c-7169-4a01-a24a-b9e666e9a915@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <7598fd9c-7169-4a01-a24a-b9e666e9a915@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL0PR05CA0011.namprd05.prod.outlook.com
- (2603:10b6:208:91::21) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A129D22FF2D;
+	Tue,  3 Jun 2025 12:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748954601; cv=none; b=AtVZOBdzcv3TlVP//QMfXNvlSvoeS5uQa/MUeRrEWdozPPa21+ozBN01/6zpbaYKNEQbq1HSrfmMpOteJcW253ZeX//G4HyyMPOstCsaytBLuP94XiILYPxoZjmHK6F5XbTeyl/eymxYNdUwjsgrMR6/qzUCc5WwcC8fqkSdBkA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748954601; c=relaxed/simple;
+	bh=HfxTCbwpuSHFH8GWpH/5AMQvU8Qg7uvowZzWyjaAOcc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GFrSdSz+KqgG64NfgOg5au66y0dw9PTNJoFifMlfTZAQsAxvrkTs8EsUQKZ6i1ckOcIS+13NklFShPfVluV/efr8JPcfovcVtZWM5WhEVKrR/XdlTRGPDHaqK8opbc1xiyanPF1V7l0CBqPu/Ws5lqBZ6YNZQszXLoFmj+ndrDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k4+ur3P2; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ad88d77314bso998841966b.1;
+        Tue, 03 Jun 2025 05:43:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748954595; x=1749559395; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6sJx8mcfGnFO4aX8W0GB5TfU4SPvOLM9fzBj8cbSzfg=;
+        b=k4+ur3P2QoeUdy7w58KiKJG5NrGvm0OYAcu+4dhvLBnOPgCbPWBBBfr/2Q7QrmRFba
+         EUrxlCEbnAuTPl7hrP1SOUNSQhwLJjCxgwHCWpt72URHHd3vfoI5gr1AduP6mkFJcSx7
+         Pm9fVXYXOnnPzjYVmEnk1IF1xclyyKLjHI166ugQOEALK5RNgPDxHuPHqPIDDFhmIF8r
+         zfWK4MwDy9iJ+ietqWJMD4PDS6RPtDosAeyKJhAITPXN6xpryk8MaUTCV0tHyPe2TNr6
+         oNCXORwZ9Bg+TW1zPXC2k5YIXtVC1QDgih1mlF3IwT3G0er1+iol+QdWOU5aryW7KdZs
+         yXCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748954595; x=1749559395;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6sJx8mcfGnFO4aX8W0GB5TfU4SPvOLM9fzBj8cbSzfg=;
+        b=GqlXCiVey6Ra47qlNvH5rE7jo6vLow57O/kLMxIdatrLDpjCcxZsyIHrOx8Q2IrR4p
+         69IoDdhkAgRi+GVnjxjLVgXBqTZAsAiA732a6W3Gi4YXoqXwhU2BjqGNSc2QwstZ14aR
+         1xgeNpIHNtc7SX9rxWoitKIY2/hj4jRkA34egTBhk4Dwd6x7LDlx5wC6TI+H0z9eVqqP
+         aTkwt1BOCQhrVcQIm2QBLxZNwOPDgXpgR14eE1T0aRuZw5tzG8SqaxkM/XD9WzGNhKmJ
+         gV/Q6zNzGmOmx5lCvTRmCs+dKIwMaPpm3xOT8fw5HOfq/sud7O60hj6MTgNMEyY5iLrP
+         qr3w==
+X-Forwarded-Encrypted: i=1; AJvYcCUXPzV1bPZgBIIKO/DuEwOtV2dIDSK/3pgOoiBJVsmy/oAY4tQ1dSj0eWjrG/W8enddmfh/zGIyEUMxnDLe@vger.kernel.org, AJvYcCVB4WqJF4AcoCAN/Heaxg+Gq2+LwzmHNUtaGRQOpDH5jnfNxO0KX3IXhzgV8EsYumi4h+IGMwTiIW75XTpk@vger.kernel.org, AJvYcCVCRRa3nDVKrJvPq7F98ky9M29AYX6NL8Q5/Uqo5htzATd5tUMgNDErLtRUwOUQvggMnpxRjXJaSajfNVk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHJaXMTDVpi1CsKyhzOj6Ztg53eyshmag5qsad8r1DFdKC+lpK
+	cPeTF4y/XwO4jOhDQKbSqereM8CtW1QS8oSUS4M83CdF796GI/Ev4WwihocKaNTplYaRdMW7Alv
+	jwgfJpeFxaNpLUihlydIaVRIGQ8KSxa0=
+X-Gm-Gg: ASbGnctkN7HNeG65K1RW0GukoUUNYZ2ceBmwdQx4OHBkRiFgODiU5Ktakn5ZMriNEsT
+	SqwMwwS9mKZ8dYUaX93nYZyUoVVkrBEYQMijCV/whF3HwKxVoPjKoHD0xktpiqV/Z8WVIVnrqwL
+	Vi77CcY0DEvaicioh3av3KIWFHhWQYgEy/
+X-Google-Smtp-Source: AGHT+IF0Y8eVa/wSpXz4raSNLDvjA9m62FPSA+BLGsYc090YPQ60EU4GYYJzLpKbTnA9JxXmd1DxAASt8NsK3GIUg8M=
+X-Received: by 2002:a17:906:85a:b0:adb:413a:a981 with SMTP id
+ a640c23a62f3a-adb413aaac4mr1029791066b.14.1748954594439; Tue, 03 Jun 2025
+ 05:43:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB7081:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed1f4e35-691b-435e-22b9-08dda29bc9d9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QWhYTlN2NkZBWXZYWGFkWmFkT2diUEFocTQxRzRZUzFMcTVxNld3VVdMMTFX?=
- =?utf-8?B?T2puTHFxTnpIUUx6TGhRWWJ6MWx2Nm5oNkpUMTNqcXlQRXUraWYza0F2aXZa?=
- =?utf-8?B?clg5Zy9sRXJaanIvVGFIaDFIZS9mY1Vqc0ZNTHJrc1dCMjBpY2dTYkh1eGdl?=
- =?utf-8?B?aVQzOCtMWlVhbDlyWUttN1RXK2htenV4N2hzRmc0MFIwZlV1NnRlWHYzemhS?=
- =?utf-8?B?dS82MjJsT3dkSzJNS3J4Rm85UXU3R3hQSmJmS0dQcm9xWitkR3dyWUtRVVlT?=
- =?utf-8?B?enJiQlg1T0JzQ2ZCV0xPUFc1b3FlUVVLK1prRFhISVEzQ1ZXUzUvVmlGMzZB?=
- =?utf-8?B?MGRqWFJlenRuMzF3UFVLRFMzeEZNTjJZMk84VFI4TzdkWmorTG4rZFBaaWFo?=
- =?utf-8?B?T2xkbC9rRzlDN0xkcloveGtBRTUvaUczYU5uR0hINVdKbWFVejU2RFBkbU1V?=
- =?utf-8?B?SC9CRWlrdW9pYWZEcHBlMjUxWW9HczJXSXhkQkRaV3ZCRWFWeWRTK1djblZs?=
- =?utf-8?B?MWo2TjFrNS90aDd1UU1LUWlpRW5sVFVjbWJvUEltamxyREgyZE5aWWNmeEIv?=
- =?utf-8?B?SXY0TlVvZWVZbWd4eThXVzY5b0ZSZzNQVG1lRU9KN1p5QnF1N1BRZURrOEhp?=
- =?utf-8?B?cnc1c0dWNDBnTHlncWt3WU9wby81YmZBOVFGMGg3bTk2VWd3bjdHZmI5d2Zt?=
- =?utf-8?B?TmdRdDdxVHlWN2ZRSVh2dHMzQ1JwVG1QTmN4ZGFLLy9pYXg4SEMvWXkxcmNn?=
- =?utf-8?B?Umc2REZkYVUycjQzNVI2WkdtcU14KzVEc29uSldrZG9CbnljUXdRbkwvQS80?=
- =?utf-8?B?anF5eWlYVlBTWVYwTEVqSjhNdUhCSVAySTRKdUlBOWkrQ2hVOVVKM2lYS1o0?=
- =?utf-8?B?a2xZRTk1OEhQdFpGTFBxaTJYZjhoTVRLeXQ5ZU1IZFkzc3RDYWxrWjU3ek1Q?=
- =?utf-8?B?UW13UHlRZFkwMllxeVB4dnZkS0pySzFOeVVBeEdZZTFKdDFXdlJ1Y0ZqVjlT?=
- =?utf-8?B?OCtocnhKZWpqempCQnNkSTkxc2dkR1BTeHRzdlR4OTlnUGJzQkRvSGkzcHJP?=
- =?utf-8?B?K0dRK0NlZHZncmtINEJGRC8yWEIzUzRlbytldmpxV2dxYkE0Y0ZaQVRvTmFM?=
- =?utf-8?B?a1ZNZkpkNUtZNVNWZVFnWStEYVFiS2ZOQzd1MUZRcjcxNWZZVGpkUks1ZDdk?=
- =?utf-8?B?bWw0UEFrMTZQUWVJUGlJb1RkbkM1ZWJBV1dDUWZNMmdLNS82WFljZFBWL05p?=
- =?utf-8?B?SWhkZmVDUTlOTktUbXVSbFBsWFRFSDBhSVJCU1ZSeEhXYU5SRXlsRmhpNi9w?=
- =?utf-8?B?ZkdVU21oN1ZXWExTbVppWHd1TVVmRlUvTDlIcFBqYnNnSkUraDRkdFlVZWZT?=
- =?utf-8?B?ZnArNThtYVhpTittaFVtUTFCcWVVank3RExnTUs2WS84Um51YmJHSW5wMkx1?=
- =?utf-8?B?WjhjNDBvRFlDaDkyMWFjUEJsQlFSTjFwWmM3QmNmLzF2dzVRZkp5bzNwSWFu?=
- =?utf-8?B?YlZmSGpYdmxmUWdRcVpyTklIVlpsWkdLOW1neEtacmtGWktuK09EMTBDYTcw?=
- =?utf-8?B?aWFra2hPMTVVTnlDRkJpY29KdTVYeGlYU0RJMGhKbWU2TE9td25IM2ZUUFhS?=
- =?utf-8?B?NWpsZWxqeUtOei9MWldHWXpXWEtZMWVhMk02RlkwcmFUZEZOTi81ZjFBdC9p?=
- =?utf-8?B?RndjZWlPZHdhVlZRWFpFa0laWGpWZ1dyc0c4Lzd6dGNiLzIxb1YxSG51UzdB?=
- =?utf-8?B?SmRSYjJWcGxvRUhGcWJEUmxsd1RsM0U5UXdoMlR1UldSSCtzZWF3M0pjSU9Z?=
- =?utf-8?B?eWVWZFM5WFpMK1V4MlZJbUJpbHVwOWNkZmtaMjl2cEtoN3FveUdvK0pHcDJx?=
- =?utf-8?B?RmsyZ0FRODdvRzJFeGJEVy9NTjBPYXN1UGxlUDZWVGZCdFR3bklBaDhJbVFv?=
- =?utf-8?Q?5I6oTynUS0A=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d2RZTG9PTWY4ZUxQcEpXTnRrQ3dXYVlaMFdKYjRHSmU5eUJ0WW1VcTZZZHJm?=
- =?utf-8?B?VXhNcE9ycDdqeGVkd1oyZ3V3OEhjT25qQ0RHS3IvbS93UU1iUE9LSjYwOGxB?=
- =?utf-8?B?SGFRNzRIY3drckNBQXJ6ZmRHZWpyaWJKbVoyWkFVN2l0VWVKWFdXWHNDSjUx?=
- =?utf-8?B?ODhtRnIvQ1lQN1BRSkdESCs4Ukx2NkFHNmRvQlpBV25VQUg2QlorMFJuYWpm?=
- =?utf-8?B?c1Q2NWRucEVkVmZPR1pwWWhoY0VZa2J5RktvZW42QnVuUEd2MmYrYmE5NVB6?=
- =?utf-8?B?VmxiZ0lGeEhkaTdDUmQyS21XNVFSMmZlVTYycjFXNFBvc2FVZkFDVTRaKy9u?=
- =?utf-8?B?NU5tNjlxRmtSaFJoZ0lVZ1JXNFBQS1JWMlFKODBQSUU4MWVnaGF0d29CRFpS?=
- =?utf-8?B?ZHZiVkkycmtIMHBWWkh4MC95VFpYQWtBRXlzZ3VZMWxPeHVkSVRBWCtTUGZ3?=
- =?utf-8?B?dk11VXkwWi9EaUhtenZMVWowMHNZbzlEU2FEaUhTNkxrUWVvK3BQQms1MXBF?=
- =?utf-8?B?Rjk5alYydWpkMDN2YzVOWEFZV0VaZDNtWXN3aVZZYWlwK2UrTFlwVGVPV2Q1?=
- =?utf-8?B?WE8wTFFWcWg2dHp6cEhDQUREbzFoSjY1elZIQmN6Z3RnWGNwLzQzYkhZTUJ0?=
- =?utf-8?B?ZnpYQUpBL3VSR0NqT1F0Vy9BRllXTGZYUTM2R2MxU2lzRVBJVVpUc3pCeDdN?=
- =?utf-8?B?ek9DZ1NMK1JUNTdCWGVEaC9SK0FRSGhNZ25zdVFRVytyY1Uxekg0a2s3QUVz?=
- =?utf-8?B?Qm8zV05aTk5LUy9hRHlxLy9NQUR5ZE80T055dkczdGZ3TmFtTWcrVGllZlN1?=
- =?utf-8?B?czlTRVNYcUI4S0k4eGZHNlV1dUhjelpPaFNCYTU2WXdDTUo3Rmk1Ump0enkv?=
- =?utf-8?B?TnYvK00xN2NaZTU2WGJxUjh1SDdYZXQxQ1IzTFMwcnh6dnZyZjZEbzgzTU9k?=
- =?utf-8?B?MGRReGhxYnBCbDF0N09UN21yaWF2MUhpeU5JWFA4WHpCNzFyUCt3bUFqQ0VO?=
- =?utf-8?B?NW91Z0NXNlFQSy9kUGJqQ2k4djViYzEyRXpaWERhcDRLT1lxNTU5RU9oeHp6?=
- =?utf-8?B?RG43akZKcmcrVUtueFNiVm96bXFRVnN6d0xoQmp4ZllJVUtsM2trODM1L2N4?=
- =?utf-8?B?QjI2OGpZVDBzYmY1dktDcjZZdy9DSE1FVlVORXNrOGRoa0F3MXU5b3FVK3Yz?=
- =?utf-8?B?aDZHdnd3enFXZnJKblZmSDArNEd3eWlLQW5zYTJzbWkzV0I0cHhlMFA2Z3Fi?=
- =?utf-8?B?NDhENWJ2dURWaTRHNmM5VjBkSm1LMmxuSkF0TjRTd0NZc1hRYXpXSE9NQTFY?=
- =?utf-8?B?T01EM1dXYVQxQmlzZGREWUdTUm4xTDdzbGg3Ujh3MTkzYjlhT2p3UDZENU55?=
- =?utf-8?B?MFN1dWlDNHF3NS9nZHlOZFpuRER5NFlDYUd0anpYdmdpbURBY2FCS2hHV1po?=
- =?utf-8?B?Zk1LaEtkMXg1SXN6MStiTm5tcEdXdVJoa2FJK0hMSHRYTEtDYWk5ay8yNWhD?=
- =?utf-8?B?WmdmWmdyZ3J0bmloOXRHekt4TGcvdENEQjBYNm9oSi9sa1FRaDRodUtHN3lj?=
- =?utf-8?B?M085TnZXcmlXcW1jOXdyNWVTL2pRWTcxWmJQVDRTMytuVk94RmJ5ZGhGalpC?=
- =?utf-8?B?VFhwM2svTlNBbXhiL0ljbUhwMlhXbVdubkM3bTJzdFpHeEV0YS85WlZiNVpT?=
- =?utf-8?B?dTVBTjhldCtvZktVSE5BMHRRWTdFNVRYVGo5VllDdmxqYVRrQmhORzc0RXFv?=
- =?utf-8?B?TERQTHlGM2xBRTFxU3JDUnB5M0hDc2p0MnlqOTlyM3U4YmloOGtienJ4YjJG?=
- =?utf-8?B?YmFIbU5MaUZDL2FVWXlLNDkyYnEzVkVHdXhhN0RQNVJWUFRRbjlHcmFibkxO?=
- =?utf-8?B?ZHNUaUN2cmJlUGpTUHB3ZTdjdkkvdDRTMnhjODFaTDlPZDJWaklQdkptRWw2?=
- =?utf-8?B?V0FzZTJHNGhLbmZGeEZBdnM4UkVobE9ucTJzRUZJc3l5UmdmdXAvSUtIVkFB?=
- =?utf-8?B?RTZPRmJjRFlhNGo4amdGNFlMZ2ZndHpuL01iZEQvUnVKNmNneVErV0s3RmJ4?=
- =?utf-8?B?YXA3M0Q1dVdOb0l3NGpMTUlIK3JJTG02TXVXRmh4RzVzUVNJTDlVckNaTXl1?=
- =?utf-8?Q?zi+wEAryZWlAxEn5mibHID+b8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed1f4e35-691b-435e-22b9-08dda29bc9d9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 12:40:14.9077
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /xi62JLADt7i1aayb2yyJeaslz7dJgM/I/Wu5SWfRpysGwbhTwRyMbfAVg5KhALy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7081
+References: <20250603095245.17478-1-tao.wangtao@honor.com> <20250603095245.17478-2-tao.wangtao@honor.com>
+ <CAOQ4uxgYmSLY25WtQjHxvViG0eNSSsswF77djBJZsSJCq1OyLA@mail.gmail.com> <0cb2501aea054796906e2f6a23a86390@honor.com>
+In-Reply-To: <0cb2501aea054796906e2f6a23a86390@honor.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 3 Jun 2025 14:43:02 +0200
+X-Gm-Features: AX0GCFuHzQzF8AX68GwDBFhePF7quh1p9www-VHHK49I3nQ44uIdAWZ_lLdxIa4
+Message-ID: <CAOQ4uxi5eyXocmFaDdT_1Jvo0ZiEf66bC9u5qn6B2Rdd_Fuqyw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] fs: allow cross-FS copy_file_range for memory file
+ with direct I/O
+To: wangtao <tao.wangtao@honor.com>
+Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, 
+	"christian.koenig@amd.com" <christian.koenig@amd.com>, "kraxel@redhat.com" <kraxel@redhat.com>, 
+	"vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>, 
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org" <brauner@kernel.org>, 
+	"hughd@google.com" <hughd@google.com>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
+	"benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>, 
+	"Brian.Starkey@arm.com" <Brian.Starkey@arm.com>, "jstultz@google.com" <jstultz@google.com>, 
+	"tjmercier@google.com" <tjmercier@google.com>, "jack@suse.cz" <jack@suse.cz>, 
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"wangbintian(BintianWang)" <bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, 
+	liulu 00013167 <liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/3/25 13:30, Tvrtko Ursulin wrote:
-> 
-> On 02/06/2025 19:00, Christian König wrote:
->> On 6/2/25 17:25, Tvrtko Ursulin wrote:
->>>
->>> On 02/06/2025 15:42, Christian König wrote:
->>>> On 6/2/25 15:05, Tvrtko Ursulin wrote:
->>>>>
->>>>> Hi,
->>>>>
->>>>> On 15/05/2025 14:15, Christian König wrote:
->>>>>> Hey drm-misc maintainers,
->>>>>>
->>>>>> can you guys please backmerge drm-next into drm-misc-next?
->>>>>>
->>>>>> I want to push this patch here but it depends on changes which are partially in drm-next and partially in drm-misc-next.
->>>>>
->>>>> Looks like the backmerge is still pending?
->>>>
->>>> Yes, @Maarten, @Maxime and @Thomas ping on this.
->>>>
->>>>> In the meantime, Christian, any chance you will have some bandwith to think about the tail end of the series? Specifically patch 6 and how that is used onward.
->>>>
->>>> Well the RCU grace period is quite a nifty hack. I wanted to go over it again after merging the first patches from this series.
->>>>
->>>> In general looks like a good idea to me, I just don't like that we explicitely need to expose dma_fence_access_begin() and dma_fence_access_end().
->>>>
->>>> Especially we can't do that while calling fence->ops->release.
->>>
->>> Hm why not? You think something will take offence of the rcu_read_lock()?
->>
->> Yes, especially it is perfectly legitimate to call synchronize_rcu() or lock semaphores/mutexes from that callback.
->>
->> Either keep the RCU critical section only for the trace or even better come up with some different approach, e.g. copying the string under the RCU lock or something like that.
-> 
-> Hmm but the kerneldoc explicity says callback can be called from irq context:
-> 
->     /**
->      * @release:
->      *
->      * Called on destruction of fence to release additional resources.
->      * Can be called from irq context.  This callback is optional. If it is
->      * NULL, then dma_fence_free() is instead called as the default
->      * implementation.
->      */
->     void (*release)(struct dma_fence *fence);
+On Tue, Jun 3, 2025 at 2:38=E2=80=AFPM wangtao <tao.wangtao@honor.com> wrot=
+e:
+>
+>
+>
+> > -----Original Message-----
+> > From: Amir Goldstein <amir73il@gmail.com>
+> > Sent: Tuesday, June 3, 2025 6:57 PM
+> > To: wangtao <tao.wangtao@honor.com>
+> > Cc: sumit.semwal@linaro.org; christian.koenig@amd.com;
+> > kraxel@redhat.com; vivek.kasireddy@intel.com; viro@zeniv.linux.org.uk;
+> > brauner@kernel.org; hughd@google.com; akpm@linux-foundation.org;
+> > benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
+> > jstultz@google.com; tjmercier@google.com; jack@suse.cz;
+> > baolin.wang@linux.alibaba.com; linux-media@vger.kernel.org; dri-
+> > devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; linux-
+> > kernel@vger.kernel.org; linux-fsdevel@vger.kernel.org; linux-
+> > mm@kvack.org; wangbintian(BintianWang) <bintian.wang@honor.com>;
+> > yipengxiang <yipengxiang@honor.com>; liulu 00013167
+> > <liulu.liu@honor.com>; hanfeng 00012985 <feng.han@honor.com>
+> > Subject: Re: [PATCH v4 1/4] fs: allow cross-FS copy_file_range for memo=
+ry
+> > file with direct I/O
+> >
+> > On Tue, Jun 3, 2025 at 11:53=E2=80=AFAM wangtao <tao.wangtao@honor.com>=
+ wrote:
+> > >
+> > > Memory files can optimize copy performance via copy_file_range callba=
+cks:
+> > > -Compared to mmap&read: reduces GUP (get_user_pages) overhead
+> > > -Compared to sendfile/splice: eliminates one memory copy -Supports
+> > > dma-buf direct I/O zero-copy implementation
+> > >
+> > > Suggested by: Christian K=C3=B6nig <christian.koenig@amd.com> Suggest=
+ed by:
+> > > Amir Goldstein <amir73il@gmail.com>
+> > > Signed-off-by: wangtao <tao.wangtao@honor.com>
+> > > ---
+> > >  fs/read_write.c    | 64 +++++++++++++++++++++++++++++++++++++-----
+> > ----
+> > >  include/linux/fs.h |  2 ++
+> > >  2 files changed, 54 insertions(+), 12 deletions(-)
+> > >
+> > > diff --git a/fs/read_write.c b/fs/read_write.c index
+> > > bb0ed26a0b3a..ecb4f753c632 100644
+> > > --- a/fs/read_write.c
+> > > +++ b/fs/read_write.c
+> > > @@ -1469,6 +1469,31 @@ COMPAT_SYSCALL_DEFINE4(sendfile64, int,
+> > out_fd,
+> > > int, in_fd,  }  #endif
+> > >
+> > > +static const struct file_operations *memory_copy_file_ops(
+> > > +                       struct file *file_in, struct file *file_out) =
+{
+> > > +       if ((file_in->f_op->fop_flags & FOP_MEMORY_FILE) &&
+> > > +           (file_in->f_mode & FMODE_CAN_ODIRECT) &&
+> > > +           file_in->f_op->copy_file_range && file_out->f_op->write_i=
+ter)
+> > > +               return file_in->f_op;
+> > > +       else if ((file_out->f_op->fop_flags & FOP_MEMORY_FILE) &&
+> > > +                (file_out->f_mode & FMODE_CAN_ODIRECT) &&
+> > > +                file_in->f_op->read_iter && file_out->f_op->copy_fil=
+e_range)
+> > > +               return file_out->f_op;
+> > > +       else
+> > > +               return NULL;
+> > > +}
+> > > +
+> > > +static int essential_file_rw_checks(struct file *file_in, struct fil=
+e
+> > > +*file_out) {
+> > > +       if (!(file_in->f_mode & FMODE_READ) ||
+> > > +           !(file_out->f_mode & FMODE_WRITE) ||
+> > > +           (file_out->f_flags & O_APPEND))
+> > > +               return -EBADF;
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > >  /*
+> > >   * Performs necessary checks before doing a file copy
+> > >   *
+> > > @@ -1484,9 +1509,16 @@ static int generic_copy_file_checks(struct fil=
+e
+> > *file_in, loff_t pos_in,
+> > >         struct inode *inode_out =3D file_inode(file_out);
+> > >         uint64_t count =3D *req_count;
+> > >         loff_t size_in;
+> > > +       bool splice =3D flags & COPY_FILE_SPLICE;
+> > > +       const struct file_operations *mem_fops;
+> > >         int ret;
+> > >
+> > > -       ret =3D generic_file_rw_checks(file_in, file_out);
+> > > +       /* The dma-buf file is not a regular file. */
+> > > +       mem_fops =3D memory_copy_file_ops(file_in, file_out);
+> > > +       if (splice || mem_fops =3D=3D NULL)
+> >
+> > nit: use !mem_fops please
+> >
+> > Considering that the flag COPY_FILE_SPLICE is not allowed from userspac=
+e
+> > and is only called by nfsd and ksmbd I think we should assert and deny =
+the
+> > combination of mem_fops && splice because it is very much unexpected.
+> >
+> > After asserting this, it would be nicer to write as:
+> >         if (mem_fops)
+> >                ret =3D essential_file_rw_checks(file_in, file_out);
+> >         else
+> >                ret =3D generic_file_rw_checks(file_in, file_out);
+> >
+> Got it. Thanks.
+> > > +       else
+> > > +               ret =3D essential_file_rw_checks(file_in, file_out);
+> > >         if (ret)
+> > >                 return ret;
+> > >
+> > > @@ -1500,8 +1532,10 @@ static int generic_copy_file_checks(struct fil=
+e
+> > *file_in, loff_t pos_in,
+> > >          * and several different sets of file_operations, but they al=
+l end up
+> > >          * using the same ->copy_file_range() function pointer.
+> > >          */
+> > > -       if (flags & COPY_FILE_SPLICE) {
+> > > +       if (splice) {
+> > >                 /* cross sb splice is allowed */
+> > > +       } else if (mem_fops !=3D NULL) {
+> >
+> > With the assertion that splice && mem_fops is not allowed if (splice ||
+> > mem_fops) {
+> >
+> > would go well together because they both allow cross-fs copy not only c=
+ross
+> > sb.
+> >
+> Git it.
+>
+> > > +               /* cross-fs copy is allowed for memory file. */
+> > >         } else if (file_out->f_op->copy_file_range) {
+> > >                 if (file_in->f_op->copy_file_range !=3D
+> > >                     file_out->f_op->copy_file_range) @@ -1554,6
+> > > +1588,7 @@ ssize_t vfs_copy_file_range(struct file *file_in, loff_t p=
+os_in,
+> > >         ssize_t ret;
+> > >         bool splice =3D flags & COPY_FILE_SPLICE;
+> > >         bool samesb =3D file_inode(file_in)->i_sb =3D=3D
+> > > file_inode(file_out)->i_sb;
+> > > +       const struct file_operations *mem_fops;
+> > >
+> > >         if (flags & ~COPY_FILE_SPLICE)
+> > >                 return -EINVAL;
+> > > @@ -1574,18 +1609,27 @@ ssize_t vfs_copy_file_range(struct file *file=
+_in,
+> > loff_t pos_in,
+> > >         if (len =3D=3D 0)
+> > >                 return 0;
+> > >
+> > > +       if (splice)
+> > > +               goto do_splice;
+> > > +
+> > >         file_start_write(file_out);
+> > >
+> >
+> > goto do_splice needs to be after file_start_write
+> >
+> > Please wait for feedback from vfs maintainers before posting another
+> > version addressing my review comments.
+> >
+> Are you asking whether both the goto do_splice and the do_splice label sh=
+ould
+> be enclosed between file_start_write and file_end_write?
 
-Ah, right. I mixed that up with the dma-buf object.
+No I was just wrong please ignore this comment.
 
-Yeah in that case that is probably harmless. We delegate the final free to a work item if necessary anyway.
-
-But I would still like to avoid having the RCU cover the release as well. Or why is there any reason why we would explicitely want to do this?
-
-Regards,
-Christian.
-
-> 
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->>
->> Regards,
->> Christian.
->>
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>>>> On 5/15/25 11:49, Tvrtko Ursulin wrote:
->>>>>>> With the goal of reducing the need for drivers to touch (and dereference)
->>>>>>> fence->ops, we move the 64-bit seqnos flag from struct dma_fence_ops to
->>>>>>> the fence->flags.
->>>>>>>
->>>>>>> Drivers which were setting this flag are changed to use new
->>>>>>> dma_fence_init64() instead of dma_fence_init().
->>>>>>>
->>>>>>> v2:
->>>>>>>     * Streamlined init and added kerneldoc.
->>>>>>>     * Rebase for amdgpu userq which landed since.
->>>>>>>
->>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>>> Reviewed-by: Christian König <christian.koenig@amd.com> # v1
->>>>>>> ---
->>>>>>>     drivers/dma-buf/dma-fence-chain.c             |  5 +-
->>>>>>>     drivers/dma-buf/dma-fence.c                   | 69 ++++++++++++++-----
->>>>>>>     .../drm/amd/amdgpu/amdgpu_eviction_fence.c    |  7 +-
->>>>>>>     .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   |  5 +-
->>>>>>>     .../gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c  |  5 +-
->>>>>>>     include/linux/dma-fence.h                     | 14 ++--
->>>>>>>     6 files changed, 64 insertions(+), 41 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
->>>>>>> index 90424f23fd73..a8a90acf4f34 100644
->>>>>>> --- a/drivers/dma-buf/dma-fence-chain.c
->>>>>>> +++ b/drivers/dma-buf/dma-fence-chain.c
->>>>>>> @@ -218,7 +218,6 @@ static void dma_fence_chain_set_deadline(struct dma_fence *fence,
->>>>>>>     }
->>>>>>>       const struct dma_fence_ops dma_fence_chain_ops = {
->>>>>>> -    .use_64bit_seqno = true,
->>>>>>>         .get_driver_name = dma_fence_chain_get_driver_name,
->>>>>>>         .get_timeline_name = dma_fence_chain_get_timeline_name,
->>>>>>>         .enable_signaling = dma_fence_chain_enable_signaling,
->>>>>>> @@ -262,8 +261,8 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
->>>>>>>                 seqno = max(prev->seqno, seqno);
->>>>>>>         }
->>>>>>>     -    dma_fence_init(&chain->base, &dma_fence_chain_ops,
->>>>>>> -               &chain->lock, context, seqno);
->>>>>>> +    dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
->>>>>>> +             context, seqno);
->>>>>>>           /*
->>>>>>>          * Chaining dma_fence_chain container together is only allowed through
->>>>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->>>>>>> index f0cdd3e99d36..705b59787731 100644
->>>>>>> --- a/drivers/dma-buf/dma-fence.c
->>>>>>> +++ b/drivers/dma-buf/dma-fence.c
->>>>>>> @@ -989,24 +989,9 @@ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
->>>>>>>     }
->>>>>>>     EXPORT_SYMBOL(dma_fence_describe);
->>>>>>>     -/**
->>>>>>> - * dma_fence_init - Initialize a custom fence.
->>>>>>> - * @fence: the fence to initialize
->>>>>>> - * @ops: the dma_fence_ops for operations on this fence
->>>>>>> - * @lock: the irqsafe spinlock to use for locking this fence
->>>>>>> - * @context: the execution context this fence is run on
->>>>>>> - * @seqno: a linear increasing sequence number for this context
->>>>>>> - *
->>>>>>> - * Initializes an allocated fence, the caller doesn't have to keep its
->>>>>>> - * refcount after committing with this fence, but it will need to hold a
->>>>>>> - * refcount again if &dma_fence_ops.enable_signaling gets called.
->>>>>>> - *
->>>>>>> - * context and seqno are used for easy comparison between fences, allowing
->>>>>>> - * to check which fence is later by simply using dma_fence_later().
->>>>>>> - */
->>>>>>> -void
->>>>>>> -dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>> -           spinlock_t *lock, u64 context, u64 seqno)
->>>>>>> +static void
->>>>>>> +__dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>> +             spinlock_t *lock, u64 context, u64 seqno, unsigned long flags)
->>>>>>>     {
->>>>>>>         BUG_ON(!lock);
->>>>>>>         BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
->>>>>>> @@ -1017,9 +1002,55 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>         fence->lock = lock;
->>>>>>>         fence->context = context;
->>>>>>>         fence->seqno = seqno;
->>>>>>> -    fence->flags = 0UL;
->>>>>>> +    fence->flags = flags;
->>>>>>>         fence->error = 0;
->>>>>>>           trace_dma_fence_init(fence);
->>>>>>>     }
->>>>>>> +
->>>>>>> +/**
->>>>>>> + * dma_fence_init - Initialize a custom fence.
->>>>>>> + * @fence: the fence to initialize
->>>>>>> + * @ops: the dma_fence_ops for operations on this fence
->>>>>>> + * @lock: the irqsafe spinlock to use for locking this fence
->>>>>>> + * @context: the execution context this fence is run on
->>>>>>> + * @seqno: a linear increasing sequence number for this context
->>>>>>> + *
->>>>>>> + * Initializes an allocated fence, the caller doesn't have to keep its
->>>>>>> + * refcount after committing with this fence, but it will need to hold a
->>>>>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
->>>>>>> + *
->>>>>>> + * context and seqno are used for easy comparison between fences, allowing
->>>>>>> + * to check which fence is later by simply using dma_fence_later().
->>>>>>> + */
->>>>>>> +void
->>>>>>> +dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>> +           spinlock_t *lock, u64 context, u64 seqno)
->>>>>>> +{
->>>>>>> +    __dma_fence_init(fence, ops, lock, context, seqno, 0UL);
->>>>>>> +}
->>>>>>>     EXPORT_SYMBOL(dma_fence_init);
->>>>>>> +
->>>>>>> +/**
->>>>>>> + * dma_fence_init64 - Initialize a custom fence with 64-bit seqno support.
->>>>>>> + * @fence: the fence to initialize
->>>>>>> + * @ops: the dma_fence_ops for operations on this fence
->>>>>>> + * @lock: the irqsafe spinlock to use for locking this fence
->>>>>>> + * @context: the execution context this fence is run on
->>>>>>> + * @seqno: a linear increasing sequence number for this context
->>>>>>> + *
->>>>>>> + * Initializes an allocated fence, the caller doesn't have to keep its
->>>>>>> + * refcount after committing with this fence, but it will need to hold a
->>>>>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
->>>>>>> + *
->>>>>>> + * Context and seqno are used for easy comparison between fences, allowing
->>>>>>> + * to check which fence is later by simply using dma_fence_later().
->>>>>>> + */
->>>>>>> +void
->>>>>>> +dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>> +         spinlock_t *lock, u64 context, u64 seqno)
->>>>>>> +{
->>>>>>> +    __dma_fence_init(fence, ops, lock, context, seqno,
->>>>>>> +             BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
->>>>>>> +}
->>>>>>> +EXPORT_SYMBOL(dma_fence_init64);
->>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->>>>>>> index 1a7469543db5..79713421bffe 100644
->>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->>>>>>> @@ -134,7 +134,6 @@ static bool amdgpu_eviction_fence_enable_signaling(struct dma_fence *f)
->>>>>>>     }
->>>>>>>       static const struct dma_fence_ops amdgpu_eviction_fence_ops = {
->>>>>>> -    .use_64bit_seqno = true,
->>>>>>>         .get_driver_name = amdgpu_eviction_fence_get_driver_name,
->>>>>>>         .get_timeline_name = amdgpu_eviction_fence_get_timeline_name,
->>>>>>>         .enable_signaling = amdgpu_eviction_fence_enable_signaling,
->>>>>>> @@ -160,9 +159,9 @@ amdgpu_eviction_fence_create(struct amdgpu_eviction_fence_mgr *evf_mgr)
->>>>>>>         ev_fence->evf_mgr = evf_mgr;
->>>>>>>         get_task_comm(ev_fence->timeline_name, current);
->>>>>>>         spin_lock_init(&ev_fence->lock);
->>>>>>> -    dma_fence_init(&ev_fence->base, &amdgpu_eviction_fence_ops,
->>>>>>> -               &ev_fence->lock, evf_mgr->ev_fence_ctx,
->>>>>>> -               atomic_inc_return(&evf_mgr->ev_fence_seq));
->>>>>>> +    dma_fence_init64(&ev_fence->base, &amdgpu_eviction_fence_ops,
->>>>>>> +             &ev_fence->lock, evf_mgr->ev_fence_ctx,
->>>>>>> +             atomic_inc_return(&evf_mgr->ev_fence_seq));
->>>>>>>         return ev_fence;
->>>>>>>     }
->>>>>>>     diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>>>>>> index 029cb24c28b3..5e92d00a591f 100644
->>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>>>>>> @@ -239,8 +239,8 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
->>>>>>>         fence = &userq_fence->base;
->>>>>>>         userq_fence->fence_drv = fence_drv;
->>>>>>>     -    dma_fence_init(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
->>>>>>> -               fence_drv->context, seq);
->>>>>>> +    dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
->>>>>>> +             fence_drv->context, seq);
->>>>>>>           amdgpu_userq_fence_driver_get(fence_drv);
->>>>>>>         dma_fence_get(fence);
->>>>>>> @@ -334,7 +334,6 @@ static void amdgpu_userq_fence_release(struct dma_fence *f)
->>>>>>>     }
->>>>>>>       static const struct dma_fence_ops amdgpu_userq_fence_ops = {
->>>>>>> -    .use_64bit_seqno = true,
->>>>>>>         .get_driver_name = amdgpu_userq_fence_get_driver_name,
->>>>>>>         .get_timeline_name = amdgpu_userq_fence_get_timeline_name,
->>>>>>>         .signaled = amdgpu_userq_fence_signaled,
->>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->>>>>>> index 51cddfa3f1e8..5d26797356a3 100644
->>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->>>>>>> @@ -71,7 +71,6 @@ static void amdgpu_tlb_fence_work(struct work_struct *work)
->>>>>>>     }
->>>>>>>       static const struct dma_fence_ops amdgpu_tlb_fence_ops = {
->>>>>>> -    .use_64bit_seqno = true,
->>>>>>>         .get_driver_name = amdgpu_tlb_fence_get_driver_name,
->>>>>>>         .get_timeline_name = amdgpu_tlb_fence_get_timeline_name
->>>>>>>     };
->>>>>>> @@ -101,8 +100,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
->>>>>>>         INIT_WORK(&f->work, amdgpu_tlb_fence_work);
->>>>>>>         spin_lock_init(&f->lock);
->>>>>>>     -    dma_fence_init(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->>>>>>> -               vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->>>>>>> +    dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->>>>>>> +             vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->>>>>>>           /* TODO: We probably need a separate wq here */
->>>>>>>         dma_fence_get(&f->base);
->>>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>>>>>> index 48b5202c531d..a34a0dcdc446 100644
->>>>>>> --- a/include/linux/dma-fence.h
->>>>>>> +++ b/include/linux/dma-fence.h
->>>>>>> @@ -97,6 +97,7 @@ struct dma_fence {
->>>>>>>     };
->>>>>>>       enum dma_fence_flag_bits {
->>>>>>> +    DMA_FENCE_FLAG_SEQNO64_BIT,
->>>>>>>         DMA_FENCE_FLAG_SIGNALED_BIT,
->>>>>>>         DMA_FENCE_FLAG_TIMESTAMP_BIT,
->>>>>>>         DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
->>>>>>> @@ -124,14 +125,6 @@ struct dma_fence_cb {
->>>>>>>      *
->>>>>>>      */
->>>>>>>     struct dma_fence_ops {
->>>>>>> -    /**
->>>>>>> -     * @use_64bit_seqno:
->>>>>>> -     *
->>>>>>> -     * True if this dma_fence implementation uses 64bit seqno, false
->>>>>>> -     * otherwise.
->>>>>>> -     */
->>>>>>> -    bool use_64bit_seqno;
->>>>>>> -
->>>>>>>         /**
->>>>>>>          * @get_driver_name:
->>>>>>>          *
->>>>>>> @@ -262,6 +255,9 @@ struct dma_fence_ops {
->>>>>>>     void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>                 spinlock_t *lock, u64 context, u64 seqno);
->>>>>>>     +void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>> +              spinlock_t *lock, u64 context, u64 seqno);
->>>>>>> +
->>>>>>>     void dma_fence_release(struct kref *kref);
->>>>>>>     void dma_fence_free(struct dma_fence *fence);
->>>>>>>     void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
->>>>>>> @@ -454,7 +450,7 @@ static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
->>>>>>>          * 32bit sequence numbers. Use a 64bit compare when the driver says to
->>>>>>>          * do so.
->>>>>>>          */
->>>>>>> -    if (fence->ops->use_64bit_seqno)
->>>>>>> +    if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
->>>>>>>             return f1 > f2;
->>>>>>>           return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
->>>>>>
->>>>>
->>>>
->>>
->>
-> 
-
+Thanks,
+Amir.
 
