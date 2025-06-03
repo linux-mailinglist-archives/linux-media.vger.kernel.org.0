@@ -1,121 +1,148 @@
-Return-Path: <linux-media+bounces-34029-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34030-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7EF2ACCB7B
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 18:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1394DACCE0F
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 22:17:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED0D43A6B73
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 16:53:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF75B3A375F
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 20:17:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 731A81C3BEB;
-	Tue,  3 Jun 2025 16:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8335221D92;
+	Tue,  3 Jun 2025 20:17:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="nInpFzyS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="COHJ4WCl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14351C1F13
-	for <linux-media@vger.kernel.org>; Tue,  3 Jun 2025 16:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153E52EB1D;
+	Tue,  3 Jun 2025 20:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748969642; cv=none; b=o6GIZZ/F56LDXOtb0vzeQnnuXcy82gnP17OHsDQwRa2pN04hTU6ZAYojKwwK8NqQJj5zOSG5yXpQLgoDxJQwscS/xuKNfoyT2UFk+8ZSaKudd3N9viV3dNczpmp8P4CtW2XfNILaRkAStfpjwq9yHXbI2uhmQsHkuYYf92qONT0=
+	t=1748981844; cv=none; b=iApVGHBtDN4oUw8+/D/IygGfXA9AAEm0rZmKKTgzVvAUjwtVeGsrfoeP6efRYEDGbvE0mGxukaKebtocgPkE3961DNzUfaFg9loNyWfR5ore+HYwevHfQs1MQOlQPrr7eJ4s+QzSIAw1sFjrbVoJM8JDPJpjc/ahXbsr8112ric=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748969642; c=relaxed/simple;
-	bh=rD3HBlx1QvyNXJSLnyck1ZWOHcLwjDzHmYGxYcPlQCM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tpKI4tc4EvS81Zf6Ok9fzgthV6W2JQdyBZlMXuYa/8IrqRZvFuj9lJelVojwhBgiaa93QSVRQiEIBtEBxovXUMiaw5ebEy90P/vevciicRXHYndZQjfWGdgqO+iS64WTi72J1lrNhiDOKfRsRHFQx/tXsnmI/w1x/p86uxYJjiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=nInpFzyS; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=o00aR12jwm7c4BkPDVzJqD7kLtjvCsd4KPoJDLs9Mmo=; b=nInpFzySSgY7qAFG2beganEgry
-	gNqcbIPbPBOuqOFjxE9PNLdbbxUyrg01v1JiZE1Ie/GSY67g0iqwiOmKDeuG+IfF0jObAsZUQ9qwa
-	HSg+hjr6ja3HBSL2oYzoq+Z8K7sOOb31DxfxXYBQaNkNMQ9EmMnOsM/CWMI2YZFUzwCrVsquiglol
-	7hdww/SKk3LapUxbS1KM3x0KngwwfkBPjdIe3mHo4GkF7Q9+agNeQlAlimTphzxWuZQN/qBSZ+Be4
-	YEGSZPkxE1osfmO32irnUfu313BYL1WUgB+VnRfENNKcfnN7/H+A0S2JZJNgbFeAnsb7t+tkEQCmG
-	LZaXJe0Q==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1uMUtV-00GlU8-Lx; Tue, 03 Jun 2025 18:53:45 +0200
-Message-ID: <6aa998eb-5991-472e-8e6a-08ebf3fe9876@igalia.com>
-Date: Tue, 3 Jun 2025 17:53:44 +0100
+	s=arc-20240116; t=1748981844; c=relaxed/simple;
+	bh=yV4ekByytzguS9M+Qf6n8nfcrxTdF0tMI0CZ/FW+ZhI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bpUANnfm6cul9Te2e3khhEhWlui6RFwR1yGFyik4ur4HBL5FmEmq4OM+gYMO+xsNIVVEB88f074lPfvX9c4SJ8pv2TU8QmYzZyGHMes/4JtFU8pg6eLV+UICICKl5+k3Q/arZG+eZw+kIEvuFM0apouGFN2fDQT7CaZpUI+fESI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=COHJ4WCl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5E28C4CEED;
+	Tue,  3 Jun 2025 20:17:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748981843;
+	bh=yV4ekByytzguS9M+Qf6n8nfcrxTdF0tMI0CZ/FW+ZhI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=COHJ4WCl7wgYi/p077xcxhMr+c0ECulzW+gv4fS4wPm2p4q7u4MZnD98iq1rKD+em
+	 WFFr3W/IsOPLbgashjQK3TtL/CaAUWHvYgvItY+J0Nk/9UQOw1zIdDuasY65jYDvBD
+	 xuQG9QjyHYQ/fycBwT9/n72StDDKeNnuBpuLd6JA9lu4ibSfRyQ5STGHCdTVu5uoFp
+	 rLOnLO2zdlz9l//CCQTnruR35L602rP83EgxTdgpLBIh3La6ojwmvQ7VS1XmZr7Hdy
+	 vsjNh0XF/J/ZOxRGGONIIdFYW4QI2FYApB//Hvt+YHkuO3id79x08lA7lOBc/Qipct
+	 g+maGoP328NCg==
+Date: Tue, 3 Jun 2025 15:17:20 -0500
+From: Rob Herring <robh@kernel.org>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5 07/10] accel/rocket: Add job submission IOCTL
+Message-ID: <20250603201720.GA2119676-robh@kernel.org>
+References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+ <20250520-6-10-rocket-v5-7-18c9ca0fcb3c@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/9] dma-fence: Use a flag for 64-bit seqnos
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- kernel-dev@igalia.com
-References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
- <20250515095004.28318-3-tvrtko.ursulin@igalia.com>
- <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
- <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
- <13c5edf6-ccad-4a06-85d4-dccf2afd0c62@amd.com>
- <20250603-outrageous-kakapo-of-felicity-6dc41a@houat>
- <e969d68a-aff3-4560-be28-de17498d7b6e@igalia.com>
- <d5bbe511-97ab-42aa-97c3-e669849ebc12@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <d5bbe511-97ab-42aa-97c3-e669849ebc12@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520-6-10-rocket-v5-7-18c9ca0fcb3c@tomeuvizoso.net>
 
-
-On 03/06/2025 17:27, Christian König wrote:
-> On 6/3/25 17:00, Tvrtko Ursulin wrote:
->>
->> On 03/06/2025 14:13, Maxime Ripard wrote:
->>> Hi,
->>>
->>> On Mon, Jun 02, 2025 at 04:42:27PM +0200, Christian König wrote:
->>>> On 6/2/25 15:05, Tvrtko Ursulin wrote:
->>>>> On 15/05/2025 14:15, Christian König wrote:
->>>>>> Hey drm-misc maintainers,
->>>>>>
->>>>>> can you guys please backmerge drm-next into drm-misc-next?
->>>>>>
->>>>>> I want to push this patch here but it depends on changes which are partially in drm-next and partially in drm-misc-next.
->>>>>
->>>>> Looks like the backmerge is still pending?
->>>>
->>>> Yes, @Maarten, @Maxime and @Thomas ping on this.
->>>
->>> It's done
->>
->> Thanks Maxime!
->>
->> Christian, I can merge 2-5 to take some load off you if you want?
+On Tue, May 20, 2025 at 12:27:00PM +0200, Tomeu Vizoso wrote:
+> Using the DRM GPU scheduler infrastructure, with a scheduler for each
+> core.
 > 
-> Sure, go ahead.
+> Userspace can decide for a series of tasks to be executed sequentially
+> in the same core, so SRAM locality can be taken advantage of.
 > 
-> Then I can call it a day for today :)
+> The job submission code was initially based on Panfrost.
+> 
+> v2:
+> - Remove hardcoded number of cores
+> - Misc. style fixes (Jeffrey Hugo)
+> - Repack IOCTL struct (Jeffrey Hugo)
+> 
+> v3:
+> - Adapt to a split of the register block in the DT bindings (Nicolas
+>   Frattaroli)
+> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
+> - Use drm_* logging functions (Thomas Zimmermann)
+> - Rename reg i/o macros (Thomas Zimmermann)
+> - Add padding to ioctls and check for zero (Jeff Hugo)
+> - Improve error handling (Nicolas Frattaroli)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-Pushed. Thanks for the reviews once more!
 
-I will aim to respin the rest of the series ASAP but may be delayed a 
-few days.
+> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..aee6ebdb2bd227439449fdfcab3ce7d1e39cd4c4
+> --- /dev/null
+> +++ b/drivers/accel/rocket/rocket_job.c
+> @@ -0,0 +1,723 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+> +/* Copyright 2019 Collabora ltd. */
+> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
+> +
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_file.h>
+> +#include <drm/drm_gem.h>
+> +#include <drm/rocket_accel.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include "rocket_core.h"
+> +#include "rocket_device.h"
+> +#include "rocket_drv.h"
+> +#include "rocket_job.h"
+> +#include "rocket_registers.h"
+> +
+> +#define JOB_TIMEOUT_MS 500
+> +
+> +static struct rocket_job *
+> +to_rocket_job(struct drm_sched_job *sched_job)
+> +{
+> +	return container_of(sched_job, struct rocket_job, base);
+> +}
+> +
+> +struct rocket_fence {
+> +	struct dma_fence base;
+> +	struct drm_device *dev;
+> +	/* rocket seqno for signaled() test */
+> +	u64 seqno;
+> +	int queue;
 
-Regards,
+AFAICT, you are not using any of the elements here. So you can just drop 
+rocket_fence and use dma_fence.
 
-Tvrtko
-
+Rob
 
