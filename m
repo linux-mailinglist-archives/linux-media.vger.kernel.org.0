@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-33985-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-33986-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA73ACC329
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 11:33:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE93ACC32B
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 11:33:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D822162781
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 09:33:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 962881892AF9
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 09:33:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD71D284B5A;
-	Tue,  3 Jun 2025 09:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C1D528312D;
+	Tue,  3 Jun 2025 09:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N5E6GWgC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mX4uBJum"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342FF2820DB;
-	Tue,  3 Jun 2025 09:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8254B280A4B;
+	Tue,  3 Jun 2025 09:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748943138; cv=none; b=gjA5lSoaMssWKfQdsVwRFRhYQp++yeIMSzgMjdhJ17npZ2FIFsRIx4XnvmO36dsiBvRPmEj4CpjzTreh/EydhGwea1OmwAADFXnTdNP12OWtzWScWKVp0dlJfwaNE+YXEB/6nE86YknuRc49esy5kVywYDqOvqB4DopAX6kc8T4=
+	t=1748943142; cv=none; b=Q7vfkX9gsQvItg0cynFsnnlFQRIjD57r42OrdqEQBI3T87LQav6u2hjdZrT2WUDpQ5lpQ9nuR6JyMq19r10hW7J9ZjFnsUXeoLxcZckCagXo9FQRLdzOnJ++J40Tqgtu6k6kVdxH9SiwXzukDWnuHC4EnekEOQtZH5vWmRnxEIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748943138; c=relaxed/simple;
-	bh=WCLD/qkwZkVgAwWKv39qjH8O02jRnPMeHdVASHi442o=;
+	s=arc-20240116; t=1748943142; c=relaxed/simple;
+	bh=kFeQuslhr/3hnNLg6rE8C4RDktELrENqA7ibJjiDglQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l9UxWrTvAIDldonMSHv5USl+xr394HrJyk+WfjxipXdqMjsvJe7wcNPq3AirlkXA0cIzC/hWRmQRmdkVIZQUKJnKPMEZoCT3fIr06m5WgfkFKCkIREagWpqw2S/n7zvR6khyRnXeXWGigBYa+SDcFRQYSHjye+3swlewBy5DSpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N5E6GWgC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4CE4C4CEED;
-	Tue,  3 Jun 2025 09:32:13 +0000 (UTC)
+	 MIME-Version; b=Gq3Bg8HvpKufbcBlWZFicB6gHnyt6DV1Ro2IYpiKetiLDCP8EisYSqxx9h1JP06TAHbTI8nP5EdoGyWws9LClZdMlOnVY0kJmPVg/BPvCA7OxLjazLP7tylrLsvJfBkSt5O+hq/jeq30K2l4bqlhViKr/D4cQK5b6honh+qi7yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mX4uBJum; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28E79C4CEEF;
+	Tue,  3 Jun 2025 09:32:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748943137;
-	bh=WCLD/qkwZkVgAwWKv39qjH8O02jRnPMeHdVASHi442o=;
+	s=k20201202; t=1748943142;
+	bh=kFeQuslhr/3hnNLg6rE8C4RDktELrENqA7ibJjiDglQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=N5E6GWgC+IQQrb+kWCIzWbI9jhe6JBR6IcYX31arnC9PcigyAzvnpOyeJxNJTNd0S
-	 /fw5IgT2zCYNww7V9a8cohQ2k5k/D5FPFOY0OenLmQNCfos8lbrNuYPIZq+0HWmrVS
-	 fLvKgLg8lKaR7+M5oeQZ+tSAgTIlwqEsSpHFiqkRnIw16gdXQjNIkKwrZv35A/MZjc
-	 +BDrs4Y19XXaOzcpjOR4REDXhsqLdLg9slJBDLbJvIzMzUCWdHgvkfEjueEnDqsLzp
-	 IuVFgK/eSRXP9osfYu1VRPh0yI/J4Pk3oMOg5C65RNDCSycOAtsZnoFBpZLOrF87qT
-	 rL7K1EbRWpaiQ==
+	b=mX4uBJumN92za8qp6zQklTFaJQiZVYLPGHIb4mtOShkZ9ryqeM1AvJqaz+76xqg1i
+	 +ySJtdeZOHLaV39EwXCoSz332CZMP5uDTDCGcO8c2QD+YMns4IAjS+dQNK/pyKOlIY
+	 rou1DMgkGHnUAhHATp1zziEJyoVck290a1DGNcc3hINQlpCVvji4xvcgDfc3e0+OTO
+	 227T2aPxqqRALFMd8WsLnWkIbp1V7gYvFR/ZFtUd7/E1hGhwzFcSTxly2cmBDZciPt
+	 Kbh+I6HRcoOWk9AqWFicKRbBwBB5gpyXREsarTV3uFMx0hgSzxRPo0HWFEcwpelfvi
+	 eS9Mn056PklTQ==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>,
 	Danilo Krummrich <dakr@kernel.org>,
@@ -59,9 +59,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	nouveau@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [RFC PATCH 5/6] drm/nouveau: Add new callback for scheduler teardown
-Date: Tue,  3 Jun 2025 11:31:30 +0200
-Message-ID: <20250603093130.100159-7-phasta@kernel.org>
+Subject: [RFC PATCH 6/6] drm/nouveau: Remove waitque for sched teardown
+Date: Tue,  3 Jun 2025 11:31:31 +0200
+Message-ID: <20250603093130.100159-8-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250603093130.100159-2-phasta@kernel.org>
 References: <20250603093130.100159-2-phasta@kernel.org>
@@ -73,101 +73,129 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is a new callback for always tearing the scheduler down in a
-leak-free, deadlock-free manner.
+struct nouveau_sched contains a waitque needed to prevent
+drm_sched_fini() from being called while there are still jobs pending.
+Doing so so far would have caused memory leaks.
 
-Port Nouveau as its first user by providing the scheduler with a
-callback that ensures the fence context gets killed in drm_sched_fini().
+With the new memleak-free mode of operation switched on in
+drm_sched_fini() by providing the callback
+nouveau_sched_fence_context_kill() the waitque is not necessary anymore.
+
+Remove the waitque.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 15 +++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_fence.h |  1 +
- drivers/gpu/drm/nouveau/nouveau_sched.c | 15 ++++++++++++++-
- 3 files changed, 30 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_sched.c | 20 +++++++-------------
+ drivers/gpu/drm/nouveau/nouveau_sched.h |  9 +++------
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  8 ++++----
+ 3 files changed, 14 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 869d4335c0f4..1c30ce686c6a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -240,6 +240,21 @@ nouveau_fence_emit(struct nouveau_fence *fence)
- 	return ret;
- }
- 
-+void
-+nouveau_fence_cancel(struct nouveau_fence *fence)
-+{
-+	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&fctx->lock, flags);
-+	if (!dma_fence_is_signaled(&fence->base)) {
-+		dma_fence_set_error(&fence->base, -ECANCELED);
-+		if (nouveau_fence_signal(fence))
-+			nvif_event_block(&fctx->event);
-+	}
-+	spin_unlock_irqrestore(&fctx->lock, flags);
-+}
-+
- bool
- nouveau_fence_done(struct nouveau_fence *fence)
- {
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
-index c3595c2197b5..4d8f78cd6ebc 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
-@@ -29,6 +29,7 @@ void nouveau_fence_unref(struct nouveau_fence **);
- 
- int  nouveau_fence_emit(struct nouveau_fence *);
- bool nouveau_fence_done(struct nouveau_fence *);
-+void nouveau_fence_cancel(struct nouveau_fence *fence);
- int  nouveau_fence_wait(struct nouveau_fence *, bool lazy, bool intr);
- int  nouveau_fence_sync(struct nouveau_bo *, struct nouveau_channel *, bool exclusive, bool intr);
- 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-index 460a5fb02412..2ec62059c351 100644
+index 2ec62059c351..7d9c3418e76b 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-@@ -11,6 +11,7 @@
- #include "nouveau_exec.h"
- #include "nouveau_abi16.h"
- #include "nouveau_sched.h"
-+#include "nouveau_chan.h"
+@@ -122,11 +122,9 @@ nouveau_job_done(struct nouveau_job *job)
+ {
+ 	struct nouveau_sched *sched = job->sched;
  
- #define NOUVEAU_SCHED_JOB_TIMEOUT_MS		10000
- 
-@@ -393,10 +394,23 @@ nouveau_sched_free_job(struct drm_sched_job *sched_job)
- 	nouveau_job_fini(job);
+-	spin_lock(&sched->job.list.lock);
++	spin_lock(&sched->job_list.lock);
+ 	list_del(&job->entry);
+-	spin_unlock(&sched->job.list.lock);
+-
+-	wake_up(&sched->job.wq);
++	spin_unlock(&sched->job_list.lock);
  }
  
-+static void
-+nouveau_sched_cancel_job(struct drm_sched_job *sched_job)
-+{
-+	struct nouveau_fence *fence;
-+	struct nouveau_job *job;
-+
-+	job = to_nouveau_job(sched_job);
-+	fence = to_nouveau_fence(job->done_fence);
-+
-+	nouveau_fence_cancel(fence);
-+}
-+
- static const struct drm_sched_backend_ops nouveau_sched_ops = {
- 	.run_job = nouveau_sched_run_job,
- 	.timedout_job = nouveau_sched_timedout_job,
- 	.free_job = nouveau_sched_free_job,
-+	.cancel_job = nouveau_sched_cancel_job,
+ void
+@@ -307,9 +305,9 @@ nouveau_job_submit(struct nouveau_job *job)
+ 	}
+ 
+ 	/* Submit was successful; add the job to the schedulers job list. */
+-	spin_lock(&sched->job.list.lock);
+-	list_add(&job->entry, &sched->job.list.head);
+-	spin_unlock(&sched->job.list.lock);
++	spin_lock(&sched->job_list.lock);
++	list_add(&job->entry, &sched->job_list.head);
++	spin_unlock(&sched->job_list.lock);
+ 
+ 	drm_sched_job_arm(&job->base);
+ 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+@@ -460,9 +458,8 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
+ 		goto fail_sched;
+ 
+ 	mutex_init(&sched->mutex);
+-	spin_lock_init(&sched->job.list.lock);
+-	INIT_LIST_HEAD(&sched->job.list.head);
+-	init_waitqueue_head(&sched->job.wq);
++	spin_lock_init(&sched->job_list.lock);
++	INIT_LIST_HEAD(&sched->job_list.head);
+ 
+ 	return 0;
+ 
+@@ -502,9 +499,6 @@ nouveau_sched_fini(struct nouveau_sched *sched)
+ 	struct drm_gpu_scheduler *drm_sched = &sched->base;
+ 	struct drm_sched_entity *entity = &sched->entity;
+ 
+-	rmb(); /* for list_empty to work without lock */
+-	wait_event(sched->job.wq, list_empty(&sched->job.list.head));
+-
+ 	drm_sched_entity_fini(entity);
+ 	drm_sched_fini(drm_sched);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
+index 20cd1da8db73..b98c3f0bef30 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.h
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
+@@ -103,12 +103,9 @@ struct nouveau_sched {
+ 	struct mutex mutex;
+ 
+ 	struct {
+-		struct {
+-			struct list_head head;
+-			spinlock_t lock;
+-		} list;
+-		struct wait_queue_head wq;
+-	} job;
++		struct list_head head;
++		spinlock_t lock;
++	} job_list;
  };
  
- static int
-@@ -482,7 +496,6 @@ nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
- 	return 0;
+ int nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+index 48f105239f42..ddfc46bc1b3e 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+@@ -1019,8 +1019,8 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+ 	u64 end = addr + range;
+ 
+ again:
+-	spin_lock(&sched->job.list.lock);
+-	list_for_each_entry(__job, &sched->job.list.head, entry) {
++	spin_lock(&sched->job_list.lock);
++	list_for_each_entry(__job, &sched->job_list.head, entry) {
+ 		struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(__job);
+ 
+ 		list_for_each_op(op, &bind_job->ops) {
+@@ -1030,7 +1030,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+ 
+ 				if (!(end <= op_addr || addr >= op_end)) {
+ 					nouveau_uvmm_bind_job_get(bind_job);
+-					spin_unlock(&sched->job.list.lock);
++					spin_unlock(&sched->job_list.lock);
+ 					wait_for_completion(&bind_job->complete);
+ 					nouveau_uvmm_bind_job_put(bind_job);
+ 					goto again;
+@@ -1038,7 +1038,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+ 			}
+ 		}
+ 	}
+-	spin_unlock(&sched->job.list.lock);
++	spin_unlock(&sched->job_list.lock);
  }
  
--
- static void
- nouveau_sched_fini(struct nouveau_sched *sched)
- {
+ static int
 -- 
 2.49.0
 
