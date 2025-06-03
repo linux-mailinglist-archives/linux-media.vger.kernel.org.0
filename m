@@ -1,245 +1,214 @@
-Return-Path: <linux-media+bounces-34020-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34021-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FB1ACC8B3
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 16:06:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E24EAACC8EF
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 16:19:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 256553A7902
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 14:06:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 716DF1885D85
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 14:19:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C946238C1E;
-	Tue,  3 Jun 2025 14:06:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 935EE239E7B;
+	Tue,  3 Jun 2025 14:18:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rUBI2GKq"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="uO9J/oUs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2078.outbound.protection.outlook.com [40.107.102.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09128223DD1
-	for <linux-media@vger.kernel.org>; Tue,  3 Jun 2025 14:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748959576; cv=none; b=DuwxK3AaATrQ6EMN5m3GQD85UTxqB1gWGGNOxfaAQDP7vmmwh9nykXqNeUwvGXA3pqL7uokt/ByBV8lL6K+k83BmkkQvxh+Yv4VFjXTSNJyWyTsPZfIt9YDG3rZDq3Abezr/WhwgSb5g49NFDrukM05A7bjlVzJfScD43la5HGY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748959576; c=relaxed/simple;
-	bh=KloubqAcGsJ73XOJzcp5iUuWnfgIjnPTn6yPE9IAQpY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=of+wMWUjmdlYWBT5uPTiD3zMlA3u/Mdf6XQ3r0yDQKgOclqDrQumjTdiKYN6eprvlyHIh4vmv+GMm4JjXWWrjYDWNMPwHUjHVTpsWZtg2m9PfRL7+S4m7cCtMWF807n750CWY/7he/E/aPMlL/rGus0QUJZBUCE82s1LDKbpL9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rUBI2GKq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7A5ED7;
-	Tue,  3 Jun 2025 16:06:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748959565;
-	bh=KloubqAcGsJ73XOJzcp5iUuWnfgIjnPTn6yPE9IAQpY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rUBI2GKqIaPwA+mWOyyWlKSwGXrooel4z/Gev52tp1ffJRMdq6sN67W9Ez7K8aYJ6
-	 lggVKnVkqe+8SpyTuuIEj1q68ioLPdPWP1RMwDjIpqNUET0maorcXN5CwqLPzzofqq
-	 JzibxDESpdorBQjFDYzgtal3uUcVhHyKg7vEwvD0=
-Date: Tue, 3 Jun 2025 17:05:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mathis Foerst <mathis.foerst@mt.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 03/12] media: mt9m114: Use aptina-PLL helper to get
- PLL values
-Message-ID: <20250603140557.GB12117@pendragon.ideasonboard.com>
-References: <20250531163148.83497-1-hansg@kernel.org>
- <20250531163148.83497-4-hansg@kernel.org>
- <20250603105712.GA27361@pendragon.ideasonboard.com>
- <f7d0ab89-f119-4ff9-a78d-00c51d45bb43@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6274A22A4E8;
+	Tue,  3 Jun 2025 14:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.78
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748960319; cv=fail; b=sLwtSRDdDZecancRdQC1MxjdEck5j/kf0ymVbsl5u5H/y4LUe1Wjei/7K5uaCVpOV4O1sfgGZTHGzYBzql8AtdJyJMzdQAJXWyFblVRdlnn2QzD706RB1csbl7SoKV/1iEP8Cvyu+dm8aSfnf/uJuxzDfeQyqbD0s3/nbgmLfag=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748960319; c=relaxed/simple;
+	bh=yQJfVJYZyx37FhmZ4mzSyB/nfNkxW/ggnuI1xlUREqA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kP+mW6W0qBtEsOkQQPNnPopzIxLP+9cHHmhy+tbgkk5zs+WTXuPhSRX7DuJhuC+z2p13Yx0gESSGxySM7KXvUymWXCcsRcjnkEJszqW7r1NWr/Pkd07sYcJuh76KHrQj2z7eFrt4X9VyUfhLMHvqirDvKZ6YBnKD9C1/Vpcje6Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=uO9J/oUs; arc=fail smtp.client-ip=40.107.102.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YZb0YeeJTIF2ZNa3H4GjN7yOEJ/DHOzMwvSKGz/W4MEDGL5ahl6JEAyXwIirSMgdhHAKb+9+NQAKcgPuDKeAOaf7zjwu+iSaUmxdHTDFmreAXp1WVKcXAlTNruBU6EAH7TxsJGwl0dNfcSFRod5QGr26sercV9iRHFj4tn4f1IbFmb9AkHJA2wTdWeQrO/pU809ECj8P4SuEXPZqzuSJ0FUvrg4xzFFc1JJKxrcm6Za1QzMPnoq5Ocdisdjav8KmbUpvJHXXEtkfQoyIQrZnJs7+FFV0Z2xbBG62mZB3wBqrOw6FEmO4ufvRJt4wHq4dnb/SzosCd/EOUBEIkZPRzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dRkfjBJwjz9F33JbcWXxiaXaXaBniiCUMF4JZmjhrwo=;
+ b=aW1U7sa84vs9HGjDM7jby1LLd7Ao95I7b0uTuJM+eYo3Fsxrcea3KZ68a/T5cxeRpXO2OUJu3lKLkXCHnBp6XZj5ZgudPWLIaLikKGBrT3v15R7eAUjIoNHLJFjd56GUc16t18K6o8YcB+wLT0bfLcZVCLUjOXTHuAUUdtc0WJvKXlW59A3R7uOSLcXYyWeh4WdrKtuHwg8/5nPqnT8ldP37wb72YGGgOWocqxqVNSsLR2m3M9z38Z88tkTUPHUVxgZF2Oe4op1ZBUAfHea7p9BzyhYSZYvMM0zxdiWWWtkMtj8UZAanS7JZgniiCcT4e7qxniq1DWT46t+YrhMWDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dRkfjBJwjz9F33JbcWXxiaXaXaBniiCUMF4JZmjhrwo=;
+ b=uO9J/oUsnNvd7hnSI+OtLmOobpsEyWp8O/d7IbaupzqkHE86VafJHddU1MYjXZ2VTVApf/q7PMLKH+D4Nl/1pUCrt9cfMJU7nxp+aZDc586JJadZYHqRo204EE+92hs23fAYDMKL+q1tEYR00ki5hsv//vVFOozLNeYPS4vxWd8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB7169.namprd12.prod.outlook.com (2603:10b6:930:5e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.28; Tue, 3 Jun
+ 2025 14:18:32 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Tue, 3 Jun 2025
+ 14:18:32 +0000
+Message-ID: <924ac01f-b86b-4a03-b563-878fa7736712@amd.com>
+Date: Tue, 3 Jun 2025 16:18:22 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
+To: Christoph Hellwig <hch@infradead.org>
+Cc: wangtao <tao.wangtao@honor.com>, sumit.semwal@linaro.org,
+ kraxel@redhat.com, vivek.kasireddy@intel.com, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, hughd@google.com, akpm@linux-foundation.org,
+ amir73il@gmail.com, benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+ jstultz@google.com, tjmercier@google.com, jack@suse.cz,
+ baolin.wang@linux.alibaba.com, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, bintian.wang@honor.com, yipengxiang@honor.com,
+ liulu.liu@honor.com, feng.han@honor.com
+References: <20250603095245.17478-1-tao.wangtao@honor.com>
+ <aD7x_b0hVyvZDUsl@infradead.org>
+ <09c8fb7c-a337-4813-9f44-3a538c4ee8b1@amd.com>
+ <aD72alIxu718uri4@infradead.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <aD72alIxu718uri4@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0118.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f7d0ab89-f119-4ff9-a78d-00c51d45bb43@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7169:EE_
+X-MS-Office365-Filtering-Correlation-Id: b21eb87b-d161-464c-073e-08dda2a984e2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aXEyTzI0M2MvaXZYV3FDdFRMVEZsb3hmS09RczA0TmJZdzdjTjA3UWVIMWI5?=
+ =?utf-8?B?M0dQaHhmckZqSzhGdkdoeUdzczBtc1k1K0tvMitFWnRYUlZ2OGhxOTA1MzN1?=
+ =?utf-8?B?eldLSTVyd3BsNVlxZDFobDQ2TitROEFwc3pCMEYvdjlOdzl4c09zRmF4dlhW?=
+ =?utf-8?B?NkdTWWVjN3JGUlVYRU94K2Vhc2dZS2tsekh3c1pLdk5QSG5CVWZtbmhUcm9T?=
+ =?utf-8?B?MDcvMDQ3TFMwZDVQWksvV2tFMkNDd2VBU0JBV1VWUklQdyt4aUdMWG0xdnEw?=
+ =?utf-8?B?QXozb2FZNWRKL0VhRERYMmNtL3VDYXRLT0VqVmJpQUg2em5mS1crcXBiZkRi?=
+ =?utf-8?B?c2M1UFNIamZvL3JpN2NWK1h5N3VENXUrSFBoQXpmOFJvbEpUcVN6SEdQM3F0?=
+ =?utf-8?B?cU40MDNRRjFKNjZmcHlZMktrdjNncjNGQ1BFMytlS2h1ZkdOTTlzRCt0K3Rs?=
+ =?utf-8?B?THZRNnlIZmR3anFYbjRxNEJFcGJwbHVnMWV6dm5IY0NSMXdXdUM1M2xCd0tG?=
+ =?utf-8?B?YXhnNGcyMWtRTVlhck5vODd6Q05iejM1amVuMDg2YmRQSFZoSTdjRWhqZHBp?=
+ =?utf-8?B?VUl1dWh3WGxCMXAvRFpYUXJZcjhwdGw3aCtWMWo4b205d0MwTWFtMHozeDh2?=
+ =?utf-8?B?Tk5HSytiOXl2R0hCRDkyZzc2S3oxMmpFUDBqYWtjaXI4VzdHV0RSVnNKZUdJ?=
+ =?utf-8?B?S0d3MzBWbS84a2U0VG1QSWRjbER2b2RJTGRvSllWZHVSNlZKMFhFT1VvMlZK?=
+ =?utf-8?B?ZW9nRitwNjZmeitQaDdvd3JaRXJpWTVXTWdRVytrbW5VNjQ3L1ZMN1R6M2NU?=
+ =?utf-8?B?S1gvbVJwR3RPQzF0QnBCL3ZuVGZnVkNxM0YxaUEzTXZSdTY1czN1ZmdpeS9k?=
+ =?utf-8?B?OWo1eUh1TVZRNkNzVHlJMHRLK3RUUjduSDhpTVNXL0U5M3B4Nk9ZYWlZYnVj?=
+ =?utf-8?B?OHoxM21Ia1kzekdTWklnQ1R1SlZQdUJ3SjNyU1RRWEluaXFLc1BzNzdTRkt6?=
+ =?utf-8?B?ZTRlU0FybWc1QlVjUmo1UUQ4bTRnU1FPdUhaTG5BUDM2OE9wdXVCdU0rRHFz?=
+ =?utf-8?B?UDZ2S3JsN014RXJucXFQemdrMTc3WEp4eVRKaTRidDhXZnUwSjZJVU41bkpK?=
+ =?utf-8?B?SHczOGFlYTVZT1lzUHRxN2lMRmwwckRFdmllQVhKKzBiQjhDUCsraUFmeGdK?=
+ =?utf-8?B?VUdrczFMNWhJNll0SDhlMWxSUzM3MXN0ekFlYnpWWXhXZmZrVVdnY3ZtT2xC?=
+ =?utf-8?B?dkJzOW1rWlJoSGFySTF6K0VDR1BnWWU2cFFmTDV4SGlDL0xVb2pBODZNeUVu?=
+ =?utf-8?B?QlRsMHhVVDUzaFdMNXVFNnVzcmdzeFdZaDhjUzlPUWZYbndqZ2ZkZEF6YWkz?=
+ =?utf-8?B?RXUxb1FHb0ZkS2x6MWU2VGdlMmZQVUJFSHBxRzlFQkNzMUFBVjdDSjRsajJs?=
+ =?utf-8?B?YTYzT2ZKR1NtV1Q0dVRQNzJiU0FLRFhDcndaTVFpSmtvZ2lTOUdJM0dST044?=
+ =?utf-8?B?T1Y0YjFKM2txWmFwRVEwSFhsS21LSmJ4bVJiRGhQcTh5NnJ0M2xLaS9tdS9r?=
+ =?utf-8?B?K3U5L3o5SFRBc3NwbkdLbjdwUDVaVXB4VUhLS1ZLNkhEK09TQ2ppL0NJOHdU?=
+ =?utf-8?B?RzFjUm4zMVRFSVFFSjVjQjJDcThlVnBTMm56OVBsTVovSitVOVN0RGs2Tnoz?=
+ =?utf-8?B?U3BkcEZIS1JVTEdHYVB0YmZVTlIwNURZQWZkTFlISE9kMXgvc0ZrWXpoUHIx?=
+ =?utf-8?B?WmpEU29vSUhIYU81dE4wRG9ybmNzWnd1MHE0aVh6RE56VkFOejJRMUVtanU5?=
+ =?utf-8?B?Smdiam9GNG1NSkxYV2JuMTlFUVZzYjdDMnRvU2tYZ1FJMlhPNTJnM1dmYUpl?=
+ =?utf-8?B?TC9xWVAzKzFoc09BRWVOVW1TZmNlWVRYYnZuUElObFZFNkhreExYaHhEQVRX?=
+ =?utf-8?Q?al5l/n6gLGM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dUF1SHp5S3FBT2FZWmtDaUZXcE9kNzI0R2JvT1hhKytQdzVwSEtvdmtZNEN2?=
+ =?utf-8?B?VERNWnE3SitFcUxCNFlSMzJzL1c2WTJBMDg2QlNqTlBNTjNWanZMVTFZUlg5?=
+ =?utf-8?B?cy9RWVk2RlkrTE1KRUVUeG9sbVJLY2dFRFM1S1RScnpnUENkZTNxYkJCY2x2?=
+ =?utf-8?B?c3ZiTVRPZGdyYS9EQzF3RFhkNVcxUzlkbDlEK3Z0WU1KbHoxeGtkaStrZlpa?=
+ =?utf-8?B?VVkyeVBER0dPM0lvOXNqQ3EyeDBqdy9VVUU2S1lEcE94ckNYRnZkOGFlL2cr?=
+ =?utf-8?B?enpGS2orb1ZSTUNpU2tTaCtQR21UdUJKbVZseThJV1hzNkRTNjZteDRNQ3lu?=
+ =?utf-8?B?RE5XdzU4M2VGVXFnSnZYTjVDaGUzZlN0VU9nRTljTlNTTGJxMVBSOFdYZitV?=
+ =?utf-8?B?dHh1YW9BRW9DS21DekYxYTNqL3FHRTdaOXpsa0xHRHNlOGwyWDAramtnZUk3?=
+ =?utf-8?B?cnc4YnY0ajM4aXhvVm8vSys1cjFqdkFtUmhoQVBYMCtIdFpVZzJYZHRZQVlO?=
+ =?utf-8?B?R21GYUdMNTF5NVNnMWI3Q3B3U25CRllDOU50MnJ6VjZsZXlWMkNQT2hYV1ZX?=
+ =?utf-8?B?Vzk3emdHZ2orY2xMNGRkWmFHbGlpck5oaFNoaUFBdU5zUUZNanhsWjhYNVM3?=
+ =?utf-8?B?L1ZoT253V3pwaXB3L3dhVzFUdVUzQ0xDNTh0TTZkMVhlMmp6NGlnTGg1Z2RV?=
+ =?utf-8?B?UkVRVyt5ZlZYOWI2cnU2cU4yUFZHUnpPMzFrWDRyU1BsYjRRWjR5aVNIcU4z?=
+ =?utf-8?B?ZEZLcFV5dzBzdzVOcHgrWStIbnRUREx3YWE0T05pbFQ4eVhwS1JhbnROV3k5?=
+ =?utf-8?B?NkxTcHkwb3ZIWldQd1lGTnl5ZW90VkhKQnVoanV3Q0tBZ3V4TVRONTN3T05v?=
+ =?utf-8?B?UGZidjlBV0kwWjNkZnhlb3BhTHlidnU1cUpPdVZGSVIrYzhQZEs3Mk5hanJW?=
+ =?utf-8?B?U3g3ZVU1b0M3LzhiOWRLUldkWVNFU2h4VTlZUnN4WEQvRzN1VlpCYWh5aU54?=
+ =?utf-8?B?TDMvVUZITkRHcGszSDhFc3phNlArZUEvTlgwTUlSMzdjeDJoNzdDeitwVUhm?=
+ =?utf-8?B?NWNOUkZDUk56ZEYweHFJci9OeWRWNC9LY2NzeVZlcG1PMnpIMTFxT3FwVnBv?=
+ =?utf-8?B?UUlPWEtsc0w0bW9Va2s3cHMvQm1aa2w3SUNZdHNLUE5McFB0MlJ3cCtGNmdX?=
+ =?utf-8?B?SWsyZnk0dkV3RzEyV3ZJeE10Um1PZFZIRytxajBMK3l0MDBwZEdCOUlHTzNx?=
+ =?utf-8?B?TGEvbzF3RThhdENVMm13L25PY0tKRGd0UE01QURQdVZmbUtHakQyUXJ3bkEv?=
+ =?utf-8?B?U1FyUlA5bXg4MnAxU21SV0JaOTNwc3NMcVAyRFFKZTVBUitDYTZQbWcvSjRz?=
+ =?utf-8?B?ZW1oQ1ZaMnNKZk8rTHdCbUN1VDJpdzBtQWp6WW5EK1BNWkhEQ1FYRWZMMTlC?=
+ =?utf-8?B?K20wZ004c21GSEhBSU54UVpha0QvUDZ3bXRWM2dDdVdWcFZHVDV1REUreVo2?=
+ =?utf-8?B?dW50NG9JVmNIREVhM1QxaDZvNnVZdzhwSmNyTmw0ZWt2eURidlkyOXhMeS8v?=
+ =?utf-8?B?elluMktsWEd4K0JFL2tRdWR5OGlySEp2bXQxd0pUVWt3QlVRd280UmkwY1Ra?=
+ =?utf-8?B?QjY0OGRGZzEvQVN4YUpBei8xVGd2RGx1Mk1DL2o1SSt1WlVLV2Z1TWc0cEZa?=
+ =?utf-8?B?NXJoZTNyVGkrb1BpcjlMWWdBa3FtU0s5TEZYTTRaaXVvWElBejJGays4cldn?=
+ =?utf-8?B?YTNIaFNzTWpaeU4xYStTOE9uUHp3WjY2a0pIbEtMQlp3RCs0ZXlKSkg0VEJW?=
+ =?utf-8?B?RG5HRHBudDZoU25MSU1MdWhrdTRjQ0lONHZ6VUlrdVZjSjlIYXJzaW12SFJD?=
+ =?utf-8?B?M3UyOVZ3eHhEejhyU2g3eWxmQjF5RmZZZm51eHc4cTZ1d3pvaUJPZnFEQW1G?=
+ =?utf-8?B?OG9QM1hid1RnTEFLN1ZhdFBTZmNuSTZWVTBFekI0YVZ5TVYwV2VPRWZiQVNz?=
+ =?utf-8?B?N042OEE5VUgwTGNqdTlKQnZ0SGxkOS8xSEdnTUpHN3dGM0hlWW1LY2JERlBw?=
+ =?utf-8?B?bmdFajN2ZENtWVVtdmQvalluN01EdEFuTXdhN2IrNW5iSG53ZnJmN01SaG52?=
+ =?utf-8?Q?Xh0GjNL4271TuVLIlDQ/CzExj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b21eb87b-d161-464c-073e-08dda2a984e2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 14:18:32.1143
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vzF5dHKajhuYKpFRNVGV5h6pyFlLiIXvRXSlrOibDxLykN0vhRtNlYWhRGqh+FLb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7169
 
-On Tue, Jun 03, 2025 at 03:29:42PM +0200, Hans de Goede wrote:
-> On 3-Jun-25 12:57 PM, Laurent Pinchart wrote:
-> > On Sat, May 31, 2025 at 06:31:38PM +0200, Hans de Goede wrote:
-> >> Before this change the driver used hardcoded PLL m, n and p values to
-> >> achieve a 48MHz pixclock when used with an external clock with a frequency
-> >> of 24 MHz.
-> >>
-> >> Use aptina_pll_calculate() to allow the driver to work with different
-> >> external clock frequencies. The m, n, and p values will be unchanged
-> >> with a 24 MHz extclk and this has also been tested with a 19.2 MHz
-> >> clock where m gets increased from 32 to 40.
-> >>
-> >> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Signed-off-by: Hans de Goede <hansg@kernel.org>
-> >> ---
-> >> Changes in v2:
-> >> - Add select VIDEO_APTINA_PLL to Kconfig
-> >> - Use correct aptina_pll_limits
-> >> ---
-> >>  drivers/media/i2c/Kconfig   |  1 +
-> >>  drivers/media/i2c/mt9m114.c | 54 ++++++++++++++++++++++++++-----------
-> >>  2 files changed, 40 insertions(+), 15 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> >> index dc2c429734fc..1820ec37404a 100644
-> >> --- a/drivers/media/i2c/Kconfig
-> >> +++ b/drivers/media/i2c/Kconfig
-> >> @@ -285,6 +285,7 @@ config VIDEO_MT9M111
-> >>  config VIDEO_MT9M114
-> >>  	tristate "onsemi MT9M114 sensor support"
-> >>  	select V4L2_CCI_I2C
-> >> +	select VIDEO_APTINA_PLL
-> >>  	help
-> >>  	  This is a Video4Linux2 sensor-level driver for the onsemi MT9M114
-> >>  	  camera.
-> >> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> >> index 5a7c45ce2169..e12c69dc9df0 100644
-> >> --- a/drivers/media/i2c/mt9m114.c
-> >> +++ b/drivers/media/i2c/mt9m114.c
-> >> @@ -31,6 +31,8 @@
-> >>  #include <media/v4l2-mediabus.h>
-> >>  #include <media/v4l2-subdev.h>
-> >>  
-> >> +#include "aptina-pll.h"
-> >> +
-> >>  /* Sysctl registers */
-> >>  #define MT9M114_CHIP_ID					CCI_REG16(0x0000)
-> >>  #define MT9M114_COMMAND_REGISTER			CCI_REG16(0x0080)
-> >> @@ -263,9 +265,9 @@
-> >>  #define MT9M114_CAM_SYSCTL_PLL_ENABLE_VALUE			BIT(0)
-> >>  #define MT9M114_CAM_SYSCTL_PLL_DISABLE_VALUE			0x00
-> >>  #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_M_N		CCI_REG16(0xc980)
-> >> -#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(m, n)		(((n) << 8) | (m))
-> >> +#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(m, n)		((((n) - 1) << 8) | (m))
-> >>  #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P		CCI_REG16(0xc982)
-> >> -#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(p)		((p) << 8)
-> >> +#define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(p)		(((p) - 1) << 8)
-> >>  #define MT9M114_CAM_PORT_OUTPUT_CONTROL			CCI_REG16(0xc984)
-> >>  #define MT9M114_CAM_PORT_PORT_SELECT_PARALLEL			(0 << 0)
-> >>  #define MT9M114_CAM_PORT_PORT_SELECT_MIPI			(1 << 0)
-> >> @@ -326,7 +328,7 @@
-> >>   * minimum values that have been seen in register lists are 303 and 38, use
-> >>   * them.
-> >>   *
-> >> - * Set the default to achieve 1280x960 at 30fps.
-> >> + * Set the default to achieve 1280x960 at 30fps with a 48 MHz pixclock.
-> >>   */
-> >>  #define MT9M114_MIN_HBLANK				303
-> >>  #define MT9M114_MIN_VBLANK				38
-> >> @@ -336,6 +338,8 @@
-> >>  #define MT9M114_DEF_FRAME_RATE				30
-> >>  #define MT9M114_MAX_FRAME_RATE				120
-> >>  
-> >> +#define MT9M114_DEF_PIXCLOCK				48000000
-> >> +
-> >>  #define MT9M114_PIXEL_ARRAY_WIDTH			1296U
-> >>  #define MT9M114_PIXEL_ARRAY_HEIGHT			976U
-> >>  
-> >> @@ -380,11 +384,7 @@ struct mt9m114 {
-> >>  	struct v4l2_fwnode_endpoint bus_cfg;
-> >>  	bool bypass_pll;
-> >>  
-> >> -	struct {
-> >> -		unsigned int m;
-> >> -		unsigned int n;
-> >> -		unsigned int p;
-> >> -	} pll;
-> >> +	struct aptina_pll pll;
-> >>  
-> >>  	unsigned int pixrate;
-> >>  	bool streaming;
-> >> @@ -757,7 +757,7 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
-> >>  							       sensor->pll.n),
-> >>  			  &ret);
-> >>  		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_P,
-> >> -			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p),
-> >> +			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p1),
-> >>  			  &ret);
-> >>  	}
-> >>  
-> >> @@ -2262,12 +2262,29 @@ static int mt9m114_verify_link_frequency(struct mt9m114 *sensor,
-> >>  
-> >>  static int mt9m114_clk_init(struct mt9m114 *sensor)
-> >>  {
-> >> +	static const struct aptina_pll_limits limits = {
-> >> +		.ext_clock_min = 6000000,
-> >> +		.ext_clock_max = 54000000,
-> >> +		/* int_clock_* limits are not documented taken from mt9p031.c */
-> >> +		.int_clock_min = 2000000,
-> >> +		.int_clock_max = 13500000,
-> >> +		/*
-> >> +		 * out_clock_min is not documented, taken from mt9p031.c.
-> >> +		 * out_clock_max is documented as 768MHz, but this leads to
-> >> +		 * different PLL settings then used by the vendor's drivers.
-> > 
-> > s/then/than/
-> > 
-> > Is that an issue though ? Does it prevent the sensor from working ?
+On 6/3/25 15:19, Christoph Hellwig wrote:
+> On Tue, Jun 03, 2025 at 03:14:20PM +0200, Christian König wrote:
+>> On 6/3/25 15:00, Christoph Hellwig wrote:
+>>> This is a really weird interface.  No one has yet to explain why dmabuf
+>>> is so special that we can't support direct I/O to it when we can support
+>>> it to otherwise exotic mappings like PCI P2P ones.
+>>
+>> With udmabuf you can do direct I/O, it's just inefficient to walk the
+>> page tables for it when you already have an array of all the folios.
 > 
-> I did not try. It seems safer to just stick with the tested / proven
-> values from the older register-list based drivers?
+> Does it matter compared to the I/O in this case?
 
-Sometimes there are multiple options without any practical differences.
-I wouldn't necessarily assume we have to follow the hardcoded register
-values. Can you share the two PLL configurations ?
+It unfortunately does, see the numbers on patch 3 and 4.
 
-> Even if it does work on my single mt9m114 sensor, that hardly
-> constitutes testing on a representative sample.
+I'm not very keen about it either, but I don't see much other way to do this.
 
-This sensor is rather old and not widely used. If using the correct
-limits doesn't cause issues on platforms we can test, that's good enough
-for me. We can always address problems later if any arise.
+> Either way there has been talk (in case of networking implementations)
+> that use a dmabuf as a first class container for lower level I/O.
+> I'd much rather do that than adding odd side interfaces.  I.e. have
+> a version of splice that doesn't bother with the pipe, but instead
+> just uses in-kernel direct I/O on one side and dmabuf-provided folios
+> on the other.
 
-> >> +		 */
-> >> +		.out_clock_min = 180000000,
-> >> +		.out_clock_max = 400000000,
-> >> +		.pix_clock_max = 48000000,
-> >> +		.n_min = 1,
-> >> +		.n_max = 64,
-> >> +		.m_min = 16,
-> >> +		.m_max = 192,
-> >> +		.p1_min = 1,
-> >> +		.p1_max = 64,
-> >> +	};
-> >>  	unsigned int pixrate;
-> >> -
-> >> -	/* Hardcode the PLL multiplier and dividers to default settings. */
-> >> -	sensor->pll.m = 32;
-> >> -	sensor->pll.n = 1;
-> >> -	sensor->pll.p = 7;
-> >> +	int ret;
-> >>  
-> >>  	/*
-> >>  	 * Calculate the pixel rate and link frequency. The CSI-2 bus is clocked
-> >> @@ -2287,8 +2304,15 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
-> >>  	}
-> >>  
-> >>  	/* Check if the PLL configuration fits the configured link frequency. */
-> >> +	sensor->pll.ext_clock = sensor->clk_freq;
-> >> +	sensor->pll.pix_clock = MT9M114_DEF_PIXCLOCK;
-> >> +
-> >> +	ret = aptina_pll_calculate(&sensor->client->dev, &limits, &sensor->pll);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >>  	pixrate = sensor->clk_freq * sensor->pll.m
-> >> -		/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
-> >> +		/ (sensor->pll.n * sensor->pll.p1);
-> >>  	if (mt9m114_verify_link_frequency(sensor, pixrate) == 0) {
-> >>  		sensor->pixrate = pixrate;
-> >>  		sensor->bypass_pll = false;
+That would work for me as well. But if splice or copy_file_range is used is not that important to me.
 
--- 
+My question is rather if it's ok to call f_op->write_iter() and f_op->read_iter() with pages allocated by alloc_pages(), e.g. where drivers potentially ignore the page count and just re-use pages as they like?
+
 Regards,
+Christian.
 
-Laurent Pinchart
 
