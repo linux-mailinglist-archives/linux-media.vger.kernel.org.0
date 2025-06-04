@@ -1,205 +1,134 @@
-Return-Path: <linux-media+bounces-34064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34065-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8240EACDF7C
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jun 2025 15:42:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D282CACDF8A
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jun 2025 15:47:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6CEB33A5231
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jun 2025 13:41:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D0C107A3357
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jun 2025 13:46:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 104DC290BAB;
-	Wed,  4 Jun 2025 13:41:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B383C28F922;
+	Wed,  4 Jun 2025 13:47:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="K87g+iFJ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iSPx61pu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79FE28CF58
-	for <linux-media@vger.kernel.org>; Wed,  4 Jun 2025 13:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2FE4C7C;
+	Wed,  4 Jun 2025 13:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749044486; cv=none; b=dkc0FX3EaOw+OCcuwAVq1sIPcwBmFrBS0VI8bbgoeweaI/k8fmBE25iPtfIuz3ZxkNuQOxt+uwPukD64Q9twJzGkSovm2a50U5vbjnw4rhsqSbr5SS8k5FndJpWeA7niKhq0WGbu8DeaswirivVBRcWgHKjWeSK8wUSmPPk2/eY=
+	t=1749044861; cv=none; b=hA4bOztoyzESmbINId5Xlm8Y0dV/rdR1lp8+Db+LHtPbOtwUFbv/wKcN6ZvE7Yu6y80yLdUCotIfTC41CZW4nWtTZ2pHJiP+9Al6mgWoDDRW568pyCcTTqKC+yQ3eUY1KCD+KEoje4zFlx6XrK//H+1kEM+O1AEXtL+IvCspu88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749044486; c=relaxed/simple;
-	bh=1kU0n2bW3hlLIxRCbwHPbQyi7Fb4CY9XVqE2C/Sy8+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ObWeV35CuwmrLEaHmiVENa6V5TTYxk/e8pOpp6SJjh0WPR7JfXaAI1uhlW4fqYk9op0Wa2Oe569RwcLV9sWiGV+lO510bmPvou7zBeoQXn66K1V7d2QCujlV+1tk9PRoVSDE1aBTUdu3ZgegpiLO+2I+xDwk3LIClbTMkgRNIFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=K87g+iFJ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5547dS9m032286
-	for <linux-media@vger.kernel.org>; Wed, 4 Jun 2025 13:41:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3/ZLOV/HNol/MkyrbMnKs/oh0VOFuPImZUzRQhw3LY8=; b=K87g+iFJ17Kk+tbC
-	74pCfHp6SL7Pp2K1xutgdSGMASlUdO+fSbB65gb8DBREgBlvfPZDzfzq2B73uvNs
-	BCyH2xbXDX2iWh6KZaJONs2C41NWZOkRGlxhqjY8CnjHVCPbx+L3oLUZvQ5+bkZ/
-	hZIjNCqkoB2CMVFSdmN/Pz+piZ4mARhPrveY7h69ngDohNQpnpbQCSHU0tOCXUwE
-	F6CxPH5YLX6tH66C8TkbqZ17K8EGg3u3kRqXVGPlK9eEEWDSWb3tNVqgcm/63k/M
-	tgy8HZrgOLFZ1AtyAdURvuaS/NNLiSJvUWdh39nEpWoKBChGEZD2MYab/GmWYj/R
-	rBE5og==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471sfuw22a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 04 Jun 2025 13:41:23 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5750ca8b2so897412685a.0
-        for <linux-media@vger.kernel.org>; Wed, 04 Jun 2025 06:41:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749044483; x=1749649283;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3/ZLOV/HNol/MkyrbMnKs/oh0VOFuPImZUzRQhw3LY8=;
-        b=gzSfxEzQWSplnbS+pk1WprnUkEQMsiX7EOGsfOdQVxDwbpKUlgmZIZWAeS1/T4Iz/R
-         RFXtX0EAhhFyrzmQAUc5lIReE2IQpiC7AwGbxXzKt74HOyjf/2phMNwFr+jlrtuk8Z1J
-         3OrgvFZ2isZcINN/W24i6clBWrpQ15md/S+xpCIh6/jGolWLVZ/FhWAC/bCF42eanzul
-         O3oqhOO6ux0IyD0IxAUdj6s69Ypm+HAfj0xyrCW5Hj38ztjjlp3+LbcyS92+4ODXzCN3
-         IHN92UpRqWey66let069KEtkAR7QDasgGW4rdvGWONgPwSQfhRskbTiCAS+jleeaxRdZ
-         g56g==
-X-Forwarded-Encrypted: i=1; AJvYcCUZKurCMzA6ejBxUSnlW6gvNOl1QHI3sjHyZJCJIDjKE1ykWbW7d/nR5GPSaZhWqm4oqRm60ymzAUE0Vg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV6GztIdqnhcD2xKNBtGBPYuLIp0xDQGnSPHQBnsAF16jZy5cM
-	TbHOc40YEFIQLRNlrPqxGEMtWJkEdXJc71KCqIda2yWE40c6Fq6yJ8AFGNMXuei8nql6D1znkXQ
-	u4Ohn/yqp3z2u7/2+wmNKfVMcV65p+mXLsl4V0plmyie8Vneh/lP/wq0fAb5tsCpb2g==
-X-Gm-Gg: ASbGncu7aegtGTqfd73wB2j6dFbrX4Knppc66bHbQj4GbDJzU+wkrn21Y22G7bh1CIk
-	3xxaveCEU8JGXNvRz98ytn1CINs9ItC79CgwovtFMENodSCaUAZa6Y5dgI4ysLFwAJ/YQztKT/7
-	2z0KjvehNSfEysezhSp8V7TyYxCAbOuxhZ6whQR/KU1xPRRBCW12aLccjuqxMU0hLRTH26IJ37n
-	BppWRlL5qND3aBLP/tOLHe/vhvA39UhnPKqut/zYQ37ZNP2LC9ue/sF7Fkig7p0MviMcW1mue5M
-	DcRh3gOpr8ggFk6bwBNFT+4asz4Mt7uyx/PPadolKr5s9G70yJzf4y4A5oQTamXck258JeFHCeY
-	=
-X-Received: by 2002:a05:620a:44ca:b0:7d0:9782:9b05 with SMTP id af79cd13be357-7d21997cd79mr512471485a.25.1749044482823;
-        Wed, 04 Jun 2025 06:41:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG3op8LTfjOLqxZdhVw2i4Biz6kY73hnDxhxU2RIwZnTe0rdyBP1Nv6BjhIaJZeMxqSKmPUpQ==
-X-Received: by 2002:a05:620a:44ca:b0:7d0:9782:9b05 with SMTP id af79cd13be357-7d21997cd79mr512464685a.25.1749044482199;
-        Wed, 04 Jun 2025 06:41:22 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32a85bd2a3asm21611731fa.90.2025.06.04.06.41.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jun 2025 06:41:21 -0700 (PDT)
-Date: Wed, 4 Jun 2025 16:41:19 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Renjiang Han <quic_renjiang@quicinc.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v7 2/3] arm64: dts: qcom: qcs615: add venus node to
- devicetree
-Message-ID: <wyzyffaksofnubx72dy6uj6wuv5nk3bxii2ncdvb7ga3fegynj@z44aoiu4ywt6>
-References: <20250527-add-venus-for-qcs615-v7-0-cca26e2768e3@quicinc.com>
- <20250527-add-venus-for-qcs615-v7-2-cca26e2768e3@quicinc.com>
- <429b4c99-b312-4015-8678-0371eac86de4@oss.qualcomm.com>
- <6a9e7daf-c0df-42db-b02d-96d9893afcde@quicinc.com>
- <idc4476ibh4geraklzpas5536jnwvbp6xhjjaajcdcwxicorrf@myh7kyz77rxy>
- <43e1f8db-5ab1-44ce-97c8-50910704788f@quicinc.com>
- <d6udpwmocodvlsm5ljqz7zbyonj2yahtlzmm2jjjveqrm2hmkz@andh5j4jgixr>
- <9faff664-9717-4259-8b23-bc44e64f6947@quicinc.com>
- <77ea49c3-f042-4ba9-a0da-1d0e4e4088d3@oss.qualcomm.com>
+	s=arc-20240116; t=1749044861; c=relaxed/simple;
+	bh=qAWE4ZHvfBr8J312bFyemArwB1AHHgZ8BFzkRR7+v30=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=n0Mg/0FfX0g3wUVXjVIGdlD8E0WRgy5NM0SJ6r2Vo7u/ETmHPJjH7ynPhMaTAOnxqTTtm7ZoocYnoeYqlJGiHjZ6RfrdIJo2L2a+VXVK/Ea0myjzST5n+9MXbXhd25T14Sbu563I0AQdKMrbpx7Hre4xMADK892qOnLfZXCeGFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iSPx61pu; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1749044857;
+	bh=qAWE4ZHvfBr8J312bFyemArwB1AHHgZ8BFzkRR7+v30=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=iSPx61pu5tgpGOmLaiVA37WIJDdHSlCglJ/lyW3CP9UNjbR6gLyO6gDnwVBFTg9q0
+	 W8TCw3zcHNG8Zomc6hu3akBb6JEJuQ62UM1nGuhbTDnmoVHxiio1DDHLFlNbC7BwHM
+	 swjYb17yxteN65Hic0TDuduoSxY1F2ICw6wyOMg3oEUIJWkC8LEZfXoVKuAc9PSvaa
+	 zevhXDccaHcaFGkclWjrqjL4R3thck4We+IJGC9QSDl2cYFU+NzYDjTCjl3DFnvd9U
+	 Ren8K2RGYeCnG9Ivp/U1roEPdIgtOkcVAUBGOh1nNHtGpZokgbIQx0Vvakkj1DVIII
+	 GKmzy+OwFR45Q==
+Received: from [IPv6:2606:6d00:10:5285::5ac] (unknown [IPv6:2606:6d00:10:5285::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 18B2D17E0C87;
+	Wed,  4 Jun 2025 15:47:35 +0200 (CEST)
+Message-ID: <1318bd68f2d60b9d44cb22bd90b92399311f0b00.camel@collabora.com>
+Subject: Re: [PATCH v2 2/7] media: chips-media: wave5: Improve performance
+ of decoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"	
+ <mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl"
+ <hverkuil-cisco@xs4all.nl>,  "bob.beckett@collabora.com"	
+ <bob.beckett@collabora.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
+ "lafley.kim" <lafley.kim@chipsnmedia.com>,  "b-brnich@ti.com"	
+ <b-brnich@ti.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung	
+ <nas.chung@chipsnmedia.com>
+Date: Wed, 04 Jun 2025 09:47:34 -0400
+In-Reply-To: <SE1P216MB13033207BDFE2A6BCC48999EED6CA@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+References: <20250522072606.51-1-jackson.lee@chipsnmedia.com>
+			 <20250522072606.51-3-jackson.lee@chipsnmedia.com>
+		 <3afbd0253fabcf9f8795ab2231107e2e9da012cc.camel@collabora.com>
+		 <SE1P216MB1303C1D1C2A9FA165A01B71AED64A@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <03a87e1c9e8f77887c2457b9c3fcbf0c6a6cf287.camel@collabora.com>
+	 <SE1P216MB13033207BDFE2A6BCC48999EED6CA@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <77ea49c3-f042-4ba9-a0da-1d0e4e4088d3@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=CY8I5Krl c=1 sm=1 tr=0 ts=68404d03 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6IFa9wvqVegA:10 a=COk6AnOGAAAA:8 a=i_0oWf60KM-UqR_2WRwA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: dpnJ7FWYKXpY2kjHJcnOrFKY9N17Sl6d
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA0MDEwNCBTYWx0ZWRfX9S8bI5QMWQnZ
- lhJwlOO/uHr/LDoGAlgoFKrd7n0IUNM7KZEcQm3IYBQaAYpuiKVfVtJ1KwflzujuGraw3RgSjRM
- 0x4a7WmAklwGJldef7AlIJGr1vFDj4w0qJ0IiLvwzL2ASNYKjd+KCy3yqWbrkUki+vzF+IvGBit
- 8y1uFgSZ115Tsz+NXmMoG96UAfB2vUJD6f3yFf6Wq3n/mCaHjdDWlYxRI9J3xeEzuq2wXGRFtw+
- 5vFd7aK8bX3xjJHsXR4SwELYun72pWj1tDFdHLdpcW8Y+D1I9aKYM17/F/s0dd7qTwYjlosAMM7
- +znYpLoFIrg5mPnPkI0sB7xiwkPq1rVeMdhQPTR3rLkVCTYExvVJuIEQbEhXj0JdQeDvQuRl8yP
- TfdPayYewnRJ15h/h4boZlyc+4gD2IfGj2zOxOjT18SjNZl1gpauSHADy8mWsjXQdKKVNCQs
-X-Proofpoint-GUID: dpnJ7FWYKXpY2kjHJcnOrFKY9N17Sl6d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-04_03,2025-06-03_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 impostorscore=0
- phishscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506040104
 
-On Wed, Jun 04, 2025 at 03:24:25PM +0200, Konrad Dybcio wrote:
-> On 6/4/25 2:05 PM, Renjiang Han wrote:
-> > 
-> > On 6/3/2025 9:21 PM, Dmitry Baryshkov wrote:
-> >> On Thu, May 29, 2025 at 10:29:46AM +0800, Renjiang Han wrote:
-> >>> On 5/28/2025 7:04 PM, Dmitry Baryshkov wrote:
-> >>>> On Wed, May 28, 2025 at 05:13:06PM +0800, Renjiang Han wrote:
-> >>>>> On 5/27/2025 9:57 PM, Konrad Dybcio wrote:
-> >>>>>> On 5/27/25 5:32 AM, Renjiang Han wrote:
-> >>>>>>> Add the venus node to the devicetree for the qcs615 platform to enable
-> >>>>>>> video functionality. The qcs615 platform currently lacks video
-> >>>>>>> functionality due to the absence of the venus node. Fallback to sc7180 due
-> >>>>>>> to the same video core.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
-> >>>>>>> ---
-> >>>>>> [...]
-> >>>>>>
-> >>>>>>> +            interconnect-names = "video-mem",
-> >>>>>>> +                         "cpu-cfg";
-> >>>>>>> +
-> >>>>>>> +            iommus = <&apps_smmu 0xe40 0x20>;
-> >>>>>> fwiw docs mention 0xe60 0x20 (which result in the exact same resulting sid)
-> >>>>> OK. Will update it with next version.
-> >>>> How would you update this?
-> >>> Thanks for your comments. I'll update it like this.
-> >>> iommus = <&apps_smmu 0xe60 0x20>;
-> >>>
-> >>> This 0xe40 SID was based on a previous project. However, after rechecking
-> >>> the documentation yesterday and confirming with colleagues, the correct
-> >>> SID value should be 0xe60. I’ve also validated it on local device, it
-> >>> works as expected. The reason 0xe40 seemed to work earlier is due to the
-> >>> mask value being 0x20, which causes the effective SID derived from 0xe40
-> >>> to be the same as 0xe60.
-> >> Using 0xe60 would be counterintuitive, as we have a non-zero masked bits
-> >> in the base value. It should be either <0xe60 0x0> or <0xe40 0x20>.
-> > 
-> > Hi Dmitry
-> > 
-> > Thank you for your comment.
-> > 
-> > I’ve followed up on this sid with a colleague from the kernel team,
-> > and based on our discussion, it seems that the sid in this case should
-> > be the result sid. The actual sid is 0xe60, and with a mask of 0x20,
-> > the resulting sid would be 0xe40. Therefore, it should be <0xe40 0x20>.
-> > 
-> > @Konrad, I’d appreciate any thoughts or suggestions you might have on it.
+Le mercredi 04 juin 2025 à 04:09 +0000, jackson.lee a écrit :
+> > Running in loop anything is never the right approach. The device_run()
+> > should be run when a useful event occur and filtered by the job_ready()
+> > ops. I believe I'm proposing some hint how to solve this design issue. The
+> > issue is quite clear with the follow up patch trying to reduce the CPU
+> > usage due to spinning.
 > 
-> What our docs describe as 'result sid' is literally 'base ~& mask', so if
-> we used that, setting the mask would be useless..
 > 
-> Now, some old NHLOS builds are known to cause issues if the values aren't
-> exactly what they expect (some whitelisting must be going on there).
 > 
-> I don't think this should be an issue on this platform, but let's just
-> use 0xe60 0x20 here to reflect the real values
+> Thanks for your feedback.
+> But there is one thing to say to you.
+> After receiving EOS from application, we have to periodically run the device_run
+> to send the DEC_PIC command so that VPU can trigger interrupt  until getting all 
+> decoded frames and EOS from Get_Result command.
+> So even if we sent EOS to VPU once, we should run the device_run function continuously,
+> the above code was added. If the job_ready returns false to prevent running the
+> device_run after sending EOS to VPU, then GStreamer pipeline will not be terminated 
+> normally because of not receiving all decoded frames.
 
-Isn't 0xe40 also 'real'?
+This, in my opinion, boils down to a small flaw, either in the firmware or the driver.
+This is why there was this code:
 
--- 
-With best wishes
-Dmitry
+-
+-	/*
+-	 * During a resolution change and while draining, the firmware may flush
+-	 * the reorder queue regardless of having a matching decoding operation
+-	 * pending. Only terminate the job if there are no more IRQ coming.
+-	 */
+-	wave5_vpu_dec_give_command(inst, DEC_GET_QUEUE_STATUS, &q_status);
+-	if (q_status.report_queue_count == 0 &&
+-	    (q_status.instance_queue_count == 0 || dec_info.sequence_changed)) {
+-		dev_dbg(inst->dev->dev, "%s: finishing job.\n", __func__);
+-		pm_runtime_mark_last_busy(inst->dev->dev);
+-		pm_runtime_put_autosuspend(inst->dev->dev);
+-		v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+-	}
+
+Which you removed in this patch, as it makes it impossible to utilise the HW queues.
+In the specific case you described, if my memory is right, the CMD_STOP (EOS in your
+terms) comes in race with the queue being consumed, leading to possibly having no
+event to figure-out when we are done with that sequenece.
+
+V4L2 M2M is all event based, and v4l2_m2m_job_finish() is one of those. But in the
+new implementation, this event no longer correlate with the HW being idle.
+This is fine, don't read me wrong. It now matches the driver being ready to try and
+queue more work.
+
+So my question is, is there a way to know, at CMD_STOP call, that the HW
+has gone idle, and that no more events will allow handling the EOS case?
+
+Nicolas
 
