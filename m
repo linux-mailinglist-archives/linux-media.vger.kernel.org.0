@@ -1,57 +1,72 @@
-Return-Path: <linux-media+bounces-34032-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34033-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC02ACD00D
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jun 2025 00:51:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 210F5ACD656
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jun 2025 05:12:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5750A1764B3
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jun 2025 22:51:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C127188A8AA
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jun 2025 03:13:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C837253934;
-	Tue,  3 Jun 2025 22:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27EAE221DBD;
+	Wed,  4 Jun 2025 03:12:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="q/sDGbU0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JFfoSdyJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4E822688C;
-	Tue,  3 Jun 2025 22:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01384BA42
+	for <linux-media@vger.kernel.org>; Wed,  4 Jun 2025 03:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748991087; cv=none; b=WEtoqdxTG4Lx6f9lt8ioKx173ZvwYjNdYgupaDKjzFNsoFGPoDzcx5xzrS+JJogVzgvrWAXJghFdzfzhsY62ozuUUOZ29A0/Bk87uqNCtGvzkQc9RUevADsQRY0p+eRZ1vVxHuUTg2FjkA9fcltO/PG37w7eZUrtd+iwF059hSY=
+	t=1749006759; cv=none; b=P/79+IR/yHQAAtqjtHc8YviBVb6XOK3z/2P9X2mFSjpPaT/UmoG0HlanFaEo9zTz22zZYR4Wz9MfRm5jp8CWkicZSVmsXU/lKUHQd8G8J8Xd6e5udpr7FWmb1uB+ZmPw2e1aNYaVNtg6cfHvpBTU0iItHCGyVsO63p6TYqZmFJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748991087; c=relaxed/simple;
-	bh=U2fAHShTsPt3xM9RI+E0kyll2X7at0kvzSSVpwpOxt4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yv3UZOGPgYV6wxfCRRUqqo0P1eyrLmcgCSYyDd8r3WVAe9UOXk0bTultvbF0VBVJTMvNBAPSUeLvowG0GiLDeAti/+2AzSs1MoTyAWFQmzMhYkX0MQHbT6BlK2Xsydupi3LpYbTyT/u7qY8duHS1xeob0j0keUwuTxcN7N8n+oE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=q/sDGbU0; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=FQ3DHoKvMraMJ0d27hoH4C3fLV1yEdec7+t3t0+1/Ak=; b=q/sDGbU07pJFA1RX
-	krmkJGueYxlIFGXPG0vz24InA5FimusUCXjcHZ0jsW2sQkHHuuQlYHx2/e20cxiTiOHTjK3iqp4yJ
-	0PxxIrhN0J9LoI0k+NJ2mrpvynxW8kYg10940zdQNFp5UKlO6pWvLrZxGW/sk6glfDHDxEeC516/R
-	Wr6/XzPdtGFABONvoTth8cxoC5svjashhiT7wJiqApNVDP2gYQrJNUmO+YHI0b2VgJMb7DBcZcp2u
-	0TQxjTEg8KmvtBWE3Ws1zUpVN4OlNBRMwU7QjlhOhTUeYzq6q0EFY3mNTynoM2mVKd2gMPE0EdcpP
-	4vpo6OPtAMHfbGZH5w==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1uMaTa-007UXY-1I;
-	Tue, 03 Jun 2025 22:51:22 +0000
-From: linux@treblig.org
-To: mchehab@kernel.org,
-	linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] media: v4l2-tpg: Remove unused tpg_fillbuffer
-Date: Tue,  3 Jun 2025 23:51:21 +0100
-Message-ID: <20250603225121.308402-1-linux@treblig.org>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1749006759; c=relaxed/simple;
+	bh=uAeh2tMsrGw2mpMV4gYETX0lRmK53w71gdTJXqa/vEM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IZkak0ttOtIPlKmdRUBZikTRH/Zp9I+BudXCCn1zCKBwskPWl+e12pNx9GGu+rpiAaUqFnOh6/dU5bivM5qe0cSJrKgbTkJCxnmdjDVOd1RLs5Z2liHjd/A09FdV52IZI7bJMoD2/QpMpjDMeb8Y1lr6od6Y08DMTI+kTGOgD9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JFfoSdyJ; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749006758; x=1780542758;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uAeh2tMsrGw2mpMV4gYETX0lRmK53w71gdTJXqa/vEM=;
+  b=JFfoSdyJoLUhCOWexIZvPvAlP+AcDKlP4iS/BliDiRbMZAidvE92iRFr
+   dAcRj4ncAeHXbrnow+Uye5LCidsB5FEUsNheTAJC1Hc6uQHan4HSct1+4
+   ru4GE+/Ly8uF90B6zkQ9Ivd6ai70Q037spOnvUOaRmKq9gLYUaR1I8sm7
+   oemCCx50pqxaxNPcq9JNnc31RfdIkMCnSSyXVKSjI9vdYjHWSMURAtUaW
+   F4zrcev70Zm87oJ/b48WzS/KRdsqpgt5MHBWNqG/xDzUzHuhtOPJb6oDn
+   br4bWTEtBDXjC786i25ktAcUjW41VDdd3ATQoUFSTfeCoI12PGQT+q6jK
+   Q==;
+X-CSE-ConnectionGUID: sRfvlp7PR362lkJy36C5fQ==
+X-CSE-MsgGUID: DTq+zi94TQWcoBmFiGodbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="38701129"
+X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; 
+   d="scan'208";a="38701129"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 20:12:37 -0700
+X-CSE-ConnectionGUID: NE9flz0CRwSTbJih8uh4yA==
+X-CSE-MsgGUID: T8Y4glvJQiuzlbsBGNOuRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; 
+   d="scan'208";a="145068103"
+Received: from vtg-chrome.bj.intel.com ([172.16.127.120])
+  by orviesa009.jf.intel.com with ESMTP; 03 Jun 2025 20:12:35 -0700
+From: bingbu.cao@intel.com
+To: linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com
+Cc: bingbu.cao@intel.com,
+	bingbu.cao@linux.intel.com
+Subject: [PATCH v2] media: staging/ipu7: add register definitions cleanup in TODO
+Date: Wed,  4 Jun 2025 11:12:34 +0800
+Message-Id: <20250604031234.426278-1-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,62 +75,30 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+From: Bingbu Cao <bingbu.cao@intel.com>
 
-The last use of tpg_fillbuffer() was removed in 2015 by
-commit ddcaee9dd4c0 ("[media] vivid: add support for single buffer planar
-formats")
+Some register definitions need a cleanup, so add a new item
+in TODO.
 
-Remove it.
-
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 ---
- drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 17 -----------------
- include/media/tpg/v4l2-tpg.h                  |  2 --
- 2 files changed, 19 deletions(-)
+ drivers/staging/media/ipu7/TODO | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-index 931e5dc453b9..d51d8ba99dcb 100644
---- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-+++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-@@ -2710,23 +2710,6 @@ void tpg_fill_plane_buffer(struct tpg_data *tpg, v4l2_std_id std,
- }
- EXPORT_SYMBOL_GPL(tpg_fill_plane_buffer);
- 
--void tpg_fillbuffer(struct tpg_data *tpg, v4l2_std_id std, unsigned p, u8 *vbuf)
--{
--	unsigned offset = 0;
--	unsigned i;
--
--	if (tpg->buffers > 1) {
--		tpg_fill_plane_buffer(tpg, std, p, vbuf);
--		return;
--	}
--
--	for (i = 0; i < tpg_g_planes(tpg); i++) {
--		tpg_fill_plane_buffer(tpg, std, i, vbuf + offset);
--		offset += tpg_calc_plane_size(tpg, i);
--	}
--}
--EXPORT_SYMBOL_GPL(tpg_fillbuffer);
--
- MODULE_DESCRIPTION("V4L2 Test Pattern Generator");
- MODULE_AUTHOR("Hans Verkuil");
- MODULE_LICENSE("GPL");
-diff --git a/include/media/tpg/v4l2-tpg.h b/include/media/tpg/v4l2-tpg.h
-index a55088921d1d..3e3bd0889b6d 100644
---- a/include/media/tpg/v4l2-tpg.h
-+++ b/include/media/tpg/v4l2-tpg.h
-@@ -248,8 +248,6 @@ void tpg_calc_text_basep(struct tpg_data *tpg,
- unsigned tpg_g_interleaved_plane(const struct tpg_data *tpg, unsigned buf_line);
- void tpg_fill_plane_buffer(struct tpg_data *tpg, v4l2_std_id std,
- 			   unsigned p, u8 *vbuf);
--void tpg_fillbuffer(struct tpg_data *tpg, v4l2_std_id std,
--		    unsigned p, u8 *vbuf);
- bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc);
- void tpg_s_crop_compose(struct tpg_data *tpg, const struct v4l2_rect *crop,
- 		const struct v4l2_rect *compose);
+diff --git a/drivers/staging/media/ipu7/TODO b/drivers/staging/media/ipu7/TODO
+index 7031d0179c7d..be4caf5cbe25 100644
+--- a/drivers/staging/media/ipu7/TODO
++++ b/drivers/staging/media/ipu7/TODO
+@@ -17,3 +17,8 @@ staging directory.
+ - Work with the common IPU module
+   Sakari commented much of the driver code is the same than the IPU6 driver.
+   IPU7 driver is expected to work with the common IPU module in future.
++
++- Register definition cleanup
++  Cleanup the register definitions - remove some unnecessary definitions
++  remove 'U' suffix for hexadecimal and decimal values and add IPU7 prefix
++  for IPU7 specific registers.
 -- 
-2.49.0
+2.34.1
 
 
