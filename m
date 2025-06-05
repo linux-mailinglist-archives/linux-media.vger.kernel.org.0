@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-34107-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34108-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EFEACEE39
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:59:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EF6ACEE3A
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:59:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E6373AA2EB
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 10:59:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3FE801895AB2
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 10:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3B38224220;
-	Thu,  5 Jun 2025 10:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0216D224B01;
+	Thu,  5 Jun 2025 10:59:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBC9215198
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 10:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0932215198
+	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 10:59:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749121165; cv=none; b=GnVlcYiTjnQpiDkJFtpMD+0V/UC3H+zltYGdJjOoD3zSKrgW2FDokZgICNnXR6iC+6AvXZwskvtDnq6/4Vg21nTwYDwup532xoM2lG/Y9kNZIBr1CIkethG+zqxGc/l1uAGJ16KThioGGcpp3r3Hs24vOON0ghbnY8nCFd3+dmg=
+	t=1749121166; cv=none; b=E48Ei6L3pAuPfSf8jqAq5KTEznaOXJZLdbDTeDj/LRaxkdEoCof86GS2XqQFtyceSbAVWmCUSVmsGEps2ElyVtLUdjqGPjQr0MlKpCse+hjRsHLh+2lX5J4FSYrMg70sdh6xzY1cW6pxFZAgPH8kbixzvBpTV+bdS+rVY+lRB/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749121165; c=relaxed/simple;
-	bh=WiUwqHpjji8OhlrAYM/1xwjpeNk+XS97lWA25/k2b1o=;
+	s=arc-20240116; t=1749121166; c=relaxed/simple;
+	bh=rtlLXi3fELkSRdmIM4pqCx8m0zAThLdH5XWx1eXLj/0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EO7cU3vUKka88B6epdNXkcx8LwjRfyeDLowYZKGF4kvT47LwXoJKJs4oq/cN5/DaY4tLYn6uK74DPqPw2uHUiX47o4XfJ3bYiO+rLyAdbH4k3CXCODlciDSmTXA08DnaLGJkBj6IHd0/oCwj640tsONC7Tin0S76MDGexvsWmQ8=
+	 MIME-Version; b=AM7XzCOWBI5S/+aazVp3pY8yIPhtBMRk0szmF6NtEDSY3OMgZ67/EZXJuQZu/fWVR32OUFmbFQJGJmhlG6Xx6v5WtsrPFXW+FVYy9qGKQ8C0Z0U4K6kjrxptRt2hJf6rcwMInps4Mufc6K7kwtJTKfV6Vwwi3YHOkRVx3pdHMKQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E56CC4CEEB;
-	Thu,  5 Jun 2025 10:59:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A07A1C4CEEB;
+	Thu,  5 Jun 2025 10:59:25 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 6/9] libdvbv5/dvb-v5-std.c: add DTV_BANDWIDTH_HZ where possible
-Date: Thu,  5 Jun 2025 12:58:29 +0200
-Message-ID: <f3226f83c3e8cf9f71dc53d435abc381f88e08b0.1749121112.git.hverkuil@xs4all.nl>
+Subject: [PATCH 7/9] libdvbv5/dvb-scan: always requeue after dvb_parse_section
+Date: Thu,  5 Jun 2025 12:58:30 +0200
+Message-ID: <d3680ee831a6638ca9f264966d4fccf6f2078df1.1749121112.git.hverkuil@xs4all.nl>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <cover.1749121112.git.hverkuil@xs4all.nl>
 References: <cover.1749121112.git.hverkuil@xs4all.nl>
@@ -47,74 +47,39 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several systems support DTV_BANDWIDTH_HZ, add it.
-
-This fixes a dvbv5-scan error message about missing support for
-DTV_BANDWIDTH_HZ.
+Even if dvb_parse_section returns non-zero, you still need to requeue the buffer.
+Otherwise it will effectively be lost.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- lib/libdvbv5/dvb-v5-std.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ lib/libdvbv5/dvb-scan.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/lib/libdvbv5/dvb-v5-std.c b/lib/libdvbv5/dvb-v5-std.c
-index c0a14175..74e2e4fe 100644
---- a/lib/libdvbv5/dvb-v5-std.c
-+++ b/lib/libdvbv5/dvb-v5-std.c
-@@ -81,6 +81,7 @@ const unsigned int sys_isdbt_props[] = {
- const unsigned int sys_atsc_props[] = {
- 	DTV_FREQUENCY,
- 	DTV_MODULATION,
-+	DTV_BANDWIDTH_HZ,
- 	0
- };
+diff --git a/lib/libdvbv5/dvb-scan.c b/lib/libdvbv5/dvb-scan.c
+index 3f52d140..afe3a4f0 100644
+--- a/lib/libdvbv5/dvb-scan.c
++++ b/lib/libdvbv5/dvb-scan.c
+@@ -412,14 +412,12 @@ int dvb_read_sections(struct dvb_v5_fe_parms *__p, int dmx_fd,
+ 		ret = dvb_parse_section(parms, sect, buf, buf_length);
  
-@@ -111,12 +112,14 @@ const unsigned int sys_dvbc_annex_ac_props[] = {
- 	DTV_INVERSION,
- 	DTV_SYMBOL_RATE,
- 	DTV_INNER_FEC,
-+	DTV_BANDWIDTH_HZ,
- 	0
- };
- 
- const unsigned int sys_dvbc_annex_b_props[] = {
- 	DTV_FREQUENCY,
- 	DTV_MODULATION,
-+	DTV_BANDWIDTH_HZ,
- 	0
- };
- 
-@@ -126,6 +129,7 @@ const unsigned int sys_dvbs_props[] = {
- 	DTV_SYMBOL_RATE,
- 	DTV_INNER_FEC,
- 	DTV_POLARIZATION,
-+	DTV_BANDWIDTH_HZ,
- 	0
- };
- 
-@@ -139,6 +143,7 @@ const unsigned int sys_dvbs2_props[] = {
- 	DTV_ROLLOFF,
- 	DTV_POLARIZATION,
- 	DTV_STREAM_ID,
-+	DTV_BANDWIDTH_HZ,
- 	0
- };
- 
-@@ -149,12 +154,14 @@ const unsigned int sys_turbo_props[] = {
- 	DTV_INNER_FEC,
- 	DTV_MODULATION,
- 	DTV_POLARIZATION,
-+	DTV_BANDWIDTH_HZ,
- 	0
- };
- 
- const unsigned int sys_isdbs_props[] = {
- 	DTV_FREQUENCY,
- 	DTV_STREAM_ID,
-+	DTV_BANDWIDTH_HZ,
- 	0
- };
- 
+ 		if (parms->p.stream_ctx) {
+-			/**enqueue the buffer again*/
+-			if (!ret) {
+-				if (dvb_v5_stream_qbuf(parms->p.stream_ctx, b.index) < 0) {
+-					parms->p.stream_ctx->error = 1;
+-					break;
+-				} else {
+-					parms->p.stream_ctx->buf_flag[b.index] = 1;
+-				}
++			/* enqueue the buffer again */
++			if (dvb_v5_stream_qbuf(parms->p.stream_ctx, b.index) < 0) {
++				parms->p.stream_ctx->error = 1;
++				break;
++			} else {
++				parms->p.stream_ctx->buf_flag[b.index] = 1;
+ 			}
+ 		}
+ 	} while (!ret);
 -- 
 2.47.2
 
