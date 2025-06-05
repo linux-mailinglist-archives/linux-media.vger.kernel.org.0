@@ -1,84 +1,88 @@
-Return-Path: <linux-media+bounces-34084-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34085-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F41EACE980
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 07:55:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC70ACEA73
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 08:51:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F5FF1759B5
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 05:55:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E4AD3A6D91
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 06:50:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A880A1E4928;
-	Thu,  5 Jun 2025 05:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5BBD1F4177;
+	Thu,  5 Jun 2025 06:51:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zmt+4OSX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AOdNvhqU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3159519CC11
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 05:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80AE2114;
+	Thu,  5 Jun 2025 06:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749102936; cv=none; b=eyU8tycb6aZVLnfGtLZDSJevI3YvsXGikKlnbCW+AVMkTT2aA5Amcv4qJAKujqB9TGMM4lgBdi2fZe55SELtQ8ge3qqh8GP8RxJTKjvOYmDBytMinQ1jgM/iS0MCCIhmFCOHxu6Gvs6pb0IrGdsEMJyBl4EJhXsgAFkA2UUsq00=
+	t=1749106272; cv=none; b=LlPecBHGe9c73gZgM2k9BNy7mfoMZUmMm92ooVgAG9AMXkQr4SQBoShwLjZ3i9peYzefx/WurIx6UVOQRpWn3I530ru5gqBzg4RN3FTNI6qcunU37SKS0rNdltZJYkNJf607WImEsag8Gn3jJpE7QH/tJAOcBvn7yFjILcVDjOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749102936; c=relaxed/simple;
-	bh=zURT2m5bwDZfvgu89Nz3Rxdx5yCUJxd/hPhuH5a1l24=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WCWk0FveGKIxQEI77OJKm2ieSRkX4tGiNSYm4xA/ThQMA8z4cbty0RPVFecXFU1B4oLz7ToDtu2CZTgvpSQgBpG93keFeXCGdncY2aQpnGhA1dOYzHC5tDotwC9+8KQlVu43SCdm8x9wT/uuTBqE6mSdR7hptTh6YBxedDLliw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zmt+4OSX; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-602039559d8so1163921a12.1
-        for <linux-media@vger.kernel.org>; Wed, 04 Jun 2025 22:55:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749102932; x=1749707732; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+ol/a69YHn6Z8Z1E3rPR4cd8Ja0wlD86SrLCVfeSdAY=;
-        b=zmt+4OSXU6SKkSJ8Oxzk49SwyK5uYctGa1agKM2T1ofOjOzVoaD0Oum0irZI66LHQf
-         rulS3ihSGqbQr3a8eBcqF9deuxy+BC6WJ1CZ/q28nFcBnbm4EZZvwBcNN+lvLX1si0kl
-         SRjfcjWPw7BXYaO0K9KG+yAiIbOHnhni8Jb6L6Dc+AB9MP5zuFG16WRM2BU69m/ZXQtw
-         IwHKJ2du4b7G2zfP559jCJ73Vpe56VCXX1nf/59xh0bSFwXUO8J677IxJeiU6DaOOz3V
-         k/hp8BnzWckVr3QCuG4ZQqcLXV0sr/sY1S4VgR1Ir2vrtb6DYcUpOE25/1ZlhY9HGPMO
-         5+MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749102932; x=1749707732;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+ol/a69YHn6Z8Z1E3rPR4cd8Ja0wlD86SrLCVfeSdAY=;
-        b=topJ8RAwRGJ3ILUHcFdSpEiO4ww9CrBQqIO+oydnu3LQaXTUwMhbw9X/2L0AzlSlcY
-         eQIZxnCEDdQoRbw0BZwd9tJltBe7xkPf7WKYOyYMOgDZQVJDlkDvZghSjGc0VwEGErgo
-         UTrazbvVHd3sRu0yXwXSlwf4JLgCLY9eV78TXBl2QrSo7ZkG6oEqXamQ1qdsoWawCmCb
-         j2sPuDdBFtnx4uPzIg8+i00JZQ9LvPl6U7WUMd39UQ8FjftcuHoCJuHd2q2fw4uEWe3+
-         ZgkN5Jm2yCWJd0CFr9bC0j5mmxYENypM1rmxPB2DV2mTUzWG0+frizw7QiHaVwGAUv2f
-         0XBQ==
-X-Gm-Message-State: AOJu0Yz5wWD8Pa98kfFq0lDn1hrokjNY0Aonrs7MIJtI2J1fMDtmOjbP
-	VrbWtZMEDLpWPlm3NHp98m5IReNGPFTymHuiLtkfnzMsayfrVYyuxi28gwODOaRZWxBtgLxNrOC
-	oyVNz
-X-Gm-Gg: ASbGncslcM4wEiPsj0dtsu1ZRUAlf4MXf0gkBypeMimePmIuAyd6AqYvDVGIobYTGaV
-	ClTo71coQZjU8ZVqqz+YQWgR/uDc0jVIQOITGinpGG3YsUDTJIMU3pyWbjisQgpityNDrorle6U
-	9nlbZ43PmCAi5PoTHw1oz+jzgCpelkJWizFTnWHNoTG/0k1kk7CmxW7XLBmvxQAlPnVTbu7jdN4
-	ZKmCBj5LdjRnp1Ti6jC7PcwbEZZc59OWMtfpML+lJvS/rfSRrvuD4XTTEm8POF6WIS3znRSG+7D
-	Pcujns5L2I7pkhlkCG2i2Ba+sRpcGIJznOQb6pn2WB9eYgYcJ3vsStgpxr4DnIGDt+vTDRE4uvA
-	V
-X-Google-Smtp-Source: AGHT+IG4axg7h15fFW1J2Nh//eAiOSbPO5FNtGxUNYy6LlYttIT/I3Z4H5vRX6rvUFLJJ/hPB4SQiw==
-X-Received: by 2002:a05:6402:1ed6:b0:5fb:87a2:5ef9 with SMTP id 4fb4d7f45d1cf-606ea3c5e65mr4977473a12.23.1749102932457;
-        Wed, 04 Jun 2025 22:55:32 -0700 (PDT)
-Received: from localhost ([41.210.155.222])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-6071b7a7fbdsm981668a12.59.2025.06.04.22.55.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jun 2025 22:55:31 -0700 (PDT)
-Date: Thu, 5 Jun 2025 08:55:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [bug report] dma-buf: dma-buf: stop mapping sg_tables on attach v2
-Message-ID: <aEExTkVMcYEOrIOE@stanley.mountain>
+	s=arc-20240116; t=1749106272; c=relaxed/simple;
+	bh=4u0cpenPUYwUhEIn7H4Eq3mCfXok80FoEd4oOTI+Xe4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HONxHcKVlpqussfFVQf5H5gzcOCxZopnZJAbCg1/K1lbXtIMzkypDnJDiOeoRi8rUJGhRK+C8I/x3s7Z5mkwS33Z5xeD3Y2g0USM7hgcj9+H8FTrXwRcti1HtwwE2eyC2LquMirpm0r9IKb7MqdWUFDifBb8N+IauUOEL0Bbeq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AOdNvhqU; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749106268; x=1780642268;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=4u0cpenPUYwUhEIn7H4Eq3mCfXok80FoEd4oOTI+Xe4=;
+  b=AOdNvhqUwpVOkn0xNFteCZ/9uty3Gv3mwdxS8zVr0ZM+EpKqfHSOmkba
+   Zs0dWoVsiTj8vpWXDNyB0VXyK7VPLAgTNwRl2TGr9bF1IP2TjM+O9DCPT
+   3ejD3KT814PwMG6N4V8LX7FHv1oi+qu62ys76JXwd5JnausLUPnZzEHwM
+   0pyo1g5CvtvmHXqTjEVMTfwuh+T0lmGd7RCD2zYT8XeszTzuR2bCJ1P+T
+   PNQAetcsq+5TwydY5tIM77nAfrHifQ9FT8cF0S7aELIKH6OZMcyO45TMW
+   to5IgVKK/4F303miIRNv/jW4yIVIAVSi7aDRbOAJMAzhJ37UioYhQUJCB
+   A==;
+X-CSE-ConnectionGUID: kVvLDWavQbSbaHL4xCrBEA==
+X-CSE-MsgGUID: YzlEtEPBRL2CRiQZTfjSZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="62262541"
+X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
+   d="scan'208";a="62262541"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 23:51:07 -0700
+X-CSE-ConnectionGUID: xu2tSk4iTv2MRpKjasZFEA==
+X-CSE-MsgGUID: oJ/ST0IjQoWa8lS+Ksbi+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
+   d="scan'208";a="150569068"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.16])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 23:51:03 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8AECE12023B;
+	Thu,  5 Jun 2025 09:51:00 +0300 (EEST)
+Date: Thu, 5 Jun 2025 06:51:00 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com,
+	linux-media@vger.kernel.org,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH v3 1/5] media: mc: add manual request completion
+Message-ID: <aEE-VFfJDhUbM2nA@kekkonen.localdomain>
+References: <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-0-603db4749d90@collabora.com>
+ <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-1-603db4749d90@collabora.com>
+ <aEC05991kEIIifDB@kekkonen.localdomain>
+ <1ccaaec7f782afc71bae5c3b0f60a786a907555c.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,43 +92,216 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1ccaaec7f782afc71bae5c3b0f60a786a907555c.camel@collabora.com>
 
-Hello Christian König,
+Hi Nicolas,
 
-Commit de68b17d5d07 ("dma-buf: dma-buf: stop mapping sg_tables on
-attach v2") from Feb 11, 2025 (linux-next), leads to the following
-Smatch static checker warning:
+On Wed, Jun 04, 2025 at 07:19:27PM -0400, Nicolas Dufresne wrote:
+> Le mercredi 04 juin 2025 à 21:04 +0000, Sakari Ailus a écrit :
+> > Hi Nicolas,
+> > 
+> > Thanks for the update.
+> > 
+> > On Wed, Jun 04, 2025 at 04:09:35PM -0400, Nicolas Dufresne wrote:
+> > > From: Hans Verkuil <hverkuil@xs4all.nl>
+> > > 
+> > > By default when the last request object is completed, the whole
+> > > request completes as well.
+> > > 
+> > > But sometimes you want to delay this completion to an arbitrary point in
+> > > time so add a manual complete mode for this.
+> > > 
+> > > In req_queue the driver marks the request for manual completion by
+> > > calling media_request_mark_manual_completion, and when the driver
+> > > wants to manually complete the request it calls
+> > > media_request_manual_complete().
+> > > 
+> > > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > > ---
+> > >  drivers/media/mc/mc-request.c | 38 ++++++++++++++++++++++++++++++++++++--
+> > >  include/media/media-request.h | 38 +++++++++++++++++++++++++++++++++++++-
+> > >  2 files changed, 73 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
+> > > index 5edfc2791ce7c7485def5db675bbf53ee223d837..398d0806d1d274eb8c454fc5c37b77476abe1e74 100644
+> > > --- a/drivers/media/mc/mc-request.c
+> > > +++ b/drivers/media/mc/mc-request.c
+> > > @@ -54,6 +54,7 @@ static void media_request_clean(struct media_request *req)
+> > >  	req->access_count = 0;
+> > >  	WARN_ON(req->num_incomplete_objects);
+> > >  	req->num_incomplete_objects = 0;
+> > > +	req->manual_completion = false;
+> > >  	wake_up_interruptible_all(&req->poll_wait);
+> > >  }
+> > >  
+> > > @@ -313,6 +314,7 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
+> > >  	req->mdev = mdev;
+> > >  	req->state = MEDIA_REQUEST_STATE_IDLE;
+> > >  	req->num_incomplete_objects = 0;
+> > > +	req->manual_completion = false;
+> > >  	kref_init(&req->kref);
+> > >  	INIT_LIST_HEAD(&req->objects);
+> > >  	spin_lock_init(&req->lock);
+> > > @@ -459,7 +461,7 @@ void media_request_object_unbind(struct media_request_object *obj)
+> > >  
+> > >  	req->num_incomplete_objects--;
+> > >  	if (req->state == MEDIA_REQUEST_STATE_QUEUED &&
+> > > -	    !req->num_incomplete_objects) {
+> > > +	    !req->num_incomplete_objects && !req->manual_completion) {
+> > >  		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+> > >  		completed = true;
+> > >  		wake_up_interruptible_all(&req->poll_wait);
+> > > @@ -488,7 +490,7 @@ void media_request_object_complete(struct media_request_object *obj)
+> > >  	    WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
+> > >  		goto unlock;
+> > >  
+> > > -	if (!--req->num_incomplete_objects) {
+> > > +	if (!--req->num_incomplete_objects && !req->manual_completion) {
+> > >  		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+> > >  		wake_up_interruptible_all(&req->poll_wait);
+> > >  		completed = true;
+> > > @@ -499,3 +501,35 @@ void media_request_object_complete(struct media_request_object *obj)
+> > >  		media_request_put(req);
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(media_request_object_complete);
+> > > +
+> > > +void media_request_manual_complete(struct media_request *req)
+> > > +{
+> > > +	unsigned long flags;
+> > 
+> > I'd declare flags as last.
+> > 
+> > > +	bool completed = false;
+> > > +
+> > > +	if (WARN_ON(!req))
+> > > +		return;
+> > > +	if (WARN_ON(!req->manual_completion))
+> > > +		return;
+> > 
+> > I think I'd use WARN_ON_ONCE() consistently: this is a driver (or
+> > framework) bug and telling once about it is very probably enough.
+> 
+> Just to be sure, you only mean for the two checks above ? Or did
+> you mean for the entire function ?
 
-	drivers/dma-buf/dma-buf.c:1123 dma_buf_map_attachment()
-	warn: passing positive error code '16' to 'ERR_PTR'
+For the entire function. I thought that if this is user-triggerable, the
+amount of data ending up in logs could be very large.
 
-drivers/dma-buf/dma-buf.c
-    1113         dma_resv_assert_held(attach->dmabuf->resv);
-    1114 
-    1115         if (dma_buf_pin_on_map(attach)) {
-    1116                 ret = attach->dmabuf->ops->pin(attach);
-    1117                 /*
-    1118                  * Catch exporters making buffers inaccessible even when
-    1119                  * attachments preventing that exist.
-    1120                  */
-    1121                 WARN_ON_ONCE(ret == EBUSY);
-                                             ^^^^^
-This was probably intended to be -EBUSY?
+> 
+> > 
+> > > +
+> > > +	spin_lock_irqsave(&req->lock, flags);
+> 
+> In practice, if you call this specific function from two places at the same
+> time you have a bug, but I realize that moving the the warning on the check
+> manual_completion inside that lock would massively help detect that case.
+> 
+> What do you think ?
 
-    1122                 if (ret)
---> 1123                         return ERR_PTR(ret);
-                                                ^^^
-Otherwise we will eventually crash.
+Seems reasonable to me.
 
-    1124         }
-    1125 
-    1126         sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
-    1127         if (!sg_table)
-    1128                 sg_table = ERR_PTR(-ENOMEM);
-    1129         if (IS_ERR(sg_table))
-    1130                 goto error_unpin;
-    1131 
+> 
+> > > +	if (WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
+> > > +		goto unlock;
+> > > +
+> > > +	req->manual_completion = false;
+> > > +	/*
+> > > +	 * It is expected that all other objects in this request are
+> > > +	 * completed when this function is called. WARN if that is
+> > > +	 * not the case.
+> > > +	 */
+> > > +	if (!WARN_ON(req->num_incomplete_objects)) {
+> > > +		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+> > > +		wake_up_interruptible_all(&req->poll_wait);
+> > > +		completed = true;
+> > > +	}
+> > 
+> > A newline would be nice here.
+> > 
+> > > +unlock:
+> > > +	spin_unlock_irqrestore(&req->lock, flags);
+> > > +	if (completed)
+> > > +		media_request_put(req);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(media_request_manual_complete);
+> > > diff --git a/include/media/media-request.h b/include/media/media-request.h
+> > > index d4ac557678a78372222704400c8c96cf3150b9d9..7f9af68ef19ac6de0184bbb0c0827dc59777c6dc 100644
+> > > --- a/include/media/media-request.h
+> > > +++ b/include/media/media-request.h
+> > > @@ -56,6 +56,9 @@ struct media_request_object;
+> > >   * @access_count: count the number of request accesses that are in progress
+> > >   * @objects: List of @struct media_request_object request objects
+> > >   * @num_incomplete_objects: The number of incomplete objects in the request
+> > > + * @manual_completion: if true, then the request won't be marked as completed
+> > > + * when @num_incomplete_objects reaches 0. Call media_request_manual_complete()
+> > > + * to complete the request after @num_incomplete_objects == 0.
+> > >   * @poll_wait: Wait queue for poll
+> > >   * @lock: Serializes access to this struct
+> > >   */
+> > > @@ -68,6 +71,7 @@ struct media_request {
+> > >  	unsigned int access_count;
+> > >  	struct list_head objects;
+> > >  	unsigned int num_incomplete_objects;
+> > > +	bool manual_completion;
+> > >  	wait_queue_head_t poll_wait;
+> > >  	spinlock_t lock;
+> > >  };
+> > > @@ -218,6 +222,38 @@ media_request_get_by_fd(struct media_device *mdev, int request_fd);
+> > >  int media_request_alloc(struct media_device *mdev,
+> > >  			int *alloc_fd);
+> > >  
+> > > +/**
+> > > + * media_request_mark_manual_completion - Enable manual completion
+> > > + *
+> > > + * @req: The request
+> > > + *
+> > > + * Mark that the request has to be manually completed by calling
+> > > + * media_request_manual_complete().
+> > > + *
+> > > + * This function shall be called in the req_queue callback.
+> > > + */
+> > > +static inline void
+> > > +media_request_mark_manual_completion(struct media_request *req)
+> > > +{
+> > > +	req->manual_completion = true;
+> > > +}
+> > > +
+> > > +/**
+> > > + * media_request_manual_complete - Mark the request as completed
+> > > + *
+> > > + * @req: The request
+> > > + *
+> > > + * This function completes a request that was marked for manual completion by an
+> > > + * earlier call to media_request_mark_manual_completion(). The request's
+> > > + * @manual_completion flag is reset to false.
+> > 
+> > s/flag/field/
+> > 
+> > > + *
+> > > + * All objects contained in the request must have been completed previously. It
+> > > + * is an error to call this function otherwise. If such an error occurred, the
+> > > + * function will WARN and the object completion will be delayed until
+> > > + * @num_incomplete_objects is 0.
+> > > + */
+> > > +void media_request_manual_complete(struct media_request *req);
+> > > +
+> > >  #else
+> > >  
+> > >  static inline void media_request_get(struct media_request *req)
+> > > @@ -336,7 +372,7 @@ void media_request_object_init(struct media_request_object *obj);
+> > >   * @req: The media request
+> > >   * @ops: The object ops for this object
+> > >   * @priv: A driver-specific priv pointer associated with this object
+> > > - * @is_buffer: Set to true if the object a buffer object.
+> > > + * @is_buffer: Set to true if the object is a buffer object.
+> > >   * @obj: The object
+> > >   *
+> > >   * Bind this object to the request and set the ops and priv values of
+> > > 
 
-regards,
-dan carpenter
+-- 
+Kind regards,
+
+Sakari Ailus
 
