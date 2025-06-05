@@ -1,307 +1,215 @@
-Return-Path: <linux-media+bounces-34135-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34136-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA96ACF0B5
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 15:33:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF62ACF155
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 15:54:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB6CA3ADB45
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 13:31:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56AF8170346
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 13:54:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79D7238D2B;
-	Thu,  5 Jun 2025 13:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D42D272E69;
+	Thu,  5 Jun 2025 13:54:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b="g4PW1o58"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EXDv2no9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA5P264CU001.outbound.protection.outlook.com (mail-francecentralazon11020123.outbound.protection.outlook.com [52.101.167.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C90B2356BD;
-	Thu,  5 Jun 2025 13:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.167.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749130190; cv=fail; b=QjY971ZKjzVAy8ni33n5nxNtjLweA0O96Hj4Qk3lwEYOJa+/IaOIwqvy/Oy43cjn8qGf2KymykITq8rEhkHvsnozR8YqhrGYeL74Tle2BtWn8RUbOPkF2bGSMS0N6L1m4upFBmD0J1WIEmQuxQPUeLZ3FoNnJR+mJ0ThtX/GMig=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749130190; c=relaxed/simple;
-	bh=/4lTHxAwv4C3qxQZqQMqD+HYVhltfRTNIPtMH1Y1CLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bl68f7Re0zGHPwHr/3Qgl03nf9RxVwn3XBhNvHqoaTdB8N4DDRZct/bKoS+PjHa40GIS7p7gjpH1/IabLuUlZZPCLpSBIrrlU1XY6ZTBWEzx49axR4sWcTc/6KnUJ2d72wsiCYRhLzPu2z9aitjxu2pUydRwTs1gCo9uNLe+5ns=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com; spf=pass smtp.mailfrom=allegrodvt.com; dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b=g4PW1o58; arc=fail smtp.client-ip=52.101.167.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=allegrodvt.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Im5P81QnkCW7j8dH7+sZD6TWsgfB5dO9AibDcfGu/mtAToYbw8y6wClDoHhg6pweVv7GMZX2WIpv9ojpSivaM2G3qhijSR36VUy64szb0XVU40n3wXUKJOOwTgyTpO2QcZXkYuHfmedV7qk8x/RUZmadYKjNEUycEpT+R/CJr1VrmzrIClqMXN8fa8O5q1iGGaFXbqFcSiewNTlSYj6saXqycubSuYAZuXgyosadXtyCxj2IP5HvSMOwn49DlQYCjoK4wjtzhwnD25VJ7vbjFFgnDnrw4xsyzSlXkNbsr5oo58ZiIe7BB/u7l3A4M5VvKlP0A8ETfjlIEJrUP6JeuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2t3ruNIDHdcHH1+tAe6pSYD7KqkuIDMt7U17BbC62Dc=;
- b=BOEDokro0nMAQznfuYiq2aLLCULHgrLUg02xTFQXEH+d/AONMnlBiClxEptelx9y15ufWr0PdOTZSNa/B8Mz3nHFH0fHJcKDRNiEU4tjM8ZKAlU1RwW+mjLWWZjLqLYw7f1o384nHCf67bgY/Hlu9yX5hnGGKQQCYcNdp+ee6N5oZshCCVOBmHrNbsr7V7lokt9Ur2hWZfdVFvxAELLm4iTayrJUAN112JgXd2fWMmAt+2XPwKqPn9ni8o0KgcyOo/0VjljC7kzhARx49kQJ72XqrCRDYojrps4jjvMHsGz/9dSu0cAfz8x1ULadoHldSBfeMRpFphJiQISK3xlyoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=allegrodvt.com; dmarc=pass action=none
- header.from=allegrodvt.com; dkim=pass header.d=allegrodvt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=allegrodvt.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2t3ruNIDHdcHH1+tAe6pSYD7KqkuIDMt7U17BbC62Dc=;
- b=g4PW1o58MjLEqMhXH4MsYeEODIRWbUl/XW3TwDK8ty/u2yToZYdCkV9mQl5oXnDsbFpSu2NKcJR7vK6rfCO2rvlho4WSGsFP05+5M9GvSSgeCeVQqejjHsExKjMgs5Qh2kOM1k/ie0NYsqejQegGWaNtpjaaED52ccC8mWEH2wfcNGG5WgksxJWKhkIQAGJ5KvWMcNZP/Jqw0l11qnnSrEelQx7RGzOX1q/1lSnCedLf9sJYdEq8oujSW1qu6c/me3EvgXrvk8lvlzu4/F95R5gWrUkzIBeFnCUN4svbMmGYKaY16lTYoB76aBNIcPZT2xlvAbHH4DFx3+JcLdMmpw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=allegrodvt.com;
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:3d::18)
- by PR0P264MB1785.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:16d::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.21; Thu, 5 Jun
- 2025 13:29:41 +0000
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5]) by MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5%2]) with mapi id 15.20.8792.034; Thu, 5 Jun 2025
- 13:29:41 +0000
-Date: Thu, 5 Jun 2025 13:29:31 +0000
-From: Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Michael Tretter <m.tretter@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Nicolas Dufresne <nicolas@ndufresne.ca>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] dt-bindings: media: allegro-dvt: add decoder
- dt-bindings for Gen3 IP
-Message-ID: <pvocii4kji7xsci5fcztenhkkjbsyu4dgz5fu6nuwykezzoyuy@35i4phytxyzc>
-References: <20250605-allegro_dvt_al300_dec_driver-v2-0-1ef4839f5f06@allegrodvt.com>
- <20250605-allegro_dvt_al300_dec_driver-v2-2-1ef4839f5f06@allegrodvt.com>
- <759f9900-a74b-40a2-ae53-5e5a6261f963@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <759f9900-a74b-40a2-ae53-5e5a6261f963@kernel.org>
-X-ClientProxiedBy: MR1P264CA0007.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:2e::12) To MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:3d::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15092221278
+	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 13:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749131670; cv=none; b=SGI/g502FCafei7cUsjcDYa/k8u6P5C6HUUsJdDMVLGca9H6Zsey68osoa7uyoLNAYeaoT67tWB0Pw61BsWtDsAVlajRicIjh5R8oSrIysdYOEgSMJ2YFmJBj/RExslLUf0645qLEQDYhnQ+3NLSVmSeXqOt7kjE0/QyW5+oj8k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749131670; c=relaxed/simple;
+	bh=+TOBFkAERJovCN5kqbGCMdlrzlQGvFhW8DZwkD+Uyws=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d2Ap71X15/j/lr96mUeBMNhJX4EFSgVrW8AUw3wrUfNNkAJ/NNC1bA7u1b+RiP8R1xM1P4JVoITQ9O1bDqozCUSqsSgYK6BQd0SJbKB/wSsmzDMiPN/jFYaF8pzEDbwp64Rp/6Yibb3f/Ck/xH2MYcHw7iSN9CpTC1j7t1wHJH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EXDv2no9; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54d98aa5981so1319848e87.0
+        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 06:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1749131666; x=1749736466; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xDQqNGuaaJASa3A7hK13+SLre4swqicpLuA/hv4iDJo=;
+        b=EXDv2no9ySdhAK7wB4vwso4qaFfn8vgqu8CCLCmhywewJXv+EHjJmB0nTnof7sV+5K
+         WfZu6yVn38m+rS8itB/tDGNZo2Bkc3KIvsuGmQ6U1aAeyeMfJ8/maMvXTCUOBNOmrvSm
+         B3s9bf7IA/yMdKPCDYiUCwemFHKrRX4/vV71E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749131666; x=1749736466;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xDQqNGuaaJASa3A7hK13+SLre4swqicpLuA/hv4iDJo=;
+        b=RCjYRmbRpAeIqEVC8NNwKBWc8BtglMN325DxFN+8EZOyLktYj1fopgq56YFYOTK5zP
+         3gr3zpLSYA/r2rRNrO3AD5V7zqnJPIjjPO4bRxDNttgHJrCMdEJ/gGK5ELErcyh4++tD
+         obAt8Jzy4lQxEGnE4Ht9XCjJX59QfdRKKxyoUNnoTTnRc/LXaXUbQyEmSq/SdgHJ19/W
+         MNi4CWHEOQyRsonSrM0VGmIVY/gRbfU8q48TNlIo7LLGBvZAKKeHWPpGPbMY6ugnlaqb
+         qsp6QPt/3DoRpeokQePsLzmDXK1rA1tIW5Ut61lrqFZv64IQA/XIMF2mL/9PAQ4kjJ9t
+         uH9g==
+X-Forwarded-Encrypted: i=1; AJvYcCW88GsmVwyJrkdzrWqojz8FTxdCtaJJMm7cLLNEbpikOAojMtQeSu0cCkL0gClXvW5hs1F8zJYaa+IcQg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0iVdAnobUt0Z9m9iBX1ip15n6p5aHyVG4frA+P84VuLoIoWYW
+	Cod4wYXjTNDMHseO4yPRlZ7F3J/PzJckGEcZ4xonP47HQHtiRdFB73KCP8IcoXuJ5YctmdJMQFY
+	FigM=
+X-Gm-Gg: ASbGncuSIp8ihmwdATuwQXV7ZxRW1woGhLCL9RRuWboe+9mNW/fYv+W246wRERk0oMO
+	ralYePSfb8pZChSsIQ3iWpP1NWiz2i+gIfZtUJP9gK1hwusJguEy3w3fbb3fk+IH0mAElHh99Rf
+	QRL5LmwlFED7iyobS8fjx03LBwNFgko8+PhAXhXcFQ55tVPd0rIJtYvP90R0zK0OxIuP6goTcje
+	R/hQEDa1GYvCsa/C4TkUJ8LEAVwGKM/dhL0qalToUkP2Ltnd2ERQWpl2qFwNr17JYZR6f99FLiH
+	nmi90oKphfIG43nBHwlyUCKeRNgfK/rwwTJodHU6H1P0Ii2rMbe/F+o3BJbV4HKG3qcNntF6xSe
+	58iJDyUIggGXbZNaTZ9BnsgHL
+X-Google-Smtp-Source: AGHT+IFpL39/KITLNBTG4knu5KnruRHE0xNUfgVxnaF6z8JmMVUSTxmsZI5ao4HBBQk2OBGJbxcLTg==
+X-Received: by 2002:a05:6512:138a:b0:553:3892:5ec6 with SMTP id 2adb3069b0e04-55356bfb1c3mr2445924e87.35.1749131665711;
+        Thu, 05 Jun 2025 06:54:25 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com. [209.85.167.54])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55337937734sm2615590e87.223.2025.06.05.06.54.25
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Jun 2025 06:54:25 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54d98aa5981so1319831e87.0
+        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 06:54:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUG3zBn6NcsXRZsSF5mReYCqewnYQd+sg7j0KdSYuMmHuQB9pLfgSf1BrROhEs72O8r6OtlXeM8wp9qUg==@vger.kernel.org
+X-Received: by 2002:a05:6512:2353:b0:553:3178:2928 with SMTP id
+ 2adb3069b0e04-55356ae9f39mr2321670e87.16.1749131664631; Thu, 05 Jun 2025
+ 06:54:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MR1P264MB3140:EE_|PR0P264MB1785:EE_
-X-MS-Office365-Filtering-Correlation-Id: 232c90be-d803-41cf-72ed-08dda43506a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZWZYVXlvVm5DUFhZdExwTXBFL3hxalVPemI4eWY1QUdISHpFM1RsR1ZBT09B?=
- =?utf-8?B?cDdxYklCRjNOeFl4cCtqT0p2V3JCMTJHY2FwRmt6Uk9NMDZ4N1g3b3R3Vlo4?=
- =?utf-8?B?K0JSOWcvSFB3L3VCR3VjSmhkaCtKNG5BM0VsUko5RW5wZitEQmpiUzg0dS94?=
- =?utf-8?B?OS9VWC96c3NuUzVPTmNJSEV1QUdNcCs1Ukd4Z0tnc3AwKzAzUWdLUFVFaE9K?=
- =?utf-8?B?UHFlTkNZVW94a0ZQL00wN3JPQTlGbE9QTVJteTFXV2ZZY0hUMFBwNURTVHZU?=
- =?utf-8?B?ZGJ1Z0NaQUgrKzlMVS9oOXZtZStsS3lPNDhlbVY5VTdlR1ZYeCs2OG5VWEhV?=
- =?utf-8?B?NW55N1VTMEFONXM2MEx6a1ZSWmYreEZCaHNvMmlBOHA2R3NwVUVScW03SC81?=
- =?utf-8?B?cWNNYTA1NGNNTmtUc2JjUHlOa3N6YVFEcnZEUGc3aEhNQTlFYVlqdUpkZlRq?=
- =?utf-8?B?ZS9zbzY5dnFwa1N3a0JUWFd5TTUyMEVxODhrTTduczNuRmljb3I1VjRmQ3Bx?=
- =?utf-8?B?TkVVWERKcHNNT1g2Ny9PZ1l3dUtaNlo0dWhpODlQSVQ5dDBaMEp5SjZFWlpQ?=
- =?utf-8?B?Uk53ZlZOdGdpQk5yaVR6ejg3b2Q4UndOQ2FtZm5xeFJWMHdybi9CdjBJSk9k?=
- =?utf-8?B?SGw3Z2pueHZZekJ5VEx1WXFLT2xuSDFBUFlrS3dXYkVQNWV3NmsvbU1qSVpo?=
- =?utf-8?B?YXJ1cmh3c3ZFMDFHbDhXY2JFeXI5Ym1pTVJYcTJwcDBqb1FnRmZ6QUphd3pP?=
- =?utf-8?B?WFR2S042SDlIaXErMHNXZmdaS1VzUmZaZFcwNVh3a3MvYlNEZmVLUXdjaXll?=
- =?utf-8?B?TldwS2pLSGpoVkw3SzkzVHRmV09KbTJ6VFZqL1NJN05hd1ltMkNZZWcyUjhJ?=
- =?utf-8?B?d0c4NnJ5SDRBU2Zmb21xVGwrWFFFZjVHSTgrUlAyN042K2FVSDV4eFVJUVAw?=
- =?utf-8?B?djJkb3ZrNWlMeGVUYksyZEMvLzZRSmF0RE9LeHNuTTlpZ2ptTmhuYzM5QlIw?=
- =?utf-8?B?aUtNMVQ4QjJJUGNmOUJCektMMWdvbFppZUJFMkpZb1hNOWV3Q0NyQitOb2pz?=
- =?utf-8?B?Y0tnZkZUOUlzTW9EN0JmK3pudzJFYktrMkxQVGtKd2hmR3ZnVzVPSndWdDMz?=
- =?utf-8?B?ZzVmWVQ1L2l1MGt5SzdRd1huM280ancrdkNBSkwwaDgyRnhmMGc0OVBrM0ha?=
- =?utf-8?B?SGFvek5IZmc0MUN4QVNUSWZ0dVVNVjZySzQ1VGlVaHBtblY3ZjJ5bGo3Vis1?=
- =?utf-8?B?VmJmS2hHcFpPSWV1cGloUmpySzNkMjFRL2k3RFVxOWRkcTQyM1VGcm9wWHJp?=
- =?utf-8?B?UnFtL2pNUGFoa1paazlONnJBdkNrNkFnZnp4V0dRa0pJN056STJ6R3FBRCs3?=
- =?utf-8?B?cHB0Q2NSK1dSc01ZNzJUQVVIWWNKVHo5bndyVGNHZ0dZQVBnZ2Z4cHBNa1Vk?=
- =?utf-8?B?OFV4bVZnSWk5YXVxQzJZdHF2eDNNZERtVm5DQjFsSW9TUU5uVUUzNEovbG1E?=
- =?utf-8?B?ZStjbnBUSmY2Qm1PVzZFWStHTVI0NkpKT2hISXMweEhuSktPUFZHeXViSjVm?=
- =?utf-8?B?UGJXSFBxUjh0V3BnMk5sd3VGR0J1Rm5OTVZzTStLcTkrQzl1Uis1NXFGTnk0?=
- =?utf-8?B?Mk5yZXNvYTVLUytZZmhGTWFjVDRJSDdBM3Bsb0E5ZDRGbUhjdi9IUEs1YzRP?=
- =?utf-8?B?a2t6bjBTWk9Td2NTS1czcndYZE1VZ2YxQWU2bG1sYStHSHVKV2VISlhLK1V4?=
- =?utf-8?B?UWVEUlJSSnlMRVRSRWh1TGY2SmRBWnBtMXlQNjBWN1Z0a0dIT0x2V1pJRlpB?=
- =?utf-8?Q?+oZcoiZIfzenLymKyupvY7pArzVQoxVD41g1Y=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UTM4ZUg3VEFjTVdLRE5GeVVXVEJLSkNPSmMyVXo0akk1N3p1NDlVTjhWRExT?=
- =?utf-8?B?em14a3YzblZ3VkJHTjJOVjVBMzl4b1BlVlA5R2JNTXNoVnBrYlpKSzUyZ3pa?=
- =?utf-8?B?Q3VuY1VvcGt1L0NCV2huZy9FZHdnU0lPQ0MvZDI0V0t2NHd0U1NIQU1NVTQ2?=
- =?utf-8?B?cXJHa0JGYkh2VExEWTJIc0piaTJuVTFtMyt3UjdkakxUbzNJaUZXUTk3OXp4?=
- =?utf-8?B?VG92VWZQdmRkNlpKUWFMS3MxeDRHN21xYkQ0aUxEWDI1YThNekVUWUNVbk1Q?=
- =?utf-8?B?dVJoLzVMTkJYeXQvc3hPRGY5TXZxUnFwcktmS0tlbmlGWFJxTkpiZWVORnls?=
- =?utf-8?B?aW8wQ3dSSVRWQnBaemVXblhmR2dUeDZya0FiRVAySWtINnRlZGdtb3hLQzJU?=
- =?utf-8?B?eVZ3bWxwSytVZzRSeTMvK2hwMWpkZk9uMzNsc2V1U0ZEWEJKM2I2UG1wUVVN?=
- =?utf-8?B?VENUODJVUlVvWDdRcGdUaVNKZk5OQk9wcnBMT2Y5eGdZUkkwSUhaZDR1eVg2?=
- =?utf-8?B?Z0dNWHhiQ0xkdXV5UndaWVNTS3cvNTQrbkJsL2pUcC9DR0dOdE1BOUxOZkxj?=
- =?utf-8?B?WE1NYXVlTkM1S2V3MStiTlE2c3dNQ2ZabVNkcGtqYmFlNWk3VXJqYWh1eEhX?=
- =?utf-8?B?YXdtZm5oQ3N5bU1UbkxqclduTkQwalY5MmZyZTVxbTJhdFp6V3BIekZScXFm?=
- =?utf-8?B?QUszeGhjdm9xMlJDelJXcHEyMmRtSWtqTURPaFVKVDBHMEx0bWtQeUsxSHVC?=
- =?utf-8?B?MlMxMFh1YVp3VVA3OFdJNkFuMnVYcDFUVUVLMVRvS2kzaTVOVmJQT0JNOGFK?=
- =?utf-8?B?STduNm5VbHlCZ3Rad2NRcE03Wk9KTS9ZNUpDY0JYYW5QQ2dCWkNQTFRWTG9r?=
- =?utf-8?B?NTBoeVB0VHMxNENlWjFNOGx5SXl4N0FZMmlpMjlFbTFINk9STGhsMWIzazJx?=
- =?utf-8?B?NDV4ZTRCRUVsMVRGTzVpd2puNjF4T1NFNHd3bkE0MkY4a1F1ZFd3cVMwbGh6?=
- =?utf-8?B?ejJVUXpSYTVteVVCZlZQdXZlWkh6UjRMeVlWeS94OWR2QWpTNVUvOURFMTdP?=
- =?utf-8?B?eHZWZksySG83MDJBU1dKMGlaU2FmVEdaUFQvSGVNR0twOHlGa1lOWGNRdGlR?=
- =?utf-8?B?NVMxV05BSHVvNlF1NlNVRWI3Y0wzTllHN1VmNmRMVVBhY0xBbGlqU0VQb3dm?=
- =?utf-8?B?NnVhQnV2RzJhbXZhVGVBUWUzeS94S0EzcFU1NGljc3VucXBKd2tSQmczY01h?=
- =?utf-8?B?ZmlUVUo3a0M5N0lyQm9YQ1Y2S3JON0ZGYngwREV0cUUxOTUwUW5FVVBxY2Zt?=
- =?utf-8?B?MW5vUms5OTVuWmlPVXJxeTZsc2JpYjNodVlzSktQS3JzRXBaV3I4V2h3a2E1?=
- =?utf-8?B?eVNiK0VaRFB5akhQRVVBRUN4WjVHdmJ6TTRrVzFZSEVFUUhyenpVMGFHeHBT?=
- =?utf-8?B?TFRpb250YTM2cHVJVlczUHNJb0sySHVVd0VENmVOQVdHS2d0TWFzUGVNWnRi?=
- =?utf-8?B?QUpzN1R4YjJONkt3eGhGWGVpQWxiUmQvTGpkWUxqRm83ZjkxYlV0MS9FTEZ2?=
- =?utf-8?B?MjZrK0M5akFXNGtpSklNNWNsK01GdGNpdzZSMnB3VytYdWV6WjE1WDRBbE01?=
- =?utf-8?B?L3RrOGd1ZDUyYTFUTDhtbkVvVzF3WWl3U1BYYm5lMFJ5emtXbDZ5RmtuSjEr?=
- =?utf-8?B?RUlxSGp1SWI5M2NWbytKL2p4UHMrelc5cHpQY2Z5cGx1VGhmNGgwUW4weGtV?=
- =?utf-8?B?eGlqY256K3AwNk8vcWQ1UHh5Rnp0cytPOFBySE5id0Y2eCszTHdETzJpWUZZ?=
- =?utf-8?B?SmlCa01hVndnOUt5VFg2b0pXZng0aHJCSEpGTnlMYk8rZUZ6RThrb3ZzZ3Rv?=
- =?utf-8?B?SFlBemNhR25NK1o3dVhaRjdGcEtBWi9nU1c5clo1eUJSZlBoNTZTbUU3ZEdU?=
- =?utf-8?B?OURZbHZiY3Fqa2RDU2hYWng5dG9OU3Y4OWtpWHlLbkhpUHJzY2hrOWFmV0VL?=
- =?utf-8?B?VVIvSW1Yd2lOVVJDYXBtellKYm1uRGNTVzRLRkp3UjJ1dnV4YXZyVVJZdFQz?=
- =?utf-8?B?amMrRkJsRVRYZzBEWEw0UEtUNmNRQ1dQOHFXTzdTRFA2c1ArUmYxZlU3VE5L?=
- =?utf-8?B?WHJvem1jQ2QwWHVnRDN6RCs5M1FSQ0FSQnRiREhrYkRDa09FM00yR20zR3Jl?=
- =?utf-8?B?dEE9PQ==?=
-X-OriginatorOrg: allegrodvt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 232c90be-d803-41cf-72ed-08dda43506a7
-X-MS-Exchange-CrossTenant-AuthSource: MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 13:29:41.0985
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6c7a5ec0-2d92-465a-a3e1-9e3f1e9fd917
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aeK0GxwxaLyl86e84itwrkWopEPAQ/1ZYV6AtGq0Nc4UrzsqNqSuGgLejoHPQyc/4jabOJBYh7k9eQt0TgNdQG6H8BEvqA22u3U02YaqcyE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR0P264MB1785
+References: <20250605-prefix-v1-1-450aff98308a@chromium.org>
+ <20250605124635.GC29935@pendragon.ideasonboard.com> <CANiDSCs4B8ovA2jipUiDr3tC3SSCpJOownohx-X+UvD+2W2w9g@mail.gmail.com>
+ <20250605131700.GA25847@pendragon.ideasonboard.com>
+In-Reply-To: <20250605131700.GA25847@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 5 Jun 2025 15:54:11 +0200
+X-Gmail-Original-Message-ID: <CANiDSCv9jpbXc-Oyv92a4ddjyNxrDZOzz3WdFYqMgBjwyKzg5Q@mail.gmail.com>
+X-Gm-Features: AX0GCFvCB5ZTwiZ8OOsxMGXf1yz8-kFgKh2ihLwI0GjKmCbo6skbCyWdFvpL4Vk
+Message-ID: <CANiDSCv9jpbXc-Oyv92a4ddjyNxrDZOzz3WdFYqMgBjwyKzg5Q@mail.gmail.com>
+Subject: Re: [PATCH v4l-utils] CONTRIBUTE: Add simple contribution instructions
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hans@jjverkuil.nl>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Krzysztof,
+On Thu, 5 Jun 2025 at 15:17, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Thu, Jun 05, 2025 at 02:54:33PM +0200, Ricardo Ribalda wrote:
+> > On Thu, 5 Jun 2025 at 14:46, Laurent Pinchart wrote:
+> > > On Thu, Jun 05, 2025 at 12:09:57PM +0000, Ricardo Ribalda wrote:
+> > > > In the media summit we discussed the need of a special prefix for
+> > > > v4l-utils. This helps patchwork and media-ci.
+> > > >
+> > > > Create a new file with a brief introductions on how to contribute and
+> > > > make the `v4l-utils` official.
+> > > >
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > >
+> > > I think this is a good idea. I don't know how we'll get users to
+> > > actually use the prefix, but documenting it is a necessary first step.
+> >
+> > I can add a comment in the media-ci email. Something like:
+> >
+> > I could not apply your series. Maybe it is for v4l-utils, if so,
+> > please check  http://XXXX/CONTRIBUTE.md
+>
+> Sounds good. Then we can complain that people don't read instructions
+> :-)
+>
+> > > > ---
+> > > >  CONTRIBUTE.md | 19 +++++++++++++++++++
+> > > >  1 file changed, 19 insertions(+)
+> > > >
+> > > > diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
+> > > > new file mode 100644
+> > > > index 0000000000000000000000000000000000000000..19a2c5814b45462f3cfeea921e277f8da00ccbd1
+> > > > --- /dev/null
+> > > > +++ b/CONTRIBUTE.md
+> > > > @@ -0,0 +1,19 @@
+> > > > +## Repository
+> > > > +
+> > > > +v4l-utils official repository is hosted at https://git.linuxtv.org/v4l-utils.git
+> > > > +
+> > > > +## Contributions
+> > > > +
+> > > > +Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
+> > > > +using the prefix `[PATCH v4l-utils]`.
+> > >
+> > > Nitpicking, I was thinking of '[v4l-utils] [PATCH]' as that's what I
+> > > used previously. Looking at the list archives, both (and more) have been
+> > > used. I don't object to using '[PATCH v4l-utils]' if that's easier for
+> >
+> > This seems to be prefered by b4.... and who does not love b4 :P?
+> >
+> > > tools.
+> > >
+> > > I have this in my .git/config for v4l-utils:
+> > >
+> > > [format]
+> > >         subjectPrefix = "v4l-utils] [PATCH"
+> > >
+> > > With your proposal, this would be
+> > >
+> > > [format]
+> > >         subjectPrefix = "PATCH v4l-utils"
+> > >
+> > > In either case, let's document this in addition to the b4 configuration.
+> >
+> > Something like this?:
+> >
+> > diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
+> > index 19a2c581..708939df 100644
+> > --- a/CONTRIBUTE.md
+> > +++ b/CONTRIBUTE.md
+> > @@ -5,7 +5,11 @@ v4l-utils official repository is hosted at
+> > https://git.linuxtv.org/v4l-utils.git
+> >  ## Contributions
+> >
+> >  Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
+> > -using the prefix `[PATCH v4l-utils]`.
+> > +using the prefix `[PATCH v4l-utils]`. E.g:
+> > +
+> > +```
+> > +git config set format.subjectPrefix "PATCH v4l-utils"
+> > +```
+>
+> OK. Please check that setting both format.subjectPrefix and
+> b4.send-prefixes will not add the prefix twice when using b4.
 
-On 05.06.2025 15:01, Krzysztof Kozlowski wrote:
->On 05/06/2025 14:26, Yassine Ouaissa via B4 Relay wrote:
->> From: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
->>
->> Add compatible for video decoder on allegrodvt Gen 3 IP.
+Tried with `b4 send -d` and it looks good to me, but we will know for
+sure when I send the v2.
 >
->A nit, subject: drop second/last, redundant "dt-bindings". The
->"dt-bindings" prefix is already stating that these are bindings.
->See also:
->https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+> >  ## b4 config
+> >
+> > > > +
+> > > > +## b4 config
+> > > > +
+> > > > +If you use b4[1] for your contributor workflow you can use these options:
+> > > > +
+> > > > +```
+> > > > +git config set b4.send-series-cc linux-media@vger.kernel.org
+> > > > +git config set b4.send-prefixes v4l-utils
+> > > > +```
+> > > > +
+> > > > +[1] https://b4.docs.kernel.org/en/latest/contributor/overview.html
+> > > >
+> > > > ---
+> > > > base-commit: 0d4e8e2d4e2d9d87863222e03fd3a6a4a3ff3d86
+> > > > change-id: 20250605-prefix-a1a47dbdaa75
 >
+> --
+> Regards,
 >
->Subject prefix(es): still wrong. You can get them for example with `git
->log --oneline -- DIRECTORY_OR_FILE` on the directory your patch is
->touching. For bindings, the preferred subjects are explained here:
->https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
->
+> Laurent Pinchart
 
-Got it, thanks.
->>
->> v2:
->> - Change the YAML file name, use the existing vendor-prefix.
->> - Improuve the dt-bindings description.
->> - Change the device compatible identifier, from "allegrodvt, al300-vdec",
->>   to "allegro, al300-vdec"
->> - Simplify the register property specification,
->>   by using the simple min/max items constraint (Krzysztof Kozlowski)
->> - Remove the clock-names property. And remove it from the required
->>   properties list (Krzysztof Kozlowski) (Conor Dooley)
->> - Use the simple maxItems constraint for the memory-region property.
->>   Also for the firmware-name (Krzysztof Kozlowski)
->> - Example changes:
->>   - Use header provides definitions for the interrupts (Conor Dooley)
->>   - Improuve Interrupt specification using GIC constants (Conor Dooley)
->>   - Use generic node name "video-decoder" (Krzysztof Kozlowski) (Conor Dooley)
->>   - Remove unused label (Krzysztof Kozlowski)
->>   - Change clock reference from <&mcu_clock_dec> to <&mcu_core_clk>
->>   - Use hex format for reg property (Krzysztof Kozlowski) (Conor Dooley)
->>   - Reduce memory region size (Krzysztof Kozlowski) (Conor Dooley)
->
->All this goes to changelog
->
 
-I'll move it to the changelog.
->>
->>   - Link v1: https://patchwork.linuxtv.org/project/linux-media/patch/20250511144752.504162-4-yassine.ouaissa@allegrodvt.com/
->
->Drop
->
->>
->> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
->> ---
->>  .../bindings/media/allegro,al300-vdec.yaml         | 75 ++++++++++++++++++++++
->>  MAINTAINERS                                        |  2 +
->>  2 files changed, 77 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml b/Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..26f9ac39682431b1d4828aed5d1ed43ef099e204
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml
->> @@ -0,0 +1,75 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/allegro,al300-vdec.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Allegro DVT Video IP Decoder Gen 3
->> +
->> +maintainers:
->> +  - Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>
->> +
->> +description: The al300-vdec represents the gen 3 of Allegro DVT IP video
->
->Blank line after description:
 
-I'll change it in the next version.
->
->> +  decoding technology, offering significant advancements over its
->> +  predecessors. This new decoder features enhanced processing capabilities
->> +  with improved throughput and reduced latency.
->> +
->> +  Communication between the host driver software and the MCU is implemented
->> +  through a specialized mailbox interface mechanism. This mailbox system
->> +  provides a structured channel for exchanging commands, parameters, and
->> +  status information between the host CPU and the MCU controlling the codec
->> +  engines.
->> +
->> +properties:
->> +  compatible:
->> +    const: allegro,al300-vdec
->> +
->> +  reg:
->> +    maxItems: 2
->> +    minItems: 2
->
->Drop
-
-I'll change it in the next version.
->
->> +
->> +  reg-names:
->> +    items:
->> +      - const: regs
->
->base? apb is also "regs", because this is "reg" property, so "regs"
->feels redundant.
->
-
-the regs, is where the device is mapped, but the apb is used by the MCU.
-the reg 'apb' is used to map the MCU peripherals.
-
->Unless this is something entirely else (quite different address in
->example), so maybe this should not be reg at all.
->
->Also, make the example complete - missing memory region.
->
-
-I'll change it in the next version.
->> +      - const: apb
->> +
->Best regards,
->Krzysztof
-
-Best regards,
-Yassine OUAISSA
+-- 
+Ricardo Ribalda
 
