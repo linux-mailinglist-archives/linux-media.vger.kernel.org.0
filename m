@@ -1,195 +1,189 @@
-Return-Path: <linux-media+bounces-34138-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34139-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2BEACF2D5
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 17:17:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3848ACF3A9
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 18:03:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A9127AD566
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 15:11:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9CBEE16CD0E
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 16:03:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B79771DEFDA;
-	Thu,  5 Jun 2025 15:10:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3163B2E659;
+	Thu,  5 Jun 2025 16:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="r+Dek4k5"
+	dkim=pass (2048-bit key) header.d=foundries.io header.i=@foundries.io header.b="LUUEvwMm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2086.outbound.protection.outlook.com [40.107.92.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907901E519;
-	Thu,  5 Jun 2025 15:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749136236; cv=fail; b=niKKS08e/5qLN+wJJWZdU7aeAOs6+gEO36esnGD5rx0pyluDtbcmMbegFDHyK8dClKAuYX9wuLKZSd44hDvG+Q/g7fpUosAx+beQYWgvgMt0os8fsVUmKDtP53dkN62O6JX31sLbw2Upv3i+O1k3g4FZjBCZ73ize70daNJtN1k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749136236; c=relaxed/simple;
-	bh=1Sb1XpYjDECKUUN3Iv9p3MPeTH4lNKQgLfXFQ6UsNNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YneMHXS91TbhhyCP2tckAM4iRCEUPdrEzk5+f+qXJp931SzvOVm0Epc0a+IXyUGCtFje8m/IOVPjhgIr/XHHSgeRALuLZ9OdDkYxgfk4GQpn9BiAvS9wY1iN7hOR2XK7Pu09ntI35KLJrmNLRtv00d86MzL+tNbBlkejm1c1Rpw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=r+Dek4k5; arc=fail smtp.client-ip=40.107.92.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=One5hzuPoxfdrRSC0jZoQpVbAzSVUQE+4H2oab61a5blancCv8rjU+b4uAr+le7XlD182pl4TxdFzUGbaxSOJDXEyRnj4VYmmMqdzmGnUL0oIgwOvqQKGctmFoi27ToLwQVK22nvQcNiycF5sVAXiPmdPCdamgIZG+8SGFZCJ5089Ri6UG0C42LLHkicNpyy7cYv004a0+iUW94E7KJ0j6r2vn5Bby+q93SNH42ah3LS7sUzRsiSIAAcrptIsz+C7Pt4VUzCLpZHv/B+Hn6o5wFDJ56tGYizDWdAXM03GYW9/V0xNBzvdkWdV2MChCLbSMxEdw8p9DLIHoXUil4IZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Sq5BBXoM8W602IWL88Q0nT3aeD/x47Dsd+4p6D638PY=;
- b=wKiHh4Dew3JjWWYe7BJQ2kk6GaxQDBlkoRlQ0q3tR1S3S8Ih4CqOq36r5nB2yIeBebrsS4Leg+2EGktAm8fdse9j+oUszVLvwHsR1803HKOVuH+2UILPF1kv9+uvZ9Bp+pemhdDCZWw6DPllPB3596UgH5CaMwg6zXhiSOekWo+vvXyCDH440sVF341pYISiS6dykJ0yOrIMn/czOZStZMZgeglR/tXPGLfqCW+Bh8ZNH0cmbcNK8vmvnU4siE2MgPkxoLPRh99ncvsf8QBED+jL3U/QzXhj/H9G3wBMuA0nLSyNP2mTm8LpexVl4lm47hO/tzIih8mS6PrjW4zxzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Sq5BBXoM8W602IWL88Q0nT3aeD/x47Dsd+4p6D638PY=;
- b=r+Dek4k5y5qcJWUDbVYieCFNr2cY+xIhwJDr5U0wLCoSO0vFCcQBFt2FUIZCU+qTbyqIu+WMIvI6bDKFqRcg8uORFkcbr5Ru6KW08j/L2Ecfq0UdaeikrB8F0aOmISx+LuJXV3TV97OCLJR3tNz+ZYFpIM/uKTj5XklQpzQpQN2YyXsHkG4Td1cwx5LFl3mXAcq3TOAVxYlG3TCGLxdGqpspIEp+A+NmAB9BY4sCwJD3QDUEqBnknl+sa7jUT7/CfFk/Z4rhzuKktyj4kmPOG3uAgCLXMfygMXuns4xsHdJvh9gYgSwhoz0j4ntHkDQGMC3VUdQe8GI2ey2rNje8tQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by BL1PR12MB5993.namprd12.prod.outlook.com (2603:10b6:208:399::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.33; Thu, 5 Jun
- 2025 15:10:31 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%6]) with mapi id 15.20.8792.034; Thu, 5 Jun 2025
- 15:10:31 +0000
-Date: Thu, 5 Jun 2025 12:10:29 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
-	yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
-	yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
-	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
-	simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
-	iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
- TEE-IO support
-Message-ID: <20250605151029.GC19710@nvidia.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-20-yilun.xu@linux.intel.com>
- <yq5ah60u8kev.fsf@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq5ah60u8kev.fsf@kernel.org>
-X-ClientProxiedBy: YT3PR01CA0112.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:85::30) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A9D86347
+	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 16:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749139384; cv=none; b=rX4Md66ulL+pZ79Hu/IkWbwvg3G8oVXryAU6msLXDCRA/AZkeaSbUBsDDiZVcbH3rdCxmctan/JBdRH8y7AtEi4nXuQu0pbCvqTEgPr8eIMqS+HrLQGWhqrPfSFjWhk68bg4U6/60mhjNKBGjDoYDxyK6brvOFiPHtmgDaWN0hw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749139384; c=relaxed/simple;
+	bh=VGMFzuutfV7nKkXdKYYfg9/r/xi0TIh+wLazNY1Pl0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GOQLyNZCNC0BOO5tXZknhWrIRcPL4wc4dvxoLbsDESLlQ2WOSHZRQeKk/8tu2TS6viZxjO4Gig/2fJVMWbmyl0TYv+SKlBh0TMCMm6xnY/RU5rPp7+917TVnHexAJmlNShppcqBTWF9WKp0h2mBQBbgR6hA992/icpCFXz0pTkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=foundries.io; spf=pass smtp.mailfrom=foundries.io; dkim=pass (2048-bit key) header.d=foundries.io header.i=@foundries.io header.b=LUUEvwMm; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=foundries.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foundries.io
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55324e35f49so1239240e87.3
+        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 09:03:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=foundries.io; s=google; t=1749139381; x=1749744181; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/I4Gm32to9IUdM/ZTUFSas8K0NUMH72IM2vm2cX2xmU=;
+        b=LUUEvwMmujd2rH8z0Ji2TggIhz3Bqn97JiVykwmflOfF+kvNthbcl6xs0lNMYs+OY9
+         JaTPRB7B6Fa1BSfYrzlxPDohw/yBNf7O1Wrk/kE/X73o/mQ8WQdSNZUZZ5SOB41MEDcm
+         Z74eo0ZlCoHuO6wJTOID/ot3CHUAFETGxZIixwUtiI8bo74fqOdUz3W3MQWrnkcj4otW
+         QxSgEuJwZ0SlfQPIDGB9u3vOTDwZ9reiuarOgkQy9jjUk4D+isd1PLndfAHA2udcoelV
+         /x24rAxo5YT6/cEjMw+2uVT0rBrN2PhpAasRA1IcjJBwlSnVvIylNMC7Wg7sJAxJYj09
+         3ioQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749139381; x=1749744181;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/I4Gm32to9IUdM/ZTUFSas8K0NUMH72IM2vm2cX2xmU=;
+        b=KyqS8pzw0LOOTUVvVrUiq/C5MaUUJRe+b4r9I2qzkjxVle3O38gzIjhlx0d6k1VGcM
+         jFaNBQLz8VrpoyfF4w4asHZHyHffKAs0ChxeeKSxwfRxzSE6W897rnCK7e+QmmIT82wy
+         I0ejLTBNeshqe0PEfg3cTbx7V7s+5tfTE5krrMN4v5bNQ8bx5iFjkICXeh1wfVAvLbwB
+         GlL8FUl1AqDKAHSHFYEPaB1DBfjpvur7J7Us/wx58mp0qOOGbcUv/msydRr1Dc8LVahq
+         TdqRQynX4JNx9iw6ldMeTiYvJ2v4n7zzTAv6AbGbts7QU4SC8mesmbl0vgkO0JLy3Cc4
+         3wRg==
+X-Forwarded-Encrypted: i=1; AJvYcCUjeT6OyRIkMJePIQSvFv2e5lewUW5QCwQoJ3w2Cq2ehsV5k+1GPKxZluwn6nVekHUyj3yofPujFm5VUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUSQqOpNLL7DEqWKEwQe4qBJNWLq67Wl8UfWeDJ3em1TkSgBOo
+	qrTV7B0NCBHFS17faMH0puGQexGMZszBcpv9SVNivodajUNkY05Kbjmer5PAEuDWI1M=
+X-Gm-Gg: ASbGncuhUpzLn9rFly/8kkyoGWvXcGDtsYJ6m9uUFSlHcZ5YwmMi9fdp9GDZAFM2MCg
+	D/gKDQ9Ki2Y9/hPKZHY9nD2+W5D+RgfaFhT3WnYLyoy1o2xkevviN1EZw9V1fDplNgNMuCOe8CZ
+	sdOCMzSXO1P5bcakYETzTKtobx0tAbAGfJSBtRxKjYm2Fqg4T6iQeNt0bjl8qB+kbYW8h2hCxzX
+	jQWi5Iw0KnPLLPGkzuvOBr0TsIsl9BL9Fn0TDh2irV4HyA1x37O7XqoUKz0qsD0oRqrFFSqvVTX
+	uNQ1/NCGuNY5mdIpY0M0BCfmyDwDqzLs3p97lNYEkeUaqgls/TFEfqPiXtc1t00Sk0nS3TQCABv
+	4dStPA+5odEIfSpWZE5dECyh7Pq9OqVx7tqfSiEW/OSfo
+X-Google-Smtp-Source: AGHT+IGGrsU9oyLOmDMZpm3mAqCnpB+qWkpA03Us/Yp6H9QrPMC3zQ8mYOciDw3ZVJ10YE9FbJYcKg==
+X-Received: by 2002:a05:6512:b10:b0:553:35c4:db08 with SMTP id 2adb3069b0e04-55357bacfdfmr1990165e87.30.1749139380261;
+        Thu, 05 Jun 2025 09:03:00 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5533791cceasm2648322e87.170.2025.06.05.09.02.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 09:02:59 -0700 (PDT)
+Date: Thu, 5 Jun 2025 19:02:58 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@foundries.io>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Renjiang Han <quic_renjiang@quicinc.com>, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [PATCH v8 0/3] media: venus: enable venus on qcs615
+Message-ID: <nr2je5ssn22npl2dqu5aj2xcwinnjmhvl3tvuz5smr4dd2rxaj@dfkk6aktkafy>
+References: <20250530-add-venus-for-qcs615-v8-0-c0092ac616d0@quicinc.com>
+ <wmri66tkksq6i3hfyoveedq5slghnnpozjzx6gck5r3zsiwsg6@xevgh54rnlqd>
+ <285cae4a-219c-4514-818f-34c8225529de@quicinc.com>
+ <t6niql4jfotjnbducypwxkdjqt3or7k3rwmltvbhifmpphsiwy@er56ey4v2pzo>
+ <a3bf69f3-6500-4e45-ba34-8ba24312938a@kernel.org>
+ <CAO9ioeWkLu+ne18kjEST7YU7b1aBzcMBBeyfpagzis99BAeOHg@mail.gmail.com>
+ <b710e357-09e3-460e-b097-28cf0c856aeb@kernel.org>
+ <44b3779b-702c-4e8b-8ccd-c9c3314a511f@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BL1PR12MB5993:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3a09373-8ae6-4193-25da-08dda4431cc8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?jZt0TaGoBwgG5ls9yVYzgNt/LaSYXqtKqGWPul3Cv0keOImZzcKuE9abDggF?=
- =?us-ascii?Q?ghfrjIzsFVMlgSR1JFYxkjOneeLY6zUGOiJNH+ljQdtN2jTXVafTQ3D2KyrG?=
- =?us-ascii?Q?+uDSq5Wb3GkEiK74144CIcFciHXmTT2yKu9G0y7UA39Rc6Ii77SRzp2czfJl?=
- =?us-ascii?Q?iLxMpshFD+DI+F8HxuWIvcWJ9/4OnWS8lZ/LNl0aV2ZVZyGWgShXuBa/rW4P?=
- =?us-ascii?Q?/9UKe9RmLJglQRBAhZKtVKEJVjfNwUrcTYgQ+t7ePqt3/gDAZUNjfB+Ctv/K?=
- =?us-ascii?Q?rU1j5rCPWbDqfI+ZAUQ60LEWgUI9pZdmxYIM+T9v5m0PTfS7WHSaX/nO82kD?=
- =?us-ascii?Q?8ZG5PPI8IwoTx7/KQ0E96bEHGKIjik8e9uKBPqrLHIWs8lpdqAMu6KJ8ZDlg?=
- =?us-ascii?Q?GAXVUWLMHjnI75tJD1AvoJvEZkDVBnWMDxCeQ4VLFZAneO6fgCM4GhthndJl?=
- =?us-ascii?Q?saO4I+Oo4cnUJXZIaAnSWjhMyPx2fISrKzSCUkC04UDQiPj2Hv0dIzLjoL7l?=
- =?us-ascii?Q?wHnNKrKYloHZUR3f2yvLR/75v9E88Bv9GsMAQCQHveE16EzyzFVkPGOxqEAs?=
- =?us-ascii?Q?2PIXA5d7JBmXg1koLT9ZreOSTpB5+PEstgH83MoL1gYE40VKOTGinn9dVGBP?=
- =?us-ascii?Q?Ip4pBpPkTOtqTMliJhhhLCAuRfN9eZOPejzKWZP3ReZcocXADi+adZgCF3Q2?=
- =?us-ascii?Q?UGIb72y9O39LE7V/uUDU7Y9jI6dHjSrvAYnaZsxYB8YuqRK23aGDAp8GHPVo?=
- =?us-ascii?Q?qD17NsrsHNSKSSH4EouX+jip5q4EGU6B30e3Oa5V9vjFr7r2vbywiY6fTU2B?=
- =?us-ascii?Q?uuzqVbbIopET3s18ZyFw8ypZu7tXOmWBCEcpv8liwe4UE9jzGmZ4/dkxwy27?=
- =?us-ascii?Q?iz5ji51KbX6XcMhlxDXfxNc2jIUNW18BJapkGbLm5G/KjjzHF8hS3a3LQ1EV?=
- =?us-ascii?Q?fZI/dDteE7/wjIoRfg7bkmvV/9iuV1KL7IX7ZMyZTni8FJmliM3K6E9rcUrN?=
- =?us-ascii?Q?ckycPxQH90tHWou1pevUVU0M1PtecC7Iyr23p3tnusLqXSDanFQvdw40Y5Wv?=
- =?us-ascii?Q?RTUC8bT6ZZ6RYnUkf4pcrLzabfQY5tngGokDaP5T2msfjmzsBB/fRuCRBnm9?=
- =?us-ascii?Q?WFdctwYDcnaksBtYl/JuPhCVeLJjnVY6V0P6IiUJs7AtL30HcFqZWZLaq2HL?=
- =?us-ascii?Q?xsaX2RX7xXsYyh7vhcqqWMsJNPo0el7THA+MJb42tx8hPpSs56lrz/D84BFL?=
- =?us-ascii?Q?7e8XIf4AXXJ5ruLHmTRy15559hqcTbcpUTSX+yH1lneQLcEs5yzMqMWgBtI5?=
- =?us-ascii?Q?Psgpx2dUpbaIPCKMMhMxsm0tc2KNAp9yushVdCP3q4Bz7EPcyait+avktJAS?=
- =?us-ascii?Q?s5REsAYkuBPKhvUnzfzuAzhuu/dOtlOkdYNf+cWwPbqnZ87IvQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?yGteoiXrdfCRUBqJFZKMIrFIhfR7FAPFRP6d93wKuN21AE715xNmLaG0Sa0b?=
- =?us-ascii?Q?9hnG6Z6RxtYGKixV7GZ3dOZUi6ox3gX77GbYNncO2ImVXNEDBKQrZBo72+Um?=
- =?us-ascii?Q?CKq5iGMRPgILDwZyQUUXN++oPFWZnrYJso2YgX2BGXMm73F9MqX/o/gl4Zu3?=
- =?us-ascii?Q?KvgljXcSWFbZ5hr6Z4uHp4qlTiAwClifdwfvZ3B41KD2/JUFZQquzUGxkCH6?=
- =?us-ascii?Q?EJEwA+AsbXsgGGejSQtoLX0AjRkQZ3XM7mc66AnvXBhqNbKz9Jx2c+9P/ytu?=
- =?us-ascii?Q?Z4pPUoHCR7B/I1q4XKZIxtrOO+/bpq2Ijh39MuUG0GzvHjSeDQrwfCqaLVst?=
- =?us-ascii?Q?iT0h2azt6tVWZ87KmVsqZmdEUoAwCpYND6yZed3A4H0MJ1D17UN/B0+ldae0?=
- =?us-ascii?Q?UWjutLGC8twmRcLsQ0JOh0Gj4uls2ssWWz6wmJT4U9OV+WF52cnFMKfzwb0G?=
- =?us-ascii?Q?TCyvU87NoV6j7b9wDZKKEbsS/y2LTTkiIaY0uoSYLhJyZVKBfDr9PuhBDGk1?=
- =?us-ascii?Q?3+5GR2JwC6MjPcj9TVNQGOx5mefp8WZjvTaY91v8knvaGylxGbn5rttMCNEc?=
- =?us-ascii?Q?mogdNuAVDGXARl/5ujbfew3+FXi6yT3amo3uvC+fAmeTFp0Aw15bdKWVjFrW?=
- =?us-ascii?Q?ySSyRGKaP/qUWKebiTxM02zxXrUMkyvfJz/xgcVp10BOqaH/Jh43/2+T5ZtE?=
- =?us-ascii?Q?Qu6Rn4OqsxxL8XuoZUNW3dmRICsb2pWQEE0zRkELi9OlbQJXCHG9fMUiQoRJ?=
- =?us-ascii?Q?BrhwEnvXS6rqruoJEzFPgRnZ4BSLeEjwCb/4O2L+RWZgmhqXq/akHBzUN3V9?=
- =?us-ascii?Q?YZf3TU7aV5kHkwX56zOhBJRZr2KbLETKa4LhLbyC4YglkqCuSmdEyckOKmNa?=
- =?us-ascii?Q?Hu/tK5DOZa5ZDQSZn+3lsQl85HK494BAeQWRJxjvMmQA93BjI5oac7Anza/M?=
- =?us-ascii?Q?Lc+xdgv0gUNgRvJTg26ZMgfLa/JRgiGvqxXjxkSNbo+EoXH3lZ3Qa3RW9kJi?=
- =?us-ascii?Q?U2XkW6OLmQNDx/9+ObCG1U5zYwXP/3BN8gs/+4H0criKe32bFFJSuH62PZTk?=
- =?us-ascii?Q?3PDPzqlSCJEJzGNGVLoqzD55ox7+qxcvL6dCg0ps0S8sb+VRixsZLWn6+fv9?=
- =?us-ascii?Q?+N503AQUxTsSgSaEN1wnHDyD8tL7I7YTwZHfx+sI1/hFI5/MzHaTR146dWK6?=
- =?us-ascii?Q?pPcOL1dfPSDTZMQmV2GcSW8nz/sEr39uvqGPJf8tJlXQ5wKwladeH9M4G/zu?=
- =?us-ascii?Q?bWt6shl8recAbr6Mb2aPTEeNZMXLdBDKVS/nyoYMqfFc4VYrNaPCz2NdRLw/?=
- =?us-ascii?Q?VZnJSOpQtoUBfCRxkQDk3Io+oYl/l5gxOcnZywQwDrQSKOnKeqXMC5jCnpFc?=
- =?us-ascii?Q?OzW35gtvBOMIlkkHd3eQaKO/8HHxlDzHkeO1dV2pumWScmkmMaQEGnnXpvtF?=
- =?us-ascii?Q?dH8BQFFZn1LFAn9e+fO0jpkGLIRIE0My4GfdFGSiFsv9W4fHcLBnMm7TQVyb?=
- =?us-ascii?Q?lnsnjcqWTeJhvLNneCi4mjTg4G76TaMj1HJU6aWOlzkRdV918nBnEQF2dsTp?=
- =?us-ascii?Q?IN+U8tCi6H6IGG1dDypX40iwU5em2l/eIReLPPq1?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3a09373-8ae6-4193-25da-08dda4431cc8
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 15:10:31.0713
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9EQiPkEgXPRFVmuuyh1hYrmFZWuB+EB4Oh++6BBEEXIq3lhlZUjUVjTgdali5Uaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5993
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <44b3779b-702c-4e8b-8ccd-c9c3314a511f@linaro.org>
 
-On Thu, Jun 05, 2025 at 05:33:52PM +0530, Aneesh Kumar K.V wrote:
+On Thu, Jun 05, 2025 at 01:40:03PM +0100, Bryan O'Donoghue wrote:
+> On 05/06/2025 13:33, Krzysztof Kozlowski wrote:
+> > On 05/06/2025 14:30, Dmitry Baryshkov wrote:
+> > > On Thu, 5 Jun 2025 at 13:13, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > > > 
+> > > > On 02/06/2025 08:16, Dmitry Baryshkov wrote:
+> > > > > On Sat, May 31, 2025 at 08:05:24AM +0800, Renjiang Han wrote:
+> > > > > > 
+> > > > > > On 5/31/2025 4:27 AM, Dmitry Baryshkov wrote:
+> > > > > > > On Fri, May 30, 2025 at 09:32:12AM +0530, Renjiang Han wrote:
+> > > > > > > > QCS615 uses the same video core as SC7180, so reuse the same resource
+> > > > > > > > data of SC7180 for QCS615 to enable video functionality.
+> > > > > > > > 
+> > > > > > > > There are no resources for the video-decoder and video-encoder nodes
+> > > > > > > > in the device tree, so remove these two nodes from the device tree. In
+> > > > > > > > addition, to ensure that the video codec functions properly, use [3]
+> > > > > > > > to add encoder and decoder node entries in the venus driver.
+> > > > > > > > 
+> > > > > > > > Validated this series on QCS615 and SC7180.
+> > > > > > > > 
+> > > > > > > > Note:
+> > > > > > > > This series consist of DT patches and a venus driver patch. The patch
+> > > > > > > > 1/3, which is venus driver patch, can be picked independently without
+> > > > > > > > having any functional dependency. But patch 2/3 & patch 3/3, which are
+> > > > > > > > DT patches, still depend on [1].
+> > > > > > > I'd say 2/3 and 3/3 still depend on 1/3, otherwise we can get video core
+> > > > > > > on QCS615 over(?)clocked.
+> > > > > > Agree, so we need to make sure that the driver patch is not picked after the
+> > > > > > DT patch.
+> > > > > 
+> > > > > Worse: we need to make sure that the driver patch is present in the
+> > > > > branch which picks up DT patches. Otherwise building & testing that
+> > > > 
+> > > > 
+> > > > Well, that's a NAK then (although depends what you mean by DT).
+> > > 
+> > > I mean qcs615.dtsi. I'd suggest an immutable branch for the driver
+> > 
+> > Sorry, but no, DTS cannot depend on drivers. You CANNOT merge them into
+> > one branch.
 
-> > +
-> > +	/* To ensure no host side MMIO access is possible */
-> > +	ret = pci_request_regions_exclusive(pdev, "vfio-pci-tsm");
-> > +	if (ret)
-> > +		goto out_unlock;
-> > +
-> >
+Surely it can... Like any other cross-subsystem dependency.
+
+> > 
+> > > patch. Or just merging the patches in two consequent releases.
+> > 
+> > That's a new device nodes, new hardware so it should not be blocked by
+> > any driver patch. This is just totally broken process / patchset / work.
+> > 
+> > Best regards,
+> > Krzysztof
 > 
-> I am hitting failures here with similar changes. Can you share the Qemu
-> changes needed to make this pci_request_regions_exclusive successful.
-> Also after the TDI is unbound, we want the region ownership backto
-> "vfio-pci" so that things continue to work as non-secure device. I don't
-> see we doing that. I could add a pci_bar_deactivate/pci_bar_activate in
-> userspace which will result in vfio_unmap()/vfio_map(). But that doesn't
-> release the region ownership.
+> Reading this thread, I don't think that is the case.
+> 
+> I don't see how patches 2/3 or 3/3 depend on 1/3.
 
-Again, IMHO, we should not be doing this dynamically. VFIO should do
-pci_request_regions_exclusive() once at the very start and it should
-stay that way.
+Please correct me if I'm wrong. Without driver changes from patch 1, the
+driver will always use frequency table from the driver itself. In this
+case it will be the frequency table (and corners) for SC7180, which
+would make venus driver overclock the hardware on QCS615.
 
-There is no reason to change it dynamically.
+> 
+> The frequency table is a fallback in the driver and the DT changes are
+> completely straight forward.
+> 
+> TBH, I think we are hitting an email comms/social barrier here, not a
+> technical one.
 
-The only decision to make is if all vfio should switch to exclusive
-mode or if we need to make it optional for userspace.
+I assume so.
 
-Jason
+> 
+> @Renjiang can you please confirm that freq_table is a fallback, qcs615 will
+> work without OPP table and the DTS stuff doesn't depend on the driver.
+> 
+> TBH, I don't see how the DTS can or should but...
+> 
+> ---
+> bod
+> 
+
+-- 
+With best wishes
+Dmitry
 
