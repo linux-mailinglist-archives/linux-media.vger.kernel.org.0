@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-34130-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34132-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD70ACEFB4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:57:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 207B1ACEFD3
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 15:01:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9391177A6F
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:57:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EDBB73AD429
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 13:01:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1DF8224AF2;
-	Thu,  5 Jun 2025 12:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C697D224220;
+	Thu,  5 Jun 2025 13:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9OS9HRe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yn6hwgkz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D21202F83;
-	Thu,  5 Jun 2025 12:57:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A98213D24D;
+	Thu,  5 Jun 2025 13:01:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749128232; cv=none; b=fme6rClLx9PnzxrWjv5xnkO9iQmxxWd7eFR5B4BjDMAJe2qHC5e+r4h3CwAsvmSWnV6I+QYzHEGNxnboWjWzdeyTtvIsMb0g5iTkMwGjrdQmk49XT6tFpcuhSuj1fGLODH7b96vO53VPVDlRP8fxmZUs5J/6YvyMYCEI+rvEBa0=
+	t=1749128481; cv=none; b=LjNqgaeHqfkxupexB6WWDRI5iwmbu/PeDCMY9119k1xmd01GPkMmFfUBqf/hb2ru2AuIio2aISsQ8JVnAC82T4r85lxFwLezf4dB6cPmAfy/wYGGI5+5r3G+z30uJjYYCf/xoJC5iPuxvknqA6eMVpiEWSvoe6Qgr9FfWkGV4dQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749128232; c=relaxed/simple;
-	bh=Byr/oEoXo9QKBDnSzkZLZeIjz9Ei0CO0nz0HapLAasA=;
+	s=arc-20240116; t=1749128481; c=relaxed/simple;
+	bh=u8KzIXkEL0K1wlu7o8cYAV0SDadmZjM4Ep+VP7pxYNQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oNoUjaJIDc9GxXSxJW5eFf7Q7g0LEhB4p9ynjoWd3p9xfiAud8iFXJPd4+c7UYHbJcI2eVJ7pnzH6llHgVnd+0mCE8PT1aH10kbe6ktjpzO6MZ1FtHiOmvYmeeeR2i9CKJTwYq1iB8QP0bRJ3Ui8rBCfI+gKyMEhfMS7k6UEfuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R9OS9HRe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A28A7C4CEE7;
-	Thu,  5 Jun 2025 12:57:07 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=jiGeFN2aQ5bzYzag6BogCnrjm23sOjYitZe36rXr8M8DWqAIlxDePUQ8RrCNx1GPDyWRzWY2+TstUWd3djt8QjOX4WElbU9GP8DVKXEsb5dO6Te9QZnZbkwCSpu1lcB9IcmQEDd5L2Mep+J/pZZDyqE3o+q7CakgNMx3rEtfQXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yn6hwgkz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4064C4CEE7;
+	Thu,  5 Jun 2025 13:01:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749128230;
-	bh=Byr/oEoXo9QKBDnSzkZLZeIjz9Ei0CO0nz0HapLAasA=;
+	s=k20201202; t=1749128480;
+	bh=u8KzIXkEL0K1wlu7o8cYAV0SDadmZjM4Ep+VP7pxYNQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=R9OS9HRefttAMjUUukDbCjUUxkF6L3e6PQtquhTwt+9rcPHTkQd+Smke+02RP9JJt
-	 LMQ+TcTYeE9NJNoktZgPHvEikLaA2/dUdiRc1i1t6ZsiqHsVi/CBBZO1Nc9CnutplL
-	 +ocvvQtY4t+q4AkY082rwuZMhnPNI4PdsoAUObS+jExBONZ5F5S7RYcmE2nO/mTcIC
-	 hXdO9CELjXl4i88/FlE7bYmKj6TqFrHCYb4dNwESQcjMouUf6IPTdlg9EjOsXdZN0k
-	 7cOCYVWMQQg4uO89bEBqaBPdOIq2KFp2koMMNwVUXFSqDAthhqAwDbEqsvqXnbfXSr
-	 Q5qA48/s4vIZA==
-Message-ID: <be92ce49-7eaa-49b8-bba8-53a0b0012113@kernel.org>
-Date: Thu, 5 Jun 2025 14:57:05 +0200
+	b=Yn6hwgkz7tVish+xfF2fS7zUqUvcYFSMne0TxpQS8H08SxoROnxBvsqhuImYuuavX
+	 XyZyjyyRyVO4QEFjFbZhcKYpPg+BxX4anKUYAXTQPWbECQ+vgV5wMPqszmpRiahU/h
+	 Zg7H6VFkVnaoiX/sdyZx0LIrOeiLG7GK0LlI82kgA84cIOeC0mAPO1MIbmhzTdfpkX
+	 CqBJnQzZuO3EXxrSGEBttfltTegJtFZYhyF5jC89uFqlEdPzg/9DivDIFb/3fWPHOE
+	 Xn66BfBpNYcUsit0J7XtLMjtT+hU7/ACpLw+9gDAZ+S5Qv/UUFEICJzNOPcneGV0H/
+	 ks4tp/d8cnDDg==
+Message-ID: <759f9900-a74b-40a2-ae53-5e5a6261f963@kernel.org>
+Date: Thu, 5 Jun 2025 15:01:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] media: Add Gen 3 IP stateful decoder driver
+Subject: Re: [PATCH v2 2/4] dt-bindings: media: allegro-dvt: add decoder
+ dt-bindings for Gen3 IP
 To: yassine.ouaissa@allegrodvt.com, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Michael Tretter <m.tretter@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
@@ -60,6 +61,7 @@ To: yassine.ouaissa@allegrodvt.com, Mauro Carvalho Chehab
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
 References: <20250605-allegro_dvt_al300_dec_driver-v2-0-1ef4839f5f06@allegrodvt.com>
+ <20250605-allegro_dvt_al300_dec_driver-v2-2-1ef4839f5f06@allegrodvt.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,19 +107,117 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250605-allegro_dvt_al300_dec_driver-v2-0-1ef4839f5f06@allegrodvt.com>
+In-Reply-To: <20250605-allegro_dvt_al300_dec_driver-v2-2-1ef4839f5f06@allegrodvt.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 05/06/2025 14:26, Yassine Ouaissa via B4 Relay wrote:
-> This patch series introduces a new stateful decoder driver for the
-> allegrodvt GEN 3 IPs.
+> From: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
 > 
-> Changes in v2:
-> - patch 2: Fix dt-bindings reviews (Krzysztof Kozlowski) (Conor Dooley)
+> Add compatible for video decoder on allegrodvt Gen 3 IP.
 
-That's just way too vague. What change specifically?
+A nit, subject: drop second/last, redundant "dt-bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
+
+Subject prefix(es): still wrong. You can get them for example with `git
+log --oneline -- DIRECTORY_OR_FILE` on the directory your patch is
+touching. For bindings, the preferred subjects are explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+> 
+> v2:
+> - Change the YAML file name, use the existing vendor-prefix.
+> - Improuve the dt-bindings description.
+> - Change the device compatible identifier, from "allegrodvt, al300-vdec",
+>   to "allegro, al300-vdec"
+> - Simplify the register property specification,
+>   by using the simple min/max items constraint (Krzysztof Kozlowski)
+> - Remove the clock-names property. And remove it from the required
+>   properties list (Krzysztof Kozlowski) (Conor Dooley)
+> - Use the simple maxItems constraint for the memory-region property.
+>   Also for the firmware-name (Krzysztof Kozlowski)
+> - Example changes:
+>   - Use header provides definitions for the interrupts (Conor Dooley)
+>   - Improuve Interrupt specification using GIC constants (Conor Dooley)
+>   - Use generic node name "video-decoder" (Krzysztof Kozlowski) (Conor Dooley)
+>   - Remove unused label (Krzysztof Kozlowski)
+>   - Change clock reference from <&mcu_clock_dec> to <&mcu_core_clk>
+>   - Use hex format for reg property (Krzysztof Kozlowski) (Conor Dooley)
+>   - Reduce memory region size (Krzysztof Kozlowski) (Conor Dooley)
+
+All this goes to changelog
+
+> 
+>   - Link v1: https://patchwork.linuxtv.org/project/linux-media/patch/20250511144752.504162-4-yassine.ouaissa@allegrodvt.com/
+
+Drop
+
+> 
+> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+> ---
+>  .../bindings/media/allegro,al300-vdec.yaml         | 75 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  2 +
+>  2 files changed, 77 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml b/Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..26f9ac39682431b1d4828aed5d1ed43ef099e204
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml
+> @@ -0,0 +1,75 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allegro,al300-vdec.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allegro DVT Video IP Decoder Gen 3
+> +
+> +maintainers:
+> +  - Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>
+> +
+> +description: The al300-vdec represents the gen 3 of Allegro DVT IP video
+
+Blank line after description:
+
+> +  decoding technology, offering significant advancements over its
+> +  predecessors. This new decoder features enhanced processing capabilities
+> +  with improved throughput and reduced latency.
+> +
+> +  Communication between the host driver software and the MCU is implemented
+> +  through a specialized mailbox interface mechanism. This mailbox system
+> +  provides a structured channel for exchanging commands, parameters, and
+> +  status information between the host CPU and the MCU controlling the codec
+> +  engines.
+> +
+> +properties:
+> +  compatible:
+> +    const: allegro,al300-vdec
+> +
+> +  reg:
+> +    maxItems: 2
+> +    minItems: 2
+
+Drop
+
+> +
+> +  reg-names:
+> +    items:
+> +      - const: regs
+
+base? apb is also "regs", because this is "reg" property, so "regs"
+feels redundant.
+
+Unless this is something entirely else (quite different address in
+example), so maybe this should not be reg at all.
+
+Also, make the example complete - missing memory region.
+
+> +      - const: apb
+> +
 Best regards,
 Krzysztof
 
