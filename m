@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-34090-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34091-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC81DACEAA1
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 09:06:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E25ACEAA2
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 09:06:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9836A16D5D8
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 07:06:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E1E237A6FC0
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 07:04:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9B131FBC92;
-	Thu,  5 Jun 2025 07:05:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C8701D5AC6;
+	Thu,  5 Jun 2025 07:05:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E422C3242
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 07:05:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1F32C3242
+	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 07:05:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749107149; cv=none; b=Yq8J6CzWBsZqMi9luD2Icz5ALl0AA2OvgEcCQZEaemNZEsTFWuxwrlJOphKMClTn7tCQOxBB/aaC1cKC+wWH8V+v7SO+DcUP8Bce0mS2ZNcLaa+IYlu+b2gxEWroyCvjOlGit+Ydx98U9kl0li6+5cRPymMCCEBsr6pjupnhuEg=
+	t=1749107150; cv=none; b=WXg1ODVCpTttd9ChhMfWpGFVMecGXGMvAy1YQvcGqioAm69KmU8Ceoq2iv/3FeculzhNktjHly0fa+Hf9nCNfOklbfDjps1u5gekdjUEd5ozYShflyMkk4/jJK0MpBDOAiCQNGT0DcNX+bvUJ893DaCvqf/KG/ZhkazBjbArpTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749107149; c=relaxed/simple;
-	bh=jkC/D8Endlg1um3xAdGze0ThIkLvebFclT19aTclBGQ=;
+	s=arc-20240116; t=1749107150; c=relaxed/simple;
+	bh=UvBmj6h6qHki60fxhANspIZswZ2ngC3lnT6fBXuypEg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V869632he/8hOozXDMD8+6Oj9+MrCh9BEDPYfdjIfjpNsxDlWbxXmuuV+HwQWRhiD5sFZbXphXt0VP88LsHwe4Q5qH8w3rrsh28wLdLCCDpy3gVk9c8viUHSldQtykeX3yBXx4utxTILPmATf6EBEzm2hj2RvzLC2vXJoxrIEi0=
+	 MIME-Version; b=N/sSvMQZ1sq4RS8THkDck3dzvkSbdkyKtUVWgO6YkXLUD5f6cAr2rWfud1v5yJrQMx2WqDgfahvYOPLqNmGjnXCtvxZMZnER9CG2wLsfB9W0Jf9vXEN+F2m9/Ny12fpV0HERA2ebJwbAXLQPM+kcg1ewGFrC6/UFAZ7QC05nXZ0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7115DC4CEEB;
-	Thu,  5 Jun 2025 07:05:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2B22C4CEEB;
+	Thu,  5 Jun 2025 07:05:49 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 4/5] media: vb2: remove vb2_ops_wait_prepare/finish helpers
-Date: Thu,  5 Jun 2025 08:57:38 +0200
-Message-ID: <3da514ec5172f643d40e7aa0b3d8560bfd7f6b63.1749106659.git.hverkuil@xs4all.nl>
+Subject: [PATCH 5/5] media: vb2: drop wait_prepare/finish callbacks
+Date: Thu,  5 Jun 2025 08:57:39 +0200
+Message-ID: <d2c5e21692652db13d55b3a8ec5c8bd04b308c3c.1749106659.git.hverkuil@xs4all.nl>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <cover.1749106659.git.hverkuil@xs4all.nl>
 References: <cover.1749106659.git.hverkuil@xs4all.nl>
@@ -47,90 +47,198 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since vb2 now relies on the presence of the vb2_queue lock
-field and there are no more drivers that use these helpers, it is safe
-to drop them.
+Drop the wait_prepare/finish callbacks. Instead require that the vb2_queue
+lock field is always set and use that lock when waiting for buffers to
+arrive.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- Documentation/driver-api/media/v4l2-dev.rst    |  8 ++++----
- .../media/common/videobuf2/videobuf2-v4l2.c    | 14 --------------
- include/media/videobuf2-v4l2.h                 | 18 ------------------
- 3 files changed, 4 insertions(+), 36 deletions(-)
+ .../userspace-api/media/conf_nitpick.py       |  2 -
+ .../media/common/videobuf2/videobuf2-core.c   | 49 ++++---------------
+ include/media/videobuf2-core.h                | 23 ++-------
+ 3 files changed, 15 insertions(+), 59 deletions(-)
 
-diff --git a/Documentation/driver-api/media/v4l2-dev.rst b/Documentation/driver-api/media/v4l2-dev.rst
-index d5cb19b21a9f..dd239ad42051 100644
---- a/Documentation/driver-api/media/v4l2-dev.rst
-+++ b/Documentation/driver-api/media/v4l2-dev.rst
-@@ -157,10 +157,10 @@ changing the e.g. exposure of the webcam.
- Of course, you can always do all the locking yourself by leaving both lock
- pointers at ``NULL``.
+diff --git a/Documentation/userspace-api/media/conf_nitpick.py b/Documentation/userspace-api/media/conf_nitpick.py
+index 0a8e236d07ab..445a29c01d1b 100644
+--- a/Documentation/userspace-api/media/conf_nitpick.py
++++ b/Documentation/userspace-api/media/conf_nitpick.py
+@@ -42,8 +42,6 @@ nitpick_ignore = [
+     ("c:func", "struct fd_set"),
+     ("c:func", "struct pollfd"),
+     ("c:func", "usb_make_path"),
+-    ("c:func", "wait_finish"),
+-    ("c:func", "wait_prepare"),
+     ("c:func", "write"),
  
--In the case of :ref:`videobuf2 <vb2_framework>` you will need to implement the
--``wait_prepare()`` and ``wait_finish()`` callbacks to unlock/lock if applicable.
--If you use the ``queue->lock`` pointer, then you can use the helper functions
--:c:func:`vb2_ops_wait_prepare` and :c:func:`vb2_ops_wait_finish`.
-+In the case of :ref:`videobuf2 <vb2_framework>` you must set the ``queue->lock``
-+pointer to the lock you use to serialize the queuing ioctls. This ensures that
-+that lock is released while waiting in ``VIDIOC_DQBUF`` for a buffer to arrive,
-+and it is retaken afterwards.
+     ("c:type", "atomic_t"),
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 2df566f409b6..2d1f253b4929 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -605,8 +605,7 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned i
+ 	 */
+ 	if (vb2_get_num_buffers(q)) {
+ 		bool unbalanced = q->cnt_start_streaming != q->cnt_stop_streaming ||
+-				  q->cnt_prepare_streaming != q->cnt_unprepare_streaming ||
+-				  q->cnt_wait_prepare != q->cnt_wait_finish;
++				  q->cnt_prepare_streaming != q->cnt_unprepare_streaming;
  
- The implementation of a hotplug disconnect should also take the lock from
- :c:type:`video_device` before calling v4l2_device_disconnect. If you are also
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 1cd26faee503..c16e920b752b 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -1301,20 +1301,6 @@ void vb2_video_unregister_device(struct video_device *vdev)
- }
- EXPORT_SYMBOL_GPL(vb2_video_unregister_device);
+ 		if (unbalanced) {
+ 			pr_info("unbalanced counters for queue %p:\n", q);
+@@ -617,13 +616,8 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned i
+ 			if (q->cnt_prepare_streaming != q->cnt_unprepare_streaming)
+ 				pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
+ 					q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
+-			if (q->cnt_wait_prepare != q->cnt_wait_finish)
+-				pr_info("     wait_prepare: %u wait_finish: %u\n",
+-					q->cnt_wait_prepare, q->cnt_wait_finish);
+ 		}
+ 		q->cnt_queue_setup = 0;
+-		q->cnt_wait_prepare = 0;
+-		q->cnt_wait_finish = 0;
+ 		q->cnt_prepare_streaming = 0;
+ 		q->cnt_start_streaming = 0;
+ 		q->cnt_stop_streaming = 0;
+@@ -2037,10 +2031,7 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
+ 		 * become ready or for streamoff. Driver's lock is released to
+ 		 * allow streamoff or qbuf to be called while waiting.
+ 		 */
+-		if (q->ops->wait_prepare)
+-			call_void_qop(q, wait_prepare, q);
+-		else if (q->lock)
+-			mutex_unlock(q->lock);
++		mutex_unlock(q->lock);
  
--/* vb2_ops helpers. Only use if vq->lock is non-NULL. */
+ 		/*
+ 		 * All locks have been released, it is safe to sleep now.
+@@ -2050,10 +2041,7 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
+ 				!list_empty(&q->done_list) || !q->streaming ||
+ 				q->error);
+ 
+-		if (q->ops->wait_finish)
+-			call_void_qop(q, wait_finish, q);
+-		else if (q->lock)
+-			mutex_lock(q->lock);
++		mutex_lock(q->lock);
+ 
+ 		q->waiting_in_dqbuf = 0;
+ 		/*
+@@ -2653,12 +2641,8 @@ int vb2_core_queue_init(struct vb2_queue *q)
+ 	if (WARN_ON(q->min_reqbufs_allocation > q->max_num_buffers))
+ 		return -EINVAL;
+ 
+-	/* Either both or none are set */
+-	if (WARN_ON(!q->ops->wait_prepare ^ !q->ops->wait_finish))
+-		return -EINVAL;
 -
--void vb2_ops_wait_prepare(struct vb2_queue *vq)
--{
--	mutex_unlock(vq->lock);
--}
--EXPORT_SYMBOL_GPL(vb2_ops_wait_prepare);
+-	/* Warn if q->lock is NULL and no custom wait_prepare is provided */
+-	if (WARN_ON(!q->lock && !q->ops->wait_prepare))
++	/* Warn if q->lock is NULL */
++	if (WARN_ON(!q->lock))
+ 		return -EINVAL;
+ 
+ 	INIT_LIST_HEAD(&q->queued_list);
+@@ -3220,17 +3204,10 @@ static int vb2_thread(void *data)
+ 				continue;
+ 			prequeue--;
+ 		} else {
+-			if (!threadio->stop) {
+-				if (q->ops->wait_finish)
+-					call_void_qop(q, wait_finish, q);
+-				else if (q->lock)
+-					mutex_lock(q->lock);
++			mutex_lock(q->lock);
++			if (!threadio->stop)
+ 				ret = vb2_core_dqbuf(q, &index, NULL, 0);
+-				if (q->ops->wait_prepare)
+-					call_void_qop(q, wait_prepare, q);
+-				else if (q->lock)
+-					mutex_unlock(q->lock);
+-			}
++			mutex_unlock(q->lock);
+ 			dprintk(q, 5, "file io: vb2_dqbuf result: %d\n", ret);
+ 			if (!ret)
+ 				vb = vb2_get_buffer(q, index);
+@@ -3245,15 +3222,9 @@ static int vb2_thread(void *data)
+ 		if (copy_timestamp)
+ 			vb->timestamp = ktime_get_ns();
+ 		if (!threadio->stop) {
+-			if (q->ops->wait_finish)
+-				call_void_qop(q, wait_finish, q);
+-			else if (q->lock)
+-				mutex_lock(q->lock);
++			mutex_lock(q->lock);
+ 			ret = vb2_core_qbuf(q, vb, NULL, NULL);
+-			if (q->ops->wait_prepare)
+-				call_void_qop(q, wait_prepare, q);
+-			else if (q->lock)
+-				mutex_unlock(q->lock);
++			mutex_unlock(q->lock);
+ 		}
+ 		if (ret || threadio->stop)
+ 			break;
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 9b02aeba4108..4424d481d7f7 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -351,13 +351,6 @@ struct vb2_buffer {
+  *			\*num_buffers are being allocated additionally to
+  *			the buffers already allocated. If either \*num_planes
+  *			or the requested sizes are invalid callback must return %-EINVAL.
+- * @wait_prepare:	release any locks taken while calling vb2 functions;
+- *			it is called before an ioctl needs to wait for a new
+- *			buffer to arrive; required to avoid a deadlock in
+- *			blocking access type.
+- * @wait_finish:	reacquire all locks released in the previous callback;
+- *			required to continue operation after sleeping while
+- *			waiting for a new buffer to arrive.
+  * @buf_out_validate:	called when the output buffer is prepared or queued
+  *			to a request; drivers can use this to validate
+  *			userspace-provided information; this is required only
+@@ -436,9 +429,6 @@ struct vb2_ops {
+ 			   unsigned int *num_buffers, unsigned int *num_planes,
+ 			   unsigned int sizes[], struct device *alloc_devs[]);
+ 
+-	void (*wait_prepare)(struct vb2_queue *q);
+-	void (*wait_finish)(struct vb2_queue *q);
 -
--void vb2_ops_wait_finish(struct vb2_queue *vq)
--{
--	mutex_lock(vq->lock);
--}
--EXPORT_SYMBOL_GPL(vb2_ops_wait_finish);
--
- /*
-  * Note that this function is called during validation time and
-  * thus the req_queue_mutex is held to ensure no request objects
-diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
-index 77ce8238ab30..71d2864fb235 100644
---- a/include/media/videobuf2-v4l2.h
-+++ b/include/media/videobuf2-v4l2.h
-@@ -367,24 +367,6 @@ unsigned long vb2_fop_get_unmapped_area(struct file *file, unsigned long addr,
+ 	int (*buf_out_validate)(struct vb2_buffer *vb);
+ 	int (*buf_init)(struct vb2_buffer *vb);
+ 	int (*buf_prepare)(struct vb2_buffer *vb);
+@@ -521,10 +511,10 @@ struct vb2_buf_ops {
+  * @non_coherent_mem: when set queue will attempt to allocate buffers using
+  *		non-coherent memory.
+  * @lock:	pointer to a mutex that protects the &struct vb2_queue. The
+- *		driver can set this to a mutex to let the v4l2 core serialize
+- *		the queuing ioctls. If the driver wants to handle locking
+- *		itself, then this should be set to NULL. This lock is not used
+- *		by the videobuf2 core API.
++ *		driver must set this to a mutex to let the v4l2 core serialize
++ *		the queuing ioctls. This lock is used when waiting for a new
++ *		buffer to arrive: the lock is released, we wait for the new
++ *		buffer, and then retaken.
+  * @owner:	The filehandle that 'owns' the buffers, i.e. the filehandle
+  *		that called reqbufs, create_buffers or started fileio.
+  *		This field is not used by the videobuf2 core API, but it allows
+@@ -680,8 +670,6 @@ struct vb2_queue {
+ 	 * called. Used to check for unbalanced ops.
+ 	 */
+ 	u32				cnt_queue_setup;
+-	u32				cnt_wait_prepare;
+-	u32				cnt_wait_finish;
+ 	u32				cnt_prepare_streaming;
+ 	u32				cnt_start_streaming;
+ 	u32				cnt_stop_streaming;
+@@ -766,8 +754,7 @@ void vb2_discard_done(struct vb2_queue *q);
+  * @q:		pointer to &struct vb2_queue with videobuf2 queue.
+  *
+  * This function will wait until all buffers that have been given to the driver
+- * by &vb2_ops->buf_queue are given back to vb2 with vb2_buffer_done(). It
+- * doesn't call &vb2_ops->wait_prepare/&vb2_ops->wait_finish pair.
++ * by &vb2_ops->buf_queue are given back to vb2 with vb2_buffer_done().
+  * It is intended to be called with all locks taken, for example from
+  * &vb2_ops->stop_streaming callback.
   */
- void vb2_video_unregister_device(struct video_device *vdev);
- 
--/**
-- * vb2_ops_wait_prepare - helper function to lock a struct &vb2_queue
-- *
-- * @vq: pointer to &struct vb2_queue
-- *
-- * ..note:: only use if vq->lock is non-NULL.
-- */
--void vb2_ops_wait_prepare(struct vb2_queue *vq);
--
--/**
-- * vb2_ops_wait_finish - helper function to unlock a struct &vb2_queue
-- *
-- * @vq: pointer to &struct vb2_queue
-- *
-- * ..note:: only use if vq->lock is non-NULL.
-- */
--void vb2_ops_wait_finish(struct vb2_queue *vq);
--
- struct media_request;
- int vb2_request_validate(struct media_request *req);
- void vb2_request_queue(struct media_request *req);
 -- 
 2.47.2
 
