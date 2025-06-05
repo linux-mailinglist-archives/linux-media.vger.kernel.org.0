@@ -1,177 +1,105 @@
-Return-Path: <linux-media+bounces-34125-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34126-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E257ACEF62
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:40:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8261ACEF64
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:41:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4EE73AD0C7
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:39:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97623177324
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:42:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79DB81F5823;
-	Thu,  5 Jun 2025 12:40:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EF5921A444;
+	Thu,  5 Jun 2025 12:41:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QIITwvXC"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RkHfuRJG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE4E212FB0
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 12:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735461D8A0A;
+	Thu,  5 Jun 2025 12:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749127209; cv=none; b=nYRDS5oxaG5gOza9qOUsSoC9dfo44QMRgNgfZHkV8drGu3hIOM2gKYvNAJ+3WaUvlKJMV0nkPosazcfrgF6N/hoaYUYv6sRvHVhQrHCduz4ynLxUQnykwrzJuQ3D0KfwDnkclp51HwywKosOVk80RRuQVjaJsCDCexO7+YBLwiE=
+	t=1749127312; cv=none; b=ZlQjEq3JxUMKrNl1tusbWw+7wODZVlzfVFB2Ttz+LWPlomJ8HcbVwRsNvyFRNMRbv17ySRyoI3NfWI4s+I71nxE87FEk5u5HL+wMTyESLqjAHDjC0rodTNoDCATJ4RXlpjC6AyF8TaC+xlmfcX5ys8QM8C/wLOXuoPp3Cje1dFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749127209; c=relaxed/simple;
-	bh=nCUKXO6dCKnHu7IzoBDjMlKdgxKzmF/UGOro8VhrZ4U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b8cTkyj+97OHWgt/GleVZIlrhWbAuehauV02I1Nl/rfrXV+hNEmsBEkGBr82lrknpFUF6Iuvcr8rJdJ/hSLKfd4hYBlKTmDb3mzGS4uW7W9+SKsYaeMS0aJp2w9z8EJs+w8TmFCZgyRHZ81mIGzfAt5bNnSWzwm6UE1UqDiz5gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QIITwvXC; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-442ea341570so5970735e9.1
-        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 05:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749127206; x=1749732006; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jleYuFzLzfRA5MPpLBL/znJ4nBJa4J0zBphZ1LfbvF4=;
-        b=QIITwvXCjlewtNIKy8GsOeU2pqzswByg3eg25LHXsOHirndubtlBEfEYqRlMHn8Ji0
-         ECwuB0e+yZha+dO3oPZ25wsUvvWrWXlEMnJtM5gz+RbeglE5vBRK6ahd5xiZqf3PkWWc
-         qQW8/GQjsT3/vqTD1Y4dpg9nMNpLa14LA5ZfOHXTi1tvVzZG0nEb1pW+P2sIDB5joYcr
-         bbmp2hN1ngpzEzvCHjqkm/JU4RQKjIWv4YY1tMmA45hxnYuThF+yBSVSSI4tP/4yTicu
-         l6CPaydk0sgZTbR2jFaobbBmi+CkOKIKhP7L9o/MCZ+CQH00AyWMwHZckpBieERthEVL
-         GHrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749127206; x=1749732006;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jleYuFzLzfRA5MPpLBL/znJ4nBJa4J0zBphZ1LfbvF4=;
-        b=BsWVUIndHbfhhwQJFd9ixNHEJcffkZ7XBOWPCFKYLytxApS5ixscXmbV3ZMW9leuMp
-         +5AHyFcPwrZCNZP1esC3C1nut49Yiia/Iz2BuiZvmEMNuHNRHzQDpeYc05c2qrI4mNv0
-         vXUiKIp17BL9J6gnGud880QUpniuJnebHEXGjm4/BnZ+Hz1BJxhhE2lhP0HNbrfYrxCh
-         6+qYmBuUQohBsWEMiioI5iqZeOPALdDdQgYRNAnKzIj3AtS5gMuPIEUcEvl9Ei6jdZmX
-         FAvQGbewsJdHBvJjM32Oblh7QooSLNCzAVSMRx7QlvmuTw0+NCnK9geYwPifeYyobLTO
-         VUmA==
-X-Forwarded-Encrypted: i=1; AJvYcCW7/yRdIXWPqklYSzeDPLHeOlVL5UkEqFZU8zABpyPsgyNRObnVGwkhtvo8uk+mqbrDpSr+6eVARDZWlw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI6PUVKAVPXMvPU8Mf93JUEi3QQGpck6s3cYsvHfmJYk1fSB/A
-	OSJoaZMKWQhIGM6lRj8V1tgq7NmRyikXP9GitUKH3lP+qsviNfKARVkRi3lC2W+DOEY=
-X-Gm-Gg: ASbGncth50MaoO9isqZY1FCAJdDv60syeS33V7JWWm0i5V+wwWsMikJW0LocHaKG8Zx
-	YrMIjF33hwYA2B7j5fjxw9tVVOokj3Jnx7yN+jCqXwb3yjtZporrmV59abp42E98s8PhQx/2HSz
-	c0Fn5Ny3mKiVbhCopBTqRQcICoNDYYL/XOo4YnpK0CKwEuDmiKzb3+PjvCgjl54uUhMWuydnZQx
-	mAOoqFs2vp0tqqOGbLG0OqZDrNx1vo93wFLjRsSfVNTZmsWELkCZILyPeOW0+CpVg0l1FL8Dake
-	YlezmzwZcziQIBaUotPoQBXMcwtifJwiuR3Xxl0VyegQKqepTdde12bnNS7jfavH1oL9F8wByf9
-	e28LNXFfgLJjZrXHe
-X-Google-Smtp-Source: AGHT+IEsxxsTElehsXiy/j9gvQgKD6AbOSqheG88RGHTrVgmb0CU8UNDkYtrV/BImx3zQJlDwaL0EA==
-X-Received: by 2002:a05:600c:a42:b0:43c:f513:9591 with SMTP id 5b1f17b1804b1-451f0a8d601mr68257205e9.14.1749127206162;
-        Thu, 05 Jun 2025 05:40:06 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-451fb169309sm18073265e9.4.2025.06.05.05.40.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Jun 2025 05:40:05 -0700 (PDT)
-Message-ID: <44b3779b-702c-4e8b-8ccd-c9c3314a511f@linaro.org>
-Date: Thu, 5 Jun 2025 13:40:03 +0100
+	s=arc-20240116; t=1749127312; c=relaxed/simple;
+	bh=TXksFdyyDEdsxI0qhkErvaqcJ1KZyhdNTbg4RY/u2X0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mIecjlmo110FpYUoPazHONJPqPgHA8p9Fy8mNOMYkLrcPtvmq8pevhFD3tPBsxTu3H8FWIyCLJ4HL5Qjy62GoWpoWdvKxU1q+Vu9xu36/UBf8EBFdcPRhad+Jk7/X/mpBDquWjieRJSkSmdmysLWckbfnycx/+XMQritG7VWqpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=RkHfuRJG; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1749127308;
+	bh=TXksFdyyDEdsxI0qhkErvaqcJ1KZyhdNTbg4RY/u2X0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=RkHfuRJGvu2PRqbK//2suBckGm9ffe1l5JEIk9rFWHq8Ho4RRz2CbZfNpDkefa7IR
+	 7ivclm4GTtO/WAsZS2HTJaY74TjVDfwKebm2ARvuJdd3vAIKVtrVPG2h/vR2FNq2kE
+	 zcRAQq0rtvj6PfRxp429qLrhkyC+OTVg3VG9rZuqjkyFmGNrRajnyb6kDcH3MhUCOD
+	 19KpyEZX03/f2wvXeGT4zUpQ6fGHHYS8V9wMRD7R4XQZgLYTudIzmboyGJcY3Vsr+c
+	 J09sj68/2iTt3a/zW0eVeUkJdp6bI7h+7XJ/YkNamWFhO9c4BbuBvM9z8XwNluKEEx
+	 ezCImSkIrcdcA==
+Received: from [IPv6:2606:6d00:10:5285::5ac] (unknown [IPv6:2606:6d00:10:5285::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9BE4A17E02B0;
+	Thu,  5 Jun 2025 14:41:46 +0200 (CEST)
+Message-ID: <608f95249ff3a39efb063ab9c6a543259a7b0ac9.camel@collabora.com>
+Subject: Re: [PATCH v3 1/5] media: mc: add manual request completion
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil
+	 <hans@jjverkuil.nl>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Tiffany Lin
+	 <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+ Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	kernel@collabora.com, linux-media@vger.kernel.org, Sebastian Fricke	
+ <sebastian.fricke@collabora.com>
+Date: Thu, 05 Jun 2025 08:41:45 -0400
+In-Reply-To: <aEFoCvPe4zE48UG7@kekkonen.localdomain>
+References: 
+	<20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-0-603db4749d90@collabora.com>
+	 <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-1-603db4749d90@collabora.com>
+	 <aEC05991kEIIifDB@kekkonen.localdomain>
+	 <1ccaaec7f782afc71bae5c3b0f60a786a907555c.camel@collabora.com>
+	 <aEE-VFfJDhUbM2nA@kekkonen.localdomain>
+	 <8b1ed01a-b6e3-4670-a4e0-d8eee7ddc524@jjverkuil.nl>
+	 <aEFoCvPe4zE48UG7@kekkonen.localdomain>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 0/3] media: venus: enable venus on qcs615
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Renjiang Han <quic_renjiang@quicinc.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20250530-add-venus-for-qcs615-v8-0-c0092ac616d0@quicinc.com>
- <wmri66tkksq6i3hfyoveedq5slghnnpozjzx6gck5r3zsiwsg6@xevgh54rnlqd>
- <285cae4a-219c-4514-818f-34c8225529de@quicinc.com>
- <t6niql4jfotjnbducypwxkdjqt3or7k3rwmltvbhifmpphsiwy@er56ey4v2pzo>
- <a3bf69f3-6500-4e45-ba34-8ba24312938a@kernel.org>
- <CAO9ioeWkLu+ne18kjEST7YU7b1aBzcMBBeyfpagzis99BAeOHg@mail.gmail.com>
- <b710e357-09e3-460e-b097-28cf0c856aeb@kernel.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <b710e357-09e3-460e-b097-28cf0c856aeb@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 05/06/2025 13:33, Krzysztof Kozlowski wrote:
-> On 05/06/2025 14:30, Dmitry Baryshkov wrote:
->> On Thu, 5 Jun 2025 at 13:13, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>
->>> On 02/06/2025 08:16, Dmitry Baryshkov wrote:
->>>> On Sat, May 31, 2025 at 08:05:24AM +0800, Renjiang Han wrote:
->>>>>
->>>>> On 5/31/2025 4:27 AM, Dmitry Baryshkov wrote:
->>>>>> On Fri, May 30, 2025 at 09:32:12AM +0530, Renjiang Han wrote:
->>>>>>> QCS615 uses the same video core as SC7180, so reuse the same resource
->>>>>>> data of SC7180 for QCS615 to enable video functionality.
->>>>>>>
->>>>>>> There are no resources for the video-decoder and video-encoder nodes
->>>>>>> in the device tree, so remove these two nodes from the device tree. In
->>>>>>> addition, to ensure that the video codec functions properly, use [3]
->>>>>>> to add encoder and decoder node entries in the venus driver.
->>>>>>>
->>>>>>> Validated this series on QCS615 and SC7180.
->>>>>>>
->>>>>>> Note:
->>>>>>> This series consist of DT patches and a venus driver patch. The patch
->>>>>>> 1/3, which is venus driver patch, can be picked independently without
->>>>>>> having any functional dependency. But patch 2/3 & patch 3/3, which are
->>>>>>> DT patches, still depend on [1].
->>>>>> I'd say 2/3 and 3/3 still depend on 1/3, otherwise we can get video core
->>>>>> on QCS615 over(?)clocked.
->>>>> Agree, so we need to make sure that the driver patch is not picked after the
->>>>> DT patch.
->>>>
->>>> Worse: we need to make sure that the driver patch is present in the
->>>> branch which picks up DT patches. Otherwise building & testing that
->>>
->>>
->>> Well, that's a NAK then (although depends what you mean by DT).
->>
->> I mean qcs615.dtsi. I'd suggest an immutable branch for the driver
+Hi Hans, Sakari,
+
+Le jeudi 05 juin 2025 à 09:48 +0000, Sakari Ailus a écrit :
+> > It's not user-triggerable, if this happens, then it is a driver bug.
 > 
-> Sorry, but no, DTS cannot depend on drivers. You CANNOT merge them into
-> one branch.
-> 
->> patch. Or just merging the patches in two consequent releases.
-> 
-> That's a new device nodes, new hardware so it should not be blocked by
-> any driver patch. This is just totally broken process / patchset / work.
-> 
-> Best regards,
-> Krzysztof
+> If there is a driver bug, it could well be user-triggerable, wouldn't it?
+> Testing may not uncover all such cases.
 
-Reading this thread, I don't think that is the case.
+You are both right, if the driver is not used, the warning will never
+trigger. I was worried of the hit of a thread safe ONCE implementation,
+but WARN_ONCE is simply not, it can warn few time before it stops if
+called from multiple CPUs at the same time. In that specific function,
+I can move all the checks inside the lock to make it truly once.
 
-I don't see how patches 2/3 or 3/3 depend on 1/3.
+Now its up to you, I don't have strong preference. These are driver errors,
+and usually quite critical. They are not bug_on simply because we have a
+crash free resolution, but its probably not functional anymore.
 
-The frequency table is a fallback in the driver and the DT changes are 
-completely straight forward.
-
-TBH, I think we are hitting an email comms/social barrier here, not a 
-technical one.
-
-@Renjiang can you please confirm that freq_table is a fallback, qcs615 
-will work without OPP table and the DTS stuff doesn't depend on the driver.
-
-TBH, I don't see how the DTS can or should but...
-
----
-bod
-
+Nicolas
 
