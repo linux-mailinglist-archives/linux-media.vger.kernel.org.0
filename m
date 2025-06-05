@@ -1,307 +1,85 @@
-Return-Path: <linux-media+bounces-34085-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34086-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC70ACEA73
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 08:51:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3CEACEA9D
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 09:05:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E4AD3A6D91
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 06:50:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB5203A4BAF
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 07:05:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5BBD1F4177;
-	Thu,  5 Jun 2025 06:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AOdNvhqU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2F551BD035;
+	Thu,  5 Jun 2025 07:05:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80AE2114;
-	Thu,  5 Jun 2025 06:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D15B2C3242
+	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 07:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749106272; cv=none; b=LlPecBHGe9c73gZgM2k9BNy7mfoMZUmMm92ooVgAG9AMXkQr4SQBoShwLjZ3i9peYzefx/WurIx6UVOQRpWn3I530ru5gqBzg4RN3FTNI6qcunU37SKS0rNdltZJYkNJf607WImEsag8Gn3jJpE7QH/tJAOcBvn7yFjILcVDjOI=
+	t=1749107144; cv=none; b=Svp97H8KucDS3ycqKN5MW6AyGimPCRnC3h57/b2B+T+TJIt2yb99uGdT+Or8/Vu4pXarjwXi4sTZ4bb6DcRkY7ajG/LVuFmO4adXURFscCooKcSk7Rh2jcym8XWDJUO3LlFz9PmbTRikjwN4cLLnGStuEk148pAMpwek7FAs2lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749106272; c=relaxed/simple;
-	bh=4u0cpenPUYwUhEIn7H4Eq3mCfXok80FoEd4oOTI+Xe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HONxHcKVlpqussfFVQf5H5gzcOCxZopnZJAbCg1/K1lbXtIMzkypDnJDiOeoRi8rUJGhRK+C8I/x3s7Z5mkwS33Z5xeD3Y2g0USM7hgcj9+H8FTrXwRcti1HtwwE2eyC2LquMirpm0r9IKb7MqdWUFDifBb8N+IauUOEL0Bbeq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AOdNvhqU; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749106268; x=1780642268;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=4u0cpenPUYwUhEIn7H4Eq3mCfXok80FoEd4oOTI+Xe4=;
-  b=AOdNvhqUwpVOkn0xNFteCZ/9uty3Gv3mwdxS8zVr0ZM+EpKqfHSOmkba
-   Zs0dWoVsiTj8vpWXDNyB0VXyK7VPLAgTNwRl2TGr9bF1IP2TjM+O9DCPT
-   3ejD3KT814PwMG6N4V8LX7FHv1oi+qu62ys76JXwd5JnausLUPnZzEHwM
-   0pyo1g5CvtvmHXqTjEVMTfwuh+T0lmGd7RCD2zYT8XeszTzuR2bCJ1P+T
-   PNQAetcsq+5TwydY5tIM77nAfrHifQ9FT8cF0S7aELIKH6OZMcyO45TMW
-   to5IgVKK/4F303miIRNv/jW4yIVIAVSi7aDRbOAJMAzhJ37UioYhQUJCB
-   A==;
-X-CSE-ConnectionGUID: kVvLDWavQbSbaHL4xCrBEA==
-X-CSE-MsgGUID: YzlEtEPBRL2CRiQZTfjSZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="62262541"
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="62262541"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 23:51:07 -0700
-X-CSE-ConnectionGUID: xu2tSk4iTv2MRpKjasZFEA==
-X-CSE-MsgGUID: oJ/ST0IjQoWa8lS+Ksbi+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="150569068"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.16])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 23:51:03 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8AECE12023B;
-	Thu,  5 Jun 2025 09:51:00 +0300 (EEST)
-Date: Thu, 5 Jun 2025 06:51:00 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com,
-	linux-media@vger.kernel.org,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-Subject: Re: [PATCH v3 1/5] media: mc: add manual request completion
-Message-ID: <aEE-VFfJDhUbM2nA@kekkonen.localdomain>
-References: <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-0-603db4749d90@collabora.com>
- <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-1-603db4749d90@collabora.com>
- <aEC05991kEIIifDB@kekkonen.localdomain>
- <1ccaaec7f782afc71bae5c3b0f60a786a907555c.camel@collabora.com>
+	s=arc-20240116; t=1749107144; c=relaxed/simple;
+	bh=ayn26Pc75iuLXzSrN8Q8BWf2ETKFVY3cW9V/idd46Cc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iOmstwUXpBn1OrGBJszvgmnp1Gh6bWuzD+nNdfWAADGLx6USNFcErhwnfhFqT/P/59K6a1yxu7f6jLlmiUMYU8pPYhcEP2ZORu/XJXUtdYzMMwz0bASaM/AN9FpwSbT/XkIGY98tLpA/oPVGGcItai2PW+i8YqFS7uN4rhJjTvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42975C4CEF0;
+	Thu,  5 Jun 2025 07:05:43 +0000 (UTC)
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 0/5] media: dvb/vb2: fix DVB streaming, drop wait_prepare/finish
+Date: Thu,  5 Jun 2025 08:57:34 +0200
+Message-ID: <cover.1749106659.git.hverkuil@xs4all.nl>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1ccaaec7f782afc71bae5c3b0f60a786a907555c.camel@collabora.com>
 
-Hi Nicolas,
+The last user of the vb2 wait_prepare/finish callbacks was dvb-core.
 
-On Wed, Jun 04, 2025 at 07:19:27PM -0400, Nicolas Dufresne wrote:
-> Le mercredi 04 juin 2025 à 21:04 +0000, Sakari Ailus a écrit :
-> > Hi Nicolas,
-> > 
-> > Thanks for the update.
-> > 
-> > On Wed, Jun 04, 2025 at 04:09:35PM -0400, Nicolas Dufresne wrote:
-> > > From: Hans Verkuil <hverkuil@xs4all.nl>
-> > > 
-> > > By default when the last request object is completed, the whole
-> > > request completes as well.
-> > > 
-> > > But sometimes you want to delay this completion to an arbitrary point in
-> > > time so add a manual complete mode for this.
-> > > 
-> > > In req_queue the driver marks the request for manual completion by
-> > > calling media_request_mark_manual_completion, and when the driver
-> > > wants to manually complete the request it calls
-> > > media_request_manual_complete().
-> > > 
-> > > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > ---
-> > >  drivers/media/mc/mc-request.c | 38 ++++++++++++++++++++++++++++++++++++--
-> > >  include/media/media-request.h | 38 +++++++++++++++++++++++++++++++++++++-
-> > >  2 files changed, 73 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
-> > > index 5edfc2791ce7c7485def5db675bbf53ee223d837..398d0806d1d274eb8c454fc5c37b77476abe1e74 100644
-> > > --- a/drivers/media/mc/mc-request.c
-> > > +++ b/drivers/media/mc/mc-request.c
-> > > @@ -54,6 +54,7 @@ static void media_request_clean(struct media_request *req)
-> > >  	req->access_count = 0;
-> > >  	WARN_ON(req->num_incomplete_objects);
-> > >  	req->num_incomplete_objects = 0;
-> > > +	req->manual_completion = false;
-> > >  	wake_up_interruptible_all(&req->poll_wait);
-> > >  }
-> > >  
-> > > @@ -313,6 +314,7 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
-> > >  	req->mdev = mdev;
-> > >  	req->state = MEDIA_REQUEST_STATE_IDLE;
-> > >  	req->num_incomplete_objects = 0;
-> > > +	req->manual_completion = false;
-> > >  	kref_init(&req->kref);
-> > >  	INIT_LIST_HEAD(&req->objects);
-> > >  	spin_lock_init(&req->lock);
-> > > @@ -459,7 +461,7 @@ void media_request_object_unbind(struct media_request_object *obj)
-> > >  
-> > >  	req->num_incomplete_objects--;
-> > >  	if (req->state == MEDIA_REQUEST_STATE_QUEUED &&
-> > > -	    !req->num_incomplete_objects) {
-> > > +	    !req->num_incomplete_objects && !req->manual_completion) {
-> > >  		req->state = MEDIA_REQUEST_STATE_COMPLETE;
-> > >  		completed = true;
-> > >  		wake_up_interruptible_all(&req->poll_wait);
-> > > @@ -488,7 +490,7 @@ void media_request_object_complete(struct media_request_object *obj)
-> > >  	    WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
-> > >  		goto unlock;
-> > >  
-> > > -	if (!--req->num_incomplete_objects) {
-> > > +	if (!--req->num_incomplete_objects && !req->manual_completion) {
-> > >  		req->state = MEDIA_REQUEST_STATE_COMPLETE;
-> > >  		wake_up_interruptible_all(&req->poll_wait);
-> > >  		completed = true;
-> > > @@ -499,3 +501,35 @@ void media_request_object_complete(struct media_request_object *obj)
-> > >  		media_request_put(req);
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(media_request_object_complete);
-> > > +
-> > > +void media_request_manual_complete(struct media_request *req)
-> > > +{
-> > > +	unsigned long flags;
-> > 
-> > I'd declare flags as last.
-> > 
-> > > +	bool completed = false;
-> > > +
-> > > +	if (WARN_ON(!req))
-> > > +		return;
-> > > +	if (WARN_ON(!req->manual_completion))
-> > > +		return;
-> > 
-> > I think I'd use WARN_ON_ONCE() consistently: this is a driver (or
-> > framework) bug and telling once about it is very probably enough.
-> 
-> Just to be sure, you only mean for the two checks above ? Or did
-> you mean for the entire function ?
+It turned out that the DVB streaming I/O code suffered somewhat from bit
+rot, especially since the patches adding streaming I/O support to v4l-utils
+were never applied, so there was no way to actually use it in
+dvbv5-scan/zap.
 
-For the entire function. I thought that if this is user-triggerable, the
-amount of data ending up in logs could be very large.
+I will post a separate series adding support for this, based on the
+original patches from 2017 (!).
 
-> 
-> > 
-> > > +
-> > > +	spin_lock_irqsave(&req->lock, flags);
-> 
-> In practice, if you call this specific function from two places at the same
-> time you have a bug, but I realize that moving the the warning on the check
-> manual_completion inside that lock would massively help detect that case.
-> 
-> What do you think ?
+The first two patches for dvb-core fix two issues found while
+regression testing. The last three patches in this series remove the
+support for the wait_prepare/finish callbacks.
 
-Seems reasonable to me.
+Regards,
 
-> 
-> > > +	if (WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
-> > > +		goto unlock;
-> > > +
-> > > +	req->manual_completion = false;
-> > > +	/*
-> > > +	 * It is expected that all other objects in this request are
-> > > +	 * completed when this function is called. WARN if that is
-> > > +	 * not the case.
-> > > +	 */
-> > > +	if (!WARN_ON(req->num_incomplete_objects)) {
-> > > +		req->state = MEDIA_REQUEST_STATE_COMPLETE;
-> > > +		wake_up_interruptible_all(&req->poll_wait);
-> > > +		completed = true;
-> > > +	}
-> > 
-> > A newline would be nice here.
-> > 
-> > > +unlock:
-> > > +	spin_unlock_irqrestore(&req->lock, flags);
-> > > +	if (completed)
-> > > +		media_request_put(req);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(media_request_manual_complete);
-> > > diff --git a/include/media/media-request.h b/include/media/media-request.h
-> > > index d4ac557678a78372222704400c8c96cf3150b9d9..7f9af68ef19ac6de0184bbb0c0827dc59777c6dc 100644
-> > > --- a/include/media/media-request.h
-> > > +++ b/include/media/media-request.h
-> > > @@ -56,6 +56,9 @@ struct media_request_object;
-> > >   * @access_count: count the number of request accesses that are in progress
-> > >   * @objects: List of @struct media_request_object request objects
-> > >   * @num_incomplete_objects: The number of incomplete objects in the request
-> > > + * @manual_completion: if true, then the request won't be marked as completed
-> > > + * when @num_incomplete_objects reaches 0. Call media_request_manual_complete()
-> > > + * to complete the request after @num_incomplete_objects == 0.
-> > >   * @poll_wait: Wait queue for poll
-> > >   * @lock: Serializes access to this struct
-> > >   */
-> > > @@ -68,6 +71,7 @@ struct media_request {
-> > >  	unsigned int access_count;
-> > >  	struct list_head objects;
-> > >  	unsigned int num_incomplete_objects;
-> > > +	bool manual_completion;
-> > >  	wait_queue_head_t poll_wait;
-> > >  	spinlock_t lock;
-> > >  };
-> > > @@ -218,6 +222,38 @@ media_request_get_by_fd(struct media_device *mdev, int request_fd);
-> > >  int media_request_alloc(struct media_device *mdev,
-> > >  			int *alloc_fd);
-> > >  
-> > > +/**
-> > > + * media_request_mark_manual_completion - Enable manual completion
-> > > + *
-> > > + * @req: The request
-> > > + *
-> > > + * Mark that the request has to be manually completed by calling
-> > > + * media_request_manual_complete().
-> > > + *
-> > > + * This function shall be called in the req_queue callback.
-> > > + */
-> > > +static inline void
-> > > +media_request_mark_manual_completion(struct media_request *req)
-> > > +{
-> > > +	req->manual_completion = true;
-> > > +}
-> > > +
-> > > +/**
-> > > + * media_request_manual_complete - Mark the request as completed
-> > > + *
-> > > + * @req: The request
-> > > + *
-> > > + * This function completes a request that was marked for manual completion by an
-> > > + * earlier call to media_request_mark_manual_completion(). The request's
-> > > + * @manual_completion flag is reset to false.
-> > 
-> > s/flag/field/
-> > 
-> > > + *
-> > > + * All objects contained in the request must have been completed previously. It
-> > > + * is an error to call this function otherwise. If such an error occurred, the
-> > > + * function will WARN and the object completion will be delayed until
-> > > + * @num_incomplete_objects is 0.
-> > > + */
-> > > +void media_request_manual_complete(struct media_request *req);
-> > > +
-> > >  #else
-> > >  
-> > >  static inline void media_request_get(struct media_request *req)
-> > > @@ -336,7 +372,7 @@ void media_request_object_init(struct media_request_object *obj);
-> > >   * @req: The media request
-> > >   * @ops: The object ops for this object
-> > >   * @priv: A driver-specific priv pointer associated with this object
-> > > - * @is_buffer: Set to true if the object a buffer object.
-> > > + * @is_buffer: Set to true if the object is a buffer object.
-> > >   * @obj: The object
-> > >   *
-> > >   * Bind this object to the request and set the ops and priv values of
-> > > 
+	Hans
+
+Hans Verkuil (5):
+  media: dvb-core: dmxdevfilter must always flush bufs
+  media: dvb-core/dmxdev: drop locks around mmap()
+  media: dvb-core: dvb_vb2: drop wait_prepare/finish callbacks
+  media: vb2: remove vb2_ops_wait_prepare/finish helpers
+  media: vb2: drop wait_prepare/finish callbacks
+
+ Documentation/driver-api/media/v4l2-dev.rst   |  8 +--
+ .../userspace-api/media/conf_nitpick.py       |  2 -
+ .../media/common/videobuf2/videobuf2-core.c   | 49 ++++---------------
+ .../media/common/videobuf2/videobuf2-v4l2.c   | 14 ------
+ drivers/media/dvb-core/dmxdev.c               | 46 ++++++++---------
+ drivers/media/dvb-core/dvb_vb2.c              | 45 ++++++-----------
+ include/media/dvb_vb2.h                       | 17 ++++---
+ include/media/videobuf2-core.h                | 23 ++-------
+ include/media/videobuf2-v4l2.h                | 18 -------
+ 9 files changed, 62 insertions(+), 160 deletions(-)
 
 -- 
-Kind regards,
+2.47.2
 
-Sakari Ailus
 
