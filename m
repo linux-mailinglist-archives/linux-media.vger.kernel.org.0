@@ -1,204 +1,211 @@
-Return-Path: <linux-media+bounces-34128-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34129-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47911ACEFA5
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:55:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58871ACEFA8
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:55:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0956D17796E
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:55:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5BAF1894991
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:55:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 349E4225795;
-	Thu,  5 Jun 2025 12:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jPNxNGl/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D78C22331C;
+	Thu,  5 Jun 2025 12:55:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5184E221F11
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 12:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DE2202F83
+	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 12:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749128091; cv=none; b=ey4edOr8DfcAWEGfy9b8KV/3/n8HZRhoKLroPh6tm7BQm/Hlt6VjE/3r3AqmZblvY8pa6C61nG+uK0Rlg4BymwTnnUS1XZfjzMyTS7jKtoVNOngHC5xFcvUJbHD9XsRflxIdgy0cPVfLoZAZePg5ECE38JMVoCYdYP7LBTkP9Oo=
+	t=1749128115; cv=none; b=CoUYKmYMqK/zesIm7PkrM09veTzUohk81ZgPL5amCtXGUvv7RcwM6EY6uF4U+IAt83IBKjsqaoN7n/ylrkIU0MIPCYlRe9zC2bMfvj3ohcWEpFJCKm3FPqdQNzFH20jy1GdxH3RqDRgY/EPaQ3SmeHD37CVkLOhDE9O4GPHIu0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749128091; c=relaxed/simple;
-	bh=BNZa5KZigyQRXP4muBDV8RUA36S0Ug+TyXEMrcT3StU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nt7goppOfXi7ml+oN1hJIgRB22wgGpHIuV/b0Sd2VxtiKaCHcb2mwh8dgnTsFHUzG/T7IKHOqv30uz6qGEe8Mw+pv0+siQPv2AdqTM2DFGtqHUnlFBItY6F6tVVs5nZT14ugrDZYtTcFjYWVfbzifFfXZOuxZYMV5Wq7kpB5M3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jPNxNGl/; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54acc0cd458so1053095e87.0
-        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 05:54:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1749128087; x=1749732887; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5eiCt7U5RbCUKlDlFPTLISQ9RAxLArIz4eS02clZaEA=;
-        b=jPNxNGl/zPAZeY8BvnCCqVAaUOgO4RBL7kyClqOif/oLFgF8Yzs0UppPWRzCGWZmOC
-         zOGli39cr2e8R5/DVibj7Gz+pKrCU+HrudnSZDDR9fTg/R6IU/gF534Q6OsyF/1Elqju
-         NCbxhHTg6lKxBRX0V/IZd0K45gHE9C5qEZpMs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749128087; x=1749732887;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5eiCt7U5RbCUKlDlFPTLISQ9RAxLArIz4eS02clZaEA=;
-        b=Hw7qSwkEtFJLv46H6MssNq7vrek65XCRCfAuk36mrmOL21+6CxvSRCzgQYqvG/xhIn
-         8LmQwE83BYmEu7eKAB9kVLcd1Mdd7yUYuwD2iQ+Nf5rdKQ43Mimqo48PGmgr4iBfi50p
-         P5nQgZGOx2UfP1Xiv2f7PpzpMa5THXLHjIcUPkb/o3PWo8wqnXgzxk8cfRYUnwoY1x7P
-         oNtTt8bFLRYqvlXHzUYepr9wgtk1FRYB92i+4c44HtFgF9qar9bgfEfsVP0iTo4TEbna
-         i+vO3CJHoelCs7CFc1QNmplKUrG7EoiRLP6pTxhSqa9R5fpWjO/MqplHw0qzC819H5p+
-         Eazg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHRJVQ3HyKbUESJ3mx/gW9TJlFahmbQRUyDWuprzhRGs3R8gkOe5Jns6WWtbWXT5MnTHSdCezRSotRyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5JAhvIOa1lgilmF0sspqd2UGRUKuSIW6Pbi4eE13v6VtAFlG6
-	gkgv5cynrfyMRira9f0v4YkQV/43MJyvCchln6gLUeqSlbvwUAuWyvEQ0SzD52TLwGA80iJScBq
-	ejVA=
-X-Gm-Gg: ASbGncsQD0UBtNdxgx3KybmJYjNxRfXyytGZ1cCdir21ODMNesF04dyj8882YZiRxK5
-	djkDJb4PL/4fH1EthW5AQRmJIWHRjp3sCWJXin0WUEzalBiH6u1bN/BzdXdOJEr5Or2ePQaYe4u
-	WGZhbB8qkd+3ef0u3wf/iOJPyf1c7P0NScD+tcjkrUSHIwKaYtvgPhmLPV5XkthfMrqDEV7gL/T
-	u4VEJ+tajxb3MTFMHgo8tTiCV0mYKJUJ1QKNh5Z/WznByvo0Pt/GmWc9lRQVmoCHqx+6jJfsiE3
-	JkAhbP4elNUQ778p55LTfyRVX8PZ57TKKuOllPz1mFCcPIhHsd61XdwWJtMLmVbwcqBqtkJfkX0
-	wzExxMh9kQAh/tQ==
-X-Google-Smtp-Source: AGHT+IHVIw/6nWdTKxhSB8B7JpwwWnVCDjAV2rHwJPQJbEbr6UIS1HZfqT+U7MpZtQWGf8BcM6OZ7w==
-X-Received: by 2002:a05:6512:e89:b0:553:5429:bb87 with SMTP id 2adb3069b0e04-55356bf973cmr1853269e87.36.1749128086992;
-        Thu, 05 Jun 2025 05:54:46 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55337910dedsm2605198e87.135.2025.06.05.05.54.46
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Jun 2025 05:54:46 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-551ed563740so1158037e87.2
-        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 05:54:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVZhmpxodpz4r4Yr4CHjUCuaWclcTPC18DALIuqabZHdXLUTJJgPT2t1VOVjXjdsVmYlovJt9lOgwi84g==@vger.kernel.org
-X-Received: by 2002:a05:6512:68b:b0:553:515a:5ebd with SMTP id
- 2adb3069b0e04-55356adfe74mr2076188e87.8.1749128086036; Thu, 05 Jun 2025
- 05:54:46 -0700 (PDT)
+	s=arc-20240116; t=1749128115; c=relaxed/simple;
+	bh=LOb9r/Jj9riUcwpqeBrXN2Nq4ofbZLwsYRp+ofhGEes=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eVCQvx9tbOlvWeO/J0CqYoDF+bVWdEkmCk/pbR+n+JNI1wiVIKX1qDbczeNexF8O2vJCd4tZ8buW9pcQGfohElMslHdGb5OgyNrM+GgP2ItZsKiPRTtYeYjpmVuQxepB3vpFqDS6yK6N7PoJ4dBU3MbkqafXLYEC/SC4KmLxm8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073D8C4CEE7;
+	Thu,  5 Jun 2025 12:55:13 +0000 (UTC)
+Message-ID: <72f7c5e2-32b2-4c62-8274-cff50336043b@xs4all.nl>
+Date: Thu, 5 Jun 2025 14:55:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250605-prefix-v1-1-450aff98308a@chromium.org> <20250605124635.GC29935@pendragon.ideasonboard.com>
-In-Reply-To: <20250605124635.GC29935@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 5 Jun 2025 14:54:33 +0200
-X-Gmail-Original-Message-ID: <CANiDSCs4B8ovA2jipUiDr3tC3SSCpJOownohx-X+UvD+2W2w9g@mail.gmail.com>
-X-Gm-Features: AX0GCFshUqowHPi69zzJo3XkzLlZN-cSE8yUmNs2V-YicCQHtAbJ_9mZ0L9ffxI
-Message-ID: <CANiDSCs4B8ovA2jipUiDr3tC3SSCpJOownohx-X+UvD+2W2w9g@mail.gmail.com>
-Subject: Re: [PATCH v4l-utils] CONTRIBUTE: Add simple contribution instructions
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hans@jjverkuil.nl>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] libdvbv5/dvb-v5-std.c: add DTV_BANDWIDTH_HZ where
+ possible
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <cover.1749121112.git.hverkuil@xs4all.nl>
+ <f3226f83c3e8cf9f71dc53d435abc381f88e08b0.1749121112.git.hverkuil@xs4all.nl>
+ <20250605141853.1f2a6616@foz.lan>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20250605141853.1f2a6616@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 5 Jun 2025 at 14:46, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Thu, Jun 05, 2025 at 12:09:57PM +0000, Ricardo Ribalda wrote:
-> > In the media summit we discussed the need of a special prefix for
-> > v4l-utils. This helps patchwork and media-ci.
-> >
-> > Create a new file with a brief introductions on how to contribute and
-> > make the `v4l-utils` official.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> I think this is a good idea. I don't know how we'll get users to
-> actually use the prefix, but documenting it is a necessary first step.
+On 6/5/25 14:18, Mauro Carvalho Chehab wrote:
+> Em Thu,  5 Jun 2025 12:58:29 +0200
+> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+> 
+>> Several systems support DTV_BANDWIDTH_HZ, add it.
+>>
+>> This fixes a dvbv5-scan error message about missing support for
+>> DTV_BANDWIDTH_HZ.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+>> ---
+>>  lib/libdvbv5/dvb-v5-std.c | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>
+>> diff --git a/lib/libdvbv5/dvb-v5-std.c b/lib/libdvbv5/dvb-v5-std.c
+>> index c0a14175..74e2e4fe 100644
+>> --- a/lib/libdvbv5/dvb-v5-std.c
+>> +++ b/lib/libdvbv5/dvb-v5-std.c
+>> @@ -81,6 +81,7 @@ const unsigned int sys_isdbt_props[] = {
+>>  const unsigned int sys_atsc_props[] = {
+>>  	DTV_FREQUENCY,
+>>  	DTV_MODULATION,
+>> +	DTV_BANDWIDTH_HZ,
+>>  	0
+>>  };
+> 
+> Indeed, ISDB-T could have a bandwidth. In the beginning, only
+> Japan and Brazil were using it, with a 6MHz bandwidth. As far as
+> I remember, all drivers we currently have are for devices with
+> such limit. Yet, the spec allows other bandwidths as well. Not sure
+> if any Country is using a different bandwidth in practice, though.
+> 
+>> @@ -111,12 +112,14 @@ const unsigned int sys_dvbc_annex_ac_props[] = {
+>>  	DTV_INVERSION,
+>>  	DTV_SYMBOL_RATE,
+>>  	DTV_INNER_FEC,
+>> +	DTV_BANDWIDTH_HZ,
+>>  	0
+>>  };
+>>  
+>>  const unsigned int sys_dvbc_annex_b_props[] = {
+>>  	DTV_FREQUENCY,
+>>  	DTV_MODULATION,
+>> +	DTV_BANDWIDTH_HZ,
+>>  	0
+>>  };
+>>  
+>> @@ -126,6 +129,7 @@ const unsigned int sys_dvbs_props[] = {
+>>  	DTV_SYMBOL_RATE,
+>>  	DTV_INNER_FEC,
+>>  	DTV_POLARIZATION,
+>> +	DTV_BANDWIDTH_HZ,
+>>  	0
+>>  };
+>>  
+>> @@ -139,6 +143,7 @@ const unsigned int sys_dvbs2_props[] = {
+>>  	DTV_ROLLOFF,
+>>  	DTV_POLARIZATION,
+>>  	DTV_STREAM_ID,
+>> +	DTV_BANDWIDTH_HZ,
+>>  	0
+>>  };
+>>  
+>> @@ -149,12 +154,14 @@ const unsigned int sys_turbo_props[] = {
+>>  	DTV_INNER_FEC,
+>>  	DTV_MODULATION,
+>>  	DTV_POLARIZATION,
+>> +	DTV_BANDWIDTH_HZ,
+>>  	0
+>>  };
+>>  
+>>  const unsigned int sys_isdbs_props[] = {
+>>  	DTV_FREQUENCY,
+>>  	DTV_STREAM_ID,
+>> +	DTV_BANDWIDTH_HZ,
+>>  	0
+>>  };
+> 
+> The above are not right: Satellite and Cable don't use bandwidth.
+> Instead, the bandwidth is indirectly calculated from the symbol
+> rate and rolloff, using something like this:
+> 
+> 	float rolloff = 1.35;	/* DVB-S rolloff */
+> 
+> 	int bandwidth_hz = int(symbol_rate * rolloff);
+> 
+> 
+> 
+> For DVB-C Annex A and B, and for DVB-S (and, afaikt, for DVB-TURBO), the
+> rolloff is fixed. DVB-S2 is the only one that supports different
+> rolloff factors.
+> 
+> In any case, DVB core calculates it. See this code snippet:
+> 
+>         switch (c->delivery_system) {
+>         case SYS_ATSC:
+>         case SYS_DVBC_ANNEX_B:
+>                 c->bandwidth_hz = 6000000;
+>                 break;
+>         case SYS_DVBC_ANNEX_A:
+>                 rolloff = 115;
+>                 break;
+>         case SYS_DVBC_ANNEX_C:
+>                 rolloff = 113;
+>                 break;
+>         case SYS_DSS:
+>                 rolloff = 120;
+>                 break;
+>         case SYS_DVBS:
+>         case SYS_TURBO:
+>         case SYS_ISDBS:
+>                 rolloff = 135;
+>                 break;
+>         case SYS_DVBS2:
+>                 switch (c->rolloff) {
+>                 case ROLLOFF_20:
+>                         rolloff = 120;
+>                         break;
+>                 case ROLLOFF_25:
+>                         rolloff = 125;
+>                         break;
+>                 default:
+>                 case ROLLOFF_35:
+>                         rolloff = 135;
+>                 }
+>                 break;
+>         default:
+>                 break;
+>         }
+>         if (rolloff)
+>                 c->bandwidth_hz = mult_frac(c->symbol_rate, rolloff, 100);
+> 
+> The Kernel calculates the bandwidth and may return it, but the opposite
+> is not true: any set operation for a TV standard that has DTV_SYMBOL_RATE
+> will simply discard/ignore what is there at DTV_BANDWIDTH_HZ.
+> 
+> Currently, the logic inside libdvbv5 assumes that all parameters are
+> read/write.
 
-I can add a comment in the media-ci email. Something like:
+The issue I tried to fix is that dvbv5-scan complains about BANDWIDTH_HZ
+being missing for DVB-C Annex A:
 
-I could not apply your series. Maybe it is for v4l-utils, if so,
-please check  http://XXXX/CONTRIBUTE.md
+ERROR    command BANDWIDTH_HZ (5) not found during retrieve
 
->
-> > ---
-> >  CONTRIBUTE.md | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> >
-> > diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..19a2c5814b45462f3cfeea921e277f8da00ccbd1
-> > --- /dev/null
-> > +++ b/CONTRIBUTE.md
-> > @@ -0,0 +1,19 @@
-> > +## Repository
-> > +
-> > +v4l-utils official repository is hosted at https://git.linuxtv.org/v4l-utils.git
-> > +
-> > +## Contributions
-> > +
-> > +Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
-> > +using the prefix `[PATCH v4l-utils]`.
->
-> Nitpicking, I was thinking of '[v4l-utils] [PATCH]' as that's what I
-> used previously. Looking at the list archives, both (and more) have been
-> used. I don't object to using '[PATCH v4l-utils]' if that's easier for
-This seems to be prefered by b4.... and who does not love b4 :P?
+Should this message just be suppressed in dvbv5-scan?
 
-> tools.
->
-> I have this in my .git/config for v4l-utils:
->
-> [format]
->         subjectPrefix = "v4l-utils] [PATCH"
->
-> With your proposal, this would be
->
-> [format]
->         subjectPrefix = "PATCH v4l-utils"
->
-> In either case, let's document this in addition to the b4 configuration.
+I'm not really sure what the best approach is, this isn't my area of
+expertise...
 
-Something like this?:
+Regards,
 
-diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
-index 19a2c581..708939df 100644
---- a/CONTRIBUTE.md
-+++ b/CONTRIBUTE.md
-@@ -5,7 +5,11 @@ v4l-utils official repository is hosted at
-https://git.linuxtv.org/v4l-utils.git
- ## Contributions
+	Hans
 
- Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
--using the prefix `[PATCH v4l-utils]`.
-+using the prefix `[PATCH v4l-utils]`. E.g:
-+
-+```
-+git config set format.subjectPrefix "PATCH v4l-utils"
-+```
+> 
+> Thanks,
+> Mauro
 
- ## b4 config
-
-
->
-> > +
-> > +## b4 config
-> > +
-> > +If you use b4[1] for your contributor workflow you can use these options:
-> > +
-> > +```
-> > +git config set b4.send-series-cc linux-media@vger.kernel.org
-> > +git config set b4.send-prefixes v4l-utils
-> > +```
-> > +
-> > +[1] https://b4.docs.kernel.org/en/latest/contributor/overview.html
-> >
-> > ---
-> > base-commit: 0d4e8e2d4e2d9d87863222e03fd3a6a4a3ff3d86
-> > change-id: 20250605-prefix-a1a47dbdaa75
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
 
