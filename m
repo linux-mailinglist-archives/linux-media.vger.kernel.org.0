@@ -1,215 +1,199 @@
-Return-Path: <linux-media+bounces-34136-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34137-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF62ACF155
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 15:54:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95EC2ACF287
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 17:09:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56AF8170346
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 13:54:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D91BC18923F7
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 15:09:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D42D272E69;
-	Thu,  5 Jun 2025 13:54:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A1A1AA782;
+	Thu,  5 Jun 2025 15:09:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EXDv2no9"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="q5QzeIJr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15092221278
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 13:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749131670; cv=none; b=SGI/g502FCafei7cUsjcDYa/k8u6P5C6HUUsJdDMVLGca9H6Zsey68osoa7uyoLNAYeaoT67tWB0Pw61BsWtDsAVlajRicIjh5R8oSrIysdYOEgSMJ2YFmJBj/RExslLUf0645qLEQDYhnQ+3NLSVmSeXqOt7kjE0/QyW5+oj8k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749131670; c=relaxed/simple;
-	bh=+TOBFkAERJovCN5kqbGCMdlrzlQGvFhW8DZwkD+Uyws=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d2Ap71X15/j/lr96mUeBMNhJX4EFSgVrW8AUw3wrUfNNkAJ/NNC1bA7u1b+RiP8R1xM1P4JVoITQ9O1bDqozCUSqsSgYK6BQd0SJbKB/wSsmzDMiPN/jFYaF8pzEDbwp64Rp/6Yibb3f/Ck/xH2MYcHw7iSN9CpTC1j7t1wHJH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EXDv2no9; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54d98aa5981so1319848e87.0
-        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 06:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1749131666; x=1749736466; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xDQqNGuaaJASa3A7hK13+SLre4swqicpLuA/hv4iDJo=;
-        b=EXDv2no9ySdhAK7wB4vwso4qaFfn8vgqu8CCLCmhywewJXv+EHjJmB0nTnof7sV+5K
-         WfZu6yVn38m+rS8itB/tDGNZo2Bkc3KIvsuGmQ6U1aAeyeMfJ8/maMvXTCUOBNOmrvSm
-         B3s9bf7IA/yMdKPCDYiUCwemFHKrRX4/vV71E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749131666; x=1749736466;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xDQqNGuaaJASa3A7hK13+SLre4swqicpLuA/hv4iDJo=;
-        b=RCjYRmbRpAeIqEVC8NNwKBWc8BtglMN325DxFN+8EZOyLktYj1fopgq56YFYOTK5zP
-         3gr3zpLSYA/r2rRNrO3AD5V7zqnJPIjjPO4bRxDNttgHJrCMdEJ/gGK5ELErcyh4++tD
-         obAt8Jzy4lQxEGnE4Ht9XCjJX59QfdRKKxyoUNnoTTnRc/LXaXUbQyEmSq/SdgHJ19/W
-         MNi4CWHEOQyRsonSrM0VGmIVY/gRbfU8q48TNlIo7LLGBvZAKKeHWPpGPbMY6ugnlaqb
-         qsp6QPt/3DoRpeokQePsLzmDXK1rA1tIW5Ut61lrqFZv64IQA/XIMF2mL/9PAQ4kjJ9t
-         uH9g==
-X-Forwarded-Encrypted: i=1; AJvYcCW88GsmVwyJrkdzrWqojz8FTxdCtaJJMm7cLLNEbpikOAojMtQeSu0cCkL0gClXvW5hs1F8zJYaa+IcQg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0iVdAnobUt0Z9m9iBX1ip15n6p5aHyVG4frA+P84VuLoIoWYW
-	Cod4wYXjTNDMHseO4yPRlZ7F3J/PzJckGEcZ4xonP47HQHtiRdFB73KCP8IcoXuJ5YctmdJMQFY
-	FigM=
-X-Gm-Gg: ASbGncuSIp8ihmwdATuwQXV7ZxRW1woGhLCL9RRuWboe+9mNW/fYv+W246wRERk0oMO
-	ralYePSfb8pZChSsIQ3iWpP1NWiz2i+gIfZtUJP9gK1hwusJguEy3w3fbb3fk+IH0mAElHh99Rf
-	QRL5LmwlFED7iyobS8fjx03LBwNFgko8+PhAXhXcFQ55tVPd0rIJtYvP90R0zK0OxIuP6goTcje
-	R/hQEDa1GYvCsa/C4TkUJ8LEAVwGKM/dhL0qalToUkP2Ltnd2ERQWpl2qFwNr17JYZR6f99FLiH
-	nmi90oKphfIG43nBHwlyUCKeRNgfK/rwwTJodHU6H1P0Ii2rMbe/F+o3BJbV4HKG3qcNntF6xSe
-	58iJDyUIggGXbZNaTZ9BnsgHL
-X-Google-Smtp-Source: AGHT+IFpL39/KITLNBTG4knu5KnruRHE0xNUfgVxnaF6z8JmMVUSTxmsZI5ao4HBBQk2OBGJbxcLTg==
-X-Received: by 2002:a05:6512:138a:b0:553:3892:5ec6 with SMTP id 2adb3069b0e04-55356bfb1c3mr2445924e87.35.1749131665711;
-        Thu, 05 Jun 2025 06:54:25 -0700 (PDT)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com. [209.85.167.54])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55337937734sm2615590e87.223.2025.06.05.06.54.25
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Jun 2025 06:54:25 -0700 (PDT)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54d98aa5981so1319831e87.0
-        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 06:54:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUG3zBn6NcsXRZsSF5mReYCqewnYQd+sg7j0KdSYuMmHuQB9pLfgSf1BrROhEs72O8r6OtlXeM8wp9qUg==@vger.kernel.org
-X-Received: by 2002:a05:6512:2353:b0:553:3178:2928 with SMTP id
- 2adb3069b0e04-55356ae9f39mr2321670e87.16.1749131664631; Thu, 05 Jun 2025
- 06:54:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AADB18C031;
+	Thu,  5 Jun 2025 15:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749136163; cv=fail; b=O4np4RRp4nEh6wFnovRec7obI1oqHNDdLWkpUBooFt+YUngFFYtEzYMF7GlhQkPVxeYVSm8XEgCJfsrWucNEsPcrYTuJBQXumOtxVr1EcTAcmN0GVY63kBD7cn5u/NeuFJyXSFEiI+8QNLJdBNbAzvb9vRCv0YiHWdy6vESBh4I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749136163; c=relaxed/simple;
+	bh=wFJYsXkXZ4eZEIZ4rQAAFyYLv9NX+hOpnQDs9umIvbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=joc2r+l0k2N7A0eMXb3F7R/QQEZxpTAYvj1rOIFtYJgmLczdnHiSz0iO71sLC5KAjnfsm5fiYamixVvNsiTADkflWK+DnkbbEKyPa8XIRzPFWeuolnj2ufyONqSW4BFTKR9nLiX8Vpgdrn/JqlTOloY+4BVSnrjSYU4yvM8bROI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=q5QzeIJr; arc=fail smtp.client-ip=40.107.244.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pp4qdTmwg6mDEsBPgK7EPygW4OzLmasUMeG84RxjV9mTgHa2iW1IkCh0W2abn1tZ9rNKWw12Z1sh9brJFT8eGEbtHR/bSo8nl8s/SH4tGXv7yNrXQPgeQKukWF0csNM63Xq51DuGx6YqdKXt0TxNE0kB7J9xf1R6Iv79dHusv4f4wFSvOSGH90ZDlPJ4moJ7s4h38HnRppVoIK2DifdYgqVFp+vQha7JlwI9fLvRHaCNffL+hLBMFHJt4eS4gNHUhrVK4eGjutGs0lnwUl1SIIhYgI0MjKQ/1xUnNulRrjVgbJYRXAaTqc2wD2t2RUMMAw+PLAOCl80XB9m78w3vCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K9WafZfPOMuTk9JtExzfcLS+H/l2FXgp1KQLW57ZbnQ=;
+ b=FAVxzdYP1pjE5uhwx+I2F7Xw/HbIxz1sSUrNTdkHFsFE+jZLaEYfRpom/gux5WpIYAeMNtQkZWB1GZi2qibp70sosKW6qvq161EQ4Vsni6Ppj54qj9M/IC5F/Xr1NrS0TVgLsFqRoc9+Gpo2E889MbjciEt6Tu3IkasDEXO5LBFAbtGAUIhuMKa/7Hc5wG5zObPj8nCESD43tGAw2FcbnX7R86w9ffMnEwpvAVsm1OZqUogGxLAVC/ZaWAsZM6lsODrPJGFztLA1zhMNrQoBapP/t/CU0yA61V6PN0WPi/vHVGx5SmbKY2LDFT2BFuzNYu/8O7iPx6q8TwO4OJhNIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K9WafZfPOMuTk9JtExzfcLS+H/l2FXgp1KQLW57ZbnQ=;
+ b=q5QzeIJrcf2a4hKg429qxtlJ2ZFnzO6QtJcgKe1GbSzl2CLaUqgg24XaSFfT7ZNPdghqE4H/iPwP3W0t7rWQXgNfgDWZQC5kkYvXSakWVPlbnE2Ih7lu8wfhzyskkzG4hEMIz1is+IQ5i6zq2sLoh8pIB/e0Fnn0OhpboLyRd5YnGlsB+VebVDaivIhDjT/o7P4uPxl4Bj8HV8eloWM9MEgGG/1Laz8oM3XyZUPHGf+HyY5YhK4Bx95d9Oz1XJdMm5f809JQVHpiHxWAKq5zIaqSfMLoSUTVbUWUILQU8jWJFdyuW/VuBE2cREdBDFxAiffqAiXxUMGu0IugNA4G1g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by CH3PR12MB7690.namprd12.prod.outlook.com (2603:10b6:610:14e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Thu, 5 Jun
+ 2025 15:09:18 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%6]) with mapi id 15.20.8792.034; Thu, 5 Jun 2025
+ 15:09:18 +0000
+Date: Thu, 5 Jun 2025 12:09:16 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, kvm@vger.kernel.org,
+	sumit.semwal@linaro.org, christian.koenig@amd.com,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
+	yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
+	yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
+	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
+	simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
+	iommu@lists.linux.dev, kevin.tian@intel.com
+Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
+ TEE-IO support
+Message-ID: <20250605150916.GB19710@nvidia.com>
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+ <20250529053513.1592088-20-yilun.xu@linux.intel.com>
+ <yq5aplfn210z.fsf@kernel.org>
+ <aD24r44v0g1NgeZs@yilunxu-OptiPlex-7050>
+ <yq5ajz5r8w6p.fsf@kernel.org>
+ <aEFmPaYorqaYCKBY@yilunxu-OptiPlex-7050>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aEFmPaYorqaYCKBY@yilunxu-OptiPlex-7050>
+X-ClientProxiedBy: YT4PR01CA0496.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10c::10) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250605-prefix-v1-1-450aff98308a@chromium.org>
- <20250605124635.GC29935@pendragon.ideasonboard.com> <CANiDSCs4B8ovA2jipUiDr3tC3SSCpJOownohx-X+UvD+2W2w9g@mail.gmail.com>
- <20250605131700.GA25847@pendragon.ideasonboard.com>
-In-Reply-To: <20250605131700.GA25847@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 5 Jun 2025 15:54:11 +0200
-X-Gmail-Original-Message-ID: <CANiDSCv9jpbXc-Oyv92a4ddjyNxrDZOzz3WdFYqMgBjwyKzg5Q@mail.gmail.com>
-X-Gm-Features: AX0GCFvCB5ZTwiZ8OOsxMGXf1yz8-kFgKh2ihLwI0GjKmCbo6skbCyWdFvpL4Vk
-Message-ID: <CANiDSCv9jpbXc-Oyv92a4ddjyNxrDZOzz3WdFYqMgBjwyKzg5Q@mail.gmail.com>
-Subject: Re: [PATCH v4l-utils] CONTRIBUTE: Add simple contribution instructions
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hans@jjverkuil.nl>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CH3PR12MB7690:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8248854e-4cf3-4b3b-56a1-08dda442f139
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?JK65WbaMWpD+/ntc+0jbhBWOwtYEQyDRrN5T91y0M7ag3mTYE9nLp2K5V/JM?=
+ =?us-ascii?Q?jVVkXlowDS6vlVCHqrZ+sP5KZyfbEWvzKuxDbX6DHQ8Vl7El2InEikmShAQV?=
+ =?us-ascii?Q?MtccP8O8gud38T6ErUNm4b7XzsY3I6oe0YayLDqXH2SNxRng9iTJYYtG9ONU?=
+ =?us-ascii?Q?WU9RAPxV4vKXYAy6zJXPLQOvRdTFDH62JdutF3yh20P+zldwoeqMfCD2qwds?=
+ =?us-ascii?Q?1ob1yDXDiHi8JiWNkzD+4GixwuzZvQofQByU9HgdYJgPmU+KKnygOr6FAncg?=
+ =?us-ascii?Q?N/5hnsbbMl2pLwV8wiEoAAXX+LXncig7Bfl/bYaaG2mtrWCSQSaN6U0dbHJ7?=
+ =?us-ascii?Q?B1GDBftY7YpFjRXaJqOa7ANZBIpP/ucPgMEqqCiZN9cBrclu7DOhjL6PcXVP?=
+ =?us-ascii?Q?luBe0EzLdhciDCf8V4XHNsdwvcU0OWgqeWFRMJEMaIBxeCtLRuzI0S1z420U?=
+ =?us-ascii?Q?sy2n3xpgoShNmV4iSaSVzMRQFMHp0o7Cj+CD/YomZ5k7zOKRqLGh1UkicNFd?=
+ =?us-ascii?Q?EC156WnVgaYFaM0JbMXVd9RNvz8SWyw7MHpXrfZxO6bkSPl0a8L/6X8O/bwo?=
+ =?us-ascii?Q?wUnZyR+SpG+dVaPysludeCE/7cFl8UDTcl3Y9kMUBoHuZzSSR2nfOauUaLbm?=
+ =?us-ascii?Q?iseDJL4xRm2AdcZxaspYftukILDY4SoltCRo+ALkK8NkAGyfyW26/NNIPan7?=
+ =?us-ascii?Q?7IM7z9RR7dZNN2naQeXw3wJwDTt+5CnhuTO4uKyXStl6PkoKhIxN7G2/oz4Q?=
+ =?us-ascii?Q?NyOSF5AnEkT2hhndyhadvGLg4Fb15ro0t9Wxc9FSfcrabfPYAA9O9T+Le9tm?=
+ =?us-ascii?Q?f3aw2/p6WXEj0GevtJYcmKtNJwmleyrTNPQDM/DhoUILFF3FMFU0FSx+R174?=
+ =?us-ascii?Q?zAziYZOpCsCmYzYG+ShNc+lgWXL6fw597zwswxR/F6SYRe4TDHrHVocX0HHs?=
+ =?us-ascii?Q?i0LKUQ4cebO5Xpd9qTCw21B4z1DcjStybTgArnClyA6qPGbf5pdgusxxpKXo?=
+ =?us-ascii?Q?HHJ3QhU7ZdvzQaeIBuL2vzjdmZLskVrMeZr1xzcYRRBxg+qfbbWqUTnbCfbL?=
+ =?us-ascii?Q?+4QcVTvwKKIE5GI8uGl0lh84bvejZiqLXfYxWtDqs2N+0ZB1lpLswrbaSeIo?=
+ =?us-ascii?Q?j67WBDTPF4g9KnRknQrb4vyiD8DFVLKb+Hr/lrgXyJor7X1GVZJKAI58TqPf?=
+ =?us-ascii?Q?PUO9geMRS3EJbM8Ixmk3Gt2jvMQXYx1EbOWeFjmZb3F9ukqeUI3JNiUbXsc+?=
+ =?us-ascii?Q?bBFkSvpYZWuVb6bznWrkZdgKJZVrScpcrDXxPUZes/a5AqcECZPP77xhB/ct?=
+ =?us-ascii?Q?NBBPMPNIPu3aSktRz8ppZR0Zjl5BUrrZXZkR7oA6YoObkZf7/wBql9D4PhJh?=
+ =?us-ascii?Q?XrLKV8sj0yqSKnqCLJpuevpW8zwIbSlsDbexuwxgjgHdLMSLxK7hx1Z6SGd4?=
+ =?us-ascii?Q?xBjJndPtGz0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?YnJL50NOObalofHyGLcX2sKoki78yzs8ES6ttr1wszqZFBxexjhBT1exyKZp?=
+ =?us-ascii?Q?Cw/+JIf7a322WMyqXY7DV0yMANUKxn+/Mfqqh1mCo6xXYB69sv4O9Z0bnrnp?=
+ =?us-ascii?Q?sNHAtuae5cfjAkv6eCNnKQ8dyVIJ3vaGhik2Q1EPSDJETlOnjI9Lj95hz8PI?=
+ =?us-ascii?Q?P4wBP7ZgfDVE/bbkDlhiBXkFmqENvaJiMyxVcMwLSZV1Nzh6AM7+AAuBxl2w?=
+ =?us-ascii?Q?AAgQrG+72rEYYIsiP6URLD7XoU506gVGcmzbeMygN8lIWz3EFTDW5XVaZTr1?=
+ =?us-ascii?Q?EUNkSnCPp8lvvwC6Iv4JbqK4ZuOEVXHsOpP4TxagMimhx2WGPy/1VOy+4MOC?=
+ =?us-ascii?Q?NrcWTd1jiPgg1VSm/prfIFNps43qH0yxdRV53Em0PE+Uz8CKd6GxBv7S3pV9?=
+ =?us-ascii?Q?zjLB383l76ggINSblZ36AqgP6C2Y9j7JBlPtJjW3/kDqA86IfmypI2fzQ8E9?=
+ =?us-ascii?Q?+ai1CJui5IIFm68Uqswl49lZVm7OdoGpHoiaqgkebfOeMHDmhYzuIRNEm4wC?=
+ =?us-ascii?Q?trhGnmivDAgbN5yjW74Gc2CATFTd5NtQLr6LWjCu2io4W8wpMsfvO97DtFpB?=
+ =?us-ascii?Q?qvkJ0sTsFdyhTPNsdakXHHWYpanHPVHXWvrGLXv6i6vbjkLuxklmdUhOs8It?=
+ =?us-ascii?Q?H28uq68fT7tc6rAuLdnifJPGPfGnLgTSncPR6/+u4P8KCE0nBpiJDmzerqUw?=
+ =?us-ascii?Q?AWKxfT/tqSnjQnWVPJGPoXaTjzvW15NrEolCaubVF+Dja4qJrJuWnqCwdzbQ?=
+ =?us-ascii?Q?H/qi4Z1DVM+snH2+tY9+hSsKd/8zhgl57B7uulzxnVPyd9C1ibnV2wcX6iWL?=
+ =?us-ascii?Q?dCDEi82D/XukgHn16txR+NKoxQvTY2INJrXd/r7Wgh4nPmZAvZe4PYXDxaw8?=
+ =?us-ascii?Q?JysjKNpZjNHCn5117MTYsGSDkNMovWcn/JvGPMv2Asnwp6zumZy1cUsMOXyD?=
+ =?us-ascii?Q?usLsjFMFu+SbQ1pbuOvYLZ37o8dn64dqT9zLrYaldl4tAWvDhQbxecCbDJoj?=
+ =?us-ascii?Q?7DKXhKKuSBZoQ9MrcCc2e9qgSU5GM9zoyT/3ufKVblfNO7+AUrWPUo90PJes?=
+ =?us-ascii?Q?kICL28sncojUZoqzjlYjHVD2EDRmtlUvZWoXLA4CU+e6aRbCJ6ywJ096tkJQ?=
+ =?us-ascii?Q?7NdZ7gNey6rchbiP4d+LaMOx9JoKuYiNjBD7clgAqHKgbHczlMNinknxB7v6?=
+ =?us-ascii?Q?/GYZEyQmhcq2OcRrn3HcSp136SdOsc7ZJqf01rDKdEFCSPOVQAl29W5tlpRi?=
+ =?us-ascii?Q?wX9PAvkmKy1imt0QLh4p5UD77+fl78HIN6T473dLG2m2TbDq1vUd16528xEA?=
+ =?us-ascii?Q?Oxj0706PH8mxgRWIAVG6gG3C1CUpfpGlDxcz1x0mQ01Ga0UWIE8MVYqwdZhG?=
+ =?us-ascii?Q?WhDJYAWtj1g6wuFdtKSHmM1HMr2zzimZLRaJ4SpZic/hhW32b3YyZI40KJ7A?=
+ =?us-ascii?Q?aLCDYXPaFsRa/4w9YVn6COi0W9FNCNSzw7v0mff/H3QtziFQnHbLdPZR+/3R?=
+ =?us-ascii?Q?l+2NoWho7HY9aU2MQEG8mD5uTVF3oXGP39fpGrRfyPYHP3EsiAhI7ZvyjDNu?=
+ =?us-ascii?Q?lmzZJ4a8QG6PqORRuMwsD1yO/Zl0u/6Uj48Rsst2?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8248854e-4cf3-4b3b-56a1-08dda442f139
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 15:09:17.9962
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UIaSuJJxDn3yncKQocK9PVLmm5OwsS+qgLXtIEsB70uaI8cOKICF+6jFG5osMo2Y
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7690
 
-On Thu, 5 Jun 2025 at 15:17, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Thu, Jun 05, 2025 at 02:54:33PM +0200, Ricardo Ribalda wrote:
-> > On Thu, 5 Jun 2025 at 14:46, Laurent Pinchart wrote:
-> > > On Thu, Jun 05, 2025 at 12:09:57PM +0000, Ricardo Ribalda wrote:
-> > > > In the media summit we discussed the need of a special prefix for
-> > > > v4l-utils. This helps patchwork and media-ci.
-> > > >
-> > > > Create a new file with a brief introductions on how to contribute and
-> > > > make the `v4l-utils` official.
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > >
-> > > I think this is a good idea. I don't know how we'll get users to
-> > > actually use the prefix, but documenting it is a necessary first step.
-> >
-> > I can add a comment in the media-ci email. Something like:
-> >
-> > I could not apply your series. Maybe it is for v4l-utils, if so,
-> > please check  http://XXXX/CONTRIBUTE.md
->
-> Sounds good. Then we can complain that people don't read instructions
-> :-)
->
-> > > > ---
-> > > >  CONTRIBUTE.md | 19 +++++++++++++++++++
-> > > >  1 file changed, 19 insertions(+)
-> > > >
-> > > > diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
-> > > > new file mode 100644
-> > > > index 0000000000000000000000000000000000000000..19a2c5814b45462f3cfeea921e277f8da00ccbd1
-> > > > --- /dev/null
-> > > > +++ b/CONTRIBUTE.md
-> > > > @@ -0,0 +1,19 @@
-> > > > +## Repository
-> > > > +
-> > > > +v4l-utils official repository is hosted at https://git.linuxtv.org/v4l-utils.git
-> > > > +
-> > > > +## Contributions
-> > > > +
-> > > > +Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
-> > > > +using the prefix `[PATCH v4l-utils]`.
-> > >
-> > > Nitpicking, I was thinking of '[v4l-utils] [PATCH]' as that's what I
-> > > used previously. Looking at the list archives, both (and more) have been
-> > > used. I don't object to using '[PATCH v4l-utils]' if that's easier for
-> >
-> > This seems to be prefered by b4.... and who does not love b4 :P?
-> >
-> > > tools.
-> > >
-> > > I have this in my .git/config for v4l-utils:
-> > >
-> > > [format]
-> > >         subjectPrefix = "v4l-utils] [PATCH"
-> > >
-> > > With your proposal, this would be
-> > >
-> > > [format]
-> > >         subjectPrefix = "PATCH v4l-utils"
-> > >
-> > > In either case, let's document this in addition to the b4 configuration.
-> >
-> > Something like this?:
-> >
-> > diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
-> > index 19a2c581..708939df 100644
-> > --- a/CONTRIBUTE.md
-> > +++ b/CONTRIBUTE.md
-> > @@ -5,7 +5,11 @@ v4l-utils official repository is hosted at
-> > https://git.linuxtv.org/v4l-utils.git
-> >  ## Contributions
-> >
-> >  Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
-> > -using the prefix `[PATCH v4l-utils]`.
-> > +using the prefix `[PATCH v4l-utils]`. E.g:
-> > +
-> > +```
-> > +git config set format.subjectPrefix "PATCH v4l-utils"
-> > +```
->
-> OK. Please check that setting both format.subjectPrefix and
-> b4.send-prefixes will not add the prefix twice when using b4.
+On Thu, Jun 05, 2025 at 05:41:17PM +0800, Xu Yilun wrote:
 
-Tried with `b4 send -d` and it looks good to me, but we will know for
-sure when I send the v2.
->
-> >  ## b4 config
-> >
-> > > > +
-> > > > +## b4 config
-> > > > +
-> > > > +If you use b4[1] for your contributor workflow you can use these options:
-> > > > +
-> > > > +```
-> > > > +git config set b4.send-series-cc linux-media@vger.kernel.org
-> > > > +git config set b4.send-prefixes v4l-utils
-> > > > +```
-> > > > +
-> > > > +[1] https://b4.docs.kernel.org/en/latest/contributor/overview.html
-> > > >
-> > > > ---
-> > > > base-commit: 0d4e8e2d4e2d9d87863222e03fd3a6a4a3ff3d86
-> > > > change-id: 20250605-prefix-a1a47dbdaa75
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> No, this is not device side TDISP requirement. It is host side
+> requirement to fix DMA silent drop issue. TDX enforces CPU S2 PT share
+> with IOMMU S2 PT (does ARM do the same?), so unmap CPU S2 PT in KVM equals
+> unmap IOMMU S2 PT.
+> 
+> If we allow IOMMU S2 PT unmapped when TDI is running, host could fool
+> guest by just unmap some PT entry and suppress the fault event. Guest
+> thought a DMA writting is successful but it is not and may cause
+> data integrity issue.
 
+So, TDX prevents *any* unmap, even of normal memory, from the S2 while
+a guest is running?  Seems extreme?
 
+MMIO isn't special, if you have a rule like that for such a security
+reason it should cover all of the S2.
 
--- 
-Ricardo Ribalda
+> This is not a TDX specific problem, but different vendors has different
+> mechanisms for this. For TDX, firmware fails the MMIO unmap for S2. For
+> AMD, will trigger some HW protection called "ASID fence" [1]. Not sure
+> how ARM handles this?
+
+This seems even more extreme, if the guest gets a bad DMA address into
+the device then the entire device gets killed? No chance to debug it?
+
+Jason
+
 
