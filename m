@@ -1,105 +1,130 @@
-Return-Path: <linux-media+bounces-34126-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34127-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8261ACEF64
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:41:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A09FACEF77
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:46:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97623177324
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:42:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B327618977BE
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:47:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EF5921A444;
-	Thu,  5 Jun 2025 12:41:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BE9C2144A3;
+	Thu,  5 Jun 2025 12:46:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RkHfuRJG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F5N8cGwe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735461D8A0A;
-	Thu,  5 Jun 2025 12:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59382AD0C
+	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 12:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749127312; cv=none; b=ZlQjEq3JxUMKrNl1tusbWw+7wODZVlzfVFB2Ttz+LWPlomJ8HcbVwRsNvyFRNMRbv17ySRyoI3NfWI4s+I71nxE87FEk5u5HL+wMTyESLqjAHDjC0rodTNoDCATJ4RXlpjC6AyF8TaC+xlmfcX5ys8QM8C/wLOXuoPp3Cje1dFw=
+	t=1749127610; cv=none; b=nOAUWUcbWuiTY4nK901pSDdLyNFTMuR7bIRoim2L8dQdU3QA4oaugMXBe6UCshWUAUVhbvC0QesVqENqFzNRm5GQ/n1E3Qu2Xz9Os25zB7SU2ygxfCRe/IRTGxVsoFIcJWRR4b4nnGeZl2NssfL1+5LDa6KplUHuWX8UsfsA8UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749127312; c=relaxed/simple;
-	bh=TXksFdyyDEdsxI0qhkErvaqcJ1KZyhdNTbg4RY/u2X0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mIecjlmo110FpYUoPazHONJPqPgHA8p9Fy8mNOMYkLrcPtvmq8pevhFD3tPBsxTu3H8FWIyCLJ4HL5Qjy62GoWpoWdvKxU1q+Vu9xu36/UBf8EBFdcPRhad+Jk7/X/mpBDquWjieRJSkSmdmysLWckbfnycx/+XMQritG7VWqpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=RkHfuRJG; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1749127308;
-	bh=TXksFdyyDEdsxI0qhkErvaqcJ1KZyhdNTbg4RY/u2X0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=RkHfuRJGvu2PRqbK//2suBckGm9ffe1l5JEIk9rFWHq8Ho4RRz2CbZfNpDkefa7IR
-	 7ivclm4GTtO/WAsZS2HTJaY74TjVDfwKebm2ARvuJdd3vAIKVtrVPG2h/vR2FNq2kE
-	 zcRAQq0rtvj6PfRxp429qLrhkyC+OTVg3VG9rZuqjkyFmGNrRajnyb6kDcH3MhUCOD
-	 19KpyEZX03/f2wvXeGT4zUpQ6fGHHYS8V9wMRD7R4XQZgLYTudIzmboyGJcY3Vsr+c
-	 J09sj68/2iTt3a/zW0eVeUkJdp6bI7h+7XJ/YkNamWFhO9c4BbuBvM9z8XwNluKEEx
-	 ezCImSkIrcdcA==
-Received: from [IPv6:2606:6d00:10:5285::5ac] (unknown [IPv6:2606:6d00:10:5285::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9BE4A17E02B0;
-	Thu,  5 Jun 2025 14:41:46 +0200 (CEST)
-Message-ID: <608f95249ff3a39efb063ab9c6a543259a7b0ac9.camel@collabora.com>
-Subject: Re: [PATCH v3 1/5] media: mc: add manual request completion
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil
-	 <hans@jjverkuil.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Tiffany Lin
-	 <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
- Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	kernel@collabora.com, linux-media@vger.kernel.org, Sebastian Fricke	
- <sebastian.fricke@collabora.com>
-Date: Thu, 05 Jun 2025 08:41:45 -0400
-In-Reply-To: <aEFoCvPe4zE48UG7@kekkonen.localdomain>
-References: 
-	<20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-0-603db4749d90@collabora.com>
-	 <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-1-603db4749d90@collabora.com>
-	 <aEC05991kEIIifDB@kekkonen.localdomain>
-	 <1ccaaec7f782afc71bae5c3b0f60a786a907555c.camel@collabora.com>
-	 <aEE-VFfJDhUbM2nA@kekkonen.localdomain>
-	 <8b1ed01a-b6e3-4670-a4e0-d8eee7ddc524@jjverkuil.nl>
-	 <aEFoCvPe4zE48UG7@kekkonen.localdomain>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1749127610; c=relaxed/simple;
+	bh=gPZQVlpX4uDBpDsTtWtZaKm9SuKCFiHm8VYjjL2EPYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EYXR58sCWUDegNgY5cRTVVTYqlDzDlQ98XdHlt2/gD9wHsmDtL024901mABhErrvxCm8nd8TLLbV6zaylazLQmkhH1MVha/2z7KuVr3DChzg0J91FEXeb7wuwcueDkmFI9B5jAPSvp6mKJbGgBlebY9guEI+m2LP0qEw2XwVySY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F5N8cGwe; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41DD4593;
+	Thu,  5 Jun 2025 14:46:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1749127603;
+	bh=gPZQVlpX4uDBpDsTtWtZaKm9SuKCFiHm8VYjjL2EPYg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F5N8cGwem9gg10BwLv7jp1/OUHlS3JssvMh6yUb0sKbLTqPkN0FM7zGJa5pn1rn+g
+	 YtLvF3sSPB6bNOUZ8g/nMCEhKyvjk+dt/oyHK7ouznwxOHjhgJvnOIZXcfT1MMDKWu
+	 h+nYInZ/QjteOIQ/psfm8VWnQ7bDDoPFFgWSnb6c=
+Date: Thu, 5 Jun 2025 15:46:35 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans Verkuil <hans@jjverkuil.nl>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v4l-utils] CONTRIBUTE: Add simple contribution
+ instructions
+Message-ID: <20250605124635.GC29935@pendragon.ideasonboard.com>
+References: <20250605-prefix-v1-1-450aff98308a@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250605-prefix-v1-1-450aff98308a@chromium.org>
 
-Hi Hans, Sakari,
-
-Le jeudi 05 juin 2025 à 09:48 +0000, Sakari Ailus a écrit :
-> > It's not user-triggerable, if this happens, then it is a driver bug.
+On Thu, Jun 05, 2025 at 12:09:57PM +0000, Ricardo Ribalda wrote:
+> In the media summit we discussed the need of a special prefix for
+> v4l-utils. This helps patchwork and media-ci.
 > 
-> If there is a driver bug, it could well be user-triggerable, wouldn't it?
-> Testing may not uncover all such cases.
+> Create a new file with a brief introductions on how to contribute and
+> make the `v4l-utils` official.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-You are both right, if the driver is not used, the warning will never
-trigger. I was worried of the hit of a thread safe ONCE implementation,
-but WARN_ONCE is simply not, it can warn few time before it stops if
-called from multiple CPUs at the same time. In that specific function,
-I can move all the checks inside the lock to make it truly once.
+I think this is a good idea. I don't know how we'll get users to
+actually use the prefix, but documenting it is a necessary first step.
 
-Now its up to you, I don't have strong preference. These are driver errors,
-and usually quite critical. They are not bug_on simply because we have a
-crash free resolution, but its probably not functional anymore.
+> ---
+>  CONTRIBUTE.md | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..19a2c5814b45462f3cfeea921e277f8da00ccbd1
+> --- /dev/null
+> +++ b/CONTRIBUTE.md
+> @@ -0,0 +1,19 @@
+> +## Repository
+> +
+> +v4l-utils official repository is hosted at https://git.linuxtv.org/v4l-utils.git
+> +
+> +## Contributions
+> +
+> +Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
+> +using the prefix `[PATCH v4l-utils]`.
 
-Nicolas
+Nitpicking, I was thinking of '[v4l-utils] [PATCH]' as that's what I
+used previously. Looking at the list archives, both (and more) have been
+used. I don't object to using '[PATCH v4l-utils]' if that's easier for
+tools.
+
+I have this in my .git/config for v4l-utils:
+
+[format]
+        subjectPrefix = "v4l-utils] [PATCH"
+
+With your proposal, this would be
+
+[format]
+        subjectPrefix = "PATCH v4l-utils"
+
+In either case, let's document this in addition to the b4 configuration.
+
+> +
+> +## b4 config
+> +
+> +If you use b4[1] for your contributor workflow you can use these options:
+> +
+> +```
+> +git config set b4.send-series-cc linux-media@vger.kernel.org
+> +git config set b4.send-prefixes v4l-utils
+> +```
+> +
+> +[1] https://b4.docs.kernel.org/en/latest/contributor/overview.html
+> 
+> ---
+> base-commit: 0d4e8e2d4e2d9d87863222e03fd3a6a4a3ff3d86
+> change-id: 20250605-prefix-a1a47dbdaa75
+
+-- 
+Regards,
+
+Laurent Pinchart
 
