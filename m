@@ -1,138 +1,152 @@
-Return-Path: <linux-media+bounces-34114-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34115-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294E3ACEEF7
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5596DACEF00
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:13:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AB033AB97F
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:09:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4CAB43ACFF8
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:13:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B7B3214A9B;
-	Thu,  5 Jun 2025 12:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E147C21A447;
+	Thu,  5 Jun 2025 12:13:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PlyCM7gm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MFbL7FFU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C4220C026
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 12:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A17C2144B4;
+	Thu,  5 Jun 2025 12:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749125403; cv=none; b=HHkprR+cIqGVli7sHQryHGo92OwMRCwXVi7yQL+DXn7Q1QQkY0ZVrCgerM1ndXjBG9TEuIf6PtStkpib/c+jdM3jeuLZr7vUOxnPOUncG5RbAzfn8yq5rEkB7DWCZwf+peWxx/pJS76KwhtEVcdi4iTTE4Js9/YYmrdoKHMmO84=
+	t=1749125616; cv=none; b=RyZlLiCECvKSZmGssjB7+/s2KzuCLR/2DhnGAr4R4ZratDxzpQvTNMzgoRmOgy4oScPHTHteGnojzLM5S3OEOMSvQY4H7hUe1XcKh3CVB0vh35Mc9U2gHuXRJVpfntBVoPDImFReHG57hVjtA6hlLOOYhsd5rAWMyBk0xy/m5zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749125403; c=relaxed/simple;
-	bh=+ivU3gkt4SpCQ5TYqeHrefq/wrJaKo0mk1rh8nQMpBY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=O/D7kP/+BlzydC1x1ad8sgtfjIcNlLigshgRnrlPDifgizdfk1FrU+uIfDxtEVyWavw/7dyklFjEjkD3aPbyVl+HDYIFRVUrpWCHKg0SuN44FYXIAkcys8spRIdxyWvO4cSzuJaxTkufrPV9XP7ZKOenAIk8ZGymIG4YbS0KCVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PlyCM7gm; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5534edc646dso990704e87.1
-        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 05:10:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1749125400; x=1749730200; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bJAdfwVVk53py3pC93ZvZIaIc+ZNJlWI4kSjfAqlXMI=;
-        b=PlyCM7gmhobhBUYztyy7gzr21ciiyatS42KlKCQYQiyWJseQHnGW44DKhMWj5Z1sUP
-         sCKzwymvHYI4cZWEh8nxxObJ4vJRrw+k29p4eDdIKyrRj4vXdKKWfVcfXjHmvtiR7MsO
-         p2L07HdmbBpYyUD/e6z7MtWQaTzqGMUz+s2FY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749125400; x=1749730200;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bJAdfwVVk53py3pC93ZvZIaIc+ZNJlWI4kSjfAqlXMI=;
-        b=gJ1hzGINSLJa0mbjOa8QPkwKa7KmCUdvBZxNhiqrxpQEOrwwvWKhp1atn4eDtSIAfC
-         SeT+pF6x/KbQhKj0cD9hXq2UvDaPmNws04NnL/wOgRF77R74i932U/d+lIlo+n0oG0gh
-         /iFCSaVIDGZvPaZeM6kD2taykxUUjtSqY+93voPxJOdK9s+7IIkOXwkHyNXvC2GnR6mE
-         aAaUGV60Z7BIlAeQFZUb+pCJDY3RnpYCyjP+uDQBPZ8CeyiE6HXQKFi9oaTv2Xh09fuo
-         qbFRrBTvBRSsLsHMc5EnDDk9z0HKbfIhiw1ZE+Zk6LA/CMEQw8S+Fx7ivuMQBbgiZ/nT
-         haDg==
-X-Gm-Message-State: AOJu0YyEpnoy9sGPOaPPgEUVxHL+IZdEy4dNNIpajiZWrN12pk3ZD2Zv
-	kKcOSFGK3Ybw+QqW6nV6UgHkhunLBt2N6SVXZyp5qHhb2yQaQxEYKBKR0Rbp9Sgm3zzNNqCqNDm
-	bDIg=
-X-Gm-Gg: ASbGncvCA6VAjP4rpODDoIOejYRxR2jvZcu98gJSjXl6EVNHrGnPSR4HRQPiaGQ8GUH
-	zknw1A7UQipsrnKH5J2RTKZmme6YIDiHhoPEQZfMQdtsgDeMxh4SWEz+RHIZPNJXX0ZHtnX15AI
-	Y92b/fWqhsJG3zUZnfrR+iAO1oO/Sj026LnvAeganqyuFBubyR4rR1Srgm5KZiGVnkf+w+TccGp
-	wOUUx9rq/NzL5zNB6t7Os6AykOZ4XRY0DBoIiK9ME1ULwaL/EqYimctAYgKXMTcPntSRxNULDrL
-	St+zGrDn2T6tZFNt2XBccdbhlVtNP0O4PThQ1xtqwRj8DnyEJTQhsUVRGruNCkYKQmfS9aWdpqV
-	pqtDGsDqP4cNHwxUSGjW7xQanDM+HwxsoZzUc
-X-Google-Smtp-Source: AGHT+IFGLG58OgGD4xH5F5ysTiZd8xDP4C9hzrRF0srfD5zOKm2hKwjOg26ZdPuSxneUmRnXkJYFUA==
-X-Received: by 2002:a05:6512:3d10:b0:54f:c6b0:4b67 with SMTP id 2adb3069b0e04-55356ae5707mr1953218e87.4.1749125399700;
-        Thu, 05 Jun 2025 05:09:59 -0700 (PDT)
-Received: from ribalda.c.googlers.com (90.52.88.34.bc.googleusercontent.com. [34.88.52.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553378a1273sm2590085e87.85.2025.06.05.05.09.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 05:09:59 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 05 Jun 2025 12:09:57 +0000
-Subject: [PATCH v4l-utils] CONTRIBUTE: Add simple contribution instructions
+	s=arc-20240116; t=1749125616; c=relaxed/simple;
+	bh=MwGi7x8Dwtu6UB+m/ptX7z2JBqdRGmkzGDXewJd4oD8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ol4j65kIHpoDwZ8dcKRjSgPYeEm2XaZknfKsDMgdUBPG7fmZGPk4R2d9Nih5gHrE43GN4v9MRUeSiKe6HqkL8Ci/mxeJYbsNwS/dBUc7GV07xuJWRYdgnB7K45DEu9MjHx16SRt30Me/mZ0HzLVPcuIQhUmgDYOd2Rfhh13T+RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MFbL7FFU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E34A6C4CEE7;
+	Thu,  5 Jun 2025 12:13:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749125615;
+	bh=MwGi7x8Dwtu6UB+m/ptX7z2JBqdRGmkzGDXewJd4oD8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MFbL7FFU6oKJ2rqo0EwPLbMcQD+K4ET4LEF3BbzUnRFFpMg93tMYmjrfO7PJfQhI9
+	 lDUBPjChezdZPAJMFqJqHgFm2zYjGMA1akN3vjPKnt+dSZ/Ok/9djeVZR7F8V8GuQX
+	 uyLtPuAjUIS2ZdMMWEf9sRg8qNqFgkKYasJWj9A3XdJcTeKCmRWcmPHdxbdjx0uXnE
+	 ieJL1j/NrFqxRnSOKseYo0pj9EsPdk7UYfMC2UYrJTkZGQbgeYL44y7yDowPzvdbJU
+	 N+DU80JeT6iF6r1ZTaf65rL8IcpMwIb1XoZN/6hCvcy7l6gtK/r1kDTh7YQttfmvgQ
+	 OuLl/Z54CX0Kg==
+Message-ID: <a3bf69f3-6500-4e45-ba34-8ba24312938a@kernel.org>
+Date: Thu, 5 Jun 2025 14:13:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 0/3] media: venus: enable venus on qcs615
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Renjiang Han <quic_renjiang@quicinc.com>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20250530-add-venus-for-qcs615-v8-0-c0092ac616d0@quicinc.com>
+ <wmri66tkksq6i3hfyoveedq5slghnnpozjzx6gck5r3zsiwsg6@xevgh54rnlqd>
+ <285cae4a-219c-4514-818f-34c8225529de@quicinc.com>
+ <t6niql4jfotjnbducypwxkdjqt3or7k3rwmltvbhifmpphsiwy@er56ey4v2pzo>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <t6niql4jfotjnbducypwxkdjqt3or7k3rwmltvbhifmpphsiwy@er56ey4v2pzo>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250605-prefix-v1-1-450aff98308a@chromium.org>
-X-B4-Tracking: v=1; b=H4sIABSJQWgC/yWMQQqAIBAAvxJ7TtDQhL4SHbbcakEstCSI/p7Uc
- YZhbkgUmRJ01Q2RMifeQgFVVzCtGBYS7ApDIxsjW2nEHmnmS6BCbd3oEK2BEv/6G/WQtRfnwT7
- B8Dwvog2wlGMAAAA=
-X-Change-ID: 20250605-prefix-a1a47dbdaa75
-To: Hans Verkuil <hans@jjverkuil.nl>
-Cc: linux-media@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
 
-In the media summit we discussed the need of a special prefix for
-v4l-utils. This helps patchwork and media-ci.
+On 02/06/2025 08:16, Dmitry Baryshkov wrote:
+> On Sat, May 31, 2025 at 08:05:24AM +0800, Renjiang Han wrote:
+>>
+>> On 5/31/2025 4:27 AM, Dmitry Baryshkov wrote:
+>>> On Fri, May 30, 2025 at 09:32:12AM +0530, Renjiang Han wrote:
+>>>> QCS615 uses the same video core as SC7180, so reuse the same resource
+>>>> data of SC7180 for QCS615 to enable video functionality.
+>>>>
+>>>> There are no resources for the video-decoder and video-encoder nodes
+>>>> in the device tree, so remove these two nodes from the device tree. In
+>>>> addition, to ensure that the video codec functions properly, use [3]
+>>>> to add encoder and decoder node entries in the venus driver.
+>>>>
+>>>> Validated this series on QCS615 and SC7180.
+>>>>
+>>>> Note:
+>>>> This series consist of DT patches and a venus driver patch. The patch
+>>>> 1/3, which is venus driver patch, can be picked independently without
+>>>> having any functional dependency. But patch 2/3 & patch 3/3, which are
+>>>> DT patches, still depend on [1].
+>>> I'd say 2/3 and 3/3 still depend on 1/3, otherwise we can get video core
+>>> on QCS615 over(?)clocked.
+>> Agree, so we need to make sure that the driver patch is not picked after the
+>> DT patch.
+> 
+> Worse: we need to make sure that the driver patch is present in the
+> branch which picks up DT patches. Otherwise building & testing that
 
-Create a new file with a brief introductions on how to contribute and
-make the `v4l-utils` official.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- CONTRIBUTE.md | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..19a2c5814b45462f3cfeea921e277f8da00ccbd1
---- /dev/null
-+++ b/CONTRIBUTE.md
-@@ -0,0 +1,19 @@
-+## Repository
-+
-+v4l-utils official repository is hosted at https://git.linuxtv.org/v4l-utils.git
-+
-+## Contributions
-+
-+Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
-+using the prefix `[PATCH v4l-utils]`.
-+
-+## b4 config
-+
-+If you use b4[1] for your contributor workflow you can use these options:
-+
-+```
-+git config set b4.send-series-cc linux-media@vger.kernel.org
-+git config set b4.send-prefixes v4l-utils
-+```
-+
-+[1] https://b4.docs.kernel.org/en/latest/contributor/overview.html
-
----
-base-commit: 0d4e8e2d4e2d9d87863222e03fd3a6a4a3ff3d86
-change-id: 20250605-prefix-a1a47dbdaa75
+Well, that's a NAK then (although depends what you mean by DT).
 
 Best regards,
--- 
-Ricardo Ribalda <ribalda@chromium.org>
-
+Krzysztof
 
