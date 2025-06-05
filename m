@@ -1,177 +1,139 @@
-Return-Path: <linux-media+bounces-34098-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34099-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF412ACED16
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 11:48:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4711AACED19
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 11:49:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CE6F3A6C39
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 09:47:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11D84178062
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 09:49:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5AC82135AC;
-	Thu,  5 Jun 2025 09:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDFF2211A28;
+	Thu,  5 Jun 2025 09:49:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jzl9LojX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdJ8Qfhi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9E62C3242;
-	Thu,  5 Jun 2025 09:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA7C2C3242;
+	Thu,  5 Jun 2025 09:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749116884; cv=none; b=OnxkdfRSwmgJi4ZFATXECljRKwiDf2FV5Y8Q0vrsGr2/DYEXjXMg5cRKARnULpCQv210yubip2JLUDqyLeL7OHq2bCHacoRWHJXYbxl+mWnRt0BMxELtgNtHQC2XYN7frmjIK68d/OIE9G/PQ6Ekd+y19GlmH9fjelCW7Ayz2bM=
+	t=1749116951; cv=none; b=Sn+/yAR6VI3Hh1W2U5UPNMFQ5f0O7rfpu3nEKRqPgYMFAlDaQUk9gNlV2tAZ1k81YwW5d9L2qfg8a8Ur4sFy9inJPDnmpjQv/kSicl2m7OmK6MeKJQNcn3b59PjMtVqheKEMuVqD+SeFIBweNqwxLLMmu2n87ZUxxrEOR3oQH6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749116884; c=relaxed/simple;
-	bh=/VL9o7ChNpJtoUsc5ibEOwDBnVANVkT3Ha++wcl3fYE=;
+	s=arc-20240116; t=1749116951; c=relaxed/simple;
+	bh=/LdIHrVh1JcLDKPaWvUKmpJEvq93neirKTxXZQVgqLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sxqv/yqPZ91Z6yu+St9Kr9ScP9xdF1Mf+glVdpT/eogz9ZxZy9K1TAv3HEVl4dd0VMmyQGngyVEMGGtQAN0fNA0OQa6qxI9eOCmPRqW5OwEFj3zVLWCzOjVArKc29LAqFCLy/aFgSMhoFB44C5BFizyMWdtP+q+c2AZwVGbRDdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jzl9LojX; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=pKCRjIrZsEoGXmTyAmWqseqQkcHMiz2nzLMJeKiDg9m+QztE1W42SiYHkdlkoIup8iRHS8yJH+JCOkQ8mh/zAFADfxKh9Xxz+YB3yChk3ilobpA5x3Jog8fC/gJfNoD3dR197T0+TqDyfeE0gKCJRK404nMQFsRy8c6rbS/n1ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdJ8Qfhi; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749116883; x=1780652883;
+  t=1749116950; x=1780652950;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/VL9o7ChNpJtoUsc5ibEOwDBnVANVkT3Ha++wcl3fYE=;
-  b=Jzl9LojXTcxA9v2vPNSYC+YgABD1rahkREzXZ/iQkE2Uw6jeezJHimKm
-   I+A/CrUWSydOvc9AhaRAU85GnZ1lTymdzmVpaQYBqyE+FMO4HFU5RJgQ0
-   MAvZV3qarpEo8Wy5mYIQw3tMUXRfBcO5L1sclTC56eF4YLLRY6F8OAZtq
-   bAE877swmE+/w/yYLPsoih2mQxtBkHrZPTxtzOOieLUyRn2n++0BFctsW
-   4MYYKMLtrlDQW+oRFqCCGAymQBlNOumWkTAZi8fKCeTU1muZZtWrFWTny
-   KALOsUAj2SeJcrbND+z6PqnjyhJj9hIa3hPx2uI8SKj8co0fVOFz718+v
-   Q==;
-X-CSE-ConnectionGUID: b8Tnf0HQTN6ckJytSyY1MA==
-X-CSE-MsgGUID: /qLFletzQaSMOJjHMzPmCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="61894012"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=/LdIHrVh1JcLDKPaWvUKmpJEvq93neirKTxXZQVgqLY=;
+  b=kdJ8QfhiYeDVkBX5j2NCcU6DRZ/vqFJqg5gEfWL4KfQ2z8hxww9TFDVs
+   Ck/CFWNyn/NtwhMJis5zGG3lvFLbDjcLjNQgc7y83ffYxIUvKFqa5RqJj
+   OJMhrjF3zo863WdMB0jYVcmN4TKmqqxIOzAB7FUVCYmFTKkUfH57gao74
+   AeAJKA91pJFnGpXGtUkCZnrbseLQbh9wlRUgiYLWRHcF+LjgVqznBIAL9
+   yvOT/9VYcEEzCwSpHAiHYJnjNERHrDDrOPNLdtkKG5gxp07D7Mz1Zk6zK
+   xji2c4P2FiJfAq03k/6EIbaCZ92EJHCfZz7SJ/Gtk7ZEbdarFHm0Yvb7P
+   g==;
+X-CSE-ConnectionGUID: /dXY4cp5SseW6ZDAgYKNEg==
+X-CSE-MsgGUID: v2IJnrL4TdKnUPWHwildww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="51297123"
 X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="61894012"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 02:48:02 -0700
-X-CSE-ConnectionGUID: bZl8PvLtTTmumH8CpnrPsQ==
-X-CSE-MsgGUID: NroY4ThARXa4bErMmRN2Vg==
+   d="scan'208";a="51297123"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 02:49:06 -0700
+X-CSE-ConnectionGUID: 24mk+NbNQ+WtuLzTJaUflw==
+X-CSE-MsgGUID: riKN5MFCSoq+pZ4xIw2+IA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="145358422"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orviesa006.jf.intel.com with ESMTP; 05 Jun 2025 02:47:55 -0700
-Date: Thu, 5 Jun 2025 17:41:17 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
-	linux-coco@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	vivek.kasireddy@intel.com, yilun.xu@intel.com,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com,
-	linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
-	shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
-	kevin.tian@intel.com
-Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
- TEE-IO support
-Message-ID: <aEFmPaYorqaYCKBY@yilunxu-OptiPlex-7050>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-20-yilun.xu@linux.intel.com>
- <yq5aplfn210z.fsf@kernel.org>
- <aD24r44v0g1NgeZs@yilunxu-OptiPlex-7050>
- <yq5ajz5r8w6p.fsf@kernel.org>
+   d="scan'208";a="146049871"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.16])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 02:49:02 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id CEFD011FBEC;
+	Thu,  5 Jun 2025 12:48:58 +0300 (EEST)
+Date: Thu, 5 Jun 2025 09:48:58 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hans@jjverkuil.nl>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com,
+	linux-media@vger.kernel.org,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH v3 1/5] media: mc: add manual request completion
+Message-ID: <aEFoCvPe4zE48UG7@kekkonen.localdomain>
+References: <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-0-603db4749d90@collabora.com>
+ <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-1-603db4749d90@collabora.com>
+ <aEC05991kEIIifDB@kekkonen.localdomain>
+ <1ccaaec7f782afc71bae5c3b0f60a786a907555c.camel@collabora.com>
+ <aEE-VFfJDhUbM2nA@kekkonen.localdomain>
+ <8b1ed01a-b6e3-4670-a4e0-d8eee7ddc524@jjverkuil.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <yq5ajz5r8w6p.fsf@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8b1ed01a-b6e3-4670-a4e0-d8eee7ddc524@jjverkuil.nl>
 
-On Wed, Jun 04, 2025 at 07:07:18PM +0530, Aneesh Kumar K.V wrote:
-> Xu Yilun <yilun.xu@linux.intel.com> writes:
+Hi Hans,
+
+On Thu, Jun 05, 2025 at 11:37:54AM +0200, Hans Verkuil wrote:
+> >>>> @@ -499,3 +501,35 @@ void media_request_object_complete(struct media_request_object *obj)
+> >>>>  		media_request_put(req);
+> >>>>  }
+> >>>>  EXPORT_SYMBOL_GPL(media_request_object_complete);
+> >>>> +
+> >>>> +void media_request_manual_complete(struct media_request *req)
+> >>>> +{
+> >>>> +	unsigned long flags;
+> >>>
+> >>> I'd declare flags as last.
+> >>>
+> >>>> +	bool completed = false;
+> >>>> +
+> >>>> +	if (WARN_ON(!req))
+> >>>> +		return;
+> >>>> +	if (WARN_ON(!req->manual_completion))
+> >>>> +		return;
+> >>>
+> >>> I think I'd use WARN_ON_ONCE() consistently: this is a driver (or
+> >>> framework) bug and telling once about it is very probably enough.
+> >>
+> >> Just to be sure, you only mean for the two checks above ? Or did
+> >> you mean for the entire function ?
+> > 
+> > For the entire function. I thought that if this is user-triggerable, the
+> > amount of data ending up in logs could be very large.
 > 
-> > On Sun, Jun 01, 2025 at 04:15:32PM +0530, Aneesh Kumar K.V wrote:
-> >> Xu Yilun <yilun.xu@linux.intel.com> writes:
-> >> 
-> >> > Add new IOCTLs to do TSM based TDI bind/unbind. These IOCTLs are
-> >> > expected to be called by userspace when CoCo VM issues TDI bind/unbind
-> >> > command to VMM. Specifically for TDX Connect, these commands are some
-> >> > secure Hypervisor call named GHCI (Guest-Hypervisor Communication
-> >> > Interface).
-> >> >
-> >> > The TSM TDI bind/unbind operations are expected to be initiated by a
-> >> > running CoCo VM, which already have the legacy assigned device in place.
-> >> > The TSM bind operation is to request VMM make all secure configurations
-> >> > to support device work as a TDI, and then issue TDISP messages to move
-> >> > the TDI to CONFIG_LOCKED or RUN state, waiting for guest's attestation.
-> >> >
-> >> > Do TSM Unbind before vfio_pci_core_disable(), otherwise will lead
-> >> > device to TDISP ERROR state.
-> >> >
-> >> 
-> >> Any reason these need to be a vfio ioctl instead of iommufd ioctl?
-> >> For ex: https://lore.kernel.org/all/20250529133757.462088-3-aneesh.kumar@kernel.org/
-> >
-> > A general reason is, the device driver - VFIO should be aware of the
-> > bound state, and some operations break the bound state. VFIO should also
-> > know some operations on bound may crash kernel because of platform TSM
-> > firmware's enforcement. E.g. zapping MMIO, because private MMIO mapping
-> > in secure page tables cannot be unmapped before TDI STOP [1].
-> >
-> > Specifically, for TDX Connect, the firmware enforces MMIO unmapping in
-> > S-EPT would fail if TDI is bound. For AMD there seems also some
-> > requirement about this but I need Alexey's confirmation.
-> >
-> > [1] https://lore.kernel.org/all/aDnXxk46kwrOcl0i@yilunxu-OptiPlex-7050/
-> >
-> 
-> According to the TDISP specification (Section 11.2.6), clearing either
-> the Bus Master Enable (BME) or Memory Space Enable (MSE) bits will cause
-> the TDI to transition to an error state. To handle this gracefully, it
-> seems necessary to unbind the TDI before modifying the BME or MSE bits.
+> It's not user-triggerable, if this happens, then it is a driver bug.
 
-Yes. But now the suggestion is never let VFIO do unbind, instead VFIO
-should block these operations when device is bound.
+If there is a driver bug, it could well be user-triggerable, wouldn't it?
+Testing may not uncover all such cases.
 
-> 
-> If I understand correctly, we also need to unmap the Stage-2 mapping due
-> to the issue described in commit
-> abafbc551fddede3e0a08dee1dcde08fc0eb8476. Are there any additional
-> reasons we would want to unmap the Stage-2 mapping for the BAR (as done
-> in vfio_pci_zap_and_down_write_memory_lock)?
+-- 
+Regards,
 
-I think no more reason. 
-
-> 
-> Additionally, with TDX, it appears that before unmapping the Stage-2
-> mapping for the BAR, we should first unbind the TDI (ie, move it to the
-> "unlock" state?) Is this step related Section 11.2.6 of the TDISP spec,
-> or is it driven by a different requirement?
-
-No, this is not device side TDISP requirement. It is host side
-requirement to fix DMA silent drop issue. TDX enforces CPU S2 PT share
-with IOMMU S2 PT (does ARM do the same?), so unmap CPU S2 PT in KVM equals
-unmap IOMMU S2 PT.
-
-If we allow IOMMU S2 PT unmapped when TDI is running, host could fool
-guest by just unmap some PT entry and suppress the fault event. Guest
-thought a DMA writting is successful but it is not and may cause
-data integrity issue.
-
-This is not a TDX specific problem, but different vendors has different
-mechanisms for this. For TDX, firmware fails the MMIO unmap for S2. For
-AMD, will trigger some HW protection called "ASID fence" [1]. Not sure
-how ARM handles this?
-
-https://lore.kernel.org/all/aDnXxk46kwrOcl0i@yilunxu-OptiPlex-7050/
-
-Thanks,
-Yilun
-
-> 
-> -aneesh
+Sakari Ailus
 
