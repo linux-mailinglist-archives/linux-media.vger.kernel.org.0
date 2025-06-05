@@ -1,211 +1,180 @@
-Return-Path: <linux-media+bounces-34129-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34131-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58871ACEFA8
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:55:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 357EEACEFBE
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 14:58:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5BAF1894991
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:55:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A06E63ACC27
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:58:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D78C22331C;
-	Thu,  5 Jun 2025 12:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E59D22331C;
+	Thu,  5 Jun 2025 12:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4VBBwwZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DE2202F83
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 12:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3A7202F83
+	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 12:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749128115; cv=none; b=CoUYKmYMqK/zesIm7PkrM09veTzUohk81ZgPL5amCtXGUvv7RcwM6EY6uF4U+IAt83IBKjsqaoN7n/ylrkIU0MIPCYlRe9zC2bMfvj3ohcWEpFJCKm3FPqdQNzFH20jy1GdxH3RqDRgY/EPaQ3SmeHD37CVkLOhDE9O4GPHIu0E=
+	t=1749128323; cv=none; b=c7xUJLUDcTBBO28VofXx3CnFWq9svUQ5rk6S7KeA4FNBdINKAtOfmMJRUAumEYXFrD7B0ksh/npdipMPbjpPhlUEA1jxmdklgUwOb1jIz+SDeK3/A5PnSxnL6dJ2hJrpLM8NllBFnm4gl5cpqYsLFafO1FQfo3LC4GgUmnHMEPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749128115; c=relaxed/simple;
-	bh=LOb9r/Jj9riUcwpqeBrXN2Nq4ofbZLwsYRp+ofhGEes=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eVCQvx9tbOlvWeO/J0CqYoDF+bVWdEkmCk/pbR+n+JNI1wiVIKX1qDbczeNexF8O2vJCd4tZ8buW9pcQGfohElMslHdGb5OgyNrM+GgP2ItZsKiPRTtYeYjpmVuQxepB3vpFqDS6yK6N7PoJ4dBU3MbkqafXLYEC/SC4KmLxm8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073D8C4CEE7;
-	Thu,  5 Jun 2025 12:55:13 +0000 (UTC)
-Message-ID: <72f7c5e2-32b2-4c62-8274-cff50336043b@xs4all.nl>
-Date: Thu, 5 Jun 2025 14:55:12 +0200
+	s=arc-20240116; t=1749128323; c=relaxed/simple;
+	bh=A9J7DVTDVhq34nNJygiPnvdx+iPMNPzVaMTF42moXKM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=annMly31w03am1csN9XGDF9gJGokKCdkD+c8FNO947NKPN+YgKdfoXGRLtHfLTEc8K1NChr1iB9IZvhB+qodbsgB8Z8ZI01tfm7ssR5lXIlAhrR5kHfRkkwclQ5l4Gu9jjRHjtRz8bGotgtZ39siadsYmuR0NELPCa8N054JkIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4VBBwwZ; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6facba680a1so9872356d6.3
+        for <linux-media@vger.kernel.org>; Thu, 05 Jun 2025 05:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749128321; x=1749733121; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A2oDMPrtHM/uro76IlsDYEW7dA7Qy2XK1qTzFWBDOfI=;
+        b=X4VBBwwZGy0GSIM8lwMfXr/pGRsKcuQ84g1y+Dzn0tBOSPGkhvIEXgutzIz//lYDYJ
+         acFj1NTfwViYp6kn5/9FmjKsWgDo1EJGkwGcoRBbBAKdmM7qfp4xa87DJTPm8VS9yl2Z
+         2iTvXjJsaFmNl2IKocqWoD00eH6D+3LYqrCHvbTbEWvQOD9Z0vVtW2p37dXJ4h/kfc4R
+         zIV1EAy/rZqsmV2BxFviIH6zP8hOXQBAdV75B9OrM8Pr7wv/74MYum6Q45kBm0a8BELK
+         OuUIX9GfTc3s6by/i6Ptgb9nvcrQ2W71XjNcd0Oq/ZMC4ibYLXQf6MyyosC0mJvyUPm1
+         GpOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749128321; x=1749733121;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A2oDMPrtHM/uro76IlsDYEW7dA7Qy2XK1qTzFWBDOfI=;
+        b=P0KxkJdGD83KTJXoiUgR/0I+Q2pUH4+i66jBrQINZqRyXxorFWimJ3U6bziUiW+79p
+         HqJ+CK+cxisD5oWZsNpkrB9RfJQNVBp8/41LZQK/tthtHFzexGE3pzzrAnLKSOVeXN00
+         V6KYwsE5Wt7jHx/reD8E7INY/oEcJYhLGVZi/3PuMlhciNZFgc2W7qdeMqNe44hlOzHt
+         1+yXN4UPeh8vptdwugUkCJ8ndcXRRDguzN8zrDGdCysTgQR8vCYo8+hiT9mBQqlTkaOT
+         +/u8/Kvd82hG4mYZQmR9MOyNHSoVQRsImkXflRtVd6m6jFXJo2u/v5hVtCcje8LLI1U6
+         RRQw==
+X-Gm-Message-State: AOJu0YwYmCgQIX8q+p8E23+CEUKRMO+6Pz+ywnyF1+Nb/44M0Cv1jRHC
+	ERugWYRlMmJczYkci2Bkl/IxYeuZqwDANnlkmLBuTThyJ9wJhpbQs4WlrdeeKw==
+X-Gm-Gg: ASbGncuYWJjevnlNK2ZLXfukDA7ZLKLTtwt9ixix3cGj+DDXLS1mHnDU7JeDXKvnk3B
+	qib+TRopIuiMn/LzIxbwb2GTDi84qIc320epmc2da8KtKxxaDBU4nJ4PDcSbh84mDXhSQ4qR4hl
+	gx16byKJ9nMR0hyau4GL8ZjwbgBufG7mj/1PH73syZCoccgiysVzJatY4sYqUSGVoRm43CuWXF4
+	qHzpBYOsUvNNOdjItOw7cqA0hN7kpptJYSgywe5d10h48dSV1tOcANrY9CGb5lxaaa9c+/YaLly
+	J9hrIJwxsrcGXy34ph2tkvFvLyTx5jzdwmS0IzLLeiEQ7oGm17U7BIjG9FOzMCrU/DeK4tz9RS/
+	6266MwUj5aRMRdLf/WFMOSoIS87E=
+X-Google-Smtp-Source: AGHT+IEu8ecxJXRaA6mTGnpFuvXAgYaXV5P5HHdIbvu97qwQjvQfJ4iu5worWiElvzaVpZ5zl4wy2g==
+X-Received: by 2002:ad4:5965:0:b0:6fa:bbcd:2786 with SMTP id 6a1803df08f44-6faf702fe08mr109802676d6.38.1749128321021;
+        Thu, 05 Jun 2025 05:58:41 -0700 (PDT)
+Received: from gauss.local (99-104-239-121.lightspeed.livnmi.sbcglobal.net. [99.104.239.121])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fafd7bf11dsm23936566d6.88.2025.06.05.05.58.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 05:58:40 -0700 (PDT)
+From: Leo Izen <leo.izen@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Leo Izen <leo.izen@gmail.com>
+Subject: [PATCH] libv4l2: prefix HAVE_POSIX_IOCTL with LIBV4L_ for public header
+Date: Thu,  5 Jun 2025 08:56:51 -0400
+Message-ID: <20250605125822.104842-1-leo.izen@gmail.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <f75fa09d-190e-47f9-99f0-e2f1b1637e51@gmail.com>
+References: <f75fa09d-190e-47f9-99f0-e2f1b1637e51@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/9] libdvbv5/dvb-v5-std.c: add DTV_BANDWIDTH_HZ where
- possible
-Content-Language: en-US
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <cover.1749121112.git.hverkuil@xs4all.nl>
- <f3226f83c3e8cf9f71dc53d435abc381f88e08b0.1749121112.git.hverkuil@xs4all.nl>
- <20250605141853.1f2a6616@foz.lan>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20250605141853.1f2a6616@foz.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/5/25 14:18, Mauro Carvalho Chehab wrote:
-> Em Thu,  5 Jun 2025 12:58:29 +0200
-> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> 
->> Several systems support DTV_BANDWIDTH_HZ, add it.
->>
->> This fixes a dvbv5-scan error message about missing support for
->> DTV_BANDWIDTH_HZ.
->>
->> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
->> ---
->>  lib/libdvbv5/dvb-v5-std.c | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/lib/libdvbv5/dvb-v5-std.c b/lib/libdvbv5/dvb-v5-std.c
->> index c0a14175..74e2e4fe 100644
->> --- a/lib/libdvbv5/dvb-v5-std.c
->> +++ b/lib/libdvbv5/dvb-v5-std.c
->> @@ -81,6 +81,7 @@ const unsigned int sys_isdbt_props[] = {
->>  const unsigned int sys_atsc_props[] = {
->>  	DTV_FREQUENCY,
->>  	DTV_MODULATION,
->> +	DTV_BANDWIDTH_HZ,
->>  	0
->>  };
-> 
-> Indeed, ISDB-T could have a bandwidth. In the beginning, only
-> Japan and Brazil were using it, with a 6MHz bandwidth. As far as
-> I remember, all drivers we currently have are for devices with
-> such limit. Yet, the spec allows other bandwidths as well. Not sure
-> if any Country is using a different bandwidth in practice, though.
-> 
->> @@ -111,12 +112,14 @@ const unsigned int sys_dvbc_annex_ac_props[] = {
->>  	DTV_INVERSION,
->>  	DTV_SYMBOL_RATE,
->>  	DTV_INNER_FEC,
->> +	DTV_BANDWIDTH_HZ,
->>  	0
->>  };
->>  
->>  const unsigned int sys_dvbc_annex_b_props[] = {
->>  	DTV_FREQUENCY,
->>  	DTV_MODULATION,
->> +	DTV_BANDWIDTH_HZ,
->>  	0
->>  };
->>  
->> @@ -126,6 +129,7 @@ const unsigned int sys_dvbs_props[] = {
->>  	DTV_SYMBOL_RATE,
->>  	DTV_INNER_FEC,
->>  	DTV_POLARIZATION,
->> +	DTV_BANDWIDTH_HZ,
->>  	0
->>  };
->>  
->> @@ -139,6 +143,7 @@ const unsigned int sys_dvbs2_props[] = {
->>  	DTV_ROLLOFF,
->>  	DTV_POLARIZATION,
->>  	DTV_STREAM_ID,
->> +	DTV_BANDWIDTH_HZ,
->>  	0
->>  };
->>  
->> @@ -149,12 +154,14 @@ const unsigned int sys_turbo_props[] = {
->>  	DTV_INNER_FEC,
->>  	DTV_MODULATION,
->>  	DTV_POLARIZATION,
->> +	DTV_BANDWIDTH_HZ,
->>  	0
->>  };
->>  
->>  const unsigned int sys_isdbs_props[] = {
->>  	DTV_FREQUENCY,
->>  	DTV_STREAM_ID,
->> +	DTV_BANDWIDTH_HZ,
->>  	0
->>  };
-> 
-> The above are not right: Satellite and Cable don't use bandwidth.
-> Instead, the bandwidth is indirectly calculated from the symbol
-> rate and rolloff, using something like this:
-> 
-> 	float rolloff = 1.35;	/* DVB-S rolloff */
-> 
-> 	int bandwidth_hz = int(symbol_rate * rolloff);
-> 
-> 
-> 
-> For DVB-C Annex A and B, and for DVB-S (and, afaikt, for DVB-TURBO), the
-> rolloff is fixed. DVB-S2 is the only one that supports different
-> rolloff factors.
-> 
-> In any case, DVB core calculates it. See this code snippet:
-> 
->         switch (c->delivery_system) {
->         case SYS_ATSC:
->         case SYS_DVBC_ANNEX_B:
->                 c->bandwidth_hz = 6000000;
->                 break;
->         case SYS_DVBC_ANNEX_A:
->                 rolloff = 115;
->                 break;
->         case SYS_DVBC_ANNEX_C:
->                 rolloff = 113;
->                 break;
->         case SYS_DSS:
->                 rolloff = 120;
->                 break;
->         case SYS_DVBS:
->         case SYS_TURBO:
->         case SYS_ISDBS:
->                 rolloff = 135;
->                 break;
->         case SYS_DVBS2:
->                 switch (c->rolloff) {
->                 case ROLLOFF_20:
->                         rolloff = 120;
->                         break;
->                 case ROLLOFF_25:
->                         rolloff = 125;
->                         break;
->                 default:
->                 case ROLLOFF_35:
->                         rolloff = 135;
->                 }
->                 break;
->         default:
->                 break;
->         }
->         if (rolloff)
->                 c->bandwidth_hz = mult_frac(c->symbol_rate, rolloff, 100);
-> 
-> The Kernel calculates the bandwidth and may return it, but the opposite
-> is not true: any set operation for a TV standard that has DTV_SYMBOL_RATE
-> will simply discard/ignore what is there at DTV_BANDWIDTH_HZ.
-> 
-> Currently, the logic inside libdvbv5 assumes that all parameters are
-> read/write.
+Commit fd882f9e77b13cbc6a669e6836c3943393b44152 introduced the flag
+HAVE_POSIX_IOCTL to change which v4l2_ioctl function is declared in
+libv4l2.h, but this is a public header and may conflict with another
+project which may use HAVE_POSIX_IOCTL on its own to determine which
+ioctl funtion it should declare.
 
-The issue I tried to fix is that dvbv5-scan complains about BANDWIDTH_HZ
-being missing for DVB-C Annex A:
+This commit namespaces the flag so it can't conflict with another
+project's configuration. Notably, if it uses #if instead of #ifdef and
+defines HAVE_POSIX_IOCTL to be 0, then it will create an incompatible
+function signature between v4l2_ioctl and the project's.
 
-ERROR    command BANDWIDTH_HZ (5) not found during retrieve
+Signed-off-by: Leo Izen <leo.izen@gmail.com>
+---
+ lib/include/libv4l2.h     | 2 +-
+ lib/libv4l1/v4l1compat.c  | 2 +-
+ lib/libv4l2/libv4l2.c     | 2 +-
+ lib/libv4l2/v4l2convert.c | 2 +-
+ meson.build               | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-Should this message just be suppressed in dvbv5-scan?
-
-I'm not really sure what the best approach is, this isn't my area of
-expertise...
-
-Regards,
-
-	Hans
-
-> 
-> Thanks,
-> Mauro
+diff --git a/lib/include/libv4l2.h b/lib/include/libv4l2.h
+index 16565555..25ababc7 100644
+--- a/lib/include/libv4l2.h
++++ b/lib/include/libv4l2.h
+@@ -63,7 +63,7 @@ LIBV4L_PUBLIC extern FILE *v4l2_log_file;
+ LIBV4L_PUBLIC int v4l2_open(const char *file, int oflag, ...);
+ LIBV4L_PUBLIC int v4l2_close(int fd);
+ LIBV4L_PUBLIC int v4l2_dup(int fd);
+-#ifdef HAVE_POSIX_IOCTL
++#ifdef LIBV4L_HAVE_POSIX_IOCTL
+ LIBV4L_PUBLIC int v4l2_ioctl(int fd, int request, ...);
+ #else
+ LIBV4L_PUBLIC int v4l2_ioctl(int fd, unsigned long int request, ...);
+diff --git a/lib/libv4l1/v4l1compat.c b/lib/libv4l1/v4l1compat.c
+index 2db68423..c4ca3a70 100644
+--- a/lib/libv4l1/v4l1compat.c
++++ b/lib/libv4l1/v4l1compat.c
+@@ -90,7 +90,7 @@ LIBV4L_PUBLIC int dup(int fd)
+ 	return v4l1_dup(fd);
+ }
+ 
+-#ifdef HAVE_POSIX_IOCTL
++#ifdef LIBV4L_HAVE_POSIX_IOCTL
+ LIBV4L_PUBLIC int ioctl(int fd, int request, ...)
+ #else
+ LIBV4L_PUBLIC int ioctl(int fd, unsigned long int request, ...)
+diff --git a/lib/libv4l2/libv4l2.c b/lib/libv4l2/libv4l2.c
+index 1607ec35..289501d9 100644
+--- a/lib/libv4l2/libv4l2.c
++++ b/lib/libv4l2/libv4l2.c
+@@ -1051,7 +1051,7 @@ static int v4l2_s_fmt(int index, struct v4l2_format *dest_fmt)
+ 	return 0;
+ }
+ 
+-#ifdef HAVE_POSIX_IOCTL
++#ifdef LIBV4L_HAVE_POSIX_IOCTL
+ int v4l2_ioctl(int fd, int request, ...)
+ #else
+ int v4l2_ioctl(int fd, unsigned long int request, ...)
+diff --git a/lib/libv4l2/v4l2convert.c b/lib/libv4l2/v4l2convert.c
+index 396ed3ea..b33472e5 100644
+--- a/lib/libv4l2/v4l2convert.c
++++ b/lib/libv4l2/v4l2convert.c
+@@ -123,7 +123,7 @@ LIBV4L_PUBLIC int dup(int fd)
+ 	return v4l2_dup(fd);
+ }
+ 
+-#ifdef HAVE_POSIX_IOCTL
++#ifdef LIBV4L_HAVE_POSIX_IOCTL
+ LIBV4L_PUBLIC int ioctl(int fd, int request, ...)
+ #else
+ LIBV4L_PUBLIC int ioctl(int fd, unsigned long int request, ...)
+diff --git a/meson.build b/meson.build
+index 88781e59..590ef11e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -365,7 +365,7 @@ ioctl_posix_test = '''
+ int ioctl (int, int, ...);
+ '''
+ if cc.compiles(ioctl_posix_test)
+-    conf.set('HAVE_POSIX_IOCTL', 1)
++    conf.set('LIBV4L_HAVE_POSIX_IOCTL', 1)
+ endif
+ 
+ c_arguments = []
+-- 
+2.49.0
 
 
