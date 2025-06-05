@@ -1,160 +1,101 @@
-Return-Path: <linux-media+bounces-34100-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34101-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDC4ACED28
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 11:56:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A587AACEE33
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 12:59:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3998F176243
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 09:56:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 288C13AA2EB
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 10:59:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B333211484;
-	Thu,  5 Jun 2025 09:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YSFDzF4m"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9DB218AA3;
+	Thu,  5 Jun 2025 10:59:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DB22C3242
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 09:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8646F2E659
+	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 10:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749117365; cv=none; b=MeI6rQ+/cDF4yjiqbYifPieGhBmBXPy9ItHjkesQT4kYXBDfdHwOZ2TE9ESsvzJdqaPZQNPp7G+WkgH2Xu5KlHPqFXJM9BIxGBeDL8zmq4S30gDpW2p/OofBVNrcjOXRHCNU6ZKZFMUhjz878fFICwiQe+SSRqH09mkXf9JNvfo=
+	t=1749121156; cv=none; b=pegEpncD+kBWR0L2ykcWo7d0UTtdDHlGQcNvYqCeKtf5S/+LNZxT2Dyll1p3rurQkd342kv/JnTFV1yhuXnL1Z4Soi+VN5840rcvFeYKAZo2mj0C8uDwYc/+QDPHZyKDtj9ZApSNINt7fWJ7ZeUkgiq0l/Onw0LAlJpxU9oEk4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749117365; c=relaxed/simple;
-	bh=gtLeOnUUrsqXxOvHUykTLuzErvwZVJHZkiguXU/0ZSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zq+xBBws2DCsvTbmzDlLet9CacnvuEGmXWToOM0bAdNNO4cp4O4FgJNw+oH+kzjtnG2nXn+N3W5RgyOuQdqDgkK103PmG2+srwxESdrWEb0VKFOfYMJqXZq3O3eGIZprWTgw3yW/7U+yMojAZ4DQV/JbY/pC1DKLS/3K6hM8u0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YSFDzF4m; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749117364; x=1780653364;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gtLeOnUUrsqXxOvHUykTLuzErvwZVJHZkiguXU/0ZSU=;
-  b=YSFDzF4mUKhUJ261NVKMXslOVGx48aHsBOuCdDktHQoXhMHKLI5AfNcD
-   6hTKQi3Wu4s7xlryvAx0wH4BMMLUtQ+Ze+2gplww10KnCxB+bxOvbBRXT
-   M5nJMS/z96nZSi9pj+cqHJjcpTnFVefmYdfBotHB9ILHYLngIq5DSA9Zt
-   uZy8jnYHDzr9XhqBr+rBsDc1AjzrDgbWh2CWjPKOa3W0yjS8VF85DksSI
-   noLsSfwXQWqr/DdQrHD1b8s7yed0wEVepOeJidb91gJFh0142W6zARHBz
-   TVg/tMXlLC1BwS0Cv6D+1IqZW5SUkiB0HBgehLCxCJCmdYKRtT1zcilo8
-   A==;
-X-CSE-ConnectionGUID: SpUWPVZ6Sl2M6J6Tqdk0Hw==
-X-CSE-MsgGUID: XQ27CCBoQJurSe82sSw1jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="62620315"
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="62620315"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 02:56:02 -0700
-X-CSE-ConnectionGUID: 8Nen9uIrT3yJHf9p5K7lWQ==
-X-CSE-MsgGUID: f/4/0QhsT/OJhIep+MQWVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="176328094"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.16])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 02:55:44 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 15DD412023B;
-	Thu,  5 Jun 2025 12:55:42 +0300 (EEST)
-Date: Thu, 5 Jun 2025 09:55:42 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mathis Foerst <mathis.foerst@mt.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 11/12] media: mt9m114: Return -EPROBE_DEFER if no
- endpoint is found
-Message-ID: <aEFpnjF64Iw3xFmq@kekkonen.localdomain>
-References: <20250531163148.83497-1-hansg@kernel.org>
- <20250531163148.83497-12-hansg@kernel.org>
- <20250603110359.GC27361@pendragon.ideasonboard.com>
- <bd0f6da2-d358-47c9-b2d8-4f5352b7e28f@kernel.org>
+	s=arc-20240116; t=1749121156; c=relaxed/simple;
+	bh=LN+yeybMBvdCraK3QSd7nItTVvnF6IkBmWPJmBYZXCo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eHhSArvcWLf+gZd/UdKDEHfxzv/6Juaq74tqvVYu4G1V7NzJu/fNl2xO0LVIRxMzTYHi3BrQYblH0B+c7YS9UE2OW3beVcoRQCyF2CqjdRTo+1cruOfzxUcFALqzrG8EwO+JVjC1XexH2bELATSV43nEdEs7kOrpXqbc0+nSMCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A61FC4CEE7;
+	Thu,  5 Jun 2025 10:59:15 +0000 (UTC)
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 0/9] v4l-utils: dvb: add streaming support
+Date: Thu,  5 Jun 2025 12:58:23 +0200
+Message-ID: <cover.1749121112.git.hverkuil@xs4all.nl>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bd0f6da2-d358-47c9-b2d8-4f5352b7e28f@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Hans, Laurent,
+This series picks up where Satendra left it back in 2017.
 
-On Tue, Jun 03, 2025 at 03:27:16PM +0200, Hans de Goede wrote:
-> Hi Laurent,
-> 
-> Thank you for your reviews. I agree with most of your
-> comments and I'll address them when I can make some time.
-> 
-> On 3-Jun-25 1:03 PM, Laurent Pinchart wrote:
-> > Hi Hans,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Sat, May 31, 2025 at 06:31:46PM +0200, Hans de Goede wrote:
-> >> With IPU# bridges, endpoints may only be created when the IPU bridge is
-> >> initialized. This may happen after the sensor driver's first probe().
-> >>
-> >> Signed-off-by: Hans de Goede <hansg@kernel.org>
-> >> ---
-> >>  drivers/media/i2c/mt9m114.c | 11 +++++++----
-> >>  1 file changed, 7 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> >> index c4d3122d698e..72914c47ec9a 100644
-> >> --- a/drivers/media/i2c/mt9m114.c
-> >> +++ b/drivers/media/i2c/mt9m114.c
-> >> @@ -2399,11 +2399,14 @@ static int mt9m114_parse_dt(struct mt9m114 *sensor)
-> >>  	struct fwnode_handle *ep;
-> >>  	int ret;
-> >>  
-> >> +	/*
-> >> +	 * Sometimes the fwnode graph is initialized by the bridge driver,
-> >> +	 * wait for this.
-> >> +	 */
-> >>  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> >> -	if (!ep) {
-> >> -		dev_err(&sensor->client->dev, "No endpoint found\n");
-> >> -		return -EINVAL;
-> >> -	}
-> >> +	if (!ep)
-> >> +		return dev_err_probe(&sensor->client->dev, -EPROBE_DEFER,
-> >> +				     "waiting for fwnode graph endpoint\n");
-> > 
-> > That's a bit annoying, as in non-ACPI systems we'll then get probe
-> > deferral, making the issue more difficult to debug.
-> 
-> With "then" I assume you mean when the fwnode graph endpoint is missing
-> on DT systems ?
-> 
-> > Is there a way, on IPU-based systems, to delay probing the sensor until
-> > the bridge has been initialized ?
-> 
-> Waiting for the fwnode graph endpoint to show up is the way to wait for
-> bridge init we (Sakari and me) have agreed upon, this is done on all
-> drivers used on x86/ACPI platforms.
+The original patch added support for streaming I/O in dvbv5-zap and
+dvbv5-scan, but it was incomplete, especially for dvbv5-scan.
 
-In the long run it'd be nice to move the code from the IPU bridge to the
-ACPI framework. That way we could remove this check as we could guarantee
-the endpoints would be where they're needed in time.
+The patches on top fix a number of issues, mainly relating to
+dvbv5-scan, allowing that utility to also use the streaming I/O if
+the -R option was specified. Various bugs were addressed and
+finally a test was added to test-media.
 
-But I don't expect this to happen any time soon: reworking the fwnode
-infrastructure to accommodate more flexible node/property insertion should
-probably be done first. Still, IPU bridge doesn't conflict with DisCo for
-Imaging doing largely similar things under the hood as the two are
-effectively mutually exclusive (and should remain so).
+This was used to test the kernel patches that drop the
+wait_prepare/finish callbacks:
+
+https://patchwork.linuxtv.org/project/linux-media/list/?series=15715
+
+The media CI test of the kernel patches + these v4l-utils patches
+is here:
+
+https://gitlab.freedesktop.org/linux-media/users/hverkuil/-/pipelines/1443147
+
+Regards,
+
+	Hans
+
+Hans Verkuil (8):
+  dvbv5: use proper dvb_v5 namespace
+  dvb-vb2: add dvb_v5_stream_alloc/free
+  libdvbv5: prepare for vb2 stream context
+  dvbv5-scan: add -R streaming option
+  libdvbv5/dvb-v5-std.c: add DTV_BANDWIDTH_HZ where possible
+  libdvbv5/dvb-scan: always requeue after dvb_parse_section
+  libdvbv5/dvb-scan: flush any pending bufs after dvb_dmx_stop
+  test-media: add initial vidtv streaming test
+
+Satendra Singh Thakur (1):
+  dvbv5: streaming support using videobuf2 for DVR and auto-scan
+
+ contrib/test/test-media        |  50 +++++
+ lib/include/libdvbv5/dvb-dev.h |   8 +
+ lib/include/libdvbv5/dvb-fe.h  |   5 +
+ lib/include/libdvbv5/dvb-vb2.h | 161 +++++++++++++++
+ lib/libdvbv5/dvb-fe-priv.h     |   2 +-
+ lib/libdvbv5/dvb-scan.c        | 112 +++++++++--
+ lib/libdvbv5/dvb-v5-std.c      |   7 +
+ lib/libdvbv5/dvb-vb2.c         | 349 +++++++++++++++++++++++++++++++++
+ lib/libdvbv5/meson.build       |   2 +
+ utils/dvb/dvbv5-scan.c         |  13 ++
+ utils/dvb/dvbv5-zap.c          |  30 ++-
+ 11 files changed, 718 insertions(+), 21 deletions(-)
+ create mode 100644 lib/include/libdvbv5/dvb-vb2.h
+ create mode 100644 lib/libdvbv5/dvb-vb2.c
 
 -- 
-Kind regards,
+2.47.2
 
-Sakari Ailus
 
