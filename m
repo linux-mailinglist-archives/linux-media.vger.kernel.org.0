@@ -1,168 +1,114 @@
-Return-Path: <linux-media+bounces-34133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34134-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173ADACF02D
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 15:19:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A9CACF098
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 15:31:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 550A1188A8D6
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 13:19:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B4EB97A8C90
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jun 2025 13:30:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41A1222F74A;
-	Thu,  5 Jun 2025 13:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A4C4235044;
+	Thu,  5 Jun 2025 13:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oFNVoKCb"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LfdM+OvS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A541922A4FE
-	for <linux-media@vger.kernel.org>; Thu,  5 Jun 2025 13:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B46022DFA8;
+	Thu,  5 Jun 2025 13:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749129435; cv=none; b=TEpR2b4rxColEotg7djYM1pE3O4bfcP4EYCv9Mff74vgCdHzpORDgRB6fRoRlOQOe/1NwdxSnIBTBR4ncMBcoeQdMnK0wvuZONaOESK9QHLMvcD82h+i4JVFAorwEQDuJZ6Mp2bUuq5EZNetfPiSy8owLK7TBQ8GuNzP4d6YV1c=
+	t=1749130124; cv=none; b=KhixSwks5QbAvNUtiLguF4tu/5pXNqsTNW4525YMOgkn8yf3IYfu5bmIOXsv1j0KzDj473OdNm2R7Bh9ktb4RJ3IU1+JEWnXdtAOSwQPhHGry/bQ6Jwd0J3X6dSAzNt2SikDdOPgwpt58ydXO+0sjuvRP7GjaFIsplOD7XXYn00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749129435; c=relaxed/simple;
-	bh=sdfGKGGBJoeE+wrODSOtisnpvpGbOR3rInliR1xDhMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TKwor+EScEKxG98uCitgyDZkCkFfqas+vOU/5Rfht/REsKDupRWeHF/pPGmluSr3zMPuiWe+80MkRrDi9XQoIZOnJWXgrwzc3yYs2RyURyOGAFZ4/MMy1UCFNRmR+WGIq3xW0+p6uZmOCjNYkkIO2xBCOfUXuXa3FPQWO9KsPBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oFNVoKCb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCC6019AD;
-	Thu,  5 Jun 2025 15:17:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749129428;
-	bh=sdfGKGGBJoeE+wrODSOtisnpvpGbOR3rInliR1xDhMc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oFNVoKCbUGfPOUePKX/ggfLWwFOngjp3M+2rHfaautU0AB79IMhTfISzHcDAtKTXq
-	 MX92wJSl+uEYutO4rXNrdKwElZeNE98wpdLoaWuMahlg9mhnERks2cWn0Tum8YgOrO
-	 BQAiqqmMCaH42UG2hPo/pgbDyc6muk+RlDrkPaAg=
-Date: Thu, 5 Jun 2025 16:17:00 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans Verkuil <hans@jjverkuil.nl>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v4l-utils] CONTRIBUTE: Add simple contribution
- instructions
-Message-ID: <20250605131700.GA25847@pendragon.ideasonboard.com>
-References: <20250605-prefix-v1-1-450aff98308a@chromium.org>
- <20250605124635.GC29935@pendragon.ideasonboard.com>
- <CANiDSCs4B8ovA2jipUiDr3tC3SSCpJOownohx-X+UvD+2W2w9g@mail.gmail.com>
+	s=arc-20240116; t=1749130124; c=relaxed/simple;
+	bh=7c0kVEdp8oXjCBNdnSD4JFmSoMj9ju4oSLGkVs5cnXI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=OQSCoYMAg2aH1u5aT6KC5GtUskAM/hZz7myog1C3cZkRCfSgDmBEfQ4bldRZWaJm5IXmzGSYQrJVTkK9mpbkO6vNV6CDyiVFKQTx1ePoUu9JXASDfpdDjAnIe+TYfiO4aQQJQew5cCnVpwMfwnj3uQNDSlmlnKfQ/389FC5L0Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=LfdM+OvS; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1749130120;
+	bh=7c0kVEdp8oXjCBNdnSD4JFmSoMj9ju4oSLGkVs5cnXI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=LfdM+OvScQCSkNKKnZKcHfNiNCjK54Go6om0chdCnknHigNqHG0lsWJtczbsubvBf
+	 Tv//5TCxf4puIbszBwynwP+YyF/b28w/3vAD1oDIz+8ew25lu+ul2YetTi8BUu7+/s
+	 9k9WcjI5s+SD8aodLOuzNGk1YerbcZQKYRhtbWJdSMob5aPW7XdiDBPQia2W2WwkKJ
+	 1dDC+mNCmqBWQr/WL/G3dsH1H1PnXKzuu2THGLUC7rgCTn/ffXRx+SHlXY7mtQjsnK
+	 7DCzPjpsPxviJ9bJHjMuxPZm0BLMXkAWUR0nnkBewl+mKlG3dfMddTpbiqYjueeQUt
+	 /0y6XonOlE5RA==
+Received: from [IPv6:2606:6d00:10:5285::5ac] (unknown [IPv6:2606:6d00:10:5285::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4405B17E088C;
+	Thu,  5 Jun 2025 15:28:39 +0200 (CEST)
+Message-ID: <8c6316d2d00287e96bc2ad5d27c8de37f990b7e5.camel@collabora.com>
+Subject: Re: [PATCH v2 2/7] media: chips-media: wave5: Improve performance
+ of decoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"	
+ <mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl"
+ <hverkuil-cisco@xs4all.nl>,  "bob.beckett@collabora.com"	
+ <bob.beckett@collabora.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
+ "lafley.kim" <lafley.kim@chipsnmedia.com>,  "b-brnich@ti.com"	
+ <b-brnich@ti.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung	
+ <nas.chung@chipsnmedia.com>
+Date: Thu, 05 Jun 2025 09:28:37 -0400
+In-Reply-To: <SE1P216MB1303F7ADAC83F6CE312C5CA3ED6FA@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+References: <20250522072606.51-1-jackson.lee@chipsnmedia.com>
+				 <20250522072606.51-3-jackson.lee@chipsnmedia.com>
+			 <3afbd0253fabcf9f8795ab2231107e2e9da012cc.camel@collabora.com>
+			 <SE1P216MB1303C1D1C2A9FA165A01B71AED64A@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+		 <03a87e1c9e8f77887c2457b9c3fcbf0c6a6cf287.camel@collabora.com>
+		 <SE1P216MB13033207BDFE2A6BCC48999EED6CA@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <1318bd68f2d60b9d44cb22bd90b92399311f0b00.camel@collabora.com>
+	 <SE1P216MB1303F7ADAC83F6CE312C5CA3ED6FA@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCs4B8ovA2jipUiDr3tC3SSCpJOownohx-X+UvD+2W2w9g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 05, 2025 at 02:54:33PM +0200, Ricardo Ribalda wrote:
-> On Thu, 5 Jun 2025 at 14:46, Laurent Pinchart wrote:
-> > On Thu, Jun 05, 2025 at 12:09:57PM +0000, Ricardo Ribalda wrote:
-> > > In the media summit we discussed the need of a special prefix for
-> > > v4l-utils. This helps patchwork and media-ci.
-> > >
-> > > Create a new file with a brief introductions on how to contribute and
-> > > make the `v4l-utils` official.
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >
-> > I think this is a good idea. I don't know how we'll get users to
-> > actually use the prefix, but documenting it is a necessary first step.
-> 
-> I can add a comment in the media-ci email. Something like:
-> 
-> I could not apply your series. Maybe it is for v4l-utils, if so,
-> please check  http://XXXX/CONTRIBUTE.md
+Hi,
 
-Sounds good. Then we can complain that people don't read instructions
-:-)
+Le jeudi 05 juin 2025 à 04:50 +0000, jackson.lee a écrit :
+> > So my question is, is there a way to know, at CMD_STOP call, that the HW
+> > has gone idle, and that no more events will allow handling the EOS case?
+> > 
+> > Nicolas
+> 
+> 
+> Thanks for your reply.	
+> 
+> Now there is only one thing to know if there is more events or not to handle the EOS case.
+> It is that driver sends DEC_PIC command to VPU continuously until display index is -2(it means EOS) from VPU.
+> VPU should trigger interrupts to get display index from the finish_decode function.
+> So we have to run device_run to send DEC_PIC command.
 
-> > > ---
-> > >  CONTRIBUTE.md | 19 +++++++++++++++++++
-> > >  1 file changed, 19 insertions(+)
-> > >
-> > > diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..19a2c5814b45462f3cfeea921e277f8da00ccbd1
-> > > --- /dev/null
-> > > +++ b/CONTRIBUTE.md
-> > > @@ -0,0 +1,19 @@
-> > > +## Repository
-> > > +
-> > > +v4l-utils official repository is hosted at https://git.linuxtv.org/v4l-utils.git
-> > > +
-> > > +## Contributions
-> > > +
-> > > +Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
-> > > +using the prefix `[PATCH v4l-utils]`.
-> >
-> > Nitpicking, I was thinking of '[v4l-utils] [PATCH]' as that's what I
-> > used previously. Looking at the list archives, both (and more) have been
-> > used. I don't object to using '[PATCH v4l-utils]' if that's easier for
-> 
-> This seems to be prefered by b4.... and who does not love b4 :P?
-> 
-> > tools.
-> >
-> > I have this in my .git/config for v4l-utils:
-> >
-> > [format]
-> >         subjectPrefix = "v4l-utils] [PATCH"
-> >
-> > With your proposal, this would be
-> >
-> > [format]
-> >         subjectPrefix = "PATCH v4l-utils"
-> >
-> > In either case, let's document this in addition to the b4 configuration.
-> 
-> Something like this?:
-> 
-> diff --git a/CONTRIBUTE.md b/CONTRIBUTE.md
-> index 19a2c581..708939df 100644
-> --- a/CONTRIBUTE.md
-> +++ b/CONTRIBUTE.md
-> @@ -5,7 +5,11 @@ v4l-utils official repository is hosted at
-> https://git.linuxtv.org/v4l-utils.git
->  ## Contributions
-> 
->  Patches are welcome! Please send your patches to `linux-media@vger.kernel.org`
-> -using the prefix `[PATCH v4l-utils]`.
-> +using the prefix `[PATCH v4l-utils]`. E.g:
-> +
-> +```
-> +git config set format.subjectPrefix "PATCH v4l-utils"
-> +```
+What don't want to see is a loop where we do:
 
-OK. Please check that setting both format.subjectPrefix and
-b4.send-prefixes will not add the prefix twice when using b4.
+	device_run()
+		finish_job()
+			device_run()
+				finish_job()
+					....
 
->  ## b4 config
-> 
-> > > +
-> > > +## b4 config
-> > > +
-> > > +If you use b4[1] for your contributor workflow you can use these options:
-> > > +
-> > > +```
-> > > +git config set b4.send-series-cc linux-media@vger.kernel.org
-> > > +git config set b4.send-prefixes v4l-utils
-> > > +```
-> > > +
-> > > +[1] https://b4.docs.kernel.org/en/latest/contributor/overview.html
-> > >
-> > > ---
-> > > base-commit: 0d4e8e2d4e2d9d87863222e03fd3a6a4a3ff3d86
-> > > change-id: 20250605-prefix-a1a47dbdaa75
+What I see now, is that we simply bang on the trigger until it completes, which
+is very wasteful in power and CPU time. In your next version, make sure to
+find a mitigation to that active loop, and document it please.
 
--- 
-Regards,
-
-Laurent Pinchart
+Nicolas
 
