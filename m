@@ -1,131 +1,161 @@
-Return-Path: <linux-media+bounces-34224-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34225-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DB0AD00EC
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:59:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA10AD00F8
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 13:02:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 40D8E3B1CE8
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 10:59:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6427618964D3
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 11:02:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8362828751B;
-	Fri,  6 Jun 2025 10:59:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D6882882A6;
+	Fri,  6 Jun 2025 11:02:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y7HvIGO6"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hX5LorD3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C41928640E
-	for <linux-media@vger.kernel.org>; Fri,  6 Jun 2025 10:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE1B2B9BC;
+	Fri,  6 Jun 2025 11:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749207589; cv=none; b=kAGntVD9SPhpdGwrHz3wWqNoFQgeeZRAUsgv0f8dnWEja7H7tbI/J3528iCJ9hnVRUQn7uDGzpEDCQnkJU+cgF1iZMQRGVqYGCcjahP6gnPHTMfFz2UHN1BOm1ALvYDR9TQbBjg9UYdn5DoXuQoJaLlQrVDN8oCK0KSVJLQLmgs=
+	t=1749207724; cv=none; b=EBxyQsp10xbWUtzVjOpS3bdAOQ+JbHaK9EurHmWAS5LelPjew08KV1rS2emojjrszk8K8CjUe9KaklxwNlN5lATmxuk2pY9rawTGGcVzPOZ4lJCmva8YleX8kw3wWN8oP2e7nvkQPPmoByi6BZbkq5gGd6yr83kA2zfQLjRQW5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749207589; c=relaxed/simple;
-	bh=eNvJDVx2RVD1ON1QjqqCkfACmTkFJYvAfRFH/oO/c8w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CKxm7S9z5CnH/1wijqI2KVsKRTyTwHmhfWKX1C87QVzHd7YkvTkIWZx9XnckPTXmibEE3BOnRMjqmHKEaohrumJwvvyC4xmGyC2zOmYpeLa+59IWQHfC0P0/prWankQIEZDjN9USvFDJOBeQHefgskeRU9NJ/D3xTXgqHE9h+1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y7HvIGO6; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-553237a1931so236500e87.3
-        for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 03:59:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749207584; x=1749812384; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gvqW3AWqkK+q0nQJutHUZ9u8mAXK0/731ZCrAoRGHHE=;
-        b=y7HvIGO6Qgb8Jd6cOhGPeEheZl0oTWJsquM7T8v1Pt4XRmNmpQzdBIKhcEGqV3RoRb
-         JzFKHSYxau83ee0ZkqjtQbQVm2lMOV5CH0r9qb0RaiakGI5CZvlGJANB/fgoswf5hPB6
-         VeHtydAr20LUS7q5LSYkezfHF2DCpH5h/5TglbOrd/BV0sTKZOk+1dpWjR2alnTmL039
-         idYPqOFYnwox9Nm7YaToTgDOwTTz5xf2gZo39GIL+oloHCNX0RrUsnx81FT5t5N5RCx0
-         2MfW2bBWTz0yNH4i5h9KIeYaxrq7qOczOk5bcXd+pd/roKChu/bG3NPMKw34oDIeWur5
-         3bIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749207584; x=1749812384;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gvqW3AWqkK+q0nQJutHUZ9u8mAXK0/731ZCrAoRGHHE=;
-        b=CyVAWQJnHyaNC5+vhEvNaA/MF9s51d+nmgPzRUTi6sB1h+kEkGn/Sjk/NW4/JueJoq
-         +5duPCcbe9V/UxyO1+oGSUjTfynX5HHEM7AslF4rhnxBJHgXEnGGOUdxwxXD1obHAYlB
-         Ffkln8Sy+WD+EelhMADIgpQma7cxPe8xiy6cq0idXf0GIvFF7ADUl1CDv02YelgEib33
-         b584tbOuMh2A4s3ySjd1TEO6aVbRg93Mf8BYP2MhTMoYpw/t/InIigNvJucml/odzZmr
-         cabc4OF4cLuDUwwGPKIvVrXpBG8egh3HIdoiiPFMEXZxQ29tlYDl6L5tEIgkcZCDgH+z
-         zyIg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4KYeOFV8cXrRHGUAmjWAtuoxwW3O8gvEFS/oiG3XRFTkLux9woaE3jNtD4AFS1YcMocrYMXWhrhSBQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0OwVmSa7p28BfSRk+D3BVQceDhmRzYAwnZxzbgx4cLOWOEn6w
-	iiR6KuNn9RtIVgIIy9SNxR+VwDnXZVsDJsa2Xm4XGgNk/viGZrvY7EGOcwaoxacSs8g=
-X-Gm-Gg: ASbGncu4Q2WXamYkZ42UGXS/SSk23X1wiiIGumy1beLp4/3Lm7uPAOEoXBFgqH7I082
-	l6S4g1pRd63+nTE/WZYPfyOEAN22l7W3G5SOKc0DOraobf9+oVdTVGUfbzNWd2fmeIum9HcrmDi
-	IEAaW3KkAVSijbGo8Ngye4ooZASKUcb9GsKKFgKY1JIGkdM/Xjo0MzVemQ+Ix72DiaLhOpN9ZMF
-	cEk5h3++vlSVkrCcHdVgU8+qsmcygxcZx+CKtuqjzP0QzjWMZgh6mvVNwVvzBg/DdjkVzXU+TF0
-	s7ivRV82uOv9aWC5MSoqf29llDBdk0y/B3wAO/PyRiny8PG5MktcWOQaE8myHmzUoeDWTcUcBXR
-	m4IvoQInxTW2RnR4PkrQd6UF6YeP3ie5QKfcTj6O9
-X-Google-Smtp-Source: AGHT+IF6VGZzfzzaonioCVFuOZMDtflg4UEsDYktUq+bINrW6ckDf4AUU0LdM6+SSpNaHgJWBn5jVg==
-X-Received: by 2002:a05:6512:401e:b0:54d:6dd3:614e with SMTP id 2adb3069b0e04-55366bd41d7mr243196e87.1.1749207584314;
-        Fri, 06 Jun 2025 03:59:44 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55367731877sm151482e87.223.2025.06.06.03.59.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Jun 2025 03:59:42 -0700 (PDT)
-Message-ID: <877a72fa-cdae-4a66-9991-5ea86ef76aac@linaro.org>
-Date: Fri, 6 Jun 2025 13:59:41 +0300
+	s=arc-20240116; t=1749207724; c=relaxed/simple;
+	bh=YpgnP6JbmKs2rKnVN3UqcY6nJzxZ4SEBx7H14pjtQvo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LmHSGq7Pi4C325AxRdRDHqEMajKveGdw/vtD2S+exHbjQvQpoZz6KbVHHHjdZhzV24H60jaSIiLm5o4laxHHbwG8xo18YR6vzAUa9KBHquMgQk6/d2xLhZie5wg+5If7PJQZfbl9ik1Uf8u03CuewcYup9NL5vuVEhYp7fla1Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=hX5LorD3; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 556A2aRL023713;
+	Fri, 6 Jun 2025 11:01:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vPiIm5S0zqHtmPDjmG/ipeNnAUuQkXK6aAseCulYbsI=; b=hX5LorD3XiGiLL5p
+	+Lm6DLWtgUWJcIRyzIXvrUPXmbNwcxfvIDSMtGWgqKyeh11+6+OrePXO1LFclUBg
+	jC43w+rRcTZZXoyQsyuqLBjSBE7BL5LEnUAEGOs42Q6dgDIcE55Lpz+e8J7+1ey8
+	k4FG7JdAo3qp42uXUS/f3gBAXz1djNyb7YYVcH/+hbviNzmauudDDXfWL+YBfE39
+	dM/WcVXCX3fgr1aS2ggU/trfPf68YxsxUOuUz7Jd5b0hBH9twzdHOCWKQ/vOf6UP
+	h2ELIjMDWnDKVYudPjBBINWgb/iaBd3cKeD9h0miHkSf87XC1AKs2zN7c+A5hQuN
+	lc2DVQ==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 472mn06kyj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Jun 2025 11:01:54 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 556B1rrY025619
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 6 Jun 2025 11:01:53 GMT
+Received: from [10.50.32.91] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Jun 2025
+ 04:01:49 -0700
+Message-ID: <e434dae3-f0ec-e9cf-fc02-3ea79a0f5d7b@quicinc.com>
+Date: Fri, 6 Jun 2025 16:31:46 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] media: qcom: camss: Add support for MSM8939
-Content-Language: ru-RU
-To: vincent.knecht@mailoo.org, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20250602-camss-8x39-vbif-v4-0-32c277d8f9bf@mailoo.org>
- <20250602-camss-8x39-vbif-v4-2-32c277d8f9bf@mailoo.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20250602-camss-8x39-vbif-v4-2-32c277d8f9bf@mailoo.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] media: venus: Fix MSM8998 frequency table
+Content-Language: en-US
+To: Konrad Dybcio <konradybcio@kernel.org>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Marc Gonzalez <mgonzalez@freebox.fr>,
+        Pierre-Hugues Husson <phhusson@freebox.fr>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC: Marijn Suijten <marijn.suijten@somainline.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Konrad Dybcio
+	<konrad.dybcio@oss.qualcomm.com>
+References: <20250531-topic-venus_98_tbl-v1-1-68e5523a39dc@oss.qualcomm.com>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <20250531-topic-venus_98_tbl-v1-1-68e5523a39dc@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: JsMq2vLL8LnJ7Wl0taToxv2O0ldqSiwQ
+X-Proofpoint-GUID: JsMq2vLL8LnJ7Wl0taToxv2O0ldqSiwQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA2MDA5NyBTYWx0ZWRfX+UjueyEy6W+Y
+ 6rPYQz+zjyXWrLPDCNCmDQPa8jaZCurGiwx1G09qX9VDp4Ruoh1iZyrME6DNt8zF87ua8peZ9xU
+ kr8NwIWGmgkzSn19n9A/KmPpvzPYrtYZFovbf6fRnEYrRwjuY2a/Tsh/lu1J/3VM6QS91KsC2Bx
+ TZ39/K6Hcvq/d5IYHjB33sGrPr+mYuz69cuADcujIqbYGyhM3WfwJqhfW8ca07JOY92N4uMnGWN
+ V7PCRZcF1AzkQDM5cqKfq0khiHP2RwyNZmrP7A/H1IIQv5gCD2t6OgfCcEX7WjBcq8J0t1CTwDn
+ jser0w/goMZ++uyKkXTwOxvhY7wwaNITJZ6tu2tzTI8vCj0y1MYrzwD3qnBvfu6mbjhrV+znmUa
+ N3NEvWQ9P7TtpJWNK7sS7FG0Vi/dBZgGpVEQ9voUgE9xb1+vAf2oiYpKzim66il6b02En14Z
+X-Authority-Analysis: v=2.4 cv=Y8/4sgeN c=1 sm=1 tr=0 ts=6842caa2 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=HQS51YnNDeexhmgAX-4A:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-06_03,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0 mlxlogscore=999 spamscore=0 phishscore=0
+ clxscore=1015 impostorscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ malwarescore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506060097
 
-Hello Vincent.
 
-On 6/2/25 20:27, Vincent Knecht via B4 Relay wrote:
-> From: Vincent Knecht <vincent.knecht@mailoo.org>
+
+On 5/31/2025 5:52 PM, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > 
-> The camera subsystem for the MSM8939 is the same as MSM8916 except with
-> 3 CSID instead of 2, and some higher clock rates.
+> Fill in the correct data for the production SKU.
 > 
-> As a quirk, this SoC needs writing values to 2 VFE VBIF registers
-> (see downstream msm8939-camera.dtsi vbif-{regs,settings} properties).
-> This fixes black stripes across sensor and garbage in CSID TPG outputs.
+> Fixes: 193b3dac29a4 ("media: venus: add msm8998 support")
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> Add support for the MSM8939 camera subsystem.
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index d305d74bb152d21133c4dfa23805b17274426a5c..2bb514c322692475ed58198e17f906f894d81cf4 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -709,11 +709,11 @@ static const struct venus_resources msm8996_res = {
+>  };
+>  
+>  static const struct freq_tbl msm8998_freq_table[] = {
+> -	{ 1944000, 465000000 },	/* 4k UHD @ 60 (decode only) */
+> -	{  972000, 465000000 },	/* 4k UHD @ 30 */
+> -	{  489600, 360000000 },	/* 1080p @ 60 */
+> -	{  244800, 186000000 },	/* 1080p @ 30 */
+> -	{  108000, 100000000 },	/* 720p @ 30 */
+> +	{ 1728000, 533000000 },	/* 4k UHD @ 60 (decode only) */
+> +	{ 1036800, 444000000 },	/* 2k @ 120 */
+> +	{  829440, 355200000 },	/* 4k @ 44 */
+> +	{  489600, 269330000 },/* 4k @ 30 */
+> +	{  108000, 200000000 },	/* 1080p @ 60 */
+>  };
+>  
+>  static const struct reg_val msm8998_reg_preset[] = {
 > 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> ---
+> base-commit: 2a628f951ed54c30a232230b5b58349d2a8dbb11
+> change-id: 20250531-topic-venus_98_tbl-5765675a4ce5
+> 
+> Best regards,
 
-There was a preceding and partially reviewed changeset published on
-linux-media [1] before v1 of the MSM8939 platform support in CAMSS,
-due to a merge conflict this platform changeset should be rebased IMHO.
-
-[1] https://lore.kernel.org/all/20250513142353.2572563-4-vladimir.zapolskiy@linaro.org/
-
---
-Best wishes,
-Vladimir
+Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 
