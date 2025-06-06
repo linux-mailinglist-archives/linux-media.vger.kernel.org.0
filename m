@@ -1,630 +1,382 @@
-Return-Path: <linux-media+bounces-34256-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34257-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB6CAD03C3
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 16:09:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09267AD0418
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 16:35:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 988E11743AF
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 14:09:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6EBB77A4AE9
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 14:33:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84CB288CBA;
-	Fri,  6 Jun 2025 14:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E400199931;
+	Fri,  6 Jun 2025 14:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="C4PqVvUL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="efiCPr3S"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="RAUlMvKR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B306171C9;
-	Fri,  6 Jun 2025 14:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE0E84D08
+	for <linux-media@vger.kernel.org>; Fri,  6 Jun 2025 14:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749218979; cv=none; b=U7YI450ofXou0HoHrFi0MV6EN+4CHlcuTw83j06et6Htl2JOE7VOMCHz4xczLozeOgVIr+nX6glF3QWrFaKrvY4rVGRF90scowMN6CSS62T60/LDIqjqAvj7GfVgj3eNoXh9OvrAnsy8SLgkrJy34KeGvNFkasZYomxvtgA8h4A=
+	t=1749220503; cv=none; b=VHFHd5V5QZv/KbPhl1KfufnoEr5JNeKIKP/R/Ci6WjW0rqjTexR2Ju9un1vqOSmvY7B46fqEc0UOVAIk+N8M/dJ2ytHh4jfuVGoaaF1XOk3tV02+6Sai85+vLfsjAdqfhR7EAp5oen/9s5EUNHHJyKcmAjMzBAH/dtaceXNbTXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749218979; c=relaxed/simple;
-	bh=OZXr4BCbkbWRncS2h2jXyU1YvQCT+Kc5sWm/Ff+9ojc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l+LIET178OComLItIUn54BSN5UNf9WAvmWLEnNx9fmI+2SN2JRzqdieop+0lDM6xeanO+YYHBDHj/G96MxXDB34isptnfWMUhWZCoqPaLAAmDNLGWX6hUiyyD0X7drv/BpcLJAarQJvvP213/M+vr7jNlCrGpDiAB31kpQ/DAXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=C4PqVvUL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=efiCPr3S; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 302121380377;
-	Fri,  6 Jun 2025 10:09:35 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Fri, 06 Jun 2025 10:09:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749218975;
-	 x=1749305375; bh=cLTvHi1X5KzIyHSluaoxe9aAKVKVAHkQa3z5s2lWCqk=; b=
-	C4PqVvULJRz/W0LghulEIF0KojDADzuumEy3OyXVsuIxdE77yBQs3Zs+UCbqGpgZ
-	vuq3y1yMtDjfdNgEUDykUirJpO9PL+eukcFAz0lwKv/O4J4fk9uF3iAWMNvh8YeC
-	CawkklORVK1ejvky+lAn3maj2a3aRhOD+y+4JvjjQVziClPzVveWt/OvfQfKtFrf
-	cI4q4C0MThIR5lGZAgRwtodkldJRfqoWTW0WrfqjuKKSdxDHNTa06Ns8Ga627m4s
-	LlQmJhkxtavUTwjvYSoY3OedhyLq+9BSIadEVSTkOi72h7m1Icq6WjJW678DydjJ
-	Iliv4RfyCjhQe1XvXDkHuQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749218975; x=
-	1749305375; bh=cLTvHi1X5KzIyHSluaoxe9aAKVKVAHkQa3z5s2lWCqk=; b=e
-	fiCPr3SiWj6e5LEcBFma59HRqeSmavtYspaOBC3Gw1HgJIO5vcBm+1ScICNFdB2L
-	lHKhSUf6EDpNFJI51b9w2mSfc/AsQYY9DgA4fejcVKAmr8CHPZ7MZOrwWMzISf13
-	lgqEMABNcOPjCoFnYmdQd3xNViSezuSW5g/f1q+uSxZ+k8NuPCBKENFIM6nUFzti
-	yaAinypfyIQxW4aN067adNrb/3UDZl+Fixy9zG5D+88xkf78KScPZZJKSDW7IUrL
-	SFFfROf+1XIIe5RaM7KNJxAs4RgdPupbGO+NXC/8cN2IocQZaWkyYLDLmDnJo43M
-	r3/E9h9SVZxr9Qih7WegQ==
-X-ME-Sender: <xms:nvZCaAt9elDn7_cFPu9P-Zc0JOntVY6RHJybyz1qdu0DipS-TSYt0A>
-    <xme:nvZCaNc7mWi1zEojgmsqwEipAv8fr5ZGCOVNXgjJKeZHzJb25qiXkN1t6piUIy-Rj
-    j4PpsCzeuNVdvhsUkA>
-X-ME-Received: <xmr:nvZCaLz8lcg1U523qX7Eo9W1UqikPIcF_AwrMY2NsgYXmguZIp2nqIV4nt_VIYf6Yq2sdRKfLYbwU_7VwPhsWOq3jxEh8PwWVg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehudelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
-    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
-    gvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehl
-    rghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtg
-    hpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhr
-    tghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhomh
-    hirdhvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtgho
-    mhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghr
-    nhgvlhdrohhrgh
-X-ME-Proxy: <xmx:nvZCaDPwIHME0l3ZeybI_kJ8XJLBcGbXQCBP9KEPL71L8JrHl56rzA>
-    <xmx:nvZCaA_cG4KoW9FqNz9dMLdId06UcPhS0K2bdBhTW8n1RPtquPsqIQ>
-    <xmx:nvZCaLXITM73XUz7yZc2YHMh5BS-9GzrCREkjNXPo30DFQ02iAgRqw>
-    <xmx:nvZCaJekfUKhZcLqfjSJo7gtQPEFhk3JTYjuAbpcGOzqsyq56ALqaA>
-    <xmx:n_ZCaH5xJCjIS0l_3sl8VfisXY1OXLYNdViua26znPR2U8PbjucFP2E1>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Jun 2025 10:09:34 -0400 (EDT)
-Date: Fri, 6 Jun 2025 16:09:33 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 5/6] media: rcar-vin: Merge all notifiers
-Message-ID: <20250606140933.GB2780410@ragnatech.se>
-References: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
- <20250521132037.1463746-6-niklas.soderlund+renesas@ragnatech.se>
- <20250527114513.GL12492@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1749220503; c=relaxed/simple;
+	bh=5TzqgGw2unsj6ioQQYQZki+vg6DcImrQstvVYIHTX+A=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Onaw1CbKWV9NxMha6NNX3KCi8t8Sl0/idQ+rzj1Dd3gegKzQWalxz/uu6iyymPUwrHH5PMIhvR8d6qkgNBM4Cc7/SsEhcAnAxJqys0Lxkz6x3hRlWj+XodR/nHDzauVIi3BguLaDQ8mAVD5gCmQ1Cg6NAIwddLsGEaVNJYPmeHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=RAUlMvKR; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4a58ebece05so23331551cf.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 07:34:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1749220498; x=1749825298; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5TzqgGw2unsj6ioQQYQZki+vg6DcImrQstvVYIHTX+A=;
+        b=RAUlMvKRvifSoc25YjOvnezCv//O/3EaaxdGpS8rlRuKcU1crsVNY0IwDwpUMsfI+o
+         8RDfgcy7vuhlnFu4SV2QnWpFhME2wk5bWci96GOxIW/AwCcgaYNgCG5mf5BN1Vi/NEKx
+         p+VDUAyFTKr8Se5NWNiUvjCpEN4E51V1VUAGVZ0mAqRqLFRejsI4i6yUjApLf0ISN8zE
+         XPCVgpsvfoicWfI7Cto2Bu/6ZtwIsjMYXY9lqvLaTKTJF82Nr7el3U6KWQoEgfyh1vWr
+         j7rrehargy/BhC2Zwhz4WssPFPIWAHm1snUMXrEswKnXzjQLnmVzkcgqSYC4ZflzFgHN
+         QNsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749220498; x=1749825298;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5TzqgGw2unsj6ioQQYQZki+vg6DcImrQstvVYIHTX+A=;
+        b=kzvyh70Et077u+0UC69XgZ8T+tKW8mGjCDDDChFHYL1pMHzjd21vSpAMUwFyFfddgz
+         7L00oLHCZgslAppcWw/kLhe3eFHwWQIgrQ0NWsHaohLDgmzcBqgs82usC8PSRymHeWih
+         91GC8CiSC9HguR9a/DB8RpoIjlTd/lH4NTvqRIPCtnNHureZusduTwt7PU1+IYOGkb1T
+         diGQbUPlgcgnuSpsPJVQSo0BBG6e+8oWZwImbdoKqL4fDkCg4UGSJsb5ZRwNOQacvNec
+         l9N+Q1xgZtl7PWaxotanZIssnV4c1ZE6uM3l75bZeEb7L2Z7GvLfrFdocWV8uJ5nyU8o
+         Lr6A==
+X-Forwarded-Encrypted: i=1; AJvYcCU3XJEQEx+O5uoKD9lg8v8ajxC9WiwtflTWyouKkLQ1Nls96wGcoTn8idB6W1X1XsmE1GyYP6c2c7X/+A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQw0hwVUMr/SbwV34a8+8UFvKE1gR7YpD5lO5izdo5XAUGsIvo
+	jO65nAwkwZJoQMAu1s5P1ltzDWwtzh4R4Pv6adn1MfkZHuinyOdwEf/8aeP7fOnSfGY=
+X-Gm-Gg: ASbGncs5kUClaf1XiTKI/q2MTJBlUGGxhKoDmS0345/+gisXBxaMlnyVZ2C9/DKMJag
+	txLSWVHRerrV/6ginnlgQO0HYfLmwv9WVcV1xv+zSn8ZQEIj2dGYD5jyKV2h0fi4T7g3xVELxZb
+	jstYdtUl3lCG5WZvN5Jumn9e2r4qw9+Ipvwdx+VUXZ7IS0rv2mcK21PYeQh5+0j9fXZ/riPs7A4
+	5Gna0liB4HXQZgBEaEPB4/0Iv7wOgi0W0emBTIidv3gINqUHlqZ9W7M7tKnbf0O3ydNN4BrA2aU
+	WL8NE4aeC6FKfAGhAtvYh0v6ezQmQJRpnwVmgh4UZAjzTrzm49PFJFa+Q7nvykEHHjeV3jc=
+X-Google-Smtp-Source: AGHT+IEOgrxub3BrHmv/C1Ah/alzkHlimgB0TSoZWRFydqb5PJ/1vYoxBWKS8hME2MmvSylGN5l2Hg==
+X-Received: by 2002:a05:622a:229c:b0:476:875e:516d with SMTP id d75a77b69052e-4a5b9d92ac2mr52875131cf.36.1749220498421;
+        Fri, 06 Jun 2025 07:34:58 -0700 (PDT)
+Received: from [192.168.42.160] (mtl.collabora.ca. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a619852d27sm13584561cf.42.2025.06.06.07.34.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 07:34:57 -0700 (PDT)
+Message-ID: <b6e7e7ac054f107f97d47288b85cf35b45f58590.camel@ndufresne.ca>
+Subject: Re: [PATCH v5 09/12] media: mediatek: jpeg: refactor multi-core clk
+ suspend and resume setting
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Kyrie Wu =?UTF-8?Q?=28=E5=90=B4=E6=99=97=29?= <Kyrie.Wu@mediatek.com>, 
+ "linux-kernel@vger.kernel.org"
+	 <linux-kernel@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
+	 <linux-mediatek@lists.infradead.org>, "linux-media@vger.kernel.org"
+	 <linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	 <devicetree@vger.kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, 
+ "conor+dt@kernel.org"
+	 <conor+dt@kernel.org>, "robh@kernel.org" <robh@kernel.org>, 
+ "hverkuil-cisco@xs4all.nl"
+	 <hverkuil-cisco@xs4all.nl>, "linux-arm-kernel@lists.infradead.org"
+	 <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+	 <matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: "srv_heupstream@mediatek.com" <srv_heupstream@mediatek.com>
+Date: Fri, 06 Jun 2025 10:34:56 -0400
+In-Reply-To: <83746dff5c252591f054732dafcfdd1900cd613c.camel@mediatek.com>
+References: <20250530074537.26338-1-kyrie.wu@mediatek.com>
+		 <20250530074537.26338-10-kyrie.wu@mediatek.com>
+		 <8ab1b3166cbb972dbd5984fa591b42dbf984fc3b.camel@ndufresne.ca>
+	 <83746dff5c252591f054732dafcfdd1900cd613c.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250527114513.GL12492@pendragon.ideasonboard.com>
 
-Hi Laurent,
+SGkgS3lyaWUsCgpMZSB2ZW5kcmVkaSAwNiBqdWluIDIwMjUgw6AgMDM6MjMgKzAwMDAsIEt5cmll
+IFd1ICjlkLTmmZcpIGEgw6ljcml0wqA6Cj4gT24gRnJpLCAyMDI1LTA1LTMwIGF0IDEzOjQzIC0w
+NDAwLCBOaWNvbGFzIER1ZnJlc25lIHdyb3RlOgo+ID4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2Ug
+ZG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwKPiA+IHlvdSBoYXZl
+IHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuCj4gPiAKPiA+IAo+ID4gSGksCj4g
+PiAKPiA+IExlIHZlbmRyZWRpIDMwIG1haSAyMDI1IMOgIDE1OjQ1ICswODAwLCBLeXJpZSBXdSBh
+IMOpY3JpdCA6Cj4gPiA+IHJlZmFjdG9yIGpwZWcgY2xrIHN1c3BlbmQgYW5kIHJlc3VtZSBzZXR0
+aW5nIGZvciBtdWx0aS1jb3JlCj4gPiAKPiA+IFlvdSdsbCBoYXZlIHRvIHdyaXRlIGEgbG90IG1v
+cmUgdG8gc3VwcG9ydCBzdWNoIGEgbGFyZ2UgYW5kIEkKPiA+IG11c3Qgc2F5IHNsaWdodGx5IGNv
+bnZvbHV0ZWQgY2hhbmdlLiBXaHkgZG8geW91IG5lZWQgYSBzcGVjaWFsCj4gPiBjYXNlIGZvciAx
+IGNvcmUgaW4gdGhlIGZpcnN0IHBsYWNlID8gV2hhdCBhYm91dCBtdWx0aS1jb3JlCj4gPiBkZXNp
+Z24gdGhhdCBzdXBwb3J0IGZyb20gMSB0byBOIGNvcmVzIHdpdGhvdXQgdXNpbmcgZGlmZmVyZW50
+Cj4gPiBjb2RlIHBhdGggPwo+ID4gCj4gPiBOaWNvbGFzCj4gCj4gRGVhciBOaWNvbGFzLAo+IAo+
+IEZvciBzaW5nbGUgY29yZSwgdGhlIGNsb2NrIGluZm9ybWF0aW9uIGlzIHBhcnNlZCBhbmQgc3Rv
+cmVkIGluIHRoZQo+IHN0cnVjdCBvZiBtdGtfanBlZ19kZXYsIGJ1dCBtdWx0aS1jb3JlJ3MgYXJl
+IGluIHRoZSBzdHJ1Y3Qgb2YKPiBtdGtfanBlZ2RlY19jb21wX2RldiwgaXQgY2FuIG5vdCB1c2Ug
+YSBzYW1lIHNvZnR3YXJlIGludGVyZmFjZS4KPiAKPiBGb3IgYSBmdXJ0aGVyIHRoaW5raW5nLCBp
+dCBpcyBhbHNvIGEgZml4ZXMgcGF0Y2ggcmF0aGVyIHRoYW4KPiByZWZhY3RvcmluZyBvbmUuIEkg
+d2lsbCBvcHRpbWl6ZSB0aGlzIHBhdGNoIGluIHY2LgoKdGhhbmtzIGZvciB0aGUgZmVlZGJhY2sg
+b24gdGhpcyBwYXRjaCBhbmQgb3RoZXIgcGF0Y2hlcy4gSSB3aWxsIGhhdmUKYSBmcmVzaCBsb29r
+IG9uY2UgYSBuZXcgdmVyc2lvbiBpcyBzZW50LgoKdGhhbmtzIGZvciB5b3VyIHdvcmssCk5pY29s
+YXMKCj4gCj4gVGhhbmtzLgo+IAo+IFJlZ2FyZHMsCj4ga3lyaWUuCj4gPiAKPiA+ID4gCj4gPiA+
+IFNpZ25lZC1vZmYtYnk6IEt5cmllIFd1IDxreXJpZS53dUBtZWRpYXRlay5jb20+Cj4gPiA+IC0t
+LQo+ID4gPiDCoC4uLi9wbGF0Zm9ybS9tZWRpYXRlay9qcGVnL210a19qcGVnX2NvcmUuY8KgwqDC
+oCB8IDI4ICsrKy0tLS0KPiA+ID4gwqAuLi4vcGxhdGZvcm0vbWVkaWF0ZWsvanBlZy9tdGtfanBl
+Z19kZWNfaHcuY8KgIHwgNzUKPiA+ID4gKysrKysrKysrKysrKysrKysrLQo+ID4gPiDCoC4uLi9w
+bGF0Zm9ybS9tZWRpYXRlay9qcGVnL210a19qcGVnX2VuY19ody5jwqAgfCA3NQo+ID4gPiArKysr
+KysrKysrKysrKysrKystCj4gPiA+IMKgMyBmaWxlcyBjaGFuZ2VkLCAxNTEgaW5zZXJ0aW9ucygr
+KSwgMjcgZGVsZXRpb25zKC0pCj4gPiA+IAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRp
+YS9wbGF0Zm9ybS9tZWRpYXRlay9qcGVnL210a19qcGVnX2NvcmUuYwo+ID4gPiBiL2RyaXZlcnMv
+bWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvanBlZy9tdGtfanBlZ19jb3JlLmMKPiA+ID4gaW5kZXgg
+MWQzZGYxMjMwMTkxLi5jMWQyZGU5MmYxMjUgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvbWVk
+aWEvcGxhdGZvcm0vbWVkaWF0ZWsvanBlZy9tdGtfanBlZ19jb3JlLmMKPiA+ID4gKysrIGIvZHJp
+dmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9qcGVnL210a19qcGVnX2NvcmUuYwo+ID4gPiBA
+QCAtMTEyNiw2ICsxMTI2LDkgQEAgc3RhdGljIHZvaWQgbXRrX2pwZWdfY2xrX29uKHN0cnVjdAo+
+ID4gPiBtdGtfanBlZ19kZXYgKmpwZWcpCj4gPiA+IMKgewo+ID4gPiDCoMKgwqDCoMKgIGludCBy
+ZXQ7Cj4gPiA+IAo+ID4gPiArwqDCoMKgwqAgaWYgKGpwZWctPnZhcmlhbnQtPm11bHRpX2NvcmUp
+Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuOwo+ID4gPiArCj4gPiA+IMKg
+wqDCoMKgwqAgcmV0ID0gY2xrX2J1bGtfcHJlcGFyZV9lbmFibGUoanBlZy0+dmFyaWFudC0+bnVt
+X2Nsa3MsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAganBlZy0+dmFyaWFudC0+Y2xrcyk7Cj4gPiA+IMKg
+wqDCoMKgwqAgaWYgKHJldCkKPiA+ID4gQEAgLTExMzQsNiArMTEzNyw5IEBAIHN0YXRpYyB2b2lk
+IG10a19qcGVnX2Nsa19vbihzdHJ1Y3QKPiA+ID4gbXRrX2pwZWdfZGV2ICpqcGVnKQo+ID4gPiAK
+PiA+ID4gwqBzdGF0aWMgdm9pZCBtdGtfanBlZ19jbGtfb2ZmKHN0cnVjdCBtdGtfanBlZ19kZXYg
+KmpwZWcpCj4gPiA+IMKgewo+ID4gPiArwqDCoMKgwqAgaWYgKGpwZWctPnZhcmlhbnQtPm11bHRp
+X2NvcmUpCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuOwo+ID4gPiArCj4g
+PiA+IMKgwqDCoMKgwqAgY2xrX2J1bGtfZGlzYWJsZV91bnByZXBhcmUoanBlZy0+dmFyaWFudC0+
+bnVtX2Nsa3MsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAganBlZy0+dmFyaWFudC0+Y2xrcyk7Cj4gPiA+IMKgfQo+
+ID4gPiBAQCAtMTY3NywxMyArMTY4Myw2IEBAIHN0YXRpYyB2b2lkIG10a19qcGVnZW5jX3dvcmtl
+cihzdHJ1Y3QKPiA+ID4gd29ya19zdHJ1Y3QgKndvcmspCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGdvdG8gZW5jX2VuZDsKPiA+ID4gwqDCoMKgwqDCoCB9Cj4gPiA+IAo+ID4gPiAt
+wqDCoMKgwqAgcmV0ID0gY2xrX3ByZXBhcmVfZW5hYmxlKGNvbXBfanBlZ1tod19pZF0tPnZlbmNf
+Y2xrLmNsa3MtCj4gPiA+ID4gY2xrKTsKPiA+ID4gLcKgwqDCoMKgIGlmIChyZXQpIHsKPiA+ID4g
+LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkZXZfZXJyKGpwZWctPmRldiwgIiVzIDogJWQsIGpw
+ZWdlbmMKPiA+ID4gY2xrX3ByZXBhcmVfZW5hYmxlIGZhaWxcbiIsCj4gPiA+IC3CoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZnVuY19fLCBfX0xJTkVfXyk7Cj4gPiA+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBlbmNfZW5kOwo+ID4gPiAtwqDCoMKgwqAg
+fQo+ID4gPiAtCj4gPiA+IMKgwqDCoMKgwqAgdjRsMl9tMm1fc3JjX2J1Zl9yZW1vdmUoY3R4LT5m
+aC5tMm1fY3R4KTsKPiA+ID4gwqDCoMKgwqDCoCB2NGwyX20ybV9kc3RfYnVmX3JlbW92ZShjdHgt
+PmZoLm0ybV9jdHgpOwo+ID4gPiAKPiA+ID4gQEAgLTE3OTgsMjAgKzE3OTcsMTMgQEAgc3RhdGlj
+IHZvaWQgbXRrX2pwZWdkZWNfd29ya2VyKHN0cnVjdAo+ID4gPiB3b3JrX3N0cnVjdCAqd29yaykK
+PiA+ID4gwqDCoMKgwqDCoCBqcGVnX2RzdF9idWYtPmZyYW1lX251bSA9IGN0eC0+dG90YWxfZnJh
+bWVfbnVtOwo+ID4gPiAKPiA+ID4gwqDCoMKgwqDCoCBtdGtfanBlZ2RlY19zZXRfaHdfcGFyYW0o
+Y3R4LCBod19pZCwgc3JjX2J1ZiwgZHN0X2J1Zik7Cj4gPiA+IC3CoMKgwqDCoCByZXQgPSBwbV9y
+dW50aW1lX2dldF9zeW5jKGNvbXBfanBlZ1tod19pZF0tPmRldik7Cj4gPiA+ICvCoMKgwqDCoCBy
+ZXQgPSBwbV9ydW50aW1lX3Jlc3VtZV9hbmRfZ2V0KGNvbXBfanBlZ1tod19pZF0tPmRldik7Cj4g
+PiA+IMKgwqDCoMKgwqAgaWYgKHJldCA8IDApIHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZGV2X2VycihqcGVnLT5kZXYsICIlcyA6ICVkLCBwbV9ydW50aW1lX2dldF9zeW5jIGZh
+aWwKPiA+ID4gISEhXG4iLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgX19mdW5jX18sIF9fTElORV9fKTsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZ290byBkZWNfZW5kOwo+ID4gPiDCoMKgwqDCoMKgIH0KPiA+ID4gCj4gPiA+IC3CoMKg
+wqDCoCByZXQgPSBjbGtfcHJlcGFyZV9lbmFibGUoY29tcF9qcGVnW2h3X2lkXS0+amRlY19jbGsu
+Y2xrcy0KPiA+ID4gPiBjbGspOwo+ID4gPiAtwqDCoMKgwqAgaWYgKHJldCkgewo+ID4gPiAtwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRldl9lcnIoanBlZy0+ZGV2LCAiJXMgOiAlZCwganBlZ2Rl
+Ywo+ID4gPiBjbGtfcHJlcGFyZV9lbmFibGUgZmFpbFxuIiwKPiA+ID4gLcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19mdW5jX18sIF9fTElORV9fKTsKPiA+ID4gLcKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGNsa19lbmQ7Cj4gPiA+IC3CoMKgwqDCoCB9Cj4g
+PiA+IC0KPiA+ID4gwqDCoMKgwqDCoCB2NGwyX20ybV9zcmNfYnVmX3JlbW92ZShjdHgtPmZoLm0y
+bV9jdHgpOwo+ID4gPiDCoMKgwqDCoMKgIHY0bDJfbTJtX2RzdF9idWZfcmVtb3ZlKGN0eC0+Zmgu
+bTJtX2N0eCk7Cj4gPiA+IAo+ID4gPiBAQCAtMTgyMSw3ICsxODEzLDcgQEAgc3RhdGljIHZvaWQg
+bXRrX2pwZWdkZWNfd29ya2VyKHN0cnVjdAo+ID4gPiB3b3JrX3N0cnVjdCAqd29yaykKPiA+ID4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgICZkc3RfYnVmLT52YjJfYnVmLCAmZmIpKSB7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGRldl9lcnIoanBlZy0+ZGV2LCAiJXMgOiAlZCwgbXRrX2pwZWdfc2V0X2RlY19kc3QK
+PiA+ID4gZmFpbFxuIiwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIF9fZnVuY19fLCBfX0xJTkVfXyk7Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgZ290byBzZXRkc3RfZW5kOwo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8g
+c2V0X2RzdF9mYWlsOwo+ID4gPiDCoMKgwqDCoMKgIH0KPiA+ID4gCj4gPiA+IMKgwqDCoMKgwqAg
+c2NoZWR1bGVfZGVsYXllZF93b3JrKCZjb21wX2pwZWdbaHdfaWRdLT5qb2JfdGltZW91dF93b3Jr
+LAo+ID4gPiBAQCAtMTg0Niw5ICsxODM4LDcgQEAgc3RhdGljIHZvaWQgbXRrX2pwZWdkZWNfd29y
+a2VyKHN0cnVjdAo+ID4gPiB3b3JrX3N0cnVjdCAqd29yaykKPiA+ID4gCj4gPiA+IMKgwqDCoMKg
+wqAgcmV0dXJuOwo+ID4gPiAKPiA+ID4gLXNldGRzdF9lbmQ6Cj4gPiA+IC3CoMKgwqDCoCBjbGtf
+ZGlzYWJsZV91bnByZXBhcmUoY29tcF9qcGVnW2h3X2lkXS0+amRlY19jbGsuY2xrcy0+Y2xrKTsK
+PiA+ID4gLWNsa19lbmQ6Cj4gPiA+ICtzZXRfZHN0X2ZhaWw6Cj4gPiA+IMKgwqDCoMKgwqAgcG1f
+cnVudGltZV9wdXQoY29tcF9qcGVnW2h3X2lkXS0+ZGV2KTsKPiA+ID4gwqBkZWNfZW5kOgo+ID4g
+PiDCoMKgwqDCoMKgIHY0bDJfbTJtX3NyY19idWZfcmVtb3ZlKGN0eC0+ZmgubTJtX2N0eCk7Cj4g
+PiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL2pwZWcvbXRr
+X2pwZWdfZGVjX2h3LmMKPiA+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL2pw
+ZWcvbXRrX2pwZWdfZGVjX2h3LmMKPiA+ID4gaW5kZXggMmU2ZGE4NjE3NDg0Li5kYjJhZmM1MTUx
+YWQgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvanBl
+Zy9tdGtfanBlZ19kZWNfaHcuYwo+ID4gPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21l
+ZGlhdGVrL2pwZWcvbXRrX2pwZWdfZGVjX2h3LmMKPiA+ID4gQEAgLTU0MywxNCArNTQzLDEzIEBA
+IHN0YXRpYyB2b2lkIG10a19qcGVnZGVjX3RpbWVvdXRfd29yayhzdHJ1Y3QKPiA+ID4gd29ya19z
+dHJ1Y3QgKndvcmspCj4gPiA+IMKgwqDCoMKgwqAgdjRsMl9tMm1fYnVmX2NvcHlfbWV0YWRhdGEo
+c3JjX2J1ZiwgZHN0X2J1ZiwgdHJ1ZSk7Cj4gPiA+IAo+ID4gPiDCoMKgwqDCoMKgIG10a19qcGVn
+X2RlY19yZXNldChjanBlZy0+cmVnX2Jhc2UpOwo+ID4gPiAtwqDCoMKgwqAgY2xrX2Rpc2FibGVf
+dW5wcmVwYXJlKGNqcGVnLT5qZGVjX2Nsay5jbGtzLT5jbGspOwo+ID4gPiAtwqDCoMKgwqAgcG1f
+cnVudGltZV9wdXQoY2pwZWctPmRldik7Cj4gPiA+IMKgwqDCoMKgwqAgY2pwZWctPmh3X3N0YXRl
+ID0gTVRLX0pQRUdfSFdfSURMRTsKPiA+ID4gwqDCoMKgwqDCoCBhdG9taWNfaW5jKCZtYXN0ZXJf
+anBlZy0+aHdfcmR5KTsKPiA+ID4gwqDCoMKgwqDCoCB3YWtlX3VwKCZtYXN0ZXJfanBlZy0+aHdf
+d3EpOwo+ID4gPiDCoMKgwqDCoMKgIHY0bDJfbTJtX2J1Zl9kb25lKHNyY19idWYsIGJ1Zl9zdGF0
+ZSk7Cj4gPiA+IMKgwqDCoMKgwqAgbXRrX2pwZWdkZWNfcHV0X2J1ZihjanBlZyk7Cj4gPiA+IMKg
+wqDCoMKgwqAganBlZ19idWZfcXVldWVfZGVjKGN0eCk7Cj4gPiA+ICvCoMKgwqDCoCBwbV9ydW50
+aW1lX3B1dChjanBlZy0+ZGV2KTsKPiA+ID4gwqB9Cj4gPiA+IAo+ID4gPiDCoHN0YXRpYyBpcnFy
+ZXR1cm5fdCBtdGtfanBlZ2RlY19od19pcnFfaGFuZGxlcihpbnQgaXJxLCB2b2lkICpwcml2KQo+
+ID4gPiBAQCAtNTkyLDEyICs1OTEsMTEgQEAgc3RhdGljIGlycXJldHVybl90Cj4gPiA+IG10a19q
+cGVnZGVjX2h3X2lycV9oYW5kbGVyKGludCBpcnEsIHZvaWQgKnByaXYpCj4gPiA+IMKgwqDCoMKg
+wqAgdjRsMl9tMm1fYnVmX2RvbmUoc3JjX2J1ZiwgYnVmX3N0YXRlKTsKPiA+ID4gwqDCoMKgwqDC
+oCBtdGtfanBlZ2RlY19wdXRfYnVmKGpwZWcpOwo+ID4gPiDCoMKgwqDCoMKgIGpwZWdfYnVmX3F1
+ZXVlX2RlYyhjdHgpOwo+ID4gPiAtwqDCoMKgwqAgcG1fcnVudGltZV9wdXQoY3R4LT5qcGVnLT5k
+ZXYpOwo+ID4gPiAtwqDCoMKgwqAgY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGpwZWctPmpkZWNfY2xr
+LmNsa3MtPmNsayk7Cj4gPiA+IAo+ID4gPiDCoMKgwqDCoMKgIGpwZWctPmh3X3N0YXRlID0gTVRL
+X0pQRUdfSFdfSURMRTsKPiA+ID4gwqDCoMKgwqDCoCB3YWtlX3VwKCZtYXN0ZXJfanBlZy0+aHdf
+d3EpOwo+ID4gPiDCoMKgwqDCoMKgIGF0b21pY19pbmMoJm1hc3Rlcl9qcGVnLT5od19yZHkpOwo+
+ID4gPiArwqDCoMKgwqAgcG1fcnVudGltZV9wdXQoanBlZy0+ZGV2KTsKPiA+ID4gCj4gPiA+IMKg
+wqDCoMKgwqAgcmV0dXJuIElSUV9IQU5ETEVEOwo+ID4gPiDCoH0KPiA+ID4gQEAgLTcwMywxNSAr
+NzAxLDg0IEBAIHN0YXRpYyBpbnQgbXRrX2pwZWdkZWNfaHdfcHJvYmUoc3RydWN0Cj4gPiA+IHBs
+YXRmb3JtX2RldmljZSAqcGRldikKPiA+ID4gCj4gPiA+IMKgwqDCoMKgwqAgcGxhdGZvcm1fc2V0
+X2RydmRhdGEocGRldiwgZGV2KTsKPiA+ID4gwqDCoMKgwqDCoCBwbV9ydW50aW1lX2VuYWJsZSgm
+cGRldi0+ZGV2KTsKPiA+ID4gK8KgwqDCoMKgIHJldCA9IGRldm1fY2xrX2J1bGtfZ2V0KGRldi0+
+ZGV2LAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAganBlZ2RlY19jbGstPmNsa19udW0sCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBqcGVnZGVjX2Nsay0+Y2xr
+cyk7Cj4gPiA+ICvCoMKgwqDCoCBpZiAocmV0KSB7Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZGV2X2VycigmcGRldi0+ZGV2LCAiRmFpbGVkIHRvIGluaXQgY2xrXG4iKTsKPiA+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Owo+ID4gPiArwqDCoMKgwqAgfQo+
+ID4gPiArCj4gPiA+ICvCoMKgwqDCoCByZXR1cm4gMDsKPiA+ID4gK30KPiA+ID4gKwo+ID4gPiAr
+c3RhdGljIHZvaWQgbXRrX2pwZWdfY2xrX29uKHN0cnVjdCBtdGtfanBlZ2RlY19jb21wX2RldiAq
+anBlZykKPiA+ID4gK3sKPiA+ID4gK8KgwqDCoMKgIGludCByZXQ7Cj4gPiA+ICsKPiA+ID4gK8Kg
+wqDCoMKgIHJldCA9IGNsa19idWxrX3ByZXBhcmVfZW5hYmxlKGpwZWctPmpkZWNfY2xrLmNsa19u
+dW0sCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBqcGVnLT5qZGVjX2Nsay5jbGtzKTsKPiA+ID4gK8KgwqDC
+oMKgIGlmIChyZXQpCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGV2X2VycihqcGVn
+LT5kZXYsICIlcyA6ICVkLCBqcGVnZGVjCj4gPiA+IGNsa19wcmVwYXJlX2VuYWJsZSBmYWlsXG4i
+LAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2Z1bmNf
+XywgX19MSU5FX18pOwo+ID4gPiArfQo+ID4gPiArCj4gPiA+ICtzdGF0aWMgdm9pZCBtdGtfanBl
+Z19jbGtfb2ZmKHN0cnVjdCBtdGtfanBlZ2RlY19jb21wX2RldiAqanBlZykKPiA+ID4gK3sKPiA+
+ID4gK8KgwqDCoMKgIGNsa19idWxrX2Rpc2FibGVfdW5wcmVwYXJlKGpwZWctPmpkZWNfY2xrLmNs
+a19udW0sCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBqcGVnLT5qZGVjX2Nsay5jbGtzKTsKPiA+ID4gK30KPiA+ID4g
+Kwo+ID4gPiArc3RhdGljIF9fbWF5YmVfdW51c2VkIGludCBtdGtfanBlZ2RlY19wbV9zdXNwZW5k
+KHN0cnVjdCBkZXZpY2UKPiA+ID4gKmRldikKPiA+ID4gK3sKPiA+ID4gK8KgwqDCoMKgIHN0cnVj
+dCBtdGtfanBlZ2RlY19jb21wX2RldiAqanBlZyA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwo+ID4g
+PiArCj4gPiA+ICvCoMKgwqDCoCBtdGtfanBlZ19jbGtfb2ZmKGpwZWcpOwo+ID4gPiAKPiA+ID4g
+wqDCoMKgwqDCoCByZXR1cm4gMDsKPiA+ID4gwqB9Cj4gPiA+IAo+ID4gPiArc3RhdGljIF9fbWF5
+YmVfdW51c2VkIGludCBtdGtfanBlZ2RlY19wbV9yZXN1bWUoc3RydWN0IGRldmljZQo+ID4gPiAq
+ZGV2KQo+ID4gPiArewo+ID4gPiArwqDCoMKgwqAgc3RydWN0IG10a19qcGVnZGVjX2NvbXBfZGV2
+ICpqcGVnID0gZGV2X2dldF9kcnZkYXRhKGRldik7Cj4gPiA+ICsKPiA+ID4gK8KgwqDCoMKgIG10
+a19qcGVnX2Nsa19vbihqcGVnKTsKPiA+ID4gKwo+ID4gPiArwqDCoMKgwqAgcmV0dXJuIDA7Cj4g
+PiA+ICt9Cj4gPiA+ICsKPiA+ID4gK3N0YXRpYyBfX21heWJlX3VudXNlZCBpbnQgbXRrX2pwZWdk
+ZWNfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYpCj4gPiA+ICt7Cj4gPiA+ICvCoMKgwqDCoCBz
+dHJ1Y3QgbXRrX2pwZWdkZWNfY29tcF9kZXYgKmpwZWcgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsK
+PiA+ID4gKwo+ID4gPiArwqDCoMKgwqAgdjRsMl9tMm1fc3VzcGVuZChqcGVnLT5tYXN0ZXJfZGV2
+LT5tMm1fZGV2KTsKPiA+ID4gK8KgwqDCoMKgIHJldHVybiBwbV9ydW50aW1lX2ZvcmNlX3N1c3Bl
+bmQoZGV2KTsKPiA+ID4gK30KPiA+ID4gKwo+ID4gPiArc3RhdGljIF9fbWF5YmVfdW51c2VkIGlu
+dCBtdGtfanBlZ2RlY19yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQo+ID4gPiArewo+ID4gPiAr
+wqDCoMKgwqAgc3RydWN0IG10a19qcGVnZGVjX2NvbXBfZGV2ICpqcGVnID0gZGV2X2dldF9kcnZk
+YXRhKGRldik7Cj4gPiA+ICvCoMKgwqDCoCBpbnQgcmV0Owo+ID4gPiArCj4gPiA+ICvCoMKgwqDC
+oCByZXQgPSBwbV9ydW50aW1lX2ZvcmNlX3Jlc3VtZShkZXYpOwo+ID4gPiArwqDCoMKgwqAgaWYg
+KHJldCA8IDApCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPiA+
+ID4gKwo+ID4gPiArwqDCoMKgwqAgdjRsMl9tMm1fcmVzdW1lKGpwZWctPm1hc3Rlcl9kZXYtPm0y
+bV9kZXYpOwo+ID4gPiArwqDCoMKgwqAgcmV0dXJuIHJldDsKPiA+ID4gK30KPiA+ID4gKwo+ID4g
+PiArc3RhdGljIGNvbnN0IHN0cnVjdCBkZXZfcG1fb3BzIG10a19qcGVnZGVjX3BtX29wcyA9IHsK
+PiA+ID4gK8KgwqDCoMKgIFNFVF9TWVNURU1fU0xFRVBfUE1fT1BTKG10a19qcGVnZGVjX3N1c3Bl
+bmQsCj4gPiA+IG10a19qcGVnZGVjX3Jlc3VtZSkKPiA+ID4gK8KgwqDCoMKgIFNFVF9SVU5USU1F
+X1BNX09QUyhtdGtfanBlZ2RlY19wbV9zdXNwZW5kLAo+ID4gPiBtdGtfanBlZ2RlY19wbV9yZXN1
+bWUsIE5VTEwpCj4gPiA+ICt9Owo+ID4gPiArCj4gPiA+IMKgc3RhdGljIHN0cnVjdCBwbGF0Zm9y
+bV9kcml2ZXIgbXRrX2pwZWdkZWNfaHdfZHJpdmVyID0gewo+ID4gPiDCoMKgwqDCoMKgIC5wcm9i
+ZSA9IG10a19qcGVnZGVjX2h3X3Byb2JlLAo+ID4gPiDCoMKgwqDCoMKgIC5kcml2ZXIgPSB7Cj4g
+PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5uYW1lID0gIm10ay1qcGVnZGVjLWh3IiwK
+PiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLm9mX21hdGNoX3RhYmxlID0gbXRrX2pw
+ZWdkZWNfaHdfaWRzLAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5wbcKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCA9ICZtdGtfanBlZ2RlY19wbV9vcHMsCj4gPiA+IMKgwqDCoMKgwqAg
+fSwKPiA+ID4gwqB9Owo+ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vbWVkaWF0ZWsvanBlZy9tdGtfanBlZ19lbmNfaHcuYwo+ID4gPiBiL2RyaXZlcnMvbWVk
+aWEvcGxhdGZvcm0vbWVkaWF0ZWsvanBlZy9tdGtfanBlZ19lbmNfaHcuYwo+ID4gPiBpbmRleCBm
+ZjczMzkzYTI0MTcuLjI3ZGEyYTk5MjJhNiAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9tZWRp
+YS9wbGF0Zm9ybS9tZWRpYXRlay9qcGVnL210a19qcGVnX2VuY19ody5jCj4gPiA+ICsrKyBiL2Ry
+aXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvanBlZy9tdGtfanBlZ19lbmNfaHcuYwo+ID4g
+PiBAQCAtMjc0LDE0ICsyNzQsMTMgQEAgc3RhdGljIHZvaWQgbXRrX2pwZWdlbmNfdGltZW91dF93
+b3JrKHN0cnVjdAo+ID4gPiB3b3JrX3N0cnVjdCAqd29yaykKPiA+ID4gwqDCoMKgwqDCoCB2NGwy
+X20ybV9idWZfY29weV9tZXRhZGF0YShzcmNfYnVmLCBkc3RfYnVmLCB0cnVlKTsKPiA+ID4gCj4g
+PiA+IMKgwqDCoMKgwqAgbXRrX2pwZWdfZW5jX3Jlc2V0KGNqcGVnLT5yZWdfYmFzZSk7Cj4gPiA+
+IC3CoMKgwqDCoCBjbGtfZGlzYWJsZV91bnByZXBhcmUoY2pwZWctPnZlbmNfY2xrLmNsa3MtPmNs
+ayk7Cj4gPiA+IC3CoMKgwqDCoCBwbV9ydW50aW1lX3B1dChjanBlZy0+ZGV2KTsKPiA+ID4gwqDC
+oMKgwqDCoCBjanBlZy0+aHdfc3RhdGUgPSBNVEtfSlBFR19IV19JRExFOwo+ID4gPiDCoMKgwqDC
+oMKgIGF0b21pY19pbmMoJm1hc3Rlcl9qcGVnLT5od19yZHkpOwo+ID4gPiDCoMKgwqDCoMKgIHdh
+a2VfdXAoJm1hc3Rlcl9qcGVnLT5od193cSk7Cj4gPiA+IMKgwqDCoMKgwqAgdjRsMl9tMm1fYnVm
+X2RvbmUoc3JjX2J1ZiwgYnVmX3N0YXRlKTsKPiA+ID4gwqDCoMKgwqDCoCBtdGtfanBlZ2VuY19w
+dXRfYnVmKGNqcGVnKTsKPiA+ID4gwqDCoMKgwqDCoCBqcGVnX2J1Zl9xdWV1ZV9kZWMoY3R4KTsK
+PiA+ID4gK8KgwqDCoMKgIHBtX3J1bnRpbWVfcHV0KGNqcGVnLT5kZXYpOwo+ID4gPiDCoH0KPiA+
+ID4gCj4gPiA+IMKgc3RhdGljIGlycXJldHVybl90IG10a19qcGVnZW5jX2h3X2lycV9oYW5kbGVy
+KGludCBpcnEsIHZvaWQgKnByaXYpCj4gPiA+IEBAIC0zMTYsMTIgKzMxNSwxMSBAQCBzdGF0aWMg
+aXJxcmV0dXJuX3QKPiA+ID4gbXRrX2pwZWdlbmNfaHdfaXJxX2hhbmRsZXIoaW50IGlycSwgdm9p
+ZCAqcHJpdikKPiA+ID4gwqDCoMKgwqDCoCB2NGwyX20ybV9idWZfZG9uZShzcmNfYnVmLCBidWZf
+c3RhdGUpOwo+ID4gPiDCoMKgwqDCoMKgIG10a19qcGVnZW5jX3B1dF9idWYoanBlZyk7Cj4gPiA+
+IMKgwqDCoMKgwqAganBlZ19idWZfcXVldWVfZGVjKGN0eCk7Cj4gPiA+IC3CoMKgwqDCoCBwbV9y
+dW50aW1lX3B1dChjdHgtPmpwZWctPmRldik7Cj4gPiA+IC3CoMKgwqDCoCBjbGtfZGlzYWJsZV91
+bnByZXBhcmUoanBlZy0+dmVuY19jbGsuY2xrcy0+Y2xrKTsKPiA+ID4gCj4gPiA+IMKgwqDCoMKg
+wqAganBlZy0+aHdfc3RhdGUgPSBNVEtfSlBFR19IV19JRExFOwo+ID4gPiDCoMKgwqDCoMKgIHdh
+a2VfdXAoJm1hc3Rlcl9qcGVnLT5od193cSk7Cj4gPiA+IMKgwqDCoMKgwqAgYXRvbWljX2luYygm
+bWFzdGVyX2pwZWctPmh3X3JkeSk7Cj4gPiA+ICvCoMKgwqDCoCBwbV9ydW50aW1lX3B1dChqcGVn
+LT5kZXYpOwo+ID4gPiAKPiA+ID4gwqDCoMKgwqDCoCByZXR1cm4gSVJRX0hBTkRMRUQ7Cj4gPiA+
+IMKgfQo+ID4gPiBAQCAtNDI1LDE1ICs0MjMsODQgQEAgc3RhdGljIGludCBtdGtfanBlZ2VuY19o
+d19wcm9iZShzdHJ1Y3QKPiA+ID4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4gPiAKPiA+ID4g
+wqDCoMKgwqDCoCBwbGF0Zm9ybV9zZXRfZHJ2ZGF0YShwZGV2LCBkZXYpOwo+ID4gPiDCoMKgwqDC
+oMKgIHBtX3J1bnRpbWVfZW5hYmxlKCZwZGV2LT5kZXYpOwo+ID4gPiArwqDCoMKgwqAgcmV0ID0g
+ZGV2bV9jbGtfYnVsa19nZXQoZGV2LT5kZXYsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBqcGVnZW5jX2Nsay0+Y2xrX251bSwK
+PiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGpwZWdlbmNfY2xrLT5jbGtzKTsKPiA+ID4gK8KgwqDCoMKgIGlmIChyZXQpIHsKPiA+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkZXZfZXJyKCZwZGV2LT5kZXYsICJGYWlsZWQg
+dG8gaW5pdCBjbGtcbiIpOwo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBy
+ZXQ7Cj4gPiA+ICvCoMKgwqDCoCB9Cj4gPiA+ICsKPiA+ID4gK8KgwqDCoMKgIHJldHVybiAwOwo+
+ID4gPiArfQo+ID4gPiArCj4gPiA+ICtzdGF0aWMgdm9pZCBtdGtfanBlZ19jbGtfb24oc3RydWN0
+IG10a19qcGVnZW5jX2NvbXBfZGV2ICpqcGVnKQo+ID4gPiArewo+ID4gPiArwqDCoMKgwqAgaW50
+IHJldDsKPiA+ID4gKwo+ID4gPiArwqDCoMKgwqAgcmV0ID0gY2xrX2J1bGtfcHJlcGFyZV9lbmFi
+bGUoanBlZy0+dmVuY19jbGsuY2xrX251bSwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGpwZWctPnZlbmNf
+Y2xrLmNsa3MpOwo+ID4gPiArwqDCoMKgwqAgaWYgKHJldCkKPiA+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBkZXZfZXJyKGpwZWctPmRldiwgIiVzIDogJWQsIGpwZWdlbmMKPiA+ID4gY2xr
+X3ByZXBhcmVfZW5hYmxlIGZhaWxcbiIsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIF9fZnVuY19fLCBfX0xJTkVfXyk7Cj4gPiA+ICt9Cj4gPiA+ICsKPiA+
+ID4gK3N0YXRpYyB2b2lkIG10a19qcGVnX2Nsa19vZmYoc3RydWN0IG10a19qcGVnZW5jX2NvbXBf
+ZGV2ICpqcGVnKQo+ID4gPiArewo+ID4gPiArwqDCoMKgwqAgY2xrX2J1bGtfZGlzYWJsZV91bnBy
+ZXBhcmUoanBlZy0+dmVuY19jbGsuY2xrX251bSwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGpwZWctPnZlbmNfY2xr
+LmNsa3MpOwo+ID4gPiArfQo+ID4gPiArCj4gPiA+ICtzdGF0aWMgX19tYXliZV91bnVzZWQgaW50
+IG10a19qcGVnZW5jX3BtX3N1c3BlbmQoc3RydWN0IGRldmljZQo+ID4gPiAqZGV2KQo+ID4gPiAr
+ewo+ID4gPiArwqDCoMKgwqAgc3RydWN0IG10a19qcGVnZW5jX2NvbXBfZGV2ICpqcGVnID0gZGV2
+X2dldF9kcnZkYXRhKGRldik7Cj4gPiA+ICsKPiA+ID4gK8KgwqDCoMKgIG10a19qcGVnX2Nsa19v
+ZmYoanBlZyk7Cj4gPiA+IAo+ID4gPiDCoMKgwqDCoMKgIHJldHVybiAwOwo+ID4gPiDCoH0KPiA+
+ID4gCj4gPiA+ICtzdGF0aWMgX19tYXliZV91bnVzZWQgaW50IG10a19qcGVnZW5jX3BtX3Jlc3Vt
+ZShzdHJ1Y3QgZGV2aWNlCj4gPiA+ICpkZXYpCj4gPiA+ICt7Cj4gPiA+ICvCoMKgwqDCoCBzdHJ1
+Y3QgbXRrX2pwZWdlbmNfY29tcF9kZXYgKmpwZWcgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsKPiA+
+ID4gKwo+ID4gPiArwqDCoMKgwqAgbXRrX2pwZWdfY2xrX29uKGpwZWcpOwo+ID4gPiArCj4gPiA+
+ICvCoMKgwqDCoCByZXR1cm4gMDsKPiA+ID4gK30KPiA+ID4gKwo+ID4gPiArc3RhdGljIF9fbWF5
+YmVfdW51c2VkIGludCBtdGtfanBlZ2VuY19zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPiA+
+ID4gK3sKPiA+ID4gK8KgwqDCoMKgIHN0cnVjdCBtdGtfanBlZ2VuY19jb21wX2RldiAqanBlZyA9
+IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoCB2NGwyX20ybV9z
+dXNwZW5kKGpwZWctPm1hc3Rlcl9kZXYtPm0ybV9kZXYpOwo+ID4gPiArwqDCoMKgwqAgcmV0dXJu
+IHBtX3J1bnRpbWVfZm9yY2Vfc3VzcGVuZChkZXYpOwo+ID4gPiArfQo+ID4gPiArCj4gPiA+ICtz
+dGF0aWMgX19tYXliZV91bnVzZWQgaW50IG10a19qcGVnZW5jX3Jlc3VtZShzdHJ1Y3QgZGV2aWNl
+ICpkZXYpCj4gPiA+ICt7Cj4gPiA+ICvCoMKgwqDCoCBzdHJ1Y3QgbXRrX2pwZWdlbmNfY29tcF9k
+ZXYgKmpwZWcgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsKPiA+ID4gK8KgwqDCoMKgIGludCByZXQ7
+Cj4gPiA+ICsKPiA+ID4gK8KgwqDCoMKgIHJldCA9IHBtX3J1bnRpbWVfZm9yY2VfcmVzdW1lKGRl
+dik7Cj4gPiA+ICvCoMKgwqDCoCBpZiAocmV0IDwgMCkKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCByZXR1cm4gcmV0Owo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoCB2NGwyX20ybV9yZXN1
+bWUoanBlZy0+bWFzdGVyX2Rldi0+bTJtX2Rldik7Cj4gPiA+ICvCoMKgwqDCoCByZXR1cm4gcmV0
+Owo+ID4gPiArfQo+ID4gPiArCj4gPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRldl9wbV9vcHMg
+bXRrX2pwZWdlbmNfcG1fb3BzID0gewo+ID4gPiArwqDCoMKgwqAgU0VUX1NZU1RFTV9TTEVFUF9Q
+TV9PUFMobXRrX2pwZWdlbmNfc3VzcGVuZCwKPiA+ID4gbXRrX2pwZWdlbmNfcmVzdW1lKQo+ID4g
+PiArwqDCoMKgwqAgU0VUX1JVTlRJTUVfUE1fT1BTKG10a19qcGVnZW5jX3BtX3N1c3BlbmQsCj4g
+PiA+IG10a19qcGVnZW5jX3BtX3Jlc3VtZSwgTlVMTCkKPiA+ID4gK307Cj4gPiA+ICsKPiA+ID4g
+wqBzdGF0aWMgc3RydWN0IHBsYXRmb3JtX2RyaXZlciBtdGtfanBlZ2VuY19od19kcml2ZXIgPSB7
+Cj4gPiA+IMKgwqDCoMKgwqAgLnByb2JlID0gbXRrX2pwZWdlbmNfaHdfcHJvYmUsCj4gPiA+IMKg
+wqDCoMKgwqAgLmRyaXZlciA9IHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLm5h
+bWUgPSAibXRrLWpwZWdlbmMtaHciLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAu
+b2ZfbWF0Y2hfdGFibGUgPSBtdGtfanBlZ2VuY19kcnZfaWRzLAo+ID4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIC5wbSA9ICZtdGtfanBlZ2VuY19wbV9vcHMsCj4gPiA+IMKgwqDCoMKgwqAg
+fSwKPiA+ID4gwqB9Owo+ID4gPiAK
 
-Thanks for your feedback!
-
-On 2025-05-27 13:45:13 +0200, Laurent Pinchart wrote:
-> Hi Niklas,
-> 
-> Thank you for the patch.
-> 
-> On Wed, May 21, 2025 at 03:20:36PM +0200, Niklas Söderlund wrote:
-> > The VIN usage of v4l-async is complex and stems from organic growth of
-> > the driver of supporting both private local subdevices (Gen2, Gen3) and
-> > subdevices shared between all VIN instances (Gen3 and Gen4).
-> > 
-> > The driver used a separate notifier for each VIN for the private local
-> > ones, and a shared group notifier for the shared ones. This was complex
-> > and lead to subtle bugs when unbinding and later rebinding subdevices in
-> > on of the notifiers having to handle different edge cases depending on
-> 
-> s/on of/one of/ (I think)
-> 
-> > if it also had subdevices in the other notifiers etc.
-> > 
-> > To simplify this have the Gen2 devices allocate and form a VIN group
-> > too. This way all subdevices on all models can be collect in a
-> > single group notifier. Then there is only a single complete callback for
-> > all where the video devices and subdevice nodes can be registered etc.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  .../platform/renesas/rcar-vin/rcar-core.c     | 263 ++++++++----------
-> >  .../platform/renesas/rcar-vin/rcar-vin.h      |   2 -
-> >  2 files changed, 114 insertions(+), 151 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> > index 60ec57d73a12..b0727e98dac6 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> > @@ -43,6 +43,9 @@
-> >  
-> >  #define v4l2_dev_to_vin(d)	container_of(d, struct rvin_dev, v4l2_dev)
-> >  
-> > +static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
-> > +					  struct v4l2_subdev *subdev);
-> 
-> Any chance you could move the function instead of forward-declaring it ?
-
-I could move it in a separate commit prior to this patch. But the last 
-patch in the series removes the function all together so I thought that 
-to be more churn then needed.
-
-> 
-> > +
-> >  /* -----------------------------------------------------------------------------
-> >   * Gen3 Group Allocator
-> >   */
-> > @@ -232,7 +235,10 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
-> >  		}
-> >  	}
-> >  
-> > -	return vin->group->link_setup(vin->group);
-> > +	if (vin->group->link_setup)
-> > +		return vin->group->link_setup(vin->group);
-> > +
-> > +	return  0;
-> >  }
-> >  
-> >  static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-> > @@ -240,22 +246,31 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-> >  				     struct v4l2_async_connection *asc)
-> >  {
-> >  	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> > -	unsigned int i;
-> > +	struct rvin_group *group = vin->group;
-> >  
-> > -	for (i = 0; i < RCAR_VIN_NUM; i++)
-> > -		if (vin->group->vin[i])
-> > -			rvin_v4l2_unregister(vin->group->vin[i]);
-> > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++)
-> 
-> While at it, you can use ARRAY_SIZE().
-
-The use of RCAR_VIN_NUM is everywhere in the driver. I do however agree 
-using ARRAY_SIZE() is better. I will convert the whole driver to 
-ARRAY_SIZE() in a follow up patch outside this series.
-
-I think it's important that all loops look the same and I'm worried this 
-series is growing too large with all nice, but unrelated, cleanups 
-unearth by it. I hope this is OK.
-
-I will however keep the conversion to ARRAY_SIZE() for the 
-RVIN_REMOTES_MAX define as this was already something this series needed 
-to address in patch 1 and it's only used in one location that was not 
-already touched by this series.
-
-> 
-> > +		if (group->vin[i])
-> > +			rvin_v4l2_unregister(group->vin[i]);
-> 
-> And please use curly braces for the for statement.
-> 
-> >  
-> >  	mutex_lock(&vin->group->lock);
-> 
-> Add a blank line.
-> 
-> > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-> 
-> ARRAY_SIZE() here too. Same below where applicable.
-> 
-> > +		if (!group->vin[i] || group->vin[i]->parallel.asc != asc)
-> > +			continue;
-> > +
-> > +		group->vin[i]->parallel.subdev = NULL;
-> > +
-> > +		vin_dbg(group->vin[i], "Unbind parallel subdev %s\n",
-> > +			subdev->name);
-> > +	}
-> >  
-> > -	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
-> > -		if (vin->group->remotes[i].asc != asc)
-> > +	for (unsigned int i = 0; i < RVIN_REMOTES_MAX; i++) {
-> > +		if (group->remotes[i].asc != asc)
-> >  			continue;
-> > -		vin->group->remotes[i].subdev = NULL;
-> > +
-> > +		group->remotes[i].subdev = NULL;
-> > +
-> >  		vin_dbg(vin, "Unbind %s from slot %u\n", subdev->name, i);
-> > -		break;
-> >  	}
-> > -
-> 
-> You can keep this blank line :-)
-> 
-> >  	mutex_unlock(&vin->group->lock);
-> >  
-> >  	media_device_unregister(&vin->group->mdev);
-> > @@ -266,21 +281,38 @@ static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
-> >  				   struct v4l2_async_connection *asc)
-> >  {
-> >  	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> > -	unsigned int i;
-> > +	struct rvin_group *group = vin->group;
-> >  
-> > -	mutex_lock(&vin->group->lock);
-> > +	guard(mutex)(&group->lock);
-> >  
-> > -	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
-> > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-> > +		int ret;
-> > +
-> > +		if (!group->vin[i] || group->vin[i]->parallel.asc != asc)
-> > +			continue;
-> > +
-> > +		ret = rvin_parallel_subdevice_attach(group->vin[i], subdev);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		v4l2_set_subdev_hostdata(subdev, group->vin[i]);
-> > +
-> > +		vin_dbg(group->vin[i], "Bound subdev %s\n", subdev->name);
-> > +
-> > +		return 0;
-> > +	}
-> > +
-> > +	for (unsigned int i = 0; i < RVIN_REMOTES_MAX; i++) {
-> >  		if (vin->group->remotes[i].asc != asc)
-> >  			continue;
-> > +
-> >  		vin->group->remotes[i].subdev = subdev;
-> >  		vin_dbg(vin, "Bound %s to slot %u\n", subdev->name, i);
-> > -		break;
-> > +
-> > +		return 0;
-> >  	}
-> >  
-> > -	mutex_unlock(&vin->group->lock);
-> > -
-> > -	return 0;
-> > +	return -ENODEV;
-> >  }
-> >  
-> >  static const struct v4l2_async_notifier_operations rvin_group_notify_ops = {
-> > @@ -374,7 +406,7 @@ static int rvin_parallel_parse_of(struct rvin_dev *vin)
-> >  		goto out;
-> >  	}
-> >  
-> > -	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
-> > +	asc = v4l2_async_nf_add_fwnode(&vin->group->notifier, fwnode,
-> >  				       struct v4l2_async_connection);
-> >  	if (IS_ERR(asc)) {
-> >  		ret = PTR_ERR(asc);
-> > @@ -424,6 +456,12 @@ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
-> >  		if (!(vin_mask & BIT(i)))
-> >  			continue;
-> >  
-> > +		/* Parse local subdevice. */
-> > +		ret = rvin_parallel_parse_of(vin->group->vin[i]);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		/* Prase shared subdevices. */
-> >  		for (id = 0; id < max_id; id++) {
-> >  			if (vin->group->remotes[id].asc)
-> >  				continue;
-> > @@ -603,124 +641,6 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
-> >  	return 0;
-> >  }
-> >  
-> > -static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
-> > -{
-> > -	rvin_v4l2_unregister(vin);
-> > -	vin->parallel.subdev = NULL;
-> > -
-> > -	if (!vin->info->use_mc)
-> > -		rvin_free_controls(vin);
-> > -}
-> > -
-> > -static int rvin_parallel_notify_complete(struct v4l2_async_notifier *notifier)
-> > -{
-> > -	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> > -	struct media_entity *source;
-> > -	struct media_entity *sink;
-> > -	int ret;
-> > -
-> > -	ret = v4l2_device_register_subdev_nodes(&vin->v4l2_dev);
-> > -	if (ret < 0) {
-> > -		vin_err(vin, "Failed to register subdev nodes\n");
-> > -		return ret;
-> > -	}
-> > -
-> > -	if (!video_is_registered(&vin->vdev)) {
-> > -		ret = rvin_v4l2_register(vin);
-> > -		if (ret < 0)
-> > -			return ret;
-> > -	}
-> > -
-> > -	if (!vin->info->use_mc)
-> > -		return 0;
-> > -
-> > -	/* If we're running with media-controller, link the subdevs. */
-> > -	source = &vin->parallel.subdev->entity;
-> > -	sink = &vin->vdev.entity;
-> > -
-> > -	ret = media_create_pad_link(source, vin->parallel.source_pad,
-> > -				    sink, vin->parallel.sink_pad, 0);
-> > -	if (ret)
-> > -		vin_err(vin, "Error adding link from %s to %s: %d\n",
-> > -			source->name, sink->name, ret);
-> > -
-> > -	return ret;
-> > -}
-> > -
-> > -static void rvin_parallel_notify_unbind(struct v4l2_async_notifier *notifier,
-> > -					struct v4l2_subdev *subdev,
-> > -					struct v4l2_async_connection *asc)
-> > -{
-> > -	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> > -
-> > -	vin_dbg(vin, "unbind parallel subdev %s\n", subdev->name);
-> > -
-> > -	mutex_lock(&vin->lock);
-> > -	rvin_parallel_subdevice_detach(vin);
-> > -	mutex_unlock(&vin->lock);
-> > -}
-> > -
-> > -static int rvin_parallel_notify_bound(struct v4l2_async_notifier *notifier,
-> > -				      struct v4l2_subdev *subdev,
-> > -				      struct v4l2_async_connection *asc)
-> > -{
-> > -	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
-> > -	int ret;
-> > -
-> > -	mutex_lock(&vin->lock);
-> > -	ret = rvin_parallel_subdevice_attach(vin, subdev);
-> > -	mutex_unlock(&vin->lock);
-> > -	if (ret)
-> > -		return ret;
-> > -
-> > -	v4l2_set_subdev_hostdata(subdev, vin);
-> > -
-> > -	vin_dbg(vin, "bound subdev %s source pad: %u sink pad: %u\n",
-> > -		subdev->name, vin->parallel.source_pad,
-> > -		vin->parallel.sink_pad);
-> > -
-> > -	return 0;
-> > -}
-> > -
-> > -static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
-> > -	.bound = rvin_parallel_notify_bound,
-> > -	.unbind = rvin_parallel_notify_unbind,
-> > -	.complete = rvin_parallel_notify_complete,
-> > -};
-> > -
-> > -static void rvin_parallel_cleanup(struct rvin_dev *vin)
-> > -{
-> > -	v4l2_async_nf_unregister(&vin->notifier);
-> > -	v4l2_async_nf_cleanup(&vin->notifier);
-> > -}
-> > -
-> > -static int rvin_parallel_init(struct rvin_dev *vin)
-> > -{
-> > -	int ret;
-> > -
-> > -	v4l2_async_nf_init(&vin->notifier, &vin->v4l2_dev);
-> > -
-> > -	ret = rvin_parallel_parse_of(vin);
-> > -	if (ret)
-> > -		return ret;
-> > -
-> > -	if (!vin->parallel.asc)
-> > -		return -ENODEV;
-> > -
-> > -	vin_dbg(vin, "Found parallel subdevice %pOF\n",
-> > -		to_of_node(vin->parallel.asc->match.fwnode));
-> > -
-> > -	vin->notifier.ops = &rvin_parallel_notify_ops;
-> > -	ret = v4l2_async_nf_register(&vin->notifier);
-> > -	if (ret < 0) {
-> > -		vin_err(vin, "Notifier registration failed\n");
-> > -		v4l2_async_nf_cleanup(&vin->notifier);
-> > -		return ret;
-> > -	}
-> > -
-> > -	return 0;
-> > -}
-> > -
-> >  /* -----------------------------------------------------------------------------
-> >   * CSI-2
-> >   */
-> > @@ -895,11 +815,63 @@ static int rvin_csi2_create_link(struct rvin_group *group, unsigned int id,
-> >  	return 0;
-> >  }
-> >  
-> > +static int rvin_parallel_setup_links(struct rvin_group *group)
-> > +{
-> > +	u32 flags = MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE;
-> > +	int ret = 0;
-> > +
-> > +	mutex_lock(&group->lock);
-> 
-> Use a guard.
-> 
-> > +	/* If the group also have links don't enable the link. */
-> 
-> s/have/has/
-> 
-> > +	for (unsigned int i = 0; i < RVIN_REMOTES_MAX; i++) {
-> > +		if (group->remotes[i].subdev) {
-> > +			flags = 0;
-> > +			break;
-> > +		}
-> > +	}
-> > +
-> > +	/* Create links */
-> 
-> s/links/links./
-> 
-> > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-> > +		struct rvin_dev *vin = group->vin[i];
-> > +		struct media_entity *source;
-> > +		struct media_entity *sink;
-> > +
-> > +		/* Noting to do if their is no VIN or parallel subdev. */
-> 
-> s/Noting/Nothing/
-> s/their/there/
-> 
-> > +		if (!vin || !vin->parallel.subdev)
-> > +			continue;
-> > +
-> > +		source = &vin->parallel.subdev->entity;
-> > +		sink = &vin->vdev.entity;
-> > +
-> > +		ret = media_create_pad_link(source, vin->parallel.source_pad,
-> > +					    sink, 0, flags);
-> > +		if (ret)
-> > +			break;
-> 
-> 			return ret;
-> 
-> (thanks to the guard above)
-> 
-> > +	}
-> > +	mutex_unlock(&group->lock);
-> > +
-> > +	return ret;
-> 
-> 	return 0;
-> 
-> > +}
-> > +
-> >  static int rvin_csi2_setup_links(struct rvin_group *group)
-> >  {
-> >  	const struct rvin_group_route *routes, *route;
-> >  	unsigned int id;
-> > -	int ret = -EINVAL;
-> > +	int ret;
-> > +
-> > +	/* Find any VIN in group to get route info. */
-> > +	routes = NULL;
-> > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-> > +		if (group->vin[i]) {
-> > +			routes = group->vin[i]->info->routes;
-> > +			break;
-> > +		}
-> > +	}
-> > +	if (!routes)
-> > +		return -ENODEV;
-> 
-> Storing the info pointer in the group as proposed in the review of a
-> previous patch from the same series would help here too.
-
-I agree. I have added a patch that introduce this change separatly and 
-all new code uses the info from the group structure. I have added to my 
-ever growing todo file to remove the info struct all together from the 
-private VIN data structure in a follow up patch. This change would 
-depend on this series as Gen2 currently do not participate in the group 
-concept.
-
-> 
-> > +
-> > +	ret = rvin_parallel_setup_links(group);
-> > +	if (ret)
-> > +		return ret;
-> >  
-> >  	/* Find any VIN in group to get route info. */
-> >  	routes = NULL;
-> > @@ -914,6 +886,7 @@ static int rvin_csi2_setup_links(struct rvin_group *group)
-> >  
-> >  	/* Create all media device links between VINs and CSI-2's. */
-> >  	mutex_lock(&group->lock);
-> > +	ret = -EINVAL;
-> >  	for (route = routes; route->chsel; route++) {
-> >  		/* Check that VIN' master is part of the group. */
-> >  		if (!group->vin[route->master])
-> > @@ -941,7 +914,6 @@ static int rvin_csi2_setup_links(struct rvin_group *group)
-> >  
-> >  static void rvin_csi2_cleanup(struct rvin_dev *vin)
-> >  {
-> > -	rvin_parallel_cleanup(vin);
-> >  	rvin_group_notifier_cleanup(vin);
-> >  	rvin_group_put(vin);
-> >  	rvin_free_controls(vin);
-> > @@ -964,18 +936,11 @@ static int rvin_csi2_init(struct rvin_dev *vin)
-> >  	if (ret)
-> >  		goto err_controls;
-> >  
-> > -	/* It's OK to not have a parallel subdevice. */
-> > -	ret = rvin_parallel_init(vin);
-> > -	if (ret && ret != -ENODEV)
-> > -		goto err_group;
-> > -
-> >  	ret = rvin_group_notifier_init(vin, 1, RVIN_CSI_MAX);
-> >  	if (ret)
-> > -		goto err_parallel;
-> > +		goto err_group;
-> >  
-> >  	return 0;
-> > -err_parallel:
-> > -	rvin_parallel_cleanup(vin);
-> >  err_group:
-> >  	rvin_group_put(vin);
-> >  err_controls:
-> > @@ -1448,7 +1413,9 @@ static int rcar_vin_probe(struct platform_device *pdev)
-> >  		    rvin_group_id_to_master(vin->id) == vin->id)
-> >  			vin->scaler = vin->info->scaler;
-> >  	} else {
-> > -		ret = rvin_parallel_init(vin);
-> > +		ret = rvin_group_get(vin, NULL, NULL);
-> > +		if (!ret)
-> > +			ret = rvin_group_notifier_init(vin, 0, 0);
-> >  
-> >  		if (vin->info->scaler)
-> >  			vin->scaler = vin->info->scaler;
-> > @@ -1478,8 +1445,6 @@ static void rcar_vin_remove(struct platform_device *pdev)
-> >  		rvin_isp_cleanup(vin);
-> >  	else if (vin->info->use_mc)
-> >  		rvin_csi2_cleanup(vin);
-> > -	else
-> > -		rvin_parallel_cleanup(vin);
-> >  
-> >  	rvin_id_put(vin);
-> >  
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> > index 7d4fce248976..a577f4fe4a6c 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> > @@ -149,7 +149,6 @@ struct rvin_info {
-> >   * @vdev:		V4L2 video device associated with VIN
-> >   * @v4l2_dev:		V4L2 device
-> >   * @ctrl_handler:	V4L2 control handler
-> > - * @notifier:		V4L2 asynchronous subdevs notifier
-> >   *
-> >   * @parallel:		parallel input subdevice descriptor
-> >   *
-> > @@ -189,7 +188,6 @@ struct rvin_dev {
-> >  	struct video_device vdev;
-> >  	struct v4l2_device v4l2_dev;
-> >  	struct v4l2_ctrl_handler ctrl_handler;
-> > -	struct v4l2_async_notifier notifier;
-> >  
-> >  	struct rvin_parallel_entity parallel;
-> >  
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
--- 
-Kind Regards,
-Niklas Söderlund
 
