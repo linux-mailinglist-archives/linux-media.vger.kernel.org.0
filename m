@@ -1,830 +1,162 @@
-Return-Path: <linux-media+bounces-34215-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34216-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23D1ACFFE7
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 11:59:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5A8AD0019
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:10:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1711D188D2F6
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 10:00:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8F4F3AE333
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 10:09:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B78B2868B3;
-	Fri,  6 Jun 2025 09:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AB30286D62;
+	Fri,  6 Jun 2025 10:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AKGLe6jE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5942857EF;
-	Fri,  6 Jun 2025 09:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6464181724
+	for <linux-media@vger.kernel.org>; Fri,  6 Jun 2025 10:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749203975; cv=none; b=okE9DE3jRTjLQ48XzuaH/Fz1jYoVMIYsDEtemKhi+AyV3LCh+C8yoFiPSDg66htI8oqSotUEay0L4FckCZ6KqjTVHA4qV/CYCqm5W0H1xARW2J/lWVwaTJ2jR5DSXfZB6jDwg5Vx2paSixGmeufDrXMXc66OQffdwj/nI66nzSE=
+	t=1749204594; cv=none; b=Df4oD0+nN2OsFR1JZZL7IAEf4p7BuMRKg9G36QmcXRkOEHG8cdC/3q2dHBv6ixExkfV0UcUcI6GlUvcXnNwttq8zmjSxEPzz8dwHm3ft64C2GqMRXgK3d+i9JVk7pS5zKy5QYgQZG6rHoqjpSGNLMERI1IVnNV7LIR5zZzBs5wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749203975; c=relaxed/simple;
-	bh=sTYLlWK7D9rHYnaH7Ko2SXSb+sPWa/ys/gbyd7C5Zz8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=OC1ND8gPzFiF0EJ5oyMhH4ib4fgdi5ds3FvDMxehKmnOSz0O9brt8yV5zceQbsxNZ5EZdJkK5DCDt79FF+9ESvZsMasCYMbCSYFi4H5c3MK4aij9lmo4DRaJOgwqVMXax0QqYjnh9mzEO6RhUuGkfgXFapmx6N7xoASA2n1xC5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from w001.hihonor.com (unknown [10.68.25.235])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4bDGtg6WhnzYm3Kr;
-	Fri,  6 Jun 2025 17:56:43 +0800 (CST)
-Received: from a014.hihonor.com (10.68.16.227) by w001.hihonor.com
- (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Jun
- 2025 17:59:02 +0800
-Received: from a010.hihonor.com (10.68.16.52) by a014.hihonor.com
- (10.68.16.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Jun
- 2025 17:59:02 +0800
-Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
- a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
- Fri, 6 Jun 2025 17:59:02 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: Christoph Hellwig <hch@infradead.org>, =?iso-8859-1?Q?Christian_K=F6nig?=
-	<christian.koenig@amd.com>
-CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, "kraxel@redhat.com"
-	<kraxel@redhat.com>, "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
-	<brauner@kernel.org>, "hughd@google.com" <hughd@google.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "amir73il@gmail.com"
-	<amir73il@gmail.com>, "benjamin.gaignard@collabora.com"
-	<benjamin.gaignard@collabora.com>, "Brian.Starkey@arm.com"
-	<Brian.Starkey@arm.com>, "jstultz@google.com" <jstultz@google.com>,
-	"tjmercier@google.com" <tjmercier@google.com>, "jack@suse.cz" <jack@suse.cz>,
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "wangbintian(BintianWang)"
-	<bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
-	<liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
-Subject: RE: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
-Thread-Topic: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
-Thread-Index: AQHb1G1ol+FT389RFkuW+lwB3adoKrPw4BKAgAADywCAAAF8AIAAEGgAgAAC0oCAABhEAIAAAd6AgATEk2A=
-Date: Fri, 6 Jun 2025 09:59:02 +0000
-Message-ID: <d5d3567d956440c39cb8d2851950f412@honor.com>
-References: <20250603095245.17478-1-tao.wangtao@honor.com>
- <aD7x_b0hVyvZDUsl@infradead.org>
- <09c8fb7c-a337-4813-9f44-3a538c4ee8b1@amd.com>
- <aD72alIxu718uri4@infradead.org>
- <924ac01f-b86b-4a03-b563-878fa7736712@amd.com>
- <aD8Gi9ShWDEYqWjB@infradead.org>
- <d1937343-5fc3-4450-b31a-d45b6f5cfc16@amd.com>
- <aD8cd137bWPALs4u@infradead.org>
-In-Reply-To: <aD8cd137bWPALs4u@infradead.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1749204594; c=relaxed/simple;
+	bh=LpL31W6AKDCpdo/fRCicU1F0HGSNhPmft1JV8Pa5bLU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sUWZqcYgzmHWcPcRPLlLn8hOArjUBrYxhXYXY70XpWW6tTUOm6Bq37I5unqwH81efBRIRTX67fDtW1CHT/ZqJ5lo01LEdjGyk2E+a2rFbYdBm2Fi1dc1Q3am7q0J4scq7KffXfUM+iSh0N9lhEJT1irxDKoteRz6ntbDG6ejR9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AKGLe6jE; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5567qgQb011419
+	for <linux-media@vger.kernel.org>; Fri, 6 Jun 2025 10:09:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=1Rull5WUa5O/co7lCOuxKulj8U2Z6zdeHoH
+	V9/g0S9I=; b=AKGLe6jEmO+oDiPNCgLtN/CuAN6XN+v1tEqUqlW4/pGOCi7POa6
+	ILJ8a4+a36YxnCcp3T7ymkdEfvHdsphU5CNX4pNezkyYD7/aZJQal+2DhWPh8JMO
+	Mr/AxO9Sfq0qferAyJW4M6cBNPWvk6a0q2V0oBE/C+qiOHWlESmW1qaZmbuzxNlp
+	VIBYRRlyaLoymBzBgMtkKegF0MlUM8+7ourNSudo9QcHUyupWm7AFK+18iz8DxgB
+	vTs4w1CjPnx5VrA9OGDFtRmt/7JYJPTtNFS6o4/MrVSdqcS/HJunrMaOfrg6Q+fb
+	VtOn4Nev4Ub2PBSdqHFHGDlVd1ve3gLjBpQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47202whv8f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 10:09:51 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c760637fe5so312875085a.0
+        for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 03:09:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749204590; x=1749809390;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1Rull5WUa5O/co7lCOuxKulj8U2Z6zdeHoHV9/g0S9I=;
+        b=c4XX7LxDn8ZGYLOjLxrqPSdOnVmIiPYjeD5V8imrswqFdD0dH4HCygnYKm/wfg/94r
+         icEJtJZ6C6Cyijx9JPhNHZhfrgA9rQzO5YbyCYsL49hixCbPlC50BvC/l2ezdrvjf+Eb
+         2kv2EI6v+UjElytSaMmxaRiBQuoklsbkCRBxX8/pF8CPD2rWb0MZvCbKpxim+Di4Og5T
+         Y84ebI9KFgd4/SRuFhQfGTSJwbgX/7egh1WVBJb2e+GknsbRooGXrv0whurBl40C8qt4
+         PrBgDMqtLQdMsHC8vacVDX52tbmpPXBoAwVwIE+73UJTzCrpmYBxeO5YDEN6JhEvLaw2
+         1VAg==
+X-Gm-Message-State: AOJu0Yyg598P/VNkbrf+ceRJhkD4jiSBcT6fOETAZCAXqu488jOBMxe7
+	gXiOwogRlNpWdVKgNmRusyzL3TwrsuWxVDfnjmRhINg7VMKk1L3S3maOEMDlKX6qRMLw7ljY8u5
+	RK4FNnVeW00BsYQit25BriwoAQTkL8QyipuIGydqaUSZGxfsNfchPZSLOHlInyEaYIw==
+X-Gm-Gg: ASbGnct7zZT1F8o4sqwRZOKZuibEoY9smg5cogKx7I2//XSv0KXITlod2NyGonkNS8U
+	lmEWrrJDe7wR5uGFiwthEUr58v8ERBrE+qDB9HaZwjpfgcqLfoztsAa9Bsib887hKzMtIVSpW/F
+	8TvCj/jbprB9uasniG8RUGrvqelSCwSjAb7vszPz62g5X6pmmklhX/+lQSOJuSnwf2F9QgxIFBw
+	Wgw/htOXFrtVcy8xSB4R61i+BV7uJfSsj79OTfK7Y8tds0bsezhB+77ZDD+7GbMK1lKpqda2MZE
+	CSiqM9ASEdJErtMqvDUdsgSBHd4eF4NawK4PeHqh/sYOYV16lvY/dzXjC1043wEhnpKnfG7eoH/
+	4
+X-Received: by 2002:a05:620a:1b99:b0:7c5:4adb:782a with SMTP id af79cd13be357-7d229851bb9mr483085885a.9.1749204590318;
+        Fri, 06 Jun 2025 03:09:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IENkAzJPgUxlRrOfxnaDBFgN+TY7Ep3pNndFgZuX9TRNL3Vyzjg5cluQwW3LY0RCEI363Xj0w==
+X-Received: by 2002:a05:620a:1b99:b0:7c5:4adb:782a with SMTP id af79cd13be357-7d229851bb9mr483076885a.9.1749204589288;
+        Fri, 06 Jun 2025 03:09:49 -0700 (PDT)
+Received: from trex.. (142.red-79-144-193.dynamicip.rima-tde.net. [79.144.193.142])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a532464581sm1415418f8f.95.2025.06.06.03.09.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 03:09:48 -0700 (PDT)
+From: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+To: jorge.ramirez@oss.qualcomm.com, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, bryan.odonoghue@linaro.org,
+        mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: venus: protect against spurious interrupts during probe
+Date: Fri,  6 Jun 2025 12:09:44 +0200
+Message-Id: <20250606100944.4104715-1-jorge.ramirez@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: py4a4R7_BMxw9yFNj-25IhoG_OyHsNgg
+X-Proofpoint-GUID: py4a4R7_BMxw9yFNj-25IhoG_OyHsNgg
+X-Authority-Analysis: v=2.4 cv=Y/D4sgeN c=1 sm=1 tr=0 ts=6842be6f cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=jucdD076RO8dzeEYkB3eYw==:17
+ a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=4rlHZoThpNXEEVWAyUMA:9
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA2MDA5MyBTYWx0ZWRfX0BBz8p7I2Ve8
+ 6bYIIfVhXSvQKySuMkE5867J+IC2vqgMMnZrlejEKtpwlz+vY3Tv4lBcmVKTsEgm2RUkTUY0fNE
+ 3YUR2WURFwtNOe4/0EJh013dvOMx13hjv+zw0rSdwp4ta4qyJzXiwNZPmMcsEVZxGhqWqxdxd41
+ Ejyj7jGuaVwlxVudtvSyQTzvVkCuRpqpZgvFtfkEOs4r7QR4IAAqwTKFpQsh24homYpSNHKSZ7a
+ ZYKhUcdxQhfaQ9wXvJ6OFX1FKP0doYnvmO6VYto3cesAYWWBfoX6tpJfb8Btjt3XtUFnzbGYqWO
+ iSg6cQytVxO4HWfk05XduKMJ3jyPyH6usUhRUnILSx9FzThHf45o5ftuj/15pwfMCu4T+gp0EOx
+ gnq25foPntSj4GyjcyLsvBp+BvJcdF1fgGpPTQaYsbNWFxl90NYWEGQ46E4cRy0klLuhva/q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-06_03,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 spamscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxscore=0 mlxlogscore=952 malwarescore=0
+ bulkscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506060093
 
+From: Jorge Ramirez-Ortiz <jorge@foundries.io>
 
+Make sure the interrupt handler is initialized before the interrupt is
+registered.
 
-> -----Original Message-----
-> From: Christoph Hellwig <hch@infradead.org>
-> Sent: Wednesday, June 4, 2025 12:02 AM
-> To: Christian K=F6nig <christian.koenig@amd.com>
-> Cc: Christoph Hellwig <hch@infradead.org>; wangtao
-> <tao.wangtao@honor.com>; sumit.semwal@linaro.org; kraxel@redhat.com;
-> vivek.kasireddy@intel.com; viro@zeniv.linux.org.uk; brauner@kernel.org;
-> hughd@google.com; akpm@linux-foundation.org; amir73il@gmail.com;
-> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
-> jstultz@google.com; tjmercier@google.com; jack@suse.cz;
-> baolin.wang@linux.alibaba.com; linux-media@vger.kernel.org; dri-
-> devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; linux-
-> kernel@vger.kernel.org; linux-fsdevel@vger.kernel.org; linux-
-> mm@kvack.org; wangbintian(BintianWang) <bintian.wang@honor.com>;
-> yipengxiang <yipengxiang@honor.com>; liulu 00013167
-> <liulu.liu@honor.com>; hanfeng 00012985 <feng.han@honor.com>
-> Subject: Re: [PATCH v4 0/4] Implement dmabuf direct I/O via
-> copy_file_range
->=20
-> On Tue, Jun 03, 2025 at 05:55:18PM +0200, Christian K=F6nig wrote:
-> > On 6/3/25 16:28, Christoph Hellwig wrote:
-> > > On Tue, Jun 03, 2025 at 04:18:22PM +0200, Christian K=F6nig wrote:
-> > >>> Does it matter compared to the I/O in this case?
-> > >>
-> > >> It unfortunately does, see the numbers on patch 3 and 4.
-> > >
-> > > That's kinda weird.  Why does the page table lookup tage so much
-> > > time compared to normal I/O?
-> >
-> > I have absolutely no idea. It's rather surprising for me as well.
-> >
-> > The user seems to have a rather slow CPU paired with fast I/O, but it s=
-till
-> looks rather fishy to me.
-> >
-> > Additional to that allocating memory through memfd_create() is *much*
-> slower on that box than through dma-buf-heaps (which basically just uses
-> GFP and an array).
->=20
-> Can someone try to reproduce these results on a normal system before
-> we're building infrastructure based on these numbers?
+If the IRQ is registered before hfi_create(), it's possible that an
+interrupt fires before the handler setup is complete, leading to a NULL
+dereference.
 
-Here's my test program. If anyone's interested,
-please help test it?
+This error condition has been observed during sytem boot on Rb3Gen2.
 
-Regards,
-Wangtao.
-
-[PATCH] Add dmabuf direct I/O zero-copy test program
-
-Compare latency and throughput of file read/write for
-memfd, udmabuf+memfd, udmabuf, and dmabuf buffers.
-memfd supports buffer I/O and direct I/O via read/write,
-sendfile, and splice user APIs.
-udmabuf/dmabuf only support buffer I/O via read/write,
-lacking direct I/O, sendfile, and splice support.
-Previous patch added dmabuf's copy_file_range callback,
-enabling buffer/direct I/O file copies for udmabuf/dmabuf.
-u+memfd represents using memfd-created udmabuf with memfd's
-user APIs for file copying.
-
-usage: dmabuf-dio [file_path] [size_MB]
-
-Signed-off-by: wangtao <tao.wangtao@honor.com>
+Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
 ---
- tools/testing/selftests/dmabuf-heaps/Makefile |   1 +
- .../selftests/dmabuf-heaps/dmabuf-dio.c       | 617 ++++++++++++++++++
- 2 files changed, 618 insertions(+)
- create mode 100644 tools/testing/selftests/dmabuf-heaps/dmabuf-dio.c
+ drivers/media/platform/qcom/venus/core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tools/testing/selftests/dmabuf-heaps/Makefile b/tools/testing/=
-selftests/dmabuf-heaps/Makefile
-index 9e7e158d5fa3..beb6b3e55e17 100644
---- a/tools/testing/selftests/dmabuf-heaps/Makefile
-+++ b/tools/testing/selftests/dmabuf-heaps/Makefile
-@@ -2,5 +2,6 @@
- CFLAGS +=3D -static -O3 -Wl,-no-as-needed -Wall $(KHDR_INCLUDES)
-=20
- TEST_GEN_PROGS =3D dmabuf-heap
-+TEST_GEN_PROGS +=3D dmabuf-dio
-=20
- include ../lib.mk
-diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-dio.c b/tools/test=
-ing/selftests/dmabuf-heaps/dmabuf-dio.c
-new file mode 100644
-index 000000000000..eae902a27f29
---- /dev/null
-+++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-dio.c
-@@ -0,0 +1,617 @@
-+#include <linux/dma-heap.h>
-+#include <linux/dma-buf.h>
-+#include <linux/udmabuf.h>
-+#include <sys/mman.h>
-+#include <sys/sendfile.h>
-+#include <sys/ioctl.h>
-+#include <stdbool.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <asm/unistd.h>
-+#include <time.h>
-+#include <errno.h>
-+
-+#ifndef TEMP_FAILURE_RETRY
-+#define TEMP_FAILURE_RETRY(exp) ({         \
-+    __typeof__(exp) _rc;                   \
-+    do {                                   \
-+        _rc =3D (exp);                       \
-+    } while (_rc =3D=3D -1 && errno =3D=3D EINTR); \
-+    _rc; })
-+#endif
-+
-+#if 1
-+int memfd_create(const char *name, unsigned flags)
-+{
-+    return syscall(__NR_memfd_create, name, flags);
-+}
-+
-+ssize_t copy_file_range(int fd_in, off_t *off_in, int fd_out, off_t *off_o=
-ut,
-+                size_t len, unsigned flags)
-+{
-+    return syscall(__NR_copy_file_range, fd_in, off_in, fd_out, off_out, l=
-en, flags);
-+}
-+#endif
-+
-+int alloc_memfd(size_t size)
-+{
-+    int memfd =3D memfd_create("ubuf", MFD_ALLOW_SEALING);
-+    if (memfd < 0)
-+        return -1;
-+
-+    int ret =3D fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-+    if (ret < 0)
-+        return -1;
-+    ret =3D TEMP_FAILURE_RETRY(ftruncate(memfd, size));
-+    if (ret < 0)
-+        return -1;
-+    return memfd;
-+}
-+
-+int alloc_udmabuf(size_t size, int memfd)
-+{
-+    static int udev_fd =3D -1;
-+    if (udev_fd < 0) {
-+        udev_fd =3D open("/dev/udmabuf", O_RDONLY);
-+        if (udev_fd < 0)
-+            return -1;
-+    }
-+
-+    struct udmabuf_create uc =3D {0};
-+    uc.memfd =3D memfd;
-+    uc.offset =3D 0;
-+    uc.size =3D size;
-+    int buf_fd =3D TEMP_FAILURE_RETRY(ioctl(udev_fd, UDMABUF_CREATE, &uc))=
-;
-+    if (buf_fd < 0)
-+        return -1;
-+
-+    return buf_fd;
-+}
-+
-+int alloc_dmabuf(size_t size)
-+{
-+    static int heap_fd =3D -1;
-+
-+    struct dma_heap_allocation_data heap_data =3D { 0 };
-+    heap_data.len =3D size;  // length of data to be allocated in bytes
-+    heap_data.fd_flags =3D O_RDWR | O_CLOEXEC;  // permissions for the mem=
-ory to be allocated
-+
-+    if (heap_fd < 0) {
-+        heap_fd =3D open("/dev/dma_heap/system", O_RDONLY);
-+        if (heap_fd < 0)
-+            return -1;
-+    }
-+
-+    int ret =3D TEMP_FAILURE_RETRY(ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &h=
-eap_data));
-+    if (ret < 0) {
-+        return -1;
-+    }
-+    if (heap_data.fd < 0)
-+        return -1;
-+
-+    return heap_data.fd;
-+}
-+
-+static inline long times_us_duration(struct timespec *ts_start, struct tim=
-espec *ts_end)
-+{
-+    long long start =3D ts_start->tv_sec * 1000000 + ts_start->tv_nsec / 1=
-000;
-+    long long end =3D ts_end->tv_sec * 1000000 + ts_end->tv_nsec / 1000;
-+    return end - start;
-+}
-+
-+static inline long time_us2ms(long us)
-+{
-+        return (us + 1000 - 1) / 1000;
-+}
-+
-+void drop_pagecaches(int file_fd, loff_t offset, size_t len)
-+{
-+    if (file_fd >=3D 0 && len > 0) {
-+        posix_fadvise(file_fd, offset, len, POSIX_FADV_DONTNEED);
-+        return;
-+    }
-+
-+    int fd =3D open("/proc/sys/vm/drop_caches", O_WRONLY | O_CLOEXEC);
-+    if (fd < 0) {
-+        printf("open drop_caches failed %d\n", errno);
-+        return;
-+    }
-+    write(fd, "3", 1);
-+    close(fd);
-+}
-+
-+const size_t SIZ_MB =3D 1024 * 1024;
-+const size_t DMABUF_SIZE_MAX =3D SIZ_MB * 32;
-+
-+static inline unsigned char test_data_value(unsigned int val)
-+{
-+    return val % 253;
-+}
-+
-+void test_fill_data(unsigned char* ptr, unsigned int val, size_t sz, bool =
-fast)
-+{
-+    if (sz > 0 && fast) {
-+        ptr[0] =3D test_data_value(val);
-+        ptr[sz / 2] =3D test_data_value(val + sz / 2);
-+        ptr[sz - 1] =3D test_data_value(val + sz - 1);
-+        return;
-+    }
-+    for (size_t i =3D 0; i < sz; i++) {
-+        ptr[i] =3D test_data_value(val + i);
-+    }
-+}
-+
-+bool test_check_data(unsigned char* ptr, unsigned int val, size_t sz, bool=
- fast)
-+{
-+    if (sz > 0 && fast) {
-+        if (ptr[0] !=3D test_data_value(val))
-+            return false;
-+        if (ptr[sz / 2] !=3D test_data_value(val + sz / 2))
-+            return false;
-+        if (ptr[sz - 1] !=3D test_data_value(val + sz - 1))
-+            return false;
-+        return true;
-+    }
-+    for (size_t i =3D 0; i < sz; i++) {
-+        if (ptr[i] !=3D test_data_value(val + i))
-+            return false;
-+    }
-+    return true;
-+}
-+
-+enum mem_buf_type {
-+    BUF_MEMFD,
-+    BUF_UDMA_MEMFD,
-+    BUF_UDMABUF,
-+    BUF_DMABUF,
-+    BUF_TYPE_MAX,
-+};
-+
-+enum copy_io_type {
-+    IO_MAP_READ_WRITE,
-+    IO_SENDFILE,
-+    IO_SPLICE,
-+    IO_COPY_FILE_RANGE,
-+    IO_TYPE_MAX,
-+};
-+
-+static const char *mem_buf_type_descs[BUF_TYPE_MAX] =3D {
-+    "memfd", "u+memfd", "udmabuf", "dmabuf",
-+};
-+
-+static const char *io_type_descs[IO_TYPE_MAX] =3D {
-+    "R/W", "sendfile", "splice", "c_f_r",
-+};
-+
-+struct mem_buf_st {
-+    enum mem_buf_type buf_type_;
-+    int io_fd_;
-+    int mem_fd_;
-+    int buf_fd_;
-+    size_t buf_len_;
-+    unsigned char *buf_ptr_;
-+};
-+
-+struct mem_buf_tc {
-+    enum mem_buf_type buf_type_;
-+    enum copy_io_type io_type_;
-+    int file_fd_;
-+    bool direct_io_;
-+    size_t io_len_;
-+    long times_create_;
-+    long times_data_;
-+    long times_io_;
-+    long times_close_;
-+};
-+
-+void membuf_deinit(struct mem_buf_st *membuf)
-+{
-+    if (membuf->buf_ptr_ !=3D NULL && membuf->buf_ptr_ !=3D MAP_FAILED)
-+        munmap(membuf->buf_ptr_, membuf->buf_len_);
-+    membuf->buf_ptr_ =3D NULL;
-+    if (membuf->mem_fd_ > 0)
-+       close(membuf->mem_fd_);
-+    if (membuf->buf_fd_ > 0)
-+       close(membuf->buf_fd_);
-+    membuf->mem_fd_ =3D -1;
-+    membuf->buf_fd_ =3D -1;
-+}
-+
-+bool membuf_init(struct mem_buf_st *membuf, size_t len, enum mem_buf_type =
-buf_type)
-+{
-+    int map_fd =3D -1;
-+
-+    membuf->mem_fd_ =3D -1;
-+    membuf->buf_fd_ =3D -1;
-+    membuf->buf_len_ =3D len;
-+    membuf->buf_ptr_ =3D NULL;
-+    if (buf_type <=3D BUF_UDMABUF) {
-+        membuf->mem_fd_ =3D alloc_memfd(len);
-+        if (membuf->mem_fd_ < 0) {
-+            printf("alloc memfd %zd failed %d\n", len, errno);
-+            return false;
-+        }
-+        map_fd =3D membuf->mem_fd_;
-+        if (buf_type > BUF_MEMFD) {
-+            membuf->buf_fd_ =3D alloc_udmabuf(len, membuf->mem_fd_);
-+            if (membuf->buf_fd_ < 0) {
-+                printf("alloc udmabuf %zd failed %d\n", len, errno);
-+                return false;
-+            }
-+            if (buf_type =3D=3D BUF_UDMABUF)
-+                map_fd =3D membuf->buf_fd_;
-+        }
-+    } else {
-+        membuf->buf_fd_ =3D alloc_dmabuf(len);
-+        if (membuf->buf_fd_ < 0) {
-+            printf("alloc dmabuf %zd failed %d\n", len, errno);
-+            return false;
-+        }
-+        map_fd =3D membuf->buf_fd_;
-+    }
-+    membuf->io_fd_ =3D map_fd;
-+    membuf->buf_ptr_ =3D (unsigned char *)mmap(NULL, len,
-+            PROT_READ | PROT_WRITE, MAP_SHARED, map_fd, 0);
-+    if (membuf->buf_ptr_ =3D=3D MAP_FAILED) {
-+        printf("fd %d map %zd failed %d\n", map_fd, len, errno);
-+        membuf->buf_ptr_ =3D NULL;
-+        return false;
-+    }
-+    return true;
-+}
-+
-+ssize_t membuf_read_write(const struct mem_buf_st *membuf, int file_fd,
-+                loff_t off, bool is_read)
-+{
-+    if (!membuf->buf_ptr_)
-+        return -1;
-+    lseek(file_fd, off, SEEK_SET);
-+    if (is_read)
-+        return read(file_fd, membuf->buf_ptr_, membuf->buf_len_);
-+    else
-+        return write(file_fd, membuf->buf_ptr_, membuf->buf_len_);
-+}
-+
-+ssize_t membuf_sendfile(const struct mem_buf_st *membuf, int file_fd,
-+                        loff_t off, bool is_read)
-+{
-+    int mem_fd =3D membuf->io_fd_;
-+    size_t buf_len =3D membuf->buf_len_;
-+
-+    if (mem_fd < 0)
-+        return -__LINE__;
-+
-+    lseek(mem_fd, 0, SEEK_SET);
-+    lseek(file_fd, off, SEEK_SET);
-+    if (is_read)
-+        return sendfile(mem_fd, file_fd, NULL, buf_len);
-+    else
-+        return sendfile(file_fd, mem_fd, NULL, buf_len);
-+}
-+
-+ssize_t membuf_splice(const struct mem_buf_st *membuf, int file_fd,
-+                        loff_t off, bool is_read)
-+{
-+    size_t len =3D 0, out_len =3D 0, buf_len =3D membuf->buf_len_;
-+    int mem_fd =3D membuf->io_fd_;
-+    int fd_in =3D file_fd, fd_out =3D mem_fd;
-+    ssize_t ret =3D 0;
-+    static int s_pipe_fds[2] =3D { -1, -1};
-+
-+    if (mem_fd < 0)
-+        return -__LINE__;
-+
-+    lseek(mem_fd, 0, SEEK_SET);
-+    lseek(file_fd, off, SEEK_SET);
-+    if (s_pipe_fds[0] < 0) {
-+        const int pipe_size =3D SIZ_MB * 32;
-+        int pipe_fds[2];
-+        ret =3D pipe(pipe_fds);
-+        if (ret < 0)
-+            return -__LINE__;
-+        ret =3D fcntl(pipe_fds[1], F_SETPIPE_SZ, pipe_size);
-+        if (ret < 0)
-+            return -__LINE__;
-+        ret =3D fcntl(pipe_fds[0], F_GETPIPE_SZ, pipe_size);
-+        if (ret !=3D pipe_size)
-+            return -__LINE__;
-+        s_pipe_fds[0] =3D pipe_fds[0];
-+        s_pipe_fds[1] =3D pipe_fds[1];
-+    }
-+
-+    if (!is_read) {
-+        fd_in =3D mem_fd;
-+        fd_out =3D file_fd;
-+    }
-+
-+    while (buf_len > len) {
-+        ret =3D splice(fd_in, NULL, s_pipe_fds[1], NULL, buf_len - len, SP=
-LICE_F_NONBLOCK);
-+        if (ret <=3D 0)
-+            break;
-+        len +=3D ret;
-+        do {
-+            ret =3D splice(s_pipe_fds[0], NULL, fd_out, NULL, len - out_le=
-n, 0);
-+            if (ret <=3D 0)
-+                break;
-+            out_len +=3D ret;
-+        } while (out_len < len);
-+    }
-+    return out_len > 0 ? out_len : ret;
-+}
-+
-+ssize_t membuf_cfr(const struct mem_buf_st *membuf, int file_fd, loff_t of=
-f,
-+                        bool is_read)
-+{
-+    loff_t mem_pos =3D 0;
-+    loff_t file_pos =3D off;
-+    size_t out_len =3D 0, buf_len =3D membuf->buf_len_;
-+    int mem_fd =3D membuf->io_fd_;
-+    int fd_in =3D file_fd, fd_out =3D mem_fd;
-+    loff_t pos_in =3D file_pos, pos_out =3D mem_pos;
-+    ssize_t ret =3D 0;
-+
-+    if (mem_fd < 0)
-+        return -__LINE__;
-+
-+    lseek(mem_fd, mem_pos, SEEK_SET);
-+    lseek(file_fd, file_pos, SEEK_SET);
-+
-+    if (!is_read) {
-+        fd_in =3D mem_fd;
-+        fd_out =3D file_fd;
-+        pos_in =3D mem_pos;
-+        pos_out =3D file_pos;
-+    }
-+
-+    while (buf_len > out_len) {
-+        ret =3D copy_file_range(fd_in, &pos_in, fd_out, &pos_out, buf_len =
-- out_len, 0);
-+        if (ret <=3D 0)
-+            break;
-+        out_len +=3D ret;
-+    }
-+    return out_len > 0 ? out_len : ret;
-+}
-+
-+ssize_t membuf_io(const struct mem_buf_st *membuf, int file_fd, loff_t off=
-,
-+                        bool is_read, enum copy_io_type io_type)
-+{
-+    ssize_t ret =3D 0;
-+    if (io_type =3D=3D IO_MAP_READ_WRITE) {
-+        ret =3D membuf_read_write(membuf, file_fd, off, is_read);
-+    } else if (io_type =3D=3D IO_SENDFILE) {
-+        ret =3D membuf_sendfile(membuf, file_fd, off, is_read);
-+    } else if (io_type =3D=3D IO_SPLICE) {
-+        ret =3D membuf_splice(membuf, file_fd, off, is_read);
-+    } else if (io_type =3D=3D IO_COPY_FILE_RANGE) {
-+        ret =3D membuf_cfr(membuf, file_fd, off, is_read);
-+    } else
-+        return -1;
-+    if (ret < 0)
-+        printf("membuf_io io failed %d\n", errno);
-+    return ret;
-+}
-+
-+const char *membuf_tc_desc(const struct mem_buf_tc *tc)
-+{
-+    static char buf[32];
-+    snprintf(buf, sizeof(buf), "%s %s %s", mem_buf_type_descs[tc->buf_type=
-_],
-+        tc->direct_io_ ? "direct" : "buffer", io_type_descs[tc->io_type_])=
-;
-+    return buf;
-+}
-+
-+bool test_membuf(struct mem_buf_tc *tc, loff_t pos, size_t file_len,
-+                        size_t buf_siz, bool is_read, bool clean_pagecache=
-s)
-+{
-+    loff_t off =3D pos, file_end =3D pos + file_len;
-+    int file_fd =3D tc->file_fd_;
-+    int i =3D 0, buf_num;
-+    struct mem_buf_st *membufs;
-+    struct timespec ts_start, ts_end;
-+    ssize_t ret;
-+
-+    if (buf_siz > file_len)
-+        buf_siz =3D file_len;
-+    buf_num =3D (file_len + buf_siz - 1) / buf_siz;
-+    membufs =3D (struct mem_buf_st *)malloc(sizeof(*membufs) * buf_num);
-+    if (!membufs)
-+        return false;
-+
-+    memset(membufs, 0, sizeof(*membufs) * buf_num);
-+    drop_pagecaches(-1, 0, 0);
-+    for (i =3D 0; i < buf_num && off < file_end; i++, off +=3D buf_siz) {
-+        if (buf_siz > file_end - off)
-+            buf_siz =3D file_end - off;
-+
-+        if (clean_pagecaches)
-+            drop_pagecaches(file_fd, off, buf_siz);
-+
-+        clock_gettime(CLOCK_MONOTONIC, &ts_start);
-+        if (!membuf_init(&membufs[i], buf_siz, tc->buf_type_)) {
-+             printf("alloc %s %d failed\n", membuf_tc_desc(tc), i);
-+             break;
-+        }
-+        clock_gettime(CLOCK_MONOTONIC, &ts_end);
-+        tc->times_create_ +=3D times_us_duration(&ts_start, &ts_end);
-+
-+        clock_gettime(CLOCK_MONOTONIC, &ts_start);
-+        if (!membufs[i].buf_ptr_) {
-+            printf("map %s %d failed\n", membuf_tc_desc(tc), i);
-+            break;
-+        }
-+        if (!is_read)
-+            test_fill_data(membufs[i].buf_ptr_, off + 1, buf_siz, true);
-+        clock_gettime(CLOCK_MONOTONIC, &ts_end);
-+        tc->times_data_ +=3D times_us_duration(&ts_start, &ts_end);
-+
-+        clock_gettime(CLOCK_MONOTONIC, &ts_start);
-+        ret =3D membuf_io(&membufs[i], file_fd, off, is_read, tc->io_type_=
-);
-+        if (ret < 0 || ret !=3D buf_siz) {
-+            printf("membuf_io %s %d rw %zd ret %zd failed %d\n",
-+                membuf_tc_desc(tc), i, buf_siz, ret, errno);
-+            break;
-+        }
-+        clock_gettime(CLOCK_MONOTONIC, &ts_end);
-+        tc->times_io_ +=3D times_us_duration(&ts_start, &ts_end);
-+
-+        clock_gettime(CLOCK_MONOTONIC, &ts_start);
-+        if (!test_check_data(membufs[i].buf_ptr_, off + 1, buf_siz, true))=
- {
-+            printf("check data %s %d failed\n", membuf_tc_desc(tc), i);
-+            break;
-+        }
-+        clock_gettime(CLOCK_MONOTONIC, &ts_end);
-+        tc->times_data_ +=3D times_us_duration(&ts_start, &ts_end);
-+
-+        if (clean_pagecaches)
-+            drop_pagecaches(file_fd, off, buf_siz);
-+    }
-+
-+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
-+    for (i =3D 0; i < buf_num; i++) {
-+        membuf_deinit(&membufs[i]);
-+    }
-+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
-+    tc->times_close_ +=3D times_us_duration(&ts_start, &ts_end);
-+    drop_pagecaches(-1, 0, 0);
-+    tc->io_len_ =3D off - pos;
-+    return off - pos >=3D file_end;
-+}
-+
-+bool prepare_init_file(int file_fd, loff_t off, size_t file_len)
-+{
-+    struct mem_buf_st membuf =3D {};
-+    ssize_t ret;
-+
-+    ftruncate(file_fd, off + file_len);
-+
-+    if (!membuf_init(&membuf, file_len, BUF_MEMFD))
-+        return false;
-+
-+    test_fill_data(membuf.buf_ptr_, off + 1, file_len, false);
-+    ret =3D membuf_io(&membuf, file_fd, off, false, IO_MAP_READ_WRITE);
-+    membuf_deinit(&membuf);
-+
-+    return ret >=3D file_len;
-+}
-+
-+bool prepare_file(const char *filepath, loff_t off, size_t file_len)
-+{
-+    ssize_t file_end;
-+    bool suc =3D true;
-+    int flags =3D O_RDWR | O_CLOEXEC | O_LARGEFILE | O_CREAT;
-+    int file_fd =3D open(filepath, flags, 0660);
-+    if (file_fd < 0) {
-+        printf("open %s failed %d\n", filepath, errno);
-+        return false;
-+    }
-+
-+    file_end =3D (size_t)lseek(file_fd, 0, SEEK_END);
-+    if (file_end < off + file_len)
-+        suc =3D prepare_init_file(file_fd, off, file_len);
-+
-+    close(file_fd);
-+    return suc;
-+}
-+
-+void test_membuf_cases(struct mem_buf_tc *test_cases, int test_count,
-+                loff_t off, size_t file_len, size_t buf_siz,
-+                bool is_read, bool clean_pagecaches)
-+{
-+    char title[64];
-+    long file_MB =3D (file_len + SIZ_MB - 1) / SIZ_MB;
-+    long buf_MB =3D (buf_siz + SIZ_MB - 1) / SIZ_MB;
-+    long base_io_time, io_times;
-+    long base_io_speed, io_speed;
-+    struct mem_buf_tc *tc;
-+    int n;
-+
-+    for (n =3D 0; n < test_count; n++) {
-+        test_membuf(&test_cases[n], off, file_len, buf_siz, is_read, clean=
-_pagecaches);
-+    }
-+
-+    snprintf(title, sizeof(title), "%ldx%ldMB %s %4ldMB",
-+             (file_MB + buf_MB - 1) / buf_MB, buf_MB,
-+             is_read ? "Read" : "Write", file_MB);
-+
-+    base_io_time =3D test_cases[0].times_io_ ?: 1;
-+    base_io_speed =3D test_cases[0].io_len_ / base_io_time ? : 1000;
-+
-+    printf("|    %-23s|%8s|%8s|%8s|%8s| I/O%%\n", title,
-+           "Creat-ms", "Close-ms", "I/O-ms", "I/O-MB/s");
-+    printf("|---------------------------|--------|--------|--------|------=
---|-----\n");
-+    for (n =3D 0; n < test_count; n++) {
-+        tc =3D &test_cases[n];
-+        io_times =3D tc->times_io_;
-+        io_speed =3D io_times > 0 ? tc->io_len_ / io_times : 0;
-+
-+        printf("|%2d) %23s| %6ld | %6ld | %6ld | %6ld |%4ld%%\n", n + 1,
-+               membuf_tc_desc(tc), time_us2ms(tc->times_create_),
-+               time_us2ms(tc->times_close_), time_us2ms(io_times),
-+               io_speed, io_speed * 100 / base_io_speed);
-+    }
-+    return;
-+}
-+
-+void test_all_membufs(const char *filepath, loff_t off, size_t file_len, s=
-ize_t buf_siz,
-+                        bool is_read, bool clean_pagecaches)
-+{
-+    int buffer_fd;
-+    int direct_fd;
-+
-+    buffer_fd =3D open(filepath, O_RDWR | O_CLOEXEC | O_LARGEFILE);
-+    direct_fd =3D open(filepath, O_RDWR | O_CLOEXEC | O_LARGEFILE | O_DIRE=
-CT);
-+    if (buffer_fd < 0 || direct_fd < 0) {
-+        printf("buffer_fd %d direct_fd %d\n", buffer_fd, direct_fd);
-+        return;
-+    }
-+
-+    struct mem_buf_tc test_cases[] =3D {
-+        {BUF_MEMFD, IO_MAP_READ_WRITE, buffer_fd, false},
-+        {BUF_MEMFD, IO_MAP_READ_WRITE, direct_fd, true},
-+        {BUF_UDMA_MEMFD, IO_MAP_READ_WRITE, buffer_fd, false},
-+        {BUF_UDMA_MEMFD, IO_MAP_READ_WRITE, direct_fd, true},
-+        {BUF_UDMA_MEMFD, IO_SENDFILE, buffer_fd, false},
-+        {BUF_UDMA_MEMFD, IO_SENDFILE, direct_fd, true},
-+        {BUF_UDMA_MEMFD, IO_SPLICE, buffer_fd, false},
-+        {BUF_UDMA_MEMFD, IO_SPLICE, direct_fd, true},
-+        {BUF_UDMABUF, IO_MAP_READ_WRITE, buffer_fd, false},
-+        {BUF_DMABUF, IO_MAP_READ_WRITE, buffer_fd, false},
-+        {BUF_UDMABUF, IO_COPY_FILE_RANGE, buffer_fd, false},
-+        {BUF_UDMABUF, IO_COPY_FILE_RANGE, direct_fd, true},
-+        {BUF_DMABUF, IO_COPY_FILE_RANGE, buffer_fd, false},
-+        {BUF_DMABUF, IO_COPY_FILE_RANGE, direct_fd, true},
-+    };
-+
-+    test_membuf_cases(test_cases, sizeof(test_cases) / sizeof(test_cases[0=
-]),
-+            off, file_len, buf_siz, is_read, clean_pagecaches);
-+    close(buffer_fd);
-+    close(direct_fd);
-+}
-+
-+void usage(void)
-+{
-+    printf("usage: dmabuf-dio [file_path] [size_MB]\n");
-+    return;
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    const char *file_path =3D "/data/membuf.tmp";
-+    size_t file_len =3D SIZ_MB * 1024;
-+
-+    if (argc > 1)
-+        file_path =3D argv[1];
-+    if (argc > 2)
-+        file_len =3D atoi(argv[2]) * SIZ_MB;
-+    if (file_len < 0)
-+        file_len =3D SIZ_MB * 1024;
-+    if (!prepare_file(file_path, 0, file_len)) {
-+        usage();
-+        return -1;
-+    }
-+
-+    test_all_membufs(file_path, 0, file_len, SIZ_MB * 32, true, true);    =
-   =20
-+    return 0;
-+}
---
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 77d48578ecd2..04641a7dcc98 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -424,13 +424,13 @@ static int venus_probe(struct platform_device *pdev)
+ 	INIT_DELAYED_WORK(&core->work, venus_sys_error_handler);
+ 	init_waitqueue_head(&core->sys_err_done);
+ 
+-	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, venus_isr_thread,
+-					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+-					"venus", core);
++	ret = hfi_create(core, &venus_core_ops);
+ 	if (ret)
+ 		goto err_core_put;
+ 
+-	ret = hfi_create(core, &venus_core_ops);
++	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, venus_isr_thread,
++					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
++					"venus", core);
+ 	if (ret)
+ 		goto err_core_put;
+ 
+-- 
+2.34.1
 
 
