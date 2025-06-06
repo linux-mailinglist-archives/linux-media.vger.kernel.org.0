@@ -1,120 +1,251 @@
-Return-Path: <linux-media+bounces-34229-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34230-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BC0AD0191
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 13:59:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53757AD0199
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 14:02:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B21A2189D0CE
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:00:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B43467A284A
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:00:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64B75288504;
-	Fri,  6 Jun 2025 11:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19FEE2882C2;
+	Fri,  6 Jun 2025 12:02:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DUbkvwqP"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="eqFQyPfQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e+XB/RZV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC762874FA;
-	Fri,  6 Jun 2025 11:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806BE1E25ED;
+	Fri,  6 Jun 2025 12:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749211179; cv=none; b=HDhQ7sNB4BYrqsrNiuhIaZCZRABsmcogTylB2P26hY0WTgn1nF5KvjS0moklGnzCj4RqIpA9OEothlJoi2j6jnNhY8jatt1Az4SMpfe0JaPYj3bDJo27rsZqGiNutYefj70hUDH3cmE8+r2K4iLW9F3dPuwmom3h+p4NSGj623w=
+	t=1749211329; cv=none; b=N0dl3ceEzzpDBuwfsMBHLME/8GNT0ZhmDUZKUNRaJ8ZgqCQCbOHlCh3l4UPz6zCmW3WwaUUz5cA2Dbg91qaWdBDw0eQv9wr6b9RLcBJSXrvwYJK9zGWh4qY2XHzSDLeAyDl2hJWDwnQbpFCVocgk1WiT5geoSyDajGbyqoXK+mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749211179; c=relaxed/simple;
-	bh=fLyP1nJgU2iKVNH8e+jPqTnC6CYKC0rB5Q0uu/GtYng=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RIkAC5nMW1/bCGyM8IqKasPCipEjUQ9D+7nDYAdY0+UMweWZU2Vmp+oCLhgUBSTh6qDNTc/oz0RiuLdzbFGCXA7Uyb4bKWMFelj5P7vSm5XVzZIhqms+JwdqzxlImcIKF9tmwB6ZGqxPPGAGQmaYcLwSvs3hUUNI1uIfBtYV+Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DUbkvwqP; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-32a61af11ffso21451481fa.1;
-        Fri, 06 Jun 2025 04:59:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749211176; x=1749815976; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7RBKB3/9EuqkeSqFD8CRon1Zsx+X5s6ybMaqEFvORUg=;
-        b=DUbkvwqPoAd2yKYqVb/Wnsr7MPFB04HpOePGZ3CRkL7OLVXULU7CCbx9nIT0t1MG2R
-         mOABZBAqSHoZOt/Q9308/123W04+2Msgzpe8j6n2eq/RE4AzrKgW+0CjPOWa9V7fRr2g
-         7uPuLnPiYwBy9D+XKzIWsyBvAQhtbqlSyOOkIU+JTsPKjX2Nj9cBg6HjWaepgIyt8h9F
-         n7qeluF2TKhJUPFhDvAjz50CZGjZp6sKz/a0hLxRBhbgrMuzbGQxdaCXRzKoB7e0KoGp
-         BclMrp/BZSmfmgkKegw2+9wWv2ohF9yHMfnnAO/fDV6avPMWSt6J9dLa3eW3BtpXjf8z
-         Pm/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749211176; x=1749815976;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7RBKB3/9EuqkeSqFD8CRon1Zsx+X5s6ybMaqEFvORUg=;
-        b=WROxm7KjDsWTNdAZjXdXj0gVyx5zeyg3lQirA2Qqbh7WWq+Kq+ymy3JeDwsQfFqGRQ
-         jjkdr2Mo0+2BQTxsXhBHWoUGXffv3LJ0oSOnXtdd0SRK98cSiRyOaAnupCBolhRH0EQY
-         7HVeFl/M9BBj+tjdQ+vN7bxfkYxHDYGO5B2pHOYNWOfudLHC77tR1l+uXnhop0mZGQ+7
-         D7c7wGhg8FJjiaWOqnC8XlBUHlv7eaDUkp28/kZW77vqGa8SbDObv8FmwmIrZb6xG1So
-         foSTWBXnM728RXV2yNA4asYllfT+ihwBoCYVVF4WHBJsRfrSaijDC3wnfUgl6+SdJeHK
-         xJtA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvGIPkmGecfJyYiblaepOyZmFpZh24PlNJektOjuzcmqJ7Mn0TqECbyy3N7eUTruoP3gM19K0Kkg/QXA4=@vger.kernel.org, AJvYcCVlK/C3Sd+L8ApGZ7ctOizD9KcQI5g0WLosCz7yezBerfg2IFK2ML1Vuhaisb5eet5gRe/sbPjT5inlWLV1@vger.kernel.org, AJvYcCWsNhWXgiSYKhX23OfpcOypk86UsyqxB/Rc0AXQyKczb+WXaNq72d2KRkXNbkIOJ2bg+2pbN6OyPdF++0TT@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQgVAwbjrxGweLDpY7Luc8jGOd+npKA2JIsp76T7I6/RIHGERW
-	SRmp9rAhrPHmlwf4klShL5udpW13CgKR86cadxF29LASSdVRdjlQ6Y9UA8/dc0oIAnb7jRlPKhX
-	oV7uA4RjKA3pjJY2MyWzOwJgMzwYDHF4=
-X-Gm-Gg: ASbGncsuTEguhf1xbLLRNsgyQK3U3P6Vag2oSe1wZ3NA4Og98Tb8brk5uaLND7Jf1Y5
-	Ct1OQpwVlhD0lm+vojVtG1fk3Ek3Y0GGBKlL3T1WAFJVznIZisq7hMDm4nVHjXgsHBQLoxrndJA
-	iO9HbmI7F4rP+KO+C8HhB5hYmnQzN9NQ==
-X-Google-Smtp-Source: AGHT+IEyOHac18JRsxQCDC33nCW0intiyA9mvI/PE8BZZlcm+WphqtwKX7kfZnMd/x1fvrki/mIzxhujOWzkyQ0xq1o=
-X-Received: by 2002:a2e:be0e:0:b0:326:cf84:63c4 with SMTP id
- 38308e7fff4ca-32ae0021b08mr9121671fa.1.1749211175876; Fri, 06 Jun 2025
- 04:59:35 -0700 (PDT)
+	s=arc-20240116; t=1749211329; c=relaxed/simple;
+	bh=lehcra6IGALpqmalurFJkLUkRed2UEtrzqdw0mPZm84=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DQ9GcF5XGr82SyZxSU3BGw+uAYXrJfE2kAYIbb3n/ZEmTswbcKX2ZtRqGFwc1oqNy20RkL0oXFJbY6khI2UGPpgLggOBDdUAkaMaauYRqtA1siHGtC7SOShciynAuYcREqFAsbI3PrAolNYM5pzQJvCFv4OEeYd+6X+HJYl9sok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=eqFQyPfQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=e+XB/RZV; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 8D983138034B;
+	Fri,  6 Jun 2025 08:02:06 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Fri, 06 Jun 2025 08:02:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749211326;
+	 x=1749297726; bh=Obfl9LVjZme1N6jc3cwqyAP+xIrat0n5RtphV2HZsYo=; b=
+	eqFQyPfQ/2uz2Hf90IC7OpGPKwzj2va86tcIwI74xuggpcGj0V1DTWPziBGqrOOl
+	jmIVqUh0tHevUARLzv6NGTuQ043gBlNO39iJ9+BGflLkeMqrdinEJF1cAH1JrVFE
+	gG+l8c+yU7lTxvjkh3aWMJMdTN+tesP58yZC+i6nP7zz17IysYaUBdoxiIJs/nMX
+	i6jRolK/n1ZFvXau8ayW+yYFiD7eNeAxirSglx+9LTlCUWxdXNTQkil38kVKWmpG
+	fl90Ciy/+2aEhg9BJNTPTb5xU6EXHlnqJt5uVKpEj9AfkmSOR43ThRZ9HyGbckM5
+	XeSK2t7uLdRe3Jvl7b5X8g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749211326; x=
+	1749297726; bh=Obfl9LVjZme1N6jc3cwqyAP+xIrat0n5RtphV2HZsYo=; b=e
+	+XB/RZVVF5um3WjDqG+JtiNfzuEiG5U7WYHRXrg7LCaAPG8jMy7dt4KdHTjJIuIT
+	W0JO5Zo2dhXHtpBql0BUsIgQWa6WDYsLbjU+M8bkMelzKQB8IVADMdFuYIWFMQxe
+	hjFmXmZWdE5SSI0p7Tbcgu9Hwaet0NWVkZnkdveqW0shywnKqUKxkGADi6XIa69x
+	tCXwdTgWA773qwNhynSBpnA1FRHWy+oUrZ/ooK6KKkOpn/R+sUCSmMXYf3B3Nrk1
+	ijrXxwrNZ8BGc4oKG8ErGYW69/mQeUzhHbsK9WqTxJBV1vBVsyAerq2txzk6hFOS
+	82r4nfCiyFB9R0GhOo0gQ==
+X-ME-Sender: <xms:vthCaG79hNryUfREJyuP0Dwf47hMh9OxsqNNHK0QSXYQHRqirXU6_A>
+    <xme:vthCaP7XrtNJbzZBjAch0FStDLfrd_EMhIXIwraY4zwVa8HrvCl9ElPkfBJ1bU8ys
+    i65wZ2i05H6kRY8pUw>
+X-ME-Received: <xmr:vthCaFeDCJE3rVQTtWvFp9PWls1Eg3VNz_KL7Nx71oWu5a648oq9OXxNJsO66IdG8ZYZz4pwARr6T34ftYex7Do6TfSaLDM-yQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehtdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteeg
+    tddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshho
+    uggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmoh
+    guvgepshhmthhpohhuthdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgv
+    nhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhh
+    grsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehl
+    ihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvh
+    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghs
+    qdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkh
+    gvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgthhgvhhgr
+    sgdohhhurgifvghisehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlrghurhgvnhhtrd
+    hpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgr
+    tghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomh
+X-ME-Proxy: <xmx:vthCaDKCtzFjbKXjC3thKaN-8KY038v7xA66A-3tWHnd-ieicRkuWA>
+    <xmx:vthCaKIfd6jP1gRXqGjWMqnFzEby_UHoAcU_yK5jNTtGi9eYfwQ-bg>
+    <xmx:vthCaEygYudWqvWGx_N_kRHEYco4K_pv_Ul4lghc4vBWlWkl7tqD1A>
+    <xmx:vthCaOIZsEHL9CI8J-k_H6K6jLuubDIn2O3lnDmc950b-UwOXwC9ww>
+    <xmx:vthCaIQBknF3LjVfWfs5ad4Z32s5y7Xwblc3kH41SNxCeuyncEJoG6hP>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Jun 2025 08:02:05 -0400 (EDT)
+Date: Fri, 6 Jun 2025 14:02:04 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v3 06/15] media: rcar-csi2: Simplify rcsi2_calc_mbps()
+Message-ID: <20250606120204.GB2770609@ragnatech.se>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-6-026655df7138@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250531-topic-venus_98_tbl-v1-1-68e5523a39dc@oss.qualcomm.com> <btmzhyullmggev43b3syp3anxlm6o5mpz2mthaskuyl7kfx5gw@w5gesyaaytkh>
-In-Reply-To: <btmzhyullmggev43b3syp3anxlm6o5mpz2mthaskuyl7kfx5gw@w5gesyaaytkh>
-From: Arnaud Vrac <rawoul@gmail.com>
-Date: Fri, 6 Jun 2025 13:59:23 +0200
-X-Gm-Features: AX0GCFsrvG8NbZd4C_wPfiA0MO9Yh-Z4gplq5hfZ8xBg7i6J3bFVaxj1uRtBKGs
-Message-ID: <CAN5H-g7WLsowjW6CMee5T=W4Lmia9mLWGgX17-mOMjtBo2SwvQ@mail.gmail.com>
-Subject: Re: [PATCH] media: venus: Fix MSM8998 frequency table
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Konrad Dybcio <konradybcio@kernel.org>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Dikshita Agarwal <quic_dikshita@quicinc.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Marc Gonzalez <mgonzalez@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250530-rcar-streams-v3-6-026655df7138@ideasonboard.com>
 
-Le dim. 1 juin 2025 =C3=A0 09:46, Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> a =C3=A9crit :
->
-> On Sat, May 31, 2025 at 02:22:00PM +0200, Konrad Dybcio wrote:
-> > From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >
-> > Fill in the correct data for the production SKU.
-> >
-> > Fixes: 193b3dac29a4 ("media: venus: add msm8998 support")
-> > Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> > ---
-> >  drivers/media/platform/qcom/venus/core.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
->
-> Verified against msm-4.4
+Hi Tomi,
 
-Hello,
+Thanks for your patch.
 
-The current values are based on
-https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kerne=
-l.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi
-which we've been using in production for many years.
+On 2025-05-30 16:50:35 +0300, Tomi Valkeinen wrote:
+> Instead of taking the bpp and the number of lanes as parameters to
+> rcsi2_calc_mbps(), change the function to get those parameters inside
+> the function. This centralizes the code a bit and makes it easier to add
+> streams support.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
--Arnaud
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 45 ++++++++++++++++--------------
+>  1 file changed, 24 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index 8aca35096408..90973f3cba38 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -998,13 +998,18 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
+>  	return 0;
+>  }
+>  
+> -static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+> -			   unsigned int lanes)
+> +static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
+> +			   struct v4l2_subdev_state *state)
+>  {
+> +	const struct rcar_csi2_format *format;
+> +	struct v4l2_mbus_framefmt *fmt;
+>  	struct media_pad *remote_pad;
+>  	struct v4l2_subdev *source;
+> +	unsigned int lanes;
+> +	unsigned int bpp;
+>  	s64 freq;
+>  	u64 mbps;
+> +	int ret;
+>  
+>  	if (!priv->remote)
+>  		return -ENODEV;
+> @@ -1012,6 +1017,20 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+>  	source = priv->remote;
+>  	remote_pad = &source->entity.pads[priv->remote_pad];
+>  
+> +	ret = rcsi2_get_active_lanes(priv, &lanes);
+> +	if (ret)
+> +		return ret;
+> +
+> +	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
+> +	if (!fmt)
+> +		return -EINVAL;
+> +
+> +	format = rcsi2_code_to_fmt(fmt->code);
+> +	if (!format)
+> +		return -EINVAL;
+> +
+> +	bpp = format->bpp;
+> +
+>  	freq = v4l2_get_link_freq(remote_pad, bpp, 2 * lanes);
+>  	if (freq < 0) {
+>  		int ret = (int)freq;
+> @@ -1092,7 +1111,7 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
+>  	phycnt = PHYCNT_ENABLECLK;
+>  	phycnt |= (1 << lanes) - 1;
+>  
+> -	mbps = rcsi2_calc_mbps(priv, format->bpp, lanes);
+> +	mbps = rcsi2_calc_mbps(priv, state);
+>  	if (mbps < 0)
+>  		return mbps;
+>  
+> @@ -1300,23 +1319,15 @@ static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int msps)
+>  static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
+>  				    struct v4l2_subdev_state *state)
+>  {
+> -	const struct rcar_csi2_format *format;
+> -	const struct v4l2_mbus_framefmt *fmt;
+>  	unsigned int lanes;
+>  	int msps;
+>  	int ret;
+>  
+> -	/* Use the format on the sink pad to compute the receiver config. */
+> -	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
+> -	format = rcsi2_code_to_fmt(fmt->code);
+> -	if (!format)
+> -		return -EINVAL;
+> -
+>  	ret = rcsi2_get_active_lanes(priv, &lanes);
+>  	if (ret)
+>  		return ret;
+>  
+> -	msps = rcsi2_calc_mbps(priv, format->bpp, lanes);
+> +	msps = rcsi2_calc_mbps(priv, state);
+>  	if (msps < 0)
+>  		return msps;
+>  
+> @@ -1494,23 +1505,15 @@ static int rcsi2_init_common_v4m(struct rcar_csi2 *priv, unsigned int mbps)
+>  static int rcsi2_start_receiver_v4m(struct rcar_csi2 *priv,
+>  				    struct v4l2_subdev_state *state)
+>  {
+> -	const struct rcar_csi2_format *format;
+> -	const struct v4l2_mbus_framefmt *fmt;
+>  	unsigned int lanes;
+>  	int mbps;
+>  	int ret;
+>  
+> -	/* Calculate parameters */
+> -	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
+> -	format = rcsi2_code_to_fmt(fmt->code);
+> -	if (!format)
+> -		return -EINVAL;
+> -
+>  	ret = rcsi2_get_active_lanes(priv, &lanes);
+>  	if (ret)
+>  		return ret;
+>  
+> -	mbps = rcsi2_calc_mbps(priv, format->bpp, lanes);
+> +	mbps = rcsi2_calc_mbps(priv, state);
+>  	if (mbps < 0)
+>  		return mbps;
+>  
+> 
+> -- 
+> 2.43.0
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
