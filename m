@@ -1,236 +1,171 @@
-Return-Path: <linux-media+bounces-34204-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34205-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96C0ACFDDE
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 10:00:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0431ACFDF5
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 10:09:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7458E170F0A
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 08:00:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8CB421892430
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 08:09:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCEF2285406;
-	Fri,  6 Jun 2025 08:00:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 875722853E5;
+	Fri,  6 Jun 2025 08:09:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pqhLkbKM"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Z09i3BoJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27733284B46;
-	Fri,  6 Jun 2025 08:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B0624EF6B
+	for <linux-media@vger.kernel.org>; Fri,  6 Jun 2025 08:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749196802; cv=none; b=hjqNXIAKG8fOrTBTzpGlgHAgeAcqRb5rAUt64uDNw0iSMtCNhN6Kl7mD+XH0sFXYhrZO1PLxzHkZ3ftXQckm9b5zsV431NRU67Ltx69Yq9dilAgc2Hyw2orMPNkrpNehXb5WDM6QNckk+tG7HBZzFwKoY5MkKiXYGIgxcAespF0=
+	t=1749197357; cv=none; b=SyxbAW0m8pqh5X4oJyv0cD5lSs+hZ0ncuaIvWFebKbWZwlppIVnAzrfDrEIgb46oglv6nAbqS47g5FV1N8dZGBp5gJxN4WxC5aDlX50jdG3QAeHOlD/09XatpcqToZC/ZMEs2utgBU7Y7nHlezdf5JeiF6FXA3DAH/boO7W+Sh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749196802; c=relaxed/simple;
-	bh=KfrhofsOFofV4Yxp9rI2KSMcovauU9GJjmAbXeaDSsg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JjCUHq9Ft9kCyTE6GP08o4vpTeXJ3kalbhC9wID8v6sU/6TcunrDe7fSxqFNuazVhB+NHi9cr8XaYm/rkCNbJFBTCUllqsNiYlO+TRTOg+V0vFSE1fnRLT8eSF9r7rYlv7233Gie2iZoR2UsFqtEe9K8SjO5qbQRrHYX80fnh+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pqhLkbKM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA779C4CEEB;
-	Fri,  6 Jun 2025 07:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749196801;
-	bh=KfrhofsOFofV4Yxp9rI2KSMcovauU9GJjmAbXeaDSsg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=pqhLkbKMkWlh09VG2BUFsVfs6NK4OKZbNwioszl4dtm7v6FQc/Us4v9H8idPC/YAZ
-	 R9D+pS+mxBdOKoDLgqtqaLdXdLYDHR597Gg2BMYpada9SrbtQR4t7wJ6ImnWZzHOGF
-	 5gnEw5tKPIaK4Qhwzw0wHveRseXshANV2N2aXKDZSBLnFRNaJV0E6A9mAQ3TDfvhAW
-	 nq1UgqiGf25d7D2QCO1dYHLdR3DKyUk5gBrQSU/DXnxiQOQSAcqvdEmw/eUcLOA38h
-	 uMHfd3tmg5iZSInah3S9vB1cxcIVwyIczZWhxfCIK6FtpP8QL5Pdy+ytPlW1pxl4sd
-	 CpZ9A7pZeYAkw==
-X-Mailer: emacs 30.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
-	yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
-	yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
-	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
-	simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
-	iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: Re: [RFC PATCH 17/30] iommufd/device: Add TSM Bind/Unbind for TIO
- support
-In-Reply-To: <20250604132403.GJ5028@nvidia.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-18-yilun.xu@linux.intel.com>
- <yq5awm9ujouz.fsf@kernel.org> <aD6UQy4KwKcdSvVE@yilunxu-OptiPlex-7050>
- <20250603122149.GH376789@nvidia.com> <yq5aplfj99x0.fsf@kernel.org>
- <20250604132403.GJ5028@nvidia.com>
-Date: Fri, 06 Jun 2025 13:29:46 +0530
-Message-ID: <yq5a4iwt8fm5.fsf@kernel.org>
+	s=arc-20240116; t=1749197357; c=relaxed/simple;
+	bh=C2cwG6g5h1xcnrWRQbgFCNLmQ7CU/qs4tOv+KuSc1E8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P78ZreHOfieGuGmp5uBwgJIc4FFywvprV5ANoR/WS/xPn4GHflc3c9vtDj1c0Yqrt8HmkVcBj2B59qDTb3qVqj1Bpvp4+E8wmgXVAGAlHAUvOKo1B3KlRpxJ2U0e+zSfmob/AbCoPAwqJ4sUpiJi16SOPI4/HuA3uynyY/0c/ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Z09i3BoJ; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-32addf54a00so7772281fa.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 01:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1749197353; x=1749802153; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=u/SrrLT6hTt+dzUYnWwoaKyJ0BbYGXTFoXh77ZH8ZFA=;
+        b=Z09i3BoJG0Z8Sbr3r6UN087VrUlObOr91Srst2crd/+5s5JWAedGUGWxtIxKXru59L
+         o8UYsaiND71NY7j4aQpQjSsaVDM7lnQs0o2C5EA4m+rwpXjv79WqS4QfW1q6DriWJFVA
+         MxNSWPCeUb1B1p1ncnDwYZeLUfaGiG7PnWaUE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749197353; x=1749802153;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u/SrrLT6hTt+dzUYnWwoaKyJ0BbYGXTFoXh77ZH8ZFA=;
+        b=KooYcb1gp0f3PTIx4ROe2NeBX0hffLablXlk0o5oXSVkW++Jj1HNoSl4UgqmutPJ5e
+         LQUOBPLxXje9ldxyjLzQgFMIx0VIt352a7vKtXIVt4wSXh2e9U85/7Y6RvUnCCg5XhEN
+         +7zD6do+NY4m4j4wJNb0mQ/wQwYORp6jYS9P3pvjWkSGvr8JU/PuYGsvALt5lmMqu7gO
+         v8NSqV6PoqX7mhp4tELVZ8Udx/AKLvR7CUDQd2Ka+lwBH8P96sG/4bQs9SSLFBoK4DiN
+         vsoZJwkdeE8N/YOylJccUHbdCYYi3Z0ES5ky2dfErwlInT8a+ZNio4JCqAhtC8BF2+q+
+         uc/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUPmURahagOhMQlHxGlF/WQKwVpyY/DbaRdaCb5NGGEbT18muV+GfN1mlWpjMj3at/RgAHnjdj4kUndUw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuHSpqGsiN9Q9R8/FaEhKtwXNy0ZkOT4z8Yun53Qrh8AuAmL2Y
+	QdXDdW+LYMtKPRGh4lv3ghhmZeMbzY8tAl9lzojBtX9K7/oOHrhRSZd3mQRpVh/eyn8twhmIw60
+	GCCc=
+X-Gm-Gg: ASbGncv2/lJZvGRDV+jTBLncfB+WzEV5ItGXkguukxEZ6pHMk/tp8kbMcNCQJDW0/uR
+	JnaMY5ZxWxmJc4L2FA1bnf/VElWlRM4cJMfv9VJD6q0ndRAZy7qChyaMIyyeF/NVUZh3Ai4z5CT
+	wfYgQR8Pztds5W52WuU2iQ6Rhc6cth7Vngc/4w8pxPhYT1QliyoBhtJhSufe49qA1klIO3UxOl5
+	z1MYP3sbmxV/0v+CcEpYPzDjzzd41izqOjVdAmAETenRh9o8acLvCqk/y7pMLNJWwaiA9dlyh9C
+	GxYEqF0TpLBRoUzeX4Wx+ErMFUkd8G+CV1wz7nvZNx8fDWr6dBxvg/SR8eEfakEUJ8Bt8gTeLTt
+	mR5vSEgDaNs78r23U+bKS7Nij
+X-Google-Smtp-Source: AGHT+IGkR8WMukbpcBN/KaX4vgnq/5rY4lUA4sxidFfRJqWOkvLaGSYDPBYlQb9fAj8JpV6pD80lgQ==
+X-Received: by 2002:a2e:bea5:0:b0:32a:7270:5c29 with SMTP id 38308e7fff4ca-32adfb130b6mr6230171fa.2.1749197352820;
+        Fri, 06 Jun 2025 01:09:12 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1d00291sm1157191fa.99.2025.06.06.01.09.12
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jun 2025 01:09:12 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-54b09cb06b0so2149981e87.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 01:09:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUCPes+n83qyJeAVrgj+d71ycymuEHkxvXbpaJ/XbrCUGiSw8ti0klddH7LEiM1QBsXCr9OFN6fmzrEsQ==@vger.kernel.org
+X-Received: by 2002:a05:6512:12d3:b0:550:e648:182a with SMTP id
+ 2adb3069b0e04-55366c453c9mr522701e87.55.1749197351597; Fri, 06 Jun 2025
+ 01:09:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20250605-prefix-v1-1-450aff98308a@chromium.org>
+ <20250605124635.GC29935@pendragon.ideasonboard.com> <CANiDSCs4B8ovA2jipUiDr3tC3SSCpJOownohx-X+UvD+2W2w9g@mail.gmail.com>
+ <20250605131700.GA25847@pendragon.ideasonboard.com> <20250606095230.3a987c30@foz.lan>
+In-Reply-To: <20250606095230.3a987c30@foz.lan>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 6 Jun 2025 10:08:58 +0200
+X-Gmail-Original-Message-ID: <CANiDSCtEiEe4J76tJzEv5dTNxVepTN22XCt7a6B-ncgxnVo3rA@mail.gmail.com>
+X-Gm-Features: AX0GCFsfMq0202z0Xl0BtMRC-C7oMT_RVzNG7D7Mth2Ib7mxXNvm19BPdSB1vic
+Message-ID: <CANiDSCtEiEe4J76tJzEv5dTNxVepTN22XCt7a6B-ncgxnVo3rA@mail.gmail.com>
+Subject: Re: [PATCH v4l-utils] CONTRIBUTE: Add simple contribution instructions
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hans@jjverkuil.nl>, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Jason Gunthorpe <jgg@nvidia.com> writes:
+Hi
 
-....
-
->> tsm_unbind in vdevice_destroy:
->>=20
->> vdevice_destroy() ends up calling tsm_unbind() while holding only the
->> vdev_lock. At first glance, this seems unsafe. But in practice, it's
->> fine because the corresponding iommufd_device has already been destroyed
->> when the VFIO device file descriptor was closed=E2=80=94triggering
->> vfio_df_iommufd_unbind().
+On Fri, 6 Jun 2025 at 09:52, Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 >
-> This needs some kind of fixing the idevice should destroy the vdevices
-> during idevice destruction so we don't get this out of order where the
-> idevice is destroyed before the vdevice.
+> Em Thu, 5 Jun 2025 16:17:00 +0300
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 >
-> This should be a separate patch as it is an immediate bug fix..
+> > On Thu, Jun 05, 2025 at 02:54:33PM +0200, Ricardo Ribalda wrote:
+> > > On Thu, 5 Jun 2025 at 14:46, Laurent Pinchart wrote:
+> > > > On Thu, Jun 05, 2025 at 12:09:57PM +0000, Ricardo Ribalda wrote:
+> > > > > In the media summit we discussed the need of a special prefix for
+> > > > > v4l-utils. This helps patchwork and media-ci.
+> > > > >
+> > > > > Create a new file with a brief introductions on how to contribute and
+> > > > > make the `v4l-utils` official.
+> > > > >
+> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > >
+> > > > I think this is a good idea. I don't know how we'll get users to
+> > > > actually use the prefix, but documenting it is a necessary first step.
 >
+> It is a good idea, but I'd say that, if there is "v4l-utils" anywhere
+> at the patch series subject, media CI shall not change the patch
+> status. Same applies to the other userspace tools we maintain.
 
-Something like below?
+media-CI only changes the status if the followings conditions are met:
+- There is no v4l-utils in the subject
+- The patch can be applied on top of media-committers
+- It does not modify any media file
 
-diff --git a/drivers/iommu/iommufd/device.c b/drivers/iommu/iommufd/device.c
-index 86244403b532..a49b293bd516 100644
---- a/drivers/iommu/iommufd/device.c
-+++ b/drivers/iommu/iommufd/device.c
-@@ -221,6 +221,8 @@ struct iommufd_device *iommufd_device_bind(struct iommu=
-fd_ctx *ictx,
- 	refcount_inc(&idev->obj.users);
- 	/* igroup refcount moves into iommufd_device */
- 	idev->igroup =3D igroup;
-+	idev->vdev   =3D NULL;
-+	mutex_init(&idev->lock);
-=20
- 	/*
- 	 * If the caller fails after this success it must call
-@@ -282,6 +284,12 @@ EXPORT_SYMBOL_NS_GPL(iommufd_ctx_has_group, "IOMMUFD");
-  */
- void iommufd_device_unbind(struct iommufd_device *idev)
- {
-+	/* this will be unlocked while destroying the idev obj */
-+	mutex_lock(&idev->lock);
-+
-+	if (idev->vdev)
-+		/* extra refcount taken during vdevice alloc */
-+		iommufd_object_destroy_user(idev->ictx, &idev->vdev->obj);
- 	iommufd_object_destroy_user(idev->ictx, &idev->obj);
- }
- EXPORT_SYMBOL_NS_GPL(iommufd_device_unbind, "IOMMUFD");
-diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iommuf=
-d/iommufd_private.h
-index 9ccc83341f32..d85bd8b38751 100644
---- a/drivers/iommu/iommufd/iommufd_private.h
-+++ b/drivers/iommu/iommufd/iommufd_private.h
-@@ -425,6 +425,10 @@ struct iommufd_device {
- 	/* always the physical device */
- 	struct device *dev;
- 	bool enforce_cache_coherency;
-+	/* to protect the following members*/
-+	struct mutex lock;
-+	/* if there is a vdevice mapping the idev */
-+	struct iommufd_vdevice *vdev;
- };
-=20
- static inline struct iommufd_device *
-@@ -606,6 +610,7 @@ struct iommufd_vdevice {
- 	struct iommufd_ctx *ictx;
- 	struct iommufd_viommu *viommu;
- 	struct device *dev;
-+	struct iommufd_device *idev;
- 	u64 id; /* per-vIOMMU virtual ID */
- };
-=20
-diff --git a/drivers/iommu/iommufd/main.c b/drivers/iommu/iommufd/main.c
-index 3df468f64e7d..c38303df536f 100644
---- a/drivers/iommu/iommufd/main.c
-+++ b/drivers/iommu/iommufd/main.c
-@@ -172,6 +172,11 @@ int iommufd_object_remove(struct iommufd_ctx *ictx,
- 		ictx->vfio_ioas =3D NULL;
- 	xa_unlock(&ictx->objects);
-=20
-+	if (obj->type =3D=3D IOMMUFD_OBJ_DEVICE) {
-+		/* idevice should be freed with lock held */
-+		struct iommufd_device *idev =3D container_of(obj, struct iommufd_device,=
- obj);
-+		mutex_unlock(&idev->lock);
-+	}
- 	/*
- 	 * Since users is zero any positive users_shortterm must be racing
- 	 * iommufd_put_object(), or we have a bug.
-diff --git a/drivers/iommu/iommufd/viommu.c b/drivers/iommu/iommufd/viommu.c
-index 01df2b985f02..17f189bc9e2c 100644
---- a/drivers/iommu/iommufd/viommu.c
-+++ b/drivers/iommu/iommufd/viommu.c
-@@ -84,15 +84,24 @@ int iommufd_viommu_alloc_ioctl(struct iommufd_ucmd *ucm=
-d)
- 	return rc;
- }
-=20
-+/* This will be called from iommufd_device_unbind  */
- void iommufd_vdevice_destroy(struct iommufd_object *obj)
- {
- 	struct iommufd_vdevice *vdev =3D
- 		container_of(obj, struct iommufd_vdevice, obj);
- 	struct iommufd_viommu *viommu =3D vdev->viommu;
-+	struct iommufd_device *idev =3D vdev->idev;
-+
-+	/*
-+	 * since we have an refcount on idev, it can't be freed.
-+	 */
-+	lockdep_assert_held(&idev->lock);
-=20
- 	/* xa_cmpxchg is okay to fail if alloc failed xa_cmpxchg previously */
- 	xa_cmpxchg(&viommu->vdevs, vdev->id, vdev, NULL, GFP_KERNEL);
- 	refcount_dec(&viommu->obj.users);
-+	idev->vdev =3D NULL;
-+	refcount_dec(&idev->obj.users);
- 	put_device(vdev->dev);
- }
-=20
-@@ -124,10 +133,15 @@ int iommufd_vdevice_alloc_ioctl(struct iommufd_ucmd *=
-ucmd)
- 		goto out_put_idev;
- 	}
-=20
-+	mutex_lock(&idev->lock);
-+	if (idev->vdev) {
-+		rc =3D -EINVAL;
-+		goto out_put_idev_unlock;
-+	}
- 	vdev =3D iommufd_object_alloc(ucmd->ictx, vdev, IOMMUFD_OBJ_VDEVICE);
- 	if (IS_ERR(vdev)) {
- 		rc =3D PTR_ERR(vdev);
--		goto out_put_idev;
-+		goto out_put_idev_unlock;
- 	}
-=20
- 	vdev->id =3D virt_id;
-@@ -147,10 +161,18 @@ int iommufd_vdevice_alloc_ioctl(struct iommufd_ucmd *=
-ucmd)
- 	if (rc)
- 		goto out_abort;
- 	iommufd_object_finalize(ucmd->ictx, &vdev->obj);
--	goto out_put_idev;
-+	/* don't allow idev free without vdev free */
-+	refcount_inc(&idev->obj.users);
-+	vdev->idev =3D idev;
-+	/* vdev lifecycle now managed by idev */
-+	idev->vdev =3D vdev;
-+	refcount_inc(&vdev->obj.users);
-+	goto out_put_idev_unlock;
-=20
- out_abort:
- 	iommufd_object_abort_and_destroy(ucmd->ictx, &vdev->obj);
-+out_put_idev_unlock:
-+	mutex_unlock(&idev->lock);
- out_put_idev:
- 	iommufd_put_object(ucmd->ictx, &idev->obj);
- out_put_viommu:
+Only if those 3 conditions are met, we mark the patch as
+not-applicable and send an email to media-maintainers about that to
+avoid false positives.
+
+>
+> Please notice, however, that the title is not enough to classify
+> it as userspace. See, for instance the contributions we receive for
+> DTV tables like this one:
+>
+>         - https://lore.kernel.org/linux-media/846e7968-292d-5e96-b2a4-1e2e6b131fe3@tutr.cz/
+>
+> This is not the first and probably won't be the last time we see
+> things like that. So, in doubt, media-ci should not tag a patch
+> if it can't verify that the patch is for the Kernel.
+>
+> > >
+> > > I can add a comment in the media-ci email. Something like:
+> > >
+> > > I could not apply your series. Maybe it is for v4l-utils, if so,
+> > > please check  http://XXXX/CONTRIBUTE.md
+>
+> Makes sense, but see: currently we maintain v4l-utils, dtv-scan-tables,
+> tvtime, xawtv3 and xawtv4 userspace tools.
+>
+> The number of patches for the last three are really low, but when
+> we have patches there they are important, as they're usually
+> bug fixes made by distro maintainers. We should not miss those.
+
+Nothing changes for those, they will still be in patchwork with "new" tag.
+
+
+>
+> Regards,
+> Mauro
+
+
+
+-- 
+Ricardo Ribalda
 
