@@ -1,304 +1,325 @@
-Return-Path: <linux-media+bounces-34211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34212-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F05ACFF31
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 11:21:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F701ACFF49
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 11:28:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B950C189742F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 09:21:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B549D1894E5A
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 09:29:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0419C286423;
-	Fri,  6 Jun 2025 09:21:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC717286898;
+	Fri,  6 Jun 2025 09:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="W8wJm07W"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mP24ZOSM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61DD81724;
-	Fri,  6 Jun 2025 09:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749201686; cv=pass; b=iSJe45TA5Nj7p9/isJdWipju7JYFU6aHXRYffm9E6Qu8HWdlZ0SJNl98aeHaQ4MhevURIRXm++7zdd30w+wOcvCrsjTFUZqyNSZpecaB9NT+ToHMgF8Hba+7WT0VANlGYW638UBfsuqQqt1T7p5iXMwsSW90oJlSOBXvkDZm+TQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749201686; c=relaxed/simple;
-	bh=GugbZYbEvAHaBXa7LVeFX8vlO872b4kfQdwQIKwxZ3g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=drQMil05bvTSILsq0JQcW1zFgw+a+kZaZjBZhO1P8D7F50THXg7mvk9A+Q+u15oaHHdkNvpIZrRFLOgRNJkXr8Qznbpki/U+fZqzedlKfePDnAEd7lbUh6/L4hIoi5OsRd33MAqiv/2unYykpJMlaSaHuZvMBCUe15H1iBGV1So=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=W8wJm07W; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1749201641; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=nzyi95xiWzKt7OEWNMu5E1KNY8xSywTW3tCv/p2angM74H2VjK0l6cbeNJWJ298VXE7X8qYjpszF1k+9cLAUZnXcSPsylxdVB6jKDzxMFOi3rEANEhgfpXRivoGUGb2Bzq+8eirOQzcXeytyn2AA1mB0mmahTO0sGrvnbHaiu3E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1749201641; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Eoma7VE8zBbmkSZqRjLMFcnJ8YljGbTiLj0UCYHlAT0=; 
-	b=PYsKU8X6p5fkEcHAFY8hlJOChD0WTG2oFUF6dsPpoAub/HSlPcMGhQdGYVX7EJwOtdBNLoZaoH9hzSqgzk3yywmYW8Sqm4sugBU/aOlny78itsBEeRdKUCyDY5D45cUGg7hoV0LlsQ60X7a8LINU/Ea8tCGFVrBv+2iVym6sExQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749201641;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=Eoma7VE8zBbmkSZqRjLMFcnJ8YljGbTiLj0UCYHlAT0=;
-	b=W8wJm07WNGiJ+m+LKUqIbkD+PnponFs4yfkz+c5LhNxgQTrGWgD7GObZMUFK2rHN
-	eAeAOERA46ia74rvkmi7fOdLbdUXrwC/DmHL2Phu0cOV4JgkxWyYRz0RvPiRqJ82eG+
-	WDOBXxat9J8zN2lJLvUoTx64SvX1iBC6QBVLgXV4=
-Received: by mx.zohomail.com with SMTPS id 1749201638651978.6010401659372;
-	Fri, 6 Jun 2025 02:20:38 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: Re: [PATCH v7 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
-Date: Fri, 06 Jun 2025 11:20:32 +0200
-Message-ID: <6946302.MhkbZ0Pkbq@workhorse>
-In-Reply-To: <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
-References:
- <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3791D27468
+	for <linux-media@vger.kernel.org>; Fri,  6 Jun 2025 09:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749202111; cv=none; b=ohszTQescoEWE+DnUTO2RxrCuruuNwFAULwgMfgbUBGCZmlRqT5wP2YBwbXJbt8CIWOjlgia8A66g619mBYOHbEIbSnLR/IQQzEjNZHn+OQYGBvaZbWpWwMqdHU3K+KJyYtQ/m5nPkuvqog1MD3DJcIbKHYa77FOyE0MKwgbgwc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749202111; c=relaxed/simple;
+	bh=0doAiajRRvvEMk5cGmmO3oLLBcTxRUG2QibubLx7Mco=;
+	h=From:Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:
+	 References:In-Reply-To; b=adPVmpnJrk1kPRdbyiEc1B7BJt+Lc65noynvrS6skzoXrjPbitDiGJFcyNpQvGYo3evvXlmVtKaYSPas7zmHxGM8fLY48Eyf9lRgoW2OZjiu2SnVj2m60PV4TzEBD/VUOKidemBoL0XtU9UL81VQHHr7YXlds4AmSfyIHdTETv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mP24ZOSM; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a5257748e1so1366809f8f.2
+        for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 02:28:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749202107; x=1749806907; darn=vger.kernel.org;
+        h=in-reply-to:references:to:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LlmfCFjMuzs1N1lUzyEgna955CGY1iJJdCz7vJgm8m8=;
+        b=mP24ZOSMjp/ksgs+stvawhAHaJ48FZONNmdJK/HJP6kBZnqvdSm6BNIfnPceSKTe3R
+         jQTlTiFGDitX4nd0MrCBeXO72Kqzn0VZiye+S34Hc+RYQlKaYoxSqLwbeN3eMRMwgKjM
+         u6r3ttFaKLzebYOFGTBLzb6Ew/e2N2K2TLQiEyIAe7UGrt/LzjzM9jE2bY3DFxnqYKhT
+         yjWQckfR28xW0oLCx0MRdj6WjSC/Ao+LDB3OG9qvZwQ4wvlYvxvgOhVmlrjwKSPmann6
+         47+FhXImX4axI/f57Tz1AOpkLyrziPmraI6NRRJypVhld5z/QJIU2CLEb+ph3DkRHgR4
+         yvCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749202107; x=1749806907;
+        h=in-reply-to:references:to:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LlmfCFjMuzs1N1lUzyEgna955CGY1iJJdCz7vJgm8m8=;
+        b=e5t6FI9MZmTninMQ66qWfC4FGczyVXOVr/e64hWzgVVrVnmec1ts4Sn5+kgcs3lq03
+         Udl3tI2dapacss1NJptEytE49GHCrxY674SunB6J2KLoabAq9hCNffNdWav5268X6j/M
+         q10DUziIdMnvKEcFPyPmuQTQXqpEHBr+9vA0DXlO4zgKk0UwUxziZ2Xi/Ezbms/OMF2I
+         EAs1ApL+q6FOgH7XNzmXxYcZ/cbV8O5aMGnIQG/L95Vrcq1v24dohg5kGp7DURWeF0MA
+         v8g69Ywr3lfQA0Vh/o+2aplV/941QX8jZw/gNkGM0efNZo7iOnbeZsUjxzRPLFFVhahi
+         mkJg==
+X-Forwarded-Encrypted: i=1; AJvYcCXV5wPKsGiL5XfhbM9C4Hg9L/hlfe5yfGoFXYORNQljg4nlm6f9sQluoJtRSgk4JaRYOWsZTNFEosZ6qw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwucAYVNQ0tySPRLONJxbvaJqMdFW+kzvAiYIQLst6fvgSUGVKM
+	14k7ZqEMIzZdZ3+SlnpnqEx0GPGZ9RuBDXYmq7xUg55FGDjtfaX07gHU
+X-Gm-Gg: ASbGncshKZgETtv7D679AvKZEkm/+nJiJI0rZNLJivnJVXwbAwzGkQx7rdIehKqYUAE
+	qYo0rw1ZcYsnoXdFe4zx+bdgK3q7TVnW/bI8xLlZOe7X/cTgWZRHIeHKfTjbhKeYQ03eI3lgpTp
+	farnU0lsZIcW25wzTMGvgaUFJTChmE4UBuvhfXSGCYvaRFNC2RjQN860B0xVpCADnVGmzKpPjGv
+	ELFD4oxDRcKLEgmVkWpb/8URtCeXug3Uuj9nquPyANsAaVgHNm/5nF24UwQyL1BIzc+ZSaLBvvo
+	Si3ai5XPagl1OChitpHZT1lQgBgH7LA5VoUJ3kLmTBz1/eIQRnP+n2FaW+HJ7EKSOGHwTcKaf8s
+	YoWo=
+X-Google-Smtp-Source: AGHT+IFXqDfgMTtfe8cy9h2sP2ZJe7Kh/xgvxpDhb7elUjTlSiIFsinjlxm/PD0rKLcQuBTqLIbUqw==
+X-Received: by 2002:a05:6000:250f:b0:3a4:d02e:84af with SMTP id ffacd0b85a97d-3a5319b5ca5mr2268379f8f.58.1749202107146;
+        Fri, 06 Jun 2025 02:28:27 -0700 (PDT)
+Received: from localhost (a95-94-245-170.cpe.netcabo.pt. [95.94.245.170])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a5323c0819sm1302118f8f.45.2025.06.06.02.28.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 02:28:26 -0700 (PDT)
+From: Rui Miguel Silva <rmfrfs@gmail.com>
+X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Jun 2025 10:28:25 +0100
+Message-Id: <DAFCE9SLVTFF.2T9D30I3PYO02@linaro.com>
+Cc: "Rui Miguel Silva" <rmfrfs@gmail.com>, "Martin Kepplinger"
+ <martink@posteo.de>, "Purism Kernel Team" <kernel@puri.sm>, "Stefan Klug"
+ <stefan.klug@ideasonboard.com>, <imx@lists.linux.dev>
+Subject: Re: [PATCH] media: imx-mipi-csis: Use CSI-2 data type macros from
+ mipi-csi2.h
+To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+ <linux-media@vger.kernel.org>
+References: <20250606090533.10711-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20250606090533.10711-1-laurent.pinchart@ideasonboard.com>
 
-Hi Tomeu,
+Hey Laurent,
+On Fri Jun 6, 2025 at 10:05 AM WEST, Laurent Pinchart wrote:
 
-On Friday, 6 June 2025 08:28:30 Central European Summer Time Tomeu Vizoso wrote:
-> From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> 
-> The NPU on the ROCK5B uses the same regulator for both the sram-supply
-> and the npu's supply. Add this regulator, and enable all the NPU bits.
-> Also add the regulator as a domain-supply to the pd_npu power domain.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> The imx-mipi-csis defines custom macros for the CSI-2 data types,
+> duplicating the centralized macros defines in mipi-csi2.h. Replace them
+> with the latter.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+All looks good.
+Thanks.
+
+Reviewed-by: Rui Miguel Silva <rui.silva@linaro.org>
+
+Cheers,
+   Rui
 > ---
->  arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 56 +++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> index d22068475c5dc6cb885f878f3f527a66edf1ba70..49500f7cbcb14af4919a6c1997e9e53a01d84973 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> @@ -316,6 +316,28 @@ regulator-state-mem {
->  	};
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 68 ++++++++--------------
+>  1 file changed, 25 insertions(+), 43 deletions(-)
+>
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/p=
+latform/nxp/imx-mipi-csis.c
+> index d060eadebc7a..2beb5f43c2c0 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -28,6 +28,7 @@
+>  #include <linux/reset.h>
+>  #include <linux/spinlock.h>
+> =20
+> +#include <media/mipi-csi2.h>
+>  #include <media/v4l2-common.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+> @@ -229,25 +230,6 @@
+> =20
+>  #define DEFAULT_SCLK_CSIS_FREQ			166000000UL
+> =20
+> -/* MIPI CSI-2 Data Types */
+> -#define MIPI_CSI2_DATA_TYPE_YUV420_8		0x18
+> -#define MIPI_CSI2_DATA_TYPE_YUV420_10		0x19
+> -#define MIPI_CSI2_DATA_TYPE_LE_YUV420_8		0x1a
+> -#define MIPI_CSI2_DATA_TYPE_CS_YUV420_8		0x1c
+> -#define MIPI_CSI2_DATA_TYPE_CS_YUV420_10	0x1d
+> -#define MIPI_CSI2_DATA_TYPE_YUV422_8		0x1e
+> -#define MIPI_CSI2_DATA_TYPE_YUV422_10		0x1f
+> -#define MIPI_CSI2_DATA_TYPE_RGB565		0x22
+> -#define MIPI_CSI2_DATA_TYPE_RGB666		0x23
+> -#define MIPI_CSI2_DATA_TYPE_RGB888		0x24
+> -#define MIPI_CSI2_DATA_TYPE_RAW6		0x28
+> -#define MIPI_CSI2_DATA_TYPE_RAW7		0x29
+> -#define MIPI_CSI2_DATA_TYPE_RAW8		0x2a
+> -#define MIPI_CSI2_DATA_TYPE_RAW10		0x2b
+> -#define MIPI_CSI2_DATA_TYPE_RAW12		0x2c
+> -#define MIPI_CSI2_DATA_TYPE_RAW14		0x2d
+> -#define MIPI_CSI2_DATA_TYPE_USER(x)		(0x30 + (x))
+> -
+>  struct mipi_csis_event {
+>  	bool debug;
+>  	u32 mask;
+> @@ -357,116 +339,116 @@ static const struct csis_pix_format mipi_csis_for=
+mats[] =3D {
+>  	{
+>  		.code =3D MEDIA_BUS_FMT_UYVY8_1X16,
+>  		.output =3D MEDIA_BUS_FMT_UYVY8_1X16,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_YUV422_8,
+> +		.data_type =3D MIPI_CSI2_DT_YUV422_8B,
+>  		.width =3D 16,
+>  	},
+>  	/* RGB formats. */
+>  	{
+>  		.code =3D MEDIA_BUS_FMT_RGB565_1X16,
+>  		.output =3D MEDIA_BUS_FMT_RGB565_1X16,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RGB565,
+> +		.data_type =3D MIPI_CSI2_DT_RGB565,
+>  		.width =3D 16,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_BGR888_1X24,
+>  		.output =3D MEDIA_BUS_FMT_RGB888_1X24,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RGB888,
+> +		.data_type =3D MIPI_CSI2_DT_RGB888,
+>  		.width =3D 24,
+>  	},
+>  	/* RAW (Bayer and greyscale) formats. */
+>  	{
+>  		.code =3D MEDIA_BUS_FMT_SBGGR8_1X8,
+>  		.output =3D MEDIA_BUS_FMT_SBGGR8_1X8,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
+> +		.data_type =3D MIPI_CSI2_DT_RAW8,
+>  		.width =3D 8,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SGBRG8_1X8,
+>  		.output =3D MEDIA_BUS_FMT_SGBRG8_1X8,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
+> +		.data_type =3D MIPI_CSI2_DT_RAW8,
+>  		.width =3D 8,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SGRBG8_1X8,
+>  		.output =3D MEDIA_BUS_FMT_SGRBG8_1X8,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
+> +		.data_type =3D MIPI_CSI2_DT_RAW8,
+>  		.width =3D 8,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SRGGB8_1X8,
+>  		.output =3D MEDIA_BUS_FMT_SRGGB8_1X8,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
+> +		.data_type =3D MIPI_CSI2_DT_RAW8,
+>  		.width =3D 8,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_Y8_1X8,
+>  		.output =3D MEDIA_BUS_FMT_Y8_1X8,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
+> +		.data_type =3D MIPI_CSI2_DT_RAW8,
+>  		.width =3D 8,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SBGGR10_1X10,
+>  		.output =3D MEDIA_BUS_FMT_SBGGR10_1X10,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
+> +		.data_type =3D MIPI_CSI2_DT_RAW10,
+>  		.width =3D 10,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SGBRG10_1X10,
+>  		.output =3D MEDIA_BUS_FMT_SGBRG10_1X10,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
+> +		.data_type =3D MIPI_CSI2_DT_RAW10,
+>  		.width =3D 10,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SGRBG10_1X10,
+>  		.output =3D MEDIA_BUS_FMT_SGRBG10_1X10,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
+> +		.data_type =3D MIPI_CSI2_DT_RAW10,
+>  		.width =3D 10,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SRGGB10_1X10,
+>  		.output =3D MEDIA_BUS_FMT_SRGGB10_1X10,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
+> +		.data_type =3D MIPI_CSI2_DT_RAW10,
+>  		.width =3D 10,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_Y10_1X10,
+>  		.output =3D MEDIA_BUS_FMT_Y10_1X10,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
+> +		.data_type =3D MIPI_CSI2_DT_RAW10,
+>  		.width =3D 10,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SBGGR12_1X12,
+>  		.output =3D MEDIA_BUS_FMT_SBGGR12_1X12,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
+> +		.data_type =3D MIPI_CSI2_DT_RAW12,
+>  		.width =3D 12,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SGBRG12_1X12,
+>  		.output =3D MEDIA_BUS_FMT_SGBRG12_1X12,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
+> +		.data_type =3D MIPI_CSI2_DT_RAW12,
+>  		.width =3D 12,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SGRBG12_1X12,
+>  		.output =3D MEDIA_BUS_FMT_SGRBG12_1X12,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
+> +		.data_type =3D MIPI_CSI2_DT_RAW12,
+>  		.width =3D 12,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SRGGB12_1X12,
+>  		.output =3D MEDIA_BUS_FMT_SRGGB12_1X12,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
+> +		.data_type =3D MIPI_CSI2_DT_RAW12,
+>  		.width =3D 12,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_Y12_1X12,
+>  		.output =3D MEDIA_BUS_FMT_Y12_1X12,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
+> +		.data_type =3D MIPI_CSI2_DT_RAW12,
+>  		.width =3D 12,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SBGGR14_1X14,
+>  		.output =3D MEDIA_BUS_FMT_SBGGR14_1X14,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW14,
+> +		.data_type =3D MIPI_CSI2_DT_RAW14,
+>  		.width =3D 14,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SGBRG14_1X14,
+>  		.output =3D MEDIA_BUS_FMT_SGBRG14_1X14,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW14,
+> +		.data_type =3D MIPI_CSI2_DT_RAW14,
+>  		.width =3D 14,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SGRBG14_1X14,
+>  		.output =3D MEDIA_BUS_FMT_SGRBG14_1X14,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW14,
+> +		.data_type =3D MIPI_CSI2_DT_RAW14,
+>  		.width =3D 14,
+>  	}, {
+>  		.code =3D MEDIA_BUS_FMT_SRGGB14_1X14,
+>  		.output =3D MEDIA_BUS_FMT_SRGGB14_1X14,
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW14,
+> +		.data_type =3D MIPI_CSI2_DT_RAW14,
+>  		.width =3D 14,
+>  	},
+>  	/* JPEG */
+> @@ -494,7 +476,7 @@ static const struct csis_pix_format mipi_csis_formats=
+[] =3D {
+>  		 * SoC that can support quad pixel mode, this will have to be
+>  		 * revisited.
+>  		 */
+> -		.data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
+> +		.data_type =3D MIPI_CSI2_DT_RAW8,
+>  		.width =3D 8,
+>  	}
 >  };
->  
-> +&i2c1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&i2c1m2_xfer>;
-> +	status = "okay";
-> +
-> +	vdd_npu_s0: regulator@42 {
-> +		compatible = "rockchip,rk8602";
-> +		reg = <0x42>;
-> +		fcs,suspend-voltage-selector = <1>;
-> +		regulator-name = "vdd_npu_s0";
-> +		regulator-boot-on;
-> +		regulator-min-microvolt = <550000>;
-> +		regulator-max-microvolt = <950000>;
-> +		regulator-ramp-delay = <2300>;
-> +		vin-supply = <&vcc5v0_sys>;
-> +
-> +		regulator-state-mem {
-> +			regulator-off-in-suspend;
-> +		};
-> +	};
-> +};
-> +
->  &i2c6 {
->  	status = "okay";
->  
-> @@ -440,6 +462,10 @@ &pd_gpu {
->  	domain-supply = <&vdd_gpu_s0>;
->  };
->  
-> +&pd_npu {
-> +	domain-supply = <&vdd_npu_s0>;
-> +};
-> +
->  &pinctrl {
->  	hdmirx {
->  		hdmirx_hpd: hdmirx-5v-detection {
-> @@ -500,6 +526,36 @@ &pwm1 {
->  	status = "okay";
->  };
->  
-> +&rknn_core_top {
-> +	npu-supply = <&vdd_npu_s0>;
-> +	sram-supply = <&vdd_npu_s0>;
-> +	status = "okay";
-> +};
-> +
-> +&rknn_core_1 {
-> +	npu-supply = <&vdd_npu_s0>;
-> +	sram-supply = <&vdd_npu_s0>;
-> +	status = "okay";
-> +};
-> +
-> +&rknn_core_2 {
-> +	npu-supply = <&vdd_npu_s0>;
-> +	sram-supply = <&vdd_npu_s0>;
-> +	status = "okay";
-> +};
-> +
-> +&rknn_mmu_top {
-> +	status = "okay";
-> +};
-> +
-> +&rknn_mmu_1 {
-> +	status = "okay";
-> +};
-> +
-> +&rknn_mmu_2 {
-> +	status = "okay";
-> +};
-> +
->  &saradc {
->  	vref-supply = <&avcc_1v8_s0>;
->  	status = "okay";
-> 
-> 
-
-Feel free to replace this patch with the following, if your series is
-based on linux-next or v6.16. It moves the enablement into the new
-shared ROCK 5B/5B+ dtsi, and I've added a regulator-enable-ramp-delay
-while I was at it because I've run into hard-to-reproduce problems
-relating to it before that Heiko quickly identified and fixed in his
-recent series[1] for basically all already present regulators. Remains
-to be seen if the final patch lands in that form but this should make
-it easier for people to try out as it means a bad luck roll for the
-day won't make them run into as many weird issues.
-
-[1]: https://lore.kernel.org/all/20250605185001.377055-1-heiko@sntech.de/
-
----
-From ff1c370a158f4340aa5dfa4ed5034e815e5371be Mon Sep 17 00:00:00 2001
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 3 Jun 2025 17:03:10 +0200
-Subject: [PATCH] arm64: dts: rockchip: enable NPU on ROCK 5B/+
-
-The NPU on the ROCK5B uses the same regulator for both the sram-supply
-and the npu's supply. Add this regulator, and enable all the NPU bits.
-Also add the regulator as a domain-supply to the pd_npu power domain.
-
-The 5B+'s regulator setup is identical to the 5B in this regard, so it
-goes in the shared .dtsi.
-
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- .../boot/dts/rockchip/rk3588-rock-5b.dtsi     | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-index 51e83f0ed809..5a20cc2555fb 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-@@ -332,6 +332,29 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c1m2_xfer>;
-+	status = "okay";
-+
-+	vdd_npu_s0: regulator@42 {
-+		compatible = "rockchip,rk8602";
-+		reg = <0x42>;
-+		fcs,suspend-voltage-selector = <1>;
-+		regulator-name = "vdd_npu_s0";
-+		regulator-boot-on;
-+		regulator-enable-ramp-delay = <500>;
-+		regulator-min-microvolt = <550000>;
-+		regulator-max-microvolt = <950000>;
-+		regulator-ramp-delay = <2300>;
-+		vin-supply = <&vcc5v0_sys>;
-+
-+		regulator-state-mem {
-+			regulator-off-in-suspend;
-+		};
-+	};
-+};
-+
- &i2c3 {
- 	status = "okay";
- };
-@@ -521,6 +544,10 @@ &pd_gpu {
- 	domain-supply = <&vdd_gpu_s0>;
- };
- 
-+&pd_npu {
-+	domain-supply = <&vdd_npu_s0>;
-+};
-+
- &pinctrl {
- 	hdmirx {
- 		hdmirx_hpd: hdmirx-5v-detection {
-@@ -585,6 +612,36 @@ &pwm1 {
- 	status = "okay";
- };
- 
-+&rknn_core_top {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_1 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_2 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_mmu_top {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_1 {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_2 {
-+	status = "okay";
-+};
-+
- &saradc {
- 	vref-supply = <&avcc_1v8_s0>;
- 	status = "okay";
--- 
-2.49.0
-
+> @@ -583,7 +565,7 @@ static void __mipi_csis_set_format(struct mipi_csis_d=
+evice *csis,
+>  	 *
+>  	 * TODO: Verify which other formats require DUAL (or QUAD) modes.
+>  	 */
+> -	if (csis_fmt->data_type =3D=3D MIPI_CSI2_DATA_TYPE_YUV422_8)
+> +	if (csis_fmt->data_type =3D=3D MIPI_CSI2_DT_YUV422_8B)
+>  		val |=3D MIPI_CSIS_ISPCFG_PIXEL_MODE_DUAL;
+> =20
+>  	val |=3D MIPI_CSIS_ISPCFG_FMT(csis_fmt->data_type);
+>
+> base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
+> --=20
+> Regards,
+>
+> Laurent Pinchart
 
 
 
