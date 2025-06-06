@@ -1,288 +1,249 @@
-Return-Path: <linux-media+bounces-34254-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34255-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E317AD0378
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 15:50:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEF1AD0391
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 15:56:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B8F5188C897
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 13:50:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3EC76174BB2
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 13:56:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58208289355;
-	Fri,  6 Jun 2025 13:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61BCC289375;
+	Fri,  6 Jun 2025 13:56:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="a8zuBiKz";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CBJYgtjB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJrGDiwm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A893627F164;
-	Fri,  6 Jun 2025 13:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46EE288509;
+	Fri,  6 Jun 2025 13:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749217808; cv=none; b=PysgEGf3DzXG9vVMjLmp48+lWzkcghET5kwjodtbux2u0/yvC6cGLxsLG7voo7AaIPiTnGOo/oc17twLJ/yfJLDgogTZiWpUdqsCtsXk0pZ78oEjn983uZcFmIpTGTVRJXVVKFKDmtXWCsUFxEZEwuAVgAv0wvA0RoBM/uNs8eA=
+	t=1749218175; cv=none; b=aKEFGMtmFXm/9qGYyLhXwsWYCyGlLl3c4qCz5f4Zv298wW2W+q9f/Ek5mLi9s79DfjkpDjwdHkhXrC59wKSXGpR2Z5u2LZ8syyyUXKSJqwroes6Bxd+AiyvSk9sC1xiQBEUkpEBQhrKyPKIdHBFRBbaVnpKoWJZvaGACZvYYe1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749217808; c=relaxed/simple;
-	bh=BJtfLKecF/RWfc70ZA5nuYLVt2qw2mEGJ/wEummRuJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kYJ96BdnWqqKE/IRTPCzlIro/iIuHPWGb7LryEsgZRASZqglO/h3XzkBgTPzVFBnbA/6t1w6FcElLCCJuIZBX+U9LTt8KGkc8bIBmLbj02F0Grx541AK1Rms6n+rvjqrZgjBWGV4B4gpufe5sjKjDeeHRtV5O49+YWik6w8TOxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=a8zuBiKz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CBJYgtjB; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 8E5CA1140171;
-	Fri,  6 Jun 2025 09:50:04 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Fri, 06 Jun 2025 09:50:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749217804;
-	 x=1749304204; bh=IyOTe7TBSOQSImzV0o1rLeUe4+AwL6jZftlfZsIs8JY=; b=
-	a8zuBiKzQvTN+pXgeuDtBIBbq++zB2R/PiLD3c6DzUEAF/zo3M3acT0R2xO2bhND
-	9MTgSK7mKllKUm5OBSFl//Ftjp+M7iLUYoHkXUdNUITDST+GwleeHgcp1XqIFVUU
-	08kEsuQ95kcJhnHaz2lwmJjnDeOjsW9DKqbKVXxL+kfnpqMWn3de3Cgm9cQPMjZG
-	GGLfHYqHpwi9YQMLVqMLUat7eXwqtIkn3qjjlt4pXS99mjSngSLpHoms20QN4482
-	a6NgRB3Wa+qdP7/I6AKgf+jxh2hd2m0tX91h8MwbsTkSB5BY5SiWUNAmjIREWTsK
-	OWnxcVXumJv6cGPim5WJsQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749217804; x=
-	1749304204; bh=IyOTe7TBSOQSImzV0o1rLeUe4+AwL6jZftlfZsIs8JY=; b=C
-	BJYgtjBdi8Vd7LfCAAeAeWsbTDit1VXj8o/gE9igtmpfdKH9h1RU6k5k1g6eSfSs
-	CRU9GYeUxTGL4Uy0EpS9+SHvz9Tk5Jl+RYRV9gn0QS9NWJMbqa0lPs5W8Zxe6LOX
-	1yIT87gNzC9V/4apHXoQXOY8rqi8NwiDh9TfbLgl8bjEgcmKm6xSWxJwc9/8Uh/2
-	gV6lqZWLCuccOCb5xE2nQlgFvbV6IOqpmbNB14gu9je/Ib1EJ/Tn0uyA4qw/4Sr8
-	WnZ5Yfdhvz+NFmUJXIYtJkwoxrmVPUVDQ9WGwUj2CfExS2QGwmxGyuDjKMOCn2ik
-	X7ARja/bV/52oAUOaqAVw==
-X-ME-Sender: <xms:DPJCaKKRI3b2qvYpM5gpqBEw_LqmgjKhJ_GkrIkNq9TCnlDPNQkimg>
-    <xme:DPJCaCKqSkcj_F2B9cNEsIJ3sArDq2dbge9WxqwMxkdZ9NC0gJE9Nlqj-cw_ERABa
-    tOfKCSk-oG6TqJLGi0>
-X-ME-Received: <xmr:DPJCaKtUXbrYnxVcxIRn93CEPHPG-1Dxce1zzd4YL9jUzWicIi5j8JsUfTpj8_rvWDlXmNWBif9UGx6YDs-IMYLYTfgz3VxaVw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehudejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
-    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
-    gvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehs
-    rghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhope
-    hmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgrlhhk
-    vghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpth
-    htoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtgho
-    mhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghr
-    nhgvlhdrohhrgh
-X-ME-Proxy: <xmx:DPJCaPYaVtAfuB_Z4Bhn45FLKbg-yVZO4g2LKMfRbtCvb7GG16ZZKw>
-    <xmx:DPJCaBZD7ntu1Zqr1Fl-CGhITe9VLYuwR345lTQA2kMUPaqPrP-MIw>
-    <xmx:DPJCaLDw5kHdtoGJfq5Ror4Ptp4AcIO8WXaUdYnXRBPKVcNIXO93Mg>
-    <xmx:DPJCaHYscIBYmXKIy6hxAUPHNQSkxpCog_riWjwT8eQT2pNTH711Cg>
-    <xmx:DPJCaJ3q9pej1ZN811QcIqXRaHQ_8TFf1efqISPoHuAa5X-JltcBqV2X>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Jun 2025 09:50:03 -0400 (EDT)
-Date: Fri, 6 Jun 2025 15:50:00 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] media: rcar-vin: Prepare for unifying all
- v4l-async notifiers
-Message-ID: <20250606135000.GA2780410@ragnatech.se>
-References: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
- <20250521132037.1463746-5-niklas.soderlund+renesas@ragnatech.se>
- <aDVjW_k_keyFQbPT@kekkonen.localdomain>
+	s=arc-20240116; t=1749218175; c=relaxed/simple;
+	bh=qN+pnPVxT4gL2Vpc8rdlce79GZAw4gPEct3l5HddHvM=;
+	h=From:Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:
+	 References:In-Reply-To; b=cPAmAe4ipbr2rN2UOIdHdzml649/yybLKd7x3Dtpx+RgFO0Kl9YJPvTXcrYFf43p+xgQJp0/CLliIjUBl8K16gZmxAsdmemlvQ2g54CniNO96ud+ejyip4FWCJCLp5C8P8qcY7zx2lqd34scxoojFehxp1swuf7nlZtXUbbev0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJrGDiwm; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a522224582so1316835f8f.3;
+        Fri, 06 Jun 2025 06:56:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749218172; x=1749822972; darn=vger.kernel.org;
+        h=in-reply-to:references:to:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D02VVevmOF3cQxFCCzf3uOD2IZ0DFegRFrqZJe6cxu4=;
+        b=GJrGDiwmI/jJFLi2Vx6vPmO6jV9AYnGaSS/6u7GiWShRmEd7quD1EjVbieAg7cM91J
+         p25iNtOeYZpdyOEP7PuDdxtLQ5C0f4nTb++qZInWzo9gvYTtuxiK+cGlP78GFMHXdsi2
+         gnmZsw6jk6UeaI6kCd9PEUPyxBFJVhg//QoD9t1mTYo7NWcpI3/NPtuvfh2MaQO11sp8
+         KeAK7PyeFo7dr5J0Xf5ZNpEsT4swbL+DoAfuSr0lJJ3IWd81EgQS9MNWOYGRfIZfkVf1
+         z4ob/PZnnVBI6cYo79emGsrEnjRqI5pmVQ1FwYow5pX78gK9hy4npLz4EhvyMOeL2DkV
+         WBAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749218172; x=1749822972;
+        h=in-reply-to:references:to:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=D02VVevmOF3cQxFCCzf3uOD2IZ0DFegRFrqZJe6cxu4=;
+        b=TprQoFvNgfcOAfaGyvuF1isCAryoegyUieIuvypfovCECuebTkzIeEcADhSg3SqP3T
+         N4X5b7ZtI8RVXCDtCERus/Om2AOqpHPX830phHrVz4S+qIr6ye+SJs84rzvy4tRzgEr/
+         0iUOq3bLDl7ZDgJPqB04AkfMofXyWiHoqTe35BfyJA/Y9SJ2p1KCLQa2WFszzkbAjSCx
+         prjM3qsLyhV7TR/oiR5I6JEYzqPBSiSSw/4eNEqu2WEhtj1vid5IfbcnTCXHkqyDXrj7
+         1c5jTbrUC90kRZYRqHFJkCj8tJ8gWxQmBwSQjQFjeGjHuKobu3klILcA/0vRh6n/iQpZ
+         JCgA==
+X-Forwarded-Encrypted: i=1; AJvYcCUkJQY1iYGIZUkP/43Mv1+48NWo2hlZGRzZqQgT2pe3Q65xh4MeEeasY+uPDIuDRD4C9kIylo155+OrhJw=@vger.kernel.org, AJvYcCV90iGaHxEplrLu74mQoIqvQBCH/foM6MXRORVUEL6JGmc+tly4S+RVuV1nKWkwDGUH1vjGenuL5bxiRoc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0vTgM4JWvqUCYgkOczAo+PDp7VhLibbsmdrcncken7/K2xOS3
+	lJPi1FHPDA0kWtkGtDnBRXSw3Q8pk85oV4XRY/P1gron9rg6FCSbTlni
+X-Gm-Gg: ASbGncsdetz/lsCbb5Q33l0zq4OzJn8T4TvkhVMZur6JFEHkd9jxNncpzAjN3VQkrNV
+	adfG/j798kp6mO5XlPoQbsNik3iwkLWDKoVXGEAR0Ed11QnOiqF9vfAx6BBkFNjmoOftujIxwx4
+	rf24v/NblmohDgV6TZcIF8p5gzK6/BmmemObovUq0nHRiw5KjUZ0Z5Q0ZVpw7E2m/jDjpi4lBrI
+	auSPTcUtGyqoXjlKDSbZ89Y+wz7OQp3385Wc7oAH77kSuMile7KyNUPidWFWhG9hJMe7+kQtTNc
+	0XAmFsd571dEQa8OrOuvzUrgxqHAqvbX0Rmmbz/ClFrdNwktNwJTq0Y5wny8xya1DDzMMBUCVzK
+	m4QqlpF9Sbs+IKA==
+X-Google-Smtp-Source: AGHT+IH/4Dz7vdItmgmTlnNXWLY79bYjxG+RnGnF5b/cbxCPhJ2PE6r5VIZGSsEVJ0iX7xCVJcwFng==
+X-Received: by 2002:a05:6000:18ac:b0:3a4:ee40:6c85 with SMTP id ffacd0b85a97d-3a531cba357mr3281306f8f.54.1749218171799;
+        Fri, 06 Jun 2025 06:56:11 -0700 (PDT)
+Received: from localhost (a95-94-245-170.cpe.netcabo.pt. [95.94.245.170])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-452730d161csm21907155e9.37.2025.06.06.06.56.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 06:56:11 -0700 (PDT)
+From: Rui Miguel Silva <rmfrfs@gmail.com>
+X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aDVjW_k_keyFQbPT@kekkonen.localdomain>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Jun 2025 14:56:05 +0100
+Message-Id: <DAFI37JD827I.KWPZ7XCTWPBD@linaro.com>
+Cc: <kieran.bingham@ideasonboard.com>, <rmfrfs@gmail.com>,
+ <martink@posteo.de>, <kernel@puri.sm>, <mchehab@kernel.org>,
+ <shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+ <festevam@gmail.com>, <linux-media@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] media: platform: Refactor interrupt status
+ registers
+To: "Isaac Scott" <isaac.scott@ideasonboard.com>,
+ <laurent.pinchart@ideasonboard.com>
+References: <20250606121403.498153-1-isaac.scott@ideasonboard.com>
+ <20250606121403.498153-2-isaac.scott@ideasonboard.com>
+In-Reply-To: <20250606121403.498153-2-isaac.scott@ideasonboard.com>
 
-Hej Sakari,
+Hey Isaac,
+Thanks for the patch.
 
-Thanks for your feedback.
+On Fri Jun 6, 2025 at 1:14 PM WEST, Isaac Scott wrote:
 
-On 2025-05-27 07:01:47 +0000, Sakari Ailus wrote:
-> Hej Niklas,
-> 
-> On Wed, May 21, 2025 at 03:20:35PM +0200, Niklas Söderlund wrote:
-> > The R-Car VIN driver is needless complex and uses more then one
-> 
-> s/needless\K/ly/
-> 
-> > v4l-async notifier to attach to all its subdevices. Prepare for unifying
-> > them by moving rvin_parallel_parse_of() to where it needs to be when
-> > they are unified.
-> > 
-> > The function is moved verbatim and there is no change in behavior.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  .../platform/renesas/rcar-vin/rcar-core.c     | 106 +++++++++---------
-> >  1 file changed, 53 insertions(+), 53 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> > index d9ad56fb2aa9..60ec57d73a12 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> > @@ -337,6 +337,59 @@ static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
-> >  	}
-> >  }
-> >  
-> > +static int rvin_parallel_parse_of(struct rvin_dev *vin)
-> > +{
-> > +	struct fwnode_handle *ep, *fwnode;
-> > +	struct v4l2_fwnode_endpoint vep = {
-> > +		.bus_type = V4L2_MBUS_UNKNOWN,
-> > +	};
-> > +	struct v4l2_async_connection *asc;
-> > +	int ret;
-> > +
-> > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
-> > +	if (!ep)
-> > +		return 0;
-> > +
-> > +	fwnode = fwnode_graph_get_remote_endpoint(ep);
-> > +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> > +	fwnode_handle_put(ep);
-> > +	if (ret) {
-> > +		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
-> > +		ret = -EINVAL;
-> > +		goto out;
-> > +	}
-> > +
-> > +	switch (vep.bus_type) {
-> > +	case V4L2_MBUS_PARALLEL:
-> > +	case V4L2_MBUS_BT656:
-> > +		vin_dbg(vin, "Found %s media bus\n",
-> > +			vep.bus_type == V4L2_MBUS_PARALLEL ?
-> > +			"PARALLEL" : "BT656");
-> > +		vin->parallel.mbus_type = vep.bus_type;
-> > +		vin->parallel.bus = vep.bus.parallel;
-> > +		break;
-> > +	default:
-> > +		vin_err(vin, "Unknown media bus type\n");
-> > +		ret = -EINVAL;
-> > +		goto out;
-> > +	}
-> > +
-> > +	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
-> > +				       struct v4l2_async_connection);
-> 
-> If you use v4l2_async_nf_add_fwnode_remote() here, you can omit
-> fwnode_graph_get_remote_endpoint() call above. Also the error handling
-> becomes more simple.
+> The NXP i.MX 8 MP CSI-2 receiver features multiple interrupt and debug
+> status sources which span multiple registers. The driver currently
+> supports two interrupt source registers, and attributes the
+> mipi_csis_event event entries to those registers through a boolean debug
+> field that indicate if the event relates to the main interrupt status
+> (false) or debug interrupt status (true) register. To make it easier to
+> add new event fields, replace the debug bool with a 'status index'
+> integer than indicates the index of the corresponding status register.
+>
+> Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> ---
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 64 +++++++++++-----------
+>  1 file changed, 31 insertions(+), 33 deletions(-)
+>
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/p=
+latform/nxp/imx-mipi-csis.c
+> index d060eadebc7a..bbc549c22aff 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -249,7 +249,7 @@
+>  #define MIPI_CSI2_DATA_TYPE_USER(x)		(0x30 + (x))
+> =20
+>  struct mipi_csis_event {
+> -	bool debug;
+> +	unsigned int status_index;
+>  	u32 mask;
+>  	const char * const name;
+>  	unsigned int counter;
+> @@ -257,30 +257,30 @@ struct mipi_csis_event {
+> =20
+>  static const struct mipi_csis_event mipi_csis_events[] =3D {
+>  	/* Errors */
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS,		"SOT Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_LOST_FS,		"Lost Frame Start Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_LOST_FE,		"Lost Frame End Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_OVER,		"FIFO Overflow Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_WRONG_CFG,	"Wrong Configuration Error" }=
+,
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_ECC,		"ECC Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_CRC,		"CRC Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_UNKNOWN,		"Unknown Error" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_DT_NOT_SUPPORT,	"Data Type Not Supported=
+" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_DT_IGNORE,	"Data Type Ignored" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_ERR_FRAME_SIZE,	"Frame Size Error" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_TRUNCATED_FRAME,	"Truncated Frame" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_EARLY_FE,	"Early Frame End" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_EARLY_FS,	"Early Frame Start" },
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_SOT_HS,		"SOT Error"},
 
-Indeed it would, but I do use fwnode in the debug print at the end of 
-the function. And I do find that print out use-full when debugging, so I 
-would like to keep it.
+Maybe instead of 0,1,2 (magic indexes)... we could give a meaningful index
+enums names, don't know, like: main, debug, user??? or something that
+you think is better.
 
-Laurent's suggestion of using __free(fwnode_handle) can instead be used 
-to make error handling easier, and since it would be needed for the ep 
-variable anyhow I think I will try that.
+Cheers,
+    Rui
 
-> 
-> > +	if (IS_ERR(asc)) {
-> > +		ret = PTR_ERR(asc);
-> > +		goto out;
-> > +	}
-> > +
-> > +	vin->parallel.asc = asc;
-> > +
-> > +	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
-> > +out:
-> > +	fwnode_handle_put(fwnode);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
-> >  				    unsigned int max_id)
-> >  {
-> > @@ -635,59 +688,6 @@ static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
-> >  	.complete = rvin_parallel_notify_complete,
-> >  };
-> >  
-> > -static int rvin_parallel_parse_of(struct rvin_dev *vin)
-> > -{
-> > -	struct fwnode_handle *ep, *fwnode;
-> > -	struct v4l2_fwnode_endpoint vep = {
-> > -		.bus_type = V4L2_MBUS_UNKNOWN,
-> > -	};
-> > -	struct v4l2_async_connection *asc;
-> > -	int ret;
-> > -
-> > -	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
-> > -	if (!ep)
-> > -		return 0;
-> > -
-> > -	fwnode = fwnode_graph_get_remote_endpoint(ep);
-> > -	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> > -	fwnode_handle_put(ep);
-> > -	if (ret) {
-> > -		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
-> > -		ret = -EINVAL;
-> > -		goto out;
-> > -	}
-> > -
-> > -	switch (vep.bus_type) {
-> > -	case V4L2_MBUS_PARALLEL:
-> > -	case V4L2_MBUS_BT656:
-> > -		vin_dbg(vin, "Found %s media bus\n",
-> > -			vep.bus_type == V4L2_MBUS_PARALLEL ?
-> > -			"PARALLEL" : "BT656");
-> > -		vin->parallel.mbus_type = vep.bus_type;
-> > -		vin->parallel.bus = vep.bus.parallel;
-> > -		break;
-> > -	default:
-> > -		vin_err(vin, "Unknown media bus type\n");
-> > -		ret = -EINVAL;
-> > -		goto out;
-> > -	}
-> > -
-> > -	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
-> > -				       struct v4l2_async_connection);
-> > -	if (IS_ERR(asc)) {
-> > -		ret = PTR_ERR(asc);
-> > -		goto out;
-> > -	}
-> > -
-> > -	vin->parallel.asc = asc;
-> > -
-> > -	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
-> > -out:
-> > -	fwnode_handle_put(fwnode);
-> > -
-> > -	return ret;
-> > -}
-> > -
-> >  static void rvin_parallel_cleanup(struct rvin_dev *vin)
-> >  {
-> >  	v4l2_async_nf_unregister(&vin->notifier);
-> > -- 
-> > 2.49.0
-> > 
-> 
-> -- 
-> Sakari Ailus
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_LOST_FS,		"Lost Frame Start Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_LOST_FE,		"Lost Frame End Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_OVER,		"FIFO Overflow Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_WRONG_CFG,		"Wrong Configuration Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_ECC,			"ECC Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_CRC,			"CRC Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_UNKNOWN,		"Unknown Error"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_DT_NOT_SUPPORT,	"Data Type Not Supported"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_DT_IGNORE,		"Data Type Ignored"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_ERR_FRAME_SIZE,	"Frame Size Error"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_TRUNCATED_FRAME,	"Truncated Frame"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_EARLY_FE,		"Early Frame End"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_EARLY_FS,		"Early Frame Start"},
+>  	/* Non-image data receive events */
+> -	{ false, MIPI_CSIS_INT_SRC_EVEN_BEFORE,		"Non-image data before even fr=
+ame" },
+> -	{ false, MIPI_CSIS_INT_SRC_EVEN_AFTER,		"Non-image data after even fram=
+e" },
+> -	{ false, MIPI_CSIS_INT_SRC_ODD_BEFORE,		"Non-image data before odd fram=
+e" },
+> -	{ false, MIPI_CSIS_INT_SRC_ODD_AFTER,		"Non-image data after odd frame"=
+ },
+> +	{ 0, MIPI_CSIS_INT_SRC_EVEN_BEFORE,		"Non-image data before even frame"=
+},
+> +	{ 0, MIPI_CSIS_INT_SRC_EVEN_AFTER,		"Non-image data after even frame"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ODD_BEFORE,		"Non-image data before odd frame"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ODD_AFTER,		"Non-image data after odd frame"},
+>  	/* Frame start/end */
+> -	{ false, MIPI_CSIS_INT_SRC_FRAME_START,		"Frame Start" },
+> -	{ false, MIPI_CSIS_INT_SRC_FRAME_END,		"Frame End" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_FALL,	"VSYNC Falling Edge" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE,	"VSYNC Rising Edge" },
+> +	{ 0, MIPI_CSIS_INT_SRC_FRAME_START,		"Frame Start"},
+> +	{ 0, MIPI_CSIS_INT_SRC_FRAME_END,		"Frame End"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_FALL,	"VSYNC Falling Edge"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE,	"VSYNC Rising Edge"},
+>  };
+> =20
+>  #define MIPI_CSIS_NUM_EVENTS ARRAY_SIZE(mipi_csis_events)
+> @@ -765,32 +765,30 @@ static irqreturn_t mipi_csis_irq_handler(int irq, v=
+oid *dev_id)
+>  	struct mipi_csis_device *csis =3D dev_id;
+>  	unsigned long flags;
+>  	unsigned int i;
+> -	u32 status;
+> -	u32 dbg_status;
+> +	u32 status[2];
+> =20
+> -	status =3D mipi_csis_read(csis, MIPI_CSIS_INT_SRC);
+> -	dbg_status =3D mipi_csis_read(csis, MIPI_CSIS_DBG_INTR_SRC);
+> +	status[0] =3D mipi_csis_read(csis, MIPI_CSIS_INT_SRC);
+> +	status[1] =3D mipi_csis_read(csis, MIPI_CSIS_DBG_INTR_SRC);
+> =20
+>  	spin_lock_irqsave(&csis->slock, flags);
+> =20
+>  	/* Update the event/error counters */
+> -	if ((status & MIPI_CSIS_INT_SRC_ERRORS) || csis->debug.enable) {
+> +	if ((status[0] & MIPI_CSIS_INT_SRC_ERRORS) || csis->debug.enable) {
+>  		for (i =3D 0; i < MIPI_CSIS_NUM_EVENTS; i++) {
+>  			struct mipi_csis_event *event =3D &csis->events[i];
+> =20
+> -			if ((!event->debug && (status & event->mask)) ||
+> -			    (event->debug && (dbg_status & event->mask)))
+> +			if (status[event->status_index] & event->mask)
+>  				event->counter++;
+>  		}
+>  	}
+> =20
+> -	if (status & MIPI_CSIS_INT_SRC_FRAME_START)
+> +	if (status[0] & MIPI_CSIS_INT_SRC_FRAME_START)
+>  		mipi_csis_queue_event_sof(csis);
+> =20
+>  	spin_unlock_irqrestore(&csis->slock, flags);
+> =20
+> -	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status);
+> -	mipi_csis_write(csis, MIPI_CSIS_DBG_INTR_SRC, dbg_status);
+> +	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status[0]);
+> +	mipi_csis_write(csis, MIPI_CSIS_DBG_INTR_SRC, status[1]);
+> =20
+>  	return IRQ_HANDLED;
+>  }
+> --=20
+> 2.43.0
 
--- 
-Kind Regards,
-Niklas Söderlund
+
+
 
