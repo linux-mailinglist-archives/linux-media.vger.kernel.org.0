@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-34270-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34271-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFC6AD0801
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 20:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19147AD0803
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 20:27:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0017B1897DA4
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 18:27:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E7F21897044
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 18:27:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B07891EF09D;
-	Fri,  6 Jun 2025 18:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4A6D1F098F;
+	Fri,  6 Jun 2025 18:26:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ZYVRF3SO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KV2eG6Fl"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Gytjnrer";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MEMadvK2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36001E5B63;
-	Fri,  6 Jun 2025 18:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2C61EB9FF;
+	Fri,  6 Jun 2025 18:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749234413; cv=none; b=VK7BABOw2IGmjzWtKcBtZsEB0KOFbclf0unNF2beJGtEii189daQAIlPsC2MXmqifXTCIAAhE+GdlkjKJ/9M3QSGgJGnIClPoTwx3E/ksodwbHyUf4T1GL1XUMzdIyTvCkNLGm18NWWYhm3DIgXmyEoBEcqWbcykY5jvtey9c5c=
+	t=1749234415; cv=none; b=bf/soUCmF14UmN1SgM5PuUtaL40bdEWrBzqbrtr0u5InnS/zc/yYhV3sftZZ7D/w5UdGojmF3IsaJDfMUEd21eJX84+B/lVhljb0ww7cS4Of1wUdm4akZG8SyQOR3yFZKedRx4yT8+uReQj7IBF5Ke+1gct6pOGRKeH7qYJY/bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749234413; c=relaxed/simple;
-	bh=3kHAV9OhjfhoCoy/q0rmsXyUSvFbLZPCa03kJlx7J+8=;
+	s=arc-20240116; t=1749234415; c=relaxed/simple;
+	bh=GdIhCmyLWEa63aI6h1ikdlHDcLfBS107YOI+nn4PfV8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DVi4ZX1Ih92tb/qd5EhjZggMXYVmPKupZe3xMUEw0ffIEgjIHA3mcIsR6+dCriVRhTGAQ44jJoUiS7Yb/dkCKceHJvIWw+94XP/oJtt57KYELM3vmEgUujK8nAv4F8qzb86via4jUvX6/+ysHssV2mWm1vrgwo1OPNKlUYoFLdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ZYVRF3SO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KV2eG6Fl; arc=none smtp.client-ip=202.12.124.159
+	 MIME-Version:Content-Type; b=urQq2cjY1wffTCwa9JMVxaWCRGZ8h1UMgP3Y/qBdsu+g/ekNOiaW1XbIJUfWek7O6ARKLIeMrI+IO/vf7nQkEppdGm6p6cHymMQsc9tkkvgaMsrTAWmogOwcNf7w1908ZiCiFZM+mAbD//1RqCBS89Rqzcg7Sg8EEKOsMaWIUSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Gytjnrer; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MEMadvK2; arc=none smtp.client-ip=202.12.124.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B361525400D9;
-	Fri,  6 Jun 2025 14:26:50 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Fri, 06 Jun 2025 14:26:50 -0400
+	by mailfout.stl.internal (Postfix) with ESMTP id 2257211400E1;
+	Fri,  6 Jun 2025 14:26:53 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Fri, 06 Jun 2025 14:26:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749234410;
-	 x=1749320810; bh=/dFKTJhtmTCudVGDszzO8S6+wU6CqhQh+wpqOgKpr6A=; b=
-	ZYVRF3SOd5E0dDBT4/sfKIiBdiJTOTtGmuRfDcjk4H6r1tKqbqhVAPL2+aoOpswA
-	Hflk/p1wxS8h6FIt8hQmuhAwJOs1IbKoR8hBDnLZLbbZ5fLrcC2VRMD5BSHqI6AW
-	Ro33NzOcEUt5Sen7qzcqZR0f7hOaar8P5yQMMNqC4M4GyX4WDUyWE0wOK5ozE/fa
-	JtaCiovZg4X8AhbjtOJIzNBqc5YNK+JBgcCaaxipc3NhFvzwDmC6a9izFXvdu0kd
-	JrfPNlnU/rZ4ouuRLwC0fi2ZOWz5DPznZwBKNopC5KfzJqE4kkZVIWq664XfTsDn
-	AoHDUEmo9hI0r8oGNohAag==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749234412;
+	 x=1749320812; bh=CA+e18oSZpbZHlDawSZtloEWbufZV/IrUlYUz+4RtO0=; b=
+	GytjnrerkgdUTYDEjPDkejjb+pfrZWfQPZ4qz6aSV2rgGSTwhQ9RfJIyZY7ZkC0a
+	6PDtWZWRTaIncIz1DC8V5hD/N9YLVtJOS18UHicxwFHJtiWZT7B9al9cD6u6QGzD
+	hmbRK0HrgZCx+gytZdmW06hXaz5zZz0OQc+ckBayvcBSEy7FuLeJVM0W7Jbr5ylj
+	azEg/zkG/wo0sP3L3vhdsC4z34nVBracBrGZ4+Ro9DxTcvuDWiTltC5aT4dwBpmb
+	qB9HynxGITyUpD9AxXO+j5VRDimuTovpNH6RDkJy4jvM6M7PDzE6Fs84M0mxE3P0
+	9v7/MH19pasDqrODWcPpGA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749234410; x=
-	1749320810; bh=/dFKTJhtmTCudVGDszzO8S6+wU6CqhQh+wpqOgKpr6A=; b=K
-	V2eG6FlYsoHbRXxqN60jLHPQtbLbI8j0q1UGW9mtf4KeghMDs7g77U2D6Ha9u1I3
-	O1zJu4harHA9S5X5Mz+RqK4tx9C1VGoDmB5XXjr4r39kAfD74Yjbkqy9zzJH4APm
-	w3kDYl9MnoCcIlR0VbWWMLssnmbEGOSnpapquRzvGmsdkTwQRe3a3pzVzqx87Dlx
-	rLweAEIyDaPpMrJrWpyJzf0ogNpvf1BI04D7cnIJ9ukJfrMesMiKv529Fl98LYIZ
-	cX7Uuw9JuXnB9SO3DRljrmR8JViAlpbu7J3klV1cSa8AT7FFYsQATa42JtqNbmzr
-	YVsfjBUNPrYtAvotr6yvw==
-X-ME-Sender: <xms:6jJDaBgJIVyvW7a6eMMrUJO0ZAGc1twG1l28iMV_JzjEK4CJtYemIw>
-    <xme:6jJDaGCLUmJlDrpLhsasOefRkuCWQNvZPMIBTtGacVj8GscFyIjwL8-nlF2IMhiGV
-    Iq1hoPEBuIZbnHspa8>
-X-ME-Received: <xmr:6jJDaBHwPbpq4gYF8cX13hUYvpWLl9xCvAClulZRvAPEIc5GCqSwgtbP43MSfXOmo4nuud7RUZEZfO_qMOyZ_1Fa>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749234412; x=
+	1749320812; bh=CA+e18oSZpbZHlDawSZtloEWbufZV/IrUlYUz+4RtO0=; b=M
+	EMadvK2iV6zvLYRlLvmAgnv1v2Avy6w22iVPVUrAm6MEaRnlVRxUv034y4rDmlBi
+	Xo3CSAnoN2WvJ2k33Mbtrq5xO9Qa9xZ+CR44hXC1g6sELcn9RVyajWIOet/t4BD3
+	o8/LaGVku6ebntGdUC8rr2Ivl9wDRNqHFvA2VzwZqNdDL7MSUsxYTj4TSOgHoo2S
+	UaFcA4OkrkkTQKzdhtD80XePx1iEOMt9Jgo9yYwpM/LXOV+Kx1NPXwOjIvAYr82B
+	VAm53E+0prvAKsEHGUMaOZgn5ECQDTV9Eg+9xmpvuedt5D+41VEF3w2qCcoOzXAc
+	8NhyIgExrTn0DHAnbxIUw==
+X-ME-Sender: <xms:7DJDaGV3-YScim0ZpQgznx0e6vkotrW4vLeu6sDpNp3HszetbLUnGw>
+    <xme:7DJDaCmwjq6geB-e6zXiuv-SZl_k4inmMZCrbSC6M7tab0b6Kh5kVHwnN-0Q-Lg7h
+    uLsqoy2ycWW18L9r7g>
+X-ME-Received: <xmr:7DJDaKYvMnCrqEDacVhf8Isj-291loLqXuM0mTanh-J3Z6lFt_XPqROib30qK44QBlgyMHN2m4ANOhiUfEuK0xcD>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehgeegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
@@ -74,7 +74,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehgeegucetufdoteggod
     thgvrhhnpeehiefgueevuedtfefhheegkeevtdelueeukeevfeduhefhhfejfffggeffle
     efgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
     ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
-    htthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsrghkrghrihdrrghi
+    htthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsrghkrghrihdrrghi
     lhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrggsse
     hkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgv
     nhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvg
@@ -82,16 +82,15 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehgeegucetufdoteggod
     pehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
     eplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
     rhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrgh
-    hnrghtvggthhdrshgvpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtodhr
-    vghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomh
-X-ME-Proxy: <xmx:6jJDaGTpnURTzmc3h3zPSpY60omB80Gg_P8edSK2dj6T621G5DXRsw>
-    <xmx:6jJDaOz7XzOmpOmZXhh4gTUooidIxHWdHx99OxIupMYLxsQr19oMOw>
-    <xmx:6jJDaM7nqoKOQ_C3FmPze1hHQDd3LXddFRPqKym-FXNtzy1h4uvUfw>
-    <xmx:6jJDaDxYjfd7JCHnuz057VlEkVtvmi8JrRJe-zGeyAT2Ist481z3Ow>
-    <xmx:6jJDaGOwMw2VG633tbkSW-N48n6NZngEfzzTBW4BuIyiN2022cCFbjQv>
+    hnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:7DJDaNXZGAKQRaQnu5TTmzxl9L1GCJSC4RqOy8kfVI8t2snGwCy66w>
+    <xmx:7DJDaAni6fqdJN1gUrLU11SU0yuNLh8u_bhJJTifTvDUtuVJssVZ-g>
+    <xmx:7DJDaCfw26XOp0mQiwCEUUxjgf7UkBhJUDTPPbCcAuzmKNEYx0RFNA>
+    <xmx:7DJDaCHc-eCCpR9_jF2A_8AIvjrIHHxWBg0FmLTNJw3zxyenY9HawA>
+    <xmx:7DJDaAn13Tm_-lC4iqSn_9gbj0WDEsl7lOVmM5AqqFdgtL9uw_PX9HYw>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Jun 2025 14:26:49 -0400 (EDT)
+ 6 Jun 2025 14:26:52 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -99,11 +98,10 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v5 01/12] media: rcar-vin: Use correct count of remote subdevices
-Date: Fri,  6 Jun 2025 20:25:55 +0200
-Message-ID: <20250606182606.3984508-2-niklas.soderlund+renesas@ragnatech.se>
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v5 02/12] media: rcar-vin: Store platform info with group structure
+Date: Fri,  6 Jun 2025 20:25:56 +0200
+Message-ID: <20250606182606.3984508-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250606182606.3984508-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250606182606.3984508-1-niklas.soderlund+renesas@ragnatech.se>
@@ -116,56 +114,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When extending the driver with Gen4 support the iteration of over
-possible remote subdevices changed from being R-Car CSI-2 Rx only to
-also cover R-Car CSISP instances. In two loops updating the bounds
-variable was missed.
+When the transition of Gen2 to use groups are complete the platform
+specific information can be retrieved from the group instead of being
+duplicated in each VIN's private data structure.
 
-This had no ill effect as the count the two values have always been the
-same in the past. Fix it by looking at the array size.
+Prepare for this by already adding the information to the group
+structure so it can be used without first having to find the group from
+a VIN instances private data.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Tested-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
 * Changes since v4
-- Use ARRAY_SIZE() instead of updating the incorrect define to
-  RVIN_REMOTES_MAX.
+- New in v5.
 ---
- drivers/media/platform/renesas/rcar-vin/rcar-core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c | 1 +
+ drivers/media/platform/renesas/rcar-vin/rcar-vin.h  | 2 ++
+ 2 files changed, 3 insertions(+)
 
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 846ae7989b1d..cf5830d7d7b1 100644
+index cf5830d7d7b1..66efe075adae 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -213,7 +213,7 @@ static int rvin_group_entity_to_remote_id(struct rvin_group *group,
+@@ -156,6 +156,7 @@ static int rvin_group_get(struct rvin_dev *vin,
+ 		}
  
- 	sd = media_entity_to_v4l2_subdev(entity);
+ 		kref_init(&group->refcount);
++		group->info = vin->info;
  
--	for (i = 0; i < RVIN_REMOTES_MAX; i++)
-+	for (i = 0; i < ARRAY_SIZE(group->remotes); i++)
- 		if (group->remotes[i].subdev == sd)
- 			return i;
+ 		rvin_group_data = group;
+ 	}
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+index 83d1b2734c41..313703cd1103 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+@@ -242,6 +242,7 @@ struct rvin_dev {
+  * @lock:		protects the count, notifier, vin and csi members
+  * @count:		number of enabled VIN instances found in DT
+  * @notifier:		group notifier for CSI-2 async connections
++ * @info:		Platform dependent information about the VIN instances
+  * @vin:		VIN instances which are part of the group
+  * @link_setup:		Callback to create all links for the media graph
+  * @remotes:		array of pairs of async connection and subdev pointers
+@@ -255,6 +256,7 @@ struct rvin_group {
+ 	struct mutex lock;
+ 	unsigned int count;
+ 	struct v4l2_async_notifier notifier;
++	const struct rvin_info *info;
+ 	struct rvin_dev *vin[RCAR_VIN_NUM];
  
-@@ -262,7 +262,7 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
- 
- 	mutex_lock(&vin->group->lock);
- 
--	for (i = 0; i < RVIN_CSI_MAX; i++) {
-+	for (i = 0; i < ARRAY_SIZE(vin->group->remotes); i++) {
- 		if (vin->group->remotes[i].asc != asc)
- 			continue;
- 		vin->group->remotes[i].subdev = NULL;
-@@ -284,7 +284,7 @@ static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
- 
- 	mutex_lock(&vin->group->lock);
- 
--	for (i = 0; i < RVIN_CSI_MAX; i++) {
-+	for (i = 0; i < ARRAY_SIZE(vin->group->remotes); i++) {
- 		if (vin->group->remotes[i].asc != asc)
- 			continue;
- 		vin->group->remotes[i].subdev = subdev;
+ 	int (*link_setup)(struct rvin_dev *vin);
 -- 
 2.49.0
 
