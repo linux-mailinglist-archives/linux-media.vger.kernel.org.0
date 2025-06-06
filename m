@@ -1,67 +1,68 @@
-Return-Path: <linux-media+bounces-34190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34191-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF89CACFCAB
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 08:30:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4205ACFCB3
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 08:30:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F2DB3B0C3B
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 06:29:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CF241899755
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 06:30:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94AF2253F15;
-	Fri,  6 Jun 2025 06:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B33D254852;
+	Fri,  6 Jun 2025 06:29:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0682522AD;
-	Fri,  6 Jun 2025 06:29:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7EA253938;
+	Fri,  6 Jun 2025 06:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749191348; cv=none; b=nVrIOd1p2ZUNsDWmPouie6ytHTFKafW42qex3rmqsxcmNiG5aqXoyOyMnkIKBU86qp4tnI71zDukYrUCORbCET5RsXSKhzPn2xrwDdGKTOaNGvmdeFgxO6X2bd65BiZg7STkf3hfi0B2Wc9aaoYJHD7Ez6oXA6a4Zi7j65Z7miw=
+	t=1749191348; cv=none; b=lUJoKyA+i2dDN4dreqBmu/LBrat+RLB5oK+gEzMIKTYDgl48krmWYzB66VXTsYGdrbN31UcXpGk2DxILCsQD5coSa5K981NaYkA09g5Jx4/v4TxM7WxnCq4NAnbTmEMv6B9Eu8N8UNRWOWmKE0LmWfs0IHcE7eul1vN/Y4RuqA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1749191348; c=relaxed/simple;
-	bh=poe3/ByBEMQD5YnoxOzR3GSejMZgIkYUOI0Vx3ORp9A=;
+	bh=spCVFQM0RS8RX5HT/4i0I/ZaBCGQIczl+NtnKVG+l2k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Do7l9avj7eyip2osSHD2wVce1eceFis18AiP22r9hQjFrvbkMt3IJqA1ZA7HgKUg20BI4gdoZ6liIe49DfvfLPl0Snu3k7AbwfMXNlejo5vHK/6I6F6TsigOXpW3SB4V2U6nXbTzrkEi5LMGdPQLjuD2Rm53VS4gXspeBMx/Vw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.53
+	 In-Reply-To:To:Cc; b=LOnhh+AuRTI6gVoG1ULW7xiT7Bj2HQiDHBiq7geEJwTkUUoDYoTGzIbaRrlOkPgC0heqdf2i4JwMqAlIHQPO8ugb/8E6iElehw6k0G6vuTvdsmW1HHshLSsdQ4c3mAVHqo7DFWfwP7pi6mUMh0WFGBK50aQHoyf46cOVZV3u2bU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ad883afdf0cso336447566b.0;
-        Thu, 05 Jun 2025 23:29:05 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-adb5fd85996so339697366b.2;
+        Thu, 05 Jun 2025 23:29:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749191344; x=1749796144;
+        d=1e100.net; s=20230601; t=1749191345; x=1749796145;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A67180cM1DzO6rCS48RRv4cuTeiBEhUOBGkmLw19ZIc=;
-        b=N11bX3DYD6ksoIK3l9XJ5w9OOXXl6blD7A5ZQ6y9+0Jvbj37cEyXNzKfEGCHftzl5L
-         7VtK2A1yjXSvtnB7jL6pmZJtTGqi4QF/ZNAOky6nZOo8CbQEe6uq/5K+jXtt1nf9eCGd
-         8t0L3xjOFTF+jlIqx83QSwaxa6EbSxuEhRF5J7bEz04ZetuOb179HjvJR/WwViFOqHhP
-         r4M2NAOiae2u2DXfJ0fncaXwZVBGPYdneu+mLC1cHMDp4QhRe4xNX9FF9T8tqgjpx4T4
-         I5Qw9uBRar17MIt2LGe7HEE6LlYlZdyckSsdWeWq36i1B3M3yYLvskrYxGYkR5DLSE4x
-         n8vg==
-X-Forwarded-Encrypted: i=1; AJvYcCV2fmZBwcitJq89o/YGhupZyglOffcVVuSConXEHXB8YpdFjtLmJDfnTaXZDKgVAqKiZcVTO8/lGAC+iyP9@vger.kernel.org, AJvYcCXIq3RZahLVDWGc7AC2TAZSriHr+lTCRLyiQwl2wrRB8ecHf0g/ay+fJPkSnZ7QNI9Z0dpP15Hath8=@vger.kernel.org, AJvYcCXUMJtdPd84Zers+xXlpLDbWdvsR1DZ8VJsBzwodqCB1AqR/P2cgIAOx3XNCYS/vlguWwCyJtK/eah6A/U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznHxQ+oAhRSsgoCQ+UVeLSFkGfEqvLaDFPHwNboU+j0RXO3f+4
-	72SrmLTKMiApexTNedNU4u3VUDxGqg7m1yE2Z2if1qhJJMvbtQNDcBI6
-X-Gm-Gg: ASbGncvPxDvLnWsGxGi8iUJyJ9rsladsg2+lryOhhueo366/2j43Y9QlAv3JJ7cDQ7G
-	5WNwt6JpwBDCSRQAeQShj48O89hiZmNUMqqnpakebPFfj+VOUJXYKe5rAbDqddOFiruniRYr7eW
-	/z3wUE8GCkRHWH5kCz+TSOEn/Ayw59GYR9oDIw88ruNyX2D5Vw1bCbAoT7+8lQLrzA35Yc06ErA
-	Qqyk/eo2xsiTHVxILpBxGgMT3MD0m+735vlEcxwECa+g7E8N1LSXkvxxulyRYQwcnzZtooSGteU
-	se8HQCJySxQT0Hi7PGNip36QUmS0nKNCw3ZnWZQnUfziUuj3CXN3B+gQKMqSgxL0sTu/wd/xxIK
-	dn6CpM1Dfjw==
-X-Google-Smtp-Source: AGHT+IEhsGCnbXMPET9tZIbpbZm7nrSd7Jzu0UrRKQzcn/WlrnK2HZntZcGEpLL3xJUrJn+PZUGcJQ==
-X-Received: by 2002:a17:907:3c8d:b0:ad8:adbc:bbf6 with SMTP id a640c23a62f3a-ade1ab32c07mr185607966b.58.1749191343230;
-        Thu, 05 Jun 2025 23:29:03 -0700 (PDT)
+        bh=4hhddfXDfku9i7J1TvbwOFygxBDLs6NnmsiXqGK3WQo=;
+        b=AtJsJVcVC8t0n8WvnHGxblrdaZlPYMMIm4CK9PrZEH2haHhO7lA8BfNaqvnPxPfVMH
+         6/jjDu7m0ZR+iYy/Vlxyw6BQt2kEHIbTA50ghKwKpG+botiSOuemLBEXxi5dcPOfI4BE
+         CGl8cORGAxqGyVggmW1zVlOrrLyZSJIcxjKtWjwfc/HsYNzxs2KUbh53iNBLWT9WE9wB
+         W5ZcjcBbIhb2gxbH1AEL+TjbtWxA5HBfRmAEm0NKLMM5bxZ1higjIBwCI88N4v+J+PZY
+         QzG8T4Fk/MKvEWzxHt2JqK0pF4+bYw9do4jx3MZ3e/e/03qj0ziMEvsLNN/IpcfIyf3u
+         xjsA==
+X-Forwarded-Encrypted: i=1; AJvYcCUfGFAP8IvO1r9uprybB5VkGD1yT94nhVAyp4OmnxQFVGa3QFP8fnZo2MWGrrdXdSl6hQGgOqw8YL/w2Jvz@vger.kernel.org, AJvYcCVSvi/qKda9AdgJhv3nJy0rBBoolBhz+25rQ9ZWhZaSgOfnTiQiZOC+pXtWS9uBoOXT25bayu02RtDCW5Q=@vger.kernel.org, AJvYcCWjcEKgicaVDWeDQNFWf5+Bz1SsdOjPzyfnI3Vq43uhi/lCHLN0N7544kHagET+FFNsSC5qhNYSYS0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWi249gIQLz67+EOVyzdmf5sq4TGJCT7y2BhDBKFYbwTrFfJOc
+	ad8kQtTBKHiVRiaTQQUm2XfkU0CHbKaGAj9e9qE5d88sOwQKj0TGrN2o
+X-Gm-Gg: ASbGnctAbI43OJnvQNqpWkcIHf0Em1zgzDx31XP6nXQRW10pkDWDBFzyNr4MLyxf1OW
+	BKmY65gtd8QvU+ZXfiBgjCl39eiOM4i2kM6F60ESxups5yhToX8MiMa/EYWsvFvwJmTwj9YAcjt
+	9iedbTi7QuPIrJgXGwAHlfaJ2FzJdnLXgDM+rXXjRiG5YR0egCcfQ/KomS7lf3WIB1T8Z+wWupP
+	tEhTgC33fQ3YFCfx0WMB49sepwtwtRE1Fx/ghqMYIk0+jR3RdeCoKnLkS/V9th9nRHbQlw/jxeS
+	/ETg69N7kC2k/2etoqMfmp1uj/+HCn+80nUUFFW7K0nSZLTkly1iGAOrYwMMxk9ORKtC1z5HWUR
+	oEjlXAPF3up/9r53HoI/4
+X-Google-Smtp-Source: AGHT+IF0kxEjRZKTJ5Isl9wd00bAvRzmf0g2DA8yKPRdTtooV62OfCm5lLjAbaXv/OYSPuoOw9Ifiw==
+X-Received: by 2002:a17:907:fdca:b0:ad2:549b:4c8d with SMTP id a640c23a62f3a-ade1aa46a4bmr190952566b.51.1749191344875;
+        Thu, 05 Jun 2025 23:29:04 -0700 (PDT)
 Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1d754653sm67989966b.20.2025.06.05.23.29.01
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1d754653sm67989966b.20.2025.06.05.23.29.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 23:29:02 -0700 (PDT)
+        Thu, 05 Jun 2025 23:29:04 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 06 Jun 2025 08:28:24 +0200
-Subject: [PATCH v7 04/10] accel/rocket: Add job submission IOCTL
+Date: Fri, 06 Jun 2025 08:28:25 +0200
+Subject: [PATCH v7 05/10] accel/rocket: Add IOCTLs for synchronizing memory
+ accesses
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,7 +71,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
+Message-Id: <20250606-6-10-rocket-v7-5-dc16cfe6fe4e@tomeuvizoso.net>
 References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
 In-Reply-To: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -90,1092 +91,221 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
 
-Using the DRM GPU scheduler infrastructure, with a scheduler for each
-core.
+The NPU cores have their own access to the memory bus, and this isn't
+cache coherent with the CPUs.
 
-Userspace can decide for a series of tasks to be executed sequentially
-in the same core, so SRAM locality can be taken advantage of.
+Add IOCTLs so userspace can mark when the caches need to be flushed, and
+also when a writer job needs to be waited for before the buffer can be
+accessed from the CPU.
 
-The job submission code was initially based on Panfrost.
+Initially based on the same IOCTLs from the Etnaviv driver.
 
 v2:
-- Remove hardcoded number of cores
-- Misc. style fixes (Jeffrey Hugo)
-- Repack IOCTL struct (Jeffrey Hugo)
+- Don't break UABI by reordering the IOCTL IDs (Jeff Hugo)
 
 v3:
-- Adapt to a split of the register block in the DT bindings (Nicolas
-  Frattaroli)
-- Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-- Use drm_* logging functions (Thomas Zimmermann)
-- Rename reg i/o macros (Thomas Zimmermann)
-- Add padding to ioctls and check for zero (Jeff Hugo)
-- Improve error handling (Nicolas Frattaroli)
+- Check that padding fields in IOCTLs are zero (Jeff Hugo)
 
 v6:
-- Use mutexes guard (Markus Elfring)
-- Use u64_to_user_ptr (Jeff Hugo)
-- Drop rocket_fence (Rob Herring)
-
-v7:
-- Assign its own IOMMU domain to each client, for isolation (Daniel
-  Stone and Robin Murphy)
+- Fix conversion logic to make sure we use DMA_BIDIRECTIONAL when needed
+  (Lucas Stach)
 
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 ---
- drivers/accel/rocket/Makefile        |   3 +-
- drivers/accel/rocket/rocket_core.c   |  10 +
- drivers/accel/rocket/rocket_core.h   |  14 +
- drivers/accel/rocket/rocket_device.c |   2 +
- drivers/accel/rocket/rocket_device.h |   2 +
- drivers/accel/rocket/rocket_drv.c    |  15 +
- drivers/accel/rocket/rocket_drv.h    |   4 +
- drivers/accel/rocket/rocket_job.c    | 700 +++++++++++++++++++++++++++++++++++
- drivers/accel/rocket/rocket_job.h    |  52 +++
- include/uapi/drm/rocket_accel.h      |  64 ++++
- 10 files changed, 865 insertions(+), 1 deletion(-)
+ drivers/accel/rocket/rocket_drv.c |  2 +
+ drivers/accel/rocket/rocket_gem.c | 82 +++++++++++++++++++++++++++++++++++++++
+ drivers/accel/rocket/rocket_gem.h |  5 +++
+ include/uapi/drm/rocket_accel.h   | 37 ++++++++++++++++++
+ 4 files changed, 126 insertions(+)
 
-diff --git a/drivers/accel/rocket/Makefile b/drivers/accel/rocket/Makefile
-index 4deef267f9e1238c4d8bd108dcc8afd9dc8b2b8f..3713dfe223d6ec6293ced3ef9291af2f3d144131 100644
---- a/drivers/accel/rocket/Makefile
-+++ b/drivers/accel/rocket/Makefile
-@@ -6,4 +6,5 @@ rocket-y := \
- 	rocket_core.o \
- 	rocket_device.o \
- 	rocket_drv.o \
--	rocket_gem.o
-+	rocket_gem.o \
-+	rocket_job.o
-diff --git a/drivers/accel/rocket/rocket_core.c b/drivers/accel/rocket/rocket_core.c
-index 3a6f25f2b4103075102739588bcdad96510e2a4e..b57e10d9938c0f71d0107841244ec969ca9e30e1 100644
---- a/drivers/accel/rocket/rocket_core.c
-+++ b/drivers/accel/rocket/rocket_core.c
-@@ -8,6 +8,7 @@
- #include <linux/pm_runtime.h>
- 
- #include "rocket_core.h"
-+#include "rocket_job.h"
- 
- int rocket_core_init(struct rocket_core *core)
- {
-@@ -38,6 +39,10 @@ int rocket_core_init(struct rocket_core *core)
- 		return PTR_ERR(core->core_iomem);
- 	}
- 
-+	err = rocket_job_init(core);
-+	if (err)
-+		return err;
-+
- 	pm_runtime_use_autosuspend(dev);
- 
- 	/*
-@@ -51,6 +56,10 @@ int rocket_core_init(struct rocket_core *core)
- 	pm_runtime_enable(dev);
- 
- 	err = pm_runtime_get_sync(dev);
-+	if (err) {
-+		rocket_job_fini(core);
-+		return err;
-+	}
- 
- 	version = rocket_pc_readl(core, VERSION);
- 	version += rocket_pc_readl(core, VERSION_NUM) & 0xffff;
-@@ -67,4 +76,5 @@ void rocket_core_fini(struct rocket_core *core)
- {
- 	pm_runtime_dont_use_autosuspend(core->dev);
- 	pm_runtime_disable(core->dev);
-+	rocket_job_fini(core);
- }
-diff --git a/drivers/accel/rocket/rocket_core.h b/drivers/accel/rocket/rocket_core.h
-index 1b1beb9798f03ec2ca325496a4d894674d0b798d..de5fb4e26d4542bda8abf6ab8d4bd562755d547e 100644
---- a/drivers/accel/rocket/rocket_core.h
-+++ b/drivers/accel/rocket/rocket_core.h
-@@ -37,6 +37,20 @@ struct rocket_core {
- 	void __iomem *cna_iomem;
- 	void __iomem *core_iomem;
- 	struct clk_bulk_data clks[4];
-+
-+	struct rocket_job *in_flight_job;
-+
-+	spinlock_t job_lock;
-+
-+	struct {
-+		struct workqueue_struct *wq;
-+		struct work_struct work;
-+		atomic_t pending;
-+	} reset;
-+
-+	struct drm_gpu_scheduler sched;
-+	u64 fence_context;
-+	u64 emit_seqno;
- };
- 
- int rocket_core_init(struct rocket_core *core);
-diff --git a/drivers/accel/rocket/rocket_device.c b/drivers/accel/rocket/rocket_device.c
-index 5e559104741af22c528914c96e44558323ab6c89..8f5c99aeaa6118c406cc570f7d4747cd1cb1c082 100644
---- a/drivers/accel/rocket/rocket_device.c
-+++ b/drivers/accel/rocket/rocket_device.c
-@@ -18,12 +18,14 @@ int rocket_device_init(struct rocket_device *rdev)
- 		return err;
- 
- 	mutex_init(&rdev->iommu_lock);
-+	mutex_init(&rdev->sched_lock);
- 
- 	return 0;
- }
- 
- void rocket_device_fini(struct rocket_device *rdev)
- {
-+	mutex_destroy(&rdev->sched_lock);
- 	mutex_destroy(&rdev->iommu_lock);
- 	rocket_core_fini(&rdev->cores[0]);
- }
-diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/rocket/rocket_device.h
-index 10acfe8534f00a7985d40a93f4b2f7f69d43caee..50e46f0516bd1615b5f826c5002a6c0ecbf9aed4 100644
---- a/drivers/accel/rocket/rocket_device.h
-+++ b/drivers/accel/rocket/rocket_device.h
-@@ -13,6 +13,8 @@
- struct rocket_device {
- 	struct drm_device ddev;
- 
-+	struct mutex sched_lock;
-+
- 	struct mutex iommu_lock;
- 
- 	struct rocket_core *cores;
 diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/rocket_drv.c
-index 2b8a88db20c408f313f4f4fe36b051c9d5e4829b..4ab78193c186dfcfc3e323f16c588e85e6a8a334 100644
+index 4ab78193c186dfcfc3e323f16c588e85e6a8a334..eb9284ee2511f730afe6a532225c2706ce0e2822 100644
 --- a/drivers/accel/rocket/rocket_drv.c
 +++ b/drivers/accel/rocket/rocket_drv.c
-@@ -18,12 +18,14 @@
- 
- #include "rocket_drv.h"
- #include "rocket_gem.h"
-+#include "rocket_job.h"
- 
- static int
- rocket_open(struct drm_device *dev, struct drm_file *file)
- {
- 	struct rocket_device *rdev = to_rocket_device(dev);
- 	struct rocket_file_priv *rocket_priv;
-+	int ret;
- 
- 	rocket_priv = kzalloc(sizeof(*rocket_priv), GFP_KERNEL);
- 	if (!rocket_priv)
-@@ -33,7 +35,15 @@ rocket_open(struct drm_device *dev, struct drm_file *file)
- 	rocket_priv->domain = iommu_paging_domain_alloc(dev->dev);
- 	file->driver_priv = rocket_priv;
- 
-+	ret = rocket_job_open(rocket_priv);
-+	if (ret)
-+		goto err_free;
-+
- 	return 0;
-+
-+err_free:
-+	kfree(rocket_priv);
-+	return ret;
- }
- 
- static void
-@@ -42,6 +52,7 @@ rocket_postclose(struct drm_device *dev, struct drm_file *file)
- 	struct rocket_file_priv *rocket_priv = file->driver_priv;
- 
- 	iommu_domain_free(rocket_priv->domain);
-+	rocket_job_close(rocket_priv);
- 	kfree(rocket_priv);
- }
- 
-@@ -50,6 +61,7 @@ static const struct drm_ioctl_desc rocket_drm_driver_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(ROCKET_##n, rocket_ioctl_##func, 0)
+@@ -62,6 +62,8 @@ static const struct drm_ioctl_desc rocket_drm_driver_ioctls[] = {
  
  	ROCKET_IOCTL(CREATE_BO, create_bo),
-+	ROCKET_IOCTL(SUBMIT, submit),
+ 	ROCKET_IOCTL(SUBMIT, submit),
++	ROCKET_IOCTL(PREP_BO, prep_bo),
++	ROCKET_IOCTL(FINI_BO, fini_bo),
  };
  
  DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
-@@ -258,6 +270,9 @@ static int rocket_device_runtime_suspend(struct device *dev)
- 	if (core < 0)
- 		return -ENODEV;
+diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/rocket_gem.c
+index 61b7f970a6885aa13784daa1222611a02aa10dee..07024b6e71bf544dc7f00b008b9afb74b0c4e802 100644
+--- a/drivers/accel/rocket/rocket_gem.c
++++ b/drivers/accel/rocket/rocket_gem.c
+@@ -113,3 +113,85 @@ int rocket_ioctl_create_bo(struct drm_device *dev, void *data, struct drm_file *
  
-+	if (!rocket_job_is_idle(&rdev->cores[core]))
-+		return -EBUSY;
+ 	return ret;
+ }
 +
- 	clk_bulk_disable_unprepare(ARRAY_SIZE(rdev->cores[core].clks), rdev->cores[core].clks);
- 
- 	return 0;
-diff --git a/drivers/accel/rocket/rocket_drv.h b/drivers/accel/rocket/rocket_drv.h
-index 3219621afb72acdfa915c110e2ec3aacb66bd940..d095e999a8a612fb0b1bf7b96b7c759082a62ab9 100644
---- a/drivers/accel/rocket/rocket_drv.h
-+++ b/drivers/accel/rocket/rocket_drv.h
-@@ -4,12 +4,16 @@
- #ifndef __ROCKET_DRV_H__
- #define __ROCKET_DRV_H__
- 
-+#include <drm/gpu_scheduler.h>
-+
- #include "rocket_device.h"
- 
- struct rocket_file_priv {
- 	struct rocket_device *rdev;
- 
- 	struct iommu_domain *domain;
-+
-+	struct drm_sched_entity sched_entity;
- };
- 
- #endif
-diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..52246b6ae2e91cea0b3cc1de5c05fb502615bf46
---- /dev/null
-+++ b/drivers/accel/rocket/rocket_job.c
-@@ -0,0 +1,700 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-+/* Copyright 2019 Collabora ltd. */
-+/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-+
-+#include <drm/drm_print.h>
-+#include <drm/drm_file.h>
-+#include <drm/drm_gem.h>
-+#include <drm/rocket_accel.h>
-+#include <linux/interrupt.h>
-+#include <linux/iommu.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+
-+#include "rocket_core.h"
-+#include "rocket_device.h"
-+#include "rocket_drv.h"
-+#include "rocket_job.h"
-+#include "rocket_registers.h"
-+
-+#define JOB_TIMEOUT_MS 500
-+
-+static struct rocket_job *
-+to_rocket_job(struct drm_sched_job *sched_job)
++static inline enum dma_data_direction rocket_op_to_dma_dir(u32 op)
 +{
-+	return container_of(sched_job, struct rocket_job, base);
++	op &= ROCKET_PREP_READ | ROCKET_PREP_WRITE;
++
++	if (op == ROCKET_PREP_READ)
++		return DMA_FROM_DEVICE;
++	else if (op == ROCKET_PREP_WRITE)
++		return DMA_TO_DEVICE;
++	else
++		return DMA_BIDIRECTIONAL;
 +}
 +
-+static const char *rocket_fence_get_driver_name(struct dma_fence *fence)
++int rocket_ioctl_prep_bo(struct drm_device *dev, void *data, struct drm_file *file)
 +{
-+	return "rocket";
-+}
++	struct drm_rocket_prep_bo *args = data;
++	unsigned long timeout = drm_timeout_abs_to_jiffies(args->timeout_ns);
++	struct rocket_device *rdev = to_rocket_device(dev);
++	struct drm_gem_object *gem_obj;
++	struct drm_gem_shmem_object *shmem_obj;
++	bool write = !!(args->op & ROCKET_PREP_WRITE);
++	long ret = 0;
 +
-+static const char *rocket_fence_get_timeline_name(struct dma_fence *fence)
-+{
-+	return "rockchip-npu";
-+}
++	if (args->op & ~(ROCKET_PREP_READ | ROCKET_PREP_WRITE))
++		return -EINVAL;
 +
-+static const struct dma_fence_ops rocket_fence_ops = {
-+	.get_driver_name = rocket_fence_get_driver_name,
-+	.get_timeline_name = rocket_fence_get_timeline_name,
-+};
++	gem_obj = drm_gem_object_lookup(file, args->handle);
++	if (!gem_obj)
++		return -ENOENT;
 +
-+static struct dma_fence *rocket_fence_create(struct rocket_core *core)
-+{
-+	struct dma_fence *fence;
++	ret = dma_resv_wait_timeout(gem_obj->resv, dma_resv_usage_rw(write),
++				    true, timeout);
++	if (!ret)
++		ret = timeout ? -ETIMEDOUT : -EBUSY;
 +
-+	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-+	if (!fence)
-+		return ERR_PTR(-ENOMEM);
++	shmem_obj = &to_rocket_bo(gem_obj)->base;
 +
-+	dma_fence_init(fence, &rocket_fence_ops, &core->job_lock,
-+		       core->fence_context, ++core->emit_seqno);
-+
-+	return fence;
-+}
-+
-+static int
-+rocket_copy_tasks(struct drm_device *dev,
-+		  struct drm_file *file_priv,
-+		  struct drm_rocket_job *job,
-+		  struct rocket_job *rjob)
-+{
-+	struct drm_rocket_task *tasks;
-+	int ret = 0;
-+	int i;
-+
-+	rjob->task_count = job->task_count;
-+
-+	if (!rjob->task_count)
-+		return 0;
-+
-+	tasks = kvmalloc_array(rjob->task_count, sizeof(*tasks), GFP_KERNEL);
-+	if (!tasks) {
-+		ret = -ENOMEM;
-+		drm_dbg(dev, "Failed to allocate incoming tasks\n");
-+		goto fail;
++	for (unsigned int core = 1; core < rdev->num_cores; core++) {
++		dma_sync_sgtable_for_cpu(rdev->cores[core].dev, shmem_obj->sgt,
++					 rocket_op_to_dma_dir(args->op));
 +	}
 +
-+	if (copy_from_user(tasks, u64_to_user_ptr(job->tasks), rjob->task_count * sizeof(*tasks))) {
-+		ret = -EFAULT;
-+		drm_dbg(dev, "Failed to copy incoming tasks\n");
-+		goto fail;
-+	}
++	to_rocket_bo(gem_obj)->last_cpu_prep_op = args->op;
 +
-+	rjob->tasks = kvmalloc_array(job->task_count, sizeof(*rjob->tasks), GFP_KERNEL);
-+	if (!rjob->tasks) {
-+		drm_dbg(dev, "Failed to allocate task array\n");
-+		ret = -ENOMEM;
-+		goto fail;
-+	}
-+
-+	for (i = 0; i < rjob->task_count; i++) {
-+		if (tasks[i].reserved != 0) {
-+			drm_dbg(dev, "Reserved field in drm_rocket_task struct should be 0.\n");
-+			return -EINVAL;
-+		}
-+
-+		if (tasks[i].regcmd_count == 0) {
-+			ret = -EINVAL;
-+			goto fail;
-+		}
-+		rjob->tasks[i].regcmd = tasks[i].regcmd;
-+		rjob->tasks[i].regcmd_count = tasks[i].regcmd_count;
-+	}
-+
-+fail:
-+	kvfree(tasks);
-+	return ret;
-+}
-+
-+static void rocket_job_hw_submit(struct rocket_core *core, struct rocket_job *job)
-+{
-+	struct rocket_task *task;
-+	bool task_pp_en = 1;
-+	bool task_count = 1;
-+
-+	/* GO ! */
-+
-+	/* Don't queue the job if a reset is in progress */
-+	if (atomic_read(&core->reset.pending))
-+		return;
-+
-+	task = &job->tasks[job->next_task_idx];
-+	job->next_task_idx++;
-+
-+	rocket_pc_writel(core, BASE_ADDRESS, 0x1);
-+
-+	rocket_cna_writel(core, S_POINTER, 0xe + 0x10000000 * core->index);
-+	rocket_core_writel(core, S_POINTER, 0xe + 0x10000000 * core->index);
-+
-+	rocket_pc_writel(core, BASE_ADDRESS, task->regcmd);
-+	rocket_pc_writel(core, REGISTER_AMOUNTS, (task->regcmd_count + 1) / 2 - 1);
-+
-+	rocket_pc_writel(core, INTERRUPT_MASK, PC_INTERRUPT_MASK_DPU_0 | PC_INTERRUPT_MASK_DPU_1);
-+	rocket_pc_writel(core, INTERRUPT_CLEAR, PC_INTERRUPT_CLEAR_DPU_0 | PC_INTERRUPT_CLEAR_DPU_1);
-+
-+	rocket_pc_writel(core, TASK_CON, ((0x6 | task_pp_en) << 12) | task_count);
-+
-+	rocket_pc_writel(core, TASK_DMA_BASE_ADDR, 0x0);
-+
-+	rocket_pc_writel(core, OPERATION_ENABLE, 0x1);
-+
-+	dev_dbg(core->dev, "Submitted regcmd at 0x%llx to core %d", task->regcmd, core->index);
-+}
-+
-+static int rocket_acquire_object_fences(struct drm_gem_object **bos,
-+					int bo_count,
-+					struct drm_sched_job *job,
-+					bool is_write)
-+{
-+	int i, ret;
-+
-+	for (i = 0; i < bo_count; i++) {
-+		ret = dma_resv_reserve_fences(bos[i]->resv, 1);
-+		if (ret)
-+			return ret;
-+
-+		ret = drm_sched_job_add_implicit_dependencies(job, bos[i],
-+							      is_write);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void rocket_attach_object_fences(struct drm_gem_object **bos,
-+					int bo_count,
-+					struct dma_fence *fence)
-+{
-+	int i;
-+
-+	for (i = 0; i < bo_count; i++)
-+		dma_resv_add_fence(bos[i]->resv, fence, DMA_RESV_USAGE_WRITE);
-+}
-+
-+static int rocket_job_push(struct rocket_job *job)
-+{
-+	struct rocket_device *rdev = job->rdev;
-+	struct drm_gem_object **bos;
-+	struct ww_acquire_ctx acquire_ctx;
-+	int ret = 0;
-+
-+	bos = kvmalloc_array(job->in_bo_count + job->out_bo_count, sizeof(void *),
-+			     GFP_KERNEL);
-+	memcpy(bos, job->in_bos, job->in_bo_count * sizeof(void *));
-+	memcpy(&bos[job->in_bo_count], job->out_bos, job->out_bo_count * sizeof(void *));
-+
-+	ret = drm_gem_lock_reservations(bos, job->in_bo_count + job->out_bo_count, &acquire_ctx);
-+	if (ret)
-+		goto err;
-+
-+	scoped_guard(mutex, &rdev->sched_lock) {
-+		drm_sched_job_arm(&job->base);
-+
-+		job->inference_done_fence = dma_fence_get(&job->base.s_fence->finished);
-+
-+		ret = rocket_acquire_object_fences(job->in_bos, job->in_bo_count, &job->base, false);
-+		if (ret)
-+			goto err_unlock;
-+
-+		ret = rocket_acquire_object_fences(job->out_bos, job->out_bo_count, &job->base, true);
-+		if (ret)
-+			goto err_unlock;
-+
-+		kref_get(&job->refcount); /* put by scheduler job completion */
-+
-+		drm_sched_entity_push_job(&job->base);
-+	}
-+
-+	rocket_attach_object_fences(job->out_bos, job->out_bo_count, job->inference_done_fence);
-+
-+err_unlock:
-+	drm_gem_unlock_reservations(bos, job->in_bo_count + job->out_bo_count, &acquire_ctx);
-+err:
-+	kfree(bos);
++	drm_gem_object_put(gem_obj);
 +
 +	return ret;
 +}
 +
-+static void rocket_job_cleanup(struct kref *ref)
-+{
-+	struct rocket_job *job = container_of(ref, struct rocket_job,
-+						refcount);
-+	unsigned int i;
-+
-+	dma_fence_put(job->done_fence);
-+	dma_fence_put(job->inference_done_fence);
-+
-+	if (job->in_bos) {
-+		for (i = 0; i < job->in_bo_count; i++)
-+			drm_gem_object_put(job->in_bos[i]);
-+
-+		kvfree(job->in_bos);
-+	}
-+
-+	if (job->out_bos) {
-+		for (i = 0; i < job->out_bo_count; i++)
-+			drm_gem_object_put(job->out_bos[i]);
-+
-+		kvfree(job->out_bos);
-+	}
-+
-+	kfree(job->tasks);
-+
-+	kfree(job);
-+}
-+
-+static void rocket_job_put(struct rocket_job *job)
-+{
-+	kref_put(&job->refcount, rocket_job_cleanup);
-+}
-+
-+static void rocket_job_free(struct drm_sched_job *sched_job)
-+{
-+	struct rocket_job *job = to_rocket_job(sched_job);
-+
-+	drm_sched_job_cleanup(sched_job);
-+
-+	rocket_job_put(job);
-+}
-+
-+static struct rocket_core *sched_to_core(struct rocket_device *rdev,
-+					 struct drm_gpu_scheduler *sched)
-+{
-+	unsigned int core;
-+
-+	for (core = 0; core < rdev->num_cores; core++) {
-+		if (&rdev->cores[core].sched == sched)
-+			return &rdev->cores[core];
-+	}
-+
-+	return NULL;
-+}
-+
-+static struct dma_fence *rocket_job_run(struct drm_sched_job *sched_job)
-+{
-+	struct rocket_job *job = to_rocket_job(sched_job);
-+	struct rocket_device *rdev = job->rdev;
-+	struct rocket_core *core = sched_to_core(rdev, sched_job->sched);
-+	struct dma_fence *fence = NULL;
-+	int ret;
-+
-+	if (unlikely(job->base.s_fence->finished.error))
-+		return NULL;
-+
-+	/*
-+	 * Nothing to execute: can happen if the job has finished while
-+	 * we were resetting the GPU.
-+	 */
-+	if (job->next_task_idx == job->task_count)
-+		return NULL;
-+
-+	fence = rocket_fence_create(core);
-+	if (IS_ERR(fence))
-+		return fence;
-+
-+	if (job->done_fence)
-+		dma_fence_put(job->done_fence);
-+	job->done_fence = dma_fence_get(fence);
-+
-+	ret = pm_runtime_get_sync(core->dev);
-+	if (ret < 0)
-+		return fence;
-+
-+	ret = iommu_attach_group(job->domain, iommu_group_get(core->dev));
-+	if (ret < 0)
-+		return fence;
-+
-+	scoped_guard(spinlock, &core->job_lock) {
-+		core->in_flight_job = job;
-+		rocket_job_hw_submit(core, job);
-+	}
-+
-+	return fence;
-+}
-+
-+static void rocket_job_handle_done(struct rocket_core *core,
-+				   struct rocket_job *job)
-+{
-+	if (job->next_task_idx < job->task_count) {
-+		rocket_job_hw_submit(core, job);
-+		return;
-+	}
-+
-+	core->in_flight_job = NULL;
-+	iommu_detach_group(NULL, iommu_group_get(core->dev));
-+	dma_fence_signal_locked(job->done_fence);
-+	pm_runtime_put_autosuspend(core->dev);
-+}
-+
-+static void rocket_job_handle_irq(struct rocket_core *core)
-+{
-+	u32 status, raw_status;
-+
-+	pm_runtime_mark_last_busy(core->dev);
-+
-+	status = rocket_pc_readl(core, INTERRUPT_STATUS);
-+	raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
-+
-+	rocket_pc_writel(core, OPERATION_ENABLE, 0x0);
-+	rocket_pc_writel(core, INTERRUPT_CLEAR, 0x1ffff);
-+
-+	scoped_guard(spinlock, &core->job_lock)
-+		if (core->in_flight_job)
-+			rocket_job_handle_done(core, core->in_flight_job);
-+}
-+
-+static void
-+rocket_reset(struct rocket_core *core, struct drm_sched_job *bad)
-+{
-+	bool cookie;
-+
-+	if (!atomic_read(&core->reset.pending))
-+		return;
-+
-+	/*
-+	 * Stop the scheduler.
-+	 *
-+	 * FIXME: We temporarily get out of the dma_fence_signalling section
-+	 * because the cleanup path generate lockdep splats when taking locks
-+	 * to release job resources. We should rework the code to follow this
-+	 * pattern:
-+	 *
-+	 *	try_lock
-+	 *	if (locked)
-+	 *		release
-+	 *	else
-+	 *		schedule_work_to_release_later
-+	 */
-+	drm_sched_stop(&core->sched, bad);
-+
-+	cookie = dma_fence_begin_signalling();
-+
-+	if (bad)
-+		drm_sched_increase_karma(bad);
-+
-+	/*
-+	 * Mask job interrupts and synchronize to make sure we won't be
-+	 * interrupted during our reset.
-+	 */
-+	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
-+	synchronize_irq(core->irq);
-+
-+	/* Handle the remaining interrupts before we reset. */
-+	rocket_job_handle_irq(core);
-+
-+	/*
-+	 * Remaining interrupts have been handled, but we might still have
-+	 * stuck jobs. Let's make sure the PM counters stay balanced by
-+	 * manually calling pm_runtime_put_noidle() and
-+	 * rocket_devfreq_record_idle() for each stuck job.
-+	 * Let's also make sure the cycle counting register's refcnt is
-+	 * kept balanced to prevent it from running forever
-+	 */
-+	scoped_guard(spinlock, &core->job_lock) {
-+		if (core->in_flight_job)
-+			pm_runtime_put_noidle(core->dev);
-+
-+		core->in_flight_job = NULL;
-+	}
-+
-+	/* Proceed with reset now. */
-+	pm_runtime_force_suspend(core->dev);
-+	pm_runtime_force_resume(core->dev);
-+
-+	/* GPU has been reset, we can clear the reset pending bit. */
-+	atomic_set(&core->reset.pending, 0);
-+
-+	/*
-+	 * Now resubmit jobs that were previously queued but didn't have a
-+	 * chance to finish.
-+	 * FIXME: We temporarily get out of the DMA fence signalling section
-+	 * while resubmitting jobs because the job submission logic will
-+	 * allocate memory with the GFP_KERNEL flag which can trigger memory
-+	 * reclaim and exposes a lock ordering issue.
-+	 */
-+	dma_fence_end_signalling(cookie);
-+	drm_sched_resubmit_jobs(&core->sched);
-+	cookie = dma_fence_begin_signalling();
-+
-+	/* Restart the scheduler */
-+	drm_sched_start(&core->sched, 0);
-+
-+	dma_fence_end_signalling(cookie);
-+}
-+
-+static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_job *sched_job)
-+{
-+	struct rocket_job *job = to_rocket_job(sched_job);
-+	struct rocket_device *rdev = job->rdev;
-+	struct rocket_core *core = sched_to_core(rdev, sched_job->sched);
-+
-+	/*
-+	 * If the GPU managed to complete this jobs fence, the timeout is
-+	 * spurious. Bail out.
-+	 */
-+	if (dma_fence_is_signaled(job->done_fence))
-+		return DRM_GPU_SCHED_STAT_NOMINAL;
-+
-+	/*
-+	 * Rocket IRQ handler may take a long time to process an interrupt
-+	 * if there is another IRQ handler hogging the processing.
-+	 * For example, the HDMI encoder driver might be stuck in the IRQ
-+	 * handler for a significant time in a case of bad cable connection.
-+	 * In order to catch such cases and not report spurious rocket
-+	 * job timeouts, synchronize the IRQ handler and re-check the fence
-+	 * status.
-+	 */
-+	synchronize_irq(core->irq);
-+
-+	if (dma_fence_is_signaled(job->done_fence)) {
-+		dev_warn(core->dev, "unexpectedly high interrupt latency\n");
-+		return DRM_GPU_SCHED_STAT_NOMINAL;
-+	}
-+
-+	dev_err(core->dev, "gpu sched timeout");
-+
-+	atomic_set(&core->reset.pending, 1);
-+	rocket_reset(core, sched_job);
-+	iommu_detach_group(NULL, iommu_group_get(core->dev));
-+
-+	return DRM_GPU_SCHED_STAT_NOMINAL;
-+}
-+
-+static void rocket_reset_work(struct work_struct *work)
-+{
-+	struct rocket_core *core;
-+
-+	core = container_of(work, struct rocket_core, reset.work);
-+	rocket_reset(core, NULL);
-+}
-+
-+static const struct drm_sched_backend_ops rocket_sched_ops = {
-+	.run_job = rocket_job_run,
-+	.timedout_job = rocket_job_timedout,
-+	.free_job = rocket_job_free
-+};
-+
-+static irqreturn_t rocket_job_irq_handler_thread(int irq, void *data)
-+{
-+	struct rocket_core *core = data;
-+
-+	rocket_job_handle_irq(core);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t rocket_job_irq_handler(int irq, void *data)
-+{
-+	struct rocket_core *core = data;
-+	u32 raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
-+
-+	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
-+	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
-+
-+	if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
-+	      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
-+		return IRQ_NONE;
-+
-+	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
-+
-+	return IRQ_WAKE_THREAD;
-+}
-+
-+int rocket_job_init(struct rocket_core *core)
-+{
-+	struct drm_sched_init_args args = {
-+		.ops = &rocket_sched_ops,
-+		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
-+		.credit_limit = 1,
-+		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
-+		.name = dev_name(core->dev),
-+		.dev = core->dev,
-+	};
-+	int ret;
-+
-+	INIT_WORK(&core->reset.work, rocket_reset_work);
-+	spin_lock_init(&core->job_lock);
-+
-+	core->irq = platform_get_irq(to_platform_device(core->dev), 0);
-+	if (core->irq < 0)
-+		return core->irq;
-+
-+	ret = devm_request_threaded_irq(core->dev, core->irq,
-+					rocket_job_irq_handler,
-+					rocket_job_irq_handler_thread,
-+					IRQF_SHARED, KBUILD_MODNAME "-job",
-+					core);
-+	if (ret) {
-+		dev_err(core->dev, "failed to request job irq");
-+		return ret;
-+	}
-+
-+	core->reset.wq = alloc_ordered_workqueue("rocket-reset-%d", 0, core->index);
-+	if (!core->reset.wq)
-+		return -ENOMEM;
-+
-+	core->fence_context = dma_fence_context_alloc(1);
-+
-+	args.timeout_wq = core->reset.wq;
-+	ret = drm_sched_init(&core->sched, &args);
-+	if (ret) {
-+		dev_err(core->dev, "Failed to create scheduler: %d.", ret);
-+		goto err_sched;
-+	}
-+
-+	return 0;
-+
-+err_sched:
-+	drm_sched_fini(&core->sched);
-+
-+	destroy_workqueue(core->reset.wq);
-+	return ret;
-+}
-+
-+void rocket_job_fini(struct rocket_core *core)
-+{
-+	drm_sched_fini(&core->sched);
-+
-+	cancel_work_sync(&core->reset.work);
-+	destroy_workqueue(core->reset.wq);
-+}
-+
-+int rocket_job_open(struct rocket_file_priv *rocket_priv)
-+{
-+	struct rocket_device *rdev = rocket_priv->rdev;
-+	struct drm_gpu_scheduler **scheds = kmalloc_array(rdev->num_cores, sizeof(scheds),
-+							  GFP_KERNEL);
-+	unsigned int core;
-+	int ret;
-+
-+	for (core = 0; core < rdev->num_cores; core++)
-+		scheds[core] = &rdev->cores[core].sched;
-+
-+	ret = drm_sched_entity_init(&rocket_priv->sched_entity,
-+				    DRM_SCHED_PRIORITY_NORMAL,
-+				    scheds,
-+				    rdev->num_cores, NULL);
-+	if (WARN_ON(ret))
-+		return ret;
-+
-+	return 0;
-+}
-+
-+void rocket_job_close(struct rocket_file_priv *rocket_priv)
-+{
-+	struct drm_sched_entity *entity = &rocket_priv->sched_entity;
-+
-+	kfree(entity->sched_list);
-+	drm_sched_entity_destroy(entity);
-+}
-+
-+int rocket_job_is_idle(struct rocket_core *core)
-+{
-+	/* If there are any jobs in this HW queue, we're not idle */
-+	if (atomic_read(&core->sched.credit_count))
-+		return false;
-+
-+	return true;
-+}
-+
-+static int rocket_ioctl_submit_job(struct drm_device *dev, struct drm_file *file,
-+				   struct drm_rocket_job *job)
++int rocket_ioctl_fini_bo(struct drm_device *dev, void *data, struct drm_file *file)
 +{
 +	struct rocket_device *rdev = to_rocket_device(dev);
-+	struct rocket_file_priv *file_priv = file->driver_priv;
-+	struct rocket_job *rjob = NULL;
-+	int ret = 0;
-+
-+	if (job->task_count == 0)
-+		return -EINVAL;
-+
-+	rjob = kzalloc(sizeof(*rjob), GFP_KERNEL);
-+	if (!rjob)
-+		return -ENOMEM;
-+
-+	kref_init(&rjob->refcount);
-+
-+	rjob->rdev = rdev;
-+
-+	ret = drm_sched_job_init(&rjob->base,
-+				 &file_priv->sched_entity,
-+				 1, NULL);
-+	if (ret)
-+		goto out_put_job;
-+
-+	ret = rocket_copy_tasks(dev, file, job, rjob);
-+	if (ret)
-+		goto out_cleanup_job;
-+
-+	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->in_bo_handles),
-+				     job->in_bo_handle_count, &rjob->in_bos);
-+	if (ret)
-+		goto out_cleanup_job;
-+
-+	rjob->in_bo_count = job->in_bo_handle_count;
-+
-+	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->out_bo_handles),
-+				     job->out_bo_handle_count, &rjob->out_bos);
-+	if (ret)
-+		goto out_cleanup_job;
-+
-+	rjob->out_bo_count = job->out_bo_handle_count;
-+
-+	rjob->domain = file_priv->domain;
-+
-+	ret = rocket_job_push(rjob);
-+	if (ret)
-+		goto out_cleanup_job;
-+
-+out_cleanup_job:
-+	if (ret)
-+		drm_sched_job_cleanup(&rjob->base);
-+out_put_job:
-+	rocket_job_put(rjob);
-+
-+	return ret;
-+}
-+
-+int rocket_ioctl_submit(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct drm_rocket_submit *args = data;
-+	struct drm_rocket_job *jobs;
-+	int ret = 0;
-+	unsigned int i = 0;
++	struct drm_rocket_fini_bo *args = data;
++	struct drm_gem_shmem_object *shmem_obj;
++	struct rocket_gem_object *rkt_obj;
++	struct drm_gem_object *gem_obj;
 +
 +	if (args->reserved != 0) {
-+		drm_dbg(dev, "Reserved field in drm_rocket_submit struct should be 0.\n");
++		drm_dbg(dev, "Reserved field in drm_rocket_fini_bo struct should be 0.\n");
 +		return -EINVAL;
 +	}
 +
-+	jobs = kvmalloc_array(args->job_count, sizeof(*jobs), GFP_KERNEL);
-+	if (!jobs) {
-+		drm_dbg(dev, "Failed to allocate incoming job array\n");
-+		return -ENOMEM;
++	gem_obj = drm_gem_object_lookup(file, args->handle);
++	if (!gem_obj)
++		return -ENOENT;
++
++	rkt_obj = to_rocket_bo(gem_obj);
++	shmem_obj = &rkt_obj->base;
++
++	WARN_ON(rkt_obj->last_cpu_prep_op == 0);
++
++	for (unsigned int core = 1; core < rdev->num_cores; core++) {
++		dma_sync_sgtable_for_device(rdev->cores[core].dev, shmem_obj->sgt,
++					    rocket_op_to_dma_dir(rkt_obj->last_cpu_prep_op));
 +	}
 +
-+	if (copy_from_user(jobs, u64_to_user_ptr(args->jobs),
-+			   args->job_count * sizeof(*jobs))) {
-+		ret = -EFAULT;
-+		drm_dbg(dev, "Failed to copy incoming job array\n");
-+		goto exit;
-+	}
++	rkt_obj->last_cpu_prep_op = 0;
 +
-+	for (i = 0; i < args->job_count; i++) {
-+		if (jobs[i].reserved != 0) {
-+			drm_dbg(dev, "Reserved field in drm_rocket_job struct should be 0.\n");
-+			return -EINVAL;
-+		}
++	drm_gem_object_put(gem_obj);
 +
-+		rocket_ioctl_submit_job(dev, file, &jobs[i]);
-+	}
-+
-+exit:
-+	kfree(jobs);
-+
-+	return ret;
++	return 0;
 +}
-diff --git a/drivers/accel/rocket/rocket_job.h b/drivers/accel/rocket/rocket_job.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..e461de99906a1081f66410117b8e41e340790b2a
---- /dev/null
-+++ b/drivers/accel/rocket/rocket_job.h
-@@ -0,0 +1,52 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
+diff --git a/drivers/accel/rocket/rocket_gem.h b/drivers/accel/rocket/rocket_gem.h
+index e8a4d6213fd80419be2ec8af04583a67fb1a4b75..a52a63cd78339a6150b99592ab5f94feeeb51fde 100644
+--- a/drivers/accel/rocket/rocket_gem.h
++++ b/drivers/accel/rocket/rocket_gem.h
+@@ -12,12 +12,17 @@ struct rocket_gem_object {
+ 	struct iommu_domain *domain;
+ 	size_t size;
+ 	u32 offset;
++	u32 last_cpu_prep_op;
+ };
+ 
+ struct drm_gem_object *rocket_gem_create_object(struct drm_device *dev, size_t size);
+ 
+ int rocket_ioctl_create_bo(struct drm_device *dev, void *data, struct drm_file *file);
+ 
++int rocket_ioctl_prep_bo(struct drm_device *dev, void *data, struct drm_file *file);
 +
-+#ifndef __ROCKET_JOB_H__
-+#define __ROCKET_JOB_H__
++int rocket_ioctl_fini_bo(struct drm_device *dev, void *data, struct drm_file *file);
 +
-+#include <drm/drm_drv.h>
-+#include <drm/gpu_scheduler.h>
-+
-+#include "rocket_core.h"
-+#include "rocket_drv.h"
-+
-+struct rocket_task {
-+	u64 regcmd;
-+	u32 regcmd_count;
-+};
-+
-+struct rocket_job {
-+	struct drm_sched_job base;
-+
-+	struct rocket_device *rdev;
-+
-+	struct drm_gem_object **in_bos;
-+	struct drm_gem_object **out_bos;
-+
-+	u32 in_bo_count;
-+	u32 out_bo_count;
-+
-+	struct rocket_task *tasks;
-+	u32 task_count;
-+	u32 next_task_idx;
-+
-+	/* Fence to be signaled by drm-sched once its done with the job */
-+	struct dma_fence *inference_done_fence;
-+
-+	/* Fence to be signaled by IRQ handler when the job is complete. */
-+	struct dma_fence *done_fence;
-+
-+	struct iommu_domain *domain;
-+
-+	struct kref refcount;
-+};
-+
-+int rocket_ioctl_submit(struct drm_device *dev, void *data, struct drm_file *file);
-+
-+int rocket_job_init(struct rocket_core *core);
-+void rocket_job_fini(struct rocket_core *core);
-+int rocket_job_open(struct rocket_file_priv *rocket_priv);
-+void rocket_job_close(struct rocket_file_priv *rocket_priv);
-+int rocket_job_is_idle(struct rocket_core *core);
-+
-+#endif
+ static inline
+ struct  rocket_gem_object *to_rocket_bo(struct drm_gem_object *obj)
+ {
 diff --git a/include/uapi/drm/rocket_accel.h b/include/uapi/drm/rocket_accel.h
-index 95720702b7c4413d72b89c1f0f59abb22dc8c6b3..cb1b5934c201160e7650aabd1b3a2b1c77b1fd7b 100644
+index cb1b5934c201160e7650aabd1b3a2b1c77b1fd7b..b5c80dd767be56e9720b51e4a82617a425a881a1 100644
 --- a/include/uapi/drm/rocket_accel.h
 +++ b/include/uapi/drm/rocket_accel.h
-@@ -12,8 +12,10 @@ extern "C" {
- #endif
+@@ -13,9 +13,13 @@ extern "C" {
  
  #define DRM_ROCKET_CREATE_BO			0x00
-+#define DRM_ROCKET_SUBMIT			0x01
+ #define DRM_ROCKET_SUBMIT			0x01
++#define DRM_ROCKET_PREP_BO			0x02
++#define DRM_ROCKET_FINI_BO			0x03
  
  #define DRM_IOCTL_ROCKET_CREATE_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_ROCKET_CREATE_BO, struct drm_rocket_create_bo)
-+#define DRM_IOCTL_ROCKET_SUBMIT			DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_SUBMIT, struct drm_rocket_submit)
+ #define DRM_IOCTL_ROCKET_SUBMIT			DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_SUBMIT, struct drm_rocket_submit)
++#define DRM_IOCTL_ROCKET_PREP_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_PREP_BO, struct drm_rocket_prep_bo)
++#define DRM_IOCTL_ROCKET_FINI_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_FINI_BO, struct drm_rocket_fini_bo)
  
  /**
   * struct drm_rocket_create_bo - ioctl argument for creating Rocket BOs.
-@@ -37,6 +39,68 @@ struct drm_rocket_create_bo {
+@@ -39,6 +43,39 @@ struct drm_rocket_create_bo {
  	__u64 offset;
  };
  
-+/**
-+ * struct drm_rocket_task - A task to be run on the NPU
-+ *
-+ * A task is the smallest unit of work that can be run on the NPU.
-+ */
-+struct drm_rocket_task {
-+	/** Input: DMA address to NPU mapping of register command buffer */
-+	__u64 regcmd;
++#define ROCKET_PREP_READ        0x01
++#define ROCKET_PREP_WRITE       0x02
 +
-+	/** Input: Number of commands in the register command buffer */
-+	__u32 regcmd_count;
++/**
++ * struct drm_rocket_prep_bo - ioctl argument for starting CPU ownership of the BO.
++ *
++ * Takes care of waiting for any NPU jobs that might still use the NPU and performs cache
++ * synchronization.
++ */
++struct drm_rocket_prep_bo {
++	/** Input: GEM handle of the buffer object. */
++	__u32 handle;
++
++	/** Input: mask of ROCKET_PREP_x, direction of the access. */
++	__u32 op;
++
++	/** Input: Amount of time to wait for NPU jobs. */
++	__s64 timeout_ns;
++};
++
++/**
++ * struct drm_rocket_fini_bo - ioctl argument for finishing CPU ownership of the BO.
++ *
++ * Synchronize caches for NPU access.
++ */
++struct drm_rocket_fini_bo {
++	/** Input: GEM handle of the buffer object. */
++	__u32 handle;
 +
 +	/** Reserved, must be zero. */
 +	__u32 reserved;
 +};
 +
-+/**
-+ * struct drm_rocket_job - A job to be run on the NPU
-+ *
-+ * The kernel will schedule the execution of this job taking into account its
-+ * dependencies with other jobs. All tasks in the same job will be executed
-+ * sequentially on the same core, to benefit from memory residency in SRAM.
-+ */
-+struct drm_rocket_job {
-+	/** Input: Pointer to an array of struct drm_rocket_task. */
-+	__u64 tasks;
-+
-+	/** Input: Pointer to a u32 array of the BOs that are read by the job. */
-+	__u64 in_bo_handles;
-+
-+	/** Input: Pointer to a u32 array of the BOs that are written to by the job. */
-+	__u64 out_bo_handles;
-+
-+	/** Input: Number of tasks passed in. */
-+	__u32 task_count;
-+
-+	/** Input: Number of input BO handles passed in (size is that times 4). */
-+	__u32 in_bo_handle_count;
-+
-+	/** Input: Number of output BO handles passed in (size is that times 4). */
-+	__u32 out_bo_handle_count;
-+
-+	/** Reserved, must be zero. */
-+	__u32 reserved;
-+};
-+
-+/**
-+ * struct drm_rocket_submit - ioctl argument for submitting commands to the NPU.
-+ *
-+ * The kernel will schedule the execution of these jobs in dependency order.
-+ */
-+struct drm_rocket_submit {
-+	/** Input: Pointer to an array of struct drm_rocket_job. */
-+	__u64 jobs;
-+
-+	/** Input: Number of jobs passed in. */
-+	__u32 job_count;
-+
-+	/** Reserved, must be zero. */
-+	__u32 reserved;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
+ /**
+  * struct drm_rocket_task - A task to be run on the NPU
+  *
 
 -- 
 2.49.0
