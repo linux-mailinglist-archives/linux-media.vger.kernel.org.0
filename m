@@ -1,290 +1,222 @@
-Return-Path: <linux-media+bounces-34209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EDEACFEE4
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 11:11:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E46CACFEF4
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 11:14:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E0A87A4300
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 09:10:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED6C3166E4A
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 09:14:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89F00286413;
-	Fri,  6 Jun 2025 09:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28DAA286413;
+	Fri,  6 Jun 2025 09:13:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KYyCdDgV"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="g4nk5EID";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AQeOZkyu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4547A286405
-	for <linux-media@vger.kernel.org>; Fri,  6 Jun 2025 09:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88013283FFB;
+	Fri,  6 Jun 2025 09:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749201075; cv=none; b=IOwiIp2yuJKh4gzawIYSscIDzKY6UTUwn2kwfo+osQDT6wVQSO9HidpItARfU58f/OoWKRUoc2M38U3BX0gBI6OWrrK05E06Sir7pEDAiOcIFfFjjgDff2qaGHwbmOX7J9tzyNGUMTFUXi5anJzB1iRvUJSN0AT2d74qFXQt0is=
+	t=1749201233; cv=none; b=ixPWXU9h4bamWp7xYZQlzIX0ivg8n4+l8xXwKlGk9J7LSnWHVPrxEaNbgi+wuu7H2UmtFLffkspMwZGu6tnmlbzT+Oy4zVq+WfRcoWWun516ePGrBlbA2j6hhfcIeG6TtmzNqjM23puEFBtshPwdvu1SAyI5Rs/DbgFSRcKSk2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749201075; c=relaxed/simple;
-	bh=9937TRbT8MggXh0mBLEOsuxYl3YvY65NN6qvcxmxPbs=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=qtReLf7gd9SHhODOOS2P8ItHVhGV/nrp0JIknQnbPS9MEtL259IZb1yEHhv1q8jeWN111ZHedYhFqQ1HBmcmSkN3AYXfy02cfH5qNoq6zXqp6NpDQOi51uREXkOFsl2cLIaI+kh6bp8D0bAmzD3+y3YGijX9k+RlhBWzHKWABtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KYyCdDgV; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:4842:8d57:2a74:e585])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5EC5011DD;
-	Fri,  6 Jun 2025 11:11:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749201066;
-	bh=9937TRbT8MggXh0mBLEOsuxYl3YvY65NN6qvcxmxPbs=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=KYyCdDgV2BE0zQhjHrjmLoWTRm791s9fJiII2xWyR8TqqZuSbsdfgyLudZhUAj6aE
-	 xT9kglSxEYnefiWyXyZGciGYxpv8MjBQ1mlCMBccYt/UrJGQxaJiX7bypZks8WJpci
-	 mpuYwpx3L5t9uS6GtLFZrAC9EWgrsyFYaMB4o/Kw=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1749201233; c=relaxed/simple;
+	bh=elNmMcEm/GGOUK2tIhv3CbPxIzdJsRFiJtW0NPFKiHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KC9MAzGmvem29KZMh6keEBOXFJwalNluW+VVKm41PicP2KTEFmDkmmlXZ/9VeZBeZq32kZ3BLWyMw4HnEj7Bw1brov4nDRxSuX3Midv3fxupGdT60BTlCfxNWaR4POkKe5F4STrS1ZzwAFXVYxkfPes/E+Xi0UH/BPc4GPOe1MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=g4nk5EID; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AQeOZkyu; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 4A01B25400D8;
+	Fri,  6 Jun 2025 05:13:49 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Fri, 06 Jun 2025 05:13:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749201229;
+	 x=1749287629; bh=vtUO92tCX2BijpLTXVd3ne6ezZessOK7OBV0E6sLs9M=; b=
+	g4nk5EIDmRl1FqCYFrxe6UaXfclYBwvaaldd6OgUMVhpbBGTdGgsuSvUJ2xKx9J/
+	hcRbVWgyQ6WY0CZiTRyPVIAIJvolB6+PG/bXMvCsQJ4VahaM23faBUV2x8gkfP4S
+	4GQygoMxiXoeLZIEQy7DkviyIxkjXh2F3Mu5PaBbtaIyp4BagppIiCjbvnB8aOGK
+	ZhdsgN07YlKk+DQw86YVzaQ+1aBT0VNVGQN0evgb7mNEWCRBcLoVvQEEsoyULj3W
+	4h3IO0tS336YLwxu5KynWKQL0mF5jsqPlE0t73thG1qKaW+vxvg7jANHMD5P7LkL
+	SNLw+zQ3czg421/OJdmVaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749201229; x=
+	1749287629; bh=vtUO92tCX2BijpLTXVd3ne6ezZessOK7OBV0E6sLs9M=; b=A
+	QeOZkyu739PvxS0Qltll99Ab3jXhoU9j+/Ve8inBanH4BghprX2mBLdNCGCudwgp
+	NDwAEVomS5loVexW9WePV4bZwU9yr4tYj7glva7CwKDualwmGZbW1N+lSUFIAumd
+	wzSvWMUK3o2cIqmO3Pkb2T1TuC8JAEuwE8vHJs658wbCpklXI265xTjvNnJ+f4Qv
+	kKZch/dojCtL0pfMppUcCI5qGjWsrGvgutW7rBiEBqbdwFrWF5lpuwDsBg4Z1UJm
+	fK/IB3Ha/AJlA5BfhKaIiFNdGIt8Q5DZ0GkHNe0jxNduUUWNL1smKOC40HSkGB6/
+	8ZRWxj8Thzx0/Yzu8NQHg==
+X-ME-Sender: <xms:TLFCaGZcg86-HsU6R1gW_apH4nV0jUZZHBRpvnc1gAsGGwnlcmDBhQ>
+    <xme:TLFCaJYX8Nw0_Ip12EsGXLDCFAi_o9ICp87RxFPtru5rxcHIVXX4-mDpsGEcGurzV
+    RyCJcyYTr0qiPPg5SI>
+X-ME-Received: <xmr:TLFCaA8nE5EvrWvl-dBVpVom_WyJYwGqOB0Vmx0crdQ7zdmLAN6ejvWe_ycbjnkYgN6C7yBVXPZF8ZHpL1jUmqAIammY8NPJVA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegkeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
+    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
+    gvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeht
+    ohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurd
+    gtohhmpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghl
+    rdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtgho
+    mhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghr
+    nhgvlhdrohhrgh
+X-ME-Proxy: <xmx:TLFCaIqH9kLhNIbq4czPkaj_CcyUE6RgCeG4k4-JINWihpfaLEzLPQ>
+    <xmx:TLFCaBp2Ody_KXz4g6C667QWwVTDbeGDKjZhH0aCeQn6aUUWRW7b0Q>
+    <xmx:TLFCaGRBcVHCcS-fB7TGIUb9z3jOmfj044npqqBL7FANxPAYRPZHRw>
+    <xmx:TLFCaBpBxuAgQQL0oFctK1eAcMhpOAi5uy2_RRGdwF_Vth0tRG2VoQ>
+    <xmx:TbFCaEES03mtSTQBSoWWf_f5MNeqtGXFcLXH2dFlMqGpMdBjkPwGH3DJ>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Jun 2025 05:13:48 -0400 (EDT)
+Date: Fri, 6 Jun 2025 11:13:38 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-vin: Fix stride setting for RAW8 formats
+Message-ID: <20250606091338.GC3849429@ragnatech.se>
+References: <20250402183302.140055-1-niklas.soderlund+renesas@ragnatech.se>
+ <62b34d44-14d3-4096-ba13-edd53bd3eb7c@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250606090533.10711-1-laurent.pinchart@ideasonboard.com>
-References: <20250606090533.10711-1-laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] media: imx-mipi-csis: Use CSI-2 data type macros from mipi-csi2.h
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, imx@lists.linux.dev
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org
-Date: Fri, 06 Jun 2025 11:11:07 +0200
-Message-ID: <174920106757.119329.6456362062712317459@localhost>
-User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <62b34d44-14d3-4096-ba13-edd53bd3eb7c@ideasonboard.com>
 
-Hi Laurent,
+Hi Tomi,
 
-Thank you for the patch.
+On 2025-05-30 15:08:56 +0300, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 02/04/2025 21:33, Niklas Söderlund wrote:
+> > Earlier versions of the datasheet where unclear about the stride setting
+> > for RAW8 capture formats. Later datasheets clarifies that the stride
+> > only process in this mode for non-image data. For image data the full
+> > stride shall be used. Compare section "RAW: 8 Bits and Embedded 8-Bit
+> > Non-Image Data, User Defined 8-bit Data" vs "RAW: 8 Bits".
+> 
+> Looking at the V4H manual, I see:
+> 
+> "
+> RAW: 8 Bits and Embedded 8-Bit Non-Image Data, User Defined 8-bit Data
+> 
+> The 8-bit RAW image data format, Embedded 8-bit non image data and User
+> Defined 8-bit data format are shown below. Notes: 1. These data are
+> transferred by 2-Byte unit.
+> "
+> 
+> and
+> 
+> "
+> RAW: 8 Bits (16 Bits/Pixel) Data
+> 
+> The 8-bit RAW (16 bits/pixel) image data format is shown below.
+> Notes: 1. These data are transferred by 2-Byte unit.
+> "
+> 
+> I don't see "RAW: 8 Bits". In both cases above the text says "2-byte unit".
 
-Quoting Laurent Pinchart (2025-06-06 11:05:33)
-> The imx-mipi-csis defines custom macros for the CSI-2 data types,
-> duplicating the centralized macros defines in mipi-csi2.h. Replace them
-> with the latter.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I agree this is all priorly documented. My understanding and this fix 
+comes from the two diagrams attached to the two different sections you 
+point out.
 
-Looks good to me.
-Reviewed-by: Stefan Klug <stefan.klug@ideasonboard.com>=20
+In the first case "(12) RAW: 8 Bits and Embedded 8-Bit Non-Image Data, 
+User Defined 8-bit Data" the diagram (for even number of pixels) shows 
+two pixels being transferred in a 16-bit space, concatenated one after 
+the other.
 
-Cheers,
-Stefan
+In the second case "(21) RAW: 8 Bits (16 Bits/Pixel) Data" the diagram 
+shows one pixel being transferred in a 16-bit space, and the upper 8 
+bits being set to 0.
 
-> ---
->  drivers/media/platform/nxp/imx-mipi-csis.c | 68 ++++++++--------------
->  1 file changed, 25 insertions(+), 43 deletions(-)
->=20
-> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/p=
-latform/nxp/imx-mipi-csis.c
-> index d060eadebc7a..2beb5f43c2c0 100644
-> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> @@ -28,6 +28,7 @@
->  #include <linux/reset.h>
->  #include <linux/spinlock.h>
-> =20
-> +#include <media/mipi-csi2.h>
->  #include <media/v4l2-common.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-event.h>
-> @@ -229,25 +230,6 @@
-> =20
->  #define DEFAULT_SCLK_CSIS_FREQ                 166000000UL
-> =20
-> -/* MIPI CSI-2 Data Types */
-> -#define MIPI_CSI2_DATA_TYPE_YUV420_8           0x18
-> -#define MIPI_CSI2_DATA_TYPE_YUV420_10          0x19
-> -#define MIPI_CSI2_DATA_TYPE_LE_YUV420_8                0x1a
-> -#define MIPI_CSI2_DATA_TYPE_CS_YUV420_8                0x1c
-> -#define MIPI_CSI2_DATA_TYPE_CS_YUV420_10       0x1d
-> -#define MIPI_CSI2_DATA_TYPE_YUV422_8           0x1e
-> -#define MIPI_CSI2_DATA_TYPE_YUV422_10          0x1f
-> -#define MIPI_CSI2_DATA_TYPE_RGB565             0x22
-> -#define MIPI_CSI2_DATA_TYPE_RGB666             0x23
-> -#define MIPI_CSI2_DATA_TYPE_RGB888             0x24
-> -#define MIPI_CSI2_DATA_TYPE_RAW6               0x28
-> -#define MIPI_CSI2_DATA_TYPE_RAW7               0x29
-> -#define MIPI_CSI2_DATA_TYPE_RAW8               0x2a
-> -#define MIPI_CSI2_DATA_TYPE_RAW10              0x2b
-> -#define MIPI_CSI2_DATA_TYPE_RAW12              0x2c
-> -#define MIPI_CSI2_DATA_TYPE_RAW14              0x2d
-> -#define MIPI_CSI2_DATA_TYPE_USER(x)            (0x30 + (x))
-> -
->  struct mipi_csis_event {
->         bool debug;
->         u32 mask;
-> @@ -357,116 +339,116 @@ static const struct csis_pix_format mipi_csis_for=
-mats[] =3D {
->         {
->                 .code =3D MEDIA_BUS_FMT_UYVY8_1X16,
->                 .output =3D MEDIA_BUS_FMT_UYVY8_1X16,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_YUV422_8,
-> +               .data_type =3D MIPI_CSI2_DT_YUV422_8B,
->                 .width =3D 16,
->         },
->         /* RGB formats. */
->         {
->                 .code =3D MEDIA_BUS_FMT_RGB565_1X16,
->                 .output =3D MEDIA_BUS_FMT_RGB565_1X16,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RGB565,
-> +               .data_type =3D MIPI_CSI2_DT_RGB565,
->                 .width =3D 16,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_BGR888_1X24,
->                 .output =3D MEDIA_BUS_FMT_RGB888_1X24,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RGB888,
-> +               .data_type =3D MIPI_CSI2_DT_RGB888,
->                 .width =3D 24,
->         },
->         /* RAW (Bayer and greyscale) formats. */
->         {
->                 .code =3D MEDIA_BUS_FMT_SBGGR8_1X8,
->                 .output =3D MEDIA_BUS_FMT_SBGGR8_1X8,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
-> +               .data_type =3D MIPI_CSI2_DT_RAW8,
->                 .width =3D 8,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SGBRG8_1X8,
->                 .output =3D MEDIA_BUS_FMT_SGBRG8_1X8,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
-> +               .data_type =3D MIPI_CSI2_DT_RAW8,
->                 .width =3D 8,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SGRBG8_1X8,
->                 .output =3D MEDIA_BUS_FMT_SGRBG8_1X8,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
-> +               .data_type =3D MIPI_CSI2_DT_RAW8,
->                 .width =3D 8,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SRGGB8_1X8,
->                 .output =3D MEDIA_BUS_FMT_SRGGB8_1X8,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
-> +               .data_type =3D MIPI_CSI2_DT_RAW8,
->                 .width =3D 8,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_Y8_1X8,
->                 .output =3D MEDIA_BUS_FMT_Y8_1X8,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
-> +               .data_type =3D MIPI_CSI2_DT_RAW8,
->                 .width =3D 8,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SBGGR10_1X10,
->                 .output =3D MEDIA_BUS_FMT_SBGGR10_1X10,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
-> +               .data_type =3D MIPI_CSI2_DT_RAW10,
->                 .width =3D 10,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SGBRG10_1X10,
->                 .output =3D MEDIA_BUS_FMT_SGBRG10_1X10,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
-> +               .data_type =3D MIPI_CSI2_DT_RAW10,
->                 .width =3D 10,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SGRBG10_1X10,
->                 .output =3D MEDIA_BUS_FMT_SGRBG10_1X10,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
-> +               .data_type =3D MIPI_CSI2_DT_RAW10,
->                 .width =3D 10,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SRGGB10_1X10,
->                 .output =3D MEDIA_BUS_FMT_SRGGB10_1X10,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
-> +               .data_type =3D MIPI_CSI2_DT_RAW10,
->                 .width =3D 10,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_Y10_1X10,
->                 .output =3D MEDIA_BUS_FMT_Y10_1X10,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW10,
-> +               .data_type =3D MIPI_CSI2_DT_RAW10,
->                 .width =3D 10,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SBGGR12_1X12,
->                 .output =3D MEDIA_BUS_FMT_SBGGR12_1X12,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
-> +               .data_type =3D MIPI_CSI2_DT_RAW12,
->                 .width =3D 12,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SGBRG12_1X12,
->                 .output =3D MEDIA_BUS_FMT_SGBRG12_1X12,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
-> +               .data_type =3D MIPI_CSI2_DT_RAW12,
->                 .width =3D 12,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SGRBG12_1X12,
->                 .output =3D MEDIA_BUS_FMT_SGRBG12_1X12,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
-> +               .data_type =3D MIPI_CSI2_DT_RAW12,
->                 .width =3D 12,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SRGGB12_1X12,
->                 .output =3D MEDIA_BUS_FMT_SRGGB12_1X12,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
-> +               .data_type =3D MIPI_CSI2_DT_RAW12,
->                 .width =3D 12,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_Y12_1X12,
->                 .output =3D MEDIA_BUS_FMT_Y12_1X12,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW12,
-> +               .data_type =3D MIPI_CSI2_DT_RAW12,
->                 .width =3D 12,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SBGGR14_1X14,
->                 .output =3D MEDIA_BUS_FMT_SBGGR14_1X14,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW14,
-> +               .data_type =3D MIPI_CSI2_DT_RAW14,
->                 .width =3D 14,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SGBRG14_1X14,
->                 .output =3D MEDIA_BUS_FMT_SGBRG14_1X14,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW14,
-> +               .data_type =3D MIPI_CSI2_DT_RAW14,
->                 .width =3D 14,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SGRBG14_1X14,
->                 .output =3D MEDIA_BUS_FMT_SGRBG14_1X14,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW14,
-> +               .data_type =3D MIPI_CSI2_DT_RAW14,
->                 .width =3D 14,
->         }, {
->                 .code =3D MEDIA_BUS_FMT_SRGGB14_1X14,
->                 .output =3D MEDIA_BUS_FMT_SRGGB14_1X14,
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW14,
-> +               .data_type =3D MIPI_CSI2_DT_RAW14,
->                 .width =3D 14,
->         },
->         /* JPEG */
-> @@ -494,7 +476,7 @@ static const struct csis_pix_format mipi_csis_formats=
-[] =3D {
->                  * SoC that can support quad pixel mode, this will have t=
-o be
->                  * revisited.
->                  */
-> -               .data_type =3D MIPI_CSI2_DATA_TYPE_RAW8,
-> +               .data_type =3D MIPI_CSI2_DT_RAW8,
->                 .width =3D 8,
->         }
->  };
-> @@ -583,7 +565,7 @@ static void __mipi_csis_set_format(struct mipi_csis_d=
-evice *csis,
->          *
->          * TODO: Verify which other formats require DUAL (or QUAD) modes.
->          */
-> -       if (csis_fmt->data_type =3D=3D MIPI_CSI2_DATA_TYPE_YUV422_8)
-> +       if (csis_fmt->data_type =3D=3D MIPI_CSI2_DT_YUV422_8B)
->                 val |=3D MIPI_CSIS_ISPCFG_PIXEL_MODE_DUAL;
-> =20
->         val |=3D MIPI_CSIS_ISPCFG_FMT(csis_fmt->data_type);
->=20
-> base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
->
+Without this fix the 8-bit raw frames I can grab from IMX219 and IMX462 
+on V4H are jumbled. I suspect maybe we need to teach the VIN driver to 
+support both modes as this have an effect on your setup. How do your 
+output images look with this fix?
+
+What I can't figure out is what is different at the VIN stage. All RAW 
+8-bit media bus formats sets VnMC.INF to b100 (Embedded 8-bit non Image 
+Data or RAW8 input) which would suggest the first case is always used.  
+The only case where the second case could be used is for the RAW10 
+formats where VnMC.INF is set to b111 (RAW8 (16 bits/pixel) or RAW10 or 
+RAW12 or RAW14 or RAW16 or RGB565).
+
+The only source I can think of is that our sensors somehow transmit 
+8-bit data differently, but I'm not sure how we can check that theory.  
+But if we can then we could use different media bus codes to address 
+both scenarios. What do you think?
+
+> 
+>  Tomi
+> 
+> > 
+> > Remove the special case from pixel formats that carry image data and
+> > treat it as any other image format.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 ----------------
+> >  1 file changed, 16 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > index f8394be8a922..fdf0f86c801f 100644
+> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > @@ -680,22 +680,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+> >  
+> >  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+> >  	stride = vin->format.bytesperline / fmt->bpp;
+> > -
+> > -	/* For RAW8 format bpp is 1, but the hardware process RAW8
+> > -	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
+> > -	 */
+> > -	switch (vin->format.pixelformat) {
+> > -	case V4L2_PIX_FMT_SBGGR8:
+> > -	case V4L2_PIX_FMT_SGBRG8:
+> > -	case V4L2_PIX_FMT_SGRBG8:
+> > -	case V4L2_PIX_FMT_SRGGB8:
+> > -	case V4L2_PIX_FMT_GREY:
+> > -		stride /= 2;
+> > -		break;
+> > -	default:
+> > -		break;
+> > -	}
+> > -
+> >  	rvin_write(vin, stride, VNIS_REG);
+> >  }
+> >  
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
