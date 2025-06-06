@@ -1,225 +1,222 @@
-Return-Path: <linux-media+bounces-34238-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34239-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAAABAD020D
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 14:14:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84210AD0211
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 14:15:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5480217114F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:14:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2BC83B007A
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:14:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 017FF288C39;
-	Fri,  6 Jun 2025 12:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5681D28853A;
+	Fri,  6 Jun 2025 12:14:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lCogGrRX"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="S48dUPRQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PNPEKMyg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40EC286D50;
-	Fri,  6 Jun 2025 12:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD802253355;
+	Fri,  6 Jun 2025 12:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749212059; cv=none; b=IOld23YTRbHht4ebddSQ1xu0QVI/8f12MrMOl3hs4t41qHOs1OIs7GnFbot7RFdceIZvHiXmCLSCByQkrLPmEcWi/U9572bdwbbYYOHLjGRS2/wYsq5MQ4fp/I+FxBeVBrYHyRP+mB/7AhGDKy2m93R8GTfkTBIu+64OjnRhfJc=
+	t=1749212070; cv=none; b=SpZO6L9OYWNrTABytH6rfkn7UuEcIbCPR3dtoPwUT/9sIDV0mDpyyHqurQi0g6O3uKRq2WwLjKx/vvCcwLb95z46+uMytca+17B4HJ7IO+JhqnWIgLrXS6sIHrcgp64RfOjuFsaUogBnW8zI1AOLRAUpwo1wwXtlHJkFMbdj4tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749212059; c=relaxed/simple;
-	bh=zG+3efq2Ab+EPeEyhmoGZ6e4roDjDNXBh4f0PORKj38=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cnhwXiqFBiaxz6IZrtaPex03OADy9R3qF7ODMQdG3tIcK64BOf0wsqEOzzN6kyhbmLUkbR0m3df59ARvpc/AKHU+qcM29ydrRrWWEfv1F7D3cBNDoiBcz2qZv469MOJQ4AHPF2MwqL5ZTmJDYdAWQzxhZvqZ+4tHjHElxh3jKaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lCogGrRX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from isaac-ThinkPad-T16-Gen-2.localdomain (cpc90716-aztw32-2-0-cust408.18-1.cable.virginm.net [86.26.101.153])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E01D149B;
-	Fri,  6 Jun 2025 14:14:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749212051;
-	bh=zG+3efq2Ab+EPeEyhmoGZ6e4roDjDNXBh4f0PORKj38=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lCogGrRX3Ai4kjdG6h5Pv8nQW1e0t02ejfLdF8uKg6EWtsgBAm+rNQ+LyRc1m/z5p
-	 KNTpJU34AtmiPR8NhvTrl/GEH1f9ywaJPOFD9Ck+VI7esYXrHMw8+SlqQX1mh91hLX
-	 hKRYTtM4ujGkiM0G3YkO+aPLF8m3+x+ShL9FDvoY=
-From: Isaac Scott <isaac.scott@ideasonboard.com>
-To: laurent.pinchart@ideasonboard.com
-Cc: kieran.bingham@ideasonboard.com,
-	rmfrfs@gmail.com,
-	martink@posteo.de,
-	kernel@puri.sm,
-	mchehab@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1749212070; c=relaxed/simple;
+	bh=qdxOxEI9x96A9XjkglB81iLIIYJwSgZOX1DcgLYY7SU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qqdp2d8qEJ52g3If/u5hDoXXQHgE0cPItbZ0GK4kC7ZV86ZYt7j4N959u6Bv6MmSSLC/JZGIxGZJnu1ku69xDQlDx9xeIQI60NhBB7A2zwdxb2+hSQkpNHlpIMbWbA0wmIXRTDNw7zCXU7t7fRJNhPGFcjHYPTRAeEMGiJF9AVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=S48dUPRQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PNPEKMyg; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfout.phl.internal (Postfix) with ESMTP id DD0CA138033D;
+	Fri,  6 Jun 2025 08:14:27 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Fri, 06 Jun 2025 08:14:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749212067;
+	 x=1749298467; bh=Z84X3cRTGcgyKLWc3Ch2d3gKywmMCUsq5T9sb22yUnc=; b=
+	S48dUPRQa90Gky8GVAVbsQXZ5wu/So3y6IlK39TSVWnGjogvwya7cwkUJw1c1m4i
+	+xJNXeRf0Q858bol16Ot1bskbwbiJysTZywFSTwTZEwB402PuSkPMqHX/WZ5UMHp
+	kn2m3MrUrZ96fJZpZpAXODb4p6ZCcdHO5z8EyEKRjlm9r4UyyVGhEKdDx5y24lef
+	LT32ieJBZAXxkjLtzreePOHvA1P6G3AbQG0hkSLnBWEvX9cuEwXkVxFWpuN32tu9
+	NwpE7NJWMB6rzZB0eNtoGEMJLCplrXMWuWoxXb8UciyPFX0+nlbm+jGEhTz9EAL5
+	jiFpCPPM8cQ28YJxtBreOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749212067; x=
+	1749298467; bh=Z84X3cRTGcgyKLWc3Ch2d3gKywmMCUsq5T9sb22yUnc=; b=P
+	NPEKMyg3FRtMV8A4wkk34z5RvhEautqc8vzquGY3XO+73VZTGpAXcfPXHvZL3rLt
+	vHj3H3JjZTw3nfc3t1rEOsXBfewfMu3KkKc0RA2VGqmmVQwIoyLJ08Pa2cDUgyh8
+	zFGcS3T+3EpLYbYe35hFWSXUTuyX4XpCSQ23fOGoDMtfIvOC+PmNtcgfEVYVgLFF
+	ZPuharY6rsyuz0Q8GNyeIvgaGucamxAj2JsiK0DM308mLrIVOsI0MoDUIsf4AsyV
+	dE3tbZvdQKBwY4/SDHpB16WQPI8rz2S1dVrh3Yyr4c8v1Dpe+RHPewrgCI4hloLl
+	vpjm6FfW9qTDJRoacsq/w==
+X-ME-Sender: <xms:o9tCaBEBwj0Q4fk7HDm81DC1uuko__A5H5JoFK7UBONMmJ71c3ae7g>
+    <xme:o9tCaGXWMZq4pfe2iO3PniPSsB5AsfAtiDC_qq2OgQazGNS9jKQyxNPgzzqiuBrPp
+    iYZ4w9DBsPgpoptQ3c>
+X-ME-Received: <xmr:o9tCaDJfU6B-IK-D3yYFVyy8TWTl0shns41RvFCfVM3Z_OdVabQMnOeApmdwDBatTdpyAx105h7V-HzwUtDLNb5bwjfR9eTFag>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeelfefg
+    tddtleeljeeuuddvteefledtfeefjeduheeiffffudetgeejieegffduffenucffohhmrg
+    hinheptghsihdvrdhvtgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrsh
+    gvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeht
+    ohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurd
+    gtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    ohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpth
+    htoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohepmhgthhgvhhgrsgdohhhurgifvghisehkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgr
+    rhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsg
+    horghrugdrtghomh
+X-ME-Proxy: <xmx:o9tCaHHgAY6QDNBtpiE_O6LFSt5zoeC3FS0d4USW4j-fy6Wr6-xExA>
+    <xmx:o9tCaHXa4UjxDh1sFNvGTE5UgWjQfRtfd-Xi4IZpxw1U-e_uVujb4g>
+    <xmx:o9tCaCO-MU3D2pgZE5joK7Aslm5TDdxkOvtiWe6ecYfDoT6B-i3qvg>
+    <xmx:o9tCaG344qOcGofRsXHEBgCUV8MNFCYemiogFMPXVTfqUmWKxPXWbA>
+    <xmx:o9tCaCbtjMunXHy-6cg0GIBaSqJCiLpOtp3NwNQis3X-TgBcZ9dBCGmd>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Jun 2025 08:14:27 -0400 (EDT)
+Date: Fri, 6 Jun 2025 14:14:26 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Isaac Scott <isaac.scott@ideasonboard.com>
-Subject: [PATCH 2/2] media: platform: Add user line interrupt to imx-mipi-csis driver
-Date: Fri,  6 Jun 2025 13:14:03 +0100
-Message-ID: <20250606121403.498153-3-isaac.scott@ideasonboard.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250606121403.498153-1-isaac.scott@ideasonboard.com>
-References: <20250606121403.498153-1-isaac.scott@ideasonboard.com>
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v3 10/15] media: rcar-csi2: Add .get_frame_desc op
+Message-ID: <20250606121426.GG2770609@ragnatech.se>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-10-026655df7138@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250530-rcar-streams-v3-10-026655df7138@ideasonboard.com>
 
-The NXP i.MX 8M Plus features an interrupt that triggers after the MIPI
-CSI receiver counts a user-configurable number of lines. This is useful
-for debugging, as it allows users to check if the amount of lines per
-frame equals what they are expecting.
+Hi Tomi,
 
-Add support for this interrupt in the driver, and an entry into debugfs to
-allow the user to configure whether the interrupt is enabled, as well as
-the number of lines after which to trigger the interrupt.
+Thanks for your work.
 
-This debugfs control can be altered while a stream is in progress, with
-0 disabling the interrupt and >0 setting a new desired line count.
+On 2025-05-30 16:50:39 +0300, Tomi Valkeinen wrote:
+> Add v4l2_subdev_pad_ops.get_frame_desc() implementation.
+> 
+> We also implement a fallback for the case where the upstream subdevice
+> does not implement .get_frame_desc. It assumes a single stream with VC =
+> 0 and DT based on the configured stream mbus format.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 56 ++++++++++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index 20bd44274bd2..65c7f3040696 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -1676,12 +1676,68 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int rcsi2_get_frame_desc_fallback(struct v4l2_subdev *sd,
+> +					 unsigned int pad,
+> +					 struct v4l2_mbus_frame_desc *fd)
+> +{
+> +	const struct rcar_csi2_format *format;
+> +	struct v4l2_subdev_state *state;
+> +	struct v4l2_mbus_framefmt *fmt;
+> +	int ret = 0;
+> +
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> +
+> +	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK, 0);
+> +	if (!fmt) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	format = rcsi2_code_to_fmt(fmt->code);
+> +	if (!format) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	fd->num_entries = 1;
+> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> +	fd->entry[0].stream = 0;
+> +	fd->entry[0].pixelcode = fmt->code;
+> +	fd->entry[0].bus.csi2.vc = 0;
+> +	fd->entry[0].bus.csi2.dt = format->datatype;
+> +
+> +out:
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rcsi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> +				struct v4l2_mbus_frame_desc *fd)
+> +{
+> +	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> +	int ret;
+> +
+> +	if (WARN_ON(!priv->info->use_isp))
+> +		return -ENOTTY;
 
-Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
----
- drivers/media/platform/nxp/imx-mipi-csis.c | 45 +++++++++++++++++++++-
- 1 file changed, 44 insertions(+), 1 deletion(-)
+This looks odd, why can't we support the frame descriptor and streams on 
+Gen3 that do not use the ISP Channel Selector?
 
-diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-index bbc549c22aff..0e6bc3c87be4 100644
---- a/drivers/media/platform/nxp/imx-mipi-csis.c
-+++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-@@ -88,6 +88,10 @@
- #define MIPI_CSIS_INT_MSK_ERR_CRC		BIT(1)
- #define MIPI_CSIS_INT_MSK_ERR_UNKNOWN		BIT(0)
- 
-+/* CSIS Interrupt mask 1 */
-+#define MIPI_CSIS_INT_MSK_1			0x18
-+#define MIPI_CSIS_INT_MSK_1_LINE_END		BIT(0)
-+
- /* CSIS Interrupt source */
- #define MIPI_CSIS_INT_SRC			0x14
- #define MIPI_CSIS_INT_SRC_EVEN_BEFORE		BIT(31)
-@@ -109,6 +113,10 @@
- #define MIPI_CSIS_INT_SRC_ERR_UNKNOWN		BIT(0)
- #define MIPI_CSIS_INT_SRC_ERRORS		0xfffff
- 
-+/* CSIS Interrupt source 1 */
-+#define MIPI_CSIS_INT_SRC_1			0x1c
-+#define MIPI_CSIS_INT_SRC_1_LINE_END		BIT(0)
-+
- /* D-PHY status control */
- #define MIPI_CSIS_DPHY_STATUS			0x20
- #define MIPI_CSIS_DPHY_STATUS_ULPS_DAT		BIT(8)
-@@ -221,6 +229,7 @@
- #define MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE	BIT(0)
- 
- #define MIPI_CSIS_FRAME_COUNTER_CH(n)		(0x0100 + (n) * 4)
-+#define MIPI_CSIS_LINE_INTERRUPT_RATIO(n)	(0x0110 + (n) * 4)
- 
- /* Non-image packet data buffers */
- #define MIPI_CSIS_PKTDATA_ODD			0x2000
-@@ -281,6 +290,8 @@ static const struct mipi_csis_event mipi_csis_events[] = {
- 	{ 0, MIPI_CSIS_INT_SRC_FRAME_END,		"Frame End"},
- 	{ 1, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_FALL,	"VSYNC Falling Edge"},
- 	{ 1, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE,	"VSYNC Rising Edge"},
-+	/* User Line interrupt */
-+	{ 2, MIPI_CSIS_INT_SRC_1_LINE_END,		"Line End"}
- };
- 
- #define MIPI_CSIS_NUM_EVENTS ARRAY_SIZE(mipi_csis_events)
-@@ -333,11 +344,14 @@ struct mipi_csis_device {
- 
- 	spinlock_t slock;	/* Protect events */
- 	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
-+
- 	struct dentry *debugfs_root;
- 	struct {
- 		bool enable;
- 		u32 hs_settle;
- 		u32 clk_settle;
-+		u32 int_line;
-+		u32 last_int_line;
- 	} debug;
- };
- 
-@@ -686,6 +700,15 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
- 			MIPI_CSIS_DPHY_BCTRL_L_B_DPHYCTRL(20000000));
- 	mipi_csis_write(csis, MIPI_CSIS_DPHY_BCTRL_H, 0);
- 
-+	if (csis->debug.int_line > 0)
-+		mipi_csis_write(csis, MIPI_CSIS_LINE_INTERRUPT_RATIO(0),
-+				csis->debug.int_line - 1);
-+
-+	mipi_csis_write(csis, MIPI_CSIS_INT_MSK_1,
-+			csis->debug.int_line ?
-+			MIPI_CSIS_INT_MSK_1_LINE_END : 0);
-+	csis->debug.last_int_line = csis->debug.int_line;
-+
- 	/* Update the shadow register. */
- 	val = mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
- 	mipi_csis_write(csis, MIPI_CSIS_CMN_CTRL,
-@@ -765,10 +788,12 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
- 	struct mipi_csis_device *csis = dev_id;
- 	unsigned long flags;
- 	unsigned int i;
--	u32 status[2];
-+	u32 int_lines;
-+	u32 status[3];
- 
- 	status[0] = mipi_csis_read(csis, MIPI_CSIS_INT_SRC);
- 	status[1] = mipi_csis_read(csis, MIPI_CSIS_DBG_INTR_SRC);
-+	status[2] = mipi_csis_read(csis, MIPI_CSIS_INT_SRC_1);
- 
- 	spin_lock_irqsave(&csis->slock, flags);
- 
-@@ -785,10 +810,25 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
- 	if (status[0] & MIPI_CSIS_INT_SRC_FRAME_START)
- 		mipi_csis_queue_event_sof(csis);
- 
-+	int_lines = READ_ONCE(csis->debug.int_line);
-+	if (int_lines != csis->debug.last_int_line) {
-+		if (int_lines > 0)
-+			mipi_csis_write(csis, MIPI_CSIS_LINE_INTERRUPT_RATIO(0),
-+					max(int_lines, 1U) - 1);
-+		else
-+			mipi_csis_write(csis,
-+					MIPI_CSIS_LINE_INTERRUPT_RATIO(0), 0);
-+
-+		csis->debug.last_int_line = int_lines;
-+		mipi_csis_write(csis, MIPI_CSIS_INT_MSK_1,
-+				int_lines ? MIPI_CSIS_INT_MSK_1_LINE_END : 0);
-+	}
-+
- 	spin_unlock_irqrestore(&csis->slock, flags);
- 
- 	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status[0]);
- 	mipi_csis_write(csis, MIPI_CSIS_DBG_INTR_SRC, status[1]);
-+	mipi_csis_write(csis, MIPI_CSIS_INT_SRC_1, status[2]);
- 
- 	return IRQ_HANDLED;
- }
-@@ -928,6 +968,7 @@ static void mipi_csis_debugfs_init(struct mipi_csis_device *csis)
- {
- 	csis->debug.hs_settle = UINT_MAX;
- 	csis->debug.clk_settle = UINT_MAX;
-+	csis->debug.int_line = 0;
- 
- 	csis->debugfs_root = debugfs_create_dir(dev_name(csis->dev), NULL);
- 
-@@ -939,6 +980,8 @@ static void mipi_csis_debugfs_init(struct mipi_csis_device *csis)
- 			   &csis->debug.clk_settle);
- 	debugfs_create_u32("ths_settle", 0600, csis->debugfs_root,
- 			   &csis->debug.hs_settle);
-+	debugfs_create_u32("int_line_0", 0600, csis->debugfs_root,
-+			   &csis->debug.int_line);
- }
- 
- static void mipi_csis_debugfs_exit(struct mipi_csis_device *csis)
+> +
+> +	if (WARN_ON(pad != RCAR_CSI2_SOURCE_VC0))
+> +		return -EINVAL;
+> +
+> +	ret = v4l2_subdev_get_frame_desc_passthrough(sd, pad, fd);
+> +	if (ret == -ENOIOCTLCMD)
+> +		ret = rcsi2_get_frame_desc_fallback(sd, pad, fd);
+> +	return ret;
+> +}
+> +
+>  static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
+>  	.enable_streams = rcsi2_enable_streams,
+>  	.disable_streams = rcsi2_disable_streams,
+>  
+>  	.set_fmt = rcsi2_set_pad_format,
+>  	.get_fmt = v4l2_subdev_get_fmt,
+> +
+> +	.get_frame_desc = rcsi2_get_frame_desc,
+>  };
+>  
+>  static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
+> 
+> -- 
+> 2.43.0
+> 
+
 -- 
-2.43.0
-
+Kind Regards,
+Niklas Söderlund
 
