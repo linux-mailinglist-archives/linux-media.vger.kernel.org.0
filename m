@@ -1,171 +1,403 @@
-Return-Path: <linux-media+bounces-34221-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34222-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04933AD0068
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:30:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDDCAD00BC
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:47:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E61F18916FD
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 10:30:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B32F5189CA3D
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 10:47:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E77D528852B;
-	Fri,  6 Jun 2025 10:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3334287508;
+	Fri,  6 Jun 2025 10:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LyobtJeS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tPyoyjUi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57B42882DF;
-	Fri,  6 Jun 2025 10:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBB528643F
+	for <linux-media@vger.kernel.org>; Fri,  6 Jun 2025 10:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749205781; cv=none; b=HARJtwyhYyEwvqr+VJDGf2WEpObqoNryIBD/k+vrpp3YIo0uSrQy0RslWSq/oRCVXAaADnttIBb78QC0irvKXK4DmY8LKJxrpOVHJIYboxGHr1OagwMlBRRMotS7f4R4U1Q1Kf0BU2pIqg0n2cJhT4pvGw9oB/KfK2QptGsYyps=
+	t=1749206831; cv=none; b=sIGjuQURj7IYVLeuttQh7KBoPOK9F2ZLmOXkYD4N2MCUX9VKUIQ5UU1LWqLdKA+3HcBtGXzpqes+Jj9hJqItVityCDW8qJB9CWTs03msBzWsulzPXDVzqvqXK39mEXJgf4tlcGH4Id/uw3nAxbojJuCOb4eFNcMn2DkQZVQECYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749205781; c=relaxed/simple;
-	bh=V+Ek8KvYXVxMnGDCEA+ZZupIN9VfOzRn2A+zOM1rIFI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oEszg5AlObZLJjADxDWAg0DiKw0+I1UdEYlM9pMZHxwu1HmJEuRXqqts3IcBzhsy2syQVgany+TnJJmLkcU9TSX5JHCRhqWHfbsysxu3tH4dVL+G47CEJZO3GDzemFxHcaUIxzi51MuTW9zDXg4hqRST4TXBwHxBFXsLvGKhcFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LyobtJeS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.102] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 910C31648;
-	Fri,  6 Jun 2025 12:29:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749205770;
-	bh=V+Ek8KvYXVxMnGDCEA+ZZupIN9VfOzRn2A+zOM1rIFI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=LyobtJeSR70kPu/NJewF6WvjT8KSCw1gBtLv2N60eJvVep1KxdIMKo+yJFYWyLxLI
-	 a/C3EctwsYf1Tl0hOPeG0s4X7T4UckFvl716UipY5Rjm9MQKVK3ssUBgVnK6l6RNVj
-	 jMGOzQZDvQXnGUwkQ50NLofmFC+Q7ausn4aZS0Y8=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Fri, 06 Jun 2025 12:29:24 +0200
-Subject: [PATCH v7 4/4] media: pisp_be: Fix pm_runtime underrun in probe
+	s=arc-20240116; t=1749206831; c=relaxed/simple;
+	bh=f+/j1GlnG7yRbwOXO1wHIG7cgcq9EW09L+j7P/rKe1k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GAn4MtvvN9QqaWQCm40dxu1EbdJHuCH7MWpncwjsQ9p6c/ZdpJx1JXW3l2xI/4iEUJ7Qo6GraWvxkT06ZS8JAAzbkNPMOSCAr3VJiJKTrHoIR5GMmaMrd1ewTCgASn1QeTxqY50E0m+bJJaxfJjPQTivP4Q/8FFmoZEzSjIDtKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tPyoyjUi; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-32a8abb1613so2074321fa.2
+        for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 03:47:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1749206827; x=1749811627; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Sdh3DYrunzvdU87ptIswN2gqeFyihiWuxRVoLIp7jeA=;
+        b=tPyoyjUiWWXQlWbmAywAoEgb95uFXimp9DGWTF9bnPOfoetyO9LhY5eRf1B3l4NS42
+         p8QMipdHZ4eJ0sT9yloT19TE9BX6ywU2RNJLDrbVuryl5yDWtueOBrRxzT0qFhEwfE9H
+         q+Fmg7fhwjfLzJNL9DxAG1NzmB/KjlT4zQTEAR3SWQfbE0xA9flHNZ1B5U/XRJGCnetP
+         DFjo/ifQNB98y1ziAz/I2QvDGXZ5nxHRoN9RIC5ZEeLjZdktjIsorjgr9DihoDFGwt8p
+         MX14o1o8bD8LnpwLu6RulESjXrste7fGpUKPLX/EMEHn1/gcPm4vdXRUgxmISnpfWPak
+         h/eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749206827; x=1749811627;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sdh3DYrunzvdU87ptIswN2gqeFyihiWuxRVoLIp7jeA=;
+        b=vIMOKrFs28AFcRU8U5tw4ngtrVhP/GWOwi7xaBiBweGGVRDwm45IOgEVByCyTkyNGW
+         zBbVfx+0SEZRKiIKHr03YB9BudQtbSiPAgnm27SI9V1VGo5oiWxEENSkEqQwRKQ6/WkA
+         MmK58kvUYps5+SvHD2HIwnceMLB/8m3yPD74e1xFSiKxM92tFrPFRaBPUrMp8fOkwxEJ
+         VdFQnWT/ZA19p2R7ks3BSVQWBwxtsUtfX9L+orSYtfnfJLtlKknnS/EQE1ExsQZ8pWe+
+         h0SQT7H5G8/JwP/IOqN8nq/FRFO73UsXyPI33cKTsmJQMrdBWi+HbrXmhzmoDrxxm5Tk
+         7KvA==
+X-Forwarded-Encrypted: i=1; AJvYcCUE7Cvn4ZvnV9p5iOS/NdgtCM1cKU685ujYmcn3exoZoEm4GdLs+voZfHOhM/MGW7YlBOcqbNrBz1tDWQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfNvK3+CLFY0y2lWh0Pa6dwRCwZFP466VuWm/mMNQL+iXADhgY
+	7xFAr81OS681fZ8E/kk4MxkzVvwH0rs771VJmUXmuepyA61X0bNZ6MnTp9I4mYGNfQA=
+X-Gm-Gg: ASbGnctMI2ZS5hc9sZwwKvtF8A6NxeiVC6ofLWMsigtjkEJVplRzOK8d7f9R4ouY2g9
+	4Xeft/kU5XxmF3oPTShyFYHncz1jmjCU9ytlzm+YRaBWq/NvRhcYlYSGskgft4iUkjD0ibzYu/u
+	qvW51jVTIjKWgNwWc2P7ug2ztO0CdkVHGD4VE8KjtPILAKs8ATGjqkE7gjUUVnihgN6jo2T8rsJ
+	zBQwi9+KwBo8Pj5HV4JLEVrStAAYNbJPieklhtniz2LajU9/8rhAVtrMDlhJHs6fURa5ByWedCn
+	ImrdIvSS8fHngjBSv6nPJX7O4QUyQvtTIRaOw6clqKsMScZg1AkU/U8Xa8iycMpakVq2TEbMMQJ
+	ufPfeZjaz1MGhzCvPcBU2yCdluTetqJQlo9aFTSAK
+X-Google-Smtp-Source: AGHT+IGxjhoxsgVGEZoQ3YemtpUiJRV1bf+P3EhChyczWjkpXHPpDvcvXiPRpgWGAH6vjpJO+8TgQw==
+X-Received: by 2002:ac2:4e0d:0:b0:553:2e82:162e with SMTP id 2adb3069b0e04-553685e5a0dmr156612e87.2.1749206827030;
+        Fri, 06 Jun 2025 03:47:07 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b33b48sm1379641fa.30.2025.06.06.03.47.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jun 2025 03:47:06 -0700 (PDT)
+Message-ID: <2884f55c-6b80-406a-ba21-aaa26297b1bf@linaro.org>
+Date: Fri, 6 Jun 2025 13:46:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/4] media: dt-bindings: Add qcom,msm8939-camss
+Content-Language: ru-RU
+To: vincent.knecht@mailoo.org, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250602-camss-8x39-vbif-v4-0-32c277d8f9bf@mailoo.org>
+ <20250602-camss-8x39-vbif-v4-3-32c277d8f9bf@mailoo.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250602-camss-8x39-vbif-v4-3-32c277d8f9bf@mailoo.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250606-pispbe-mainline-split-jobs-handling-v6-v7-4-46169f0622b7@ideasonboard.com>
-References: <20250606-pispbe-mainline-split-jobs-handling-v6-v7-0-46169f0622b7@ideasonboard.com>
-In-Reply-To: <20250606-pispbe-mainline-split-jobs-handling-v6-v7-0-46169f0622b7@ideasonboard.com>
-To: Naushir Patuck <naush@raspberrypi.com>, 
- Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>, 
- David Plowman <david.plowman@raspberrypi.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, stable@vger.kernel.org
-X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3094;
- i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=V+Ek8KvYXVxMnGDCEA+ZZupIN9VfOzRn2A+zOM1rIFI=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoQsMJy30vmgezVQQsGohmNhEl7scj92nRO6VT+
- 83ukN8V4LqJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaELDCQAKCRByNAaPFqFW
- PLwBD/4jPLV38ukgCPlmkOKp/S5DffYm09zKURW5qlvF2508WzIcSyvSUqDlH0oc1+OzTnU6uaA
- tvkt8OjmyqHCJQGsWQ/K2OSTvs/Q++BngwUkyduUk180Xc3qlpZlI9Qt9QHpsI5imCxa0vFZWzB
- 7pcP9r2+k/2Npa37fxuS23zrwG9UGcwcHlZAummjU2z4eLQMHfSNgnvUJdwNcOSJMxtjCKxMAtS
- p1XUvMATHwzi2DZss2yj/PBjwQv07zIXi+oJAuaaC1vVd9lKlAT55DbxewopHQnTXsJLj52iHqd
- tVYHeuuzAuk0ACtEqEkXhJnvI77s8KbWQa0FHEvNfR2UK4TSDrIJqbE74COoyJKSJLQkS/1+x2B
- 3Oo3AV6uIYMg22nFy5opWcjeDROQJkrSVJNWO4TOAFZ83lsmySSUtxFyY8JH21aLgkYQxMVaZUd
- 26p6NYdGlMI0Kl9IbwefIuD9UVY62zmVmw5KoOvI8DnGcxGpLQyedyxSyLyAindzmt89jq6ilZ6
- 8SOpvj/908p9v3uJem0eNt0Ow/ZrhW4PvVAtyw4QBZiAKNjPmPmjc9epAUCLR51ZGdrlIgYrcw9
- UEC7p5Q7ks5Pxm7sRpScEDFzqYqN+Nv5tk3mUzog08SKZQpGU/RFDCYAwPFMEd4ourQvHMDCMsW
- EIlxkCnCrIBAM4Q==
-X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-During the probe() routine, the PiSP BE driver needs to power up the
-interface in order to identify and initialize the hardware.
+Hello Vincent.
 
-The driver resumes the interface by calling the
-pispbe_runtime_resume() function directly, without going
-through the pm_runtime helpers, but later suspends it by calling
-pm_runtime_put_autosuspend().
+On 6/2/25 20:27, Vincent Knecht via B4 Relay wrote:
+> From: Vincent Knecht <vincent.knecht@mailoo.org>
+> 
+> Add bindings for qcom,msm8939-camss in order to support the camera
+> subsystem for MSM8939.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> ---
+>   .../bindings/media/qcom,msm8939-camss.yaml         | 254 +++++++++++++++++++++
+>   1 file changed, 254 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..59bf16888a8235495a2080e512ce179583bcd25d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
+> @@ -0,0 +1,254 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,msm8939-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm MSM8939 Camera Subsystem (CAMSS)
+> +
+> +maintainers:
+> +  - Vincent Knecht <vincent.knecht@mailoo.org>
+> +
+> +description:
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,msm8939-camss
+> +
+> +  reg:
+> +    maxItems: 11
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csiphy0
+> +      - const: csiphy0_clk_mux
+> +      - const: csiphy1
+> +      - const: csiphy1_clk_mux
+> +      - const: csi_clk_mux
+> +      - const: ispif
+> +      - const: vfe0
+> +      - const: vfe0_vbif
 
-This causes a PM usage count imbalance at probe time, notified by the
-runtime_pm framework with the below message in the system log:
+Please sort the list alphanumerically, accorting to the ASCII character set
+the underscore symbol precedes lower case letters.
 
- pispbe 1000880000.pisp_be: Runtime PM usage count underflow!
+> +
+> +  clocks:
+> +    maxItems: 24
+> +
+> +  clock-names:
+> +    items:
+> +      - const: ahb
+> +      - const: csi0
+> +      - const: csi0_ahb
+> +      - const: csi0_phy
+> +      - const: csi0_pix
+> +      - const: csi0_rdi
+> +      - const: csi1
+> +      - const: csi1_ahb
+> +      - const: csi1_phy
+> +      - const: csi1_pix
+> +      - const: csi1_rdi
+> +      - const: csi2
+> +      - const: csi2_ahb
+> +      - const: csi2_phy
+> +      - const: csi2_pix
+> +      - const: csi2_rdi
+> +      - const: csiphy0_timer
+> +      - const: csiphy1_timer
+> +      - const: csi_vfe0
+> +      - const: ispif_ahb
+> +      - const: top_ahb
+> +      - const: vfe0
+> +      - const: vfe_ahb
+> +      - const: vfe_axi
 
-Fix this by resuming the interface using the pm runtime helpers instead
-of calling the resume function directly and use the pm_runtime framework
-in the probe() error path. While at it, remove manual suspend of the
-interface in the remove() function. The driver cannot be unloaded if in
-use, so simply disable runtime pm.
+Same comment as above.
 
-To simplify the implementation, make the driver depend on PM as the
-RPI5 platform where the ISP is integrated in uses the PM framework by
-default.
+> +
+> +  interrupts:
+> +    maxItems: 7
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: ispif
+> +      - const: vfe0
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    items:
+> +      - description: VFE GDSC - Video Front End, Global Distributed Switch
+> +          Controller.
+> +
+> +  vdda-supply:
+> +    description:
+> +      Definition of the regulator used as analog power supply.
 
-Fixes: 12187bd5d4f8 ("media: raspberrypi: Add support for PiSP BE")
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Please specify the wanted voltage level in the description, due to
+the example below I would expect it's 2.8V.
+
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
+> +
+> +    patternProperties:
+> +      "^port@[0-1]$":
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +              bus-type:
+> +                enum:
+> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - iommus
+> +  - power-domains
+> +  - vdda-supply
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,gcc-msm8939.h>
+> +
+> +    isp@1b08000 {
+> +        compatible = "qcom,msm8939-camss";
+> +
+> +        reg = <0x01b08000 0x100>,
+> +              <0x01b08400 0x100>,
+> +              <0x01b08800 0x100>,
+> +              <0x01b0ac00 0x200>,
+> +              <0x01b00030 0x4>,
+> +              <0x01b0b000 0x200>,
+> +              <0x01b00038 0x4>,
+> +              <0x01b00020 0x10>,
+> +              <0x01b0a000 0x500>,
+> +              <0x01b10000 0x1000>,
+> +              <0x01b40000 0x200>;
+> +
+> +        reg-names = "csid0",
+> +                    "csid1",
+> +                    "csid2",
+> +                    "csiphy0",
+> +                    "csiphy0_clk_mux",
+> +                    "csiphy1",
+> +                    "csiphy1_clk_mux",
+> +                    "csi_clk_mux",
+> +                    "ispif",
+> +                    "vfe0",
+> +                    "vfe0_vbif";
+> +
+> +        clocks = <&gcc GCC_CAMSS_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0PHY_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0PIX_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0RDI_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1PHY_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1PIX_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1RDI_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2PHY_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2PIX_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2RDI_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0PHYTIMER_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1PHYTIMER_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI_VFE0_CLK>,
+> +                 <&gcc GCC_CAMSS_ISPIF_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_TOP_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_VFE0_CLK>,
+> +                 <&gcc GCC_CAMSS_VFE_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_VFE_AXI_CLK>;
+> +
+> +        clock-names = "ahb",
+> +                      "csi0",
+> +                      "csi0_ahb",
+> +                      "csi0_phy",
+> +                      "csi0_pix",
+> +                      "csi0_rdi",
+> +                      "csi1",
+> +                      "csi1_ahb",
+> +                      "csi1_phy",
+> +                      "csi1_pix",
+> +                      "csi1_rdi",
+> +                      "csi2",
+> +                      "csi2_ahb",
+> +                      "csi2_phy",
+> +                      "csi2_pix",
+> +                      "csi2_rdi",
+> +                      "csiphy0_timer",
+> +                      "csiphy1_timer",
+> +                      "csi_vfe0",
+> +                      "ispif_ahb",
+> +                      "top_ahb",
+> +                      "vfe0",
+> +                      "vfe_ahb",
+> +                      "vfe_axi";
+> +
+> +        interrupts = <GIC_SPI 51 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 52 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 153 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 78 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 79 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 55 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 57 IRQ_TYPE_EDGE_RISING>;
+> +
+> +        interrupt-names = "csid0",
+> +                          "csid1",
+> +                          "csid2",
+> +                          "csiphy0",
+> +                          "csiphy1",
+> +                          "ispif",
+> +                          "vfe0";
+> +
+> +        iommus = <&apps_iommu 3>;
+> +
+> +        power-domains = <&gcc VFE_GDSC>;
+> +
+> +        vdda-supply = <&reg_2v8>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +                csiphy1_ep: endpoint {
+
+There should be an empty line between the end of the list of properties
+and the beginning of the list of children device tree nodes.
+
+> +                    clock-lanes = <1>;
+
+Please remove 'clock-lanes' propoerty from here.
+
+> +                    data-lanes = <0 2>;
+> +                    remote-endpoint = <&sensor_ep>;
+> +                };
+> +            };
+> +        };
+> +    };
+> 
 
 --
-
-Cc: stable@vger.kernel.org
----
- drivers/media/platform/raspberrypi/pisp_be/Kconfig   | 1 +
- drivers/media/platform/raspberrypi/pisp_be/pisp_be.c | 5 ++---
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/raspberrypi/pisp_be/Kconfig b/drivers/media/platform/raspberrypi/pisp_be/Kconfig
-index 46765a2e4c4d..a9e51fd94aad 100644
---- a/drivers/media/platform/raspberrypi/pisp_be/Kconfig
-+++ b/drivers/media/platform/raspberrypi/pisp_be/Kconfig
-@@ -3,6 +3,7 @@ config VIDEO_RASPBERRYPI_PISP_BE
- 	depends on V4L_PLATFORM_DRIVERS
- 	depends on VIDEO_DEV
- 	depends on ARCH_BCM2835 || COMPILE_TEST
-+	depends on PM
- 	select VIDEO_V4L2_SUBDEV_API
- 	select MEDIA_CONTROLLER
- 	select VIDEOBUF2_DMA_CONTIG
-diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-index c25f7d9b404c..e49e4cc322db 100644
---- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-+++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-@@ -1718,7 +1718,7 @@ static int pispbe_probe(struct platform_device *pdev)
- 	pm_runtime_use_autosuspend(pispbe->dev);
- 	pm_runtime_enable(pispbe->dev);
- 
--	ret = pispbe_runtime_resume(pispbe->dev);
-+	ret = pm_runtime_resume_and_get(pispbe->dev);
- 	if (ret)
- 		goto pm_runtime_disable_err;
- 
-@@ -1740,7 +1740,7 @@ static int pispbe_probe(struct platform_device *pdev)
- disable_devs_err:
- 	pispbe_destroy_devices(pispbe);
- pm_runtime_suspend_err:
--	pispbe_runtime_suspend(pispbe->dev);
-+	pm_runtime_put(pispbe->dev);
- pm_runtime_disable_err:
- 	pm_runtime_dont_use_autosuspend(pispbe->dev);
- 	pm_runtime_disable(pispbe->dev);
-@@ -1754,7 +1754,6 @@ static void pispbe_remove(struct platform_device *pdev)
- 
- 	pispbe_destroy_devices(pispbe);
- 
--	pispbe_runtime_suspend(pispbe->dev);
- 	pm_runtime_dont_use_autosuspend(pispbe->dev);
- 	pm_runtime_disable(pispbe->dev);
- }
-
--- 
-2.49.0
-
+Best wishes,
+Vladimir
 
