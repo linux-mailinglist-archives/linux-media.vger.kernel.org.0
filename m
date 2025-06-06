@@ -1,153 +1,140 @@
-Return-Path: <linux-media+bounces-34213-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34214-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470F8ACFF59
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 11:33:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4F1ACFFD4
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 11:53:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E2193AEEE1
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 09:32:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 341917A8FE0
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 09:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8850B286438;
-	Fri,  6 Jun 2025 09:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHjUGbiM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE0BF2868B2;
+	Fri,  6 Jun 2025 09:53:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mta22.hihonor.com (mta22.honor.com [81.70.192.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2F4191F7E;
-	Fri,  6 Jun 2025 09:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A9213B2A4;
+	Fri,  6 Jun 2025 09:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.192.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749202383; cv=none; b=LfHZDB+fQPJwoA+b8NW67ziOGXUaLRd92/uHTIlhDcxHHzf2FugevwwC9MBWkihTmji3OfWjH1IJvvGB8LNpSW5VSfYolRzajMcHLHNF4so7OH6Dau/wmcRXe4FijHcdxYE7QH7Y0MV9TkBnxZeNGVsG+swMY9iz4OBJEW7dbD8=
+	t=1749203593; cv=none; b=GiiQxs6GX+fUxw0ZjoD/d3e8GsHfBQcXbH3MMzuhY/Pj6wKIPHYpfC7+18atsUXKZ5pcGYu7fJ1nWS8n3c46sjT02ZEmyqU445R0hOeBRrvNP1OuqEnme+VaKnHcLXgSueZ7PAhJJTuwDnPSIQmh0GGqMeE3hdsYJm/Vc9dDujY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749202383; c=relaxed/simple;
-	bh=a/cSRPXXvWMntEronSsbDihFTabNg3hkGiuEn4chUIA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hDNEX4h/T4/K0Kd2eW1x3SUGBGrBOchYEjhs3Z+onwhEMhZhAnS78kMSvRMZpz5yKlnwxhO1FMNsY7RTBCDr8UsC6r2XueIhDuyH6hCTZ4Xg6PeF2KpKWLADSBt9mvCnfMKbVgtJCsRqdNwyPkfBGpaHJYQHKS7hNsjIntBxfxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aHjUGbiM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A5FC4CEEB;
-	Fri,  6 Jun 2025 09:32:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749202382;
-	bh=a/cSRPXXvWMntEronSsbDihFTabNg3hkGiuEn4chUIA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=aHjUGbiMRTgqmKBI5/NKSytER+wD+f8xtIQAG9im9jNLtdG0Euimvzu7mf27OGY9+
-	 02d4tGq5I3JSdFyRFuprtiwxviESlUW+rjOju0gNhU9O+51pPm9ArY1Jb4zZ9+iaFL
-	 4+tfVM5CGBw9LbksFk0KUh5/3IXXkhxjz3MX4gFhNP8vwp4S3zppGj+T6jvzfDfI3b
-	 mC65zomebElguFf6DZbQwXmqg3dRm2SZQ7UVQMkAS0eZMMVEXIPjCElKMlyC9MjPDR
-	 1CanswgBu1tw1VRmrDvt8/qS2s2JGvUgF4Q+c893ZONew80RB7FZKa7htzlP+zA8/a
-	 BvOmCaJ/eEw3w==
-X-Mailer: emacs 30.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
-	yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
-	yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
-	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
-	simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
-	iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
- TEE-IO support
-In-Reply-To: <20250605163339.GE19710@nvidia.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-20-yilun.xu@linux.intel.com>
- <yq5ah60u8kev.fsf@kernel.org> <20250605151029.GC19710@nvidia.com>
- <yq5a7c1q88oy.fsf@kernel.org> <20250605163339.GE19710@nvidia.com>
-Date: Fri, 06 Jun 2025 15:02:49 +0530
-Message-ID: <yq5a1prx8bb2.fsf@kernel.org>
+	s=arc-20240116; t=1749203593; c=relaxed/simple;
+	bh=LEb3nFdnzhPAz1p+K99qR/il1eWd8KUET+Ja2aEpKxQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=GpPooWa4b9Q1oMKQ0wdoEK4GaksoPcUpekbiAlEScANEwXTbWo82TrE5gbdY6Yg7+w6/SkkjeWpWMT7lgFa5jQhpzacbIGuqUXFHz5R0QGVrD4TSXlRS1OEaI9PMCq+pSqDZoRqB4DWZSXIthwovuG8Ph+ZVAwrKrQgTR33TAnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.192.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from w013.hihonor.com (unknown [10.68.26.19])
+	by mta22.hihonor.com (SkyGuard) with ESMTPS id 4bDGm20Yh8zYm12N;
+	Fri,  6 Jun 2025 17:50:58 +0800 (CST)
+Received: from a015.hihonor.com (10.68.27.88) by w013.hihonor.com
+ (10.68.26.19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Jun
+ 2025 17:52:55 +0800
+Received: from a010.hihonor.com (10.68.16.52) by a015.hihonor.com
+ (10.68.27.88) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Jun
+ 2025 17:52:54 +0800
+Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
+ a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
+ Fri, 6 Jun 2025 17:52:54 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: Christoph Hellwig <hch@infradead.org>, =?iso-8859-1?Q?Christian_K=F6nig?=
+	<christian.koenig@amd.com>
+CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, "kraxel@redhat.com"
+	<kraxel@redhat.com>, "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
+	<brauner@kernel.org>, "hughd@google.com" <hughd@google.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "amir73il@gmail.com"
+	<amir73il@gmail.com>, "benjamin.gaignard@collabora.com"
+	<benjamin.gaignard@collabora.com>, "Brian.Starkey@arm.com"
+	<Brian.Starkey@arm.com>, "jstultz@google.com" <jstultz@google.com>,
+	"tjmercier@google.com" <tjmercier@google.com>, "jack@suse.cz" <jack@suse.cz>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "wangbintian(BintianWang)"
+	<bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
+	<liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
+Subject: RE: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
+Thread-Topic: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
+Thread-Index: AQHb1G1ol+FT389RFkuW+lwB3adoKrPw4BKAgAADywCAAAF8AIAE6kCg
+Date: Fri, 6 Jun 2025 09:52:54 +0000
+Message-ID: <5d36abace6bf492aadd847f0fabc38be@honor.com>
+References: <20250603095245.17478-1-tao.wangtao@honor.com>
+ <aD7x_b0hVyvZDUsl@infradead.org>
+ <09c8fb7c-a337-4813-9f44-3a538c4ee8b1@amd.com>
+ <aD72alIxu718uri4@infradead.org>
+In-Reply-To: <aD72alIxu718uri4@infradead.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Jason Gunthorpe <jgg@nvidia.com> writes:
-
-> On Thu, Jun 05, 2025 at 09:47:01PM +0530, Aneesh Kumar K.V wrote:
->> Jason Gunthorpe <jgg@nvidia.com> writes:
->>=20
->> > On Thu, Jun 05, 2025 at 05:33:52PM +0530, Aneesh Kumar K.V wrote:
->> >
->> >> > +
->> >> > +	/* To ensure no host side MMIO access is possible */
->> >> > +	ret =3D pci_request_regions_exclusive(pdev, "vfio-pci-tsm");
->> >> > +	if (ret)
->> >> > +		goto out_unlock;
->> >> > +
->> >> >
->> >>=20
->> >> I am hitting failures here with similar changes. Can you share the Qe=
-mu
->> >> changes needed to make this pci_request_regions_exclusive successful.
->> >> Also after the TDI is unbound, we want the region ownership backto
->> >> "vfio-pci" so that things continue to work as non-secure device. I do=
-n't
->> >> see we doing that. I could add a pci_bar_deactivate/pci_bar_activate =
-in
->> >> userspace which will result in vfio_unmap()/vfio_map(). But that does=
-n't
->> >> release the region ownership.
->> >
->> > Again, IMHO, we should not be doing this dynamically. VFIO should do
->> > pci_request_regions_exclusive() once at the very start and it should
->> > stay that way.
->> >
->> > There is no reason to change it dynamically.
->> >
->> > The only decision to make is if all vfio should switch to exclusive
->> > mode or if we need to make it optional for userspace.
->>=20
->> We only need the exclusive mode when the device is operating in secure
->> mode, correct? That suggests we=E2=80=99ll need to dynamically toggle th=
-is
->> setting based on the device=E2=80=99s security state.
->
-> No, if the decision is that VFIO should allow this to be controlled by
-> userspace then userspace will tell iommufd to run in regions_exclusive
-> mode prior to opening the vfio cdev and VFIO will still do it once at
-> open time and never change it.
->
-
-So this will be handled by setting
-vdevice::flags =3D IOMMUFD_PCI_REGION_EXCLUSIVE in
-iommufd_vdevice_alloc_ioctl()? And we set this flag when starting a
-secure guest, regardless of whether the device is TEE-capable or not
-
-and vfio_pci_core_mmap() will do
-
-	if (!vdev->barmap[index]) {
-
-		if (core_vdev->iommufd_device &&
-		    iommufd_vdevice_region_exclusive(core_vdev->iommufd_device))
-			ret =3D pci_request_selected_regions_exclusive(pdev,
-							1 << index, "vfio-pci");
-		else
-			ret =3D pci_request_selected_regions(pdev,
-						1 << index, "vfio-pci");
 
 
 
+> -----Original Message-----
+> From: Christoph Hellwig <hch@infradead.org>
+> Sent: Tuesday, June 3, 2025 9:20 PM
+> To: Christian K=F6nig <christian.koenig@amd.com>
+> Cc: Christoph Hellwig <hch@infradead.org>; wangtao
+> <tao.wangtao@honor.com>; sumit.semwal@linaro.org; kraxel@redhat.com;
+> vivek.kasireddy@intel.com; viro@zeniv.linux.org.uk; brauner@kernel.org;
+> hughd@google.com; akpm@linux-foundation.org; amir73il@gmail.com;
+> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
+> jstultz@google.com; tjmercier@google.com; jack@suse.cz;
+> baolin.wang@linux.alibaba.com; linux-media@vger.kernel.org; dri-
+> devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; linux-
+> kernel@vger.kernel.org; linux-fsdevel@vger.kernel.org; linux-
+> mm@kvack.org; wangbintian(BintianWang) <bintian.wang@honor.com>;
+> yipengxiang <yipengxiang@honor.com>; liulu 00013167
+> <liulu.liu@honor.com>; hanfeng 00012985 <feng.han@honor.com>
+> Subject: Re: [PATCH v4 0/4] Implement dmabuf direct I/O via
+> copy_file_range
+>=20
+> On Tue, Jun 03, 2025 at 03:14:20PM +0200, Christian K=F6nig wrote:
+> > On 6/3/25 15:00, Christoph Hellwig wrote:
+> > > This is a really weird interface.  No one has yet to explain why
+> > > dmabuf is so special that we can't support direct I/O to it when we
+> > > can support it to otherwise exotic mappings like PCI P2P ones.
+> >
+> > With udmabuf you can do direct I/O, it's just inefficient to walk the
+> > page tables for it when you already have an array of all the folios.
+>=20
+> Does it matter compared to the I/O in this case?
+>=20
+> Either way there has been talk (in case of networking implementations) th=
+at
+> use a dmabuf as a first class container for lower level I/O.
+> I'd much rather do that than adding odd side interfaces.  I.e. have a ver=
+sion
+> of splice that doesn't bother with the pipe, but instead just uses in-ker=
+nel
+> direct I/O on one side and dmabuf-provided folios on the other.
+If the VFS layer recognizes dmabuf type and acquires its sg_table
+and folios, zero-copy could also be achieved. I initially thought
+dmabuf acts as a driver and shouldn't be handled by VFS, so I made
+dmabuf implement copy_file_range callbacks to support direct I/O
+zero-copy. I'm open to both approaches. What's the preference of
+VFS experts?
 
->
-> The only thing request_regions does is block other drivers outside
-> vfio from using this memory space. There is no reason at all to change
-> this dynamically. A CC VMM using VFIO will never use a driver outside
-> VFIO to touch the VFIO controlled memory.
->
-> Jason
+Regards,
+Wangtao.
 
--aneesh
 
