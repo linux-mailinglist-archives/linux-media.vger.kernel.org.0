@@ -1,68 +1,67 @@
-Return-Path: <linux-media+bounces-34196-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34197-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629E3ACFCCD
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 08:32:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3E3ACFCD4
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 08:32:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1401189C50A
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 06:31:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9DC53AB1BE
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 06:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A96B7258CC9;
-	Fri,  6 Jun 2025 06:29:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1D8A259CAC;
+	Fri,  6 Jun 2025 06:29:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D46D257430;
-	Fri,  6 Jun 2025 06:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAEF258CFA;
+	Fri,  6 Jun 2025 06:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749191355; cv=none; b=Y9NjTY6bJiOcnZ2ACs6jr7hew+XYZn9hcP+1V4ldiJLgdXTJYkpBUxxrNOBuPRJjmiaia3qR84hdusXw7XB2S0PYUFLwve6AJ8nqbgUj2pl7e2S0kmqOuAcfitN/LH7M2XgjwTXLUxRy7shUzeb5rQbSQOViB23L2OPsS6Z5h1I=
+	t=1749191358; cv=none; b=KBGujxJtMXH6O3eSazGKT4dIuRZwCfnaH4GybMUQX0aAO4ZawJxSb3gaL47Wc1wY+Dwyn5Mv0tetm6MyxGQk/OTJ4CD8wef7cNSa0yGUFyaXnDiCogTg9hgao4NBEv6HzuU90M2PxwvTUF1NjAD2gq1b3B075s0wOnsBKCJffns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749191355; c=relaxed/simple;
-	bh=i91shgPHsZNyilUroS+RDBNxOPQpEugf79RIy+zK7UQ=;
+	s=arc-20240116; t=1749191358; c=relaxed/simple;
+	bh=qcLANFQYB6F1aTadtJclYNPeTflXqceuvsxjG9tl5Gg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K/jnE5QsU4mZeDWOOlqVhbpanvBNQOli6gafMlFDTzeXvHYT9IOEv9qN1ZkYSWkUngZYel7n3I+vcolYwLfyxgNcMsh9UomvIGgQSut5IPpLvuESHO8evvVvM9aLGyJnHWEq1JT9CCakMehRU4HVvat3pgv5X8rDUHrMVGC7IE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.42
+	 In-Reply-To:To:Cc; b=UqUqzLEdVS2q1Rv+hMs9o91wIIJ69hp+vytQ699kC5knxCRxGe+BHFG9QSAfn208DrODz4gQyVHhw+SyMmYTdXf7NoiTa6n1dm8oJ80OTke9fEVXzT0F8xnzdUmjqeulFnCQz+cHme5b5VM6W+DUz3wC9GjBlkAA332/Hxk6tNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ad88d77314bso348351266b.1;
-        Thu, 05 Jun 2025 23:29:13 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-604b9c53f6fso3569073a12.2;
+        Thu, 05 Jun 2025 23:29:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749191352; x=1749796152;
+        d=1e100.net; s=20230601; t=1749191354; x=1749796154;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JMvFo5QL3bZFz0qcgL/CL0qvkVwIy7LI7zBc66tFtZI=;
-        b=khqhTDx+aZiY7Z3KYTewT0kE/pywalg9djq53ttwuS0y7dJcUtMifkFhfns2Z8i3nu
-         OFYMckVhdct0xtCCjUL+Hbbe4ekpjPaVg1UubJnnNI2sFaiYQvcsLR7eoGyFXsq+BZHp
-         bMsqt/D+TTSCS4SvZPX0N2MWKq11prqskNii7Xbp1Wf7+bxz9WN6EptcACZXCo81Uzs8
-         1prRuQZbV3dyrxIINmFmKl5CshQ0X4PVA6eohNaePgjf+VOFItncJijgm2JmU1mFkxKL
-         G1rLHGrpQx2R3/gfpayEduJIfeltHdYdXBIT7K2ipLCrEFzaEAlkiAMPq+r9uYHStyD2
-         ADVw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSqagS+ATYESt1TQU0NX8F+x5OD77XW5bwzLbg2YFxVXPmxweAGVDpOw003EsaPkxQxJXZARjt12x/X9E=@vger.kernel.org, AJvYcCV5woznnomY8In+8X3e2kC74DtuaCHvuFwbzUo9/rEb+BQHLCoORW9faR10lNkPyBtmJHYIj8w/7ckiQXmp@vger.kernel.org, AJvYcCW2XdELqVMPFSteJb7AUHmR2n3vLmS8i1uVr/wTeAwHE+yfjuS6X8VizkM+R+ju8u9ZQ8LlsThQ+H8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfiTOiKDfOfiHWgVlKJFyn6vJQDa4dd0eFPEDhGeWmXSSG8ABe
-	o3OpaAy1ZGmgbtaY1OGKIU2jNcnpCml2HYrlp9AMEs8WdX0OovNsOXGY
-X-Gm-Gg: ASbGncvAaIUi+oYbuGRo2kU97gfesZ0M8UgvQ812prmz7lqPCsTwlKpb2tsYDbcFE2E
-	auOX7msk7EtmS6jammTAlbz3+B3f2dpGbtvwvYNfHCsj4Asb0CbTaNqRuxu/B8xl/g7XtXGiKLB
-	Tu7o+GbDlfOeDbCzSQW/GVNzJMurBgZbz0Kq23cp40JRKHI37akWGQpzzbimP4hr4ABIth0kZPF
-	mhX+9ktDZ7VaE/Sw9ThTrEV7oa+sHKcL9Bv5mVNXFvDL8Ek7SfBlvOm17qdpPigTB9wIIrc2or1
-	6XKZwJ4wvpI07gG0+igpWwBv7A0iH8aodhUNscE6Af4Xdc/i+Ru6BsFX2nxalp8gpw6a9IT17h6
-	MiInTxOhYOQ==
-X-Google-Smtp-Source: AGHT+IH386t4fpjPSjXu6Q/P93pz2H4oKr1u5C7rbyqEt7KH415Hf2G+JglZ1eWXhfGWu7b+7DDqgw==
-X-Received: by 2002:a17:907:97c2:b0:ad8:8efe:3206 with SMTP id a640c23a62f3a-ade1a9e825dmr164077166b.42.1749191351781;
-        Thu, 05 Jun 2025 23:29:11 -0700 (PDT)
+        bh=anhtEfC+aYWJeJvUly60jdWH8rm+sVcW8pcF9vb2eMk=;
+        b=W3vCRqnirNsT3umsMTw/mj5V5iWtrD/uBseXACX3CeeyJBkPqWldRBYkH0heEv64jx
+         i3TOZzf10LXmZ0X6SRIqx/ta0Mx5lS6HniHCp2BCRlvc8fxTUO+xae+ic52FuCyU8L7j
+         maXxuME/2/VeoLjpDhIFzH4Du4mITHessTVDuvrWu369xBy7LdIMVuD2HJA979/AVlQE
+         GostxWctYxM1Uwi//5ucCbuJSNU0FvcL5GytB7MVCauEAD2P7AjY4sYI2bO5OOd4Oalr
+         mtMsnbJP3u+yG3Oj5JxPfNLxUEk+XZdrj1OzUCOOkquJiOS8qIv8yinxVSXSFs/CAjr3
+         +pSg==
+X-Forwarded-Encrypted: i=1; AJvYcCU50p100FaiJ42YuHz3xLJiLsTIDyZS0P1kcZsmdKmQQ3GfCfjlKoTJEkzR0EvZzTTnK7k/HgPQKQU=@vger.kernel.org, AJvYcCU8GYGKaJMGPev38HkJQ1+ZiURLq8XVmA+/b9GfeKMOSKqOysPgY/GzMRnn0uzbWv3BcC+5Iekh9DEd8JI=@vger.kernel.org, AJvYcCVFBfEsrCODwoRlxbKeyoviaI4GQs1XjkMgIZ1VmTf+h/5ukaOkS9j/39yRyqfUCNKhL/1ReV/BNUgDzJua@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNOHkmsBvMoVe9EET6GqbDkKD74L5v0K34xYl8KkqYK2rrowWM
+	QNF3eyKg1jjekmw2z1L2WVxq/jwYkxk1o00W1Q/eSbaK219WXjsO93wz
+X-Gm-Gg: ASbGnct5rIOgL6MZS1JIVWArfWRAZ0M4BvWBBAxLgvWEpIXQQzrkR5KA9BO4aAYFDyU
+	0jM0kwBKMR6VA9acKO9+1UovLoZrocwSgp1cZwSFxnnTgR+grGps+sVH6g2p7Bu5EAplC6wv7zI
+	E0Vo8wO5GjTGhgRQBcelsTMleS0iJac45r988FG8U6oXFe9Zjg9CGYLtXjeYQmOp1s/3Gxv6vwV
+	RbwP8KrUFTC3npqbROPmptsQfTLGMcG2noID7/imwk8JusoEkk87E/NldAVvULDcRPbNZo8YoLD
+	+UmBXb6mST+zZx5w7Y3q7G8Jh3yFH8wVWEGxhdluliwXsMo29q1mawM6A3A7lTiswK5j3qRt9+h
+	UwNj3YOfF3jEFu5BJ1Ett
+X-Google-Smtp-Source: AGHT+IEQhHpZGVCxH1ZaUqlfgXtzTnbNuSiyE94GQATLfAusLPGKyuMEVAdsVmPX89pYi5j539z3bQ==
+X-Received: by 2002:a17:907:94c8:b0:ad5:55db:e413 with SMTP id a640c23a62f3a-ade1a9248d4mr174784266b.26.1749191353364;
+        Thu, 05 Jun 2025 23:29:13 -0700 (PDT)
 Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1d754653sm67989966b.20.2025.06.05.23.29.10
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1d754653sm67989966b.20.2025.06.05.23.29.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 23:29:11 -0700 (PDT)
+        Thu, 05 Jun 2025 23:29:12 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 06 Jun 2025 08:28:29 +0200
-Subject: [PATCH v7 09/10] arm64: dts: rockchip: Enable the NPU on
- quartzpro64
+Date: Fri, 06 Jun 2025 08:28:30 +0200
+Subject: [PATCH v7 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,7 +70,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250606-6-10-rocket-v7-9-dc16cfe6fe4e@tomeuvizoso.net>
+Message-Id: <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
 References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
 In-Reply-To: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -94,41 +93,81 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Tomeu Vizoso <tomeu@tomeuvizoso.net>
 X-Mailer: b4 0.14.2
 
-Enable the nodes added in a previous commit to the rk3588s device tree.
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-v2:
-- Split nodes (Sebastian Reichel)
-- Sort nodes (Sebastian Reichel)
-- Add board regulators (Sebastian Reichel)
+The NPU on the ROCK5B uses the same regulator for both the sram-supply
+and the npu's supply. Add this regulator, and enable all the NPU bits.
+Also add the regulator as a domain-supply to the pd_npu power domain.
 
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- .../arm64/boot/dts/rockchip/rk3588-quartzpro64.dts | 30 ++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 56 +++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts b/arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts
-index 78aaa6635b5d20a650aba8d8c2d0d4f498ff0d33..2e45b213c25b99571dd71ce90bc7970418f60276 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts
-@@ -415,6 +415,36 @@ &pcie3x4 {
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+index d22068475c5dc6cb885f878f3f527a66edf1ba70..49500f7cbcb14af4919a6c1997e9e53a01d84973 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+@@ -316,6 +316,28 @@ regulator-state-mem {
+ 	};
+ };
+ 
++&i2c1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&i2c1m2_xfer>;
++	status = "okay";
++
++	vdd_npu_s0: regulator@42 {
++		compatible = "rockchip,rk8602";
++		reg = <0x42>;
++		fcs,suspend-voltage-selector = <1>;
++		regulator-name = "vdd_npu_s0";
++		regulator-boot-on;
++		regulator-min-microvolt = <550000>;
++		regulator-max-microvolt = <950000>;
++		regulator-ramp-delay = <2300>;
++		vin-supply = <&vcc5v0_sys>;
++
++		regulator-state-mem {
++			regulator-off-in-suspend;
++		};
++	};
++};
++
+ &i2c6 {
+ 	status = "okay";
+ 
+@@ -440,6 +462,10 @@ &pd_gpu {
+ 	domain-supply = <&vdd_gpu_s0>;
+ };
+ 
++&pd_npu {
++	domain-supply = <&vdd_npu_s0>;
++};
++
+ &pinctrl {
+ 	hdmirx {
+ 		hdmirx_hpd: hdmirx-5v-detection {
+@@ -500,6 +526,36 @@ &pwm1 {
  	status = "okay";
  };
  
 +&rknn_core_top {
 +	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_mem_s0>;
++	sram-supply = <&vdd_npu_s0>;
 +	status = "okay";
 +};
 +
 +&rknn_core_1 {
 +	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_mem_s0>;
++	sram-supply = <&vdd_npu_s0>;
 +	status = "okay";
 +};
 +
 +&rknn_core_2 {
 +	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_mem_s0>;
++	sram-supply = <&vdd_npu_s0>;
 +	status = "okay";
 +};
 +
@@ -145,7 +184,7 @@ index 78aaa6635b5d20a650aba8d8c2d0d4f498ff0d33..2e45b213c25b99571dd71ce90bc79704
 +};
 +
  &saradc {
- 	vref-supply = <&vcc_1v8_s0>;
+ 	vref-supply = <&avcc_1v8_s0>;
  	status = "okay";
 
 -- 
