@@ -1,193 +1,165 @@
-Return-Path: <linux-media+bounces-34197-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34198-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3E3ACFCD4
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 08:32:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFACEACFD46
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 09:12:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9DC53AB1BE
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 06:31:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2FFCC3AE268
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 07:12:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1D8A259CAC;
-	Fri,  6 Jun 2025 06:29:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4A87283FFF;
+	Fri,  6 Jun 2025 07:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Q8BiRH9S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAEF258CFA;
-	Fri,  6 Jun 2025 06:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EED19CD1B;
+	Fri,  6 Jun 2025 07:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749191358; cv=none; b=KBGujxJtMXH6O3eSazGKT4dIuRZwCfnaH4GybMUQX0aAO4ZawJxSb3gaL47Wc1wY+Dwyn5Mv0tetm6MyxGQk/OTJ4CD8wef7cNSa0yGUFyaXnDiCogTg9hgao4NBEv6HzuU90M2PxwvTUF1NjAD2gq1b3B075s0wOnsBKCJffns=
+	t=1749193938; cv=none; b=Ic0Xoey60G9nACWzXhSEG0Bgyh9ld7IOKRIKqkaOuRSchs5qzztoLNYq+GKfngozUCPUejUeg30ltL+gLlvVJ7TM7OC7jQ0g467LOdvmwyDkwd0PbCnjj4j1LdUlgCnziqte4Xxntimp+ZLy8PE9FbdphqBKngjpXDdTixYBeUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749191358; c=relaxed/simple;
-	bh=qcLANFQYB6F1aTadtJclYNPeTflXqceuvsxjG9tl5Gg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UqUqzLEdVS2q1Rv+hMs9o91wIIJ69hp+vytQ699kC5knxCRxGe+BHFG9QSAfn208DrODz4gQyVHhw+SyMmYTdXf7NoiTa6n1dm8oJ80OTke9fEVXzT0F8xnzdUmjqeulFnCQz+cHme5b5VM6W+DUz3wC9GjBlkAA332/Hxk6tNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-604b9c53f6fso3569073a12.2;
-        Thu, 05 Jun 2025 23:29:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749191354; x=1749796154;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=anhtEfC+aYWJeJvUly60jdWH8rm+sVcW8pcF9vb2eMk=;
-        b=W3vCRqnirNsT3umsMTw/mj5V5iWtrD/uBseXACX3CeeyJBkPqWldRBYkH0heEv64jx
-         i3TOZzf10LXmZ0X6SRIqx/ta0Mx5lS6HniHCp2BCRlvc8fxTUO+xae+ic52FuCyU8L7j
-         maXxuME/2/VeoLjpDhIFzH4Du4mITHessTVDuvrWu369xBy7LdIMVuD2HJA979/AVlQE
-         GostxWctYxM1Uwi//5ucCbuJSNU0FvcL5GytB7MVCauEAD2P7AjY4sYI2bO5OOd4Oalr
-         mtMsnbJP3u+yG3Oj5JxPfNLxUEk+XZdrj1OzUCOOkquJiOS8qIv8yinxVSXSFs/CAjr3
-         +pSg==
-X-Forwarded-Encrypted: i=1; AJvYcCU50p100FaiJ42YuHz3xLJiLsTIDyZS0P1kcZsmdKmQQ3GfCfjlKoTJEkzR0EvZzTTnK7k/HgPQKQU=@vger.kernel.org, AJvYcCU8GYGKaJMGPev38HkJQ1+ZiURLq8XVmA+/b9GfeKMOSKqOysPgY/GzMRnn0uzbWv3BcC+5Iekh9DEd8JI=@vger.kernel.org, AJvYcCVFBfEsrCODwoRlxbKeyoviaI4GQs1XjkMgIZ1VmTf+h/5ukaOkS9j/39yRyqfUCNKhL/1ReV/BNUgDzJua@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNOHkmsBvMoVe9EET6GqbDkKD74L5v0K34xYl8KkqYK2rrowWM
-	QNF3eyKg1jjekmw2z1L2WVxq/jwYkxk1o00W1Q/eSbaK219WXjsO93wz
-X-Gm-Gg: ASbGnct5rIOgL6MZS1JIVWArfWRAZ0M4BvWBBAxLgvWEpIXQQzrkR5KA9BO4aAYFDyU
-	0jM0kwBKMR6VA9acKO9+1UovLoZrocwSgp1cZwSFxnnTgR+grGps+sVH6g2p7Bu5EAplC6wv7zI
-	E0Vo8wO5GjTGhgRQBcelsTMleS0iJac45r988FG8U6oXFe9Zjg9CGYLtXjeYQmOp1s/3Gxv6vwV
-	RbwP8KrUFTC3npqbROPmptsQfTLGMcG2noID7/imwk8JusoEkk87E/NldAVvULDcRPbNZo8YoLD
-	+UmBXb6mST+zZx5w7Y3q7G8Jh3yFH8wVWEGxhdluliwXsMo29q1mawM6A3A7lTiswK5j3qRt9+h
-	UwNj3YOfF3jEFu5BJ1Ett
-X-Google-Smtp-Source: AGHT+IEQhHpZGVCxH1ZaUqlfgXtzTnbNuSiyE94GQATLfAusLPGKyuMEVAdsVmPX89pYi5j539z3bQ==
-X-Received: by 2002:a17:907:94c8:b0:ad5:55db:e413 with SMTP id a640c23a62f3a-ade1a9248d4mr174784266b.26.1749191353364;
-        Thu, 05 Jun 2025 23:29:13 -0700 (PDT)
-Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1d754653sm67989966b.20.2025.06.05.23.29.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 23:29:12 -0700 (PDT)
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 06 Jun 2025 08:28:30 +0200
-Subject: [PATCH v7 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
+	s=arc-20240116; t=1749193938; c=relaxed/simple;
+	bh=pqhZUn8ZXfl+amxSbxTQk/Uc6tx9mr3uHQCK8l+YLow=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=IvAyf9EYqvB+Lbi6I/tr4SALTmueIxjZUB3FBJCPXikYlxt1iHdQ1H6iuSpYoV19aqEnn/h1PQuBFP6WEc1SfxHrf4Yng1LVb3uC0PEEWdaP29TtkLhIJNFcSthtFcVlfIBlG7wz19YpZaZEXrTLHMzs2P90hgdvh/1+iQoKpHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Q8BiRH9S; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5565bADu006543;
+	Fri, 6 Jun 2025 07:12:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	I8j5MZE2vbEP07SOEcLwah4N1BY8fyxRk1nAnrN0dtM=; b=Q8BiRH9SWrqcKCjO
+	aosj8H0GhwNiJlZNPj1WP81gcaPW4/vJWx/+c0smlqea7k/Ect8pAPm0x7Ek0ar0
+	Yybtpc2ueWA8pFF8+udE4fwII/SbGzk8bVW7jZO9f59o2wXGzamBYj/wSr1oHSnc
+	4OKlm4gDZqNSpypBehLQmG9A/jaIHQN8niXn6CqASh7lvyynY2DhbIw3RGpg045n
+	cR6yGhZ7kYN6ikfGTnlPQsQTXJM6UJ0CpvQu4eUTEV5rYk58Z62st6S8S7s1kDKa
+	PTBcdOwQZoqcS9/B3l8ST+6OKWVcNYdvp8FSdTvDkkJXDS/3mpA+QzwathZWdGOp
+	HerVXw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471g8t3s3b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Jun 2025 07:12:12 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5567CBcO008610
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 6 Jun 2025 07:12:11 GMT
+Received: from [10.231.216.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Jun 2025
+ 00:12:08 -0700
+Message-ID: <ad29f523-f2d8-4933-962c-fa6f22debc7e@quicinc.com>
+Date: Fri, 6 Jun 2025 15:12:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/3] media: venus: pm_helpers: use opp-table for the
+ frequency
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20250530-add-venus-for-qcs615-v8-0-c0092ac616d0@quicinc.com>
+ <20250530-add-venus-for-qcs615-v8-1-c0092ac616d0@quicinc.com>
+ <8c57ed65-002a-4ddc-9056-6b7908c0ff52@oss.qualcomm.com>
+Content-Language: en-US
+From: Renjiang Han <quic_renjiang@quicinc.com>
+In-Reply-To: <8c57ed65-002a-4ddc-9056-6b7908c0ff52@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
-In-Reply-To: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>, 
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-X-Mailer: b4 0.14.2
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 0S5YQ47gF-4xj7QXRe7zqzB8Fyv66Tgp
+X-Authority-Analysis: v=2.4 cv=EPcG00ZC c=1 sm=1 tr=0 ts=684294cc cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=COk6AnOGAAAA:8
+ a=LrNUjg_vOetuG0Eol_8A:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 0S5YQ47gF-4xj7QXRe7zqzB8Fyv66Tgp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA2MDA2NSBTYWx0ZWRfX8JgAHbLS9DEm
+ FyvWhZz34pIRmJb3mzU4IhEIDrsx773lEaKWQB/65mTDz23qxAzTGQLL8WQexqaYdesk/PIAX8I
+ qO9XwN1FF2ReOaHmsNMMcpbZapfXpwuPRGbu96Pq6921E1jQD8Yy2jdF+rm27nx5QzedLqv5fhj
+ gS9KcjqwTE6m1Vj3+j3MRaHbxfn86VKgrIDzua9cnWSRpf0gE1+XFAmntOQAKHljIC5QnufP0Jx
+ s2C5DagV8VqFC6cGAGr26/XdNCMpHOoS/UUvsNR8O7kYb+2o8qWEigQ+PSXFMnkGvFdL8SrLrLU
+ QyDYzEAXGHbV11wxVYQRcj4n0Lwup1WJUCD88Wndz/H0cdXIeQPvYktSt3KSsEOU1S3qKhUrZ2N
+ 6S2e1/VxmM8IBx4XjYkdaIoQClWBPNoQGHMGY/g65xAC0fLrtErINOCB/OvXYXzX6I3iBCxN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-06_02,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ impostorscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 mlxscore=0
+ clxscore=1015 mlxlogscore=975 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506060065
 
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-The NPU on the ROCK5B uses the same regulator for both the sram-supply
-and the npu's supply. Add this regulator, and enable all the NPU bits.
-Also add the regulator as a domain-supply to the pd_npu power domain.
-
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
----
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 56 +++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d22068475c5dc6cb885f878f3f527a66edf1ba70..49500f7cbcb14af4919a6c1997e9e53a01d84973 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -316,6 +316,28 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c1m2_xfer>;
-+	status = "okay";
-+
-+	vdd_npu_s0: regulator@42 {
-+		compatible = "rockchip,rk8602";
-+		reg = <0x42>;
-+		fcs,suspend-voltage-selector = <1>;
-+		regulator-name = "vdd_npu_s0";
-+		regulator-boot-on;
-+		regulator-min-microvolt = <550000>;
-+		regulator-max-microvolt = <950000>;
-+		regulator-ramp-delay = <2300>;
-+		vin-supply = <&vcc5v0_sys>;
-+
-+		regulator-state-mem {
-+			regulator-off-in-suspend;
-+		};
-+	};
-+};
-+
- &i2c6 {
- 	status = "okay";
- 
-@@ -440,6 +462,10 @@ &pd_gpu {
- 	domain-supply = <&vdd_gpu_s0>;
- };
- 
-+&pd_npu {
-+	domain-supply = <&vdd_npu_s0>;
-+};
-+
- &pinctrl {
- 	hdmirx {
- 		hdmirx_hpd: hdmirx-5v-detection {
-@@ -500,6 +526,36 @@ &pwm1 {
- 	status = "okay";
- };
- 
-+&rknn_core_top {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_1 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_2 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_mmu_top {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_1 {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_2 {
-+	status = "okay";
-+};
-+
- &saradc {
- 	vref-supply = <&avcc_1v8_s0>;
- 	status = "okay";
+On 5/31/2025 7:11 PM, Konrad Dybcio wrote:
+> On 5/30/25 6:02 AM, Renjiang Han wrote:
+>> The frequency value in the opp-table in the device tree and the freq_tbl
+>> in the driver are the same.
+>>
+>> Therefore, update pm_helpers.c to use the opp-table for frequency values
+>> for the v4 core.
+>> If getting data from the opp table fails, fall back to using the frequency
+>> table.
+>>
+>> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+>> ---
+> You can save yourself some error-checking pain in this patch if you
+> do something like
+>
+> ret = devm_pm_opp_of_add_table(dev);
+> if (ret == -ENODEV) {
+> 	for (i = 0; i < freq_tbl_len; i++)
+> 		dev_pm_opp_add(dev, freq_tbl[i], 0);
+> }
+>
+> to programmatically migrate everyone to OPP..
+>
+> But - tangent - I'd say efforts to preserve compatibility with DTs that
+> don't even contain frequency data for a given target are rather futile..
+> Such descriptions where we only know the frequency (be it the tables that
+> we currently have, or the constructed OPP tables that only contain frequency
+> data and no voltage corners) are incomplete, and if the system manages to
+> not crash if the driver requests a TURBO/max freq, it's all because we got
+> lucky, as this consumer is not voting on (MM)CX.
+>
+> That said, it's probably to keep the breakage to minimum, especially
+> given this is an old driver for old hardware.. I'll add the missing
+> OPPs across platforms with an intention to drop the hardcoding somewhere
+> in the future
+>
+> Konrad
+Thanks for your comments. This is a good way. I'll update in next version.
 
 -- 
-2.49.0
+Best Regards,
+Renjiang
 
 
