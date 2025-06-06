@@ -1,163 +1,200 @@
-Return-Path: <linux-media+bounces-34244-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34245-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA983AD0243
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 14:34:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD08AD0244
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 14:34:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A3823166AFE
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:34:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26A723A7D6E
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 12:34:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1EF7288530;
-	Fri,  6 Jun 2025 12:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 510F2288538;
+	Fri,  6 Jun 2025 12:34:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QQPPGsWv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iYmgYv6/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0BC287513
-	for <linux-media@vger.kernel.org>; Fri,  6 Jun 2025 12:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3089C287513;
+	Fri,  6 Jun 2025 12:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749213237; cv=none; b=X4VriYAydzaHV+KKAfkdphz1rsiFsvvcTsTFXgK7SVDUAwMFjcUITNAwEURD5MUnQZIZx3ShvEPLl+NUG2KRAR+yO/UqmOvuaEsyklJnI0Kyuvz30jI6SOPLJobghIXtO+n26QW21UEsaQb01H/ll6n1rDYzq0Hci5CNS5XvDik=
+	t=1749213255; cv=none; b=G8iXrBezfv9C8553UGPZcc2bdvCoXrD8OFA91rdFOA1OHd9iYtuFTx2o7xvTRg1eTQQC9ZgmHDYk6FdxkLQIndmFzKWNWYF1KdAgcuTrSPFmsLr6ewkQFnuadENV04AYyxkd8Laer9XaV0QX+BjxTZWfU0lEdgX8r4fvvDx1PGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749213237; c=relaxed/simple;
-	bh=ivddDW5T1J4JyvrdspbZFEYi06jSdvMZOcvhE69syLI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EiFEJ/seD7LvfBUzqBK74Ga5/ZFBehdPIKcOLUSILhijtS3wbzbHaZW2k5X7WmYjs8O8UNVqQIrtUL4mDo+7MFb7GuMKJiJoGPSJzsi6wH8oQGL1xTpGpWZwSxvHz2IR/vztDmhG8GD2iFhB6tTTsnGaGam3v6PD6hyzQLMVLI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QQPPGsWv; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 556AZpLq013926
-	for <linux-media@vger.kernel.org>; Fri, 6 Jun 2025 12:33:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=s8QIRnPERxawgaDmjJObpuottssSVfUeoUh
-	Fx/MyZdI=; b=QQPPGsWvIG7XglAeGf4kRQpZ3C9kG3w7hKeUxNtRzAdHxvtyFJ8
-	bVnyUyRSiAFiubPR9a3meNVq6VlGBiV40s3Cj6rVDYptXpPo7biWdmb8v+laOu8D
-	h0x+ZOpF9rV2HB7dBeQWC6Q9kuTyt3jF9x7H9FloZKuPb87Z50yn3CHXoKd305O+
-	zcUNRvcfqMMLY/3aHp6yt0/2+jPXLet1hjZ0+ZpUd3nYbJAKxFbbxP7Of/0/ywnI
-	jb/cR38OQWp4LA++0oVQm5k0M3m+0RtnBhOw28EDOftODzLxKsCD16M0zQkGHRpd
-	oJgEbq5hN3LtJTypac+szaggIZZQjye41Ug==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 473nphsk93-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 12:33:54 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6fac216872cso39095566d6.2
-        for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 05:33:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749213218; x=1749818018;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s8QIRnPERxawgaDmjJObpuottssSVfUeoUhFx/MyZdI=;
-        b=wbTPg3Pzj0Fpu1KEyPhWxa0DRSUOZTxgQKl4HNruFtWZ6xiNPDzTyPpQpRUuR9OGf7
-         +pvNcXuT7mA+9i2ulP6E1HF9RDqqNiourU2oUUzOWeMSlx6uLqYiHK9c33+GRCRtDoD1
-         N7aQX4vkP2IQEN2YzXw9wLcM6M/EJ+xyDoAak57WiOV5o/bDP/z9PViEvuohTnLHnjJo
-         0k+XvPyTm+1gnFGruuM/e53ji2K3ocmJXDAqAF21ixuEVlXOpIyxjYerCVOCBF8tgUtM
-         YVPFxmN54i3RpUyOCxJAdPDHAQjQd2yyyctttQJI+qld0xfhYPRzqqYNFQJR4c5O7qY+
-         60yA==
-X-Gm-Message-State: AOJu0YwvjEOXXVPLv6uD74+Jnm2ThNOpoAtcMKbwP3ooKzLik8ZXaVhs
-	vQw7FdLAMWV3gQfB7CjJWnXOFDOm3hvIiVYhgCTttOeFAEFOUrLSllRs8B8X0/ksIPiaTou1583
-	M2BuhF5LhxWN3EK5qXITOUUdY0/JiN7Z73ureDdfDUO+3iDYQMFpRWXOFFX0tFHU6hw==
-X-Gm-Gg: ASbGnctsybl/APDi1CO5v0dRCXhkzEbTnyMdkrEoPOXCIMzAUig4HxQ6gTF4HmMMQFt
-	me8thn8x4yqWR3oyb+0Ej4xO0vjNnbMJGJBruJq14GIsTV1wCPJMc0j7pQoQzqhp38JaCh1ofIA
-	sBYvI/FWLagDCog2TcpJDuRPA/tpsSNjon/jYilyMbh11i9+OeHyNZdhKNxQ66EryTiLO9IwZ9m
-	QfJsSSrh2IPNtsr5DNJArnOn6UIO7LlaBfSJ2GWlSjCEHWTOys1eIbjwPXAJ/a0sqfc+EQWNSXz
-	dwkY7x7ASVvqxsR4TWBk/bmr9VoamNx4SiRWWxeRdYqvf7+YOAB5zk1UFAtQepYIttUHnbLw61z
-	o
-X-Received: by 2002:ad4:5ced:0:b0:6eb:28e4:8519 with SMTP id 6a1803df08f44-6fb08f86d87mr50834846d6.21.1749213218282;
-        Fri, 06 Jun 2025 05:33:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHq0LfKT7V7Hdr9+7FwMCh7gMOKBUV5KaU9c5KLNxPHvFir0fRLD3304/1mkrTlVrjWvgwZcg==
-X-Received: by 2002:ad4:5ced:0:b0:6eb:28e4:8519 with SMTP id 6a1803df08f44-6fb08f86d87mr50834576d6.21.1749213217966;
-        Fri, 06 Jun 2025 05:33:37 -0700 (PDT)
-Received: from trex.. (142.red-79-144-193.dynamicip.rima-tde.net. [79.144.193.142])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-451f8f12e16sm33777225e9.1.2025.06.06.05.33.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 05:33:37 -0700 (PDT)
-From: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-To: jorge.ramirez@oss.qualcomm.com, quic_vgarodia@quicinc.com,
-        quic_dikshita@quicinc.com, bryan.odonoghue@linaro.org,
-        mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCHv2] media: venus: protect against spurious interrupts during probe
-Date: Fri,  6 Jun 2025 14:33:34 +0200
-Message-Id: <20250606123334.4114123-1-jorge.ramirez@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1749213255; c=relaxed/simple;
+	bh=KUB1zHF41EieIHY6D7XrX8haH8SMgp958TtlLmEVyME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mykdciOsmDGJsy6nkPZYELNGfEbpBVvFgYCQ4CWHqYEahncwDGmiGZGHiz/GxLIPXY4izC6oajb5bUdypuVC/pXqd6JlQ34Rr3tJ5BwLXD3YAHsE1ozBuFShdn+IFJyt9FDOM3bKvW4hzJuwLTw1MjgtQ6s5svMROTPWuh3+8Ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iYmgYv6/; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00E1811DD;
+	Fri,  6 Jun 2025 14:34:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1749213247;
+	bh=KUB1zHF41EieIHY6D7XrX8haH8SMgp958TtlLmEVyME=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iYmgYv6/bkOqUY27LwbLH8YpzTftPCEyojGssCbFJDNzi/e7NTTfKskNvC6JTRalL
+	 weTLpS/8iDMAjVRE9f4JNBoBaRviTxp+dQ7r2//TfTQYSbQpKveA36ua5KsYHRFkoe
+	 Jp4lyDEB7i1raRFKlZvqzbOwFywnH6ytawPeQg9k=
+Date: Fri, 6 Jun 2025 15:34:00 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Isaac Scott <isaac.scott@ideasonboard.com>
+Cc: kieran.bingham@ideasonboard.com, rmfrfs@gmail.com, martink@posteo.de,
+	kernel@puri.sm, mchehab@kernel.org, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	linux-media@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: platform: Refactor interrupt status registers
+Message-ID: <20250606123400.GB27510@pendragon.ideasonboard.com>
+References: <20250606121403.498153-1-isaac.scott@ideasonboard.com>
+ <20250606121403.498153-2-isaac.scott@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: eQwPs3-S-Vf7MCCIZY1y9i1k-m9bYzdy
-X-Authority-Analysis: v=2.4 cv=N8QpF39B c=1 sm=1 tr=0 ts=6842e032 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=jucdD076RO8dzeEYkB3eYw==:17
- a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=VOU_bqPf6nVU0ntsUH0A:9
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA2MDExNCBTYWx0ZWRfX5tg7ihGwH+cm
- 8Qm3i84DahJpDF3IgkEqfWoyVgwrKP91JWByyS8uqFkbQKUDiwQOygLg1kyDsoOIERlh/pl0nLk
- 1LXwtYt4KSI7NEH+Do0g2hRtYaMT2mkYjl+0uWa4dN+w+nMGT5X1lGBiN0s0gi/UmvbZTJl7zwG
- u9+xtluppB3Z4G5j7OQj3LW2CiXC+mdqBCQTpjmA4QbeeeZO+Ey9SYwvAYywYA8QP6cd9ifsMzM
- xvxNaXwkKaY+aJNdMYrlDsn+9xzpRyvHw1FQ3eBNqvxHojbWgojraJRPhwOsmJ9JCmBVKGa9JmJ
- CZ/kapXzRJZOT7tDDDdwYVpNcKjP90ek+gy2IJUsH0Tw0kwXFd7DsMJ30lS39mYBaaEQxKpafOw
- VOFK67eIKjbjsCHZ3A3pfN4I6eUSuyjsqmo8MJtAApuMCllwwnyH18kOKm1okEdqDb5zotCd
-X-Proofpoint-GUID: eQwPs3-S-Vf7MCCIZY1y9i1k-m9bYzdy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-06_04,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- mlxscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015
- impostorscore=0 mlxlogscore=970 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506060114
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250606121403.498153-2-isaac.scott@ideasonboard.com>
 
-Make sure the interrupt handler is initialized before the interrupt is
-registered.
+Hi Isaac,
 
-If the IRQ is registered before hfi_create(), it's possible that an
-interrupt fires before the handler setup is complete, leading to a NULL
-dereference.
+Thank you for the patch.
 
-This error condition has been observed during system boot on Rb3Gen2.
+On Fri, Jun 06, 2025 at 01:14:02PM +0100, Isaac Scott wrote:
+> The NXP i.MX 8 MP CSI-2 receiver features multiple interrupt and debug
+> status sources which span multiple registers. The driver currently
+> supports two interrupt source registers, and attributes the
+> mipi_csis_event event entries to those registers through a boolean debug
+> field that indicate if the event relates to the main interrupt status
+> (false) or debug interrupt status (true) register. To make it easier to
+> add new event fields, replace the debug bool with a 'status index'
+> integer than indicates the index of the corresponding status register.
+> 
+> Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
 
-Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
----
- v2: fix authorship
-     fix spelling mistake
-    
- drivers/media/platform/qcom/venus/core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index d305d74bb152..5bd99d0aafe4 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -424,13 +424,13 @@ static int venus_probe(struct platform_device *pdev)
- 	INIT_DELAYED_WORK(&core->work, venus_sys_error_handler);
- 	init_waitqueue_head(&core->sys_err_done);
- 
--	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, venus_isr_thread,
--					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
--					"venus", core);
-+	ret = hfi_create(core, &venus_core_ops);
- 	if (ret)
- 		goto err_core_put;
- 
--	ret = hfi_create(core, &venus_core_ops);
-+	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, venus_isr_thread,
-+					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-+					"venus", core);
- 	if (ret)
- 		goto err_core_put;
- 
+> ---
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 64 +++++++++++-----------
+>  1 file changed, 31 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> index d060eadebc7a..bbc549c22aff 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -249,7 +249,7 @@
+>  #define MIPI_CSI2_DATA_TYPE_USER(x)		(0x30 + (x))
+>  
+>  struct mipi_csis_event {
+> -	bool debug;
+> +	unsigned int status_index;
+>  	u32 mask;
+>  	const char * const name;
+>  	unsigned int counter;
+> @@ -257,30 +257,30 @@ struct mipi_csis_event {
+>  
+>  static const struct mipi_csis_event mipi_csis_events[] = {
+>  	/* Errors */
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS,		"SOT Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_LOST_FS,		"Lost Frame Start Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_LOST_FE,		"Lost Frame End Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_OVER,		"FIFO Overflow Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_WRONG_CFG,	"Wrong Configuration Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_ECC,		"ECC Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_CRC,		"CRC Error" },
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_UNKNOWN,		"Unknown Error" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_DT_NOT_SUPPORT,	"Data Type Not Supported" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_DT_IGNORE,	"Data Type Ignored" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_ERR_FRAME_SIZE,	"Frame Size Error" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_TRUNCATED_FRAME,	"Truncated Frame" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_EARLY_FE,	"Early Frame End" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_EARLY_FS,	"Early Frame Start" },
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_SOT_HS,		"SOT Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_LOST_FS,		"Lost Frame Start Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_LOST_FE,		"Lost Frame End Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_OVER,		"FIFO Overflow Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_WRONG_CFG,		"Wrong Configuration Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_ECC,			"ECC Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_CRC,			"CRC Error"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ERR_UNKNOWN,		"Unknown Error"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_DT_NOT_SUPPORT,	"Data Type Not Supported"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_DT_IGNORE,		"Data Type Ignored"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_ERR_FRAME_SIZE,	"Frame Size Error"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_TRUNCATED_FRAME,	"Truncated Frame"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_EARLY_FE,		"Early Frame End"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_EARLY_FS,		"Early Frame Start"},
+>  	/* Non-image data receive events */
+> -	{ false, MIPI_CSIS_INT_SRC_EVEN_BEFORE,		"Non-image data before even frame" },
+> -	{ false, MIPI_CSIS_INT_SRC_EVEN_AFTER,		"Non-image data after even frame" },
+> -	{ false, MIPI_CSIS_INT_SRC_ODD_BEFORE,		"Non-image data before odd frame" },
+> -	{ false, MIPI_CSIS_INT_SRC_ODD_AFTER,		"Non-image data after odd frame" },
+> +	{ 0, MIPI_CSIS_INT_SRC_EVEN_BEFORE,		"Non-image data before even frame"},
+> +	{ 0, MIPI_CSIS_INT_SRC_EVEN_AFTER,		"Non-image data after even frame"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ODD_BEFORE,		"Non-image data before odd frame"},
+> +	{ 0, MIPI_CSIS_INT_SRC_ODD_AFTER,		"Non-image data after odd frame"},
+>  	/* Frame start/end */
+> -	{ false, MIPI_CSIS_INT_SRC_FRAME_START,		"Frame Start" },
+> -	{ false, MIPI_CSIS_INT_SRC_FRAME_END,		"Frame End" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_FALL,	"VSYNC Falling Edge" },
+> -	{ true, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE,	"VSYNC Rising Edge" },
+> +	{ 0, MIPI_CSIS_INT_SRC_FRAME_START,		"Frame Start"},
+> +	{ 0, MIPI_CSIS_INT_SRC_FRAME_END,		"Frame End"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_FALL,	"VSYNC Falling Edge"},
+> +	{ 1, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE,	"VSYNC Rising Edge"},
+>  };
+>  
+>  #define MIPI_CSIS_NUM_EVENTS ARRAY_SIZE(mipi_csis_events)
+> @@ -765,32 +765,30 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
+>  	struct mipi_csis_device *csis = dev_id;
+>  	unsigned long flags;
+>  	unsigned int i;
+> -	u32 status;
+> -	u32 dbg_status;
+> +	u32 status[2];
+>  
+> -	status = mipi_csis_read(csis, MIPI_CSIS_INT_SRC);
+> -	dbg_status = mipi_csis_read(csis, MIPI_CSIS_DBG_INTR_SRC);
+> +	status[0] = mipi_csis_read(csis, MIPI_CSIS_INT_SRC);
+> +	status[1] = mipi_csis_read(csis, MIPI_CSIS_DBG_INTR_SRC);
+>  
+>  	spin_lock_irqsave(&csis->slock, flags);
+>  
+>  	/* Update the event/error counters */
+> -	if ((status & MIPI_CSIS_INT_SRC_ERRORS) || csis->debug.enable) {
+> +	if ((status[0] & MIPI_CSIS_INT_SRC_ERRORS) || csis->debug.enable) {
+>  		for (i = 0; i < MIPI_CSIS_NUM_EVENTS; i++) {
+>  			struct mipi_csis_event *event = &csis->events[i];
+>  
+> -			if ((!event->debug && (status & event->mask)) ||
+> -			    (event->debug && (dbg_status & event->mask)))
+> +			if (status[event->status_index] & event->mask)
+>  				event->counter++;
+>  		}
+>  	}
+>  
+> -	if (status & MIPI_CSIS_INT_SRC_FRAME_START)
+> +	if (status[0] & MIPI_CSIS_INT_SRC_FRAME_START)
+>  		mipi_csis_queue_event_sof(csis);
+>  
+>  	spin_unlock_irqrestore(&csis->slock, flags);
+>  
+> -	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status);
+> -	mipi_csis_write(csis, MIPI_CSIS_DBG_INTR_SRC, dbg_status);
+> +	mipi_csis_write(csis, MIPI_CSIS_INT_SRC, status[0]);
+> +	mipi_csis_write(csis, MIPI_CSIS_DBG_INTR_SRC, status[1]);
+>  
+>  	return IRQ_HANDLED;
+>  }
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
 
