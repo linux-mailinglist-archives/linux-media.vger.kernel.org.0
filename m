@@ -1,163 +1,128 @@
-Return-Path: <linux-media+bounces-34186-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34185-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC4EACFBFD
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 06:33:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C1FACFBF7
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 06:28:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C06EE3AF936
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 04:32:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 527223A7A76
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 04:28:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC8821E231D;
-	Fri,  6 Jun 2025 04:32:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D4541E2602;
+	Fri,  6 Jun 2025 04:28:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQZP8hn+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ihkyY6R/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71D67FD;
-	Fri,  6 Jun 2025 04:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C15D3234;
+	Fri,  6 Jun 2025 04:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749184376; cv=none; b=DQAGNm13t+mlUJEIWdvLLh0mzQzxByXTCGbGlV1PS5oeQ+qX2DTNMZO17mPtYSI2Q32bOvTJ8V8EFp1WdG+ykb9gxFhLHwbECYJhR6KJ1FzVmKefzONVzyqOJVXP6geSQEh3lCo5PIkWS2oKGSH85Fv3L5/yacnJTX2iS7gG4Jw=
+	t=1749184095; cv=none; b=cek1S1Mti4O69g9XDwozkx1nHRdd9B887A1SqngxJh0a90uYoWKKD6JB4SyTNGvkTdnAk2iZ2k/MyllLR+c7KVMCiZT3q6N8hzd4ICMitotFFrUt3y3ZOIgGX80xktPxwkXr5mCYV3dOJMfyaW8ESxwo4MjLiV9e/TKKHdyJi3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749184376; c=relaxed/simple;
-	bh=yLDNyNn/xDL5lmtA4zeU4VCRJdc6yerfu8f1Dqe1TBs=;
+	s=arc-20240116; t=1749184095; c=relaxed/simple;
+	bh=9Gyg33hqhbnXrEaxdUutoGy/DPXrhX0kl0SjpeBRIB0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vFpyq/rMXw3mV3EWuZdcJHKJUmhwZPecr0drCWeA50PKE0w6Nbmz3qxcEH0ue81ueNgwDYMkFdoFzqikvWvmG9ANUYJY1z683+u/LXK2b2CwWaGSUQ54iRAFqXuCgZb4/287u7zXFdXS+Cl7XMbcwZ99DfFBTRJojhPPdZRduzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQZP8hn+; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTiiNZWBOFbLmz6+MRDrK1PuhgOmOI3ox+6qP96SNr5asw+UvW5B+RlyJCm6NRXuQ09Dyix817dPLB9yMvqwwZjf2VQtX3d1rkzXtkb/9Q2FiMxDFceHX2p42pl1fxdnUq2fcdana3SpMT3/exURh28BuJo/kEqNu7/snw4ogW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ihkyY6R/; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749184375; x=1780720375;
+  t=1749184093; x=1780720093;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=yLDNyNn/xDL5lmtA4zeU4VCRJdc6yerfu8f1Dqe1TBs=;
-  b=YQZP8hn+SOUfzKbwhx47ZKLENBZNgsFZubTErvJES9pTsRuolVvCshsW
-   UNELI6UU2wV1yrWw0LAk2gLe5/48qDFbZ7koz7y2SVxrbZY+4xG0Y+xKz
-   eaReq9JKvBGgynwp55+hjEb2rpxYHi50aYU9yeiyFMxeuvigosyUY+Dc+
-   Myejwa/wFPBS3Zw35w3GVRWCKE6aXpLHLKKQE5+wMITyl9D4+k27pLynb
-   4eg8aM/etT2Igig8URPNs470V+3v+4/IqxJKkoK4beJumRoatH5lF+96j
-   vVwpmvxHy9szYcIwoghKIu99UxsNwiDUrbEw/r5UM7kxhExZoXtJhqH5O
-   A==;
-X-CSE-ConnectionGUID: gaYWy8jGSbeNnIz5MTldLQ==
-X-CSE-MsgGUID: 7rnkmtpFS7C1QBh9/XMEfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51468937"
+   mime-version:in-reply-to;
+  bh=9Gyg33hqhbnXrEaxdUutoGy/DPXrhX0kl0SjpeBRIB0=;
+  b=ihkyY6R/rx23xzFpcSFeS5fcVOmvy3JJb+sM1sh4T4wF4P0P6TL2oxFk
+   25ATTZEQrTKJ2Ij5OxxgHo+/OVaKKAEGq/uS2q9pMoW/wdyqQoyerdJEU
+   EpNSOMhRx9JfOyLx3x7UeSIpKS0Ko9E94m6w0LmMHnStMJwWFSjE9FZpY
+   zCvIGpFsajBLegiWbTQRlvL6ovreAk35tXOZhrv8y310/s4AZCywU1Fzp
+   nTIeghPYvEFJfJxwAdLmg/hgGu+1NbALBluADCUkXN27fk0fWlZyhAW27
+   giZRpG147L0CbQ4SU2tUnPndq7o4fvsyZ+KGR6tvXonKc5yBjElGDzDsw
+   w==;
+X-CSE-ConnectionGUID: J4R0TdOETTS74TgeX6YoOA==
+X-CSE-MsgGUID: vOj2DCx1RY62uBtpmk2o5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="38958111"
 X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="51468937"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 21:32:54 -0700
-X-CSE-ConnectionGUID: a2NVxN3HTFG+xIUIK89PUA==
-X-CSE-MsgGUID: 8D/PmArNSKGGUGligSxiFg==
+   d="scan'208";a="38958111"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 21:28:12 -0700
+X-CSE-ConnectionGUID: /C4I0hPvTW6lOY9red7p/g==
+X-CSE-MsgGUID: KDyzMU7zSQy32t/M5w9/aA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="182904220"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orviesa001.jf.intel.com with ESMTP; 05 Jun 2025 21:32:47 -0700
-Date: Fri, 6 Jun 2025 12:26:07 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, kvm@vger.kernel.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
-	yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
-	yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
-	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
-	simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
-	iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
- TEE-IO support
-Message-ID: <aEJt39oExEUDg/Dh@yilunxu-OptiPlex-7050>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-20-yilun.xu@linux.intel.com>
- <yq5ah60u8kev.fsf@kernel.org>
- <20250605151029.GC19710@nvidia.com>
- <yq5a7c1q88oy.fsf@kernel.org>
- <20250605163339.GE19710@nvidia.com>
+   d="scan'208";a="145653438"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 05 Jun 2025 21:28:07 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uNOgX-0004jp-0d;
+	Fri, 06 Jun 2025 04:28:05 +0000
+Date: Fri, 6 Jun 2025 12:27:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH v2 04/12] media: ipu-bridge: Use v4l2_fwnode_device_parse
+ helper
+Message-ID: <202506061223.m9fBRBFN-lkp@intel.com>
+References: <20250605-uvc-orientation-v2-4-5710f9d030aa@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250605163339.GE19710@nvidia.com>
+In-Reply-To: <20250605-uvc-orientation-v2-4-5710f9d030aa@chromium.org>
 
-On Thu, Jun 05, 2025 at 01:33:39PM -0300, Jason Gunthorpe wrote:
-> On Thu, Jun 05, 2025 at 09:47:01PM +0530, Aneesh Kumar K.V wrote:
-> > Jason Gunthorpe <jgg@nvidia.com> writes:
-> > 
-> > > On Thu, Jun 05, 2025 at 05:33:52PM +0530, Aneesh Kumar K.V wrote:
-> > >
-> > >> > +
-> > >> > +	/* To ensure no host side MMIO access is possible */
-> > >> > +	ret = pci_request_regions_exclusive(pdev, "vfio-pci-tsm");
-> > >> > +	if (ret)
-> > >> > +		goto out_unlock;
-> > >> > +
-> > >> >
-> > >> 
-> > >> I am hitting failures here with similar changes. Can you share the Qemu
-> > >> changes needed to make this pci_request_regions_exclusive successful.
+Hi Ricardo,
 
-Jason has described the suggested static lockdown flow and we could
-try on that.  I just wanna help position your immediate failure.
+kernel test robot noticed the following build errors:
 
-Maybe you still have QEMU mmapped the MMIO region.
+[auto build test ERROR on 5e1ff2314797bf53636468a97719a8222deca9ae]
 
-int vfio_pci_core_mmap()
-{
-...
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Ribalda/media-uvcvideo-Always-set-default_value/20250606-015643
+base:   5e1ff2314797bf53636468a97719a8222deca9ae
+patch link:    https://lore.kernel.org/r/20250605-uvc-orientation-v2-4-5710f9d030aa%40chromium.org
+patch subject: [PATCH v2 04/12] media: ipu-bridge: Use v4l2_fwnode_device_parse helper
+config: riscv-randconfig-002-20250606 (https://download.01.org/0day-ci/archive/20250606/202506061223.m9fBRBFN-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506061223.m9fBRBFN-lkp@intel.com/reproduce)
 
-	if (!vdev->barmap[index]) {
-		ret = pci_request_selected_regions(pdev,
-						   1 << index, "vfio-pci");
-...
-}
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506061223.m9fBRBFN-lkp@intel.com/
 
-Even for static lockdown, userspace should not mmap the MMIOs anymore.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Thanks,
-Yilun
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+>> ERROR: modpost: "v4l2_fwnode_device_parse" [drivers/media/pci/intel/ipu-bridge.ko] undefined!
 
-> > >> Also after the TDI is unbound, we want the region ownership backto
-> > >> "vfio-pci" so that things continue to work as non-secure device. I don't
-> > >> see we doing that. I could add a pci_bar_deactivate/pci_bar_activate in
-> > >> userspace which will result in vfio_unmap()/vfio_map(). But that doesn't
-> > >> release the region ownership.
-> > >
-> > > Again, IMHO, we should not be doing this dynamically. VFIO should do
-> > > pci_request_regions_exclusive() once at the very start and it should
-> > > stay that way.
-> > >
-> > > There is no reason to change it dynamically.
-> > >
-> > > The only decision to make is if all vfio should switch to exclusive
-> > > mode or if we need to make it optional for userspace.
-> > 
-> > We only need the exclusive mode when the device is operating in secure
-> > mode, correct? That suggests we’ll need to dynamically toggle this
-> > setting based on the device’s security state.
-> 
-> No, if the decision is that VFIO should allow this to be controlled by
-> userspace then userspace will tell iommufd to run in regions_exclusive
-> mode prior to opening the vfio cdev and VFIO will still do it once at
-> open time and never change it.
-> 
-> The only thing request_regions does is block other drivers outside
-> vfio from using this memory space. There is no reason at all to change
-> this dynamically. A CC VMM using VFIO will never use a driver outside
-> VFIO to touch the VFIO controlled memory.
-> 
-> Jason
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
