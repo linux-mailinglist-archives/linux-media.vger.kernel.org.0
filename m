@@ -1,170 +1,140 @@
-Return-Path: <linux-media+bounces-34281-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34282-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B916AD0817
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 20:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B75AD0939
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 23:02:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEC4F1899AC8
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 18:27:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DCC4189E502
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 21:03:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5836B1F3BB5;
-	Fri,  6 Jun 2025 18:27:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93C8D217F29;
+	Fri,  6 Jun 2025 21:02:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="cHYgZ8Ua";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nM/hfywV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e1RH7DKa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123711EF09D;
-	Fri,  6 Jun 2025 18:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F030A31;
+	Fri,  6 Jun 2025 21:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749234439; cv=none; b=YorJYB7w7fFWXNJfABIrjfIm9KnNGy0ld9I4a5vgDr5Yxi9QqKs1pMogXxjzikC1YIpyit7LCDTqp1iSTq/RRR8kt1+fIuied6+IRD89+zxlsMJ7NDOZgzMv7+TzF0mSuzku5D3jjuINDHKa/BJyDHHF8f7H/AGyyfx4F5CUNgw=
+	t=1749243764; cv=none; b=RSTvH/jfuWUWtjq6K73JDIwGl7RNCtZIckVNhNaB9cHg5UfjOlhunaxpJ8fITANFoYOxMGI4Y5dUwRB8gvpSs2hL0/RhDEp7NhuXjJARV4YGpTdz4ZdVdodPRCsANAGnmbgLtIDISZsRLCHXfhg7Qsm0cB4zBEj4osHdemqxGQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749234439; c=relaxed/simple;
-	bh=Vd39D/Vb8gGnVpdP+YYe3E6HAfdWb87u6A+MRDAN24Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kEBsHDIM8hJn+Hk/UWsOtnObN4XkQr5tUZ9tGIiseA+N8ZKEW9uYHAqLP0RexT3qBjA7KoL0Q92d0ySbumFIuqm6lnNiZ9ZSwMjLwwbY50ylbDgs/wqAG+gr0flsUfMhxqG2wFr9QQHIagQ3qwHU2vIAAxj1zWuDkEAXR8fctEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=cHYgZ8Ua; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nM/hfywV; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 541B811400F4;
-	Fri,  6 Jun 2025 14:27:17 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 06 Jun 2025 14:27:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749234437;
-	 x=1749320837; bh=W+1QkO62eDyayzhLmoEPQMW6rtRT1XgWlcxugw+o0vc=; b=
-	cHYgZ8Ua/ueQbcrpXHfEyccAuAYXP+EPGUA8v9AvrhxAmZyY5itFkewag3F/lUaL
-	8gc6F5RIAtHMSWneWbxInZe8z5Ar58v7YkBXcrnpuQlPEvjgUSjvfDdsBTc06W3x
-	4t0nuyvnssJPdyiK8BW+Le7MLQnCnWqR94Q7A2+v0QeoMVZdFm92M/zgHDW55r6Y
-	BP+dAR/uWvZpgW3vzLx+w9XwPBc81GUb1UMrW1M0008swR2NqVAavat8ZnrfAvQi
-	n57OXNhqsD+rakOSDJQ00Dkqw8zKBusLnEzfro+JsA9fz+r49awT8xqTgGCs+9xU
-	L2Z92t3NP1ctHgTjNudhPg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749234437; x=
-	1749320837; bh=W+1QkO62eDyayzhLmoEPQMW6rtRT1XgWlcxugw+o0vc=; b=n
-	M/hfywV2KyF2aohf5T4EDXKbF3OMmiskuFkdn3VJXcU5GcNYoLzthdWu9EDQkL/J
-	rwKvdut/9McvM5pXhhhphTmY9DpsGwEPsBq5IzD7dLn7d2jRcEiewTgD35CAm671
-	CTqT4dHoah8EEcgJCquifutubBhSsf8Qcju/AKNPS9zEKwOkbeTO86mQvfDZh5qG
-	8esjAkSSA2HCjNJyhbr0Lozy0zqxCRGGWMX12FKkRXIpZwZXVdz3aqeoEWqaKM63
-	jAs7kntmwCDnXIDV3GMhuViScmsQrim52CM8TnTE/VtxTO8CoSUeEzIn2iL7J9uX
-	dT6r4jWpi/pTpxuh1zWgA==
-X-ME-Sender: <xms:BTNDaOrcKjSNCvOP-1_apbXfVU4hFHY1uvvxNxFAgUpXDg0blE1TiQ>
-    <xme:BTNDaMpnaJSTyTpBBtJ_OsjHOCkQl98wgi3GYQkwvdAqL2EeneyTDlQBTreAvXcGH
-    SCOYZeBuon_jYDPO0o>
-X-ME-Received: <xmr:BTNDaDMFTM8_6nuT5BHwqSUiH6IpunNWgSgNUN1AuB8b6IdWTM_M3XwwIemtcFCqw4ibo3lC2XOgLfdB1yapNgqG>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehgeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeehiefgueevuedtfefhheegkeevtdelueeukeevfeduhefhhfejfffggeffle
-    efgeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
-    htthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsrghkrghrihdrrghi
-    lhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrggsse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgv
-    nhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvg
-    hnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthho
-    pehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    eplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrgh
-    hnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:BTNDaN508dl7Mypv8T5kB1Fqr4yoE3CM7uNzHgAyVeBoT6JoYiFspg>
-    <xmx:BTNDaN76uTdS7NOY9zsWDpE5ihjxgk0x3aoWq6rI1G3zWylZODWByA>
-    <xmx:BTNDaNjgIRuhzalqYO_hNgrg46kIyZtKaiL7MHauFQfo6AmK77Pe_A>
-    <xmx:BTNDaH5dLAcAosICzzJBe1duBIrtUhQ9Z1pzw5SziemNhMcb3yOtJg>
-    <xmx:BTNDaBJBuyP1p_NCgqVJB86sH1eqv_fcwpLfPnnZm7CNWglHxBPvRb1j>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Jun 2025 14:27:16 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	s=arc-20240116; t=1749243764; c=relaxed/simple;
+	bh=xj0/huTnf1Ge1GUzSFj0vryQBvGBYZ/TnFMm1kkMCIQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OLKE88GSYtowOqEzD40nFliO4yUBKeZybNN8BBerWLl/+C1c9USkqREdpMGMLRcTkoSSr8j9Hjn/t5QRm/1iplTnkDNAfWAIs6Af9yws/RyJ9g0JHS2ymyZHiWCsPvxSBmyhlCB5qCZWy+n9hbaLzLGY5DZO93QHnLASzeT6vS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e1RH7DKa; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-708d90aa8f9so24977547b3.3;
+        Fri, 06 Jun 2025 14:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749243761; x=1749848561; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ckTWEplUDj8tVOgXyWQTsu3+spCGSYfUAFmKmFITmxY=;
+        b=e1RH7DKaxGNUwj+LpWPs75owh592mifdntJtYA/9RYTrqETVdpGKrc5BfObxKiEsA/
+         QPxrhi/+49n0Lvs/pCkDKfne7Bw3ZKpC/RBSsm1hKnbLyeKc9ie3tPmIlsdU8EqYvXLn
+         FJTxbA3bmiU1eoG3H/j6H3HvulV4TBgdjHP3W3Nl/S5YDsII0uBf2LUEEJ2I7gzsvgAb
+         B6rN4HNIhfsI3kk/IiDfuY7ZwKW2HeyvtQdMhQcbHCn3m2Di4GNFos8+mNK8KyVHpXzl
+         yp+DZoUplW+mfMKr2X0V/+DCchp4fGcIVAJOuAU7sQYR38afXMkTTNfhOWRYc68nDBRC
+         n5Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749243761; x=1749848561;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ckTWEplUDj8tVOgXyWQTsu3+spCGSYfUAFmKmFITmxY=;
+        b=kTW1avq+clSjdnSDrTwMBLbU9CdOD1na4+OXfYrLyiQye3n6085Gx39jcpEMjYxB21
+         IJ+cxccPL1D6buzzRvip3nNpddWnphtKvOfrdDeksPsg3hdNq/SMVdUCPNyLtMha+Fgh
+         suBZPH2Hq4SMRRnG8gAkiSa9W/zShilfaeN8OGmekElRpRGrAaVqnpyUyBRAoE/eY0Rj
+         sibfoTDAytpVolK9oy+Xb44geWsHI3j+4cGTxj03EKkKw+yBuv8mNy0Y0HMeBPXgiSgG
+         jjeKpRxFlYdlS9QMn747WwJSE0qNYAVvHkxgq94pHl1wG5jVqK+tjAdnybHDKMGF/0aB
+         RCPw==
+X-Forwarded-Encrypted: i=1; AJvYcCVeiwEFWzZL8ejjk2fV16TuoTHAcDIMmgtQ51RShjaSvsIs6acYOlk4LtK9Cjn/coIwxwHXnF+UczlVf34=@vger.kernel.org, AJvYcCWX12csjA3SOUKpeFN/VQsvWa1jmWd15NEMNRUpbDZ23DSeZh2w7GQXZ2M8tEzp4oRRl6IgFQIKGpVNDcU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5g50egNQLk38mPH0c7HIa60eqMj38xh2JRyXgkPZIt7bXncU8
+	arPiL0hiamxNVScgx1EwcjMNXsYQBkgdYJuH6cmTJHWyXWBuJr5rJYJp
+X-Gm-Gg: ASbGnct4kak8cEVIm2F6DHxwOup+blYEg6vHUt4K9cl2yqUnB5sloOhOijBCrjtMpDH
+	XKaSyF1CrW74K6bIh6xXdA7l3ecJjlk76LMvhX1LdOQSc0b7dsP9/EpWH038t9d8fVh834RZW2q
+	u2VzmfBJ4ZgKQdAGgEZnXHOwyZgcOQzGRzt3A/uB5N91DELHZK0QROEv78KZ2ww3X7Gte2Ccalw
+	Bd+z9kw87h3QxaZnLI6V8GLsHUzMgx65XlmOavIiRJl4wZLMu1RnlUhUH2Xez0nyEswu8Po+Ll2
+	Xz1lVw/1vBC4fk03buWC5b64BbZHBgWr+DrCeNKpE52oiQt77CmjQ/NM0Hz4Tjiczg==
+X-Google-Smtp-Source: AGHT+IG1fy9dy91VK/x1ZkI8SoZWkrn8wR+qdFht38h2sCE5mAew7pjFDZWWomOaCGuG07h43LX68A==
+X-Received: by 2002:a05:690c:fc2:b0:70a:36b2:8f94 with SMTP id 00721157ae682-710f76c2cfdmr72144037b3.18.1749243761230;
+        Fri, 06 Jun 2025 14:02:41 -0700 (PDT)
+Received: from trojai4.cs.purdue.edu ([128.210.0.165])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-710f98afad6sm4000027b3.20.2025.06.06.14.02.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 14:02:40 -0700 (PDT)
+From: jinyaoguo <alexguo1023@gmail.com>
+To: mchehab@kernel.org
+Cc: hverkuil@xs4all.nl,
+	algonell@gmail.com,
 	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v5 12/12] media: rcar-vin: Fold event notifier into only user
-Date: Fri,  6 Jun 2025 20:26:06 +0200
-Message-ID: <20250606182606.3984508-13-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250606182606.3984508-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250606182606.3984508-1-niklas.soderlund+renesas@ragnatech.se>
+	linux-kernel@vger.kernel.org,
+	jinyaoguo <guo846@purdue.edu>,
+	Alex Guo <alexguo1023@gmail.com>
+Subject: [PATCH] media: dvb-frontends: dib7090: fix null-ptr-deref in dib7090_tuner_xfer()
+Date: Fri,  6 Jun 2025 17:02:38 -0400
+Message-Id: <20250606210238.1517508-1-alexguo1023@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-With Gen2 converted to use the common media device there is only one
-caller left for the helper to notify a video device of an event, fold it
-in.
+From: jinyaoguo <guo846@purdue.edu>
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v4
-- Broken out from larger patch.
----
- .../platform/renesas/rcar-vin/rcar-v4l2.c     | 20 +++++++------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+In dib7090_tuner_xfer, msg is controlled by user. When msg[0].buf is null and
+msg[0].len is zero, former checks on msg[0].buf would be passed. If accessing
+msg[0].buf[0] without sanity check, null pointer deref would happen. We add
+check on msg[0].len to prevent crash. Similar issue occurs when access
+msg[1].buf[0] and msg[1].buf[1].
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index 2bf94bd77c24..59b01cb0628a 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -656,18 +656,6 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
- 	video_unregister_device(&vin->vdev);
- }
- 
--static void rvin_notify_video_device(struct rvin_dev *vin,
--				     unsigned int notification, void *arg)
--{
--	switch (notification) {
--	case V4L2_DEVICE_NOTIFY_EVENT:
--		v4l2_event_queue(&vin->vdev, arg);
--		break;
--	default:
--		break;
--	}
--}
--
- static void rvin_notify(struct v4l2_subdev *sd,
- 			unsigned int notification, void *arg)
+Similar commit: commit 0ed554fd769a ("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()")
+
+Signed-off-by: Alex Guo <alexguo1023@gmail.com>
+---
+ drivers/media/dvb-frontends/dib7000p.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/media/dvb-frontends/dib7000p.c b/drivers/media/dvb-frontends/dib7000p.c
+index b40daf242046..46753d2ae212 100644
+--- a/drivers/media/dvb-frontends/dib7000p.c
++++ b/drivers/media/dvb-frontends/dib7000p.c
+@@ -2270,6 +2270,8 @@ static int dib7090_tuner_xfer(struct i2c_adapter *i2c_adap, struct i2c_msg msg[]
  {
-@@ -693,7 +681,13 @@ static void rvin_notify(struct v4l2_subdev *sd,
- 		if (remote != sd)
- 			continue;
+ 	struct dib7000p_state *state = i2c_get_adapdata(i2c_adap);
  
--		rvin_notify_video_device(vin, notification, arg);
-+		switch (notification) {
-+		case V4L2_DEVICE_NOTIFY_EVENT:
-+			v4l2_event_queue(&vin->vdev, arg);
-+			break;
-+		default:
-+			break;
-+		}
- 	}
- }
- 
++	if (msg[0].len < 1)
++		return -EOPNOTSUPP;
+ 	u16 apb_address = 0, word;
+ 	int i = 0;
+ 	switch (msg[0].buf[0]) {
+@@ -2360,11 +2362,15 @@ static int dib7090_tuner_xfer(struct i2c_adapter *i2c_adap, struct i2c_msg msg[]
+ 	case 0x1d:
+ 		i = ((dib7000p_read_word(state, 72) >> 12) & 0x3);
+ 		word = dib7000p_read_word(state, 384 + i);
++		if (msg[1].len < 2)
++			return -EOPNOTSUPP;
+ 		msg[1].buf[0] = (word >> 8) & 0xff;
+ 		msg[1].buf[1] = (word) & 0xff;
+ 		return num;
+ 	case 0x1f:
+ 		if (num == 1) {	/* write */
++			if (msg[0].len < 3)
++				return -EOPNOTSUPP;
+ 			word = (u16) ((msg[0].buf[1] << 8) | msg[0].buf[2]);
+ 			word &= 0x3;
+ 			word = (dib7000p_read_word(state, 72) & ~(3 << 12)) | (word << 12);
 -- 
-2.49.0
+2.34.1
 
 
