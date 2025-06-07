@@ -1,119 +1,161 @@
-Return-Path: <linux-media+bounces-34296-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34297-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953B6AD0E6A
-	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 18:06:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E968AD0EA9
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 19:01:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 124F21891D58
-	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 16:06:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D026E3AF489
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 17:01:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C52871DDC2A;
-	Sat,  7 Jun 2025 16:06:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA4B20012B;
+	Sat,  7 Jun 2025 17:01:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VSIYQz0T"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6BQaLrB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DFB184F
-	for <linux-media@vger.kernel.org>; Sat,  7 Jun 2025 16:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BF582866;
+	Sat,  7 Jun 2025 17:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749312361; cv=none; b=ATXUo6m2Y77EWF2tkZItLYpTc+EIdzfrVMQ8gDGBCIfN/qQZQMFDD3gfWzs/XB52RBsZR1BOMWuFerA6nX72MuYzmiz1Hl7YSp83G2NBnzyz2jU8q/DfwwS7rv+I6TVCAlSEgSZz0PxGqhAm/7g+5ZF7jO5mnBDFPJGZcwDU65o=
+	t=1749315685; cv=none; b=kpbq6lU1aap/As8FCrxG/APyGd4co83swqxcG5MtnHk9v17+gdVWrUCnSXDz1SA9hdigtyP8VtOE3tJaPx8ODVJf+OTQFn0Dv5PkQr9MClVLf02bq/lpTkU8x0nsaANJyfmj8Z8csZRP8jLB4Eovc1M6LWmL36fuDDtOnXO+Xwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749312361; c=relaxed/simple;
-	bh=TLO30A98EMfr0Ez2dXrUZwP1ircZXXaV4+4ewn/pbPI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sX3X4h3zk5H1hqAZSlRsq/5cqOQoExv1VzlwgEcLZr2dyi0bibpcZf+dXh3/AmuxKxMJkXjxMg88RXBKKc/D3jbhGR40dJR0S1jJKZUauGTZMnnzb/gD/jLUAjTilSOWwD3+GgohGCeeHPAQkfeKjkmhWyQRhs7agUa2rNI5PCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VSIYQz0T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C090DC4CEE4;
-	Sat,  7 Jun 2025 16:05:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749312360;
-	bh=TLO30A98EMfr0Ez2dXrUZwP1ircZXXaV4+4ewn/pbPI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VSIYQz0Tx83zWFy4gSBv4JcKSb8BAZgnhcboomEehLR+fndO+5OsiBdIJtJOLRvQp
-	 FA5yaqr08ywe8P3MkfB8tme4B+w9LXoND+cPmKTdRkYGK41zSe0Iw5wjMLuv6yOFN8
-	 yooKxdW0/PtkZSFVu5WuW5vapsPt4bOnFLDSOSUaApU38Y2borXHxvSoJjFOLLFY7g
-	 MjydMCIQNooOYIIFtSxEuyFtYx3OjwCpIDOeMPlHTFdTmhYCyygIJW73wSLiUNLrMU
-	 CL6sqBWSNZhEbE2MLCbkqfacLKoLzje9EzgZ8IZqBO60OmY2zSzSgKKUbCPJ8FTu/e
-	 WYQjnM6Y3sUFQ==
-Message-ID: <18df2aa5-d96f-4326-96ee-1f2aaa595ef1@kernel.org>
-Date: Sat, 7 Jun 2025 18:05:57 +0200
+	s=arc-20240116; t=1749315685; c=relaxed/simple;
+	bh=FErgFTQWl8H3HT1zKbY8lysoJhYePPaFVJeTh/hkcRQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G7ivTsYjoedO6qwvi1ogJVajBjQR41yNs0e7yWo/D12N9HZVm+OwIcodUKgaWa4zJavTUwuEuwdSwa2VWdFrqaoLlsE+2xFMuKJ2v+sp4HGjrVCpE22JkKcvdFYf0SBbKq9jzTc9g6GqGMlM8TKH1rWZanF7LsYefG2gAXmMIHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6BQaLrB; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-32ac52f78c1so31084801fa.3;
+        Sat, 07 Jun 2025 10:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749315680; x=1749920480; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I6WVk+/JB7rAPGcjYfN10L46jlxYRiAfY3gkjwFH4xg=;
+        b=V6BQaLrBFqO+MfbeQnbOOVx2H5AiUeJiu1WRWDKGj5K766aSOJvuHmhvZnZwP7kWrb
+         EdfGYwHLACw6TPk2mEn1KqlSDhf9iPFGD0fHqyP/stcZWrhtF8kvykEe1dL5Yyu/bBwq
+         5Cvw8AenFqrPiRJxpQ8heocMNJnpKvka8HwR2GdMJBgtfjTAkXQI17IVI7gHQ46K1I3l
+         On78MX7goLMfCxOO5iifbOq12lTiqojQiVRbA8GjPL6BN91a3ofVEDuAGmDDg26m/+Ew
+         P18MqDPffJOvyT7VizlefpN1j4qqTLrYrxjfqDUQ4zVzKQbkynn344ngF1PkzLEMvjpj
+         KGqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749315680; x=1749920480;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I6WVk+/JB7rAPGcjYfN10L46jlxYRiAfY3gkjwFH4xg=;
+        b=eahDq00v/vd7JCAfWpYUuMnLQOty71FgFM6XEaDhCtRU0DM/V1R9ap+ZkqaZkrs/2Q
+         eqBTGa+ovpgCqVX7X1uc6sIm/Dz9lQw/My+d6TxbVgIBg6nCHkKNX/mTD1LB6GdhHitA
+         oBZcsWbcNttDJFzhfPpF2u8HnzF5CO6SzEFEjGWAvyAWdYkoamI9vdwr/8Mw8zMiQara
+         dAiVgB3WPfGxdYBPv/0lBEp8H5rZZ2Ug+hbEn3w96d8SGSBT0LpbR0JtXDRknGXRwnCN
+         J1cuBQO5KPjXyfN81XbqnIluVQPwX2yqNxtVrDehzi8GJL80+f6WGc0eNvCuj917NoXy
+         yBlw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFj/qx/80y4HTJrW0WZAKyAuewO/puOvezo6Lkb7nvQwG5VrOl+pdgWTWudiAEeFaTXlQB7/6LEFhvv5C0@vger.kernel.org, AJvYcCVM8Jig6wwZrYzfLXo0N13ekQBPjezpG1vdKhDSw4gZJR3iF6jWwBnzFt2TG3v4yXfE5VhpVxSfWqTiO4zZ@vger.kernel.org, AJvYcCW2eqOJ46yTR28SH0cyAioUoDYk2YhAY6hklAdz+XghTbATrx7vM+xeN3YR9+uTOnHgK8sQ3zqxDmyGqUg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwG2Mh7ch/GtVNqyF1qxVjqCjzs+/Ju7M4ZvKSYFdAGo/44Q198
+	YCWK5hKa6gVyYnNTaYRn96QOz85taAQh52JyzLe/YiKIKTrSxLYLSIzyq53enuyayBN7hUy+njE
+	672skAERAJIc/ZG0XN/1ikYiDNMee1f6WCOR8
+X-Gm-Gg: ASbGnctkJ980kbai9vnwAgK7pHU3lrZuZoBCwuTG9g/Udgd1JYPc1RYKvE6DlYpPoqS
+	l9SDwkaFAan1XfD/RIpbYrENpa9CNus8eyf830he9/y3qO+BDtjDbV/4ruiHsEzsxExk6O35R1B
+	FwQYezcgmts3FHAqVHWxSUK/jKWRWiUnwX30B64PMx2fjKEF2vz8NggWe/CgcvijqTYhmUzpnmS
+	9E=
+X-Google-Smtp-Source: AGHT+IFTv+PnCR1FFBFPRRlL4qtVEdUNkKNqxhFRPW5zZOEZxpfo1u8xvtcxJr+p89SlDmyvPhb1WzwAuII8GgFHvgo=
+X-Received: by 2002:a05:651c:19a2:b0:32a:6b16:3a27 with SMTP id
+ 38308e7fff4ca-32adfe1dbf3mr20542471fa.35.1749315679583; Sat, 07 Jun 2025
+ 10:01:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: hi556: Support full range of power rails
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20250531190534.94684-1-hansg@kernel.org>
- <20250531190534.94684-3-hansg@kernel.org>
- <aEKWHMAAevtfaAqb@kekkonen.localdomain>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <aEKWHMAAevtfaAqb@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250531-topic-venus_98_tbl-v1-1-68e5523a39dc@oss.qualcomm.com>
+ <btmzhyullmggev43b3syp3anxlm6o5mpz2mthaskuyl7kfx5gw@w5gesyaaytkh>
+ <CAN5H-g7WLsowjW6CMee5T=W4Lmia9mLWGgX17-mOMjtBo2SwvQ@mail.gmail.com>
+ <b9b456bc-beb8-769d-5f9f-e13b8860e659@quicinc.com> <c98ebb32-7207-40b4-90d1-8bac62d54c8f@oss.qualcomm.com>
+In-Reply-To: <c98ebb32-7207-40b4-90d1-8bac62d54c8f@oss.qualcomm.com>
+From: Arnaud Vrac <rawoul@gmail.com>
+Date: Sat, 7 Jun 2025 19:01:07 +0200
+X-Gm-Features: AX0GCFstInUACsl9X2b2Lde8y05sK1CuKP_7VX10ft9wYvNQ9qbC30Pa-0LHqoE
+Message-ID: <CAN5H-g7uxH2sqxXdzE-BQtLXYgaEg+h7A=9kuKqwdAZEMXp4Zw@mail.gmail.com>
+Subject: Re: [PATCH] media: venus: Fix MSM8998 frequency table
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Dikshita Agarwal <quic_dikshita@quicinc.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Marc Gonzalez <mgonzalez@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
+Le sam. 7 juin 2025 =C3=A0 11:36, Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> a =C3=A9crit :
+>
+> On 6/6/25 2:14 PM, Vikash Garodia wrote:
+> > Hi,
+> >
+> > On 6/6/2025 5:29 PM, Arnaud Vrac wrote:
+> >> Le dim. 1 juin 2025 =C3=A0 09:46, Dmitry Baryshkov
+> >> <dmitry.baryshkov@oss.qualcomm.com> a =C3=A9crit :
+> >>>
+> >>> On Sat, May 31, 2025 at 02:22:00PM +0200, Konrad Dybcio wrote:
+> >>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >>>>
+> >>>> Fill in the correct data for the production SKU.
+> >>>>
+> >>>> Fixes: 193b3dac29a4 ("media: venus: add msm8998 support")
+> >>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >>>> ---
+> >>>>  drivers/media/platform/qcom/venus/core.c | 10 +++++-----
+> >>>>  1 file changed, 5 insertions(+), 5 deletions(-)
+> >>>>
+> >>>
+> >>> Verified against msm-4.4
+> >>
+> >> Hello,
+> >>
+> >> The current values are based on
+> >> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/=
+kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi
+> >> which we've been using in production for many years.
+> >
+> > I see -v2 updates these to 533/444/.. MHz [1]. If the value changes bas=
+ed on
+> > board variants, these need to be picked from board DT instead of driver=
+ then.
+>
+> I believe they don't (although there exist some SoCs where fuses determin=
+e
+> maximum frequency for a given target). We really want to move off of in-d=
+river
+> freq tables but that is still in progress.
+>
+> >
+> > [1]
+> > https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/k=
+ernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-v2.dtsi#L1140
+>
+> Arnaud, as Vikash mentioned, dvfs tables and some other magic values may
+> get overriden in socname-v2/-v2.1/v3 etc. I'm not a fan that downstream
+> leaves irrelevant information for old revisions in place, instead of
+> simply replacing them, but what can I do..
+>
+> Unless you somehow came into posession of v1 SoCs (which I believe were
+> totally internal), your hw has not been stretching its legs fully for
+> all this time.
+>
 
-On 6-Jun-25 9:17 AM, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Sat, May 31, 2025 at 09:05:34PM +0200, Hans de Goede wrote:
->> From: Hans de Goede <hdegoede@redhat.com>
->>
->> Use regulator_bulk_* to get the array of potential power rails for
->> the hi556.
->>
->> Previously the driver only supported avdd as only avdd is used on IPU6
->> designs. But other designs may also need the driver to control the other
->> power rails and the new INT3472 handshake support also makes use of
->> dvdd on IPU6 designs.
->>
->> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2368506
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/media/i2c/hi556.c | 40 +++++++++++++++++++++------------------
->>  1 file changed, 22 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
->> index d3cc65b67855..110dd00c51ae 100644
->> --- a/drivers/media/i2c/hi556.c
->> +++ b/drivers/media/i2c/hi556.c
->> @@ -624,6 +624,12 @@ static const struct hi556_mode supported_modes[] = {
->>  	},
->>  };
->>  
->> +static const char * const hi556_supply_names[] = {
->> +	"dovdd",	/* Digital I/O power */
->> +	"avdd",		/* Analog power */
->> +	"dvdd",		/* Digital core power */
->> +};
-> 
-> As the need to have these regulators is not related to a proper firmware
-> API, I think we should have at least DT bindings that document them.
+Yes, I missed that the values were overridden in the msm8998-v2.dtsi
+file, sorry for the confusion.
 
-The hi556 driver does not support DT binding atm, only ACPI binding
-and the DT maintainers have been very clear in the past that they
-do NOT want any DT bindings for things which are not actually used
-by DT platforms.
-
-I've checked a HI556 datasheet I found on the net and the HI556
-has the usual 3 power rails, called VDDD + VDDIO + VDDA in the datasheet,
-so I believe that this patch is correct.
-
-Regards,
-
-Hans
-
-
+-Arnaud
 
