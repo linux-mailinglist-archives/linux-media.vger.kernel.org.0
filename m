@@ -1,161 +1,138 @@
-Return-Path: <linux-media+bounces-34297-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34298-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E968AD0EA9
-	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 19:01:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B10A5AD0EC2
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 19:38:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D026E3AF489
-	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 17:01:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 828AF188E5CE
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 17:38:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA4B20012B;
-	Sat,  7 Jun 2025 17:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C31AB1FBCAD;
+	Sat,  7 Jun 2025 17:37:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6BQaLrB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VEMoS17J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BF582866;
-	Sat,  7 Jun 2025 17:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6181C1F05;
+	Sat,  7 Jun 2025 17:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749315685; cv=none; b=kpbq6lU1aap/As8FCrxG/APyGd4co83swqxcG5MtnHk9v17+gdVWrUCnSXDz1SA9hdigtyP8VtOE3tJaPx8ODVJf+OTQFn0Dv5PkQr9MClVLf02bq/lpTkU8x0nsaANJyfmj8Z8csZRP8jLB4Eovc1M6LWmL36fuDDtOnXO+Xwk=
+	t=1749317858; cv=none; b=JYTDSykT8WSl0od88blgRkXKJ1r1Z0cZpv0G3nqEiiBQQXPPUNKgCk2Gazbm1TNnlc4JxdQSaibO2aLW5QSuZpORJW6ll9tLopAnoA8w79em8+syOfyHJc5AtYynIS+MX7msKLDO5ByORcmHlXZ+bANDQ77GAOFMqU/h24/hEsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749315685; c=relaxed/simple;
-	bh=FErgFTQWl8H3HT1zKbY8lysoJhYePPaFVJeTh/hkcRQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G7ivTsYjoedO6qwvi1ogJVajBjQR41yNs0e7yWo/D12N9HZVm+OwIcodUKgaWa4zJavTUwuEuwdSwa2VWdFrqaoLlsE+2xFMuKJ2v+sp4HGjrVCpE22JkKcvdFYf0SBbKq9jzTc9g6GqGMlM8TKH1rWZanF7LsYefG2gAXmMIHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6BQaLrB; arc=none smtp.client-ip=209.85.208.175
+	s=arc-20240116; t=1749317858; c=relaxed/simple;
+	bh=MNXMy8HfI2waq2G8oxNDKiH7bMr9b+jPeQUK+EXCUcs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SIbV/VdVnQaTEFJwWDKC37Hkq+/2Di23asKo3brvM3rd4iyUrIZjWc5D/Jk7L9hpveitoeN1xkGLv/p5WV6q0YU/PAWJuJ3z0Gl6G2pvxiYhNIWyVykO8jxhCLKYLoSKLN/pvVZpHxo0k6B0pY0vNMNj0sJs8rTA31DhNgsAUY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VEMoS17J; arc=none smtp.client-ip=209.85.219.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-32ac52f78c1so31084801fa.3;
-        Sat, 07 Jun 2025 10:01:21 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e7dc89108bfso2596064276.3;
+        Sat, 07 Jun 2025 10:37:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749315680; x=1749920480; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I6WVk+/JB7rAPGcjYfN10L46jlxYRiAfY3gkjwFH4xg=;
-        b=V6BQaLrBFqO+MfbeQnbOOVx2H5AiUeJiu1WRWDKGj5K766aSOJvuHmhvZnZwP7kWrb
-         EdfGYwHLACw6TPk2mEn1KqlSDhf9iPFGD0fHqyP/stcZWrhtF8kvykEe1dL5Yyu/bBwq
-         5Cvw8AenFqrPiRJxpQ8heocMNJnpKvka8HwR2GdMJBgtfjTAkXQI17IVI7gHQ46K1I3l
-         On78MX7goLMfCxOO5iifbOq12lTiqojQiVRbA8GjPL6BN91a3ofVEDuAGmDDg26m/+Ew
-         P18MqDPffJOvyT7VizlefpN1j4qqTLrYrxjfqDUQ4zVzKQbkynn344ngF1PkzLEMvjpj
-         KGqA==
+        d=gmail.com; s=20230601; t=1749317855; x=1749922655; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ayCFwbQaqYgpw8qE16BOWR3xG+gqmq5PSTWYGpCJhm4=;
+        b=VEMoS17JABk0y1BiPvgCrU7mpyBQ6LQKpvPxe9FbSrevYw65yAiJwOA7KbMt7UNOsH
+         BEs34MtjH6/mveLF0k5tv7t+IINdijY4/3PHThMnwQ6LBQVevTOuFhALCCFke1Ae7Rai
+         5LBJn3HimETa8vj2idP5hH3vxxJPZDrCi4YZPNwQm3Mbj+ZM7KbwHyoJjDUdkGxqiOo1
+         ic4ky1jWkKVJW+a+1D3PrljMevBKUOYtzU1fjjltPx1C6p9AcM+ibDLcJPUnOdAH+qSu
+         9d6bzWDqIWU1gY6P1lJfYJp/EDfM+OijQ4fV3Q65qI3fTBHVTuck2s6RRRptBUFgKrNG
+         oSZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749315680; x=1749920480;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I6WVk+/JB7rAPGcjYfN10L46jlxYRiAfY3gkjwFH4xg=;
-        b=eahDq00v/vd7JCAfWpYUuMnLQOty71FgFM6XEaDhCtRU0DM/V1R9ap+ZkqaZkrs/2Q
-         eqBTGa+ovpgCqVX7X1uc6sIm/Dz9lQw/My+d6TxbVgIBg6nCHkKNX/mTD1LB6GdhHitA
-         oBZcsWbcNttDJFzhfPpF2u8HnzF5CO6SzEFEjGWAvyAWdYkoamI9vdwr/8Mw8zMiQara
-         dAiVgB3WPfGxdYBPv/0lBEp8H5rZZ2Ug+hbEn3w96d8SGSBT0LpbR0JtXDRknGXRwnCN
-         J1cuBQO5KPjXyfN81XbqnIluVQPwX2yqNxtVrDehzi8GJL80+f6WGc0eNvCuj917NoXy
-         yBlw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFj/qx/80y4HTJrW0WZAKyAuewO/puOvezo6Lkb7nvQwG5VrOl+pdgWTWudiAEeFaTXlQB7/6LEFhvv5C0@vger.kernel.org, AJvYcCVM8Jig6wwZrYzfLXo0N13ekQBPjezpG1vdKhDSw4gZJR3iF6jWwBnzFt2TG3v4yXfE5VhpVxSfWqTiO4zZ@vger.kernel.org, AJvYcCW2eqOJ46yTR28SH0cyAioUoDYk2YhAY6hklAdz+XghTbATrx7vM+xeN3YR9+uTOnHgK8sQ3zqxDmyGqUg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwG2Mh7ch/GtVNqyF1qxVjqCjzs+/Ju7M4ZvKSYFdAGo/44Q198
-	YCWK5hKa6gVyYnNTaYRn96QOz85taAQh52JyzLe/YiKIKTrSxLYLSIzyq53enuyayBN7hUy+njE
-	672skAERAJIc/ZG0XN/1ikYiDNMee1f6WCOR8
-X-Gm-Gg: ASbGnctkJ980kbai9vnwAgK7pHU3lrZuZoBCwuTG9g/Udgd1JYPc1RYKvE6DlYpPoqS
-	l9SDwkaFAan1XfD/RIpbYrENpa9CNus8eyf830he9/y3qO+BDtjDbV/4ruiHsEzsxExk6O35R1B
-	FwQYezcgmts3FHAqVHWxSUK/jKWRWiUnwX30B64PMx2fjKEF2vz8NggWe/CgcvijqTYhmUzpnmS
-	9E=
-X-Google-Smtp-Source: AGHT+IFTv+PnCR1FFBFPRRlL4qtVEdUNkKNqxhFRPW5zZOEZxpfo1u8xvtcxJr+p89SlDmyvPhb1WzwAuII8GgFHvgo=
-X-Received: by 2002:a05:651c:19a2:b0:32a:6b16:3a27 with SMTP id
- 38308e7fff4ca-32adfe1dbf3mr20542471fa.35.1749315679583; Sat, 07 Jun 2025
- 10:01:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749317855; x=1749922655;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ayCFwbQaqYgpw8qE16BOWR3xG+gqmq5PSTWYGpCJhm4=;
+        b=GX+WpmefVWHuL2uPgk5iPpzLI1LPakyvJ1rWde9VHCsjPjBriGg4kdGYu7z61WwKS7
+         SCb6dWqVEyt4FK0lLadDUqQqoATGwa92vvoD+0fMQDQ6Nje9lXvD7JIux70afEftPl+i
+         o4gvwm50feMSOAn4d3EcMD0oadv5m8xKfyPThIqRM1C0htQE7+N+wcTiSzf679FAPXwn
+         2SvRhmKzS7abdMHIZvIb2w6tlqZ41b8qdhnpUlwoLtuV1NVyoPJEewoqp05pyY6NdN3w
+         Lwobq6sHJUPtW1h+R8OYSQqFsuFFPJKO71EFTZfNKE10h/mCGbzt2DycOAZ/cBi2LJpJ
+         21mA==
+X-Forwarded-Encrypted: i=1; AJvYcCUT6JJy3RwUV+8Dj5svEdhTYAzTuS5W3CDmDOVQccxPyhZ5jGM58agMA+177AkuWaAa/IgE0O6mGf7u5lA=@vger.kernel.org, AJvYcCVXPJUgS4FFJiF8xO9yOFMCNS/tlychMFjmnXSOsfbvD+nH6SEzs4OmiwMyCSd0dPVFg6LJgvLXd+BbtK8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzz/SQOkTXJ74/HHyAKR1e2QawryPfh7tpO2U75BruqziIRz5FM
+	+Xwp9zADpONVwjs46fUlBFPX+svTbxNQImQ6sNBXv3Nsrl0HlKI4x+8M
+X-Gm-Gg: ASbGncsAa/pr7plzK7zDoVVc2jxo4EcM04WysBRVSu2s9hC0RuJCG0QLnkdre9nk4MF
+	yfi7F1FRrDuTmE93vL3HIZCNnt1DYMIPKwyR1w66jKjuwYcHXAhMibtHUpNH9YD/D73hRCG5D5e
+	CSIC5CqKIMG/rIyjgpH2Z2UPnq8yiulmZr77bVfX0UciQI7LcwegZG+zI7cSAHgEkneL/JUU0xV
+	nAH/izgGLmNxIVT0IKB9wOxXPNcvCGpA2XapK/OecOByuC1PLleVDunLQFZfa4EynPGk01daAXl
+	52fwgXza1b4jPjFhbnIWAuJIOQZsImTLuJeacsXDBhaDiGgP2CzlRFS4rMqMWcQGblt705yxqww
+	6
+X-Google-Smtp-Source: AGHT+IF8HYZHL86TOdKhSN8xXmSsXpoDN0N4Vah9KTbf2hlYodxVc7jqNj7xPRMTMBU3/mTgBb5F4Q==
+X-Received: by 2002:a05:6902:2605:b0:e7b:607b:54b7 with SMTP id 3f1490d57ef6-e81a22dae24mr10039925276.24.1749317855571;
+        Sat, 07 Jun 2025 10:37:35 -0700 (PDT)
+Received: from trojai4.cs.purdue.edu ([128.210.0.165])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e81a440cafbsm1144373276.24.2025.06.07.10.37.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jun 2025 10:37:35 -0700 (PDT)
+From: Alex Guo <alexguo1023@gmail.com>
+To: mchehab@kernel.org
+Cc: hverkuil@xs4all.nl,
+	algonell@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alex Guo <alexguo1023@gmail.com>
+Subject: [PATCH] media: dvb-frontends: dib7090: fix null-ptr-deref in dib7090_tuner_xfer()
+Date: Sat,  7 Jun 2025 13:37:31 -0400
+Message-Id: <20250607173731.2363567-1-alexguo1023@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250531-topic-venus_98_tbl-v1-1-68e5523a39dc@oss.qualcomm.com>
- <btmzhyullmggev43b3syp3anxlm6o5mpz2mthaskuyl7kfx5gw@w5gesyaaytkh>
- <CAN5H-g7WLsowjW6CMee5T=W4Lmia9mLWGgX17-mOMjtBo2SwvQ@mail.gmail.com>
- <b9b456bc-beb8-769d-5f9f-e13b8860e659@quicinc.com> <c98ebb32-7207-40b4-90d1-8bac62d54c8f@oss.qualcomm.com>
-In-Reply-To: <c98ebb32-7207-40b4-90d1-8bac62d54c8f@oss.qualcomm.com>
-From: Arnaud Vrac <rawoul@gmail.com>
-Date: Sat, 7 Jun 2025 19:01:07 +0200
-X-Gm-Features: AX0GCFstInUACsl9X2b2Lde8y05sK1CuKP_7VX10ft9wYvNQ9qbC30Pa-0LHqoE
-Message-ID: <CAN5H-g7uxH2sqxXdzE-BQtLXYgaEg+h7A=9kuKqwdAZEMXp4Zw@mail.gmail.com>
-Subject: Re: [PATCH] media: venus: Fix MSM8998 frequency table
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Dikshita Agarwal <quic_dikshita@quicinc.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Marc Gonzalez <mgonzalez@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Le sam. 7 juin 2025 =C3=A0 11:36, Konrad Dybcio
-<konrad.dybcio@oss.qualcomm.com> a =C3=A9crit :
->
-> On 6/6/25 2:14 PM, Vikash Garodia wrote:
-> > Hi,
-> >
-> > On 6/6/2025 5:29 PM, Arnaud Vrac wrote:
-> >> Le dim. 1 juin 2025 =C3=A0 09:46, Dmitry Baryshkov
-> >> <dmitry.baryshkov@oss.qualcomm.com> a =C3=A9crit :
-> >>>
-> >>> On Sat, May 31, 2025 at 02:22:00PM +0200, Konrad Dybcio wrote:
-> >>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >>>>
-> >>>> Fill in the correct data for the production SKU.
-> >>>>
-> >>>> Fixes: 193b3dac29a4 ("media: venus: add msm8998 support")
-> >>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >>>> ---
-> >>>>  drivers/media/platform/qcom/venus/core.c | 10 +++++-----
-> >>>>  1 file changed, 5 insertions(+), 5 deletions(-)
-> >>>>
-> >>>
-> >>> Verified against msm-4.4
-> >>
-> >> Hello,
-> >>
-> >> The current values are based on
-> >> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/=
-kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi
-> >> which we've been using in production for many years.
-> >
-> > I see -v2 updates these to 533/444/.. MHz [1]. If the value changes bas=
-ed on
-> > board variants, these need to be picked from board DT instead of driver=
- then.
->
-> I believe they don't (although there exist some SoCs where fuses determin=
-e
-> maximum frequency for a given target). We really want to move off of in-d=
-river
-> freq tables but that is still in progress.
->
-> >
-> > [1]
-> > https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/k=
-ernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-v2.dtsi#L1140
->
-> Arnaud, as Vikash mentioned, dvfs tables and some other magic values may
-> get overriden in socname-v2/-v2.1/v3 etc. I'm not a fan that downstream
-> leaves irrelevant information for old revisions in place, instead of
-> simply replacing them, but what can I do..
->
-> Unless you somehow came into posession of v1 SoCs (which I believe were
-> totally internal), your hw has not been stretching its legs fully for
-> all this time.
->
+In dib7090_tuner_xfer, msg is controlled by user. When msg[0].buf is null
+and msg[0].len is zero, former checks on msg[0].buf would be passed. If 
+accessing msg[0].buf[0] without sanity check, null pointer deref would 
+happen. We add check on msg[0].len to prevent crash. Similar issue occurs
+when access msg[1].buf[0] and msg[1].buf[1].
 
-Yes, I missed that the values were overridden in the msm8998-v2.dtsi
-file, sorry for the confusion.
+Similar commit: commit 0ed554fd769a ("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()")
 
--Arnaud
+Signed-off-by: Alex Guo <alexguo1023@gmail.com>
+---
+ drivers/media/dvb-frontends/dib7000p.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/media/dvb-frontends/dib7000p.c b/drivers/media/dvb-frontends/dib7000p.c
+index b40daf242046..46753d2ae212 100644
+--- a/drivers/media/dvb-frontends/dib7000p.c
++++ b/drivers/media/dvb-frontends/dib7000p.c
+@@ -2270,6 +2270,8 @@ static int dib7090_tuner_xfer(struct i2c_adapter *i2c_adap, struct i2c_msg msg[]
+ {
+ 	struct dib7000p_state *state = i2c_get_adapdata(i2c_adap);
+ 
++	if (msg[0].len < 1)
++		return -EOPNOTSUPP;
+ 	u16 apb_address = 0, word;
+ 	int i = 0;
+ 	switch (msg[0].buf[0]) {
+@@ -2360,11 +2362,15 @@ static int dib7090_tuner_xfer(struct i2c_adapter *i2c_adap, struct i2c_msg msg[]
+ 	case 0x1d:
+ 		i = ((dib7000p_read_word(state, 72) >> 12) & 0x3);
+ 		word = dib7000p_read_word(state, 384 + i);
++		if (msg[1].len < 2)
++			return -EOPNOTSUPP;
+ 		msg[1].buf[0] = (word >> 8) & 0xff;
+ 		msg[1].buf[1] = (word) & 0xff;
+ 		return num;
+ 	case 0x1f:
+ 		if (num == 1) {	/* write */
++			if (msg[0].len < 3)
++				return -EOPNOTSUPP;
+ 			word = (u16) ((msg[0].buf[1] << 8) | msg[0].buf[2]);
+ 			word &= 0x3;
+ 			word = (dib7000p_read_word(state, 72) & ~(3 << 12)) | (word << 12);
+-- 
+2.34.1
+
 
