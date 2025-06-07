@@ -1,326 +1,581 @@
-Return-Path: <linux-media+bounces-34293-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34294-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90DCAD0D66
-	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 14:25:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AB8AD0DCA
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 16:03:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A1573A6CED
-	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 12:24:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06B541891D30
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 14:03:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03BB5221DB2;
-	Sat,  7 Jun 2025 12:24:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D624F1A5B8F;
+	Sat,  7 Jun 2025 14:03:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="vt3qx6Qr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="STkD/7cV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4084C8F;
-	Sat,  7 Jun 2025 12:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAC819ABC6;
+	Sat,  7 Jun 2025 14:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749299094; cv=none; b=ixcqygSBbc+1TzceLhdlKTQJYwk7Kx6CmmNYN+PWn0Nr+rzSXlIEn4S+kCsxjXl6xZepOKu18L1pACIaDWzLinY3sLjMovp9VJ0hpWvFnJn5pwiIUyNfBFKFIJz4dAKdmIBCNfidvi/AzSrc4cf29irhEONhDM3HDUJT4xLk1lo=
+	t=1749304981; cv=none; b=WjGYeDrG7AqxziMHEIuGIXG9e9M4RWnKa2jCruDkIDAcgjaY6ywBcwfXdl0D89BOp65ImdlSCxVq+KgQBxGTRh0moQy2mZgpCUf4tWvpNR8uQ7RGfocXiSyhJkzlmvMoNV/BtVkwsqXhgy1gwmqEq/Nryyuv95a3YiOESe2X/tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749299094; c=relaxed/simple;
-	bh=znNst42lmPj7ogIgobmbMUb3tJpztF/EXesUWMovEeQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dZJ3Po2u7DAZh+PFHFip8nPdiJmtfrKbf+DhaX+tWLDfBtp67felt0Q2ldDLdqR5tuQyyLBhm2vZH3gwdMbLwZkor1rpST/Z+OcoldFK/+uKRY6TsisLD7gEOd72pHxL9YiE931l51kktDIj+OKEYnET75xXnV3Bajo+/J7xK4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=vt3qx6Qr; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=oLS1KFEltUOFGxNGj6XeO70K6kHeWgsxYD83o7TwBko=; b=vt3qx6Qr4XYNUfbW89rhyMhIHK
-	RUsbuFW40hCFrw9qF7mmgY0m7xNo9YwcgAKicthWaEpFY9uhrdV1nQl5UckilstXJ9RkXaaqKVl0c
-	dtsshpIjfiRZ8USENmNvKtqjOsR9M1CbJG/wGi1R+21+bnzuPx789C7DhxRN7nIrXe/ArMbEpysTd
-	IZISLJXQsJwlhumSW8zTdRLDYqGP9PepWKUWFPnz3gbQu1asOKBKZvJPQJKUWq8/VOeQujsGMzfYl
-	zLmm2V1p2WbbZwcTIWHSG5osyYRCJmRl9c8voR2hD1sEg7cN3sIEOnmKotN7APZKxIaFN+Gkt9CEa
-	iOE4OwZQ==;
-Received: from i53875b1f.versanet.de ([83.135.91.31] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1uNsas-0001Lo-C8; Sat, 07 Jun 2025 14:24:14 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: Re: [PATCH v7 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
-Date: Sat, 07 Jun 2025 14:24:12 +0200
-Message-ID: <10540765.0AQdONaE2F@diego>
-In-Reply-To: <6946302.MhkbZ0Pkbq@workhorse>
-References:
- <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
- <6946302.MhkbZ0Pkbq@workhorse>
+	s=arc-20240116; t=1749304981; c=relaxed/simple;
+	bh=eSjsM+6Bo+ZPRCwvJhvZAHonBtSGPi89HrjUgut8Hd8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wvb+lAmnD4hMrYowFbr916v0P5fszKX/qlzEKyLFJSSPmSFgCFevx1IbyT7tx4cy8OWXH6j0DsnYEjIzJz4e0oMv+bWN2+OlnAz1klyyudtB0bFMRcmtIaUcUPS4skozbJ9PIO8RZpWFQ+fBdMvBEPq0hRyO5shuX//qdYsHZeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=STkD/7cV; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D89023A4;
+	Sat,  7 Jun 2025 16:02:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1749304966;
+	bh=eSjsM+6Bo+ZPRCwvJhvZAHonBtSGPi89HrjUgut8Hd8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=STkD/7cVYpvr40oldMWGgy8s/ALMZCkRGU+VTzbTnHgIZjvn7dyLMqb80rjBRGgFl
+	 m+X7soq2/GSSExwv7Tkuquqe8kwtx7m41o/L+1XxPl8ptkiea6ox4ZnLDQvKCfV5rS
+	 jTEwVQ+iIH/ELznr1gy8sjcFNlSDgKc4lS1HPD3A=
+Date: Sat, 7 Jun 2025 17:02:39 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 5/6] media: rcar-vin: Merge all notifiers
+Message-ID: <20250607140239.GB14545@pendragon.ideasonboard.com>
+References: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250521132037.1463746-6-niklas.soderlund+renesas@ragnatech.se>
+ <20250527114513.GL12492@pendragon.ideasonboard.com>
+ <20250606140933.GB2780410@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250606140933.GB2780410@ragnatech.se>
 
-Am Freitag, 6. Juni 2025, 11:20:32 Mitteleurop=C3=A4ische Sommerzeit schrie=
-b Nicolas Frattaroli:
-> Hi Tomeu,
->=20
-> On Friday, 6 June 2025 08:28:30 Central European Summer Time Tomeu Vizoso=
- wrote:
-> > From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> >=20
-> > The NPU on the ROCK5B uses the same regulator for both the sram-supply
-> > and the npu's supply. Add this regulator, and enable all the NPU bits.
-> > Also add the regulator as a domain-supply to the pd_npu power domain.
-> >=20
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > ---
-> >  arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 56 +++++++++++++++++=
-++++++++
-> >  1 file changed, 56 insertions(+)
-> >=20
-> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm=
-64/boot/dts/rockchip/rk3588-rock-5b.dts
-> > index d22068475c5dc6cb885f878f3f527a66edf1ba70..49500f7cbcb14af4919a6c1=
-997e9e53a01d84973 100644
-> > --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> > +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> > @@ -316,6 +316,28 @@ regulator-state-mem {
-> >  	};
-> >  };
-> > =20
-> > +&i2c1 {
-> > +	pinctrl-names =3D "default";
-> > +	pinctrl-0 =3D <&i2c1m2_xfer>;
-> > +	status =3D "okay";
-> > +
-> > +	vdd_npu_s0: regulator@42 {
-> > +		compatible =3D "rockchip,rk8602";
-> > +		reg =3D <0x42>;
-> > +		fcs,suspend-voltage-selector =3D <1>;
-> > +		regulator-name =3D "vdd_npu_s0";
-> > +		regulator-boot-on;
-> > +		regulator-min-microvolt =3D <550000>;
-> > +		regulator-max-microvolt =3D <950000>;
-> > +		regulator-ramp-delay =3D <2300>;
-> > +		vin-supply =3D <&vcc5v0_sys>;
-> > +
-> > +		regulator-state-mem {
-> > +			regulator-off-in-suspend;
-> > +		};
-> > +	};
-> > +};
-> > +
-> >  &i2c6 {
-> >  	status =3D "okay";
-> > =20
-> > @@ -440,6 +462,10 @@ &pd_gpu {
-> >  	domain-supply =3D <&vdd_gpu_s0>;
-> >  };
-> > =20
-> > +&pd_npu {
-> > +	domain-supply =3D <&vdd_npu_s0>;
-> > +};
-> > +
-> >  &pinctrl {
-> >  	hdmirx {
-> >  		hdmirx_hpd: hdmirx-5v-detection {
-> > @@ -500,6 +526,36 @@ &pwm1 {
-> >  	status =3D "okay";
-> >  };
-> > =20
-> > +&rknn_core_top {
-> > +	npu-supply =3D <&vdd_npu_s0>;
-> > +	sram-supply =3D <&vdd_npu_s0>;
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_core_1 {
-> > +	npu-supply =3D <&vdd_npu_s0>;
-> > +	sram-supply =3D <&vdd_npu_s0>;
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_core_2 {
-> > +	npu-supply =3D <&vdd_npu_s0>;
-> > +	sram-supply =3D <&vdd_npu_s0>;
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_mmu_top {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_mmu_1 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_mmu_2 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> >  &saradc {
-> >  	vref-supply =3D <&avcc_1v8_s0>;
-> >  	status =3D "okay";
-> >=20
-> >=20
->=20
-> Feel free to replace this patch with the following, if your series is
-> based on linux-next or v6.16. It moves the enablement into the new
-> shared ROCK 5B/5B+ dtsi, and I've added a regulator-enable-ramp-delay
-> while I was at it because I've run into hard-to-reproduce problems
-> relating to it before that Heiko quickly identified and fixed in his
-> recent series[1] for basically all already present regulators. Remains
-> to be seen if the final patch lands in that form but this should make
-> it easier for people to try out as it means a bad luck roll for the
-> day won't make them run into as many weird issues.
->=20
-> [1]: https://lore.kernel.org/all/20250605185001.377055-1-heiko@sntech.de/
+On Fri, Jun 06, 2025 at 04:09:33PM +0200, Niklas Söderlund wrote:
+> Hi Laurent,
+> 
+> Thanks for your feedback!
+> 
+> On 2025-05-27 13:45:13 +0200, Laurent Pinchart wrote:
+> > Hi Niklas,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Wed, May 21, 2025 at 03:20:36PM +0200, Niklas Söderlund wrote:
+> > > The VIN usage of v4l-async is complex and stems from organic growth of
+> > > the driver of supporting both private local subdevices (Gen2, Gen3) and
+> > > subdevices shared between all VIN instances (Gen3 and Gen4).
+> > > 
+> > > The driver used a separate notifier for each VIN for the private local
+> > > ones, and a shared group notifier for the shared ones. This was complex
+> > > and lead to subtle bugs when unbinding and later rebinding subdevices in
+> > > on of the notifiers having to handle different edge cases depending on
+> > 
+> > s/on of/one of/ (I think)
+> > 
+> > > if it also had subdevices in the other notifiers etc.
+> > > 
+> > > To simplify this have the Gen2 devices allocate and form a VIN group
+> > > too. This way all subdevices on all models can be collect in a
+> > > single group notifier. Then there is only a single complete callback for
+> > > all where the video devices and subdevice nodes can be registered etc.
+> > > 
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > >  .../platform/renesas/rcar-vin/rcar-core.c     | 263 ++++++++----------
+> > >  .../platform/renesas/rcar-vin/rcar-vin.h      |   2 -
+> > >  2 files changed, 114 insertions(+), 151 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > index 60ec57d73a12..b0727e98dac6 100644
+> > > --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > @@ -43,6 +43,9 @@
+> > >  
+> > >  #define v4l2_dev_to_vin(d)	container_of(d, struct rvin_dev, v4l2_dev)
+> > >  
+> > > +static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
+> > > +					  struct v4l2_subdev *subdev);
+> > 
+> > Any chance you could move the function instead of forward-declaring it ?
+> 
+> I could move it in a separate commit prior to this patch. But the last 
+> patch in the series removes the function all together so I thought that 
+> to be more churn then needed.
 
-Reading that just now reminds me to point to=20
-https://lore.kernel.org/lkml/20250606190418.478633-1-heiko@sntech.de/
+OK it's fine then.
 
-As Chen Yu pointed out in the reply to v2, this is more a property of the
-regulator IC itself, so likely should go into the driver.
+> > > +
+> > >  /* -----------------------------------------------------------------------------
+> > >   * Gen3 Group Allocator
+> > >   */
+> > > @@ -232,7 +235,10 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
+> > >  		}
+> > >  	}
+> > >  
+> > > -	return vin->group->link_setup(vin->group);
+> > > +	if (vin->group->link_setup)
+> > > +		return vin->group->link_setup(vin->group);
+> > > +
+> > > +	return  0;
+> > >  }
+> > >  
+> > >  static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
+> > > @@ -240,22 +246,31 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
+> > >  				     struct v4l2_async_connection *asc)
+> > >  {
+> > >  	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
+> > > -	unsigned int i;
+> > > +	struct rvin_group *group = vin->group;
+> > >  
+> > > -	for (i = 0; i < RCAR_VIN_NUM; i++)
+> > > -		if (vin->group->vin[i])
+> > > -			rvin_v4l2_unregister(vin->group->vin[i]);
+> > > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++)
+> > 
+> > While at it, you can use ARRAY_SIZE().
+> 
+> The use of RCAR_VIN_NUM is everywhere in the driver. I do however agree 
+> using ARRAY_SIZE() is better. I will convert the whole driver to 
+> ARRAY_SIZE() in a follow up patch outside this series.
 
-So with a bit of luck after 6.16-rc1 all the fan53555 clones should use
-somewhat hardware-accurate enable-times.
+OK.
 
+> I think it's important that all loops look the same and I'm worried this 
+> series is growing too large with all nice, but unrelated, cleanups 
+> unearth by it. I hope this is OK.
+> 
+> I will however keep the conversion to ARRAY_SIZE() for the 
+> RVIN_REMOTES_MAX define as this was already something this series needed 
+> to address in patch 1 and it's only used in one location that was not 
+> already touched by this series.
+> 
+> > 
+> > > +		if (group->vin[i])
+> > > +			rvin_v4l2_unregister(group->vin[i]);
+> > 
+> > And please use curly braces for the for statement.
+> > 
+> > >  
+> > >  	mutex_lock(&vin->group->lock);
+> > 
+> > Add a blank line.
+> > 
+> > > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
+> > 
+> > ARRAY_SIZE() here too. Same below where applicable.
+> > 
+> > > +		if (!group->vin[i] || group->vin[i]->parallel.asc != asc)
+> > > +			continue;
+> > > +
+> > > +		group->vin[i]->parallel.subdev = NULL;
+> > > +
+> > > +		vin_dbg(group->vin[i], "Unbind parallel subdev %s\n",
+> > > +			subdev->name);
+> > > +	}
+> > >  
+> > > -	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
+> > > -		if (vin->group->remotes[i].asc != asc)
+> > > +	for (unsigned int i = 0; i < RVIN_REMOTES_MAX; i++) {
+> > > +		if (group->remotes[i].asc != asc)
+> > >  			continue;
+> > > -		vin->group->remotes[i].subdev = NULL;
+> > > +
+> > > +		group->remotes[i].subdev = NULL;
+> > > +
+> > >  		vin_dbg(vin, "Unbind %s from slot %u\n", subdev->name, i);
+> > > -		break;
+> > >  	}
+> > > -
+> > 
+> > You can keep this blank line :-)
+> > 
+> > >  	mutex_unlock(&vin->group->lock);
+> > >  
+> > >  	media_device_unregister(&vin->group->mdev);
+> > > @@ -266,21 +281,38 @@ static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
+> > >  				   struct v4l2_async_connection *asc)
+> > >  {
+> > >  	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
+> > > -	unsigned int i;
+> > > +	struct rvin_group *group = vin->group;
+> > >  
+> > > -	mutex_lock(&vin->group->lock);
+> > > +	guard(mutex)(&group->lock);
+> > >  
+> > > -	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
+> > > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
+> > > +		int ret;
+> > > +
+> > > +		if (!group->vin[i] || group->vin[i]->parallel.asc != asc)
+> > > +			continue;
+> > > +
+> > > +		ret = rvin_parallel_subdevice_attach(group->vin[i], subdev);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +
+> > > +		v4l2_set_subdev_hostdata(subdev, group->vin[i]);
+> > > +
+> > > +		vin_dbg(group->vin[i], "Bound subdev %s\n", subdev->name);
+> > > +
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	for (unsigned int i = 0; i < RVIN_REMOTES_MAX; i++) {
+> > >  		if (vin->group->remotes[i].asc != asc)
+> > >  			continue;
+> > > +
+> > >  		vin->group->remotes[i].subdev = subdev;
+> > >  		vin_dbg(vin, "Bound %s to slot %u\n", subdev->name, i);
+> > > -		break;
+> > > +
+> > > +		return 0;
+> > >  	}
+> > >  
+> > > -	mutex_unlock(&vin->group->lock);
+> > > -
+> > > -	return 0;
+> > > +	return -ENODEV;
+> > >  }
+> > >  
+> > >  static const struct v4l2_async_notifier_operations rvin_group_notify_ops = {
+> > > @@ -374,7 +406,7 @@ static int rvin_parallel_parse_of(struct rvin_dev *vin)
+> > >  		goto out;
+> > >  	}
+> > >  
+> > > -	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+> > > +	asc = v4l2_async_nf_add_fwnode(&vin->group->notifier, fwnode,
+> > >  				       struct v4l2_async_connection);
+> > >  	if (IS_ERR(asc)) {
+> > >  		ret = PTR_ERR(asc);
+> > > @@ -424,6 +456,12 @@ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
+> > >  		if (!(vin_mask & BIT(i)))
+> > >  			continue;
+> > >  
+> > > +		/* Parse local subdevice. */
+> > > +		ret = rvin_parallel_parse_of(vin->group->vin[i]);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +
+> > > +		/* Prase shared subdevices. */
+> > >  		for (id = 0; id < max_id; id++) {
+> > >  			if (vin->group->remotes[id].asc)
+> > >  				continue;
+> > > @@ -603,124 +641,6 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
+> > >  	return 0;
+> > >  }
+> > >  
+> > > -static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
+> > > -{
+> > > -	rvin_v4l2_unregister(vin);
+> > > -	vin->parallel.subdev = NULL;
+> > > -
+> > > -	if (!vin->info->use_mc)
+> > > -		rvin_free_controls(vin);
+> > > -}
+> > > -
+> > > -static int rvin_parallel_notify_complete(struct v4l2_async_notifier *notifier)
+> > > -{
+> > > -	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
+> > > -	struct media_entity *source;
+> > > -	struct media_entity *sink;
+> > > -	int ret;
+> > > -
+> > > -	ret = v4l2_device_register_subdev_nodes(&vin->v4l2_dev);
+> > > -	if (ret < 0) {
+> > > -		vin_err(vin, "Failed to register subdev nodes\n");
+> > > -		return ret;
+> > > -	}
+> > > -
+> > > -	if (!video_is_registered(&vin->vdev)) {
+> > > -		ret = rvin_v4l2_register(vin);
+> > > -		if (ret < 0)
+> > > -			return ret;
+> > > -	}
+> > > -
+> > > -	if (!vin->info->use_mc)
+> > > -		return 0;
+> > > -
+> > > -	/* If we're running with media-controller, link the subdevs. */
+> > > -	source = &vin->parallel.subdev->entity;
+> > > -	sink = &vin->vdev.entity;
+> > > -
+> > > -	ret = media_create_pad_link(source, vin->parallel.source_pad,
+> > > -				    sink, vin->parallel.sink_pad, 0);
+> > > -	if (ret)
+> > > -		vin_err(vin, "Error adding link from %s to %s: %d\n",
+> > > -			source->name, sink->name, ret);
+> > > -
+> > > -	return ret;
+> > > -}
+> > > -
+> > > -static void rvin_parallel_notify_unbind(struct v4l2_async_notifier *notifier,
+> > > -					struct v4l2_subdev *subdev,
+> > > -					struct v4l2_async_connection *asc)
+> > > -{
+> > > -	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
+> > > -
+> > > -	vin_dbg(vin, "unbind parallel subdev %s\n", subdev->name);
+> > > -
+> > > -	mutex_lock(&vin->lock);
+> > > -	rvin_parallel_subdevice_detach(vin);
+> > > -	mutex_unlock(&vin->lock);
+> > > -}
+> > > -
+> > > -static int rvin_parallel_notify_bound(struct v4l2_async_notifier *notifier,
+> > > -				      struct v4l2_subdev *subdev,
+> > > -				      struct v4l2_async_connection *asc)
+> > > -{
+> > > -	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
+> > > -	int ret;
+> > > -
+> > > -	mutex_lock(&vin->lock);
+> > > -	ret = rvin_parallel_subdevice_attach(vin, subdev);
+> > > -	mutex_unlock(&vin->lock);
+> > > -	if (ret)
+> > > -		return ret;
+> > > -
+> > > -	v4l2_set_subdev_hostdata(subdev, vin);
+> > > -
+> > > -	vin_dbg(vin, "bound subdev %s source pad: %u sink pad: %u\n",
+> > > -		subdev->name, vin->parallel.source_pad,
+> > > -		vin->parallel.sink_pad);
+> > > -
+> > > -	return 0;
+> > > -}
+> > > -
+> > > -static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
+> > > -	.bound = rvin_parallel_notify_bound,
+> > > -	.unbind = rvin_parallel_notify_unbind,
+> > > -	.complete = rvin_parallel_notify_complete,
+> > > -};
+> > > -
+> > > -static void rvin_parallel_cleanup(struct rvin_dev *vin)
+> > > -{
+> > > -	v4l2_async_nf_unregister(&vin->notifier);
+> > > -	v4l2_async_nf_cleanup(&vin->notifier);
+> > > -}
+> > > -
+> > > -static int rvin_parallel_init(struct rvin_dev *vin)
+> > > -{
+> > > -	int ret;
+> > > -
+> > > -	v4l2_async_nf_init(&vin->notifier, &vin->v4l2_dev);
+> > > -
+> > > -	ret = rvin_parallel_parse_of(vin);
+> > > -	if (ret)
+> > > -		return ret;
+> > > -
+> > > -	if (!vin->parallel.asc)
+> > > -		return -ENODEV;
+> > > -
+> > > -	vin_dbg(vin, "Found parallel subdevice %pOF\n",
+> > > -		to_of_node(vin->parallel.asc->match.fwnode));
+> > > -
+> > > -	vin->notifier.ops = &rvin_parallel_notify_ops;
+> > > -	ret = v4l2_async_nf_register(&vin->notifier);
+> > > -	if (ret < 0) {
+> > > -		vin_err(vin, "Notifier registration failed\n");
+> > > -		v4l2_async_nf_cleanup(&vin->notifier);
+> > > -		return ret;
+> > > -	}
+> > > -
+> > > -	return 0;
+> > > -}
+> > > -
+> > >  /* -----------------------------------------------------------------------------
+> > >   * CSI-2
+> > >   */
+> > > @@ -895,11 +815,63 @@ static int rvin_csi2_create_link(struct rvin_group *group, unsigned int id,
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static int rvin_parallel_setup_links(struct rvin_group *group)
+> > > +{
+> > > +	u32 flags = MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE;
+> > > +	int ret = 0;
+> > > +
+> > > +	mutex_lock(&group->lock);
+> > 
+> > Use a guard.
+> > 
+> > > +	/* If the group also have links don't enable the link. */
+> > 
+> > s/have/has/
+> > 
+> > > +	for (unsigned int i = 0; i < RVIN_REMOTES_MAX; i++) {
+> > > +		if (group->remotes[i].subdev) {
+> > > +			flags = 0;
+> > > +			break;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	/* Create links */
+> > 
+> > s/links/links./
+> > 
+> > > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
+> > > +		struct rvin_dev *vin = group->vin[i];
+> > > +		struct media_entity *source;
+> > > +		struct media_entity *sink;
+> > > +
+> > > +		/* Noting to do if their is no VIN or parallel subdev. */
+> > 
+> > s/Noting/Nothing/
+> > s/their/there/
+> > 
+> > > +		if (!vin || !vin->parallel.subdev)
+> > > +			continue;
+> > > +
+> > > +		source = &vin->parallel.subdev->entity;
+> > > +		sink = &vin->vdev.entity;
+> > > +
+> > > +		ret = media_create_pad_link(source, vin->parallel.source_pad,
+> > > +					    sink, 0, flags);
+> > > +		if (ret)
+> > > +			break;
+> > 
+> > 			return ret;
+> > 
+> > (thanks to the guard above)
+> > 
+> > > +	}
+> > > +	mutex_unlock(&group->lock);
+> > > +
+> > > +	return ret;
+> > 
+> > 	return 0;
+> > 
+> > > +}
+> > > +
+> > >  static int rvin_csi2_setup_links(struct rvin_group *group)
+> > >  {
+> > >  	const struct rvin_group_route *routes, *route;
+> > >  	unsigned int id;
+> > > -	int ret = -EINVAL;
+> > > +	int ret;
+> > > +
+> > > +	/* Find any VIN in group to get route info. */
+> > > +	routes = NULL;
+> > > +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
+> > > +		if (group->vin[i]) {
+> > > +			routes = group->vin[i]->info->routes;
+> > > +			break;
+> > > +		}
+> > > +	}
+> > > +	if (!routes)
+> > > +		return -ENODEV;
+> > 
+> > Storing the info pointer in the group as proposed in the review of a
+> > previous patch from the same series would help here too.
+> 
+> I agree. I have added a patch that introduce this change separatly and 
+> all new code uses the info from the group structure. I have added to my 
+> ever growing todo file to remove the info struct all together from the 
+> private VIN data structure in a follow up patch. This change would 
+> depend on this series as Gen2 currently do not participate in the group 
+> concept.
+> 
+> > > +
+> > > +	ret = rvin_parallel_setup_links(group);
+> > > +	if (ret)
+> > > +		return ret;
+> > >  
+> > >  	/* Find any VIN in group to get route info. */
+> > >  	routes = NULL;
+> > > @@ -914,6 +886,7 @@ static int rvin_csi2_setup_links(struct rvin_group *group)
+> > >  
+> > >  	/* Create all media device links between VINs and CSI-2's. */
+> > >  	mutex_lock(&group->lock);
+> > > +	ret = -EINVAL;
+> > >  	for (route = routes; route->chsel; route++) {
+> > >  		/* Check that VIN' master is part of the group. */
+> > >  		if (!group->vin[route->master])
+> > > @@ -941,7 +914,6 @@ static int rvin_csi2_setup_links(struct rvin_group *group)
+> > >  
+> > >  static void rvin_csi2_cleanup(struct rvin_dev *vin)
+> > >  {
+> > > -	rvin_parallel_cleanup(vin);
+> > >  	rvin_group_notifier_cleanup(vin);
+> > >  	rvin_group_put(vin);
+> > >  	rvin_free_controls(vin);
+> > > @@ -964,18 +936,11 @@ static int rvin_csi2_init(struct rvin_dev *vin)
+> > >  	if (ret)
+> > >  		goto err_controls;
+> > >  
+> > > -	/* It's OK to not have a parallel subdevice. */
+> > > -	ret = rvin_parallel_init(vin);
+> > > -	if (ret && ret != -ENODEV)
+> > > -		goto err_group;
+> > > -
+> > >  	ret = rvin_group_notifier_init(vin, 1, RVIN_CSI_MAX);
+> > >  	if (ret)
+> > > -		goto err_parallel;
+> > > +		goto err_group;
+> > >  
+> > >  	return 0;
+> > > -err_parallel:
+> > > -	rvin_parallel_cleanup(vin);
+> > >  err_group:
+> > >  	rvin_group_put(vin);
+> > >  err_controls:
+> > > @@ -1448,7 +1413,9 @@ static int rcar_vin_probe(struct platform_device *pdev)
+> > >  		    rvin_group_id_to_master(vin->id) == vin->id)
+> > >  			vin->scaler = vin->info->scaler;
+> > >  	} else {
+> > > -		ret = rvin_parallel_init(vin);
+> > > +		ret = rvin_group_get(vin, NULL, NULL);
+> > > +		if (!ret)
+> > > +			ret = rvin_group_notifier_init(vin, 0, 0);
+> > >  
+> > >  		if (vin->info->scaler)
+> > >  			vin->scaler = vin->info->scaler;
+> > > @@ -1478,8 +1445,6 @@ static void rcar_vin_remove(struct platform_device *pdev)
+> > >  		rvin_isp_cleanup(vin);
+> > >  	else if (vin->info->use_mc)
+> > >  		rvin_csi2_cleanup(vin);
+> > > -	else
+> > > -		rvin_parallel_cleanup(vin);
+> > >  
+> > >  	rvin_id_put(vin);
+> > >  
+> > > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> > > index 7d4fce248976..a577f4fe4a6c 100644
+> > > --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> > > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> > > @@ -149,7 +149,6 @@ struct rvin_info {
+> > >   * @vdev:		V4L2 video device associated with VIN
+> > >   * @v4l2_dev:		V4L2 device
+> > >   * @ctrl_handler:	V4L2 control handler
+> > > - * @notifier:		V4L2 asynchronous subdevs notifier
+> > >   *
+> > >   * @parallel:		parallel input subdevice descriptor
+> > >   *
+> > > @@ -189,7 +188,6 @@ struct rvin_dev {
+> > >  	struct video_device vdev;
+> > >  	struct v4l2_device v4l2_dev;
+> > >  	struct v4l2_ctrl_handler ctrl_handler;
+> > > -	struct v4l2_async_notifier notifier;
+> > >  
+> > >  	struct rvin_parallel_entity parallel;
+> > >  
 
-> From ff1c370a158f4340aa5dfa4ed5034e815e5371be Mon Sep 17 00:00:00 2001
-> From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> Date: Tue, 3 Jun 2025 17:03:10 +0200
-> Subject: [PATCH] arm64: dts: rockchip: enable NPU on ROCK 5B/+
->=20
-> The NPU on the ROCK5B uses the same regulator for both the sram-supply
-> and the npu's supply. Add this regulator, and enable all the NPU bits.
-> Also add the regulator as a domain-supply to the pd_npu power domain.
->=20
-> The 5B+'s regulator setup is identical to the 5B in this regard, so it
-> goes in the shared .dtsi.
->=20
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  .../boot/dts/rockchip/rk3588-rock-5b.dtsi     | 57 +++++++++++++++++++
->  1 file changed, 57 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi b/arch/arm6=
-4/boot/dts/rockchip/rk3588-rock-5b.dtsi
-> index 51e83f0ed809..5a20cc2555fb 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-> @@ -332,6 +332,29 @@ regulator-state-mem {
->  	};
->  };
-> =20
-> +&i2c1 {
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&i2c1m2_xfer>;
-> +	status =3D "okay";
-> +
-> +	vdd_npu_s0: regulator@42 {
-> +		compatible =3D "rockchip,rk8602";
-> +		reg =3D <0x42>;
-> +		fcs,suspend-voltage-selector =3D <1>;
-> +		regulator-name =3D "vdd_npu_s0";
-> +		regulator-boot-on;
-> +		regulator-enable-ramp-delay =3D <500>;
-> +		regulator-min-microvolt =3D <550000>;
-> +		regulator-max-microvolt =3D <950000>;
-> +		regulator-ramp-delay =3D <2300>;
-> +		vin-supply =3D <&vcc5v0_sys>;
-> +
-> +		regulator-state-mem {
-> +			regulator-off-in-suspend;
-> +		};
-> +	};
-> +};
-> +
->  &i2c3 {
+-- 
+Regards,
 
-I think your patch here has some other dependency still?
-Because in the rk3588-rock-5b.dtsi there is no i2c3 yet
-In torvalds' branch from _just now_ ;-) .
-
-
-Heiko
-
->  	status =3D "okay";
->  };
-> @@ -521,6 +544,10 @@ &pd_gpu {
->  	domain-supply =3D <&vdd_gpu_s0>;
->  };
-> =20
-> +&pd_npu {
-> +	domain-supply =3D <&vdd_npu_s0>;
-> +};
-> +
->  &pinctrl {
->  	hdmirx {
->  		hdmirx_hpd: hdmirx-5v-detection {
-> @@ -585,6 +612,36 @@ &pwm1 {
->  	status =3D "okay";
->  };
-> =20
-> +&rknn_core_top {
-> +	npu-supply =3D <&vdd_npu_s0>;
-> +	sram-supply =3D <&vdd_npu_s0>;
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_core_1 {
-> +	npu-supply =3D <&vdd_npu_s0>;
-> +	sram-supply =3D <&vdd_npu_s0>;
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_core_2 {
-> +	npu-supply =3D <&vdd_npu_s0>;
-> +	sram-supply =3D <&vdd_npu_s0>;
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_mmu_top {
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_mmu_1 {
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_mmu_2 {
-> +	status =3D "okay";
-> +};
-> +
->  &saradc {
->  	vref-supply =3D <&avcc_1v8_s0>;
->  	status =3D "okay";
->=20
-
-
-
-
+Laurent Pinchart
 
