@@ -1,140 +1,189 @@
-Return-Path: <linux-media+bounces-34282-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34283-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B75AD0939
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 23:02:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B47AD0AEA
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 04:09:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DCC4189E502
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jun 2025 21:03:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0317D172B4E
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jun 2025 02:09:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93C8D217F29;
-	Fri,  6 Jun 2025 21:02:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FC4F258CFF;
+	Sat,  7 Jun 2025 02:08:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e1RH7DKa"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Sg/iHtzg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F030A31;
-	Fri,  6 Jun 2025 21:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A75242900
+	for <linux-media@vger.kernel.org>; Sat,  7 Jun 2025 02:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749243764; cv=none; b=RSTvH/jfuWUWtjq6K73JDIwGl7RNCtZIckVNhNaB9cHg5UfjOlhunaxpJ8fITANFoYOxMGI4Y5dUwRB8gvpSs2hL0/RhDEp7NhuXjJARV4YGpTdz4ZdVdodPRCsANAGnmbgLtIDISZsRLCHXfhg7Qsm0cB4zBEj4osHdemqxGQY=
+	t=1749262126; cv=none; b=l2yXPhEa0b+YurS1P/22egs9xNtUGqkX4aEaqptWqy/M5avTcNpJm75EB7zAUl1Yj1wN6dpEEge/uMPggwtfdzdiwIhJ3jq3fUtUVcugwuHITD8YwC0bxSvo0TwUU4f78mURW0ptmhHIzzPHYuUDy+qGGywtCkrIB0l60kVvas0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749243764; c=relaxed/simple;
-	bh=xj0/huTnf1Ge1GUzSFj0vryQBvGBYZ/TnFMm1kkMCIQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OLKE88GSYtowOqEzD40nFliO4yUBKeZybNN8BBerWLl/+C1c9USkqREdpMGMLRcTkoSSr8j9Hjn/t5QRm/1iplTnkDNAfWAIs6Af9yws/RyJ9g0JHS2ymyZHiWCsPvxSBmyhlCB5qCZWy+n9hbaLzLGY5DZO93QHnLASzeT6vS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e1RH7DKa; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-708d90aa8f9so24977547b3.3;
-        Fri, 06 Jun 2025 14:02:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749243761; x=1749848561; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ckTWEplUDj8tVOgXyWQTsu3+spCGSYfUAFmKmFITmxY=;
-        b=e1RH7DKaxGNUwj+LpWPs75owh592mifdntJtYA/9RYTrqETVdpGKrc5BfObxKiEsA/
-         QPxrhi/+49n0Lvs/pCkDKfne7Bw3ZKpC/RBSsm1hKnbLyeKc9ie3tPmIlsdU8EqYvXLn
-         FJTxbA3bmiU1eoG3H/j6H3HvulV4TBgdjHP3W3Nl/S5YDsII0uBf2LUEEJ2I7gzsvgAb
-         B6rN4HNIhfsI3kk/IiDfuY7ZwKW2HeyvtQdMhQcbHCn3m2Di4GNFos8+mNK8KyVHpXzl
-         yp+DZoUplW+mfMKr2X0V/+DCchp4fGcIVAJOuAU7sQYR38afXMkTTNfhOWRYc68nDBRC
-         n5Zw==
+	s=arc-20240116; t=1749262126; c=relaxed/simple;
+	bh=1wPBp9mn1Yt2Yh31Y1H6YFb0Bxf1nyDWQ8/uWhDjpd4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kRmmjtpqTzqNs8XamIPcDDSDpJt7y3rUsBrjsTIG//awdnYR61+x1Vyi7f/46FSgV5Pcr1mQWTSsQysBMzcVceK8Tv3yeAALfjPL0boIkr8/5/g7p4vHIr47tKWAkZO08izjz9Dsrqe5uh5PCqj4iDu5jWxFZgCFoSelNvpQisw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Sg/iHtzg; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 556F9KSR024155
+	for <linux-media@vger.kernel.org>; Sat, 7 Jun 2025 02:08:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	4d2TUqwOZCp8hCOyVsn5//7lj8HaxFyUEfEqmF7yDXY=; b=Sg/iHtzgqBxeA4HR
+	+CvW+2ghX5pOzyDtIrPBEdn/PuJCNKM3CcnuD0jHhxipR9aw9pMP8FfS1Nl8btlu
+	KQTDq8YKIa9o2l4hDmpO46avS0ZibebYNS6H3eJ8fLUUjcMpNSZ9EqODTb3792DX
+	jYZZ5DxxyNa83xtrRccp6jdFO1Wej/TdS43JiyGibu4VKcqE3KBDP1C1ZyJ5B2SR
+	Xjz4bsGK7iIIj2heJOODS1XbHsPddzsrC7jyr88DdunJjy8/yB7V7xZQSkIPhqn1
+	iBEAtsoPU6X9D8UMQ++NmngjKj+EymnjCxYcdfFeywL7m2Q1zYX/lFrbMqpRtAoC
+	wfjX2A==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47202wkr8b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Sat, 07 Jun 2025 02:08:41 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7d15c975968so498247785a.2
+        for <linux-media@vger.kernel.org>; Fri, 06 Jun 2025 19:08:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749243761; x=1749848561;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ckTWEplUDj8tVOgXyWQTsu3+spCGSYfUAFmKmFITmxY=;
-        b=kTW1avq+clSjdnSDrTwMBLbU9CdOD1na4+OXfYrLyiQye3n6085Gx39jcpEMjYxB21
-         IJ+cxccPL1D6buzzRvip3nNpddWnphtKvOfrdDeksPsg3hdNq/SMVdUCPNyLtMha+Fgh
-         suBZPH2Hq4SMRRnG8gAkiSa9W/zShilfaeN8OGmekElRpRGrAaVqnpyUyBRAoE/eY0Rj
-         sibfoTDAytpVolK9oy+Xb44geWsHI3j+4cGTxj03EKkKw+yBuv8mNy0Y0HMeBPXgiSgG
-         jjeKpRxFlYdlS9QMn747WwJSE0qNYAVvHkxgq94pHl1wG5jVqK+tjAdnybHDKMGF/0aB
-         RCPw==
-X-Forwarded-Encrypted: i=1; AJvYcCVeiwEFWzZL8ejjk2fV16TuoTHAcDIMmgtQ51RShjaSvsIs6acYOlk4LtK9Cjn/coIwxwHXnF+UczlVf34=@vger.kernel.org, AJvYcCWX12csjA3SOUKpeFN/VQsvWa1jmWd15NEMNRUpbDZ23DSeZh2w7GQXZ2M8tEzp4oRRl6IgFQIKGpVNDcU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5g50egNQLk38mPH0c7HIa60eqMj38xh2JRyXgkPZIt7bXncU8
-	arPiL0hiamxNVScgx1EwcjMNXsYQBkgdYJuH6cmTJHWyXWBuJr5rJYJp
-X-Gm-Gg: ASbGnct4kak8cEVIm2F6DHxwOup+blYEg6vHUt4K9cl2yqUnB5sloOhOijBCrjtMpDH
-	XKaSyF1CrW74K6bIh6xXdA7l3ecJjlk76LMvhX1LdOQSc0b7dsP9/EpWH038t9d8fVh834RZW2q
-	u2VzmfBJ4ZgKQdAGgEZnXHOwyZgcOQzGRzt3A/uB5N91DELHZK0QROEv78KZ2ww3X7Gte2Ccalw
-	Bd+z9kw87h3QxaZnLI6V8GLsHUzMgx65XlmOavIiRJl4wZLMu1RnlUhUH2Xez0nyEswu8Po+Ll2
-	Xz1lVw/1vBC4fk03buWC5b64BbZHBgWr+DrCeNKpE52oiQt77CmjQ/NM0Hz4Tjiczg==
-X-Google-Smtp-Source: AGHT+IG1fy9dy91VK/x1ZkI8SoZWkrn8wR+qdFht38h2sCE5mAew7pjFDZWWomOaCGuG07h43LX68A==
-X-Received: by 2002:a05:690c:fc2:b0:70a:36b2:8f94 with SMTP id 00721157ae682-710f76c2cfdmr72144037b3.18.1749243761230;
-        Fri, 06 Jun 2025 14:02:41 -0700 (PDT)
-Received: from trojai4.cs.purdue.edu ([128.210.0.165])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-710f98afad6sm4000027b3.20.2025.06.06.14.02.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 14:02:40 -0700 (PDT)
-From: jinyaoguo <alexguo1023@gmail.com>
-To: mchehab@kernel.org
-Cc: hverkuil@xs4all.nl,
-	algonell@gmail.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jinyaoguo <guo846@purdue.edu>,
-	Alex Guo <alexguo1023@gmail.com>
-Subject: [PATCH] media: dvb-frontends: dib7090: fix null-ptr-deref in dib7090_tuner_xfer()
-Date: Fri,  6 Jun 2025 17:02:38 -0400
-Message-Id: <20250606210238.1517508-1-alexguo1023@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1749262121; x=1749866921;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4d2TUqwOZCp8hCOyVsn5//7lj8HaxFyUEfEqmF7yDXY=;
+        b=JaedpvRvcOTGLBoQGsJYx2c3Ik0dWe5m1+7CEToFYPIrSoUC4pRzDpbbyVt8tc5cQl
+         gAzliKt0zAMbntn5YiQbthl81hgrpUsVQqraoHve7Jn+3djwIMR5Ilb7ZZ5v2q+xVsU/
+         wpJV8/Wuq/EkHVOEZHh03itw3zjBzYYjrt2FxZahRTHYoFjHpfNV9pEEh5cA1Y5U0AB0
+         tWhywMKD+RvYpJ06oAuDJeYv5FHss9HiiCAkNjYJB149IWwLjWazOfVKR9IQn9qXF949
+         lC9KM6BSNRKDTXJdbEF3P/iD8xf8B0NGLMdomG6SPHn8yanwMdwWZIsf0yVa7NVD5htw
+         ZADQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVpUOhtqIvHvd5xkvf0ssEaA9ITRvdamzNLoIbW7IOgKNjlWpIQa1KJvUG6bcHQ+A4qnFbIsucyf+efHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRZmOCVLSS93pS6AivmZD7kFIcpyxxdd0NfImG8jv1XdjpEmHd
+	4NR0W9u+P5nLryWUr10jXB/vb12euK0X3nIuvHuI8AztB3St69gNhyCY1oHa4ZyRsE0421TCT3Q
+	ThTbxR+OWcPEW4awSEMUkqt+yJVFk9zlIDVF8CtzyhbR3ihp/KtIbrOsq4IxwpxEu/A==
+X-Gm-Gg: ASbGncvnDglu6zJ6pMHMQQP/cX7Pj9OnItfECkZr0zyGCJEp39WIq306L3SYxI2qVfx
+	t99ZZbLgLQR46IY9DInLGlplosY6WSe1IXd7KA1AhQgsngDoch9kfxvcoprVjYpUVVVJ/7O+zaE
+	n5PJENSvoAYtJ0nZQIkg8KZMzDQ5LzV5Ic6XFFhzBzxW5q7aFZKffuF11LJxRRTD92upWfpgADI
+	hm6biYH1U0sWo7z8/+crD2ls/Vl+5+TqXML0hA/2g0duzKkgsK4W20Ep7jDejFFqvRbSaSC3EBh
+	jYt0iWSzrjLfcDHQO5kFGlyG/qVGaFm5V4IPYZ7bDht1f7+NOCIlUYl9iHYcYbWOqt5OdWQfkKW
+	U3/6Jmh15YSOTMg==
+X-Received: by 2002:a05:620a:2408:b0:7ce:bddd:7119 with SMTP id af79cd13be357-7d2299329bdmr812225185a.51.1749262121037;
+        Fri, 06 Jun 2025 19:08:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEz7nZzHZFUC4z+SxHCj3/apQ8BIw5H1t8RfplWUNiwQy336iHPVr/nvIPtH3vtjLYLC4dchQ==
+X-Received: by 2002:a05:620a:2408:b0:7ce:bddd:7119 with SMTP id af79cd13be357-7d2299329bdmr812222385a.51.1749262120660;
+        Fri, 06 Jun 2025 19:08:40 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0c3:3a00::4c9? (2001-14ba-a0c3-3a00--4c9.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::4c9])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553677316d6sm352047e87.206.2025.06.06.19.08.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jun 2025 19:08:38 -0700 (PDT)
+Message-ID: <5d4c51b9-f4a4-46ee-a8ab-d523fa7292eb@oss.qualcomm.com>
+Date: Sat, 7 Jun 2025 05:08:36 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 0/3] media: venus: enable venus on qcs615
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Renjiang Han <quic_renjiang@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20250530-add-venus-for-qcs615-v8-0-c0092ac616d0@quicinc.com>
+ <wmri66tkksq6i3hfyoveedq5slghnnpozjzx6gck5r3zsiwsg6@xevgh54rnlqd>
+ <285cae4a-219c-4514-818f-34c8225529de@quicinc.com>
+ <t6niql4jfotjnbducypwxkdjqt3or7k3rwmltvbhifmpphsiwy@er56ey4v2pzo>
+ <a3bf69f3-6500-4e45-ba34-8ba24312938a@kernel.org>
+ <CAO9ioeWkLu+ne18kjEST7YU7b1aBzcMBBeyfpagzis99BAeOHg@mail.gmail.com>
+ <b710e357-09e3-460e-b097-28cf0c856aeb@kernel.org>
+ <44b3779b-702c-4e8b-8ccd-c9c3314a511f@linaro.org>
+ <3956eeef-2a60-4bfb-908e-5e3e32970b86@quicinc.com>
+ <e18bdd88-3866-4aef-8873-b9b67f0cb9b7@quicinc.com>
+ <85533e92-43bb-40dd-a8d5-13d19e859616@kernel.org>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <85533e92-43bb-40dd-a8d5-13d19e859616@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 5kxJ6bK3EhIYwebOLbBrOJ855-yLv-tD
+X-Proofpoint-GUID: 5kxJ6bK3EhIYwebOLbBrOJ855-yLv-tD
+X-Authority-Analysis: v=2.4 cv=Y/D4sgeN c=1 sm=1 tr=0 ts=68439f29 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6IFa9wvqVegA:10 a=_IlkK9eLdjtuzbIfdvoA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA3MDAxNCBTYWx0ZWRfXzHv2OCUv24DX
+ A90zua0db+LJDHq147OOZQzyJAWwIF4WCoInqZ9nvpv1P4pLO0AzuVa+yAYn6fbOs3AL6UgIZrB
+ Ryg1H0ix/p1jvi5chp1pUB/ePag6LSxYBI3HPbE7EJwhP9mKax8a5bu+ewZW6GjC2+IE8+qmnsw
+ ZO46Co6ypKaK2VxjgwjgSvfvGJpdWyWs/mKGFHwy1/AwP2+6+RV5twZY67CJXXKglnvYJTe7aLW
+ Hns6+Qdy1BRz8zncyjeSkZCjzbnMnBIss7t2ClExeElY0puaSjWc401l6KlWoLwwUkdS1khSFQb
+ ZpxuV5tVzOfkH6pZzSozVnCw+MpyzDEt90H8AXy5vH34uSbn0Gvy3s66C1JFahnO49l9hM138U6
+ HpYOy4JpwQfX4LNt5kYuvskmIjKXoU06Obhw0j1cvanE0svpEALthkjKXdxjbIn9RZssHZYY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-07_01,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 spamscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
+ bulkscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506070014
 
-From: jinyaoguo <guo846@purdue.edu>
+On 06/06/2025 08:54, Krzysztof Kozlowski wrote:
+> On 06/06/2025 09:51, Renjiang Han wrote:
+>>>>
+>>>> Reading this thread, I don't think that is the case.
+>>>>
+>>>> I don't see how patches 2/3 or 3/3 depend on 1/3.
+>>>>
+>>>> The frequency table is a fallback in the driver and the DT changes
+>>>> are completely straight forward.
+>>>>
+>>>> TBH, I think we are hitting an email comms/social barrier here, not a
+>>>> technical one.
+>>>>
+>>>> @Renjiang can you please confirm that freq_table is a fallback,
+>>>> qcs615 will work without OPP table and the DTS stuff doesn't depend
+>>>> on the driver.
+>>> yes, freq_table is a fallback. driver will use freq_table without OPP
+>>> table. the DTS doesn't depend on the driver.
+>> To correct my previous response:
+>> For this project, the driver patch needs to be merged first. Since it
+>> falls back to SC7180, but their frequencies are different which is
+>> reflected in the OPP table defined in the DTS.
+>>
+>> The DTS patch is intended to enable video function on the QCS615 platform.
+>>
+>> The driver patch is to switch from using the driver freq_table to the
+>> OPP table from the DTS. Without it, the driver will continue to use the
+>> internal freq_table as before.
+>>
+>> Therefore, if the DTS patch is applied without the driver patch, the video
+>> function will be enabled on the QCS615 platform, but the driver will use
+>> the SC7180 frequency table, which can lead to an overclocking issue.
+> 
+> This means devices are not really compatible and DTS is not correct.
 
-In dib7090_tuner_xfer, msg is controlled by user. When msg[0].buf is null and
-msg[0].len is zero, former checks on msg[0].buf would be passed. If accessing
-msg[0].buf[0] without sanity check, null pointer deref would happen. We add
-check on msg[0].len to prevent crash. Similar issue occurs when access
-msg[1].buf[0] and msg[1].buf[1].
+The devices are compatible: all programming interface is the same. 
+Having the freq table in the driver is an error.
 
-Similar commit: commit 0ed554fd769a ("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()")
 
-Signed-off-by: Alex Guo <alexguo1023@gmail.com>
----
- drivers/media/dvb-frontends/dib7000p.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/media/dvb-frontends/dib7000p.c b/drivers/media/dvb-frontends/dib7000p.c
-index b40daf242046..46753d2ae212 100644
---- a/drivers/media/dvb-frontends/dib7000p.c
-+++ b/drivers/media/dvb-frontends/dib7000p.c
-@@ -2270,6 +2270,8 @@ static int dib7090_tuner_xfer(struct i2c_adapter *i2c_adap, struct i2c_msg msg[]
- {
- 	struct dib7000p_state *state = i2c_get_adapdata(i2c_adap);
- 
-+	if (msg[0].len < 1)
-+		return -EOPNOTSUPP;
- 	u16 apb_address = 0, word;
- 	int i = 0;
- 	switch (msg[0].buf[0]) {
-@@ -2360,11 +2362,15 @@ static int dib7090_tuner_xfer(struct i2c_adapter *i2c_adap, struct i2c_msg msg[]
- 	case 0x1d:
- 		i = ((dib7000p_read_word(state, 72) >> 12) & 0x3);
- 		word = dib7000p_read_word(state, 384 + i);
-+		if (msg[1].len < 2)
-+			return -EOPNOTSUPP;
- 		msg[1].buf[0] = (word >> 8) & 0xff;
- 		msg[1].buf[1] = (word) & 0xff;
- 		return num;
- 	case 0x1f:
- 		if (num == 1) {	/* write */
-+			if (msg[0].len < 3)
-+				return -EOPNOTSUPP;
- 			word = (u16) ((msg[0].buf[1] << 8) | msg[0].buf[2]);
- 			word &= 0x3;
- 			word = (dib7000p_read_word(state, 72) & ~(3 << 12)) | (word << 12);
 -- 
-2.34.1
-
+With best wishes
+Dmitry
 
