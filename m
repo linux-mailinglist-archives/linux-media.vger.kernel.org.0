@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-34323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34324-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0EFAD1629
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 01:59:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90EDBAD162B
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 01:59:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5E643A9DBA
-	for <lists+linux-media@lfdr.de>; Sun,  8 Jun 2025 23:59:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC488169F23
+	for <lists+linux-media@lfdr.de>; Sun,  8 Jun 2025 23:59:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78050267F70;
-	Sun,  8 Jun 2025 23:59:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAC9D2686AF;
+	Sun,  8 Jun 2025 23:59:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="azrZvATS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CG0YQsTX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70680267700;
-	Sun,  8 Jun 2025 23:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18642676EC;
+	Sun,  8 Jun 2025 23:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749427152; cv=none; b=AhYNpcxUdMS1pSIQk9PIsmrnWy+g6a84NpRGFvcYcR+Sefl+6e7OHuDWcOYRiZDcPvxRvkYtV5+wfRMllmWitzUV94Sa7h9RpGuM4U9lNYl9kxk0q74ON2B5T50jX/f1o1RTpe2Z37qH1o50h46xfzE5WKnhhtL376RuOh+KQTA=
+	t=1749427154; cv=none; b=L9kaLpt+iYeXEivZNzhQal48i0enxsPwRoTV2T5JMdHD8Axlmstz2D6cyI1XgSZ/Ua+GN7lHI4ZGc1HzEfr4q/QfsxLixRD5yFV6VqlBjVsoRWPWBAwcbKctJpvWz+ZB1wBRw4UiMGjeN9SkjXKnnxwU9PcoxZQodQ+zTper/gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749427152; c=relaxed/simple;
-	bh=X19aP6Ck2PmPUz94aODYkmGiygQMNyXIY87Co/9lTu8=;
+	s=arc-20240116; t=1749427154; c=relaxed/simple;
+	bh=E95ExV+bpvvCIVTb6egsIEPSANnfBl29NVknNLvK4gc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mQeGk9H5+o20qn9ErKrIK1/T0DMYCEm/hyO0uMh3djnWeLiehUeOYb7vC8bznS+/SiRfzskK5uMBS6EP4Xu2q5WbmSEYJMD5kl7sftwspteA3ICaXKoyfYjWHxOHQP0o3SonVjCwRw0ntifqPN5CJ9UlzHSnoIkW+liJ+fkYJaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=azrZvATS; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=cY4yFvjCz9J5+8JKqc93f3/LHuVns4HJNuE4LNCQi3Y8Gg7DofIYX+I7IzSxdqnCvJinghy1fDzsQJ15UdkPBU2JAlnvc32gL/qqCAG0RfcyU5nGZF2ZxUFLCr+2C5ZTTRyBEMGS/6u43pkTnT0RhuDNouXhBmqWyUNZVqFpFO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CG0YQsTX; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29B9519C9;
-	Mon,  9 Jun 2025 01:58:55 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C62461B24;
+	Mon,  9 Jun 2025 01:58:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749427135;
-	bh=X19aP6Ck2PmPUz94aODYkmGiygQMNyXIY87Co/9lTu8=;
+	s=mail; t=1749427137;
+	bh=E95ExV+bpvvCIVTb6egsIEPSANnfBl29NVknNLvK4gc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=azrZvATSRLCF+H2f5jzrgVaQ0uBpMdU1qKQusuYTUn49juzrTI0AgS1Hc8UQwVof/
-	 XTAvIr3ts4IAcjE3fjKpaRjubmWRaLjnCOqX4MP/xRoDh6CdI6/cK03RD0Pem5ELKn
-	 XilqGGEkK+0jnn1JrnDFk4ptsF0XOf3cVJx7t7qo=
+	b=CG0YQsTXefyUzwPXyotM0vRPUKwDs0gs5gBcn+58wOs3QoyjO7+lUlNWzL06D08ZZ
+	 4gZYzGpoVR4V/Xl3upkqB8T0mYT74tc6xlcrRBcIpfj7bJjrt1b2PCJwqo5Ppknexl
+	 IUD6F6Rz4UcoHt/q6jZbHTdEzkZSn9FxMyok61C4=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
@@ -58,9 +58,9 @@ Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
 	devicetree@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 6/8] dt-bindings: media: nxp,imx-mipi-csi2: Add fsl,num-channels property
-Date: Mon,  9 Jun 2025 02:58:38 +0300
-Message-ID: <20250608235840.23871-7-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 7/8] arm64: dts: imx8mp: Specify the number of channels for CSI-2 receivers
+Date: Mon,  9 Jun 2025 02:58:39 +0300
+Message-ID: <20250608235840.23871-8-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250608235840.23871-1-laurent.pinchart@ideasonboard.com>
 References: <20250608235840.23871-1-laurent.pinchart@ideasonboard.com>
@@ -72,38 +72,35 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CSI-2 receiver can be instantiated with up to four output channels.
-This is an integration-specific property, specify the number of
-instantiated channels through a new fsl,num-channels property. The
-property is optional, and defaults to 1 as only one channel is currently
-supported by drivers.
-
-The only known SoC to have more than one channel is the i.MX8MP. As the
-binding examples do not cover that SoC, don't update them.
+The CSI-2 receivers in the i.MX8MP have 3 output channels. Specify this
+in the device tree, to enable support for more than one channel in
+drivers.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../devicetree/bindings/media/nxp,imx-mipi-csi2.yaml       | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-index db4889bf881e..41ad5b84eaeb 100644
---- a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-+++ b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-@@ -68,6 +68,13 @@ properties:
-     default: 166000000
-     deprecated: true
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+index 95b3f250d363..c409a1d1e851 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+@@ -1767,6 +1767,7 @@ mipi_csi_0: csi@32e40000 {
+ 				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_250M>,
+ 							 <&clk IMX8MP_CLK_24M>;
+ 				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_1>;
++				fsl,num-channels = <3>;
+ 				status = "disabled";
  
-+  fsl,num-channels:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: Number of output channels
-+    minimum: 1
-+    maximum: 4
-+    default: 1
-+
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
+ 				ports {
+@@ -1802,6 +1803,7 @@ mipi_csi_1: csi@32e50000 {
+ 				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_250M>,
+ 							 <&clk IMX8MP_CLK_24M>;
+ 				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_2>;
++				fsl,num-channels = <3>;
+ 				status = "disabled";
  
+ 				ports {
 -- 
 Regards,
 
