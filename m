@@ -1,74 +1,86 @@
-Return-Path: <linux-media+bounces-34344-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34349-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBFAAD1C2B
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 13:04:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B807AD1C5D
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 13:17:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9340D188C783
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 11:04:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6CCA161480
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 11:17:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36220255F33;
-	Mon,  9 Jun 2025 11:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CF99255E23;
+	Mon,  9 Jun 2025 11:17:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="kRrDrh1t"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dm+ZTXQ6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E962747F
-	for <linux-media@vger.kernel.org>; Mon,  9 Jun 2025 11:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E944747F;
+	Mon,  9 Jun 2025 11:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749467051; cv=none; b=rZyEg/yRvkLzuC5RZmYw3vHKGodXjyfnrFhIZCaw/yP2gbjMPtrPMAy8RNddlvdjNQ3hcTTlZnH8n108hStVKzQYlxs46xZO+V4QNu8LzQ/8wZ43aOPKWnrhMlAvkfz+Yxy5MR55k6HVwzgcNwU61dBSsk00FYi+nPXgXrj7fCc=
+	t=1749467855; cv=none; b=HdSV+mcz+ZFhLHsz+pzgHJHu4WMKYYwXSYBMiH4H1pgqPuSQkcem8snbgDWlLBsHBtn4XsorvUs3Q5RVD7UehYeR5E4G5WmWXxY7oChDMrdq0LkXC9Jwb7Tmtzgt1CvWQkhGMKsjSgQHgIFsMRIrFNOPDF1WfuijxgF5VEjcU7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749467051; c=relaxed/simple;
-	bh=BQsaXdZ7YvjBWdjSV4Dj0zCX1VhqNTUxlqUXhLoO43w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LojL+iS2/UgP4bcmbDk4ZxzH2hq7s+jSPYX3toObuKK7u4wNJjEmWIvT03Zez+TXrY1mHalGQQYPReaFKMpe9ZIIKoYs7sQy9agQqeyJTp28NURczzfGbCAEQ60f8PCdT6jrPq6nxy6MpTI3Zg13CBDX0sehUXEwjgcd0JRWcaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=kRrDrh1t; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=IYsJEgMaqHnkj9zogcLK1cRSEP1fqVxPH3eFOlMY9Uk=; b=kRrDrh1tMmdqyWkbSQSHclW/7K
-	3T+btSYQQ3cNe3fdzmH9kgZ+fGg/oYCCExymLcgIiiRFvEuvoyEb4LTOrkRaUYg/nnopb3WtmTomQ
-	BDfAjRnlNAVvvPHq060zY9iI0OwgNfetC6eKDGul1zkeg8pY+m5nNzXnokDYTwX4XPK8oLPpljTlJ
-	lExbliA7K2nLMcWeGmO5YI6cVjFcxWRZbeHk7lm/mvDcc4jT5kBVW2VtYPu+cvgNUgLjxigRf6DSr
-	Z5te4jZZSxtYA7wky6SEmtr3ltP+zg/vpyTRnVQ78UNEFYNHpvLgA/O0NCjK1sd7+dnjiyTzEwHfn
-	vqYizp/A==;
-Received: from [81.79.92.254] (helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1uOaI7-001NxT-VY; Mon, 09 Jun 2025 13:03:48 +0200
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com,
-	Rob Clark <robdclark@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	amd-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
+	s=arc-20240116; t=1749467855; c=relaxed/simple;
+	bh=rm7/Sn8R70joA1nXgsERHotRyy0o6EsWO4xlioDF+nU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TVwnm6oJrIhtK7Yu4ieL5EUo/yUhL2DOwb79xCBCJ2ULZWgQEiA+TxUJWvIiJSEmmhLULGbouuTROmMdP4qjJRFF1lw2dnSepx2pxSOQi/VHoYdGOstEnJn6MrT/pVxux19JIqtFSQMDZNf0gqiMtKZgAys+q0yJwK80tQdoGjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dm+ZTXQ6; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ade30256175so492761366b.1;
+        Mon, 09 Jun 2025 04:17:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749467851; x=1750072651; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+QVndT9s1x73LHa/50NWybEw6M6YRjTZGPQs2Gx3s7c=;
+        b=Dm+ZTXQ60qlusj+TiUIeVzp2CMi8w5++pJ/9pj6TWURUn+HhK6lJMExY1FrMV0Qo5e
+         NwNZ2bed3UCokTC1EPfOcmt6kcNASOIsQDXvfv/sTda8D2G2lAELOJv2UNb06Pg6CJuk
+         NdTQujAjYbxRynhXMqbercM95//RZqrFF2lURcz6SrxYfWoLBLhJ1fszLp3fxotE2QYR
+         vTbw8eCCQw5gxMRdy+j6O4EMGcvwL+dAUg0TZ17fQyn4r5gV7bb2vbMLaz1c95Ikkd4a
+         ZhUeCiHKGqBDEuebOAZdtUORKpA74DY3KQXp15F0Tza4sc65wHmDUux9bco5qLbunxZc
+         WmQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749467851; x=1750072651;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+QVndT9s1x73LHa/50NWybEw6M6YRjTZGPQs2Gx3s7c=;
+        b=lRJ8gi/4OqdmBtASRHDWHq0W7D46G4vwy7XTqTB8i0aIxNO0YvImBOoGJMnBH0Hr+5
+         F4aGqOD1hVxHr/c+UwV8k/4+mJVxaXvTnhMfXcccREpVLiJAYOTLALndxnZU4AamSf8a
+         Ce4OlhuSQPiosaIP45LEzn8Ye+4WXt4NS1zksbnz0BF9jWFwJledaVs4sWzSd3KONp0E
+         bH71ZE3IwVV7StMa8ndyIEyupI2mqD5gEVlcAX6YOUQlhALHN9j+5moJrb553MPQ8Q3U
+         rx9qHEg8rDvg1ivXN18EYHqMNUmHJ24a9NkEeGBQbJxFkuAb7tMNy4m9fZVM/jWJ/Aia
+         s4yQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUGXwQ54MQDHmo3mJhbn5pZS8lJFadzvhMJrvscl1kCI5JxPdPgm+MGmRiSpnO2Qq09rq7LP/5uyvuCEH4=@vger.kernel.org, AJvYcCXhcoDdlCq5Hqm+4DM5YHiRDthghDpkpDbibpuF2aVdvl8xi9KaN2jRqMCXItJOwm+YFgzkhOvHZdQcjEE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzuh5NKz50/cyV7CSpdhZoAAEG1Oc1BNnVBzC02TdkF1rG6dFN8
+	nksSOfQElED59DR1sSPcKP67DJDnqRfink36Opebn3tTJ6+aDx1a0qKtMa16dA==
+X-Gm-Gg: ASbGncsS4JhCLKrr9jjQB+idc3cjPmfu+Uvlc0rL2RsWd/B7nnyaI/rJA8DgQfYh8s6
+	ELWyjYOZk0cC3s/FmWGXk/dEM2Wpaln6oJ9nSYigEN5CyLbBosqSGlrJEVkWg7Ci5XuNDjt34T5
+	HiDjRoLWUeg1yxgPvgvGeRKGZkuqGhR5V63uUFSqaFrRKLIXe+gJWSKMJc4IhyfaTBPul/NOCsF
+	/c1/JxQ7sPCIcrCFrKYWvPLPRQ756RCgusBhhVsnVDw33pTr06MTBJlg77dkcWYfw0EQMD0fTHB
+	UdVX463BSWf/siIqeHfyunqHogY8DyNvM1CKpf8NO3IaX1+ZuHagDY+mEfALEccN
+X-Google-Smtp-Source: AGHT+IHrT4QCR/BaVDL9uE3/1BsorCr9NkrQ8xWi0Rleivnq8AQQT8c9G6zHSUSFXsXVx6pWSogZQg==
+X-Received: by 2002:a17:907:9307:b0:ad8:a41a:3cba with SMTP id a640c23a62f3a-ade1aa07412mr1202524866b.43.1749467850405;
+        Mon, 09 Jun 2025 04:17:30 -0700 (PDT)
+Received: from demon-pc.localdomain ([188.27.131.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc1c7efsm533446466b.77.2025.06.09.04.17.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jun 2025 04:17:29 -0700 (PDT)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: 
+Cc: Sean Young <sean@mess.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH v5 4/4] drm/xe: Make dma-fences compliant with the safe access rules
-Date: Mon,  9 Jun 2025 12:03:30 +0100
-Message-ID: <20250609110330.74705-5-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250609110330.74705-1-tvrtko.ursulin@igalia.com>
-References: <20250609110330.74705-1-tvrtko.ursulin@igalia.com>
+	linux-kernel@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [PATCH v3] media: rc: ir-spi: allocate buffer dynamically
+Date: Mon,  9 Jun 2025 14:17:13 +0300
+Message-ID: <20250609111715.2572138-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,81 +89,109 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Xe can free some of the data pointed to by the dma-fences it exports. Most
-notably the timeline name can get freed if userspace closes the associated
-submit queue. At the same time the fence could have been exported to a
-third party (for example a sync_fence fd) which will then cause an use-
-after-free on subsequent access.
+Replace the static transmit buffer with a dynamically allocated one,
+removing the limit imposed on the number of pulses to transmit.
 
-To make this safe we need to make the driver compliant with the newly
-documented dma-fence rules. Driver has to ensure a RCU grace period
-between signalling a fence and freeing any data pointed to by said fence.
+Calculate the number of pulses for each duration in the received buffer
+ahead of time, while also adding up the total pulses, to be able to
+allocate a buffer that perfectly fits the total number of pulses, then
+populate it.
 
-For the timeline name we simply make the queue be freed via kfree_rcu and
-for the shared lock associated with multiple queues we add a RCU grace
-period before freeing the per GT structure holding the lock.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 ---
- drivers/gpu/drm/xe/xe_guc_exec_queue_types.h | 2 ++
- drivers/gpu/drm/xe/xe_guc_submit.c           | 7 ++++++-
- drivers/gpu/drm/xe/xe_hw_fence.c             | 3 +++
- 3 files changed, 11 insertions(+), 1 deletion(-)
+V3:
+ * move the allocation to be done per-TX operation
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-index 4c39f01e4f52..a3f421e2adc0 100644
---- a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-+++ b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-@@ -20,6 +20,8 @@ struct xe_exec_queue;
- struct xe_guc_exec_queue {
- 	/** @q: Backpointer to parent xe_exec_queue */
- 	struct xe_exec_queue *q;
-+	/** @rcu: For safe freeing of exported dma fences */
-+	struct rcu_head rcu;
- 	/** @sched: GPU scheduler for this xe_exec_queue */
- 	struct xe_gpu_scheduler sched;
- 	/** @entity: Scheduler entity for this xe_exec_queue */
-diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-index 2b61d017eeca..c7f45800ec6a 100644
---- a/drivers/gpu/drm/xe/xe_guc_submit.c
-+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@ -1299,7 +1299,11 @@ static void __guc_exec_queue_fini_async(struct work_struct *w)
- 	xe_sched_entity_fini(&ge->entity);
- 	xe_sched_fini(&ge->sched);
+V2:
+ * use devm_krealloc_array
+
+ drivers/media/rc/ir-spi.c | 33 ++++++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
+index 8fc8e496e6aa..50e30e2fae22 100644
+--- a/drivers/media/rc/ir-spi.c
++++ b/drivers/media/rc/ir-spi.c
+@@ -21,13 +21,11 @@
+ #define IR_SPI_DRIVER_NAME		"ir-spi"
  
--	kfree(ge);
-+	/*
-+	 * RCU free due sched being exported via DRM scheduler fences
-+	 * (timeline name).
-+	 */
-+	kfree_rcu(ge, rcu);
- 	xe_exec_queue_fini(q);
- 	xe_pm_runtime_put(guc_to_xe(guc));
- }
-@@ -1482,6 +1486,7 @@ static int guc_exec_queue_init(struct xe_exec_queue *q)
+ #define IR_SPI_DEFAULT_FREQUENCY	38000
+-#define IR_SPI_MAX_BUFSIZE		 4096
  
- 	q->guc = ge;
- 	ge->q = q;
-+	init_rcu_head(&ge->rcu);
- 	init_waitqueue_head(&ge->suspend_wait);
+ struct ir_spi_data {
+ 	u32 freq;
+ 	bool negated;
  
- 	for (i = 0; i < MAX_STATIC_MSG_TYPE; ++i)
-diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
-index 03eb8c6d1616..b2a0c46dfcd4 100644
---- a/drivers/gpu/drm/xe/xe_hw_fence.c
-+++ b/drivers/gpu/drm/xe/xe_hw_fence.c
-@@ -100,6 +100,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
- 		spin_unlock_irqrestore(&irq->lock, flags);
- 		dma_fence_end_signalling(tmp);
- 	}
+-	u16 tx_buf[IR_SPI_MAX_BUFSIZE];
+ 	u16 pulse;
+ 	u16 space;
+ 
+@@ -43,37 +41,42 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
+ 	unsigned int len = 0;
+ 	struct ir_spi_data *idata = dev->priv;
+ 	struct spi_transfer xfer;
++	u16 *tx_buf;
+ 
+ 	/* convert the pulse/space signal to raw binary signal */
+ 	for (i = 0; i < count; i++) {
+-		unsigned int periods;
++		buffer[i] = DIV_ROUND_CLOSEST(buffer[i] * idata->freq, 1000000);
++		len += buffer[i];
++	}
 +
-+	/* Safe release of the irq->lock used in dma_fence_init. */
-+	synchronize_rcu();
++	tx_buf = kmalloc_array(len, sizeof(*tx_buf), GFP_KERNEL);
++	if (!tx_buf)
++		return -ENOMEM;
++
++	len = 0;
++	for (i = 0; i < count; i++) {
+ 		int j;
+ 		u16 val;
+ 
+-		periods = DIV_ROUND_CLOSEST(buffer[i] * idata->freq, 1000000);
+-
+-		if (len + periods >= IR_SPI_MAX_BUFSIZE)
+-			return -EINVAL;
+-
+ 		/*
+ 		 * The first value in buffer is a pulse, so that 0, 2, 4, ...
+ 		 * contain a pulse duration. On the contrary, 1, 3, 5, ...
+ 		 * contain a space duration.
+ 		 */
+ 		val = (i % 2) ? idata->space : idata->pulse;
+-		for (j = 0; j < periods; j++)
+-			idata->tx_buf[len++] = val;
++		for (j = 0; j < buffer[i]; j++)
++			tx_buf[len++] = val;
+ 	}
+ 
+ 	memset(&xfer, 0, sizeof(xfer));
+ 
+ 	xfer.speed_hz = idata->freq * 16;
+-	xfer.len = len * sizeof(*idata->tx_buf);
+-	xfer.tx_buf = idata->tx_buf;
++	xfer.len = len * sizeof(*tx_buf);
++	xfer.tx_buf = tx_buf;
+ 
+ 	ret = regulator_enable(idata->regulator);
+ 	if (ret)
+-		return ret;
++		goto err_free_tx_buf;
+ 
+ 	ret = spi_sync_transfer(idata->spi, &xfer, 1);
+ 	if (ret)
+@@ -81,6 +84,10 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
+ 
+ 	regulator_disable(idata->regulator);
+ 
++err_free_tx_buf:
++
++	kfree(tx_buf);
++
+ 	return ret ? ret : count;
  }
  
- void xe_hw_fence_irq_run(struct xe_hw_fence_irq *irq)
 -- 
-2.48.0
+2.49.0
 
 
