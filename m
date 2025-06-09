@@ -1,133 +1,124 @@
-Return-Path: <linux-media+bounces-34326-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34327-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F406FAD1651
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 02:38:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CFEAD1805
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 06:36:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB56A3A9884
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 00:37:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5691116AE90
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 04:36:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54F6417597;
-	Mon,  9 Jun 2025 00:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94F6F280A5A;
+	Mon,  9 Jun 2025 04:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pwuXG8b7"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rHP7I9UU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD462F37;
-	Mon,  9 Jun 2025 00:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F589254AFE;
+	Mon,  9 Jun 2025 04:35:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749429486; cv=none; b=rr6/diFYN9gpSpoM6MMr3ycPhp/p/bBOuiwtsR2idYc8EuGrE1grykDx025WietohIw4vCSjdbNoNOZfFfH8zGCTnfXfB920pZDUz1r4ug3O2Veuw/EBct6gnsljia7yEzcstanM6IgEOaD5ATGTuDD40aUK9Do3O75oNXTQcqg=
+	t=1749443736; cv=none; b=knVOHvctV/sDsYiHkQVmi4J4bKJfIS7HqYTY2n3CyB68bkGRVEZT/N0dF29TlKT/3GmLhnp7e2h6n75Sxayo/slwlhLGK6mPl9mzjT6Gz4qogAzkBfp1ARam3Pf3XgmbQfzMgHUq3l9WLH3LR9S2Ic50IMZ9ZyQJfFS8w/TDXAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749429486; c=relaxed/simple;
-	bh=VNImrDurwZK0+nYH5ILKXX5q7TG/MFOjxrqpLuoNmTI=;
+	s=arc-20240116; t=1749443736; c=relaxed/simple;
+	bh=AgURGmBZPaSkRmiRoqHFlFPIJprX/0ieU7uX6Ixit90=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZXRaZRfFyFWx7iKPU4n5nNJxOHRCQPyd3BQeRFkhJpI2+3YTrMil70Iz7/F6bE0m6q4q7ChPUxzTyhyNxnMKDWfoMnPYERSmUeea0ZABW3sXWNygmsZpzUpEjZrGtIg0uJDUAEP7EDG4v5jX0JpHKMKNQs5kIOua3sGLpkdyYUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pwuXG8b7; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33C923D5;
-	Mon,  9 Jun 2025 02:37:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749429477;
-	bh=VNImrDurwZK0+nYH5ILKXX5q7TG/MFOjxrqpLuoNmTI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pwuXG8b7/mU1AjzKo96JkUt8kxMaGNh6RAw5ecbjkKIdCngiaVh+4DHxUN0JixM8w
-	 Xv2trPT3CrltYX6iZyzNIAxh89GroguvRpnrAV1/qqERIBzk+AI3Yi+rFyJkpmv8Wq
-	 VkGfv4ATvf4/93cY30rB5LsY7Z8TjOlDGg3rR/Ls=
-Date: Mon, 9 Jun 2025 03:37:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: bcm2835-unicam: Remove RGB24 support
-Message-ID: <20250609003751.GD14545@pendragon.ideasonboard.com>
-References: <20250606-rpi-unicam-rgb-bgr-fix-v1-1-9930b963f3eb@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uQT6+OKEZkfqxEplIFE8HVlaWXSANjMvf8nRW51a84JdNP2QNYllQ4b/dpxA44PTrWbTY+k/LRb6/EztudAGBeNW+TPl+G48n0dDRJz70AwpcZ/rR4HLzW4CJQSNI0Q640rRkG5a07/l2hCmyU2m85TMxeqp0pMa1Hy/GpczE3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rHP7I9UU; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=oeT73a0Hi9cOPyGYRSLUMdSjrVNXI7sw9Uk+bmyEzn8=; b=rHP7I9UUuAQAw0byw2iIpo1lFJ
+	zvbVPtfIVNEnDvZ9E1i3kI/uUWfH3Lg4IFfJamPPveKy03Ptn8AT5+IuiPsJ7Gyj1eLYvV75kkky/
+	KwEenybj6HmEa1IyjFVizqFwSAnml8QPm1xdo5gomYU6y2sIPE3yqFTe86Dt5WnAL4OmASNCKIv+1
+	NlmPjRydtMGYf+nz6hNKwgJbXio3bde8bWS1ewqdobg5JeCyxqwY3UhWGBuSBlgamJ98mC3IyE4eX
+	gvBIUrrc3DfdJkX6pLBCFDhVX3Fftro4JvRfYYVf73aJ8wi9Jo0li4WYB/42oSfqwWDkVP2Xm571M
+	rMrSru6w==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uOUEG-00000003PoK-2Bfw;
+	Mon, 09 Jun 2025 04:35:24 +0000
+Date: Sun, 8 Jun 2025 21:35:24 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: wangtao <tao.wangtao@honor.com>, Christoph Hellwig <hch@infradead.org>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"kraxel@redhat.com" <kraxel@redhat.com>,
+	"vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"hughd@google.com" <hughd@google.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"amir73il@gmail.com" <amir73il@gmail.com>,
+	"benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+	"Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+	"jstultz@google.com" <jstultz@google.com>,
+	"tjmercier@google.com" <tjmercier@google.com>,
+	"jack@suse.cz" <jack@suse.cz>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"wangbintian(BintianWang)" <bintian.wang@honor.com>,
+	yipengxiang <yipengxiang@honor.com>,
+	liulu 00013167 <liulu.liu@honor.com>,
+	hanfeng 00012985 <feng.han@honor.com>
+Subject: Re: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
+Message-ID: <aEZkjA1L-dP_Qt3U@infradead.org>
+References: <20250603095245.17478-1-tao.wangtao@honor.com>
+ <aD7x_b0hVyvZDUsl@infradead.org>
+ <09c8fb7c-a337-4813-9f44-3a538c4ee8b1@amd.com>
+ <aD72alIxu718uri4@infradead.org>
+ <5d36abace6bf492aadd847f0fabc38be@honor.com>
+ <a766fbf4-6cda-43a5-a1c7-61a3838f93f9@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250606-rpi-unicam-rgb-bgr-fix-v1-1-9930b963f3eb@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a766fbf4-6cda-43a5-a1c7-61a3838f93f9@amd.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Maxime,
-
-Thank you for the patch.
-
-On Fri, Jun 06, 2025 at 04:53:03PM +0200, Maxime Ripard wrote:
-> The RGB24 V4L2 format is defined as a pixel format with 8 bits per
-> components, with the components being in the red, green, and blue order
-> from left to right.
+On Fri, Jun 06, 2025 at 01:20:48PM +0200, Christian König wrote:
+> > dmabuf acts as a driver and shouldn't be handled by VFS, so I made
+> > dmabuf implement copy_file_range callbacks to support direct I/O
+> > zero-copy. I'm open to both approaches. What's the preference of
+> > VFS experts?
 > 
-> The RGB MIPI-CSI2 is defined in the specification (Section 11.3.1,
-> RGB888) with blue coming first, then green, then red. So the opposite of
-> what V4L2 means by RGB.
-> 
-> Since the hardware cannot reorder the components, this means that when
-> selecting the RGB24 format, you get inverted red and blue components
-> compared to what you'd expect.
-> 
-> The driver already supports BGR24, so we can simply remove the RGB24
-> format from the driver.
+> That would probably be illegal. Using the sg_table in the DMA-buf
+> implementation turned out to be a mistake.
 
-The only reason I could think of to explain why the driver exposes
-V4L2_PIX_FMT_RGB24 is to support CSI-2 sources that transfer RGB888 data
-with a non-standard order. I don't know what hardware would do that.
-Dave, Naush, do you recall why this pixel format is supported by the
-unicam driver ?
+Two thing here that should not be directly conflated.  Using the
+sg_table was a huge mistake, and we should try to move dmabuf to
+switch that to a pure dma_addr_t/len array now that the new DMA API
+supporting that has been merged.  Is there any chance the dma-buf
+maintainers could start to kick this off?  I'm of course happy to
+assist.
 
-> Fixes: 392cd78d495f ("media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface")
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/media/platform/broadcom/bcm2835-unicam.c | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> index f10064107d543caf867249d0566a0f42d6d8c4c6..1f549019efd53c9aae83193e74f1a3601ebf274d 100644
-> --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-> +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> @@ -338,15 +338,10 @@ static const struct unicam_format_info unicam_image_formats[] = {
->  	/* RGB Formats */
->  		.fourcc		= V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
->  		.code		= MEDIA_BUS_FMT_RGB565_1X16,
->  		.depth		= 16,
->  		.csi_dt		= MIPI_CSI2_DT_RGB565,
-> -	}, {
-> -		.fourcc		= V4L2_PIX_FMT_RGB24, /* rgb */
-> -		.code		= MEDIA_BUS_FMT_RGB888_1X24,
-> -		.depth		= 24,
-> -		.csi_dt		= MIPI_CSI2_DT_RGB888,
->  	}, {
->  		.fourcc		= V4L2_PIX_FMT_BGR24, /* bgr */
->  		.code		= MEDIA_BUS_FMT_BGR888_1X24,
->  		.depth		= 24,
->  		.csi_dt		= MIPI_CSI2_DT_RGB888,
-> 
-> ---
-> base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
-> change-id: 20250606-rpi-unicam-rgb-bgr-fix-d1b6f46a75ad
+But that notwithstanding, dma-buf is THE buffer sharing mechanism in
+the kernel, and we should promote it instead of reinventing it badly.
+And there is a use case for having a fully DMA mapped buffer in the
+block layer and I/O path, especially on systems with an IOMMU.
+So having an iov_iter backed by a dma-buf would be extremely helpful.
+That's mostly lib/iov_iter.c code, not VFS, though.
 
--- 
-Regards,
+> The question Christoph raised was rather why is your CPU so slow
+> that walking the page tables has a significant overhead compared to
+> the actual I/O?
 
-Laurent Pinchart
+Yes, that's really puzzling and should be addressed first.
+
 
