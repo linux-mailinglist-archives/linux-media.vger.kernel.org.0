@@ -1,177 +1,151 @@
-Return-Path: <linux-media+bounces-34330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34331-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F281EAD1A9F
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 11:32:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07387AD1ACF
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 11:39:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AF93816BFC4
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 09:32:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E98283A408A
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 09:39:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF44224E4BD;
-	Mon,  9 Jun 2025 09:32:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 581512512DD;
+	Mon,  9 Jun 2025 09:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjTsqdcT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E9C165F1A;
-	Mon,  9 Jun 2025 09:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC1624EF88;
+	Mon,  9 Jun 2025 09:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749461552; cv=none; b=PIn0Whb8fpbzqavki7b+2GJKJO8mF5L5mJ1TDcUQixPbQRBk4nTmTUFAhd9l89lWKjqjmu1scciWxFWrmmX7JY4ff6y1DgWKJDkkcivWb0XHkpZsx2x2zJYdFMa9KkQoq+HNN2MunzrBtqrPQUfyh6Fz5jy6OfQ+3ABPfk01XU8=
+	t=1749461987; cv=none; b=uc0Y2fJyycV6BAvgbfxWxe9BY/UXLYtD6nbKuuDAoA+kMMj/f8BCUenU8kP4UAkUIVxgQpQxDdStzNNCTfEtRRVXUA/VJszC7brzTOQytcvd+ylz8gGgr8yL/zAnx8qHPZHA/VOQDJUS2BfvvmiuudfubAAQJHFIMkjiyb//Fxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749461552; c=relaxed/simple;
-	bh=9n20ny+CS4OqAGSYbGkmJmHEHm4aA8yLbApth2rsFJc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=bZMr++sARIM3sUH4FG3mXTIOrOMRvIQnjKa2ONfl4MqPZYQNLbKrgcSZDxM794f3shZSV+f3vRKBY3gOonX3/vubxzec5qHVYywo6Uq5bfz4DsjP2V/Aos0LzP6xNJVz+tBbUsyBYdHh01yOJd4qhEmR/UQdYmq5X85+YFt+maY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from w001.hihonor.com (unknown [10.68.25.235])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4bG68R70G6zYl5Jm;
-	Mon,  9 Jun 2025 17:29:59 +0800 (CST)
-Received: from a011.hihonor.com (10.68.31.243) by w001.hihonor.com
- (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 9 Jun
- 2025 17:32:21 +0800
-Received: from a010.hihonor.com (10.68.16.52) by a011.hihonor.com
- (10.68.31.243) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 9 Jun
- 2025 17:32:20 +0800
-Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
- a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
- Mon, 9 Jun 2025 17:32:20 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: Christoph Hellwig <hch@infradead.org>, =?iso-8859-1?Q?Christian_K=F6nig?=
-	<christian.koenig@amd.com>
-CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, "kraxel@redhat.com"
-	<kraxel@redhat.com>, "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
-	<brauner@kernel.org>, "hughd@google.com" <hughd@google.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "amir73il@gmail.com"
-	<amir73il@gmail.com>, "benjamin.gaignard@collabora.com"
-	<benjamin.gaignard@collabora.com>, "Brian.Starkey@arm.com"
-	<Brian.Starkey@arm.com>, "jstultz@google.com" <jstultz@google.com>,
-	"tjmercier@google.com" <tjmercier@google.com>, "jack@suse.cz" <jack@suse.cz>,
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "wangbintian(BintianWang)"
-	<bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
-	<liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
-Subject: RE: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
-Thread-Topic: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
-Thread-Index: AQHb1G1ol+FT389RFkuW+lwB3adoKrPw4BKAgAADywCAAAF8AIAE6kCg//+rigCABEW6AIAA1IFw
-Date: Mon, 9 Jun 2025 09:32:20 +0000
-Message-ID: <761986ec0f404856b6f21c3feca67012@honor.com>
-References: <20250603095245.17478-1-tao.wangtao@honor.com>
- <aD7x_b0hVyvZDUsl@infradead.org>
- <09c8fb7c-a337-4813-9f44-3a538c4ee8b1@amd.com>
- <aD72alIxu718uri4@infradead.org> <5d36abace6bf492aadd847f0fabc38be@honor.com>
- <a766fbf4-6cda-43a5-a1c7-61a3838f93f9@amd.com>
- <aEZkjA1L-dP_Qt3U@infradead.org>
-In-Reply-To: <aEZkjA1L-dP_Qt3U@infradead.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1749461987; c=relaxed/simple;
+	bh=EzGs89dOGtEqrPdOnufb21WxYm/0w8IlNEbI9J/Xnwc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lAMsT8ChVIkLsUFmv2XNQY5WXMDeIwLE8rJzcqCOP6r3mFKaqhdSCi2PbEIs8SjgdHymXQ27Phepkx5k8l2b/Or58k6x8HvCtGIRXfoo74u/OGpE/oZu8pFroPCmwNYiwsY/N2urKwve5x695hsLQ+d62PZHQmIbr1XiDqG/ZbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IjTsqdcT; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749461986; x=1780997986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=EzGs89dOGtEqrPdOnufb21WxYm/0w8IlNEbI9J/Xnwc=;
+  b=IjTsqdcTBdXyiQg9rBhbX2d7oDZR0+jP/QryElIdPb9R8e/EEHLPXsqD
+   XQnOspBNWBN+SKt0Us1uX6qSrapzosp7ZrtYwMWjtFtFomxbzeAmE0KLB
+   bs4BU3Ud7xt5eKYu5Wy23b8Uz598S50+aVsIO2MPoWnbXAw3g2NzGH0fL
+   tcJquavpy75ZQSgH5fDVTleWWDsDzDphP6+m5I+mJ0KmBVthriiLG6/6l
+   amJdknNv5lFeve5gqYWYVPadzAj1J7Tss4HFId0Oh4k51E98ugiClChhx
+   5kBI82ANcpczwBC134OoWDv2IZxIsZ/KvlNAK6EKYOlsO9YFOjbcNHY3m
+   g==;
+X-CSE-ConnectionGUID: 2C7IIwN/Rb+zhi+P/2StZw==
+X-CSE-MsgGUID: oJre2GBXRhagpozwfrFZ3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="55334837"
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
+   d="scan'208";a="55334837"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 02:39:44 -0700
+X-CSE-ConnectionGUID: p2g49X2TTZeY6APld6ttKQ==
+X-CSE-MsgGUID: RTtVXp2dS2m38lvdbz12Iw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
+   d="scan'208";a="151336231"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.36])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 02:39:42 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0709C11FC22;
+	Mon,  9 Jun 2025 12:39:40 +0300 (EEST)
+Date: Mon, 9 Jun 2025 09:39:40 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v5 01/12] media: rcar-vin: Use correct count of remote
+ subdevices
+Message-ID: <aEar3NonNYosp4Nm@kekkonen.localdomain>
+References: <20250606182606.3984508-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250606182606.3984508-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250606182606.3984508-2-niklas.soderlund+renesas@ragnatech.se>
 
+Hejssan,
 
+On Fri, Jun 06, 2025 at 08:25:55PM +0200, Niklas Söderlund wrote:
+> When extending the driver with Gen4 support the iteration of over
+> possible remote subdevices changed from being R-Car CSI-2 Rx only to
+> also cover R-Car CSISP instances. In two loops updating the bounds
+> variable was missed.
+> 
+> This had no ill effect as the count the two values have always been the
+> same in the past. Fix it by looking at the array size.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Tested-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> * Changes since v4
+> - Use ARRAY_SIZE() instead of updating the incorrect define to
+>   RVIN_REMOTES_MAX.
 
-> -----Original Message-----
-> From: Christoph Hellwig <hch@infradead.org>
-> Sent: Monday, June 9, 2025 12:35 PM
-> To: Christian K=F6nig <christian.koenig@amd.com>
-> Cc: wangtao <tao.wangtao@honor.com>; Christoph Hellwig
-> <hch@infradead.org>; sumit.semwal@linaro.org; kraxel@redhat.com;
-> vivek.kasireddy@intel.com; viro@zeniv.linux.org.uk; brauner@kernel.org;
-> hughd@google.com; akpm@linux-foundation.org; amir73il@gmail.com;
-> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
-> jstultz@google.com; tjmercier@google.com; jack@suse.cz;
-> baolin.wang@linux.alibaba.com; linux-media@vger.kernel.org; dri-
-> devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; linux-
-> kernel@vger.kernel.org; linux-fsdevel@vger.kernel.org; linux-
-> mm@kvack.org; wangbintian(BintianWang) <bintian.wang@honor.com>;
-> yipengxiang <yipengxiang@honor.com>; liulu 00013167
-> <liulu.liu@honor.com>; hanfeng 00012985 <feng.han@honor.com>
-> Subject: Re: [PATCH v4 0/4] Implement dmabuf direct I/O via
-> copy_file_range
->=20
-> On Fri, Jun 06, 2025 at 01:20:48PM +0200, Christian K=F6nig wrote:
-> > > dmabuf acts as a driver and shouldn't be handled by VFS, so I made
-> > > dmabuf implement copy_file_range callbacks to support direct I/O
-> > > zero-copy. I'm open to both approaches. What's the preference of VFS
-> > > experts?
-> >
-> > That would probably be illegal. Using the sg_table in the DMA-buf
-> > implementation turned out to be a mistake.
->=20
-> Two thing here that should not be directly conflated.  Using the sg_table=
- was
-> a huge mistake, and we should try to move dmabuf to switch that to a pure
-I'm a bit confused: don't dmabuf importers need to traverse sg_table to
-access folios or dma_addr/len? Do you mean restricting sg_table access
-(e.g., only via iov_iter) or proposing alternative approaches?
+Do you still need RVIN_REMOTES_MAX()? Couldn't you use ARRAY_SIZE()
+elsewhere, too?
 
-> dma_addr_t/len array now that the new DMA API supporting that has been
-> merged.  Is there any chance the dma-buf maintainers could start to kick =
-this
-> off?  I'm of course happy to assist.
->=20
-> But that notwithstanding, dma-buf is THE buffer sharing mechanism in the
-> kernel, and we should promote it instead of reinventing it badly.
-> And there is a use case for having a fully DMA mapped buffer in the block
-> layer and I/O path, especially on systems with an IOMMU.
-> So having an iov_iter backed by a dma-buf would be extremely helpful.
-> That's mostly lib/iov_iter.c code, not VFS, though.
-Are you suggesting adding an ITER_DMABUF type to iov_iter, or
-implementing dmabuf-to-iov_bvec conversion within iov_iter?
+> ---
+>  drivers/media/platform/renesas/rcar-vin/rcar-core.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> index 846ae7989b1d..cf5830d7d7b1 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> @@ -213,7 +213,7 @@ static int rvin_group_entity_to_remote_id(struct rvin_group *group,
+>  
+>  	sd = media_entity_to_v4l2_subdev(entity);
+>  
+> -	for (i = 0; i < RVIN_REMOTES_MAX; i++)
+> +	for (i = 0; i < ARRAY_SIZE(group->remotes); i++)
+>  		if (group->remotes[i].subdev == sd)
+>  			return i;
+>  
+> @@ -262,7 +262,7 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
+>  
+>  	mutex_lock(&vin->group->lock);
+>  
+> -	for (i = 0; i < RVIN_CSI_MAX; i++) {
+> +	for (i = 0; i < ARRAY_SIZE(vin->group->remotes); i++) {
+>  		if (vin->group->remotes[i].asc != asc)
+>  			continue;
+>  		vin->group->remotes[i].subdev = NULL;
+> @@ -284,7 +284,7 @@ static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
+>  
+>  	mutex_lock(&vin->group->lock);
+>  
+> -	for (i = 0; i < RVIN_CSI_MAX; i++) {
+> +	for (i = 0; i < ARRAY_SIZE(vin->group->remotes); i++) {
+>  		if (vin->group->remotes[i].asc != asc)
+>  			continue;
+>  		vin->group->remotes[i].subdev = subdev;
 
->=20
-> > The question Christoph raised was rather why is your CPU so slow that
-> > walking the page tables has a significant overhead compared to the
-> > actual I/O?
->=20
-> Yes, that's really puzzling and should be addressed first.
-With high CPU performance (e.g., 3GHz), GUP (get_user_pages) overhead
-is relatively low (observed in 3GHz tests).
-|    32x32MB Read 1024MB    |Creat-ms|Close-ms|  I/O-ms|I/O-MB/s| I/O%
-|---------------------------|--------|--------|--------|--------|-----
-| 1)        memfd direct R/W|      1 |    118 |    312 |   3448 | 100%
-| 2)      u+memfd direct R/W|    196 |    123 |    295 |   3651 | 105%
-| 3) u+memfd direct sendfile|    175 |    102 |    976 |   1100 |  31%
-| 4)   u+memfd direct splice|    173 |    103 |    443 |   2428 |  70%
-| 5)      udmabuf buffer R/W|    183 |    100 |    453 |   2375 |  68%
-| 6)       dmabuf buffer R/W|     34 |      4 |    427 |   2519 |  73%
-| 7)    udmabuf direct c_f_r|    200 |    102 |    278 |   3874 | 112%
-| 8)     dmabuf direct c_f_r|     36 |      5 |    269 |   4002 | 116%
+-- 
+Kind regards,
 
-With lower CPU performance (e.g., 1GHz), GUP overhead becomes more
-significant (as seen in 1GHz tests).
-|    32x32MB Read 1024MB    |Creat-ms|Close-ms|  I/O-ms|I/O-MB/s| I/O%
-|---------------------------|--------|--------|--------|--------|-----
-| 1)        memfd direct R/W|      2 |    393 |    969 |   1109 | 100%
-| 2)      u+memfd direct R/W|    592 |    424 |    570 |   1884 | 169%
-| 3) u+memfd direct sendfile|    587 |    356 |   2229 |    481 |  43%
-| 4)   u+memfd direct splice|    568 |    352 |    795 |   1350 | 121%
-| 5)      udmabuf buffer R/W|    597 |    343 |   1238 |    867 |  78%
-| 6)       dmabuf buffer R/W|     69 |     13 |   1128 |    952 |  85%
-| 7)    udmabuf direct c_f_r|    595 |    345 |    372 |   2889 | 260%
-| 8)     dmabuf direct c_f_r|     80 |     13 |    274 |   3929 | 354%
-
-Regards,
-Wangtao.
+Sakari Ailus
 
