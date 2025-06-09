@@ -1,207 +1,273 @@
-Return-Path: <linux-media+bounces-34337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34339-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A12AD1B41
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 12:11:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5D5AD1B90
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 12:29:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58CE83A1EFE
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 10:11:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E809E164708
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 10:29:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 228922505CE;
-	Mon,  9 Jun 2025 10:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 673E5253931;
+	Mon,  9 Jun 2025 10:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M0yE3Fx3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGb1fqC0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C457F43ABC
-	for <linux-media@vger.kernel.org>; Mon,  9 Jun 2025 10:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3B32F37;
+	Mon,  9 Jun 2025 10:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749463893; cv=none; b=NFfcAy2QO2NYkcbuBR84DPniJCCKMlXhdsAiTEyANP8Rzh+LBHN0KYxZE1rhM1kD16Li/ZeaSgiw4XN7K4NiIxT/OiJlNMNpGzfkdU5aF5/wcybUj6q97VWjLOI26Gd9ULFZ85pQJ1CZCedx/1bKXhAr0qb6YbJYMaZ5dqVwe+k=
+	t=1749464948; cv=none; b=mLPlQi5tWZeTogTtH7oUz5nlBDH7Qm4taqDdnE4Q76Zpki5Bv2suOJyU0bnHFR48F10EIDNEdpGetS4/QaQBXhYfjl5dJ0jXgqVtNAc9MGuZfaHrFJsIuVk1l3X+4by90iAACwxpipFUTpi0PDHiOjcPAzFg3OFY2YBEVzWgefc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749463893; c=relaxed/simple;
-	bh=An3OZnLy9ktVFQ8mmPPB+cTLsHAaqJU//ZVfHWfLkz8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H6sGEzPnpVONgSrLPoK3EhpNFlKacfKWCIxfe8ZyKigJKqliM1giCaQZdmQ2ICeFBQtz9TtknT4yEixGA92jbTlNRLTXkorxRxxMZmb3nAq/UbpPStZoz0o1fNmzcumb1sa/R3/JP0NYCu8o80MOJHyLLb4Q/7EBtQe8tx9bmjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M0yE3Fx3; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-55328ae0473so596989e87.3
-        for <linux-media@vger.kernel.org>; Mon, 09 Jun 2025 03:11:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749463890; x=1750068690; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=km/Og/aWOepgULZXU55OcArPvPOc4ZUj6YfVjtCIRPg=;
-        b=M0yE3Fx3dfESLwmV6e+MeClYGMS+L6VSHF8+OijjSmcFZ0BoI0wBmJTqfbWUU+GroX
-         1H00pZHHSg37m9/p7VaCpDvA2QMh/sfoCYUwXx0LFd78BGZuJDuZkrMtqf79+UycVBJ2
-         8+yNVmdSHCn7tO+85tY4/kAjwNL5boVH3wKdNwsleXUcm1uM4hUU2jIJC4yayUE3D+hK
-         gt2GAy7dr8XrLxSkXxl4js/ABeiXHdWgspK+P3zveE/HVcgS6WH+D7qrUARNXJetJDxu
-         XTVjuUsAPbaXPc/NS9yWQTGEReSkhsmqYikCD3WU3aYrNLfSNxaV4owlUTbii8v1anPu
-         xoWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749463890; x=1750068690;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=km/Og/aWOepgULZXU55OcArPvPOc4ZUj6YfVjtCIRPg=;
-        b=knz5et2HOR6uAoJuMNMtJdjdMdd6+7Np3yiTMBbe/kBEKv3MuBAfHhrAUjftgY8fL2
-         FgjpMAim7EU92xHywnZR/87KF/yKzCgmzH74Q5mUReX/8qOk4/R7bX1CwzRPDJS1cGfd
-         WUs7tH2zX0T/19kDnzO+ZMJuKoSEIi4sbC7Gf/UMO8sYgkFRrt3yLpL0KqY6BbeaLPcT
-         HtOsqeJ6l9Aw6pWgfG8HYpHYYR863UuVMJLdX0Jtr0BEehoTAIWZS8fItWquJjExeHVL
-         ujDBQlzYZO73l6JrXGTBjma5OccemTBtqbwc/R9a7Er4etEBfKEufQnh5jcpzFBK+lmW
-         Arbw==
-X-Forwarded-Encrypted: i=1; AJvYcCVrPSZKDLIqV2sGM6Zio4xO6PJmPJkWw+ufspA4cwa7qEOicNNGFF6GUqNw8ovTl4B7hP69yjGrPEykeA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw28hKRrOWuLmsNGbMP6IyFjGfqb2rb0Y4JFW2rO5y8nmlL4atL
-	PedjqxYOqrG/EXtN54gTYPHSFB2gO97u9tfxESW/bftV3kojNzuNaWjPvL5/Wh7VILk=
-X-Gm-Gg: ASbGncvmazyRedSBRK1G3cvAWhYh117x6wNLtMzbk5vLMOgVtVRtjm8lZTisIDg243L
-	TvJBb+k1MDycNK3F24S8FdI42LLEfp+24GsgjyJ/BY1TOuJubameA1mwFMZqbmikR0DYTh4fBP/
-	r4kdTFqX1j6Z5AIzqsaVI6wCp0gGQ84DQms6xZ5f7EDzzWC+D2NeELMHEi5AuWupIT/7eAC3c/c
-	LpteHvtvq07IZjC/NfqDs1STTFahYyD4vERWw36kDqem8k76DfXnGVtynmSfPaWvnWu72yuqhTj
-	ixK1ncahz8q187AgC/VXy1w8jAUjYzuFaBqg4gs8RtB1wamMJtCuQ1gf4FdaQrFqn4N5l/dM4a+
-	KHLGBsrL6fx44c5LG0oD2/l9mnNdoSw==
-X-Google-Smtp-Source: AGHT+IE3CgUhWs9JJgxNaO2ezZdpoAhFkdMBw5PvlY45Fhn52F996AFzFwsp+F4iIUJCj3wWUYvArg==
-X-Received: by 2002:a05:651c:a0b:b0:32a:89bb:f8d9 with SMTP id 38308e7fff4ca-32ae32985a9mr10255741fa.6.1749463889794;
-        Mon, 09 Jun 2025 03:11:29 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b0cf7fsm10081841fa.12.2025.06.09.03.11.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jun 2025 03:11:29 -0700 (PDT)
-Message-ID: <5cb2c3b5-9c19-48d0-bf48-634c74d704e3@linaro.org>
-Date: Mon, 9 Jun 2025 13:11:23 +0300
+	s=arc-20240116; t=1749464948; c=relaxed/simple;
+	bh=b81GxXQOgz++9oTBAz/FoXRwlEIZehWSTem3SGxqML4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gr10MP6S54DZky7pVCaWENqhTlUTALuIG2GyKjzwKgO6A9HyWZ8xLls8hUzvBHabIHzxz61MiU7Nto4UwZTpzF7mcVqclNkyJAmjGCbTzrvxeG9NHwup2WyelMxWl02pHY8ZXUwwvFuttnIzuv2OwD3wAzk78wQdyBRbAjWaiSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hGb1fqC0; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749464947; x=1781000947;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=b81GxXQOgz++9oTBAz/FoXRwlEIZehWSTem3SGxqML4=;
+  b=hGb1fqC0vSH/xYJdrZxC+heVp2z8DH/cGkJrCGok9Me6U3PMHj/goLSM
+   2nObdNIr2nJx6UdqZwCaiz1tK8tvvOrHV6jHRNjGDyF6aqQzYq5M4hBR6
+   w0HChnpFXMrP/rRfLeY8XirjQy+I77ZEJKIYb0VGAk5bpeRtlmNstp6jW
+   I9icjOLKX+s8vwSfthV8CyILGoXs4+NUb1W0AaWnttRp2K25UQNO+nyGq
+   Ga/6sw+hJYqEsKHqOK87CiO06bH4HFT2I+oxNOIrXPafn2jGvpA0b/qhr
+   jx0CEcAiKKpOTpvBuEufR5SLpSjfXRTdKec+F3K3OEelMeBAU7J0XoCii
+   A==;
+X-CSE-ConnectionGUID: 1uSkid9dQbOZD2VZAxzlIg==
+X-CSE-MsgGUID: LGMDkH2dREC/d8uTRSuybQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="62937883"
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
+   d="scan'208";a="62937883"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 03:29:06 -0700
+X-CSE-ConnectionGUID: kw74qhyMR2WiVaCdt2Xedw==
+X-CSE-MsgGUID: /Wqtw3bBSGKJCNaG4QUKcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
+   d="scan'208";a="151292359"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.36])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 03:29:02 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 14D9511FBC0;
+	Mon,  9 Jun 2025 13:28:59 +0300 (EEST)
+Date: Mon, 9 Jun 2025 10:28:59 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com,
+	linux-media@vger.kernel.org,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH v3 3/5] media: mc: add debugfs node to keep track of
+ requests
+Message-ID: <aEa3azYxM5Sc6cZC@kekkonen.localdomain>
+References: <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-0-603db4749d90@collabora.com>
+ <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-3-603db4749d90@collabora.com>
+ <aEC7jMDgRAg1cfXZ@kekkonen.localdomain>
+ <870611a1e5d21fa375dd9359192641484c1c0e76.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] media: dt-bindings: Add qcom,msm8939-camss
-To: Vincent Knecht <vincent.knecht@mailoo.org>, Robert Foss
- <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250602-camss-8x39-vbif-v4-0-32c277d8f9bf@mailoo.org>
- <20250602-camss-8x39-vbif-v4-3-32c277d8f9bf@mailoo.org>
- <2884f55c-6b80-406a-ba21-aaa26297b1bf@linaro.org>
- <379f7434dadc22053afbf79734e8d96551b9e4e3.camel@mailoo.org>
-Content-Language: ru-RU
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <379f7434dadc22053afbf79734e8d96551b9e4e3.camel@mailoo.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <870611a1e5d21fa375dd9359192641484c1c0e76.camel@collabora.com>
 
-Hi Vincent.
+Hi Nicolas,
 
-On 6/8/25 00:42, Vincent Knecht wrote:
-> Le vendredi 06 juin 2025 Ã  13:46 +0300, Vladimir Zapolskiy a Ã©critÂ :
->> Hello Vincent.
+On Wed, Jun 04, 2025 at 07:08:53PM -0400, Nicolas Dufresne wrote:
+> Le mercredi 04 juin 2025 à 21:33 +0000, Sakari Ailus a écrit :
+> > Hi Nicolas, Hans,
+> > 
+> > Thanks for the update.
 > 
-> Hi Vladimir,
-> thank you for the review.
+> thanks for the review, these things are precious.
 > 
->> On 6/2/25 20:27, Vincent Knecht via B4 Relay wrote:
->>> From: Vincent Knecht <vincent.knecht@mailoo.org>
->>>
->>> Add bindings for qcom,msm8939-camss in order to support the camera
->>> subsystem for MSM8939.
->>>
->>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
->>> ---
->>>  Â  .../bindings/media/qcom,msm8939-camss.yamlÂ Â Â Â Â Â Â Â  | 254 +++++++++++++++++++++
->>>  Â  1 file changed, 254 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
->>> b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
->>> new file mode 100644
->>> index 0000000000000000000000000000000000000000..59bf16888a8235495a2080e512ce179583bcd25d
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
->>> @@ -0,0 +1,254 @@
->>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/media/qcom,msm8939-camss.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Qualcomm MSM8939 Camera Subsystem (CAMSS)
->>> +
->>> +maintainers:
->>> +Â  - Vincent Knecht <vincent.knecht@mailoo.org>
->>> +
->>> +description:
->>> +Â  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms
->>> +
->>> +properties:
->>> +Â  compatible:
->>> +Â Â Â  const: qcom,msm8939-camss
->>> +
->>> +Â  reg:
->>> +Â Â Â  maxItems: 11
->>> +
->>> +Â  reg-names:
->>> +Â Â Â  items:
->>> +Â Â Â Â Â  - const: csid0
->>> +Â Â Â Â Â  - const: csid1
->>> +Â Â Â Â Â  - const: csid2
->>> +Â Â Â Â Â  - const: csiphy0
->>> +Â Â Â Â Â  - const: csiphy0_clk_mux
->>> +Â Â Â Â Â  - const: csiphy1
->>> +Â Â Â Â Â  - const: csiphy1_clk_mux
->>> +Â Â Â Â Â  - const: csi_clk_mux
->>> +Â Â Â Â Â  - const: ispif
->>> +Â Â Â Â Â  - const: vfe0
->>> +Â Â Â Â Â  - const: vfe0_vbif
->>
->> Please sort the list alphanumerically, accorting to the ASCII character set
->> the underscore symbol precedes lower case letters.
+> > 
+> > On Wed, Jun 04, 2025 at 04:09:37PM -0400, Nicolas Dufresne wrote:
+> > > From: Hans Verkuil <hverkuil@xs4all.nl>
+> > > 
+> > > Keep track of the number of requests and request objects of a media
+> > > device. Helps to verify that all request-related memory is freed.
+> > > 
+> > > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > > ---
+> > >  drivers/media/mc/mc-device.c  | 30 ++++++++++++++++++++++++++++++
+> > >  drivers/media/mc/mc-devnode.c |  5 +++++
+> > >  drivers/media/mc/mc-request.c |  6 ++++++
+> > >  include/media/media-device.h  |  9 +++++++++
+> > >  include/media/media-devnode.h |  4 ++++
+> > >  include/media/media-request.h |  2 ++
+> > >  6 files changed, 56 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> > > index c0dd4ae5722725f1744bc6fd6282d5c765438059..5a458160200afb540d8014fed42d8bf2dab9c8c3 100644
+> > > --- a/drivers/media/mc/mc-device.c
+> > > +++ b/drivers/media/mc/mc-device.c
+> > > @@ -679,6 +679,23 @@ void media_device_unregister_entity(struct media_entity *entity)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(media_device_unregister_entity);
+> > >  
+> > > +#ifdef CONFIG_DEBUG_FS
+> > > +/*
+> > > + * Log the state of media requests.
+> > > + * Very useful for debugging.
+> > > + */
+> > 
+> > Fits on a single line.
 > 
-> I followed "latest and greatest" qcom,x1e80100-camss bindings which
-> were largely reviewed and accepted, but if I must, so be it...
+> Ack.
+> 
+> > 
+> > > +static int media_device_requests(struct seq_file *file, void *priv)
+> > > +{
+> > > +	struct media_device *dev = dev_get_drvdata(file->private);
+> > > +
+> > > +	seq_printf(file, "number of requests: %d\n",
+> > > +		   atomic_read(&dev->num_requests));
+> > > +	seq_printf(file, "number of request objects: %d\n",
+> > > +		   atomic_read(&dev->num_request_objects));
+> > 
+> > Newline here?
+> 
+> I prefer that too.
+> 
+> > 
+> > > +	return 0;
+> > > +}
+> > > +#endif
+> > > +
+> > >  void media_device_init(struct media_device *mdev)
+> > >  {
+> > >  	INIT_LIST_HEAD(&mdev->entities);
+> > > @@ -697,6 +714,9 @@ void media_device_init(struct media_device *mdev)
+> > >  		media_set_bus_info(mdev->bus_info, sizeof(mdev->bus_info),
+> > >  				   mdev->dev);
+> > >  
+> > > +	atomic_set(&mdev->num_requests, 0);
+> > > +	atomic_set(&mdev->num_request_objects, 0);
+> > > +
+> > >  	dev_dbg(mdev->dev, "Media device initialized\n");
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(media_device_init);
+> > > @@ -748,6 +768,15 @@ int __must_check __media_device_register(struct media_device *mdev,
+> > >  
+> > >  	dev_dbg(mdev->dev, "Media device registered\n");
+> > >  
+> > > +#ifdef CONFIG_DEBUG_FS
+> > > +	if (!media_debugfs_root)
+> > > +		media_debugfs_root = debugfs_create_dir("media", NULL);
+> > > +	mdev->media_dir = debugfs_create_dir(dev_name(&devnode->dev),
+> > > +					     media_debugfs_root);
+> > > +	debugfs_create_devm_seqfile(&devnode->dev, "requests",
+> > > +				    mdev->media_dir, media_device_requests);
+> > > +#endif
+> > 
+> > I have no objection to this but it would have been great to have the Media
+> > device lifetime set in first and MC device and devnode merged. But maybe
+> > it's too late for that. Well, at least this won't change error handling...
+> 
+> Since this specific patch is not required to fix the MTK VCODEC issue, I can
+> delay this a little. Is that comment related to an existing patch ?
 
-Well, this particular dt binding is known to be imperfect, for instance
-see one of the series with a number of fix-ups:
+Yes.
 
-https://lore.kernel.org/all/20250502204142.2064496-1-vladimir.zapolskiy@linaro.org/
+I've pushed the current set here:
+<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=media-ref>. I've
+rebased it recently but it's still WiP.
 
-So, apparently the qcom,x1e80100-camss bindings shall be fixed in the given
-aspect as well before the first .dtsi/.dts user of it appears.
+...
 
-> I guess this means I should also mod the DTSI from patch 4 ?
-> Should I also drop R-b tags ?
+> > > diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
+> > > index d27c1c646c2805171be3997d72210dd4d1a38e32..dbcabeffcb572ae707f5fe1f51ff719d451c6784 100644
+> > > --- a/include/media/media-devnode.h
+> > > +++ b/include/media/media-devnode.h
+> > > @@ -20,9 +20,13 @@
+> > >  #include <linux/fs.h>
+> > >  #include <linux/device.h>
+> > >  #include <linux/cdev.h>
+> > > +#include <linux/debugfs.h>
+> > >  
+> > >  struct media_device;
+> > >  
+> > > +/* debugfs top-level media directory */
+> > > +extern struct dentry *media_debugfs_root;
+> > > +
+> > >  /*
+> > >   * Flag to mark the media_devnode struct as registered. Drivers must not touch
+> > >   * this flag directly, it will be set and cleared by media_devnode_register and
+> > > diff --git a/include/media/media-request.h b/include/media/media-request.h
+> > > index 7f9af68ef19ac6de0184bbb0c0827dc59777c6dc..610ccfe8d7b20ec38e166383433f9ee208248640 100644
+> > > --- a/include/media/media-request.h
+> > > +++ b/include/media/media-request.h
+> > > @@ -292,6 +292,7 @@ struct media_request_object_ops {
+> > >   * struct media_request_object - An opaque object that belongs to a media
+> > >   *				 request
+> > >   *
+> > > + * @mdev: Media device this object belongs to
+> > 
+> > This deserves at least a comment what this may be used for: generally once
+> > object is unbound, it's not related to a request anymore (nor a Media
+> > device). This field also adds a new Media device lifetime issue: nothing
+> 
+> We could make it explicit by clearing the mdev pointer ?
 
-I'm not sure about any granted Reviewed-by tags, this question should be
-addressed to the persons who gave the tags...
+That would probably be out of scope of this patch(set). Also see the
+patchset I referred to earlier.
 
-The formal process says this [1]:
+> 
+> > guarantees the mdev is not disappearing at a wrong time albeit this is
+> > very, very likely not user-triggerable without physically removing
+> > hardware.
+> 
+> I'm not too familiar with the subject, if the MC knows it has open request
+> FD(s), why would it allow userspace from unloading its module ?
 
-   Both Tested-by and Reviewed-by tags, once received on mailing list from tester
-   or reviewer, should be added by author to the applicable patches when sending
-   next versions.  However if the patch has changed substantially in following
-   version, these tags might not be applicable anymore and thus should be removed.
-   Usually removal of someone's Tested-by or Reviewed-by tags should be mentioned
-   in the patch changelog (after the '---' separator).
+Drivers nor MC currently have a list of request file handles.
 
-I would say the fixes should not be considered as substantial changes.
+Apart from the file handles, that was the original thinking, yes, but
+devices can be also unbound without touching the driver (or other) modules.
 
-[1] Documentation/process/submitting-patches.rst
+> 
+> > 
+> > >   * @ops: object's operations
+> > >   * @priv: object's priv pointer
+> > >   * @req: the request this object belongs to (can be NULL)
+> > > @@ -303,6 +304,7 @@ struct media_request_object_ops {
+> > >   * another struct that contains the actual data for this request object.
+> > >   */
+> > >  struct media_request_object {
+> > > +	struct media_device *mdev;
+> > >  	const struct media_request_object_ops *ops;
+> > >  	void *priv;
+> > >  	struct media_request *req;
+> > > 
 
---
-Best wishes,
-Vladimir
+-- 
+Kind regards,
+
+Sakari Ailus
 
