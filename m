@@ -1,273 +1,134 @@
-Return-Path: <linux-media+bounces-34339-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5D5AD1B90
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 12:29:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22311AD1B92
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 12:29:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E809E164708
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 10:29:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 155821888E43
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 10:29:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 673E5253931;
-	Mon,  9 Jun 2025 10:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD23E253920;
+	Mon,  9 Jun 2025 10:29:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGb1fqC0"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="C7BXdaBL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3B32F37;
-	Mon,  9 Jun 2025 10:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3AB2F37
+	for <linux-media@vger.kernel.org>; Mon,  9 Jun 2025 10:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749464948; cv=none; b=mLPlQi5tWZeTogTtH7oUz5nlBDH7Qm4taqDdnE4Q76Zpki5Bv2suOJyU0bnHFR48F10EIDNEdpGetS4/QaQBXhYfjl5dJ0jXgqVtNAc9MGuZfaHrFJsIuVk1l3X+4by90iAACwxpipFUTpi0PDHiOjcPAzFg3OFY2YBEVzWgefc=
+	t=1749464957; cv=none; b=A3Q798svvwsKZoWm+2Nx3E6KqX5KYwc0BL66z/hxgBC5f+PJMLpFrLgesEn+qZh2aGKCDiuGgMm7VX52WfG9Rxm5PrfPWgZIlFU59RyUorJheAtrOyV7Bxz7SRWbkiw7IBJLTd/MB8VlFYu0AZDdWpn4BfgO+g2BpkdQLmyfsuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749464948; c=relaxed/simple;
-	bh=b81GxXQOgz++9oTBAz/FoXRwlEIZehWSTem3SGxqML4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gr10MP6S54DZky7pVCaWENqhTlUTALuIG2GyKjzwKgO6A9HyWZ8xLls8hUzvBHabIHzxz61MiU7Nto4UwZTpzF7mcVqclNkyJAmjGCbTzrvxeG9NHwup2WyelMxWl02pHY8ZXUwwvFuttnIzuv2OwD3wAzk78wQdyBRbAjWaiSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hGb1fqC0; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749464947; x=1781000947;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=b81GxXQOgz++9oTBAz/FoXRwlEIZehWSTem3SGxqML4=;
-  b=hGb1fqC0vSH/xYJdrZxC+heVp2z8DH/cGkJrCGok9Me6U3PMHj/goLSM
-   2nObdNIr2nJx6UdqZwCaiz1tK8tvvOrHV6jHRNjGDyF6aqQzYq5M4hBR6
-   w0HChnpFXMrP/rRfLeY8XirjQy+I77ZEJKIYb0VGAk5bpeRtlmNstp6jW
-   I9icjOLKX+s8vwSfthV8CyILGoXs4+NUb1W0AaWnttRp2K25UQNO+nyGq
-   Ga/6sw+hJYqEsKHqOK87CiO06bH4HFT2I+oxNOIrXPafn2jGvpA0b/qhr
-   jx0CEcAiKKpOTpvBuEufR5SLpSjfXRTdKec+F3K3OEelMeBAU7J0XoCii
-   A==;
-X-CSE-ConnectionGUID: 1uSkid9dQbOZD2VZAxzlIg==
-X-CSE-MsgGUID: LGMDkH2dREC/d8uTRSuybQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="62937883"
-X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="62937883"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 03:29:06 -0700
-X-CSE-ConnectionGUID: kw74qhyMR2WiVaCdt2Xedw==
-X-CSE-MsgGUID: /Wqtw3bBSGKJCNaG4QUKcA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="151292359"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.36])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 03:29:02 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 14D9511FBC0;
-	Mon,  9 Jun 2025 13:28:59 +0300 (EEST)
-Date: Mon, 9 Jun 2025 10:28:59 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com,
-	linux-media@vger.kernel.org,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-Subject: Re: [PATCH v3 3/5] media: mc: add debugfs node to keep track of
- requests
-Message-ID: <aEa3azYxM5Sc6cZC@kekkonen.localdomain>
-References: <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-0-603db4749d90@collabora.com>
- <20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-3-603db4749d90@collabora.com>
- <aEC7jMDgRAg1cfXZ@kekkonen.localdomain>
- <870611a1e5d21fa375dd9359192641484c1c0e76.camel@collabora.com>
+	s=arc-20240116; t=1749464957; c=relaxed/simple;
+	bh=U6O+2LDRSNivx4tr/BLyasa0dRd6LUmFroVSo0UyyQo=;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=LtE4XmksmHDwgxcoP01T4LBv1LfmzVnmWhLyzDxZBm2g+oNszU4NNpvrcw8bSnt/B/3Txp9d1zDnJtzVgyfvfrXWj7ox421Pj429y4qP4CvxTH5fSU7RjtT3pB69z/5lxz+riALQCPvPaIvH1zWO4vgvEDFj/MJXaIv4/rM7dNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=C7BXdaBL; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
+	; s=s1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
+	Message-ID:To:From:Date:Sender:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=U6O+2LDRSNivx4tr/BLyasa0dRd6LUmFroVSo0UyyQo=; b=C7BXdaBLwTmFMGhLsV2RfMA9qj
+	UjztVJ41GZwthZVeVAiWd+IM5lKD+C7xpFXYq9K8v0ZyhWxHXaCJ7jH1tp63QAclnRWMJ1ggtUguk
+	hl3jx0Q1u2aSKTQznH5UEnzhq0vwV65R1qelAawZKS1aQJDp+50iWYP8mgGIGm7GRmEhDi/rY1SJo
+	7zpImw2xnu65RqyebeBs/xqJdC4yiY3BIzx3aUHVEw2TILqH40vcWOQUYVW2FdVyELnVUHo5lBgUh
+	Ag70XjzpDDZjHhJQiHFrmWNWxsi5L2HFJLyVBs6L048DcN4STNNylGuDdqqTzA2KwHi8n3K2GdWXL
+	6vVMtECA==;
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1uOZkh-0006GG-0N;
+	Mon, 09 Jun 2025 10:29:15 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1uOZkh-00Ertb-0T;
+	Mon, 09 Jun 2025 10:29:15 +0000
+Date: Mon, 9 Jun 2025 10:29:15 +0000 (UTC)
+From: Jenkins Builder Robot  <jenkins@linuxtv.org>
+To: mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1655081924.1.1749464955045@builder.linuxtv.org>
+Subject: Build failed in Jenkins: dtv-scan-tables #33
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <870611a1e5d21fa375dd9359192641484c1c0e76.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: dtv-scan-tables
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 
-Hi Nicolas,
+See <https://builder.linuxtv.org/job/dtv-scan-tables/33/display/redirect?page=changes>
 
-On Wed, Jun 04, 2025 at 07:08:53PM -0400, Nicolas Dufresne wrote:
-> Le mercredi 04 juin 2025 à 21:33 +0000, Sakari Ailus a écrit :
-> > Hi Nicolas, Hans,
-> > 
-> > Thanks for the update.
-> 
-> thanks for the review, these things are precious.
-> 
-> > 
-> > On Wed, Jun 04, 2025 at 04:09:37PM -0400, Nicolas Dufresne wrote:
-> > > From: Hans Verkuil <hverkuil@xs4all.nl>
-> > > 
-> > > Keep track of the number of requests and request objects of a media
-> > > device. Helps to verify that all request-related memory is freed.
-> > > 
-> > > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > ---
-> > >  drivers/media/mc/mc-device.c  | 30 ++++++++++++++++++++++++++++++
-> > >  drivers/media/mc/mc-devnode.c |  5 +++++
-> > >  drivers/media/mc/mc-request.c |  6 ++++++
-> > >  include/media/media-device.h  |  9 +++++++++
-> > >  include/media/media-devnode.h |  4 ++++
-> > >  include/media/media-request.h |  2 ++
-> > >  6 files changed, 56 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> > > index c0dd4ae5722725f1744bc6fd6282d5c765438059..5a458160200afb540d8014fed42d8bf2dab9c8c3 100644
-> > > --- a/drivers/media/mc/mc-device.c
-> > > +++ b/drivers/media/mc/mc-device.c
-> > > @@ -679,6 +679,23 @@ void media_device_unregister_entity(struct media_entity *entity)
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(media_device_unregister_entity);
-> > >  
-> > > +#ifdef CONFIG_DEBUG_FS
-> > > +/*
-> > > + * Log the state of media requests.
-> > > + * Very useful for debugging.
-> > > + */
-> > 
-> > Fits on a single line.
-> 
-> Ack.
-> 
-> > 
-> > > +static int media_device_requests(struct seq_file *file, void *priv)
-> > > +{
-> > > +	struct media_device *dev = dev_get_drvdata(file->private);
-> > > +
-> > > +	seq_printf(file, "number of requests: %d\n",
-> > > +		   atomic_read(&dev->num_requests));
-> > > +	seq_printf(file, "number of request objects: %d\n",
-> > > +		   atomic_read(&dev->num_request_objects));
-> > 
-> > Newline here?
-> 
-> I prefer that too.
-> 
-> > 
-> > > +	return 0;
-> > > +}
-> > > +#endif
-> > > +
-> > >  void media_device_init(struct media_device *mdev)
-> > >  {
-> > >  	INIT_LIST_HEAD(&mdev->entities);
-> > > @@ -697,6 +714,9 @@ void media_device_init(struct media_device *mdev)
-> > >  		media_set_bus_info(mdev->bus_info, sizeof(mdev->bus_info),
-> > >  				   mdev->dev);
-> > >  
-> > > +	atomic_set(&mdev->num_requests, 0);
-> > > +	atomic_set(&mdev->num_request_objects, 0);
-> > > +
-> > >  	dev_dbg(mdev->dev, "Media device initialized\n");
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(media_device_init);
-> > > @@ -748,6 +768,15 @@ int __must_check __media_device_register(struct media_device *mdev,
-> > >  
-> > >  	dev_dbg(mdev->dev, "Media device registered\n");
-> > >  
-> > > +#ifdef CONFIG_DEBUG_FS
-> > > +	if (!media_debugfs_root)
-> > > +		media_debugfs_root = debugfs_create_dir("media", NULL);
-> > > +	mdev->media_dir = debugfs_create_dir(dev_name(&devnode->dev),
-> > > +					     media_debugfs_root);
-> > > +	debugfs_create_devm_seqfile(&devnode->dev, "requests",
-> > > +				    mdev->media_dir, media_device_requests);
-> > > +#endif
-> > 
-> > I have no objection to this but it would have been great to have the Media
-> > device lifetime set in first and MC device and devnode merged. But maybe
-> > it's too late for that. Well, at least this won't change error handling...
-> 
-> Since this specific patch is not required to fix the MTK VCODEC issue, I can
-> delay this a little. Is that comment related to an existing patch ?
+Changes:
 
-Yes.
+[Mauro Carvalho Chehab] dvb-s: add frequencies from https://en.kingofsat.net/
 
-I've pushed the current set here:
-<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=media-ref>. I've
-rebased it recently but it's still WiP.
 
-...
-
-> > > diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
-> > > index d27c1c646c2805171be3997d72210dd4d1a38e32..dbcabeffcb572ae707f5fe1f51ff719d451c6784 100644
-> > > --- a/include/media/media-devnode.h
-> > > +++ b/include/media/media-devnode.h
-> > > @@ -20,9 +20,13 @@
-> > >  #include <linux/fs.h>
-> > >  #include <linux/device.h>
-> > >  #include <linux/cdev.h>
-> > > +#include <linux/debugfs.h>
-> > >  
-> > >  struct media_device;
-> > >  
-> > > +/* debugfs top-level media directory */
-> > > +extern struct dentry *media_debugfs_root;
-> > > +
-> > >  /*
-> > >   * Flag to mark the media_devnode struct as registered. Drivers must not touch
-> > >   * this flag directly, it will be set and cleared by media_devnode_register and
-> > > diff --git a/include/media/media-request.h b/include/media/media-request.h
-> > > index 7f9af68ef19ac6de0184bbb0c0827dc59777c6dc..610ccfe8d7b20ec38e166383433f9ee208248640 100644
-> > > --- a/include/media/media-request.h
-> > > +++ b/include/media/media-request.h
-> > > @@ -292,6 +292,7 @@ struct media_request_object_ops {
-> > >   * struct media_request_object - An opaque object that belongs to a media
-> > >   *				 request
-> > >   *
-> > > + * @mdev: Media device this object belongs to
-> > 
-> > This deserves at least a comment what this may be used for: generally once
-> > object is unbound, it's not related to a request anymore (nor a Media
-> > device). This field also adds a new Media device lifetime issue: nothing
-> 
-> We could make it explicit by clearing the mdev pointer ?
-
-That would probably be out of scope of this patch(set). Also see the
-patchset I referred to earlier.
-
-> 
-> > guarantees the mdev is not disappearing at a wrong time albeit this is
-> > very, very likely not user-triggerable without physically removing
-> > hardware.
-> 
-> I'm not too familiar with the subject, if the MC knows it has open request
-> FD(s), why would it allow userspace from unloading its module ?
-
-Drivers nor MC currently have a list of request file handles.
-
-Apart from the file handles, that was the original thinking, yes, but
-devices can be also unbound without touching the driver (or other) modules.
-
-> 
-> > 
-> > >   * @ops: object's operations
-> > >   * @priv: object's priv pointer
-> > >   * @req: the request this object belongs to (can be NULL)
-> > > @@ -303,6 +304,7 @@ struct media_request_object_ops {
-> > >   * another struct that contains the actual data for this request object.
-> > >   */
-> > >  struct media_request_object {
-> > > +	struct media_device *mdev;
-> > >  	const struct media_request_object_ops *ops;
-> > >  	void *priv;
-> > >  	struct media_request *req;
-> > > 
-
--- 
-Kind regards,
-
-Sakari Ailus
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/dtv-scan-tables/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/dtv-scan-tables/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/dtv-scan-tables.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/dtv-scan-tables.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.5'
+ > git fetch --tags --force --progress -- git://linuxtv.org/dtv-scan-tables.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 15661aabc342b72f539d4600ad87df6663e23aa4 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 15661aabc342b72f539d4600ad87df6663e23aa4 # timeout=10
+Commit message: "dvb-s: add frequencies from https://en.kingofsat.net/"
+ > git rev-list --no-walk caca23fb546620433763a3ec04f65e62855b1dbc # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 15661aabc342b72f539d4600ad87df6663e23aa4^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/dtv-scan-tables.git'
+[GitCheckoutListener] Found previous build 'dtv-scan-tables #32' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since 'caca23f'
+[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
+[GitCheckoutListener] -> Using head commit '15661aa' as starting point
+[GitCheckoutListener] -> Recorded one new commit
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@4c0b236d'
+[dtv-scan-tables] $ /bin/sh -xe /tmp/jenkins933854567487690005.sh
++ make
+Reading file dvb-s/AlComSat-1-24.5W
+Writing file dvbv3/dvb-s/AlComSat-1-24.5W
+Reading file dvb-s/Amos-7-10.6E
+Writing file dvbv3/dvb-s/Amos-7-10.6E
+Reading file dvb-s/Amazonas-36.2W
+Writing file dvbv3/dvb-s/Amazonas-36.2W
+Reading file dvb-s/Astra-1G-31.5E
+Writing file dvbv3/dvb-s/Astra-1G-31.5E
+Reading file dvb-s/Astra-2E-28.2E
+Writing file dvbv3/dvb-s/Astra-2E-28.2E
+ERROR value 7/9 is invalid for INNER_FEC while parsing line 44 of dvb-s/Badr-4-26.0E
+Error reading file dvb-s/Badr-4-26.0E
+Reading file dvb-s/Badr-4-26.0E
+Reading file dvb-s/Badr-6-20.4E
+Writing file dvbv3/dvb-s/Badr-6-20.4E
+make: *** [Makefile:49: dvbv3/dvb-s/Badr-4-26.0E] Error 255
+make: *** Waiting for unfinished jobs....
+Reading file dvb-s/BulgariaSat-1.9E
+Writing file dvbv3/dvb-s/BulgariaSat-1.9E
+Build step 'Execute shell' marked build as failure
 
