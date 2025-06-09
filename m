@@ -1,134 +1,101 @@
-Return-Path: <linux-media+bounces-34340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34341-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22311AD1B92
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 12:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D40AD1BAE
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 12:39:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 155821888E43
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 10:29:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3C4F188992B
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jun 2025 10:39:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD23E253920;
-	Mon,  9 Jun 2025 10:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="C7BXdaBL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB1AC253954;
+	Mon,  9 Jun 2025 10:39:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3AB2F37
-	for <linux-media@vger.kernel.org>; Mon,  9 Jun 2025 10:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785B7253924;
+	Mon,  9 Jun 2025 10:38:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749464957; cv=none; b=A3Q798svvwsKZoWm+2Nx3E6KqX5KYwc0BL66z/hxgBC5f+PJMLpFrLgesEn+qZh2aGKCDiuGgMm7VX52WfG9Rxm5PrfPWgZIlFU59RyUorJheAtrOyV7Bxz7SRWbkiw7IBJLTd/MB8VlFYu0AZDdWpn4BfgO+g2BpkdQLmyfsuE=
+	t=1749465542; cv=none; b=MvV+IafYLNex0hiqPLXSBpqTsLLvFLrCGung84toELbTFQ4n7K3+Wa1ja/0cNvwwNKjCzvKLLIgae6TlnwulRxWWVvkD7TiBUKj4hdp3J6ifgxc8VOJYKGMHPpZvNhFoWGNuGxgU9DsFgXyOf6e0aEbGHRaLIliWJIIUhyrxceo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749464957; c=relaxed/simple;
-	bh=U6O+2LDRSNivx4tr/BLyasa0dRd6LUmFroVSo0UyyQo=;
-	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=LtE4XmksmHDwgxcoP01T4LBv1LfmzVnmWhLyzDxZBm2g+oNszU4NNpvrcw8bSnt/B/3Txp9d1zDnJtzVgyfvfrXWj7ox421Pj429y4qP4CvxTH5fSU7RjtT3pB69z/5lxz+riALQCPvPaIvH1zWO4vgvEDFj/MJXaIv4/rM7dNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=C7BXdaBL; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
-	; s=s1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
-	Message-ID:To:From:Date:Sender:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=U6O+2LDRSNivx4tr/BLyasa0dRd6LUmFroVSo0UyyQo=; b=C7BXdaBLwTmFMGhLsV2RfMA9qj
-	UjztVJ41GZwthZVeVAiWd+IM5lKD+C7xpFXYq9K8v0ZyhWxHXaCJ7jH1tp63QAclnRWMJ1ggtUguk
-	hl3jx0Q1u2aSKTQznH5UEnzhq0vwV65R1qelAawZKS1aQJDp+50iWYP8mgGIGm7GRmEhDi/rY1SJo
-	7zpImw2xnu65RqyebeBs/xqJdC4yiY3BIzx3aUHVEw2TILqH40vcWOQUYVW2FdVyELnVUHo5lBgUh
-	Ag70XjzpDDZjHhJQiHFrmWNWxsi5L2HFJLyVBs6L048DcN4STNNylGuDdqqTzA2KwHi8n3K2GdWXL
-	6vVMtECA==;
-Received: from builder.linuxtv.org ([140.211.167.10])
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1uOZkh-0006GG-0N;
-	Mon, 09 Jun 2025 10:29:15 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-	by builder.linuxtv.org with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1uOZkh-00Ertb-0T;
-	Mon, 09 Jun 2025 10:29:15 +0000
-Date: Mon, 9 Jun 2025 10:29:15 +0000 (UTC)
-From: Jenkins Builder Robot  <jenkins@linuxtv.org>
-To: mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1655081924.1.1749464955045@builder.linuxtv.org>
-Subject: Build failed in Jenkins: dtv-scan-tables #33
+	s=arc-20240116; t=1749465542; c=relaxed/simple;
+	bh=wJCrYx1Kw23zesXvyEC6eMmwffSLJLskuOoLy1BzRqM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Z7s+ZljRkJcntDoLX6bFswdN9LdmKVxr1a4vWSaeUXFhpusA1xA2JaoNxlE7cYaaroRTEAt7hpq44iZmQri7Ql+H+cs5cIO/u8g6fx2gD8Q/zoeh9yvQnrcrnfUlAhfGUP9pz9Ozd389xsqiGHe7g5o2T70iJHggJzDNrzHbgIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Mon, 9 Jun
+ 2025 13:37:43 +0300
+Received: from [192.168.211.132] (10.0.253.138) by Ex16-01.fintech.ru
+ (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 9 Jun 2025
+ 13:37:43 +0300
+Message-ID: <a503e593-ae2f-44f4-b545-b64201bd21f1@fintech.ru>
+Date: Mon, 9 Jun 2025 13:37:39 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: usb: siano: do not free urb-specific transfer
+ buffer
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, Hillf Danton
+	<hdanton@sina.com>, <syzbot+b466336413a1fba398a5@syzkaller.appspotmail.com>
+References: <20250522140048.2811356-1-n.zhandarovich@fintech.ru>
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Content-Language: en-US
+In-Reply-To: <20250522140048.2811356-1-n.zhandarovich@fintech.ru>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: dtv-scan-tables
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
-See <https://builder.linuxtv.org/job/dtv-scan-tables/33/display/redirect?page=changes>
+Gentle ping...
 
-Changes:
+On 5/22/25 17:00, Nikita Zhandarovich wrote:
+> Since siano driver uses separately allocated buffers for urb tranfers,
+> such as smscore_buffer_t *cb, and deals with them accordingly
+> via calls to smscore_putbuffer() in smsusb_stop_streaming(), there is
+> no need to attempt to free urb->transfer_buffer by adding a
+> URB_FREE_BUFFER to urb transfer flags. As syzkaller shows, it triggers
+> a warning which will bring about proper crash on systems with
+> 'panic_on_warn' set.
+> 
+> Therefore, skip the flag setting step to fix the issue. This change
+> was tested exclusively with syz-repros and KMEMLEAK sanitizer.
+> 
+> The idea for this patch was originally devised by Hillf Danton.
+> 
+> Suggested-by: Hillf Danton <hdanton@sina.com>
+> Reported-by: syzbot+b466336413a1fba398a5@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=b466336413a1fba398a5
+> Fixes: 564246fd3ff4 ("media: siano: Fix coherent memory allocation failure on arm64")
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> ---
+>  drivers/media/usb/siano/smsusb.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+> index 2c8179a84991..a78b1c233aad 100644
+> --- a/drivers/media/usb/siano/smsusb.c
+> +++ b/drivers/media/usb/siano/smsusb.c
+> @@ -168,7 +168,6 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+>  		smsusb_onresponse,
+>  		surb
+>  	);
+> -	surb->urb->transfer_flags |= URB_FREE_BUFFER;
+>  
+>  	return usb_submit_urb(surb->urb, GFP_ATOMIC);
+>  }
 
-[Mauro Carvalho Chehab] dvb-s: add frequencies from https://en.kingofsat.net/
-
-
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/dtv-scan-tables/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/dtv-scan-tables/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/dtv-scan-tables.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/dtv-scan-tables.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.5'
- > git fetch --tags --force --progress -- git://linuxtv.org/dtv-scan-tables.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 15661aabc342b72f539d4600ad87df6663e23aa4 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 15661aabc342b72f539d4600ad87df6663e23aa4 # timeout=10
-Commit message: "dvb-s: add frequencies from https://en.kingofsat.net/"
- > git rev-list --no-walk caca23fb546620433763a3ec04f65e62855b1dbc # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 15661aabc342b72f539d4600ad87df6663e23aa4^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/dtv-scan-tables.git'
-[GitCheckoutListener] Found previous build 'dtv-scan-tables #32' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since 'caca23f'
-[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
-[GitCheckoutListener] -> Using head commit '15661aa' as starting point
-[GitCheckoutListener] -> Recorded one new commit
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@4c0b236d'
-[dtv-scan-tables] $ /bin/sh -xe /tmp/jenkins933854567487690005.sh
-+ make
-Reading file dvb-s/AlComSat-1-24.5W
-Writing file dvbv3/dvb-s/AlComSat-1-24.5W
-Reading file dvb-s/Amos-7-10.6E
-Writing file dvbv3/dvb-s/Amos-7-10.6E
-Reading file dvb-s/Amazonas-36.2W
-Writing file dvbv3/dvb-s/Amazonas-36.2W
-Reading file dvb-s/Astra-1G-31.5E
-Writing file dvbv3/dvb-s/Astra-1G-31.5E
-Reading file dvb-s/Astra-2E-28.2E
-Writing file dvbv3/dvb-s/Astra-2E-28.2E
-ERROR value 7/9 is invalid for INNER_FEC while parsing line 44 of dvb-s/Badr-4-26.0E
-Error reading file dvb-s/Badr-4-26.0E
-Reading file dvb-s/Badr-4-26.0E
-Reading file dvb-s/Badr-6-20.4E
-Writing file dvbv3/dvb-s/Badr-6-20.4E
-make: *** [Makefile:49: dvbv3/dvb-s/Badr-4-26.0E] Error 255
-make: *** Waiting for unfinished jobs....
-Reading file dvb-s/BulgariaSat-1.9E
-Writing file dvbv3/dvb-s/BulgariaSat-1.9E
-Build step 'Execute shell' marked build as failure
 
