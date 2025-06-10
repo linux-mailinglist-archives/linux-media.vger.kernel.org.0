@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-34386-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34387-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E94AD2E6B
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 09:12:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B28AD2E77
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 09:17:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0EDD188893D
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 07:13:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68CFE3B1C9C
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 07:17:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD3127AC45;
-	Tue, 10 Jun 2025 07:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3877427AC35;
+	Tue, 10 Jun 2025 07:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="RcjdXZcf";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="LMsECaz/"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="S9xEOQ0N";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="R6H7mn5w"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D0721FF25;
-	Tue, 10 Jun 2025 07:12:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DA14685;
+	Tue, 10 Jun 2025 07:17:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749539564; cv=none; b=nKDwKPspvmFUiOv8wPX/dk52mUlB/LJw6Wh+fnYqxAy3qwFdEStqeo9eUr+y0lS3/5cjnmALh/ijVMnmFDY0m3ChfZuimlFH3iXt0rWpn6AaCDS7lkA+Eun+GHw5CYcIJBeWkBN1wBfZt4v/w9dh1AJZ+CPsoXhmk2Pc/TVHV+g=
+	t=1749539851; cv=none; b=Nj9cl5q1AC8m1PuvYwTcaFMTvagjJf0RmS2M0NtZ7eQLICQ7cJnPZRukRBNYSH1Rh7NC8kuSZBnb2TxoiJB/T6rpH22r/t+6IHQJ2v/8FpqDagj3L0n/Go+PAg9lfrI1/m+mYrmze46p2j47QLTOj3iVwSqilvVuz7yRMOMP/7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749539564; c=relaxed/simple;
-	bh=DXw/aHoO9WgBP02VjUM0ndsg+Bzs/qIHJdOqcWLJZsc=;
+	s=arc-20240116; t=1749539851; c=relaxed/simple;
+	bh=b524pXN0OU7FxMQnzBXONAWxgxBRb1kNYLmMh0RMgMs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H6sYT6AZaWRRq1/QTO9GFNByMzB3RlKWV/sgr27gtBRErcBBIHWIlFCA96pe14bv70yP2seTiDGOqtrCQ8xnmq/i3b+ZjL+00RwbB05jVfR0vL+thrxgR4NL4ddMN1Nad3/dheyDFMjvPRclhW6CW+U2Ta8vbto36fRcsPZ+xfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=RcjdXZcf; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=LMsECaz/ reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+	 MIME-Version:Content-Type; b=LFt6ZrZ9tsP7KdAS4xgAz5wjzp/byN6OKfsUrMlloQsw5PtXf+dICbStdIHHja7A2zZ2Efrz6NHQ5hRhGS3nL9P39RPa61EXYbWqlgBWJrPmDwY/6NyDHO8IluAxfqzfA8c+YxNZIQo03HaBNp06mdxoLGFMt1KgNYM0j9YgcdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=S9xEOQ0N; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=R6H7mn5w reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1749539561; x=1781075561;
+  t=1749539848; x=1781075848;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=IA7dsIXLKv7cmvpo+Mybfca1vUSev2LFZHY5ABbB46A=;
-  b=RcjdXZcff6ko6oA2dSOA8hob2zSGnaQ3TbMyNX3lXPYuGVhA2v53T4no
-   yQS7PnZyBvyNHjsek2PJPfit+um16GwV8g/HjDTiQVTV20lYC/GsxLdjY
-   kcaqMC3swxuwZI/7URLNARarUgx/FFFIjqdRa+0XnqMVbednCLQ+UST/Y
-   /ihCPV3U7LHgKnTXrCZ7blEQfTi31IAz9GmxmkRuzMPdL0Tu3xl5dsFwm
-   u9PRI/72weJeFEM3cHecysdF6vDcjkd7gFqeqmCc5a4/uD3gaihfcOneh
-   N6xNkfoEq0Y3x69f3Sx3G1PNnjssyzRr2Hmhoyl2lKDh123LYCwELQi3s
-   A==;
-X-CSE-ConnectionGUID: fA3TVHqiRBOxqf/Q+mGaRw==
-X-CSE-MsgGUID: rGinyqaER6WoZUKPcnwIwg==
+  bh=5UniAvZESTfn+wymekpIinnCdI455GXxoi6+/rhJB6I=;
+  b=S9xEOQ0N0nmZ88rvu/GdubQ3Wb41WoW3K2wDXiBfNPHuMAH+DQ0qSJG/
+   N2dD1OWwriSp0FdfEXDScDjvmtcDdnTAHWWuO6gFg28MnFr6ijQgEDUSw
+   EK1koQkGl8W5RN4gJFHLRE3B7ey71ppopc1K/yWKy10MplzPD83128/35
+   t/lE3RYctYns3JSPgZiU0ZP2gSktplLCg6MD+twh7XM3uYWGG5p4FWOsy
+   ptPOjdkubgLD870TJI4GJ/2XnowxIc0U/8dW1q6xPFdBi8GaN6c7oMRGv
+   PxNpof3LRnIMF8NEd/m2hHC8G93X+dBnvhFrwqmEzvhAx3eiO2BNCCrpX
+   w==;
+X-CSE-ConnectionGUID: 72KKQk/iQpGdmGt2S3iHxQ==
+X-CSE-MsgGUID: kcsNPqIcT7i6fBLfqngXGw==
 X-IronPort-AV: E=Sophos;i="6.16,224,1744063200"; 
-   d="scan'208";a="44535023"
+   d="scan'208";a="44535224"
 Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 10 Jun 2025 09:12:32 +0200
-X-CheckPoint: {6847DAE0-18-476CAA88-C60F6DCB}
-X-MAIL-CPID: 1FD1400D779E047ACCE98C823177DC56_1
-X-Control-Analysis: str=0001.0A00639C.6847DB01.000A,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8EBD51644F0;
-	Tue, 10 Jun 2025 09:12:26 +0200 (CEST)
+  by mx1.tq-group.com with ESMTP; 10 Jun 2025 09:17:25 +0200
+X-CheckPoint: {6847DC05-1E-569BE4A0-ECC5EE08}
+X-MAIL-CPID: 6C1A0426CFBAA0EE75CFBB7B038D90B1_3
+X-Control-Analysis: str=0001.0A006372.6847DC2D.0002,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 827F4164205;
+	Tue, 10 Jun 2025 09:17:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1749539548;
+	s=dkim; t=1749539841;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IA7dsIXLKv7cmvpo+Mybfca1vUSev2LFZHY5ABbB46A=;
-	b=LMsECaz/6WqFjW9c9hSzKZqdCwCDa7iRyEGktjb4aXxAdE5PcO/HeMC4dPHYHX7JQPA1El
-	vXGolpoMVPdD7IQJnJ6KwBqcC4k45BGMW7vwqyQ/YmC67Uv4eRwEXUiGINXBn+Uy+4NMn2
-	bPwnSoUdO8j+Xd/1/t2eGCBNBiEW1sCC8cA7ra3vAoRVQZlSZ0z20Zn7ebMuDCSEMhrxqD
-	i9HSyP3CGV7a67V/4HtqEUdfrYbINCxTkuxz09QQBjiCqaVbClP/Sx6mWEIcLHEiNvzYyn
-	Uju+GLjSwjvb33OwFT7TTbhiulKoA85W4XOkn3JVfHYfAqKi/CNvKCPPMEWLHA==
+	bh=5UniAvZESTfn+wymekpIinnCdI455GXxoi6+/rhJB6I=;
+	b=R6H7mn5wx8Yy1iyCyKn5ow/XqlgymnT62kYF+4BvsSfoR27tqm8c7A4pnUvpGXztHfePgM
+	xADbNnPcy2kdOyMtcA3gSUFmyUM+0QR87TGSKmPrEJbdXMCrmnu1LdmiDr/9EEbtckPQcb
+	0GjHa1XG1YjD4gVASESHYz9Ju4mi9jJkcN/Dwo8C2s4/axza7JtmEn1ksAk0h6no3reGOV
+	eQqSLia3zNlF76r87KWnrg+u9LxiEP9qp/Mkr3uqxt/OAk9x/dECdVyGs0lrlFVX9n2hRr
+	/bHuKKxJ+jb5h1GzAQKpI0IQ8c9aZ3tzILA5aJxWAf1QG2P6JJ0CiSm8N0ZwOA==
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: linux-media@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -81,14 +81,15 @@ Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
  Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Subject:
- Re: [PATCH 2/8] media: imx-mipi-csis: Fix field alignment in register dump
-Date: Tue, 10 Jun 2025 09:12:26 +0200
-Message-ID: <12685072.O9o76ZdvQC@steina-w>
+ Re: [PATCH 3/8] media: imx-mipi-csis: Log per-lane start of transmission
+ errors
+Date: Tue, 10 Jun 2025 09:17:20 +0200
+Message-ID: <5020258.31r3eYUQgx@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <20250608235840.23871-3-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20250608235840.23871-4-laurent.pinchart@ideasonboard.com>
 References:
  <20250608235840.23871-1-laurent.pinchart@ideasonboard.com>
- <20250608235840.23871-3-laurent.pinchart@ideasonboard.com>
+ <20250608235840.23871-4-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -103,36 +104,44 @@ Hi Laurent,
 
 thanks for the patch.
 
-Am Montag, 9. Juni 2025, 01:58:34 CEST schrieb Laurent Pinchart:
-> Commit 95a1379004cb ("media: staging: media: imx: imx7-mipi-csis: Dump
-> MIPI_CSIS_FRAME_COUNTER_CH0 register") forgot to increase the maximum
-> register name length, resulting in misalignment of names printed in the
-> kernel log. Fix it.
-
-Does this warrant a Fixes tag? Anyway
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
+Am Montag, 9. Juni 2025, 01:58:35 CEST schrieb Laurent Pinchart:
+> The CSIS has per-line start of transmission error interrupts. Log them
+> all, instead of only the first data lane.
 >=20
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
 > ---
->  drivers/media/platform/nxp/imx-mipi-csis.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 >=20
 > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/p=
 latform/nxp/imx-mipi-csis.c
-> index d59666ef7545..b652d59851c2 100644
+> index b652d59851c2..e27467e6372f 100644
 > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
 > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> @@ -895,7 +895,7 @@ static int mipi_csis_dump_regs(struct mipi_csis_devic=
-e *csis)
+> @@ -100,7 +100,7 @@
+>  #define MIPI_CSIS_INT_SRC_NON_IMAGE_DATA	(0xf << 28)
+>  #define MIPI_CSIS_INT_SRC_FRAME_START		BIT(24)
+>  #define MIPI_CSIS_INT_SRC_FRAME_END		BIT(20)
+> -#define MIPI_CSIS_INT_SRC_ERR_SOT_HS		BIT(16)
+> +#define MIPI_CSIS_INT_SRC_ERR_SOT_HS(n)		BIT((n) + 16)
+>  #define MIPI_CSIS_INT_SRC_ERR_LOST_FS		BIT(12)
+>  #define MIPI_CSIS_INT_SRC_ERR_LOST_FE		BIT(8)
+>  #define MIPI_CSIS_INT_SRC_ERR_OVER		BIT(4)
+> @@ -241,7 +241,10 @@ struct mipi_csis_event {
 > =20
->  	for (i =3D 0; i < ARRAY_SIZE(registers); i++) {
->  		cfg =3D mipi_csis_read(csis, registers[i].offset);
-> -		dev_info(csis->dev, "%14s: 0x%08x\n", registers[i].name, cfg);
-> +		dev_info(csis->dev, "%17s: 0x%08x\n", registers[i].name, cfg);
->  	}
-> =20
->  	pm_runtime_put(csis->dev);
+>  static const struct mipi_csis_event mipi_csis_events[] =3D {
+>  	/* Errors */
+> -	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS,		"SOT Error" },
+> +	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS(0),	"SOT 0 Error" },
+> +	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS(1),	"SOT 1 Error" },
+> +	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS(2),	"SOT 2 Error" },
+> +	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS(3),	"SOT 3 Error" },
+>  	{ false, MIPI_CSIS_INT_SRC_ERR_LOST_FS,		"Lost Frame Start Error" },
+>  	{ false, MIPI_CSIS_INT_SRC_ERR_LOST_FE,		"Lost Frame End Error" },
+>  	{ false, MIPI_CSIS_INT_SRC_ERR_OVER,		"FIFO Overflow Error" },
 >=20
 
 
