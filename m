@@ -1,81 +1,80 @@
-Return-Path: <linux-media+bounces-34462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34463-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F93AD3C51
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 17:11:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E611AD3C6B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 17:14:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFD24173F77
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 15:09:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3810C3AB5E5
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 15:10:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED74F235079;
-	Tue, 10 Jun 2025 15:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77784235064;
+	Tue, 10 Jun 2025 15:10:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oviXTZgM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uNo1kwLA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803AE23505B
-	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 15:08:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1526235047
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 15:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749568138; cv=none; b=T3N6sUoGHMSbGLdMVBT6eUoD1g/oBLGHYjVcgEtU6Nw0Jv3iakS5gzAoaVVdFV6fEy2yRWosaMk+3kun9ArZ7ToeRsNgpXoz/rF88OVJ5HmG1SKufyg81VwBp/+9y4d6s8PGl/Vbzgu743Q/rUBbQI4opfGz5IzY23iPWYHQogI=
+	t=1749568238; cv=none; b=VgsV9OW59iFvzMRCaaVGldZpDElp+Tky29TSnLroICbNukfHzl4WxPGZt8zpYxWkeMC2bMbH+jJcHtMpT0GabLfTXotk20WNUeke6xv1hbUpWjCYfB+lBUdEj+dMAfeyw0RkdzR3joPL7/A27h48//hfYKDOrGSDYcENxg5cp3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749568138; c=relaxed/simple;
-	bh=zafj7aZavn6+rfBRYzGjnAgF8d7WzsIv1NqVPuCSe1A=;
+	s=arc-20240116; t=1749568238; c=relaxed/simple;
+	bh=K16qniHpP1rKeMQwwTwoeEHkNwIBAmZZGNj2G/YDHZc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uc0mTdWPPDOL58KSaJJ2/8+VZQt1EGgb8BwfuhtiuXeegGnuZ3Tz2o1ICtPcyfQB1Cdl3T8/YqytCERUwa+ZID8JurDSwP1LWRF9/WrouWWP3K8BtesJ5jF2288CQtavXeL+6h2XL/FsTHf2GJbo9+rrl6xU3trh2mLLvqm6ElQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oviXTZgM; arc=none smtp.client-ip=209.85.167.43
+	 In-Reply-To:Content-Type; b=nL8cMqJTkn8cUezfyj4O+SCc3M+CYMvpYrTQPYJa1tKqkeL7ak6AotdFhrjmGlBFbgE6pMBDbruDIrom3nuwzXFdmI9dhjzPD5q8cBx9KWvqjSeb1cF4pmDcxKhpoNQ4tCsynULfkPgggpIQq0aTZj6SvNYI8k6v/M9Vf5tk1jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uNo1kwLA; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-551fc6d4a76so5992194e87.0
-        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 08:08:56 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5532f3b51f7so564913e87.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 08:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749568135; x=1750172935; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1749568235; x=1750173035; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6KtswEqQ1pl5gFB1WRd58AOD0ITY+Z1hiQhfoUKBuUU=;
-        b=oviXTZgMxqOuj9EC0DsjRwSLb0kcKfVRUgYFP2zL7B/t+kHWfg2DzLrv3u+6AnPSCM
-         XSv16tF7pFAttwMYYAivMMuMGLnyeyPL2+wuiA2jPSENGZOuRmimTsb1mHEjECF8Zvfl
-         IxxmZSXKs9LbDr/F/fLyllM368CE6ClSGwAxVx67SC1irT4oLpnL0FO3RR9OGsYEWrsR
-         T0fNFJerovnML3+y0W8dmOOa0Szt9DGwM06SbpK7lolnJR2+JyaOY3xyMuFecRlaf96e
-         yJmpTFYGUVA2E79tVMaTpTRNpqdbY3Y0iF4AjqUU8VuBuuPqnptIftCBNYc/wZASCw1g
-         zFCQ==
+        bh=3/NJem0CCXpUoiew+hmOOEKe+Dga4CVHATU4U2OxMVQ=;
+        b=uNo1kwLAv51ceXp833OhKyCYE5ERoiUMYBBtdbZv8rluN18y5Yhiv9PG0q7nCrhOk4
+         iP7Qvec0ck/nxLmKITDjdKGx7sl8uiJet0UOryS+NxWlfpBADQZtKCajzAUJw7LyVI3O
+         8ZCzpeT+9+MiZilXNz/5VCPT3iOlqX8WWokLKCH9HfiBeHQO+aHceC3HPrH4LVexSMRz
+         47KT2VR2Uz3nLMiH3uJ2kVXtCTHtJqzr5OzP0BdYNUUEvrM8KuEij5cgDu5Is9gq0uha
+         h8X6ot4/v024E7Ryjpkkbd8cbIsEckzJo8IJj5wAPZCXpkD49paxMKCWn1LLpnR2vv+b
+         PCuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749568135; x=1750172935;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1749568235; x=1750173035;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6KtswEqQ1pl5gFB1WRd58AOD0ITY+Z1hiQhfoUKBuUU=;
-        b=jhtAK+pTZQpDIYKSVjZvvqaCjoCJJuDNHuW2H5AFpw3SGHlsCKx22EsIeGpG53sDzL
-         /2D4oYQAq2EEJICBa25sRHqgTxpzMw8ptEs8f0NUrREKPT48bgaGOOT0Atk0PC59z2gW
-         eWYUCRjKCQCcAfmV/VD/K4eQNf4X0qKmdXbEFlR60pji908yUpBJ8ECLYwBJP0GbBZMc
-         RP6/g7h6FOd6iA5qp2/s7mpD15XSTDxJr27nKq4cMLHcDlw/bxGsjYI1ZOkzJDloyxi3
-         Yt1gMyw9ryKRpax4fLPBb+yG4yp6SATAwfGnNjrZ57A5BlSkAjIWUxizskcr5J0yME57
-         VIwg==
-X-Forwarded-Encrypted: i=1; AJvYcCWKxTfAMvWJrUBr3N2WXdAseIc9kdUb1K/A65G/Wo/I8y/6YxSsF4IN4hHHJ4awjbMUcQUESRJ6CoPwkQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyq4zmOw+KpcMDVXI1qHf9WqoaOUguKote+sAL/y+LvWgRS9aV/
-	+hWMIK17hQ9z3zbWtq2x5JUy7DavW+m9FWl1oC+nN1pWNFQtH5rSDBk1aCA1ksT5QUd13+j4b2v
-	h9eR929k=
-X-Gm-Gg: ASbGnct1FY/0Smd3ROz8Rik8IT441C8ZLmWe7VBlzvI1uTqXg5HmsIQO9qRPENr/ooy
-	fz3l8wUBdIZO5t/r+U+UoTw/Wu9uyRvFlONDJtXpsyNBjOb9hlEKIk5U17GQqwGHj083kjt0E3W
-	V/Cl5NHzRugUpmUT629exqwlJ5KVuibmFUrXAgGABJxIRs/OQFoEeF+oRzrb7i2BgDSwthqnHlR
-	RufYNhxd6HG3/umLsjZKmtfq5Pogn0Nz/RbFk+TOU/mxm/w+E5lC7R3V4ZPjsc3cbXCJRM2vIVH
-	pczGn96UThw9mxXgxx82DAlprw3nwLv/Sw5hsgPRzhvU0t6F1dMPUKQUfNYRrYsljbwFHiebx9V
-	D/Aj63lga3KhkLG0kY7qJtn+4uRbQpor7W8BJUA==
-X-Google-Smtp-Source: AGHT+IH+tWEkQXFAY0ELc5Dwc49Kdl/4EWO+CPjVNq2q4Kkp4CMqzwV1NPVTkuHfWtb2NlfA6pu6mg==
-X-Received: by 2002:a5d:5f8c:0:b0:3a4:e665:ca5 with SMTP id ffacd0b85a97d-3a531883d8dmr15192347f8f.23.1749567739357;
-        Tue, 10 Jun 2025 08:02:19 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a532462d93sm12780025f8f.91.2025.06.10.08.02.18
+        bh=3/NJem0CCXpUoiew+hmOOEKe+Dga4CVHATU4U2OxMVQ=;
+        b=jKA2A7nd9qz1EVnyc9s9o81U92rHA6RW/Hm93yYAK6cEX+vnkRFu1Ky6uqPmDxIrbL
+         SrYwTaSUP18dDso3JLsGcrAxnL+zLvt4dKqIzmIxpbuWCwRC4tLobeLgoFgyO725LucM
+         /7bZhcb+NlZxTCUurI59f7b7KXuD4OJJ6c+ptdRuv3gXWrlsHjXolujKT3a5le6pEkQG
+         TTKKC3x1gTTc7zdaBbsGrBuNGqOLzdsZDwoamW1TLbFEolNQWepFL7lqrnUnyu/N1l0t
+         gVSpvBz066EI2ByLpGDsw9Wroah/4CaADWjV6cKH8c41IqHZ7QKPRGKz5KMeNmdKBLD+
+         QKdA==
+X-Forwarded-Encrypted: i=1; AJvYcCVB+N4u0v/ISTYXXf5dTp2VDSlrpABWCL+x0kRL1HkRhre8gdszjoWzxaxh0oWvCuwW5t8XzN2aUDofvA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCt66ORXSTXQ3+tavUlczADAp0DGcNqIUo7x/ORY/Sd6hXhkuA
+	pL21WW3K8weHbFo1p8x+A88RfGQc6Qv9kfYwp7UYLiW1OUYyDkZs3aB7EtbUuZ79hfk=
+X-Gm-Gg: ASbGncvz9+Ex48y3FOxP0SKgpbYrcruzLo49dVb9Fio9yD0Dx7zTVOx5fVs9+SkSTAt
+	dQ35nv8fIojvYW3ZxHysJAjtBeIeMnApRl5robq0CxzW6RQ3vjl/6VZqVa6VdhD8zTj4nFeliQL
+	mbfShPBZqPwfmZzgZbRgQE4wmr6iNTi8l281WgvX9X+q/P/+l7RGL39fUdOfBLRsoOYTOSf8r+y
+	77UoBX0n4nk5J3f2KhmBJ6L/cgnbFfOfFTnl/PwBJim9KcAz/MZxmAYznidhuobLl1w3ogOTfAy
+	48yqw9Pf5HwJl8pfgBBr/FVGTeLRubbQdHMMBO6ifNCTgphRDXOxTi9BeLL3+hJplcrs04QbREQ
+	yXrWXa+xV9OcdoaySPEvM9JAqxWjN2QPO8ciR8bhV
+X-Google-Smtp-Source: AGHT+IGWP0mYIM0V+jmKRvUZVJcYGowyFpThgb2g5qr9J0zY4ATJ9nMZs6lGrCBfIU9ObrVo71xwwA==
+X-Received: by 2002:a05:6512:3e1b:b0:553:391f:2554 with SMTP id 2adb3069b0e04-5536860f8a4mr1434711e87.5.1749568234994;
+        Tue, 10 Jun 2025 08:10:34 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553677222aasm1578146e87.105.2025.06.10.08.10.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 08:02:18 -0700 (PDT)
-Message-ID: <ae364f1c-5d64-4178-b26c-e58e352feee0@linaro.org>
-Date: Tue, 10 Jun 2025 16:02:17 +0100
+        Tue, 10 Jun 2025 08:10:34 -0700 (PDT)
+Message-ID: <97e51ab0-737b-496e-81df-b73c9f598bb0@linaro.org>
+Date: Tue, 10 Jun 2025 18:10:33 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,37 +84,50 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
  interconnect alphabetically
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
  linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org
 References: <20250610083318.2773727-1-vladimir.zapolskiy@linaro.org>
  <a072d00e-df91-420b-9363-424bcdf1ed8e@linaro.org>
  <3e8f8220-1fad-437e-9fa4-5eb628891110@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <3e8f8220-1fad-437e-9fa4-5eb628891110@linaro.org>
+ <ae364f1c-5d64-4178-b26c-e58e352feee0@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <ae364f1c-5d64-4178-b26c-e58e352feee0@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/06/2025 13:45, Vladimir Zapolskiy wrote:
+On 6/10/25 18:02, Bryan O'Donoghue wrote:
+> On 10/06/2025 13:45, Vladimir Zapolskiy wrote:
+>>>
+>>> How is this a Fixes: ?
 >>
->> How is this a Fixes: ?
+>> I call it the fix to the dt-bindings documentation, then what is this
+>> change, if it's not a fix?..
+>>
+>> Anyway, if there is a strong disagreement about if it's a fix or not,
+>> the Fixes tag can be dropped from the change, since it's so secondary.
 > 
-> I call it the fix to the dt-bindings documentation, then what is this
-> change, if it's not a fix?..
-> 
-> Anyway, if there is a strong disagreement about if it's a fix or not,
-> the Fixes tag can be dropped from the change, since it's so secondary.
+> Since we don't have a committed upstream user I don't think this is an
+> ABI break.
 
-Since we don't have a committed upstream user I don't think this is an 
-ABI break.
+Well, Dmitry says it's an ABI break... It would be beneficial to come to
+a common understanding here.
 
-But I also don't think it warrants a Fixes: tag either, there's no bug.
+> But I also don't think it warrants a Fixes: tag either, there's no bug.
 
----
-bod
+There is no bug, but there are Documentation/ changes with Fixes tags,
+it's okay.
+
+I will resend the changes with whatever updates requested by both of you,
+if they do not contradict to each other.
+
+--
+Best wishes,
+Vladimir
 
