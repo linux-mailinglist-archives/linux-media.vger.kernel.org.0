@@ -1,161 +1,201 @@
-Return-Path: <linux-media+bounces-34435-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34436-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7F7AD3797
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 14:59:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF272AD377A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 14:56:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC31E9E0737
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 12:52:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7E13172637
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 12:53:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 521B729616C;
-	Tue, 10 Jun 2025 12:45:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F40829A336;
+	Tue, 10 Jun 2025 12:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f+oaCdpV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWBVq6vB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA902949F5
-	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 12:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45A3293469;
+	Tue, 10 Jun 2025 12:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749559551; cv=none; b=W8JqWoRUGIcAvL6Wp1TJlVth1k8h7ZUrcDWAQd2tpE5frsHmorCkvsfts5na216RJz4KRRXg6gZmKqYgp/rMrNSTDTQx6qbQKUUnvkfDzxp7EGOKNn4UpAOjDR8uU/Rwl7TPBKwbOBUPSCO0qOvI3aPcoX7oJhvry2z6gQPk77w=
+	t=1749559644; cv=none; b=DC4G+B5OlQ6SVPJfy5qWdDmt291lFWFeolPsqw1BikupVTWmRNRcdboFcKrAOqOpyRN2QnfZphZd4zmk+HJ4BbuNzZ2n5PMbOgK0+ACDIV7ox3fks/l9aFuEpOX39GRsA65wBjJr8M3sAk0CK2uAQKaanAJv92z+SN89J35lB3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749559551; c=relaxed/simple;
-	bh=ECwOYI5b2VaA7h0aRDFK8MLU8vsXKHpJZ5sCzn6LJmg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=umrH8Y5pRkdgnur8TM8gmoVr2i28btb6bK2oNELk7/6gYWvA99mEJHpbGM4uUkmPsietHqsUaaigYK8FhlVDnJUT2s+pKYCC8dbnAmALsn4Eqk7xIG9+q9ZEPtTD9P6+rw/Edr9zfHMinONQ+vZxOjOC/yKJIwYBLt45QFGy4DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f+oaCdpV; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32a6c7d66d6so2706991fa.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 05:45:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749559548; x=1750164348; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LqL5XJg3suH9NDZDnjmeajU5avldpvnV7zhk3Tu6UWI=;
-        b=f+oaCdpVe/nybhYtBNi9ZZmKu2jVUN+T+gwgtgyHGxJAxcXGuRFGj2pyCOyyrEG9qB
-         p5sRe6YJwjhEqMudHfpe1QLOeXdiB34qp/Ln1wjwyOfYghlC0pAFqJLZ8YKlKQu5/n3k
-         oNA90HgPrnEbnCy07H7kw4KrXqCsskCL0+YdfXc6zzD84CcsHFQmbFgeC5uTIqESzTZp
-         /Zx10HtTWymBLap06vloJ5+HnQssNAXu0cbVlO/F47VJj5nVdM3IPeT3/JRA1++x8VEn
-         WrHwftbDEpBGeWZNzPhPxLAErIhDslanRk06/J1ClDRA/tbo9sicr2EwCWNaTAKsx0HJ
-         UsWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749559548; x=1750164348;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LqL5XJg3suH9NDZDnjmeajU5avldpvnV7zhk3Tu6UWI=;
-        b=QVHdJGsoTukZ4Sv0PEptQWEX+RjGxoI0QreLrSeIJzCIDY311OGyVz3sBu9X4gS+Ds
-         4Sk3Py6tnGZR/eNGytoIqf7U5PI931ihyywg4pWiouLAsxMeb2S+IHmzA82rbCoHycvw
-         X1FHihIWZT1kn3jUYrv48XdU2HsA3c0jfBFUiBwMGCNPxDrecXy8z2q88gokp4k8KOsS
-         NFKhyFYYIZhrA+m9/OE1/35GkAWmWmH0YrbqtDEHqM0t5ZzolUKbJqQY8mc4kHb9RKWg
-         MGZXrwQCV34RM8tLVkxDFHPXk4d0JdLdVJ07I0ErPvtYxVlqLGhxwxigXA3S24djlCNF
-         RYkA==
-X-Forwarded-Encrypted: i=1; AJvYcCWB7pE/JVC9ztzQhIhyffcQItngjVvP9vTtvEQGs7mX5xevAWZz5aHjfeJfEKMPWcHTyxOAkKxejWwM+Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAfdkmQodIUSO4iqSACcTbZU9KzStU1DpxQTlSrRt4AB0WAOCR
-	nJWgI3zCnXVwOO2dEGWQgTdsiA4vulz6klHGAegTrfUXsy9RJtCvym2xQWsBStsc/yw=
-X-Gm-Gg: ASbGncucPE4IDSOrDy0VVm3jfnPTtUwwIWV3JPUxOGmPupftGnscb+8fqsTe5PPzZcE
-	FwwestRdW756HLFcWH4lxYitF/sVjtnot/YDcYUMUhNel1TghUMvYB70LHsRzc+29Es6im+4Ue0
-	a9g8ylqBFDYsB473wOBrbT1ninssq1XpU7iJMTOIq5pAbfef5Qs4JEaJKfsriX7Tdwl6Z96mYaT
-	aym/y1wcXQjPW4v7JbVtYhFzj2eaQlYApe6ADiiclbvKwX8AJCbgAe6lHet3h33S/hjLIcUcwNX
-	9mHgEN6S8IA8vIgLoRo+vuZee/xiSRY3mwNyYNmYiL1qDmV9uVcL+noE9n0xZFvYvvjNhicufTj
-	YLJd4BXWHOzlFhNNdH85wFdVHqMvBEBQQY9eIEvQA
-X-Google-Smtp-Source: AGHT+IHC9YB6oACnOWDNzo0PuZcLT6T2Ygjbu5Xg/VoumKply1Dlzi216VGH9WxR8L+CkelN5PDO1A==
-X-Received: by 2002:a05:651c:221f:b0:32a:8ac3:93fc with SMTP id 38308e7fff4ca-32ae3243c47mr13618631fa.4.1749559547806;
-        Tue, 10 Jun 2025 05:45:47 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b0cb82sm15393731fa.16.2025.06.10.05.45.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 05:45:47 -0700 (PDT)
-Message-ID: <3e8f8220-1fad-437e-9fa4-5eb628891110@linaro.org>
-Date: Tue, 10 Jun 2025 15:45:46 +0300
+	s=arc-20240116; t=1749559644; c=relaxed/simple;
+	bh=Q9YIQ730GHAcOU4O1jEnaS7atkULzfK70EqJ4k2AIrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XIcIwzgUYBTmyXF+jvBMlbK7Yv/pHvyXTh5pIJiQ4h21WOxc7XEnsbSxGmSKFilPYlCYjehWU7D1hTEY3LnSKKJc4AaBotcvI3gnsXktBC/pRaXhphE3wTTywONhHoFQ0V8ENPYPJ9DWpao4ynMegHzU4H47dsls0MVFnk7eEMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWBVq6vB; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749559643; x=1781095643;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q9YIQ730GHAcOU4O1jEnaS7atkULzfK70EqJ4k2AIrQ=;
+  b=jWBVq6vBkOZoffGVHfzfKIOtnXnj90xK0lCsqFDq2TFgwz411qN16an8
+   ofxPFJWRDvf/tGErpJVaGgcvH7hwq6F27S4okDrw5Euu08cNvQjKGW8oN
+   Oj4EOdOmYZb3glYrshqC4Zbi/RtIXSqjQvNsJnFYZMaU1Tt+GuWNl6DqJ
+   64taew93XmwNzfLrrMWOqVXTeuGb1ets+Qlsy7xTgJPsK6WD2u1nla/EZ
+   vOExv4zNBJE9JpwzMSj7hwOwVnviTtS7SMg52SW20mbo0qXqlNfZKg41F
+   hp3HWXP3sFv047T9HdlSV1xIj9DrGrB62GLW/erwGIDQnJUno1XDUxiI8
+   A==;
+X-CSE-ConnectionGUID: RK3tpsNdRQe0b81l6lTElA==
+X-CSE-MsgGUID: iOVNVYU+SqqH9t9lqhygVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="55458312"
+X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
+   d="scan'208";a="55458312"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 05:47:22 -0700
+X-CSE-ConnectionGUID: 4Cziqe11QyubbBtGWExN/A==
+X-CSE-MsgGUID: 5JQpjcB0Qjym4IDP1f45tA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
+   d="scan'208";a="151700327"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.55])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 05:47:18 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8F7F011FB81;
+	Tue, 10 Jun 2025 15:47:15 +0300 (EEST)
+Date: Tue, 10 Jun 2025 12:47:15 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: bcm2835-unicam: Remove RGB24 support
+Message-ID: <aEgpU9VUGZuSHpC0@kekkonen.localdomain>
+References: <20250606-rpi-unicam-rgb-bgr-fix-v1-1-9930b963f3eb@kernel.org>
+ <20250609003751.GD14545@pendragon.ideasonboard.com>
+ <CAPY8ntCnz6nkJSredd-sgMr87=0vuZ0OtfiMoPOfCZisKkzTHg@mail.gmail.com>
+ <20250610095238.GA28428@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
- interconnect alphabetically
-Content-Language: ru-RU
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250610083318.2773727-1-vladimir.zapolskiy@linaro.org>
- <a072d00e-df91-420b-9363-424bcdf1ed8e@linaro.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <a072d00e-df91-420b-9363-424bcdf1ed8e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610095238.GA28428@pendragon.ideasonboard.com>
 
-On 6/10/25 14:14, Bryan O'Donoghue wrote:
-> On 10/06/2025 09:33, Vladimir Zapolskiy wrote:
->> Sort the entries of interconnect and interconnect-names lists in
->> alphabetical order.
->>
->> Fixes: 2ab7f87a7f4b ("dt-bindings: media: Add qcom,x1e80100-camss")
->> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->> ---
->> Another fix on top of https://lore.kernel.org/all/20250502204142.2064496-1-vladimir.zapolskiy@linaro.org/
->>
->>    .../devicetree/bindings/media/qcom,x1e80100-camss.yaml | 10 +++++-----
->>    1 file changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
->> index c101e42f22ac..7d4e6ef57bf8 100644
->> --- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
->> +++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
->> @@ -100,8 +100,8 @@ properties:
->>        items:
->>          - const: ahb
->>          - const: hf_mnoc
->> -      - const: sf_mnoc
->>          - const: sf_icp_mnoc
->> +      - const: sf_mnoc
->>    
->>      iommus:
->>        maxItems: 8
->> @@ -321,15 +321,15 @@ examples:
->>                                 &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
->>                                <&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
->>                                 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
->> -                            <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
->> -                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
->>                                <&mmss_noc MASTER_CAMNOC_ICP QCOM_ICC_TAG_ALWAYS
->> +                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
->> +                            <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
->>                                 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
->>    
->>                interconnect-names = "ahb",
->>                                     "hf_mnoc",
->> -                                 "sf_mnoc",
->> -                                 "sf_icp_mnoc";
->> +                                 "sf_icp_mnoc",
->> +                                 "sf_mnoc";
->>    
->>                iommus = <&apps_smmu 0x800 0x60>,
->>                         <&apps_smmu 0x860 0x60>,
+Hi Laurent, others,
+
+On Tue, Jun 10, 2025 at 12:52:38PM +0300, Laurent Pinchart wrote:
+> On Mon, Jun 09, 2025 at 03:33:29PM +0100, Dave Stevenson wrote:
+> > On Mon, 9 Jun 2025 at 01:38, Laurent Pinchart wrote:
+> > > On Fri, Jun 06, 2025 at 04:53:03PM +0200, Maxime Ripard wrote:
+> > > > The RGB24 V4L2 format is defined as a pixel format with 8 bits per
+> > > > components, with the components being in the red, green, and blue order
+> > > > from left to right.
+> > > >
+> > > > The RGB MIPI-CSI2 is defined in the specification (Section 11.3.1,
+> > > > RGB888) with blue coming first, then green, then red. So the opposite of
+> > > > what V4L2 means by RGB.
+> > > >
+> > > > Since the hardware cannot reorder the components, this means that when
+> > > > selecting the RGB24 format, you get inverted red and blue components
+> > > > compared to what you'd expect.
+> > > >
+> > > > The driver already supports BGR24, so we can simply remove the RGB24
+> > > > format from the driver.
+> > >
+> > > The only reason I could think of to explain why the driver exposes
+> > > V4L2_PIX_FMT_RGB24 is to support CSI-2 sources that transfer RGB888 data
+> > > with a non-standard order. I don't know what hardware would do that.
+> > > Dave, Naush, do you recall why this pixel format is supported by the
+> > > unicam driver ?
+> > 
+> > I've lost track of exactly what gets validated along the pipeline.
+> > unicam_video_link_validate [1] looks to ensure that the V4L2 pixel
+> > format and media bus codes match as listed in the table.
+> > 
+> > tc358743, adv7604, adv7511, and adv748x are all saying they produce
+> > MEDIA_BUS_FMT_RGB888_1X24
+> > ov5640 says it produces MEDIA_BUS_FMT_BGR888_1X24.
+> > 
+> > Is that an error in the ov5640 driver? If not, then both entries have
+> > to be in the table to support all those drivers.
 > 
-> How is this a Fixes: ?
+> We haven't standardized which media bus code to use for 24-bit RGB on
+> CSI-2, so I'm not surprised drivers didn't get it right :-( The adv7604
+> and adv7511 shouldn't be relevant here though, as they're not CSI-2
+> devices. tc358743 and adv748x are relevant.
 
-I call it the fix to the dt-bindings documentation, then what is this
-change, if it's not a fix?..
+My understanding is the order indeed is BGR. But let's say that if there's
+a device that generates RGB (as in pixel order) pixel data, then it should
+be reflected in V4L2 pixelformat as well.
 
-Anyway, if there is a strong disagreement about if it's a fix or not,
-the Fixes tag can be dropped from the change, since it's so secondary.
+> 
+> Sakari, which media bus code would you expect ?
 
---
-Best wishes,
-Vladimir
+MEDIA_BUS_FMT_BGR888_1X24. That's actually used in the example as well:
+<URL:https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/subdev-formats.html#v4l2-mbus-pixelcode>.
+
+> 
+> > Looking at alvium-csi2.c and st-mipid02.c, both mappings are included
+> > there (and RBG888 in the case of alvium).
+> > Unicam's hardware doesn't care about the ordering as it just writes
+> > the incoming data to memory, so having all the sensible mappings
+> > between MEDIA_BUS_FMT_* and V4L2_PIX_FMT_* values makes sense.
+> > 
+> > My initial reaction though is that simply removing the entry won't
+> > solve the problem anyway. You won't get a match between the
+> > MEDIA_BUS_FMT_RGB888_1X24 requested by tc358743 and a supported V4L2
+> > pixel format, so the link_validate will fail.
+> > Swapping either fourcc or code between the two entries would be the
+> > fix I was expecting.
+> > 
+> > [1] https://github.com/torvalds/linux/blob/master/drivers/media/platform/broadcom/bcm2835-unicam.c#L2151-L2169
+> > 
+> > > > Fixes: 392cd78d495f ("media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface")
+> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > > ---
+> > > >  drivers/media/platform/broadcom/bcm2835-unicam.c | 5 -----
+> > > >  1 file changed, 5 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > > > index f10064107d543caf867249d0566a0f42d6d8c4c6..1f549019efd53c9aae83193e74f1a3601ebf274d 100644
+> > > > --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > > > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > > > @@ -338,15 +338,10 @@ static const struct unicam_format_info unicam_image_formats[] = {
+> > > >       /* RGB Formats */
+> > > >               .fourcc         = V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
+> > > >               .code           = MEDIA_BUS_FMT_RGB565_1X16,
+> > > >               .depth          = 16,
+> > > >               .csi_dt         = MIPI_CSI2_DT_RGB565,
+> > > > -     }, {
+> > > > -             .fourcc         = V4L2_PIX_FMT_RGB24, /* rgb */
+> > > > -             .code           = MEDIA_BUS_FMT_RGB888_1X24,
+> > > > -             .depth          = 24,
+> > > > -             .csi_dt         = MIPI_CSI2_DT_RGB888,
+> > > >       }, {
+> > > >               .fourcc         = V4L2_PIX_FMT_BGR24, /* bgr */
+> > > >               .code           = MEDIA_BUS_FMT_BGR888_1X24,
+> > > >               .depth          = 24,
+> > > >               .csi_dt         = MIPI_CSI2_DT_RGB888,
+> > > >
+> > > > ---
+> > > > base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
+> > > > change-id: 20250606-rpi-unicam-rgb-bgr-fix-d1b6f46a75ad
+> 
+
+-- 
+Regards,
+
+Sakari Ailus
 
