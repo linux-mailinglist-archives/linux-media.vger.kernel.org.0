@@ -1,155 +1,145 @@
-Return-Path: <linux-media+bounces-34460-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34461-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3976CAD3BD4
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 16:56:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C44FAD3C1A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 17:02:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCEA01679E3
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 14:56:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59470189F7E9
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 15:02:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E18BF22E3FF;
-	Tue, 10 Jun 2025 14:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BE962367CF;
+	Tue, 10 Jun 2025 15:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=borehabit.cfd header.i=@borehabit.cfd header.b="dDjS+1SE"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MwlXxraa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from borehabit.cfd (ip160.ip-51-81-179.us [51.81.179.160])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B791E228C8D
-	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 14:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.179.160
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F2323505C
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 15:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749567369; cv=none; b=qFk+aGU554FazxXWDWGj1sIY09eb8f4dtzLmELBfAp4xTqVRnSyT+BvHynbOG8+Z+Hpt4ZipUMX8ut/SrWUMZ1NgC9k6aCfAWZnVVeCXObNgm7ypHwSpsbSvKlVpjRT6LZzLe6caQ2SUj9Wl52ze4XtivnkeNm/awxIUm0m4cCY=
+	t=1749567680; cv=none; b=l77PIc0uuVcF4RKIsN5RPoRrj1VKMYJADpPM1joKdetgZUY3IDm4QUo8QkDk44Nv1t0jOC+BT5dTEn5s+0QyLzHo4ZgNP4Xu422iOewFkYJndo0Bf9f/uqrMC1CvGPJ4AEpFMpLZcT/QyJeax6BzosYFiUEY71C+GZHNxQ7/Ru8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749567369; c=relaxed/simple;
-	bh=j/qZ6nCFDOcbnwIbag40JF9HDzOLw0n9TJz9U1mz3X8=;
-	h=To:Subject:Date:From:Message-ID:MIME-Version:Content-Type; b=q+jJsHO1KxFfaC/h+70BF1kM9b4u1f3naLnUW7aV4n911QNBKbUrwtxwlkZVKg8YYHWVF18USc0Rv/OPSZdr3a5NypoqgMm9MO3Ueinr67NdDhbdCsTNUnEvMiA+CcqYvBfaX6IuRTxlDcJOtEt7LUtJHFw4/TPV7VRVvIerFUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=borehabit.cfd; spf=pass smtp.mailfrom=borehabit.cfd; dkim=pass (1024-bit key) header.d=borehabit.cfd header.i=@borehabit.cfd header.b=dDjS+1SE; arc=none smtp.client-ip=51.81.179.160
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=borehabit.cfd
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=borehabit.cfd
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=borehabit.cfd; s=mail; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:Reply-To:From:Date:Subject:To:Sender:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=CFYjPvEUim5mD5QwWelE+Axpgk7p2gwnF2M5gpb++Rg=; b=dDjS+1SESLCj1fjNAn2yFPY6+o
-	XtFNncScuW2yaxjhZe7OfKUjtascf022Ria/WMttEuh9Btp9Aflj9fmiE4bik+1KY+hhAlTGan5TH
-	rdPaUc0gSKGQXJtHtZ/1+IlIzraaxg0W2cfZkTBk+/AzI20oNL/XItqLufz5UwQPuae0=;
-Received: from admin by borehabit.cfd with local (Exim 4.90_1)
-	(envelope-from <support@borehabit.cfd>)
-	id 1uP0OU-000W8B-Oe
-	for linux-media@vger.kernel.org; Tue, 10 Jun 2025 21:56:06 +0700
-To: linux-media@vger.kernel.org
-Subject: WTS Available laptops and Memory
-Date: Tue, 10 Jun 2025 14:56:06 +0000
-From: Exceptional One PC <support@borehabit.cfd>
-Reply-To: info@exceptionalonepc.com
-Message-ID: <1e6673e04415d977504aa7c88c701f6c@borehabit.cfd>
+	s=arc-20240116; t=1749567680; c=relaxed/simple;
+	bh=23AWRhrHcaPHP7oMCM9lEqTacoKjXBMIfNr5jB9jLIY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZqpVFMzOqWu+YsJZPdYpJ6k4Tj6Ir+nLGB4cW7AbjVbLZhKWSw7LXnQgqi2PXhE64r1yAAEDq/aEo/nXHVUk/BuG4Gpfxcm/ifrdk5F0GITbFObndKUKfbS7qzmVvsgQ3I4YkI59aAlWObw3mpIzoL1CLTTxyOOkJaAJRaEkq7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MwlXxraa; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-32a75c31b32so5032941fa.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 08:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1749567676; x=1750172476; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xE8yJTLlDFnm9Bpry9IxitbenA7v8BJkGYn6cbiZQ5U=;
+        b=MwlXxraarzNiBR+FmhYcQsrLPfUPJFyL1G43TkTU15dJEexQ7PVAWmQOGOllRGKckL
+         H0QwLDsC5tARN1drqSI+1BYV6n6w62e0/PIKyzanaT80i1WnV0c+b19On2cYeSUpXoz0
+         d7qWNPux1KmBtG8i+zM9hJEDQXi2WnQUHWrGvm0VksA2XWJ2DhWsRX19Q9DBfhR2/Q7L
+         iGwUHt2OCGAa06n87Jaulpvwox2x8pINEHAD08gxXu94AbIPdWChXyi+E0ickcFd8nUk
+         Tuo5vAGW0uYIPC+sEc8YTG6BPnH2+g4UDYcDHx2L8imfonJIyG1xGqk5S/DcFmiT7vSW
+         ILVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749567676; x=1750172476;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xE8yJTLlDFnm9Bpry9IxitbenA7v8BJkGYn6cbiZQ5U=;
+        b=QDg0AFgupp8cHBfKTsRyNTI4SZ7IX22qK/34sX+qh6pWw0KfjDw1ValQ03byOHSowN
+         9DnwqI7tk6BxLPPISj8Xj9yxeKcmZkmye5MIB0oc1e9sgcmHm8aG8z5GO0dXvPPemNpy
+         Q4cMtH9BoZeyEW/lUM6vNzmm3nX7cmAdKA2MIVIZvZJU4DM2TEE6S7CFc1VGyeulqVFX
+         GjZaXGEMOO0ExgoXeoyBn4qIBR2is7lsLff3YmNrSV25cVMMEpeeZUbzm3FFE89R4Lk4
+         Iejuw60KkWcBbBVXfssHcb5/7h84bXmqOehuRmDKsnIfFE0iZ/X0kWg/ijA+nk8vFvEq
+         7Rtw==
+X-Forwarded-Encrypted: i=1; AJvYcCWafg3hjheIgcK/rkT+K4rNmrEUbvgoKcm02BBKF1eUJ2BFn7BYJUOi9WoBoYYA6z2xHnJlVszjczsMLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8g85pojoJSx58E+luZSHHJbQq5G5dkZm6Xtm3Xn+EaDg8t8B7
+	X4kqnqMd2y9Z52dd+1KOwZa4IRZwuFZxgc+kth0wmby2ejrGZrY+garf6ZfXijQummI=
+X-Gm-Gg: ASbGncsGJFAquAiJIqeSzty6YoKC5vO50vP7haaGkWl2AClW9U7bQYEfSQA12mcnf6V
+	vdEgs8T3Ch7vNGzJpWA+FJ7p9fuxyld2Wwt92u+xGixBhzApUX6JN0xIJ/aSPmty7H4ftqJm3FS
+	Bkp84Mw9wrkgZ0ntBV9vmqrPGkZjzVK3TAoFvh01afGUjOvmuhGnoq69cHEPBd3cjuFX+W28/Lm
+	T59ktcuIS4/6Xt2MbGrg0NIJxgnVtNP5kGp3wDKxmIswTAtjl8NGlkrJJ1rUftl6nmXDnwdLkyW
+	vdb4JFfFDUz1HgsD67qT34q5oRIzr22uIV/xKBz/F9F9tAg7xw1hrIvE58KKrDSCqL07DdpzH33
+	Woct5SOVrA5w7NReJOuE4cnWznkdmYPmX8Gl7twXz
+X-Google-Smtp-Source: AGHT+IHSSRtsaZUmFAPGvVVgj7EydEp4BKuD0Ht0B5+VS8FrUQJrjPNz/Fq/zYfo1RebfCCzrBlIBQ==
+X-Received: by 2002:a05:651c:b27:b0:30b:b852:2f7c with SMTP id 38308e7fff4ca-32adfc44577mr14976731fa.5.1749567674214;
+        Tue, 10 Jun 2025 08:01:14 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5536772a951sm1566498e87.167.2025.06.10.08.01.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 08:01:13 -0700 (PDT)
+Message-ID: <a14abbbd-c19a-4d9f-a888-3849acf7f045@linaro.org>
+Date: Tue, 10 Jun 2025 18:01:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
+ interconnect alphabetically
+Content-Language: ru-RU
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250610083318.2773727-1-vladimir.zapolskiy@linaro.org>
+ <20250610111145.zp62zx5rjmezvmkb@umbar.lan>
+ <26a0a50a-849a-4a2b-87f7-af11b6f91ea1@linaro.org>
+ <tlaf6k4pblymc7zrsglgiugn4ft3bd2wwpmcghysmtnlb7grml@p6mqjkve3dvj>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <tlaf6k4pblymc7zrsglgiugn4ft3bd2wwpmcghysmtnlb7grml@p6mqjkve3dvj>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 6/10/25 17:44, Dmitry Baryshkov wrote:
+> On Tue, Jun 10, 2025 at 03:42:05PM +0300, Vladimir Zapolskiy wrote:
+>> On 6/10/25 14:11, Dmitry Baryshkov wrote:
+>>> On Tue, Jun 10, 2025 at 11:33:17AM +0300, Vladimir Zapolskiy wrote:
+>>>> Sort the entries of interconnect and interconnect-names lists in
+>>>> alphabetical order.
+>>>
+>>> This looks like an ABI change. At least you should explain the reason
+>>> for the patch.
+>>
+>> There was a number of comments and notes on the mailing list that
+>> any changes to dt bindings without users are acceptable, i.e. no
+>> users implies no ABI change.
+> 
+> It is still an ABI change, but the one which usually has a waiver. And
+> that's why it should be explained in the commit message.
 
-Looking for a buyer to move any of the following Items located in USA.
+I can resend the change with an update in its commit message stating
+that it's an acceptable ABI change.
 
+At once the Fixes tags could be removed, let it be a non-fix ABI change :)
 
-Used MICRON SSD 7300 PRO 3.84TB 
-U.2 HTFDHBE3T8TDF SSD 2.5" NVMe 3480GB
-Quantity 400, price $100 EACH 
+>>
+>> Also it was used as a justification to accept dt binding documentation
+>> changes without the correspondent .dtsi changes, like in this particular
+>> case. So, I believe the room for fixes is still open.
+> 
+> Yes
+> 
+>>
+>>>>
+>>>> Fixes: 2ab7f87a7f4b ("dt-bindings: media: Add qcom,x1e80100-camss")
+>>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>>>> ---
+>>>> Another fix on top of https://lore.kernel.org/all/20250502204142.2064496-1-vladimir.zapolskiy@linaro.org/
+>>>
 
-
- 005052112 _ 7.68TB HDD -$200 PER w/ caddies refurbished 
- Quantity 76, price $100
-
-
-
-Brand New CISCO C9300-48UXM-E
-Available 5
-$2000 EACH
-
-
-Brand New C9200L-48T-4X-E
-$1,200 EACH
-QTY4
-
-HP 1040G3 Elite Book Folio Processor :- Intel Core i5
-◻Processor :- Intel Core i5
-◻Generation :- 6th
-◻RAM :- 16GB
-◻Storage :- 256G SSD
-◻Display :- 14 inch" Touch Screen 
-QTY 340 $90 EA
-
-
-
-SK HYNIX 16GB 2RX4 PC4 - 2133P-RAO-10
-HMA42GR7AFR4N-TF TD AB 1526
-QTY560 $20 EA
-
-
-Xeon Gold 6442Y (60M Cache, 2.60 GHz)	
- PK8071305120500	 
- QTY670 700 each 
-
-
-SAMSUNG 64GB 4DRX4 PC4-2666V-LD2-12-MAO
-M386A8K40BM2-CTD60 S
-QTY 320 $42 each
-
-
-
-Brand New CISCO C9300-48UXM-E
-Available 5
-$2500 EACH
-
-
-Core i3-1315U (10M Cache, up to 4.50 GHz)	
- FJ8071505258601
-QTY50  $80 EA
-
-Intel Xeon Gold 5418Y Processors
-QTY28 $780 each
-
-
-Brand New C9200L-48T-4X-E  
-$1000 EACH
-QTY4
-
-
-Brand New Gigabyte NVIDIA GeForce RTX 5090 AORUS
-MASTER OC Graphics Card GPU 32GB GDDR7
-QTY50 $1,300
-
-
- Brand New N9K-C93108TC-FX-24 Nexus
-9300-FX w/ 24p 100M/1/10GT & 6p 40/100G
-Available 4
-$3000 each
-
-
-
-Brand New NVIDIA GeForce RTX 4090 Founders
-Edition 24GB - QTY: 56 - $700 each
-
-
-
-
-Charles Lawson
-Exceptional One PC
-3645 Central Ave, Riverside
-CA 92506, United States
-www.exceptionalonepc.com
-info@exceptionalonepc.com
-Office: (951)-556-3104
-
+--
+Best wishes,
+Vladimir
 
