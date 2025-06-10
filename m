@@ -1,129 +1,146 @@
-Return-Path: <linux-media+bounces-34393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34394-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A0DAD3042
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 10:28:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 443C5AD3079
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 10:33:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBB6A188C83F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 08:27:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 822833A47FE
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 08:33:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE4D2281512;
-	Tue, 10 Jun 2025 08:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B44B9220F24;
+	Tue, 10 Jun 2025 08:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RAGlQClE"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AYU5t4n3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9264527EC7D;
-	Tue, 10 Jun 2025 08:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F9A21FF57
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 08:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749543953; cv=none; b=BXtT/vdgIGgeF9kVu7lUShWRgkc+kjXS5PgtfGjtk+JSpQiNl909G40xtDmcsiqOSO8+eGpvG9sh3qcOtXTb8r4O6uL6IuAerLyWJoTZ2IfJx/X3yxwvA3qU+V45c4Jho7okcWtT/Vl2HkgPWsBZNVRqrpm+//CwhSd0QSCIAC4=
+	t=1749544415; cv=none; b=lxegm3XKKKs+XtRiYy8WBcSFdnXN7Tdxoj5MhkXPI8yQgAFTDjrA4Sov36ukglwCNQUAIHSr3xNnHQDkyBqHuzJtNdoVsEiKsIoY2RpXjqiGYf9UTibe4kKAEzLmaL9VHUcL2rQJfs+yZ+PlVUII2XbPKbaoiKq393Yuag0Veew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749543953; c=relaxed/simple;
-	bh=pGvauvieYwYiolCBSn4Lw2JXhkhZQIEF4zRiGV68/AA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z5obgkf8jSNch8dzf9P0mcY6Hh0qynpSOj8/63IaE421e+s9bKkOJC7jkB196l8od32Q1a0+us21Sfnh3RNuE8CAUiTTOCLtiVdmY37+Rb4NVPYo6S1nQEkQRthJ3CmSPIwz7tpJT6LLLQMvPBEwVmKBjiz4RL2JD2q7CRmFjig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RAGlQClE; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54d98aa5981so6232039e87.0;
-        Tue, 10 Jun 2025 01:25:51 -0700 (PDT)
+	s=arc-20240116; t=1749544415; c=relaxed/simple;
+	bh=7gdpRdONGfcDNIZ0vaKZOJ4Az5/CP7KpNF4sBX4i8XY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZNZv7iE9UoibLc3NtqZARxY/3LlLZ7oYt/G8P6U0V5JSYo8kCBsJaw5bKUb+ARsRw8X7wkShmEIOUB91sohbX56j4OwGhtdGcO4+Wl/n2Qz20WYDx5eaILNeCgqhTf/3OdPDja7DNLbKcNmvGmeRIP4YKhY4A8xn4OeXuCteuao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AYU5t4n3; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-55328ae0473so738540e87.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 01:33:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749543950; x=1750148750; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pmu5xlM5q+wbKmkDcTikYWeNSMGX5E7OEibClfmyPzg=;
-        b=RAGlQClECitGM8MFDvH4MmknYCvvW2os1nfK3hIreEdkOvrTLQwLQ53VkA603WtwX1
-         LLaTIG6kWcY82MZ1XsyEpJF9LdmsmPmH2CLrxghaPmQN6Fn5765J3xaY6xUHuhb+1izY
-         FASMK6djNdcG+E8DWaufPuGU2laTYbZpc9cJFPu1m25pYZBJc5878PLDKe1TjM2x3KUt
-         UBPsAKTlVusRsB71+67/4IoULtcZ8jcP5WBfVFkp7yXSaoL0aLYIunNncqkL+T23257J
-         4Y1OXkLpWhtdPb7kMqJJ/RgFnKNd8isIfekD1HwEPrJCuVs9r3KbNIZouDXAEJ2WuYD9
-         NR8A==
+        d=linaro.org; s=google; t=1749544411; x=1750149211; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vi0ojJKfM0jr71LRLkz0UQwhMRaHPQF19YuTp/guCV4=;
+        b=AYU5t4n3MfmYp98sDVIElNMtQEPPKwwN2oQScQHdd1IlgR9+ABcu04PXKF5y/mcCvo
+         0PWq/AjZ6IMWnS+7DQrD0OST5ryd7Nb2/6GTgdREYWu3HtDgENTSJLHn9ZA7GIqK6FsL
+         JJGocRBMYUfxU4q0yh3w72KbyVYAUP7Q2xB80AhLYfZthdNOz/6dN6g/fakftFMTY3IR
+         Y32unT1U0HiaOc3B+zAwoqBdOz//be5TJn0G3yyiPmflHWRHT8eQCi5dJb5+W9pVfEM+
+         HnnLhCLZXWIb0vxCQXmE5Bu/YIi7bwGXQwH2h2p287eV5EyT9HYZeUOn4gNhRj4yBKZb
+         hZkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749543950; x=1750148750;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pmu5xlM5q+wbKmkDcTikYWeNSMGX5E7OEibClfmyPzg=;
-        b=KpPS+xDjV3lwrtv6EwHOB2u3JLawkTMDrmGJZGjsT/eQpgQvLug/FgyCR+B1FqwGi8
-         KCy/wekamIezQ8ueVPXmc94XwtX9hkwSoYDJpyA68EbnPZT7KqsQn6QqSjUpE0Urdx6v
-         eqNBLKP7p+0ZNhVC+W8g64VyxRsWGTk5t6lbbwMb7KfOtgLMpLV6EQgV2+HkSA9P2Pxv
-         M7Ksfui173xptG4Pv67S3UIfh8R9Rlk9QtLe4Fe3ZDj6Pw15t5Tj3DbtysnyoR7a7zBJ
-         V2J7CLY9pudXLIWH0okTT+hVxZSdhMHBAmLb0wijIfK9OY7Nn+xw1+TXPnUwTumE24fV
-         wL1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVgNLHW1YvfjVhNsdQrmgY7/T6ykERZdtL/ycgzP4wmClLQEWo+F7hiMZilDYqpPqVsqL7Xn9NiU7/HyTc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzl0sF7mLq/oIQTICnZTUKAF1vSAiK3ljnqwlO2DzaOHUZohdBC
-	sBlJmUReQKFMHrDKtMEtRPGr1y7bMqG7CyjHLKdNnyj9+3C6y2cxqbhC
-X-Gm-Gg: ASbGnctEZLzZeqCXP6KRNmcGJgY3Q8UvkU+48tpYl6yqjmgldAPkqHCK5tSpa8ZZfLf
-	6p5OLUeuQH4Xj2ERZrCh5Lzx1Ylf8O2ADoombACgq+mD0v6a9RmxsFDGLBvn5lGaCxxsqmf3Gia
-	SSngqx0qHBlZUcNEDJlmJ3oOaYX9UZ/U8EL1DajblbgS3LEIElXsqOBCy33CBjFAzdzow++5HwY
-	4OkyEpGg55Amh75IenQhDNaT6y3qAHg60zN2HpOlpImIUsax6RkeoJpk5LwnIQ5xPwHBJ6/4wbV
-	Yrb8SCC952qpy7WtCqvtrkTPDT6gvrVKjFez3GFvVgfcxQZOriRsxpGKxXV4yRyZRpRTVOhNriZ
-	I8ikB5URlI3uP+h8ovu4WlYy7N3BvZ7y0Xlwn5Tjh+eSJ7w62jG/2qxo8Bwa+BFWgX4h9HKqcFx
-	cRC/ZEAC/NMvvGCPBSpDbstsE=
-X-Google-Smtp-Source: AGHT+IF76hHPrwjSwokvPotgutwwpbFV0e+QYImvflw14pJttizj1RcDHECCl4rbU/F3XGf2N30kew==
-X-Received: by 2002:a05:6512:3c91:b0:553:6526:82cd with SMTP id 2adb3069b0e04-55366bdf94emr4141810e87.13.1749543949307;
-        Tue, 10 Jun 2025 01:25:49 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:6e:3100:dbdf:2d4a:ad23:d037? (2001-14ba-6e-3100-dbdf-2d4a-ad23-d037.rev.dnainternet.fi. [2001:14ba:6e:3100:dbdf:2d4a:ad23:d037])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553676d7651sm1453465e87.72.2025.06.10.01.25.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 01:25:48 -0700 (PDT)
-Message-ID: <4d92cc22-3fc5-4ae5-a7d3-490bcbfbd93a@gmail.com>
-Date: Tue, 10 Jun 2025 11:25:47 +0300
+        d=1e100.net; s=20230601; t=1749544411; x=1750149211;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vi0ojJKfM0jr71LRLkz0UQwhMRaHPQF19YuTp/guCV4=;
+        b=uFFhDDkz1jsH2JAn6T7JmsCbqMfY46vzKUu+yp2jVggc0ERMT3xWBvbmtnWdtOavi2
+         rNuAgFTHVhkTMidVewOTi4IgMzFWoHCy/XNj0ck3aoQI8kAa4vTwdF8ZhIkbYJsK5v+E
+         nuicsdU1X9utSFD9C4cK2WC0saa3q/LCxdJpGZ8tkKpOb4ewR7mvDrDQVuPLWfIIWpXA
+         StoFgzovKqGk7BLgvk+4j2BGKRSVtjZqekJrs3aB2wo5+31iyeGH7vJxkVK/LLhUM6kP
+         DHS2ImHSTBlaB3F/BlYN2RFxKrGVDa11J77z6zNEJM5TYH8dJwRwBzreK+Z9of4MLS61
+         iY9g==
+X-Forwarded-Encrypted: i=1; AJvYcCXyJnpE0ZBcBLpJDg19ZDlpTKkPJU6a8VJkHwHdSh2iMI/MvX9oLNVxOqaorwU1LK88c3iCg9ZdTVfeJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPduGT2sKbipxcmnzDN6MwghIC24T8pIvTr0BvXzGFINdr9+51
+	N6SQTugiuyOlmTHeXfaAKl88F82mPH89do09GjES1ddcRlGy2N/g7ZOWDBM3oe9km4s=
+X-Gm-Gg: ASbGnctRMyrd4tWV/096yjcq/LtjaazO1o/iwfef8gSjN4QJVzL2Z9nXo0o1fX1WiH6
+	xqhKWDdFGkIKsRaNqV9+RLww5fEozc6gFthN+ELYU8b0CWFErlOInjL/OQJZbOt/WhCURTr3ABh
+	aZQRZPtL5zLBMnVtFRc6/W5BfAG6mN9YjWMYQ8iqc3va1SLc6fczVYElN1L+aI/YLLmCgSCykDk
+	zAO/ldoC7tklmWqyKMXZrWclJE+ejVIUhfG9KuTWu0KsEcR42tS4lPN/6LeUTelmO2p7DEoRL0j
+	0swkZ9TbK+lWT+WClxKUJGz/yF8FgTijtWZ86RbOgK7p18pkOsDZ1HzNEkaAI7Jt0bBLrVNCvhn
+	hSEDIBcCeNTdWXKUX7BHS9ZGdb4PBIyXvAZdjiuKZlbvlJY5Su6o=
+X-Google-Smtp-Source: AGHT+IHWMbam7GseB/gXW6bNFdLASWBzQkSU8Rt+97yCDitdCvOv672MUUq+tKYnaqIioglQAVtlWA==
+X-Received: by 2002:a2e:bea6:0:b0:32a:7e2f:3df2 with SMTP id 38308e7fff4ca-32ae3243f27mr12713331fa.5.1749544411337;
+        Tue, 10 Jun 2025 01:33:31 -0700 (PDT)
+Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b351fcsm14167241fa.35.2025.06.10.01.33.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Jun 2025 01:33:31 -0700 (PDT)
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-arm-msm@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort interconnect alphabetically
+Date: Tue, 10 Jun 2025 11:33:17 +0300
+Message-ID: <20250610083318.2773727-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] docs: Fix typos, improve grammar in Userspace API
-To: Jonathan Corbet <corbet@lwn.net>, mchehab@kernel.org,
- ribalda@chromium.org, hverkuil@xs4all.nl, sebastian.fricke@collabora.com,
- hljunggr@cisco.com, dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
- Jonathan.Cameron@huawei.com, ilpo.jarvinen@linux.intel.com,
- mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca,
- skhan@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250522115255.137450-1-hannelotta@gmail.com>
- <20250522115255.137450-4-hannelotta@gmail.com>
- <874iwoaa94.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
-In-Reply-To: <874iwoaa94.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 6/10/25 00:13, Jonathan Corbet wrote:
-> Hanne-Lotta Mäenpää <hannelotta@gmail.com> writes:
-> 
->> Fix a typo and improve wording and punctuation in
->> the documentation for Userspace API.
->>
->> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
->> ---
->>
->> Notes:
->>      v1 -> v2: No changes
->>
->>   Documentation/userspace-api/sysfs-platform_profile.rst | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> Applied, thanks.
-> 
-> jon
+Sort the entries of interconnect and interconnect-names lists in
+alphabetical order.
 
-Thank you!
+Fixes: 2ab7f87a7f4b ("dt-bindings: media: Add qcom,x1e80100-camss")
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+---
+Another fix on top of https://lore.kernel.org/all/20250502204142.2064496-1-vladimir.zapolskiy@linaro.org/
 
-Best regards,
+ .../devicetree/bindings/media/qcom,x1e80100-camss.yaml | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Hanne-Lotta Mäenpää
+diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+index c101e42f22ac..7d4e6ef57bf8 100644
+--- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+@@ -100,8 +100,8 @@ properties:
+     items:
+       - const: ahb
+       - const: hf_mnoc
+-      - const: sf_mnoc
+       - const: sf_icp_mnoc
++      - const: sf_mnoc
+ 
+   iommus:
+     maxItems: 8
+@@ -321,15 +321,15 @@ examples:
+                              &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
+                             <&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
+                              &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+-                            <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
+-                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+                             <&mmss_noc MASTER_CAMNOC_ICP QCOM_ICC_TAG_ALWAYS
++                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
++                            <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
+                              &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
+ 
+             interconnect-names = "ahb",
+                                  "hf_mnoc",
+-                                 "sf_mnoc",
+-                                 "sf_icp_mnoc";
++                                 "sf_icp_mnoc",
++                                 "sf_mnoc";
+ 
+             iommus = <&apps_smmu 0x800 0x60>,
+                      <&apps_smmu 0x860 0x60>,
+-- 
+2.49.0
 
 
