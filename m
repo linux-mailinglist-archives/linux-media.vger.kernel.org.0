@@ -1,78 +1,55 @@
-Return-Path: <linux-media+bounces-34409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34410-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF4FAD3247
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 11:39:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4ABCAD3248
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 11:40:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A42447A2569
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 09:38:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 992C716D0E4
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 09:40:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1672228B4EE;
-	Tue, 10 Jun 2025 09:39:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C14F28B7D4;
+	Tue, 10 Jun 2025 09:40:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T9jIF6F+"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="Dq0DXZvi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53CF28AB03;
-	Tue, 10 Jun 2025 09:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB541FF5F9;
+	Tue, 10 Jun 2025 09:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749548353; cv=none; b=uff02r6ln7FHr8c45kzpilQeajmUXwEN9igW6vUUguISWw/jwhuWWgtBC4OxuM8OSz6isHeN0imonPMozzwpjLV+0Uv2WfZa57yA8IiA//6UyfeOxC4avMcAmCqP4THyrzv8c7DAhXhFnEeyucxoBIvXYdYkBFTteiJjbrpa/rE=
+	t=1749548409; cv=none; b=OwJQb+eOiZQgaDy/KATMojV15XpR3kYR/qZxDyRnBK5kx/jbgEwf2moAEr4h06HZa10/Dporw0nTHRB5x5NSDHEHgtMPW55OHk4We4+6lb65UE1WcVkN1fxOFi7uRAWHHU2PbbbCpL0i31B+xu45SVVCw7sRcaw6cM+dof0WKRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749548353; c=relaxed/simple;
-	bh=0LexJ1DKyWm821GRgkoDRUbdIZqYmeJek4sQWiljJI8=;
+	s=arc-20240116; t=1749548409; c=relaxed/simple;
+	bh=awHKpsNEyCNJT9lEmoxwlN/VEcuxoMNmatZUA2P/LaY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BXafymERTFwp92RnSTuQtiVrl5VjRr9XO9tQ91MIavh9PpdmaxcZLLGcnhzcea/G5EYdWARaH4UEF0ShFLkz84KrbudPv1LtMI51MaNxYypRNHuH1mKdtOYzsR3JYQOO916Ih7qqmOCsNe3H8V2UhlV3DfflfzG7MbxhtMHphu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T9jIF6F+; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749548352; x=1781084352;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0LexJ1DKyWm821GRgkoDRUbdIZqYmeJek4sQWiljJI8=;
-  b=T9jIF6F+PaFhuGchu4puDIyQSyeFxeY+oNqWhbVHTMhLNtrFn5u7NgnV
-   8twz8lDo4v9gw3ocufjvsIRXLD6yFk49x+1X6Mc2cEsllaFavJ3XBStID
-   mCOiihkjn/WP9mZqdvfn3eNhxLZKY3d1zwgKS4wTaiALc7D/T9Bw8tTfG
-   dlV9UEEQDomU5h8sojuXlmZiwbQYQaQXcAoHFwIQ90KUK7nPCVM+h18ni
-   CrXDHSU2wo0tR2AgfYrEIFIYH6Se0et2CUlyXzw+ACItqZRfMSXOKdzhx
-   +yElOlGGRL+pXjN923Wky7+4GRqqHdLt/M0Gi5hHP8+bEUjp3KucUS2eP
-   A==;
-X-CSE-ConnectionGUID: YyQ2a4I5QxOnLYJOmbbbgw==
-X-CSE-MsgGUID: WHwOrFj2Tz2RamslOQApqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="62305304"
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="62305304"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 02:39:10 -0700
-X-CSE-ConnectionGUID: LKb9DclCRJm6G8QILItRgw==
-X-CSE-MsgGUID: cCfDtmt6T/6QdUl7kPsP0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="147145994"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.169])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 02:39:08 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0107811FBC0;
-	Tue, 10 Jun 2025 12:39:06 +0300 (EEST)
-Date: Tue, 10 Jun 2025 09:39:05 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Cc: Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] media: i2c: vd55g1: Miscellaneous fixes
-Message-ID: <aEf9OfSWjp7id68A@kekkonen.localdomain>
-References: <20250609-fix_vd55g1-v1-0-594f1134e3fb@foss.st.com>
- <aEf0KcapklkWpBFD@kekkonen.localdomain>
- <55fd5868-0481-42e1-b56b-80f59d724364@foss.st.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QnurLtjvh3b+t1APTANI4u3d5p91WSMy/1YHBnr6XCW43JVkuXk+m61HAq1CzmWh3RTO5cvMvQJgRrnSy3Caqze9clZFgbeQAtcqnXoyYs9ODKik5ipV5PrwNQOGXtJwuQHPjCftWPMdUbu1LcMRYpowq8lj+9VrYjRyjc8eF1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=Dq0DXZvi; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1749548399; bh=awHKpsNEyCNJT9lEmoxwlN/VEcuxoMNmatZUA2P/LaY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Dq0DXZviV0zJqjttNPfQRXvKNsIKlCw1qgup8hUgk+UsWLpTSSlfy1OFlDvKziDcc
+	 FrdVHI4xhtqHRnZxjFhafaoU3w6BlBAKqZ5MHX0DMoTieu/XuVuJFDIFHJc0UfY4Ty
+	 Oq3HR9TzRgV6jI3BpXixaBy14kq1mR9lC7OqdgF1lktzey0ibIYKvjLszX85kqqQoR
+	 3d7uuTNq9shYlmCJ0if7NvISqW3ml6XX6RgVIZeBJjCwPWpzXjSA6LHQq870Shdjck
+	 VfYVotrDoWhzWCzdnkkUZ8aoyxNz1CAJx9Y/uIk+2LDSIgTSKNGXvmVkB+Ns39Sg8B
+	 N90fRzvIFGUJw==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id A5F07100069; Tue, 10 Jun 2025 10:39:59 +0100 (BST)
+Date: Tue, 10 Jun 2025 10:39:59 +0100
+From: Sean Young <sean@mess.org>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] media: rc: ir-spi: allocate buffer dynamically
+Message-ID: <aEf9b17JU1a5q2hC@gofer.mess.org>
+References: <20250609111715.2572138-1-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,47 +58,125 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <55fd5868-0481-42e1-b56b-80f59d724364@foss.st.com>
+In-Reply-To: <20250609111715.2572138-1-demonsingur@gmail.com>
 
-Hi Benjamin,
-
-On Tue, Jun 10, 2025 at 11:31:05AM +0200, Benjamin Mugnier wrote:
-> Hi Sakari,
+On Mon, Jun 09, 2025 at 02:17:13PM +0300, Cosmin Tanislav wrote:
+> Replace the static transmit buffer with a dynamically allocated one,
+> removing the limit imposed on the number of pulses to transmit.
 > 
-> Thank you for your review.
+> Calculate the number of pulses for each duration in the received buffer
+> ahead of time, while also adding up the total pulses, to be able to
+> allocate a buffer that perfectly fits the total number of pulses, then
+> populate it.
 > 
-> On 6/10/25 11:00, Sakari Ailus wrote:
-> > Hi Benjamin,
-> > 
-> > Thanks for the set.
-> > 
-> > On Mon, Jun 09, 2025 at 03:46:20PM +0200, Benjamin Mugnier wrote:
-> >> This series provides small fixes and style improvements to the vd55g1
-> >> driver.
-> >> Nothing fancy really, just to keep everything up to date.
-> > 
-> > On all (or at least more than one) patches:
-> > 
-> > - please add a proper commit message beyond the subject line and
-> > 
-> > - properly wrap the commit paragraphs (up to 75 characters per line, e.g.
-> >   the above paragraph would fit on two lines).
-> > 
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+> V3:
+>  * move the allocation to be done per-TX operation
 > 
-> Yes, commit descriptions have been added in v2. Media-ci rightfully
-> yelled at me for that ;)
+> V2:
+>  * use devm_krealloc_array
 > 
-> I don't see any commit paragraphs being above 75 characters, my vim
-> seems to be properly configured.
+>  drivers/media/rc/ir-spi.c | 33 ++++++++++++++++++++-------------
+>  1 file changed, 20 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
+> index 8fc8e496e6aa..50e30e2fae22 100644
+> --- a/drivers/media/rc/ir-spi.c
+> +++ b/drivers/media/rc/ir-spi.c
+> @@ -21,13 +21,11 @@
+>  #define IR_SPI_DRIVER_NAME		"ir-spi"
+>  
+>  #define IR_SPI_DEFAULT_FREQUENCY	38000
+> -#define IR_SPI_MAX_BUFSIZE		 4096
+>  
+>  struct ir_spi_data {
+>  	u32 freq;
+>  	bool negated;
+>  
+> -	u16 tx_buf[IR_SPI_MAX_BUFSIZE];
+>  	u16 pulse;
+>  	u16 space;
+>  
+> @@ -43,37 +41,42 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
+>  	unsigned int len = 0;
+>  	struct ir_spi_data *idata = dev->priv;
+>  	struct spi_transfer xfer;
+> +	u16 *tx_buf;
+>  
+>  	/* convert the pulse/space signal to raw binary signal */
+>  	for (i = 0; i < count; i++) {
+> -		unsigned int periods;
+> +		buffer[i] = DIV_ROUND_CLOSEST(buffer[i] * idata->freq, 1000000);
+> +		len += buffer[i];
+> +	}
 
-It's not over 75 characters per line but some lines are shorter than they
-could be.
+This looks great, thank you.
 
-> Do you mean the commit header too perhaps ? For example "media: i2c:
-> vd55g1: Miscellaneous fixes".
+I do have one concern though. If someone sets a carrier of U32_MAX - 1 then
+this code could be doing largish allocations, spending too long in kernel
+space filling them with data and spi can't send it anyway. Actually
+the kmalloc might fail which doesn't look good in the logs.
 
--- 
-Regards,
+We may have to constrain the carrier to something spi can handle.
 
-Sakari Ailus
+
+Sean
+
+> +
+> +	tx_buf = kmalloc_array(len, sizeof(*tx_buf), GFP_KERNEL);
+> +	if (!tx_buf)
+> +		return -ENOMEM;
+> +
+> +	len = 0;
+> +	for (i = 0; i < count; i++) {
+>  		int j;
+>  		u16 val;
+>  
+> -		periods = DIV_ROUND_CLOSEST(buffer[i] * idata->freq, 1000000);
+> -
+> -		if (len + periods >= IR_SPI_MAX_BUFSIZE)
+> -			return -EINVAL;
+> -
+>  		/*
+>  		 * The first value in buffer is a pulse, so that 0, 2, 4, ...
+>  		 * contain a pulse duration. On the contrary, 1, 3, 5, ...
+>  		 * contain a space duration.
+>  		 */
+>  		val = (i % 2) ? idata->space : idata->pulse;
+> -		for (j = 0; j < periods; j++)
+> -			idata->tx_buf[len++] = val;
+> +		for (j = 0; j < buffer[i]; j++)
+> +			tx_buf[len++] = val;
+>  	}
+>  
+>  	memset(&xfer, 0, sizeof(xfer));
+>  
+>  	xfer.speed_hz = idata->freq * 16;
+> -	xfer.len = len * sizeof(*idata->tx_buf);
+> -	xfer.tx_buf = idata->tx_buf;
+> +	xfer.len = len * sizeof(*tx_buf);
+> +	xfer.tx_buf = tx_buf;
+>  
+>  	ret = regulator_enable(idata->regulator);
+>  	if (ret)
+> -		return ret;
+> +		goto err_free_tx_buf;
+>  
+>  	ret = spi_sync_transfer(idata->spi, &xfer, 1);
+>  	if (ret)
+> @@ -81,6 +84,10 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
+>  
+>  	regulator_disable(idata->regulator);
+>  
+> +err_free_tx_buf:
+> +
+> +	kfree(tx_buf);
+> +
+>  	return ret ? ret : count;
+>  }
+>  
+> -- 
+> 2.49.0
+> 
 
