@@ -1,166 +1,235 @@
-Return-Path: <linux-media+bounces-34414-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34415-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95214AD32C4
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 11:53:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 386E6AD3361
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 12:15:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1911B16D6B4
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 09:53:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B71A418970B3
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 10:16:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCE6228B7C7;
-	Tue, 10 Jun 2025 09:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B02E28C5B2;
+	Tue, 10 Jun 2025 10:15:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VYcfkAMM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c6BskYG1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDC428B501;
-	Tue, 10 Jun 2025 09:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA4921FF55;
+	Tue, 10 Jun 2025 10:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749549175; cv=none; b=lCJPiuFpf+207FPaXSNwP4Mc/P5CXGznWI7HQJr74M2K3UlN9nf83yyzOTpnxwAoA0YW6S5kCKpUsfEf7u1yQ/9Vkc9ugDldbjDsunc0K3siTVk/KHnX/2tCkzhjTvlyfx3naeyQhon1bYO5JfbRCNvbF+G+8OKWQBE1BJR5T18=
+	t=1749550550; cv=none; b=ktBqngEFdI2CCRtC//CLAAQEBedvuhI+wcTvETEHTcdEiwH1WMTS5N9bmqyuHawBgZ9x9pk00G+GBubXV64dde+njYqLKrJI+SPuUHysez7vU3YhhgNuqPwVUz+8JTSV+wevT2822Q3pmQhPVpvp8tNXH0JOgNZjbW78HDe0uQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749549175; c=relaxed/simple;
-	bh=Im5GYUCb1sxEGckIaOnAeshf/338KvZJ59zmYw//6eA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m7sa3u+Y6/607ZqJnIF7/TabN0huglyP9qpT1ORT+VHhSYbScLHf/oW2H7nUXt6YrlRljER92F1TKoEwxTV2n8kijPn3Aj9a5k0p+sMjMDPVEhlKM0Ix5CldXvsruiF/If+eVqEMLg3LiZ8pwhoOZKwsmrzDV2ptTG5S1Y7aEBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VYcfkAMM; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 214AF169;
-	Tue, 10 Jun 2025 11:52:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749549163;
-	bh=Im5GYUCb1sxEGckIaOnAeshf/338KvZJ59zmYw//6eA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VYcfkAMMn6K+mvIMMfKStHcleEwEsMpB7hzK4Uas/m9rLyIes7YU38x0/mJedVKBb
-	 caB2NaQvYMsZEPK6xmrYorLMaXFrM06ojzRyDabW+HtlAOOCyaWl7YOSDgbGyGGDRW
-	 JUC8Rlqi98psv8LRKo/fJIvtHFGGNjRIl9u7t2jY=
-Date: Tue, 10 Jun 2025 12:52:38 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: bcm2835-unicam: Remove RGB24 support
-Message-ID: <20250610095238.GA28428@pendragon.ideasonboard.com>
-References: <20250606-rpi-unicam-rgb-bgr-fix-v1-1-9930b963f3eb@kernel.org>
- <20250609003751.GD14545@pendragon.ideasonboard.com>
- <CAPY8ntCnz6nkJSredd-sgMr87=0vuZ0OtfiMoPOfCZisKkzTHg@mail.gmail.com>
+	s=arc-20240116; t=1749550550; c=relaxed/simple;
+	bh=Ikv5InvFUqaL7MbP3ouhpo3+c7y6BTMPBiByR0rsA8s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gFBagLlX9aBbLwUYA9k6ptnHhKhOjRKbnP7gahx8keIGU/KA0AXCaYWM2Q4Do3i7NbRuNb3gvJgLalgMqEDhBKBn3GaJqZN0R4/S5P0Z7c2MaSvcO2+K5VD73tzbuhE8CsvFm+FmGd1FEC7twEEl0fQlO7OZj1Xuy960s3YzQG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c6BskYG1; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-adb2bb25105so838391766b.0;
+        Tue, 10 Jun 2025 03:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749550546; x=1750155346; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cWuWcVj95DVrEthc+5S3mPSfmODoym51F12oODVd7rA=;
+        b=c6BskYG1CSOpARgFO3E8sI4pjpbJGP2uTYOstNp97bC45226nuqUvKl3d2/93iYDVo
+         BMbvxfSvCx/0Yuaq7dzWi55nFi6sL51jJqF5qZHfajImp+xKjSJHg0stHYlmyH+VM6ke
+         dSI1u1PmD6j/lW31UvA3NkH4e27rTuZHq7QjHmxrXR05QMu3BFqycslIskII95QK25mZ
+         Kh4o6XwgBoaB9bhFaQyMTYAtbjjgLrUEhEd76terE919xbFUKpzyx1AOft+tBReLjEz1
+         FJ3XYc0aT0oy+O5UCjsVNKWaLfGtYYgWlu9YMRB0SLPgs9hukfr/hd4T5wYkSDbatYpd
+         80Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749550546; x=1750155346;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cWuWcVj95DVrEthc+5S3mPSfmODoym51F12oODVd7rA=;
+        b=lGooiz0ff0wHEgSj/oeVdDau6bHn7M0NTTwnrSe6+cpnjyolH6Mi2JHF6dlVe6x7rp
+         lvT+HLKoYUrqSCHio0yrj6kdAa77HaTDpgf16AnODauQ45x+MKFZLRwFtaRDxPaTVpyL
+         t59fhzedvj6SZM68rp0bDKc+v8TJ9LV0e7zX9x0kfgzyQ5iLh9Z/P5KuR/oEZ2NvZHip
+         B0ge3w5zXHdmcVIlNqjIbLlw/CoKRqOzluYJjxAmjud+U3bKk8MZ7zp16e4DnsFg6nul
+         efZKLlRGZlsKc3pj/rHmPIKlqyiaLj+phqumn/djQI4VFKl8wGGr0bK8tUZxjK6ZdKqW
+         Vi9A==
+X-Forwarded-Encrypted: i=1; AJvYcCUCJyEuOd1on8P8oFDAWTJUaNkFkfyGqhfjOvtFjO4rk3Fq5HcKIqYrHj0uz1AczPSHnP/dtgckT7ODeOI=@vger.kernel.org, AJvYcCWVUc3IFNji+5uxcE71s4dM3fmE4GtkkTPbf90Y2XI1wIk1iP4SN2ClapfMNYYuNoTZeI3KDV57V9tGOf8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhdpGkyOkxh7gYYl0sQL9XbtZF8SkLuwiNS2C27aZNBQocvH2F
+	vZLHoD8o3VqOFfkzJldkmPIL5u1YuN5/KCEXuil3sFaSMgbi0ENi8fXgrpNtVw==
+X-Gm-Gg: ASbGncsL9k//c3QZpaFnL6QmJbyOECa3yV1M2xyK/sw9UB3aMDjr3olxjRmjXVsGUT/
+	7MOZuYrkd9nXP1SjavJ+Q/TNT9p1+x42QfkPrwZtReWPsnFw06kdms8NSdptiWfa7CuIRlu1S5x
+	HapXnH7g3WNKVvZeJdZfGREztT7FnDIU8gxDw7qWVPbSCpDWLO9ehe7ypq9bW6tH0AFFVhPyf+J
+	wwWbzUva0K+xl9H3oeCx0yFccEFAZZ3aGa1fkzfKq5OknyqcjZmCmiDA5W0Zw+vnA4+ZLTQFNrR
+	Ww7kf0+4zbf9FL8qhtuO7nEZh8CMxXYsMbbFEUlCqiS6FWI9XHe1Fb56mYJ+TQ1NGB0qda3BT+z
+	uLA4=
+X-Google-Smtp-Source: AGHT+IEp3hJtHppNSirNocg+aJvrAhcCKKcXsQk3rvu0BJeq5i0xfpdXX7zuwLSTIsjisjCvogmnSg==
+X-Received: by 2002:a17:906:dc8b:b0:ad2:28be:9a16 with SMTP id a640c23a62f3a-ade1abc4055mr1509061366b.51.1749550546213;
+        Tue, 10 Jun 2025 03:15:46 -0700 (PDT)
+Received: from [192.168.0.100] ([188.27.131.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc3902csm691572166b.125.2025.06.10.03.15.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 03:15:45 -0700 (PDT)
+Message-ID: <8efe62a8-2c90-4599-82f3-4e41d8d859aa@gmail.com>
+Date: Tue, 10 Jun 2025 13:15:32 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntCnz6nkJSredd-sgMr87=0vuZ0OtfiMoPOfCZisKkzTHg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] media: rc: ir-spi: allocate buffer dynamically
+To: Sean Young <sean@mess.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250609111715.2572138-1-demonsingur@gmail.com>
+ <aEf9b17JU1a5q2hC@gofer.mess.org>
+From: Cosmin Tanislav <demonsingur@gmail.com>
+Content-Language: en-US
+In-Reply-To: <aEf9b17JU1a5q2hC@gofer.mess.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 09, 2025 at 03:33:29PM +0100, Dave Stevenson wrote:
-> On Mon, 9 Jun 2025 at 01:38, Laurent Pinchart wrote:
-> > On Fri, Jun 06, 2025 at 04:53:03PM +0200, Maxime Ripard wrote:
-> > > The RGB24 V4L2 format is defined as a pixel format with 8 bits per
-> > > components, with the components being in the red, green, and blue order
-> > > from left to right.
-> > >
-> > > The RGB MIPI-CSI2 is defined in the specification (Section 11.3.1,
-> > > RGB888) with blue coming first, then green, then red. So the opposite of
-> > > what V4L2 means by RGB.
-> > >
-> > > Since the hardware cannot reorder the components, this means that when
-> > > selecting the RGB24 format, you get inverted red and blue components
-> > > compared to what you'd expect.
-> > >
-> > > The driver already supports BGR24, so we can simply remove the RGB24
-> > > format from the driver.
-> >
-> > The only reason I could think of to explain why the driver exposes
-> > V4L2_PIX_FMT_RGB24 is to support CSI-2 sources that transfer RGB888 data
-> > with a non-standard order. I don't know what hardware would do that.
-> > Dave, Naush, do you recall why this pixel format is supported by the
-> > unicam driver ?
-> 
-> I've lost track of exactly what gets validated along the pipeline.
-> unicam_video_link_validate [1] looks to ensure that the V4L2 pixel
-> format and media bus codes match as listed in the table.
-> 
-> tc358743, adv7604, adv7511, and adv748x are all saying they produce
-> MEDIA_BUS_FMT_RGB888_1X24
-> ov5640 says it produces MEDIA_BUS_FMT_BGR888_1X24.
-> 
-> Is that an error in the ov5640 driver? If not, then both entries have
-> to be in the table to support all those drivers.
 
-We haven't standardized which media bus code to use for 24-bit RGB on
-CSI-2, so I'm not surprised drivers didn't get it right :-( The adv7604
-and adv7511 shouldn't be relevant here though, as they're not CSI-2
-devices. tc358743 and adv748x are relevant.
 
-Sakari, which media bus code would you expect ?
-
-> Looking at alvium-csi2.c and st-mipid02.c, both mappings are included
-> there (and RBG888 in the case of alvium).
-> Unicam's hardware doesn't care about the ordering as it just writes
-> the incoming data to memory, so having all the sensible mappings
-> between MEDIA_BUS_FMT_* and V4L2_PIX_FMT_* values makes sense.
+On 6/10/25 12:39 PM, Sean Young wrote:
+> On Mon, Jun 09, 2025 at 02:17:13PM +0300, Cosmin Tanislav wrote:
+>> Replace the static transmit buffer with a dynamically allocated one,
+>> removing the limit imposed on the number of pulses to transmit.
+>>
+>> Calculate the number of pulses for each duration in the received buffer
+>> ahead of time, while also adding up the total pulses, to be able to
+>> allocate a buffer that perfectly fits the total number of pulses, then
+>> populate it.
+>>
+>> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+>> ---
+>> V3:
+>>   * move the allocation to be done per-TX operation
+>>
+>> V2:
+>>   * use devm_krealloc_array
+>>
+>>   drivers/media/rc/ir-spi.c | 33 ++++++++++++++++++++-------------
+>>   1 file changed, 20 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
+>> index 8fc8e496e6aa..50e30e2fae22 100644
+>> --- a/drivers/media/rc/ir-spi.c
+>> +++ b/drivers/media/rc/ir-spi.c
+>> @@ -21,13 +21,11 @@
+>>   #define IR_SPI_DRIVER_NAME		"ir-spi"
+>>   
+>>   #define IR_SPI_DEFAULT_FREQUENCY	38000
+>> -#define IR_SPI_MAX_BUFSIZE		 4096
+>>   
+>>   struct ir_spi_data {
+>>   	u32 freq;
+>>   	bool negated;
+>>   
+>> -	u16 tx_buf[IR_SPI_MAX_BUFSIZE];
+>>   	u16 pulse;
+>>   	u16 space;
+>>   
+>> @@ -43,37 +41,42 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
+>>   	unsigned int len = 0;
+>>   	struct ir_spi_data *idata = dev->priv;
+>>   	struct spi_transfer xfer;
+>> +	u16 *tx_buf;
+>>   
+>>   	/* convert the pulse/space signal to raw binary signal */
+>>   	for (i = 0; i < count; i++) {
+>> -		unsigned int periods;
+>> +		buffer[i] = DIV_ROUND_CLOSEST(buffer[i] * idata->freq, 1000000);
+>> +		len += buffer[i];
+>> +	}
 > 
-> My initial reaction though is that simply removing the entry won't
-> solve the problem anyway. You won't get a match between the
-> MEDIA_BUS_FMT_RGB888_1X24 requested by tc358743 and a supported V4L2
-> pixel format, so the link_validate will fail.
-> Swapping either fourcc or code between the two entries would be the
-> fix I was expecting.
+> This looks great, thank you.
 > 
-> [1] https://github.com/torvalds/linux/blob/master/drivers/media/platform/broadcom/bcm2835-unicam.c#L2151-L2169
+> I do have one concern though. If someone sets a carrier of U32_MAX - 1 then
+> this code could be doing largish allocations, spending too long in kernel
+> space filling them with data and spi can't send it anyway. Actually
+> the kmalloc might fail which doesn't look good in the logs.
 > 
-> > > Fixes: 392cd78d495f ("media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface")
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  drivers/media/platform/broadcom/bcm2835-unicam.c | 5 -----
-> > >  1 file changed, 5 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > index f10064107d543caf867249d0566a0f42d6d8c4c6..1f549019efd53c9aae83193e74f1a3601ebf274d 100644
-> > > --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > @@ -338,15 +338,10 @@ static const struct unicam_format_info unicam_image_formats[] = {
-> > >       /* RGB Formats */
-> > >               .fourcc         = V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
-> > >               .code           = MEDIA_BUS_FMT_RGB565_1X16,
-> > >               .depth          = 16,
-> > >               .csi_dt         = MIPI_CSI2_DT_RGB565,
-> > > -     }, {
-> > > -             .fourcc         = V4L2_PIX_FMT_RGB24, /* rgb */
-> > > -             .code           = MEDIA_BUS_FMT_RGB888_1X24,
-> > > -             .depth          = 24,
-> > > -             .csi_dt         = MIPI_CSI2_DT_RGB888,
-> > >       }, {
-> > >               .fourcc         = V4L2_PIX_FMT_BGR24, /* bgr */
-> > >               .code           = MEDIA_BUS_FMT_BGR888_1X24,
-> > >               .depth          = 24,
-> > >               .csi_dt         = MIPI_CSI2_DT_RGB888,
-> > >
-> > > ---
-> > > base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
-> > > change-id: 20250606-rpi-unicam-rgb-bgr-fix-d1b6f46a75ad
+> We may have to constrain the carrier to something spi can handle.
+> 
 
--- 
-Regards,
+The SPI device has a max_speed_hz, maybe we should check that?
 
-Laurent Pinchart
+It seems to be set based on the spi-max-frequency property in
+the device tree node of the SPI device, and uses the max_speed_hz
+of the SPI controller as a fallback.
+
+Should I add a separate patch that adds a check in
+ir_spi_set_tx_carrier?
+
+if (carrier * 16 > idata->spi->max_speed_hz)
+	return -EINVAL.
+
+Something along these lines.
+
+> 
+> Sean
+> 
+>> +
+>> +	tx_buf = kmalloc_array(len, sizeof(*tx_buf), GFP_KERNEL);
+>> +	if (!tx_buf)
+>> +		return -ENOMEM;
+>> +
+>> +	len = 0;
+>> +	for (i = 0; i < count; i++) {
+>>   		int j;
+>>   		u16 val;
+>>   
+>> -		periods = DIV_ROUND_CLOSEST(buffer[i] * idata->freq, 1000000);
+>> -
+>> -		if (len + periods >= IR_SPI_MAX_BUFSIZE)
+>> -			return -EINVAL;
+>> -
+>>   		/*
+>>   		 * The first value in buffer is a pulse, so that 0, 2, 4, ...
+>>   		 * contain a pulse duration. On the contrary, 1, 3, 5, ...
+>>   		 * contain a space duration.
+>>   		 */
+>>   		val = (i % 2) ? idata->space : idata->pulse;
+>> -		for (j = 0; j < periods; j++)
+>> -			idata->tx_buf[len++] = val;
+>> +		for (j = 0; j < buffer[i]; j++)
+>> +			tx_buf[len++] = val;
+>>   	}
+>>   
+>>   	memset(&xfer, 0, sizeof(xfer));
+>>   
+>>   	xfer.speed_hz = idata->freq * 16;
+>> -	xfer.len = len * sizeof(*idata->tx_buf);
+>> -	xfer.tx_buf = idata->tx_buf;
+>> +	xfer.len = len * sizeof(*tx_buf);
+>> +	xfer.tx_buf = tx_buf;
+>>   
+>>   	ret = regulator_enable(idata->regulator);
+>>   	if (ret)
+>> -		return ret;
+>> +		goto err_free_tx_buf;
+>>   
+>>   	ret = spi_sync_transfer(idata->spi, &xfer, 1);
+>>   	if (ret)
+>> @@ -81,6 +84,10 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
+>>   
+>>   	regulator_disable(idata->regulator);
+>>   
+>> +err_free_tx_buf:
+>> +
+>> +	kfree(tx_buf);
+>> +
+>>   	return ret ? ret : count;
+>>   }
+>>   
+>> -- 
+>> 2.49.0
+>>
+
 
