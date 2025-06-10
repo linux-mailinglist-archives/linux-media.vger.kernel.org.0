@@ -1,145 +1,131 @@
-Return-Path: <linux-media+bounces-34477-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34478-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BC1AD4399
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 22:17:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D47AD4459
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 23:03:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFA86189CD80
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 20:17:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E187C7A471A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 21:01:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53D21264F99;
-	Tue, 10 Jun 2025 20:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB940267AF7;
+	Tue, 10 Jun 2025 21:02:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/D/fk6n"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nfzyURAa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD9919A2A3;
-	Tue, 10 Jun 2025 20:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB75267720
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 21:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749586643; cv=none; b=gGCAhKNTCo1aw4ZYQiR+/74TtxiLrA7xXDUnk28rzVK3hAMXw58Efxw0mFikle6tPenFNDw+//4VmstXGgleG7CBf3I+67OPIx0J19AX5Pf1nopgoio5oc/vvhzTFwX+16+csQh3tyJZpVzuWkUMKjVgtwcVTFbxFqEDjQeEt5I=
+	t=1749589368; cv=none; b=lfuPuIEybrkzDNrdz0Hh1A7wLpDaFt/NKARSgfqnnQealLg71cOdJELYkO70y8UKj6M+OWFmzU5g/usoTfe+RMntd7xO1fuiekXhLZlpM/61r2yG6xTgRv+N6kpd03gL9TO7EOljOKOBDB3zjUsvru8wQWgK4c0c58OdBfPGyCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749586643; c=relaxed/simple;
-	bh=KkMPpLWarAObIGFdc/4Gj8U/zmuf7yOK4LH5HnaJns8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hDbBTu/IDxzQiH1ZcTGCmlpLnvlwiL38iavDMIxx1cqvtL74wecCZ58Ozu7wzex4ciMTx6tOc1eGye4jorjOMSzcNfQiRAPEuN2O7xqw2JjzrGVFD4o+T21b+W7Ha9RPkSs/5Z++77jcVhU8mIZx7w4eQTWqlIr+D0lZWuuCo6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/D/fk6n; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749586642; x=1781122642;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KkMPpLWarAObIGFdc/4Gj8U/zmuf7yOK4LH5HnaJns8=;
-  b=U/D/fk6nw+LSXzVxNPDemOLSzMl++rdBvPsfxn91Dp++J9WdjLhj+e3w
-   Jvp2zFIchcn/v9iliWliqcT+z243NcmvV8W+5fKz6O8jXkblkLmnUm5lK
-   F0bd4bToZsXyb8GeMK1O+UH6uQr59t/PEO0Z8a7Sc2iN5exIyI1Gd3HSM
-   QPZnWUQy1MAKddDq9SZDa4Ch5iKDc/6cnw7CcEWSaQMBB/BmJufQyGPt+
-   wA4jQsC5no3cLiquV/YoLXQx3ZK2N0uusb94zffY84HWeye5FqPVul19s
-   Ht8Efk6AQn7zuSPc9pYGYSAPjq2yk63lq0TeOjLpDnfARBZNvuZCwV+kX
-   A==;
-X-CSE-ConnectionGUID: gvIU2YZyTv2/q6Ods3v4IQ==
-X-CSE-MsgGUID: U1HGsKehRRiewPzxaINxhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51811055"
-X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="51811055"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 13:17:21 -0700
-X-CSE-ConnectionGUID: mULnA7/tT0Sddi3uk+PAJQ==
-X-CSE-MsgGUID: +G96++PuQdm5BLTlEDt8iw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="146864596"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 13:17:15 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uP5PC-00000005RU8-34rs;
-	Tue, 10 Jun 2025 23:17:10 +0300
-Date: Tue, 10 Jun 2025 23:17:10 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	"zhangzekun (A)" <zhangzekun11@huawei.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>, robh@kernel.org,
-	saravanak@google.com, justin.chen@broadcom.com,
-	florian.fainelli@broadcom.com, andrew+netdev@lunn.ch,
-	kuba@kernel.org, kory.maincent@bootlin.com,
-	jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
-	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
-	olteanv@gmail.com, davem@davemloft.net, taras.chornyi@plvision.eu,
-	edumazet@google.com, pabeni@redhat.com, sudeep.holla@arm.com,
-	cristian.marussi@arm.com, arm-scmi@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	chenjun102@huawei.com, Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH 1/9] of: Add warpper function
- of_find_node_by_name_balanced()
-Message-ID: <aEiSxq6lNNJq5DJM@smile.fi.intel.com>
-References: <20250207013117.104205-1-zhangzekun11@huawei.com>
- <20250207013117.104205-2-zhangzekun11@huawei.com>
- <Z6XDKi_V0BZSdCeL@pengutronix.de>
- <80b1c21c-096b-4a11-b9d7-069c972b146a@huawei.com>
- <20250207153722.GA24886@pendragon.ideasonboard.com>
- <be93486b-91bb-4fdd-9f6c-ec295c448476@stanley.mountain>
- <aAuqgiSxrh24-L-D@stanley.mountain>
- <20250425170732.GA21390@pendragon.ideasonboard.com>
- <aEiJ856egeMCC6ao@black.fi.intel.com>
- <20250610200339.GA1233@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1749589368; c=relaxed/simple;
+	bh=qfhSjwvyRn6KR8oOKBXXu50Bff40BG2bB9yxr/8s93M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tUt1jAYsTgaK0H7Jp/YY2K3w1qPYfMy0AME1+vTEsAwZUrstJyKHiwPqvbWvJ8buJIaJx8Ja6ya4Z3/sQtM9UQSyInJMCmESNTakRnKNaHrJzwHUcarquXzSnVb4zk0NQUuX3nOljXISkWPOxt2ChKHM5T2axTZpq9hWBdccr9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nfzyURAa; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-55329e42551so726383e87.2
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 14:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1749589364; x=1750194164; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vEX5+m0SmtzPkAXHZnRUD0tql0bHqOfER1OA5um3tgo=;
+        b=nfzyURAa3ozGMebl/W0JwT6lMFFWqD5gF6E5cooeyI2qhKTh2MBmE8fR/HHIDB5eKZ
+         ZK17ByhiKIajULlZTtMXzkZJ9MgHRhcPvemmkvkdw5MQRdepNU2GdfWfk/jV3vzEofrJ
+         UXEOdczJsBTn1Xtd2KuXoPcuhxMXykORPcMDRLwTaaeMr9r89GyeespKWKjZR4wAetYs
+         vHd1AVb8uF+cql5Q5lLLCpuzrk1RsJuRr+nqUAUXk1l821OHC76r1e8Cozf+Of5kedeP
+         2KLIKuq8EytLmLvaJxnsGehEl2EQq/uzqX7PDokMQoh3vL0vHkvv3eMTOzXO+Dwh1OO0
+         irMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749589364; x=1750194164;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vEX5+m0SmtzPkAXHZnRUD0tql0bHqOfER1OA5um3tgo=;
+        b=Ri5WPcuCe7K/MFs7/ZqmlAxbBcNEF2BclDj+VyvDJn2+DMBBBSco6K7aQCa2WvT38u
+         AsnIiBnVgiJ+zU71ea0S6ulN4Eln7AH/sjzFWFNpBstrMJiUh5VLSR6NTVOenoTvHs1i
+         VzBJECFUkr3RpiHp3m2+HBYHuzoucrspuB4KaFdUe+oGcXxde52uo/IwFK6bDwOeJLcp
+         5jpR7wmI4FdcmSTgCo4ZseN15zoa3MlSelreoe2cUUKVsMqBSzSe1Ifbsyqpp/xdXN+R
+         K9q2FF5PbySyEBlgOmFXAUQfUQpD9BSWzyHoge7t8PMyl1SQ7OcWV4ChYyvgFwfSWQuK
+         A5cQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbsBJPkd5pfOGXAGF1Zv9P6bZDXdIv272b3ePvUSeNNfN0R33jaMMNkoOn/dnB4uUl8OKALqYGHsSBDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YypfRr/9OOHQn++whYzEGjg5/ozoaQqjWDUmLTN/sTOqZaKTEoc
+	90LqtGE1akQ2ri0y0xU1G5qiN9wbJRfi24ylYGc736mZ0SY2wILC440LDn971CZf5V4=
+X-Gm-Gg: ASbGncus3a1ES0N0s7+V7xIPXP+8IBRa2c58563EUjb/KtoIvb7wD2Bq7j1GfeN6O5V
+	nxy8OpEslGNe9RraPIeop2r5w6VdvqEexcU1DpTjO+gRbw+iLI8XXHKy0WHrOw7QsaVFP7+SFO3
+	o2lNNMF5z9zyY3hMeFezBKLA6GzeGMLzbsDUF5LF4wRPpGOumm6faS+dl6I1he/UghU1MIc0tM2
+	UPZfgrsQoIZK9RrzEMMb+ONyKOq60WnSwEAEi8QKDc3EHxyaDdltKbqc3C5KMmvxSUEWJp6RFPx
+	Ep5QnAd5x8ujF/ISI3XNJbvHMH/hPmcRhSqHcSHYb+kBp3kzmckgplb3r1AsEg5XMiXftLz5Ebs
+	cdAerIjeovCz5ullXJ+n2bNeeoVbKYEvmU/PHzmzR
+X-Google-Smtp-Source: AGHT+IFEFIJWrRfj6+Pu7NhQKIOTBe12JY90TCUN9nzhGZ8nBRQCkhDsR7KECb1Mi5qTpg+TryH5fQ==
+X-Received: by 2002:a05:6512:1509:10b0:553:3a0a:188d with SMTP id 2adb3069b0e04-5539c106d7bmr77460e87.1.1749589364478;
+        Tue, 10 Jun 2025 14:02:44 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553676d7b37sm1686862e87.67.2025.06.10.14.02.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 14:02:44 -0700 (PDT)
+Message-ID: <1883d9d7-26d4-40b1-9848-ae0477cf95c7@linaro.org>
+Date: Wed, 11 Jun 2025 00:02:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250610200339.GA1233@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] arm64: dts: qcom: sm8550: Add support for camss
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Wenmeng Liu <quic_wenmliu@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, andersson@kernel.org, konradybcio@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ quic_depengs@quicinc.com
+References: <20250516072707.388332-1-quic_wenmliu@quicinc.com>
+ <0367d5bd-a42e-4b6c-b841-ba20190b3127@linaro.org>
+ <dc4720a8-2f15-44aa-9a52-8440c7518328@linaro.org>
+ <739bad1b-f26d-44a6-9cc1-eee28023474f@linaro.org>
+ <dc82457e-de2b-43ec-a50c-08f7d8bdeff1@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <dc82457e-de2b-43ec-a50c-08f7d8bdeff1@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 10, 2025 at 11:03:39PM +0300, Laurent Pinchart wrote:
-> On Tue, Jun 10, 2025 at 10:39:31PM +0300, Andy Shevchenko wrote:
-> > On Fri, Apr 25, 2025 at 08:07:32PM +0300, Laurent Pinchart wrote:
-> > > On Fri, Apr 25, 2025 at 06:30:10PM +0300, Dan Carpenter wrote:
-> > > > Whatever happened with this thread from Feb.
-> > > > https://lore.kernel.org/all/20250207013117.104205-1-zhangzekun11@huawei.com/
-> > > > 
-> > > > The issue was that people weren't expecting of_find_node_by_name() to
-> > > > drop the reference on the of_node.  The patchset introduced a wrapper
-> > > > which basically worked as expected except no liked the naming.  Krzysztof
-> > > > suggested that maybe the callers should be using of_get_child_by_name()
-> > > > instead.
-> > > 
-> > > My conclusion is that most of the users of of_find_node_by_name() with a
-> > > non-NULL first argument are wrong, and should be replaced by
-> > > of_get_child_by_name(). We need a volunteer to do that work.
-> > 
-> > Wouldn't be coccinelle a good worker for this job done?
+On 6/10/25 22:02, Bryan O'Donoghue wrote:
+> On 10/06/2025 13:49, Vladimir Zapolskiy wrote:
+>>>
+>>> List feedback from DT people is isp@ is the correct prefix.
+>>>
+>>
+>> My bad, but I don't understand this comment, it seems irrelevant...
+>>
+>> The expressed concern is about the novel label name.
 > 
-> It's not mechanical work, every single user need to be audited manually.
+> I mean to say the feedback from Krzysztof was that we should use isp@
+> not camss@ and I agree.
+> 
 
-Sure, but at least it can do some job that can be done automatically.
+Let me repeat it thrice, it's okay...
 
-> Finding the call sites is the easy part, and we have them already.
+I don't object against the properly selected device tree node name "isp",
+here I object against a never used and very questionable label name "isp".
 
-> > > > I created a Smatch warning for this and here are the four issues it
-> > > > found.  The line numbers are from linux-next.
-> > > > 
-> > > > drivers/net/ethernet/broadcom/asp2/bcmasp.c:1370 bcmasp_probe() warn: 'dev->of_node' was not incremented
-> > > > drivers/net/pse-pd/tps23881.c:505 tps23881_get_of_channels() warn: 'priv->np' was not incremented
-> > > > drivers/media/platform/qcom/venus/core.c:301 venus_add_video_core() warn: 'dev->of_node' was not incremented
-> > > > drivers/regulator/tps6594-regulator.c:618 tps6594_regulator_probe() warn: 'tps->dev->of_node' was not incremented
+Please feel free to ask more questions, if you still find it confusing.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Again, I may missed a discussion about the need to get and use a novel
+label name, then please share a link to it, it'll be very much appreciated.
 
-
+--
+Best wishes,
+Vladimir
 
