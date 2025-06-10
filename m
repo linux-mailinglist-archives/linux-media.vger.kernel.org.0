@@ -1,151 +1,136 @@
-Return-Path: <linux-media+bounces-34391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3FAAD2FD2
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 10:20:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87116AD302E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 10:26:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C233D3B4BF3
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 08:19:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E107172C59
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 08:26:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B00D9283FC3;
-	Tue, 10 Jun 2025 08:18:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D10FA280A4E;
+	Tue, 10 Jun 2025 08:24:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FsuNlTXP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GU+gztvE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F0C283141;
-	Tue, 10 Jun 2025 08:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C26280A37;
+	Tue, 10 Jun 2025 08:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749543526; cv=none; b=RyqiFzziX8S+IR87zUFTr8vVcy74WTt2pTijDJ1fsM1kIYDNkKLfg9vSI11sihpDHDFLPgaISnKCBKIjWpBAJ+T1aLae6T2gNqEWtrEH2dSWEdcbAbAfVAKWTnWhFF4HDQebZ/9mzthi8IHtvEBlbsrPHlPe6mp0HgV3kpO832o=
+	t=1749543860; cv=none; b=k+a2efe3FOqoim9hiGhu3TamkQyH/kO/uynwMKMWvRDJtFtOvNNXOx1h6RCpvF31v/+5K6O+SS+4nNOYUVqoZtfs92Lyo+Tk7eqBLWX3wg7U4oCOp/c5gl2oIU55hx36n1gUfysA/GphmHSOt4kVHW7qM1qveE0u3WUxydxZkXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749543526; c=relaxed/simple;
-	bh=UtUb1iQXrY/a1g4NHyi1atjiccmilNz0yGxCMNeqNKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J3KMngQ6SZjq2jVue/7ZtEy9Rr6XHvMe1yGfF7JqVr6kf9O2o/5LMmyKBa9ujYoBVe6r3aOzxvn7WS9iXo+ZRwjRD/7U/HbKpIBdAcq8TvwV+z1CILCGlCwcwAQxjfWLxGK5tDPi0x6S42nlfBaj+kHxNTcAh/LT40SbQFpTUTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FsuNlTXP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1EF1B564;
-	Tue, 10 Jun 2025 10:18:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749543515;
-	bh=UtUb1iQXrY/a1g4NHyi1atjiccmilNz0yGxCMNeqNKE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FsuNlTXPi/Sg4moEI1TKklrd0QuQm1Xt3GsYEPQHfIAmkCPDy/RF5sh/5/9zAxS6b
-	 xzD5+xBFvpzel4jhSA8pEi1zaAqh/cdRqwK41jk1ao4LnesQMfCeeTxYqGkFcLmtck
-	 wInQyyRIjOc4Ze92p2+GWQk0mdNbwlujWdx5DHeM=
-Date: Tue, 10 Jun 2025 11:18:29 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org,
-	Isaac Scott <isaac.scott@ideasonboard.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 6/8] dt-bindings: media: nxp,imx-mipi-csi2: Add
- fsl,num-channels property
-Message-ID: <20250610081829.GC11428@pendragon.ideasonboard.com>
-References: <20250608235840.23871-1-laurent.pinchart@ideasonboard.com>
- <20250608235840.23871-7-laurent.pinchart@ideasonboard.com>
- <aEb+iTlDh0H/bRMY@lizhi-Precision-Tower-5810>
- <CAHCN7xJjR1zZXeJAvkXmdNYroP6Jm6TLjHjnPUOF4z7yaL7EFw@mail.gmail.com>
- <20250609182033.GA11428@pendragon.ideasonboard.com>
- <aEcxN7xClLfp0STx@lizhi-Precision-Tower-5810>
+	s=arc-20240116; t=1749543860; c=relaxed/simple;
+	bh=pAsKoCKXcR3vaJATLO0yUatret5jy2iUb6ibmnbLo24=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BITfoWl/tAw/juK3aqWs60QodIsskSQcdh8zA6K6xdAt80logT7OxcwIsfh9oCEuPwCkFIP3xi6C/yCjThuIjNVyoeydyr4iooj8jZVtbwFCeiTZ0VSyedoPYzOVI70JROJX2as3TPlUMZt1wFyXsbb1IN69G437Wo6/noUF714=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GU+gztvE; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54b10594812so5687735e87.1;
+        Tue, 10 Jun 2025 01:24:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749543857; x=1750148657; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T9AMyxosltlXeE1Hh9H7o71Re+z6nz+UiGufyzU5brE=;
+        b=GU+gztvERnZ3ryMvivsxvTdjYHz4EoSTmAwCXKS/uOjFWZ/NGQFX6ezgTgyx9NV9ZK
+         FiyB0b2QK5Uj2KLE01FceGtUSRxRD8i5SrtLjvvwwjgq1Il5D7xq1vi5z38opcP7oWFB
+         YIXILj34O+5tX0s+FGZJJRSb2xhawfn0HAlGPwZOAzE0dyM0X5y/oKyzeEWADecZwUvD
+         28ceFb+P7cd1Ifp9sP7U9uJlBrlREaMa/RRGkdQMbueFYKKDp3lmWqGGt0Cwmj9zQ9AL
+         tdVM6kPXSYOq7b/y5eFQ+xm7Hh/DODd/pw8M9qqruRCC0aB11EhgGuCp2zrR/CaDzEqG
+         ZX5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749543857; x=1750148657;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=T9AMyxosltlXeE1Hh9H7o71Re+z6nz+UiGufyzU5brE=;
+        b=nk0XR6di+6TyOEaW8aU3XY3dnyJC2aN3Dvb0uk4QeCg7noD59M4VHz8tw1sSh5d88C
+         d18lGqoDeSSBuzdSzm2IkJCxLjvDsLpmf/mfXTioaGx4FMk8/oLenjqoIo12QNeIzd5V
+         aMBCNu1x7wLNsf1N+RYUEpyg0vsLiaED1FmBeClbrj+uY5WXcsNdkam3p9nn+brSOX4I
+         CXZNhMVs6rlVe9XahZaK0wlPikhK0ZF3Ha7ztPt+0o3s6cUduNZ4P/sw0J67otfh/8Cf
+         WQHtybTp7ejppz7XOAqqWfSRgOYAYd0KrPs8eRwDaZl/IjgfhfMfODCe57AqF/Fk8Pnb
+         4Xww==
+X-Forwarded-Encrypted: i=1; AJvYcCXfNlEqHVfSoxSOYXjdtl9qyGRYaAey8AAJe4J/Z8UYZT8uQN3JNfxTbAgrwtvZOdwcHYp2lRbBf/TN9Mc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2S9D44fQCo6QjV1kfFBnJfO+EtzFPW7sY62ODBQ/fBm/3CndH
+	ZGpcyFyQ2edjkroxj4kWbkAbaNkV4kNgZqvKnszUQqEGrgMH3YuBU5pQ
+X-Gm-Gg: ASbGncvxteQEP317KUVs/PXrG9O9hXHurky7Leg4JnfH5dayUt/V2d2jcjGA/1LFdWa
+	sVOJZCwfriyDBo5+u6JJ5ropXW5SuQDQh//oQjwARWP1I0yNIZmcbfI8mwLQOJoAQdaSbZkgda8
+	Onz8TBT6c1DtyZvW43ML/D4TQ18ud5eIRcAOVOA7YUl9ST5LexWa7B9AxDTPP1IA2iHZlsZeFiD
+	g16WZZhWdDK52SXaa3goemZHJ0Z5Uzl3/5c+1OjaOMTNvBDJIhG9njZUiqj9YOR6JQNSvzzaqVG
+	MNFLXXDfrVLQj53IfNfCzrFRMBRSopaUTXDUY/7jWhUCHcjKbB4YqTEJoO810kf36pdC6bPNB7f
+	RjuZK5C0tdXWbNF0RRJHUz8QeoloQMtVCpvVkGDlqprH0TiDh32YC6Usap+TAYndG9XRzm2XFB3
+	bqqBb6dFeA7Dgb47TMQmZCD04=
+X-Google-Smtp-Source: AGHT+IGUqa7d/RWtxwnPy2+NvYt1LQ6wiXuu9PiIBBS0TGg/C+wR9GtyuBkitpRQ9RBLougt8hAvLw==
+X-Received: by 2002:a05:6512:401e:b0:553:2a0f:d3d4 with SMTP id 2adb3069b0e04-55366c1e102mr4244672e87.49.1749543856354;
+        Tue, 10 Jun 2025 01:24:16 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:6e:3100:dbdf:2d4a:ad23:d037? (2001-14ba-6e-3100-dbdf-2d4a-ad23-d037.rev.dnainternet.fi. [2001:14ba:6e:3100:dbdf:2d4a:ad23:d037])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553676d7622sm1443650e87.58.2025.06.10.01.24.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 01:24:14 -0700 (PDT)
+Message-ID: <85f0fbb6-5574-47e4-9adf-89eb27fe9f62@gmail.com>
+Date: Tue, 10 Jun 2025 11:24:13 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] docs: Improve grammar in Userspace API/fwctl
+To: Jonathan Corbet <corbet@lwn.net>, mchehab@kernel.org,
+ ribalda@chromium.org, hverkuil@xs4all.nl, sebastian.fricke@collabora.com,
+ hljunggr@cisco.com, dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
+ Jonathan.Cameron@huawei.com, ilpo.jarvinen@linux.intel.com,
+ mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca,
+ skhan@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20250522115255.137450-1-hannelotta@gmail.com>
+ <20250522115255.137450-3-hannelotta@gmail.com>
+ <878qm0aab5.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
+In-Reply-To: <878qm0aab5.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aEcxN7xClLfp0STx@lizhi-Precision-Tower-5810>
 
-Hi Frank,
-
-On Mon, Jun 09, 2025 at 03:08:39PM -0400, Frank Li wrote:
-> On Mon, Jun 09, 2025 at 09:20:33PM +0300, Laurent Pinchart wrote:
-> > On Mon, Jun 09, 2025 at 12:53:48PM -0500, Adam Ford wrote:
-> > > On Mon, Jun 9, 2025 at 10:32 AM Frank Li wrote:
-> > > > On Mon, Jun 09, 2025 at 02:58:38AM +0300, Laurent Pinchart wrote:
-> > > > > The CSI-2 receiver can be instantiated with up to four output channels.
-> > > > > This is an integration-specific property, specify the number of
-> > > > > instantiated channels through a new fsl,num-channels property. The
-> > > > > property is optional, and defaults to 1 as only one channel is currently
-> > > > > supported by drivers.
-> > > > >
-> > > > > The only known SoC to have more than one channel is the i.MX8MP. As the
-> > > > > binding examples do not cover that SoC, don't update them.
-> > > > >
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > ---
-> > > > >  .../devicetree/bindings/media/nxp,imx-mipi-csi2.yaml       | 7 +++++++
-> > > > >  1 file changed, 7 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > > > > index db4889bf881e..41ad5b84eaeb 100644
-> > > > > --- a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > > > > @@ -68,6 +68,13 @@ properties:
-> > > > >      default: 166000000
-> > > > >      deprecated: true
-> > > > >
-> > > > > +  fsl,num-channels:
-> > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > > +    description: Number of output channels
-> > > > > +    minimum: 1
-> > > > > +    maximum: 4
-> > > > > +    default: 1
-> > > > > +
-> > > >
-> > > > Look like it is fixed value for each compabiable string, So it is not
-> > > > suitable for adding new property. It should be in driver data of each
-> > > > compatible strings.
-> > > >
-> > > > I met similar case before. DT team generally don't agree on add such
-> > > > property, unless there are two instances in the same chip, which have
-> > > > difference channel number.
-> > >
-> > > If the DT changes are rejected, can the number of channels be added to
-> > > the data structure inside mipi_csis_of_match?  We have compatibles for
-> > > 8mm and imx7.  If we add an imx8mp compatible we could add a reference
-> > > to the number of channels.
-> >
-> > I thought about it, and decided to add a new property because the number
-> > of channels is really a synthesis time configuration parameter, and
-> > could differ between different CSIS instances in the same SoC.
+On 6/10/25 00:12, Jonathan Corbet wrote:
+> Hanne-Lotta Mäenpää <hannelotta@gmail.com> writes:
 > 
-> Need add such information at binding doc's commit message,
+>> Fix typos and improve grammar in the documentation for
+>> fwctl subsystem.
+>>
+>> Use the word user space consistently, instead of having
+>> two variants (user space vs. userspace).
+>>
+>> Change wording of denied behaviour to be disallowed
+>> behaviour when describing the interface.
+>>
+>> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
+>> ---
+>>
+>> Notes:
+>>      v1 -> v2: No changes
+>>
+>>   Documentation/userspace-api/fwctl/fwctl.rst | 30 ++++++++++-----------
+>>   1 file changed, 15 insertions(+), 15 deletions(-)
+> 
+> I've applied this one.
+> 
+> Thanks,
+> 
+> jon
 
-I'll update the commit message.
+Great, thank you!
 
-> ideally provide an example for it.
+Best regards,
 
-That I can't provide because the few SoCs I'm working with do not
-integrate multiple CSIS instances with different parameters.
-
-> > > > >    ports:
-> > > > >      $ref: /schemas/graph.yaml#/properties/ports
-> > > > >
-
--- 
-Regards,
-
-Laurent Pinchart
+Hanne-Lotta Mäenpää
 
