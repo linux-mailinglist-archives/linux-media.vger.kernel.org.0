@@ -1,113 +1,122 @@
-Return-Path: <linux-media+bounces-34389-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34390-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397A7AD2F21
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 09:48:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7F7AD2F34
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 09:50:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 12C2B18875B5
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 07:48:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50EDB3A3812
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 07:49:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAC8225DCEC;
-	Tue, 10 Jun 2025 07:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C7528001A;
+	Tue, 10 Jun 2025 07:49:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="at/McZg3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KM1KIahb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17061917CD;
-	Tue, 10 Jun 2025 07:47:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFAC25DCEC;
+	Tue, 10 Jun 2025 07:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749541681; cv=none; b=VMWgRxijYnCWwRzzPDYCwUPh/aa11HoXshjXa7kvrjEdARvBP9cHk7KBn53PE6nwapqpIXdRID1Rn8fFf6Y1q38qNiXqnQsJgn0/5VQAtCxZhsQujWnzTnYxMIziknn7rP7FVs05wmVSyaA2RvLnZrWpCqu4O13EZuHj9CQ/sys=
+	t=1749541781; cv=none; b=hlLANaPiGMLfr/uobalk+c0a83XIjiJgYTdPn99YpkCD5IY323o2KrpXBWihFEPuc1wTMPNXxLMuOCLITdSH8FsVcJCCGd6Z39pNYbI2OaQHuwbIujjC6Mek42A5Lc4qms7cuwwLceV9Y8mLCl+t59bCI5beFpP/7J8q9BQ1K20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749541681; c=relaxed/simple;
-	bh=b51keoelKKzth1odgCRNUV1Z6FySj2LHiGzcMDL7AiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qv5wuwQ2RDWh58tmp8RxEu7Q63CDsHhMXXFhP2qRYrlOxZonuZHf/2cjbsSMjK3voGU4Vp4uWOQQqrUZ6XcKbwyFiWA0vJM4i7GIXWnY/3NlxwfjpSuJCKJ0KDdfViGNnUUVlClyyUyj0/6LJyPHrHQpRvSsqo4bvvKloYIHzoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=at/McZg3; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 574032EC;
-	Tue, 10 Jun 2025 09:47:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749541664;
-	bh=b51keoelKKzth1odgCRNUV1Z6FySj2LHiGzcMDL7AiY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=at/McZg3E4l7ZhmPDrIOKzUL3dOSMjSSjFr0m9sVsPl/DGEJhD/sffQ1JzfSXaHNi
-	 teOAt95GmnZiIMfTwQ9EAu0GO/ldTrYBv5PsItaK+l/bXKx9EssMnx+e1j8lVqV4aK
-	 5LYLpgkWkCR7V/xTnk8CNRW3zbTbtPr4wq9mQewo=
-Date: Tue, 10 Jun 2025 10:47:39 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: linux-media@vger.kernel.org, Isaac Scott <isaac.scott@ideasonboard.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/8] media: imx-mipi-csis: Fix field alignment in
- register dump
-Message-ID: <20250610074739.GC24465@pendragon.ideasonboard.com>
-References: <20250608235840.23871-1-laurent.pinchart@ideasonboard.com>
- <20250608235840.23871-3-laurent.pinchart@ideasonboard.com>
- <12685072.O9o76ZdvQC@steina-w>
+	s=arc-20240116; t=1749541781; c=relaxed/simple;
+	bh=Zf8zlM1ikY+x+Aj1YRBI4DnaZ4NqNZdfWKGRPGe8aOI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MMkrCcqC4hz+K3zv7Q0cL/FoSmv+CGVcMcl5/veM0MDc/qe7DqnRLVH6g5k11f6XIl1SIQDxFTnASgQ02Cl4EdZe9BiS/Ujslfo5TgKkYzjLLvoMXrFB5zTyIom9CbG6Zrpmrkb5fvx68vGiwgNMawZMP0riRCXmfF2s718MjkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KM1KIahb; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749541780; x=1781077780;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=Zf8zlM1ikY+x+Aj1YRBI4DnaZ4NqNZdfWKGRPGe8aOI=;
+  b=KM1KIahbTLOwS1KuFsdOIh5CIwbw4+1A4Wxy1hkKfSCqcMXi3X0/cwLY
+   pJu1etFwgDm4UNeU9g5MsfR5cokprtHBuH2ZhkRiWn7xkyVT1DBoTbFrz
+   5aNCtfk7qxyHsaxP03+7NBxWa1JItZ7aYc8js139okkHS7XFn8G8KB9CT
+   zQiiHQMidT9hQl6j/axycXKvstp8BySjLg2g1u7CKwC7ka8CE13f/OzFg
+   VRscBTUqWWKe2llZCj2xCV6jo6md+9ril9jAyi5vCXXQjar3x3aPY9SW5
+   vorarPgO+9rT/rrplFubfJkq6EoqirSenJSkGEuvDpukBiOwE6WDIMg8I
+   w==;
+X-CSE-ConnectionGUID: AOtDDZgQRRSKne8PvFNQhQ==
+X-CSE-MsgGUID: 9FihaGAvQBiBEo97XD8fCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="77039694"
+X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
+   d="scan'208";a="77039694"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 00:49:38 -0700
+X-CSE-ConnectionGUID: ufZhjqNVQGCbIO00v9qvhw==
+X-CSE-MsgGUID: R8sZ0L7BSHmP28FclTzhsw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
+   d="scan'208";a="146682211"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.196])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 00:49:30 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ "Rafael J . Wysocki" <rafael@kernel.org>, 
+ Sebastian Reichel <sre@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
+ Benjamin Tissoires <bentiss@kernel.org>, 
+ Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ Andy Shevchenko <andy@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Hans de Goede <hansg@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-ide@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org
+In-Reply-To: <20250609143558.42941-1-hansg@kernel.org>
+References: <20250609143558.42941-1-hansg@kernel.org>
+Subject: Re: [PATCH v2 0/1] MAINTAINERS: .mailmap: Update Hans de Goede's
+ email address
+Message-Id: <174954176287.5583.6841576782802896940.b4-ty@linux.intel.com>
+Date: Tue, 10 Jun 2025 10:49:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <12685072.O9o76ZdvQC@steina-w>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Tue, Jun 10, 2025 at 09:12:26AM +0200, Alexander Stein wrote:
-> Am Montag, 9. Juni 2025, 01:58:34 CEST schrieb Laurent Pinchart:
-> > Commit 95a1379004cb ("media: staging: media: imx: imx7-mipi-csis: Dump
-> > MIPI_CSIS_FRAME_COUNTER_CH0 register") forgot to increase the maximum
-> > register name length, resulting in misalignment of names printed in the
-> > kernel log. Fix it.
+On Mon, 09 Jun 2025 16:35:56 +0200, Hans de Goede wrote:
+
+> I'm moving all my kernel work over to using my kernel.org email address.
 > 
-> Does this warrant a Fixes tag? Anyway
-
-I would then have to Cc stable as per the media subsystem rules, and I
-really don't think this patch warrants being backported to stable
-kernels.
-
-> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> The single patch in this series updates .mailmap and all MAINTAINERS
+> entries still using hdegoede@redhat.com.
 > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/nxp/imx-mipi-csis.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > index d59666ef7545..b652d59851c2 100644
-> > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > @@ -895,7 +895,7 @@ static int mipi_csis_dump_regs(struct mipi_csis_device *csis)
-> >  
-> >  	for (i = 0; i < ARRAY_SIZE(registers); i++) {
-> >  		cfg = mipi_csis_read(csis, registers[i].offset);
-> > -		dev_info(csis->dev, "%14s: 0x%08x\n", registers[i].name, cfg);
-> > +		dev_info(csis->dev, "%17s: 0x%08x\n", registers[i].name, cfg);
-> >  	}
-> >  
-> >  	pm_runtime_put(csis->dev);
+> Since most of my work is pdx86 related I believe it would be best for Ilpo
+> to merge this through the pdx86 tree (preferable through the fixes branch).
+> 
+> [...]
 
--- 
-Regards,
 
-Laurent Pinchart
+Thank you for your contribution, it has been applied to my local
+review-ilpo-fixes branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-fixes branch only once I've pushed my
+local branch there, which might take a while.
+
+The list of commits applied:
+[1/1] MAINTAINERS: .mailmap: Update Hans de Goede's email address
+      commit: 3fbf25ecf8b7b524b4774b427657d30a24e696ef
+
+--
+ i.
+
 
