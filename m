@@ -1,157 +1,131 @@
-Return-Path: <linux-media+bounces-34468-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34470-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D24DAD3F5C
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 18:43:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FC1AD40CA
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 19:30:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C689D164280
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 16:43:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 003D03A7EA4
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 17:29:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B72D242D98;
-	Tue, 10 Jun 2025 16:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B5F2459C9;
+	Tue, 10 Jun 2025 17:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Ho/TRwK7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LzaB4sF9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C8035897
-	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 16:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD6E24634F
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 17:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749573777; cv=none; b=NlmEmwRLnAzbajbjd5TS1FIauUE8SylgWkeJYSjw7qSZLHxB5qbMzkgFIF0T6iyDvMZiP/LGGFZak0ORNRtI0SnUDKO72A7zJgJ3bqR9VQldtLxthz9XJc5AkMcE7FsBXsYXKVLD9C85NbE5ErTeSWpOvd2Ub90v7+DX8rFOqRg=
+	t=1749576424; cv=none; b=UR+sE5QZaV3jmq24hlt/BfWfBkgpBVwN2mSmEAcjbIQW4YnV1NLjWfouATGyjCtB1vSWLUcxOKcd3I0sIwbSHtWydRlq0ixbGX+RT6spV3K6fBzmyo1U8YJ2sziIwPX9HDh9YRZQO3SZ85Nc66qMC0DJWgtVE8mNfawF0R6aoeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749573777; c=relaxed/simple;
-	bh=BQsaXdZ7YvjBWdjSV4Dj0zCX1VhqNTUxlqUXhLoO43w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=luI5ukn7/3DxF6R8S9VNpeC3OLh1LBCGecck2Bh046wIsU3e04IxoFFKBEzXnpSNsolofO/KhDuAI4oIoOXbrKL7P4U4bTiZ2ddSCt2bu55xjWMYRihoMQ9+xhXwgyJ8p4uJmDCOxQYaygCVl95iI1Asv0EoG4rMn4PIqWSxNKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Ho/TRwK7; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=IYsJEgMaqHnkj9zogcLK1cRSEP1fqVxPH3eFOlMY9Uk=; b=Ho/TRwK7kPK0DkozDpOcx5bLJp
-	BDHBb8OeLWc7/97YDGpsBNBSL86VuXqj89OZwQRGCGbiQ/ImD6jlMy89QmEVFCQgEBXK1KVL/NlwL
-	r3THf+vMvfSO/WD6OihMEsJgfd8PmCnox41UcZaN8oYEhVUa2mFYNOR0dRByHxeu+GiN1VtQYpFDn
-	IBpdCfsISWwJ0P4nqTS43RE2r3whSTW7jJek07k1x1hXnihKFVLqiStHPG6erMjjOOGU9G3z/wnvg
-	yU1TLR3JsQI0YMcej/HIPOZdnYmikLlfw4wSXqrKY1jazHSjWiUGh8Ae+02DYtsIiLSo4L7AdI2nb
-	vyAtmecQ==;
-Received: from [81.79.92.254] (helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1uP23Y-001t9s-L5; Tue, 10 Jun 2025 18:42:36 +0200
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com,
-	Rob Clark <robdclark@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	amd-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH v6 4/4] drm/xe: Make dma-fences compliant with the safe access rules
-Date: Tue, 10 Jun 2025 17:42:26 +0100
-Message-ID: <20250610164226.10817-5-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250610164226.10817-1-tvrtko.ursulin@igalia.com>
-References: <20250610164226.10817-1-tvrtko.ursulin@igalia.com>
+	s=arc-20240116; t=1749576424; c=relaxed/simple;
+	bh=e/oOcbUFpgTOzRmXA6CcB30uzxELMK9/+jh+TW5P4aA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bpYTmuRIIrOmV+sA4nJyPMo2hhhCcyJ6tluDil2Jz3ltmHf5xUNnzKVhhmOXKegRzpDoDjq7aiwVmaFlf4Dxok+pnD2LVyAA9NvGWrnJpxBK59e9XLPJj86W7aY8lsvTrPOxegzQgy61ya71EbwofWm99utw2johs7IggIQnK6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LzaB4sF9; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-32a80cc8c88so2614331fa.0
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 10:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1749576421; x=1750181221; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BDWeNOmrP5y3qHNd9VDypMq2nedTQKGXWj49qp+NK0k=;
+        b=LzaB4sF9haIM0LzicNZ/4ThZghaKYI0cF5NAs9wPmt9JcaBUtKv6OyWQOns+84K7GG
+         +s1bSBE8KlG5Wm50C17O49dTdiFzFucLEdXKF9VRQ3PASw6Ovejggw+KsN3J06zQDw7i
+         IghU5V/4vKffCpEphPC4BseUxC4kj9fzfyXAettpSoxQt8oSQakLWO9JCJUmtx61ihBY
+         xt/k9ftdfkszdUu+mqIWsUHVhuiSh1AiCV5U5vGCKmZg6y+me7IXZIfeE7hLSWUQ/gZi
+         ASHjLecWzFLA9TL8U5vA5RIoKQuIpCfLTLbNGSjXuDfst0+4mQskIl2fU9dTIO/98qf+
+         uOiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749576421; x=1750181221;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BDWeNOmrP5y3qHNd9VDypMq2nedTQKGXWj49qp+NK0k=;
+        b=XzwK2lLZCV8NseZHCKGcZ+c97WQSzXCB4LFHVqvBf+IXkQEODD8+Ik/dwJrQsyqVG9
+         DDNv0aXKypR1zeB0yxlOYYRsnDVMw394yvloHbjxSKpPqbuPFRxD1jyisVDroPAWUdOC
+         PywsGqF70CkDLDZnzx2W9G+4yBiv0XFWkMu8HfUL5e1CRDxdVwnVPBHLT3Clbf3EiIHL
+         mwU8Q/W4QQEllgJPhzwwMF11zApOp4f1CKdM6boNvqLmoee/7hEaN2bGCHXkgs3wje7I
+         r6xmc+3w09noMf2s32ITKuuOzCqUXd+pl3/91F2ilhlRN4ed5P0awQny+mb9geywv7h/
+         0EQw==
+X-Forwarded-Encrypted: i=1; AJvYcCV698tOAuYfw5atOOo/mlxI3pUyBMmS6Mf+lEoR8VegDiFAe2UMI2GPBrtvX/mwVHaqHZ4SmCDu79KFZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhSl+ROTujlkTkI8YQYLvt9v3KUqcZVxBZAn69TQ0b1jz/6iXw
+	UcG3oGnTYIzZnbFi1sXcB76n6qtwuimV19rbAPPV49z6XD9XpaRV+c0d3roHoNbwAUU=
+X-Gm-Gg: ASbGnctZBBMY2ApKWHhXGHpLQPRgJe3Gs1D07PrKcj/2JtXws0g31z+RZAO4X1OKeJV
+	qtR4B/F3X0ca+EkMiB67NViqOmSd3+vmvh7L3iRdXrSGjxI2ec/Jt1bsThi6qKNdWtP2mB4z0sI
+	UcL0YuV89u1A7q+o/UiKcJ3OPXlwglZvnVGIamHR+NNnyRh1XU2M/VK5n5PXHk8R32q5tOssaDu
+	T/HY9ooVH9/+stdQPYJz57dCSTWAKWwfNRe+2ekssc3VcsZbJqLzzUioXcgjj3PRYnFeTBtBrE2
+	jwO/IgrcCsyd+FRv6q0RHUMkLLHxZgmev9r/fKQg18tAJx3NMQN2lmNEhJERRj/RaC7UXuqV4xu
+	nEaj5sdF2loD9qD2tV6pX+dk2OjBjXn0LV23M2EVl
+X-Google-Smtp-Source: AGHT+IFWQCdk5MFKzpyZcmaS0S71xmsUSR6RTjpWEE/zEXq46zpQ6nAKr24sBfjyOfgS8C9kLowDEg==
+X-Received: by 2002:a2e:bc22:0:b0:32a:739d:f78 with SMTP id 38308e7fff4ca-32ae335a47bmr15627331fa.11.1749576420634;
+        Tue, 10 Jun 2025 10:27:00 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1cad5c8sm15446441fa.72.2025.06.10.10.26.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 10:27:00 -0700 (PDT)
+Message-ID: <b268a017-b42c-4b4c-859c-a7e8ea6cf8fa@linaro.org>
+Date: Tue, 10 Jun 2025 20:26:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] media: qcom: camss: a number of cleanups and fixes
+Content-Language: ru-RU
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20250513142353.2572563-1-vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250513142353.2572563-1-vladimir.zapolskiy@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Xe can free some of the data pointed to by the dma-fences it exports. Most
-notably the timeline name can get freed if userspace closes the associated
-submit queue. At the same time the fence could have been exported to a
-third party (for example a sync_fence fd) which will then cause an use-
-after-free on subsequent access.
+On 5/13/25 17:23, Vladimir Zapolskiy wrote:
+> The patchset prepares the ground for a CSIPHY rework in CAMSS ISP driver.
+> 
+> For simplicity of continuing my reviews of CAMSS paches add myself as
+> a reviewer, as well it will simplify the work of syncing and avoiding
+> patch conflicts between work oin CAMSS done by others and myself.
+> 
+> Vladimir Zapolskiy (9):
+>    media: qcom: camss: cleanup media device allocated resource on error path
+>    media: qcom: camss: remove duplicated csiphy_formats_sc7280 data
+>    media: qcom: camss: remove .link_entities
+>    media: qcom: camss: register camss media device before subdevices
+>    media: qcom: camss: unconditionally set async notifier of subdevices
+>    media: qcom: camss: simplify camss_subdev_notifier_complete() function
+>    media: qcom: camss: change internals of endpoint parsing to fwnode handling
+>    media: qcom: camss: use a handy v4l2_async_nf_add_fwnode_remote() function
+>    MAINTAINERS: add myself as a CAMSS patch reviewer
+> 
+>   MAINTAINERS                                   |   1 +
+>   .../media/platform/qcom/camss/camss-csiphy.c  |   5 -
+>   .../media/platform/qcom/camss/camss-csiphy.h  |   1 -
+>   drivers/media/platform/qcom/camss/camss.c     | 182 +++++++-----------
+>   drivers/media/platform/qcom/camss/camss.h     |   1 -
+>   5 files changed, 71 insertions(+), 119 deletions(-)
+> 
 
-To make this safe we need to make the driver compliant with the newly
-documented dma-fence rules. Driver has to ensure a RCU grace period
-between signalling a fence and freeing any data pointed to by said fence.
+The changeset is left unreviewed for 4 weeks...
 
-For the timeline name we simply make the queue be freed via kfree_rcu and
-for the shared lock associated with multiple queues we add a RCU grace
-period before freeing the per GT structure holding the lock.
+May I ask linux-media maintainers to take care of the patchset?..
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_guc_exec_queue_types.h | 2 ++
- drivers/gpu/drm/xe/xe_guc_submit.c           | 7 ++++++-
- drivers/gpu/drm/xe/xe_hw_fence.c             | 3 +++
- 3 files changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-index 4c39f01e4f52..a3f421e2adc0 100644
---- a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-+++ b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-@@ -20,6 +20,8 @@ struct xe_exec_queue;
- struct xe_guc_exec_queue {
- 	/** @q: Backpointer to parent xe_exec_queue */
- 	struct xe_exec_queue *q;
-+	/** @rcu: For safe freeing of exported dma fences */
-+	struct rcu_head rcu;
- 	/** @sched: GPU scheduler for this xe_exec_queue */
- 	struct xe_gpu_scheduler sched;
- 	/** @entity: Scheduler entity for this xe_exec_queue */
-diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-index 2b61d017eeca..c7f45800ec6a 100644
---- a/drivers/gpu/drm/xe/xe_guc_submit.c
-+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@ -1299,7 +1299,11 @@ static void __guc_exec_queue_fini_async(struct work_struct *w)
- 	xe_sched_entity_fini(&ge->entity);
- 	xe_sched_fini(&ge->sched);
- 
--	kfree(ge);
-+	/*
-+	 * RCU free due sched being exported via DRM scheduler fences
-+	 * (timeline name).
-+	 */
-+	kfree_rcu(ge, rcu);
- 	xe_exec_queue_fini(q);
- 	xe_pm_runtime_put(guc_to_xe(guc));
- }
-@@ -1482,6 +1486,7 @@ static int guc_exec_queue_init(struct xe_exec_queue *q)
- 
- 	q->guc = ge;
- 	ge->q = q;
-+	init_rcu_head(&ge->rcu);
- 	init_waitqueue_head(&ge->suspend_wait);
- 
- 	for (i = 0; i < MAX_STATIC_MSG_TYPE; ++i)
-diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
-index 03eb8c6d1616..b2a0c46dfcd4 100644
---- a/drivers/gpu/drm/xe/xe_hw_fence.c
-+++ b/drivers/gpu/drm/xe/xe_hw_fence.c
-@@ -100,6 +100,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
- 		spin_unlock_irqrestore(&irq->lock, flags);
- 		dma_fence_end_signalling(tmp);
- 	}
-+
-+	/* Safe release of the irq->lock used in dma_fence_init. */
-+	synchronize_rcu();
- }
- 
- void xe_hw_fence_irq_run(struct xe_hw_fence_irq *irq)
--- 
-2.48.0
-
+--
+Best wishes,
+Vladimir
 
