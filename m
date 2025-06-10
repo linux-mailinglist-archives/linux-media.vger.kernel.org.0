@@ -1,159 +1,154 @@
-Return-Path: <linux-media+bounces-34437-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34438-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3CBAD3784
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 14:57:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81AEFAD384C
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 15:10:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B62C617C0CE
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 12:55:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D344417AD44
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 13:04:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 948A329617C;
-	Tue, 10 Jun 2025 12:49:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05C4A2BCF4E;
+	Tue, 10 Jun 2025 12:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Bhm5/DLv"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BX6rhdSi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2796E2957DC
-	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 12:49:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A91429DB83
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 12:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749559755; cv=none; b=cE65H5Dqzuj7favzkpxqmNxAAtVZkIvKxBs7P9n8PICouy6Edidv7wO/FpTjJLIm9X5jhxhQTLBmybZCs31TUtPK1OTWtFA7VDqEiG6yzPfa2ZVPgzQ7mGl7J/syK9jYsqU6Ldk2TkEwq1sLPctIi61tGBt+2ukZmIqnwMYkF5E=
+	t=1749560323; cv=none; b=lAO5I4O3JPOs6QQeFQ4qnDmpmA9QRzSHfXKs0JYtt4KiST6Akb+AOWZmjiK8nRDNVnnvyM+kqGaZbDvd/Y9s2XhjJX7MQFxyuXuOWdyr6JUIQr9XZj8KwfJOTOC+WPT1Mm9BOFZ5Dqzyj2M0utzhzLXtVpgSmnQcSCDh2a2cjys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749559755; c=relaxed/simple;
-	bh=8pGLEakmr5aQtq0MNQDWSHLHa7dbD9TZs7Ms+ip8HFY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uCGu3QmqCzUF3jRkjJ4na6KBtpk28tH9jQ6FmX7QuxNZX+0VG2AtDYWzYPPJwHjg+TuyTqRQeV5+6eaaLpGvNBbHCP/D8lC0ta7WSAjcg5G1yqN1noN3yqiiEHBv6PY9XzbcXLSipDBO55gmF2spMspFQxZ8Bp58LcRQSgYGdYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Bhm5/DLv; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55324e1a297so501287e87.3
-        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 05:49:12 -0700 (PDT)
+	s=arc-20240116; t=1749560323; c=relaxed/simple;
+	bh=fvOlakXshbmzakRbTJCpEkrKBi0FeURoiGYCIMLBZgY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q5PRGY3vyRQ6ltU1EHrK9CQH9ugkNKou32AvyeBo6cngDZf9c8vIs7IGL9HRREuiULQCcQSd+OdY7Oac1Ny9SxPufP5hbyAFH3W7NQ7uD0w3hcY/hc3aCRtcHAd1ot1YMgW+RcR//55Asb5jZKNhgOcuJKpMatQmgCHoSEFZlnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BX6rhdSi; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32adebb15c5so35526591fa.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 05:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749559751; x=1750164551; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SMSrvswUbazeYbvuGhFOqonwWDg71HMAispluXuK8zE=;
-        b=Bhm5/DLvjaW7Lzd2TrS1xdXkF4QN/1Kj5tZuUxkAr48g7SwiTdS+236ISfos/7uzUT
-         K4nsyz6XH2RXYlDoqvQazhA7kytzjNDRQWUZNOwC1mxcANVeCVs5MgeVvfTC4apAhgPP
-         YLUgAT/K+IOeuhOBvq0Z18IlzfBZEt+Nxl+2yhpIYKYocs6ElD7plIjPKt10xZ8QREDY
-         AZYafGM4N9tR6xRBZWDo9FtRYsrF4RU0kMfd+jF0ogJA14hEWYPj/kOssvG3G6BdWQ7q
-         iEDa/qLT61X33uQb6BguiUlYh3zbkH6FGov0oxVd8HNdVnvYc7ljcJYJAoOPrPfz0QUY
-         eQ2g==
+        d=chromium.org; s=google; t=1749560320; x=1750165120; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PuNZG9GzYspsHj115f3YdhRzMM0n4xwJDNOA1CoppcQ=;
+        b=BX6rhdSiz6TqasZdVea1F/D4Hffpkv/ZSiZ3b5W0ybu12Z97hHU4EagUSvA+thF8ww
+         3ryCDMclcxiyVrLTLtIWlS2+szg0xjPN7FRQlkkVClO5Urqee5LTlSGFjmNh5rvoq6KH
+         fL+HFYhlBW5+oiGJMAqp6U4AX3rZaU2uy1zt0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749559751; x=1750164551;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SMSrvswUbazeYbvuGhFOqonwWDg71HMAispluXuK8zE=;
-        b=WpkzTIRVDNIFyV60Y9kyMnZgmCTc+CWfP9f7KgUrgD02Fc4kaxa1E2gpOUuHxJuX5f
-         nKtseu7xLIM36DA8mVv93QCxSYO8tDWnon1PxSQ8q3a4L/9LfbsGGsSuuy//S1aZymLY
-         YUXanNYqeLMY5KdVGl4KGqHsIvhvbUu8o7IZ+vkoQT06zOz8FRCF0SrTm0VN9Nq587Al
-         j112s8PK0XHX41o0vuD8JZls1BQET417QwhvHaJuDzbPMUV41Zy0Xl4qDec2CImlg2q2
-         oCM5znlfgZy603YAmaVJx97rCy5CKHNkzh6rEYA2rCoer8u8velXBVl05quRPX2Wz6ir
-         MN3g==
-X-Forwarded-Encrypted: i=1; AJvYcCVZPyCSxPUhansiRMg+sO7r+lFlu0ebsQNCgJRPOFsAn2xZ1xTbzKPPspfY7jTDz3GIYh3zoaGJAN3hEg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWkwYNahYbxsKB3OP8ugjXTrQ0IKEEX2Rquj3NpRR9O5pTY/GT
-	3ZRJVuuxVFrQvo3gKsCXeb89RPt5RRfNl5fPHrz/eU/UxDYEcxQpWk2EzRxtlczHbdM=
-X-Gm-Gg: ASbGncswJINjuuW0OD8qQUkyE+XPjtlGSM8rpKe1XxxGX/TashEKR9ii5TxLSeeCJC/
-	IcqSKUREB1NXDmS0EFx2+sVqW8n+t8rq6Gh5FgyAW53HJqLNW1A1rbIOlvkEzXI6Rxas6k4lGsl
-	dM/y5JwXOXoT5CktwtCFKRMHTXplTxUtHaC7Vx6ACHx7t5vr4YROWOE06CKZhKQTBqROWgTcDfk
-	fkqMIyYqTBGMQiog0Bae6nCdPGHl/OBluqBdQqDNp1rrJQvxRJvUYPOdFU6wy6xptlZvN5L82NO
-	rQZfJJAqK3F6fFfsFKCUsHs0KEfUbCDwhoK1SLt2lXgyJ9AN2M7vl2yLwFIJ0khqz0aT2rpyyT0
-	43TUAdpoCsUhsqlbKmLa2zIPhYIeFZ4p4z5EZJmjz
-X-Google-Smtp-Source: AGHT+IHY1q8YmyvtVFQkg3FZFwHokHT/o2o35vML8BOoO8vhLwLta089+v0mypfDQ7uA7zZsqXirAw==
-X-Received: by 2002:a05:651c:2107:b0:32a:85f9:5c0b with SMTP id 38308e7fff4ca-32ae3359b7bmr15305731fa.10.1749559751259;
-        Tue, 10 Jun 2025 05:49:11 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b0d1e2sm14474271fa.19.2025.06.10.05.49.10
+        d=1e100.net; s=20230601; t=1749560320; x=1750165120;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PuNZG9GzYspsHj115f3YdhRzMM0n4xwJDNOA1CoppcQ=;
+        b=I7ZBCoznX8qA/2AXfxUWE0IAIK7ctNsi/GcTcNA6pZznLyKo7Mq7PlwwjPYlDtYHWg
+         PJ1pZpDeMgqZJr8rbjqCaVg24P30ORDBZ5Vbubfh/TSvCc8SbsO5ctThnkSAZmy+y0qL
+         vJ9FJcilqyIdLdCfKwEmOLI5Rl8+pAFSA19HWFTZND5XL5GpLijYtd6K77nbXrBRhIWB
+         CunnNQMnqYsbi5f0A1jtKACtEvQa25WYBe+lyjp55zUm0K4ADljGwTvEiSy6JRUA6Qqo
+         9g0j6QfKy0lSC3O1DZ7rTMTQrW6gjpQwuhF7CSWnRyYJT9hhEiTslk9iXszjA5jh3FA2
+         E4uA==
+X-Forwarded-Encrypted: i=1; AJvYcCV3aWCUGQtDcyOC/bWp7thti5CuzmBxklCRjTdVtElTtoCq4xUmIOkfZEjJVdaaCSuMvfc0RTzoWpffRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnLUzVgrytag0xwQeCcksdIAXGHVgH5kw1JzW/yHQxkg/I7GQ/
+	y5dgW3Pf6JvmDqFi7KmCGaFpDP1BYidlGmzXFHqfkEEI5dYrP2Nv0mrlqO892z6eRDFXQxFVjhc
+	Oh8U=
+X-Gm-Gg: ASbGncvqQk/JcbO4no1k+igxVc0CCcmh3FInGTY4T2FXZw7hjzqHKP7GcFx0L65w0z3
+	bX4wGdXq/OhEXB13mJPRLSDWbja8V76ZRRZmc+pl8Mf10U+2xu4bJasiC3qOfY2LDSi96MFs9pu
+	MO0x2xkBe4I/WriHE9/cZnNnfxby6VZanPVyTJzV0o56KpJ1njuqExlbMOHPTxhZJf5zI7fJD4W
+	rKGqm5QStgZnFnCJbqr/+ftrM1eqYVk33KZjMFnpB6hfWjtKFhOmF6MboyVR8RfEBgOJheLPH/C
+	1mGlyBY2cJveaf6TWrMkfD7Ag1YxPy336D24i4iBMwwwBdIO/KOYvSHVfpKlsM7Rnz+3ogO455T
+	HwLle+6HgbvLXe41De5Y3KCWJ
+X-Google-Smtp-Source: AGHT+IGUgP8lEIKVnSoK4ZlnT3jQPBq2H2YgHyiO3EnwyN6/KqIP+51ZSgGopDoJAHyH50hOhKW6JQ==
+X-Received: by 2002:a05:651c:544:b0:32a:6731:7995 with SMTP id 38308e7fff4ca-32adfd5fbaamr45367161fa.38.1749560319568;
+        Tue, 10 Jun 2025 05:58:39 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b34e08sm13090071fa.37.2025.06.10.05.58.39
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 05:49:10 -0700 (PDT)
-Message-ID: <739bad1b-f26d-44a6-9cc1-eee28023474f@linaro.org>
-Date: Tue, 10 Jun 2025 15:49:09 +0300
+        Tue, 10 Jun 2025 05:58:39 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-55324062ea8so7051342e87.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 05:58:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWUtb4vR+/RscDyZLhPQ/ykh0Ic1dmoSyI7WzD+BTvlTpw8OhdI4EeI+XhEMJkJKoDU7NZ6UNufUbcG9A==@vger.kernel.org
+X-Received: by 2002:a05:6512:3ca4:b0:553:2100:69c5 with SMTP id
+ 2adb3069b0e04-55366c38f13mr4292643e87.56.1749560317177; Tue, 10 Jun 2025
+ 05:58:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] arm64: dts: qcom: sm8550: Add support for camss
-Content-Language: ru-RU
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Wenmeng Liu <quic_wenmliu@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, andersson@kernel.org, konradybcio@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- quic_depengs@quicinc.com
-References: <20250516072707.388332-1-quic_wenmliu@quicinc.com>
- <0367d5bd-a42e-4b6c-b841-ba20190b3127@linaro.org>
- <dc4720a8-2f15-44aa-9a52-8440c7518328@linaro.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <dc4720a8-2f15-44aa-9a52-8440c7518328@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CGME20250610124111epcas1p18fe9fd8ab47a424c2143d4e2912a8179@epcas1p1.samsung.com>
+ <20250610124107.37360-1-yjjuny.lee@samsung.com>
+In-Reply-To: <20250610124107.37360-1-yjjuny.lee@samsung.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 10 Jun 2025 14:58:25 +0200
+X-Gmail-Original-Message-ID: <CANiDSCsaQCJCzfjjnMvVRAde0ZrMZC753y7m2MPQJuK=dVqQBQ@mail.gmail.com>
+X-Gm-Features: AX0GCFujERdSe9Qt4dtGaH_A96BZ3xcvIQGmZPoA67-Hn8NMMl0VJUbIdlsL3To
+Message-ID: <CANiDSCsaQCJCzfjjnMvVRAde0ZrMZC753y7m2MPQJuK=dVqQBQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: uvc: Fix 1-byte out-of-bounds read in uvc_parse_format()
+To: Youngjun Lee <yjjuny.lee@samsung.com>
+Cc: laurent.pinchart@ideasonboard.com, hdegoede@redhat.com, mchehab@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 6/10/25 12:50, Bryan O'Donoghue wrote:
-> On 10/06/2025 10:48, Vladimir Zapolskiy wrote:
->> Hello Wenmeng.
->>
->> On 5/16/25 10:27, Wenmeng Liu wrote:
->>> Add support for the camera subsystem on the SM8550 Qualcomm SoC. This
->>> includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
->>>
->>> SM8550 provides
->>> - 3 x VFE, 3 RDI per VFE
->>> - 2 x VFE Lite, 4 RDI per VFE
->>> - 3 x CSID
->>> - 2 x CSID Lite
->>> - 8 x CSI PHY
->>>
->>> Co-developed-by: Depeng Shao <quic_depengs@quicinc.com>
->>> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
->>> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
->>> ---
->>>    arch/arm64/boot/dts/qcom/sm8550.dtsi | 210 +++++++++++++++++++++++++++
->>>    1 file changed, 210 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/
->>> dts/qcom/sm8550.dtsi
->>> index e9bb077aa9f0..722521496a2d 100644
->>> --- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
->>> @@ -3326,6 +3326,216 @@ cci2_i2c1: i2c-bus@1 {
->>>                };
->>>            };
->>> +        isp: isp@acb7000 {
->>> +            compatible = "qcom,sm8550-camss";
->>> +
->>
->> This is the first time, when 'isp' label is used instead of 'camss', it
->> might
->> be I missed the context, is there any particular reason to do such a
->> change?
->>
->> If the label name is changed to the regular 'camss', then
->>
->> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>
->> -- 
->> Best wishes,
->> Vladimir
-> 
-> List feedback from DT people is isp@ is the correct prefix.
-> 
+Hi Youngjun
 
-My bad, but I don't understand this comment, it seems irrelevant...
+You still miss the v2 (v3 in this case). and the trailers.
 
-The expressed concern is about the novel label name.
+In the future you can use the b4 tool to take care of most of the details.
+https://b4.docs.kernel.org/en/latest/contributor/overview.html
+It has "dry-run" option that let you review the mails before you send
+them to the mailing list
+
+Please do not resubmit a new patch to fix this, only send a new patch
+to fix more comments for other people.
+
+Regards!
+
+On Tue, 10 Jun 2025 at 14:41, Youngjun Lee <yjjuny.lee@samsung.com> wrote:
+>
+> The buffer length check before calling uvc_parse_format() only ensured
+> that the buffer has at least 3 bytes (buflen > 2), buf the function
+> accesses buffer[3], requiring at least 4 bytes.
+>
+> This can lead to an out-of-bounds read if the buffer has exactly 3 bytes.
+>
+> Fix it by checking that the buffer has at least 4 bytes in
+> uvc_parse_format().
+>
+Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
+Cc: stable@vger.kernel.org
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Youngjun Lee <yjjuny.lee@samsung.com>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index da24a655ab68..1100469a83a2 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -344,6 +344,9 @@ static int uvc_parse_format(struct uvc_device *dev,
+>         u8 ftype;
+>         int ret;
+>
+> +       if (buflen < 4)
+> +               return -EINVAL;
+> +
+>         format->type = buffer[2];
+>         format->index = buffer[3];
+>         format->frames = frames;
+> --
+> 2.43.0
+>
+
 
 --
-Best wishes,
-Vladimir
+Ricardo Ribalda
 
