@@ -1,170 +1,173 @@
-Return-Path: <linux-media+bounces-34483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C62AAD45C9
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 00:17:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F08D1AD45D1
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 00:21:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70F3F189E226
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 22:17:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B58113A2BD0
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 22:21:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10B9D246798;
-	Tue, 10 Jun 2025 22:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3FCA28B7FD;
+	Tue, 10 Jun 2025 22:21:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AlVtTujI"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XX7VdYmo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A526C1A3148
-	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 22:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C2028AAF8
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 22:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749593829; cv=none; b=ZjMq43hNEGAwKkKD9qZIiJ5pSOp8flTwU9xH/8QK1Dc0u4Ogca5gScZHh/6zLpe6sWWf0PPjUucdtM8fdnvduQXFle/hFx6DFeNsBsJmsn7aeBnJZhoZp2pT5wgx0vTzoGWiRVMX60q1K2gwu0h7TDH6yTveV5BZYktmKY6zspw=
+	t=1749594102; cv=none; b=Ca3BhpknKsnv9FIZ9YEy27KF77q8cNy5IAdoDO0+wEcvv5KaFaY+JTgKAGnivyOPMeCYn8BxM4CjFCwE1VdHAC1jgopa1tuzb7ILTEucjGX7BLX7ovdF3YhfX7ABUAurTNrqKYfEPT3t0GyYdBnO8TRurSiQYlpkZ6pjS09D5KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749593829; c=relaxed/simple;
-	bh=7TfUR8R2IrpRs1f5np0P2PSPG9JH0doPxboC0XmNhik=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X8Snu/Vo4ZAuz6DyKrbkS1+tyDaGdw5ei/I/lQFRgCgMND9z+GJSwxt3z6U29pYNVlfRmRz+wORTCv5BuZaTMOvfXsKHDzIJOzQi10cUZUyybh0sW+G4iHYsW9/eZYiR+CCS4UiOif/B36ajoicJw8EekW4c6sB0PFkVF9Xwcng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AlVtTujI; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a548a73ff2so2634850f8f.0
-        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 15:17:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749593826; x=1750198626; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DIt2WsPysp6xDtdH49fFBClr+UXdYRyo8pVXPNJ74C0=;
-        b=AlVtTujIl4s2x1TJUtdWI+Nc4y3lKISil4BGa4q50EP0cuwOOk+NFS9hEt+Chdezk6
-         ozYCX8q048nj02uxRcDGafRs5bZ6xxErghsoS4XW7mmGrBQZNjeC6T7LkM68WWPBbfog
-         0JmvDx7RhuYAfoJy9FBecQBt2L3zQXsyG2RtXm3Fdh/wZH6m/ceVEnS+bjWyU+xZpB0F
-         Lto1ejC4VBenDjmlaYQIbEh4crXYxTx/t1sN09Rw1EWCsTURFCM5ba/1Yrz9j0ofo6B7
-         qZZ+Vlym9w62N+U7/FtIrlTKdpXKA48ZSlnwz9hPwV88grY3GMtEXZytHfQQyIgHUcVi
-         2hDw==
+	s=arc-20240116; t=1749594102; c=relaxed/simple;
+	bh=YvdzXJMQSdK/2qt8MvMMQWgunI4DcAdj3g+QL5Ek9oQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FGPcMshy7EgbLz/v+IiBtCW7ibdZak6XYT+xpsHbvU4IpRX3/KqPibpTNe2KLttgNQ7V7Z7dBJIxt09U0dhl70JXKreoTvdmkiBPXBiq29nzdavFFWCkPld3Zl58BEMs2qDAACDANznepJdG6hcl4+yI1SRVKiprFZUy+5po0ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XX7VdYmo; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55AIQ1Zj022371
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 22:21:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=RV1FvH/Z3KH4jd5rDx93/TSY
+	2YFYDygQCaUG4Knudc8=; b=XX7VdYmoYX7cozWQtTQRknuFrZXvGvvFWi5qAfAp
+	PR0tOwPUR0Aiv3ZrloGKJSaAmqhsVlQ/gWGXSkz2GiflXyeUFyJkvC0RmUdQ0wLP
+	WzmVAltHcHQWxvbLgsvQGZA4KP/OigVcHmyVJdZMmi6omMoVmvmd/jEWP54u/bCU
+	9k+gYYcAXxaD0UHWPKREq/zpDdq4tNUut3qFoVv5xGHq1jtYK5Ivr5ymJJo/iJwu
+	znaNIc+PELGU2h0Ic8lsc8GfmTJ+6GxNt5kjyXw80UV7DRTQA/31w4NuJ5Hhu20m
+	dvi87IXMXncUA1AGc+TjuWTDeYG8vWu+7vxE5JrPPAtF2g==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ekptnc1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 22:21:40 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4a6f89098cfso68534231cf.0
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 15:21:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749593826; x=1750198626;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DIt2WsPysp6xDtdH49fFBClr+UXdYRyo8pVXPNJ74C0=;
-        b=pIkkKh6eqFGrXTR1JHQvZQnlB2OrAAqewV0rJGgsdp/CtQjyAmE62GziFlFVHgPhkR
-         G7aW1071Gb7WjV2RkOexm1vNnnYMSRaqX+V4sn5i9H/uYoSWjT9rOTcxSYqrYHPPbnRR
-         osVAdsD+W4MPOc3CLoRsp/6VchYgx2TGUjjGcdG56M+NC2XltGeeyUUZ9KtYWOhYRmm7
-         GITIITs7ZkV5UlxtsI7OCwhpSIa3vSZ4TM/es/7HPHkVKy9w90bc2XoYYqUvtoopJkwP
-         gzxU5lEl1v58lU1KIFhxmyQITiMi/YFhtjRfThafehWRkymMNuAxCNvGEwiq2vsWNl/b
-         GDuA==
-X-Forwarded-Encrypted: i=1; AJvYcCV4r5YpVbMXZdClPO5Q2dji163JfLH9hNKxRbFKlSYZ0sOjCy1tHlljDIu+BQ24gM4N1fIDbVNTH77wGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw45kAtJo5vcWUmDnd+vLmxZ5Ac8D52iwLqtigjKPhPOQFsP+c9
-	pVqYhjZB0Qk7u4e2BfmSm8pQKvRHTXhRO2dmyKfmq53Kulr8RNLBpy52AHw2ITsx6Wc=
-X-Gm-Gg: ASbGncuwQb8ENGI3VmYI/7yG8eYBlH+1rgCvunnXDN3l4SQclZDOvz1S+XZY8RxxxcL
-	BYT+rcIQqqm4vqZFo1aurEXkGfHPRei7Xb7lWCjNgtopytMMICyikdsEHa9WtbVVYjHpHOTLHtX
-	PoDS1+iScrZ/UH6wPiJH0CcWqSyFDMQjuis1Vs+7LifJney5KbqG6ND/UkMA8EMNfZr5sTNhLUr
-	XW21erv8eWe/NIP5MA8Cm8aNH33WODF8DmrAUW59rCrDxJkrTiCrq0PM0aXUbt1zkCn4FGfsUVt
-	e59/95py/vgVrjK/Lf5XcGcSlMKGBzXDagDeO6j+UN5SdpLFDqEmaVAJYjI1Fo7ieKOVc0BIBwz
-	EE1i0yLHESoJQhCLGjxOhF8c6NjA=
-X-Google-Smtp-Source: AGHT+IERnljNf31VprhAEokS9VT8ilK90CxWqw6sUIOgCUXrKGJiaOEei3ELCJOxQ0LlxD+btzZ1Ww==
-X-Received: by 2002:a05:6000:2285:b0:3a4:d6ed:8e07 with SMTP id ffacd0b85a97d-3a558a27717mr467480f8f.32.1749593826029;
-        Tue, 10 Jun 2025 15:17:06 -0700 (PDT)
-Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a532464f20sm13422204f8f.98.2025.06.10.15.17.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 15:17:05 -0700 (PDT)
-Message-ID: <10f07a65-0549-443d-889b-d36b3515a237@linaro.org>
-Date: Tue, 10 Jun 2025 23:17:04 +0100
+        d=1e100.net; s=20230601; t=1749594099; x=1750198899;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RV1FvH/Z3KH4jd5rDx93/TSY2YFYDygQCaUG4Knudc8=;
+        b=nkpvIQqawO8h4qNgJ2g++rVEc//ISs3kCoyTJHchnPEmnQwaLMcuzmWXwwJAzMfIPV
+         lOPhvSly4OAP3nx/s5iuWQNQgoU664DSU2bfCDFCWw6YMX58vYrylDkxibf5aoZJWOS+
+         PnZMgsf+AfJMcPz2WYnfgYKpoV6JERpIbxFl24zy6anRF/10IhR3NI8mPuTv1PuCyXDp
+         mawJnNG8erNRlUmL2QKnM0SdCiOBLbui7UmryCmJBWZnaJOjMwfx8HZa6eC9JNI/Ss9z
+         DdfflkmPpspCxa9FT+kGKoHKub+0t/45f60QiVPLGiIXg8LyAxTs18Dijm4eHTGGZn5I
+         m9hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWASV/Co7T+PCwjQwYyesUxCYuvE9kA4hCAJ911JnBeUdRd4zc1H7LZHA+GTpKlnNtUr05lkKWFYbnCwg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhejeWKIdBieUM4nXyE83Fg5gYdM7kAosOTO24aOMusrjhNu8+
+	FU/ZCqrNcvP8uzZZc7FehXKpvj2WJLm4wBVK++6i68NQDrGoOF7qR7qGRG43ZaIND9wfbuqSx5e
+	MgpagfdHsBXsbZIvVRob2wUGnjBu7RTvocKHMg3fIOgtpO1PTXYO6X+6siBeIcdVZoQ==
+X-Gm-Gg: ASbGncuO2w+XN7Egn2K52E1yI+Tzl7zOH//4yRiWCf7dcQ6aHA/vykkElgMYt6e30hp
+	zm3+q+qMUggCT3Dnqba9lOP2bEzjSKOI2s2nR6Iesb+42AsIIJ1A8cz7lxBvxjeKjYGHS3b4aK7
+	jsGuRH/ZTUwY1c244EzGXilp5lTg/McWg38+bLIqe1phGoAuWV32FC4eFctRmkEs2tX5//afiL1
+	2Wqq4QW506fap8xR7znwxEYTLSb55xsS4EXoYKQqG9LTKADLeTeDZH5+0y8eo9SYCbab/MIHwWS
+	GefVWXUDQNVWWAXKIjeqUwACuoZpQPtdLdndGU208oq9kjm8toYCyWwHN0Wx8iMyQYsJreDm/OT
+	kwy5XOTOh9D57uRSU84fpmjWLY4+ROcf1ieU=
+X-Received: by 2002:a05:620a:170c:b0:7d2:1199:ac89 with SMTP id af79cd13be357-7d3a883f33dmr208488985a.36.1749594098715;
+        Tue, 10 Jun 2025 15:21:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGHRRQuijtNJMUaKmxwgA6z/qlHR9MTcJ875zwNfzdSYx+nk7dE/YEFyR8j7QpjOr1/vQvrRg==
+X-Received: by 2002:a05:620a:170c:b0:7d2:1199:ac89 with SMTP id af79cd13be357-7d3a883f33dmr208484785a.36.1749594098350;
+        Tue, 10 Jun 2025 15:21:38 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1d01dc9sm16225641fa.108.2025.06.10.15.21.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Jun 2025 15:21:37 -0700 (PDT)
+Date: Wed, 11 Jun 2025 01:21:35 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
+ interconnect alphabetically
+Message-ID: <35muvo7h7ynfvzjt6jomasr54xaomfgt5etjc3uuczhfxww2ds@u5xsayanthx7>
+References: <20250610083318.2773727-1-vladimir.zapolskiy@linaro.org>
+ <a072d00e-df91-420b-9363-424bcdf1ed8e@linaro.org>
+ <3e8f8220-1fad-437e-9fa4-5eb628891110@linaro.org>
+ <ae364f1c-5d64-4178-b26c-e58e352feee0@linaro.org>
+ <97e51ab0-737b-496e-81df-b73c9f598bb0@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] arm64: dts: qcom: sm8550: Add support for camss
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Wenmeng Liu <quic_wenmliu@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, andersson@kernel.org, konradybcio@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- quic_depengs@quicinc.com
-References: <20250516072707.388332-1-quic_wenmliu@quicinc.com>
- <0367d5bd-a42e-4b6c-b841-ba20190b3127@linaro.org>
- <dc4720a8-2f15-44aa-9a52-8440c7518328@linaro.org>
- <739bad1b-f26d-44a6-9cc1-eee28023474f@linaro.org>
- <dc82457e-de2b-43ec-a50c-08f7d8bdeff1@linaro.org>
- <1883d9d7-26d4-40b1-9848-ae0477cf95c7@linaro.org>
- <6bbd526c-3193-40c7-91be-e629949dca8a@oss.qualcomm.com>
- <b4a7aed0-a05e-4d1b-965f-78e0c5e0709b@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <b4a7aed0-a05e-4d1b-965f-78e0c5e0709b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <97e51ab0-737b-496e-81df-b73c9f598bb0@linaro.org>
+X-Authority-Analysis: v=2.4 cv=JcO8rVKV c=1 sm=1 tr=0 ts=6848aff4 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=yfBDPXAuP_RVhw_2PxYA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEwMDE4NCBTYWx0ZWRfX9N95v4AY7R9v
+ +duyYK9pcdzEWGCo7N56seW/2noPWpEtKuG7lTU2Kn+B7MlRc8lG8Al65Lq1ordatWKE8iwcf2l
+ 9R4Z3NLZKS9C450ZSWj137rlVo0+gVJWZ75SPCHUzyRe1Y+eEWZCvtNX6QzC2axEWiM5Qz4M0PK
+ 6ZoAsYaG+eBpG5aQ9+bvW0YzYq168TgTy7lVnzzivIFm3RWZfzUMIn4ZA9Ma9atXz4K5SB333AR
+ 7HwJlwU0HCn8BEH7uZOeDJ8xCM9Fb30ymJri7Doo2SwIvFVUmkx//batfL26iOkmVB7v76FynRf
+ 4fqPHlxBO2cd5G6YKxbCK7ea3g4i/v0UvNox8eR7aALDDDDTP07FtR3fAKzZF6eX4dVkhRYCY8W
+ CNV3e1/j9gubJv2HinqUJfEJjSfpvYy7Hc53cJINsig7rY5AxG2bNdemZYnC6SutDpdHKxH0
+X-Proofpoint-GUID: EjNdTwzggbtVyQmeG6oK79gRcv401gfQ
+X-Proofpoint-ORIG-GUID: EjNdTwzggbtVyQmeG6oK79gRcv401gfQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-10_10,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
+ priorityscore=1501 mlxscore=0 adultscore=0 clxscore=1015 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506100184
 
-On 10/06/2025 22:13, Vladimir Zapolskiy wrote:
-> Hi Konrad.
+On Tue, Jun 10, 2025 at 06:10:33PM +0300, Vladimir Zapolskiy wrote:
+> On 6/10/25 18:02, Bryan O'Donoghue wrote:
+> > On 10/06/2025 13:45, Vladimir Zapolskiy wrote:
+> > > > 
+> > > > How is this a Fixes: ?
+> > > 
+> > > I call it the fix to the dt-bindings documentation, then what is this
+> > > change, if it's not a fix?..
+> > > 
+> > > Anyway, if there is a strong disagreement about if it's a fix or not,
+> > > the Fixes tag can be dropped from the change, since it's so secondary.
+> > 
+> > Since we don't have a committed upstream user I don't think this is an
+> > ABI break.
 > 
-> On 6/11/25 00:04, Konrad Dybcio wrote:
->> On 6/10/25 11:02 PM, Vladimir Zapolskiy wrote:
->>> On 6/10/25 22:02, Bryan O'Donoghue wrote:
->>>> On 10/06/2025 13:49, Vladimir Zapolskiy wrote:
->>>>>>
->>>>>> List feedback from DT people is isp@ is the correct prefix.
->>>>>>
->>>>>
->>>>> My bad, but I don't understand this comment, it seems irrelevant...
->>>>>
->>>>> The expressed concern is about the novel label name.
->>>>
->>>> I mean to say the feedback from Krzysztof was that we should use isp@
->>>> not camss@ and I agree.
->>>>
->>>
->>> Let me repeat it thrice, it's okay...
->>>
->>> I don't object against the properly selected device tree node name 
->>> "isp",
->>> here I object against a never used and very questionable label name 
->>> "isp".
->>>
->>> Please feel free to ask more questions, if you still find it confusing.
->>>
->>> Again, I may missed a discussion about the need to get and use a novel
->>> label name, then please share a link to it, it'll be very much 
->>> appreciated.
->>
->> To hopefully help out:
->>
->> label: node-name@unit-address {
->>     property = value;
->> };
->>
+> Well, Dmitry says it's an ABI break... It would be beneficial to come to
+> a common understanding here.
 > 
-> Thank you, here is a link to the wanted section of the dt specification
-> for Bryan's comprehension:
+> > But I also don't think it warrants a Fixes: tag either, there's no bug.
 > 
-> * https://github.com/devicetree-org/devicetree-specification/blob/main/ 
-> source/chapter6-source-language.rst.
+> There is no bug, but there are Documentation/ changes with Fixes tags,
+> it's okay.
+
+Fixes means that there was a bug / issue that needs to be fixed. For
+example, if there was a user for the bindings and the user had these
+values in a different order, then changing schema to follow established
+order would have been a fix.
+
 > 
-> If for whatever reason a proposed "isp" label is preferred, then
-> since a label rename is not an ABI change, it would make sense to
-> do a massive change of renaming all camss labels. Otherwise there will
-> be an outstanding incorrespondence/confusion of the label names in
-> board .dts files, and that's bad.
+> I will resend the changes with whatever updates requested by both of you,
+> if they do not contradict to each other.
 > 
-> -- 
+> --
 > Best wishes,
 > Vladimir
 
-Ah the label, I thought you meant node.
-
-camss: isp@value
-
-Yes
----
-bod
+-- 
+With best wishes
+Dmitry
 
