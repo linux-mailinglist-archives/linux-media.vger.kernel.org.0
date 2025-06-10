@@ -1,140 +1,146 @@
-Return-Path: <linux-media+bounces-34382-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34386-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30984AD2E59
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 09:09:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E94AD2E6B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 09:12:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 80C8F188AE99
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 07:09:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0EDD188893D
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 07:13:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC59C27EC7C;
-	Tue, 10 Jun 2025 07:08:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD3127AC45;
+	Tue, 10 Jun 2025 07:12:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="StJN63c2"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="RcjdXZcf";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="LMsECaz/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6B322B8CB;
-	Tue, 10 Jun 2025 07:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D0721FF25;
+	Tue, 10 Jun 2025 07:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749539326; cv=none; b=mgfm7fvt6Fpn9/QWk95aJKSbvZc/SNorUHBwKujuQYhYpPRqYqY6l69gcMbBhXXwWuUpVcl0ChLlj04RlZxQ6WyrnoyUk+zb/NELS4A8HOiq9CoeM6v9D+wtDTwFM+qbwOp0yfZqVv0SA8vtI/421AtMgHJmPOCOGnK0Eu7xo1Y=
+	t=1749539564; cv=none; b=nKDwKPspvmFUiOv8wPX/dk52mUlB/LJw6Wh+fnYqxAy3qwFdEStqeo9eUr+y0lS3/5cjnmALh/ijVMnmFDY0m3ChfZuimlFH3iXt0rWpn6AaCDS7lkA+Eun+GHw5CYcIJBeWkBN1wBfZt4v/w9dh1AJZ+CPsoXhmk2Pc/TVHV+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749539326; c=relaxed/simple;
-	bh=tToi8tfhAwhbg8M9op98TVL8Co/zc0UThzZIsHoprw0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=buu2V2dOU1uPOTvb7q63RAWTAfcJgNftBNXkADdrvXryuspXPralQSLVc3ORC9/wRavHl8Wro+LsBaYDmWCcjPowSosh3Z+V6NceO7KxUmQCD3CxzlFHmryaUU/AiLwVnMsu0rvaMnUDWIvrIT8dd022I1iRW9WAVj4RQqogspA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=StJN63c2; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55A5xdqd006735;
-	Tue, 10 Jun 2025 09:08:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	ZPw43GyUj1rBJP84OCQo1msrNqbW6/iMIuz9l5cgfso=; b=StJN63c22GLOtsvG
-	9fojwf5LSEuEPKjFbXmz84uIY7ub3vFX99Z9XJXV2a1vFpsN5d5S2XhOo0h0Q7GF
-	HBpGoemQxN4fcBWM5/ZHQdUMn1f8kB3SxQ7DzQiHjg1MHcQm4zqi/F1Pd7P2N9nH
-	YGS0i8KoFV64+rIpwliONXS0nstH7n8kaK5J8LrF7QuRHWTsaRorojKTVLi1GixN
-	h4GSLWeaddFox9BAgi13SEz3KX+kW65txewuOE3Vgl8CUYkAaKLUNd5jdGeFkRgd
-	CADr9mUF0OMeANtFtjm3NanRjZdPo4IgMnxRVv+xkPkgZU4JPDfu3LmquDkFDc3q
-	bGa+8Q==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 474cs2k6sd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Jun 2025 09:08:36 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A8EBB4005A;
-	Tue, 10 Jun 2025 09:08:01 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 531B6B9EE0A;
-	Tue, 10 Jun 2025 09:07:44 +0200 (CEST)
-Received: from localhost (10.130.73.167) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 10 Jun
- 2025 09:07:44 +0200
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Date: Tue, 10 Jun 2025 09:07:44 +0200
-Subject: [PATCH v2 4/4] media: i2c: vd55g1: Use first index of mbus codes
- array as default
+	s=arc-20240116; t=1749539564; c=relaxed/simple;
+	bh=DXw/aHoO9WgBP02VjUM0ndsg+Bzs/qIHJdOqcWLJZsc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H6sYT6AZaWRRq1/QTO9GFNByMzB3RlKWV/sgr27gtBRErcBBIHWIlFCA96pe14bv70yP2seTiDGOqtrCQ8xnmq/i3b+ZjL+00RwbB05jVfR0vL+thrxgR4NL4ddMN1Nad3/dheyDFMjvPRclhW6CW+U2Ta8vbto36fRcsPZ+xfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=RcjdXZcf; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=LMsECaz/ reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1749539561; x=1781075561;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=IA7dsIXLKv7cmvpo+Mybfca1vUSev2LFZHY5ABbB46A=;
+  b=RcjdXZcff6ko6oA2dSOA8hob2zSGnaQ3TbMyNX3lXPYuGVhA2v53T4no
+   yQS7PnZyBvyNHjsek2PJPfit+um16GwV8g/HjDTiQVTV20lYC/GsxLdjY
+   kcaqMC3swxuwZI/7URLNARarUgx/FFFIjqdRa+0XnqMVbednCLQ+UST/Y
+   /ihCPV3U7LHgKnTXrCZ7blEQfTi31IAz9GmxmkRuzMPdL0Tu3xl5dsFwm
+   u9PRI/72weJeFEM3cHecysdF6vDcjkd7gFqeqmCc5a4/uD3gaihfcOneh
+   N6xNkfoEq0Y3x69f3Sx3G1PNnjssyzRr2Hmhoyl2lKDh123LYCwELQi3s
+   A==;
+X-CSE-ConnectionGUID: fA3TVHqiRBOxqf/Q+mGaRw==
+X-CSE-MsgGUID: rGinyqaER6WoZUKPcnwIwg==
+X-IronPort-AV: E=Sophos;i="6.16,224,1744063200"; 
+   d="scan'208";a="44535023"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 10 Jun 2025 09:12:32 +0200
+X-CheckPoint: {6847DAE0-18-476CAA88-C60F6DCB}
+X-MAIL-CPID: 1FD1400D779E047ACCE98C823177DC56_1
+X-Control-Analysis: str=0001.0A00639C.6847DB01.000A,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8EBD51644F0;
+	Tue, 10 Jun 2025 09:12:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1749539548;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IA7dsIXLKv7cmvpo+Mybfca1vUSev2LFZHY5ABbB46A=;
+	b=LMsECaz/6WqFjW9c9hSzKZqdCwCDa7iRyEGktjb4aXxAdE5PcO/HeMC4dPHYHX7JQPA1El
+	vXGolpoMVPdD7IQJnJ6KwBqcC4k45BGMW7vwqyQ/YmC67Uv4eRwEXUiGINXBn+Uy+4NMn2
+	bPwnSoUdO8j+Xd/1/t2eGCBNBiEW1sCC8cA7ra3vAoRVQZlSZ0z20Zn7ebMuDCSEMhrxqD
+	i9HSyP3CGV7a67V/4HtqEUdfrYbINCxTkuxz09QQBjiCqaVbClP/Sx6mWEIcLHEiNvzYyn
+	Uju+GLjSwjvb33OwFT7TTbhiulKoA85W4XOkn3JVfHYfAqKi/CNvKCPPMEWLHA==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: linux-media@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
+ Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>,
+ Purism Kernel Team <kernel@puri.sm>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject:
+ Re: [PATCH 2/8] media: imx-mipi-csis: Fix field alignment in register dump
+Date: Tue, 10 Jun 2025 09:12:26 +0200
+Message-ID: <12685072.O9o76ZdvQC@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20250608235840.23871-3-laurent.pinchart@ideasonboard.com>
+References:
+ <20250608235840.23871-1-laurent.pinchart@ideasonboard.com>
+ <20250608235840.23871-3-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250610-fix_vd55g1-v2-4-328305748417@foss.st.com>
-References: <20250610-fix_vd55g1-v2-0-328305748417@foss.st.com>
-In-Reply-To: <20250610-fix_vd55g1-v2-0-328305748417@foss.st.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sylvain Petinot
-	<sylvain.petinot@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Benjamin
- Mugnier <benjamin.mugnier@foss.st.com>
-X-Mailer: b4 0.14.2
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-10_02,2025-06-09_02,2025-03-28_01
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 
-Factorize code and prevent future erros in case of media bus codes
-change.
-Rename VD55G1_DEFAULT_MODE to VD55G1_MODE_DEF to mimic other macros
-while at it.
+Hi Laurent,
 
-Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
----
- drivers/media/i2c/vd55g1.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+thanks for the patch.
 
-diff --git a/drivers/media/i2c/vd55g1.c b/drivers/media/i2c/vd55g1.c
-index dec6e3e231d54a742bdd08ff2a506c152bb89429..177caa5470cfcf49e0ae2fb568d7872a5608a11f 100644
---- a/drivers/media/i2c/vd55g1.c
-+++ b/drivers/media/i2c/vd55g1.c
-@@ -111,9 +111,9 @@
- 
- #define VD55G1_WIDTH					804
- #define VD55G1_HEIGHT					704
--#define VD55G1_DEFAULT_MODE				0
-+#define VD55G1_MODE_DEF					0
- #define VD55G1_NB_GPIOS					4
--#define VD55G1_MEDIA_BUS_FMT_DEF			MEDIA_BUS_FMT_Y8_1X8
-+#define VD55G1_MBUS_CODE_DEF				0
- #define VD55G1_DGAIN_DEF				256
- #define VD55G1_AGAIN_DEF				19
- #define VD55G1_EXPO_MAX_TERM				64
-@@ -1260,7 +1260,8 @@ static int vd55g1_set_pad_fmt(struct v4l2_subdev *sd,
- static int vd55g1_init_state(struct v4l2_subdev *sd,
- 			     struct v4l2_subdev_state *sd_state)
- {
--	unsigned int def_mode = VD55G1_DEFAULT_MODE;
-+	unsigned int def_mode = VD55G1_MODE_DEF;
-+	unsigned int def_mbus_code = VD55G1_MBUS_CODE_DEF;
- 	struct vd55g1 *sensor = to_vd55g1(sd);
- 	struct v4l2_subdev_format fmt = { 0 };
- 	struct v4l2_subdev_route routes[] = {
-@@ -1278,7 +1279,8 @@ static int vd55g1_init_state(struct v4l2_subdev *sd,
- 		return ret;
- 
- 	vd55g1_update_img_pad_format(sensor, &vd55g1_supported_modes[def_mode],
--				     VD55G1_MEDIA_BUS_FMT_DEF, &fmt.format);
-+				     vd55g1_mbus_codes[def_mbus_code].code,
-+				     &fmt.format);
- 
- 	return vd55g1_set_pad_fmt(sd, sd_state, &fmt);
- }
+Am Montag, 9. Juni 2025, 01:58:34 CEST schrieb Laurent Pinchart:
+> Commit 95a1379004cb ("media: staging: media: imx: imx7-mipi-csis: Dump
+> MIPI_CSIS_FRAME_COUNTER_CH0 register") forgot to increase the maximum
+> register name length, resulting in misalignment of names printed in the
+> kernel log. Fix it.
 
--- 
-2.25.1
+Does this warrant a Fixes tag? Anyway
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/p=
+latform/nxp/imx-mipi-csis.c
+> index d59666ef7545..b652d59851c2 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -895,7 +895,7 @@ static int mipi_csis_dump_regs(struct mipi_csis_devic=
+e *csis)
+> =20
+>  	for (i =3D 0; i < ARRAY_SIZE(registers); i++) {
+>  		cfg =3D mipi_csis_read(csis, registers[i].offset);
+> -		dev_info(csis->dev, "%14s: 0x%08x\n", registers[i].name, cfg);
+> +		dev_info(csis->dev, "%17s: 0x%08x\n", registers[i].name, cfg);
+>  	}
+> =20
+>  	pm_runtime_put(csis->dev);
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
 
