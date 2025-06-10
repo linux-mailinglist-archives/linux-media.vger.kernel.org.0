@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-34485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34486-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9B0AD4622
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 00:52:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9713AD466A
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 01:06:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 844FB16309D
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 22:52:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E4111896B6C
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 23:07:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A333428C01A;
-	Tue, 10 Jun 2025 22:52:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C34EC23AB9F;
+	Tue, 10 Jun 2025 23:00:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DQ51gCR4"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E1Ulayps"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4472778F34
-	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 22:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30293245027
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 23:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749595954; cv=none; b=tFSLoZSQR6qaFXw0ej9Cw1QZPpSwXpWK6plL+3Hxkt2jRIVN80811fPAlI/VsosK0yTGF6Ijv7YdKROloAau16RtQKYHNJH2aYG4xbHtgEErp+MOq1v0SHFchyQn9cZcTqjAL7B+8H8IUU/hS9rts1hA4tyYijwt2y+52LFZMTc=
+	t=1749596454; cv=none; b=kwIHXuLexmbevVrLnGb6B9thblQerlR/w0CEVpVzAQ8KA3sILObV0Xdj5owFeu1QgXzMbDuAzydZwwJY5N2Lpt5fCNmd37egfPLf28mv06iWtWkbomqexpID0z65QkdL2gi3UuMcC7AI9UbWtMOtyTA+hQ0jWG84waqLvXl0jgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749595954; c=relaxed/simple;
-	bh=dGvEL7VFQMEHyCl9uhKD2qLMJqcGj2fNl68zFI+CAcQ=;
+	s=arc-20240116; t=1749596454; c=relaxed/simple;
+	bh=YGpY68rA/JhjEp+LxAFTrZMk9ii1rggbyBCVjH5Hi/0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EfJ/NavhXOmfEH6m8S7ml2C0lkO7zeE3mt7uGeMCaNpYQWs17mfzvKEFd+7Yqgv/aSdYrbUFC31jY6IN7LCeA4XVtl5lEPkPMbtLU9PWjTLP8dF4QmrLz/Wjz1AUTZ6dgGVYcpuOGoas9l87gCCs8cpAhfm1SG1PL6zsfNttJjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DQ51gCR4; arc=none smtp.client-ip=209.85.167.41
+	 In-Reply-To:Content-Type; b=UBjcUIxgxLmnqCzjCjkcwLYDVi3zHQxugVEWxQwqQTiH607Eo9YLOXpAmPccMz071GmQANFMpWRU75GqV88JnauOEKnJF7HNyqFrftcDLsC2sOhHreSMwz8ncLDN+ewkg1w8bqDQSkyCPAeBCLOAVCC76GzAoRFROHoQnBDpGmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E1Ulayps; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-55328ae0473so846653e87.3
-        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 15:52:31 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-551fdd1c4b3so831431e87.0
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 16:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749595949; x=1750200749; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1749596450; x=1750201250; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=jDzIKnfoXKVxpTDnGzOlzzRBRZz/lpcLf4ffLk3rm3E=;
-        b=DQ51gCR4zyHBQsAO3THxmep1HOUDK+vpZCSjhA94cktIduNcodYUGsXUImm2utb1HR
-         lNi594PgRpr0EaFMAxAXtC5hnKB4rmFzprNLmK+/3QLWDdtVAItrMfEJQ97SpG8vtrSG
-         C5NRZ/QcOYRTX/FVO9JE3/3pNJJU8komB3YkQczkMF1ALSApqcvltWNYHAWDKu6Aybzd
-         HxBRiVLaOF+mbs+JqROqeICRXVF9javIo8MWyFBe2xQIt0wW0c955Vr6X+eRS0Kh3w5S
-         aoLP29XsVEdqM2yvJ2RqhrWMHW7XcKv3j0dfbx7CGRhhoFf6sq1t1dzl2kLAO/DJHvBr
-         gBaw==
+        bh=pv6eC8BWJe/QC9w4Z6dJHOpH2uERhEZbO922xRkpRTM=;
+        b=E1Ulaypso42LWSiGsujPuX+rpA6xoQfdDwYYL0bI+3Y23Ptx5xiOCiV0vD8IaFhVnx
+         mGeefsNjmdCZvIxjiDDfwk2EmhuyW7G8BTq4n1Qa0kRj2AVvQxoWy5NqNdigbRTkm132
+         9P13jlQ1D6fnVc1pSOmFKcR9nPHdKc3DBDFlfOu9V665f1bF2VBo6AwHhNvIrbfE62VG
+         8WMVcioP4Z+9qAkYFrZ+5m3gwC37gu0TjEFYqP2hqzYBArpfQtgHuvayjLyHlfUkGq18
+         PvA5pv7CmWp5vwG+PjUh50vf6tmsr75NfbZkMuP0d9topJo1To1/8X9zkXqkNFCYuBgG
+         kLNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749595949; x=1750200749;
+        d=1e100.net; s=20230601; t=1749596450; x=1750201250;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jDzIKnfoXKVxpTDnGzOlzzRBRZz/lpcLf4ffLk3rm3E=;
-        b=b7I6YakwX30XIUjWBCNR63cz7+paQG9WhwBc+RuL9MxaHonf5AWycFlUlbcUy+TU2I
-         85VzOs9T/i0ravif1MvEkQQp8aYzHBys9yJRqq6ZfOmRvRe2FCYM3mIxES1U4K/bP+KU
-         ywXnO+gr6VWtr8x8+AsihMfYIowwLilCyLq/3Wibd7UcIxCJnAGZD37197pEMgXaSlFc
-         0UfKsFVy38KixGt+KuMV4yKcAt2iUALXnJt83bJE2pSS1uUSFI31C+Ja+k1p+tTbzk19
-         t9CCMSL7WFO/UbJ7bVe8Yl58RzZ+9ygIQFQNEbjPn3Uz6BfyRTT6SHPiUPt98yySCtHY
-         Wvow==
-X-Forwarded-Encrypted: i=1; AJvYcCXqziVqyubsDFzuKgRw6f8T03N+NjNCaJpkCX1XNzwl0NSJmlfNyaqrNU5ktlYLhYCY7AgL6wHehUhCJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfNE0OxZq6SgYQ9zhq+OBtVaPTvvFbseDyoCr6ISPiPzqaoX1J
-	fjZp42sC7t+f/Hp3Xc8Ico2NjANLvRmutsGJV9av15pMkq6L88f255ISIQn0G7lfxuw=
-X-Gm-Gg: ASbGncuHXq2WpWAe91/PsMUAOsHXnUBzfn6HeIkePFCyBrer58GZLIMyoN6a97+kQA0
-	eYxldWa1+4VR2DDXmBNXGnJYHsDaA1luvSWoCTqhLY8fqPkM+R8sRJnbEu0PwGX89YGRp9PVtW7
-	+L4CNIoQQfAjL9BXBmoptn0BmQztBn4vhvHYgtPs1q0ZM4pPw0abfj4VvC1VxjcUxr5KAq9BN65
-	oxWi5JrelaxtK2saorQOURsTWqAALFwu08kOhH+oJyqlBvPDqAgjzI0l/8Wt8FsB/F/z5EgRZO5
-	Runs0tKT4mIsz0p3DXnZPIP+8KJUVFlMFKsJJ2Lq5WzCH9q90z1x01F66vu8KMOSEcloE7ZyRlQ
-	ffnlOhgxQbXqY5CaaPSxbAR7vokTBPASOp58ZI3sl
-X-Google-Smtp-Source: AGHT+IEtuqJcRIG0E5fei0/F3drx/EifVxzaUFRy6V7mzVWAdahdyPi7wDfC9TSKmVZdcMYEaT5BQw==
-X-Received: by 2002:a05:6512:39c1:b0:553:2874:8efb with SMTP id 2adb3069b0e04-5539c2482femr113667e87.11.1749595949406;
-        Tue, 10 Jun 2025 15:52:29 -0700 (PDT)
+        bh=pv6eC8BWJe/QC9w4Z6dJHOpH2uERhEZbO922xRkpRTM=;
+        b=kf+FSFVazTVKyZJemeRfeEheMvvMsUxyBiKkaci2JXGs8otAQ8+892Rk74p/MPK9tX
+         6XFpAH99Abf+AF7ocfQy7u/P30jbU31a1XMrBNha8RoFQcYVMxzkaZq8h2P6qH1eGs+f
+         ufvPkZTDwQtTgDSoUDt4g/qz89tbEhqx5YxnIi/FCTCTLUuj2mrAU9UYV14u90ETk/5E
+         9EUzdqRC2AZiko2xMbmFG2bYnxC13cAHdkq7EbPFgZ+jTZPl2Z7IUwwYmHLHNmuaRIcO
+         m0Pg6PHqJ08tKH3Ng0TDekSvpUgV1aqgPKh6xUdHgMyDt4WO8rVzinj6ap1BptQCmWHb
+         VRcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUMotkcMPqgJENlbN3/Ae64HJlsbCMuhKHrdQvsDhBj7vmNQemfzakKkLGfilzPKtn0WM4bIpWSCZ9BgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxByD0XGCu3hvkxn3ukxL9+8JRXE1QCu7G4d2n9B8yUxEZ5U4Kt
+	Ms6s8li4ppkbuP+WNYslg0FT+V8IDUUBF3Zux34MJB7osPC2EUuaByUZq8aKg2i2kZA=
+X-Gm-Gg: ASbGncvJg2qfVui1fdb+Wut0uXvRcqtNetlgv4GPgFMUjpQopzIDnK1IRJI0qku+TAF
+	pSJeIIwBOAK4vze3o7eVXVynIgP03GUhN0mUbcr1M851Lrdb9mn8O+PqEybimmDFtZjCkX3i+hc
+	GE8QFaGXgowBJJ3XilmbB1uDqgjG9y73zC77t9DUtnSwpxsVRpUm7hJhyLkFz8TYMOLSlhWBZWD
+	MS6zMlyAHKjsxWchfchCryjziHc4lAmmxSa5hqOy8H+5fAJ4JFixJLVBslJUqRFQ/rYm5ouaEes
+	x1QP45A0YmvdfYU8n+nU4cWTmjhxD/63cHW797MrWHWVfSvDJ+OY3y9JGQKa1eXCfHv//SSmD/B
+	q0ullaLu01XaKE1RKvMIbe9N10PmZVMlBTtgzmiKeK16q9SM1O78=
+X-Google-Smtp-Source: AGHT+IHxOB/GIvprDibRGH8b/xJoWimp0/bpa4Tr3aOnKL4YrIP9uIWQke3mgMvMH8CXv6c9NpUI5A==
+X-Received: by 2002:a05:6512:b09:b0:550:ecdf:a7f9 with SMTP id 2adb3069b0e04-5539c246fb3mr134143e87.10.1749596450228;
+        Tue, 10 Jun 2025 16:00:50 -0700 (PDT)
 Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553676d03acsm1722972e87.32.2025.06.10.15.52.27
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553926a7d2dsm578480e87.157.2025.06.10.16.00.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 15:52:27 -0700 (PDT)
-Message-ID: <13db6444-d9e9-4c37-a68d-7ed2c4d52ef6@linaro.org>
-Date: Wed, 11 Jun 2025 01:52:27 +0300
+        Tue, 10 Jun 2025 16:00:49 -0700 (PDT)
+Message-ID: <0943821e-603a-4ee6-9bcb-e5fe690358c5@linaro.org>
+Date: Wed, 11 Jun 2025 02:00:48 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,100 +82,75 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] arm64: dts: qcom: sm8550: Add support for camss
+Subject: Re: [PATCH 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
+ interconnect alphabetically
 Content-Language: ru-RU
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Wenmeng Liu <quic_wenmliu@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, andersson@kernel.org, konradybcio@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- quic_depengs@quicinc.com
-References: <20250516072707.388332-1-quic_wenmliu@quicinc.com>
- <0367d5bd-a42e-4b6c-b841-ba20190b3127@linaro.org>
- <dc4720a8-2f15-44aa-9a52-8440c7518328@linaro.org>
- <739bad1b-f26d-44a6-9cc1-eee28023474f@linaro.org>
- <dc82457e-de2b-43ec-a50c-08f7d8bdeff1@linaro.org>
- <1883d9d7-26d4-40b1-9848-ae0477cf95c7@linaro.org>
- <6bbd526c-3193-40c7-91be-e629949dca8a@oss.qualcomm.com>
- <b4a7aed0-a05e-4d1b-965f-78e0c5e0709b@linaro.org>
- <10f07a65-0549-443d-889b-d36b3515a237@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250610083318.2773727-1-vladimir.zapolskiy@linaro.org>
+ <a072d00e-df91-420b-9363-424bcdf1ed8e@linaro.org>
+ <3e8f8220-1fad-437e-9fa4-5eb628891110@linaro.org>
+ <ae364f1c-5d64-4178-b26c-e58e352feee0@linaro.org>
+ <97e51ab0-737b-496e-81df-b73c9f598bb0@linaro.org>
+ <35muvo7h7ynfvzjt6jomasr54xaomfgt5etjc3uuczhfxww2ds@u5xsayanthx7>
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <10f07a65-0549-443d-889b-d36b3515a237@linaro.org>
+In-Reply-To: <35muvo7h7ynfvzjt6jomasr54xaomfgt5etjc3uuczhfxww2ds@u5xsayanthx7>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-
-On 6/11/25 01:17, Bryan O'Donoghue wrote:
-> On 10/06/2025 22:13, Vladimir Zapolskiy wrote:
->> Hi Konrad.
->>
->> On 6/11/25 00:04, Konrad Dybcio wrote:
->>> On 6/10/25 11:02 PM, Vladimir Zapolskiy wrote:
->>>> On 6/10/25 22:02, Bryan O'Donoghue wrote:
->>>>> On 10/06/2025 13:49, Vladimir Zapolskiy wrote:
->>>>>>>
->>>>>>> List feedback from DT people is isp@ is the correct prefix.
->>>>>>>
->>>>>>
->>>>>> My bad, but I don't understand this comment, it seems irrelevant...
->>>>>>
->>>>>> The expressed concern is about the novel label name.
+On 6/11/25 01:21, Dmitry Baryshkov wrote:
+> On Tue, Jun 10, 2025 at 06:10:33PM +0300, Vladimir Zapolskiy wrote:
+>> On 6/10/25 18:02, Bryan O'Donoghue wrote:
+>>> On 10/06/2025 13:45, Vladimir Zapolskiy wrote:
 >>>>>
->>>>> I mean to say the feedback from Krzysztof was that we should use isp@
->>>>> not camss@ and I agree.
->>>>>
+>>>>> How is this a Fixes: ?
 >>>>
->>>> Let me repeat it thrice, it's okay...
+>>>> I call it the fix to the dt-bindings documentation, then what is this
+>>>> change, if it's not a fix?..
 >>>>
->>>> I don't object against the properly selected device tree node name
->>>> "isp",
->>>> here I object against a never used and very questionable label name
->>>> "isp".
->>>>
->>>> Please feel free to ask more questions, if you still find it confusing.
->>>>
->>>> Again, I may missed a discussion about the need to get and use a novel
->>>> label name, then please share a link to it, it'll be very much
->>>> appreciated.
+>>>> Anyway, if there is a strong disagreement about if it's a fix or not,
+>>>> the Fixes tag can be dropped from the change, since it's so secondary.
 >>>
->>> To hopefully help out:
->>>
->>> label: node-name@unit-address {
->>>      property = value;
->>> };
->>>
+>>> Since we don't have a committed upstream user I don't think this is an
+>>> ABI break.
 >>
->> Thank you, here is a link to the wanted section of the dt specification
->> for Bryan's comprehension:
+>> Well, Dmitry says it's an ABI break... It would be beneficial to come to
+>> a common understanding here.
 >>
->> * https://github.com/devicetree-org/devicetree-specification/blob/main/
->> source/chapter6-source-language.rst.
+>>> But I also don't think it warrants a Fixes: tag either, there's no bug.
 >>
->> If for whatever reason a proposed "isp" label is preferred, then
->> since a label rename is not an ABI change, it would make sense to
->> do a massive change of renaming all camss labels. Otherwise there will
->> be an outstanding incorrespondence/confusion of the label names in
->> board .dts files, and that's bad.
->>
->> -- 
->> Best wishes,
->> Vladimir
+>> There is no bug, but there are Documentation/ changes with Fixes tags,
+>> it's okay.
 > 
-> Ah the label, I thought you meant node.
+> Fixes means that there was a bug / issue that needs to be fixed. For
+> example, if there was a user for the bindings and the user had these
 
-I'm trying to do my best in expressing myself by means of the second
-signaling system. As an example when I write "a label" repeatedly, I mean
-to transmit "a label" symbol, hence I hope it should not be overly
-complicated to understand me.
+That's "for example" only, I don't think it's an all-descriptive definition.
 
-It's great that the understanding is reached now, it would be better,
-if we can save some time in future.
+ From Documentation/process/submitting-patches.rst:
 
-There is no bug introduced in this particular change, however it shall be
-fixed and be resubmitted.
+   A Fixes: tag indicates that the patch fixes an issue in a previous commit.
+
+In my opinion this is quite applicable here, the "fixed issue" in the device
+tree binding documentation file is well set, and anyone can get it from
+the provided commit message.
+
+Anyway, per the ask I'll remove the Fixes: tag and resubmit these changes,
+thank you for the patch review and discussion.
+
+> values in a different order, then changing schema to follow established
+> order would have been a fix.
+> 
+>>
+>> I will resend the changes with whatever updates requested by both of you,
+>> if they do not contradict to each other.
+>>
 
 --
 Best wishes,
