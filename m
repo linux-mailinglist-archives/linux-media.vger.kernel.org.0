@@ -1,201 +1,159 @@
-Return-Path: <linux-media+bounces-34436-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34437-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF272AD377A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 14:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3CBAD3784
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 14:57:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7E13172637
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 12:53:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B62C617C0CE
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 12:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F40829A336;
-	Tue, 10 Jun 2025 12:47:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 948A329617C;
+	Tue, 10 Jun 2025 12:49:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWBVq6vB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Bhm5/DLv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45A3293469;
-	Tue, 10 Jun 2025 12:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2796E2957DC
+	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 12:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749559644; cv=none; b=DC4G+B5OlQ6SVPJfy5qWdDmt291lFWFeolPsqw1BikupVTWmRNRcdboFcKrAOqOpyRN2QnfZphZd4zmk+HJ4BbuNzZ2n5PMbOgK0+ACDIV7ox3fks/l9aFuEpOX39GRsA65wBjJr8M3sAk0CK2uAQKaanAJv92z+SN89J35lB3g=
+	t=1749559755; cv=none; b=cE65H5Dqzuj7favzkpxqmNxAAtVZkIvKxBs7P9n8PICouy6Edidv7wO/FpTjJLIm9X5jhxhQTLBmybZCs31TUtPK1OTWtFA7VDqEiG6yzPfa2ZVPgzQ7mGl7J/syK9jYsqU6Ldk2TkEwq1sLPctIi61tGBt+2ukZmIqnwMYkF5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749559644; c=relaxed/simple;
-	bh=Q9YIQ730GHAcOU4O1jEnaS7atkULzfK70EqJ4k2AIrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XIcIwzgUYBTmyXF+jvBMlbK7Yv/pHvyXTh5pIJiQ4h21WOxc7XEnsbSxGmSKFilPYlCYjehWU7D1hTEY3LnSKKJc4AaBotcvI3gnsXktBC/pRaXhphE3wTTywONhHoFQ0V8ENPYPJ9DWpao4ynMegHzU4H47dsls0MVFnk7eEMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWBVq6vB; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749559643; x=1781095643;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q9YIQ730GHAcOU4O1jEnaS7atkULzfK70EqJ4k2AIrQ=;
-  b=jWBVq6vBkOZoffGVHfzfKIOtnXnj90xK0lCsqFDq2TFgwz411qN16an8
-   ofxPFJWRDvf/tGErpJVaGgcvH7hwq6F27S4okDrw5Euu08cNvQjKGW8oN
-   Oj4EOdOmYZb3glYrshqC4Zbi/RtIXSqjQvNsJnFYZMaU1Tt+GuWNl6DqJ
-   64taew93XmwNzfLrrMWOqVXTeuGb1ets+Qlsy7xTgJPsK6WD2u1nla/EZ
-   vOExv4zNBJE9JpwzMSj7hwOwVnviTtS7SMg52SW20mbo0qXqlNfZKg41F
-   hp3HWXP3sFv047T9HdlSV1xIj9DrGrB62GLW/erwGIDQnJUno1XDUxiI8
-   A==;
-X-CSE-ConnectionGUID: RK3tpsNdRQe0b81l6lTElA==
-X-CSE-MsgGUID: iOVNVYU+SqqH9t9lqhygVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="55458312"
-X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="55458312"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 05:47:22 -0700
-X-CSE-ConnectionGUID: 4Cziqe11QyubbBtGWExN/A==
-X-CSE-MsgGUID: 5JQpjcB0Qjym4IDP1f45tA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="151700327"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.55])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 05:47:18 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 8F7F011FB81;
-	Tue, 10 Jun 2025 15:47:15 +0300 (EEST)
-Date: Tue, 10 Jun 2025 12:47:15 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: bcm2835-unicam: Remove RGB24 support
-Message-ID: <aEgpU9VUGZuSHpC0@kekkonen.localdomain>
-References: <20250606-rpi-unicam-rgb-bgr-fix-v1-1-9930b963f3eb@kernel.org>
- <20250609003751.GD14545@pendragon.ideasonboard.com>
- <CAPY8ntCnz6nkJSredd-sgMr87=0vuZ0OtfiMoPOfCZisKkzTHg@mail.gmail.com>
- <20250610095238.GA28428@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1749559755; c=relaxed/simple;
+	bh=8pGLEakmr5aQtq0MNQDWSHLHa7dbD9TZs7Ms+ip8HFY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uCGu3QmqCzUF3jRkjJ4na6KBtpk28tH9jQ6FmX7QuxNZX+0VG2AtDYWzYPPJwHjg+TuyTqRQeV5+6eaaLpGvNBbHCP/D8lC0ta7WSAjcg5G1yqN1noN3yqiiEHBv6PY9XzbcXLSipDBO55gmF2spMspFQxZ8Bp58LcRQSgYGdYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Bhm5/DLv; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55324e1a297so501287e87.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 05:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1749559751; x=1750164551; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SMSrvswUbazeYbvuGhFOqonwWDg71HMAispluXuK8zE=;
+        b=Bhm5/DLvjaW7Lzd2TrS1xdXkF4QN/1Kj5tZuUxkAr48g7SwiTdS+236ISfos/7uzUT
+         K4nsyz6XH2RXYlDoqvQazhA7kytzjNDRQWUZNOwC1mxcANVeCVs5MgeVvfTC4apAhgPP
+         YLUgAT/K+IOeuhOBvq0Z18IlzfBZEt+Nxl+2yhpIYKYocs6ElD7plIjPKt10xZ8QREDY
+         AZYafGM4N9tR6xRBZWDo9FtRYsrF4RU0kMfd+jF0ogJA14hEWYPj/kOssvG3G6BdWQ7q
+         iEDa/qLT61X33uQb6BguiUlYh3zbkH6FGov0oxVd8HNdVnvYc7ljcJYJAoOPrPfz0QUY
+         eQ2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749559751; x=1750164551;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SMSrvswUbazeYbvuGhFOqonwWDg71HMAispluXuK8zE=;
+        b=WpkzTIRVDNIFyV60Y9kyMnZgmCTc+CWfP9f7KgUrgD02Fc4kaxa1E2gpOUuHxJuX5f
+         nKtseu7xLIM36DA8mVv93QCxSYO8tDWnon1PxSQ8q3a4L/9LfbsGGsSuuy//S1aZymLY
+         YUXanNYqeLMY5KdVGl4KGqHsIvhvbUu8o7IZ+vkoQT06zOz8FRCF0SrTm0VN9Nq587Al
+         j112s8PK0XHX41o0vuD8JZls1BQET417QwhvHaJuDzbPMUV41Zy0Xl4qDec2CImlg2q2
+         oCM5znlfgZy603YAmaVJx97rCy5CKHNkzh6rEYA2rCoer8u8velXBVl05quRPX2Wz6ir
+         MN3g==
+X-Forwarded-Encrypted: i=1; AJvYcCVZPyCSxPUhansiRMg+sO7r+lFlu0ebsQNCgJRPOFsAn2xZ1xTbzKPPspfY7jTDz3GIYh3zoaGJAN3hEg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWkwYNahYbxsKB3OP8ugjXTrQ0IKEEX2Rquj3NpRR9O5pTY/GT
+	3ZRJVuuxVFrQvo3gKsCXeb89RPt5RRfNl5fPHrz/eU/UxDYEcxQpWk2EzRxtlczHbdM=
+X-Gm-Gg: ASbGncswJINjuuW0OD8qQUkyE+XPjtlGSM8rpKe1XxxGX/TashEKR9ii5TxLSeeCJC/
+	IcqSKUREB1NXDmS0EFx2+sVqW8n+t8rq6Gh5FgyAW53HJqLNW1A1rbIOlvkEzXI6Rxas6k4lGsl
+	dM/y5JwXOXoT5CktwtCFKRMHTXplTxUtHaC7Vx6ACHx7t5vr4YROWOE06CKZhKQTBqROWgTcDfk
+	fkqMIyYqTBGMQiog0Bae6nCdPGHl/OBluqBdQqDNp1rrJQvxRJvUYPOdFU6wy6xptlZvN5L82NO
+	rQZfJJAqK3F6fFfsFKCUsHs0KEfUbCDwhoK1SLt2lXgyJ9AN2M7vl2yLwFIJ0khqz0aT2rpyyT0
+	43TUAdpoCsUhsqlbKmLa2zIPhYIeFZ4p4z5EZJmjz
+X-Google-Smtp-Source: AGHT+IHY1q8YmyvtVFQkg3FZFwHokHT/o2o35vML8BOoO8vhLwLta089+v0mypfDQ7uA7zZsqXirAw==
+X-Received: by 2002:a05:651c:2107:b0:32a:85f9:5c0b with SMTP id 38308e7fff4ca-32ae3359b7bmr15305731fa.10.1749559751259;
+        Tue, 10 Jun 2025 05:49:11 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b0d1e2sm14474271fa.19.2025.06.10.05.49.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 05:49:10 -0700 (PDT)
+Message-ID: <739bad1b-f26d-44a6-9cc1-eee28023474f@linaro.org>
+Date: Tue, 10 Jun 2025 15:49:09 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250610095238.GA28428@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] arm64: dts: qcom: sm8550: Add support for camss
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Wenmeng Liu <quic_wenmliu@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, andersson@kernel.org, konradybcio@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ quic_depengs@quicinc.com
+References: <20250516072707.388332-1-quic_wenmliu@quicinc.com>
+ <0367d5bd-a42e-4b6c-b841-ba20190b3127@linaro.org>
+ <dc4720a8-2f15-44aa-9a52-8440c7518328@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <dc4720a8-2f15-44aa-9a52-8440c7518328@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent, others,
-
-On Tue, Jun 10, 2025 at 12:52:38PM +0300, Laurent Pinchart wrote:
-> On Mon, Jun 09, 2025 at 03:33:29PM +0100, Dave Stevenson wrote:
-> > On Mon, 9 Jun 2025 at 01:38, Laurent Pinchart wrote:
-> > > On Fri, Jun 06, 2025 at 04:53:03PM +0200, Maxime Ripard wrote:
-> > > > The RGB24 V4L2 format is defined as a pixel format with 8 bits per
-> > > > components, with the components being in the red, green, and blue order
-> > > > from left to right.
-> > > >
-> > > > The RGB MIPI-CSI2 is defined in the specification (Section 11.3.1,
-> > > > RGB888) with blue coming first, then green, then red. So the opposite of
-> > > > what V4L2 means by RGB.
-> > > >
-> > > > Since the hardware cannot reorder the components, this means that when
-> > > > selecting the RGB24 format, you get inverted red and blue components
-> > > > compared to what you'd expect.
-> > > >
-> > > > The driver already supports BGR24, so we can simply remove the RGB24
-> > > > format from the driver.
-> > >
-> > > The only reason I could think of to explain why the driver exposes
-> > > V4L2_PIX_FMT_RGB24 is to support CSI-2 sources that transfer RGB888 data
-> > > with a non-standard order. I don't know what hardware would do that.
-> > > Dave, Naush, do you recall why this pixel format is supported by the
-> > > unicam driver ?
-> > 
-> > I've lost track of exactly what gets validated along the pipeline.
-> > unicam_video_link_validate [1] looks to ensure that the V4L2 pixel
-> > format and media bus codes match as listed in the table.
-> > 
-> > tc358743, adv7604, adv7511, and adv748x are all saying they produce
-> > MEDIA_BUS_FMT_RGB888_1X24
-> > ov5640 says it produces MEDIA_BUS_FMT_BGR888_1X24.
-> > 
-> > Is that an error in the ov5640 driver? If not, then both entries have
-> > to be in the table to support all those drivers.
+On 6/10/25 12:50, Bryan O'Donoghue wrote:
+> On 10/06/2025 10:48, Vladimir Zapolskiy wrote:
+>> Hello Wenmeng.
+>>
+>> On 5/16/25 10:27, Wenmeng Liu wrote:
+>>> Add support for the camera subsystem on the SM8550 Qualcomm SoC. This
+>>> includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
+>>>
+>>> SM8550 provides
+>>> - 3 x VFE, 3 RDI per VFE
+>>> - 2 x VFE Lite, 4 RDI per VFE
+>>> - 3 x CSID
+>>> - 2 x CSID Lite
+>>> - 8 x CSI PHY
+>>>
+>>> Co-developed-by: Depeng Shao <quic_depengs@quicinc.com>
+>>> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+>>> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+>>> ---
+>>>    arch/arm64/boot/dts/qcom/sm8550.dtsi | 210 +++++++++++++++++++++++++++
+>>>    1 file changed, 210 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/
+>>> dts/qcom/sm8550.dtsi
+>>> index e9bb077aa9f0..722521496a2d 100644
+>>> --- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
+>>> +++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+>>> @@ -3326,6 +3326,216 @@ cci2_i2c1: i2c-bus@1 {
+>>>                };
+>>>            };
+>>> +        isp: isp@acb7000 {
+>>> +            compatible = "qcom,sm8550-camss";
+>>> +
+>>
+>> This is the first time, when 'isp' label is used instead of 'camss', it
+>> might
+>> be I missed the context, is there any particular reason to do such a
+>> change?
+>>
+>> If the label name is changed to the regular 'camss', then
+>>
+>> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>>
+>> -- 
+>> Best wishes,
+>> Vladimir
 > 
-> We haven't standardized which media bus code to use for 24-bit RGB on
-> CSI-2, so I'm not surprised drivers didn't get it right :-( The adv7604
-> and adv7511 shouldn't be relevant here though, as they're not CSI-2
-> devices. tc358743 and adv748x are relevant.
-
-My understanding is the order indeed is BGR. But let's say that if there's
-a device that generates RGB (as in pixel order) pixel data, then it should
-be reflected in V4L2 pixelformat as well.
-
-> 
-> Sakari, which media bus code would you expect ?
-
-MEDIA_BUS_FMT_BGR888_1X24. That's actually used in the example as well:
-<URL:https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/subdev-formats.html#v4l2-mbus-pixelcode>.
-
-> 
-> > Looking at alvium-csi2.c and st-mipid02.c, both mappings are included
-> > there (and RBG888 in the case of alvium).
-> > Unicam's hardware doesn't care about the ordering as it just writes
-> > the incoming data to memory, so having all the sensible mappings
-> > between MEDIA_BUS_FMT_* and V4L2_PIX_FMT_* values makes sense.
-> > 
-> > My initial reaction though is that simply removing the entry won't
-> > solve the problem anyway. You won't get a match between the
-> > MEDIA_BUS_FMT_RGB888_1X24 requested by tc358743 and a supported V4L2
-> > pixel format, so the link_validate will fail.
-> > Swapping either fourcc or code between the two entries would be the
-> > fix I was expecting.
-> > 
-> > [1] https://github.com/torvalds/linux/blob/master/drivers/media/platform/broadcom/bcm2835-unicam.c#L2151-L2169
-> > 
-> > > > Fixes: 392cd78d495f ("media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface")
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > ---
-> > > >  drivers/media/platform/broadcom/bcm2835-unicam.c | 5 -----
-> > > >  1 file changed, 5 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > > index f10064107d543caf867249d0566a0f42d6d8c4c6..1f549019efd53c9aae83193e74f1a3601ebf274d 100644
-> > > > --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > > @@ -338,15 +338,10 @@ static const struct unicam_format_info unicam_image_formats[] = {
-> > > >       /* RGB Formats */
-> > > >               .fourcc         = V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
-> > > >               .code           = MEDIA_BUS_FMT_RGB565_1X16,
-> > > >               .depth          = 16,
-> > > >               .csi_dt         = MIPI_CSI2_DT_RGB565,
-> > > > -     }, {
-> > > > -             .fourcc         = V4L2_PIX_FMT_RGB24, /* rgb */
-> > > > -             .code           = MEDIA_BUS_FMT_RGB888_1X24,
-> > > > -             .depth          = 24,
-> > > > -             .csi_dt         = MIPI_CSI2_DT_RGB888,
-> > > >       }, {
-> > > >               .fourcc         = V4L2_PIX_FMT_BGR24, /* bgr */
-> > > >               .code           = MEDIA_BUS_FMT_BGR888_1X24,
-> > > >               .depth          = 24,
-> > > >               .csi_dt         = MIPI_CSI2_DT_RGB888,
-> > > >
-> > > > ---
-> > > > base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
-> > > > change-id: 20250606-rpi-unicam-rgb-bgr-fix-d1b6f46a75ad
+> List feedback from DT people is isp@ is the correct prefix.
 > 
 
--- 
-Regards,
+My bad, but I don't understand this comment, it seems irrelevant...
 
-Sakari Ailus
+The expressed concern is about the novel label name.
+
+--
+Best wishes,
+Vladimir
 
