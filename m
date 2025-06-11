@@ -1,158 +1,120 @@
-Return-Path: <linux-media+bounces-34486-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34487-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9713AD466A
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 01:06:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83E4AD47D9
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 03:26:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E4111896B6C
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jun 2025 23:07:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 49F10189E902
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 01:26:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C34EC23AB9F;
-	Tue, 10 Jun 2025 23:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E2A9127E18;
+	Wed, 11 Jun 2025 01:26:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E1Ulayps"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="RgDgoElY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30293245027
-	for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 23:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430C264A8F
+	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 01:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749596454; cv=none; b=kwIHXuLexmbevVrLnGb6B9thblQerlR/w0CEVpVzAQ8KA3sILObV0Xdj5owFeu1QgXzMbDuAzydZwwJY5N2Lpt5fCNmd37egfPLf28mv06iWtWkbomqexpID0z65QkdL2gi3UuMcC7AI9UbWtMOtyTA+hQ0jWG84waqLvXl0jgU=
+	t=1749605162; cv=none; b=IYIOoyS1RP2eWohjT1XoeARCmn0eui/WRyxmsIg0jxceRyCVrva1/ZzlVyci3puDhs5hkcDbfNnl+RbK2Npy1V6WpZ+Z/AHPzk6Jr3+ZPMiOk51Y2YqPSgkYe03p9rB6f1D8diLpUKuvELZJ3y65mugJGockhOiFjS+t9jSchO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749596454; c=relaxed/simple;
-	bh=YGpY68rA/JhjEp+LxAFTrZMk9ii1rggbyBCVjH5Hi/0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UBjcUIxgxLmnqCzjCjkcwLYDVi3zHQxugVEWxQwqQTiH607Eo9YLOXpAmPccMz071GmQANFMpWRU75GqV88JnauOEKnJF7HNyqFrftcDLsC2sOhHreSMwz8ncLDN+ewkg1w8bqDQSkyCPAeBCLOAVCC76GzAoRFROHoQnBDpGmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E1Ulayps; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-551fdd1c4b3so831431e87.0
-        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 16:00:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749596450; x=1750201250; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pv6eC8BWJe/QC9w4Z6dJHOpH2uERhEZbO922xRkpRTM=;
-        b=E1Ulaypso42LWSiGsujPuX+rpA6xoQfdDwYYL0bI+3Y23Ptx5xiOCiV0vD8IaFhVnx
-         mGeefsNjmdCZvIxjiDDfwk2EmhuyW7G8BTq4n1Qa0kRj2AVvQxoWy5NqNdigbRTkm132
-         9P13jlQ1D6fnVc1pSOmFKcR9nPHdKc3DBDFlfOu9V665f1bF2VBo6AwHhNvIrbfE62VG
-         8WMVcioP4Z+9qAkYFrZ+5m3gwC37gu0TjEFYqP2hqzYBArpfQtgHuvayjLyHlfUkGq18
-         PvA5pv7CmWp5vwG+PjUh50vf6tmsr75NfbZkMuP0d9topJo1To1/8X9zkXqkNFCYuBgG
-         kLNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749596450; x=1750201250;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pv6eC8BWJe/QC9w4Z6dJHOpH2uERhEZbO922xRkpRTM=;
-        b=kf+FSFVazTVKyZJemeRfeEheMvvMsUxyBiKkaci2JXGs8otAQ8+892Rk74p/MPK9tX
-         6XFpAH99Abf+AF7ocfQy7u/P30jbU31a1XMrBNha8RoFQcYVMxzkaZq8h2P6qH1eGs+f
-         ufvPkZTDwQtTgDSoUDt4g/qz89tbEhqx5YxnIi/FCTCTLUuj2mrAU9UYV14u90ETk/5E
-         9EUzdqRC2AZiko2xMbmFG2bYnxC13cAHdkq7EbPFgZ+jTZPl2Z7IUwwYmHLHNmuaRIcO
-         m0Pg6PHqJ08tKH3Ng0TDekSvpUgV1aqgPKh6xUdHgMyDt4WO8rVzinj6ap1BptQCmWHb
-         VRcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMotkcMPqgJENlbN3/Ae64HJlsbCMuhKHrdQvsDhBj7vmNQemfzakKkLGfilzPKtn0WM4bIpWSCZ9BgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxByD0XGCu3hvkxn3ukxL9+8JRXE1QCu7G4d2n9B8yUxEZ5U4Kt
-	Ms6s8li4ppkbuP+WNYslg0FT+V8IDUUBF3Zux34MJB7osPC2EUuaByUZq8aKg2i2kZA=
-X-Gm-Gg: ASbGncvJg2qfVui1fdb+Wut0uXvRcqtNetlgv4GPgFMUjpQopzIDnK1IRJI0qku+TAF
-	pSJeIIwBOAK4vze3o7eVXVynIgP03GUhN0mUbcr1M851Lrdb9mn8O+PqEybimmDFtZjCkX3i+hc
-	GE8QFaGXgowBJJ3XilmbB1uDqgjG9y73zC77t9DUtnSwpxsVRpUm7hJhyLkFz8TYMOLSlhWBZWD
-	MS6zMlyAHKjsxWchfchCryjziHc4lAmmxSa5hqOy8H+5fAJ4JFixJLVBslJUqRFQ/rYm5ouaEes
-	x1QP45A0YmvdfYU8n+nU4cWTmjhxD/63cHW797MrWHWVfSvDJ+OY3y9JGQKa1eXCfHv//SSmD/B
-	q0ullaLu01XaKE1RKvMIbe9N10PmZVMlBTtgzmiKeK16q9SM1O78=
-X-Google-Smtp-Source: AGHT+IHxOB/GIvprDibRGH8b/xJoWimp0/bpa4Tr3aOnKL4YrIP9uIWQke3mgMvMH8CXv6c9NpUI5A==
-X-Received: by 2002:a05:6512:b09:b0:550:ecdf:a7f9 with SMTP id 2adb3069b0e04-5539c246fb3mr134143e87.10.1749596450228;
-        Tue, 10 Jun 2025 16:00:50 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553926a7d2dsm578480e87.157.2025.06.10.16.00.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 16:00:49 -0700 (PDT)
-Message-ID: <0943821e-603a-4ee6-9bcb-e5fe690358c5@linaro.org>
-Date: Wed, 11 Jun 2025 02:00:48 +0300
+	s=arc-20240116; t=1749605162; c=relaxed/simple;
+	bh=VKWE54UMcR041r5jQB05zWFSUtRwIxUfFhYz4GaHrBI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:MIME-Version:
+	 Content-Type:References; b=Nxc9a16ZVaYCUus3cRo6CvPHXDAodyVd3G0Kgtf8+gexvGLfDl/lfL2wprsQQM7ukXwjvVgRU8PecfNatdqBEz1RCBA7WoeznjTwjUnsc91v/hY1OkzNdswmyfnkmx8i9WW5dQ8NaAV1oEnSfeA+qibHSGo2KWg/BlN+zIerrJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=RgDgoElY; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250611012558epoutp038648591323e6da792bc03464fd4b1158~H2J8cncpf0825308253epoutp030
+	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 01:25:58 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250611012558epoutp038648591323e6da792bc03464fd4b1158~H2J8cncpf0825308253epoutp030
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1749605158;
+	bh=HdkJ86X8mFGVShQeGlIsAFxkRbgmE4Xo8V1mtGu+fo8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RgDgoElYQT9NK067BsP7kUJ6MLVFUitZzbhXd2rLtaxqXFTZx+bFqIm0Np/rGeJBp
+	 m4S8GGhCjLzfhr7eI7DoqX+jJ0NEuBm7a2zQSQDcbHWyRNUrH2e0M0XV2TlCiYAXZ8
+	 dwz42tPYmrlFP4mCAzk+LFycpEKANllUKK3d0QTg=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas1p4.samsung.com (KnoxPortal) with ESMTPS id
+	20250611012557epcas1p45cdcede2ad82d3ea24782798094ed530~H2J766VQx2750227502epcas1p4x;
+	Wed, 11 Jun 2025 01:25:57 +0000 (GMT)
+Received: from epcas1p4.samsung.com (unknown [182.195.36.227]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4bH7K10vHQz6B9mC; Wed, 11 Jun
+	2025 01:25:57 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250611012556epcas1p2c22e7ceaed2677bcea2d0ac6c794ed1d~H2J7B7J9j1398113981epcas1p2D;
+	Wed, 11 Jun 2025 01:25:56 +0000 (GMT)
+Received: from yjjuny-lee03.tn.corp.samsungelectronics.net (unknown
+	[10.252.68.99]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250611012556epsmtip26ff35c8eb67a6983c6bcf11bf25d82ae~H2J682GQr1741517415epsmtip2Z;
+	Wed, 11 Jun 2025 01:25:56 +0000 (GMT)
+From: Youngjun Lee <yjjuny.lee@samsung.com>
+To: ribalda@chromium.org, laurent.pinchart@ideasonboard.com
+Cc: hdegoede@redhat.com, mchehab@kernel.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Youngjun Lee <yjjuny.lee@samsung.com>
+Subject: [PATCH v3] media: uvcvideo: Fix 1-byte out-of-bounds read in
+ uvc_parse_format()
+Date: Wed, 11 Jun 2025 10:25:44 +0900
+Message-ID: <20250611012544.40281-1-yjjuny.lee@samsung.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250610213058.GG24465@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
- interconnect alphabetically
-Content-Language: ru-RU
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250610083318.2773727-1-vladimir.zapolskiy@linaro.org>
- <a072d00e-df91-420b-9363-424bcdf1ed8e@linaro.org>
- <3e8f8220-1fad-437e-9fa4-5eb628891110@linaro.org>
- <ae364f1c-5d64-4178-b26c-e58e352feee0@linaro.org>
- <97e51ab0-737b-496e-81df-b73c9f598bb0@linaro.org>
- <35muvo7h7ynfvzjt6jomasr54xaomfgt5etjc3uuczhfxww2ds@u5xsayanthx7>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <35muvo7h7ynfvzjt6jomasr54xaomfgt5etjc3uuczhfxww2ds@u5xsayanthx7>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250611012556epcas1p2c22e7ceaed2677bcea2d0ac6c794ed1d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+cpgsPolicy: CPGSC10-711,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250611012556epcas1p2c22e7ceaed2677bcea2d0ac6c794ed1d
+References: <20250610213058.GG24465@pendragon.ideasonboard.com>
+	<CGME20250611012556epcas1p2c22e7ceaed2677bcea2d0ac6c794ed1d@epcas1p2.samsung.com>
 
-On 6/11/25 01:21, Dmitry Baryshkov wrote:
-> On Tue, Jun 10, 2025 at 06:10:33PM +0300, Vladimir Zapolskiy wrote:
->> On 6/10/25 18:02, Bryan O'Donoghue wrote:
->>> On 10/06/2025 13:45, Vladimir Zapolskiy wrote:
->>>>>
->>>>> How is this a Fixes: ?
->>>>
->>>> I call it the fix to the dt-bindings documentation, then what is this
->>>> change, if it's not a fix?..
->>>>
->>>> Anyway, if there is a strong disagreement about if it's a fix or not,
->>>> the Fixes tag can be dropped from the change, since it's so secondary.
->>>
->>> Since we don't have a committed upstream user I don't think this is an
->>> ABI break.
->>
->> Well, Dmitry says it's an ABI break... It would be beneficial to come to
->> a common understanding here.
->>
->>> But I also don't think it warrants a Fixes: tag either, there's no bug.
->>
->> There is no bug, but there are Documentation/ changes with Fixes tags,
->> it's okay.
-> 
-> Fixes means that there was a bug / issue that needs to be fixed. For
-> example, if there was a user for the bindings and the user had these
+The buffer length check before calling uvc_parse_format() only ensured
+that the buffer has at least 3 bytes (buflen > 2), buf the function
+accesses buffer[3], requiring at least 4 bytes.
 
-That's "for example" only, I don't think it's an all-descriptive definition.
+This can lead to an out-of-bounds read if the buffer has exactly 3 bytes.
 
- From Documentation/process/submitting-patches.rst:
+Fix it by checking that the buffer has at least 4 bytes in
+uvc_parse_format().
 
-   A Fixes: tag indicates that the patch fixes an issue in a previous commit.
+Signed-off-by: Youngjun Lee <yjjuny.lee@samsung.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-In my opinion this is quite applicable here, the "fixed issue" in the device
-tree binding documentation file is well set, and anyone can get it from
-the provided commit message.
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index da24a655ab68..1100469a83a2 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -344,6 +344,9 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 	u8 ftype;
+ 	int ret;
+ 
++	if (buflen < 4)
++		return -EINVAL;
++
+ 	format->type = buffer[2];
+ 	format->index = buffer[3];
+ 	format->frames = frames;
+-- 
+2.43.0
 
-Anyway, per the ask I'll remove the Fixes: tag and resubmit these changes,
-thank you for the patch review and discussion.
-
-> values in a different order, then changing schema to follow established
-> order would have been a fix.
-> 
->>
->> I will resend the changes with whatever updates requested by both of you,
->> if they do not contradict to each other.
->>
-
---
-Best wishes,
-Vladimir
 
