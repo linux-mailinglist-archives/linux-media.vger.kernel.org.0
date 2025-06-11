@@ -1,285 +1,135 @@
-Return-Path: <linux-media+bounces-34511-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34513-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339BFAD57EF
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 16:03:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D126AD5843
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 16:14:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E3B63A8DE9
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 14:00:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 024261889965
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 14:14:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73D628C855;
-	Wed, 11 Jun 2025 13:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 719D229AB16;
+	Wed, 11 Jun 2025 14:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="h3pda/Ef"
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="UP3CiPbU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28191E487;
-	Wed, 11 Jun 2025 13:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5507D272E7C
+	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 14:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749650390; cv=none; b=JmdGoAELYVEXmKuVOQNSHgjlkkdoRASJ5oUv0FCmYcZG8QXaUvIdmXMxL5rXt7llox9N7pEtDL+uDLazqTR9pn3SViyRIwpm3tFQeYAJH2NVWsihH+oDcomDV8/d7KpiV2k5DnuxuyNYSMonJA0V9uwy/YhITrgpk0kwkxKdiFs=
+	t=1749651234; cv=none; b=iEHMULp61flXnzFsOO+a72qxSXDU4xrvMD0OJ1r2t/gVw1fi1u/sVQu9BKzq3sLXrjfPRVy3j/dDsRpqcLyahKypCi/Gum+21/iF+++VF9DGHo1WkT+sidVIUuFX8uNCXjZiHQRTR22yN70H6xKFmBGzuDH/5EQAlBlclePSE+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749650390; c=relaxed/simple;
-	bh=0i5yliSpywnP7qeW8wwyDtkfQFrmoBglkXRj5RDbSho=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dkUsbxmuSAnlVip9rrx0G1M/6ngrowg1v+dG1cvmyb40i7oFH6saJh8rgqKeiXDuwxCqIBsfYawYIQHS1O8rxImYGqTdI1XdpKdkroVqr+hY2j6SJ2EdokNE2sqgQ2uQ4oH3+b/Ft3KYR+cphO+wCtzcqTr5W/5F0RaMv9gvkZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=h3pda/Ef; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D622D352;
-	Wed, 11 Jun 2025 15:59:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749650372;
-	bh=0i5yliSpywnP7qeW8wwyDtkfQFrmoBglkXRj5RDbSho=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h3pda/EfxTVllFr2WgzCnGF705yjaAOn/j2rx8QlzkyDcbmJaMDB6UTfqguQ9aHUS
-	 sJJ//nes8o44Q97HRiNbv+/UkLmjUmsdGi3fI10yoZBArSBi7iD4TzfUsXY7KZaT+O
-	 ThodcWKMLjf2qHzVGMEDhOZSHFVdHUKkM4Q1U5RI=
-Date: Wed, 11 Jun 2025 16:59:27 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: linux-media@vger.kernel.org, Isaac Scott <isaac.scott@ideasonboard.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/8] media: imx-mipi-csis: Rename register macros to
- match reference manual
-Message-ID: <20250611135927.GA20418@pendragon.ideasonboard.com>
-References: <20250608235840.23871-1-laurent.pinchart@ideasonboard.com>
- <20250608235840.23871-2-laurent.pinchart@ideasonboard.com>
- <3358871.aeNJFYEL58@steina-w>
- <20250610091632.GM27510@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1749651234; c=relaxed/simple;
+	bh=0pQUdo7Fg1z1Fsspi+uxEdmCfLWPhBhj6pBv7uKftBY=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=ja2aqTRJFnampsx1dl5QgSXQnwgTjzn9K55UBOw0ezEJG4tr4Q5v+hcVKjzoxk2c8fW9m3G62dhHq/wSheDwSC7IpSPIOwtGLkR4dLzUzCzzcDPwRuHDaax5b5/3/E8OKtdaWgmFeRSiaz99pxVvL/PRKEFMRZ14cpIJgSJbMx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=UP3CiPbU; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1749651219;
+	bh=C9pT23GhIrsFfueNtwNvgrBdRHk7JBAE9EsNFmLhOFo=;
+	h=From:To:Cc:Subject:Date;
+	b=UP3CiPbUeuDZ5QuZ7zjza4xIIUXxpTHH5OgPBualhq+RQEqKT65MVB1mCr1FlzPa1
+	 tCaFJq10Z5i7e4U7BA6j6qAHsfKR9luAjeoY/5oetkxj78SVVM/zxgGQ16L6OAYa5T
+	 vSGkIhpe4etsP06P1GI1SoVgpuxZYxyAZ9JKssss=
+Received: from localhost.localdomain ([116.30.141.122])
+	by newxmesmtplogicsvrsza36-0.qq.com (NewEsmtp) with SMTP
+	id EF8140FC; Wed, 11 Jun 2025 21:59:56 +0800
+X-QQ-mid: xmsmtpt1749650396tbccp307k
+Message-ID: <tencent_39B2EF87C824951B6527F31CC86123F56107@qq.com>
+X-QQ-XMAILINFO: M1rD3f8svNznbMGIkmB6gwqAVXNx8gnKd2KeRjHrQI/f+HWLKwKUemQ4MBwSPG
+	 zIXCIVDtmyls/H+I/QGdte74EQgAKZrvsDL5g4U2FzLJa/l9dtIUJmj133cGGgzRlG2MsR4Is7Tn
+	 h1u85zj23mYEANhsv92C4gopxCzmOM/jCK6pzaf5J4o9wZOIi/s47Oonu0XlboNi2YCaii4A1VDn
+	 IDVWNYTKfdV7JuGXd57kSvJf+jgFraU1VDsFis48jri3kLqjrrH/f93GYG9eJ2mfGOAGk5K/E/Sm
+	 t9EMe3sETg0p8rFIwT1rdZ3H6ovl6T8JCSN1O/yM1le9SuAEN+afkuHcFLuJlgGh47Be34Pipw59
+	 vs4vDZ4ms54xrF99cNdEGEGmh8Ps6+OtECMx4TP6eL+d47dcQvSxvfMrd0s/R2tt7HUTDCVhPJuU
+	 7JAAEccEH7WY/NuyVgaLUnCeWqwC9xrt/lw8Ej6dwf5L5SPVGDlK1bLoO3sWYmKnk2+gYp63EsKA
+	 ccZ1vVAWij7Q9G15/rHfaDPIAXOMeEXPZMnIbPa3lCIOCMu9QjIShCkl9hphupEb/g2gtUIKRZne
+	 3htD/kR9H6bFktWyRMS9q5DoVk05mvTUlsT0R+ncS4y8tnikFrxCCCm6oe9Hjl3wLCOeB5Yr046i
+	 bKa1iwIVC8SeauTcnHKtxqMwRcNSxAhMhBXiSsV1QD3aT0ieZuTG4T98K+dBvLIg5nlOqdI9gMLc
+	 l6dEDAzAFcGug7lRGb9lFYwtiC5bW9aE+tSS8kUf38HMpHENXy1odKO6GOxE0ZnW9jZlmbsUZlU1
+	 fj3KCs4EJ7FBXknS0akWmHxmWh9hSDoQ3A2w5vznmqUttfwW3v4o9EyqPAZybVVuJdzP8M+JvLNg
+	 e4QiswlwqIauTUANPZvT4oy0611gTDP46xu0H+iSCOKVTgOkGueQjjLYQeZRrWjTF3bCz630hRxD
+	 d+/xU2Vaeee+WuvjgwG6Kf2vK8/J1W2gxHEn+m58JnMEYWzM9tpEssIaxz6cSA6oPVy067R8IFjw
+	 PN98thAi1GvgFYZ+VSPXAh6cDMicNZIubmhsUzGkYKAuHR31cuhw4XZEv8+MgyBEPDzllyZfLHvb
+	 dsBoErFnXWmW6k/GI=
+X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+From: Haipeng Jiang <haipengjiang@foxmail.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	ribalda@chromium.org,
+	sebastian.fricke@collabora.com,
+	bartosz.golaszewski@linaro.org,
+	hljunggr@cisco.com,
+	make24@iscas.ac.cn,
+	viro@zeniv.linux.org.uk
+Cc: linux-media@vger.kernel.org,
+	Haipeng Jiang <haipengjiang@foxmail.com>
+Subject: [PATCH] media: v4l2-dev: optimize device node number allocation logic
+Date: Wed, 11 Jun 2025 21:59:26 +0800
+X-OQ-MSGID: <20250611135926.827-1-haipengjiang@foxmail.com>
+X-Mailer: git-send-email 2.46.2.windows.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250610091632.GM27510@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 10, 2025 at 12:16:34PM +0300, Laurent Pinchart wrote:
-> On Tue, Jun 10, 2025 at 11:10:54AM +0200, Alexander Stein wrote:
-> > Am Montag, 9. Juni 2025, 01:58:33 CEST schrieb Laurent Pinchart:
-> > > The CSIS driver uses register macro names that do not match the
-> > > reference manual of the i.MX7[DS] and i.MX8M[MNP] SoCs in which the CSIS
-> > > is integrated. Rename them to match the documentation, making the code
-> > > easier to read alongside the reference manuals.
-> > > 
-> > > One of the misnamed register fields is MIPI_CSIS_INT_SRC_ERR_UNKNOWN,
-> > > which led to the corresponding event being logged as "Unknown Error".
-> > > The correct register field name is MIPI_CSIS_INT_SRC_ERR_ID, documented
-> > > as "Unknown ID error". Update the event description accordingly.
-> > > 
-> > > While at it, also replace a few *_OFFSET macros with parametric macros
-> > > for consistency, and add the missing MIPI_CSIS_ISP_RESOL_VRESOL and
-> > > MIPI_CSIS_ISP_RESOL_HRESOL register field macros.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/platform/nxp/imx-mipi-csis.c | 69 +++++++++++-----------
-> > >  1 file changed, 36 insertions(+), 33 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > index 2beb5f43c2c0..d59666ef7545 100644
-> > > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > @@ -55,13 +55,13 @@
-> > >  /* CSIS common control */
-> > >  #define MIPI_CSIS_CMN_CTRL			0x04
-> > >  #define MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW	BIT(16)
-> > > -#define MIPI_CSIS_CMN_CTRL_INTER_MODE		BIT(10)
-> > > +#define MIPI_CSIS_CMN_CTRL_INTERLEAVE_MODE_NONE	(0 << 10)
-> > > +#define MIPI_CSIS_CMN_CTRL_INTERLEAVE_MODE_DT	(1 << 10)
-> > > +#define MIPI_CSIS_CMN_CTRL_LANE_NUMBER(n)	((n) << 8)
-> > > +#define MIPI_CSIS_CMN_CTRL_LANE_NUMBER_MASK	(3 << 8)
-> > >  #define MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW_CTRL	BIT(2)
-> > > -#define MIPI_CSIS_CMN_CTRL_RESET		BIT(1)
-> > > -#define MIPI_CSIS_CMN_CTRL_ENABLE		BIT(0)
-> > > -
-> > > -#define MIPI_CSIS_CMN_CTRL_LANE_NR_OFFSET	8
-> > > -#define MIPI_CSIS_CMN_CTRL_LANE_NR_MASK		(3 << 8)
-> > > +#define MIPI_CSIS_CMN_CTRL_SW_RESET		BIT(1)
-> > > +#define MIPI_CSIS_CMN_CTRL_CSI_EN		BIT(0)
-> > >  
-> > >  /* CSIS clock control */
-> > >  #define MIPI_CSIS_CLK_CTRL			0x08
-> > > @@ -87,7 +87,7 @@
-> > >  #define MIPI_CSIS_INT_MSK_ERR_WRONG_CFG		BIT(3)
-> > >  #define MIPI_CSIS_INT_MSK_ERR_ECC		BIT(2)
-> > >  #define MIPI_CSIS_INT_MSK_ERR_CRC		BIT(1)
-> > > -#define MIPI_CSIS_INT_MSK_ERR_UNKNOWN		BIT(0)
-> > > +#define MIPI_CSIS_INT_MSK_ERR_ID		BIT(0)
-> > >  
-> > >  /* CSIS Interrupt source */
-> > >  #define MIPI_CSIS_INT_SRC			0x14
-> > > @@ -107,7 +107,7 @@
-> > >  #define MIPI_CSIS_INT_SRC_ERR_WRONG_CFG		BIT(3)
-> > >  #define MIPI_CSIS_INT_SRC_ERR_ECC		BIT(2)
-> > >  #define MIPI_CSIS_INT_SRC_ERR_CRC		BIT(1)
-> > > -#define MIPI_CSIS_INT_SRC_ERR_UNKNOWN		BIT(0)
-> > > +#define MIPI_CSIS_INT_SRC_ERR_ID		BIT(0)
-> > >  #define MIPI_CSIS_INT_SRC_ERRORS		0xfffff
-> > >  
-> > >  /* D-PHY status control */
-> > > @@ -123,8 +123,8 @@
-> > >  #define MIPI_CSIS_DPHY_CMN_CTRL_HSSETTLE_MASK	GENMASK(31, 24)
-> > >  #define MIPI_CSIS_DPHY_CMN_CTRL_CLKSETTLE(n)	((n) << 22)
-> > >  #define MIPI_CSIS_DPHY_CMN_CTRL_CLKSETTLE_MASK	GENMASK(23, 22)
-> > > -#define MIPI_CSIS_DPHY_CMN_CTRL_DPDN_SWAP_CLK	BIT(6)
-> > > -#define MIPI_CSIS_DPHY_CMN_CTRL_DPDN_SWAP_DAT	BIT(5)
-> > > +#define MIPI_CSIS_DPHY_CMN_CTRL_S_DPDN_SWAP_CLK	BIT(6)
-> > > +#define MIPI_CSIS_DPHY_CMN_CTRL_S_DPDN_SWAP_DAT	BIT(5)
-> > >  #define MIPI_CSIS_DPHY_CMN_CTRL_ENABLE_DAT	BIT(1)
-> > >  #define MIPI_CSIS_DPHY_CMN_CTRL_ENABLE_CLK	BIT(0)
-> > >  #define MIPI_CSIS_DPHY_CMN_CTRL_ENABLE		(0x1f << 0)
-> > > @@ -179,21 +179,23 @@
-> > >  #define MIPI_CSIS_ISPCFG_PIXEL_MODE_SINGLE	(0 << 12)
-> > >  #define MIPI_CSIS_ISPCFG_PIXEL_MODE_DUAL	(1 << 12)
-> > >  #define MIPI_CSIS_ISPCFG_PIXEL_MODE_QUAD	(2 << 12)	/* i.MX8M[MNP] only */
-> > > -#define MIPI_CSIS_ISPCFG_PIXEL_MASK		(3 << 12)
-> > > -#define MIPI_CSIS_ISPCFG_ALIGN_32BIT		BIT(11)
-> > > -#define MIPI_CSIS_ISPCFG_FMT(fmt)		((fmt) << 2)
-> > > -#define MIPI_CSIS_ISPCFG_FMT_MASK		(0x3f << 2)
-> > > +#define MIPI_CSIS_ISPCFG_PIXEL_MODE_MASK	(3 << 12)
-> > > +#define MIPI_CSIS_ISPCFG_PARALLEL		BIT(11)
-> > > +#define MIPI_CSIS_ISPCFG_DATAFORMAT(fmt)	((fmt) << 2)
-> > > +#define MIPI_CSIS_ISPCFG_DATAFORMAT_MASK	(0x3f << 2)
-> > >  
-> > >  /* ISP Image Resolution register */
-> > >  #define MIPI_CSIS_ISP_RESOL_CH(n)		(0x44 + (n) * 0x10)
-> > > +#define MIPI_CSIS_ISP_RESOL_VRESOL(n)		((n) << 16)
-> > > +#define MIPI_CSIS_ISP_RESOL_HRESOL(n)		((n) << 0)
-> > >  #define CSIS_MAX_PIX_WIDTH			0xffff
-> > >  #define CSIS_MAX_PIX_HEIGHT			0xffff
-> > >  
-> > >  /* ISP SYNC register */
-> > >  #define MIPI_CSIS_ISP_SYNC_CH(n)		(0x48 + (n) * 0x10)
-> > > -#define MIPI_CSIS_ISP_SYNC_HSYNC_LINTV_OFFSET	18
-> > > -#define MIPI_CSIS_ISP_SYNC_VSYNC_SINTV_OFFSET	12
-> > > -#define MIPI_CSIS_ISP_SYNC_VSYNC_EINTV_OFFSET	0
-> > > +#define MIPI_CSIS_ISP_SYNC_HSYNC_LINTV(n)	((n) << 18)
-> > > +#define MIPI_CSIS_ISP_SYNC_VSYNC_SINTV(n)	((n) << 12)
-> > > +#define MIPI_CSIS_ISP_SYNC_VSYNC_EINTV(n)	((n) << 0)
-> > >  
-> > >  /* ISP shadow registers */
-> > >  #define MIPI_CSIS_SDW_CONFIG_CH(n)		(0x80 + (n) * 0x10)
-> > > @@ -246,7 +248,7 @@ static const struct mipi_csis_event mipi_csis_events[] = {
-> > >  	{ false, MIPI_CSIS_INT_SRC_ERR_WRONG_CFG,	"Wrong Configuration Error" },
-> > >  	{ false, MIPI_CSIS_INT_SRC_ERR_ECC,		"ECC Error" },
-> > >  	{ false, MIPI_CSIS_INT_SRC_ERR_CRC,		"CRC Error" },
-> > > -	{ false, MIPI_CSIS_INT_SRC_ERR_UNKNOWN,		"Unknown Error" },
-> > > +	{ false, MIPI_CSIS_INT_SRC_ERR_ID,		"Unknown ID Error" },
-> > >  	{ true, MIPI_CSIS_DBG_INTR_SRC_DT_NOT_SUPPORT,	"Data Type Not Supported" },
-> > >  	{ true, MIPI_CSIS_DBG_INTR_SRC_DT_IGNORE,	"Data Type Ignored" },
-> > >  	{ true, MIPI_CSIS_DBG_INTR_SRC_ERR_FRAME_SIZE,	"Frame Size Error" },
-> > > @@ -517,7 +519,7 @@ static void mipi_csis_sw_reset(struct mipi_csis_device *csis)
-> > >  	u32 val = mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
-> > >  
-> > >  	mipi_csis_write(csis, MIPI_CSIS_CMN_CTRL,
-> > > -			val | MIPI_CSIS_CMN_CTRL_RESET);
-> > > +			val | MIPI_CSIS_CMN_CTRL_SW_RESET);
-> > >  	usleep_range(10, 20);
-> > >  }
-> > >  
-> > > @@ -527,9 +529,9 @@ static void mipi_csis_system_enable(struct mipi_csis_device *csis, int on)
-> > >  
-> > >  	val = mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
-> > >  	if (on)
-> > > -		val |= MIPI_CSIS_CMN_CTRL_ENABLE;
-> > > +		val |= MIPI_CSIS_CMN_CTRL_CSI_EN;
-> > >  	else
-> > > -		val &= ~MIPI_CSIS_CMN_CTRL_ENABLE;
-> > > +		val &= ~MIPI_CSIS_CMN_CTRL_CSI_EN;
-> > >  	mipi_csis_write(csis, MIPI_CSIS_CMN_CTRL, val);
-> > >  
-> > >  	val = mipi_csis_read(csis, MIPI_CSIS_DPHY_CMN_CTRL);
-> > > @@ -549,8 +551,8 @@ static void __mipi_csis_set_format(struct mipi_csis_device *csis,
-> > >  
-> > >  	/* Color format */
-> > >  	val = mipi_csis_read(csis, MIPI_CSIS_ISP_CONFIG_CH(0));
-> > > -	val &= ~(MIPI_CSIS_ISPCFG_ALIGN_32BIT | MIPI_CSIS_ISPCFG_FMT_MASK
-> > > -		| MIPI_CSIS_ISPCFG_PIXEL_MASK);
-> > > +	val &= ~(MIPI_CSIS_ISPCFG_PARALLEL | MIPI_CSIS_ISPCFG_PIXEL_MODE_MASK |
-> > > +		 MIPI_CSIS_ISPCFG_DATAFORMAT_MASK);
-> > >  
-> > >  	/*
-> > >  	 * YUV 4:2:2 can be transferred with 8 or 16 bits per clock sample
-> > > @@ -568,12 +570,13 @@ static void __mipi_csis_set_format(struct mipi_csis_device *csis,
-> > >  	if (csis_fmt->data_type == MIPI_CSI2_DT_YUV422_8B)
-> > >  		val |= MIPI_CSIS_ISPCFG_PIXEL_MODE_DUAL;
-> > >  
-> > > -	val |= MIPI_CSIS_ISPCFG_FMT(csis_fmt->data_type);
-> > > +	val |= MIPI_CSIS_ISPCFG_DATAFORMAT(csis_fmt->data_type);
-> > >  	mipi_csis_write(csis, MIPI_CSIS_ISP_CONFIG_CH(0), val);
-> > >  
-> > >  	/* Pixel resolution */
-> > > -	val = format->width | (format->height << 16);
-> > > -	mipi_csis_write(csis, MIPI_CSIS_ISP_RESOL_CH(0), val);
-> > > +	mipi_csis_write(csis, MIPI_CSIS_ISP_RESOL_CH(0),
-> > > +			MIPI_CSIS_ISP_RESOL_VRESOL(format->height) |
-> > > +			MIPI_CSIS_ISP_RESOL_HRESOL(format->width));
-> > >  }
-> > >  
-> > >  static int mipi_csis_calculate_params(struct mipi_csis_device *csis,
-> > > @@ -635,10 +638,10 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
-> > >  	u32 val;
-> > >  
-> > >  	val = mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
-> > > -	val &= ~MIPI_CSIS_CMN_CTRL_LANE_NR_MASK;
-> > > -	val |= (lanes - 1) << MIPI_CSIS_CMN_CTRL_LANE_NR_OFFSET;
-> > > +	val &= ~MIPI_CSIS_CMN_CTRL_LANE_NUMBER_MASK;
-> > > +	val |= MIPI_CSIS_CMN_CTRL_LANE_NUMBER(lanes - 1);
-> > >  	if (csis->info->version == MIPI_CSIS_V3_3)
-> > > -		val |= MIPI_CSIS_CMN_CTRL_INTER_MODE;
-> > > +		val |= MIPI_CSIS_CMN_CTRL_INTERLEAVE_MODE_DT;
-> > 
-> > Mh, what about i.MX8MP which also has these bitfield defined, but is
-> > not a MIPI_CSIS_V3_3 core?
-> 
-> Short answer: no idea yet. Has anyone been able to capture embedded data
-> through the ISI on the i.MX8MP ?
+Refactor the device node number selection to:
+1. Avoid redundant search in auto-allocation case (nr < 0)
+2. Simplify error handling with unified boundary check
+3. Maintain identical behavior for both auto and specific allocation
 
-My current understanding is that the i.MX8MP hardware integration
-doesn't allow capturing DT=EMBEDDED_8B when sent through the same VC as
-image data. I would love to be proven wrong.
+For automatic allocation (start = 0):
+- Only search [0, minor_cnt) once
+- Return -ENFILE if no free node found
 
-> > >  	mipi_csis_write(csis, MIPI_CSIS_CMN_CTRL, val);
-> > >  
-> > >  	__mipi_csis_set_format(csis, format, csis_fmt);
-> > > @@ -647,10 +650,10 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
-> > >  			MIPI_CSIS_DPHY_CMN_CTRL_HSSETTLE(csis->hs_settle) |
-> > >  			MIPI_CSIS_DPHY_CMN_CTRL_CLKSETTLE(csis->clk_settle));
-> > >  
-> > > -	val = (0 << MIPI_CSIS_ISP_SYNC_HSYNC_LINTV_OFFSET)
-> > > -	    | (0 << MIPI_CSIS_ISP_SYNC_VSYNC_SINTV_OFFSET)
-> > > -	    | (0 << MIPI_CSIS_ISP_SYNC_VSYNC_EINTV_OFFSET);
-> > > -	mipi_csis_write(csis, MIPI_CSIS_ISP_SYNC_CH(0), val);
-> > > +	mipi_csis_write(csis, MIPI_CSIS_ISP_SYNC_CH(0),
-> > > +			MIPI_CSIS_ISP_SYNC_HSYNC_LINTV(0) |
-> > > +			MIPI_CSIS_ISP_SYNC_VSYNC_SINTV(0) |
-> > > +			MIPI_CSIS_ISP_SYNC_VSYNC_EINTV(0));
-> > >  
-> > >  	val = mipi_csis_read(csis, MIPI_CSIS_CLK_CTRL);
-> > >  	val |= MIPI_CSIS_CLK_CTRL_WCLK_SRC;
+For specific node request (start > 0):
+- First search [start, minor_cnt)
+- Then search [0, start) if first fails
+- Return -ENFILE if both ranges have no free node
 
+Signed-off-by: Haipeng Jiang <haipengjiang@foxmail.com>
+---
+ drivers/media/v4l2-core/v4l2-dev.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index c369235113d9..23d04c890e6b 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -907,6 +907,7 @@ int __video_register_device(struct video_device *vdev,
+ 	int ret;
+ 	int minor_offset = 0;
+ 	int minor_cnt = VIDEO_NUM_DEVICES;
++	int start;
+ 	const char *name_base;
+ 
+ 	/* A minor value of -1 marks this video device as never
+@@ -994,10 +995,11 @@ int __video_register_device(struct video_device *vdev,
+ 
+ 	/* Pick a device node number */
+ 	mutex_lock(&videodev_lock);
+-	nr = devnode_find(vdev, nr == -1 ? 0 : nr, minor_cnt);
+-	if (nr == minor_cnt)
+-		nr = devnode_find(vdev, 0, minor_cnt);
+-	if (nr == minor_cnt) {
++	start = (nr < 0) ? 0 : nr;
++	nr = devnode_find(vdev, start, minor_cnt);
++	if (nr == minor_cnt && start != 0)
++		nr = devnode_find(vdev, 0, start);
++	if (nr == (start != 0 ? start : minor_cnt)) {
+ 		pr_err("could not get a free device node number\n");
+ 		mutex_unlock(&videodev_lock);
+ 		return -ENFILE;
 -- 
-Regards,
+2.46.2.windows.1
 
-Laurent Pinchart
 
