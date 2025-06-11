@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-34519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34520-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED45AD5B0B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 17:50:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0035AD5B0D
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 17:50:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B69D3188598E
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 15:46:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 49085188F00B
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 15:46:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34F791EB5FE;
-	Wed, 11 Jun 2025 15:45:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AED41F5846;
+	Wed, 11 Jun 2025 15:45:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Brweanwd";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nAiTFMba"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="K/DpFBb+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Y0hGSyjd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655591DED4C;
-	Wed, 11 Jun 2025 15:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57F31E9915;
+	Wed, 11 Jun 2025 15:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749656719; cv=none; b=DtMgmtQudLwW5EGlqofByNCfmGHvVZMp40Nb7SKlID3AvGyipSQAsSw0yF3QvlXRTeR0B4vRiLjacg3fnG2gf7f7GtS4S7qJW8C5d8YecNZi3p4Z7v5liIyNPxDufR7XAx/xF5zcJUQePxrzXIpwE3b6fhastjbjbKjTBo9WLR0=
+	t=1749656721; cv=none; b=mNYUe+sADi5N/3vJ+JFEmyN2jCpoGJSMRqnm4dY6jUiR5m5aZpIjtnJRjmSuL+ElW/qnI6SQHkwUNVCiCYxSKaWEjLkovusYTL2l0ONDtHb6JBlBkAXImHZsdL6XVF4E2qnY43iE2PTNYouAn7+P7zTblLf6/0LWxiVQCCQrxR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749656719; c=relaxed/simple;
-	bh=nwDlxAtOlhjJM4Xjlbp8JBM5haGjiLchTZGr9hYo6FU=;
+	s=arc-20240116; t=1749656721; c=relaxed/simple;
+	bh=qcH4u2dK8NZcb9BSXPnwsMRusSCLYvoGG3rEI4enl7E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uwohC3hoe0LQWaszAv/nISlYoVyNyYML2gpCYf+2xbYsJ1J6CC8AVoi8BuEGQIdxy4WKWeGTvsi7gfZvxaA2nbFWbSRJBZCW/m6nNpxgvVbqsaPJFA4GgiA7F7wOUiI02A8kkD9DCFjhhzwkbs0v5uudaeKpjt3gaNeM/WPuZ5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Brweanwd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nAiTFMba; arc=none smtp.client-ip=103.168.172.148
+	 MIME-Version:Content-Type; b=dW8YY9N0s87BdHh37dTrq1lkIx51PnbduyQ7fL3CHQmLMUC+NPZAacNaTe9/WY3qKj3fH788MqeN+5+kxkWujtJkwa+GWdrkLk4a/vodDYsIt14ltKNCqhW0fP97+I8Q3AhSrMeXtijMppPkJuHB4zMsYfrIxfi/JvbSYO8xqUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=K/DpFBb+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Y0hGSyjd; arc=none smtp.client-ip=103.168.172.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id 8DEE113804E9;
-	Wed, 11 Jun 2025 11:45:16 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 11 Jun 2025 11:45:16 -0400
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id CC35A13804E2;
+	Wed, 11 Jun 2025 11:45:18 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 11 Jun 2025 11:45:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749656716;
-	 x=1749743116; bh=nu/VJyqRnWA9dsju7J1r88CEiiMfhfLFYNdLZK3KY6w=; b=
-	BrweanwdnHjuvCPsYx/mJFew6UT/+fiAjZZTkrRDnJXje8MAnQE1sMSqE89gPM9h
-	x4NoKiAV276QaQR3kylUQZWjlGAEG8ar1etZlpLuzT9M4ZLp0EFtz/ekhs5tHu5V
-	XlcVDqiW41agcdSUwhtcgEA6NoaeTRD/WMpP6LvbSjr8XCHShOHdB12H0VmQoxKd
-	TThd+IzaoQQ0BVt7LGD6jiN+kwp+rJMD45r3TDb8+F79INw1G2WMxaJ7X8r/m5T0
-	Egm++Oq5sfvpR4H519oFinzQEDi5SZ0CJuLJ+ueWkE0PqDlaEpQFXibNEtH0Vlmo
-	fT0cr9VfuYWsYv7X09zxmg==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749656718;
+	 x=1749743118; bh=ESc39m4SqE/KumECm594NnUAI8wChNaLLgysfdqI7ao=; b=
+	K/DpFBb+PiKZFOCyJy5u3J/Qvfi+xBvYhqwfiHBN9p+NBB7HkLwsYWJfU0dZtgav
+	rToDAS+OU4diLOz3jAZII7zvRtp6vPVS976BTT0vlHk78BLzhSM010IZvL6pwdef
+	y3ngxpi3OO3LxMM9hv6ejCTU9c8sXXVdF8VbrwB6rNG8lr6CoY3sCdXtZUnxCAw2
+	MZKs60aku+aHZDO0yNRE73ZGF0oVsVnyAXiR7Lmzljx+IlD6YqwskfQOVsVnAbk4
+	L01l3jNuXqkz1UBLhoGwT1ALmTSi4tx3TJ0xPNl/WaoRgKcnb0YDnVXDKY0EGmaJ
+	UaB7CdCYtlsi6D61s+L09g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749656716; x=
-	1749743116; bh=nu/VJyqRnWA9dsju7J1r88CEiiMfhfLFYNdLZK3KY6w=; b=n
-	AiTFMbaHSN8HXXHQhlHT3IMX/BcUY6RnInGHnt7IOayS09ytCsz6y2In4jRLfnKH
-	kgMMaP4jdIVeNWbLpRvXIj8xLUk2+Hv9ZGjSdm381I30aNw0Ic9rePnN1swLll9T
-	izeTrgnM1w/1ndW97aYiDUTDldRY/u6VD0vQJ6XZTXX++4LyLFDjED1NKVB9BV63
-	mOM7qKXyQ6SMunJP1dBrESM7AFtUs6s2lyfOLUIs8pygsHGY0OK2sieEJOdF2REI
-	MaEf6Us+bldZDrNx+i1jhxcADC4YFPK1/+tKc7gE0R5bz/0uBFpEJ1QJFXreqrdz
-	w/KniJfEJSNvnhI9qcqxg==
-X-ME-Sender: <xms:jKRJaAPqTelDR53noQj83GH0bZPcggZWoHaX5TMFGoxLwPBq6FtnzA>
-    <xme:jKRJaG9xJfMWtbHi-UBSYIsV1m5ILgndkkwzj06WtJUgMu_tqpSXeDT3W0e3JY2NR
-    gEWEeeKljnZUR-TbCY>
-X-ME-Received: <xmr:jKRJaHRej_bXTynPuf0VlGGoD1LW34vMe6_PyjKIDKy57FUgjPkC_QmMGQkRCDU1Xmzp6nOxBvpS_BNqqBQMvmLy>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749656718; x=
+	1749743118; bh=ESc39m4SqE/KumECm594NnUAI8wChNaLLgysfdqI7ao=; b=Y
+	0hGSyjdtO72Yj2a0TqjTyTrq6Zuo7hggTez5b9QLKOF0CcH2UlahTqd1bs8ui+ql
+	Sn30ZEW6JraT6XFBfq7JBt0gTmvW2A2r6XVPy3cDTB8pVzF3YkfE7SvdxWX9gYwj
+	T5JiqwXVp4D6aIPs6d8xblOQII+OPelSbxEXyCRS9mumQWzGRdATTcog+MrwI+ky
+	H7t3+0Pe/eZD9q9rbmJj3bWlBbBPcOz/3e5zS0kjZAiSE8+mkcIsuSktwUseNEhv
+	C/j4YLUvaOZ6pvw4NYcVrKuyFgCahzIaa+asjs7rSS7TfjGfa27BI3ymOh1J7ujw
+	32O221UiUV6g/1xvfCShw==
+X-ME-Sender: <xms:jqRJaD4frwcHCT1lzYYPkHkNcddkYZfid24s9SLG5-qWgs1BGmqRdg>
+    <xme:jqRJaI4dwHSC-TODdLVcetQdN9DT5QGTNwhinkczgDiy1o5Lr3Ro_pdQSZtvsw_g_
+    0YrNuhqLjalnKVpQeM>
+X-ME-Received: <xmr:jqRJaKeBoqqAPwkQMF2XrJcpaOuOx7SCaHJ_vdGh0iy1IWvNYczPmybRwTQ-XGPxn5GLevLawOAJCLHo7QbsJxCQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdduvdehkecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
@@ -85,14 +85,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdduvdehkecutefuodetgg
     hpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
     tghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnh
     grthgvtghhrdhsvg
-X-ME-Proxy: <xmx:jKRJaIvburkTl_S6Xvya0rHMb2OKicE_fW6I8JTeYodsjdsTDcDfLA>
-    <xmx:jKRJaIcgNiAjfLOOP635V_HwWr6FPDwpwa9CQ2LK3dBjUv2c0WNs4g>
-    <xmx:jKRJaM2_n-fb21G6pVJUuivpYBgjyFLmWhXpqVIIpGadaOvC-7sDJQ>
-    <xmx:jKRJaM9p8C6rIzI48ajf-Sypexr8wq5qi33VVW1wzA2faBcB0GPwhw>
-    <xmx:jKRJaH2sacwn0LKFzEdSrYHjdrw3CuyR8JtuwpdmleQFWPPebGt_Fmy2>
+X-ME-Proxy: <xmx:jqRJaEKqhET-1frf82IJpYKUNPIRa6m5Dv7t77FHZoiHUJsx9N84Rg>
+    <xmx:jqRJaHKOj8r18U7oj1qo00bqbwM6dwM68Tz6O03lH0gDc3YXTa4iyQ>
+    <xmx:jqRJaNyuGOcSuC5uM6J-qLYIC2h4NfNYOEau9MUyoqMz1PySAwSGvQ>
+    <xmx:jqRJaDKtCQB3e7lEGtdXv3p9iGV4_oUz0azRuP-DsUUmsXTqZK7pLg>
+    <xmx:jqRJaIeNBpyEwfolxr1XTMocanFe5L3PWG4q-01s26iq-kX-iWXNI8gp>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Jun 2025 11:45:15 -0400 (EDT)
+ 11 Jun 2025 11:45:18 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -104,9 +104,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v3 1/4] media: rcar-csi2: Clarify usage of mbps and msps
-Date: Wed, 11 Jun 2025 17:44:42 +0200
-Message-ID: <20250611154445.123412-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 2/4] media: rcar-csi2: Rework macros to access AFE lanes
+Date: Wed, 11 Jun 2025 17:44:43 +0200
+Message-ID: <20250611154445.123412-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250611154445.123412-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250611154445.123412-1-niklas.soderlund+renesas@ragnatech.se>
@@ -119,93 +119,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The helper function to deal with calculating the link speed is designed
-in such a way that it returns the correct type bps (bits per second) for
-D-PHY and sps (symbols per second) for C-PHY. And for historical reasons
-the function kept the name mbps.
+Each AFE lane has a set of control and offset registers. The registers
+themself are undocumented but later datasheets program more of them with
+magic values. Before exploding the driver with more defines to name them
+all rework the AFE ones to be able to address all controls and offsets.
 
-This is confusing, fix it by having the function only deal with bps
-values as this is the most common use-case and convert bps to sps in the
-only function where it is needed to configure the C-PHY.
+Also move a stray define that is out of sequence.
+
+There is no functional change.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Tested-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/platform/renesas/rcar-csi2.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+* Changes since v2
+- Improve spelling in commit message.
+
+* Changes since v1
+- Adjust line length.
+---
+ drivers/media/platform/renesas/rcar-csi2.c | 32 +++++++++++-----------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-index 9979de4f6ef1..358e7470befc 100644
+index 358e7470befc..cdd358b4a973 100644
 --- a/drivers/media/platform/renesas/rcar-csi2.c
 +++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -975,10 +975,6 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+@@ -177,15 +177,14 @@ struct rcar_csi2;
+ #define V4H_PPI_RW_OFFSETCAL_CFG_0_REG			0x21ca0
  
- 	mbps = div_u64(freq * 2, MEGA);
- 
--	/* Adjust for C-PHY, divide by 2.8. */
--	if (priv->cphy)
--		mbps = div_u64(mbps * 5, 14);
--
- 	return mbps;
- }
- 
-@@ -1203,9 +1199,13 @@ static int rcsi2_wait_phy_start_v4h(struct rcar_csi2 *priv, u32 match)
- 	return -ETIMEDOUT;
- }
- 
--static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int msps)
-+static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
- {
- 	const struct rcsi2_cphy_setting *conf;
-+	int msps;
+ /* V4H CORE registers */
+-#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(n)	(0x22040 + ((n) * 2)) /* n = 0 - 15 */
+-#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE1_CTRL_2_REG(n)	(0x22440 + ((n) * 2)) /* n = 0 - 15 */
+-#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE2_CTRL_2_REG(n)	(0x22840 + ((n) * 2)) /* n = 0 - 15 */
+-#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE3_CTRL_2_REG(n)	(0x22c40 + ((n) * 2)) /* n = 0 - 15 */
+-#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE4_CTRL_2_REG(n)	(0x23040 + ((n) * 2)) /* n = 0 - 15 */
 +
-+	/* Adjust for C-PHY symbols, divide by 2.8. */
-+	msps = div_u64(mbps * 5, 14);
++#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, n) (0x22040 + ((l) * 0x400) + ((n) * 2))
++#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_3_REG(l, n) (0x22060 + ((l) * 0x400) + ((n) * 2))
++#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_4_REG(l, n) (0x22080 + ((l) * 0x400) + ((n) * 2))
++
+ #define V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(n)	(0x23840 + ((n) * 2)) /* n = 0 - 11 */
+ #define V4H_CORE_DIG_RW_COMMON_REG(n)			(0x23880 + ((n) * 2)) /* n = 0 - 15 */
+ #define V4H_CORE_DIG_ANACTRL_RW_COMMON_ANACTRL_REG(n)	(0x239e0 + ((n) * 2)) /* n = 0 - 3 */
+-#define V4H_CORE_DIG_CLANE_1_RW_HS_TX_6_REG		0x2a60c
  
- 	for (conf = cphy_setting_table_r8a779g0; conf->msps != 0; conf++) {
- 		if (conf->msps > msps)
-@@ -1301,7 +1301,7 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 	const struct rcar_csi2_format *format;
- 	const struct v4l2_mbus_framefmt *fmt;
- 	unsigned int lanes;
--	int msps;
-+	int mbps;
- 	int ret;
+ /* V4H C-PHY */
+ #define V4H_CORE_DIG_RW_TRIO0_REG(n)			(0x22100 + ((n) * 2)) /* n = 0 - 3 */
+@@ -197,6 +196,7 @@ struct rcar_csi2;
+ #define V4H_CORE_DIG_CLANE_1_RW_CFG_0_REG		0x2a400
+ #define V4H_CORE_DIG_CLANE_1_RW_LP_0_REG		0x2a480
+ #define V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(n)		(0x2a500 + ((n) * 2)) /* n = 0 - 6 */
++#define V4H_CORE_DIG_CLANE_1_RW_HS_TX_6_REG		0x2a60c
+ #define V4H_CORE_DIG_CLANE_2_RW_CFG_0_REG		0x2a800
+ #define V4H_CORE_DIG_CLANE_2_RW_LP_0_REG		0x2a880
+ #define V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(n)		(0x2a900 + ((n) * 2)) /* n = 0 - 6 */
+@@ -1246,11 +1246,11 @@ static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
+ 	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(2), conf->rx2);
+ 	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(2), conf->rx2);
  
- 	/* Use the format on the sink pad to compute the receiver config. */
-@@ -1314,9 +1314,9 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 	if (ret)
- 		return ret;
+-	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(2), 0x0001);
+-	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE1_CTRL_2_REG(2), 0);
+-	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE2_CTRL_2_REG(2), 0x0001);
+-	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE3_CTRL_2_REG(2), 0x0001);
+-	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE4_CTRL_2_REG(2), 0);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(0, 2), 0x0001);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(1, 2), 0);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(2, 2), 0x0001);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(3, 2), 0x0001);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(4, 2), 0);
  
--	msps = rcsi2_calc_mbps(priv, format->bpp, lanes);
--	if (msps < 0)
--		return msps;
-+	mbps = rcsi2_calc_mbps(priv, format->bpp, lanes);
-+	if (mbps < 0)
-+		return mbps;
+ 	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(0), conf->trio0);
+ 	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(0), conf->trio0);
+@@ -1267,13 +1267,13 @@ static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
+ 	/* Configure data line order. */
+ 	rsci2_set_line_order(priv, priv->line_orders[0],
+ 			     V4H_CORE_DIG_CLANE_0_RW_CFG_0_REG,
+-			     V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(9));
++			     V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(0, 9));
+ 	rsci2_set_line_order(priv, priv->line_orders[1],
+ 			     V4H_CORE_DIG_CLANE_1_RW_CFG_0_REG,
+-			     V4H_CORE_DIG_IOCTRL_RW_AFE_LANE1_CTRL_2_REG(9));
++			     V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(1, 9));
+ 	rsci2_set_line_order(priv, priv->line_orders[2],
+ 			     V4H_CORE_DIG_CLANE_2_RW_CFG_0_REG,
+-			     V4H_CORE_DIG_IOCTRL_RW_AFE_LANE2_CTRL_2_REG(9));
++			     V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(2, 9));
  
- 	/* Reset LINK and PHY*/
- 	rcsi2_write(priv, V4H_CSI2_RESETN_REG, 0);
-@@ -1352,7 +1352,7 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 	rcsi2_write16(priv, V4H_PPI_RW_COMMON_CFG_REG, 0x0003);
+ 	/* TODO: This registers is not documented. */
+ 	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_TX_6_REG, 0x5000);
+@@ -1289,8 +1289,8 @@ static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
+ 	}
  
- 	/* C-PHY settings */
--	ret = rcsi2_c_phy_setting_v4h(priv, msps);
-+	ret = rcsi2_c_phy_setting_v4h(priv, mbps);
- 	if (ret)
- 		return ret;
+ 	/* C-PHY setting - analog programing*/
+-	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(9), conf->lane29);
+-	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(7), conf->lane27);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(0, 9), conf->lane29);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(0, 7), conf->lane27);
  
-@@ -1363,7 +1363,7 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
  	return 0;
  }
- 
--static int rcsi2_d_phy_setting_v4m(struct rcar_csi2 *priv, int data_rate)
-+static int rcsi2_d_phy_setting_v4m(struct rcar_csi2 *priv, int mbps)
- {
- 	unsigned int timeout;
- 	int ret;
 -- 
 2.49.0
 
