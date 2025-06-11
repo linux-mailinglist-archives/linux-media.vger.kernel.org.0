@@ -1,304 +1,330 @@
-Return-Path: <linux-media+bounces-34489-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34490-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE6EAD4827
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 03:47:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EE2AD4848
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 03:56:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCEF0189A8BC
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 01:47:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FF8217821F
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 01:56:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059BB14F9F9;
-	Wed, 11 Jun 2025 01:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6044E1632D7;
+	Wed, 11 Jun 2025 01:56:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SspwfqCl"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="YW9F7Zon"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2080.outbound.protection.outlook.com [40.107.93.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7A91B960;
-	Wed, 11 Jun 2025 01:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749606419; cv=none; b=SbjPJ8YvvcbUJZ5QGjbD+F5TPXBIEaO3dQSfiePMVOeX6mDADEeN+pdRFaA6CIvHZtBfkQzvDIUcLx7JH3EfqsZMyo+MGgjI9lrRsSejEpKi2gPmFbiP191GE0zgkZhwUcSOD9s0KHmYLSkN49nwVED92YQIfkC22yQVOwQBbwg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749606419; c=relaxed/simple;
-	bh=YvR/YQNOuRzwgj2S3Hl8+PzCdzJrDRJdTlry5kKBF+A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qLf2o9eHSa3ZbST1LIVw7gLlEiBHcjVaqP8LBntN/mUX4hijUljJSsL/5FrEFsdITpSxW/Sx5AEHP8yt13eOVuvMHIf0Cqk9tDUYCudFowek1gWakeM/mH9h4dbCdyDVFyE1j5E/RooKK2mRtJNZ69W+BT/D7jhLjgW4Odzc4Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SspwfqCl; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55AIPr6e028710;
-	Wed, 11 Jun 2025 01:46:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	l82STVtCU6R80dx9yP/eIowJs4LM6MV86jS2Xmqb+f8=; b=SspwfqClIFAmLMCs
-	Y8DmEb52NyHMPWdjZEzLhhGzAAwXU5uPP0JzclO0V4paBHul02SujXV4jCfJX0ak
-	C7FlN7zw2dFc9DRKmTTltC+ErWFhAkLjhSBfrDfrjVLjG81AZBZDcADZX/nzmgJw
-	BwZTXN3DrnzSEgQ1Myjg0Qd3r3r/yEcUMcBM0BhPThzZh3PQmK6WZBxiQAH+G6wT
-	yQ6EplDUEbHskrbuAOSaRbstE4sXEnXGNzajgkuDIdmVeIGPGTb41M2RAp0Ceh0f
-	9tv+mDzrkbg8iBUnluxRyWzBR20mwEBcvUkv2p4R2t5inLI1uyAe4lBh16ALU7pR
-	nDyEWg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 476jrha9c4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Jun 2025 01:46:51 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55B1kpmx011171
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Jun 2025 01:46:51 GMT
-Received: from [10.231.216.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 10 Jun
- 2025 18:46:48 -0700
-Message-ID: <a23d759a-9048-42e8-b72d-34c1e913e7fe@quicinc.com>
-Date: Wed, 11 Jun 2025 09:46:46 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E444F1448E0;
+	Wed, 11 Jun 2025 01:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.80
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749606959; cv=fail; b=pwSGlKKRyjC1pb1kz7qUnkMhKZut23/0Go/g9aqnSF6ocFxRypeUjvF1LFc85B2DPmcB4T8VixMz6rjMEDENZK8QQNaamjn/o5XgAazygpVU0uUHXQ4wS+9DQsIhcQcJWyoWISgwkjyN/UozSWVjByt0pGVsNM/X0lfoLm0M49s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749606959; c=relaxed/simple;
+	bh=eMpdni3aZA4haJlPPYf5NwRljqdZVP+XPi+m2BQdGCQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=FW1bcBijpH9xcQe8HFGK+Zd9a9ErJR6LYQS2HaANxvewLEd1GXUzb7uQQU7yvyVkSdWiojRvPhyHrvVoqsOVUHSiYoh9hknyMlcmyJRKOJkFAw77uXaRBay713rgCXfQTeUkFqJags3EHHKs5x651CSmZ7ilnNIe3lxxF6EBpjU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=YW9F7Zon; arc=fail smtp.client-ip=40.107.93.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k00/fFMIJ8S6690rXXd6Ei3BKiJiPkzhS7YyNtQJAueBXH8YPRsrkCV1wR9WLTCwJWUbNIFYtn2UF7rE5y82BCeGI4a0jl2ZXbj/ECF2YnGYckzD7cp5lqEh0E795AK6qbG0CN/0xpIJPItV7YzAr0nd67ZpqsBTpJg0YTjP7hIJKb9yBmKj7QiWv4jBQl1vqJZP+9T7GCdAGhocNeuBmEUxxi+ZZN7fX8azOQGYOb1TFa9UebG9v3jA8BNZGgdPxGKtXgsHsEy8dJBCQ+03ad6dg03xGXmm17F4Ovvo6XtaY9thObcV6QfxxvfIDY7jiwl98MQD7IwdpIwjaUyEiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kg/UojDZeIWBtpTiBBhp2CZHqxPSH2RZpr1n2jLIjcg=;
+ b=xVA1gdrehXorISPYA7V/CnIbhtd8Puzy7gOxqh7XOqRIKCdCXe9O72297F4BWrXwSVM2r43HP/6EwXyw5S2zknwlzF5WWn7VnAjZX3BRkolSFigcP4tHAoFF8wuRvlRV5WmJK3HEI42gJ0d4xpE2kBJizJ2JP++y69W2LaPcrifaReK6GLZdhikY5fc15q58U1J2uikLpwNcWJvVKVsyKP70B7EefEZnrBw4U8ILeFXB2UWrMim80LqinZf2At39PNRdY2r6WHtgeijhY8DSGTxbuKviPqPKbr5dyFc+vzuc1hLNU/yTlDBdsSYHvU58E54DLiN0I0qut/rPbdzXZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kg/UojDZeIWBtpTiBBhp2CZHqxPSH2RZpr1n2jLIjcg=;
+ b=YW9F7Zonetavh44FavB87Gz/5VQxcmkQz0hVfWj684v6rPEdYQvWRwv3xXYtRFPLTRTjguv1+psX6Ni1/BrJ3grkazHQfas08hwHFR10KWFh5AtJ6BH6ZkTiiYHc0qkRITmvNlhTFYIq7iB0kAwFrIz8gFowXBunqRB4M/8A+6o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com (2603:10b6:610:19f::7)
+ by MW6PR12MB7072.namprd12.prod.outlook.com (2603:10b6:303:238::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.19; Wed, 11 Jun
+ 2025 01:55:55 +0000
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::53fb:bf76:727f:d00f]) by CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::53fb:bf76:727f:d00f%5]) with mapi id 15.20.8792.038; Wed, 11 Jun 2025
+ 01:55:54 +0000
+Message-ID: <e886855f-25cc-4274-9f11-fe0e5b025284@amd.com>
+Date: Wed, 11 Jun 2025 11:55:44 +1000
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP
+ using TSM
+To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, pbonzini@redhat.com,
+ seanjc@google.com, alex.williamson@redhat.com, jgg@nvidia.com,
+ dan.j.williams@intel.com, linux-coco@lists.linux.dev
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
+ yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
+ yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
+ baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com,
+ linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
+ shameerali.kolothum.thodi@huawei.com, aneesh.kumar@kernel.org,
+ iommu@lists.linux.dev, kevin.tian@intel.com
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+Content-Language: en-US
+From: Alexey Kardashevskiy <aik@amd.com>
+In-Reply-To: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SY5PR01CA0011.ausprd01.prod.outlook.com
+ (2603:10c6:10:1fa::17) To CH3PR12MB9194.namprd12.prod.outlook.com
+ (2603:10b6:610:19f::7)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: pm_helpers: use opp-table for the frequency
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250610-use_freq_with_opp_table-v1-1-7339d690fd1a@quicinc.com>
- <76e40130-897e-4547-8d5a-a0054f123fbe@linaro.org>
-Content-Language: en-US
-From: Renjiang Han <quic_renjiang@quicinc.com>
-In-Reply-To: <76e40130-897e-4547-8d5a-a0054f123fbe@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=EovSrTcA c=1 sm=1 tr=0 ts=6848e00c cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=wZNEWwjKhD01ZXd6ls4A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: b2Ad2H_6p6vXQ88tKY_CRrCwDWsIcyO-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDAxNCBTYWx0ZWRfXyOsP4ilC+EAB
- /EIeMZGhEO8FClBzEZav0KiZ6s3nf7vpHsSzFSjgx63G4S3FdD/8qUcx3xloVJmW7jNcbDsXKi5
- +w6h9LwOJhAvFa5Hx7A8Gr3RiqVRLWSi25t6z+BtL8MGEsiceGlKC6/LFtUyLdKSZDs8Fhr6eIM
- Dtsk6GWGfK0pAzUcCFI7DVTk08d+gOlvVWnvWOKX0yWYwyvEyFVlDNn6XUr6D9nU+z5WNLEI9lR
- or2CctPOXKJo7cD0SSs1D5wbCUw3YVGuUmoP5oPFGFI3EGGDukdrMipJNjpv081nj/v3Cplxak1
- hs+J0gH0dic3XsG1OtEfrRKR6mwK/XL2NejQkR94rvo67/+tYzdK+JUbxLAuoAwBe5MpbkzU6t5
- cRPoErBFhdpUWSNb8p3oedyCRWxJvpMXLd1HcKdy/Dh56EsPTjk9QP+1gXgQ6+MT6am+pvsf
-X-Proofpoint-GUID: b2Ad2H_6p6vXQ88tKY_CRrCwDWsIcyO-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-11_01,2025-06-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=999
- mlxscore=0 clxscore=1015 malwarescore=0 adultscore=0 lowpriorityscore=0
- phishscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506110014
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB9194:EE_|MW6PR12MB7072:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f409da2-9ec3-46c3-d2db-08dda88b197a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?R1J0czRCM0gyZzNrRWh2V3FrWm8ySDFJMFp6d1RFV2t5WGpxNExnZmxCZWVv?=
+ =?utf-8?B?SThYT3hkYUpjaTRrd1Jva3RKRVU1OXNKRlFTRUY0RnZraHpQUHBUUXJzN010?=
+ =?utf-8?B?c0NKdXMzNHQ3YlF3aXVVS2diZWh4dzZXMnhzOFFnb3Q1Ymp5SU1COUpYVS94?=
+ =?utf-8?B?MzJVWnZ3QU9JenhCZk1kdmY4OW03TlR0YWtuclQxZGppVmgrb0ZjUVVHTEhK?=
+ =?utf-8?B?Ty9KS1RnbVY4cW14SndGVFdVWityamlkVnFNWVNka2pHQTc4QS9Ic0sxSkg2?=
+ =?utf-8?B?WEpWVUJ4aTlkelloWS9nTWdEeWhoUzYySWpYejZBWVBuc0RNOUsrTUNuKzdW?=
+ =?utf-8?B?cyttWnNHSHRYbmpDT09MVUo3R3NuTG9NdFF1bFVtTFZxRnlta3hwelA3Z0Fx?=
+ =?utf-8?B?K0svMEVGdTl6UXVyOThYMzFVNUt3K3NqaWxLK0cwa1FNWG5lbTJXbno0QVJo?=
+ =?utf-8?B?SVR4R0hUNEtPS2NSUEhIeFRiZmxjMGlFNnRlN3BOM1U0b3pkcERaeGo0OFFF?=
+ =?utf-8?B?ZTVQZDZwMi9jemFZNkl6UWpHUTlPeFNmNGRuTkY3cm9hTWl3K1g5aUU5Z1Yv?=
+ =?utf-8?B?NUpzUkYxSHRCUm1xMldNdVUzT2l6clMvQzB2K00vS2QwWW1RMnlQVHMyZ2ZO?=
+ =?utf-8?B?R284ZE1SeWxXMlpjZEpUUloxVGx4ci9OSkUrcUFxM2liaVVkTGdNVndkZndR?=
+ =?utf-8?B?bFFQc25PVno5OFZ5SGpVQThuVG9nSjNoK3I4Y2wwQ0VqZm9rZXVuWEw4NTZE?=
+ =?utf-8?B?eU9neU8xQ0pNV29zMUhxOTd2TjA5QWdLb2JjSEYxd25OdWtOZTg4Qmx3bW1h?=
+ =?utf-8?B?VE9CNm5yeTVwN0Z5b0NMWjZwSGFjYk92YVZJUDUzck9FSEREcEhkaDJjcUlZ?=
+ =?utf-8?B?aUg4RHg5TGwyRWZVM3NFdHZ2SE9pMG5zRHcxSlRwZ2RuOVpSRHBGVVlPNzZq?=
+ =?utf-8?B?eEVSMkhIZVR1SVArdGpvekV6YlVlczJxNzVPaVZtRFYzR21hOGtpV2p6UDhj?=
+ =?utf-8?B?MVlTcC9vWTRObjROdmJ1YzBiT1FQalVsWlBIZmFHZUJUSStCQU1BbUdGdXlQ?=
+ =?utf-8?B?dFJYQ2xqL0JqSm81bGZPWUJVRzlBQ0k5NHk3M1I2c3hBTS96WXFOY0EwT2c0?=
+ =?utf-8?B?dlF4MXdUcXlSdUFOdG5FUlMwK3J1ejFHYUk3a1BWY1lXcklwMlFPZGVOYzY3?=
+ =?utf-8?B?M3YvTWRJcFRVMGhNNUlra0c2b0FrNjBxbkgrcVhjVEh2TjMwMFgxYWFLS2gv?=
+ =?utf-8?B?NjE4a3poMkthb2J1QWJWd2tMWmlnY3pSRTZXMjVIVXFnQURSdkpOUENQNFlm?=
+ =?utf-8?B?c0pvUFpubE96cDdKajBPdVVLUUZHTDU0b0ZFdE8wVllFd2UySXEvRURWc0o5?=
+ =?utf-8?B?M3VVZ3hNVnhHNVErOGZuREttTnBtQ1hSM2hoQUpQaFZkeVJvcFNwQi8wVVhW?=
+ =?utf-8?B?SHVaL3A3ZXh3T3BXQnJDaDJhY0tiUkhuVHJVOXBBZE5GQis1TGdOSXJkTC9Q?=
+ =?utf-8?B?YU1sWExtLzhZcXJxbWliT2ZJMnMrNjFNMFNBSFNINVhqVlZzOW55Y2RoLyti?=
+ =?utf-8?B?ZFhpY3h6RU4rL2h4Z1UrSGhDMTNCVkFpNURKTjRDTDhOUjNEQ1RKNitEUlpY?=
+ =?utf-8?B?WTZqL0ZsMURDWGFhN1hLZERWb2VwejFFUlQrVnRiQTZYcHByVVlzSFE5dlBY?=
+ =?utf-8?B?R2tocFh3U2lUWXlobFF2UEtTQUMyMnVGMUlTNFlKN3E5ejU5S2FaYmVXOGN3?=
+ =?utf-8?B?M3BuT1FxOGJ5VEdUKzduYkdmSmZpQVVZTkRSSXZVVmhNRFlpSGF2WEVucGI5?=
+ =?utf-8?B?SkpMZlpSby9Zalk1alhtQkJGcWJYTGROWkg4a20yYWFkUFo0MlJiNHJ2aWJp?=
+ =?utf-8?B?L1Z6VktCWDVrTkNDdlF5OGdmOTZpdE1Xd1phMDBoNWdHV2xnYjFPaWFrK3Fu?=
+ =?utf-8?B?emN5RnQ0bk5oalFaT1hJOGFSQ0IzRDNYQlB6dTlHNnc1dlE2WWdTVjVoWHVy?=
+ =?utf-8?Q?wMtTW9rCDb6U2njm2DJhU5p0ZbDN1o=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB9194.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?S3JWc0tnUTZyWGNPNTNMcWZTL1BKd1FBbEd1bDVaUTIzc3I5TFJWNGVlL2dR?=
+ =?utf-8?B?OFY5K1pRc1dOeGU0NVlBTzZjTWlFRlBsSGNJVGRzLzMrSVliTytLaWJ2RHh1?=
+ =?utf-8?B?T3JjVE5kWDUrQnM5YUJ0VHFRd2RpcWplc3UxRi9uWXBlZjFxNS9xaTdsdDBy?=
+ =?utf-8?B?VS9sWlp6b2twUC9BQ0dHbHlDR0dkVllYZGcxR3F4TGdDNGpNeGlXSW1FN1BM?=
+ =?utf-8?B?aFVRL2c2dDhSZ25CTnlnZDFITk82Y2U2V0lYMCt0VWRrcHNsMi9mYmdzQVRH?=
+ =?utf-8?B?LzJyTnNwaFBkMUtDQ3IybFhGUmdlNHV3bThhdGFPTmlaZ0krU3ZJTUlFVzhL?=
+ =?utf-8?B?Y3d6SVBrWFhzSFBPRkhhcXgwY0VoRXpwWnFVa3AyZ01SVFZUME1LSG1KRHk1?=
+ =?utf-8?B?cGVySWVUWjdEbXEzcm85bk5USmxxUWNSU1FsazgyQXAydmdIM2h5cUdiUk9i?=
+ =?utf-8?B?YTVsc1dvOW5GVkl0Y0l2ZnZUNmp2d05xck1HYWJDL0kyUjljTEFoTk1mR2N1?=
+ =?utf-8?B?dHZDZ3RnQVlrQWUwZHVFSXU1ekZBclBGb2RHaExVc3BYYkpPV251d2NVZStB?=
+ =?utf-8?B?dWpRNzF5bWlZb1l4aGx4Nlc4Z1dUM2lRV2c5QkQwUmV5Nm9ZZkJ0M3hXdW5i?=
+ =?utf-8?B?MlRMaFI0UloxY1RiT3JacFJnNnZua2NJOXYyUEJGWFoyaWtXMGxvN25qTTM2?=
+ =?utf-8?B?aGhvSXZVK2pxeHJ1czdVS2lpNUlhYWdyUjFRNm1MQ1RnOEptNGNMRUgvdWlT?=
+ =?utf-8?B?OFFRODJSSXBYTnFPTFNHQTNnWFdWRlIvYXdYMm5zSGNMYnpaeUExRWh1MXZq?=
+ =?utf-8?B?SlBqUXhJZVJxZUZhMzRKWW1kdTB5Z1I3ejZpRXl6YWZmblNOampWYTBsdnkr?=
+ =?utf-8?B?TjdEVGlvcDZsdTlPbjgvNDdNT0tMaDhmK3BMNzMvRmt0MC82YlJjcjQyWFE0?=
+ =?utf-8?B?dzI4MHI5dXhvQ2wwbnpPTm5Eazg1K3J3cHZ5Y29zbEg5Ylo3L3FtZ1ZWTUxO?=
+ =?utf-8?B?THFQNEZBeEEwNGZGSmNsRmh4TkY1cy9UTHdzcDB2YWNCUTdaQmRMVHlYRWdi?=
+ =?utf-8?B?dEdYcUtFcHl0SGZLY0k5cjVIUW9KcFNqYU5Fcmw0d0lGRUdhdTgxNFJzMUZh?=
+ =?utf-8?B?V20xbHVHY3JJZmNQc3pVMG1XaTVlT1ZXK0F0MjJhRXBKRDdYYVlRSXB2bHN1?=
+ =?utf-8?B?dVlVR2R1WWVNRXUwSy9rTnZDN2U1SDFqSUNHM0hhTEdiMVFxUDJld1ZPM1Qr?=
+ =?utf-8?B?enk1blRqNG1kd3U1SzRSN3U3NmsyMnkzNHlUT0ptQ0hOZGMxL2R6K2pVa3FE?=
+ =?utf-8?B?M1RoWFk4cmRvUnAwZ3FRN2FSaG5lRVNLcUtMbzNKbk9JRFVrT1pjRGo3eHRQ?=
+ =?utf-8?B?cEFjMElQRkU0RXUxUHRiQ29uMm8zZTFaL1RoYmtuaWRPNDFkREU2cjFtWUkr?=
+ =?utf-8?B?K2M5d1AwejRYbGE2Q3AvQzRVMXo4eGtOV2ovYmVuSGRNZzRSTUNZTXQ2QU1V?=
+ =?utf-8?B?b2JSTSt3MjVBOUdOcU1ocW0wYVlNQ2pBdGtwRW1tb1gyZlFkSjFkelJFYzlC?=
+ =?utf-8?B?WFh0cVErU2xRQUNaclRrZytlUzZySWhlM0xTekZxdzdFd092cm5HQTF5WmJr?=
+ =?utf-8?B?WWptcWducjRjN2JHK2tybXYwQXNWWXVjSnY0UVpUNlFVVVJraDV6WVhaQ2Uz?=
+ =?utf-8?B?b1RqaXJDK3JTMlhZK09hekdlNFVYdDliV0ZaNC9kVlQzSjE0TjZ3T2E2c1pN?=
+ =?utf-8?B?MWdKUlhPK1Z5b0pJRGd0SmVDRERxcTRzWnJCWEMwQXVjSDQ5aFhFTThjNzkw?=
+ =?utf-8?B?clhPcGlxNHBGUHRJOUFZRitySUsxWUx3NWF0SWNoVEF3VFVNY1Fha0VveUwx?=
+ =?utf-8?B?aVN1bGNsZlYrY0h2SXJ3bFBQRDhhV2x5ZzVpZkVzMDR1OXp6L1NiaVRZV2lh?=
+ =?utf-8?B?em1uTGZ5c1h2VzdUbzZuNUJCTlRpUUxXWEZ4NDN3Syt2dlJmK2RsMVUzNVVG?=
+ =?utf-8?B?OWxHVzdjdnkySEtZREJsU05pTzNvUkxNNVZZdFBpSmNuNXZxS2NsdjdJQWtl?=
+ =?utf-8?B?MjE2d1RBdkQyd0V0NzFBZC81S3FnUHdYNjhEbHdHYXl6YmZ4QWFqSldmVU1F?=
+ =?utf-8?Q?6iC7RxE4g8fIN0e1s+Z2kqtiQ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f409da2-9ec3-46c3-d2db-08dda88b197a
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9194.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 01:55:54.5319
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: b0Hz61nuQzU92/92WQpbSTSUNOruvF140qwHAw9q05C1zOCMN30XVi6rh9cfjEk+DPnnG9k34vZ59RycndeOfw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB7072
+
+Hi,
+
+Is there a QEMU tree using this somewhere?
+Also it would be nice to have this tree pushed somewhere, saves time. Thanks,
 
 
-On 6/11/2025 3:01 AM, Bryan O'Donoghue wrote:
-> On 10/06/2025 10:13, Renjiang Han wrote:
->> The frequency values in the opp-table of the device tree and the 
->> freq_tbl
->> in the driver are the same. So the driver can choose either table for 
->> freq
->> values.
->
-> I'd completely drop this sentence as you basically contradict it in 
-> the next line.
->
->> However, 
->
-> Drop
->
-> some platforms (such as qcs615 and sc7180) use the same core but
->> have different frequency tables. Using the opp-table allows us to 
->> separate
->> the core description from the frequency data and supports the use of
->> fallback compatibles.
->
-> This is a bit better.
->
-> Basically you can have identical bindings, even identical compats but 
-> for reasons such as binning of silicon parts you might run at higher 
-> or lower frequencies so static tables in the driver are not 
-> appropriate and are better represented in the DT.
->
->
->> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
->> ---
->> The frequency values in the opp-table of the device tree and the 
->> freq_tbl
->> in the driver are the same. So the driver can choose either table for 
->> freq
->> values.
->>
->> However, some platforms (such as qcs615 and sc7180) use the same core 
->> but
->> have different frequency tables. Using the opp-table allows us to 
->> separate
->> the core description from the frequency data and supports the use of
->> fallback compatibles.
->>
->> Therefore, it is necessary to update pm_helpers.c to use the frequency
->> values from the opp-table for the v4 core.
->>
->> Note:
->> Earlier discussion was concluded in [1] where it was agreed to rely on
->> opp-table for QCS615.
->>
->> [1] 
->> https://lore.kernel.org/linux-arm-msm/c9b83c8b-68d1-43bc-99d6-d2d2b9e445f4@oss.qualcomm.com/
->> ---
->>   drivers/media/platform/qcom/venus/pm_helpers.c | 58 
->> +++++++++++++++-----------
->>   1 file changed, 34 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c 
->> b/drivers/media/platform/qcom/venus/pm_helpers.c
->> index 
->> 409aa9bd0b5d099c993eedb03177ec5ed918b4a0..8dd5a9b0d060cddfeafd4da477ade0c7aeb6c390 
->> 100644
->> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
->> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
->> @@ -41,16 +41,14 @@ static int core_clks_get(struct venus_core *core)
->>   static int core_clks_enable(struct venus_core *core)
->>   {
->>       const struct venus_resources *res = core->res;
->> -    const struct freq_tbl *freq_tbl = core->res->freq_tbl;
->> -    unsigned int freq_tbl_size = core->res->freq_tbl_size;
->> -    unsigned long freq;
->> +    struct device *dev = core->dev;
->> +    unsigned long freq = 0;
->> +    struct dev_pm_opp *opp;
->>       unsigned int i;
->>       int ret;
->>   -    if (!freq_tbl)
->> -        return -EINVAL;
->> -
->> -    freq = freq_tbl[freq_tbl_size - 1].freq;
->> +    opp = dev_pm_opp_find_freq_ceil(dev, &freq);
->> +    dev_pm_opp_put(opp);
->>         for (i = 0; i < res->clks_num; i++) {
->>           if (IS_V6(core)) {
->> @@ -636,7 +634,9 @@ static int decide_core(struct venus_inst *inst)
->>       u32 min_coreid, min_load, cur_inst_load;
->>       u32 min_lp_coreid, min_lp_load, cur_inst_lp_load;
->>       struct hfi_videocores_usage_type cu;
->> -    unsigned long max_freq;
->> +    unsigned long max_freq = ULONG_MAX;
->> +    struct device *dev = core->dev;
->> +    struct dev_pm_opp *opp;
->>       int ret = 0;
->>         if (legacy_binding) {
->> @@ -659,7 +659,8 @@ static int decide_core(struct venus_inst *inst)
->>       cur_inst_lp_load *= inst->clk_data.low_power_freq;
->>       /*TODO : divide this inst->load by work_route */
->>   -    max_freq = core->res->freq_tbl[0].freq;
->> +    opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
->> +    dev_pm_opp_put(opp);
->>         min_loaded_core(inst, &min_coreid, &min_load, false);
->>       min_loaded_core(inst, &min_lp_coreid, &min_lp_load, true);
->> @@ -949,7 +950,10 @@ static int core_resets_get(struct venus_core *core)
->>   static int core_get_v4(struct venus_core *core)
->>   {
->>       struct device *dev = core->dev;
->> +    const struct freq_tbl *freq_tbl = core->res->freq_tbl;
->> +    unsigned int num_rows = core->res->freq_tbl_size;
->>       const struct venus_resources *res = core->res;
->> +    unsigned int i;
->>       int ret;
->>         ret = core_clks_get(core);
->> @@ -986,9 +990,17 @@ static int core_get_v4(struct venus_core *core)
->>         if (core->res->opp_pmdomain) {
->>           ret = devm_pm_opp_of_add_table(dev);
->> -        if (ret && ret != -ENODEV) {
->> -            dev_err(dev, "invalid OPP table in device tree\n");
->> -            return ret;
->> +        if (ret) {
->> +            if (ret == -ENODEV) {
->> +                for (i = 0; i < num_rows; i++) {
->> +                    ret = dev_pm_opp_add(dev, freq_tbl[i].freq, 0);
->> +                    if (ret)
->> +                        return ret;
->> +                }
->> +            } else {
->> +                dev_err(dev, "invalid OPP table in device tree\n");
->> +                return ret;
->> +            }
->>           }
->>       }
->>   @@ -1078,11 +1090,11 @@ static unsigned long 
->> calculate_inst_freq(struct venus_inst *inst,
->>   static int load_scale_v4(struct venus_inst *inst)
->>   {
->>       struct venus_core *core = inst->core;
->> -    const struct freq_tbl *table = core->res->freq_tbl;
->> -    unsigned int num_rows = core->res->freq_tbl_size;
->>       struct device *dev = core->dev;
->>       unsigned long freq = 0, freq_core1 = 0, freq_core2 = 0;
->> +    unsigned long max_freq = ULONG_MAX;
->>       unsigned long filled_len = 0;
->> +    struct dev_pm_opp *opp;
->>       int i, ret = 0;
->>         for (i = 0; i < inst->num_input_bufs; i++)
->> @@ -1108,20 +1120,18 @@ static int load_scale_v4(struct venus_inst 
->> *inst)
->>         freq = max(freq_core1, freq_core2);
->>   -    if (freq > table[0].freq) {
->> -        dev_dbg(dev, VDBGL "requested clock rate: %lu scaling clock 
->> rate : %lu\n",
->> -            freq, table[0].freq);
->> +    opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
->> +    dev_pm_opp_put(opp);
->>   -        freq = table[0].freq;
->> +    if (freq > max_freq) {
->> +        dev_dbg(dev, VDBGL "requested clock rate: %lu scaling clock 
->> rate : %lu\n",
->> +            freq, max_freq);
->> +        freq = max_freq;
->>           goto set_freq;
->>       }
->>   -    for (i = num_rows - 1 ; i >= 0; i--) {
->> -        if (freq <= table[i].freq) {
->> -            freq = table[i].freq;
->> -            break;
->> -        }
->> -    }
->> +    opp = dev_pm_opp_find_freq_ceil(dev, &freq);
->> +    dev_pm_opp_put(opp);
->>     set_freq:
->>
->> ---
->> base-commit: b27cc623e01be9de1580eaa913508b237a7a9673
->> change-id: 20250610-use_freq_with_opp_table-b81162cfecba
->>
->> Best regards,
-> Please make your commit log more succinct and precise then add.
-Sure, thanks for your comment. I'll update this with next version.
->
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->
-> ---
-> bod
+
+On 29/5/25 15:34, Xu Yilun wrote:
+> This series is the generic host side (KVM/VFIO/IOMMUFD) support for the
+> whole life cycle of private device assignment. It follows the
+> previously discussed flow chart [1], aim to better illustrate the
+> overall flow of private device assignment, find out and narrow down the
+> gaps of different vendors, and reach some common directions.
+> 
+> This series is based on Dan's Core TSM infrastructure series [2].  To
+> give a clear overview of what components are needed, it also includes
+> some existing WIP patchsets in community.
+> 
+> This series has 3 sections:
+> 
+> Patch 1 - 11 deal with the private MMIO mapping in KVM MMU via DMABUF.
+> Leverage Jason & Vivek's latest VFIO dmabuf series [3], see Patch 2 - 4.
+> The concern for get_pfn() kAPI [4] is not addressed so are marked as
+> HACK, will investigate later.
+> 
+> Patch 12 - 22 is about TSM Bind/Unbind/Guest request management in VFIO
+> & IOMMUFD. Picks some of Shameer's patch in [5], see Patch 12 & 14.
+> 
+> Patch 23 - 30 is a solution to meet the TDX specific sequence
+> enforcement on various device Unbind cases, including converting device
+> back to shared, hot unplug, TD destroy. Start with a tdx_tsm driver
+> prototype and finally implement the Unbind enforcement inside the
+> driver. To be honest it is still awkward to me, but I need help.
+> 
+> This series don't include the VMEXIT handle for GHCI/GHCB calls for
+> Bind/Unbind/Guest request, cause it involves vendor specific code. The
+> general idea is KVM should just pass these calls to QEMU, QEMU parses
+> out the command and call the newly introduced VFIO/IOMMUFD IOCTLs.
+> 
+> With additional TDX Connect specific patches (not published), passed
+> engineering test for trusted DMA in TD.
+> 
+> [1]: https://lore.kernel.org/all/aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050/
+> [2]: https://lore.kernel.org/all/20250516054732.2055093-1-dan.j.williams@intel.com/
+> [3]: https://lore.kernel.org/kvm/20250307052248.405803-1-vivek.kasireddy@intel.com/
+> [4]: https://lore.kernel.org/all/20250107142719.179636-1-yilun.xu@linux.intel.com/
+> [5]: https://lore.kernel.org/all/20250319173202.78988-3-shameerali.kolothum.thodi@huawei.com/
+> > 
+> Alexey Kardashevskiy (1):
+>    iommufd/vdevice: Add TSM Guest request uAPI
+> 
+> Dan Williams (2):
+>    coco/tdx_tsm: Introduce a "tdx" subsystem and "tsm" device
+>    coco/tdx_tsm: TEE Security Manager driver for TDX
+> 
+> Shameer Kolothum (2):
+>    iommufd/device: Associate a kvm pointer to iommufd_device
+>    iommu/arm-smmu-v3-iommufd: Pass in kvm pointer to viommu_alloc
+> 
+> Vivek Kasireddy (3):
+>    vfio: Export vfio device get and put registration helpers
+>    vfio/pci: Share the core device pointer while invoking feature
+>      functions
+>    vfio/pci: Allow MMIO regions to be exported through dma-buf
+> 
+> Wu Hao (1):
+>    coco/tdx_tsm: Add connect()/disconnect() handlers prototype
+> 
+> Xu Yilun (21):
+>    HACK: dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI
+>    fixup! vfio/pci: fix dma-buf revoke typo on reset
+>    HACK: vfio/pci: Support get_pfn() callback for dma-buf
+>    KVM: Support vfio_dmabuf backed MMIO region
+>    KVM: x86/mmu: Handle page fault for vfio_dmabuf backed MMIO
+>    KVM: x86/mmu: Handle page fault for private MMIO
+>    vfio/pci: Export vfio dma-buf specific info for importers
+>    KVM: vfio_dmabuf: Fetch VFIO specific dma-buf data for sanity check
+>    fixup! iommufd/selftest: Sync iommufd_device_bind() change to selftest
+>    fixup: iommu/selftest: Sync .viommu_alloc() change to selftest
+>    iommufd/viommu: track the kvm pointer & its refcount in viommu core
+>    iommufd/device: Add TSM Bind/Unbind for TIO support
+>    iommufd/viommu: Add trusted IOMMU configuration handlers for vdev
+>    vfio/pci: Add TSM TDI bind/unbind IOCTLs for TEE-IO support
+>    vfio/pci: Do TSM Unbind before zapping bars
+>    fixup! PCI/TSM: Change the guest request type definition
+>    coco/tdx_tsm: Add bind()/unbind()/guest_req() handlers prototype
+>    PCI/TSM: Add PCI driver callbacks to handle TSM requirements
+>    vfio/pci: Implement TSM handlers for MMIO
+>    iommufd/vdevice: Implement TSM handlers for trusted DMA
+>    coco/tdx_tsm: Manage TDX Module enforced operation sequences for
+>      Unbind
+> 
+>   Documentation/virt/kvm/api.rst                |   7 +
+>   arch/x86/Kconfig                              |   1 +
+>   arch/x86/kvm/mmu/mmu.c                        |  25 +-
+>   drivers/dma-buf/dma-buf.c                     |  87 +++-
+>   .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |   1 +
+>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |   1 +
+>   drivers/iommu/iommufd/device.c                |  89 +++-
+>   drivers/iommu/iommufd/iommufd_private.h       |  10 +
+>   drivers/iommu/iommufd/main.c                  |   3 +
+>   drivers/iommu/iommufd/selftest.c              |   3 +-
+>   drivers/iommu/iommufd/viommu.c                | 202 ++++++++-
+>   drivers/vfio/iommufd.c                        |  24 +-
+>   drivers/vfio/pci/Makefile                     |   1 +
+>   drivers/vfio/pci/vfio_pci.c                   |   1 +
+>   drivers/vfio/pci/vfio_pci_config.c            |  26 +-
+>   drivers/vfio/pci/vfio_pci_core.c              | 161 ++++++-
+>   drivers/vfio/pci/vfio_pci_dmabuf.c            | 411 ++++++++++++++++++
+>   drivers/vfio/pci/vfio_pci_priv.h              |  26 ++
+>   drivers/vfio/vfio_main.c                      |   2 +
+>   drivers/virt/coco/host/Kconfig                |  10 +
+>   drivers/virt/coco/host/Makefile               |   3 +
+>   drivers/virt/coco/host/tdx_tsm.c              | 328 ++++++++++++++
+>   drivers/virt/coco/host/tdx_tsm_bus.c          |  70 +++
+>   include/linux/dma-buf.h                       |  13 +
+>   include/linux/iommu.h                         |   4 +-
+>   include/linux/iommufd.h                       |  12 +-
+>   include/linux/kvm_host.h                      |  25 +-
+>   include/linux/pci-tsm.h                       |  19 +-
+>   include/linux/pci.h                           |   3 +
+>   include/linux/tdx_tsm_bus.h                   |  17 +
+>   include/linux/vfio.h                          |  27 ++
+>   include/linux/vfio_pci_core.h                 |   3 +
+>   include/uapi/linux/iommufd.h                  |  36 ++
+>   include/uapi/linux/kvm.h                      |   1 +
+>   include/uapi/linux/vfio.h                     |  67 +++
+>   virt/kvm/Kconfig                              |   6 +
+>   virt/kvm/Makefile.kvm                         |   1 +
+>   virt/kvm/kvm_main.c                           |  32 +-
+>   virt/kvm/kvm_mm.h                             |  19 +
+>   virt/kvm/vfio_dmabuf.c                        | 151 +++++++
+>   40 files changed, 1868 insertions(+), 60 deletions(-)
+>   create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+>   create mode 100644 drivers/virt/coco/host/tdx_tsm.c
+>   create mode 100644 drivers/virt/coco/host/tdx_tsm_bus.c
+>   create mode 100644 include/linux/tdx_tsm_bus.h
+>   create mode 100644 virt/kvm/vfio_dmabuf.c
+> 
+> 
+> base-commit: 88c473f04098a0f5ac6fbaceaad2daa842006b6a
 
 -- 
-Best Regards,
-Renjiang
+Alexey
 
 
