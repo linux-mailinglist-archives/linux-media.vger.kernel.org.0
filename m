@@ -1,50 +1,51 @@
-Return-Path: <linux-media+bounces-34514-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34515-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DE8AD5853
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 16:16:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B53E7AD58A8
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 16:26:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB8BF1891E82
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 14:15:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 38AF77A8CDF
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 14:24:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1291C189912;
-	Wed, 11 Jun 2025 14:15:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6783329B23D;
+	Wed, 11 Jun 2025 14:25:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UOt6HpUk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JZcUDvbJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F0935897;
-	Wed, 11 Jun 2025 14:15:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092652BDC25;
+	Wed, 11 Jun 2025 14:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749651305; cv=none; b=N79b60YC0aWP5ox+5MuLrC2fIegczqoO2SaGV/uIfX2T+ZbgZn8KexRl3VvRL6Mn5CNs1AXJ+xZJUodf4HPdoFiD1BWL+0mJE8wYaTAtC8TdZST4soxJ7BO1cbk6J7hs9M1lN7Jnw+8v9wW+0dXhhEMMPPHtnAk4+C6uvtWNAOA=
+	t=1749651924; cv=none; b=FxDy2KCy4GumHuO48KO1YEmz+obtDy17Bfw6vhnNNASuYr4dXSvZRrLV+q+r8ZN6zxKk6mmWEXDQ09QEBFs9A3bbr/Nf3T9iqY0HP4pbl2fgVwO6grEl9ocRp6rNOLrzy+f+i+n/lCm0eJJvYK5Qbt7OV4zMYZBD7ThqLsSl3uA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749651305; c=relaxed/simple;
-	bh=gPozdbI3xpmxAv+kXn407bfUh6hLjnr47SUlGsJ5RY0=;
+	s=arc-20240116; t=1749651924; c=relaxed/simple;
+	bh=ydw5XstCOj0yxT3ihCpLEUcyvE3z56cERDKWAm+csSg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LFdVMXxyUoUYqkdmaQ3g37f4JClsnxyScr9mlOcmDmk9vmqJwln4Cs6SjfDSjiF6DWioaWPQOsVLSVgJ214hz/Tb9Lh7oCcgG/5SBXgbHMPlykrVek3mbhl4O7AT/ttOpvmDMuFh0KOgw/3RApqthsD192oK/sF8bu0d9Ds1jag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UOt6HpUk; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=lnCrR4GgZ9HUUei4h/HqHuGx5ZQzGfD8M4oRGrCr6uodX6j9hoIYREn+XBpyWNP5vP8h674Alm0QL2zc9sJjgm1hTEzDHCajX46P82rTxPW77lZcl36/z28qTQCVjtIVsjbF1nz3tE9ZggKo6ReW/a6Bt5b8h+LRVaREY3BGQBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JZcUDvbJ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53EAC526;
-	Wed, 11 Jun 2025 16:14:53 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23B992329;
+	Wed, 11 Jun 2025 16:25:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749651293;
-	bh=gPozdbI3xpmxAv+kXn407bfUh6hLjnr47SUlGsJ5RY0=;
+	s=mail; t=1749651908;
+	bh=ydw5XstCOj0yxT3ihCpLEUcyvE3z56cERDKWAm+csSg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UOt6HpUk9flKVzBrV8edTT7seyKAKmte8Yfx+4gNSJ9azP9NzWTKbG/MmcfOLgDMX
-	 1rdkMDvcCLkiMrNuyccUiei49CSOPbo3TzWOuCHYOfESslReCu16XrFQBBpa6DcliV
-	 Wz/VZY3TuNfK79OPX5bo1LospmsQOFtdHjLUcmR8=
-Date: Wed, 11 Jun 2025 17:14:49 +0300
+	b=JZcUDvbJTHLRCMKztArv5XRBV2UHFvGOjmfkOUZFrAhTDdy9AxA7voYcK2/vHn6Nu
+	 WyMEobdEFcsh1Q9xpCzPWwsRiRv8z60zykAImLj8Brf+fdGkALvw/eDug2eansN/FX
+	 dBXPhuJWGeeBKrFPsRq82hjT9uHQJ3lRkp960daM=
+Date: Wed, 11 Jun 2025 17:25:03 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Frank Li <Frank.li@nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Frank Li <Frank.li@nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
@@ -57,15 +58,10 @@ Cc: Frank Li <Frank.li@nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	Robert Chiras <robert.chiras@nxp.com>,
 	"Guoniu.zhou" <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH v4 04/13] media: nxp: imx8-isi: Use
- devm_clk_bulk_get_all() to fetch clocks
-Message-ID: <20250611141449.GA24607@pendragon.ideasonboard.com>
-References: <20250408-8qxp_camera-v4-0-ef695f1b47c4@nxp.com>
- <20250408-8qxp_camera-v4-4-ef695f1b47c4@nxp.com>
- <20250421211438.GN17813@pendragon.ideasonboard.com>
- <aBQZjFsExJh2uRfK@lizhi-Precision-Tower-5810>
- <20250502155747.GB20093@pendragon.ideasonboard.com>
- <aBylKcZyFInlKQAR@lizhi-Precision-Tower-5810>
+Subject: Re: [PATCH v5 00/13] media: imx8: add camera support
+Message-ID: <20250611142503.GB22730@pendragon.ideasonboard.com>
+References: <20250522-8qxp_camera-v5-0-d4be869fdb7e@nxp.com>
+ <aEcUGXeAdf/gBBFX@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,181 +70,110 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aBylKcZyFInlKQAR@lizhi-Precision-Tower-5810>
+In-Reply-To: <aEcUGXeAdf/gBBFX@lizhi-Precision-Tower-5810>
 
-Hi Rob,
+Hi Frank,
 
-On Thu, May 08, 2025 at 08:35:53AM -0400, Frank Li wrote:
-> On Fri, May 02, 2025 at 06:57:47PM +0300, Laurent Pinchart wrote:
-> > On Thu, May 01, 2025 at 09:02:04PM -0400, Frank Li wrote:
-> > > On Tue, Apr 22, 2025 at 12:14:38AM +0300, Laurent Pinchart wrote:
-> > > > On Tue, Apr 08, 2025 at 05:53:02PM -0400, Frank Li wrote:
-> > > > > Use devm_clk_bulk_get_all() helper to simplify clock handle code.
-> > > > >
-> > > > > No functional changes intended.
-> > > > >
-> > > > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > > > ---
-> > > > >  .../media/platform/nxp/imx8-isi/imx8-isi-core.c    | 46 +++-------------------
-> > > > >  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  3 +-
-> > > > >  2 files changed, 6 insertions(+), 43 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> > > > > index ecfc95882f903..015350c6f2784 100644
-> > > > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> > > > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> > > > > @@ -275,11 +275,6 @@ static const struct mxc_isi_set_thd mxc_imx8_isi_thd_v1 = {
-> > > > >  	.panic_set_thd_v = { .mask = 0xf0000, .offset = 16, .threshold = 0x7 },
-> > > > >  };
-> > > > >
-> > > > > -static const struct clk_bulk_data mxc_imx8mn_clks[] = {
-> > > > > -	{ .id = "axi" },
-> > > > > -	{ .id = "apb" },
-> > > > > -};
-> > > > > -
-> > > > >  static const struct mxc_isi_plat_data mxc_imx8mn_data = {
-> > > > >  	.model			= MXC_ISI_IMX8MN,
-> > > > >  	.num_ports		= 1,
-> > > > > @@ -287,8 +282,6 @@ static const struct mxc_isi_plat_data mxc_imx8mn_data = {
-> > > > >  	.reg_offset		= 0,
-> > > > >  	.ier_reg		= &mxc_imx8_isi_ier_v1,
-> > > > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
-> > > > > -	.clks			= mxc_imx8mn_clks,
-> > > > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> > > > >  	.buf_active_reverse	= false,
-> > > > >  	.gasket_ops		= &mxc_imx8_gasket_ops,
-> > > > >  	.has_36bit_dma		= false,
-> > > > > @@ -301,8 +294,6 @@ static const struct mxc_isi_plat_data mxc_imx8mp_data = {
-> > > > >  	.reg_offset		= 0x2000,
-> > > > >  	.ier_reg		= &mxc_imx8_isi_ier_v2,
-> > > > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
-> > > > > -	.clks			= mxc_imx8mn_clks,
-> > > > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> > > > >  	.buf_active_reverse	= true,
-> > > > >  	.gasket_ops		= &mxc_imx8_gasket_ops,
-> > > > >  	.has_36bit_dma		= true,
-> > > > > @@ -315,8 +306,6 @@ static const struct mxc_isi_plat_data mxc_imx8ulp_data = {
-> > > > >  	.reg_offset		= 0x0,
-> > > > >  	.ier_reg		= &mxc_imx8_isi_ier_v2,
-> > > > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
-> > > > > -	.clks			= mxc_imx8mn_clks,
-> > > > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> > > > >  	.buf_active_reverse	= true,
-> > > > >  	.has_36bit_dma		= false,
-> > > > >  };
-> > > > > @@ -328,8 +317,6 @@ static const struct mxc_isi_plat_data mxc_imx93_data = {
-> > > > >  	.reg_offset		= 0,
-> > > > >  	.ier_reg		= &mxc_imx8_isi_ier_v2,
-> > > > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
-> > > > > -	.clks			= mxc_imx8mn_clks,
-> > > > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> > > > >  	.buf_active_reverse	= true,
-> > > > >  	.gasket_ops		= &mxc_imx93_gasket_ops,
-> > > > >  	.has_36bit_dma		= false,
-> > > > > @@ -386,7 +373,7 @@ static int mxc_isi_runtime_suspend(struct device *dev)
-> > > > >  {
-> > > > >  	struct mxc_isi_dev *isi = dev_get_drvdata(dev);
-> > > > >
-> > > > > -	clk_bulk_disable_unprepare(isi->pdata->num_clks, isi->clks);
-> > > > > +	clk_bulk_disable_unprepare(isi->num_clks, isi->clks);
-> > > > >
-> > > > >  	return 0;
-> > > > >  }
-> > > > > @@ -396,7 +383,7 @@ static int mxc_isi_runtime_resume(struct device *dev)
-> > > > >  	struct mxc_isi_dev *isi = dev_get_drvdata(dev);
-> > > > >  	int ret;
-> > > > >
-> > > > > -	ret = clk_bulk_prepare_enable(isi->pdata->num_clks, isi->clks);
-> > > > > +	ret = clk_bulk_prepare_enable(isi->num_clks, isi->clks);
-> > > > >  	if (ret) {
-> > > > >  		dev_err(dev, "Failed to enable clocks (%d)\n", ret);
-> > > > >  		return ret;
-> > > > > @@ -414,27 +401,6 @@ static const struct dev_pm_ops mxc_isi_pm_ops = {
-> > > > >   * Probe, remove & driver
-> > > > >   */
-> > > > >
-> > > > > -static int mxc_isi_clk_get(struct mxc_isi_dev *isi)
-> > > > > -{
-> > > > > -	unsigned int size = isi->pdata->num_clks
-> > > > > -			  * sizeof(*isi->clks);
-> > > > > -	int ret;
-> > > > > -
-> > > > > -	isi->clks = devm_kmemdup(isi->dev, isi->pdata->clks, size, GFP_KERNEL);
-> > > > > -	if (!isi->clks)
-> > > > > -		return -ENOMEM;
-> > > > > -
-> > > > > -	ret = devm_clk_bulk_get(isi->dev, isi->pdata->num_clks,
-> > > > > -				isi->clks);
-> > > > > -	if (ret < 0) {
-> > > > > -		dev_err(isi->dev, "Failed to acquire clocks: %d\n",
-> > > > > -			ret);
-> > > > > -		return ret;
-> > > > > -	}
-> > > > > -
-> > > > > -	return 0;
-> > > > > -}
-> > > > > -
-> > > > >  static int mxc_isi_probe(struct platform_device *pdev)
-> > > > >  {
-> > > > >  	struct device *dev = &pdev->dev;
-> > > > > @@ -457,11 +423,9 @@ static int mxc_isi_probe(struct platform_device *pdev)
-> > > > >  	if (!isi->pipes)
-> > > > >  		return -ENOMEM;
-> > > > >
-> > > > > -	ret = mxc_isi_clk_get(isi);
-> > > > > -	if (ret < 0) {
-> > > > > -		dev_err(dev, "Failed to get clocks\n");
-> > > > > -		return ret;
-> > > > > -	}
-> > > > > +	isi->num_clks = devm_clk_bulk_get_all(dev, &isi->clks);
-> > > >
-> > > > This prevents validating that the DT contains the expected clocks, which
-> > > > could cause hard to debug issues. Isn't it a problem ?
-> > >
-> > > It is checked by dt-binding. Now no warning by DTB_CHECK under arm64 freecale.
-> > > CHECK_DTB should be enough to find expected clocks.
+On Mon, Jun 09, 2025 at 01:04:25PM -0400, Frank Li wrote:
+> On Thu, May 22, 2025 at 01:56:38PM -0400, Frank Li wrote:
+> > Add SCU reset driver for i.MX8QM/i.MX8QXP.
+> > Update binding doc.
+> > Update driver for imx8qxp and imx8qm.
+> > Add dts files for it.
 > >
-> > Yes, the DTB check will catch issues at build time, but the driver will
-> > not enforce that. I'm not sure if there's a clear policy here, and if
-> > ensuring at runtime in drivers that the expected clocks are present is
-> > considered as a good practice by the DT maintainers. Rob, Krzysztof,
-> > Conor, do you have an opinion ?
+> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > 
-> Rob:
-> 	can you comment this?
-
-Rob, any comment on this ?
-
-> Laurent:
-> 	Many driver already switch to devm_clk_bulk_get_all() such as qcom/imx6
-> pci drivers recently.
+> Laurent Pinchart:
 > 
-> > > > > +	if (isi->num_clks < 0)
-> > > > > +		return dev_err_probe(dev, isi->num_clks, "Failed to get clocks\n");
-> > > > >
-> > > > >  	isi->regs = devm_platform_ioremap_resource(pdev, 0);
-> > > > >  	if (IS_ERR(isi->regs)) {
-> > > > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> > > > > index e7534a80af7b4..bd3cfe5fbe063 100644
-> > > > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> > > > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> > > > > @@ -169,8 +169,6 @@ struct mxc_isi_plat_data {
-> > > > >  	const struct mxc_isi_ier_reg  *ier_reg;
-> > > > >  	const struct mxc_isi_set_thd *set_thd;
-> > > > >  	const struct mxc_gasket_ops *gasket_ops;
-> > > > > -	const struct clk_bulk_data *clks;
-> > > > > -	unsigned int num_clks;
-> > > > >  	bool buf_active_reverse;
-> > > > >  	bool has_36bit_dma;
-> > > > >  };
-> > > > > @@ -282,6 +280,7 @@ struct mxc_isi_dev {
-> > > > >
-> > > > >  	void __iomem			*regs;
-> > > > >  	struct clk_bulk_data		*clks;
-> > > > > +	int				num_clks;
-> > > > >  	struct regmap			*gasket;
-> > > > >
-> > > > >  	struct mxc_isi_crossbar		crossbar;
+> 	Do you have chance to check these patches? Only below patch
+> media: nxp: imx8-isi: Use devm_clk_bulk_get_all() to fetch clocks
+> missed your review tag.
+
+I've just pinged Rob in the v4 thread.
+
+> 	DT team member still have not any comments about your concern by
+> use devm_clk_bulk_get_all(). I have quite confidence about this
+> devm_clk_bulk_get_all(), many drivers already switched to use
+> devm_clk_bulk_get_all() recently.
+> 
+> 	Do you need me rebase to v6.16-rc1?
+
+The patches apply cleanly on v6.16-rc1, no need to rebase. I'll wait a
+few more days for Rob's reply.
+
+> > Changes in v5:
+> > - collect Laurent Pinchart's review tags
+> > - remove empty endpoint in dts
+> >
+> > Changes in v4:
+> > - Add 4 clean up patches
+> > 	media: nxp: imx8-isi: Remove unused offset in mxc_isi_reg and use BIT() macro for mask
+> > 	media: nxp: imx8-isi: Use dev_err_probe() simplify code
+> > 	media: nxp: imx8-isi: Remove redundant check for dma_set_mask_and_coherent()
+> > 	media: nxp: imx8-isi: Use devm_clk_bulk_get_all() to fetch clocks
+> > - rebase to v6.15-rc1.
+> > - Remove scu reset patches, which already in linux-next
+> > - Remove patch
+> > 	 Add fixed clock node clock-xtal24m to prepare to add camera support.
+> > - other detail change log see each patch's change log
+> > - Link to v3: https://lore.kernel.org/r/20250210-8qxp_camera-v3-0-324f5105accc@nxp.com
+> >
+> > Changes in v3:
+> > - Remove phy driver parts.
+> > - csr is dedicate for mipi csi2, so add it as second register space. csr is
+> > mixed with PHY and link control with csi2.
+> > - Link to v2: https://lore.kernel.org/r/20250205-8qxp_camera-v2-0-731a3edf2744@nxp.com
+> >
+> > Changes in v2:
+> > - move scu reset binding doc to top scu doc.
+> > - isi use seperate binding doc for imx8qxp and imx8qm.
+> > - phy and csi2, compatible string 8qm fallback to qxp
+> > - remove internal review tags
+> > - Link to v1: https://lore.kernel.org/r/20250131-8qxp_camera-v1-0-319402ab606a@nxp.com
+> >
+> > ---
+> > Frank Li (10):
+> >       media: dt-bindings: Add binding doc for i.MX8QXP and i.MX8QM ISI
+> >       media: nxp: imx8-isi: Allow num_sources to be greater than num_sink
+> >       media: nxp: imx8-isi: Remove unused offset in mxc_isi_reg and use BIT() macro for mask
+> >       media: nxp: imx8-isi: Use devm_clk_bulk_get_all() to fetch clocks
+> >       media: nxp: imx8-isi: Remove redundant check for dma_set_mask_and_coherent()
+> >       media: nxp: imx8-isi: Use dev_err_probe() to simplify code
+> >       media: imx8mq-mipi-csi2: Add support for i.MX8QXP
+> >       arm64: dts: imx8: add capture controller for i.MX8's img subsystem
+> >       arm64: dts: imx8q: add linux,cma node for imx8qm-mek and imx8qxp-mek
+> >       arm64: dts: imx8q: add camera ov5640 support for imx8qm-mek and imx8qxp-mek
+> >
+> > Guoniu.zhou (1):
+> >       media: imx8mq-mipi-csi2: Add imx8mq_plat_data for different compatible strings
+> >
+> > Robert Chiras (2):
+> >       media: imx8-isi: Add support for i.MX8QM and i.MX8QXP
+> >       media: dt-bindings: nxp,imx8mq-mipi-csi2: Add i.MX8QM(QXP) compatible strings
+> >
+> >  .../devicetree/bindings/media/fsl,imx8qm-isi.yaml  | 117 +++++++
+> >  .../devicetree/bindings/media/fsl,imx8qxp-isi.yaml | 106 ++++++
+> >  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml       |  38 ++-
+> >  MAINTAINERS                                        |   1 +
+> >  arch/arm64/boot/dts/freescale/Makefile             |  11 +
+> >  arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi     | 362 +++++++++++++++++++++
+> >  .../boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtso |  64 ++++
+> >  .../boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtso |  64 ++++
+> >  arch/arm64/boot/dts/freescale/imx8qm-mek.dts       |  67 ++++
+> >  arch/arm64/boot/dts/freescale/imx8qm-ss-img.dtsi   |  79 +++++
+> >  arch/arm64/boot/dts/freescale/imx8qm.dtsi          |   5 +
+> >  .../boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtso |  63 ++++
+> >  arch/arm64/boot/dts/freescale/imx8qxp-mek.dts      |  45 +++
+> >  arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi  |  83 +++++
+> >  arch/arm64/boot/dts/freescale/imx8qxp.dtsi         |   5 +
+> >  .../media/platform/nxp/imx8-isi/imx8-isi-core.c    | 135 ++++----
+> >  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |   6 +-
+> >  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      |   8 +-
+> >  drivers/media/platform/nxp/imx8mq-mipi-csi2.c      | 169 +++++++++-
+> >  19 files changed, 1334 insertions(+), 94 deletions(-)
+> > ---
+> > base-commit: ae1fdcf4b210cd66ac7e97b24219c160e4bb7be5
+> > change-id: 20250114-8qxp_camera-c1af5749d304
 
 -- 
 Regards,
