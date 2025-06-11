@@ -1,198 +1,107 @@
-Return-Path: <linux-media+bounces-34540-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34542-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE361AD5E58
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 20:38:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B3EAD5EF2
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 21:22:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A69A3A9C62
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 18:37:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FA8E3A875B
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 19:22:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 584482BD00E;
-	Wed, 11 Jun 2025 18:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E6B9288CB9;
+	Wed, 11 Jun 2025 19:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="BTrCvNfK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fKU7pHaD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C4617A31F
-	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 18:37:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6B51DD889
+	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 19:22:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749667047; cv=none; b=rqTKMlGC2gCfHL487rvnmDdvUJNVxX2G13uhJfsfwr2WdIJPe/LAnMLGGXDakAfVYtHLzvEkXrWpsNgiDbqQPzzjJg2wAqb1G80D3mJnnrVNbMlsBN4M2glFhuedeZy5ra/LYX4Wq1sUJDc7C68XaxvgUUEKnL7ISiP0zg4f+TM=
+	t=1749669752; cv=none; b=bWkKcLoRPpSwCfOeFxfVXVmZz5ARMzCQi/id+LMoetNQ6a6TqWhu2/9aFAhC4zldRoWD97ruow8CcbbDiYSSpljsP/C2kmjLfWPYu4VVBoBEXQz7no+vhuiq5vqTrOnCTcLg9nfY3P0ix20MEwYn3Z9u5d7IViKaPExllvWVPZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749667047; c=relaxed/simple;
-	bh=As5A0OqeYX31BcT5f8MqqEWBy/dKh075/j28h5b08z0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dquRfXt/16HqPQSBMSOMi5cgZMU+L3wUk8TLfjKy6tTNzzVkdETYQYLEZkqZFgTmSRhmVf7u80gtTgysdxWurILjdMbLtyx8OnFmbK4RlLN+NmJx4C861DQ6OSUqrc0kWZkEyzATDf0qWna6jXVCA8DEZATu4HpRDbvaDm644qU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=BTrCvNfK; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-450dd065828so713505e9.2
-        for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 11:37:25 -0700 (PDT)
+	s=arc-20240116; t=1749669752; c=relaxed/simple;
+	bh=vAgeuNtl8mlv8GuWfs9SSMfoFYm+561BSY1s98CoWH8=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u/OSzcYtEj2pt5ZcfFe7mP3cupVoTjCWV7uXb8rh7sIM/gUdqDJLQv4HqYPyTuKVqdNyzMwU4REo9gouR71t9p8uDrveD4GpWSva8POp7ZfxbnJzcOQOHwW1ZS1ktHoIvWJNs434+ch5KltiMs2CFgKYpSirOaNYDZgz9bXbats=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fKU7pHaD; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-442e9c00bf4so944455e9.3
+        for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 12:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1749667044; x=1750271844; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+P+Xcul569I8IEtQZA+nCLqa8EijcGyUC3HbPjalOas=;
-        b=BTrCvNfKl8vNM9rWO9YOjOUn3mOL1wOccHTE5guaZBDMrL/7FNe1ydH2fjASKkzWoO
-         PnXWoly0Ek6nNsnz7cc96FYYwP/l72245jr2HuWvreuV7yjdy8cfCkRQpzBvuOnXwOPt
-         vWS75pyffHucmbjqRqVlNtX36rgNydXzvL3oR11Pdjq/eLsUzYDFZefpRiDgvHAjP4Ar
-         0XutGc3pMh5ERCeiMS64vPXXbfGSHqPLAurPbWQe7KdnldeCPn0R4Num7TkOb14WDPgS
-         jnM27OwDL/8viC+ai75vyAwePy35of3en6NLObyEn7/7buM025XlA84RcdicOJRtANZP
-         NQXQ==
+        d=gmail.com; s=20230601; t=1749669749; x=1750274549; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MDO9w8UUoDvArDAYv/Uy+ekA6fS1XN7Tfe09KBQMX20=;
+        b=fKU7pHaDjaS0lYRBoVFMt2+FStANyvQP+YSMZaqvNWW6Pu0gMSxOYSIH2ZCq+c95QH
+         KjZ8I1ijaXF7GQTEdaX+TXVwGJpG2gdh6UFpTRqxmB3Q2lNJXvjcR0CfxXvi176X39AK
+         KQuz9UuyxEd87+4MxDcOdzFXjZYe4LcQrHiGXZ+R4o/7C5bbZPV0CPU4cwv6uYcHY+Rd
+         ZbSihmQYS29SovFGkMcCjCeT2TBg6OWEM+Qk55f/qJSPESbOpZmSCd7mDfqjjuAU39yy
+         sN8Vjrm3z/xGRjQvidX2C/uXHkSvbzLiqCEo90rexijX52JDLmYxQB1lS10pIf/PWwwL
+         uY5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749667044; x=1750271844;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+P+Xcul569I8IEtQZA+nCLqa8EijcGyUC3HbPjalOas=;
-        b=MFUpsJSZrK64WBcFQ3Dy8zx3mCLq5peaQOGmUdasyBPtgKdJr7s5pWd0hpMoZo5g0M
-         8KBN+NEyYfaeP93LbFFij1wpINvIt99Xtk1Z/YpsIHTcpF/gbB12A+R9vMfbeHDO2cAz
-         zJaZu/bR8py4Mcbc0ZIWdXTlJ2ga262z+smWyISzvupaK8Ya3bl42RmBeHVoq5JG0TaE
-         gpv2sAPxkC7k5jWYEwBBcnQho9PNY/6xmzEtsT9eRTXx/V5muscjzmFokiL0JAaJIJ+n
-         RitdLI7qyWqQShFcnhOOge7h1xclmXG8A0vCLgtmkXf1nWbk/TEgig8gvXr8A7aPbYPF
-         JTxg==
-X-Forwarded-Encrypted: i=1; AJvYcCWtyvkcoZK50aG9rHZ9eCdZZLXk0Qoe9uxO0zQWe6U3ecIrLUAFUxcotfkTKeAic86J/UsTO5bObN+EJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3BHBsEzbOmOByC6wG/4zC2xWmVMppMV2EPuv5GANuD7QbG4kj
-	vaBhA5vg3dJhbnhA7PdgsW/V+bgH/Z64OjdEA4UMb1mck8d38v0EC2J4f8iTZyyguZA=
-X-Gm-Gg: ASbGncvhWH8neg4GY3+XAZR6iD8VtlGsQxZNYSvJ5fwp3FLFWlTTL/MmGxses4gfmJs
-	yqueANGh66mJftkqridyC9l3J6M7mmM3iVmi8sxY+f03f8dhiemly0r9PL5M1pOvba2EMRzQ+bJ
-	PUXsOzS2ChP8xvEUq7D9e3K/KyNMd1ol5nVE3GrgNwSsiKKRsvx/SD0avF299f1PPzvmY/Rgys6
-	Wq6yTb/ebm2D+8SGHpUaVWKI9ZLjLQ0dVtCafKp5/bxuD+0Boy5q0sqERFU8AIByCI0Fust502r
-	KOED3owbh8ti6GklG2j0XeLQYDushncTMzplTXuByZxKfVD8QYKrXUC0FQj5CKi3
-X-Google-Smtp-Source: AGHT+IFoP50tmhgFnoHamwtAePqFHuyZl0kIlu1pe1rTBJjxaOHhQLNNJiWGEyddK2iuPOKOY76sBw==
-X-Received: by 2002:a05:6000:26c7:b0:3a4:f70d:dec3 with SMTP id ffacd0b85a97d-3a5606c7a11mr367720f8f.16.1749667044189;
-        Wed, 11 Jun 2025 11:37:24 -0700 (PDT)
-Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a5324364d4sm16119390f8f.55.2025.06.11.11.37.22
+        d=1e100.net; s=20230601; t=1749669749; x=1750274549;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MDO9w8UUoDvArDAYv/Uy+ekA6fS1XN7Tfe09KBQMX20=;
+        b=FJ2CdJuWuhmOfZVmU0m4AXpqYMxC8AGosgxwobCw8m9sqxZMNgE/ySjDrEDCiW0XvH
+         5nDTUN0eB87rrCTO6/vZOitTVqHXB8KDnAXpbXoYENy9c4mIXwheLxyGfM213uLn4ue7
+         Pz0ZXEqIEOVmeJ2Q4mXdj8bgLnQio8DXm4oLj1xcShEV/AAno9XftyMBsPtuQ8lgSCpp
+         7PTtwFjGqkwzfI+EIlIcs4HDbFjOkju0bWF/8aiNJmZ9/DBLwmxNt2a9srk2j/wzyMKk
+         i9umddnW7+FZ+I322FLqPks+N4ryN+b8UVxyC+kjkFvtjxInnTpTZwkCwiZ7obBZlkVr
+         hw+g==
+X-Gm-Message-State: AOJu0YziQfs9wljMprjI6jamw1HocE8Y0f8wmnX6Es2aTejZRMzANz4U
+	MidjXNh4+rnHE8n1AjbELcLANT0Rjloz7p53430LaUOKR5+OzWOq0fE39ev2yHrs
+X-Gm-Gg: ASbGncthURZrb9dJX6CdQJzfoVqHn0EDx/eryggL9imGKsZvL7s6dzBjlnZcf+GVy0H
+	/Im3sNxJaBx++HsUOEzKb9DSD0i9Y9EBFgDnkPRvsi6z1GKh7nic8kLR0imTW3VDv2bdX+zZI5J
+	R6ezP8p/ttxnOJRAfGlogYmbI9PisFxMbyX44RzW6A8Sz2cA4uStpnPl5WLAB7Z4Oy5JH5PQVw2
+	KLnNndJqd1YkPmfxmqvKJdRcDrhRcYsXMktkAnfT6JeLf5GxewZWH3VeB0WI0Kp+Zk+47jzIhet
+	aa8sgBCvgCjEN3NIl398eHZjc/JQYsKANoWa0LTpMm0ZStd1nVhpbByMhdpagURdmK1yFSUPTOl
+	ZfRT0z+YDoPPN6yN1Atlww2WpFv5h7YuMGkWWISJJePw=
+X-Google-Smtp-Source: AGHT+IGazBUB8UIgs1ZKJA9P9tsny8kCDMe5zyY+y/tz76daeAy0LGsAgDl/Xnn4Zub2ugxydWZ03g==
+X-Received: by 2002:a05:600c:c16f:b0:453:c39:d0a7 with SMTP id 5b1f17b1804b1-4532b89f884mr10049945e9.5.1749669748812;
+        Wed, 11 Jun 2025 12:22:28 -0700 (PDT)
+Received: from solutions-brol (243.79-78-194.adsl-static.isp.belgacom.be. [194.78.79.243])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532513ddc3sm30177915e9.4.2025.06.11.12.22.27
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 11:37:23 -0700 (PDT)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 11 Jun 2025 19:37:16 +0100
-Subject: [PATCH 4/4] media: tc358743: Return an appropriate colorspace from
- tc358743_set_fmt
+        Wed, 11 Jun 2025 12:22:28 -0700 (PDT)
+Date: Wed, 11 Jun 2025 21:22:26 +0200
+From: philippe baetens <philippebaetens@gmail.com>
+To: linux-media@vger.kernel.org
+Subject: [PATCH v1 0/1] *** New MIRA220 image sensor driver ***
+Message-ID: <cover.1749669197.git.philippebaetens@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250611-media-tc358743-v1-4-708556026f9d@raspberrypi.com>
-References: <20250611-media-tc358743-v1-0-708556026f9d@raspberrypi.com>
-In-Reply-To: <20250611-media-tc358743-v1-0-708556026f9d@raspberrypi.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Maxime Ripard <mripard@redhat.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-X-Mailer: b4 0.14.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When calling tc358743_set_fmt, the code was calling tc358743_get_fmt
-to choose a valid format. However that sets the colorspace
-based on information read back from the chip, not the colour
-format requested.
+Hi Folks,
 
-The result was that if you called try or set format for UYVY
-when the current format was RGB3 then you would get told SRGB,
-and try RGB3 when current was UYVY and you would get told
-SMPTE170M.
+I've recently created a driver for the ams-osram mira220 image sensor.
+This is already merged and tested specifically for the
+raspberrypi/linux kernel.
+Now I want to upstream my driver to the mainline linux.
+This is my first patch - so be gentle :)
+Feedback is appreciated.
 
-The value programmed in the VI_REP register for the colorspace
-is always set by this driver, therefore there is no need to read
-back the value, and never set to REC709.
-Return the colorspace based on the format set/tried instead.
+philippe baetens (1):
+  media/i2c: Add driver for ams Mira220
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- drivers/media/i2c/tc358743.c | 44 +++++++++++++++++---------------------------
- 1 file changed, 17 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index 4d3dc61a9b8b..37ebc760f73b 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -1708,12 +1708,23 @@ static int tc358743_enum_mbus_code(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static u32 tc358743_g_colorspace(u32 code)
-+{
-+	switch (code) {
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+		return V4L2_COLORSPACE_SRGB;
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+		return V4L2_COLORSPACE_SMPTE170M;
-+	default:
-+		return 0;
-+	}
-+}
-+
- static int tc358743_get_fmt(struct v4l2_subdev *sd,
- 		struct v4l2_subdev_state *sd_state,
- 		struct v4l2_subdev_format *format)
- {
- 	struct tc358743_state *state = to_state(sd);
--	u8 vi_rep = i2c_rd8(sd, VI_REP);
- 
- 	if (format->pad != 0)
- 		return -EINVAL;
-@@ -1723,23 +1734,7 @@ static int tc358743_get_fmt(struct v4l2_subdev *sd,
- 	format->format.height = state->timings.bt.height;
- 	format->format.field = V4L2_FIELD_NONE;
- 
--	switch (vi_rep & MASK_VOUT_COLOR_SEL) {
--	case MASK_VOUT_COLOR_RGB_FULL:
--	case MASK_VOUT_COLOR_RGB_LIMITED:
--		format->format.colorspace = V4L2_COLORSPACE_SRGB;
--		break;
--	case MASK_VOUT_COLOR_601_YCBCR_LIMITED:
--	case MASK_VOUT_COLOR_601_YCBCR_FULL:
--		format->format.colorspace = V4L2_COLORSPACE_SMPTE170M;
--		break;
--	case MASK_VOUT_COLOR_709_YCBCR_FULL:
--	case MASK_VOUT_COLOR_709_YCBCR_LIMITED:
--		format->format.colorspace = V4L2_COLORSPACE_REC709;
--		break;
--	default:
--		format->format.colorspace = 0;
--		break;
--	}
-+	format->format.colorspace = tc358743_g_colorspace(format->format.code);
- 
- 	return 0;
- }
-@@ -1753,19 +1748,14 @@ static int tc358743_set_fmt(struct v4l2_subdev *sd,
- 	u32 code = format->format.code; /* is overwritten by get_fmt */
- 	int ret = tc358743_get_fmt(sd, sd_state, format);
- 
--	format->format.code = code;
-+	if (code == MEDIA_BUS_FMT_RGB888_1X24 ||
-+	    code == MEDIA_BUS_FMT_UYVY8_1X16)
-+		format->format.code = code;
-+	format->format.colorspace = tc358743_g_colorspace(format->format.code);
- 
- 	if (ret)
- 		return ret;
- 
--	switch (code) {
--	case MEDIA_BUS_FMT_RGB888_1X24:
--	case MEDIA_BUS_FMT_UYVY8_1X16:
--		break;
--	default:
--		return -EINVAL;
--	}
--
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
- 		return 0;
- 
+ drivers/media/i2c/Kconfig   |   14 +
+ drivers/media/i2c/Makefile  |    1 +
+ drivers/media/i2c/mira220.c | 1998 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 2013 insertions(+)
+ create mode 100644 drivers/media/i2c/mira220.c
 
 -- 
 2.34.1
