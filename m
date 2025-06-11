@@ -1,186 +1,93 @@
-Return-Path: <linux-media+bounces-34545-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34546-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7269AD6021
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 22:36:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABF0AD6123
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 23:22:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C6AEB7AC51C
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 20:34:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9CE933A1ECB
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 21:21:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEC152BDC3D;
-	Wed, 11 Jun 2025 20:35:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27178242D68;
+	Wed, 11 Jun 2025 21:21:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N0sx+0CV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OTSRUEzC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEE6289E02;
-	Wed, 11 Jun 2025 20:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FC73C1F;
+	Wed, 11 Jun 2025 21:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749674140; cv=none; b=AokCANqo7xmz534fI+4VOVp/fsuc01hY+z1trHmMarCiBqrYCkbotwdMkXqy5e9HfP/ZylrBKglW+OvQe39SiS/NZoL04aSlVKSIfH44ZQy6Pm96pR18OgUu8jHQnkrv6NaHvcHhTbZB3HCx/BZdbxISFCQMuVNyW0IvDdiw0KA=
+	t=1749676908; cv=none; b=OE8xmeTFr4x0tikpNCdY7dfLKEg5wWzz7jEyXXPbvGYs2kbsFEVc40yW/tHq6WuAabJXQirziICJc5xmfVsaAyyl+SL2QumfG/6bUdAK2d4D0ChcWcgkhZqqPJ9VHW/cA5ZN4jfKXglbLjCVIn50uH/NyYWHdpFHHHKkp+7vC/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749674140; c=relaxed/simple;
-	bh=UWzOtwBkzFTAX1XQVmEYt9ONcEQYAZhOwW9hM4qI8/U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QI6PbPfK9+cw95NmSijrVQ7TRZQD8JavKBgquhm7QPFyw1Es6bu2jq8+wVgXEicib6XoeH+yIRyM5NBWt8dAwEe8c8y4LfOVC8hqnU9LyS/Jq/Z1XFsXSK5gWXM71LyY1u+Jd47LzbfNyt1iXPyAOoBVTg9wUQSkqqo7R7bTq1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N0sx+0CV; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ade326e366dso38237366b.3;
-        Wed, 11 Jun 2025 13:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749674136; x=1750278936; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=At0v4b7YF+lz56liCT0TD8XJeosOM2DTEwQ2PKPGb1I=;
-        b=N0sx+0CVC4y+SHR3xZJdqXGFa1IF9gA+tARQ/N29B8CP5nt5ZXSwhCEaKSl6M1/02H
-         TD+iBKyt3OpXFpz8ExxrkvAW1jStZQU1HxudEdY3ZVBMtxWb7gpnhnBkVaWNM4MXBqbJ
-         v+1/dKGTmOkwpKk6stjziB02d/UDXgWyTiGXvzDrZnHDPb9D4Z+/1WGtj+6moQz6Xo2j
-         SkcBnsV0XGte1widiBgE8jNOkiid1w++9ezABRhEg2htg/j47oZ1HJAdB9CCYP5jx1a1
-         3KoZuMhSCu8AQpdxNueCa/FFQv9E0U1UhlDCC10YyB/wq1h6eTVk4lk/chldJ+/x2bKx
-         jebQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749674136; x=1750278936;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=At0v4b7YF+lz56liCT0TD8XJeosOM2DTEwQ2PKPGb1I=;
-        b=oGWSOteJbGYGIp4DboOVmJkwsx3O/nbsgm/aeCpveydBgdncCN1Y/KL665vY+G6zpr
-         O05S41WyIUnryZgg0Eod8UmGJfr66Rb8/oqZqWpS0NoJGjv5jk1dXLyrOEwOkTKV/QZ0
-         qq0yz/4M6qkuscDtYQM8W20uYQM33D/JiRCoVjk/KwQX86CJn+9FdCvBHjV2JM0d7swf
-         9B0nE6I4/kW9gEmzRZL8CnToXjn559b80ToDF2AXRUwPJKlvKquEdNq6YFr9fstFc+mb
-         fGS4bNz6YAp/nZ9aRYJN/mQ3nf86xzeMBj10jl03M0CQIY1Tiv2RULCR0byAJt8B1w24
-         r7Cg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/KMoqlhKSnZ/RCoRi8lJzFs8UzG/+4NTxxuTzeSfDedp9eRnODQMDoClfRZ1Q/G1JnEOeRr8w14hX/HA=@vger.kernel.org, AJvYcCUwhx/bw4ziBDtHECniQW42XmKBnYDr6NXrFXnXrxRfAccamYsGZoXh9EcUY5wJIM5zCMw7rkI1aVqkaVI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyf/VtaB+YPFLCrsLe8FTRdHJ/ch0Xhx+5QcitotwhGLPgHGU+D
-	9gCAkprR5OBgSNrGGTVvs82ff3riJhP3jchuH6GIx1J2mXJoSMT5prlInb+5pQ==
-X-Gm-Gg: ASbGncsxQqjpTmS7pjkO11sKfiNE1c49TvZ60lwQpD8C5rtfTxFWFV9Q7bXzvyhDuj4
-	ZVRSzFhpf2iL3yFlETfZInTLZ7t9cLW6ZLX/8RoTh9EHSFF2yUMFmqDs+b6txY4X/b5mBwb5yBa
-	mhfQ3GBbXjzLr/qMT3hSFS3HPbblHRcA02xiVOfsOm/BRpQSNpt62t5Jv1uM5I/yFnoIPbo2fVQ
-	+SFUgzbmPWnIKoQAPUKxyzGAu4LHZqRYs3cY8QCGZKq4viYIC8JjueOtxegwTkghVKJRIZanLnG
-	smg32xqxqRECraI1/rS2EhCcYZ1sIHsv5jXjgUAdViaTxqiW2UpWjHvalG3SxGx8qhT8
-X-Google-Smtp-Source: AGHT+IE7r4VxnplmHLn4myMCwk6cGuYpxGzpXAyTTMaaASVBB65E4xgnfGDM5tV9doAzWYMPNiHWkA==
-X-Received: by 2002:a17:906:6a10:b0:ad8:a935:b90b with SMTP id a640c23a62f3a-adea93b051fmr54157166b.28.1749674135628;
-        Wed, 11 Jun 2025 13:35:35 -0700 (PDT)
-Received: from [192.168.0.100] ([188.27.131.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adeadb23fa8sm6475566b.94.2025.06.11.13.35.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jun 2025 13:35:35 -0700 (PDT)
-Message-ID: <24d63ec4-a037-46fd-bbc1-9be2bef34c2b@gmail.com>
-Date: Wed, 11 Jun 2025 23:35:21 +0300
+	s=arc-20240116; t=1749676908; c=relaxed/simple;
+	bh=wSMLjnF4pKnpfzQ8bFRhw7tIJS06byplGjawAcKIzzU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SKvjRyH1Y+dN84yvKAEZyXpMJ1DbiFVeIVf3MBJFWHSuVwtb9wdhrhUGq9I/uuCz50S58vPZ4/Htbc6EHdzlPUKiw8Ma3ryo7rn3/rE4W1JfKcDFqCR5gpJDy8ar/zLmf2ezxEpP9tgrPbB4cqGJvo3Uhnujp4Y3vIzQVUbWu9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OTSRUEzC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D853FC4CEE3;
+	Wed, 11 Jun 2025 21:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749676908;
+	bh=wSMLjnF4pKnpfzQ8bFRhw7tIJS06byplGjawAcKIzzU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OTSRUEzCXgmDlV3m3QtQT20fJPvNpen1FjCqD4ysMWKuFWjzimOKnySKlHyk5kYzW
+	 SeGHos3mjXNnm3D5nAfJBPR+cOnCENdcxTSnsEZ6/6VbI+TfnlITTw4EXqWcJVVfSC
+	 nJp6T6ny03ByAes9uo52wHQuP6foUMSXaBcO+4IAnMub0GvisoWLmkm7m/EDHcMSca
+	 CAr0wXqUjdmgPh3jYHd6ybotbrjDBrkBM25mrbek3GMo9Y7mixVh8+iF+gV+PQYQBi
+	 b93kONbDqb/t09IgDC0qlv4xBpkYMFTwuDP/sZtxvq151C6sRKL/nZYPdAydbSWlSi
+	 HuQ4KwqHgasqA==
+Date: Wed, 11 Jun 2025 23:21:42 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: phasta@kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [RFC PATCH 0/6] drm/sched: Avoid memory leaks by canceling
+ job-by-job
+Message-ID: <aEnzZts6acAtg3IX@cassiopeiae>
+References: <20250603093130.100159-2-phasta@kernel.org>
+ <fae980fa-e173-4921-90e2-6a4f6b8833a8@igalia.com>
+ <8256799772c200103124c0c10490a9c1db04e355.camel@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] media: rc: ir-spi: constrain carrier frequency
-To: Sean Young <sean@mess.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250611112348.3576093-1-demonsingur@gmail.com>
- <20250611112348.3576093-3-demonsingur@gmail.com>
- <aEnifhd1M6oJjy1S@gofer.mess.org>
-From: Cosmin Tanislav <demonsingur@gmail.com>
-Content-Language: en-US
-In-Reply-To: <aEnifhd1M6oJjy1S@gofer.mess.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8256799772c200103124c0c10490a9c1db04e355.camel@mailbox.org>
 
-
-
-On 6/11/25 11:09 PM, Sean Young wrote:
-> On Wed, Jun 11, 2025 at 02:23:44PM +0300, Cosmin Tanislav wrote:
->> Carrier frequency is currently unconstrained, allowing the SPI transfer
->> to be allocated and filled only for it to be later rejected by the SPI
->> controller since the frequency is too large.
->>
->> Add a check to constrain the carrier frequency inside
->> ir_spi_set_tx_carrier().
->>
->> Also, move the number of bits per pulse to a macro since it is not used
->> in multiple places.
->>
->> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
->> ---
->>   drivers/media/rc/ir-spi.c | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
->> index 50e30e2fae22..bf731204c81e 100644
->> --- a/drivers/media/rc/ir-spi.c
->> +++ b/drivers/media/rc/ir-spi.c
->> @@ -21,6 +21,7 @@
->>   #define IR_SPI_DRIVER_NAME		"ir-spi"
->>   
->>   #define IR_SPI_DEFAULT_FREQUENCY	38000
->> +#define IR_SPI_BITS_PER_PULSE		16
->>   
->>   struct ir_spi_data {
->>   	u32 freq;
->> @@ -70,7 +71,7 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
->>   
->>   	memset(&xfer, 0, sizeof(xfer));
->>   
->> -	xfer.speed_hz = idata->freq * 16;
->> +	xfer.speed_hz = idata->freq * IR_SPI_BITS_PER_PULSE;
->>   	xfer.len = len * sizeof(*tx_buf);
->>   	xfer.tx_buf = tx_buf;
->>   
->> @@ -98,6 +99,9 @@ static int ir_spi_set_tx_carrier(struct rc_dev *dev, u32 carrier)
->>   	if (!carrier)
->>   		return -EINVAL;
->>   
->> +	if (carrier * IR_SPI_BITS_PER_PULSE > idata->spi->max_speed_hz)
->> +		return -EINVAL;
+> On Tue, 2025-06-03 at 13:27 +0100, Tvrtko Ursulin wrote:
+> > On 03/06/2025 10:31, Philipp Stanner wrote:
+> > What I am not that ecstatic about is only getting the Suggested-by 
+> > credit in 1/6. Given it is basically my patch with some cosmetic
+> > changes 
+> > like the kernel doc and the cancel loop extracted to a helper.
 > 
-> Just a nitpick.
-> 
-> I think carrier * IR_SPI_BITS_PER_PULSE could overflow, and then the check
-> wouldn't work. It might be better to do:
-> 
-> 	if (carrier > idata->spi->max_speed_hz / IR_SPI_BITS_PER_PULSE)
-> 
-> However since IR_SPI_BITS_PER_PULSE is 16, which is just a shift left by 4,
-> I don't think this can be abused in any useful way.
-> 
+> Sign the patch off and I give you the authorship if you want.
 
-I have another concern regarding overflow, inside ir_spi_tx().
+AFAICS, the proposal of having cancel_job() has been a review comment which has
+been clarified with a reference patch.
 
-DIV_ROUND_CLOSEST() is called with buffer[i] * idata->freq and 1000000.
-buffer[i] comes from userspace, it's the number of microseconds for this
-pulse. It's unsigned int. lirc core already checks that each element
-is not bigger than 500000 microseconds. Issue is, at 500000, it would
-take a carrier frequency as low as 8590 to overflow the unsigned int.
+IMO, the fact that after some discussion Philipp decided to go with this
+suggestion and implement the suggestion in his patch series does not result in
+an obligation for him to hand over authorship of the patch he wrote to the
+person who suggested the change in the context of the code review.
 
-Maybe it would make sense to switch this one to mult_frac()? But we
-would lose rounding.
-
-mult_frac(buffer[i], idata->freq, 1000000)
-
-Optionally, we could cast buffer[i] to u64/unsigned long long, and use
-DIV_ROUND_CLOSEST_ULL.
-
-DIV_ROUND_CLOSEST_ULL((u64)buffer[i] * idata->freq, 1000000)
-
-Let me know what you think.
-
-> 
-> Sean
-> 
->> +
->>   	idata->freq = carrier;
->>   
->>   	return 0;
->> -- 
->> 2.49.0
->>
-
+Anyways, it seems that Philipp did offer it however, so this seems to be
+resolved?
 
