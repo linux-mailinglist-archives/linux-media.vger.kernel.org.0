@@ -1,446 +1,319 @@
-Return-Path: <linux-media+bounces-34522-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34525-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A00AAD5AF3
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 17:46:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E639AAD5CFD
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 19:19:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2B983A713C
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 15:46:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D0E711BC3148
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 17:19:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9975620E021;
-	Wed, 11 Jun 2025 15:45:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB2D921CC4F;
+	Wed, 11 Jun 2025 17:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="I8RIafvC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MypexiLd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sqegZcop"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6182202981;
-	Wed, 11 Jun 2025 15:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134CB1EFFB0;
+	Wed, 11 Jun 2025 17:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749656725; cv=none; b=RilU3CB+gmFyW6CnExC/5mbRSQZD9RDl0i+eaTT0sBX1aDwN/GOlpG02VGiRhjn8LYz90EQXnuzS50zNi9n3wVToB73cdJP9Z5g2LaHRQ8woAPSq7J82/5LV5r99Z6RU6F1V5I0uCitmJZh+/DzHgVmuyiSFOfM0bJVrx/SkbtE=
+	t=1749662357; cv=none; b=JdZJ89Ilce1CESp39aR4knFuZCB/C928DULnkVKt3l/VSbkrWlzkSbCZjs8L1wH31s2MJt29uylxVPLz5hSKInRV/DMGH/ZUIro0OWysZdIIvcnMrb/Zj5tzhFc1K+BcccBNv7DtzfMlXuREI80UUTpC8QLNyEDHWFda+zkd82k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749656725; c=relaxed/simple;
-	bh=sDVK2rNVrxfNZNRllJDpnqXvBkAblkAhoO15NWnLBPQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s256Vw/T608yAx1fsEyJ+B2ch+vDGfli+/3W6ZyzRB2ID+RemjGMUU+0ITAFcX/4EJFbu+udmKiHutJXYe6xeVGY3Vo4VeXOkAuA1CstDN/y3PO/+QXJdCOajnpFJLEKOUdRMtIu8D0BkBXuF+vQzNbXOORBpDIFCLvDx2hWjnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=I8RIafvC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MypexiLd; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id CDD5F1140216;
-	Wed, 11 Jun 2025 11:45:22 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Wed, 11 Jun 2025 11:45:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749656722;
-	 x=1749743122; bh=tY4UdvXPOrtNsRp0NLFETQB2wM6h6AcpRdht9AIcbS4=; b=
-	I8RIafvCJfs/2WwsUhn0vTM6ZMrRDPu0WuVtL594+VQU4j4WkijTo2F2uQ2XsRD8
-	ahPD3edXi8hzS1+pZHNdwWvieqicMID6U5jntQBA26dA42tQgGw9pBtgIoqI6Qct
-	Mgmi3AZJeZ0m3jjW4BF3g1fKE7qbnE7jgsgw/ILQcgZ+J7jQ0KAmRrcBvifNzZHa
-	YZI1Ohe4K9n5d32HiU3IPtubGuaJse2ta/zJe9ktzAVQ/JMEfPLIaonot7lAHYhG
-	sgU1WOU8mjYsRKSrHeNH/7Ot/x+ch2+n44jE2XRCtMuS9OYbKXVm3aiqSmmEG96o
-	MRYx3KJRBeB22voA0I6HIw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749656722; x=
-	1749743122; bh=tY4UdvXPOrtNsRp0NLFETQB2wM6h6AcpRdht9AIcbS4=; b=M
-	ypexiLdWlmce0qXW9n3xZ4RLoI+m03kWYJ8S4emfN9Ketg15pC4d9qiKsebGXM6R
-	zFdHaxNNOmZ0R7NzOySRg+2XC6B18Ghsq7zLk+MFYOfMxeYVEki2jAuETkX1ujpK
-	bK1OXTOwrR5Snk/zkbvZHnnJdVt0fCz0w8MiD3HvvXJl7b7BGMloFFICJfv8PCjN
-	Q6uDeoB+T8OFrGdqMoPJnWwlCszvDcPsDmx3yFgR4cfeA+aIDsvqOCGBRK3mWvhy
-	ZtYIOAhoVWGCrw4m/ifh9NMg7OwcOFMQlDCXX8x/WNyD7Z5qMGqdKBIePF1wZfWC
-	vBN9lQxC4eRI/qkLYN7Sg==
-X-ME-Sender: <xms:kqRJaLRjAk0CjeFxdPwdBnKUAyfr3mtfTlL22stNCtcwQ98Z1UWbNw>
-    <xme:kqRJaMxHfjk2d4pehFcFBDcD3oH0cXJYL5yva1MYIdzQiyfXiO21yQYnn2AAEd0Aq
-    lux7oVtqEFtmPFFd8Y>
-X-ME-Received: <xmr:kqRJaA0ytv76nYZnGEu6T-EhtWb4cnUZZHKTfUZkcCGCkjILAl8z47C1uCyABEcxePXGZbUIp0swYcLztvFweiRL>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdduvdehkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepheeigfeuveeutdefhfehgeekvedtleeuueekveefudehhffhjeffgfegff
-    elfeegnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtg
-    hpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsges
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlih
-    guvghrrdgsvgdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhn
-    thgvlhdrtghomhdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvsh
-    grshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdr
-    phhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlih
-    hnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhi
-    nhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrg
-    htvggthhdrshgv
-X-ME-Proxy: <xmx:kqRJaLBpatNbXIOG9OnlHdrIySBbjTtdsfO4elRHCoHN1dDPtC51EQ>
-    <xmx:kqRJaEjkxukUC44YMJHBLkWwHlunj5uJBVHXl4WTXTvlY6RkqUSRVw>
-    <xmx:kqRJaPp-Dp5wpORPhgqpt2Tkf3kFZOFDZIg3xz5r4h80aNia3nG63A>
-    <xmx:kqRJaPg9Vp8z5ljInrZd1g4L79TZg2ApgVhcYqtOTJXYNKvJHxQ_KA>
-    <xmx:kqRJaK-OSqpxhimFNQ1AOVJ6H8spJLzlfmtWxHEWBV28I2dwjy9lnFN8>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Jun 2025 11:45:22 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 4/4] media: rcar-csi2: Add D-PHY support for V4H
-Date: Wed, 11 Jun 2025 17:44:45 +0200
-Message-ID: <20250611154445.123412-5-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250611154445.123412-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250611154445.123412-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1749662357; c=relaxed/simple;
+	bh=wdoxxnbHnR7jv8G5kRmuYMy39Ah7zHHXKWL63SoKeWQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Q90rhct+halzRyT2Bm/O2b4gsceCMMr/2ikr2P1QRPPO1YFTeejtoQt1KR0hnUJAUjrDel7q6tyY/Rc3fyyjCVLEf9Q1GCfHhTS0GA/Ih1Ry2IVxGCnfsN1O4A5qESXBQf8Un2ODqVr15ui25/KtGhFM1OKmMWWxwiA65FyqETw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sqegZcop; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A1E26C4CEE3;
+	Wed, 11 Jun 2025 17:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749662356;
+	bh=wdoxxnbHnR7jv8G5kRmuYMy39Ah7zHHXKWL63SoKeWQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=sqegZcopY3lCxFwmYkixbr+CFAZk0mW6+l4riQrMwHHlJ+AQ+KNjvEIz+91ru7Rjp
+	 NU6yR69xEaVe+39h/STbjqEoVzWzQ1MdjoTiXeMncg/lxsT6X4iOQ1AC475nJAJHwU
+	 J/INf++0Ojr7ceABiG3iU9dYpEeWY0qeFxFbHjmtmKGykU1K3Voja95W6wsdS15Tjl
+	 kr8ANVdGSOyv4CbCWRknTzaXfjGaFZExlVjS25kJm1eMrsHAaH8QxKdSGi5kjpjmGH
+	 7/0WjfRl63v06m1/SR87rSgIa9ocOLYV5hOtZ7OX32EmTwl/enB15HwVIVx+1NoV3A
+	 Oar3rBaauZPeQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E74BC71131;
+	Wed, 11 Jun 2025 17:19:16 +0000 (UTC)
+From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
+Subject: [PATCH v8 00/13] media: rockchip: add a driver for the rockchip
+ camera interface
+Date: Wed, 11 Jun 2025 19:06:45 +0200
+Message-Id: <20240220-rk3568-vicap-v8-0-9d9cbc4b524d@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAKW3SWgC/33Ry07DMBAF0F+pvMbV+BmbVf8DsfCTWLRx5VQGV
+ OXfcVpBCUq7vLbm3JHmjMZQUhjR8+aMSqhpTHloQT1tkOvN8BZw8i0jCpQDpYDLOxNS4ZqcOWK
+ rLYtaUxE5R23EmjFgW8zg+nnoEHqfcCVs/juWENPnperlteU+jadcvi7Nlcyvt5IqscKnfExu2
+ VcJBkylAkOikRzs7iPv43Xr7RBOaIYr/cUIJd19jDbMEs+Vis6BZ6sY+8EEUJD3MdYwqT2JRAf
+ hOKxi/A9G9H2MNyxokBLABGbXMXHD2KPNRMNi6xNUMB6ZW8Xk8gBLQTbB0yiiDYEIQXYu7/fG5
+ mK2Lh+uQPcI6BrQCUWi19IwZv4D0zR9A0z3cSCKAgAA
+To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Gerald Loacker <gerald.loacker@wolfvision.net>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Markus Elfring <Markus.Elfring@web.de>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Kever Yang <kever.yang@rock-chips.com>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Collabora Kernel Team <kernel@collabora.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, 
+ Alexander Shiyan <eagle.alexander923@gmail.com>, 
+ Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, 
+ Michael Riesch <michael.riesch@collabora.com>, 
+ Michael Riesch <michael.riesch@collabora.com>, 
+ Mehdi Djait <mehdi.djait@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749661609; l=10377;
+ i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
+ bh=wdoxxnbHnR7jv8G5kRmuYMy39Ah7zHHXKWL63SoKeWQ=;
+ b=8OzbOSeCsaI+6VJgCUIzx/RvzgtZFVA47bgBKzNczNcoV9gr7hGkrJWTorFLDsTqeyTj9aZk4
+ kWY2xqorzD+ABIT9ca/a6ywJJaYrOu1VbxuhjZdBdPxtJoQah4x+sIZ
+X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
+ pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
+X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
+ with auth_id=371
+X-Original-From: Michael Riesch <michael.riesch@collabora.com>
+Reply-To: michael.riesch@collabora.com
 
-Add D-PHY support for V4H in addition to the already support C-PHY
-support. The common start-up procedure for C-PHY and D-PHY are shared,
-only PHY setup differ. Extend the V4H setup with D-PHY support as
-documented in the datasheet (Rev.1.21).
+Habidere,
 
-Most of the start-up procedure is only documented as magic values in
-tables, there is little documentation to make the settings more clear.
-Wherever possible formulas or lookup tables are used as they are
-documented in the datasheet.
+This series introduces support for the Rockchip Camera Interface (CIF),
+which is featured in many Rockchip SoCs in different variations.
+For example, the PX30 Video Input Processor (VIP) is able to receive
+video data via the Digital Video Port (DVP, a parallel data interface)
+and transfer it into system memory using a double-buffering mechanism
+called ping-pong mode.
+The RK3568 Video Capture (VICAP) unit, on the other hand, features a
+DVP and a MIPI CSI-2 receiver that can receive video data independently
+(both using the ping-pong scheme).
+The different variants may have additional features, such as scaling
+and/or cropping.
+Finally, the RK3588 VICAP unit constitutes an essential piece of the
+camera interface with one DVP, six MIPI CSI-2 receivers, scale/crop
+units, and a data path multiplexer (to scaler units, to ISP, ...).
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Tested-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+The v8 of the series adds a media controller centric V4L2 device driver
+for the Rockchip CIF with
+ - support for the PX30 VIP (not tested, though, due to the lack of HW)
+ - support for the RK3568 VICAP, including
+    - capturing frames from the DVP
+    - capturing frames from the MIPI CSI-2 receiver
+ - abstraction for the ping-pong scheme to allow for future extensions
+ - abstraction for the INTERFACE and CROP parts to allow for future
+   extensions
+ - initial support for different virtual channels (not tested, though,
+   due to the lack of HW)
+and a V4L2 subdevice driver for the Rockchip MIPI CSI-2 Receiver.
+
+The patches are functional and have been tested successfully on a
+custom RK3568 board including the ITE Tech. IT6801 HDMI receiver and
+the Sony IMX415 image sensor as subdevices attached to the DVP and the
+MIPI CSI-2 receiver, respectively.
+The IT6801 driver still needs some loving care but shall be submitted
+as well at some point.
+
+However, several features are not yet addressed, such as
+ - support for the RK3588 variant (-> first success achieved, patches
+   need some cleanup and shall be submitted separately)
+ - support for the MUX/SCALE/TOISP block in the RK3588 VICAP (which
+   provides the base for image processing on the RK3588)
+ - support for the scaling unit in the PX30 (-> cannot do due to the
+   lack of HW)
+ - support for the interface to the Rockchip ISP in the RK3568
+   (-> cannot do, latest information from Rockchip points out there
+   IS NO HW CONNECTION BETWEEN VICAP AND ISP ON RK3568)
+
+Looking forward to your comments!
+
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Théo Lebrun <theo.lebrun@bootlin.com>
+To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+To: Gerald Loacker <gerald.loacker@wolfvision.net>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Heiko Stuebner <heiko@sntech.de>
+To: Kever Yang <kever.yang@rock-chips.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Collabora Kernel Team <kernel@collabora.com>
+To: Paul Kocialkowski <paulk@sys-base.io>
+To: Alexander Shiyan <eagle.alexander923@gmail.com>
+To: Val Packett <val@packett.cool>
+To: Rob Herring <robh@kernel.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+
+Changes in v8:
+- rebased onto v6.16-rc1
+- fixed RKCIF_MIPI_MAX value in rkcif-common.h
+- fixed rkcsi Kconfig (kernel test robot)
+- sorted rkcsi DT bindings document properly, completed example
+  (Krzysztof)
+- squashed the defconfig patches (Krzysztof), dropped Bryan's R-b
+- Link to v7: https://lore.kernel.org/r/20240220-rk3568-vicap-v7-0-7581fd96a33a@collabora.com
+
+Changes in v7:
+- moved MIPI CSI-2 receiver driver into separate directory (Laurent)
+- rkcsi: fixed return values (Bryan)
+- rkcsi: fixed v4l2_get_link_freq to use pad instead of control
+  handler (Sakari)
+- rkcsi: added data-lanes property (Mehdi)
+- rkcif: fixed formatting (Bryan)
+- fixed "int" -> "unsigned int" in all for loops (Sakari)
+- rkcif-stream: fixed minimum number of required buffers (Mehdi)
+- rkcif-stream: used guards for the spinlock (Markus and Mehdi)
+- rkcif-stream: made driver less noisy with dev_dbg (Mehdi)
+- rkcif-stream: fixed issues detected by v4l2-compliance (Mehdi)
+- rkcif-dvp-capture: fixed return value propagation in _register()
+  (Mehdi)
+- removed stray "phy-names" from required properties (Rob's bot)
+- Link to v6: https://lore.kernel.org/r/20240220-rk3568-vicap-v6-0-d2f5fbee1551@collabora.com
+
+Changes in v6:
+- rebased onto v6.15-rc1
+- renamed "MIPI CSI HOST" -> "MIPI CSI RECEIVER" (Laurent)
+- s/@wolfvision.net/@collabora.com where appropriate
+- renamed DVP delay property and moved it to the endpoint (Sakari)
+- implemented DT review comments (Krzysztof and Sakari)
+- implemented driver review comments (Sakari)
+- fixed issues raised by media-ci (yet again)
+- added documentation including a RK3568 topology (new patch 1)
+  (Sakari)
+- added patch that enables rkcif in the defconfig (new patch 9)
+- Link to v5: https://lore.kernel.org/r/20250306-v6-8-topic-rk3568-vicap-v5-0-f02152534f3c@wolfvision.net
+
+Changes in v5:
+- fixed issues raised by media-ci
+- fixed dt bindings (comments by Rob and Sakari)
+- fixed probe on systems with no DVP in DT (comment by Alexander)
+- fixed error path in register offset calculation
+- split off MIPI CSI host driver into separate module (comment
+  by Mehdi)
+- added MODULE_DEVICE_TABLE() for both drivers (comment by Mehdi)
+- Link to v4: https://lore.kernel.org/r/20250219-v6-8-topic-rk3568-vicap-v4-0-e906600ae3b0@wolfvision.net
+
+Changes in v4:
+- added support for the MIPI CSI-2 receiver (new patches 4, 6, 7, 10)
+- fixed asserts on stream stop
+- fixed register address lookup
+- fixed link validiation callback
+- fixed issues raised by Rob's bot, kernel test robot, and media-ci
+- Link to v3: https://lore.kernel.org/r/20250206-v6-8-topic-rk3568-vicap-v3-0-69d1f19e5c40@wolfvision.net
+
+Changes in v3:
+- renamed the driver "cif" -> "rkcif"
+- rebased onto v6.14-rc1
+- abstracted the generic INTERFACE+CROP part
+- addressed comments by Rob and Sakari
+- added V4L2 MPLANE formats to DVP
+- added patch that enables the RK3568 VICAP DVP on PF5 IO Expander
+- fixed formatting issues raised by media-ci bot
+- Link to v2: https://lore.kernel.org/r/20241217-v6-8-topic-rk3568-vicap-v2-0-b1d488fcc0d3@wolfvision.net
+
+Changes in v2:
+- merged with Mehdi's v13
+- refactored the complete driver towards a media controller centric driver
+- abstracted the generic ping-pong stream (can be used for DVP as well as for CSI-2)
+- switched to MPLANE API
+- added support for notifications
+- Link to v1: https://lore.kernel.org/r/20240220-v6-8-topic-rk3568-vicap-v1-0-2680a1fa640b@wolfvision.net
+
 ---
-* Fixes since v2
-- Stire DESKEW settings in an array and loop over it instead of opene
-  coding it.
+Mehdi Djait (2):
+      media: dt-bindings: add rockchip px30 vip
+      arm64: dts: rockchip: add the vip node to px30
 
-* Fixes since v1
-- Init cphy  variables to not trigger false -Wmaybe-uninitialized
-  warning.
-- Adjust line lengths.
+Michael Riesch (11):
+      Documentation: admin-guide: media: add rockchip camera interface
+      media: dt-bindings: video-interfaces: add defines for sampling modes
+      media: dt-bindings: add rockchip rk3568 vicap
+      media: dt-bindings: add rockchip rk3568 mipi csi-2 receiver
+      media: rockchip: add a driver for the rockchip camera interface
+      media: rockchip: add driver for mipi csi-2 receiver
+      media: rockchip: rkcif: add support for mipi csi-2 capture
+      arm64: defconfig: enable rockchip camera interface and mipi csi-2 receiver
+      arm64: dts: rockchip: add vicap node to rk356x
+      arm64: dts: rockchip: add mipi csi-2 receiver node to rk356x
+      arm64: dts: rockchip: enable vicap dvp on wolfvision pf5 io expander
+
+ .../admin-guide/media/rkcif-rk3568-vicap.dot       |  21 +
+ Documentation/admin-guide/media/rkcif.rst          |  83 ++
+ Documentation/admin-guide/media/v4l-drivers.rst    |   1 +
+ .../bindings/media/rockchip,px30-vip.yaml          | 122 +++
+ .../bindings/media/rockchip,rk3568-mipi-csi.yaml   | 124 +++
+ .../bindings/media/rockchip,rk3568-vicap.yaml      | 170 ++++
+ MAINTAINERS                                        |  17 +
+ arch/arm64/boot/dts/rockchip/px30.dtsi             |  12 +
+ .../rk3568-wolfvision-pf5-io-expander.dtso         |  20 +
+ arch/arm64/boot/dts/rockchip/rk356x-base.dtsi      |  75 ++
+ arch/arm64/configs/defconfig                       |   2 +
+ drivers/media/platform/rockchip/Kconfig            |   2 +
+ drivers/media/platform/rockchip/Makefile           |   2 +
+ drivers/media/platform/rockchip/rkcif/Kconfig      |  18 +
+ drivers/media/platform/rockchip/rkcif/Makefile     |   7 +
+ .../platform/rockchip/rkcif/rkcif-capture-dvp.c    | 864 +++++++++++++++++++++
+ .../platform/rockchip/rkcif/rkcif-capture-dvp.h    |  24 +
+ .../platform/rockchip/rkcif/rkcif-capture-mipi.c   | 722 +++++++++++++++++
+ .../platform/rockchip/rkcif/rkcif-capture-mipi.h   |  22 +
+ .../media/platform/rockchip/rkcif/rkcif-common.h   | 236 ++++++
+ drivers/media/platform/rockchip/rkcif/rkcif-dev.c  | 302 +++++++
+ .../platform/rockchip/rkcif/rkcif-interface.c      | 425 ++++++++++
+ .../platform/rockchip/rkcif/rkcif-interface.h      |  30 +
+ drivers/media/platform/rockchip/rkcif/rkcif-regs.h | 154 ++++
+ .../media/platform/rockchip/rkcif/rkcif-stream.c   | 634 +++++++++++++++
+ .../media/platform/rockchip/rkcif/rkcif-stream.h   |  31 +
+ drivers/media/platform/rockchip/rkcsi/Kconfig      |  16 +
+ drivers/media/platform/rockchip/rkcsi/Makefile     |   3 +
+ drivers/media/platform/rockchip/rkcsi/rkcsi.c      | 735 ++++++++++++++++++
+ include/dt-bindings/media/video-interfaces.h       |   4 +
+ 30 files changed, 4878 insertions(+)
 ---
- drivers/media/platform/renesas/rcar-csi2.c | 240 ++++++++++++++++++++-
- 1 file changed, 230 insertions(+), 10 deletions(-)
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20240220-rk3568-vicap-b9b3f9925f44
 
-diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-index 7ba637d8683b..1fd36823c8e9 100644
---- a/drivers/media/platform/renesas/rcar-csi2.c
-+++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -172,6 +172,7 @@ struct rcar_csi2;
- #define V4H_PPI_RW_LPDCOCAL_TWAIT_CONFIG_REG		0x21c0a
- #define V4H_PPI_RW_LPDCOCAL_VT_CONFIG_REG		0x21c0c
- #define V4H_PPI_RW_LPDCOCAL_COARSE_CFG_REG		0x21c10
-+#define V4H_PPI_RW_DDLCAL_CFG_n_REG(n)			(0x21c40 + ((n) * 2)) /* n = 0 - 7 */
- #define V4H_PPI_RW_COMMON_CFG_REG			0x21c6c
- #define V4H_PPI_RW_TERMCAL_CFG_0_REG			0x21c80
- #define V4H_PPI_RW_OFFSETCAL_CFG_0_REG			0x21ca0
-@@ -185,6 +186,13 @@ struct rcar_csi2;
- #define V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(n)	(0x23840 + ((n) * 2)) /* n = 0 - 11 */
- #define V4H_CORE_DIG_RW_COMMON_REG(n)			(0x23880 + ((n) * 2)) /* n = 0 - 15 */
- #define V4H_CORE_DIG_ANACTRL_RW_COMMON_ANACTRL_REG(n)	(0x239e0 + ((n) * 2)) /* n = 0 - 3 */
-+#define V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG	0x23fe0
-+
-+#define V4H_CORE_DIG_DLANE_l_RW_CFG_n_REG(l, n)		(0x26000 + ((l) * 0x400) + ((n) * 2))
-+#define V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(l, n)		(0x26080 + ((l) * 0x400) + ((n) * 2))
-+#define V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, n)	(0x26100 + ((l) * 0x400) + ((n) * 2))
-+#define V4H_CORE_DIG_DLANE_CLK_RW_LP_n_REG(n)		V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(4, (n))
-+#define V4H_CORE_DIG_DLANE_CLK_RW_HS_RX_n_REG(n)	V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(4, (n))
- 
- /* V4H C-PHY */
- #define V4H_CORE_DIG_RW_TRIO0_REG(n)			(0x22100 + ((n) * 2)) /* n = 0 - 3 */
-@@ -1282,11 +1290,203 @@ rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
- 	return conf;
- }
- 
-+struct rcsi2_d_phy_setting_v4h_lut_value {
-+	unsigned int mbps;
-+	unsigned char cfg_1;
-+	unsigned char cfg_5_94;
-+	unsigned char cfg_5_30;
-+	unsigned char lane_ctrl_2_8;
-+	unsigned char rw_hs_rx_3_83;
-+	unsigned char rw_hs_rx_3_20;
-+	unsigned char rw_hs_rx_6;
-+	unsigned char rw_hs_rx_1;
-+};
-+
-+static const struct rcsi2_d_phy_setting_v4h_lut_value *
-+rcsi2_d_phy_setting_v4h_lut_lookup(int mbps)
-+{
-+	static const struct rcsi2_d_phy_setting_v4h_lut_value values[] = {
-+		{ 4500, 0x3f, 0x07, 0x00, 0x01, 0x02, 0x01, 0x0d, 0x10 },
-+		{ 4000, 0x47, 0x08, 0x01, 0x01, 0x05, 0x01, 0x0f, 0x0d },
-+		{ 3600, 0x4f, 0x09, 0x01, 0x01, 0x06, 0x01, 0x10, 0x0b },
-+		{ 3230, 0x57, 0x0a, 0x01, 0x01, 0x06, 0x01, 0x12, 0x09 },
-+		{ 3000, 0x47, 0x08, 0x00, 0x00, 0x03, 0x01, 0x0f, 0x0c },
-+		{ 2700, 0x4f, 0x09, 0x01, 0x00, 0x06, 0x01, 0x10, 0x0b },
-+		{ 2455, 0x57, 0x0a, 0x01, 0x00, 0x06, 0x01, 0x12, 0x09 },
-+		{ 2250, 0x5f, 0x0b, 0x01, 0x00, 0x08, 0x01, 0x13, 0x08 },
-+		{ 2077, 0x67, 0x0c, 0x01, 0x00, 0x06, 0x02, 0x15, 0x0d },
-+		{ 1929, 0x6f, 0x0d, 0x02, 0x00, 0x06, 0x02, 0x17, 0x0d },
-+		{ 1800, 0x77, 0x0e, 0x02, 0x00, 0x06, 0x02, 0x18, 0x0d },
-+		{ 1688, 0x7f, 0x0f, 0x02, 0x00, 0x08, 0x02, 0x1a, 0x0d },
-+		{ 1588, 0x87, 0x10, 0x02, 0x00, 0x08, 0x02, 0x1b, 0x0d },
-+		{ 1500, 0x8f, 0x11, 0x03, 0x00, 0x08, 0x02, 0x1d, 0x0c },
-+	};
-+
-+	for (unsigned int i = 0; i < ARRAY_SIZE(values); i++)
-+		if (values[i].mbps >= mbps)
-+			return &values[i];
-+
-+	return NULL;
-+}
-+
-+static int rcsi2_d_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
-+{
-+	const struct rcsi2_d_phy_setting_v4h_lut_value *lut =
-+		rcsi2_d_phy_setting_v4h_lut_lookup(mbps);
-+	u16 val;
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_COMMON_REG(7), 0x0000);
-+	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(7), mbps > 1500 ? 0x0028 : 0x0068);
-+	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(8), 0x0050);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(0), 0x0063);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(7), 0x1132);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(1), 0x1340);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(2), 0x4b13);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(4), 0x000a);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(6), 0x800a);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(7), 0x1109);
-+
-+	if (mbps > 1500) {
-+		val = roundup(5 * mbps / 64, 1);
-+		rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(3), val);
-+	}
-+
-+	if (lut) {
-+		rcsi2_modify16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(1),
-+			       lut->cfg_1, 0x00ff);
-+		rcsi2_modify16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(5),
-+			       lut->cfg_5_94 << 4, 0x03f0);
-+		rcsi2_modify16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(5),
-+			       lut->cfg_5_30 << 0, 0x000f);
-+
-+		for (unsigned int l = 0; l < 5; l++)
-+			rcsi2_modify16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 8),
-+				       lut->lane_ctrl_2_8 << 12, 0x1000);
-+	}
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(l, 0), 0x463c);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(0, 2), 0x0000);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(1, 2), 0x0000);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(2, 2), 0x0001);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(3, 2), 0x0000);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(4, 2), 0x0000);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_COMMON_REG(6), 0x0009);
-+
-+	val = mbps > 1500 ? 0x0800 : 0x0802;
-+	for (unsigned int l = 0; l < 5; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 12), val);
-+
-+	val = mbps > 1500 ? 0x0000 : 0x0002;
-+	for (unsigned int l = 0; l < 5; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 13), val);
-+
-+	if (mbps >= 80) {
-+		if (mbps >= 2560)
-+			val = 6;
-+		else if (mbps >= 1280)
-+			val = 5;
-+		else if (mbps >= 640)
-+			val = 4;
-+		else if (mbps >= 320)
-+			val = 3;
-+		else if (mbps >= 160)
-+			val = 2;
-+		else if (mbps >= 80)
-+			val = 1;
-+
-+		rcsi2_modify16(priv,
-+			       V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(2, 9),
-+			       val << 5, 0xe0);
-+	}
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_DLANE_CLK_RW_HS_RX_n_REG(0), 0x091c);
-+	rcsi2_write16(priv, V4H_CORE_DIG_DLANE_CLK_RW_HS_RX_n_REG(7), 0x3b06);
-+
-+	val = roundup(1200 / mbps, 1) + 12;
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 0), val << 8, 0xf0);
-+
-+	val = mbps > 1500 ? 0x0004 : 0x0008;
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_CFG_n_REG(l, 1), val);
-+
-+	val = mbps > 2500 ? 0x669a : mbps > 1500 ? 0xe69a : 0xe69b;
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 2), val);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(l, 0), 0x163c);
-+	rcsi2_write16(priv, V4H_CORE_DIG_DLANE_CLK_RW_LP_n_REG(0), 0x163c);
-+
-+	if (lut) {
-+		for (unsigned int l = 0; l < 4; l++)
-+			rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 1),
-+				       lut->rw_hs_rx_1, 0xff);
-+	}
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 3), 0x9209);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 4), 0x0096);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 5), 0x0100);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 6), 0x2d02);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 7), 0x1b06);
-+
-+	if (lut) {
-+		/* Documentation LUT have two values but document writing both
-+		 * values in a single write.
-+		 */
-+		for (unsigned int l = 0; l < 4; l++)
-+			rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 3),
-+				       lut->rw_hs_rx_3_83 << 3 | lut->rw_hs_rx_3_20, 0x1ff);
-+
-+		for (unsigned int l = 0; l < 4; l++)
-+			rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 6),
-+				       lut->rw_hs_rx_6 << 8, 0xff00);
-+	}
-+
-+	static const u16 deskew_fine[] = {
-+		0x0404, 0x040c, 0x0414, 0x041c, 0x0423, 0x0429, 0x0430, 0x043a,
-+		0x0445, 0x044a, 0x0450, 0x045a, 0x0465, 0x0469, 0x0472, 0x047a,
-+		0x0485, 0x0489, 0x0490, 0x049a, 0x04a4, 0x04ac, 0x04b4, 0x04bc,
-+		0x04c4, 0x04cc, 0x04d4, 0x04dc, 0x04e4, 0x04ec, 0x04f4, 0x04fc,
-+		0x0504, 0x050c, 0x0514, 0x051c, 0x0523, 0x0529, 0x0530, 0x053a,
-+		0x0545, 0x054a, 0x0550, 0x055a, 0x0565, 0x0569, 0x0572, 0x057a,
-+		0x0585, 0x0589, 0x0590, 0x059a, 0x05a4, 0x05ac, 0x05b4, 0x05bc,
-+		0x05c4, 0x05cc, 0x05d4, 0x05dc, 0x05e4, 0x05ec, 0x05f4, 0x05fc,
-+		0x0604, 0x060c, 0x0614, 0x061c, 0x0623, 0x0629, 0x0632, 0x063a,
-+		0x0645, 0x064a, 0x0650, 0x065a, 0x0665, 0x0669, 0x0672, 0x067a,
-+		0x0685, 0x0689, 0x0690, 0x069a, 0x06a4, 0x06ac, 0x06b4, 0x06bc,
-+		0x06c4, 0x06cc, 0x06d4, 0x06dc, 0x06e4, 0x06ec, 0x06f4, 0x06fc,
-+		0x0704, 0x070c, 0x0714, 0x071c, 0x0723, 0x072a, 0x0730, 0x073a,
-+		0x0745, 0x074a, 0x0750, 0x075a, 0x0765, 0x0769, 0x0772, 0x077a,
-+		0x0785, 0x0789, 0x0790, 0x079a, 0x07a4, 0x07ac, 0x07b4, 0x07bc,
-+		0x07c4, 0x07cc, 0x07d4, 0x07dc, 0x07e4, 0x07ec, 0x07f4, 0x07fc,
-+	};
-+
-+	for (unsigned int i = 0; i < ARRAY_SIZE(deskew_fine); i++) {
-+		rcsi2_write16(priv, V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG,
-+			      deskew_fine[i]);
-+	}
-+
-+	return 0;
-+}
-+
- static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 				    struct v4l2_subdev_state *state)
- {
-+	const struct rcsi2_cphy_setting *cphy = NULL;
- 	const struct rcar_csi2_format *format;
--	const struct rcsi2_cphy_setting *cphy;
- 	const struct v4l2_mbus_framefmt *fmt;
- 	unsigned int lanes;
- 	int mbps;
-@@ -1318,7 +1518,8 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 	rcsi2_write(priv, V4H_FLDC_REG, 0);
- 	rcsi2_write(priv, V4H_FLDD_REG, 0);
- 	rcsi2_write(priv, V4H_IDIC_REG, 0);
--	rcsi2_write(priv, V4H_PHY_MODE_REG, V4H_PHY_MODE_CPHY);
-+	rcsi2_write(priv, V4H_PHY_MODE_REG,
-+		    priv->cphy ? V4H_PHY_MODE_CPHY : V4H_PHY_MODE_DPHY);
- 	rcsi2_write(priv, V4H_N_LANES_REG, lanes - 1);
- 
- 	rcsi2_write(priv, V4M_FRXM_REG,
-@@ -1361,9 +1562,15 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(5), 0x4000);
- 
- 	/* T3: PHY settings */
--	cphy = rcsi2_c_phy_setting_v4h(priv, mbps);
--	if (!cphy)
--		return -ERANGE;
-+	if (priv->cphy) {
-+		cphy = rcsi2_c_phy_setting_v4h(priv, mbps);
-+		if (!cphy)
-+			return -ERANGE;
-+	} else {
-+		ret = rcsi2_d_phy_setting_v4h(priv, mbps);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	/* T4: Leave Shutdown mode */
- 	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, BIT(0));
-@@ -1376,11 +1583,23 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 	}
- 
- 	/* T6: Analog programming */
--	for (unsigned int l = 0; l < 3; l++) {
--		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 9),
--			      cphy->lane29);
--		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 7),
--			      cphy->lane27);
-+	if (priv->cphy) {
-+		for (unsigned int l = 0; l < 3; l++) {
-+			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 9),
-+				      cphy->lane29);
-+			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 7),
-+				      cphy->lane27);
-+		}
-+	} else {
-+		u16 val_2_9 = mbps > 2500 ? 0x14 : mbps > 1500 ? 0x04 : 0x00;
-+		u16 val_2_15 = mbps > 1500 ? 0x03 : 0x00;
-+
-+		for (unsigned int l = 0; l < 5; l++) {
-+			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 9),
-+				      val_2_9);
-+			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 15),
-+				      val_2_15);
-+		}
- 	}
- 
- 	/* T7: Wait for stop state */
-@@ -2245,6 +2464,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779g0 = {
- 	.start_receiver = rcsi2_start_receiver_v4h,
- 	.use_isp = true,
- 	.support_cphy = true,
-+	.support_dphy = true,
- };
- 
- static const struct rcsi2_register_layout rcsi2_registers_v4m = {
+Best regards,
 -- 
-2.49.0
+Michael Riesch <michael.riesch@collabora.com>
+
 
 
