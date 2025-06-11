@@ -1,146 +1,131 @@
-Return-Path: <linux-media+bounces-34504-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34505-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7EEAD53CA
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 13:24:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A51AD5416
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 13:35:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77E2518999B5
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 11:24:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 146303A515D
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 11:33:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6FFE26A1BE;
-	Wed, 11 Jun 2025 11:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 933682517AA;
+	Wed, 11 Jun 2025 11:33:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ARX3ysvD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GjlCgm+y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE71625BF0A;
-	Wed, 11 Jun 2025 11:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E91223099C;
+	Wed, 11 Jun 2025 11:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749641051; cv=none; b=LoPuWpov+Qk2be32dCJWmSrlHx2yhAOGa9SW+pyyTY1XaVjcTBk0GghffIp0WHCWiAWSLEzvHAVvpGnr6OekpuRavqBIhAgYWrauUETU5Ifi4h1q8ChqK2KDLx4YLUTQTb51IddfpN9YujRr6/RP4lnyO3shEcXXMF+yaex/J28=
+	t=1749641598; cv=none; b=cgpK8NA7idYyIaD1M7QZp/vDqK8YBZ+5SBpIGRCzj+bqB8XKAvsOihFAdMV2Efvx5qGbla+R9ko+Ut/36cFshYxHE7zs408I2HeIiUCUupEQgLwHgK448pAiFjtxPCqgUaHVChf1WcbBe74UcziZGh5Qz9FXM5WtJ7jtDQfLdBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749641051; c=relaxed/simple;
-	bh=qQowHimkDY5O36l9bcebAPtoLD0YCpWgzZrC47GAamc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pAMjPZhGK2xxm/8iqFhQkC1JWWDM/+Cn5EwQrswRgOTm3s5i84R/KUzXAdxjSYdUvsk8bQTjvQ2kYWhDwOdoP5EbUtLoZr3nJaCMy4qrRnJCW2Rwml96Ma18E21rZMBBqEKdQWxHhplb0MZd2OR3TAdYwMd1itpREQiti4mh2mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ARX3ysvD; arc=none smtp.client-ip=209.85.208.49
+	s=arc-20240116; t=1749641598; c=relaxed/simple;
+	bh=AeoKYUfqPpxYTwa9dOPzz1NIZa4CwemYCpr69gr9Bbc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=juLRgbZ4FCX14ryOREPXDxjaktsYBPnpYdUxu171omA1NGvE6ZOLgmvq5kN1DMWVjxvghHsUr0FFiUEwSXd6n91mtNY8+Pd1YkciAsXA8xh2dnTOJ1y/mzGNx/3/X3Mf70+6bbJXj7ekBuNw7EhpRe8Hvc2t857dGR7qr0F+cwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GjlCgm+y; arc=none smtp.client-ip=209.85.208.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-607ea238c37so7339936a12.2;
-        Wed, 11 Jun 2025 04:24:09 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32ac52f78c1so66789341fa.3;
+        Wed, 11 Jun 2025 04:33:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749641048; x=1750245848; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RpCsjn5uBLet2HvbNimusuBhVPBOv0so70kd8GNgKhc=;
-        b=ARX3ysvDX0wt7v0H14YnQuctEVwOqVcNPT9Ec4M1PhbrT2j+EQ9nJeUm1Aw+Jvfq7K
-         Gd88AH8095pp31WgwzZzT05x1WT+TTDoMvA4MSnRK6qom++neBFeYvA4E6cnr72U6QnN
-         0rEARBrhb5OctL1iK4eTRukKbc/9NS/WqbV6qGuE5M3kMJY2GTQBMm4QuRutRlrRSXFp
-         OXMIa9QW/d+vexz8y+1EnbOOUM4Zb3vpAb7nwdSutEzJtlnNtoLetlMBSR35d3twIHym
-         kL9ag06szR1BZdA9UpBO2Xa+SL9WT/hbTrieYVbvS1V/e7HLpUC6Ph1DOIAPei3JBubY
-         DjDg==
+        d=gmail.com; s=20230601; t=1749641594; x=1750246394; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IGE+TNgN8AiJDwpgQ02ln4zwsMtlaz7bMg5HLVNRnrA=;
+        b=GjlCgm+yjYqThpdirOiHVeEtmj2EqL9YtrQ32VJs3FzbPYfG+wGbGyJb/y3d4Q6EcA
+         xHGBrbynVf+ge0zUxfEhBX6Ca5UGaCUGymK5JaU3Cskh9ljUwoKhJIvUrzKfufrykxWb
+         pntgM9muRmcRnqkk7z2s+NfIN0J2IvK4VoR6udmcwra4L4w5iI2wTBAEukhTTrr/xoJ3
+         1Ucx6flAZZKrp+SKf1Z13VniPyBP7c0zNVNJUt03H6cXJkkmiiFLFi+iQRhMcpc1N75v
+         7i8tPPhtnMgtJIH/CTQsmLstgLGPl+cqVk8n3I5bOM53x2B3MgIPUmXQfxRvq6xFr92c
+         PKlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749641048; x=1750245848;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RpCsjn5uBLet2HvbNimusuBhVPBOv0so70kd8GNgKhc=;
-        b=P5Za2aUhdPTK84MGymlBXREU5jxPWEEHqzGO1MgWURL/6gsFgIr+FfF3hk91WgUtej
-         72wvH22B0ra2jzAEX2D8/nSL9knWuxH4j1Bay9QnaZOoR1Ccu82rtXO4WBMR90G5X9fJ
-         a0SeXkHFqykempTPk7GD1q+/H2auUbxAkyBO0QkhsvmzBS/036VSjcHzDNtGowt5WRhr
-         yq1Cbto8v92djAGvzOIarGM90oj7LUd7Q0ESH+qCUUHFREjfRJFtVIEAc4O5CLXM/U9k
-         drpHq95IXSPS7JSoRJghnvxc4M8bunZ9ALB996LoRdyp6w49i/VcPaPA3Zde4wMurpgJ
-         Xl9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVHHzjsbjn8xdGHPbKtq04RJ9SQiwAoX4H/PzFOF3pLBhCrdXbqQCGUkslrb3mzU5LFFnnRXrUPTQ2RocQ=@vger.kernel.org, AJvYcCX+5oa3xitXCrA5KXe2o3DfvjURVkkDGpWDM4RT10MpyET/oKc8vfG5xv9qRR8cTnYJUVyWgJAXGsPW0K8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOv0IIBOJiwbGLmTbHZxhrN7/r+ADJQCQ+6+ooeERNDtlEnNnr
-	gfyrRDC7KR6RtUPvlaZ92/q9Q98GJICOZxNj3UIqlyU0Iac2bX0JfY12
-X-Gm-Gg: ASbGncsg2XLq7RXJBSkI2vgf0P3l35UqcVdfq/DtZOb30ZiqbiAgXiRyguygHudsxrL
-	awiUozT/su/ram7CgCp1pDyiyynKg7+JUqgRcqzBUvFs0Bnj2UbFNUfnWV2rm5vWLx6bm8UNBO4
-	bq1AriuMlXwXBKChkS6xz19CsePW6RXSs+8rkEAjhQdyWit0tLtit5YzXvaSPaRVRYzfP9ChoOS
-	eH8IlHeZiyuLh5G249ZstyuFwcGhRSCN/F3tEzdmH6vZQuZjulcui+nYprJ5x68L9NGRGr/DjS5
-	rVgvpx+BWOSe7w2ByYjkw32J/feNh8faFFZC8WMFbOWydgc8JfBD8T1LvKA8kLx7Wua2APZn6S4
-	=
-X-Google-Smtp-Source: AGHT+IFKytvNTAGV4UC3x4PBNIjHTGD7hh3ofzJUyn9/CDwNUuqL4Zol0t3+992uaqsspMhYwBfeSA==
-X-Received: by 2002:a05:6402:5203:b0:606:f37b:7ed1 with SMTP id 4fb4d7f45d1cf-60846c0af35mr2329260a12.21.1749641047875;
-        Wed, 11 Jun 2025 04:24:07 -0700 (PDT)
-Received: from demon-pc.localdomain ([188.27.131.45])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-607fbbdaadbsm3739639a12.51.2025.06.11.04.24.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 04:24:07 -0700 (PDT)
-From: Cosmin Tanislav <demonsingur@gmail.com>
-To: 
-Cc: Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Cosmin Tanislav <demonsingur@gmail.com>
-Subject: [PATCH v4 2/2] media: rc: ir-spi: constrain carrier frequency
-Date: Wed, 11 Jun 2025 14:23:44 +0300
-Message-ID: <20250611112348.3576093-3-demonsingur@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250611112348.3576093-1-demonsingur@gmail.com>
-References: <20250611112348.3576093-1-demonsingur@gmail.com>
+        d=1e100.net; s=20230601; t=1749641594; x=1750246394;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IGE+TNgN8AiJDwpgQ02ln4zwsMtlaz7bMg5HLVNRnrA=;
+        b=vyVu4/7+gW5J2P9Sou2SEo436O+LYnPr6ZHMAYeojkAQJwiHRsfJJpjNFPcC1GaeDd
+         Cx1U9jtEYGXoQFBv/ensFGCHEpjUmtV1iqNyNY2KJYkrn8BJqwpiHot7lMfmTE6ZxKyp
+         mWhquE4cOktHMuBGqnPW4fFJc1mMcaWN1UD6ZhMQqaQPtXjtUc/lQCVZkEFKMWDGQn9L
+         aEmYyvZVYklM1Fbf3qrXnA/egkbhLP03LyPKFNcQf2rAcLgISGfXgTPXVGl+SCQIDIm6
+         SEcNG6GdCKM3TIOX5zgZ0q2LXNu/gF+s+IVVwiBzc5Dspu+pOtMDBL47MOs8p2OnuUK/
+         KczA==
+X-Forwarded-Encrypted: i=1; AJvYcCXqP26F1a5a/uzxcAjG6Rniv4W8WdSImVHfzw2yuFHgh8dJ7WMqP7ULvsrx0s6fSbMmVXiWoPGt9LZFX+c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6SdWs0SWRBuJEkvROUJGqvMcoLBnn9MxQHZmHogwpXyRMe8I2
+	i8L1ZgJGVLNXBls71uWpvRzeS3Lpa0mIOTtCdqaNDSpItVPn4kHr52id
+X-Gm-Gg: ASbGncupXANo6Prp/jgaCvGcdgBTqe6g5W32NDmE9rbWiijjfRRO/m6rv/25yiHxo9W
+	s/0vGxSgg31YI2Bhf0cVBB0bZggi+loaYBFsVLtqPbc91vhQIZK3FhbeumHvuPlmM05La+Z7ygO
+	lVIGsWD408Ym1XmnqGGkexDB3HY+W7hVB6mbcLZSDC61NfeBOOATdoeB+/gZmnNE67f4hAeB40B
+	xI/LueSBjzKXa3hDBcA7Y2ZwpCeIcWLkyz/USUlHXcANx9zcWXdrFMNsVhmC56lGkYjvqg0h8Yj
+	VoOltGnQJ2zt5TaxwCi0EM/Fy5tV9mdOQr5pQCm+AgK4R45s7BNjSIH5qGHk5VDg+pZU1zCAJ87
+	E6wGgffXdGZ1RQdsB2cHGtqzP+2wHk9CWXWPvTebegVZ1IkTbmQnqY7W5CYEhUufsrhrWWcDqrI
+	jtG5v9VrLhXpxVuFI+0QauD/du
+X-Google-Smtp-Source: AGHT+IE2kzQKVgzgwd3yt80d6uhyHJ6VDdhEtsKW+aItli5kCRdPijQS2jEZ4uFGLbUyM9wZHtc6gw==
+X-Received: by 2002:a2e:b887:0:b0:32a:888e:b30f with SMTP id 38308e7fff4ca-32b2227dce0mr7598041fa.6.1749641594023;
+        Wed, 11 Jun 2025 04:33:14 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:6e:3100:d134:143d:95b6:6d13? (2001-14ba-6e-3100-d134-143d-95b6-6d13.rev.dnainternet.fi. [2001:14ba:6e:3100:d134:143d:95b6:6d13])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b0cf7fsm17713801fa.12.2025.06.11.04.33.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Jun 2025 04:33:13 -0700 (PDT)
+Message-ID: <5dad612b-495b-4f1c-82ff-e8ed4ef34c07@gmail.com>
+Date: Wed, 11 Jun 2025 14:33:12 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] docs: Improve grammar in Userspace API/DVB API
+To: Bagas Sanjaya <bagasdotme@gmail.com>, mchehab@kernel.org,
+ ribalda@chromium.org, hverkuil@xs4all.nl, hljunggr@cisco.com,
+ dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
+ Jonathan.Cameron@huawei.com, corbet@lwn.net, ilpo.jarvinen@linux.intel.com,
+ mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca,
+ skhan@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20250522115255.137450-1-hannelotta@gmail.com>
+ <aDAOhl7gKhkcTEjk@archie.me>
+Content-Language: en-US
+From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
+In-Reply-To: <aDAOhl7gKhkcTEjk@archie.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Carrier frequency is currently unconstrained, allowing the SPI transfer
-to be allocated and filled only for it to be later rejected by the SPI
-controller since the frequency is too large.
+On 5/23/25 08:58, Bagas Sanjaya wrote:
+> On Thu, May 22, 2025 at 02:52:52PM +0300, Hanne-Lotta Mäenpää wrote:
+>>     #. On Satellite and Cable delivery systems, the bandwidth depends on
+>> -     the symbol rate. So, the Kernel will silently ignore any setting
+>> -     :ref:`DTV-BANDWIDTH-HZ`. I will however fill it back with a
+>> -     bandwidth estimation.
+>> +     the symbol rate. The kernel will silently ignore any setting
+>> +     :ref:`DTV-BANDWIDTH-HZ` and overwrites it with bandwidth estimation.
+> "The kernel will silently ignore any :ref:`DTV-BANDWIDTH-HZ` setting ..."
+>>   
+>>        Such bandwidth estimation takes into account the symbol rate set with
+>>        :ref:`DTV-SYMBOL-RATE`, and the rolloff factor, with is fixed for
+> 
+> Thanks.
+> 
 
-Add a check to constrain the carrier frequency inside
-ir_spi_set_tx_carrier().
+Hello,
 
-Also, move the number of bits per pulse to a macro since it is not used
-in multiple places.
+What is the best way to send an update on this patch, now that patches 
+3/4 and 4/4 have been applied, but 1/4 and 2/4 have not been applied?
 
-Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
----
- drivers/media/rc/ir-spi.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Do I send v3 for the first two only?
 
-diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
-index 50e30e2fae22..bf731204c81e 100644
---- a/drivers/media/rc/ir-spi.c
-+++ b/drivers/media/rc/ir-spi.c
-@@ -21,6 +21,7 @@
- #define IR_SPI_DRIVER_NAME		"ir-spi"
- 
- #define IR_SPI_DEFAULT_FREQUENCY	38000
-+#define IR_SPI_BITS_PER_PULSE		16
- 
- struct ir_spi_data {
- 	u32 freq;
-@@ -70,7 +71,7 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
- 
- 	memset(&xfer, 0, sizeof(xfer));
- 
--	xfer.speed_hz = idata->freq * 16;
-+	xfer.speed_hz = idata->freq * IR_SPI_BITS_PER_PULSE;
- 	xfer.len = len * sizeof(*tx_buf);
- 	xfer.tx_buf = tx_buf;
- 
-@@ -98,6 +99,9 @@ static int ir_spi_set_tx_carrier(struct rc_dev *dev, u32 carrier)
- 	if (!carrier)
- 		return -EINVAL;
- 
-+	if (carrier * IR_SPI_BITS_PER_PULSE > idata->spi->max_speed_hz)
-+		return -EINVAL;
-+
- 	idata->freq = carrier;
- 
- 	return 0;
--- 
-2.49.0
+Any guidance is greatly appreciated, since I am new to kernel development.
 
+Best regards,
+
+Hanne-Lotta Mäenpää
 
