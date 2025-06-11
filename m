@@ -1,205 +1,151 @@
-Return-Path: <linux-media+bounces-34497-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34498-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE569AD4FF0
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 11:34:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF85DAD5028
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 11:40:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64152162339
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 09:34:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6745916DB4F
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 09:40:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3D81263F2D;
-	Wed, 11 Jun 2025 09:33:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2EF025F961;
+	Wed, 11 Jun 2025 09:40:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ja/yeB9p"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="E5ZhuLox"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259932236E9;
-	Wed, 11 Jun 2025 09:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83529242D90;
+	Wed, 11 Jun 2025 09:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749634423; cv=none; b=NHNl6qW939PTxz/+esH3mV+YaVYb58+no2g7mLGJ57QCKLM2PbccZgyMNOq3li1/VNYrVRU79iCcNyMp7aQINB2jh2mTqhvJT5yeR+KUA+4zQWM6oJOyW0ere+vyWW1k8XYAPuPkVAzILnst4mH7qikn4ld9funkMc4j38q5muY=
+	t=1749634800; cv=none; b=UvnVuTSfJahwxHPj3gXJKudMUu9H9RQXoseFtTAF+Wkff4gqdulX/xnD+fqzoZ6UDmGqgbzco6OupdgmOShgZ+kHIKW/x7gcQP9c+oovQ0l3T3GxSpmQNahYaJcnrPWC/737ukmF4AjtZNAneab4TAVUCjRJQPY+OHuWjkibLv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749634423; c=relaxed/simple;
-	bh=94L3NDzk1PuVU6OC22j44uOdZdn4jd8PZe73OGT0oYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FXT72DDeyU6sl0M8bcnF5gl/s+H9CHqfkFjO55RPh7R3YsexTLah+enqYca+MR46roydVqp+uA3uMT7m6lOskw+r2GODAxM1ou6OaH/59qnquCraBWMetlBqZNNZxbLkAKTaq45ZU5kj2GqJPh0mthkOjxdZpfuJX7Et19RQLuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ja/yeB9p; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749634421; x=1781170421;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=94L3NDzk1PuVU6OC22j44uOdZdn4jd8PZe73OGT0oYk=;
-  b=Ja/yeB9pIa7wx04+fspVRTYe5oUhzDQcYN1CMxhDFTE6cYqycYZU7wO9
-   5ob8AITXOK0BFXHs4GHsVvkABb6pieN/rtcZDXaMpWIhfibkiGKPLa4RE
-   WmHntFIaPnzVCr8KIMdxoFo+Ui3rYmSMk9gz22v/UI/RNQA1Cli4TiXqy
-   qFX2v5Jb/SAVkijDhlX80L1QMUOe7jMfssKdIPkW6WZDl9I88w8bL4YNz
-   YWp1XDsPo+uWbIcSqzgZdgiml9UmWl46e3QJKpE/ms0npy5UepbgUqz9+
-   Wq6Bnd1UL+Y8Gq4YNowUJSGBwuaAw7hNsZ9bYUxOpmbtGC2xTWpz/xzUC
-   w==;
-X-CSE-ConnectionGUID: 8CEaoBmURG250XK66JFmPQ==
-X-CSE-MsgGUID: Dy5AmAuXQL6lCVJEhazwQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51631265"
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="51631265"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 02:33:41 -0700
-X-CSE-ConnectionGUID: 7O3v5GAmRVuG4RnS3dqV1Q==
-X-CSE-MsgGUID: Mwnx/+5jTDuJ/lSAWJ05lA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="147500583"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.148])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 02:33:39 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 4833211FBA0;
-	Wed, 11 Jun 2025 12:33:36 +0300 (EEST)
-Date: Wed, 11 Jun 2025 09:33:36 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Matthias Fend <matthias.fend@emfend.at>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH] media: dw9714: add support for powerdown pin
-Message-ID: <aElNcDTLEJTcJs2s@kekkonen.localdomain>
-References: <20250611-dw9714-sd-v1-1-fb47ef5e736c@emfend.at>
+	s=arc-20240116; t=1749634800; c=relaxed/simple;
+	bh=WqoGafln+7FperWTCGCHOW05uCz41nHkE1cz45ZlgtA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bXl85EiWj4ybNJye7nHs0sQDLYZqsrUo65iB5vUQn/0toUB66gcTVnGfDBD+eZuarMkVBB26wI7qOtyr9sY0s92xfsBPrVwYeel3TshFxJORmtrOzQftoL4vkm0udqAibZiJC7v5ELXaw1LHR/fw0nFiGZI3S7QcfPtEJtR50JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=E5ZhuLox; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55B9DD82023919;
+	Wed, 11 Jun 2025 09:39:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	XwQM9qqqoO7U5Z+l4qQLkY9bopanOmB0vao/Vd7bkag=; b=E5ZhuLox5J5ocwv6
+	RC7jhwu5a+TvnimRGo+ZJdnAmVx2tlmbJDynk5AbCn3JGPNP0fzVFtUfdIqjAN6M
+	wXXV265ZbTBmvHFmz32QPMOOiq/jok+aS48BSFUootHj3szdUSVCboFnc1Nj9rWZ
+	Ix1KUypV7BVOF0d9c4/deWz2Hqj0Ia1HmO/URFD6/6arhzj54MmtBbHzo97BbrCR
+	KRx8IXuZfrY5OZbPXYLs0KUIIPGcN2W9ZuQhYNuuS6Isx/v2WVeL/tb7Aie9Q4e4
+	B7Ta3wRC3KhuXXkF5DQq98YauUYF+4nvyqj6jlakAkbQxR5DI8ujj9eAA+NZlcmh
+	TgL0ag==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 475v2tf2vf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Jun 2025 09:39:52 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55B9dp00010846
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Jun 2025 09:39:51 GMT
+Received: from [10.50.30.75] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 11 Jun
+ 2025 02:39:49 -0700
+Message-ID: <9485fe7a-49f3-8cd0-5085-76a9d133045a@quicinc.com>
+Date: Wed, 11 Jun 2025 15:09:46 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250611-dw9714-sd-v1-1-fb47ef5e736c@emfend.at>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] media: iris: Fix opp scaling of power domains
+Content-Language: en-US
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        "Bryan
+ O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250611-iris-opp-fix-v1-1-424caec41158@oss.qualcomm.com>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20250611-iris-opp-fix-v1-1-424caec41158@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: -GuxHknpWWUj4nVCDumxsou2mEWezlmz
+X-Authority-Analysis: v=2.4 cv=GoxC+l1C c=1 sm=1 tr=0 ts=68494ee8 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=cnNNxmBRD2D--d2aX-gA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: -GuxHknpWWUj4nVCDumxsou2mEWezlmz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDA4MiBTYWx0ZWRfXx89wAVd+NBgb
+ Uf0a4qNZf8EdsmXAmZPNK225+eL1Nwev8Ud5Pk8UbJUBm2INWbYq403F0b8tyTxIwIPjEQ6LWGP
+ v9fsxqrcjhuepUseyeohtEr+LVSDq9h5fQRy4fuHSbA5zMbnlUAyRttwPvMsXjAlYeTHeTo7wL9
+ SP0vIq/blx5VeIPkTc8mY/LJihtMZz8MnjljzGZK0ATf9Mf6yV1ibsEdzvx5XklEoUIusWg5/j2
+ 0TYDd9MdRRkIO9OUYM3ZUcHULt2C450mCZQx8TG/cHU0NOHS9zEjflNxR8HeCyzl1wF+e+psqCQ
+ 2iiqMRHufIeDfpNv4CFfWI5TR8H5Q0uVIYW6juKsLCIerQY2ilgelrhz+xJ65z7EwqDn1h0U0G+
+ S6Yw46DNKwD2qsMrC/kG/2fd1xJ2lDuXy7H80vb/O9hGdrAZPFEKiWom+DdCmBfJJUmKu6uq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-11_04,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 adultscore=0 impostorscore=0 malwarescore=0 mlxscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506110082
 
-Hi Matthias,
 
-Thanks for the patch.
 
-On Wed, Jun 11, 2025 at 09:13:33AM +0200, Matthias Fend wrote:
-> Add support for the powerdown pin (xSD), which can be used to put the VCM
-> driver into power down mode. This is useful, for example, if the VCM
-> driver's power supply cannot be controlled.
-> The use of the powerdown pin is optional.
-
-Please rewrap. Most editors can do it for you.
-
+On 6/11/2025 11:13 AM, Akhil P Oommen wrote:
+> Pass PD_FLAG_REQUIRED_OPP flag to allow opp framework to scale the rpmpd
+> power domains.
 > 
-> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+
+Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+
+Thanks,
+Dikshita
 > ---
->  drivers/media/i2c/Kconfig  |  2 +-
->  drivers/media/i2c/dw9714.c | 16 ++++++++++++++++
->  2 files changed, 17 insertions(+), 1 deletion(-)
+> Found this issue while reviewing the Iris source and only compile tested.
+> ---
+>  drivers/media/platform/qcom/iris/iris_probe.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index e45ba127069fc0848f1a06ceb789efd3c222c008..e923daeec9c574c5b8c7014b9e83fcbad47866c0 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -748,7 +748,7 @@ config VIDEO_AK7375
+> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> index 9a7ce142f7007ffcda0bd422c1983f2374bb0d92..4e6e92357968d7419f114cc0ffa9b571bad19e46 100644
+> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> @@ -53,7 +53,7 @@ static int iris_init_power_domains(struct iris_core *core)
+>  	struct dev_pm_domain_attach_data iris_opp_pd_data = {
+>  		.pd_names = core->iris_platform_data->opp_pd_tbl,
+>  		.num_pd_names = core->iris_platform_data->opp_pd_tbl_size,
+> -		.pd_flags = PD_FLAG_DEV_LINK_ON,
+> +		.pd_flags = PD_FLAG_DEV_LINK_ON | PD_FLAG_REQUIRED_OPP,
+>  	};
 >  
->  config VIDEO_DW9714
->  	tristate "DW9714 lens voice coil support"
-> -	depends on I2C && VIDEO_DEV
-> +	depends on GPIOLIB && I2C && VIDEO_DEV
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select V4L2_ASYNC
-> diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-> index 2ddd7daa79e28a2cde915b4173fa27e60d5a2b57..5b78c1848f80bc3e32df13d149f3865ff8defe6e 100644
-> --- a/drivers/media/i2c/dw9714.c
-> +++ b/drivers/media/i2c/dw9714.c
-> @@ -2,6 +2,7 @@
->  // Copyright (c) 2015--2017 Intel Corporation.
->  
->  #include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> @@ -38,6 +39,7 @@ struct dw9714_device {
->  	struct v4l2_subdev sd;
->  	u16 current_val;
->  	struct regulator *vcc;
-> +	struct gpio_desc *powerdown_gpio;
->  };
->  
->  static inline struct dw9714_device *to_dw9714_vcm(struct v4l2_ctrl *ctrl)
-> @@ -151,11 +153,20 @@ static int dw9714_probe(struct i2c_client *client)
->  	if (IS_ERR(dw9714_dev->vcc))
->  		return PTR_ERR(dw9714_dev->vcc);
->  
-> +	dw9714_dev->powerdown_gpio = devm_gpiod_get_optional(&client->dev,
-> +							     "powerdown",
-> +							     GPIOD_OUT_LOW);
-> +	if (IS_ERR(dw9714_dev->powerdown_gpio))
-> +		return dev_err_probe(&client->dev,
-> +				     PTR_ERR(dw9714_dev->powerdown_gpio),
-> +				     "could not get powerdown gpio\n");
-> +
->  	rval = regulator_enable(dw9714_dev->vcc);
->  	if (rval < 0) {
->  		dev_err(&client->dev, "failed to enable vcc: %d\n", rval);
->  		return rval;
->  	}
-> +	gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 0);
-
-This seems to be redundant, you're already setting the GPIO low when
-acquiring it. Typically the order is different, though: the regulator is
-enabled first. Also related to the following comment.
-
->  
->  	usleep_range(1000, 2000);
->  
-> @@ -185,6 +196,7 @@ static int dw9714_probe(struct i2c_client *client)
->  	return 0;
->  
->  err_cleanup:
-> +	gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 1);
->  	regulator_disable(dw9714_dev->vcc);
-
-It'd be nice to have a single implementation of the power-on and power-off
-sequences. Now there are two.
-
->  	v4l2_ctrl_handler_free(&dw9714_dev->ctrls_vcm);
->  	media_entity_cleanup(&dw9714_dev->sd.entity);
-> @@ -200,6 +212,7 @@ static void dw9714_remove(struct i2c_client *client)
->  
->  	pm_runtime_disable(&client->dev);
->  	if (!pm_runtime_status_suspended(&client->dev)) {
-> +		gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 1);
->  		ret = regulator_disable(dw9714_dev->vcc);
->  		if (ret) {
->  			dev_err(&client->dev,
-> @@ -234,6 +247,7 @@ static int __maybe_unused dw9714_vcm_suspend(struct device *dev)
->  		usleep_range(DW9714_CTRL_DELAY_US, DW9714_CTRL_DELAY_US + 10);
->  	}
->  
-> +	gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 1);
->  	ret = regulator_disable(dw9714_dev->vcc);
->  	if (ret)
->  		dev_err(dev, "Failed to disable vcc: %d\n", ret);
-> @@ -262,6 +276,8 @@ static int  __maybe_unused dw9714_vcm_resume(struct device *dev)
->  		dev_err(dev, "Failed to enable vcc: %d\n", ret);
->  		return ret;
->  	}
-> +	gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 0);
-> +
->  	usleep_range(1000, 2000);
->  
->  	for (val = dw9714_dev->current_val % DW9714_CTRL_STEPS;
+>  	ret = devm_pm_domain_attach_list(core->dev, &iris_pd_data, &core->pmdomain_tbl);
 > 
-
--- 
-Regards,
-
-Sakari Ailus
+> ---
+> base-commit: d9946fe286439c2aeaa7953b8c316efe5b83d515
+> change-id: 20250527-iris-opp-fix-3ef2591c032a
+> 
+> Best regards,
 
