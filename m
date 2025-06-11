@@ -1,412 +1,257 @@
-Return-Path: <linux-media+bounces-34512-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34514-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926F6AD5810
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 16:09:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DE8AD5853
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 16:16:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26DA33A6A01
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 14:09:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB8BF1891E82
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 14:15:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1CE428CF6C;
-	Wed, 11 Jun 2025 14:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1291C189912;
+	Wed, 11 Jun 2025 14:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="CwMTla00"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UOt6HpUk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EDD29ACD7
-	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 14:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F0935897;
+	Wed, 11 Jun 2025 14:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749650954; cv=none; b=f5S5fdsMjn3ZKatwFmyk5JgV1lU9End4DV+r3M68i9ZkrxdKOUclI2jphgzXekWQMz1Op32gIShrXNo/4nuIZItrMXyaGkexWmrWnheqPx7tHf7lXRZne8rjEJE5+8S2LM0jmpK2HeERmpcCKWq+stFbCczU1EQ+K52DJKvI+ng=
+	t=1749651305; cv=none; b=N79b60YC0aWP5ox+5MuLrC2fIegczqoO2SaGV/uIfX2T+ZbgZn8KexRl3VvRL6Mn5CNs1AXJ+xZJUodf4HPdoFiD1BWL+0mJE8wYaTAtC8TdZST4soxJ7BO1cbk6J7hs9M1lN7Jnw+8v9wW+0dXhhEMMPPHtnAk4+C6uvtWNAOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749650954; c=relaxed/simple;
-	bh=EkLz/JmAbUHgHDZrLFLzYZVUkviZieWooa2HVVvaeEU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ewYd5Z8dpSoUMrPv7Wd6Sm54ENRZwMOtick++HNhmH6BMOgnqI+v9yMMz6rJgwQfDQ5HdjNtKIAN45nnQSAY2qn4sCLyjV9yCAmF9YDkP12aLM4ZuqQ4oqAqc+BdabEQk7Ae1B4hATMr9dChZ7agRptk8MVrM2Vd1BZGGzBTHTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=CwMTla00; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=oeIaObaRwA0rV8/Y63Yf41V/JNhDgjNWBT7LI4V4kls=; b=CwMTla00N1G3CI3OHnrreQSkNc
-	hKT0trD9NDKuDmloRLpbTz7Ysga0TOtgc9D+0waf0znlCeAw1FrTGafSgGXcIShpj5OVpb/e8sZ8l
-	Ol/6Rx0In4+EpseT9kZ9P9PbE4EYzzLYHuKmqlko4ItZNjPiRrLlXTkPcPE7db1SnzaZuRiNdu0FV
-	PcrmUuiY5XI+yneSNurQYNBL0azz7yNPuIymlSoVg9eBWT89g5ttnlFp5k4PZ7ONacQzQWoIoSUax
-	JCFO4T9HZXdW91b1uKq9Dho4jFrCLRvLWQCqDqt0JZo7YiH+ZqiKT7t900njWUxFhQkpg7u95NbdD
-	7Et6F06Q==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1uPM8O-002E4m-KH; Wed, 11 Jun 2025 16:08:56 +0200
-Message-ID: <055b0531-a090-446b-b249-07f534faf84f@igalia.com>
-Date: Wed, 11 Jun 2025 15:08:55 +0100
+	s=arc-20240116; t=1749651305; c=relaxed/simple;
+	bh=gPozdbI3xpmxAv+kXn407bfUh6hLjnr47SUlGsJ5RY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LFdVMXxyUoUYqkdmaQ3g37f4JClsnxyScr9mlOcmDmk9vmqJwln4Cs6SjfDSjiF6DWioaWPQOsVLSVgJ214hz/Tb9Lh7oCcgG/5SBXgbHMPlykrVek3mbhl4O7AT/ttOpvmDMuFh0KOgw/3RApqthsD192oK/sF8bu0d9Ds1jag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UOt6HpUk; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53EAC526;
+	Wed, 11 Jun 2025 16:14:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1749651293;
+	bh=gPozdbI3xpmxAv+kXn407bfUh6hLjnr47SUlGsJ5RY0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UOt6HpUk9flKVzBrV8edTT7seyKAKmte8Yfx+4gNSJ9azP9NzWTKbG/MmcfOLgDMX
+	 1rdkMDvcCLkiMrNuyccUiei49CSOPbo3TzWOuCHYOfESslReCu16XrFQBBpa6DcliV
+	 Wz/VZY3TuNfK79OPX5bo1LospmsQOFtdHjLUcmR8=
+Date: Wed, 11 Jun 2025 17:14:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Frank Li <Frank.li@nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Robert Chiras <robert.chiras@nxp.com>,
+	"Guoniu.zhou" <guoniu.zhou@nxp.com>
+Subject: Re: [PATCH v4 04/13] media: nxp: imx8-isi: Use
+ devm_clk_bulk_get_all() to fetch clocks
+Message-ID: <20250611141449.GA24607@pendragon.ideasonboard.com>
+References: <20250408-8qxp_camera-v4-0-ef695f1b47c4@nxp.com>
+ <20250408-8qxp_camera-v4-4-ef695f1b47c4@nxp.com>
+ <20250421211438.GN17813@pendragon.ideasonboard.com>
+ <aBQZjFsExJh2uRfK@lizhi-Precision-Tower-5810>
+ <20250502155747.GB20093@pendragon.ideasonboard.com>
+ <aBylKcZyFInlKQAR@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] dma-fence: Add safe access helpers and document
- the rules
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Rob Clark <robdclark@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250610164226.10817-1-tvrtko.ursulin@igalia.com>
- <20250610164226.10817-4-tvrtko.ursulin@igalia.com>
- <0c89db67-50f0-46e0-ac0e-bf050f543cb4@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <0c89db67-50f0-46e0-ac0e-bf050f543cb4@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aBylKcZyFInlKQAR@lizhi-Precision-Tower-5810>
 
+Hi Rob,
 
-On 11/06/2025 12:43, Christian König wrote:
-> On 6/10/25 18:42, Tvrtko Ursulin wrote:
->> Dma-fence objects currently suffer from a potential use after free problem
->> where fences exported to userspace and other drivers can outlive the
->> exporting driver, or the associated data structures.
->>
->> The discussion on how to address this concluded that adding reference
->> counting to all the involved objects is not desirable, since it would need
->> to be very wide reaching and could cause unloadable drivers if another
->> entity would be holding onto a signaled fence reference potentially
->> indefinitely.
->>
->> This patch enables the safe access by introducing and documenting a
->> contract between fence exporters and users. It documents a set of
->> contraints and adds helpers which a) drivers with potential to suffer from
->> the use after free must use and b) users of the dma-fence API must use as
->> well.
->>
->> Premise of the design has multiple sides:
->>
->> 1. Drivers (fence exporters) MUST ensure a RCU grace period between
->> signalling a fence and freeing the driver private data associated with it.
->>
->> The grace period does not have to follow the signalling immediately but
->> HAS to happen before data is freed.
->>
->> 2. Users of the dma-fence API marked with such requirement MUST contain
->> the complete access to the data within a single code block guarded by
->> rcu_read_lock() and rcu_read_unlock().
->>
->> The combination of the two ensures that whoever sees the
->> DMA_FENCE_FLAG_SIGNALED_BIT not set is guaranteed to have access to a
->> valid fence->lock and valid data potentially accessed by the fence->ops
->> virtual functions, until the call to rcu_read_unlock().
->>
->> 3. Module unload (fence->ops) disappearing is for now explicitly not
->> handled. That would required a more complex protection, possibly needing
->> SRCU instead of RCU to handle callers such as dma_fence_release() and
->> dma_fence_wait_timeout(), where race between
->> dma_fence_enable_sw_signaling, signalling, and dereference of
->> fence->ops->wait() would need a sleeping SRCU context.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+On Thu, May 08, 2025 at 08:35:53AM -0400, Frank Li wrote:
+> On Fri, May 02, 2025 at 06:57:47PM +0300, Laurent Pinchart wrote:
+> > On Thu, May 01, 2025 at 09:02:04PM -0400, Frank Li wrote:
+> > > On Tue, Apr 22, 2025 at 12:14:38AM +0300, Laurent Pinchart wrote:
+> > > > On Tue, Apr 08, 2025 at 05:53:02PM -0400, Frank Li wrote:
+> > > > > Use devm_clk_bulk_get_all() helper to simplify clock handle code.
+> > > > >
+> > > > > No functional changes intended.
+> > > > >
+> > > > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > > > ---
+> > > > >  .../media/platform/nxp/imx8-isi/imx8-isi-core.c    | 46 +++-------------------
+> > > > >  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  3 +-
+> > > > >  2 files changed, 6 insertions(+), 43 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> > > > > index ecfc95882f903..015350c6f2784 100644
+> > > > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> > > > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> > > > > @@ -275,11 +275,6 @@ static const struct mxc_isi_set_thd mxc_imx8_isi_thd_v1 = {
+> > > > >  	.panic_set_thd_v = { .mask = 0xf0000, .offset = 16, .threshold = 0x7 },
+> > > > >  };
+> > > > >
+> > > > > -static const struct clk_bulk_data mxc_imx8mn_clks[] = {
+> > > > > -	{ .id = "axi" },
+> > > > > -	{ .id = "apb" },
+> > > > > -};
+> > > > > -
+> > > > >  static const struct mxc_isi_plat_data mxc_imx8mn_data = {
+> > > > >  	.model			= MXC_ISI_IMX8MN,
+> > > > >  	.num_ports		= 1,
+> > > > > @@ -287,8 +282,6 @@ static const struct mxc_isi_plat_data mxc_imx8mn_data = {
+> > > > >  	.reg_offset		= 0,
+> > > > >  	.ier_reg		= &mxc_imx8_isi_ier_v1,
+> > > > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
+> > > > > -	.clks			= mxc_imx8mn_clks,
+> > > > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
+> > > > >  	.buf_active_reverse	= false,
+> > > > >  	.gasket_ops		= &mxc_imx8_gasket_ops,
+> > > > >  	.has_36bit_dma		= false,
+> > > > > @@ -301,8 +294,6 @@ static const struct mxc_isi_plat_data mxc_imx8mp_data = {
+> > > > >  	.reg_offset		= 0x2000,
+> > > > >  	.ier_reg		= &mxc_imx8_isi_ier_v2,
+> > > > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
+> > > > > -	.clks			= mxc_imx8mn_clks,
+> > > > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
+> > > > >  	.buf_active_reverse	= true,
+> > > > >  	.gasket_ops		= &mxc_imx8_gasket_ops,
+> > > > >  	.has_36bit_dma		= true,
+> > > > > @@ -315,8 +306,6 @@ static const struct mxc_isi_plat_data mxc_imx8ulp_data = {
+> > > > >  	.reg_offset		= 0x0,
+> > > > >  	.ier_reg		= &mxc_imx8_isi_ier_v2,
+> > > > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
+> > > > > -	.clks			= mxc_imx8mn_clks,
+> > > > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
+> > > > >  	.buf_active_reverse	= true,
+> > > > >  	.has_36bit_dma		= false,
+> > > > >  };
+> > > > > @@ -328,8 +317,6 @@ static const struct mxc_isi_plat_data mxc_imx93_data = {
+> > > > >  	.reg_offset		= 0,
+> > > > >  	.ier_reg		= &mxc_imx8_isi_ier_v2,
+> > > > >  	.set_thd		= &mxc_imx8_isi_thd_v1,
+> > > > > -	.clks			= mxc_imx8mn_clks,
+> > > > > -	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
+> > > > >  	.buf_active_reverse	= true,
+> > > > >  	.gasket_ops		= &mxc_imx93_gasket_ops,
+> > > > >  	.has_36bit_dma		= false,
+> > > > > @@ -386,7 +373,7 @@ static int mxc_isi_runtime_suspend(struct device *dev)
+> > > > >  {
+> > > > >  	struct mxc_isi_dev *isi = dev_get_drvdata(dev);
+> > > > >
+> > > > > -	clk_bulk_disable_unprepare(isi->pdata->num_clks, isi->clks);
+> > > > > +	clk_bulk_disable_unprepare(isi->num_clks, isi->clks);
+> > > > >
+> > > > >  	return 0;
+> > > > >  }
+> > > > > @@ -396,7 +383,7 @@ static int mxc_isi_runtime_resume(struct device *dev)
+> > > > >  	struct mxc_isi_dev *isi = dev_get_drvdata(dev);
+> > > > >  	int ret;
+> > > > >
+> > > > > -	ret = clk_bulk_prepare_enable(isi->pdata->num_clks, isi->clks);
+> > > > > +	ret = clk_bulk_prepare_enable(isi->num_clks, isi->clks);
+> > > > >  	if (ret) {
+> > > > >  		dev_err(dev, "Failed to enable clocks (%d)\n", ret);
+> > > > >  		return ret;
+> > > > > @@ -414,27 +401,6 @@ static const struct dev_pm_ops mxc_isi_pm_ops = {
+> > > > >   * Probe, remove & driver
+> > > > >   */
+> > > > >
+> > > > > -static int mxc_isi_clk_get(struct mxc_isi_dev *isi)
+> > > > > -{
+> > > > > -	unsigned int size = isi->pdata->num_clks
+> > > > > -			  * sizeof(*isi->clks);
+> > > > > -	int ret;
+> > > > > -
+> > > > > -	isi->clks = devm_kmemdup(isi->dev, isi->pdata->clks, size, GFP_KERNEL);
+> > > > > -	if (!isi->clks)
+> > > > > -		return -ENOMEM;
+> > > > > -
+> > > > > -	ret = devm_clk_bulk_get(isi->dev, isi->pdata->num_clks,
+> > > > > -				isi->clks);
+> > > > > -	if (ret < 0) {
+> > > > > -		dev_err(isi->dev, "Failed to acquire clocks: %d\n",
+> > > > > -			ret);
+> > > > > -		return ret;
+> > > > > -	}
+> > > > > -
+> > > > > -	return 0;
+> > > > > -}
+> > > > > -
+> > > > >  static int mxc_isi_probe(struct platform_device *pdev)
+> > > > >  {
+> > > > >  	struct device *dev = &pdev->dev;
+> > > > > @@ -457,11 +423,9 @@ static int mxc_isi_probe(struct platform_device *pdev)
+> > > > >  	if (!isi->pipes)
+> > > > >  		return -ENOMEM;
+> > > > >
+> > > > > -	ret = mxc_isi_clk_get(isi);
+> > > > > -	if (ret < 0) {
+> > > > > -		dev_err(dev, "Failed to get clocks\n");
+> > > > > -		return ret;
+> > > > > -	}
+> > > > > +	isi->num_clks = devm_clk_bulk_get_all(dev, &isi->clks);
+> > > >
+> > > > This prevents validating that the DT contains the expected clocks, which
+> > > > could cause hard to debug issues. Isn't it a problem ?
+> > >
+> > > It is checked by dt-binding. Now no warning by DTB_CHECK under arm64 freecale.
+> > > CHECK_DTB should be enough to find expected clocks.
+> >
+> > Yes, the DTB check will catch issues at build time, but the driver will
+> > not enforce that. I'm not sure if there's a clear policy here, and if
+> > ensuring at runtime in drivers that the expected clocks are present is
+> > considered as a good practice by the DT maintainers. Rob, Krzysztof,
+> > Conor, do you have an opinion ?
 > 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+> Rob:
+> 	can you comment this?
 
-Thanks Christian!
+Rob, any comment on this ?
 
-I have pinged xe maintainers for acks to merge the whole series via 
-drm-misc-next and pending positive reply I can push it all.
+> Laurent:
+> 	Many driver already switch to devm_clk_bulk_get_all() such as qcom/imx6
+> pci drivers recently.
+> 
+> > > > > +	if (isi->num_clks < 0)
+> > > > > +		return dev_err_probe(dev, isi->num_clks, "Failed to get clocks\n");
+> > > > >
+> > > > >  	isi->regs = devm_platform_ioremap_resource(pdev, 0);
+> > > > >  	if (IS_ERR(isi->regs)) {
+> > > > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> > > > > index e7534a80af7b4..bd3cfe5fbe063 100644
+> > > > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> > > > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> > > > > @@ -169,8 +169,6 @@ struct mxc_isi_plat_data {
+> > > > >  	const struct mxc_isi_ier_reg  *ier_reg;
+> > > > >  	const struct mxc_isi_set_thd *set_thd;
+> > > > >  	const struct mxc_gasket_ops *gasket_ops;
+> > > > > -	const struct clk_bulk_data *clks;
+> > > > > -	unsigned int num_clks;
+> > > > >  	bool buf_active_reverse;
+> > > > >  	bool has_36bit_dma;
+> > > > >  };
+> > > > > @@ -282,6 +280,7 @@ struct mxc_isi_dev {
+> > > > >
+> > > > >  	void __iomem			*regs;
+> > > > >  	struct clk_bulk_data		*clks;
+> > > > > +	int				num_clks;
+> > > > >  	struct regmap			*gasket;
+> > > > >
+> > > > >  	struct mxc_isi_crossbar		crossbar;
 
+-- 
 Regards,
 
-Tvrtko
-
-> 
->> ---
->>   drivers/dma-buf/dma-fence.c      | 111 ++++++++++++++++++++++++++++---
->>   include/linux/dma-fence.h        |  31 ++++++---
->>   include/trace/events/dma_fence.h |  38 +++++++++--
->>   3 files changed, 157 insertions(+), 23 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index 74f9e4b665e3..3f78c56b58dc 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -511,12 +511,20 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
->>   
->>   	dma_fence_enable_sw_signaling(fence);
->>   
->> -	trace_dma_fence_wait_start(fence);
->> +	if (trace_dma_fence_wait_start_enabled()) {
->> +		rcu_read_lock();
->> +		trace_dma_fence_wait_start(fence);
->> +		rcu_read_unlock();
->> +	}
->>   	if (fence->ops->wait)
->>   		ret = fence->ops->wait(fence, intr, timeout);
->>   	else
->>   		ret = dma_fence_default_wait(fence, intr, timeout);
->> -	trace_dma_fence_wait_end(fence);
->> +	if (trace_dma_fence_wait_end_enabled()) {
->> +		rcu_read_lock();
->> +		trace_dma_fence_wait_end(fence);
->> +		rcu_read_unlock();
->> +	}
->>   	return ret;
->>   }
->>   EXPORT_SYMBOL(dma_fence_wait_timeout);
->> @@ -533,16 +541,23 @@ void dma_fence_release(struct kref *kref)
->>   	struct dma_fence *fence =
->>   		container_of(kref, struct dma_fence, refcount);
->>   
->> +	rcu_read_lock();
->>   	trace_dma_fence_destroy(fence);
->>   
->> -	if (WARN(!list_empty(&fence->cb_list) &&
->> -		 !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags),
->> -		 "Fence %s:%s:%llx:%llx released with pending signals!\n",
->> -		 dma_fence_driver_name(fence),
->> -		 dma_fence_timeline_name(fence),
->> -		 fence->context, fence->seqno)) {
->> +	if (!list_empty(&fence->cb_list) &&
->> +	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
->> +		const char __rcu *timeline;
->> +		const char __rcu *driver;
->>   		unsigned long flags;
->>   
->> +		driver = dma_fence_driver_name(fence);
->> +		timeline = dma_fence_timeline_name(fence);
->> +
->> +		WARN(1,
->> +		     "Fence %s:%s:%llx:%llx released with pending signals!\n",
->> +		     rcu_dereference(driver), rcu_dereference(timeline),
->> +		     fence->context, fence->seqno);
->> +
->>   		/*
->>   		 * Failed to signal before release, likely a refcounting issue.
->>   		 *
->> @@ -556,6 +571,8 @@ void dma_fence_release(struct kref *kref)
->>   		spin_unlock_irqrestore(fence->lock, flags);
->>   	}
->>   
->> +	rcu_read_unlock();
->> +
->>   	if (fence->ops->release)
->>   		fence->ops->release(fence);
->>   	else
->> @@ -982,11 +999,21 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
->>    */
->>   void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
->>   {
->> +	const char __rcu *timeline;
->> +	const char __rcu *driver;
->> +
->> +	rcu_read_lock();
->> +
->> +	timeline = dma_fence_timeline_name(fence);
->> +	driver = dma_fence_driver_name(fence);
->> +
->>   	seq_printf(seq, "%s %s seq %llu %ssignalled\n",
->> -		   dma_fence_driver_name(fence),
->> -		   dma_fence_timeline_name(fence),
->> +		   rcu_dereference(driver),
->> +		   rcu_dereference(timeline),
->>   		   fence->seqno,
->>   		   dma_fence_is_signaled(fence) ? "" : "un");
->> +
->> +	rcu_read_unlock();
->>   }
->>   EXPORT_SYMBOL(dma_fence_describe);
->>   
->> @@ -1055,3 +1082,67 @@ dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>   			 BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
->>   }
->>   EXPORT_SYMBOL(dma_fence_init64);
->> +
->> +/**
->> + * dma_fence_driver_name - Access the driver name
->> + * @fence: the fence to query
->> + *
->> + * Returns a driver name backing the dma-fence implementation.
->> + *
->> + * IMPORTANT CONSIDERATION:
->> + * Dma-fence contract stipulates that access to driver provided data (data not
->> + * directly embedded into the object itself), such as the &dma_fence.lock and
->> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
->> + * after the fence has been signalled. Drivers are allowed to free that data,
->> + * and some do.
->> + *
->> + * To allow safe access drivers are mandated to guarantee a RCU grace period
->> + * between signalling the fence and freeing said data.
->> + *
->> + * As such access to the driver name is only valid inside a RCU locked section.
->> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
->> + * by the &rcu_read_lock and &rcu_read_unlock pair.
->> + */
->> +const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
->> +{
->> +	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->> +			 "RCU protection is required for safe access to returned string");
->> +
->> +	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->> +		return fence->ops->get_driver_name(fence);
->> +	else
->> +		return "detached-driver";
->> +}
->> +EXPORT_SYMBOL(dma_fence_driver_name);
->> +
->> +/**
->> + * dma_fence_timeline_name - Access the timeline name
->> + * @fence: the fence to query
->> + *
->> + * Returns a timeline name provided by the dma-fence implementation.
->> + *
->> + * IMPORTANT CONSIDERATION:
->> + * Dma-fence contract stipulates that access to driver provided data (data not
->> + * directly embedded into the object itself), such as the &dma_fence.lock and
->> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
->> + * after the fence has been signalled. Drivers are allowed to free that data,
->> + * and some do.
->> + *
->> + * To allow safe access drivers are mandated to guarantee a RCU grace period
->> + * between signalling the fence and freeing said data.
->> + *
->> + * As such access to the driver name is only valid inside a RCU locked section.
->> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
->> + * by the &rcu_read_lock and &rcu_read_unlock pair.
->> + */
->> +const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
->> +{
->> +	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->> +			 "RCU protection is required for safe access to returned string");
->> +
->> +	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->> +		return fence->ops->get_driver_name(fence);
->> +	else
->> +		return "signaled-timeline";
->> +}
->> +EXPORT_SYMBOL(dma_fence_timeline_name);
->> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->> index 10a849cb2d3f..64639e104110 100644
->> --- a/include/linux/dma-fence.h
->> +++ b/include/linux/dma-fence.h
->> @@ -378,15 +378,28 @@ bool dma_fence_remove_callback(struct dma_fence *fence,
->>   			       struct dma_fence_cb *cb);
->>   void dma_fence_enable_sw_signaling(struct dma_fence *fence);
->>   
->> -static inline const char *dma_fence_driver_name(struct dma_fence *fence)
->> -{
->> -	return fence->ops->get_driver_name(fence);
->> -}
->> -
->> -static inline const char *dma_fence_timeline_name(struct dma_fence *fence)
->> -{
->> -	return fence->ops->get_timeline_name(fence);
->> -}
->> +/**
->> + * DOC: Safe external access to driver provided object members
->> + *
->> + * All data not stored directly in the dma-fence object, such as the
->> + * &dma_fence.lock and memory potentially accessed by functions in the
->> + * &dma_fence.ops table, MUST NOT be accessed after the fence has been signalled
->> + * because after that point drivers are allowed to free it.
->> + *
->> + * All code accessing that data via the dma-fence API (or directly, which is
->> + * discouraged), MUST make sure to contain the complete access within a
->> + * &rcu_read_lock and &rcu_read_unlock pair.
->> + *
->> + * Some dma-fence API handles this automatically, while other, as for example
->> + * &dma_fence_driver_name and &dma_fence_timeline_name, leave that
->> + * responsibility to the caller.
->> + *
->> + * To enable this scheme to work drivers MUST ensure a RCU grace period elapses
->> + * between signalling the fence and freeing the said data.
->> + *
->> + */
->> +const char __rcu *dma_fence_driver_name(struct dma_fence *fence);
->> +const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
->>   
->>   /**
->>    * dma_fence_is_signaled_locked - Return an indication if the fence
->> diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
->> index 84c83074ee81..4814a65b68dc 100644
->> --- a/include/trace/events/dma_fence.h
->> +++ b/include/trace/events/dma_fence.h
->> @@ -34,14 +34,44 @@ DECLARE_EVENT_CLASS(dma_fence,
->>   		  __entry->seqno)
->>   );
->>   
->> -DEFINE_EVENT(dma_fence, dma_fence_emit,
->> +/*
->> + * Safe only for call sites which are guaranteed to not race with fence
->> + * signaling,holding the fence->lock and having checked for not signaled, or the
->> + * signaling path itself.
->> + */
->> +DECLARE_EVENT_CLASS(dma_fence_unsignaled,
->> +
->> +	TP_PROTO(struct dma_fence *fence),
->> +
->> +	TP_ARGS(fence),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(driver, fence->ops->get_driver_name(fence))
->> +		__string(timeline, fence->ops->get_timeline_name(fence))
->> +		__field(unsigned int, context)
->> +		__field(unsigned int, seqno)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(driver);
->> +		__assign_str(timeline);
->> +		__entry->context = fence->context;
->> +		__entry->seqno = fence->seqno;
->> +	),
->> +
->> +	TP_printk("driver=%s timeline=%s context=%u seqno=%u",
->> +		  __get_str(driver), __get_str(timeline), __entry->context,
->> +		  __entry->seqno)
->> +);
->> +
->> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_emit,
->>   
->>   	TP_PROTO(struct dma_fence *fence),
->>   
->>   	TP_ARGS(fence)
->>   );
->>   
->> -DEFINE_EVENT(dma_fence, dma_fence_init,
->> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_init,
->>   
->>   	TP_PROTO(struct dma_fence *fence),
->>   
->> @@ -55,14 +85,14 @@ DEFINE_EVENT(dma_fence, dma_fence_destroy,
->>   	TP_ARGS(fence)
->>   );
->>   
->> -DEFINE_EVENT(dma_fence, dma_fence_enable_signal,
->> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_enable_signal,
->>   
->>   	TP_PROTO(struct dma_fence *fence),
->>   
->>   	TP_ARGS(fence)
->>   );
->>   
->> -DEFINE_EVENT(dma_fence, dma_fence_signaled,
->> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_signaled,
->>   
->>   	TP_PROTO(struct dma_fence *fence),
->>   
-> 
-
+Laurent Pinchart
 
