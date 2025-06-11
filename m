@@ -1,86 +1,52 @@
-Return-Path: <linux-media+bounces-34491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34492-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C12AD4A85
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 07:44:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D02FAD4C5D
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 09:14:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2B1017B248
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 05:44:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 130FB1890C9B
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 07:14:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FCF2226D0E;
-	Wed, 11 Jun 2025 05:44:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 573BB22FF55;
+	Wed, 11 Jun 2025 07:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SXRSRZdE"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="LAjTGT3t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC76220F33
-	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 05:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1016226D19;
+	Wed, 11 Jun 2025 07:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749620663; cv=none; b=cy5v+kO32JQWX6xkVEX/b1AyWKGs4OLkVFSzmhlRTF0flK2mn5Yxh/I75olxz2lGfvwddEbAgk5wGUjX8dJkKKEyP69hf5qr9jZVBGF1NzSSaDiODvWpGt/hb1RhpJlpBofFMQFt1LY0DNduOjzZTwb6SfOAyv+zPEQ5tDhVb4c=
+	t=1749626034; cv=none; b=Jw09intIfcmeQOgqeTx9K75u/GbAugG2TdNSvdiq37H/PghA49tpnMAhJAb9IRVMLWVzfvsifhlUgx49Gm67WSuyaTdlWmhJ3TzQcrS6cn8N9NK8nf7KUpL2o9mCwpEfcLjvLKVu7Yt6MI5/64Mt0uIojptUjuzbGYNvoQdcCj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749620663; c=relaxed/simple;
-	bh=4bPODOzNV1J1Wag20WqHQpC7iwILRqUaFidO5fo7Wj8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HXpcRD+LDZG+fHYKt1Auk+PsU6uOSnki8fvM/NUP4xaaTn8neEdpeQxfz300uv3f8u9qLRlxgdDJ54do8AbyK3HofPVO/hLMt433wmEpnVHc7qgEGFCGj+SN3ezWKmQVUtxvExreNxEiHHNLWPeixcnY8YAz8dIsxjTLVZwFkmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SXRSRZdE; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55AIPqci030875
-	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 05:44:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=Z2paThcjo4kV5rlHhG4CJt
-	0FpfCXVKHmPjNjUTqWvJw=; b=SXRSRZdEgdV0prrcKjzTTowChbnivKHrZeLDPb
-	WL7MhNdZGWFmcDVzAA4ABDh/Va9NzJdysQn/Dm4TvUjFni2GWj7nsOh9iWxMKVGU
-	o9NK3ZFP5knGhGE9DHyAR2W5QbGLZ8GyMBRoPzMcf6YEOpFLQawHrqrT+UsL4bR4
-	/bKZA2ZYXjy3IhdbRLl7tbI17s/J26UCcV7soTCGIA06akVZayXyZzJhGSWxccsT
-	AdAqQ+tIAdM29u/KlQvEgvrQWXXrrBfCEx4QRRROanC8TNBBnJFep6eeq3wny2UK
-	IW08dnWVRIxkk1BwlhW2wML3k5FRSSK68ffmS3dHdR5Q680Q==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 475v2teegw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 05:44:19 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-b115383fcecso3647652a12.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Jun 2025 22:44:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749620658; x=1750225458;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z2paThcjo4kV5rlHhG4CJt0FpfCXVKHmPjNjUTqWvJw=;
-        b=fx+YMP+HDGpXMGOxPblMYGAtty0MAJ9YwJtfwksc7/SocqKWXt+FQSIwsCencxSJD2
-         6n/gpzsC4VGFEJM7wmgEklWDIghunk7RJRkYyhUJlBGLJnpSZPHtwh1ZFjDeT20SQMKQ
-         BWoOOLOiXlT1G/Xqy2NFDqiY1BAdW8Q2DJWfXQiE/OSr59jusC2Cr6S7okPRCzO6YrCN
-         m8lIvPunf5ZZ2oucYwBgf0bZCtAxh5CU3wiZ4vlvaSKmiFomVJ/liKFQ36h0ynwGlCLA
-         7uxzeDO2UptdR+0Alhrh3EjIHfuNpzuty4AY80B3v62hKWnSYlGCV3TO4L6BbASegYjJ
-         aeXg==
-X-Gm-Message-State: AOJu0Yz0BztQvyfNJ23qETqvgdRg1I2ul4W8sLRP2JZYuXjlMYAlOjCp
-	e4LLFxTjIwus2MklxMjUNJUMSYkYVF/zCJ92nFzZsXGGmejO2brAap5ToAqyN1dj9/517jenN3+
-	GV3B0OZaj583H0tah0rncH+Qhk8VHPIO3gMXrMXdaNccuySmf+adSPc2RAuPixoEpjdAqQNke0Q
-	==
-X-Gm-Gg: ASbGnct5SrGbTsXTrOwp29+n7/BPwHKnUnNkRQegoduBSuH4qkaizzqSY2rNXw5qnDd
-	nXezafuMbrjNC4nhiuUfrejcuJXqaKj0Z1I1W+RyXWM6l2GjDBexDLR5lB1fusLdWc+rokgWI/m
-	IaEcp1DYngWFGaXfMqZPTNdOL3xVgGMQvpbV2x2Yd2mw7XDNCcCKILduj+kwg5S5tiAs3GB3Lfl
-	ZA29wOSXVkbD2LEZVVy/M/PCxzD5kYyYed9N9zukaBPP+CxPnSAlWafY0qNiSV3BinMoQwR0FpD
-	XXqSMdlbzyM4gsvF8qrkw2JGsvl3p8pT
-X-Received: by 2002:a05:6a20:2589:b0:21f:53a9:b72c with SMTP id adf61e73a8af0-21f86754dbemr3178019637.38.1749620658379;
-        Tue, 10 Jun 2025 22:44:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE5RTYJPaD19g1+QKXGXvxhjvcmz9N0P/Wo4pkBLGPiOVS4sBLpqjPb8UTr/LDjbvr/4AnFYw==
-X-Received: by 2002:a05:6a20:2589:b0:21f:53a9:b72c with SMTP id adf61e73a8af0-21f86754dbemr3177998637.38.1749620657998;
-        Tue, 10 Jun 2025 22:44:17 -0700 (PDT)
-Received: from [10.213.111.143] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0eb0dasm8629697b3a.170.2025.06.10.22.44.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 22:44:17 -0700 (PDT)
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Date: Wed, 11 Jun 2025 11:13:44 +0530
-Subject: [PATCH] media: iris: Fix opp scaling of power domains
+	s=arc-20240116; t=1749626034; c=relaxed/simple;
+	bh=ocYLGrn4DKyRdjJkUqfv9yBG++qwjH8EOCZ0CFdAVIk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=I4FHIq4Q6z1iyekkSvpWtFXgDqPBNMBpsSSLr6YO7lbJMMTTVRwi5i/L06l7v1Wbk/xGjnaOufg5fGiJC7lrzkCJG0VWVFh8bMLXusOio+8JROfXP+p5ZSheKSz7bUBFHxAQFe8orUQ/eml+ZZEOgzZKmJKhOlLzAzaaSGRgFGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=LAjTGT3t; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=Jbe15mnO9u7J7i3pEkARcJf909rCxy+rkEFHQHi+nn0=; b=LAjTGT3tp5Ne0I6Mw4XbIR6A7g
+	f4tuIxEeU7uC4SDXTie3Ez7K5CxWBoeCoHSPWXefZBXjQTfuYaL/hYu+3cHCgcqRr4WWybe30nTQ0
+	KJaonu35AWUjw6IR8tk3lOtblnmz629dmOw6Okx/N0DImDc0o+Bzfgh1/yPxaTIec5Go=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:62424 helo=[127.0.1.1])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <matthias.fend@emfend.at>)
+	id 1uPFeX-00GO9r-Ha; Wed, 11 Jun 2025 09:13:42 +0200
+From: Matthias Fend <matthias.fend@emfend.at>
+Date: Wed, 11 Jun 2025 09:13:33 +0200
+Subject: [PATCH] media: dw9714: add support for powerdown pin
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,80 +55,126 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250611-iris-opp-fix-v1-1-424caec41158@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAI8XSWgC/yWMQQ6CMBAAv9Ls2TVtSTHyFcOh1EX3AK27SEwIf
- 6eR40wys4GSMCl0ZgOhlZXzXMFdDKR3nF+E/KwM3vpgg78hCyvmUnDkHzY0+nB3yTY+Qk2KUNX
- /3aM/WejzrdfllDBEJUx5mnjpzNpeXYuSHPT7fgAkGRzpiwAAAA==
-X-Change-ID: 20250527-iris-opp-fix-3ef2591c032a
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Message-Id: <20250611-dw9714-sd-v1-1-fb47ef5e736c@emfend.at>
+X-B4-Tracking: v=1; b=H4sIAJwsSWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDM0ND3ZRyS3NDE93iFN20pETTRGNTkzRLYzMloPqCotS0zAqwWdGxtbU
+ AK9Q4mFsAAAA=
+X-Change-ID: 20250611-dw9714-sd-fba5a354f936
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bsp-development.geo@leica-geosystems.com, 
+ Matthias Fend <matthias.fend@emfend.at>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749620655; l=1267;
- i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
- bh=4bPODOzNV1J1Wag20WqHQpC7iwILRqUaFidO5fo7Wj8=;
- b=GW1VPWKI/sCUGw/lmdjcfb1/v1p4eeE2hxIHDUz6r0uc8ZG6Nh6B1h6ZjF1CXCVBjg7JskGvw
- jcYo3SVzHEYBjKshveIrasbrGRIJ9GRxGQPohIyCG7g/J+DEMY0SQcC
-X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
- pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Proofpoint-GUID: xfVFNxSKV1hz9DTR6RxZNcj5EvHrByNO
-X-Authority-Analysis: v=2.4 cv=GoxC+l1C c=1 sm=1 tr=0 ts=684917b3 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=Bqk5Gw0CwUaqKlFR4NYA:9
- a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-ORIG-GUID: xfVFNxSKV1hz9DTR6RxZNcj5EvHrByNO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDA0OSBTYWx0ZWRfX8FgZCZ9yGiyn
- CLU/Zd4Um6nmxKpt+M4FbZiW/tJA8Dh8k2EOIDWzwXXQocF7u6KFI6wyR/KcOHSrRzRxzRO8aLQ
- rhfaRoBPwNEyx4Q1gD1NoV6WiwZMdBWR2nCy1oZLuZfQxyL6+XKvioVZtRGJVYDuWcnihkvl13X
- tpvVRlx3Af7HQrARdk05AlfDsaQyFkehM7hz3d1IFoo2hg7S1zdj0rX08NNduHXUnbwarlq6EoQ
- 3DjF6adXcBJo6Vsr0PRNGYQdispVJDHFvsavW5xU4IQHEm9odDkQbQCO5kz9L9Vkn08Rn9QLUrZ
- 4NevoiGkBR264vAiodoi7hkZuPEiL5yrLmySKG+taTowjU5MT0YvqgpqNuLyfOdehMh+6vj/mm2
- 3naU8PhKFKiSmFAluGellksv5jFwkGAi/myKeLoYjOsUkliOi+Y5px07ajxHax3zE+HP4aVE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-11_02,2025-06-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=983 adultscore=0 impostorscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506110049
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-Pass PD_FLAG_REQUIRED_OPP flag to allow opp framework to scale the rpmpd
-power domains.
+Add support for the powerdown pin (xSD), which can be used to put the VCM
+driver into power down mode. This is useful, for example, if the VCM
+driver's power supply cannot be controlled.
+The use of the powerdown pin is optional.
 
-Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 ---
-Found this issue while reviewing the Iris source and only compile tested.
----
- drivers/media/platform/qcom/iris/iris_probe.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/Kconfig  |  2 +-
+ drivers/media/i2c/dw9714.c | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-index 9a7ce142f7007ffcda0bd422c1983f2374bb0d92..4e6e92357968d7419f114cc0ffa9b571bad19e46 100644
---- a/drivers/media/platform/qcom/iris/iris_probe.c
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -53,7 +53,7 @@ static int iris_init_power_domains(struct iris_core *core)
- 	struct dev_pm_domain_attach_data iris_opp_pd_data = {
- 		.pd_names = core->iris_platform_data->opp_pd_tbl,
- 		.num_pd_names = core->iris_platform_data->opp_pd_tbl_size,
--		.pd_flags = PD_FLAG_DEV_LINK_ON,
-+		.pd_flags = PD_FLAG_DEV_LINK_ON | PD_FLAG_REQUIRED_OPP,
- 	};
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index e45ba127069fc0848f1a06ceb789efd3c222c008..e923daeec9c574c5b8c7014b9e83fcbad47866c0 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -748,7 +748,7 @@ config VIDEO_AK7375
  
- 	ret = devm_pm_domain_attach_list(core->dev, &iris_pd_data, &core->pmdomain_tbl);
+ config VIDEO_DW9714
+ 	tristate "DW9714 lens voice coil support"
+-	depends on I2C && VIDEO_DEV
++	depends on GPIOLIB && I2C && VIDEO_DEV
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select V4L2_ASYNC
+diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
+index 2ddd7daa79e28a2cde915b4173fa27e60d5a2b57..5b78c1848f80bc3e32df13d149f3865ff8defe6e 100644
+--- a/drivers/media/i2c/dw9714.c
++++ b/drivers/media/i2c/dw9714.c
+@@ -2,6 +2,7 @@
+ // Copyright (c) 2015--2017 Intel Corporation.
+ 
+ #include <linux/delay.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
+@@ -38,6 +39,7 @@ struct dw9714_device {
+ 	struct v4l2_subdev sd;
+ 	u16 current_val;
+ 	struct regulator *vcc;
++	struct gpio_desc *powerdown_gpio;
+ };
+ 
+ static inline struct dw9714_device *to_dw9714_vcm(struct v4l2_ctrl *ctrl)
+@@ -151,11 +153,20 @@ static int dw9714_probe(struct i2c_client *client)
+ 	if (IS_ERR(dw9714_dev->vcc))
+ 		return PTR_ERR(dw9714_dev->vcc);
+ 
++	dw9714_dev->powerdown_gpio = devm_gpiod_get_optional(&client->dev,
++							     "powerdown",
++							     GPIOD_OUT_LOW);
++	if (IS_ERR(dw9714_dev->powerdown_gpio))
++		return dev_err_probe(&client->dev,
++				     PTR_ERR(dw9714_dev->powerdown_gpio),
++				     "could not get powerdown gpio\n");
++
+ 	rval = regulator_enable(dw9714_dev->vcc);
+ 	if (rval < 0) {
+ 		dev_err(&client->dev, "failed to enable vcc: %d\n", rval);
+ 		return rval;
+ 	}
++	gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 0);
+ 
+ 	usleep_range(1000, 2000);
+ 
+@@ -185,6 +196,7 @@ static int dw9714_probe(struct i2c_client *client)
+ 	return 0;
+ 
+ err_cleanup:
++	gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 1);
+ 	regulator_disable(dw9714_dev->vcc);
+ 	v4l2_ctrl_handler_free(&dw9714_dev->ctrls_vcm);
+ 	media_entity_cleanup(&dw9714_dev->sd.entity);
+@@ -200,6 +212,7 @@ static void dw9714_remove(struct i2c_client *client)
+ 
+ 	pm_runtime_disable(&client->dev);
+ 	if (!pm_runtime_status_suspended(&client->dev)) {
++		gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 1);
+ 		ret = regulator_disable(dw9714_dev->vcc);
+ 		if (ret) {
+ 			dev_err(&client->dev,
+@@ -234,6 +247,7 @@ static int __maybe_unused dw9714_vcm_suspend(struct device *dev)
+ 		usleep_range(DW9714_CTRL_DELAY_US, DW9714_CTRL_DELAY_US + 10);
+ 	}
+ 
++	gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 1);
+ 	ret = regulator_disable(dw9714_dev->vcc);
+ 	if (ret)
+ 		dev_err(dev, "Failed to disable vcc: %d\n", ret);
+@@ -262,6 +276,8 @@ static int  __maybe_unused dw9714_vcm_resume(struct device *dev)
+ 		dev_err(dev, "Failed to enable vcc: %d\n", ret);
+ 		return ret;
+ 	}
++	gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 0);
++
+ 	usleep_range(1000, 2000);
+ 
+ 	for (val = dw9714_dev->current_val % DW9714_CTRL_STEPS;
 
 ---
-base-commit: d9946fe286439c2aeaa7953b8c316efe5b83d515
-change-id: 20250527-iris-opp-fix-3ef2591c032a
+base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
+change-id: 20250611-dw9714-sd-fba5a354f936
 
 Best regards,
 -- 
-Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Matthias Fend <matthias.fend@emfend.at>
 
 
