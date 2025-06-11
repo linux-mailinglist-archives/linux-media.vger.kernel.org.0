@@ -1,131 +1,501 @@
-Return-Path: <linux-media+bounces-34505-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34506-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A51AD5416
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 13:35:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD6BAD5467
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 13:45:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 146303A515D
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 11:33:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B900E3A680B
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 11:44:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 933682517AA;
-	Wed, 11 Jun 2025 11:33:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0C5926E713;
+	Wed, 11 Jun 2025 11:44:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GjlCgm+y"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="nno+pPLO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2047.outbound.protection.outlook.com [40.107.236.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E91223099C;
-	Wed, 11 Jun 2025 11:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749641598; cv=none; b=cgpK8NA7idYyIaD1M7QZp/vDqK8YBZ+5SBpIGRCzj+bqB8XKAvsOihFAdMV2Efvx5qGbla+R9ko+Ut/36cFshYxHE7zs408I2HeIiUCUupEQgLwHgK448pAiFjtxPCqgUaHVChf1WcbBe74UcziZGh5Qz9FXM5WtJ7jtDQfLdBQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749641598; c=relaxed/simple;
-	bh=AeoKYUfqPpxYTwa9dOPzz1NIZa4CwemYCpr69gr9Bbc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=juLRgbZ4FCX14ryOREPXDxjaktsYBPnpYdUxu171omA1NGvE6ZOLgmvq5kN1DMWVjxvghHsUr0FFiUEwSXd6n91mtNY8+Pd1YkciAsXA8xh2dnTOJ1y/mzGNx/3/X3Mf70+6bbJXj7ekBuNw7EhpRe8Hvc2t857dGR7qr0F+cwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GjlCgm+y; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32ac52f78c1so66789341fa.3;
-        Wed, 11 Jun 2025 04:33:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749641594; x=1750246394; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IGE+TNgN8AiJDwpgQ02ln4zwsMtlaz7bMg5HLVNRnrA=;
-        b=GjlCgm+yjYqThpdirOiHVeEtmj2EqL9YtrQ32VJs3FzbPYfG+wGbGyJb/y3d4Q6EcA
-         xHGBrbynVf+ge0zUxfEhBX6Ca5UGaCUGymK5JaU3Cskh9ljUwoKhJIvUrzKfufrykxWb
-         pntgM9muRmcRnqkk7z2s+NfIN0J2IvK4VoR6udmcwra4L4w5iI2wTBAEukhTTrr/xoJ3
-         1Ucx6flAZZKrp+SKf1Z13VniPyBP7c0zNVNJUt03H6cXJkkmiiFLFi+iQRhMcpc1N75v
-         7i8tPPhtnMgtJIH/CTQsmLstgLGPl+cqVk8n3I5bOM53x2B3MgIPUmXQfxRvq6xFr92c
-         PKlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749641594; x=1750246394;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IGE+TNgN8AiJDwpgQ02ln4zwsMtlaz7bMg5HLVNRnrA=;
-        b=vyVu4/7+gW5J2P9Sou2SEo436O+LYnPr6ZHMAYeojkAQJwiHRsfJJpjNFPcC1GaeDd
-         Cx1U9jtEYGXoQFBv/ensFGCHEpjUmtV1iqNyNY2KJYkrn8BJqwpiHot7lMfmTE6ZxKyp
-         mWhquE4cOktHMuBGqnPW4fFJc1mMcaWN1UD6ZhMQqaQPtXjtUc/lQCVZkEFKMWDGQn9L
-         aEmYyvZVYklM1Fbf3qrXnA/egkbhLP03LyPKFNcQf2rAcLgISGfXgTPXVGl+SCQIDIm6
-         SEcNG6GdCKM3TIOX5zgZ0q2LXNu/gF+s+IVVwiBzc5Dspu+pOtMDBL47MOs8p2OnuUK/
-         KczA==
-X-Forwarded-Encrypted: i=1; AJvYcCXqP26F1a5a/uzxcAjG6Rniv4W8WdSImVHfzw2yuFHgh8dJ7WMqP7ULvsrx0s6fSbMmVXiWoPGt9LZFX+c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6SdWs0SWRBuJEkvROUJGqvMcoLBnn9MxQHZmHogwpXyRMe8I2
-	i8L1ZgJGVLNXBls71uWpvRzeS3Lpa0mIOTtCdqaNDSpItVPn4kHr52id
-X-Gm-Gg: ASbGncupXANo6Prp/jgaCvGcdgBTqe6g5W32NDmE9rbWiijjfRRO/m6rv/25yiHxo9W
-	s/0vGxSgg31YI2Bhf0cVBB0bZggi+loaYBFsVLtqPbc91vhQIZK3FhbeumHvuPlmM05La+Z7ygO
-	lVIGsWD408Ym1XmnqGGkexDB3HY+W7hVB6mbcLZSDC61NfeBOOATdoeB+/gZmnNE67f4hAeB40B
-	xI/LueSBjzKXa3hDBcA7Y2ZwpCeIcWLkyz/USUlHXcANx9zcWXdrFMNsVhmC56lGkYjvqg0h8Yj
-	VoOltGnQJ2zt5TaxwCi0EM/Fy5tV9mdOQr5pQCm+AgK4R45s7BNjSIH5qGHk5VDg+pZU1zCAJ87
-	E6wGgffXdGZ1RQdsB2cHGtqzP+2wHk9CWXWPvTebegVZ1IkTbmQnqY7W5CYEhUufsrhrWWcDqrI
-	jtG5v9VrLhXpxVuFI+0QauD/du
-X-Google-Smtp-Source: AGHT+IE2kzQKVgzgwd3yt80d6uhyHJ6VDdhEtsKW+aItli5kCRdPijQS2jEZ4uFGLbUyM9wZHtc6gw==
-X-Received: by 2002:a2e:b887:0:b0:32a:888e:b30f with SMTP id 38308e7fff4ca-32b2227dce0mr7598041fa.6.1749641594023;
-        Wed, 11 Jun 2025 04:33:14 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:6e:3100:d134:143d:95b6:6d13? (2001-14ba-6e-3100-d134-143d-95b6-6d13.rev.dnainternet.fi. [2001:14ba:6e:3100:d134:143d:95b6:6d13])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b0cf7fsm17713801fa.12.2025.06.11.04.33.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jun 2025 04:33:13 -0700 (PDT)
-Message-ID: <5dad612b-495b-4f1c-82ff-e8ed4ef34c07@gmail.com>
-Date: Wed, 11 Jun 2025 14:33:12 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0AA274FC8
+	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 11:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749642245; cv=fail; b=WxBJrqPvfPgEZfdXfsWh6WAxbUwnq9B7Hhv+sd61RMfszCnxSOsJLvXAu4lSJ7iv91SOgxohqoFwW9W42g8fiOgQR7entBBXzoueKwePQHhHlENbz6ITC8PQURJE9g5JiYnC29FgIvVmgnw7ZhtJEFDSLhKi77LwCnpHXdJrui8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749642245; c=relaxed/simple;
+	bh=vf9wPj1XIIQ6eytS30MObwj9OfE4mV9WTlLjxzWVy8E=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EV0WbVchauB/8yZTdx5oBVXOxLfzAkiDKr8iXPg2Hxgyz5wfO2agXgFJjdwMmA3CEqbIP1wbK9W1cLgv3pHA277yk/JW7zkvneEsE7g2U0PnSAS+AtbiL8lUI0pi3n6uHE/R/ISWWwyXJciCmSJsihsxL9HRew9utZnkjHfKO1k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=nno+pPLO; arc=fail smtp.client-ip=40.107.236.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yRjAY/NniJFUZEMNvqOXrslc+FB3+aMY2tGvTTqsFcHy1o9gfZj/4Hnb8WbNQcoMFhsopMJ4raIdRifPaIwvTirMtEY05n2tPRX+HkaxQLiz0ZO4v4IWjhXqYHS9WsZ9lgWI8fIsnTMAV3EvjI2SSeXHTRoGWZ6TUx3Wik40H7BYBMeF1oXud5TwV6eUlD7VPivxO6PlEcfVq7Uo/1wdP54tISb5dNFVhKAdC1TO2WYEgZHrEkHlwSW9jj+Vf5/XXkOc7lN5ZglRl7CJHNOMSFq/DA0PBHixOg+dZm/i9HP+ude5YzYTfoe9hg0G1rrVqTeK+Hos84E1dOWwDE82fA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=umhwsyB+Fkz3C+YXaeKGqYqDRraRWZU+BDPgLhpRDEE=;
+ b=AGFOWrUSOz08jMPpbiVAV6wrgTreir3UHH3R6FHMEtMDMkQcVQmxpR4Pz+mY9k+G4Z7/vtenp3/7HsVRvhW6tDGM7r/NfcavMS3Ybq4iUJKIkEJHD/b021oqNkiKlNSaTYFyCTfvihlv7MKZHrc3A92uiCS6O8unh2YCJMzTCGA+b5UPNOQfekZeo0BRNJXE6GPxYdK0aRb0JJ7Zw/khum/oHHd0iVeVY/PzUY5lIdnptYrg2R1VzDKNhst+SB7f1F+dyxbeaEcU1cEjX6eJjHHIKx8h8JcXKLLiB6HfA/jcg053N54NnmZAoFEc9voY8S44U+Yq5qdZDdPymUwGYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=umhwsyB+Fkz3C+YXaeKGqYqDRraRWZU+BDPgLhpRDEE=;
+ b=nno+pPLOOT0RUizyCHYhV4WQFdBgpLamQSITZ8WUIjR7ufxg0vkW2lFpuWmB5Gdt1liR+JEm2wc2ym9x7TM1OK9CvWjjImSjcEHJE/3iomRXT4P5IXCVsjbI3y3Ixwlqak0NRwlUDwDH8WumM5RAA4Q8ciAz6/aZT+Lu1H5RirU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB6579.namprd12.prod.outlook.com (2603:10b6:208:3a1::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.39; Wed, 11 Jun
+ 2025 11:44:00 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Wed, 11 Jun 2025
+ 11:44:00 +0000
+Message-ID: <0c89db67-50f0-46e0-ac0e-bf050f543cb4@amd.com>
+Date: Wed, 11 Jun 2025 13:43:53 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/4] dma-fence: Add safe access helpers and document
+ the rules
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Rob Clark <robdclark@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250610164226.10817-1-tvrtko.ursulin@igalia.com>
+ <20250610164226.10817-4-tvrtko.ursulin@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250610164226.10817-4-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MN2PR06CA0003.namprd06.prod.outlook.com
+ (2603:10b6:208:23d::8) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] docs: Improve grammar in Userspace API/DVB API
-To: Bagas Sanjaya <bagasdotme@gmail.com>, mchehab@kernel.org,
- ribalda@chromium.org, hverkuil@xs4all.nl, hljunggr@cisco.com,
- dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
- Jonathan.Cameron@huawei.com, corbet@lwn.net, ilpo.jarvinen@linux.intel.com,
- mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca,
- skhan@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250522115255.137450-1-hannelotta@gmail.com>
- <aDAOhl7gKhkcTEjk@archie.me>
-Content-Language: en-US
-From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
-In-Reply-To: <aDAOhl7gKhkcTEjk@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB6579:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4990807f-a9a1-4b74-6d24-08dda8dd4198
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?enZZaU5Qa1BTc3cyblVSYjA4S2FHUER4Vm8yMWI0YlNHZWtISnVQYTRVUHoz?=
+ =?utf-8?B?K2hEL1lLMjhoME0xUnk0RDRqWXpwQkF0Y1VlRE1MalZLeUNGK1luL3FNVEZB?=
+ =?utf-8?B?a3hJL1RUc0c2Y1htZDh6MXdkbE5IcjlYbzVyQlVxTU1MSUJUbW9qTnJtVG1D?=
+ =?utf-8?B?SThIWFJ1RUN4ZlRmdGYwbDJhblQxMEtyNlpJV3RENC9xWTI3NEtjQ1pFM21v?=
+ =?utf-8?B?ZUFsaDZqQ3YzR2YySXc0ZjRLZlhUVnRkTGhHRTIxUkQ1YjFsbU5lZkRXTENx?=
+ =?utf-8?B?Mks3cXBtYzB5ZVEybjRzQjBjRVVpc3lHY3FBWkdRTDNRUm50ckpaZVRVcmpx?=
+ =?utf-8?B?dUNVbUVHejJXT29mdmhVVVp1VitnTEZ4YkxLUGt1Z2FJOFZXWG1rU1UyaGZT?=
+ =?utf-8?B?a3RNaVMrNjYrMkxwdzRRbUdxcmhUaXF5VFlFZ014TTY5MzduNGdocGZiODBw?=
+ =?utf-8?B?aU1tWmFlcTdab243RGhyb05SWGJ6aEtEQXdaQzQ4TzlaTzZDcU1PcStUZWRw?=
+ =?utf-8?B?aGJheG5kM1UzbUlQNnNlSHFYdlo4b2Q1aUlDN1dQOFM3YzM5c0F1bHFVRldz?=
+ =?utf-8?B?NEROL29WRC8yV1VyNnU5R0RrRTd3bVhJdUZMSUNBZ0FIZkYzQ1lFMlZiaERt?=
+ =?utf-8?B?aHZKTHlzTW5hYVZoRHk3QzBDTnd5a1RHUTltcjUxTmkrdjZFWnM0WStqb2xn?=
+ =?utf-8?B?WjV4STg4RmZnSXVVR29iU1NEQVNLWmZNSmd0bU1ZNVdMYks5UHVMaXJaVHht?=
+ =?utf-8?B?TXNMOGFUMVQyUkxoYjZ3eVZaeFhmdGpMTFRpM2xqOXVZaCtKQWtsTzlIUWY3?=
+ =?utf-8?B?QWVMMFA0QUpiSkJTK202VTBJVkZQU05EQjRpaW05Y1BycTlvSG1EUUJsWEdU?=
+ =?utf-8?B?UXcwL0dRdUZWRnVTNmdWS2NNTUlpL2dzd1V1Yk11clVHSHV0MlhYZ3Jnb1Nn?=
+ =?utf-8?B?WFp2MlYraXJVQk94QTlqWElZY2Z3WFdCVTV4STJ5N3RuM2xmQkZHelVVRmx4?=
+ =?utf-8?B?ZEI4cSs4SGNCbjY1UC9INkRrL1dEUWQxZjc5K2FHbjFqSFNIQVhZRys2dStK?=
+ =?utf-8?B?c0llRjFXK04rK3ZMOUhUdDczay9GbTM4bHBaVHRvaDMzTlBIdEh1UlV5RnRZ?=
+ =?utf-8?B?MTg5NmorVWJod1ozcS9rTHZTaWxjS2tQV0czVk9McUhiaFREK1hxcmoxN3h3?=
+ =?utf-8?B?dEVUeTduUXJVZC9zNlRDdG1pMW1yaGRiZ0s4Q016TW9XUFN6eHB2NHJ6dW40?=
+ =?utf-8?B?MkRHdVhJQVpra3c5ZGl5UkpDSGhzZ1hOMmRTa0FGcHpKakRqVEE2dVBwVmlo?=
+ =?utf-8?B?bjFvUW1BZklMQXJGalBVRXVwd3lsWVloMldhOC9LRkFrVTZRZ2hlbm5DQ2h6?=
+ =?utf-8?B?MmoxT3BPNFJDN0JLWGlHbVpGUCtjSG4zelZyZTdkcUI0VDFxSk83Z0RvdGJ1?=
+ =?utf-8?B?dDM2RlFwamZqd3h3TWlYTUcvYjd2by81bENNc3EvS1ZEcTYzWEdMQTdqUDho?=
+ =?utf-8?B?K2VwbWNONzBUVThXcGtrb2VvRG9OaWcvT0J6VWd1SzhKYXphV2hmWEIvcXc5?=
+ =?utf-8?B?b2x3UUtiSjlNNTNpY0JVYU12dURQTFZXc2FaY0YrN1FRaDdENTlQcHdOVXlL?=
+ =?utf-8?B?SytYUEhYRWt2L1R1V0QybTZXQ2JmeDZWcUtRSzR2V3paN2tTU2pBWGpNeDdr?=
+ =?utf-8?B?ODRWMFBRcFovVDZkeitTeWZhdmtHaWR4bjI0aVAwVDRFV3cxaWN6WWltd1lN?=
+ =?utf-8?B?dURDWGpDSzZpWStlSXlCMWhFSmVhTnZ1RUVqRUpMZjFBL05IeEpTYU9BRmIv?=
+ =?utf-8?B?bUNuTTFpNlkwMjJUKzRnL1FJUmdZOTdEa3ppOUVLNE5vYVRRVFJQd00zRnZD?=
+ =?utf-8?B?RFhHcUcwUHFEZFZaT2tiYmhlQ3RBbzhkc3NWeHFML3ptMmhrL245VEsxSko2?=
+ =?utf-8?Q?2WiaMZpOe6o=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b08yQUpDVTZwc0UrSGtCZnNqanBjWDFEUFBVb3UxdWppV1ZPOWVBdUIwczc4?=
+ =?utf-8?B?UmdhMEQvU0dQOE42Qnpob0VobXlkYktObmF3Zy9teFlkcEVNMEw2ZzczaHFV?=
+ =?utf-8?B?ZlQ3L3VLZjhjc2tyTkZpRGNtbEg5UEhKeVBTeUZ6QkVtS2s1ZUNBbU1ZNXR0?=
+ =?utf-8?B?WHhrZXFpS2FPeFl1VnQvaElGcjBWdVNpRVJFWHc1NHNONVZjTjB4V2p3SnQr?=
+ =?utf-8?B?Z0VQaW1KTmdBdDBtYStBWDhuYXRWSURaU2pFTVRPNlRKT011U0FkWWZCSHZm?=
+ =?utf-8?B?WnVMSyszeEM1VjJybyt3Zmx3MUtXa3V1VWQyL2FNOGhJaDhCUTlmRGlaeWFz?=
+ =?utf-8?B?UGsvSlJJZ0Y0Q3RISmFWMkhsTDFNZW1EWjRJWTU4Y2g3RVp2RUN4TmhNVjV3?=
+ =?utf-8?B?L080T3l1aFBZemlaWXpsNFNDeHNiMmdRU2crVVRLK1QvOFRUVDBFU1JpbXVi?=
+ =?utf-8?B?WXp3VmQ1eWFYMng3cTFZMWR5ek1EOXR0dk9WaFNhcG5sSWJkc3lyOUtOb3kr?=
+ =?utf-8?B?aTBwRkRpOWZXVWl5R0MwQ2hHUUhZQ3V6WDMyU2dIREFMWEtMcU1PVmxqZ1BZ?=
+ =?utf-8?B?S2JEWWp4dkN1TEFkanpTQ1BNOEsxMjdhNWNGVFBQMEFWZ2pYYkNoczRNaTRa?=
+ =?utf-8?B?NjVheVpyaDZqaFBaVEVXNzhOUWtzdC9SZFNva01kNTZrYk40KytyeTBkUi9F?=
+ =?utf-8?B?K2hEb3UyL0VEYk1DalU5dWg0dnhwMzBhODI2cHdsNXIxSmlXcXo0Rnk0ek1w?=
+ =?utf-8?B?NFIzYlZ0YnptY1lzWmNNWVY0ZDduajZhU0QrVThvT0w1ZEtkeGErN2lQM2ZN?=
+ =?utf-8?B?NmE0cFNaUGFIczl1RUl4cTZjQ2NpMUsxK1k5UTZyOE9BRlk2VkhnamQ5cGd3?=
+ =?utf-8?B?T0RWS1ZWcHE3NnNiWnB0NkhJaGZERy9KR3BCTFZwR0NKNVk1NGRhSCtVK1Ar?=
+ =?utf-8?B?NXBNYjhVOWs2N0NRdkxBbUV2eW9Lbnhsei9PSVM0TE5ycFdPblZlS1dmRUcx?=
+ =?utf-8?B?SEhJdk8vT3BYdmwzMlV4MkdSMmtqdmdmTGxQOUlNZGVhQXVOTHc1VVA3eXZZ?=
+ =?utf-8?B?a2xSR3RXWElBeVh5QjB2OXMvTUlNUmR5d2RmZG9RRWhlLytkenZjbXp3bCtB?=
+ =?utf-8?B?NmJTZkF3SkVqZW0rRDlRTXYwcmxDbGlWR0JwN3dzTzdSWmxudG5LMm96NVB2?=
+ =?utf-8?B?c3V2U0t2SFgwVnVBb1F4RjdKS0pqY3VBSndmcFdxaVVERmxINXM5ZHZsVVFT?=
+ =?utf-8?B?am1qdXMvMDErZlZqVVdYUjUrbUFnVW1ONjM2Z3NGV3ovOVljNkZIcGtET2xS?=
+ =?utf-8?B?alJPaVZZNy84OG1PSWphSENQR294TlNEM29Ib0MzcjdTWXZPbDhEMWhQR2dw?=
+ =?utf-8?B?UXhCak9VTUlSc29jeWp5dXNYbmtHZnVwaWxGb2JkZENIZml3bmNiWWx4bjJI?=
+ =?utf-8?B?S2ROc3FUNXBGYXAzR1g0MG1ILzVWK1I5T2l4bnk2aktBRllKcjhUVUQwa3hE?=
+ =?utf-8?B?d1F4WEM0Qkt1Y0xmNDJwMTZwWTRGdUtBZWVyUFYrOHJ0cDJNSU9LS2lCWjY1?=
+ =?utf-8?B?Y2UyWHkzRjg5UE9wSGN0MWNVYk5DV3BnRHdZZ2ErY2JxYklYWVNoMUU1eE8r?=
+ =?utf-8?B?SVRCNnZlM1BaR21JNTlVR1BXVkxKSS9tMCtreTcwZXltaEloNnJiQ2Q4TXVF?=
+ =?utf-8?B?VGo4VFMySXZqV0V0QklxWDY2Zi94L2Q2Nis3aHNKY0lPWFcxMUQyWDBHM3RS?=
+ =?utf-8?B?cmdnNndTRm9nNzBKc1JxU0N2VHV1T0RhSzFQU2VmM0F4c2lBTnljS2VxZXNG?=
+ =?utf-8?B?UnlRcnkwMW1zZlQ2QlBMQllYaXMzRGhaei9NenhjUm10ckw3WE04UnluRk9V?=
+ =?utf-8?B?TXAweDIzYTZZTVBEU0V2NTRENFgwdURCOXhyOFFLeURRTUNOb3NQY1RkZ1ZZ?=
+ =?utf-8?B?Q2MvT1NWWlIzUzlwWDBLUWVaSE1WS3o0UmhnVjBscW9TQVNEVEJnZGRtdmlG?=
+ =?utf-8?B?TjV5N1k4dlFrR0VOclZTSGFTbkRTaW5xZUcvT01BUHBHNWhmZGo4NnYwcEJX?=
+ =?utf-8?B?akRSV1ZnbkNnbmZkUSsrdURnUXhOV09VbXJQWlFiT2ErTVlUejltdUFkWGd5?=
+ =?utf-8?Q?YOMGzlmXi9Re3VXAPwSmcKf/W?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4990807f-a9a1-4b74-6d24-08dda8dd4198
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 11:44:00.0952
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NOSHI+yxx6W5+ZlEqnjV5n8WHTl8jBkX8fXGu1CZiOIexDDHZ4rzfQz+glvFUQ1Q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6579
 
-On 5/23/25 08:58, Bagas Sanjaya wrote:
-> On Thu, May 22, 2025 at 02:52:52PM +0300, Hanne-Lotta Mäenpää wrote:
->>     #. On Satellite and Cable delivery systems, the bandwidth depends on
->> -     the symbol rate. So, the Kernel will silently ignore any setting
->> -     :ref:`DTV-BANDWIDTH-HZ`. I will however fill it back with a
->> -     bandwidth estimation.
->> +     the symbol rate. The kernel will silently ignore any setting
->> +     :ref:`DTV-BANDWIDTH-HZ` and overwrites it with bandwidth estimation.
-> "The kernel will silently ignore any :ref:`DTV-BANDWIDTH-HZ` setting ..."
->>   
->>        Such bandwidth estimation takes into account the symbol rate set with
->>        :ref:`DTV-SYMBOL-RATE`, and the rolloff factor, with is fixed for
+On 6/10/25 18:42, Tvrtko Ursulin wrote:
+> Dma-fence objects currently suffer from a potential use after free problem
+> where fences exported to userspace and other drivers can outlive the
+> exporting driver, or the associated data structures.
 > 
-> Thanks.
+> The discussion on how to address this concluded that adding reference
+> counting to all the involved objects is not desirable, since it would need
+> to be very wide reaching and could cause unloadable drivers if another
+> entity would be holding onto a signaled fence reference potentially
+> indefinitely.
 > 
+> This patch enables the safe access by introducing and documenting a
+> contract between fence exporters and users. It documents a set of
+> contraints and adds helpers which a) drivers with potential to suffer from
+> the use after free must use and b) users of the dma-fence API must use as
+> well.
+> 
+> Premise of the design has multiple sides:
+> 
+> 1. Drivers (fence exporters) MUST ensure a RCU grace period between
+> signalling a fence and freeing the driver private data associated with it.
+> 
+> The grace period does not have to follow the signalling immediately but
+> HAS to happen before data is freed.
+> 
+> 2. Users of the dma-fence API marked with such requirement MUST contain
+> the complete access to the data within a single code block guarded by
+> rcu_read_lock() and rcu_read_unlock().
+> 
+> The combination of the two ensures that whoever sees the
+> DMA_FENCE_FLAG_SIGNALED_BIT not set is guaranteed to have access to a
+> valid fence->lock and valid data potentially accessed by the fence->ops
+> virtual functions, until the call to rcu_read_unlock().
+> 
+> 3. Module unload (fence->ops) disappearing is for now explicitly not
+> handled. That would required a more complex protection, possibly needing
+> SRCU instead of RCU to handle callers such as dma_fence_release() and
+> dma_fence_wait_timeout(), where race between
+> dma_fence_enable_sw_signaling, signalling, and dereference of
+> fence->ops->wait() would need a sleeping SRCU context.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Hello,
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-What is the best way to send an update on this patch, now that patches 
-3/4 and 4/4 have been applied, but 1/4 and 2/4 have not been applied?
+> ---
+>  drivers/dma-buf/dma-fence.c      | 111 ++++++++++++++++++++++++++++---
+>  include/linux/dma-fence.h        |  31 ++++++---
+>  include/trace/events/dma_fence.h |  38 +++++++++--
+>  3 files changed, 157 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 74f9e4b665e3..3f78c56b58dc 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -511,12 +511,20 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>  
+>  	dma_fence_enable_sw_signaling(fence);
+>  
+> -	trace_dma_fence_wait_start(fence);
+> +	if (trace_dma_fence_wait_start_enabled()) {
+> +		rcu_read_lock();
+> +		trace_dma_fence_wait_start(fence);
+> +		rcu_read_unlock();
+> +	}
+>  	if (fence->ops->wait)
+>  		ret = fence->ops->wait(fence, intr, timeout);
+>  	else
+>  		ret = dma_fence_default_wait(fence, intr, timeout);
+> -	trace_dma_fence_wait_end(fence);
+> +	if (trace_dma_fence_wait_end_enabled()) {
+> +		rcu_read_lock();
+> +		trace_dma_fence_wait_end(fence);
+> +		rcu_read_unlock();
+> +	}
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(dma_fence_wait_timeout);
+> @@ -533,16 +541,23 @@ void dma_fence_release(struct kref *kref)
+>  	struct dma_fence *fence =
+>  		container_of(kref, struct dma_fence, refcount);
+>  
+> +	rcu_read_lock();
+>  	trace_dma_fence_destroy(fence);
+>  
+> -	if (WARN(!list_empty(&fence->cb_list) &&
+> -		 !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags),
+> -		 "Fence %s:%s:%llx:%llx released with pending signals!\n",
+> -		 dma_fence_driver_name(fence),
+> -		 dma_fence_timeline_name(fence),
+> -		 fence->context, fence->seqno)) {
+> +	if (!list_empty(&fence->cb_list) &&
+> +	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
+> +		const char __rcu *timeline;
+> +		const char __rcu *driver;
+>  		unsigned long flags;
+>  
+> +		driver = dma_fence_driver_name(fence);
+> +		timeline = dma_fence_timeline_name(fence);
+> +
+> +		WARN(1,
+> +		     "Fence %s:%s:%llx:%llx released with pending signals!\n",
+> +		     rcu_dereference(driver), rcu_dereference(timeline),
+> +		     fence->context, fence->seqno);
+> +
+>  		/*
+>  		 * Failed to signal before release, likely a refcounting issue.
+>  		 *
+> @@ -556,6 +571,8 @@ void dma_fence_release(struct kref *kref)
+>  		spin_unlock_irqrestore(fence->lock, flags);
+>  	}
+>  
+> +	rcu_read_unlock();
+> +
+>  	if (fence->ops->release)
+>  		fence->ops->release(fence);
+>  	else
+> @@ -982,11 +999,21 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
+>   */
+>  void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
+>  {
+> +	const char __rcu *timeline;
+> +	const char __rcu *driver;
+> +
+> +	rcu_read_lock();
+> +
+> +	timeline = dma_fence_timeline_name(fence);
+> +	driver = dma_fence_driver_name(fence);
+> +
+>  	seq_printf(seq, "%s %s seq %llu %ssignalled\n",
+> -		   dma_fence_driver_name(fence),
+> -		   dma_fence_timeline_name(fence),
+> +		   rcu_dereference(driver),
+> +		   rcu_dereference(timeline),
+>  		   fence->seqno,
+>  		   dma_fence_is_signaled(fence) ? "" : "un");
+> +
+> +	rcu_read_unlock();
+>  }
+>  EXPORT_SYMBOL(dma_fence_describe);
+>  
+> @@ -1055,3 +1082,67 @@ dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>  			 BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
+>  }
+>  EXPORT_SYMBOL(dma_fence_init64);
+> +
+> +/**
+> + * dma_fence_driver_name - Access the driver name
+> + * @fence: the fence to query
+> + *
+> + * Returns a driver name backing the dma-fence implementation.
+> + *
+> + * IMPORTANT CONSIDERATION:
+> + * Dma-fence contract stipulates that access to driver provided data (data not
+> + * directly embedded into the object itself), such as the &dma_fence.lock and
+> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
+> + * after the fence has been signalled. Drivers are allowed to free that data,
+> + * and some do.
+> + *
+> + * To allow safe access drivers are mandated to guarantee a RCU grace period
+> + * between signalling the fence and freeing said data.
+> + *
+> + * As such access to the driver name is only valid inside a RCU locked section.
+> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
+> + * by the &rcu_read_lock and &rcu_read_unlock pair.
+> + */
+> +const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
+> +{
+> +	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+> +			 "RCU protection is required for safe access to returned string");
+> +
+> +	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> +		return fence->ops->get_driver_name(fence);
+> +	else
+> +		return "detached-driver";
+> +}
+> +EXPORT_SYMBOL(dma_fence_driver_name);
+> +
+> +/**
+> + * dma_fence_timeline_name - Access the timeline name
+> + * @fence: the fence to query
+> + *
+> + * Returns a timeline name provided by the dma-fence implementation.
+> + *
+> + * IMPORTANT CONSIDERATION:
+> + * Dma-fence contract stipulates that access to driver provided data (data not
+> + * directly embedded into the object itself), such as the &dma_fence.lock and
+> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
+> + * after the fence has been signalled. Drivers are allowed to free that data,
+> + * and some do.
+> + *
+> + * To allow safe access drivers are mandated to guarantee a RCU grace period
+> + * between signalling the fence and freeing said data.
+> + *
+> + * As such access to the driver name is only valid inside a RCU locked section.
+> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
+> + * by the &rcu_read_lock and &rcu_read_unlock pair.
+> + */
+> +const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+> +{
+> +	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+> +			 "RCU protection is required for safe access to returned string");
+> +
+> +	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> +		return fence->ops->get_driver_name(fence);
+> +	else
+> +		return "signaled-timeline";
+> +}
+> +EXPORT_SYMBOL(dma_fence_timeline_name);
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 10a849cb2d3f..64639e104110 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -378,15 +378,28 @@ bool dma_fence_remove_callback(struct dma_fence *fence,
+>  			       struct dma_fence_cb *cb);
+>  void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+>  
+> -static inline const char *dma_fence_driver_name(struct dma_fence *fence)
+> -{
+> -	return fence->ops->get_driver_name(fence);
+> -}
+> -
+> -static inline const char *dma_fence_timeline_name(struct dma_fence *fence)
+> -{
+> -	return fence->ops->get_timeline_name(fence);
+> -}
+> +/**
+> + * DOC: Safe external access to driver provided object members
+> + *
+> + * All data not stored directly in the dma-fence object, such as the
+> + * &dma_fence.lock and memory potentially accessed by functions in the
+> + * &dma_fence.ops table, MUST NOT be accessed after the fence has been signalled
+> + * because after that point drivers are allowed to free it.
+> + *
+> + * All code accessing that data via the dma-fence API (or directly, which is
+> + * discouraged), MUST make sure to contain the complete access within a
+> + * &rcu_read_lock and &rcu_read_unlock pair.
+> + *
+> + * Some dma-fence API handles this automatically, while other, as for example
+> + * &dma_fence_driver_name and &dma_fence_timeline_name, leave that
+> + * responsibility to the caller.
+> + *
+> + * To enable this scheme to work drivers MUST ensure a RCU grace period elapses
+> + * between signalling the fence and freeing the said data.
+> + *
+> + */
+> +const char __rcu *dma_fence_driver_name(struct dma_fence *fence);
+> +const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
+>  
+>  /**
+>   * dma_fence_is_signaled_locked - Return an indication if the fence
+> diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
+> index 84c83074ee81..4814a65b68dc 100644
+> --- a/include/trace/events/dma_fence.h
+> +++ b/include/trace/events/dma_fence.h
+> @@ -34,14 +34,44 @@ DECLARE_EVENT_CLASS(dma_fence,
+>  		  __entry->seqno)
+>  );
+>  
+> -DEFINE_EVENT(dma_fence, dma_fence_emit,
+> +/*
+> + * Safe only for call sites which are guaranteed to not race with fence
+> + * signaling,holding the fence->lock and having checked for not signaled, or the
+> + * signaling path itself.
+> + */
+> +DECLARE_EVENT_CLASS(dma_fence_unsignaled,
+> +
+> +	TP_PROTO(struct dma_fence *fence),
+> +
+> +	TP_ARGS(fence),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(driver, fence->ops->get_driver_name(fence))
+> +		__string(timeline, fence->ops->get_timeline_name(fence))
+> +		__field(unsigned int, context)
+> +		__field(unsigned int, seqno)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(driver);
+> +		__assign_str(timeline);
+> +		__entry->context = fence->context;
+> +		__entry->seqno = fence->seqno;
+> +	),
+> +
+> +	TP_printk("driver=%s timeline=%s context=%u seqno=%u",
+> +		  __get_str(driver), __get_str(timeline), __entry->context,
+> +		  __entry->seqno)
+> +);
+> +
+> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_emit,
+>  
+>  	TP_PROTO(struct dma_fence *fence),
+>  
+>  	TP_ARGS(fence)
+>  );
+>  
+> -DEFINE_EVENT(dma_fence, dma_fence_init,
+> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_init,
+>  
+>  	TP_PROTO(struct dma_fence *fence),
+>  
+> @@ -55,14 +85,14 @@ DEFINE_EVENT(dma_fence, dma_fence_destroy,
+>  	TP_ARGS(fence)
+>  );
+>  
+> -DEFINE_EVENT(dma_fence, dma_fence_enable_signal,
+> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_enable_signal,
+>  
+>  	TP_PROTO(struct dma_fence *fence),
+>  
+>  	TP_ARGS(fence)
+>  );
+>  
+> -DEFINE_EVENT(dma_fence, dma_fence_signaled,
+> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_signaled,
+>  
+>  	TP_PROTO(struct dma_fence *fence),
+>  
 
-Do I send v3 for the first two only?
-
-Any guidance is greatly appreciated, since I am new to kernel development.
-
-Best regards,
-
-Hanne-Lotta Mäenpää
 
