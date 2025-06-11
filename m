@@ -1,53 +1,81 @@
-Return-Path: <linux-media+bounces-34536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34541-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D415AD5D10
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 19:20:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47FE3AD5E5C
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 20:38:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB27B3A89E2
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 17:20:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30D461BC2247
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 18:38:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27A4522425B;
-	Wed, 11 Jun 2025 17:19:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A96C27467F;
+	Wed, 11 Jun 2025 18:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IEAaCDlL"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="JyrhT81c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D47221F08;
-	Wed, 11 Jun 2025 17:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CE126A0AB
+	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 18:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749662358; cv=none; b=oAG2Y6AxniW2xgYplJoo3tC+EYPmeizL8gugUsODWG/RNw/yOE5DbL8IgSKi/MagAAVcPMpDU0uodL3xP9vsctDjfY6tUIAU5H55o3UMIAy2ZmkGybJdx2YpJyW6JdCN/KRA8jlBVcq/z1rmJiePDypcr8mWDaRacZRfgILOGBc=
+	t=1749667054; cv=none; b=TlF42/Wn505uqy5msCdT/xYJiLsQrkWKMckIoFJtWKkcvHrJo6AehDctK+B3csOIQgTXUmNQq2JgZHEwFyvJuxXViBjBNXgDKZTzhOgFShrIeEor5ZcUsSQxJCzvmBWE+RaqepKL4vTy0U6J8K0B6FpOWHcRmdFbXr/YSf5IN1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749662358; c=relaxed/simple;
-	bh=rZujrf8cJQS+I89btYoSUMkKofWIINtOzhrn5MbArYQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gY4i1M0KAgDbZmQCNS9APyqBcMGpoxIFMibD789wemfHhbu+RdSgU0SPACZgka87O8g4YrWhsDJMdeJC5YbpQqWR1DmRVGxUczLQNWpcPQGzxwPQkgxF8u+ax1CQSDsOB0pSnpBn3pa+NfdPp/yoiSFk57mh2mNdP8KRT3LXZG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IEAaCDlL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B8DD2C4AF14;
-	Wed, 11 Jun 2025 17:19:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749662357;
-	bh=rZujrf8cJQS+I89btYoSUMkKofWIINtOzhrn5MbArYQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=IEAaCDlLl7NwSEEC9t2PMVQ8mmD9gUl7QqiL0PYuV2wz+frv8sy/D/R1FoGawMeYx
-	 2vTui0CnFjClLTMSWWBuOC5yGxavf8d3yKyhdwwpcYkVW9GWjuQLDr38Z00OlCJ+We
-	 hae/K3hddGXdPT/cCbn/dAltYYLXt9A67Nx1fHK86QID0F9yoTKje2Uyv+mc3vyDmd
-	 zrSd64AhtYWjlGBxJDQ3mLJ5y+GF4Zspm9OXL77GM/OI9yUR8DyOKVRmTSZAL9q7tv
-	 CUlo0KAJe27TsogYfdE1oih3nH+XHOMAfMZGPEgB4fZrEsFW6/ZEelC/uL49epUxP+
-	 DXEy40Ru/CjqA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4E9FC71143;
-	Wed, 11 Jun 2025 17:19:17 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Wed, 11 Jun 2025 19:06:58 +0200
-Subject: [PATCH v8 13/13] arm64: dts: rockchip: enable vicap dvp on
- wolfvision pf5 io expander
+	s=arc-20240116; t=1749667054; c=relaxed/simple;
+	bh=PtjcRg7r9dDYoDn4dMsR5Www73D4wiUbSHxe0flzOIw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VhkKbRazslomvQjwGNwVXhiSrK1eYT2VneEXuHEykM5aTVj7fMN4GCzxgcvuLl+TsoZHLo1Bi0WNLmQgEiD76nZyN28U2QTH5TANPh2K95q/KwvA6rHUJvGYjVwfdRSotZ8IB5kHfGZCMktNl9KinRW4/0S/Wb14tbB6Z6n5+gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=JyrhT81c; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-32ac42bb4e4so1516321fa.0
+        for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 11:37:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1749667051; x=1750271851; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nxFfYw7Bh3J5bDd9GOMRnGuEy6auNfpZtx05LVWHCwg=;
+        b=JyrhT81cTnFOKmsweB1atlrtSkWMWPpfA4DCNVAW0WWYpm6Inmdvat010+LO2rZzip
+         96EHzG43UioLoIVwKzlUuQOwqS4cWzfaG16FVJUmCI5yZ2VP/AyZp8YwUQgpU0n7gx/F
+         km4B6hU8PbnKm/WIMzp4hb0yAuzx3OHtk1zc3ei/mtaXL8Jh+HwJWJAco14kCznaNQ72
+         gjnC5Edv4oK4yvnTZVUq0yQegYmxWJhgpmfVWLR0N/OPLjHquSEK0uHiQMEHu7Sudror
+         hvRj95TCnL+6uR4xsg4pJ4K+nu7lDOjA6tIAzsBoHKj1rg4gG4JHhQQHWc1GTs0nquvQ
+         lNIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749667051; x=1750271851;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nxFfYw7Bh3J5bDd9GOMRnGuEy6auNfpZtx05LVWHCwg=;
+        b=gTZD170UAI2zVe0GnXVGsk38trH5RU1UcVDw+v9TWbpBqa4FVGxbnGliYdlhWi0nTo
+         /bQWy/hi2wDr3DieO3ddKUdt1jY6IaaujpRweGQLn0tVsqgXJrn4DPC3zV19Apc746f1
+         iUsYso+5bayNiBKli0bCyfH0HCBhw8TX6GkCiXwDJw3sqDYANdl5PduQagq7Ye/rUwMJ
+         9i1olu4f15oVAFn1R3l4RQwLDuF5ZePOb0iJ20VvnigkIirLezmUVU3uB7OIoWVvU4Pr
+         8Lcd0NtGikgfCLE6Yxun9v753uE0z5CDt9hUqfM/whHup/d+wOYTTCA1rQSRyeGzX6n3
+         V+2A==
+X-Forwarded-Encrypted: i=1; AJvYcCXYd0be2ujA4/ovGAXLCsGwcbm3eHpTc+VDKuGlkcwXE2qK3y6FOBco8hOLpd+tbV7jjRTxBEP1iiK1qQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZy9zDMK+L8Dnb5ePesK3M2XRs211dcmNUq4jYi8R41Vktxumy
+	q5d2oyVPHy9ZEHnaBhB6uefFvdoPwlrCP2Ky6BHvbmgP1jIDdqazsJ1pj+HQVI9E5JoI9Bt72vk
+	ftEeB
+X-Gm-Gg: ASbGncs2Euuf0Oqr5nbfL1ccjmgr0CfVwbnBdHhPuW3z3CoOOJENjbleG4m9mOTzXq5
+	vqo0ygztdUtFT+Fw8O32Ilf1Y3STC07pb2LmSEP48sFmSKkfdOD11YYpiZY4nfuKE/TJ88noN/1
+	2/5snNL8eyUkhvtKB25WCXwg+IjULCRY8lUEOGs+dJehyqGWcsIjz+zFRIDJcIw7E/zupdY2Ls5
+	ARgMxPPT9UnsuyeVEuIS6q6tO7OGky8qDTsLPGZh3o0RDKvscsPzDRBiTrw74ggaxID7jC8Qs0Z
+	yb2Z4B4UApPidpVH1wI2xXZ1Kzc8boL/BQ0+POrtZpYpqL6/aHdLBQ==
+X-Google-Smtp-Source: AGHT+IFzYupa7d+ONAjulOpVhh56Bqw1ABa6/j/qgq2ciZf4MuyCJ8C6ogS1IFGo/jjRE88dc+izmg==
+X-Received: by 2002:a05:6000:2c0f:b0:3a5:5149:ed1a with SMTP id ffacd0b85a97d-3a558a43b48mr3492897f8f.59.1749667040479;
+        Wed, 11 Jun 2025 11:37:20 -0700 (PDT)
+Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a5324364d4sm16119390f8f.55.2025.06.11.11.37.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jun 2025 11:37:20 -0700 (PDT)
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH 0/4] media: tc358743: Additional link freq, and better
+ validation
+Date: Wed, 11 Jun 2025 19:37:12 +0100
+Message-Id: <20250611-media-tc358743-v1-0-708556026f9d@raspberrypi.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,100 +84,63 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v8-13-9d9cbc4b524d@collabora.com>
-References: <20240220-rk3568-vicap-v8-0-9d9cbc4b524d@collabora.com>
-In-Reply-To: <20240220-rk3568-vicap-v8-0-9d9cbc4b524d@collabora.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Markus Elfring <Markus.Elfring@web.de>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Kever Yang <kever.yang@rock-chips.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Alexander Shiyan <eagle.alexander923@gmail.com>, 
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Michael Riesch <michael.riesch@collabora.com>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749661609; l=1661;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=tkvGHWW1RXCremqXv1+qTo26zNWU0UHQFUaztf+p/DI=;
- b=m4uzKPsYmskzrSkjBV+s/F9eyoIMqAKlpsD3duVmiZLO5ydbSjtF9HRSv5ChbRco8M1n2QSOS
- 9aHAYs7+XS0Ac0nZ1J2D0hu3bDcljAq88OcvRs0qVgEOUauEaFxHByQ
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
+X-B4-Tracking: v=1; b=H4sIANjMSWgC/x3MQQqAIBBA0avIrBO0NKWrRAvTqWaRhUYE4d2Tl
+ m/x/wsZE2GGgb2Q8KZMR6yQDQO/ubgip1ANrWi16KXkOwZy/PKdtkZ1XJiASjgr1eyhRmfChZ5
+ /OE6lfLup0v1gAAAA
+To: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Maxime Ripard <mripard@redhat.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+X-Mailer: b4 0.14.1
 
-From: Michael Riesch <michael.riesch@collabora.com>
+I've had these patches on our Raspberry Pi downstream kernel since
+I tried upstreaming them back in 2017 [1].
+Maxime's asked me to repost them as he's trying to use tc358743 with
+mainline in RGB mode[2], and is hitting exactly the problems I had
+written them to solve.
 
-The Digital Video Port (DVP, the 16-bit variant) of the RK3568 VICAP
-is broken out to the PF5 mainboard expansion header.
-Enable it in the device tree overlay for the WolfVision PF5 IO
-Expander board.
+The issue from that series of get_mbus_config passing the number of
+active data lanes has been resolved.
 
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-Reviewed-by: Gerald Loacker <gerald.loacker@wolfvision.net>
-Tested-by: Gerald Loacker <gerald.loacker@wolfvision.net>
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+With regard updating the FIFO trigger level, from the previous
+discussions[3]:
+- Cisco's use doesn't use OF and therefore is unaffected.
+- Philipp's original use case was only 720p60 and 1080p60 UYVY at
+  594Mbps.
+Both those modes still work with the updated trigger level, but
+I'm happy to revise and only use the new trigger level with the
+972Mbps data rate if that is deemed necessary.
+
+The final two patches are new but relatively trivial.
+The first makes probe fails if the hardware isn't present, and the
+second reports the right colorspace for the format.
+
+Hopefully that all makes sense.
+
+  Dave
+
+[1] https://lore.kernel.org/linux-media/cover.1505826082.git.dave.stevenson@raspberrypi.org/
+[2] https://lore.kernel.org/linux-media/20250606-roaring-blue-bat-a8b2aa@houat/
+[3] https://www.spinics.net/lists/linux-media/msg116360.html
+
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- .../rockchip/rk3568-wolfvision-pf5-io-expander.dtso  | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Dave Stevenson (4):
+      media: tc358743: Add support for 972Mbit/s link freq
+      media: tc358743: Increase FIFO trigger level to 374
+      media: tc358743: Check I2C succeeded during probe
+      media: tc358743: Return an appropriate colorspace from tc358743_set_fmt
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-index 048933de2943..8cfce71dd318 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-@@ -11,6 +11,7 @@
- #include <dt-bindings/clock/rk3568-cru.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/media/video-interfaces.h>
- #include <dt-bindings/pinctrl/rockchip.h>
- 
- &{/} {
-@@ -134,3 +135,22 @@ &usb2phy0_host {
- 	phy-supply = <&usb_host_vbus>;
- 	status = "okay";
- };
-+
-+&vicap {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&cif_clk &cif_dvp_clk &cif_dvp_bus16>;
-+	status = "okay";
-+};
-+
-+&vicap_dvp {
-+	vicap_dvp_input: endpoint {
-+		bus-type = <MEDIA_BUS_TYPE_BT656>;
-+		bus-width = <16>;
-+		pclk-sample = <MEDIA_PCLK_SAMPLE_DUAL_EDGE>;
-+		rockchip,dvp-clk-delay = <10>;
-+	};
-+};
-+
-+&vicap_mmu {
-+	status = "okay";
-+};
+ drivers/media/i2c/tc358743.c | 134 ++++++++++++++++++++++++++++---------------
+ 1 file changed, 87 insertions(+), 47 deletions(-)
+---
+base-commit: 8d441742cb6a1f1cf1d8f2c73339af27dddb7cf0
+change-id: 20250611-media-tc358743-07de40a814bc
 
+Best regards,
 -- 
-2.39.5
-
+Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 
