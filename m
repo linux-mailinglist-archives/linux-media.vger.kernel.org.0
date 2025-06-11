@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-34537-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34538-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869B1AD5E50
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 20:37:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 980B3AD5E51
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 20:37:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CB271BC21CB
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 18:37:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 954FE3A8ABE
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jun 2025 18:37:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D5D26A0AB;
-	Wed, 11 Jun 2025 18:37:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E02F227586;
+	Wed, 11 Jun 2025 18:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="hEp2WiPD"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="VB2T1mWi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9E017A31F
-	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 18:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99C820DD75
+	for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 18:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749667045; cv=none; b=qY6hy8CqdMEqoVGL5n4nsImCVMPo1Ljxo1EDUw55gQT6EcpuS0eCgtB5+j4lY6TAOAwjtrV9d8Yp5t9MnHxXE3sXWXZBYTqewp2J8GjaevBvfDubB1XfCywbZbYSBZUrAdF/VOecMdnj/vUgAcNpQ2J6mxUAt+M0P9FGndzwMZA=
+	t=1749667045; cv=none; b=ImAAkSUGA1qugn/TKcceXS7CyIaOp7GExabPb5zQ1zyK1eaVg9qv8MShZ3KRfy8yqMTcPa8OBAgqSp3A8DcBsXMVBwk+7AdE9Q/XK4/nu1FzbkJ9v1zpoBNgyiImNSj+wlOfG1K/eemCpTsRkoC8Ltj92ovxFK8FjAsOtUwNZTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1749667045; c=relaxed/simple;
-	bh=i7gGdufPkSGRwB6IPZKAt6alZaKpalTRVeGTcHa0rDg=;
+	bh=RyLIKNeJDHGcRQHXIaBVFM/PFmHB/hcFvEYioa32LRQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YaqSkLVk9mfD3EdKsS9whXmv8P+w5MzEJISsUAnq8RvKKnjX764Lig/tnxA7a3DkzsO1SQh/K0la1O50N1IZVQsMMmcfxgM7G/J6aB8YU5ZY5SFsHCBOk936leNOYswtWRaHJin7FQ0PGaWVhks/ghBQAgOU4SKmIUO+TYVkkxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=hEp2WiPD; arc=none smtp.client-ip=209.85.221.54
+	 In-Reply-To:To:Cc; b=Y+SlnE5a7hj/1BFgtqRMcgjWypqNmabyA2LqSJ51whxzPkVzr2YfWqBNww6+hWy5WsY5o/h+da8HxZFMejaLt9vHwGgI/AWo32ZG58eg+FYAoA1Y13t2Kx0QyTwDDFkmHvc8nqhFyUYAVcUOVwDFel15e0nzo5COxI7fzwX8jP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=VB2T1mWi; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a50fc819f2so156699f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 11:37:22 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a54700a46eso198532f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 11 Jun 2025 11:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1749667041; x=1750271841; darn=vger.kernel.org;
+        d=raspberrypi.com; s=google; t=1749667042; x=1750271842; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qgYBfY2UR29MQlCGcRFEVcrLVgS61xcAj8mfuW0laMQ=;
-        b=hEp2WiPDuXfZ9f3XhKZ/PJSBZrBA1nspeqUhsyJmy5UxhK3JvwnxnorzGAUDiGtpqW
-         BczdVAmQ0CQti+OxQiheFfcVUD01xKkFOpEnJ+10plYZYlBiqudX3EJ5iTXp+0ee9Bi7
-         u/ofqYX8t1SQLb6PswiU769wsxlvbsFAnUL4Y6T/9HHVAK7fHHlikFNK/2MpAovD9ZTZ
-         /cd3fNfVOPBabMdCOOQlYc2AyNXpeVaL+DNUZ5oUDfa8QODx401dpNRuYOTJnoTCqBmF
-         KqPESMzyIcDJm2+VmOvaH4XzlAerUj6xF+Zg6TlS+QScHM7S1/zpUSeDWr6pL1e0YSlp
-         4I+g==
+        bh=6/DWf3eFTS1FAKsBMmWgLu1g2vHF8byXbBX1nrqf/VM=;
+        b=VB2T1mWifQGJcLguGEC73P3aw+Ok5QvPAwB0qwbo4C7m1ahWrx+yILFuMXTkwqK9Vr
+         Ps1IQui43AjQB/n1Z9f+7HGWq6honuJ7HJDWjA45aKQBERpVVkVJS/PS6rlV3C1P5sl7
+         HxOnVWCxCGVJ8iePCamBxtWi6E/lkMIb/MuVNYLhohYXpeFJVsvpYWrQyAlgZwHVRxZU
+         K5CCcIAvTNPc8alozPrRdZMIZbEZ1DqYJBPnHYUYYVYC9KWxXVkQ7zskO/yYXGRLGKQx
+         7+pdtQKKovkbjpjoDc+EcfhYOZ6kN1m5j7IGsmG9mfXI44h8RqsIN2c0ZUSuGP18mJ9n
+         wVeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749667041; x=1750271841;
+        d=1e100.net; s=20230601; t=1749667042; x=1750271842;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qgYBfY2UR29MQlCGcRFEVcrLVgS61xcAj8mfuW0laMQ=;
-        b=AKZbIk+MFxHXBg3guPQ6OeJ/D2PWy7mAbqvd7W30hXljXQyR82dmW1p7+EWzqH09cr
-         KHvIbyriT+e10R2LwSz4ThbFk/JuIrq1Vue8otYXVNo6m70nHElR8uOGMbHhpD/BbJih
-         j6wzkHrP5IxMC16Oc2URJItnwBWEg/chejaO/v3waJ8j80xVHC3o4Slkq9nJJG4h5w8P
-         b3987vgiFtd2wCLa1swIJd24qflkndIWWVTgQwkg267HHaKxw/48WfH4YzYx4aiIMM5B
-         pt7jDaDrwUG6V6ob3L7cJyi2RS0nnb8kzgwzoZqKlnjKgepcXSs2+mY1Gg3llD4XF9K9
-         ZQmw==
-X-Forwarded-Encrypted: i=1; AJvYcCV3VRCrcwzU7cdxLwjoPuZq/v07rdfBFqraKzb1w3+ctczAkznViRJ2fmj+TseEu/qnjteXOvE/ox+qYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRzusLJUaRY1UY8zZEXu6U2trJyAgnJtTxGx+IJgPe3zN0q5D8
-	EZ+iJyCXDMbyUHpS9V++knSWzY201uMVdg2REiIGg+9FrDInkWsC8jMs4jWx1w3WPAo=
-X-Gm-Gg: ASbGncur6xopo1vlmpQq3a5ce3AO0EkoxlwlK/1U9235DAKSLv3huHEPvSck/sGvWnb
-	nXnMrgzrGRCNEAal0vjdo0fvOxIu2Xn9X1WXBS18ZWTr0SUlHtjAjXxWJffA1hzTVvDQqco1P9F
-	jEnXLgL8NVhouTSuqHj2TdB48YJLZlfMUyR564JvRU5dbwx9sj4aV2FNLytthZs4mdJWNY0M10I
-	HEzxheuLzYjD7ViIiQVxLrbkGN3ufQnmagi+zSKsF+ELOI9F84c8d99hD6KO5fe9O2tFeHUdL0F
-	1QQivY00IvC/38wDocbX51lJCWBAwP+PZ1U8cIdD6j1HOnJfrbhVWg==
-X-Google-Smtp-Source: AGHT+IHHT50NdMoz+n9TfRr2G7Tew6o4zd1nSosAD5QXIFC2jG2M1x+AHqx1qfPmXTcOGk2hed8jOw==
-X-Received: by 2002:a05:6000:26c5:b0:3a4:d0fe:428a with SMTP id ffacd0b85a97d-3a558a27540mr3799331f8f.28.1749667041208;
+        bh=6/DWf3eFTS1FAKsBMmWgLu1g2vHF8byXbBX1nrqf/VM=;
+        b=Cv4qdn0ShTA1+7Udr8IWLU+aU7ca6gU34xVI3DgQeykh4UeYuLcNCMFwPk692dh1Sp
+         XJ47G+O0bF/qIkiUjmb/U8nB2OqO+JdIge1H5zuw79ZFn9MDy/AdpW3DvWlnjFFbPsf0
+         s/Rctsp28cc0boi1q6ICJIZC0nKYwDqz+DlrPGH6uc5PKZ/wNaFfDe2ENIwTMUx6yCrE
+         ZvE67usa/n0W/99jHDYuwSBr+m37jy/QQezldBFJXou2eWsHiILrcmw/2LSc9YliWG97
+         e7xHZMvCt5FwY/v3UFmBE+dG63YFjH3f5LH7dxdG1oyL5FHxfO9I+3acKcSKjIEGM+h7
+         9yeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUefRaPmKrsZxGW+0gij9+sBuRazg7B+8T3S2dWTdkajP/YUCgpC9eH75tV22441qkufOglUKn03siipQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0qX498kOChGwepYs/QIMovVoitbOpJdeVaHFo8cokcmpElL+w
+	sBr+4KQnH32sdBtktwDqSVLaN+5Q0Y/unKYzdXjJVXhUqub6HneRuNt7grQwS3D2bfs=
+X-Gm-Gg: ASbGncuA1A87PJ5UpVhuAq492758i9e0euaabb3xjl6SHcE2U+bQtNVYwAqTX3s71xY
+	H2T9uZCcNL5M2wVyyrT7l4ju8j8d3ReNy9ix13uOz4jDs10Ib8j+jTtBt87aaKCE5ewSfkNS3t5
+	I0Ok5cVfeeQ73crtwTi2mIK9aO717s6Y5NjJiH6mSniEnmoJGHME0MZQFCJv6ZRLXSMBZJjcARH
+	ugpnx0NKVgcVC+OEUGKs4onb1cTbSd73PDyiCIsUgHwZd6DeVmK8c0j7TiDdA0VfGN9Jd42ISFa
+	bvYZn7R26R+78fH+QNyXR3RtcYDDCmBurSPoOLxkiUCWTe4J9fGQaA==
+X-Google-Smtp-Source: AGHT+IEkF/dFZASIDjRh7yC2bAPt/if4YBRK41hg0H9/5YtD56ovdLDxPjw06Yoz2hJ3UEcOFPSVyQ==
+X-Received: by 2002:a05:6000:2204:b0:3a3:7593:818b with SMTP id ffacd0b85a97d-3a558695e91mr3797607f8f.21.1749667041968;
         Wed, 11 Jun 2025 11:37:21 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a5324364d4sm16119390f8f.55.2025.06.11.11.37.20
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a5324364d4sm16119390f8f.55.2025.06.11.11.37.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 11:37:20 -0700 (PDT)
+        Wed, 11 Jun 2025 11:37:21 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 11 Jun 2025 19:37:13 +0100
-Subject: [PATCH 1/4] media: tc358743: Add support for 972Mbit/s link freq
+Date: Wed, 11 Jun 2025 19:37:14 +0100
+Subject: [PATCH 2/4] media: tc358743: Increase FIFO trigger level to 374
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,7 +83,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250611-media-tc358743-v1-1-708556026f9d@raspberrypi.com>
+Message-Id: <20250611-media-tc358743-v1-2-708556026f9d@raspberrypi.com>
 References: <20250611-media-tc358743-v1-0-708556026f9d@raspberrypi.com>
 In-Reply-To: <20250611-media-tc358743-v1-0-708556026f9d@raspberrypi.com>
 To: Hans Verkuil <hverkuil@xs4all.nl>, 
@@ -94,83 +94,50 @@ Cc: Maxime Ripard <mripard@redhat.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>
 X-Mailer: b4 0.14.1
 
-Adds register setups for running the CSI lanes at 972Mbit/s,
-which allows 1080P50 UYVY down 2 lanes.
+The existing fixed value of 16 worked for UYVY 720P60 over
+2 lanes at 594MHz, or UYVY 1080P60 over 4 lanes. (RGB888
+1080P60 needs 6 lanes at 594MHz).
+It doesn't allow for lower resolutions to work as the FIFO
+underflows.
+
+374 is required for 1080P24 or 1080P30 UYVY over 2 lanes @
+972Mbit/s, but >374 means that the FIFO underflows on 1080P50
+UYVY over 2 lanes @ 972Mbit/s.
+
+Whilst it would be nice to compute it, the required information
+isn't published by Toshiba.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/media/i2c/tc358743.c | 48 +++++++++++++++++++++++++++++++-------------
- 1 file changed, 34 insertions(+), 14 deletions(-)
+ drivers/media/i2c/tc358743.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index 3d6703b75bfa..b87db3de20db 100644
+index b87db3de20db..ddba8c392ead 100644
 --- a/drivers/media/i2c/tc358743.c
 +++ b/drivers/media/i2c/tc358743.c
-@@ -1993,6 +1993,7 @@ static int tc358743_probe_of(struct tc358743_state *state)
+@@ -1972,8 +1972,19 @@ static int tc358743_probe_of(struct tc358743_state *state)
+ 	state->pdata.refclk_hz = clk_get_rate(refclk);
+ 	state->pdata.ddc5v_delay = DDC5V_DELAY_100_MS;
+ 	state->pdata.enable_hdcp = false;
+-	/* A FIFO level of 16 should be enough for 2-lane 720p60 at 594 MHz. */
+-	state->pdata.fifo_level = 16;
++	/*
++	 * Ideally the FIFO trigger level should be set based on the input and
++	 * output data rates, but the calculations required are buried in
++	 * Toshiba's register settings spreadsheet.
++	 * A value of 16 works with a 594Mbps data rate for 720p60 (using 2
++	 * lanes) and 1080p60 (using 4 lanes), but fails when the data rate
++	 * is increased, or a lower pixel clock is used that result in CSI
++	 * reading out faster than the data is arriving.
++	 *
++	 * A value of 374 works with both those modes at 594Mbps, and with most
++	 * modes on 972Mbps.
++	 */
++	state->pdata.fifo_level = 374;
  	/*
- 	 * The CSI bps per lane must be between 62.5 Mbps and 1 Gbps.
- 	 * The default is 594 Mbps for 4-lane 1080p60 or 2-lane 720p60.
-+	 * 972 Mbps allows 1080P50 UYVY over 2-lane.
- 	 */
- 	bps_pr_lane = 2 * endpoint.link_frequencies[0];
- 	if (bps_pr_lane < 62500000U || bps_pr_lane > 1000000000U) {
-@@ -2006,23 +2007,42 @@ static int tc358743_probe_of(struct tc358743_state *state)
- 			       state->pdata.refclk_hz * state->pdata.pll_prd;
- 
- 	/*
--	 * FIXME: These timings are from REF_02 for 594 Mbps per lane (297 MHz
--	 * link frequency). In principle it should be possible to calculate
-+	 * FIXME: These timings are from REF_02 for 594 or 972 Mbps per lane
-+	 * (297 MHz or 486 MHz link frequency).
-+	 * In principle it should be possible to calculate
- 	 * them based on link frequency and resolution.
- 	 */
--	if (bps_pr_lane != 594000000U)
-+	switch (bps_pr_lane) {
-+	default:
- 		dev_warn(dev, "untested bps per lane: %u bps\n", bps_pr_lane);
--	state->pdata.lineinitcnt = 0xe80;
--	state->pdata.lptxtimecnt = 0x003;
--	/* tclk-preparecnt: 3, tclk-zerocnt: 20 */
--	state->pdata.tclk_headercnt = 0x1403;
--	state->pdata.tclk_trailcnt = 0x00;
--	/* ths-preparecnt: 3, ths-zerocnt: 1 */
--	state->pdata.ths_headercnt = 0x0103;
--	state->pdata.twakeup = 0x4882;
--	state->pdata.tclk_postcnt = 0x008;
--	state->pdata.ths_trailcnt = 0x2;
--	state->pdata.hstxvregcnt = 0;
-+		fallthrough;
-+	case 594000000U:
-+		state->pdata.lineinitcnt = 0xe80;
-+		state->pdata.lptxtimecnt = 0x003;
-+		/* tclk-preparecnt: 3, tclk-zerocnt: 20 */
-+		state->pdata.tclk_headercnt = 0x1403;
-+		state->pdata.tclk_trailcnt = 0x00;
-+		/* ths-preparecnt: 3, ths-zerocnt: 1 */
-+		state->pdata.ths_headercnt = 0x0103;
-+		state->pdata.twakeup = 0x4882;
-+		state->pdata.tclk_postcnt = 0x008;
-+		state->pdata.ths_trailcnt = 0x2;
-+		state->pdata.hstxvregcnt = 0;
-+		break;
-+	case 972000000U:
-+		state->pdata.lineinitcnt = 0x1b58;
-+		state->pdata.lptxtimecnt = 0x007;
-+		/* tclk-preparecnt: 6, tclk-zerocnt: 40 */
-+		state->pdata.tclk_headercnt = 0x2806;
-+		state->pdata.tclk_trailcnt = 0x00;
-+		/* ths-preparecnt: 6, ths-zerocnt: 8 */
-+		state->pdata.ths_headercnt = 0x0806;
-+		state->pdata.twakeup = 0x4268;
-+		state->pdata.tclk_postcnt = 0x008;
-+		state->pdata.ths_trailcnt = 0x5;
-+		state->pdata.hstxvregcnt = 0;
-+		break;
-+	}
- 
- 	state->reset_gpio = devm_gpiod_get_optional(dev, "reset",
- 						    GPIOD_OUT_LOW);
+ 	 * The PLL input clock is obtained by dividing refclk by pll_prd.
+ 	 * It must be between 6 MHz and 40 MHz, lower frequency is better.
 
 -- 
 2.34.1
