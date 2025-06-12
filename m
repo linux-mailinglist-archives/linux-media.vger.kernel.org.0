@@ -1,222 +1,198 @@
-Return-Path: <linux-media+bounces-34638-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34639-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A963BAD789A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 19:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAAE5AD789D
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 19:03:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 413AB3B4A35
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 17:01:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74E1D3B478B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 17:02:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8182629B77B;
-	Thu, 12 Jun 2025 17:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3FC029B214;
+	Thu, 12 Jun 2025 17:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="gEISTzod"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ITyyuu3e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DAF7263C
-	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 17:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAF93596B
+	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 17:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749747723; cv=none; b=nRWsbpcR8WfSe6d5FsRU4e5VF3lgIW+k//Q3o5kj4Q7KyjqGpDHNHLCYileiheSrQYmx0mTSz+B5jQ+vLZ9rqdYCsPK6ruzfSH3RWJB8woOqtwEigPEAulRFJTrAR3tlydXKHJjoZGGZ92nhOBfI0YR6nFNu19IDwBIiFhAVkPo=
+	t=1749747794; cv=none; b=XtJfJ2TRGZFOsuA8no/ETeoaTLUZETglMHRNOrFIXUoLX8iNdqFzxjheN9S232OWI9BRY31GhezDlo420c1d5bV7Tm16inmVFc4gIDDSTw17hdhUHQUXjaAm+cP5SuPFEGDhmFB0/HLRlfO0SjhHlVN32asTsmVaMdQBfrS0wJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749747723; c=relaxed/simple;
-	bh=Wgc0OTFdZiG86Notyo8kKoTGmeK0tIluI4EeOr0pt+w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q9hJ1w/k11I5XbTEM1604AcNEQvKbDp3lnFADBvXKX8WtG6knhB9JOG1B/oMmg8X6F0V4fOlZfYJXkLrudsLe3+gvuRX8ak8+lILtApEXZppqm71xwLFgBldFpsWUVqNUFzxXYN36RmmzmbUeulftE4Mw9hN//DpUhVquHMmlcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=gEISTzod; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-70e102eada9so11557007b3.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 10:02:00 -0700 (PDT)
+	s=arc-20240116; t=1749747794; c=relaxed/simple;
+	bh=Uzulu6zrQEvHbRp6tiLTxSgfAnec6yLbNovF+/MqgSw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=cn4kMnDgfhZadSi0DYrO+zCs8uPw/Wnm6bDK/ojNe1H2AhnpdzxO9c5a2+g4/Y62gFRruF5LzPv61cyQFTos87KujblP2MZGfHhFXXcx+lBRoiXSwsM2X2I/Zcawmp3fboYz6KjobybFACqaZyHcOCcVddQ941TDbCkmHhoXCYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ITyyuu3e; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-551fdd1c4b3so116070e87.0
+        for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 10:03:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1749747719; x=1750352519; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=j029kDeFHGMi64Isb1RXeOmMbM70WI3AWi7tT+8rWYw=;
-        b=gEISTzodbBybccEYGlddB/PgO1heEVjWhTmyNrIB0wsJTHk/NWvfLXdLvl9A9jokZp
-         HSjjARifYR6wvuq7hxDB/rsShR1DUnEgY+s4PWm0A7OuOkKlsogNri93O+BXYKkfIjBs
-         vTdb30H9QGAwDDKl4uwD4/3pRwjsO1qT0LmkUSMeT6SAgZUMUDj/KzwHiKXNaWvCYxwd
-         pZE/sVqPoGqILKeuVuTsK9HTfXE9BQlpBeS2qBWWuxK/QFUQZtbAmiicRaBusJcfPBBr
-         nu6nnjw6MfMPfxFw4g1zLPJ+9bbl2vNhMA/ZVYXcr6GwhsJWksOXwUIUtyt5bSxfZIPM
-         ROhQ==
+        d=linaro.org; s=google; t=1749747790; x=1750352590; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SITDSWa0NPXWLuqPl1GawCzU6z/B2XGFHZuUqZFEKYs=;
+        b=ITyyuu3eSqcZnB/ndID++a/8LddzeYj1/48I7GyIhsibz0h4mkHTiw/0yV/gt8M2hP
+         gWuXd9zKa8nBVkw6NQE0+QQtPQBnFcGv7jK4v/FvvuZoDyG/3JAit51IvMhLes19xLeS
+         fSk7tWK6iVViZ0+E6dSOwKndtX2XSC79YrwIEhHu1w1w6qQ4wibO+GpuWYMFjH2eHu5+
+         smVfJGiGAgINaM/fIaoA+SOY0hvasSsuqBgWpFsw7Apbj1LWoElEhGDOp2j9ZhwGEqMV
+         PM+pwi9NHYZ09fmQPk+AG4VantnxzMwPre5UcaXpuvVuyzZDnUEaxx8t/lQMAeGVeD7N
+         cpPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749747719; x=1750352519;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j029kDeFHGMi64Isb1RXeOmMbM70WI3AWi7tT+8rWYw=;
-        b=Mo5Gk9aCCJALIzCh1Gf/FGnuOM4Lj37CPGS09Nv2qeEsu9bbeQyF1tqz9+PP756Om7
-         /4IBnGKLlbuK4Ez3beoHQN3NM045PWU1+YiL4l02dU00LgmTmtrU6PyUfI/NRenYV7lr
-         m4YsXfoXmgj6S5OsjTto4O7CXGweOmwWgiInvBHfWhZH6KTHCzRRP2uWpV0tdlx4CqCQ
-         WjZ8xHZSOeYh1tySGV1dIffk9oUfMbJ6sakp1OnCxnWxNr/VaxyXuoa596ei9XAY4DtJ
-         Ljq2ITiOPXYm7xfJXvOVzrpG+0b+iLc6+o1maNcGmakPDpqIjS7FA6Q9FvIS6qKrBx9x
-         JxLA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtOOfc0kaKF0WGNIvtC5glv1rq3D0UHeI+aCfCgn/su3TwXAFd1yRZziOAFwSTMsbgliosKVoHVBEHPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNmTWFsHF8MzRg5Y9Dr25vb9x3ea31Q0oiNe6BnEGZpZPDUfEH
-	V0cK4nb0UBGNau/8SZNg9JFgR3PGnO71YUWIBOoyr9xLTsk8YzNXIPTqTIkTiPykAnD+ebAKWE3
-	o0J7CwrpgYaCPsSAO0dr4dPYJVhbibePBfaKrY9B9og==
-X-Gm-Gg: ASbGncsX2CM3r79UVDqXi/deagiCCjwnBCyx59L90hozd4rLZlv1xry7CRmM2ZTET0K
-	YxL0W4LHV/t7JM8jL+MerYjqsDF5yzfuFz3u90YxPyINYDZP3enuY4YBcsHsiKuY9O8zAMay76G
-	3Z8plz1udx+ctY6+HXY1AHhESsZU2kpjXlPvseLpri7L6XVWXaP3p+H/R/sUYTwVuVok4/wo4pi
-	rI=
-X-Google-Smtp-Source: AGHT+IFWZ1yI879MI9LNRcbcJT5vdbQHxsUV2ymfSBQjSbZZCzPqE9KkPOMXdGCKFrhSR1K4ddmzhU8KMX8Ev6PyACA=
-X-Received: by 2002:a05:6902:1109:b0:e81:fc77:abe7 with SMTP id
- 3f1490d57ef6-e81fda04c1emr11802525276.10.1749747717864; Thu, 12 Jun 2025
- 10:01:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749747790; x=1750352590;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SITDSWa0NPXWLuqPl1GawCzU6z/B2XGFHZuUqZFEKYs=;
+        b=BbyqTA3Q5AuLuGWWZPInWHf4Hjc0HzI/8BkR4dDE4nfsPccSp+Vq1OTftJEczdAe0K
+         +nqeB/1DGK9tAruDRKUpbvMrvFwuZmDnNyAhwZSUUQgLUEtohp8CKRGN4CUOvWJ8ZRoJ
+         0IjLZb8LMH43hCiQSbYJgsVT/6hw0SH1rs4J/xZikWx/6t2jB7YF8L8LXEqsbIjDS2aF
+         SyaBGAMlrpGZDFtASGeAc+O6sjF9Ne70lJxh7xIXqx4FfpTu5VLDVhsfvif2pDCXuDhr
+         T54Yka0f5RDrPGJcQyBjzt1+Mz2ceuVyFhUvyDh9DLxkD1AF3/wjDNS2NLSXP5VbS/Sz
+         ybrw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRzd+mrcOOeJFsGEPQ07YbxABsPVvN6gQoBIC4V4WkOCUebn8zqHnnM1P8wY7f5izbNtU9JVaMn1dBgw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyT/fAS2gpfLg09m910Lkyq6mCBlPpaiG84G3ou4BuEdyafIOm
+	AIJsIczFKxDlWXIY1ceIyr6GbHsnqkhYYUihVMAakokPleaNmtMJhNoVTPIHFmpWlRM=
+X-Gm-Gg: ASbGncsAHSfmfj4pZWGywu4ZUA6mDxh52HaRs72POdfZnvMD7fb2wW5+FnUotBnKXXt
+	/ep/qA/gJEPBE38vI6yXFTVDO7iRjhxAz+LyQxNUx+3ZDC5kFkGyS6oC2FW1Wv8IrKFzTD+Luxd
+	y0/DzCtpLlRRlK5ljNAF/CxuwA8HtnUOJT94i810UGq7igs55bzZjUqfCpPHTQ13krq1D3VHp9P
+	ztYG3cft+fjhgXm5XHPdXdKzV8c1ReWh8QfJIlRAP4MvTBi18zS5crIDyl05GWcDUMYvAmHuExS
+	u02uYKhOSRp2lXlOSnI/cRBFChETK8FjV2eRvWIwB1wF4J/LS/Ydhx0RD7oQz6Mkuls/K8FaoAK
+	LfA0wbbzOPzBz4E6NZCnIsWlikKtgCyOkXbQiv6ZRh6zAK7yTdN4=
+X-Google-Smtp-Source: AGHT+IHBNlGFExNNCXER22K2I+rmkBd4bai+7wjdxAJR0qh3kxp4mSKVh18JVv1lOatKNdJNTNYcRQ==
+X-Received: by 2002:a05:6512:3e1e:b0:553:2480:230a with SMTP id 2adb3069b0e04-5539c051370mr1023527e87.0.1749747789240;
+        Thu, 12 Jun 2025 10:03:09 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac135c14sm166631e87.73.2025.06.12.10.03.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jun 2025 10:03:08 -0700 (PDT)
+Message-ID: <843772bd-711b-4d49-a5bc-096a1ab13747@linaro.org>
+Date: Thu, 12 Jun 2025 20:03:07 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250612-csi-bgr-rgb-v1-0-dc8a309118f8@kernel.org> <20250612-csi-bgr-rgb-v1-3-dc8a309118f8@kernel.org>
-In-Reply-To: <20250612-csi-bgr-rgb-v1-3-dc8a309118f8@kernel.org>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 12 Jun 2025 18:01:40 +0100
-X-Gm-Features: AX0GCFth85n8IiuJGK0v5pSTI5beNdQM6diU1H1GZ00d7VoB5jfKLgcoBALSvtw
-Message-ID: <CAPY8ntCYG8ufxpMkgBj1ZpSW-H2HObpcbQNg9tj+EXUM4PGkfQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] media: tc358743: Fix the RGB MBUS format
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Mats Randgaard <matrandg@cisco.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Subject: Re: [PATCH 09/10] [RFT] arm64: dts: qcom: sm8250: extend CAMSS with
+ new CSIPHY subdevices
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
+ <20250612011531.2923701-10-vladimir.zapolskiy@linaro.org>
+ <dd6fd001-6209-4bd9-807a-4e9b5fc4cd5a@kernel.org>
+Content-Language: ru-RU
+In-Reply-To: <dd6fd001-6209-4bd9-807a-4e9b5fc4cd5a@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime
+On 6/12/25 10:43, Krzysztof Kozlowski wrote:
+> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
+>> Following the new device tree bindings for CAMSS IPs introduce csiphy2
+>> device tree node under SM8250 CAMSS, which allows to perform camera
+>> tests of the model on an RB5 board with an attached vision mezzanine.
+> 
+> How the binding allows to perform camera tests? So camera was not
+> working here at all? Then this is a fix, no?
 
-On Thu, 12 Jun 2025 at 13:54, Maxime Ripard <mripard@kernel.org> wrote:
->
-> The tc358743 is an HDMI to MIPI-CSI2 bridge. It supports two of the
-> three HDMI 1.4 video formats: RGB 4:4:4 and YCbCr 422.
->
-> RGB 4:4:4 is converted to the MIPI-CSI2 RGB888 video format, and listed
-> in the driver as MEDIA_BUS_FMT_RGB888_1X24.
->
-> Most CSI2 receiver drivers then map MEDIA_BUS_FMT_RGB888_1X24 to
-> V4L2_PIX_FMT_RGB24.
->
-> However, V4L2_PIX_FMT_RGB24 is defined as having its color components in
-> the R, G and B order, from left to right. MIPI-CSI2 however defines the
-> RGB888 format with blue first.
->
-> This essentially means that the R and B will be swapped compared to what
-> V4L2_PIX_FMT_RGB24 defines.
->
-> The proper MBUS format would be BGR888, so let's use that.
+Here the assumed testing is a regression testing on the selected and
+well supported legacy platform SM8250/RB5.
 
-I know where you're coming from, but this driver has been in the tree
-since 2015, so there is a reasonable expectation of users. I've had an
-overlay for it in our kernel tree since 4.14 (July 2018), and I know
-of at least PiKVM [1] as a product based on it. I don't know if Cisco
-are still supporting devices with it in.
+>>
+>> Note that the optional 'phys' property is deliberately not added.
+> 
+> Why? Your commit msg must explain that.
+> 
 
-Whilst the pixel format may now be considered to be incorrect,
-changing it will break userspace applications that have been using it
-for those 10 years if they're explicitly looking for
-MEDIA_BUS_FMT_RGB888_1X24 or the mapping of it through to
-V4L2_PIX_FMT_RGB24.
-The kernel docs at [2] quote Linus as saying
-"If you break existing user space setups THAT IS A REGRESSION.
-It's not ok to say "but we'll fix the user space setup"
-Really. NOT OK."
+Sure, will add it, just giving a short note here, 'phys' property
+provides a list of wanted/enabled phys, and this is board specific,
+thus, and if it is desired to preserve backward ABI compatibility,
+when this property is just not present, I believe it makes sense
+to add the 'phys' property to board .dts files only, like it's
+done in 10/10 patch of this series.
 
-I'm thinking of GStreamer if the format has been specified explicitly
-- it'll fail to negotiate due to v4l2src saying it can't handle the
-caps.
+>>
+>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>> ---
+>> For testing only, do not merge.
 
-Yes it sucks as a situation, but I'm not sure what the best solution
-is. Potentially accepting both MEDIA_BUS_FMT_RGB888_1X24 and
-MEDIA_BUS_FMT_BGR888_1X24 as valid MBUS codes for RGB, alongside
-MEDIA_BUS_FMT_UYVY8_1X16 for UYVY?
+This.
 
-  Dave
+>>   arch/arm64/boot/dts/qcom/sm8250.dtsi | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+>> index f0d18fd37aaf..401a32679580 100644
+>> --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+>> @@ -4613,6 +4613,10 @@ camss: camss@ac6a000 {
+>>   					     "cam_sf_0_mnoc",
+>>   					     "cam_sf_icp_mnoc";
+>>   
+>> +			#address-cells = <2>;
+>> +			#size-cells = <2>;
+>> +			ranges;
+>> +
+>>   			ports {
+>>   				#address-cells = <1>;
+>>   				#size-cells = <0>;
+>> @@ -4641,6 +4645,16 @@ port@5 {
+>>   					reg = <5>;
+>>   				};
+>>   			};
+>> +
+>> +			csiphy2: phy@ac6e000 {
+> 
+> This will fail checks. You can run them, regardless of "RFT" status.
 
-[1] https://pikvm.org/
-[2] https://www.kernel.org/doc/html/latest/process/handling-regressions.html#quotes-from-linus-about-regression
+I ran "dt_binding_check" and "dtbs_check" with no errors reported,
+something is screwed on my end, because "additionalProperties: false"
+from qcom,sm8250-camss.yaml shall scream here... Or is it a child
+device node is not a property?..
 
-> Fixes: d32d98642de6 ("[media] Driver for Toshiba TC358743 HDMI to CSI-2 bridge")
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/media/i2c/tc358743.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> index ca0b0b9bda1755313f066ba36ab218873b9ae438..a1c164a7716a10b0cb9ff38f88c0513b45f24771 100644
-> --- a/drivers/media/i2c/tc358743.c
-> +++ b/drivers/media/i2c/tc358743.c
-> @@ -688,11 +688,11 @@ static void tc358743_set_csi_color_space(struct v4l2_subdev *sd)
->                 mutex_lock(&state->confctl_mutex);
->                 i2c_wr16_and_or(sd, CONFCTL, ~MASK_YCBCRFMT,
->                                 MASK_YCBCRFMT_422_8_BIT);
->                 mutex_unlock(&state->confctl_mutex);
->                 break;
-> -       case MEDIA_BUS_FMT_RGB888_1X24:
-> +       case MEDIA_BUS_FMT_BGR888_1X24:
->                 v4l2_dbg(2, debug, sd, "%s: RGB 888 24-bit\n", __func__);
->                 i2c_wr8_and_or(sd, VOUT_SET2,
->                                 ~(MASK_SEL422 | MASK_VOUT_422FIL_100) & 0xff,
->                                 0x00);
->                 i2c_wr8_and_or(sd, VI_REP, ~MASK_VOUT_COLOR_SEL & 0xff,
-> @@ -1353,11 +1353,11 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
->                         (i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT) ?
->                         "yes" : "no");
->         v4l2_info(sd, "Color space: %s\n",
->                         state->mbus_fmt_code == MEDIA_BUS_FMT_UYVY8_1X16 ?
->                         "YCbCr 422 16-bit" :
-> -                       state->mbus_fmt_code == MEDIA_BUS_FMT_RGB888_1X24 ?
-> +                       state->mbus_fmt_code == MEDIA_BUS_FMT_BGR888_1X24 ?
->                         "RGB 888 24-bit" : "Unsupported");
->
->         v4l2_info(sd, "-----%s status-----\n", is_hdmi(sd) ? "HDMI" : "DVI-D");
->         v4l2_info(sd, "HDCP encrypted content: %s\n",
->                         hdmi_sys_status & MASK_S_HDCP ? "yes" : "no");
-> @@ -1691,11 +1691,11 @@ static int tc358743_enum_mbus_code(struct v4l2_subdev *sd,
->                 struct v4l2_subdev_state *sd_state,
->                 struct v4l2_subdev_mbus_code_enum *code)
->  {
->         switch (code->index) {
->         case 0:
-> -               code->code = MEDIA_BUS_FMT_RGB888_1X24;
-> +               code->code = MEDIA_BUS_FMT_BGR888_1X24;
->                 break;
->         case 1:
->                 code->code = MEDIA_BUS_FMT_UYVY8_1X16;
->                 break;
->         default:
-> @@ -1753,11 +1753,11 @@ static int tc358743_set_fmt(struct v4l2_subdev *sd,
->
->         if (ret)
->                 return ret;
->
->         switch (code) {
-> -       case MEDIA_BUS_FMT_RGB888_1X24:
-> +       case MEDIA_BUS_FMT_BGR888_1X24:
->         case MEDIA_BUS_FMT_UYVY8_1X16:
->                 break;
->         default:
->                 return -EINVAL;
->         }
-> @@ -2172,11 +2172,11 @@ static int tc358743_probe(struct i2c_client *client)
->         sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
->         err = media_entity_pads_init(&sd->entity, 1, &state->pad);
->         if (err < 0)
->                 goto err_hdl;
->
-> -       state->mbus_fmt_code = MEDIA_BUS_FMT_RGB888_1X24;
-> +       state->mbus_fmt_code = MEDIA_BUS_FMT_BGR888_1X24;
->
->         sd->dev = &client->dev;
->
->         mutex_init(&state->confctl_mutex);
->
->
-> --
-> 2.49.0
->
+>> +				compatible = "qcom,csiphy";
+>> +				reg = <0 0x0ac6e000 0 0x1000>;
+>> +				clocks = <&camcc CAM_CC_CSIPHY2_CLK>,
+>> +					 <&camcc CAM_CC_CSI2PHYTIMER_CLK>;
+>> +				clock-names = "csiphy", "csiphy_timer";
+>> +				interrupts = <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>;
+>> +				#phy-cells = <0>;
+> 
+> This is also duplicating existing ports thus you have a mixed MMIO and
+> non-MMIO children which is also issue to fix.
+
+That's correct, there are mixed MMIO and non-MMIO children above,
+there might be children of just any one type of two.
+
+It's a valuable review comment and I missed the flaw, thank you,
+and to be honest so far I don't have a good idea how to overcome
+the issue in an easy way...
+
+>> +			};
+>>   		};
+>>   
+>>   		camcc: clock-controller@ad00000 {
+> 
+> 
+
+--
+Best wishes,
+Vladimir
 
