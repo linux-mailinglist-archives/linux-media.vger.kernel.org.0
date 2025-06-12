@@ -1,145 +1,379 @@
-Return-Path: <linux-media+bounces-34584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34585-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133D5AD69AE
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 09:57:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B1AAD69DA
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 10:02:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C5F4216B870
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 07:57:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C10927AEC22
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 08:01:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 864C321FF44;
-	Thu, 12 Jun 2025 07:57:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7536C22173A;
+	Thu, 12 Jun 2025 08:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eBktUalm"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="B3XHWO9s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470522745C
-	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 07:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E74C1A23B6;
+	Thu, 12 Jun 2025 08:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749715044; cv=none; b=YjHVEiV9Us77BvaPy6TVuTUKggU7nujOYm4Ao9akCvkp9yqO1yjYd7zP3bKBurQdE1MJgAbMhBalHq0snnHPrZ01e9lk1Q9IY9sJaOIIsmsl/bG6ElOKv48b5rqqSC+Uab82ua0IKvaRKiEqRvPyCossb+3Aruzyy1thY0omKMc=
+	t=1749715330; cv=none; b=FgbeeUXW0NpYzMamsB560wvXLrO2JmEcMbI8h93wunGQdwdjJanYGfNCDuZ8ACAlNWarx3NxY0GdvlO29iTPBRrvxaTHO5HaUirsyeo2XFkpJZ3d2dFaYVQ4Fnzo/DL3NfWyTkaBunQ+wLssz/rETEY5KZQPabn57TTCenN7s0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749715044; c=relaxed/simple;
-	bh=B3iRgb3/okZTBArjeqbZVw5ekxMbcSQohTZ/71If6do=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BI/ffZLjKULcpAV7cZw7lsKbyR67pWZAtlueeF75qDECWFxIw8/G3zHWyy9nuFy3dKZpmc6r32ZlJTBDQ52fISEuwkLRpnUi8onWL6+IFQGrKWae2b6wKPIqViVgd9vC1Y0uAepN7lefQQpdPmy4XGygk1VhpGrPmuoWnX0eIOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eBktUalm; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32ae0e2e4daso758851fa.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 00:57:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749715040; x=1750319840; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/Njxe4VDeQqskl8RbbDG5OxTyzSOM+gRWrkOl+amVxQ=;
-        b=eBktUalmwexAvppsCdFpQRWjEMfwgwjuLNzVqW2lH2eZFA9z1Rw993iHcpcfRGxXdO
-         2kdX6UjeqpiHYoET9Ka2oCJ5NvGV1pXa0DPvpr9sM209jmpZZDryK5IDotQ5D8YL128n
-         ZmTlfn1z57kEBlw8mooGX3ONedqYipN+UMEDzxaIicQ4QA5hJEVHdiRgfmNjteY2mo+A
-         9PH1JHBKylcrlGzkSiNXL75D/V+78YGU8aDf7FH4z00McVUO+OoLu7LTcn+JroOHKuQX
-         TT3OOqD9Iylylq2OmKGH9eg+je0h9Ubhx8umzlPGcNRJ1s5tFCZQtmYnMt2/1rY0Qd8B
-         ih9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749715040; x=1750319840;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Njxe4VDeQqskl8RbbDG5OxTyzSOM+gRWrkOl+amVxQ=;
-        b=vauWdFiAB+2inYmABaDP+TjYjx4BAV17IuilHsoxzHq8b73PeZVHWUCvm8COqcHzwM
-         9Oc14jdKCPXpVqLyjSwS7eQ6vIjxoePh6FO1sZHXvHtU8RxwcgyM6xof3koD9Ri0ZAPM
-         kXDjCU6cfBSGbqC0HX/NsBF+k1scNEpvaHM7IhDPZ3a1ynd5S0K+3rEYKjuT5scK84sy
-         D4ug7MZ6ypg6OunWERnWvJWXmyiFq6zwKluBK4a23llAYQUb/5evMSmD7zuVVc9t2f+c
-         GYvg15La9DhQDK2nlHtB3dUGCfi4KeCOvMd0dsK+VQjShEFJcyjo+qoXPrDtheM609OG
-         vU+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUBEhyIWAQSKW+RJS9rer+S2g7SC9XfJvYmqEjxPPFSEi+3GvT+J636rujxtYU5r8MKJSP0U0mqUv2JvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywori5c8IfL0cF5em5osVzhSVDXa8GxX98oEHOfCOczbXLVR1KU
-	64MWjYs4Ss0srRDWsLfQf11/BufHy3SFaWwV0uE6YHEwlaBlOXJG456wndQWo1c73xE=
-X-Gm-Gg: ASbGnct2HjBoms8I+tEiqUGdlluV+D4ZtjabwgJEqyvThvT6XMcEwQ/6pXiU8Dck0Wo
-	SjMSqkPBBgke+xV3wdChRqtgXswG7ug6mo+fwxV8ivL24VxAf90N6sx7yxejib2QqI2GeQCq2yy
-	tzKf+p7pdh6agP5wA2y4bbEO8RA4Uywq9uh8MwWJP1fi6WTV29pQ/vkxBYYKA9nponqFBsgwpOM
-	bgkbLE2QDi29nVKoncdkzgd58Lwrvl04qQt3FtT1hSCZQn4z4040nrHj0aeQHCR6j+egj6X4NSF
-	XNf0MaQ1gf7kZx0ws3Ul2o6cp8uYdcCfebgov2Me9JJD8BfJGTRuVjhfarltGcC51h+uR1iWpVh
-	3ziq8oX8FPEfvLQDGh58V1U8Q8C6KYNeezW7eVsad
-X-Google-Smtp-Source: AGHT+IFHU/lXepzUTc3oxGGH3lT2WQ6xjtIivg7J8n5iJaf2/KrDDzxT+FW1Te4zVmqO5ogpYbzlzg==
-X-Received: by 2002:a2e:b8c9:0:b0:32a:bdc6:a741 with SMTP id 38308e7fff4ca-32b21cbc160mr7056691fa.3.1749715040347;
-        Thu, 12 Jun 2025 00:57:20 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32b3304f2e9sm1360191fa.11.2025.06.12.00.57.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 00:57:19 -0700 (PDT)
-Message-ID: <9e38a09b-1521-4196-b179-d29c62e143bc@linaro.org>
-Date: Thu, 12 Jun 2025 10:57:18 +0300
+	s=arc-20240116; t=1749715330; c=relaxed/simple;
+	bh=frH42T8t0FzIHwR/eWZvFS6FfpWNoiCjYljhYSh1okI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=gfVtv2hiA/lR5Jx5nDwiuNXXHLUNKPUyDXmvYLsSTq32qtZUb9vRhxjGkAPRlViMSA3dUM8M6bK3keFvo3gygv4yAZYVQxOGHH3ScZfJ2MbALdJbfI076UyW4E9uTtQ/zrIIPgnNIS+97jvA2Js5CBjqsjp5+KWTQT7cZzInwb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=B3XHWO9s; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55BJt2wC009032;
+	Thu, 12 Jun 2025 08:02:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=COBSocK9RPBbmb+sqpwS87
+	DsOrTpWFXtzGaZSP1NOkM=; b=B3XHWO9s2+x9IlZEaUFXqsx2g8EHELb1VIE90Z
+	8+NFWWNU2Wlbcz6fXepuNbjAC6FPLmkuhAav/QZTHuIiLblYCthzbaFRgDa4r0p6
+	SUjs2l7eFzNKHDAQrhmB+Lk2v1anES0BNbpE7eGVYwNL/DcNIQmbKRgn9N1BQ34d
+	Dy2o3BUp7oMjvuj3DovKPr65wDOQ0CzmtaIsqUkw/HGH6rxpb1lgvg4of2HzaOiW
+	34kjjbAy7HaKybI1xQNR0rbhDGonWuEPykThAku9GnrZaMDESshPNxwzTFTt4E9H
+	DVkyfxc0FhA2dkhxmuB1ChoZ7zxrmHXH9BMtOw1uqc0GChaw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47753buq1b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Jun 2025 08:02:04 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55C823tx020861
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Jun 2025 08:02:03 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 12 Jun 2025 01:01:59 -0700
+From: Wenmeng Liu <quic_wenmliu@quicinc.com>
+Date: Thu, 12 Jun 2025 16:01:26 +0800
+Subject: [PATCH v2] arm64: dts: qcom: sm8550: Add support for camss
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/10] dt-bindings: media: qcom: Add Qualcomm MIPI
- C-/D-PHY schema for CSIPHY IPs
-Content-Language: ru-RU
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
- <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
- <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
- <e02cead0-665d-443a-a884-c3a307409c66@kernel.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <e02cead0-665d-443a-a884-c3a307409c66@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-ID: <20250612-sm8550-camss-v2-1-ed370124075e@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAFaJSmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
+ vPSU3UzU4B8JSMDI1MDU0Mz3eJcC1NTA93kxNziYl0jI8MU8ySTNEuLNHMloJaCotS0zAqwcdG
+ xtbUAbRSavF4AAAA=
+X-Change-ID: 20250516-sm8550-camss-221d7b4f98f7
+To: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, <todor.too@gmail.com>,
+        <rfoss@kernel.org>, <bryan.odonoghue@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        Depeng Shao
+	<quic_depengs@quicinc.com>,
+        Wenmeng Liu <quic_wenmliu@quicinc.com>,
+        "Konrad
+ Dybcio" <konrad.dybcio@oss.qualcomm.com>,
+        Vladimir Zapolskiy
+	<vladimir.zapolskiy@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749715319; l=7387;
+ i=quic_wenmliu@quicinc.com; s=20250211; h=from:subject:message-id;
+ bh=frH42T8t0FzIHwR/eWZvFS6FfpWNoiCjYljhYSh1okI=;
+ b=bLK7SXSGQFyhBY4BPcWnnD/VuSMKrs1i9DlEIYDISELUtF/aGvVjq3a1PVL+IDIyyOwJYP/tE
+ Wd2XsZ0T6YTBEY6cUd/1/VyftzTZHr36rd7DyYHdkzrpb1hjud02asX
+X-Developer-Key: i=quic_wenmliu@quicinc.com; a=ed25519;
+ pk=PTegr3w0f1C9dOSL6CUdJR5+u+X/4vsW7VMfwIMeMXQ=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEyMDA2MSBTYWx0ZWRfX35ewzFWEkFa8
+ NFAVZaS8jubks8k1kE3U+KQf/C+azm5Ser0tg7iMSfY4DETMW1HmUNiaI1FUhq+r1n7rZV42fnV
+ Fs8aInSVFUJOSeDCej2cdmTsq+qTgf/ypnHAT8F/7arsjiHuMd7HHC++rrus3Wqj/7OFs+5s4/w
+ 7b9eTziNUQdObmU0gB7Rq8Bb0JHz87jiMpY+muujFC9wM9D8iQ0STfewm7LZkTl7+sZ8XUaswDy
+ KBpaO4N+jMRJGUNp7u3zqSuS8kuEEqxCZIT+J0A7b2qEa0B5zJMm+H4Er6QYZvDOO921WutZTgL
+ 1sAkX+dKX7stF9DKerhAHyFzdnROdO7YLQrB045acI5wBYz6LmQ66kuWcnZMK8v/SmeMrcQxHcE
+ 0OeQI5JjT/th3sCeLhyr3OXY6BrEZW6B7wIqASmRdm2bcCTb+ZNG1/YDdEXx8cGIRGu+RZVF
+X-Proofpoint-GUID: ZEHMkhTkaZ3y90o3wajqPd6aa_9WCYQK
+X-Proofpoint-ORIG-GUID: ZEHMkhTkaZ3y90o3wajqPd6aa_9WCYQK
+X-Authority-Analysis: v=2.4 cv=SqOQ6OO0 c=1 sm=1 tr=0 ts=684a897c cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=IACBFAE94UV1yjmVcKEA:9
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-12_05,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0 mlxlogscore=852 bulkscore=0 impostorscore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0 suspectscore=0
+ clxscore=1015 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506120061
 
-On 6/12/25 10:39, Krzysztof Kozlowski wrote:
-> On 12/06/2025 09:38, Krzysztof Kozlowski wrote:
->> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
->>> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
->>> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
->>>
->>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>> ---
->>> RFC verion of the change:
->>> * https://lore.kernel.org/all/20250513143918.2572689-1-vladimir.zapolskiy@linaro.org/
->>>
->>> Changes from RFC to v1:
->>> * moved from phy/qcom,csiphy.yaml to media/qcom,csiphy.yaml,
->>> * added 'clock-names' property,
->>> * removed SM8250 CSIPHY specifics, a generic binding is good enough for now,
-> 
-> 
-> Now I noticed this... weird change and clearly a no-go.
-> 
-> Device binding cannot be generic, so it is not good enough for now.
-> Please write specific bindings for specific hardware.
-> 
+Add support for the camera subsystem on the SM8550 Qualcomm SoC. This
+includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
 
-Can I add platform specific changes on top of the displayed generic one
-like in Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-etc?
+SM8550 provides
+- 3 x VFE, 3 RDI per VFE
+- 2 x VFE Lite, 4 RDI per VFE
+- 3 x CSID
+- 2 x CSID Lite
+- 8 x CSI PHY
 
-The generic compatible is sufficienlty good for adding the enhanced
-CSIPHY support to any currently present in the upstream platform CAMSS.
+Co-developed-by: Depeng Shao <quic_depengs@quicinc.com>
+Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+---
+Changes in v2:
+- Change the isp label to camss
+- Link to v1: https://lore.kernel.org/r/20250516072707.388332-1-quic_wenmliu@quicinc.com/
+---
+ arch/arm64/boot/dts/qcom/sm8550.dtsi | 210 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 210 insertions(+)
 
-Obviously I can rename it to something SoC-specific, but then a question
-arises, if a selected platform has to be a totally new one in the upstream,
-or it could be among any of platforms with a ready CAMSS, and a backward
-compatibility is preserved by these series and the new CSIPHY dt bindings.
+diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+index 82cabf777cd2c1dc87457aeede913873e7322ec2..3c26a39011188fbcb0dad7105ebeaef55fbccbc2 100644
+--- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+@@ -3325,6 +3325,216 @@ cci2_i2c1: i2c-bus@1 {
+ 			};
+ 		};
+ 
++		camss: isp@acb7000 {
++			compatible = "qcom,sm8550-camss";
++
++			reg = <0x0 0x0acb7000 0x0 0x0d00>,
++			      <0x0 0x0acb9000 0x0 0x0d00>,
++			      <0x0 0x0acbb000 0x0 0x0d00>,
++			      <0x0 0x0acca000 0x0 0x0a00>,
++			      <0x0 0x0acce000 0x0 0x0a00>,
++			      <0x0 0x0acb6000 0x0 0x1000>,
++			      <0x0 0x0ace4000 0x0 0x2000>,
++			      <0x0 0x0ace6000 0x0 0x2000>,
++			      <0x0 0x0ace8000 0x0 0x2000>,
++			      <0x0 0x0acea000 0x0 0x2000>,
++			      <0x0 0x0acec000 0x0 0x2000>,
++			      <0x0 0x0acee000 0x0 0x2000>,
++			      <0x0 0x0acf0000 0x0 0x2000>,
++			      <0x0 0x0acf2000 0x0 0x2000>,
++			      <0x0 0x0ac62000 0x0 0xf000>,
++			      <0x0 0x0ac71000 0x0 0xf000>,
++			      <0x0 0x0ac80000 0x0 0xf000>,
++			      <0x0 0x0accb000 0x0 0x1800>,
++			      <0x0 0x0accf000 0x0 0x1800>;
++			reg-names = "csid0",
++				    "csid1",
++				    "csid2",
++				    "csid_lite0",
++				    "csid_lite1",
++				    "csid_wrapper",
++				    "csiphy0",
++				    "csiphy1",
++				    "csiphy2",
++				    "csiphy3",
++				    "csiphy4",
++				    "csiphy5",
++				    "csiphy6",
++				    "csiphy7",
++				    "vfe0",
++				    "vfe1",
++				    "vfe2",
++				    "vfe_lite0",
++				    "vfe_lite1";
++
++			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
++				 <&camcc CAM_CC_CPAS_AHB_CLK>,
++				 <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
++				 <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
++				 <&camcc CAM_CC_CPAS_IFE_0_CLK>,
++				 <&camcc CAM_CC_CPAS_IFE_1_CLK>,
++				 <&camcc CAM_CC_CPAS_IFE_2_CLK>,
++				 <&camcc CAM_CC_CSID_CLK>,
++				 <&camcc CAM_CC_CSIPHY0_CLK>,
++				 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY1_CLK>,
++				 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY2_CLK>,
++				 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY3_CLK>,
++				 <&camcc CAM_CC_CSI3PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY4_CLK>,
++				 <&camcc CAM_CC_CSI4PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY5_CLK>,
++				 <&camcc CAM_CC_CSI5PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY6_CLK>,
++				 <&camcc CAM_CC_CSI6PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSIPHY7_CLK>,
++				 <&camcc CAM_CC_CSI7PHYTIMER_CLK>,
++				 <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
++				 <&gcc GCC_CAMERA_HF_AXI_CLK>,
++				 <&camcc CAM_CC_IFE_0_CLK>,
++				 <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
++				 <&camcc CAM_CC_IFE_1_CLK>,
++				 <&camcc CAM_CC_IFE_1_FAST_AHB_CLK>,
++				 <&camcc CAM_CC_IFE_2_CLK>,
++				 <&camcc CAM_CC_IFE_2_FAST_AHB_CLK>,
++				 <&camcc CAM_CC_IFE_LITE_CLK>,
++				 <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
++				 <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
++				 <&camcc CAM_CC_IFE_LITE_CSID_CLK>;
++			clock-names = "camnoc_axi",
++				      "cpas_ahb",
++				      "cpas_fast_ahb_clk",
++				      "cpas_ife_lite",
++				      "cpas_vfe0",
++				      "cpas_vfe1",
++				      "cpas_vfe2",
++				      "csid",
++				      "csiphy0",
++				      "csiphy0_timer",
++				      "csiphy1",
++				      "csiphy1_timer",
++				      "csiphy2",
++				      "csiphy2_timer",
++				      "csiphy3",
++				      "csiphy3_timer",
++				      "csiphy4",
++				      "csiphy4_timer",
++				      "csiphy5",
++				      "csiphy5_timer",
++				      "csiphy6",
++				      "csiphy6_timer",
++				      "csiphy7",
++				      "csiphy7_timer",
++				      "csiphy_rx",
++				      "gcc_axi_hf",
++				      "vfe0",
++				      "vfe0_fast_ahb",
++				      "vfe1",
++				      "vfe1_fast_ahb",
++				      "vfe2",
++				      "vfe2_fast_ahb",
++				      "vfe_lite",
++				      "vfe_lite_ahb",
++				      "vfe_lite_cphy_rx",
++				      "vfe_lite_csid";
++
++			interrupts = <GIC_SPI 601 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 603 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 431 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 605 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 376 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 89 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 278 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 277 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 602 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 604 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 688 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 606 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 377 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "csid0",
++					  "csid1",
++					  "csid2",
++					  "csid_lite0",
++					  "csid_lite1",
++					  "csiphy0",
++					  "csiphy1",
++					  "csiphy2",
++					  "csiphy3",
++					  "csiphy4",
++					  "csiphy5",
++					  "csiphy6",
++					  "csiphy7",
++					  "vfe0",
++					  "vfe1",
++					  "vfe2",
++					  "vfe_lite0",
++					  "vfe_lite1";
++
++			interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
++					 &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
++					<&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
++					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
++			interconnect-names = "ahb",
++					     "hf_0_mnoc";
++
++			iommus = <&apps_smmu 0x800 0x20>;
++
++			power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
++					<&camcc CAM_CC_IFE_1_GDSC>,
++					<&camcc CAM_CC_IFE_2_GDSC>,
++					<&camcc CAM_CC_TITAN_TOP_GDSC>;
++			power-domain-names = "ife0",
++					     "ife1",
++					     "ife2",
++					     "top";
++
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++				};
++
++				port@1 {
++					reg = <1>;
++				};
++
++				port@2 {
++					reg = <2>;
++				};
++
++				port@3 {
++					reg = <3>;
++				};
++
++				port@4 {
++					reg = <4>;
++				};
++
++				port@5 {
++					reg = <5>;
++				};
++
++				port@6 {
++					reg = <6>;
++				};
++
++				port@7 {
++					reg = <7>;
++				};
++			};
++		};
++
+ 		camcc: clock-controller@ade0000 {
+ 			compatible = "qcom,sm8550-camcc";
+ 			reg = <0 0x0ade0000 0 0x20000>;
 
---
-Best wishes,
-Vladimir
+---
+base-commit: ed61cb3d78d585209ec775933078e268544fe9a4
+change-id: 20250516-sm8550-camss-221d7b4f98f7
+
+Best regards,
+-- 
+Wenmeng Liu <quic_wenmliu@quicinc.com>
+
 
