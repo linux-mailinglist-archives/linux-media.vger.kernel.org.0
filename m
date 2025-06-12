@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-34609-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34610-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBCF1AD6E82
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 13:02:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA216AD6EAC
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 13:11:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F4583AD3E0
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:02:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A829189EE4B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:12:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F792239E62;
-	Thu, 12 Jun 2025 11:02:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 254C223D2A5;
+	Thu, 12 Jun 2025 11:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JGNvwFWF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YObGC4kd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DCB17A2EA;
-	Thu, 12 Jun 2025 11:02:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68882236A9F;
+	Thu, 12 Jun 2025 11:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749726152; cv=none; b=L7aF5zxMnMlcUtpuRETdSJTFdNOaqOIlIN2Vlh5qgl+DQux3Ekucw7Q0J1cTKA/NyEzfzWJXDc10Z3ed5Szq58T/YJPsxtpZewjhZJahvNLSkrXBb6mwLhV5WJAw19656b3aGE1sfKRFDibxgTY2Ara9HpLOnhlHFjgMfKaHaA4=
+	t=1749726686; cv=none; b=RehVXH9GcoybsW+Y0kmNyFse09V24QvFCYJlyLTaxL824HKtxUpqGcP1oEYNosdrbPPblHukSlV20PFcHxl03702TYn+8weExahLRoclBjT8tzgJYC/n2NlD4fPWO5fxfgDf2WgFsSy/zBwVuGV2/qu0ppLtZZLh8RsHMbzjYZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749726152; c=relaxed/simple;
-	bh=2229ea5WbGCr+bkdJYi3fVs4L9fTm+iTKUI3f075qNA=;
+	s=arc-20240116; t=1749726686; c=relaxed/simple;
+	bh=XcmB3g2Xd6C3FeuwyMZKqn+WePmOQ9lBG3h97lU3E0w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uT2e9SNYGcxPIq+WsQkccPhaCbtteu2O2kmOZtWVSApNj+qu6oyUV0SftC4B1GUw81CqyJCC+E1SKPnBTvnOo1qB4qdJXfibKtR3d8V0pS3qKryiG6rIzZWryJ62orWQemCg/RJH6/F4K3sOkJRfn76z00Q/4NnSvug942lOGts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JGNvwFWF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A330C4CEED;
-	Thu, 12 Jun 2025 11:02:27 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=HoGBC6fX69woHc+eAltXBqOFkQ7ioG8J76mOQfiK3vFKwi4ZBglRQSo47wm45wCC9wpk40W4vDdpTujAkhLxTIRacRieHi8OyX5KkQfY6Tm92YHQ+oL12GufkKjogtx/4kCM2xiPNqpUAdyClIr36zZI5CDT3gkW1UhMoqRSjMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YObGC4kd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AB6EC4CEEA;
+	Thu, 12 Jun 2025 11:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749726151;
-	bh=2229ea5WbGCr+bkdJYi3fVs4L9fTm+iTKUI3f075qNA=;
+	s=k20201202; t=1749726686;
+	bh=XcmB3g2Xd6C3FeuwyMZKqn+WePmOQ9lBG3h97lU3E0w=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JGNvwFWFpyuZ2dFUcfyrZdVtdNCJeEI6SKb4KV9ArATjDYdVehtv1XdRWh3zMaJsF
-	 tO1sxZK8L41DJ9kk/whBUyxaJzOqPuaVkD/58QTSTKvskeQ5/n+WzKjzkfMdLH1ery
-	 nOoqT0G51w2R1BczftZcuSL5l1AWKuEE17LeORFnIkiyicG5Ka7FIQ8rXSGf4LPbaC
-	 n8/7qX+jmnUS2/nrDhhTHj7kGmvLDCGYSnOokoln2/7uR5/g+MHRdTuyDZ7cVMpO4o
-	 FGQuIDP6SN/9NNSUutB3LoPV7VTQ8dKJ0cdRFQoqMYhxV6EazG40EU5lMtB7M946Ow
-	 ABqk6XbG2ak5g==
-Message-ID: <d424481b-cb06-4bee-8d36-5e31ca2838a2@kernel.org>
-Date: Thu, 12 Jun 2025 13:02:26 +0200
+	b=YObGC4kdtpR49uJZLcsGYRSGydCNJ2WBI20AN/YTHLBad82kQmQLYHnv3ur7nfCZk
+	 MZ1nLQ0Oal+K+i9lw+swKGsAjnOSheTHXdmMNTAO59qKqLehcVNZ49Z7tvO4kVaf2W
+	 tXXwoAjzO11JIJSQBn1gHiSmCXqfdeUFWYpO+jDJSgxupc6EdG1MaYSdTHdOEPKcaA
+	 7gI7jZajHMMJR6rGd0A3oThPW/2Q1f3+eWGLn5t94z9U4i9Kz5kmkKoKbW0o32YZI/
+	 SYuVow4ilpfjIGSALZPxCvahW+pdvzZIf9bsPyEhfmOSNgI7RB4Wcs6a5wbi33ZgxZ
+	 GUnAUuPafvp9g==
+Message-ID: <a86a0d45-8da1-475f-aeb8-37faa58b9849@kernel.org>
+Date: Thu, 12 Jun 2025 13:11:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,23 +50,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/10] dt-bindings: media: qcom: Add Qualcomm MIPI
- C-/D-PHY schema for CSIPHY IPs
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v2] arm64: dts: qcom: sm8550: Add support for camss
+To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
  Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
- <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
- <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
- <e02cead0-665d-443a-a884-c3a307409c66@kernel.org>
- <9e38a09b-1521-4196-b179-d29c62e143bc@linaro.org>
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, todor.too@gmail.com, rfoss@kernel.org,
+ bryan.odonoghue@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ Depeng Shao <quic_depengs@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+References: <20250612-sm8550-camss-v2-1-ed370124075e@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -112,49 +108,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <9e38a09b-1521-4196-b179-d29c62e143bc@linaro.org>
+In-Reply-To: <20250612-sm8550-camss-v2-1-ed370124075e@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/06/2025 09:57, Vladimir Zapolskiy wrote:
-> On 6/12/25 10:39, Krzysztof Kozlowski wrote:
->> On 12/06/2025 09:38, Krzysztof Kozlowski wrote:
->>> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
->>>> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
->>>> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
->>>>
->>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>>> ---
->>>> RFC verion of the change:
->>>> * https://lore.kernel.org/all/20250513143918.2572689-1-vladimir.zapolskiy@linaro.org/
->>>>
->>>> Changes from RFC to v1:
->>>> * moved from phy/qcom,csiphy.yaml to media/qcom,csiphy.yaml,
->>>> * added 'clock-names' property,
->>>> * removed SM8250 CSIPHY specifics, a generic binding is good enough for now,
->>
->>
->> Now I noticed this... weird change and clearly a no-go.
->>
->> Device binding cannot be generic, so it is not good enough for now.
->> Please write specific bindings for specific hardware.
->>
+On 12/06/2025 10:01, Wenmeng Liu wrote:
+> Add support for the camera subsystem on the SM8550 Qualcomm SoC. This
+> includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
 > 
-> Can I add platform specific changes on top of the displayed generic one
-> like in Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> etc?
+> SM8550 provides
+> - 3 x VFE, 3 RDI per VFE
+> - 2 x VFE Lite, 4 RDI per VFE
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 8 x CSI PHY
 > 
-> The generic compatible is sufficienlty good for adding the enhanced
-> CSIPHY support to any currently present in the upstream platform CAMSS.
-> 
-> Obviously I can rename it to something SoC-specific, but then a question
-> arises, if a selected platform has to be a totally new one in the upstream,
-> or it could be among any of platforms with a ready CAMSS, and a backward
-> compatibility is preserved by these series and the new CSIPHY dt bindings.
+> Co-developed-by: Depeng Shao <quic_depengs@quicinc.com>
+> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Just use a specific compatible for the actual hardware this is being
-added for. I don't understand why this is different than all other work
-upstream.
+
+Where did this happen? Please point specific email.
 
 Best regards,
 Krzysztof
