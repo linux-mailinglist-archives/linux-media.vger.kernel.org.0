@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-34580-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34581-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FFAAD6944
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 09:38:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89530AD694C
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 09:39:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7489B17B44B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 07:38:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4F7137A8FDF
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 07:38:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99F8B21421D;
-	Thu, 12 Jun 2025 07:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BB72214A7C;
+	Thu, 12 Jun 2025 07:39:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjYd4+f3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="imQ1ctYa"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE91B1E51EB;
-	Thu, 12 Jun 2025 07:38:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3331EB1AC;
+	Thu, 12 Jun 2025 07:39:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749713919; cv=none; b=nXB9NfD/Hk0RcJyJ/u66C58OxQbtcMVzrxhbjQSWghS6SXVi5pe4EXao/xOe3Ts1Iv+FhIHN2YHg3aCKEi5sVOR7lWNTPyIlqo2gPVQgi/WWzGcQJKKmp/yo4qFja4MqR1YbvlMTsPdAXBrnd51DMwM/ysKZVo4XEFw7IQf5qkw=
+	t=1749713979; cv=none; b=gMe0iU/N4FPReveD1Pt/KPhLtaQ21CqHDEPffELmXhejX3Qif3ySlw3RQiGQqo1dha0SQ0tsQr9pCn6Sm3Y1ZhsvNoxQtEnyOHEl/WJfFjtwrqF+hW5XhLKppp2laCqe9bX0EDUmtSXuoaAD1KNFyC0EVRKcf6G+5eBhoLR75jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749713919; c=relaxed/simple;
-	bh=Nwt/NQMml6FoYViIegkuXYSTr1/mZoGtgIoxNvX0gEg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bf9+WUFzpEmyGIhMHXkijENzmsntjsFtvj5EYJ1FJA7MOU08VeGziNO9ESX8oYWgsGKEmhQQ9i4+LF+ZMGsdL631boyV9jtORHVX+cH5BYJbkw1/AeA4DLuonoL5/IZYqoX9bNdmnK2fhXQ211oHODxUenM6IR6iYS3EUt0USAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjYd4+f3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18011C4CEEA;
-	Thu, 12 Jun 2025 07:38:32 +0000 (UTC)
+	s=arc-20240116; t=1749713979; c=relaxed/simple;
+	bh=OnqxR+R+qxKVxHS1srUGtvOveqDuGbu6SpRu/R25vVw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bcMEknJYxMKQhZJqkNdXR/fOtWNzrhLqHGh/kBAvLtBUvw1+oGHKVfRWo1HODkSzQflxf+Nb3nZexh8Sf0+PcgptaxNNXGCVK/8L93ujgHCWrUIaifprYMh2s6FWNjD/m1p0ezHHai4x0PrwFiMZAuK2/KYFr4jHx09TrdpVfqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=imQ1ctYa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C212CC4CEEE;
+	Thu, 12 Jun 2025 07:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749713916;
-	bh=Nwt/NQMml6FoYViIegkuXYSTr1/mZoGtgIoxNvX0gEg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jjYd4+f3dU7xNbuBnwhkW6a4bYFlpxGpZiCqsLXt+ov1tN3h7aidOEVfQSUWlyeC3
-	 U0hgBIyIOLKM851OmFGujYBTomsxKhGttl2vAtHpooyTB/bVznnl09ggmXdltUHmqs
-	 +Io6MKHfzOcRifF3wWZboSngL+blluaB7tk1T2WN+JWZdeE0H5pUz5Nct0Jss+59rT
-	 yMW4KsPehBNlMOksrSsSwyDWAypISfrrth2V/mP8blhEMhUgbJes1ag/O2ch/OlQjd
-	 NDEA6Zs5JEnGMrDy3e3j5fzFP0fmPl75AnfCgjvwjTPklS0neNssFiazy5Izhdg5Xj
-	 2IlLvMEG/9m4g==
-Message-ID: <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
-Date: Thu, 12 Jun 2025 09:38:31 +0200
+	s=k20201202; t=1749713979;
+	bh=OnqxR+R+qxKVxHS1srUGtvOveqDuGbu6SpRu/R25vVw=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=imQ1ctYaNWnHFhyVgHK/ude1olI9A9ftV3gSIwvIqgS0ZO5OWEwG0GONFgHpCvIGg
+	 ao+kzXni1ojJkp7NsdZdk/ry4cD30F/MDoBw3nleI0wygfL8yfYeXV5ijWynFm68wV
+	 nunjaH47+jSlT2ruFY9eyqwrhfmgIfjy9SpflSU0BHYkQM17JPF2HW5HcugB7ZNRR8
+	 fJZj6oCiXy4NwaxjDZBx3zxinzBdeJ6R+R/dYW8taS/kov5RU8S2uf7z1k7N8yLq4T
+	 GUxbUAaHdPOdtfJCfFtixxVtQTKoV677vhFCFhfhVgkQePMNb8gZxk2CUQ53yrvs3R
+	 g3zq6Z4KbUVuQ==
+Message-ID: <e02cead0-665d-443a-a884-c3a307409c66@kernel.org>
+Date: Thu, 12 Jun 2025 09:39:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,6 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 08/10] dt-bindings: media: qcom: Add Qualcomm MIPI
  C-/D-PHY schema for CSIPHY IPs
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
  Bjorn Andersson <andersson@kernel.org>,
@@ -64,7 +65,7 @@ Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
  linux-media@vger.kernel.org, devicetree@vger.kernel.org
 References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
  <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -109,126 +110,30 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
+In-Reply-To: <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
-> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
-> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
-> 
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> ---
-> RFC verion of the change:
-> * https://lore.kernel.org/all/20250513143918.2572689-1-vladimir.zapolskiy@linaro.org/
-> 
-> Changes from RFC to v1:
-> * moved from phy/qcom,csiphy.yaml to media/qcom,csiphy.yaml,
-> * added 'clock-names' property,
-> * removed SM8250 CSIPHY specifics, a generic binding is good enough for now,
-> * the above implies a removal of SM8250 specific supplies.
-> 
->  .../bindings/media/qcom,csiphy.yaml           | 96 +++++++++++++++++++
->  1 file changed, 96 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,csiphy.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,csiphy.yaml b/Documentation/devicetree/bindings/media/qcom,csiphy.yaml
-> new file mode 100644
-> index 000000000000..699824e7c44d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/qcom,csiphy.yaml
-> @@ -0,0 +1,96 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/qcom,csiphy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm CSI PHY
-> +
-> +maintainers:
-> +  - Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> +
-> +description:
-> +  Qualcomm SoCs equipped with a number of MIPI CSI PHY IPs, which
-> +  supports D-PHY or C-PHY interfaces to camera sensors.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,csiphy
+On 12/06/2025 09:38, Krzysztof Kozlowski wrote:
+> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
+>> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
+>> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
+>>
+>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>> ---
+>> RFC verion of the change:
+>> * https://lore.kernel.org/all/20250513143918.2572689-1-vladimir.zapolskiy@linaro.org/
+>>
+>> Changes from RFC to v1:
+>> * moved from phy/qcom,csiphy.yaml to media/qcom,csiphy.yaml,
+>> * added 'clock-names' property,
+>> * removed SM8250 CSIPHY specifics, a generic binding is good enough for now,
 
-Instead soc specific compatible and adjust filename as well.
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: csiphy
-> +      - const: csiphy_timer
+Now I noticed this... weird change and clearly a no-go.
 
-Drop csiphy from both, redundant. And this points to the first clock
-name not having any useful name. Name equal to device name is not useful.
-
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  "#phy-cells":
-> +    const: 0
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    description: CAMSS CSIPHY input port
-
-Missing additionalProperties: false
-
-> +
-> +    patternProperties:
-> +      "^endpoint@[0-1]$":
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            minItems: 1
-> +            maxItems: 4
-> +
-> +          bus-type:
-> +            enum:
-> +              - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
-> +              - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
-> +
-> +        required:
-> +          - data-lanes
-> +
-> +    oneOf:
-> +      - required:
-> +          - endpoint
-
-Your schema does not allow this.
-
-> +      - required:
-> +          - endpoint@0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - interrupts
-> +  - "#phy-cells"
-
-port is not required? I expect it to be - how this can work without
-wiring to the sensor?
-
-You also miss to update the schema using it as a child - camss or
-whatever is there.
-
+Device binding cannot be generic, so it is not good enough for now.
+Please write specific bindings for specific hardware.
 
 
 Best regards,
