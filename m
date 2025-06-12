@@ -1,289 +1,218 @@
-Return-Path: <linux-media+bounces-34642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34643-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC81AD78F0
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 19:28:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B095AD7964
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 19:50:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E2E77A8770
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 17:27:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E568A3AF55B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 17:49:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B357A29DB6E;
-	Thu, 12 Jun 2025 17:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01C2E29C34B;
+	Thu, 12 Jun 2025 17:50:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cuQYKpHB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F53RMyKM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EFF2BD001;
-	Thu, 12 Jun 2025 17:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749749280; cv=none; b=sq+MFdj/UrwAgnzS6A7Ve9ocNPCLseRedBMcdW7XO+vgHbYvfhYXOs0f0D+R0NvGQpTOjZyQaDMZpp+jVbHyKUHjtBWBjCU1xT5ILiw67KC3m0opjvuPE2JqDlvaujEGHNemAOX0aq+whD7I5kf6I9GFDYinL/vEi05AxzUKd5o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749749280; c=relaxed/simple;
-	bh=rQzMv7zMW+V8xJgEwDRoJJEYf7Gnl8DxCH5zWo5O9oc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IifWEaUeJg0aze4pDAcsFbGklZY8ujdv5rhS8LX6OGlRqJPJ04iHfuRhgWrmtoRNFWW69LLk4bXlGi63Yivwj+RiX9OwojOJaZDfTzfUvCkcNhlBHW1id6J3sCDG91G/ghgfOZd7a/8V0DoR3mfXd0H/5Nj8fEuUBlknj1q+1VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cuQYKpHB; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-55351af2fc6so1345327e87.0;
-        Thu, 12 Jun 2025 10:27:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749749276; x=1750354076; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XNWv1Vkdp6Tz4ugdH9sHsD45TiS1risRm/SEcmxn+Qw=;
-        b=cuQYKpHB5httxDjBwgGpqu9M9x96dvpowk6hms78CZdNZMb8FAk49pLUlOi6dsnLrX
-         r8ZtgCcaPmKie0XjKU0D3yPfeRdQYp0fwqYynUv6FmA0KWdXGq3tEOv6lKla8lqC9+6G
-         IkcgXDOXY6xdN6yhB03qJX8cd5a5XrY8Kz/8UTgUJycW+6KYgiorFQvlFJ0P5XkvtISb
-         ZDYNo4VOfe7mTaqk+uX4MFPzbs5URtVxiReh99R/UNAchjB2IaRWHGmvm2jkJXK2PvOU
-         /WZsoxk9ZPZC7fOI3P1mxIOUh2uOnkVyqLn+Ym7SBBQ0pdkjpMeY5F0/l28pFQyvH6cX
-         jFyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749749276; x=1750354076;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XNWv1Vkdp6Tz4ugdH9sHsD45TiS1risRm/SEcmxn+Qw=;
-        b=U7Tqe7FYF/MBELDRYjNzg8b4m8Swf8LsDpARf4dwATsGMrRFPYysoPoUIdq7A2FPgv
-         GMAluqhtpXrAIFtNZMGvbyPwP28lWWIk/fO/OlzHN5s23C28azP5n+X1mVPEOwE6AMIG
-         ZRw5ocbOBgsD3KhHqlApYAVErMvDOoMbbU4KBBRGNj0fatZiLUzf8vyfy5ocx+sUIhRn
-         c+YtcUq6dhVQwJoTV1REqXp8bhzWi9kvsoTpxi7sRbu/eaS8kUYualxSQNlqh/LOwvEt
-         +GwTBrzndZSGV9Ry7QJeakuWPKV53yf7dE17Ih3GhkjwWCOUc2ROE1y+OEXYtG6DjdVC
-         DnKA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBFWq9H4jnM65GkggKxNFdD+5Ph53qe67AcvnFgIByfnmf4ZVLWr6S4NiycXG9VGMER7PsLWlPt0YMUxw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz898jfZYXpWq2QzmVEfvbjn4op0YcnOcoR6Qmt9LTNWSWp5dP2
-	fAgJDb2aoqZ0iPowEsNHodlPWOUzjSsMjccS9o8noC1KBVZ+s3tqXxrn
-X-Gm-Gg: ASbGncvBE5KEE/QiylQxJqnbPTP0NuwERCQ7zupJFb3Ox3Bnuni7xbO7ywqY1QfdfS3
-	sy0jnTUOF16i9FZSXPVP4QHe4TM9weX50V0vOd6+p6lFoazsmxlIz/S1UJGglS39YgiOhweY2tv
-	T/gvmDQ7I8KNaDnCs8Sw3695ExreGpNf68rsSic2lgyXrICBo/8Xz8H9sPCf+nm+sOP6BE625Ig
-	FSeYFMbCAiAuRM6XkedNFhIqhnpZy7C4OI5vovEbMaTVDlV+FIEFKGZRop/iHLKAQOxigVxLXD1
-	lbd+1H2QhaF/i/YSFmQ1iGEhso/P+BDQ1WfRZK53RyvxhWROphmUkZFMVRgsAGWvcusHid823ls
-	7nPT/cBgv6IgkRJl9ER7CjRg2BUumlMBj8frp2IPNnh6SvKGvxpM98t5STA==
-X-Google-Smtp-Source: AGHT+IHQDLn3RPUl3OK0txE6hw/CRkdzygyWof51VXKj3tR67bEBhRnJ1A1cgWFxPHAjPiJ66jaa4w==
-X-Received: by 2002:a05:6512:b1d:b0:553:3073:c38b with SMTP id 2adb3069b0e04-553af932938mr381e87.1.1749749275765;
-        Thu, 12 Jun 2025 10:27:55 -0700 (PDT)
-Received: from uuba.fritz.box (2001-14ba-6e-3100-4ba3-46aa-7f0f-54f.rev.dnainternet.fi. [2001:14ba:6e:3100:4ba3:46aa:7f0f:54f])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac1c24fbsm170358e87.164.2025.06.12.10.27.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 10:27:55 -0700 (PDT)
-From: =?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
-To: mchehab@kernel.org,
-	hljunggr@cisco.com,
-	ribalda@chromium.org,
-	hverkuil@xs4all.nl,
-	skhan@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	=?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
-Subject: [PATCH v3 2/2] docs: Improve grammar, formatting in Video4Linux
-Date: Thu, 12 Jun 2025 20:27:03 +0300
-Message-Id: <20250612172703.32293-2-hannelotta@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250612172703.32293-1-hannelotta@gmail.com>
-References: <20250612172703.32293-1-hannelotta@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75F41C7008
+	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 17:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749750601; cv=fail; b=MO8n4NAKjKYkfgTLZ6y8/HdSXpKA3Wk40GfBkknENHcvXygfjlkFsb0E/+7phtwSIJwGc4k9T0aWSRM3Rl0OiZBHbdYA02AstMq70rVLFs3NKaC4d+y+ZzRs/KRpmOtI+1MdM8Mk3D3nYqdFKc1nXF7kfhnW5d0WXfe9sA9DwKY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749750601; c=relaxed/simple;
+	bh=K2B7CYOXOF94NGHl4KDQl57UuD08PbHiCc8EzNxok4I=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=laeFTbxSDo8cpWtMt9bFX5JxUtxtcztfNQXBfkPtHxgC2YPeditquJWMJJv1GERVF2Gov9czlHVh6VI1q0WhmaxB/y0UeP+F6VnyFOxBU2eqTyCxmWYjDzc7JhySqSb11tD7yB97AkAkwv3GWAVYc8zxDitEwl/nhPeaZSjaYi8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F53RMyKM; arc=fail smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749750600; x=1781286600;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=K2B7CYOXOF94NGHl4KDQl57UuD08PbHiCc8EzNxok4I=;
+  b=F53RMyKMpz3D3edoCbD3GiAI2paCbphe08HcMeeADBb68rqTRJV/l/Ay
+   sqJooYqTw9uFHc88vOQenHSX4pXfQuIpsUFubE/S80ZzS/bxz4H8MujmH
+   bLvCSGnMu/rebP//R4vvOVyqi11wauGIU8ypy8vRe96PW9dTKO2xyumKS
+   JXyNUL1PDpqW/Oym0/HmQwjySBhSbm4lrxFx5EEbDYs4pfW8ggwXLjgO2
+   M8UD5CQAx6wdaL1jyQDax0FVZhCkbHilpvLhTYW4f+6papBsLbP89mlZ1
+   ESav7F5n49pIH3WIwkUJwo/h2szFcshEsEdu7vzzD2lRPfPmRA9jGQpxb
+   A==;
+X-CSE-ConnectionGUID: BmKeJfgQT7OQXQ8qAqEFRA==
+X-CSE-MsgGUID: nVBsDHoHTlq6Vu/GFOzDpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51663673"
+X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
+   d="scan'208";a="51663673"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 10:50:00 -0700
+X-CSE-ConnectionGUID: fhYKWbk0SHmbekdgjkP3KQ==
+X-CSE-MsgGUID: 2idUTE/eTiClBKWwonRWiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
+   d="scan'208";a="152501206"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 10:49:58 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 12 Jun 2025 10:49:57 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Thu, 12 Jun 2025 10:49:57 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (40.107.243.50)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 12 Jun 2025 10:49:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mLrbt6wZrsR6acBGsQZ5JtJ9eakGYOfG2EbT3MjU7RdPzZO8Xy1IY+s6Ol4Y6y9dGpsF2GDHoN5qWXycSf24a2PmMRijx7b9cnTvACic/KbqXzuVLwacchlnJTAo3u7gGn4lI/aWh9wf/RSqHzhWu6NFzlGyYLiwCQnw0pqLL5WPuX+cMLneoLwFZkV5y7LFovRw/Oj2ZTXh79GrM+SvE4EUbxo2kHbFOl3KL2tvV7Nhgzk7UgcjvrDpUoGmorGBULq7EOzT/CFWXS4nAoQA966eQgg5rTvymyNKaZ5JGbk++5LCf1BMrAaa4IXjhunAbmirzXC5wakbFfNOsWhOFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K2B7CYOXOF94NGHl4KDQl57UuD08PbHiCc8EzNxok4I=;
+ b=DMhQt1tKTiMifPM9z5N9w0L98/zc2v4eOhRMHCJkLBSQ9paMxBAvTO1VoLHn60363dvyvz1PZxo9E9SKP4V96ARg8PWBK8sYIZC27/jh4s0SLv9J2zNbp7RKvZNi9dx8WF8mFnCdRsX1LwoxKGN82F7TDtfi5ocwxLEjt8owOcOgJtMp1rrgYErjeTtxQD6T3qYN6MGTa764BVoEM4nCvycEtLJ1xBTlnAzBkUNO/YtKtsN9JrViN7wX+vnPUaI3XslWGJkI89pc7z0+l9AtcDaivIiAZHZYcyRtEaNgipcNO5D28DLONb8vwtsoi6FZao3mb+AllTA1NEQ0+xobyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SJ0PR11MB4848.namprd11.prod.outlook.com (2603:10b6:a03:2af::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.19; Thu, 12 Jun
+ 2025 17:49:36 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%5]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
+ 17:49:36 +0000
+Date: Thu, 12 Jun 2025 12:49:32 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+CC: <dri-devel@lists.freedesktop.org>, <kernel-dev@igalia.com>, Rob Clark
+	<robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, "Gustavo
+ Padovan" <gustavo@padovan.org>, Christian =?utf-8?B?S8O2bmln?=
+	<christian.koenig@amd.com>, Matthew Brost <matthew.brost@intel.com>, "Rodrigo
+ Vivi" <rodrigo.vivi@intel.com>, <amd-gfx@lists.freedesktop.org>,
+	<intel-xe@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH v6 4/4] drm/xe: Make dma-fences compliant with the safe
+ access rules
+Message-ID: <lagtnrxxqzwn4akmummmuxd4msqctbzrqbht66debl7ktzgkpm@7xn5yv5ackvl>
+References: <20250610164226.10817-1-tvrtko.ursulin@igalia.com>
+ <20250610164226.10817-5-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250610164226.10817-5-tvrtko.ursulin@igalia.com>
+X-ClientProxiedBy: SJ0PR03CA0234.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::29) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ0PR11MB4848:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8511696d-c341-44ed-7b73-08dda9d97ee5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dX2IAgyl8zMPIKC1SEmjZWQTkl+FACaIdTV/PNKT9EMUWSqARG9IienPSjQQ?=
+ =?us-ascii?Q?4V6S5KL/XFMA5Qc0NNSXbxDzuAlfX5F+11Pna9FLVlLFDBP6o1NBNwy+7DDZ?=
+ =?us-ascii?Q?bJFfC2AUWasp3sD4MIofUg+67bRzevXRF/TAbZ72BkVrA2KF5+9qqSIn3Ah3?=
+ =?us-ascii?Q?J0eSsGKRg7jmlIR2FqZk6Yiuf734zB6crDLUD3NO9aR57W2DqMtVtuMLmc9p?=
+ =?us-ascii?Q?0i2lmw02GF0VqchgWKBU3uJBiBabGmY/VkBkWqZSHQT3tqOpwPBvRE8POn6I?=
+ =?us-ascii?Q?PORNmOlSdpe4N/W4XhulF9KcUqhJDaXZoVuy6EJOhaPZga848mAmFTYstPN5?=
+ =?us-ascii?Q?gfAo0IBvtuKWXynbXCXZXked8ndMRrBzP8LKq+dnN+4UVwsFV6o4M+KpVMfP?=
+ =?us-ascii?Q?kQP4D4cxPX1FWFSdqi0+576re//nP1vX5MyH138DuusFXFq0Wltyr55XqCyg?=
+ =?us-ascii?Q?Smp8g5G/vhamceIlwcLxzsJYFLwIck8nIjWrhjBH8OAfiPzc6KHdWNS6zdMb?=
+ =?us-ascii?Q?utUFjxTM2Rfpwo4bIV8QvgJy26+WrDdmqNR8rEOeBX2GeKKTtQUdYYKyAVpC?=
+ =?us-ascii?Q?qB2++qHXrigjvYwSIE3lj1dkC53vEazH4cSWkvH3touZhsVR+WzuK3IRlViT?=
+ =?us-ascii?Q?rnHWa0vaJ+ltDrGaE8rkEYyEmoiVOci8564MdMpKfltmRwDRaJAljoATpxNa?=
+ =?us-ascii?Q?2NB9uA1YM8jyhGO7kf+zJM09crAbtsRHtKdWdv61d+k8jM8tvSktuWyULe/S?=
+ =?us-ascii?Q?H94f1V71JT/npcD2MoejIM4UaP/VXy8gpxJIEMPGLhOVv0FUurJWan/PAUGU?=
+ =?us-ascii?Q?srpP8LPXvfIwiLp8FBjFEgxHTSzkV50/A0z0w9W5hdxitLuR41U9c1KbFSKi?=
+ =?us-ascii?Q?hgz/8Nc3ezFqKjngjXxSl9cQ6kKHnV5SpR/pqBvzJUYa5UpYK+R8mdwsmCOS?=
+ =?us-ascii?Q?m7n9oP+hkNnGLrH1BkGvrVKIsHsYnghbXsby6SnnhPjtr0wX4mhSeyqpYFz1?=
+ =?us-ascii?Q?iWygFxVNyrv+gIxoy/I0eTmptzAyTcG7f5Jc8IfAtOG3Mtj9OasApGxQUc7e?=
+ =?us-ascii?Q?S9zsYsSI7TVL4xkNOec+s6x5svaDuhRAytqUUY0W3RCQPQa6NoeaSidg+/PD?=
+ =?us-ascii?Q?UOLB5EKFqL4U8pzcZmr/GNXWjcioNGLTl95B/GItx41H7SlLNYs8S/dY/sgo?=
+ =?us-ascii?Q?vWL5M+11ak56qtwt16jPYMBR5E1Lhreka6p0to8+GdBNtZ63kLP/R8CeZt08?=
+ =?us-ascii?Q?/GINOYyuYxHhjaIJTD1SC7byPnvGcFaYzV2zGX3qHleNdYbv4iMNS+ewjgrN?=
+ =?us-ascii?Q?60pzMaTh41ldrZS8jXPpXXpnbCmZGHwjQe26Bk2PZa0MJ+ngN55lpI/SDe13?=
+ =?us-ascii?Q?FKFEHPFNIk0Vhh9Xu1QkX+oNYNUTHjLPH9miGIguFy5ACqcZu8vsumXe1rRq?=
+ =?us-ascii?Q?OsxlOUbR7kU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vMjJ1RL9oCbC/wHND6D/xNVHrCwmqxm5fN1WrWbZ3nqquSkLxGXrum5QPXO8?=
+ =?us-ascii?Q?feFnSPBcnUMobkFC57rvV6+HzcnoglHosXIFAqlmMSvszOVQ1nv2FqIqd1nd?=
+ =?us-ascii?Q?xx39cv8Gp8qrHr+ZTQBCcdQFuwA/+HgWY9dEtceV7CIa6qZ3zGClkNMYM7K/?=
+ =?us-ascii?Q?3rthjc0ojbRqlK38EMws4tjqRvAGQLSR1xb6G7uFohIBt9M8OEo/2qNI+uuj?=
+ =?us-ascii?Q?zpUkpa6lqhMj5+KugPm7S92VFlJoAJIdyN9p+coJFTDYCxsYKsGfpVTgT8bG?=
+ =?us-ascii?Q?tKx6XOhraBkDu14KxDqSchB1gcesV1Z0+zX2On6QjZL94Jc9DFErI39MWXF5?=
+ =?us-ascii?Q?Szfe4pIsPW3xUG+ng7zXEXl3bVgYCVsY/O9GM6jhNltGa8ht5QMGjbuFX6IR?=
+ =?us-ascii?Q?Srcb5WJoEz+Esu5C0OuQodiBrrzCNwLBzEFfRStlXkGarqobfCFCGkjoDEp4?=
+ =?us-ascii?Q?35PWnVOl6khwCgpOKdwv7Y4XctWlQwzRo4b8fjXynK3aYcw+LRaFd+/RMok5?=
+ =?us-ascii?Q?iQ5KPQysAG1m8CA7UpNxnXqeFk0fu+Vn5E76JQsU7p2ExAe0otLLFEQndyrs?=
+ =?us-ascii?Q?C43xVgXfcKsazHLG1NULPCBEHCq2uYTjtq5hjXEK5akgdzJR0XtqyBy3Eb/0?=
+ =?us-ascii?Q?x0OR8ccmULEe7ET30KrAlBYM1B0vocPPe7ZUbAwoqgx3q1to9MnlYJCXA8WG?=
+ =?us-ascii?Q?9Owf/GkBjOCOmL+arQdV6SKloNxTML+rZHBspTaBm5UFV2q1JF/gOhRxfKnb?=
+ =?us-ascii?Q?uJ+qGWvZ/Ol4ey2Fk4/70X35wMo4GoRRsGNNS3lWNOkKXAKoRJX7pDeCsZ2L?=
+ =?us-ascii?Q?nOZPo2u5R3anwGtOJsxT7Kuo1YmVQzWE0VmrxlQPISXfZm66IbU2ir+yFd9H?=
+ =?us-ascii?Q?6MKb/vi1QMmyadRGIrumaAgkjXuNqxlqFoN4bDuEkur/la6/BqcKCsIb5+I0?=
+ =?us-ascii?Q?c3JG8dxi66FmoyU4ufV7+urvVPjwGisKg+PuPxxYAVS3MclIg8cP5C+Ub0mp?=
+ =?us-ascii?Q?XKH/eYTAQoGNn67ag66nZOhewlMCElDWASrQZjOZ3jj2+uyQoJz852/1D2Hh?=
+ =?us-ascii?Q?z+XcpZkV6REUFPPgvWqLbYnFcQp7B6zi1I2Hdo6R95Pj2viqA2FphAatZBoA?=
+ =?us-ascii?Q?Y0LQ2/HWUkb5mLIlkrICXiTpSfWTkhbWE1JUBILD9SNfc/oJrkoNsXVFYsYe?=
+ =?us-ascii?Q?1oB+oYUcHKRW2Z6yCQnuaAWoMDgctTkRXUpTp/15Xyu0hNAmqRGEcU0Ad75N?=
+ =?us-ascii?Q?0IdqLZwcTmwX5pXnazPMTFeHCFGG7jfp4/+KUTMrYpl0MBgr1GCF4qMOV4FH?=
+ =?us-ascii?Q?RfKne3EKJTC0ZE3I7CwhV2/Qr0HutjqXsvSudD4vp3oG/4bshNPi8yri2res?=
+ =?us-ascii?Q?5SE1c3N4lOvK6uxAFdvoVDY5L/NVD8Worz59W2SCdhvx2gVWkdeKiknMJ/4U?=
+ =?us-ascii?Q?cWtmHz77jq/vBBb+r3nY+I+Jx3B4hV9/i7rM3Vzcbw2JGwO8KGvT0nGcKTDM?=
+ =?us-ascii?Q?ZPfkN7O5IHi17rpEcFCh59zJauQ2ZYda59A95Kn0ehVFwXjrm7esfBTA77C7?=
+ =?us-ascii?Q?MwKL+ZT56Fhq6RFdyTQniS48hnXwVfjEaTGZzfs/Wiyv6pptTrNsaNej1sHE?=
+ =?us-ascii?Q?mQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8511696d-c341-44ed-7b73-08dda9d97ee5
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 17:49:35.9493
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UOnxrjp8RS3bb0u2rIw77HPpMOwjZGG/708uXetfR9LEQV0ufDEWkjBc9Wl8JZbLwRHzv2CocRMLI4EbtShLYEf/k7ltyLwhcx5CJ5xYde0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4848
+X-OriginatorOrg: intel.com
 
-Fix typos, punctuation and improve grammar and formatting
-in documentation for Video4Linux (V4L).
+On Tue, Jun 10, 2025 at 05:42:26PM +0100, Tvrtko Ursulin wrote:
+>Xe can free some of the data pointed to by the dma-fences it exports. Most
+>notably the timeline name can get freed if userspace closes the associated
+>submit queue. At the same time the fence could have been exported to a
+>third party (for example a sync_fence fd) which will then cause an use-
+>after-free on subsequent access.
+>
+>To make this safe we need to make the driver compliant with the newly
+>documented dma-fence rules. Driver has to ensure a RCU grace period
+>between signalling a fence and freeing any data pointed to by said fence.
+>
+>For the timeline name we simply make the queue be freed via kfree_rcu and
+>for the shared lock associated with multiple queues we add a RCU grace
+>period before freeing the per GT structure holding the lock.
+>
+>Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
----
 
-Notes:
-    v1 -> v2:
-    
-    Left out changes based on feedback from Jonathan Corbet
-    <corbet@lwn.net> and Bagas Sanjaya <bagasdotme@gmail.com>.
-    
-    v2 -> v3:
-    
-    Shortened the patch series to two patches, as parts
-    3/4 and 4/4 have been applied.
-    
-    No changes in content.
+Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
- .../userspace-api/media/v4l/biblio.rst        |  2 +-
- .../media/v4l/dev-sliced-vbi.rst              |  4 ++--
- .../media/v4l/ext-ctrls-fm-rx.rst             | 11 +++-------
- .../media/v4l/ext-ctrls-fm-tx.rst             | 21 +++++++------------
- .../media/v4l/pixfmt-srggb12p.rst             |  4 ++--
- .../media/v4l/pixfmt-srggb14p.rst             |  2 +-
- 6 files changed, 16 insertions(+), 28 deletions(-)
+for merging this through drm-misc tree.
 
-diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
-index 35674eeae20d..856acf6a890c 100644
---- a/Documentation/userspace-api/media/v4l/biblio.rst
-+++ b/Documentation/userspace-api/media/v4l/biblio.rst
-@@ -150,7 +150,7 @@ ITU-T.81
- ========
- 
- 
--:title:     ITU-T Recommendation T.81 "Information Technology --- Digital Compression and Coding of Continous-Tone Still Images --- Requirements and Guidelines"
-+:title:     ITU-T Recommendation T.81 "Information Technology --- Digital Compression and Coding of Continuous-Tone Still Images --- Requirements and Guidelines"
- 
- :author:    International Telecommunication Union (http://www.itu.int)
- 
-diff --git a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-index 42cdb0a9f786..96e0e85a822c 100644
---- a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-@@ -48,7 +48,7 @@ capabilities, and they may support :ref:`control` ioctls.
- The :ref:`video standard <standard>` ioctls provide information vital
- to program a sliced VBI device, therefore must be supported.
- 
--.. _sliced-vbi-format-negotitation:
-+.. _sliced-vbi-format-negotiation:
- 
- Sliced VBI Format Negotiation
- =============================
-@@ -377,7 +377,7 @@ Sliced VBI Data in MPEG Streams
- 
- If a device can produce an MPEG output stream, it may be capable of
- providing
--:ref:`negotiated sliced VBI services <sliced-vbi-format-negotitation>`
-+:ref:`negotiated sliced VBI services <sliced-vbi-format-negotiation>`
- as data embedded in the MPEG stream. Users or applications control this
- sliced VBI data insertion with the
- :ref:`V4L2_CID_MPEG_STREAM_VBI_FMT <v4l2-mpeg-stream-vbi-fmt>`
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-fm-rx.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-fm-rx.rst
-index b6cfc0e823d2..ccd439e9e0e3 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-fm-rx.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-fm-rx.rst
-@@ -64,17 +64,12 @@ FM_RX Control IDs
-     broadcasts speech. If the transmitter doesn't make this distinction,
-     then it will be set.
- 
--``V4L2_CID_TUNE_DEEMPHASIS``
--    (enum)
--
--enum v4l2_deemphasis -
-+``V4L2_CID_TUNE_DEEMPHASIS (enum)``
-     Configures the de-emphasis value for reception. A de-emphasis filter
-     is applied to the broadcast to accentuate the high audio
-     frequencies. Depending on the region, a time constant of either 50
--    or 75 useconds is used. The enum v4l2_deemphasis defines possible
--    values for de-emphasis. Here they are:
--
--
-+    or 75 microseconds is used. The enum v4l2_deemphasis defines possible
-+    values for de-emphasis. They are:
- 
- .. flat-table::
-     :header-rows:  0
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-fm-tx.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-fm-tx.rst
-index 04c997c9a4c3..cb40cf4cc3ec 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-fm-tx.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-fm-tx.rst
-@@ -104,7 +104,7 @@ FM_TX Control IDs
- 
- ``V4L2_CID_AUDIO_LIMITER_RELEASE_TIME (integer)``
-     Sets the audio deviation limiter feature release time. Unit is in
--    useconds. Step and range are driver-specific.
-+    microseconds. Step and range are driver-specific.
- 
- ``V4L2_CID_AUDIO_LIMITER_DEVIATION (integer)``
-     Configures audio frequency deviation level in Hz. The range and step
-@@ -121,16 +121,16 @@ FM_TX Control IDs
-     range and step are driver-specific.
- 
- ``V4L2_CID_AUDIO_COMPRESSION_THRESHOLD (integer)``
--    Sets the threshold level for audio compression freature. It is a dB
-+    Sets the threshold level for audio compression feature. It is a dB
-     value. The range and step are driver-specific.
- 
- ``V4L2_CID_AUDIO_COMPRESSION_ATTACK_TIME (integer)``
--    Sets the attack time for audio compression feature. It is a useconds
-+    Sets the attack time for audio compression feature. It is a microseconds
-     value. The range and step are driver-specific.
- 
- ``V4L2_CID_AUDIO_COMPRESSION_RELEASE_TIME (integer)``
-     Sets the release time for audio compression feature. It is a
--    useconds value. The range and step are driver-specific.
-+    microseconds value. The range and step are driver-specific.
- 
- ``V4L2_CID_PILOT_TONE_ENABLED (boolean)``
-     Enables or disables the pilot tone generation feature.
-@@ -143,17 +143,12 @@ FM_TX Control IDs
-     Configures pilot tone frequency value. Unit is in Hz. The range and
-     step are driver-specific.
- 
--``V4L2_CID_TUNE_PREEMPHASIS``
--    (enum)
--
--enum v4l2_preemphasis -
-+``V4L2_CID_TUNE_PREEMPHASIS (enum)``
-     Configures the pre-emphasis value for broadcasting. A pre-emphasis
-     filter is applied to the broadcast to accentuate the high audio
-     frequencies. Depending on the region, a time constant of either 50
--    or 75 useconds is used. The enum v4l2_preemphasis defines possible
--    values for pre-emphasis. Here they are:
--
--
-+    or 75 microseconds is used. The enum v4l2_preemphasis defines possible
-+    values for pre-emphasis. They are:
- 
- .. flat-table::
-     :header-rows:  0
-@@ -166,8 +161,6 @@ enum v4l2_preemphasis -
-     * - ``V4L2_PREEMPHASIS_75_uS``
-       - A pre-emphasis of 75 uS is used.
- 
--
--
- ``V4L2_CID_TUNE_POWER_LEVEL (integer)``
-     Sets the output power level for signal transmission. Unit is in
-     dBuV. Range and step are driver-specific.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst b/Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst
-index 7c3810ff783c..8c03aedcc00e 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst
-@@ -6,7 +6,7 @@
- .. _v4l2-pix-fmt-sgrbg12p:
- 
- *******************************************************************************************************************************
--V4L2_PIX_FMT_SRGGB12P ('pRCC'), V4L2_PIX_FMT_SGRBG12P ('pgCC'), V4L2_PIX_FMT_SGBRG12P ('pGCC'), V4L2_PIX_FMT_SBGGR12P ('pBCC'),
-+V4L2_PIX_FMT_SRGGB12P ('pRCC'), V4L2_PIX_FMT_SGRBG12P ('pgCC'), V4L2_PIX_FMT_SGBRG12P ('pGCC'), V4L2_PIX_FMT_SBGGR12P ('pBCC')
- *******************************************************************************************************************************
- 
- 
-@@ -20,7 +20,7 @@ Description
- These four pixel formats are packed raw sRGB / Bayer formats with 12
- bits per colour. Every two consecutive samples are packed into three
- bytes. Each of the first two bytes contain the 8 high order bits of
--the pixels, and the third byte contains the four least significants
-+the pixels, and the third byte contains the four least significant
- bits of each pixel, in the same order.
- 
- Each n-pixel row contains n/2 green samples and n/2 blue or red
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-srggb14p.rst b/Documentation/userspace-api/media/v4l/pixfmt-srggb14p.rst
-index 3572e42adb22..f4f53d7dbdeb 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-srggb14p.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-srggb14p.rst
-@@ -24,7 +24,7 @@ These four pixel formats are packed raw sRGB / Bayer formats with 14
- bits per colour. Every four consecutive samples are packed into seven
- bytes. Each of the first four bytes contain the eight high order bits
- of the pixels, and the three following bytes contains the six least
--significants bits of each pixel, in the same order.
-+significant bits of each pixel, in the same order.
- 
- Each n-pixel row contains n/2 green samples and n/2 blue or red samples,
- with alternating green-red and green-blue rows. They are conventionally
--- 
-2.39.5
-
+Lucas De Marchi
 
