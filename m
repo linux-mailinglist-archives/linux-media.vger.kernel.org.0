@@ -1,309 +1,191 @@
-Return-Path: <linux-media+bounces-34614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34615-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE7DAD6EFE
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 13:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A4BAD6F1C
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 13:36:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 791C51898A79
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:28:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D012189826B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:37:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82EF123C50F;
-	Thu, 12 Jun 2025 11:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67BA92F4334;
+	Thu, 12 Jun 2025 11:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a5GB2kdh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LOj+xzJb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0280623A99F
-	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 11:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC93FEC2;
+	Thu, 12 Jun 2025 11:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749727691; cv=none; b=fJKGbo8nGXG684SwoPpJ9tCnceSZgnanwT3VJC5zwf2O7FpXkre8Lg7C7MthZ4LOxRPCwl67aI02xs7TwSJ2XWAePd1moAnHF3uwj6YvKsbM7ZMcG5c5BmED57pMi5lQLw5ShkQK3gksIZkw5uGpE7SqZ9VO4ykHVubdqwPkK2Y=
+	t=1749728198; cv=none; b=qqJ54PAXl1TLAmgqO42bU88ie04Qr1lN0AmOs1ZPF6zfFKCz8MwnxdTeEkZ+E+qU4OmyfagZ36V64sB+W6ZVcMN5lizHCtlLkKgQPz1TwsFnXVIOI4hqiDEzu/gl65xi8ZxU1JqdTOsxtKq6Q9WfAaAArLfCyTsTYLsKHigo6Tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749727691; c=relaxed/simple;
-	bh=KJOMLdW5SZrj0U8wr3nzWhzkEPKy7Riiqfhctyf16Bg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kMCcz5e8czOOrgRJYItWm3mgwl9TP6zwT59khwz668e2BAl8+VbRAaOC9eDMqsjULHB/k1c+Uh+ya+dOYpYrf+kR0vLehPNTATBhLyIDP3duq6O6PkZQgOELj5pDnnJGqfNagdgBGwRxKXW+dBbPMXAK3fUGEcVtqnaXbkzHglE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a5GB2kdh; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F2F17E4;
-	Thu, 12 Jun 2025 13:27:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749727677;
-	bh=KJOMLdW5SZrj0U8wr3nzWhzkEPKy7Riiqfhctyf16Bg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a5GB2kdhed57nns/4smxDjVFQdefhbzR2CkeiJwGvFWy5F0gLtl4JhcwaLRplxIEH
-	 QNMOIhM/3dKzDTeR/NB/0hOTg45RsCcaDGIgmgQeJt3J2FRWXia1G/pTHrA8mtWSOH
-	 X7rdgAcdQYooBvVAeCoNkHRb/UrWrSGGZaX6bhlg=
-Date: Thu, 12 Jun 2025 14:27:52 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	"open list:DMA BUFFER SHARING FRAMEWORK:Keyword: bdma_(?:buf|fence|resv) b" <linux-media@vger.kernel.org>,
-	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>
-Subject: Re: Issue: Stuck After Successful VIDIOC_STREAMON with OV5695
-Message-ID: <20250612112752.GD11428@pendragon.ideasonboard.com>
-References: <PN3P287MB18297E8A4F568F064D19A1D18B74A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20250612092406.GA25137@pendragon.ideasonboard.com>
- <PN3P287MB1829C80107E00CFDBD3133718B74A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20250612101635.GF25137@pendragon.ideasonboard.com>
- <PN3P287MB18299D56B38B6CCCFD8CD79E8B74A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1749728198; c=relaxed/simple;
+	bh=3N7FzZgOhubknsIKQSHsXc3phDEJSc5osYBSHxh6U2U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IJRRnEFSFoijwoBRhTx2w3rk7yTraE1PXxqD7Rt1gag0w+DRKtUMxi//3nGyD/yhmoCMqLuQO7erAV2HGbKnHW16IC8HL83Oy8HAkCUmEPRAyFcCMEGfIwKfDJvZEUxxB1jh5JnRgKAyFP8scO+ctd6D6W8omNov9Fz4ryMWYp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LOj+xzJb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD92FC4CEEA;
+	Thu, 12 Jun 2025 11:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749728196;
+	bh=3N7FzZgOhubknsIKQSHsXc3phDEJSc5osYBSHxh6U2U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LOj+xzJbf/LdpybReE9UcMpx/rW+lyky73IQYXZDyAAPfKalv/EfRNvoTs9nfX46d
+	 TtPe6y23ROSV5J3Kl0vs3eKKB26VaIuYXqEpjxpzdG8Zrs34h6qMDhFL5yzs9U1mgB
+	 DJmPFt07YJowqt/DMTg76/vpvM8yrWorNQ2vr/Fp9BITqUfnfaE3WdbHRIG2o978mh
+	 nmudVh2iD9OOf9d5N+/YneBz+94syIx/7K8R+9Gtn80EvrW3uCS4rXmeruh9rWBZq1
+	 PxDftDwMD5DtfF8kluInvAkqY+Erw0mhvOznq1beKPMIh6qje6XVnxwLlXlmkWOI3t
+	 Edi4GLs/0z+7g==
+Message-ID: <91f87756-b44e-41cb-86f2-624204d401ef@kernel.org>
+Date: Thu, 12 Jun 2025 13:36:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3P287MB18299D56B38B6CCCFD8CD79E8B74A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/10] dt-bindings: media: qcom: Add Qualcomm MIPI
+ C-/D-PHY schema for CSIPHY IPs
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
+ <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
+ <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
+ <e02cead0-665d-443a-a884-c3a307409c66@kernel.org>
+ <9e38a09b-1521-4196-b179-d29c62e143bc@linaro.org>
+ <d424481b-cb06-4bee-8d36-5e31ca2838a2@kernel.org>
+ <51a91c84-c83f-4b22-9861-88929b222432@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <51a91c84-c83f-4b22-9861-88929b222432@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 12, 2025 at 10:57:28AM +0000, Tarang Raval wrote:
-> > On Thu, Jun 12, 2025 at 09:50:22AM +0000, Tarang Raval wrote:
-> > > > On Thu, Jun 12, 2025 at 07:52:32AM +0000, Tarang Raval wrote:
-> > > > > Hi
-> > > > >
-> > > > > I’m trying to bring up the OV5695 camera sensor on the Debix Model A board.
-> > > > >
-> > > > > Kernel Version: v6.15-rc2
-> > > > >
-> > > > > The issue occurs when attempting to capture a frame, the system hangs at
-> > > > > the VIDIOC_STREAMON call.
-> > > >
-> > > > When you say "hang", do you mean that it freezes completely and becomes
-> > > > unresponsive (no serial console, no network, ...), or that it doesn't
-> > > > capture frames ?
-> > >
-> > > The system remains responsive—console, serial, and network are all working fine.
-> > >
-> > > However, after calling VIDIOC_STREAMON, although it returns 0 (success), the frame
-> > > Capture does not proceed. I have to manually terminate the process using Ctrl + C.
-> > 
-> > Then it probably means that the ISI doesn't receive full images. There
-> > are lots of reasons why this could happen, from bad pipeline
-> > configurations to incorrect sensor configurations. I would recommend
-> > starting from the beginning of the pipeline and trying to validate
-> > proper operation of the components by looking at the various registers
-> > that can provide you with debugging information in all the hardware
-> > blocks of the SoC.
+On 12/06/2025 13:27, Vladimir Zapolskiy wrote:
+> On 6/12/25 14:02, Krzysztof Kozlowski wrote:
+>> On 12/06/2025 09:57, Vladimir Zapolskiy wrote:
+>>> On 6/12/25 10:39, Krzysztof Kozlowski wrote:
+>>>> On 12/06/2025 09:38, Krzysztof Kozlowski wrote:
+>>>>> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
+>>>>>> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
+>>>>>> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
+>>>>>>
+>>>>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>>>>>> ---
+>>>>>> RFC verion of the change:
+>>>>>> * https://lore.kernel.org/all/20250513143918.2572689-1-vladimir.zapolskiy@linaro.org/
+>>>>>>
+>>>>>> Changes from RFC to v1:
+>>>>>> * moved from phy/qcom,csiphy.yaml to media/qcom,csiphy.yaml,
+>>>>>> * added 'clock-names' property,
+>>>>>> * removed SM8250 CSIPHY specifics, a generic binding is good enough for now,
+>>>>
+>>>>
+>>>> Now I noticed this... weird change and clearly a no-go.
+>>>>
+>>>> Device binding cannot be generic, so it is not good enough for now.
+>>>> Please write specific bindings for specific hardware.
+>>>>
+>>>
+>>> Can I add platform specific changes on top of the displayed generic one
+>>> like in Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+>>> etc?
+>>>
+>>> The generic compatible is sufficienlty good for adding the enhanced
+>>> CSIPHY support to any currently present in the upstream platform CAMSS.
+>>>
+>>> Obviously I can rename it to something SoC-specific, but then a question
+>>> arises, if a selected platform has to be a totally new one in the upstream,
+>>> or it could be among any of platforms with a ready CAMSS, and a backward
+>>> compatibility is preserved by these series and the new CSIPHY dt bindings.
+>>
+>> Just use a specific compatible for the actual hardware this is being
+>> added for. I don't understand why this is different than all other work
+>> upstream.
 > 
-> I didn't get this :  "components by looking at the various registers that can 
-> provide debugging information in all the hardware blocks of the SoC" 
+> There are very close examples in upstream, for instance that's a generic
+> value from Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml:
 > 
-> which registers exactly are you referring to?
-> 
-> Are you talking about the camera sensor registers, or registers inside the 
-> SoC like the ISI or others block?
-> 
-> Could you please clarify which registers I should check for debugging?
+> properties:
+>    compatible:
+>      enum:
+>        - qcom,dsi-phy-10nm
+>        - qcom,dsi-phy-10nm-8998
 
-Check the i.MX8MP reference manual, and all the blocks related to the
-camera pipeline. There are lots of settings, lots of interrupts, and
-lots of status registers. I don't know where the problem lies so I can't
-point to one particular area, I'm afraid you'll have to do your homework
-yourself. Cameras are not easy, there's a reason they require experience
-and expertise. It can be a fun ride though, you get the opportunity to
-learn a lot :-)
+That's ancient now style. Don't use something from 10 years ago as example.
 
-> > > > > 1. I've verified the data lane connections, and they are correct.
-> > > > >
-> > > > > 2. Regarding link frequency:
-> > > > > In the mainline driver, the default link frequency is set to 420 MHz, but according
-> > > > > to the sensor's datasheet, the MIPI data rate can go up to 1000 MHz. So, I also tried
-> > > > > configuring the link frequency to 500 MHz, but the issue still persists.
-> > > >
-> > > > I assume you meant 1000 Mbps, not 1000 MHz.
-> > >
-> > > Oops, yes, 1000 Mbps.
-> > >
-> > > > > but the issue still persists.
-> > > > >
-> > > > > Could this be a driver-related bug, or is there something else I should be checking?
-> > > > > I would appreciate any guidance on the possible causes or the correct direction to
-> > > > > investigate.
-> > > > >
-> > > > > Best Regards,
-> > > > > Tarang
-> > > > >
-> > > > > ##########################################################################
-> > > > > debix@imx8mp-debix:~$ v4l2-ctl --device /dev/video0 --set-fmt-video=width=1920,height=1080,pixelformat=BG10 --stream-mmap --stream-to=image.raw --stream-count=1 --verbose
-> > > >
-> > > > What device is /dev/video0 ?
-> > >
-> > > /dev/video0 corresponds to the mxc_isi.0.capture device
-> > 
-> > I assume you've first configured the MC pipeline appropriately.
 > 
-> Yes, I configured
+> To save time reviewing the next version of the same change, will you
+> accept a list of acceptable compatible properties like this one?
 > 
-> media-ctl --device /dev/media0 --links "'ov5695 1-0036':0->'csis-32e40000.csi':0[1]"
-> media-ctl -v -d /dev/media0 -V "'ov5695 1-0036':0 [fmt:SBGGR10_1X10/1920x1080 field:none colorspace:raw]"
-> media-ctl -v -d /dev/media0 -V "'crossbar':0 [fmt:SBGGR10_1X10/1920x1080 field:none colorspace:raw]"
-> media-ctl -v -d /dev/media0 -V "'mxc_isi.0':0 [fmt:SBGGR10_1X10/1920x1080 field:none colorspace:raw]"
-> 
-> debix@imx8mp-debix:~$ media-ctl -p
-> Media controller API version 6.14.0
-> 
-> Media device information
-> ------------------------
-> driver          mxc-isi
-> model           FSL Capture Media Device
-> serial          
-> bus info        platform:32e00000.isi
-> hw revision     0x0
-> driver version  6.14.0
-> 
-> Device topology
-> - entity 1: crossbar (5 pads, 4 links)
->             type V4L2 subdev subtype Unknown flags 0
->             device node name /dev/v4l-subdev0
->         pad0: Sink
->                 [fmt:SBGGR10_1X10/1920x1080 field:none colorspace:raw]
->                 <- "csis-32e40000.csi":1 [ENABLED,IMMUTABLE]
->         pad1: Sink
->                 [fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
->         pad2: Sink
->                 <- "mxc_isi.output":0 [ENABLED,IMMUTABLE]
->         pad3: Source
->                 [fmt:SBGGR10_1X10/1920x1080 field:none colorspace:raw]
->                 -> "mxc_isi.0":0 [ENABLED,IMMUTABLE]
->         pad4: Source
->                 [fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
->                 -> "mxc_isi.1":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 7: mxc_isi.0 (2 pads, 2 links)
->             type V4L2 subdev subtype Unknown flags 0
->             device node name /dev/v4l-subdev1
->         pad0: Sink
->                 [fmt:SBGGR10_1X10/1920x1080 field:none colorspace:raw
->                  compose.bounds:(0,0)/1920x1080
->                  compose:(0,0)/1920x1080]
->                 <- "crossbar":3 [ENABLED,IMMUTABLE]
->         pad1: Source
->                 [fmt:SBGGR10_1X10/1920x1080 field:none colorspace:raw
->                  crop.bounds:(0,0)/1920x1080
->                  crop:(0,0)/1920x1080]
->                 -> "mxc_isi.0.capture":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 10: mxc_isi.0.capture (1 pad, 1 link)
->              type Node subtype V4L flags 0
->              device node name /dev/video0
->         pad0: Sink
->                 <- "mxc_isi.0":1 [ENABLED,IMMUTABLE]
-> 
-> - entity 18: mxc_isi.1 (2 pads, 2 links)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev2
->         pad0: Sink
->                 [fmt:UYVY8_1X16/1920x1080 field:none colorspace:jpeg xfer:srgb ycbcr:601 quantization:full-range
->                  compose.bounds:(0,0)/1920x1080
->                  compose:(0,0)/1920x1080]
->                 <- "crossbar":4 [ENABLED,IMMUTABLE]
->         pad1: Source
->                 [fmt:YUV8_1X24/1920x1080 field:none colorspace:jpeg xfer:srgb ycbcr:601 quantization:full-range
->                  crop.bounds:(0,0)/1920x1080
->                  crop:(0,0)/1920x1080]
->                 -> "mxc_isi.1.capture":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 21: mxc_isi.1.capture (1 pad, 1 link)
->              type Node subtype V4L flags 0
->              device node name /dev/video1
->         pad0: Sink
->                 <- "mxc_isi.1":1 [ENABLED,IMMUTABLE]
-> 
-> - entity 29: mxc_isi.output (1 pad, 1 link)
->              type Node subtype V4L flags 0
->         pad0: Source
->                 -> "crossbar":2 [ENABLED,IMMUTABLE]
-> 
-> - entity 36: csis-32e40000.csi (2 pads, 2 links)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev3
->         pad0: Sink
->                 [fmt:SBGGR10_1X10/1920x1080 field:none colorspace:raw]
->                 <- "ov5695 1-0036":0 [ENABLED]
->         pad1: Source
->                 [fmt:SBGGR10_1X10/1920x1080 field:none colorspace:raw]
->                 -> "crossbar":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 41: ov5695 1-0036 (1 pad, 1 link)
->              type V4L2 subdev subtype Sensor flags 0
->              device node name /dev/v4l-subdev4
->         pad0: Source
->                 [fmt:SBGGR10_1X10/1920x1080 field:none]
->                 -> "csis-32e40000.csi":0 [ENABLED]
-> 
-> > > > >
-> > > > > VIDIOC_QUERYCAP: ok
-> > > > > VIDIOC_G_FMT: ok
-> > > > > VIDIOC_S_FMT: ok
-> > > > > Format Video Capture Multiplanar:
-> > > > >         Width/Height      : 1920/1080
-> > > > >         Pixel Format      : 'BG10' (10-bit Bayer BGBG/GRGR)
-> > > > >         Field             : None
-> > > > >         Number of planes  : 1
-> > > > >         Flags             :
-> > > > >         Colorspace        : sRGB
-> > > > >         Transfer Function : sRGB
-> > > > >         YCbCr/HSV Encoding: ITU-R 601
-> > > > >         Quantization      : Limited Range
-> > > > >         Plane 0           :
-> > > > >            Bytes per Line : 3840
-> > > > >            Size Image     : 4147200
-> > > > >                 VIDIOC_REQBUFS returned 0 (Success)
-> > > > >                 VIDIOC_QUERYBUF returned 0 (Success)
-> > > > >                 VIDIOC_QUERYBUF returned 0 (Success)
-> > > > >                 VIDIOC_QUERYBUF returned 0 (Success)
-> > > > >                 VIDIOC_QUERYBUF returned 0 (Success)
-> > > > >                 VIDIOC_QBUF returned 0 (Success)
-> > > > >                 VIDIOC_QBUF returned 0 (Success)
-> > > > >                 VIDIOC_QBUF returned 0 (Success)
-> > > > >                 VIDIOC_QBUF returned 0 (Success)
-> > > > >                 VIDIOC_STREAMON returned 0 (Success)
-> > > > >
-> > > > >
-> > > > > ################################################################################
-> > > > >
-> > > > > echo 8 > /sys/module/videobuf2_common/parameters/debug
-> > > > > echo 8 > /sys/module/videobuf2_v4l2/parameters/debug
-> > > > >
-> > > > > Logs:
-> > > > >
-> > > > > [  133.181274] videobuf2_common: [cap-(____ptrval____)] __setup_offsets: buffer 0, plane 0 offset 0x00000000
-> > > > > [  133.182569] videobuf2_common: [cap-(____ptrval____)] __setup_offsets: buffer 1, plane 0 offset 0x00008000
-> > > > > [  133.183766] videobuf2_common: [cap-(____ptrval____)] __setup_offsets: buffer 2, plane 0 offset 0x00010000
-> > > > > [  133.185209] videobuf2_common: [cap-(____ptrval____)] __setup_offsets: buffer 3, plane 0 offset 0x00018000
-> > > > > [  133.185230] videobuf2_common: [cap-(____ptrval____)] __vb2_queue_alloc: allocated 4 buffers, 1 plane(s) each
-> > > > > [  133.185607] videobuf2_common: [cap-(____ptrval____)] vb2_mmap: buffer 0, plane 0 successfully mapped
-> > > > > [  133.185678] videobuf2_common: [cap-(____ptrval____)] vb2_mmap: buffer 1, plane 0 successfully mapped
-> > > > > [  133.185763] videobuf2_common: [cap-(____ptrval____)] vb2_mmap: buffer 2, plane 0 successfully mapped
-> > > > > [  133.185822] videobuf2_common: [cap-(____ptrval____)] vb2_mmap: buffer 3, plane 0 successfully mapped
-> > > > > [  133.185847] videobuf2_common: [cap-(____ptrval____)] vb2_core_qbuf: qbuf of buffer 0 succeeded
-> > > > > [  133.185879] videobuf2_common: [cap-(____ptrval____)] vb2_core_qbuf: qbuf of buffer 1 succeeded
-> > > > > [  133.185907] videobuf2_common: [cap-(____ptrval____)] vb2_core_qbuf: qbuf of buffer 2 succeeded
-> > > > > [  133.185942] videobuf2_common: [cap-(____ptrval____)] vb2_core_qbuf: qbuf of buffer 3 succeeded
-> > > > > [  133.501480] videobuf2_common: [cap-(____ptrval____)] vb2_core_streamon: successful
-> > > > > [  133.501579] videobuf2_common: [cap-(____ptrval____)] __vb2_wait_for_done_vb: will sleep waiting for buffers
-> > > > > [  147.031310] videobuf2_common: [cap-(____ptrval____)] __vb2_wait_for_done_vb: sleep was interrupted
-> > > > > [  147.039118] videobuf2_common: [cap-(____ptrval____)] vb2_buffer_done: done processing on buffer 0, state: error
-> > > > > [  147.039135] videobuf2_common: [cap-(____ptrval____)] vb2_buffer_done: done processing on buffer 1, state: error
-> > > > > [  147.039141] videobuf2_common: [cap-(____ptrval____)] vb2_buffer_done: done processing on buffer 2, state: error
-> > > > > [  147.039146] videobuf2_common: [cap-(____ptrval____)] vb2_buffer_done: done processing on buffer 3, state: error
-> > > > > [  147.039603] videobuf2_common: [cap-(____ptrval____)] __vb2_buf_mem_free: freed plane 0 of buffer 0
-> > > > > [  147.040152] videobuf2_common: [cap-(____ptrval____)] __vb2_buf_mem_free: freed plane 0 of buffer 1
-> > > > > [  147.040595] videobuf2_common: [cap-(____ptrval____)] __vb2_buf_mem_free: freed plane 0 of buffer 2
-> > > > > [  147.041036] videobuf2_common: [cap-(____ptrval____)] __vb2_buf_mem_free: freed plane 0 of buffer 3
+> properties:
+>    compatible:
+>      enum:
+>        - qcom,csiphy
 
--- 
-Regards,
+No. You cannot have generic compatible. We keep repeating this all the
+time, so this is nothing new.
 
-Laurent Pinchart
+>        - qcom,sm8250-csiphy
+> 
+
+Best regards,
+Krzysztof
 
