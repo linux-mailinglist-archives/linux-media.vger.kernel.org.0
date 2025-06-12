@@ -1,136 +1,171 @@
-Return-Path: <linux-media+bounces-34612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34613-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FE7AD6ED9
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 13:20:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E24AAD6EFD
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 13:28:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C5EE0171361
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:20:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2351C7A8099
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:26:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C368823C8D5;
-	Thu, 12 Jun 2025 11:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B69E23C51F;
+	Thu, 12 Jun 2025 11:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WdCn39G2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B333EC2;
-	Thu, 12 Jun 2025 11:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78B5229B38
+	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 11:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749727203; cv=none; b=Hs9wyQB98zYVW34++ZBJbgeumSGZLmQ1FQh574CNFq8ck5emEr2DVoh2XwtJkuHWO+kZkw9TQP1J4IybRJsKYnDdwKT2XSCaORPLXcYdspoSysnL8Ksntdv3mDq1Wl3QCeyGXxaWV3Jy/6l/SoLTNkbfWkBrwRVhQsEY40TMf1Y=
+	t=1749727671; cv=none; b=Uazj3ELdVFRd5a6z7OMCt3gyxWhiEkzjqNF4b3DKYsD/o8gmXlyaXh7Fejj8LDUyj38LCmFwkRM6Ah6h6txgz32y7krvLVMzfiSC9QjskKRO+Uda07B4kAa2JMONUUCvYBgYLBbPuOpDVdLQDCDO03D6hh7j3tzkU9PHHD5wdI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749727203; c=relaxed/simple;
-	bh=YqHsxaxpI8FsGsfWWK1FEDhyIw1Uvbz7gYjTt9gIXVM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RZh4eg6jtyRjI8f2EsAJC4XbxtzVZzJkx+Xe5wUhVO/BBf5VA8O1a1frcrt2NI7Pklk9UTqRBiqtCF4Hb+QD0vV9u/xU9nO0/m9PuKdMCxaed+oFIh2qzQxJ3iBx/EVqPLcnIKdmXQSSRX9Et5ZNzs+EbIehxekLtJgPph2OLRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-53133c3840dso106039e0c.0;
-        Thu, 12 Jun 2025 04:20:01 -0700 (PDT)
+	s=arc-20240116; t=1749727671; c=relaxed/simple;
+	bh=baOh6JNrNs+y+44obXR/Ufj9U6PUWPAjBVng4c8Z9hM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A2ROOB/eCI6RnnjndpStse2f0FICUv5YSowWfSkqBhgyIG/nGzNISM7HPN6ICjLftFapTiJCrn0BfbsxYLariP9f+c1eX/UKRH/FqFiBVnLSfaBQRaQ9aByLvCel+Vm3AxQ9aeRpooyKfqIiQibV+fXIy09VHHLim6hss8fW1RU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WdCn39G2; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-32a73a2594fso977731fa.3
+        for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 04:27:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1749727668; x=1750332468; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UMJIO+9hxF2T1hW8fxlUtSq3+LhB5vVChGg7nGiwpMk=;
+        b=WdCn39G2E6CPs7UXaqW5eAx6v5HgjxmSyrVlYtyLsQdM2ITwC1kp2CUndzUoHt+FOA
+         EWeix5toMcAZ3uDE8TwSyL5+b6F2aNyZVQpwT4hmBLOvNqvFPHd8AElsa5Ttp3YkyTHV
+         llYqxZRCy582KbrH0NaWtru6HJqx5MM2sBtT/0mHwGA76lFcyA4jxn7IDZEF4GplP+/2
+         JXdl/yFRm3Y/AfmZxuLs43t4go5nBwtPY7I+OujwlCkJQ/8zUtvoPo+WAOM8wNuibtml
+         dKQg4AOOFiMCayfZMMUQIf3/j/Yeb6MabczG1MnO869I1mRZXEELzTU/UfAlXwx8v7Ku
+         5YoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749727199; x=1750331999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TD3QIUg5vFTzQEXDYZJibnSN+u3ERO545tprLcdmPQo=;
-        b=nj5GXQUy9YgA8abknxAamAaH1sKCAFAmT3HxeMFac3b40JqJQqf/twwM0tgyAYCr1Y
-         8JS2w4V/mKZOa4oDmvRhVZ7z+JSkFYOJN1BlQJXvpDgngZvE783fSXTPGQ9nuMxz/1G2
-         v9YsrY9Llc8NljM+Ol/iwl0qFHOw5p7KwP5hnDnCO/3ewhRCd2f+wC1BDwzJVwOb18ht
-         OYBUjgZOJMUXdf8Nv+mrb6QrQ/d66tQG6ozH2gMcukYE6X31nMK0XdHa7clQ3sIteVZt
-         k7cdfA9TQhoJe5HUgOEZJFryi5zzJ4pVaENTUPRi4/DZgOhYzBSUC8lHFwrHcloEruwD
-         xf+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWqt1qoR7YQ7SdsXVGdeMl3LirBrrAg1k7JH2XySNZoL1vX3q4oUj20RrU2cerettWuVe4Ggt0ugXt0vDaRZ9rFLKQ=@vger.kernel.org, AJvYcCXMBTHHRkiQ2fgvhDNTwBJD0TRYTxJMVwPRxtjzOtRBHsU+S56fZaqnRpL3vtjmFD+nTiA+eG8z7YLa0Vo=@vger.kernel.org, AJvYcCXXhCpJmcYkrwfn/WJ2+z/b7C0pMUbRuu2Z+pOdRQ7tq/uoy7MT396uM0s4yv429Mr1X1R5QcFAnr5kMP4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVPoy704n/vBYn/EPWE/arr/C6HWaXOJiPjwGi+M5syvV7DwmI
-	fyeZPI7L7FVSEvzBlTcQM3H6wo27LIoGlq/lPQlvseQ8bAuL6bDOHZQ599h/akoj
-X-Gm-Gg: ASbGncvw9XEcS4A/YwYn0lk4tU8Bin5i00EPf/Kspsxp685WX6YHRpMQb0GmMtalTIg
-	R0v6ltHytuaNCOyvjC26hipjJ6n016SqW9qpRpev6h1VLGAuhHQIVii2iLD7tftAprwsUTY7/8u
-	OYrLB1+cWqKAmIH2dmQjdy0PGNcQPuShHRRdIh8KAff0RHlT/t6AK+rIjTmgFg2+JuLZzrSBiHp
-	FxuN2u3lp2ObIbp5PxfbtGg6riUNkiEtyetBakbNi8B2qWGCAb6qRy2BUwfqFpTUCuMr5Anv8UB
-	yT1TDc22RPDcfHcN1ANG1tZzNQNRXaZhOlyyGV+09ZVNsmdmOkveQSArKLAcBHHF/b/BxUy9dKm
-	uyS5WDL63wTAKC/VBKQYOT1f0
-X-Google-Smtp-Source: AGHT+IF28ebF8Mg7CzSisDVubvhdnfj5OxKqmZy2OajHlscguj6cAa9QRfsaA5G8EIdpN59aphAKuA==
-X-Received: by 2002:a05:6122:1c1:b0:52a:ee1d:f7fd with SMTP id 71dfb90a1353d-5312227726cmr5129135e0c.8.1749727199067;
-        Thu, 12 Jun 2025 04:19:59 -0700 (PDT)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5312f2ce812sm264785e0c.0.2025.06.12.04.19.58
+        d=1e100.net; s=20230601; t=1749727668; x=1750332468;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UMJIO+9hxF2T1hW8fxlUtSq3+LhB5vVChGg7nGiwpMk=;
+        b=rJ8js9i0EaW4qhDLYIoTY8MFolazLLsT2S/RT3ZhbtelL96B1XwDdwD75ae1aJ+9Xc
+         TPWv8m3qwOVLqWr4J3Pl3okg7qQF854MjpZz5tf37YsTn4QVedaCKvLwKFyhKC53WxQz
+         x7FTO7abzugsMLteKo0wIviPPKwUsNDJu+JQIRJi8qgT/3C7Xv5DM2HNW7z91wsbmgoz
+         y+PhUXRtYDpduETBJYe5KV5ZSx03nO12mjnjRmdSbJUO5fFDWxQtUXfJv6q2lgKf8Pr4
+         1mmIWou/Llztc06zNmokUkJgPKrUUiZqbZrWLdI7wCoWPu+5BSbQMlnFowQcV6TZ+R4W
+         pbRA==
+X-Forwarded-Encrypted: i=1; AJvYcCUeoT1ctwqA/1B5pFx3X1kkFC/JCEPUFFJdnXK+SJ3UZpOS+mEy4G1+2AdyRKQTumjS49jMpCJRr29bXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYQzjDA9IDwnqhqMm2WwY8IuNeEDSlSoLktnPUdf6y8t8zsjNm
+	cAsYfEybeECtl9RKTiX53eSu8T2ta4u8I434/FbEvvmkv8rUoWXWMvvIgqr8QguiN2s=
+X-Gm-Gg: ASbGnctZkhA9sIBSNYPvKDmKQzaFomgVtYi31bYCcj8hP4fYpNcQt+8R74KPt37wVCO
+	bm2jI3aFxzEMkgugUBxRHKPR6Fmaw8sRwZ1olVkUeXpVuKmrpOdIbNY5L/MIi/mRYHOVwJwat/U
+	Zw8DghVqd7IKTgoDSnVbzVaMQGtgPRsx+hyZfszO7DEItHX4D95iSjy/rnRrwDIIUvivyvZQ5LU
+	6GIc8LHplmf3y7zFPoTVt5m52WdoONLT/KRlGWnU6PRVSVNSc7+BWkmFyqbgMxrK+BjTkHHcxDm
+	AFflA+2prfLnvWpdSd0aXqTln3O1kyoLzWuZopPRjsG3Tt3QDkJx2tcMnS6kkVeF7XQpI7ovXjJ
+	l2Z5qfMH5pqCS0O6Mc9eTAGBabnrYGf9/+6O1tmGerIGkQbBHC8w=
+X-Google-Smtp-Source: AGHT+IHim72L19yadAXZGJXEuLrBbBbuXPX7tGYPhPYpnsQljqwHSSz7SjlCn5GLRjBPKu2TFNsZbw==
+X-Received: by 2002:a05:651c:1a0a:b0:32a:6236:7094 with SMTP id 38308e7fff4ca-32b21d8c15fmr7846241fa.9.1749727667784;
+        Thu, 12 Jun 2025 04:27:47 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32b3321f973sm1821551fa.112.2025.06.12.04.27.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 04:19:58 -0700 (PDT)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-87ee848a74bso214453241.2;
-        Thu, 12 Jun 2025 04:19:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUbtXfJGvnSe2dlkjcIGPNwjzPHQsKzCjt+VRyaMqlOGB5vUWF71Kyq4yqlQM3Oi3QP7J9PXwbLUrJv7YMoX8D547U=@vger.kernel.org, AJvYcCX4r+WP9cTxo1o493VUdg9mIzX94nzn3DiNLWSZxHJWLpaxMI6GVFOtUNLzf2oslPSYhh8GIwvLC64hdP0=@vger.kernel.org, AJvYcCXfGvrOQXN83yADEVIewzy/i0JUNuebNsTiF7MzitmG/veJGAUUP5gXGmm6qpnUMv2AvZ2UmPfZ/x0fxpo=@vger.kernel.org
-X-Received: by 2002:a05:6102:c48:b0:4e4:5e11:6832 with SMTP id
- ada2fe7eead31-4e7bae9d35emr6100563137.7.1749727198094; Thu, 12 Jun 2025
- 04:19:58 -0700 (PDT)
+        Thu, 12 Jun 2025 04:27:47 -0700 (PDT)
+Message-ID: <51a91c84-c83f-4b22-9861-88929b222432@linaro.org>
+Date: Thu, 12 Jun 2025 14:27:46 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250611154445.123412-1-niklas.soderlund+renesas@ragnatech.se>
- <20250611154445.123412-5-niklas.soderlund+renesas@ragnatech.se>
- <20250611230412.GO24465@pendragon.ideasonboard.com> <20250612100112.GH330732@ragnatech.se>
-In-Reply-To: <20250612100112.GH330732@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Jun 2025 13:19:45 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVueS4Dhu0e5DJSEDD1Pt-3Ay3tmjs5Jm-5Z2xQXr4XVQ@mail.gmail.com>
-X-Gm-Features: AX0GCFu6xrIMQdM-0ntmPWVxsgReft2rzNEKQKIMX4TRdYgrZvSUQ6KwwPHdPFc
-Message-ID: <CAMuHMdVueS4Dhu0e5DJSEDD1Pt-3Ay3tmjs5Jm-5Z2xQXr4XVQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] media: rcar-csi2: Add D-PHY support for V4H
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/10] dt-bindings: media: qcom: Add Qualcomm MIPI
+ C-/D-PHY schema for CSIPHY IPs
+Content-Language: ru-RU
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
+ <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
+ <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
+ <e02cead0-665d-443a-a884-c3a307409c66@kernel.org>
+ <9e38a09b-1521-4196-b179-d29c62e143bc@linaro.org>
+ <d424481b-cb06-4bee-8d36-5e31ca2838a2@kernel.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <d424481b-cb06-4bee-8d36-5e31ca2838a2@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 12 Jun 2025 at 12:01, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2025-06-12 02:04:12 +0300, Laurent Pinchart wrote:
-> > > --- a/drivers/media/platform/renesas/rcar-csi2.c
-> > > +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> > > +   if (mbps >=3D 80) {
-> > > +           if (mbps >=3D 2560)
-> > > +                   val =3D 6;
-> > > +           else if (mbps >=3D 1280)
-> > > +                   val =3D 5;
-> > > +           else if (mbps >=3D 640)
-> > > +                   val =3D 4;
-> > > +           else if (mbps >=3D 320)
-> > > +                   val =3D 3;
-> > > +           else if (mbps >=3D 160)
-> > > +                   val =3D 2;
-> > > +           else if (mbps >=3D 80)
-> > > +                   val =3D 1;
-> >
-> > You could possibly replace this with
-> >
-> >               val =3D ilog2(mbps / 80) + 1;
-> >
-> > Up to you.
->
-> I opted to keep it as is to make it easier to match with the datasheet.
-> The ilog2() is clever but I will never remember why it was used ;-)
+On 6/12/25 14:02, Krzysztof Kozlowski wrote:
+> On 12/06/2025 09:57, Vladimir Zapolskiy wrote:
+>> On 6/12/25 10:39, Krzysztof Kozlowski wrote:
+>>> On 12/06/2025 09:38, Krzysztof Kozlowski wrote:
+>>>> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
+>>>>> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
+>>>>> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
+>>>>>
+>>>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>>>>> ---
+>>>>> RFC verion of the change:
+>>>>> * https://lore.kernel.org/all/20250513143918.2572689-1-vladimir.zapolskiy@linaro.org/
+>>>>>
+>>>>> Changes from RFC to v1:
+>>>>> * moved from phy/qcom,csiphy.yaml to media/qcom,csiphy.yaml,
+>>>>> * added 'clock-names' property,
+>>>>> * removed SM8250 CSIPHY specifics, a generic binding is good enough for now,
+>>>
+>>>
+>>> Now I noticed this... weird change and clearly a no-go.
+>>>
+>>> Device binding cannot be generic, so it is not good enough for now.
+>>> Please write specific bindings for specific hardware.
+>>>
+>>
+>> Can I add platform specific changes on top of the displayed generic one
+>> like in Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+>> etc?
+>>
+>> The generic compatible is sufficienlty good for adding the enhanced
+>> CSIPHY support to any currently present in the upstream platform CAMSS.
+>>
+>> Obviously I can rename it to something SoC-specific, but then a question
+>> arises, if a selected platform has to be a totally new one in the upstream,
+>> or it could be among any of platforms with a ready CAMSS, and a backward
+>> compatibility is preserved by these series and the new CSIPHY dt bindings.
+> 
+> Just use a specific compatible for the actual hardware this is being
+> added for. I don't understand why this is different than all other work
+> upstream.
 
-+1 for ilog2() ;-)
+There are very close examples in upstream, for instance that's a generic
+value from Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml:
 
-Gr{oetje,eeting}s,
+properties:
+   compatible:
+     enum:
+       - qcom,dsi-phy-10nm
+       - qcom,dsi-phy-10nm-8998
 
-                        Geert
+To save time reviewing the next version of the same change, will you
+accept a list of acceptable compatible properties like this one?
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+properties:
+   compatible:
+     enum:
+       - qcom,csiphy
+       - qcom,sm8250-csiphy
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--
+Best wishes,
+Vladimir
 
