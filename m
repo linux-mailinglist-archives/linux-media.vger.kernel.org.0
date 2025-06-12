@@ -1,169 +1,213 @@
-Return-Path: <linux-media+bounces-34594-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34595-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C041BAD6C16
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:24:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FA7AD6C3E
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:31:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EF6A3AE4FE
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 09:24:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA9BA1BC3989
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 09:31:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1DD5227BB5;
-	Thu, 12 Jun 2025 09:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13DDA22A4E5;
+	Thu, 12 Jun 2025 09:31:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jys0qIJN"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Yw9CX+0X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9015A1DDC1B
-	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 09:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284DC1E5B62
+	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 09:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749720264; cv=none; b=SiSIEFBvikGc91FLDHC/mgri/kmmjL3A0A0EeS7Gc0PnpNmyIWiCclymZHJe8N9PhWDSnGOqdVaOah19FHQbxiMW+BZOnUjkUnwqY/w239c9IX+G9Z4IGCx5FKCze/32SOxZAH8xWLzSOOIMK0ozT5GmG7KgaWeMsm3CSiC3z+A=
+	t=1749720659; cv=none; b=YYj4un+xSb91ObidYXHUJBkNV4wLNPAtsCSEiK0X5J972rqps+iae6Tt0UGkyciu3+Ae0Fo89hHXiYoq41vL9WzFFmoZK97YPXL32tEO+3J8yT/4Sm21GQEfFYZ31srg7RF87zuShZ+alwiTLxBH5yW1UDB0vgzSSq3BMEICrfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749720264; c=relaxed/simple;
-	bh=3snzu0SfCD0pw94QVsHtKNeANdkpHitmprp9y4GHtAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G9zDxmUNzSF5ZJ/fI0Uf4sb8ZE7sXxUN9LBlDlSgNnVbOedlyR9x4Zqa4KxZq9SsJyc6+k5YGns2WeikaNxpiADUuYKNSbc9dLLrD04BKZxAihdyhDZMi6/mpG3YWNzik2eCiZZywzrvYAtsJxNeRAgJVNUO4sBSwhOQ1kXBCsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jys0qIJN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00152B5;
-	Thu, 12 Jun 2025 11:24:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749720252;
-	bh=3snzu0SfCD0pw94QVsHtKNeANdkpHitmprp9y4GHtAE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jys0qIJNVvDqeJayRT/6VHkhCnMKuSNrQl65UkN/+XjUqxy2ZoarhzFRVgf4ePgdw
-	 MpABW9SbsYQnMsBmZX8iikp5YzBShZUqV3DgFPeUvdDe4BT5KBaB0+4ZPlprB2LMfv
-	 NFgOwZrVxU03cv52/tdtKxgvPK7Y99B0CkvovB0w=
-Date: Thu, 12 Jun 2025 12:24:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	"open list:DMA BUFFER SHARING FRAMEWORK:Keyword: bdma_(?:buf|fence|resv) b" <linux-media@vger.kernel.org>,
-	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>
-Subject: Re: Issue: Stuck After Successful VIDIOC_STREAMON with OV5695
-Message-ID: <20250612092406.GA25137@pendragon.ideasonboard.com>
-References: <PN3P287MB18297E8A4F568F064D19A1D18B74A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1749720659; c=relaxed/simple;
+	bh=cCwWw9sTvHj5PdPsJ3yibTXuI4iOD0bHCNDKmdQqR9Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YpAtKG5o9eN9M7OXBnh0gqKcKc6f1lpmsOZzFzXGMXg2MvuG9qbz8emAKxgXHuQcrPHvx2UM8fE1Omhnvj/39VUVALRLqS8lXADBP03Rz0GxGkCP3w7E2ZmcBhtJRG/mchFWgr4htGQxGH4E7xrrUno3wtG6Xi2UVI8XCT7FT78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Yw9CX+0X; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-553331c3dc7so565963e87.3
+        for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 02:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1749720655; x=1750325455; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EY6fVQgCafne+t6zpmu4ZzZIepFlffFJV42q5eV6obY=;
+        b=Yw9CX+0XiiCbRM5qj6Evmcq6V82tvxkUriwvSTZiQvLQbzVEzN1lPwuPvILippHGUO
+         +FRmO8DfnwYzbHtbQ6qRv4Pw6TfzozwoHZQ0UsW6F9EU303lCuxHyR0nkG9oHQpUkDkM
+         Mz8CotwPesJi7L9xA2+WCWMXVUGujyuYZf72Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749720655; x=1750325455;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EY6fVQgCafne+t6zpmu4ZzZIepFlffFJV42q5eV6obY=;
+        b=eQ+tE8VGqbVrCpAm53jRjsD+1NQIlAwEgKCGQhLn4kjiW7U6909u3SZlxDD58roknY
+         jP8cXNrdHf5E3G2DkgPtLWOfbvPq/DEd3cAOqZnVQdHb49SEYfUfAjPkhW4lVYOYNFyc
+         k+2X8HGEuuu4RWtV2FkUq5hf8KkrAaB93H9vqfVL23LGOGg/8CIX6OE1qDDkwl8cYWyh
+         bAooLGLg0iLwTS+myxmm7Om0V9P1W2ePBFKf3nYZUvrHtmHakBxzNQs9vHe6kMMiIdCX
+         +5jTSVCPEjEJRp0Y0FImVO9X4CDXdELcSHKOkMLVWv+olhksS0Kb5UJO7YwFxn1GTta/
+         b4yA==
+X-Forwarded-Encrypted: i=1; AJvYcCVtyN1WpukHkhz/D1heZ0UpkzfYarYdmxQVyulUTSEspVS7PpjaiaizpDXszd2IPXQOTBggW/ZdxK6vqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyDwnbRj3OqqOpRrDzQjvphyWXnS4VcR0YF1wcmMIRHdqUqrTe
+	6wCOQvsOYfmnadrBP9cSCO0nm5OXaQKYPQudq/puZrkv9jaYFKBaGZE6gGvmS4iVb483sJphFWu
+	yT84=
+X-Gm-Gg: ASbGncu3OKi5aZ86jVoqwunPIabx3BHnub7Stc6NtCgQXXovNJYTOY1xJXUQqfm7hYX
+	v9/pYZfCUX46qVAisuTD1zCR4kVAhyOKGCE9oglhjtGjAts6dsmTjsAYhbfUcS8grBLFT2GUzN1
+	+YyZSyviG8zvRqnS4YpFWpTvnDplUroejzyKHzbNSdKd/trHhfFFB4pmmbkRncn7QAtKUFR2tII
+	zHz3WFODFWBJPeeKtV/m1VIqTrgSVTUXDSLVODGcKoSo2K0bHCyYvOyY0Q1itwXt0LUVjHlAmGz
+	clrSYzKtkjSvR0nB+uPzsY0CkA7LN55l0kynnZy94e4pREYsEVW8p9flwgo9dRBLrSrPHgqqp5K
+	x0gbEhsDOD49194oRN1hPScRZ
+X-Google-Smtp-Source: AGHT+IGpj6kgAGUoZxsuZiCKwUU/Uf/Gy7V1hluyn7aNjJGH4NLqXqu01r49HL9B/DbjSOqoPdN8Eg==
+X-Received: by 2002:a05:6512:6d0:b0:553:6526:82eb with SMTP id 2adb3069b0e04-553a650f2aamr717519e87.14.1749720654735;
+        Thu, 12 Jun 2025 02:30:54 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac1f6627sm49996e87.216.2025.06.12.02.30.53
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jun 2025 02:30:53 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54b10594812so728800e87.1
+        for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 02:30:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVISk9EVlPfrr8bhuc4WXG3ImHP2P6KvnIBiMi50BYE/5W51vvT2sUkzWd47qoyTkNaEtRfQq49UALNtg==@vger.kernel.org
+X-Received: by 2002:a05:6512:6d0:b0:553:1f90:cca4 with SMTP id
+ 2adb3069b0e04-553a650ef0fmr554833e87.13.1749720652786; Thu, 12 Jun 2025
+ 02:30:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3P287MB18297E8A4F568F064D19A1D18B74A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <tencent_39B2EF87C824951B6527F31CC86123F56107@qq.com>
+In-Reply-To: <tencent_39B2EF87C824951B6527F31CC86123F56107@qq.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 12 Jun 2025 11:30:40 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvB+qeBW7aPvBo_--J8gw3s3auhmy78VtkmMRReyg0-wQ@mail.gmail.com>
+X-Gm-Features: AX0GCFudZZkP2K3U6antsr0U79mjiGMJVWoijCOws11T55VmVkYza9w--FRgXg0
+Message-ID: <CANiDSCvB+qeBW7aPvBo_--J8gw3s3auhmy78VtkmMRReyg0-wQ@mail.gmail.com>
+Subject: Re: [PATCH] media: v4l2-dev: optimize device node number allocation logic
+To: Haipeng Jiang <haipengjiang@foxmail.com>
+Cc: hverkuil@xs4all.nl, mchehab@kernel.org, sebastian.fricke@collabora.com, 
+	bartosz.golaszewski@linaro.org, hljunggr@cisco.com, make24@iscas.ac.cn, 
+	viro@zeniv.linux.org.uk, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Tarang,
+Hi Haipeng
 
-On Thu, Jun 12, 2025 at 07:52:32AM +0000, Tarang Raval wrote:
-> Hi
-> 
-> I’m trying to bring up the OV5695 camera sensor on the Debix Model A board.
-> 
-> Kernel Version: v6.15-rc2
-> 
-> The issue occurs when attempting to capture a frame, the system hangs at 
-> the VIDIOC_STREAMON call.
+Thanks for the patch.
 
-When you say "hang", do you mean that it freezes completely and becomes
-unresponsive (no serial console, no network, ...), or that it doesn't
-capture frames ?
+Please note that devnode_find should be a very efficient bit
+operation, it is most of the time done in O(1) and not in O(N) despide
+it would sound otherwise.
 
-> 1. I've verified the data lane connections, and they are correct.
-> 
-> 2. Regarding link frequency:
-> In the mainline driver, the default link frequency is set to 420 MHz, but according 
-> to the sensor's datasheet, the MIPI data rate can go up to 1000 MHz. So, I also tried 
-> configuring the link frequency to 500 MHz, but the issue still persists.
+If you want to refactor the code, I would suggest modifying
+devnode_find() instead. Something like this (untested)
 
-I assume you meant 1000 Mbps, not 1000 MHz.
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c
+b/drivers/media/v4l2-core/v4l2-dev.c
+index c369235113d9..400240afb85d 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -138,10 +138,20 @@ static inline void devnode_clear(struct
+video_device *vdev)
+        clear_bit(vdev->num, devnode_bits(vdev->vfl_type));
+ }
 
-> but the issue still persists.
-> 
-> Could this be a driver-related bug, or is there something else I should be checking? 
-> I would appreciate any guidance on the possible causes or the correct direction to 
-> investigate.
-> 
-> Best Regards,
-> Tarang
-> 
-> ##########################################################################
-> debix@imx8mp-debix:~$ v4l2-ctl --device /dev/video0 --set-fmt-video=width=1920,height=1080,pixelformat=BG10 --stream-mmap --stream-to=image.raw --stream-count=1 --verbose
+-/* Try to find a free device node number in the range [from, to> */
++/* Try to find a free device node number in the range [from, to> , wrapping */
+ static inline int devnode_find(struct video_device *vdev, int from, int to)
+ {
+-       return find_next_zero_bit(devnode_bits(vdev->vfl_type), to, from);
++       int ret;
++
++       ret = find_next_zero_bit(devnode_bits(vdev->vfl_type), to, from);
++       if (ret == to && from == 0)
++               return -ENOSPC;
++
++       ret = find_next_zero_bit(devnode_bits(vdev->vfl_type), from, 0);
++       if (ret == from)
++               return -ENOSPC;
++
++       return ret;
+ }
 
-What device is /dev/video0 ?
+ struct video_device *video_device_alloc(void)
+@@ -994,10 +1004,8 @@ int __video_register_device(struct video_device *vdev,
 
->  
-> VIDIOC_QUERYCAP: ok
-> VIDIOC_G_FMT: ok
-> VIDIOC_S_FMT: ok
-> Format Video Capture Multiplanar:
->         Width/Height      : 1920/1080
->         Pixel Format      : 'BG10' (10-bit Bayer BGBG/GRGR)
->         Field             : None
->         Number of planes  : 1
->         Flags             : 
->         Colorspace        : sRGB
->         Transfer Function : sRGB
->         YCbCr/HSV Encoding: ITU-R 601
->         Quantization      : Limited Range
->         Plane 0           :
->            Bytes per Line : 3840
->            Size Image     : 4147200
->                 VIDIOC_REQBUFS returned 0 (Success)
->                 VIDIOC_QUERYBUF returned 0 (Success)
->                 VIDIOC_QUERYBUF returned 0 (Success)
->                 VIDIOC_QUERYBUF returned 0 (Success)
->                 VIDIOC_QUERYBUF returned 0 (Success)
->                 VIDIOC_QBUF returned 0 (Success)
->                 VIDIOC_QBUF returned 0 (Success)
->                 VIDIOC_QBUF returned 0 (Success)
->                 VIDIOC_QBUF returned 0 (Success)
->                 VIDIOC_STREAMON returned 0 (Success)
-> 
-> 
-> ################################################################################
-> 
-> echo 8 > /sys/module/videobuf2_common/parameters/debug
-> echo 8 > /sys/module/videobuf2_v4l2/parameters/debug
-> 
-> Logs:
-> 
-> [  133.181274] videobuf2_common: [cap-(____ptrval____)] __setup_offsets: buffer 0, plane 0 offset 0x00000000
-> [  133.182569] videobuf2_common: [cap-(____ptrval____)] __setup_offsets: buffer 1, plane 0 offset 0x00008000
-> [  133.183766] videobuf2_common: [cap-(____ptrval____)] __setup_offsets: buffer 2, plane 0 offset 0x00010000
-> [  133.185209] videobuf2_common: [cap-(____ptrval____)] __setup_offsets: buffer 3, plane 0 offset 0x00018000
-> [  133.185230] videobuf2_common: [cap-(____ptrval____)] __vb2_queue_alloc: allocated 4 buffers, 1 plane(s) each
-> [  133.185607] videobuf2_common: [cap-(____ptrval____)] vb2_mmap: buffer 0, plane 0 successfully mapped
-> [  133.185678] videobuf2_common: [cap-(____ptrval____)] vb2_mmap: buffer 1, plane 0 successfully mapped
-> [  133.185763] videobuf2_common: [cap-(____ptrval____)] vb2_mmap: buffer 2, plane 0 successfully mapped
-> [  133.185822] videobuf2_common: [cap-(____ptrval____)] vb2_mmap: buffer 3, plane 0 successfully mapped
-> [  133.185847] videobuf2_common: [cap-(____ptrval____)] vb2_core_qbuf: qbuf of buffer 0 succeeded
-> [  133.185879] videobuf2_common: [cap-(____ptrval____)] vb2_core_qbuf: qbuf of buffer 1 succeeded
-> [  133.185907] videobuf2_common: [cap-(____ptrval____)] vb2_core_qbuf: qbuf of buffer 2 succeeded
-> [  133.185942] videobuf2_common: [cap-(____ptrval____)] vb2_core_qbuf: qbuf of buffer 3 succeeded
-> [  133.501480] videobuf2_common: [cap-(____ptrval____)] vb2_core_streamon: successful
-> [  133.501579] videobuf2_common: [cap-(____ptrval____)] __vb2_wait_for_done_vb: will sleep waiting for buffers
-> [  147.031310] videobuf2_common: [cap-(____ptrval____)] __vb2_wait_for_done_vb: sleep was interrupted
-> [  147.039118] videobuf2_common: [cap-(____ptrval____)] vb2_buffer_done: done processing on buffer 0, state: error
-> [  147.039135] videobuf2_common: [cap-(____ptrval____)] vb2_buffer_done: done processing on buffer 1, state: error
-> [  147.039141] videobuf2_common: [cap-(____ptrval____)] vb2_buffer_done: done processing on buffer 2, state: error
-> [  147.039146] videobuf2_common: [cap-(____ptrval____)] vb2_buffer_done: done processing on buffer 3, state: error
-> [  147.039603] videobuf2_common: [cap-(____ptrval____)] __vb2_buf_mem_free: freed plane 0 of buffer 0
-> [  147.040152] videobuf2_common: [cap-(____ptrval____)] __vb2_buf_mem_free: freed plane 0 of buffer 1
-> [  147.040595] videobuf2_common: [cap-(____ptrval____)] __vb2_buf_mem_free: freed plane 0 of buffer 2
-> [  147.041036] videobuf2_common: [cap-(____ptrval____)] __vb2_buf_mem_free: freed plane 0 of buffer 3
+        /* Pick a device node number */
+        mutex_lock(&videodev_lock);
+-       nr = devnode_find(vdev, nr == -1 ? 0 : nr, minor_cnt);
+-       if (nr == minor_cnt)
+-               nr = devnode_find(vdev, 0, minor_cnt);
+-       if (nr == minor_cnt) {
++       nr = devnode_find(vdev, (nr == -1) ? 0 : nr, minor_cnt);
++       if (nr == -ENOSPC) {
+                pr_err("could not get a free device node number\n");
+                mutex_unlock(&videodev_lock);
+                return -ENFILE;
+
+
+Regards
+
+On Wed, 11 Jun 2025 at 16:06, Haipeng Jiang <haipengjiang@foxmail.com> wrote:
+>
+> Refactor the device node number selection to:
+> 1. Avoid redundant search in auto-allocation case (nr < 0)
+> 2. Simplify error handling with unified boundary check
+> 3. Maintain identical behavior for both auto and specific allocation
+>
+> For automatic allocation (start = 0):
+> - Only search [0, minor_cnt) once
+> - Return -ENFILE if no free node found
+>
+> For specific node request (start > 0):
+> - First search [start, minor_cnt)
+> - Then search [0, start) if first fails
+> - Return -ENFILE if both ranges have no free node
+>
+> Signed-off-by: Haipeng Jiang <haipengjiang@foxmail.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-dev.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index c369235113d9..23d04c890e6b 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -907,6 +907,7 @@ int __video_register_device(struct video_device *vdev,
+>         int ret;
+>         int minor_offset = 0;
+>         int minor_cnt = VIDEO_NUM_DEVICES;
+> +       int start;
+>         const char *name_base;
+>
+>         /* A minor value of -1 marks this video device as never
+> @@ -994,10 +995,11 @@ int __video_register_device(struct video_device *vdev,
+>
+>         /* Pick a device node number */
+>         mutex_lock(&videodev_lock);
+> -       nr = devnode_find(vdev, nr == -1 ? 0 : nr, minor_cnt);
+> -       if (nr == minor_cnt)
+> -               nr = devnode_find(vdev, 0, minor_cnt);
+> -       if (nr == minor_cnt) {
+> +       start = (nr < 0) ? 0 : nr;
+> +       nr = devnode_find(vdev, start, minor_cnt);
+> +       if (nr == minor_cnt && start != 0)
+> +               nr = devnode_find(vdev, 0, start);
+> +       if (nr == (start != 0 ? start : minor_cnt)) {
+>                 pr_err("could not get a free device node number\n");
+>                 mutex_unlock(&videodev_lock);
+>                 return -ENFILE;
+> --
+> 2.46.2.windows.1
+>
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda
 
