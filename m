@@ -1,245 +1,144 @@
-Return-Path: <linux-media+bounces-34586-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34587-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C692AAD69DB
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 10:02:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55812AD69F6
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 10:07:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 190E216201B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 08:02:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77DDC1899CD4
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 08:07:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2E2413C8E8;
-	Thu, 12 Jun 2025 08:02:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D91D221F1A;
+	Thu, 12 Jun 2025 08:07:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hi9BzEwX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Eeeec68B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B321187346
-	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 08:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D116D18DB2A
+	for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 08:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749715357; cv=none; b=ENMLPCmV7JueD08ArkyizQeHj9H+8EIHLXA3t7gmq1o0btv2QYJtELk8do9XVRLKAMCoGQJu87McCOeJIHIkdM/NLZkLjwY97j+T4RhJkwsFFkvwfkuqbvf8rzzrx+LRVaW+EA2KkD8YWYr7jRz+mTpeCf88MjOvdN+n/EN1sic=
+	t=1749715643; cv=none; b=uoZx7MZkMlxcO6zLGMIEeILEhVVwo12yLA/N0OpI7uChWb+HSQm4hvw3a8YlqI6nnPdCpshJBrNkLSIvHHR5UTX4S3WLYrJ/bc1OTiA8DtjAqjR15uFShn8iT47X+0gNr9LLvdpxua8X5EnRdvCRRMS4Nuy0GiqH4n+I5VjW0Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749715357; c=relaxed/simple;
-	bh=3eutFv0YUpUcBiELcRGQ/X2KXhDa7HG75EdddSZ3Hb0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FYQsYfkwiZmE2LtcahPy2qNKxGqocGm4zS7SnDUWsWr2h6lIoQtRr37av2B+aXruloeKHuqNp8n4QGUZItlE85tgAZrQAjwq60DJHgOajgyyPHL/Z/FOH4JobxiZlXZzQMHbFl1dJPG6uSLlAvewh6xteEkqGWr2aVqkynHsSN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hi9BzEwX; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1749715643; c=relaxed/simple;
+	bh=8tDz2WWtHl5iNiZtu805A7AYCZLwxYys726Q+3nadXg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=o1g9ZhClRFP7yIHUoRUTfkLWIGmxC0a4y3PNsKp+HPby3KPDccP2a7MDcoiuWD7MD7X2Ya03gx+fL7Wl5AfZHVciZm8blUY+E+lUtyV+StaHrpO8ikaZSlyIbIupFen9mGlsa3DafY3mTdu/snoiEi+dc0XN8N/yjK91UeK5wR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Eeeec68B; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-450d668c2a1so12602945e9.0
-        for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 01:02:35 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a35c894313so607192f8f.2
+        for <linux-media@vger.kernel.org>; Thu, 12 Jun 2025 01:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749715354; x=1750320154; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E+YnI2VE3dubMd3daM6I5J2k+cxEj00izt+Iu1pSlY4=;
-        b=hi9BzEwXvn5wYy5yKKiAbcUB/4VRkPkX7bzmxTWmAIyCAcHBGwd7sxpikktqxCCA+Q
-         3HKyo/OtoD2TIGukUsx9cu/pNeITCYVnazVCozQkHpFbTpVZv25xHBGd6IZFR1A4MRcD
-         G9Sc1qcdF7/OQOUW+gCbfgzZdE2cP6KWO/qbIJ5YcxkftHqD8nZ81ApiPxIdtZ1j+O1X
-         ClKDsuP7SCzvCUyxHxhf/4RkrLUfn6qficiqx9rbtGoksbkHjZOiC3INW331diI9BRMO
-         DlxaJ5JSbmEz0OFz0SSZXCrKIRQNGpqXZ4/3k86NKxiXU+iHMil/qiZ2D2FEGV4WZZvb
-         2c/w==
+        d=linaro.org; s=google; t=1749715639; x=1750320439; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8EsXhAjGTTQWpaDRlErU9rdRhfOKTZnFTlIFcBZuhGs=;
+        b=Eeeec68BK+ZVINceo2v3/MoOp6XZjFie5jO82x99y06q5MJctyeOMq0LVWL2idfgxn
+         pXuVu+z+x1M6hjoATQ/YPBdwNryPfRH8/dol1IoTwZ5ClwNimNCtMrZv3w4gsSXMTDFC
+         Myy72ZJis11uL2KuIh9rmFZSQrPL2CVTd6w6pVXJtGFIvZINUBr+HeOxzIFR7R872qMI
+         8Ows8AGMrBqKwpp+Gz94kqnESkDiyO1UgIOP/haZbZQOKhKDu7H0SyYgcG5+9QNcm2Kb
+         dy+bnPa45mPbUxAWaRCizI2SnW51CLdF7f4083CE951yMxgOLgR/hQcV7GTBmhwzzf+Q
+         GCTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749715354; x=1750320154;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E+YnI2VE3dubMd3daM6I5J2k+cxEj00izt+Iu1pSlY4=;
-        b=iFzKcovl9Lwv1/fZxLo4Uv+bQY/cYPcTUrbiUrewdDlNtWa5mDTgEeeYzsfrj2BA0P
-         p08ZdltbTPDxtM2xWHtQeIcuTxJxGtOyLK0Ym8Lr3sEL5nVoLd1PLBTyDNk8HY6RhqIZ
-         jXeyiW5Hh14pzyqfycB3X+VL/5XLylG4YUahhVMptz/pS8kf9Vt1sAxPapZDOhY2e+N0
-         8l0yYu5fWu5PMStNZm/Rte6xs3DQsJmyAAsQQE3Uso7LcvEw4grkKk6CZjtVyqbrVRw6
-         eo75QB3ZG93Bd2ZcYhVSOZ5L9aIy0ooTeVrMyDCTdMs3f/ZWHnI6R+bCMXMW3NqQCiDP
-         XG6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUJzQrQ2l90hMRMYzFjxfOG9tMH8uLR6zZGKx8SQD8iOLiyCpoNAnGo4O7m5E0KqMtAI3Mx68HTz9PgFQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu/PuaZbthR2jLgpsmedgL4NloE2pIvvOxd+O7uZiq92sVjTtZ
-	a1UzGCQ37HhAPcfFSu/TCQ5FBTq5E5kzTXX2+iFZoUWTzPQVMMQUN5EsYBhT9xTvOV4=
-X-Gm-Gg: ASbGnct03eeIi5MkgVgkMq3BO6upSUJ8ZI+J/fbep/ktK6c/XRxj1lN80UXpwVLxIrT
-	ucUW8DAX0l4KtyyHTJh/nKGd78/qGDha6uP3XLm8ytf4ygc1saYK51xyUovXXo0yF90RlehJQpV
-	lW7LCEUKDILUFPCRFfgkXH+Hu1QggfO2D7LYb1me1TMh/DgRnxeHtOHLykUlQ2CQjW+YeiDx7ao
-	EMkisUQ5EWU1fEkg4vjdfaMXTaFRX+X41DI/BaroZFiwU1tgvAuxfV8ZT9p/C/a/4YZccXfYJNz
-	x80KUzeEbTMTan9J1X4b0V91ozDn08mSEovz3Rd32uJgtBurkxszSIheSHroJgsggktvmHftl3L
-	LmOJsRFz3faJjHQGzp7fh8TjlFZw=
-X-Google-Smtp-Source: AGHT+IHr17lu04o6X3T3YbGhmI/P2yypu+DOM9jKCZ/WyDlw1KtOQazaviQwWkcOGDM2PNTVAyQCaA==
-X-Received: by 2002:a05:6000:178a:b0:3a1:f724:eb15 with SMTP id ffacd0b85a97d-3a56087effdmr1859459f8f.2.1749715353121;
-        Thu, 12 Jun 2025 01:02:33 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a561a3c756sm1214328f8f.52.2025.06.12.01.02.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 01:02:32 -0700 (PDT)
-Message-ID: <1fc9eb4c-6da2-4146-98e2-1bb6fc422a55@linaro.org>
-Date: Thu, 12 Jun 2025 09:02:30 +0100
+        d=1e100.net; s=20230601; t=1749715639; x=1750320439;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8EsXhAjGTTQWpaDRlErU9rdRhfOKTZnFTlIFcBZuhGs=;
+        b=d4bYNW/dBvjoNCwRdWB4SDrqIJv1sL4wKjE2e4OoHZcR51dlDKj2ZbqF58NJsFzhbn
+         i8+wMFdQiosU7vYWPUNVJKnEVipobvO1dwTdTfzAvcJJbe0+nSrtEAZms+/0Kg/Rwphs
+         NroRYbQkebl0DihMTVEgg+Mc4qAgErBptHEnQ0uEf9qBz5aBnxBcMYCevxBadDNF53fP
+         f7lFZH8gUAbH1gyv9ea530W1Z17MNnFa02K2LSVABADfzoaXkedbx2H6x4M4AdL8q+O2
+         JxwQULgtdBogQW0RODOXZXqeawbZBKD9j6/pjrGPoG0LLjVhHWdH/hU8VR0GwQqqDz2c
+         U7eQ==
+X-Gm-Message-State: AOJu0YzXlmQuAwxKXFUOeQ2ylyBpRj4ZQx/trqXSXRnh0GpjLSFQ/Nqw
+	KXtUkCC0NnOwVi0mprPggpAa4nihnqVq832xcQ0G6E/eAdQ/eE1xwPhg2+rXfW7iUek=
+X-Gm-Gg: ASbGnctMqixZ3x91VguJA9iWq41cjyPQQnQrNup0Kzi7sTYxzs03JWEDo44CoJBWMhT
+	xgBiOAmfXUbXpc/Mum3aE4iFsvuiMttKsoD13Q9E9w9Yhj8OYid80HjA43NlmfFAlMxVoI1mWob
+	gg2ZgUJrkDtCYW35zV2pcjDOqFMkJVy5G0YfG7reA+KWrFWGwi+wToAneyc+fRh8LCL8d9JmT+g
+	8ncC22OfjQ30aHKJxKJSnTChz+y69mf1qZXUaGLjIuH7dB+23dsCsFbbALSXrDYlBXtxUXc7j/T
+	3RdC3WGVQ7qSBhdbPmihPRo+7fJ7koRIqUK7r9nf7EkXvlOi/k+CPNtpdrF+HwrNr6wry+YaKaH
+	HIxlYl7kqaT870WqSPj4mR3c=
+X-Google-Smtp-Source: AGHT+IELKF2BpPbSWqRYk4Gz6CQukHgSMRWMkrUf0ssis7ZGRpZXgfdefuUMTWLkzrdWYkstVJZCJA==
+X-Received: by 2002:a5d:588e:0:b0:3a4:ef70:e0e1 with SMTP id ffacd0b85a97d-3a56130ce70mr1541851f8f.55.1749715639161;
+        Thu, 12 Jun 2025 01:07:19 -0700 (PDT)
+Received: from [127.0.0.1] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532de8c64esm12942335e9.7.2025.06.12.01.07.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jun 2025 01:07:18 -0700 (PDT)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH 0/2] media: qcom: camss: Fix two bugs in mainline
+Date: Thu, 12 Jun 2025 09:07:14 +0100
+Message-Id: <20250612-linux-next-25-05-30-daily-reviews-v1-0-88ba033a9a03@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/10] media: qcom: camss: csiphy: simplify arguments of
- lanes_enable and lanes_disable
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
- <20250612011531.2923701-4-vladimir.zapolskiy@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250612011531.2923701-4-vladimir.zapolskiy@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALKKSmgC/x2NQQrCMBQFr1L+2ge/sbHgVcRFsK/6oURJtEZK7
+ 97Y5SxmZpHMZMxybhZJnC3bM1ZoD43cHiHeCRsqi1Pn9dQqJoufgsjyhvNQj6NiCDb98Nf5zeh
+ 6jr4j2TNI7bwSRyv743Jd1w05S/pscwAAAA==
+X-Change-ID: 20250610-linux-next-25-05-30-daily-reviews-47ef54eee7ea
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Depeng Shao <quic_depengs@quicinc.com>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Hans Verkuil <hans.verkuil@cisco.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ stable@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>
+X-Mailer: b4 0.15-dev-dedf8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1140;
+ i=bryan.odonoghue@linaro.org; h=from:subject:message-id;
+ bh=8tDz2WWtHl5iNiZtu805A7AYCZLwxYys726Q+3nadXg=;
+ b=owEBbQKS/ZANAwAIASJxO7Ohjcg6AcsmYgBoSoq0qnkiS+TZmmJnu9CFHauELJP3na1Z5aUm+
+ he35PUBSsOJAjMEAAEIAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCaEqKtAAKCRAicTuzoY3I
+ OjYpD/90owDahLx/oFJlZo5Dugmf1+6K/ibsQ/tHTcVrnVzTfDIQ8SgAsyKaCu3rT9x/pIvsRoJ
+ 8swTBTOFm1n9Zvjt+i0lDh5FY+gKvOmsu05f0JNTzBYZjjFkv1aAE7Noh48Zqrfjym5qBmeIet9
+ VTxj/mDb5wyg6Tx7A1/te2bhnJXqaBl2/d988Ouzsg8DWMxIAfZlLrQ76dG0JQ2deoFiMHTvE6V
+ h0O3k1rgwBE9nSHbqUrY8n2t2V8y5GByYHrezqpxswjMfdQ4wqhFaulTgLhuSEq+dl49QVpcRL9
+ tPxXcEqzxzpATIg9Ep7CLFXH+eAkppLZfcDEiXIK18GdFgOJhTxW2ppSvlNNOXtDzH9XgkqLTW6
+ lgZ1tWxtjhdDkiCxN65I9vn6cbKELju4a5VrS4qH4jsufLB4ebc/XAfX7QLGCYyIBNPn+dhBglo
+ Edp9BoOx0kNd09gFw/qZFIKrzZupQtHjB2oqLjREzpcr9Mqn583jai+4UKPfjoqa+3eH3N9/BjX
+ AGQOM6v+uBKPXB+ai/pbih3ZeEZFVaH4T2mJkZ/+vKR//o3sS61mdXMGJYPqQ6PxuFCJiZOayj+
+ 1ewPnybUvQR0MkXP75LDSIcac07osETEn+xRX3NjvAD4mWIFHhGjCS0rdQEcxWziJ0UEv6/nc9T
+ OQxxF+8eicIIwrg==
+X-Developer-Key: i=bryan.odonoghue@linaro.org; a=openpgp;
+ fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
 
-On 12/06/2025 02:15, Vladimir Zapolskiy wrote:
-> In some of .lanes_enable and .lanes_disable functions the second argument
-> of csiphy_config type is either unused or it can be derived from the
-> main function argument, this lets to remove it from the list of arguments.
-> 
-> Apart of being the simplification the change is needed for further updates
-> to CSIPHY part of the CAMSS driver to get CSIPHY combo mode feature and
-> a related to it management of non-statically assigned CSIPHY media pads.
-> 
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> ---
->   .../media/platform/qcom/camss/camss-csiphy-2ph-1-0.c  | 10 ++++------
->   .../media/platform/qcom/camss/camss-csiphy-3ph-1-0.c  | 11 ++++-------
->   drivers/media/platform/qcom/camss/camss-csiphy.c      |  4 ++--
->   drivers/media/platform/qcom/camss/camss-csiphy.h      |  4 +---
->   4 files changed, 11 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> index 9d67e7fa6366..d9735f61fffc 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> @@ -95,10 +95,9 @@ static u8 csiphy_settle_cnt_calc(s64 link_freq, u32 timer_clk_rate)
->   }
->   
->   static void csiphy_lanes_enable(struct csiphy_device *csiphy,
-> -				struct csiphy_config *cfg,
->   				s64 link_freq, u8 lane_mask)
->   {
-> -	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
-> +	struct csiphy_lanes_cfg *c = &csiphy->cfg.csi2->lane_cfg;
->   	u8 settle_cnt;
->   	u8 val, l = 0;
->   	int i = 0;
-> @@ -114,7 +113,7 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
->   	val |= lane_mask << 1;
->   	writel_relaxed(val, csiphy->base + CAMSS_CSI_PHY_GLBL_PWR_CFG);
->   
-> -	val = cfg->combo_mode << 4;
-> +	val = csiphy->cfg.combo_mode << 4;
->   	writel_relaxed(val, csiphy->base + CAMSS_CSI_PHY_GLBL_RESET);
->   
->   	for (i = 0; i <= c->num_data; i++) {
-> @@ -134,10 +133,9 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
->   	}
->   }
->   
-> -static void csiphy_lanes_disable(struct csiphy_device *csiphy,
-> -				 struct csiphy_config *cfg)
-> +static void csiphy_lanes_disable(struct csiphy_device *csiphy)
->   {
-> -	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
-> +	struct csiphy_lanes_cfg *c = &csiphy->cfg.csi2->lane_cfg;
->   	u8 l = 0;
->   	int i = 0;
->   
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> index f732a76de93e..69d95bfeb9d2 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> @@ -638,10 +638,9 @@ static u8 csiphy_settle_cnt_calc(s64 link_freq, u32 timer_clk_rate)
->   }
->   
->   static void csiphy_gen1_config_lanes(struct csiphy_device *csiphy,
-> -				     struct csiphy_config *cfg,
->   				     u8 settle_cnt)
->   {
-> -	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
-> +	struct csiphy_lanes_cfg *c = &csiphy->cfg.csi2->lane_cfg;
->   	int i, l = 0;
->   	u8 val;
->   
-> @@ -758,10 +757,9 @@ static bool csiphy_is_gen2(u32 version)
->   }
->   
->   static void csiphy_lanes_enable(struct csiphy_device *csiphy,
-> -				struct csiphy_config *cfg,
->   				s64 link_freq, u8 lane_mask)
->   {
-> -	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
-> +	struct csiphy_lanes_cfg *c = &csiphy->cfg.csi2->lane_cfg;
->   	struct csiphy_device_regs *regs = csiphy->regs;
->   	u8 settle_cnt;
->   	u8 val;
-> @@ -791,7 +789,7 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
->   	if (csiphy_is_gen2(csiphy->camss->res->version))
->   		csiphy_gen2_config_lanes(csiphy, settle_cnt);
->   	else
-> -		csiphy_gen1_config_lanes(csiphy, cfg, settle_cnt);
-> +		csiphy_gen1_config_lanes(csiphy, settle_cnt);
->   
->   	/* IRQ_MASK registers - disable all interrupts */
->   	for (i = 11; i < 22; i++) {
-> @@ -800,8 +798,7 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
->   	}
->   }
->   
-> -static void csiphy_lanes_disable(struct csiphy_device *csiphy,
-> -				 struct csiphy_config *cfg)
-> +static void csiphy_lanes_disable(struct csiphy_device *csiphy)
->   {
->   	struct csiphy_device_regs *regs = csiphy->regs;
->   
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> index 1ba3fc2e33ac..f561811b7617 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> @@ -295,7 +295,7 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
->   		wmb();
->   	}
->   
-> -	csiphy->res->hw_ops->lanes_enable(csiphy, cfg, link_freq, lane_mask);
-> +	csiphy->res->hw_ops->lanes_enable(csiphy, link_freq, lane_mask);
->   
->   	return 0;
->   }
-> @@ -308,7 +308,7 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
->    */
->   static void csiphy_stream_off(struct csiphy_device *csiphy)
->   {
-> -	csiphy->res->hw_ops->lanes_disable(csiphy, &csiphy->cfg);
-> +	csiphy->res->hw_ops->lanes_disable(csiphy);
->   }
->   
->   
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
-> index d82dafd1d270..3b73248f1364 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.h
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
-> @@ -72,10 +72,8 @@ struct csiphy_hw_ops {
->   				struct device *dev);
->   	void (*reset)(struct csiphy_device *csiphy);
->   	void (*lanes_enable)(struct csiphy_device *csiphy,
-> -			     struct csiphy_config *cfg,
->   			     s64 link_freq, u8 lane_mask);
-> -	void (*lanes_disable)(struct csiphy_device *csiphy,
-> -			      struct csiphy_config *cfg);
-> +	void (*lanes_disable)(struct csiphy_device *csiphy);
->   	irqreturn_t (*isr)(int irq, void *dev);
->   	int (*init)(struct csiphy_device *csiphy);
->   };
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Two bug fixes here.
+
+First up SDM630/SDM660 hasn't been probing because moving the CSIPHY gen2
+init sequence into a common location also moved the default case of the
+switch statement which rejects non-gen2 devices.
+
+Second is a fix for a very longstanding bug which is a race-condition
+between fully enumerating /dev/videoX devices along with all of their
+dependent data-structures and gating user-space access to those devices.
+
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (2):
+      media: qcom: camss: csiphy-3ph: Fix inadvertent dropping of SDM660/SDM670 phy init
+      media: qcom: camss: vfe: Fix registration sequencing bug
+
+ drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 3 +--
+ drivers/media/platform/qcom/camss/camss-vfe.c            | 8 ++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.h            | 1 +
+ 3 files changed, 10 insertions(+), 2 deletions(-)
+---
+base-commit: 8666245114d979b963dc23894a03c74ecab8a7a6
+change-id: 20250610-linux-next-25-05-30-daily-reviews-47ef54eee7ea
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
 
