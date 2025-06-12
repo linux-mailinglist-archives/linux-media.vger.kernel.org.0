@@ -1,131 +1,59 @@
-Return-Path: <linux-media+bounces-34681-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34682-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D395AD7BFE
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 22:11:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72052AD7C03
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 22:11:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 62943178164
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 20:11:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8635E3A48D6
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 20:11:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22CFB2D663F;
-	Thu, 12 Jun 2025 20:10:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E7282D8781;
+	Thu, 12 Jun 2025 20:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="csQgwIeS"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="cFDRZVcQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F212036FA;
-	Thu, 12 Jun 2025 20:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D822D3A80;
+	Thu, 12 Jun 2025 20:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749759045; cv=none; b=FWz9l54sQwE4daOTdHUsZWueSyjSkNJMZ/3NwBWTl/0UbDu5zis/EjuXt88Ca1OrqJu32u4ani5gN8e3L3OM3uMWlHGuRoXVEvkTNhU/HJjhCGZoGFYor6C/Oex1q36pb/YtFqoLmg4WoXJ/rWEoSWuMiyVq59FmSqx8kaFIPjc=
+	t=1749759052; cv=none; b=HmsG6DGCsRf1iGj7LghFaeRDXR/8yvVsrPhcs3OArcmSUH2jlZdcj8VBqagQ/8XwOxmxjj36dHKYHc7QhZ6+QBc0HmB6Kzul/O4StICWAsWx0Vm5cLp9uHc2DpLNiAx36tCl99uK+B+bddDkImSgzUIauE6TZophZUtctzaYZhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749759045; c=relaxed/simple;
-	bh=+YxhKp8pbLzEr9fypYT/DVhapjMVFFU4pxYzJ32Tuf4=;
+	s=arc-20240116; t=1749759052; c=relaxed/simple;
+	bh=LXvy+sy0PBhMkhMSDjSRyHlDXaTDak+Ab7LEO6YONn4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hc/kSzDfM91rDQ0SJedULB/UCwkjlXPvdyCl1KZgTg1deXvzfH+35R1mnxmu3y+euh6U+cmL/sRGh0GIems0Z2MS+Ip7ydUrDQ6oNbq/7qTrme19M/ppz0CYe99NrDn67VEAowHGIFgySEubtBxscHn6nv3Os0Srb8xEQP+1ptg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=csQgwIeS; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-879d2e419b9so1410578a12.2;
-        Thu, 12 Jun 2025 13:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749759040; x=1750363840; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ACQzSKiLB081J7RKsan9TDO2EOdfGESNIDhEKLy5me8=;
-        b=csQgwIeS8lux0ymDzBSc4rrAlnzd14PfePEdI9tkxvsqE7T4KC1qYq2SZqCI1m5GG5
-         k+QWxHllIUOa4K1MzKK4TSiqsNEjJOfrWfwh0JQjg02eFgu/tFPYnGTsZUqo9072j0jk
-         DKBlDwTg5Z1ehdy1xIM3+MN9yH+P/5x3Ua5milpx05RzrZkBSCAr9WGcvb+hF9rQm2UL
-         vBwTix+p0DKc8uwjZAYIX63iCpZA5h5KWxMujZxnygdv2I8DSn+bx31aLF4LkQA+EvPB
-         hidVr238MmjzhNxVEVbf74mMF0E75g6IwPzMSdNRHTPNtQDo04ck0IE6D0WvPW5OhpL6
-         H07w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749759040; x=1750363840;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ACQzSKiLB081J7RKsan9TDO2EOdfGESNIDhEKLy5me8=;
-        b=B2TQLwh3ebEl2ljSruWymS2FH9PpSnVb42mtuaSNN4F1Ed31aoKibpIuYlMglUgAin
-         njOvEWj943VZyydZxXgNRzFn25skl17thd+Z4BnuTMe3nQzSepLDvr6AdW4kIroJWiyF
-         /32+Q2nSVR1BREYQtZ7kjvv9e/KglinqRI9xwA47y4dGkslAdzffxZ5FGCQ9hml2FSQV
-         yZCXbAkecgE8H3ZXP8011i74LGJD22tlBhkg0sdFKQ0Xb9bzaWc/EaZMOnl6uZlmXOGF
-         SSA/qd0c2vviHc8w9vzDckJby5JILFXShjFmq0DRQI/N8K9gBIThhhdMNfDl0vXgtwa0
-         XVcA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1Mwp7PB+2LWzT+srQJVDpqgTclkrnYaYLEmevJWsbjyF4gpOI2rMR6n41h75HzPQmUs4JIHZl@vger.kernel.org, AJvYcCUeou45KmIbAtjzrsH3KI4oc9VyxgnCdyUTesE5nLS6l5PgboJ8q+wJTyvQ8K0pIwaWhLEnp6MuFZs=@vger.kernel.org, AJvYcCUw+N0ejK6su/66zkkLBlUk5m5GZRkC3CR2E+v/dEJnl7iZhiecmlSb7Gu+hikjCm9Zel6NFa2B6PHG@vger.kernel.org, AJvYcCVSyEfFUZUUG4cuqDVu72nFng4uWOHaa3ZOkxmWne9vsvUGk3jll3amtH7ff9qUFjoBgRJ1HW7hJEzT8Bo=@vger.kernel.org, AJvYcCVmtagSTa+4ezWP6V3SQ8iC0cQfckNBtKxf/vA/jJSDXDZLsH5vUWQjPSmpI0NVy6Ns9WM93kzkWthHS5Hq@vger.kernel.org, AJvYcCWyBqp2sJ6sQKDVZC/4kgAK/MZ8Jz+zA87CAyA/mUfI9MVT5gW24ClbVrpjveXG88QgBOKZp6xegVw=@vger.kernel.org, AJvYcCXfaD2pg6gPZoKxXJcNRUF0XOy0IfF7SVR/T4XBexSRE2to0ZPtiPCbjkodvPNZelqFzxMsTSxYXY1vZdU=@vger.kernel.org, AJvYcCXmNKTaNEMd6Fw4mpLjBJ6WGJD57qnyAVUy86oTe3ZQszFyr698+GLx0CqMBDvd2FNVi2gFERuj+RZa@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNi7yRmE4U28f7cvFCUDtfivW9ZASHG9FVtk42V4jDw4u6HrS4
-	6jbxqlZcTadPhVkrnJKgu8PlJLK0c1Zf04tmwvDu3wkkJnOlumYw880h
-X-Gm-Gg: ASbGnctl0rozPdhjcZyHYybB55FSprwy5e3GBtrfuo5s6KnuPlgfQhKKl5FWtTh7FHQ
-	KwKIxnkHYQPqd4rGmgW1i/GOefXkPYcjfpQOSnSuDM3SGRtifVdpZbjOyrhbbUy1ogPciyvvq6h
-	S8ZlXGaEMj373OzCXbkjOXkUCaFLOnVOmUG1bDy3vp1SrEpexu3o6rQ0jYefrm1Qb1KY0+8daf0
-	7rYHXaYxRIsahNruMra875PgC8uYLzWZYQAEGgNB2ZXTSAR9qK+t3v+cegvtIsoqVOZVyTRB5v7
-	sbUB5EIZNUy/L+P9QUNNyKT5TF6HX+2gENGP82m9mWaFBooJehKY4DKEjxmPoA==
-X-Google-Smtp-Source: AGHT+IG8TocKyZo9LiHYpgmcLhk97cCKpOT9D/IFBCoE4AePraGyNKa1PzBXNuqHoDVO+xHoWj80Yg==
-X-Received: by 2002:a05:6a21:8dc4:b0:1f5:6c94:2cd7 with SMTP id adf61e73a8af0-21fad11efd4mr288514637.42.1749759040324;
-        Thu, 12 Jun 2025 13:10:40 -0700 (PDT)
-Received: from localhost ([216.228.127.129])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2fe1691d7fsm150701a12.69.2025.06.12.13.10.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 13:10:39 -0700 (PDT)
-Date: Thu, 12 Jun 2025 16:10:37 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH 01/20] bitfield: introduce HWORD_UPDATE bitfield macros
-Message-ID: <aEs0PVkwFN9uRgU0@yury>
-References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
- <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
- <20250612124415.3399e26b@kernel.org>
- <22744779.EfDdHjke4D@workhorse>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DNQzoK9NjSBFHJSy5tIDRdnBkwvxvz2onL9ZDxS6B5BqMk7HhHXPM/iORXeR27onvmic4XKuYwqs0ex85d111ZGsV4vylU1+i8eK7Y3OBH4zs2AZNPTvU9Ep71JwD0hKvv3KAgWiQXJnt9n10pjmMe9X2zkiZWQNp3C37ee4nBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=cFDRZVcQ; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1749759042; bh=LXvy+sy0PBhMkhMSDjSRyHlDXaTDak+Ab7LEO6YONn4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cFDRZVcQpZbeIXa2ih6/wVVObPAJpygoan7SeL9Q2JA8udlUNykFca7qs2GVX9hNa
+	 a9IRXvyGvzlOZLyoqG05jLceyS3uUzDEUB60Mfdj4N1SHyrNuEN16biP7uW4AHVp6y
+	 ZISmWoJitfOo3LqYtGRALQGPp7CxrfYmNaRcHWNxOIlvnRvQtSdCO6FKcAQfXq295y
+	 BfcMXtFsXFI9RYkBhi/8UcGS/xLF0JOhpr37XX/aQp8BiGQsQaDG3nQzV8Ebp3Cxmr
+	 a5xbasCLVlfMCeveL4GuZc+JtvEhpqmcsgH2Hf5YzeH8Wq82LPdRS0bc64HaJ2Izfc
+	 jziD3/gG8AeYg==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 49C6B100069; Thu, 12 Jun 2025 21:10:42 +0100 (BST)
+Date: Thu, 12 Jun 2025 21:10:42 +0100
+From: Sean Young <sean@mess.org>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] media: rc: ir-spi: constrain carrier frequency
+Message-ID: <aEs0Qr3O5myydP_L@gofer.mess.org>
+References: <20250611112348.3576093-1-demonsingur@gmail.com>
+ <20250611112348.3576093-3-demonsingur@gmail.com>
+ <aEnifhd1M6oJjy1S@gofer.mess.org>
+ <24d63ec4-a037-46fd-bbc1-9be2bef34c2b@gmail.com>
+ <aEsycgtDxrypTU0v@gofer.mess.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -134,33 +62,89 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <22744779.EfDdHjke4D@workhorse>
+In-Reply-To: <aEsycgtDxrypTU0v@gofer.mess.org>
 
-On Thu, Jun 12, 2025 at 09:50:12PM +0200, Nicolas Frattaroli wrote:
-> On Thursday, 12 June 2025 21:44:15 Central European Summer Time Jakub Kicinski wrote:
-> > On Thu, 12 Jun 2025 20:56:03 +0200 Nicolas Frattaroli wrote:
-> > > Hardware of various vendors, but very notably Rockchip, often uses
-> > > 32-bit registers where the upper 16-bit half of the register is a
-> > > write-enable mask for the lower half.
+On Thu, Jun 12, 2025 at 09:02:59PM +0100, Sean Young wrote:
+> On Wed, Jun 11, 2025 at 11:35:21PM +0300, Cosmin Tanislav wrote:
+> > On 6/11/25 11:09 PM, Sean Young wrote:
+> > > On Wed, Jun 11, 2025 at 02:23:44PM +0300, Cosmin Tanislav wrote:
+> > > > Carrier frequency is currently unconstrained, allowing the SPI transfer
+> > > > to be allocated and filled only for it to be later rejected by the SPI
+> > > > controller since the frequency is too large.
+> > > > 
+> > > > Add a check to constrain the carrier frequency inside
+> > > > ir_spi_set_tx_carrier().
+> > > > 
+> > > > Also, move the number of bits per pulse to a macro since it is not used
+> > > > in multiple places.
+> > > > 
+> > > > Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> > > > ---
+> > > >   drivers/media/rc/ir-spi.c | 6 +++++-
+> > > >   1 file changed, 5 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
+> > > > index 50e30e2fae22..bf731204c81e 100644
+> > > > --- a/drivers/media/rc/ir-spi.c
+> > > > +++ b/drivers/media/rc/ir-spi.c
+> > > > @@ -21,6 +21,7 @@
+> > > >   #define IR_SPI_DRIVER_NAME		"ir-spi"
+> > > >   #define IR_SPI_DEFAULT_FREQUENCY	38000
+> > > > +#define IR_SPI_BITS_PER_PULSE		16
+> > > >   struct ir_spi_data {
+> > > >   	u32 freq;
+> > > > @@ -70,7 +71,7 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
+> > > >   	memset(&xfer, 0, sizeof(xfer));
+> > > > -	xfer.speed_hz = idata->freq * 16;
+> > > > +	xfer.speed_hz = idata->freq * IR_SPI_BITS_PER_PULSE;
+> > > >   	xfer.len = len * sizeof(*tx_buf);
+> > > >   	xfer.tx_buf = tx_buf;
+> > > > @@ -98,6 +99,9 @@ static int ir_spi_set_tx_carrier(struct rc_dev *dev, u32 carrier)
+> > > >   	if (!carrier)
+> > > >   		return -EINVAL;
+> > > > +	if (carrier * IR_SPI_BITS_PER_PULSE > idata->spi->max_speed_hz)
+> > > > +		return -EINVAL;
+> > > 
+> > > Just a nitpick.
+> > > 
+> > > I think carrier * IR_SPI_BITS_PER_PULSE could overflow, and then the check
+> > > wouldn't work. It might be better to do:
+> > > 
+> > > 	if (carrier > idata->spi->max_speed_hz / IR_SPI_BITS_PER_PULSE)
+> > > 
+> > > However since IR_SPI_BITS_PER_PULSE is 16, which is just a shift left by 4,
+> > > I don't think this can be abused in any useful way.
+> > > 
 > > 
-> > Please limit the spread of this weirdness to a rockchip or "hiword"
-> > specific header. To a normal reader of bitfield.h these macros will
-> > be equally confusing and useless.
+> > I have another concern regarding overflow, inside ir_spi_tx().
 > > 
+> > DIV_ROUND_CLOSEST() is called with buffer[i] * idata->freq and 1000000.
+> > buffer[i] comes from userspace, it's the number of microseconds for this
+> > pulse. It's unsigned int. lirc core already checks that each element
+> > is not bigger than 500000 microseconds. Issue is, at 500000, it would
+> > take a carrier frequency as low as 8590 to overflow the unsigned int.
 > 
-> That is how this change started out, and then a different maintainer told
-> me that this is a commonly used thing (see: the sunplus patch), and
-> Rockchip just happens to have a lot of these with consistent naming.
+> Interesting, you are right.
+> 
+> > Maybe it would make sense to switch this one to mult_frac()? But we
+> > would lose rounding.
+> > 
+> > mult_frac(buffer[i], idata->freq, 1000000)
+> > 
+> > Optionally, we could cast buffer[i] to u64/unsigned long long, and use
+> > DIV_ROUND_CLOSEST_ULL.
+> > 
+> > DIV_ROUND_CLOSEST_ULL((u64)buffer[i] * idata->freq, 1000000)
+> > 
+> > Let me know what you think.
+> 
+> I've given it some thought and I'm not sure there is a better solution. It's
+> an edge case of course, but we should deal with it correctly.
 
-That other maintainer was me, and the macro is indeed not used by rockchip
-weirdness solely:
+Actually could we use check_mul_overflow() for this?
 
-$ git grep HIWORD | grep -v rockchip | wc -l
-326
+Just an idea.
 
-I don't think that that having HWORD_UPDATE() in bitfield.h is a wrong
-thing. Jakub, if you do, we can just create a new header for it.
 
-Thanks,
-Yury
+Sean
 
