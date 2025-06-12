@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-34610-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34611-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA216AD6EAC
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 13:11:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B925AD6EB3
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 13:12:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A829189EE4B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:12:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5C62C7AD1FB
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jun 2025 11:11:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 254C223D2A5;
-	Thu, 12 Jun 2025 11:11:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85AB023C4EA;
+	Thu, 12 Jun 2025 11:12:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YObGC4kd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sfl/OKEK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68882236A9F;
-	Thu, 12 Jun 2025 11:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BF4238C09;
+	Thu, 12 Jun 2025 11:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749726686; cv=none; b=RehVXH9GcoybsW+Y0kmNyFse09V24QvFCYJlyLTaxL824HKtxUpqGcP1oEYNosdrbPPblHukSlV20PFcHxl03702TYn+8weExahLRoclBjT8tzgJYC/n2NlD4fPWO5fxfgDf2WgFsSy/zBwVuGV2/qu0ppLtZZLh8RsHMbzjYZw=
+	t=1749726746; cv=none; b=ptaRijWE82GW3R0donyTYHzpv0clpbyN5KejegQ/0/B4TGwXCzwQHls1cG7jpKPIErogo8Komyehye2E+0wKaQ87QtgkgvPLDxQiJCn9x9sr6e9vQ58z5nT5T1MXrRcG6yc6LO8348eC78uPq8LdESZy/2wT0/unC2o589EUqxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749726686; c=relaxed/simple;
-	bh=XcmB3g2Xd6C3FeuwyMZKqn+WePmOQ9lBG3h97lU3E0w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HoGBC6fX69woHc+eAltXBqOFkQ7ioG8J76mOQfiK3vFKwi4ZBglRQSo47wm45wCC9wpk40W4vDdpTujAkhLxTIRacRieHi8OyX5KkQfY6Tm92YHQ+oL12GufkKjogtx/4kCM2xiPNqpUAdyClIr36zZI5CDT3gkW1UhMoqRSjMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YObGC4kd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AB6EC4CEEA;
-	Thu, 12 Jun 2025 11:11:22 +0000 (UTC)
+	s=arc-20240116; t=1749726746; c=relaxed/simple;
+	bh=maYvKYeEHIz96Kc4cKa/zbCx3Wu7VTI5c9HNXVJ1yus=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BHjYh076fPrvq0oBdboalCDY+yf/yvbgKMduRdnc5v5UnKaejzglaF0TM4vrjIkkuKqIDl3GBCDSGMhb0YebutUjEIVUlAjRvt7jRuUBN+CN3DaFUA2FImQFvBB9FCjAE8vz6rU4RtnjECwX9r0ptIF5XXCUMyGMEMMiFUSU08E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sfl/OKEK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA8AEC4CEEA;
+	Thu, 12 Jun 2025 11:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749726686;
-	bh=XcmB3g2Xd6C3FeuwyMZKqn+WePmOQ9lBG3h97lU3E0w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YObGC4kdtpR49uJZLcsGYRSGydCNJ2WBI20AN/YTHLBad82kQmQLYHnv3ur7nfCZk
-	 MZ1nLQ0Oal+K+i9lw+swKGsAjnOSheTHXdmMNTAO59qKqLehcVNZ49Z7tvO4kVaf2W
-	 tXXwoAjzO11JIJSQBn1gHiSmCXqfdeUFWYpO+jDJSgxupc6EdG1MaYSdTHdOEPKcaA
-	 7gI7jZajHMMJR6rGd0A3oThPW/2Q1f3+eWGLn5t94z9U4i9Kz5kmkKoKbW0o32YZI/
-	 SYuVow4ilpfjIGSALZPxCvahW+pdvzZIf9bsPyEhfmOSNgI7RB4Wcs6a5wbi33ZgxZ
-	 GUnAUuPafvp9g==
-Message-ID: <a86a0d45-8da1-475f-aeb8-37faa58b9849@kernel.org>
-Date: Thu, 12 Jun 2025 13:11:20 +0200
+	s=k20201202; t=1749726745;
+	bh=maYvKYeEHIz96Kc4cKa/zbCx3Wu7VTI5c9HNXVJ1yus=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=sfl/OKEKZKQ7xeIUy1EWZkcw7wbPbkLMWlw15Q5Hkb1bFZZqCbvSD3+UgxfFUNO1D
+	 OpQLdaP6DL5VpMiTi96yVsEP4OPjKihhAjmq1qkERV7CCrhRqtMlSJq++mQAOB1M5T
+	 AMMpymbXosrh0+6wwpscA2RDH3j/SQbhYUOfd0RAqgyKhHJlxcpRxy77ZaT2kwC+Jc
+	 6tO6802VpCOfnNZs7RPw7qzV7MaSaLkXjrw1d71TPpZTGvtHSqXFUv7qTloIQxQYBp
+	 lbOwdTEucnSV6g1xuxDoOBwzML/HA4rs0e9UljmeQ/3pzBcOka6a2qqDExSzY0H+gN
+	 az3iVb+P49z0Q==
+Message-ID: <94d9a2ac-e4cb-4126-b4a5-7f634606d787@kernel.org>
+Date: Thu, 12 Jun 2025 13:12:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,6 +51,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] arm64: dts: qcom: sm8550: Add support for camss
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -63,7 +64,7 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 References: <20250612-sm8550-camss-v2-1-ed370124075e@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <a86a0d45-8da1-475f-aeb8-37faa58b9849@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -108,29 +109,31 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250612-sm8550-camss-v2-1-ed370124075e@quicinc.com>
+In-Reply-To: <a86a0d45-8da1-475f-aeb8-37faa58b9849@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/06/2025 10:01, Wenmeng Liu wrote:
-> Add support for the camera subsystem on the SM8550 Qualcomm SoC. This
-> includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
+On 12/06/2025 13:11, Krzysztof Kozlowski wrote:
+> On 12/06/2025 10:01, Wenmeng Liu wrote:
+>> Add support for the camera subsystem on the SM8550 Qualcomm SoC. This
+>> includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
+>>
+>> SM8550 provides
+>> - 3 x VFE, 3 RDI per VFE
+>> - 2 x VFE Lite, 4 RDI per VFE
+>> - 3 x CSID
+>> - 2 x CSID Lite
+>> - 8 x CSI PHY
+>>
+>> Co-developed-by: Depeng Shao <quic_depengs@quicinc.com>
+>> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+>> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > 
-> SM8550 provides
-> - 3 x VFE, 3 RDI per VFE
-> - 2 x VFE Lite, 4 RDI per VFE
-> - 3 x CSID
-> - 2 x CSID Lite
-> - 8 x CSI PHY
 > 
-> Co-developed-by: Depeng Shao <quic_depengs@quicinc.com>
-> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
-> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Where did this happen? Please point specific email.
 
-
-Where did this happen? Please point specific email.
-
+OK, I found, never mind.
 Best regards,
 Krzysztof
 
