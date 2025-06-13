@@ -1,63 +1,48 @@
-Return-Path: <linux-media+bounces-34702-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34703-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49088AD82E7
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 08:02:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A49AD833B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 08:28:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C7A81670E2
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 06:02:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 467F217829B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 06:28:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6577F256C81;
-	Fri, 13 Jun 2025 06:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5ACB258CF9;
+	Fri, 13 Jun 2025 06:28:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="KQ6FULog"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LFMOselE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E61183CA6;
-	Fri, 13 Jun 2025 06:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105AF248F6F;
+	Fri, 13 Jun 2025 06:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749794561; cv=none; b=Zd574o0WENhJK1WnCoZgAVKoJ/Xs9SSClYjyATgQ9Q7BI7qx0UYZd30TPGgfTA1IOIqNNbmUN+GvbRm44RZSclb4AYLEis6896yQ/Y96iKwmZs7qDuM0GixchD2nwKISsZmn/ZMrdd5Ot53vmySYkbGIZS2LLLZnwL7A6jMjqIM=
+	t=1749796121; cv=none; b=eB2hmMB+qofmBPDCojUEAH/7ZppMzQ7euMwypE2mimw9pG2f30xDD0HihruCHG3yMcHKy8tOP93Q6eEhbw8fVfxshOtR5f8H2CvUcvrMajAku0pNUrEIg4JceDOfkQwagqCDlvhaGmCVXWk4nQX8m8WbleEUwC3kXKV+/9jck3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749794561; c=relaxed/simple;
-	bh=wSh2OKSV2CA+7iXWOs9/JXA+nC2k2MOKfyH6PG71jwg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=owYHSDpEKPjmhVmSKSxlYwY1PV+3YDBaP98UbQV7Xa76/EymYQBA/+q2EP5qBMoNZITTDEx4HGh3hOltGzcGXvGzL/rCQcedqoAt9V+g2KZQZiN6bfX8YZ6Cjydm7FKdRhvw9WWUHWrJRZQgo5SQ492zZzwpmyiYzigwQnjmk6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=KQ6FULog; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55D62I613055176;
-	Fri, 13 Jun 2025 01:02:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1749794538;
-	bh=6+5lF4XbIHB36glldEYa0buQM6Y0o3f7nE1tTSBNNYY=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=KQ6FULogi98z1wXgXQbwsrOSMtLDlQ86S0j8xLpLy+y4N7zvfgekwVxOdsK2KM3XB
-	 EUxznGb65wm8ObGF94TBzgZ+vi+9qFF0QZ809ILCrrMzQwsaUSx5bRVf3guAR+e1dq
-	 meyRRYPD4kZpC0NIuwDXFx/3GV8DCKo3xssyKv7c=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55D62HJW011196
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Fri, 13 Jun 2025 01:02:17 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 13
- Jun 2025 01:02:17 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 13 Jun 2025 01:02:17 -0500
-Received: from [172.24.227.115] (abhilash-hp.dhcp.ti.com [172.24.227.115])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55D62DBB3120662;
-	Fri, 13 Jun 2025 01:02:13 -0500
-Message-ID: <6dafe9e8-7c94-4b53-80fb-c6807c6cefd2@ti.com>
-Date: Fri, 13 Jun 2025 11:32:12 +0530
+	s=arc-20240116; t=1749796121; c=relaxed/simple;
+	bh=sTw2wEL6VKmpegEJNASmlk28/U2SuxO/zeQ8hpyBuC8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S+lVe+kmOMywuyfQKp7PJMlEXo8aIGpQoIrXLskkrySv9GsF+97WzeXyMsvCg3vAL9VTUjE/Tz37qi0DSw8FYa7kSV5GC+KHOZ0lu8M5QFnylPzDwFtH+7+5S7yNTuDFJvHvRSlM/ecigfKY6+9VljcoYIkfs+KRyTOiG37Ltr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LFMOselE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00BAFC4CEE3;
+	Fri, 13 Jun 2025 06:28:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749796120;
+	bh=sTw2wEL6VKmpegEJNASmlk28/U2SuxO/zeQ8hpyBuC8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LFMOselELQrdqlCWhXCplIrz88jVVHWHVxKeVMXnnQzut036gWuwa7jpMEVmymzKO
+	 Lvy2hC7yfg0gUxKdxYMvI46R4XhoLCkb8pAp7JZ7fmdJ6ph3/pDe+AimzmJWz3POHy
+	 gXCVLPjR6NEtg3Hm4jiIFY8b7b0qptd2OfsZUPchKmPlTUVBQELiXOoGMSc9VQ2tCE
+	 4ZOvpOPIWn9VgI/jjuBdzXBXaGR42gH6pUIglhJaji0bumOT2AMBmkX6qBjMjoJ4P1
+	 GhHVL2sTYoZqgqkG4xBvnbjn+CFEFtGQrtgfvy+iJ3CE3gptXpJ2TJGBqfnw76oOqf
+	 xXGA9Q+WzmWbg==
+Message-ID: <b96f9cca-cdd4-4456-8ced-f4a8fd810ff1@kernel.org>
+Date: Fri, 13 Jun 2025 08:28:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,82 +50,106 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] media: ti, cdns: Multiple pixel support and misc
- fixes
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Tomi Valkeinen
-	<tomi.valkeinen@ideasonboard.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>
-CC: Devarsh Thakkar <devarsht@ti.com>, Rishikesh Donadkar <r-donadkar@ti.com>,
-        Vaishnav Achath <vaishnav.a@ti.com>,
-        Changhuang Liang
-	<changhuang.liang@starfivetech.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>
-References: <20250410-probe_fixes-v2-0-801bc6eebdea@ideasonboard.com>
+Subject: Re: [PATCH 08/10] dt-bindings: media: qcom: Add Qualcomm MIPI
+ C-/D-PHY schema for CSIPHY IPs
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
+ <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
+ <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
+ <e9afdd0f-7842-4780-9044-d5afa6a09d7f@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-In-Reply-To: <20250410-probe_fixes-v2-0-801bc6eebdea@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <e9afdd0f-7842-4780-9044-d5afa6a09d7f@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Jai,
-Thanks for the patch series.
+On 12/06/2025 19:13, Vladimir Zapolskiy wrote:
+> On 6/12/25 10:38, Krzysztof Kozlowski wrote:
+>> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
+>>> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
+>>> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
+>>>
+>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>>> ---
+> 
+> <snip>
+> 
+>>> +
+>>> +  clocks:
+>>> +    maxItems: 2
+>>> +
+>>> +  clock-names:
+>>> +    items:
+>>> +      - const: csiphy
+>>> +      - const: csiphy_timer
+>>
+>> Drop csiphy from both, redundant. And this points to the first clock
+>> name not having any useful name. Name equal to device name is not useful.
+>>
+> 
+> I got the rationale, but I have no idea how to correct it, since it's
+> literally the case, the first clock name on the list in 'csiphy'.
 
-On 10/04/25 12:18, Jai Luthra wrote:
-> Hi,
-> 
-> The first four patches in this series are miscellaneous fixes and
-> improvements in the Cadence and TI CSI-RX drivers around probing, fwnode
-> and link creation.
-> 
-> The last two patches add support for transmitting multiple pixels per
-> clock on the internal bus between Cadence CSI-RX bridge and TI CSI-RX
-> wrapper. As this internal bus is 32-bit wide, the maximum number of
-> pixels that can be transmitted per cycle depend upon the format's bit
-> width. Secondly, the downstream element must support unpacking of
-> multiple pixels.
-> 
-> Thus we export a module function that can be used by the downstream
-> driver to negotiate the pixels per cycle on the output pixel stream of
-> the Cadence bridge.
-> 
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> ---
+What do you mean by "list"? You can point me also to internal
+documentation if that helps.
 
-For the entire series,
+> 
+> What could be an alternative name then?..
 
-Tested-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com> [on AM68SK]
+The real clock input name, signal name. You can also drop the names.
 
-> Changes in v2:
-> - Rebase on v6.15-rc1
-> - Fix lkp warnings in PATCH 5/6 missing header for FIELD_PREP
-> - Add R-By tags from Devarsh and Changhuang
-> - Link to v1: https://lore.kernel.org/r/20250324-probe_fixes-v1-0-5cd5b9e1cfac@ideasonboard.com
-> 
-> ---
-> Jai Luthra (6):
->        media: ti: j721e-csi2rx: Use devm_of_platform_populate
->        media: ti: j721e-csi2rx: Use fwnode_get_named_child_node
->        media: ti: j721e-csi2rx: Fix source subdev link creation
->        media: cadence: csi2rx: Implement get_fwnode_pad op
->        media: cadence: cdns-csi2rx: Support multiple pixels per clock cycle
->        media: ti: j721e-csi2rx: Support multiple pixels per clock
-> 
->   drivers/media/platform/cadence/cdns-csi2rx.c       | 76 +++++++++++++++++-----
->   drivers/media/platform/cadence/cdns-csi2rx.h       | 19 ++++++
->   drivers/media/platform/ti/Kconfig                  |  3 +-
->   .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 66 ++++++++++++++-----
->   4 files changed, 129 insertions(+), 35 deletions(-)
-> ---
-> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-> change-id: 20250314-probe_fixes-7e0ec33c7fee
-> 
-> Best regards,
+Best regards,
+Krzysztof
 
