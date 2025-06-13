@@ -1,162 +1,190 @@
-Return-Path: <linux-media+bounces-34725-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34726-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5ACAD87E5
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDDFAD87FA
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:34:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B10EF3AF9B7
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:30:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37FCE3ADFF2
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:33:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0D0291C27;
-	Fri, 13 Jun 2025 09:30:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B49ED2C3768;
+	Fri, 13 Jun 2025 09:33:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="fwyq21dh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+6teXS1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BE825A321;
-	Fri, 13 Jun 2025 09:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BDC1ACEAF;
+	Fri, 13 Jun 2025 09:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749807041; cv=none; b=MJXRn9kwf/Tg7N+lY84szoEt8Zfd3Qj/Rr+/J7iDed7CVvvIGkmb3FX1wiGECB/z+mm2l4q8XiMYb2v9auahJNGjjh7plBGCckgo4RYvAh3c5/S7s/y1MM26fwLMTrf+tdATX5FU9XFf/p7CLBrUmPlfVUWmaYv9vqWUumsJyCg=
+	t=1749807218; cv=none; b=EBp6J11fJ2p7+T8gDC+jx2bkkMbL53l9lKNYXYobAHX5qC1SB2ptEPXUYXrsZOCbJ62l1eUC/vMNWEpGSNwZzosJW9dICC9HGUMs7T7NCrBjtr/ezsmtsR7bEn5gqANZefrgGpqap1mdV9lFpUg5QoYiHL+Rc9CugQRCrFOpcAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749807041; c=relaxed/simple;
-	bh=4adj2/0BDm5vg8dnp5LhYk1LezexBVo3xysAfl3faqg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b5H1YqnAVmVVCtiP9KILzUgRoijZaoVQK1N0MqT+jUviv2xLqlryhZugc8XQ8Swq4LtiO21PT6QI98GBIlDMz3Xzgut6nh+T+n2qOZU7cWLh59qLlSQIvRyi4p0LL6CWEzxgdvc0vAhhYT2LbOyT3WtDlRGnz47SR1SrUSQwFb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=fwyq21dh; arc=none smtp.client-ip=88.97.38.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1749807035; bh=4adj2/0BDm5vg8dnp5LhYk1LezexBVo3xysAfl3faqg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fwyq21dhcFvWE8scCJgvxtKLUo9MqwqwULQKvlyNYHbA4IRUudvsEH2J+I7CW1v6N
-	 fRxd5/SHhBA+FARtQWmopjSgNZUVyzQdwFf4AA/h9PrjL4LXDYfA0qm5P4Cl9d5bZv
-	 9K2A5fJRzU2IqN2Uj2vbfHKrquYs0mkQwYmifn3DtgVYAwR5/Ti2uRQwz2SnOFQa7z
-	 sigJnpnD88QbSYyu4fbtncSnIuczJJ4aQJY/R4EF3TBlDMauMSV6Z7FtrvJy+pC54O
-	 WcvIrFQd7aOE8wWtvxd39Yf0OloDnpMZKRRlCdQfyYKWu694um84iUhS9/LXMS5CS8
-	 yMghlVXQQeZxA==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id 33F9E100069; Fri, 13 Jun 2025 10:30:35 +0100 (BST)
-Date: Fri, 13 Jun 2025 10:30:35 +0100
-From: Sean Young <sean@mess.org>
-To: Cosmin Tanislav <demonsingur@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] media: rc: ir-spi: constrain carrier frequency
-Message-ID: <aEvvu2sez981pM6Q@gofer.mess.org>
-References: <20250611112348.3576093-1-demonsingur@gmail.com>
- <20250611112348.3576093-3-demonsingur@gmail.com>
- <aEnifhd1M6oJjy1S@gofer.mess.org>
- <24d63ec4-a037-46fd-bbc1-9be2bef34c2b@gmail.com>
- <aEsycgtDxrypTU0v@gofer.mess.org>
- <aEs0Qr3O5myydP_L@gofer.mess.org>
- <94bc5863-f831-47b6-8bfd-57a807c8fe23@gmail.com>
+	s=arc-20240116; t=1749807218; c=relaxed/simple;
+	bh=i5Pf6Oznv55GrsWogxX5kmhEiTAMxh9TsID82AiML3Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=o1H7p88zyq/EJLGDbSEekAMHAjNBoxHnv0XVprfYtWs7qpWb9dbXzEcY1SSnVAaUvNSozrrNo1Ehg+vS4zH5nFBh2gCpkBwGaZtZV8rDsIs6a+5dP9NISedDJADD0Q/nUAr4JzHNpAZ81KJhGuz7p43Zsp7vx3rjgeswxK8M8SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+6teXS1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5F4ACC4CEE3;
+	Fri, 13 Jun 2025 09:33:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749807217;
+	bh=i5Pf6Oznv55GrsWogxX5kmhEiTAMxh9TsID82AiML3Q=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=L+6teXS1T5Unxh1aMNXnLi+T3Pf2YrRV3HC62I4vL0zzyMYohQQ8bS2d0dWaJiKGM
+	 FXSUJUaRb9y8JO232i40qyll6HPwRq7eL0x6Hx8NkrUXi2S9DZJ4EUQkmnfk5wVjT/
+	 KMnVS4HrpsFoDo7T7pe0sr5ggrt9p9EY302a+2RVPywsz6lUSEJIOmdTtr/RufaEtB
+	 eM1hc79qDUtBYvARqGZYbqs3Crc+Dyqr5UsN0upgNVPkVls2wEBKURHktRR4KWZeoL
+	 5Fd51UJJN7r/be4jIgC1r+746iuaBrrRP2gqWodtRaF5cRAaYNVvz9l9CP5t47FP3d
+	 eu+WfquKRA9IA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A7E9C71136;
+	Fri, 13 Jun 2025 09:33:37 +0000 (UTC)
+From: Vincent Knecht via B4 Relay <devnull+vincent.knecht.mailoo.org@kernel.org>
+Subject: [PATCH v5 0/4] CAMSS support for MSM8939
+Date: Fri, 13 Jun 2025 11:33:26 +0200
+Message-Id: <20250613-camss-8x39-vbif-v5-0-a002301a7730@mailoo.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <94bc5863-f831-47b6-8bfd-57a807c8fe23@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGbwS2gC/23OwY4CIQyA4VcxnMVAmTKDJ99jswcGqJKoGNgQN
+ 2beXTQmumGPf5N+7Y2VkGMobLu6sRxqLDGdW+B6xdzBnveBR9+agQAUKEfu7KkUPl2V4XWOxM2
+ IRDhJI83E2tYlB4rXp/j13foQy0/Kv88DVT6mLwtEZ1XJBbcSnNdCaEtmd7LxmNIm5T17YBU+A
+ ewBaID2yqNDSwPqDlAfgPrnA9UAckZ6ifOMvgeGN6AF9MDQAAUOxtFPZGb6AyzLcgenXWBgcgE
+ AAA==
+X-Change-ID: 20250517-camss-8x39-vbif-975ff5819198
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Vincent Knecht <vincent.knecht@mailoo.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749807215; l=4058;
+ i=vincent.knecht@mailoo.org; s=20250414; h=from:subject:message-id;
+ bh=i5Pf6Oznv55GrsWogxX5kmhEiTAMxh9TsID82AiML3Q=;
+ b=2pRtnf6EQ/OQ0rv2g+LD7BCVUlddoVZtLWAlJgAXmQi/uvheBpGb5hAsvhNvE4i03Fsfcx0HD
+ H8/70EE2cIwAphRYXLu2fxtY96H0MxJveM8HjAycouveQS2GilaJeV3
+X-Developer-Key: i=vincent.knecht@mailoo.org; a=ed25519;
+ pk=MFCVQkhL3+d3NHDzNPWpyZ4isxJvT+QTqValj5gSkm4=
+X-Endpoint-Received: by B4 Relay for vincent.knecht@mailoo.org/20250414
+ with auth_id=377
+X-Original-From: Vincent Knecht <vincent.knecht@mailoo.org>
+Reply-To: vincent.knecht@mailoo.org
 
-On Thu, Jun 12, 2025 at 11:20:28PM +0300, Cosmin Tanislav wrote:
-> On 6/12/25 11:10 PM, Sean Young wrote:
-> > On Thu, Jun 12, 2025 at 09:02:59PM +0100, Sean Young wrote:
-> > > On Wed, Jun 11, 2025 at 11:35:21PM +0300, Cosmin Tanislav wrote:
-> > > > On 6/11/25 11:09 PM, Sean Young wrote:
-> > > > > On Wed, Jun 11, 2025 at 02:23:44PM +0300, Cosmin Tanislav wrote:
-> > > > > > Carrier frequency is currently unconstrained, allowing the SPI transfer
-> > > > > > to be allocated and filled only for it to be later rejected by the SPI
-> > > > > > controller since the frequency is too large.
-> > > > > > 
-> > > > > > Add a check to constrain the carrier frequency inside
-> > > > > > ir_spi_set_tx_carrier().
-> > > > > > 
-> > > > > > Also, move the number of bits per pulse to a macro since it is not used
-> > > > > > in multiple places.
-> > > > > > 
-> > > > > > Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-> > > > > > ---
-> > > > > >    drivers/media/rc/ir-spi.c | 6 +++++-
-> > > > > >    1 file changed, 5 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
-> > > > > > index 50e30e2fae22..bf731204c81e 100644
-> > > > > > --- a/drivers/media/rc/ir-spi.c
-> > > > > > +++ b/drivers/media/rc/ir-spi.c
-> > > > > > @@ -21,6 +21,7 @@
-> > > > > >    #define IR_SPI_DRIVER_NAME		"ir-spi"
-> > > > > >    #define IR_SPI_DEFAULT_FREQUENCY	38000
-> > > > > > +#define IR_SPI_BITS_PER_PULSE		16
-> > > > > >    struct ir_spi_data {
-> > > > > >    	u32 freq;
-> > > > > > @@ -70,7 +71,7 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
-> > > > > >    	memset(&xfer, 0, sizeof(xfer));
-> > > > > > -	xfer.speed_hz = idata->freq * 16;
-> > > > > > +	xfer.speed_hz = idata->freq * IR_SPI_BITS_PER_PULSE;
-> > > > > >    	xfer.len = len * sizeof(*tx_buf);
-> > > > > >    	xfer.tx_buf = tx_buf;
-> > > > > > @@ -98,6 +99,9 @@ static int ir_spi_set_tx_carrier(struct rc_dev *dev, u32 carrier)
-> > > > > >    	if (!carrier)
-> > > > > >    		return -EINVAL;
-> > > > > > +	if (carrier * IR_SPI_BITS_PER_PULSE > idata->spi->max_speed_hz)
-> > > > > > +		return -EINVAL;
-> > > > > 
-> > > > > Just a nitpick.
-> > > > > 
-> > > > > I think carrier * IR_SPI_BITS_PER_PULSE could overflow, and then the check
-> > > > > wouldn't work. It might be better to do:
-> > > > > 
-> > > > > 	if (carrier > idata->spi->max_speed_hz / IR_SPI_BITS_PER_PULSE)
-> > > > > 
-> > > > > However since IR_SPI_BITS_PER_PULSE is 16, which is just a shift left by 4,
-> > > > > I don't think this can be abused in any useful way.
-> > > > > 
-> > > > 
-> > > > I have another concern regarding overflow, inside ir_spi_tx().
-> > > > 
-> > > > DIV_ROUND_CLOSEST() is called with buffer[i] * idata->freq and 1000000.
-> > > > buffer[i] comes from userspace, it's the number of microseconds for this
-> > > > pulse. It's unsigned int. lirc core already checks that each element
-> > > > is not bigger than 500000 microseconds. Issue is, at 500000, it would
-> > > > take a carrier frequency as low as 8590 to overflow the unsigned int.
-> > > 
-> > > Interesting, you are right.
-> > > 
-> > > > Maybe it would make sense to switch this one to mult_frac()? But we
-> > > > would lose rounding.
-> > > > 
-> > > > mult_frac(buffer[i], idata->freq, 1000000)
-> > > > 
-> > > > Optionally, we could cast buffer[i] to u64/unsigned long long, and use
-> > > > DIV_ROUND_CLOSEST_ULL.
-> > > > 
-> > > > DIV_ROUND_CLOSEST_ULL((u64)buffer[i] * idata->freq, 1000000)
-> > > > 
-> > > > Let me know what you think.
-> > > 
-> > > I've given it some thought and I'm not sure there is a better solution. It's
-> > > an edge case of course, but we should deal with it correctly.
-> > 
-> > Actually could we use check_mul_overflow() for this?
-> > 
-> 
-> I think we're better off using DIV_ROUND_CLOSEST_ULL(), since after the
-> multiplication, there's a division by 1000000, which might bring us back
-> in 32-bit territory, even if the multiplication overflowed. If we use
-> check_mul_overflow(), we would just invalidate a case that would have
-> worked fine.
+This series adds CAMSS support for MSM8939.
+It's mostly identical to MSM8916, except for some clocks
+and an additional CSI.
 
-I don't have a strong opinion on this, but in the current code the overflow
-is not detected and garbage is sent, right?
+To fix black stripes across sensor output, and garbage in
+CSID TPG output, 2 VFE VBIF register settings are needed.
+So the 1st patch adds helper functions to do just that.
+
+Patch 1: adds helper for VFE VBIF settings
+Patch 2: adds CAMSS_8x39 version in CAMSS driver
+Patch 3: documents qcom,msm8939-camss DT bindings
+Patch 4: adds camss and cci in msm8939.dtsi
+
+Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+---
+Changes in v5:
+- Patch 1: no change
+- Patch 2: no change
+- Patch 3: (bindings)
+  - Fix alphanumerical ordering wrt. underscore (Vladimir)
+  - Add 1.2V mention to vdda-supply description (Vladimir)
+  - Correct vdda-supply regulator name for 1.2V in example
+  - Add empty line between properties and child node (Vladimir)
+  - Remove clock-lanes property in example (Vladimir)
+- Patch 4: (dtsi)
+  - Apply ordering and isp node unit address changes from patch 3.
+- Link to v4: https://lore.kernel.org/r/20250602-camss-8x39-vbif-v4-0-32c277d8f9bf@mailoo.org
+
+Changes in v4:
+- Picked up tags
+- Patch 1:
+  - Fix alignment to match opening parenthesis (Bryan)
+- Patch 2: no change
+- Patch 3:
+  - Wrap line at 80 chars (Krzysztof)
+- Patch 4: no change
+- Link to v3: https://lore.kernel.org/r/20250530-camss-8x39-vbif-v3-0-fc91d15bb5d6@mailoo.org
+
+Changes in v3:
+- Patch 1:
+  - Use braces around multiline (Bryan)
+  - Rename vfe_vbif_reg_write to vfe_vbif_write_reg (Bryan)
+  - Get rid of switch block on CAMSS version (Bryan)
+- Patch 2:
+  - Get rid of switch block on CAMSS version (Bryan)
+- Patch 3: no change
+- Patch 4: no change
+  - Tried to get rid of CCI camss_ahb but this resulted in device
+    freeze+reboot (Konrad)
+- Link to v2: https://lore.kernel.org/r/20250525-camss-8x39-vbif-v2-0-6d3d5c5af456@mailoo.org
+
+Changes in v2:
+- Patch 1:
+  - Fix devm_platform_ioremap_resource_byname line to not end with
+    opening parenthesis (media-ci/1-checkpatch)
+  - Move camss-vfe-4-1.c handling of VBIF previously in patch 2 here
+    (Dmitry)
+- Patch 2:
+  - Declare regulators in PHY entries, not CSID ones (Bryan)
+- Patch 3: (bindings)
+  - Fix bindings checks for new errors (Rob)
+  - Fix properties ordering, code-style and example (Krzysztof)
+  - Sort reg-names, clock-names and interrupt-names alphanumerically (Bryan)
+- Patch 4: (dtsi)
+  - Move #address/#size cells before status (Konrad)
+  - Aligned CCI with msm8916, thus removing ispif_ahb mention (Konrad)
+    If "camss_ahb should be unnecessary", it's still required by qcom,i2c-cci.yaml
+- Link to v1: https://lore.kernel.org/r/20250520-camss-8x39-vbif-v1-0-a12cd6006af9@mailoo.org
+
+---
+Vincent Knecht (4):
+      media: qcom: camss: vfe: Add VBIF setting support
+      media: qcom: camss: Add support for MSM8939
+      media: dt-bindings: Add qcom,msm8939-camss
+      arm64: dts: qcom: msm8939: Add camss and cci
+
+ .../bindings/media/qcom,msm8939-camss.yaml         | 254 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8939-pm8916.dtsi       |   4 +
+ arch/arm64/boot/dts/qcom/msm8939.dtsi              | 146 ++++++++++++
+ drivers/media/platform/qcom/camss/Makefile         |   1 +
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
+ drivers/media/platform/qcom/camss/camss-ispif.c    |   8 +-
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c  |  12 +
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.c |  31 +++
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.h |  19 ++
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  10 +
+ drivers/media/platform/qcom/camss/camss-vfe.h      |   3 +
+ drivers/media/platform/qcom/camss/camss.c          | 157 +++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 13 files changed, 645 insertions(+), 2 deletions(-)
+---
+base-commit: 8566fc3b96539e3235909d6bdda198e1282beaed
+change-id: 20250517-camss-8x39-vbif-975ff5819198
+
+Best regards,
+-- 
+Vincent Knecht <vincent.knecht@mailoo.org>
 
 
-Sean
 
