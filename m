@@ -1,259 +1,178 @@
-Return-Path: <linux-media+bounces-34761-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34762-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB370AD8EF4
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 16:13:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB09AD8F23
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 16:16:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 627A13BF3A6
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 14:09:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB929171042
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 14:11:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15A682E2EFB;
-	Fri, 13 Jun 2025 14:04:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35250293C61;
+	Fri, 13 Jun 2025 14:06:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Fv+OdKjR";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GNeBvGHC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hpmlYs1G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95E82DA765;
-	Fri, 13 Jun 2025 14:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B3C291C07
+	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 14:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749823487; cv=none; b=WWv5pqFbvxskSepBIyKkWpriwbRj72hutnONwU4ScB3NR9pShZ2Aw/eJKko8dH3rdZncmy5IeAcvJiXDr2pkQeLYbMOyw19z2PGpxdZEgV/Go6eNrXLJP7WGUd2J1AA26oWEboR6BohE3z2jz+WcqPEicp8uuyyP4KOab1GbHuI=
+	t=1749823588; cv=none; b=GJ8XSfNbH/RLPEtbGE0W9u/gPf3d7o8I23FyvF+rp0Tioo439XCRip4jqwT9R0u2i2g0CWgpv8AU+qhp14qlcOqmYhIqRbe7/hjuODlGXocjoc39YAF5OgQQd7WnMNRuUHmHoTdbypHAm+Ma+iGQs2fKiz4vf6S2jkYpoH4cJeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749823487; c=relaxed/simple;
-	bh=2hxJ7qEIE7r9hFXsvLpAWoKA4Zc1cnBsxLkdIxPPwb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YHO6RVKZyi+BlT6nromU/3KlLS3JcK4KLG2KY7/ULMY6Zu5w5/+H4oGGDSWdshnyouuhvecZp10ZSeD4vlymaNDUsfWqqQ9TQyP98GaQqpsYj0L3vdVknIZrizOMSuSlb+J/p2ko2c+biBpeEFi0ewGHFJc6O/S1uUjPufjFPvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Fv+OdKjR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GNeBvGHC; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id B16351140147;
-	Fri, 13 Jun 2025 10:04:43 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Fri, 13 Jun 2025 10:04:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749823483;
-	 x=1749909883; bh=WyQ5l6EDsMrgKluxLlz5WVKUiBDNL0Kmy4SuhX7iZDE=; b=
-	Fv+OdKjREnznJ04PT3c3NedqQUscKr6x5VLRriMLrUaAY2l4rtCUZcZyk5ShdMHF
-	Iqcp/F1zNSUrLYgDty39SYy6WcqULwyn1cxlKc8LgP2qA3XIzxVcAacg50R88Hd3
-	6gUawbXzotmq163RVN0VEAlTa1DSBFaHmC4PKJanE1eVTy5kyK8rQdwrrHvx4Bqg
-	JfruQGuK9V0FeJLHP0MMbOQN0EKyBYjQPkVmkqL/mdizs8rB2AxV7eUxZsCQVZPs
-	jrs0XaTtOudzIrNoI1/n5agb8o0UDge9UjOHUd080Ps5dgAugSwta8Qs5TGwMFdh
-	9ixguKw7JMZeW7NgPlffzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749823483; x=
-	1749909883; bh=WyQ5l6EDsMrgKluxLlz5WVKUiBDNL0Kmy4SuhX7iZDE=; b=G
-	NeBvGHCEdzGidg8VhRFgYTdUrz4vKjlMG7IqkMgAJH5l3gfMy72tHqWSb8v0uklF
-	eowl8YqFRcisdRt9lrsHO3bOjPNYm7WuXfwOMN4pdBnHtPlKHM//YW9UyUcoMw3/
-	fCIKIxXrrwS0U8awLyqHFWEvXV2xUpNW3FgDdRaTnybZVtWfe2G2oXFyOUaZ3PCe
-	nPEU9zm6Q+TZwaZdo5KEWEXZOioWDjXDSc2RpRQoK4cGoLy/WyFYyXdXOA0MhEo9
-	rR5NS4F0HudHAoVk0L/uUkdhwp2TIvAn7rjqlXGRPrXm8yQjZ/8nyhRPxFnlcYaZ
-	L8ROxzqgh2iEzLwWubVig==
-X-ME-Sender: <xms:-y9MaKccJXGB8rplx029slwhzdgk5rfzakgWaEx1D0jP106m6YRNOQ>
-    <xme:-y9MaENZdQjzgZZ6colUFlY5jYB0macH4TpP3gEIYgZGNKKiI5woqxdMiMKT-REeV
-    RkuW78IPXdCF0voks0>
-X-ME-Received: <xmr:-y9MaLiLTWPOQlcivGI3VgkjbltKgSVEnk0VZ7P3eFIE61PPbHdeeKQUk76Q50XmLxAPD0g3easWY8aDM4HLZm-cXSZ0VtSdyg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddukedugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
-    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
-    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepkedpmh
-    houggvpehsmhhtphhouhhtpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggv
-    rghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrg
-    hrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhm
-    ohhnughiodhrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtth
-    hopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkihgvrhgrnhdr
-    sghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtg
-    hpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhg
-X-ME-Proxy: <xmx:-y9MaH85D5ZLUZlmVx1rsAStnZLPeopHyf5kLEuTisOAfihfJLEeLA>
-    <xmx:-y9MaGtZe_G9ZonZP7dviP4CjRxxCu_b4G9u6gFzB0rTwTXtv1W-Fw>
-    <xmx:-y9MaOHQZV1aKZsFDm0sFAxBj4Vkr3atKx06Js4hgKT5aEqGpRTGIQ>
-    <xmx:-y9MaFOnDV6GyNA-wCTzppwRtP7OuXoH2Oe7F9T2SfDUEdT7T3dtag>
-    <xmx:-y9MaMjX-6ubaKe7yk_hhmqcdCDQbnMsincUAMAkUWwDzj9KFStToQPl>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Jun 2025 10:04:43 -0400 (EDT)
-Date: Fri, 13 Jun 2025 16:04:41 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] media: vsp1: Reset FCP for VSPX
-Message-ID: <20250613140441.GE1002387@ragnatech.se>
-References: <20250609-vspx-reset-v1-0-9f17277ff1e2@ideasonboard.com>
- <20250609-vspx-reset-v1-3-9f17277ff1e2@ideasonboard.com>
- <20250611233611.GR24465@pendragon.ideasonboard.com>
- <6orphbs6syqu6oruppyln4kkepj42c775cs4nj4oygu4xitpx6@tlvab6mntrrx>
- <20250612101215.GE25137@pendragon.ideasonboard.com>
- <rkihvnry5yybz7bjcbanth4yq7svywicmbhksz4ity6buw52ff@tmxefdhvpgaf>
- <20250612175557.GJ330732@ragnatech.se>
- <fssiugndu73bou62wdmcwp6vwu47ribr6evfzfrdm6el4qgatn@ngpnfy3qaogw>
+	s=arc-20240116; t=1749823588; c=relaxed/simple;
+	bh=KbUlGtpfhdEZom8VAmFrDXTGJwRDxsPYiWV9ksPDsMM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qAD6+2Vu4p5RLQygJbFAOGxr2lYAKryitaxkmOG/FdQLLUlfnY0DtrjlFXXuUakkMIoQp5XOaA7wTBOeufN/WR0/GmZBYmrgMsNXkjlJqmXvUL+NEFjnkOexYhjBsGEDAyuxp2zcoXfXqSSlh+lZgAc02Og75PFEVTVq+gKoXoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hpmlYs1G; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a361b8a664so2037520f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 07:06:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1749823585; x=1750428385; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xUn/T2v9DcG34w0Q+hYirGCU74t68lTP6XWgRwe314k=;
+        b=hpmlYs1GiAoWTOQCu6ldv6fqocvJYrBFraiTudtOB2hwSV3+QAp93Z+yA7GJZ5KS0n
+         DS+SAXzGhYfiXggSDIG1cfzLawqoidMXt46FJcvIkxYIhXNk3W8S9TeA+1sZ9aOSvCKq
+         SiH6547GXK3nhQmt+VPJnMFu3Q/+vtitGfibWhO80KtKSS27iu5FFqb49gzZsw5YEm2j
+         YFxB15qepUYgJCR8/SW51jfcTRauUaPuRF2cF6muhvFnu9mmLndj1FN3FS9hpP1QN+g0
+         7DoIVyUnxTiQA8G7Px/jY2F3UYELv0ICg4sd1AMUN0H/O5JUpgQyclz+EzIDShTopOAI
+         WzBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749823585; x=1750428385;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xUn/T2v9DcG34w0Q+hYirGCU74t68lTP6XWgRwe314k=;
+        b=SiAYx/V02X8/97+qyZdkByrpyCbVROu+Pjrt7YAYJEokiM2Pc018WfXUHJvH5otDU7
+         HXtZKltu/5I/ke7vjmA1UqCpiNQDqF9Bn18XH61buoVHpkFTCceKqMoQtqbJVDazwTPh
+         9iOaNGddotYWp8hMimAofmDyGVykgaiYOPIFjm3vp7pCOr0YAIg7k2OqO3bRbJUWlLkv
+         riYHzdPMYl8rdnXa7o1fU3UgO/0Ygq6DdgPHUaSeLV3aSMsuNjTPvCDuicgm8ItW7YIJ
+         xJJ+DImTqyrEh1MnXl9qCWFTBj11Y4k+P9r91BKnv5aN3nhhRVMVqZ44kI7HcL9nn0Oi
+         3/hA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSzgxujMM6/GtlHMC+ob9ewyBMJ/QXagpZsdxSa/AceG4GyWZ3Yk60k3CMFsUr65mHYwuWE1SDXN4KYQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwytJujJ17Hr4WDTA1ZW2ib4ARjFm1lWdKvLzb0cltRg5oHc71s
+	VEwqve6KxpvPDNJaSBMpsr2LkNMHN3SGrl9epT4vRglYBBs4XdlQeka7OA3VSp6h51A=
+X-Gm-Gg: ASbGncvZQi0BZpkyTAhYBebQvarVe0eXSLzBp9TLKG1cjaobWIoVYjj7ypUxz0c3IY6
+	Yz1w4q6H0sf4zO1+dR/BjCEuvdRqoV0ymG3ueuYhwwqG5jv7bCh7dCSYmTCnccQL+6apIq/ENaa
+	xxBkFZdHFYMsrBxZg5gDUUgxo43ZuoyIMWdnhKPbA3QirBDWuTrdFVtH+Eh6NLf5v02zL1Gm0kz
+	vxlpMRMt+/SVFV4PK0XOVBGGCEGWFJCRmly8kVn057KuEVrpdKd6yVdiEeB2CShFDh3OIF3l7IC
+	wZrVXkr/7fI5AYja/YPdAOLP5ginZC7HXA4inET4/362odJMLVyleLieyRtXtqEI4i+PxLsrlCx
+	8CVFpUf8dvNCcbHjdYCD4zImcKLo=
+X-Google-Smtp-Source: AGHT+IH1fMP2KnFNWRoIIFgpfDxW7MxNb1uMSxg0eL6l8twtoQZjitcGVI8/ENMR8PDgAtAlfuMQQg==
+X-Received: by 2002:a05:6000:2505:b0:3a4:ef00:a7b9 with SMTP id ffacd0b85a97d-3a56868319emr2894882f8f.12.1749823584788;
+        Fri, 13 Jun 2025 07:06:24 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a73a7bsm2525723f8f.36.2025.06.13.07.06.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Jun 2025 07:06:24 -0700 (PDT)
+Message-ID: <81a65ea6-2f46-4d11-9a3f-50664da78eea@linaro.org>
+Date: Fri, 13 Jun 2025 15:06:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fssiugndu73bou62wdmcwp6vwu47ribr6evfzfrdm6el4qgatn@ngpnfy3qaogw>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] arch: arm64: dts: qcom: qcm2290: Add venus video node
+To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
+ quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ stanimir.varbanov@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250613140402.3619465-1-jorge.ramirez@oss.qualcomm.com>
+ <20250613140402.3619465-3-jorge.ramirez@oss.qualcomm.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250613140402.3619465-3-jorge.ramirez@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2025-06-12 20:05:57 +0200, Jacopo Mondi wrote:
-> Hi Niklas,
+On 13/06/2025 15:03, Jorge Ramirez-Ortiz wrote:
+> Add DT entries for the qcm2290 venus encoder/decoder.
 > 
-> On Thu, Jun 12, 2025 at 07:55:57PM +0200, Niklas Söderlund wrote:
-> > On 2025-06-12 12:20:13 +0200, Jacopo Mondi wrote:
-> > > Hi Laurent
-> > >
-> > > On Thu, Jun 12, 2025 at 01:12:15PM +0300, Laurent Pinchart wrote:
-> > > > On Thu, Jun 12, 2025 at 11:48:49AM +0200, Jacopo Mondi wrote:
-> > > > > On Thu, Jun 12, 2025 at 02:36:11AM +0300, Laurent Pinchart wrote:
-> > > > > > On Mon, Jun 09, 2025 at 09:01:44PM +0200, Jacopo Mondi wrote:
-> > > > > > > According section "62.3.7.1 "Operation Control Setting
-> > > > > >
-> > > > > > "According to"
-> > > > > >
-> > > > > > > IP set VSPX+FCPVX" of the R-Car Gen4 Hardware Manual, FCPX has to
-> > > > > > > be reset when stopping the image processing.
-> > > > > >
-> > > > > > That's only when stopping "image process of VSPX+FCPVX immediately".
-> > > > > > Note the "immediately", which involves resetting the VSP too. The code
-> > > > > > below waits for the pipeline to stop at the end of the frame. Resetting
-> > > > > > the FCP doesn't seem to be required in that case.
-> > > > >
-> > > > > True, we certainly don't
-> > > > >
-> > > > > 2. Set value 1 to VSPX register VI6_SRESET.SRST0. VSPX will invoke
-> > > > >    termination process immediately.
-> > > > >
-> > > > > but rather wait for the last frame to complete before stopping the
-> > > > > pipeline.
-> > > > >
-> > > > > Do you think this patch should be dropped ?
-> > > >
-> > > > I would say so, I don't think there's a need to reset the FCP when
-> > > > waiting for the pipeline to stop normally. Or have you noticed issues
-> > > > that this patch would solve ?
-> > > >
-> > >
-> > > Not really, this comes straight from the upporting of the FCPD reset.
-> > >
-> > > We've been running with an older of this patch that wasn't actually
-> > > resetting the FCP and we got no issues. At the same time Niklas has
-> > > confirmed running with this version that actually resets the FCP
-> > > doesn't introduce regressions.
-> >
-> > I'm not up to snuff on the diff between the two sets. But from our
-> > discussion on IRC today I dropped all 3 patches from my testing branch
-> > and that broke my stress tests (after a few runs). I will keep these
-> > three patches in my ISP branch for now.
+> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+> ---
+>   arch/arm64/boot/dts/qcom/qcm2290.dtsi | 53 +++++++++++++++++++++++++++
+>   1 file changed, 53 insertions(+)
 > 
-> Oh! That wasn't expected
-> 
-> The patch you were carring in your branch before this set
-> (commit 93aab3f241dbff9af838af0b46f5a31fa6240b68 in your tree)
-> didn't reset the FCPX for VSPX as far as I understand (and I have
-> verified it by testing iirc).
-> 
-> The FCPX reset was guarded (in that patch) by
-> 
->         if (pipe->lif)
-> 
-> and the VSPX pipe doesn't have a LIF, no reset was ever performed..
+> diff --git a/arch/arm64/boot/dts/qcom/qcm2290.dtsi b/arch/arm64/boot/dts/qcom/qcm2290.dtsi
+> index f49ac1c1f8a3..af2c1f66fe07 100644
+> --- a/arch/arm64/boot/dts/qcom/qcm2290.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/qcm2290.dtsi
+> @@ -1628,6 +1628,59 @@ adreno_smmu: iommu@59a0000 {
+>   			#iommu-cells = <2>;
+>   		};
+>   
+> +		venus: video-codec@5a00000 {
+> +			compatible = "qcom,qcm2290-venus";
+> +			reg = <0 0x5a00000 0 0xff000>;
+> +			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +			power-domains = <&gcc GCC_VENUS_GDSC>,
+> +					<&gcc GCC_VCODEC0_GDSC>,
+> +					<&rpmpd QCM2290_VDDCX>;
+> +			power-domain-names = "venus", "vcodec0", "cx";
+> +			operating-points-v2 = <&venus_opp_table>;
+> +
+> +			clocks = <&gcc GCC_VIDEO_VENUS_CTL_CLK>,
+> +				 <&gcc GCC_VIDEO_AHB_CLK>,
+> +				 <&gcc GCC_VENUS_CTL_AXI_CLK>,
+> +				 <&gcc GCC_VIDEO_THROTTLE_CORE_CLK>,
+> +				 <&gcc GCC_VIDEO_VCODEC0_SYS_CLK>,
+> +				 <&gcc GCC_VCODEC0_AXI_CLK>;
+> +			clock-names = "core", "iface", "bus", "throttle",
+> +				      "vcodec0_core", "vcodec0_bus";
+> +
+> +			memory-region = <&pil_video_mem>;
+> +			iommus = <&apps_smmu 0x860 0x0>,
+> +				 <&apps_smmu 0x880 0x0>,
+> +				 <&apps_smmu 0x861 0x04>,
+> +				 <&apps_smmu 0x863 0x0>,
+> +				 <&apps_smmu 0x804 0xE0>;
+> +
+> +			interconnects = <&mmnrt_virt MASTER_VIDEO_P0 0 &bimc SLAVE_EBI1 0>,
+> +					<&bimc MASTER_APPSS_PROC 0 &config_noc SLAVE_VENUS_CFG 0>;
+> +			interconnect-names = "video-mem", "cpu-cfg";
+> +
+> +			venus_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +				opp-133000000 {
+> +					opp-hz = /bits/ 64 <133000000>;
+> +					required-opps = <&rpmpd_opp_low_svs>;
+> +				};
+> +
+> +				opp-240000000 {
+> +					opp-hz = /bits/ 64 <240000000>;
+> +					required-opps = <&rpmpd_opp_svs>;
+> +				};
+> +			};
+> +
+> +			video-decoder {
+> +				compatible = "venus-decoder";
+> +			};
+> +
+> +			video-encoder {
+> +				compatible = "venus-encoder";
+> +			};
 
-Indeed. I spent the day running more tests as and found it the fail I 
-mentioned was in my tests. They timed out the yavta process did not 
-terminate quickly enough after the last buffer was captured.
+These should be dropped in favour of static config in the driver.
 
-Running with this (or the old set) reduces this stop time, why I don't 
-know. But what is clear is running without these patches is OK and 
-everything functions as expected. Sorry for the noise.
+> +		};
+> +
+>   		mdss: display-subsystem@5e00000 {
+>   			compatible = "qcom,qcm2290-mdss";
+>   			reg = <0x0 0x05e00000 0x0 0x1000>;
 
-> 
-> 
-> >
-> > Just to be clear the stress tests where fine with the old version too,
-> > only dropping all 3 reset patches had an negative effect.
-> >
-> > >
-> > > I'm fine dropping this patch indeed
-> > >
-> > > > > > > Softawre reset the FCPX after the vsp1 pipe has stopped.
-> > > > > >
-> > > > > > s/Softawre/Software/
-> > > > > >
-> > > > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > > > > > ---
-> > > > > > >  drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 7 +++++--
-> > > > > > >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > > > > > index a6e5e10f3ef275c1b081c3d957e6cf356332afce..c6f2417aabc479384012ab8ab99556029ede1f44 100644
-> > > > > > > --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > > > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > > > > > @@ -499,6 +499,7 @@ bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe)
-> > > > > > >  int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
-> > > > > > >  {
-> > > > > > >  	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
-> > > > > > > +	u32 version = vsp1->version & VI6_IP_VERSION_MODEL_MASK;
-> > > > > > >  	struct vsp1_entity *entity;
-> > > > > > >  	unsigned long flags;
-> > > > > > >  	int ret;
-> > > > > > > @@ -515,8 +516,7 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
-> > > > > > >  			spin_unlock_irqrestore(&pipe->irqlock, flags);
-> > > > > > >  		}
-> > > > > > >
-> > > > > > > -		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
-> > > > > > > -		    VI6_IP_VERSION_MODEL_VSPD_GEN3)
-> > > > > > > +		if (version == VI6_IP_VERSION_MODEL_VSPD_GEN3)
-> > > > > > >  			ret |= rcar_fcp_soft_reset(vsp1->fcp);
-> > > > > > >
-> > > > > > >  	} else {
-> > > > > > > @@ -529,6 +529,9 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
-> > > > > > >  		ret = wait_event_timeout(pipe->wq, vsp1_pipeline_stopped(pipe),
-> > > > > > >  					 msecs_to_jiffies(500));
-> > > > > > >  		ret = ret == 0 ? -ETIMEDOUT : 0;
-> > > > > > > +
-> > > > > > > +		if (version == VI6_IP_VERSION_MODEL_VSPX_GEN4)
-> > > > > > > +			ret |= rcar_fcp_soft_reset(vsp1->fcp);
-> > > > > > >  	}
-> > > > > > >
-> > > > > > >  	list_for_each_entry(entity, &pipe->entities, list_pipe) {
-> > > >
-> > > > --
-> > > > Regards,
-> > > >
-> > > > Laurent Pinchart
-> >
-> > --
-> > Kind Regards,
-> > Niklas Söderlund
-
--- 
-Kind Regards,
-Niklas Söderlund
+---
+bod
 
