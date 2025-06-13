@@ -1,124 +1,92 @@
-Return-Path: <linux-media+bounces-34736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34738-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD0CAD8896
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 127D0AD88E9
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 12:11:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90EA8169BC1
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:56:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3C4C16E6F8
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 10:10:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BF302C327C;
-	Fri, 13 Jun 2025 09:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B47E62D1925;
+	Fri, 13 Jun 2025 10:10:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Nczp9fFB"
+	dkim=pass (2048-bit key) header.d=synargyequipment.com header.i=@synargyequipment.com header.b="LxytFADc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mail.synargyequipment.com (mail.synargyequipment.com [198.46.188.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F632C158B;
-	Fri, 13 Jun 2025 09:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B679D2C158B
+	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 10:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.46.188.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749808570; cv=none; b=tgslY6MMkmeOKd5RECzP5wkps7MBHhEjZN8ZdyF+AXWt9T+qB0n5bOoSfRCrh1WDlTTkZMIYw6cKzT2sJscBX2z8j8HxJ9TP4gjs+SWCMSIU0XBiEUjZctGFl+xG5cjshOVt5PH4pJ6EYDCogDr0BvA88yJ9mSOWe8MM8yEoktE=
+	t=1749809422; cv=none; b=bXroqR8Wpo2ODF4FpAn4vq4ybs6AqeLM90aIPHN2s0PVoJdAilgfwsMvNAIOAQkq2MjYk3PYvEPeqhdhqhvkG6Z+oXw2QFRq+XXqNuXOePgInZEX2pEg1ZAVAElIg/ZxlspMZUKQ09bCbsrJtf9kc/lgE/iuXC9fDOkAJomfLHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749808570; c=relaxed/simple;
-	bh=pI16jTrezXMC5DsfOlc64Ygns89mip62edXF7MVZQ64=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dn+priNNURDyj+2Ez7Ll3bx0QBr535G16WU3WENd6dEXbp7Y9CLF3XkfyG0zhvMBzdajfzYRJLBdRzpvRLwUXzOItEOzmSHUcI/RWc2mYZbk0amo3maOn5eU2zhzmGXjqWCRLcObBUvm0+prcErUWBTDNHQXyp8sMzYo2N9zLik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Nczp9fFB; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1749808566;
-	bh=pI16jTrezXMC5DsfOlc64Ygns89mip62edXF7MVZQ64=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Nczp9fFBALuW2yjQHoHHjf8rHOR18K9YS7zGeKXkc8HCMbmYMct7gIzMlS3bSBMIP
-	 VEenlQsjCaMLc60IuyRw8dIqewqii4OeKClmg8cPsLWQj+ZfT/ZkHcgcdTL19VBRhy
-	 X4XzUd8L8pp9M19Gtz84Iu+VGM6VtLL4DbF+46aplsLX2p0dqXI1JpQpbMypTkwH65
-	 jS3Alw/7WB4vpLUpDuqzgst99SmN0WtDK331u10vg8q7XdTV6J+t5/76pilokUxjK4
-	 TIN5YC78yJy5CCFVtMESd/4i2KWdaLXFEm7dx3TajvBHpjtniSN9Cf7WkREabKVavL
-	 BD8w5uoOCaqHw==
-Received: from [192.168.1.90] (unknown [212.93.144.165])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B12E317E0EC0;
-	Fri, 13 Jun 2025 11:56:04 +0200 (CEST)
-Message-ID: <740bde7c-c2e5-462f-91f5-5dc2a298aa85@collabora.com>
-Date: Fri, 13 Jun 2025 12:55:58 +0300
+	s=arc-20240116; t=1749809422; c=relaxed/simple;
+	bh=YI8TL0CCqZKhaem0QzINWbtPNH/88dvLwEWyLZQ/Z1E=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rfEjM4ylbvke38cyxc2gXAwxDsbaBKncz5fCTjFlVP5vYqZz43t20DTnkAqQHXc0Qau2MbLnqYwKxidV1t0sFL7uAbPbjHAmmd3Z9xFugUAhpqTCDmPGDyw5MuR2UY8rH5pFQE7dmsbK9aKlKs/3iNsXJ5iy2kk2kkzNBPNIHH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=synargyequipment.com; spf=pass smtp.mailfrom=synargyequipment.com; dkim=pass (2048-bit key) header.d=synargyequipment.com header.i=@synargyequipment.com header.b=LxytFADc; arc=none smtp.client-ip=198.46.188.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=synargyequipment.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synargyequipment.com
+Received: from error-no-valid-domain.com (unknown [185.20.187.34])
+	by mail.synargyequipment.com (Postfix) with ESMTPA id 842BD6B6CE
+	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 11:07:35 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=synargyequipment.com;
+	s=202503; t=1749809255;
+	bh=YI8TL0CCqZKhaem0QzINWbtPNH/88dvLwEWyLZQ/Z1E=;
+	h=Reply-To:From:To:Subject:Date:From;
+	b=LxytFADcFW3KICW2sroAj/UKtAQFKmZ4Y0qrpnFvl+ADr6THi1BG3th/zQJguj29V
+	 zjt1FJcq2UhU6vUjZw6doyrOLVJrY+V3cgrxhnrcZ7qDvtWSp4vTtE08Ml0iZYvFKa
+	 n+STz5m4LwPIYLzq6ln0mvBY7cX3nUXrcN25PYuXj70RgsiKgtUJBbK7p/I6lh+RQJ
+	 Dr3YNE3f92O+uoYZUVdDRuoYG7vh8lLThsGVGsSbKmGvjGAxaPFSJIqxMWivZCfM49
+	 4lrrlwhHj1J5toGbrStnkpI8v3fRFjonpUMZ0uExvtyDuj7BNXNkWp5Ab6TjZ/7y+x
+	 PdtfHHSUFyKZQ==
+Reply-To: procurement@mhtimportlondon.co.uk
+From: MHT Import <support@synargyequipment.com>
+To: linux-media@vger.kernel.org
+Subject: Procurement Inquiryy
+Date: 13 Jun 2025 03:07:34 -0700
+Message-ID: <20250613030734.C3F793E6834011D4@synargyequipment.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/20] drm/rockchip: vop2: switch to HWORD_UPDATE macro
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang
- <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Shawn Lin <shawn.lin@rock-chips.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
-References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
- <20250612-byeword-update-v1-8-f4afb8f6313f@collabora.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20250612-byeword-update-v1-8-f4afb8f6313f@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Nicolas,
+Good Morning,
 
-On 6/12/25 9:56 PM, Nicolas Frattaroli wrote:
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
-> 
-> Remove VOP2's HIWORD_UPDATE macro from the vop2 header file, and replace
-> all instances in rockchip_vop2_reg.c (the only user of this particular
-> HIWORD_UPDATE definition) with equivalent HWORD_UPDATE instances. This
-> gives us better error checking.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-This LGTM and I also confirm it works as expected on my Radxa boards:
-ROCK 3A (RK3568) and ROCK 5B (RK3588).  Hence,
+I hope this email finds you well.
 
-Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Tested-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Could you please confirm if your company exports its products?
+
+I=E2=80=99m following up on our previous message regarding our interest=20
+in your product. Could you kindly confirm if you received it?=20
+
+
+Additionally, we would appreciate it if you could share your=20
+catalog or a link to your website for our review.
+
+Looking forward to your response to my email=20
+procurement@mhtimportlondon.co.uk.
+
+Thank you in advance for your cooperation.
+
+
+Tim Howard
+MHT Export & Import Consultancy
+284 Chase Road Blok A second
+floor, Southgate N146HF,
+London UK
+
+
+Cell : 062=C2=A0167 4202
+
+
+Email: procurement@mhtimportlondon.co.uk
 
