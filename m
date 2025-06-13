@@ -1,118 +1,162 @@
-Return-Path: <linux-media+bounces-34724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34725-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0E1AD87E4
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:31:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5ACAD87E5
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:31:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 469923AA9C9
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:30:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B10EF3AF9B7
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:30:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2978291C19;
-	Fri, 13 Jun 2025 09:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0D0291C27;
+	Fri, 13 Jun 2025 09:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YntLhhaN"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="fwyq21dh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F402C15AF
-	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 09:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BE825A321;
+	Fri, 13 Jun 2025 09:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749807013; cv=none; b=Z2Nz+acH6LhFlaL93HXZNVphG0CqAxhMx1u/6rjNzCj8PLusG64C7EGZqQfm///LT1L1JGejwCQ8UjGjYrNk/VIsDe4siCDk+PZzYuE02SRm0A5jCVk8LwUqXYy0jeYL+ju4RevWTVEpFyfdEzWCzcZHF9Zd+gtvkAeH85rmPeg=
+	t=1749807041; cv=none; b=MJXRn9kwf/Tg7N+lY84szoEt8Zfd3Qj/Rr+/J7iDed7CVvvIGkmb3FX1wiGECB/z+mm2l4q8XiMYb2v9auahJNGjjh7plBGCckgo4RYvAh3c5/S7s/y1MM26fwLMTrf+tdATX5FU9XFf/p7CLBrUmPlfVUWmaYv9vqWUumsJyCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749807013; c=relaxed/simple;
-	bh=FRZ3rS7LFwZ2xI4KimpSTvl9sqsf7mZbBaPZ9VjWWvM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i0UoJtciahL8Q3xBuIMaE033mkJkpOnSZURt/yrg0CoH58caBE857i25sQLLr9fClpDFObvlnLwl4W1OM0lBPyWjypgQtvnyjU03WaSaplpd8YndEGAK5NhaaYCUEiUaFYDJkg8Qq5wbDhp/sfLt1/2yTC16VI14uz/xFfNSles=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YntLhhaN; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a54690d369so1918668f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 02:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749807009; x=1750411809; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UwvcWZQEHBYkJTZwM/Y4Xtbi7rS3sJ0Dr4zv7GYJPuQ=;
-        b=YntLhhaNyZnlU2/1fORsSSvnz2QuDsOxn++UjY5t6Ft5g+TYK7wFkJ6nUTuxS61qca
-         2oR7Zgtj7EJOSbWGmQCtw24Y8RS0uEQ3dgKl5r5EuE7u4ePIPgKBeCoGi55B+AVizREC
-         +0Dav6NvTuEc7n+7W4tXkCYmF+KgHTXhbeEhf6fZEiSl89Ylypzy3bkzRFa4TQTs9/iT
-         DxgSmtb6aqLYNmwCcYHDyIkAfx/29tP1q9iwbbAESkd7hxuamHMO4Fy0vHgZ07jHAp2c
-         woCUA84HmRum5FCDjAHugbtz+8RqNl6NtXJVvnKMo1FSRJJ0dUAko2USh3cjxC5W6aEA
-         EUlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749807009; x=1750411809;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UwvcWZQEHBYkJTZwM/Y4Xtbi7rS3sJ0Dr4zv7GYJPuQ=;
-        b=MTpBjmrFHuRqQXCrdwkgly9wexT6rxCeQg4V9mZJflAOUvBwUeHyEkgGpE/RoGIbox
-         ZeMDO11gjednM4a9jofHLYR5j19OOK3ofxY3tR5kH3XkNdL3KF+R1I/kJkyXjqFvBu5+
-         6j1hUgBdlwDR5JqQj4kkCSUSPjwqQZQZEVm9xWqoWQCcw/RSgUnfQBbmV1bEcmTxzfY4
-         WL+PCl8gMW4QVnkMplbQJEgM28QA/OOdJrKN3K0M1wwk98CiKW9CbxxBNxuX8V56SAUA
-         zwfulnKbY+wIaPtjhhgOhGCgw6xP4Ek8obtCz8PGf6JUGQX6nNqYWziGh5kCTTaIhbLh
-         /XSg==
-X-Gm-Message-State: AOJu0Yz1r+Rrk3sGc9/jL5i/6vPS8s88+VJXPJxrJpmMQQwyfPnz5R8x
-	RCpuELAygAxO2PIEgIn5cO0L35LETbQSr9YGDWIHhpiswcxXP0PwBxS/MgS/e4qn3WqqWHpsYK6
-	WT9GDHao=
-X-Gm-Gg: ASbGncsckonEfr4ePY0pxVUIsQ/a3cW5jv7NJaLUY+XM+6rYmuiqmWWU2MGYZ3Cpzyd
-	iyI3tliuG5pVruVhr07r06F8qLxV7uN8lS7glLIsYcoz+jhiCA3xZhDK5Ar/hzxuqLLzp9N1vOC
-	2Eo+0z8/Xt0gplERQdL8hrZ3o1OdWVQwpvZ7Dy+511RgMgqzmbZ4gIGc8n5KRw6wgX0O9IkcoqD
-	Q3ucJZ+XoXGzMPP/F8G4gDG3YvzCzeQ2g/r7QoUzOaS+rRDfV+RSpYU7yl3A3/hxsQByLGWshf2
-	O4VR1LXTiKIHKPpvslEBICkPW2dZAr3AKwwR3OCcuiCF0Gl9KZlp3gZrzrQwHlBFik/opoioryU
-	i9wLAD9mwkrzx1Y0JhziRwOEEVJM=
-X-Google-Smtp-Source: AGHT+IE/evSdF1O2XoiSxVtoqH/m0lvt0tKSaWlESLN+rlHBnBxxPbQT6n88ypcT/+WJKR2QdcWh5w==
-X-Received: by 2002:a05:6000:40ce:b0:3a5:27ba:47c7 with SMTP id ffacd0b85a97d-3a56876e028mr1876417f8f.48.1749807009548;
-        Fri, 13 Jun 2025 02:30:09 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a6389esm1774831f8f.27.2025.06.13.02.30.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jun 2025 02:30:08 -0700 (PDT)
-Message-ID: <69563c23-42cc-486d-9c01-3467859e7860@linaro.org>
-Date: Fri, 13 Jun 2025 10:30:08 +0100
+	s=arc-20240116; t=1749807041; c=relaxed/simple;
+	bh=4adj2/0BDm5vg8dnp5LhYk1LezexBVo3xysAfl3faqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b5H1YqnAVmVVCtiP9KILzUgRoijZaoVQK1N0MqT+jUviv2xLqlryhZugc8XQ8Swq4LtiO21PT6QI98GBIlDMz3Xzgut6nh+T+n2qOZU7cWLh59qLlSQIvRyi4p0LL6CWEzxgdvc0vAhhYT2LbOyT3WtDlRGnz47SR1SrUSQwFb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=fwyq21dh; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1749807035; bh=4adj2/0BDm5vg8dnp5LhYk1LezexBVo3xysAfl3faqg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fwyq21dhcFvWE8scCJgvxtKLUo9MqwqwULQKvlyNYHbA4IRUudvsEH2J+I7CW1v6N
+	 fRxd5/SHhBA+FARtQWmopjSgNZUVyzQdwFf4AA/h9PrjL4LXDYfA0qm5P4Cl9d5bZv
+	 9K2A5fJRzU2IqN2Uj2vbfHKrquYs0mkQwYmifn3DtgVYAwR5/Ti2uRQwz2SnOFQa7z
+	 sigJnpnD88QbSYyu4fbtncSnIuczJJ4aQJY/R4EF3TBlDMauMSV6Z7FtrvJy+pC54O
+	 WcvIrFQd7aOE8wWtvxd39Yf0OloDnpMZKRRlCdQfyYKWu694um84iUhS9/LXMS5CS8
+	 yMghlVXQQeZxA==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 33F9E100069; Fri, 13 Jun 2025 10:30:35 +0100 (BST)
+Date: Fri, 13 Jun 2025 10:30:35 +0100
+From: Sean Young <sean@mess.org>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] media: rc: ir-spi: constrain carrier frequency
+Message-ID: <aEvvu2sez981pM6Q@gofer.mess.org>
+References: <20250611112348.3576093-1-demonsingur@gmail.com>
+ <20250611112348.3576093-3-demonsingur@gmail.com>
+ <aEnifhd1M6oJjy1S@gofer.mess.org>
+ <24d63ec4-a037-46fd-bbc1-9be2bef34c2b@gmail.com>
+ <aEsycgtDxrypTU0v@gofer.mess.org>
+ <aEs0Qr3O5myydP_L@gofer.mess.org>
+ <94bc5863-f831-47b6-8bfd-57a807c8fe23@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] media: qcom: camss: change internals of endpoint
- parsing to fwnode handling
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hans.verkuil@cisco.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20250513142353.2572563-1-vladimir.zapolskiy@linaro.org>
- <yzkDfU7Mw7hBOVlBNpZ3U-n5SK8AMuFq-cGYPxp-hdzeaGy5aLQdZ28j3eJldg_18hj0x0H1y6EV42d1e1Zlng==@protonmail.internalid>
- <20250513142353.2572563-8-vladimir.zapolskiy@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250513142353.2572563-8-vladimir.zapolskiy@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <94bc5863-f831-47b6-8bfd-57a807c8fe23@gmail.com>
 
-On 13/05/2025 15:23, Vladimir Zapolskiy wrote:
-> +	fwnode_graph_for_each_endpoint(fwnode, ep) {
->   		struct camss_async_subdev *csd;
-> +		struct fwnode_handle *remote;
+On Thu, Jun 12, 2025 at 11:20:28PM +0300, Cosmin Tanislav wrote:
+> On 6/12/25 11:10 PM, Sean Young wrote:
+> > On Thu, Jun 12, 2025 at 09:02:59PM +0100, Sean Young wrote:
+> > > On Wed, Jun 11, 2025 at 11:35:21PM +0300, Cosmin Tanislav wrote:
+> > > > On 6/11/25 11:09 PM, Sean Young wrote:
+> > > > > On Wed, Jun 11, 2025 at 02:23:44PM +0300, Cosmin Tanislav wrote:
+> > > > > > Carrier frequency is currently unconstrained, allowing the SPI transfer
+> > > > > > to be allocated and filled only for it to be later rejected by the SPI
+> > > > > > controller since the frequency is too large.
+> > > > > > 
+> > > > > > Add a check to constrain the carrier frequency inside
+> > > > > > ir_spi_set_tx_carrier().
+> > > > > > 
+> > > > > > Also, move the number of bits per pulse to a macro since it is not used
+> > > > > > in multiple places.
+> > > > > > 
+> > > > > > Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> > > > > > ---
+> > > > > >    drivers/media/rc/ir-spi.c | 6 +++++-
+> > > > > >    1 file changed, 5 insertions(+), 1 deletion(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
+> > > > > > index 50e30e2fae22..bf731204c81e 100644
+> > > > > > --- a/drivers/media/rc/ir-spi.c
+> > > > > > +++ b/drivers/media/rc/ir-spi.c
+> > > > > > @@ -21,6 +21,7 @@
+> > > > > >    #define IR_SPI_DRIVER_NAME		"ir-spi"
+> > > > > >    #define IR_SPI_DEFAULT_FREQUENCY	38000
+> > > > > > +#define IR_SPI_BITS_PER_PULSE		16
+> > > > > >    struct ir_spi_data {
+> > > > > >    	u32 freq;
+> > > > > > @@ -70,7 +71,7 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
+> > > > > >    	memset(&xfer, 0, sizeof(xfer));
+> > > > > > -	xfer.speed_hz = idata->freq * 16;
+> > > > > > +	xfer.speed_hz = idata->freq * IR_SPI_BITS_PER_PULSE;
+> > > > > >    	xfer.len = len * sizeof(*tx_buf);
+> > > > > >    	xfer.tx_buf = tx_buf;
+> > > > > > @@ -98,6 +99,9 @@ static int ir_spi_set_tx_carrier(struct rc_dev *dev, u32 carrier)
+> > > > > >    	if (!carrier)
+> > > > > >    		return -EINVAL;
+> > > > > > +	if (carrier * IR_SPI_BITS_PER_PULSE > idata->spi->max_speed_hz)
+> > > > > > +		return -EINVAL;
+> > > > > 
+> > > > > Just a nitpick.
+> > > > > 
+> > > > > I think carrier * IR_SPI_BITS_PER_PULSE could overflow, and then the check
+> > > > > wouldn't work. It might be better to do:
+> > > > > 
+> > > > > 	if (carrier > idata->spi->max_speed_hz / IR_SPI_BITS_PER_PULSE)
+> > > > > 
+> > > > > However since IR_SPI_BITS_PER_PULSE is 16, which is just a shift left by 4,
+> > > > > I don't think this can be abused in any useful way.
+> > > > > 
+> > > > 
+> > > > I have another concern regarding overflow, inside ir_spi_tx().
+> > > > 
+> > > > DIV_ROUND_CLOSEST() is called with buffer[i] * idata->freq and 1000000.
+> > > > buffer[i] comes from userspace, it's the number of microseconds for this
+> > > > pulse. It's unsigned int. lirc core already checks that each element
+> > > > is not bigger than 500000 microseconds. Issue is, at 500000, it would
+> > > > take a carrier frequency as low as 8590 to overflow the unsigned int.
+> > > 
+> > > Interesting, you are right.
+> > > 
+> > > > Maybe it would make sense to switch this one to mult_frac()? But we
+> > > > would lose rounding.
+> > > > 
+> > > > mult_frac(buffer[i], idata->freq, 1000000)
+> > > > 
+> > > > Optionally, we could cast buffer[i] to u64/unsigned long long, and use
+> > > > DIV_ROUND_CLOSEST_ULL.
+> > > > 
+> > > > DIV_ROUND_CLOSEST_ULL((u64)buffer[i] * idata->freq, 1000000)
+> > > > 
+> > > > Let me know what you think.
+> > > 
+> > > I've given it some thought and I'm not sure there is a better solution. It's
+> > > an edge case of course, but we should deal with it correctly.
+> > 
+> > Actually could we use check_mul_overflow() for this?
+> > 
 > 
-> -		if (!of_device_is_available(node))
-> -			continue;
+> I think we're better off using DIV_ROUND_CLOSEST_ULL(), since after the
+> multiplication, there's a division by 1000000, which might bring us back
+> in 32-bit territory, even if the multiplication overflowed. If we use
+> check_mul_overflow(), we would just invalidate a case that would have
+> worked fine.
 
-The change to fwnode seems fine I think but, either leave the 
-of_device_is_available() check as-is or move its removal to a separate 
-patch.
+I don't have a strong opinion on this, but in the current code the overflow
+is not detected and garbage is sent, right?
 
-Changes should be as granular as possible.
 
----
-bod
+Sean
 
