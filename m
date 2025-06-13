@@ -1,527 +1,1452 @@
-Return-Path: <linux-media+bounces-34741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34742-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95278AD897C
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 12:27:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7EAAAD89ED
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 13:03:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D667189C862
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 10:28:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8788917749B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:03:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB2432D238F;
-	Fri, 13 Jun 2025 10:27:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E332D29AE;
+	Fri, 13 Jun 2025 11:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Mwnrom4B";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nRgss7sW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ff5LBwed"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA6F20DD4B;
-	Fri, 13 Jun 2025 10:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AE663A9;
+	Fri, 13 Jun 2025 11:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749810471; cv=none; b=CBCrhZs4fXDZwL5DtES/ly/Kz/WTWz1HvHsU2ijwq8+uM5BYAVyX7r0SyoTwFGGnN35xfLFWhFSiHKPWxuoNfMGsfReMQ8UV73f2zNZi+cbJWRZRoFNWfgOR51thYb2fg5jGpJWAKwj/bye7v7oICxpPDyaoxEMOCJJCg4eg9l8=
+	t=1749812585; cv=none; b=FIy918+dtem3EbjNkS138cMMwElHOHNgK8G44BvDSSbLkaLzy6O8HvSIJ8Ko+F7/sdvRzFdk0WVfako9jyHHOJKydax5VWopM3zUkIYcC6w1stvAdxaaeWYTJgcuVTnqTSdOBUWLpU7J5wug7RohkwUBA1mh8og8ZBptuanzDg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749810471; c=relaxed/simple;
-	bh=+OBLD+0bmW+5tXHmUqKZvUbHzdPBe7GgKeDVicU0QXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EQ9lVJKq+27EdiN5LfS87j1Y1DM9L3z4qaVKof2XDiYH1RllaIfj9ZZprBICLCFd5wbB3plt0uQ9dss43vt8NnXvl9jFKVee/3jg+SZZVRdd1MIJiJrE2iexP62h6WSc/So94Y2rd7RUW1my7mVnLHg4PdIlVPOENnM8atkhQGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Mwnrom4B; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nRgss7sW; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 955BB2540159;
-	Fri, 13 Jun 2025 06:27:47 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 13 Jun 2025 06:27:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749810467;
-	 x=1749896867; bh=xvGTACa+9GbYHEATl6JSEX/mwsD3kbjkA6h7PrX+sFI=; b=
-	Mwnrom4BIkKnKd3z2OsesIZGQ2J4T9yt1HX0Pb2PkKRgE9wd99xsvoRipHkUL3zB
-	Fcqi1HPzIPxd13Rb8oduRXSdE1nKgs9HhDzF2BxqMXJJfYOOLgY/lpHnzKOy4rkv
-	HxaiVxh8CJscczgOxKb+vXrUqlwfaUTLXTMS+co2T36dDE8ApYx8+1W/ZCLRwWtU
-	pI2D6G4xZBeto1s8voQ13YbxofaD9DPW3hIr9sg8tHOdpGXcXAv+IKLdvh/gcVC3
-	L/gLX7vS1Tnjehh1NJ0oqIU3zJnnkggbsDF3SHo0CQ0TDTsbyzN/xrwPSf9NHG6f
-	nPHE9WaHIw10q1JDpjBBKw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749810467; x=
-	1749896867; bh=xvGTACa+9GbYHEATl6JSEX/mwsD3kbjkA6h7PrX+sFI=; b=n
-	Rgss7sW45OeudPSpX/iuV50dPRgR3hetwWSOUiLs5D6x+uWgVj6r9p1FLJJVabZ5
-	NyHL+N41A4cSkqAmTwUZNod/hzDt6VqxswpLDxDsjbeDZAnXl/KSVPjA0IaRA1kE
-	y4d+xlKqS7TgfmDBzFor+ZGpxEJOf1Iyno5kIZkuA4hTZvJ42wTg5BxhA4YpVqet
-	i7rqzA8ZXJaiNwYkpAWNRfTrS3c6YxThvM7GCnPxEW9pXG/PORB/3PEVfm4uxQDv
-	Ip+WoTKh9nTXLfUd9m4W/OusGNOoxjVn5KSyhSPbgdDtL0z+2qcNfDZp985vo1R4
-	xtlHAtTOYqB7sZPXnFwag==
-X-ME-Sender: <xms:I_1LaF1lE9UPlcXpCCYDOXUBtUcNQBTHskXIURHZ5JzKSUGitf2vEw>
-    <xme:I_1LaMHSBYaAU9CJhOwCMUDlYOpoJ2OOESw1Hvs_TXWnClx7ej--dYEDu1Q8K0Nn4
-    iPE02Kwr-smbaeocIU>
-X-ME-Received: <xmr:I_1LaF56IOvzXwvKJ_2-Yif38icjNorQVL5a_CK0xDIRY1IGbOSYdEIZdK42XeoOLMATd9bdPDQxvEE3B7bbfx8DAY2kKalQbw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddujeejudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
-    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
-    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepkedpmh
-    houggvpehsmhhtphhouhhtpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhht
-    sehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjrggtohhpohdrmhhonh
-    guihesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhm
-    ohhnughiodhrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtth
-    hopehkihgvrhgrnhdrsghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonhgsohgr
-    rhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhg
-X-ME-Proxy: <xmx:I_1LaC36T-LaiTcMsC2h34tCGNOwCh1kUzeX368Ods1q72qwBpUIAw>
-    <xmx:I_1LaIG3kRpEh6lPh0fdNPdiIQ5pNcV92oPAdsYrFVwzYi7Z7JBYtg>
-    <xmx:I_1LaD-ku8SMiHOLafBTtGrJ9p6PvRVyCR8iutUZ5n-Wfw-WwXpR1A>
-    <xmx:I_1LaFkaJ9hzIQDGQ1xxFBD7Jt3CtapMco5Mfbm_IY-a7zEAgAQzsg>
-    <xmx:I_1LaO7GkgQuQ9yNWTj2_obONG-U-7I5jUMRpge2uCRwDnYVB6SsyuLh>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Jun 2025 06:27:46 -0400 (EDT)
-Date: Fri, 13 Jun 2025 12:27:45 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v10] media: vsp1: Add VSPX support
-Message-ID: <20250613102745.GD1002387@ragnatech.se>
-References: <20250529-b4-vspx-v10-1-02a9cb000853@ideasonboard.com>
- <20250607143808.GF2780410@ragnatech.se>
- <4lnsdnsv5h2aza2bkup3bwgqwrlt3i4wtj3jkde24fqingnqlc@2drah4ntnrzz>
- <20250609144208.GJ2780410@ragnatech.se>
- <20250613002417.GJ10542@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1749812585; c=relaxed/simple;
+	bh=w1g5Q1dd3cz3osFH6+vwqRHq/zmMWntL+UV34jwqUl4=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=ZKcPI/nBWtQbjoa3a/7yeJp/m+Y+Ftm2CC2t8eo3xUyM/MN9BxKtgawFvxi3VnYpn8g0/hqz+j8sAvp11o1q+hTOgSZuv7bnC1v6hEhpuC7EyNoSFHkUFlDxRahtTKWByBHhW8D2dPHYJm0jUdMB99YnAnIGjizEOH2YgQXcBAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ff5LBwed; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 367B4348;
+	Fri, 13 Jun 2025 13:02:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1749812570;
+	bh=w1g5Q1dd3cz3osFH6+vwqRHq/zmMWntL+UV34jwqUl4=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=Ff5LBwedevnupTcj3wVbm9lGZWNH01LDZwaRxiLomNSeh1Oj8QmClDaswe7oUgomg
+	 NE1AqqqP6zn9ZE5hqy/cl5aBL00TLN09GIJ0IVkyn7WJPbrzVt90jyWdKvabwHk/q4
+	 scORhx/L55K4pjBPcobtM11huXx2wORaLZO0z5NE=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250613002417.GJ10542@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com> <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: mchehab@kernel.org, laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org, dave.stevenson@raspberrypi.com, hdegoede@redhat.com, jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com, dantony@amd.com, vengutta@amd.com, dongcheng.yan@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com
+To: Hao Yao <hao.yao@intel.com>, Pratap Nirujogi <pratap.nirujogi@amd.com>, sakari.ailus@linux.intel.com
+Date: Fri, 13 Jun 2025 12:02:55 +0100
+Message-ID: <174981257597.425770.15369432320575770694@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 
-On 2025-06-13 03:24:17 +0300, Laurent Pinchart wrote:
-> On Mon, Jun 09, 2025 at 04:42:08PM +0200, Niklas Söderlund wrote:
-> > On 2025-06-09 15:24:56 +0200, Jacopo Mondi wrote:
-> > > On Sat, Jun 07, 2025 at 04:38:08PM +0200, Niklas Söderlund wrote:
-> > > > On 2025-05-29 18:44:17 +0200, Jacopo Mondi wrote:
-> > > > > Add support for VSPX, a specialized version of the VSP2 that
-> > > > > transfers data to the ISP. The VSPX is composed of two RPF units
-> > > > > to read data from external memory and an IIF instance that performs
-> > > > > transfer towards the ISP.
-> > > > >
-> > > > > The VSPX is supported through a newly introduced vsp1_vspx.c file that
-> > > > > exposes two interfaces: vsp1_vspx interface, declared in vsp1_vspx.h
-> > > > > for the vsp1 core to initialize and cleanup the VSPX, and a vsp1_isp
-> > > > > interface, declared in include/media/vsp1.h for the ISP driver to
-> > > > > control the VSPX operations.
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > 
-> > > [snip]
-> > > 
-> > > > > +
-> > > > > +	/* Configure WPF0 to enable RPF0 as source. */
-> > > > > +	vsp1_entity_route_setup(&pipe->output->entity, pipe, dlb);
-> > > > > +	vsp1_entity_configure_stream(&pipe->output->entity,
-> > > > > +				     pipe->output->entity.state, pipe,
-> > > > > +				     dl, dlb);
-> > > > > +
-> > > > > +	if (job->config.pairs) {
-> > > > > +		/*
-> > > > > +		 * Configure RPF0 for ConfigDMA data. Transfer the number of
-> > > > > +		 * configuration pairs plus 2 words for the header.
-> > > > > +		 */
-> > > > > +		ret = vsp1_vspx_pipeline_configure(vsp1, job->config.mem,
-> > > > > +						   V4L2_META_FMT_GENERIC_8,
-> > > > > +						   job->config.pairs * 2 + 2, 1,
-> > > > > +						   job->config.pairs * 2 + 2,
-> > > > > +						   VSPX_IIF_SINK_PAD_CONFIG,
-> > > > > +						   dl, dlb);
-> > > >
-> > > > I have run into a new "feature" of the ConfigDMA interface. It don't
-> > > > seem to be to happy when feed too small config buffers. Feeding it
-> > > > configuration data containing 16 or less pairs effects operation in bad
-> > > > ways.
-> > > >
-> > > > Feeding it less then 16 pairs causes corruption of the image buffer
-> > > > which follows the config buffer. Feeding it exactly 16 pairs freezes the
-> > > > VSPX. While feeding it 17 or more pairs all seems to work perfectly. I'm
-> > > > not sure why this is, maybe the minimum buffer constrains are kicking
-> > > > in?
-> > > >
-> > > > This is not a blocker IMHO, we can pad the config buffer with dummy
-> > > > writes or fallback to MMIO for small buffers. For now in the ISP driver
-> > > > I opted for the later as this proves VSPX can function without config
-> > > > DMA while also proving MMIO operation works. The later will become
-> > > > important if we ever try to use the ISP in-line as that mode of
-> > > > operation don't support Config DMA.
-> > > >
-> > > > Maybe a bounds check would be useful here so the VSPX refuses config
-> > > > buffers that are too small?
-> > > 
-> > > The datasheet reports a minimum input size for the IIF of 128x32
-> > > pixels.
-> > > 
-> > > Now, we know that the configDMA is a 1D buffer retroffitted to match a
-> > > 2D API which expresses buffers size as WxH. We currently program an
-> > > height of 1, so I'm not sure where those minimum in the datasheet come from.
-> > > 
-> > > Would padding the config with 0s work in your testing ?
-> > 
-> > I did test adding padding, but not with 0 but with dummy writes to RPP 
-> > registers that had no effect. I'm a bit scared of adding random register 
-> > writes such as writing 0 to address 0 to the config buffer.
-> > 
-> > But padding with basically nop writes worked.
-> 
-> The config buffer starts with the number of register/value pairs,
-> followed by the pairs. Do you experience bad behaviour when the buffer
-> is larger than 16 pairs but the number of pairs in the first field is
-> smaller than 16 ?
+Quoting Hao Yao (2025-06-13 05:55:46)
+> Hi Pratap,
+>=20
+> Thanks for your patch.
+>=20
+> This patch is written for your camera sensor module, which seems very=20
+> different from those already applied on Dell laptops (some of "Dell Pro" =
 
-As we don't know how many pairs are needed when we allocate the buffer 
-the current design always allocates space for (1024 - 1) pairs [*].
+> series). Looking into the driver, I think this version will break the=20
 
-For all tests done the buffer is always the same size. The difference is 
-the number of pairs set in the header word, if set to a value bellow 
-(bad image), equal (vsp freeze) or larger then 16 (good image).
+Have there been existing efforts from Intel to upstream support for that
+device?
 
-*: It do check for overflows and will not allow more then that to be 
-written to the buffer and warns about it so we can increase it if we 
-ever need to. But with current blocks enabled we have space to grow.  
-This limit is also a purely internal thing not exposed to user-space.
+Or is this simply the case that Intel have lost the race by not working
+towards upstream?
 
-> 
-> > > > > +		if (ret)
-> > > > > +			goto error_put_dl;
-> > > > > +
-> > > > > +		second_dl = vsp1_dl_list_get(pipe->output->dlm);
-> > > > > +		if (!second_dl) {
-> > > > > +			ret = -ENOMEM;
-> > > > > +			goto error_put_dl;
-> > > > > +		}
-> > > > > +
-> > > > > +		dl = second_dl;
-> > > > > +		dlb = vsp1_dl_list_get_body0(dl);
-> > > > > +	}
-> > > > > +
-> > > > > +	/* Configure RPF0 for RAW image transfer. */
-> > > > > +	pix_mp = &job->img.fmt.fmt.pix_mp;
-> > > >
-> > > > I think adding a check on V4L2_TYPE_IS_MULTIPLANAR(job->img.fmt.type) or
-> > > > something similar could be added here. When using this interface I once
-> > > > waked into the trap of feeding it a non-planar confirmation which it
-> > > > happy accepted.
-> > > 
-> > > This might be a good idea. We could also switch on (job->img.fmt.type)
-> > > so that we can chose which member of the fmt union to use.
-> > > 
-> > > I recall initially I had a struct v4l2_pix_format_mplane, but the we
-> > > decided to pass the whole struct v4l2_format. Do you remember why ?
-> > 
-> > We discussed it briefly and opted to go for the whole struct to make 
-> > the API future proof IIRC.
-> 
-> I don't recall why. I don't mind much either way, but given that new
-> drivers should always use the multi-planar API, maybe
-> v4l2_pix_format_mplane is all we need ?
-> 
-> > > > These two small issues aside this iteration works perfectly, nice work!
-> > > > My stress test can't provoke any issues and the algorithms I have
-> > > > enabled on the ISP are happy and so are the libcamera pipeline and
-> > > > output images.
-> > > 
-> > > That's very good news, looking forward to developments on the
-> > > libcamera side then!
-> > > 
-> > > > > +	ret = vsp1_vspx_pipeline_configure(vsp1, job->img.mem,
-> > > > > +					   pix_mp->pixelformat,
-> > > > > +					   pix_mp->width, pix_mp->height,
-> > > > > +					   pix_mp->plane_fmt[0].bytesperline,
-> > > > > +					   VSPX_IIF_SINK_PAD_IMG, dl, dlb);
-> > > > > +	if (ret)
-> > > > > +		goto error_put_dl;
-> > > > > +
-> > > > > +	if (second_dl)
-> > > > > +		vsp1_dl_list_add_chain(job->dl, second_dl);
-> > > > > +
-> > > > > +	return 0;
-> > > > > +
-> > > > > +error_put_dl:
-> > > > > +	if (second_dl)
-> > > > > +		vsp1_dl_list_put(second_dl);
-> > > > > +	vsp1_dl_list_put(job->dl);
-> > > > > +	return ret;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL_GPL(vsp1_isp_job_prepare);
-> > > > > +
-> > > > > +/**
-> > > > > + * vsp1_isp_job_run - Run a buffer transfer job
-> > > > > + * @dev: The VSP1 struct device
-> > > > > + * @job: The job to be run
-> > > > > + *
-> > > > > + * Run the display list contained in the job description provided by the caller.
-> > > > > + * The job must have been prepared with a call to vsp1_isp_job_prepare() and
-> > > > > + * the job's display list shall be valid.
-> > > > > + *
-> > > > > + * Return: %0 on success or a negative error code on failure
-> > > > > + */
-> > > > > +int vsp1_isp_job_run(struct device *dev, struct vsp1_isp_job_desc *job)
-> > > > > +{
-> > > > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > > > +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > > > > +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
-> > > > > +	u32 value;
-> > > > > +
-> > > > > +	/* Make sure VSPX is not busy processing a frame. */
-> > > > > +	value = vsp1_read(vsp1, VI6_CMD(0));
-> > > > > +	if (value) {
-> > > > > +		dev_err(vsp1->dev,
-> > > > > +			"%s: Starting of WPF0 already reserved\n", __func__);
-> > > > > +		return -EBUSY;
-> > > > > +	}
-> > > > > +
-> > > > > +	scoped_guard(spinlock_irqsave, &vspx_pipe->lock) {
-> > > > > +		/*
-> > > > > +		 * If a new job is scheduled when the VSPX is stopping, do
-> > > > > +		 * not run it.
-> > > > > +		 */
-> > > > > +		if (!vspx_pipe->enabled)
-> > > > > +			return 0;
-> > > > > +
-> > > > > +		vsp1_dl_list_commit(job->dl, 0);
-> > > > > +	}
-> > > > > +
-> > > > > +	scoped_guard(spinlock_irqsave, &pipe->irqlock) {
-> > > > > +		vsp1_pipeline_run(pipe);
-> > > > > +	}
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL_GPL(vsp1_isp_job_run);
-> > > > > +
-> > > > > +/**
-> > > > > + * vsp1_isp_job_release - Release a non processed transfer job
-> > > > > + * @dev: The VSP1 struct device
-> > > > > + * @job: The job to release
-> > > > > + *
-> > > > > + * Release a job prepared by a call to vsp1_isp_job_prepare() and not yet
-> > > > > + * run. All pending jobs shall be released after streaming has been stopped.
-> > > > > + */
-> > > > > +void vsp1_isp_job_release(struct device *dev,
-> > > > > +			  struct vsp1_isp_job_desc *job)
-> > > > > +{
-> > > > > +	vsp1_dl_list_put(job->dl);
-> > > > > +}
-> > > > > +EXPORT_SYMBOL_GPL(vsp1_isp_job_release);
-> > > > > +
-> > > > > +/* -----------------------------------------------------------------------------
-> > > > > + * Initialization and cleanup
-> > > > > + */
-> > > > > +
-> > > > > +int vsp1_vspx_init(struct vsp1_device *vsp1)
-> > > > > +{
-> > > > > +	struct vsp1_vspx_pipeline *vspx_pipe;
-> > > > > +	struct vsp1_pipeline *pipe;
-> > > > > +
-> > > > > +	vsp1->vspx = devm_kzalloc(vsp1->dev, sizeof(*vsp1->vspx), GFP_KERNEL);
-> > > > > +	if (!vsp1->vspx)
-> > > > > +		return -ENOMEM;
-> > > > > +
-> > > > > +	vsp1->vspx->vsp1 = vsp1;
-> > > > > +
-> > > > > +	vspx_pipe = &vsp1->vspx->pipe;
-> > > > > +	vspx_pipe->enabled = false;
-> > > > > +
-> > > > > +	pipe = &vspx_pipe->pipe;
-> > > > > +
-> > > > > +	vsp1_pipeline_init(pipe);
-> > > > > +
-> > > > > +	pipe->partitions = 1;
-> > > > > +	pipe->part_table = &vspx_pipe->partition;
-> > > > > +	pipe->interlaced = false;
-> > > > > +	pipe->frame_end = vsp1_vspx_pipeline_frame_end;
-> > > > > +
-> > > > > +	spin_lock_init(&vspx_pipe->lock);
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Initialize RPF0 as input for VSPX and use it unconditionally for
-> > > > > +	 * now.
-> > > > > +	 */
-> > > > > +	pipe->inputs[0] = vsp1->rpf[0];
-> > > > > +	pipe->inputs[0]->entity.pipe = pipe;
-> > > > > +	pipe->inputs[0]->entity.sink = &vsp1->iif->entity;
-> > > > > +	list_add_tail(&pipe->inputs[0]->entity.list_pipe, &pipe->entities);
-> > > > > +
-> > > > > +	pipe->iif = &vsp1->iif->entity;
-> > > > > +	pipe->iif->pipe = pipe;
-> > > > > +	pipe->iif->sink = &vsp1->wpf[0]->entity;
-> > > > > +	pipe->iif->sink_pad = RWPF_PAD_SINK;
-> > > > > +	list_add_tail(&pipe->iif->list_pipe, &pipe->entities);
-> > > > > +
-> > > > > +	pipe->output = vsp1->wpf[0];
-> > > > > +	pipe->output->entity.pipe = pipe;
-> > > > > +	list_add_tail(&pipe->output->entity.list_pipe, &pipe->entities);
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > > +void vsp1_vspx_cleanup(struct vsp1_device *vsp1)
-> > > > > +{
-> > > > > +}
-> > > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.h b/drivers/media/platform/renesas/vsp1/vsp1_vspx.h
-> > > > > new file mode 100644
-> > > > > index 000000000000..f871bf9e7dec
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.h
-> > > > > @@ -0,0 +1,16 @@
-> > > > > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > > > > +/*
-> > > > > + * vsp1_vspx.h  --  R-Car Gen 4 VSPX
-> > > > > + *
-> > > > > + * Copyright (C) 2025 Ideas On Board Oy
-> > > > > + * Copyright (C) 2025 Renesas Electronics Corporation
-> > > > > + */
-> > > > > +#ifndef __VSP1_VSPX_H__
-> > > > > +#define __VSP1_VSPX_H__
-> > > > > +
-> > > > > +#include "vsp1.h"
-> > > > > +
-> > > > > +int vsp1_vspx_init(struct vsp1_device *vsp1);
-> > > > > +void vsp1_vspx_cleanup(struct vsp1_device *vsp1);
-> > > > > +
-> > > > > +#endif /* __VSP1_VSPX_H__ */
-> > > > > diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-> > > > > index 4ea6352fd63f..5148c782580d 100644
-> > > > > --- a/include/media/vsp1.h
-> > > > > +++ b/include/media/vsp1.h
-> > > > > @@ -15,6 +15,10 @@
-> > > > >
-> > > > >  struct device;
-> > > > >
-> > > > > +/* -----------------------------------------------------------------------------
-> > > > > + * VSP1 DU interface
-> > > > > + */
-> > > > > +
-> > > > >  int vsp1_du_init(struct device *dev);
-> > > > >
-> > > > >  #define VSP1_DU_STATUS_COMPLETE		BIT(0)
-> > > > > @@ -121,4 +125,84 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
-> > > > >  int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
-> > > > >  void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
-> > > > >
-> > > > > +/* -----------------------------------------------------------------------------
-> > > > > + * VSP1 ISP interface
-> > > > > + */
-> > > > > +
-> > > > > +/**
-> > > > > + * struct vsp1_isp_buffer_desc - Describe a buffer allocated by VSPX
-> > > > > + * @size: Byte size of the buffer allocated by VSPX
-> > > > > + * @cpu_addr: CPU-mapped address of a buffer allocated by VSPX
-> > > > > + * @dma_addr: bus address of a buffer allocated by VSPX
-> > > > > + */
-> > > > > +struct vsp1_isp_buffer_desc {
-> > > > > +	size_t size;
-> > > > > +	void *cpu_addr;
-> > > > > +	dma_addr_t dma_addr;
-> > > > > +};
-> > > > > +
-> > > > > +/**
-> > > > > + * struct vsp1_isp_job_desc - Describe a VSPX buffer transfer request
-> > > > > + * @config: ConfigDMA buffer descriptor
-> > > > > + * @config.pairs: number of reg-value pairs in the ConfigDMA buffer
-> > > > > + * @config.mem: bus address of the ConfigDMA buffer
-> > > > > + * @img: RAW image buffer descriptor
-> > > > > + * @img.fmt: RAW image format
-> > > > > + * @img.mem: bus address of the RAW image buffer
-> > > > > + * @dl: pointer to the display list populated by the VSPX driver in the
-> > > > > + *      vsp1_isp_job_prepare() function
-> > > > > + *
-> > > > > + * Describe a transfer request for the VSPX to perform on behalf of the ISP.
-> > > > > + * The job descriptor contains an optional ConfigDMA buffer and one RAW image
-> > > > > + * buffer. Set config.pairs to 0 if no ConfigDMA buffer should be transferred.
-> > > > > + *
-> > > > > + * The ISP driver shall pass an instance this type to the vsp1_isp_job_prepare()
-> > > > > + * function that will populate the display list pointer @dl using the @config
-> > > > > + * and @img descriptors. When the job has to be run on the VSPX, the descriptor
-> > > > > + * shall be passed to vsp1_isp_job_run() which consumes the display list.
-> > > > > + *
-> > > > > + * Job descriptors not yet run shall be released with a call to
-> > > > > + * vsp1_isp_job_release() when stopping the streaming in order to properly
-> > > > > + * release the resources acquired by vsp1_isp_job_prepare().
-> > > > > + */
-> > > > > +struct vsp1_dl_list;
-> > > > > +struct vsp1_isp_job_desc {
-> > > > > +	struct {
-> > > > > +		unsigned int pairs;
-> > > > > +		dma_addr_t mem;
-> > > > > +	} config;
-> > > > > +	struct {
-> > > > > +		struct v4l2_format fmt;
-> > > > > +		dma_addr_t mem;
-> > > > > +	} img;
-> > > > > +	struct vsp1_dl_list *dl;
-> > > > > +};
-> > > > > +
-> > > > > +/**
-> > > > > + * struct vsp1_vspx_frame_end - VSPX frame end callback data
-> > > > > + * @vspx_frame_end: Frame end callback. Called after a transfer job has been
-> > > > > + *		    completed. If the job includes both a ConfigDMA and a
-> > > > > + *		    RAW image, the callback is called after both have been
-> > > > > + *		    transferred
-> > > > > + * @frame_end_data: Frame end callback data, passed to vspx_frame_end
-> > > > > + */
-> > > > > +struct vsp1_vspx_frame_end {
-> > > > > +	void (*vspx_frame_end)(void *data);
-> > > > > +	void *frame_end_data;
-> > > > > +};
-> > > > > +
-> > > > > +int vsp1_isp_init(struct device *dev);
-> > > > > +struct device *vsp1_isp_get_bus_master(struct device *dev);
-> > > > > +int vsp1_isp_alloc_buffer(struct device *dev, size_t size,
-> > > > > +			  struct vsp1_isp_buffer_desc *buffer_desc);
-> > > > > +void vsp1_isp_free_buffer(struct device *dev,
-> > > > > +			  struct vsp1_isp_buffer_desc *buffer_desc);
-> > > > > +int vsp1_isp_start_streaming(struct device *dev,
-> > > > > +			     struct vsp1_vspx_frame_end *frame_end);
-> > > > > +void vsp1_isp_stop_streaming(struct device *dev);
-> > > > > +int vsp1_isp_job_prepare(struct device *dev,
-> > > > > +			 struct vsp1_isp_job_desc *job);
-> > > > > +int vsp1_isp_job_run(struct device *dev, struct vsp1_isp_job_desc *job);
-> > > > > +void vsp1_isp_job_release(struct device *dev,  struct vsp1_isp_job_desc *job);
-> > > > > +
-> > > > >  #endif /* __MEDIA_VSP1_H__ */
-> > > > >
-> > > > > ---
-> > > > > base-commit: 1d41f477d6ff5f5eb0b78b37644ffac0785602c9
-> > > > > change-id: 20250502-b4-vspx-90c815bff6dd
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+I see plenty of references to OV05C10 in the intel/ipu6 repositories on
+github - but that doesn't count as upstream here ...
 
--- 
-Kind Regards,
-Niklas Söderlund
+Perhaps could Intel work to support the additional requirements on top
+of AMD's driver ?
+
+
+But having multiple devices use the same sensor driver is a good thing
+here.
+
+I think it will highlight that werever possible - the code below should
+be factored out to support the different configuration requirements.
+Cleaning up the large tables of register addresses and making those
+configurable functions for example configuring the link rate
+independently would be really beneficial!
+
+That's precisely why we continually push for reducing the large
+"undocumented register" tables in sensor drivers...
+
+
+
+> devices using ov05c10 sensor.
+>=20
+> I think this patch is better to be validated on existing devices, but=20
+> please do some fixes before we can do validation. Please check my=20
+> comments inline.
+>=20
+>=20
+> On 2025/6/10 03:42, Pratap Nirujogi wrote:
+> > Add driver for OmniVision 5.2M OV05C10 sensor. This driver
+> > supports only the full size normal 2888x1808@30fps 2-lane
+> > sensor profile.
+> >=20
+> > Co-developed-by: Venkata Narendra Kumar Gutta <vengutta@amd.com>
+> > Signed-off-by: Venkata Narendra Kumar Gutta <vengutta@amd.com>
+> > Co-developed-by: Bin Du <bin.du@amd.com>
+> > Signed-off-by: Bin Du <bin.du@amd.com>
+> > Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > ---
+> > Changes v2 -> v3:
+> >=20
+> > * Update "refclk" property variable as "clock-frequency".
+> > * Update sensor GPIO connector id name.
+> > * Fix sensor v4l2 compliance issue.
+> > * Fix license info.
+> > * Address review comments.
+> >=20
+> >   MAINTAINERS                 |    8 +
+> >   drivers/media/i2c/Kconfig   |   10 +
+> >   drivers/media/i2c/Makefile  |    1 +
+> >   drivers/media/i2c/ov05c10.c | 1061 +++++++++++++++++++++++++++++++++++
+> >   4 files changed, 1080 insertions(+)
+> >   create mode 100644 drivers/media/i2c/ov05c10.c
+> >=20
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index a92290fffa16..caca25d00bf2 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -18303,6 +18303,14 @@ T:   git git://linuxtv.org/media.git
+> >   F:  Documentation/devicetree/bindings/media/i2c/ovti,ov02e10.yaml
+> >   F:  drivers/media/i2c/ov02e10.c
+> >  =20
+> > +OMNIVISION OV05C10 SENSOR DRIVER
+> > +M:   Nirujogi Pratap <pratap.nirujogi@amd.com>
+> > +M:   Bin Du <bin.du@amd.com>
+> > +L:   linux-media@vger.kernel.org
+> > +S:   Maintained
+> > +T:   git git://linuxtv.org/media.git
+> > +F:   drivers/media/i2c/ov05c10.c
+> > +
+> >   OMNIVISION OV08D10 SENSOR DRIVER
+> >   M:  Jimmy Su <jimmy.su@intel.com>
+> >   L:  linux-media@vger.kernel.org
+> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > index e68202954a8f..1662fb29d75c 100644
+> > --- a/drivers/media/i2c/Kconfig
+> > +++ b/drivers/media/i2c/Kconfig
+> > @@ -377,6 +377,16 @@ config VIDEO_OV02C10
+> >         To compile this driver as a module, choose M here: the
+> >         module will be called ov02c10.
+> >  =20
+> > +config VIDEO_OV05C10
+> > +     tristate "OmniVision OV05C10 sensor support"
+> > +     select V4L2_CCI_I2C
+> > +     help
+> > +       This is a Video4Linux2 sensor driver for the OmniVision
+> > +       OV05C10 camera.
+> > +
+> > +       To compile this driver as a module, choose M here: the
+> > +       module will be called OV05C10.
+> > +
+> >   config VIDEO_OV08D10
+> >           tristate "OmniVision OV08D10 sensor support"
+> >           help
+> > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> > index 5873d29433ee..b4a1d721a7f2 100644
+> > --- a/drivers/media/i2c/Makefile
+> > +++ b/drivers/media/i2c/Makefile
+> > @@ -85,6 +85,7 @@ obj-$(CONFIG_VIDEO_OV01A10) +=3D ov01a10.o
+> >   obj-$(CONFIG_VIDEO_OV02A10) +=3D ov02a10.o
+> >   obj-$(CONFIG_VIDEO_OV02C10) +=3D ov02c10.o
+> >   obj-$(CONFIG_VIDEO_OV02E10) +=3D ov02e10.o
+> > +obj-$(CONFIG_VIDEO_OV05C10) +=3D ov05c10.o
+> >   obj-$(CONFIG_VIDEO_OV08D10) +=3D ov08d10.o
+> >   obj-$(CONFIG_VIDEO_OV08X40) +=3D ov08x40.o
+> >   obj-$(CONFIG_VIDEO_OV13858) +=3D ov13858.o
+> > diff --git a/drivers/media/i2c/ov05c10.c b/drivers/media/i2c/ov05c10.c
+> > new file mode 100644
+> > index 000000000000..9a1e493c4073
+> > --- /dev/null
+> > +++ b/drivers/media/i2c/ov05c10.c
+> > @@ -0,0 +1,1061 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +// Copyright (C) 2025 Advanced Micro Devices, Inc.
+> > +
+> > +#include <linux/clk.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/gpio.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/module.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <linux/units.h>
+> > +#include <media/v4l2-cci.h>
+> > +#include <media/v4l2-ctrls.h>
+> > +#include <media/v4l2-device.h>
+> > +#include <media/v4l2-fwnode.h>
+> > +
+> > +#define DRV_NAME                     "ov05c10"
+> > +#define OV05C10_REF_CLK                      (24 * HZ_PER_MHZ)
+>=20
+> Seems your module use 24 MHz clock input. The Dell's modules always use=20
+> 19.2MHz, which means your the PLL settings will not work on Dell's.
+
+That sounds like a feature that Dell and Intel could work towards
+supporting ?
+
+For instance, we made the Sony IMX283 support multiple input frequencies:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/media/i2c/imx283.c#n263
+
+Of course it would be even better if we could always dynamically
+calculate the PLLs correctly based on the input clocks.
+
+And if we can make the drivers more freely configurable instead of
+mode-based - then they would be more adaptable to the different platform
+configurations possible in different environments.
+
+>=20
+> > +
+> > +#define MODE_WIDTH  2888
+> > +#define MODE_HEIGHT 1808
+> > +
+> > +#define PAGE_NUM_MASK                        0xff000000
+> > +#define PAGE_NUM_SHIFT                       24
+> > +#define REG_ADDR_MASK                        0x00ffffff
+> > +
+> > +#define OV05C10_SYSCTL_PAGE          (0 << PAGE_NUM_SHIFT)
+> > +#define OV05C10_CISCTL_PAGE          (1 << PAGE_NUM_SHIFT)
+> > +#define OV05C10_ISPCTL_PAGE          (4 << PAGE_NUM_SHIFT)
+> > +
+> > +/* Chip ID */
+> > +#define OV05C10_REG_CHIP_ID          (CCI_REG24(0x00) | OV05C10_SYSCTL=
+_PAGE)
+> > +#define OV05C10_CHIP_ID                      0x43055610
+> > +
+> > +/* Control registers */
+> > +#define OV05C10_REG_TRIGGER          (CCI_REG8(0x01) | OV05C10_CISCTL_=
+PAGE)
+> > +#define OV05C_REG_TRIGGER_START              BIT(0)
+> > +
+> > +/* Exposure control */
+> > +#define OV05C10_REG_EXPOSURE         (CCI_REG24(0x02) | OV05C10_CISCTL=
+_PAGE)
+> > +#define OV05C10_EXPOSURE_MAX_MARGIN  33
+> > +#define OV05C10_EXPOSURE_MIN         4
+> > +#define OV05C10_EXPOSURE_STEP                1
+> > +#define OV05C10_EXPOSURE_DEFAULT     0x40
+> > +
+> > +/* V_TIMING internal */
+> > +#define OV05C10_REG_VTS                      (CCI_REG16(0x05) | OV05C1=
+0_CISCTL_PAGE)
+> > +#define OV05C10_VTS_30FPS            1860
+> > +#define OV05C10_VTS_MAX                      0x7fff
+> > +
+> > +/* Test Pattern Control */
+> > +#define OV05C10_REG_TEST_PATTERN     (CCI_REG8(0x12) | OV05C10_ISPCTL_=
+PAGE)
+> > +#define OV05C10_TEST_PATTERN_ENABLE  BIT(0)
+> > +#define OV05C10_REG_TEST_PATTERN_CTL (CCI_REG8(0xf3) | OV05C10_ISPCTL_=
+PAGE)
+> > +#define OV05C10_REG_TEST_PATTERN_XXX BIT(0)
+> > +
+> > +/* Digital gain control */
+> > +#define OV05C10_REG_DGTL_GAIN_H              (CCI_REG8(0x21) | OV05C10=
+_CISCTL_PAGE)
+> > +#define OV05C10_REG_DGTL_GAIN_L              (CCI_REG8(0x22) | OV05C10=
+_CISCTL_PAGE)
+> > +
+> > +#define OV05C10_DGTL_GAIN_MIN                0x40
+> > +#define OV05C10_DGTL_GAIN_MAX                0xff
+> > +#define OV05C10_DGTL_GAIN_DEFAULT    0x40
+> > +#define OV05C10_DGTL_GAIN_STEP               1
+> > +
+> > +#define OV05C10_DGTL_GAIN_L_MASK     0xff
+> > +#define OV05C10_DGTL_GAIN_H_SHIFT    8
+> > +#define OV05C10_DGTL_GAIN_H_MASK     0xff00
+> > +
+> > +/* Analog gain control */
+> > +#define OV05C10_REG_ANALOG_GAIN              (CCI_REG8(0x24) | OV05C10=
+_CISCTL_PAGE)
+> > +#define OV05C10_ANA_GAIN_MIN         0x80
+> > +#define OV05C10_ANA_GAIN_MAX         0x07c0
+> > +#define OV05C10_ANA_GAIN_STEP                1
+> > +#define OV05C10_ANA_GAIN_DEFAULT     0x80
+> > +
+> > +/* H TIMING internal */
+> > +#define OV05C10_REG_HTS                      (CCI_REG16(0x37) | OV05C1=
+0_CISCTL_PAGE)
+> > +#define OV05C10_HTS_30FPS            0x0280
+> > +
+> > +/* Page selection */
+> > +#define OV05C10_REG_PAGE_CTL         CCI_REG8(0xfd)
+> > +
+> > +#define NUM_OF_PADS 1
+> > +
+> > +#define OV05C10_GET_PAGE_NUM(reg)    (((reg) & PAGE_NUM_MASK) >>\
+> > +                                      PAGE_NUM_SHIFT)
+> > +#define OV05C10_GET_REG_ADDR(reg)    ((reg) & REG_ADDR_MASK)
+> > +
+> > +enum {
+> > +     OV05C10_LINK_FREQ_900MHZ_INDEX,
+> > +};
+> > +
+> > +struct ov05c10_reg_list {
+> > +     u32 num_of_regs;
+> > +     const struct cci_reg_sequence *regs;
+> > +};
+> > +
+> > +/* Mode : resolution and related config&values */
+> > +struct ov05c10_mode {
+> > +     /* Frame width */
+> > +     u32 width;
+> > +     /* Frame height */
+> > +     u32 height;
+> > +     /* number of lanes */
+> > +     u32 lanes;
+> > +
+> > +     /* V-timing */
+> > +     u32 vts_def;
+> > +     u32 vts_min;
+> > +
+> > +     /* HTS */
+> > +     u32 hts;
+> > +
+> > +     /* Index of Link frequency config to be used */
+> > +     u32 link_freq_index;
+> > +
+> > +     /* Default register values */
+> > +     struct ov05c10_reg_list reg_list;
+> > +};
+> > +
+> > +static const s64 ov05c10_link_frequencies[] =3D {
+> > +     925 * HZ_PER_MHZ,
+> > +};
+>=20
+> Is it 900 MHz, or 925 MHz?
+>=20
+> > +
+> > +/* 2888x1808 30fps, 1800mbps, 2lane, 24mhz */
+>=20
+> Currently Dell's devices with ov05c10 use a CV chip to passthrough MIPI=20
+> CSI signals, but it supports max 750 MHz link frequency. That's why this =
+
+> version:
+> https://github.com/intel/ipu6-drivers/blob/master/drivers/media/i2c/ov05c=
+10.c
+> uses 480 MHz link frequency and a different resolution setting=20
+> (2800x1576). At least the setting in out-of-tree Github driver should be =
+
+> merged into this version.
+
+If Pratap doesn't have that device, can you work towards adding the
+support and testing?
+
+
+
+>=20
+> > +static const struct cci_reg_sequence ov05c10_2888x1808_regs[] =3D {
+> > +     { CCI_REG8(0xfd),  0x00 },
+> > +     { CCI_REG8(0x20),  0x00 },
+> > +     { CCI_REG8(0xfd),  0x00 },
+> > +     { CCI_REG8(0x20),  0x0b },
+> > +     { CCI_REG8(0xc1),  0x09 },
+> > +     { CCI_REG8(0x21),  0x06 },
+> > +     { CCI_REG8(0x14),  0x78 },
+> > +     { CCI_REG8(0xe7),  0x03 },
+> > +     { CCI_REG8(0xe7),  0x00 },
+> > +     { CCI_REG8(0x21),  0x00 },
+> > +     { CCI_REG8(0xfd),  0x01 },
+> > +     { CCI_REG8(0x03),  0x00 },
+> > +     { CCI_REG8(0x04),  0x06 },
+> > +     { CCI_REG8(0x05),  0x07 },
+> > +     { CCI_REG8(0x06),  0x44 },
+> > +     { CCI_REG8(0x07),  0x08 },
+> > +     { CCI_REG8(0x1b),  0x01 },
+> > +     { CCI_REG8(0x24),  0xff },
+> > +     { CCI_REG8(0x32),  0x03 },
+> > +     { CCI_REG8(0x42),  0x5d },
+> > +     { CCI_REG8(0x43),  0x08 },
+> > +     { CCI_REG8(0x44),  0x81 },
+> > +     { CCI_REG8(0x46),  0x5f },
+> > +     { CCI_REG8(0x48),  0x18 },
+> > +     { CCI_REG8(0x49),  0x04 },
+> > +     { CCI_REG8(0x5c),  0x18 },
+> > +     { CCI_REG8(0x5e),  0x13 },
+> > +     { CCI_REG8(0x70),  0x15 },
+> > +     { CCI_REG8(0x77),  0x35 },
+> > +     { CCI_REG8(0x79),  0x00 },
+> > +     { CCI_REG8(0x7b),  0x08 },
+> > +     { CCI_REG8(0x7d),  0x08 },
+> > +     { CCI_REG8(0x7e),  0x08 },
+> > +     { CCI_REG8(0x7f),  0x08 },
+> > +     { CCI_REG8(0x90),  0x37 },
+> > +     { CCI_REG8(0x91),  0x05 },
+> > +     { CCI_REG8(0x92),  0x18 },
+> > +     { CCI_REG8(0x93),  0x27 },
+> > +     { CCI_REG8(0x94),  0x05 },
+> > +     { CCI_REG8(0x95),  0x38 },
+> > +     { CCI_REG8(0x9b),  0x00 },
+> > +     { CCI_REG8(0x9c),  0x06 },
+> > +     { CCI_REG8(0x9d),  0x28 },
+> > +     { CCI_REG8(0x9e),  0x06 },
+> > +     { CCI_REG8(0xb2),  0x0f },
+> > +     { CCI_REG8(0xb3),  0x29 },
+> > +     { CCI_REG8(0xbf),  0x3c },
+> > +     { CCI_REG8(0xc2),  0x04 },
+> > +     { CCI_REG8(0xc4),  0x00 },
+> > +     { CCI_REG8(0xca),  0x20 },
+> > +     { CCI_REG8(0xcb),  0x20 },
+> > +     { CCI_REG8(0xcc),  0x28 },
+> > +     { CCI_REG8(0xcd),  0x28 },
+> > +     { CCI_REG8(0xce),  0x20 },
+> > +     { CCI_REG8(0xcf),  0x20 },
+> > +     { CCI_REG8(0xd0),  0x2a },
+> > +     { CCI_REG8(0xd1),  0x2a },
+> > +     { CCI_REG8(0xfd),  0x0f },
+> > +     { CCI_REG8(0x00),  0x00 },
+> > +     { CCI_REG8(0x01),  0xa0 },
+> > +     { CCI_REG8(0x02),  0x48 },
+> > +     { CCI_REG8(0x07),  0x8f },
+> > +     { CCI_REG8(0x08),  0x70 },
+> > +     { CCI_REG8(0x09),  0x01 },
+> > +     { CCI_REG8(0x0b),  0x40 },
+> > +     { CCI_REG8(0x0d),  0x07 },
+> > +     { CCI_REG8(0x11),  0x33 },
+> > +     { CCI_REG8(0x12),  0x77 },
+> > +     { CCI_REG8(0x13),  0x66 },
+> > +     { CCI_REG8(0x14),  0x65 },
+> > +     { CCI_REG8(0x15),  0x37 },
+> > +     { CCI_REG8(0x16),  0xbf },
+> > +     { CCI_REG8(0x17),  0xff },
+> > +     { CCI_REG8(0x18),  0xff },
+> > +     { CCI_REG8(0x19),  0x12 },
+> > +     { CCI_REG8(0x1a),  0x10 },
+> > +     { CCI_REG8(0x1c),  0x77 },
+> > +     { CCI_REG8(0x1d),  0x77 },
+> > +     { CCI_REG8(0x20),  0x0f },
+> > +     { CCI_REG8(0x21),  0x0f },
+> > +     { CCI_REG8(0x22),  0x0f },
+> > +     { CCI_REG8(0x23),  0x0f },
+> > +     { CCI_REG8(0x2b),  0x20 },
+> > +     { CCI_REG8(0x2c),  0x20 },
+> > +     { CCI_REG8(0x2d),  0x04 },
+> > +     { CCI_REG8(0xfd),  0x03 },
+> > +     { CCI_REG8(0x9d),  0x0f },
+> > +     { CCI_REG8(0x9f),  0x40 },
+> > +     { CCI_REG8(0xfd),  0x00 },
+> > +     { CCI_REG8(0x20),  0x1b },
+> > +     { CCI_REG8(0xfd),  0x04 },
+> > +     { CCI_REG8(0x19),  0x60 },
+> > +     { CCI_REG8(0xfd),  0x02 },
+> > +     { CCI_REG8(0x75),  0x05 },
+> > +     { CCI_REG8(0x7f),  0x06 },
+> > +     { CCI_REG8(0x9a),  0x03 },
+> > +     { CCI_REG8(0xa2),  0x07 },
+> > +     { CCI_REG8(0xa3),  0x10 },
+> > +     { CCI_REG8(0xa5),  0x02 },
+> > +     { CCI_REG8(0xa6),  0x0b },
+> > +     { CCI_REG8(0xa7),  0x48 },
+> > +     { CCI_REG8(0xfd),  0x07 },
+> > +     { CCI_REG8(0x42),  0x00 },
+> > +     { CCI_REG8(0x43),  0x80 },
+> > +     { CCI_REG8(0x44),  0x00 },
+> > +     { CCI_REG8(0x45),  0x80 },
+> > +     { CCI_REG8(0x46),  0x00 },
+> > +     { CCI_REG8(0x47),  0x80 },
+> > +     { CCI_REG8(0x48),  0x00 },
+> > +     { CCI_REG8(0x49),  0x80 },
+> > +     { CCI_REG8(0x00),  0xf7 },
+> > +     { CCI_REG8(0xfd),  0x00 },
+> > +     { CCI_REG8(0xe7),  0x03 },
+> > +     { CCI_REG8(0xe7),  0x00 },
+> > +     { CCI_REG8(0xfd),  0x00 },
+> > +     { CCI_REG8(0x93),  0x18 },
+> > +     { CCI_REG8(0x94),  0xff },
+> > +     { CCI_REG8(0x95),  0xbd },
+> > +     { CCI_REG8(0x96),  0x1a },
+> > +     { CCI_REG8(0x98),  0x04 },
+> > +     { CCI_REG8(0x99),  0x08 },
+> > +     { CCI_REG8(0x9b),  0x10 },
+> > +     { CCI_REG8(0x9c),  0x3f },
+> > +     { CCI_REG8(0xa1),  0x05 },
+> > +     { CCI_REG8(0xa4),  0x2f },
+> > +     { CCI_REG8(0xc0),  0x0c },
+> > +     { CCI_REG8(0xc1),  0x08 },
+> > +     { CCI_REG8(0xc2),  0x00 },
+> > +     { CCI_REG8(0xb6),  0x20 },
+> > +     { CCI_REG8(0xbb),  0x80 },
+> > +     { CCI_REG8(0xfd),  0x00 },
+> > +     { CCI_REG8(0xa0),  0x01 },
+> > +     { CCI_REG8(0xfd),  0x01 },
+> > +};
+> > +
+> > +static const struct cci_reg_sequence mode_OV05C10_stream_on_regs[] =3D=
+ {
+
+Why is the word 'mode_ in here ?
+
+> > +     { CCI_REG8(0xfd), 0x01 },
+> > +     { CCI_REG8(0x33), 0x03 },
+> > +     { CCI_REG8(0x01), 0x02 },
+> > +     { CCI_REG8(0xfd), 0x00 },
+> > +     { CCI_REG8(0x20), 0x1f },
+> > +     { CCI_REG8(0xfd), 0x01 },
+> > +};
+> > +
+> > +static const struct cci_reg_sequence mode_OV05C10_stream_off_regs[] =
+=3D {
+
+And why are these two register tables now OV05C10 rather than ov05c10
+(capital case, while everything else is lower case)
+
+
+> > +     { CCI_REG8(0xfd), 0x00 },
+> > +     { CCI_REG8(0x20), 0x5b },
+> > +     { CCI_REG8(0xfd), 0x01 },
+> > +     { CCI_REG8(0x33), 0x02 },
+> > +     { CCI_REG8(0x01), 0x02 },
+
+Are there any registers in any of the tables we can name to make the
+driver more maintainable? Or extract to a directly coded function to
+make it more explicit perhaps?
+
+In both those tables 0xfd gets written in a curious manner - is that
+another of the page selection type accesses ?
+
+In fact, I can see that it is the page control register indeed - so
+perhaps it would make more sense to code this through the page
+accessors!
+
+
+
+> > +};
+> > +
+> > +static const char * const ov05c10_test_pattern_menu[] =3D {
+> > +     "Disabled",
+> > +     "Vertical Color Bar Type 1",
+> > +     "Vertical Color Bar Type 2",
+> > +     "Vertical Color Bar Type 3",
+> > +     "Vertical Color Bar Type 4"
+> > +};
+> > +
+> > +/* Configurations for supported link frequencies */
+> > +#define OV05C10_LINK_FREQ_900MHZ     (900 * HZ_PER_MHZ)
+> > +
+> > +/* Number of lanes supported */
+> > +#define OV05C10_DATA_LANES           2
+> > +
+> > +/* Bits per sample of sensor output */
+> > +#define OV05C10_BITS_PER_SAMPLE              10
+> > +
+> > +/*
+> > + * pixel_rate =3D link_freq * data-rate * nr_of_lanes / bits_per_sample
+> > + * data rate =3D> double data rate; number of lanes =3D> 2; bits per p=
+ixel =3D> 10
+> > + */
+> > +static u64 link_freq_to_pixel_rate(u64 f, u32 lane_nr)
+> > +{
+> > +     f *=3D 2 * lane_nr;
+> > +     do_div(f, OV05C10_BITS_PER_SAMPLE);
+> > +
+> > +     return f;
+> > +}
+> > +
+> > +/* Menu items for LINK_FREQ V4L2 control */
+> > +static const s64 ov05c10_link_freq_menu_items[] =3D {
+> > +     OV05C10_LINK_FREQ_900MHZ,
+> > +};
+> > +
+> > +/* Mode configs, currently, only support 1 mode */
+> > +static const struct ov05c10_mode supported_mode =3D {
+> > +     .width =3D MODE_WIDTH,
+> > +     .height =3D MODE_HEIGHT,
+> > +     .vts_def =3D OV05C10_VTS_30FPS,
+> > +     .vts_min =3D OV05C10_VTS_30FPS,
+> > +     .hts =3D 640,
+> > +     .lanes =3D 2,
+> > +     .reg_list =3D {
+> > +             .num_of_regs =3D ARRAY_SIZE(ov05c10_2888x1808_regs),
+> > +             .regs =3D ov05c10_2888x1808_regs,
+> > +     },
+> > +     .link_freq_index =3D OV05C10_LINK_FREQ_900MHZ_INDEX,
+> > +};
+> > +
+> > +struct ov05c10 {
+> > +     struct v4l2_subdev sd;
+> > +     struct media_pad pad;
+> > +
+> > +     /* V4L2 control handler */
+> > +     struct v4l2_ctrl_handler ctrl_handler;
+> > +
+> > +     /* V4L2 Controls */
+> > +     struct v4l2_ctrl *link_freq;
+> > +     struct v4l2_ctrl *pixel_rate;
+> > +     struct v4l2_ctrl *vblank;
+> > +     struct v4l2_ctrl *hblank;
+> > +     struct v4l2_ctrl *exposure;
+> > +
+> > +     struct regmap *regmap;
+> > +
+> > +     /* gpio descriptor */
+> > +     struct gpio_desc *enable_gpio;
+> > +
+> > +     /* Current page for sensor register control */
+> > +     int cur_page;
+> > +};
+> > +
+> > +#define to_ov05c10(_sd)      container_of(_sd, struct ov05c10, sd)
+> > +
+> > +static int ov05c10_init_state(struct v4l2_subdev *sd,
+> > +                           struct v4l2_subdev_state *sd_state)
+> > +{
+> > +     struct v4l2_mbus_framefmt *frame_fmt;
+> > +     struct v4l2_subdev_format fmt =3D {
+> > +             .which =3D V4L2_SUBDEV_FORMAT_TRY,
+> > +             .format =3D {
+> > +                     .width =3D MODE_WIDTH,
+> > +                     .height =3D MODE_HEIGHT,
+> > +                     .code =3D MEDIA_BUS_FMT_SGRBG10_1X10,
+> > +                     .field =3D V4L2_FIELD_NONE,
+> > +             }
+> > +     };
+> > +
+> > +     frame_fmt =3D v4l2_subdev_state_get_format(sd_state, 0);
+> > +     *frame_fmt =3D fmt.format;
+> > +     return 0;
+> > +}
+> > +
+> > +static int ov05c10_switch_page(struct ov05c10 *ov05c10, u32 page, int =
+*err)
+>=20
+> Seems nobody cares the return value of ov05c10_switch_page() or=20
+> ov05c10_reg_write(), etc.. It should be better to use void return, or=20
+> use return value instead of int *err.
+
+This style probably comes from the way that the CCI helpers were
+written, to allow consectuive writes to avoid having to duplicate error
+checks when writing lots of registers.
+
+Depending on how the generic page switching could be implemented, there
+may still be benefit to tracking the *err and I would still keep the
+return ret type - as there are times where it can still make sense to
+write:
+
+ 	ret =3D ov05c10_switch_page(..)
+etc...
+
+
+>=20
+> > +{
+> > +     int ret =3D 0;
+> > +
+> > +     if (err && *err)
+> > +             return *err;
+> > +
+> > +     if (page !=3D ov05c10->cur_page) {
+> > +             cci_write(ov05c10->regmap, OV05C10_REG_PAGE_CTL, page, &r=
+et);
+> > +             if (!ret)
+> > +                     ov05c10->cur_page =3D page;
+> > +     }
+> > +
+> > +     if (err)
+> > +             *err =3D ret;
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +/* refer to the implementation of cci_read */
+> > +static int ov05c10_reg_read(struct ov05c10 *ov05c10, u32 reg,
+> > +                         u64 *val, int *err)
+> > +{
+> > +     u32 page;
+> > +     u32 addr;
+> > +     int ret =3D 0;
+> > +
+> > +     if (err && *err)
+> > +             return *err;
+> > +
+> > +     page =3D OV05C10_GET_PAGE_NUM(reg);
+> > +     addr =3D OV05C10_GET_REG_ADDR(reg);
+> > +     ov05c10_switch_page(ov05c10, page, &ret);
+> > +     cci_read(ov05c10->regmap, addr, val, &ret);
+> > +     if (err)
+> > +             *err =3D ret;
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +/* refer to the implementation of cci_write */
+> > +static int ov05c10_reg_write(struct ov05c10 *ov05c10, u32 reg,
+> > +                          u64 val, int *err)
+> > +{
+> > +     u32 page;
+> > +     u32 addr;
+> > +     int ret =3D 0;
+> > +
+> > +     if (err && *err)
+> > +             return *err;
+> > +
+> > +     page =3D OV05C10_GET_PAGE_NUM(reg);
+> > +     addr =3D OV05C10_GET_REG_ADDR(reg);
+> > +     ov05c10_switch_page(ov05c10, page, &ret);
+> > +     cci_write(ov05c10->regmap, addr, val, &ret);
+> > +     if (err)
+> > +             *err =3D ret;
+> > +
+> > +     return ret;
+> > +}
+
+One of the main goals of CCI helpers was to avoid all of the custom
+device accessors being duplicated in each driver, so I think extending
+the CCI helpers to support page based accesses in some common way would
+be beneficial.
+
+
+> > +
+> > +static int ov05c10_update_vblank(struct ov05c10 *ov05c10, u32 vblank)
+> > +{
+> > +     const struct ov05c10_mode *mode =3D &supported_mode;
+> > +     u64 val;
+> > +     int ret =3D 0;
+> > +
+> > +     val =3D mode->height + vblank;
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_VTS, val, &ret);
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_TRIGGER,
+> > +                       OV05C_REG_TRIGGER_START, &ret);
+> > +
+> > +     return ret;
+> > +}
+>=20
+> I remembered that the ov05c10 VTS control (P1:0x05~0x06) is a bit weird. =
+
+> This register seems take the increment of VTS value, so direct write of=20
+> VTS value will not set it properly. Does this version make AE working on =
+
+> your platform?
+>=20
+> > +
+> > +static int ov05c10_update_exposure(struct ov05c10 *ov05c10, u32 exposu=
+re)
+> > +{
+> > +     int ret =3D 0;
+> > +
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_EXPOSURE, exposure, &ret);
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_TRIGGER,
+> > +                       OV05C_REG_TRIGGER_START, &ret);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int ov05c10_update_analog_gain(struct ov05c10 *ov05c10, u32 a_g=
+ain)
+> > +{
+> > +     int ret =3D 0;
+> > +
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_ANALOG_GAIN, a_gain, &ret);
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_TRIGGER,
+> > +                       OV05C_REG_TRIGGER_START, &ret);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int ov05c10_update_digital_gain(struct ov05c10 *ov05c10, u32 d_=
+gain)
+> > +{
+> > +     u64 val;
+> > +     int ret =3D 0;
+> > +
+> > +     val =3D d_gain & OV05C10_DGTL_GAIN_L_MASK;
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_DGTL_GAIN_L, val, &ret);
+> > +
+> > +     val =3D (d_gain & OV05C10_DGTL_GAIN_H_MASK) >> OV05C10_DGTL_GAIN_=
+H_SHIFT;
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_DGTL_GAIN_H, val, &ret);
+> > +
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_TRIGGER,
+> > +                       OV05C_REG_TRIGGER_START, &ret);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int ov05c10_enable_test_pattern(struct ov05c10 *ov05c10, u32 pa=
+ttern)
+> > +{
+> > +     u64 val;
+> > +     int ret =3D 0;
+> > +
+> > +     if (pattern) {
+> > +             ov05c10_reg_read(ov05c10, OV05C10_REG_TEST_PATTERN_CTL,
+> > +                              &val, &ret);
+> > +             ov05c10_reg_write(ov05c10, OV05C10_REG_TEST_PATTERN_CTL,
+> > +                               val | OV05C10_REG_TEST_PATTERN_XXX, &re=
+t);
+> > +             ov05c10_reg_read(ov05c10, OV05C10_REG_TEST_PATTERN, &val,=
+ &ret);
+> > +             val |=3D OV05C10_TEST_PATTERN_ENABLE;
+> > +     } else {
+> > +             ov05c10_reg_read(ov05c10, OV05C10_REG_TEST_PATTERN, &val,=
+ &ret);
+> > +             val &=3D ~OV05C10_TEST_PATTERN_ENABLE;
+> > +     }
+> > +
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_TEST_PATTERN, val, &ret);
+> > +     ov05c10_reg_write(ov05c10, OV05C10_REG_TRIGGER,
+> > +                       OV05C_REG_TRIGGER_START, &ret);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int ov05c10_set_ctrl(struct v4l2_ctrl *ctrl)
+> > +{
+> > +     struct ov05c10 *ov05c10 =3D container_of(ctrl->handler,
+> > +                                            struct ov05c10, ctrl_handl=
+er);
+> > +     struct i2c_client *client =3D v4l2_get_subdevdata(&ov05c10->sd);
+> > +     const struct ov05c10_mode *mode =3D &supported_mode;
+> > +     s64 max;
+> > +     int ret =3D 0;
+> > +
+> > +     /* Propagate change of current control to all related controls */
+> > +     if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
+> > +             s64 cur_exp =3D ov05c10->exposure->cur.val;
+> > +
+> > +             /* Update max exposure while meeting expected vblanking */
+> > +             max =3D mode->height + ctrl->val - OV05C10_EXPOSURE_MAX_M=
+ARGIN;
+> > +             cur_exp =3D clamp(cur_exp, ov05c10->exposure->minimum, ma=
+x);
+> > +             ret =3D __v4l2_ctrl_modify_range(ov05c10->exposure,
+> > +                                            ov05c10->exposure->minimum,
+> > +                                            max, ov05c10->exposure->st=
+ep,
+> > +                                            cur_exp);
+> > +             if (!ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     /*
+> > +      * Applying V4L2 control value only happens
+> > +      * when power is up for streaming
+> > +      */
+> > +     if (!pm_runtime_get_if_in_use(&client->dev))
+> > +             return 0;
+> > +
+> > +     switch (ctrl->id) {
+> > +     case V4L2_CID_ANALOGUE_GAIN:
+> > +             ret =3D ov05c10_update_analog_gain(ov05c10, ctrl->val);
+> > +             break;
+> > +     case V4L2_CID_DIGITAL_GAIN:
+> > +             ret =3D ov05c10_update_digital_gain(ov05c10, ctrl->val);
+> > +             break;
+> > +     case V4L2_CID_EXPOSURE:
+> > +             ret =3D ov05c10_update_exposure(ov05c10, ctrl->val);
+> > +             break;
+> > +     case V4L2_CID_VBLANK:
+> > +             ret =3D ov05c10_update_vblank(ov05c10, ctrl->val);
+> > +             break;
+> > +     case V4L2_CID_TEST_PATTERN:
+> > +             ret =3D ov05c10_enable_test_pattern(ov05c10, ctrl->val);
+> > +             break;
+> > +     default:
+> > +             ret =3D -ENOTTY;
+> > +             dev_err(&client->dev,
+> > +                     "ctrl(id:0x%x,val:0x%x) is not handled\n",
+> > +                     ctrl->id, ctrl->val);
+> > +             break;
+> > +     }
+> > +
+> > +     pm_runtime_put(&client->dev);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static const struct v4l2_ctrl_ops ov05c10_ctrl_ops =3D {
+> > +     .s_ctrl =3D ov05c10_set_ctrl,
+> > +};
+> > +
+> > +static int ov05c10_enum_mbus_code(struct v4l2_subdev *sd,
+> > +                               struct v4l2_subdev_state *sd_state,
+> > +                               struct v4l2_subdev_mbus_code_enum *code)
+> > +{
+> > +     /* Only one bayer order(GRBG) is supported */
+> > +     if (code->index > 0)
+> > +             return -EINVAL;
+> > +
+> > +     code->code =3D MEDIA_BUS_FMT_SGRBG10_1X10;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int ov05c10_enum_frame_size(struct v4l2_subdev *sd,
+> > +                                struct v4l2_subdev_state *sd_state,
+> > +                                struct v4l2_subdev_frame_size_enum *fs=
+e)
+> > +{
+> > +     /* ov05c10 driver currently only supports 1 mode*/
+> > +     if (fse->index !=3D 0)
+> > +             return -EINVAL;
+> > +
+> > +     if (fse->code !=3D MEDIA_BUS_FMT_SGRBG10_1X10)
+> > +             return -EINVAL;
+> > +
+> > +     fse->min_width =3D supported_mode.width;
+> > +     fse->max_width =3D fse->min_width;
+> > +     fse->min_height =3D supported_mode.height;
+> > +     fse->max_height =3D fse->min_height;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void ov05c10_update_pad_format(const struct ov05c10_mode *mode,
+> > +                                   struct v4l2_subdev_format *fmt)
+> > +{
+> > +     fmt->format.width =3D mode->width;
+> > +     fmt->format.height =3D mode->height;
+> > +     fmt->format.code =3D MEDIA_BUS_FMT_SGRBG10_1X10;
+> > +     fmt->format.field =3D V4L2_FIELD_NONE;
+> > +}
+> > +
+> > +static int ov05c10_set_pad_format(struct v4l2_subdev *sd,
+> > +                               struct v4l2_subdev_state *sd_state,
+> > +                               struct v4l2_subdev_format *fmt)
+> > +{
+> > +     struct v4l2_mbus_framefmt *framefmt;
+> > +     struct ov05c10 *ov05c10 =3D to_ov05c10(sd);
+> > +     const struct ov05c10_mode *mode;
+> > +     s32 vblank_def;
+> > +     s32 vblank_min;
+> > +     s64 pixel_rate;
+> > +     s64 link_freq;
+> > +     s64 h_blank;
+> > +
+> > +     /* Only one raw bayer(GRBG) order is supported */
+> > +     if (fmt->format.code !=3D MEDIA_BUS_FMT_SGRBG10_1X10)
+> > +             fmt->format.code =3D MEDIA_BUS_FMT_SGRBG10_1X10;
+> > +
+> > +     mode =3D &supported_mode;
+> > +     ov05c10_update_pad_format(mode, fmt);
+> > +     if (fmt->which =3D=3D V4L2_SUBDEV_FORMAT_TRY) {
+> > +             framefmt =3D v4l2_subdev_state_get_format(sd_state, fmt->=
+pad);
+> > +             *framefmt =3D fmt->format;
+> > +     } else {
+> > +             __v4l2_ctrl_s_ctrl(ov05c10->link_freq, mode->link_freq_in=
+dex);
+> > +             link_freq =3D ov05c10_link_freq_menu_items[mode->link_fre=
+q_index];
+> > +             pixel_rate =3D link_freq_to_pixel_rate(link_freq,
+> > +                                                  mode->lanes);
+> > +             __v4l2_ctrl_s_ctrl_int64(ov05c10->pixel_rate, pixel_rate);
+> > +
+> > +             /* Update limits and set FPS to default */
+> > +             vblank_def =3D mode->vts_def - mode->height;
+> > +             vblank_min =3D mode->vts_min - mode->height;
+> > +             __v4l2_ctrl_modify_range(ov05c10->vblank, vblank_min,
+> > +                                      OV05C10_VTS_MAX - mode->height,
+> > +                                      1, vblank_def);
+> > +             __v4l2_ctrl_s_ctrl(ov05c10->vblank, vblank_def);
+> > +             h_blank =3D mode->hts;
+> > +             __v4l2_ctrl_modify_range(ov05c10->hblank, h_blank,
+> > +                                      h_blank, 1, h_blank);
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int ov05c10_start_streaming(struct ov05c10 *ov05c10)
+> > +{
+> > +     struct i2c_client *client =3D v4l2_get_subdevdata(&ov05c10->sd);
+> > +     const struct ov05c10_mode *mode =3D &supported_mode;
+> > +     const struct ov05c10_reg_list *reg_list;
+> > +     int ret =3D 0;
+> > +
+> > +     /* Apply default values of current mode */
+> > +     reg_list =3D &mode->reg_list;
+> > +     cci_multi_reg_write(ov05c10->regmap, reg_list->regs,
+> > +                         reg_list->num_of_regs, &ret);
+> > +     if (ret) {
+> > +             dev_err(&client->dev, "fail to set mode, ret: %d\n", ret);
+> > +             return ret;
+> > +     }
+> > +
+> > +     /* Apply customized values from user */
+> > +     ret =3D  __v4l2_ctrl_handler_setup(ov05c10->sd.ctrl_handler);
+> > +     if (ret) {
+> > +             dev_err(&client->dev, "failed to setup v4l2 handler %d\n"=
+, ret);
+> > +             return ret;
+> > +     }
+> > +
+> > +     cci_multi_reg_write(ov05c10->regmap, mode_OV05C10_stream_on_regs,
+> > +                         ARRAY_SIZE(mode_OV05C10_stream_on_regs), &ret=
+);
+> > +     if (ret)
+> > +             dev_err(&client->dev, "fail to start the streaming\n");
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int ov05c10_stop_streaming(struct ov05c10 *ov05c10)
+> > +{
+> > +     struct i2c_client *client =3D v4l2_get_subdevdata(&ov05c10->sd);
+> > +     int ret =3D 0;
+> > +
+> > +     cci_multi_reg_write(ov05c10->regmap, mode_OV05C10_stream_off_regs,
+> > +                         ARRAY_SIZE(mode_OV05C10_stream_off_regs), &re=
+t);
+> > +     if (ret)
+> > +             dev_err(&client->dev, "fail to stop the streaming\n");
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static void ov05c10_sensor_power_set(struct ov05c10 *ov05c10, bool on)
+> > +{
+> > +     if (on) {
+> > +             gpiod_set_value(ov05c10->enable_gpio, 0);
+> > +             usleep_range(10, 20);
+> > +
+> > +             gpiod_set_value(ov05c10->enable_gpio, 1);
+> > +             usleep_range(1000, 2000);
+>=20
+> According to the datasheet, ov05c10 needs at least 8 ms to work after=20
+> its XSHUTDN pin pulled to high. 1 ms maybe too quick, did you tested it? =
+
+> Or the enable_gpio is actually not the XSHUTDN pin?
+>=20
+> On Intel platforms, if the sensor driver controls the module power,=20
+> ususally it requires GPIO "reset", regulator "avdd" and clk "img_clk"=20
+> assigned by kernel driver intel_skl_int3472_discrete. I'm not sure=20
+> whether any devices on market using this power control solution, but if=20
+> any, missing those resources will stop them from powering-up cameras.
+>=20
+> > +     } else {
+> > +             gpiod_set_value(ov05c10->enable_gpio, 0);
+> > +             usleep_range(10, 20);
+> > +     }
+> > +}
+> > +
+> > +static int ov05c10_enable_streams(struct v4l2_subdev *sd,
+> > +                               struct v4l2_subdev_state *state, u32 pa=
+d,
+> > +                               u64 streams_mask)
+> > +{
+> > +     struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+> > +     struct ov05c10 *ov05c10 =3D to_ov05c10(sd);
+> > +     int ret =3D 0;
+> > +
+> > +     ret =3D pm_runtime_resume_and_get(&client->dev);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     ov05c10->cur_page =3D -1;
+> > +
+> > +     ret =3D ov05c10_start_streaming(ov05c10);
+> > +     if (ret)
+> > +             goto err_rpm_put;
+> > +
+> > +     return 0;
+> > +
+> > +err_rpm_put:
+> > +     pm_runtime_put(&client->dev);
+> > +     return ret;
+> > +}
+> > +
+> > +static int ov05c10_disable_streams(struct v4l2_subdev *sd,
+> > +                                struct v4l2_subdev_state *state, u32 p=
+ad,
+> > +                                u64 streams_mask)
+> > +{
+> > +     struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+> > +     struct ov05c10 *ov05c10 =3D to_ov05c10(sd);
+> > +
+> > +     ov05c10_stop_streaming(ov05c10);
+> > +     pm_runtime_put(&client->dev);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static const struct v4l2_subdev_video_ops ov05c10_video_ops =3D {
+> > +     .s_stream =3D v4l2_subdev_s_stream_helper,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_pad_ops ov05c10_pad_ops =3D {
+> > +     .enum_mbus_code =3D ov05c10_enum_mbus_code,
+> > +     .get_fmt =3D v4l2_subdev_get_fmt,
+> > +     .set_fmt =3D ov05c10_set_pad_format,
+> > +     .enum_frame_size =3D ov05c10_enum_frame_size,
+> > +     .enable_streams =3D ov05c10_enable_streams,
+> > +     .disable_streams =3D ov05c10_disable_streams,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_ops ov05c10_subdev_ops =3D {
+> > +     .video =3D &ov05c10_video_ops,
+> > +     .pad =3D &ov05c10_pad_ops,
+> > +};
+> > +
+> > +static const struct media_entity_operations ov05c10_subdev_entity_ops =
+=3D {
+> > +     .link_validate =3D v4l2_subdev_link_validate,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_internal_ops ov05c10_internal_ops =3D {
+> > +     .init_state =3D ov05c10_init_state,
+> > +};
+> > +
+> > +static int ov05c10_init_controls(struct ov05c10 *ov05c10)
+> > +{
+> > +     struct i2c_client *client =3D v4l2_get_subdevdata(&ov05c10->sd);
+> > +     const struct ov05c10_mode *mode =3D &supported_mode;
+> > +     struct v4l2_fwnode_device_properties props;
+> > +     struct v4l2_ctrl_handler *ctrl_hdlr;
+> > +     s64 pixel_rate_max;
+> > +     s64 exposure_max;
+> > +     s64 vblank_def;
+> > +     s64 vblank_min;
+> > +     u32 max_items;
+> > +     s64 hblank;
+> > +     int ret;
+> > +
+> > +     ret =3D v4l2_ctrl_handler_init(&ov05c10->ctrl_handler, 10);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     ctrl_hdlr =3D &ov05c10->ctrl_handler;
+> > +
+> > +     max_items =3D ARRAY_SIZE(ov05c10_link_freq_menu_items) - 1;
+> > +     ov05c10->link_freq =3D
+> > +             v4l2_ctrl_new_int_menu(ctrl_hdlr,
+> > +                                    NULL,
+> > +                                    V4L2_CID_LINK_FREQ,
+> > +                                    max_items,
+> > +                                    0,
+> > +                                    ov05c10_link_freq_menu_items);
+> > +     if (ov05c10->link_freq)
+> > +             ov05c10->link_freq->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+> > +
+> > +     pixel_rate_max =3D
+> > +             link_freq_to_pixel_rate(ov05c10_link_freq_menu_items[0],
+> > +                                     supported_mode.lanes);
+> > +     ov05c10->pixel_rate =3D v4l2_ctrl_new_std(ctrl_hdlr, NULL,
+> > +                                             V4L2_CID_PIXEL_RATE,
+> > +                                             0, pixel_rate_max,
+> > +                                             1, pixel_rate_max);
+> > +
+> > +     vblank_def =3D mode->vts_def - mode->height;
+> > +     vblank_min =3D mode->vts_min - mode->height;
+> > +     ov05c10->vblank =3D v4l2_ctrl_new_std(ctrl_hdlr, &ov05c10_ctrl_op=
+s,
+> > +                                         V4L2_CID_VBLANK,
+> > +                                         vblank_min,
+> > +                                         OV05C10_VTS_MAX - mode->heigh=
+t,
+> > +                                         1, vblank_def);
+> > +
+> > +     hblank =3D (mode->hts > mode->width) ? (mode->hts - mode->width) =
+: 0;
+>=20
+> Here your hts uses 640 but width is 2888, which means hblank is set to 0 =
+
+> here. This is wrong, please fix your configuration.
+>=20
+> > +     ov05c10->hblank =3D v4l2_ctrl_new_std(ctrl_hdlr, NULL,
+> > +                                         V4L2_CID_HBLANK,
+> > +                                         hblank, hblank, 1, hblank);
+> > +     if (ov05c10->hblank)
+> > +             ov05c10->hblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+> > +
+> > +     exposure_max =3D mode->vts_def - OV05C10_EXPOSURE_MAX_MARGIN;
+> > +     ov05c10->exposure =3D v4l2_ctrl_new_std(ctrl_hdlr, &ov05c10_ctrl_=
+ops,
+> > +                                           V4L2_CID_EXPOSURE,
+> > +                                           OV05C10_EXPOSURE_MIN,
+> > +                                           exposure_max,
+> > +                                           OV05C10_EXPOSURE_STEP,
+> > +                                           exposure_max);
+> > +
+> > +     v4l2_ctrl_new_std(ctrl_hdlr, &ov05c10_ctrl_ops, V4L2_CID_ANALOGUE=
+_GAIN,
+> > +                       OV05C10_ANA_GAIN_MIN, OV05C10_ANA_GAIN_MAX,
+> > +                       OV05C10_ANA_GAIN_STEP, OV05C10_ANA_GAIN_DEFAULT=
+);
+> > +
+> > +     v4l2_ctrl_new_std(ctrl_hdlr, &ov05c10_ctrl_ops, V4L2_CID_DIGITAL_=
+GAIN,
+> > +                       OV05C10_DGTL_GAIN_MIN, OV05C10_DGTL_GAIN_MAX,
+> > +                       OV05C10_DGTL_GAIN_STEP, OV05C10_DGTL_GAIN_DEFAU=
+LT);
+> > +
+> > +     v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &ov05c10_ctrl_ops,
+> > +                                  V4L2_CID_TEST_PATTERN,
+> > +                                  ARRAY_SIZE(ov05c10_test_pattern_menu=
+) - 1,
+> > +                                  0, 0, ov05c10_test_pattern_menu);
+> > +
+> > +     if (ctrl_hdlr->error) {
+> > +             ret =3D ctrl_hdlr->error;
+> > +             dev_err(&client->dev, "V4L2 control init failed (%d)\n", =
+ret);
+> > +             goto err_hdl_free;
+> > +     }
+> > +
+> > +     ret =3D v4l2_fwnode_device_parse(&client->dev, &props);
+> > +     if (ret)
+> > +             goto err_hdl_free;
+> > +
+> > +     ret =3D v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov05c10_ctrl_=
+ops,
+> > +                                           &props);
+> > +     if (ret)
+> > +             goto err_hdl_free;
+> > +
+> > +     ov05c10->sd.ctrl_handler =3D ctrl_hdlr;
+> > +
+> > +     return 0;
+> > +
+> > +err_hdl_free:
+> > +     v4l2_ctrl_handler_free(ctrl_hdlr);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int ov05c10_parse_endpoint(struct device *dev,
+> > +                               struct fwnode_handle *fwnode)
+> > +{
+> > +     struct v4l2_fwnode_endpoint bus_cfg =3D {
+> > +             .bus_type =3D V4L2_MBUS_CSI2_DPHY
+> > +     };
+> > +     struct fwnode_handle *ep;
+> > +     unsigned long bitmap;
+> > +     int ret;
+> > +
+> > +     ep =3D fwnode_graph_get_next_endpoint(fwnode, NULL);
+> > +     if (!ep) {
+> > +             dev_err(dev, "Failed to get next endpoint\n");
+> > +             return -ENXIO;
+> > +     }
+> > +
+> > +     ret =3D v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> > +     fwnode_handle_put(ep);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     if (bus_cfg.bus.mipi_csi2.num_data_lanes !=3D supported_mode.lane=
+s) {
+> > +             dev_err(dev,
+> > +                     "number of CSI2 data lanes %d is not supported\n",
+> > +                     bus_cfg.bus.mipi_csi2.num_data_lanes);
+> > +             ret =3D -EINVAL;
+> > +             goto err_endpoint_free;
+> > +     }
+> > +
+> > +     ret =3D v4l2_link_freq_to_bitmap(dev, bus_cfg.link_frequencies,
+> > +                                    bus_cfg.nr_of_link_frequencies,
+> > +                                    ov05c10_link_frequencies,
+> > +                                    ARRAY_SIZE(ov05c10_link_frequencie=
+s),
+> > +                                    &bitmap);
+> > +     if (ret)
+> > +             dev_err(dev, "v4l2_link_freq_to_bitmap fail with %d\n", r=
+et);
+> > +err_endpoint_free:
+> > +     v4l2_fwnode_endpoint_free(&bus_cfg);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int ov05c10_probe(struct i2c_client *client)
+> > +{
+> > +     struct ov05c10 *ov05c10;
+> > +     u32 clkfreq;
+> > +     int ret;
+> > +
+> > +     ov05c10 =3D devm_kzalloc(&client->dev, sizeof(*ov05c10), GFP_KERN=
+EL);
+> > +     if (!ov05c10)
+> > +             return -ENOMEM;
+> > +
+> > +     struct fwnode_handle *fwnode =3D dev_fwnode(&client->dev);
+> > +
+> > +     ret =3D fwnode_property_read_u32(fwnode, "clock-frequency", &clkf=
+req);
+>=20
+> Maybe it's better to separate this part fwnode and GPIO code into a=20
+> standalone function?
+>=20
+> > +     if (ret)
+> > +             return  dev_err_probe(&client->dev, -EINVAL,
+> > +                                   "fail to get clock freq\n");
+> > +     if (clkfreq !=3D OV05C10_REF_CLK)
+> > +             return dev_err_probe(&client->dev, -EINVAL,
+> > +                                  "fail invalid clock freq %u, %lu exp=
+ected\n",
+> > +                                  clkfreq, OV05C10_REF_CLK);
+> > +
+> > +     ret =3D ov05c10_parse_endpoint(&client->dev, fwnode);
+> > +     if (ret)
+> > +             return dev_err_probe(&client->dev, -EINVAL,
+> > +                                  "fail to parse endpoint\n");
+> > +
+> > +     ov05c10->enable_gpio =3D devm_gpiod_get(&client->dev, "enable",
+> > +                                           GPIOD_OUT_LOW);
+> > +     if (IS_ERR(ov05c10->enable_gpio))
+> > +             return dev_err_probe(&client->dev,
+> > +                                  PTR_ERR(ov05c10->enable_gpio),
+> > +                                  "fail to get enable gpio\n");
+> > +
+> > +     v4l2_i2c_subdev_init(&ov05c10->sd, client, &ov05c10_subdev_ops);
+> > +
+> > +     ov05c10->regmap =3D devm_cci_regmap_init_i2c(client, 8);
+> > +     if (IS_ERR(ov05c10->regmap))
+> > +             return dev_err_probe(&client->dev, PTR_ERR(ov05c10->regma=
+p),
+> > +                                  "fail to init cci\n");
+> > +
+> > +     ov05c10->cur_page =3D -1;
+> > +
+> > +     ret =3D ov05c10_init_controls(ov05c10);
+> > +     if (ret)
+> > +             return dev_err_probe(&client->dev, ret, "fail to init ctl=
+\n");
+> > +
+> > +     ov05c10->sd.internal_ops =3D &ov05c10_internal_ops;
+> > +     ov05c10->sd.flags |=3D V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > +     ov05c10->sd.entity.ops =3D &ov05c10_subdev_entity_ops;
+> > +     ov05c10->sd.entity.function =3D MEDIA_ENT_F_CAM_SENSOR;
+> > +
+> > +     ov05c10->pad.flags =3D MEDIA_PAD_FL_SOURCE;
+> > +
+> > +     ret =3D media_entity_pads_init(&ov05c10->sd.entity, NUM_OF_PADS,
+> > +                                  &ov05c10->pad);
+> > +     if (ret)
+> > +             goto err_hdl_free;
+> > +
+> > +     ret =3D v4l2_subdev_init_finalize(&ov05c10->sd);
+> > +     if (ret < 0)
+> > +             goto err_media_entity_cleanup;
+> > +
+> > +     ret =3D v4l2_async_register_subdev_sensor(&ov05c10->sd);
+> > +     if (ret)
+> > +             goto err_media_entity_cleanup;
+> > +
+> > +     pm_runtime_set_active(&client->dev);
+> > +     pm_runtime_enable(&client->dev);
+> > +     pm_runtime_idle(&client->dev);
+> > +     pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+> > +     pm_runtime_use_autosuspend(&client->dev);
+> > +     return 0;
+> > +
+> > +err_media_entity_cleanup:
+> > +     media_entity_cleanup(&ov05c10->sd.entity);
+> > +
+> > +err_hdl_free:
+> > +     v4l2_ctrl_handler_free(ov05c10->sd.ctrl_handler);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static void ov05c10_remove(struct i2c_client *client)
+> > +{
+> > +     struct v4l2_subdev *sd =3D i2c_get_clientdata(client);
+> > +     struct ov05c10 *ov05c10 =3D to_ov05c10(sd);
+> > +
+> > +     v4l2_async_unregister_subdev(sd);
+> > +     media_entity_cleanup(&sd->entity);
+> > +     v4l2_ctrl_handler_free(ov05c10->sd.ctrl_handler);
+> > +
+> > +     pm_runtime_disable(&client->dev);
+> > +     pm_runtime_set_suspended(&client->dev);
+> > +}
+> > +
+> > +static int ov05c10_runtime_resume(struct device *dev)
+> > +{
+> > +     struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+> > +     struct ov05c10 *ov05c10 =3D to_ov05c10(sd);
+> > +
+> > +     ov05c10_sensor_power_set(ov05c10, true);
+> > +     return 0;
+> > +}
+> > +
+> > +static int ov05c10_runtime_suspend(struct device *dev)
+> > +{
+> > +     struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+> > +     struct ov05c10 *ov05c10 =3D to_ov05c10(sd);
+> > +
+> > +     ov05c10_sensor_power_set(ov05c10, false);
+> > +     return 0;
+> > +}
+> > +
+> > +static DEFINE_RUNTIME_DEV_PM_OPS(ov05c10_pm_ops, ov05c10_runtime_suspe=
+nd,
+> > +                              ov05c10_runtime_resume, NULL);
+> > +
+> > +static const struct i2c_device_id ov05c10_i2c_ids[] =3D {
+> > +     {"ov05c10", 0 },
+> > +     { }
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, ov05c10_i2c_ids);
+> > +
+> > +static struct i2c_driver ov05c10_i2c_driver =3D {
+> > +     .driver =3D {
+> > +             .name =3D DRV_NAME,
+> > +             .pm =3D pm_ptr(&ov05c10_pm_ops),
+> > +     },
+> > +     .id_table =3D ov05c10_i2c_ids,
+> > +     .probe =3D ov05c10_probe,
+> > +     .remove =3D ov05c10_remove,
+> > +};
+> > +
+> > +module_i2c_driver(ov05c10_i2c_driver);
+> > +
+> > +MODULE_AUTHOR("Pratap Nirujogi <pratap.nirujogi@amd.com>");
+> > +MODULE_AUTHOR("Venkata Narendra Kumar Gutta <vengutta@amd.com>");
+> > +MODULE_AUTHOR("Bin Du <bin.du@amd.com>");
+> > +MODULE_DESCRIPTION("OmniVision OV05C1010 sensor driver");
+>=20
+> OV05C10
+>=20
+> > +MODULE_LICENSE("GPL");
+>=20
+>=20
+> Hi Sakari,
+>=20
+> Seems there are already several camera sensors using page-based=20
+> registers. Is it a good idea to add page support in CCI interface?
+
+I think that's a good idea!
+
+Some how maintaining the generality to keep it easy to access registers
+would be nice. Perhaps the page could be embedded in the CCI_REG()
+macros too to support changing the active page when a write accesses a
+different one?
+
+--
+Kieran
+
+
+>=20
+>=20
+> Best Regards,
+> Hao Yao
+>
 
