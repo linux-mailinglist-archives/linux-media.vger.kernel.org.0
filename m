@@ -1,136 +1,188 @@
-Return-Path: <linux-media+bounces-34750-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34751-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48D3AD8B91
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 14:06:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB38AD8BBA
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 14:10:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA30B1892BE9
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 12:06:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 04D23177480
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 12:09:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA74C272806;
-	Fri, 13 Jun 2025 12:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B25252E1759;
+	Fri, 13 Jun 2025 12:09:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DYg7B2dB"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="iYPe6hd7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64443275AEE
-	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 12:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749816362; cv=none; b=XZsDdvxmk3il8z9eL0pcp1JMZ9/gFZ0eQfx4Qu9a7Jzp8eVY0au+7P1Ot0l1jRrlEMdD9qjpNFL7zevjDiwWEkvtqax+lAjr1GCL1w8Aa/dlnZZ9kvzNH8Q0YDbK5FyTtIo0sZO7tdG1wfiS86DGvOtipIJVJuUmtOWcH5MnDXg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749816362; c=relaxed/simple;
-	bh=2UrFFgOswSPh2C5dGzSoD42CxvehITsQmFtkJbw2tfk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JgKkTkQL4xvIyJWsAZu+IcueiEZvBFNiU14KZQSYeSL4f9Nml8LvaompsijRZKPip8BCQS6oZPDwjZnfOYFr01knBdx6tA5elhqVPMVT/FhSoXKXrfMc/MHi9WMZ5sUAIXXzxnzb0wt4z3FI1yuSZYdAZVZwEIkg1yys0zKlZd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DYg7B2dB; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a54690d369so2086525f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 05:06:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749816359; x=1750421159; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ezZ3om80+8wTckLGLk4euno4vPWbqfb7vjKUnBPCItQ=;
-        b=DYg7B2dBHc0pkboS/9H/yCjCBCMgC3PD/UkU0GqYe2g9TijD0ACOPheaN8YliwChzC
-         5yLtxMHsIMC0zesPt8g6+uqJE0Cvr/JAefZS/8U3+NoL4Z8VA/jg6sSFd++IHgMlli2d
-         KgHCGlI8DbTePBL+OUL8OS2NkF8qtuV2TXmWyYTW6tWS2HZaqqS1808xqk4UlBX83+nU
-         m0vuf0Ul9CFtJ8998FlFN3SCvv26wCp1WXoHBIJ5Ex1iB/KokvSGYpmXsJoibGOamxfu
-         lOJG2dzhkefSh06S353uTL09WVXaB2V9zpFNj9G9hslVdOKIjbu5Q9jofhgCpnx+l4zx
-         EQ7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749816359; x=1750421159;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ezZ3om80+8wTckLGLk4euno4vPWbqfb7vjKUnBPCItQ=;
-        b=RMbO42RAQ5/vzm4TME4mhDCp4k3sYMmamA4k3IKMYFgh/VLvp9i8V7PiHfKi/xVLWn
-         MPBNZ65t+aNkvayxdWXQbMjfsp/FS4B6vEs9aXKygjYTDmAdXbqBJc7dY35wk7wRAmpL
-         Si6EDmgoBXYXhFQXYGLdY2DGVtxMwBx0VpgwHAZQ7Wnv1klgSW8M886mSgvhCQ0YZDO1
-         nvZh9sSRv07KxtH8Qvb2RrM5Ip5tzDR3Nec0Sa3Z+nmRS4JWGl4FMjx9vc3uZ00GD9SJ
-         JUyF8hr3exHApKRiMWYTcEoD1th+EOvUBERvklF8opZXgSoV01WmD/keH2CjN867GU9z
-         5u/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWUSZp2uBZ1XoYwLjrfZ4/I44G8LDDY8DVM76GUROwXPeTl5Z75GonUrAWR9IFfN8hjwT4xCVn19e2+aw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8Fmhqj0fFT8g/O3ABTYvEKvu3GsXSwmiW2zNxyKDr5rUvXhix
-	c5OaEyytnNbAdW8EfPKKD7BcdQgX/1yBWM/R3iunb7aUlvSjo8qYkeXALcIjaNntqaw=
-X-Gm-Gg: ASbGncsvM20edZQJ5MdS5HnB0Kyx6bHHKhlptdXN2D4V/Q5RtKcjVebpb5zLCg0zd/b
-	UEE63flmH7ML97Xk8gTxt79PIfVa3ld2KZek0gRbruXhoCQkQMrWLOgBEgTVf7IyGc0L7ieCoF8
-	u2cs5bf8Zt6vXcWKpUCQVizyITxz/cV5IeuxNXitZKUrGKTmK3XqqY52fXX0oDCeixnyK/tg0sS
-	qFV1EM5/uzwjhx2YHTkgDl8aI+F31Aop6KqNjx7WuCReKc8htnDRSpfG8RXFCSs5LWjD+Fdn99t
-	++0RpxAxf/zx5N7v85TbIBl86vyIrVc5qmwvuilwm21j00wbEtpePAI2vzdU7LT7iRUzwXazc4T
-	lki82JdU8Q9IW5g0SmguyU4YkXmY=
-X-Google-Smtp-Source: AGHT+IEhgG6sw/MTwwpOekg0psaag8qHgVPHdditd9mh4vmyj+KCnkStsZpDGIC58gJqzP6xAf1AhQ==
-X-Received: by 2002:a05:6000:2304:b0:3a3:4baa:3f3d with SMTP id ffacd0b85a97d-3a5686dfbcemr2203429f8f.6.1749816358606;
-        Fri, 13 Jun 2025 05:05:58 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e2522b1sm49614825e9.25.2025.06.13.05.05.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jun 2025 05:05:58 -0700 (PDT)
-Message-ID: <37eec3b5-1e57-498d-8ead-891d1e5f96d4@linaro.org>
-Date: Fri, 13 Jun 2025 13:05:56 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B66275AE6;
+	Fri, 13 Jun 2025 12:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749816576; cv=pass; b=Le78KBEX/aorHl+bjUZlYc9NG7Ou+vznzefU+/Iec9tujTi+ivo7WK8MS9MeBHDtJ03enlZNL5hdzW9XvX7kF+M5pr12V2YD0kAUmmwW8KxRb+I4BCUzkL6mm+dLqXWRDFAPRq77D2vNpwJPU+l5j6TuWzbQqnsT8Zb1vJWpgF0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749816576; c=relaxed/simple;
+	bh=tWxzlB7gvAwvQ4TxzPO+xifFWwtGtqkUHJoJ1LVl9CE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rUOsPQtDG30lH6TtGo3ThkGp1aYzhk0jMiHSC8Af6lapOC+jDWcHm+pdkQYFgEwXDkc6mlCTGDd+UiAwc+A34o3+5yUfa9aeR9tYwR+RgmVopcdMnj/si65SXM72YHizj6in1wnRVxfbPHZ7jdQ2RohtSHGNMxMukcZ6MueYHc0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=iYPe6hd7; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1749816504; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=HxsUUIkbJLHor7xQVOxFnKjQL2tcvAU/8U7uOGAT8YJ5SzkaPujbsMSqqr80mMJL7/C6qPJ5R72AJZZz4V+WGvRuhbDD8RcEdYVp0T3jFCWzPUWFNNQ68W3mkdPx/uRz9Q8CO9KUVnMiuh0wlCTVhHSoXI4LkoQwVLhFcDXTcHE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1749816504; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=oC6j4XXPtFnpNI59vFPxucp8Atnh3iWQ7iCtDWJTvGo=; 
+	b=A1ATiiZZKeXR51mKcGYEcu+ievsJrJBhXTLF5fKN6m6uGlmf+gN+qSW/4BgN2DXa3+ihmm5IDJ0LMQYccMcRuItr2vNHq1tFXK2h6DApxhwbIV2hxsLhxWB7MZeQnM9wPRrdMCbbUDX2/hY046rowLcFe6wBngVN1Vd+mah2Cyc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749816504;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=oC6j4XXPtFnpNI59vFPxucp8Atnh3iWQ7iCtDWJTvGo=;
+	b=iYPe6hd7lzD5NmEuVNlPJNUR1sBcQMTEzgFULW5ZE1tzhGuUUZmsrhquSUKDA+Cs
+	I90mwM0EoNm4PSiTntzA6phjzUyTdMpluFlcfHK8TNliE3+1AYflsiylQRbXHpwn2NL
+	nJ0riWRwAIxWd/I6yzJxEXtQHSBfMYaBpXVI3PVg=
+Received: by mx.zohomail.com with SMTPS id 1749816501559794.9356716993168;
+	Fri, 13 Jun 2025 05:08:21 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 17/20] PCI: dw-rockchip: switch to HWORD_UPDATE macro
+Date: Fri, 13 Jun 2025 14:08:08 +0200
+Message-ID: <12129790.nUPlyArG6x@workhorse>
+In-Reply-To: <aEvzMnxgsjfryCOo@ryzen>
+References:
+ <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
+ <20250612-byeword-update-v1-17-f4afb8f6313f@collabora.com>
+ <aEvzMnxgsjfryCOo@ryzen>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Hao Yao <hao.yao@intel.com>, Pratap Nirujogi <pratap.nirujogi@amd.com>,
- sakari.ailus@linux.intel.com
-Cc: mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
- hverkuil@xs4all.nl, krzk@kernel.org, dave.stevenson@raspberrypi.com,
- hdegoede@redhat.com, jai.luthra@ideasonboard.com,
- tomi.valkeinen@ideasonboard.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, benjamin.chan@amd.com, bin.du@amd.com,
- grosikop@amd.com, king.li@amd.com, dantony@amd.com, vengutta@amd.com,
- dongcheng.yan@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com
-References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
- <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
- <174981257597.425770.15369432320575770694@ping.linuxembedded.co.uk>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <174981257597.425770.15369432320575770694@ping.linuxembedded.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On 13/06/2025 12:02, Kieran Bingham wrote:
-> Quoting Hao Yao (2025-06-13 05:55:46)
->> Hi Pratap,
->>
->> Thanks for your patch.
->>
->> This patch is written for your camera sensor module, which seems very
->> different from those already applied on Dell laptops (some of "Dell Pro"
->> series). Looking into the driver, I think this version will break the
-> Have there been existing efforts from Intel to upstream support for that
-> device?
+Hello,
 
-FWIW +1
+On Friday, 13 June 2025 11:45:22 Central European Summer Time Niklas Cassel wrote:
+> Hello Nicolas,
+> 
+> On Thu, Jun 12, 2025 at 08:56:19PM +0200, Nicolas Frattaroli wrote:
+> > 
+> > PCIE_CLIENT_RC_MODE/PCIE_CLIENT_EP_MODE was another field that wasn't
+> > super clear on what the bit field modification actually is. As far as I
+> > can tell, switching to RC mode doesn't actually write the correct value
+> > to the field if any of its bits have been set previously, as it only
+> > updates one bit of a 4 bit field.
+> > 
+> > Replace it by actually writing the full values to the field, using the
+> > new HWORD_UPDATE macro, which grants us the benefit of better
+> > compile-time error checking.
+> 
+> The current code looks like this:
+> #define  PCIE_CLIENT_RC_MODE            HIWORD_UPDATE_BIT(0x40)
+> #define  PCIE_CLIENT_EP_MODE            HIWORD_UPDATE(0xf0, 0x0)
+> 
+> The device_type field is defined like this:
+> 4'h0: PCI Express endpoint
+> 4'h1: Legacy PCI Express endpoint
+> 4'h4: Root port of PCI Express root complex
+> 
+> The reset value of the device_type field is 0x0 (EP mode).
+> 
+> So switching between RC mode / EP mode should be fine.
+> 
+> But I agree, theoretically there could be a bug if e.g. bootloader
+> has set the device_type to 0x1 (Legacy EP).
+> 
+> So if you want, you could send a patch:
+> -#define  PCIE_CLIENT_RC_MODE            HIWORD_UPDATE_BIT(0x40)
+> +#define  PCIE_CLIENT_RC_MODE            HIWORD_UPDATE(0xf0, 0x40)
+> 
+> With:
+> Fixes: 0e898eb8df4e ("PCI: rockchip-dwc: Add Rockchip RK356X host controller driver")
+> 
+> But I also think that your current patch is fine as-is.
+> 
+> I do however think that you can drop this line:
+> +#define  PCIE_CLIENT_MODE_LEGACY       0x1U
+> 
+> Since the define is never used.
 
-Qualcomm devices - Acer Swift 14 AI, HP OmniBook x14 both use this sensor.
+Will do
 
-I'd expect though that aside from OF bindings, regulators and clocks 
-that any upstream configuration with the right number of lanes would 
-"just work", including this one from AMD.
+> 
+> 
+> Also, is there any point in adding the U suffix?
+> 
+> Usually you see UL or ULL suffix, when that is needed, but there actually
+> seems to be extremely few hits of simply U suffix:
+> $ git grep 0x1U | grep -v UL
 
-That has been the experience picking up OV02E10 and OV02C10 from the 
-IPU6 repository where its ACPI binding and repurposing to OF/Qcom.
+Sort of. Literals without the U suffix are considered signed iirc, and
+operating with them and then left-shifting the result can run into issues
+if you shift their bits into the sign bit. In the patch at [1] I needed to
+quell a compiler warning about signed long overflows with a U suffix. This
+should only ever really be a problem for anything that gets shifted up to
+bit index 31 I believe, and maybe there's a better way to handle this in
+the macro itself with an explicit cast to unsigned, but explicit casts
+give me the ick. I'm also open to changing it to an UL, which will have
+the same effect, and has more precedent.
 
-So how incompatible could OV05C10 be between different x86/ACPI systems 
-? Less than the gap between x86/ACPI and Arm/OF you'd imagine.
+> 
+> 
+> Kind regards,
+> Niklas
+> 
 
-Getting any OV05C10 driver upstream would be great, we can work from 
-there to bridge whatever gap needs be for !AMD.
+Best Regards,
+Nicolas Frattaroli
 
----
-bod
+Link: https://lore.kernel.org/all/20250612-byeword-update-v1-7-f4afb8f6313f@collabora.com/ [1]
+
+
 
