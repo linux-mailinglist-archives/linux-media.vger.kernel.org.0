@@ -1,270 +1,168 @@
-Return-Path: <linux-media+bounces-34731-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34732-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A91CAD8816
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:38:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CFCAD8831
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:44:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAD603B9813
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:38:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E25A1E1273
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:44:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C499B291C22;
-	Fri, 13 Jun 2025 09:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ZZse0Hg0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fArqI0AX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB5512C158C;
+	Fri, 13 Jun 2025 09:44:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from mta22.hihonor.com (mta22.honor.com [81.70.192.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B0D24BD1A;
-	Fri, 13 Jun 2025 09:38:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A897D238C06;
+	Fri, 13 Jun 2025 09:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.192.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749807515; cv=none; b=DbR8/mkoLpeB92QaLun6uHdbHspJGusnv+Fj3KcVm4jB75D+AZXfDLZq+gNjgat03ZGccbETlllLU/ZaRoArVjbe5S7zjacoacoq1msAGwBhiHb3QLZLKDK82qTTLpEgtYkUOiodMp/9BqQ5B1ZGOSVsGu6rY4IdL5dR3mWKDKg=
+	t=1749807842; cv=none; b=AnxrIl0I3JQI1Ao0Sr+JKY4V5S9xarxVYQX0WTNUJZIDYFMVDOnk3PHZo6RsyaSdRBqCEsBR1IA5CY5xl0JjFM6JfH26ZSivqM5FHSko0t+a2mBSMAzuiudnqeGDqmZQ66e5mlDg3GbvYz24wZl85YtKsEhrC8xOuIJOeRpFVpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749807515; c=relaxed/simple;
-	bh=M1Vr+ubKjv19b1D/uzQHWx1CK+0qrQr9HQrsYqQCaNw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XEl47cxE2VQmY5ea+PXhxHsvX3Mh24/sXx3EQSoA4U/hZpif/r9mcgSCBJ7zG6/onnzkNBVHqX6OVX21wrpfjhVFPSvVdVluLeC+yZSOdzChBQXDSUq4h4qvrpZabD3DFKrbS+XudalGAXTFPYTNxw0CvNkYWx9K/30pXJhYoY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ZZse0Hg0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fArqI0AX; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id D20B21140150;
-	Fri, 13 Jun 2025 05:38:31 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Fri, 13 Jun 2025 05:38:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749807511;
-	 x=1749893911; bh=Sv4mY3WkFQYLIZpKCvWR41O4FjcLEbQZQL+kVMWdgkg=; b=
-	ZZse0Hg0sb4m4wVZJfSPFVXM1sdAUtUxZGeeZl+ldZO7QFfGU7uer/Zkx9H/Ux4A
-	PEaqpKrBOnv6q1nJjL0jruCoRCJKvYVzpvOsN7u+wTJ68+9WNBRxMCwp2dbLa+jS
-	t1jqG9TeU21AOlvDTjXXdqBz4aCxQFF0fxOlck3k09WgQzOQx7XPTQpryY0eglc/
-	kC7EXST6K37RaB0xfldY/8P6yW/4o8xaj0NhzQ6A0xJhqYcTzEeb7TIzDo115KSi
-	4TxiLNiOpjL20z6GjUztnbqy+5wP0SAPGchwJED2ia0sMyO/g49uQGkd/ODMwGlZ
-	vEZK+5Cx7YZfsJZEZqrgPg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749807511; x=
-	1749893911; bh=Sv4mY3WkFQYLIZpKCvWR41O4FjcLEbQZQL+kVMWdgkg=; b=f
-	ArqI0AXuhaXWac2Qj3byrpSfOMQ2ZawNfSySbfV49XPrcRsdXgkCRWwLKT8AnphY
-	5bmMhC41hvSlJXX/7KwuusWjzrvcEw+iUlkER+c826bL6IZo9KOwez3cdMWb23Mf
-	D48FidEmtBI3HBhXWEKUjTG17k4eb/BFPPqrVB1duGSvu1+1QPeHiATf2p1V/lNF
-	fzfhd3b5CsVyBShwactF+7R3qlpEhDap6VA9/WMom7qppugZdA/gksTSy9BI6OD7
-	9QsMKsVJmkc3LmC0cikFDQD2IbMUJxbitV38zTVASoxkfRVf8rhu7MCRhacasqIn
-	0hCf24SdSJLQ59DxYRlXA==
-X-ME-Sender: <xms:l_FLaOjRIqF1I1h_2YVMYgbg501CovqV2IN753OUNQINf3EiRh05Pw>
-    <xme:l_FLaPDrP96_wvyUryq_7xUoUN9j3ly_jlHj0iazXsNmipOgD5m3g2nt2U6N-hUpY
-    WEKsc4_furKYqjtyCE>
-X-ME-Received: <xmr:l_FLaGFt0acvtU7f8Lyk-mrHFYJQFTySNxtpiUJ_B0u5g-4DrnhDZbhpfJ5JHhXDW5AwVslZgpYoLJ9GBUiGJIcQSCL_bDY0Kg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddujeeiudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftd
-    dvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrd
-    hsvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    lhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprh
-    gtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdp
-    rhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtoh
-    hmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgt
-    ohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:l_FLaHQkwNTVvYd8l7zmwe0kOTNvuOfebnSHVgHjnYATg9kydqPnkw>
-    <xmx:l_FLaLyBw6W4AzaOcmXtKMjciFF-B7WojHezoTkakMrB-h2DwVNCDQ>
-    <xmx:l_FLaF7BA10h9XVGWSbu0ABKChS1B27XAbIKDgqsJYc-jcBbby1uog>
-    <xmx:l_FLaIxamTNIiQAV7gZbYFLa4n9FHqSlD2uUYb3wbyCB4h7S-F770g>
-    <xmx:l_FLaDNNhXk7p1AYP69eBRxEylri2UooBqQkK38-UARbOqW_gjlb47I1>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Jun 2025 05:38:31 -0400 (EDT)
-Date: Fri, 13 Jun 2025 11:38:29 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 11/12] media: rcar-vin: Enable media-graph on Gen2
-Message-ID: <20250613093829.GB1002387@ragnatech.se>
-References: <20250606182606.3984508-1-niklas.soderlund+renesas@ragnatech.se>
- <20250606182606.3984508-12-niklas.soderlund+renesas@ragnatech.se>
- <20250612235319.GH10542@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1749807842; c=relaxed/simple;
+	bh=5qTng8w94cZ0pqhP00XAbIUVrscsHqDDRFScVMngN6c=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=tZ4j/CKxIr8JTtq3xs49G1mXRONCRSUvOya8zPe5efvnDENQo335VqytTsWr5oiz/N4Uysux5WRBxwGQicPspgBRu+qQHccvJNy1I5tp9TqvyZ6OgrnVj9Jl8pw09c+0Dk9SgQwrNvlkWgR94sRZMbkfRlHhx4CEXFE0QR9lBVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.192.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from w011.hihonor.com (unknown [10.68.20.122])
+	by mta22.hihonor.com (SkyGuard) with ESMTPS id 4bJZCT3tmzzYm7yk;
+	Fri, 13 Jun 2025 17:41:09 +0800 (CST)
+Received: from a018.hihonor.com (10.68.17.250) by w011.hihonor.com
+ (10.68.20.122) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 13 Jun
+ 2025 17:43:09 +0800
+Received: from a010.hihonor.com (10.68.16.52) by a018.hihonor.com
+ (10.68.17.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 13 Jun
+ 2025 17:43:09 +0800
+Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
+ a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
+ Fri, 13 Jun 2025 17:43:08 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: Christoph Hellwig <hch@infradead.org>, =?iso-8859-1?Q?Christian_K=F6nig?=
+	<christian.koenig@amd.com>
+CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, "kraxel@redhat.com"
+	<kraxel@redhat.com>, "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
+	<brauner@kernel.org>, "hughd@google.com" <hughd@google.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "amir73il@gmail.com"
+	<amir73il@gmail.com>, "benjamin.gaignard@collabora.com"
+	<benjamin.gaignard@collabora.com>, "Brian.Starkey@arm.com"
+	<Brian.Starkey@arm.com>, "jstultz@google.com" <jstultz@google.com>,
+	"tjmercier@google.com" <tjmercier@google.com>, "jack@suse.cz" <jack@suse.cz>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "wangbintian(BintianWang)"
+	<bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
+	<liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
+Subject: RE: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
+Thread-Topic: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
+Thread-Index: AQHb1G1ol+FT389RFkuW+lwB3adoKrPw4BKAgAADywCAAAF8AIAE6kCg//+rigCABEW6AIAA1IFwgAEnIgCAAC4PgIAE+w3w
+Date: Fri, 13 Jun 2025 09:43:08 +0000
+Message-ID: <80ce3ec9104c4f0abbcb589b03a5f3c7@honor.com>
+References: <20250603095245.17478-1-tao.wangtao@honor.com>
+ <aD7x_b0hVyvZDUsl@infradead.org>
+ <09c8fb7c-a337-4813-9f44-3a538c4ee8b1@amd.com>
+ <aD72alIxu718uri4@infradead.org> <5d36abace6bf492aadd847f0fabc38be@honor.com>
+ <a766fbf4-6cda-43a5-a1c7-61a3838f93f9@amd.com>
+ <aEZkjA1L-dP_Qt3U@infradead.org> <761986ec0f404856b6f21c3feca67012@honor.com>
+ <d86a677b-e8a7-4611-9494-06907c661f05@amd.com>
+ <aEg1BZj-HzbgWKsx@infradead.org>
+In-Reply-To: <aEg1BZj-HzbgWKsx@infradead.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250612235319.GH10542@pendragon.ideasonboard.com>
 
-Hi Laurent,
 
-Thanks for your review. I know this patch must not have been fun to 
-review, much appreciated.
 
-On 2025-06-13 02:53:19 +0300, Laurent Pinchart wrote:
+> On Tue, Jun 10, 2025 at 12:52:18PM +0200, Christian K=F6nig wrote:
+> > >> dma_addr_t/len array now that the new DMA API supporting that has
+> > >> been merged.  Is there any chance the dma-buf maintainers could
+> > >> start to kick this off?  I'm of course happy to assist.
+> >
+> > Work on that is already underway for some time.
+> >
+> > Most GPU drivers already do sg_table -> DMA array conversion, I need
+> > to push on the remaining to clean up.
+>=20
+> Do you have a pointer?
+>=20
+> > >> Yes, that's really puzzling and should be addressed first.
+> > > With high CPU performance (e.g., 3GHz), GUP (get_user_pages)
+> > > overhead is relatively low (observed in 3GHz tests).
+> >
+> > Even on a low end CPU walking the page tables and grabbing references
+> > shouldn't be that much of an overhead.
+>=20
+> Yes.
+>=20
+> >
+> > There must be some reason why you see so much CPU overhead. E.g.
+> > compound pages are broken up or similar which should not happen in the
+> > first place.
+>=20
+> pin_user_pages outputs an array of PAGE_SIZE (modulo offset and shorter
+> last length) array strut pages unfortunately.  The block direct I/O code =
+has
+> grown code to reassemble folios from them fairly recently which did speed
+> up some workloads.
+>=20
+> Is this test using the block device or iomap direct I/O code?  What kerne=
+l
+> version is it run on?
+Here's my analysis on Linux 6.6 with F2FS/iomap.
 
-[snip]
+Comparing udmabuf+memfd direct read vs dmabuf direct c_f_r:
+Systrace: On a high-end 3 GHz CPU, the former occupies >80% runtime vs
+<20% for the latter. On a low-end 1 GHz CPU, the former becomes CPU-bound.
+Perf: For the former, bio_iov_iter_get_pages/get_user_pages dominate
+latency. The latter avoids this via lightweight bvec assignments.
+|- 13.03% __arm64_sys_read
+|-|- 13.03% f2fs_file_read_iter
+|-|-|- 13.03% __iomap_dio_rw
+|-|-|-|- 12.95% iomap_dio_bio_iter
+|-|-|-|-|- 10.69% bio_iov_iter_get_pages
+|-|-|-|-|-|- 10.53% iov_iter_extract_pages
+|-|-|-|-|-|-|- 10.53% pin_user_pages_fast
+|-|-|-|-|-|-|-|- 10.53% internal_get_user_pages_fast
+|-|-|-|-|-|-|-|-|- 10.23% __gup_longterm_locked
+|-|-|-|-|-|-|-|-|-|- 8.85% __get_user_pages
+|-|-|-|-|-|-|-|-|-|-|- 6.26% handle_mm_fault
+|-|-|-|-|- 1.91% iomap_dio_submit_bio
+|-|-|-|-|-|- 1.64% submit_bio
 
-> > @@ -290,17 +283,15 @@ static int rvin_group_notify_bound(struct 
-> > v4l2_async_notifier *notifier,
-> >  	guard(mutex)(&group->lock);
-> >  
-> >  	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-> 		struct rvin_dev *vin = &group->vin[i];
-> 
-> will simplify the code blow.
+|- 1.13% __arm64_sys_copy_file_range
+|-|- 1.13% vfs_copy_file_range
+|-|-|- 1.13% dma_buf_copy_file_range
+|-|-|-|- 1.13% system_heap_dma_buf_rw_file
+|-|-|-|-|- 1.13% f2fs_file_read_iter
+|-|-|-|-|-|- 1.13% __iomap_dio_rw
+|-|-|-|-|-|-|- 1.13% iomap_dio_bio_iter
+|-|-|-|-|-|-|-|- 1.13% iomap_dio_submit_bio
+|-|-|-|-|-|-|-|-|- 1.08% submit_bio
 
-Create idea.
+Large folios can reduce GUP overhead but still significantly slower
+than dmabuf to bio_vec conversion.
 
-[snip]
+Regards,
+Wangtao.
 
-> > @@ -971,7 +873,7 @@ static int __maybe_unused rvin_resume(struct 
-> > device *dev)
-> >  	 * as we don't know if and in which order the master VINs will
-> >  	 * be resumed.
-> >  	 */
-> > -	if (vin->info->use_mc) {
-> > +	if (vin->info->model == RCAR_GEN3) {
-> 
-> No need to do this for Gen4 ?
-
-No. This section restores the routing for a set of VIN instances, a 
-feature only available on Gen3. On Gen4 this functionality is moved to 
-the Channel Selector ISP. That it previously was done on Gen4 was not 
-intentional.
-
-I think this is a good example on how organic grow of this driver have 
-created a lot of unneeded complexity that needs to be resolved, see next 
-comment.
-
-[snip]
-
-> > @@ -1319,21 +1209,27 @@ static int rcar_vin_probe(struct 
-> > platform_device *pdev)
-> >  	if (ret < 0)
-> >  		return ret;
-> >  
-> > -	if (vin->info->use_isp) {
-> > -		ret = rvin_isp_init(vin);
-> > -	} else if (vin->info->use_mc) {
-> > -		ret = rvin_csi2_init(vin);
-> > +	switch (vin->info->model) {
-> > +	case RCAR_GEN3:
-> > +	case RCAR_GEN4:
-> > +		if (vin->info->use_isp) {
-> > +			ret = rvin_isp_init(vin);
-> > +		} else {
-> > +			ret = rvin_csi2_init(vin);
-> >  
-> > -		if (vin->info->scaler &&
-> > -		    rvin_group_id_to_master(vin->id) == vin->id)
-> > -			vin->scaler = vin->info->scaler;
-> > -	} else {
-> > -		ret = rvin_group_get(vin, NULL, NULL);
-> > +			if (vin->info->scaler &&
-> > +			    rvin_group_id_to_master(vin->id) == vin->id)
-> > +				vin->scaler = vin->info->scaler;
-> > +		}
-> > +		break;
-> > +	default:
-> > +		ret = rvin_group_get(vin, rvin_parallel_setup_links, NULL);
-> >  		if (!ret)
-> >  			ret = rvin_group_notifier_init(vin, 0, 0);
-> >  
-> >  		if (vin->info->scaler)
-> >  			vin->scaler = vin->info->scaler;
-> 
-> If I'm not mistaken there's one group per VIN on Gen2, right ? If so, I
-> think you could move the
-> 
-> 		if (vin->info->scaler &&
-> 		    rvin_group_id_to_master(vin->id) == vin->id)
-> 			vin->scaler = vin->info->scaler;
-> 
-> code after the switch.
-
-Yes and no. The function rvin_group_id_to_master() is purely a Gen3 
-thing. To move the check outside the switch it would need to be made 
-Gen2 aware. It can be kept in the Gen3+Gen4 code path as we know we 
-don't have any scalers on Gen4 so vin->info->scaler will always be 
-false.
-
-As the previous comment hints at, this is a bit of an organic growth 
-mess. In my ever growing todo file to clean up this driver I hope to 
-rework the info structure to remove the remove the 
-vin->info->{model,use_isp,nv12,raw10} flags and replace them with 
-function pointers that do the right thing for each platform without 
-these special cases sprinkled all over. Too much small issues have come 
-up over the years using the current design.
-
-For this reason I would like to keep this split in each case of the 
-switch over extending the special case handling more in the helper 
-functions.
-
-[snip]
-
-> > @@ -1011,11 +592,7 @@ static int rvin_open(struct file *file)
-> >  	if (ret)
-> >  		goto err_unlock;
-> >  
-> > -	if (vin->info->use_mc)
-> > -		ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
-> > -	else if (v4l2_fh_is_singular_file(file))
-> > -		ret = rvin_power_parallel(vin, true);
-> > -
-> > +	ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
-> 
-> Another item for your todo list, this is deprecated.
-
-Ack, added to list. I hope I can get that list down to zero at some 
-point! Getting this series done would be a good step as it's blocking 
-many other smaller improvements. Hopefully we won't need another large 
-series like this to move forward.
-
-[snip]
-
-> > @@ -1162,13 +721,8 @@ int rvin_v4l2_register(struct rvin_dev *vin)
-> >  	vin->format.field = RVIN_DEFAULT_FIELD;
-> >  	vin->format.colorspace = RVIN_DEFAULT_COLORSPACE;
-> >  
-> > -	if (vin->info->use_mc) {
-> > -		vdev->device_caps |= V4L2_CAP_IO_MC;
-> > -		vdev->ioctl_ops = &rvin_mc_ioctl_ops;
-> > -	} else {
-> > -		vdev->ioctl_ops = &rvin_ioctl_ops;
-> > -		rvin_reset_format(vin);
-> > -	}
-> > +	vdev->device_caps |= V4L2_CAP_IO_MC;
-> 
-> You can combine this with the line that sets device_caps.
-> 
-> > +	vdev->ioctl_ops = &rvin_mc_ioctl_ops;
-> 
-> I would also move this above with the rest of the code that sets the
-> vdev fields.
-
-Great catch, thanks!
-
-[snip]
-
--- 
-Kind Regards,
-Niklas Söderlund
 
