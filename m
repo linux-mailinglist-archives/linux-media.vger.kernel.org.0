@@ -1,121 +1,137 @@
-Return-Path: <linux-media+bounces-34705-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34706-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732C2AD84EA
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:51:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A631AD8529
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 10:01:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D46933A5C61
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 07:50:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0DBAA7AA120
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 07:59:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A1D72E6D19;
-	Fri, 13 Jun 2025 07:40:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 963252DA773;
+	Fri, 13 Jun 2025 08:01:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="pKtl3N3d"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="rnQI1S+L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188AC2C3268
-	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 07:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0082DA769
+	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 08:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749800440; cv=none; b=oan/Avcx5QbZTcjcC4MEuvH2bNsX8V2eeJ/TiVpyVsROKL872D3HPveZhdcQUAf8b3Zw5Zdm1OXFL3QQxbvpPotG9nr7HpoTPftIzHqX9AVAuVINTaEgDUlxTItATb6EMf27czwDjPTWZ3xeOEjQIk8rxVSgWLlrKysMF3LWL88=
+	t=1749801660; cv=none; b=lks4oQGlSGutAE/RdAbaqtgXTEZ480TOMDcNIewpQuo7LOal3rOTHriHCPNXPC97LLgxpikyZi3KX5ZZfvsyvEcofS6wLHzc4v67eUjARoHvMlmY7W/K5J2KvbJxGvEX6kNaBzMEmYu0y8Plm5bGToydAsaCKL3n9yHEAqpnqbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749800440; c=relaxed/simple;
-	bh=UQ4VB5/wh31U7Yy88Dly6xL6WULdi4rErdf1WL/qNIw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E0Km4r7oSxsm8d9yQBXzxggrW+uVTKDq4KA7nWU4xbLn+yf5CrgUMOQvxDWvKIUgnxIiVwm3iMzeyVBi8047ft4NFseOhg3tmqbRAblU3uxPJkxvMNZb2u/1F9d5/4DX9UxmBy9Rj3p+X45KlaTjNhdcJvNIlym1buBAd7PRYOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=pKtl3N3d; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=30ezSC5SuiN0IChbbRZASt5M1rZUDx5UAhi1YP6jKF0=; b=pKtl3N3dNtArzKVtv7y/bpuBWj
-	Et87NBgYnRm91BqJx4CM/u0+4pR95JNXUx6cKR+XyLuukbV2oVoWbWer+E2r8ceQDs/lLNJksLy6z
-	j/bW1JXti2NzQ/AMj8ypECl9riVPFyEvp+vZQtb0D53cluiwEw6FHko0fyXaa7dVvZLrTspUmVzeZ
-	UxBBYrOCuFYt/qa61rpkSIPS+/a3mLwo0tN3d90N0o1ocQEny8xTo9WNPgy0sreWTB57wba1rfUu1
-	AkeVh50M+5C3biWbOyMABV8ghv5b1ODheC8TN7/d6LQ5P0oLWW/M5ZIHnHxhu2WnDbZp3K1gvugqp
-	KBTqgMfw==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1uPz1K-002vBD-5Z; Fri, 13 Jun 2025 09:40:14 +0200
-Message-ID: <36c36380-6770-4776-9e85-69299e4ab11a@igalia.com>
-Date: Fri, 13 Jun 2025 08:40:12 +0100
+	s=arc-20240116; t=1749801660; c=relaxed/simple;
+	bh=Ws8XhwtwvWOU55Frj1wRUPb+hHnGps1SWIULhHNYZXs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dIZQCf72G6Ewq/JFl4CZX74LlVSxaSpCXHXzZxlAxb1OtIrh7tq471A5NwgdWAsv78MsIFg7R38W1cW2q4NTh8hZsyDV/YtzDih1BZ6GoI6iWq8fs+a5dd4xkLEHzXXuKDp4Kpj5IpJ8eemOS5Lvsy2nrdQVES5athxmbrlbg4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=rnQI1S+L; arc=none smtp.client-ip=209.85.217.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4e7cf73ffb1so41200137.0
+        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 01:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1749801657; x=1750406457; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=scJh8d+O+EnR5/uIkek0nD2hCc6IGYE1UTUEZv0y62o=;
+        b=rnQI1S+LscwI4TCgTek8nlAfwjmrkn4EfzRnEpMN2VTpb711jc9XR+EOcZ/2k+Xh5W
+         MwgDnKA0INONsaFZX+xZWNbK/IUUzdlMKITtszCy4houosCFOAIuohN/Kq7a533Zza2v
+         NgYYyybTJYFUHH14EPAuMGzSxRqgsCMKWJsEcT1CJos6jr7aCZx62wtxFCBxJWTggGIq
+         R7s1yp+BXWXpKWVxpWTbrqvwhA9EbDerPT/4dnMJZXCTqS7HilXV0VDwscl3RnqOa3/B
+         TnRc4gapa8/MxDjhOHslCfDcJAoYIfqmyxD9HoCmNF9wEIfht5yPJrxCb+nogr8uAF2p
+         SeoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749801657; x=1750406457;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=scJh8d+O+EnR5/uIkek0nD2hCc6IGYE1UTUEZv0y62o=;
+        b=LyZxkoVsCsXaOnkjRxy+sP1EkHbfW23WPFTFgfuc/ilN+08rIGXre4Wpx1poSH+xwX
+         hcdFdFMu9Q/obLHpdhdahUaBbH5LmxRbquGtLw6H6c+CEv6S7vWWyQKZaVJz23yGam+s
+         zpKem3vBM/1dFmpRbivEYM7KJWF8N2ak68VBAGDaURwNEMqFvNs+lgBZytfGjPhVs9D5
+         UnSOf79rK9KHVf8nET8YKKcMMUWaIYwobsxyWLNW6yuaKcRaAo/230tErYDQhlPAmIIT
+         3ajQ16a3YDip6Lw86B1U/Ajl4sGK4N5jYZdQoph3meVmoK6+BWUerD38TjSHAAeHWM6K
+         k96A==
+X-Forwarded-Encrypted: i=1; AJvYcCVAFUfq49VkMCKoasSPhAsFiMlDBd/U+qNC3F4XPCV0HWZPahzGNK1CjZfNRxRO2bpty5kitgkpVUeFOw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEAlX2/girhbwx82xiwH7nxp3vCR8wGmWWycdNbDtM3FdBQGe+
+	znLVbfjMy/e+KFcWOUYgDuOhqaZyJzuoyHdRe5iW2lDqWjWw0JBRGZ0HSMLDdrIqHByaf2Y2ohM
+	mjbTK6aeUPOKeLPlnw9sHW6pcWdm4rE1RGNqJVRHGRg==
+X-Gm-Gg: ASbGncsjmk7R8ikLdvfYjrr6kH3aM2TNLwsrz4N0JM6xogw3GD6vOGmlBWFBYQPgxts
+	FL3Bvw/9EmZgnMQTYFPwgTcy9m7bk7t7KHVfBmncE+stPK85laVBZA/JCSemadd/Ae4/XLYw/eb
+	IA+3dKOFYsnW+v+VMAwwleaIljrsxOguOWO4Fj4b3kMlw=
+X-Google-Smtp-Source: AGHT+IEZWUu8qgwgkkTm+CsEr8/FtKkNy57Yjq6xd1uwQZiobmrafqc2LqOzs6ELakL2gDMWs9lVgnozIjy/ssY7uWE=
+X-Received: by 2002:a05:6102:80a8:b0:4cd:6339:36a1 with SMTP id
+ ada2fe7eead31-4e7e360e5c2mr419047137.0.1749801657328; Fri, 13 Jun 2025
+ 01:00:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/4] drm/xe: Make dma-fences compliant with the safe
- access rules
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250610164226.10817-1-tvrtko.ursulin@igalia.com>
- <20250610164226.10817-5-tvrtko.ursulin@igalia.com>
- <lagtnrxxqzwn4akmummmuxd4msqctbzrqbht66debl7ktzgkpm@7xn5yv5ackvl>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <lagtnrxxqzwn4akmummmuxd4msqctbzrqbht66debl7ktzgkpm@7xn5yv5ackvl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250606-pispbe-mainline-split-jobs-handling-v6-v7-0-46169f0622b7@ideasonboard.com>
+ <20250606-pispbe-mainline-split-jobs-handling-v6-v7-1-46169f0622b7@ideasonboard.com>
+In-Reply-To: <20250606-pispbe-mainline-split-jobs-handling-v6-v7-1-46169f0622b7@ideasonboard.com>
+From: Naushir Patuck <naush@raspberrypi.com>
+Date: Fri, 13 Jun 2025 09:00:23 +0100
+X-Gm-Features: AX0GCFskqlJzEMkB9GaVu-uc5hw9nEwjPjnaSfW8bP-WdW4AyG8urU3mzC4FJLI
+Message-ID: <CAEmqJPp+jG7tX+urwPdCs=Nxi54v4j0_hxaeYUB6GUzB6F3JCg@mail.gmail.com>
+Subject: Re: [PATCH v7 1/4] media: pisp_be: Drop reference to non-existing function
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>, 
+	David Plowman <david.plowman@raspberrypi.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Jacopo,
 
-On 12/06/2025 18:49, Lucas De Marchi wrote:
-> On Tue, Jun 10, 2025 at 05:42:26PM +0100, Tvrtko Ursulin wrote:
->> Xe can free some of the data pointed to by the dma-fences it exports. 
->> Most
->> notably the timeline name can get freed if userspace closes the 
->> associated
->> submit queue. At the same time the fence could have been exported to a
->> third party (for example a sync_fence fd) which will then cause an use-
->> after-free on subsequent access.
->>
->> To make this safe we need to make the driver compliant with the newly
->> documented dma-fence rules. Driver has to ensure a RCU grace period
->> between signalling a fence and freeing any data pointed to by said fence.
->>
->> For the timeline name we simply make the queue be freed via kfree_rcu and
->> for the shared lock associated with multiple queues we add a RCU grace
->> period before freeing the per GT structure holding the lock.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> 
-> 
-> Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> 
-> for merging this through drm-misc tree.
+Thank you for tidying this up!
 
-Thanks!
+On Fri, 6 Jun 2025 at 11:29, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+>
+> A comment in the pisp_be driver references the
+> pispbe_schedule_internal() function which doesn't exist.
+>
+> Drop it.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-I've now pushed the series drm-misc-next.
+Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
 
-Btw there is also an IGT for xe I wrote ages ago^1, if you want to ping 
-someone to review it or take it over. Might be useful to have permanent 
-verification the UAF keeps being resolved.
-
-
-Regards,
-
-Tvrtko
-
-1) https://patchwork.freedesktop.org/patch/642709/?series=146211&rev=2
-
+> ---
+>  drivers/media/platform/raspberrypi/pisp_be/pisp_be.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> index 7596ae1f7de6..b1449245f394 100644
+> --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> @@ -368,10 +368,7 @@ static void pispbe_xlate_addrs(struct pispbe_dev *pispbe,
+>         ret = pispbe_get_planes_addr(addrs, buf[MAIN_INPUT_NODE],
+>                                      &pispbe->node[MAIN_INPUT_NODE]);
+>         if (ret <= 0) {
+> -               /*
+> -                * This shouldn't happen; pispbe_schedule_internal should insist
+> -                * on an input.
+> -                */
+> +               /* Shouldn't happen, we have validated an input is available. */
+>                 dev_warn(pispbe->dev, "ISP-BE missing input\n");
+>                 hw_en->bayer_enables = 0;
+>                 hw_en->rgb_enables = 0;
+>
+> --
+> 2.49.0
+>
 
