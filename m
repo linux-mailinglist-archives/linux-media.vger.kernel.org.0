@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-34722-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34723-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B9EAD876E
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:14:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6BEEAD876B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:13:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F38C31E2B4B
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:13:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61D3D3B860D
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 09:13:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 980E4279DD6;
-	Fri, 13 Jun 2025 09:13:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B77291C1B;
+	Fri, 13 Jun 2025 09:13:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eX8sfjU0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f7wccNY/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6FA279DB7
-	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 09:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9633279DD4
+	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 09:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749806015; cv=none; b=K8xaAt8v/ZP/F7kLIsy7VePlZcWD2cHEEjbbuvkMV5xVumbF+xv7cfN+QwhY36E3w2D+ZLbVEh8kvAw9mI7nHQ0ZBolt5TKP2JKl2y1Kcdr9/TKBtkI7g9OhDu//TXoWXAkzezM9s6ZksWln9vWJqgEFpCKS0qRHyYSH1xGyViw=
+	t=1749806029; cv=none; b=qah+r9qJrPPIaDa3NadzPBG14PYWV+O8Bcwy9PGPZAzslsTXl1hXjhjGooPZwXG7PnC1MsDBAxSmfAxTvMNiqdHEgQqIEP2HQ7UgOkbQPwXj99JOq2MA4eJiQlgBNdaXOxHngdxQc10jADOFEFj8tMrHOgTioC+u/OteQmK2A98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749806015; c=relaxed/simple;
-	bh=0Y6jj9KLtJf7LDEPJ7LwBrYF5ykPWh73hsXHYb3N9m0=;
+	s=arc-20240116; t=1749806029; c=relaxed/simple;
+	bh=W3o3VkA9R41ABqUB6EM0CchrljGSzF20t0WFgGKvOZc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nDkaozyeRuRVOee6rj5jbGyHsvbMU5bEwQMlQD+WmsNIVpLQdZ6WmVhtcMHYyE5zq4rCvSq0j6W2Va5FnpxoX+ENA0VqhVtqOz844TYe49HbNOadyVcXToIN8I3UM8ciEnBpJs7ZqClsXecAiZpj5WKJMBQ2clGatmoDBb7pIog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eX8sfjU0; arc=none smtp.client-ip=209.85.221.50
+	 In-Reply-To:Content-Type; b=d6tR+sB13Votf5mXn22K8QOFQm498wjZBmH1WCR8IyeyDauBiEHy3cN+QwHEgpno6CCdFxH4gj+s4wG7coKYwc/1592mv2CxL3lTWVt9/az0QaficTdIuJoSGR+p89ggsbL1lcJHRbqqBnxRwTPprgkynu6DqZP3WcPMaqfkoiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f7wccNY/; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a5123c1533so1221310f8f.2
-        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 02:13:33 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5532bc4501aso179901e87.0
+        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 02:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749806012; x=1750410812; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1749806025; x=1750410825; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=1aYNJkPV0aW25Kv1bxqP6lGz7djS3jyufH29SAsPd+Y=;
-        b=eX8sfjU0OuJYBUc/YNoqshkt78VpSG345KRQ+Bnz7497qPvFCQaenijTi4oncKqPdZ
-         /Kr5MrwCTrDbVoXPvuGQxcExbBfOr3DniCSQWDFeS3Fud2olx4BR3eK2VTnu+Xh1sdgh
-         OJ3ixASS61vkFMdnqevoPoX5OTEeOkjivXXXZXukavdh4MzIebclNPmZsuy9t5hY/9G8
-         NGBd/soSg3yucdoDTclgQfV6MgtNFKUBh4ACVwenFN0XXvez2Xxy0UETIeFBmEY+iZx7
-         Ke5qFd7nDDzBT8pK6H0DuIzoK8RclJixvDoPU5YvKqO01liQc3l/v5nJv5ObQBqPe43i
-         DT8A==
+        bh=23wQo7liyOIk9856bf2K4MBM9HMhUL1JUtFemuTkldE=;
+        b=f7wccNY/mo1VdqoAsmNrgQuBuolRb+ZV6GmiFXxMPaEleWGRrN0xA9mIniAf50vMC0
+         C1cOktm6IMowLci264aokHBCQrC3e7D9khdItZG9uu6YLwK83j84wkL0a8n44QdF9sna
+         wahI+7af3VkU1Hv/60f9rYT1kITzxkLylwj1gGETB9lSxV1b8FYLYDQ0AFjKL0aTWBbC
+         Kzhlkb0B4Wd2D8Wp5bBzwqBKaBKi5ruJ+iO8T5aBEajN3SQ3NCJAXZ1+uOZfBLYe7zDu
+         dw7StTTLLNuM1GHp4TH059yK8roSXaeNZ9iwx5BR32KQFB/ErqpPlK3x8nn0c2/K9Olo
+         QS/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749806012; x=1750410812;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1749806025; x=1750410825;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1aYNJkPV0aW25Kv1bxqP6lGz7djS3jyufH29SAsPd+Y=;
-        b=EMe+6k/z+Q1j4gJKNjd6hEOQMhPgY/0xrsGdNdRed5g56vnHLJFjV0EMnldW7Pm9pq
-         gxHPS9FBWLZZ1xKHqtzcYdHXzMReka5R+d9BDq5ZDPK+4hePEjPNk/8sZhm1Esbl2MrV
-         ghwOPiRycDCoIz4/WCu54SWhKlpyu15c7nSAWyYV2LnGt1EK1606ioTB7OudB5NPj5sf
-         7+xdIyrwxF/omIYkajru4Itz3KYZjklwk4gCK0DL0d9O2fZgSfVwMzLJiR+W5lf5XBoa
-         j4mNIRQRYBiTVN4Br7/A3785iP/H/qXHPj/FhOw8D5DZTKhjv1+INNZVTaWShjhOyaBe
-         mcYA==
-X-Gm-Message-State: AOJu0YzjC2DXQ7eCcuwfbQjiefcNzby3bgWSNZCh052fZTsyELTMdiLZ
-	z+Iv2cSZBfGcFniDa+it7SQbeqXLAj+gdLp4/gfJeuoRIHrXICbEp4O3zzxE5aFopHI=
-X-Gm-Gg: ASbGncuuJurd/GcVnJRNBQ2k4F/W+CnvRf48OPbaP0L3PmdrU4pw/wykmdt1C8coiY8
-	I0bSj+/H8IQXvyumqEPDnTyt3A/IEWWISGk8AodxwBc9HELo3i8uqXPMEC0DCVaHJFu/M0dX+qD
-	iQdjQC+90H/UlQgZmrQD/t8Kzk6zj4C8EAc06cGYAbpJijUUcjgQxKVLlymnlb52q8Hy+exc+Y4
-	d5scKe0uvsr3eCHyRw0x2qqEcVbDEj/1fTKf29lFuxPbAwqHouTp3ABcF0Wutq1QmsELAgdSKcb
-	LimOra2HvEuXFnbdn40UlIN+bmDf4xjvGKKFEMTqk2xARSYzIIKqcouDH5rD0C9CB4YhAU0uR62
-	5XJXCuNCf/3twKKWGFR3xjX8gAbI=
-X-Google-Smtp-Source: AGHT+IGW47TYDwlkxZMyvu4lj634mjFRvgCqkvRaKt0YG2LrxM+RfM/AFmBv8OvJjzRO2nK2t9L3Xg==
-X-Received: by 2002:a05:6000:2502:b0:3a4:f024:6717 with SMTP id ffacd0b85a97d-3a568730dc7mr2113321f8f.53.1749806011699;
-        Fri, 13 Jun 2025 02:13:31 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b1bc97sm1745386f8f.68.2025.06.13.02.13.30
+        bh=23wQo7liyOIk9856bf2K4MBM9HMhUL1JUtFemuTkldE=;
+        b=Gl0NaSwrNPgAAygUC/36vQEzSi4Rggd4iDfVkmO+LMZtpbzTw7YhHUP4uUdrA2WPXU
+         P4bH+Y4GrfCV/P00vVc3GOH2JlAgieBjU4Ngne9lr0n3+tQSWKFwOK7gSJMKGrBRRjWO
+         YFljgnyyjhiOko1VKa9kBZjWdEq9IEk1orT64EWBwHuo6BsIJLJZmBVTsHSWpTFXAdXm
+         DpHFemrLV9kxAIGI5aeLw7AfkGhicfrR439r6XWPc9UABM0DCTKYxgUezAFEuVwzm3vA
+         Zh/UXS+XhE3VmCX9RbYhaZ+GqZeFg4m522HDfMBpIv6/UWyIpkgzVdXuDeHqbV3q36KZ
+         EGGA==
+X-Gm-Message-State: AOJu0YxGA1C5f+7uSaHoqQvboRcw+54kK0LlJukaSLD38bvJ8ZrJ1AAe
+	FG1dEvIguz+4FZrwPW06HfKZI9EOFkztqbOHywuzkG82blyxfoFbS0OMgSMWQ0bAJmM=
+X-Gm-Gg: ASbGncvuCnVRU3wE6/xKNDakCEBjhWX72k3+Zj9zr5e9P4pkmLWe9In1sfFwDCVb0JL
+	HgtWsM8OCahlt2c3O1sev+KbLbZll51USbRL4d28Sv6cF/EB2hpxnr3ncUm4WUeiuj+NnOVC5D3
+	+xazXC2HjEUAQC24H1wvNtIzsz/RVdmHkFls9NAIryix1n0hBcDP7AF1CdHIMleaLRcyT9fyqz1
+	ZQrdGQIIvWFnhvCejTTkdKwfAXEn2uc66ZLdKpblEbpi0LONB2YrUL4LNA0gcgnGKLNqEGTRjn/
+	jSm1KX0STqni4lZpE6uqht3l8MHrS5NcfbW1vk546hXZZ6nwysJlAjNiSDeya86AhcvweWyTIZ9
+	1T6q+1kuznfN+ZwWbjF9uwdjRDsv1e2ec1E4GjRpT
+X-Google-Smtp-Source: AGHT+IHcu1Xw3nrbZ4W7GCdPuwlEWi04dXVVEXHb+OxqkAVhnop5YBhtxDz/mVa/t2mU+QwfzqVgnw==
+X-Received: by 2002:a05:6512:1591:b0:550:d534:4673 with SMTP id 2adb3069b0e04-553af9b48edmr153841e87.14.1749806024805;
+        Fri, 13 Jun 2025 02:13:44 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ae234437sm267196e87.53.2025.06.13.02.13.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jun 2025 02:13:31 -0700 (PDT)
-Message-ID: <a020c020-c28d-4f06-aea1-483f404ed715@linaro.org>
-Date: Fri, 13 Jun 2025 10:13:30 +0100
+        Fri, 13 Jun 2025 02:13:44 -0700 (PDT)
+Message-ID: <c90a5fd3-f52e-4103-a979-7f155733bb59@linaro.org>
+Date: Fri, 13 Jun 2025 12:13:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,100 +81,116 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/9] media: qcom: camss: simplify
- camss_subdev_notifier_complete() function
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+Subject: Re: [PATCH 2/2] media: qcom: camss: vfe: Fix registration sequencing
+ bug
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Depeng Shao <quic_depengs@quicinc.com>,
  Hans Verkuil <hans.verkuil@cisco.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20250513142353.2572563-1-vladimir.zapolskiy@linaro.org>
- <gH5U5Np4YjvmdEnO8j2Pam7buBgsyZNrP4crrHHDSDkI_2jijUdo7mWsUoJTGjJHnQPWy3SFa-MnK4TrhFLa4A==@protonmail.internalid>
- <20250513142353.2572563-7-vladimir.zapolskiy@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250513142353.2572563-7-vladimir.zapolskiy@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Johan Hovold <johan+linaro@kernel.org>
+References: <20250612-linux-next-25-05-30-daily-reviews-v1-0-88ba033a9a03@linaro.org>
+ <20250612-linux-next-25-05-30-daily-reviews-v1-2-88ba033a9a03@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250612-linux-next-25-05-30-daily-reviews-v1-2-88ba033a9a03@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 13/05/2025 15:23, Vladimir Zapolskiy wrote:
-> For sake of code simplicity and readability reduce the function code by
-> one level of indentation, the change is non-functional.
+Hi Bryan.
+
+On 6/12/25 11:07, Bryan O'Donoghue wrote:
+> msm_vfe_register_entities loops through each Raw Data Interface input line.
+> For each loop we add video device with its associated pads.
 > 
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> ---
->   drivers/media/platform/qcom/camss/camss.c | 50 +++++++++++------------
->   1 file changed, 25 insertions(+), 25 deletions(-)
+> Once a single /dev/video0 node has been populated it is possible for
+
+Here is a typo, /dev/video0 should be replaced by something like /dev/videoX.
+
+> camss_find_sensor_pad to run. This routine scans through a list of media
+> entities taking a pointer pad = media_entity->pad[0] and assuming that
+> pointer is always valid.
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 4e91e4b6ef52..39c5472f4552 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -3385,35 +3385,35 @@ static int camss_subdev_notifier_complete(struct v4l2_async_notifier *async)
->   	struct camss *camss = container_of(async, struct camss, notifier);
->   	struct v4l2_device *v4l2_dev = &camss->v4l2_dev;
->   	struct v4l2_subdev *sd;
-> -	int ret;
+> It is possible for both the enumeration loop in msm_vfe_register_entities()
+> and a call from user-space to run concurrently.
+
+Here comes my insufficient understanding, please explain further.
+
+Per se this concurrent execution shall not lead to the encountered bug,
+both an initialization of media entity pads by media_entity_pads_init()
+and a registration of a v4l2 devnode inside msm_video_register() are
+done under in a proper sequence, aren't they?
+
+ From what I read there is no bug stated.
+
+> Adding some deliberate sleep code into the loop in
+> msm_vfe_register_entities() and constructing a user-space program to open
+> every /dev/videoX node in a tight continuous loop, quickly shows the
+> following error.
 > 
->   	list_for_each_entry(sd, &v4l2_dev->subdevs, list) {
-> -		if (sd->host_priv) {
-> -			struct media_entity *sensor = &sd->entity;
-> -			struct csiphy_device *csiphy =
-> -					(struct csiphy_device *) sd->host_priv;
-> -			struct media_entity *input = &csiphy->subdev.entity;
-> -			unsigned int i;
-> -
-> -			for (i = 0; i < sensor->num_pads; i++) {
-> -				if (sensor->pads[i].flags & MEDIA_PAD_FL_SOURCE)
-> -					break;
-> -			}
-> -			if (i == sensor->num_pads) {
-> -				dev_err(camss->dev,
-> -					"No source pad in external entity\n");
-> -				return -EINVAL;
-> -			}
-> +		struct csiphy_device *csiphy = sd->host_priv;
-> +		struct media_entity *input, *sensor;
-> +		unsigned int i;
-> +		int ret;
-> +
-> +		if (!csiphy)
-> +			continue;
-> +
-> +		input = &csiphy->subdev.entity;
-> +		sensor = &sd->entity;
-> +
-> +		for (i = 0; i < sensor->num_pads; i++) {
-> +			if (sensor->pads[i].flags & MEDIA_PAD_FL_SOURCE)
-> +				break;
-> +		}
-> +		if (i == sensor->num_pads) {
-> +			dev_err(camss->dev,
-> +				"No source pad in external entity\n");
-> +			return -EINVAL;
-> +		}
+> [  691.074558] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
+> [  691.074933] Call trace:
+> [  691.074935]  camss_find_sensor_pad+0x74/0x114 [qcom_camss] (P)
+> [  691.074946]  camss_get_pixel_clock+0x18/0x64 [qcom_camss]
+> [  691.074956]  vfe_get+0xc0/0x54c [qcom_camss]
+> [  691.074968]  vfe_set_power+0x58/0xf4c [qcom_camss]
+> [  691.074978]  pipeline_pm_power_one+0x124/0x140 [videodev]
+> [  691.074986]  pipeline_pm_power+0x70/0x100 [videodev]
+> [  691.074992]  v4l2_pipeline_pm_use+0x54/0x90 [videodev]
+> [  691.074998]  v4l2_pipeline_pm_get+0x14/0x20 [videodev]
+> [  691.075005]  video_open+0x74/0xe0 [qcom_camss]
+> [  691.075014]  v4l2_open+0xa8/0x124 [videodev]
+> [  691.075021]  chrdev_open+0xb0/0x21c
+> [  691.075031]  do_dentry_open+0x138/0x4c4
+> [  691.075040]  vfs_open+0x2c/0xe8
+> [  691.075044]  path_openat+0x6f0/0x10a0
+> [  691.075050]  do_filp_open+0xa8/0x164
+> [  691.075054]  do_sys_openat2+0x94/0x104
+> [  691.075058]  __arm64_sys_openat+0x64/0xc0
+> [  691.075061]  invoke_syscall+0x48/0x104
+> [  691.075069]  el0_svc_common.constprop.0+0x40/0xe0
+> [  691.075075]  do_el0_svc+0x1c/0x28
+> [  691.075080]  el0_svc+0x30/0xcc
+> [  691.075085]  el0t_64_sync_handler+0x10c/0x138
+> [  691.075088]  el0t_64_sync+0x198/0x19c
 > 
-> -			ret = media_create_pad_link(sensor, i,
-> -				input, MSM_CSIPHY_PAD_SINK,
-> +		ret = media_create_pad_link(sensor, i, input,
-> +				MSM_CSIPHY_PAD_SINK,
->   				MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED);
-> -			if (ret < 0) {
-> -				camss_link_err(camss, sensor->name,
-> -					       input->name,
-> -					       ret);
-> -				return ret;
-> -			}
-> +		if (ret < 0) {
-> +			camss_link_err(camss, sensor->name, input->name, ret);
-> +			return ret;
->   		}
->   	}
+> Taking the vfe->power_lock is not possible since
+> v4l2_device_register_subdev takes the mdev->graph_lock. Later on fops->open
+> takes the mdev->graph_lock followed by vfe_get() -> taking vfe->power_lock.
+
+It's unclear what is the connection between the issue and a call to
+v4l2_device_register_subdev(), the latter is related to /dev/v4l-subdevX
+devnodes, but all way above the talk was about /dev/videoX devnodes, no?
+
+> Introduce a simple enumeration_complete bool which is false initially and
+> only set true once in our init routine after we complete enumeration.
+
+It might be a fix (what is the bug actually? it's still left unexplained)
+at the price of the machine state complification, a much better fix would
+be not to create and expose a non-ready /dev/videoX devnode by calling
+video_register_device() too early.
+
 > 
-> --
-> 2.45.2
-> 
-> 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> If user-space tries to interact with the VFE before complete enumeration it
+> will receive -EAGAIN.
+
+It sounds like a critical change in the kernel to userspace ABI of open(2)
+syscall for CAMSS V4L2 devnodes, unfortunately... EAGAIN could be received,
+if open() is called with O_NONBLOCK flag, otherwise the syscall shall be
+blocked.
+
+I believe a completion of media device entities/pads registration before
+creating a devnode should solve all the issues in a proper way.
+
+> Cc: stable@vger.kernel.org
+> Fixes: 4c98a5f57f90 ("media: camss: Add VFE files")
+> Reported-by: Johan Hovold <johan+linaro@kernel.org>
+> Closes: https://lore.kernel.org/all/Zwjw6XfVWcufMlqM@hovoldconsulting.com
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+--
+Best wishes,
+Vladimir
 
