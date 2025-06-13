@@ -1,150 +1,182 @@
-Return-Path: <linux-media+bounces-34769-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34770-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F16FAD90EC
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 17:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E45AD9162
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 17:35:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D581B1BC3BFB
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 15:15:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F6FB1BC3B97
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 15:35:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67C01F4262;
-	Fri, 13 Jun 2025 15:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 310771EB19B;
+	Fri, 13 Jun 2025 15:35:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AbIdonJd"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="YKiymQfw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="frWXuzEo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530F01CF5C0
-	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 15:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9CE1E8353;
+	Fri, 13 Jun 2025 15:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749827659; cv=none; b=Ey2INixeYStGkRkPDjWyWHZFjnRgOjRUkRrT7yk1tEsib1B46jpBjELqLE8VmY1b0UiE6qyMhQUv+mF7fD25xMtITNm0GhABcQ8swZIuHzSG3ae/w245Zhl0zSrS0LGpOzA4pDvD6aAf40wpFlxCRLYpoglDo4ixNaNZDqqQN8Q=
+	t=1749828912; cv=none; b=BRkYv4YLvCzswJ5DdHrXjbnMo9n5wClpoZbkndQmAOjik70BxdTLd/h0lkrWD65j+tcSk5fosoRMjwLOBj2eSdCHuNpxR1U1vb0HmqnZL2pwVmg5yjKtWK7sYi7rudIhWLYCYZ6O0bpQpjjc5sNW/0dpNLcyYkZGlz6XAbS/E+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749827659; c=relaxed/simple;
-	bh=yigUz7BHxw8QBhJm4Z5XVyp2Bokda5y8lA60GXi8/tk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ka2n9A9dGIMGgD2J0e8+EGD7BHeppuw7KilNvyzukhF1+3+DP0wiLGCk/FQgyDbVCLrHfWWC+Kqt8ofaYYo+qPiLxDZrAJ9KcOx3EDxCFX5zDAbLTAuRp2eqI3yDUJrovnqfhN+F4xzC4+H7dEiVZ9zaR01/ygW+FdOTTgrlzy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AbIdonJd; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so26813275e9.2
-        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 08:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749827656; x=1750432456; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A5YL1/PTWX9ntjACVUMCkmmCdXN1AOyN6/cgs5Z/ZJw=;
-        b=AbIdonJdKmaOhTw+HXKauFkWJvbpj+j7oM7WcX5IA546PTlfLWEan5zIhU6ipW/pQl
-         Z85CYmmRdaBOAHGo0shOCsUX57CQauRLEdin4j109j2jlHJWMdsI/7/V1gzmlSoT7nAg
-         aj2mMDoNXIbYX2gd+C+lV2QzFj1ZLXdPqXIvVHaMhGTz6z8pDHU6k3wXTZERlhFj2Jve
-         4Bkdo2aBlIcqMqFPR3gJPMhb2lZdUwFCUZHrXpxbg/manM9WpUQQw9uK+PXv1sUkymuo
-         4vnRF+w4BZRnp+ofRd4zcJegXTfUVdxRi6GYiMk3GpyPcJ7FwR4ehup1CX2WTCt3qqFF
-         lqBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749827656; x=1750432456;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A5YL1/PTWX9ntjACVUMCkmmCdXN1AOyN6/cgs5Z/ZJw=;
-        b=uKvL0eQt4CBeUnneulRYZLPoa+IOEJ9sC3cCeL9v0+YtK3ujFwoTgSadhbkAGy5zxl
-         UG5brUHpl4i/Pg4bBgTP7O1JlIGXbtSWSFr34ABLKnXGzv/NDuoUrbBQEoWLo/nyqhoe
-         08UuUZ0rZICXKCX672Mo6/SGG04EzGS/v1m4WHOsBVzABTQ+mbKEhLQQH7NW7FXO6uAO
-         P+JMG8hL1NgAup+Qp0jHcZosfZSGZfIowIuOroU08ql5Dm2YGYQ0hFh9k0PcfgZ82dfF
-         Kg+ngp7HqnBvjNE9Xbn2sRp7HNwzPiK8H4M9WE7A/DbykQ/TxlqLk9O4m3MLefCMyeIN
-         PoHg==
-X-Forwarded-Encrypted: i=1; AJvYcCXGZooEqDu+tjjAzxGKGDtrhTVe/Dz2zocwjwkjt8XGtJ88zvsg4wqjlOg65QgkfUMmU988B0IeE1VAHw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxt5R3mDDpKG2hPHPdEJCm5r0BGrnVjFKf2JARpKl4mX07H/HDd
-	CT/1x/mO2793U/cI7pgjz3gvl4gxZCmBYJR9CXhK3UeCpwrcQ8EH0KvQN9i/0dSVfsw=
-X-Gm-Gg: ASbGncv/R2lWYwbsOFBKDQrQe6IMWqh5d13SbljRJAd5p229UE9QfJ1jpWfHFhPpYWW
-	fR09ZSUxolSqtMCFNfZW0ZBAiZlEVG0DhMuwKHUnuFb1U9KRlm6JXQ8Dcr95YvaSExgKhgbu8wZ
-	toRtIqGf137bw57msM3triLs2OlLwIUMvXwxN0XWanaCpNr3lHCt3FSfgUFCAN5G+8JhrxOEZMr
-	kRk7OZBzAea0ZAajjNjroLVlbraG+1lzT1vSylfUv1lbYglwTe0ld/6Xg91nbYGlDsDqxZ2Qo7K
-	KFyaau9Ty2o1XxGOLpKMVo1DGNF1gPrsW9ZwWtTqasA46WDxZwDVYooasDuYKOgilSazuEMOLjK
-	3zJEk8xEDTIhPhoINhp5LjbdCF0M=
-X-Google-Smtp-Source: AGHT+IE5BqWkTcV/YtfSzruju0bqO5TpxF/6X93NQ6kxh0a7Xc5nDXiCwJmre3t2cwX6AdTEyT0K5A==
-X-Received: by 2002:a05:600c:1c23:b0:441:d2d8:bd8b with SMTP id 5b1f17b1804b1-45334ac72d5mr36043655e9.8.1749827655647;
-        Fri, 13 Jun 2025 08:14:15 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e14f283sm55321915e9.27.2025.06.13.08.14.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jun 2025 08:14:15 -0700 (PDT)
-Message-ID: <069d5c16-f3a9-408b-aa61-4bc060ec2771@linaro.org>
-Date: Fri, 13 Jun 2025 16:14:13 +0100
+	s=arc-20240116; t=1749828912; c=relaxed/simple;
+	bh=3/c2fxXy++32RKfjs+AkJWQfdPxCShIxKNU7dKtfvgo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oyWI+084IheklPDx7Jup2TemUJXO+vAG7pAG71AR9Uszd4QWrZBCrt3kOt4urHfG0JL+zkceOxQtNlBCBVzPgJPmnRqVCyiCejayVdoPqVk1J+rtSiSgWZllhFdhgTcqX4Fuc5YVtOpUVPl5xkSJuLQDT9jE81qkeKauqIDK/0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=YKiymQfw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=frWXuzEo; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6C82411400DA;
+	Fri, 13 Jun 2025 11:35:08 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 13 Jun 2025 11:35:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1749828908; x=1749915308; bh=d2
+	1xr80g7IgqTkjNvgkr05UA5lkkAZCzXdiLH5HGR3k=; b=YKiymQfwMe8OHockrn
+	EU/3q+gSF2xKk77gYoJyU5DRIKvraljoJvrr52iX17oR3XSR3VNyl39l4Jn5NOWl
+	oPAWVwXkk0Wn/3pJPfACAebMlrmmeIxJFcsU3rD19dnA75Hl0Xmr4ZL12q/VsgP1
+	z7iC7tnhjkT2epO6JdZzehKRicRvaZCSfuWxps9KvHx3kDpW/6z1UP5Ewa+e4T8N
+	9EJMOSNFQGHGuKlNAFkW1rKMyWtXZIeV24ihHu0o6Fb9jt6IXSddCvxWjjo4E0CV
+	QlG4zK3DWJw0GSnNSAg96Co4qjvW+K8G+w76NsK5kKRtTLYIuFJPGl6mpLqoDfPa
+	b6aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1749828908; x=1749915308; bh=d21xr80g7IgqTkjNvgkr05UA5lkk
+	AZCzXdiLH5HGR3k=; b=frWXuzEoYa07p5lAnXfq19oODDNbwEqLNMCpIJB00XSZ
+	CADFGkMxvJoHigemxI72ckogi8o4CFDUkb/hu8w02LUwp0gKxX/0vEzlSfN2Y4kw
+	oG+QTLdw2VS+wMVCPD2fdUH2jcBhsBbXlS2Si4grTuUN2r14E/XKyoTOQvj6JGm5
+	a/MZUb0gAEpKiNmBshIySL/pPgbq/73rjx8H55Wd0tBAe3U6h8Tz7Nlqz5xBX7U6
+	mgiP3UDe7mmZwV9C4hQ8y0+A05I361EsmZvhWpiic/DsWthQrh9xjWCaN2TNek6y
+	GQmLhc05f6jUF0D2Pb+8MrYNbJPGvyM2n5a54XSgkw==
+X-ME-Sender: <xms:LEVMaO2osXv7YuF6UOLNkM09oIqtg9TvYi0e3mNcd-KdK9FL2MPZ5g>
+    <xme:LEVMaBH329DcgHAmlBJ1qobJuF6GkNJ_PFNgSfTot1elVUI_t2Grra5sL9-S5Gd-X
+    Kv8twlXxp8bvHi8oI8>
+X-ME-Received: <xmr:LEVMaG7QrQZQ-Xgw4WjrtOFZ6pIkmSleWTl3U1_qMZ5Cdu7mg91WhnM6XZ15hJRFakpHGeXB0YIoQMwsmCJLsHXv>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddukeefvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
+    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
+    htohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgrkhgrrhhirdgrihhl
+    uhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghn
+    vghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghurhgvnh
+    htrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohep
+    lhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnh
+    grthgvtghhrdhsvg
+X-ME-Proxy: <xmx:LEVMaP3-j8_2DbVlmT6Dgy9U6WWviJai-kb0BpebCj8J-5uaRu2J0A>
+    <xmx:LEVMaBGk5nLDi3SZuDSEFg3wdTkdvYFF132x0ddUuoEO-M2wVfMTCQ>
+    <xmx:LEVMaI-9LaI0D_qPs2wjyCnEzNoy5Ci3ucj-XcLHKWw5knWp03R6sQ>
+    <xmx:LEVMaGnBOVpbbFpJjd9nP3-4cP0gorR_ZKtd5ZhYZN4OwoVfbMEKrw>
+    <xmx:LEVMaDGCQg-iJChYRHE6Nti38oyfdZFI8_nmnHoMJbyeKntEAJiiy5RF>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 Jun 2025 11:35:07 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v6 00/13] media: rcar-vin: Unify notifiers and enable MC on Gen2
+Date: Fri, 13 Jun 2025 17:34:21 +0200
+Message-ID: <20250613153434.2001800-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3] media: venus: protect against spurious interrupts
- during probe
-To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
- quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com, mchehab@kernel.org
-Cc: hans.verkuil@cisco.com, stanimir.varbanov@linaro.org,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250606152522.4123158-1-jorge.ramirez@oss.qualcomm.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250606152522.4123158-1-jorge.ramirez@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 06/06/2025 16:25, Jorge Ramirez-Ortiz wrote:
-> Make sure the interrupt handler is initialized before the interrupt is
-> registered.
-> 
-> If the IRQ is registered before hfi_create(), it's possible that an
-> interrupt fires before the handler setup is complete, leading to a NULL
-> dereference.
-> 
-> This error condition has been observed during system boot on Rb3Gen2.
-> 
-> Fixes: af2c3834c8ca ("[media] media: venus: adding core part and helper functions")
-> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-> ---
->   v3:
->      Added Fixes tag
->   v2:
->      Fix authorship
->      Fix spelling mistake
->   
->   drivers/media/platform/qcom/venus/core.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index d305d74bb152..5bd99d0aafe4 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -424,13 +424,13 @@ static int venus_probe(struct platform_device *pdev)
->   	INIT_DELAYED_WORK(&core->work, venus_sys_error_handler);
->   	init_waitqueue_head(&core->sys_err_done);
->   
-> -	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, venus_isr_thread,
-> -					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> -					"venus", core);
-> +	ret = hfi_create(core, &venus_core_ops);
->   	if (ret)
->   		goto err_core_put;
->   
-> -	ret = hfi_create(core, &venus_core_ops);
-> +	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, venus_isr_thread,
-> +					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> +					"venus", core);
->   	if (ret)
->   		goto err_core_put;
->   
+Hello,
 
-@Dikshita @Vikash.
+This series completes the conversion of the soc_camera VIN driver to a
+full fledge media-graph enabled driver for R-Car Gen2 devices, Gen3 and
+later have been media-graph centric from the start. Having a single
+driver supporting both MC and non-MC operation have lead do odd design
+decisions in the driver, and it have prevented improving the driver over
+all.
 
-Good/happy with this patch ? Looks right to me.
+New features and bug fixes have always been more important then fixing
+this old generation to be MC-centric. But in order to start to play with
+libcamera support for the R-Car pipeline it have become more pressing to
+make take the time to make this driver MC-only, and more importantly
+test it to make sure nothing really breaks.
 
----
-bod
+Patch 1/13, 2/13 3/13 and 4/13 are drive-by fixes correcting issues in the
+existing design. Patch 5/13 prepares for Gen2 MC by making sure each VIN
+instance on Gen2 gets a unique ID which will be needed to support VIN
+groups. Compared to Gen3 and later the group ID does not match what it
+can do in the group and does not need to be set from DT, all that
+matters is that each VIN instance have a unique ID.
+
+Patch 6/13, 7/13 and 8/13 uses the fact that VIN instances on Gen2 now
+have unique IDs and greatly simplifies the unnecessarily complex
+vl4-async notifier usage in the VIN driver. This have in the past lead
+to some subtle bugs and having only a single notifier for all VIN will
+remove a lot of possibilities for this to go wrong in the future.
+
+Patch 9/13 10/13 and 11/13 make to adapt Gen2 to MC in incremental steps
+to ease review. These two patches where previously part of a larger
+one-patch to change it all (now 12/13). There is on state of the series
+with 11/13 applied where controls from the sub-device are not exposed to
+user-space that is then addressed in 12/13.
+
+Finally patch 12/13 removes all non MC code paths and have the Gen2
+devices register a media device and configure links. While patch 13/13
+is a small cleanup that was previously part of 12/13.
+
+This have been tested on Gen3 and Gen4 devices without any regressions.
+And on Gen2 to make sure the media-graph behaves as it should. As a
+bonus the Gen2 devices can now join the VIN CI and any future issues
+should be caught as they are for Gen3 and Gen4.
+
+See individual patches for changelog.
+
+Niklas Söderlund (13):
+  media: rcar-vin: Use correct count of remote subdevices
+  media: rcar-vin: Store platform info with group structure
+  media: rcar-vin: Change link setup argument
+  media: rcar-vin: Use error labels in probe
+  media: rcar-vin: Generate a VIN group ID for Gen2
+  media: rcar-vin: Prepare for unifying all v4l-async notifiers
+  media: rcar-vin: Improve error paths for parallel devices
+  media: rcar-vin: Merge all notifiers
+  media: rcar-vin: Always create a media pad
+  media: rcar-vin: Remove NTSC workaround
+  media: rcar-vin: Only expose VIN controls
+  media: rcar-vin: Enable media-graph on Gen2
+  media: rcar-vin: Fold event notifier into only user
+
+ .../platform/renesas/rcar-vin/rcar-core.c     | 696 +++++++-----------
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  23 +-
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     | 490 +-----------
+ .../platform/renesas/rcar-vin/rcar-vin.h      |  16 +-
+ 4 files changed, 295 insertions(+), 930 deletions(-)
+
+-- 
+2.49.0
+
 
