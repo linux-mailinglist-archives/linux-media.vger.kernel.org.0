@@ -1,142 +1,380 @@
-Return-Path: <linux-media+bounces-34747-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34748-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89102AD8A52
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 13:23:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A10AD8AF2
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 13:44:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10C947A839C
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:21:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1177E17F1A0
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:44:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 922912E1746;
-	Fri, 13 Jun 2025 11:22:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 856DF2E2EE3;
+	Fri, 13 Jun 2025 11:42:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FDQsn+LP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dPKPmXui"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CB72D879C;
-	Fri, 13 Jun 2025 11:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63DD18BC0C
+	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 11:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749813749; cv=none; b=IVKe97a31roAYt3JUgKXWINac5kM9PlwOyrPt5Hp90kY8Hy8OWB5kKxuL8vM1TeBbcSGUy6QdlEWB5KHvuJhiaiaeq5JkuRTRPwVwioKF4uy7iTyz9lb9Fe17y8FC9NlDQpDXln3q2yuYKsVMoOurXv8tLFNweRKVVOEbMi1nlc=
+	t=1749814960; cv=none; b=Xmc1kJ/vuTvRPVDryYO7lE3KX1VT+s7ufqEGXj3x4sQJEW1Ms0WG/XrFp57Hx6E7qOxJ+79+O9pnfa+ZoeWc9Byuvu9vS0UvKLgSszA+Pe7Qqehft3hrJQWg/qAiIP54l6Cz1/6usXmxBfLkJYsCVOU7aF3dv5Z2uBi3edFihHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749813749; c=relaxed/simple;
-	bh=eYjZCfQ0f7Bv/kFih3mI4oepqqLcQ4rw3x9HPwSrX5w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mNTAv1tc0jCOUbjsdVw5FReiIqJBlSuSLbD9OfcUq1s+iC3gv8DSCpqL3kU+k1szi/f+G5DJQQXuiNUbnDhfJizOiluDGApzU95YfUqv9VEG4VsCF6ovBNSneIBzrWW8GoYHAiIEffFvIjqNDtDxjrimZf57+HCGbB38OTxfoEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FDQsn+LP; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ad883afdf0cso394079366b.0;
-        Fri, 13 Jun 2025 04:22:26 -0700 (PDT)
+	s=arc-20240116; t=1749814960; c=relaxed/simple;
+	bh=j+WpPPNJFVv5cc8th/z2eLNPWQbQU7n97BO8H4n+ffk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VWoq3wmaa+BUFhBQSH6fecn8rqnJba9gxFYs10aaWmw2wiXygOmB2SOqt0/pj09tY6jmkCow4awrWpr24j1YmwMWb7M0AJO+eimDoFRTORjiuad+eeGi7ocl6Fx1bLzrX/58bgc47yMx0ne/700WIjf8o996CQKThYhz+fTuPgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dPKPmXui; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso2039084f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 04:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749813745; x=1750418545; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9CHsP8nua2vc48gch5Autt0Ao+kx2eun61DBEUljxec=;
-        b=FDQsn+LPZnZ8qWFmp1+fjIe+Mb4u7vn01UUrQP7uaxkjG9PXopRx/rpGeur1Z3kPtb
-         HwgBemVUacUMu2WpkwGrVpfcYw5nfuEyZao84UnIrVKTUAVPZujtKYP8oeaKSnWwBAFZ
-         K0kXfiXSxKz+J+JrHxHgS99qVSoY+/czbiFSjfELkZ63qwVFHY6ULj/AEHdekpIibf2v
-         3aunNuodv4TWw0EFxGVQtoloFOq37Zuoyt3cVC29klkebvmZMdf00bCTrBtBxpzfaNir
-         t0aMkNlmmlyNrCu2ctrdLOtboxF/k56yRsXwgK27PJ8KkZgg1DCDkukvAyiLu2yLENHH
-         mpug==
+        d=linaro.org; s=google; t=1749814955; x=1750419755; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MvwEhGPx6wb8xbrbsUHrrq52O4YNiUINr5fVID9eklE=;
+        b=dPKPmXuiGOVeHOs5gcat0XHSdBSmIQ3XEmr8rDTHAei2Y0eGSxxTSflxbWbZ0WwSVN
+         1UiOxhrzK2BRPt1HIik2FDNA9nuC616I5eZKlBxFlvLmkT3jDlYFGL0GDit3KRvk9O8Z
+         s5Mar8l8bsKH9BfJlD7kWunPaa+w5W3D5J0ohgH13yE3ZXQqSK1kIXhTD3ou/Z+yjz/i
+         qv0x5ExnLJtZU05htDP4VsFjVf2sGlmUiMPduGR+jDogBMAYFcmWTlInyk22X0m9P0xG
+         0vEZaUwx5aj2oU+4t+s0B8ir0JwUxdleRs+v1cV+wcDW4Xi90Gm/iokgu3RFBgdXRn7U
+         PZYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749813745; x=1750418545;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9CHsP8nua2vc48gch5Autt0Ao+kx2eun61DBEUljxec=;
-        b=v+n884EmMMD8XSMQmxL3dYV34bOuM3Y+OyXioPuOFqWASp1R5tHzjqDupVCAlvUHB2
-         vWg7HzqOseB4fcs6vjRjEUaa6jJDQ0wuKXwUFZDhvDfTj7z58CHhW453iRbrqMGIeRGg
-         eDIGlq5Zn8FAzsniMPrwd5I6xMyVsBT3QgFUGMlm+8mHDBNkD9pgK8IorRJA/4TtZHZY
-         9vOajPLRxwSMFmB6fcFcB0jrhUH+lgwV4jX8u+QhW85hQgjzy/iiNcEDOOaKmj41boEX
-         HWf+Rz0PR8wtPwpEu2LNFIhbl9WlCPKvAMiOzG+uufkNwSt8BUgrVn7Vib0DZXi8xP/3
-         FWMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWCbBrz8R4YXL69mpvvXBdXpvxWE0Hr8/evRzH0Ro8Nby7JuFuFSMaKv32Qz1lthRFtqZ3w3OGoNv1tr0c=@vger.kernel.org, AJvYcCXxgmSqOv2Bb6DOUGrY+jQ0WD/1ifgmop0FB87Si87NaiihEKWHKnJ6puCsJXCXtCX/I+MGloXTO8g3lQQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYc3q77fDZqlUuRHbAezTyVmaBvm0+LidpXxxbBxbyofA88Nvw
-	ic3JNZ18Foo9GMsn9DkQBmt80STjcrpRghX1vSPTz6Xl76kMoyn0fM35
-X-Gm-Gg: ASbGncs/OuJnNAPeBi5yzA0JiWQypqcRunoJNSUlU8BdsPtlHJElHzwIrnWuqN8hsN/
-	+V7tbOSYMj6GBj4RKaWTJ1/KNMU1wd/C2asN154wko86cmd4RerBGkEAm9VzFq7jzrItW98e5V2
-	1PMazPDV/UGq7A0xfJoU7uckLExfzc+GyX6bAw0m1PRzK0kdTjWuESd2Ru2cIhZMLxfsTVqZEyh
-	LRzQMr5gy0TkMnhmlYQE5J21Kf8q4iEsUx9eDHP1Ici2yukf7f8jV0jj1D8pSHNbLO4/Q6HfB12
-	NBSSEkKSPiiFFQPZhTe9RsEBhRH4CzugRBI4dBlr4fW/tqXcdO1FXrev/4E4It9bJuZDFvutCHc
-	=
-X-Google-Smtp-Source: AGHT+IHgzOkzboGNgtSvrNDUN1A1i0mKlOmr+iJfBERSN6L+klxvs3TkoUpW8lt4rPaYCN13Y5T0Ig==
-X-Received: by 2002:a17:907:8692:b0:ad8:9257:5717 with SMTP id a640c23a62f3a-adec55ee118mr259342566b.13.1749813745190;
-        Fri, 13 Jun 2025 04:22:25 -0700 (PDT)
-Received: from demon-pc.localdomain ([188.27.131.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec892b99asm111022566b.125.2025.06.13.04.22.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 04:22:24 -0700 (PDT)
-From: Cosmin Tanislav <demonsingur@gmail.com>
-To: 
-Cc: Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Cosmin Tanislav <demonsingur@gmail.com>
-Subject: [PATCH v5 3/3] media: rc: ir-spi: avoid overflow in multiplication
-Date: Fri, 13 Jun 2025 14:21:53 +0300
-Message-ID: <20250613112210.22731-4-demonsingur@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250613112210.22731-1-demonsingur@gmail.com>
-References: <20250613112210.22731-1-demonsingur@gmail.com>
+        d=1e100.net; s=20230601; t=1749814955; x=1750419755;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MvwEhGPx6wb8xbrbsUHrrq52O4YNiUINr5fVID9eklE=;
+        b=LlEP25KwUW4MiW5oj3Q8WcaYOS4JiaiyVO8FRtQzOTlR93ug2UCMsh9/D9sj8UdLI8
+         JhD1aDnksmXjVnp6OkpjXpOT5AsrhszfYPM/rk7ubMq4cXK5vC7teQOg5fARM3c8cWDw
+         9CMZYutFnds1bc7HMrkcKIGVeKzEh1OSkVYwObRbblzzfdFZY2nedYWKt8P7GzoXDppz
+         fwTDeYZTQf2zepMYRYepQgVbYh4JhTOAkL4LhHnlPgUfWqGAHqgxi2Md90emMJdBgVPO
+         aQz+oYvecJHFhcqqtW01OTOJvaqDIf62grojsy3Q16v3CkrF3q6RtBGNbvHVqonCA5Y1
+         luxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHsZkyBlkE1swuScAR0zJleAHA7y+BsXG1OfTf/FwY4B0sXZZeRX1lzlUrHmZXMwsbO65hnpgsP0iTIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx106yYSqJfBHx8/gqQiVGuLS5q+s0GgL0Ra1pUn0lEudy5/w5v
+	08dx3WvrL6FblOp45UGGX6bvhxseer1iZBVpamQ6fFMEr94PlfZjdCFcSbbCyHZQMKE=
+X-Gm-Gg: ASbGncs28giA7vLnZxvQns1VFbojqJ6TILPgsan1F826exyxl6exyY55dHs2hLCYa23
+	jVzAcKKXJr5OO/6dMdYb2sjVaS2KC7ZRauVYmhjW62bCt1875xRB0V7t1x03JCAsLMaylvzf+fI
+	5FhQ5OAgWnk3ETGstjzbqb6OiS9owUvNO4ie43UwDIrDpp6dvVgdSnbt6S5ADfocJ9dHlDFiTgj
+	Ygw510Rw2QWkdrqE+TObGcnUQoIqsqdHlU90V+bPJc3lVxUS+VPOJfdmhTh1TWnrdlFssdE/daZ
+	1614tzHI3JtyR30JkwzjY1vHT09KfSvGUi3409iioLOSVo2yp8BmX4tgbyNFws8ZTtd52rmTKAv
+	yyCQEJrazERC4O1n7M26NVvOx9C8=
+X-Google-Smtp-Source: AGHT+IFHSX81XGRTonZWsTCONugCLIzvlTJnwuwWqkN66G3W6Veq1ddBm9U4o0xZRHNlrQelgSceTw==
+X-Received: by 2002:a05:6000:4205:b0:3a5:3e64:1ac4 with SMTP id ffacd0b85a97d-3a5687665e0mr2632048f8f.33.1749814955260;
+        Fri, 13 Jun 2025 04:42:35 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b08e21sm2136681f8f.52.2025.06.13.04.42.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Jun 2025 04:42:34 -0700 (PDT)
+Message-ID: <59944b49-67dd-43a8-b6a4-a1ad0b9baa59@linaro.org>
+Date: Fri, 13 Jun 2025 12:42:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] media: dt-bindings: Add qcom,msm8939-camss
+To: vincent.knecht@mailoo.org, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250613-camss-8x39-vbif-v5-0-a002301a7730@mailoo.org>
+ <20250613-camss-8x39-vbif-v5-3-a002301a7730@mailoo.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250613-camss-8x39-vbif-v5-3-a002301a7730@mailoo.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Switch to u64 arithmetic and use DIV_ROUND_CLOSEST_ULL() to avoid
-the overflow.
-
-buffer[i] is unsigned int and is limited by the lirc core to
-IR_MAX_DURATION, which is 500000.
-
-idata->freq is u32, which has a max value of 0xFFFFFFFF.
-
-In the case where buffer[i] is 500000, idata->freq overflows the u32
-multiplication for any values >= 8590.
-
-0xFFFFFFFF / 500000 ~= 8589
-
-By casting buffer[i] to u64, idata->freq can be any u32 value without
-overflowing the multiplication.
-
-0xFFFFFFFFFFFFFFFF / 500000 ~= 36893488147419 (> 4294967295)
-
-The result of the final operation will fit back into the unsigned int
-limits without any issues.
-
-500000 * 0xFFFFFFFF / 1000000 = 0x80000000 (< 0xFFFFFFFF)
-
-Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
----
- drivers/media/rc/ir-spi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
-index 0b54ad74cec0..392441e0c116 100644
---- a/drivers/media/rc/ir-spi.c
-+++ b/drivers/media/rc/ir-spi.c
-@@ -46,7 +46,8 @@ static int ir_spi_tx(struct rc_dev *dev, unsigned int *buffer, unsigned int coun
- 
- 	/* convert the pulse/space signal to raw binary signal */
- 	for (i = 0; i < count; i++) {
--		buffer[i] = DIV_ROUND_CLOSEST(buffer[i] * idata->freq, 1000000);
-+		buffer[i] = DIV_ROUND_CLOSEST_ULL((u64)buffer[i] * idata->freq,
-+						  1000000);
- 		len += buffer[i];
- 	}
- 
--- 
-2.49.0
-
+On 13/06/2025 10:33, Vincent Knecht via B4 Relay wrote:
+> From: Vincent Knecht <vincent.knecht@mailoo.org>
+> 
+> Add bindings for qcom,msm8939-camss in order to support the camera
+> subsystem for MSM8939.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> ---
+>   .../bindings/media/qcom,msm8939-camss.yaml         | 254 +++++++++++++++++++++
+>   1 file changed, 254 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..9fbb4b204ac8728b822864ad8336aa9d826d6b5b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
+> @@ -0,0 +1,254 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,msm8939-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm MSM8939 Camera Subsystem (CAMSS)
+> +
+> +maintainers:
+> +  - Vincent Knecht <vincent.knecht@mailoo.org>
+> +
+> +description:
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,msm8939-camss
+> +
+> +  reg:
+> +    maxItems: 11
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csi_clk_mux
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csiphy0
+> +      - const: csiphy0_clk_mux
+> +      - const: csiphy1
+> +      - const: csiphy1_clk_mux
+> +      - const: ispif
+> +      - const: vfe0
+> +      - const: vfe0_vbif
+> +
+> +  clocks:
+> +    maxItems: 24
+> +
+> +  clock-names:
+> +    items:
+> +      - const: ahb
+> +      - const: csi0
+> +      - const: csi0_ahb
+> +      - const: csi0_phy
+> +      - const: csi0_pix
+> +      - const: csi0_rdi
+> +      - const: csi1
+> +      - const: csi1_ahb
+> +      - const: csi1_phy
+> +      - const: csi1_pix
+> +      - const: csi1_rdi
+> +      - const: csi2
+> +      - const: csi2_ahb
+> +      - const: csi2_phy
+> +      - const: csi2_pix
+> +      - const: csi2_rdi
+> +      - const: csi_vfe0
+> +      - const: csiphy0_timer
+> +      - const: csiphy1_timer
+> +      - const: ispif_ahb
+> +      - const: top_ahb
+> +      - const: vfe0
+> +      - const: vfe_ahb
+> +      - const: vfe_axi
+> +
+> +  interrupts:
+> +    maxItems: 7
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: ispif
+> +      - const: vfe0
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    items:
+> +      - description: VFE GDSC - Video Front End, Global Distributed Switch
+> +          Controller.
+> +
+> +  vdda-supply:
+> +    description:
+> +      Definition of the regulator used as 1.2V analog power supply.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
+> +
+> +    patternProperties:
+> +      "^port@[0-1]$":
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +              bus-type:
+> +                enum:
+> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - iommus
+> +  - power-domains
+> +  - vdda-supply
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,gcc-msm8939.h>
+> +
+> +    isp@1b00020 {
+> +        compatible = "qcom,msm8939-camss";
+> +
+> +        reg = <0x01b00020 0x10>,
+> +              <0x01b08000 0x100>,
+> +              <0x01b08400 0x100>,
+> +              <0x01b08800 0x100>,
+> +              <0x01b0ac00 0x200>,
+> +              <0x01b00030 0x4>,
+> +              <0x01b0b000 0x200>,
+> +              <0x01b00038 0x4>,
+> +              <0x01b0a000 0x500>,
+> +              <0x01b10000 0x1000>,
+> +              <0x01b40000 0x200>;
+> +
+> +        reg-names = "csi_clk_mux",
+> +                    "csid0",
+> +                    "csid1",
+> +                    "csid2",
+> +                    "csiphy0",
+> +                    "csiphy0_clk_mux",
+> +                    "csiphy1",
+> +                    "csiphy1_clk_mux",
+> +                    "ispif",
+> +                    "vfe0",
+> +                    "vfe0_vbif";
+> +
+> +        clocks = <&gcc GCC_CAMSS_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0PHY_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0PIX_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0RDI_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1PHY_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1PIX_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1RDI_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2PHY_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2PIX_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI2RDI_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI_VFE0_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI0PHYTIMER_CLK>,
+> +                 <&gcc GCC_CAMSS_CSI1PHYTIMER_CLK>,
+> +                 <&gcc GCC_CAMSS_ISPIF_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_TOP_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_VFE0_CLK>,
+> +                 <&gcc GCC_CAMSS_VFE_AHB_CLK>,
+> +                 <&gcc GCC_CAMSS_VFE_AXI_CLK>;
+> +
+> +        clock-names = "ahb",
+> +                      "csi0",
+> +                      "csi0_ahb",
+> +                      "csi0_phy",
+> +                      "csi0_pix",
+> +                      "csi0_rdi",
+> +                      "csi1",
+> +                      "csi1_ahb",
+> +                      "csi1_phy",
+> +                      "csi1_pix",
+> +                      "csi1_rdi",
+> +                      "csi2",
+> +                      "csi2_ahb",
+> +                      "csi2_phy",
+> +                      "csi2_pix",
+> +                      "csi2_rdi",
+> +                      "csi_vfe0",
+> +                      "csiphy0_timer",
+> +                      "csiphy1_timer",
+> +                      "ispif_ahb",
+> +                      "top_ahb",
+> +                      "vfe0",
+> +                      "vfe_ahb",
+> +                      "vfe_axi";
+> +
+> +        interrupts = <GIC_SPI 51 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 52 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 153 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 78 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 79 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 55 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 57 IRQ_TYPE_EDGE_RISING>;
+> +
+> +        interrupt-names = "csid0",
+> +                          "csid1",
+> +                          "csid2",
+> +                          "csiphy0",
+> +                          "csiphy1",
+> +                          "ispif",
+> +                          "vfe0";
+> +
+> +        iommus = <&apps_iommu 3>;
+> +
+> +        power-domains = <&gcc VFE_GDSC>;
+> +
+> +        vdda-supply = <&reg_1v2>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                csiphy1_ep: endpoint {
+> +                    data-lanes = <0 2>;
+> +                    remote-endpoint = <&sensor_ep>;
+> +                };
+> +            };
+> +        };
+> +    };
+> 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
