@@ -1,137 +1,149 @@
-Return-Path: <linux-media+bounces-34706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34707-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A631AD8529
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 10:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81691AD853A
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 10:06:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0DBAA7AA120
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 07:59:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1CEC87A7904
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 08:05:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 963252DA773;
-	Fri, 13 Jun 2025 08:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9FD919D8A7;
+	Fri, 13 Jun 2025 08:06:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="rnQI1S+L"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EsU2OSJH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0082DA769
-	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 08:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5898E2DA74E
+	for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 08:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749801660; cv=none; b=lks4oQGlSGutAE/RdAbaqtgXTEZ480TOMDcNIewpQuo7LOal3rOTHriHCPNXPC97LLgxpikyZi3KX5ZZfvsyvEcofS6wLHzc4v67eUjARoHvMlmY7W/K5J2KvbJxGvEX6kNaBzMEmYu0y8Plm5bGToydAsaCKL3n9yHEAqpnqbI=
+	t=1749802003; cv=none; b=Bzyh5g47pZzIMmOOfhsoREmssedzjmwTQ4Yf8j28QRUzOwrx/92RcUuIRQ/kquu223oIy2gencbl61NM9Jdb/7YT+ILlTa/n52GYA3n9kWiv6j+xBoYyK2aLn8qwNNpSg7HOPffZS1ms0gtdp9bKJdh5s1DZ9lsX2LffVJaBzjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749801660; c=relaxed/simple;
-	bh=Ws8XhwtwvWOU55Frj1wRUPb+hHnGps1SWIULhHNYZXs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dIZQCf72G6Ewq/JFl4CZX74LlVSxaSpCXHXzZxlAxb1OtIrh7tq471A5NwgdWAsv78MsIFg7R38W1cW2q4NTh8hZsyDV/YtzDih1BZ6GoI6iWq8fs+a5dd4xkLEHzXXuKDp4Kpj5IpJ8eemOS5Lvsy2nrdQVES5athxmbrlbg4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=rnQI1S+L; arc=none smtp.client-ip=209.85.217.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4e7cf73ffb1so41200137.0
-        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 01:00:58 -0700 (PDT)
+	s=arc-20240116; t=1749802003; c=relaxed/simple;
+	bh=SS6GUy7+iSGrMAI8Lio5hdVZyVEhieiGp9O0m4ddPPQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HA0n2zjchwhll3DoCydy6Y+9bsD5ShVFfpK/Wlexv7EE+tQrbwyFSZVz1ZiZjBnPDvv7wMZui2HwVsrGImHpTY1qV4OJ9+rMqYvz8ZM7aVOC3usTZa/Wxi5cPPsz7J/k5Na37nJdsZt5ysSJe6nQelz2ZUre15KoFh9/nqriDJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EsU2OSJH; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a5123c1533so1184679f8f.2
+        for <linux-media@vger.kernel.org>; Fri, 13 Jun 2025 01:06:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1749801657; x=1750406457; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=scJh8d+O+EnR5/uIkek0nD2hCc6IGYE1UTUEZv0y62o=;
-        b=rnQI1S+LscwI4TCgTek8nlAfwjmrkn4EfzRnEpMN2VTpb711jc9XR+EOcZ/2k+Xh5W
-         MwgDnKA0INONsaFZX+xZWNbK/IUUzdlMKITtszCy4houosCFOAIuohN/Kq7a533Zza2v
-         NgYYyybTJYFUHH14EPAuMGzSxRqgsCMKWJsEcT1CJos6jr7aCZx62wtxFCBxJWTggGIq
-         R7s1yp+BXWXpKWVxpWTbrqvwhA9EbDerPT/4dnMJZXCTqS7HilXV0VDwscl3RnqOa3/B
-         TnRc4gapa8/MxDjhOHslCfDcJAoYIfqmyxD9HoCmNF9wEIfht5yPJrxCb+nogr8uAF2p
-         SeoQ==
+        d=linaro.org; s=google; t=1749802000; x=1750406800; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qkqDFUZXCEB8bR8DaJ2XDhGAG8e6Iv9Jz4tCnxztU5U=;
+        b=EsU2OSJH8aW92PaxpbLI9nQ0uktIgs64bW6Q/7YE+yj5YTwjEP5wr/44RSb4s4PT9Z
+         i0JrxeE95LjFUAm84dOodnUN2O47ha1oJV5BDUm7TboIxCel4kdWE1AZ148oqQYVNV0X
+         V35e42BUX38VqqzxxlLSAsxopnYvwsHKlyWO8Uy9D1KkE6c95rJLKjqLwZbnyFyBpqWT
+         XCA0PbRQz0tnDtigC25LeOxgVoCmZ5Es11wBvWvH5W+finrYiZA7fqCSsKsQzzpU4rF/
+         qcs3DgYtWDqR0j2Ec+HTfRTHI7+gjxzs5CItLEYzeFuhX3pVXiTR4EOo2BFh8lcu7H3v
+         25/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749801657; x=1750406457;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=scJh8d+O+EnR5/uIkek0nD2hCc6IGYE1UTUEZv0y62o=;
-        b=LyZxkoVsCsXaOnkjRxy+sP1EkHbfW23WPFTFgfuc/ilN+08rIGXre4Wpx1poSH+xwX
-         hcdFdFMu9Q/obLHpdhdahUaBbH5LmxRbquGtLw6H6c+CEv6S7vWWyQKZaVJz23yGam+s
-         zpKem3vBM/1dFmpRbivEYM7KJWF8N2ak68VBAGDaURwNEMqFvNs+lgBZytfGjPhVs9D5
-         UnSOf79rK9KHVf8nET8YKKcMMUWaIYwobsxyWLNW6yuaKcRaAo/230tErYDQhlPAmIIT
-         3ajQ16a3YDip6Lw86B1U/Ajl4sGK4N5jYZdQoph3meVmoK6+BWUerD38TjSHAAeHWM6K
-         k96A==
-X-Forwarded-Encrypted: i=1; AJvYcCVAFUfq49VkMCKoasSPhAsFiMlDBd/U+qNC3F4XPCV0HWZPahzGNK1CjZfNRxRO2bpty5kitgkpVUeFOw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEAlX2/girhbwx82xiwH7nxp3vCR8wGmWWycdNbDtM3FdBQGe+
-	znLVbfjMy/e+KFcWOUYgDuOhqaZyJzuoyHdRe5iW2lDqWjWw0JBRGZ0HSMLDdrIqHByaf2Y2ohM
-	mjbTK6aeUPOKeLPlnw9sHW6pcWdm4rE1RGNqJVRHGRg==
-X-Gm-Gg: ASbGncsjmk7R8ikLdvfYjrr6kH3aM2TNLwsrz4N0JM6xogw3GD6vOGmlBWFBYQPgxts
-	FL3Bvw/9EmZgnMQTYFPwgTcy9m7bk7t7KHVfBmncE+stPK85laVBZA/JCSemadd/Ae4/XLYw/eb
-	IA+3dKOFYsnW+v+VMAwwleaIljrsxOguOWO4Fj4b3kMlw=
-X-Google-Smtp-Source: AGHT+IEZWUu8qgwgkkTm+CsEr8/FtKkNy57Yjq6xd1uwQZiobmrafqc2LqOzs6ELakL2gDMWs9lVgnozIjy/ssY7uWE=
-X-Received: by 2002:a05:6102:80a8:b0:4cd:6339:36a1 with SMTP id
- ada2fe7eead31-4e7e360e5c2mr419047137.0.1749801657328; Fri, 13 Jun 2025
- 01:00:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749802000; x=1750406800;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qkqDFUZXCEB8bR8DaJ2XDhGAG8e6Iv9Jz4tCnxztU5U=;
+        b=RI2ENBqlFJ2qFnDy0srFh0ZklXEWESmYxWow7sRZ7H89Jy7R8uF2kYnic1SJx9kvvA
+         2vW7TYbzTeCLZc2Sg1qwv+GhKAuD8f0aYHLR3lCZ8NMWvl6DKuavp3Hw6ChjN7e59RMl
+         BZn5zNn4j2Dr4E/cXN4gqvlBh08RatIqH0PijX8hsbYz4HxWr5QB/cHr+BFO7z8CO3JV
+         oURGwrpw9uGl/B5vw5MsA5LvT2X7fWTqUgVR8w2XlqjIgy3biWr2Bq2EdmhjoW/3Sh0A
+         EWk6IDmScqts4xwZ+kVCEIeTPWJ7x7yd9hzHBTDjj2I4T9I8ZiLDKxlpg+F7Gcn02od9
+         cQOw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9XQ5hlB2BqonasSQyaD0/zfLwDRBxdXurMkfqiJy+yx12tOjo0Gtj1a12hbcwI7Xdtu/2lCQTe5XBkg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrGS0VfNrZz0aLHxmT6jMjhw+0fQaosZ2Lk4mCbKv0PdjTgZfd
+	TwQmsx8zCM5dNqXZshjFgOxhWMGK2G4+ar0va4h5jVNvm321tRRXdiaLvsHDJZES4g4=
+X-Gm-Gg: ASbGncttBmZ8aq5lAcp6uujxUT89pz5JG78OQa8bW7Rk+7AaXpNTyDvCcFN8JP+mylW
+	I7fd5IGvbyVxrdzRuYsioRIlE9KfrPZkDf6OmCp7tNeXeyA3+4Gxy/rr2QHGxrWaEq87C6Nu5Sx
+	kE+v7R9PozsGCnKM/QIjV9+L0GhN9n4tpzLw1dxGW7iZb1ckHdkF1gfwqmw3ZXyriv5jBFgew/S
+	btfVTCpcFTTSXjSjJgw59e7DwTkvdjZV7vxMAYQzSGqMj1xpbs4PDDRzL6TQ09gvkJ2BEDidgZP
+	B+3eyjiqENbve8srCM1ZMSG/gdcrlSoHR0pf8Cjje5lPFhzoe6SQshUx+zEjZGSFszTBMV7abMG
+	tYKGPQVs/K/r4xAxJHHeBYIQQLbg=
+X-Google-Smtp-Source: AGHT+IG/O5UhDJVykXf2VjbwfD0QSNx5aG0GPegjXalhCDoQfY+0ubOtvsqOybm9J5xA3EHEjqAziQ==
+X-Received: by 2002:a05:6000:3103:b0:3a4:eb80:762d with SMTP id ffacd0b85a97d-3a56871e167mr1902935f8f.56.1749801999608;
+        Fri, 13 Jun 2025 01:06:39 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b4ba58sm1540669f8f.84.2025.06.13.01.06.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Jun 2025 01:06:39 -0700 (PDT)
+Message-ID: <03f54bb4-ddbb-4be8-9f9b-8328fdb98443@linaro.org>
+Date: Fri, 13 Jun 2025 09:06:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250606-pispbe-mainline-split-jobs-handling-v6-v7-0-46169f0622b7@ideasonboard.com>
- <20250606-pispbe-mainline-split-jobs-handling-v6-v7-1-46169f0622b7@ideasonboard.com>
-In-Reply-To: <20250606-pispbe-mainline-split-jobs-handling-v6-v7-1-46169f0622b7@ideasonboard.com>
-From: Naushir Patuck <naush@raspberrypi.com>
-Date: Fri, 13 Jun 2025 09:00:23 +0100
-X-Gm-Features: AX0GCFskqlJzEMkB9GaVu-uc5hw9nEwjPjnaSfW8bP-WdW4AyG8urU3mzC4FJLI
-Message-ID: <CAEmqJPp+jG7tX+urwPdCs=Nxi54v4j0_hxaeYUB6GUzB6F3JCg@mail.gmail.com>
-Subject: Re: [PATCH v7 1/4] media: pisp_be: Drop reference to non-existing function
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>, 
-	David Plowman <david.plowman@raspberrypi.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] media: qcom: camss: Add support for MSM8939
+To: Vincent Knecht <vincent.knecht@mailoo.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20250602-camss-8x39-vbif-v4-0-32c277d8f9bf@mailoo.org>
+ <20250602-camss-8x39-vbif-v4-2-32c277d8f9bf@mailoo.org>
+ <877a72fa-cdae-4a66-9991-5ea86ef76aac@linaro.org>
+ <e73d676ba1901437d471a2a633e94a07b19a3e05.camel@mailoo.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <e73d676ba1901437d471a2a633e94a07b19a3e05.camel@mailoo.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+On 07/06/2025 22:43, Vincent Knecht wrote:
+> Le vendredi 06 juin 2025 à 13:59 +0300, Vladimir Zapolskiy a écrit :
+>> Hello Vincent.
+>>
+>> On 6/2/25 20:27, Vincent Knecht via B4 Relay wrote:
+>>> From: Vincent Knecht <vincent.knecht@mailoo.org>
+>>>
+>>> The camera subsystem for the MSM8939 is the same as MSM8916 except with
+>>> 3 CSID instead of 2, and some higher clock rates.
+>>>
+>>> As a quirk, this SoC needs writing values to 2 VFE VBIF registers
+>>> (see downstream msm8939-camera.dtsi vbif-{regs,settings} properties).
+>>> This fixes black stripes across sensor and garbage in CSID TPG outputs.
+>>>
+>>> Add support for the MSM8939 camera subsystem.
+>>>
+>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+>>
+>> There was a preceding and partially reviewed changeset published on
+>> linux-media [1] before v1 of the MSM8939 platform support in CAMSS,
+>> due to a merge conflict this platform changeset should be rebased IMHO.
+>>
+>> [1] https://lore.kernel.org/all/20250513142353.2572563-4-vladimir.zapolskiy@linaro.org/
+>>
+>> --
+>> Best wishes,
+>> Vladimir
+> 
+> Thank you, I'll look into it
+> 
+> 
 
-Thank you for tidying this up!
+I think I will take 8939, plus any of the other now 3 SoCs waiting to be 
+merged with RBs.
 
-On Fri, 6 Jun 2025 at 11:29, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
->
-> A comment in the pisp_be driver references the
-> pispbe_schedule_internal() function which doesn't exist.
->
-> Drop it.
->
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Bindings consistent with the last 10 years can go ahead. Its not 
+reasonable or in the interests of the community and developers to gate 
+any further.
 
-Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
-
-> ---
->  drivers/media/platform/raspberrypi/pisp_be/pisp_be.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> index 7596ae1f7de6..b1449245f394 100644
-> --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> @@ -368,10 +368,7 @@ static void pispbe_xlate_addrs(struct pispbe_dev *pispbe,
->         ret = pispbe_get_planes_addr(addrs, buf[MAIN_INPUT_NODE],
->                                      &pispbe->node[MAIN_INPUT_NODE]);
->         if (ret <= 0) {
-> -               /*
-> -                * This shouldn't happen; pispbe_schedule_internal should insist
-> -                * on an input.
-> -                */
-> +               /* Shouldn't happen, we have validated an input is available. */
->                 dev_warn(pispbe->dev, "ISP-BE missing input\n");
->                 hw_en->bayer_enables = 0;
->                 hw_en->rgb_enables = 0;
->
-> --
-> 2.49.0
->
+---
+bod
 
