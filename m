@@ -1,143 +1,126 @@
-Return-Path: <linux-media+bounces-34743-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34744-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079A2AD8A19
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 13:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E643DAD8A4C
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 13:22:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77BAA1899CE7
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:13:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A0E2189D3C3
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jun 2025 11:22:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DA192E0B7B;
-	Fri, 13 Jun 2025 11:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A25D2D5C9C;
+	Fri, 13 Jun 2025 11:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4kKdw9S"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lStUkEtw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0F72D5C63;
-	Fri, 13 Jun 2025 11:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DC12D23BA;
+	Fri, 13 Jun 2025 11:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749813157; cv=none; b=SIE0oH12zaJNGQgTffdst6kxIlvMHSdHjKBEYy+I2T6tBLLm1saRCC7H6t+Oeby9jOEwmRYks9xmPIF8QrY9j0yTcZQ9MT4hLokl2PyDMnYrnU3AKhmYs+G+X3KWaJNG3W+rmJyX31Qq8VbqNmjvlQW1EWa7vNTy6dO7O9ssolU=
+	t=1749813742; cv=none; b=dxi/p4cAe1vnDMwMgxDbzbcZhUGHZ8set69cqKae35bCMOAPRNU5osHmxNAu2j32NLy0pZJj27i2eOzcMfo+L0WC0QI+LWwRBBr2Lw+ljf6vqBim60oacPZlMTt2iO8xTV87hgLMBcF1drixkcbypjFW2gi0n8/2yropYaV5oV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749813157; c=relaxed/simple;
-	bh=3JSffdcKG1BEdfLxDkvCLXE5WcpkgQe1rrYaCHuFNrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gxwTZXmvmzlIjd4Wtz6vucKvPu0KgqWuIKw28WuizKOHJ7y3czPBm4Rur1Ps/ffXaM7s8DybRV8AjDdtHSSR0JHY6HSTPCpnO8/dVsa/60T+DKMWwm5bopFKdY+SEnPiwvXWy++8WUKPaPr290dXLifV2tuCDI/ePYyZOb/x6sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4kKdw9S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE8AC4CEF1;
-	Fri, 13 Jun 2025 11:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749813156;
-	bh=3JSffdcKG1BEdfLxDkvCLXE5WcpkgQe1rrYaCHuFNrw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g4kKdw9SM2bno1fEAUiCi6mw5ZmG2oOwM9TdgZeIyT1IQbX7X77HcJ1LYqfuskboa
-	 JGRT3GgKJU7HfdKVHhEwM6RbZVBVlK/P5c4ZU4IqGpHDoM9jVWM/ytqZuhOEoKayrO
-	 xTsq76VB+ZzyRppRpOMFJJN6JOHbjdwagkrEFx3Ng0/lhqAyAceklyVmJaQug8641Q
-	 JSHHo90KaBC05xuTm1/zTU/9LwbDwYf8mzg7yZYfDEuuM89nlEVvUy9Ws3qrTN5xaj
-	 +W1kJlaU5hXI6P9GIWNe9FGwWwkVeh7uwqDhoiXxU9TaeL0RzbPSSxvPd6dZscVPeL
-	 2OG33FATjlbqg==
-Date: Fri, 13 Jun 2025 12:12:23 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
+	s=arc-20240116; t=1749813742; c=relaxed/simple;
+	bh=h5XJn4jKKPyJl4ZR+oCf81faL03F5ytH65S0Mpvxubo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cSzOH8jWu5qTt6Uc2jyqNMssUdsqwGc7Ua3oL80trgLYkHjg8DfENnmQz0ULaFL/RfSe1TeKhDG7yavFrnALqKFmTjU6sLtxe/D7bQ0cY3xYd92dyaKMmhq5N325KmqNnvEn8VH2n7pTW4OcwSX5SWBSz9qA8LH5e6s0w6r/KaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lStUkEtw; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ade76b8356cso388147566b.2;
+        Fri, 13 Jun 2025 04:22:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749813739; x=1750418539; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+jRErl1Hd6c1H2bSp37oguSwzUv2R5RPWGmw0G5pGgA=;
+        b=lStUkEtw75GQNTsaCAwPVVge0OH2qAHmmgr/C7PBrWyi2Tks0AjOdEMTFhur8mxg4g
+         WyihMB64p57Qm6WKfxPQLKufz8k2z7BxUUs4u5Ywy9Jt+sTMMH5laDL/wvT08CxV3TYK
+         Mm+gA9GOYabAczu42NyMiVgDHtd2mcQvQznwjbmgr40iLod5wyWXqjxIjlDBxG6iEXrj
+         ERfsRp2AfvaJrv+NYTHTPgK4rFMVZwyINb30aTSIy05neUR7vIvc/G3kPnvDclK639iH
+         Xe8N0mKQ6OV1TVk4Pq4uSoWyhl4MeSKtLPzJIgRhpCkfG/R7jp4WhcvAKN4yuL9iJ84V
+         nnPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749813739; x=1750418539;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+jRErl1Hd6c1H2bSp37oguSwzUv2R5RPWGmw0G5pGgA=;
+        b=EY4B/fOUe3D0Yr7GxrsoBfDFRCSth+G18pYJLzCoV/o/QTzxz0RsHqweUrY/cERo3g
+         xLPK/RT4vpLgzDwzW46FQ/9eLZYCoZQU1qE0S3bUrf62UmpHxDMZZwQM6FCdk5nP0CH2
+         dqFAt5+re4xeUqEM7n5mRsfiauJ/VdWbnm//vcgphatVO0meK08Dz0f5vhtaGkssyx4H
+         l5H0h/GqCXaY9cfUh5EZeAji8jPGp5NoBC0xp2zGt8hM0INM62l0OSxCE9I4+YQqC64U
+         ErULY+t3Yzi7iG2XfPrsP2gVBIysgOUsbtrYID+eqRny8kvMZLudJ2NrrsNDrMQz00m2
+         AjYg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnUwM1mQWIK2Jro6m+jP0B164N/JBsvkS9zqmTIORRzLVnZUAW2CoQN9l9MorZhqXSeIzN3q8WS4mVzVQ=@vger.kernel.org, AJvYcCWMAGfetPpDBSWC9yNnMyD54QRWk6NA321CiN+Mdl56eQuvkRo1Vg5droviP1u/NOs4GiFWQ4eaJ1yeYvE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1J70tCIqZEPcfwDZRieeIqsNliwRUEu/8gSXGIbKX/hzTAwjh
+	4ZA3/wdR4gqe42Qxpo4EEkWgYGkCiQ5JT0IEoPfwZmrN9mDsNiP30/7D2LQbzg==
+X-Gm-Gg: ASbGncuDwD/A7SyTuZ8jenjLTY+T6bL7DUci1mHvqLPd/MAy+QR3dpQsIlqYcLVUW47
+	BHlcsp9SjEIDbhShRTk2C0i9pvBmW/cBx6R+6ThVyhICjZQC/wDDHu+jyz318l81p+glagj+NPl
+	KkaZ542uYgP4j4ZgP2+rzJKU0ci20bcGhnMLUm2aWMnZKpT8GSk5WdY37bBfqX5SmEoJVKTrhRt
+	hqehqccNgIaAmbN3p7PTQ++sssuDZhN+5N3n9HbWIDe8Uq9uL6qvyDUx+3xFWNd6m/SaH8Jurko
+	bikM7jazPs+hjGCWuBLb/4BW5yIqlrEGnZ9zfdeeADcCgX5SO2umPrPoL7CP6WZlCAytb5Hcthw
+	=
+X-Google-Smtp-Source: AGHT+IEw0poj/QFAw6cUUkKrZtgbwtpHCJ4kHnURQ/8JggrN75ucG41fhMexA9oOXUzpkknbm3FjEQ==
+X-Received: by 2002:a17:907:8692:b0:ad8:9c97:c2fc with SMTP id a640c23a62f3a-adec55ee144mr247898366b.13.1749813738900;
+        Fri, 13 Jun 2025 04:22:18 -0700 (PDT)
+Received: from demon-pc.localdomain ([188.27.131.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec892b99asm111022566b.125.2025.06.13.04.22.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jun 2025 04:22:18 -0700 (PDT)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: 
+Cc: Sean Young <sean@mess.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH 14/20] ASoC: rockchip: i2s-tdm: switch to
- HWORD_UPDATE_CONST macro
-Message-ID: <f38ea320-8eaa-4eea-85c1-63d44c8d359a@sirena.org.uk>
-References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
- <20250612-byeword-update-v1-14-f4afb8f6313f@collabora.com>
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [PATCH v5 0/3] media: rc: ir-spi: allocate buffer dynamically
+Date: Fri, 13 Jun 2025 14:21:50 +0300
+Message-ID: <20250613112210.22731-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="EoywhozqJ8iTP5HR"
-Content-Disposition: inline
-In-Reply-To: <20250612-byeword-update-v1-14-f4afb8f6313f@collabora.com>
-X-Cookie: Use extra care when cleaning on stairs.
+Content-Transfer-Encoding: 8bit
 
+Replace the static transmit buffer with a dynamically allocated one,
+removing the limit imposed on the number of pulses to transmit.
 
---EoywhozqJ8iTP5HR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a check to constrain the carrier frequency inside
+ir_spi_set_tx_carrier().
 
-On Thu, Jun 12, 2025 at 08:56:16PM +0200, Nicolas Frattaroli wrote:
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
->=20
-> Replace the implementation of this driver's HIWORD_UPDATE macro with an
-> instance of HWORD_UPDATE_CONST. The const variant is chosen here because
-> some of the header defines are then used in initializers.
+Switch to u64 arithmetic to ir_spi_tx() when calculating the number
+of pulses to transmit.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+V5:
+ * add separate patch to solve overflow issues in ir_spi_tx()
+ * avoid overflow in carrier frequency constraint
 
---EoywhozqJ8iTP5HR
-Content-Type: application/pgp-signature; name="signature.asc"
+V4:
+ * add separate patch to constrain the carrier frequency
 
------BEGIN PGP SIGNATURE-----
+V3:
+ * move the allocation to be done per-TX operation
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhMB5YACgkQJNaLcl1U
-h9Bobgf/dsPkAlIpLO/GS4oVRLlRiPIWa/agIoUuXFfDugqesR7MdX12gZHAzJ9s
-BnznMlPSuOjDnlFPdVpRCgVr4iPfs88ixFAuy/SjKEjvV8VYAUBEs1sg2JykJyMZ
-SkQ69/Iii/uButuWqecqljEHZvL7j67axT7KsEimeZ1zynLexrz7vtE6t4P8p+YE
-7qrc1oKA5kjXrIug8enyLvuLzI75M7MfzuRaooCPej44mc4bjqpuH6zXCxPzAWt9
-0LEzYDn7kdMZ5Yn0Vp35b8uKRqPdQs1heacEsmiHmKPfvnY/klYg1G9M71t9OVpm
-EE2sy3C4QrYbYl73/UBH9Z7zoN/X2A==
-=9PDr
------END PGP SIGNATURE-----
+V2:
+ * use devm_krealloc_array
 
---EoywhozqJ8iTP5HR--
+Cosmin Tanislav (3):
+  media: rc: ir-spi: allocate buffer dynamically
+  media: rc: ir-spi: constrain carrier frequency
+  media: rc: ir-spi: avoid overflow in multiplication
+
+ drivers/media/rc/ir-spi.c | 40 +++++++++++++++++++++++++--------------
+ 1 file changed, 26 insertions(+), 14 deletions(-)
+
+-- 
+2.49.0
+
 
