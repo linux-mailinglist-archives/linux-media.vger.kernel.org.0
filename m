@@ -1,195 +1,223 @@
-Return-Path: <linux-media+bounces-34809-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34810-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370D1AD9FA3
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 22:05:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F14AD9FBE
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 22:37:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 328727AAD89
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 20:04:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4DA64175917
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 20:37:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F0EA2E7F0C;
-	Sat, 14 Jun 2025 20:05:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A94E2E6D09;
+	Sat, 14 Jun 2025 20:37:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k1JBFg5R"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="GX/bNeDb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCC41BD9C1;
-	Sat, 14 Jun 2025 20:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C16C199237;
+	Sat, 14 Jun 2025 20:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749931521; cv=none; b=IRAv2citeY85WdPv7PRHR0zcqXj6IsGN5bAUDor5wJN+nU6nl0RLDy5yeloi4neP+weRBKbw4FfbwkzLVPrOuDS45TxA1/vd7NGnwC0dGIINjEJP6mChNA/edTUvze6CaIhbx96vd/nVcipiaToFUoBesKtwSRGK16+tc6ZVo3w=
+	t=1749933456; cv=none; b=OwALRsxDU9CH0LiTVaeLvrkuOBhfoHo6OrXefewiyUSYh3Rs9xNhem4BJia2VRLTJySc534P+Xfu/IAHDGh07KtWvRh5xjY/wGfN//l/TgQMXxhuxOn4TciL+6fJcaEO+T/8oOGqSBCFy2n9zeFDp8GoWyFDHXRdL4HZY34IOuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749931521; c=relaxed/simple;
-	bh=slRsPvk4x7D7++RNJlqHaH2v5niYKW6vSDS25QC8uAY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ctYrwoVBPQ9sl4oEVS1usAiPoximU1r6Pn/AM1Ve2On5M07sHjPGpojG+lkXddZzO7UqVeljqXfKm2rp2NQUq53Y2XYDP4UiyLefqPiQ5D/NlZHS8NUlASX+NsLBKO6qX3sobfhBkmvKCwLCT3FPcXE5veorItz8uaY8Bnh7vcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k1JBFg5R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D80BAC4CEEB;
-	Sat, 14 Jun 2025 20:05:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749931521;
-	bh=slRsPvk4x7D7++RNJlqHaH2v5niYKW6vSDS25QC8uAY=;
-	h=From:Date:Subject:To:Cc:From;
-	b=k1JBFg5R/IQN3bNpA6vRdIxHOha+XRAas3nx9mmLWUTjzZInsRqx2PPVRL9AIDheu
-	 CIIti5roiN960cJHRNUKzvHuHebEACfvMqAQ95tQQ3zypNnwY0ADyb6t+cdwBHRZhM
-	 6v30iijqyvLiigSEYcLjR0Ea07kY82mYqD0GHvHAdf88V15TZiSkmIQTwYd1ovkEKr
-	 zLDMtO2NibjudGnO8/T9+qYFV8/ExoEm3Pu38Qu1hwOiutWK577mBVsst5X97Rl2eh
-	 KZE+WCMohnAhD2twsDQl0UajR8+hquUgL1epTMLI/3f8HZUVg5g0JOw4GPtH22A38F
-	 sfG1BLjVvfIJQ==
-From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Sat, 14 Jun 2025 22:05:09 +0200
-Subject: [PATCH] media: dt-bindings: qcom,venus: Allow OPP specifics
- universally
+	s=arc-20240116; t=1749933456; c=relaxed/simple;
+	bh=9pmEfXdk7iL9pS5LSQiBkiVD0ofCpgQ2sH3AdVhSmWo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h5Jo0aV4VbxCnHoB8JOsh8UMH1rd7bd87hYowr1nXHB802vWJT0UYUk1myCFxCUB88/BhaTJcGuI092bD/VggjBi3mFenVWjKKVIflheGmhx+Y1CdOKq1mTHc5l5tP3NBo/vRvyytRoAbZyClfMexSScNk1EOcyWAe6OoJvT8rY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=GX/bNeDb; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=+jgDBcJCGkYhFUceW2ssi64QZJrhtciHErgU+KLdRxc=; b=GX/bNeDbUTcLdsfq
+	e9twea0F5c6+Ca7aBDgmw1qrYt3uvkGd1pzgaIqIaqpINact2wAVOOXb/nAtnEfYcb4SIki2Q6olN
+	yLr89iNgWJmbUvoZyxVNhDmfFS1Ac0M7vn7Zd8O4ndALD7yOC6dG7PvOY6aJeycwxf5RTljlu/tTp
+	KLn4o//oufU66eyzChPyNUNTcUmBBlJrrtgTIFR5IvQmQ74HeXLDLLS96/k28W2GOybheBaQ/ExcY
+	yA2cBbm3M0tSgRiabzqLqedRGwhFiQ0mBCVf7S210mfC3fFck+6EZpSVlnOGxWFYGQLJXXHdRWWGW
+	63L0bhk8xUyo6V5NYA==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1uQXcy-009fVm-2Q;
+	Sat, 14 Jun 2025 20:37:24 +0000
+From: linux@treblig.org
+To: ming.qian@nxp.com,
+	eagle.zhou@nxp.com,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] media: amphion: Remove unused functions
+Date: Sat, 14 Jun 2025 21:37:23 +0100
+Message-ID: <20250614203723.22632-1-linux@treblig.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250614-topic-venus_opp-v1-1-5ec6f64f395d@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAPTVTWgC/x3MQQqAIBBA0avErBMsrKSrRITZWLNR0ZJAvHvS8
- i3+zxAxEEaYmwwBE0VytqJrG9CXsicyOqqh5/3Ax06w23nSLKF94ua8Z4YLZSYpj31CqJUPaOj
- 9j8taygdoYGusYQAAAA==
-X-Change-ID: 20250614-topic-venus_opp-f04af788db7e
-To: Vikash Garodia <quic_vgarodia@quicinc.com>, 
- Dikshita Agarwal <quic_dikshita@quicinc.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749931517; l=4350;
- i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=k/9QSJMm1AvzFa3EOIGbiuIbb9WoAR1TLb3OICDsOUA=;
- b=cnGVtCTeKaFK28FxSnvTX5qHxtYHP8F87l5w8Xr52+C/ygT3fpOE3A6U0BjvPFJQk8zvM1EgA
- hLTEfaknoXgDVeWa8zehab2O+T/laNrjSOhQOTcrnPc0qdFR4C4DqWA
-X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+Content-Transfer-Encoding: 8bit
 
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-All venus hardware has a number of OPPs, so it only makes sense to
-commonize the allowing of operating-points-v2/opp-table. Do so.
+The functions:
+  vpu_color_get_default()
+  vpu_color_check_full_range()
+  vpu_color_check_primaries()
+  vpu_color_check_transfers()
+  vpu_color_check_matrix()
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+have been unused since 2022's
+commit 1925665ef403 ("media: amphion: remove redundant check of
+colorspace in venc_s_fmt")
+
+The (empty) function vpu_mbox_enable_rx() has been unused since it
+was added in 2022 by the
+commit 61cbf1c1fa6d ("media: amphion: implement vpu core communication
+based on mailbox")
+
+Remove them.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml    | 4 ----
- Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml    | 4 ----
- Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml | 4 ----
- Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml    | 4 ----
- Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml     | 5 -----
- Documentation/devicetree/bindings/media/qcom,venus-common.yaml    | 4 ++++
- 6 files changed, 4 insertions(+), 21 deletions(-)
+ drivers/media/platform/amphion/vpu_color.c   | 73 --------------------
+ drivers/media/platform/amphion/vpu_helpers.h |  5 --
+ drivers/media/platform/amphion/vpu_mbox.c    |  4 --
+ drivers/media/platform/amphion/vpu_mbox.h    |  1 -
+ 4 files changed, 83 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-index bfd8b1ad473128c974bce84639cb0aff59d8c2cc..e5c05b9c1e914a618a71b86a75ff5516556d55ef 100644
---- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-@@ -61,10 +61,6 @@ properties:
-       - const: video-mem
-       - const: cpu-cfg
+diff --git a/drivers/media/platform/amphion/vpu_color.c b/drivers/media/platform/amphion/vpu_color.c
+index 4ae435cbc5cd..7c0ab8289a7b 100644
+--- a/drivers/media/platform/amphion/vpu_color.c
++++ b/drivers/media/platform/amphion/vpu_color.c
+@@ -108,76 +108,3 @@ u32 vpu_color_cvrt_full_range_i2v(u32 full_range)
  
--  operating-points-v2: true
--  opp-table:
--    type: object
+ 	return V4L2_QUANTIZATION_LIM_RANGE;
+ }
 -
-   video-decoder:
-     type: object
- 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-index 413c5b4ee6504ba1d5fe9f74d5be04ad8c90c318..0a3b3cd525678b13c201f417f418de4927ea1d8d 100644
---- a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-@@ -54,10 +54,6 @@ properties:
-       - const: cpu-cfg
-       - const: video-mem
- 
--  operating-points-v2: true
--  opp-table:
--    type: object
+-int vpu_color_check_primaries(u32 primaries)
+-{
+-	return vpu_color_cvrt_primaries_v2i(primaries) ? 0 : -EINVAL;
+-}
 -
-   video-decoder:
-     type: object
- 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-index c839cb1ebc0999e10b865f4bb43ea76ffa2bf46d..c177c96d6bd1d4e10de816a330b4e7b1c6e3f3dc 100644
---- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-@@ -56,10 +56,6 @@ properties:
-       - const: video-mem
-       - const: cpu-cfg
- 
--  operating-points-v2: true
--  opp-table:
--    type: object
+-int vpu_color_check_transfers(u32 transfers)
+-{
+-	return vpu_color_cvrt_transfers_v2i(transfers) ? 0 : -EINVAL;
+-}
 -
-   video-core0:
-     type: object
- 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-index da54493220c9dc90e7d9f5fcfce7590acb241c85..89db76817be4c6a8d10e46b95546397e85481988 100644
---- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-@@ -51,10 +51,6 @@ properties:
-       - const: cpu-cfg
-       - const: video-mem
- 
--  operating-points-v2: true
--  opp-table:
--    type: object
+-int vpu_color_check_matrix(u32 matrix)
+-{
+-	return vpu_color_cvrt_matrix_v2i(matrix) ? 0 : -EINVAL;
+-}
 -
-   resets:
-     maxItems: 2
- 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-index c79bf2101812d83b99704f38b7348a9f728dff44..c2076e80bb5c5f976384875f0406bbfa2cd6f100 100644
---- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-@@ -69,11 +69,6 @@ properties:
- 
-   dma-coherent: true
- 
--  operating-points-v2: true
+-int vpu_color_check_full_range(u32 full_range)
+-{
+-	int ret = -EINVAL;
 -
--  opp-table:
--    type: object
+-	switch (full_range) {
+-	case V4L2_QUANTIZATION_FULL_RANGE:
+-	case V4L2_QUANTIZATION_LIM_RANGE:
+-		ret = 0;
+-		break;
+-	default:
+-		break;
+-	}
 -
- required:
-   - compatible
-   - power-domain-names
-diff --git a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
-index 3153d91f9d18a327559dd750f152332cdc652ac4..67f0e0f78c72756e9d4ccc34def3da1402b7aa38 100644
---- a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
-@@ -47,6 +47,10 @@ properties:
-     minItems: 1
-     maxItems: 4
+-	return ret;
+-}
+-
+-int vpu_color_get_default(u32 primaries, u32 *ptransfers, u32 *pmatrix, u32 *pfull_range)
+-{
+-	u32 transfers;
+-	u32 matrix;
+-	u32 full_range;
+-
+-	switch (primaries) {
+-	case V4L2_COLORSPACE_REC709:
+-		transfers = V4L2_XFER_FUNC_709;
+-		matrix = V4L2_YCBCR_ENC_709;
+-		break;
+-	case V4L2_COLORSPACE_470_SYSTEM_M:
+-	case V4L2_COLORSPACE_470_SYSTEM_BG:
+-	case V4L2_COLORSPACE_SMPTE170M:
+-		transfers = V4L2_XFER_FUNC_709;
+-		matrix = V4L2_YCBCR_ENC_601;
+-		break;
+-	case V4L2_COLORSPACE_SMPTE240M:
+-		transfers = V4L2_XFER_FUNC_SMPTE240M;
+-		matrix = V4L2_YCBCR_ENC_SMPTE240M;
+-		break;
+-	case V4L2_COLORSPACE_BT2020:
+-		transfers = V4L2_XFER_FUNC_709;
+-		matrix = V4L2_YCBCR_ENC_BT2020;
+-		break;
+-	default:
+-		transfers = V4L2_XFER_FUNC_DEFAULT;
+-		matrix = V4L2_YCBCR_ENC_DEFAULT;
+-		break;
+-	}
+-	full_range = V4L2_QUANTIZATION_LIM_RANGE;
+-
+-	if (ptransfers)
+-		*ptransfers = transfers;
+-	if (pmatrix)
+-		*pmatrix = matrix;
+-	if (pfull_range)
+-		*pfull_range = full_range;
+-
+-	return 0;
+-}
+diff --git a/drivers/media/platform/amphion/vpu_helpers.h b/drivers/media/platform/amphion/vpu_helpers.h
+index 0eaddb07190d..84d16eb39650 100644
+--- a/drivers/media/platform/amphion/vpu_helpers.h
++++ b/drivers/media/platform/amphion/vpu_helpers.h
+@@ -54,10 +54,6 @@ static inline u8 vpu_helper_read_byte(struct vpu_buffer *stream_buffer, u32 pos)
+ 	return pdata[pos % stream_buffer->length];
+ }
  
-+  operating-points-v2: true
-+  opp-table:
-+    type: object
-+
-   video-firmware:
-     type: object
-     additionalProperties: false
-
----
-base-commit: bc6e0ba6c9bafa6241b05524b9829808056ac4ad
-change-id: 20250614-topic-venus_opp-f04af788db7e
-
-Best regards,
+-int vpu_color_check_primaries(u32 primaries);
+-int vpu_color_check_transfers(u32 transfers);
+-int vpu_color_check_matrix(u32 matrix);
+-int vpu_color_check_full_range(u32 full_range);
+ u32 vpu_color_cvrt_primaries_v2i(u32 primaries);
+ u32 vpu_color_cvrt_primaries_i2v(u32 primaries);
+ u32 vpu_color_cvrt_transfers_v2i(u32 transfers);
+@@ -66,7 +62,6 @@ u32 vpu_color_cvrt_matrix_v2i(u32 matrix);
+ u32 vpu_color_cvrt_matrix_i2v(u32 matrix);
+ u32 vpu_color_cvrt_full_range_v2i(u32 full_range);
+ u32 vpu_color_cvrt_full_range_i2v(u32 full_range);
+-int vpu_color_get_default(u32 primaries, u32 *ptransfers, u32 *pmatrix, u32 *pfull_range);
+ 
+ int vpu_find_dst_by_src(struct vpu_pair *pairs, u32 cnt, u32 src);
+ int vpu_find_src_by_dst(struct vpu_pair *pairs, u32 cnt, u32 dst);
+diff --git a/drivers/media/platform/amphion/vpu_mbox.c b/drivers/media/platform/amphion/vpu_mbox.c
+index c2963b8deb48..b2ac8de6a2d9 100644
+--- a/drivers/media/platform/amphion/vpu_mbox.c
++++ b/drivers/media/platform/amphion/vpu_mbox.c
+@@ -109,7 +109,3 @@ void vpu_mbox_send_msg(struct vpu_core *core, u32 type, u32 data)
+ 	mbox_send_message(core->tx_data.ch, &data);
+ 	mbox_send_message(core->tx_type.ch, &type);
+ }
+-
+-void vpu_mbox_enable_rx(struct vpu_dev *dev)
+-{
+-}
+diff --git a/drivers/media/platform/amphion/vpu_mbox.h b/drivers/media/platform/amphion/vpu_mbox.h
+index 79cfd874e92b..8b7aea4f606c 100644
+--- a/drivers/media/platform/amphion/vpu_mbox.h
++++ b/drivers/media/platform/amphion/vpu_mbox.h
+@@ -11,6 +11,5 @@ int vpu_mbox_request(struct vpu_core *core);
+ void vpu_mbox_free(struct vpu_core *core);
+ void vpu_mbox_send_msg(struct vpu_core *core, u32 type, u32 data);
+ void vpu_mbox_send_type(struct vpu_core *core, u32 type);
+-void vpu_mbox_enable_rx(struct vpu_dev *dev);
+ 
+ #endif
 -- 
-Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+2.49.0
 
 
