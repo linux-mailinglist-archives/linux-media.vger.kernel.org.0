@@ -1,89 +1,139 @@
-Return-Path: <linux-media+bounces-34796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34797-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3863FAD9D06
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 15:46:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE28AD9D5D
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 16:16:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62890189B58A
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 13:46:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01AB8178A0C
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 14:16:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41F642D8DA4;
-	Sat, 14 Jun 2025 13:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 352922DA740;
+	Sat, 14 Jun 2025 14:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="mKqNTRMV"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="I4/m7bDY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MVXXa0lL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEB98462
-	for <linux-media@vger.kernel.org>; Sat, 14 Jun 2025 13:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0783D994;
+	Sat, 14 Jun 2025 14:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749908766; cv=none; b=bwMG0oExut2GDRZH5XMgd09fQAvWhUHoAcdsLFsbXyPPJxWCVCHkizY5nQVn2J0//CUMvGdIpJIQQmoSeqWpUV5VnEQ4z7KmOOLcqPvPmWgApuFDImf4EyfNYx3JX1S9CxtIGbwM1106osg0JGur6yQdS33eMiFox/5BcR+wqa4=
+	t=1749910581; cv=none; b=FHpCYZz4LvzDDaU7E7uk0okbJp1pTzs956UZVltyRXqgIAgQQr/MlpfPP4cDRK1gVW1TCTBstEH8p3k7Ag3rtZ86J4taCn1HBWuH4fujanI228W/De66PT2LwJB8KEAuPX4HmY6kizi2v0p6VMPBHl/15c43xSHHh5h9k8fCME4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749908766; c=relaxed/simple;
-	bh=DS0JYUaVJXBQ7M9BpNk4q/jCaqrBlepi/lLIuw6v47c=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hd/mHtVfayz/b7QZx+VmXnYmE0jsKrPnvWfPZ4IGeURuAF4pDcdeCgQSnVctEjNeCAgXM4xYXHBNV4rPeU11600TmciOF6ZeIdiC903ruIxb9pD3ufO4pGZhTJ8gNNgO0T9hV+NgPQ3wHU99Lmwevtgd+3zPMkzQfJh/B6F6Ag8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=mKqNTRMV; arc=none smtp.client-ip=79.135.106.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1749908753; x=1750167953;
-	bh=DS0JYUaVJXBQ7M9BpNk4q/jCaqrBlepi/lLIuw6v47c=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
-	 List-Unsubscribe:List-Unsubscribe-Post;
-	b=mKqNTRMVS4tnl9awxMzUYHZ9oe19aDtaFYJJ6RE29HwOrCg0345HiUs4o4x2XtHTr
-	 6jMAdrXmn7deYU1EBokix21ByJybBhrMf8UgyL4CnAh6ZL9daBY6faGG6wYUGkIJBs
-	 hytYGUJeXobsrVeMusdgmKBJ7hvQCk27MFAQXGvPiVDwiz/xwsErieKRYhXDdukQ+e
-	 rnkwLVnWZ/Dyi7iH6p1tUgbQTPasLoYwLzkwtfqC3FcK5nkXBxyXpJLsh8GF9AjFJo
-	 WPW+ILNHpxpci5jG8Q5hcouAK5Ch8l7XdF9X+AffYqRnKBXGNnRKcnq/7e9v7+KNrV
-	 LWvtutESKHkDQ==
-Date: Sat, 14 Jun 2025 13:45:48 +0000
-To: linux-media@vger.kernel.org
-From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-Subject: [PATCH v4l-utils] qvidcap: Fix video capture being transparent on Wayland
-Message-ID: <20250614134523.695131-2-mavchatz@protonmail.com>
-Feedback-ID: 20039310:user:proton
-X-Pm-Message-ID: e9cccbc822894ab94dbee18259fea18ea2fb7d39
+	s=arc-20240116; t=1749910581; c=relaxed/simple;
+	bh=U4yQSxX+QVuomLBEgf9sZIWfa+E/mb0wq5uOSJVml1o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r5ao28/T0WMw2/qnFv/uiciD7MgwMXmK/8RVfoopvw7UzqXfVzUfsymCN/msfLnlrdQdKW9nUxC1Uf9QZl6hSjNgU7tce6Kbu9gOgWIR9iB6DaF0XrK28ggRbT6OjNgGEJjPzU0spKJWpZCD/PplWLac4hsrYdD+wWI7v9Czh/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=I4/m7bDY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MVXXa0lL; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id A0CF9114013C;
+	Sat, 14 Jun 2025 10:16:16 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Sat, 14 Jun 2025 10:16:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1749910576; x=1749996976; bh=/D
+	LDU2vpZE4NqKLhZ3pPTKEfAWUacf8pnN0p4apvaLs=; b=I4/m7bDYo2T4tPJaGB
+	m70xwpWJEOlAaCx1fJ9DvrK+n5xcRSoyaB5U6Yg+aAZYCdPM9e/XcGEa5Vi+1Y/9
+	bBRwYIrlqDQD7xd965jNArVnU9V+HFiU32n8CHEd5IKd9Cn5jbCJffAI2sCRiRGe
+	URX0hBE3WepyQtUHxGPdiKZjcdjh9D7SLMrrJG3nLqi4DWyYK1vAIEmxg308Jm99
+	rrWTe11Iqsi6UxONQYVHkxPWMO2zYShDLyWpDZV6Dbhj56oBxSbDkLJkS5WadfpN
+	dxEG25m5URZTRpnj5tbVX6I8CRTM8WWu3ovt49qSDeZx78xnd6g7LNKKqL2kX8jO
+	onhw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1749910576; x=1749996976; bh=/DLDU2vpZE4NqKLhZ3pPTKEfAWUa
+	cf8pnN0p4apvaLs=; b=MVXXa0lL4vE8DDTaDHYksn59gyjhw9UgE9Nn7JX7biGO
+	/Y+fHu3a7VWOCsUhG6UXKJhdT0gY/Hoz+HB5hscX+XGuVS3aMo5zZs2DURTLX38v
+	ddzw9Dxy+cryWd/l8mhivSBTrWPoBNSsJaQBxxvb1Lt8K8IG27atQMWZdvC9YNpx
+	ZQ+a/tR1FHzB6ElGUj8ds7O2AeLRIRVjN5c0IK4cIaJCp6fgiOk1fX+i5JR+UpxV
+	JQt/UZ3AtQaok7z/gIRlf0yryDjkQCbeYEOCs/nwBu6D8zrzS+Y0N6X7hk89AsZt
+	Aos+wVVuMvmNkbTNaHFe9yoEltLs3L0Ml5/rGqT3BA==
+X-ME-Sender: <xms:L4RNaM04i2XTPUQLr_mEluTWj5CoqUAQ7rK1kaWJoL32RbjII5gbmg>
+    <xme:L4RNaHF5Qbyj7yvP6qrr6LK3uBKJmX7GgDG27cR8vpZcrQ15EQPc5WaPRf2PRvoLY
+    ilH9G3YyswqMnimHXo>
+X-ME-Received: <xmr:L4RNaE6TiOQSOhflTT_By0bWdGluotdpqLCxTy8DU7XsKBMjTFXsvg8YIjJEDvBg77EVYsKknW9-XI_yzAdxiYp0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvuddthecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
+    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
+    htohepkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsgeskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvg
+    hrrdgsvgdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgv
+    lhdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrsh
+    honhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsoh
+    gtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhn
+    vghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhsoh
+    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:L4RNaF04SrdGAlGjiFxI-1N88GBZCe3hKqJSPzaRSu5dL26FPq3BsA>
+    <xmx:L4RNaPFRPZFf1JXp7SKAdgeHvxXOZkw9MHXlCgwQQ1hy2EVIP7RqjA>
+    <xmx:L4RNaO8Fzfc9uHBYPZ8mOhTNR8prXO6XZ0a3H_SHJR5ibYN-5TUJ1A>
+    <xmx:L4RNaEnSkeIip2sbl87U9irhurdU3AG6Gh3qkstErxQVtQrlugafNA>
+    <xmx:MIRNaPRzctdiqoeAs58aiI0VZ4y7DFs1subTMWnqJ6Z1jbDiGfJ6mtoB>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 14 Jun 2025 10:16:15 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/3] media: rcar-vin: Generate FRAME_SYNC events
+Date: Sat, 14 Jun 2025 16:15:42 +0200
+Message-ID: <20250614141545.2860860-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-When a non-alpha capture format is used, the default value of 0.0 causes
-the capture to be transparent.
+Hi,
 
-This issue is not apparent on X11 due to Qt not negotiating a format
-with alpha by default.
----
- utils/qvidcap/v4l2-convert.glsl | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series extend the VIN interrupt handling to be able to generate 
+FRAME_SYNC events. Having these events in user-space is a great help to 
+know when a sensor starts to expose a new frame.
 
-diff --git a/utils/qvidcap/v4l2-convert.glsl b/utils/qvidcap/v4l2-convert.g=
-lsl
-index 8bd5694b..e6e6794c 100644
---- a/utils/qvidcap/v4l2-convert.glsl
-+++ b/utils/qvidcap/v4l2-convert.glsl
-@@ -96,7 +96,7 @@ void main()
- {
- =09const float texl_w =3D 1.0 / tex_w;
- =09const float texl_h =3D 1.0 / tex_h;
--=09float alpha =3D 0.0;
-+=09float alpha =3D 1.0;
- =09vec2 xy =3D vs_TexCoord;
- =09float xcoord =3D floor(xy.x * tex_w);
- =09float ycoord =3D floor(xy.y * tex_h);
---=20
-2.43.0
+Patch 1/3 and 2/3 prepays the existing interrupt infrastructure to 
+support more then "frame captured" interrupts. While patch 3/3 enables 
+and checks for VSYNC detection and generates the new event.
 
+The feature is tested on Gen2, Gen3 and Gen4 and all devices correctly 
+generate FRAME_SYNC events.
+
+Niklas Söderlund (3):
+  media: rcar-vin: Fold interrupt helpers into only callers
+  media: rcar-vin: Check for correct capture interrupt event
+  media: rcar-vin: Generate FRAME_SYNC events
+
+ .../platform/renesas/rcar-vin/rcar-dma.c      | 54 ++++++++++---------
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |  2 +
+ 2 files changed, 32 insertions(+), 24 deletions(-)
+
+-- 
+2.49.0
 
 
