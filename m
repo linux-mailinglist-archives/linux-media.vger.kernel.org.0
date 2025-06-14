@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-34811-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34812-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA17AD9FE7
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 23:23:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6B2AD9FED
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 23:32:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 507B63A8132
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 21:23:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E982174BF5
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 21:32:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7708F1FDE31;
-	Sat, 14 Jun 2025 21:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35D401F4703;
+	Sat, 14 Jun 2025 21:32:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UiAXShK2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nfjICEDp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA5D170A26;
-	Sat, 14 Jun 2025 21:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064AB7462;
+	Sat, 14 Jun 2025 21:32:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749936220; cv=none; b=r6qkCKkFxksLm25dDeGHUXoXzMdv8JWq+PDxSm0pWcgPB8HQUBpbM5u0OLXFqJjay7U23TCbH1EjVHq5Oq0eLOd04+DQelUAG770rUll8SrgpJLqp/uDwt9MG+08PCYQ/Esi+c0F46A2KnVyITG8WNO5V0bqC//NW3uPPoaAIRA=
+	t=1749936751; cv=none; b=rlQOW0hkjzAYYARSLoVwiUFK/56PBT+282mNP6CGS3WGo0FSXtqMG+bNXfrUlJ+OmFHCss2eJPE5WCc43OFjKMgCyDbyWi2podtH+3mTFppJeG5oSdLnkjzCA4F2vX5RzX6u2/vaqxD4qI+v5ueG6x8LsCX0SDmol9e8Roy71ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749936220; c=relaxed/simple;
-	bh=+buu05lf5puXVyjRW6oMuYv3VcTEXEdgXl3ir+gLyOo=;
+	s=arc-20240116; t=1749936751; c=relaxed/simple;
+	bh=c7Xr1RrIFGE5wjzGDdsNevrNIjfIdMNqpuDBse36Yig=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hJjemLf1U/R3fjqxBttqibdhFinP6/ZZRbAHndzOaIcTdWU+bmiWOAz1C6OuMfB6Gsz3mJCfsK/Dx+6LVZntzVnneLpbNAW06f/wyHYy0DxyPIMYCxvujvgM3dKyA/7FhK+78JqXzAnattj55vVcou4jvuoezNzmTcTapTMSMLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UiAXShK2; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=SttcZPI3kvW10UGSylvu/jFdNHyrjSNQWtyP6V7HLPb62EoNQwEoQIpF3w3v1LDBJ0sFTCWaVjzcmVDe4MfJ0pkIHqEAmOIRhEcrLzAoHNtXzXn8FHbCnFXudBRYDMPtX00Ihv0WhFs2wrt/ttHzDQkoGhk5km6jwJ5Noxkuq/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nfjICEDp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 968C65B3;
-	Sat, 14 Jun 2025 23:23:18 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 769D15B3;
+	Sat, 14 Jun 2025 23:32:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749936198;
-	bh=+buu05lf5puXVyjRW6oMuYv3VcTEXEdgXl3ir+gLyOo=;
+	s=mail; t=1749936737;
+	bh=c7Xr1RrIFGE5wjzGDdsNevrNIjfIdMNqpuDBse36Yig=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UiAXShK2K0kgB0Dbtl6oxci/XAI632Mh3JzI0WXAEfZ0gYXT9Chu+r1Wt5fs3qLH4
-	 w2ARnbvLoWF20AwvhqLq+MqHiDHtWENVzVf6hVah7Bl9jSNw0xPqa2Bj34Uv4Mfjdy
-	 kDpLPudNUdZbZyRIvyRJE9VprYPvlTSoizN1POs8=
-Date: Sun, 15 Jun 2025 00:23:14 +0300
+	b=nfjICEDpWKZ1geb9rv4DyhPhesthM5lyXX3xvFqEeHG2Jv6hn1GrvZWpOG1Fp8Xk8
+	 Lpg+0YcOg5k+uGTAFVd3QgbEmKhR6glinhjuvVrNgERP/s54c04FBZDQnlUGldEd67
+	 6kw9N79rLTrkw9pLc5VAST6pVihMczQpbijxIX8k=
+Date: Sun, 15 Jun 2025 00:32:13 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -49,11 +49,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: rcar-vin: Fold interrupt helpers into only
- callers
-Message-ID: <20250614212314.GL10542@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/3] media: rcar-vin: Check for correct capture interrupt
+ event
+Message-ID: <20250614213213.GM10542@pendragon.ideasonboard.com>
 References: <20250614141545.2860860-1-niklas.soderlund+renesas@ragnatech.se>
- <20250614141545.2860860-2-niklas.soderlund+renesas@ragnatech.se>
+ <20250614141545.2860860-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,101 +63,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250614141545.2860860-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250614141545.2860860-3-niklas.soderlund+renesas@ragnatech.se>
 
 Hi Niklas,
 
-Thank you for the patch.
-
-On Sat, Jun 14, 2025 at 04:15:43PM +0200, Niklas Söderlund wrote:
-> The call sites using the interrupt helper functions have all been
-> reworked to only one for each. Fold echo of them into the only call
-> sites left.
+On Sat, Jun 14, 2025 at 04:15:44PM +0200, Niklas Söderlund wrote:
+> Depending on if the capture session deals with fields or whole frames
+> interrupts can be generated at an end of field, or end of frame event.
+> The interrupt mask is setup to generate an interrupt on one of the two
+> events depending on what is needed when the VIN is started. The end of
+> field bit is set in both cases so controlling the mask that generates an
+> interrupt have been enough to control the two use-cases.
 > 
-> While at it rename the variable holding the current interrupt status to
-> make the code easier to read.
+> Before extending the interrupt handler to deal with other types of
+> interrupt events it is needs to extended to "capture complete" check for
+> correct the use-case in operation. Without this the simplification in
+> the handler can result in corrupted frames when the mask on what type of
+> events can generate an interrupt generated can no longer be assumed to
+> only be an "capture complete" event.
 > 
-> There is no functional change.
+> Which bit is checked matches which bit is enabled at configuration time
+> as which event can generate an interrupt for "capture complete". There
+> is no functional change.
+> 
+> While at it switch to use the BIT() macro to describe the bit positions
+> for the interrupt functions.
 > 
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  .../platform/renesas/rcar-vin/rcar-dma.c      | 27 +++++--------------
->  1 file changed, 6 insertions(+), 21 deletions(-)
+>  drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> index 5c08ee2c9807..585b8b3dcfd8 100644
+> index 585b8b3dcfd8..85e44a00e0fc 100644
 > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
 > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> @@ -912,21 +912,6 @@ static int rvin_setup(struct rvin_dev *vin)
->  	return 0;
->  }
+> @@ -115,11 +115,12 @@
+>  #define VNFC_S_FRAME		(1 << 0)
 >  
-> -static void rvin_disable_interrupts(struct rvin_dev *vin)
-> -{
-> -	rvin_write(vin, 0, VNIE_REG);
-> -}
-> -
-> -static u32 rvin_get_interrupt_status(struct rvin_dev *vin)
-> -{
-> -	return rvin_read(vin, VNINTS_REG);
-> -}
-> -
-> -static void rvin_ack_interrupt(struct rvin_dev *vin)
-> -{
-> -	rvin_write(vin, rvin_read(vin, VNINTS_REG), VNINTS_REG);
-> -}
-> -
->  static bool rvin_capture_active(struct rvin_dev *vin)
->  {
->  	return rvin_read(vin, VNMS_REG) & VNMS_CA;
-> @@ -1049,22 +1034,22 @@ static void rvin_capture_stop(struct rvin_dev *vin)
+>  /* Video n Interrupt Enable Register bits */
+> -#define VNIE_FIE		(1 << 4)
+> -#define VNIE_EFE		(1 << 1)
+> +#define VNIE_FIE		BIT(4)
+> +#define VNIE_EFE		BIT(1)
+>  
+>  /* Video n Interrupt Status Register bits */
+> -#define VNINTS_FIS		(1 << 4)
+> +#define VNINTS_FIS		BIT(4)
+> +#define VNINTS_EFS		BIT(1)
+>  
+>  /* Video n Data Mode Register bits */
+>  #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
+> @@ -1034,7 +1035,7 @@ static void rvin_capture_stop(struct rvin_dev *vin)
 >  static irqreturn_t rvin_irq(int irq, void *data)
 >  {
 >  	struct rvin_dev *vin = data;
-> -	u32 int_status, vnms;
-> +	u32 status, vnms;
+> -	u32 status, vnms;
+> +	u32 capture, status, vnms;
 >  	int slot;
 >  	unsigned int handled = 0;
 >  	unsigned long flags;
->  
->  	spin_lock_irqsave(&vin->qlock, flags);
->  
-> -	int_status = rvin_get_interrupt_status(vin);
-> -	if (!int_status)
-> +	status = rvin_read(vin, VNINTS_REG);
-> +	if (!status)
->  		goto done;
->  
-> -	rvin_ack_interrupt(vin);
-> +	rvin_write(vin, status, VNINTS_REG);
-
-Actually there is a functional change here. Before this change, if an
-interrupt occured between reading VNINTS_REG in
-rvin_get_interrupt_status() and reading it again in
-rvin_ack_interrupt(), it would get lost. This patch fixes a possible
-bug.
-
-With an updated commit message,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+> @@ -1049,7 +1050,10 @@ static irqreturn_t rvin_irq(int irq, void *data)
 >  	handled = 1;
 >  
 >  	/* Nothing to do if nothing was captured. */
-> -	if (!(int_status & VNINTS_FIS))
-> +	if (!(status & VNINTS_FIS))
+> -	if (!(status & VNINTS_FIS))
+> +	capture = vin->format.field == V4L2_FIELD_NONE ||
+> +		vin->format.field == V4L2_FIELD_ALTERNATE ?
+> +		VNINTS_FIS : VNINTS_EFS;
+
+I would find
+
+	capture = vin->format.field == V4L2_FIELD_NONE ||
+		  vin->format.field == V4L2_FIELD_ALTERNATE
+		? VNINTS_FIS : VNINTS_EFS;
+
+easier to read, but it could be just me.
+
+Do I read it correctly that you use the "Field Interrupt" with
+V4L2_FIELD_NONE ? That seems a bit weird to me, but maybe I don't get
+how the hardware operates.
+
+> +	if (!(status & capture))
 >  		goto done;
 >  
 >  	/* Nothing to do if not running. */
-> @@ -1417,7 +1402,7 @@ void rvin_stop_streaming(struct rvin_dev *vin)
->  	rvin_set_stream(vin, 0);
->  
->  	/* disable interrupts */
-> -	rvin_disable_interrupts(vin);
-> +	rvin_write(vin, 0, VNIE_REG);
->  
->  	/* Return unprocessed buffers from hardware. */
->  	for (unsigned int i = 0; i < HW_BUFFER_NUM; i++) {
 
 -- 
 Regards,
