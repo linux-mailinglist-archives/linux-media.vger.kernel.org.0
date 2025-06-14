@@ -1,190 +1,195 @@
-Return-Path: <linux-media+bounces-34808-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34809-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EFF1AD9F7B
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 21:31:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 370D1AD9FA3
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 22:05:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CDAC33B9044
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 19:31:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 328727AAD89
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jun 2025 20:04:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35FBF2E7625;
-	Sat, 14 Jun 2025 19:31:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F0EA2E7F0C;
+	Sat, 14 Jun 2025 20:05:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FixSNMyp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k1JBFg5R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210A0188000
-	for <linux-media@vger.kernel.org>; Sat, 14 Jun 2025 19:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCC41BD9C1;
+	Sat, 14 Jun 2025 20:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749929488; cv=none; b=DAMJF6aeCZhiIExcReSM+YmyYTmhhXNdGK+f1JDrgBOLJJqgYP+86kwOCBWR418Xpoxg4kVRfikVHhp1aZUV/spl3EXlcPq0A97RrDhgJBXBSVtN1WfRsjAsc4oLtkSqyKheNm/Vh3fdbGiPeg4khOfkvJxA5jR+dnM9nZaRi/c=
+	t=1749931521; cv=none; b=IRAv2citeY85WdPv7PRHR0zcqXj6IsGN5bAUDor5wJN+nU6nl0RLDy5yeloi4neP+weRBKbw4FfbwkzLVPrOuDS45TxA1/vd7NGnwC0dGIINjEJP6mChNA/edTUvze6CaIhbx96vd/nVcipiaToFUoBesKtwSRGK16+tc6ZVo3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749929488; c=relaxed/simple;
-	bh=6wGaCAB/yIhoaUvyyK/d54sw5+H0cGEiYk19Zi4EpmY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rqejnMxXgYoM8jauDcNfYF7oeCmIIxCS71h7roXCDX9KhPO+5oi+5nzi1Yy0j0mtVJm3uPbkwZx49Dn5kuC3v7m8ljhGCJyMkN+XYa4kbIcaXisQLdhbm6gGD6Koa5MTBi4Iv+tQS3+kuqa8E8+GoUoDfpKm3yHOR7un4Ip+ES8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FixSNMyp; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55EJ0gvc027839
-	for <linux-media@vger.kernel.org>; Sat, 14 Jun 2025 19:31:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Mbw1P4iXCotc1yh/8nVbKSU0NE4NDWyxlScBFeQNPNs=; b=FixSNMypvlcekly6
-	9CgCLhV4YCpqlJr4U99JLRgV8n+K3ZogPSYaC+Mz/YbMRWsg8eisRDDpV4d7wMTd
-	q0OFpjc4NqY0nH1C4ddHNuWc4+0Cv4kf+rVvbOAjhg5NqB7eg9spAIK9454E0S2h
-	+kDf56NkLwZJGPpLtQ6WFk4+DXoQ3SXeVFykuHN2VoMNMlDx5zJ0WcuObUBGzO5c
-	/wnh//Q84LS4GCadibCO359gIWBynOfVLG0dO2Ga9jj01rdmiaYh7xO690XjXawv
-	BOeNX0atjQzpLva5YwjZCDZjYMNWH5BsyE0xWmmtLaXQp3JeBM9R5bCLcj8lYB9b
-	VQ6dgg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791h90xrj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sat, 14 Jun 2025 19:31:25 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7d0a9d20c2eso101391385a.0
-        for <linux-media@vger.kernel.org>; Sat, 14 Jun 2025 12:31:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749929485; x=1750534285;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mbw1P4iXCotc1yh/8nVbKSU0NE4NDWyxlScBFeQNPNs=;
-        b=vMPa+S44sHkWzezio6xUOQi9LH36ESQl354n5TdGYR5qqHXEzf949bsxEL71R8JExo
-         GWIpqTK5k23xST7zkbo1TVarTMS+Rr3bHnOyfblYZIpUxCxLQhIaVdf6uzr1dFgNhjVI
-         GtszqPeWKoGIixagMJ1zn+k9wvWHCiVGC+hlFXMY7T6l4YL0s4mjVT//ktVhI5gz01md
-         UDWDD9Cj8m888H3VpZJ7aXkaOrnJPTOeeAlL0Yi2t/BheDZpV+nUHGrQJbYjL8pB+L7w
-         mjbYo3NF9odVkUzdHEXJg8tNSc1DVMAQwboNw1nOHrb6Vf+eRYegEKxWj+YRKOUCOI5C
-         mJqg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOBgaO/7U7MpjFibvHmWoIza0Tte46FK8hEWs9HaYYKDvfKU54mGVUB9BB0eN/pVCuwHUAwddWSoLSFg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWzxQ67MlitY40LIPDhvrfIkk39zPspqJnTQyQKkFXttWP9XRl
-	Ak7wrtc7gr7y2c3czH0z/haawKPMEsEy04EgoK3zqNHrI6I+Bnwt913hf/K3Y6z0H0if0rqBSt1
-	9DKT1gqY5KW4KyLXA+du3UilnMk5RV3fFcd6iBgDh/j3q3RXP0c98S+BRxzndxuPYFA==
-X-Gm-Gg: ASbGnctLHR7RJ3QEWFPugt0cl9yMOyc6tCIJGtOmdgQOCX9pGxWqZp29u5UZPmbyBJY
-	Io51i+Yeho9PgNn8Iy7WFI4RPAaCDigCtDTf9nC1QGSg0gvLVP53DKSo0O8o35kR3CBa/pL9Mpd
-	n6YROxF9fYpOsdScX0VtNwSMqkwucyEUvoFal5AZPzXZ3glUXSCkUMAgO5UOoEnEIPPU16LVL7H
-	juyixy6YQ3IIsg8wWXKhRP8oIKVpP1Fa3fGlELlC0so1Q7sxKYPZR7xfzIZr33DGj8QWn5sNMSm
-	iODfSWn/UnkWm0OwVsnaWUDYsd/1KuEMVItKjParHaL+XdYpFufshYMx95VKATiFZScADAUp/tW
-	J768=
-X-Received: by 2002:a05:6214:f2b:b0:6fb:1fc:7889 with SMTP id 6a1803df08f44-6fb47834635mr22005986d6.11.1749929485068;
-        Sat, 14 Jun 2025 12:31:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFQrPaKrJs4xim+Pui0DuU9UY0DDQ3xWTfjg2bIlpo0NAve4AAaX9mVrjanKcHXaWRaFkpqHw==
-X-Received: by 2002:a05:6214:f2b:b0:6fb:1fc:7889 with SMTP id 6a1803df08f44-6fb47834635mr22005846d6.11.1749929484685;
-        Sat, 14 Jun 2025 12:31:24 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec88ff5ffsm354178566b.106.2025.06.14.12.31.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Jun 2025 12:31:24 -0700 (PDT)
-Message-ID: <9e383935-a10c-40ec-a63a-243cd028374e@oss.qualcomm.com>
-Date: Sat, 14 Jun 2025 21:31:21 +0200
+	s=arc-20240116; t=1749931521; c=relaxed/simple;
+	bh=slRsPvk4x7D7++RNJlqHaH2v5niYKW6vSDS25QC8uAY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ctYrwoVBPQ9sl4oEVS1usAiPoximU1r6Pn/AM1Ve2On5M07sHjPGpojG+lkXddZzO7UqVeljqXfKm2rp2NQUq53Y2XYDP4UiyLefqPiQ5D/NlZHS8NUlASX+NsLBKO6qX3sobfhBkmvKCwLCT3FPcXE5veorItz8uaY8Bnh7vcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k1JBFg5R; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D80BAC4CEEB;
+	Sat, 14 Jun 2025 20:05:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749931521;
+	bh=slRsPvk4x7D7++RNJlqHaH2v5niYKW6vSDS25QC8uAY=;
+	h=From:Date:Subject:To:Cc:From;
+	b=k1JBFg5R/IQN3bNpA6vRdIxHOha+XRAas3nx9mmLWUTjzZInsRqx2PPVRL9AIDheu
+	 CIIti5roiN960cJHRNUKzvHuHebEACfvMqAQ95tQQ3zypNnwY0ADyb6t+cdwBHRZhM
+	 6v30iijqyvLiigSEYcLjR0Ea07kY82mYqD0GHvHAdf88V15TZiSkmIQTwYd1ovkEKr
+	 zLDMtO2NibjudGnO8/T9+qYFV8/ExoEm3Pu38Qu1hwOiutWK577mBVsst5X97Rl2eh
+	 KZE+WCMohnAhD2twsDQl0UajR8+hquUgL1epTMLI/3f8HZUVg5g0JOw4GPtH22A38F
+	 sfG1BLjVvfIJQ==
+From: Konrad Dybcio <konradybcio@kernel.org>
+Date: Sat, 14 Jun 2025 22:05:09 +0200
+Subject: [PATCH] media: dt-bindings: qcom,venus: Allow OPP specifics
+ universally
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/10] dt-bindings: media: qcom: Add Qualcomm MIPI
- C-/D-PHY schema for CSIPHY IPs
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Rob Herring <robh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab
- <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
- <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
- <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
- <e9afdd0f-7842-4780-9044-d5afa6a09d7f@linaro.org>
- <b96f9cca-cdd4-4456-8ced-f4a8fd810ff1@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <b96f9cca-cdd4-4456-8ced-f4a8fd810ff1@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: VXRqsMvS6_AbXoEajBT77wV_7iHgnFC5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE0MDE2MyBTYWx0ZWRfX6NEFENniVePr
- 8bkSRJuIluBIxTjpK7wEzCMyqk2yyABGhSU42L/wZpYorwOCN4PlKVfTYHM9JmEHwbf1WsPy2xO
- W85MCslqO4kTSBECihID8XC4Kww65gu4F7jyHj+NTfNg806ctXTaHBxnxVUuGMFoJMuI5728KsY
- TbeL+GiCNPhBqfpaVmWajH5DaHUEdQzPHNjFWbqDAKByGEQNnuRxSRLZffatT8Fr/hDHXPcIJva
- NMMiwBBvqdETYXYvoXVbytC1lxre25KP8vSaEXtSb7OPFGDYpw94co5/VfuqICqk0PXuSs8DsbR
- 3JIRhsfxpqPjOrgDkjwMmII0F3evB+qfCpsm4OS9lDh1y4bmHdWgo16wxvWzj4sO46+uxSdtROi
- yVUgClrRH4/Tpty/X630wZLeUhIOr07EJ4+nEgPv38zuzgnJe4j3QfbQdkCjwWAa4j5ZXKcf
-X-Authority-Analysis: v=2.4 cv=UL/dHDfy c=1 sm=1 tr=0 ts=684dce0d cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=KKAkSRfTAAAA:8 a=LZMvtdFs93sqpN7HcN4A:9
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: VXRqsMvS6_AbXoEajBT77wV_7iHgnFC5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-14_07,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- malwarescore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506140163
+Message-Id: <20250614-topic-venus_opp-v1-1-5ec6f64f395d@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAPTVTWgC/x3MQQqAIBBA0avErBMsrKSrRITZWLNR0ZJAvHvS8
+ i3+zxAxEEaYmwwBE0VytqJrG9CXsicyOqqh5/3Ax06w23nSLKF94ua8Z4YLZSYpj31CqJUPaOj
+ 9j8taygdoYGusYQAAAA==
+X-Change-ID: 20250614-topic-venus_opp-f04af788db7e
+To: Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749931517; l=4350;
+ i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
+ bh=k/9QSJMm1AvzFa3EOIGbiuIbb9WoAR1TLb3OICDsOUA=;
+ b=cnGVtCTeKaFK28FxSnvTX5qHxtYHP8F87l5w8Xr52+C/ygT3fpOE3A6U0BjvPFJQk8zvM1EgA
+ hLTEfaknoXgDVeWa8zehab2O+T/laNrjSOhQOTcrnPc0qdFR4C4DqWA
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
-On 6/13/25 8:28 AM, Krzysztof Kozlowski wrote:
-> On 12/06/2025 19:13, Vladimir Zapolskiy wrote:
->> On 6/12/25 10:38, Krzysztof Kozlowski wrote:
->>> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
->>>> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
->>>> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
->>>>
->>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>>> ---
->>
->> <snip>
->>
->>>> +
->>>> +  clocks:
->>>> +    maxItems: 2
->>>> +
->>>> +  clock-names:
->>>> +    items:
->>>> +      - const: csiphy
->>>> +      - const: csiphy_timer
->>>
->>> Drop csiphy from both, redundant. And this points to the first clock
->>> name not having any useful name. Name equal to device name is not useful.
->>>
->>
->> I got the rationale, but I have no idea how to correct it, since it's
->> literally the case, the first clock name on the list in 'csiphy'.
-> 
-> What do you mean by "list"? You can point me also to internal
-> documentation if that helps.
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-So if you do:
+All venus hardware has a number of OPPs, so it only makes sense to
+commonize the allowing of operating-points-v2/opp-table. Do so.
 
-"csiphy_timer" - "csiphy_" you're left with "timer" which makes sense
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+---
+ Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml    | 4 ----
+ Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml    | 4 ----
+ Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml | 4 ----
+ Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml    | 4 ----
+ Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml     | 5 -----
+ Documentation/devicetree/bindings/media/qcom,venus-common.yaml    | 4 ++++
+ 6 files changed, 4 insertions(+), 21 deletions(-)
 
-however, if you do:
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+index bfd8b1ad473128c974bce84639cb0aff59d8c2cc..e5c05b9c1e914a618a71b86a75ff5516556d55ef 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+@@ -61,10 +61,6 @@ properties:
+       - const: video-mem
+       - const: cpu-cfg
+ 
+-  operating-points-v2: true
+-  opp-table:
+-    type: object
+-
+   video-decoder:
+     type: object
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+index 413c5b4ee6504ba1d5fe9f74d5be04ad8c90c318..0a3b3cd525678b13c201f417f418de4927ea1d8d 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+@@ -54,10 +54,6 @@ properties:
+       - const: cpu-cfg
+       - const: video-mem
+ 
+-  operating-points-v2: true
+-  opp-table:
+-    type: object
+-
+   video-decoder:
+     type: object
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
+index c839cb1ebc0999e10b865f4bb43ea76ffa2bf46d..c177c96d6bd1d4e10de816a330b4e7b1c6e3f3dc 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
+@@ -56,10 +56,6 @@ properties:
+       - const: video-mem
+       - const: cpu-cfg
+ 
+-  operating-points-v2: true
+-  opp-table:
+-    type: object
+-
+   video-core0:
+     type: object
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
+index da54493220c9dc90e7d9f5fcfce7590acb241c85..89db76817be4c6a8d10e46b95546397e85481988 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
+@@ -51,10 +51,6 @@ properties:
+       - const: cpu-cfg
+       - const: video-mem
+ 
+-  operating-points-v2: true
+-  opp-table:
+-    type: object
+-
+   resets:
+     maxItems: 2
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+index c79bf2101812d83b99704f38b7348a9f728dff44..c2076e80bb5c5f976384875f0406bbfa2cd6f100 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+@@ -69,11 +69,6 @@ properties:
+ 
+   dma-coherent: true
+ 
+-  operating-points-v2: true
+-
+-  opp-table:
+-    type: object
+-
+ required:
+   - compatible
+   - power-domain-names
+diff --git a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
+index 3153d91f9d18a327559dd750f152332cdc652ac4..67f0e0f78c72756e9d4ccc34def3da1402b7aa38 100644
+--- a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
+@@ -47,6 +47,10 @@ properties:
+     minItems: 1
+     maxItems: 4
+ 
++  operating-points-v2: true
++  opp-table:
++    type: object
++
+   video-firmware:
+     type: object
+     additionalProperties: false
 
-"csiphy" - "csiphy_", you get "" and Vlad is wondering what to name it
+---
+base-commit: bc6e0ba6c9bafa6241b05524b9829808056ac4ad
+change-id: 20250614-topic-venus_opp-f04af788db7e
 
-> 
->>
->> What could be an alternative name then?..
-> 
-> The real clock input name, signal name. You can also drop the names.
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-I don't have the docs before my eyes right now, but I would not be
-surprised if it's also called "csiphy" in there..
-
-Konrad
 
