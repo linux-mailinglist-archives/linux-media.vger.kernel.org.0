@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-34823-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34825-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A1FADA25B
-	for <lists+linux-media@lfdr.de>; Sun, 15 Jun 2025 17:38:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA814ADA25C
+	for <lists+linux-media@lfdr.de>; Sun, 15 Jun 2025 17:38:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3AAE3B0B58
-	for <lists+linux-media@lfdr.de>; Sun, 15 Jun 2025 15:37:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFDB216D165
+	for <lists+linux-media@lfdr.de>; Sun, 15 Jun 2025 15:38:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16AC827AC21;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7255727AC4D;
 	Sun, 15 Jun 2025 15:38:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=tasossah.com header.i=@tasossah.com header.b="JV2/WWqP"
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=tasossah.com header.i=@tasossah.com header.b="eZvZGiyJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from devloop.tasossah.com (devloop.tasossah.com [145.239.141.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF97D2116EE
-	for <linux-media@vger.kernel.org>; Sun, 15 Jun 2025 15:38:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8D927A114
+	for <linux-media@vger.kernel.org>; Sun, 15 Jun 2025 15:38:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.239.141.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750001883; cv=none; b=io/v00qSybTZw/UO06fIvA7bsKXE3QYzF6yOUJ7ofNsegLU63WCIkzjUKzzW6FwKT61cIG2HToaDuvrvUFvzZqCVoHMwWskDSUihkRwfTh0lzGHfbjFBYfL1KPdGNToHbA6q1HpHdguAUkAlcXRSXDMASbyXpZtoTmgj4DM1408=
+	t=1750001883; cv=none; b=gEeEINlqjiXLwCbe+v/mMgq9P2oVMS8+QVZbiRTfTe6+jX296QMxYzy9WDxhf0B814KnSpSMD8QUUAa/RIg03D7TyxFHXmenBFXMevW4rUs3k/16didZazm36sc9puVbyxdDwML3nKVxoXOjt8ZzNVM/ffekor/e7JmXlP2GhkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750001883; c=relaxed/simple;
-	bh=hmKRqFEGX9uEL25kUxbEqYAvOEBXs2viuUoCVE7fKyI=;
+	bh=co+rxh5Ui/UucY+Ko5WqnkYO2J7HKOu/hhwnozyGFxY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UPVnwbxQIq8GBlFxUpnCjek7iO+6p71nBy2tPE42BJS/4uSRITNhTl7KnGbFC6kUXPBT8eVg0q0C6FEURLBlkppqsTIHQeVSUzZVYDAsCjxNoyuDsP/W+YecQoA2T/ityRrmYt8nItYwxbXi0xiUSNI6pkWOLeWg4hGut5NjKSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tasossah.com; spf=pass smtp.mailfrom=tasossah.com; dkim=pass (4096-bit key) header.d=tasossah.com header.i=@tasossah.com header.b=JV2/WWqP; arc=none smtp.client-ip=145.239.141.69
+	 MIME-Version; b=OLwEeDDLaxeJl9FtkN0Alqb2tIIEHc62FOObHUTpTma9ElPxIwsvqLNDPmME7uKQrllhcfl5Glvnvzdn22uMuDRoM4ZOgKNAJkj9h6Fyoo4Ku9IM+6f46PQttCeDZ6mPh0jpwXTM/9mmXgZXM3ALIZWQgtLpQ57WxRxrVz7BOjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tasossah.com; spf=pass smtp.mailfrom=tasossah.com; dkim=pass (4096-bit key) header.d=tasossah.com header.i=@tasossah.com header.b=eZvZGiyJ; arc=none smtp.client-ip=145.239.141.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tasossah.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tasossah.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -37,28 +37,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=8cRJPWIVqUU7HDuCK8qcv3q/0WpWTEif04EomwnQHNQ=; b=JV2/WWqPxShpaBQx4V5dR7FsqR
-	XsP4+32cZH8UELfxQGL/t+VrXKjJD4SV6A2Q38OXQzm77p2CGHfXrs2IEOMcuj/euWXqh03q4yk4L
-	kic8kKxZQaOVPwMP0J9aXVelsxYFX8yfLv7TNJOAO76gThtsdVuuU4SAJtjytSD7zQezHJnX4vZHm
-	V/pJo1vE+YgwJAU0X7LCo7UelBlrV9XqiE7ECYyESSekQHTj4zYCbOCIsOWjuvnYpEjEQ/x5F7s67
-	aaYboqmKtrMDBTlmNb489tsMBs7Qez+0C71MeWjviyLrslyzJUMnLIXvf1ZAMVsv+Z5HgW4Pitm6x
-	4jwTaTRyFsuTP/mjxGFDatMTyO8vkIaynNVep+0gNoPyuqLgjPNM0xihIQ4rxrg6moARTkQTjRxzw
-	Et2y1gNQOtQhSV8Ao+x7m3sfmiZryzK3KGHLiLwYQH6cXiJHzsrqdCDqz1IklxGspGzYySNtJCVNi
-	dmfzuHE6g45N9tLBU7XznQ5COeW2eKp/mtYqbOfUWEduVwHK2M38YXTUWoWmiyeorLO+SN0ZSi0Sa
-	dLkKaQtbB92ciiDvPfh0DwVBHxv4XxOPfVKBWpA9YtX7g9JqO2/zklfRERKjGS2qTltSi7C+Abl7G
-	2P3eDngDKSXvDWVP8NN6gLqP3NjtfifjrZnalC81o=;
+	bh=3C+Q9mZpyqKRnYLSUKB2J+oY/tFxwWc+5aypkDGpz1Y=; b=eZvZGiyJPQjFo5+Xp4RmIzPlTF
+	1X5Dd3r3aPK47Ep8QP2RYClU8/ny0ijDZA4eKRl39iPKYwydie88Exs9svKnz9ny3hrJAB8QC8KXV
+	MgPsVKm0p3j/y/KWbrPgmQeYc6R26uXQKiQ4pwesCm7ZqFkSXEPGw+pJu0GoINbHSjQ6I3o4/uMif
+	x8IcByBoSgrJJaUmGriSoAcwCxDUsCV3u4N1PIzKU4kj2d4CpR2avm7S3nVtRZhwgGJPChMq5yYOh
+	hrJN81Pi2RWPVDfFlsiPhm36xjk2MscZnhFpcjj4sUZ7Y8bc9MjP9+RUuTmLtVJuxq3Ev27p1an/N
+	VkpTwQ0+2OVx0ra0IC2ST48SKuEdis4ceBT9wt+akL9f4nK67i4Wj3QvoUHmOrkt7AC4NdU46vYAv
+	/UCEUD4dy7p+klNQTC2MsqPgYa+93mPIVmmOChHUNcyXx548+rWyo8o76rYRW0AMOQk72ChH02pFK
+	f8o2d5Dnn/I6zVR1D313wIMNEvLr/ILhzXRUrujmHEuYdyt72vr7ngjsLf/7YqLk6r7KpXRiMinE4
+	IrdczKYKtjE58JW86XGgW2UVmXs7wb2igqzQ1gDVRLYRAL/wqJoOZ09wlXK/RZCizI3TDkwYoF+Ku
+	I7iHsoqTkKkEQa7UpctQe66HluRg9iMVIlOqvnN7c=;
 Received: from [2a02:587:6a09:4a00:d0fc:27f9:c172:9792] (helo=localhost.localdomain)
 	by devloop.tasossah.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.97)
 	(envelope-from <tasos@tasossah.com>)
-	id 1uQpQl-0000000HJaM-1cF7;
+	id 1uQpQl-0000000HJaM-2rqH;
 	Sun, 15 Jun 2025 18:37:59 +0300
 From: Tasos Sahanidis <tasos@tasossah.com>
 To: linux-media@vger.kernel.org
 Cc: Tasos Sahanidis <tasos@tasossah.com>
-Subject: [PATCH tvtime 2/4] Fix XineramaScreenInfo memory leak
-Date: Sun, 15 Jun 2025 18:21:13 +0300
-Message-ID: <20250615153751.1707298-3-tasos@tasossah.com>
+Subject: [PATCH tvtime 3/4] Fix fifofile memory leak
+Date: Sun, 15 Jun 2025 18:21:14 +0300
+Message-ID: <20250615153751.1707298-4-tasos@tasossah.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250615153751.1707298-1-tasos@tasossah.com>
 References: <20250615153751.1707298-1-tasos@tasossah.com>
@@ -70,26 +70,34 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The pointer needs to be XFree()d afterwards
+The return value of get_tvtime_fifo_filename() should be freed, as it
+calls asprintf() internally.
 
 Signed-off-by: Tasos Sahanidis <tasos@tasossah.com>
 ---
- src/xfullscreen.c | 2 ++
+ src/tvtimeconf.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/src/xfullscreen.c b/src/xfullscreen.c
-index d6da57d..cfa4bd7 100644
---- a/src/xfullscreen.c
-+++ b/src/xfullscreen.c
-@@ -151,6 +151,8 @@ xfullscreen_t *xfullscreen_new( Display *display, int screen, int verbose )
-             fprintf( stderr, "xfullscreen: Using XINERAMA for "
-                              "dual-head information.\n" );
+diff --git a/src/tvtimeconf.c b/src/tvtimeconf.c
+index a58a402..2e78e8a 100644
+--- a/src/tvtimeconf.c
++++ b/src/tvtimeconf.c
+@@ -1033,6 +1033,7 @@ int config_parse_tvtime_command_line( config_t *ct, int argc, char **argv )
+             return 0;
          }
-+
-+        XFree( screens );
-         return xf;
+         close( fifofd );
++        free( fifofile );
      }
- #endif
+ 
+ 
+@@ -1251,6 +1252,7 @@ int config_parse_tvtime_config_command_line( config_t *ct, int argc, char **argv
+             return 0;
+         }
+         close( fifofd );
++        free( fifofile );
+     }
+ 
+     ct->doc = configsave_open( ct->config_filename );
 -- 
 2.43.0
 
