@@ -1,109 +1,114 @@
-Return-Path: <linux-media+bounces-34831-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34832-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C35ADA3A2
-	for <lists+linux-media@lfdr.de>; Sun, 15 Jun 2025 22:38:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D10B5ADA489
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 01:11:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67AC23A8834
-	for <lists+linux-media@lfdr.de>; Sun, 15 Jun 2025 20:38:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 163811889745
+	for <lists+linux-media@lfdr.de>; Sun, 15 Jun 2025 23:12:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84A6027BF7E;
-	Sun, 15 Jun 2025 20:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89B0728135D;
+	Sun, 15 Jun 2025 23:11:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ppD+Mc9K"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uarof2PP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DAE29A2
-	for <linux-media@vger.kernel.org>; Sun, 15 Jun 2025 20:38:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE852E11A3
+	for <linux-media@vger.kernel.org>; Sun, 15 Jun 2025 23:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750019920; cv=none; b=Sqfind3Kjh8ECeMug2/yJE9O04hfsH/FGqeyjy5d25Npk/A5Gx4enDJ2nQwFZ00fuuwWuxXMjhlF00XYKYB9erJSEmWSZhbFlTY1PeONvTImwOw597uXfsOPkDv6mW6JsX/UeuPx5lLgpEp/g6w98d+xcmyvJBgrQCD3+7cb4fk=
+	t=1750029107; cv=none; b=TwCE50PBZX9jPATPhefV59Cs8VToqwYZ5YAq6eqYKeMYYE/nWY8RrT6vT2iHkciTrvBM/gEDUvtBvcAOMePTamdla0L4ua9IyNH0Kz1rauzUGZFbnFqx894w7+vOeAox9hVpFybpOO8oNQeiszgOyJj4M77+tdAQUqT2hLFAu0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750019920; c=relaxed/simple;
-	bh=ZxX15PCxk1eBknJ+IhTzr4APt9m9IGorWS/ZUAI0Ylc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EKqPqBXW+tpxmDtkgzBRyTRlAQYIvCWQlmp7fYA9rJol/ZZ6loXn9CFhsRrdru5nJCb+g3uiTJeiXSk7NMLq3s2jV247KmzSO8ZyS80/fnl/dQ5ZywFU9tGECz6StxGEb804UXuR8jcNMCTt/DrBeF3Kdzo8aQE2c7oV7EeSxbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ppD+Mc9K; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23F7A8BE;
-	Sun, 15 Jun 2025 22:38:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750019906;
-	bh=ZxX15PCxk1eBknJ+IhTzr4APt9m9IGorWS/ZUAI0Ylc=;
-	h=Date:From:To:Cc:Subject:From;
-	b=ppD+Mc9KILXxAvBTZNEi8MYSFrmVClv31opI6/hlEmG+VqNW81Dz2/GhoGwRbxmzS
-	 72kfUmwkkGfClzdcdxoiSOKAjSeA/w9PgvpW8dBUotpKfX5m1SzrIhB3g1YY80xaQB
-	 PlWVMAHAJijIF0y6ODzjgc2+c93E6aAiTcYvDkns=
-Date: Sun, 15 Jun 2025 23:38:23 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hans@jjverkuil.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, chenchangcheng <chenchangcheng@kylinos.cn>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Youngjun Lee <yjjuny.lee@samsung.com>,
-	Hans de Goede <hansg@kernel.org>
-Subject: [GIT PULL FOR v6.17] uvcvideo improvements
-Message-ID: <20250615203823.GA32454@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1750029107; c=relaxed/simple;
+	bh=o2M8aTJnLUPL1zk8er/JNPhZFreP63h9ZtSwu0XeWgA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=skrq+eN2d+L6mpiBAkMMa0xOuAfS8Ey9/QS3eU/PIkDWAvq6Zb1QSkDcMzC+YsK814SiY/2eGJ6l7pINyLDUon05uJXoj4g2GqHmgBSQ7qUxuKhyMv3ch+6U97GtY7IaDbrVIoUNPDUiRVpJVYylxE2PNDMcyZO09+Le3AL5+yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uarof2PP; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-adeaa4f3d07so757900766b.0
+        for <linux-media@vger.kernel.org>; Sun, 15 Jun 2025 16:11:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750029104; x=1750633904; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IuRC0Xv8GuCK7/0M2ogm1jbfujpFFyPz5eHg0qrJ1d0=;
+        b=Uarof2PPigFdrCQ5cQZBLtniVpYV/LhNMvgTznzir7nkiosvEAuIdB0Tlbfa/wTPK0
+         DR3kuJOuSkwZItP38epmI26JTk4ewF3nuz06IOs1SUDnx6j6ji8sv5WfV7wDu83GF0Bc
+         TlCPZuTno5hLXEWOQS/3PMIU41KVlHFeLNxmKhoj+GMQmdCqpTYeFFpXkpHIYolt0CWM
+         8AmsxTFllbLijhbAQAvlBoz5kZopueCwvDkghDK2GitEsYMfGcua2Eal3QC5ZaMyL7Ft
+         VyGwoVk/BB9MmzJ/gJ2HwKcRVMSVe4rIGVU6sj5jJjl9GdXWs7Eq3sO55qZeBwOGXI3U
+         kiCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750029104; x=1750633904;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IuRC0Xv8GuCK7/0M2ogm1jbfujpFFyPz5eHg0qrJ1d0=;
+        b=Aw4Gou/YM1n07GDozfaa1/wo1jAatYa2VbzKj1haftwJrtbTBSz/bM7iepYQpyAhVs
+         YzNDEPmHCBM7ZDVsEcYBjRsTArUWU5UqA5cAJwg3F5iYes/zAjQ71TL9F7dg132OKYTD
+         0YdXdArRr5r8Ec7odACrA4bReMK2rAlcjD7+xyx1HYDoIjLIb37O5czhAT5gMt6gTcDP
+         ZJYu68NWxeDA4eub33phdyA8kmApp2MibZAO+uaZlfbPN2IeDuyi02wb0QapAZ7WROv2
+         aNXkkcirHWHwJpFksEdNFnepcXKt6KM5RPNFuA0/HolWySbIJxY956dswt8w5hG+7col
+         aIFQ==
+X-Gm-Message-State: AOJu0YyQ3wgrs4a3zs0ChcznxmnHpAwr7bSB43YRXiqmstaj5vyWWwM9
+	p9ef6Cmkdx654doL841bBOXg2hW/3MUJ1jBb5FiiRiLz80ddur7/f9sK
+X-Gm-Gg: ASbGncvVJetTJ9QQ2467b5Udmt9eJq1INRfcNMktvmb3ZyYMDZsoayanIcSaibDnl+n
+	eT1P5tbtU5W//BOV/gi0S1ApolVcW79qaw4nQf/u3i+m1WllttDPTIUrHOlfbpiyKlwWAd26+nX
+	7gKOjuM4cJy/lvp9+uBxZk+fYgSKcwR5As6IUpvcWOAebrfgoGX+CLeA6L1ntj3a4+dJgkTnw6P
+	CnxxKUJ2sdYi/vPAES5ovyySyY7MJFeSMbVBBfUETpebb6p3WxBa93GIqzJtws87pD9vghI8i0Y
+	pZ8B0m7JZPyZXSc8uWoI72PM1hKnrhCJR8Lnd8dms8/iSLCu78Fix1bly75es90uYoDluoXz1D8
+	ymzeMksObNn8sgKvOdIYt9XO1l9vdFchonhIVO3zWyZ22nv6B5nDilRHH/IoP20NuPb3YE2rZb7
+	mXfIcYGHGW1z2XmSLdXU0jgfw=
+X-Google-Smtp-Source: AGHT+IFyGA6EW7LECZpZrvsKlkrWn3k+KNaMnoQqSqnxGmyZY0vgQDtyxj8I6kVAvREM6+v/SIhKvw==
+X-Received: by 2002:a17:907:ea5:b0:ad8:a935:b905 with SMTP id a640c23a62f3a-adfad437a98mr606897966b.22.1750029104414;
+        Sun, 15 Jun 2025 16:11:44 -0700 (PDT)
+Received: from chimera.arnhem.chello.nl (2001-1c08-0704-3500-b0b7-97b6-556d-11c4.cable.dynamic.v6.ziggo.nl. [2001:1c08:704:3500:b0b7:97b6:556d:11c4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec81baf3esm546347666b.40.2025.06.15.16.11.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Jun 2025 16:11:44 -0700 (PDT)
+From: Thomas Andreatta <thomasandreatta2000@gmail.com>
+X-Google-Original-From: Thomas Andreatta <thomas.andreatta2000@gmail.com>
+To: hansg@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 1/5] Staging: media: atomisp: i2c: hardcoded function name
+Date: Mon, 16 Jun 2025 01:11:39 +0200
+Message-Id: <20250615231143.1558392-1-thomas.andreatta2000@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
+Checkpatch fix: use func instead of hardcoded function name
 
-  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
+Signed-off-by: Thomas Andreatta <thomas.andreatta2000@gmail.com>
+---
+ drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/uvc.git tags/next-media-uvc-20250615
-
-for you to fetch changes up to 1fa3e1b57448e056305210a51ec6981e186cfc8f:
-
-  media: uvcvideo: Fix 1-byte out-of-bounds read in uvc_parse_format() (2025-06-15 23:04:04 +0300)
-
-----------------------------------------------------------------
-Improvements to the uvcvideo driver:
-
-- Fix bandwidth issue with buggy devices
-- Add quirks for new device
-- Fix out-of-bounds read
-- Miscellaneous refactoring and cleanup
-
-----------------------------------------------------------------
-Ricardo Ribalda (6):
-      media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during queryctrl errors
-      media: uvcvideo: Populate all errors in uvc_probe()
-      media: uvcvideo: Refactor uvc_ctrl_set_handle()
-      media: uvcvideo: Refactor uvc_queue_streamon
-      media: uvcvideo: Refactor uvc_v4l2_compat_ioctl32
-      media: uvcvideo: Add quirk for HP Webcam HD 2300
-
-Youngjun Lee (1):
-      media: uvcvideo: Fix 1-byte out-of-bounds read in uvc_parse_format()
-
-chenchangcheng (1):
-      media: uvcvideo: Fix bandwidth issue for Alcor camera
-
- drivers/media/usb/uvc/uvc_ctrl.c   | 123 ++++++++++++++++++++++++-------------
- drivers/media/usb/uvc/uvc_driver.c |  30 +++++----
- drivers/media/usb/uvc/uvc_v4l2.c   |  29 +++++----
- drivers/media/usb/uvc/uvc_video.c  |   9 +++
- drivers/media/usb/uvc/uvcvideo.h   |   2 +
- 5 files changed, 125 insertions(+), 68 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+index d35394f1ddbb..f57f2b70909a 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+@@ -584,7 +584,7 @@ static void gc0310_remove(struct i2c_client *client)
+ 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
+ 
+-	dev_dbg(&client->dev, "gc0310_remove...\n");
++	dev_dbg(&client->dev, "%s...\n", __func__);
+ 
+ 	v4l2_async_unregister_subdev(sd);
+ 	media_entity_cleanup(&dev->sd.entity);
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
