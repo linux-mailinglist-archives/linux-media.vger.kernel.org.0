@@ -1,296 +1,1094 @@
-Return-Path: <linux-media+bounces-34954-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34955-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B632FADB4EC
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 17:09:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A46AADB4F3
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 17:10:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 155F77AB77F
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 15:03:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8B7E16D738
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 15:10:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 462EC219303;
-	Mon, 16 Jun 2025 15:05:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0EA121CA08;
+	Mon, 16 Jun 2025 15:10:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gtYavM4v"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kltc6R1B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5D92BEFF9
-	for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 15:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6E71E834F;
+	Mon, 16 Jun 2025 15:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750086306; cv=none; b=eiGsOKy34JtFU0nxL1Y6lBvwWen1FmHYZtlOY0XzyuT5ucNjfSN75mCGwp8IxOySThoj8XMe/Nf7CjT6vM9Wsg7Sb22Zxwk1mXzUOIi7nC/zOvBVynAXXptd3QJZMyZSzebFy6cGzWLyD5tRgAEqzN753fELgR20j3K6ln4+r/M=
+	t=1750086624; cv=none; b=OOJ1lTJCC+ePFcKYhmcDg9hCU2GWsNYePNbG2KsyoZA6y8+TPskkFdcnCekcbZ1VoxPPGzzto8qPYSQYKHlWwjXuWeFs379anNIJTqybWZPwdexSI3r4A0thOKI0tozkwjf9vKL9XPyeG6ZFwB+QKrEOuJIEu9OiY+VETmHzhvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750086306; c=relaxed/simple;
-	bh=xEEEFe2DCXOIcoLFyj2eBlLVjU/+jvg+u7CPfzyUFAo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rw6R81zs5iQle69uHXeIKv4FgfAxkdQbsihUmp+7QJbtn57rmMlh8LFYMxt9SShM5a1hPV/KcJftBdGwjXv79xtb2Xt+GsueAUBHV0iaIiFVVdeFvn6EdRrOZanvinEMkWiel43SNPkZk5esMQJpTwLEVfwWMSXXS3OORwEaYik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gtYavM4v; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-553bcf41440so1690833e87.3
-        for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 08:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1750086303; x=1750691103; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7CmiRg3wf48axsfuxxvYfT6/rUXvgOviud+TRcFYhmo=;
-        b=gtYavM4v/WQXj1QFE7tbYi4qEbmPPb4ItEWLEP2yHIq9pD0TZsE38w0aiDGfSJLt8j
-         j+QElaexJl93RI90QqE4T+ANgxDEFXVAwGnC/gl/O0kL6BtjrW+FPy/+ww3Lfo5wVY5I
-         7L/Blvt0xg7jI9L1T5AKzN1EreZPyx4xcilEA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750086303; x=1750691103;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7CmiRg3wf48axsfuxxvYfT6/rUXvgOviud+TRcFYhmo=;
-        b=Sup1MDUn2eI4J6WUI8mUst5wK4H3bg8cL2gaRLXqWj5Cl19B59JpbfsYbh0RTXeYP8
-         dNShcxIm5ceLFaiICMyZ67y4MdEY2KBeq0xdWgllC4p7Qs0khGRrXpvB4ufft/HVQH3x
-         2WEcuCGB1E4jlyZDspJRaqqqtWQXk0o2Nm5aVDulz2UtueEEQmwDvL/v8ZF2n7ki6q8n
-         HxCK6378bQNBst5Si/dD619uvMOyJltlvuzw7t7Db7ljkGjziM90jE0J1LBWH3B9IxJI
-         deZsDi3p/uQ8RXPAY3zTipkmRY5mQRZMGL/EQ6RDE1AkmSKlwym6LQ1Ml9ZDGGYk5/p3
-         tj5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUmtuhoyfcppDO5rGbmVFYyt67LjiPfSo7MIzbadjaI17KBgvxMfJf2/teukeBbtffr74AVGOEWnprqLw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxr609jHKgrzm8fuUX85FLCaFzEsU5QzQ++A7D7auBDEU8wS0hU
-	EKL0praCZPDOUaF3m6IqLr0wP84KwXme+PfFUG8KZr0SPQkOyWLNCSngmZxHxJ9vf0xiGQYXclT
-	0Swg=
-X-Gm-Gg: ASbGncuMvt4QRNbovfBtezXyCOZsQxj/MQVade2IAN+UUuoiR6GTnZDGpoRsnPZtcSG
-	czfbnGy/7a0NsGwWDmVWyAZgrR2DXOLZa767PiCpC9O/VRmm8RJwngUlKV0U7uO1Tr/JFMi2DLr
-	7jBkukgpelgh1aJAye8vBlPLgVQRv227xiDYXTp1s7henW7vosQjewHHgAjjsMRIItK65SKhIAD
-	2RPLZ+pTlZfL1NgnsXDp5sfj3i1zf6oS9xhSarF0BAMV8bzWEXdRwmwrdgstbDsOL0udI09AYEW
-	jFT4rFvF82+D9PxXBrq8eDvGhWpx6V2l/dwdZkCtCM1tm3rWAzrWRIxE4oLgdJr3FeokeIplQpF
-	141PeLGcDXeDkCeRfSPjZjC4M
-X-Google-Smtp-Source: AGHT+IHbEuFcOfKOE0UmMP/ZozaKz3UaJdVFfuJrpwz+kK/fRsUKdXRmlCVxt1CZrgtw8vgid6kEFQ==
-X-Received: by 2002:a05:6512:e9a:b0:553:3446:beda with SMTP id 2adb3069b0e04-553b6f0b235mr2818761e87.35.1750086302543;
-        Mon, 16 Jun 2025 08:05:02 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac135c2dsm1587881e87.67.2025.06.16.08.05.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jun 2025 08:05:02 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-553b51f5218so2896599e87.0
-        for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 08:05:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUfccLw7L9lIVX6tSiHVLE1wRFkBVioF8byVoJM+RPR+g4rLLdDeCI5yWjvJF6vDBa2JMq9c04x2JggGA==@vger.kernel.org
-X-Received: by 2002:a05:6512:39cc:b0:553:3770:c912 with SMTP id
- 2adb3069b0e04-553b6f42a3fmr2460867e87.47.1750086300514; Mon, 16 Jun 2025
- 08:05:00 -0700 (PDT)
+	s=arc-20240116; t=1750086624; c=relaxed/simple;
+	bh=v34PwaNsgLl+mkX6pPJmYUQ68ayA0N9qmqb/vaKxXOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VzetqqR5nh0VMdC8f3fEN2XFQcHQOUN4wFNQ97Gs/a5P9ZSAM4sTfDVjpHIcdoz6L+woOjTwbIOEeAkToWPchIMuhqWWREbU8s/ksDxKmgcU3p4Ru2/saPpZ7aJP3HmUfvfNnyJCXIdQgNrkBxhAVUbw0zA2jElAOoiyAnp5dx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Kltc6R1B; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E90C346;
+	Mon, 16 Jun 2025 17:10:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750086607;
+	bh=v34PwaNsgLl+mkX6pPJmYUQ68ayA0N9qmqb/vaKxXOA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Kltc6R1BPgrdMp+QkzsrsxOrDv/gDStwA0Gu04t4UlcHadEDnxQc7wLTQaOpjAR4t
+	 yLKJxC/TvwgEwGC1OohE9vLnGA6TeAKkde40VGpGjeAg/0VBd0buxTj6RIPyCuPrCM
+	 O89y0cM7G5ykT2gc6XzABtGdz1InSNULnsjiR2Rc=
+Date: Mon, 16 Jun 2025 18:10:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v11] media: vsp1: Add VSPX support
+Message-ID: <20250616151003.GE10542@pendragon.ideasonboard.com>
+References: <20250616-b4-vspx-v11-1-69af6398c185@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250604-uvc-meta-v6-0-7141d48c322c@chromium.org>
- <20250604-uvc-meta-v6-4-7141d48c322c@chromium.org> <d1e5942b-f8e5-42c6-98ae-d346927df3cb@kernel.org>
-In-Reply-To: <d1e5942b-f8e5-42c6-98ae-d346927df3cb@kernel.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 16 Jun 2025 17:04:47 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtXmXYkv3b_62iegTFOxBVrGUv9+mbioxvQvPsadwBpqg@mail.gmail.com>
-X-Gm-Features: AX0GCFuHFKUi-9B4I3CPVjTQKDuL0NpKPYCYgWNg_SuaoEaEGMlQPtEEXLBpmJ8
-Message-ID: <CANiDSCtXmXYkv3b_62iegTFOxBVrGUv9+mbioxvQvPsadwBpqg@mail.gmail.com>
-Subject: Re: [PATCH v6 4/4] media: uvcvideo: Auto-set UVC_QUIRK_MSXU_META
-To: Hans de Goede <hansg@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250616-b4-vspx-v11-1-69af6398c185@ideasonboard.com>
 
-Hi Hans
+Hi Jacopo,
 
-On Mon, 16 Jun 2025 at 16:38, Hans de Goede <hansg@kernel.org> wrote:
->
-> Hi Ricardo,
->
-> On 4-Jun-25 14:16, Ricardo Ribalda wrote:
-> > If the camera supports the MSXU_CONTROL_METADATA control, auto set the
-> > MSXU_META quirk.
-> >
-> > Reviewed-by: Hans de Goede <hansg@kernel.org>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_metadata.c | 72 ++++++++++++++++++++++++++++++++++++
-> >  include/linux/usb/uvc.h              |  3 ++
-> >  2 files changed, 75 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-> > index df3f259271c675feb590c4534dad95b3b786f082..cd58427578ff413591b60abe0a210b90802dddc7 100644
-> > --- a/drivers/media/usb/uvc/uvc_metadata.c
-> > +++ b/drivers/media/usb/uvc/uvc_metadata.c
-> > @@ -10,6 +10,7 @@
-> >  #include <linux/list.h>
-> >  #include <linux/module.h>
-> >  #include <linux/usb.h>
-> > +#include <linux/usb/uvc.h>
-> >  #include <linux/videodev2.h>
-> >
-> >  #include <media/v4l2-ioctl.h>
-> > @@ -188,11 +189,82 @@ static const struct v4l2_file_operations uvc_meta_fops = {
-> >       .mmap = vb2_fop_mmap,
-> >  };
-> >
-> > +static const u8 uvc_msxu_guid[16] = UVC_GUID_MSXU_1_5;
-> > +
-> > +static struct uvc_entity *uvc_meta_find_msxu(struct uvc_device *dev)
-> > +{
-> > +     struct uvc_entity *entity;
-> > +
-> > +     list_for_each_entry(entity, &dev->entities, list) {
-> > +             if (!memcmp(entity->guid, uvc_msxu_guid, sizeof(entity->guid)))
-> > +                     return entity;
-> > +     }
-> > +
-> > +     return NULL;
-> > +}
-> > +
-> > +#define MSXU_CONTROL_METADATA 0x9
-> > +static int uvc_meta_detect_msxu(struct uvc_device *dev)
-> > +{
-> > +     u32 *data __free(kfree) = NULL;
-> > +     struct uvc_entity *entity;
-> > +     int ret;
-> > +
-> > +     entity = uvc_meta_find_msxu(dev);
-> > +     if (!entity)
-> > +             return 0;
-> > +
-> > +     /*
-> > +      * USB requires buffers aligned in a special way, simplest way is to
-> > +      * make sure that query_ctrl will work is to kmalloc() them.
-> > +      */
-> > +     data = kmalloc(sizeof(*data), GFP_KERNEL);
-> > +     if (!data)
-> > +             return -ENOMEM;
-> > +
-> > +     /* Check if the metadata is already enabled. */
-> > +     ret = uvc_query_ctrl(dev, UVC_GET_CUR, entity->id, dev->intfnum,
-> > +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
-> > +     if (ret)
-> > +             return 0;
-> > +
-> > +     if (*data) {
-> > +             dev->quirks |= UVC_QUIRK_MSXU_META;
-> > +             return 0;
-> > +     }
-> > +
-> > +     /*
-> > +      * We have seen devices that require 1 to enable the metadata, others
-> > +      * requiring a value != 1 and others requiring a value >1. Luckily for
-> > +      * us, the value from GET_MAX seems to work all the time.
-> > +      */
-> > +     ret = uvc_query_ctrl(dev, UVC_GET_MAX, entity->id, dev->intfnum,
-> > +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
-> > +     if (ret || !*data)
-> > +             return 0;
-> > +
-> > +     /*
-> > +      * If we can set MSXU_CONTROL_METADATA, the device will report
-> > +      * metadata.
-> > +      */
-> > +     ret = uvc_query_ctrl(dev, UVC_SET_CUR, entity->id, dev->intfnum,
-> > +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
-> > +     if (!ret)
-> > +             dev->quirks |= UVC_QUIRK_MSXU_META;
->
-> Since we set the ctrl to enable MSXU fmt metadata here, this means that
-> cameras which also support V4L2_META_FMT_D4XX will be switched to MSXU
-> metadata mode at probe() time.
+Thank you for the patch.
 
-Not sure that I completely follow you. D4XX cameras will not be
-switched to MSXU, they will support MSXU and D4XX with the current
-patchset.
+On Mon, Jun 16, 2025 at 02:18:14PM +0200, Jacopo Mondi wrote:
+> Add support for VSPX, a specialized version of the VSP2 that
+> transfers data to the ISP. The VSPX is composed of two RPF units
+> to read data from external memory and an IIF instance that performs
+> transfer towards the ISP.
+> 
+> The VSPX is supported through a newly introduced vsp1_vspx.c file that
+> exposes two interfaces: vsp1_vspx interface, declared in vsp1_vspx.h
+> for the vsp1 core to initialize and cleanup the VSPX, and a vsp1_isp
+> interface, declared in include/media/vsp1.h for the ISP driver to
+> control the VSPX operations.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> ---
+> The VSPX is a VSP2 function that reads data from external memory using
+> two RPF instances and feed it to the ISP.
+> 
+> The VSPX includes an IIF unit (ISP InterFace) modeled in the vsp1 driver
+> as a new, simple, entity type.
+> 
+> IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
+> interfacing. To prepare to support VSPX, support IIF first by
+> introducing a new entity and by adjusting the RPF/WPF drivers to
+> operate correctly when an IIF is present.
+> 
+> Changes in v11:
+> - Rework vspx locking:
+>   - Introduce a mutex to protect start/stop streaming sequence
+>   - use a spinlock to protect the 'enabled' flag as it is contended with
+>     the ISP irq context
+>   - Use spinlock_irq when appropriate (start/stop streaming)
+> - Refuse ConfigDMA with less than 17 pairs
+> - Use format mplane to configure the image buffer
+> - Refuse jobs when the VSPX is stopped by returning an error
+> - Expand API documentation
+> - Link to v10: https://lore.kernel.org/r/20250529-b4-vspx-v10-1-02a9cb000853@ideasonboard.com
+> 
+> Changes in v10:
+> - Properly stop the VSP1 pipeline by setting the pipeline in STOPPED
+>   state at frame end time
+> - Prevent new jobs from being scheduled after the pipe has been stopped
+> - Link to v9: https://lore.kernel.org/r/20250506-b4-vspx-v9-1-d7d50a01f7b6@ideasonboard.com
+> 
+> Changes in v9:
+> - Address Laurent's comment on style and comments
+> - Rework job preparation/queueing
+>   - Remove the VSPX job queue
+>   - Move the display list to be part of struct vsp1_isp_job_desc
+> - Rename main spinlock
+> - Rework start/stop procedures
+> - Link to v8: https://lore.kernel.org/r/20250502-b4-vspx-v8-1-b2a7592668dd@ideasonboard.com
+> 
+> Changes in v8:
+> - Remove patches already collected by Laurent in
+>   [GIT PULL FOR v6.16] Renesas media drivers changes
+> 
+> - Rebased on
+>   https://gitlab.freedesktop.org/linux-media/users/pinchartl.git #renesas-next
+> 
+> - Changes to the VSPX interface towards the ISP
+>   - Split start/stop_streaming
+>   - Add vsp1_isp_jobs_release() to release pending jobs
+>   - Add vsp1_isp_free_buffer()
+>   - Remove vsp1_isp_configure() and compute partitions on job creation
+> 
+> - Driver changes
+>   - Drop irq-driver flow
+>     The VSPX used to schedule new jobs as soon as processing the last
+>     one is done. This doesn't work well with the R-Car ISP design
+>     for two reasons:
+>     - The ISP needs per-job registers programming
+>     - The ISP and VSPX job queues have to stay in sync
+> 
+> - Minors
+>   - Remove the jobs_lock as a single lock is fine
+>   - Protect against VSPX/ISP irq races in job_run() by checking the
+>     VSPX 'busy' register and remove the 'processing' flag
+>   - Manually set the pipeline state to STOPPED before scheduling a new
+>     job without waiting for frame_end
+> 
+> Changes in v7:
+> - Include VSPX driver in the series
+> - Use existing VSP1 formats and remove patches extending formats on RPF
+> - Rework VSPX driver to split jobs creation and scheduling in two
+>   different API entry points
+> - Fix VSPX stride using the user provided bytesperline and using the
+>   buffer size for ConfigDMA buffers
+> - Link to v6: https://lore.kernel.org/r/20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com
+> 
+> Changes in v6:
+> - Little cosmetic change as suggested by Laurent
+> - Collect tags
+> - Link to v5: https://lore.kernel.org/r/20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com
+> 
+> Changes in v5:
+> - Drop additional empty line 5/6
+> - Link to v4: https://lore.kernel.org/r/20250318-v4h-iif-v4-0-10ed4c41c195@ideasonboard.com
+> 
+> Changes in v4:
+> - Fix SWAP bits for RAW10, RAW12 and RAW16
+> - Link to v3: https://lore.kernel.org/r/20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com
+> 
+> Changes in v3:
+> - Drop 2/6 from v2
+> - Add 5/7 to prepare for a new implementation of 6/7
+> - Individual changelog per patch
+> - Add 7/7
+> - Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
+> 
+> Changes in v2:
+> - Collect tags
+> - Address review comments from Laurent, a lot of tiny changes here and
+>   there but no major redesign worth an entry in the patchset changelog
+> ---
+>  drivers/media/platform/renesas/vsp1/Makefile    |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1.h      |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c  |  13 +-
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_vspx.c | 622 ++++++++++++++++++++++++
+>  drivers/media/platform/renesas/vsp1/vsp1_vspx.h |  16 +
+>  include/media/vsp1.h                            |  89 ++++
+>  7 files changed, 742 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/Makefile b/drivers/media/platform/renesas/vsp1/Makefile
+> index de8c802e1d1a16aabe1326fc8c27be33ad2b2e10..2057c8f7be477a13a4598103427e1ddd28cc5a51 100644
+> --- a/drivers/media/platform/renesas/vsp1/Makefile
+> +++ b/drivers/media/platform/renesas/vsp1/Makefile
+> @@ -6,5 +6,6 @@ vsp1-y					+= vsp1_clu.o vsp1_hsit.o vsp1_lut.o
+>  vsp1-y					+= vsp1_brx.o vsp1_sru.o vsp1_uds.o
+>  vsp1-y					+= vsp1_hgo.o vsp1_hgt.o vsp1_histo.o
+>  vsp1-y					+= vsp1_iif.o vsp1_lif.o vsp1_uif.o
+> +vsp1-y					+= vsp1_vspx.o
+>  
+>  obj-$(CONFIG_VIDEO_RENESAS_VSP1)	+= vsp1.o
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
+> index f97a1a31bfab3a23371d13978e59596ec63a37fe..94de2e85792e6623555617ca23f65ac1a9af9e4e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
+> @@ -111,6 +111,7 @@ struct vsp1_device {
+>  	struct media_entity_operations media_ops;
+>  
+>  	struct vsp1_drm *drm;
+> +	struct vsp1_vspx *vspx;
+>  };
+>  
+>  int vsp1_device_get(struct vsp1_device *vsp1);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index 8270a9d207cb19c3a08911a408f5039d7d2924b6..d4b7088786395dac34ca3e2078b6e2c306988114 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -38,6 +38,7 @@
+>  #include "vsp1_uds.h"
+>  #include "vsp1_uif.h"
+>  #include "vsp1_video.h"
+> +#include "vsp1_vspx.h"
+>  
+>  /* -----------------------------------------------------------------------------
+>   * Interrupt Handling
+> @@ -490,7 +491,10 @@ static int vsp1_create_entities(struct vsp1_device *vsp1)
+>  
+>  		ret = media_device_register(mdev);
+>  	} else {
+> -		ret = vsp1_drm_init(vsp1);
+> +		if (vsp1->info->version == VI6_IP_VERSION_MODEL_VSPX_GEN4)
+> +			ret = vsp1_vspx_init(vsp1);
+> +		else
+> +			ret = vsp1_drm_init(vsp1);
+>  	}
+>  
+>  done:
+> @@ -851,6 +855,13 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+>  		.uif_count = 2,
+>  		.wpf_count = 1,
+>  		.num_bru_inputs = 5,
+> +	}, {
+> +		.version = VI6_IP_VERSION_MODEL_VSPX_GEN4,
+> +		.model = "VSP2-X",
+> +		.gen = 4,
+> +		.features = VSP1_HAS_IIF,
+> +		.rpf_count = 2,
+> +		.wpf_count = 1,
+>  	},
+>  };
+>  
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> index 86e47c2d991fb4e0719b63c4ccb29340610ac24f..10cfbcd1b6e0b3a9c0a8daaa990babfaeb8dde0c 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -799,6 +799,7 @@
+>  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPD_GEN4	(0x1c << 8)
+> +#define VI6_IP_VERSION_MODEL_VSPX_GEN4	(0x1d << 8)
+>  /* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
+>  #define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
+>  
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.c b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f6bdd51259f4a92f53f6291af9a04ca7d78cb765
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
+> @@ -0,0 +1,622 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * vsp1_vspx.c  --  R-Car Gen 4 VSPX
+> + *
+> + * Copyright (C) 2025 Ideas On Board Oy
+> + * Copyright (C) 2025 Renesas Electronics Corporation
+> + */
+> +
+> +#include "vsp1_vspx.h"
+> +
+> +#include <linux/cleanup.h>
+> +#include <linux/container_of.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/list.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-subdev.h>
+> +#include <media/vsp1.h>
+> +
+> +#include "vsp1_dl.h"
+> +#include "vsp1_iif.h"
+> +#include "vsp1_pipe.h"
+> +#include "vsp1_rwpf.h"
+> +
+> +/*
+> + * struct vsp1_vspx_pipeline - VSPX pipeline
+> + * @pipe: the VSP1 pipeline
+> + * @partition: the pre-calculated partition used by the pipeline
+> + * @mutex: protects the streaming start/stop sequences
+> + * @lock: protect access to the enabled flag
+> + * @enabled: the enable flag
+> + * @vspx_frame_end: frame end callback
+> + * @frame_end_data: data for the frame end callback
+> + */
+> +struct vsp1_vspx_pipeline {
+> +	struct vsp1_pipeline pipe;
+> +	struct vsp1_partition partition;
+> +
+> +	/* Protects the pipeline start/stop streaming routines */
 
->
-> So even if cameras exist which support both metadata formats, since we
-> switch to MSXU at probe() time, disabling V4L2_META_FMT_D4XX support,
-> the uvcvideo driver will only support 1 metadata fmt per camera.
-> Which is fine supporting more then 1 metadata fmt is not worth
-> the trouble IMHO.
+You can drop this comment, it duplicates the description of the field
+above.
 
-If we only support one metadata, we have two options for D4XX cameras:
+> +	struct mutex mutex;
+> +	/*
+> +	 * Protects the enable flag.
+> +	 *
+> +	 * The enabled flag is contended between the start/stop streaming
+> +	 * routines and the job_run one, which cannot take a mutex as it is
+> +	 * called from the ISP irq context.
+> +	 */
+> +	spinlock_t lock;
+> +	bool enabled;
+> +
+> +	void (*vspx_frame_end)(void *frame_end_data);
+> +	void *frame_end_data;
+> +};
+> +
+> +static inline struct vsp1_vspx_pipeline *
+> +to_vsp1_vspx_pipeline(struct vsp1_pipeline *pipe)
+> +{
+> +	return container_of(pipe, struct vsp1_vspx_pipeline, pipe);
+> +}
+> +
+> +/*
+> + * struct vsp1_vspx - VSPX device
+> + * @vsp1: the VSP1 device
+> + * @pipe: the VSPX pipeline
+> + */
+> +struct vsp1_vspx {
+> +	struct vsp1_device *vsp1;
+> +	struct vsp1_vspx_pipeline pipe;
+> +};
+> +
+> +/* Apply the given width, height and fourcc to the RWPF's subdevice */
+> +static int vsp1_vspx_rwpf_set_subdev_fmt(struct vsp1_device *vsp1,
+> +					 struct vsp1_rwpf *rwpf,
+> +					 u32 isp_fourcc,
+> +					 unsigned int width,
+> +					 unsigned int height)
+> +{
+> +	struct vsp1_entity *ent = &rwpf->entity;
+> +	struct v4l2_subdev_format format = {};
+> +	u32 vspx_fourcc;
+> +
+> +	switch (isp_fourcc) {
+> +	case V4L2_PIX_FMT_GREY:
+> +		/* 8 bit RAW Bayer image. */
+> +		vspx_fourcc = V4L2_PIX_FMT_RGB332;
+> +		break;
+> +	case V4L2_PIX_FMT_Y10:
+> +	case V4L2_PIX_FMT_Y12:
+> +	case V4L2_PIX_FMT_Y16:
+> +		/* 10, 12 and 16 bit RAW Bayer image. */
+> +		vspx_fourcc = V4L2_PIX_FMT_RGB565;
+> +		break;
+> +	case V4L2_META_FMT_GENERIC_8:
+> +		/* ConfigDMA parameters buffer. */
+> +		vspx_fourcc = V4L2_PIX_FMT_XBGR32;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	rwpf->fmtinfo = vsp1_get_format_info(vsp1, vspx_fourcc);
+> +
+> +	format.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> +	format.pad = RWPF_PAD_SINK;
+> +	format.format.width = width;
+> +	format.format.height = height;
+> +	format.format.field = V4L2_FIELD_NONE;
+> +	format.format.code = rwpf->fmtinfo->mbus;
+> +
+> +	return v4l2_subdev_call(&ent->subdev, pad, set_fmt, NULL, &format);
+> +}
+> +
+> +/* Configure the RPF->IIF->WPF pipeline for ConfigDMA or RAW image transfer. */
+> +static int vsp1_vspx_pipeline_configure(struct vsp1_device *vsp1,
+> +					dma_addr_t addr, u32 isp_fourcc,
+> +					unsigned int width, unsigned int height,
+> +					unsigned int stride,
+> +					unsigned int iif_sink_pad,
+> +					struct vsp1_dl_list *dl,
+> +					struct vsp1_dl_body *dlb)
+> +{
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +	struct vsp1_rwpf *rpf0 = pipe->inputs[0];
+> +	int ret;
+> +
+> +	ret = vsp1_vspx_rwpf_set_subdev_fmt(vsp1, rpf0, isp_fourcc, width,
+> +					    height);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = vsp1_vspx_rwpf_set_subdev_fmt(vsp1, pipe->output, isp_fourcc,
+> +					    width, height);
+> +	if (ret)
+> +		return ret;
+> +
+> +	vsp1_pipeline_calculate_partition(pipe, &pipe->part_table[0], width, 0);
+> +	rpf0->format.plane_fmt[0].bytesperline = stride;
+> +	rpf0->format.num_planes = 1;
+> +	rpf0->mem.addr[0] = addr;
+> +
+> +	/*
+> +	 * Connect RPF0 to the IIF sink pad corresponding to the config or image
+> +	 * path.
+> +	 */
+> +	rpf0->entity.sink_pad = iif_sink_pad;
+> +
+> +	vsp1_entity_route_setup(&rpf0->entity, pipe, dlb);
+> +	vsp1_entity_configure_stream(&rpf0->entity, rpf0->entity.state, pipe,
+> +				     dl, dlb);
+> +	vsp1_entity_configure_partition(&rpf0->entity, pipe,
+> +					&pipe->part_table[0], dl, dlb);
+> +
+> +	return 0;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Interrupt handling
+> + */
+> +
+> +static void vsp1_vspx_pipeline_frame_end(struct vsp1_pipeline *pipe,
+> +					 unsigned int completion)
+> +{
+> +	struct vsp1_vspx_pipeline *vspx_pipe = to_vsp1_vspx_pipeline(pipe);
+> +
+> +	scoped_guard(spinlock_irqsave, &pipe->irqlock) {
+> +		/*
+> +		 * Operating the vsp1_pipe in singleshot mode requires to
+> +		 * manually set the pipeline state to stopped when a transfer
+> +		 * is completed.
+> +		 */
+> +		pipe->state = VSP1_PIPELINE_STOPPED;
+> +	}
+> +
+> +	if (vspx_pipe->vspx_frame_end)
+> +		vspx_pipe->vspx_frame_end(vspx_pipe->frame_end_data);
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * ISP Driver API (include/media/vsp1.h)
+> + */
+> +
+> +/**
+> + * vsp1_isp_init() - Initialize the VSPX
+> + * @dev: The VSP1 struct device
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_init(struct device *dev)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +
+> +	if (!vsp1)
+> +		return -EPROBE_DEFER;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_init);
+> +
+> +/**
+> + * vsp1_isp_get_bus_master - Get VSPX bus master
+> + * @dev: The VSP1 struct device
+> + *
+> + * The VSPX accesses memory through an FCPX instance. When allocating memory
+> + * buffers that will have to be accessed by the VSPX the 'struct device' of
+> + * the FCPX should be used. Use this function to get a reference to it.
+> + *
+> + * Return: a pointer to the bus master's device
+> + */
+> +struct device *vsp1_isp_get_bus_master(struct device *dev)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +
+> +	if (!vsp1)
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	return vsp1->bus_master;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_get_bus_master);
+> +
+> +/**
+> + * vsp1_isp_alloc_buffer - Allocate a buffer in the VSPX address space
+> + * @dev: The VSP1 struct device
+> + * @size: The size of the buffer to be allocated by the VSPX
+> + * @buffer_desc: The buffer descriptor. Will be filled with the buffer
+> + *		 CPU-mapped address, the bus address and the size of the
+> + *		 allocated buffer
+> + *
+> + * Allocate a buffer that will be later accessed by the VSPX. Buffers allocated
+> + * using vsp1_isp_alloc_buffer() shall be released with a call to
+> + * vsp1_isp_free_buffer(). This function is used by the ISP driver to allocate
+> + * memory for the ConfigDMA parameters buffer.
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_alloc_buffer(struct device *dev, size_t size,
+> +			  struct vsp1_isp_buffer_desc *buffer_desc)
+> +{
+> +	struct device *bus_master = vsp1_isp_get_bus_master(dev);
+> +
+> +	if (IS_ERR_OR_NULL(bus_master))
+> +		return -ENODEV;
+> +
+> +	buffer_desc->cpu_addr = dma_alloc_coherent(bus_master, size,
+> +						   &buffer_desc->dma_addr,
+> +						   GFP_KERNEL);
+> +	if (!buffer_desc->cpu_addr)
+> +		return -ENOMEM;
+> +
+> +	buffer_desc->size = size;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_alloc_buffer);
+> +
+> +/**
+> + * vsp1_isp_free_buffer - Release a buffer allocated by vsp1_isp_alloc_buffer()
+> + * @dev: The VSP1 struct device
+> + * @buffer_desc: The descriptor of the buffer to release as returned by
+> + *		 vsp1_isp_alloc_buffer()
+> + *
+> + * Release memory in the VSPX address space allocated by
+> + * vsp1_isp_alloc_buffer().
+> + */
+> +void vsp1_isp_free_buffer(struct device *dev,
+> +			  struct vsp1_isp_buffer_desc *buffer_desc)
+> +{
+> +	struct device *bus_master = vsp1_isp_get_bus_master(dev);
+> +
+> +	if (IS_ERR_OR_NULL(bus_master))
+> +		return;
+> +
+> +	dma_free_coherent(bus_master, buffer_desc->size, buffer_desc->cpu_addr,
+> +			  buffer_desc->dma_addr);
+> +}
+> +
+> +/**
+> + * vsp1_isp_start_streaming - Start processing VSPX jobs
+> + * @dev: The VSP1 struct device
+> + * @frame_end: The frame end callback description
+> + *
+> + * Start the VSPX and prepare for accepting buffer transfer job requests.
+> + * A single call to this function is allowed. Attempting to start an already
 
-A) Switch to MSXU: apps that expect D4XX will not work. I think this
-will mean breaking uAPI.
-B) Keep D4XX and ignore MSXU: apps that work with MSXU will not work
-with D4XX cameras. I do not love this but it will not affect my
-usecase.
+"A single call" sounds like you can call it only once, ever :-) I'd
+write
 
+ * The caller is responsible for tracking the started state of the VSPX.
+ * Attempting to start an already started VSPX instance is an error.
 
-If you are ok with B) I can start the implementation. But I still
-believe that the current option is more generic and the extra
-complexity is not too excessive.
+> + * started VSPX instance is an error.
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_start_streaming(struct device *dev,
+> +			     struct vsp1_vspx_frame_end *frame_end)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +	u32 value;
+> +	int ret;
+> +
+> +	if (!frame_end)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&vspx_pipe->mutex);
 
+	guard(mutex)(&vspx_pipe->mutex);
 
->
-> This means that Laurent's remark on [PATCH v5 4/4]:
->
-> "I would prefer if you could instead add a metadata format field in the
-> uvc_device structure (I'd put it right after the info field, and while
-> at it you could move the quirks field to that section too). The metadata
-> format would be initialized from dev->info (when available) or set to
-> the UVC format, and overridden when the MSXU is detected."
->
-> is still relevant, which will also make patch 3/4 cleaner.
->
-> The idea is to (in patch 3/4):
->
-> 1. Introduce a dev->meta_format which gets initialized from dev->info->meta_format
-> 2. Keep the quirk and if the quirk is set override dev->meta_format to
->    V4L2_META_FMT_UVC_MSXU_1_5 thus still allowing testing for MSXU metadata on
->    cameras which lack the MSXU_CONTROL_METADATA control.
->
-> Doing things this way avoids the need for the complexity added to
-> uvc_meta_v4l2_try_format() / uvc_meta_v4l2_set_format() /
-> uvc_meta_v4l2_enum_format(). Instead the only changes necessary there now will
-> be replacing dev->info->meta_format with dev->meta_format.
->
-> Regards,
->
-> Hans
->
->
->
->
->
-> > +
-> > +     return 0;
-> > +}
-> > +
-> >  int uvc_meta_register(struct uvc_streaming *stream)
-> >  {
-> >       struct uvc_device *dev = stream->dev;
-> >       struct video_device *vdev = &stream->meta.vdev;
-> >       struct uvc_video_queue *queue = &stream->meta.queue;
-> > +     int ret;
-> > +
-> > +     ret = uvc_meta_detect_msxu(dev);
-> > +     if (ret)
-> > +             return ret;
-> >
-> >       stream->meta.format = V4L2_META_FMT_UVC;
-> >
-> > diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-> > index bce95153e5a65613a710d7316fc17cf5462b5bce..ee19e9f915b8370c333c426dc1ee4202c7b75c5b 100644
-> > --- a/include/linux/usb/uvc.h
-> > +++ b/include/linux/usb/uvc.h
-> > @@ -29,6 +29,9 @@
-> >  #define UVC_GUID_EXT_GPIO_CONTROLLER \
-> >       {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-> >        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
-> > +#define UVC_GUID_MSXU_1_5 \
-> > +     {0xdc, 0x95, 0x3f, 0x0f, 0x32, 0x26, 0x4e, 0x4c, \
-> > +      0x92, 0xc9, 0xa0, 0x47, 0x82, 0xf4, 0x3b, 0xc8}
-> >
-> >  #define UVC_GUID_FORMAT_MJPEG \
-> >       { 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
-> >
->
+will simplify error handling.
 
+> +
+> +	scoped_guard(spinlock_irq, &vspx_pipe->lock) {
+> +		if (vspx_pipe->enabled) {
+> +			ret = -EBUSY;
+> +			goto error_unlock;
+> +		}
+> +	}
+> +
+> +	vspx_pipe->vspx_frame_end = frame_end->vspx_frame_end;
+> +	vspx_pipe->frame_end_data = frame_end->frame_end_data;
+> +
+> +	/* Enable the VSP1 and prepare for streaming. */
+> +	vsp1_pipeline_dump(pipe, "VSPX job");
+> +
+> +	ret = vsp1_device_get(vsp1);
+> +	if (ret < 0)
+> +		goto error_unlock;
+> +
+> +	/*
+> +	 * Make sure VSPX is not active. This should never happen in normal
+> +	 * usage
+> +	 */
+> +	value = vsp1_read(vsp1, VI6_CMD(0));
+> +	if (value & VI6_CMD_STRCMD) {
+> +		dev_err(vsp1->dev,
+> +			"%s: Starting of WPF0 already reserved\n", __func__);
+> +		ret = -EBUSY;
+> +		goto error_put;
+> +	}
+> +
+> +	value = vsp1_read(vsp1, VI6_STATUS);
+> +	if (value & VI6_STATUS_SYS_ACT(0)) {
+> +		dev_err(vsp1->dev,
+> +			"%s: WPF0 has not entered idle state\n", __func__);
+> +		ret = -EBUSY;
+> +		goto error_put;
+> +	}
+> +
+> +	scoped_guard(spinlock_irq, &vspx_pipe->lock) {
+> +		vspx_pipe->enabled = true;
+> +	}
+> +
+> +	mutex_unlock(&vspx_pipe->mutex);
+> +
+> +	return 0;
+> +
+> +error_put:
+> +	vsp1_device_put(vsp1);
+> +error_unlock:
+> +	mutex_unlock(&vspx_pipe->mutex);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_start_streaming);
+> +
+> +/**
+> + * vsp1_isp_stop_streaming - Stop the VSPX
+> + * @dev: The VSP1 struct device
+> + *
+> + * Stop the VSPX operation by stopping the vsp1 pipeline and waiting for the
+> + * last frame in transfer, if any, to complete.
+> + *
+> + * A single call to this function is allowed. Attempting to stop an already
+> + * stopped VSPX instance is a nop.
+
+Same comment as for start.
+
+> + */
+> +void vsp1_isp_stop_streaming(struct device *dev)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +
+> +	mutex_lock(&vspx_pipe->mutex);
+
+Use a guard here too.
+
+> +
+> +	scoped_guard(spinlock_irq, &vspx_pipe->lock) {
+> +		if (!vspx_pipe->enabled) {
+> +			mutex_unlock(&vspx_pipe->mutex);
+> +			return;
+> +		}
+> +
+> +		vspx_pipe->enabled = false;
+> +	}
+> +
+> +	WARN_ON_ONCE(vsp1_pipeline_stop(pipe));
+> +
+> +	vspx_pipe->vspx_frame_end = NULL;
+> +	vsp1_dlm_reset(pipe->output->dlm);
+> +	vsp1_device_put(vsp1);
+> +
+> +	mutex_unlock(&vspx_pipe->mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_stop_streaming);
+> +
+> +/**
+> + * vsp1_isp_job_prepare - Prepare a new buffer transfer job
+> + * @dev: The VSP1 struct device
+> + * @job: The job description
+> + *
+> + * Prepare a new buffer transfer job by populating a display list that will be
+> + * later executed by a call to vsp1_isp_job_run().
+> + * All pending jobs must be released after stopping the streaming operations
+> + * with a call to vsp1_isp_job_release().
+
+You can reflow this.
+
+> + *
+> + * In order for the VSPX to accept new jobs to prepare the VSPX must have been
+> + * started.
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_job_prepare(struct device *dev, struct vsp1_isp_job_desc *job)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +	const struct v4l2_pix_format_mplane *pix_mp;
+> +	struct vsp1_dl_list *second_dl = NULL;
+> +	struct vsp1_dl_body *dlb;
+> +	struct vsp1_dl_list *dl;
+> +	int ret;
+> +
+> +	/*
+> +	 * Transfer the buffers described in the job: an optional ConfigDMA
+> +	 * parameters buffer and a RAW image.
+> +	 */
+> +
+> +	job->dl = vsp1_dl_list_get(pipe->output->dlm);
+> +	if (!job->dl)
+> +		return -ENOMEM;
+> +
+> +	dl = job->dl;
+> +	dlb = vsp1_dl_list_get_body0(dl);
+> +
+> +	/* Configure IIF routing and enable IIF function. */
+> +	vsp1_entity_route_setup(pipe->iif, pipe, dlb);
+> +	vsp1_entity_configure_stream(pipe->iif, pipe->iif->state, pipe,
+> +				     dl, dlb);
+> +
+> +	/* Configure WPF0 to enable RPF0 as source. */
+> +	vsp1_entity_route_setup(&pipe->output->entity, pipe, dlb);
+> +	vsp1_entity_configure_stream(&pipe->output->entity,
+> +				     pipe->output->entity.state, pipe,
+> +				     dl, dlb);
+> +
+> +	if (job->config.pairs) {
+> +		/* Writing less than 17 pairs corrupts the output images ( < 16
+
+		/*
+		 * Writing less than 17 pairs corrupts the output images (< 16
+
+> +		 * pairs) or freezes the VSPX operations (= 16 paris). Only
+
+s/paris/pairs/
+
+> +		 * allow more than 16 pairs to be written.
+> +		 */
+> +		if (job->config.pairs <= 16) {
+> +			ret = -EINVAL;
+> +			goto error_put_dl;
+> +		}
+> +
+> +		/*
+> +		 * Configure RPF0 for ConfigDMA data. Transfer the number of
+> +		 * configuration pairs plus 2 words for the header.
+> +		 */
+> +		ret = vsp1_vspx_pipeline_configure(vsp1, job->config.mem,
+> +						   V4L2_META_FMT_GENERIC_8,
+> +						   job->config.pairs * 2 + 2, 1,
+> +						   job->config.pairs * 2 + 2,
+> +						   VSPX_IIF_SINK_PAD_CONFIG,
+> +						   dl, dlb);
+> +		if (ret)
+> +			goto error_put_dl;
+> +
+> +		second_dl = vsp1_dl_list_get(pipe->output->dlm);
+> +		if (!second_dl) {
+> +			ret = -ENOMEM;
+> +			goto error_put_dl;
+> +		}
+> +
+> +		dl = second_dl;
+> +		dlb = vsp1_dl_list_get_body0(dl);
+> +	}
+> +
+> +	/* Configure RPF0 for RAW image transfer. */
+> +	pix_mp = &job->img.fmt;
+> +	ret = vsp1_vspx_pipeline_configure(vsp1, job->img.mem,
+> +					   pix_mp->pixelformat,
+> +					   pix_mp->width, pix_mp->height,
+> +					   pix_mp->plane_fmt[0].bytesperline,
+> +					   VSPX_IIF_SINK_PAD_IMG, dl, dlb);
+> +	if (ret)
+> +		goto error_put_dl;
+> +
+> +	if (second_dl)
+> +		vsp1_dl_list_add_chain(job->dl, second_dl);
+> +
+> +	return 0;
+> +
+> +error_put_dl:
+> +	if (second_dl)
+> +		vsp1_dl_list_put(second_dl);
+> +	vsp1_dl_list_put(job->dl);
+
+	job->dl = NULL;
+
+to be safe.
+
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_job_prepare);
+> +
+> +/**
+> + * vsp1_isp_job_run - Run a buffer transfer job
+> + * @dev: The VSP1 struct device
+> + * @job: The job to be run
+> + *
+> + * Run the display list contained in the job description provided by the caller.
+> + * The job must have been prepared with a call to vsp1_isp_job_prepare() and
+> + * the job's display list shall be valid.
+> + *
+> + * Jobs can be run only on VSPX instances which have not been stopped. Requests
+
+"which have been started and not stopped" (or just "which have been
+started").
+
+> + * to run a job after the VSPX has been stopped are ignored and the job
+
+s/are ignored/return -EINVAL/
+
+> + * resources shall be released with a call to vsp1_isp_job_release().
+
+ * resources shall be released by the caller with vsp1_isp_job_release().
+
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_job_run(struct device *dev, struct vsp1_isp_job_desc *job)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +	u32 value;
+> +
+> +	/* Make sure VSPX is not busy processing a frame. */
+> +	value = vsp1_read(vsp1, VI6_CMD(0));
+> +	if (value) {
+> +		dev_err(vsp1->dev,
+> +			"%s: Starting of WPF0 already reserved\n", __func__);
+> +		return -EBUSY;
+> +	}
+> +
+> +	scoped_guard(spinlock, &vspx_pipe->lock) {
+
+I think this needs to be spinlock_irqsave, as this function can run in
+interrupt context (unless I'm mistaken).
+
+> +		/*
+> +		 * If a new job is scheduled when the VSPX is stopped, do
+> +		 * not run it.
+
+Reflow to 80 columns.
+
+> +		 */
+> +		if (!vspx_pipe->enabled)
+> +			return -EINVAL;
+> +
+> +		vsp1_dl_list_commit(job->dl, 0);
+> +	}
+> +
+> +	scoped_guard(spinlock_irqsave, &pipe->irqlock) {
+> +		vsp1_pipeline_run(pipe);
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_job_run);
+> +
+> +/**
+> + * vsp1_isp_job_release - Release a non processed transfer job
+> + * @dev: The VSP1 struct device
+> + * @job: The job to release
+> + *
+> + * Release a job prepared by a call to vsp1_isp_job_prepare() and not yet
+> + * run. All pending jobs shall be released after streaming has been stopped.
+
+"not yet run" doesn't seem right. I don't see where jobs that are being
+run are released in this patch. Am I missing something ?
+
+> + */
+> +void vsp1_isp_job_release(struct device *dev,
+> +			  struct vsp1_isp_job_desc *job)
+> +{
+> +	vsp1_dl_list_put(job->dl);
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_job_release);
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Initialization and cleanup
+> + */
+> +
+> +int vsp1_vspx_init(struct vsp1_device *vsp1)
+> +{
+> +	struct vsp1_vspx_pipeline *vspx_pipe;
+> +	struct vsp1_pipeline *pipe;
+> +
+> +	vsp1->vspx = devm_kzalloc(vsp1->dev, sizeof(*vsp1->vspx), GFP_KERNEL);
+> +	if (!vsp1->vspx)
+> +		return -ENOMEM;
+> +
+> +	vsp1->vspx->vsp1 = vsp1;
+> +
+> +	vspx_pipe = &vsp1->vspx->pipe;
+> +	vspx_pipe->enabled = false;
+> +
+> +	pipe = &vspx_pipe->pipe;
+> +
+> +	vsp1_pipeline_init(pipe);
+> +
+> +	pipe->partitions = 1;
+> +	pipe->part_table = &vspx_pipe->partition;
+> +	pipe->interlaced = false;
+> +	pipe->frame_end = vsp1_vspx_pipeline_frame_end;
+> +
+> +	mutex_init(&vspx_pipe->mutex);
+> +	spin_lock_init(&vspx_pipe->lock);
+> +
+> +	/*
+> +	 * Initialize RPF0 as input for VSPX and use it unconditionally for
+> +	 * now.
+> +	 */
+> +	pipe->inputs[0] = vsp1->rpf[0];
+> +	pipe->inputs[0]->entity.pipe = pipe;
+> +	pipe->inputs[0]->entity.sink = &vsp1->iif->entity;
+> +	list_add_tail(&pipe->inputs[0]->entity.list_pipe, &pipe->entities);
+> +
+> +	pipe->iif = &vsp1->iif->entity;
+> +	pipe->iif->pipe = pipe;
+> +	pipe->iif->sink = &vsp1->wpf[0]->entity;
+> +	pipe->iif->sink_pad = RWPF_PAD_SINK;
+> +	list_add_tail(&pipe->iif->list_pipe, &pipe->entities);
+> +
+> +	pipe->output = vsp1->wpf[0];
+> +	pipe->output->entity.pipe = pipe;
+> +	list_add_tail(&pipe->output->entity.list_pipe, &pipe->entities);
+> +
+> +	return 0;
+> +}
+> +
+> +void vsp1_vspx_cleanup(struct vsp1_device *vsp1)
+> +{
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +
+> +	mutex_destroy(&vspx_pipe->mutex);
+> +}
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.h b/drivers/media/platform/renesas/vsp1/vsp1_vspx.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f871bf9e7dece112c89bf493729cf627731be1d2
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.h
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +/*
+> + * vsp1_vspx.h  --  R-Car Gen 4 VSPX
+> + *
+> + * Copyright (C) 2025 Ideas On Board Oy
+> + * Copyright (C) 2025 Renesas Electronics Corporation
+> + */
+> +#ifndef __VSP1_VSPX_H__
+> +#define __VSP1_VSPX_H__
+> +
+> +#include "vsp1.h"
+> +
+> +int vsp1_vspx_init(struct vsp1_device *vsp1);
+> +void vsp1_vspx_cleanup(struct vsp1_device *vsp1);
+> +
+> +#endif /* __VSP1_VSPX_H__ */
+> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+> index 4ea6352fd63fec152593133845f684e0c32f34d4..c9cdb3774a088f1c1fc48babad43cfd9774cedba 100644
+> --- a/include/media/vsp1.h
+> +++ b/include/media/vsp1.h
+> @@ -15,6 +15,10 @@
+>  
+>  struct device;
+>  
+> +/* -----------------------------------------------------------------------------
+> + * VSP1 DU interface
+> + */
+> +
+>  int vsp1_du_init(struct device *dev);
+>  
+>  #define VSP1_DU_STATUS_COMPLETE		BIT(0)
+> @@ -121,4 +125,89 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
+>  int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
+>  void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
+>  
+> +/* -----------------------------------------------------------------------------
+> + * VSP1 ISP interface
+> + */
+> +
+> +/**
+> + * struct vsp1_isp_buffer_desc - Describe a buffer allocated by VSPX
+> + * @size: Byte size of the buffer allocated by VSPX
+> + * @cpu_addr: CPU-mapped address of a buffer allocated by VSPX
+> + * @dma_addr: bus address of a buffer allocated by VSPX
+> + */
+> +struct vsp1_isp_buffer_desc {
+> +	size_t size;
+> +	void *cpu_addr;
+> +	dma_addr_t dma_addr;
+> +};
+> +
+> +/**
+> + * struct vsp1_isp_job_desc - Describe a VSPX buffer transfer request
+> + * @config: ConfigDMA buffer descriptor
+> + * @config.pairs: number of reg-value pairs in the ConfigDMA buffer
+> + * @config.mem: bus address of the ConfigDMA buffer
+> + * @img: RAW image buffer descriptor
+> + * @img.fmt: RAW image format
+> + * @img.mem: bus address of the RAW image buffer
+> + * @dl: pointer to the display list populated by the VSPX driver in the
+> + *      vsp1_isp_job_prepare() function
+> + *
+> + * Describe a transfer request for the VSPX to perform on behalf of the ISP.
+> + * The job descriptor contains an optional ConfigDMA buffer and one RAW image
+> + * buffer. Set config.pairs to 0 if no ConfigDMA buffer should be transferred.
+> + * The minimum number of config.pairs that can be written using ConfigDMA is 17.
+> + * A number of pairs < 16 corrupts the output image. A number of pairs == 16
+> + * freezes the VSPX operation. If the ISP driver wants has to write less than
+
+s/wants has/wants/ (or has)
+
+> + * 17 pairs it shall pad the buffer with writes directed to registers that have
+> + * no effect or avoid using ConfigDMA at all for such small write sequences.
+> + *
+> + * The ISP driver shall pass an instance this type to the vsp1_isp_job_prepare()
+> + * function that will populate the display list pointer @dl using the @config
+> + * and @img descriptors. When the job has to be run on the VSPX, the descriptor
+> + * shall be passed to vsp1_isp_job_run() which consumes the display list.
+> + *
+> + * Job descriptors not yet run shall be released with a call to
+> + * vsp1_isp_job_release() when stopping the streaming in order to properly
+> + * release the resources acquired by vsp1_isp_job_prepare().
+> + */
+> +struct vsp1_dl_list;
+
+Please move the forward declaration to the beginning of the file, with
+the other one.
+
+> +struct vsp1_isp_job_desc {
+> +	struct {
+> +		unsigned int pairs;
+> +		dma_addr_t mem;
+> +	} config;
+> +	struct {
+> +		struct v4l2_pix_format_mplane fmt;
+> +		dma_addr_t mem;
+> +	} img;
+> +	struct vsp1_dl_list *dl;
+> +};
+> +
+> +/**
+> + * struct vsp1_vspx_frame_end - VSPX frame end callback data
+> + * @vspx_frame_end: Frame end callback. Called after a transfer job has been
+> + *		    completed. If the job includes both a ConfigDMA and a
+> + *		    RAW image, the callback is called after both have been
+> + *		    transferred
+> + * @frame_end_data: Frame end callback data, passed to vspx_frame_end
+> + */
+> +struct vsp1_vspx_frame_end {
+> +	void (*vspx_frame_end)(void *data);
+> +	void *frame_end_data;
+> +};
+> +
+> +int vsp1_isp_init(struct device *dev);
+> +struct device *vsp1_isp_get_bus_master(struct device *dev);
+> +int vsp1_isp_alloc_buffer(struct device *dev, size_t size,
+> +			  struct vsp1_isp_buffer_desc *buffer_desc);
+> +void vsp1_isp_free_buffer(struct device *dev,
+> +			  struct vsp1_isp_buffer_desc *buffer_desc);
+> +int vsp1_isp_start_streaming(struct device *dev,
+> +			     struct vsp1_vspx_frame_end *frame_end);
+> +void vsp1_isp_stop_streaming(struct device *dev);
+> +int vsp1_isp_job_prepare(struct device *dev,
+> +			 struct vsp1_isp_job_desc *job);
+> +int vsp1_isp_job_run(struct device *dev, struct vsp1_isp_job_desc *job);
+> +void vsp1_isp_job_release(struct device *dev,  struct vsp1_isp_job_desc *job);
+> +
+>  #endif /* __MEDIA_VSP1_H__ */
+> 
+> ---
+> base-commit: 4d2c3d70799f5eb210003613766bbd113bbebc1a
+> change-id: 20250502-b4-vspx-90c815bff6dd
 
 -- 
-Ricardo Ribalda
+Regards,
+
+Laurent Pinchart
 
