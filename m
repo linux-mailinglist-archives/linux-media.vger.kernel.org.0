@@ -1,126 +1,254 @@
-Return-Path: <linux-media+bounces-34881-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34884-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6305AADABDC
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 11:25:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C446CADABEA
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 11:28:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF20D7AA71B
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 09:23:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8D42163ABB
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 09:27:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5283A2749F1;
-	Mon, 16 Jun 2025 09:23:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A16A3273814;
+	Mon, 16 Jun 2025 09:27:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="5ZCpChom"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="S1jHGuKg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A5A2741DF;
-	Mon, 16 Jun 2025 09:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDC5522F;
+	Mon, 16 Jun 2025 09:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750065838; cv=none; b=rSTkvExBuOFyAwi7T/ke1JcDzFneWapaXZbNitCob5Gf6B5J8bcnvuxN0EAqrdPm4dfg33trhvdgKvenLpyn0rpYICvOHmuztyIyKyk3W1A8MESbZeVxbOusitIfvvcx/6yh5sahptPJAx9ytTYJyBo+aW66NZu7TIQdPumKZaU=
+	t=1750066066; cv=none; b=RT7/8xXwDh13suXSo0+ODh3oCxbcsG2GdG2Q0PWHva5DHUQpCAH7QyRXGxWMVkftza2g8vk/sIU8Q4/sjyhUV4GLZfgi8UxUz3I2Tm882xO7KxFFdLIVb+vP4u5KUJ7cpdmLkuyGrXMO3x7den70x7BygGENKcagbW0XACEtuZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750065838; c=relaxed/simple;
-	bh=/NuocV6DaBQUjlKq/ncv6IUkpl7Y4xbpuZPctAEcTI8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=nSGbik5Rpb5h8q4OsHm1MD8TC8kiIc+OeTkFN9VUXqWA8oa3NnKYkGJzQYkwGtLxGefYgdm6hXQ6MnpKvdX1v8v7jFMzpeW+fyeLKDo8pfYGaXsx80gVdEUIaihpiILyfMqkMdxAyP8HqyoY4UvHZadw1pYwBgQiU14dh2XppPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=5ZCpChom; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55G8ZTHg015551;
-	Mon, 16 Jun 2025 11:23:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	D7+OvSwoVVqlTBMuJc+wtSrz4tCpMidCNQSt7hN5EuU=; b=5ZCpChomjD8v6Dpd
-	BSAnGf7q4nAfcJfY0pqThRSytnvP2fFHENUwg0vr3dxsvaVgbeNxpOAaUuImM9BY
-	qSWd3CqntARsHX30eJ3Ane5ZfwcUVL3HYKX1NIaVEZNpka9fWSEDjKT78jN0LTTp
-	uQI+B3+uej8gnHaAEeNuUs9S4E6VnZSbHPOB21jt7VlaTvJy5xlIVBWl77UobqCv
-	s+R+jwlJrszondh2KF7jTv4/6Dym+dtjvWtuNGqXyp41HhCPgbvtFV8gSe+eDixl
-	7Cmft5m2p4g2E3RAemd847tDRuVFcJu4nVLHtC0W5PQQJ2Ixav6ImSrj/Yj8lwjb
-	+RbWaQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47afw1g9hw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Jun 2025 11:23:43 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 5BAD04004F;
-	Mon, 16 Jun 2025 11:22:28 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2068AA7D8DB;
-	Mon, 16 Jun 2025 11:21:12 +0200 (CEST)
-Received: from localhost (10.252.14.42) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 16 Jun
- 2025 11:21:11 +0200
-From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-Date: Mon, 16 Jun 2025 11:21:07 +0200
-Subject: [PATCH 6/6] dt-bindings: spi: stm32: deprecate `st,spi-midi-ns`
- property
+	s=arc-20240116; t=1750066066; c=relaxed/simple;
+	bh=mTNRD5ooq4LdhCufl97ylrATo7DmWUf14XLvw4awSQI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OJd3Boyu7XrnbnhrebVTcn+5iFPhzfBNnFrFVlPhJa03nfNex0lZSCdbGF5q0ye3MLD5kNM/4OYgWfFwINB06ZI/AZv5bdPKCDzdXwSSvYz2ihAAMLd5a6RuoTEVL9Ocu/QuYGhU6dcW3A58zHSP6+rjhrhAeE90QU9H03bBNGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=S1jHGuKg; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=WRwp9aXxZSnCtM+EfIL8dTN51HB7qZk8VAN25kzBSE0=; b=S1jHGuKgueZ7rC9f3pExYaMny9
+	jTQTJ2TBjuXeTQ0nW5zuuGeaJ1BhH8ms+KO4Ge0CcOPci5f9Ar2sntYbA+7KIIo5RWei/hoXQp8TY
+	O9SnI9bPz7O72zZaeFlBPYvXjHIe6yhyvZuafY3a+G/n5E3JqwQgRuyuqfktZw5nlQH0qr2MyiH7u
+	GNrLgW+ug8UJxJ/fGMgU0cdCYGzSOcpYydrslDgVTiP4Gq6FnfuNmdcjlu7VKVfWzUEK7MxDBPT58
+	Bs0CtBiDSjRpOJHjcCp2ZRSvnc4kpuIoQbZw//7hlg/o0P6931W/1xJt9JWkh7N7fq0l+RyxsRbWu
+	LfD2EZ+w==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1uR67Z-0042xJ-Oz; Mon, 16 Jun 2025 11:27:17 +0200
+Message-ID: <18cd6b1f-8872-4a16-9ceb-50fd1ecfea39@igalia.com>
+Date: Mon, 16 Jun 2025 10:27:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/6] drm/sched: Avoid memory leaks with cancel_job()
+ callback
+To: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20250603093130.100159-2-phasta@kernel.org>
+ <20250603093130.100159-3-phasta@kernel.org>
+ <62ff8ddb-b2f1-4e52-a026-290561ab5337@igalia.com>
+ <f4f326a0ecb98a9996919c3f827b3247b8207feb.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <f4f326a0ecb98a9996919c3f827b3247b8207feb.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Message-ID: <20250616-spi-upstream-v1-6-7e8593f3f75d@foss.st.com>
-References: <20250616-spi-upstream-v1-0-7e8593f3f75d@foss.st.com>
-In-Reply-To: <20250616-spi-upstream-v1-0-7e8593f3f75d@foss.st.com>
-To: Alain Volmat <alain.volmat@foss.st.com>, Mark Brown <broonie@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Valentin Caron <valentin.caron@foss.st.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Erwan Leray <erwan.leray@foss.st.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Sumit Semwal
-	<sumit.semwal@linaro.org>,
-        =?utf-8?q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>
-CC: <linux-spi@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-        =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-X-Mailer: b4 0.15-dev-c25d1
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-16_04,2025-06-13_01,2025-03-28_01
 
-The vendor `st,spi-midi-ns` property is no longer needed and
-has been deprecated in favor of a generic solution.
 
-Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
----
- Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 1 +
- 1 file changed, 1 insertion(+)
+On 12/06/2025 15:20, Philipp Stanner wrote:
+> On Thu, 2025-06-12 at 15:17 +0100, Tvrtko Ursulin wrote:
+>>
+>> On 03/06/2025 10:31, Philipp Stanner wrote:
+>>> Since its inception, the GPU scheduler can leak memory if the
+>>> driver
+>>> calls drm_sched_fini() while there are still jobs in flight.
+>>>
+>>> The simplest way to solve this in a backwards compatible manner is
+>>> by
+>>> adding a new callback, drm_sched_backend_ops.cancel_job(), which
+>>> instructs the driver to signal the hardware fence associated with
+>>> the
+>>> job. Afterwards, the scheduler can savely use the established
+>>> free_job()
+>>> callback for freeing the job.
+>>>
+>>> Implement the new backend_ops callback cancel_job().
+>>>
+>>> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> Please just add the link to the patch here (it is only in the cover
+>> letter):
+>>
+>> Link:
+>> https://lore.kernel.org/dri-devel/20250418113211.69956-1-tvrtko.ursulin@igalia.com/
+> 
+> That I can do, sure
 
-diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-index 8fc17e16efb2..8b6e8fc009db 100644
---- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-@@ -115,6 +115,7 @@ properties:
-     maxItems: 4
- 
-   st,spi-midi-ns:
-+    deprecated: true
-     description: |
-       Only for STM32H7, (Master Inter-Data Idleness) minimum time
-       delay in nanoseconds inserted between two consecutive data frames.
+Cool, with that, for this patch:
 
--- 
-2.43.0
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+>> And you probably want to take the unit test modifications from the
+>> same
+>> patch too. You could put them in the same patch or separate.
+> 
+> Necessary adjustments for the unit tests are already implemented and
+> are waiting for review separately, since this can be done independently
+> from this entire series:
+> 
+> https://lore.kernel.org/dri-devel/20250605134154.191764-2-phasta@kernel.org/
+
+For me it would make most sense to fold that into 2/6 from this series. 
+I don't see it making sense as standalone. So if you could repost the 
+series with it integrated I will give it a spin and can review that 
+patch at least.
+
+Regards,
+
+Tvrtko
+
+> 
+> Thx
+> P.
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/sched_main.c | 34 ++++++++++++++++-----
+>>> -----
+>>>    include/drm/gpu_scheduler.h            |  9 +++++++
+>>>    2 files changed, 30 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index d20726d7adf0..3f14f1e151fa 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -1352,6 +1352,18 @@ int drm_sched_init(struct drm_gpu_scheduler
+>>> *sched, const struct drm_sched_init_
+>>>    }
+>>>    EXPORT_SYMBOL(drm_sched_init);
+>>>    
+>>> +static void drm_sched_kill_remaining_jobs(struct drm_gpu_scheduler
+>>> *sched)
+>>> +{
+>>> +	struct drm_sched_job *job, *tmp;
+>>> +
+>>> +	/* All other accessors are stopped. No locking necessary.
+>>> */
+>>> +	list_for_each_entry_safe_reverse(job, tmp, &sched-
+>>>> pending_list, list) {
+>>> +		sched->ops->cancel_job(job);
+>>> +		list_del(&job->list);
+>>> +		sched->ops->free_job(job);
+>>> +	}
+>>> +}
+>>> +
+>>>    /**
+>>>     * drm_sched_fini - Destroy a gpu scheduler
+>>>     *
+>>> @@ -1359,19 +1371,11 @@ EXPORT_SYMBOL(drm_sched_init);
+>>>     *
+>>>     * Tears down and cleans up the scheduler.
+>>>     *
+>>> - * This stops submission of new jobs to the hardware through
+>>> - * drm_sched_backend_ops.run_job(). Consequently,
+>>> drm_sched_backend_ops.free_job()
+>>> - * will not be called for all jobs still in
+>>> drm_gpu_scheduler.pending_list.
+>>> - * There is no solution for this currently. Thus, it is up to the
+>>> driver to make
+>>> - * sure that:
+>>> - *
+>>> - *  a) drm_sched_fini() is only called after for all submitted
+>>> jobs
+>>> - *     drm_sched_backend_ops.free_job() has been called or that
+>>> - *  b) the jobs for which drm_sched_backend_ops.free_job() has not
+>>> been called
+>>> - *     after drm_sched_fini() ran are freed manually.
+>>> - *
+>>> - * FIXME: Take care of the above problem and prevent this function
+>>> from leaking
+>>> - * the jobs in drm_gpu_scheduler.pending_list under any
+>>> circumstances.
+>>> + * This stops submission of new jobs to the hardware through
+>>> &struct
+>>> + * drm_sched_backend_ops.run_job. If &struct
+>>> drm_sched_backend_ops.cancel_job
+>>> + * is implemented, all jobs will be canceled through it and
+>>> afterwards cleaned
+>>> + * up through &struct drm_sched_backend_ops.free_job. If
+>>> cancel_job is not
+>>> + * implemented, memory could leak.
+>>>     */
+>>>    void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>>>    {
+>>> @@ -1401,6 +1405,10 @@ void drm_sched_fini(struct drm_gpu_scheduler
+>>> *sched)
+>>>    	/* Confirm no work left behind accessing device structures
+>>> */
+>>>    	cancel_delayed_work_sync(&sched->work_tdr);
+>>>    
+>>> +	/* Avoid memory leaks if supported by the driver. */
+>>> +	if (sched->ops->cancel_job)
+>>> +		drm_sched_kill_remaining_jobs(sched);
+>>> +
+>>>    	if (sched->own_submit_wq)
+>>>    		destroy_workqueue(sched->submit_wq);
+>>>    	sched->ready = false;
+>>> diff --git a/include/drm/gpu_scheduler.h
+>>> b/include/drm/gpu_scheduler.h
+>>> index e62a7214e052..81dcbfc8c223 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -512,6 +512,15 @@ struct drm_sched_backend_ops {
+>>>             * and it's time to clean it up.
+>>>    	 */
+>>>    	void (*free_job)(struct drm_sched_job *sched_job);
+>>> +
+>>> +	/**
+>>> +	 * @cancel_job: Used by the scheduler to guarantee
+>>> remaining jobs' fences
+>>> +	 * get signaled in drm_sched_fini().
+>>> +	 *
+>>> +	 * Drivers need to signal the passed job's hardware fence
+>>> with
+>>> +	 * -ECANCELED in this callback. They must not free the
+>>> job.
+>>> +	 */
+>>> +	void (*cancel_job)(struct drm_sched_job *sched_job);
+>>>    };
+>>>    
+>>>    /**
+>>
+> 
 
 
