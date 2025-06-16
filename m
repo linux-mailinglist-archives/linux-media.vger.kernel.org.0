@@ -1,752 +1,584 @@
-Return-Path: <linux-media+bounces-34906-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34907-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEB2ADB0B7
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 14:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67D9ADB0B9
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 14:57:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8AA517A8E12
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 12:55:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E91F7A8A23
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 12:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35D5B292B3F;
-	Mon, 16 Jun 2025 12:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3D3B292B44;
+	Mon, 16 Jun 2025 12:57:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b="Z4wJojMc"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YXPRdIMV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PAUP264CU001.outbound.protection.outlook.com (mail-francecentralazon11021078.outbound.protection.outlook.com [40.107.160.78])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B2226D4D5;
-	Mon, 16 Jun 2025 12:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.160.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750078603; cv=fail; b=lLCZGULTrnaChlqmRY0me/D4//0ndiKZvx2nz0+dOfzRu0ejpRNv0p3g0UJuNoCbSMLqg+tfp15eSdpM2/+vniG1hOECF+lGBRJShBnQdj+BPSTk+1nXdb7Nz8RTGU3qAW9EmYgf3R3J/xagc1UU3iAUBpbhyPJLoMY9E9siIDI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750078603; c=relaxed/simple;
-	bh=OtxyUGi5yS6MM2VfoLyvFpFCj1Yq0PjC1aXtrW+j0Bs=;
-	h=Date:From:To:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YwC72C++yDaM4xQz4cF26AoL95ty6zlE3KQ/Ot3fAgcnaHXwe9aM0SbpVNTlJAlVm1aRYgjgAoLbAn2AGDziFl6qfOtk9fiJjbZaG6rGpFeBR1klCqQ7xXvgCf3Nw6PttpqOJcDXYO5tmQk2OxHKUKtpjpO/rpWZVZkKiuSWWTQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com; spf=pass smtp.mailfrom=allegrodvt.com; dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b=Z4wJojMc; arc=fail smtp.client-ip=40.107.160.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=allegrodvt.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ULrCEkIqD8HakArSx0ykpl1bBfbhuBmf4abycb77PuqGDOjUk8MAbU06kRxIA5Jdd4j8QNRNJUa3xWWkRnBRrfrq25e6OwPrMdvJbOpUuA8nrcUwVwkuazh4bv+Sr0Labebb6ttBduPxfzB7CkzVYCozDbSm62KPyIwmh/VZBBwX3B256EAuJ2j7IZfFaD2bngQkqs4OLoYlHFYL7MsJzGPB31sHvF1S1loPusZojA9BXEDQOO13/nx2D33RkGPRAz4fmPuH7nUjXmMH80BBhRxXLm5AZdLupwylntKFPq9H+bk2nH7lhWBPF3PEF2n8RBDRt2KHboDcu9ePsiSj5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hLdPB3DnLAdHvvLXnmM/UD9FKYMWBAsf7A4HSsOstJk=;
- b=CckVSx+FXGCzCjRYAkQNy4SR/plBr88p0FOWQCwXbdzi6vwPJItFqedFgGO/Me7M6fMCek+OYB6mBdvvn857RK1jGPLS1Ce5+rN8jqN1gv5frUNAzClRhw/Kb868mfkS6foGBTODVVsUilt0ELRYTPovcUwXO8DwJ9SJonyjs7H0rnStM0/RYzavphYTZXj1XgkE+8a7u6UQg8WfxlR+PsIPW0ZVw44hCspC8aWeK6KtAGK4Swp9QDIrd4uRTMV8yhog2FglbP+nW1JbUg/cSmy8jL0vDWaEuOiI8CDDF6Im7GNkGwm2Q3QZiA5oEtG91pZLEf0IL87mEw9/2RnYRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=allegrodvt.com; dmarc=pass action=none
- header.from=allegrodvt.com; dkim=pass header.d=allegrodvt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=allegrodvt.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hLdPB3DnLAdHvvLXnmM/UD9FKYMWBAsf7A4HSsOstJk=;
- b=Z4wJojMcLOi0lfK7iAVN++zXHVCIPEc7sQXRQnUQO6jgC09kyKICp28+ap/IAVhqsxDYN5PiET1XxBHDoifCs5OBtYW9YpkWQqNrkWaF0sCBgZ1nU1z+OxEnQlVnSt2WhiEKdM8TIWIsXYyedyGqQriHBw1tFqEvai9jq3cOtalYAly9X/1HAzaJRPb/gUkG//HywINQ9c3EbyMwbARG31B3YT829bZjtrKyWlafo+VgWmmfOjZ0awFX6c9pWndZjv8xzQTVabEF1igxrgQ90Y9rbxjnyzswDj+AbcK1jY2OS38oYvc2wu02+OoD5Syq+cVWMB7bPC3aowIBWhDl3w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=allegrodvt.com;
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:3d::18)
- by MRZP264MB2890.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:1f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Mon, 16 Jun
- 2025 12:56:33 +0000
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5]) by MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5%2]) with mapi id 15.20.8835.027; Mon, 16 Jun 2025
- 12:56:33 +0000
-Date: Mon, 16 Jun 2025 12:56:31 +0000
-From: Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>
-To: Michael Tretter <m.tretter@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Nicolas Dufresne <nicolas@ndufresne.ca>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] media: allegro-dvt: Add Gen 3 IP stateful decoder
- driver
-Message-ID: <dj4jzoi6v6ci57b7gsverqfajzq662uslxunpwhrcixkv3e5uk@t2fxl4m4hzlf>
-References: <20250605-allegro_dvt_al300_dec_driver-v2-0-1ef4839f5f06@allegrodvt.com>
- <20250605-allegro_dvt_al300_dec_driver-v2-4-1ef4839f5f06@allegrodvt.com>
- <aErWeK9qQSrCcNnp@pengutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <aErWeK9qQSrCcNnp@pengutronix.de>
-X-ClientProxiedBy: PR0P264CA0286.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1::34) To MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:3d::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F57292B2D
+	for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 12:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750078626; cv=none; b=f7FoVYU6dKhjkvPkgObx7X6YA+tS6Zfp6fBTjHc3MuRfOr2FK42xEqKxDQL5gSW3yFVkZZ0Z9AbFd0Md3Gdi49KcSvfUt7nNvnovl9rq/gIsOcXYaXWMX1HyhaSuFyk+SyggMXRMID3YYMTMYMkdPbmXsm1PpBovrF+d6zSg8Vc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750078626; c=relaxed/simple;
+	bh=t1GQ7nqgQkownLdDYTm4/UkPZbcPEuHCVThj226KQio=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Es4cIgS1LJvR9+WysSMWLgPSBd6En7N2ry6l3Gq7EPDaQ+PaBlq6wcZCCLQSEGbnFb9+dB6Xm/dFpC6umGQjFsEq5gc3MMzfTghjBm1pVCcbOUAW+1hEBVKV1UnWEucT0vIOUBFEJi7TxkJ0oSJgW8w00D2DBqqKx/yaS2KOVQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YXPRdIMV; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55G8fFSX022895
+	for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 12:57:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FKwuipyWGCLDYFoJ13lyjhPxeC6AD0OBZeTREMsaE+U=; b=YXPRdIMVItIvJ2Cc
+	a0Sswp89CATcrYblwWTMMKqRvXveuCCoXbBDXXh4PIVgdOEUHvr69G/h0b2s2UIa
+	scEYeIsg+dZuuOlx88joNSLmY615F09ZYPRiA9RewHr+RBfHBzdiYuEfm5/D1ogl
+	d5/vqsXcDJYXoJi/JApAnjQLBss+HT7qebwi69NJrsX32x8Du8Ss4LvNgwp38OHi
+	O9eecutKxY8ApTSnZLUbQsAPL5MjomulT0tN1kPQZAx7+WLFKX3Xn0rRu1cnrHbI
+	lJnBmmuX0oDsXIIgH6iokhPNkwnH1kFdap3z7kqS7WmaGATavAJ/i0kdALmjtTZC
+	epRPRQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791hcvhjq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 12:57:03 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7d3901ff832so966775685a.3
+        for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 05:57:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750078622; x=1750683422;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FKwuipyWGCLDYFoJ13lyjhPxeC6AD0OBZeTREMsaE+U=;
+        b=Aeqq7FguZTSG+b9CXJDyR0t4vPHazt9DlqF1ivIcMgo/2HLd4uctazyzFoqju33km2
+         /pA5V6WCYCCStdwVBjTYsvEqmu1mrwibY1hdy6BwB8kdkXI5jaeSk4AJHAjHpRPxxDl8
+         dumS9jGcXL1GGPZyC33noxHj/MrN0k7Czyb1Iw4L580yx0jVQ5AjOCuLhy0wa/FytOjM
+         Z38d6csdlncNuZJUv2UxbTNIt1hIfhLhv6h84EIM4UM1zxt12intl+SmdG2T3Co9+8bs
+         rXP6pDHnwMWSQcgT/FdKHSQJzG9INAu08+uoIr+aYWL8jz4Ko5Rqm0fTIrEWI01wH2yU
+         0AtA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmMTZFYtcQojCLrTpqTbnKfTpeczmt/bXtry0lwUl7xZpqJo58O+ftZzoQ8aifED1crCNjrDYn0LF6/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMRYiLGfHdJa48+l0EwixqOxDkCAKhxImx2PbY/zWnQ1nMrX/A
+	MyMl6ZXM/X/n7KTqJzIJ2Vvk8+SUqyIN34MpqRtgWhkpW7lr5BzgI/BfrITd51Zw3Ft7McHWueW
+	9OAIhqg+l0s1/k5OoENe4lNWenDNkSyGufNAlqFV+2tNojjFWDmzomy8cKbn/ZAjtAQ==
+X-Gm-Gg: ASbGncuvRX1o42WMeA0cWOLkxEzyXWSBS7k0aVfHA/y20u5vhvSMDvAP5RuPxwhODqM
+	mqzHnxMhm4cLstblAGgGpJcW1/eBAjwGjLyzjAwfX7khqS3CU2dIGS9Bp93/Cy8lsS1oppc5p8H
+	eJZY0pfqZiAHeCJOfPNB9SNy6f3CXlYjhOlEGg7B2M+3RSM38BhgnsmBdy2fbA6ditBwVN6ER9H
+	Zcvt6grEHQ1puh8cUiAo/AhLAvZabgFFFnKTXr2NPK/LfUdkCa8I3n/hw7fzsiP0AdTF6nyr74l
+	gHCM3WeZ1FHiztAkt18B4mXG9W5Jpj0wRxCN1kUVTCXj+wNM8ET9gJlIWQ==
+X-Received: by 2002:a05:620a:1a0d:b0:7ce:bd97:f879 with SMTP id af79cd13be357-7d3c6c1ab7emr1453848785a.19.1750078621325;
+        Mon, 16 Jun 2025 05:57:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFFYPS0k/+7wc+2m2vG7o++m5m5Sp5cpWuM8q65kOaO8pwx5kzXP7v29Fo1lQWXH5INkeOc9w==
+X-Received: by 2002:a05:620a:1a0d:b0:7ce:bd97:f879 with SMTP id af79cd13be357-7d3c6c1ab7emr1453844285a.19.1750078620710;
+        Mon, 16 Jun 2025 05:57:00 -0700 (PDT)
+Received: from trex (132.red-79-144-190.dynamicip.rima-tde.net. [79.144.190.132])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b70d77sm11147736f8f.94.2025.06.16.05.56.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 05:57:00 -0700 (PDT)
+From: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
+X-Google-Original-From: Jorge Ramirez <JorgeRamirez-Ortiz>
+Date: Mon, 16 Jun 2025 14:56:58 +0200
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>, quic_vgarodia@quicinc.com,
+        quic_dikshita@quicinc.com, mchehab@kernel.org, robh@kernel.org,
+        krzk+dt@kernel.org, conor+dt@kernel.org, stanimir.varbanov@linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] media: venus: vdec: ar50_lite video core support
+Message-ID: <aFAUmnQGhuVFubBN@trex>
+References: <20250613140402.3619465-1-jorge.ramirez@oss.qualcomm.com>
+ <20250613140402.3619465-4-jorge.ramirez@oss.qualcomm.com>
+ <c8c31c62-ffb8-4b15-b3f1-6ecfec7a7c1a@linaro.org>
+ <aE6wu8iKsLcMA/Ny@trex>
+ <a538052a-fc4e-496b-ae71-033ff8d87204@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MR1P264MB3140:EE_|MRZP264MB2890:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d11d67d-1a0c-4fbb-0a54-08ddacd5385a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|10070799003|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?YURGbUxjb2RqSXlsNk9rOTg4TytKNnlRWFZxYnBzaS95Z2tHTFo1dEdzRHNw?=
- =?utf-8?B?aEthS29IS01mV25lYzFiYnhvbys0SEZLRWxUdDI1TE9aL0lGdEZzank0RDdv?=
- =?utf-8?B?cXV4V2orWk9TWDRtbFhyR0JsWU0yd09rdjlBRWxXa0h4b0wwSXRWQ2hwclp0?=
- =?utf-8?B?NDRUMnhKYmlyM1JKbUNOa2R5enN2SGNJMEhMOGhjUXB5ZFdTQ2NZOExjVTA2?=
- =?utf-8?B?YlhUajNhNU8vaXpXU2cwVnV2ZU1RSGIrbTZKVnN6SzU2enl5YU9CSk1FSHZh?=
- =?utf-8?B?azMrZmRNc1pyVjEvUE12MUF6cXRiNUloR1ZjaFY5N0VrOUx2aHlZbzR2OVJW?=
- =?utf-8?B?UG00TXE0QXV0Y2hWUDRZTjhlYmJudWdMTTcvTHNDYmxpVDVaYzlyU0dOandt?=
- =?utf-8?B?QnFmMEV2ZGlHU0VCOFVRSzQwZGhlZm1PWW8zVHFQMUl6eWJqdlhmQXAyOEM0?=
- =?utf-8?B?V2J0TkdvTGhjcG1XMlpyNVAwNG80TFVDaXRBTzl1KzJOVVBlUDkySXYzbFpt?=
- =?utf-8?B?OGgwRVhPbzgyT3ZrVTFXWmVVemxyMXFrL25IektTYTNuNVdEbHdtNDBkTUpr?=
- =?utf-8?B?SE81M2xId09uM0dyS3hSZ2orWmFHY3RpUDlQMG96NnVMZEE4SVRTaXFyR281?=
- =?utf-8?B?aUdkcVM5WUtkR3dzWUdMSVRTbW9pR0s2VERuTXhXZ1cxSkFOR1FMYVB1NHVV?=
- =?utf-8?B?NVVqZUVDYWZ0QitrMW5xYVdOOWMxeEJVSFNQeEtyQlB0SjM2SG9VVW5NTDRG?=
- =?utf-8?B?ZUVLd3JmZVJydndrR0tibDJ0cFlUSHBHSWJXRHVjN3MwNDdTUE4xQWNpcUxZ?=
- =?utf-8?B?azZkL01lMUswdFBzdlRuRHBuS3Jta2FEZHcyYXU3bG1sMTFWU0kwUit2aTcy?=
- =?utf-8?B?Y1ZaMXZ2SVJMbWZTdmplTW9ONW5HQXFEMFZ6cFNMMWdZUFpFK0xmWk1SQk5p?=
- =?utf-8?B?WTAxZ3hzK2lpNEFWdE96UmNnYXlFU2NHZU1CVEFXR3ZuOU9zdFBpd1h3VlFU?=
- =?utf-8?B?aU9FWE0wMXJ0azhzVU5yb3dZY1ovc0xFeG5HbDFlMm02OWMxa1Y1bTdNZGVS?=
- =?utf-8?B?ZmVsRXFsZk5Eb2s2a1JSVEZFOUk0THYwcjRDditROUtTYTJlZExMWW9UMFRF?=
- =?utf-8?B?OU51V2hyeEdxbHVyNmxJTVFjay9rV2FQOTNRN1BoYk5NWUtabElHRDBhQkhl?=
- =?utf-8?B?TjF2SzRVczkrV2hkclR5WVhLOXMwYkZXdnI4MnlodlB5Ym5IcmlCT2tGWXNm?=
- =?utf-8?B?dFV6OUZ5MFpkY01BN1BhU1pNNUdTSVY2OTQvRXY3RzFxbG1pazM3UnJINysy?=
- =?utf-8?B?OEFpYkJ5VTlwUCtBV21YTVBIMDhiblFrdVpMdnlnS3JJZFB1aWNycmt0RTJr?=
- =?utf-8?B?MkQxYnI4SjVrR1lVUHpkclJlV25DOUpWSTlGN1MzTzJTUWt2UWE0QnVTR1BU?=
- =?utf-8?B?N0JJQzdIQnVkSFFLT1ZmOTFuWWFJQWJmVGhjYVRuWVY3YXN6V1dFc2x1TGtZ?=
- =?utf-8?B?SDEyVGNJVHZydVdrYUhycUsraDBxUm5vZG14eFp0UGJLcWZDaG5malFOYU8r?=
- =?utf-8?B?TVI0dW50ak1UdzlWL0JieDhocWgrMDc2RFpPcWdPdlRQaWptUjNMc1hMYmdr?=
- =?utf-8?B?RWtUeUlvbHZMT0VUdGlRZTVRS0FpUmZlWnhPQlJJUjk3aC9EVDNmS0p2NGFC?=
- =?utf-8?B?ZVlkRW1Hamd3SG4rQWZyaHJPRmZmdnQ4TjR4aEtlN0JZbGFra1MrT2pqalZ1?=
- =?utf-8?B?MDBSVGNRdXEvWE13YWhFVk10c29CNktITGIxMWRpQ1RCTGU1VFdzL1ZzRm1a?=
- =?utf-8?B?WHhBQjB1RmxkL3VBSUtEQXF0VEZSWWZyK1BDRnBGUWQ1bzBjMWNZVkNGb2ps?=
- =?utf-8?B?TlhoYUUvVWU0MUorc3drZm84KytraExUUk9hTFlrd2pEWTc5NmxjT291YmVl?=
- =?utf-8?B?TnFLbXB6YkZkdkdMYVZEclUvWFRDVlNLVnJPSW5pUG5DZDJ1M3FjTGMyNWFF?=
- =?utf-8?B?MEZ1c0txdDRBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(10070799003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QUNKMGl3Z1VTODFjaEJNMFpsWGZrQkZCRFJ3anVzZUVxMWpRUmpMUnVXbDhT?=
- =?utf-8?B?V1FJV3JXVVhYVWd2alBZTU5OanV2eUxHUzdCSkE3dUVDVFl4VjEyQVNDYjRX?=
- =?utf-8?B?Z1R0RlpKYmhUSmdPNlhsNzA4bzJZemQwbTBQdEpDYjRxSnFvMkQ3a0MwVUNP?=
- =?utf-8?B?ZitGRkFwLzRNNmphOGFQSUlnU3NJWGJXbnpDZ21SRjJIMjFvS2ZackZVUDQv?=
- =?utf-8?B?ZkhzTGxGazE0MVRYT2gxbEJSTVJEcXpXUDR4dWdFRVAwcmFkQWFTcHJVbUdz?=
- =?utf-8?B?ajUrYXpYd3ZIcVJIcTJ2Z1pWaSt0czFERiszRVhNQ0dBeWtqZEh0WFhac2M0?=
- =?utf-8?B?QUhScmRNTXlKamx1UlhuRkNhd3pweUVmSnRVc09CUjFLem1jQXBYRzA4Y1da?=
- =?utf-8?B?MmNKejR1djBoNXVKSmZUYWk5eCtiakEwUzZOMGlpL1Jsa2FGa213TVJlT01z?=
- =?utf-8?B?bUMyOHZKcGlWcXlvcEVhenNndmV4a0g1dzBzT0R2UE5LcFBRSjVmZWtxZzFn?=
- =?utf-8?B?UnNiL1Iyb2NOQS9oUXM4aTRoNDJCYksza1Z1YWZQNTNxK1FwSTlQK2tHak1H?=
- =?utf-8?B?OHE5c2NCZGtpblpFKzI4UURBYjZDTWZ4MFJkZ2RCTmJlWjRHSjF2N2IvVXVJ?=
- =?utf-8?B?cUhyanNueFljWjdOZ0dsN25Sd09XaE54MVdiN1FUOWU5VFBZYUZCeUQzQm51?=
- =?utf-8?B?NkhzMUdhcE9VWGYvNmtyTXdhZEVod3oweFVZM0FlaXBlVzF0WGV5amRuTmRj?=
- =?utf-8?B?K0RxdEhhR1NybFY0THpEZFNBTEUvalhXdEZzdWdwZlFQcHk4akt3ditMcVp2?=
- =?utf-8?B?Z0RLazZldkExTHQrbFpRR2drSVhXR1UrMHFtcGZncmdUekhVeWN3c1JueHpi?=
- =?utf-8?B?VUZNaCtmWURLRjNIK1lLbzBPbXpJWDBWZjc4MVJOMU9KemtJSGVrdWJReFZ6?=
- =?utf-8?B?MGFIRXBVcUxMQUR0c0dmQXdBSHpONDMyNExMQVRMK2tBcmtJNVpUbytUN0Va?=
- =?utf-8?B?NGlNMytxdGcreFlYeXBVY3ZCTkE3VzZhV1FWSkdFaThHamFiSUtKRHBPVjdH?=
- =?utf-8?B?dk9INFN0Ull6ZmNCVDlUMUw4Tk5KREMwTzVDTk1vbkl3Qkt2V1l4dm9aYWZ4?=
- =?utf-8?B?dHNuL2dYSVdTaG1JVGhZMTJEVVcvNFZORzdSSzFLWWJ3cHY1aUtOQzNqRlNn?=
- =?utf-8?B?Yml5cm9oSGU3Yzc3VCt1akdTSTVDS0NMQ0EyRUlveFEvdncvWndpZ1R5dXk1?=
- =?utf-8?B?cGMxc1grSWlBSmxrdmhHUTZ6MlFzSWRNVHJUVkRxQnhGakoxMHZURGd6K0hh?=
- =?utf-8?B?cjIzRWdxRUczYzh6UW0zc1ltaWlQSGpaMzB2V1dhMERZMGV3UmEyQWVkc1kz?=
- =?utf-8?B?eXcxK0s4a3NRblh6UGZxaDhPaW04TFBXc2ZMdDQ4MXovc09QU28yeHN6TENF?=
- =?utf-8?B?blhxUTlNOTdnUjh0cHJGU1c1YjFkZThDTnNUZE0rbDloMUNBUEhybUszb3g5?=
- =?utf-8?B?SG1rTEQ0T2VMeGdYZHhnT09OcFFvbHdueGlybDIyZjBKaDVneVh6ZkdyVWxk?=
- =?utf-8?B?SFk2WlRYZlZYQmNwOUdMbU5GbnJNbUY5YlhDeS9QVXMydW9ZRXZsbDhISGd5?=
- =?utf-8?B?bVdHc1hVNmFUWW1nYjZFeExFcnhiNno0K2JjeUZTeGh6VCtsTHFWeUxTNTRx?=
- =?utf-8?B?UVQwWDc4RTFnRXNEZFdVZTAxYTZabTREQ3FnSkVzOXVUOTgyK2VVNWM4cFV1?=
- =?utf-8?B?QXZNYWdPUHYvNjBZd0dQb3pqRjQvMmtlOURzSTVUbHQxNEVaL1M3Z0xRVjJO?=
- =?utf-8?B?VFZSY09SbFlWYy9PaGM5M0VYYUlZMmdTRWFFd1hNODA0b0NFZDNDL2RvN2pE?=
- =?utf-8?B?L3pURVNrS3J6WUlONXJLQlVMS21uTWF3VlpzZ3lic1R5WVRkdUZrZ1RLRGJN?=
- =?utf-8?B?OUl5a014c2FHRmM2b0g5MkZsdWdCb2lJeWF1S3BPR0NKVjIvMndGYzRGU0dJ?=
- =?utf-8?B?Zlpoa0lsTjlmL0NUMldNc0UwYzBaRS9UTmpFYkY2SHBMbEJnVFQ2WFA3YUJP?=
- =?utf-8?B?cXY4aVF6a3VMVTN3TEdZenBjN3liV0NQMEpCYzZJTmphMlJhR1cwU3h0cXZ0?=
- =?utf-8?B?VktFNEZvbm82UUJ4WjJTWHJJclhtREVvQ01HZVpIRTI3dkgyUEFJZUVZYkFw?=
- =?utf-8?B?VXlrdnR1cStiYTBiWHFOeGYyYXNVS3NUV2J2bW1aVGJkdjAxY1FMMU12RTBV?=
- =?utf-8?B?T3YrTDR6MjV4SndZa0pYZ0Z1MmNRPT0=?=
-X-OriginatorOrg: allegrodvt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d11d67d-1a0c-4fbb-0a54-08ddacd5385a
-X-MS-Exchange-CrossTenant-AuthSource: MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 12:56:33.5340
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6c7a5ec0-2d92-465a-a3e1-9e3f1e9fd917
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q35e5mCzebhXFGG3BXwVqLnTtmAmZp/j77Acy+TuPwwMbacXv21jl529TCslrxlfPYlgw9HzV23xg4JbFldnemSvlrYbmCzwQi8QaUQM3Vk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRZP264MB2890
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a538052a-fc4e-496b-ae71-033ff8d87204@linaro.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDA4MSBTYWx0ZWRfX2EeGL83sEFPA
+ v0ny/yMm7116NCexs62mKi8l3xKzc+b6GUd+Z+o9UaiO74XORHXnZgZRR3b3rL61RSgomOpiqTH
+ BIR3wkJYvevzOS3NCSunj4R5Hw78SniZjT56TFjn4plNtr7R0ZNi0o6EDO4HRGydKIuLzxAni/2
+ Y4QxHwqV4L4iE9h2VlAa/I9ImZJ2r2PeFaexjrXlJp2BAFv2oYa3Hz9yAohTcrF2kUd1vRvZsVS
+ fTDYs4mGRSHWGawT96olApY02fPIcBXn2ZOXY9cdawktkjUOVcy9Tcfu5oC8x++kqTt+g2EVz/G
+ +cZOat6wax9Fw7vrja+DJPpcrbAojR0+uA8tX+3QqmQmkW3cYH/VFXsrOWzGQAMchTSK4UhfCXu
+ OKvu4A+fOXhhPalM7kN4oaC90P0VihlSOceTRrJs87SWHM+1uIlxGBtruzbjsZObqcisMlGr
+X-Authority-Analysis: v=2.4 cv=PtaTbxM3 c=1 sm=1 tr=0 ts=6850149f cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=wjE3nLva0YkvARyJ+Gfmxg==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=0RC5y-S3vamAmSp5PK4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: 0BMxW0ez_mqO-gh24aEFE8etvalg7rh0
+X-Proofpoint-GUID: 0BMxW0ez_mqO-gh24aEFE8etvalg7rh0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-16_05,2025-06-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 mlxlogscore=999 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 impostorscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 phishscore=0 mlxscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506160081
 
-On 12.06.2025 15:30, Michael Tretter wrote:
-Hi Michael,
+On 16/06/25 09:13:08, Bryan O'Donoghue wrote:
+> On 15/06/2025 12:38, Jorge Ramirez wrote:
+> > On 13/06/25 15:18:02, Bryan O'Donoghue wrote:
+> > > On 13/06/2025 15:04, Jorge Ramirez-Ortiz wrote:
+> > > > The AR50_LITE is a streamlined variant of the AR50 video core, designed
+> > > > for power and cost-efficient platforms.
+> > > > 
+> > > > It supports hardware-accelerated decoding of H.264, HEVC, and VP9
+> > > > formats.
+> > > > 
+> > > > Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+> > > > ---
+> > > >    drivers/media/platform/qcom/venus/core.c      | 11 ++-
+> > > >    drivers/media/platform/qcom/venus/core.h      |  5 +-
+> > > >    drivers/media/platform/qcom/venus/firmware.c  |  8 +-
+> > > >    drivers/media/platform/qcom/venus/helpers.c   | 81 +++++++++++++++++++
+> > > >    drivers/media/platform/qcom/venus/helpers.h   |  2 +
+> > > >    .../media/platform/qcom/venus/hfi_helper.h    | 10 ++-
+> > > >    drivers/media/platform/qcom/venus/hfi_venus.c | 14 ++--
+> > > >    .../media/platform/qcom/venus/pm_helpers.c    |  1 +
+> > > >    drivers/media/platform/qcom/venus/vdec.c      | 15 ++--
+> > > >    9 files changed, 123 insertions(+), 24 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> > > > index d305d74bb152..736ef53d988d 100644
+> > > > --- a/drivers/media/platform/qcom/venus/core.c
+> > > > +++ b/drivers/media/platform/qcom/venus/core.c
+> > > > @@ -254,14 +254,19 @@ static int venus_enumerate_codecs(struct venus_core *core, u32 type)
+> > > >    static void venus_assign_register_offsets(struct venus_core *core)
+> > > >    {
+> > > > -	if (IS_IRIS2(core) || IS_IRIS2_1(core)) {
+> > > > -		core->vbif_base = core->base + VBIF_BASE;
+> > > > +	if (IS_IRIS2(core) || IS_IRIS2_1(core) || IS_AR50_LITE(core)) {
+> > > 
+> > > Is there a property that IS_IRIS_2_1 || IS_AR50_LITE that we could use
+> > > instead of expanding this IS_THING list ?
+> > 
+> > I know what you mean but I think looking for possible comonalities
+> > between cores will just make the partitioning more obscure.
+> > 
+> > we could perhaps define a different type of macro ie, something like
+> > IS_CORE(core, IRIS2, IRIS2_1, AR50_LITE) ? shall I go ahead with this
+> > type of macro instead?
+> 
+> It feels like a nit-picky point to be making but, I'm just thinking about
+> adding another say two or three SoCs that need this conditional.
+> 
+> In that case this statement would start to look long and ungainley. It would
+> be nice to come up with some common conditional for it.
 
-Thank you for your review.
->Hi Yassine,
->
->Thanks for the patch.
->
->The overall architecture looks a lot like the video encoder for the
->ZynqMP, but with some significant differences in the details. I didn't
->manage to look more closely at the driver, yet, but I have a few high
->level questions.
->
-There are a many difference between the ZynqMP, and the al300 drivers,
-espicially on the mcu control. ( the al300 mcu is a 64bit ).
+what about
 
->On Thu, 05 Jun 2025 12:26:59 +0000, Yassine Ouaissa via B4 Relay wrote:
->> From: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
->>
->> This commit introduces a new allegro-dvt V4L2 stateful decoder driverfor
->> the Gen 3 IP with support for:
->> - AVC (H.264), HEVC (H.265), and JPEG decoding
->> - Output formats: NV12, NV16, I420, and P010 for capture
->>
->> v2:
->> - Replace the mutex_(lock/unlock) with the guard(mutex), that manage
->>   mutexes more efficiently.
->> - Set DMA_BIT_MASK to 39, and drop the paddr check when allocating
->>   dma_memory.
->> - Use dma_coerce_mask_and_coherent to set the DMA_MASK.
->> - Use static initializer for some structs.
->> - use #ifdef instead of #if defined
->> - Optimize some function.
->> - Use the declaration in the loop.
->> - Use codec for al_codec_dev instead of dev, to not get confused with
->>   the device struct.
->> - Remove the codec member of the al_codec_dev, use the fmt->pixelformat
->>   when request creating decoder instance.
->>
->> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
->> ---
->>  drivers/media/platform/allegro-dvt/Kconfig         |    1 +
->>  drivers/media/platform/allegro-dvt/Makefile        |    1 +
->>  drivers/media/platform/allegro-dvt/al300/Kconfig   |   23 +
->>  drivers/media/platform/allegro-dvt/al300/Makefile  |    6 +
->>  .../platform/allegro-dvt/al300/al_codec_common.c   |  733 ++++++++++
->>  .../platform/allegro-dvt/al300/al_codec_common.h   |  248 ++++
->>  .../platform/allegro-dvt/al300/al_codec_util.c     |  174 +++
->>  .../platform/allegro-dvt/al300/al_codec_util.h     |  186 +++
->>  .../media/platform/allegro-dvt/al300/al_vdec_drv.c | 1518 ++++++++++++++++++++
->>  .../media/platform/allegro-dvt/al300/al_vdec_drv.h |   93 ++
->>  10 files changed, 2983 insertions(+)
->>
->[...]
->> diff --git a/drivers/media/platform/allegro-dvt/al300/al_codec_common.c b/drivers/media/platform/allegro-dvt/al300/al_codec_common.c
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..716d0004482702537ea89ec4abecd6af26654b32
->> --- /dev/null
->> +++ b/drivers/media/platform/allegro-dvt/al300/al_codec_common.c
->[...]
->> +static void handle_alloc_memory_req(struct al_codec_dev *codec,
->> +				    struct msg_itf_header *hdr)
->> +{
->> +	struct device *dev = &codec->pdev->dev;
->> +	struct msg_itf_alloc_mem_req req;
->> +	struct msg_itf_alloc_mem_reply_full reply = {
->> +		.reply.phyAddr = 0,
->> +		.hdr.type = MSG_ITF_TYPE_ALLOC_MEM_REPLY,
->> +		.hdr.drv_ctx_hdl = hdr->drv_ctx_hdl,
->> +		.hdr.drv_cmd_hdl = hdr->drv_cmd_hdl,
->> +		.hdr.payload_len = sizeof(struct msg_itf_alloc_mem_reply),
->> +	};
->> +	struct codec_dma_buf *buf;
->> +	int ret;
->> +
->> +	ret = al_common_get_data(codec, (char *)&req, hdr->payload_len);
->> +	if (ret) {
->> +		al_codec_err(codec, "Unable to get cma req %d", ret);
->> +		return;
->> +	}
->> +
->> +	buf = kmalloc(sizeof(*buf), GFP_KERNEL);
->> +	if (!buf)
->> +		goto send_reply;
->> +
->> +	buf->size = req.uSize;
->> +	buf->vaddr =
->> +		dma_alloc_coherent(dev, buf->size, &buf->paddr, GFP_KERNEL);
->> +	if (!buf->vaddr) {
->> +		dev_warn(dev, "Failed to allocate DMA buffer\n");
->> +		goto send_reply;
->> +	}
->> +
->> +	reply.reply.phyAddr = (u64)buf->paddr;
->> +	al_common_dma_buf_insert(codec, buf);
->
->The buffers allocated by the firmware are tracked by device. Thus, there
->is only one list for all buffers used by the firmware.
->
->I guess that the buffers are be allocated per context. If that's the
->case, maybe tracking them per context in the driver would be a better
->option.
->
-The mcu can ask for buffers at the startup, and also it can reuse some
-buffers, with different contexts.
+#define IS_VPU_MATCH(core, type)	IS_##type(core)
+#define IS_VERSION_MATCH(core, type)	IS_##type(core)
 
->> +
->> +send_reply:
->> +	ret = al_common_send(codec, &reply.hdr);
->> +	if (ret) {
->> +		al_codec_err(codec, "Unable to reply to cma alloc");
->> +		al_common_dma_buf_remove(codec, buf);
->> +	}
->> +}
->> +
->> +static void handle_free_memory_req(struct al_codec_dev *codec,
->> +				   struct msg_itf_header *hdr)
->> +{
->> +	struct msg_itf_free_mem_req req;
->> +	struct msg_itf_free_mem_reply_full reply = {
->> +		.hdr.type = MSG_ITF_TYPE_FREE_MEM_REPLY,
->> +		.hdr.drv_ctx_hdl = hdr->drv_ctx_hdl,
->> +		.hdr.drv_cmd_hdl = hdr->drv_cmd_hdl,
->> +		.hdr.payload_len = sizeof(struct msg_itf_free_mem_reply),
->> +		.reply.ret = -1,
->> +	};
->> +	struct codec_dma_buf *buf;
->> +	int ret;
->> +
->> +	ret = al_common_get_data(codec, (char *)&req, hdr->payload_len);
->> +	if (ret) {
->> +		al_codec_err(codec, "Unable to put cma req");
->> +		return;
->> +	}
->> +
->> +	buf = al_common_dma_buf_lookup(codec, req.phyAddr);
->> +	if (!buf) {
->> +		al_codec_err(codec, "Unable to get dma handle for %p",
->> +			     (void *)(long)req.phyAddr);
->> +		reply.reply.ret = -EINVAL;
->> +		goto send_reply;
->> +	}
->> +
->> +	al_codec_dbg(codec, "Free memory %p, size %d",
->> +		     (void *)(long)req.phyAddr, buf->size);
->> +
->> +	al_common_dma_buf_remove(codec, buf);
->> +	reply.reply.ret = 0;
->> +
->> +send_reply:
->> +	ret = al_common_send(codec, &reply.hdr);
->> +	if (ret)
->> +		al_codec_err(codec, "Unable to reply to cma free");
->> +}
->> +
->> +static void handle_mcu_console_print(struct al_codec_dev *codec,
->> +				     struct msg_itf_header *hdr)
->> +{
->> +#ifdef DEBUG
->
->What's the reason for making this a compile time option? Maybe a
->module parameter to enable MCU logging at runtime would be more
->friendly for debugging.
->
+#define MATCH_1(CMD, core, a) \
+	IS_##CMD##_MATCH(core, a)
+#define MATCH_2(CMD, core, a, b) \
+	(IS_##CMD##_MATCH(core, a) || IS_##CMD##_MATCH(core, b))
+#define MATCH_3(CMD, core, a, b, c) \
+	(IS_##CMD##_MATCH(core, a) || IS_##CMD##_MATCH(core, b) || \
+	IS_##CMD##_MATCH(core, c))
+#define MATCH_4(CMD, core, a, b, c, d) \
+	(IS_##CMD##_MATCH(core, a) || IS_##CMD##_MATCH(core, b) || \
+	IS_##CMD##_MATCH(core, c) || IS_##CMD##_MATCH(core, d))
+#define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
 
-This will change to add debugfs. thanks
->> +	struct msg_itf_write_req *req;
->> +	int ret;
->> +
->> +	/* one more byte to be sure to have a zero terminated string */
->> +	req = kzalloc(hdr->payload_len + 1, GFP_KERNEL);
->> +	if (!req) {
->> +		al_common_skip_data(codec, hdr->payload_len);
->> +		al_codec_err(codec, "Unable to alloc memory");
->> +		return;
->> +	}
->> +
->> +	ret = al_codec_msg_get_data(&codec->mb_m2h, (char *)req,
->> +				    hdr->payload_len);
->> +	if (ret) {
->> +		al_codec_err(codec, "Unable to get request");
->> +		kfree(req);
->> +		return;
->> +	}
->> +
->> +	/* Print the mcu logs */
->> +	dev_dbg(&codec->pdev->dev, "[ALG_MCU] %s(),%d: %s\n", __func__,
->> +		__LINE__, (char *)(req + 1));
->> +	kfree(req);
->> +#else
->> +	al_common_skip_data(codec, hdr->payload_len);
->> +#endif
->> +}
->> +
->[...]
->> +static int al_common_load_firmware_start(struct al_codec_dev *codec,
->> +					 const char *name)
->> +{
->> +	struct device *dev = &codec->pdev->dev;
->> +	dma_addr_t phys;
->> +	size_t size;
->> +	void *virt;
->> +	int err;
->> +
->> +	if (codec->firmware.virt)
->> +		return 0;
->> +
->> +	err = al_common_read_firmware(codec, name);
->> +	if (err)
->> +		return err;
->> +
->> +	size = codec->firmware.size;
->> +
->> +	virt = dma_alloc_coherent(dev, size, &phys, GFP_KERNEL);
->> +	err = dma_mapping_error(dev, phys);
->> +	if (err < 0)
->> +		return err;
->> +
->> +	codec->firmware.virt = virt;
->> +	codec->firmware.phys = phys;
->> +
->> +	al_common_copy_firmware_image(codec);
->> +	err = al_common_parse_firmware_image(codec);
->> +	if (err) {
->> +		al_codec_err(codec, "failed to parse firmware image");
->> +		goto cleanup;
->> +	}
->> +
->> +	err = al_common_setup_hw_regs(codec);
->> +	if (err) {
->> +		al_codec_err(codec, "Unable to setup hw registers");
->> +		goto cleanup;
->> +	}
->> +
->> +	al_codec_mb_init(&codec->mb_h2m, virt + codec->firmware.mb_h2m.offset,
->> +			 codec->firmware.mb_h2m.size, MB_IFT_MAGIC_H2M);
->> +
->> +	al_codec_mb_init(&codec->mb_m2h, virt + codec->firmware.mb_m2h.offset,
->> +			 codec->firmware.mb_m2h.size, MB_IFT_MAGIC_M2H);
->> +
->> +	err = al_common_start_fw(codec);
->> +	if (err) {
->> +		al_codec_err(codec, "fw start has failed");
->> +		goto cleanup;
->> +	}
->
->If I understand correctly, the difference to the ZynqMP firmware is that
->the firmware can be configured for different addresses. Thus, the
->firmware and mailbox addresses on ZynqMP are determined by the bitstream
->synthesis, which this driver is free to allocate memory for the firmware
->and mailboxes wherever it wants. Correct?
->
+#define IS_DISPATCH(CMD, core, ...) \
+	GET_MACRO(__VA_ARGS__, MATCH_4, MATCH_3, MATCH_2, MATCH_1)\
+	(CMD, core, __VA_ARGS__)
 
-There are some similarities between mailbox of the mcus ( zynqMP and
-al300 ), but i'm actually working on the remoteproc and rpmsg for the mcu
-control and IPC and messaging between host and the mcu.
+#define IS_VPU(core, ...)	IS_DISPATCH(VPU, core, __VA_ARGS__)
+#define IS_HFI(core, ...)	IS_DISPATCH(VERSION, core, __VA_ARGS__)
 
-the feature should be enabled with the encoder patches.
-this should make the v4l2 easy with less files.
->> +
->> +	al_codec_dbg(codec, "mcu has boot successfully !");
->> +	codec->fw_ready_cb(codec->cb_arg);
->> +
->> +	release_firmware(codec->firmware.firmware);
->> +	codec->firmware.firmware = NULL;
->> +
->> +	return 0;
->> +
->> +cleanup:
->> +	dma_free_coherent(dev, size, virt, phys);
->> +
->> +	return err;
->> +}
->> +
->> +static u64 al_common_get_periph_addr(struct al_codec_dev *codec)
->> +{
->> +	struct resource *res;
->> +
->> +	res = platform_get_resource_byname(codec->pdev, IORESOURCE_MEM, "apb");
->> +	if (!res) {
->> +		al_codec_err(codec, "Unable to find APB start address");
->> +		return 0;
->> +	}
->> +
->> +	if (res->start & AL_CODEC_APB_MASK) {
->> +		al_codec_err(codec, "APB start address is invalid");
->> +		return 0;
->> +	}
->> +
->> +	return res->start;
->> +}
->> +
->> +int al_common_probe(struct al_codec_dev *codec, const char *name)
->> +{
->> +	struct platform_device *pdev = codec->pdev;
->> +	int irq;
->> +	int ret;
->> +
->> +	mutex_init(&codec->buf_lock);
->> +	INIT_LIST_HEAD(&codec->alloc_buffers);
->> +	init_completion(&codec->completion);
->> +
->> +	/* setup dma memory */
->> +	ret = al_common_setup_dma(codec);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Hw registers */
->> +	codec->regs_info =
->> +		platform_get_resource_byname(pdev, IORESOURCE_MEM, "regs");
->> +	if (!codec->regs_info) {
->> +		al_codec_err(codec, "regs resource missing from device tree");
->> +		return -EINVAL;
->> +	}
->> +
->> +	codec->regs = devm_ioremap_resource(&pdev->dev, codec->regs_info);
->> +	if (!codec->regs) {
->> +		al_codec_err(codec, "failed to map registers");
->> +		return -ENOMEM;
->> +	}
->> +
->> +	codec->apb = al_common_get_periph_addr(codec);
->> +	if (!codec->apb)
->> +		return -EINVAL;
->> +
->> +	/* The MCU has already default clock value */
->> +	codec->clk = devm_clk_get(&pdev->dev, NULL);
->> +	if (IS_ERR(codec->clk)) {
->> +		al_codec_err(codec, "failed to get MCU core clock");
->> +		return PTR_ERR(codec->clk);
->> +	}
->> +
->> +	ret = clk_prepare_enable(codec->clk);
->> +	if (ret) {
->> +		al_codec_err(codec, "Cannot enable MCU clock: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	irq = platform_get_irq(pdev, 0);
->> +	if (irq < 0) {
->> +		al_codec_err(codec, "Failed to get IRQ");
->> +		ret = -EINVAL;
->> +		goto disable_clk;
->> +	}
->> +
->> +	ret = devm_request_threaded_irq(&pdev->dev, irq,
->> +					al_common_hardirq_handler,
->> +					al_common_irq_handler, IRQF_SHARED,
->> +					dev_name(&pdev->dev), codec);
->> +	if (ret) {
->> +		al_codec_err(codec, "Unable to register irq handler");
->> +		goto disable_clk;
->> +	}
->> +
->> +	/* ok so request the fw */
->> +	ret = al_common_load_firmware_start(codec, name);
->> +	if (ret) {
->> +		al_codec_err(codec, "failed to load firmware : %s", name);
->> +		goto disable_clk;
->> +	}
->> +
->> +	return 0;
->> +
->> +disable_clk:
->> +	clk_disable_unprepare(codec->clk);
->> +
->> +	return ret;
->> +}
->> +
->[...]
->> diff --git a/drivers/media/platform/allegro-dvt/al300/al_codec_util.h b/drivers/media/platform/allegro-dvt/al300/al_codec_util.h
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..5f893db4a1a3f2b9e6e9109b81a956bcaa71851c
->> --- /dev/null
->> +++ b/drivers/media/platform/allegro-dvt/al300/al_codec_util.h
->> @@ -0,0 +1,186 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/*
->> + * Copyright (c) 2025 Allegro DVT.
->> + * Author: Yassine OUAISSA <yassine.ouaissa@allegrodvt.fr>
->> + */
->> +
->> +#ifndef __AL_CODEC_UTIL__
->> +#define __AL_CODEC_UTIL__
->> +
->> +#include <linux/mutex.h>
->> +#include <linux/types.h>
->> +#include <linux/v4l2-common.h>
->> +
->> +#include <media/v4l2-mem2mem.h>
->> +#include <media/videobuf2-v4l2.h>
->> +
->> +#define MB_IFT_MAGIC_H2M 0xabcd1230
->> +#define MB_IFT_MAGIC_M2H 0xabcd1231
->> +#define MB_IFT_VERSION 0x00010000
->> +
->> +#define MAJOR_SHIFT 20
->> +#define MAJOR_MASK 0xfff
->> +#define MINOR_SHIFT 8
->> +#define MINOR_MASK 0xfff
->> +#define PATCH_SHIFT 0
->> +#define PATCH_MASK 0xff
->> +
->> +/*
->> + * AL_BOOT_VERSION() - Version format 32-bit, 12 bits for the major,
->> + * the same for minor, 8bits for the patch
->> + */
->> +#define AL_BOOT_VERSION(major, minor, patch) \
->> +	((((major) & MAJOR_MASK) << MAJOR_SHIFT) | \
->> +	 (((minor) & MINOR_MASK) << MINOR_SHIFT) | \
->> +	 (((patch) & PATCH_MASK) << PATCH_SHIFT))
->> +
->> +#define al_phys_to_virt(x) ((void *)(uintptr_t)x)
->> +#define al_virt_to_phys(x) ((phys_addr_t)(uintptr_t)x)
->> +
->> +#define DECLARE_FULL_REQ(s)    \
->> +	struct s##_full {            \
->> +		struct msg_itf_header hdr; \
->> +		struct s req;              \
->> +	} __packed
->> +
->> +#define DECLARE_FULL_REPLY(s)  \
->> +	struct s##_full {            \
->> +		struct msg_itf_header hdr; \
->> +		struct s reply;            \
->> +	} __packed
->> +
->> +#define DECLARE_FULL_EVENT(s)  \
->> +	struct s##_full {            \
->> +		struct msg_itf_header hdr; \
->> +		struct s event;            \
->> +	} __packed
->> +
->> +struct al_mb_itf {
->> +	u32 magic;
->> +	u32 version;
->> +	u32 head;
->> +	u32 tail;
->> +} __packed;
->> +
->> +struct al_codec_mb {
->> +	struct al_mb_itf *hdr;
->> +	struct mutex lock;
->> +	char *data;
->> +	int size;
->> +};
->
->On a first glance, this looks a lot like the allegro_mbox in the ZynqMP
->encoder driver. Even though the message format is different, would it be
->possible to generalize the general mailbox handling and use it for both
->drivers?
->
->Michael
->
->> +
->> +struct al_codec_cmd {
->> +	struct kref refcount;
->> +	struct list_head list;
->> +	struct completion done;
->> +	int reply_size;
->> +	void *reply;
->> +};
->> +
->> +#define al_codec_err(codec, fmt, args...)                               \
->> +	dev_err(&(codec)->pdev->dev, "[ALG_CODEC][ERROR] %s():%d: " fmt "\n", \
->> +		__func__, __LINE__, ##args)
->> +
->> +#define al_v4l2_err(codec, fmt, args...)                               \
->> +	dev_err(&(codec)->pdev->dev, "[ALG_V4L2][ERROR] %s():%d: " fmt "\n", \
->> +		__func__, __LINE__, ##args)
->> +
->> +#if defined(DEBUG)
->> +
->> +extern int debug;
->> +
->> +/* V4L2 logs */
->> +#define al_v4l2_dbg(codec, level, fmt, args...)   \
->> +	do {                                            \
->> +		if (debug >= level)                           \
->> +			dev_dbg(&(codec)->pdev->dev,                \
->> +				"[ALG_V4L2] level=%d %s(),%d: " fmt "\n", \
->> +				level, __func__, __LINE__, ##args);       \
->> +	} while (0)
->> +
->> +/* Codec logs */
->> +#define al_codec_dbg(codec, fmt, args...)           \
->> +	do {                                              \
->> +		if (debug)                                      \
->> +			dev_dbg(&(codec)->pdev->dev,                  \
->> +				"[ALG_CODEC] %s(),%d: " fmt "\n", __func__, \
->> +				__LINE__, ##args);                          \
->> +	} while (0)
->> +
->> +#else
->> +
->> +#define al_v4l2_dbg(codec, level, fmt, args...)             \
->> +	do {                                                      \
->> +		(void)level;                                            \
->> +		dev_dbg(&(codec)->pdev->dev, "[ALG_V4L2]: " fmt "\n",   \
->> +			##args);                                              \
->> +	} while (0)
->> +
->> +#define al_codec_dbg(codec, fmt, args...)                         \
->> +	dev_dbg(&(codec)->pdev->dev, "[ALG_CODEC]: " fmt "\n", ##args)
->> +
->> +#endif
->> +
->> +#define MSG_ITF_TYPE_LIMIT BIT(10)
->> +
->> +/* Message types host <-> mcu */
->> +enum {
->> +	MSG_ITF_TYPE_MCU_ALIVE = 0,
->> +	MSG_ITF_TYPE_WRITE_REQ = 2,
->> +	MSG_ITF_TYPE_FIRST_REQ = 1024,
->> +	MSG_ITF_TYPE_NEXT_REQ,
->> +	MSG_ITF_TYPE_FIRST_REPLY = 2048,
->> +	MSG_ITF_TYPE_NEXT_REPLY,
->> +	MSG_ITF_TYPE_ALLOC_MEM_REQ = 3072,
->> +	MSG_ITF_TYPE_FREE_MEM_REQ,
->> +	MSG_ITF_TYPE_ALLOC_MEM_REPLY = 4096,
->> +	MSG_ITF_TYPE_FREE_MEM_REPLY,
->> +	MSG_ITF_TYPE_FIRST_EVT = 5120,
->> +	MSG_ITF_TYPE_NEXT_EVT = MSG_ITF_TYPE_FIRST_EVT
->> +};
->> +
->> +struct msg_itf_header {
->> +	u64 drv_ctx_hdl;
->> +	u64 drv_cmd_hdl;
->> +	u16 type;
->> +	u16 payload_len;
->> +	u16 padding[2];
->> +} __packed;
->> +
->> +void al_codec_mb_init(struct al_codec_mb *mb, char *addr, int size, u32 magic);
->> +int al_codec_msg_get_header(struct al_codec_mb *mb, struct msg_itf_header *hdr);
->> +int al_codec_msg_get_data(struct al_codec_mb *mb, char *data, int len);
->> +int al_codec_msg_send(struct al_codec_mb *mb, struct msg_itf_header *hdr,
->> +		      void (*trigger)(void *), void *trigger_arg);
->> +
->> +static inline bool is_type_reply(uint16_t type)
->> +{
->> +	return type >= MSG_ITF_TYPE_FIRST_REPLY &&
->> +	       type < MSG_ITF_TYPE_FIRST_REPLY + MSG_ITF_TYPE_LIMIT;
->> +}
->> +
->> +static inline bool is_type_event(uint16_t type)
->> +{
->> +	return type >= MSG_ITF_TYPE_FIRST_EVT &&
->> +	       type < MSG_ITF_TYPE_FIRST_EVT + MSG_ITF_TYPE_LIMIT;
->> +}
->> +
->> +void al_codec_cmd_put(struct al_codec_cmd *cmd);
->> +
->> +struct al_codec_cmd *al_codec_cmd_create(int reply_size);
->> +
->> +static inline struct al_codec_cmd *al_codec_cmd_get(struct list_head *cmd_list,
->> +						    uint64_t hdl)
->> +{
->> +	struct al_codec_cmd *cmd = NULL;
->> +
->> +	list_for_each_entry(cmd, cmd_list, list) {
->> +		if (likely(cmd == al_phys_to_virt(hdl))) {
->> +			kref_get(&cmd->refcount);
->> +			break;
->> +		}
->> +	}
->> +	return list_entry_is_head(cmd, cmd_list, list) ? NULL : cmd;
->> +}
->> +
->> +#endif /* __AL_CODEC_UTIL__ */
+then when there are three or more conditions (not much point for less
+than 3 IMO)  we can just have
+ if (IS_VPU(core, AR50_LITE, IRIS_2, IRIS_2_1))
+
+would be the same for IS_HFI(core, V3, V4, V6)..
+
+shall I post this as a separate patch and then just use it?
+
+> 
+> > > 
+> > > 
+> > > >    		core->cpu_base = core->base + CPU_BASE_V6;
+> > > >    		core->cpu_cs_base = core->base + CPU_CS_BASE_V6;
+> > > >    		core->cpu_ic_base = core->base + CPU_IC_BASE_V6;
+> > > >    		core->wrapper_base = core->base + WRAPPER_BASE_V6;
+> > > >    		core->wrapper_tz_base = core->base + WRAPPER_TZ_BASE_V6;
+> > > > -		core->aon_base = core->base + AON_BASE_V6;
+> > > > +		if (IS_AR50_LITE(core)) {
+> > > > +			core->vbif_base = NULL;
+> > > > +			core->aon_base = NULL;
+> > > > +		} else {
+> > > > +			core->vbif_base = core->base + VBIF_BASE;
+> > > > +			core->aon_base = core->base + AON_BASE_V6;
+> > > > +		}
+> > > >    	} else {
+> > > >    		core->vbif_base = core->base + VBIF_BASE;
+> > > >    		core->cpu_base = core->base + CPU_BASE;
+> > > > diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> > > > index b412e0c5515a..122441f9600a 100644
+> > > > --- a/drivers/media/platform/qcom/venus/core.h
+> > > > +++ b/drivers/media/platform/qcom/venus/core.h
+> > > > @@ -382,6 +382,7 @@ enum venus_inst_modes {
+> > > >     * @lock:	instance lock
+> > > >     * @core:	a reference to the core struct
+> > > >     * @clk_data:	clock data per core ID
+> > > > + * @eosbufs:	a lit of EOS buffers
+> > > >     * @dpbbufs:	a list of decoded picture buffers
+> > > >     * @internalbufs:	a list of internal bufferes
+> > > >     * @registeredbufs:	a list of registered capture bufferes
+> > > > @@ -450,6 +451,7 @@ struct venus_inst {
+> > > >    	struct mutex lock;
+> > > >    	struct venus_core *core;
+> > > >    	struct clock_data clk_data;
+> > > > +	struct list_head eosbufs;
+> > > >    	struct list_head dpbbufs;
+> > > >    	struct list_head internalbufs;
+> > > >    	struct list_head registeredbufs;
+> > > > @@ -520,7 +522,8 @@ struct venus_inst {
+> > > >    #define IS_V1(core)	((core)->res->hfi_version == HFI_VERSION_1XX)
+> > > >    #define IS_V3(core)	((core)->res->hfi_version == HFI_VERSION_3XX)
+> > > >    #define IS_V4(core)	((core)->res->hfi_version == HFI_VERSION_4XX)
+> > > > -#define IS_V6(core)	((core)->res->hfi_version == HFI_VERSION_6XX)
+> > > > +#define IS_V6(core)     (((core)->res->hfi_version == HFI_VERSION_6XX) || \
+> > > > +			 ((core)->res->hfi_version == HFI_VERSION_6XX_LITE))
+> > > >    #define IS_AR50(core)		((core)->res->vpu_version == VPU_VERSION_AR50)
+> > > >    #define IS_AR50_LITE(core)	((core)->res->vpu_version == VPU_VERSION_AR50_LITE)
+> > > > diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+> > > > index 66a18830e66d..f8dcef0426ac 100644
+> > > > --- a/drivers/media/platform/qcom/venus/firmware.c
+> > > > +++ b/drivers/media/platform/qcom/venus/firmware.c
+> > > > @@ -30,7 +30,7 @@ static void venus_reset_cpu(struct venus_core *core)
+> > > >    	u32 fw_size = core->fw.mapped_mem_size;
+> > > >    	void __iomem *wrapper_base;
+> > > > -	if (IS_IRIS2_1(core))
+> > > > +	if (IS_IRIS2_1(core) || IS_AR50_LITE(core))
+> > > 
+> > > For example here.
+> > > 
+> > > >    		wrapper_base = core->wrapper_tz_base;
+> > > >    	else
+> > > >    		wrapper_base = core->wrapper_base;
+> > > > @@ -42,7 +42,7 @@ static void venus_reset_cpu(struct venus_core *core)
+> > > >    	writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
+> > > >    	writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
+> > > > -	if (IS_IRIS2_1(core)) {
+> > > > +	if (IS_IRIS2_1(core) || IS_AR50_LITE(core)) {
+> > > >    		/* Bring XTSS out of reset */
+> > > >    		writel(0, wrapper_base + WRAPPER_TZ_XTSS_SW_RESET);
+> > > >    	} else {
+> > > > @@ -68,7 +68,7 @@ int venus_set_hw_state(struct venus_core *core, bool resume)
+> > > >    	if (resume) {
+> > > >    		venus_reset_cpu(core);
+> > > >    	} else {
+> > > > -		if (IS_IRIS2_1(core))
+> > > > +		if (IS_IRIS2_1(core) || IS_AR50_LITE(core))
+> > > >    			writel(WRAPPER_XTSS_SW_RESET_BIT,
+> > > >    			       core->wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
+> > > >    		else
+> > > > @@ -181,7 +181,7 @@ static int venus_shutdown_no_tz(struct venus_core *core)
+> > > >    	void __iomem *wrapper_base = core->wrapper_base;
+> > > >    	void __iomem *wrapper_tz_base = core->wrapper_tz_base;
+> > > > -	if (IS_IRIS2_1(core)) {
+> > > > +	if (IS_IRIS2_1(core) || IS_AR50_LITE(core)) {
+> > > >    		/* Assert the reset to XTSS */
+> > > >    		reg = readl(wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
+> > > >    		reg |= WRAPPER_XTSS_SW_RESET_BIT;
+> > > > diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> > > > index 8295542e1a7c..ae89369c6a07 100644
+> > > > --- a/drivers/media/platform/qcom/venus/helpers.c
+> > > > +++ b/drivers/media/platform/qcom/venus/helpers.c
+> > > > @@ -230,6 +230,80 @@ int venus_helper_alloc_dpb_bufs(struct venus_inst *inst)
+> > > >    }
+> > > >    EXPORT_SYMBOL_GPL(venus_helper_alloc_dpb_bufs);
+> > > > +static void free_eos_buf(struct venus_inst *inst, struct intbuf *buf)
+> > > > +{
+> > > > +	list_del_init(&buf->list);
+> > > > +	dma_free_attrs(inst->core->dev, buf->size, buf->va, buf->da,
+> > > > +		       buf->attrs);
+> > > > +	kfree(buf);
+> > > > +}
+> > > > +
+> > > > +int venus_helper_free_eos_bufs(struct venus_inst *inst)
+> > > > +{
+> > > > +	struct intbuf *buf, *n;
+> > > > +
+> > > > +	list_for_each_entry_safe(buf, n, &inst->eosbufs, list) {
+> > > > +		free_eos_buf(inst, buf);
+> > > > +	}
+> > > > +
+> > > > +	if (list_empty(&inst->eosbufs))
+> > > > +		INIT_LIST_HEAD(&inst->eosbufs);
+> > > > +
+> > > > +	return 0;
+> > > > +
+> > > > +}
+> > > > +EXPORT_SYMBOL_GPL(venus_helper_free_eos_bufs);
+> > > 
+> > > These EOS buf things look like they are not specific to ar50, could you add
+> > > these in a preceding patch to this ?
+> > 
+> > um, previous cores seemed to tolerate passing empty pointers to the VPU
+> > firmware without issue. Unfortunately, with the AR50_LITE, this results
+> > in segmentation faults in the _firmware_. The purpose of this function is
+> > to add support for AR50_LITE while preserving the existing behaviour for
+> > other cores...introducing a  dedicated function felt cleaner than
+> > further complicating the existing conditional.
+> > Given that the previous conditional was just an if/else I don’t really
+> > see a lot of benefit in refactoring the earlier conditionals _before_
+> > adding the AR50_LITE logic. Would you be OK if we keep it as proposed?
+> 
+> ok
+> 
+> > 
+> > > 
+> > > > +
+> > > > +int venus_helper_alloc_eos_buf(struct venus_inst *inst,
+> > > > +			       struct hfi_frame_data *data)
+> > > > +{
+> > > > +	struct venus_core *core = inst->core;
+> > > > +	struct device *dev = core->dev;
+> > > > +	struct intbuf *buf;
+> > > > +	int ret = 0;
+> > > > +
+> > > > +	memset(data, 0, sizeof(*data));
+> > > > +
+> > > > +	data->buffer_type = HFI_BUFFER_INPUT;
+> > > > +	data->flags = HFI_BUFFERFLAG_EOS;
+> > > > +
+> > > > +	if (IS_AR50_LITE(inst->core)) {
+> > > > +		/* We must send valid sizes and addresses */
+> > > > +		buf = kzalloc(sizeof(*buf), GFP_KERNEL);
+> > > > +		if (!buf) {
+> > > > +			ret = -ENOMEM;
+> > > > +			goto fail;
+> > > > +		}
+> > > > +
+> > > > +		buf->type = HFI_BUFFER_INPUT;
+> > > > +		buf->size = SZ_4K;
+> > > > +		buf->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+> > > > +		buf->va = dma_alloc_attrs(dev, buf->size, &buf->da, GFP_KERNEL,
+> > > > +					  buf->attrs);
+> > > > +		if (!buf->va) {
+> > > > +			ret = -ENOMEM;
+> > > > +			goto fail;
+> > > > +		}
+> > > > +
+> > > > +		list_add_tail(&buf->list, &inst->eosbufs);
+> > > > +
+> > > > +		data->alloc_len = buf->size;
+> > > > +		data->device_addr = buf->da;
+> > > > +
+> > > > +	} else if (IS_V6(inst->core) &&
+> > > > +		   is_fw_rev_or_older(inst->core, 1, 0, 87)) {
+> > > > +		data->device_addr = 0;
+> > > > +	} else {
+> > > > +		data->device_addr = 0xdeadb000;
+> > > > +	}
+> > > > +
+> > > > +	return 0;
+> > > > +fail:
+> > > > +	kfree(buf);
+> > > > +	return ret;
+> > > > +}
+> > > > +EXPORT_SYMBOL_GPL(venus_helper_alloc_eos_buf);
+> > > 
+> > > I think the series would be nicer if the EOS buf decomposition stuff went
+> > > into a patch that preceded this one, and then you add the IS_AR50_LITE() in
+> > > the next patch progressively.
+> > 
+> > see above
+> > 
+> > > 
+> > > > +
+> > > >    static int intbufs_set_buffer(struct venus_inst *inst, u32 type)
+> > > >    {
+> > > >    	struct venus_core *core = inst->core;
+> > > > @@ -630,6 +704,13 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
+> > > >    	if (!hfi_plat || !hfi_plat->bufreq)
+> > > >    		return -EINVAL;
+> > > > +	/* Firmware buffer requirements for internal buffers only */
+> > > > +	if (IS_AR50_LITE(inst->core))
+> > > > +		if ((buftype != HFI_BUFFER_INPUT) &&
+> > > > +		    (buftype != HFI_BUFFER_OUTPUT) &&
+> > > > +		    (buftype != HFI_BUFFER_OUTPUT2))
+> > > > +			return -EINVAL;
+> > > > +
+> > > >    	params.version = version;
+> > > >    	params.num_vpp_pipes = inst->core->res->num_vpp_pipes;
+> > > > diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+> > > > index 358e4f39c9c0..bf55fe3b8747 100644
+> > > > --- a/drivers/media/platform/qcom/venus/helpers.h
+> > > > +++ b/drivers/media/platform/qcom/venus/helpers.h
+> > > > @@ -58,6 +58,8 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 fmt, u32 *out_fmt,
+> > > >    bool venus_helper_check_format(struct venus_inst *inst, u32 v4l2_pixfmt);
+> > > >    int venus_helper_alloc_dpb_bufs(struct venus_inst *inst);
+> > > >    int venus_helper_free_dpb_bufs(struct venus_inst *inst);
+> > > > +int venus_helper_alloc_eos_buf(struct venus_inst *inst, struct hfi_frame_data *data);
+> > > > +int venus_helper_free_eos_bufs(struct venus_inst *inst);
+> > > >    int venus_helper_intbufs_alloc(struct venus_inst *inst);
+> > > >    int venus_helper_intbufs_free(struct venus_inst *inst);
+> > > >    int venus_helper_intbufs_realloc(struct venus_inst *inst);
+> > > > diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+> > > > index f44059f19505..128ddf8e3cd5 100644
+> > > > --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> > > > +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> > > > @@ -397,13 +397,16 @@
+> > > >    #define HFI_BUFFER_INTERNAL_PERSIST_1		0x5
+> > > >    #define HFI_BUFFER_INTERNAL_SCRATCH(ver)	\
+> > > >    	(((ver) == HFI_VERSION_4XX ||		\
+> > > > -	(ver) == HFI_VERSION_6XX) ? 0x6 : 0x1000001)
+> > > > +	(ver) == HFI_VERSION_6XX || (ver) == HFI_VERSION_6XX_LITE) \
+> > > > +	? 0x6 : 0x1000001)
+> > > >    #define HFI_BUFFER_INTERNAL_SCRATCH_1(ver)	\
+> > > >    	(((ver) == HFI_VERSION_4XX ||		\
+> > > > -	(ver) == HFI_VERSION_6XX) ? 0x7 : 0x1000005)
+> > > > +	(ver) == HFI_VERSION_6XX || (ver) == HFI_VERSION_6XX_LITE) \
+> > > > +	? 0x7 : 0x1000005)
+> > > >    #define HFI_BUFFER_INTERNAL_SCRATCH_2(ver)	\
+> > > >    	(((ver) == HFI_VERSION_4XX ||		\
+> > > > -	(ver) == HFI_VERSION_6XX) ? 0x8 : 0x1000006)
+> > > > +	(ver) == HFI_VERSION_6XX || (ver) == HFI_VERSION_6XX_LITE) \
+> > > > +	? 0x8 : 0x1000006)
+> > > >    #define HFI_BUFFER_EXTRADATA_INPUT(ver)		\
+> > > >    	(((ver) == HFI_VERSION_4XX) ? 0xc : 0x1000002)
+> > > >    #define HFI_BUFFER_EXTRADATA_OUTPUT(ver)	\
+> > > > @@ -561,6 +564,7 @@ enum hfi_version {
+> > > >    	HFI_VERSION_3XX,
+> > > >    	HFI_VERSION_4XX,
+> > > >    	HFI_VERSION_6XX,
+> > > > +	HFI_VERSION_6XX_LITE,
+> > > >    };
+> > > >    struct hfi_buffer_info {
+> > > > diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+> > > > index b5f2ea879950..302776bf8fe6 100644
+> > > > --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+> > > > +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+> > > > @@ -497,7 +497,7 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
+> > > >    	if (count >= max_tries)
+> > > >    		ret = -ETIMEDOUT;
+> > > > -	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core)) {
+> > > > +	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core) || IS_AR50_LITE(hdev->core)) {
+> > > >    		writel(0x1, cpu_cs_base + CPU_CS_H2XSOFTINTEN_V6);
+> > > >    		writel(0x0, cpu_cs_base + CPU_CS_X2RPMH_V6);
+> > > >    	}
+> > > > @@ -565,6 +565,9 @@ static int venus_halt_axi(struct venus_hfi_device *hdev)
+> > > >    	u32 mask_val;
+> > > >    	int ret;
+> > > > +	if (IS_AR50_LITE(hdev->core))
+> > > > +		return 0;
+> > > > +
+> > > >    	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core)) {
+> > > >    		writel(0x3, cpu_cs_base + CPU_CS_X2RPMH_V6);
+> > > > @@ -1134,7 +1137,8 @@ static irqreturn_t venus_isr(struct venus_core *core)
+> > > >    	wrapper_base = hdev->core->wrapper_base;
+> > > >    	status = readl(wrapper_base + WRAPPER_INTR_STATUS);
+> > > > -	if (IS_IRIS2(core) || IS_IRIS2_1(core)) {
+> > > > +
+> > > > +	if (IS_IRIS2(core) || IS_IRIS2_1(core) || IS_AR50_LITE(core)) {
+> > > >    		if (status & WRAPPER_INTR_STATUS_A2H_MASK ||
+> > > >    		    status & WRAPPER_INTR_STATUS_A2HWD_MASK_V6 ||
+> > > >    		    status & CPU_CS_SCIACMDARG0_INIT_IDLE_MSG_MASK)
+> > > > @@ -1146,7 +1150,7 @@ static irqreturn_t venus_isr(struct venus_core *core)
+> > > >    			hdev->irq_status = status;
+> > > >    	}
+> > > >    	writel(1, cpu_cs_base + CPU_CS_A2HSOFTINTCLR);
+> > > > -	if (!(IS_IRIS2(core) || IS_IRIS2_1(core)))
+> > > > +	if (!(IS_IRIS2(core) || IS_IRIS2_1(core) || IS_AR50_LITE(core)))
+> > > >    		writel(status, wrapper_base + WRAPPER_INTR_CLEAR);
+> > > >    	return IRQ_WAKE_THREAD;
+> > > > @@ -1531,7 +1535,7 @@ static bool venus_cpu_and_video_core_idle(struct venus_hfi_device *hdev)
+> > > >    	void __iomem *cpu_cs_base = hdev->core->cpu_cs_base;
+> > > >    	u32 ctrl_status, cpu_status;
+> > > > -	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core))
+> > > > +	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core) || IS_AR50_LITE(hdev->core))
+> > > >    		cpu_status = readl(wrapper_tz_base + WRAPPER_TZ_CPU_STATUS_V6);
+> > > >    	else
+> > > >    		cpu_status = readl(wrapper_base + WRAPPER_CPU_STATUS);
+> > > > @@ -1551,7 +1555,7 @@ static bool venus_cpu_idle_and_pc_ready(struct venus_hfi_device *hdev)
+> > > >    	void __iomem *cpu_cs_base = hdev->core->cpu_cs_base;
+> > > >    	u32 ctrl_status, cpu_status;
+> > > > -	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core))
+> > > > +	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core) || IS_AR50_LITE(hdev->core))
+> > > >    		cpu_status = readl(wrapper_tz_base + WRAPPER_TZ_CPU_STATUS_V6);
+> > > >    	else
+> > > >    		cpu_status = readl(wrapper_base + WRAPPER_CPU_STATUS);
+> > > > diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> > > > index 409aa9bd0b5d..5d9dfe3fd043 100644
+> > > > --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> > > > +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> > > > @@ -1168,6 +1168,7 @@ const struct venus_pm_ops *venus_pm_get(enum hfi_version version)
+> > > >    		return &pm_ops_v3;
+> > > >    	case HFI_VERSION_4XX:
+> > > >    	case HFI_VERSION_6XX:
+> > > > +	case HFI_VERSION_6XX_LITE:
+> > > >    		return &pm_ops_v4;
+> > > >    	}
+> > > > diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> > > > index 99ce5fd41577..87c7901b280e 100644
+> > > > --- a/drivers/media/platform/qcom/venus/vdec.c
+> > > > +++ b/drivers/media/platform/qcom/venus/vdec.c
+> > > > @@ -550,7 +550,7 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+> > > >    {
+> > > >    	struct venus_inst *inst = to_inst(file);
+> > > >    	struct vb2_queue *dst_vq;
+> > > > -	struct hfi_frame_data fdata = {0};
+> > > > +	struct hfi_frame_data fdata;
+> > > >    	int ret;
+> > > >    	ret = v4l2_m2m_ioctl_try_decoder_cmd(file, fh, cmd);
+> > > > @@ -561,18 +561,15 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+> > > >    	if (cmd->cmd == V4L2_DEC_CMD_STOP) {
+> > > >    		/*
+> > > > -		 * Implement V4L2_DEC_CMD_STOP by enqueue an empty buffer on
+> > > > +		 * Implement V4L2_DEC_CMD_STOP by enqueue a buffer on
+> > > >    		 * decoder input to signal EOS.
+> > > >    		 */
+> > > >    		if (!(inst->streamon_out && inst->streamon_cap))
+> > > >    			goto unlock;
+> > > > -		fdata.buffer_type = HFI_BUFFER_INPUT;
+> > > > -		fdata.flags |= HFI_BUFFERFLAG_EOS;
+> > > > -		if (IS_V6(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
+> > > > -			fdata.device_addr = 0;
+> > > > -		else
+> > > > -			fdata.device_addr = 0xdeadb000;
+> > > > +		ret = venus_helper_alloc_eos_buf(inst, &fdata);
+> > > > +		if (ret)
+> > > > +			goto unlock;
+> > > >    		ret = hfi_session_process_buf(inst, &fdata);
+> > > > @@ -1332,6 +1329,7 @@ static void vdec_session_release(struct venus_inst *inst)
+> > > >    		hfi_session_abort(inst);
+> > > >    	venus_helper_free_dpb_bufs(inst);
+> > > > +	venus_helper_free_eos_bufs(inst);
+> > > >    	venus_pm_load_scale(inst);
+> > > >    	INIT_LIST_HEAD(&inst->registeredbufs);
+> > > >    	mutex_unlock(&inst->lock);
+> > > > @@ -1682,6 +1680,7 @@ static int vdec_open(struct file *file)
+> > > >    	if (!inst)
+> > > >    		return -ENOMEM;
+> > > > +	INIT_LIST_HEAD(&inst->eosbufs);
+> > > >    	INIT_LIST_HEAD(&inst->dpbbufs);
+> > > >    	INIT_LIST_HEAD(&inst->registeredbufs);
+> > > >    	INIT_LIST_HEAD(&inst->internalbufs);
+> > > Otherwise LGTM.
+> > > 
+> > > ---
+> > > bod
+> > > 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
