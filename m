@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-34867-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34868-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C2AADAA90
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 10:21:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD60DADAA95
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 10:22:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A5293A922D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 08:20:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A970E3A6FBB
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 08:21:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A2DB26D4F9;
-	Mon, 16 Jun 2025 08:21:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61CC026D4D0;
+	Mon, 16 Jun 2025 08:22:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BKUQdkeT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cz8GN647"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A8226D4CE;
-	Mon, 16 Jun 2025 08:21:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A1126C3B1;
+	Mon, 16 Jun 2025 08:22:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750062062; cv=none; b=kLxDMtYYJyBs+rBhy+VTkkFoDi+3xeiVG0O7aS4EPAtYtLpss9boRIBq8xDjZ/dKnP6uF94hufLpfcTEzv5njMscAfGRS3d7ApuKJnXGhRfPK37FKDuyWHJfH4RvW9NkqGR/3ZX5dNLUbrrG5rpxsQnxahNy+6jZMLeclygIz8w=
+	t=1750062131; cv=none; b=d/AoS0YTgOijqFZpusMMM0T9Kpmi1ZUbEz65TO7i/+ZORO/ASBQkeMLOwjRLIquLES0pDdlg1c2ilGh+a0ah+xS2Zhg6/xq2ONyTGKQ8NpY4NJgf6S6PlBreHPy4HCNuNxtLe9dhn3oxQsNpeBTHF1RCffFGuEdWxllm5o1DJsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750062062; c=relaxed/simple;
-	bh=s7OWbSe5DRngL+/1wyoWOMa1Hl/UGJq+8Cyepwy/T30=;
+	s=arc-20240116; t=1750062131; c=relaxed/simple;
+	bh=2Wb49PEMjKe99vkksWOrOtfqvziTMVq2U+Zv5BWwveQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rE1DMalGSZHsoW3+yTA4UCtx7x84h8QiQ17JGEY5TC31MaKuMC6dfQnypuWduXa1c5VfNfTgl5BOPiZpKfVGsN5W5FklgkRgTwRGQ4DOH9ZJ0aEXjwn21hoStfaa2qTX+aaloOUlvMs6pveoj6dDL0nIfnDBuOKyH1PS6vFtSA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BKUQdkeT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DFEAC4CEEE;
-	Mon, 16 Jun 2025 08:20:59 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=BlAi42jiHPern6VzgbKqElYKQnw8yLjLfDY6i/tEvlHYf1hScAzomCteLPjE0SSK2coXmyeWkgmQ9JaZNxDL4j3WGUJCSzOcPjotFXyojHidgnbsesqRq6IhzOicF3yeV8iGYnZFzRmJGBRbm6EYUqbML2OB+ZhLJoz32fRHVV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cz8GN647; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65611C4CEEA;
+	Mon, 16 Jun 2025 08:22:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750062062;
-	bh=s7OWbSe5DRngL+/1wyoWOMa1Hl/UGJq+8Cyepwy/T30=;
+	s=k20201202; t=1750062131;
+	bh=2Wb49PEMjKe99vkksWOrOtfqvziTMVq2U+Zv5BWwveQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BKUQdkeTg4eJPiKjyNkaLoZ3y0qKV4q3IwQyCN7viD2syQrRqaKyMoRO7cg9pM29V
-	 agTwwj9oW8Ho0DgiHRJ+eVLcCSDFRLXH9gNwH9a2FZnU/7BK7wJOo8NvrD4o15JJ0S
-	 MXGeAuhZUDZbi779HuL7BIDN8VCe95J4c0YBJt6WKH+C972dL4G3VVMSczjuZ6Xy3+
-	 UBChS4R02XTR/k3Hx8N1F+9I2HeWJ6aJ3QFuL8IVTqeH5DUXC9UPm7CK+i3BK7yPlG
-	 31mpkDH/8fvMbT57eo+DBr1Elw6glOlIYLJ/4eoMCu8r9IpdOP1sTWk6f0ehiqXj2S
-	 J2NbiU+I1cMaA==
-Message-ID: <6f4e715f-1c73-450e-b7eb-92781b7fa050@kernel.org>
-Date: Mon, 16 Jun 2025 10:20:57 +0200
+	b=Cz8GN647MOfPqUl6IWqWmTF/TwerIdMpSq/EbRDKCtB581nQfleq7HA+1CM/8D/U1
+	 hR8PJTlHmL6B4//fL3lJZQBaLRWu1yictAsSfOJ3si4NBq5sJ5OEweqK8a9xhguNb/
+	 EX3d8KZ9Oh2g3gMgNUWMXa6XXrNrTDto9IihuLlvb1Xlfo1jU2ywtGhgwSB+OB65Ks
+	 oOoN38vswSZlI7sn2Wgdv0BAcq4PS2DRvCLvpWgA9/GKvRw3iU3qQpnKnrm9nvFptA
+	 gNrE1m/GFff4VT8CZYoUuOecEXExCOyqVIQPKKrRdgudOwAUB0HY63IfwNFvA3iGKu
+	 y+KL0JAJrvLdw==
+Message-ID: <9e901aba-5e4b-40d8-810c-a7322637752f@kernel.org>
+Date: Mon, 16 Jun 2025 10:22:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] dt-bindings: media: venus: Add qcm2290 dt schema
+Subject: Re: [PATCH 2/5] arch: arm64: dts: qcom: qcm2290: Add venus video node
 To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
  quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com,
  bryan.odonoghue@linaro.org, mchehab@kernel.org, robh@kernel.org,
@@ -58,7 +58,7 @@ To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250613140402.3619465-1-jorge.ramirez@oss.qualcomm.com>
- <20250613140402.3619465-2-jorge.ramirez@oss.qualcomm.com>
+ <20250613140402.3619465-3-jorge.ramirez@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,109 +104,78 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250613140402.3619465-2-jorge.ramirez@oss.qualcomm.com>
+In-Reply-To: <20250613140402.3619465-3-jorge.ramirez@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 13/06/2025 16:03, Jorge Ramirez-Ortiz wrote:
-> Add a schema for the venus video encoder/decoder on the qcm2290.
+> Add DT entries for the qcm2290 venus encoder/decoder.
 > 
 > Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
 > ---
->  .../bindings/media/qcom,qcm2290-venus.yaml    | 153 ++++++++++++++++++
->  1 file changed, 153 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,qcm2290-venus.yaml
+>  arch/arm64/boot/dts/qcom/qcm2290.dtsi | 53 +++++++++++++++++++++++++++
+
+DTS cannot be a dependency for driver. Order your patches correctly (see
+dts coding style, soc maintainer rules or internal guidelines).
+
+>  1 file changed, 53 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,qcm2290-venus.yaml b/Documentation/devicetree/bindings/media/qcom,qcm2290-venus.yaml
-> new file mode 100644
-> index 000000000000..ffa72f1e27f3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/qcom,qcm2290-venus.yaml
-> @@ -0,0 +1,153 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/qcom,qcm2290-venus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/arch/arm64/boot/dts/qcom/qcm2290.dtsi b/arch/arm64/boot/dts/qcom/qcm2290.dtsi
+> index f49ac1c1f8a3..af2c1f66fe07 100644
+> --- a/arch/arm64/boot/dts/qcom/qcm2290.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/qcm2290.dtsi
+> @@ -1628,6 +1628,59 @@ adreno_smmu: iommu@59a0000 {
+>  			#iommu-cells = <2>;
+>  		};
+>  
+> +		venus: video-codec@5a00000 {
+> +			compatible = "qcom,qcm2290-venus";
+> +			reg = <0 0x5a00000 0 0xff000>;
+> +			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
 > +
-> +title: Qualcomm QCM2290 Venus video encode and decode accelerators
+> +			power-domains = <&gcc GCC_VENUS_GDSC>,
+> +					<&gcc GCC_VCODEC0_GDSC>,
+> +					<&rpmpd QCM2290_VDDCX>;
+> +			power-domain-names = "venus", "vcodec0", "cx";
+> +			operating-points-v2 = <&venus_opp_table>;
 > +
-> +maintainers:
-> +  - Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> +			clocks = <&gcc GCC_VIDEO_VENUS_CTL_CLK>,
+> +				 <&gcc GCC_VIDEO_AHB_CLK>,
+> +				 <&gcc GCC_VENUS_CTL_AXI_CLK>,
+> +				 <&gcc GCC_VIDEO_THROTTLE_CORE_CLK>,
+> +				 <&gcc GCC_VIDEO_VCODEC0_SYS_CLK>,
+> +				 <&gcc GCC_VCODEC0_AXI_CLK>;
+> +			clock-names = "core", "iface", "bus", "throttle",
+> +				      "vcodec0_core", "vcodec0_bus";
 > +
-> +description: |
+> +			memory-region = <&pil_video_mem>;
+> +			iommus = <&apps_smmu 0x860 0x0>,
+> +				 <&apps_smmu 0x880 0x0>,
+> +				 <&apps_smmu 0x861 0x04>,
+> +				 <&apps_smmu 0x863 0x0>,
+> +				 <&apps_smmu 0x804 0xE0>;
+> +
+> +			interconnects = <&mmnrt_virt MASTER_VIDEO_P0 0 &bimc SLAVE_EBI1 0>,
+> +					<&bimc MASTER_APPSS_PROC 0 &config_noc SLAVE_VENUS_CFG 0>;
+> +			interconnect-names = "video-mem", "cpu-cfg";
+> +
+> +			venus_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +				opp-133000000 {
+> +					opp-hz = /bits/ 64 <133000000>;
+> +					required-opps = <&rpmpd_opp_low_svs>;
+> +				};
+> +
+> +				opp-240000000 {
+> +					opp-hz = /bits/ 64 <240000000>;
+> +					required-opps = <&rpmpd_opp_svs>;
+> +				};
+> +			};
+> +
+> +			video-decoder {
+> +				compatible = "venus-decoder";
 
-Do not need '|' unless you need to preserve formatting.
-
-> +  The Venus AR50_LITE IP is a video encode and decode accelerator present
-> +  on Qualcomm platforms
-> +
-> +allOf:
-> +  - $ref: qcom,venus-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: qcom,qcm2290-venus
-> +
-> +  power-domains:
-> +    minItems: 2
-> +    maxItems: 3
-> +
-> +  power-domain-names:
-> +    minItems: 2
-
-Why is this flexible? Either you have two or three. Not mixed.
-
-> +    items:
-> +      - const: venus
-> +      - const: vcodec0
-> +      - const: cx
-> +
-> +  clocks:
-> +    maxItems: 6
-> +
-> +  clock-names:
-> +    items:
-> +      - const: core
-> +      - const: iface
-> +      - const: bus
-> +      - const: throttle
-> +      - const: vcodec0_core
-> +      - const: vcodec0_bus
-> +
-> +  iommus:
-> +    minItems: 1
-> +    maxItems: 5
-> +
-> +  interconnects:
-> +    maxItems: 2
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: video-mem
-> +      - const: cpu-cfg
-> +
-> +  operating-points-v2: true
-> +  opp-table:
-> +    type: object
-> +
-> +  video-decoder:
-> +    type: object
-> +
-> +    properties:
-> +      compatible:
-> +        const: venus-decoder
-> +
-> +    required:
-> +      - compatible
-> +
-> +    deprecated: true
-
-No, you cannot add new device which is already deprecated. It's like
-adding something which you already know is wrong, obsolete, legacy,
-something you don't want. If you don't want, don't add.
-
-
+Don't add deprecated properties.
 
 Best regards,
 Krzysztof
