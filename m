@@ -1,58 +1,80 @@
-Return-Path: <linux-media+bounces-34980-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34981-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4A3ADB626
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 18:06:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D94ADB64A
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 18:10:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 294E816FF4F
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 16:06:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A7D3174EF5
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 16:09:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86911286421;
-	Mon, 16 Jun 2025 16:06:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B01CC2874E2;
+	Mon, 16 Jun 2025 16:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="Cxej/lQU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZCS/55hN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF8586340;
-	Mon, 16 Jun 2025 16:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750089998; cv=pass; b=Uhxot0FKfp8X5AHs33kCP5Jo4x5Uu2kCaeea3Xa/19vQq270NwG/bgfVhwvHzKMdLfsD79kzOnPHmaILoCy3duaznro1+OGtdWJWiHA1ESYNdoi48SmwJh+PkkQRRghqesSI0tn8mHJGyqj3h2YljsXiW3HUy7PB/3359YLKbmA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750089998; c=relaxed/simple;
-	bh=ASFFuuxt+NkRcr85V9Pfr5TSV45ijN++k4YYQyXOBPw=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5D3286D6B
+	for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 16:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750090102; cv=none; b=kW7sUllPalz69766Lq/BFksESGYd2OKUKJ0yNSyYJHnCSuDWbPbyZwH3EX5d1o2v3+d/ItYoLCXMjMzf7e4OKunqevP+qf6mgoxYcfZNDnwdIeoyNp8ZLYPNaYvLmz2wIRBRj/Q+vMhuNTeNyokS9crIAUX+jO8P9s6ybcv/r7c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750090102; c=relaxed/simple;
+	bh=hRBgOq4APKw2y8RYVbZ1gYWD7szlzHz0G09X13KV7qQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FyslqY2BM0rkBV7Ns71zdTaLdiYX2TFu/S9pa8SBVYPQBU9ej6y4iQ6N8rSBxAHLxh1sQEv8Gi4gExlbj5pBHd46uO1WkpefhHivnTh4Qqn0bsHf47a8wcv3JxRC9ykPnVThc16pH1Claw7jlQrUT0LVcZC6r64YnScThDebtSc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=Cxej/lQU; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1750089974; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=e3GNWk/WbTMBevIRzVxs0X0CrdY0pRAyPGz6jfHOmRORUsjwLA1tl83Tcg69Gdmjm6LtbNDMWkmzWPXstgPN13BL4cUCzalmADCecyqghzLvTPu7xIp5Zte6CJ7oUCnJXZEHBgK41h40PJKyFeuACrxbSi+mpnczIfdnz4rfot8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1750089974; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=R2NIJYlZXUCPFvz62oOBC7RgnkUtxPH/uiLdx+Eefzw=; 
-	b=LPTH8d3DUcfCDo7jV04mDGb73PcRIZcqmB6HWL3b3Fwmaro5ZWuxr+RCxr3Gh3EofXC1PFLsCGqgykkco3tglMzjHesUsHPyai1hut15i1TFpPYezmbnoImx6TieTKuB6c2a9oBwESWEKNux8OyIhLTWlIF7v0/BhzqbDVUirqs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750089973;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=R2NIJYlZXUCPFvz62oOBC7RgnkUtxPH/uiLdx+Eefzw=;
-	b=Cxej/lQUz2GTaTy62PcnOSfRvxKBanXxW0lGKW0AFWDQ7U+qDpLJSKzl0sFtrdA7
-	IlPkQnAXxZZRvNLvs2aFKNCn7ht/En6XoDdo+4KiSUwcNsn0YeE3BwU1TiJVG+uovHv
-	FdY7IkjAhFOlAV0AndUjZn8f5RMcY2IxVzacAGQM=
-Received: by mx.zohomail.com with SMTPS id 1750089971949421.80620542117106;
-	Mon, 16 Jun 2025 09:06:11 -0700 (PDT)
-Message-ID: <163a05ac-b0de-4345-8489-dbf858326908@collabora.com>
-Date: Mon, 16 Jun 2025 18:06:08 +0200
+	 In-Reply-To:Content-Type; b=a6pmZEKT/RViamnsuTJoZyaiCkF7HRguOi+av9F8c5bzD0/IktS2Z3rAuXBMq8+mXwLH/v8EIowABfObbNuXEkO8AcmXEE1zJOMeEyGpDobeA3EqDXGLxgoM93pkYdH+xE5j3fsZKfJx3xxAXj9kLfOvt5yen1pbIVJ8XG4+OM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZCS/55hN; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-451d54214adso36681635e9.3
+        for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 09:08:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750090098; x=1750694898; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a5x30H0yIc6HW7ib5oxYVmHAekW/AqIC/RAZDFhWWGM=;
+        b=ZCS/55hNlkd4E3ABvHjuL2k/lcwa2B72q4u7hhnQDvpvn5rQb4ypwJepn6GjeruMDR
+         ypH3+YuNB5EpOlmBM6XtfT1TiWWNIpWtkOxmAOKG6Ieg74vZE1gPgfKzp5GCnCzII1Kn
+         nWKzriCvHrjkirJ9PAt4QfZAmqc23faMQ928lyZp0dBtZERIkijwrshUPkqATqWTyIra
+         /bdHrmJs0bcmjqWUTK5h/C+dTgk2yVsjAGIwMu+gOI/hL7eQdB7d/va0CBj+8tdeF9sp
+         kMzRyTJxiUNBKIX63zjt/74sWJxH0wGuA26ucbx5/uaWFo2DX2o0eY+kbHvwGJl+zeL5
+         NnfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750090098; x=1750694898;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a5x30H0yIc6HW7ib5oxYVmHAekW/AqIC/RAZDFhWWGM=;
+        b=Bcr5qZlgzQVSLB4vpSaos5RGK/uZ2wANGZB7ozxYrPN8v7zds7WPsnTocGtHTCu1FH
+         B6tXHkXkhcQ+PztP7F4jMJVrDMbkyxGm6LACBI+pszAOEK1F4QnX3KLJtJwrk9x79z7W
+         c0Bsyk2bnu2rxlevkGb92ctzRhc/SarSXfKplmsBb5FaNM86oZjMboCejpZ9ox9qFdoK
+         MICd8+GuH27JD+6SSH4psENciSkdzXghkjTAI38gWtBm5PiEo+LxLQd9I1BuTUYIPPzg
+         5sqHBeEfbkmJS42o3JhSDI4mM1SgtpdCkWA/K+ufJDcQfe2gyt9o3xOihRb0wvFPBKfX
+         6Yeg==
+X-Forwarded-Encrypted: i=1; AJvYcCV2yzLAifTpLGERMoyNpgeeqtBIkA/PFU0ai9O1n8kngX7+FCK2mCwMqpmKhWW9T7ADBxdnpulouaiOCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YweQZU6uCEWgvAyocKVZ3S9bjFOBZpzmUNiU+yuwxg18QzuSGzd
+	+HdP4fIwTKURnNzB+sGMAVUJ3ymB69YlZBTXxJA1kRsDkHyUNctEJQrxQ6KJYHDyywA=
+X-Gm-Gg: ASbGnctQpovdn9wRQChHhAS0EOyigmAc4PuniqZXxuoMaBmnq0JXAJuLaicWKlX0x3L
+	QGS8RbC4xGLI8I3KvXZLGfeV3a4A6JXuQkDnZHyMGaBRm2vV5sq70JpyPQs+D3igs4mlDVzL3b8
+	bOUYfxbw+atLOwEhz1VaqXLxOLFrszM/aW7iQpAr4ddjAv2EOQIsI3xFe9x4YoNgMm8frwTBbex
+	Y0K+viCGt7RurKV50GMIMe1E4E0soWny9IGhHMcsnyzwettFtr61i92MZ7jMliOwajKsCogxq84
+	k63A1O2o/bz0fbrb3E2qlALardvTvrTqSo3jgDj+uINnSlBnmqb23+7oLKrtIONcaXGX7SDyF57
+	bznKflGv5YxGF853fNmv7tcH+j+0=
+X-Google-Smtp-Source: AGHT+IFprAWkawH42OL4Sz9tt4KKrYG6bZs86pGWjUVLMBCA8Vbyzc5s6Wod8JkjjmaDSK8H+pKM+w==
+X-Received: by 2002:a05:600c:500d:b0:450:cabd:160 with SMTP id 5b1f17b1804b1-4533ca46532mr100521395e9.3.1750090098474;
+        Mon, 16 Jun 2025 09:08:18 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532de8c50esm147563205e9.4.2025.06.16.09.08.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Jun 2025 09:08:18 -0700 (PDT)
+Message-ID: <2df8eeec-406d-4911-9c1b-1aafcc8be8d5@linaro.org>
+Date: Mon, 16 Jun 2025 17:08:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,89 +82,66 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] dt-bindings: iommu: verisilicon: Add binding for VSI
- IOMMU
-To: Conor Dooley <conor@kernel.org>
-Cc: joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
- nicolas.dufresne@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <20250616145607.116639-1-benjamin.gaignard@collabora.com>
- <20250616145607.116639-3-benjamin.gaignard@collabora.com>
- <20250616-winter-strict-db98f85db22d@spud>
- <5c971c09-c398-40a3-9ed5-ec38b6645e1d@collabora.com>
- <20250616-contempt-remix-5af2b7281cbd@spud>
- <2d251d7c-7906-4a66-9791-7f71e7a4b54d@collabora.com>
- <20250616-capped-rehab-6e7fd24d23ae@spud>
+Subject: Re: [PATCH 2/2] media: qcom: camss: vfe: Fix registration sequencing
+ bug
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Johan Hovold <johan@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Depeng Shao <quic_depengs@quicinc.com>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Johan Hovold <johan+linaro@kernel.org>
+References: <20250612-linux-next-25-05-30-daily-reviews-v1-0-88ba033a9a03@linaro.org>
+ <20250612-linux-next-25-05-30-daily-reviews-v1-2-88ba033a9a03@linaro.org>
+ <c90a5fd3-f52e-4103-a979-7f155733bb59@linaro.org>
+ <21bc46d0-7e11-48d3-a09d-5e55e96ca122@linaro.org>
+ <fe113f83-fbbd-4e3b-8b42-a4f50c7c7489@linaro.org>
 Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20250616-capped-rehab-6e7fd24d23ae@spud>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <fe113f83-fbbd-4e3b-8b42-a4f50c7c7489@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-Le 16/06/2025 à 17:58, Conor Dooley a écrit :
-> On Mon, Jun 16, 2025 at 05:50:50PM +0200, Benjamin Gaignard wrote:
->> Le 16/06/2025 à 17:42, Conor Dooley a écrit :
->>> On Mon, Jun 16, 2025 at 05:30:44PM +0200, Benjamin Gaignard wrote:
->>>> Le 16/06/2025 à 17:14, Conor Dooley a écrit :
->>>>> On Mon, Jun 16, 2025 at 04:55:50PM +0200, Benjamin Gaignard wrote:
->>>>>> Add a device tree binding for the Verisilicon (VSI) IOMMU. This IOMMU sits
->>>>>> in front of hardware encoder and decoder blocks on SoCs using Verisilicon IP,
->>>>>> such as the Rockchip RK3588.
->>>>>>
->>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>>>> ---
->>>>>>     .../bindings/iommu/verisilicon,iommu.yaml     | 71 +++++++++++++++++++
->>>>>>     1 file changed, 71 insertions(+)
->>>>>>     create mode 100644 Documentation/devicetree/bindings/iommu/verisilicon,iommu.yaml
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/iommu/verisilicon,iommu.yaml b/Documentation/devicetree/bindings/iommu/verisilicon,iommu.yaml
->>>>>> new file mode 100644
->>>>>> index 000000000000..acef855fc61d
->>>>>> --- /dev/null
->>>>>> +++ b/Documentation/devicetree/bindings/iommu/verisilicon,iommu.yaml
->>>>>> @@ -0,0 +1,71 @@
->>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>>> +%YAML 1.2
->>>>>> +---
->>>>>> +$id: http://devicetree.org/schemas/iommu/verisilicon,iommu.yaml#
->>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>> +
->>>>>> +title: Verisilicon IOMMU
->>>>>> +
->>>>>> +maintainers:
->>>>>> +  - Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>>>> +
->>>>>> +description: |+
->>>>>> +  A Versilicon iommu translates io virtual addresses to physical addresses for
->>>>>> +  its associated video decoder.
->>>>>> +
->>>>>> +properties:
->>>>>> +  compatible:
->>>>>> +    oneOf:
->>>>>> +      - items:
->>>>>> +          - const: verisilicon,iommu
->>>>> You're missing a soc-specific compatible at the very least here, but is
->>>>> there really no versioning on the IP at all? I'd be surprised if
->>>>> verisilicon only produced exactly one version of an iommu IP.
->>>> I only aware this version of the iommu for the moment.
->>> "for the moment", yeah. Is there any information that could be used to
->>> version this available?
->> The hardware block isn't documented in the TRM so I don't know if there is a version
->> field or something like that.
+On 16/06/2025 16:00, Vladimir Zapolskiy wrote:
+> Hi Bryan.
+> 
+> On 6/16/25 17:09, Bryan O'Donoghue wrote:
+>> On 13/06/2025 10:13, Vladimir Zapolskiy wrote:
+>>>
+>>> Per se this concurrent execution shall not lead to the encountered bug,
 >>
->>>> Does adding verisilicon,rk3588-iommu sound good for you ?
->>> It'd be "rockchip,rk3588-iommu", but sure.
->> "rockchip,rk3588-iommu" is already use for other MMUs in rk3588.
-> "rockchip,rk3588-video-iommu" then? Instances of an IP in an SoC get a
-> specific compatible with the SoC vendor's prefix, so having verisilicon
-> there isn't suitable unless they made the SoC.
+>> What does that mean ? Please re-read the commit log, the analysis is all
+>> there.
+> 
+> The concurrent execution does not state a problem, moreover it's a feature
+> of operating systems.
 
-Other hardware video codecs have a different IOMMU so I will suggest
-"rockchip,rk3588-av1-iommu" which is specific to this video hardware block.
+I don't quite understand what your objection is.
 
+I'm informing the reader of the commit log that one function may execute 
+in parallel to another function, this is not so with every function and 
+is root-cause of the error.
+
+
+>>> both an initialization of media entity pads by media_entity_pads_init()
+>>> and a registration of a v4l2 devnode inside msm_video_register() are
+>>> done under in a proper sequence, aren't they?
+>>
+>> No, I clearly haven't explained this clearly enough in the commit log.
+>>
+>> vfe0_rdi0 == /dev/video0 is complete. vfe0_rdi1 is not complete there is
+>> no /dev/video1 in user-space.
+> 
+> Please let me ask for a few improvements to the commit message of the next
+> version of the fix.
+> 
+> Te information like "vfe0_rdi0 == /dev/video0" etc. above vaguely assumes
+> so much of the context
+Sure but this is a _response_ email to you and you know what vfe0_rdi0 is.
+
+The statement doesn't appear in the commit log.
+
+---
+bod
 
