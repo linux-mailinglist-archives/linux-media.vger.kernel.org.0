@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-34929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7B0ADB247
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 15:42:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E69A1ADB251
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 15:43:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4869B188B65B
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 13:40:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D3BB57A7E14
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 13:41:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A37B12877C0;
-	Mon, 16 Jun 2025 13:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 667182877D2;
+	Mon, 16 Jun 2025 13:43:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DPhak58S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y10UAQyH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CDB2BF00A;
-	Mon, 16 Jun 2025 13:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08582BF013;
+	Mon, 16 Jun 2025 13:43:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750081178; cv=none; b=aAUDlgG/AeHiInWUlVzrTiEfVy5w8Tvwcswgp+lBLzEqF3YdFoVMbh9r1dqa0tsC+xCw/kACli+CrvRzZOnNLca55H43SPM90pnzkizqU1dQYsIObmXJRcj2oMF4iChk9WN5ki+yGjEcj4yvbNGmSzXytEJKmBa1L3EpOehCKmY=
+	t=1750081380; cv=none; b=Up5bUB94FoFRTnxxnOhaJFq48ugvIb/qx5guy9It37r5u55gInj0YPBw4Y2ppYZYTtALDqvhK+kVNW0/Usmu/CG4viBnwJEYd3jTYhLo0m2iVS7QOs3Bf4c4/fOa7EnPpdz9GmA22a1PMhkGvgzbEUextC1bvOt3JBtnMPtpKKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750081178; c=relaxed/simple;
-	bh=QChRHTU/30PQQdwPpB0Y5bMUBvR5fCOVd6P2tx7W2Bk=;
+	s=arc-20240116; t=1750081380; c=relaxed/simple;
+	bh=QzCwI34Y8oNDKacW8SnUKWGWjQW6wZXO0iwISYs+G7Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jSbqUZuQwBGtI/aOKbrAWOZQzpicZiObVSvTQhr2kY2AyxRGevL23lmxddBL081Ipy3umKFi7OMWgVvL6vj+YjyWqzJWLjEiYo5SAQxMm9kWVB2EJB+pP4jGHyHmkrFtjVbN9vgQFOC8Jfncy3btzzOZezVs3C9QpoM4SqPogG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DPhak58S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E541C4CEEA;
-	Mon, 16 Jun 2025 13:39:35 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=vC40AYTh7DO2rXrNFDo+6FnvHd8tl2lGX5FSu3PajjJIvtc00czoNAe0vXaDpAxWiz6nEWEDlAnMfifqgcUA4oFMSNCALi2D6jpUunUmGHMg2f+deYfN8OCWb7O6/T0KJzuK3EeOFEhYNVmMt40vDgz+WToijNewMymZfoS7i+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y10UAQyH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F9D3C4CEEA;
+	Mon, 16 Jun 2025 13:42:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750081177;
-	bh=QChRHTU/30PQQdwPpB0Y5bMUBvR5fCOVd6P2tx7W2Bk=;
+	s=k20201202; t=1750081380;
+	bh=QzCwI34Y8oNDKacW8SnUKWGWjQW6wZXO0iwISYs+G7Q=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DPhak58SfBy+BJ/+F7Bo/tmnEg3tGs/6HlSKTVoMq1AaVYyiF6y1H2/CltKTVo4e5
-	 F/xpI7PpnQ4eOtiDNpKT/v4VGt/FHb82bvmL2USQvvaOgOF4tSoM6z/MSQjn305brv
-	 j94nP2FwSSC0Sxi1O6LPpdl+PwwjOklaXg1IaSQN+eMc5jVIJouXc5bUyiXiEvPDFB
-	 nMWRWvn3Czp/uutQ+xKJ0ZPNE90Xm3kfqC20CR7P1faHNhitS36YDw/UB18UyMgtzd
-	 AqBYNeDEwegzcf2Jadgf0xMRHh68XLNqWQT0mQZ8tVB9VxK7NEc8OSfxl45VVCQBiy
-	 psPdGl12QhC/Q==
-Message-ID: <ec83739d-26aa-4b83-a548-e3905097fe10@kernel.org>
-Date: Mon, 16 Jun 2025 15:39:33 +0200
+	b=Y10UAQyH6vsYaBlg32iACD1FtFjPGDiFVa+TtDVaBwfklvpOXWGNNwNcFrwM76pgB
+	 zL2zol9nBEwcwEctpQR3OUux8tYP/Q/1k8TYLLdY0l94GO3SGxm4cz1BRqwS43H70D
+	 wW1gYvyiF13kWMMZ2NHodu0e2j9agodXxFbNscHunCboYSx0jdqwITFncZNaQN4cQ1
+	 bRhVE/cgjcZFcB07/XkIMH97Xe8geUmzvvsovl2kkOlixuARCmADWuUouL5AZlOixi
+	 MIYwnORqJPiB8xrg08zYU9i5V6X6mM38mbLCPXtGkKHUUTYFNo5fBkxUh12Arvrff+
+	 4VOYG5CKTbBug==
+Message-ID: <bdf227fa-c171-4bc7-a4c0-518afaec94d4@kernel.org>
+Date: Mon, 16 Jun 2025 15:42:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,28 +50,28 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/5] media: uvcvideo: Split uvc_stop_streaming()
+Subject: Re: [PATCH v3 5/5] media: uvcvideo: Remove stream->is_streaming field
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hans@jjverkuil.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
+ Hans Verkuil <hans@jjverkuil.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250602-uvc-fop-v3-0-a99e18f65640@chromium.org>
- <20250602-uvc-fop-v3-4-a99e18f65640@chromium.org>
+ <20250602-uvc-fop-v3-5-a99e18f65640@chromium.org>
 Content-Language: en-US, nl
 From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250602-uvc-fop-v3-4-a99e18f65640@chromium.org>
+In-Reply-To: <20250602-uvc-fop-v3-5-a99e18f65640@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Ricardo,
 
 On 2-Jun-25 18:06, Ricardo Ribalda wrote:
-> uvc_stop_streaming() is used for meta and video nodes. Split the function
-> in two to avoid confusion.
+> The is_streaming field is used by modular PM to know if the device is
+> currently streaming or not.
 > 
-> Use this opportunity to rename uvc_start_streaming() to
-> uvc_start_streaming_video(), as it is only called by the video nodes.
+> With the transition to vb2 and fop helpers, we can use vb2 functions for
+> the same functionality. The great benefit is that vb2 already takes
+> track of the streaming state for us.
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
@@ -85,67 +85,137 @@ Hans
 
 
 > ---
->  drivers/media/usb/uvc/uvc_queue.c | 22 +++++++++++++++-------
->  1 file changed, 15 insertions(+), 7 deletions(-)
+>  drivers/media/usb/uvc/uvc_queue.c |  9 +++++++
+>  drivers/media/usb/uvc/uvc_v4l2.c  | 51 ++-------------------------------------
+>  drivers/media/usb/uvc/uvcvideo.h  |  1 -
+>  3 files changed, 11 insertions(+), 50 deletions(-)
 > 
 > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> index 8f9737ac729546683ca48f5e71ce3dfacbae2926..3f357c2d48cfd258c26f0342007d1d12f1e01007 100644
+> index 3f357c2d48cfd258c26f0342007d1d12f1e01007..6e845705b3286348a60650eb262e620dc6039d60 100644
 > --- a/drivers/media/usb/uvc/uvc_queue.c
 > +++ b/drivers/media/usb/uvc/uvc_queue.c
-> @@ -167,7 +167,7 @@ static void uvc_buffer_finish(struct vb2_buffer *vb)
->  		uvc_video_clock_update(stream, vbuf, buf);
->  }
->  
-> -static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
-> +static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
->  {
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
->  	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-> @@ -186,14 +186,22 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	return ret;
->  }
->  
-> -static void uvc_stop_streaming(struct vb2_queue *vq)
-> +static void uvc_stop_streaming_video(struct vb2_queue *vq)
->  {
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+> @@ -175,12 +175,18 @@ static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
 >  
 >  	lockdep_assert_irqs_enabled();
 >  
-> -	if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
-> -		uvc_video_stop_streaming(uvc_queue_to_stream(queue));
-> +	uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+> +	ret = uvc_pm_get(stream->dev);
+> +	if (ret)
+> +		return ret;
 > +
-> +	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
-> +}
-> +
-> +static void uvc_stop_streaming_meta(struct vb2_queue *vq)
-> +{
-> +	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> +
-> +	lockdep_assert_irqs_enabled();
+>  	queue->buf_used = 0;
 >  
+>  	ret = uvc_video_start_streaming(stream);
+>  	if (ret == 0)
+>  		return 0;
+>  
+> +	uvc_pm_put(stream->dev);
+> +
+>  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
+>  
+>  	return ret;
+> @@ -189,11 +195,14 @@ static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
+>  static void uvc_stop_streaming_video(struct vb2_queue *vq)
+>  {
+>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+> +	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
+>  
+>  	lockdep_assert_irqs_enabled();
+>  
+>  	uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+>  
+> +	uvc_pm_put(stream->dev);
+> +
 >  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
 >  }
-> @@ -203,15 +211,15 @@ static const struct vb2_ops uvc_queue_qops = {
->  	.buf_prepare = uvc_buffer_prepare,
->  	.buf_queue = uvc_buffer_queue,
->  	.buf_finish = uvc_buffer_finish,
-> -	.start_streaming = uvc_start_streaming,
-> -	.stop_streaming = uvc_stop_streaming,
-> +	.start_streaming = uvc_start_streaming_video,
-> +	.stop_streaming = uvc_stop_streaming_video,
+>  
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 7a5ecbefa32c0a6b74c85d7f77a25b433598471e..d4bee0d4334b764c0cf02363b573b55fb44eb228 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -617,9 +617,6 @@ static int uvc_v4l2_release(struct file *file)
+>  
+>  	uvc_ctrl_cleanup_fh(handle);
+>  
+> -	if (handle->is_streaming)
+> -		uvc_pm_put(stream->dev);
+> -
+>  	/* Release the file handle. */
+>  	vb2_fop_release(file);
+>  	file->private_data = NULL;
+> @@ -677,50 +674,6 @@ static int uvc_ioctl_try_fmt(struct file *file, void *fh,
+>  	return uvc_v4l2_try_format(stream, fmt, &probe, NULL, NULL);
+>  }
+>  
+> -static int uvc_ioctl_streamon(struct file *file, void *fh,
+> -			      enum v4l2_buf_type type)
+> -{
+> -	struct uvc_fh *handle = fh;
+> -	struct uvc_streaming *stream = handle->stream;
+> -	int ret;
+> -
+> -	if (handle->is_streaming)
+> -		return 0;
+> -
+> -	ret = uvc_pm_get(stream->dev);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = vb2_ioctl_streamon(file, fh, type);
+> -	if (ret) {
+> -		uvc_pm_put(stream->dev);
+> -		return ret;
+> -	}
+> -
+> -	handle->is_streaming = true;
+> -
+> -	return 0;
+> -}
+> -
+> -static int uvc_ioctl_streamoff(struct file *file, void *fh,
+> -			       enum v4l2_buf_type type)
+> -{
+> -	struct uvc_fh *handle = fh;
+> -	struct uvc_streaming *stream = handle->stream;
+> -	int ret;
+> -
+> -	ret = vb2_ioctl_streamoff(file, fh, type);
+> -	if (ret)
+> -		return ret;
+> -
+> -	if (handle->is_streaming) {
+> -		handle->is_streaming = false;
+> -		uvc_pm_put(stream->dev);
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>  static int uvc_ioctl_enum_input(struct file *file, void *fh,
+>  				struct v4l2_input *input)
+>  {
+> @@ -1323,8 +1276,8 @@ const struct v4l2_ioctl_ops uvc_ioctl_ops = {
+>  	.vidioc_expbuf = vb2_ioctl_expbuf,
+>  	.vidioc_dqbuf = vb2_ioctl_dqbuf,
+>  	.vidioc_create_bufs = vb2_ioctl_create_bufs,
+> -	.vidioc_streamon = uvc_ioctl_streamon,
+> -	.vidioc_streamoff = uvc_ioctl_streamoff,
+> +	.vidioc_streamon = vb2_ioctl_streamon,
+> +	.vidioc_streamoff = vb2_ioctl_streamoff,
+>  	.vidioc_enum_input = uvc_ioctl_enum_input,
+>  	.vidioc_g_input = uvc_ioctl_g_input,
+>  	.vidioc_s_input = uvc_ioctl_s_input,
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 3ddbf065a2cbae40ee48cb06f84ca8f0052990c4..f895f690f7cdc1af942d5f3a5f10e9dd1c956a35 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -626,7 +626,6 @@ struct uvc_fh {
+>  	struct uvc_video_chain *chain;
+>  	struct uvc_streaming *stream;
+>  	unsigned int pending_async_ctrls;
+> -	bool is_streaming;
 >  };
 >  
->  static const struct vb2_ops uvc_meta_queue_qops = {
->  	.queue_setup = uvc_queue_setup,
->  	.buf_prepare = uvc_buffer_prepare,
->  	.buf_queue = uvc_buffer_queue,
-> -	.stop_streaming = uvc_stop_streaming,
-> +	.stop_streaming = uvc_stop_streaming_meta,
->  };
->  
->  int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type)
+>  /* ------------------------------------------------------------------------
 > 
 
 
