@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-34935-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34936-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46987ADB33C
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 16:14:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3993ADB353
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 16:16:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAE953A4376
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 14:14:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 58026171636
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 14:16:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 012591DED70;
-	Mon, 16 Jun 2025 14:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E9AB1E833D;
+	Mon, 16 Jun 2025 14:15:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rnDklTqx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SGDkef+o"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589184642D;
-	Mon, 16 Jun 2025 14:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55ECF1F5433;
+	Mon, 16 Jun 2025 14:15:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750083285; cv=none; b=tqfGyjdpwRk+eJC+MOF67nMs6jQYtZjHSHWCIfmOXH+AvDxxs6WkN36e/223WqOqQLakFUmm1XPN4/KizuBMpjq3U/sBe0QzGxD3/b0FbY/r2ZSBmcnGl2zC/k15VBn02L+i6EOyEiWSyjRmxXv8k2Ru7ys5/oTnvLd3jF6OpXY=
+	t=1750083333; cv=none; b=IPYxxQP+sIXFloIeqn7o8GzvEDnr7ABDjOsmRkLTz3n3Fb0gmSt8ZspaFBNi2MZHtV8v1M6zoi5LLgl8q3dUPITYvV6Ph2ZaFnML3qUsCu13/co3yRuj9irwqwgHKnag1yjZVicNbb8X/Jho2vOTWXa9ftXX3IXqyFCbnpR60bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750083285; c=relaxed/simple;
-	bh=jS2Q+1EzrUDyOWoIm//NLEGW96pjBPREVnh99l31kRg=;
+	s=arc-20240116; t=1750083333; c=relaxed/simple;
+	bh=/3CJgSOwPdPo826UIeavKPgGS4HiPBzDsjcDffcRgxM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gkzA8boiTeQe5XhggexI2P7jJ9QzE+/3L75W6a4AgCTv649cw8Jt1A+Z71HElezjXNdgxm8z4IyuOm92dYD9DdLWQ4L/PAmloxciCSc8XxQd+2QQxiIZ3VXGh7RNG+cRhYvkEWjlhQvMdLSi4+9eyjyRfQIqGcF6s9NodYFfAPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rnDklTqx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55513C4CEEA;
-	Mon, 16 Jun 2025 14:14:43 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=gcnFYYaBGw2VdGSGXaoZcHUfPBpwZmsqg/3sm1vSKE7Ko1ngvWpCFDslWTcYnbn5dmvnrFgNKQJno61vfn18xfScyHscgkPOyVLHOPZXf71FIPkKOFtDiYkfsf8mJk0zt+XNvKEHmM60ecZqCi5c2TpPUDfaDA/TnxjtxmIHkMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SGDkef+o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CFF6C4CEEA;
+	Mon, 16 Jun 2025 14:15:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750083284;
-	bh=jS2Q+1EzrUDyOWoIm//NLEGW96pjBPREVnh99l31kRg=;
+	s=k20201202; t=1750083333;
+	bh=/3CJgSOwPdPo826UIeavKPgGS4HiPBzDsjcDffcRgxM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rnDklTqxnqq1KcAwz53/rX07qcH5zHc9UUH61N78v1Ej/zMeiZKzYtk25jGjmvBNx
-	 HbvX2Q0Q0zmoPhm68XLuaEHLPfkUKgTA00ni408nGIpJ8K1ehtWvMbuJXufNQEofjn
-	 CsGW3wwIsJDFj8x93WFF+WWuc5sgpHmyYSVFo/rVt92WWI9k/KImpvw0IVGA6TbFZA
-	 v01Ohi/PW/8IEabEjJZ2Dp9Jdwq2EcQPJ2Ipd/gstgN2y/feETEYPIa4BwbZX6P5OA
-	 uN8vwtM0X4L4b4cE1GI3oahUjwZroKWBqGSYoAbUWYRhAu1H0oKb0lLzl8g3zyUV8D
-	 cq4fV2vSS7tRw==
-Message-ID: <cebcac7e-9c39-4feb-96ac-992d7affeb1b@kernel.org>
-Date: Mon, 16 Jun 2025 16:14:41 +0200
+	b=SGDkef+o8vbJ5sRYuUxN2ujmAZwdy7ufZAZbz4u18f/I3Tuy9hNKsoevuQ48AkM2c
+	 t41AeA/avmUT0l0DBpVvm99fbzh5nCi5ugY8KKb3OH0oR43eHvCVfS36akAMGUhCTJ
+	 g3pFuvX6IesVQ3BLuC0Apn98rwgxCGey47T2XWDPfL7VYmdABIn/jR883Xi/FKi5Ac
+	 GBPDWVUN0bMMSKWKQEAtAuDw3SyElrQb76gtGhpCs1iDDypSlzlISKm343AZxGBfmA
+	 E/iInd4gsKOJlvr81HHw7PwGOCrG+3n4Q8JA11j4Yaglsn7kwVf5rv+xCkzHaKnYWq
+	 GdamraQue8f2g==
+Message-ID: <a059f615-8afe-4e9b-8b03-b3fcdf0b0b0a@kernel.org>
+Date: Mon, 16 Jun 2025 16:15:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,28 +50,28 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/9] media: core: export v4l2_compat_translate_cmd()
+Subject: Re: [PATCH v2 9/9] media: uvcvideo: Support granular power saving for
+ compat syscalls
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hdegoede@redhat.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250602-uvc-grannular-invert-v2-0-c871934ad880@chromium.org>
- <20250602-uvc-grannular-invert-v2-8-c871934ad880@chromium.org>
+ <20250602-uvc-grannular-invert-v2-9-c871934ad880@chromium.org>
 Content-Language: en-US, nl
 From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250602-uvc-grannular-invert-v2-8-c871934ad880@chromium.org>
+In-Reply-To: <20250602-uvc-grannular-invert-v2-9-c871934ad880@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Ricardo,
 
 On 2-Jun-25 15:06, Ricardo Ribalda wrote:
-> v4l2_compat_translate_cmd() can be useful for drivers to convert between
-> the VIDIOC_*32 and VIDIOC_ defines.
+> Right now we cannot support granular power saving on compat syscalls
+> because the VIDIOC_*32 NRs defines are not accessible to drivers.
 > 
-> The VIDIOC_*32 defines are not accessible by the drivers, they live in
-> v4l2-compat-ioctl32.c.
+> Use the v4l2_compat_translate_cmd  helper to convert the compat syscall
+> NRs into syscall NRs.
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
@@ -84,24 +84,34 @@ Regards,
 Hans
 
 
-
-
 > ---
->  drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/media/usb/uvc/uvc_v4l2.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> index 8c07400bd280dea5d2e66e2759658c423bcd3866..ced4892b42597d605887b7c6a14373e3922f7bc6 100644
-> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> @@ -929,6 +929,7 @@ unsigned int v4l2_compat_translate_cmd(unsigned int cmd)
->  	}
->  	return cmd;
->  }
-> +EXPORT_SYMBOL_GPL(v4l2_compat_translate_cmd);
->  
->  int v4l2_compat_get_user(void __user *arg, void *parg, unsigned int cmd)
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 13388879091c46ff74582226146521b5b5eb3d10..8358ca54b248dd1cf7c984b206b8e550cd883e54 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -1237,15 +1237,13 @@ static long uvc_v4l2_pm_ioctl(struct file *file,
+>  static long uvc_v4l2_unlocked_ioctl(struct file *file,
+>  				    unsigned int cmd, unsigned long arg)
 >  {
+> -	/*
+> -	 * For now, we do not support granular power saving for compat
+> -	 * syscalls.
+> -	 */
+> +	unsigned int converted_cmd = cmd;
+> +
+>  	if (in_compat_syscall())
+> -		return uvc_v4l2_pm_ioctl(file, cmd, arg);
+> +		converted_cmd = v4l2_compat_translate_cmd(cmd);
+>  
+>  	/* The following IOCTLs do need to turn on the camera. */
+> -	switch (cmd) {
+> +	switch (converted_cmd) {
+>  	case UVCIOC_CTRL_QUERY:
+>  	case VIDIOC_G_CTRL:
+>  	case VIDIOC_G_EXT_CTRLS:
 > 
 
 
