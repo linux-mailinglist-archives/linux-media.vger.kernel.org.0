@@ -1,57 +1,62 @@
-Return-Path: <linux-media+bounces-34838-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34839-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB5BADA4E5
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 02:24:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41968ADA565
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 03:11:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58A2F188BA67
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 00:24:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED0F116D6A7
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 01:11:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FFAB139D0A;
-	Mon, 16 Jun 2025 00:24:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1060F13EFF3;
+	Mon, 16 Jun 2025 01:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="WnpdHA+m"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="je2Wvz8W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3AB7081E;
-	Mon, 16 Jun 2025 00:24:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D414A23AD;
+	Mon, 16 Jun 2025 01:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750033447; cv=none; b=btxA3yOTFowF397SgVuCXc8mwzNatEs7QSumIMaxPSuR2WEKhBGpEAYPwWlY0q1McbG5GZOxPcTNYCkuHNQd43ailPrgqUBj9/kYlLggrvSU+OBqEHYsOY9VNlwEuefH42C39pP1iT7+S32aoZjmDtTIUVPloZu3urTxqcj/JLQ=
+	t=1750036299; cv=none; b=nxHmes468ZPpI3EL0ANJpeuroLh/7/7/gYGczetvoAeAmUGd8bAEwmfgehbReT2POIqucHAY78A1JWeAFVkLobpzwNqvkgwhipsWsWvQY0F0TleCyB/axmqWlC7I4IkArJ1bGH/LQfCal2ULIfg2SU+LxDWogOSpxSCDmV4mp2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750033447; c=relaxed/simple;
-	bh=T8S4GwijhzNpa0BJFzHIYckr2PzoK6843zAyUZ/3Mew=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZC8krniiwmL6kAtr0plvsEIz97zeuXF+nUCsSmI1tj9Q1d6azVscWvP9B70Qm2VfmNO16nWmt7lzEEzbC0tgnQz4Ll19x2M9BsyOD84KH0cTrh0pA/+MZp/ZxQRy6jO7J6gDZhP8+usBjm/kyPZxN3V8Q6vwUqboDy0Ybg6Ww00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=WnpdHA+m; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=a3cxcHCIty1njJXqh9UOkwE73zPFAiXSTHhD6sWiTpk=; b=WnpdHA+mjSePUwmZ
-	x85UClE8wNh1eAD+c9eZCoul4ywPfaWQWmvZn84kDtGUj1XEFEty0SHQvke+35pUozla2m+qDrHra
-	1UtiZ5kbXafngosQomfUQSWfM8PDQmhm1l5rgxCfXX7IotIePuy2/e14CCAOLMeaf2q9UHuEd/IrN
-	ABP8XcSdwgqZ3C0hkj/J/+gFx0LgkTyeWtucZoztVbk96IKtz/GUX/RpezXd1f4wfSQEviScHWhy5
-	v4drcRW9IjXP7+C651CtieYd/inoJOeggGwyYdjq+CgMPeoL1WZe78H240EE3ZkV53caDDO9vyljF
-	peaCKHaoKhRNupJ+Rg==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1uQxdn-009kT7-2i;
-	Mon, 16 Jun 2025 00:23:59 +0000
-From: linux@treblig.org
-To: bparrot@ti.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] media: v4l2-jpeg: Remove unused v4l2_jpeg_parse_* wrappers
-Date: Mon, 16 Jun 2025 01:23:59 +0100
-Message-ID: <20250616002359.161639-1-linux@treblig.org>
+	s=arc-20240116; t=1750036299; c=relaxed/simple;
+	bh=qAYK7QG3ajbAt09rfSm4ch3HgN3Q+fSiynbGtLRHRZY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uAaGpfdmBnPii2R2kFM7Tw5sXOf91QRx5s69GwpLFwFvH9k1M6tgZxrAA8hRlOT20f93XmpU0oZ4w7a6thV0Tiu/D+dvxSzWDQH7EJxD46f/tAGMIqvOyIBfZGaDCyCWFcdwdtu+jMrqMEUM5ZFDZX72lIZvPP7hP5DVtNf2p6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=je2Wvz8W; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB3CE465;
+	Mon, 16 Jun 2025 03:11:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750036278;
+	bh=qAYK7QG3ajbAt09rfSm4ch3HgN3Q+fSiynbGtLRHRZY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=je2Wvz8WxEa8Gonr2WMJ/2klH8QAwbcs9kdqdPxnfcz4bUhJ1mUiAbPhu2hh3X3rm
+	 fQC+OUUHmBVn/bo4aHTh0ZJOKNuxlNEJkuxVBRUhp3tfE6oqHxXG1uRrYV4dDSYMFa
+	 lJUQXTc8nUqu+zIaqr+4TonpKQJrQtGrn+6hKclw=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev
+Subject: [PATCH 0/6] media: rkisp1: Prepare for HDR stitching support
+Date: Mon, 16 Jun 2025 04:11:09 +0300
+Message-ID: <20250616011115.19515-1-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -61,140 +66,55 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+Hello everybody,
 
-The functions:
-  v4l2_jpeg_parse_huffman_tables()
-  v4l2_jpeg_parse_quantization_tables()
-  v4l2_jpeg_parse_scan_header()
-and
-  v4l2_jpeg_parse_frame_header()
+This patch series prepares the rkisp1 driver for HDR stitching support
+by adding a new clock and power domain.
 
-were added in 2020 by
-commit 50733b5b9102 ("media: add v4l2 JPEG helpers")
+The ISP instance integrated in the NXP i.MX8MP includes an HDR stitching
+module. Unlike other ISP modules, the HDR stitching module requires the
+pixel clock to be enabled to access control registers, otherwise the
+system freezes. To make the problem more complex, the pixel clock is
+gated by the media-blk, which controls the clock gate through the
+MIPI_CSI2 power domain.
 
-but have remained unused.
+Adding the pixel clock to the ISP DT node is easy, but enabling the gate
+as part of the ISP power domain would be more difficult. This series
+instead adds the MIPI_CSI2 power domain as a secondary power domain for
+the ISP. Given that the ISP can't be used without the CSI-2 receiver in
+the i.MX8MP, this won't result in extra power consumption. Lucas, your
+feedback on this approach would be appreciated.
 
-Remove them.
+Patches 1/6 and 2/6 update the DT binding to add the clock and power
+domain. Patches 3/6 then refactors clock handling in the rkisp1 driver,
+and patches 4/6 and 5/6 add support for the additional clock and power
+domain. They are optional to avoid breaking backward compatibility with
+older device trees. Finally, patch 6/6 updates imx8mp.dtsi to add the
+clock and power domain.
 
-They're all just wrappers around an underlying set of helpers,
-which are all still called via v4l2_jpeg_parse_header().
+The series has been tested by trying to read the HDR stitching registers
+at probe time. Without these changes the system locks up, with this
+series applied the registers read correctly.
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- drivers/media/v4l2-core/v4l2-jpeg.c | 80 -----------------------------
- include/media/v4l2-jpeg.h           |  9 ----
- 2 files changed, 89 deletions(-)
+Laurent Pinchart (6):
+  dt-bindings: media: rkisp1: Require pclk clock on i.MX8MP variant
+  dt-bindings: media: rkisp1: Add second power domain on i.MX8MP
+  media: rkisp1: Refactor clocks initialization
+  media: rkisp1: Acquire pclk clock on i.MX8MP
+  media: rkisp1: Add support for multiple power domains
+  arm64: dts: imx8mp: Add pclk clock and second power domain for the ISP
 
-diff --git a/drivers/media/v4l2-core/v4l2-jpeg.c b/drivers/media/v4l2-core/v4l2-jpeg.c
-index 6e2647323522..36a0f1a1b0d9 100644
---- a/drivers/media/v4l2-core/v4l2-jpeg.c
-+++ b/drivers/media/v4l2-core/v4l2-jpeg.c
-@@ -711,83 +711,3 @@ int v4l2_jpeg_parse_header(void *buf, size_t len, struct v4l2_jpeg_header *out)
- 	return marker;
- }
- EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_header);
--
--/**
-- * v4l2_jpeg_parse_frame_header - parse frame header
-- * @buf: address of the frame header, after the SOF0 marker
-- * @len: length of the frame header
-- * @frame_header: returns the parsed frame header
-- *
-- * Returns 0 or negative error if parsing failed.
-- */
--int v4l2_jpeg_parse_frame_header(void *buf, size_t len,
--				 struct v4l2_jpeg_frame_header *frame_header)
--{
--	struct jpeg_stream stream;
--
--	stream.curr = buf;
--	stream.end = stream.curr + len;
--	return jpeg_parse_frame_header(&stream, SOF0, frame_header);
--}
--EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_frame_header);
--
--/**
-- * v4l2_jpeg_parse_scan_header - parse scan header
-- * @buf: address of the scan header, after the SOS marker
-- * @len: length of the scan header
-- * @scan_header: returns the parsed scan header
-- *
-- * Returns 0 or negative error if parsing failed.
-- */
--int v4l2_jpeg_parse_scan_header(void *buf, size_t len,
--				struct v4l2_jpeg_scan_header *scan_header)
--{
--	struct jpeg_stream stream;
--
--	stream.curr = buf;
--	stream.end = stream.curr + len;
--	return jpeg_parse_scan_header(&stream, scan_header);
--}
--EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_scan_header);
--
--/**
-- * v4l2_jpeg_parse_quantization_tables - parse quantization tables segment
-- * @buf: address of the quantization table segment, after the DQT marker
-- * @len: length of the quantization table segment
-- * @precision: sample precision (P) in bits per component
-- * @q_tables: returns four references into the buffer for the
-- *            four possible quantization table destinations
-- *
-- * Returns 0 or negative error if parsing failed.
-- */
--int v4l2_jpeg_parse_quantization_tables(void *buf, size_t len, u8 precision,
--					struct v4l2_jpeg_reference *q_tables)
--{
--	struct jpeg_stream stream;
--
--	stream.curr = buf;
--	stream.end = stream.curr + len;
--	return jpeg_parse_quantization_tables(&stream, precision, q_tables);
--}
--EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_quantization_tables);
--
--/**
-- * v4l2_jpeg_parse_huffman_tables - parse huffman tables segment
-- * @buf: address of the Huffman table segment, after the DHT marker
-- * @len: length of the Huffman table segment
-- * @huffman_tables: returns four references into the buffer for the
-- *                  four possible Huffman table destinations, in
-- *                  the order DC0, DC1, AC0, AC1
-- *
-- * Returns 0 or negative error if parsing failed.
-- */
--int v4l2_jpeg_parse_huffman_tables(void *buf, size_t len,
--				   struct v4l2_jpeg_reference *huffman_tables)
--{
--	struct jpeg_stream stream;
--
--	stream.curr = buf;
--	stream.end = stream.curr + len;
--	return jpeg_parse_huffman_tables(&stream, huffman_tables);
--}
--EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_huffman_tables);
-diff --git a/include/media/v4l2-jpeg.h b/include/media/v4l2-jpeg.h
-index b65658a02e3c..62dda1560275 100644
---- a/include/media/v4l2-jpeg.h
-+++ b/include/media/v4l2-jpeg.h
-@@ -169,15 +169,6 @@ struct v4l2_jpeg_header {
- 
- int v4l2_jpeg_parse_header(void *buf, size_t len, struct v4l2_jpeg_header *out);
- 
--int v4l2_jpeg_parse_frame_header(void *buf, size_t len,
--				 struct v4l2_jpeg_frame_header *frame_header);
--int v4l2_jpeg_parse_scan_header(void *buf, size_t len,
--				struct v4l2_jpeg_scan_header *scan_header);
--int v4l2_jpeg_parse_quantization_tables(void *buf, size_t len, u8 precision,
--					struct v4l2_jpeg_reference *q_tables);
--int v4l2_jpeg_parse_huffman_tables(void *buf, size_t len,
--				   struct v4l2_jpeg_reference *huffman_tables);
--
- extern const u8 v4l2_jpeg_zigzag_scan_index[V4L2_JPEG_PIXELS_IN_BLOCK];
- extern const u8 v4l2_jpeg_ref_table_luma_qt[V4L2_JPEG_PIXELS_IN_BLOCK];
- extern const u8 v4l2_jpeg_ref_table_chroma_qt[V4L2_JPEG_PIXELS_IN_BLOCK];
+ .../bindings/media/rockchip-isp1.yaml         |  23 +++-
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  18 ++-
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |  17 ++-
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     | 123 +++++++++++++-----
+ 4 files changed, 140 insertions(+), 41 deletions(-)
+
+
+base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
 -- 
-2.49.0
+Regards,
+
+Laurent Pinchart
 
 
