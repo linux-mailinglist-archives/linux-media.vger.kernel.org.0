@@ -1,122 +1,152 @@
-Return-Path: <linux-media+bounces-34957-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34958-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33A6ADB514
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 17:15:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE72ADB52B
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 17:22:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3576B171025
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 15:15:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 296F27A5E15
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 15:20:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F6461DB958;
-	Mon, 16 Jun 2025 15:15:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 426D321D3F6;
+	Mon, 16 Jun 2025 15:21:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qt6DkzSv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HyaUN2wQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDDC220F54;
-	Mon, 16 Jun 2025 15:15:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A771E501C;
+	Mon, 16 Jun 2025 15:21:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750086907; cv=none; b=dyN0wtc3WOVLTlH60wSHz90v3QIZy/8+sLm27OmAsmT/PBCfUrPDCs+TttPf1iH4TQ0WnGOvhW/mbr7bAPAhwRNVf8w857MnisrKt7JVZtG8twt4FlnYtuklSgwa8ilEJQKknFhn4xRAg2sIf1uO1T5A+wsg1r97n5QzZ2u50kE=
+	t=1750087318; cv=none; b=gzTjynAKqYpUi9Y14cmIuGcvZXXu0B7B/I51BE+IOQ7HxqhJQSfdZ7vruZzHj0Gi2F3FSNAZHhzaHaI0QG7lfF/MAHskf+PmyYX1Eo70W70+MthlfHiY/UJCjEK0E0o6X/ilORexX23z0gY7xRBPZfzwcALGt1VwU5AOAuOSVOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750086907; c=relaxed/simple;
-	bh=S01e6i/248142ZN8T1QwXvUAAnTI2Pm0YebVCw7eric=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u7WudD/DPZ7SDXv8ZysOpgycpHiJgznTACNlTi7I7Z6r36MrDjX/B6NVQ++eDIY/WfdNCRb1l9giNj9ii24IwRV+2bb+CM437pOM0medcLqfKIc/2ittd38rAXtH2m+pJS17xiBlk+5aTqcgBeT6IZhwovtLm4A9Bvqe5EJlfU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qt6DkzSv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9CD0C4CEEA;
-	Mon, 16 Jun 2025 15:15:03 +0000 (UTC)
+	s=arc-20240116; t=1750087318; c=relaxed/simple;
+	bh=F/QyudQDY/anQvkRN0MCoaO7t8IhTLucluA7Fcylo0Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GTfoQ7SF87pC0/sgNTxF0YXmK0cxhZOZc4jM5N6oNv2ay3Ls5X2gEooViqIJszF8T4axIIJCVYqMDUoumKD/RfPiYVn0ouLtFaFkf5WCUKyUDGX8aXyrzayQd6Ns63+YaiXxFIZJuIijhxxEWmPa9LKV15ZL9Wb6HPiAuasnV8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HyaUN2wQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C703C4CEEA;
+	Mon, 16 Jun 2025 15:21:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750086907;
-	bh=S01e6i/248142ZN8T1QwXvUAAnTI2Pm0YebVCw7eric=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qt6DkzSvMTZ2pDGD6PCVS11LpUE02bgSxx6mN5V/nvlZgNsarKHguqkC4KcmcE2q2
-	 dXMo1u9wvwAGu4LZt0pJq20fIykloL6HNR1DK0fB2xERYlirsiknDHLcCQ1J3+vfUm
-	 NQBZpdOjWkZjT36MsYxXlvCTvETWKTlvpTL8caXCtAN9GS1oNxM9trTaEexaHjWjTC
-	 V0uu9MNA+hJhTMnOtlaoXyHOZK/aTrmB+92CjX/VNw1W9iiYEU8y3rQQCCG8IImhg0
-	 XFg3D8f7LE3Jn32Ek3OG/y9wcJtKOld5QF7frs2hYx6MbJp8QZFDq7HQNFI74c4cmQ
-	 n5L7gejiKda7w==
-Date: Mon, 16 Jun 2025 16:15:01 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
-	nicolas.dufresne@collabora.com, p.zabel@pengutronix.de,
-	mchehab@kernel.org, iommu@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	kernel@collabora.com
-Subject: Re: [PATCH 1/5] dt-bindings: vendor-prefixes: Add Verisilicon
-Message-ID: <20250616-cold-dingy-7a3112a52273@spud>
-References: <20250616145607.116639-1-benjamin.gaignard@collabora.com>
- <20250616145607.116639-2-benjamin.gaignard@collabora.com>
+	s=k20201202; t=1750087318;
+	bh=F/QyudQDY/anQvkRN0MCoaO7t8IhTLucluA7Fcylo0Y=;
+	h=From:Date:Subject:To:Cc:From;
+	b=HyaUN2wQUnvOmZj06/ZeoyJY0N8JQOKU8TwCyxXPEu9e4mSBG+JOffhb7m1PWDD3r
+	 JdbTuYCAKkT9Q0jw5gaBI4yco6Xj4u5IuzpTrNrj6KhYTa61/2ZzgV5mUbKOpyTDpg
+	 z81uQHC3ElzB4UY8M1TDIS+9tI5fVfsrxLT3EdEhI+PWm0hkh/9l3t35WYhMfx4GnI
+	 7nnlQnqyGSx/pJrikNehMBNzbkd2Gh1OZyeFryN34Wyy9HTnqV6Tz3rc9Z5yME7Dmc
+	 jIaMvSXbCWVfQMnQZhIBPpai/P2wLfTd8Bp/+WIQCvRqtuQT1MuV479EdzbmuWKyFP
+	 hxOtBqthEu6Bw==
+From: Maxime Ripard <mripard@kernel.org>
+Date: Mon, 16 Jun 2025 17:21:46 +0200
+Subject: [PATCH v2] Documentation: dma-buf: heaps: Add naming guidelines
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="8nOZplPpgsff+FjY"
-Content-Disposition: inline
-In-Reply-To: <20250616145607.116639-2-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAIk2UGgC/4WNTQ6CMBBGr0Jm7Zi2CP6svIdhMZQpbZSWtEo0p
+ He3cgGX7yXf+1ZIHB0nuFQrRF5ccsEXULsKtCU/MrqhMCihGtEogcNE2L8MWqYZPU2ccAgaa6l
+ aSSS04RbKeI5s3HsL37rC1qVniJ/tZ5E/+ze5SJRIfS3N8XASZ+brnaPnxz7EEbqc8xceLSYKv
+ QAAAA==
+X-Change-ID: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jared Kangas <jkangas@redhat.com>, 
+ Mattijs Korpershoek <mkorpershoek@kernel.org>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3203; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=F/QyudQDY/anQvkRN0MCoaO7t8IhTLucluA7Fcylo0Y=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkBZpMuGPxdwfn04PlNCc0vnt5KLJi0N0WrOZFHdNc1v
+ c+rHiws7pjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATKTjD2LB7cvExg2L+mYve
+ 7jDX3zlhDdvGXDlmu1s3DbqOz36kv9M4xV9IVSSuzfnX3k+zyq7trmSslVL+tuqtbqvTNm7t5Xe
+ eOazxXBj46YvhTVnR1pzrixXs7wZfzv9aOrn/6JrOfx8nb/3tDAA=
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
+We've discussed a number of times of how some heap names are bad, but
+not really what makes a good heap name.
 
---8nOZplPpgsff+FjY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Let's document what we expect the heap names to look like.
 
-On Mon, Jun 16, 2025 at 04:55:49PM +0200, Benjamin Gaignard wrote:
-> Verisilicon Microelectronics is a company based in Shanghai, China,
-> developping hardware blocks for SoC.
->=20
-> https://verisilicon.com/
->=20
-> Add their name to the list of vendors.
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Added justifications for each requirement / suggestions
+- Added a mention and example of buffer attributes
+- Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org
+---
+ Documentation/userspace-api/dma-buf-heaps.rst | 38 +++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+index 535f49047ce6450796bf4380c989e109355efc05..835ad1c3a65bc07b6f41d387d85c57162909e859 100644
+--- a/Documentation/userspace-api/dma-buf-heaps.rst
++++ b/Documentation/userspace-api/dma-buf-heaps.rst
+@@ -21,5 +21,43 @@ following heaps:
+    usually created either through the kernel commandline through the
+    `cma` parameter, a memory region Device-Tree node with the
+    `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
+    `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
+    might be called ``reserved``, ``linux,cma``, or ``default-pool``.
++
++Naming Convention
++=================
++
++``dma-buf`` heaps name should meet a number of constraints:
++
++- That name must be stable, and must not change from one version to the
++  other. Userspace identifies heaps by their name, so if the names ever
++  changes, we would be likely to introduce regressions.
++
++- That name must describe the memory region the heap will allocate from,
++  and must uniquely identify it in a given platform. Since userspace
++  applications use the heap name as the discriminant, it must be able to
++  tell which heap it wants to use reliably if there's multiple heaps.
++
++- That name must not mention implementation details, such as the
++  allocator. The heap driver will change over time, and implementation
++  details when it was introduced might not be relevant in the future.
++
++- The name should describe properties of the buffers that would be
++  allocated. Doing so will make heap identification easier for
++  userspace. Such properties are:
++
++  - ``cacheable`` / ``uncacheable`` for buffers with CPU caches enabled
++    or disabled;
++
++  - ``contiguous`` for physically contiguous buffers;
++
++  - ``protected`` for encrypted buffers not accessible the OS;
++
++- The name may describe intended usage. Doing so will make heap
++  identification easier for userspace applications and users.
++
++For example, assuming a platform with a reserved memory region located
++at the RAM address 0x42000000, intended to allocate video framebuffers,
++physically contiguous, and backed by the CMA kernel allocator. Good
++names would be ``memory@42000000-cacheable-contiguous`` or
++``video@42000000``, but ``cma-video`` wouldn't.
 
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
-umentation/devicetree/bindings/vendor-prefixes.yaml
-> index 5d2a7a8d3ac6..1baf8304c9ac 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1635,6 +1635,8 @@ patternProperties:
->      description: Variscite Ltd.
->    "^vdl,.*":
->      description: Van der Laan b.v.
-> +  "^verisilicon,.*":
-> +    description: VeriSilicon Microelectronics
->    "^vertexcom,.*":
->      description: Vertexcom Technologies, Inc.
->    "^via,.*":
-> --=20
-> 2.43.0
->=20
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
 
---8nOZplPpgsff+FjY
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaFA09QAKCRB4tDGHoIJi
-0ghsAP0R8V9T4k3Bxyhe/X3aEh32l4IHKw5Cn9bsimUNs+RG8AEAg2TMoYlnM6jW
-L6gXbFxHvE9paMA6qFOLCYdHw86GVAo=
-=Lgt1
------END PGP SIGNATURE-----
-
---8nOZplPpgsff+FjY--
 
