@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-35004-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35005-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1C6ADBB74
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 22:47:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 919FFADBB7F
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 22:51:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4D0A3B3FFD
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 20:46:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D990A18927B8
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 20:51:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45EAF215F7C;
-	Mon, 16 Jun 2025 20:47:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D667E211A3C;
+	Mon, 16 Jun 2025 20:50:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k55DcCHw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E0ZSAZeX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964BE2139CE;
-	Mon, 16 Jun 2025 20:47:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC912BF01B;
+	Mon, 16 Jun 2025 20:50:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750106825; cv=none; b=meYkY3yPJWJT/LXH3oIRaUmVdC1l7nE3gutrWBX1uRJu0EdLdYLs03CAQE4ZTwCPr/k6v3NI8JdIVzKWdYcnkr5X83RIxBBGzuEfIoZrXM1JptPwWfAfHoKLYnuuW7nGDxxO0kisA2c9JYPgKbZWni9OFTIYWwb3LTvhRDMdQAc=
+	t=1750107058; cv=none; b=iTZMRSG0bOKtiv+4BWc3nNLSsZTspBFJi3l6iSO2FOi4XwWTF/0Ev2tkgGx+GLSyFKDWBTQ3IBB6m19UsxJNR06fjJce3IPR3Zm7A2WjdNiGN+Zu5ABuharwTG2BydjfPLpzoTnBCPyJFh1UaJPt5xktUSaXlB9oh+TVNDoGMag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750106825; c=relaxed/simple;
-	bh=0OgSSjO6xbyQI46xG7vaabloFQEtXfOKW8TtUv1V/Cc=;
+	s=arc-20240116; t=1750107058; c=relaxed/simple;
+	bh=ZwQBR3w6FYeENNK2A1rIxbwJvVKlbVENEpSzmjdyoL0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kus5tkORMrq3GYS2l0eZbaVnKIOfU9V8YP/WaQ/HzBW2dfckgyUlXUTVPxhGpU34yGIX5+9c8P/zBqZGyDsxlyWPengeJNRsZsyvCcA0Nshcq2D798jIcjY2npTj7go+Uz6QAeG2AUtC7LN6JoHs2lH6RA27CLt7Q0NmoNYRexg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k55DcCHw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49172C4CEEA;
-	Mon, 16 Jun 2025 20:47:03 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=gKAOlE+D+pmHv9hVNC5lkX7hMw7rVfS2SiwP8zF3osi5Cqnpa02YKEyPm18OxTmx9tMzkQ7Pucgr3XNWm1ccQBEf7ZvqcGPZ1qGQgveJjQ1dZ561Yvfy2BKipwn9YW4kzxN0r3M4fvDyCKKeDMCRCpu73nqZgddUyKOiVjuYs9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E0ZSAZeX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59E3AC4CEEA;
+	Mon, 16 Jun 2025 20:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750106825;
-	bh=0OgSSjO6xbyQI46xG7vaabloFQEtXfOKW8TtUv1V/Cc=;
+	s=k20201202; t=1750107057;
+	bh=ZwQBR3w6FYeENNK2A1rIxbwJvVKlbVENEpSzmjdyoL0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=k55DcCHwuZsapo4JLZGnNei7Rvl+wX5uTEekWGMWQDAlzpIzfRSeFv8b0OQa3QpeB
-	 nLOdKgWK+W5BmrHMGBHC8A/VZNGLY8w0K03JsxA8Atlrzcwq+UiA1BfnOw/BwY9aFk
-	 XUruHie4GcWEH5Nf0nGt42LYdtYfjjoye3qmpz/WLSc3ktQFYzV4xBe9dz7r+kpk0r
-	 vxWt7ZVNAtoJf4IWjyCO0ytwY5uFPY1/AshJiwMK4XDwvAyD/d9S3GPDD2DPcvYhB9
-	 fEzWWZwPzmvQDTtHwxXGxIWtNMB4HNdjNzVodetv50A68QUW4z6xRAfOUmMwlnchv/
-	 p+kY4kr1hG/SQ==
-Message-ID: <ec722aa6-17d4-4264-b99f-bdae1d908713@kernel.org>
-Date: Mon, 16 Jun 2025 22:47:01 +0200
+	b=E0ZSAZeXtEnI8R+5VVkK7FUknkYUVsTcXPlKs1sum/2uw/deaKdrqoBIb1lVDDMpM
+	 SXwSe58yy9H7RfcQUPhbCWpYF9haI6gLlfXVMJqRLkCNf9uwThjsSROxa71JWUk3MC
+	 u+BdsE8vs3ylrXY9jLgfwtHCUd2JdRdL9aU4cgH+kqiTqLah/A6R+LH4U4cH1LUb59
+	 P+tj1ljW5yjJSw4xpsqAKFFGiOyF+DvJe6ahnpnbYjEoZW0IXe42pcSebpH3DYCeNs
+	 PstjLTaF+p7LSeodyPha9MCZHa/2mEoUTGd7RdG5+p9et2Md3kilsIdsOAKhIBo1as
+	 Cx52/T2T2rniA==
+Message-ID: <843b32df-64d5-4711-8415-4044174e575f@kernel.org>
+Date: Mon, 16 Jun 2025 22:50:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,157 +50,48 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/4] media: uvcvideo: Auto-set UVC_QUIRK_MSXU_META
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <20250604-uvc-meta-v6-0-7141d48c322c@chromium.org>
- <20250604-uvc-meta-v6-4-7141d48c322c@chromium.org>
- <d1e5942b-f8e5-42c6-98ae-d346927df3cb@kernel.org>
- <CANiDSCtXmXYkv3b_62iegTFOxBVrGUv9+mbioxvQvPsadwBpqg@mail.gmail.com>
+Subject: Re: [PATCH v4 5/5] media: uvcvideo: Use prio state from v4l2_device
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hans@jjverkuil.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250616-uvc-fop-v4-0-250286570ee7@chromium.org>
+ <20250616-uvc-fop-v4-5-250286570ee7@chromium.org>
+ <CANiDSCur8zys_CSZC9+-QdD0U556A7HLLdSN8mJuOpXm+Ls8Wg@mail.gmail.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <CANiDSCtXmXYkv3b_62iegTFOxBVrGUv9+mbioxvQvPsadwBpqg@mail.gmail.com>
+In-Reply-To: <CANiDSCur8zys_CSZC9+-QdD0U556A7HLLdSN8mJuOpXm+Ls8Wg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Ricardo,
 
-On 16-Jun-25 5:04 PM, Ricardo Ribalda wrote:
-> Hi Hans
+On 16-Jun-25 8:30 PM, Ricardo Ribalda wrote:
+> Hello All
 > 
-> On Mon, 16 Jun 2025 at 16:38, Hans de Goede <hansg@kernel.org> wrote:
+> On Mon, 16 Jun 2025 at 17:24, Ricardo Ribalda <ribalda@chromium.org> wrote:
 >>
->> Hi Ricardo,
+>> Currently, a UVC device can have multiple chains, and each chain maintains
+>> its own priority state. While this behavior is technically correct for UVC,
+>> uvcvideo is the *only* V4L2 driver that does not utilize the priority state
+>> defined within `v4l2_device`.
 >>
->> On 4-Jun-25 14:16, Ricardo Ribalda wrote:
->>> If the camera supports the MSXU_CONTROL_METADATA control, auto set the
->>> MSXU_META quirk.
->>>
->>> Reviewed-by: Hans de Goede <hansg@kernel.org>
->>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>> ---
->>>  drivers/media/usb/uvc/uvc_metadata.c | 72 ++++++++++++++++++++++++++++++++++++
->>>  include/linux/usb/uvc.h              |  3 ++
->>>  2 files changed, 75 insertions(+)
->>>
->>> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
->>> index df3f259271c675feb590c4534dad95b3b786f082..cd58427578ff413591b60abe0a210b90802dddc7 100644
->>> --- a/drivers/media/usb/uvc/uvc_metadata.c
->>> +++ b/drivers/media/usb/uvc/uvc_metadata.c
->>> @@ -10,6 +10,7 @@
->>>  #include <linux/list.h>
->>>  #include <linux/module.h>
->>>  #include <linux/usb.h>
->>> +#include <linux/usb/uvc.h>
->>>  #include <linux/videodev2.h>
->>>
->>>  #include <media/v4l2-ioctl.h>
->>> @@ -188,11 +189,82 @@ static const struct v4l2_file_operations uvc_meta_fops = {
->>>       .mmap = vb2_fop_mmap,
->>>  };
->>>
->>> +static const u8 uvc_msxu_guid[16] = UVC_GUID_MSXU_1_5;
->>> +
->>> +static struct uvc_entity *uvc_meta_find_msxu(struct uvc_device *dev)
->>> +{
->>> +     struct uvc_entity *entity;
->>> +
->>> +     list_for_each_entry(entity, &dev->entities, list) {
->>> +             if (!memcmp(entity->guid, uvc_msxu_guid, sizeof(entity->guid)))
->>> +                     return entity;
->>> +     }
->>> +
->>> +     return NULL;
->>> +}
->>> +
->>> +#define MSXU_CONTROL_METADATA 0x9
->>> +static int uvc_meta_detect_msxu(struct uvc_device *dev)
->>> +{
->>> +     u32 *data __free(kfree) = NULL;
->>> +     struct uvc_entity *entity;
->>> +     int ret;
->>> +
->>> +     entity = uvc_meta_find_msxu(dev);
->>> +     if (!entity)
->>> +             return 0;
->>> +
->>> +     /*
->>> +      * USB requires buffers aligned in a special way, simplest way is to
->>> +      * make sure that query_ctrl will work is to kmalloc() them.
->>> +      */
->>> +     data = kmalloc(sizeof(*data), GFP_KERNEL);
->>> +     if (!data)
->>> +             return -ENOMEM;
->>> +
->>> +     /* Check if the metadata is already enabled. */
->>> +     ret = uvc_query_ctrl(dev, UVC_GET_CUR, entity->id, dev->intfnum,
->>> +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
->>> +     if (ret)
->>> +             return 0;
->>> +
->>> +     if (*data) {
->>> +             dev->quirks |= UVC_QUIRK_MSXU_META;
->>> +             return 0;
->>> +     }
->>> +
->>> +     /*
->>> +      * We have seen devices that require 1 to enable the metadata, others
->>> +      * requiring a value != 1 and others requiring a value >1. Luckily for
->>> +      * us, the value from GET_MAX seems to work all the time.
->>> +      */
->>> +     ret = uvc_query_ctrl(dev, UVC_GET_MAX, entity->id, dev->intfnum,
->>> +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
->>> +     if (ret || !*data)
->>> +             return 0;
->>> +
->>> +     /*
->>> +      * If we can set MSXU_CONTROL_METADATA, the device will report
->>> +      * metadata.
->>> +      */
->>> +     ret = uvc_query_ctrl(dev, UVC_SET_CUR, entity->id, dev->intfnum,
->>> +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
->>> +     if (!ret)
->>> +             dev->quirks |= UVC_QUIRK_MSXU_META;
->>
->> Since we set the ctrl to enable MSXU fmt metadata here, this means that
->> cameras which also support V4L2_META_FMT_D4XX will be switched to MSXU
->> metadata mode at probe() time.
+>> This patch modifies uvcvideo to use the `v4l2_device` priority state. While
+>> this might not be strictly "correct" for uvcvideo's multi-chain design, it
+>> aligns uvcvideo with the rest of the V4L2 drivers, providing "correct enough"
+>> behavior and enabling code cleanup in v4l2-core. Also, multi-chain
+>> devices are extremely rare, they are typically implemented as two
+>> independent usb devices.
 > 
-> Not sure that I completely follow you. D4XX cameras will not be
-> switched to MSXU, they will support MSXU and D4XX with the current
-> patchset.
+> As the cover letter says, this last patch 5/5 is a RFC. We can decide
+> if it is worth to keep it or not.
+> 
+> The pros is that we can do some cleanup in the core, the cons is that
+> it might break kAPI.
 
-Is MSXU an extension on top of D4XX ? If not then we need to tell
-the camera which metadata we want in uvc_meta_v4l2_set_format()
-
-Currently your patch 4/4 does:
-
-+	ret = uvc_query_ctrl(dev, UVC_SET_CUR, entity->id, dev->intfnum,
-+			     MSXU_CONTROL_METADATA, data, sizeof(*data));
-
-in uvc_meta_detect_msxu() which runs at probe time.
-
-So patch 4/4 breaks V4L2_META_FMT_D4XX support as it switched the
-camera to MSXU metadata mode (I'm assuming the 2 metadata formats
-are different and that MSXU metadata is not just a superset of D4xx).
-
-This is why I suggest supporting only one metadata format. If we
-want to support both on cameras which support both and can switch
-formats with the msxu control, then this patch needs to modify
-uvc_meta_v4l2_set_format() to do something like this:
-
-+	ret = uvc_query_ctrl(dev, UVC_SET_CUR, entity->id, dev->intfnum,
-+			     MSXU_CONTROL_METADATA, data, sizeof(*data));
-
-When switching formats, that or only support 1 metadata fmt.
-
-I hope this explains my thinking here, if not keep asking questions ...
+I've no objections against this change, but lets wait and see what
+Laurent has to say.
 
 Regards,
 
@@ -209,91 +100,47 @@ Hans
 
 
 
-> 
+>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>> ---
+>>  drivers/media/usb/uvc/uvc_driver.c | 2 --
+>>  drivers/media/usb/uvc/uvcvideo.h   | 1 -
+>>  2 files changed, 3 deletions(-)
 >>
->> So even if cameras exist which support both metadata formats, since we
->> switch to MSXU at probe() time, disabling V4L2_META_FMT_D4XX support,
->> the uvcvideo driver will only support 1 metadata fmt per camera.
->> Which is fine supporting more then 1 metadata fmt is not worth
->> the trouble IMHO.
-> 
-> If we only support one metadata, we have two options for D4XX cameras:
-> 
-> A) Switch to MSXU: apps that expect D4XX will not work. I think this
-> will mean breaking uAPI.
-> B) Keep D4XX and ignore MSXU: apps that work with MSXU will not work
-> with D4XX cameras. I do not love this but it will not affect my
-> usecase.
-> 
-> 
-> If you are ok with B) I can start the implementation. But I still
-> believe that the current option is more generic and the extra
-> complexity is not too excessive.
-> 
-> 
+>> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+>> index accfb4ca3c72cb899185ddc8ecf4e29143d58fc6..e3795e40f14dc325e5bd120f5f45b60937841641 100644
+>> --- a/drivers/media/usb/uvc/uvc_driver.c
+>> +++ b/drivers/media/usb/uvc/uvc_driver.c
+>> @@ -1728,7 +1728,6 @@ static struct uvc_video_chain *uvc_alloc_chain(struct uvc_device *dev)
+>>         INIT_LIST_HEAD(&chain->entities);
+>>         mutex_init(&chain->ctrl_mutex);
+>>         chain->dev = dev;
+>> -       v4l2_prio_init(&chain->prio);
 >>
->> This means that Laurent's remark on [PATCH v5 4/4]:
+>>         return chain;
+>>  }
+>> @@ -2008,7 +2007,6 @@ int uvc_register_video_device(struct uvc_device *dev,
+>>         vdev->fops = fops;
+>>         vdev->ioctl_ops = ioctl_ops;
+>>         vdev->release = uvc_release;
+>> -       vdev->prio = &stream->chain->prio;
+>>         vdev->queue = &queue->queue;
+>>         vdev->lock = &queue->mutex;
+>>         if (type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
+>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+>> index 3e6d2d912f3a1cfcf63b2bc8edd3f86f3da305db..5ed9785d59c698cc7e0ac69955b892f932961617 100644
+>> --- a/drivers/media/usb/uvc/uvcvideo.h
+>> +++ b/drivers/media/usb/uvc/uvcvideo.h
+>> @@ -354,7 +354,6 @@ struct uvc_video_chain {
+>>                                                  * uvc_fh.pending_async_ctrls
+>>                                                  */
 >>
->> "I would prefer if you could instead add a metadata format field in the
->> uvc_device structure (I'd put it right after the info field, and while
->> at it you could move the quirks field to that section too). The metadata
->> format would be initialized from dev->info (when available) or set to
->> the UVC format, and overridden when the MSXU is detected."
+>> -       struct v4l2_prio_state prio;            /* V4L2 priority state */
+>>         u32 caps;                               /* V4L2 chain-wide caps */
+>>         u8 ctrl_class_bitmap;                   /* Bitmap of valid classes */
+>>  };
 >>
->> is still relevant, which will also make patch 3/4 cleaner.
->>
->> The idea is to (in patch 3/4):
->>
->> 1. Introduce a dev->meta_format which gets initialized from dev->info->meta_format
->> 2. Keep the quirk and if the quirk is set override dev->meta_format to
->>    V4L2_META_FMT_UVC_MSXU_1_5 thus still allowing testing for MSXU metadata on
->>    cameras which lack the MSXU_CONTROL_METADATA control.
->>
->> Doing things this way avoids the need for the complexity added to
->> uvc_meta_v4l2_try_format() / uvc_meta_v4l2_set_format() /
->> uvc_meta_v4l2_enum_format(). Instead the only changes necessary there now will
->> be replacing dev->info->meta_format with dev->meta_format.
->>
->> Regards,
->>
->> Hans
->>
->>
->>
->>
->>
->>> +
->>> +     return 0;
->>> +}
->>> +
->>>  int uvc_meta_register(struct uvc_streaming *stream)
->>>  {
->>>       struct uvc_device *dev = stream->dev;
->>>       struct video_device *vdev = &stream->meta.vdev;
->>>       struct uvc_video_queue *queue = &stream->meta.queue;
->>> +     int ret;
->>> +
->>> +     ret = uvc_meta_detect_msxu(dev);
->>> +     if (ret)
->>> +             return ret;
->>>
->>>       stream->meta.format = V4L2_META_FMT_UVC;
->>>
->>> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
->>> index bce95153e5a65613a710d7316fc17cf5462b5bce..ee19e9f915b8370c333c426dc1ee4202c7b75c5b 100644
->>> --- a/include/linux/usb/uvc.h
->>> +++ b/include/linux/usb/uvc.h
->>> @@ -29,6 +29,9 @@
->>>  #define UVC_GUID_EXT_GPIO_CONTROLLER \
->>>       {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
->>>        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
->>> +#define UVC_GUID_MSXU_1_5 \
->>> +     {0xdc, 0x95, 0x3f, 0x0f, 0x32, 0x26, 0x4e, 0x4c, \
->>> +      0x92, 0xc9, 0xa0, 0x47, 0x82, 0xf4, 0x3b, 0xc8}
->>>
->>>  #define UVC_GUID_FORMAT_MJPEG \
->>>       { 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
->>>
+>> --
+>> 2.50.0.rc1.591.g9c95f17f64-goog
 >>
 > 
 > 
