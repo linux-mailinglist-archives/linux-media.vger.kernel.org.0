@@ -1,776 +1,752 @@
-Return-Path: <linux-media+bounces-34869-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34870-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBC1ADAAD0
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 10:32:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57662ADAB06
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 10:46:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17F021748FF
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 08:29:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 236243AFC5B
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 08:46:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE4A126E6FC;
-	Mon, 16 Jun 2025 08:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0270A2609E1;
+	Mon, 16 Jun 2025 08:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kGzP0pAl"
+	dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b="GsgcUbOO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from PR0P264CU014.outbound.protection.outlook.com (mail-francecentralazon11022093.outbound.protection.outlook.com [40.107.161.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E44126C3BF;
-	Mon, 16 Jun 2025 08:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750062490; cv=none; b=TEpuddtTmfUnonyz3lKbFuV45p19DG1XiHHcKFD1MDODM93BJqA/mR5I5JaaCN99YbgmNJUR7g2/cmDBdoJkNjFLOlJmz6NYHVdBFMAxsXDPuChvDA7RG9EtA2PAd4n6Cig3habKIYI6aW9TF6KgFM7pTnDp+gvw1L1qIyq+cVI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750062490; c=relaxed/simple;
-	bh=h9dqMOb+3H/0LE2FJ13aOXA0K8O0fQkPbQil9F8k2Jc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jg6Bk3KJWf/Bu4t8ypbT1ynk6X9kvli86qT0r9PKOYifCjUT+LbJmspZv75iJRdSbtplQu3oFMiX7Usrj4XYNgAz6JJFDT0IRpRkGP2b3KkcrqVs0frteAfwqrNmDSlloRGKpGSCVfRhLfYk/UeBqXRjIgk6NK/yFlb+6zBLsoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kGzP0pAl; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-141-184.net.vodafone.it [5.90.141.184])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDC61351;
-	Mon, 16 Jun 2025 10:27:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750062472;
-	bh=h9dqMOb+3H/0LE2FJ13aOXA0K8O0fQkPbQil9F8k2Jc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kGzP0pAl6JJyY/wbqxkTjSMdI/H7xZrh0WIoHmA9Ikx7C846U9ySTSLTLacqodHDL
-	 5e+0fzcsfqIy8sUl1+zSjsihezqiGr7KQaYYhXeERPpkITWlrMzcq7Sumvef7+hUKs
-	 9CGvTswwTNs5cRtMZUozQb58tSJ4a9VzlaTTne9A=
-Date: Mon, 16 Jun 2025 10:28:00 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8] media: vsp1: Add VSPX support
-Message-ID: <wsm3wjqmeklnmupyjq6j7o2owczgejrepdo3ziem7sxxls7cj7@uoxvezgyxow5>
-References: <20250502-b4-vspx-v8-1-b2a7592668dd@ideasonboard.com>
- <20250502202644.GF20093@pendragon.ideasonboard.com>
- <ptjenvbcovfzj5oukqriu7qx7qqz22r4h6sfmctpsdghwz3so3@naiwhbqwexn6>
- <20250614145540.GB14438@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD5F188734;
+	Mon, 16 Jun 2025 08:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.161.93
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750063582; cv=fail; b=qwVbfZjwuv/3cLjbAT997SZDrKLTLYkLIzC7g3X3U8LNKqWPS1im5+ypsCNWz5lpgraqLWC6RDCi0ENzTKOGJ7+Musc4TZiA+yWRsQbyqihTbrDx9VdVi+6CdW2NoPapfNurmWCW67Ck+NRonZ3VR5k2ojKml4O+VcQ2N0c071M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750063582; c=relaxed/simple;
+	bh=OtxyUGi5yS6MM2VfoLyvFpFCj1Yq0PjC1aXtrW+j0Bs=;
+	h=Date:From:To:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Gg/lqYQBYZungH1tuQ9HMmZwiwJNOsGfUYGvBYPOy7i/ZDEZSqtouvbTET93tKXzI4vpd5nSOPeEc56fM1e/qyVX6FbaszGdpQyEyTQIr7/h/6h1XQcy1QDj76gsf4qdEcrCGFhUcdDNMQ/cCYImEWUWgf/6HLHilK0O+jvV8Ow=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com; spf=pass smtp.mailfrom=allegrodvt.com; dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b=GsgcUbOO; arc=fail smtp.client-ip=40.107.161.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=allegrodvt.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uONR+tuCql0Z8Rclt9XCMfIAngM8J5U4sITLtL5ygVcWBqLzj3x5w02TSY0swi7xXhPDXkbUKwAtHb6hJUBs5/4zTci8GjClLNOG5ExOai1GiRvreHoo/cUQyFSKjUH0gY1ILN+F4ZEM8kiDrN0595nQqU6CvHgQxX9cp2ZkH4eZi7Kx/8ZaKNhXEYsmYQQsZEWFlqabXRBw2CdeSd5H+brbAzYRISgJOC21RaEiwqEyYpNG/dNZEW/R9LCnmlnQ+CMqgO6txQ47WSwGp+a2b2viZQkmku0K3CQrQ4F2cCLpuNQ80/DQ3X0fgQa4dv/rY2OciV04ZgStKp06Dlo+ww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hLdPB3DnLAdHvvLXnmM/UD9FKYMWBAsf7A4HSsOstJk=;
+ b=imq/v6/u9G2ZcMqBfcvbdyZKLT6H9v4mkHtrat39uMh1igJF3GxPd0w7xwbhUrzO4gcEREWf/V9+gYg8jk5J5rKcgb2Mu/d6ifNOazOfN2Plpwsy8nafox0s3wgROK38Dtg4lfgkLIrU+vyXCLiy/LNJ3IBpAo4xnh09/LciDOkjy45uZxxqTl0hqn0+vUPQWDUeqfJzOmVmrVCtYB0NUyv1sqwF37mCQRz82z/yIqpMCxsc5zqjSQ0hKdGPsY2QjDqp04e05GuZiT1GXEAeDdADrZf5yS8UBQZRLs/lwldWDYRVhcpfYPQnDLT26JwT/X34qdVWY/pqNsrQhXs7RA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=allegrodvt.com; dmarc=pass action=none
+ header.from=allegrodvt.com; dkim=pass header.d=allegrodvt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=allegrodvt.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hLdPB3DnLAdHvvLXnmM/UD9FKYMWBAsf7A4HSsOstJk=;
+ b=GsgcUbOOy28NNzLRlQEF5RWf/VPhayh+GEiuNUrKQYZC/XJ69HPZ+dHcQ0P0U+hIabxBb3Ua0C06oSkIo8rye31AoKxVKztiHjnazSEWLTUka5qHmyD3xRwggGvuRHnq/Vfd2DGmMLvN8ifcr9LRE3b1irDQy7WM9ShyniJNC53a/7WZjS7t2MGSE2EPWR9ky5Bv3oLJiOLLjbp7f9wX5wsI2lc6/4NayldGJBtV3IvIkdWg+/T4WpfP3EmfyqMf9Zft/x5ug5LQFbUE8vNRsYjy65exM4Amc8ri06DxuTiZlZd9rQTP07044huAquOP8mjwed09nHVL9S/C2Sfxlw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=allegrodvt.com;
+Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:3d::18)
+ by PASP264MB4883.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:43e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Mon, 16 Jun
+ 2025 08:46:12 +0000
+Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::4281:c926:ecc4:8ba5]) by MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::4281:c926:ecc4:8ba5%2]) with mapi id 15.20.8835.027; Mon, 16 Jun 2025
+ 08:46:12 +0000
+Date: Mon, 16 Jun 2025 08:46:10 +0000
+From: Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>
+To: Michael Tretter <m.tretter@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Nicolas Dufresne <nicolas@ndufresne.ca>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] media: allegro-dvt: Add Gen 3 IP stateful decoder
+ driver
+Message-ID: <rhpefved37qtz2w4yafuxrjvn2uazroqo74whiyntmt2vdadsj@tr2jszzivwpr>
+References: <20250605-allegro_dvt_al300_dec_driver-v2-0-1ef4839f5f06@allegrodvt.com>
+ <20250605-allegro_dvt_al300_dec_driver-v2-4-1ef4839f5f06@allegrodvt.com>
+ <aErWeK9qQSrCcNnp@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <aErWeK9qQSrCcNnp@pengutronix.de>
+X-ClientProxiedBy: MR1P264CA0026.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:2f::13) To MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:3d::18)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250614145540.GB14438@pendragon.ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MR1P264MB3140:EE_|PASP264MB4883:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7d4ef5f-d0c9-4505-e056-08ddacb23f2a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|1800799024|366016|376014|7416014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ejJOYjZ4QkFadW51am15YTNwQzM2ckhsdHBjUWhMTUN6ZkxmaWRJZzZicGVW?=
+ =?utf-8?B?dzVUYmV0dEU0RmpLbURKbksvdkt3SWNRWFNEVzR3Vm5Zc1crcVkwc2xxeTZW?=
+ =?utf-8?B?MHBTTWNzY3R4eG9CRjJGVmx5UWF6ZWJJVDdVRWJTMTF4UUlYbG04S0ZZSVg4?=
+ =?utf-8?B?cENFdUNjWHBYT1l3MGRXL0FxQnZJUS9sKzNkT1pqRmhjNkJ0V1VCUU11SVR2?=
+ =?utf-8?B?Zy9mWG84bmJMQUg2dVY3RlVkay8wQUVxaTlXRDJXMGwySUJiMG5Ebkw0MWIr?=
+ =?utf-8?B?dEMvRm9tOTVlNDhkWVhyc1dBNFozVzM0cS96Vk9MOUxWTWRvUkZxWFZaNWw3?=
+ =?utf-8?B?YzIwMyttZHVVWUlzRzhONHFCOHV1MzNtRXV5V0pGZHdXSVZLbEh2MjFodG5F?=
+ =?utf-8?B?UlJ0d3BFM0J0N2RQM2lqWGlsUStTd1R2MFBNSlpURmY2Vk51dnk5cHNxU1ZC?=
+ =?utf-8?B?MW51MS9XZE9GaTNIUkQ4MHdLWE9xMWk2YzJ3VzJJc0h6Ti9rREUwa2I2QWFa?=
+ =?utf-8?B?MnBRYVdSb2RHVWt6RU5naDZCVU9DSCt2Nk9HTjN4OGJJQjJTaGw1TFFrUU92?=
+ =?utf-8?B?WUZhL3h3OHJwUkJyWjhRUGtnR0M0TzduSENrMkFHLzA4VlI0VHhscWlpK0pQ?=
+ =?utf-8?B?N1dBLzRQbDVQenJoZmRRZTZ4ZHlPTnlZOFlXY28xZlFuOHlYMnNEaXBsM3Q0?=
+ =?utf-8?B?SEdrTDMvcm4wNkFBaXA0MjF4QnlHbEpnUVYyWUZHcDNLNEYxK3RuajRuYUpV?=
+ =?utf-8?B?STVaS0lZenVydExHamxtUVIzbVh2QjRuWStjdEdDWTlBUFYrK1JqS1B6SEds?=
+ =?utf-8?B?bmc3OFFlM3FtTXgrZkMvZkRwcEQ1QUgrM0tKa01VTTROS0tJUlFBcDI1MjNC?=
+ =?utf-8?B?S1BXT1dDSmVuM0dNSkR0UnVob0EzWDB5WTd5Sm9kdjdtVnh6aUdzWG1DYkNX?=
+ =?utf-8?B?eWNJQ3k5VU1jSWo3VzRwZ3k1VVdIbkFVMU5tZlRqK0xEbGZ5Wm5ZVmZacFBZ?=
+ =?utf-8?B?aHM3UndyU0QxNjVNbTR1aE9zWEhvSzhUMEhoNm92d1JtYkp4Y05OMWlUMXFL?=
+ =?utf-8?B?dkpVV3hMR0tHK1VjMlZKVEIxQm0vVjBFRXhidkJjVG5mVWVsZDhpZFg4K0dp?=
+ =?utf-8?B?bWZPcG9Od2hTL1NMcDRmL0Z3SC9qRzAyNWdyU0IyVHFZSFJ5UFVUTTY4elJn?=
+ =?utf-8?B?UzJFdlhueHhOWkZhd202ZWdUajdmU1pGTlllYzQzVjFxdG9qRHZSQlI3WEtR?=
+ =?utf-8?B?by8vbklacXVRYktRQ0JvWjEwMU9BSjc1VzgvM2Nxd2x3blN0dGZNVzlUcWxl?=
+ =?utf-8?B?Z2tSYlZNc0tvSDlUeVdQMG0wYUwrSkZPZkkvVGE1enhpYnJwaGdLY0FLc0gv?=
+ =?utf-8?B?YU5XbTRPckl5MUcxUW4rOFE3c21SaDVQbW1sUW9PbG1ONmh5LzJjaDI4SG8x?=
+ =?utf-8?B?T3hhT0d0SHhKWjNSMnhCcklHc3pYMXpsazBGVi9paVA3OGtGQmJxakt3QzlP?=
+ =?utf-8?B?TGFkN0RYVmhYOUpSbkJCMVlYQ1N6cklvOUZqUHdUT0FDVnR2eVkxSlhISjNN?=
+ =?utf-8?B?MXpydEFrQkp2TWhBbU93bEpCVUJGRENrVmRVMDFrUGlTcXJnOTVVaG1namFk?=
+ =?utf-8?B?dExUU2JORCtWVk9jbmJNYytRNzJJTUoxV1lyNmdCc29MTld2RWZyVnlGNUFm?=
+ =?utf-8?B?ZlJ1ajhESHREY2FzS2dZTDFMTzhjK1pVSGppaFR1KzJ2Z0NYSXNHdXdhenJp?=
+ =?utf-8?B?R0ZjZWh3bnB0c3h1UDY0YVRZZHFzYjRUb0MzeEZqRDRVMWp5SWtaVFgyYXBr?=
+ =?utf-8?B?YnhINStrMUVGQ0gyREM2VWZ0QnpMM3FHWjVSMjlSbFRpVVF3cmkrRFVpaHlN?=
+ =?utf-8?B?UFZ5anYydEpscEtYVFpOUUhLcnFEMWtBemRFa29KSXVJbFpKWnhrc3V2dGs4?=
+ =?utf-8?B?YTdMMk01TFdwQlI2K1d2bitDN2UwN3hLNlpvNXE0NVNGMW5CNTZMQWx2R3hh?=
+ =?utf-8?B?QkxNOUJocnB3PT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QUJVQjZoaFpMemVSVUMvejNWems3MGczU1VZKy81RFBEYUZtL0xWS0VDaW44?=
+ =?utf-8?B?MzhWYkZlZm9FVXROb1FRM2tMTHZVLy9aRHkvN25uMmtZOWV2MkFTWUViZTMv?=
+ =?utf-8?B?OWsvMEZqZnJxMlA2a0xvWjl2SUdMbi9MeVFLMlZ5SGU1a2NpdXczYnVmNkZr?=
+ =?utf-8?B?TVFRa0Fnb2RoMURlRWpKMS8wSk4vUGFveVVhWGFPSjZYVG5TdmdrNmtFaDVh?=
+ =?utf-8?B?NVpJbU1Pb0VKV3BTVXRSSjNXWUhUZEUrT2ZkVkpqZ0x3bk5nK1I3QndaNWRZ?=
+ =?utf-8?B?am1YUk9pVkxDRFVhNzF3Y0tPVzhLUDlrZ1B6Yk9XMjZaQUVtbTA3NXpRdkp2?=
+ =?utf-8?B?Rmg5YVkxS29FOHFCOUllM1RxWU5odkd6T2RpVmNyeHpJQlhLNWt6KzRYT0RS?=
+ =?utf-8?B?RzVtaVRqZ3VLdFpkN0tkUEU3SnZnWnhKQTF5SDhVUTQzaDNLVG1PVUljNmlo?=
+ =?utf-8?B?K25ZcERKZTk1amMxWHdhT256RUd0SFRvdzY3SUVQRkM5RzNybEZsSmJDbjJs?=
+ =?utf-8?B?OW1KN01tMmQ4TDJGcFFkektBVmlYY2QzVm5FbzJ0a1FuRnQ0eG4xMHZDMVEz?=
+ =?utf-8?B?REE0eW12akkva2FwOHdTNkZqczc5VitzOHB0MGxDZ1B6VG1kcE93RFFiSTFF?=
+ =?utf-8?B?OUJaS2ROYWNCUTUyeFprV0hMMXQ1RHNFZm0zd1dGb0x0ZDNySjllWm1ENTA3?=
+ =?utf-8?B?Um9CUGNodUg4NVJheEMybER5NGpzZUQwWUpFZnlpbDZFc0FkNEdJdTRiY21F?=
+ =?utf-8?B?SlFsVU50bzI0UGhYVXIxM1djN2k3RUlXNCsyaWI0VWpUOVNhOEtwU01XMysz?=
+ =?utf-8?B?SWJNdXE2KzZHRVRlK1Vmekk4R3lOVGdnK2praDFBeDNoTE0wQW1vMDJXUGNJ?=
+ =?utf-8?B?MDdZaHVjL3pGQVhCSjI3dTJtSWRhNzR5RzNKVm5VcEI4RnNEa1Y0eXZlci84?=
+ =?utf-8?B?ZjNqbFVrQ2hCbE1OSWlUdk1BQWtHRFBFUW5kbXQzRVVTVmM5d1hHODcrK0I2?=
+ =?utf-8?B?WTR5WlcxUGVGdFJjUFFZeTZWN01xVEdZMlNpQmxGdnJocXZPTmlKUlNBNW5k?=
+ =?utf-8?B?WURWR0VkdG5yNE8zbENyKzJpRlZjVzEwTTVXTUdmeVBjM3ZTb3NCcmRIMXg1?=
+ =?utf-8?B?RXdnSmdrSWZHK0tTRll2cVhzRWx0UEZvdXhCWUZuYWdic0xmaEJlUDV4Tmdv?=
+ =?utf-8?B?bGJmb1drb3V2em84cDIyT2JzN0hpek1POHFQTmozZ2pkOE81Vms1TFVNSFMy?=
+ =?utf-8?B?eVZlKzBIOTdObENsTWhOcldMelJaVmxZK25IR0t6aTlVOU85MktYT0UyVmhk?=
+ =?utf-8?B?WG0rY3plMmtJN1FEakRsejdNd0d2UTZzcUZ5TTIxOXV0TU5IQnc1bSsvbUts?=
+ =?utf-8?B?Sm9nZ1JKZnUxN0NUZVdJVlVvRGdrZDVFdTZvaHdONEc1NFMxTFUyc05tNndD?=
+ =?utf-8?B?N21JZDRLVUpBUUZaZHEvd1M0SkNTOXZEQWczUUp3YTl6a1NYaWphUGVOdzZQ?=
+ =?utf-8?B?cGR3SDJIR2RMakhTZzZFOGxJTmY2c0ZzSUxkei84NDhnNUNqWm9DMmtjcDJS?=
+ =?utf-8?B?UW5oZVl6QlVFUXV5ZFJkeWdWQnVFdk5admhkV1FwTktsQXNZWHh4d0RLbjl5?=
+ =?utf-8?B?UVg4ZHlWSVZCakM0T1ptN29RRFRGYUtsUEptMkZyaEZvNTNZR2FNSEJLMTVo?=
+ =?utf-8?B?RUJnWWhVNE9wT1BjdzdqVHpoU2t5aUVyTk1BcUFOclM0V2JMcU5lOE1FemV0?=
+ =?utf-8?B?Wld3aGdRZmgwU0JmKy9VUmhBQnRqQURtVGpnMnRmY2JhakYxVnZKU0xQcG1T?=
+ =?utf-8?B?cVJkU3VKSytwazJxU1UzZGlsWFdEMEN5WU9uN2szZ1ErcDg0SittaW80eFpI?=
+ =?utf-8?B?ZHc1WTBJVHUyRGtObDd2U05TTlZDYkdWRXdyd2RIM0RqUlR2TjA0cE9wL3VS?=
+ =?utf-8?B?RGxSTk1jeGdPSFNlNytQb1BMY1BQQmV4MnVxS0xwUXg1VnFKUmhhTWlrZEs1?=
+ =?utf-8?B?akxVbFRSeEVlLzVrTGtjOE5GVCthRFk3NlhUaDQwWUlaRzUrZUlBd1lwVTI3?=
+ =?utf-8?B?WHliRUNxZUpqR2pGTjAzVzlqNTE5cVVDR0plTTN1NjE5Vm5mWlhXQVZBcFoy?=
+ =?utf-8?B?N1NDUWpTWW5BNDc0UGNLbEtTNU00TnRkemsrK013SkczcnNvVHk5N0E4TEgw?=
+ =?utf-8?B?ZkcxMGtMbnFHVHp0c2JjQWNPbU9ZU2VteExrQ2o0SzZDc2N6ejg4OExabkln?=
+ =?utf-8?B?TDRGblBORm1PdXZUYlN4UzlnTThBPT0=?=
+X-OriginatorOrg: allegrodvt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7d4ef5f-d0c9-4505-e056-08ddacb23f2a
+X-MS-Exchange-CrossTenant-AuthSource: MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 08:46:12.3389
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6c7a5ec0-2d92-465a-a3e1-9e3f1e9fd917
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4+xt2zV+WjDHDjuQF5vhcXM7gM1fzBHx1UmGc0nrWK07ygL4kFRJTXKglqdMto/4Vm3Rd4npxyOdGEsV2A/e5Ckxen/KJAg0g5s5YkF5dXQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PASP264MB4883
 
-Hi Laurent
+On 12.06.2025 15:30, Michael Tretter wrote:
+Hi Michael,
 
-On Sat, Jun 14, 2025 at 05:55:40PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
+Thank you for your review.
+>Hi Yassine,
 >
-> I realize I haven't replied to this e-mail. Sorry about that. I've added
-> a few comments below related to issues that I think are still relevant
-> to v10.
+>Thanks for the patch.
 >
-> On Mon, May 05, 2025 at 10:19:57AM +0200, Jacopo Mondi wrote:
-> > On Fri, May 02, 2025 at 11:26:44PM +0300, Laurent Pinchart wrote:
-> > > On Fri, May 02, 2025 at 03:23:10PM +0200, Jacopo Mondi wrote:
-> > > > Add support for VSPX, a specialized version of the VSP2 that
-> > > > transfers data to the ISP. The VSPX is composed of two RPF units
-> > > > to read data from external memory and an IIF instance that performs
-> > > > transfer towards the ISP.
-> > > >
-> > > > The VSPX is supported through a newly introduced vsp1_vspx.c file that
-> > > > exposes two interfaces: vsp1_vspx interface, declared in vsp1_vspx.h
-> > > > for the vsp1 core to initialize and cleanup the VSPX, and a vsp1_isp
-> > > > interface, declared in include/media/vsp1.h for the ISP driver to
-> > > > control the VSPX operations.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > > ---
-> > > > The VSPX is a VSP2 function that reads data from external memory using
-> > > > two RPF instances and feed it to the ISP.
-> > > >
-> > > > The VSPX includes an IIF unit (ISP InterFace) modeled in the vsp1 driver
-> > > > as a new, simple, entity type.
-> > > >
-> > > > IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
-> > > > interfacing. To prepare to support VSPX, support IIF first by
-> > > > introducing a new entity and by adjusting the RPF/WPF drivers to
-> > > > operate correctly when an IIF is present.
-> > > >
-> > > > Changes in v8:
-> > > > - Remove patches already collected by Laurent in
-> > > >   [GIT PULL FOR v6.16] Renesas media drivers changes
-> > > >
-> > > > - Rebased on
-> > > >   https://gitlab.freedesktop.org/linux-media/users/pinchartl.git #renesas-next
-> > > >
-> > > > - Changes to the VSPX interface towards the ISP
-> > > >   - Split start/stop_streaming
-> > > >   - Add vsp1_isp_jobs_release() to release pending jobs
-> > > >   - Add vsp1_isp_free_buffer()
-> > > >   - Remove vsp1_isp_configure() and compute partitions on job creation
-> > > >
-> > > > - Driver changes
-> > > >   - Drop irq-driver flow
-> > > >     The VSPX used to schedule new jobs as soon as processing the last
-> > > >     one is done. This doesn't work well with the R-Car ISP design
-> > > >     for two reasons:
-> > > >     - The ISP needs per-job registers programming
-> > > >     - The ISP and VSPX job queues have to stay in sync
-> > > >
-> > > > - Minors
-> > > >   - Remove the jobs_lock as a single lock is fine
-> > > >   - Protect against VSPX/ISP irq races in job_run() by checking the
-> > > >     VSPX 'busy' register and remove the 'processing' flag
-> > > >   - Manually set the pipeline state to STOPPED before scheduling a new
-> > > >     job without waiting for frame_end
-> > > >
-> > > > Changes in v7:
-> > > > - Include VSPX driver in the series
-> > > > - Use existing VSP1 formats and remove patches extending formats on RPF
-> > > > - Rework VSPX driver to split jobs creation and scheduling in two
-> > > >   different API entry points
-> > > > - Fix VSPX stride using the user provided bytesperline and using the
-> > > >   buffer size for ConfigDMA buffers
-> > > > - Link to v6: https://lore.kernel.org/r/20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com
-> > > >
-> > > > Changes in v6:
-> > > > - Little cosmetic change as suggested by Laurent
-> > > > - Collect tags
-> > > > - Link to v5: https://lore.kernel.org/r/20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com
-> > > >
-> > > > Changes in v5:
-> > > > - Drop additional empty line 5/6
-> > > > - Link to v4: https://lore.kernel.org/r/20250318-v4h-iif-v4-0-10ed4c41c195@ideasonboard.com
-> > > >
-> > > > Changes in v4:
-> > > > - Fix SWAP bits for RAW10, RAW12 and RAW16
-> > > > - Link to v3: https://lore.kernel.org/r/20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com
-> > > >
-> > > > Changes in v3:
-> > > > - Drop 2/6 from v2
-> > > > - Add 5/7 to prepare for a new implementation of 6/7
-> > > > - Individual changelog per patch
-> > > > - Add 7/7
-> > > > - Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
-> > > >
-> > > > Changes in v2:
-> > > > - Collect tags
-> > > > - Address review comments from Laurent, a lot of tiny changes here and
-> > > >   there but no major redesign worth an entry in the patchset changelog
-> > >
-> > > You've come a long way since v1, I think we're getting close to a good
-> > > implementation.
-> >
-> > Thank you and Niklas for reviews and testing
-> >
-> > > > ---
-> > > >  drivers/media/platform/renesas/vsp1/Makefile    |   1 +
-> > > >  drivers/media/platform/renesas/vsp1/vsp1.h      |   1 +
-> > > >  drivers/media/platform/renesas/vsp1/vsp1_drv.c  |  13 +-
-> > > >  drivers/media/platform/renesas/vsp1/vsp1_regs.h |   1 +
-> > > >  drivers/media/platform/renesas/vsp1/vsp1_vspx.c | 664 ++++++++++++++++++++++++
-> > > >  drivers/media/platform/renesas/vsp1/vsp1_vspx.h |  16 +
-> > > >  include/media/vsp1.h                            |  75 +++
-> > > >  7 files changed, 770 insertions(+), 1 deletion(-)
+>The overall architecture looks a lot like the video encoder for the
+>ZynqMP, but with some significant differences in the details. I didn't
+>manage to look more closely at the driver, yet, but I have a few high
+>level questions.
 >
-> [snip]
->
-> > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.c b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> > > > new file mode 100644
-> > > > index 000000000000..6edb5e4929d9
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> > > > @@ -0,0 +1,664 @@
->
-> [snip]
->
-> > > > +static int vsp1_vspx_rpf0_configure(struct vsp1_device *vsp1,
-> > > > +				    dma_addr_t addr, u32 isp_fourcc,
-> > > > +				    unsigned int width, unsigned int height,
-> > > > +				    unsigned int stride,
-> > > > +				    unsigned int iif_sink_pad,
-> > > > +				    struct vsp1_dl_list *dl,
-> > > > +				    struct vsp1_dl_body *dlb)
-> > > > +{
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
-> > > > +	struct vsp1_rwpf *rpf0 = pipe->inputs[0];
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = vsp1_vspx_rwpf_set_subdev_fmt(vsp1, rpf0, isp_fourcc, width,
-> > > > +					    height);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	ret = vsp1_vspx_rwpf_set_subdev_fmt(vsp1, pipe->output, isp_fourcc,
-> > > > +					    width, height);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	vsp1_pipeline_calculate_partition(pipe, &pipe->part_table[0],
-> > > > +					  width, 0);
-> > > > +
-> > >
-> > > You should also set rwpf->format.num_planes to 1 here.
-> >
-> > ack
-> >
-> > > > +	rpf0->format.plane_fmt[0].bytesperline = stride;
-> > > > +
-> > > > +	/*
-> > > > +	 * Connect RPF0 to the IIF sink pad corresponding to the config or image
-> > > > +	 * path.
-> > > > +	 */
-> > > > +	rpf0->entity.sink_pad = iif_sink_pad;
-> > > > +
-> > > > +	pipe->part_table[0].rpf[0].width = width;
-> > > > +	pipe->part_table[0].rpf[0].height = height;
-> > >
-> > > Isn't this handled by vsp1_pipeline_calculate_partition() ?
-> >
-> > I don't see it happening in the vsp1_pipeline_calculate_partition()
-> > call chain...
-> >
-> > vsp1_pipeline_calculate_partition() calls
-> > vsp1_pipeline_propagate_partition() which calls the 'partition' op on
-> > entities in the pipeline.
-> >
-> > The RPF implementation of the 'partition' op however initializes the
-> > crop retangles on the entity, but not the part_table[].
->
-> The RPF .partition() handler is implemented as
->
-> static void rpf_partition(struct vsp1_entity *entity,
-> 			  struct v4l2_subdev_state *state,
-> 			  struct vsp1_pipeline *pipe,
-> 			  struct vsp1_partition *partition,
-> 			  unsigned int partition_idx,
-> 			  struct v4l2_rect *window)
-> {
-> 	struct vsp1_rwpf *rpf = to_rwpf(&entity->subdev);
-> 	struct v4l2_rect *rpf_rect = &partition->rpf[rpf->entity.index];
->
-> 	/*
-> 	 * Partition Algorithm Control
-> 	 *
-> 	 * The partition algorithm can split this frame into multiple slices. We
-> 	 * must adjust our partition window based on the pipe configuration to
-> 	 * match the destination partition window. To achieve this, we adjust
-> 	 * our crop to provide a 'sub-crop' matching the expected partition
-> 	 * window.
-> 	 */
-> 	*rpf_rect = *v4l2_subdev_state_get_crop(state, RWPF_PAD_SINK);
->
-> 	if (pipe->partitions > 1) {
-> 		rpf_rect->width = window->width;
-> 		rpf_rect->left += window->left;
-> 	}
-> }
->
-> The partition argument to the function is &pipe->part_table[0], so
-> rpf_rect is pipe->part_table[0].rpf[0].
->
-> Could you check if the values of pipe->part_table[0].rpf[0].width and
-> pipe->part_table[0].rpf[0].height match width and height after you call
-> vsp1_pipeline_calculate_partition() ?
+There are a many difference between the ZynqMP, and the al300 drivers,
+espicially on the mcu control. ( the al300 mcu is a 64bit ).
 
-Yes they do
+>On Thu, 05 Jun 2025 12:26:59 +0000, Yassine Ouaissa via B4 Relay wrote:
+>> From: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+>>
+>> This commit introduces a new allegro-dvt V4L2 stateful decoder driverfor
+>> the Gen 3 IP with support for:
+>> - AVC (H.264), HEVC (H.265), and JPEG decoding
+>> - Output formats: NV12, NV16, I420, and P010 for capture
+>>
+>> v2:
+>> - Replace the mutex_(lock/unlock) with the guard(mutex), that manage
+>>   mutexes more efficiently.
+>> - Set DMA_BIT_MASK to 39, and drop the paddr check when allocating
+>>   dma_memory.
+>> - Use dma_coerce_mask_and_coherent to set the DMA_MASK.
+>> - Use static initializer for some structs.
+>> - use #ifdef instead of #if defined
+>> - Optimize some function.
+>> - Use the declaration in the loop.
+>> - Use codec for al_codec_dev instead of dev, to not get confused with
+>>   the device struct.
+>> - Remove the codec member of the al_codec_dev, use the fmt->pixelformat
+>>   when request creating decoder instance.
+>>
+>> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
+>> ---
+>>  drivers/media/platform/allegro-dvt/Kconfig         |    1 +
+>>  drivers/media/platform/allegro-dvt/Makefile        |    1 +
+>>  drivers/media/platform/allegro-dvt/al300/Kconfig   |   23 +
+>>  drivers/media/platform/allegro-dvt/al300/Makefile  |    6 +
+>>  .../platform/allegro-dvt/al300/al_codec_common.c   |  733 ++++++++++
+>>  .../platform/allegro-dvt/al300/al_codec_common.h   |  248 ++++
+>>  .../platform/allegro-dvt/al300/al_codec_util.c     |  174 +++
+>>  .../platform/allegro-dvt/al300/al_codec_util.h     |  186 +++
+>>  .../media/platform/allegro-dvt/al300/al_vdec_drv.c | 1518 ++++++++++++++++++++
+>>  .../media/platform/allegro-dvt/al300/al_vdec_drv.h |   93 ++
+>>  10 files changed, 2983 insertions(+)
+>>
+>[...]
+>> diff --git a/drivers/media/platform/allegro-dvt/al300/al_codec_common.c b/drivers/media/platform/allegro-dvt/al300/al_codec_common.c
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..716d0004482702537ea89ec4abecd6af26654b32
+>> --- /dev/null
+>> +++ b/drivers/media/platform/allegro-dvt/al300/al_codec_common.c
+>[...]
+>> +static void handle_alloc_memory_req(struct al_codec_dev *codec,
+>> +				    struct msg_itf_header *hdr)
+>> +{
+>> +	struct device *dev = &codec->pdev->dev;
+>> +	struct msg_itf_alloc_mem_req req;
+>> +	struct msg_itf_alloc_mem_reply_full reply = {
+>> +		.reply.phyAddr = 0,
+>> +		.hdr.type = MSG_ITF_TYPE_ALLOC_MEM_REPLY,
+>> +		.hdr.drv_ctx_hdl = hdr->drv_ctx_hdl,
+>> +		.hdr.drv_cmd_hdl = hdr->drv_cmd_hdl,
+>> +		.hdr.payload_len = sizeof(struct msg_itf_alloc_mem_reply),
+>> +	};
+>> +	struct codec_dma_buf *buf;
+>> +	int ret;
+>> +
+>> +	ret = al_common_get_data(codec, (char *)&req, hdr->payload_len);
+>> +	if (ret) {
+>> +		al_codec_err(codec, "Unable to get cma req %d", ret);
+>> +		return;
+>> +	}
+>> +
+>> +	buf = kmalloc(sizeof(*buf), GFP_KERNEL);
+>> +	if (!buf)
+>> +		goto send_reply;
+>> +
+>> +	buf->size = req.uSize;
+>> +	buf->vaddr =
+>> +		dma_alloc_coherent(dev, buf->size, &buf->paddr, GFP_KERNEL);
+>> +	if (!buf->vaddr) {
+>> +		dev_warn(dev, "Failed to allocate DMA buffer\n");
+>> +		goto send_reply;
+>> +	}
+>> +
+>> +	reply.reply.phyAddr = (u64)buf->paddr;
+>> +	al_common_dma_buf_insert(codec, buf);
+>
+>The buffers allocated by the firmware are tracked by device. Thus, there
+>is only one list for all buffers used by the firmware.
+>
+>I guess that the buffers are be allocated per context. If that's the
+>case, maybe tracking them per context in the driver would be a better
+>option.
+>
+The mcu can ask for buffers at the startup, and also it can reuse some
+buffers, with different contexts.
 
-I will drop the assignment of width and height
-
+>> +
+>> +send_reply:
+>> +	ret = al_common_send(codec, &reply.hdr);
+>> +	if (ret) {
+>> +		al_codec_err(codec, "Unable to reply to cma alloc");
+>> +		al_common_dma_buf_remove(codec, buf);
+>> +	}
+>> +}
+>> +
+>> +static void handle_free_memory_req(struct al_codec_dev *codec,
+>> +				   struct msg_itf_header *hdr)
+>> +{
+>> +	struct msg_itf_free_mem_req req;
+>> +	struct msg_itf_free_mem_reply_full reply = {
+>> +		.hdr.type = MSG_ITF_TYPE_FREE_MEM_REPLY,
+>> +		.hdr.drv_ctx_hdl = hdr->drv_ctx_hdl,
+>> +		.hdr.drv_cmd_hdl = hdr->drv_cmd_hdl,
+>> +		.hdr.payload_len = sizeof(struct msg_itf_free_mem_reply),
+>> +		.reply.ret = -1,
+>> +	};
+>> +	struct codec_dma_buf *buf;
+>> +	int ret;
+>> +
+>> +	ret = al_common_get_data(codec, (char *)&req, hdr->payload_len);
+>> +	if (ret) {
+>> +		al_codec_err(codec, "Unable to put cma req");
+>> +		return;
+>> +	}
+>> +
+>> +	buf = al_common_dma_buf_lookup(codec, req.phyAddr);
+>> +	if (!buf) {
+>> +		al_codec_err(codec, "Unable to get dma handle for %p",
+>> +			     (void *)(long)req.phyAddr);
+>> +		reply.reply.ret = -EINVAL;
+>> +		goto send_reply;
+>> +	}
+>> +
+>> +	al_codec_dbg(codec, "Free memory %p, size %d",
+>> +		     (void *)(long)req.phyAddr, buf->size);
+>> +
+>> +	al_common_dma_buf_remove(codec, buf);
+>> +	reply.reply.ret = 0;
+>> +
+>> +send_reply:
+>> +	ret = al_common_send(codec, &reply.hdr);
+>> +	if (ret)
+>> +		al_codec_err(codec, "Unable to reply to cma free");
+>> +}
+>> +
+>> +static void handle_mcu_console_print(struct al_codec_dev *codec,
+>> +				     struct msg_itf_header *hdr)
+>> +{
+>> +#ifdef DEBUG
 >
-> > To be honest that partition part is still a bit obscure to me, so I
-> > might be missing something indeed
-> >
-> > > > +
-> > > > +	rpf0->mem.addr[0] = addr;
-> > > > +	rpf0->mem.addr[1] = 0;
-> > > > +	rpf0->mem.addr[2] = 0;
-> > > > +
-> > > > +	vsp1_entity_route_setup(&rpf0->entity, pipe, dlb);
-> > > > +	vsp1_entity_configure_stream(&rpf0->entity, rpf0->entity.state, pipe,
-> > > > +				     dl, dlb);
-> > > > +	vsp1_entity_configure_partition(&rpf0->entity, pipe,
-> > > > +					&pipe->part_table[0], dl, dlb);
-> > > > +
-> > > > +	return 0;
-> > > > +}
->
-> [snip]
->
-> > > > +/**
-> > > > + * vsp1_isp_start_streaming - Start processing VSPX jobs
-> > > > + *
-> > > > + * Start the VSPX and prepare for accepting buffer transfer job requests.
-> > > > + *
-> > > > + * @dev: The VSP1 struct device
-> > > > + * @frame_end: The frame end callback description
-> > > > + *
-> > > > + * Return: %0 on success or a negative error code on failure
-> > > > + */
-> > > > +int vsp1_isp_start_streaming(struct device *dev,
-> > > > +			     struct vsp1_vspx_frame_end *frame_end)
-> > > > +{
-> > > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
-> > > > +	unsigned long flags;
-> > > > +	u32 value;
-> > > > +	int ret;
-> > > > +
-> > > > +	spin_lock_irqsave(&vspx_pipe->vspx_lock, flags);
-> > >
-> > > Can this function ever be called with interrupts disabled ? If no, you
-> > > can use spin_lock_irq().
-> >
-> > I think the question here should rather be: do we need to disable
-> > local interrupts at all when calling this function ? As the VSPX
-> > workflow is now driven by ISP and there are no contentions between any
-> > of the driver functions and the VSPX interrupt handler I guess I can
-> > use spin_lock() and spin_unlock() everywhere and replace the
-> > irqsave/irqrestore versions ?
->
-> It depends what the spinlock protects.
->
-> The point of the _irq and _irqsave variants is to prevent deadlocks. If
-> a code section protected by a spinlock is interrupted by an IRQ handler
-> on the same CPU, and the IRQ handler tries to take the same lock, a
-> deadlock will occur: the IRQ handler will spin on the lock to wait until
-> it gets released, but the lock will never get released as the code that
-> took it has been preempted by the IRQ handler. Note that such an IRQ
-> handler running on a different CPU is not an issue, it will spin on the
-> lock, but the lock will be released by the first CPU running in parallel
-> to the IRQ handler.
->
-> To solve that problem, the spin_lock_irq() and spin_unlock_irq()
-> functions respectively disable and enable local interrupts (i.e.
-> interrupts on the same CPU, not interrupts on other CPUs). They should
-> be called in contexts where interrupts are enabled (so not in an IRQ
-> handler, and not in a section covered by another spin_lock_irq() call or
-> uby other calls that disable local interrupts), and will ensure that no
-> IRQ handler can preempt the CPU.
->
-> Sometimes, you don't know if your code is running in a context where
-> interrupts are enabled or not. This is the case for instance in helper
-> functions that can be used in either contects. Using spin_lock_irq() is
-> safe there (disabling local interrupts when they are already disabled is
-> a no-op), but spin_unlock_irq() will enable local interrupts, which
-> would lead to problems. For these cases, spin_lock_irqsave() will save
-> the state of local interrupts and disable them, and
-> spin_unlock_irqrestore() will restore the local interrupts state to what
-> it was before spin_lock_irqsave().
->
-> It is safe to use spin_lock_irqsave() and spin_unlock_irqrestore()
-> unconditionally, but it has a performance impact. Using the right
-> variants isn't very difficult. Once you identify the data protected by
-> the lock, you need to look at where the data is accessed.
->
-> - If the data is accessed only in non-interrupt context, or only in
->   interrupt context, use spin_lock() and spin_unlock() everywhere.
->
-> - If the data is accessed in both contexts, use
->
->   - spin_lock() and spin_unlock() in code that runs only in contexts
->     where local interrupts are disabled
->
->   - spin_lock_irq() and spin_unlock_irq() in code that runs only in
->     contexts where local interrupts are enabled
->
->   - spin_lock_irqsave() and spin_unlock_irqrestore() in code that can
->     run in either context
->
-> The vspx_lock is documented as "protect access to the VSPX configuration
-> and the jobs queue". That's quite vague, so the first thing you'll have
-> to do is to list the exact pieces of data that the lock protects, and
-> then decide on the locking scheme.
+>What's the reason for making this a compile time option? Maybe a
+>module parameter to enable MCU logging at runtime would be more
+>friendly for debugging.
 >
 
-With the new design I think I can drop the _irq/_irqsave version from
-most places but the VSP1 interrupt handler callback. I will have a
-look
+This will change to add debugfs. thanks
+>> +	struct msg_itf_write_req *req;
+>> +	int ret;
+>> +
+>> +	/* one more byte to be sure to have a zero terminated string */
+>> +	req = kzalloc(hdr->payload_len + 1, GFP_KERNEL);
+>> +	if (!req) {
+>> +		al_common_skip_data(codec, hdr->payload_len);
+>> +		al_codec_err(codec, "Unable to alloc memory");
+>> +		return;
+>> +	}
+>> +
+>> +	ret = al_codec_msg_get_data(&codec->mb_m2h, (char *)req,
+>> +				    hdr->payload_len);
+>> +	if (ret) {
+>> +		al_codec_err(codec, "Unable to get request");
+>> +		kfree(req);
+>> +		return;
+>> +	}
+>> +
+>> +	/* Print the mcu logs */
+>> +	dev_dbg(&codec->pdev->dev, "[ALG_MCU] %s(),%d: %s\n", __func__,
+>> +		__LINE__, (char *)(req + 1));
+>> +	kfree(req);
+>> +#else
+>> +	al_common_skip_data(codec, hdr->payload_len);
+>> +#endif
+>> +}
+>> +
+>[...]
+>> +static int al_common_load_firmware_start(struct al_codec_dev *codec,
+>> +					 const char *name)
+>> +{
+>> +	struct device *dev = &codec->pdev->dev;
+>> +	dma_addr_t phys;
+>> +	size_t size;
+>> +	void *virt;
+>> +	int err;
+>> +
+>> +	if (codec->firmware.virt)
+>> +		return 0;
+>> +
+>> +	err = al_common_read_firmware(codec, name);
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	size = codec->firmware.size;
+>> +
+>> +	virt = dma_alloc_coherent(dev, size, &phys, GFP_KERNEL);
+>> +	err = dma_mapping_error(dev, phys);
+>> +	if (err < 0)
+>> +		return err;
+>> +
+>> +	codec->firmware.virt = virt;
+>> +	codec->firmware.phys = phys;
+>> +
+>> +	al_common_copy_firmware_image(codec);
+>> +	err = al_common_parse_firmware_image(codec);
+>> +	if (err) {
+>> +		al_codec_err(codec, "failed to parse firmware image");
+>> +		goto cleanup;
+>> +	}
+>> +
+>> +	err = al_common_setup_hw_regs(codec);
+>> +	if (err) {
+>> +		al_codec_err(codec, "Unable to setup hw registers");
+>> +		goto cleanup;
+>> +	}
+>> +
+>> +	al_codec_mb_init(&codec->mb_h2m, virt + codec->firmware.mb_h2m.offset,
+>> +			 codec->firmware.mb_h2m.size, MB_IFT_MAGIC_H2M);
+>> +
+>> +	al_codec_mb_init(&codec->mb_m2h, virt + codec->firmware.mb_m2h.offset,
+>> +			 codec->firmware.mb_m2h.size, MB_IFT_MAGIC_M2H);
+>> +
+>> +	err = al_common_start_fw(codec);
+>> +	if (err) {
+>> +		al_codec_err(codec, "fw start has failed");
+>> +		goto cleanup;
+>> +	}
+>
+>If I understand correctly, the difference to the ZynqMP firmware is that
+>the firmware can be configured for different addresses. Thus, the
+>firmware and mailbox addresses on ZynqMP are determined by the bitstream
+>synthesis, which this driver is free to allocate memory for the firmware
+>and mailboxes wherever it wants. Correct?
+>
 
-> > > > +
-> > > > +	if (vspx_pipe->enabled) {
-> > > > +		spin_unlock_irqrestore(&vspx_pipe->vspx_lock, flags);
-> > > > +		return 0;
-> > >
-> > > Shouldn't this be an error ?
-> >
-> > Should it ? I don't think it's an error conceptually, as the ISP
-> > driver is currently designed however a single call to this function
-> > should happen, so I can flag this as an error.
-> >
-> > However, as S_STREAM(1) is called on every video node, I would not
-> > rule out a design where each video dev tries to start the VSPX. The
-> > ones that arrive late will just hit a nop.
->
-> The API exposed by the vsp driver to the ISP driver needs to be designed
-> and clearly documented. There are different design options, but the API
-> should not rely on a particular call pattern from the ISP driver without
-> documenting it. As the documentation above doesn't indicate what the
-> call pattern is, I can't tell if the design is good or not.
->
-> This being said, if there are multiple userspace-facing devices that all
-> need to be started, someone will have to reference-count the VSP
-> start/stop state. Doing so in the vsp driver seems to add complexity
-> without any real benefit. I think that handling this in the ISP driver
-> would be better. I recommend making calling vsp1_isp_start_streaming()
-> on an already enabled VSP instance invalid, and returning an error. Same
-> when stopping the VSP, the ISP driver should decide when the VSP should
-> be stopped, and should not call vsp1_isp_stop_streaming() on an already
-> stopped instance.
->
+There are some similarities between mailbox of the mcus ( zynqMP and
+al300 ), but i'm actually working on the remoteproc and rpmsg for the mcu
+control and IPC and messaging between host and the mcu.
 
-I'll make this an error and specify that the function shall be called
-once only in the documentation.
-
-> > > > +	}
-> > > > +
-> > > > +	if (!frame_end) {
-> > >
-> > > You can move this check before taking the lock.
-> >
-> > True that
-> >
-> > > > +		spin_unlock_irqrestore(&vspx_pipe->vspx_lock, flags);
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	vspx_pipe->vspx_frame_end = frame_end->vspx_frame_end;
-> > > > +	vspx_pipe->frame_end_data = frame_end->frame_end_data;
-> > >
-> > > Move this just before setting ->enabled to true, so you won't override
-> > > the values if the function returns an error in the checks below.
-> > >
-> > > > +
-> > > > +	/* Make sure VSPX is not active. */
-> > >
-> > > This should never happen unless there's a serious bug in the driver,
-> > > right ? I would make that explicit in the comment:
-> > >
-> > > 	/*
-> > > 	 * Make sure VSPX is not active. This should never happen in normal
-> > > 	 * usage.
-> > > 	 */
-> >
-> > ok
-> >
-> > > > +	value = vsp1_read(vsp1, VI6_CMD(0));
-> > > > +	if (value & VI6_CMD_STRCMD) {
-> > > > +		dev_err(vsp1->dev,
-> > > > +			"%s: Starting of WPF0 already reserved\n", __func__);
-> > > > +		spin_unlock_irqrestore(&vspx_pipe->vspx_lock, flags);
-> > > > +		return -EBUSY;
-> > > > +	}
-> > > > +
-> > > > +	value = vsp1_read(vsp1, VI6_STATUS);
-> > > > +	if (value & VI6_STATUS_SYS_ACT(0)) {
-> > > > +		dev_err(vsp1->dev,
-> > > > +			"%s: WPF0 has not entered idle state\n", __func__);
-> > > > +		spin_unlock_irqrestore(&vspx_pipe->vspx_lock, flags);
-> > > > +		return -EBUSY;
-> > > > +	}
-> > > > +
-> > > > +	vspx_pipe->enabled = true;
-> > > > +
-> > > > +	spin_unlock_irqrestore(&vspx_pipe->vspx_lock, flags);
-> > >
-> > > and close the guarded scope here
-> > >
-> > > 	}
-> >
-> > I found it to be less readable because of the increased scoping.
-> >
-> > > > +
-> > > > +	/* Enable the VSP1 and prepare for streaming. */
-> > > > +	vsp1_pipeline_dump(pipe, "VSPX job");
-> > > > +
-> > > > +	ret = vsp1_device_get(vsp1);
-> > >
-> > > This should be done before you read the registers.
-> >
-> > Ah right. I guess this function should be then re-designed.
-> >
-> > > > +	if (ret < 0) {
-> > > > +		guard(spinlock_irqsave)(&vspx_pipe->vspx_lock);
-> > > > +		vspx_pipe->enabled = false;
-> > > > +		return ret;
-> > > > +	}
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(vsp1_isp_start_streaming);
-> > > > +
-> > > > +/**
-> > > > + * vsp1_isp_stop_streaming - Stop the VSPX
-> > > > + *
-> > > > + * @dev: The VSP1 struct device
-> > > > + */
-> > > > +void vsp1_isp_stop_streaming(struct device *dev)
-> > > > +{
-> > > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
-> > > > +	unsigned long flags;
-> > > > +
-> > > > +	spin_lock_irqsave(&vspx_pipe->vspx_lock, flags);
-> > > > +
-> > > > +	if (!vspx_pipe->enabled) {
-> > > > +		spin_unlock_irqrestore(&vspx_pipe->vspx_lock, flags);
-> > > > +		return;
-> > > > +	}
-> > >
-> > > 	scoped_guard(spinlock_irqsave)(&vspx_pipe->vspx_lock, flags) {
-> > > 		if (!vspx_pipe->enabled)
-> > > 			return;
-> > >
-> > > 		...
-> > >
-> > > (or spinlock_irq, see comment in vsp1_isp_start_streaming()).
-> >
-> > Am I mistaken that the _irq version you suggest still disables
-> > local interrupts, which is something I shouldn't need
-> >
-> > -------------------------------------------------------------------------------
-> > From "Documentation/kernel-hacking/locking.rst"
-> >
-> > If a hardware irq handler shares data with a softirq, you have two
-> > concerns. Firstly, the softirq processing can be interrupted by a
-> > hardware interrupt, and secondly, the critical region could be entered
-> > by a hardware interrupt on another CPU. This is where
-> > spin_lock_irq() is used. It is defined to disable
-> > interrupts on that cpu, then grab the lock.
-> > spin_unlock_irq() does the reverse.
-> > -------------------------------------------------------------------------------
-> >
-> > I guess I should simply use spin_lock/spin_unlock
+the feature should be enabled with the encoder patches.
+this should make the v4l2 easy with less files.
+>> +
+>> +	al_codec_dbg(codec, "mcu has boot successfully !");
+>> +	codec->fw_ready_cb(codec->cb_arg);
+>> +
+>> +	release_firmware(codec->firmware.firmware);
+>> +	codec->firmware.firmware = NULL;
+>> +
+>> +	return 0;
+>> +
+>> +cleanup:
+>> +	dma_free_coherent(dev, size, virt, phys);
+>> +
+>> +	return err;
+>> +}
+>> +
+>> +static u64 al_common_get_periph_addr(struct al_codec_dev *codec)
+>> +{
+>> +	struct resource *res;
+>> +
+>> +	res = platform_get_resource_byname(codec->pdev, IORESOURCE_MEM, "apb");
+>> +	if (!res) {
+>> +		al_codec_err(codec, "Unable to find APB start address");
+>> +		return 0;
+>> +	}
+>> +
+>> +	if (res->start & AL_CODEC_APB_MASK) {
+>> +		al_codec_err(codec, "APB start address is invalid");
+>> +		return 0;
+>> +	}
+>> +
+>> +	return res->start;
+>> +}
+>> +
+>> +int al_common_probe(struct al_codec_dev *codec, const char *name)
+>> +{
+>> +	struct platform_device *pdev = codec->pdev;
+>> +	int irq;
+>> +	int ret;
+>> +
+>> +	mutex_init(&codec->buf_lock);
+>> +	INIT_LIST_HEAD(&codec->alloc_buffers);
+>> +	init_completion(&codec->completion);
+>> +
+>> +	/* setup dma memory */
+>> +	ret = al_common_setup_dma(codec);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Hw registers */
+>> +	codec->regs_info =
+>> +		platform_get_resource_byname(pdev, IORESOURCE_MEM, "regs");
+>> +	if (!codec->regs_info) {
+>> +		al_codec_err(codec, "regs resource missing from device tree");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	codec->regs = devm_ioremap_resource(&pdev->dev, codec->regs_info);
+>> +	if (!codec->regs) {
+>> +		al_codec_err(codec, "failed to map registers");
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	codec->apb = al_common_get_periph_addr(codec);
+>> +	if (!codec->apb)
+>> +		return -EINVAL;
+>> +
+>> +	/* The MCU has already default clock value */
+>> +	codec->clk = devm_clk_get(&pdev->dev, NULL);
+>> +	if (IS_ERR(codec->clk)) {
+>> +		al_codec_err(codec, "failed to get MCU core clock");
+>> +		return PTR_ERR(codec->clk);
+>> +	}
+>> +
+>> +	ret = clk_prepare_enable(codec->clk);
+>> +	if (ret) {
+>> +		al_codec_err(codec, "Cannot enable MCU clock: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	irq = platform_get_irq(pdev, 0);
+>> +	if (irq < 0) {
+>> +		al_codec_err(codec, "Failed to get IRQ");
+>> +		ret = -EINVAL;
+>> +		goto disable_clk;
+>> +	}
+>> +
+>> +	ret = devm_request_threaded_irq(&pdev->dev, irq,
+>> +					al_common_hardirq_handler,
+>> +					al_common_irq_handler, IRQF_SHARED,
+>> +					dev_name(&pdev->dev), codec);
+>> +	if (ret) {
+>> +		al_codec_err(codec, "Unable to register irq handler");
+>> +		goto disable_clk;
+>> +	}
+>> +
+>> +	/* ok so request the fw */
+>> +	ret = al_common_load_firmware_start(codec, name);
+>> +	if (ret) {
+>> +		al_codec_err(codec, "failed to load firmware : %s", name);
+>> +		goto disable_clk;
+>> +	}
+>> +
+>> +	return 0;
+>> +
+>> +disable_clk:
+>> +	clk_disable_unprepare(codec->clk);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>[...]
+>> diff --git a/drivers/media/platform/allegro-dvt/al300/al_codec_util.h b/drivers/media/platform/allegro-dvt/al300/al_codec_util.h
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..5f893db4a1a3f2b9e6e9109b81a956bcaa71851c
+>> --- /dev/null
+>> +++ b/drivers/media/platform/allegro-dvt/al300/al_codec_util.h
+>> @@ -0,0 +1,186 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>> +/*
+>> + * Copyright (c) 2025 Allegro DVT.
+>> + * Author: Yassine OUAISSA <yassine.ouaissa@allegrodvt.fr>
+>> + */
+>> +
+>> +#ifndef __AL_CODEC_UTIL__
+>> +#define __AL_CODEC_UTIL__
+>> +
+>> +#include <linux/mutex.h>
+>> +#include <linux/types.h>
+>> +#include <linux/v4l2-common.h>
+>> +
+>> +#include <media/v4l2-mem2mem.h>
+>> +#include <media/videobuf2-v4l2.h>
+>> +
+>> +#define MB_IFT_MAGIC_H2M 0xabcd1230
+>> +#define MB_IFT_MAGIC_M2H 0xabcd1231
+>> +#define MB_IFT_VERSION 0x00010000
+>> +
+>> +#define MAJOR_SHIFT 20
+>> +#define MAJOR_MASK 0xfff
+>> +#define MINOR_SHIFT 8
+>> +#define MINOR_MASK 0xfff
+>> +#define PATCH_SHIFT 0
+>> +#define PATCH_MASK 0xff
+>> +
+>> +/*
+>> + * AL_BOOT_VERSION() - Version format 32-bit, 12 bits for the major,
+>> + * the same for minor, 8bits for the patch
+>> + */
+>> +#define AL_BOOT_VERSION(major, minor, patch) \
+>> +	((((major) & MAJOR_MASK) << MAJOR_SHIFT) | \
+>> +	 (((minor) & MINOR_MASK) << MINOR_SHIFT) | \
+>> +	 (((patch) & PATCH_MASK) << PATCH_SHIFT))
+>> +
+>> +#define al_phys_to_virt(x) ((void *)(uintptr_t)x)
+>> +#define al_virt_to_phys(x) ((phys_addr_t)(uintptr_t)x)
+>> +
+>> +#define DECLARE_FULL_REQ(s)    \
+>> +	struct s##_full {            \
+>> +		struct msg_itf_header hdr; \
+>> +		struct s req;              \
+>> +	} __packed
+>> +
+>> +#define DECLARE_FULL_REPLY(s)  \
+>> +	struct s##_full {            \
+>> +		struct msg_itf_header hdr; \
+>> +		struct s reply;            \
+>> +	} __packed
+>> +
+>> +#define DECLARE_FULL_EVENT(s)  \
+>> +	struct s##_full {            \
+>> +		struct msg_itf_header hdr; \
+>> +		struct s event;            \
+>> +	} __packed
+>> +
+>> +struct al_mb_itf {
+>> +	u32 magic;
+>> +	u32 version;
+>> +	u32 head;
+>> +	u32 tail;
+>> +} __packed;
+>> +
+>> +struct al_codec_mb {
+>> +	struct al_mb_itf *hdr;
+>> +	struct mutex lock;
+>> +	char *data;
+>> +	int size;
+>> +};
 >
-> See above.
+>On a first glance, this looks a lot like the allegro_mbox in the ZynqMP
+>encoder driver. Even though the message format is different, would it be
+>possible to generalize the general mailbox handling and use it for both
+>drivers?
 >
-> > > > +
-> > > > +	vspx_pipe->enabled = false;
-> > > > +
-> > > > +	pipe->state = VSP1_PIPELINE_STOPPED;
-> > > > +	vsp1_pipeline_stop(pipe);
-> > >
-> > > You can't call this with a spin lock held. We can look together at how
-> > > to handle locking in this driver, and use a mutex instead of a spinlock
-> > > (I know you went the other way around).
-> >
-> > Actually my only concern with mutexes is that they can't be called by
-> > the ISP driver while it holds a spinlock. With this new version the
-> > only function that would need to be called with a spinlock taken is
-> > vsp1_isp_job_run() and vsp1_isp_jobs_release() which only contends the
-> > jobs_queue with the rest of the functions of the VSPX driver.
-> >
-> > I could use a mutex as a main lock here and a spinlock to protect the
-> > jobs queue.
+>Michael
 >
-> I think you'll need to do that, using a mutex to protect the whole
-> start/stop functions, and a spinlock inside for specific fields of the
-> vsp1_vspx_pipeline structure that are also accessed in the interrupt
-> handler. Looking at v10, there's a race condition between start and stop
-> due to not covering the whole functions with a mutex.
-
-I'll need a mutex to protect the whole start/stop streaming paths yes.
-
-However I still need to take a spinlock in the stop_streaming path as
-there's a contention on vspx_pipe->enabled between stop_streaming and
-job run.
-
->
-> > Or I could simply call the vsp1_pipeline_stop() outside of the
-> > critical section here.
-> >
-> > > > +	vspx_pipe->vspx_frame_end = NULL;
-> > > > +	vsp1_dlm_reset(pipe->output->dlm);
-> > > > +
-> > > > +	spin_unlock_irqrestore(&vspx_pipe->vspx_lock, flags);
-> > >
-> > > 	}
-> > >
-> > > > +
-> > > > +	vsp1_device_put(vsp1);
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(vsp1_isp_stop_streaming);
-> > > > +
-> > > > +/**
-> > > > + * vsp1_vspx_job_prepare - Prepare a new buffer transfer job
-> > > > + *
-> > > > + * Prepare a new buffer transfer job by populating a display list that will be
-> > > > + * later executed by a call to vsp1_isp_job_run().
-> > > > + *
-> > > > + * The newly created job is appended to the queue of pending jobs. All pending
-> > > > + * jobs must be released after stopping the streaming operations with a call
-> > > > + * to vsp1_isp_jobs_release().
-> > > > + *
-> > > > + * @dev: The VSP1 struct device
-> > > > + * @job: The job description
-> > > > + *
-> > > > + * Return: %0 on success or a negative error code on failure
-> > > > + */
-> > > > +int vsp1_isp_job_prepare(struct device *dev,
-> > > > +			 const struct vsp1_isp_job_desc *desc)
-> > > > +{
-> > > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
-> > > > +	const struct v4l2_pix_format_mplane *pix_mp;
-> > > > +	struct vsp1_dl_list *second_dl = NULL;
-> > > > +	struct vsp1_vspx_job *job;
-> > > > +	struct vsp1_dl_body *dlb;
-> > > > +	struct vsp1_dl_list *dl;
-> > > > +	int ret;
-> > > > +
-> > > > +	/* Memory will be released when the job is consumed. */
-> > > > +	job = kmalloc(sizeof(*job), GFP_KERNEL);
-> > > > +	if (!job)
-> > > > +		return -ENOMEM;
-> > >
-> > > Hmmm... I think this can be improved. I would need to see how the ISP
-> > > driver uses this API, but I'm thinking the job data could be stored in
-> > > vsp1_isp_job_desc, without adding the job to a queue in this function.
-> > > The job would then be passed to the run function, which would queue it.
-> > > I think the resulting API would be cleaner. You will need an extra
-> > > function to delete/destroy/cleanup a job that hasn't been queued (the
-> > > counterpart of this function, essentially).
-> >
-> > I'm not sure I got this to be honest.
-> >
-> > A VSPX job is basically just a display list + a list handle.
-> > Are you suggesting add the display list to vsp1_isp_job_desc and keep
-> > a queue of jobs on the ISP side only ? Then pass the dl in to
-> > vsp1_isp_job_run() ? This would avoid maintaing a queue of jobs on the
-> > VSPX side at all most probably and save me the hassle to cleanup the
-> > jobs queue on the VSPX side.
-> >
-> > I'll see how this could look.
->
-> The implementation in v10 looks nicer.
->
-> > > > +
-> > > > +	/*
-> > > > +	 * Transfer the buffers described in the job: an optional ConfigDMA
-> > > > +	 * parameters buffer and a RAW image.
-> > > > +	 */
-> > > > +
-> > > > +	job->dl = vsp1_dl_list_get(pipe->output->dlm);
-> > > > +	if (!job->dl) {
-> > > > +		ret = -ENOMEM;
-> > > > +		goto error_free_job;
-> > > > +	}
-> > > > +
-> > > > +	dl = job->dl;
-> > > > +	dlb = vsp1_dl_list_get_body0(dl);
-> > > > +
-> > > > +	/* Disable RPF1. */
-> > > > +	vsp1_dl_body_write(dlb, vsp1->rpf[1]->entity.route->reg,
-> > > > +			   VI6_DPR_NODE_UNUSED);
-> > >
-> > > The route is disabled in vsp1_device_init(), and we never use RPF1. I
-> > > think this can be dropped.
-> >
-> > ack
-> >
-> > > > +
-> > > > +	/* Configure IIF routing and enable IIF function */
-> > >
-> > > s/function/function./
-> > >
-> > > > +	vsp1_entity_route_setup(pipe->iif, pipe, dlb);
-> > > > +	vsp1_entity_configure_stream(pipe->iif, pipe->iif->state, pipe,
-> > > > +				     dl, dlb);
-> > > > +
-> > > > +	/* Configure WPF0 to enable RPF0 as source*/
-> > >
-> > > s/source/source. /
-> > >
-> > > > +	vsp1_entity_route_setup(&pipe->output->entity, pipe, dlb);
-> > > > +	vsp1_entity_configure_stream(&pipe->output->entity,
-> > > > +				     pipe->output->entity.state, pipe,
-> > > > +				     dl, dlb);
-> > >
-> > > I'm kind of tempting to call route_setup, configure_stream,
-> > > configure_frame and configure_partition by iterating over the entities
-> > > in the pipe, as done by vsp1_du_pipeline_configure(). The code would be
-> > > more generic, at the cost of a few calls being duplicated between the
-> > > config DMA and image configurations. What do you think ?
-> >
-> > The fact that the RPF0 is optionally configurable for ConfigDMA
-> >
-> > > > +
-> > > > +	if (desc->config.pairs) {
-> >
-> > here
-> >
-> > makes it hard for me to see how this could be done cleanly.
-> >
-> > To be honest, the pipeline is fixed (rpf->iif->wpf) so I don't see
-> > much benefits here
->
-> Agreed.
->
-> > > > +		/*
-> > > > +		 * Configure RPF0 for config data. Transfer the number of
-> > > > +		 * configuration pairs plus 2 words for the header.
-> > > > +		 */
-> > > > +		ret = vsp1_vspx_rpf0_configure(vsp1, desc->config.mem,
-> > > > +					       V4L2_META_FMT_GENERIC_8,
-> > > > +					       desc->config.pairs * 2 + 2, 1,
-> > > > +					       desc->config.pairs * 2 + 2,
-> > > > +					       VSPX_IIF_SINK_PAD_CONFIG,
-> > > > +					       dl, dlb);
-> > > > +		if (ret)
-> > > > +			goto error_put_dl;
-> > > > +
-> > > > +		second_dl = vsp1_dl_list_get(pipe->output->dlm);
-> > > > +		if (!second_dl) {
-> > > > +			ret = -ENOMEM;
-> > > > +			goto error_put_dl;
-> > > > +		}
-> > > > +
-> > > > +		dl = second_dl;
-> > > > +		dlb = vsp1_dl_list_get_body0(dl);
-> > > > +	}
-> > > > +
-> > > > +	/* Configure RPF0 for RAW image transfer. */
-> > > > +	pix_mp = &desc->img.fmt.fmt.pix_mp;
-> > > > +	ret = vsp1_vspx_rpf0_configure(vsp1, desc->img.mem,
-> > > > +				       pix_mp->pixelformat,
-> > > > +				       pix_mp->width, pix_mp->height,
-> > > > +				       pix_mp->plane_fmt[0].bytesperline,
-> > > > +				       VSPX_IIF_SINK_PAD_IMG, dl, dlb);
-> > > > +	if (ret)
-> > > > +		goto error_put_dl;
-> > > > +
-> > > > +	if (second_dl)
-> > > > +		vsp1_dl_list_add_chain(job->dl, second_dl);
-> > > > +
-> > > > +	scoped_guard(spinlock_irqsave, &vspx_pipe->vspx_lock) {
-> > > > +		list_add_tail(&job->job_queue, &vspx_pipe->jobs);
-> > > > +	}
-> > > > +
-> > > > +	return 0;
-> > > > +
-> > > > +error_put_dl:
-> > > > +	if (second_dl)
-> > > > +		vsp1_dl_list_put(second_dl);
-> > > > +	vsp1_dl_list_put(job->dl);
-> > > > +error_free_job:
-> > > > +	kfree(job);
-> > > > +	return ret;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(vsp1_isp_job_prepare);
->
-> [snip]
->
-> --
-> Regards,
->
-> Laurent Pinchart
+>> +
+>> +struct al_codec_cmd {
+>> +	struct kref refcount;
+>> +	struct list_head list;
+>> +	struct completion done;
+>> +	int reply_size;
+>> +	void *reply;
+>> +};
+>> +
+>> +#define al_codec_err(codec, fmt, args...)                               \
+>> +	dev_err(&(codec)->pdev->dev, "[ALG_CODEC][ERROR] %s():%d: " fmt "\n", \
+>> +		__func__, __LINE__, ##args)
+>> +
+>> +#define al_v4l2_err(codec, fmt, args...)                               \
+>> +	dev_err(&(codec)->pdev->dev, "[ALG_V4L2][ERROR] %s():%d: " fmt "\n", \
+>> +		__func__, __LINE__, ##args)
+>> +
+>> +#if defined(DEBUG)
+>> +
+>> +extern int debug;
+>> +
+>> +/* V4L2 logs */
+>> +#define al_v4l2_dbg(codec, level, fmt, args...)   \
+>> +	do {                                            \
+>> +		if (debug >= level)                           \
+>> +			dev_dbg(&(codec)->pdev->dev,                \
+>> +				"[ALG_V4L2] level=%d %s(),%d: " fmt "\n", \
+>> +				level, __func__, __LINE__, ##args);       \
+>> +	} while (0)
+>> +
+>> +/* Codec logs */
+>> +#define al_codec_dbg(codec, fmt, args...)           \
+>> +	do {                                              \
+>> +		if (debug)                                      \
+>> +			dev_dbg(&(codec)->pdev->dev,                  \
+>> +				"[ALG_CODEC] %s(),%d: " fmt "\n", __func__, \
+>> +				__LINE__, ##args);                          \
+>> +	} while (0)
+>> +
+>> +#else
+>> +
+>> +#define al_v4l2_dbg(codec, level, fmt, args...)             \
+>> +	do {                                                      \
+>> +		(void)level;                                            \
+>> +		dev_dbg(&(codec)->pdev->dev, "[ALG_V4L2]: " fmt "\n",   \
+>> +			##args);                                              \
+>> +	} while (0)
+>> +
+>> +#define al_codec_dbg(codec, fmt, args...)                         \
+>> +	dev_dbg(&(codec)->pdev->dev, "[ALG_CODEC]: " fmt "\n", ##args)
+>> +
+>> +#endif
+>> +
+>> +#define MSG_ITF_TYPE_LIMIT BIT(10)
+>> +
+>> +/* Message types host <-> mcu */
+>> +enum {
+>> +	MSG_ITF_TYPE_MCU_ALIVE = 0,
+>> +	MSG_ITF_TYPE_WRITE_REQ = 2,
+>> +	MSG_ITF_TYPE_FIRST_REQ = 1024,
+>> +	MSG_ITF_TYPE_NEXT_REQ,
+>> +	MSG_ITF_TYPE_FIRST_REPLY = 2048,
+>> +	MSG_ITF_TYPE_NEXT_REPLY,
+>> +	MSG_ITF_TYPE_ALLOC_MEM_REQ = 3072,
+>> +	MSG_ITF_TYPE_FREE_MEM_REQ,
+>> +	MSG_ITF_TYPE_ALLOC_MEM_REPLY = 4096,
+>> +	MSG_ITF_TYPE_FREE_MEM_REPLY,
+>> +	MSG_ITF_TYPE_FIRST_EVT = 5120,
+>> +	MSG_ITF_TYPE_NEXT_EVT = MSG_ITF_TYPE_FIRST_EVT
+>> +};
+>> +
+>> +struct msg_itf_header {
+>> +	u64 drv_ctx_hdl;
+>> +	u64 drv_cmd_hdl;
+>> +	u16 type;
+>> +	u16 payload_len;
+>> +	u16 padding[2];
+>> +} __packed;
+>> +
+>> +void al_codec_mb_init(struct al_codec_mb *mb, char *addr, int size, u32 magic);
+>> +int al_codec_msg_get_header(struct al_codec_mb *mb, struct msg_itf_header *hdr);
+>> +int al_codec_msg_get_data(struct al_codec_mb *mb, char *data, int len);
+>> +int al_codec_msg_send(struct al_codec_mb *mb, struct msg_itf_header *hdr,
+>> +		      void (*trigger)(void *), void *trigger_arg);
+>> +
+>> +static inline bool is_type_reply(uint16_t type)
+>> +{
+>> +	return type >= MSG_ITF_TYPE_FIRST_REPLY &&
+>> +	       type < MSG_ITF_TYPE_FIRST_REPLY + MSG_ITF_TYPE_LIMIT;
+>> +}
+>> +
+>> +static inline bool is_type_event(uint16_t type)
+>> +{
+>> +	return type >= MSG_ITF_TYPE_FIRST_EVT &&
+>> +	       type < MSG_ITF_TYPE_FIRST_EVT + MSG_ITF_TYPE_LIMIT;
+>> +}
+>> +
+>> +void al_codec_cmd_put(struct al_codec_cmd *cmd);
+>> +
+>> +struct al_codec_cmd *al_codec_cmd_create(int reply_size);
+>> +
+>> +static inline struct al_codec_cmd *al_codec_cmd_get(struct list_head *cmd_list,
+>> +						    uint64_t hdl)
+>> +{
+>> +	struct al_codec_cmd *cmd = NULL;
+>> +
+>> +	list_for_each_entry(cmd, cmd_list, list) {
+>> +		if (likely(cmd == al_phys_to_virt(hdl))) {
+>> +			kref_get(&cmd->refcount);
+>> +			break;
+>> +		}
+>> +	}
+>> +	return list_entry_is_head(cmd, cmd_list, list) ? NULL : cmd;
+>> +}
+>> +
+>> +#endif /* __AL_CODEC_UTIL__ */
 
