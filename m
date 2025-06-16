@@ -1,79 +1,80 @@
-Return-Path: <linux-media+bounces-34862-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-34863-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C714BADA9C6
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 09:45:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E13B7ADAA2B
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 10:02:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 19AAC17223A
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 07:44:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C299A7A743D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jun 2025 08:01:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B111213E74;
-	Mon, 16 Jun 2025 07:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 146D32066CE;
+	Mon, 16 Jun 2025 08:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="Cirxe2KQ"
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="PBHujKmW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29992116E7;
-	Mon, 16 Jun 2025 07:43:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9701B1EB3E;
+	Mon, 16 Jun 2025 08:02:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750059792; cv=none; b=O7j1ni1k/Os+9ocp+svZ00caOwkPuugSb706OTXDg9x4BBL+Nk5eBP1M7YpGthM19WglqLhyKGcFmSLppcTCREx7vggCCoto3jhCjyKIL1skbFAP+KpDUZgjsfn+z3f06v+EvQiBJKFhlN32hg4mkDgrp4LB6suDEGp85Z/eG8E=
+	t=1750060946; cv=none; b=IXRx3CRo2qkq7G8lHLFhKacvPbs2mT1qGG6AWcs9hCGRQTI8OgalJ4UCMf0SnOzdUkxmomDYEp5bhsJr1FYuXQHbLWcXIkKe+8jIN0xBJbOzG1xty3V2kGO+K2uKgGx6dGVktC9dYUvriH+1cY8rP2QUf7i+IVhKv+K4HChyJFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750059792; c=relaxed/simple;
-	bh=sdOv8I5FszEKtA9uQQNoGfF6Znmcu/87+GwqjzHPmG8=;
+	s=arc-20240116; t=1750060946; c=relaxed/simple;
+	bh=AHrQv4g5d5PsnZigN4h+JuV26WazgvjMLSpZgs7LpmE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GhgW5U8q2Nq1P0wDByEtvTFewfFz+Pb+TeLu/18jYQJhvIl/E81dZOwo9ApeKA9lLNAgh4mK1p9m9ZKXq9Ns+Mokbq9CorNQgrsbBprsM7Kw6Hn1saZgnC5roQbLqmNX9HXRLvi8w+Q2DePefYjNO+yg/gDqOlzd1rUSeDsR5tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=Cirxe2KQ; arc=none smtp.client-ip=185.233.34.11
+	 In-Reply-To:Content-Type; b=Nf02Sm5vz1BOcprtlhyIldfKdHTka6YErxTKf2YRBB6929g27nTGNAaKRQz1fRSy0BzIaR5kTEJ2z2aBhQUND0KDD+taotv/MOWmdpkOB4XUM3/093m0p0xjJLNh79gEX7LBu/dzGyuGiE0CdkhaJhBwnKVtqeZ7icpreY1xGwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=PBHujKmW; arc=none smtp.client-ip=185.233.34.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
 Received: from smtp.freedom.nl (unknown [10.10.4.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4bLMRh5cr2z1BNS;
-	Mon, 16 Jun 2025 07:42:56 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4bLMRh0HYlz2xTl;
-	Mon, 16 Jun 2025 07:42:56 +0000 (UTC)
+	by dane.soverin.net (Postfix) with ESMTPS id 4bLMt23YkZz1C44;
+	Mon, 16 Jun 2025 08:02:18 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4bLMt20Qbrz6Q;
+	Mon, 16 Jun 2025 08:02:18 +0000 (UTC)
 Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=Cirxe2KQ;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=PBHujKmW;
 	dkim-atps=neutral
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1750059776;
+	s=soverin1; t=1750060938;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ji9EjV2f/+C+4sR5G+qqR2R1PnJeGvOchiXD3Nn58Fo=;
-	b=Cirxe2KQR/k/ycrZxTIx0eGE8pkP0AzTROZeEbuA0xnkO+xORVklOKhHf/q9GOt22EGF+Z
-	9k9cZ32LUZ6sCqC+wcJu627YMLkJOndkYloRnFfQ+z/jGb3qn2+N/TfT9X9nDVtFJn9n6X
-	thp/2uuspI3+BwdroQMeB7e/IKpM00roSeOG19CS5EljDL50jvU9dPssGonbfLlFCkc4DY
-	kUF5MwI4DJ/rfnqIi7mpTbhxeOG1PvwaAth9j1vT5hjSdW4dQ6Z1xjPg6fGq0E2VXS9ICZ
-	csT9WlZpTlFlgpyUqdaNC2dtJoW8cHmCWppCabGJbaikMClTDtG35lyM1qNCfA==
-X-CM-Analysis: v=2.4 cv=d/oPyQjE c=1 sm=1 tr=0 ts=684fcb00 a=IkcTkHD0fZMA:10 a=VwQbUJbxAAAA:8 a=0Q78ZbYSvavFInoFntYA:9 a=QEXdDO2ut3YA:10
-Message-ID: <1f014140-a4fe-400c-8ba8-3ad0a42375d8@jjverkuil.nl>
-Date: Mon, 16 Jun 2025 09:42:55 +0200
+	bh=e1N4zxIieCklRjkP0RXCJrZop3KPJcsG8Ud/kaqp+pA=;
+	b=PBHujKmWJImzGTxXPzr6DiTXxyE36btpCO3frm8jcFeHCDD4cscZyDfVXdk6z7y3iSMyCh
+	ufr5kqRauVQDZCzz1J9nDQvzIOaao3ucR3Q+k5QUy3MrrqhpKZgWdoyj0IQPoqW0iBJVlt
+	6dhXFZIjy0sGiWHXeM5NXbKZmZMtXXLVLI40tx3vPyAGRrdTNRIRQLlzYUNPYL+tgZbvrE
+	aOgKkkDGTmVOTWeg7PHZpGZx4Ec1BhTVFHpTvoxroGc+bjAJyKtU1DT/JdaBS5NCXfqRV5
+	lBYREz6VYfn0ZwcRjQsM9FiPDIUqlVmgnTD8RS3QA6TnM3CQn+JLQJYFLRgx7Q==
+X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=684fcf8a a=mtmCn0Y4c/K3E2eZNiSSpA==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=f9ReYnbyAAAA:8 a=VwQbUJbxAAAA:8 a=9HPNJWGvP0ZXJaPK-NQA:9 a=QEXdDO2ut3YA:10 a=pcuiDpOw-WkA:10 a=KfgQljnyxoMA:10 a=l6bbqRs-oetofZkxHce5:22
+X-CM-Envelope: MS4xfD5F6VCHj3FSFxNPtOUPJmNh/v4xlzF8tjNrH16ugeS4TE6ynDH+nHNE3m1l+VlJMFqGuIRviGyexSV5cvfneLy0sXTN9IW8ODPEDOnxIKdR40spulWf 5NGHPkWgmGiSV5fb2fZLRLj/vVze3cuCX7g984UFCAb4C+pPGvWIEeMS3vLiErR1b55KBxRi2kVv/aOcaaOtHmr6go3+OAYDXcDm6l2DaVc3s3wcKPzQX+5f Mb5p6DFSiDrvirza07ktDoVQHh3wgid9xHs+Crokl6ccljgtjaiXE7yYs0NUrhfOB+A8Yb4O3cLvsm0u2hI9TQ2NlLMIOOtYAV5YmQe2hX65rUz6IfgueRx+ 9PTbRjKZmLsop41fO+mJ3zLphxowg9nULdCeLUgrf0Z4Z4I21AHLHH8azVCRNTgwsmqc7TO9aTSRXWazpMJ/PhQkf8j9tXMiv/+dgR9G0ObEW4SjHNjI5pDl +dAMa8cjQAcWGZYBsSWpWROSsEkxW5ZDGlqcATfPj/eF0Ek+CynGzoEuzNOnSmB3EtfLpXyOfKjyZ9N7ft4rsC2KB2hKJ/v6nYVzM554UT/cGYmWQDUSAjRH PQs=
+Message-ID: <e9b61666-6bf0-4ec2-8524-0b6d94f028ef@jjverkuil.nl>
+Date: Mon, 16 Jun 2025 10:02:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/4] media: gc2145: Fix the RGB MBUS format
-To: Maxime Ripard <mripard@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Mats Randgaard <matrandg@cisco.com>,
+Subject: Re: [PATCH 3/4] media: tc358743: Fix the RGB MBUS format
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Mats Randgaard <matrandg@cisco.com>,
  Alain Volmat <alain.volmat@foss.st.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hans Verkuil <hans.verkuil@cisco.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20250612-csi-bgr-rgb-v1-0-dc8a309118f8@kernel.org>
- <20250612-csi-bgr-rgb-v1-4-dc8a309118f8@kernel.org>
+ <20250612-csi-bgr-rgb-v1-3-dc8a309118f8@kernel.org>
+ <CAPY8ntCYG8ufxpMkgBj1ZpSW-H2HObpcbQNg9tj+EXUM4PGkfQ@mail.gmail.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hans@jjverkuil.nl>
 Autocrypt: addr=hans@jjverkuil.nl; keydata=
@@ -119,72 +120,163 @@ Autocrypt: addr=hans@jjverkuil.nl; keydata=
  UnhF1/AWSHp+sv8vlNgnncxLDCho8uVjZrn4jzswd6ticBUAsPAKDYnO7KDzfQlQhIHdq10v
  jlGW/FbxA1UUiuWH+/Ub3qh75oQHTTlYe9H+Qr8Ef231/xItks8c+OyoWV6Z9ZcZnHbOmy2I
  0wGRdGp8puOL7LzhLkIN66sY/+x4s+ANxyJK6U1nJVeq7tbbhqf2Se2mPG3b87T9ik8=
-In-Reply-To: <20250612-csi-bgr-rgb-v1-4-dc8a309118f8@kernel.org>
+In-Reply-To: <CAPY8ntCYG8ufxpMkgBj1ZpSW-H2HObpcbQNg9tj+EXUM4PGkfQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spampanel-Class: ham
 
-On 12/06/2025 14:53, Maxime Ripard wrote:
-> The GalaxyCore GC2145 is an MIPI-CSI2 sensor. is an HDMI to MIPI-CSI2
+On 12/06/2025 19:01, Dave Stevenson wrote:
+> Hi Maxime
+> 
+> On Thu, 12 Jun 2025 at 13:54, Maxime Ripard <mripard@kernel.org> wrote:
+>>
+>> The tc358743 is an HDMI to MIPI-CSI2 bridge. It supports two of the
+>> three HDMI 1.4 video formats: RGB 4:4:4 and YCbCr 422.
+>>
+>> RGB 4:4:4 is converted to the MIPI-CSI2 RGB888 video format, and listed
+>> in the driver as MEDIA_BUS_FMT_RGB888_1X24.
+>>
+>> Most CSI2 receiver drivers then map MEDIA_BUS_FMT_RGB888_1X24 to
+>> V4L2_PIX_FMT_RGB24.
+>>
+>> However, V4L2_PIX_FMT_RGB24 is defined as having its color components in
+>> the R, G and B order, from left to right. MIPI-CSI2 however defines the
+>> RGB888 format with blue first.
+>>
+>> This essentially means that the R and B will be swapped compared to what
+>> V4L2_PIX_FMT_RGB24 defines.
+>>
+>> The proper MBUS format would be BGR888, so let's use that.
+> 
+> I know where you're coming from, but this driver has been in the tree
+> since 2015, so there is a reasonable expectation of users. I've had an
+> overlay for it in our kernel tree since 4.14 (July 2018), and I know
+> of at least PiKVM [1] as a product based on it. I don't know if Cisco
+> are still supporting devices with it in.
 
-Is it a sensor or an HDMI-to-CSI bridge? This looks like a copy-and-paste
-mistake.
+Those are all EOL, so no need to be concerned about that.
+
+But it is the most commonly used HDMI-to-CSI bridge, so breaking uAPI is
+a real concern.
+
+See more in my review comment in the code below.
+
+> 
+> Whilst the pixel format may now be considered to be incorrect,
+> changing it will break userspace applications that have been using it
+> for those 10 years if they're explicitly looking for
+> MEDIA_BUS_FMT_RGB888_1X24 or the mapping of it through to
+> V4L2_PIX_FMT_RGB24.
+> The kernel docs at [2] quote Linus as saying
+> "If you break existing user space setups THAT IS A REGRESSION.
+> It's not ok to say "but we'll fix the user space setup"
+> Really. NOT OK."
+> 
+> I'm thinking of GStreamer if the format has been specified explicitly
+> - it'll fail to negotiate due to v4l2src saying it can't handle the
+> caps.
+> 
+> Yes it sucks as a situation, but I'm not sure what the best solution
+> is. Potentially accepting both MEDIA_BUS_FMT_RGB888_1X24 and
+> MEDIA_BUS_FMT_BGR888_1X24 as valid MBUS codes for RGB, alongside
+> MEDIA_BUS_FMT_UYVY8_1X16 for UYVY?
+> 
+>   Dave
+> 
+> [1] https://pikvm.org/
+> [2] https://www.kernel.org/doc/html/latest/process/handling-regressions.html#quotes-from-linus-about-regression
+> 
+>> Fixes: d32d98642de6 ("[media] Driver for Toshiba TC358743 HDMI to CSI-2 bridge")
+>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>> ---
+>>  drivers/media/i2c/tc358743.c | 10 +++++-----
+>>  1 file changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+>> index ca0b0b9bda1755313f066ba36ab218873b9ae438..a1c164a7716a10b0cb9ff38f88c0513b45f24771 100644
+>> --- a/drivers/media/i2c/tc358743.c
+>> +++ b/drivers/media/i2c/tc358743.c
+>> @@ -688,11 +688,11 @@ static void tc358743_set_csi_color_space(struct v4l2_subdev *sd)
+>>                 mutex_lock(&state->confctl_mutex);
+>>                 i2c_wr16_and_or(sd, CONFCTL, ~MASK_YCBCRFMT,
+>>                                 MASK_YCBCRFMT_422_8_BIT);
+>>                 mutex_unlock(&state->confctl_mutex);
+>>                 break;
+>> -       case MEDIA_BUS_FMT_RGB888_1X24:
+>> +       case MEDIA_BUS_FMT_BGR888_1X24:
+>>                 v4l2_dbg(2, debug, sd, "%s: RGB 888 24-bit\n", __func__);
+>>                 i2c_wr8_and_or(sd, VOUT_SET2,
+>>                                 ~(MASK_SEL422 | MASK_VOUT_422FIL_100) & 0xff,
+>>                                 0x00);
+>>                 i2c_wr8_and_or(sd, VI_REP, ~MASK_VOUT_COLOR_SEL & 0xff,
+>> @@ -1353,11 +1353,11 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
+>>                         (i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT) ?
+>>                         "yes" : "no");
+>>         v4l2_info(sd, "Color space: %s\n",
+>>                         state->mbus_fmt_code == MEDIA_BUS_FMT_UYVY8_1X16 ?
+>>                         "YCbCr 422 16-bit" :
+>> -                       state->mbus_fmt_code == MEDIA_BUS_FMT_RGB888_1X24 ?
+>> +                       state->mbus_fmt_code == MEDIA_BUS_FMT_BGR888_1X24 ?
+>>                         "RGB 888 24-bit" : "Unsupported");
+>>
+>>         v4l2_info(sd, "-----%s status-----\n", is_hdmi(sd) ? "HDMI" : "DVI-D");
+>>         v4l2_info(sd, "HDCP encrypted content: %s\n",
+>>                         hdmi_sys_status & MASK_S_HDCP ? "yes" : "no");
+>> @@ -1691,11 +1691,11 @@ static int tc358743_enum_mbus_code(struct v4l2_subdev *sd,
+>>                 struct v4l2_subdev_state *sd_state,
+>>                 struct v4l2_subdev_mbus_code_enum *code)
+>>  {
+>>         switch (code->index) {
+>>         case 0:
+>> -               code->code = MEDIA_BUS_FMT_RGB888_1X24;
+>> +               code->code = MEDIA_BUS_FMT_BGR888_1X24;
+
+So would this change break or fix the formats[] table in:
+
+drivers/media/platform/raspberrypi/rp1-cfe/cfe-fmts.h
+
+Are there other bridge drivers that misinterpret MEDIA_BUS_FMT_RGB888_1X24
+and/or MEDIA_BUS_FMT_RGB888_1X24?
 
 Regards,
 
 	Hans
 
-> bridge. Among others, it support the MIPI-CSI2 RGB565 format, listed in
-> the driver as MEDIA_BUS_FMT_RGB565_1X16.
-> 
-> Most CSI2 receiver drivers then map MEDIA_BUS_FMT_RGB565_1X16 to
-> V4L2_PIX_FMT_RGB565.
-> 
-> However, V4L2_PIX_FMT_RGB565 is defined as having its color components
-> in the R, G and B order, from left to right. MIPI-CSI2 however defines
-> the RGB565 format with blue first.
-> 
-> This essentially means that the R and B will be swapped compared to what
-> V4L2_PIX_FMT_RGB565 defines.
-> 
-> The proper MBUS format would be BGR565, so let's use that.
-> 
-> Fixes: 03cc7fefbb09 ("media: i2c: gc2145: Galaxy Core GC2145 sensor support")
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/media/i2c/gc2145.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/gc2145.c b/drivers/media/i2c/gc2145.c
-> index ba02161d46e723d14e8670ef89ba10b270d7d178..12ce1c7aa0a9e028bd7d4c84356e0e166294a1f6 100644
-> --- a/drivers/media/i2c/gc2145.c
-> +++ b/drivers/media/i2c/gc2145.c
-> @@ -579,11 +579,11 @@ static const struct gc2145_format supported_formats[] = {
->  		.colorspace	= V4L2_COLORSPACE_SRGB,
->  		.datatype	= MIPI_CSI2_DT_YUV422_8B,
->  		.output_fmt	= 0x03,
->  	},
->  	{
-> -		.code		= MEDIA_BUS_FMT_RGB565_1X16,
-> +		.code		= MEDIA_BUS_FMT_BGR565_1X16,
->  		.colorspace	= V4L2_COLORSPACE_SRGB,
->  		.datatype	= MIPI_CSI2_DT_RGB565,
->  		.output_fmt	= 0x06,
->  		.switch_bit	= true,
->  	},
-> @@ -696,11 +696,11 @@ static int gc2145_init_state(struct v4l2_subdev *sd,
->  	struct v4l2_rect *crop;
->  
->  	/* Initialize pad format */
->  	format = v4l2_subdev_state_get_format(state, 0);
->  	gc2145_update_pad_format(gc2145, &supported_modes[0], format,
-> -				 MEDIA_BUS_FMT_RGB565_1X16,
-> +				 MEDIA_BUS_FMT_BGR565_1X16,
->  				 V4L2_COLORSPACE_SRGB);
->  
->  	/* Initialize crop rectangle. */
->  	crop = v4l2_subdev_state_get_crop(state, 0);
->  	*crop = supported_modes[0].crop;
+>>                 break;
+>>         case 1:
+>>                 code->code = MEDIA_BUS_FMT_UYVY8_1X16;
+>>                 break;
+>>         default:
+>> @@ -1753,11 +1753,11 @@ static int tc358743_set_fmt(struct v4l2_subdev *sd,
+>>
+>>         if (ret)
+>>                 return ret;
+>>
+>>         switch (code) {
+>> -       case MEDIA_BUS_FMT_RGB888_1X24:
+>> +       case MEDIA_BUS_FMT_BGR888_1X24:
+>>         case MEDIA_BUS_FMT_UYVY8_1X16:
+>>                 break;
+>>         default:
+>>                 return -EINVAL;
+>>         }
+>> @@ -2172,11 +2172,11 @@ static int tc358743_probe(struct i2c_client *client)
+>>         sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+>>         err = media_entity_pads_init(&sd->entity, 1, &state->pad);
+>>         if (err < 0)
+>>                 goto err_hdl;
+>>
+>> -       state->mbus_fmt_code = MEDIA_BUS_FMT_RGB888_1X24;
+>> +       state->mbus_fmt_code = MEDIA_BUS_FMT_BGR888_1X24;
+>>
+>>         sd->dev = &client->dev;
+>>
+>>         mutex_init(&state->confctl_mutex);
+>>
+>>
+>> --
+>> 2.49.0
+>>
 > 
 
 
