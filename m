@@ -1,350 +1,249 @@
-Return-Path: <linux-media+bounces-35065-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35064-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A82AADC979
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 13:33:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB92ADC977
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 13:32:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DFBA165C88
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:33:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6F981896BEF
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:33:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E44222A819;
-	Tue, 17 Jun 2025 11:33:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAAD3238D2B;
+	Tue, 17 Jun 2025 11:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDRci0mf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kzkXwuL1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EA91A9B24
-	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 11:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E4054BC6;
+	Tue, 17 Jun 2025 11:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750160005; cv=none; b=udXA3DhttDId75qLbS9sF3ka68uMY+zLm0L737/FLhF7bF027Hm4iISz2u8n2Wt42a9p+Eu0cj0xsmkXuSD7iG51h6bOOJiG1Qfq3tLs2v00BTkhmtyJrdrQB7CBnH44YEDnSRd02IsvvbscOS3nm4ER3rUsol9y9mXrwoTkQZs=
+	t=1750159970; cv=none; b=G6TJ6kiShBo+afC1lOZ1q8oR0iXNL8qltbUI8xQqpUI5lWVa9osVgyr7PxBa0BvIITX9EwdeGK8NwXpqLWw2pmKZBVt/77lbIqThf06OAyYggdVMFvc1Asuva/8PFWMpNCfFW7omvF8YRvECBvnm17uHHJUAKVc28nv86pYLXyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750160005; c=relaxed/simple;
-	bh=xFKlE7/D4tdfLmOSy6X5m+UWtvMHEFTEYoJPSojQ/ik=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E8Cb+hvR3hRK72NXR2U5Nac5r/es4MDqsVutXBvcjdPQ1X4G5xMB5BhQB/0PufPoK1i9Ud9zUqwWBjKJXT+Dwez1e+xKlAKDwIPqzLTtSYl0prS3Soga+lX4fnKErEgr3T67VQTT9xNOSZYPmpzzxSeG3GjkvxCcMx+L11U/dw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDRci0mf; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750160004; x=1781696004;
-  h=date:from:to:cc:subject:message-id;
-  bh=xFKlE7/D4tdfLmOSy6X5m+UWtvMHEFTEYoJPSojQ/ik=;
-  b=lDRci0mfDRymL6I8Af+H88LdD9qq5zgDxBfHYxvvUfGljsRPfLj8ULW7
-   QCUdz66IADyQtU9PUnvTtctBtFaSr8Z5dn9C+eNt3YKsxXxqMknfr3o9t
-   DH12khlMs2fEiideUDhiWDd7nQPdSTrk3P5WLukqLe9QHTE9EVBnhhFZ6
-   qt43DI9RweLMxgKZv8Q3zzwY0nDF1aUmDQYj6RwvSOJO4S+qvOibyYWLL
-   3U5OrnRdmW70amfRcRpeHoiiG/SvznBK7A5JPnp7rVq/FZ2IWm53V9GPB
-   vy5cnG9Sc8B42X+lVen2F2fKB9ECS1yzepOwAuZR0ZsMwhZR1YqOT10PT
-   w==;
-X-CSE-ConnectionGUID: D6bsarQnQ4a7/HWpWBnTxg==
-X-CSE-MsgGUID: CuxdyNJGQkO+F/JKuEy5Aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="51559801"
-X-IronPort-AV: E=Sophos;i="6.16,243,1744095600"; 
-   d="scan'208";a="51559801"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 04:33:23 -0700
-X-CSE-ConnectionGUID: F5pE8xVcR1eBa8RmaVPzpg==
-X-CSE-MsgGUID: zd6UlzstS0WEHJRceVWuEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,243,1744095600"; 
-   d="scan'208";a="171996278"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Jun 2025 04:33:22 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uRUZ5-000FvO-2t;
-	Tue, 17 Jun 2025 11:33:19 +0000
-Date: Tue, 17 Jun 2025 19:32:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:testing] BUILD SUCCESS
- f0f4ab6b151a55475dc88c4d08207203f6c06102
-Message-ID: <202506171918.frLpCVFl-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1750159970; c=relaxed/simple;
+	bh=CRnbVtr0GLb3lzwVaUxRD662hwv3QeuvoQMwpeWJVEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rulyVUZmS10JBCPVl0lhOOVnhd2kofyVjVP/ymo4QPSwXYkyiip0KP0lPUIx2yqAnZt4d+NiH/ZaDeTAkeZX3E1Ln0dtvIHR7zgE7r/59arr/NDApsxCpJQdGcTxVfDwArStfyaIeftvHa/n7gV9J8FOJpaKI/bzLFbUFwxHyzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kzkXwuL1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32DEFC4CEE3;
+	Tue, 17 Jun 2025 11:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750159969;
+	bh=CRnbVtr0GLb3lzwVaUxRD662hwv3QeuvoQMwpeWJVEU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kzkXwuL1P9QjyVWGow80aEJoOUAhmHjnyJjnxodlDQK10dgSZTFCk9cUHzT6a+xEI
+	 F4zaSAlMkQVtSgZKqGqp6f4J4dWVQNSt5+oYMNV5WUyzGJLNmq+QQdPlRnApG4baEb
+	 8Wo7h32OsM5SlumGiOB5doGG0MqgC333Y5Qd7ykvbR5MfovNQx6HgAz+7FPo/Q+6Bv
+	 Bj+9MsrH2tz0ybMehGhQeP799yQ/J7kKd85Y3srd4EitEdzbtRnSV8sKxLhWvEF1pk
+	 J8QgypJY63uKLSp3o+pohBAWSC3hKHrBIKw1/EbVNQIDBQzCjZn/UVKoVdV40eJCZz
+	 x9VcIgMi/7nng==
+Date: Tue, 17 Jun 2025 17:02:40 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	op-tee@lists.trustedfirmware.org,
+	linux-arm-kernel@lists.infradead.org,
+	Olivier Masse <olivier.masse@nxp.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+	Daniel Stone <daniel@fooishbar.org>,
+	Rouven Czerwinski <rouven.czerwinski@linaro.org>,
+	robin.murphy@arm.com
+Subject: Re: [PATCH v10 6/9] tee: add tee_shm_alloc_dma_mem()
+Message-ID: <aFFSWDiVsxA1CbCX@sumit-X1>
+References: <20250610131600.2972232-1-jens.wiklander@linaro.org>
+ <20250610131600.2972232-7-jens.wiklander@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610131600.2972232-7-jens.wiklander@linaro.org>
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git testing
-branch HEAD: f0f4ab6b151a55475dc88c4d08207203f6c06102  media: uvcvideo: eUSB2 double isochronous bandwidth support
+On Tue, Jun 10, 2025 at 03:13:50PM +0200, Jens Wiklander wrote:
+> Add tee_shm_alloc_dma_mem() to allocate DMA memory. The memory is
+> represented by a tee_shm object using the new flag TEE_SHM_DMA_MEM to
+> identify it as DMA memory. The allocated memory will later be lent to
+> the TEE to be used as protected memory.
+> 
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/tee_shm.c    | 85 +++++++++++++++++++++++++++++++++++++++-
+>  include/linux/tee_core.h |  5 +++
+>  2 files changed, 88 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> index e63095e84644..60b0f3932cee 100644
+> --- a/drivers/tee/tee_shm.c
+> +++ b/drivers/tee/tee_shm.c
+> @@ -5,6 +5,8 @@
+>  #include <linux/anon_inodes.h>
+>  #include <linux/device.h>
+>  #include <linux/dma-buf.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/highmem.h>
+>  #include <linux/idr.h>
+>  #include <linux/io.h>
+>  #include <linux/mm.h>
+> @@ -13,9 +15,14 @@
+>  #include <linux/tee_core.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/uio.h>
+> -#include <linux/highmem.h>
+>  #include "tee_private.h"
+>  
+> +struct tee_shm_dma_mem {
+> +	struct tee_shm shm;
+> +	dma_addr_t dma_addr;
+> +	struct page *page;
+> +};
+> +
+>  static void shm_put_kernel_pages(struct page **pages, size_t page_count)
+>  {
+>  	size_t n;
+> @@ -48,7 +55,16 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
+>  {
+>  	void *p = shm;
+>  
+> -	if (shm->flags & TEE_SHM_DMA_BUF) {
+> +	if (shm->flags & TEE_SHM_DMA_MEM) {
+> +#if IS_ENABLED(CONFIG_TEE_DMABUF_HEAPS)
 
-elapsed time: 1332m
+nit: this config check can be merged into the above if check.
 
-configs tested: 257
-configs skipped: 7
+> +		struct tee_shm_dma_mem *dma_mem;
+> +
+> +		dma_mem = container_of(shm, struct tee_shm_dma_mem, shm);
+> +		p = dma_mem;
+> +		dma_free_pages(&teedev->dev, shm->size, dma_mem->page,
+> +			       dma_mem->dma_addr, DMA_BIDIRECTIONAL);
+> +#endif
+> +	} else if (shm->flags & TEE_SHM_DMA_BUF) {
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Do we need a similar config check for this flag too?
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                   randconfig-001-20250616    gcc-15.1.0
-arc                   randconfig-001-20250617    gcc-11.5.0
-arc                   randconfig-002-20250616    gcc-15.1.0
-arc                   randconfig-002-20250617    gcc-11.5.0
-arc                           tb10x_defconfig    clang-21
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                               allnoconfig    gcc-15.1.0
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    gcc-15.1.0
-arm                          exynos_defconfig    clang-21
-arm                           h3600_defconfig    clang-21
-arm                       multi_v4t_defconfig    clang-16
-arm                   randconfig-001-20250616    gcc-12.4.0
-arm                   randconfig-001-20250617    gcc-11.5.0
-arm                   randconfig-002-20250616    gcc-15.1.0
-arm                   randconfig-002-20250617    gcc-11.5.0
-arm                   randconfig-003-20250616    clang-21
-arm                   randconfig-003-20250617    gcc-11.5.0
-arm                   randconfig-004-20250616    clang-21
-arm                   randconfig-004-20250617    gcc-11.5.0
-arm64                            alldefconfig    clang-21
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20250616    gcc-8.5.0
-arm64                 randconfig-001-20250617    gcc-11.5.0
-arm64                 randconfig-002-20250616    gcc-15.1.0
-arm64                 randconfig-002-20250617    gcc-11.5.0
-arm64                 randconfig-003-20250616    clang-19
-arm64                 randconfig-003-20250617    gcc-11.5.0
-arm64                 randconfig-004-20250616    gcc-8.5.0
-arm64                 randconfig-004-20250617    gcc-11.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20250616    gcc-13.3.0
-csky                  randconfig-001-20250617    clang-21
-csky                  randconfig-002-20250616    gcc-15.1.0
-csky                  randconfig-002-20250617    clang-21
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-21
-hexagon                           allnoconfig    gcc-15.1.0
-hexagon                          allyesconfig    clang-19
-hexagon                          allyesconfig    clang-21
-hexagon                             defconfig    gcc-15.1.0
-hexagon               randconfig-001-20250616    clang-21
-hexagon               randconfig-001-20250617    clang-21
-hexagon               randconfig-002-20250616    clang-21
-hexagon               randconfig-002-20250617    clang-21
-i386                             allmodconfig    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-20
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-20
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250616    gcc-12
-i386        buildonly-randconfig-001-20250617    gcc-12
-i386        buildonly-randconfig-002-20250616    gcc-11
-i386        buildonly-randconfig-002-20250617    gcc-12
-i386        buildonly-randconfig-003-20250616    clang-20
-i386        buildonly-randconfig-003-20250617    gcc-12
-i386        buildonly-randconfig-004-20250616    gcc-12
-i386        buildonly-randconfig-004-20250617    gcc-12
-i386        buildonly-randconfig-005-20250616    gcc-12
-i386        buildonly-randconfig-005-20250617    gcc-12
-i386        buildonly-randconfig-006-20250616    clang-20
-i386        buildonly-randconfig-006-20250617    gcc-12
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250617    gcc-12
-i386                  randconfig-002-20250617    gcc-12
-i386                  randconfig-003-20250617    gcc-12
-i386                  randconfig-004-20250617    gcc-12
-i386                  randconfig-005-20250617    gcc-12
-i386                  randconfig-006-20250617    gcc-12
-i386                  randconfig-007-20250617    gcc-12
-i386                  randconfig-011-20250617    clang-20
-i386                  randconfig-012-20250617    clang-20
-i386                  randconfig-013-20250617    clang-20
-i386                  randconfig-014-20250617    clang-20
-i386                  randconfig-015-20250617    clang-20
-i386                  randconfig-016-20250617    clang-20
-i386                  randconfig-017-20250617    clang-20
-loongarch                        allmodconfig    gcc-15.1.0
-loongarch                         allnoconfig    gcc-15.1.0
-loongarch                           defconfig    gcc-15.1.0
-loongarch             randconfig-001-20250616    gcc-15.1.0
-loongarch             randconfig-001-20250617    clang-21
-loongarch             randconfig-002-20250616    gcc-15.1.0
-loongarch             randconfig-002-20250617    clang-21
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    gcc-15.1.0
-m68k                        m5307c3_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                           mtx1_defconfig    clang-21
-nios2                            alldefconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250616    gcc-8.5.0
-nios2                 randconfig-001-20250617    clang-21
-nios2                 randconfig-002-20250616    gcc-10.5.0
-nios2                 randconfig-002-20250617    clang-21
-openrisc                          allnoconfig    clang-21
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-12
-openrisc                            defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-21
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-12
-parisc                              defconfig    gcc-15.1.0
-parisc                generic-64bit_defconfig    gcc-15.1.0
-parisc                randconfig-001-20250616    gcc-8.5.0
-parisc                randconfig-001-20250617    clang-21
-parisc                randconfig-002-20250616    gcc-9.3.0
-parisc                randconfig-002-20250617    clang-21
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-21
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-21
-powerpc                          allyesconfig    gcc-15.1.0
-powerpc                      bamboo_defconfig    clang-21
-powerpc                  iss476-smp_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20250616    clang-21
-powerpc               randconfig-001-20250617    clang-21
-powerpc               randconfig-002-20250616    clang-21
-powerpc               randconfig-002-20250617    clang-21
-powerpc               randconfig-003-20250616    clang-21
-powerpc               randconfig-003-20250617    clang-21
-powerpc                    sam440ep_defconfig    clang-21
-powerpc                        warp_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20250616    gcc-8.5.0
-powerpc64             randconfig-001-20250617    clang-21
-powerpc64             randconfig-002-20250616    clang-21
-powerpc64             randconfig-002-20250617    clang-21
-powerpc64             randconfig-003-20250616    clang-21
-powerpc64             randconfig-003-20250617    clang-21
-riscv                            allmodconfig    clang-21
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                            allyesconfig    gcc-15.1.0
-riscv                               defconfig    clang-21
-riscv                               defconfig    gcc-12
-riscv                    nommu_virt_defconfig    clang-21
-riscv                 randconfig-001-20250616    clang-19
-riscv                 randconfig-001-20250617    gcc-12.4.0
-riscv                 randconfig-002-20250616    clang-21
-riscv                 randconfig-002-20250617    gcc-12.4.0
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-21
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250616    gcc-11.5.0
-s390                  randconfig-001-20250617    gcc-12.4.0
-s390                  randconfig-002-20250616    gcc-10.5.0
-s390                  randconfig-002-20250617    gcc-12.4.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-12
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250616    gcc-12.4.0
-sh                    randconfig-001-20250617    gcc-12.4.0
-sh                    randconfig-002-20250616    gcc-12.4.0
-sh                    randconfig-002-20250617    gcc-12.4.0
-sh                           se7724_defconfig    clang-21
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20250616    gcc-13.3.0
-sparc                 randconfig-001-20250617    gcc-12.4.0
-sparc                 randconfig-002-20250616    gcc-8.5.0
-sparc                 randconfig-002-20250617    gcc-12.4.0
-sparc64                             defconfig    gcc-12
-sparc64                             defconfig    gcc-15.1.0
-sparc64               randconfig-001-20250616    gcc-13.3.0
-sparc64               randconfig-001-20250617    gcc-12.4.0
-sparc64               randconfig-002-20250616    gcc-8.5.0
-sparc64               randconfig-002-20250617    gcc-12.4.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    clang-19
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-21
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250616    clang-20
-um                    randconfig-001-20250617    gcc-12.4.0
-um                    randconfig-002-20250616    clang-21
-um                    randconfig-002-20250617    gcc-12.4.0
-um                           x86_64_defconfig    clang-21
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250616    clang-20
-x86_64      buildonly-randconfig-001-20250617    gcc-12
-x86_64      buildonly-randconfig-002-20250616    clang-20
-x86_64      buildonly-randconfig-002-20250617    gcc-12
-x86_64      buildonly-randconfig-003-20250616    clang-20
-x86_64      buildonly-randconfig-003-20250617    gcc-12
-x86_64      buildonly-randconfig-004-20250616    clang-20
-x86_64      buildonly-randconfig-004-20250617    gcc-12
-x86_64      buildonly-randconfig-005-20250616    gcc-12
-x86_64      buildonly-randconfig-005-20250617    gcc-12
-x86_64      buildonly-randconfig-006-20250616    clang-20
-x86_64      buildonly-randconfig-006-20250617    gcc-12
-x86_64                              defconfig    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250617    gcc-12
-x86_64                randconfig-002-20250617    gcc-12
-x86_64                randconfig-003-20250617    gcc-12
-x86_64                randconfig-004-20250617    gcc-12
-x86_64                randconfig-005-20250617    gcc-12
-x86_64                randconfig-006-20250617    gcc-12
-x86_64                randconfig-007-20250617    gcc-12
-x86_64                randconfig-008-20250617    gcc-12
-x86_64                randconfig-071-20250617    clang-20
-x86_64                randconfig-072-20250617    clang-20
-x86_64                randconfig-073-20250617    clang-20
-x86_64                randconfig-074-20250617    clang-20
-x86_64                randconfig-075-20250617    clang-20
-x86_64                randconfig-076-20250617    clang-20
-x86_64                randconfig-077-20250617    clang-20
-x86_64                randconfig-078-20250617    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-12
-x86_64                         rhel-9.4-kunit    gcc-12
-x86_64                           rhel-9.4-ltp    gcc-12
-x86_64                          rhel-9.4-rust    clang-18
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                  cadence_csp_defconfig    gcc-15.1.0
-xtensa                randconfig-001-20250616    gcc-13.3.0
-xtensa                randconfig-001-20250617    gcc-12.4.0
-xtensa                randconfig-002-20250616    gcc-8.5.0
-xtensa                randconfig-002-20250617    gcc-12.4.0
+With these addressed, feel free to add:
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+
+-Sumit
+
+>  		struct tee_shm_dmabuf_ref *ref;
+>  
+>  		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
+> @@ -303,6 +319,71 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size)
+>  }
+>  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
+>  
+> +#if IS_ENABLED(CONFIG_TEE_DMABUF_HEAPS)
+> +/**
+> + * tee_shm_alloc_dma_mem() - Allocate DMA memory as shared memory object
+> + * @ctx:	Context that allocates the shared memory
+> + * @page_count:	Number of pages
+> + *
+> + * The allocated memory is expected to be lent (made inaccessible to the
+> + * kernel) to the TEE while it's used and returned (accessible to the
+> + * kernel again) before it's freed.
+> + *
+> + * This function should normally only be used internally in the TEE
+> + * drivers.
+> + *
+> + * @returns a pointer to 'struct tee_shm'
+> + */
+> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
+> +				      size_t page_count)
+> +{
+> +	struct tee_device *teedev = ctx->teedev;
+> +	struct tee_shm_dma_mem *dma_mem;
+> +	dma_addr_t dma_addr;
+> +	struct page *page;
+> +
+> +	if (!tee_device_get(teedev))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	page = dma_alloc_pages(&teedev->dev, page_count * PAGE_SIZE,
+> +			       &dma_addr, DMA_BIDIRECTIONAL, GFP_KERNEL);
+> +	if (!page)
+> +		goto err_put_teedev;
+> +
+> +	dma_mem = kzalloc(sizeof(*dma_mem), GFP_KERNEL);
+> +	if (!dma_mem)
+> +		goto err_free_pages;
+> +
+> +	refcount_set(&dma_mem->shm.refcount, 1);
+> +	dma_mem->shm.ctx = ctx;
+> +	dma_mem->shm.paddr = page_to_phys(page);
+> +	dma_mem->dma_addr = dma_addr;
+> +	dma_mem->page = page;
+> +	dma_mem->shm.size = page_count * PAGE_SIZE;
+> +	dma_mem->shm.flags = TEE_SHM_DMA_MEM;
+> +
+> +	teedev_ctx_get(ctx);
+> +
+> +	return &dma_mem->shm;
+> +
+> +err_free_pages:
+> +	dma_free_pages(&teedev->dev, page_count * PAGE_SIZE, page, dma_addr,
+> +		       DMA_BIDIRECTIONAL);
+> +err_put_teedev:
+> +	tee_device_put(teedev);
+> +
+> +	return ERR_PTR(-ENOMEM);
+> +}
+> +EXPORT_SYMBOL_GPL(tee_shm_alloc_dma_mem);
+> +#else
+> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
+> +				      size_t page_count)
+> +{
+> +	return ERR_PTR(-EINVAL);
+> +}
+> +EXPORT_SYMBOL_GPL(tee_shm_alloc_dma_mem);
+> +#endif
+> +
+>  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
+>  			     int (*shm_register)(struct tee_context *ctx,
+>  						 struct tee_shm *shm,
+> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
+> index f17710196c4c..e46a53e753af 100644
+> --- a/include/linux/tee_core.h
+> +++ b/include/linux/tee_core.h
+> @@ -29,6 +29,8 @@
+>  #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
+>  #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
+>  #define TEE_SHM_DMA_BUF		BIT(4)	/* Memory with dma-buf handle */
+> +#define TEE_SHM_DMA_MEM		BIT(5)	/* Memory allocated with */
+> +					/* dma_alloc_pages() */
+>  
+>  #define TEE_DEVICE_FLAG_REGISTERED	0x1
+>  #define TEE_MAX_DEV_NAME_LEN		32
+> @@ -310,6 +312,9 @@ void *tee_get_drvdata(struct tee_device *teedev);
+>   */
+>  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size);
+>  
+> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
+> +				      size_t page_count);
+> +
+>  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
+>  			     int (*shm_register)(struct tee_context *ctx,
+>  						 struct tee_shm *shm,
+> -- 
+> 2.43.0
+> 
 
