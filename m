@@ -1,175 +1,140 @@
-Return-Path: <linux-media+bounces-35030-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35034-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FBCDADC35C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:32:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C41ADC3C8
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:54:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48209188FFC3
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 07:32:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1DB2C3B59BE
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 07:54:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE841290D98;
-	Tue, 17 Jun 2025 07:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39B8B28ECE3;
+	Tue, 17 Jun 2025 07:54:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XCGFuS5h"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E+smzD/V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72697288C06;
-	Tue, 17 Jun 2025 07:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5CE28C2A3;
+	Tue, 17 Jun 2025 07:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750145503; cv=none; b=oBpBfYUo49QxrVkwEWu2x4LGiJGhv2LSEkbdO7sYMLk1K2R4RSbE4EJYgJLkPbhHcuok5eKCHZntLIG+J/K5N0kF1E5TTj97H1p6DlpF5lJ+EzHSEPptL/T/wIwYWB55eLgrndxUbLxmRd/O4kmxalnK7AeV3sR5Ut6tc6agJ0I=
+	t=1750146891; cv=none; b=jDxgJVh7gRKVLHgrXLwCqgFE8qSQB68olvJ19QkwVaeOnuKZRmU5e0Hvod2RGYXsRwdi0oVo6kU8SsswSPxDMwB/REqwEhrrhu2yeJ13dz7u4DFNQwxsDWsC0f8h1BLTt8R8Cv8ChLTkWKG0DDiqEq9UEMmksrtdcUJrG7G5yq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750145503; c=relaxed/simple;
-	bh=u0EumBQgKw9tRo8pqtn52kIAYiMwEBU7JZR3hZra7Is=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lCn1RcX2mpUAWtDVH1hghcXSLi1SQbInjnL/J23QoWF1WlZSotoVnVWfE/q7khFis/SJNlC7JJSkB0SSBSPw0Tx5Q43TbMHzTEKWdVFwekD27rGOy1cViEpm8ADk2gy1bXS1RkM2y1tnNMz8TmVn7Yj5Q5NrJe7mAgqhnLD9RlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XCGFuS5h; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4CB2BC113CF;
-	Tue, 17 Jun 2025 07:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1750145503; bh=u0EumBQgKw9tRo8pqtn52kIAYiMwEBU7JZR3hZra7Is=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=XCGFuS5hBYCwlYFw1Y3fgv0PsACKMp9WD4NnXUCS1RsgSXzDBxUA4qC/yXGYronur
-	 F2Iv82L2Bx8Kd+0ECt5jGSoCiWd+XuCzYpe/dwWu7Tw6/TMssq1S8JG8S8JMNkSlUZ
-	 KmNSh8dEXjBYsSCPwKb354KaZp+t/fiS8kXsFBf8=
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43077C7115E;
-	Tue, 17 Jun 2025 07:31:43 +0000 (UTC)
-From: Richard Leitner <richard.leitner@linux.dev>
-Date: Tue, 17 Jun 2025 09:31:44 +0200
-Subject: [PATCH v5 10/10] media: i2c: ov9282: dynamic flash_duration
- maximum
+	s=arc-20240116; t=1750146891; c=relaxed/simple;
+	bh=Vr8r8M4ron0H/w8OpKBJSzyyhy7tl6sw2WOfKBrtkuM=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=G3Bqb7jROWVMrFJ/baXNXkbWb30iTKe1qXj5tpzXZozqpkVjDtt9PFCY9DtVUzb+NEtHjuqC3Q6cG6tvNTEC1A6scI0w9vcbUlhcnvdy2TjwRVGeuI16h+MvGtN4flnIC5YmD1HHA512++yeUxJCP0cYhjYi3ASj54OW87qq3Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E+smzD/V; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-adb5cb6d8f1so995515266b.3;
+        Tue, 17 Jun 2025 00:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750146888; x=1750751688; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=snpa4M8wvjI3Jt75dD0dm1cl3ZvZlE8jLqCZvwug+5E=;
+        b=E+smzD/V0fno4AkmEz/w8QnPKxkWg5I3NbGadSfueQaLhPhS64Td3wMQaO42WjmE3v
+         H2DHqxy1nxT3BjQVeMOFlZx6WIUT2W+4eDFZsUvHzFOrtJQSGnOLlYI3QtjSsKZIoOAp
+         39lx2n6T8BZY06UUQyRRC44Quu00E+JTJj8vZXV0v9V1KzKvK3e19cMMC5vRXkA84qpx
+         ewiuxwRvPoaWfuT5jwh+LubqQDDx5mNDaFHABsFGG2U7VNMh8CADHG9xFa3/TIFKMMpM
+         rJ8WVOptjX+yQkMmpTDyjiYFwNYz2oau27Ul7u2WE7D5FdDzVqbZPK57fUnG1QGW17VK
+         DjDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750146888; x=1750751688;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=snpa4M8wvjI3Jt75dD0dm1cl3ZvZlE8jLqCZvwug+5E=;
+        b=dN5TB7OawBAItIFHdZ4zg5OBDM5EKxT6VlJFZm4TQRRG6tlw155hxSd1fgNI3s5STz
+         9w1My1qqXzIkGM/EFi8ZJhRGuXst94c+LZGR3w0q6A3pB1dT4o6tRkFQGoKd40M9VD8i
+         zochnFoZ3BizNie75G4VWoViTMrsFDMDiN3yJwlbhtGB3UK8LF7bLBDAyAwLqVdKrdZH
+         yZUhOvS8f+vWwt8a866JwvIOJbpqzt0lYM5ay54wQWztFfIRityi9K8NKE4EnNLA3bXu
+         LCKOB6rmW7XS0IjfBomSblc8399iFAB2qRRImsHm5ZYPBMwBe5mRRzrNaQzT3N19qmIz
+         Tfaw==
+X-Forwarded-Encrypted: i=1; AJvYcCU55BOd/vEHhtMTt0uh6mOz18LpI9FsEGRb1BKo/dWugkVU7eV6ajqZC+jAKYlShTWCP4oSW0kSCbBUnXM=@vger.kernel.org, AJvYcCWNiWACIHTT1NsmfkeCNVEXS+eghsnVA/TUpxaZUQkDffc3TqMthr9/hHF0A/j8dyZI2JDnFw1Czkr/4jE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtujFdA3w1NjvCyNjAhGoqRCFzJBBvC5b/pvStdSfpLL/5xOuB
+	Tc5JbB+tuOznQMRPgEOfT9F4rXITuAG/IUTaasGS1EndDe0QnfXBSWnu
+X-Gm-Gg: ASbGncvQsxrrpKK9yx5QtQUNPlnxu4pGOhiPXmsxMfjPcrSJ8IVaRymG+uwn1jea8Rs
+	qOVzWJqLHQdcGZhHXNELIXjINhd/z3OfdWYYBfzN8jVVfx6mqg4CC/L5KovwxBHqQXL/+JnSfUi
+	/RIkxVQ4KIocEeB7YS6LBeofG3+1R7umnKKstDDfFt+rwJjqoufDiO0tbtQH7yv/gJarpU6mZFO
+	H9Zk8CootqHCYi+hDM7XsHuR5ID8TLAk4oeyfctocDFZ2z/Yi7pZ0XNXPSB3vUVW+ivfSlq01oC
+	v8ekJE4Lq5vloXM7Pz3UITsb8WUYdqRr9X7FuoSbicPg1KYKQ886bfX6HP8GMA0jZZV9qG8=
+X-Google-Smtp-Source: AGHT+IF0cbDvyG9t5QpTq27y/7w+0VC3HoZnhZqn97hCN4lYvqiTDzZEXF27gVaRsT2gnTXMxW0ZoA==
+X-Received: by 2002:a17:907:2da9:b0:ade:4121:8d3f with SMTP id a640c23a62f3a-adfad29dd50mr988779666b.8.1750146887636;
+        Tue, 17 Jun 2025 00:54:47 -0700 (PDT)
+Received: from [10.3.15.29] ([217.19.38.130])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec81bb9cesm807842966b.49.2025.06.17.00.54.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 00:54:47 -0700 (PDT)
+Message-ID: <43a834c8f871f8719368b3f3239f27ee4f6c6286.camel@gmail.com>
+Subject: [PATCH] ARM/dma-mapping: invalidate caches on arch_dma_prep_coherent
+From: Christian Meissl <meissl.christian@gmail.com>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Russell King <linux@armlinux.org.uk>, Christoph Hellwig <hch@lst.de>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+Date: Tue, 17 Jun 2025 09:54:46 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250617-ov9282-flash-strobe-v5-10-9762da74d065@linux.dev>
-References: <20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev>
-In-Reply-To: <20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- Richard Leitner <richard.leitner@linux.dev>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750145501; l=3576;
- i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
- bh=u0EumBQgKw9tRo8pqtn52kIAYiMwEBU7JZR3hZra7Is=;
- b=/smZRi59dZATDPo+9atyjcxBHAC0WosfiTD+9aXjXRMdnnm1P/xAhwInYBkmUB2XwJY2lsD8N
- TSgOKWvD3ITDu4IYepSKddgDmHRuP6Nb/bDtec4ci3t8gbHUQ1AwmxM
-X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
- pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
-X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
- with auth_id=350
 
-This patch sets the current exposure time as maximum for the
-flash_duration control. As Flash/Strobes which are longer than the
-exposure time have no effect.
+since switching to dma-direct, memory using DMA_ATTR_NO_KERNEL_MAPPING
+is no longer allocated using the arch specific handlers and instead
+will use dma_direct_alloc_no_mapping. While the arm specific allocation
+handlers implicitly clear the allocated dma buffers and will flush any cach=
+es
+dma-direct relies on ARCH_HAS_DMA_PREP_COHERENT to flush the caches.
 
-Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+Without this flush video frame corruption can occur in drivers
+like the coda v4l2 driver which explicitly sets the DMA_ATTR_NO_KERNEL_MAPP=
+ING flag.
+
+Fixes: ae626eb97376 ("ARM/dma-mapping: use dma-direct unconditionally")
+Signed-off-by: Christian Meissl <meissl.christian@gmail.com>
 ---
- drivers/media/i2c/ov9282.c | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
+ arch/arm/Kconfig          | 1 +
+ arch/arm/mm/dma-mapping.c | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 1f4bca29cd793e99c473aff9c8b7e200e3d598bc..2fd0d63b8071d434c05a98f4d0169c4fb83f7cfe 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -198,6 +198,7 @@ struct ov9282_mode {
-  * @exp_ctrl: Pointer to exposure control
-  * @again_ctrl: Pointer to analog gain control
-  * @pixel_rate: Pointer to pixel rate control
-+ * @flash_duration: Pointer to flash duration control
-  * @vblank: Vertical blanking in lines
-  * @noncontinuous_clock: Selection of CSI2 noncontinuous clock mode
-  * @cur_mode: Pointer to current selected sensor mode
-@@ -220,6 +221,7 @@ struct ov9282 {
- 		struct v4l2_ctrl *again_ctrl;
- 	};
- 	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *flash_duration;
- 	u32 vblank;
- 	bool noncontinuous_clock;
- 	const struct ov9282_mode *cur_mode;
-@@ -611,6 +613,15 @@ static int ov9282_update_controls(struct ov9282 *ov9282,
- 					mode->vblank_max, 1, mode->vblank);
- }
- 
-+static u32 ov9282_exposure_to_us(struct ov9282 *ov9282, u32 exposure)
-+{
-+	/* calculate exposure time in µs */
-+	u32 frame_width = ov9282->cur_mode->width + ov9282->hblank_ctrl->val;
-+	u32 trow_us = (frame_width * 1000000UL) / ov9282->pixel_rate->val;
-+
-+	return exposure * trow_us;
-+}
-+
- /**
-  * ov9282_update_exp_gain() - Set updated exposure and gain
-  * @ov9282: pointer to ov9282 device
-@@ -622,9 +633,10 @@ static int ov9282_update_controls(struct ov9282 *ov9282,
- static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 3072731fe09c..7a3aaf3a490b 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -14,6 +14,7 @@ config ARM
+        select ARCH_HAS_DEBUG_VIRTUAL if MMU
+        select ARCH_HAS_DMA_ALLOC if MMU
+        select ARCH_HAS_DMA_OPS
++       select ARCH_HAS_DMA_PREP_COHERENT
+        select ARCH_HAS_DMA_WRITE_COMBINE if !ARM_DMA_MEM_BUFFERABLE
+        select ARCH_HAS_ELF_RANDOMIZE
+        select ARCH_HAS_FORTIFY_SOURCE
+diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+index 88c2d68a69c9..bde7ae4ba31a 100644
+--- a/arch/arm/mm/dma-mapping.c
++++ b/arch/arm/mm/dma-mapping.c
+@@ -1821,3 +1821,11 @@ void arch_dma_free(struct device *dev, size_t size, =
+void *cpu_addr,
  {
- 	int ret;
-+	u32 exposure_us = ov9282_exposure_to_us(ov9282, exposure);
- 
--	dev_dbg(ov9282->dev, "Set exp %u, analog gain %u",
--		exposure, gain);
-+	dev_dbg(ov9282->dev, "Set exp %u (~%u µs), analog gain %u",
-+		exposure, exposure_us, gain);
- 
- 	ret = ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 1);
- 	if (ret)
-@@ -635,6 +647,12 @@ static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
- 		goto error_release_group_hold;
- 
- 	ret = ov9282_write_reg(ov9282, OV9282_REG_AGAIN, 1, gain);
-+	if (ret)
-+		goto error_release_group_hold;
+        __arm_dma_free(dev, size, cpu_addr, dma_handle, attrs, false);
+ }
 +
-+	ret = __v4l2_ctrl_modify_range(ov9282->flash_duration,
-+				       0, exposure_us, 1,
-+				       OV9282_FLASH_DURATION_DEFAULT);
- 
- error_release_group_hold:
- 	ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 0);
-@@ -1420,6 +1438,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
- 	struct v4l2_fwnode_device_properties props;
- 	struct v4l2_ctrl *ctrl;
- 	u32 hblank_min;
-+	u32 exposure_us;
- 	u32 lpfr;
- 	int ret;
- 
-@@ -1495,8 +1514,11 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
- 			       (1 << V4L2_FLASH_LED_MODE_TORCH),
- 			       V4L2_FLASH_LED_MODE_NONE);
- 
--	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
--			  0, 13900, 1, 8);
-+	exposure_us = ov9282_exposure_to_us(ov9282, OV9282_EXPOSURE_DEFAULT);
-+	ov9282->flash_duration = v4l2_ctrl_new_std(ctrl_hdlr,
-+						   &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-+						   0, exposure_us,
-+						   1, OV9282_FLASH_DURATION_DEFAULT);
- 
- 	ctrl = v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
- 				      V4L2_CID_FLASH_STROBE_SOURCE,
-
--- 
-2.47.2
-
-
++void arch_dma_prep_coherent(struct page *page, size_t size)
++{
++       void *ptr =3D page_address(page);
++
++       dmac_flush_range(ptr, ptr + size);
++       outer_flush_range(__pa(ptr), __pa(ptr) + size);
++}
+--=20
+2.49.0
 
