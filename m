@@ -1,36 +1,48 @@
-Return-Path: <linux-media+bounces-35043-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35044-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480E8ADC675
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:31:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE1DADC69E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:35:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B170D3BBFDA
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:29:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB3853B867B
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:33:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 261022949F3;
-	Tue, 17 Jun 2025 09:29:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19122293B4F;
+	Tue, 17 Jun 2025 09:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvTEgw9U"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F0928D8EE;
-	Tue, 17 Jun 2025 09:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A331DE2BF;
+	Tue, 17 Jun 2025 09:33:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750152554; cv=none; b=OytmgpkjVY+vokURJUdB1aJZanLxUed6RrNdg13kzV6lNgg71Byt9RTEkBQrF1DFmNF9UebSv2oostIs9eOq4SwBiB+6Bn062KWNgGJJp2CSyQSKtS5qiU/wQlYtLJVesKEjr5rN7ndqJfKnOUscP2zk3f7bkSTdE2LSnNz9sbQ=
+	t=1750152799; cv=none; b=VZmFm+uKt4BQgchSelL6Ebbg8oGDrgw+hGFXwkTQBFjFYlZf1XpHxlhfb0fJ/aeWq3/RsjvOnuNVYViWNqeO8eE3hmJ4xJjX/Z7Ul9N1ZJxRUU/Jvyikx8zWGiU8HMoaGHqTT/WK3CyabwGHq9Xmg9gXp4LPAG39RixLgrRMvTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750152554; c=relaxed/simple;
-	bh=BLhgt8NKy11ftNW7oRUuMgEb819Xx+li28g2q+IrRSE=;
+	s=arc-20240116; t=1750152799; c=relaxed/simple;
+	bh=KyzMbQfhZJNmDrTnESBqCjvNW4ddcm/X4dit05DF09A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pk64RbDWvL5BphlfXVjokO/ZdlIgdiL26K23w4MAVi+u4urmrA+NY1BPbxIS5c+vvJ7LqayogeuDJogC8mKzJSYCzok5Q4nNJg+sxAwkeu4m0VBoEekgoKLk2onxu5sIYl7b4iM1XrQlInrtUnqcHSvycE5D1POKXRzXF/XvpdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 224D8C4CEED;
-	Tue, 17 Jun 2025 09:29:12 +0000 (UTC)
-Message-ID: <ff13e1a9-f1c8-4d2e-a535-122c512ffc03@xs4all.nl>
-Date: Tue, 17 Jun 2025 11:29:11 +0200
+	 In-Reply-To:Content-Type; b=UhsZxyQT9QKVCWBpjZaWYlbwc0uZhOIyV/xlwfwBnSvZRPh6KJo2Uj4wgn1/kI4El9L9jn3RycosLyVLUeedlFmv3J09QtRYRT7SsrU1AwpL0oqiMfqc/7nHQvB393L5ZWkvmmdtcnePQWlZZJxsvV3iinHzLcdToSci8x09J4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvTEgw9U; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08452C4CEE3;
+	Tue, 17 Jun 2025 09:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750152797;
+	bh=KyzMbQfhZJNmDrTnESBqCjvNW4ddcm/X4dit05DF09A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FvTEgw9UmFMMc1dqWUmhZ94c2FSeqzHYW0RewK1Zb4PVvQHjAeont1yXOUbM4U53T
+	 9Vqmug6RGUbD7DoaArpYISACU4ws7xZ4GtSQTAfZH4UqQLOW1WV4gyIYPtAZwSum79
+	 h2/KNlh1vGVyJUmBKTbc78UMtGSfKp52mCyRO8Vyxlcvkl9pNOIKhii4u2OWkkgX9Q
+	 kfkIo9A+N6IXLUdiuAO/ANP9GYHCMQAZhwka6Nos9ZL8YxFUqr8wotDQB0q5e2c+8z
+	 6wyc8k4+CEuv3be9KbmdzR8OL06yiWq5jL7NJWYGzfryP3+HHXmDt3SWI658KAMNJB
+	 QEY6sQiuTVusg==
+Message-ID: <9233836e-c50e-4118-95f6-0be02dc0c45e@kernel.org>
+Date: Tue, 17 Jun 2025 11:33:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,213 +50,169 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/5] media: uvcvideo: Remove stream->is_streaming field
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Subject: Re: [PATCH v6 4/4] media: uvcvideo: Auto-set UVC_QUIRK_MSXU_META
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Hans de Goede <hdegoede@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hans de Goede <hansg@kernel.org>
-References: <20250616-uvc-fop-v4-0-250286570ee7@chromium.org>
- <20250616-uvc-fop-v4-4-250286570ee7@chromium.org>
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org
+References: <20250604-uvc-meta-v6-0-7141d48c322c@chromium.org>
+ <20250604-uvc-meta-v6-4-7141d48c322c@chromium.org>
+ <d1e5942b-f8e5-42c6-98ae-d346927df3cb@kernel.org>
+ <CANiDSCtXmXYkv3b_62iegTFOxBVrGUv9+mbioxvQvPsadwBpqg@mail.gmail.com>
+ <ec722aa6-17d4-4264-b99f-bdae1d908713@kernel.org>
+ <CANiDSCu1b2n9c7WH2ZHysOY2xV1RbV9Z6AHBuXXfF8fV8OwYgg@mail.gmail.com>
 Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250616-uvc-fop-v4-4-250286570ee7@chromium.org>
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <CANiDSCu1b2n9c7WH2ZHysOY2xV1RbV9Z6AHBuXXfF8fV8OwYgg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 16/06/2025 17:24, Ricardo Ribalda wrote:
-> The is_streaming field is used by modular PM to know if the device is
-> currently streaming or not.
-> 
-> With the transition to vb2 and fop helpers, we can use vb2 functions for
-> the same functionality. The great benefit is that vb2 already tracks the
-> streaming state for us.
-> 
-> Reviewed-by: Hans de Goede <hansg@kernel.org>
+Hi,
 
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
+On 16-Jun-25 11:02 PM, Ricardo Ribalda wrote:
+> Hi Hans
+> 
+> On Mon, 16 Jun 2025 at 22:47, Hans de Goede <hansg@kernel.org> wrote:
+>>
+>> Hi Ricardo,
+>>
+>> On 16-Jun-25 5:04 PM, Ricardo Ribalda wrote:
+>>> Hi Hans
+>>>
+>>> On Mon, 16 Jun 2025 at 16:38, Hans de Goede <hansg@kernel.org> wrote:
+>>>>
+>>>> Hi Ricardo,
+>>>>
+>>>> On 4-Jun-25 14:16, Ricardo Ribalda wrote:
+>>>>> If the camera supports the MSXU_CONTROL_METADATA control, auto set the
+>>>>> MSXU_META quirk.
+>>>>>
+>>>>> Reviewed-by: Hans de Goede <hansg@kernel.org>
+>>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>>>> ---
+>>>>>  drivers/media/usb/uvc/uvc_metadata.c | 72 ++++++++++++++++++++++++++++++++++++
+>>>>>  include/linux/usb/uvc.h              |  3 ++
+>>>>>  2 files changed, 75 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+>>>>> index df3f259271c675feb590c4534dad95b3b786f082..cd58427578ff413591b60abe0a210b90802dddc7 100644
+>>>>> --- a/drivers/media/usb/uvc/uvc_metadata.c
+>>>>> +++ b/drivers/media/usb/uvc/uvc_metadata.c
+>>>>> @@ -10,6 +10,7 @@
+>>>>>  #include <linux/list.h>
+>>>>>  #include <linux/module.h>
+>>>>>  #include <linux/usb.h>
+>>>>> +#include <linux/usb/uvc.h>
+>>>>>  #include <linux/videodev2.h>
+>>>>>
+>>>>>  #include <media/v4l2-ioctl.h>
+>>>>> @@ -188,11 +189,82 @@ static const struct v4l2_file_operations uvc_meta_fops = {
+>>>>>       .mmap = vb2_fop_mmap,
+>>>>>  };
+>>>>>
+>>>>> +static const u8 uvc_msxu_guid[16] = UVC_GUID_MSXU_1_5;
+>>>>> +
+>>>>> +static struct uvc_entity *uvc_meta_find_msxu(struct uvc_device *dev)
+>>>>> +{
+>>>>> +     struct uvc_entity *entity;
+>>>>> +
+>>>>> +     list_for_each_entry(entity, &dev->entities, list) {
+>>>>> +             if (!memcmp(entity->guid, uvc_msxu_guid, sizeof(entity->guid)))
+>>>>> +                     return entity;
+>>>>> +     }
+>>>>> +
+>>>>> +     return NULL;
+>>>>> +}
+>>>>> +
+>>>>> +#define MSXU_CONTROL_METADATA 0x9
+>>>>> +static int uvc_meta_detect_msxu(struct uvc_device *dev)
+>>>>> +{
+>>>>> +     u32 *data __free(kfree) = NULL;
+>>>>> +     struct uvc_entity *entity;
+>>>>> +     int ret;
+>>>>> +
+>>>>> +     entity = uvc_meta_find_msxu(dev);
+>>>>> +     if (!entity)
+>>>>> +             return 0;
+>>>>> +
+>>>>> +     /*
+>>>>> +      * USB requires buffers aligned in a special way, simplest way is to
+>>>>> +      * make sure that query_ctrl will work is to kmalloc() them.
+>>>>> +      */
+>>>>> +     data = kmalloc(sizeof(*data), GFP_KERNEL);
+>>>>> +     if (!data)
+>>>>> +             return -ENOMEM;
+>>>>> +
+>>>>> +     /* Check if the metadata is already enabled. */
+>>>>> +     ret = uvc_query_ctrl(dev, UVC_GET_CUR, entity->id, dev->intfnum,
+>>>>> +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
+>>>>> +     if (ret)
+>>>>> +             return 0;
+>>>>> +
+>>>>> +     if (*data) {
+>>>>> +             dev->quirks |= UVC_QUIRK_MSXU_META;
+>>>>> +             return 0;
+>>>>> +     }
+>>>>> +
+>>>>> +     /*
+>>>>> +      * We have seen devices that require 1 to enable the metadata, others
+>>>>> +      * requiring a value != 1 and others requiring a value >1. Luckily for
+>>>>> +      * us, the value from GET_MAX seems to work all the time.
+>>>>> +      */
+>>>>> +     ret = uvc_query_ctrl(dev, UVC_GET_MAX, entity->id, dev->intfnum,
+>>>>> +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
+>>>>> +     if (ret || !*data)
+>>>>> +             return 0;
+>>>>> +
+>>>>> +     /*
+>>>>> +      * If we can set MSXU_CONTROL_METADATA, the device will report
+>>>>> +      * metadata.
+>>>>> +      */
+>>>>> +     ret = uvc_query_ctrl(dev, UVC_SET_CUR, entity->id, dev->intfnum,
+>>>>> +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
+>>>>> +     if (!ret)
+>>>>> +             dev->quirks |= UVC_QUIRK_MSXU_META;
+>>>>
+>>>> Since we set the ctrl to enable MSXU fmt metadata here, this means that
+>>>> cameras which also support V4L2_META_FMT_D4XX will be switched to MSXU
+>>>> metadata mode at probe() time.
+>>>
+>>> Not sure that I completely follow you. D4XX cameras will not be
+>>> switched to MSXU, they will support MSXU and D4XX with the current
+>>> patchset.
+>>
+>> Is MSXU an extension on top of D4XX ? If not then we need to tell
+>> the camera which metadata we want in uvc_meta_v4l2_set_format()
+> 
+> I think I know where the miss-comunication happened :)
+> 
+> MSXU is indeed a superset of D4xx. D4xx metadata is formatted in MSXU.
+> 
+> If an app fetches D4XX and MSXU from an Intel D4xx device, they are identical.
+> 
+> Or in other words, if D4XX devices have MSXU_CONTROL_METADATA, they
+> are probably today initialized with a value != 0.
+
+Ok I see. But I still think the way this is handled in patch 3/4
+is a bit "clunky". I think we should maybe add a 0 terminated
+meta_format array to struct uvc_device and populate that during
+probe with (again maybe) a uvc_device_add_metadata_fmt() helper?
+
+Having such an array should make uvc_meta_v4l2_try_format() /
+uvc_meta_v4l2_set_format() / uvc_meta_v4l2_enum_format() much
+cleaner. And maybe we can even use a single implementation
+for try and set?
+
+Can you give this approach a try ?
 
 Regards,
 
-	Hans
+Hans
 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_queue.c |  9 +++++++
->  drivers/media/usb/uvc/uvc_v4l2.c  | 51 ++-------------------------------------
->  drivers/media/usb/uvc/uvcvideo.h  |  1 -
->  3 files changed, 11 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> index 3f357c2d48cfd258c26f0342007d1d12f1e01007..6e845705b3286348a60650eb262e620dc6039d60 100644
-> --- a/drivers/media/usb/uvc/uvc_queue.c
-> +++ b/drivers/media/usb/uvc/uvc_queue.c
-> @@ -175,12 +175,18 @@ static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
->  
->  	lockdep_assert_irqs_enabled();
->  
-> +	ret = uvc_pm_get(stream->dev);
-> +	if (ret)
-> +		return ret;
-> +
->  	queue->buf_used = 0;
->  
->  	ret = uvc_video_start_streaming(stream);
->  	if (ret == 0)
->  		return 0;
->  
-> +	uvc_pm_put(stream->dev);
-> +
->  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
->  
->  	return ret;
-> @@ -189,11 +195,14 @@ static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
->  static void uvc_stop_streaming_video(struct vb2_queue *vq)
->  {
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> +	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
->  
->  	lockdep_assert_irqs_enabled();
->  
->  	uvc_video_stop_streaming(uvc_queue_to_stream(queue));
->  
-> +	uvc_pm_put(stream->dev);
-> +
->  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
->  }
->  
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index d06ecf3418a988152c6c413568ce32e60040fd87..7ab1bdcfb493fe9f47dbdc86da23cba98d7d10ff 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -617,9 +617,6 @@ static int uvc_v4l2_release(struct file *file)
->  
->  	uvc_ctrl_cleanup_fh(handle);
->  
-> -	if (handle->is_streaming)
-> -		uvc_pm_put(stream->dev);
-> -
->  	/* Release the file handle. */
->  	vb2_fop_release(file);
->  
-> @@ -676,50 +673,6 @@ static int uvc_ioctl_try_fmt(struct file *file, void *fh,
->  	return uvc_v4l2_try_format(stream, fmt, &probe, NULL, NULL);
->  }
->  
-> -static int uvc_ioctl_streamon(struct file *file, void *fh,
-> -			      enum v4l2_buf_type type)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -	int ret;
-> -
-> -	if (handle->is_streaming)
-> -		return 0;
-> -
-> -	ret = uvc_pm_get(stream->dev);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = vb2_ioctl_streamon(file, fh, type);
-> -	if (ret) {
-> -		uvc_pm_put(stream->dev);
-> -		return ret;
-> -	}
-> -
-> -	handle->is_streaming = true;
-> -
-> -	return 0;
-> -}
-> -
-> -static int uvc_ioctl_streamoff(struct file *file, void *fh,
-> -			       enum v4l2_buf_type type)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -	int ret;
-> -
-> -	ret = vb2_ioctl_streamoff(file, fh, type);
-> -	if (ret)
-> -		return ret;
-> -
-> -	if (handle->is_streaming) {
-> -		handle->is_streaming = false;
-> -		uvc_pm_put(stream->dev);
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  static int uvc_ioctl_enum_input(struct file *file, void *fh,
->  				struct v4l2_input *input)
->  {
-> @@ -1320,8 +1273,8 @@ const struct v4l2_ioctl_ops uvc_ioctl_ops = {
->  	.vidioc_expbuf = vb2_ioctl_expbuf,
->  	.vidioc_dqbuf = vb2_ioctl_dqbuf,
->  	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-> -	.vidioc_streamon = uvc_ioctl_streamon,
-> -	.vidioc_streamoff = uvc_ioctl_streamoff,
-> +	.vidioc_streamon = vb2_ioctl_streamon,
-> +	.vidioc_streamoff = vb2_ioctl_streamoff,
->  	.vidioc_enum_input = uvc_ioctl_enum_input,
->  	.vidioc_g_input = uvc_ioctl_g_input,
->  	.vidioc_s_input = uvc_ioctl_s_input,
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index b300487e6ec9163ac8236803b9e819814233f419..3e6d2d912f3a1cfcf63b2bc8edd3f86f3da305db 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -629,7 +629,6 @@ struct uvc_fh {
->  	struct uvc_video_chain *chain;
->  	struct uvc_streaming *stream;
->  	unsigned int pending_async_ctrls;
-> -	bool is_streaming;
->  };
->  
->  /* ------------------------------------------------------------------------
-> 
+
 
 
