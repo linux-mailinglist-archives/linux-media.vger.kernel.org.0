@@ -1,494 +1,493 @@
-Return-Path: <linux-media+bounces-35074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35075-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38B2ADCB85
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 14:29:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CF2ADCBA6
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 14:32:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 340E6167BF1
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 12:28:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E720C189543E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 12:32:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F2CB2E8881;
-	Tue, 17 Jun 2025 12:25:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ECAE7081C;
+	Tue, 17 Jun 2025 12:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MTQarxXz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cWVWua1w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DEF238175;
-	Tue, 17 Jun 2025 12:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0B7291166;
+	Tue, 17 Jun 2025 12:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750163156; cv=none; b=kGuJDynAEkjGOu1Rp+QiUpfRtZWM3vfOu+8O4PlHn1i8k0NeOwUnWENdNCHalzM9qECYfMJWDUv/zclrV+hNs2E/6+/B0zcnXfjjDMW7gd0DmsfVqhx8gfs+mFZzaC5Un/ZmgCjapOJLE34LdsMWTRAypScz1kWbqa1C9+c26NY=
+	t=1750163547; cv=none; b=nuIrfFxwKge6SjphbarVoNYKzVzf8f9tTTHGUufZ1ZO2rHGGidO5IzM8CcMuzexHAxY2+YYXcnaZbp81NlBpyU3EcuExueRTR/ZG8v6xRDP+XBFsIM99Jp6YhKzpjaPfEiIFt8v8Qd1qosnK6mrR1xFKs6TjxwyFSJWINmPWCYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750163156; c=relaxed/simple;
-	bh=tgcleMRQWGHM0pb97MCLzewTOhGGUbIwWzMi/hXglrg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ozrn3n1chWMSWN8sFskU7k7KHrEDH/tyGgT3vtypoyixYOXcGmHAyQVfaL/eM9iXKih1pFTRijOTltVdpqZuCEMjuz8+zkZIdWEP/GG7WAoMqdu5UnN8y7m7gn5oC+zzTiV7A3ubr0CO127dnqg0c97l2Q1JHWxuGJo+RPGitwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MTQarxXz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18BD3C4CEF1;
-	Tue, 17 Jun 2025 12:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750163156;
-	bh=tgcleMRQWGHM0pb97MCLzewTOhGGUbIwWzMi/hXglrg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=MTQarxXzYp3O/7pLf05csV0/dbMIaF8hwUdOhtAKQNzSKBlCJwKa3+wE8kcz1SLoZ
-	 lQOkcBOdaj1AeTFM8HjjOPIHiV9SQzCiQ+MEBYga4Uk2XKO5CQE+Bb0wjHxtmCmS67
-	 9cKBjhKnoXowxpJknSvtotnqaDUX6Qodr48nNjy6tSlaobDopfKDLWPF5SwSQDfgOe
-	 DGWR5hzoH5cSSY8xoCit4c8bdxD4ZVeTDXgUxpDLAD1WAnvDFFv5eg8kSGK+1BFpIZ
-	 xN5Mr9X+M+wmFq0xb0xpPAsWf/9uHZODUQzLd/83md5fE+h0cjU2MnB/9mGB9LR3oO
-	 knxmJKZ/rbTHQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 17 Jun 2025 14:25:41 +0200
-Subject: [PATCH v5 2/2] dma-buf: heaps: Introduce a new heap for reserved
- memory
+	s=arc-20240116; t=1750163547; c=relaxed/simple;
+	bh=ig5rteClH3vLeIe325g8gO95JuDFf5pkGezIw9thkQU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACbDt3JEv4YM61zXtp8GWdmpqVmPURAwjoa9fwbOhVZHqCdQjyPsdOnv+0m67khER/nkmX3VZz1oOvxZzGOU4/dEYVhUJPN6nOGPFuZ0z4FdC8k2Wh5LR7M3Y72y0IAqPVYdOkPg989NiqX0CPmwSVldXVr7j6RCodAXS2ttVO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cWVWua1w; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E79347E1;
+	Tue, 17 Jun 2025 14:32:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750163530;
+	bh=ig5rteClH3vLeIe325g8gO95JuDFf5pkGezIw9thkQU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cWVWua1w/O9dklxQnNYN0kdbwG6V2nVlxOnrCrCUi6B6pty2LoqgCZxP9DFD/QYC4
+	 gqfozpaDYp+bPfik3fs5/LPMWPKHOf2N4TVbRbK3a5k3bSXYgCp8dc9RNJEToTZ4K9
+	 HSVT0nRjF0thi0wza+7XxvIajtv8fGXCJ9DCY9zE=
+Date: Tue, 17 Jun 2025 14:32:19 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>, 
+	David Plowman <david.plowman@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 3/4] media: pisp_be: Split jobs creation and scheduling
+Message-ID: <bhvhvjr7ks3yokkaoexuhduxqtxpx6voow6govxtvvs5o4sbwi@crrbxkit3vli>
+References: <20250606-pispbe-mainline-split-jobs-handling-v6-v7-0-46169f0622b7@ideasonboard.com>
+ <20250606-pispbe-mainline-split-jobs-handling-v6-v7-3-46169f0622b7@ideasonboard.com>
+ <20250616144009.GD32454@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250617-dma-buf-ecc-heap-v5-2-0abdc5863a4f@kernel.org>
-References: <20250617-dma-buf-ecc-heap-v5-0-0abdc5863a4f@kernel.org>
-In-Reply-To: <20250617-dma-buf-ecc-heap-v5-0-0abdc5863a4f@kernel.org>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
- Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10750; i=mripard@kernel.org;
- h=from:subject:message-id; bh=tgcleMRQWGHM0pb97MCLzewTOhGGUbIwWzMi/hXglrg=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmBcSfNt0/432eecGfWf/udTvZeG30XqLx6Fix/svikW
- c/WCeesOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBE1nswNmxPivtwddmph9sC
- T0tObdh/vIx1+6vJb22t6gTVf+YdOzj/so+G+uz7M3T5XeznGCQ92MBYH5PzUcd179+n/to3ijI
- WdP3nz31xavulmdwRAtuLUm5f2Tc1ciPjj8yyeZ+Ub52T+DUvFAA=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250616144009.GD32454@pendragon.ideasonboard.com>
 
-Some reserved memory regions might have particular memory setup or
-attributes that make them good candidates for heaps.
+Hi Laurent
 
-Let's provide a heap type that will create a new heap for each reserved
-memory region flagged as such.
+On Mon, Jun 16, 2025 at 05:40:09PM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Fri, Jun 06, 2025 at 12:29:23PM +0200, Jacopo Mondi wrote:
+> > Currently the 'pispbe_schedule()' function does two things:
+> >
+> > 1) Tries to assemble a job by inspecting all the video node queues
+> >    to make sure all the required buffers are available
+> > 2) Submit the job to the hardware
+> >
+> > The pispbe_schedule() function is called at:
+> >
+> > - video device start_streaming() time
+> > - video device qbuf() time
+> > - irq handler
+> >
+> > As assembling a job requires inspecting all queues, it is a rather
+> > time consuming operation which is better not run in IRQ context.
+> >
+> > To avoid the executing the time consuming job creation in interrupt
+>
+> s/the executing/executing/
+>
+> > context split the job creation and job scheduling in two distinct
+> > operations. When a well-formed job is created, append it to the
+> > newly introduced 'pispbe->job_queue' where it will be dequeued from
+> > by the scheduling routine.
+> >
+> > As the per-node 'ready_queue' buffer list is only accessed in vb2
+> > ops callbacks, protected by a mutex, it is not necessary to guard it
+>
+> "by the node->queue_lock mutex"
+>
+> > with a dedicated spinlock so drop it. Also use the spin_lock_irq()
+> > variant in all functions not called from an IRQ context where the
+> > spin_lock_irqsave() version was used.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  .../media/platform/raspberrypi/pisp_be/pisp_be.c   | 152 +++++++++++----------
+> >  1 file changed, 79 insertions(+), 73 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> > index 92c452891d6c..c25f7d9b404c 100644
+> > --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> > +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> > @@ -161,8 +161,6 @@ struct pispbe_node {
+> >  	struct mutex node_lock;
+> >  	/* vb2_queue lock */
+> >  	struct mutex queue_lock;
+> > -	/* Protect pispbe_node->ready_queue and pispbe_buffer->ready_list */
+> > -	spinlock_t ready_lock;
+> >  	struct list_head ready_queue;
+> >  	struct vb2_queue queue;
+> >  	struct v4l2_format format;
+> > @@ -190,6 +188,8 @@ struct pispbe_hw_enables {
+> >
+> >  /* Records a job configuration and memory addresses. */
+> >  struct pispbe_job_descriptor {
+> > +	struct list_head queue;
+> > +	struct pispbe_buffer *buffers[PISPBE_NUM_NODES];
+> >  	dma_addr_t hw_dma_addrs[N_HW_ADDRESSES];
+> >  	struct pisp_be_tiles_config *config;
+> >  	struct pispbe_hw_enables hw_enables;
+> > @@ -215,8 +215,10 @@ struct pispbe_dev {
+> >  	unsigned int sequence;
+> >  	u32 streaming_map;
+> >  	struct pispbe_job queued_job, running_job;
+> > -	spinlock_t hw_lock; /* protects "hw_busy" flag and streaming_map */
+> > +	/* protects "hw_busy" flag, streaming_map and job_queue */
+> > +	spinlock_t hw_lock;
+> >  	bool hw_busy; /* non-zero if a job is queued or is being started */
+> > +	struct list_head job_queue;
+> >  	int irq;
+> >  	u32 hw_version;
+> >  	u8 done, started;
+> > @@ -440,41 +442,47 @@ static void pispbe_xlate_addrs(struct pispbe_dev *pispbe,
+> >   * For Output0, Output1, Tdn and Stitch, a buffer only needs to be
+> >   * available if the blocks are enabled in the config.
+> >   *
+> > - * Needs to be called with hw_lock held.
+> > + * If all the buffers required to form a job are available, append the
+> > + * job descriptor to the job queue to be later queued to the HW.
+> >   *
+> >   * Returns 0 if a job has been successfully prepared, < 0 otherwise.
+> >   */
+> > -static int pispbe_prepare_job(struct pispbe_dev *pispbe,
+> > -			      struct pispbe_job_descriptor *job)
+> > +static int pispbe_prepare_job(struct pispbe_dev *pispbe)
+> >  {
+> >  	struct pispbe_buffer *buf[PISPBE_NUM_NODES] = {};
+> > +	struct pispbe_job_descriptor *job;
+>
+> You could use
+>
+> 	struct pispbe_job_descriptor __free(kfree) *job = NULL;
+>
+> and drop the kfree() in the error paths to simplify error handling and
+> make it more robust. Don't forget to set job to NULL just after adding
+> it to the job_queue.
+>
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/dma-buf/heaps/Kconfig         |   8 +
- drivers/dma-buf/heaps/Makefile        |   1 +
- drivers/dma-buf/heaps/carveout_heap.c | 362 ++++++++++++++++++++++++++++++++++
- 3 files changed, 371 insertions(+)
+Only if I
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..1ce4f6828d8c06bfdd7bc2e5127707f1778586e6 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -1,5 +1,13 @@
-+config DMABUF_HEAPS_CARVEOUT
-+	bool "DMA-BUF Carveout Heaps"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable the carveout dmabuf heap. The carveout
-+	  heap is backed by pages from reserved memory regions flagged as
-+	  exportable. If in doubt, say Y.
-+
- config DMABUF_HEAPS_SYSTEM
- 	bool "DMA-BUF System Heap"
- 	depends on DMABUF_HEAPS
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 974467791032ffb8a7aba17b1407d9a19b3f3b44..b734647ad5c84f449106748160258e372f153df2 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_DMABUF_HEAPS_CARVEOUT)	+= carveout_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heaps/carveout_heap.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..c01abc72c09d4f2a373462fded2856d975a36c8f
---- /dev/null
-+++ b/drivers/dma-buf/heaps/carveout_heap.c
-@@ -0,0 +1,362 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+#include <linux/genalloc.h>
-+#include <linux/highmem.h>
-+#include <linux/of_reserved_mem.h>
-+
-+struct carveout_heap_priv {
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+};
-+
-+struct carveout_heap_buffer_priv {
-+	struct mutex lock;
-+	struct list_head attachments;
-+
-+	unsigned long num_pages;
-+	struct carveout_heap_priv *heap;
-+	phys_addr_t paddr;
-+	void *vaddr;
-+	unsigned int vmap_cnt;
-+};
-+
-+struct carveout_heap_attachment {
-+	struct list_head head;
-+	struct sg_table table;
-+
-+	struct device *dev;
-+	bool mapped;
-+};
-+
-+static int carveout_heap_attach(struct dma_buf *buf,
-+				struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = buf->priv;
-+	struct carveout_heap_attachment *a;
-+	struct sg_table *sgt;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+	int ret;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+	INIT_LIST_HEAD(&a->head);
-+	a->dev = attachment->dev;
-+	attachment->priv = a;
-+
-+	sgt = &a->table;
-+	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-+	if (ret)
-+		goto err_cleanup_attach;
-+
-+	sg_set_buf(sgt->sgl, priv->vaddr, len);
-+
-+	mutex_lock(&priv->lock);
-+	list_add(&a->head, &priv->attachments);
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+
-+err_cleanup_attach:
-+	kfree(a);
-+	return ret;
-+}
-+
-+static void carveout_heap_detach(struct dma_buf *dmabuf,
-+				 struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&priv->lock);
-+	list_del(&a->head);
-+	mutex_unlock(&priv->lock);
-+
-+	sg_free_table(&a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *
-+carveout_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+			  enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+	struct sg_table *table = &a->table;
-+	int ret;
-+
-+	ret = dma_map_sgtable(a->dev, table, direction, 0);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	a->mapped = true;
-+
-+	return table;
-+}
-+
-+static void carveout_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+					struct sg_table *table,
-+					enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	a->mapped = false;
-+	dma_unmap_sgtable(a->dev, table, direction, 0);
-+}
-+
-+static int
-+carveout_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-+				       enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt)
-+		invalidate_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int
-+carveout_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
-+				     enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt)
-+		flush_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int carveout_heap_mmap(struct dma_buf *dmabuf,
-+			      struct vm_area_struct *vma)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	return vm_iomap_memory(vma, priv->paddr, len);
-+}
-+
-+static int carveout_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (!priv->vmap_cnt) {
-+		void *vaddr = memremap(priv->paddr, len, MEMREMAP_WB);
-+
-+		if (!vaddr) {
-+			mutex_unlock(&priv->lock);
-+			return -ENOMEM;
-+		}
-+
-+		priv->vaddr = vaddr;
-+	}
-+
-+	WARN_ON(!priv->vaddr);
-+	iosys_map_set_vaddr(map, priv->vaddr);
-+	priv->vmap_cnt++;
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static void carveout_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+
-+	mutex_lock(&priv->lock);
-+
-+	priv->vmap_cnt--;
-+	if (!priv->vmap_cnt) {
-+		memunmap(priv->vaddr);
-+		priv->vaddr = NULL;
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	iosys_map_clear(map);
-+}
-+
-+static void carveout_heap_dma_buf_release(struct dma_buf *buf)
-+{
-+	struct carveout_heap_buffer_priv *buffer_priv = buf->priv;
-+	struct carveout_heap_priv *heap_priv = buffer_priv->heap;
-+	unsigned long len = buffer_priv->num_pages * PAGE_SIZE;
-+
-+	gen_pool_free(heap_priv->pool, buffer_priv->paddr, len);
-+	kfree(buffer_priv);
-+}
-+
-+static const struct dma_buf_ops carveout_heap_buf_ops = {
-+	.attach		= carveout_heap_attach,
-+	.detach		= carveout_heap_detach,
-+	.map_dma_buf	= carveout_heap_map_dma_buf,
-+	.unmap_dma_buf	= carveout_heap_unmap_dma_buf,
-+	.begin_cpu_access	= carveout_heap_dma_buf_begin_cpu_access,
-+	.end_cpu_access	= carveout_heap_dma_buf_end_cpu_access,
-+	.mmap		= carveout_heap_mmap,
-+	.vmap		= carveout_heap_vmap,
-+	.vunmap		= carveout_heap_vunmap,
-+	.release	= carveout_heap_dma_buf_release,
-+};
-+
-+static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
-+					      unsigned long len,
-+					      u32 fd_flags,
-+					      u64 heap_flags)
-+{
-+	struct carveout_heap_priv *heap_priv = dma_heap_get_drvdata(heap);
-+	struct carveout_heap_buffer_priv *buffer_priv;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	struct dma_buf *buf;
-+	phys_addr_t paddr;
-+	/* len is guaranteed to be page-aligned by the framework, so we can use it as is. */
-+	size_t size = len;
-+	int ret;
-+
-+	buffer_priv = kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
-+	if (!buffer_priv)
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_LIST_HEAD(&buffer_priv->attachments);
-+	mutex_init(&buffer_priv->lock);
-+
-+	paddr = gen_pool_alloc(heap_priv->pool, size);
-+	if (!paddr) {
-+		ret = -ENOMEM;
-+		goto err_free_buffer_priv;
-+	}
-+
-+	buffer_priv->paddr = paddr;
-+	buffer_priv->heap = heap_priv;
-+	buffer_priv->num_pages = size >> PAGE_SHIFT;
-+
-+	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
-+	exp_info.ops = &carveout_heap_buf_ops;
-+	exp_info.size = size;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer_priv;
-+
-+	buf = dma_buf_export(&exp_info);
-+	if (IS_ERR(buf)) {
-+		ret = PTR_ERR(buf);
-+		goto err_free_buffer;
-+	}
-+
-+	return buf;
-+
-+err_free_buffer:
-+	gen_pool_free(heap_priv->pool, paddr, len);
-+err_free_buffer_priv:
-+	kfree(buffer_priv);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+static const struct dma_heap_ops carveout_heap_ops = {
-+	.allocate = carveout_heap_allocate,
-+};
-+
-+static int __init carveout_heap_setup(struct device_node *node)
-+{
-+	struct dma_heap_export_info exp_info = {};
-+	const struct reserved_mem *rmem;
-+	struct carveout_heap_priv *priv;
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+	int ret;
-+
-+	rmem = of_reserved_mem_lookup(node);
-+	if (!rmem)
-+		return -EINVAL;
-+
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	pool = gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
-+	if (!pool) {
-+		ret = -ENOMEM;
-+		goto err_cleanup_heap;
-+	}
-+	priv->pool = pool;
-+
-+	ret = gen_pool_add(pool, rmem->base, rmem->size, NUMA_NO_NODE);
-+	if (ret)
-+		goto err_release_mem_region;
-+
-+	exp_info.name = node->full_name;
-+	exp_info.ops = &carveout_heap_ops;
-+	exp_info.priv = priv;
-+
-+	heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(heap)) {
-+		ret = PTR_ERR(heap);
-+		goto err_release_mem_region;
-+	}
-+	priv->heap = heap;
-+
-+	return 0;
-+
-+err_release_mem_region:
-+	gen_pool_destroy(pool);
-+err_cleanup_heap:
-+	kfree(priv);
-+	return ret;
-+}
-+
-+static int __init carveout_heap_init(void)
-+{
-+	struct device_node *rmem_node;
-+	struct device_node *node;
-+	int ret;
-+
-+	rmem_node = of_find_node_by_path("/reserved-memory");
-+	if (!rmem_node)
-+		return 0;
-+
-+	for_each_child_of_node(rmem_node, node) {
-+		if (!of_device_is_compatible(node, "carved-out"))
-+			continue;
-+
-+		ret = carveout_heap_setup(node);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+module_init(carveout_heap_init);
+	no_free_ptr(job);
 
--- 
-2.49.0
+before returning as job as to stay valid until it gets consumed.
 
+I'm not sure it's worth it just to save two "kfree(job);" in error
+paths
+
+> > +	unsigned int streaming_map;
+> >  	unsigned int config_index;
+> >  	struct pispbe_node *node;
+> > -	unsigned long flags;
+> >
+> > -	lockdep_assert_held(&pispbe->hw_lock);
+>
+> You could replace this with
+>
+> 	lockdep_assert_irqs_enabled();
+>
+> Up to you.
+>
+> > +	scoped_guard(spinlock_irq, &pispbe->hw_lock) {
+> > +		static const u32 mask = BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE);
+> >
+> > -	memset(job, 0, sizeof(struct pispbe_job_descriptor));
+> > +		if ((pispbe->streaming_map & mask) != mask)
+> > +			return -ENODEV;
+> >
+> > -	if (((BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE)) &
+> > -		pispbe->streaming_map) !=
+> > -			(BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE)))
+> > -		return -ENODEV;
+> > +		/*
+> > +		 * Take a copy of streaming_map: nodes activated after this
+> > +		 * point are ignored when preparing this job.
+> > +		 */
+> > +		streaming_map = pispbe->streaming_map;
+> > +	}
+> > +
+> > +	job = kzalloc(sizeof(*job), GFP_KERNEL);
+> > +	if (!job)
+> > +		return -ENOMEM;
+> >
+> >  	node = &pispbe->node[CONFIG_NODE];
+> > -	spin_lock_irqsave(&node->ready_lock, flags);
+> >  	buf[CONFIG_NODE] = list_first_entry_or_null(&node->ready_queue,
+> >  						    struct pispbe_buffer,
+> >  						    ready_list);
+> > -	if (buf[CONFIG_NODE]) {
+> > -		list_del(&buf[CONFIG_NODE]->ready_list);
+> > -		pispbe->queued_job.buf[CONFIG_NODE] = buf[CONFIG_NODE];
+> > +	if (!buf[CONFIG_NODE]) {
+> > +		kfree(job);
+> > +		return -ENODEV;
+> >  	}
+> > -	spin_unlock_irqrestore(&node->ready_lock, flags);
+> >
+> > -	/* Exit early if no config buffer has been queued. */
+> > -	if (!buf[CONFIG_NODE])
+> > -		return -ENODEV;
+> > +	list_del(&buf[CONFIG_NODE]->ready_list);
+> > +	job->buffers[CONFIG_NODE] = buf[CONFIG_NODE];
+> >
+> >  	config_index = buf[CONFIG_NODE]->vb.vb2_buf.index;
+> >  	job->config = &pispbe->config[config_index];
+> > @@ -495,7 +503,7 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
+> >  			continue;
+> >
+> >  		buf[i] = NULL;
+> > -		if (!(pispbe->streaming_map & BIT(i)))
+> > +		if (!(streaming_map & BIT(i)))
+> >  			continue;
+> >
+> >  		if ((!(rgb_en & PISP_BE_RGB_ENABLE_OUTPUT0) &&
+> > @@ -522,25 +530,25 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
+> >  		node = &pispbe->node[i];
+> >
+> >  		/* Pull a buffer from each V4L2 queue to form the queued job */
+> > -		spin_lock_irqsave(&node->ready_lock, flags);
+> >  		buf[i] = list_first_entry_or_null(&node->ready_queue,
+> >  						  struct pispbe_buffer,
+> >  						  ready_list);
+> >  		if (buf[i]) {
+> >  			list_del(&buf[i]->ready_list);
+> > -			pispbe->queued_job.buf[i] = buf[i];
+> > +			job->buffers[i] = buf[i];
+> >  		}
+> > -		spin_unlock_irqrestore(&node->ready_lock, flags);
+> >
+> >  		if (!buf[i] && !ignore_buffers)
+> >  			goto err_return_buffers;
+> >  	}
+> >
+> > -	pispbe->queued_job.valid = true;
+> > -
+> >  	/* Convert buffers to DMA addresses for the hardware */
+> >  	pispbe_xlate_addrs(pispbe, job, buf);
+> >
+> > +	scoped_guard(spinlock_irq, &pispbe->hw_lock) {
+> > +		list_add_tail(&job->queue, &pispbe->job_queue);
+> > +	}
+> > +
+> >  	return 0;
+> >
+> >  err_return_buffers:
+> > @@ -551,33 +559,39 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
+> >  			continue;
+> >
+> >  		/* Return the buffer to the ready_list queue */
+> > -		spin_lock_irqsave(&n->ready_lock, flags);
+> >  		list_add(&buf[i]->ready_list, &n->ready_queue);
+> > -		spin_unlock_irqrestore(&n->ready_lock, flags);
+> >  	}
+> >
+> > -	memset(&pispbe->queued_job, 0, sizeof(pispbe->queued_job));
+> > +	kfree(job);
+> >
+> >  	return -ENODEV;
+> >  }
+> >
+> >  static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
+> >  {
+> > -	struct pispbe_job_descriptor job;
+> > -	unsigned long flags;
+> > -	int ret;
+> > +	struct pispbe_job_descriptor *job;
+> > +
+> > +	scoped_guard(spinlock_irqsave, &pispbe->hw_lock) {
+> > +		if (clear_hw_busy)
+> > +			pispbe->hw_busy = false;
+> > +
+> > +		if (pispbe->hw_busy)
+> > +			return;
+> >
+> > -	spin_lock_irqsave(&pispbe->hw_lock, flags);
+> > +		job = list_first_entry_or_null(&pispbe->job_queue,
+> > +					       struct pispbe_job_descriptor,
+> > +					       queue);
+> > +		if (!job)
+> > +			return;
+> >
+> > -	if (clear_hw_busy)
+> > -		pispbe->hw_busy = false;
+> > +		list_del(&job->queue);
+> >
+> > -	if (pispbe->hw_busy)
+> > -		goto unlock_and_return;
+> > +		for (unsigned int i = 0; i < PISPBE_NUM_NODES; i++)
+> > +			pispbe->queued_job.buf[i] = job->buffers[i];
+> > +		pispbe->queued_job.valid = true;
+> >
+> > -	ret = pispbe_prepare_job(pispbe, &job);
+> > -	if (ret)
+> > -		goto unlock_and_return;
+> > +		pispbe->hw_busy = true;
+> > +	}
+> >
+> >  	/*
+> >  	 * We can kick the job off without the hw_lock, as this can
+> > @@ -585,16 +599,8 @@ static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
+> >  	 * only when the following job has been queued and an interrupt
+> >  	 * is rised.
+> >  	 */
+> > -	pispbe->hw_busy = true;
+> > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+> > -
+> > -	pispbe_queue_job(pispbe, &job);
+> > -
+> > -	return;
+> > -
+> > -unlock_and_return:
+> > -	/* No job has been queued, just release the lock and return. */
+> > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+> > +	pispbe_queue_job(pispbe, job);
+> > +	kfree(job);
+> >  }
+> >
+> >  static void pispbe_isr_jobdone(struct pispbe_dev *pispbe,
+> > @@ -846,18 +852,16 @@ static void pispbe_node_buffer_queue(struct vb2_buffer *buf)
+> >  		container_of(vbuf, struct pispbe_buffer, vb);
+> >  	struct pispbe_node *node = vb2_get_drv_priv(buf->vb2_queue);
+> >  	struct pispbe_dev *pispbe = node->pispbe;
+> > -	unsigned long flags;
+> >
+> >  	dev_dbg(pispbe->dev, "%s: for node %s\n", __func__, NODE_NAME(node));
+> > -	spin_lock_irqsave(&node->ready_lock, flags);
+> >  	list_add_tail(&buffer->ready_list, &node->ready_queue);
+> > -	spin_unlock_irqrestore(&node->ready_lock, flags);
+> >
+> >  	/*
+> >  	 * Every time we add a buffer, check if there's now some work for the hw
+> >  	 * to do.
+> >  	 */
+> > -	pispbe_schedule(pispbe, false);
+> > +	if (!pispbe_prepare_job(pispbe))
+> > +		pispbe_schedule(pispbe, false);
+> >  }
+> >
+> >  static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
+> > @@ -865,17 +869,16 @@ static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
+> >  	struct pispbe_node *node = vb2_get_drv_priv(q);
+> >  	struct pispbe_dev *pispbe = node->pispbe;
+> >  	struct pispbe_buffer *buf, *tmp;
+> > -	unsigned long flags;
+> >  	int ret;
+> >
+> >  	ret = pm_runtime_resume_and_get(pispbe->dev);
+> >  	if (ret < 0)
+> >  		goto err_return_buffers;
+> >
+> > -	spin_lock_irqsave(&pispbe->hw_lock, flags);
+> > -	node->pispbe->streaming_map |=  BIT(node->id);
+> > -	node->pispbe->sequence = 0;
+> > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+> > +	scoped_guard(spinlock_irq, &pispbe->hw_lock) {
+> > +		node->pispbe->streaming_map |=  BIT(node->id);
+> > +		node->pispbe->sequence = 0;
+> > +	}
+> >
+> >  	dev_dbg(pispbe->dev, "%s: for node %s (count %u)\n",
+> >  		__func__, NODE_NAME(node), count);
+> > @@ -883,17 +886,16 @@ static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
+> >  		node->pispbe->streaming_map);
+> >
+> >  	/* Maybe we're ready to run. */
+> > -	pispbe_schedule(pispbe, false);
+> > +	if (!pispbe_prepare_job(pispbe))
+> > +		pispbe_schedule(pispbe, false);
+> >
+> >  	return 0;
+> >
+> >  err_return_buffers:
+> > -	spin_lock_irqsave(&pispbe->hw_lock, flags);
+> >  	list_for_each_entry_safe(buf, tmp, &node->ready_queue, ready_list) {
+> >  		list_del(&buf->ready_list);
+> >  		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_QUEUED);
+> >  	}
+> > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+> >
+> >  	return ret;
+> >  }
+> > @@ -903,7 +905,6 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
+> >  	struct pispbe_node *node = vb2_get_drv_priv(q);
+> >  	struct pispbe_dev *pispbe = node->pispbe;
+> >  	struct pispbe_buffer *buf;
+> > -	unsigned long flags;
+> >
+> >  	/*
+> >  	 * Now this is a bit awkward. In a simple M2M device we could just wait
+> > @@ -915,11 +916,7 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
+> >  	 * This may return buffers out of order.
+> >  	 */
+> >  	dev_dbg(pispbe->dev, "%s: for node %s\n", __func__, NODE_NAME(node));
+> > -	spin_lock_irqsave(&pispbe->hw_lock, flags);
+> >  	do {
+> > -		unsigned long flags1;
+> > -
+> > -		spin_lock_irqsave(&node->ready_lock, flags1);
+> >  		buf = list_first_entry_or_null(&node->ready_queue,
+> >  					       struct pispbe_buffer,
+> >  					       ready_list);
+> > @@ -927,15 +924,23 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
+> >  			list_del(&buf->ready_list);
+> >  			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+> >  		}
+> > -		spin_unlock_irqrestore(&node->ready_lock, flags1);
+> >  	} while (buf);
+> > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+> >
+> >  	vb2_wait_for_all_buffers(&node->queue);
+> >
+> > -	spin_lock_irqsave(&pispbe->hw_lock, flags);
+> > +	spin_lock_irq(&pispbe->hw_lock);
+> >  	pispbe->streaming_map &= ~BIT(node->id);
+> > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+> > +
+> > +	/* Release all jobs once all nodes have stopped streaming. */
+> > +	if (pispbe->streaming_map == 0) {
+> > +		struct pispbe_job_descriptor *job, *temp;
+> > +
+> > +		list_for_each_entry_safe(job, temp, &pispbe->job_queue, queue) {
+> > +			list_del(&job->queue);
+> > +			kfree(job);
+> > +		}
+> > +	}
+>
+> Please splice pispbe->job_queue to a local list with the lock held, and
+> then iterate over the local list without the lock held to free the jobs.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > +	spin_unlock_irq(&pispbe->hw_lock);
+> >
+> >  	pm_runtime_mark_last_busy(pispbe->dev);
+> >  	pm_runtime_put_autosuspend(pispbe->dev);
+> > @@ -1393,7 +1398,6 @@ static int pispbe_init_node(struct pispbe_dev *pispbe, unsigned int id)
+> >  	mutex_init(&node->node_lock);
+> >  	mutex_init(&node->queue_lock);
+> >  	INIT_LIST_HEAD(&node->ready_queue);
+> > -	spin_lock_init(&node->ready_lock);
+> >
+> >  	node->format.type = node->buf_type;
+> >  	pispbe_node_def_fmt(node);
+> > @@ -1677,6 +1681,8 @@ static int pispbe_probe(struct platform_device *pdev)
+> >  	if (!pispbe)
+> >  		return -ENOMEM;
+> >
+> > +	INIT_LIST_HEAD(&pispbe->job_queue);
+> > +
+> >  	dev_set_drvdata(&pdev->dev, pispbe);
+> >  	pispbe->dev = &pdev->dev;
+> >  	platform_set_drvdata(pdev, pispbe);
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
