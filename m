@@ -1,116 +1,232 @@
-Return-Path: <linux-media+bounces-35039-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35040-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E347ADC59F
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:02:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5134ADC5A1
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:03:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83E5416039A
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:02:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2CF73A13F4
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:03:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE67929114A;
-	Tue, 17 Jun 2025 09:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3CEA290BD5;
+	Tue, 17 Jun 2025 09:03:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RF8fAesh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mYyXHUrX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98863289E33
-	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 09:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118A8156CA;
+	Tue, 17 Jun 2025 09:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750150963; cv=none; b=qZubiY0D0Fa3wKaQgFYrpIT32HaDY9SlITwyFEZYXqjcZLXFLqZ2PBZXEKVa+tAXE9lg1mWX6J09hxctmvfkI4j4XY61S4o8/7bNzT+5npyhp9KDyeN/YKmT6g5CrLwpG5zek12oBUDcklsk+1e3Cj00l2GirU557Iq0TCtno2I=
+	t=1750151005; cv=none; b=E3J/IG9clgNzhYuf2arCfsEVeM/G73Z3Ky1nZh0z7kOqfBhL0X6uMsKz9z/0x4j6oH7N5w3YHxeO7R2O9OIV6wXBYnNLdYW7UEZpFUJltz/RPmUZLvt7CvRYlBDAMQNkbYz1mysM9yJQmtAM/Kt58UCP+tfcMz5dtZiDnqTZy3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750150963; c=relaxed/simple;
-	bh=hZpp8NilOYk4lk2aLMATM3rJ4jK41OW6tkT22EaNR68=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QF+Ri2jlulc9Ce2tKmXHLODFJciBVlPyFGqWw0/BMoGJAHS2ofhK3PskYqW54JTlJzsHDp1QSTnUkAHSRGGT9CGAonpN8ytJIUtqxseqAs0rl6zFu1yHxJ7v7NV26jSJsyRGRAp8eZ/9F6q+p6LaQZmwNW2EfV9AgXIus6NvHt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RF8fAesh; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-553645133f0so402252e87.0
-        for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 02:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750150959; x=1750755759; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=p6FSyDeLV5tNzI8jmBk6dfrtvJpCsYW4RkOqJj3Og0s=;
-        b=RF8fAeshrVI5aNgHBrI+v4jsYBHw1T9TD5djqPMGUlFm9/QOZIFOQsBrO2Yn0hX3Rl
-         roiEWZIuHYWaCHMhuc63tY1pv7QaKRKspyOfCvs/XRavK0914EP2W3ngmawnWJitf9PH
-         30kvNGLLToIcYLnzQVXR8Rgf1/Nse8O9ZnJIA/dxdfzHtj1T/9mlZU6A5ZydQdCs4eQF
-         AXFxgEO3j4vOGd9utqYFz5N7Ci8+9d+OmEgP3n626UqRTba28hHEZvCtBquVP4dlLXHh
-         niTU0CZ7vOiPlN29KE7H8PdX6ArvIUsVaQGbdJOyAZ9YAcjuS87uWp2JlI5hnG0XzblK
-         kW7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750150959; x=1750755759;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p6FSyDeLV5tNzI8jmBk6dfrtvJpCsYW4RkOqJj3Og0s=;
-        b=ioNLe/qdtJ5Ds0rsTGNqYcy6+gj5ysPCGa8f9Y5FTXGiGMVt+oCr9sqc2nwNWPJYGj
-         3ZAqhbj0VT8EFafsV02sKPS0MWizbYLech6X5QnHVNg9y6QnHsjPOii21xcx3OjEPipy
-         ZOnjM/+ZsPpqbcn53/8QKtPqj3lNnKrUfqx2EoUt5JyknYtoXeD+PuqbufyagfwG7Cr5
-         Tx7HV0DoEOeXw3JPQHKO+SPLgGMwEexZ1NtMjXINAWWZ659eN0vqB+0aNTbPBhvhiSXR
-         9pPm62CS0E97/5GRDIhJ/4DVk6zvuZGTlcvZVWkHaLZE2taybTkRsoFm0H7ml9ZFNPxe
-         A3/A==
-X-Gm-Message-State: AOJu0YwHBKY20p4NM8+5i12V6bl7y+7+y1UWFhxQFJpRRRMNwiSHUk7x
-	9qtZTZHDZ13ul2+ikM0RbHd31T+bf0q2GrFfUXMv6SUgUbh7lUEviWmDAqRlKkUeoOA=
-X-Gm-Gg: ASbGncugQ3UkyFEjbS6F/wCOMAvaHpuYuEV5o8k8Veau4iZ8rpKZ0TwWSpb17GNFr2U
-	UjzyAz9Fpyt4hYobVwHwdJdrfVsWTuJkA+ikFiwas9VFQwQXsGmvyxmOPHGCEJ5X3WcPgNqbPz0
-	sqJf0/rm8zGdi1PYOc2I9tVQlUz2iw3mA88Ft5gZCEeuL+ZRJyoMcFqCO9ZB8Xhm3p2bLTHUmgJ
-	N9thYG5mdRW3vRu3Vii+1ZNtLz1xh6fKi7CvZXrb4W6FpYklAjD+B4cc/mZvFoWkrbjjrKw7iu9
-	t4FEsGNtKac5oF/sfErhCFIvlFkB1byoKMa4UEydN41btanlLyTAGUv6XF+BneePx4H9Q+hEHnd
-	W1GuT0UPCSTRJqctdXiibALFpRcn688H6jAdaVrcD
-X-Google-Smtp-Source: AGHT+IEv7meiVd5tMWXL+doCxvXY8Z6vYW1YGEvunNjM0gGLHZU0DJ0LcAS77/p7fgnwyjuHi+JcZw==
-X-Received: by 2002:a05:6512:691:b0:553:2a11:9cce with SMTP id 2adb3069b0e04-553b6f4cc69mr1044756e87.14.1750150958516;
-        Tue, 17 Jun 2025 02:02:38 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac120167sm1823733e87.20.2025.06.17.02.02.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jun 2025 02:02:38 -0700 (PDT)
-Message-ID: <3b2f1bba-6dde-4f7d-ad87-219306e37829@linaro.org>
-Date: Tue, 17 Jun 2025 12:02:37 +0300
+	s=arc-20240116; t=1750151005; c=relaxed/simple;
+	bh=0DYfy7oV7hZejEsNdGGSQ2iXZmli62ztZyPKxeghuuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j7uVqUBcsQKN7/7cZFtd5MZAk02pubB8C37rQyID3QqREq4BfT1zmJGrqx5V/qlSRmC+tTE4RJxEtI5vhDxUvmrx6e2CvnXjIWqvF7uITxI9PnpGP09wvfqZlb6EaqciZGIcpax12BIPIeC+xMTDJql5sYBoWKI215BtdhGzAJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mYyXHUrX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5253FC4CEE3;
+	Tue, 17 Jun 2025 09:03:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750151004;
+	bh=0DYfy7oV7hZejEsNdGGSQ2iXZmli62ztZyPKxeghuuo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mYyXHUrX9U8DFj4b9o/6OY86j2qqY6DzvqM92CZevFKOPaE6K7LumEpP/2hsZqWCO
+	 2bnYk1tcOUG/5Cdo9JRL9to1ZUrqZS7j58cK2fKiaDOH+1kQWGiGglMX5Q8zMpHX+Z
+	 WQfp57rDgx2HE4X2CVQbZX5pN6pT0ByZrrdJMylJoVwC1st8fzr197aVQUA5zK5qHs
+	 Xy/0CTfpTsciSiBioPU8bqXMY9GfNdv88ZB7qoAxLqZhXalsDrINNqNDQLhRMV5rbP
+	 sjuWVtAOYOpX/99BTlA8lRb4cNox14piOc9dHHcFS84/aF9z7ex0Zu43w01fO1EWkF
+	 Wephtbhyq522g==
+Date: Tue, 17 Jun 2025 11:03:18 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Alexandre Courbot <gnurou@gmail.com>
+Cc: Albert Esteve <aesteve@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
+ <eperezma@redhat.com>, gurchetansingh@google.com,
+ daniel.almeida@collabora.com, adelva@google.com, changyeon@google.com,
+ nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH v3] media: add virtio-media driver
+Message-ID: <20250617110318.7c89d999@foz.lan>
+In-Reply-To: <20250617104938.09d21b7c@foz.lan>
+References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
+	<20250526141316.7e907032@foz.lan>
+	<DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
+	<20250527111311.105246f2@sal.lan>
+	<CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
+	<20250527153547.6603eaf4@sal.lan>
+	<CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
+	<20250617104938.09d21b7c@foz.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: qcom: camss: csiphy-3ph: Fix inadvertent
- dropping of SDM660/SDM670 phy init
-Content-Language: ru-RU
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Depeng Shao <quic_depengs@quicinc.com>,
- Hans Verkuil <hans.verkuil@cisco.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20250612-linux-next-25-05-30-daily-reviews-v1-0-88ba033a9a03@linaro.org>
- <20250612-linux-next-25-05-30-daily-reviews-v1-1-88ba033a9a03@linaro.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20250612-linux-next-25-05-30-daily-reviews-v1-1-88ba033a9a03@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 6/12/25 11:07, Bryan O'Donoghue wrote:
-> The moving of init sequence hook from gen2() to subdev_init() doesn't
-> account for gen1 devices such as SDM660 and SDM670. The switch should find
-> the right offset for gen2 PHYs only, not reject gen1. Remove the default
-> error case to restore gen1 CSIPHY support.
+Em Tue, 17 Jun 2025 10:49:38 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+
+> Hi Alex,
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: fbce0ca24c3a ("media: qcom: camss: csiphy-3ph: Move CSIPHY variables to data field inside csiphy struct")
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Em Tue, 27 May 2025 23:03:39 +0900
+> Alexandre Courbot <gnurou@gmail.com> escreveu:
+> 
+> > > > > Btw, I was looking at:
+> > > > >
+> > > > >         https://github.com/chromeos/virtio-media
+> > > > >
+> > > > > (I'm assuming that this is the QEMU counterpart, right?)    
+> > > >
+> > > > crosvm actually, but QEMU support is also being worked on.    
+> > >
+> > > Do you have already QEMU patches? The best is to have the Kernel driver
+> > > submitted altogether with QEMU, as Kernel developers need it to do the
+> > > tests. In my case, I never use crosvm, and I don't have any Chromebook
+> > > anymore.    
+> > 
+> > IIRC Albert Esteve was working on this, maybe he can share the current status.  
+> 
+> Any news regards to it?
+> 
+> > Note that crosvm does not require a Chromebook, you can build and run
+> > it pretty easily on a regular PC. I have put together a document to
+> > help with that:
+> > 
+> > https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md  
+> 
+> I started looking on it today. Already installed crossvm (I had to
+> install libcap-devel to build it). Still, I'm not familiar with
+> crossvm, which is a little be painful. In particular, how can I
+> enable network on it and speedup it? With suggested parameters,
+> it picked only one CPU, and very few memory on it:
+> 
+> 	# cat /proc/cpuinfo|grep processor
+> 	processor       : 0
+> 
+> 	# free
+>                total        used        free      shared  buff/cache   available
+> 	Mem:          221876       34780      139712         272       56096      187096
+> 	Swap:              0           0           0
+> 
+> I'd like to be able to compile things on it and use ssh/scp. So,
+> the VM needs more CPUs, more memory, more network and GPU.
+> 
+> Btw, on a quick test with v4l2-compliance, something looks weird:
+> I started a camera application at the host. Still, v4l2-compliance
+> said successfully excecuted mmap:
+> 
+> Streaming ioctls:
+>         test read/write: OK (Not Supported)
+>         test blocking wait: OK
+>         test MMAP (no poll): OK                           
+>         test MMAP (select): OK                            
+>         Vide[2025-06-17T08:44:49.177972817+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
+> [2025-06-17T08:44:49.178164554+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
+> o Capturtest MMAP (epoll): OK                             
+>         test USERPTR (no poll): OK (Not Supported)
+>         test USERPTR (select): OK (Not Supported)
+>         test DMABUF (no poll): OK (Not Supported)
+>         test DMABUF (select): OK (Not Supported)
+> 
+> Which doesn't make any sense, as the host OS should not allow access
+> to mmap while streaming.
 
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Ah, this was with the "simple" device, not with the proxy one.
+With the proxy one, I'm getting:
 
---
-Best wishes,
-Vladimir
+# v4l2-ctl --all
+Driver Info:
+        Driver name      : virtio-media
+        Card type        : usb video: usb video
+        Bus info         : platform:virtio-media
+        Driver version   : 6.15.0
+        Capabilities     : 0x84200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+Priority: 2
+Video input : 0 (Camera 1: ok)
+Format Video Capture:
+        Width/Height      : 1280/720
+        Pixel Format      : 'MJPG' (Motion-JPEG)
+        Field             : None
+        Bytes per Line    : 0
+        Size Image        : 1843200
+        Colorspace        : sRGB
+        Transfer Function : Rec. 709
+        YCbCr/HSV Encoding: ITU-R 601
+        Quantization      : Default (maps to Full Range)
+        Flags             : 
+Crop Capability Video Capture:
+        Bounds      : Left 0, Top 0, Width 1280, Height 720
+        Default     : Left 0, Top 0, Width 1280, Height 720
+        Pixel Aspect: 1/1
+Selection Video Capture: crop_default, Left 0, Top 0, Width 1280, Height 720, Flags: 
+Selection Video Capture: crop_bounds, Left 0, Top 0, Width 1280, Height 720, Flags: 
+Streaming Parameters Video Capture:
+        Capabilities     : timeperframe
+        Frames per second: 30.000 (30/1)
+        Read buffers     : 0
+
+User Controls
+
+                     brightness 0x00980900 (int)    : min=-128 max=127 step=1 default=-11 value=-11
+                       contrast 0x00980901 (int)    : min=0 max=255 step=1 default=148 value=148
+                     saturation 0x00980902 (int)    : min=0 max=255 step=1 default=180 value=180
+                            hue 0x00980903 (int)    : min=-128 max=127 step=1 default=0 value=0
+
+# v4l2-compliance -d0 -s
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test blocking wait: OK
+                fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
+        test MMAP (no poll): FAIL
+                fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
+        test MMAP (select): FAIL
+                fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
+        test MMAP (epoll): FAIL
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+[2025-06-17T08:55:20.768760714+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
+        test DMABUF (no poll): OK (Not Supported)
+[2025-06-17T08:55:20.769745707+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
+        test DMABUF (select): OK (Not Supported)
+
+At the host, I'm getting:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test blocking wait: OK
+                fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
+        test MMAP (no poll): FAIL
+                fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
+        test MMAP (select): FAIL
+                fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
+        test MMAP (epoll): FAIL
+        test USERPTR (no poll): OK                        
+        test USERPTR (select): OK                         
+        test DMABUF: Cannot test, specify --expbuf-device
+
+The device I'm using for test is a UVC HDMI capture board:
+
+	Bus 005 Device 008: ID 534d:2109 MacroSilicon usb video
+
+Thanks,
+Mauro
 
