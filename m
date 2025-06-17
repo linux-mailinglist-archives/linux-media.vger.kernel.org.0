@@ -1,334 +1,225 @@
-Return-Path: <linux-media+bounces-35018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F6EADC273
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 08:34:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E44BDADC291
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 08:47:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11F4218967FB
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 06:34:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B5283B9923
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 06:47:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23B9228BAB3;
-	Tue, 17 Jun 2025 06:34:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18BBB2BEFF3;
+	Tue, 17 Jun 2025 06:47:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b="GrgjftYH"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eF4S37tb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA5P264CU001.outbound.protection.outlook.com (mail-francecentralazon11020116.outbound.protection.outlook.com [52.101.167.116])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48548528E;
-	Tue, 17 Jun 2025 06:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.167.116
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750142047; cv=fail; b=jLJw668V0HUhfXrccGRuYYIGEvnhjQeYPRUCYhYtqDdVEg8VYnaKplSdqpolMjcemFHAQKhp7FTMDTFX6iBF4cOBIi3QG4a5JFkotPV/gLhGuygB5+IBwEUiAY6rP/V6HxNt8vWC3QqI3Xgtj3DuSjecgCFuTZk/FwjB5Y8hg4I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750142047; c=relaxed/simple;
-	bh=SturZozky9b3HrXCboYpDCOQJUhQFzaQsFPosHfJuaE=;
-	h=Date:From:To:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=GWTojRTJ153E2w0UWnnxhPdpK76/GSSaJ0M45SWmGbjWewucNpbOkozXDJj+2hMhWkIHnTNAkEsPTeMhv6yPxQCYxUTyD6AZ2hkuokZlRRoAKkpP1IwHXmaEtt9Jb8BWqBOs2d+DnKQHSak8/mCsFRv9gtoO71RZLOrd96rNb1w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com; spf=pass smtp.mailfrom=allegrodvt.com; dkim=pass (2048-bit key) header.d=allegrodvt.com header.i=@allegrodvt.com header.b=GrgjftYH; arc=fail smtp.client-ip=52.101.167.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=allegrodvt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=allegrodvt.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zRvHyUfb7v/+nmgK7BYx4FuYth6K8KY67ebdnloQ30nwPdcR0o836MTRr8N++vX44HuLna1J/X3j73hkdqeiwD51voHsUD9cYEhYweXaLqKQXtW9sioNIJCdTlfsTP1uSRvNujFoM8KO/R+Ej2RlHZIwtQGfzz366mE2aDJ8yhu/CS57cJdXpC4w5f5UjtAF12TnHcZXf0jwqvHFL120rV3iLVsvOGP3q4AdOFV/d4xhfuQsktZXjyU/UjmT+z+D7Ww8aVEwa7fu5zcTKWtNTFcJSMcNYS+N2cpNP+6J/JeBGgQ9Xdpd3YmMngFOOd+6O/60SdrTN0eE3sTa83ck8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FazVkiIDsbOfxjOK2dzuJTd5HGATSOBrRRytB+4yllo=;
- b=aS5Xnwd+Awl5zn3CwIjKyOn56ZYDHQqyWa3Tl7EnBuY2JGyup8LOt/gdBUj23oqCMiogRTdNq/h1hgCR89BGM/iw0ygBEKI9ppZlpqk0sUQBFSzHIIB9l7S2FCYEVa1mDd1w1xg3fIY9glN/mAy5OVNKe/lPS5L7XChAwCPQ9dtulfF2WYy+FhdG21y6BTlwRe09p1s18YC/ND9/Y+/wc70QH/QXT7wR5INUzw3JYfHjH/1CAiyMaFZ2x91qrdJxuWhmyGOJ84/2CXv2tJn0MKg7YkJ37tk4+SX9niicaHKQ9vp7EZOsrZV9pWnY/FvsO0nTbbNcRLfFX29pcsO6ag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=allegrodvt.com; dmarc=pass action=none
- header.from=allegrodvt.com; dkim=pass header.d=allegrodvt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=allegrodvt.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FazVkiIDsbOfxjOK2dzuJTd5HGATSOBrRRytB+4yllo=;
- b=GrgjftYHTTWLu/NnA3+BonxTA6FQU4/vfRpP9U6DSWZZ5yCF3+gbOeiFeeGJ0TqjMgp+4CPo6LLofb3IJ4bJCRoXf0NysRHvV1uftuWP6LX7w12tCfjUtjrc6x8wDQAbFJjv6QpbScxOuIDcWeLE/9HtnRCXhYjUgkFxSoeEJbS/4jyVb6aMuvTCCxz8IN0MmsTNXqjg6RuGB8j9z4ivdiZ8nWBAVejOXOveKNNjyXb5jAGoL+8vgIPAsdKZNecuz/o26lNOimbtFBtarzDQkpPGSfanrYMgvr78eNaa5/A+xUWEEnhtxHp9/FyBikY6eKeBr+kfdnixQnFymaczhw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=allegrodvt.com;
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:3d::18)
- by PAZP264MB2573.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1e4::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Tue, 17 Jun
- 2025 06:33:59 +0000
-Received: from MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5]) by MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4281:c926:ecc4:8ba5%2]) with mapi id 15.20.8835.027; Tue, 17 Jun 2025
- 06:33:58 +0000
-Date: Tue, 17 Jun 2025 06:33:49 +0000
-From: Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>
-To: Michael Tretter <m.tretter@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Nicolas Dufresne <nicolas@ndufresne.ca>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] dt-bindings: media: allegro-dvt: add decoder
- dt-bindings for Gen3 IP
-Message-ID: <uld753xxm3ryp2iav6zgb47m6parp6vqz7mpflmdiftpgg6iim@7menlew7pycg>
-References: <20250605-allegro_dvt_al300_dec_driver-v2-0-1ef4839f5f06@allegrodvt.com>
- <20250605-allegro_dvt_al300_dec_driver-v2-2-1ef4839f5f06@allegrodvt.com>
- <aErLIriSYa1meukJ@pengutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <aErLIriSYa1meukJ@pengutronix.de>
-X-ClientProxiedBy: MR2P264CA0078.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:500:32::18) To MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:3d::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C693018FC80
+	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 06:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750142854; cv=none; b=dIL/R5MeI7zNyTzNE6fxumgMloLh6FofG6xnJGFzJ73mUaLToj31dOABNSC5hkw9oOVHt0gOsByBrUGRI5Jc83QDfI27HbA8bF+AiHDQ9vwn9QhDhm+MF0LEZG1wSb+XQG78pGI6fJxcYx3A0bq+wMnUymdBDlNQvEjc0eSuKow=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750142854; c=relaxed/simple;
+	bh=uU9hFzaDOTZHD5p3PSB8mgjSUPP2zTLYjpfXx6AvUC4=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VEurfl6H4m0+pVPvOEiavode9y2QcbqnHGENNiqjAfUUteu+CjAInhQ0VO5w0HQYQjvYHMZgKakTglpQyTm1oK+CYTuEko+Y1LXioViOcIa+9AYGkKu+nkzPnRGg35vUm7tpunszcrfH0TLBknJ9OiAh0LFFouEw9s1iYI/KY8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eF4S37tb; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55GH51I3005319
+	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 06:47:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Jzr9HurUhduvjFSlxdJqGDlJ
+	e2HOuYisi/7N0azKI4o=; b=eF4S37tbYiuC25HjDz3vsroDP2wKXIssYQZ2HB6u
+	Sv/OaLaI5gj5aIJGbteEIVLqeUG9CCTq3OBfb4l2qOkKuYChqErEEZrSTvXzSskM
+	dmMcX/o8+h4kOKYAGJePDz5zWs6LJ7qkf0wn+SxvdW++JNAlUBCGbX/ixJLMFkjp
+	YOE36XxrbxD8GYw00wq+9qVUI8jMFi9cN79N6M+oks+dPbbCmSnErBnxXgchVlxb
+	XbyM8lMdqrNP/eU8jrdiE0aHpsf6vtAc1AYuYkdtc8Tp1UgZGyZR/W3+mFENg8VA
+	9PBCc7XDM7mW4UuHRXLmmAKukIM3AfM2kYvMgOj1wkPg1w==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ag2339qq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 06:47:31 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6fb3654112fso96593416d6.3
+        for <linux-media@vger.kernel.org>; Mon, 16 Jun 2025 23:47:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750142851; x=1750747651;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jzr9HurUhduvjFSlxdJqGDlJe2HOuYisi/7N0azKI4o=;
+        b=j1We2Rhw1e01AUTmydmM6XrqAd8M7nwiMQKmwI8miZeRPUR2cyi+PFu6HlYBdNOrba
+         l97DyIoX6+f3TTTwW64t8e6Gdk8KGGy3JhTB9vvAiDDI9mgixvhcaI7LGEO8udKfIV+2
+         foXtLQZZBXqhLSd0crRQX2Ptk1VydSm3OQ5Ykj8ozjkJauZlQvKizYkY+bcChjhynLcU
+         gmvwwR/jLXAxERaPr1cauU6Di26fXy0q8ryOYOUHAuQtD8TtbOBCyUAn9/vC48pt16m+
+         Zy6G7VA92InrF9JNbx0bGXxCWwiNgUf7F03LMwmXXoM+Eh9dtS91w11NULoY0+9tw4UC
+         Pz3A==
+X-Forwarded-Encrypted: i=1; AJvYcCX3QZSXzSwws703GYoBWLXx18PZDuCwdE7FQZR7zOyoQG8Ym/x2rmYCzJ+sA/nlIWLN8hh3eL+YxTlvjA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0YQaBp+0/DSIp5JquAInsbHhc0ebWOSVA9fun019NJccleGR8
+	zDpLK6yMETq6ANI7wExL/u4gCWKo2hSxttLgxDZrMcAgUJD6wTvSAeWSD2RtNkeFP0GyNzQFLtk
+	7XQ10PHYxrJzOzfz1GaaVF+fuovHVu2prezBTRfddTLlx0bLBV13jm5YotDx5EVQm0w==
+X-Gm-Gg: ASbGncuefRN8QThATHuLl78B5EJoji1CUw1TQmEqcqZcz51yv5lwA9CfRwC52u8o+4r
+	hzKZwJbPGYhPCfgIvi5Cwm8Zk7oQRPFDhL1KERDbu1VZsTbeWXR3bM1gZVUSSG3KYVfDaf9fyT2
+	ijUzwg/7JQkInE61UcvIDUsnfOj5f1jSFrlvpRiqg4M6gWona3z74eYak8mj/raVbtWEp4R9ced
+	XEBNXjB1aR+1C3re3h3j612UcPeH5XMxdn57aNVphTUyIKrgG2A9ERpuqd3o8/5spWs1ZyXZfo6
+	aVaeE5C2u5dgcXMSHO5ht6TlPlzV0nZD33w0HSlH/RFPQy6unxVab4AfzQ==
+X-Received: by 2002:a05:6214:c83:b0:6f8:b4aa:2a59 with SMTP id 6a1803df08f44-6fb47758f93mr164247446d6.21.1750142850682;
+        Mon, 16 Jun 2025 23:47:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHHbGqDog8miVnZzjAR3A8q6IF/fQLMGnjyAnp1A2r896ciWBGYbRf0eCtQ5F2t5j3tp+MSYQ==
+X-Received: by 2002:a05:6214:c83:b0:6f8:b4aa:2a59 with SMTP id 6a1803df08f44-6fb47758f93mr164247136d6.21.1750142850248;
+        Mon, 16 Jun 2025 23:47:30 -0700 (PDT)
+Received: from trex (132.red-79-144-190.dynamicip.rima-tde.net. [79.144.190.132])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e25302dsm160264035e9.26.2025.06.16.23.47.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 23:47:29 -0700 (PDT)
+From: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
+X-Google-Original-From: Jorge Ramirez <JorgeRamirez-Ortiz>
+Date: Tue, 17 Jun 2025 08:47:26 +0200
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>, quic_vgarodia@quicinc.com,
+        quic_dikshita@quicinc.com, bryan.odonoghue@linaro.org,
+        mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org, stanimir.varbanov@linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] dt-bindings: media: venus: Add qcm2290 dt schema
+Message-ID: <aFEPfjJLEMnIriXX@trex>
+References: <20250613140402.3619465-1-jorge.ramirez@oss.qualcomm.com>
+ <20250613140402.3619465-2-jorge.ramirez@oss.qualcomm.com>
+ <6f4e715f-1c73-450e-b7eb-92781b7fa050@kernel.org>
+ <aFATp3zoSgkrj3YX@trex>
+ <a76789cf-afe1-4d91-afdf-65c3af5ad11f@kernel.org>
+ <aFBDzWLkKC9MWGoC@trex>
+ <48e6cc62-ffb0-4ca7-80c8-9e510db505db@kernel.org>
+ <aFBNVjl4n7I+OkO5@trex>
+ <c7aef6cd-e07d-4422-a34a-ce04c37ad2e8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MR1P264MB3140:EE_|PAZP264MB2573:EE_
-X-MS-Office365-Filtering-Correlation-Id: 764fcade-01a8-4243-2e1b-08ddad68f0c4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cXh3cWxXV2xTQm0wQlhrVURaVkdxam1RTnI1eTI5MExqY3VVQm50ZzJiSVlK?=
- =?utf-8?B?THR1UFRRZFFEUXkvZk41UHNaTWs0K0JZU2lIYUhmVFB3d1o4QUNWNHR3clBS?=
- =?utf-8?B?NlFFSE1ZNGg3SFg1VUw3aTliYWZ0elBNYkZNeXNYZWQyRy8zcmdqckR2STl3?=
- =?utf-8?B?TWN1RjJHaWxFUmhaaTM3Um9KZVUwYzZaR0tsSkNZSkJvKzVJMHE0SE8rUngr?=
- =?utf-8?B?cXg0ZlE4NHF5cUhtd3VnaHhJQmp4dkdJdjI1dldBNVJ2cDVBZXlpQUlLOFZs?=
- =?utf-8?B?SXZ3dnpydGdQVTFVTTFaL29jZkE5cVVPOFFsV1dTejVFc0ZGUldDVkJ1VHQv?=
- =?utf-8?B?YUNQMG00MUNKcHc0SEtEYVh3T2NsVkx5aWRsYXVKYk4waEZZNjY4UDkrZEFi?=
- =?utf-8?B?dXBlMTJyYy9tN3A0VWl2NDNWYW44U1RyK2JGVTMvVGdIMHdoemh5QTg4WFdU?=
- =?utf-8?B?KzFoeHZJMi8xbEdFN0FqTlkzVStyV1lkdDZ0OFdBTXN1R0JsUEFnZDAxczgz?=
- =?utf-8?B?bjQ2UzF5VUpNN0Q3Rk83WjBqcS9lekpwbjM4VXlnemd1dUFFS3FmWXFPMFZq?=
- =?utf-8?B?ZHhUdlJaZkcvdGFrMEp0U3BFc1lqcTQ2c1hjWm1JbXJ0RUtDcGRMVURkSjlU?=
- =?utf-8?B?dXcyQVZMNGg3allVRnlTWUhhR1U5LzF5czNZbHBuWnMrK3dCS09mWjNFQ0tI?=
- =?utf-8?B?bHlybExPaGxIazFwMWErS0VjM1NhWStCRm5YNzdmQXNuQlNyOGVIbVI1eW5h?=
- =?utf-8?B?bHJLQ09LUVRoTGs2U0lVMllhZmoxS09DUEsra1ZuNGcrZzk1Y3RrT1MyNHJX?=
- =?utf-8?B?WTBTUGw0NlNqeGpoSUd6cWpqSVJwcVc2WnQ4UVVaOU1tQmhReHFXKzFyd1ZM?=
- =?utf-8?B?UXQ0SFZQc0w4VFFPWEFlRTRhd2Qra3JsaXYzaUJESTRwVDAxWlVhblNkWDZz?=
- =?utf-8?B?dWo5ZFlmQ1FhRzZBS3pobEROWEpNUGZpMVAzeXliUnRxWGVNaGRGRTcwMGZI?=
- =?utf-8?B?cTVycnp5TXpiaDFGc1hBN216aUVLN2IzZWtZU0NOd2FhYkQySUhZRVlRZEM0?=
- =?utf-8?B?Y3p0SUptTjBDUFB6UjVtL2o0eFdzZlcyd0FwUEJmamtrSG1aVzI5QjRYMEo3?=
- =?utf-8?B?cnE5aTZkQmozYlQ3QkkxNk4ycjlvSTd0QmpIdWp6ek9idGR5NTlrTEJBbkY2?=
- =?utf-8?B?V3R0OEtrMGVpckJYSHYrN1FEZXBKK2RsMkRDVnNUOXJEeDArN1ZCYTRWZFhT?=
- =?utf-8?B?aWQ4a3hWNU5iTlYwV1dQL3V5bS83SnlvRzRUMTBjYjRZQllxUXNzV3YxZDRj?=
- =?utf-8?B?c3hQNDY5VjJpUk5YeG82SldYQ3ZwQWdqS1FkZnNpWmFHejF3QXFIOFRxM1hC?=
- =?utf-8?B?c3NrS08zN1JTWXF0SUZ2eDFhckt2WTE5ZUpob2RhOVNoUWZicnR5V3d2Vkx4?=
- =?utf-8?B?TjJpUWlaTEZ4TGQ1cFNkYnJVV1dFUUxlMUJqa05aZlBZeFU3MksvVFhqQ0hE?=
- =?utf-8?B?bVo2YTMwMFVhZFQ2WGtDelRCbDBEUWVadGE3WEZVOXZkd05PdWJxN3lBMHFW?=
- =?utf-8?B?NS9LL0NXUnlIWlBkLzNMME9aZFhUSGxEdk1IV3Z4ZFEzWE5aZHFxVlA2ejFW?=
- =?utf-8?B?YXJZOE5tYmtXbUVUeVFkYnpqT05vbHIrcDE3VUJXYk1aQTVMa2RFaVN0Y1JD?=
- =?utf-8?B?VElJOHlqRVlvTHJ4bkJKdlRaYzJ0eHFjaTJyVGFXdUhGYm9CTFk2aVRWcWxo?=
- =?utf-8?B?UzFpQ3lHYkwyM2VVU0RFTjltNUNTS0VMblVrNHo2bFpnNytzN2RUdS8rSnh0?=
- =?utf-8?B?eEZ5cTVEWlNUVTU3MjdoYmQyWU1MeGtVaU5KZGh2RjgzaE1nQmphSGlmZUk5?=
- =?utf-8?B?WjhRZWhEVW9tTzA5SGU4ZGFEY2RUUlJOMExUTmxJQzJrNnc9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y21tVGlMd0tJWFVvbjBXU29vL2VHM3FFQkI1bXpGT0FCS2UzY1ZSU0o5MFlo?=
- =?utf-8?B?VmZqY01GR2MwTWRLaVM5NWxXaGI3V0o1Qng0RmpIenVuUk5IZVhVYnFZUXYy?=
- =?utf-8?B?aWFhYWEyQnFheXlkalpHYkZqd3htOTRycDNDZzA0enRSbERxdDNZL3F2bkJF?=
- =?utf-8?B?bXFLeDY4MFZjS3Q3ei83b2ZyemUwSC9KeC9wSXNPUTYxeWdKMXkxVDNONzRa?=
- =?utf-8?B?eFIzUUJ3YUNyNERORm5JN2M2UVRNNG5ZcXM5NXZVTDRrVk5VQzVmL01xaDV6?=
- =?utf-8?B?ZUo2Mjgwd3A4QUtkVXAwazdmb04xTmYzY1Q5aWlKUXJ5WmxNWXNyQ1YyUmxz?=
- =?utf-8?B?ZXNGUm5jMWZUR1o3UUpqWVl2bEpYMW5GWXZ3SlZXZnNld1BQeWZIQkFGTis0?=
- =?utf-8?B?ai9wamRtNTFRUlNDYXNEbTc0cCtBUnhKSzl3TFJQRForQ0NOay91NDFlbzFO?=
- =?utf-8?B?d2laMHFXTFpqeHN1c0NGTERrZ1hDclNhTkdTVDF6NDhEaFlROVJPbjYrUklu?=
- =?utf-8?B?MlJOTjllMUxwR1JBNnNkWVlZRGpIdGdEQmxZUVAvcnZ6UVkxd1FOQUxHM0dh?=
- =?utf-8?B?WHU4UlVaaW5FOUhkcFJvMGtuQXZSQVVtdE45bDI2MUp0aGdPeXltNGVTMkt2?=
- =?utf-8?B?SXFMcmgwTGdmeTc0bzV1VFNtQVVLRnNUNlk2Wkc4WGRRUnBmS0E2MFF0WkR5?=
- =?utf-8?B?NGlhTnNUNWhoZGdYRUJyazhoRjQyd3Z0L3JXdjViZ0hqMVRzY2MxTDREdmdP?=
- =?utf-8?B?RkJQcDB6RUhjdWNlL3JSY3BFYmpQQzhHZjRhYW4rQ2NoWW94Um1RY2FEYm1X?=
- =?utf-8?B?aW16UUp3cTZRZzVIajF5akZSdEVkMGN6SGtuV3lqWlZsQVdobWV2NXBjdE9z?=
- =?utf-8?B?R1M5SEhOSjN5NTYzT3NKWGNuYm5ScndDOFJLK0FDVGhlN1NZckk0Z2t2eFFa?=
- =?utf-8?B?a2lBcHhURVVhUHVuc3VFZVdvUnNaNTFDTXBVaER6NGtvK2xnODFqS25LbjVL?=
- =?utf-8?B?YW41cm85NDlYczd3RWViaTdXZW9OZC9qZ045THlEUjVSWm9INVhJMmEvVElH?=
- =?utf-8?B?aFlMbkVzL3U2MmlFM2FLR3JNdjYvRU9QVWw4d1FHbitrcWNuT0RKN290WGNk?=
- =?utf-8?B?T2xzTnd4QlJkSSs1dFdkUXAzMzNQRGZqZGJvSCtNMUx4L2t6YlBKVmxWSVh3?=
- =?utf-8?B?ZjB2MWI0V09TUHZHTG0yUEJKdGpnNFNrTG9CMkV4VUZuOEIzY1c0WWZ3YWFl?=
- =?utf-8?B?NHFKNHU0amRWajBXODd0SVpiRUdyRVhaWlpvc2diVktOTTZQNXA4YVpOaEMw?=
- =?utf-8?B?S0tNYm9ndW8xWnFmNTZpUEdOODltZG00UGszUGQzaGp1ZUF2bmFlL3pxTWV2?=
- =?utf-8?B?OGY4S1dmdzZtZ3dDY2o4SHRnNFZXSEI1azlnUmh2SHJVYW14YmtjR1VZaGJq?=
- =?utf-8?B?aFZWU1ByRThuRFZYdlRuWmtXUkUwRTFEbEpqN3VnVkVzYUN6M1I3U1BndmJ3?=
- =?utf-8?B?QlFRbmVwS0tXb0RCTjJvRzlGekxZa0RibFBPYlRYZmhZY0hXaTFiaDB4M3dM?=
- =?utf-8?B?Q25rRmpSbWN2SzVxU0swUXh1b2pDajBvSFNndEx1b0ZNdHFkcWJmZlhDZTBp?=
- =?utf-8?B?TWhXUmhvS3NsMm9Fb3FqQ2J5SFkrOFZDUmZwdkZYUFV4NmpjYTh4RUJkeHNV?=
- =?utf-8?B?Um1IMlRXMnhCNW9ONGQ5MVBBMFVraER4WExoOElybEJFKy9wZzFRQlhzMVdk?=
- =?utf-8?B?RWtQWDd2TDJzM3laTE9rWElkU3M0VzBzQTFQZ3p1SkEvcERHZXdOMU5oSTFT?=
- =?utf-8?B?eE5YcHRCeG01Q3NQUU9qbWZBNERyR0k1Q0ptMXU5VTE2b1pEL1kzVDVTZnhN?=
- =?utf-8?B?V09na3JnbmoxcWhuUlUrME9LSERvZXIwY1BGdE5iZ0I2YUNSbFE0U0YzY3Fn?=
- =?utf-8?B?QzhxbWJGd0tZTWpYclpMSTdid3hHY2huNElvZEt1TG90cG1rUklKcSs1N3RI?=
- =?utf-8?B?cmg5cFl6a29FdWtzdnJIMmRyeW1VQ3FmTXdhbXJrSS9YUjdoZG1VeGUwSW5L?=
- =?utf-8?B?eDc3T0srWjNlaUlqb25jaDY1T2ZnVFBMYkFmTzU1WHhMN3VxTGNnT3V5SGhT?=
- =?utf-8?B?QkZWK3IzeDlnSTltdldkZmsrTk1HVmQ2Vy9IaGtScHlmV09mc3d1MEpUUXlk?=
- =?utf-8?B?YUE9PQ==?=
-X-OriginatorOrg: allegrodvt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 764fcade-01a8-4243-2e1b-08ddad68f0c4
-X-MS-Exchange-CrossTenant-AuthSource: MR1P264MB3140.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 06:33:58.8131
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6c7a5ec0-2d92-465a-a3e1-9e3f1e9fd917
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m8aB2S4nYhhx9H9BbhK/tquX4Ty2Yha5B0pmCpVgJrVadgHw584NPkJb34OjN4RROMlL0Nh6xUJMOISA3DwJEVdiKKrCkmZtbTZf3uqMmuo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAZP264MB2573
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c7aef6cd-e07d-4422-a34a-ce04c37ad2e8@kernel.org>
+X-Proofpoint-ORIG-GUID: vwJ1x-mh25wn83qCrwEj2zS7pusj-l8y
+X-Authority-Analysis: v=2.4 cv=edY9f6EH c=1 sm=1 tr=0 ts=68510f83 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=wjE3nLva0YkvARyJ+Gfmxg==:17
+ a=kj9zAlcOel0A:10 a=6IFa9wvqVegA:10 a=ckiIvdw4d6_qyGhr-SIA:9
+ a=CjuIK1q_8ugA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE3MDA1NCBTYWx0ZWRfX4YyTWZ2UbeAh
+ Yok4DV1autuAXW+o/HVsa2pOqqo5Bkw/5EfohAjLA1DBJYB22MT4cK95WOZLUeMYNapPlnadvg9
+ XhCTrLrurEw5nMftNejukFC8oVLvKoKhZQr7FRNUr3/bH0Sb8tzD4UFaodJiOfcCEA7uBz2nhEk
+ yrjZf/T+AOFeOrVNkCDmRiZCY2pz/U3u5iM0LMhliaszhTS77mTwruQ9IJtOfa0SrYOfdVNXL3C
+ yH5M+Br65QSWt0shQh/S1vbEwGtFOk4TZ9MUfQ4ruMBM2dr0/oJr4b1RnLVmO5woGsqdxVDCS44
+ WbC1bSW1X6r9YE/l7lz5laeSltLW9k7otvp09Q/xYR5dyzwM816EOIULxIaQfeJo+gHp370tQyt
+ BUiQjhTR6ZjeXv5Nh62afqgLA2MGtMUH5E2v52eRuLCVDDmK6CwkFB+YRUMb79rbdz67h25i
+X-Proofpoint-GUID: vwJ1x-mh25wn83qCrwEj2zS7pusj-l8y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-17_02,2025-06-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0
+ impostorscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0
+ phishscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506170054
 
-On 12.06.2025 14:42, Michael Tretter wrote:
->On Thu, 05 Jun 2025 12:26:57 +0000, Yassine Ouaissa via B4 Relay wrote:
->> From: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
->>
->> Add compatible for video decoder on allegrodvt Gen 3 IP.
->>
->> v2:
->> - Change the YAML file name, use the existing vendor-prefix.
->> - Improuve the dt-bindings description.
->> - Change the device compatible identifier, from "allegrodvt, al300-vdec",
->>   to "allegro, al300-vdec"
->> - Simplify the register property specification,
->>   by using the simple min/max items constraint (Krzysztof Kozlowski)
->> - Remove the clock-names property. And remove it from the required
->>   properties list (Krzysztof Kozlowski) (Conor Dooley)
->> - Use the simple maxItems constraint for the memory-region property.
->>   Also for the firmware-name (Krzysztof Kozlowski)
->> - Example changes:
->>   - Use header provides definitions for the interrupts (Conor Dooley)
->>   - Improuve Interrupt specification using GIC constants (Conor Dooley)
->>   - Use generic node name "video-decoder" (Krzysztof Kozlowski) (Conor Dooley)
->>   - Remove unused label (Krzysztof Kozlowski)
->>   - Change clock reference from <&mcu_clock_dec> to <&mcu_core_clk>
->>   - Use hex format for reg property (Krzysztof Kozlowski) (Conor Dooley)
->>   - Reduce memory region size (Krzysztof Kozlowski) (Conor Dooley)
->>
->>   - Link v1: https://patchwork.linuxtv.org/project/linux-media/patch/20250511144752.504162-4-yassine.ouaissa@allegrodvt.com/
->>
->> Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
->> ---
->>  .../bindings/media/allegro,al300-vdec.yaml         | 75 ++++++++++++++++++++++
->>  MAINTAINERS                                        |  2 +
->>  2 files changed, 77 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml b/Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..26f9ac39682431b1d4828aed5d1ed43ef099e204
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml
->> @@ -0,0 +1,75 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/allegro,al300-vdec.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Allegro DVT Video IP Decoder Gen 3
->> +
->> +maintainers:
->> +  - Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>
->> +
->> +description: The al300-vdec represents the gen 3 of Allegro DVT IP video
->> +  decoding technology, offering significant advancements over its
->> +  predecessors. This new decoder features enhanced processing capabilities
->> +  with improved throughput and reduced latency.
->> +
->> +  Communication between the host driver software and the MCU is implemented
->> +  through a specialized mailbox interface mechanism. This mailbox system
->> +  provides a structured channel for exchanging commands, parameters, and
->> +  status information between the host CPU and the MCU controlling the codec
->> +  engines.
->> +
->> +properties:
->> +  compatible:
->> +    const: allegro,al300-vdec
->> +
->> +  reg:
->> +    maxItems: 2
->> +    minItems: 2
->> +
->> +  reg-names:
->> +    items:
->> +      - const: regs
->> +      - const: apb
->
->If I understand correctly, "regs" are the registers to control the MCU
->and "apb" are the registers of the actual codec engines, which is
->controlled by the MCU. The driver never accesses the apb registers, but
->uses the apb address only to configure the firmware and tell it, where
->the registers of the codec engines are found.
->
->Maybe a separate node for the actual codec that is referred via a
->phandle could be a better description of the hardware?
->
-the regs is actually is used to configure the decoder and also the mcu.
-the APB address is used to map the mcu peripheral, which includes the
-codec engine.
+On 17/06/25 08:14:23, Krzysztof Kozlowski wrote:
+> On 16/06/2025 18:59, Jorge Ramirez wrote:
+> > On 16/06/25 18:23:18, Krzysztof Kozlowski wrote:
+> >> On 16/06/2025 18:18, Jorge Ramirez wrote:
+> >>> On 16/06/25 16:41:44, Krzysztof Kozlowski wrote:
+> >>>> On 16/06/2025 14:52, Jorge Ramirez wrote:
+> >>>>>>
+> >>>>>>> +  The Venus AR50_LITE IP is a video encode and decode accelerator present
+> >>>>>>> +  on Qualcomm platforms
+> >>>>>>> +
+> >>>>>>> +allOf:
+> >>>>>>> +  - $ref: qcom,venus-common.yaml#
+> >>>>>>> +
+> >>>>>>> +properties:
+> >>>>>>> +  compatible:
+> >>>>>>> +    const: qcom,qcm2290-venus
+> >>>>>>> +
+> >>>>>>> +  power-domains:
+> >>>>>>> +    minItems: 2
+> >>>>>>> +    maxItems: 3
+> >>>>>>> +
+> >>>>>>> +  power-domain-names:
+> >>>>>>> +    minItems: 2
+> >>>>>>
+> >>>>>> Why is this flexible? Either you have two or three. Not mixed.
+> >>>>>
+> >>>>> please check 5b380f242f360256c96e96adabeb7ce9ec784306
+> >>>>
+> >>>> This does not explain why this is optional HERE. You cannot use for a
+> >>>> new platform an argument that some existing platform was changed in
+> >>>> ABI-preserving way.
+> >>>
+> >>> thanks for quick the follow up.
+> >>>
+> >>> but bear with me please because I dont follow - why can the same logic
+> >>> be used - it being applicable - and therefore result in a definition
+> >>> similar to those other platforms?
+> >>
+> >> Because this platform either has 2 or 3, not both. Unless that's not
+> >> true, but then please share some arguments.
+> > 
+> > as with every other venus schema with more than 1 power domain, the
+> > argument is the same one that I have shared with you a couple of
+> > messages back (DVFS).
+> > 
+> > verbatim:
+> >     Venus needs to vote for the performance state of a power domain (cx)
+> >     to be able to support DVFS. This 'cx' power domain is controlled by
+> >     rpm and is a common power domain (scalable) not specific to
+> >     venus alone. This is optional in the sense that, leaving this power
+> >     domain out does not really impact the functionality but just makes
+> >     the platform a little less power efficient.
+> 
+> That's not definition of optional. The domain is needed for this device,
+> the device is one way or another having its rails routed to that domain.
+> It is not optional.
+> 
+> > 
+> > Seeing all these venus schemas follow the same pattern, it seems to me
+> > that this is the correct way of implementing the above.
+> 
+> No for the reason I mentioned earlier.
 
-I think it's sampler to let it as reg.
+So just to close this story up, were these two commits wrongly
+reviewed and signed off then ? Please do notice they were also - just
+like this one - new additions and not a change in an ABI preserving way
+as you characterize them.
 
-the naming has changed in the v3.
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    items:
->> +      - description: MCU core clock
->> +
->> +  memory-region:
->> +    maxItems: 1
->> +
->> +  firmware-name:
->> +    maxItems: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - interrupts
->> +  - clocks
->> +
->> +additionalProperties: False
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +
->> +    axi {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        video-decoder@a0120000 {
->> +            compatible = "allegro,al300-vdec";
->> +            reg = <0x00 0xa0120000 0x00 0x10000>,
->> +                  <0x01 0x80000000 0x00 0x8000>;
->> +            reg-names = "regs", "apb";
->> +            interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
->> +            clocks = <&mcu_core_clk>;
->> +            firmware-name = "al300_vdec.fw";
->> +        };
->> +    };
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index abc6ba61048771303bc219102f2db602266b7c30..1ff78b9a76cb8cdf32263fcd9b4579b4a2bb6b2a 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -816,7 +816,9 @@ M:	Michael Tretter <m.tretter@pengutronix.de>
->>  R:	Pengutronix Kernel Team <kernel@pengutronix.de>
->>  L:	linux-media@vger.kernel.org
->>  S:	Maintained
->> +F:	Documentation/devicetree/bindings/media/allegro,al300-vdec.yaml
->>  F:	Documentation/devicetree/bindings/media/allegro,al5e.yaml
->> +F:	drivers/media/platform/allegro-dvt/al300
->>  F:	drivers/media/platform/allegro-dvt/zynqmp
->>
->>  ALLIED VISION ALVIUM CAMERA DRIVER
->>
->> --
->> 2.30.2
->>
->>
->>
+e48b839b6699c2268e545360e06962bb76ff5b8d
+8d3a1cb32124eaeb3f2efe4889de214d3b658d8d
 
-Best regards,
-Yassine OUAISSA
+> 
+> > 
+> > You seem to disagree. please could you explain?
+> 
+> I already explained. You add new device, so argument to preserve ABI,
+> which was accepted THAT TIME, is not valid. You do not have ABI.
+
+as per the two commits above, this is not an argument to 'presereve' an ABI -
+this looks to me like an implementation.
+
+anyhow, if everyone agrees this is the only way to move this forward
+will do just fix this to three then.
+
+please let me know.
+
+> 
+> 
+> Best regards,
+> Krzysztof
 
