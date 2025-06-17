@@ -1,232 +1,189 @@
-Return-Path: <linux-media+bounces-35040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35041-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5134ADC5A1
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:03:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77DE2ADC61C
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:21:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2CF73A13F4
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:03:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E242176765
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:21:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3CEA290BD5;
-	Tue, 17 Jun 2025 09:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mYyXHUrX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A5F7293B7E;
+	Tue, 17 Jun 2025 09:21:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118A8156CA;
-	Tue, 17 Jun 2025 09:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115A8292B47;
+	Tue, 17 Jun 2025 09:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750151005; cv=none; b=E3J/IG9clgNzhYuf2arCfsEVeM/G73Z3Ky1nZh0z7kOqfBhL0X6uMsKz9z/0x4j6oH7N5w3YHxeO7R2O9OIV6wXBYnNLdYW7UEZpFUJltz/RPmUZLvt7CvRYlBDAMQNkbYz1mysM9yJQmtAM/Kt58UCP+tfcMz5dtZiDnqTZy3o=
+	t=1750152083; cv=none; b=eRBEL6u1SKQtNOtD7YP3mEY0svpnZk7swNW0Xyr01PpDdMoC/W/xNKehsQLVZskDsDx9Y8/pUjwCd2DWekcrMbr7GXz2PAh/DPmrVwTbPkqSzD3Mhej4yMh+IsgSatcV/OdZJScuilAMn7JJiVWz2Uo5mTSfHVANbNmYksyQqsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750151005; c=relaxed/simple;
-	bh=0DYfy7oV7hZejEsNdGGSQ2iXZmli62ztZyPKxeghuuo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j7uVqUBcsQKN7/7cZFtd5MZAk02pubB8C37rQyID3QqREq4BfT1zmJGrqx5V/qlSRmC+tTE4RJxEtI5vhDxUvmrx6e2CvnXjIWqvF7uITxI9PnpGP09wvfqZlb6EaqciZGIcpax12BIPIeC+xMTDJql5sYBoWKI215BtdhGzAJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mYyXHUrX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5253FC4CEE3;
-	Tue, 17 Jun 2025 09:03:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750151004;
-	bh=0DYfy7oV7hZejEsNdGGSQ2iXZmli62ztZyPKxeghuuo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mYyXHUrX9U8DFj4b9o/6OY86j2qqY6DzvqM92CZevFKOPaE6K7LumEpP/2hsZqWCO
-	 2bnYk1tcOUG/5Cdo9JRL9to1ZUrqZS7j58cK2fKiaDOH+1kQWGiGglMX5Q8zMpHX+Z
-	 WQfp57rDgx2HE4X2CVQbZX5pN6pT0ByZrrdJMylJoVwC1st8fzr197aVQUA5zK5qHs
-	 Xy/0CTfpTsciSiBioPU8bqXMY9GfNdv88ZB7qoAxLqZhXalsDrINNqNDQLhRMV5rbP
-	 sjuWVtAOYOpX/99BTlA8lRb4cNox14piOc9dHHcFS84/aF9z7ex0Zu43w01fO1EWkF
-	 Wephtbhyq522g==
-Date: Tue, 17 Jun 2025 11:03:18 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Alexandre Courbot <gnurou@gmail.com>
-Cc: Albert Esteve <aesteve@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, gurchetansingh@google.com,
- daniel.almeida@collabora.com, adelva@google.com, changyeon@google.com,
- nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH v3] media: add virtio-media driver
-Message-ID: <20250617110318.7c89d999@foz.lan>
-In-Reply-To: <20250617104938.09d21b7c@foz.lan>
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
-	<20250526141316.7e907032@foz.lan>
-	<DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
-	<20250527111311.105246f2@sal.lan>
-	<CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
-	<20250527153547.6603eaf4@sal.lan>
-	<CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
-	<20250617104938.09d21b7c@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1750152083; c=relaxed/simple;
+	bh=fQhFMXKS1jxzyeyKFyZ012VkcA/YEIuP2eIKV160jxI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dLv0+DBcc5jrM5KLYji0yz8HmdPBRt0tPVc2oe6fLdFDABpQGdFRDL63MxqcqJ4jcTbHtZPDmgFfow3FUapl0SSM1bmb9pLYgFwwgF/YEyh4popJpmlyBR4SOL1LPbDq7Ik+dXvknPGtcYdfUHC9Vvsrmc3sLADRU6qCrQhZeT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FE2C4CEF6;
+	Tue, 17 Jun 2025 09:21:21 +0000 (UTC)
+Message-ID: <6db6545a-c0b2-427e-8aba-f171c91580ff@xs4all.nl>
+Date: Tue, 17 Jun 2025 11:21:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/5] media: uvcvideo: Handle locks in
+ uvc_queue_return_buffers
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Hans de Goede <hansg@kernel.org>
+References: <20250616-uvc-fop-v4-0-250286570ee7@chromium.org>
+ <20250616-uvc-fop-v4-2-250286570ee7@chromium.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20250616-uvc-fop-v4-2-250286570ee7@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Tue, 17 Jun 2025 10:49:38 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-
-> Hi Alex,
+On 16/06/2025 17:24, Ricardo Ribalda wrote:
+> Most of the calls to uvc_queue_return_buffers() wrap the call with
+> spin_lock_irq()/spin_unlock_irq().
 > 
-> Em Tue, 27 May 2025 23:03:39 +0900
-> Alexandre Courbot <gnurou@gmail.com> escreveu:
+> Rename uvc_queue_return_buffers to __uvc_queue_return_buffers to
+> indicate that this is the version that does not handle locks and create
+> a new version of the function that handles the lock.
 > 
-> > > > > Btw, I was looking at:
-> > > > >
-> > > > >         https://github.com/chromeos/virtio-media
-> > > > >
-> > > > > (I'm assuming that this is the QEMU counterpart, right?)    
-> > > >
-> > > > crosvm actually, but QEMU support is also being worked on.    
-> > >
-> > > Do you have already QEMU patches? The best is to have the Kernel driver
-> > > submitted altogether with QEMU, as Kernel developers need it to do the
-> > > tests. In my case, I never use crosvm, and I don't have any Chromebook
-> > > anymore.    
-> > 
-> > IIRC Albert Esteve was working on this, maybe he can share the current status.  
+> Reviewed-by: Hans de Goede <hansg@kernel.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+
+Reviewed-by: Hans erkuil <hverkuil@xs4all.nl>
+
+Regards,
+
+	Hans
+
+> ---
+>  drivers/media/usb/uvc/uvc_queue.c | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
 > 
-> Any news regards to it?
+> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> index 72c5494dee9f46ff61072e7d293bfaddda40e615..8f9737ac729546683ca48f5e71ce3dfacbae2926 100644
+> --- a/drivers/media/usb/uvc/uvc_queue.c
+> +++ b/drivers/media/usb/uvc/uvc_queue.c
+> @@ -42,13 +42,15 @@ static inline struct uvc_buffer *uvc_vbuf_to_buffer(struct vb2_v4l2_buffer *buf)
+>   *
+>   * This function must be called with the queue spinlock held.
+>   */
+> -static void uvc_queue_return_buffers(struct uvc_video_queue *queue,
+> -			       enum uvc_buffer_state state)
+> +static void __uvc_queue_return_buffers(struct uvc_video_queue *queue,
+> +				       enum uvc_buffer_state state)
+>  {
+>  	enum vb2_buffer_state vb2_state = state == UVC_BUF_STATE_ERROR
+>  					? VB2_BUF_STATE_ERROR
+>  					: VB2_BUF_STATE_QUEUED;
+>  
+> +	lockdep_assert_held(&queue->irqlock);
+> +
+>  	while (!list_empty(&queue->irqqueue)) {
+>  		struct uvc_buffer *buf = list_first_entry(&queue->irqqueue,
+>  							  struct uvc_buffer,
+> @@ -59,6 +61,14 @@ static void uvc_queue_return_buffers(struct uvc_video_queue *queue,
+>  	}
+>  }
+>  
+> +static void uvc_queue_return_buffers(struct uvc_video_queue *queue,
+> +				     enum uvc_buffer_state state)
+> +{
+> +	spin_lock_irq(&queue->irqlock);
+> +	__uvc_queue_return_buffers(queue, state);
+> +	spin_unlock_irq(&queue->irqlock);
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * videobuf2 queue operations
+>   */
+> @@ -171,9 +181,7 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	if (ret == 0)
+>  		return 0;
+>  
+> -	spin_lock_irq(&queue->irqlock);
+>  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
+> -	spin_unlock_irq(&queue->irqlock);
+>  
+>  	return ret;
+>  }
+> @@ -187,9 +195,7 @@ static void uvc_stop_streaming(struct vb2_queue *vq)
+>  	if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
+>  		uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+>  
+> -	spin_lock_irq(&queue->irqlock);
+>  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+> -	spin_unlock_irq(&queue->irqlock);
+>  }
+>  
+>  static const struct vb2_ops uvc_queue_qops = {
+> @@ -263,7 +269,7 @@ void uvc_queue_cancel(struct uvc_video_queue *queue, int disconnect)
+>  	unsigned long flags;
+>  
+>  	spin_lock_irqsave(&queue->irqlock, flags);
+> -	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+> +	__uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+>  	/*
+>  	 * This must be protected by the irqlock spinlock to avoid race
+>  	 * conditions between uvc_buffer_queue and the disconnection event that
 > 
-> > Note that crosvm does not require a Chromebook, you can build and run
-> > it pretty easily on a regular PC. I have put together a document to
-> > help with that:
-> > 
-> > https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md  
-> 
-> I started looking on it today. Already installed crossvm (I had to
-> install libcap-devel to build it). Still, I'm not familiar with
-> crossvm, which is a little be painful. In particular, how can I
-> enable network on it and speedup it? With suggested parameters,
-> it picked only one CPU, and very few memory on it:
-> 
-> 	# cat /proc/cpuinfo|grep processor
-> 	processor       : 0
-> 
-> 	# free
->                total        used        free      shared  buff/cache   available
-> 	Mem:          221876       34780      139712         272       56096      187096
-> 	Swap:              0           0           0
-> 
-> I'd like to be able to compile things on it and use ssh/scp. So,
-> the VM needs more CPUs, more memory, more network and GPU.
-> 
-> Btw, on a quick test with v4l2-compliance, something looks weird:
-> I started a camera application at the host. Still, v4l2-compliance
-> said successfully excecuted mmap:
-> 
-> Streaming ioctls:
->         test read/write: OK (Not Supported)
->         test blocking wait: OK
->         test MMAP (no poll): OK                           
->         test MMAP (select): OK                            
->         Vide[2025-06-17T08:44:49.177972817+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-> [2025-06-17T08:44:49.178164554+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-> o Capturtest MMAP (epoll): OK                             
->         test USERPTR (no poll): OK (Not Supported)
->         test USERPTR (select): OK (Not Supported)
->         test DMABUF (no poll): OK (Not Supported)
->         test DMABUF (select): OK (Not Supported)
-> 
-> Which doesn't make any sense, as the host OS should not allow access
-> to mmap while streaming.
 
-Ah, this was with the "simple" device, not with the proxy one.
-With the proxy one, I'm getting:
-
-# v4l2-ctl --all
-Driver Info:
-        Driver name      : virtio-media
-        Card type        : usb video: usb video
-        Bus info         : platform:virtio-media
-        Driver version   : 6.15.0
-        Capabilities     : 0x84200001
-                Video Capture
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x04200001
-                Video Capture
-                Streaming
-                Extended Pix Format
-Priority: 2
-Video input : 0 (Camera 1: ok)
-Format Video Capture:
-        Width/Height      : 1280/720
-        Pixel Format      : 'MJPG' (Motion-JPEG)
-        Field             : None
-        Bytes per Line    : 0
-        Size Image        : 1843200
-        Colorspace        : sRGB
-        Transfer Function : Rec. 709
-        YCbCr/HSV Encoding: ITU-R 601
-        Quantization      : Default (maps to Full Range)
-        Flags             : 
-Crop Capability Video Capture:
-        Bounds      : Left 0, Top 0, Width 1280, Height 720
-        Default     : Left 0, Top 0, Width 1280, Height 720
-        Pixel Aspect: 1/1
-Selection Video Capture: crop_default, Left 0, Top 0, Width 1280, Height 720, Flags: 
-Selection Video Capture: crop_bounds, Left 0, Top 0, Width 1280, Height 720, Flags: 
-Streaming Parameters Video Capture:
-        Capabilities     : timeperframe
-        Frames per second: 30.000 (30/1)
-        Read buffers     : 0
-
-User Controls
-
-                     brightness 0x00980900 (int)    : min=-128 max=127 step=1 default=-11 value=-11
-                       contrast 0x00980901 (int)    : min=0 max=255 step=1 default=148 value=148
-                     saturation 0x00980902 (int)    : min=0 max=255 step=1 default=180 value=180
-                            hue 0x00980903 (int)    : min=-128 max=127 step=1 default=0 value=0
-
-# v4l2-compliance -d0 -s
-
-Streaming ioctls:
-        test read/write: OK (Not Supported)
-        test blocking wait: OK
-                fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
-        test MMAP (no poll): FAIL
-                fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
-        test MMAP (select): FAIL
-                fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
-        test MMAP (epoll): FAIL
-        test USERPTR (no poll): OK (Not Supported)
-        test USERPTR (select): OK (Not Supported)
-[2025-06-17T08:55:20.768760714+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-        test DMABUF (no poll): OK (Not Supported)
-[2025-06-17T08:55:20.769745707+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-        test DMABUF (select): OK (Not Supported)
-
-At the host, I'm getting:
-
-Streaming ioctls:
-        test read/write: OK (Not Supported)
-        test blocking wait: OK
-                fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
-        test MMAP (no poll): FAIL
-                fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
-        test MMAP (select): FAIL
-                fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
-        test MMAP (epoll): FAIL
-        test USERPTR (no poll): OK                        
-        test USERPTR (select): OK                         
-        test DMABUF: Cannot test, specify --expbuf-device
-
-The device I'm using for test is a UVC HDMI capture board:
-
-	Bus 005 Device 008: ID 534d:2109 MacroSilicon usb video
-
-Thanks,
-Mauro
 
