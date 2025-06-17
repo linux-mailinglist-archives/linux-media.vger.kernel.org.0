@@ -1,61 +1,97 @@
-Return-Path: <linux-media+bounces-35105-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35106-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F7CADD108
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 17:09:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC43ADD481
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 18:10:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00C843A9BB2
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 15:08:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76701401ABF
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 16:02:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C6B32E8897;
-	Tue, 17 Jun 2025 15:09:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 791D22F2C52;
+	Tue, 17 Jun 2025 15:58:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+easgqy"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="QHHvi1J8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42111865EE;
-	Tue, 17 Jun 2025 15:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465652DFF07
+	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 15:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750172942; cv=none; b=QMUuLiiFdCZhvmU6TmOOtli3G8mk/hEqmLl8Lbl1NhEkL0EvKmWVkRABGPZLVql4zLzfhPg2FAbouiBvGh/bJw0oziF5ySJNjEcUe6rXh5Z4KYN0Fmmb0n8C+mcxdjNV2lsnqCCM43/yU7NHRPn9O/ZF22zpRnToajrXBW/iPV0=
+	t=1750175905; cv=none; b=hlJA5TqNKZYK0YsWcRE3xGP7Is5BcKDrBY7gCy7CJk/FP98ox8YlJWFeWoSYZ0RKQLEGU0PI7UD7IpxBi6ktMUQaLbdukKQwxzaIMcGGPQOiT7K1vDOrh2mvbCUM7858xl+KnDDkayTYyWl4YQIbanbvtiFdKNp5YkbGW8XBNYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750172942; c=relaxed/simple;
-	bh=GFHXVRfzC0mqtyiNtLvDOfJgC8NaMnttOwFnd4gpPos=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uv1TPFX8L9nmZ9nyyVhssxdogrls6fzBTPgJwMlPMIo5vlw5PWiEixWAgZ8p5KP8IlVaYtUU5ZydpZL8UFP7BoxgCAZb0F+OPCQs196QqP86LKLZu/C+wyF18r6gCb59QZbH5etjwkN3/pteiIR/tXTqQBp8DFsAYNSpgha6CO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+easgqy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7359C4CEE3;
-	Tue, 17 Jun 2025 15:09:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750172942;
-	bh=GFHXVRfzC0mqtyiNtLvDOfJgC8NaMnttOwFnd4gpPos=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=u+easgqyr5Nv1UFLjGa/E1qiPETFVvSl5Mw1ks1H5dNWdDhN5AQeioE8a8z2xpels
-	 vQBcgfZS07SupunLRnHH9UIAn/+8P7j4G3+1nxOqQ3ZusnXyEjta9oR6MRJMCdT4qn
-	 oBBsqOoY/Uaj2hOoXcSwxmH19+tF1F6UxyR4IOj8j4jHauqPDaKT+wMU9DGQpfMd0Y
-	 7jYzGESm5km23wghRhfFiTBcHDVP554sTMB3laNnp2/0B5K/YNJhSfjQA6j1Wk+6BO
-	 O/d/B1D74zlauqA56fdKRFyriyW7XMY+DSJG9Ao83zXdbAtR9GjuU7hYsZR5CqaNLY
-	 v9p5UWiEqdjoQ==
-Date: Tue, 17 Jun 2025 17:08:57 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Philipp Stanner <phasta@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] drm/sched: Clarify scenarios for separate workqueues
-Message-ID: <aFGFCc7eiZJM8RKM@pollux>
-References: <20250612144953.111829-2-phasta@kernel.org>
- <aFFy5aG1eOeMU44S@phenom.ffwll.local>
- <aFF3YIAFkgsAKvQV@pollux>
- <aFF6xeu78cXTGFH0@phenom.ffwll.local>
+	s=arc-20240116; t=1750175905; c=relaxed/simple;
+	bh=hqAmW2+tkDQoBFUTnquUpaKj3CzkKyd3cuJ8lhWF2fM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FdD/rErN3BF1VMqZoCl0UqL8+WKBEy8+V4+F/n4Q9eV/p1WhMsKXrmi8FZx03ikTMYyEqA7mMuBUPTFYgr8MWHqUIa8F8OasGbY6O0hR/59kh17yds0g7zpxqJgHpIPVJq8EPzVMsOcNi9gognviaeKTQ3EJK90e8fJdEvob3LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=QHHvi1J8; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7c5f720c717so740486885a.0
+        for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 08:58:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1750175903; x=1750780703; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5QVoUfdHdJ48HnCFe+0ux01ldLUN4WiVyX0euOzInBM=;
+        b=QHHvi1J8WlnjQCQmVzs1Q2bgXI50wYIJ2CtBxydw8JsbD2ts9AXgc/bdVoJ1TVEIVX
+         9lx6/E46+fUhvJu3Jqllird2ffekFWg9Ox5KbViSZ22TmRLDXMMQfRsyr3DpBplxp+Mj
+         0M36uTcDlFFiNSbPMIm8pM0b3SmJCEcOZFr9Ngrsa6eeYARa2A8q2IcnRpmjGAvawmKQ
+         pa/YTqUVjmq9ihME9jyLyiHJsjv+TKrapuutLSCoS/+hm9oxVLD0kBA8B0O6YR+zWeLR
+         l4Lncys2xnlQwmJ+rDkKl2UJj46gIkqJY7BobN8mWiImd251XRqJ4eGvcmBXFlUDF1ML
+         6Tew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750175903; x=1750780703;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5QVoUfdHdJ48HnCFe+0ux01ldLUN4WiVyX0euOzInBM=;
+        b=JOCPMwNRCuahHEIF3g49KY+oTOhP8uJ2u+U9xZnvRmOonPRObcrUV7cXmAZqsUZHTI
+         p5FSNMMQ1hE52lZtK1D3430g0lRP5QcycjejJfKuIl6Eb8MoMgqTeDplLnT50283BMS1
+         FCbsTZf/WVxAA1Q48PXmrbddYAlv09tV5IWO7dAcXIrNITm+l+UDhOAvCmoWWCxjTRrB
+         K9jDognFGvddUaPcgfAAlliLFKKnSPtuFLM54CBVvwFUyAjxfaXTUk1JaJUad/lNdNuY
+         NzV/UWsS8qFavZBxY+sMZr40wtdp+Wg2eXBInH8WorBde4EPNJh8XvteXv2y1CCIyAav
+         8z6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXcVvMMd1zt7iCptQ4EkZQMCqbnDUeE9H+K/zDwJNuKI5GL6DVBSBBy7FJVXJkfn0GwhK6r7R/OWu051g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUYq/dQzLG7i6rPAm+DZtRduy1SHB6c0+CJ/os0117Y5DMPre2
+	cFLwkdtcG3pH0vDpazYi940LOGJw18JuFo+MyRxoc6xE15rCGpt+3oy/ZujuSmmdj0M=
+X-Gm-Gg: ASbGncs/WIGkwsEMUAse8JJgBw0c22TBpiHwoeSd5OBiae7JXnLIigjuwFyZ4GM2IqK
+	/IUN1C7S9GAT8qReet+SOgBlSsk/nkgp3MmpccbVxYsl3zfebOSqgw/njAMg5h+M7obZFkbmd6z
+	UN/rvHhfooyhwDnTHsvBXfalK/xyswCa4pNggOs88NtpqlTKr7iUe/BNB5cbOdvc606f6sTphAP
+	lowK2hfDz1NIk8IfTkHqyEcP6jPBz0tBKgxmeuZNzsQlZ9wX11C0N0IQZGJw//e29jM5e+cB1S0
+	pTz3Q4pYmVEm2Za2nRPunJfE5OwkxNV+afiuPxf1pigxwXyLSFHulf+PdR8+vAU0M1SFH6HR40h
+	EbKRABCm5MahY4QxjwnFJTcuo8y5c6RFObHvjsA==
+X-Google-Smtp-Source: AGHT+IGQBUFbF+tPc3zGviUG0wR17BWPg+rb3PkSRtQpO74uvfm4fcaKBtbG84+832ByxCugbO/j+w==
+X-Received: by 2002:a05:620a:44c5:b0:7d3:d14a:38aa with SMTP id af79cd13be357-7d3e07649b8mr472642785a.16.1750175903195;
+        Tue, 17 Jun 2025 08:58:23 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.56.70])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d3b8e0535csm664773285a.41.2025.06.17.08.58.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 08:58:22 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1uRYha-00000006Wgi-0qrY;
+	Tue, 17 Jun 2025 12:58:22 -0300
+Date: Tue, 17 Jun 2025 12:58:22 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+	nicolas.dufresne@collabora.com, p.zabel@pengutronix.de,
+	mchehab@kernel.org, iommu@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH 5/5] media: verisilicon: Flush IOMMU before decoding a
+ frame
+Message-ID: <20250617155822.GE1376515@ziepe.ca>
+References: <20250616145607.116639-1-benjamin.gaignard@collabora.com>
+ <20250616145607.116639-6-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,76 +100,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aFF6xeu78cXTGFH0@phenom.ffwll.local>
+In-Reply-To: <20250616145607.116639-6-benjamin.gaignard@collabora.com>
 
-On Tue, Jun 17, 2025 at 04:25:09PM +0200, Simona Vetter wrote:
-> On Tue, Jun 17, 2025 at 04:10:40PM +0200, Danilo Krummrich wrote:
-> > On Tue, Jun 17, 2025 at 03:51:33PM +0200, Simona Vetter wrote:
-> > > On Thu, Jun 12, 2025 at 04:49:54PM +0200, Philipp Stanner wrote:
-> > > > + * NOTE that sharing &struct drm_sched_init_args.submit_wq with the driver
-> > > > + * theoretically can deadlock. It must be guaranteed that submit_wq never has
-> > > > + * more than max_active - 1 active tasks, or if max_active tasks are reached at
-> > > > + * least one of them does not execute operations that may block on dma_fences
-> > > > + * that potentially make progress through this scheduler instance. Otherwise,
-> > > > + * it is possible that all max_active tasks end up waiting on a dma_fence (that
-> > > > + * can only make progress through this schduler instance), while the
-> > > > + * scheduler's queued work waits for at least one of the max_active tasks to
-> > > > + * finish. Thus, this can result in a deadlock.
-> > > 
-> > > Uh if you have an ordered wq you deadlock with just one misuse. I'd just
-> > > explain that the wq must provide sufficient forward-progress guarantees
-> > > for the scheduler, specifically that it's on the dma_fence signalling
-> > > critical path and leave the concrete examples for people to figure out
-> > > when the design a specific locking scheme.
-> > 
-> > This isn't a concrete example, is it? It's exactly what you say in slightly
-> > different words, with the addition of highlighting the impact of the workqueue's
-> > max_active configuration.
-> > 
-> > I think that's relevant, because N - 1 active tasks can be on the dma_fence
-> > signalling critical path without issues.
-> > 
-> > We could change
-> > 
-> > 	"if max_active tasks are reached at least one of them must not execute
-> > 	 operations that may block on dma_fences that potentially make progress
-> > 	 through this scheduler instance"
-> > 
-> > to 
-> > 
-> > 	"if max_active tasks are reached at least one of them must not be on the
-> > 	 dma_fence signalling critical path"
-> > 
-> > which is a bit more to the point I think.
+On Mon, Jun 16, 2025 at 04:55:53PM +0200, Benjamin Gaignard wrote:
+> Flush the IOMMU mapping before decoding a frame to ensure that all memory
+> translations are properly applied.
 > 
-> My point was to more state that the wq must be suitable for the scheduler
-> jobs as the general issue, and specifically then also highlight the
-> dma_fence concurrency issue.
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/platform/verisilicon/hantro_drv.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 
-Sure, there are more guarantees the driver has to uphold, but this is one of
-them, so I think we should explain it.
+This is a really big red flag.
 
-> But it's not the only one, you can have driver locks and other fun involved
-> here too.
+iommu translations are supposed to be controlled by the iommu driver
+and should be flushed as part of the iommu map/unmap flows. It should
+never be necessary to do something like this.
 
-Yeah, but it boils down to the same issue, e.g. if a driver takes a lock in
-active work, and this lock is taken elsewhere for activities that violate the
-dma_fence signalling critical path.
-
-All the cases I have in mind boil down to that we potentially, either directly
-or indirectly (through some synchronization primitive), wait for things we are
-not allowed to wait for in the dma_fence signalling critical path.
-
-Or do you mean something different?
-
-> Also since all the paragraphs above talk about ordered wq as the example
-> where specifying your own wq makes sense, it's a bit confusing to now
-> suddenly only talk about the concurrent wq case without again mentioned
-> that the ordered wq case is really limited.
-
-I mean, it talks about both cases in a generic way, i.e. if you set
-max_active == 1 in the text it covers the ordered case.
-
-Or do you mean to say that we should *only* allow ordered workqueues to be
-shared with the driver?
+Jason
 
