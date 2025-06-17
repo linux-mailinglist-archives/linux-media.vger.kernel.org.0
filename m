@@ -1,73 +1,79 @@
-Return-Path: <linux-media+bounces-35036-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35037-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3F3ADC435
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 10:12:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB214ADC4B6
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 10:27:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D1091703A7
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 08:08:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 800B9161E7F
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 08:27:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C95E52918D5;
-	Tue, 17 Jun 2025 08:05:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9500D28F92E;
+	Tue, 17 Jun 2025 08:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="AWcdHzzY"
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="big5LgqM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4B68528E;
-	Tue, 17 Jun 2025 08:05:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8543821B184
+	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 08:26:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750147556; cv=none; b=ZlM3fAwajOD4vNdQd6SX/0ydLzTZThF2EF3vmHYOrm2qAk0iQ5RGiLY34lAErlf3D4VWvFFQz3eMWyjJoOsIc+Fo86Pe826ae6bLrCp0lHY8ImDr6zWyFuF2mOxamethxFqVZ5M7k0YmvasZFYYOAGsr24BwfglX/llSgw2FyoU=
+	t=1750148823; cv=none; b=P9/QP4y/d/LjZDa6SSZHaGQC13o86e+Eob4uEnFDlNPKuh5a0J0ddb6EME73Oj728QvEBRFs0xZx3/G/1N1WrriKC1/wxcbuJ62Q6FeA6go6yvh6L9PTpLGY904pFR5CXeg1fBYUnMorFfuU58exFa59ipHrNKkbOzKjib60LmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750147556; c=relaxed/simple;
-	bh=N5aRY9uJ9PwDX/cNTffUHHAfjzPm6EYzLFuOBHPmlrk=;
+	s=arc-20240116; t=1750148823; c=relaxed/simple;
+	bh=n4wFiBD/uNh/WykhIpDOWAGjZIESv+Tw84qp0Ad4XeM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QoPQqcDPS4wqO8fNYwdk2bhbdYZlg/vGqOgY8tz5tCuxYI2DquAMmGZSPV8Vov8VkyiJEmeDzyfSm7ORunPjqV4utUnEcEom7uX8wwdxfJZw83SoJ8lvgn12/KhIhmIwiy87B6jR4c+sCLPmffKkWP890zOpRbLw7ffEpHFI4UM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=AWcdHzzY; arc=none smtp.client-ip=185.233.34.11
+	 In-Reply-To:Content-Type; b=K9Wel8B/3YzBxk2n5GmsKLMVwXhYtzGWwbSBSbula03buE37APy6q1Doqa4AdKJnnUybHXF5RM4hJlz+aYLBUVv4xydB0zTKzJwOgft8XKHvovhQT4U8HZjkcPNtYOoCqUIhMKz+4rd8gl3OYW8lkSqmVfmv8ZoV4V8QtGSpvCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=big5LgqM; arc=none smtp.client-ip=185.233.34.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
 Received: from smtp.freedom.nl (unknown [10.10.4.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4bLzvT5KlNzvcx;
-	Tue, 17 Jun 2025 08:05:41 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4bLzvT14R0z7k;
-	Tue, 17 Jun 2025 08:05:41 +0000 (UTC)
+	by dane.soverin.net (Postfix) with ESMTPS id 4bM0Mz2WjgzwxX;
+	Tue, 17 Jun 2025 08:26:55 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4bM0My5vrDz5l;
+	Tue, 17 Jun 2025 08:26:54 +0000 (UTC)
 Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=AWcdHzzY;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=big5LgqM;
 	dkim-atps=neutral
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1750147541;
+	s=soverin1; t=1750148815;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gJuJryQ3Q/MquuMVjeUqOCapQ53RCYLDrwLGPKSqEQw=;
-	b=AWcdHzzYU4JS1o47Vf6vORW+CifQOb6hEdoskNnF2frYIr616myKr29vmEviiDHENG/AO0
-	ocIrpTb+1sN4CvmLjgEt/2AlHfmjLEU3gCPr1zj8F97LyKZIPsU0mii4Nd/r2S3APhqepH
-	oWM6m/1yuBLn5hvMQRsY19b4im4JtbIvcVubFbf0z8e0RKo6JUPHaoG70hxpQRTObKV5Yu
-	GqzWPBNdL7YOd0AZhp7QqX2YR9MNfC3dEyc1ZSjSonCgXmgMxurI0p6zqSaajmStH2PBav
-	RBJOUccL3nWr5Rav/KTapxTvFVLoZhsevKmhSEaS6HK8lUCjWHWsVSFSz6uCDA==
-X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=685121d5 a=IkcTkHD0fZMA:10 a=bOcqHLCVAAAA:8 a=s6GBAQ12KWCaJGgodP0A:9 a=QEXdDO2ut3YA:10 a=kybQvxmeJezS0UF8m-11:22
-Message-ID: <89174255-aed8-4549-a329-b7782cfeec74@jjverkuil.nl>
-Date: Tue, 17 Jun 2025 10:05:35 +0200
+	bh=oYYG2qaajfdX1IiIOP5/b69StTeMYQrMNyfF9bMTzj8=;
+	b=big5LgqMPK9cpizGOEJcSUArdOoc8onVSzO16cOPF69jtEJZII0vu9dK6lm5UCJEeSZ+99
+	3yez0Vrwsl3sJOUTorfkYmMTiXqlFTbqcHWJtyUbtK6EPFHqthOJtI8zziYobeyXigqFEN
+	qd+b2QgEr4UO6mFgN7mkvdDehxMzYJpKaRvnf3QZgNuve3uj+XSKs+zre4K5SUPo1i8v3p
+	Tf2zN/5nca58T7UrQisE9KyfLh3XgFGQn3i5f3edTtsyJPNSlEFxU5/wVc/VJGjzExZuoq
+	4h0KBZr+yUq/4t2kadlnhmnn/g9RpaAkeyarnOvZZYMlHbJj8mZr7QozUbYCgA==
+X-CM-Envelope: MS4xfIYbbIofm5f7pFGvK4E8rU+fZymbp4H6SekmIHXStl7dtIDAVqdwlgWc7OqA3VUFoY7anFMWqHvigPbupYYz5so06r4nQhDfPEv5DUfSMwZ/PvfbBTTg zYEbYv3asVjFQPzLWKzvnJ3jnPVx+Gt+Ouc2TBQYHVerV5MpgGzp66jrkRGPwlQq+RFBEG9e/tGJEL6VajQn1hLIXhDM4RCE4dCdTPbnXvnNsYe8d7TEdbPj FC5yjbsQFHgm9xXl1v1ddhnaZ5wCmoRGvod4vGHhtFDTsAyEOw1Zel/a827E28FG8UVSdWsRJZN9sWF/uym9yeYgCh+5XsgGR2+esAfkj1EUD87n7igM4mWf SF7dHh6NNZJY66eyxiIDCtrMFWzm+7ZGZoGrjOzN+kJgdPU2FQsKGf9sIeueUHMNZgDV7JF3T5Sl1oSeRknOiN3lSG8yNz7L0ePD3Z7jggFpCnkd+cYinR4h mlLTkxtS+cmNyDCYtJf/VMi9n02da7bv9wKV0Sm92vlNTT6Mb3lg95LtQ2PNhLl+4RUJK0HsJJdjG99Ltrzhrc/Fe1f04pV+uyGV2mlsHIqW+ZYnIOUUE07Q 3sJE4GJ6r3UsvDDms9yl/K+R
+X-CM-Analysis: v=2.4 cv=I7afRMgg c=1 sm=1 tr=0 ts=685126cf a=y7GQG8cVTJWmfFIGl7BB1w==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=bDN84i_9AAAA:8 a=cm27Pg_UAAAA:8 a=EB4qVX10em35FUJHe8YA:9 a=QEXdDO2ut3YA:10 a=J2PsDwZO0S0EpbpLmD-j:22
+Message-ID: <804b4a1c-7171-436d-8e74-5f8a1c40f965@jjverkuil.nl>
+Date: Tue, 17 Jun 2025 10:26:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] media: usbtv: Lock resolution while streaming
-To: Ludwig Disterhof <ludwig@disterhof.eu>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl
-References: <dd4693d2-3ecb-4081-8227-35e4e89ec7d4@disterhof.eu>
+Subject: Re: [PATCH v2] media: v4l2-dev: implement wrap-around search in
+ devnode_find
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Haipeng Jiang <haipengjiang@foxmail.com>
+Cc: bartosz.golaszewski@linaro.org, hljunggr@cisco.com, hverkuil@xs4all.nl,
+ linux-media@vger.kernel.org, make24@iscas.ac.cn, mchehab@kernel.org,
+ sebastian.fricke@collabora.com, viro@zeniv.linux.org.uk
+References: <CANiDSCvB+qeBW7aPvBo_--J8gw3s3auhmy78VtkmMRReyg0-wQ@mail.gmail.com>
+ <tencent_F17FCCD7216F8C3E86E3BF032289559E9409@qq.com>
+ <CANiDSCtn7o4SvTPx76s7DA87Nyop-fGJzV4k6uUS9=EF0aLA1A@mail.gmail.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hans@jjverkuil.nl>
 Autocrypt: addr=hans@jjverkuil.nl; keydata=
@@ -113,56 +119,105 @@ Autocrypt: addr=hans@jjverkuil.nl; keydata=
  UnhF1/AWSHp+sv8vlNgnncxLDCho8uVjZrn4jzswd6ticBUAsPAKDYnO7KDzfQlQhIHdq10v
  jlGW/FbxA1UUiuWH+/Ub3qh75oQHTTlYe9H+Qr8Ef231/xItks8c+OyoWV6Z9ZcZnHbOmy2I
  0wGRdGp8puOL7LzhLkIN66sY/+x4s+ANxyJK6U1nJVeq7tbbhqf2Se2mPG3b87T9ik8=
-In-Reply-To: <dd4693d2-3ecb-4081-8227-35e4e89ec7d4@disterhof.eu>
+In-Reply-To: <CANiDSCtn7o4SvTPx76s7DA87Nyop-fGJzV4k6uUS9=EF0aLA1A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spampanel-Class: ham
 
-Hi Ludwig,
-
-I'm taking this patch, but with one change:
-
-On 28/04/2025 20:16, Ludwig Disterhof wrote:
-> When an program is streaming (ffplay) and another program (qv4l2)
-> changes the TV standard from NTSC to PAL, the kernel crashes due to trying
-> to copy to unmapped memory.
+On 16/06/2025 08:40, Ricardo Ribalda wrote:
+> On Sat, 14 Jun 2025 at 08:35, Haipeng Jiang <haipengjiang@foxmail.com> wrote:
+>>
+>> Moved wrap-around search logic into devnode_find() to avoid redundant
+>> lookups when nr=0. Returns -ENOSPC when device node numbers are
+>> exhausted.
+>>
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+>> Signed-off-by: Haipeng Jiang <haipengjiang@foxmail.com>
+>> ---
+>> Changes in v2:
+>> - Implemented wrap-around search logic directly in devnode_find()
+>>
+>>  drivers/media/v4l2-core/v4l2-dev.c | 20 +++++++++++++++-----
+>>  1 file changed, 15 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>> index c369235113d9..39e175d529a4 100644
+>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>> @@ -138,10 +138,22 @@ static inline void devnode_clear(struct video_device *vdev)
+>>         clear_bit(vdev->num, devnode_bits(vdev->vfl_type));
+>>  }
+>>
+>> -/* Try to find a free device node number in the range [from, to> */
+>> +/* Try to find a free device node number in the range [from, to>, wrapping */
+>>  static inline int devnode_find(struct video_device *vdev, int from, int to)
+>>  {
+>> -       return find_next_zero_bit(devnode_bits(vdev->vfl_type), to, from);
+>> +       int ret;
+>> +
+>> +       ret = find_next_zero_bit(devnode_bits(vdev->vfl_type), to, from);
+>> +
+>> +       if (ret == to) {
+>> +               if (from == 0)
+>> +                       return -ENOSPC;
+>> +               ret = find_next_zero_bit(devnode_bits(vdev->vfl_type), from, 0);
+>> +               if (ret == from)
+>> +                       return -ENOSPC;
+>> +       }
+>> +
+>> +       return ret;
+>>  }
+>>
 > 
-> Changing from NTSC to PAL increases the resolution in the usbtv struct,
-> but the video plane buffer isn't adjusted, so it overflows.
+> The code is correct, but I would have implemented it a bit differently
+> to avoid indentation level.
+> Probably nitpicking.
 > 
-> Fixes: 0e0fe3958fdd13d ("[media] usbtv: Add support for PAL video source")
+> ret = find_next_zero()
+> if (ret != to)
+>   return ret;
+> if (from == 0)
+>    return -ENOSPC;
+> ret = find_next_zero()
+> if (ret == from)
+>   return -ENOSPC
+> return ret;
 > 
-> Signed-off-by: Ludwig Disterhof <ludwig@disterhof.eu>
-> ---
->  drivers/media/usb/usbtv/usbtv-video.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
-> index be22a9697197..965a8ae82afe 100644
-> --- a/drivers/media/usb/usbtv/usbtv-video.c
-> +++ b/drivers/media/usb/usbtv/usbtv-video.c
-> @@ -73,6 +73,10 @@ static int usbtv_configure_for_norm(struct usbtv *usbtv, v4l2_std_id norm)
->  	}
->  
->  	if (params) {
-> +		if (vb2_is_streaming(&usbtv->vb2q) &&
+> As I previously said, find_next_zero_bit is really fast, so there is
+> no big harm to run it twice even if it is not needed. Up to the
+> maintainer to decide if they need the patch or not :)
 
-This should be vb2_is_busy(), not vb2_is_streaming().
+I don't see a compelling reason to take this patch. It is a very slight improvement
+if you run out of available minor numbers, which is exceedingly rare. And you have
+bigger problems if you hit that.
 
-is_busy() checks if buffers have been allocated since in that case you can't
-make changes to the resolution until all buffers are released.
+So I'm dropping this patch, it just makes the code longer without any real benefits.
 
-No need to do anything, I've made this change myself.
-
-Regards,
+Sorry,
 
 	Hans
 
-> +		    (usbtv->width != params->cap_width ||
-> +		     usbtv->height != params->cap_height))
-> +			return -EBUSY;
->  		usbtv->width = params->cap_width;
->  		usbtv->height = params->cap_height;
->  		usbtv->n_chunks = usbtv->width * usbtv->height
+> 
+> Thanks
+> 
+> 
+> 
+>>  struct video_device *video_device_alloc(void)
+>> @@ -995,9 +1007,7 @@ int __video_register_device(struct video_device *vdev,
+>>         /* Pick a device node number */
+>>         mutex_lock(&videodev_lock);
+>>         nr = devnode_find(vdev, nr == -1 ? 0 : nr, minor_cnt);
+>> -       if (nr == minor_cnt)
+>> -               nr = devnode_find(vdev, 0, minor_cnt);
+>> -       if (nr == minor_cnt) {
+>> +       if (nr == -ENOSPC) {
+>>                 pr_err("could not get a free device node number\n");
+>>                 mutex_unlock(&videodev_lock);
+>>                 return -ENFILE;
+>> --
+>> 2.46.2.windows.1
+>>
+> 
+> 
 
 
