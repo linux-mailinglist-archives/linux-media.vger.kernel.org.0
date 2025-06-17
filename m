@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-35016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35017-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9707ADC239
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 08:14:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37972ADC269
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 08:33:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C70D13A2FFA
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 06:14:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED2E87A199B
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 06:31:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DE2A28BAA4;
-	Tue, 17 Jun 2025 06:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9567128BAB1;
+	Tue, 17 Jun 2025 06:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N9yxKEh1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L25xoWlB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31BE4430;
-	Tue, 17 Jun 2025 06:14:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1ED8238174;
+	Tue, 17 Jun 2025 06:32:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750140868; cv=none; b=Fj/BR7hf8g/OBlY/kFM1b94klmD7a5oYyWXllCWKgF6fjE7caA1BRcbc2UM2q8T39k/eqTMzbLP/IqmtpZqXvagUQeQ3ZcFxL5zNieQo/0/VYqcbqOYfTDac85xGIGaxbHXnPnn8WDPDlS/2XaDsBxxhGamjhhh9yyfTzMQL1kU=
+	t=1750141972; cv=none; b=fdQTCRhLremKMPlOlE9e5ntKQ50++yAk3M5BmuSEGzic1If2lT0Di71MQYPSFSt04ivLS0kkQRqEiq7+W3Rz+kQjygtx5XipZf4UcRuzhrY2ihPdtni6IBPBpNSnvUvw3xpYE/UaotewNDs5CgZAPvdQJa1dnFLejYQ4y1SMrtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750140868; c=relaxed/simple;
-	bh=atcA+m1RP63WSr7kzFhVShoS22kZRQhKEPWYi3FCQsU=;
+	s=arc-20240116; t=1750141972; c=relaxed/simple;
+	bh=GBAZCQF2Rv79R4nMP6/3vKH/peJmyPDSGZCIUXA1c9Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CDQ1GVFBDZ+6rNUkyfVje+Sc8w0A83tvQdVuqi4MjQNbSg7Y6u3a5P6M1VtXaFIWSDDRSDVlqKhwvZuQUahTH6JvfCNnMkGchSkVALkINfrSyKYgdn3fPXWvY8I5CAtPIwIEBT34353PibnmD6qWizjiQExA8LgYrVOr2fMg7ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N9yxKEh1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32F9CC4CEE3;
-	Tue, 17 Jun 2025 06:14:25 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=CWvXGglqrihBszywp1Em5V1B/eixVg8f5bpUa3z2HjA4YCgm1p98zsXAWcjMWD36/gDKyU5kHQz59GUl7ZCFELv5JdWolw6ZtMZSxpbUb/WtnoZ6dDMhpGUw3HHyEernAk77RrZo+bqLalN9E6frkL53J1MXbZHLBkNLIMT3tT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L25xoWlB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5340C4CEE3;
+	Tue, 17 Jun 2025 06:32:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750140868;
-	bh=atcA+m1RP63WSr7kzFhVShoS22kZRQhKEPWYi3FCQsU=;
+	s=k20201202; t=1750141971;
+	bh=GBAZCQF2Rv79R4nMP6/3vKH/peJmyPDSGZCIUXA1c9Y=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=N9yxKEh1Kjf62bOHmpOn1cYdpdRn1gofl+mZtpTpBPwQZ5vvawpJBCsM9W17N15FQ
-	 9VN9Gavv5SrMW9KFbY0jiP9jjpNvgFxtGtE/z3HswJiawSpfuGys4Zo4zekCvLi+/b
-	 kHETdWjx85ognmiLMpXTv86ZUfgur00+k1na1l/1Xc7nLwSl/hnuEVP5K+ClMwvgWR
-	 2YRux22WQv+jwy+DpMTp4kvHQobCS4bfk3Ijx3z6AF8ruzH/P8RooaJi0SfcAvWETX
-	 CHG++iPmEW5Sl3nv06WN8TuWcILgS8cILbXnAnVkr7Bl9spDuRZO8Crfo9iY0dIYd0
-	 L/9AfKJukd63Q==
-Message-ID: <c7aef6cd-e07d-4422-a34a-ce04c37ad2e8@kernel.org>
-Date: Tue, 17 Jun 2025 08:14:23 +0200
+	b=L25xoWlBrMEPGD81mKZGsmCwCnlQqdAutQK7ohYrlFbhhqBFvVNbVoCca3DzoWam+
+	 AU+quhAuIC8odIajKC4pYg2nr5/2FkmC+vIKFs19YFGsQZ9fEejaft92sE0Sjmidva
+	 YrRy+mnjtKnwZKle24fkLM31Z1Vh5hzYbSOaoz14gMxa0qAdHiXeWRPsWeqSE5hLtb
+	 84y5ed4cSr8pVEEBdeZdxafmYR5d34CrDsy2NnL4BOHQKkJ8TDiL+NGrO+WsvUf+Ja
+	 os+DBlPajbglybEGroMHFUew12w5Emagi+zyrMc94wI3X4eIvo6kdEvM/EDy0JpPL5
+	 Kx4z+7/jXLsiQ==
+Message-ID: <4f7225ee-fbb4-472e-8e14-a98f4cef9fc3@kernel.org>
+Date: Tue, 17 Jun 2025 08:32:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,18 +50,25 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] dt-bindings: media: venus: Add qcm2290 dt schema
-To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
-Cc: quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com,
- bryan.odonoghue@linaro.org, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, stanimir.varbanov@linaro.org,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250613140402.3619465-1-jorge.ramirez@oss.qualcomm.com>
- <20250613140402.3619465-2-jorge.ramirez@oss.qualcomm.com>
- <6f4e715f-1c73-450e-b7eb-92781b7fa050@kernel.org> <aFATp3zoSgkrj3YX@trex>
- <a76789cf-afe1-4d91-afdf-65c3af5ad11f@kernel.org> <aFBDzWLkKC9MWGoC@trex>
- <48e6cc62-ffb0-4ca7-80c8-9e510db505db@kernel.org> <aFBNVjl4n7I+OkO5@trex>
+Subject: Re: [PATCH 08/10] dt-bindings: media: qcom: Add Qualcomm MIPI
+ C-/D-PHY schema for CSIPHY IPs
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
+ <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
+ <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
+ <e9afdd0f-7842-4780-9044-d5afa6a09d7f@linaro.org>
+ <b96f9cca-cdd4-4456-8ced-f4a8fd810ff1@kernel.org>
+ <9e383935-a10c-40ec-a63a-243cd028374e@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,78 +114,64 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <aFBNVjl4n7I+OkO5@trex>
+In-Reply-To: <9e383935-a10c-40ec-a63a-243cd028374e@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 16/06/2025 18:59, Jorge Ramirez wrote:
-> On 16/06/25 18:23:18, Krzysztof Kozlowski wrote:
->> On 16/06/2025 18:18, Jorge Ramirez wrote:
->>> On 16/06/25 16:41:44, Krzysztof Kozlowski wrote:
->>>> On 16/06/2025 14:52, Jorge Ramirez wrote:
->>>>>>
->>>>>>> +  The Venus AR50_LITE IP is a video encode and decode accelerator present
->>>>>>> +  on Qualcomm platforms
->>>>>>> +
->>>>>>> +allOf:
->>>>>>> +  - $ref: qcom,venus-common.yaml#
->>>>>>> +
->>>>>>> +properties:
->>>>>>> +  compatible:
->>>>>>> +    const: qcom,qcm2290-venus
->>>>>>> +
->>>>>>> +  power-domains:
->>>>>>> +    minItems: 2
->>>>>>> +    maxItems: 3
->>>>>>> +
->>>>>>> +  power-domain-names:
->>>>>>> +    minItems: 2
->>>>>>
->>>>>> Why is this flexible? Either you have two or three. Not mixed.
+On 14/06/2025 21:31, Konrad Dybcio wrote:
+> On 6/13/25 8:28 AM, Krzysztof Kozlowski wrote:
+>> On 12/06/2025 19:13, Vladimir Zapolskiy wrote:
+>>> On 6/12/25 10:38, Krzysztof Kozlowski wrote:
+>>>> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
+>>>>> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
+>>>>> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
 >>>>>
->>>>> please check 5b380f242f360256c96e96adabeb7ce9ec784306
+>>>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>>>>> ---
+>>>
+>>> <snip>
+>>>
+>>>>> +
+>>>>> +  clocks:
+>>>>> +    maxItems: 2
+>>>>> +
+>>>>> +  clock-names:
+>>>>> +    items:
+>>>>> +      - const: csiphy
+>>>>> +      - const: csiphy_timer
 >>>>
->>>> This does not explain why this is optional HERE. You cannot use for a
->>>> new platform an argument that some existing platform was changed in
->>>> ABI-preserving way.
+>>>> Drop csiphy from both, redundant. And this points to the first clock
+>>>> name not having any useful name. Name equal to device name is not useful.
+>>>>
 >>>
->>> thanks for quick the follow up.
->>>
->>> but bear with me please because I dont follow - why can the same logic
->>> be used - it being applicable - and therefore result in a definition
->>> similar to those other platforms?
+>>> I got the rationale, but I have no idea how to correct it, since it's
+>>> literally the case, the first clock name on the list in 'csiphy'.
 >>
->> Because this platform either has 2 or 3, not both. Unless that's not
->> true, but then please share some arguments.
+>> What do you mean by "list"? You can point me also to internal
+>> documentation if that helps.
 > 
-> as with every other venus schema with more than 1 power domain, the
-> argument is the same one that I have shared with you a couple of
-> messages back (DVFS).
+> So if you do:
 > 
-> verbatim:
->     Venus needs to vote for the performance state of a power domain (cx)
->     to be able to support DVFS. This 'cx' power domain is controlled by
->     rpm and is a common power domain (scalable) not specific to
->     venus alone. This is optional in the sense that, leaving this power
->     domain out does not really impact the functionality but just makes
->     the platform a little less power efficient.
+> "csiphy_timer" - "csiphy_" you're left with "timer" which makes sense
+> 
+> however, if you do:
+> 
+> "csiphy" - "csiphy_", you get "" and Vlad is wondering what to name it
 
-That's not definition of optional. The domain is needed for this device,
-the device is one way or another having its rails routed to that domain.
-It is not optional.
+How is the signal named in HPG or diagram? It is possible it has a name
+other than "csiphy"...
 
 > 
-> Seeing all these venus schemas follow the same pattern, it seems to me
-> that this is the correct way of implementing the above.
-
-No for the reason I mentioned earlier.
-
+>>
+>>>
+>>> What could be an alternative name then?..
+>>
+>> The real clock input name, signal name. You can also drop the names.
 > 
-> You seem to disagree. please could you explain?
+> I don't have the docs before my eyes right now, but I would not be
+> surprised if it's also called "csiphy" in there..
 
-I already explained. You add new device, so argument to preserve ABI,
-which was accepted THAT TIME, is not valid. You do not have ABI.
-
+Let's check that first.
 
 Best regards,
 Krzysztof
