@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-35027-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35031-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448DCADC359
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:32:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC55FADC364
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:33:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7B92188CEC9
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 07:32:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1E663BAE08
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 07:32:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EC7028FA87;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE786290D97;
 	Tue, 17 Jun 2025 07:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="W5Tk7Xrx"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="u+C33yKj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D011E22FC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4D828DB52;
 	Tue, 17 Jun 2025 07:31:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750145503; cv=none; b=n13qEHlmOGVGQmoRO5IcmUmQOWFP6QHhQIDRvjnXtEYdb+6Oz/Fns+Rw2SIOMg8dpOHp2tETJWwBABtEbhqPtPjTQzeEVDvqZq4Wx3E4t3ekESkAra48mZtO0jGsYfFCZFpff5Cl0NNa78WF5PQUcxohYtN+fDl7Lz3fawQ35Is=
+	t=1750145503; cv=none; b=SXLRlgS0wnsgK9cCh54rQTmOZFoCxPTH2nkIBAKhbcVlL73UACHUf5lCmFfVNLC8fOuSO0Nc9ytoHUuF3M5KwARFi4VzR1Ei19AVaPs31iadih7/06uVqj+Hmgt7i6Bn26I7BiYcd3r7+9eRVYCaSI6vuRd7q56gLg+bsrt/S7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750145503; c=relaxed/simple;
-	bh=16N0ehkJWytFD5jx5wDbSTZhtNf5Qf6vx2SOhlkAC1Y=;
+	bh=FNa/xvakH+OMufv25Oa47P8olVqt6It8kjPg/VhP/1A=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Uq4uQWXOrlsDAXWlVwcXbw96vo/J0sLisIG9GfBQz102DKAOZc6LuzSzyqW82nrvtlRoRI/q8qKVls6hWwUvcXQuZzr1hkeQU9HxQUNRjC0CrCqiJXUSR2duIZRK8TMxf1MI7/s+cT6nL9UtJFQ3KrT9NETOqdqQIVDsSy1VHlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=W5Tk7Xrx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E25E1C4CEF7;
+	 In-Reply-To:To:Cc; b=LE2uA8Qfbf5vAX+IurIPSN5GmzQT4/clF/4r7r8XG9HLjhJ5y9QWnndEtdFwoxOml6urwUcphpjGSKy0ZylXn4dZNrXTNo4TvFZNXfvI9APnIQWzvY7gU06q3WkzafF/dpd2fbu/ctZgCe/x3THpS26oyW1E9De+mei2qz2mvyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=u+C33yKj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EC810C4CEFA;
 	Tue, 17 Jun 2025 07:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1750145502; bh=16N0ehkJWytFD5jx5wDbSTZhtNf5Qf6vx2SOhlkAC1Y=;
+	t=1750145503; bh=FNa/xvakH+OMufv25Oa47P8olVqt6It8kjPg/VhP/1A=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=W5Tk7XrxMVaiCjlLaD1ZsDEg4V2ER7IWbKshfxw58qGO6EVp4dPdbZf5ZyVrgyae9
-	 dA1BBOWSVHUe0kELvGOZyL0RcoHolq84w/wqMLLcRXpMcqo208MLflX48XDDYmmGqS
-	 OjATOlbLd0U/C94stJk9iHjzhUycyGwwgWULh5kU=
+	b=u+C33yKjXOjHiWhPF2bwaYwZp2z6MwnkTJqtd2RbK5L4K/xKxXO7IJSNvUyeo9gnB
+	 ix5wZQkm0clWeWiZN1egHGOT+0ogiHJToOJW25QHABZcju+keO/CW6dNhiuRWBKoXd
+	 Pk3GnzZFuolqXz55q3Il8rlAsYeyPTiV6xygXbhY=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D215FC7115D;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3A58C71157;
 	Tue, 17 Jun 2025 07:31:42 +0000 (UTC)
 From: Richard Leitner <richard.leitner@linux.dev>
-Date: Tue, 17 Jun 2025 09:31:38 +0200
-Subject: [PATCH v5 04/10] Documentation: uAPI: media: add
- V4L2_CID_FLASH_DURATION
+Date: Tue, 17 Jun 2025 09:31:39 +0200
+Subject: [PATCH v5 05/10] media: i2c: ov9282: add output enable register
+ definitions
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,8 +51,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250617-ov9282-flash-strobe-v5-4-9762da74d065@linux.dev>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250617-ov9282-flash-strobe-v5-5-9762da74d065@linux.dev>
 References: <20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev>
 In-Reply-To: <20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -64,36 +64,75 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
  Richard Leitner <richard.leitner@linux.dev>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750145501; l=1038;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750145501; l=2191;
  i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
- bh=16N0ehkJWytFD5jx5wDbSTZhtNf5Qf6vx2SOhlkAC1Y=;
- b=DVSTCYqNJufAJ3eLL86OJ8J58+xjr+B8yJkFVS4dnrxT53dv3Po4+gGFv81Z2jtJs1PWzSllW
- aOcTeZmAgFCAt8ZqtbtsOFUemwNxb+Wi1pxyh4nONJ4MIdO/ea56VsE
+ bh=FNa/xvakH+OMufv25Oa47P8olVqt6It8kjPg/VhP/1A=;
+ b=uUHWJ+/yb+PEiHD9pRblZN7qf/jGLbObljhh9njTTbUrU1jtNojkc0ELLkEDGzT8KfWB2yLiO
+ H9L+gNjKJLOBAleI3wzW224Y0zaf/P1/kqeHcew5Bq2WhAS12C8w71g
 X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
  pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
 X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
  with auth_id=350
 
-Add the new strobe_duration control to v4l uAPI documentation.
+Add #define's for the output enable registers (0x3004, 0x3005, 0x3006),
+also known as SC_CTRL_04, SC_CTRL_05, SC_CTRL_04. Use those register
+definitions instead of the raw values in the `common_regs` struct.
 
+All values are based on the OV9281 datasheet v1.53 (january 2019).
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
 ---
- Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/media/i2c/ov9282.c | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-index d22c5efb806a183a3ad67ec3e6550b002a51659a..03a58ef94be7c870f55d5a9bb09503995dbfb402 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-@@ -186,3 +186,8 @@ Flash Control IDs
-     charged before strobing. LED flashes often require a cooldown period
-     after strobe during which another strobe will not be possible. This
-     is a read-only control.
+diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+index c882a021cf18852237bf9b9524d3de0c5b48cbcb..f42e0d439753e74d14e3a3592029e48f49234927 100644
+--- a/drivers/media/i2c/ov9282.c
++++ b/drivers/media/i2c/ov9282.c
+@@ -37,6 +37,29 @@
+ #define OV9282_REG_ID		0x300a
+ #define OV9282_ID		0x9281
+ 
++/* Output enable registers */
++#define OV9282_REG_OUTPUT_ENABLE4	0x3004
++#define OV9282_OUTPUT_ENABLE4_GPIO2	BIT(1)
++#define OV9282_OUTPUT_ENABLE4_D9	BIT(0)
 +
-+``V4L2_CID_FLASH_DURATION (integer)``
-+    Duration the flash should be on when the flash LED is in flash mode
-+    (V4L2_FLASH_LED_MODE_FLASH). The unit should be microseconds (µs)
-+    if possible.
++#define OV9282_REG_OUTPUT_ENABLE5	0x3005
++#define OV9282_OUTPUT_ENABLE5_D8	BIT(7)
++#define OV9282_OUTPUT_ENABLE5_D7	BIT(6)
++#define OV9282_OUTPUT_ENABLE5_D6	BIT(5)
++#define OV9282_OUTPUT_ENABLE5_D5	BIT(4)
++#define OV9282_OUTPUT_ENABLE5_D4	BIT(3)
++#define OV9282_OUTPUT_ENABLE5_D3	BIT(2)
++#define OV9282_OUTPUT_ENABLE5_D2	BIT(1)
++#define OV9282_OUTPUT_ENABLE5_D1	BIT(0)
++
++#define OV9282_REG_OUTPUT_ENABLE6	0x3006
++#define OV9282_OUTPUT_ENABLE6_D0	BIT(7)
++#define OV9282_OUTPUT_ENABLE6_PCLK	BIT(6)
++#define OV9282_OUTPUT_ENABLE6_HREF	BIT(5)
++#define OV9282_OUTPUT_ENABLE6_STROBE	BIT(3)
++#define OV9282_OUTPUT_ENABLE6_ILPWM	BIT(2)
++#define OV9282_OUTPUT_ENABLE6_VSYNC	BIT(1)
++
+ /* Exposure control */
+ #define OV9282_REG_EXPOSURE	0x3500
+ #define OV9282_EXPOSURE_MIN	1
+@@ -213,9 +236,9 @@ static const struct ov9282_reg common_regs[] = {
+ 	{0x0302, 0x32},
+ 	{0x030e, 0x02},
+ 	{0x3001, 0x00},
+-	{0x3004, 0x00},
+-	{0x3005, 0x00},
+-	{0x3006, 0x04},
++	{OV9282_REG_OUTPUT_ENABLE4, 0x00},
++	{OV9282_REG_OUTPUT_ENABLE5, 0x00},
++	{OV9282_REG_OUTPUT_ENABLE6, OV9282_OUTPUT_ENABLE6_ILPWM},
+ 	{0x3011, 0x0a},
+ 	{0x3013, 0x18},
+ 	{0x301c, 0xf0},
 
 -- 
 2.47.2
