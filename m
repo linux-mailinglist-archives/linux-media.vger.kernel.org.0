@@ -1,247 +1,263 @@
-Return-Path: <linux-media+bounces-35049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35050-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE358ADC7F0
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 12:21:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 859E7ADC85E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 12:33:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C55A178E8C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 10:21:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D2D43B7C45
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 10:33:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AE602C15AF;
-	Tue, 17 Jun 2025 10:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6540629B773;
+	Tue, 17 Jun 2025 10:33:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZP1Rv53"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="GG3zBT2l";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VOo8bJf7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8182C08C9;
-	Tue, 17 Jun 2025 10:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AEC2BF3C3;
+	Tue, 17 Jun 2025 10:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750155640; cv=none; b=AZaaspAr3ql992yd4Pm/LBI0i7R4y0yQjVd5vHzKSVRyW63WdoV2F3p2J8UAzXDTwBOKePnNx7OJ+PTMqodtFnVnndsvG38lGTRDoS40W4kj8rrjFbaDLD0DegaA6naWKdRr4PmS+0aKhcEiZ0t4hpTgvX66qr0EaS6TfWoGxyM=
+	t=1750156410; cv=none; b=nGOWWyB8r/sDhLMIW2IM4j1VppCXwgcFtCcC/JuBANeDfKAdSmyW4lR7Yuq3wH4Ik5PQGcINsuzBc0pax5SDP/21B0R4vdvpNweL+HezWlBVwUv4Adqc51DUi2jT8NOmgMxDWQXYrQ41D237JSCfwUDkFeckpfzom80BS+sTXWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750155640; c=relaxed/simple;
-	bh=tY7nTPnXXFdxXxarCnY/LfoaSsd0GkQK3b+J95lq57E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WpPw5Jy4s46vNRrdkjF4qjXYFSsk7BVjWq3VhPyoerGU3XCrnfhwi6LDU44wIrAPdj4mF2Zz34d8z7zhCJUpBdZ3fdDN1XjtGD8BNPN2Bs4ap6S/aWa9vu9mpib+0evv+SupIgfdOslRP1vU68LpxfeKLGxhx6/LTgE+J5eFHIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZP1Rv53; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39FA4C4CEED;
-	Tue, 17 Jun 2025 10:20:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750155640;
-	bh=tY7nTPnXXFdxXxarCnY/LfoaSsd0GkQK3b+J95lq57E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PZP1Rv53BH9sXGaZ0SbKwiaG1DJDqGEToALHE7W5Gn18MSYZXAkzQEhmEBXeal46A
-	 IZqW9jgLIs5vX7u9g8Jp3t2FY8P6OpYG8H2tETj3Hvpn9a6/HFDoY0tPrbH7+UOayZ
-	 cSR6HAeuznEau8wEbbQO/3YWzI1pkcfqEcGslOiZCioCNljznps3mFFY1IcXsbMWaz
-	 3xfGPU7yldc1YLKedWJRNqW1tUS+bce7B8h3X9EUdhxDA/PqMhWpJ3YHlDL8YV9UbW
-	 w/W1UDfnKM1Oz05cVVtGEk0a4Uar3jXLEGr9YlJloPAGQ/b7ajPQuR19R+SrQvucGa
-	 AZOnTutMOGLSA==
-Date: Tue, 17 Jun 2025 12:20:34 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Alexandre Courbot <gnurou@gmail.com>
-Cc: Albert Esteve <aesteve@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, gurchetansingh@google.com,
- daniel.almeida@collabora.com, adelva@google.com, changyeon@google.com,
- nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH v3] media: add virtio-media driver
-Message-ID: <20250617122034.3e570b4e@foz.lan>
-In-Reply-To: <20250617110318.7c89d999@foz.lan>
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
-	<20250526141316.7e907032@foz.lan>
-	<DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
-	<20250527111311.105246f2@sal.lan>
-	<CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
-	<20250527153547.6603eaf4@sal.lan>
-	<CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
-	<20250617104938.09d21b7c@foz.lan>
-	<20250617110318.7c89d999@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1750156410; c=relaxed/simple;
+	bh=LbVPOEWd4hCjlyt0BouIHs6rZQgphb0IHZv5zqXXydY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mfvkENJSFeBir3kslJS+VvTzjv+WMPDon8DKng7KGENKhBllk3D2tsUOHiJedIJ5dMVSjqJD/aIj3f2vtFNEgLvwU63ss5eHqtrPuhGR/U6tszDA91qkfnP2rhrfW93TJwdoagaliKA6xbPsJhFAJCydeQ96YYiSevPMyYbnwRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=GG3zBT2l; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VOo8bJf7; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id ABCFF1140175;
+	Tue, 17 Jun 2025 06:33:26 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 17 Jun 2025 06:33:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1750156406; x=1750242806; bh=TG
+	cWU2/67lbqRxrNe+W59yM+aJvIEGfvLNS+JibI49I=; b=GG3zBT2lwkElmCoECs
+	Edlyj8wtPaejfqnXy+aiVO0jnverkgAGW2TWHuVyhgXQIi1TecLnZ/s5YE70R0zW
+	elJJbk1dYVRLWbYoxJRjwjiInrBwMu0WnCx9ljdhLp1LuPjAJDfjzlbzSdVwjTbC
+	ugswfwrh45VJAy55C7LCB31Kcxbhy364CthS/b/QzU7dpVWc8GgDGspJuUtou57b
+	Fn03WH2L1kbSemmtO/ZGjq57OweY80ZTr3BjnX2BidzhsD6ZSvwP3MQZ4G1euDye
+	fErJfP7R+Twp7VticiyCR5dHhKcWjVHL715A6AH47YEDJRk4EI6HTwV0F5cVgcr7
+	qA1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1750156406; x=1750242806; bh=TGcWU2/67lbqRxrNe+W59yM+aJvI
+	EGfvLNS+JibI49I=; b=VOo8bJf7IMfw0d2moBFg5Ss0hovYwmiaaSxAsUTS63j8
+	tfACjr1ct9YGK+GwYtxtH30ThKaMDgvcE6NQ3WyxNA4e54gkb0Xn18mRk6zwbEBp
+	N15Z+UgsyeVSF2BBKIH5WhpKjnB9pO/j3edFxDkezw5wJciKVocATWaCqrCuR9ej
+	7kQnE17HY/LZcmHbpEmlO2HVQtGSMSX8c73AHtlDYlfrNc6xJ341YQ3HNEypsnIm
+	hdLHSMsiybYjRcJPgJJ5Ak+O5kVfHk1Ju2sCk2KrBXPlE3jO1SbEy2f2Hvupio2c
+	uqFFjQz1oiGdvfs6gOMs9uLLch5miWnPncMeb8flaA==
+X-ME-Sender: <xms:dkRRaFmAa-07wqXCM2Tgsl1bct8kd0y5QsEk165Y4CTce5Z0H2UnBQ>
+    <xme:dkRRaA24F3R3547G0LrtdUmwswtk7olr8rPix-CzwDEk1YIkJ_P2F0Sj5QcsnlBpG
+    TpnEDdMOY9FRJzvmp8>
+X-ME-Received: <xmr:dkRRaLpj0aaz3rTbFrFcyAjXuzrM-N86o0rE79TdIJHM_DPuKBkmNau6tkrnyHj49TcmuyWwW4PpaABo1psVCuoC0g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvledtfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
+    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
+    htohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsgeskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrghsoh
+    hnsghorghrugdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthes
+    ihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirg
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghs
+    rghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
+    dqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhl
+    rghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:dkRRaFn-G6cvbmgAHrTbhTEYxnIsQG1OFlJP3ElQPCJf9_8QbhSj9g>
+    <xmx:dkRRaD0GvzELsrEtuDxYvcrWADb8-PokzSGQHcSSThfiLp35HQ-JuA>
+    <xmx:dkRRaEsSE_XxfusNp0yIZmVgt0-lVlsuhvVrVJnHNdDW6Jp0BcjQ7g>
+    <xmx:dkRRaHW9T9UYPHnt_a2kAQM6xL7eHRp-Md2WeZYz8QR4pKY2OWZHPQ>
+    <xmx:dkRRaGxcGpIa-I0ptfku2U1gUKmdPWZs-qSIR1mChYsuD62Bbp0VLgen>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Jun 2025 06:33:25 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/7] media: Add support for R-Car ISP using Dreamchip RPPX1 ISP
+Date: Tue, 17 Jun 2025 12:31:54 +0200
+Message-ID: <20250617103201.1594152-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Em Tue, 17 Jun 2025 11:03:18 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Hello,
 
-> Em Tue, 17 Jun 2025 10:49:38 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> 
-> > Hi Alex,
-> > 
-> > Em Tue, 27 May 2025 23:03:39 +0900
-> > Alexandre Courbot <gnurou@gmail.com> escreveu:
-> >   
-> > > > > > Btw, I was looking at:
-> > > > > >
-> > > > > >         https://github.com/chromeos/virtio-media
-> > > > > >
-> > > > > > (I'm assuming that this is the QEMU counterpart, right?)      
-> > > > >
-> > > > > crosvm actually, but QEMU support is also being worked on.      
-> > > >
-> > > > Do you have already QEMU patches? The best is to have the Kernel driver
-> > > > submitted altogether with QEMU, as Kernel developers need it to do the
-> > > > tests. In my case, I never use crosvm, and I don't have any Chromebook
-> > > > anymore.      
-> > > 
-> > > IIRC Albert Esteve was working on this, maybe he can share the current status.    
-> > 
-> > Any news regards to it?
-> >   
-> > > Note that crosvm does not require a Chromebook, you can build and run
-> > > it pretty easily on a regular PC. I have put together a document to
-> > > help with that:
-> > > 
-> > > https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md    
-> > 
-> > I started looking on it today. Already installed crossvm (I had to
-> > install libcap-devel to build it). Still, I'm not familiar with
-> > crossvm, which is a little be painful. In particular, how can I
-> > enable network on it and speedup it? With suggested parameters,
-> > it picked only one CPU, and very few memory on it:
-> > 
-> > 	# cat /proc/cpuinfo|grep processor
-> > 	processor       : 0
-> > 
-> > 	# free
-> >                total        used        free      shared  buff/cache   available
-> > 	Mem:          221876       34780      139712         272       56096      187096
-> > 	Swap:              0           0           0
-> > 
-> > I'd like to be able to compile things on it and use ssh/scp. So,
-> > the VM needs more CPUs, more memory, more network and GPU.
+This series adds support for two different devices that together enable 
+ISP support on Renesas R-Car Gen4 ISP processing. The first driver added 
+is for Dreamchip RPPX1 ISP, this device purely deals with image 
+processing algorithms, statistics and image conversion; but have no DMA 
+engines. The second driver is for the R-Car ISP CORE, this device 
+deals with DMA to/from the RPPX1 ISP and provides a V4L2 user-space 
+interface for the ISP.
 
-Found how to setup cpus and memory, but didn't find a way to setup
-network without running it as root. The gpu parameter has several
-options. Not sure what backend works well for media apps like qv4l2,
-camorama, X11, ...
+The R-Car ISP driver uses the RPPX1 framework to drive the ISP and 
+together the two devices provide a functional ISP. For detailed 
+description of the RPPX1 see patch 1/7, and for details about the R-Car 
+ISP see commit message in patch 7/7.
 
-> > 
-> > Btw, on a quick test with v4l2-compliance, something looks weird:
-> > I started a camera application at the host. Still, v4l2-compliance
-> > said successfully excecuted mmap:
-> > 
-> > Streaming ioctls:
-> >         test read/write: OK (Not Supported)
-> >         test blocking wait: OK
-> >         test MMAP (no poll): OK                           
-> >         test MMAP (select): OK                            
-> >         Vide[2025-06-17T08:44:49.177972817+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-> > [2025-06-17T08:44:49.178164554+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-> > o Capturtest MMAP (epoll): OK                             
-> >         test USERPTR (no poll): OK (Not Supported)
-> >         test USERPTR (select): OK (Not Supported)
-> >         test DMABUF (no poll): OK (Not Supported)
-> >         test DMABUF (select): OK (Not Supported)
-> > 
-> > Which doesn't make any sense, as the host OS should not allow access
-> > to mmap while streaming.  
-> 
-> Ah, this was with the "simple" device, not with the proxy one.
-> With the proxy one, I'm getting:
-> 
-> # v4l2-ctl --all
-> Driver Info:
->         Driver name      : virtio-media
->         Card type        : usb video: usb video
->         Bus info         : platform:virtio-media
->         Driver version   : 6.15.0
->         Capabilities     : 0x84200001
->                 Video Capture
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04200001
->                 Video Capture
->                 Streaming
->                 Extended Pix Format
-> Priority: 2
-> Video input : 0 (Camera 1: ok)
-> Format Video Capture:
->         Width/Height      : 1280/720
->         Pixel Format      : 'MJPG' (Motion-JPEG)
->         Field             : None
->         Bytes per Line    : 0
->         Size Image        : 1843200
->         Colorspace        : sRGB
->         Transfer Function : Rec. 709
->         YCbCr/HSV Encoding: ITU-R 601
->         Quantization      : Default (maps to Full Range)
->         Flags             : 
-> Crop Capability Video Capture:
->         Bounds      : Left 0, Top 0, Width 1280, Height 720
->         Default     : Left 0, Top 0, Width 1280, Height 720
->         Pixel Aspect: 1/1
-> Selection Video Capture: crop_default, Left 0, Top 0, Width 1280, Height 720, Flags: 
-> Selection Video Capture: crop_bounds, Left 0, Top 0, Width 1280, Height 720, Flags: 
-> Streaming Parameters Video Capture:
->         Capabilities     : timeperframe
->         Frames per second: 30.000 (30/1)
->         Read buffers     : 0
-> 
-> User Controls
-> 
->                      brightness 0x00980900 (int)    : min=-128 max=127 step=1 default=-11 value=-11
->                        contrast 0x00980901 (int)    : min=0 max=255 step=1 default=148 value=148
->                      saturation 0x00980902 (int)    : min=0 max=255 step=1 default=180 value=180
->                             hue 0x00980903 (int)    : min=-128 max=127 step=1 default=0 value=0
-> 
-> # v4l2-compliance -d0 -s
-> 
-> Streaming ioctls:
->         test read/write: OK (Not Supported)
->         test blocking wait: OK
->                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
->         test MMAP (no poll): FAIL
->                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
->         test MMAP (select): FAIL
->                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
->         test MMAP (epoll): FAIL
->         test USERPTR (no poll): OK (Not Supported)
->         test USERPTR (select): OK (Not Supported)
-> [2025-06-17T08:55:20.768760714+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
->         test DMABUF (no poll): OK (Not Supported)
-> [2025-06-17T08:55:20.769745707+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
->         test DMABUF (select): OK (Not Supported)
-> 
-> At the host, I'm getting:
-> 
-> Streaming ioctls:
->         test read/write: OK (Not Supported)
->         test blocking wait: OK
->                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
->         test MMAP (no poll): FAIL
->                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
->         test MMAP (select): FAIL
->                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
->         test MMAP (epoll): FAIL
->         test USERPTR (no poll): OK                        
->         test USERPTR (select): OK                         
->         test DMABUF: Cannot test, specify --expbuf-device
-> 
-> The device I'm using for test is a UVC HDMI capture board:
-> 
-> 	Bus 005 Device 008: ID 534d:2109 MacroSilicon usb video
-> 
-> Thanks,
-> Mauro
+The RPPX1 ISP is similar to functionality and design to the Rk1ISP 
+already supported upstream. For this reason this series reuses the pixel 
+format for ISP parameters (RK1E) and statistics (RK1S) as the user-space 
+ABI to configure the ISP. The primary difference to Rk1iSP is the over 
+all pipeline design and the register layout out is different enough to 
+make it impractical to bolt it on the existing drivers.
 
+However on a functional block level the blocks amiable and their 
+register layout mapped to the buffer formats are similar enough to make 
+the reuse practical. Another difference is that RPPX1 operates at a 
+hight bitdepth then Rk1ISP, but this is easily supported by scaling the 
+values to/from the buffers.
 
+All functional blocks present on the RPPX1 are not yet added to the 
+driver. Hence not all configuration blocks of the Rk1E extensible format 
+are supported, but most if not all can be added. Enough blocks are added 
+so a libcamera pipeline reusing the Rk1ISP IPA can be supported and 
+produce good images using the AWB and AE algorithms. A libcamera 
+pipeline for testing will is available.
 
-Thanks,
-Mauro
+Patch 1/7 adds the foundation for the RPPX1 framework. It deals with 
+probing all function blocks making sure every blocks version register is 
+supported and setup a "passthru" pipeline that just debayer RAW images.
+
+Patch 2/7 to 6/7 adds the function blocks needed to support AWB and AE.  
+While finally patch 7/7 adds the R-Car ISP CORE DMA user of the 
+framework.
+
+The work depends on Jacopo's excellent VSPX work,
+
+    [PATCH v13] media: vsp1: Add VSPX support
+
+The sum of the work pass v4l2-compliance. A test suite for the enabled 
+function blocks exists and pass. The work have also been tested with 
+various libcamera utilities and compliance tests together with a IMX219 
+and IMX462 sensor on R-Car V4H.
+
+Niklas Söderlund (7):
+  media: rppx1: Add framework to support Dreamchip RPPX1 ISP
+  media: rppx1: Add support for AWB measurement parameters and
+    statistics
+  media: rppx1: Add support for AWB gain settings
+  media: rppx1: Add support for Auto Exposure Measurement
+  media: rppx1: Add support for Histogram Measurement
+  media: rppx1: Add support for Black Level Subtraction
+  media: rcar-isp: Add support for ISPCORE
+
+ MAINTAINERS                                   |    6 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/dreamchip/Kconfig      |    3 +
+ drivers/media/platform/dreamchip/Makefile     |    6 +
+ .../media/platform/dreamchip/rppx1/Kconfig    |   11 +
+ .../media/platform/dreamchip/rppx1/Makefile   |   33 +
+ .../platform/dreamchip/rppx1/rpp_module.c     |   40 +
+ .../platform/dreamchip/rppx1/rpp_module.h     |  157 +++
+ .../platform/dreamchip/rppx1/rpp_params.c     |   56 +
+ .../platform/dreamchip/rppx1/rpp_stats.c      |   30 +
+ .../media/platform/dreamchip/rppx1/rppx1.c    |  337 ++++++
+ .../media/platform/dreamchip/rppx1/rppx1.h    |   99 ++
+ .../platform/dreamchip/rppx1/rppx1_acq.c      |  147 +++
+ .../platform/dreamchip/rppx1/rppx1_awbg.c     |   67 ++
+ .../media/platform/dreamchip/rppx1/rppx1_bd.c |   52 +
+ .../platform/dreamchip/rppx1/rppx1_bdrgb.c    |   80 ++
+ .../platform/dreamchip/rppx1/rppx1_bls.c      |  175 +++
+ .../platform/dreamchip/rppx1/rppx1_cac.c      |   29 +
+ .../platform/dreamchip/rppx1/rppx1_ccor.c     |  106 ++
+ .../media/platform/dreamchip/rppx1/rppx1_db.c |   44 +
+ .../platform/dreamchip/rppx1/rppx1_dpcc.c     |   76 ++
+ .../platform/dreamchip/rppx1/rppx1_exm.c      |  140 +++
+ .../media/platform/dreamchip/rppx1/rppx1_ga.c |   49 +
+ .../platform/dreamchip/rppx1/rppx1_hist.c     |  249 ++++
+ .../platform/dreamchip/rppx1/rppx1_hist256.c  |   46 +
+ .../media/platform/dreamchip/rppx1/rppx1_is.c |   42 +
+ .../platform/dreamchip/rppx1/rppx1_lin.c      |   60 +
+ .../platform/dreamchip/rppx1/rppx1_lsc.c      |   68 ++
+ .../platform/dreamchip/rppx1/rppx1_ltm.c      |   48 +
+ .../platform/dreamchip/rppx1/rppx1_ltmmeas.c  |   41 +
+ .../platform/dreamchip/rppx1/rppx1_outif.c    |   45 +
+ .../platform/dreamchip/rppx1/rppx1_outregs.c  |   75 ++
+ .../platform/dreamchip/rppx1/rppx1_rmap.c     |   64 +
+ .../platform/dreamchip/rppx1/rppx1_rmapmeas.c |   47 +
+ .../platform/dreamchip/rppx1/rppx1_shrp.c     |   64 +
+ .../platform/dreamchip/rppx1/rppx1_wbmeas.c   |  188 +++
+ .../platform/dreamchip/rppx1/rppx1_xyz2luv.c  |   26 +
+ .../media/platform/renesas/rcar-isp/Kconfig   |    1 +
+ .../media/platform/renesas/rcar-isp/Makefile  |    2 +-
+ .../media/platform/renesas/rcar-isp/core-io.c | 1053 +++++++++++++++++
+ .../media/platform/renesas/rcar-isp/core.c    |  790 +++++++++++++
+ .../media/platform/renesas/rcar-isp/csisp.c   |   48 +-
+ .../platform/renesas/rcar-isp/risp-core.h     |  163 +++
+ include/media/rppx1.h                         |   33 +
+ 45 files changed, 4890 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/media/platform/dreamchip/Kconfig
+ create mode 100644 drivers/media/platform/dreamchip/Makefile
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/Kconfig
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/Makefile
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.h
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_params.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.h
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_db.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_is.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/core-io.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/core.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/risp-core.h
+ create mode 100644 include/media/rppx1.h
+
+-- 
+2.49.0
+
 
