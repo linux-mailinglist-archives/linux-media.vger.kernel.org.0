@@ -1,193 +1,167 @@
-Return-Path: <linux-media+bounces-35077-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35078-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C47EADCC87
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 15:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD86CADCC9D
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 15:12:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85B9517BDF8
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 13:06:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89E1016C18F
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 13:08:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8AE02E88A3;
-	Tue, 17 Jun 2025 13:02:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF5D2E266E;
+	Tue, 17 Jun 2025 13:05:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bbq66bqK"
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="Fkvmjd2w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F9328C2A5
-	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 13:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734B24502A
+	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 13:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750165341; cv=none; b=s38gP+yIUeO8fQ7dyKjFkIIKaRCgD0mb6uN/IAnHyKP/SsEEonPEReM0W075UwwLD+kLC5rvMM9NwaV8z9gOJNRdwUw717nIB92H/3Lezawv+3QftgIiErnWDcScRbqCu1m+q9qF2lA1PtPJXZIQ7/imFfv3xzUr8/2VL/2uKv4=
+	t=1750165511; cv=none; b=n+9oTpPyzczTsJCsaTH5Kw77bvezn1glWzCQDoJNFpE7QT+yDD1ZPtkZtTbHEmCRcgLuIH3gNGTZ0OOZoyddcB24o04mWNrdwPQLFmG1oK/daSe3MRgErZQDYZLdTINsPpJLTVlCDTDtu0ynTF7LrquWH+9xnOzBg7L9JxG56eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750165341; c=relaxed/simple;
-	bh=hivB+dXHgRfjrGL6GmS+WrnxltFxrNiXvd8BH0IhvP4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qlYt0GPoM8U7Cq7aUx9Q9PBwy3mU1e1vbY0Hu6/qHSlqGwlw7PBNWffhT+jPOqdBq8LRjXji+3n05FYCv6J8uKYQQOYp5/ffdqHK4W403lwpM49OLDYHZ7cUjal3aIoaWpgh6KeLsgmqkPMpfGfaJ3E4afYnPiobooUmdd2msFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bbq66bqK; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-553c31542b1so2235676e87.2
-        for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 06:02:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1750165337; x=1750770137; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QwCxDdGoBWfUjiiVuZKb9ARlDqK974ap4X+wrWrD4eE=;
-        b=bbq66bqKS0pQIBNsQVOkIC3dPS5zpuJv5AuI+/Z50Vtc+2Q+7BYex7YYzH3mfe341d
-         LOKiSnJdj2rVa7ApyPpVl7ZX2emWl20Dbdd4ZA+Sm3/SiU0nTIeMl6Ayhfo3AxRxR2hu
-         SVfNUmYVakO+Kfkip6BU8sznT3yI4KT9b0Ft0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750165337; x=1750770137;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QwCxDdGoBWfUjiiVuZKb9ARlDqK974ap4X+wrWrD4eE=;
-        b=WLO0AIOd0Z24nqwj77aZCURP4flwVSd8ysVFNH108F38p22PQV6T6Xj7XRev5TNR+r
-         uMeb99B7x5fQhn7Cw3e1U5LlhFqhQdJqVE63watRLwB8Y8eytvGrADphJ7WVs8HTNSvo
-         m3IRcNU+Lpc1/DUIfNQNOECzm7jSUq1v1S+Rn8gpNSsJJ9bDbbs9/3VVV3AL50EYrHlG
-         ieMoFM5vOmvfwaTLXioEGZQ4KrfPrpYtOGGXOJBGc20SC1LIXUxUtXot8gS7sfHXYzjz
-         wU4018oJl/sUpD4WHjy6hgoV0pRazfVuXkzbendSkjSantHvSaN2G0SliUaMaGxsZszR
-         +ssg==
-X-Forwarded-Encrypted: i=1; AJvYcCVemKrhmiyBCfvrIQsCGGcHgaTc3loHZnkI1rApCuOf6aP5X70eXTqONfgo87ppAI/DnDvwaVnXQY+6mg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzxdLJzPbEJ2ynw3/ZZyuNrei2oZKrAxsqaFkWFh8e0G9qM+YT
-	iIejlquxP7PIdtB5OTfP+/gmf5SaC47PHcCpw6emnv+nFze0/rp4/c0E0+f7ugih0LSHbTyhLv/
-	Cxsw=
-X-Gm-Gg: ASbGncuik8U/CX8w6kpRYJ2Gz5R2TsUECVfrU+FIXxQmy0M67WJdWiXHRmgLtsAhYQy
-	fHo7ExVf0g2QXPniH1pxEnn2ABtRgn5c2It3QIZDNlZoypTUWjsR6fwcQDIkfbXy+GHJX95pVBe
-	JdPtrer0oN1K9w4/IZKk13sdJ1VfvAiV8Q0goL9OvxufuUWyPwRXjjT5rha4Jn3MOLaowA5/gMQ
-	fvHv2s+2HS4dfJzbqlDQ4iUfd7ftCw7zUtFT/ihlnfk4cCsjYRYg2jM6p/UIsM7UrcSFiOmP7Rw
-	mhCuhRzB+qXYxGK+gNonmGNpQHv2Ywi+wzzgP3rIwTgnulqTYWhIGptHOg1aSsxfUc8lxqttpL6
-	IyG0gUWSsSHBkRb25FVmIBIG/
-X-Google-Smtp-Source: AGHT+IEF4MjN1WQxTAgJCoMnPF6BdUJDQeniWIM8ULLcJ4ccgemZU7dcAoDknkFB3kvCK7CNxFwhHA==
-X-Received: by 2002:a05:6512:398b:b0:553:2698:99c5 with SMTP id 2adb3069b0e04-553b6f137a7mr3160153e87.39.1750165336108;
-        Tue, 17 Jun 2025 06:02:16 -0700 (PDT)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac1e0dcesm1886437e87.202.2025.06.17.06.02.15
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jun 2025 06:02:15 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-553c31542b1so2235605e87.2
-        for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 06:02:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWui9G4vUKO2YGT13Rg0rRRX0kAvmKVcoWtypyfDZOFwjFhn4Ii3z8KMKOs7crm/eyOtKx2ltRhZFvt+Q==@vger.kernel.org
-X-Received: by 2002:a05:6512:2314:b0:549:5866:6489 with SMTP id
- 2adb3069b0e04-553b6f31234mr3198961e87.47.1750165334708; Tue, 17 Jun 2025
- 06:02:14 -0700 (PDT)
+	s=arc-20240116; t=1750165511; c=relaxed/simple;
+	bh=YtoDAWYSDZkOd781YVW7hg/ioUKOFG6cn0xldzGgFz8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=KdT2ejXzbql6seML7sjJBgj+gLHIMorUtm8BdmvIKDk8/sAvavF4JUZ4kd8l1jlm2gMrc2eGYrTBCA1ad8/PWUCnpgGM8mU4zmJR8FW6mNBdu8RwtXPpmMAa4e7MEoYZdFElbNwgM2uSO/QiByVXxDSLO9DiJRJ4uPCZGGEyJyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=Fkvmjd2w; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250429-keep-sorted-v1-0-2fa3538c0315@chromium.org>
- <f9275079-842a-406e-8bb7-b22a22b7c7e6@kernel.org> <CANiDSCt18PUWo2Z-9T2nBMMJfpRcdAGhO5S0jE85-1ZPO1qD7g@mail.gmail.com>
- <b78cde8b-23b2-48c5-b8c6-b935a403963f@kernel.org> <CANiDSCuPP+EOCps0gjH_bpJWsbyJDBcD+NoOeTB-sSUjUr0=Sg@mail.gmail.com>
- <61600bf6-92dc-49cd-bad9-a7342ce2fef9@kernel.org> <08a426ae-be6e-4cbc-aaaf-7197bf839632@jjverkuil.nl>
- <20250617125343.GB10006@pendragon.ideasonboard.com>
-In-Reply-To: <20250617125343.GB10006@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 17 Jun 2025 15:02:00 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvTQzur1UqEKdwkd9vKcPQhG1sjWvbtwyf0jokFY-S2tA@mail.gmail.com>
-X-Gm-Features: AX0GCFvXv_wP2CeSoip02hb0L6n1uKzrxqB73o9WKz_cufCcvR4pJCu5P3eXUss
-Message-ID: <CANiDSCvTQzur1UqEKdwkd9vKcPQhG1sjWvbtwyf0jokFY-S2tA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] media: uvcvideo: Enable keep-sorted
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hans@jjverkuil.nl>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1750165497;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3zjtqGhgjnm5yBwbIgqfOiHPrC8nlYTo3NpdAZ+T86I=;
+	b=Fkvmjd2w2NQ8I5Hn2AJHECacEiSJ1Ao16vtWobrQ89RmfTW9kxU8gLMlO+MMDsSdqAcHRM
+	ZSOeUUHWE21vVjLIgdR/pl48JrO9JuhNQ4I9WvjudTFO2fyrLI3m0cofplneVJR2gZ4BG5
+	DjWx1auT9lzJ3gw0gYvyyzmkDQZqg35+bLkZ3AouwWgpUhv/p+K6TfuYXbZBHcAJM0gB39
+	Y0/Q0KcW5E4RSrcfuM51EuSEvtnLGnqp9FsB84aO5Y7YWBZkVnOl/92OdbpmahOS+gxAOv
+	7CSSpYfKxL9oxN0n8jvcYwZktO3rtX9xc9oC8pI461JhMWyNVJ6ZfCBI60hNwQ==
+Content-Type: multipart/signed;
+ boundary=95b0041d640d325258bcee1396591f4111b720f6b27198e107b759077302;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Tue, 17 Jun 2025 15:04:44 +0200
+Message-Id: <DAOTVW4YEC5Q.STXG6APE0YGN@cknow.org>
+Cc: <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+ <heiko@sntech.de>, <nicolas.dufresne@collabora.com>,
+ <p.zabel@pengutronix.de>, <mchehab@kernel.org>, <joro@8bytes.org>,
+ <iommu@lists.linux.dev>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-media@vger.kernel.org>,
+ <kernel@collabora.com>
+Subject: Re: [PATCH 3/5] iommu: Add verisilicon IOMMU driver
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Benjamin Gaignard" <benjamin.gaignard@collabora.com>
+References: <20250616145607.116639-1-benjamin.gaignard@collabora.com>
+ <20250616145607.116639-4-benjamin.gaignard@collabora.com>
+In-Reply-To: <20250616145607.116639-4-benjamin.gaignard@collabora.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 17 Jun 2025 at 14:54, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+--95b0041d640d325258bcee1396591f4111b720f6b27198e107b759077302
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+Hi,
+
+On Mon Jun 16, 2025 at 4:55 PM CEST, Benjamin Gaignard wrote:
+> Verisilicon IOMMU hardware block can be found in combination
+
+Can there be only 1 hardware block or is multiple possible?
+If only 1, then I'd start with "The Verisilicon ...".
+If more then one, then I'd use "blocks".
+
+> with hardware video codecs (encoders or decoders) on
+> different SoCs.
+
+This makes it sound like it can also be used with non-Verisilicon codecs
+and based on the DT binding description, I get the _impression_ that
+that is not the case?
+But it's actually not clear to me if that's the case or not.
+
+> Enable it will allows to use non contiguous memory
+
+"Enabling it will allow us to use non ..." or "Enable it to allow [the]
+use of non ..." or "Enabling allows the use of non ..."
+
+> allocators for Verisilicon video codecs.
+
+And the wrapping of the whole commit message is not following the
+standards.
+
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/iommu/Kconfig     |   8 +
+>  drivers/iommu/Makefile    |   1 +
+>  drivers/iommu/vsi-iommu.c | 900 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 909 insertions(+)
+>  create mode 100644 drivers/iommu/vsi-iommu.c
 >
-> On Tue, Jun 17, 2025 at 01:52:50PM +0200, Hans Verkuil wrote:
-> > On 16/06/2025 15:38, Hans de Goede wrote:
-> > > On 16-Jun-25 15:31, Ricardo Ribalda wrote:
-> > >> On Mon, 16 Jun 2025 at 15:26, Hans de Goede <hansg@kernel.org> wrote:
-> > >>> On 16-Jun-25 15:22, Ricardo Ribalda wrote:
-> > >>>> On Mon, 16 Jun 2025 at 15:05, Hans de Goede <hansg@kernel.org> wrote:
-> > >>>>> On 29-Apr-25 15:47, Ricardo Ribalda wrote:
-> > >>>>>> When committers contribute quirks to the uvc driver, they usually add
-> > >>>>>> them out of order.
-> > >>>>>>
-> > >>>>>> We can automatically validate that their follow our guidelines with the
-> > >>>>>> use of keep-sorted.
-> > >>>>>>
-> > >>>>>> This patchset adds support for keep-sorted in the uvc driver. The two
-> > >>>>>> patches can be squashed if needed.
-> > >>>>>>
-> > >>>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > >>>>>
-> > >>>>> I've no objections against these 2 patches, but these need to be
-> > >>>>> rebased on top of the latest uvc/for-next. Can you send out a new
-> > >>>>> version please ?
-> > >>>>
-> > >>>> I was waiting for HansV to say that keep-sorted was useful and then
-> > >>>> add it to the CI.
-> > >>>
-> > >>> Ok, so should we drop this series from patchwork then ?
-> > >>
-> > >> If the series does not bother you too much in patchwork let it stay
-> > >> there until HansV replies to the makefile series.
-> >
-> > I did that. Basically I don't like the keep-sorted annotation unless it
-> > is rolled out kernel-wide. It's not something we should do just in the
-> > media subsystem.
-> >
-> > That doesn't mean that a patch fixing the uvc_ids order isn't welcome,
-> > but just drop the annotation.
-> >
-> > If we do that, then patch 1/2 is also no longer needed. Although it
-> > feels more logical that match_flags is at the end. I leave that to
-> > HdG and Laurent to decide.
->
-> .match_flags is first to match the order of the fields in the
-> usb_device_id structure. Is there a need to move it last, or is only the
->
->         }, {
->
-> construct that the tool doesn't like ?
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index 0a33d995d15d..4cf4504dcc25 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -383,4 +383,12 @@ config SPRD_IOMMU
+> =20
+>  	  Say Y here if you want to use the multimedia devices listed above.
+> =20
+> +config VSI_IOMMU
+> +	bool "Verisilicon IOMMU Support"
+> +	depends on ARM64
+> +	select IOMMU_API
+> +	select ARM_DMA_USE_IOMMU
+> +	help
+> +	  Support for IOMMUs used by Verisilicon video decoders.
+> +
+>  endif # IOMMU_SUPPORT
+> diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
+> index 355294fa9033..68aeff31af8b 100644
+> --- a/drivers/iommu/Makefile
+> +++ b/drivers/iommu/Makefile
+> @@ -34,3 +34,4 @@ obj-$(CONFIG_IOMMU_SVA) +=3D iommu-sva.o
+>  obj-$(CONFIG_IOMMU_IOPF) +=3D io-pgfault.o
+>  obj-$(CONFIG_SPRD_IOMMU) +=3D sprd-iommu.o
+>  obj-$(CONFIG_APPLE_DART) +=3D apple-dart.o
+> +obj-$(CONFIG_VSI_IOMMU) +=3D vsi-iommu.o
+> diff --git a/drivers/iommu/vsi-iommu.c b/drivers/iommu/vsi-iommu.c
+> new file mode 100644
+> index 000000000000..f2fa1197916c
+> --- /dev/null
+> +++ b/drivers/iommu/vsi-iommu.c
+> @@ -0,0 +1,900 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
 
-The },{ construct is fine.
+No copyright statement? (or an informational header block?)
 
-The tool sorts all the content in the block
+Cheers,
+  Diederik
 
-Eg:
-{
- tail= AA;
- head = BBB;
-}
+> +#include <linux/clk.h>
+> + <snip>
 
-is sorted before:
-{
- tail = CC;
- head= AAAA;
-}
-It can be tuned with a regex:
-https://github.com/google/keep-sorted?tab=readme-ov-file#regular-expressions
-But the syntax is not particularly nice.
+--95b0041d640d325258bcee1396591f4111b720f6b27198e107b759077302
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This is why I moved "head" to the beginning of every struct.
+-----BEGIN PGP SIGNATURE-----
 
-Anyway, since keep-sorted is not going to be part of the CI unless it
-is adopted by other subsystems we can ignore this for now.
+iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaFFn8gAKCRDXblvOeH7b
+bgL/AQC2+pfAq9y+rYClfqDV6JafnSW/BsK29aRiz2WgF9RTPwD/V9oxqTRqrf49
+ZD2TLkIPP43QDiTJOJ66STMrp/UUAAw=
+=lqws
+-----END PGP SIGNATURE-----
 
-Regards!
-
->
-> > > Sure that works for me.
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
+--95b0041d640d325258bcee1396591f4111b720f6b27198e107b759077302--
 
