@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-35041-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35042-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DE2ADC61C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:21:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 152ECADC654
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 11:28:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E242176765
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:21:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DB8118999C7
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 09:28:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A5F7293B7E;
-	Tue, 17 Jun 2025 09:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF59C29553A;
+	Tue, 17 Jun 2025 09:27:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115A8292B47;
-	Tue, 17 Jun 2025 09:21:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D10C29550C;
+	Tue, 17 Jun 2025 09:27:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750152083; cv=none; b=eRBEL6u1SKQtNOtD7YP3mEY0svpnZk7swNW0Xyr01PpDdMoC/W/xNKehsQLVZskDsDx9Y8/pUjwCd2DWekcrMbr7GXz2PAh/DPmrVwTbPkqSzD3Mhej4yMh+IsgSatcV/OdZJScuilAMn7JJiVWz2Uo5mTSfHVANbNmYksyQqsc=
+	t=1750152467; cv=none; b=ZOZ44nNGl4H4SD1Vn2mmIc1R2Oizns32XRUUWdJ3wL1Y/iclBow/jAev9YYf7H5TWYAIKC5Rn380cqlb8jbWoemSEEb51rDBXDbticgtGV9zt0Eemqt4i4pG2EGvVTax6uKWEi2b0Z56Xoh1IoYpp5xchEt8YZJ3xyTkfkF5fFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750152083; c=relaxed/simple;
-	bh=fQhFMXKS1jxzyeyKFyZ012VkcA/YEIuP2eIKV160jxI=;
+	s=arc-20240116; t=1750152467; c=relaxed/simple;
+	bh=xE+gHJNGo05Zy/RUAP7+DAYexNU22w0emubGn6vJUZ4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dLv0+DBcc5jrM5KLYji0yz8HmdPBRt0tPVc2oe6fLdFDABpQGdFRDL63MxqcqJ4jcTbHtZPDmgFfow3FUapl0SSM1bmb9pLYgFwwgF/YEyh4popJpmlyBR4SOL1LPbDq7Ik+dXvknPGtcYdfUHC9Vvsrmc3sLADRU6qCrQhZeT0=
+	 In-Reply-To:Content-Type; b=awQsFrBfwNGw+O1SQRGRDRKoNhshqE7aqVnP0ueVFxHGeXoXZc1VlZNVUbNTu7eHIFkczTPBgDstTxRh7YHlXQOCSeTh872oyc4ugZGJosdR0B6PUVaEsLgfdQg0WX1IxrZpt1Xk5PXltM0mkiIXd6JNYZ+gP/UOw+dnWQ32PaM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FE2C4CEF6;
-	Tue, 17 Jun 2025 09:21:21 +0000 (UTC)
-Message-ID: <6db6545a-c0b2-427e-8aba-f171c91580ff@xs4all.nl>
-Date: Tue, 17 Jun 2025 11:21:19 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D903BC4CEEE;
+	Tue, 17 Jun 2025 09:27:45 +0000 (UTC)
+Message-ID: <04e10cfa-f1b1-4327-b0ca-c66f8450d42f@xs4all.nl>
+Date: Tue, 17 Jun 2025 11:27:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,8 +38,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/5] media: uvcvideo: Handle locks in
- uvc_queue_return_buffers
+Subject: Re: [PATCH v4 3/5] media: uvcvideo: Split uvc_stop_streaming()
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Hans de Goede <hdegoede@redhat.com>,
@@ -47,7 +46,7 @@ To: Ricardo Ribalda <ribalda@chromium.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Hans de Goede <hansg@kernel.org>
 References: <20250616-uvc-fop-v4-0-250286570ee7@chromium.org>
- <20250616-uvc-fop-v4-2-250286570ee7@chromium.org>
+ <20250616-uvc-fop-v4-3-250286570ee7@chromium.org>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -93,97 +92,104 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20250616-uvc-fop-v4-2-250286570ee7@chromium.org>
+In-Reply-To: <20250616-uvc-fop-v4-3-250286570ee7@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 16/06/2025 17:24, Ricardo Ribalda wrote:
-> Most of the calls to uvc_queue_return_buffers() wrap the call with
-> spin_lock_irq()/spin_unlock_irq().
+> uvc_stop_streaming() is used for meta and video nodes. Split the function
+> in two to avoid confusion.
 > 
-> Rename uvc_queue_return_buffers to __uvc_queue_return_buffers to
-> indicate that this is the version that does not handle locks and create
-> a new version of the function that handles the lock.
+> Use this opportunity to rename uvc_start_streaming() to
+> uvc_start_streaming_video(), as it is only called by the video nodes.
 > 
 > Reviewed-by: Hans de Goede <hansg@kernel.org>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_queue.c | 22 +++++++++++++++-------
+>  1 file changed, 15 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> index 8f9737ac729546683ca48f5e71ce3dfacbae2926..3f357c2d48cfd258c26f0342007d1d12f1e01007 100644
+> --- a/drivers/media/usb/uvc/uvc_queue.c
+> +++ b/drivers/media/usb/uvc/uvc_queue.c
+> @@ -167,7 +167,7 @@ static void uvc_buffer_finish(struct vb2_buffer *vb)
+>  		uvc_video_clock_update(stream, vbuf, buf);
+>  }
+>  
+> -static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
+> +static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
+>  {
+>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+>  	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
+> @@ -186,14 +186,22 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	return ret;
+>  }
+>  
+> -static void uvc_stop_streaming(struct vb2_queue *vq)
+> +static void uvc_stop_streaming_video(struct vb2_queue *vq)
+>  {
+>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+>  
+>  	lockdep_assert_irqs_enabled();
+>  
+> -	if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
+> -		uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+> +	uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+> +
+> +	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+> +}
+> +
+> +static void uvc_stop_streaming_meta(struct vb2_queue *vq)
+> +{
+> +	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+> +
+> +	lockdep_assert_irqs_enabled();
+>  
+>  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+>  }
+> @@ -203,15 +211,15 @@ static const struct vb2_ops uvc_queue_qops = {
+>  	.buf_prepare = uvc_buffer_prepare,
+>  	.buf_queue = uvc_buffer_queue,
+>  	.buf_finish = uvc_buffer_finish,
+> -	.start_streaming = uvc_start_streaming,
+> -	.stop_streaming = uvc_stop_streaming,
+> +	.start_streaming = uvc_start_streaming_video,
+> +	.stop_streaming = uvc_stop_streaming_video,
+>  };
+>  
+>  static const struct vb2_ops uvc_meta_queue_qops = {
+>  	.queue_setup = uvc_queue_setup,
+>  	.buf_prepare = uvc_buffer_prepare,
+>  	.buf_queue = uvc_buffer_queue,
+> -	.stop_streaming = uvc_stop_streaming,
+> +	.stop_streaming = uvc_stop_streaming_meta,
+>  };
 
-Reviewed-by: Hans erkuil <hverkuil@xs4all.nl>
+I think there should be a comment stating that the metadata stream
+expects that video is streaming, it does not start streaming by itself.
+
+Something like:
+
+	/*
+	 * .start_streaming is not provided here. Metadata relies on
+	 * video streaming being active. If video isn't streaming, then
+	 * no metadata will arrive either.
+	 */
+
+It's unexpected that there is no start_streaming for metadata, so a
+comment wouldn't hurt.
+
+Otherwise this looks fine, so:
+
+Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
 
 Regards,
 
 	Hans
 
-> ---
->  drivers/media/usb/uvc/uvc_queue.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> index 72c5494dee9f46ff61072e7d293bfaddda40e615..8f9737ac729546683ca48f5e71ce3dfacbae2926 100644
-> --- a/drivers/media/usb/uvc/uvc_queue.c
-> +++ b/drivers/media/usb/uvc/uvc_queue.c
-> @@ -42,13 +42,15 @@ static inline struct uvc_buffer *uvc_vbuf_to_buffer(struct vb2_v4l2_buffer *buf)
->   *
->   * This function must be called with the queue spinlock held.
->   */
-> -static void uvc_queue_return_buffers(struct uvc_video_queue *queue,
-> -			       enum uvc_buffer_state state)
-> +static void __uvc_queue_return_buffers(struct uvc_video_queue *queue,
-> +				       enum uvc_buffer_state state)
->  {
->  	enum vb2_buffer_state vb2_state = state == UVC_BUF_STATE_ERROR
->  					? VB2_BUF_STATE_ERROR
->  					: VB2_BUF_STATE_QUEUED;
 >  
-> +	lockdep_assert_held(&queue->irqlock);
-> +
->  	while (!list_empty(&queue->irqqueue)) {
->  		struct uvc_buffer *buf = list_first_entry(&queue->irqqueue,
->  							  struct uvc_buffer,
-> @@ -59,6 +61,14 @@ static void uvc_queue_return_buffers(struct uvc_video_queue *queue,
->  	}
->  }
->  
-> +static void uvc_queue_return_buffers(struct uvc_video_queue *queue,
-> +				     enum uvc_buffer_state state)
-> +{
-> +	spin_lock_irq(&queue->irqlock);
-> +	__uvc_queue_return_buffers(queue, state);
-> +	spin_unlock_irq(&queue->irqlock);
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * videobuf2 queue operations
->   */
-> @@ -171,9 +181,7 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	if (ret == 0)
->  		return 0;
->  
-> -	spin_lock_irq(&queue->irqlock);
->  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
-> -	spin_unlock_irq(&queue->irqlock);
->  
->  	return ret;
->  }
-> @@ -187,9 +195,7 @@ static void uvc_stop_streaming(struct vb2_queue *vq)
->  	if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
->  		uvc_video_stop_streaming(uvc_queue_to_stream(queue));
->  
-> -	spin_lock_irq(&queue->irqlock);
->  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
-> -	spin_unlock_irq(&queue->irqlock);
->  }
->  
->  static const struct vb2_ops uvc_queue_qops = {
-> @@ -263,7 +269,7 @@ void uvc_queue_cancel(struct uvc_video_queue *queue, int disconnect)
->  	unsigned long flags;
->  
->  	spin_lock_irqsave(&queue->irqlock, flags);
-> -	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
-> +	__uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
->  	/*
->  	 * This must be protected by the irqlock spinlock to avoid race
->  	 * conditions between uvc_buffer_queue and the disconnection event that
+>  int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type)
 > 
 
 
