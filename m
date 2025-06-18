@@ -1,69 +1,68 @@
-Return-Path: <linux-media+bounces-35122-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35123-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31599ADE22E
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 06:12:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A27B9ADE232
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 06:12:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D59C01799A2
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 04:12:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4C59B7A80EE
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 04:11:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 028C721C185;
-	Wed, 18 Jun 2025 04:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75E4821CC57;
+	Wed, 18 Jun 2025 04:09:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qRX2V2EL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eZp5RtfO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CE91EFFB7;
-	Wed, 18 Jun 2025 04:09:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB91E21C9E4;
+	Wed, 18 Jun 2025 04:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750219786; cv=none; b=uMpcbI7dBlA1tyOY8zncVdaaJs3slc6e4q0JjvY7vfFL56yRhjkMjctpKQoSpaHrThnHxn3ZtgMe9WW3EiHr2hTHgEwrWBWUIaRJHN9jWJxFQnTBMgE9ycAlq7s4/UIgaP/saFQ0J7fl7y8FkZxZULe3u5t6pDCcvDCZ26xF2z4=
+	t=1750219787; cv=none; b=MXrLwxDt3WPzHiV0bxbeFlhYg4DfA8DPOl7PcPaPR1u33UDt1CEySpe+Rz85glm9TyGS0cTdb7hpnevZGCVXytjZDhTasa98OBOiuXgbLVbc6o5lgBn4I7zDi/aWc2zr/2h/ovC2iPJM0dy5uWZLnrmo9F/e8l3LSPRWWpD8+CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750219786; c=relaxed/simple;
-	bh=kSJ3WGKfs41bcRFEt1n/CSZLqzjyO3aMDkpb3PL+vnQ=;
+	s=arc-20240116; t=1750219787; c=relaxed/simple;
+	bh=ax3s8pt9yPxx7IZ5Th3PdebzAZFxeJy6BX8OiAynhJU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UXExEyZabyzqoZ/lnGH4jK88A67IGjBwqmqMDp0IQ8fanZcov0aREAJfp3XrK739j/SQUYtnxpazcczQD+t1KCxwo2vvePaCHwrdwRa04fZpljUPisL2sElfiIMeRKeoHTf43mwa0swrn8xqUZjJDpdYNHXT9IU2/JLE9YAK4i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qRX2V2EL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6284C4CEE7;
-	Wed, 18 Jun 2025 04:09:44 +0000 (UTC)
+	 MIME-Version:Content-Type; b=oIKgIyOMsawcboO+EeYWnz55g8Vg/ypi30uH6tFb+iZmRTgNvbW2JDFpj7yzVvfx/msdtOjB0wDtNBfxmaiQQ4pAC1fa4p1k5eA8NMAhhxStqE9f1qasqothxSP2/siMXcq+3igDRzCXfu2q9weV/7Abjh7tyLi8B8m7sYxDkiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eZp5RtfO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 195D3C4CEF1;
+	Wed, 18 Jun 2025 04:09:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750219785;
-	bh=kSJ3WGKfs41bcRFEt1n/CSZLqzjyO3aMDkpb3PL+vnQ=;
+	s=k20201202; t=1750219787;
+	bh=ax3s8pt9yPxx7IZ5Th3PdebzAZFxeJy6BX8OiAynhJU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qRX2V2ELljuJ72tQWdDb9IiTz06g5hV2GDm0iGUN+auqIjqQDnGopBM189VzDbDwQ
-	 QG5h3CzIfFvZWfuYRv4GPtuORo1cNBrlJOarR1mSScZlUUbVfuEt24WB6xWmERzbDE
-	 veosD9W7jAK7SxzTURd0MwSC84SCnziz1bYbg7vSDeyX78feHQigEs41n/tPyYdmQS
-	 qdzgLfPsMdXkcDcBcnlFLOBEJSG5l6yaH/R9pzuxZZKbrgmT2rTER++zqQZlUfb4J7
-	 jQfbY4muHRCXh+3ANKR2ZPA28NY0rNnQwL1D9BtsiqaQ+mdoW2ngI4W2xWg/z/QERq
-	 L2ocw2qky5lzQ==
+	b=eZp5RtfOFeNGm+5/7tZH81D/HYQ4jmO4gCNrj2dNgt6pGWgoNFge7u0He8GZdvdp1
+	 gULNVLmKgz7+KnhU3D8XLXxmSM6oUUzHSN0ylO0G56XdJK/DiLBQIpnGWkyVld3zWw
+	 5d/fwvTVkZxLVOKUHDz4hQJ9vmaMS/D+K8sB0Vlk10GFoMtXrME1MZAaJzx+mf201z
+	 HI4NpJWmYGl24CPN5PdwDFTmFmYI1g2kNf5ZdfJOXcR7gdnjoeCKDkRRPs46o7oeCY
+	 PdLO8XTNio6wdlXvAUL237qPaohdcig5nBLhQrjBL4v/cBWGNafloso8blfiJApge7
+	 XyI/p5bRjfC6w==
 From: Bjorn Andersson <andersson@kernel.org>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Konrad Dybcio <konradybcio@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
+	todor.too@gmail.com,
+	rfoss@kernel.org,
+	bryan.odonoghue@linaro.org,
+	Wenmeng Liu <quic_wenmliu@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v5 0/3] media: qcom: iris: add support for SA8775P
-Date: Tue, 17 Jun 2025 23:09:27 -0500
-Message-ID: <175021976639.732077.15682101947623278875.b4-ty@kernel.org>
+	linux-media@vger.kernel.org,
+	Depeng Shao <quic_depengs@quicinc.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Subject: Re: [PATCH v2] arm64: dts: qcom: sm8550: Add support for camss
+Date: Tue, 17 Jun 2025 23:09:28 -0500
+Message-ID: <175021976651.732077.6463322520296960558.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250421-dtbinding-v5-0-363c1c05bc80@quicinc.com>
-References: <20250421-dtbinding-v5-0-363c1c05bc80@quicinc.com>
+In-Reply-To: <20250612-sm8550-camss-v2-1-ed370124075e@quicinc.com>
+References: <20250612-sm8550-camss-v2-1-ed370124075e@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,17 +73,23 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Mon, 21 Apr 2025 20:16:54 +0530, Vikash Garodia wrote:
-> add support for video hardware acceleration on SA8775P platform.
+On Thu, 12 Jun 2025 16:01:26 +0800, Wenmeng Liu wrote:
+> Add support for the camera subsystem on the SM8550 Qualcomm SoC. This
+> includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
 > 
+> SM8550 provides
+> - 3 x VFE, 3 RDI per VFE
+> - 2 x VFE Lite, 4 RDI per VFE
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 8 x CSI PHY
 > 
+> [...]
 
 Applied, thanks!
 
-[2/3] arm64: dts: qcom: sa8775p: add support for video node
-      commit: 7bc95052c64f45c24affbb7636489dc9a1c2a982
-[3/3] arm64: dts: qcom: sa8775p-ride: enable video
-      commit: d33ad6600453fbcf6a9275864ad120079bd540da
+[1/1] arm64: dts: qcom: sm8550: Add support for camss
+      commit: c5aeb681fcdd23d042d780f89ddcf908a13baee2
 
 Best regards,
 -- 
