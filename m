@@ -1,169 +1,114 @@
-Return-Path: <linux-media+bounces-35170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35171-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B312ADEC2B
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 14:29:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7FAADEC52
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 14:32:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E2143A5E5A
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 12:23:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7CEC16E5A4
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 12:28:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9BBB2E9EB5;
-	Wed, 18 Jun 2025 12:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F30D22E06C8;
+	Wed, 18 Jun 2025 12:26:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ohlgtAWT"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="udknWNOl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934C62E265D;
-	Wed, 18 Jun 2025 12:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7583D2820C5
+	for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 12:26:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750249318; cv=none; b=LXm6QiqkoGdxdAiwpyu10l9V3u8XKBVKxxlRZ3TRjaW6UQz/RBM9NtWLnV1+WaeuJalfvSlkwWpRqcZ53MSdb7W0YiPHRcftV4YQFw5NwcwUsPkRMgVYe09eTR8WqSNFiRDu436/CHWFhweL4bq9AyywO3j7RsA+lfK+lML1iVI=
+	t=1750249618; cv=none; b=FAbnLpjfbN+1o5Qv3ElMBy9b2V8qsequB4GJhIz/XBdruYOcWblaEgCGjyEdf7blYmZX9B6kUKWBz97kzP/jl1kk2muBwEhO4M3dwEavorJIHHTccuoZ0+TGYk7mZWa4cuYAIP7JA/QV7HSqh5NEmeR9WeVzGCVmy3QlTvdTqWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750249318; c=relaxed/simple;
-	bh=Ih5zjiRGwMAvZQPX9KEr/plji2ng+jsO/q4Yt/O5IRU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pfqryyDbWKdww6oCfoz8LEn3OAnyDHmNmHbcwHIGGZIK6WeGl2/D9pywX0zN2bD832wIe8jOS0fD9TV0WGZRjqpiveZbzOtmHVb4KqcLUu8rypaK6nZDJEetfp8Hh8GUC90Sk/z7N+f74B49YV4lQgKoKtR+oStsjUcYILazg/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ohlgtAWT; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750249313;
-	bh=Ih5zjiRGwMAvZQPX9KEr/plji2ng+jsO/q4Yt/O5IRU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ohlgtAWT7yjpPcE/xEv1XBO2m6bmo3mg0DJxG6HAaeNer6gFJzTrUtR24807KK1L9
-	 RGxCKVMFvq+n8MX8gL+l/JQjRrsco0O1EuykFJ6hnvegjFKVcGzTBnucvh4p+w5Tj6
-	 LLw2EUydJU/Mu0tdsHjfRUcujDaGZk7L39eit/oeNYZDqDWkqy39t3qzuoj5Y507yL
-	 6VHI6/U44lBH0Vh5YmmqbBsBzRTbZ+8YLLXmaY6Ll7K/12zENr0WcM2yHOqP6HeE5R
-	 6Las4LiVbTzVkZzTZ3lvuB9kFCQRKppNfNcXFwKtngTRXlqAVkEMS2qUHqNSj1ftxY
-	 w9GQZiHKvbvHQ==
-Received: from [10.40.0.100] (185-251-200-162.lampert.tv [185.251.200.162])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3C17D17E0CEE;
-	Wed, 18 Jun 2025 14:21:52 +0200 (CEST)
-Message-ID: <5d3418a3-70f5-46d8-a538-72e6958d5d02@collabora.com>
-Date: Wed, 18 Jun 2025 14:21:51 +0200
+	s=arc-20240116; t=1750249618; c=relaxed/simple;
+	bh=MeMY6ZvITBPQwHI52jDYCf35TLcxWMfuS+SdIkf7zyY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aFZT5ll6Vd4Vg/uA1y6KZI9ANzCAIovFtxjigU5LAxlrLAefL6JrNZHueMup3AL6nbj/Vi6zzVdo5seGkDQme+yb+3eHUav4uDAJkilUAAo42SlERDvUXYn/LTk+X/+nJUGZaHF5kwU9yDdJbtOJ24CIK0q+FpGoDB6EdMTd33U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=udknWNOl; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-32aabfd3813so60389721fa.3
+        for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 05:26:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750249614; x=1750854414; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MeMY6ZvITBPQwHI52jDYCf35TLcxWMfuS+SdIkf7zyY=;
+        b=udknWNOlq1p+HLe0dsmC4jceUTWZ6MbqLrM2DE+ll+5PtE55I+GjyiNrnmzOkplk6x
+         dyHCCUSAq25RV6+dgbHFV5VlsIRFAyHnyfQvfJntB5MCjIewhBy3J9Zuj/SrC+csCSzf
+         KK9PIvHrROUJBkRghh7JsFKj6434/Hw6KkQI7ZTzyTtIgul5uTsnlw0WoKWbyRtCijA4
+         Ub0sYjgunMwypytL52brArI0HGCNrhijVoN+QU+qgYM5l8xrFHOX46i7H+3I/YAgx0Qe
+         pIMQ4446kjKFRDnILNXosSSJBStRIl4LOBcWO8vzuCof4ORQr6IQjH8qVpYxwfmsSeDT
+         mhgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750249614; x=1750854414;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MeMY6ZvITBPQwHI52jDYCf35TLcxWMfuS+SdIkf7zyY=;
+        b=kNo4QIG5c11uRPSeKxPyAPMLAPAiqS4HiDJG2dMY9Oox983cF7m5RkRnO1OgjnK58X
+         EycyWLcE8JSGq7768AUqya8Df61sjsLvKGz5zCgk6gwXZeRdoxJjd+T6YL3TeGmM8ees
+         fjrIxmIGhnp0z1mWJ1hLAvfB1ch9nqD+7qN1Vas7tlO1oJqrkhWF/vgy/YhOwISKkccZ
+         OLyTZfLgROGZodIdoV0EQsE2DQZYKyAj1QhzPA58QJMJupI1ZME4Xn068B21zr+eJXH9
+         VvZxlVt7VGbaTN2g2GttrAovGdwwhfNbk7crhVKScdKbvrebFBPB2PTa0gRck1o2LMHF
+         IpzA==
+X-Forwarded-Encrypted: i=1; AJvYcCUNKd+68E53DGYVaSt7VrdNS2sgC+p+Ftk9WbsgxZhPubjfQs2bI73+MGSZcWfiNIHczIuVaw9F4NH5Tg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFVJNJQf0q/lileIiQF5KBH+f03ezf8p481yCD1RG6B6pAWHhF
+	Og8LRr8Ys/ivX73LpHHf/4ZQ9mGQgtVNnOKQlnM9bG73KgFjCvKDZL2Ogs5v4EkqI8ET9r1OVds
+	qUT9a7iAuBtvONAHWh130EH0Ro6ALP3UMxTaNPfVCXA==
+X-Gm-Gg: ASbGncsuOwke1Ej/dAJvWyp6XCLk7aZQiHTXOOiBQDW8vjoG+zkHacfhEvXWUfXrnom
+	lvgPf3HgOLBZOGCTaRWRnEnphMIccIWnOUV+pI54K7bsulpBjh+CefAJfYdGr9hNOdSu6La2Cx+
+	qImE1/s2BLIOLbyRFADFzHXCKurCST9g319rt4rwlYqpw=
+X-Google-Smtp-Source: AGHT+IGmpRGkPvcBAzQa2VYDunxKmHXXLzf37cM2KPcBdZgVLj8USxefk+Q+eVf5G/Wn/kDbl2XwzYwXpcHTfZnY1T0=
+X-Received: by 2002:a05:651c:1101:b0:32b:82bf:cc55 with SMTP id
+ 38308e7fff4ca-32b82bfdff4mr2950681fa.31.1750249614434; Wed, 18 Jun 2025
+ 05:26:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 06/13] media: rockchip: add a driver for the rockchip
- camera interface
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Markus Elfring <Markus.Elfring@web.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Kever Yang <kever.yang@rock-chips.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Collabora Kernel Team <kernel@collabora.com>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- Mehdi Djait <mehdi.djait@bootlin.com>
-References: <20240220-rk3568-vicap-v8-0-9d9cbc4b524d@collabora.com>
- <20240220-rk3568-vicap-v8-6-9d9cbc4b524d@collabora.com>
- <656zxutvwytnd5i5l3nknni47r3wofmmwtxycleekjtrkbgfeo@xm7xbzirh3ce>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <656zxutvwytnd5i5l3nknni47r3wofmmwtxycleekjtrkbgfeo@xm7xbzirh3ce>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250616-gpiochip-set-rv-media-v2-0-6825114f18b0@linaro.org>
+In-Reply-To: <20250616-gpiochip-set-rv-media-v2-0-6825114f18b0@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 18 Jun 2025 14:26:42 +0200
+X-Gm-Features: AX0GCFslsN-cSw-dqPdU5r6A6ilGsRmidmHeaF2HfeRbo7EfHKHVSPh6Y3Xsvmo
+Message-ID: <CACRpkdb0y9cBpxjefWpqj=S=0eXKZ_SeeKGKL5ePLNHkk_Wj8w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] media: use new GPIO line value setter callbacks
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Bluecherry Maintainers <maintainers@bluecherrydvr.com>, Andrey Utkin <andrey_utkin@fastmail.com>, 
+	Ismael Luceno <ismael@iodev.co.uk>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Julien Massot <julien.massot@collabora.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mehdi,
+On Mon, Jun 16, 2025 at 9:18=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
 
-On 6/13/25 14:33, Mehdi Djait wrote:
-> Hi Michael,
-> 
-> [...]
+> Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
+> values") added new line setter callbacks to struct gpio_chip. They allow
+> to indicate failures to callers. We're in the process of converting all
+> GPIO controllers to using them before removing the old ones. This series
+> converts all GPIO chips implemented under drivers/media/.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Let's cut the long story short, shall we :-)
+The series:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
->> +static void rkcif_stream_fill_format(struct rkcif_stream *stream,
->> +				     struct v4l2_pix_format_mplane *pix)
->> +{
->> +	const struct rkcif_output_fmt *fmt;
->> +	u32 height, width;
->> +
->> +	fmt = rkcif_stream_find_output_fmt(stream, true, pix->pixelformat);
->> +	height = clamp_t(u32, pix->height, CIF_MIN_HEIGHT, CIF_MAX_HEIGHT);
->> +	width = clamp_t(u32, pix->width, CIF_MIN_WIDTH, CIF_MAX_WIDTH);
->> +	v4l2_fill_pixfmt_mp(pix, fmt->fourcc, width, height);
-> 
-> The rkcif supports the SRGGB10P: the packed version of the SRGGB10.
-> 
-> When you try to capture with SRGGB10P, the following fails in
-> v4l2_fill_pixfmt_mp()
-> 
-> 	info = v4l2_format_info(pixelformat);
-> 	if (!info)
-> 		return -EINVAL;
-> 
-> The return value is not checked in rkcif_stream_fill_format() resulting
-> in a call to queue_setup returning with sizes[0] = 0
-
-Thanks for pointing that out. I failed to realize that this helper
-function may return an error. What I can do is to implement the error
-propagation correctly. Of course this will only avoid the kernel
-warning, you still won't be able to stream.
-
-> This will cause a kernel Warning in the vb2_core_reqbufs() because
-> plane_size = 0
-> 
-> Exactly here:
-> 
-> 	for (i = 0; i < num_planes; i++)
-> 		if (WARN_ON(!plane_sizes[i])) {
-> 			ret = -EINVAL;
-> 			goto error;
-> 		}
-> 
-> I still don't have the solution here but wanted to let you know about
-> it.
-
-I only had a quick look at it, but apparently the compact formats are
-missing in the format list here:
-https://elixir.bootlin.com/linux/v6.16-rc2/source/drivers/media/v4l2-core/v4l2-common.c#L244
-for whatever reason.
-
-Have you by chance tried adding a line like
-{
-	.format = V4L2_PIX_FMT_SRGGB10P,
-	.pixel_enc = V4L2_PIXEL_ENC_BAYER,
-	.mem_planes = 1,
-	.comp_planes = 1,
-	.bpp = { 5, 0, 0, 0 },
-	.bpp_div = { 4, 1, 1, 1 },
-	.hdiv = 1,
-	.vdiv = 1,
-}
-?
-
-
-Maybe we can fix this, but please note that this issue should not block
-merging this patch series.
-
-Best regards,
-Michael
+Yours,
+Linus Walleij
 
