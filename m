@@ -1,150 +1,140 @@
-Return-Path: <linux-media+bounces-35115-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35116-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3ED7ADDDEC
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 23:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4189CADE07B
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 03:15:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDAC33B4109
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jun 2025 21:30:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 211113BA500
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 01:14:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E4522F0C5A;
-	Tue, 17 Jun 2025 21:30:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 904FA171D2;
+	Wed, 18 Jun 2025 01:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k7X8++08"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UpYtbVwi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AA02F0036
-	for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 21:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2F7188CCA
+	for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 01:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750195840; cv=none; b=Q9MV/PbT9H/dpcBdp36Ny0Z2OUIp5UtOskrecjUVfC/K1AvGhH9kS0sSebrsZ5U/9kUp8J90Dl5fEWCI59NYbiUVU/j3XaxG3awy17xu+XyZg4KI788NVHjghjoEggaHsXckR+0zKfMMWF5+sE33NzSSyGkg3vLKNlKvnCq/Tk8=
+	t=1750209317; cv=none; b=fgAkERUzPtFTax3GfB3Mz+p6CqtCOcY5V0NDRhcCmcLqYor0NeuEaAQxpgqOgKqyhqsXJlYDO9le1FVrgCjC+PoYYQZ3+kT5Jvz//pS1JmvhU0Qbqwlm90pjzAFTfcxBpWTtuj2cw5TzFMx97dQoVurfkHGjzgYopc06J9zD3CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750195840; c=relaxed/simple;
-	bh=57GG017WnvsgeO3G2EDT/hrJC07voSkXSXCi0ddkyI4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PRDqJcT3XVoTBox8FpawC3yRWy1PdDbDTHm8kud7E6ytN+0Gx17puygZc+CvMV2tR4M1Y5JoN89QZWA6I9/PsNCGbYf7WhwGlfrs1Adp56wUrUMbdo8rcR/e1sKHmn/qjfEgkC+EPiuA+KTFshf8Jr0c/GMcSEb1WTLMmIvs1J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k7X8++08; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-32b2f369031so4994691fa.2
-        for <linux-media@vger.kernel.org>; Tue, 17 Jun 2025 14:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750195836; x=1750800636; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1ru3Y1J+U8NViKVmQGNuGxbL/kEmW5KcH1aIJSH/7IU=;
-        b=k7X8++08VHn4Ewts5PxpWPWzZjdmzkUF9GbFmwN58+qAtUMgV74dLcNDs8M1d0MysO
-         51efcOTM0nMf0Sh5lE39QxYVrsWjb8Mi67YLXgDSNI4l7s8lR370RJFB/A2PNfugCQxx
-         0OVMrdYsZnOp3ijYzxscEqjZkxmy0BUMtPN8L/HXERk9L/8tuOyrXkLCln8pEjoaMX5Z
-         YB2s1Z74w9unHXXEN0HlSXEvb6i7HsY4InMR9XuZ8VC3Q5Q2DVXVBhSKOPanYshY9xJS
-         Dwn3kmSreQAbPFBcqgL8zyqper2LaCS448sFT44JVXc5Yxf7YwaOH/8PyZoGuSGpkIG3
-         g0sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750195836; x=1750800636;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ru3Y1J+U8NViKVmQGNuGxbL/kEmW5KcH1aIJSH/7IU=;
-        b=byVONiHlscaGnWy71ZsIbM9ApZ9C7WwpBZAkhHUUXcvXTuSmPZlACbybOSS9pUv+R7
-         B6Ctu5zGuwFktRHOmpgLKvIz+/ztLRbJpUw8Pzg+6Yg8+O1123ua3ezGXz2HrsTX5jhY
-         SEw4YtxF0aC7WYM+bqYnGlAd7TFj1XyADRFunCv7pHFVf5COSXBY5vDpsSS0oXo0OFWV
-         imLjpQOe76iR15F9CVFS6nHBgYGS9kcvB35o/8OvWaFFWHc+RSN9+BKflsPGOIuIgaLB
-         6EFm+4UQ8WGi/ta+odNRCx5l/74i/BFCXO86eaVx4LyIFKrRj1+PlbglRDU8YJ8pBfNg
-         FnXw==
-X-Forwarded-Encrypted: i=1; AJvYcCWISwmj7tUejoXvsT3sZA4OWnOzNnTIxMbTz+U0IzsM6gOS8OOvjfq8WcPcuepm7Zl6S7jgGb6UL2enNg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVzbRfas3f5/+7nR6xuhX5TXDmreSOEWVXFViZWk8U4PlOozta
-	SNzciceSVwB6cj7LhTIurMLv7R+H3BhVmbWumbFVE1v5FdrrbZ+gbHPJJgXZu0SMDKc=
-X-Gm-Gg: ASbGncuXejnM41qp95VC1u/QJUQ7zCC4iZd1ik6arElOFbA0HK3MVVjupPVOxJjGEyd
-	+1i1qewgru8hM6/IK0e3PbwS69XcbRJh4FheoTh88XwkIYc6q6/v5VXOXBW6B83ufYs3xcBP53Q
-	wRLLr5K2rA0Q7eO0reRlqNtgArS0OQpr3kIKjtAQGVPGQdRHXMgUtvSLvoOmrl82KBV5j23DaYR
-	5J+fdmyKCmyjn8gedMf6AOv2zLdp3Rr7glusK/GIxkkVL1fwnjIP09g7NlKfr8rmTkxBZo18o2T
-	uLwYK+rpwvQw9mwaZFY9o8nsg11ZyaP73vE5y8a24MBQlGMsk0wrbvEjGf9UmWIIr0noW+Mbfbj
-	h9r5r1pATWFUbtdGuXniItDeQK28v+Z2+pqtdqKjO
-X-Google-Smtp-Source: AGHT+IGahrp4OijeVMN6/wrtyWB6f0c2IuaTQ9tTQDqYMs+wKjPRh5mEIg4iR4LsiSPfe/WRq8fYMA==
-X-Received: by 2002:a05:6512:3055:b0:553:38b1:810e with SMTP id 2adb3069b0e04-553b6e7577dmr1393954e87.2.1750195836360;
-        Tue, 17 Jun 2025 14:30:36 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac1f75a0sm2047133e87.219.2025.06.17.14.30.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jun 2025 14:30:35 -0700 (PDT)
-Message-ID: <05b4878a-f6c1-4a69-bbb8-900064267cd5@linaro.org>
-Date: Wed, 18 Jun 2025 00:30:34 +0300
+	s=arc-20240116; t=1750209317; c=relaxed/simple;
+	bh=YXvBlJoQ1ksa8yFfjNBOl35y51fduhAvcFAtKmjxlOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YX10Wd7kRRDCxucNxi2QS1bMCuOv5D8o1t9NyIOjOr91dWIvi/y0XDIWLieRvl5qUw/GrW2TvliY/aiAdqBG3l8yYDXJiABOMo56Y8oFQGk33MkXQn0SjXPgatFR9uK1Ueb0558sM1vfiMmUgbUXDJUMNYCT2ZcAG1VbJfLelf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UpYtbVwi; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF2E3593;
+	Wed, 18 Jun 2025 03:14:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750209300;
+	bh=YXvBlJoQ1ksa8yFfjNBOl35y51fduhAvcFAtKmjxlOk=;
+	h=Date:From:To:Cc:Subject:From;
+	b=UpYtbVwi7DMp7/24hNYvJkOQrMaquXgGwM2hb80V5y0Dx0VEhSpaJ//912vp0AHQ+
+	 X/BXk+pdP3+DOYDWCZWvF7DLF9zSvp9Hjmp/pR81X17FKBzgv5uwSaAZ8ydTi10Sws
+	 woysk4MR9BGLNII1Gv4zVFTaq0BhOCKOszNbLg4o=
+Date: Wed, 18 Jun 2025 04:14:56 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hans@jjverkuil.nl>
+Cc: linux-media@vger.kernel.org, Frank Li <Frank.Li@nxp.com>,
+	"Guoniu.zhou" <guoniu.zhou@nxp.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+	Robert Chiras <robert.chiras@nxp.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>
+Subject: [GIT PULL FOR v6.17] Improvements to NXP media drivers
+Message-ID: <20250618011456.GA22301@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/10] dt-bindings: media: qcom: Add Qualcomm MIPI
- C-/D-PHY schema for CSIPHY IPs
-Content-Language: ru-RU
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
- <20250612011531.2923701-9-vladimir.zapolskiy@linaro.org>
- <6e411e89-ce1e-4d6a-8d48-b800554f830e@kernel.org>
- <e9afdd0f-7842-4780-9044-d5afa6a09d7f@linaro.org>
- <b96f9cca-cdd4-4456-8ced-f4a8fd810ff1@kernel.org>
- <9e383935-a10c-40ec-a63a-243cd028374e@oss.qualcomm.com>
- <4f7225ee-fbb4-472e-8e14-a98f4cef9fc3@kernel.org>
- <83769dc1-9000-4074-bba2-d1bd465b77a2@linaro.org>
- <1fba505c-bd01-4d36-9efe-17172e11fb1a@oss.qualcomm.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <1fba505c-bd01-4d36-9efe-17172e11fb1a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 6/17/25 22:20, Konrad Dybcio wrote:
-> On 6/17/25 11:51 AM, Vladimir Zapolskiy wrote:
->> On 6/17/25 09:32, Krzysztof Kozlowski wrote:
->>> On 14/06/2025 21:31, Konrad Dybcio wrote:
->>>> On 6/13/25 8:28 AM, Krzysztof Kozlowski wrote:
->>>>> On 12/06/2025 19:13, Vladimir Zapolskiy wrote:
->>>>>> On 6/12/25 10:38, Krzysztof Kozlowski wrote:
->>>>>>> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
->>>>>>>> Add dt-binding schema for Qualcomm CAMSS CSIPHY IP, which provides
->>>>>>>> MIPI C-PHY/D-PHY interfaces on Qualcomm SoCs.
->>>>>>>>
->>>>>>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>>>>>>> ---
-> 
-> [...]
-> 
-> 
->>>> I don't have the docs before my eyes right now, but I would not be
->>>> surprised if it's also called "csiphy" in there..
->>>
->>> Let's check that first.
->>
->> Here only someone with the access to the specs can help, when I rely
->> on downstream code, and it says the right clock name here is 'csiphy'.
-> 
-> Unfortunately, I can't find anything more descriptive than that.
-> 
+Hi Mauro, Hans,
 
-Thank you for checking it.
+The following changes since commit c3021d6a80ff05034dfee494115ec71f1954e311:
 
-It might happen that a widely used clock name "core" serves the purpose,
-so here I can introduce CSIPHY clocks "core" and "timer", if Krzysztof
-also finds it acceptable.
+  media: v4l2-jpeg: Remove unused v4l2_jpeg_parse_* wrappers (2025-06-17 10:35:17 +0200)
 
---
-Best wishes,
-Vladimir
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/linux-media/users/pinchartl.git tags/next-media-nxp-20250618
+
+for you to fetch changes up to 977cb68a913662f7808d8a5e016ad9615968ad03:
+
+  media: imx8mq-mipi-csi2: Add support for i.MX8QXP (2025-06-18 03:52:08 +0300)
+
+----------------------------------------------------------------
+Improvements to NXP media drivers:
+
+- i.MX8QM and i.MX8QXP SoCs support in imx8mq-mipi-csi2
+- i.MX8QM and i.MX8QXP SoCs support in imx8-isi
+- WDR support in rkisp1
+- Miscellaneous cleanups
+
+----------------------------------------------------------------
+Frank Li (7):
+      media: dt-bindings: Add binding doc for i.MX8QXP and i.MX8QM ISI
+      media: nxp: imx8-isi: Allow num_sources to be greater than num_sink
+      media: nxp: imx8-isi: Remove unused offset in mxc_isi_reg and use BIT() macro for mask
+      media: nxp: imx8-isi: Use devm_clk_bulk_get_all() to fetch clocks
+      media: nxp: imx8-isi: Remove redundant check for dma_set_mask_and_coherent()
+      media: nxp: imx8-isi: Use dev_err_probe() to simplify code
+      media: imx8mq-mipi-csi2: Add support for i.MX8QXP
+
+Guoniu.zhou (1):
+      media: imx8mq-mipi-csi2: Add imx8mq_plat_data for different compatible strings
+
+Jai Luthra (1):
+      media: rockchip: rkisp1: Add support for Wide Dynamic Range
+
+Krzysztof Hałasa (1):
+      media: nxp: imx8-isi: Simplify a couple of error messages
+
+Laurent Pinchart (1):
+      media: imx-mipi-csis: Use CSI-2 data type macros from mipi-csi2.h
+
+Robert Chiras (2):
+      media: imx8-isi: Add support for i.MX8QM and i.MX8QXP
+      media: dt-bindings: nxp,imx8mq-mipi-csi2: Add i.MX8QM(QXP) compatible strings
+
+Stefan Klug (2):
+      media: rkisp1: Properly handle result of rkisp1_params_init_vb2_queue()
+      media: rkisp1: Add RKISP1_CID_SUPPORTED_PARAMS_BLOCKS control
+
+ .../devicetree/bindings/media/fsl,imx8qm-isi.yaml  | 117 ++++++++++++++
+ .../devicetree/bindings/media/fsl,imx8qxp-isi.yaml | 106 +++++++++++++
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml       |  38 ++++-
+ MAINTAINERS                                        |   1 +
+ drivers/media/platform/nxp/imx-mipi-csis.c         |  68 +++------
+ .../media/platform/nxp/imx8-isi/imx8-isi-core.c    | 135 ++++++++--------
+ .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |   6 +-
+ .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      |  18 +--
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c      | 169 +++++++++++++++++++--
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h |   2 +
+ .../media/platform/rockchip/rkisp1/rkisp1-params.c | 150 +++++++++++++++++-
+ .../media/platform/rockchip/rkisp1/rkisp1-regs.h   |  99 +++---------
+ include/uapi/linux/rkisp1-config.h                 | 106 ++++++++++++-
+ include/uapi/linux/v4l2-controls.h                 |   6 +
+ 14 files changed, 799 insertions(+), 222 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/fsl,imx8qm-isi.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/fsl,imx8qxp-isi.yaml
+
+-- 
+Regards,
+
+Laurent Pinchart
 
