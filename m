@@ -1,114 +1,121 @@
-Return-Path: <linux-media+bounces-35171-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35172-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7FAADEC52
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 14:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C54EADECFE
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 14:48:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7CEC16E5A4
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 12:28:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F99D16310D
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 12:48:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F30D22E06C8;
-	Wed, 18 Jun 2025 12:26:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 818382E2651;
+	Wed, 18 Jun 2025 12:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="udknWNOl"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c4M0QT47"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7583D2820C5
-	for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 12:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5687C2556E;
+	Wed, 18 Jun 2025 12:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750249618; cv=none; b=FAbnLpjfbN+1o5Qv3ElMBy9b2V8qsequB4GJhIz/XBdruYOcWblaEgCGjyEdf7blYmZX9B6kUKWBz97kzP/jl1kk2muBwEhO4M3dwEavorJIHHTccuoZ0+TGYk7mZWa4cuYAIP7JA/QV7HSqh5NEmeR9WeVzGCVmy3QlTvdTqWw=
+	t=1750250905; cv=none; b=Th8mPvN54bmR0PytDuEN97NftTLSYeUq4AOYYR8mItcdknmePrGW9bFsOyhSV/L4JN6+r7CzhnTz/8KtZqfmcrhdyeHfYBmpGl90swW23AXCwilvmmQsXj3a+mzsHmtsZmnplzzUC+AoCKbMwcBG419dQictcMdfxplrSE5NT7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750249618; c=relaxed/simple;
-	bh=MeMY6ZvITBPQwHI52jDYCf35TLcxWMfuS+SdIkf7zyY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aFZT5ll6Vd4Vg/uA1y6KZI9ANzCAIovFtxjigU5LAxlrLAefL6JrNZHueMup3AL6nbj/Vi6zzVdo5seGkDQme+yb+3eHUav4uDAJkilUAAo42SlERDvUXYn/LTk+X/+nJUGZaHF5kwU9yDdJbtOJ24CIK0q+FpGoDB6EdMTd33U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=udknWNOl; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-32aabfd3813so60389721fa.3
-        for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 05:26:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750249614; x=1750854414; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MeMY6ZvITBPQwHI52jDYCf35TLcxWMfuS+SdIkf7zyY=;
-        b=udknWNOlq1p+HLe0dsmC4jceUTWZ6MbqLrM2DE+ll+5PtE55I+GjyiNrnmzOkplk6x
-         dyHCCUSAq25RV6+dgbHFV5VlsIRFAyHnyfQvfJntB5MCjIewhBy3J9Zuj/SrC+csCSzf
-         KK9PIvHrROUJBkRghh7JsFKj6434/Hw6KkQI7ZTzyTtIgul5uTsnlw0WoKWbyRtCijA4
-         Ub0sYjgunMwypytL52brArI0HGCNrhijVoN+QU+qgYM5l8xrFHOX46i7H+3I/YAgx0Qe
-         pIMQ4446kjKFRDnILNXosSSJBStRIl4LOBcWO8vzuCof4ORQr6IQjH8qVpYxwfmsSeDT
-         mhgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750249614; x=1750854414;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MeMY6ZvITBPQwHI52jDYCf35TLcxWMfuS+SdIkf7zyY=;
-        b=kNo4QIG5c11uRPSeKxPyAPMLAPAiqS4HiDJG2dMY9Oox983cF7m5RkRnO1OgjnK58X
-         EycyWLcE8JSGq7768AUqya8Df61sjsLvKGz5zCgk6gwXZeRdoxJjd+T6YL3TeGmM8ees
-         fjrIxmIGhnp0z1mWJ1hLAvfB1ch9nqD+7qN1Vas7tlO1oJqrkhWF/vgy/YhOwISKkccZ
-         OLyTZfLgROGZodIdoV0EQsE2DQZYKyAj1QhzPA58QJMJupI1ZME4Xn068B21zr+eJXH9
-         VvZxlVt7VGbaTN2g2GttrAovGdwwhfNbk7crhVKScdKbvrebFBPB2PTa0gRck1o2LMHF
-         IpzA==
-X-Forwarded-Encrypted: i=1; AJvYcCUNKd+68E53DGYVaSt7VrdNS2sgC+p+Ftk9WbsgxZhPubjfQs2bI73+MGSZcWfiNIHczIuVaw9F4NH5Tg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFVJNJQf0q/lileIiQF5KBH+f03ezf8p481yCD1RG6B6pAWHhF
-	Og8LRr8Ys/ivX73LpHHf/4ZQ9mGQgtVNnOKQlnM9bG73KgFjCvKDZL2Ogs5v4EkqI8ET9r1OVds
-	qUT9a7iAuBtvONAHWh130EH0Ro6ALP3UMxTaNPfVCXA==
-X-Gm-Gg: ASbGncsuOwke1Ej/dAJvWyp6XCLk7aZQiHTXOOiBQDW8vjoG+zkHacfhEvXWUfXrnom
-	lvgPf3HgOLBZOGCTaRWRnEnphMIccIWnOUV+pI54K7bsulpBjh+CefAJfYdGr9hNOdSu6La2Cx+
-	qImE1/s2BLIOLbyRFADFzHXCKurCST9g319rt4rwlYqpw=
-X-Google-Smtp-Source: AGHT+IGmpRGkPvcBAzQa2VYDunxKmHXXLzf37cM2KPcBdZgVLj8USxefk+Q+eVf5G/Wn/kDbl2XwzYwXpcHTfZnY1T0=
-X-Received: by 2002:a05:651c:1101:b0:32b:82bf:cc55 with SMTP id
- 38308e7fff4ca-32b82bfdff4mr2950681fa.31.1750249614434; Wed, 18 Jun 2025
- 05:26:54 -0700 (PDT)
+	s=arc-20240116; t=1750250905; c=relaxed/simple;
+	bh=Fc0FhuF+L6Lv28egdKqaXDSKAGB3oTUkQF1L7Zl2nd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P65hQxJ31U8IqwLbKJMF1iJfA9WWFi90PFsBCk3c2oItL8Sq95coqMN3NBUzHPMj9GY8NfktYTnDe3d5zwDF9PUaAzLByQJG7dnzdS1ttTiL3Wuj9rUhif7uae889HOIfI4hgehI0siOcynXt4LeNVhjpSlcUDedFHDm3dBmKhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=c4M0QT47; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C27E822A;
+	Wed, 18 Jun 2025 14:48:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750250888;
+	bh=Fc0FhuF+L6Lv28egdKqaXDSKAGB3oTUkQF1L7Zl2nd0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c4M0QT47wzFOI7J5NzLuZKWU9Yn1xsM2l8S7a2X9rkQeBR1Ve0kQ8hJ3Abc91ble1
+	 9kk2N50ZePQ7VxhWc6GR5X8KqKY11yE1mDbd4C4kkBizZsNFSatodzgwxtnwWT1jTj
+	 lAuZOSaIgyaE5u+xXi9jkGyGp24AsHjIPvbKaOq8=
+Date: Wed, 18 Jun 2025 14:48:18 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bluecherry Maintainers <maintainers@bluecherrydvr.com>, 
+	Andrey Utkin <andrey_utkin@fastmail.com>, Ismael Luceno <ismael@iodev.co.uk>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Julien Massot <julien.massot@collabora.com>, 
+	Jacopo Mondi <jacopo+renesas@jmondi.org>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v2 7/7] media: i2c: max9286: use new GPIO line value
+ setter callbacks
+Message-ID: <hjlktxrmllq5igu2dbyp5lf7c57ztlbwb6mdm7cp62jd7pnjk3@pv6gtwmlavsu>
+References: <20250616-gpiochip-set-rv-media-v2-0-6825114f18b0@linaro.org>
+ <20250616-gpiochip-set-rv-media-v2-7-6825114f18b0@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250616-gpiochip-set-rv-media-v2-0-6825114f18b0@linaro.org>
-In-Reply-To: <20250616-gpiochip-set-rv-media-v2-0-6825114f18b0@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 18 Jun 2025 14:26:42 +0200
-X-Gm-Features: AX0GCFslsN-cSw-dqPdU5r6A6ilGsRmidmHeaF2HfeRbo7EfHKHVSPh6Y3Xsvmo
-Message-ID: <CACRpkdb0y9cBpxjefWpqj=S=0eXKZ_SeeKGKL5ePLNHkk_Wj8w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] media: use new GPIO line value setter callbacks
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Bluecherry Maintainers <maintainers@bluecherrydvr.com>, Andrey Utkin <andrey_utkin@fastmail.com>, 
-	Ismael Luceno <ismael@iodev.co.uk>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Julien Massot <julien.massot@collabora.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250616-gpiochip-set-rv-media-v2-7-6825114f18b0@linaro.org>
 
-On Mon, Jun 16, 2025 at 9:18=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
+Hi Bartosz
 
-> Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
-> values") added new line setter callbacks to struct gpio_chip. They allow
-> to indicate failures to callers. We're in the process of converting all
-> GPIO controllers to using them before removing the old ones. This series
-> converts all GPIO chips implemented under drivers/media/.
+On Mon, Jun 16, 2025 at 09:18:56AM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> struct gpio_chip now has callbacks for setting line values that return
+> an integer, allowing to indicate failures. Convert the driver to using
+> them.
 >
 > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-The series:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Seems sane, thanks
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-Yours,
-Linus Walleij
+> ---
+>  drivers/media/i2c/max9286.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 9fc4e130a273f8547d7e7ec194cade5b5e9c8df2..1d0b5f56f989874e46f87db4a49d935049e6e7ce 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -1193,12 +1193,12 @@ static int max9286_gpio_set(struct max9286_priv *priv, unsigned int offset,
+>  			     MAX9286_0X0F_RESERVED | priv->gpio_state);
+>  }
+>
+> -static void max9286_gpiochip_set(struct gpio_chip *chip,
+> -				 unsigned int offset, int value)
+> +static int max9286_gpiochip_set(struct gpio_chip *chip,
+> +				unsigned int offset, int value)
+>  {
+>  	struct max9286_priv *priv = gpiochip_get_data(chip);
+>
+> -	max9286_gpio_set(priv, offset, value);
+> +	return max9286_gpio_set(priv, offset, value);
+>  }
+>
+>  static int max9286_gpiochip_get(struct gpio_chip *chip, unsigned int offset)
+> @@ -1220,7 +1220,7 @@ static int max9286_register_gpio(struct max9286_priv *priv)
+>  	gpio->owner = THIS_MODULE;
+>  	gpio->ngpio = 2;
+>  	gpio->base = -1;
+> -	gpio->set = max9286_gpiochip_set;
+> +	gpio->set_rv = max9286_gpiochip_set;
+>  	gpio->get = max9286_gpiochip_get;
+>  	gpio->can_sleep = true;
+>
+>
+> --
+> 2.48.1
+>
 
