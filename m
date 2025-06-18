@@ -1,290 +1,329 @@
-Return-Path: <linux-media+bounces-35183-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35185-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDF2ADF0AB
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 17:05:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C816ADF1B7
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 17:51:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1C309189927C
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 15:05:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E74783A3B4F
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 15:50:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2FCC2EE5EC;
-	Wed, 18 Jun 2025 15:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E72772F0041;
+	Wed, 18 Jun 2025 15:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="giiLXpEG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rzoL/Owh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549F9191F91;
-	Wed, 18 Jun 2025 15:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459987080D;
+	Wed, 18 Jun 2025 15:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750259108; cv=none; b=kt7+2c+G0zZPH1bvXaRrNG7jXrr1l3Qu+dQ5rwoNe0rvT6CRFwt4FKMhQIh6XPXxtBbpG+ckLQV1eX9/whGOMldZHAzuO8V2vuuhLeNVoEP/TWVhFQCTiAwOPt6lyawa2zDEOJZP4PMuEesQVnzUXaHYrxVSFNJX99dMSupFngo=
+	t=1750261849; cv=none; b=MAOeZmcGxy1DWprcpqoo8MhhLv4bKsVKaxKe/bcfhyHImLPO8wNeTeX9yJdM1s9UkST1c4YRnG2jhVpmTnsoGzrQpiJiHf7jXhZfhTwi5rPogpl+oTT5qBstX4My1IAu28HO4cGfayLYX1YhV87ar6BqRi4mkIBpG6W5tnooyJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750259108; c=relaxed/simple;
-	bh=VtnJIaye9QWf6eeuqfTnhsu07/8qvnT9KCncjjEmYjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WuBsYl6HKX7WeLJVxufvP7W1oALU27ByJqEYyAWtNrkYhKJStaydEq3OwtrwNJ08RIdTAAhYq4yTLDLu1kFLKo+GtnB0kpsS4UlsEKWetEn0ZKRF59TFCNSTXSefnJaTv+qkp61i1cb740MYyaUnh241qWjxgicJqTByaJv3320=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=giiLXpEG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17CB0C4CEE7;
-	Wed, 18 Jun 2025 15:05:03 +0000 (UTC)
+	s=arc-20240116; t=1750261849; c=relaxed/simple;
+	bh=y53kvWV7QqEcMZEoH4/QgamjctoJTGOUURowRTdr7NM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LbY+4aoo+f/QC8y0PS78/7+lGvSS4QS1xBdMjdaFDa0gWbmy/jbpluG8sy9AP7Pnz/N4urPIqu8XrtdXgsoBkQLE/9WNIbXie6q+U1n6EpG8CLr3XBSQgoeizAOUhHfJ731OFfC1CMlZ4tTl84vHA3VtzrQ4YYjfNoQSH6pnu0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rzoL/Owh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0468CC4CEE7;
+	Wed, 18 Jun 2025 15:50:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750259107;
-	bh=VtnJIaye9QWf6eeuqfTnhsu07/8qvnT9KCncjjEmYjA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=giiLXpEGziW0Txa2s8skcjTpwLMgLTP22ItcbaGtflq+let6aaoXQ/KmS2kuoEMRQ
-	 Tc//v6IJ3cwK2zqh9yK8NWUSsJ6pfYguqhR31SBVDHepwBIFBPYao53JZ6JwXI2bl4
-	 64632URanrjYlyAvceyJikaBaOItbh4nCNUkxRdmtCr7T8bp2b7hprBNYU5F9linKx
-	 wxdJS3CjBCDzNKwo1GVxBfw6ClK1LeyvqgdNS9wMBr2abZMeE8Y+v0Ak+qk6T361QR
-	 FwGk3hE4GMzc7QbI392hO2kOogNrWjpqTRQpTpw1gzPyHwgfxg4el4AHPtwM64gX1W
-	 ioE1C1tTliGdQ==
-Date: Wed, 18 Jun 2025 17:05:00 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Alexandre Courbot" <gnurou@gmail.com>
-Cc: "Albert Esteve" <aesteve@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Hans
- Verkuil" <hverkuil@xs4all.nl>, "Jason Wang" <jasowang@redhat.com>, "Xuan
- Zhuo" <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, <gurchetansingh@google.com>,
- <daniel.almeida@collabora.com>, <adelva@google.com>,
- <changyeon@google.com>, <nicolas.dufresne@collabora.com>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <virtualization@lists.linux.dev>
-Subject: Re: [PATCH v3] media: add virtio-media driver
-Message-ID: <20250618170500.1e60aacf@sal.lan>
-In-Reply-To: <DAPQ9L3FCLIF.24FIDLQST2S1O@gmail.com>
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
-	<20250526141316.7e907032@foz.lan>
-	<DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
-	<20250527111311.105246f2@sal.lan>
-	<CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
-	<20250527153547.6603eaf4@sal.lan>
-	<CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
-	<20250617104938.09d21b7c@foz.lan>
-	<20250617110318.7c89d999@foz.lan>
-	<20250617122034.3e570b4e@foz.lan>
-	<DAPQ9L3FCLIF.24FIDLQST2S1O@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1750261849;
+	bh=y53kvWV7QqEcMZEoH4/QgamjctoJTGOUURowRTdr7NM=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=rzoL/OwhHNa00yBwFz2KxZJaxP4JVe2bdYPqdqEzxhhx0jITDSb7g9uAJH3bAcKC4
+	 d5BMsGypI5u/CzH2FCvF7kJ14U9t+otyb9AktFEpzpjdrTky5rrsZFawawpWQkNnjR
+	 939uRMc2aYffeX1O6nePTnDvYLm3gVJYFh8AGqIclrdPd8QDE+CM0FvN7xzCCfFvkp
+	 HbeOU+3PARJT9VSwRjv2YE1iuEMWdH0HCk1+k9e0H08/97evAgRbpXodUsfYY8n2iC
+	 VPrfG51ErwtuFQZnWS29GE5FrsXCio/R10LszB30kI24iJ+P2LO6Z8EoIlv6EgOAE5
+	 cK2Kqkh5pDSHw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAFA7C71136;
+	Wed, 18 Jun 2025 15:50:48 +0000 (UTC)
+From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
+Subject: [PATCH v9 00/13] media: rockchip: add a driver for the rockchip
+ camera interface
+Date: Wed, 18 Jun 2025 17:37:55 +0200
+Message-Id: <20240220-rk3568-vicap-v9-0-ace1e5cc4a82@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFTdUmgC/33Ry07DMBAF0F+pvMbV+BmbVf8DsfCTWLRx5VQGV
+ OXfcVpBCUq7vLbm3JHmjMZQUhjR8+aMSqhpTHloQT9tkOvN8BZw8i0jCpQDpYDLOxNS4ZqcOWK
+ rLYtaUxE5R23EmjFgW8zg+nnoEHqfcCVs/juWENPnperlteU+jadcvi7Nlcyvt5IqscKnfExu2
+ VcJBkylAkOikRzs7iPv43Xr7RBOaIYr/cUIJd19jDbMEs+Vis6BZ6sY+8EEUJD3MdYwqT2JRAf
+ hOKxi/A9G9H2MNyxokBLABGbXMXHD2KPNRMNi6xNUMB6ZW8Xk8gBLQTbB0yiiDYEIQXYu7/fG5
+ mK2Lh+uQPcI6BrQCUWi19IwZtYA9QhQDdBeO+u4FZT7/8A0Td9VUbuwywIAAA==
+To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Gerald Loacker <gerald.loacker@wolfvision.net>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Markus Elfring <Markus.Elfring@web.de>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Kever Yang <kever.yang@rock-chips.com>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Collabora Kernel Team <kernel@collabora.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, 
+ Alexander Shiyan <eagle.alexander923@gmail.com>, 
+ Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, 
+ Michael Riesch <michael.riesch@collabora.com>, 
+ Michael Riesch <michael.riesch@collabora.com>, 
+ Mehdi Djait <mehdi.djait@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750261092; l=10841;
+ i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
+ bh=y53kvWV7QqEcMZEoH4/QgamjctoJTGOUURowRTdr7NM=;
+ b=8GLCLpYsjHnVwHGH4KDZqFxnHGvf88smYZX3g9RyjpJllYzz4RGy9gFgYEGS5YKvdG46G7jrd
+ aUsY45h4qhpBfTorSVKFKG0tOPXfxLvqKN0g9Wo7/RIcXfVoU2B0Qp1
+X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
+ pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
+X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
+ with auth_id=371
+X-Original-From: Michael Riesch <michael.riesch@collabora.com>
+Reply-To: michael.riesch@collabora.com
 
-Em Wed, 18 Jun 2025 23:27:13 +0900
-"Alexandre Courbot" <gnurou@gmail.com> escreveu:
+Habidere,
 
-> On Tue Jun 17, 2025 at 7:20 PM JST, Mauro Carvalho Chehab wrote:
-> > Em Tue, 17 Jun 2025 11:03:18 +0200
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> >  
-> >> Em Tue, 17 Jun 2025 10:49:38 +0200
-> >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> >>   
-> >> > Hi Alex,
-> >> > 
-> >> > Em Tue, 27 May 2025 23:03:39 +0900
-> >> > Alexandre Courbot <gnurou@gmail.com> escreveu:
-> >> >     
-> >> > > > > > Btw, I was looking at:
-> >> > > > > >
-> >> > > > > >         https://github.com/chromeos/virtio-media
-> >> > > > > >
-> >> > > > > > (I'm assuming that this is the QEMU counterpart, right?)        
-> >> > > > >
-> >> > > > > crosvm actually, but QEMU support is also being worked on.        
-> >> > > >
-> >> > > > Do you have already QEMU patches? The best is to have the Kernel driver
-> >> > > > submitted altogether with QEMU, as Kernel developers need it to do the
-> >> > > > tests. In my case, I never use crosvm, and I don't have any Chromebook
-> >> > > > anymore.        
-> >> > > 
-> >> > > IIRC Albert Esteve was working on this, maybe he can share the current status.      
-> >> > 
-> >> > Any news regards to it?
-> >> >     
-> >> > > Note that crosvm does not require a Chromebook, you can build and run
-> >> > > it pretty easily on a regular PC. I have put together a document to
-> >> > > help with that:
-> >> > > 
-> >> > > https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md      
-> >> > 
-> >> > I started looking on it today. Already installed crossvm (I had to
-> >> > install libcap-devel to build it). Still, I'm not familiar with
-> >> > crossvm, which is a little be painful. In particular, how can I
-> >> > enable network on it and speedup it? With suggested parameters,
-> >> > it picked only one CPU, and very few memory on it:
-> >> > 
-> >> > 	# cat /proc/cpuinfo|grep processor
-> >> > 	processor       : 0
-> >> > 
-> >> > 	# free
-> >> >                total        used        free      shared  buff/cache   available
-> >> > 	Mem:          221876       34780      139712         272       56096      187096
-> >> > 	Swap:              0           0           0
-> >> > 
-> >> > I'd like to be able to compile things on it and use ssh/scp. So,
-> >> > the VM needs more CPUs, more memory, more network and GPU.  
-> >
-> > Found how to setup cpus and memory, but didn't find a way to setup
-> > network without running it as root. The gpu parameter has several
-> > options. Not sure what backend works well for media apps like qv4l2,
-> > camorama, X11, ...  
-> 
-> I'm afraid getting GPU and graphics in general to work is more involved
-> and tricky on a regular Linux setup (crosvm was primarily designed for
-> ChromeOS). If you really need it I can do some more research; most of my
-> tests have been done using v4l2-ctl or ffmpeg and saving the output on
-> disk for later inspection.
+This series introduces support for the Rockchip Camera Interface (CIF),
+which is featured in many Rockchip SoCs in different variations.
+For example, the PX30 Video Input Processor (VIP) is able to receive
+video data via the Digital Video Port (DVP, a parallel data interface)
+and transfer it into system memory using a double-buffering mechanism
+called ping-pong mode.
+The RK3568 Video Capture (VICAP) unit, on the other hand, features a
+DVP and a MIPI CSI-2 receiver that can receive video data independently
+(both using the ping-pong scheme).
+The different variants may have additional features, such as scaling
+and/or cropping.
+Finally, the RK3588 VICAP unit constitutes an essential piece of the
+camera interface with one DVP, six MIPI CSI-2 receivers, scale/crop
+units, and a data path multiplexer (to scaler units, to ISP, ...).
 
-It was actually easier than what I expected, but it had to run
-as root. Due to that, I had to move it to a test machine that I
-use just for such kind of tests. I updated it to the Ubuntu 
-version 24.10, but crossvm refused to build even. I end needing
-to install rust via rustup, as only version 1.81.0 had what it is
-required to run with the needed features (network, media and gpu).
+The v9 of the series adds a media controller centric V4L2 device driver
+for the Rockchip CIF with
+ - support for the PX30 VIP (not tested, though, due to the lack of HW)
+ - support for the RK3568 VICAP, including
+    - capturing frames from the DVP
+    - capturing frames from the MIPI CSI-2 receiver
+ - abstraction for the ping-pong scheme to allow for future extensions
+ - abstraction for the INTERFACE and CROP parts to allow for future
+   extensions
+ - initial support for different virtual channels (not tested, though,
+   due to the lack of HW)
+and a V4L2 subdevice driver for the Rockchip MIPI CSI-2 Receiver.
 
-> >> > Btw, on a quick test with v4l2-compliance, something looks weird:
-> >> > I started a camera application at the host. Still, v4l2-compliance
-> >> > said successfully excecuted mmap:
-> >> > 
-> >> > Streaming ioctls:
-> >> >         test read/write: OK (Not Supported)
-> >> >         test blocking wait: OK
-> >> >         test MMAP (no poll): OK                           
-> >> >         test MMAP (select): OK                            
-> >> >         Vide[2025-06-17T08:44:49.177972817+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-> >> > [2025-06-17T08:44:49.178164554+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-> >> > o Capturtest MMAP (epoll): OK                             
-> >> >         test USERPTR (no poll): OK (Not Supported)
-> >> >         test USERPTR (select): OK (Not Supported)
-> >> >         test DMABUF (no poll): OK (Not Supported)
-> >> >         test DMABUF (select): OK (Not Supported)
-> >> > 
-> >> > Which doesn't make any sense, as the host OS should not allow access
-> >> > to mmap while streaming.    
-> >> 
-> >> Ah, this was with the "simple" device, not with the proxy one.
-> >> With the proxy one, I'm getting:
-> >> 
-> >> # v4l2-ctl --all
-> >> Driver Info:
-> >>         Driver name      : virtio-media
-> >>         Card type        : usb video: usb video
-> >>         Bus info         : platform:virtio-media
-> >>         Driver version   : 6.15.0
-> >>         Capabilities     : 0x84200001
-> >>                 Video Capture
-> >>                 Streaming
-> >>                 Extended Pix Format
-> >>                 Device Capabilities
-> >>         Device Caps      : 0x04200001
-> >>                 Video Capture
-> >>                 Streaming
-> >>                 Extended Pix Format
-> >> Priority: 2
-> >> Video input : 0 (Camera 1: ok)
-> >> Format Video Capture:
-> >>         Width/Height      : 1280/720
-> >>         Pixel Format      : 'MJPG' (Motion-JPEG)
-> >>         Field             : None
-> >>         Bytes per Line    : 0
-> >>         Size Image        : 1843200
-> >>         Colorspace        : sRGB
-> >>         Transfer Function : Rec. 709
-> >>         YCbCr/HSV Encoding: ITU-R 601
-> >>         Quantization      : Default (maps to Full Range)
-> >>         Flags             : 
-> >> Crop Capability Video Capture:
-> >>         Bounds      : Left 0, Top 0, Width 1280, Height 720
-> >>         Default     : Left 0, Top 0, Width 1280, Height 720
-> >>         Pixel Aspect: 1/1
-> >> Selection Video Capture: crop_default, Left 0, Top 0, Width 1280, Height 720, Flags: 
-> >> Selection Video Capture: crop_bounds, Left 0, Top 0, Width 1280, Height 720, Flags: 
-> >> Streaming Parameters Video Capture:
-> >>         Capabilities     : timeperframe
-> >>         Frames per second: 30.000 (30/1)
-> >>         Read buffers     : 0
-> >> 
-> >> User Controls
-> >> 
-> >>                      brightness 0x00980900 (int)    : min=-128 max=127 step=1 default=-11 value=-11
-> >>                        contrast 0x00980901 (int)    : min=0 max=255 step=1 default=148 value=148
-> >>                      saturation 0x00980902 (int)    : min=0 max=255 step=1 default=180 value=180
-> >>                             hue 0x00980903 (int)    : min=-128 max=127 step=1 default=0 value=0
-> >> 
-> >> # v4l2-compliance -d0 -s
-> >> 
-> >> Streaming ioctls:
-> >>         test read/write: OK (Not Supported)
-> >>         test blocking wait: OK
-> >>                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
-> >>         test MMAP (no poll): FAIL
-> >>                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
-> >>         test MMAP (select): FAIL
-> >>                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
-> >>         test MMAP (epoll): FAIL
-> >>         test USERPTR (no poll): OK (Not Supported)
-> >>         test USERPTR (select): OK (Not Supported)
-> >> [2025-06-17T08:55:20.768760714+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-> >>         test DMABUF (no poll): OK (Not Supported)
-> >> [2025-06-17T08:55:20.769745707+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
-> >>         test DMABUF (select): OK (Not Supported)
-> >> 
-> >> At the host, I'm getting:
-> >> 
-> >> Streaming ioctls:
-> >>         test read/write: OK (Not Supported)
-> >>         test blocking wait: OK
-> >>                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
-> >>         test MMAP (no poll): FAIL
-> >>                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
-> >>         test MMAP (select): FAIL
-> >>                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
-> >>         test MMAP (epoll): FAIL
-> >>         test USERPTR (no poll): OK                        
-> >>         test USERPTR (select): OK                         
-> >>         test DMABUF: Cannot test, specify --expbuf-device  
-> 
-> These logs look ok to me: the MMAP tests are failing on the host, so
-> they are also expected to fail on the guest (still I expect regular
-> streaming to work on both). USERPTR is not supported on the guest, as
-> per your request to not support this memory type in new drivers. DMABUF
-> is not supported at all at the moment.
+The patches are functional and have been tested successfully on a
+custom RK3568 board including the ITE Tech. IT6801 HDMI receiver and
+the Sony IMX415 image sensor as subdevices attached to the DVP and the
+MIPI CSI-2 receiver, respectively.
+The IT6801 driver still needs some loving care but shall be submitted
+as well at some point.
 
-In the specific case of a virtio driver, while it is OK for the first
-versions to support MMAP only, USERPTR support could make sense, as 
-this is not a real driver for a certain hardware, but instead it is
-replicating at the guest whatever the host driver has, which may or
-may not have MMAP.
+However, several features are not yet addressed, such as
+ - support for the RK3588 variant (-> first success achieved, patches
+   need some cleanup and shall be submitted separately)
+ - support for the MUX/SCALE/TOISP block in the RK3588 VICAP (which
+   provides the base for image processing on the RK3588)
+ - support for the scaling unit in the PX30 (-> cannot do due to the
+   lack of HW)
+ - support for the interface to the Rockchip ISP in the RK3568
+   (-> cannot do, latest information from Rockchip points out there
+   IS NO HW CONNECTION BETWEEN VICAP AND ISP ON RK3568)
 
-That's said, I don't recall any driver with USERPTR and without MMAP
-those days. I did a quick check: VB2 devices always seem to have MMAP.
+Looking forward to your comments!
 
--
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Théo Lebrun <theo.lebrun@bootlin.com>
+To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+To: Gerald Loacker <gerald.loacker@wolfvision.net>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Heiko Stuebner <heiko@sntech.de>
+To: Kever Yang <kever.yang@rock-chips.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Collabora Kernel Team <kernel@collabora.com>
+To: Paul Kocialkowski <paulk@sys-base.io>
+To: Alexander Shiyan <eagle.alexander923@gmail.com>
+To: Val Packett <val@packett.cool>
+To: Rob Herring <robh@kernel.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 
-There is one case where only read ioctl is supported: pvrusb2, which
-is probably not interesting enough those days, but IMHO, for the few
-cases where a device can't be used at the guest due to the lack of a 
-compatible streaming API, virtio-media should not expose it to the
-guest and/or issue an error or warning.
+Changes in v9:
+- added compatible for RK3588 MIPI CSI-2 receiver, thus dropped
+  Krzysztof's R-b
+- added interrupts to rkcsi DT binding and RK356x DT
+- added variant specific callback to rkcif-capture-mipi that puts
+  together the CTRL0 register content (which varies between RK3568
+  and RK3588)
+- fixed v4l2_fill_pixfmt_mp() return value handling (Mehdi)
+- Link to v8: https://lore.kernel.org/r/20240220-rk3568-vicap-v8-0-9d9cbc4b524d@collabora.com
 
-> If the host cannot pass compliance, the guest will inevitably suffer
-> from the same shortcomings. :) But at least on the devices I tested I
-> was still able to stream something onto the disk and the result was
-> correct.
+Changes in v8:
+- rebased onto v6.16-rc1
+- fixed RKCIF_MIPI_MAX value in rkcif-common.h
+- fixed rkcsi Kconfig (kernel test robot)
+- sorted rkcsi DT bindings document properly, completed example
+  (Krzysztof)
+- squashed the defconfig patches (Krzysztof), dropped Bryan's R-b
+- Link to v7: https://lore.kernel.org/r/20240220-rk3568-vicap-v7-0-7581fd96a33a@collabora.com
 
-Makes sense.
+Changes in v7:
+- moved MIPI CSI-2 receiver driver into separate directory (Laurent)
+- rkcsi: fixed return values (Bryan)
+- rkcsi: fixed v4l2_get_link_freq to use pad instead of control
+  handler (Sakari)
+- rkcsi: added data-lanes property (Mehdi)
+- rkcif: fixed formatting (Bryan)
+- fixed "int" -> "unsigned int" in all for loops (Sakari)
+- rkcif-stream: fixed minimum number of required buffers (Mehdi)
+- rkcif-stream: used guards for the spinlock (Markus and Mehdi)
+- rkcif-stream: made driver less noisy with dev_dbg (Mehdi)
+- rkcif-stream: fixed issues detected by v4l2-compliance (Mehdi)
+- rkcif-dvp-capture: fixed return value propagation in _register()
+  (Mehdi)
+- removed stray "phy-names" from required properties (Rob's bot)
+- Link to v6: https://lore.kernel.org/r/20240220-rk3568-vicap-v6-0-d2f5fbee1551@collabora.com
 
-I'll do some tests later and check how it works with
-a GUI app and some real devices.
+Changes in v6:
+- rebased onto v6.15-rc1
+- renamed "MIPI CSI HOST" -> "MIPI CSI RECEIVER" (Laurent)
+- s/@wolfvision.net/@collabora.com where appropriate
+- renamed DVP delay property and moved it to the endpoint (Sakari)
+- implemented DT review comments (Krzysztof and Sakari)
+- implemented driver review comments (Sakari)
+- fixed issues raised by media-ci (yet again)
+- added documentation including a RK3568 topology (new patch 1)
+  (Sakari)
+- added patch that enables rkcif in the defconfig (new patch 9)
+- Link to v5: https://lore.kernel.org/r/20250306-v6-8-topic-rk3568-vicap-v5-0-f02152534f3c@wolfvision.net
 
-Regards,
-Mauro
+Changes in v5:
+- fixed issues raised by media-ci
+- fixed dt bindings (comments by Rob and Sakari)
+- fixed probe on systems with no DVP in DT (comment by Alexander)
+- fixed error path in register offset calculation
+- split off MIPI CSI host driver into separate module (comment
+  by Mehdi)
+- added MODULE_DEVICE_TABLE() for both drivers (comment by Mehdi)
+- Link to v4: https://lore.kernel.org/r/20250219-v6-8-topic-rk3568-vicap-v4-0-e906600ae3b0@wolfvision.net
+
+Changes in v4:
+- added support for the MIPI CSI-2 receiver (new patches 4, 6, 7, 10)
+- fixed asserts on stream stop
+- fixed register address lookup
+- fixed link validiation callback
+- fixed issues raised by Rob's bot, kernel test robot, and media-ci
+- Link to v3: https://lore.kernel.org/r/20250206-v6-8-topic-rk3568-vicap-v3-0-69d1f19e5c40@wolfvision.net
+
+Changes in v3:
+- renamed the driver "cif" -> "rkcif"
+- rebased onto v6.14-rc1
+- abstracted the generic INTERFACE+CROP part
+- addressed comments by Rob and Sakari
+- added V4L2 MPLANE formats to DVP
+- added patch that enables the RK3568 VICAP DVP on PF5 IO Expander
+- fixed formatting issues raised by media-ci bot
+- Link to v2: https://lore.kernel.org/r/20241217-v6-8-topic-rk3568-vicap-v2-0-b1d488fcc0d3@wolfvision.net
+
+Changes in v2:
+- merged with Mehdi's v13
+- refactored the complete driver towards a media controller centric driver
+- abstracted the generic ping-pong stream (can be used for DVP as well as for CSI-2)
+- switched to MPLANE API
+- added support for notifications
+- Link to v1: https://lore.kernel.org/r/20240220-v6-8-topic-rk3568-vicap-v1-0-2680a1fa640b@wolfvision.net
+
+---
+Mehdi Djait (2):
+      media: dt-bindings: add rockchip px30 vip
+      arm64: dts: rockchip: add the vip node to px30
+
+Michael Riesch (11):
+      Documentation: admin-guide: media: add rockchip camera interface
+      media: dt-bindings: video-interfaces: add defines for sampling modes
+      media: dt-bindings: add rockchip rk3568 vicap
+      media: dt-bindings: add rockchip rk3568 mipi csi-2 receiver
+      media: rockchip: add a driver for the rockchip camera interface
+      media: rockchip: add driver for mipi csi-2 receiver
+      media: rockchip: rkcif: add support for mipi csi-2 capture
+      arm64: defconfig: enable rockchip camera interface and mipi csi-2 receiver
+      arm64: dts: rockchip: add vicap node to rk356x
+      arm64: dts: rockchip: add mipi csi-2 receiver node to rk356x
+      arm64: dts: rockchip: enable vicap dvp on wolfvision pf5 io expander
+
+ .../admin-guide/media/rkcif-rk3568-vicap.dot       |  21 +
+ Documentation/admin-guide/media/rkcif.rst          |  83 ++
+ Documentation/admin-guide/media/v4l-drivers.rst    |   1 +
+ .../bindings/media/rockchip,px30-vip.yaml          | 122 +++
+ .../bindings/media/rockchip,rk3568-mipi-csi.yaml   | 144 ++++
+ .../bindings/media/rockchip,rk3568-vicap.yaml      | 170 ++++
+ MAINTAINERS                                        |  17 +
+ arch/arm64/boot/dts/rockchip/px30.dtsi             |  12 +
+ .../rk3568-wolfvision-pf5-io-expander.dtso         |  20 +
+ arch/arm64/boot/dts/rockchip/rk356x-base.dtsi      |  78 ++
+ arch/arm64/configs/defconfig                       |   2 +
+ drivers/media/platform/rockchip/Kconfig            |   2 +
+ drivers/media/platform/rockchip/Makefile           |   2 +
+ drivers/media/platform/rockchip/rkcif/Kconfig      |  18 +
+ drivers/media/platform/rockchip/rkcif/Makefile     |   7 +
+ .../platform/rockchip/rkcif/rkcif-capture-dvp.c    | 864 +++++++++++++++++++++
+ .../platform/rockchip/rkcif/rkcif-capture-dvp.h    |  24 +
+ .../platform/rockchip/rkcif/rkcif-capture-mipi.c   | 770 ++++++++++++++++++
+ .../platform/rockchip/rkcif/rkcif-capture-mipi.h   |  22 +
+ .../media/platform/rockchip/rkcif/rkcif-common.h   | 249 ++++++
+ drivers/media/platform/rockchip/rkcif/rkcif-dev.c  | 302 +++++++
+ .../platform/rockchip/rkcif/rkcif-interface.c      | 425 ++++++++++
+ .../platform/rockchip/rkcif/rkcif-interface.h      |  30 +
+ drivers/media/platform/rockchip/rkcif/rkcif-regs.h | 154 ++++
+ .../media/platform/rockchip/rkcif/rkcif-stream.c   | 637 +++++++++++++++
+ .../media/platform/rockchip/rkcif/rkcif-stream.h   |  31 +
+ drivers/media/platform/rockchip/rkcsi/Kconfig      |  16 +
+ drivers/media/platform/rockchip/rkcsi/Makefile     |   3 +
+ drivers/media/platform/rockchip/rkcsi/rkcsi.c      | 735 ++++++++++++++++++
+ include/dt-bindings/media/video-interfaces.h       |   4 +
+ 30 files changed, 4965 insertions(+)
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20240220-rk3568-vicap-b9b3f9925f44
+
+Best regards,
+-- 
+Michael Riesch <michael.riesch@collabora.com>
+
+
 
