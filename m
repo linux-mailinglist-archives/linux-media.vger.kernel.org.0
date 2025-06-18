@@ -1,247 +1,290 @@
-Return-Path: <linux-media+bounces-35182-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35183-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93639ADF04A
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 16:54:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDF2ADF0AB
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 17:05:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C8863BA453
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 14:54:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1C309189927C
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 15:05:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD6E02EE99C;
-	Wed, 18 Jun 2025 14:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2FCC2EE5EC;
+	Wed, 18 Jun 2025 15:05:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SP/+6VO9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="giiLXpEG"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6702EE980;
-	Wed, 18 Jun 2025 14:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549F9191F91;
+	Wed, 18 Jun 2025 15:05:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750258450; cv=none; b=Zr81Z+QJlUhCEMkikLgAasr5PrYGZqr1cLyHcz+CRVLRJOo59SZJFtM4SSndCXhY4EqHxhlGudvIeP8HiGGwHlZognS4vdUG5c1jlwwrm99t2AaoWukyncYoqWoFLGTxZ4s0ajAVIx5IDqug2bB2Sry4lE1iauMTMgF6e1BBS3A=
+	t=1750259108; cv=none; b=kt7+2c+G0zZPH1bvXaRrNG7jXrr1l3Qu+dQ5rwoNe0rvT6CRFwt4FKMhQIh6XPXxtBbpG+ckLQV1eX9/whGOMldZHAzuO8V2vuuhLeNVoEP/TWVhFQCTiAwOPt6lyawa2zDEOJZP4PMuEesQVnzUXaHYrxVSFNJX99dMSupFngo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750258450; c=relaxed/simple;
-	bh=Yhsltc1CyEN1UPsawbTXAY11+DGqgw+wyOFu+wS3V7w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nPBUOvySiWJcEIaN4nu8ATiQEpsgOF5EE2toEaHM8Hw8TZWo6uJdQ1aCGHrTHM3GnzhG4LJtLE6gpp/FdWDiogVsEN3eVh2zqsVgFSLYEDv3rOBmZh36sgvDEJS7P00FJLnPo6ksEl8q6Hwg1V/59a597V5JA1NuFhA/jg9ysz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SP/+6VO9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 667D7C4CEF1;
-	Wed, 18 Jun 2025 14:54:09 +0000 (UTC)
+	s=arc-20240116; t=1750259108; c=relaxed/simple;
+	bh=VtnJIaye9QWf6eeuqfTnhsu07/8qvnT9KCncjjEmYjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WuBsYl6HKX7WeLJVxufvP7W1oALU27ByJqEYyAWtNrkYhKJStaydEq3OwtrwNJ08RIdTAAhYq4yTLDLu1kFLKo+GtnB0kpsS4UlsEKWetEn0ZKRF59TFCNSTXSefnJaTv+qkp61i1cb740MYyaUnh241qWjxgicJqTByaJv3320=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=giiLXpEG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17CB0C4CEE7;
+	Wed, 18 Jun 2025 15:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750258449;
-	bh=Yhsltc1CyEN1UPsawbTXAY11+DGqgw+wyOFu+wS3V7w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SP/+6VO9a6ahuI5Z7FbBg+6D8kmUz7AunECCT31OcIf5eWQ5QgUdipsjhTpMplk5i
-	 ghSgxBM0+yEVVGfscj8m96Qt8fLccYpkda83eNXfNWeAk4Atm8UBJWMDQvQfVeW4p7
-	 P4r5Tvo8326+aGSjv0C2JAneaeXnea2W+CaFe9bQDvwZ+WxasaW3PLy9b8EOc7eqtY
-	 9xpkwSNTXBSaBsSco5rNCI4/a0H0+HSimwKePDvaKNCQWKjYx4OUeoniTHI3srzRWR
-	 Qsy8dqnQqIxfEdG3hEbJhortiwPU8CSf0q3fabdzJJsjHoOMV9/ptsGgDj6CJCfcib
-	 RDq8gDK3BQgwQ==
-Date: Wed, 18 Jun 2025 16:54:07 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Hans Verkuil <hans@jjverkuil.nl>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Mats Randgaard <matrandg@cisco.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] media: tc358743: Fix the RGB MBUS format
-Message-ID: <20250618-dancing-rare-skua-eb7ffd@houat>
-References: <20250612-csi-bgr-rgb-v1-0-dc8a309118f8@kernel.org>
- <20250612-csi-bgr-rgb-v1-3-dc8a309118f8@kernel.org>
- <CAPY8ntCYG8ufxpMkgBj1ZpSW-H2HObpcbQNg9tj+EXUM4PGkfQ@mail.gmail.com>
- <e9b61666-6bf0-4ec2-8524-0b6d94f028ef@jjverkuil.nl>
+	s=k20201202; t=1750259107;
+	bh=VtnJIaye9QWf6eeuqfTnhsu07/8qvnT9KCncjjEmYjA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=giiLXpEGziW0Txa2s8skcjTpwLMgLTP22ItcbaGtflq+let6aaoXQ/KmS2kuoEMRQ
+	 Tc//v6IJ3cwK2zqh9yK8NWUSsJ6pfYguqhR31SBVDHepwBIFBPYao53JZ6JwXI2bl4
+	 64632URanrjYlyAvceyJikaBaOItbh4nCNUkxRdmtCr7T8bp2b7hprBNYU5F9linKx
+	 wxdJS3CjBCDzNKwo1GVxBfw6ClK1LeyvqgdNS9wMBr2abZMeE8Y+v0Ak+qk6T361QR
+	 FwGk3hE4GMzc7QbI392hO2kOogNrWjpqTRQpTpw1gzPyHwgfxg4el4AHPtwM64gX1W
+	 ioE1C1tTliGdQ==
+Date: Wed, 18 Jun 2025 17:05:00 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Alexandre Courbot" <gnurou@gmail.com>
+Cc: "Albert Esteve" <aesteve@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Hans
+ Verkuil" <hverkuil@xs4all.nl>, "Jason Wang" <jasowang@redhat.com>, "Xuan
+ Zhuo" <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
+ <eperezma@redhat.com>, <gurchetansingh@google.com>,
+ <daniel.almeida@collabora.com>, <adelva@google.com>,
+ <changyeon@google.com>, <nicolas.dufresne@collabora.com>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <virtualization@lists.linux.dev>
+Subject: Re: [PATCH v3] media: add virtio-media driver
+Message-ID: <20250618170500.1e60aacf@sal.lan>
+In-Reply-To: <DAPQ9L3FCLIF.24FIDLQST2S1O@gmail.com>
+References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
+	<20250526141316.7e907032@foz.lan>
+	<DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
+	<20250527111311.105246f2@sal.lan>
+	<CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
+	<20250527153547.6603eaf4@sal.lan>
+	<CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
+	<20250617104938.09d21b7c@foz.lan>
+	<20250617110318.7c89d999@foz.lan>
+	<20250617122034.3e570b4e@foz.lan>
+	<DAPQ9L3FCLIF.24FIDLQST2S1O@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wjvoetypzbh3p6du"
-Content-Disposition: inline
-In-Reply-To: <e9b61666-6bf0-4ec2-8524-0b6d94f028ef@jjverkuil.nl>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Em Wed, 18 Jun 2025 23:27:13 +0900
+"Alexandre Courbot" <gnurou@gmail.com> escreveu:
 
---wjvoetypzbh3p6du
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 3/4] media: tc358743: Fix the RGB MBUS format
-MIME-Version: 1.0
+> On Tue Jun 17, 2025 at 7:20 PM JST, Mauro Carvalho Chehab wrote:
+> > Em Tue, 17 Jun 2025 11:03:18 +0200
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> >  
+> >> Em Tue, 17 Jun 2025 10:49:38 +0200
+> >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> >>   
+> >> > Hi Alex,
+> >> > 
+> >> > Em Tue, 27 May 2025 23:03:39 +0900
+> >> > Alexandre Courbot <gnurou@gmail.com> escreveu:
+> >> >     
+> >> > > > > > Btw, I was looking at:
+> >> > > > > >
+> >> > > > > >         https://github.com/chromeos/virtio-media
+> >> > > > > >
+> >> > > > > > (I'm assuming that this is the QEMU counterpart, right?)        
+> >> > > > >
+> >> > > > > crosvm actually, but QEMU support is also being worked on.        
+> >> > > >
+> >> > > > Do you have already QEMU patches? The best is to have the Kernel driver
+> >> > > > submitted altogether with QEMU, as Kernel developers need it to do the
+> >> > > > tests. In my case, I never use crosvm, and I don't have any Chromebook
+> >> > > > anymore.        
+> >> > > 
+> >> > > IIRC Albert Esteve was working on this, maybe he can share the current status.      
+> >> > 
+> >> > Any news regards to it?
+> >> >     
+> >> > > Note that crosvm does not require a Chromebook, you can build and run
+> >> > > it pretty easily on a regular PC. I have put together a document to
+> >> > > help with that:
+> >> > > 
+> >> > > https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md      
+> >> > 
+> >> > I started looking on it today. Already installed crossvm (I had to
+> >> > install libcap-devel to build it). Still, I'm not familiar with
+> >> > crossvm, which is a little be painful. In particular, how can I
+> >> > enable network on it and speedup it? With suggested parameters,
+> >> > it picked only one CPU, and very few memory on it:
+> >> > 
+> >> > 	# cat /proc/cpuinfo|grep processor
+> >> > 	processor       : 0
+> >> > 
+> >> > 	# free
+> >> >                total        used        free      shared  buff/cache   available
+> >> > 	Mem:          221876       34780      139712         272       56096      187096
+> >> > 	Swap:              0           0           0
+> >> > 
+> >> > I'd like to be able to compile things on it and use ssh/scp. So,
+> >> > the VM needs more CPUs, more memory, more network and GPU.  
+> >
+> > Found how to setup cpus and memory, but didn't find a way to setup
+> > network without running it as root. The gpu parameter has several
+> > options. Not sure what backend works well for media apps like qv4l2,
+> > camorama, X11, ...  
+> 
+> I'm afraid getting GPU and graphics in general to work is more involved
+> and tricky on a regular Linux setup (crosvm was primarily designed for
+> ChromeOS). If you really need it I can do some more research; most of my
+> tests have been done using v4l2-ctl or ffmpeg and saving the output on
+> disk for later inspection.
 
-On Mon, Jun 16, 2025 at 10:02:17AM +0200, Hans Verkuil wrote:
-> On 12/06/2025 19:01, Dave Stevenson wrote:
-> > On Thu, 12 Jun 2025 at 13:54, Maxime Ripard <mripard@kernel.org> wrote:
-> >>
-> >> The tc358743 is an HDMI to MIPI-CSI2 bridge. It supports two of the
-> >> three HDMI 1.4 video formats: RGB 4:4:4 and YCbCr 422.
-> >>
-> >> RGB 4:4:4 is converted to the MIPI-CSI2 RGB888 video format, and listed
-> >> in the driver as MEDIA_BUS_FMT_RGB888_1X24.
-> >>
-> >> Most CSI2 receiver drivers then map MEDIA_BUS_FMT_RGB888_1X24 to
-> >> V4L2_PIX_FMT_RGB24.
-> >>
-> >> However, V4L2_PIX_FMT_RGB24 is defined as having its color components =
-in
-> >> the R, G and B order, from left to right. MIPI-CSI2 however defines the
-> >> RGB888 format with blue first.
-> >>
-> >> This essentially means that the R and B will be swapped compared to wh=
-at
-> >> V4L2_PIX_FMT_RGB24 defines.
-> >>
-> >> The proper MBUS format would be BGR888, so let's use that.
-> >=20
-> > I know where you're coming from, but this driver has been in the tree
-> > since 2015, so there is a reasonable expectation of users. I've had an
-> > overlay for it in our kernel tree since 4.14 (July 2018), and I know
-> > of at least PiKVM [1] as a product based on it. I don't know if Cisco
-> > are still supporting devices with it in.
->=20
-> Those are all EOL, so no need to be concerned about that.
->=20
-> But it is the most commonly used HDMI-to-CSI bridge, so breaking uAPI is
-> a real concern.
+It was actually easier than what I expected, but it had to run
+as root. Due to that, I had to move it to a test machine that I
+use just for such kind of tests. I updated it to the Ubuntu 
+version 24.10, but crossvm refused to build even. I end needing
+to install rust via rustup, as only version 1.81.0 had what it is
+required to run with the needed features (network, media and gpu).
 
-Is it really broken?
+> >> > Btw, on a quick test with v4l2-compliance, something looks weird:
+> >> > I started a camera application at the host. Still, v4l2-compliance
+> >> > said successfully excecuted mmap:
+> >> > 
+> >> > Streaming ioctls:
+> >> >         test read/write: OK (Not Supported)
+> >> >         test blocking wait: OK
+> >> >         test MMAP (no poll): OK                           
+> >> >         test MMAP (select): OK                            
+> >> >         Vide[2025-06-17T08:44:49.177972817+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
+> >> > [2025-06-17T08:44:49.178164554+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
+> >> > o Capturtest MMAP (epoll): OK                             
+> >> >         test USERPTR (no poll): OK (Not Supported)
+> >> >         test USERPTR (select): OK (Not Supported)
+> >> >         test DMABUF (no poll): OK (Not Supported)
+> >> >         test DMABUF (select): OK (Not Supported)
+> >> > 
+> >> > Which doesn't make any sense, as the host OS should not allow access
+> >> > to mmap while streaming.    
+> >> 
+> >> Ah, this was with the "simple" device, not with the proxy one.
+> >> With the proxy one, I'm getting:
+> >> 
+> >> # v4l2-ctl --all
+> >> Driver Info:
+> >>         Driver name      : virtio-media
+> >>         Card type        : usb video: usb video
+> >>         Bus info         : platform:virtio-media
+> >>         Driver version   : 6.15.0
+> >>         Capabilities     : 0x84200001
+> >>                 Video Capture
+> >>                 Streaming
+> >>                 Extended Pix Format
+> >>                 Device Capabilities
+> >>         Device Caps      : 0x04200001
+> >>                 Video Capture
+> >>                 Streaming
+> >>                 Extended Pix Format
+> >> Priority: 2
+> >> Video input : 0 (Camera 1: ok)
+> >> Format Video Capture:
+> >>         Width/Height      : 1280/720
+> >>         Pixel Format      : 'MJPG' (Motion-JPEG)
+> >>         Field             : None
+> >>         Bytes per Line    : 0
+> >>         Size Image        : 1843200
+> >>         Colorspace        : sRGB
+> >>         Transfer Function : Rec. 709
+> >>         YCbCr/HSV Encoding: ITU-R 601
+> >>         Quantization      : Default (maps to Full Range)
+> >>         Flags             : 
+> >> Crop Capability Video Capture:
+> >>         Bounds      : Left 0, Top 0, Width 1280, Height 720
+> >>         Default     : Left 0, Top 0, Width 1280, Height 720
+> >>         Pixel Aspect: 1/1
+> >> Selection Video Capture: crop_default, Left 0, Top 0, Width 1280, Height 720, Flags: 
+> >> Selection Video Capture: crop_bounds, Left 0, Top 0, Width 1280, Height 720, Flags: 
+> >> Streaming Parameters Video Capture:
+> >>         Capabilities     : timeperframe
+> >>         Frames per second: 30.000 (30/1)
+> >>         Read buffers     : 0
+> >> 
+> >> User Controls
+> >> 
+> >>                      brightness 0x00980900 (int)    : min=-128 max=127 step=1 default=-11 value=-11
+> >>                        contrast 0x00980901 (int)    : min=0 max=255 step=1 default=148 value=148
+> >>                      saturation 0x00980902 (int)    : min=0 max=255 step=1 default=180 value=180
+> >>                             hue 0x00980903 (int)    : min=-128 max=127 step=1 default=0 value=0
+> >> 
+> >> # v4l2-compliance -d0 -s
+> >> 
+> >> Streaming ioctls:
+> >>         test read/write: OK (Not Supported)
+> >>         test blocking wait: OK
+> >>                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
+> >>         test MMAP (no poll): FAIL
+> >>                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
+> >>         test MMAP (select): FAIL
+> >>                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g_type()) != EINVAL
+> >>         test MMAP (epoll): FAIL
+> >>         test USERPTR (no poll): OK (Not Supported)
+> >>         test USERPTR (select): OK (Not Supported)
+> >> [2025-06-17T08:55:20.768760714+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
+> >>         test DMABUF (no poll): OK (Not Supported)
+> >> [2025-06-17T08:55:20.769745707+00:00 ERROR virtio_media::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
+> >>         test DMABUF (select): OK (Not Supported)
+> >> 
+> >> At the host, I'm getting:
+> >> 
+> >> Streaming ioctls:
+> >>         test read/write: OK (Not Supported)
+> >>         test blocking wait: OK
+> >>                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
+> >>         test MMAP (no poll): FAIL
+> >>                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
+> >>         test MMAP (select): FAIL
+> >>                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(1346): node->streamon(q.g_type()) != EINVAL
+> >>         test MMAP (epoll): FAIL
+> >>         test USERPTR (no poll): OK                        
+> >>         test USERPTR (select): OK                         
+> >>         test DMABUF: Cannot test, specify --expbuf-device  
+> 
+> These logs look ok to me: the MMAP tests are failing on the host, so
+> they are also expected to fail on the guest (still I expect regular
+> streaming to work on both). USERPTR is not supported on the guest, as
+> per your request to not support this memory type in new drivers. DMABUF
+> is not supported at all at the moment.
 
-Discussing it with Laurent and Sakari last week, we couldn't find any
-example of a userspace where the media format was set in stone and not
-propagated across the pipeline.
+In the specific case of a virtio driver, while it is OK for the first
+versions to support MMAP only, USERPTR support could make sense, as 
+this is not a real driver for a certain hardware, but instead it is
+replicating at the guest whatever the host driver has, which may or
+may not have MMAP.
 
-The uAPI however is *definitely* broken with unicam right now.
+That's said, I don't recall any driver with USERPTR and without MMAP
+those days. I did a quick check: VB2 devices always seem to have MMAP.
 
-> See more in my review comment in the code below.
->=20
-> > Whilst the pixel format may now be considered to be incorrect,
-> > changing it will break userspace applications that have been using it
-> > for those 10 years if they're explicitly looking for
-> > MEDIA_BUS_FMT_RGB888_1X24 or the mapping of it through to
-> > V4L2_PIX_FMT_RGB24.
-> > The kernel docs at [2] quote Linus as saying
-> > "If you break existing user space setups THAT IS A REGRESSION.
-> > It's not ok to say "but we'll fix the user space setup"
-> > Really. NOT OK."
-> >=20
-> > I'm thinking of GStreamer if the format has been specified explicitly
-> > - it'll fail to negotiate due to v4l2src saying it can't handle the
-> > caps.
-> >=20
-> > Yes it sucks as a situation, but I'm not sure what the best solution
-> > is. Potentially accepting both MEDIA_BUS_FMT_RGB888_1X24 and
-> > MEDIA_BUS_FMT_BGR888_1X24 as valid MBUS codes for RGB, alongside
-> > MEDIA_BUS_FMT_UYVY8_1X16 for UYVY?
-> >=20
-> >   Dave
-> >=20
-> > [1] https://pikvm.org/
-> > [2] https://www.kernel.org/doc/html/latest/process/handling-regressions=
-=2Ehtml#quotes-from-linus-about-regression
-> >=20
-> >> Fixes: d32d98642de6 ("[media] Driver for Toshiba TC358743 HDMI to CSI-=
-2 bridge")
-> >> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> >> ---
-> >>  drivers/media/i2c/tc358743.c | 10 +++++-----
-> >>  1 file changed, 5 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743=
-=2Ec
-> >> index ca0b0b9bda1755313f066ba36ab218873b9ae438..a1c164a7716a10b0cb9ff3=
-8f88c0513b45f24771 100644
-> >> --- a/drivers/media/i2c/tc358743.c
-> >> +++ b/drivers/media/i2c/tc358743.c
-> >> @@ -688,11 +688,11 @@ static void tc358743_set_csi_color_space(struct =
-v4l2_subdev *sd)
-> >>                 mutex_lock(&state->confctl_mutex);
-> >>                 i2c_wr16_and_or(sd, CONFCTL, ~MASK_YCBCRFMT,
-> >>                                 MASK_YCBCRFMT_422_8_BIT);
-> >>                 mutex_unlock(&state->confctl_mutex);
-> >>                 break;
-> >> -       case MEDIA_BUS_FMT_RGB888_1X24:
-> >> +       case MEDIA_BUS_FMT_BGR888_1X24:
-> >>                 v4l2_dbg(2, debug, sd, "%s: RGB 888 24-bit\n", __func_=
-_);
-> >>                 i2c_wr8_and_or(sd, VOUT_SET2,
-> >>                                 ~(MASK_SEL422 | MASK_VOUT_422FIL_100) =
-& 0xff,
-> >>                                 0x00);
-> >>                 i2c_wr8_and_or(sd, VI_REP, ~MASK_VOUT_COLOR_SEL & 0xff,
-> >> @@ -1353,11 +1353,11 @@ static int tc358743_log_status(struct v4l2_sub=
-dev *sd)
-> >>                         (i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT) ?
-> >>                         "yes" : "no");
-> >>         v4l2_info(sd, "Color space: %s\n",
-> >>                         state->mbus_fmt_code =3D=3D MEDIA_BUS_FMT_UYVY=
-8_1X16 ?
-> >>                         "YCbCr 422 16-bit" :
-> >> -                       state->mbus_fmt_code =3D=3D MEDIA_BUS_FMT_RGB8=
-88_1X24 ?
-> >> +                       state->mbus_fmt_code =3D=3D MEDIA_BUS_FMT_BGR8=
-88_1X24 ?
-> >>                         "RGB 888 24-bit" : "Unsupported");
-> >>
-> >>         v4l2_info(sd, "-----%s status-----\n", is_hdmi(sd) ? "HDMI" : =
-"DVI-D");
-> >>         v4l2_info(sd, "HDCP encrypted content: %s\n",
-> >>                         hdmi_sys_status & MASK_S_HDCP ? "yes" : "no");
-> >> @@ -1691,11 +1691,11 @@ static int tc358743_enum_mbus_code(struct v4l2=
-_subdev *sd,
-> >>                 struct v4l2_subdev_state *sd_state,
-> >>                 struct v4l2_subdev_mbus_code_enum *code)
-> >>  {
-> >>         switch (code->index) {
-> >>         case 0:
-> >> -               code->code =3D MEDIA_BUS_FMT_RGB888_1X24;
-> >> +               code->code =3D MEDIA_BUS_FMT_BGR888_1X24;
->=20
-> So would this change break or fix the formats[] table in:
->=20
-> drivers/media/platform/raspberrypi/rp1-cfe/cfe-fmts.h
+-
 
-It's pretty much the same table than unicam, and I don't believe it
-does. For both those drivers the pixels are stored in memory in the CSI
-wire order, so the proper format to use is BGR24 for CSI, not RGB24.
+There is one case where only read ioctl is supported: pvrusb2, which
+is probably not interesting enough those days, but IMHO, for the few
+cases where a device can't be used at the guest due to the lack of a 
+compatible streaming API, virtio-media should not expose it to the
+guest and/or issue an error or warning.
 
-> Are there other bridge drivers that misinterpret MEDIA_BUS_FMT_RGB888_1X24
-> and/or MEDIA_BUS_FMT_RGB888_1X24?
+> If the host cannot pass compliance, the guest will inevitably suffer
+> from the same shortcomings. :) But at least on the devices I tested I
+> was still able to stream something onto the disk and the result was
+> correct.
 
-Yes, it's kind of a mess.
+Makes sense.
 
-adv748x, ds90ub960 and tc358743 report RGB888, and ov5640 reports
-BGR888.
+I'll do some tests later and check how it works with
+a GUI app and some real devices.
 
-Then we have alvium CSI2 that supports both, and can swap color
-components, so that one isn't a concern.
-
-And finally, we have st-mipid02 which is also affected, but is a
-receiver so it's easier to solve.
-
-For RGB565, ov5640, mt9m114 and gc2145 are in that list, but the pixel
-representation isn't the same than RGB888, so it's not clear to me how
-they are affected.
-
-For RGB666, no v4l2 drivers are affected, but a fair bit of KMS drivers
-that use media bus formats still might.
-
-Maxime
-
---wjvoetypzbh3p6du
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaFLTCgAKCRAnX84Zoj2+
-dokaAXkBJ/myGXq+sMRiwrLkp0m/tKS5T6bgTwZx10WLW9rFuX1dThTAYyIGM43F
-2uSU9N8BfA++uZPWfPwfC8I+PKY8TwXM6yjVCZf7TQtPKOTxTpFWlgh1knpR6kYI
-7X2+D6+s2g==
-=8wbf
------END PGP SIGNATURE-----
-
---wjvoetypzbh3p6du--
+Regards,
+Mauro
 
