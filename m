@@ -1,90 +1,98 @@
-Return-Path: <linux-media+bounces-35141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35143-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3A0ADE690
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 11:22:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EE8ADE78F
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 11:59:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CE611791F2
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 09:22:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F6A33B4488
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 09:59:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79B2428506B;
-	Wed, 18 Jun 2025 09:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8B3B285068;
+	Wed, 18 Jun 2025 09:59:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lvnQRKX4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GbNgSpEK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2045.outbound.protection.outlook.com [40.107.223.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5838285055;
-	Wed, 18 Jun 2025 09:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750238455; cv=fail; b=XRfxVBGCeIxHjNi8dOwcOSlWj19JMLQuLBWts3evds4MMlBLjGNlx8M2nSrd+u11NMRiGdsoQw2lLIlqh8iWhyPDlnsQ0IP55/SD8rmNiJu5Lfa/TeUPtM5ov7ZnG+1zVOCHCV31FC2zMX703Tsj1Bj9snbozsTwKyWyVK5tSnU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750238455; c=relaxed/simple;
-	bh=UP3YDN8HC2yUxPpaTk0oaf2B9RWOIytfyWfU40dNOAc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JxRAMKbPds9BccnYM0bsAw1rOGk0/r8gjmoEU2yZRSiTJC9opyYx+UYVhxJY0sP9bPZaqbd+zGmtA6T+jA//i4fZJziNyBoqsKMhV+aUe0zFo/m66Cm0Hj7yYx1961X61p3in7TXcwcVnL+V8SGbn7FcVIKxGk1cyPXd07FlC3I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lvnQRKX4; arc=fail smtp.client-ip=40.107.223.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MOnkyVkast+rOpanvx6Bghg3mICFGvytDdGHaRYgZ0IVy/zkchNJKWi6xoD2chkegNHyMnVwOldwBnUmh2H0i3mTf6TUek8dL5PzfICO49iG3UXqa7YgzO+pL0JJYX4xOyTYn8k6AvTWe+Hg9c7aCU5vC/+dzokZyEXLxZxH6F8fxfyhxT0+kzUKQ86wBVCedlwnkLEuekvg9dAx48bHL+H1SG/eTx7GNEplsYKGr0Qx4oCWLn6YUUZcGVQQyLnugp13kg2M7H6knuUF7Ul3SGWylnTwg7ihWh1nPq2c2Kl2CReW0VufCZTBHsm8kH62ncCO7jn8whHpBZ4X+bBk3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zynAxN2Y5NO1WagF9Ei4gkCHTi2vkG7SgfJlmm0z278=;
- b=tP+3RrULILTujLMFdjsDmqcn2H1Owvt7akj7NBq+pCwfzMZmEbFyJ9JSl35EfAkdXRPJEGopKwVbOPyhLzAreln3vFnRpgbBPKARU+baSoTmCTRDoOXkXyZVxdpJ2WL30cz+GhQF+6ylbIVBAX/88Uko0bBH+hv8VwtrcQHYgUJGwGtgRZgWCHY5cf7/UfPZpZT78V3dnNPqr3e36Yrb+tiTF9xfPNDWj7snf34bOKnMK1Uvzrs/SZmTerYwmgmvZElX2q6cJp9vHJlU3l+/l6OmDYSc8jzyjzmqfPQZ9TV0SHShb/rfMfjEucKIYK52Ok/nhlaekqUfjeeXLTYfFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zynAxN2Y5NO1WagF9Ei4gkCHTi2vkG7SgfJlmm0z278=;
- b=lvnQRKX4f1aZjRsrRSKiL5HPZYg/HW/csPfcpvo+0LFxG7WiyPYFSEjdpWuKKYf5sd+2EBnyhMJrkYh1KFHWaXMoQQN09oxRViNNW133qnB9RLY0BJ98qSveg6q0zp3lmQxojSKgXb8c3Q/ghsJl3miHIfZCLm+H3LhbVEf8ofI=
-Received: from BN9PR03CA0271.namprd03.prod.outlook.com (2603:10b6:408:f5::6)
- by MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.19; Wed, 18 Jun
- 2025 09:20:50 +0000
-Received: from BN3PEPF0000B371.namprd21.prod.outlook.com
- (2603:10b6:408:f5:cafe::3) by BN9PR03CA0271.outlook.office365.com
- (2603:10b6:408:f5::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.19 via Frontend Transport; Wed,
- 18 Jun 2025 09:20:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN3PEPF0000B371.mail.protection.outlook.com (10.167.243.168) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8880.0 via Frontend Transport; Wed, 18 Jun 2025 09:20:50 +0000
-Received: from 555e2b870847.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 18 Jun
- 2025 04:20:46 -0500
-From: Bin Du <Bin.Du@amd.com>
-To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
-	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
-	<sakari.ailus@linux.intel.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
-	<gjorgji.rosikopulos@amd.com>, <Phil.Jawich@amd.com>,
-	<Dominic.Antony@amd.com>, <Svetoslav.Stoilov@amd.com>, <bin.du@amd.com>, "Bin
- Du" <Bin.Du@amd.com>
-Subject: [PATCH v2 8/8] Documentation: add documentation of AMD isp 4 driver
-Date: Wed, 18 Jun 2025 17:19:59 +0800
-Message-ID: <20250618091959.68293-9-Bin.Du@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250618091959.68293-1-Bin.Du@amd.com>
-References: <20250618091959.68293-1-Bin.Du@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0DF27EFFA;
+	Wed, 18 Jun 2025 09:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750240773; cv=none; b=bTijEZaUaPzN6yKrQYTPG41bMgsotdEL1/BqU9wuOmnRtiq/Z5sGncJAON1F595sYGjh9maMgVliPF/aGN18BAvIU3dwjOLTyIf4I2iDMASV5RA55WYc7yF/dF1xricg8lPuqXQ8kZDtkwV8ivLap5HIwg5ixcqJZdv77YuTm54=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750240773; c=relaxed/simple;
+	bh=520KiWvXrcQtkIK6AxinUL09qyPjmr3U+uJVGVU6oRM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NifrgMgNAtHDz/L40IPsDaKeNhlyJnpBdeJ79osUNQYI6+nFkS2FkbFTcKeYLUKPSkxix5wIZU8KFKaep3n31DYzFsWkuXQk+jLOyMR+lDeDDFUiBtkRXHOQ92gCI2qH1aAkLZvYxlmHM/W2F6WV2O3ZlwSY+Sv6R7gUfAoNCOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GbNgSpEK; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6088d856c6eso11906761a12.0;
+        Wed, 18 Jun 2025 02:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750240769; x=1750845569; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nb8kcE8Vj7pHO8AvIl8n8fa9esDGC6u2N5gjLDQTFag=;
+        b=GbNgSpEKwplQHncZrftdhmCoAPb6aiF5Nvd4t2aDpleY/HaWlVpP3bDZokLC3JtN4p
+         7r7t4OWrdF0BAYBSx9J3odRggfZX8Xb09prcBQ9x3D6zc4cBPbjfxBYEYUb+9U5x59WV
+         gzDcxOatICktzpPnfP+O98j9YNZf0/81uMk4HPgdpW65C8mk74cqDDLjNMNoCiMkN5xf
+         7dbeIoIvZw0hO+XS81igL1LtRvrW8usURJI7yeSQJWKw68KJtZAg2CXwiPdGfWCe0ltR
+         9AErjZS5IdMUWsq58YQSuOy8cOADAWa7m3xmI+Jq2QtJ05fWs1frQ7NdnfnYMAJlAIKM
+         KPnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750240769; x=1750845569;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nb8kcE8Vj7pHO8AvIl8n8fa9esDGC6u2N5gjLDQTFag=;
+        b=hTD9HyJTPIToRpKe/BPg9lwdIN6cAFatHKwiUZn5hxbO7fgf19mRWFgPMt7sG5iJHv
+         g4Rqrsh0jxy9xozNx4bL5o5NjCC3KzfcRrKKGmUE0ha5vulfb1+c25vjjkWd2M++esGA
+         hJpoNyKHhT6myLmUfF3X0Ubuhb29hPRaH59dx9Peouwdla3KOx9nhZgM+BL1bo6PVrnj
+         xah+I6rtMT7co1l7lFs9XsiXUu660rrb02z9vXrR+EMOARS5i6LuiiPIoVnENUmfl81A
+         zMoiFasXR6c/1P+5IvqcRE4smBBLxaC2o2/tn2dJAHhaxrtF8ik1lQNQ2yyfl05YNyzU
+         8zsA==
+X-Forwarded-Encrypted: i=1; AJvYcCWtQC1ISF/XJWa6I3MMcpFvG7TroMwB2AQDbZEV975jQ4k5HJLwS/Vj1JFy72iFLex625ucagiv1RK9@vger.kernel.org, AJvYcCWvoJxqCP4/YcKi+NMGyhEFgNqZSdu52w/nv5VhOG9g1U1mpLjzXY4qYVZBGJlC+Hbs6Wvo4oCFCTaMTGxe@vger.kernel.org, AJvYcCXfb71ZlB62S0fiYlIYfVQBkIJ195vniZBdHt1qKsVU72HTmJRZmU0IGNZquLjt34ED+rA99V8aiKf9Lg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyGifFXK61pzWYIbdwCMizN3BcVBmORgdyppDWvhidwB2aM//A
+	UDiSoG0GL5ihe3ry60LCJ/3FNWpdHQ9Is3gIINDcWMrAp2ElYEWp56YR
+X-Gm-Gg: ASbGncv05OXBGK6HRRqZCFKrqFU6s/TNnZ8wNplh+gDuAGfqUu6+vw6KP5Y/MBK6ON5
+	GmRxEQ37qXYlQOiF+y/eBWhsiObxYpGBXEiDFk512sPoG2VYS5fD16y5Z7b7SraQLuvuxoZHjQz
+	Euw57WTpmDX4lTPdOV/Cp1aGO347Q1FN0MYzc0+dAZ80QnbuBkEnLpOHNNpf3d1++OnKmTfU2T4
+	zaHm/R+HPMSPTV4VfuM2hrLd2zZXh6CWcrBFTPqkq/b2J8x3IeZuNP7+yhwfvSHuqcSqnJfmFd/
+	iqK1aPribqJ1JzUtJ/97cD7jKw8rJje0BA0oPvXuvSIllImI1GPYDQ5wFsB12eHaGYYTtDSeKE8
+	=
+X-Google-Smtp-Source: AGHT+IHI0+XDA8Gi5KOVg0qd6P6d4IGRmPoZztS7Ni3ftJtU4X+e7N5hqKY38i8kTJsON2ZOblp4Bg==
+X-Received: by 2002:a50:d507:0:b0:608:f973:1bd8 with SMTP id 4fb4d7f45d1cf-608f9731fc3mr9377973a12.34.1750240769014;
+        Wed, 18 Jun 2025 02:59:29 -0700 (PDT)
+Received: from demon-pc.localdomain ([188.27.131.45])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-608b4a93b03sm9384691a12.54.2025.06.18.02.59.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 02:59:28 -0700 (PDT)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-media@vger.kernel.org (open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-kernel@vger.kernel.org (open list),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-gpio@vger.kernel.org (open list:GPIO SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)),
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [PATCH v4 00/19] media: i2c: add Maxim GMSL2/3 serializer and deserializer drivers
+Date: Wed, 18 Jun 2025 12:58:36 +0300
+Message-ID: <20250618095858.2145209-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -92,168 +100,321 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B371:EE_|MN2PR12MB4488:EE_
-X-MS-Office365-Filtering-Correlation-Id: bcc2a434-e717-4618-bcf9-08ddae496ab3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?lbeB/erPAbQKtVInUZUziEwv1tN0k0NUIhj4ifuw41ohMJ5ysh5l/9QjY9Bl?=
- =?us-ascii?Q?5iAdC4SKU6UzubMYWxVQjp7X0bBgtAMAfBZM0RRE3V8/0yx+MzZR/lOtNiQO?=
- =?us-ascii?Q?+VO3cJp9yAkrA3e/sF3jeGbi1574Vr3ThvBfB2eKrImL8NhcdKilQ2yj/HKW?=
- =?us-ascii?Q?NxAG1ExPvOauwixR3uqaLcuOBH8FHXU5fprorKRhEzJPbzTlNl+vzPa1pyGY?=
- =?us-ascii?Q?CyPl+T5Us6O4rStqDAVlCxlsHPIU83aHIOdOJCfPnAE2iptf0HjiX+NdHgUc?=
- =?us-ascii?Q?AgUxuDlXHUq0LL0FMpnCpFwwg7q6Rr9TkkjRg3je/erh2thKqmmjak4SKn+t?=
- =?us-ascii?Q?if70O8KwznLWREjKlpFGFYHxZbxHSaYflb2Slfbs6RklWyP6rOB/klA4ri90?=
- =?us-ascii?Q?pfFhZlNESVMBhbPjypUR88zNM/XpY9wT8X5rB5wSzw1uihM2UMz+SlSxt5F3?=
- =?us-ascii?Q?ndGiiEkfgEbe7AJ1e3Kl6p67flGAKm7gEJmfLvIMqoHWfAlxVwq7knJPEIga?=
- =?us-ascii?Q?KfkFFcMAB3hQg7HfIHKI1oNYjhDd1cpUiKUlVHsd+zH5gbnKzYJxxsSCMoUW?=
- =?us-ascii?Q?kSzXtuCF+WZRUqgjw2t58zqlyut4SDOCA0IwtXp4D5pvbE8MDTHZB+5k/NnE?=
- =?us-ascii?Q?eHosYgigd4dKQ/Jy/2LZFzYdI9zgpi5V99Ya7ElLTaH2MXaRAUF+faB2BzPq?=
- =?us-ascii?Q?LDF45NYSBKv1ITH1mKseKDkEx2L1/9H9tylfD+0zjs0q4ciltuadkMX8bX7g?=
- =?us-ascii?Q?XNSsgc49lIRSoTagWxAIvLBHPiCxC96TYDwl8g0VpdRT3427slEqsgpc2yWu?=
- =?us-ascii?Q?RQ9HKjhE7mFlu0Ji0pBhfWnJPNt/jDi8l5190saPlYjhyIW0vCgdmwuBDFcL?=
- =?us-ascii?Q?bQSNClwsUdB1yT9K5UPJV5Ctu5DPGuFxFnsnHo7PXsB2lqd8LpBWLdrJweMV?=
- =?us-ascii?Q?RUzhDPxnzAqv4v2R4vE2TbfrKBdxIU1pFqygwTv0094qwMELi5VZTMzO4H0s?=
- =?us-ascii?Q?DYOXssFBIkH+/rI2n2HKCxr+8SWuKUWggsjEy/MRT+oqVEYQddZoYgpwVR/a?=
- =?us-ascii?Q?PgWvLJIAkx96KjmJmUcEABjBTyJ4DK8HfQ+d2niC5/bHQXKBO/nh4MWr/kc1?=
- =?us-ascii?Q?7wEIMqHnHd8BPL+Z62tO4dPHL18siOhcG51X6M1VbjFENPCWPU2PuuZ5YhQm?=
- =?us-ascii?Q?kxuu5Y7YPFV5YE9wJZM9L9y0GoHtRu5tHF39mugfGCbzJ+VuXBFwN0gHgpA0?=
- =?us-ascii?Q?gN1gqZ7NMEfVq9h6iuZmO+18+tTQlTDxYFwUqtsGyif3Ow3W35Xs5drYBpBD?=
- =?us-ascii?Q?OR06eTWAcYCzYmHpNNLFhkeljcSXg2EvPMF1FeUK6e48SpZavcotrBXrx6lM?=
- =?us-ascii?Q?zkoglqbLcmhd3NWd4ymaqIBfmREb6gtF9+7ZlrI+cy/AAgDGaKHpMb/LAyxX?=
- =?us-ascii?Q?TLw/sgABNj5eQRXXYu9ZFzNlSv0sZIr1+WM/v/kgwE6oDqRRp4YJsUwv4yIr?=
- =?us-ascii?Q?EYJHrVPeOv+yWFj6MjBh7NKY/ozkfzUPYHqr?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 09:20:50.2067
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcc2a434-e717-4618-bcf9-08ddae496ab3
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B371.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4488
 
-Add documentation for AMD isp 4 and describe the main components
+This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+replacing the few GMSL2 drivers already in upstream, and introducing a
+common framework that can be used to implement such GMSL chips, which
+avoids code duplication while also adding support for previously
+unsupported features.
 
-Signed-off-by: Bin Du <Bin.Du@amd.com>
-Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
----
- Documentation/admin-guide/media/amdisp4-1.rst | 64 +++++++++++++++++++
- Documentation/admin-guide/media/amdisp4.dot   |  8 +++
- MAINTAINERS                                   |  2 +
- 3 files changed, 74 insertions(+)
- create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
- create mode 100644 Documentation/admin-guide/media/amdisp4.dot
+While the normally acceptable and polite way would be to extend the
+current mainline drivers, the choice was made here to add a totally new
+set of drivers. The current drivers support only a small subset of the
+possible features, and only a few devices, so the end result after
+extending them would in any case be essentially fully rewritten, new
+drivers.
 
-diff --git a/Documentation/admin-guide/media/amdisp4-1.rst b/Documentation/admin-guide/media/amdisp4-1.rst
-new file mode 100644
-index 000000000000..417b15af689a
---- /dev/null
-+++ b/Documentation/admin-guide/media/amdisp4-1.rst
-@@ -0,0 +1,64 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: <isonum.txt>
-+
-+====================================
-+AMD Image Signal Processor (amdisp4)
-+====================================
-+
-+Introduction
-+============
-+
-+This file documents the driver for the AMD ISP4 that is part of
-+AMD Ryzen AI Max 385 SoC.
-+
-+The driver is located under drivers/media/platform/amd/isp4 and uses
-+the Media-Controller API.
-+
-+Topology
-+========
-+
-+.. _amdisp4_topology_graph:
-+
-+.. kernel-figure:: amdisp4.dot
-+     :alt:   Diagram of the media pipeline topology
-+     :align: center
-+
-+
-+
-+The driver has 1 sub-device:
-+
-+- isp: used to resize and process bayer raw frames in to yuv.
-+
-+The driver has 1 video device:
-+
-+- <capture video device: capture device for retrieving images.
-+
-+
-+  - ISP4 Image Signal Processing Subdevice Node
-+-----------------------------------------------
-+
-+The isp4 is represented as a single V4L2 subdev, the sub-device does not
-+provide interface to the user space. The sub-device is connected to one video node
-+(isp4_capture) with immutable active link. The isp entity is connected
-+to sensor pad 0 and receives the frames using CSI-2 protocol. The sub-device is
-+also responsible to configure CSI2-2 receiver.
-+The sub-device processes bayer raw data from the connected sensor and output
-+them to different YUV formats. The isp also has scaling capabilities.
-+
-+  - isp4_capture - Frames Capture Video Node
-+--------------------------------------------
-+
-+Isp4_capture is a capture device to capture frames to memory.
-+This entity is the DMA engine that write the frames to memory.
-+The entity is connected to isp4 sub-device.
-+
-+Capturing Video Frames Example
-+==============================
-+
-+.. code-block:: bash
-+
-+         # set the links
-+
-+         # start streaming:
-+         v4l2-ctl "-d" "/dev/video0" "--set-fmt-video=width=1920,height=1080,pixelformat=NV12" "--stream-mmap" "--stream-count=10"
-diff --git a/Documentation/admin-guide/media/amdisp4.dot b/Documentation/admin-guide/media/amdisp4.dot
-new file mode 100644
-index 000000000000..a4c2f0cceb30
---- /dev/null
-+++ b/Documentation/admin-guide/media/amdisp4.dot
-@@ -0,0 +1,8 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0} | amd isp4\n | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port1 -> n00000004 [style=bold]
-+	n00000004 [label="Preview\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n0000000a [label="{{} | ov05c10 22-0010\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000000a:port0 -> n00000001:port0 [style=bold]
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 15070afb14b5..e4455bde376f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1113,6 +1113,8 @@ M:	Nirujogi Pratap <pratap.nirujogi@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-+F:	Documentation/admin-guide/media/amdisp4-1.rst
-+F:	Documentation/admin-guide/media/amdisp4.dot
- F:	drivers/media/platform/amd/Kconfig
- F:	drivers/media/platform/amd/Makefile
- F:	drivers/media/platform/amd/isp4/*
+This series depends on support for internal pads, for which a patch has
+been added.
+
+The previous version is at:
+https://lore.kernel.org/lkml/20250512212832.3674722-1-demonsingur@gmail.com
+
+The following deserializers are supported:
+ * MAX96712 (already exists in staging)
+ * MAX96714 (already exists)
+ * MAX96714F (already exists)
+ * MAX96714R (GMSL2)
+ * MAX96716 (GMSL2)
+ * MAX96724 (already exists as part of existing MAX96712 driver)
+ * MAX96724F (GMSL2)
+ * MAX96724R (GMSL2)
+ * MAX9296A (GMSL2)
+ * MAX96792A (GMSL3)
+
+The following serializers are supported:
+ * MAX96717 (already exists)
+ * MAX9295A (GMSL2)
+ * MAX96793 (GMSL3)
+
+Known backward compatibility breakages:
+ * No default routing. Default routing has been intentionally ommitted
+   as the devices support quite complex routing and it would be
+   unfeasible to provide sane defaults for multi-link deserialziers.
+   It is expected that userspace programs would set appropritate
+   routing.
+
+The following list enumerates new features that are supported by the
+common framework and their respective chip-specific drivers:
+ * Full Streams API support. Most deserializers have support for more
+   than one link, and more than one PHY. Streams support allows
+   configuration of routing between these links and PHYs.
+
+ * .get_frame_desc() support. Both the serializers and deserializers
+   implement this to query and provide frame descriptor data. This is
+   used in features explained in-depth below.
+
+ * .get_mbus_config() support. The deserializers implement this to allow
+   upstream devices to query the link frequency of its pads.
+
+ * Address translation with I2C ATR for the serializers.
+
+ * I2C ATR translation - some deserializers cannot do muxing since I2C
+   communication channel masking is not available per-link, and the only
+   other way to select links is to turn them off, causing link resets.
+   For such cases, I2C ATR is used to change the address of the
+   serializers at probe time.
+
+ * Automatic GMSL link version negotiation between GMSL3, GMSL2 6Gbps, GMSL2
+   3Gbps.
+
+ * Automatic stream id selection for deserializers which need serializers to
+   stream on unique stream ids.
+
+ * Automatic VC remapping on the deserializers. VCs are picked so that
+   if they were unique on the sink pad, they will end up as unique on
+   the source pad they are routed to too, prioritizing using the same
+   VC ID as the sink pad, to facilitate the possibility of using tunnel
+   mode.
+
+ * Automatic pixel mode / tunnel mode selection. Tunnel mode is used
+   when VC IDs do not need to be changed and all hardware supports
+   tunnel mode, otherwise, pixel mode is used. The serializers are
+   automatically switched between the two by using a private API.
+
+ * Automatic double mode selection. In pixel mode, double mode can be
+   used to pack two pixels into a single data unit, optimizing bandwidth
+   usage. The serializers are automatically set up to support the double
+   modes determined by the deserializers using a private API.
+
+ * Automatic data padding. In pixel mode, if the data being transferred
+   uses two different BPPs, data needs to be padded. The serializers
+   automatically set this up depending on the configured double mode
+   settings and incoming data types.
+
+ * Logging. Both the deserializers and serializers implement the V4L2
+   .log_status() ops to allow debugging of the internal state and
+   important chip status registers.
+
+ * PHY modes. Deserializer chips commonly have more than a single PHY.
+   The firmware ports are parsed to determine the modes in which to
+   configure the PHYs (2x4, 4x2, 1x4+2x2, 2x2+1x4, and variations using
+   fewer lanes).
+
+ * Serializer pinctrl. Serializers implement pinctrl to allow setting
+   configs which would otherwise be inaccessible through GPIO: TX/RX via
+   GMSL link, pull-up & pull-down (with strength), open-drain &
+   push-pull, slew rate, RCLK pin selection.
+
+ * TPG with selectable formats, resolutions and framerates for both
+   serializers and deserializers.
+
+The drivers have been tested on the following hardware combinations, but
+further testing is welcome to ensure no / minimal breakage:
+ * Raspberry Pi 5 + MAX9296A + 2xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96714 + 1xMAX96717 + 1xIMX219
+ * Raspberry Pi 5 + MAX96716A + 2xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96712 + 4xMAX96717 + 4xIMX219
+ * Raspberry Pi 5 + MAX96724 + 4xMAX96717 + 4xIMX219
+ * Raspberry Pi 5 + MAX96792A + 1xMAX96793 + 1xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96792A + 2xMAX96717 + 2xIMX219
+ * Renesas V4H + MAX96712 + 2xMAX96717 + 2xIMX219
+
+Analog Devices is taking responsibility for the maintenance of these
+drivers and common framework, and plans to add support for new
+broad-market chips on top of them.
+
+Special thanks go to Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+for testing the drivers, helping debug and coming up with ideas /
+implementations for various features.
+
+V4:
+ * max_des: fix infinite version loop
+ * max_des: fix pipe link id when there are more pipes than links
+ * max_des: implement setting pipe link
+ * max_des: do not pass routing to phy update
+ * max_des: move GMSL version strings to max_serdes
+ * max_des: split finding existing VC remap from adding a new one
+ * max_des: add tracking for in-use pipes
+ * max_des: skip unused pipes when finding / setting pixel/tunnel mode
+ * max_des: simplify remap code
+ * max_des: split set_pipe_phy() into set_pipe_tunnel_phy()
+
+ * max_ser: clean up i2c_xlates printing
+ * max_ser: fix changing serializer address
+ * max_ser: move non-continuous mode check into max96717 driver
+
+ * max96724: use regmap_set_bits for STREAM_SEL_ALL
+ * max96724: match surrounding indent for MAX96724_PHY1_ALT_CLOCK
+ * max96724: fix setting invalid PHY to 1 when PHY 0 is in 4-lane mode
+ * max96724: remove support for setting pipe phy from max96712
+ * max96724: fix setting double mode on pipes 4-7
+ * max96724: drop powerdown gpios
+
+ * max96717: use gpio_chip's set_rv
+
+ * max9296a: switch versions to unsigned int
+ * max9296a: remove parantheses from MAX9296A_MIPI_PHY18/20
+ * max9296a: fix printing of PHY packet counts
+ * max9296a: fix phy_hw_ids size
+
+ * remove usage of cammel case in defines
+ * move field_get/prep to max_serdes.h
+ * rework stream id setup
+ * rework tunnel/pixel mode finding
+ * rework bpps retrieval
+ * pass whole subdev state around
+ * add helper for retrieving a route's hw components / frame desc
+ * update pipe enable based on active routes
+ * add support for tunnel-only chips and VC remaps in tunnel mode
+ * simplify max_get_streams_masks()
+ * add support for TPG
+
+V3:
+ * dt-bindings: drop reflow text patches
+
+ * dt-bindings: max96717: move pinctrl configuration into main file
+ * dt-bindings: max96717: allow a single level of pins configuration
+ * dt-bindings: max96717: use regex for matching pins nodes
+ * dt-bindings: max96717: drop extra allOf in pinctrl configuration
+ * dt-bindings: max96717: fix i2c-atr channel name regex
+ * dt-bindings: max96717: limit pinctrl functions to gpio / rclkout
+ * dt-bindings: max96717: limit pins for gpio / rclkout
+ * dt-bindings: max96717: add description for bias-pull-up/down
+ * dt-bindings: max96717: require pins and function properties
+ * dt-bindings: max96717: turn single compatible strings into an enum
+
+ * dt-bindings: max9296a: include indices in port descriptions
+ * dt-bindings: max9296a: remove property-less schema from input ports
+ * dt-bindings: max9296a: use ATR for MAX96716A too, removing MUX entirely
+
+ * dt-bindings: max96712: include indices in port descriptions
+ * dt-bindings: max96712: deprecate enable-gpios in favor of powerdown-gpios
+ * dt-bindings: max96712: switch from MUX to ATR
+
+ * dt-bindings: max96714: add support for MAX96714R
+
+ * max_des: fix POC NULL check
+ * max_des: remove index var in POC enable
+ * max_des: fix writing empty remaps
+ * max_des: skip mode setting in tunnel mode
+ * max_des: remove a duplicate source->sd NULL check
+ * max_des: set pipe tunnel mode even for disabled links
+
+ * max_ser: apply TX ID changes irrespective of serializer ID
+
+ * max9296a: fix typo in BACKTOP22
+ * max9296a: make register macros more consistent
+ * max9296a: switch MAX96716 from MUX to ATR
+ * max9296a: deduplicate max9296a_phy_id() logic
+ * max9296a: use proper PHY id in remaps
+ * max9296a: fix DPLL reset clear
+ * max9296a: limit MAX96714F to GMSL2 3Gbps
+ * max9296a: add support for MAX96714R
+ * max9296a: do not write GMSL3 link select registers in GMSL2 devices
+ * max9296a: use field_prep when setting RX_RATE
+ * max9296a: simplify setting SEL_STREAM for MAX96714
+ * max9296a: max96716_set_pipe_phy -> max96716a_set_pipe_phy
+ * max9296a: fix off-by-one in lane polarity when using
+   polarity_on_physical_lanes
+
+ * max96724: fix typo in BACKTOP22
+ * max96724: switch from MUX to ATR
+ * max96724: add support for powerdown GPIO
+ * max96724: remove support for tunneling from MAX96712
+ * max96724: only set tunnel-related bits when in tunnel mode
+ * max96724: add support for MAX96724F/R
+ * max96724: oneshot reset links after link selection
+
+ * remove GMSL2 version defaults, set all supported versions explicitly
+ * reorder GMSL versions to start from 0
+ * add support for GMSL2 3Gbps
+ * support GMSL version finding for devices using MUX / GATE
+ * add support for deserializers which don't have individual control
+   of each link's GMSL version
+ * add support for deserializers that need unique stream ids across all
+   serializers
+ * select_link_version -> set_link_version
+ * select_resets_link -> use_atr
+
+V2:
+ * add missing compatible for MAX96717F
+ * fix embarrassing dt-bindings mistakes
+ * move MAX9296A/MAX96716/MAX96792A to a separate file as they have two
+   links / PHYs, and adding those conditionally seems impossible
+
+Cosmin Tanislav (18):
+  dt-bindings: media: i2c: max96717: add myself as maintainer
+  dt-bindings: media: i2c: max96717: add support for I2C ATR
+  dt-bindings: media: i2c: max96717: add support for pinctrl/pinconf
+  dt-bindings: media: i2c: max96717: add support for MAX9295A
+  dt-bindings: media: i2c: max96717: add support for MAX96793
+  dt-bindings: media: i2c: max96712: add myself as maintainer
+  dt-bindings: media: i2c: max96712: use pattern properties for ports
+  dt-bindings: media: i2c: max96712: add support for I2C ATR
+  dt-bindings: media: i2c: max96712: add support for POC supplies
+  dt-bindings: media: i2c: max96712: add support for MAX96724F/R
+  dt-bindings: media: i2c: max96714: add myself as maintainer
+  dt-bindings: media: i2c: max96714: add support for MAX96714R
+  dt-bindings: media: i2c: add MAX9296A, MAX96716A, MAX96792A
+  media: i2c: add Maxim GMSL2/3 serializer and deserializer drivers
+  arm64: defconfig: disable deprecated MAX96712 driver
+  staging: media: remove MAX96712 driver
+  media: i2c: remove MAX96717 driver
+  media: i2c: remove MAX96714 driver
+
+Sakari Ailus (1):
+  media: mc: Add INTERNAL pad flag
+
+ .../bindings/media/i2c/maxim,max9296a.yaml    |  242 ++
+ .../bindings/media/i2c/maxim,max96712.yaml    |   70 +-
+ .../bindings/media/i2c/maxim,max96714.yaml    |    6 +-
+ .../bindings/media/i2c/maxim,max96717.yaml    |  160 +-
+ .../media/mediactl/media-types.rst            |    8 +
+ MAINTAINERS                                   |   13 +-
+ arch/arm64/configs/defconfig                  |    1 -
+ drivers/media/i2c/Kconfig                     |   34 +-
+ drivers/media/i2c/Makefile                    |    3 +-
+ drivers/media/i2c/max96714.c                  | 1024 ------
+ drivers/media/i2c/max96717.c                  | 1103 ------
+ drivers/media/i2c/maxim-serdes/Kconfig        |   53 +
+ drivers/media/i2c/maxim-serdes/Makefile       |    6 +
+ drivers/media/i2c/maxim-serdes/max9296a.c     | 1338 +++++++
+ drivers/media/i2c/maxim-serdes/max96717.c     | 1647 +++++++++
+ drivers/media/i2c/maxim-serdes/max96724.c     | 1155 ++++++
+ drivers/media/i2c/maxim-serdes/max_des.c      | 3108 +++++++++++++++++
+ drivers/media/i2c/maxim-serdes/max_des.h      |  152 +
+ drivers/media/i2c/maxim-serdes/max_ser.c      | 2032 +++++++++++
+ drivers/media/i2c/maxim-serdes/max_ser.h      |  144 +
+ drivers/media/i2c/maxim-serdes/max_serdes.c   |  415 +++
+ drivers/media/i2c/maxim-serdes/max_serdes.h   |  166 +
+ drivers/media/mc/mc-entity.c                  |   10 +-
+ drivers/staging/media/Kconfig                 |    2 -
+ drivers/staging/media/Makefile                |    1 -
+ drivers/staging/media/max96712/Kconfig        |   14 -
+ drivers/staging/media/max96712/Makefile       |    2 -
+ drivers/staging/media/max96712/max96712.c     |  487 ---
+ include/uapi/linux/media.h                    |    1 +
+ 29 files changed, 10702 insertions(+), 2695 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
+ delete mode 100644 drivers/media/i2c/max96714.c
+ delete mode 100644 drivers/media/i2c/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/Kconfig
+ create mode 100644 drivers/media/i2c/maxim-serdes/Makefile
+ create mode 100644 drivers/media/i2c/maxim-serdes/max9296a.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96724.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.h
+ delete mode 100644 drivers/staging/media/max96712/Kconfig
+ delete mode 100644 drivers/staging/media/max96712/Makefile
+ delete mode 100644 drivers/staging/media/max96712/max96712.c
+
 -- 
-2.34.1
+2.49.0
 
 
