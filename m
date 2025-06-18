@@ -1,205 +1,164 @@
-Return-Path: <linux-media+bounces-35177-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35178-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C51ADEECC
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 16:07:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BAFADEF05
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 16:17:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D5BD16266D
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 14:07:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E40141BC2E19
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 14:17:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D25822EAB9E;
-	Wed, 18 Jun 2025 14:06:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8504F2EB5A8;
+	Wed, 18 Jun 2025 14:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="g3+rQmxC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DtIj8DyN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5AE2E3AF1
-	for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 14:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9792EACFA;
+	Wed, 18 Jun 2025 14:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750255608; cv=none; b=dwwPClf1N8ZMojkc8pXDIaa2TgI+7o9LzqoIKWfUMlUImvtD+jqxaZR+MnyfFiF2x73HC927cjLVP6Sv9vt6Eqgsn520k5vYWoa33DOeXyAHIfeMEM/HPpEkuJRvEeuUAa8tjbxfsu6eBwjDqMDIc7iIbAiWZvPlJMZDmdDF5zc=
+	t=1750256217; cv=none; b=I6Xm6y+TPZxHfM0sG+9IwhrS0V8T+Z1aQsYU3A7v+aO4+qcknkI08+5hGq60qVbDJui6CNwsGGxdl5pfrG1sohLPoZooLg/93GGyofmpydvQnFUIwgdmkfQUNoHh8zXpb2cIp49IJ7mhmIhGVVnYKA+fbo6y9q3tmX3sxlzM0sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750255608; c=relaxed/simple;
-	bh=4SpJtulDxgkwHamMuWPzZtOvXwcuwEKwW+CpJ01OLJE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kmj6TziXaHMdmvFXMfCslvoIG2HXVqk7eTVSz6ZIM+W4rDGMxBuHWnH1kkyC6j+C1Y/YvJG+l5uMdIi0fM84hRujleSiRH4lJ7eMzBRCPYUWVsFoHjey5j8oRDWVO0pY2QGTsXA7SbKhPpmxlOZFZvjgdwpiSZ0gcEj6vhYA9WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=g3+rQmxC; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a36748920cso8296098f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 07:06:46 -0700 (PDT)
+	s=arc-20240116; t=1750256217; c=relaxed/simple;
+	bh=QA7GC8UaqMR+DmjCanUIIF2mklJ/OXH3NqlsEaz9NGU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=CBz7Y+tlXQ4+eAMniXbj3XSLtdjgiMALW8FXmb6f2/jYXRKHgc/cBa00+VSMrp+KBsvpzjxsMrsG2Js7NZ+6dfkvFnhirzl2p56XVKoGKbWCSddBXHPOsaS500huwkJdlRFV/TlgFzp18EV1Zb6hV+aWDGLvZu7tbWCX66pvNCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DtIj8DyN; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-235f9ea8d08so68290315ad.1;
+        Wed, 18 Jun 2025 07:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1750255605; x=1750860405; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BCz4xhVEuMZq7I5JmKa8hUWG+eHQFPySS2ntysLkYhI=;
-        b=g3+rQmxCXItl4YNt0eQr7slxy0YzsIzJo6PJPx9DcbcxkVUEay6NJqGDlyHhxIXfUh
-         35eI6cKPtizOlvRDYYXdqAR5ot2pwFpLw/2mEYsMN7qANfeADn7vIP+QF7CTn+eNA5kN
-         TrCgPLdWU19HKaBlkg1eHHnyd119bUkzY6ue8=
+        d=gmail.com; s=20230601; t=1750256214; x=1750861014; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HKX0AOzd2NDOwL71Cx1dKnfTtO0KV9uKaanDux8gwfE=;
+        b=DtIj8DyNlMmUqFlxjO1dqT/Sb+l3RDoeUn8v4fsSjcW57bdWqDEzzuMGbPgI5/zfYI
+         N97H8lCg8cSgnWR66hpyoNg/Sbh3KHQK/Z7N69W2IOo4SybttZ/YU1ULoKfb64dFTAWT
+         FBFZ/787+Drdc1s1VpI8YB7In+ZVRgB8MQqnU8bRpIVI+M6lJZOS40lS3YqLDbkSy8ki
+         87aB4khD4sU5cnMCFHav+URG7CJlY+eY/sYUkQMYw//+iXaIR8RjM4EHFiFXmWiGQOFr
+         rCjHhk9Bh/Xostz4c68FJd6d9AU20EaB8SWJi4bGJS7jNUcz3KSfaj+ATACUsM6tuZ45
+         jjiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750255605; x=1750860405;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BCz4xhVEuMZq7I5JmKa8hUWG+eHQFPySS2ntysLkYhI=;
-        b=pGEqdPWaQ2VTCTYynf+LeB9sAettfUf4fOmcGMXxJGVEuVgzZVbWeodKX8kH2RGn4M
-         BkvyjyCrqdsN+qGRTcAZFLa9VvMxHL4egTrTj1rpYqtYvG/3DfP6UFeFi0h1Pr8VlM4w
-         aWF6iGv+SCcYeVTnidHebFjOYfziSrggWdFLxQOylUSY8gzeTo4ZiReQyOnPvR10DnI7
-         7B4GG7r3OPFzOCnbPRj+/xqju9+KmWDdZeq785Mcp3MK6/fxc9R9/zNedZgBARnJqwW/
-         +PrpBLPX8twvOceMTEnSy+iTCiItE91U2EtAXxUPcdkFkg9IPRZQJTGnIniNznlHohm1
-         V2QA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBeWj/3Zn3RBTtPeCFGPU5sLhBlUtZV5ykAvHwt4sJG5lc9LzzuKwcsc2TI5IFHgfanUx3e1PGI8LfZA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzep1E8wBmrNKlyibIojHJrwt8swTfSFlXx+zhLuY6AANdgKvZo
-	d7GhDV1BwdRXfjheTTlyDdC10uahQyVFDjmCwT7yHHGzNCSTGW8EWvIzujodVPG17sc=
-X-Gm-Gg: ASbGnctdMsHFsmWuhfFLENhC4CyXv+ePHVkxtBneJqgujaQfWFlm+nAEo7q4eXcKFN9
-	nLg0ODRwaLbNEYUF0Plp1FM7QhYK4PMjlGHWhH2F6iqf5eRTVKdhiHLwtIWccJ9MfOxeeW0uFzU
-	vvtCL/FDbc3JoyK/78n5nsa77f+Z5xfhhADVyu7n14UyWkd4X5gOW4jwcgGnydRp61Ey4i6kVxx
-	5+kd08L3vUWlAEtuPW46ADj6VfROhT92Q80R8AKGb1+ICPQOT3KlIO+Ux6aqkSAc7nuQsOPDbMx
-	YfhRDwGEsQ9vPar3jLUmWJK9C0et9UdqDxqAfhFfC8dY0kaKJ9ZYkBw+R4AXPGIPkZdsgpfgTA=
-	=
-X-Google-Smtp-Source: AGHT+IHBs3duxJoTqq/WKMIDJsARyVHA9luTU8eetiw/0sqRdC35N2eZTCPFDaMYdyL/wiDxrA95lA==
-X-Received: by 2002:a05:6000:4282:b0:3a4:e60a:c409 with SMTP id ffacd0b85a97d-3a5723aecd1mr12354467f8f.41.1750255604366;
-        Wed, 18 Jun 2025 07:06:44 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e268de2sm209233415e9.40.2025.06.18.07.06.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 07:06:43 -0700 (PDT)
-Date: Wed, 18 Jun 2025 16:06:41 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Philipp Stanner <phasta@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] drm/sched: Clarify scenarios for separate workqueues
-Message-ID: <aFLH8Us_e_U6gNHV@phenom.ffwll.local>
-Mail-Followup-To: Danilo Krummrich <dakr@kernel.org>,
-	Philipp Stanner <phasta@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-References: <20250612144953.111829-2-phasta@kernel.org>
- <aFFy5aG1eOeMU44S@phenom.ffwll.local>
- <aFF3YIAFkgsAKvQV@pollux>
- <aFF6xeu78cXTGFH0@phenom.ffwll.local>
- <aFGFCc7eiZJM8RKM@pollux>
+        d=1e100.net; s=20230601; t=1750256214; x=1750861014;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=HKX0AOzd2NDOwL71Cx1dKnfTtO0KV9uKaanDux8gwfE=;
+        b=ezooVqjpj/lPjzv7FM6Ei+7u0OqITu4DTz+aBpxTojngVytJxI9zQlA+fXcQyCxECn
+         4HTQXh0BU/I6+O0M0kXELPK/OoYuM6e03ttgZIWnWCiKTcmxkf0KZVFMsnZMCfJCONQL
+         QL4pzpXGqrRfy0E7Xzc/tE+53tD/ZmnYl+Ww1H58GGMAO43hZ369usDUkiymE2yFCcvG
+         Z+HDO3lkQhgmzVcroYp6bizaWsw6rnEK55T7pPyfNgZRoSlG9ktDxx2lyxZc47TsgxY9
+         9Q7MtmLbrASus8Zm1O7CykPG2fnQ7mJgTl1o9dKYYVAtATz4uDsByXRrMuTl1B3aKwsN
+         VhBw==
+X-Forwarded-Encrypted: i=1; AJvYcCU6tF3ZLrLvVMPH8rgBEKQjhWPhJNr58hMJBuEObJPaUgyrlnOqNGuoQNVxdhJpjilTwuLSilgEXMwnLtc=@vger.kernel.org, AJvYcCVG2ShyeG4cWshKDgq2sKt1cTp7eKn8gUXKuvheS4rB3YK9QlJSzW8ldLttrb8+M63wabT6mdkj3fVxM/M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/mWjd3dpsOsX100CvEhoAYTH167JWW8HOGvqxmT9WqTxanVh6
+	jx9B9vIokx+oMEMJGAFPJ9gj5GO5Hny0P6zGiXgGO0oAE72GMnE4z8qE7iMBplDt
+X-Gm-Gg: ASbGncsCFELWSCmJBrPu/nqmeAi1zKo5nqueRd2kKFGGNyDy/eBbSs4sZevoUhpoYOO
+	gwEQsQUMtg5c+HHIIbfJyWFyUkD+sYebALA0rGo+oLeM/paT6ib7XBZjxJV7Xv2zJV4H8iyWL6j
+	OZ5UtPxMp4F5GAXPhqlC8NQ5hNHbn3K4SiSxfeMhhDMqcdWNrMqzUiOTtpkJS7pS512VeEVYk9S
+	YMh6dpUkHpKFcEOxiymqoOEvSHQ/VRz7Z/XpAeTa0SuI84Z2TwUd61W8xmd2bFOwj+t8uQtOVks
+	mY2OLoTPt+xSxvpQaqi+VRRGeGsutLb0Cf9f4bd0C4ISqciRFsg20Q==
+X-Google-Smtp-Source: AGHT+IF65hISwSEsLg+/JJakfukqAPLuMOAOm3U0RdzrzA6kt6koNJHlRbGNsw6NteDLVbOEk1jMCg==
+X-Received: by 2002:a17:903:1b64:b0:226:38ff:1d6a with SMTP id d9443c01a7336-2366afbd7ffmr222679705ad.7.1750256213517;
+        Wed, 18 Jun 2025 07:16:53 -0700 (PDT)
+Received: from localhost ([240d:1a:f76:b500:4431:46e3:c76b:79bc])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365d88c200sm100652135ad.51.2025.06.18.07.16.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Jun 2025 07:16:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFGFCc7eiZJM8RKM@pollux>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Jun 2025 23:16:47 +0900
+Message-Id: <DAPQ1LPH05P4.HLIMQEJCRHLX@gmail.com>
+Cc: "Albert Esteve" <aesteve@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Hans
+ Verkuil" <hverkuil@xs4all.nl>, "Jason Wang" <jasowang@redhat.com>, "Xuan
+ Zhuo" <xuanzhuo@linux.alibaba.com>, =?utf-8?q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, <gurchetansingh@google.com>,
+ <daniel.almeida@collabora.com>, <adelva@google.com>,
+ <changyeon@google.com>, <nicolas.dufresne@collabora.com>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <virtualization@lists.linux.dev>
+Subject: Re: [PATCH v3] media: add virtio-media driver
+From: "Alexandre Courbot" <gnurou@gmail.com>
+To: "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
+ <20250526141316.7e907032@foz.lan> <DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
+ <20250527111311.105246f2@sal.lan>
+ <CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
+ <20250527153547.6603eaf4@sal.lan>
+ <CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
+ <20250617104938.09d21b7c@foz.lan>
+In-Reply-To: <20250617104938.09d21b7c@foz.lan>
 
-On Tue, Jun 17, 2025 at 05:08:57PM +0200, Danilo Krummrich wrote:
-> On Tue, Jun 17, 2025 at 04:25:09PM +0200, Simona Vetter wrote:
-> > On Tue, Jun 17, 2025 at 04:10:40PM +0200, Danilo Krummrich wrote:
-> > > On Tue, Jun 17, 2025 at 03:51:33PM +0200, Simona Vetter wrote:
-> > > > On Thu, Jun 12, 2025 at 04:49:54PM +0200, Philipp Stanner wrote:
-> > > > > + * NOTE that sharing &struct drm_sched_init_args.submit_wq with the driver
-> > > > > + * theoretically can deadlock. It must be guaranteed that submit_wq never has
-> > > > > + * more than max_active - 1 active tasks, or if max_active tasks are reached at
-> > > > > + * least one of them does not execute operations that may block on dma_fences
-> > > > > + * that potentially make progress through this scheduler instance. Otherwise,
-> > > > > + * it is possible that all max_active tasks end up waiting on a dma_fence (that
-> > > > > + * can only make progress through this schduler instance), while the
-> > > > > + * scheduler's queued work waits for at least one of the max_active tasks to
-> > > > > + * finish. Thus, this can result in a deadlock.
-> > > > 
-> > > > Uh if you have an ordered wq you deadlock with just one misuse. I'd just
-> > > > explain that the wq must provide sufficient forward-progress guarantees
-> > > > for the scheduler, specifically that it's on the dma_fence signalling
-> > > > critical path and leave the concrete examples for people to figure out
-> > > > when the design a specific locking scheme.
-> > > 
-> > > This isn't a concrete example, is it? It's exactly what you say in slightly
-> > > different words, with the addition of highlighting the impact of the workqueue's
-> > > max_active configuration.
-> > > 
-> > > I think that's relevant, because N - 1 active tasks can be on the dma_fence
-> > > signalling critical path without issues.
-> > > 
-> > > We could change
-> > > 
-> > > 	"if max_active tasks are reached at least one of them must not execute
-> > > 	 operations that may block on dma_fences that potentially make progress
-> > > 	 through this scheduler instance"
-> > > 
-> > > to 
-> > > 
-> > > 	"if max_active tasks are reached at least one of them must not be on the
-> > > 	 dma_fence signalling critical path"
-> > > 
-> > > which is a bit more to the point I think.
-> > 
-> > My point was to more state that the wq must be suitable for the scheduler
-> > jobs as the general issue, and specifically then also highlight the
-> > dma_fence concurrency issue.
-> 
-> Sure, there are more guarantees the driver has to uphold, but this is one of
-> them, so I think we should explain it.
-> 
-> > But it's not the only one, you can have driver locks and other fun involved
-> > here too.
-> 
-> Yeah, but it boils down to the same issue, e.g. if a driver takes a lock in
-> active work, and this lock is taken elsewhere for activities that violate the
-> dma_fence signalling critical path.
-> 
-> All the cases I have in mind boil down to that we potentially, either directly
-> or indirectly (through some synchronization primitive), wait for things we are
-> not allowed to wait for in the dma_fence signalling critical path.
-> 
-> Or do you mean something different?
+Hi Mauro,
 
-You could also grab a mutex in those driver work items that is held while
-waiting for a dma_fence somewhere. The dma_fence annotations should catch
-that, but at least in my reading of the text here it's not covered.
+On Tue Jun 17, 2025 at 5:49 PM JST, Mauro Carvalho Chehab wrote:
+> Hi Alex,
+>
+> Em Tue, 27 May 2025 23:03:39 +0900
+> Alexandre Courbot <gnurou@gmail.com> escreveu:
+>
+>> > > > Btw, I was looking at:
+>> > > >
+>> > > >         https://github.com/chromeos/virtio-media
+>> > > >
+>> > > > (I'm assuming that this is the QEMU counterpart, right?) =20
+>> > >
+>> > > crosvm actually, but QEMU support is also being worked on. =20
+>> >
+>> > Do you have already QEMU patches? The best is to have the Kernel drive=
+r
+>> > submitted altogether with QEMU, as Kernel developers need it to do the
+>> > tests. In my case, I never use crosvm, and I don't have any Chromebook
+>> > anymore. =20
+>>=20
+>> IIRC Albert Esteve was working on this, maybe he can share the current s=
+tatus.
+>
+> Any news regards to it?
 
-But my main point is what I explain below, the text fails to clearly
-address the issues that all current drivers (maybe all reasonable drivers,
-but sometimes I lack imagination) can encounter, so to me it's too generic
-and not that directly applicable in practice. And then on the other hand
-dma_fence is definitely the big thing, but fundamtentally you tie anything
-you schedule on those wq to the drm/scheduler design in it's entirety. So
-for the general rule, it's not generic enough for my taste.
+Albert shared the latest status. There is one in-flight patch series
+required in qemu [1], and then this branch of vhost-device should
+contain the necessary support [2]. Albert is waiting for the virtio spec
+to get merged before sending a pull request IIUC.
 
-> > Also since all the paragraphs above talk about ordered wq as the example
-> > where specifying your own wq makes sense, it's a bit confusing to now
-> > suddenly only talk about the concurrent wq case without again mentioned
-> > that the ordered wq case is really limited.
-> 
-> I mean, it talks about both cases in a generic way, i.e. if you set
-> max_active == 1 in the text it covers the ordered case.
-> 
-> Or do you mean to say that we should *only* allow ordered workqueues to be
-> shared with the driver?
+[1] https://patchew.org/QEMU/20250217164012.246727-1-aesteve@redhat.com/
+[2] https://github.com/aesteve-rh/vhost-device/tree/virtio-media
 
-Both examples talk about ordered wq, they don't make any sense with
-max_active > 1, and I can't come up with any example that would. So yeah
-I'm leaning in that direction, at least in the docs. Only discussing
-max_active > 1 for this specific issue is imo very confusing and not
-helping much. I guess we could even WARN_ON if a provided wq is not
-ordered, because that does smell funky for sure.
+>
+>> Note that crosvm does not require a Chromebook, you can build and run
+>> it pretty easily on a regular PC. I have put together a document to
+>> help with that:
+>>=20
+>> https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md
+>
+> I started looking on it today. Already installed crossvm (I had to
+> install libcap-devel to build it). Still, I'm not familiar with
+> crossvm, which is a little be painful. In particular, how can I
+> enable network on it and speedup it?
 
-Cheers, Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+There is a "./tools/examples/setup_network" in the crosvm repository that
+will setup a TAP device. Once this is done, you can pass the "--net
+tap-name=3Dcrosvm_tap" argument to crosvm, and the network device should
+be visible and usable.
+
+Let me reply to the rest of your questions in your latest mail, with the
+most recent logs.
+
+Cheers,
+Alex.
 
