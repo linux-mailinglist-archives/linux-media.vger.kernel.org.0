@@ -1,195 +1,210 @@
-Return-Path: <linux-media+bounces-35175-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35176-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BABADED88
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 15:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CE6ADEDCA
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 15:28:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E23D13AA6F6
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 13:12:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5EE240041F
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 13:27:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C4D32E719D;
-	Wed, 18 Jun 2025 13:13:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C57F2E8E15;
+	Wed, 18 Jun 2025 13:28:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MG7VsznX"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="URxlxd4I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C23295DBD
-	for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 13:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5262B2BEC2F
+	for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 13:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750252390; cv=none; b=mV4byp8ZuPs69OMgUDk1YrMKSVdLiUMLd9oI3ZeKx/fHXkIJ8VyM1aFLFetx3dQs+uK7EodJVKYpUB8Xmd02Uv6OUBp/RA529O3qWsd8pLnk+CE0r/WKoKiHDJu8p0F9iuIwbqaVqY1a7Czf8wxtNIlqGfb3T04JeUm2/akjvaQ=
+	t=1750253282; cv=none; b=RXz3QL81l3+J0h6dXtFBLTH/hJ3sai8axTI3to4+5HnvsWRlM8Cml+okZeC0Uz9PU4H9ltX+axCf7LldVCMTTRxUbhi9dSCmFIptcDFdh3jKVRBRJ2jTY6/Sompzc/nwI7N8gsObF8RTT2qFvwKgsLv/xLOhuOv99YGWmEah2HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750252390; c=relaxed/simple;
-	bh=xQfxH+J7si2Jx+1rL1OLwZA58hEdu+osP61mQ2g/iyc=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LLJhKANbJ7XI7LkTWCpb+IfHAGTi9l+fpMcg5NsZfvDK0aSxHF2EoAuLOE7fpWTe3y0h1MELE1JuI9vGrQDZlav+LYufgnWwdB5WIITl+9kah2ctGjOV81j8smNgTnrTm0ZMl6aWK4wItC5o9zhx0qVH5ci4vamJt8nrQhO6O1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MG7VsznX; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55IAoaei003033
-	for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 13:13:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=uOCr5QjdkY5jetSDiwM7myto
-	B++DKJWhFOYd4AnCVW4=; b=MG7VsznXxry5HmQKa8E+jEZlOMlU+YvAQTXIg81v
-	1M32ivImqWOBWQJUBFoEZMVDrrFjcy7TeDEGtXLD13ejTW0X1DRDZqXVUpqtaClP
-	gCz2tcFk4yKihafDhdWx/jkjuEOAXbsnBqbG/FGB0zUidVEvzPtk61OgqOE8lrPk
-	ovsiCvshRGC4CAjfzP23Q1Lxowyex8D8HIwFXcUODwVMmqLAfrf0DJslNhtM96y8
-	cqmHa8iFZ8vCEkQg+5P4WU0Hu8YR92BaTCx1MZWPFQRJck0BA9uS0BzpzEOX4DPL
-	/UY466jhzCrqGof9Zt1stQZZGP+C6cUzPc7q7MvDL/+fUA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791crv1c5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 13:13:06 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5f876bfe0so1208373785a.3
-        for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 06:13:06 -0700 (PDT)
+	s=arc-20240116; t=1750253282; c=relaxed/simple;
+	bh=spJmW3GP09NgivKGhFqMEC1dTy/Kkyfb4nxmgBOucEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ArR3sBmi4d/vFu+KleKk317rhLPAXVqeqV/CKuWQh+DHA4kel3vtjkmuri0FwmnWKVayWEvXEqFbiag7MDdNZb54Rknfebn15aY5K8l2eEiy1FSLPunAKWlX3RyEA1jNMhjcVWqMmeRxULrNQX6kpYxgjtexjZBy3PhiteSmTMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=URxlxd4I; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4a43d2d5569so85621181cf.0
+        for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 06:28:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1750253280; x=1750858080; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dAOqSpqCOL5vjgDSfWa7ZrwFL1vtEzIytDfSsqz8LEg=;
+        b=URxlxd4I5FK7fujk2vRslK91IlZPSobQJd0S/crMZklzfEFs2D2te2kIF9RX5c+8V7
+         Gy2zoIRrJRc3IQ/BIDXroVLGhfGG8pgc17zuVKY7QUjtLfYFvCHD3EksM03gDGqukgNQ
+         pI1RGmB3pDx2WKWSCX0OE5iSBYIIcjT2jb+sRMumjXAWvmAkb2XTJHiAw1ELy8e6YfCJ
+         K3AIzPbWzEZ+y9H3dad9EbZyE2V3mLzrRWfMRUDVMMU3VDVYUTOMmjSZ4oWiTyzH23lI
+         rCQTaZ0jWoLn+xp5O4WnRj8mfAOYk4S05lsxaTejc2gXGiCADir6i4Lp5OhGEFN1yEaT
+         ErHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750252386; x=1750857186;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uOCr5QjdkY5jetSDiwM7mytoB++DKJWhFOYd4AnCVW4=;
-        b=tMiNWBF38mjjehhBKk0reY6e3u6WNsb/8N+2KS9hFoNjyJFVlJviny7hrP7NA9d2oI
-         VkP0RIgAByUyGW6Gaamn/n8NoaaZHkHhyKcYS2GLdc+0KekHcjJNFpgl4JKfxw7GyuvA
-         Esn38QdS97J1eX1dbWClZwxrpqtJmJHTDx4PqyryhMB3ws3FAPZblZkMIJCl6YeZurUu
-         2k7Nlvlz9tMyu0P/fWy1qosf7Dno4p0mDZ3oEhWCTzJBiY6tg5zP0J5DXHzM+mgS+3Se
-         0YLiwp6XHjejzzR4mp/42avHvLFAd2mC7tBvQKRT5PCEDMhwAtO+9rVVl9AQVSnvhoQB
-         kxQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW4ypm29mKu06APl5rqyoPlt5KyJ9m3TGgxEIo0OBomjpPXZCLTm11YkWS39PS4nl19bGvBTie4IuxXOw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAS48W3ddloNvmLHuGKuLQj+lKfx37bFT9iPh/gLJ0Kyb3xLt6
-	RGlu+VmK6LjoiTn0QrL8O5IPJ5rbq0Df3P9NwdM9pyws9lncOk1soQ5G6gtYJvfOaZa411TLg4R
-	YjVmP0rLzFSTUsDeucmnnYeyXM4tuNcGiXpb83trsvGWjOO7/x884HQkd8SN64I90Pg==
-X-Gm-Gg: ASbGncsufxzKA7thh8rBdlKE1JFoXGFzFmliOqI2BlOEgZZkNh9Oo8/C3goM4BE93a2
-	WgRVzynIkPzaHhoBS4Hu44ijaDkkv91a2Zix1VtlZQf+jFtXAY/yorMLtyhZQ200F+myTUABNs/
-	+e2pr3dEDxa/QHcJuPmkfWj9hXQh8PsYs4fj3CN4HlWr4gB+qOkojHnD3Cg+sdPCADmHF/h74Uj
-	vsJoYVC7ZQyJSDNeDMZJDrRHwpMlhMOyWnNP8IOnLL6MMVeLUcdrRczyihqmuNyw62AwoQi2Fc3
-	39OuGU92jBQGSU5DPMLly2cR0Se71RIrPpJzi+MjqP7y5qOw0WrzohzQ7Q==
-X-Received: by 2002:a05:620a:28d1:b0:7c5:95e6:ce1d with SMTP id af79cd13be357-7d3c6b813f9mr2372975785a.0.1750252385787;
-        Wed, 18 Jun 2025 06:13:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHjJue89Rmli2K6Y2pcfc+hi4K9H56GD3PAu9OTXQAnTMz/vuG4sPfRjvsoylnL7i4Da5na3Q==
-X-Received: by 2002:a05:620a:28d1:b0:7c5:95e6:ce1d with SMTP id af79cd13be357-7d3c6b813f9mr2372972985a.0.1750252385360;
-        Wed, 18 Jun 2025 06:13:05 -0700 (PDT)
-Received: from trex (132.red-79-144-190.dynamicip.rima-tde.net. [79.144.190.132])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a60f5asm16671499f8f.25.2025.06.18.06.13.03
+        d=1e100.net; s=20230601; t=1750253280; x=1750858080;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dAOqSpqCOL5vjgDSfWa7ZrwFL1vtEzIytDfSsqz8LEg=;
+        b=dKw+6UfUdYqMIP+n+RT0iAgIeMWRxVr0JKXCGE/fvpWTp5XQRuW2fuyTEYmAK765Ie
+         tv+1aUuLf3U/MmpioKtLI/pzU++z2nP9G50rHMt+HETYLo9shRuGwaQLkD3kDbDrWDko
+         o7phyaoOz2qcL5vLqjHj8RHK7wtPicjH/bjaido8p/yPmPQu+4jrMLrLWCErBh3BGJFi
+         ZabwxESvOJYPWfl4+luC3KUPpU2A+ph3Mg2jeI4Mdj5VChmgURFFLZRW9EJusyktdOud
+         BDT6et5WTNTDOMZ4tvij/gNQwMCrYnsxXvRLKWWlv/ciL7blWDArmuYOGL8ty3JQU3hb
+         pUBw==
+X-Forwarded-Encrypted: i=1; AJvYcCWYjJzTWlBniCjVk8KJLuK8m1ca3+sRxDgVCoIBVCb7errzHVZW5W5eg4WBN5zKDmcFDy5gGs9KfQP1Mw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4YZjz+e7Jr2OCqDVvPqCv4m26noyTrQ1dOcUuLR1LzjmnOTZc
+	GVlVnDLfPv8wMiYWFFSRZToM1uYfc02cw8ULjvVn7DYVKe7bWepwkrpzdOflpnksSy8=
+X-Gm-Gg: ASbGncsqWEmuSV/nEcZ6UupXKiy3kKQ9WHNXfCC/ZW0qa84i1ezNtxpjeQzbpm1XJKi
+	dzmYUIYyCVKESzXZbFia9fHozqOlXBo82FtkeW6fi6Nd+gBQu4L1BqD2+38k8m83tDlRZf1xl7d
+	2bG9++rTJtK5Lx7Z/Sl8ndvdKRRjzpSG7wLvsf07kR0ZALHKnnmiTsbgd4IFcsNWmoKsuDaO1q+
+	4S1BW8u12rPUyIJZQoYNCoCxNuc66TEOiFYaivlOiYnO7kOYIkQa33kC0Xut04goolZ3f9znIOo
+	kOoUyZnoLRyhEqfiDdWWmpJbnpiSeTq+AiBq0p07bfhdzM9Mx0Y5v+PBWumorfHa9ZOkAxWqp93
+	vOWGZ9HNVcwdMEBfY/Bnp1DU8bMWOZnhiMma8lA==
+X-Google-Smtp-Source: AGHT+IG2fHMkumSLh5a7kRlQvfCzWqyNaNQCt2F7JGbyl37Cd1Kzlhrtl/JlBPjRFd8BrqzAM7ABWw==
+X-Received: by 2002:a05:622a:1886:b0:4a7:2328:27dc with SMTP id d75a77b69052e-4a73c4fd24emr201270391cf.9.1750253280248;
+        Wed, 18 Jun 2025 06:28:00 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.56.70])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a72a50f29dsm71636961cf.75.2025.06.18.06.27.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 06:13:04 -0700 (PDT)
-From: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
-X-Google-Original-From: Jorge Ramirez <JorgeRamirez-Ortiz>
-Date: Wed, 18 Jun 2025 15:13:02 +0200
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>, quic_dikshita@quicinc.com,
-        loic.poulain@oss.qualcomm.com, mchehab@kernel.org,
-        hans.verkuil@cisco.com, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: venus: hfi: explicitly release IRQ during teardown
-Message-ID: <aFK7Xo9xgQ2gfo6u@trex>
-References: <20250612082943.2753676-1-jorge.ramirez@oss.qualcomm.com>
- <54157ce5-8a6b-75ae-0a21-a8df59242c40@quicinc.com>
- <aFAVTvsDc8xvwBme@trex>
- <1bdf289b-5eec-d5de-a08b-6c7a772e15a3@quicinc.com>
- <aFA5FpJPRmJ/ltI9@trex>
- <aFJlqGFPrO9Hw4f1@trex>
- <ec3defcc-f19d-4224-9029-14c1e95399b7@linaro.org>
+        Wed, 18 Jun 2025 06:27:59 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1uRspb-00000006mz5-0lhB;
+	Wed, 18 Jun 2025 10:27:59 -0300
+Date: Wed, 18 Jun 2025 10:27:59 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+	nicolas.dufresne@collabora.com, p.zabel@pengutronix.de,
+	mchehab@kernel.org, iommu@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH 3/5] iommu: Add verisilicon IOMMU driver
+Message-ID: <20250618132759.GO1376515@ziepe.ca>
+References: <20250616145607.116639-1-benjamin.gaignard@collabora.com>
+ <20250616145607.116639-4-benjamin.gaignard@collabora.com>
+ <20250617163219.GF1376515@ziepe.ca>
+ <ff32d7c1-d811-46b8-8d3d-458dfebd14f8@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ec3defcc-f19d-4224-9029-14c1e95399b7@linaro.org>
-X-Proofpoint-ORIG-GUID: 07MC34BPu53w3iTe649epedhXdOJXhdB
-X-Authority-Analysis: v=2.4 cv=BoedwZX5 c=1 sm=1 tr=0 ts=6852bb62 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=wjE3nLva0YkvARyJ+Gfmxg==:17
- a=kj9zAlcOel0A:10 a=6IFa9wvqVegA:10 a=P-IC7800AAAA:8 a=EUspDBNiAAAA:8
- a=8tBtA4GtQrU4Ei1tFs4A:9 a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
- a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-GUID: 07MC34BPu53w3iTe649epedhXdOJXhdB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE4MDExMiBTYWx0ZWRfX1x+2cgbppHU2
- /l7eob9Kzf+LLMr7fQNGg5p52mLCPnbk5Dj+TCnz9MsTVLDxF3OjfvkcIUezfWGtTyCh63iLeRt
- 8oDgKvXTBc9itPHk9oWmHFuN4PADUMuGQw6TcW1amS2ZcaMmhEj7nGlN+XYqeMUJqYmmqfoD0vC
- VuCycGhrpUQslaUJL2hfD3huoYuGbEFIppS/CgfGHd9FDNynaIzWlKlKm6oSaJFg3gPsr7zP8q5
- XM0A1REpXs1R2AKjzSD87tCPz6ou8W0VGT73ylr8ypTZEj6EaiWqKPMZlMigJwx/BL9ovThirvx
- EeWsqTqD8HNBGXeJZKwMPb6z4Zw7LBDO8gB3saRw/bU3BxtP9zZRvr9wbCQQ5qVtYSxJCMyjZD1
- w4ZJvsCxko760VT1TjQKwG2fU7Tmfo2gGoQ2GuomYbU7m1wLGneo+QFlDPZ/MgAUKtZEcgG4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-18_05,2025-06-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
- mlxlogscore=999 bulkscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- spamscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506180112
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ff32d7c1-d811-46b8-8d3d-458dfebd14f8@collabora.com>
 
-On 18/06/25 12:08:28, Bryan O'Donoghue wrote:
-> On 18/06/2025 08:07, Jorge Ramirez wrote:
-> > On 16/06/25 17:32:38, Jorge Ramirez wrote:
-> > > On 16/06/25 20:14:36, Vikash Garodia wrote:
-> > > > Hi Jorge,
-> > > > 
-> > > > On 6/16/2025 6:29 PM, Jorge Ramirez wrote:
-> > > > > On 16/06/25 17:26:24, Vikash Garodia wrote:
-> > > > > > 
-> > > > > > On 6/12/2025 1:59 PM, Jorge Ramirez-Ortiz wrote:
-> > > > > > > Ensure the IRQ is released before dismantling the ISR handler and
-> > > > > > > clearing related pointers.
-> > > > > > > 
-> > > > > > > This prevents any possibility of the interrupt triggering after the
-> > > > > > > handler context has been invalidated.
-> > > > > > > 
-> > > > > > > Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
-> > > > > > > Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-> > > > > > > ---
-> > > > > > >   drivers/media/platform/qcom/venus/hfi_venus.c | 1 +
-> > > > > > >   1 file changed, 1 insertion(+)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> > > > > > > index b5f2ea879950..d9d62d965bcf 100644
-> > > > > > > --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> > > > > > > +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> > > > > > > @@ -1678,6 +1678,7 @@ void venus_hfi_destroy(struct venus_core *core)
-> > > > > > >   	venus_interface_queues_release(hdev);
-> > > > > > >   	mutex_destroy(&hdev->lock);
-> > > > > > >   	kfree(hdev);
-> > > > > > > +	devm_free_irq(core->dev, core->irq, core);
-> > > > > > Could you please check and add the handling here [1] as well ?
-> > > > > > 
-> > > > > > [1]
-> > > > > > https://elixir.bootlin.com/linux/v6.16-rc1/source/drivers/media/platform/qcom/venus/core.c#L427
-> > > > > 
-> > > > > hi Vikash, sorry I dont get your point - what do you mean?
-> > > > IRQ need to be freed even for error cases during venus_probe().
-> > > > 
-> > > 
-> > > but  this is what the current patch does (venus_hfi_destroy is called at
-> > > the end of probe error handling as well).
-> > > 
+On Wed, Jun 18, 2025 at 02:04:19PM +0200, Benjamin Gaignard wrote:
+> 
+> Le 17/06/2025 à 18:32, Jason Gunthorpe a écrit :
+> > > +	vsi_domain->dt_dma = dma_map_single(dma_dev, vsi_domain->dt,
+> > > +					    SPAGE_SIZE, DMA_TO_DEVICE);
+> > > +	if (dma_mapping_error(dma_dev, vsi_domain->dt_dma)) {
+> > > +		dev_err(dma_dev, "DMA map error for DT\n");
+> > > +		goto err_free_dt;
+> > > +	}
+> > > +
+> > > +	vsi_domain->pta = iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32,
+> > > +					       SPAGE_SIZE);
+> > > +	if (!vsi_domain->pta)
+> > > +		goto err_unmap_dt;
+> > > +
+> > > +	vsi_domain->pta_dma = dma_map_single(dma_dev, vsi_domain->pta,
+> > > +					     SPAGE_SIZE, DMA_TO_DEVICE);
+> > > +	if (dma_mapping_error(dma_dev, vsi_domain->pta_dma)) {
+> > > +		dev_err(dma_dev, "DMA map error for PTA\n");
+> > > +		goto err_free_pta;
+> > > +	}
+> > > +	vsi_domain->pta[0] = vsi_mk_pta(vsi_domain->dt_dma);
+> > > +
+> > > +	vsi_table_flush(vsi_domain, vsi_domain->pta_dma, 1024);
+> > > +	vsi_table_flush(vsi_domain, vsi_domain->dt_dma, NUM_DT_ENTRIES);
+> > dma_map_single already flushes, put things in the write order and no
+> > need to double flush.
+> 
+> I don't get your point here, for me it flush two different pieces of memory.
+
+dma_map_single() already flushes the cache, you don't need to do it
+again.
+
+Do your memory writes then call dma_map_signle().
+
+> > > +	dte_index = vsi_iova_dte_index(iova);
+> > > +	dte_addr = &vsi_domain->dt[dte_index];
+> > > +	dte = *dte_addr;
+> > > +	if (vsi_dte_is_pt_valid(dte))
+> > > +		goto done;
+> > > +
+> > > +	page_table = (u32 *)get_zeroed_page(GFP_ATOMIC | GFP_DMA32);
+> > > +	if (!page_table)
+> > > +		return ERR_PTR(-ENOMEM);
+> > Don't use get_zeroed_page for page table memory.
+> 
+> I will use kmem_cache in v2
+
+I mean you are supposed to iommu-pages.h for page table memory.
+
+> > > +	pt_dma = dma_map_single(dma_dev, page_table, SPAGE_SIZE, DMA_TO_DEVICE);
+> > > +	if (dma_mapping_error(dma_dev, pt_dma)) {
+> > > +		dev_err(dma_dev, "DMA mapping error while allocating page table\n");
+> > > +		free_page((unsigned long)page_table);
+> > > +		return ERR_PTR(-ENOMEM);
+> > > +	}
+> > > +
+> > > +	dte = vsi_mk_dte(pt_dma);
+> > > +	*dte_addr = dte;
+> > > +
+> > > +	vsi_table_flush(vsi_domain, pt_dma, NUM_PT_ENTRIES);
+> > > +	vsi_table_flush(vsi_domain,
+> > > +			vsi_domain->dt_dma + dte_index * sizeof(u32), 1);
+> > Double flushing again.
+>
+> Same here, for me I flushing two different memory area.
+
+write to the page-table, then call dma_map_single(), don't flush it again.
+
+> > > +static int vsi_iommu_map_iova(struct vsi_iommu_domain *vsi_domain, u32 *pte_addr,
+> > > +			      dma_addr_t pte_dma, dma_addr_t iova,
+> > > +			      phys_addr_t paddr, size_t size, int prot)
+> > > +{
+> > > +	unsigned int pte_count;
+> > > +	unsigned int pte_total = size / SPAGE_SIZE;
+> > > +	phys_addr_t page_phys;
+> > > +
+> > > +	assert_spin_locked(&vsi_domain->dt_lock);
+> > > +
+> > > +	for (pte_count = 0; pte_count < pte_total; pte_count++) {
+> > > +		u32 pte = pte_addr[pte_count];
+> > > +
+> > > +		if (vsi_pte_is_page_valid(pte))
+> > > +			goto unwind;
+> > > +
+> > > +		pte_addr[pte_count] = vsi_mk_pte(paddr, prot);
+> > So why is this:
 > > 
-> > for background, this fixes a null derreference in the Venus driver -
-> > reproduceable in RB3Gen2 on a particular error condition during probe.
-> Shouldn't it be the case that devm removes the handler for us anyway ?
+> > #define VSI_IOMMU_PGSIZE_BITMAP 0x007ff000
+> > 
+> > If the sizes don't become encoded in the PTE? The bits beyond 4k
+> > should reflect actual ability to store those sizes in PTEs, eg using
+> > contiguous bits or something.
 > 
-> Why not ->         disable_irq_nosync(core->irq);
+> The iommu use arrays to store up to 1024 4k pages indexes so the size
+> isn't coded in the PTE bits but the numbers of used indexes for each arrays.
 
-I agree, this seems better to me too.
+That isn't how it works, if the PTE bits don't code the size then you
+don't set the VSI_IOMMU_PGSIZE_BITMAP. You just want SZ_4K for the way
+this driver is written.
 
-I guess disable_irq() is the safer/more meaningfull choice since we are
-calling from non irq context.
-
-will fix - thanks for the suggestion!
-
-> 
-> i.e. disable the IRQ until the normal/expected exit path removes it.
-> 
-> ---
-> bod
+Jason
 
