@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-35289-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35285-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F265AE04CD
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 14:03:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04918AE04B5
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 14:01:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBF184A3590
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 12:01:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 223D87A93DA
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 12:00:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7861242D96;
-	Thu, 19 Jun 2025 11:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DCF3255E4E;
+	Thu, 19 Jun 2025 11:59:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hmdn/zH7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vp3B9G8k"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A8B25525F
-	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 11:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C702550AF
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 11:59:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750334349; cv=none; b=le18cQbE0VQoipuwVtFQUEEc24L+jiXO/vQ0/dmGH6IeiSA4LA/SmxcZ8o00zVpdJtTu3Megp1Trtpb/XSIL3erXi+/F78SqKBFV5MGITVzNZsNQj9ilJI03IPl3SKQqH4SpbUBDAkknKgqtxUcR+GiWx1HZEZWGkcLKLN1o0ug=
+	t=1750334347; cv=none; b=HekL4J+MxXEMbzRh0GE0B9nwOohlmZlGQTUVPnQFv+fZEg62kOMQpLhiCfbBubzW84iumjm3aRmJip0d8VV58cc/O5Mw05Iq72ZOt8TprJ3HUtPwVA+9Qj4aE2mL8D3nW/16KlbtvGTXn7XhuBI1Io/x5qUVlCcqH6JqgSj0BS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750334349; c=relaxed/simple;
-	bh=wQ44mxgs1oQOtZNg7ygk78fbBD/eqMk8lIBUZq091Os=;
+	s=arc-20240116; t=1750334347; c=relaxed/simple;
+	bh=4B34YzZ95h/41o2CE+Zf5uwZLURDiSCQwAxCF1LyazU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bd2jlCpsPAv+G7okQzHYH0vFLjNGFeaOoBDg5OFStBu1qJbjPWkCq7C2k4nugmIFZlLYXU9iWstWLHoR9fPhorE+TxJojL6JfjzuhGYWXTgmruCuWJTh5SlhxGP+ugHN0XQAxnuG2tS7EUemCZUTMPgB3uEfSRoZLfGfeDwW5gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hmdn/zH7; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version; b=p7NIKg/3K/naHuSjRa6UKcP+M06OIIRy1eHVyjd4kC8C8a1fyl1+EFIN94A4qdfqWfGInnb0AWbJD5fLQFpH/Z2H1i8NKvO7bj3RJzwRu1f9v61s3S/7185hPjrOcWHYaECgX1eJhSl0cdmf1+2mBMXYVyY1Y98y1OeeHtaXH6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vp3B9G8k; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750334348; x=1781870348;
+  t=1750334346; x=1781870346;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=wQ44mxgs1oQOtZNg7ygk78fbBD/eqMk8lIBUZq091Os=;
-  b=Hmdn/zH77VnZ9A/3w/PAvyorcyVRjKsBicpAi5LSGQP6hUd/ntfGflDz
-   SnEgEHD1YdkGdHne6CQmPtiKTyjOqh4YeyiPx4f4fAx+8DU+KHHFYSIyd
-   G1JQVF8LXney/xwVnPJMUN5CrwKeqIcXXnJ5TaprNclmgziub7FzYuwiR
-   hmDqd0lP7m2oNsz1HXJxpsjP28cooNEQc0uo4Otm/T5BsgyKhZtouyImQ
-   fz4CQ6rTNBsBPvnIK9cTlcoDv+UUmt4mJFjSNxRzVEH76crkiM6JVaKbM
-   xx44QxmFRcm2OjXpOw42BEiaUjodQ/81je1wN1mNVElohQEL+2EFd0RM7
-   g==;
-X-CSE-ConnectionGUID: BweaEZxwS72mS4czndAOwQ==
-X-CSE-MsgGUID: +N77T60MSCetyiVR2sCQHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="56386396"
+  bh=4B34YzZ95h/41o2CE+Zf5uwZLURDiSCQwAxCF1LyazU=;
+  b=Vp3B9G8kV2YVDL0tAkKL7XLoA2tD9at9YB5+nQ4Op0mjJH0khPI+Fvn7
+   DxogwwiU5AJdGzqPdxXm9kogAf9P2OugmJxnROShsqPSaA0b0eGKU6LwI
+   rVx7mUTuJCvw3cSpyIzSFPEdluuGtRkGrKXjeDN2OYIppQ9tE1Ma3u+yY
+   pFK/dFmWV8OwnvHG5c43ilf7C2pSSsXvbZa/BGLdx3bXRBB7eLAdI/6gy
+   ubcp9u+/2XzDoK0PQI1ONdqFif/4pqPNHszM4zU60dPibbjvNl3YmyCGm
+   14rIdUYCu39LdRWkV2rRWmiRU8jY6c43DHd3VbVoz5MzZr/oLCA3LYJ6n
+   w==;
+X-CSE-ConnectionGUID: riPFbAotQ0CBgU0XBnsODA==
+X-CSE-MsgGUID: zktojkBvSWukX6pZAgA62Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="56386368"
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="56386396"
+   d="scan'208";a="56386368"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 04:59:04 -0700
-X-CSE-ConnectionGUID: 0l7bVlOsS0S3UKdS3Yz4Uw==
-X-CSE-MsgGUID: F8FlYKbKSeCehwpsjmmhvg==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 04:59:03 -0700
+X-CSE-ConnectionGUID: t/yW4IbvQJuN1UeFlXTaZw==
+X-CSE-MsgGUID: +kRzPVMKQQ+JzyDVMJ3YTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="154908286"
+   d="scan'208";a="154908279"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.167])
   by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 04:58:57 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id E2227120F45;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E42951211BE;
 	Thu, 19 Jun 2025 14:58:36 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uSDue-008AJ6-2t;
+	id 1uSDue-008AJB-2w;
 	Thu, 19 Jun 2025 14:58:36 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -96,9 +96,9 @@ Cc: hans@jjverkuil.nl,
 	Hans de Goede <hdegoede@redhat.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v10 19/64] media: v4l: uapi: Add a control for color pattern flipping effect
-Date: Thu, 19 Jun 2025 14:57:51 +0300
-Message-Id: <20250619115836.1946016-20-sakari.ailus@linux.intel.com>
+Subject: [PATCH v10 20/64] media: Documentation: Document raw mbus codes and CFA for cameras
+Date: Thu, 19 Jun 2025 14:57:52 +0300
+Message-Id: <20250619115836.1946016-21-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
 References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
@@ -110,72 +110,62 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a bitmask control (V4L2_CID_COLOR_PATTERN_FLIP) to tell whether
-flipping results in a change in the sensor's color pattern, separately
-horizontally and vertically. The information is essential for raw formats
-when using generic raw mbus codes.
+Document the use of raw mbus codes for camera sensors and how the
+V4L2_CID_COLOR_PATTERN and V4L2_CID_COLOR_PATTERN_FLIP controls are used
+to convey the color filter array pattern on UAPI.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- .../userspace-api/media/v4l/ext-ctrls-image-source.rst | 10 ++++++++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c              |  2 ++
- include/uapi/linux/v4l2-controls.h                     |  5 +++++
- 3 files changed, 17 insertions(+)
+ .../userspace-api/media/drivers/camera-sensor.rst   | 13 +++++++++++++
+ .../media/v4l/ext-ctrls-image-source.rst            |  4 ++++
+ 2 files changed, 17 insertions(+)
 
+diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+index 919a50e8b9d9..9f68d24dfe0b 100644
+--- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
++++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+@@ -37,6 +37,19 @@ format set on a source pad at the end of the device's internal pipeline.
+ 
+ Most sensor drivers are implemented this way.
+ 
++V4L2_CID_COLOR_PATTERN, raw mbus formats, flipping and cropping
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++For raw image data originating from camera sensors, specific :ref:`raw mbus
++codes MEDIA_BUS_FMT_RAW_x (where 'x' is the bit depth)
++<v4l2-mbus-pixelcode-generic-raw>` are used as Color Filter Array (CFA) agnostic
++raw formats. The ``V4L2_CID_COLOR_PATTERN <image-source-control-color-pattern>``
++control in the same sub-device defines the native color pattern of the
++device. Flipping may further affect the readout pattern as indicated by the
++``V4L2_CID_COLOR_PATTERN_FLIP <image-source-control-color-pattern-flip>``
++control. Further on, cropping also has an effect on the pattern if cropped
++amount is not divisible by the size of the pattern, horizontally and vertically.
++
+ Frame interval configuration
+ ----------------------------
+ 
 diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-index b19aaaffbce0..43a62a85afb8 100644
+index 43a62a85afb8..3cb7ee1b0aed 100644
 --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
 +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-@@ -131,3 +131,13 @@ Image Source Control IDs
-       - Raw Bayer, with alternating lines beginning with green, blue pixels and
+@@ -93,6 +93,8 @@ Image Source Control IDs
+     is reported as being (say) 128, then a value of 192 would represent
+     a gain of exactly 1.5.
+ 
++.. _image-source-control-color-pattern:
++
+ ``V4L2_CID_COLOR_PATTERN (integer)``
+     This control determines the color components and native pixel order in the
+     sensor's CFA (Color Filter Array) when used in conjunction with
+@@ -132,6 +134,8 @@ Image Source Control IDs
          red, green pixels.
        - 3
+ 
++.. _image-source-control-color-pattern-flip:
 +
-+``V4L2_CID_COLOR_PATTERN_FLIP (bitmask)``
-+    Whether the horizontal or vertical flipping controls (V4L2_CID_HFLIP and
-+    V4L2_CID_VFLIP) have an effect on the pixel order of the output color
-+    pattern. Macros ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
-+    ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` define bitmasks for both bits. If
-+    either horizontal or vertical bit is set, the readout pattern order is that
-+    of the reversed readout. ``V4L2_COLOR_PATTERN_FLIP_BOTH`` for setting both
-+    ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
-+    ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 8119012c2638..9ec65998a8f7 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1156,6 +1156,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
- 	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
- 	case V4L2_CID_COLOR_PATTERN:		return "Color Pattern";
-+	case V4L2_CID_COLOR_PATTERN_FLIP:	return "Color Pattern Flip";
- 
- 	/* Image processing controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-@@ -1484,6 +1485,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 		*type = V4L2_CTRL_TYPE_BITMASK;
- 		break;
- 	case V4L2_CID_CONFIG_MODEL:
-+	case V4L2_CID_COLOR_PATTERN_FLIP:
- 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 		*type = V4L2_CTRL_TYPE_BITMASK;
- 		break;
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 09e5d5bbe7f8..740bf8544446 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1227,6 +1227,11 @@ enum v4l2_jpeg_chroma_subsampling {
- #define V4L2_COLOR_PATTERN_BGGR			2U
- #define V4L2_COLOR_PATTERN_GBRG			3U
- 
-+#define V4L2_CID_COLOR_PATTERN_FLIP		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 11)
-+#define V4L2_COLOR_PATTERN_FLIP_HORIZONTAL	(1U << 0)
-+#define V4L2_COLOR_PATTERN_FLIP_VERTICAL	(1U << 1)
-+#define V4L2_COLOR_PATTERN_FLIP_BOTH \
-+	(V4L2_COLOR_PATTERN_FLIP_HORIZONTAL | V4L2_COLOR_PATTERN_FLIP_VERTICAL)
- 
- /* Image processing controls */
- 
+ ``V4L2_CID_COLOR_PATTERN_FLIP (bitmask)``
+     Whether the horizontal or vertical flipping controls (V4L2_CID_HFLIP and
+     V4L2_CID_VFLIP) have an effect on the pixel order of the output color
 -- 
 2.39.5
 
