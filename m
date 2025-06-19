@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-35442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8FE1AE0F05
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 23:27:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FA8AE0F18
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 23:47:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C8EE3A8A24
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 21:26:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8831A1892DF1
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 21:47:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82F1D25EF9C;
-	Thu, 19 Jun 2025 21:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 051C6230BE4;
+	Thu, 19 Jun 2025 21:47:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SpKgtHkZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KQ/2cDXK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EEAF219307;
-	Thu, 19 Jun 2025 21:26:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD4F30E85D;
+	Thu, 19 Jun 2025 21:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750368414; cv=none; b=t3D1z3eQNnGZebCIKQSYNzCt5nRLMEAJikG3gpS4ejjSqIvDJiioJGt/En7736IyMCTT3/RVAzEMKZcCxBpBWpKOqaDuAAWz1BYarIXCtebueRHrUHG5bs50BJNn/Rd/SKi+sT7gW6YTv4nvZwwtq085T5CPn424MX4Q8qOYEdU=
+	t=1750369648; cv=none; b=TrSGkmuNNYqlmBZFbiH43DhmjEBeMVvt4DJW7ypxqLVD9t+rEiiECmrSjXwGxDRfM+tm0LKok9Lo1gqXvFF818LEfunvKePcYhJBDHUTMGHiEfhabTY6bSZE7BgTbQzdGyA0hXrN8Hi7keWBQ5OriANiQ6e7utaltl10WYcLJ1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750368414; c=relaxed/simple;
-	bh=zbKNU3MnTqIIMJM0WeV4xeoGOv33tL5vDWWxQxv6Xrw=;
+	s=arc-20240116; t=1750369648; c=relaxed/simple;
+	bh=m4oDBPzsVwFn306XKjJaQFlsPXy8FWKdTSj8uorHUCg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Covr0iMairfQqwwk6Z4uwtVlMnhfqAi3ahmpOmxIIqIgDIdzgV4EYiubB5uGH3VAUS3Y/2yqVIO2Dvb4rqUC4PR3EXYS9ixZFhBpKFoJuCVyW5WeKGMuMemPW4R/h6s3JfAaOkHMAYsuHhucIzFoeOBRuHMRMK+D5Kj6c8t3v3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SpKgtHkZ; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hea1zL12okgFFOcOev2pG1N6q0w7P0qZ5rtYFABV/KOJEN8droVAv/NwaiEs2pkvaprygqTMnEYTld629klTxzkRzBAqIOiKdMdQ541H568e2ymWBvDlVzyHueaMcxmUliQQDVANmmzKdRO7VVZlX6h+54PCsFbLVinHgqzjgb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KQ/2cDXK; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FF5A2EC;
-	Thu, 19 Jun 2025 23:26:34 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9873725;
+	Thu, 19 Jun 2025 23:47:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750368394;
-	bh=zbKNU3MnTqIIMJM0WeV4xeoGOv33tL5vDWWxQxv6Xrw=;
+	s=mail; t=1750369629;
+	bh=m4oDBPzsVwFn306XKjJaQFlsPXy8FWKdTSj8uorHUCg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SpKgtHkZy3ujToJ8EsIEb0V4pdBrudwpbObTqpuiy56fbgva0Opcc6YsfJ4kBUpxg
-	 CWgd+kd/8mRbzZ/JEUAhtJZeLJ0dDqHz4I6XCS5JZZdLNM2g0c3IJeamuJVb3Y7VmX
-	 +xZUJGQmASsZULigUw8pHIetQBEFdRkK2/0Lo3zo=
-Date: Fri, 20 Jun 2025 00:26:30 +0300
+	b=KQ/2cDXKWujuFsgJFOvr4ZmThNJOzuYAcScgYISt4y6sX8M5M2eYTw3+2JaSqGWBE
+	 rLfBOMJ+Oi6IHHr8TUBS4qvqTFI0Rm8txd25WN1/m3Y8Gfj/Pvb5HWqPEJflp5Nitu
+	 n6iGLW7sLhkRpxjUK2E9euaW7i3JCPQzNZblIaHo=
+Date: Fri, 20 Jun 2025 00:47:05 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>
 Cc: sakari.ailus@linux.intel.com, akinobu.mita@gmail.com,
@@ -62,10 +62,11 @@ Cc: sakari.ailus@linux.intel.com, akinobu.mita@gmail.com,
 	s.nawrocki@samsung.com, tomi.valkeinen@ideasonboard.com,
 	umang.jain@ideasonboard.com, zhi.mao@mediatek.com,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 00/55] media: Add a helper for obtaining the clock
- producer
-Message-ID: <20250619212630.GQ22102@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v1 02/55] Documentation: media: camera-sensor: Mention
+ v4l2_devm_sensor_clk_get() for obtaining the clock
+Message-ID: <20250619214705.GR22102@pendragon.ideasonboard.com>
 References: <cover.1750352394.git.mehdi.djait@linux.intel.com>
+ <1261f41358da597fb9900b7880618ebcc392160d.1750352394.git.mehdi.djait@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,232 +75,85 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1750352394.git.mehdi.djait@linux.intel.com>
+In-Reply-To: <1261f41358da597fb9900b7880618ebcc392160d.1750352394.git.mehdi.djait@linux.intel.com>
 
 Hi Mehdi,
 
 Thank you for the patch.
 
-On Thu, Jun 19, 2025 at 07:58:53PM +0200, Mehdi Djait wrote:
-> Hello everyone,
+On Thu, Jun 19, 2025 at 07:58:55PM +0200, Mehdi Djait wrote:
+> Add the new v4l2 helper devm_v4l2_sensor_clk_get() to Documentation. the
+> helper works on both DT- and ACPI-based platforms to retrieve a
+> reference to the clock producer from firmware.
 > 
-> Here is my v1 for the new helper v4l2_devm_sensor_clk_get()
+> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 > 
-> Any testing of the patches is GREATLY APPRECIATED! Especially the two
-> drivers with the special ACPI case:
-> 1) OV8865
-> 2) OV2680
-> 
-> 
-> Background
-> ----------
-> 
-> A reference to the clock producer is not available to the kernel
-> in ACPI-based platforms but the sensor drivers still need them.
-> 
-> devm_clk_get() will return an error and the probe function will fail.
-> 
-> 
-> Solution
-> --------
-> 
-> Introduce a generic helper for v4l2 sensor drivers on both DT- and ACPI-based
-> platforms.
-> 
-> This helper behaves the same as clk_get_optional() except where there is
-> no clock producer like in ACPI-based platforms.
-> 
-> For ACPI-based platforms the function will read the "clock-frequency"
-> ACPI _DSD property and register a fixed frequency clock with the frequency
-> indicated in the property.
-> 
-> 
-> Solution for special ACPI case
-> ------------------------------
-> 
-> This function also handles the special ACPI-based system case where:
-> 
-> 1) The clock-frequency _DSD property is present.
-> 2) A reference to the clock producer is present, where the clock is provided
-> by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
-> 
-> In this case try to set the clock-frequency value to the provided clock.
-> 
-> 
-> RFC History
-> -----------
-> 
-> RFC v4 -> RFC v5:
-> Suggested by Arnd Bergmann:
-> 	- removed IS_REACHABLE(CONFIG_COMMON_CLK). IS_REACHABLE() is actually
-> 	discouraged [1]. COFIG_COMMON_CLK is a bool, so IS_ENABLED() will be the
-> 	right solution here
-> Suggested by Hans de Goede:
-> 	- added handling for the special ACPI-based system case, where
-> 	  both a reference to the clock-provider and the _DSD
-> 	  clock-frequency are present.
-> 	- updated the function's kernel-doc and the commit msg
-> 	  to mention this special case.
-> Link RFC v4: https://lore.kernel.org/linux-media/20250321130329.342236-1-mehdi.djait@linux.intel.com/
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/Documentation/kbuild/kconfig-language.rst?h=next-20250513&id=700bd25bd4f47a0f4e02e0a25dde05f1a6b16eea
-> 
-> RFC v3 -> RFC v4:
-> Suggested by Laurent:
-> 	- removed the #ifdef to use IS_REACHABLE(CONFIG_COMMON_CLK)
-> 	- changed to kasprintf() to allocate the clk name when id is NULL and
-> 	  used the __free(kfree) scope-based cleanup helper when
-> 	  defining the variable to hold the allocated name
-> Link v3: https://lore.kernel.org/linux-media/20250321093814.18159-1-mehdi.djait@linux.intel.com/
-> 
-> RFC v2 -> RFC v3:
-> - Added #ifdef CONFIG_COMMON_CLK for the ACPI case
-> Link v2: https://lore.kernel.org/linux-media/20250310122305.209534-1-mehdi.djait@linux.intel.com/
-> 
-> RFC v1 -> RFC v2:
-> Suggested by Sakari:
->     - removed clk_name
->     - removed the IS_ERR() check
->     - improved the kernel-doc comment and commit msg
-> Link v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehdi.djait@linux.intel.com
-> 
-> Mehdi Djait (55):
->   media: v4l2-common: Add a helper for obtaining the clock producer
->   Documentation: media: camera-sensor: Mention
->     v4l2_devm_sensor_clk_get() for obtaining the clock
->   media: i2c: ar0521: Use the v4l2 helper for obtaining the clock
->   media: i2c: ds90ub913: Use the v4l2 helper for obtaining the clock
->   media: i2c: ds90ub960: Use the v4l2 helper for obtaining the clock
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index c290833165e6..c82c018a5f40 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -32,7 +32,8 @@ user.
+>  ACPI
+>  ~~~~
+>  
+> -Read the ``clock-frequency`` _DSD property to denote the frequency. The driver
+> +Use ``devm_v4l2_sensor_clk_get()`` to get the clock. The function will read the
+> +``clock-frequency`` _DSD property to denote the frequency. The driver
+>  can rely on this frequency being used.
 
-Those two are FPD-Link serializer and deserializer drivers. I would
-leave them out, and only address camera sensors in this series, as ACPI
-integration for serdes or other kind of chips needs to be discussed
-separately.
+This isn't specific to ACPI anymore. I think the documentation should be
+refactored further. Here's a proposal.
 
->   media: i2c: et8ek8: Use the v4l2 helper for obtaining the clock
->   media: i2c: gc05a2: Use the v4l2 helper for obtaining the clock
->   media: i2c: gc08a3: Use the v4l2 helper for obtaining the clock
->   media: i2c: gc2145: Use the v4l2 helper for obtaining the clock
->   media: i2c: hi846: Use the v4l2 helper for obtaining the clock
->   media: i2c: imx214: Use the v4l2 helper for obtaining the clock
->   media: i2c: imx219: Use the v4l2 helper for obtaining the clock
->   media: i2c: imx283: Use the v4l2 helper for obtaining the clock
->   media: i2c: imx290: Use the v4l2 helper for obtaining the clock
->   media: i2c: imx296: Use the v4l2 helper for obtaining the clock
->   media: i2c: imx334: Use the v4l2 helper for obtaining the clock
->   media: i2c: imx335: Use the v4l2 helper for obtaining the clock
->   media: i2c: imx412: Use the v4l2 helper for obtaining the clock
->   media: i2c: imx415: Use the v4l2 helper for obtaining the clock
->   media: i2c: max2175: Use the v4l2 helper for obtaining the clock
 
-This is a tuner, I would leave it out too.
+Handling clocks
+---------------
 
->   media: i2c: mt9m001: Use the v4l2 helper for obtaining the clock
->   media: i2c: mt9m111: Use the v4l2 helper for obtaining the clock
->   media: i2c: mt9m114: Use the v4l2 helper for obtaining the clock
->   media: i2c: mt9p031: Use the v4l2 helper for obtaining the clock
->   media: i2c: mt9t112: Use the v4l2 helper for obtaining the clock
->   media: i2c: mt9v032: Use the v4l2 helper for obtaining the clock
->   media: i2c: mt9v111: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov02a10: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov2659: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov2685: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov5640: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov5645: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov5647: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov5648: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov5695: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov64a40: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov6650: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov7740: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov8856: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov8858: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov8865: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov9282: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov9640: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov9650: Use the v4l2 helper for obtaining the clock
->   media: i2c: s5c73m3: Use the v4l2 helper for obtaining the clock
->   media: i2c: s5k5baf: Use the v4l2 helper for obtaining the clock
->   media: i2c: s5k6a3: Use the v4l2 helper for obtaining the clock
->   media: i2c: st-mipid02: Use the v4l2 helper for obtaining the clock
->   media: i2c: tc358743: Use the v4l2 helper for obtaining the clock
->   media: i2c: tc358746: Use the v4l2 helper for obtaining the clock
+Camera sensors have an internal clock tree including a PLL and a number of
+divisors. The clock tree is generally configured by the driver based on a few
+input parameters that are specific to the hardware: the external clock frequency
+and the link frequency. The two parameters generally are specified by system
+firmware. **No other frequencies should be used in any circumstances.**
 
-Those three drivers are for a CSI-2 to parallel or HDMI to CSI-2
-bridges, I would leave them out too.
+The reason why the clock frequencies are so important is that the system is
+usually designed to use specific external clock and link frequencies to ensure
+electro-magnetic compatibility. Using other frequencies may cause harmful
+effects elsewhere. Therefore only the pre-determined frequencies are
+configurable by the user.
 
->   media: i2c: thp7312: Use the v4l2 helper for obtaining the clock
+The external clock frequency shall be retrieved by obtaining the external clock
+using the ``devm_v4l2_sensor_clk_get()`` helper function, and then getting its
+frequency with ``clk_get_rate()``. Usage of the helper function guarantees
+correct behaviour regardless of whether the sensor is integrated in a DT-based
+or ACPI-based system.
 
-And this is an external ISP, that I would also leave out for now.
+ACPI
+~~~~
 
->   media: i2c: vd55g1: Use the v4l2 helper for obtaining the clock
->   media: i2c: vd56g3: Use the v4l2 helper for obtaining the clock
->   media: i2c: vgxy61: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov2680: Use the v4l2 helper for obtaining the clock
+ACPI-based systems typically don't register the sensor external clock with the
+kernel, but specify the external clock frequency in the ``clock-frequency``
+_DSD property. The ``devm_v4l2_sensor_clk_get()`` helper creates and returns a
+fixed clock set at that rate.
 
-All the rest should be sensors, but please double-check.
+Devicetree
+~~~~~~~~~~
 
-For the sensor driver patches *except* ov8865 and ov2680,
+Devicetree-based systems declare the sensor external clock in the device tree
+and reference it from the sensor node. The preferred way to select the external
+clock frequency is to use the ``assigned-clocks``, ``assigned-clock-parents``
+and ``assigned-clock-rates`` properties in the sensor node to set the clock
+rate. See the `clock device tree bindings
+<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+for more information. The ``devm_v4l2_sensor_clk_get()`` helper retrieves and
+returns that clock.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+This approach has the drawback that there's no guarantee that the frequency
+hasn't been modified directly or indirectly by another driver, or supported by
+the board's clock tree to begin with. Changes to the Common Clock Framework API
+are required to ensure reliability.
 
-> 
->  .../driver-api/media/camera-sensor.rst        |  3 +-
->  drivers/media/i2c/ar0521.c                    |  2 +-
->  drivers/media/i2c/ds90ub913.c                 |  2 +-
->  drivers/media/i2c/ds90ub960.c                 |  2 +-
->  drivers/media/i2c/et8ek8/et8ek8_driver.c      |  2 +-
->  drivers/media/i2c/gc05a2.c                    |  2 +-
->  drivers/media/i2c/gc08a3.c                    |  2 +-
->  drivers/media/i2c/gc2145.c                    |  2 +-
->  drivers/media/i2c/hi846.c                     |  2 +-
->  drivers/media/i2c/imx214.c                    |  2 +-
->  drivers/media/i2c/imx219.c                    |  2 +-
->  drivers/media/i2c/imx283.c                    |  2 +-
->  drivers/media/i2c/imx290.c                    |  2 +-
->  drivers/media/i2c/imx296.c                    |  2 +-
->  drivers/media/i2c/imx334.c                    |  2 +-
->  drivers/media/i2c/imx335.c                    |  2 +-
->  drivers/media/i2c/imx412.c                    |  2 +-
->  drivers/media/i2c/imx415.c                    |  2 +-
->  drivers/media/i2c/max2175.c                   |  2 +-
->  drivers/media/i2c/mt9m001.c                   |  2 +-
->  drivers/media/i2c/mt9m111.c                   |  2 +-
->  drivers/media/i2c/mt9m114.c                   |  2 +-
->  drivers/media/i2c/mt9p031.c                   |  2 +-
->  drivers/media/i2c/mt9t112.c                   |  2 +-
->  drivers/media/i2c/mt9v032.c                   |  2 +-
->  drivers/media/i2c/mt9v111.c                   |  2 +-
->  drivers/media/i2c/ov02a10.c                   |  2 +-
->  drivers/media/i2c/ov2659.c                    |  2 +-
->  drivers/media/i2c/ov2680.c                    | 27 +++-------
->  drivers/media/i2c/ov2685.c                    |  2 +-
->  drivers/media/i2c/ov5640.c                    |  2 +-
->  drivers/media/i2c/ov5645.c                    |  2 +-
->  drivers/media/i2c/ov5647.c                    |  2 +-
->  drivers/media/i2c/ov5648.c                    |  2 +-
->  drivers/media/i2c/ov5695.c                    |  2 +-
->  drivers/media/i2c/ov64a40.c                   |  2 +-
->  drivers/media/i2c/ov6650.c                    |  2 +-
->  drivers/media/i2c/ov7740.c                    |  2 +-
->  drivers/media/i2c/ov8856.c                    |  2 +-
->  drivers/media/i2c/ov8858.c                    |  2 +-
->  drivers/media/i2c/ov8865.c                    | 32 ++----------
->  drivers/media/i2c/ov9282.c                    |  2 +-
->  drivers/media/i2c/ov9640.c                    |  2 +-
->  drivers/media/i2c/ov9650.c                    |  2 +-
->  drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  2 +-
->  drivers/media/i2c/s5k5baf.c                   |  2 +-
->  drivers/media/i2c/s5k6a3.c                    |  2 +-
->  drivers/media/i2c/st-mipid02.c                |  2 +-
->  drivers/media/i2c/tc358743.c                  |  2 +-
->  drivers/media/i2c/tc358746.c                  |  2 +-
->  drivers/media/i2c/thp7312.c                   |  2 +-
->  drivers/media/i2c/vd55g1.c                    |  2 +-
->  drivers/media/i2c/vd56g3.c                    |  2 +-
->  drivers/media/i2c/vgxy61.c                    |  2 +-
->  drivers/media/v4l2-core/v4l2-common.c         | 49 +++++++++++++++++++
->  include/media/v4l2-common.h                   | 25 ++++++++++
->  56 files changed, 136 insertions(+), 102 deletions(-)
+
+>  
+>  Devicetree
 
 -- 
 Regards,
