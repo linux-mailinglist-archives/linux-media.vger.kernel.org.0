@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-35257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35258-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B914AE0235
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 12:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA60AE024F
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 12:05:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83F78189E78C
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 10:01:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 363911BC32E5
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 10:05:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56C812206B2;
-	Thu, 19 Jun 2025 10:01:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54CDA221D98;
+	Thu, 19 Jun 2025 10:05:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="fC1voYsb"
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Vecx427p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BB835963
-	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 10:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760CD35963
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 10:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750327267; cv=none; b=dpCxhKhziQNKCheT83T5H9Dopr9+HWDrZlsrhXnV7WRx4HM5hNTCQX0/YtrHSE5RA0I+7RZ937gPBCYjwQhcwrEXHzH8shvYRFPoSa356FF5ucmHgc8UIzdo+3XwyBcF5lmPlvRQLhmjErDYD7DeiHrQC9bShjhyXllvRMkhvHo=
+	t=1750327499; cv=none; b=fFAQNKlVwyDkkbmFDycdou9k6c+CqT1l+Z2JoK/JGdBcanZsKV3hMlmCExI+OlnNOG5fafUE6pSCX+y+axMqktelF9N/06ulnk71IEPr/8eVcxbF2WTomG2B2822ZZjQVTYdwJ51+KH3c0oB2EJtNAgMQW2Uqlyew7OTlPtpz74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750327267; c=relaxed/simple;
-	bh=uJMOQfULw8i/GKcsBKi/qPdWv4yL1rRqT/I8oiPCohs=;
+	s=arc-20240116; t=1750327499; c=relaxed/simple;
+	bh=XVFuh2mN/phDO6ew7I1ulSxbavk3HT6uOYHEEgzctFE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n2NqjpWBWO4232yP+xv9BdbH/NPCz4bSvrCTEeFA4FHZvpG5QwINmqYxlY1E1isR38WpmPhd2+j+VV3g2kvzxZhpV3Xsq3gD+1iWgTB7OY4jUw4iowA2nqU6kXfFa3Bu3DcYe7GjUYBUm/jKoQHiL/zxAMCC2oFULj6l41wgoS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=fC1voYsb; arc=none smtp.client-ip=195.121.94.167
+	 In-Reply-To:Content-Type; b=DthQP5ptoHVXCecQAQChKxgBpPLnL0nS9TACajjzBhsMzMTc9ZMFdNorQlButWm+AQS2RP8fPxOKzpnc1i3hOURNZFqlwiw6Gz5vmI7tEQj6knyneGHUz8XB6SrDw6aoonmXr3rrhgbeG7dgnkRtAms/AWyZ38q9VrSJa/G+P98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Vecx427p; arc=none smtp.client-ip=195.121.94.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: 54caf3f2-4cf4-11f0-b9a4-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+X-KPN-MessageId: f4389818-4cf4-11f0-bc2d-005056ab378f
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 54caf3f2-4cf4-11f0-b9a4-005056abbe64;
-	Thu, 19 Jun 2025 12:01:12 +0200 (CEST)
+	id f4389818-4cf4-11f0-bc2d-005056ab378f;
+	Thu, 19 Jun 2025 12:05:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=content-type:from:to:subject:mime-version:date:message-id;
-	bh=zY+1ShuiyBu6AXOPhmjycMJDf39aFrvF1G8ijZsPXyA=;
-	b=fC1voYsbSZPbewgAVAB9MAcYXrwagGxnGlytVMlzt7I7oMu6AIlOCSddLNWeAWDn4lOOjclVFH2jl
-	 uj3sJjKjn7oAVouQkoTbBhnPcucEUj59fm8oXSY0wnkcDjeqXvNRX4RDm3CI0z1su4xgqoh/flSuVi
-	 Yz7zdci29807jh9H6o7cwbr5LrY4R0aNtbQ6+q6fY+HJEIWDJeStl6meluTguEaDTFICz7a5J5yklL
-	 fbt2VifArLJtNzaJgNm+BACEekhSIJ30wF116KAx5DAdFGwDNVuCn+4iqHU24a9z7+ApZPt+AXE1A9
-	 nLSJjYJcGt8yJVIJQIjbjHJySkFlHTA==
-X-KPN-MID: 33|yC+uNg+Egr1AgmZcZEpX18nnc7IK+VGPZArACMpPcCioJWiFOxDXbc+QNKWPW2s
- JoFBiGI8lPua23nm+UflyuNwft5iyRipKWYHGtmBIBVQ=
+	bh=5/Ru2zwy+cEg5GeHClKewbmIOOtF/jStYXb+Ok1u+bI=;
+	b=Vecx427pUb/oKxH5gp7kusZd3TRWlFGujMaEr9YcnUqSoLIJr2xsww+QcqtIEzpP1fBAUnMhdL06H
+	 un4Ayi4zTpwPR0jxdU1wFKwvK12WqIq8jHuT0KcasNBz0sDKgTGOmcHVSd552P6c6jR9N0JXIlHvSp
+	 Unn0be+qXB94EUxCwkXrco80/MpO+RT9eQRdQOsKaqrqrd2x4ESAdfe5PbuLcLGkILzSRLByJxfF+L
+	 nGYbDgI/oN0bq6b7BC/B8KYQtNYnNI/6uHgDlwuaILRGDIvwpGIFCVOUy6k6NHJhd2AIvD3H6F0QZQ
+	 L61xg8YDdO/C9dx6nnhebpECNHtlC/A==
+X-KPN-MID: 33|f083Tc2qDbyMEit1UeAJ60+NFkeJxCHWi3QuUyPsJ+VIkJLODaJuLxMYR25xxMh
+ fGMJF9qqFdpZpXqbICugZ0f4vmOLsjgFJGFuqXMV06wo=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|Opzy9jgOflbRDa0p2x/u15uTb68aStatjYKJuHUFP/P6CAt8nfWcwyM8zfIRvJ6
- 1HukamPUBy2cPeJCvjIkWXg==
+X-CMASSUN: 33|8V3QAPTxRwvC+536Sv/lc68rmrR3O6VUH1akCYDw5YXXSCCvT/CH1np+tROev45
+ IUmieN+eHkz8/MO1yrDfkZA==
 Received: from [192.168.1.10] (80-60-128-215.fixed.kpn.net [80.60.128.215])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 24ce30b8-4cf4-11f0-95b5-005056abf0db;
-	Thu, 19 Jun 2025 11:59:52 +0200 (CEST)
-Message-ID: <9ac2f61c-9d3e-4471-a698-f107b320a7fa@xs4all.nl>
-Date: Thu, 19 Jun 2025 11:59:52 +0200
+	id d5496848-4cf4-11f0-9c60-005056ab7447;
+	Thu, 19 Jun 2025 12:04:48 +0200 (CEST)
+Message-ID: <7cee1db5-363f-445d-91fc-f0ff36351cc6@xs4all.nl>
+Date: Thu, 19 Jun 2025 12:04:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,12 +63,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] media: v4l2-ctrls: Don't reset handler's error in
+Subject: Re: [PATCH v2 2/3] media: v4l2-ctrls: Return the handler's error in
  v4l2_ctrl_handler_free()
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com
 References: <20250619095227.1939114-1-sakari.ailus@linux.intel.com>
- <20250619095227.1939114-2-sakari.ailus@linux.intel.com>
+ <20250619095227.1939114-3-sakari.ailus@linux.intel.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -114,46 +114,86 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20250619095227.1939114-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250619095227.1939114-3-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 19/06/2025 11:52, Sakari Ailus wrote:
-> It's a common pattern in drivers to free the control handler's resources
-> and then return the handler's error code on drivers' error handling paths.
-> Alas, the v4l2_ctrl_handler_free() function also zeroes the error field,
-> effectively indicating successful return to the caller.
+> v4l2_ctrl_handler_free() used to return void but changing this to int,
+> returning the handler's error code, enables the drivers to simply return
+> the handler's error in this common error handling pattern:
 > 
-> There's no apparent need to touch the error field while releasing the
-> control handler's resources and cleaning up stale pointers. Not touching
-> the handler's error field is a more certain way to address this problem
-> than changing all the users, in which case the pattern would be likely to
-> re-emerge in new drivers.
+> 	if (handler->error)
+> 		return v4l2_ctrl_handler_free(handler);
 > 
-> Do just that, don't touch the control handler's error field in
-> v4l2_ctrl_handler_free().
-> 
-> Fixes: 0996517cf8ea ("V4L/DVB: v4l2: Add new control handling framework")
-> Cc: stable@vger.kernel.org
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
-
 > ---
->  drivers/media/v4l2-core/v4l2-ctrls-core.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c | 6 ++++--
+>  include/media/v4l2-ctrls.h                | 4 +++-
+>  2 files changed, 7 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index 90d25329661e..932aedc26049 100644
+> index 932aedc26049..eb008a2e829c 100644
 > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
 > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -1661,7 +1661,6 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
->  	kvfree(hdl->buckets);
->  	hdl->buckets = NULL;
+> @@ -1631,14 +1631,14 @@ int v4l2_ctrl_handler_init_class(struct v4l2_ctrl_handler *hdl,
+>  EXPORT_SYMBOL(v4l2_ctrl_handler_init_class);
+>  
+>  /* Free all controls and control refs */
+> -void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
+> +int v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
+>  {
+>  	struct v4l2_ctrl_ref *ref, *next_ref;
+>  	struct v4l2_ctrl *ctrl, *next_ctrl;
+>  	struct v4l2_subscribed_event *sev, *next_sev;
+>  
+>  	if (hdl == NULL || hdl->buckets == NULL)
+> -		return;
+> +		return hdl->error;
+
+Hmm, that will crash if hdl == NULL!
+
+I'm not really sure what this should return if hdl == NULL: 0 or some error code.
+
+I'm inclined to just return 0 in that case. If hdl can be NULL, then presumably
+it is intentional and not an error.
+
+>  
+>  	v4l2_ctrl_handler_free_request(hdl);
+>  
+> @@ -1663,6 +1663,8 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
 >  	hdl->cached = NULL;
-> -	hdl->error = 0;
 >  	mutex_unlock(hdl->lock);
 >  	mutex_destroy(&hdl->_lock);
+> +
+> +	return hdl->error;
 >  }
+>  EXPORT_SYMBOL(v4l2_ctrl_handler_free);
+>  
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index 3a87096e064f..9e1693ecc283 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -579,8 +579,10 @@ int v4l2_ctrl_handler_init_class(struct v4l2_ctrl_handler *hdl,
+>   * @hdl:	The control handler.
+>   *
+>   * Does nothing if @hdl == NULL.
+
+Also here it states that it does nothing. So returning 0 is probably best.
+And document here that it does in fact return 0 if hdl == NULL.
+
+Regards,
+
+	Hans
+
+> + *
+> + * Returns the handler's error field.
+>   */
+> -void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl);
+> +int v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl);
+>  
+>  /**
+>   * v4l2_ctrl_lock() - Helper function to lock the handler
 
 
