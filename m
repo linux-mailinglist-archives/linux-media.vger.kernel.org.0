@@ -1,72 +1,71 @@
-Return-Path: <linux-media+bounces-35441-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35442-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27E6AE0ECF
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 23:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FE1AE0F05
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 23:27:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 139773BAAF3
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 21:02:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C8EE3A8A24
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 21:26:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D99BB25DD07;
-	Thu, 19 Jun 2025 21:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82F1D25EF9C;
+	Thu, 19 Jun 2025 21:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nHzBpkMp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SpKgtHkZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C761E244693;
-	Thu, 19 Jun 2025 21:02:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EEAF219307;
+	Thu, 19 Jun 2025 21:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750366979; cv=none; b=TD2vqAs8vB6YESw2TG+p3dMUUaX1NhV58aXyWkOudjMYBKB9/gQI3OUy2Y8pzZtxO9tBJI5YoygiccQmvAHIJBxSQ97yLh+PYm8lIL/6zJdzlWnh4vhicj8sBJrpmcebvHBisKL9sFp95836PItMRv78NkRCWkfm1Q8K7yJKMrI=
+	t=1750368414; cv=none; b=t3D1z3eQNnGZebCIKQSYNzCt5nRLMEAJikG3gpS4ejjSqIvDJiioJGt/En7736IyMCTT3/RVAzEMKZcCxBpBWpKOqaDuAAWz1BYarIXCtebueRHrUHG5bs50BJNn/Rd/SKi+sT7gW6YTv4nvZwwtq085T5CPn424MX4Q8qOYEdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750366979; c=relaxed/simple;
-	bh=cMcgUkKcU4XsVXe3puMc1IqvW3rgKBUEbIiiJLipLQI=;
+	s=arc-20240116; t=1750368414; c=relaxed/simple;
+	bh=zbKNU3MnTqIIMJM0WeV4xeoGOv33tL5vDWWxQxv6Xrw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wwz1v7ITBtacYHTNB9HGJGGhoDm6NSLc4iNn9cx6wxqHHL/nRBUg3T68bTR+v+/vxeEdGSScFnqhhOZVCQ/n9hKECOxdKt4YDfwk8+p6oNLWXMgGtsuurzVBl+Xc4f6pqJDp5g1/eIOaqhh1/a9o93OtZKWpgR/2OahuezprUNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nHzBpkMp; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Covr0iMairfQqwwk6Z4uwtVlMnhfqAi3ahmpOmxIIqIgDIdzgV4EYiubB5uGH3VAUS3Y/2yqVIO2Dvb4rqUC4PR3EXYS9ixZFhBpKFoJuCVyW5WeKGMuMemPW4R/h6s3JfAaOkHMAYsuHhucIzFoeOBRuHMRMK+D5Kj6c8t3v3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SpKgtHkZ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE9192EC;
-	Thu, 19 Jun 2025 23:02:41 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FF5A2EC;
+	Thu, 19 Jun 2025 23:26:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750366962;
-	bh=cMcgUkKcU4XsVXe3puMc1IqvW3rgKBUEbIiiJLipLQI=;
+	s=mail; t=1750368394;
+	bh=zbKNU3MnTqIIMJM0WeV4xeoGOv33tL5vDWWxQxv6Xrw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nHzBpkMpW+52bQS9MZNB33ymQm5kq4+JmXeNbxNXzA99jYVDEyEzQxuNgb231G0vw
-	 p9w1Q2rETQcwko4GJ8gIE6Fky1RgWDPPfJ3wYVTN6SdwEkcjARLPrpURRXbzR2YeF8
-	 dGpVql/nGJTd4hl4rsPmDL4igkyFSI1zJgZjmn38=
-Date: Fri, 20 Jun 2025 00:02:37 +0300
+	b=SpKgtHkZy3ujToJ8EsIEb0V4pdBrudwpbObTqpuiy56fbgva0Opcc6YsfJ4kBUpxg
+	 CWgd+kd/8mRbzZ/JEUAhtJZeLJ0dDqHz4I6XCS5JZZdLNM2g0c3IJeamuJVb3Y7VmX
+	 +xZUJGQmASsZULigUw8pHIetQBEFdRkK2/0Lo3zo=
+Date: Fri, 20 Jun 2025 00:26:30 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Adam Ford <aford173@gmail.com>, Frank Li <Frank.li@nxp.com>,
-	Isaac Scott <isaac.scott@ideasonboard.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Purism Kernel Team <kernel@puri.sm>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH 6/8] dt-bindings: media: nxp,imx-mipi-csi2: Add
- fsl,num-channels property
-Message-ID: <20250619210237.GA21935@pendragon.ideasonboard.com>
-References: <20250608235840.23871-1-laurent.pinchart@ideasonboard.com>
- <20250608235840.23871-7-laurent.pinchart@ideasonboard.com>
- <aEb+iTlDh0H/bRMY@lizhi-Precision-Tower-5810>
- <CAHCN7xJjR1zZXeJAvkXmdNYroP6Jm6TLjHjnPUOF4z7yaL7EFw@mail.gmail.com>
- <20250609182033.GA11428@pendragon.ideasonboard.com>
- <aEcxN7xClLfp0STx@lizhi-Precision-Tower-5810>
- <20250610081829.GC11428@pendragon.ideasonboard.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: sakari.ailus@linux.intel.com, akinobu.mita@gmail.com,
+	stanislaw.gruszka@linux.intel.com, hdegoede@redhat.com,
+	arnd@arndb.de, alain.volmat@foss.st.com, andrzej.hajda@intel.com,
+	benjamin.mugnier@foss.st.com, dave.stevenson@raspberrypi.com,
+	hansg@kernel.org, hverkuil@xs4all.nl, jacopo.mondi@ideasonboard.com,
+	jonas@kwiboo.se, kieran.bingham@ideasonboard.com, khalasa@piap.pl,
+	prabhakar.csengg@gmail.com, mani@kernel.org,
+	m.felsch@pengutronix.de, martink@posteo.de, mattwmajewski@gmail.com,
+	matthias.fend@emfend.at, mchehab@kernel.org,
+	michael.riesch@collabora.com, naush@raspberrypi.com,
+	nicholas@rothemail.net, nicolas.dufresne@collabora.com,
+	paul.elder@ideasonboard.com, dan.scally@ideasonboard.com,
+	pavel@kernel.org, petrcvekcz@gmail.com, rashanmu@gmail.com,
+	ribalda@chromium.org, rmfrfs@gmail.com, zhengsq@rock-chips.com,
+	slongerbeam@gmail.com, sylvain.petinot@foss.st.com,
+	s.nawrocki@samsung.com, tomi.valkeinen@ideasonboard.com,
+	umang.jain@ideasonboard.com, zhi.mao@mediatek.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 00/55] media: Add a helper for obtaining the clock
+ producer
+Message-ID: <20250619212630.GQ22102@pendragon.ideasonboard.com>
+References: <cover.1750352394.git.mehdi.djait@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,94 +74,232 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250610081829.GC11428@pendragon.ideasonboard.com>
+In-Reply-To: <cover.1750352394.git.mehdi.djait@linux.intel.com>
 
-On Tue, Jun 10, 2025 at 11:18:29AM +0300, Laurent Pinchart wrote:
-> On Mon, Jun 09, 2025 at 03:08:39PM -0400, Frank Li wrote:
-> > On Mon, Jun 09, 2025 at 09:20:33PM +0300, Laurent Pinchart wrote:
-> > > On Mon, Jun 09, 2025 at 12:53:48PM -0500, Adam Ford wrote:
-> > > > On Mon, Jun 9, 2025 at 10:32 AM Frank Li wrote:
-> > > > > On Mon, Jun 09, 2025 at 02:58:38AM +0300, Laurent Pinchart wrote:
-> > > > > > The CSI-2 receiver can be instantiated with up to four output channels.
-> > > > > > This is an integration-specific property, specify the number of
-> > > > > > instantiated channels through a new fsl,num-channels property. The
-> > > > > > property is optional, and defaults to 1 as only one channel is currently
-> > > > > > supported by drivers.
-> > > > > >
-> > > > > > The only known SoC to have more than one channel is the i.MX8MP. As the
-> > > > > > binding examples do not cover that SoC, don't update them.
-> > > > > >
-> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > ---
-> > > > > >  .../devicetree/bindings/media/nxp,imx-mipi-csi2.yaml       | 7 +++++++
-> > > > > >  1 file changed, 7 insertions(+)
-> > > > > >
-> > > > > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > > > > > index db4889bf881e..41ad5b84eaeb 100644
-> > > > > > --- a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > > > > > +++ b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > > > > > @@ -68,6 +68,13 @@ properties:
-> > > > > >      default: 166000000
-> > > > > >      deprecated: true
-> > > > > >
-> > > > > > +  fsl,num-channels:
-> > > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > > > +    description: Number of output channels
-> > > > > > +    minimum: 1
-> > > > > > +    maximum: 4
-> > > > > > +    default: 1
-> > > > > > +
-> > > > >
-> > > > > Look like it is fixed value for each compabiable string, So it is not
-> > > > > suitable for adding new property. It should be in driver data of each
-> > > > > compatible strings.
-> > > > >
-> > > > > I met similar case before. DT team generally don't agree on add such
-> > > > > property, unless there are two instances in the same chip, which have
-> > > > > difference channel number.
-> > > >
-> > > > If the DT changes are rejected, can the number of channels be added to
-> > > > the data structure inside mipi_csis_of_match?  We have compatibles for
-> > > > 8mm and imx7.  If we add an imx8mp compatible we could add a reference
-> > > > to the number of channels.
-> > >
-> > > I thought about it, and decided to add a new property because the number
-> > > of channels is really a synthesis time configuration parameter, and
-> > > could differ between different CSIS instances in the same SoC.
-> > 
-> > Need add such information at binding doc's commit message,
+Hi Mehdi,
+
+Thank you for the patch.
+
+On Thu, Jun 19, 2025 at 07:58:53PM +0200, Mehdi Djait wrote:
+> Hello everyone,
 > 
-> I'll update the commit message.
-
-The commit message in v2 will state
-
-    dt-bindings: media: nxp,imx-mipi-csi2: Add fsl,num-channels property
-
-    The CSI-2 receiver can be instantiated with up to four output channels.
-    This is an integration-specific property, specify the number of
-    instantiated channels through a new fsl,num-channels property. The
-    property is optional, and defaults to 1 as only one channel is currently
-    supported by drivers.
-
-    Using the compatible string to infer the number of channels has been
-    considered, but multiple instances of the same CSIS in the same SoC
-    could conceptually be synthesized with a different number of channels.
-    An explicit property is therefore more appropriate.
-
-    The only known SoC to have more than one channel is the i.MX8MP. As the
-    binding examples do not cover that SoC, don't update them.
-
-Rob, Krzysztof, Conor, are you fine with adding this property ?
-
-> > ideally provide an example for it.
+> Here is my v1 for the new helper v4l2_devm_sensor_clk_get()
 > 
-> That I can't provide because the few SoCs I'm working with do not
-> integrate multiple CSIS instances with different parameters.
+> Any testing of the patches is GREATLY APPRECIATED! Especially the two
+> drivers with the special ACPI case:
+> 1) OV8865
+> 2) OV2680
 > 
-> > > > > >    ports:
-> > > > > >      $ref: /schemas/graph.yaml#/properties/ports
-> > > > > >
+> 
+> Background
+> ----------
+> 
+> A reference to the clock producer is not available to the kernel
+> in ACPI-based platforms but the sensor drivers still need them.
+> 
+> devm_clk_get() will return an error and the probe function will fail.
+> 
+> 
+> Solution
+> --------
+> 
+> Introduce a generic helper for v4l2 sensor drivers on both DT- and ACPI-based
+> platforms.
+> 
+> This helper behaves the same as clk_get_optional() except where there is
+> no clock producer like in ACPI-based platforms.
+> 
+> For ACPI-based platforms the function will read the "clock-frequency"
+> ACPI _DSD property and register a fixed frequency clock with the frequency
+> indicated in the property.
+> 
+> 
+> Solution for special ACPI case
+> ------------------------------
+> 
+> This function also handles the special ACPI-based system case where:
+> 
+> 1) The clock-frequency _DSD property is present.
+> 2) A reference to the clock producer is present, where the clock is provided
+> by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
+> 
+> In this case try to set the clock-frequency value to the provided clock.
+> 
+> 
+> RFC History
+> -----------
+> 
+> RFC v4 -> RFC v5:
+> Suggested by Arnd Bergmann:
+> 	- removed IS_REACHABLE(CONFIG_COMMON_CLK). IS_REACHABLE() is actually
+> 	discouraged [1]. COFIG_COMMON_CLK is a bool, so IS_ENABLED() will be the
+> 	right solution here
+> Suggested by Hans de Goede:
+> 	- added handling for the special ACPI-based system case, where
+> 	  both a reference to the clock-provider and the _DSD
+> 	  clock-frequency are present.
+> 	- updated the function's kernel-doc and the commit msg
+> 	  to mention this special case.
+> Link RFC v4: https://lore.kernel.org/linux-media/20250321130329.342236-1-mehdi.djait@linux.intel.com/
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/Documentation/kbuild/kconfig-language.rst?h=next-20250513&id=700bd25bd4f47a0f4e02e0a25dde05f1a6b16eea
+> 
+> RFC v3 -> RFC v4:
+> Suggested by Laurent:
+> 	- removed the #ifdef to use IS_REACHABLE(CONFIG_COMMON_CLK)
+> 	- changed to kasprintf() to allocate the clk name when id is NULL and
+> 	  used the __free(kfree) scope-based cleanup helper when
+> 	  defining the variable to hold the allocated name
+> Link v3: https://lore.kernel.org/linux-media/20250321093814.18159-1-mehdi.djait@linux.intel.com/
+> 
+> RFC v2 -> RFC v3:
+> - Added #ifdef CONFIG_COMMON_CLK for the ACPI case
+> Link v2: https://lore.kernel.org/linux-media/20250310122305.209534-1-mehdi.djait@linux.intel.com/
+> 
+> RFC v1 -> RFC v2:
+> Suggested by Sakari:
+>     - removed clk_name
+>     - removed the IS_ERR() check
+>     - improved the kernel-doc comment and commit msg
+> Link v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehdi.djait@linux.intel.com
+> 
+> Mehdi Djait (55):
+>   media: v4l2-common: Add a helper for obtaining the clock producer
+>   Documentation: media: camera-sensor: Mention
+>     v4l2_devm_sensor_clk_get() for obtaining the clock
+>   media: i2c: ar0521: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ds90ub913: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ds90ub960: Use the v4l2 helper for obtaining the clock
+
+Those two are FPD-Link serializer and deserializer drivers. I would
+leave them out, and only address camera sensors in this series, as ACPI
+integration for serdes or other kind of chips needs to be discussed
+separately.
+
+>   media: i2c: et8ek8: Use the v4l2 helper for obtaining the clock
+>   media: i2c: gc05a2: Use the v4l2 helper for obtaining the clock
+>   media: i2c: gc08a3: Use the v4l2 helper for obtaining the clock
+>   media: i2c: gc2145: Use the v4l2 helper for obtaining the clock
+>   media: i2c: hi846: Use the v4l2 helper for obtaining the clock
+>   media: i2c: imx214: Use the v4l2 helper for obtaining the clock
+>   media: i2c: imx219: Use the v4l2 helper for obtaining the clock
+>   media: i2c: imx283: Use the v4l2 helper for obtaining the clock
+>   media: i2c: imx290: Use the v4l2 helper for obtaining the clock
+>   media: i2c: imx296: Use the v4l2 helper for obtaining the clock
+>   media: i2c: imx334: Use the v4l2 helper for obtaining the clock
+>   media: i2c: imx335: Use the v4l2 helper for obtaining the clock
+>   media: i2c: imx412: Use the v4l2 helper for obtaining the clock
+>   media: i2c: imx415: Use the v4l2 helper for obtaining the clock
+>   media: i2c: max2175: Use the v4l2 helper for obtaining the clock
+
+This is a tuner, I would leave it out too.
+
+>   media: i2c: mt9m001: Use the v4l2 helper for obtaining the clock
+>   media: i2c: mt9m111: Use the v4l2 helper for obtaining the clock
+>   media: i2c: mt9m114: Use the v4l2 helper for obtaining the clock
+>   media: i2c: mt9p031: Use the v4l2 helper for obtaining the clock
+>   media: i2c: mt9t112: Use the v4l2 helper for obtaining the clock
+>   media: i2c: mt9v032: Use the v4l2 helper for obtaining the clock
+>   media: i2c: mt9v111: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov02a10: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov2659: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov2685: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov5640: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov5645: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov5647: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov5648: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov5695: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov64a40: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov6650: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov7740: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov8856: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov8858: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov8865: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov9282: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov9640: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov9650: Use the v4l2 helper for obtaining the clock
+>   media: i2c: s5c73m3: Use the v4l2 helper for obtaining the clock
+>   media: i2c: s5k5baf: Use the v4l2 helper for obtaining the clock
+>   media: i2c: s5k6a3: Use the v4l2 helper for obtaining the clock
+>   media: i2c: st-mipid02: Use the v4l2 helper for obtaining the clock
+>   media: i2c: tc358743: Use the v4l2 helper for obtaining the clock
+>   media: i2c: tc358746: Use the v4l2 helper for obtaining the clock
+
+Those three drivers are for a CSI-2 to parallel or HDMI to CSI-2
+bridges, I would leave them out too.
+
+>   media: i2c: thp7312: Use the v4l2 helper for obtaining the clock
+
+And this is an external ISP, that I would also leave out for now.
+
+>   media: i2c: vd55g1: Use the v4l2 helper for obtaining the clock
+>   media: i2c: vd56g3: Use the v4l2 helper for obtaining the clock
+>   media: i2c: vgxy61: Use the v4l2 helper for obtaining the clock
+>   media: i2c: ov2680: Use the v4l2 helper for obtaining the clock
+
+All the rest should be sensors, but please double-check.
+
+For the sensor driver patches *except* ov8865 and ov2680,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> 
+>  .../driver-api/media/camera-sensor.rst        |  3 +-
+>  drivers/media/i2c/ar0521.c                    |  2 +-
+>  drivers/media/i2c/ds90ub913.c                 |  2 +-
+>  drivers/media/i2c/ds90ub960.c                 |  2 +-
+>  drivers/media/i2c/et8ek8/et8ek8_driver.c      |  2 +-
+>  drivers/media/i2c/gc05a2.c                    |  2 +-
+>  drivers/media/i2c/gc08a3.c                    |  2 +-
+>  drivers/media/i2c/gc2145.c                    |  2 +-
+>  drivers/media/i2c/hi846.c                     |  2 +-
+>  drivers/media/i2c/imx214.c                    |  2 +-
+>  drivers/media/i2c/imx219.c                    |  2 +-
+>  drivers/media/i2c/imx283.c                    |  2 +-
+>  drivers/media/i2c/imx290.c                    |  2 +-
+>  drivers/media/i2c/imx296.c                    |  2 +-
+>  drivers/media/i2c/imx334.c                    |  2 +-
+>  drivers/media/i2c/imx335.c                    |  2 +-
+>  drivers/media/i2c/imx412.c                    |  2 +-
+>  drivers/media/i2c/imx415.c                    |  2 +-
+>  drivers/media/i2c/max2175.c                   |  2 +-
+>  drivers/media/i2c/mt9m001.c                   |  2 +-
+>  drivers/media/i2c/mt9m111.c                   |  2 +-
+>  drivers/media/i2c/mt9m114.c                   |  2 +-
+>  drivers/media/i2c/mt9p031.c                   |  2 +-
+>  drivers/media/i2c/mt9t112.c                   |  2 +-
+>  drivers/media/i2c/mt9v032.c                   |  2 +-
+>  drivers/media/i2c/mt9v111.c                   |  2 +-
+>  drivers/media/i2c/ov02a10.c                   |  2 +-
+>  drivers/media/i2c/ov2659.c                    |  2 +-
+>  drivers/media/i2c/ov2680.c                    | 27 +++-------
+>  drivers/media/i2c/ov2685.c                    |  2 +-
+>  drivers/media/i2c/ov5640.c                    |  2 +-
+>  drivers/media/i2c/ov5645.c                    |  2 +-
+>  drivers/media/i2c/ov5647.c                    |  2 +-
+>  drivers/media/i2c/ov5648.c                    |  2 +-
+>  drivers/media/i2c/ov5695.c                    |  2 +-
+>  drivers/media/i2c/ov64a40.c                   |  2 +-
+>  drivers/media/i2c/ov6650.c                    |  2 +-
+>  drivers/media/i2c/ov7740.c                    |  2 +-
+>  drivers/media/i2c/ov8856.c                    |  2 +-
+>  drivers/media/i2c/ov8858.c                    |  2 +-
+>  drivers/media/i2c/ov8865.c                    | 32 ++----------
+>  drivers/media/i2c/ov9282.c                    |  2 +-
+>  drivers/media/i2c/ov9640.c                    |  2 +-
+>  drivers/media/i2c/ov9650.c                    |  2 +-
+>  drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  2 +-
+>  drivers/media/i2c/s5k5baf.c                   |  2 +-
+>  drivers/media/i2c/s5k6a3.c                    |  2 +-
+>  drivers/media/i2c/st-mipid02.c                |  2 +-
+>  drivers/media/i2c/tc358743.c                  |  2 +-
+>  drivers/media/i2c/tc358746.c                  |  2 +-
+>  drivers/media/i2c/thp7312.c                   |  2 +-
+>  drivers/media/i2c/vd55g1.c                    |  2 +-
+>  drivers/media/i2c/vd56g3.c                    |  2 +-
+>  drivers/media/i2c/vgxy61.c                    |  2 +-
+>  drivers/media/v4l2-core/v4l2-common.c         | 49 +++++++++++++++++++
+>  include/media/v4l2-common.h                   | 25 ++++++++++
+>  56 files changed, 136 insertions(+), 102 deletions(-)
 
 -- 
 Regards,
