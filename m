@@ -1,520 +1,205 @@
-Return-Path: <linux-media+bounces-35263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35264-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EECAE02E5
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 12:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB05AE0342
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 13:17:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A12F73A452D
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 10:45:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8CA8D3B84D5
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 11:17:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BDFD221552;
-	Thu, 19 Jun 2025 10:45:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD93227B87;
+	Thu, 19 Jun 2025 11:17:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gfK/LWDz"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="QxoBD6F9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fNZRVtxi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CDC1D9A54
-	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 10:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536093085A3;
+	Thu, 19 Jun 2025 11:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750329948; cv=none; b=Ps4PmXW2wYqG6euQoTEy68nhqevuM+30cGmH7IzWcYJJHGMKHi+emNu0YdV2pA5L0e9eb+Bvm9WsuSCK6fhc09HkwvpHj85wBB2yoW/PXHhoZRvPpp7EREc5CjKRj4ceNsaGxlp99j6kAugu/kMvMq1usRppp6KlwbEUugylPlE=
+	t=1750331863; cv=none; b=NfjQSnrKZkwe2OrDL4rHZ9YuUsr++fNhaqi4DARNZUW87naYllVmqTbLMhQ30yJbx0p9/5s9bLTPlWc+FCc8teciM6dHgOoWS6gD8sRUmenH91WV43JTbb5NqzzvORHABj2r5ED6lN3WOk5kgAKtxwPMiqZ14sj3YrDubJofpbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750329948; c=relaxed/simple;
-	bh=+swIXb1UVpnojAOJB+U0+hpJ+xsuBzsrjjFpASkBQCE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AddKjMe5leeKuBHJpIYLETVVsNbjHXVI65CYtokF0dFv2yR5LfMTKwBmNtN7VpjCKom1tj8tNfKiKaJUJJEk7TQA3xT9WPpXR0vOXVtiqmSbfRrJUpKYmgbbwkvGtgOF4ruOw0hiZK2e/K7WqB6YZetFEy/G2kEq+5xkogI/wTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gfK/LWDz; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750329947; x=1781865947;
-  h=date:from:to:cc:subject:message-id;
-  bh=+swIXb1UVpnojAOJB+U0+hpJ+xsuBzsrjjFpASkBQCE=;
-  b=gfK/LWDzPFZeQHxjcrq4mNaJaiLUvJunrG8pAimLlMBlEv27i3AfEHqp
-   ryqoifzf9Md7+HsK/Lt6YlYG801eiXpLtj+drIvToeXohuNAem9qt2gkX
-   mSoa/gvWIfcaCRAOpodKvqGkUKhcZID+GYg/x1+BZuUkA6LVaoY031PcM
-   eCkR3By+Fl7CdBXNcnt+HOVZvSpzD3sGfIVAd0Tpj29sZyn9EMxwm81Rl
-   iZfZce/8FoDHcelKlj+AXx4s70yYFEfGC9SvyjjXB+p9V/6H5Esd1k7QY
-   wY8zUUiUJXevnkhaE0s3Tp+g8GYyRHgwgS+uC7XYqnez7JRV+nxKLfZg1
-   A==;
-X-CSE-ConnectionGUID: MPU8LW/LQKO8rElxhd3Yjg==
-X-CSE-MsgGUID: LpLp53l6RYewDXiChzINUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52280387"
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="52280387"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:45:45 -0700
-X-CSE-ConnectionGUID: lFnGDmZ2R/SUwViR7uk+fA==
-X-CSE-MsgGUID: 4bqX1mBiSbSrJoHOjZGxrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="154992394"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 19 Jun 2025 03:45:43 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uSCm4-000Kf0-33;
-	Thu, 19 Jun 2025 10:45:40 +0000
-Date: Thu, 19 Jun 2025 18:45:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS WITH WARNING
- 642b70d526ab8daa8f256dfc1eb6bf27c3290cc6
-Message-ID: <202506191848.n54qAZ4w-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1750331863; c=relaxed/simple;
+	bh=idEaRLaE+RSP54+r+HxyaDCbVp+NLBacsXNT6fb4CPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AEDgPHI0HjDh8IcH32iruckA3QNrqOfxmpsN552f10p7bvrKXN8ee7i47o6BF6be8Ye3FUTE2Sum+UQ8izB95UNZNa8pnLGUaGvNgHnEA4Wu4lQmH3BP0UglqGZH0gQjdzWxpjz/IRnbgrXhixqzT+bgjejHvzHB+CZGLsVzwIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=QxoBD6F9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fNZRVtxi; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6C2D7138062F;
+	Thu, 19 Jun 2025 07:17:40 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 19 Jun 2025 07:17:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1750331860;
+	 x=1750418260; bh=ElPYPQY0AhEUWeQHjSRbpNvkdQSFvBUnJdyvmsTl2Jw=; b=
+	QxoBD6F9lhYXLFS8dh8BbJDQ9t2ZaRWjdlUYdkcZQZJKCb3o+ZHFgCuFYBMJTDG4
+	ICHugXFZ+durrqdLgL2LcWaZSWvBYG+aiRMASc0jOJ9K3SqfmXZLOf/kvh4UftzZ
+	DnfK4hEoq+z4pRmGynx/McZAnpLU2k9ZtFhzHOO/4o4epoUjzWgg454/QPJv/N9z
+	4TkygF2tEJUxOWtwttWWJn5QbSM+Bc7fOM++0JPmImHNC4vnHV7thXxd1xTcXNYj
+	LHZh7H5tXOZJzKAAs7RW1uxmV6zDwNztYQ1JU+3rICFBq/qXaD/v19hIoT19tBqS
+	wSJhknxYpK3mEj3Y21723w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1750331860; x=
+	1750418260; bh=ElPYPQY0AhEUWeQHjSRbpNvkdQSFvBUnJdyvmsTl2Jw=; b=f
+	NZRVtxioYOpyfqjzUmGtm3v8N0fIe67JK6VVdODfn+e+XB+hgpINwdsJZDvkbd5y
+	P8y578MUwvhEr3H0Zy2k+7QDDf5qYaPVzyTRRvDqJ0cS+Kgw9SEgs5+lTpLANQH+
+	z/X/uYK773jUpNu1sflTFiwTagGWvNitW/yyVspxdHKeGruQxANfn3sDaDFCu+Em
+	O4ylUM1IKAxNawBJ2D9Yz1DelRm/miizBXxCEHsqIzNOvHrD/PmBVBIRPClRqTZC
+	kddgqBdqQixQZXuU3wjByND8PPoouB2JPuR+8XOLbkPc3ebkoBdAeCDb+lBpzD8h
+	aLaGTT1iffC5zQS7Eo3/A==
+X-ME-Sender: <xms:0_FTaL7FfDSDc7sBj15KinQ7mwYrCtfL0mSZvtp6_YcBsHN8W4XVUg>
+    <xme:0_FTaA4C58mUVgnVnEoHExCMTVRvbpBI0VnK7TIErj-lVIlhTcFDNdD2j_MrxipDi
+    J-JjEkRio84-hxObB0>
+X-ME-Received: <xmr:0_FTaCfMfINw9uR8yrr4wYAF63ZO-AOBNady8o0n8ePVN59t_sRL4XA2wWtUA0qNp7OarPwh_wb3xQTIAvxM_1aZ1G-ytqutoQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdehfeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvg
+    gthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheetheek
+    keegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrght
+    vggthhdrshgvpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepuggvmhhonhhsihhnghhurhesghhmrghilhdrtghomhdprhgtphhtthhopeht
+    ohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurd
+    gtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    oheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjuhhlihgvnhdrmhgrsh
+    hsohhtsegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepshgrkhgrrhhirdgrihhl
+    uhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrph
+    hinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehgrhgv
+    ghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuh
+    hsrdifrghllhgvihhjsehlihhnrghrohdrohhrgh
+X-ME-Proxy: <xmx:0_FTaMJiZWaTFk-YJK9ay3-CFEBjRuteXGnZZr8d4D5Ah_zp8bAwMQ>
+    <xmx:1PFTaPIcATMfx_p1l81YeFgmZtNgHIgpowsI4hXXieSv0Zuvy4IE8A>
+    <xmx:1PFTaFxbecPjOQ5SIqjGd8JZszAPBaJ75nFWPwORTyMAI3v6l4xJvQ>
+    <xmx:1PFTaLIfLrZs9WINNZZ1rTQtHbmBI0rBbMtykD8MSRAHJKYnYXDGUw>
+    <xmx:1PFTaB6A6YclWYdCVuO3x2AntqqpZ2SjApFoW2IKUAt1a-_OUOXd5odF>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Jun 2025 07:17:39 -0400 (EDT)
+Date: Thu, 19 Jun 2025 13:17:37 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Julien Massot <julien.massot@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	"open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS" <linux-media@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" <linux-arm-kernel@lists.infradead.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	"open list:GPIO SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)" <linux-gpio@vger.kernel.org>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>
+Subject: Re: [PATCH v4 08/19] dt-bindings: media: i2c: max96712: use pattern
+ properties for ports
+Message-ID: <20250619111737.GB2847778@ragnatech.se>
+References: <20250618095858.2145209-1-demonsingur@gmail.com>
+ <20250618095858.2145209-9-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250618095858.2145209-9-demonsingur@gmail.com>
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: 642b70d526ab8daa8f256dfc1eb6bf27c3290cc6  media: imx8mq-mipi-csi2: Add support for i.MX8QXP
+Hi Cosmin,
 
-Warning (recently discovered and may have been fixed):
+Thanks for your work.
 
-    https://lore.kernel.org/oe-kbuild-all/202506181950.r9PRdV59-lkp@intel.com
+On 2025-06-18 12:58:44 +0300, Cosmin Tanislav wrote:
+> The MAX96712 and MAX96724 support up to 4 separate PHYs, depending on
+> the selected PHY configuration. Use patternProperties to document this.
+> 
+> The input ports are all the same, use patternProperties for them.
+> 
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-    drivers/media/platform/renesas/vsp1/vsp1_vspx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Warning ids grouped by kconfigs:
+> ---
+>  .../bindings/media/i2c/maxim,max96712.yaml    | 29 +++++++------------
+>  1 file changed, 10 insertions(+), 19 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> index efdece2b33b9..f712d7cfc35f 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> @@ -40,27 +40,15 @@ properties:
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>  
+> -    properties:
+> -      port@0:
+> +    patternProperties:
+> +      '^port@[0-3]$':
+>          $ref: /schemas/graph.yaml#/properties/port
+> -        description: GMSL Input 0
+> +        description: GMSL Input ports 0-3
+>  
+> -      port@1:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> -        description: GMSL Input 1
+> -
+> -      port@2:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> -        description: GMSL Input 2
+> -
+> -      port@3:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> -        description: GMSL Input 3
+> -
+> -      port@4:
+> +      '^port@[4-7]$':
+>          $ref: /schemas/graph.yaml#/$defs/port-base
+>          unevaluatedProperties: false
+> -        description: CSI-2 Output
+> +        description: CSI-2 Output port 0-3
+>  
+>          properties:
+>            endpoint:
+> @@ -78,8 +66,11 @@ properties:
+>                - data-lanes
+>                - bus-type
+>  
+> -    required:
+> -      - port@4
+> +    anyOf:
+> +      - required: [port@4]
+> +      - required: [port@5]
+> +      - required: [port@6]
+> +      - required: [port@7]
+>  
+>  required:
+>    - compatible
+> -- 
+> 2.49.0
+> 
 
-recent_errors
-|-- alpha-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arc-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arc-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arc-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arc-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm-randconfig-003-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm-randconfig-004-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm64-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm64-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm64-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm64-randconfig-003-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- arm64-randconfig-004-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- csky-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- csky-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- hexagon-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- hexagon-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- hexagon-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- hexagon-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- i386-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- i386-buildonly-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- i386-buildonly-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- i386-buildonly-randconfig-003-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- i386-buildonly-randconfig-004-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- i386-buildonly-randconfig-005-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- i386-buildonly-randconfig-006-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- loongarch-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- loongarch-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- loongarch-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- m68k-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- m68k-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- m68k-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- microblaze-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- microblaze-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- microblaze-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- mips-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- nios2-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- nios2-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- nios2-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- openrisc-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- parisc-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- parisc-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- parisc-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- powerpc-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- powerpc-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- powerpc-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- powerpc-randconfig-003-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- powerpc64-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- powerpc64-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- riscv-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- riscv-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- riscv-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- s390-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- s390-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- s390-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- s390-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sh-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sh-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sh-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sh-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sh-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sparc-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sparc-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sparc-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sparc-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sparc64-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- sparc64-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- um-allmodconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- um-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- um-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- um-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-allyesconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-buildonly-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-buildonly-randconfig-002-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-buildonly-randconfig-003-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-buildonly-randconfig-004-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-buildonly-randconfig-005-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-buildonly-randconfig-006-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-defconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- x86_64-rhel-9.4-rust
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- xtensa-allnoconfig
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-|-- xtensa-randconfig-001-20250618
-|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-`-- xtensa-randconfig-002-20250618
-    `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
-
-elapsed time: 1361m
-
-configs tested: 246
-configs skipped: 7
-
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    clang-19
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    clang-19
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                   randconfig-001-20250618    gcc-11.5.0
-arc                   randconfig-001-20250619    gcc-15.1.0
-arc                   randconfig-002-20250618    gcc-15.1.0
-arc                   randconfig-002-20250619    gcc-15.1.0
-arm                              allmodconfig    clang-19
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    gcc-15.1.0
-arm                              allyesconfig    clang-19
-arm                              allyesconfig    gcc-15.1.0
-arm                         bcm2835_defconfig    gcc-15.1.0
-arm                                 defconfig    gcc-15.1.0
-arm                      jornada720_defconfig    clang-21
-arm                        multi_v7_defconfig    gcc-15.1.0
-arm                   randconfig-001-20250618    gcc-15.1.0
-arm                   randconfig-001-20250619    gcc-15.1.0
-arm                   randconfig-002-20250618    gcc-10.5.0
-arm                   randconfig-002-20250619    gcc-15.1.0
-arm                   randconfig-003-20250618    clang-21
-arm                   randconfig-003-20250619    gcc-15.1.0
-arm                   randconfig-004-20250618    gcc-11.5.0
-arm                   randconfig-004-20250619    gcc-15.1.0
-arm                           stm32_defconfig    gcc-15.1.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20250618    clang-21
-arm64                 randconfig-001-20250619    gcc-15.1.0
-arm64                 randconfig-002-20250618    clang-21
-arm64                 randconfig-002-20250619    gcc-15.1.0
-arm64                 randconfig-003-20250618    gcc-14.3.0
-arm64                 randconfig-003-20250619    gcc-15.1.0
-arm64                 randconfig-004-20250618    clang-16
-arm64                 randconfig-004-20250619    gcc-15.1.0
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20250618    gcc-13.3.0
-csky                  randconfig-001-20250619    gcc-8.5.0
-csky                  randconfig-002-20250618    gcc-15.1.0
-csky                  randconfig-002-20250619    gcc-8.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    gcc-15.1.0
-hexagon                          allyesconfig    clang-19
-hexagon                          allyesconfig    clang-21
-hexagon                             defconfig    gcc-15.1.0
-hexagon               randconfig-001-20250618    clang-19
-hexagon               randconfig-001-20250619    gcc-8.5.0
-hexagon               randconfig-002-20250618    clang-16
-hexagon               randconfig-002-20250619    gcc-8.5.0
-i386                             allmodconfig    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-20
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-20
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250618    clang-20
-i386        buildonly-randconfig-001-20250619    clang-20
-i386        buildonly-randconfig-002-20250618    gcc-12
-i386        buildonly-randconfig-002-20250619    clang-20
-i386        buildonly-randconfig-003-20250618    clang-20
-i386        buildonly-randconfig-003-20250619    clang-20
-i386        buildonly-randconfig-004-20250618    clang-20
-i386        buildonly-randconfig-004-20250619    clang-20
-i386        buildonly-randconfig-005-20250618    clang-20
-i386        buildonly-randconfig-005-20250619    clang-20
-i386        buildonly-randconfig-006-20250618    clang-20
-i386        buildonly-randconfig-006-20250619    clang-20
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250619    gcc-12
-i386                  randconfig-002-20250619    gcc-12
-i386                  randconfig-003-20250619    gcc-12
-i386                  randconfig-004-20250619    gcc-12
-i386                  randconfig-005-20250619    gcc-12
-i386                  randconfig-006-20250619    gcc-12
-i386                  randconfig-007-20250619    gcc-12
-i386                  randconfig-011-20250619    clang-20
-i386                  randconfig-012-20250619    clang-20
-i386                  randconfig-013-20250619    clang-20
-i386                  randconfig-014-20250619    clang-20
-i386                  randconfig-015-20250619    clang-20
-i386                  randconfig-016-20250619    clang-20
-i386                  randconfig-017-20250619    clang-20
-loongarch                        allmodconfig    gcc-15.1.0
-loongarch                         allnoconfig    gcc-15.1.0
-loongarch                           defconfig    gcc-15.1.0
-loongarch             randconfig-001-20250618    gcc-15.1.0
-loongarch             randconfig-001-20250619    gcc-8.5.0
-loongarch             randconfig-002-20250618    gcc-15.1.0
-loongarch             randconfig-002-20250619    gcc-8.5.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                         apollo_defconfig    clang-21
-m68k                                defconfig    gcc-15.1.0
-m68k                            mac_defconfig    clang-21
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                           ip30_defconfig    clang-21
-mips                           ip32_defconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250618    gcc-11.5.0
-nios2                 randconfig-001-20250619    gcc-8.5.0
-nios2                 randconfig-002-20250618    gcc-8.5.0
-nios2                 randconfig-002-20250619    gcc-8.5.0
-openrisc                          allnoconfig    clang-21
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-21
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-12
-parisc                randconfig-001-20250618    gcc-10.5.0
-parisc                randconfig-001-20250619    gcc-8.5.0
-parisc                randconfig-002-20250618    gcc-8.5.0
-parisc                randconfig-002-20250619    gcc-8.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-21
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    gcc-15.1.0
-powerpc                   currituck_defconfig    clang-21
-powerpc               randconfig-001-20250618    gcc-8.5.0
-powerpc               randconfig-001-20250619    gcc-8.5.0
-powerpc               randconfig-002-20250618    clang-19
-powerpc               randconfig-002-20250619    gcc-8.5.0
-powerpc               randconfig-003-20250618    clang-21
-powerpc               randconfig-003-20250619    gcc-8.5.0
-powerpc                     tqm8540_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20250618    gcc-8.5.0
-powerpc64             randconfig-001-20250619    gcc-8.5.0
-powerpc64             randconfig-002-20250618    clang-21
-powerpc64             randconfig-002-20250619    gcc-8.5.0
-powerpc64             randconfig-003-20250619    gcc-8.5.0
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    gcc-15.1.0
-riscv                               defconfig    gcc-12
-riscv                 randconfig-001-20250618    clang-20
-riscv                 randconfig-001-20250619    gcc-9.3.0
-riscv                 randconfig-002-20250618    clang-21
-riscv                 randconfig-002-20250619    gcc-9.3.0
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250618    gcc-8.5.0
-s390                  randconfig-001-20250619    gcc-9.3.0
-s390                  randconfig-002-20250618    gcc-15.1.0
-s390                  randconfig-002-20250619    gcc-9.3.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                         apsh4a3a_defconfig    clang-21
-sh                                  defconfig    gcc-12
-sh                    randconfig-001-20250618    gcc-15.1.0
-sh                    randconfig-001-20250619    gcc-9.3.0
-sh                    randconfig-002-20250618    gcc-15.1.0
-sh                    randconfig-002-20250619    gcc-9.3.0
-sh                           se7705_defconfig    clang-21
-sh                            titan_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20250618    gcc-8.5.0
-sparc                 randconfig-001-20250619    gcc-9.3.0
-sparc                 randconfig-002-20250618    gcc-13.3.0
-sparc                 randconfig-002-20250619    gcc-9.3.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20250618    gcc-13.3.0
-sparc64               randconfig-001-20250619    gcc-9.3.0
-sparc64               randconfig-002-20250618    gcc-8.5.0
-sparc64               randconfig-002-20250619    gcc-9.3.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    clang-19
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250618    clang-21
-um                    randconfig-001-20250619    gcc-9.3.0
-um                    randconfig-002-20250618    clang-21
-um                    randconfig-002-20250619    gcc-9.3.0
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250618    clang-20
-x86_64      buildonly-randconfig-001-20250619    gcc-12
-x86_64      buildonly-randconfig-002-20250618    clang-20
-x86_64      buildonly-randconfig-002-20250619    gcc-12
-x86_64      buildonly-randconfig-003-20250618    gcc-12
-x86_64      buildonly-randconfig-003-20250619    gcc-12
-x86_64      buildonly-randconfig-004-20250618    clang-20
-x86_64      buildonly-randconfig-004-20250619    gcc-12
-x86_64      buildonly-randconfig-005-20250618    clang-20
-x86_64      buildonly-randconfig-005-20250619    gcc-12
-x86_64      buildonly-randconfig-006-20250618    gcc-12
-x86_64      buildonly-randconfig-006-20250619    gcc-12
-x86_64                              defconfig    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250619    gcc-11
-x86_64                randconfig-002-20250619    gcc-11
-x86_64                randconfig-003-20250619    gcc-11
-x86_64                randconfig-004-20250619    gcc-11
-x86_64                randconfig-005-20250619    gcc-11
-x86_64                randconfig-006-20250619    gcc-11
-x86_64                randconfig-007-20250619    gcc-11
-x86_64                randconfig-008-20250619    gcc-11
-x86_64                randconfig-071-20250619    clang-20
-x86_64                randconfig-072-20250619    clang-20
-x86_64                randconfig-073-20250619    clang-20
-x86_64                randconfig-074-20250619    clang-20
-x86_64                randconfig-075-20250619    clang-20
-x86_64                randconfig-076-20250619    clang-20
-x86_64                randconfig-077-20250619    clang-20
-x86_64                randconfig-078-20250619    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-12
-x86_64                         rhel-9.4-kunit    gcc-12
-x86_64                           rhel-9.4-ltp    gcc-12
-x86_64                          rhel-9.4-rust    clang-18
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                           alldefconfig    gcc-15.1.0
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250618    gcc-13.3.0
-xtensa                randconfig-001-20250619    gcc-9.3.0
-xtensa                randconfig-002-20250618    gcc-11.5.0
-xtensa                randconfig-002-20250619    gcc-9.3.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+Kind Regards,
+Niklas Söderlund
 
