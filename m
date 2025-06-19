@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-35321-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35322-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C921AE0500
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF45AE04FF
 	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 14:06:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E770A3B56AA
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C8D45A401F
 	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 12:03:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A4D425BF1D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A446248897;
 	Thu, 19 Jun 2025 11:59:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAUMnrpz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFXuWFDK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACBB2459F1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CAE25B31A
 	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 11:59:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750334369; cv=none; b=kUzSJsm9oFFD69RJatyhwHxCMVqPtNT1oseicKknYZ5BDJM1tEkvYLrFef+2eGCnotzhudn7JJ1gtxXO7sCC5qbTNQJIKOJ3Hj2QlbPAVaZbvdxrUhcN5Zswfh2m74qa/1w+awLdqe3f5JWUj0NeyHSNupElVzLc0scUBm/xfqc=
+	t=1750334369; cv=none; b=eVhgdjCAzMK9lIiOaxEUwWVUTh1Fu8RCqX6raJgnOu8tmdwDXncjxRuUwV/U7tVKADbsWjI7iYqySeRoWrestEiTUZ19jn6fk3GFyFHO2qEGSSoO0v2AeCD0uY4kk8V813r98PNE4XmGipUCIFyLlnwineSwC9tXV9W/5X1ZoAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750334369; c=relaxed/simple;
-	bh=UDQBeeC/ztAnRIf+KYyhhkWgbKkqasklWy2iTnRo49Q=;
+	bh=i6bvx7JfRa3Il6iw1UVrlth+f1iJ3ZuDaX9ik3Whpzs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Wdj6q3g1DP1iXqhakRjZaz0vGxsBksNSZ3Lm/8p/p1n9WAXNnLUti857fdLdxXyP1/wopvEkXyDn8ZWAJnGHAEpBTJlUrxzmh8PUY9Gq2OHUapz1Le14YOZPT9KMa0y8UWSkQKouODwKNcNOFefOyucXB4pFkkNSLvHRBo1U3tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAUMnrpz; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version; b=LHbvHVxw3kpPi8SlWxcKQpNnsKGWZ5kMZnOvk7OiYg3j+NWNJlbaWArZBM0H9MwVz4fdZw11qeE5iQJhEw6XwrkRMi+5B09jUv3XZQnnhKC7JJdrwq78d0S+zBMzNjjIcj2iMk7HuHjO3sv65Lsvth7t5weOkYgcyurLPEcR3U4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFXuWFDK; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -36,34 +36,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1750334368; x=1781870368;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=UDQBeeC/ztAnRIf+KYyhhkWgbKkqasklWy2iTnRo49Q=;
-  b=EAUMnrpzM72hoG4it6+41u4cU/rPsTnZgHnUOjd9ZTfrknhjzjtsgun5
-   ZG/WEitp8cUbrI6+Zs5fpSO5AhCLunvDk+rZhqmaQ92fIGEPsukx2BtmZ
-   1RCcWPIGT1XxpOji57Zb01a20Tg1I7tfqwSmn6FYI/8WWeVpEK3zU7lH+
-   dZADvsnYUnXqr9AhSPVwMYN402elGckqRvwxDpHeh/91p5s/zp+v7xQAC
-   al10UJTJCdPLqMRW/BL94Pntc9shk8TrnRgy+jrH1VrCHHK8EXkTVao3p
-   yKlet5k97UycqB5GCq7NLo3wePPKnOr8ymnPl0brGvKrCV1iv8MOt1HhC
+  bh=i6bvx7JfRa3Il6iw1UVrlth+f1iJ3ZuDaX9ik3Whpzs=;
+  b=mFXuWFDKuRr2DiE0GEHC0IqhdRhZWHO48kLm/9s/2X8mMko29XCXW3YO
+   Krjd63bc8B37EcsaXY8wI769ZWBXqxpyAnGfu7dWdnJ+4vLzZ7LULnK77
+   zkRejvJw6YzdSP738dIbltSLv1M0rc9q9Q11waawrOPKaC5cunDDFiFzv
+   6WAdprWPIB9/VkqajloRhVWDHUXnjtz1hW2sXFSR+3LtsjbOldfgbKxLD
+   Nc2OOGW/3O2sMHXe4EK/hgtqrRAh3GKgfUfMYi+MBbt/Mdru0k7i8Bp/8
+   /dKatgEdU3imzUrQpvtF8LogMeGuyNLS5w9kE6KC4CX29tH1qBxa26b1a
    w==;
-X-CSE-ConnectionGUID: IGlEPnnyTN603omHmQaCLQ==
-X-CSE-MsgGUID: ABLkwPa8Qg6+kIEwz6sq7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="56386839"
+X-CSE-ConnectionGUID: K3xIDAxqSzy6XytfTlfD1Q==
+X-CSE-MsgGUID: hY4H29dcQP+rwrvYnyephg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="56386862"
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="56386839"
+   d="scan'208";a="56386862"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 04:59:20 -0700
-X-CSE-ConnectionGUID: tfVb7PFJRgSodX4E5AspVA==
-X-CSE-MsgGUID: zZS2V0lkTciygC3n+r6XFQ==
+X-CSE-ConnectionGUID: H3ySmVpaSnmLCGlq8mGudA==
+X-CSE-MsgGUID: h7fI8VSPQlacphsJ/X6TJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="154908521"
+   d="scan'208";a="154908523"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.167])
   by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 04:59:13 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6AF6712328D;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 7035312328E;
 	Thu, 19 Jun 2025 14:58:37 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uSDuf-008AMA-1K;
+	id 1uSDuf-008AMF-1M;
 	Thu, 19 Jun 2025 14:58:37 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -96,9 +96,9 @@ Cc: hans@jjverkuil.nl,
 	Hans de Goede <hdegoede@redhat.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v10 57/64] media: i2c: imx219: Report internal routes to userspace
-Date: Thu, 19 Jun 2025 14:58:29 +0300
-Message-Id: <20250619115836.1946016-58-sakari.ailus@linux.intel.com>
+Subject: [PATCH v10 58/64] media: i2c: imx219: Report streams using frame descriptors
+Date: Thu, 19 Jun 2025 14:58:30 +0300
+Message-Id: <20250619115836.1946016-59-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
 References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
@@ -112,72 +112,98 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Usage of internal pads creates a route internal to the subdev, and the
-V4L2 camera sensor API requires such routes to be reported to userspace.
-Create the route in the .init_state() operation.
-
-Internal routing support requires stream support, so set the
-V4L2_SUBDEV_FL_STREAMS flag. As the route is immutable, there's no need
-to implement the .set_routing() operation.
+Implement the .get_frame_desc() subdev operation to report information
+about streams to the connected CSI-2 receiver. This is required to let
+the CSI-2 receiver driver know about virtual channels and data types for
+each stream.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/imx219.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ drivers/media/i2c/imx219.c | 48 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
 diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index d2abe91c42f1..75d7f6befbf2 100644
+index 75d7f6befbf2..dc1de024de6e 100644
 --- a/drivers/media/i2c/imx219.c
 +++ b/drivers/media/i2c/imx219.c
-@@ -1066,15 +1066,36 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+@@ -23,6 +23,7 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
+ 
++#include <media/mipi-csi2.h>
+ #include <media/v4l2-cci.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+@@ -678,6 +679,24 @@ static void imx219_free_controls(struct imx219 *imx219)
+  * Subdev operations
+  */
+ 
++static unsigned int imx219_format_bpp(u32 code)
++{
++	switch (code) {
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++		return 8;
++
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++	default:
++		return 10;
++	}
++}
++
+ static int imx219_set_framefmt(struct imx219 *imx219,
+ 			       struct v4l2_subdev_state *state)
+ {
+@@ -1063,6 +1082,34 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+ 	return -EINVAL;
+ }
+ 
++static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
++				 struct v4l2_mbus_frame_desc *fd)
++{
++	const struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_subdev_state *state;
++	u32 code;
++
++	if (pad != IMX219_PAD_SOURCE)
++		return -EINVAL;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
++					   IMX219_STREAM_IMAGE);
++	code = fmt->code;
++	v4l2_subdev_unlock_state(state);
++
++	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
++	fd->num_entries = 1;
++
++	fd->entry[0].pixelcode = code;
++	fd->entry[0].stream = IMX219_STREAM_IMAGE;
++	fd->entry[0].bus.csi2.vc = 0;
++	fd->entry[0].bus.csi2.dt = imx219_format_bpp(code) == 8 ?
++		MIPI_CSI2_DT_RAW8 : MIPI_CSI2_DT_RAW10;
++
++	return 0;
++}
++
  static int imx219_init_state(struct v4l2_subdev *sd,
  			     struct v4l2_subdev_state *state)
  {
-+	struct v4l2_subdev_route routes[1] = {
-+		{
-+			.sink_pad = IMX219_PAD_IMAGE,
-+			.sink_stream = 0,
-+			.source_pad = IMX219_PAD_SOURCE,
-+			.source_stream = IMX219_STREAM_IMAGE,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-+				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
-+		},
-+	};
-+	struct v4l2_subdev_krouting routing = {
-+		.len_routes = ARRAY_SIZE(routes),
-+		.num_routes = ARRAY_SIZE(routes),
-+		.routes = routes,
-+	};
- 	struct v4l2_subdev_format fmt = {
- 		.which = V4L2_SUBDEV_FORMAT_TRY,
- 		.pad = IMX219_PAD_SOURCE,
-+		.stream = IMX219_STREAM_IMAGE,
- 		.format = {
- 			.code = MEDIA_BUS_FMT_SRGGB10_1X10,
- 			.width = supported_modes[0].width,
- 			.height = supported_modes[0].height,
- 		},
- 	};
-+	int ret;
-+
-+	ret = v4l2_subdev_set_routing(sd, state, &routing);
-+	if (ret)
-+		return ret;
- 
- 	imx219_set_pad_format(sd, state, &fmt);
- 
-@@ -1339,7 +1360,8 @@ static int imx219_probe(struct i2c_client *client)
- 		goto error_power_off;
- 
- 	/* Initialize subdev */
--	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+			    V4L2_SUBDEV_FL_STREAMS;
- 	imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
- 	/*
+@@ -1112,6 +1159,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
+ 	.set_fmt = imx219_set_pad_format,
+ 	.get_selection = imx219_get_selection,
+ 	.enum_frame_size = imx219_enum_frame_size,
++	.get_frame_desc = imx219_get_frame_desc,
+ 	.enable_streams = imx219_enable_streams,
+ 	.disable_streams = imx219_disable_streams,
+ };
 -- 
 2.39.5
 
