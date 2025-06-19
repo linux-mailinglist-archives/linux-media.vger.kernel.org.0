@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-35443-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35444-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FA8AE0F18
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 23:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB942AE0F25
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 23:58:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8831A1892DF1
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 21:47:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 545BE1BC5BC8
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 21:58:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 051C6230BE4;
-	Thu, 19 Jun 2025 21:47:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C748325DAE1;
+	Thu, 19 Jun 2025 21:58:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KQ/2cDXK"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UKACPZar"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD4F30E85D;
-	Thu, 19 Jun 2025 21:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FC8145B18;
+	Thu, 19 Jun 2025 21:58:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750369648; cv=none; b=TrSGkmuNNYqlmBZFbiH43DhmjEBeMVvt4DJW7ypxqLVD9t+rEiiECmrSjXwGxDRfM+tm0LKok9Lo1gqXvFF818LEfunvKePcYhJBDHUTMGHiEfhabTY6bSZE7BgTbQzdGyA0hXrN8Hi7keWBQ5OriANiQ6e7utaltl10WYcLJ1k=
+	t=1750370289; cv=none; b=dQCe7LExa9TG8qjdNVuXdojEJnj4lKoo2+PkzsF5shFqirlgZ7EzO6hGnt+LYhY2MYaxe5t6JqGdEDEEiKMNuu3rPLJWteJN+kGrkNsP+YP5HfOTVrMzshOyVB/GNqeP7T5Tag02Un+SA+r0lWutvOamwF5gy5xeE4O6D9AuYyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750369648; c=relaxed/simple;
-	bh=m4oDBPzsVwFn306XKjJaQFlsPXy8FWKdTSj8uorHUCg=;
+	s=arc-20240116; t=1750370289; c=relaxed/simple;
+	bh=7ubSmNknIowPSSbH4wvD6rn23Imdjb1MUovgK0SFZwU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hea1zL12okgFFOcOev2pG1N6q0w7P0qZ5rtYFABV/KOJEN8droVAv/NwaiEs2pkvaprygqTMnEYTld629klTxzkRzBAqIOiKdMdQ541H568e2ymWBvDlVzyHueaMcxmUliQQDVANmmzKdRO7VVZlX6h+54PCsFbLVinHgqzjgb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KQ/2cDXK; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=b+L8zLnu6E5Iq/kWWJksZIYrzDNAk1zmpst32pJ0vw+16r6kSHoJWbyeX7/CEADydBMo1no9QdNo7j8I1UpIGT3s6MCgq4cXn7Z+jH74SxWdVYlwX67Czr/nCHqeV+OvvxE1eNSJTGDJ3YdbgAK87YKzl+kPZaMlJu+O2l0dHTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UKACPZar; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9873725;
-	Thu, 19 Jun 2025 23:47:08 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A35D725;
+	Thu, 19 Jun 2025 23:57:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750369629;
-	bh=m4oDBPzsVwFn306XKjJaQFlsPXy8FWKdTSj8uorHUCg=;
+	s=mail; t=1750370269;
+	bh=7ubSmNknIowPSSbH4wvD6rn23Imdjb1MUovgK0SFZwU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KQ/2cDXKWujuFsgJFOvr4ZmThNJOzuYAcScgYISt4y6sX8M5M2eYTw3+2JaSqGWBE
-	 rLfBOMJ+Oi6IHHr8TUBS4qvqTFI0Rm8txd25WN1/m3Y8Gfj/Pvb5HWqPEJflp5Nitu
-	 n6iGLW7sLhkRpxjUK2E9euaW7i3JCPQzNZblIaHo=
-Date: Fri, 20 Jun 2025 00:47:05 +0300
+	b=UKACPZarXfD2uDYPLNbW4NMVggqiZvPfXoMl2SfOBxjjFJW/+X5RM311iRwaiOQCJ
+	 duskI36Y3wxGZBZIh6N8nUauUe9MeVCeiVjMf9fR01jzX3xCuby71CKz3ghFlSX+yZ
+	 7BgO2EcrlIvzF6UtdA41tOAIVovtv9JvRX96fC9Q=
+Date: Fri, 20 Jun 2025 00:57:44 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>
 Cc: sakari.ailus@linux.intel.com, akinobu.mita@gmail.com,
@@ -62,11 +62,11 @@ Cc: sakari.ailus@linux.intel.com, akinobu.mita@gmail.com,
 	s.nawrocki@samsung.com, tomi.valkeinen@ideasonboard.com,
 	umang.jain@ideasonboard.com, zhi.mao@mediatek.com,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 02/55] Documentation: media: camera-sensor: Mention
- v4l2_devm_sensor_clk_get() for obtaining the clock
-Message-ID: <20250619214705.GR22102@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v1 41/55] media: i2c: ov8865: Use the v4l2 helper for
+ obtaining the clock
+Message-ID: <20250619215744.GS22102@pendragon.ideasonboard.com>
 References: <cover.1750352394.git.mehdi.djait@linux.intel.com>
- <1261f41358da597fb9900b7880618ebcc392160d.1750352394.git.mehdi.djait@linux.intel.com>
+ <273d77cc78cbe9fd144f96e68407f0f7b41d3895.1750352394.git.mehdi.djait@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,85 +75,80 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1261f41358da597fb9900b7880618ebcc392160d.1750352394.git.mehdi.djait@linux.intel.com>
+In-Reply-To: <273d77cc78cbe9fd144f96e68407f0f7b41d3895.1750352394.git.mehdi.djait@linux.intel.com>
 
 Hi Mehdi,
 
 Thank you for the patch.
 
-On Thu, Jun 19, 2025 at 07:58:55PM +0200, Mehdi Djait wrote:
-> Add the new v4l2 helper devm_v4l2_sensor_clk_get() to Documentation. the
-> helper works on both DT- and ACPI-based platforms to retrieve a
-> reference to the clock producer from firmware.
+On Thu, Jun 19, 2025 at 07:59:34PM +0200, Mehdi Djait wrote:
+> devm_clk_get() fails on ACPI-based platforms, where firmware does not
+> provide a direct reference to the clock producer.
+> 
+> Replace devm_clk_get() with the new v4l2 helper
+> devm_v4l2_sensor_clk_get() that works on both DT- and ACPI-based
+> platforms to retrieve a reference to the clock producer from firmware.
 > 
 > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > 
-> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> index c290833165e6..c82c018a5f40 100644
-> --- a/Documentation/driver-api/media/camera-sensor.rst
-> +++ b/Documentation/driver-api/media/camera-sensor.rst
-> @@ -32,7 +32,8 @@ user.
->  ACPI
->  ~~~~
+> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+> index 95ffe7536aa6..5cc278c3e169 100644
+> --- a/drivers/media/i2c/ov8865.c
+> +++ b/drivers/media/i2c/ov8865.c
+> @@ -2956,7 +2956,6 @@ static int ov8865_probe(struct i2c_client *client)
+>  	struct ov8865_sensor *sensor;
+>  	struct v4l2_subdev *subdev;
+>  	struct media_pad *pad;
+> -	unsigned int rate = 0;
+>  	unsigned int i;
+>  	int ret;
 >  
-> -Read the ``clock-frequency`` _DSD property to denote the frequency. The driver
-> +Use ``devm_v4l2_sensor_clk_get()`` to get the clock. The function will read the
-> +``clock-frequency`` _DSD property to denote the frequency. The driver
->  can rely on this frequency being used.
-
-This isn't specific to ACPI anymore. I think the documentation should be
-refactored further. Here's a proposal.
-
-
-Handling clocks
----------------
-
-Camera sensors have an internal clock tree including a PLL and a number of
-divisors. The clock tree is generally configured by the driver based on a few
-input parameters that are specific to the hardware: the external clock frequency
-and the link frequency. The two parameters generally are specified by system
-firmware. **No other frequencies should be used in any circumstances.**
-
-The reason why the clock frequencies are so important is that the system is
-usually designed to use specific external clock and link frequencies to ensure
-electro-magnetic compatibility. Using other frequencies may cause harmful
-effects elsewhere. Therefore only the pre-determined frequencies are
-configurable by the user.
-
-The external clock frequency shall be retrieved by obtaining the external clock
-using the ``devm_v4l2_sensor_clk_get()`` helper function, and then getting its
-frequency with ``clk_get_rate()``. Usage of the helper function guarantees
-correct behaviour regardless of whether the sensor is integrated in a DT-based
-or ACPI-based system.
-
-ACPI
-~~~~
-
-ACPI-based systems typically don't register the sensor external clock with the
-kernel, but specify the external clock frequency in the ``clock-frequency``
-_DSD property. The ``devm_v4l2_sensor_clk_get()`` helper creates and returns a
-fixed clock set at that rate.
-
-Devicetree
-~~~~~~~~~~
-
-Devicetree-based systems declare the sensor external clock in the device tree
-and reference it from the sensor node. The preferred way to select the external
-clock frequency is to use the ``assigned-clocks``, ``assigned-clock-parents``
-and ``assigned-clock-rates`` properties in the sensor node to set the clock
-rate. See the `clock device tree bindings
-<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
-for more information. The ``devm_v4l2_sensor_clk_get()`` helper retrieves and
-returns that clock.
-
-This approach has the drawback that there's no guarantee that the frequency
-hasn't been modified directly or indirectly by another driver, or supported by
-the board's clock tree to begin with. Changes to the Common Clock Framework API
-are required to ensure reliability.
-
-
+> @@ -3019,39 +3018,14 @@ static int ov8865_probe(struct i2c_client *client)
 >  
->  Devicetree
+>  	/* External Clock */
+>  
+> -	sensor->extclk = devm_clk_get(dev, NULL);
+> -	if (PTR_ERR(sensor->extclk) == -ENOENT) {
+> -		dev_info(dev, "no external clock found, continuing...\n");
+> -		sensor->extclk = NULL;
+> -	} else if (IS_ERR(sensor->extclk)) {
+> +	sensor->extclk = devm_v4l2_sensor_clk_get(dev, NULL);
+> +	if (IS_ERR(sensor->extclk)) {
+>  		dev_err(dev, "failed to get external clock\n");
+>  		ret = PTR_ERR(sensor->extclk);
+>  		goto error_endpoint;
+>  	}
+>  
+> -	/*
+> -	 * We could have either a 24MHz or 19.2MHz clock rate from either dt or
+> -	 * ACPI...but we also need to support the weird IPU3 case which will
+> -	 * have an external clock AND a clock-frequency property. Check for the
+> -	 * clock-frequency property and if found, set that rate if we managed
+> -	 * to acquire a clock. This should cover the ACPI case. If the system
+> -	 * uses devicetree then the configured rate should already be set, so
+> -	 * we can just read it.
+> -	 */
+> -	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+> -				       &rate);
+> -	if (!ret && sensor->extclk) {
+> -		ret = clk_set_rate(sensor->extclk, rate);
+> -		if (ret) {
+> -			dev_err_probe(dev, ret, "failed to set clock rate\n");
+> -			goto error_endpoint;
+> -		}
+> -	} else if (ret && !sensor->extclk) {
+> -		dev_err_probe(dev, ret, "invalid clock config\n");
+> -		goto error_endpoint;
+> -	}
+> -
+> -	sensor->extclk_rate = rate ? rate : clk_get_rate(sensor->extclk);
+> +	sensor->extclk_rate = clk_get_rate(sensor->extclk);
+>  
+>  	for (i = 0; i < ARRAY_SIZE(supported_extclk_rates); i++) {
+>  		if (sensor->extclk_rate == supported_extclk_rates[i])
 
 -- 
 Regards,
