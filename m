@@ -1,160 +1,131 @@
-Return-Path: <linux-media+bounces-35429-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35430-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26CEAE0D65
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 21:18:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B851AE0E25
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 21:44:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E167E17D493
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 19:18:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C19533B6966
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 19:43:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31E97244E8C;
-	Thu, 19 Jun 2025 19:17:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69A42244E8C;
+	Thu, 19 Jun 2025 19:43:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AigDM1Yy"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EA3XkhQS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B42A30E82E
-	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 19:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0265F24467D
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 19:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750360674; cv=none; b=YSXxr0DaWWq4fihRjs3k0yGK5v2zIdbTmKSuzkA7gvVNpXK9ablOFu+FPZjqDXCrSbap7KXiVzLTLp73Vmex4pC8Risu/gowK+rDDo7V+wSXIXMtEdrv3+WW3J3hAbcxlBQPPz0P02Rs0Z0Jup4uh8dI25Znyg2o/cSE2EPhQfM=
+	t=1750362231; cv=none; b=sutC1bZRzqZgOIyl5ikcF2BdEfmIBrAtUYY3ISf3T+3lwOoIUvqnepGSwcmFEFKNtx0vNwmyfVk3ZC5RBNeZGSt27STyL+xsmBsKdT2vv/bL0aWiUnXnvwMgLn/lgHKH2xAn0Q09KYySfj2DBth8aX6ZNn7szzGQVreGDM7olx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750360674; c=relaxed/simple;
-	bh=8KlEvFuZn3PeU3RBbKcoJA6csOMC2v3+5XLMq06to/Y=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=akVO9UWQNXso1KcqpIM5f6FFrbTF64getJd+2ua72KuO5DfXNm7R6k9xlMNyzYvQPXm+SufycPrjux9K3czYTV/ru5i0peWeAfv9JuOFszvABUG2t0Vzu5Oa7ooca2UQKUpOkUabRDVqbikEt72OL6Pl8X7EIMD+nK8wNP6z3h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=AigDM1Yy; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750360670;
-	bh=8KlEvFuZn3PeU3RBbKcoJA6csOMC2v3+5XLMq06to/Y=;
-	h=Subject:From:To:Date:From;
-	b=AigDM1Yy2/riWhRBTlx8i8A7S/QWvmkbEJfDYtL3JH1bxG2jjSfRagRJ9FWTv8p4w
-	 l0of38ufCa47+dPXKo0WxxAlnVub+ZbiE9h9BVDx71Fg0bA7PWOkoGLPGGdaKVbJTn
-	 DYfzre2Qk4Wzj5By5znRfCDYqXrCRN/IDBUetZUERjmjRWX4zHfpELZ1l0Ikpvfv+A
-	 jnYxVO2m+//jSTPuL0mzwteztr3Fhf693/IR5gE6czd0QALIkkGYxaHLXV7dNWZB4o
-	 Fqh8NH6igped2KxbIz7MBAnZs1KIBJHYQRbD00vl45yX8LgRaRjDhXs9OYNPBt/wie
-	 IMa329/8gZTBw==
-Received: from [IPv6:2606:6d00:17:b699::5ac] (unknown [IPv6:2606:6d00:17:b699::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id D82C817E108A
-	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 21:17:49 +0200 (CEST)
-Message-ID: <01731840f28889cd10fac3d1e91b820c341eb656.camel@collabora.com>
-Subject: [GIT PULL FOR 6.16]  Media Codec Changes 2025-06-19
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: linux-media@vger.kernel.org
-Date: Thu, 19 Jun 2025 15:17:48 -0400
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1750362231; c=relaxed/simple;
+	bh=yDEbu7+KEppseRvMkdEiO0Gls82wPynGcYQ2oizwVTA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SxZbXo0hhbjlK8p4sBiN//gVT+Nfyv8Wv3yVkLdwPSRYyEtYYcUjV+RViBtVKaKyxElwBjnvJ4lAx+ytOrcAEHpIc9X3VrpP/O+la5j+M8G2jO60TVkXBinXximHziB9mlz6XBMJr73K5xsTmBzVEj6UDoe8OETQwFGtEyZSZ9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EA3XkhQS; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a528243636so732204f8f.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 12:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750362228; x=1750967028; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hy+M3MYJ3Ebzf/cWNhjwsSRZ1HHszVPNpmoBuK91md4=;
+        b=EA3XkhQShm5QOlJrvcPhaGqYpTte8mVjKWzHtAM7heVMiqLnn1gQEkaAhxGAUg8BKM
+         k51TLJGME70IBQqcebcbS8VWFMvQthlQpc6YHxrXeL4zlcsb7U2Y4k1hLG6dF10Y8TAg
+         K7IQA18NeUZQ0U8zrIfQ1NgYjctiq/9JMKeASZZOfAB8v2wLfKgPauXq09p6KhfU3UtF
+         DJJIcIzsFTnYaN/DVCGTvtAr+xuH22Yu+Bu62s9dDsL0R7kmXuX/ggTnKAVqyq0z7zo7
+         VyGt58nPxvXNwt5YHlBpxqQLdnT/iCGm86z3WteZHYhT48PJgoMyrSVqzKPzOb8x4kJw
+         mcgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750362228; x=1750967028;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hy+M3MYJ3Ebzf/cWNhjwsSRZ1HHszVPNpmoBuK91md4=;
+        b=JWWEBX4hKItiAdZmTgA52ZCIrg2Q9vdjsKtbnmp5b1vvaHkkoFWJ3BrXIh+1xLONpR
+         9kl83ronGgdO9KGl5KXWU1Ui1alTc+ErfU+T4I2gjlHY5Zt4A9aPqHKbjPcQzVHXiH0J
+         kGFiSe0XNtfyGiU5ZkA9pmkC2jcD87jq/mH+Rp2vV2g2KtikmVaNqgMH4Hc2Ro6hV6EM
+         iZ2V0pgrWjjvZGNhf7mEK6t4mMQU0UZrCETv44LMBQD7WWYPbnV5QsUfLQR6jO64Rwoe
+         2aqSszVq2V3LC3BnAxBC05Zmkw5BJLY+x3L42ysMBg3OsoxoF4e9jXpqgtb30eKRd8vs
+         3ixg==
+X-Forwarded-Encrypted: i=1; AJvYcCWipXv6EJ4Ml5znwJ/6UP1DhCfBedit1eIZZvCuKKoD1rSpt/j4OUuL6hnbUhYJW+K/0ASrwa6cNk9Q6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh1chOeGYGyibZj6IeIpIcQhI0WOgcZSdBC7ks6KMC1viHg1cu
+	aCbepUwU3YyMorHnY/LT2pmALBZCYFFkUucuBrJNnXdiyxoNIzsL3L8nL/AHV9M0D1A=
+X-Gm-Gg: ASbGncsN58GynaAgGP+n2hsLNBttRtm+b9lfr3zAcZ4+wGJ8KiTyzCg4NZB4MDG9IQV
+	i5IFUba9aSekAX48Rzz13EAAVyrFzk2SJM2WQ0GvA3Jqyet7ZUZI22wTADG4FeCzGC2w0WYCT7R
+	AX1aHyhXIXMr6a+jITZzaRbOB9dFXys3PEjIJUCvrUL/+IlEltnzgZZDK1yV6lU6PK9q2jO17ST
+	9Qcyn3K17cDxfHDvEztMBTYDlvi3qEQNzP5FZxliB6//ssze33BndwXZBhy5lz+9vGs6pGvdCgt
+	mFUP05ncUE8o5dfvLiNxfM/qrwoOZm8UcYZ+1DgEN/W/Zit7T4gCapRlqWVQeHYKVthZifVG3gq
+	+Z/3AVaqhbHfDjqODcqty5J0AwC/g4oZxZLiNiw==
+X-Google-Smtp-Source: AGHT+IEJqMT3RaOTaO3Ou2VXZG5oilq/ABPQu3IFKnDHY2NkDCpck/QpOvFVGuHA2IM7O/SjWVxtww==
+X-Received: by 2002:a05:6000:461e:b0:3a4:c75c:efd5 with SMTP id ffacd0b85a97d-3a6d12e6431mr212173f8f.46.1750362228349;
+        Thu, 19 Jun 2025 12:43:48 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6d0f18152sm214537f8f.27.2025.06.19.12.43.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Jun 2025 12:43:47 -0700 (PDT)
+Message-ID: <66edbe65-a137-4661-b0c8-8a6813635c44@linaro.org>
+Date: Thu, 19 Jun 2025 20:43:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] media: venus: Add QCM2290 support with AR50_LITE
+ core
+To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
+Cc: quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org, stanimir.k.varbanov@gmail.com,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250613140402.3619465-1-jorge.ramirez@oss.qualcomm.com>
+ <20250619142012.1768981-1-jorge.ramirez@oss.qualcomm.com>
+ <672b5db1-e045-4625-bad6-83224c27c07f@linaro.org> <aFQg6x+FxXDY4P5m@trex>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <aFQg6x+FxXDY4P5m@trex>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hey Hans & Mauro,
+On 19/06/2025 15:38, Jorge Ramirez wrote:
+>> WARNING: Argument '_1' is not used in function-like macro
+>> #42: FILE: drivers/media/platform/qcom/venus/core.h:546:
+>> +#define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME /* _1-_4 are ignored */
+>>
+>> WARNING: Argument '_2' is not used in function-like macro
+>> #42: FILE: drivers/media/platform/qcom/venus/core.h:546:
+>> +#define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME /* _1-_4 are ignored */
+>>
+>> WARNING: Argument '_3' is not used in function-like macro
+>> #42: FILE: drivers/media/platform/qcom/venus/core.h:546:
+>> +#define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME /* _1-_4 are ignored */
+>>
+>> WARNING: Argument '_4' is not used in function-like macro
+>> #42: FILE: drivers/media/platform/qcom/venus/core.h:546:
+>> +#define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME /* _1-_4 are ignored */
+> 
+> about the warnings there is nothing that can be done - those parameters
+> as per the comments are necessarily ignored - that is the way the macro
+> is supposed to work.
+> 
+> can we not live with them? otherwise I cant do it in a nice way.
 
-this is a set of smaller changes I have collected, with fixes for codecs,
-a new binding for IMX95 and some mother being ported to yaml. 
+For preference I'd like to avoid adding warnings.
 
-regards,
-Nicolas
+Let's just stick with your first version instead.
 
 ---
-
-The following changes since commit 642b70d526ab8daa8f256dfc1eb6bf27c3290cc6:
-
-  media: imx8mq-mipi-csi2: Add support for i.MX8QXP (2025-06-18 09:21:59 +0200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.17-media-codecs-2025-06-19
-
-for you to fetch changes up to 2fee2cd2da7a98a46d2750b3a0e0f8b8d3dfafc3:
-
-  media: v4l2-ctrls: Fix H264 SEPARATE_COLOUR_PLANE check (2025-06-19 13:19:05 -0400)
-
-----------------------------------------------------------------
-RKVDEC iommu restore and minors fixes
-
-----------------------------------------------------------------
-Christophe JAILLET (1):
-      media: verisilicon: Use __set_bit() with local bitmaps
-
-Frank Li (2):
-      dt-bindings: media: convert fsl-vdoa.txt to yaml format
-      media: dt-bindings: nxp,imx8-jpeg: Add compatible strings for IMX95 JPEG
-
-Haoxiang Li (1):
-      media: imx: fix a potential memory leak in imx_media_csc_scaler_device_init()
-
-James Cowgill (1):
-      media: v4l2-ctrls: Fix H264 SEPARATE_COLOUR_PLANE check
-
-Jernej Skrabec (1):
-      media: cedrus: Add support for additional output formats
-
-Ming Qian (2):
-      media: amphion: Add H264 and HEVC profile and level control
-      media: imx-jpeg: Account for data_offset when getting image address
-
-Nicolas Dufresne (2):
-      media: verisilicon: Fix AV1 decoder clock frequency
-      media: rkvdec: Restore iommu addresses on errors
-
- Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml |  42 ++++++++++++++++++++++++++++++++++++++++++
- Documentation/devicetree/bindings/media/fsl-vdoa.txt        |  21 ---------------------
- Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml  |  28 +++++++++++++++++++++++++---
- drivers/media/platform/amphion/vdec.c                       |  59 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/amphion/vpu_defs.h                   |  12 ++++++++++++
- drivers/media/platform/amphion/vpu_helpers.c                | 123 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/amphion/vpu_helpers.h                |   7 +++++++
- drivers/media/platform/amphion/vpu_malone.c                 |   5 ++++-
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c              |  47 ++++++++++++++++++++++++++++++++++++-----------
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h              |   1 +
- drivers/media/platform/verisilicon/hantro_h264.c            |   6 +++---
- drivers/media/platform/verisilicon/rockchip_vpu_hw.c        |   9 ---------
- drivers/media/v4l2-core/v4l2-ctrls-core.c                   |   8 ++++----
- drivers/staging/media/imx/imx-media-csc-scaler.c            |   2 +-
- drivers/staging/media/rkvdec/rkvdec.c                       |  43 ++++++++++++++++++++++++++++++++++++-------
- drivers/staging/media/rkvdec/rkvdec.h                       |   1 +
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c              |  18 +++++++++++++++++-
- drivers/staging/media/sunxi/cedrus/cedrus_video.c           |  18 ++++++++++++++++++
- 18 files changed, 389 insertions(+), 61 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/fsl-vdoa.txt
+bod
 
