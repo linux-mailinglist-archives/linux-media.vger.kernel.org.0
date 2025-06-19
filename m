@@ -1,81 +1,78 @@
-Return-Path: <linux-media+bounces-35341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6B9AE07F2
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 15:55:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D977EAE0809
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 15:57:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D73A2189E428
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 13:55:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C8901BC39BF
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 13:57:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 605A628D8E1;
-	Thu, 19 Jun 2025 13:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C29270EBC;
+	Thu, 19 Jun 2025 13:55:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OtMyXqic"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6lnw6bm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA0E25DCF2
-	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 13:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C421B23E325
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 13:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750341155; cv=none; b=Qt9tH7wFqe+IzdCs/yQiTHJ035arq5YBaHlh/08QzVzeTip0BioGEX0JD4kAL0Vf1xM8Kjt3GsY970Fihp29d1500db9CChQ0vm2OcA4e8G/ZDh+qhh7Y1MpKb10x1nsbX22ZtG9dcnNMApLtL6LSbzM9+ZJNCIp1SDNXHN2aqY=
+	t=1750341314; cv=none; b=ACia8MivUQb7YTSobSph+40kbGNtUHattVRcpmWSX0+xInIK5l4NHWkhQeZIwPkizx11zgZ0UnOCm41AR+/BnfXS3hcgcWK2LqPvYUH5njIyRTKGZotDPrn9BsAHTZWExp6R1itCqWl/YAvIrFSC5v8pKJkP5tjqGD7GHHyUMOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750341155; c=relaxed/simple;
-	bh=9rqTGVzQU8QP5UpsWS1KXQEMBw52fJQ+eS/N0Sd5NeQ=;
+	s=arc-20240116; t=1750341314; c=relaxed/simple;
+	bh=KuLw6Xyq5v7bpgKklXgoGJ7/67MWMZWTXBpPHCSy6iw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=genTJeOesvfisbcQv+6lDC0AvnJ4BYxZgWHlHXkNEJ8mKJ6O9NI5EhSoOUgZNMP9gNsTAy9EKp8tuPOY4FffPBOtLGHn9uKcoFlg8fQ2GEoiOJO7yWY/cKvFWyNS6NXpoCy6yor5QYdLo6SNOoRgI3atN1164rcpmMyFGc+RLHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OtMyXqic; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=dAoWMOkWl9WkzwTq+xU88NE2xISJ4orwx27oBHGnqO92E8ISWTEcYfNrUHm/2zA4foJSEx+iSU/bohTKi6NI8bczJNcSVJtLEeLI2Mxh9nVKbYCdhpPS/ZfB0gAMKPFdFUdSqH+4z0IUA3J44/b5zPUZNL6kBfvJP8ZGNQjwPwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6lnw6bm; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750341154; x=1781877154;
+  t=1750341312; x=1781877312;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9rqTGVzQU8QP5UpsWS1KXQEMBw52fJQ+eS/N0Sd5NeQ=;
-  b=OtMyXqicBOCJ+AF9N49sSt8OBQr/zTA/Qe9JYbT2tQzDOJJiYObSbXAm
-   sALqraL+bzTKaRB2wr9WJqa9pJ2k+sIqis4X5MErKslrXsE39u698715f
-   nLNbsqmunNiUYK2sKqvgIdAgk22NKmbgg6PsyS1yicb0g3rBbiHkXep7g
-   Lq1tDfoL0XU9zzBVkYhvlPzJp3gsbo71qHtcwiUR5ytn7nSk8Ha2h8PZO
-   O+ynsFEuybsFgyEcnHb7lx8U+6temySGZswlznL+XSZZP7TqnyWfDS2mc
-   +ZUKOe8XHt3JNV+LqESy7SnkRzgk1LBMPBoKz+wEP66/MfpczGmwOMgUn
+  bh=KuLw6Xyq5v7bpgKklXgoGJ7/67MWMZWTXBpPHCSy6iw=;
+  b=I6lnw6bmB/Lo+Yp1dawlCbUNActnzS60YKTdlIxoA7PYqhzzO1hZxl9i
+   8nuvZyXCglQm4WtvMyMWIxQtFMirtCd28xJ/+Lc9SHuMAhX7hYj7RP+pW
+   DT2WJeFIKzs1y95XJybjxb+HowcjjhbiY9Isz8W0NdlQrtS99wpMh9FfJ
+   sbyERQY7mlsmNi33guI/rhofDq2Qae7MztBaS9lFAwsPpPNHf8Nb1um9t
+   ZFeUHTCMBerqQ0VT5MAU2Ck3j+dJJD0MCJNigqytA26cKYZAl++1l8ECe
+   rvgezfvac8HlRMzDYz1KrEVWnudxj0i8frKaBdpIBUaznSxSGWsqfL4QV
    Q==;
-X-CSE-ConnectionGUID: cSO0o5gfReiffLqaeZ86dA==
-X-CSE-MsgGUID: h2YgFIkgQV+KFPkPkZdXng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="62862932"
+X-CSE-ConnectionGUID: 8T6BrSp4SlWKWasSTmQsfQ==
+X-CSE-MsgGUID: GD/QVl6MRwmA2ZGbu1/rFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="51701895"
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="62862932"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 06:52:34 -0700
-X-CSE-ConnectionGUID: VM5cvnK1TWGsRE+d2nDCkw==
-X-CSE-MsgGUID: rBh+sLKrRyGxIFeD4sab4w==
+   d="scan'208";a="51701895"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 06:55:12 -0700
+X-CSE-ConnectionGUID: 5hjk9kE8RbSu/NIPVTO6FQ==
+X-CSE-MsgGUID: 6wheES3hR8W3B1F8TPkpiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="150249052"
+   d="scan'208";a="151187976"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.167])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 06:52:31 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 06:55:10 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id DCD7211FC38;
-	Thu, 19 Jun 2025 16:52:28 +0300 (EEST)
-Date: Thu, 19 Jun 2025 13:52:28 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5E28511FC38;
+	Thu, 19 Jun 2025 16:55:08 +0300 (EEST)
+Date: Thu, 19 Jun 2025 13:55:08 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
 	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
 	tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH 03/13] media: ipu6: Enable and disable each stream at
- CSI-2 subdev source pad
-Message-ID: <aFQWHBSPcCCTmtHq@kekkonen.localdomain>
+Subject: Re: [PATCH 01/13] media: ipu6: Use correct pads for xlate_streams()
+Message-ID: <aFQWvHY1i4rPJXg1@kekkonen.localdomain>
 References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
- <20250619081546.1582969-4-sakari.ailus@linux.intel.com>
- <20250619124855.GA32166@pendragon.ideasonboard.com>
- <aFQMWAgx_LnC2IGL@kekkonen.localdomain>
- <20250619131900.GB32166@pendragon.ideasonboard.com>
+ <20250619081546.1582969-2-sakari.ailus@linux.intel.com>
+ <20250619132704.GC32166@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,119 +81,100 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250619131900.GB32166@pendragon.ideasonboard.com>
+In-Reply-To: <20250619132704.GC32166@pendragon.ideasonboard.com>
 
-On Thu, Jun 19, 2025 at 04:19:00PM +0300, Laurent Pinchart wrote:
-> On Thu, Jun 19, 2025 at 01:10:48PM +0000, Sakari Ailus wrote:
-> > On Thu, Jun 19, 2025 at 03:48:55PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Jun 19, 2025 at 11:15:36AM +0300, Sakari Ailus wrote:
-> > > > On UAPI, streaming is started a video device at a time. The IPU6 ISYS
-> > > > driver only starts streaming on the source sub-device when all relevant
-> > > > video devices have been set streaming. This also needs to be reflected in
-> > > > the sub-device pads, hence set them all streaming, one at a time.
-> > > 
-> > > Why ? What's wrong with enabling/disabling streams on each pad as the
-> > > corresponding video device is started/stopped ?
+Hi Laurent,
+
+On Thu, Jun 19, 2025 at 04:27:04PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+
+Thanks for the review!
+
+> 
+> On Thu, Jun 19, 2025 at 11:15:34AM +0300, Sakari Ailus wrote:
+> > The arguments to v4l2_subdev_state_xlate_streams() were incorrect, the
+> 
+> s/were/are/
+> 
+> > source pads was used as the sink pad and the source pad was a constant
+> 
+> s/pads was/pad is/
+> s/pad was/pad is/
+> 
+> Are you sure though ? Unless I misread the code, you replace
+> 
+> pad0 = CSI2_PAD_SRC
+> pad1 = CSI2_PAD_SINK
+> 
+> with
+> 
+> pad0 = pad
+> pad1 = CSI2_PAD_SINK
+> 
+> This seems to be a correct fix, but I don't see where "the source pad
+> was used as the sink pad".
+
+Right, I'll reword it for v2.
+
+> 
+> > (rather than the actual source pad). Fix these.
 > > 
-> > Streaming is started once all the related video nodes are set streaming,
-> > otherwise there's a chance of losing data.
+> > Fixes: 3a5c59ad926b ("media: ipu6: Rework CSI-2 sub-device streaming control")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > index da8581a37e22..6030bd23b4b9 100644
+> > --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > @@ -354,9 +354,9 @@ static int ipu6_isys_csi2_enable_streams(struct v4l2_subdev *sd,
+> >  	remote_pad = media_pad_remote_pad_first(&sd->entity.pads[CSI2_PAD_SINK]);
+> >  	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
+> >  
+> > -	sink_streams = v4l2_subdev_state_xlate_streams(state, CSI2_PAD_SRC,
+> > -						       CSI2_PAD_SINK,
+> > -						       &streams_mask);
+> > +	sink_streams =
+> > +		v4l2_subdev_state_xlate_streams(state, pad, CSI2_PAD_SINK,
+> > +						&streams_mask);
 > 
-> Yes, but that's something that can be handled in the subdev, to only
-> start the ISYS and its source when all the streams that are part of the
-> pipeline have been started.
+> This is one of the cases where I'd write
+> 
+> 	sink_streams = v4l2_subdev_state_xlate_streams(state, pad, CSI2_PAD_SINK,
+> 						       &streams_mask);
+> 
+> even if it goes to 81 columns.
 
-I agree, this is done in the CSI-2 receiver driver actually.
+The limit is still 80, not 81.
 
-There's some work to do in cleaning up the IPU6 driver. The combination of
-videobuf2 and streams isn't very driver-friendly currently. Things
-generally need to happen in certain order and this may not be always veyr
-convenient for drivers.
+Either way, a number of the new functions in the V4L2 subdev KAPI have very
+long names, I'll post patches to shorten them later on.
 
 > 
-> > I've squashed this with the last patch after posting the set.
+> >  
+> >  	ret = ipu6_isys_csi2_calc_timing(csi2, &timing, CSI2_ACCINV);
+> >  	if (ret)
+> > @@ -384,9 +384,9 @@ static int ipu6_isys_csi2_disable_streams(struct v4l2_subdev *sd,
+> >  	struct media_pad *remote_pad;
+> >  	u64 sink_streams;
+> >  
+> > -	sink_streams = v4l2_subdev_state_xlate_streams(state, CSI2_PAD_SRC,
+> > -						       CSI2_PAD_SINK,
+> > -						       &streams_mask);
+> > +	sink_streams =
+> > +		v4l2_subdev_state_xlate_streams(state, pad, CSI2_PAD_SINK,
+> > +						&streams_mask);
 > 
-> Maybe it will become clearer when I review the rest of the series.
+> Same here.
 > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  .../media/pci/intel/ipu6/ipu6-isys-video.c    | 43 ++++++++++++-------
-> > > >  1 file changed, 28 insertions(+), 15 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> > > > index 24a2ef93474c..54006b5e2ccd 100644
-> > > > --- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> > > > +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> > > > @@ -990,6 +990,7 @@ int ipu6_isys_video_set_streaming(struct ipu6_isys_video *av, int state,
-> > > >  	struct device *dev = &av->isys->adev->auxdev.dev;
-> > > >  	struct v4l2_subdev *sd;
-> > > >  	struct media_pad *r_pad;
-> > > > +	unsigned int i;
-> > > >  	u32 sink_pad, sink_stream;
-> > > >  	u64 r_stream;
-> > > >  	u64 stream_mask = 0;
-> > > > @@ -1018,14 +1019,15 @@ int ipu6_isys_video_set_streaming(struct ipu6_isys_video *av, int state,
-> > > >  		stop_streaming_firmware(av);
-> > > >  
-> > > >  		/* stop sub-device which connects with video */
-> > > > -		dev_dbg(dev, "stream off entity %s pad:%d mask:0x%llx\n",
-> > > > -			sd->name, r_pad->index, stream_mask);
-> > > > -		ret = v4l2_subdev_disable_streams(sd, r_pad->index,
-> > > > -						  stream_mask);
-> > > > -		if (ret) {
-> > > > -			dev_err(dev, "stream off %s failed with %d\n", sd->name,
-> > > > -				ret);
-> > > > -			return ret;
-> > > > +		for (i = CSI2_PAD_SRC; i < NR_OF_CSI2_SRC_PADS; i++) {
-> > > > +			if (!media_pad_pipeline(&sd->entity.pads[i]))
-> > > > +				continue;
-> > > > +			ret = v4l2_subdev_disable_streams(sd, i, 1U);
-> > > > +			if (ret) {
-> > > > +				dev_err(dev, "stream off %s failed with %d\n",
-> > > > +					sd->name, ret);
-> > > > +				return ret;
-> > > > +			}
-> > > >  		}
-> > > >  		close_streaming_firmware(av);
-> > > >  	} else {
-> > > > @@ -1036,13 +1038,15 @@ int ipu6_isys_video_set_streaming(struct ipu6_isys_video *av, int state,
-> > > >  		}
-> > > >  
-> > > >  		/* start sub-device which connects with video */
-> > > > -		dev_dbg(dev, "stream on %s pad %d mask 0x%llx\n", sd->name,
-> > > > -			r_pad->index, stream_mask);
-> > > > -		ret = v4l2_subdev_enable_streams(sd, r_pad->index, stream_mask);
-> > > > -		if (ret) {
-> > > > -			dev_err(dev, "stream on %s failed with %d\n", sd->name,
-> > > > -				ret);
-> > > > -			goto out_media_entity_stop_streaming_firmware;
-> > > > +		for (i = CSI2_PAD_SRC; i < NR_OF_CSI2_SRC_PADS; i++) {
-> > > > +			if (!media_pad_pipeline(&sd->entity.pads[i]))
-> > > > +				continue;
-> > > > +			ret = v4l2_subdev_enable_streams(sd, i, 1U);
-> > > > +			if (ret) {
-> > > > +				dev_err(dev, "stream on %s failed with %d\n",
-> > > > +					sd->name, ret);
-> > > > +				goto out_media_entity_stop_streaming_firmware;
-> > > > +			}
-> > > >  		}
-> > > >  	}
-> > > >  
-> > > > @@ -1051,6 +1055,15 @@ int ipu6_isys_video_set_streaming(struct ipu6_isys_video *av, int state,
-> > > >  	return 0;
-> > > >  
-> > > >  out_media_entity_stop_streaming_firmware:
-> > > > +	while (i-- > CSI2_PAD_SRC) {
-> > > > +		int ret2;
-> > > > +
-> > > > +		if (!media_pad_pipeline(&sd->entity.pads[i]))
-> > > > +			continue;
-> > > > +		ret2 = v4l2_subdev_disable_streams(sd, i, 1U);
-> > > > +		dev_err(dev, "stream off %s failed with %d\n", sd->name, ret2);
-> > > > +	}
-> > > > +
-> > > >  	stop_streaming_firmware(av);
-> > > >  
-> > > >  	return ret;
+> >  
+> >  	remote_pad = media_pad_remote_pad_first(&sd->entity.pads[CSI2_PAD_SINK]);
+> >  	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
 > 
 
 -- 
