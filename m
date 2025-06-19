@@ -1,146 +1,158 @@
-Return-Path: <linux-media+bounces-35356-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35357-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90796AE08EF
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 16:40:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5AEEAE0A24
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 17:18:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C23F3AE33C
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 14:39:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 52D091C22A1E
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 15:11:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00D422288CC;
-	Thu, 19 Jun 2025 14:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5BD12264C1;
+	Thu, 19 Jun 2025 15:08:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="Rw2gd+L5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="chaiolhm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3086F1AA782;
-	Thu, 19 Jun 2025 14:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750344013; cv=pass; b=luRezDBrsKXpWFBSyBfBTpz7PRwFlXpm0ta0opnIkcV9j3oEmZ1/DHjOJ70FatecPx33jBF61lXFzx78mPte64SudvzhIQyM3UQuOQSICl9hPAlG4d+UyYbDCL5hT/Ekb1G8JKaPej6TD6/rUcCnoc00JjZdEMn2lcYZ6Q39cdw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750344013; c=relaxed/simple;
-	bh=rK9LNZ1uJ6FW1BZOrH8A8uJsqEt1nVlYhcicpVTZzhs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lpTuEEJTUgDneec/YBerCUUjBf1zhF/ugaLnfQ410OcFKgy7uPUsdoAKe9jzVe/yrBQuqnda88UB70oxMnXOT5tqeb4aOWiTyn1f6EikmnnCHq4v5yRjTBAX+WyF7ohWRPBnus3oIhoQmdgCi8tvRxWEQxpTdM08kPUSeColiyk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=Rw2gd+L5; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1750343956; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Jym2lPGxuOQzgAgSAE/A8rLETWESPaEFQYYyJGHONlYevNnFsA2UCWYhu0ZeL8itUV0dlh8hFb1v5rjRnaU3RQcByUMtiYZDNHuNYI1ForkWRFD4FLfls4QVP8LQmzKVCSUDaZBd3kQPQPGIg61txn/lwGvkdLvgF83rn8DvDR4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1750343956; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=lNxJSadVSJIRvaEmHMmUT8LLkdzhpjlPoa29IPSlJho=; 
-	b=jErUqMNfobSAURiuvn13ZoGuHAb4QH8CiYdQERN3EDIDIEtBzoflfMW8B39oEAj7TFmbOE144dMFF9NpV6vKNQGg8SUsvVfc0lw6hy1kNZwuSyLRQqU8bJ4+jTVqD/64MphOE/GfCupsO0HAzb0bSF49tfU+zKuFBEDkLaLanoo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
-	dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750343956;
-	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=lNxJSadVSJIRvaEmHMmUT8LLkdzhpjlPoa29IPSlJho=;
-	b=Rw2gd+L5lImASQ1HKgHlzcgdsRLZ18+fXxNa6EGGKYSlvhX9ynLQE5rW4eASp7v8
-	QSbt2xeWyFdiZqGauT9ggxvclqc3XQMXBdqBBY89CArgt0gRcogHqNAXvikkSAitbSg
-	dggkYGnqm53ErY31QUUd0D2pOjqYGY9Xq+wJk8Yg=
-Received: by mx.zohomail.com with SMTPS id 175034395251629.953100317805934;
-	Thu, 19 Jun 2025 07:39:12 -0700 (PDT)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: 20250325213303.826925-5-detlev.casanova@collabora.com
-Cc: alchark@gmail.com, andrzej.p@collabora.com, cassel@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org, dmitry.perchanov@intel.com,
- dsimic@manjaro.org, ezequiel@vanguardiasur.com.ar,
- gregkh@linuxfoundation.org, heiko@sntech.de, hverkuil@xs4all.nl,
- jacopo.mondi@ideasonboard.com, jeanmichel.hautbois@ideasonboard.com,
- jonas@kwiboo.se, kernel@collabora.com, kieran.bingham@ideasonboard.com,
- krzk+dt@kernel.org, laurent.pinchart@ideasonboard.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, Jianfeng Liu <liujianfeng1994@gmail.com>,
- mchehab@kernel.org, naush@raspberrypi.com, nicolas.dufresne@collabora.com,
- robh@kernel.org, sakari.ailus@linux.intel.com,
- sebastian.reichel@collabora.com, tomi.valkeinen@ideasonboard.com,
- umang.jain@ideasonboard.com
-Subject: Re: [PATCH v4 4/6] media: rockchip: Introduce the rkvdec2 driver
-Date: Thu, 19 Jun 2025 10:39:08 -0400
-Message-ID: <5900973.DvuYhMxLoT@trenzalore>
-In-Reply-To: <9f098eab-7b98-4827-8538-3cab0e8d7c63@gmail.com>
-References: <9f098eab-7b98-4827-8538-3cab0e8d7c63@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1DA28C026
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 15:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750345726; cv=none; b=mGGbv5sOUmQmPbmwZpoXrOWBnQwPfRVslNjULgnhXOVtiC/HuGiH0Pz88KJG3y4wU2HcimRFeTQxDNb7FIc7SLQ4WSOss23vhU47iYu1o31gLL9OrfxQ/og3EfritCCWscNrX4NaCLu3fokT0Aj4FCRRgBBCf7u3lb1XS3IZJa0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750345726; c=relaxed/simple;
+	bh=SQSh6VYNs/62U3Zi0e5ZoLXCX1FnJnKUdBrJXuHVMsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lveo/etrvScKFurrSN/DHggaTe6c8ob7kmSwcSVc+U3KPtb9mkxsKInXsG4EXSTKdW0lg9bLt2Fjb0T+tl2Kz0uTgc9/1jcOASYq6DGX9W9zaVUQYFty/IxyL2atl+UWCAncEhmoXDMl9BD7X8HExOepYC7Q+5SdTiyMOduJQTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=chaiolhm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6AF982EC;
+	Thu, 19 Jun 2025 17:08:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750345708;
+	bh=SQSh6VYNs/62U3Zi0e5ZoLXCX1FnJnKUdBrJXuHVMsQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=chaiolhmoDRgDVHnOrz+1J/F9A9y2GaVmvs3c6htUz7s3oTmmsBD0RpzbWpz2J4vL
+	 5+ITvqlMtgAPAFJJqnmHtf7UCJ0EtJUKP2bcGO0v/MELnO7KFNG3oC8LsUjEmE0PCl
+	 Wm4+MNSert+QfuKlGIe8pmJ0TEbpuzViks5zmhhY=
+Date: Thu, 19 Jun 2025 18:08:24 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
+	tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH 01/13] media: ipu6: Use correct pads for xlate_streams()
+Message-ID: <20250619150824.GO22102@pendragon.ideasonboard.com>
+References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
+ <20250619081546.1582969-2-sakari.ailus@linux.intel.com>
+ <20250619132704.GC32166@pendragon.ideasonboard.com>
+ <aFQWvHY1i4rPJXg1@kekkonen.localdomain>
+ <20250619141535.GN22102@pendragon.ideasonboard.com>
+ <aFQeoK8B008EHc3C@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aFQeoK8B008EHc3C@kekkonen.localdomain>
 
-Hi Jianfeng,
+On Thu, Jun 19, 2025 at 02:28:48PM +0000, Sakari Ailus wrote:
+> On Thu, Jun 19, 2025 at 05:15:35PM +0300, Laurent Pinchart wrote:
+> > On Thu, Jun 19, 2025 at 01:55:08PM +0000, Sakari Ailus wrote:
+> > > On Thu, Jun 19, 2025 at 04:27:04PM +0300, Laurent Pinchart wrote:
+> > > > On Thu, Jun 19, 2025 at 11:15:34AM +0300, Sakari Ailus wrote:
+> > > > > The arguments to v4l2_subdev_state_xlate_streams() were incorrect, the
+> > > > 
+> > > > s/were/are/
+> > > > 
+> > > > > source pads was used as the sink pad and the source pad was a constant
+> > > > 
+> > > > s/pads was/pad is/
+> > > > s/pad was/pad is/
+> > > > 
+> > > > Are you sure though ? Unless I misread the code, you replace
+> > > > 
+> > > > pad0 = CSI2_PAD_SRC
+> > > > pad1 = CSI2_PAD_SINK
+> > > > 
+> > > > with
+> > > > 
+> > > > pad0 = pad
+> > > > pad1 = CSI2_PAD_SINK
+> > > > 
+> > > > This seems to be a correct fix, but I don't see where "the source pad
+> > > > was used as the sink pad".
+> > > 
+> > > Right, I'll reword it for v2.
+> > > 
+> > > > > (rather than the actual source pad). Fix these.
+> > > > > 
+> > > > > Fixes: 3a5c59ad926b ("media: ipu6: Rework CSI-2 sub-device streaming control")
+> > > > > Cc: stable@vger.kernel.org
+> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > ---
+> > > > >  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 12 ++++++------
+> > > > >  1 file changed, 6 insertions(+), 6 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > > > > index da8581a37e22..6030bd23b4b9 100644
+> > > > > --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > > > > +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > > > > @@ -354,9 +354,9 @@ static int ipu6_isys_csi2_enable_streams(struct v4l2_subdev *sd,
+> > > > >  	remote_pad = media_pad_remote_pad_first(&sd->entity.pads[CSI2_PAD_SINK]);
+> > > > >  	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
+> > > > >  
+> > > > > -	sink_streams = v4l2_subdev_state_xlate_streams(state, CSI2_PAD_SRC,
+> > > > > -						       CSI2_PAD_SINK,
+> > > > > -						       &streams_mask);
+> > > > > +	sink_streams =
+> > > > > +		v4l2_subdev_state_xlate_streams(state, pad, CSI2_PAD_SINK,
+> > > > > +						&streams_mask);
+> > > > 
+> > > > This is one of the cases where I'd write
+> > > > 
+> > > > 	sink_streams = v4l2_subdev_state_xlate_streams(state, pad, CSI2_PAD_SINK,
+> > > > 						       &streams_mask);
+> > > > 
+> > > > even if it goes to 81 columns.
+> > > 
+> > > The limit is still 80, not 81.
+> > 
+> > The global limit is 100 for the kernel. There's somehow of a consensus
+> > in the media subsystem to keep it closer to 80, with different people
+> > have different sensitivities. We occasionally go over 80, and that's
+> > usually left as a driver maintainer decision.
+> 
+> It's 80, not 100. The checkpatch.pl limit is higher than 80 though, as
+> there are still commonly cases where the code is more readable with longer
+> lines. See e.g. Documentation/process/coding-style.rst .
 
-This patch set is now a  bit outdated. I will soon send a new version that you 
-can find at [1].
-That being said, you may be right. without an iommu, it would panic here 
-(although the iommu should really be used).
+It states
 
-[1]: https://gitlab.collabora.com/detlev/linux/-/tree/add-vdpu381-and-383-to-rkvdec
+----
+The preferred limit on the length of a single line is 80 columns.
 
+Statements longer than 80 columns should be broken into sensible chunks,
+unless exceeding 80 columns significantly increases readability and does
+not hide information.
+----
+
+In this specific case, going over 80 columns improves readability in my
+opinion, and doesn't hide information. As I wrote, we treat this as a
+driver maintainer preference at the moment, so I won't make a call for
+the ipu6 driver.
+
+-- 
 Regards,
-Detlev
 
-On Thursday, 19 June 2025 05:19:32 EDT Jianfeng Liu wrote:
-> Hi Detlev,
-> 
-> On Tue, 25 Mar 2025 17:22:20 -0400, Detlev Casanova wrote:
->  >+        case RKVDEC2_ALLOC_SRAM:
->  >+            virt_addr = (unsigned long)ctx->rcb_bufs[i].cpu;
->  >+
->  >+            iommu_unmap(rkvdec->iommu_domain, virt_addr, rcb_size);
-> 
-> I'm testing your patch with ffmpeg patched with v4l2-request patches[1],
-> and I usually
-> 
-> get kernel panic here. After checking rkvdec->iommu_domain before
-> running iommu_unmap,
-> 
-> I can pass fluster ffmpeg v4l2-request test. Here is my patch based on
-> your commit:
-> 
-> 
-> diff --git a/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-> b/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-> index 75768561399..122bcdcebd4 100644
-> --- a/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-> +++ b/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-> @@ -681,8 +681,8 @@ static void rkvdec2_free_rcb(struct rkvdec2_ctx *ctx)
->                  switch (ctx->rcb_bufs[i].type) {
->                  case RKVDEC2_ALLOC_SRAM:
->                          virt_addr = (unsigned long)ctx->rcb_bufs[i].cpu;
-> -
-> -                       iommu_unmap(rkvdec->iommu_domain, virt_addr,
-> rcb_size);
-> +                       if (rkvdec->iommu_domain)
-> + iommu_unmap(rkvdec->iommu_domain, virt_addr, rcb_size);
->                          gen_pool_free(ctx->dev->sram_pool, virt_addr,
-> rcb_size);
->                          break;
->                  case RKVDEC2_ALLOC_DMA:
-> 
-> 
-> [1] https://github.com/amazingfate/FFmpeg/commits/n6.1.1-new-patches/
-> 
-> 
-> Best regards,
-> 
-> Jianfeng
-
-
-
-
+Laurent Pinchart
 
