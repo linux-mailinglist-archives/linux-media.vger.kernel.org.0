@@ -1,151 +1,83 @@
-Return-Path: <linux-media+bounces-35248-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35249-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4107FAE019A
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 11:20:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44520AE01CE
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 11:37:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE359171693
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 09:20:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E26CC17D0AD
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 09:37:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8912E263C8F;
-	Thu, 19 Jun 2025 09:19:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE9121D3FD;
+	Thu, 19 Jun 2025 09:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RVN8fddP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqyom7eC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D65522B588;
-	Thu, 19 Jun 2025 09:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED95021C9E0;
+	Thu, 19 Jun 2025 09:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750324797; cv=none; b=o0f5Mbi4LnDbxi3HUVp8weKHsGKSOuXlFou6aM4BpzHhOTv5oRooTUWT1K1mWEdRtugfwsCyhkZRIMoGSDe3p81SLBQ9dG/4viWqd9vnZPFP85bppbvHUfDo4tM1Y1V1l/ZuXkyPBZ+qRcasdc7yyhnZ33GJzbm0NpvnaSn/N2U=
+	t=1750325852; cv=none; b=Tzue2ZsmKVtW3dd70aRri17XTtk1PvrWzJM/0+EI4ORnd1dvrG8lVd+1ZtZAMg0AODdRstEQDa3O+gNIz7Cz1qTtGBqiOzgMOY8bWpwxcnNP5mAZ3lWsvHPtiO7iC9Hoz//I7qebmCdYV4RYRwzcC8kQB5JxNG/VJoJHHn0TDxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750324797; c=relaxed/simple;
-	bh=wUOEYdhZ29SHwGl/xTkaVOq2FWv4Ct0fQwiuoKhEtis=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=BvO4ZXZMPbmfvR3b/GMs+QGWkA71p8CCvynP9ceWuAKjDltNwmwjr59/5DtCIMAgixhCWkK2BXlsfobSqot9ns6iJC/NZXsTs6F+J8w0ZHwCYh7frkJ1vGut+vPd26J1qDOJi4CT1Lfi1UczhlmrFlgLRjoTWhmB6T/hbLpCpwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RVN8fddP; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b2fb9eb54d6so107612a12.0;
-        Thu, 19 Jun 2025 02:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750324795; x=1750929595; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:subject:from:reply-to:content-language
-         :to:user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v/4YlE3HAl9brMdxqBP04WkjP+nK0l6GdDNJGUg3hDA=;
-        b=RVN8fddPxQ2MhYZ3Mrj6zdMN7Fv6vgUpCuyMVKXa5MJNVwyn29n8TBxAUqjmRHjoUb
-         b+JCvLCW7DoqrsG5TjmJ68fekhb7CFvgfVQnZikJPkvhzj5J3xLYePF3NVStPNYG5lx3
-         FOlTikhoN6dKAc92iTz7w2Asg1eyANgmFvJ1sT+/Q6kDdu1J5NdK9PqG+EcVvo19jbFe
-         vW/YVSGZO3zvDYQ9a+Wf4oaQIJwURUJDHSShru04xeUW1vu2EFS72P7nCmzPCWmGyaCW
-         ZURALd1ZVSBGR63jadxW3U4PaAo9SgjgsoN7muNohszeaaB1tWTJ/a8K3Jj5CSHW/Zd8
-         l+6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750324795; x=1750929595;
-        h=content-transfer-encoding:cc:subject:from:reply-to:content-language
-         :to:user-agent:mime-version:date:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=v/4YlE3HAl9brMdxqBP04WkjP+nK0l6GdDNJGUg3hDA=;
-        b=tjcE3Wl6UiI110QUsQb8Nrs7JQ4bTtqKIIbTCXcWKvgMxJSsL0nxu8/JWlisdOJpiM
-         vEzVVOc/2CgC1UaDDrZPDwMJOOmLLTvW6IcG2R45hH4F4XEyuQAXVFUGtoAz3IbMAN0s
-         mmYeGtXi334jQxy+RIu0ODCk5UCS0TQvftMRLCFsYnQJy0HHqJI4NlVq8hGjcqoN0lKU
-         5JuhyflgWhcN9053kgImH1TDHj0Cuha1e5eCY2BmJYrFjqE/bpoC1zRZvSeC01eCQ4tn
-         vI/GqhybYBZnJncaF+9jy7pn3ezfqqlPBWsH2VOSUAPNrXKKIO19zUHTDeTybK7Q4BLT
-         9Pzg==
-X-Forwarded-Encrypted: i=1; AJvYcCUuZGvLT7yoVjW718r8XveJYIdBNV3bIgyMLXYtrf89kNTHKR3vv1LvtOh9a8llNxmrqaQG143R74sxqG0=@vger.kernel.org, AJvYcCWBbLkQqiKnh8p7tTew3Vc2dY+Wn8kXym7PnrVrxVHBsFxQoyqO1vuU1gm4lYv+ReWfuK4OL9ZYtUiH@vger.kernel.org, AJvYcCXsEEMRwnkHWm0sVIBbfSia2lD4bXqEeGS5D4pr8sfj6sJ4U40h+TVrttrr3FgBKsGbvJkCZkgQMtrSew0t@vger.kernel.org
-X-Gm-Message-State: AOJu0YyR0Q+xHyrzuqF9GU6WGdk4HkpbDF4ErTxgDo9OXw2CWEUBda+R
-	PtqpttriWm2HoK2xGQxg8s/G/F52so9wy1xzRAOBTp8T4Ly5Tk1Eelq+
-X-Gm-Gg: ASbGncvw41r1DK1kGKO2+r7ANEjlvo5Wpic/pk3yeoTO/yG9MoNP1PvbWoZpZOAZiyX
-	EylNDeVVPUtAHpZvDhoxix9O8gyHIEktFDvp5Njg5m5pIv9udeOd6QxpTs/+peB/3Jwzr/veAQ4
-	0fu2So18xVjGR9Pu6zubqUxVkSVF6Zj6DznRj3uivFrzvZokT9x9OT5kFYeb4Q1iP773tVWBQcG
-	+7a8qBry5EoWdbtiLM7i6iPtGKr5yGwLpSDnaGSpVQ1DHiV7EcKg3yT8IaVaMEXI/cShhfY78pe
-	GSr7hN3k0Wd+OPVqLemHu4F6hFcypH9Ik5h1/Olac1pV46a/uPohUQ==
-X-Google-Smtp-Source: AGHT+IEOwVnmlW8HJGJmZZDAcMv1C94tin+GyGqBRrpDOir6cIrcvjw4rGkN6VVwGeWeSc86EeXQ9w==
-X-Received: by 2002:a17:902:c40f:b0:22e:6d69:1775 with SMTP id d9443c01a7336-2368edfcb64mr66047925ad.11.1750324794607;
-        Thu, 19 Jun 2025 02:19:54 -0700 (PDT)
-Received: from [0.0.0.0] ([2a09:bac1:3b40:120::16:1d2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3157a615170sm2229196a91.0.2025.06.19.02.19.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jun 2025 02:19:53 -0700 (PDT)
-Message-ID: <9f098eab-7b98-4827-8538-3cab0e8d7c63@gmail.com>
-Date: Thu, 19 Jun 2025 17:19:32 +0800
+	s=arc-20240116; t=1750325852; c=relaxed/simple;
+	bh=Q6+PcrCP4e57NDIVTr+bY58aKjN8i9/eQt4updCs1z4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NbtnW8M+KxOdRdWIdNF7Zd+FCet+m31YySg6d0+jigmZAHjhwVcZpPE1JJPDwWqsqax5HoKlWkUAZEbjhSxMZGkUItWRKR24cU5M2dm1MyXuE/Cnq7hM7SjPcrRaYcUAMTUuOvkJAej9/SVYZ3bDb5lUFaN3e8QBGLoKygGBxiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqyom7eC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D65BC4CEEA;
+	Thu, 19 Jun 2025 09:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750325851;
+	bh=Q6+PcrCP4e57NDIVTr+bY58aKjN8i9/eQt4updCs1z4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mqyom7eCwumDLE4vTncbuEaqguaDHlStVKLTzraNuHaxle1K2rZfA5rWPAWpCnNSj
+	 zvCETmug2gOwlmXTrVNRKu4eTrq7oIq18G/7VNGpTWxhioaUyV6+OONnLHHODqqv2z
+	 6k4wMxPEVX2f7UJwbHG4yNt52f3o8FpbY1POcIemuPmw0FHaZr2H47jIn6ovPngSMa
+	 7Jf/4loUiOZb/12Xf3GBVpP7095+yJPH8DLS1FOEvpLGWrwqOH3qZuZpf5q4Lxks9f
+	 uTlWe5PSSSOSmJDfk2JDYx968rSLNKrJ+rzO66N4aFXqENNq3n48rVYlhQcPH3YVq9
+	 tSJ9w8531zLOQ==
+From: Lee Jones <lee@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Richard Leitner <richard.leitner@linux.dev>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+In-Reply-To: <20250617-ov9282-flash-strobe-v5-3-9762da74d065@linux.dev>
+References: <20250617-ov9282-flash-strobe-v5-3-9762da74d065@linux.dev>
+Subject: Re: (subset) [PATCH v5 03/10] media: v4l2-flash: fix flash_timeout
+ comment
+Message-Id: <175032584928.604443.15779695084855330292.b4-ty@kernel.org>
+Date: Thu, 19 Jun 2025 10:37:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: detlev.casanova@collabora.com
-Content-Language: en-US
-Reply-To: 20250325213303.826925-5-detlev.casanova@collabora.com
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-Subject: Re: [PATCH v4 4/6] media: rockchip: Introduce the rkvdec2 driver
-Cc: alchark@gmail.com, andrzej.p@collabora.com, cassel@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org, dmitry.perchanov@intel.com,
- dsimic@manjaro.org, ezequiel@vanguardiasur.com.ar,
- gregkh@linuxfoundation.org, heiko@sntech.de, hverkuil@xs4all.nl,
- jacopo.mondi@ideasonboard.com, jeanmichel.hautbois@ideasonboard.com,
- jonas@kwiboo.se, kernel@collabora.com, kieran.bingham@ideasonboard.com,
- krzk+dt@kernel.org, laurent.pinchart@ideasonboard.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, Jianfeng Liu <liujianfeng1994@gmail.com>,
- mchehab@kernel.org, naush@raspberrypi.com, nicolas.dufresne@collabora.com,
- robh@kernel.org, sakari.ailus@linux.intel.com,
- sebastian.reichel@collabora.com, tomi.valkeinen@ideasonboard.com,
- umang.jain@ideasonboard.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-c81fc
 
-Hi Detlev,
+On Tue, 17 Jun 2025 09:31:37 +0200, Richard Leitner wrote:
+> The comment for the flash_timeout setter mentioned it is the "flash
+> duration". Fix this by changing it to "flash timeout".
+> 
+> 
 
-On Tue, 25 Mar 2025 17:22:20 -0400, Detlev Casanova wrote:
+Applied, thanks!
 
- >+        case RKVDEC2_ALLOC_SRAM:
- >+            virt_addr = (unsigned long)ctx->rcb_bufs[i].cpu;
- >+
- >+            iommu_unmap(rkvdec->iommu_domain, virt_addr, rcb_size);
+[03/10] media: v4l2-flash: fix flash_timeout comment
+        commit: 6012ce6b30567aa8ec8dc5b648b7841f9f74ca7c
 
-I'm testing your patch with ffmpeg patched with v4l2-request patches[1], 
-and I usually
-
-get kernel panic here. After checking rkvdec->iommu_domain before 
-running iommu_unmap,
-
-I can pass fluster ffmpeg v4l2-request test. Here is my patch based on 
-your commit:
-
-
-diff --git a/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c 
-b/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-index 75768561399..122bcdcebd4 100644
---- a/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-+++ b/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-@@ -681,8 +681,8 @@ static void rkvdec2_free_rcb(struct rkvdec2_ctx *ctx)
-                 switch (ctx->rcb_bufs[i].type) {
-                 case RKVDEC2_ALLOC_SRAM:
-                         virt_addr = (unsigned long)ctx->rcb_bufs[i].cpu;
--
--                       iommu_unmap(rkvdec->iommu_domain, virt_addr, 
-rcb_size);
-+                       if (rkvdec->iommu_domain)
-+ iommu_unmap(rkvdec->iommu_domain, virt_addr, rcb_size);
-                         gen_pool_free(ctx->dev->sram_pool, virt_addr, 
-rcb_size);
-                         break;
-                 case RKVDEC2_ALLOC_DMA:
-
-
-[1] https://github.com/amazingfate/FFmpeg/commits/n6.1.1-new-patches/
-
-
-Best regards,
-
-Jianfeng
+--
+Lee Jones [李琼斯]
 
 
