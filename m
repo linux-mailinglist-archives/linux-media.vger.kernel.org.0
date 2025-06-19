@@ -1,72 +1,59 @@
-Return-Path: <linux-media+bounces-35447-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35448-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830FEAE0F72
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 00:07:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D2CAE0F86
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 00:19:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2047D3B0506
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 22:07:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4660418950C7
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 22:19:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F2E825B67D;
-	Thu, 19 Jun 2025 22:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3007221D96;
+	Thu, 19 Jun 2025 22:19:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DuHo8U6c"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HeU5r18v"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24235DF42;
-	Thu, 19 Jun 2025 22:07:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882E930E826
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 22:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750370866; cv=none; b=peJ4Xm6pfvePQteWFL/6C5nYjHYOlhMQIrkNWyfI0lcgMrrwQdvVt9gGK3nSBTMO8DI9FqazoNJcIR96MH/Q/mQ0l2J5B0nMl4MkvGtFX5Fn61dCgarLjOd4hjNHM2uDKjMwDkilps9mbCZ+R9gY3ZYmKTuGIBqh+n4BOgkun4s=
+	t=1750371559; cv=none; b=qR1qXHM9qZKNze7cqzLe3a/JL7FiC5tLCIs9XzTgxOYVwJmU0fPBidwVOWXCxg3AElGD4evy/2P2SCqu3bHM5Tk9yUKpFu5/4umWNqYWAhcfmly4TtAf9PiZFMWY5ejCcp1x2oPy2zbaFI5xPNoHzuF9BQlPwl1jIndEPyI0sJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750370866; c=relaxed/simple;
-	bh=eyvxHiBaTfMMOYycw+Lo/h1964z+2I9bQWbkS4kwDwg=;
+	s=arc-20240116; t=1750371559; c=relaxed/simple;
+	bh=35Bak+JQaB8hibA9WRTb826vXr9lcB2WKciECVVlvqk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WvCrH70XyYWCUQVNBaDVJkAlWgsZn7/XhVeR4Kjfr8ttZUEkqDNvgxe1vRpZxSmBxxUSD/hIQeljzMq3A0Yt7oxJubvtliLctK3l9mm4Fv3RKVJV4NB1OPqG8eQ3fEx9EimmfTq0SzKzsWOarFfZqXMINwisR6xiLh2kXYYeAQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DuHo8U6c; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=U8FiSTh7fU+cFCTeEMOHAoQI2TZS2Y+ct5+YohTDUPSl7G/j6nBbKHNi2fyNJnqC3XlTprpqrWTXjSwt5M74Ajb7fzz0f9zDkcJIghkHRMKVxktjHqOHhh9+w9WSP0HqvVkJzkoEQiR2+n7PSYxku6RMYI5Qx60lQpcwN9JLTFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HeU5r18v; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21BF0778;
-	Fri, 20 Jun 2025 00:07:27 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAD35E45;
+	Fri, 20 Jun 2025 00:19:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750370847;
-	bh=eyvxHiBaTfMMOYycw+Lo/h1964z+2I9bQWbkS4kwDwg=;
+	s=mail; t=1750371542;
+	bh=35Bak+JQaB8hibA9WRTb826vXr9lcB2WKciECVVlvqk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DuHo8U6cEMxryW1flrQ4Opl4Fl9tHpg1WTA/eLtbrFEQpLOwfy+a/BU5j7HzwOwdb
-	 KNSgAE+AT/k8l9g9eKXRXGm/WRcxYKcciRrdEFwwRR69Ni2otGrKWqkDES/S0nIqOn
-	 PE3lJ5I3h0RMi2f20hCHE0k1C7M0vsi4+CgxAOQw=
-Date: Fri, 20 Jun 2025 01:07:23 +0300
+	b=HeU5r18vXam1HwlrcyaSsJ4lkCfewFInnVDFcqk2GS5y+78d7CvJvchxMzja5UzCa
+	 ZigqmIDTkUfjd7dyVvjGdmn3PYgp9Z3aPwLgdakX1NMYzcKoBj1LPbD20Sw/IzTRE3
+	 tvduYsBYBYKNH/aMc4gRC4W/jz+Rc8zHaXwxAldY=
+Date: Fri, 20 Jun 2025 01:18:57 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: sakari.ailus@linux.intel.com, akinobu.mita@gmail.com,
-	stanislaw.gruszka@linux.intel.com, hdegoede@redhat.com,
-	arnd@arndb.de, alain.volmat@foss.st.com, andrzej.hajda@intel.com,
-	benjamin.mugnier@foss.st.com, dave.stevenson@raspberrypi.com,
-	hansg@kernel.org, hverkuil@xs4all.nl, jacopo.mondi@ideasonboard.com,
-	jonas@kwiboo.se, kieran.bingham@ideasonboard.com, khalasa@piap.pl,
-	prabhakar.csengg@gmail.com, mani@kernel.org,
-	m.felsch@pengutronix.de, martink@posteo.de, mattwmajewski@gmail.com,
-	matthias.fend@emfend.at, mchehab@kernel.org,
-	michael.riesch@collabora.com, naush@raspberrypi.com,
-	nicholas@rothemail.net, nicolas.dufresne@collabora.com,
-	paul.elder@ideasonboard.com, dan.scally@ideasonboard.com,
-	pavel@kernel.org, petrcvekcz@gmail.com, rashanmu@gmail.com,
-	ribalda@chromium.org, rmfrfs@gmail.com, zhengsq@rock-chips.com,
-	slongerbeam@gmail.com, sylvain.petinot@foss.st.com,
-	s.nawrocki@samsung.com, tomi.valkeinen@ideasonboard.com,
-	umang.jain@ideasonboard.com, zhi.mao@mediatek.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 01/55] media: v4l2-common: Add a helper for obtaining
- the clock producer
-Message-ID: <20250619220723.GU22102@pendragon.ideasonboard.com>
-References: <cover.1750352394.git.mehdi.djait@linux.intel.com>
- <1f8a0bb1896a57e818fad30a236b350127689be6.1750352394.git.mehdi.djait@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
+	tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH 06/13] media: v4l2-subdev: Mark both streams of a route
+ enabled
+Message-ID: <20250619221857.GM32166@pendragon.ideasonboard.com>
+References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
+ <20250619081546.1582969-7-sakari.ailus@linux.intel.com>
+ <20250619165604.GH32166@pendragon.ideasonboard.com>
+ <aFRYMWoi9vpsdYKa@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,161 +62,40 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1f8a0bb1896a57e818fad30a236b350127689be6.1750352394.git.mehdi.djait@linux.intel.com>
+In-Reply-To: <aFRYMWoi9vpsdYKa@kekkonen.localdomain>
 
-Hi Mehdi,
-
-Thank you for the patch.
-
-On Thu, Jun 19, 2025 at 07:58:54PM +0200, Mehdi Djait wrote:
-> Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-> platforms to retrieve a reference to the clock producer from firmware.
+On Thu, Jun 19, 2025 at 06:34:25PM +0000, Sakari Ailus wrote:
+> On Thu, Jun 19, 2025 at 07:56:04PM +0300, Laurent Pinchart wrote:
+> > On Thu, Jun 19, 2025 at 11:15:39AM +0300, Sakari Ailus wrote:
+> > > Streams are stored in sink-source pairs in sub-device state.
+> > 
+> > Is it really this simple ? Don't we support for instance stream merging
+> > where two streams on possibly different sink pads are routed to a single
+> > stream on a source pad ?
 > 
-> This helper behaves the same as clk_get_optional() except where there is
+> As far as I'm concerned, yes. Each route has a sink and a source pad, you
+> may have multiple routes from a pad or to a pad, but these are all separate
+> routes. The UAPI as well as v4l2-subdev.c is aligned with this and I
+> wouldn't expect it to be otherwise.
 
-It actually behaves like devm_clk_get(). The _optional variant returns
-NULL when the clok is not found, while the helper here return
-ERR_PTR(-ENOENT).
+Should we then refactor v4l2_subdev_stream_configs to contain a list of
+route configs, with each route config containing two stream configs, one
+for the sink pad and one for the source pad ? We would still have
+duplicated entries when multiple routes originate from or end at the
+same pad/stream, but the data structures would be more explicit and we
+would rely less on the fact that each route has a pair of consecutive
+stream configs.
 
-> no clock producer like in ACPI-based platforms.
+> I'd like to have Tomi's view on this, too.
 > 
-> For ACPI-based platforms the function will read the "clock-frequency"
-> ACPI _DSD property and register a fixed frequency clock with the frequency
-> indicated in the property.
+> > > When a stream
+> > > was marked enabled (or disabled), only the state of one end of the stream
+> > > was modified, leaving the stream in an incoherent state. Mark both ends of
+> > > the stream enabled (or disabled).
 > 
-> This function also handles the special ACPI-based system case where:
-> The clock-frequency _DSD property is present.
-> A reference to the clock producer is present, where the clock is provided
-> by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
-> In this case try to set the clock-frequency value to the provided clock.
-> 
-> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index bd160a8c9efe..c53221165c5a 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -34,6 +34,9 @@
->   * Added Gerd Knorrs v4l1 enhancements (Justin Schoeman)
->   */
->  
-> +#include <linux/clk.h>
-> +#include <linux/clkdev.h>
-> +#include <linux/clk-provider.h>
->  #include <linux/module.h>
->  #include <linux/types.h>
->  #include <linux/kernel.h>
-> @@ -673,3 +676,49 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(v4l2_link_freq_to_bitmap);
-> +
-> +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-> +{
-> +	const char *clk_id __free(kfree) = NULL;
-> +	struct clk_hw *clk_hw;
-> +	struct clk *clk;
-> +	bool acpi_node;
-> +	u32 rate;
-> +	int ret;
-> +
-> +	clk = devm_clk_get_optional(dev, id);
-> +	ret = device_property_read_u32(dev, "clock-frequency", &rate);
-> +	acpi_node = is_acpi_node(dev_fwnode(dev));
-> +
-> +	if (clk) {
-> +		if (!ret && acpi_node) {
-> +			ret = clk_set_rate(clk, rate);
-> +			if (ret) {
-> +				dev_err(dev, "Failed to set clock rate: %u\n",
-> +					rate);
-> +				return ERR_PTR(ret);
-> +			}
-> +		}
-> +		return clk;
-> +	}
-> +
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	if (!IS_ENABLED(CONFIG_COMMON_CLK) || !acpi_node)
-> +		return ERR_PTR(-ENOENT);
-> +
-> +	if (!id) {
-> +		clk_id = kasprintf(GFP_KERNEL, "clk-%s", dev_name(dev));
-> +		if (!clk_id)
-> +			return ERR_PTR(-ENOMEM);
-> +		id = clk_id;
-> +	}
-> +
-> +	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
-> +	if (IS_ERR(clk_hw))
-> +		return ERR_CAST(clk_hw);
-> +
-> +	return clk_hw->clk;
-> +}
-> +EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 0a43f56578bc..72d8fcc6057f 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -620,6 +620,31 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
->  			     unsigned int num_of_driver_link_freqs,
->  			     unsigned long *bitmap);
->  
-> +/**
-> + * devm_v4l2_sensor_clk_get - lookup and obtain a reference to an optional clock
-> + *			      producer for a camera sensor.
-> + *
-> + * @dev: device for v4l2 sensor clock "consumer"
-> + * @id: clock consumer ID
-> + *
-> + * This function behaves the same way as clk_get_optional() except where there
+> This should discuss "route" in fact, not "stream".
 
-s/clk_get_optional/devm_clk_get/
-
-> + * is no clock producer like in ACPI-based platforms.
-> + *
-> + * For ACPI-based platforms, the function will read the "clock-frequency"
-> + * ACPI _DSD property and register a fixed-clock with the frequency indicated
-> + * in the property.
-> + *
-> + * This function also handles the special ACPI-based system case where:
-> + * The clock-frequency _DSD property is present.
-> + * A reference to the clock producer is present, where the clock is provided by
-> + * a camera sensor PMIC driver (e.g. int3472/tps68470.c)
-> + * In this case try to set the clock-frequency value to the provided clock.
-
- * This function also handles the special ACPI-based system case where:
- *
- * * The clock-frequency _DSD property is present.
- * * A reference to the clock producer is present, where the clock is provided
- *   by a camera sensor PMIC driver (e.g. int3472/tps68470.c).
- *
- * In this case try to set the clock-frequency value to the provided clock.
-
-to get proper formatting in the generated documentation.
-
-> + *
-> + * Return:
-> + * * pointer to a struct clk on success or an error code on failure.
-
- * Returns a pointer to a struct clk on success or an error pointer on failure.
-
-> + */
-> +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id);
-> +
-
-Please add a forward declaration of struct clk towards the top of the
-file, with the other forwar declarations.
-
-With those small issues fixed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
->  {
->  	/*
+That would make it a bit clearer.
 
 -- 
 Regards,
