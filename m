@@ -1,122 +1,132 @@
-Return-Path: <linux-media+bounces-35366-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35367-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F7AAE0BBC
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 19:07:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D539AE0BD0
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 19:16:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E363A4A23A8
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 17:07:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 253C14A2C54
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 17:16:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF32928C5B1;
-	Thu, 19 Jun 2025 17:07:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82DF428CF64;
+	Thu, 19 Jun 2025 17:16:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qFlxBhLD"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="FDgbpl2w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD3621D3E7
-	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 17:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB841DB54C
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 17:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750352859; cv=none; b=rqydd53lLhkl9P6KSxLOMcHXNKY6M10sjBxdXOKU73wMVKv13Gi0BGMKjUtXwRZaQXg8HIAn2w5/ZGGeVGLK7GbbOU639YfhtI3sCKiJm9WmHANt7jqioScEKGPDsgXkIcdvBy6rhO/9gqIcUwGUYKgMRDj/xqJ+8EwKdXGA/ms=
+	t=1750353397; cv=none; b=MbVwzXIR6RtCk5UqbBJxXKHtZhsuUaCTb4WsTjUywP5Uw1q2wJprMEMD68IDayGdNrclwKkKLsk+GYbWknB4Oj0Pjy3XO2iSlfyOQsYGQloz64Mr4zztLFp/s8arux5ukmZsJdh2z9TwtAKhFbrQREl0LkkQj3Le0gMcHDYR/P8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750352859; c=relaxed/simple;
-	bh=BC9x1/KIg8M+1xsTHEyRUohVq9OGJs/e0EbFAAdf/o4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zl79AKeTjS3ni2iGPHYiAlghTABhkDCokbvGOarMHi2yR1kXmwDZ5Br31NzrlMqzgCcZe59RKbLKxGO6jcb6MuZrUdp2jEsVl2aqUAiZfyqWJ9JOzMebjlYkyhduCSfswc/xwIz+urtN9UyC1eM3+FHt5J/U0UKvijr4sLHNSic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qFlxBhLD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C93B346;
-	Thu, 19 Jun 2025 19:07:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750352841;
-	bh=BC9x1/KIg8M+1xsTHEyRUohVq9OGJs/e0EbFAAdf/o4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qFlxBhLDcBfq8qEhSDrX+AIhjKqAWFwEbk/CghCxSbjDwbQCoOCqLcglXUPwtqvo5
-	 RV7qnSedw863T+JaDWqKokAlPxq17t7QfbJxOOWNAEs0W2bRB+bFAdQX67MLiTIhx/
-	 vHcw3w12163CbNdihjZYNXZgB569r1Qu7DyNEUz8=
-Date: Thu, 19 Jun 2025 20:07:17 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
-	tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH 09/13] media: v4l2-subdev: Collect streams on source pads
- only
-Message-ID: <20250619170717.GK32166@pendragon.ideasonboard.com>
-References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
- <20250619081546.1582969-10-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1750353397; c=relaxed/simple;
+	bh=vavngEW490W1TVlna35U5JsoXyvTKiOlogApqdvOnX8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VcVjJ3Bw7MYjKPEuauJA/Z7+2HiqtgQF6MKCRWyuO3ULwoM8WLv2I8gV8tf8UqweWnxOQtFY5pwdQfC60pSId36WIwoyGGsqmZYrB6x6fqXX9C8OUtdCzoEFN2aoi58V1fwuG+HX5S1UezDTuWIB0MqDN54l/8UsRQ+usbmXB0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=FDgbpl2w; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6fabe9446a0so10312326d6.2
+        for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 10:16:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1750353394; x=1750958194; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vavngEW490W1TVlna35U5JsoXyvTKiOlogApqdvOnX8=;
+        b=FDgbpl2wK4Z3hPOt4a++qe38RCn3R4IlGGc2p3z4Tccl/hT5c03yTZsbobd/N5bIxD
+         4n2eMvABYOpBwJVd0Eb0RDBKPj2Gp5zSZKaDoMC3bQf1eHMHB0+FFSVr1a2HZ9O4qEGb
+         MKoF/Ma8uxZr41sM3URhEF3+cNIg+Y9aG84TC58I4URBNViyBNpyVkvFQqFK5GH0tXye
+         yGd2ZwuDI+MMKrtWrkMe4n8tMx4Fyy9l+pMU0iODj029HCYVoavCnKanC6/Aznq7y5iF
+         qiguE4kkxLIi5AlH0voWyHZY/+KusRKaSl5yZgU9K2mmkZ0+sYODLtTR0v9DtIW+h7X9
+         +I7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750353394; x=1750958194;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vavngEW490W1TVlna35U5JsoXyvTKiOlogApqdvOnX8=;
+        b=EmNcPYYGMnnheEbbS9dA2E2FIHfpzR/5T6HBYKJP4zQLTcan8Kqkod19hL+IxyhYej
+         HZvoSbp7wpZvqurqreAPPvF+WlMAAf4MZemUWGPcPrCac1P5ksGEHQLyfvyZfE9SEBYU
+         3od5Wauxuu+fk9xw5hgVr7Q6Ji/iGw3H8nc7EPPJNa01ENzYclBjPhfmsYMcanbxh/Pb
+         ux5VCx/QVsAAbZ9LvkZkm6ui3Yqwc5H89UAJSCOVtBPe90N6/IoGcreKELeJB/o9IWcf
+         yRRC0i6DGH2vGkEGXcHSzga2HkFG9rbARhuBbS7UJeV2ID5BF7/CgFieoLI5z9D7lIId
+         T+3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXneXAyVWG81W55uy1x1stKVPMuHTlZdn4FZpfbwTcn1Smuh8t0GwOlUYVadEiOkk6UXmVFpa80vewzJg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNvgyrsBto2IfaR/pZZcM0+GNvT6UY16BW3z9nv8ArWI2xhvdA
+	aCBZfqrQmYMGJrESycsvq7hxVA3hQRU7uUFEiSW51lzGy7S5uAvoWd0WzA2NIo8xGVc=
+X-Gm-Gg: ASbGncv3ou8GdqHb7CQzUQCgedlotcyLPnL6m9Vz/pxz1j2ELc670yjVUdd+uSOZYcd
+	e+je3cDWIZz8/xcj9JGdGNSWoMOpY2NwjUIgCqiDDCOcEXMi///ORXx/uDtmD5w4Pb8lhZbCQ4x
+	tiVdpPqyrECkzpW6bwgA4akwqv17DQfo9mTafthKrN3YnZjUa8t84AvQdJ/BH1bglHKBzDy4oIm
+	Qc7vARO/EGr83XfS3vsMcPLWUpa/+ZOUO1olb/YQmm9abP6ytCdM0qL69JAHVmSFAjXbFQHTbTT
+	hxgx5WGws34DcsOLvcTE+BlCTmvRu+uZIieD/PR+czM3EdVVx3bEQ6mxkXAClbGP6ko=
+X-Google-Smtp-Source: AGHT+IFZGR1oLZzp6cLHcCiYls3uKiELGOeDzcSxdXOkGm/XLOLstBIyI7bjhXg4re8Xuf3yDJehIw==
+X-Received: by 2002:a05:6214:540c:b0:6fb:4e46:7f3a with SMTP id 6a1803df08f44-6fd0a4d68f5mr760206d6.16.1750353394282;
+        Thu, 19 Jun 2025 10:16:34 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:b699::5ac? ([2606:6d00:17:b699::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d3f8e4b0f7sm19537985a.67.2025.06.19.10.16.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jun 2025 10:16:33 -0700 (PDT)
+Message-ID: <d46d73f84e78daf152962ffb5cce7dd3ae0920d1.camel@ndufresne.ca>
+Subject: Re: [PATCH RESEND 1/2] media: dt-bindings: nxp,imx8-jpeg: Add
+ compatible strings for IMX95 JPEG
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Shawn Guo <shawnguo2@yeah.net>
+Cc: Frank Li <Frank.Li@nxp.com>, mirela.rabulea@nxp.com, mchehab@kernel.org,
+ 	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, 	s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, 	krzysztof.kozlowski@linaro.org, imx@lists.linux.dev,
+ linux-media@vger.kernel.org, 	devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, 	linux-kernel@vger.kernel.org,
+ ming.qian@nxp.com
+Date: Thu, 19 Jun 2025 13:16:32 -0400
+In-Reply-To: <aFORokzx/sImgDtA@dragon>
+References: <20250521-95_jpeg-v1-0-392de5d29672@nxp.com>
+	 <20250521173444.310641-1-Frank.Li@nxp.com>
+	 <eef5ccd99d82dd33e3a4ecdb5d4a5b75ccb0b972.camel@ndufresne.ca>
+	 <aFORokzx/sImgDtA@dragon>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250619081546.1582969-10-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
+Le jeudi 19 juin 2025 =C3=A0 12:27 +0800, Shawn Guo a =C3=A9crit=C2=A0:
+> On Fri, May 23, 2025 at 07:22:04PM -0400, Nicolas Dufresne wrote:
+> > Hi,
+> >=20
+> > Le mercredi 21 mai 2025 =C3=A0 13:34 -0400, Frank Li a =C3=A9crit=C2=A0=
+:
+> > > Add compatible strings "nxp,imx95-jpgdec" and "nxp,imx95-jpgenc", whi=
+ch
+> > > are backward compatible with "nxp,imx8qxp-jpgdec" and
+> > > "nxp,imx8qxp-jpegenc". i.MX95 just need one power domain which combin=
+e
+> > > wrap and all slots together. Reduce minItems of power-domains to 1 fo=
+r
+> > > i.MX95 and keep the same restriction for others.
+> > >=20
+> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> >=20
+> > Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> >=20
+> > Krzysztof, will you take this one once the DTS part is ready ?
+>=20
+> dt-bindings is the prerequisite of DTS.=C2=A0 DTS patch looks good to me
+> and I'm waiting for dt-bindings part to be applied first.
 
-Thank you for the patch.
+I was waiting for sign of life on the DTS part, we usually get some ack,
+which is good sign we can take the bindings.
 
-On Thu, Jun 19, 2025 at 11:15:42AM +0300, Sakari Ailus wrote:
-> v4l2_subdev_collect_streams() is used to find the streams present on
-> source pads only. Only iterate through the streams on source pads, i.e. on
-> odd array indices.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 6bc855058ca6..932fca795d4a 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -2225,16 +2225,17 @@ static void v4l2_subdev_collect_streams(struct v4l2_subdev *sd,
->  	*found_streams = 0;
->  	*enabled_streams = 0;
->  
-> -	for (unsigned int i = 0; i < state->stream_configs.num_configs; ++i) {
-> -		const struct v4l2_subdev_stream_config *cfg =
-> -			&state->stream_configs.configs[i];
-> +	for (unsigned int i = 0; i < state->stream_configs.num_configs; i += 2) {
-> +		const struct v4l2_subdev_stream_config *src_cfg =
-> +			&state->stream_configs.configs[i + 1];
-
-You could start at i = 1 and avoid the + 1 here.
-
-Unless I missed it, I don't think we document anywhere that we store two
-values per route in the array, and that, if multiple routes have the
-same sink or source stream, multiple entries will exist for the same
-stream. I'd like to see this clearly explained somewhere, instead of
-relying on an implemetation detail only known by few people.
-
->  
-> -		if (cfg->pad != pad || !(streams_mask & BIT_ULL(cfg->stream)))
-> +		if (src_cfg->pad != pad ||
-> +		    !(streams_mask & BIT_ULL(src_cfg->stream)))
->  			continue;
->  
-> -		*found_streams |= BIT_ULL(cfg->stream);
-> -		if (cfg->enabled)
-> -			*enabled_streams |= BIT_ULL(cfg->stream);
-> +		*found_streams |= BIT_ULL(src_cfg->stream);
-> +		if (src_cfg->enabled)
-> +			*enabled_streams |= BIT_ULL(src_cfg->stream);
->  	}
->  }
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Nicolas
 
