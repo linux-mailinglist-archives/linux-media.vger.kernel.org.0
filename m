@@ -1,102 +1,161 @@
-Return-Path: <linux-media+bounces-35211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35212-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99118ADF7CE
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 22:36:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 272E7ADFBA5
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 05:12:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18895189FADF
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jun 2025 20:36:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 011D3189FD10
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 03:12:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C1BE21C173;
-	Wed, 18 Jun 2025 20:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EFE9238C23;
+	Thu, 19 Jun 2025 03:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p7YKsGWv"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="eZ8lGZzc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FED188006
-	for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 20:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2592B4A3C;
+	Thu, 19 Jun 2025 03:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750278959; cv=none; b=GbAr84aKuhh5L4Q0/RscwXf2NJlngCkSywXww9sXP/N3mZvoEcepM0fV0qUWu5l0VWpDokscuiOiRpyd0MeeL5W1YRlJqYgypM2808WfHbwgxUibzyM4QnanvXQTuC//tQ3SHxam44Dsz4DM0NesCZDCkBm6zWIvyc2AW4R0mXk=
+	t=1750302719; cv=none; b=udjZ2rxbfIvxAiHcprd6u0oVDBWqCD5T8iEiDivmeqs8eoiDfIc3iB5xkFYEUhzx0GmCggcdDFr0HfFo1kC/5OilP69Sdx7s5YDDpB4jVSr3ss7UZz0IZRA8TLZgtJWK7ctXKKoYLmBUCKNRvLDo8SxU5kydepYjKhNe3PzSjBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750278959; c=relaxed/simple;
-	bh=ahnd1Z6swvTss88J3BCqiJiQsWfGMkswiPn53f9/8bI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cW3On3Kmgv1OeVaTbpPBg7pfhCSOnui73ZCxmGGqjFppB2/Hc9kvGQ1HMN2KdW0sqCFHyP62mvM5twDkF5QJxpi50MRHpASqW2ThQnxBjJkJKX9Z0UepYTpHOH164vK4qzG1u9uLE8IEK/1I2RTm9crbwdhZoB95kHVwo/7rt0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p7YKsGWv; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2e95ab2704fso23463fac.3
-        for <linux-media@vger.kernel.org>; Wed, 18 Jun 2025 13:35:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750278957; x=1750883757; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ps3OX/Dhs7yZhLG+f0r6G5XaijgRdGcZ8U1aOoi8tuc=;
-        b=p7YKsGWvkNWm0tJv+IkLoY/kuLL6HhaFgH+6z+2xS2ORsU7dcqtkJL3H7lVxBuKRF+
-         EQ2hAN+dsG06ZwGohIpSh20oT9WH1xcqW6mVzkEkUnYnc8SKS2g0pcggETfa3JerfF16
-         ktCv+Rqb2DIpZn6MeasE5wxrmJz3qPGEuLASIAvnbg+wDUhWCsIjt1Gxws4NnBsDI1dq
-         AhHl+Lcy2+Z//YAqMdN7WW31Erm9K27A5W3Wqz74Ets4K26Q/aQ3Ndl+lTyIvk3+6AZE
-         58fezAinbxyrzG0OdfR50r7B2CAu3gHDvInrh7R6QwAHOKsHJOz3Ryc2pxhvGQtJgFFB
-         cQsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750278957; x=1750883757;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ps3OX/Dhs7yZhLG+f0r6G5XaijgRdGcZ8U1aOoi8tuc=;
-        b=kyRRGzpGLRfShfc5veiCNpq+AqmWvNUEc9b5+gKmsPAW0IpeQTxnDgKQ6R+5u5WO37
-         2mZ0KhejFBpew4HBGa7SfQ84KyMwpUkCCYIu/24ek5SVsNSxpncCCYFCvlcd36pWzCoq
-         gSOGF5pc/GkANP0WAiFm+VCufM67KpIUbT91jcR05qU3ZoJ4+QnQPchfUc3EVmCq4l4j
-         P5kgXs5+yNg6ejs3ZqVL9ryuX+0wiPMv+Vrsy2LjQMT4Av5i05dDe+WmpA6uViJZ0PV9
-         zfyc1/iHHEtoGkm5f3TAVA8UEAfjBzjXkz32PfWu9EjpTH1MOfNPGvZIXwvUUcp6rrop
-         6XsA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9tgS6YQyOjE4c9dxQ0cxoMNCoViaGTPSzfM2PiNR42q7i1wCX1WEKLGUX9MopENDnNjxhbA8fFI4LYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvKTXS6hfpFv3yBAumJ255LdDAt7SdHxqh1ilaC/8GcBjxK1zX
-	SyJ9LJtiY3/6RNvY+cEO011cFU+Wku89NDuOFv12ZlIOrOPNZqP5AxCYKUGbDlFWycM=
-X-Gm-Gg: ASbGncs9Bb4dEgc19j/TMFs/RIMw3MQiCzlpMaWF8toIDZVAdSZdr9L9QHbT8JexQ6W
-	9W808gHxCboWd5WUHkbICDhrGC4zZsBdBrriRB4X8e8nP6Q03QDyg3QVjvwFalAPl9NDba/Knhl
-	8jFGGyWNrAg4A4VyUxCxyzSqky7g3E2dRMQqxSdp++rTwGn3ZJneafrOKHJbRy3WHGJMt8pfnEg
-	E0f+QgSjPbW0T/X55hjdQJXLrAo8X5SXsLnzUOZweBrp3DVnn+oXPq7QhxE0Aqs+ye9AgJoEFw0
-	75HJe3RElSDgznK815ty3Z/DN8F6MOCxWpWufb05by9uUUMmcd3KajosOzDctsWhshf5xQ==
-X-Google-Smtp-Source: AGHT+IGFpoeUPUB3ajbzRme+oGBi4olRLqQl65J8P5ov+Se4sIOpLBgOJGgqQ4g2+IIieFSr5Z+YJg==
-X-Received: by 2002:a05:6870:9720:b0:2ea:7d72:23fe with SMTP id 586e51a60fabf-2eaf089dd18mr10540737fac.11.1750278957488;
-        Wed, 18 Jun 2025 13:35:57 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:1b3b:c162:aefa:da1b])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2eab897a367sm2981625fac.21.2025.06.18.13.35.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 13:35:56 -0700 (PDT)
-Date: Wed, 18 Jun 2025 23:35:55 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Thomas Andreatta <thomasandreatta2000@gmail.com>
-Cc: hansg@kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 5/5] Staging: media: atomisp: i2c: struct definition style
-Message-ID: <69ff7899-cb4f-47cf-8eff-13b5a828d94a@suswa.mountain>
-References: <20250615231143.1558392-1-thomas.andreatta2000@gmail.com>
- <20250615231143.1558392-5-thomas.andreatta2000@gmail.com>
+	s=arc-20240116; t=1750302719; c=relaxed/simple;
+	bh=MFAuk96MoSjlkSJYPkinU7Cnn1W/ZUDNhoAOIfyE3e0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AgsLNmAvQPy2c4ZM1f6EcRLzE9Jk+9DHxJQpTg3NxXuYyJDjIeaYjpktWTwjbRr/3q+l+R5uLSBbiAWfe1b7rz5UVqkANU/JUyYrohzE+WDzDzg2gsNYJlTXid6fDQnbjI7zbgNX19zunOTvbA7rhLIGUD/ej+3HJxqBDWWL2fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=eZ8lGZzc; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 24b8967e4cbb11f0b910cdf5d4d8066a-20250619
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=aHlQ29GfE7GPw0vRvmvgfDlNtf7v7UnON80MlnW7oeY=;
+	b=eZ8lGZzcuy8e6m2wZHnWYrrZZwcx/xaIO/5d7bxCyTLUvWC3etdMmI+rP8Csh5wsZsZAr1+JyrvejzT8C0udgO31s9+F6OdPHCiVDW1UPVOkU96d63WQAECUsawOGq4f8xnOFmpUVOkvXsQ9AsPcKaCLmg/Nm4XgukoL3r4mUYs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.2.3,REQID:244a7a8b-5348-4d61-b289-dab4917ff57c,IP:0,UR
+	L:0,TC:0,Content:0,EDM:-30,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-30
+X-CID-META: VersionHash:09905cf,CLOUDID:9e972377-7521-4364-b0ef-cd7d9c0ecbde,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:2,IP:nil
+	,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
+	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 24b8967e4cbb11f0b910cdf5d4d8066a-20250619
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
+	(envelope-from <kyrie.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1210089391; Thu, 19 Jun 2025 11:11:50 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Thu, 19 Jun 2025 11:11:47 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Thu, 19 Jun 2025 11:11:47 +0800
+From: Kyrie Wu <kyrie.wu@mediatek.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
+	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>
+CC: <srv_heupstream@mediatek.com>
+Subject: [PATCH v6 00/12] Enable jpeg enc & dec multi-hardwares for MT8196
+Date: Thu, 19 Jun 2025 11:11:28 +0800
+Message-ID: <20250619031142.27180-1-kyrie.wu@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250615231143.1558392-5-thomas.andreatta2000@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-On Mon, Jun 16, 2025 at 01:11:43AM +0200, Thomas Andreatta wrote:
-> >From `static struct ov2722_reg const` to `static const struct ov2722_reg`
-> 
+This series have the follow changing:
+Firstly fix some bugs, including resolution change handleing, stop
+streaming sw flow, fix buffer layout and clock setting to support multi-hw
+jpeg working and others.
+Secondly add mt8196 jpegdec and jpegenc compatible to support MT8196
+kernel driver.
+Lastly, Add smmu setting to support smmu and iommu at the same time.
 
-Sentence no verb.
+This series has been tested with MT8196 tast test.
+Encoding and decoding worked for this chip.
 
-regards,
-dan carpenter
+Patches 1 fix jpeg hw count setting to support different chips.
+Patches 2 fix jpeg buffer payload setting to handle buffer
+size bug while resolution changed.
+Patches 3 fix jpeg dst buffer layout.
+Patches 4 fix multi-core stop streaming flow
+Patches 5 fix multi-core clk suspend/resume setting
+Patches 6 fix decoding buffer number setting timing issue
+Patches 7 fix decoding resolution change operation
+Patches 8 fix remove buffer operation
+Patches 9-11 Adds jpeg encoder and decoder compatible.
+Patches 12 add jpeg smmu sid setting.
+
+---
+This series patches dependent on:
+[1]
+https://patchwork.linuxtv.org/project/linux-media/patch/20250424090824.5309-1-jianhua.lin@mediatek.com/
+
+Changes compared with v5:
+--reorder the patches set.
+--fix commit message of patch 1-8.
+
+Changes compared with v4:
+--fix kernel robot build errors for patch 4.
+--add reviewer for patch 1 and patch 2.
+
+Changes compared with v3:
+--change patch subject of jpeg encoder and decoder compatible.
+
+Changes compared with v2:
+--refactor smmu sid setting function interface
+--Some modifications for patch v2's review comments.
+
+Changes compared with v1:
+--refine jpeg dt-bindings for MT8196
+--optimize software code to manage jpeg HW count
+--refactor smmu sid setting function interface
+--Some modifications for patch v1's review comments.
+
+Kyrie Wu (12):
+  media: mediatek: jpeg: fix jpeg hw count setting
+  media: mediatek: jpeg: fix jpeg buffer payload setting
+  media: mediatek: jpeg: fix jpeg buffer layout
+  media: mediatek: jpeg: fix stop streaming flow for multi-core
+  media: mediatek: jpeg: fix multi-core clk suspend and resume setting
+  media: mediatek: jpeg: fix decoding buffer number setting timing issue
+  media: mediatek: jpeg: fix decoding resolution change operation
+  media: mediatek: jpeg: fix remove buffer operation for multi-core
+  media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgdec
+    compatible
+  media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgenc
+    compatible
+  media: mediatek: jpeg: add jpeg compatible
+  media: mediatek: jpeg: add jpeg smmu sid setting
+
+ .../media/mediatek,mt8195-jpegdec.yaml        |   8 +-
+ .../media/mediatek,mt8195-jpegenc.yaml        |   8 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 170 +++++++++++++-----
+ .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  21 ++-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 112 +++++++++++-
+ .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 112 +++++++++++-
+ 6 files changed, 376 insertions(+), 55 deletions(-)
+
+-- 
+2.46.0
 
 
