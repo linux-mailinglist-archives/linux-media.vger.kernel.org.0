@@ -1,181 +1,159 @@
-Return-Path: <linux-media+bounces-35424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35425-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5800AE0CC6
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 20:24:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 714C6AE0CCF
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 20:25:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E968F6A262C
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 18:22:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AB086A3693
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 18:22:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE182EA144;
-	Thu, 19 Jun 2025 18:13:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0F3298258;
+	Thu, 19 Jun 2025 18:14:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czQUw35R"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KFbfZ7nc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB891917CD;
-	Thu, 19 Jun 2025 18:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA692417FA;
+	Thu, 19 Jun 2025 18:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750356783; cv=none; b=hRDZTsBl+nvqW1+wSUwBKYsAk40zDqzmeiGgPO6PaFMO7+cWqThQXn0qOgBwDQl1avi/+bvfuQZJrVya9iwA09A0wYXJPTLTLlfYWy1CvriZ41cjRFAx7CbOG/D0tMYmRS6BqM9n3ilbouIfCTfeIDvPtMyanlMdDOxfuU5eif4=
+	t=1750356887; cv=none; b=eDno2FGvF1atzuYC0l/Jf8XjjwKsfL5zdDuweblcGZxIHN9e0deYA/7gfYiyDG1rXTeJ4t3d1VyLxAn3NmVU13X5QCUdQ2SDdu2I4LP/yC0cQOmSrsffu9802KkqokGGDg3F4a/ZzY39Jsy+f7IHJdn94aS1l286q3IMuGEs3r4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750356783; c=relaxed/simple;
-	bh=6c+2N0AUxiqNfsZha6j0d5qz7pyY+SbEaXAGcihmsbw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uBkpaSKW945djvk4CZzLmy6xowAw0KE2Czkk2BT32Fb9DwdKH3R0DbuRNuoc7JjenLJ8J7oQuymMUXi4dgyQjrQr1843TJegd87TYH92UTROtKcWs1/LGIE+tpAca60HeRDPLjhkCsgHwDvb7oyRFk7za+DRB0zDmx+bWrjdPSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czQUw35R; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750356782; x=1781892782;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6c+2N0AUxiqNfsZha6j0d5qz7pyY+SbEaXAGcihmsbw=;
-  b=czQUw35RckoPEFbh+9Z/y6qNHjvwRR4c+XSgIu4KtzrSiXqVL3DjYbl9
-   axTVXXfKWRO//oAo66C0M+6ED1nP4oq4637um2x2GQ80kUDWzqwkLplCv
-   cIEC/RDXKC20M8yXfN+ByHxLzYB/MZXRSQVN2smLV6hnpX/5MXU7tUx1o
-   1C7Zo1+jrDzuK5ax4qAgQLpEvyfQPoIU+mNfcQA9MyHU/sbrlq1zemh2C
-   oqUN/rYddfLki3ftXv74mdtEevIDVIZisxch0FvwSFch7Axm7B4w0Rrqn
-   0Cyxk5VdtAkcxxGzkR3t6xXr0TidcRxvj4oHkLy293gpfYQPCPYe0gHmK
-   g==;
-X-CSE-ConnectionGUID: 9Lyu564qQoWOJXCPEgPSjA==
-X-CSE-MsgGUID: jMcLAvUfTeO65XVHbLy7Ww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="70054571"
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="70054571"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 11:13:01 -0700
-X-CSE-ConnectionGUID: 0v6h7fMQQJObZCL07krtCA==
-X-CSE-MsgGUID: e7qUCbilQ+WIIAzwOoMH7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="150143748"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO mdjait-mobl.intel.com) ([10.245.245.13])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 11:12:52 -0700
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: laurent.pinchart@ideasonboard.com,
-	sakari.ailus@linux.intel.com
-Cc: akinobu.mita@gmail.com,
-	stanislaw.gruszka@linux.intel.com,
-	hdegoede@redhat.com,
-	arnd@arndb.de,
-	alain.volmat@foss.st.com,
-	andrzej.hajda@intel.com,
-	benjamin.mugnier@foss.st.com,
-	dave.stevenson@raspberrypi.com,
-	hansg@kernel.org,
-	hverkuil@xs4all.nl,
-	jacopo.mondi@ideasonboard.com,
-	jonas@kwiboo.se,
-	kieran.bingham@ideasonboard.com,
-	khalasa@piap.pl,
-	prabhakar.csengg@gmail.com,
-	mani@kernel.org,
-	m.felsch@pengutronix.de,
-	martink@posteo.de,
-	mattwmajewski@gmail.com,
-	matthias.fend@emfend.at,
-	mchehab@kernel.org,
-	mehdi.djait@linux.intel.com,
-	michael.riesch@collabora.com,
-	naush@raspberrypi.com,
-	nicholas@rothemail.net,
-	nicolas.dufresne@collabora.com,
-	paul.elder@ideasonboard.com,
-	dan.scally@ideasonboard.com,
-	pavel@kernel.org,
-	petrcvekcz@gmail.com,
-	rashanmu@gmail.com,
-	ribalda@chromium.org,
-	rmfrfs@gmail.com,
-	zhengsq@rock-chips.com,
-	slongerbeam@gmail.com,
-	sylvain.petinot@foss.st.com,
-	s.nawrocki@samsung.com,
-	tomi.valkeinen@ideasonboard.com,
-	umang.jain@ideasonboard.com,
-	zhi.mao@mediatek.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v1 55/55] media: i2c: ov2680: Use the v4l2 helper for obtaining the clock
-Date: Thu, 19 Jun 2025 20:11:24 +0200
-Message-ID: <6284706df845a3c88826f1c3bd17f60d3e71ecd9.1750352394.git.mehdi.djait@linux.intel.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1750352394.git.mehdi.djait@linux.intel.com>
-References: <cover.1750352394.git.mehdi.djait@linux.intel.com>
+	s=arc-20240116; t=1750356887; c=relaxed/simple;
+	bh=eSZoNChqYhwyIiNX+oCll1bQsN3J9sIjRESSxfn8Dvc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=d63o+kSdTuKQ81yLixYuFqxyAeumxYLPJZARiHlvOtLG68+Y+ew9Kwxjy6jtZtLRbAenZzVvv4iRz0EShgx282w6y9kY+pCXnfIuSWI/HwSbV40w6TIpSpa+ygCg+Hw9pxW2bU7PR1io6g490iYjCg0XoOTCW2rb3BOMEjsouFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KFbfZ7nc; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55JCLFKd007075;
+	Thu, 19 Jun 2025 18:14:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	jWcAAg6TI5glqZYBhjErZuQLZCjvDtjxdpBIQgV87Ps=; b=KFbfZ7ncus2vS9ZD
+	+Say/FwWQltNrza1doksaggcTByHY72ZsFsjuA47Ks4/EkZZ6lWPU7jy1eIg+SG9
+	zok5dCsVSukrD7sHvDpXl85KpcIHM9Sw5pJcoJvIzDimYQMEhHqEXpePIF6qUbqn
+	RnMS6Tqn3lBNLmvkCnU9AJWVvhADrawdplEBDKyCU3keNmQ1B/F/vffp9BaLaQvy
+	WIGnQr20Nto5+4aRpOhW841jZaGlKI0Vn+RW6LXaMT1hn5GZgPREvq5bQzOpi/ND
+	2POcFQFjiwc6A0euT/fZUsYUaG6gWAL8tO4Pv3xoQGNF1kp8wG1QI6hFIuhBlQDa
+	CUlJqQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47c0rvm1eq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Jun 2025 18:14:37 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55JIEagt005117
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Jun 2025 18:14:36 GMT
+Received: from [10.50.57.163] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 19 Jun
+ 2025 11:14:32 -0700
+Message-ID: <3035fc55-f422-d0d7-8889-48530dd0748e@quicinc.com>
+Date: Thu, 19 Jun 2025 23:44:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCHv3] media: venus: protect against spurious interrupts
+ during probe
+Content-Language: en-US
+To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
+        <quic_vgarodia@quicinc.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>
+CC: <hans.verkuil@cisco.com>, <stanimir.varbanov@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250606152522.4123158-1-jorge.ramirez@oss.qualcomm.com>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20250606152522.4123158-1-jorge.ramirez@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE5MDE0OSBTYWx0ZWRfX451ua99n7W6O
+ TpWL71lLZXfjBExJL5TkMjuZF0ytjJwbczY2/9PSSIFAkyrSW89NUc25NOQVzoELqqhpWlSWUTB
+ AQnRO7j+7iL6OG3ciie+x4nYeUSBenNXjnelY58JiY8SUECbQXHjI1eZuqf2f+L8t3Hb3nafxyF
+ QofPqIx4DA16HbISfTBDLCxHSByDddEKGRFvcxGXoIFbOhUieT/pWeXKdfOWAR4vaYjb0CSMj//
+ kno+aKvjp5hwD0bFAQBRDbRGzk4jnjeEsGEaddokMGuL2tnebIs6M3zjap6uUGpRAhK9WscmAP3
+ c/s/KmPPBwHe0gINQwVzLa2Ay5rPWP1DoKIQyBfRZGvGnW4W5YwiKWV9XqgPWK0kBIycXbaFhbJ
+ TCALZVToARpH2IIiQJwQ9W/B0pmU8/6UZT4kjymtqFR5R0j8AYwhDEmW38bHL/c0T8JswA8U
+X-Proofpoint-GUID: at_Re-Tbgl27_bHyWfveBRPoGwPVud-y
+X-Authority-Analysis: v=2.4 cv=btJMBFai c=1 sm=1 tr=0 ts=6854538d cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=Ez5CtaCykSblQmOPNncA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: at_Re-Tbgl27_bHyWfveBRPoGwPVud-y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-19_06,2025-06-18_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 adultscore=0 lowpriorityscore=0 mlxscore=0
+ suspectscore=0 clxscore=1015 malwarescore=0 spamscore=0 mlxlogscore=854
+ bulkscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506190149
 
-Use the new v4l2 helper devm_v4l2_sensor_clk_get() that works on both
-DT- and ACPI-based platforms to retrieve a reference to the clock
-producer from firmware.
 
-Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 
-diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index 7237fb27ecd0..c974169c92f8 100644
---- a/drivers/media/i2c/ov2680.c
-+++ b/drivers/media/i2c/ov2680.c
-@@ -1079,7 +1079,6 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
- 	struct device *dev = sensor->dev;
- 	struct fwnode_handle *ep_fwnode;
- 	struct gpio_desc *gpio;
--	unsigned int rate = 0;
- 	int i, ret;
- 
- 	/*
-@@ -1114,13 +1113,6 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
- 
- 	sensor->pwdn_gpio = gpio;
- 
--	sensor->xvclk = devm_clk_get_optional(dev, "xvclk");
--	if (IS_ERR(sensor->xvclk)) {
--		ret = dev_err_probe(dev, PTR_ERR(sensor->xvclk),
--				    "xvclk clock missing or invalid\n");
--		goto out_free_bus_cfg;
--	}
--
- 	/*
- 	 * We could have either a 24MHz or 19.2MHz clock rate from either DT or
- 	 * ACPI... but we also need to support the weird IPU3 case which will
-@@ -1130,22 +1122,15 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
- 	 * uses devicetree then the configured rate should already be set, so
- 	 * we can just read it.
- 	 */
--	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
--				       &rate);
--	if (ret && !sensor->xvclk) {
--		dev_err_probe(dev, ret, "invalid clock config\n");
-+
-+	sensor->xvclk = devm_v4l2_sensor_clk_get(dev, "xvclk");
-+	if (IS_ERR(sensor->xvclk)) {
-+		ret = dev_err_probe(dev, PTR_ERR(sensor->xvclk),
-+				    "xvclk clock missing or invalid\n");
- 		goto out_free_bus_cfg;
- 	}
- 
--	if (!ret && sensor->xvclk) {
--		ret = clk_set_rate(sensor->xvclk, rate);
--		if (ret) {
--			dev_err_probe(dev, ret, "failed to set clock rate\n");
--			goto out_free_bus_cfg;
--		}
--	}
--
--	sensor->xvclk_freq = rate ?: clk_get_rate(sensor->xvclk);
-+	sensor->xvclk_freq = clk_get_rate(sensor->xvclk);
- 
- 	for (i = 0; i < ARRAY_SIZE(ov2680_xvclk_freqs); i++) {
- 		if (sensor->xvclk_freq == ov2680_xvclk_freqs[i])
+On 6/6/2025 8:55 PM, Jorge Ramirez-Ortiz wrote:
+> Make sure the interrupt handler is initialized before the interrupt is
+> registered.
+> 
+> If the IRQ is registered before hfi_create(), it's possible that an
+> interrupt fires before the handler setup is complete, leading to a NULL
+> dereference.
+> 
+> This error condition has been observed during system boot on Rb3Gen2.
+> 
+> Fixes: af2c3834c8ca ("[media] media: venus: adding core part and helper functions")
+> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+> ---
+>  v3:
+>     Added Fixes tag
+>  v2:
+>     Fix authorship
+>     Fix spelling mistake
+>  
+>  drivers/media/platform/qcom/venus/core.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index d305d74bb152..5bd99d0aafe4 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -424,13 +424,13 @@ static int venus_probe(struct platform_device *pdev)
+>  	INIT_DELAYED_WORK(&core->work, venus_sys_error_handler);
+>  	init_waitqueue_head(&core->sys_err_done);
+>  
+> -	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, venus_isr_thread,
+> -					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+> -					"venus", core);
+> +	ret = hfi_create(core, &venus_core_ops);
+>  	if (ret)
+>  		goto err_core_put;
+>  
+> -	ret = hfi_create(core, &venus_core_ops);
+> +	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, venus_isr_thread,
+> +					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+> +					"venus", core);
+>  	if (ret)
+>  		goto err_core_put;
+>  
+Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Tested-by: Dikshita Agarwal <quic_dikshita@quicinc.com> # RB5
 
