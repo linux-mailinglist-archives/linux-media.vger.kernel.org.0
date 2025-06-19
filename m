@@ -1,123 +1,160 @@
-Return-Path: <linux-media+bounces-35428-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35429-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD91AE0CFD
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 20:34:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B26CEAE0D65
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 21:18:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BEAC166446
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 18:34:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E167E17D493
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 19:18:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB38D30E858;
-	Thu, 19 Jun 2025 18:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31E97244E8C;
+	Thu, 19 Jun 2025 19:17:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LPIeIvBB"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AigDM1Yy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718B430E835
-	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 18:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B42A30E82E
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 19:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750358073; cv=none; b=fxUzpDjqP+L0bmWPQZdsvWc6HDZllMmq1pVnjROo0abRK7ejjtAaHjxR6lA34B47gKMmvEmdM4H7ESspwTfKLMT7DdoiNk4G/udysJCKBLtIowcFcoHXMJkMYfAnUVu76GPEvw07xPVVmxabHsDlE3i8ZROkcBrAJ6kchqUrUH4=
+	t=1750360674; cv=none; b=YSXxr0DaWWq4fihRjs3k0yGK5v2zIdbTmKSuzkA7gvVNpXK9ablOFu+FPZjqDXCrSbap7KXiVzLTLp73Vmex4pC8Risu/gowK+rDDo7V+wSXIXMtEdrv3+WW3J3hAbcxlBQPPz0P02Rs0Z0Jup4uh8dI25Znyg2o/cSE2EPhQfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750358073; c=relaxed/simple;
-	bh=0rFsnE6ioeBZaipRWyKh0mQL+t+ev5qxroQuyWGZ6b8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fg0gtHX/i+rK4vMXcoqLwh2gWInkgMTgxdkxiOpI6vK+HZb8xB32B6ULq25vtE+OWM6ZqSkaq2uUAD+Cy49lKMza03CXtCy9Muw8ru0G1LwxSIFfbuiHAbDNgAIYAH0h4qijmAvZ/xoikQE0SIuuxARwRaHiszUk4IydHYOyOfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LPIeIvBB; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750358071; x=1781894071;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0rFsnE6ioeBZaipRWyKh0mQL+t+ev5qxroQuyWGZ6b8=;
-  b=LPIeIvBBi06WExl9atRlpc0mTmTWno+bwWRinxozsxzi2ZC0Gk2FWzyx
-   7iSgzWKxkM+ydAKFfKS4cyT/yPgoghvmRYY4k3v1UXyVaVPmoJsnHxqiv
-   FaJe8gEUgNboCyGpQbn2uvbwUAZenOlFdrxE9I6YbYXExkCPCRPJ7ilFk
-   jnZUcfvxfFkxZP0/YtHmuOzPOiQKeEOqEKHNsXtqCQzjdRtiUQbGRxhNt
-   T09onoIfD1lSNIe8sjgdzSISIWJy+HqCLYFLJ+KJqsinslmIsJFWvckpi
-   mKTe5ewa2wNvXWK9yVCIuzTeAum+xyPaByvNkzwNLwxDfntCCf5zVZQnH
-   w==;
-X-CSE-ConnectionGUID: uDTcOCiUTdaMUldeMWK6/w==
-X-CSE-MsgGUID: Fib+uNh6S3etFjZSGwZvXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63974961"
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="63974961"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 11:34:31 -0700
-X-CSE-ConnectionGUID: n2HvNXZxQjSiYd5Wtx3a0g==
-X-CSE-MsgGUID: 3Fl3VUEEQvq/jTKQHrwZKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="150922059"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.10])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 11:34:28 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 05EFB11FAB3;
-	Thu, 19 Jun 2025 21:34:26 +0300 (EEST)
-Date: Thu, 19 Jun 2025 18:34:25 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
-	tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH 06/13] media: v4l2-subdev: Mark both streams of a route
- enabled
-Message-ID: <aFRYMWoi9vpsdYKa@kekkonen.localdomain>
-References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
- <20250619081546.1582969-7-sakari.ailus@linux.intel.com>
- <20250619165604.GH32166@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1750360674; c=relaxed/simple;
+	bh=8KlEvFuZn3PeU3RBbKcoJA6csOMC2v3+5XLMq06to/Y=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=akVO9UWQNXso1KcqpIM5f6FFrbTF64getJd+2ua72KuO5DfXNm7R6k9xlMNyzYvQPXm+SufycPrjux9K3czYTV/ru5i0peWeAfv9JuOFszvABUG2t0Vzu5Oa7ooca2UQKUpOkUabRDVqbikEt72OL6Pl8X7EIMD+nK8wNP6z3h4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=AigDM1Yy; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1750360670;
+	bh=8KlEvFuZn3PeU3RBbKcoJA6csOMC2v3+5XLMq06to/Y=;
+	h=Subject:From:To:Date:From;
+	b=AigDM1Yy2/riWhRBTlx8i8A7S/QWvmkbEJfDYtL3JH1bxG2jjSfRagRJ9FWTv8p4w
+	 l0of38ufCa47+dPXKo0WxxAlnVub+ZbiE9h9BVDx71Fg0bA7PWOkoGLPGGdaKVbJTn
+	 DYfzre2Qk4Wzj5By5znRfCDYqXrCRN/IDBUetZUERjmjRWX4zHfpELZ1l0Ikpvfv+A
+	 jnYxVO2m+//jSTPuL0mzwteztr3Fhf693/IR5gE6czd0QALIkkGYxaHLXV7dNWZB4o
+	 Fqh8NH6igped2KxbIz7MBAnZs1KIBJHYQRbD00vl45yX8LgRaRjDhXs9OYNPBt/wie
+	 IMa329/8gZTBw==
+Received: from [IPv6:2606:6d00:17:b699::5ac] (unknown [IPv6:2606:6d00:17:b699::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D82C817E108A
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 21:17:49 +0200 (CEST)
+Message-ID: <01731840f28889cd10fac3d1e91b820c341eb656.camel@collabora.com>
+Subject: [GIT PULL FOR 6.16]  Media Codec Changes 2025-06-19
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: linux-media@vger.kernel.org
+Date: Thu, 19 Jun 2025 15:17:48 -0400
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPU=
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250619165604.GH32166@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
+Hey Hans & Mauro,
 
-On Thu, Jun 19, 2025 at 07:56:04PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
+this is a set of smaller changes I have collected, with fixes for codecs,
+a new binding for IMX95 and some mother being ported to yaml. 
 
-Thanks for the review.
+regards,
+Nicolas
 
-> 
-> On Thu, Jun 19, 2025 at 11:15:39AM +0300, Sakari Ailus wrote:
-> > Streams are stored in sink-source pairs in sub-device state.
-> 
-> Is it really this simple ? Don't we support for instance stream merging
-> where two streams on possibly different sink pads are routed to a single
-> stream on a source pad ?
+---
 
-As far as I'm concerned, yes. Each route has a sink and a source pad, you
-may have multiple routes from a pad or to a pad, but these are all separate
-routes. The UAPI as well as v4l2-subdev.c is aligned with this and I
-wouldn't expect it to be otherwise.
+The following changes since commit 642b70d526ab8daa8f256dfc1eb6bf27c3290cc6:
 
-I'd like to have Tomi's view on this, too.
+  media: imx8mq-mipi-csi2: Add support for i.MX8QXP (2025-06-18 09:21:59 +0200)
 
-> 
-> > When a stream
-> > was marked enabled (or disabled), only the state of one end of the stream
-> > was modified, leaving the stream in an incoherent state. Mark both ends of
-> > the stream enabled (or disabled).
+are available in the Git repository at:
 
-This should discuss "route" in fact, not "stream".
+  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.17-media-codecs-2025-06-19
 
--- 
-Regards,
+for you to fetch changes up to 2fee2cd2da7a98a46d2750b3a0e0f8b8d3dfafc3:
 
-Sakari Ailus
+  media: v4l2-ctrls: Fix H264 SEPARATE_COLOUR_PLANE check (2025-06-19 13:19:05 -0400)
+
+----------------------------------------------------------------
+RKVDEC iommu restore and minors fixes
+
+----------------------------------------------------------------
+Christophe JAILLET (1):
+      media: verisilicon: Use __set_bit() with local bitmaps
+
+Frank Li (2):
+      dt-bindings: media: convert fsl-vdoa.txt to yaml format
+      media: dt-bindings: nxp,imx8-jpeg: Add compatible strings for IMX95 JPEG
+
+Haoxiang Li (1):
+      media: imx: fix a potential memory leak in imx_media_csc_scaler_device_init()
+
+James Cowgill (1):
+      media: v4l2-ctrls: Fix H264 SEPARATE_COLOUR_PLANE check
+
+Jernej Skrabec (1):
+      media: cedrus: Add support for additional output formats
+
+Ming Qian (2):
+      media: amphion: Add H264 and HEVC profile and level control
+      media: imx-jpeg: Account for data_offset when getting image address
+
+Nicolas Dufresne (2):
+      media: verisilicon: Fix AV1 decoder clock frequency
+      media: rkvdec: Restore iommu addresses on errors
+
+ Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml |  42 ++++++++++++++++++++++++++++++++++++++++++
+ Documentation/devicetree/bindings/media/fsl-vdoa.txt        |  21 ---------------------
+ Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml  |  28 +++++++++++++++++++++++++---
+ drivers/media/platform/amphion/vdec.c                       |  59 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/amphion/vpu_defs.h                   |  12 ++++++++++++
+ drivers/media/platform/amphion/vpu_helpers.c                | 123 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/amphion/vpu_helpers.h                |   7 +++++++
+ drivers/media/platform/amphion/vpu_malone.c                 |   5 ++++-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c              |  47 ++++++++++++++++++++++++++++++++++++-----------
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h              |   1 +
+ drivers/media/platform/verisilicon/hantro_h264.c            |   6 +++---
+ drivers/media/platform/verisilicon/rockchip_vpu_hw.c        |   9 ---------
+ drivers/media/v4l2-core/v4l2-ctrls-core.c                   |   8 ++++----
+ drivers/staging/media/imx/imx-media-csc-scaler.c            |   2 +-
+ drivers/staging/media/rkvdec/rkvdec.c                       |  43 ++++++++++++++++++++++++++++++++++++-------
+ drivers/staging/media/rkvdec/rkvdec.h                       |   1 +
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c              |  18 +++++++++++++++++-
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c           |  18 ++++++++++++++++++
+ 18 files changed, 389 insertions(+), 61 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/fsl-vdoa.txt
 
