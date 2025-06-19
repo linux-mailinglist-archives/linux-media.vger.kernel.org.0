@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-35260-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35261-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88980AE0297
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 12:25:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B641AE02AD
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 12:30:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A5F11BC2632
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 10:26:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 167C73AFEF0
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jun 2025 10:30:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0944222578;
-	Thu, 19 Jun 2025 10:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E0342206BC;
+	Thu, 19 Jun 2025 10:30:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YYe3YSP5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WgqDQhEH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7742222C5
-	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 10:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293631E2312
+	for <linux-media@vger.kernel.org>; Thu, 19 Jun 2025 10:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750328742; cv=none; b=kVr/UmOsLcfEzEfFfbX79hxcwos/Cpb7yPaFlDFu3Iu7MgeRA0EZv21oV4TfpUTYbXcXZvIFeTZenvP6JCIRtfzeNaxj7KFI7ahb5CU6vucWJDNHG+nxT12ws5U5kZS5vg9ZcBxn5dDhej3fDJoLJmOKScDmOXBzvNu7CvFHctE=
+	t=1750329046; cv=none; b=jYgACLusu57V0Gm3siHIHCqXWjvDQDYoJn2fNqO25d0bllpDFkA6JFDxf4EhEDNBWh1ofotLC1XqsOwYXqYe9M2xlvCs+QvPCRe9GY/5MsTDpjwL9WxJM4K0yGR6c6JsNEn3d4sYbUss/UU1r0ZgCnd3uT4hAny0gyVIdc6Knbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750328742; c=relaxed/simple;
-	bh=5ihHNfpiz8NodoJ31+G9GipsGlbKh8ycU3sZSbcF2vw=;
+	s=arc-20240116; t=1750329046; c=relaxed/simple;
+	bh=oNedHNNxlYhr6J0qKKawIRuRZov9i8ORdG82jLP9m5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=foCXEGjX+3pesQ9QxeslAusOLvCAmyL0VYo8tW0mXfo6L2YeLgI/yMLefu8PnEbS5+jCSvFPXmZWs1JhKOd04+U427ieMUxJL4ed/rYDlfcOibanvJRlSNpDGOIq4HGKDdS+g0x2Nn55o2CZN9WCarlsc73g4nDj6q0P2zPQ5wM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YYe3YSP5; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=YW2qdKatom7EIc3YisqD6MYPYyBjg64kBB3mV3NhL7n//g6eKBRdqwYnksCaervV91DjXPvvUTWUUdXYcBIPNdHTMuL46SjGtLqEA+ug38RNKZr+mh6Hv0C1YfYN8OV5H8wRRXiHuXghakdBS6roxoU8GMLfz8C/fhTFRCXb7gE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WgqDQhEH; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750328740; x=1781864740;
+  t=1750329045; x=1781865045;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5ihHNfpiz8NodoJ31+G9GipsGlbKh8ycU3sZSbcF2vw=;
-  b=YYe3YSP5y82AxzBnVw1tDRf4izfqWZwGkGOZMKHUJQ9VHq9ukxbBVLSr
-   dRLUUzb8IbQneJ4Yry048JHvjEv9XUx9RtYFcD7dSsPjlR89CUGVcSR9d
-   TuSmDSoJobLfMppjr/c7pnCY4C3cL/TyEN2d5Wrv3CY4os28RF+UVDQ9P
-   GU/KH+Ek5pKb8drUGg49jFyqj/ftpIK1u3hjE/K20OM4MsofOJ3SGQXVH
-   ARYAfG3SL+eM8uoR2nPKrzXWygfeGItM/lQvitiFUJByAdHzZLVAWkNSN
-   7cF0eHoi+8MwoF5DyWUtrVChpONfAu0H96U02Wg0HDOVWBrNLOeM/XP/O
-   Q==;
-X-CSE-ConnectionGUID: 6iEY57weS4O3f4SzgK4l8A==
-X-CSE-MsgGUID: bKKjipHIS7uwUbeQiXlsbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="64008289"
+  bh=oNedHNNxlYhr6J0qKKawIRuRZov9i8ORdG82jLP9m5M=;
+  b=WgqDQhEHcDwNW97G5oSTgBeHwz+eB4FjTM6YZU/+NcofVlfdUIrPIY4N
+   q5d71poEEzzu6NNZQcdqlnUdJti6usHNSpOc4rT4sRQqUln+9qwUY05L6
+   4hcVQji4Zv0my9a65dzeFvnJDr7UWTQ/qgkng/dt+kMJn2SAJCRHLddg8
+   C3kX8rSQW5+jpN8f3nqzdynSAZjuoiRDtm3VI6+quuegc+wpsoKmASYIy
+   4EZmyxwTOnOvy0AiUp40JADqOe0ULvfGKPsmBYTCDLaaQZzwuLml2FzLC
+   slyceWC4J+tFStqoqd6xVc4Rgk82/5ESuJS/6atrMSCzFIyPFH7sU2gTQ
+   w==;
+X-CSE-ConnectionGUID: 5pW9+XssT8SKg94i3Kp88w==
+X-CSE-MsgGUID: ANcspE3mRn+bsK1El3pUew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="63260652"
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="64008289"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:25:39 -0700
-X-CSE-ConnectionGUID: t85S76B7TKKd2MsjCusY5Q==
-X-CSE-MsgGUID: ROOHpkhuSM2SFbjrftaAkg==
+   d="scan'208";a="63260652"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:30:45 -0700
+X-CSE-ConnectionGUID: 2glG0ox+TwSFoNvkcZpqdA==
+X-CSE-MsgGUID: VfQI21C6T/mPQSLBdTjgxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="181640664"
+   d="scan'208";a="154587258"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.167])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:25:39 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:30:43 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id C493211F8AE;
-	Thu, 19 Jun 2025 13:25:35 +0300 (EEST)
-Date: Thu, 19 Jun 2025 10:25:35 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2EFF711F91E;
+	Thu, 19 Jun 2025 13:30:41 +0300 (EEST)
+Date: Thu, 19 Jun 2025 10:30:41 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
+To: Hans Verkuil <hans@jjverkuil.nl>
 Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2 2/3] media: v4l2-ctrls: Return the handler's error in
- v4l2_ctrl_handler_free()
-Message-ID: <aFPln8xXyh1drcdO@kekkonen.localdomain>
+Subject: Re: [PATCH v2 3/3] media: Documentation: Document new
+ v4l2_ctrl_handler_free() behaviour
+Message-ID: <aFPm0VVn3RRcSzJZ@kekkonen.localdomain>
 References: <20250619095227.1939114-1-sakari.ailus@linux.intel.com>
- <20250619095227.1939114-3-sakari.ailus@linux.intel.com>
- <7cee1db5-363f-445d-91fc-f0ff36351cc6@xs4all.nl>
+ <20250619095227.1939114-4-sakari.ailus@linux.intel.com>
+ <ea26eb21-6d93-4f2d-b860-897d5617431a@jjverkuil.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,80 +80,83 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7cee1db5-363f-445d-91fc-f0ff36351cc6@xs4all.nl>
+In-Reply-To: <ea26eb21-6d93-4f2d-b860-897d5617431a@jjverkuil.nl>
 
 Hi Hans,
 
-On Thu, Jun 19, 2025 at 12:04:48PM +0200, Hans Verkuil wrote:
+On Thu, Jun 19, 2025 at 12:10:55PM +0200, Hans Verkuil wrote:
 > On 19/06/2025 11:52, Sakari Ailus wrote:
-> > v4l2_ctrl_handler_free() used to return void but changing this to int,
-> > returning the handler's error code, enables the drivers to simply return
-> > the handler's error in this common error handling pattern:
+> > v4l2_ctrl_handler_free() no longer resets the handler's error code.
+> > Document it.
 > > 
-> > 	if (handler->error)
-> > 		return v4l2_ctrl_handler_free(handler);
-> > 
-> > Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > > ---
-> >  drivers/media/v4l2-core/v4l2-ctrls-core.c | 6 ++++--
-> >  include/media/v4l2-ctrls.h                | 4 +++-
-> >  2 files changed, 7 insertions(+), 3 deletions(-)
+> >  Documentation/driver-api/media/v4l2-controls.rst | 9 +++------
+> >  include/media/v4l2-ctrls.h                       | 3 ++-
+> >  2 files changed, 5 insertions(+), 7 deletions(-)
 > > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > index 932aedc26049..eb008a2e829c 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > @@ -1631,14 +1631,14 @@ int v4l2_ctrl_handler_init_class(struct v4l2_ctrl_handler *hdl,
-> >  EXPORT_SYMBOL(v4l2_ctrl_handler_init_class);
+> > diff --git a/Documentation/driver-api/media/v4l2-controls.rst b/Documentation/driver-api/media/v4l2-controls.rst
+> > index b2e91804829b..fc04907589ab 100644
+> > --- a/Documentation/driver-api/media/v4l2-controls.rst
+> > +++ b/Documentation/driver-api/media/v4l2-controls.rst
+> > @@ -110,6 +110,7 @@ For sub-device drivers:
 > >  
-> >  /* Free all controls and control refs */
-> > -void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
-> > +int v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
-> >  {
-> >  	struct v4l2_ctrl_ref *ref, *next_ref;
-> >  	struct v4l2_ctrl *ctrl, *next_ctrl;
-> >  	struct v4l2_subscribed_event *sev, *next_sev;
+> >  	v4l2_ctrl_handler_free(&foo->ctrl_handler);
 > >  
-> >  	if (hdl == NULL || hdl->buckets == NULL)
-> > -		return;
-> > +		return hdl->error;
-> 
-> Hmm, that will crash if hdl == NULL!
-
-Oops. Indeed it does.
-
-> 
-> I'm not really sure what this should return if hdl == NULL: 0 or some error code.
-> 
-> I'm inclined to just return 0 in that case. If hdl can be NULL, then presumably
-> it is intentional and not an error.
-> 
+> > +:c:func:`v4l2_ctrl_handler_free` does not touch the handler's ``error`` field.
 > >  
-> >  	v4l2_ctrl_handler_free_request(hdl);
+> >  2) Add controls:
 > >  
-> > @@ -1663,6 +1663,8 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
-> >  	hdl->cached = NULL;
-> >  	mutex_unlock(hdl->lock);
-> >  	mutex_destroy(&hdl->_lock);
-> > +
-> > +	return hdl->error;
-> >  }
-> >  EXPORT_SYMBOL(v4l2_ctrl_handler_free);
+> > @@ -191,12 +192,8 @@ These functions are typically called right after the
+> >  			V4L2_CID_TEST_PATTERN, ARRAY_SIZE(test_pattern) - 1, 0,
+> >  			0, test_pattern);
+> >  	...
+> > -	if (foo->ctrl_handler.error) {
+> > -		int err = foo->ctrl_handler.error;
+> > -
+> > -		v4l2_ctrl_handler_free(&foo->ctrl_handler);
+> > -		return err;
+> > -	}
+> > +	if (foo->ctrl_handler.error)
+> > +		return v4l2_ctrl_handler_free(&foo->ctrl_handler);
 > >  
+> >  The :c:func:`v4l2_ctrl_new_std` function returns the v4l2_ctrl pointer to
+> >  the new control, but if you do not need to access the pointer outside the
 > > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> > index 3a87096e064f..9e1693ecc283 100644
+> > index 9e1693ecc283..ecd72528a4c5 100644
 > > --- a/include/media/v4l2-ctrls.h
 > > +++ b/include/media/v4l2-ctrls.h
-> > @@ -579,8 +579,10 @@ int v4l2_ctrl_handler_init_class(struct v4l2_ctrl_handler *hdl,
+> > @@ -578,7 +578,8 @@ int v4l2_ctrl_handler_init_class(struct v4l2_ctrl_handler *hdl,
+> >   * the control list.
 > >   * @hdl:	The control handler.
 > >   *
-> >   * Does nothing if @hdl == NULL.
+> > - * Does nothing if @hdl == NULL.
+> > + * Does nothing if @hdl == NULL. Does not reset the handler's error code in any
+> > + * case.
 > 
-> Also here it states that it does nothing. So returning 0 is probably best.
-> And document here that it does in fact return 0 if hdl == NULL.
+> So this should change to something like:
+> 
+>  * If @hdl == NULL, then it just returns 0 without doing anything.
+> 
+> >   *
+> >   * Returns the handler's error field.
+> >   */
+> 
+> I don't think that there is a reason to state that the error code isn't reset.
+> Documenting that the error field is returned already indicates that it isn't
+> reset.
+> 
+> Actually, patch 1/3 should probably document this in v4l2-ctrls.h: that patch
+> will be backported, and it doesn't return the error code, so there is makes
+> sense to state that error field isn't reset. In patch 2/3 it can be removed
+> again and you just say that it returns the handler's error field.
+> 
+> This documentation patch shouldn't touch v4l2-ctrls.h at all.
 
-Ack. I'll send v2 with these changes.
+I'd really keep the backported patch as small as possible as it can be
+backported with the control framework, in other words I'd keep it as-is.
+
+I'll drop the changes to v4l2-ctrl.h from this patch.
 
 -- 
 Regards,
