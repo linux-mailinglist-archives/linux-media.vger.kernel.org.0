@@ -1,121 +1,158 @@
-Return-Path: <linux-media+bounces-35475-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35476-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19DAAE1786
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 11:29:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7CDAE178B
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 11:31:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8B974A6C39
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 09:29:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A50C2167D91
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 09:31:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7075B283C92;
-	Fri, 20 Jun 2025 09:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6564827CCF0;
+	Fri, 20 Jun 2025 09:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="E0xVwfeP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Jofygd0N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F179A283686;
-	Fri, 20 Jun 2025 09:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3A8218AAB
+	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 09:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750411742; cv=none; b=GFARyTQfPuBcHLZt9bwWu9QIkJ4b4tEvgNZjPXRw09P6o1WR7/JzGHNFuDeyvUzDOCE6ivBO9CU9cnfnDq9pRzx6a1J2y2NagmLz9crSTH8MHmdRvVCJvXdmR3sDeyd/zAsKY7AuZ9lS4pk/l5vqQde+D30FWxbRd0pIYCfaemY=
+	t=1750411891; cv=none; b=nYiUYmF+CADEgBZUptLLkoZ8jECdzA4NmdfwD0V5lNk567cy5iU5FXTrTONNC6oeo4cuVfav/x28IgQxlluVKd5g5SMTHVHP+fsXHVI0qIhW6MUzkV2R65FwBsQYQf5Pnp5ueib/N7iEd0haC5k0tZDf+v/Pzag0xDAgYJzuQlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750411742; c=relaxed/simple;
-	bh=urp8Q0ehaUbO+yKBRG0fm5N6pDJPVrQuXvB1WKobIWU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QFSidlYMi/ODvgvXCQYdrqn7/wptaMnVozYzkE155LIObWX3Xbz726frB+LVsH8CXMiXcJazK99k3nM0FcOLXNNiHaQQGaIbiwKh2wBFJ6XM8oVywYXFsR54EfFiUNFA6cdJU4+4LmlEBff4sHq6cJ24fqWDSDW36l3g9jD0P8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=E0xVwfeP; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=O0Z76gXzXASZvB45zMW7OBOfjiQs1Vtulp5U1K5X9+M=; b=E0xVwfePovI7zW07TkUrEmyv3u
-	R6+iMMc2szMneU5Th+XbYLGrJMTI6wOnXneDpAa+NUznRovozXXGjIsRNZ3jM5XtXpaSvZ+1O50KY
-	/YiANnD7+B6m3xmrAmSMjP/ADzGH+C6YP3KUnsrlFQtdCCWYW1TKw6kg35jrkVA8/N1yz/0KxnISa
-	VrP5B9U/Y2f2kkmCCaa5m0sT8obSTTtEQZQ29fJbf2qyDFec7LH9Tvi5mpfWM2Npr8PKr7SZ2DGtm
-	gE+NS9aCpNSgCLmcAC0mjhuBV8cJR6kxgEocCpeaFl2Hkr/s+H0fNHscRzNLwFSQ8wO+n2cjCxUnY
-	61fY+D8A==;
-Received: from 85-207-219-154.static.bluetone.cz ([85.207.219.154] helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1uSY2z-0008Po-Kz; Fri, 20 Jun 2025 11:28:33 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v7 00/10] New DRM accel driver for Rockchip's RKNN NPU
-Date: Fri, 20 Jun 2025 11:28:32 +0200
-Message-ID: <2241399.8hzESeGDPO@phil>
-In-Reply-To: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+	s=arc-20240116; t=1750411891; c=relaxed/simple;
+	bh=xZVOjK/IsKVVM6zt1/EXLTDfSFeO/YhDqIpW71mGIIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eusMcLF9o2dxt/a3s6vmXWUU3N9uWL2nO7D6uSTUKyBCJCx4gtTbTb++5LLd6emEtcG0z9MJlXLnNF5P005bCn8FY/4DlyVowzezJCo1OpI6hJQ1o425zeCuvuTKyG7oAMRqiWHRVxjAnObQOgsoTU5irMImY82ESbz+ZL6OGZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Jofygd0N; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B51F1C0B;
+	Fri, 20 Jun 2025 11:31:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750411872;
+	bh=xZVOjK/IsKVVM6zt1/EXLTDfSFeO/YhDqIpW71mGIIo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Jofygd0NqHz5o5T4lNfrS+OSQnj49lbi3OBU+IOtS925qMWmY6fO4PJiHcLuiFj1B
+	 nLq75UvTbX2Kbx9nvYyrZDG3iIS1TtTbSOw4VaW6uTVrivJaiL2/hYEDitJZeyh01D
+	 6pRj+JpKM7RiUw8kIHu9i7uBe1pzCBvjp7IwcZrw=
+Date: Fri, 20 Jun 2025 11:31:23 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 01/64] media: ov2740: Remove shorthand variables
+Message-ID: <uedfwf5nucpqkgdineevlrpnw4a4tejchetymw3al6pcwscurb@x47q3a2h77qp>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250619115836.1946016-2-sakari.ailus@linux.intel.com>
 
-Am Freitag, 6. Juni 2025, 08:28:20 Mitteleurop=C3=A4ische Sommerzeit schrie=
-b Tomeu Vizoso:
-> This series adds a new driver for the NPU that Rockchip includes in its
-> newer SoCs, developed by them on the NVDLA base.
->=20
-> In its current form, it supports the specific NPU in the RK3588 SoC.
->=20
-> The userspace driver is part of Mesa and an initial draft can be found at:
->=20
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
->=20
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Hi Sakari
+
+On Thu, Jun 19, 2025 at 02:57:33PM +0300, Sakari Ailus wrote:
+> Remove two variables in ov2740_init_control() that are used as a shorthand
+> for where the information is really located. Make the code more readable
+> by removing them.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+  j
 
 > ---
-> Nicolas Frattaroli (2):
->       arm64: dts: rockchip: add pd_npu label for RK3588 power domains
->       arm64: dts: rockchip: enable NPU on ROCK 5B
->=20
-> Tomeu Vizoso (8):
->       accel/rocket: Add registers header
->       accel/rocket: Add a new driver for Rockchip's NPU
->       accel/rocket: Add IOCTL for BO creation
->       accel/rocket: Add job submission IOCTL
->       accel/rocket: Add IOCTLs for synchronizing memory accesses
->       dt-bindings: npu: rockchip,rknn: Add bindings
->       arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588-base
->       arm64: dts: rockchip: Enable the NPU on quartzpro64
-
-from a handling point of view, I would expect patch 1 - 6
-(driver code + dt-binding patch) to go through some driver tree
-but have not clue which one that is.
-
-And afterwards, I would pick up the arm64 devicetree additions
-patches 7 - 10 .
-
-
-Heiko
-
-
+>  drivers/media/i2c/ov2740.c | 18 +++++++-----------
+>  1 file changed, 7 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+> index 6cf461e3373c..4e959534e6e7 100644
+> --- a/drivers/media/i2c/ov2740.c
+> +++ b/drivers/media/i2c/ov2740.c
+> @@ -766,11 +766,9 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(&ov2740->sd);
+>  	struct v4l2_ctrl_handler *ctrl_hdlr;
+> -	const struct ov2740_mode *cur_mode;
+>  	s64 exposure_max, h_blank, pixel_rate;
+>  	u32 vblank_min, vblank_max, vblank_default;
+>  	struct v4l2_fwnode_device_properties props;
+> -	int size;
+>  	int ret;
+>
+>  	ctrl_hdlr = &ov2740->ctrl_handler;
+> @@ -778,12 +776,10 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
+>  	if (ret)
+>  		return ret;
+>
+> -	cur_mode = ov2740->cur_mode;
+> -	size = ARRAY_SIZE(link_freq_menu_items);
+> -
+>  	ov2740->link_freq =
+>  		v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov2740_ctrl_ops,
+> -				       V4L2_CID_LINK_FREQ, size - 1,
+> +				       V4L2_CID_LINK_FREQ,
+> +				       ARRAY_SIZE(link_freq_menu_items) - 1,
+>  				       ov2740->supported_modes->link_freq_index,
+>  				       link_freq_menu_items);
+>  	if (ov2740->link_freq)
+> @@ -794,14 +790,14 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
+>  					       V4L2_CID_PIXEL_RATE, 0,
+>  					       pixel_rate, 1, pixel_rate);
+>
+> -	vblank_min = cur_mode->vts_min - cur_mode->height;
+> -	vblank_max = cur_mode->vts_max - cur_mode->height;
+> -	vblank_default = cur_mode->vts_def - cur_mode->height;
+> +	vblank_min = ov2740->cur_mode->vts_min - ov2740->cur_mode->height;
+> +	vblank_max = ov2740->cur_mode->vts_max - ov2740->cur_mode->height;
+> +	vblank_default = ov2740->cur_mode->vts_def - ov2740->cur_mode->height;
+>  	ov2740->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops,
+>  					   V4L2_CID_VBLANK, vblank_min,
+>  					   vblank_max, 1, vblank_default);
+>
+> -	h_blank = cur_mode->hts - cur_mode->width;
+> +	h_blank = ov2740->cur_mode->hts - ov2740->cur_mode->width;
+>  	ov2740->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops,
+>  					   V4L2_CID_HBLANK, h_blank, h_blank, 1,
+>  					   h_blank);
+> @@ -814,7 +810,7 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
+>  	v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+>  			  OV2740_DGTL_GAIN_MIN, OV2740_DGTL_GAIN_MAX,
+>  			  OV2740_DGTL_GAIN_STEP, OV2740_DGTL_GAIN_DEFAULT);
+> -	exposure_max = cur_mode->vts_def - OV2740_EXPOSURE_MAX_MARGIN;
+> +	exposure_max = ov2740->cur_mode->vts_def - OV2740_EXPOSURE_MAX_MARGIN;
+>  	ov2740->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops,
+>  					     V4L2_CID_EXPOSURE,
+>  					     OV2740_EXPOSURE_MIN, exposure_max,
+> --
+> 2.39.5
+>
+>
 
