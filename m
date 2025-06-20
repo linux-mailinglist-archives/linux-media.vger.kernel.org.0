@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-35492-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35493-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57E7AE1BF0
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 15:19:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B26F7AE1C06
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 15:24:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 409304A3D61
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 13:19:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F2DD1BC6E8C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 13:24:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 792B328B7EC;
-	Fri, 20 Jun 2025 13:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C322E28C03F;
+	Fri, 20 Jun 2025 13:24:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e42qxK8j"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HD/assl/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52CB28AAE9
-	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 13:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6053225777
+	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 13:24:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750425573; cv=none; b=rSE664A8ZNL+Bg82nn7UR/8McjfdZ8Uk3VosS2cUJjv3bbk9XoceGKIRtcwn+t1ZVfH6S5TGe5TKDLufeU5cHn870ErTKUuntxSoGKqyY3Ng/dNIsPMjg3IJUsMnWBNinVQDSG8jZdRXWOwh9PMAQkibGmJ6VxSYxJFwWyhrt24=
+	t=1750425857; cv=none; b=YoZR2jAbtHiBQzh6KNSiEdAbPqbDdN2bnr8EoQ2oS1br/rj9pWPsGb2DHvj2osWGukfUyQmessnidz6pW+Uh/QF2NP3xVJjEYif1jysgBVHS+T2lnAw4c4u4RY0EFSyu00r1aiR4KXzrWkfwx9NLJEv4wvTYPUQ0mtV4ma97vco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750425573; c=relaxed/simple;
-	bh=6kPRMAmRouDrpVFs6jNES5eV8XvKBROMpRWHrAiSAvk=;
+	s=arc-20240116; t=1750425857; c=relaxed/simple;
+	bh=HiQ+k0r4k1SU3T20jnVucGd0pJFOJHMji7452IqE1jw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CD/cRWWj/aSTyYHy+RkP2W+O/stt+Th6CLO6/KcVXA+PwC0nrRz73xSeOVA0Urcym8w/xTk11HIgNYEOvLtFdxeAFzRadpoLjO5IrckxQBaZA0upab2TTQ7QVik+eJZud1mncvJS2LC/kK1D07vP5BHB7h/9YB1H94x4/YmnmVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=e42qxK8j; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=K6sTCbIzSoSA5FcAtwFZzm7FUp3OqEM+XXqiNyTyra1yjgvJR0XVohXlQlvS4esYKvSTiQd1fTGdsY7imAuzomeYAAoK/gji+ar6bnDnAoJ5Vt3jge12o8XAfLlN4zLufuWamwR+5fxL9FdjIvvb4tnLoANeSJ1d9HGxs/Bmihs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HD/assl/; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66AE0C0B;
-	Fri, 20 Jun 2025 15:19:14 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9A43C0B;
+	Fri, 20 Jun 2025 15:23:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750425554;
-	bh=6kPRMAmRouDrpVFs6jNES5eV8XvKBROMpRWHrAiSAvk=;
+	s=mail; t=1750425838;
+	bh=HiQ+k0r4k1SU3T20jnVucGd0pJFOJHMji7452IqE1jw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e42qxK8jtrzbqdhFSUaBl3VpjTvelv+5HmSOrBmpQtpO5RDHoypNn/8MMLLsaobmx
-	 auR0X725v8h8njZpBhIft93yTg5iinVJWstgviZgkfkFecrb5CduSdxLxxA+eUoEkc
-	 l7HsmX6YjeM1zmqS9Z5Nj6eOw++2w5E6oW6j9w/k=
-Date: Fri, 20 Jun 2025 15:19:26 +0200
+	b=HD/assl/VZyMWiV6GTybYC55H+iAvtzMC8yQ3Sk5Ol8ThkgE+IaOjgpyB79BeHJOh
+	 1rlom36wzJsY8AL0TwdCTeHmJYUIp9c3AI6A2yMaK5M2JkEg8wTcequOhQ5zQbGFqi
+	 M2EuVAsj+Qdi1zo/HsPM9tn0p1nA2oMx7+Ycr6rI=
+Date: Fri, 20 Jun 2025 15:24:09 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
@@ -59,11 +59,11 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
 	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v10 23/64] media: Documentation: Document embedded data
- guidelines for camera sensors
-Message-ID: <aetocz3q4afsfye7drpuaiyeyehxs7h4cwithmmhbhv26aaerp@ogdgfcigozz3>
+Subject: Re: [PATCH v10 24/64] media: uapi: ccs: Add metadata layout for MIPI
+ CCS embedded data
+Message-ID: <ozeebjfleygstzllqdbjzbigt6i36uplgp2ausgni4ksarnvub@nmjhju3f6rvt>
 References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
- <20250619115836.1946016-24-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-25-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,59 +72,121 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250619115836.1946016-24-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250619115836.1946016-25-sakari.ailus@linux.intel.com>
 
 Hi Sakari
 
-On Thu, Jun 19, 2025 at 02:57:55PM +0300, Sakari Ailus wrote:
-> Document how embedded data support should be implemented for camera
-> sensors, and when and how CCS embedded data layout should be referenced.
+On Thu, Jun 19, 2025 at 02:57:56PM +0300, Sakari Ailus wrote:
+> Add new metadata layout (V4L2_METADATA_LAYOUT_CCS) for MIPI CCS embedded
+> data.
 >
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > Reviewed-by: Julien Massot <julien.massot@collabora.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  .../media/drivers/camera-sensor.rst           | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
+>  .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+>  .../media/v4l/metadata-layouts.rst            | 39 +++++++++++++++++++
+>  .../media/v4l/subdev-formats.rst              |  5 +++
+>  include/uapi/linux/v4l2-controls.h            |  1 +
+>  4 files changed, 46 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/metadata-layouts.rst
 >
-> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> index 9f68d24dfe0b..450e5940c6e7 100644
-> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> @@ -115,3 +115,24 @@ register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
->  values programmed by the register sequences. The default values of these
->  controls shall be 0 (disabled). Especially these controls shall not be inverted,
->  independently of the sensor's mounting rotation.
+> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> index bb6876cfc271..c9b908d5fbea 100644
+> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> @@ -15,6 +15,7 @@ These formats are used for the :ref:`metadata` interface only.
+>      metafmt-c3-isp
+>      metafmt-d4xx
+>      metafmt-generic
+> +    metadata-layouts
+>      metafmt-intel-ipu3
+>      metafmt-pisp-be
+>      metafmt-pisp-fe
+> diff --git a/Documentation/userspace-api/media/v4l/metadata-layouts.rst b/Documentation/userspace-api/media/v4l/metadata-layouts.rst
+> new file mode 100644
+> index 000000000000..5f717d54d1ca
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/metadata-layouts.rst
+> @@ -0,0 +1,39 @@
+> +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
 > +
-> +Embedded data
-> +-------------
+> +.. _media_metadata_layouts:
 > +
-> +Many sensors, mostly raw sensors, support embedded data which is used to convey
-> +the sensor configuration for the captured frame back to the host. While CSI-2 is
-> +the most common data interface used by such sensors, embedded data can be
-> +available on other interfaces as well.
+> +Metadata Layouts
+> +----------------
 > +
-> +Such sensors expose two internal sink pads (pads that have both the
-> +``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
-> +<MEDIA-PAD-FL-INTERNAL>`` flags set) to model the source of the image and
-> +embedded data streams. Both of these pads produces a single stream, and the
-> +sub-device routes those streams to the external (source) pad. If the sub-device
-> +driver supports disabling embedded data, this can be done by disabling the
-> +embedded data route via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
+> +The :ref:`metadata layout control <image_source_control_metadata_layout>`
+> +specifies the on-bus layout of the metadata on pads with a :ref:`generic
+> +metadata mbus code <media-bus-format-generic-meta>` independently of the bit
+> +depth.
+
+This has been reviewed by 2 people already, so it might be not having
+this clear, but I guess the intention is to say that the metadata
+layout control describes how data on the bus should be interpreted by
+userspace while the generic metadata mbus code only defines the sample
+size ?
+
+I don't really get that from the above paragraph. Feel free to ignore
+if it's me only :)
+
+
 > +
-> +In general, changing the embedded data layout from the driver-configured values
-> +is not supported. The height of the metadata is device-specific and the width
-> +is that (or less of that) of the image width, as configured on the pixel data
-
-Maybe "the width is equal to (or less than) the one of the image data, as
-configured on the pixel data stream"
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
-
-> +stream.
+> +.. _media-metadata-layout-ccs:
+> +
+> +MIPI CCS Embedded Data Layout (``V4L2_METADATA_LAYOUT_CCS``)
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +`MIPI CCS <https://www.mipi.org/specifications/camera-command-set>`_ defines a
+> +metadata layout for sensor embedded data, identified by
+> +``V4L2_CID_METADATA_LAYOUT`` control value ``V4L2_METADATA_LAYOUT_CCS``, which
+> +is used to store the register configuration used for capturing a given
+> +frame. The layout itself is defined in the CCS specification.
+> +
+> +The CCS embedded data format (code ``0xa``) definition includes three levels:
+> +
+> +1. Padding within CSI-2 bus :term:`Data Unit` as documented in the MIPI CCS
+> +   specification.
+> +
+> +2. The tagged data format as documented in the MIPI CCS specification.
+> +
+> +3. Register addresses and register documentation as documented in the MIPI CCS
+> +   specification.
+> +
+> +The ``V4L2_METADATA_LAYOUT_CCS`` metadata layout value shall be used only by
+> +devices that fulfill all three levels above.
+> +
+> +This metadata layout code is only used for "2-byte simplified tagged data
+> +format" (code ``0xa``) but their use may be extended further in the future, to
+> +cover other CCS embedded data format codes.
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index d6d0e9a0eee1..0bcbf3063dbc 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -8510,6 +8510,11 @@ content is more or less device specific but the data is transmitted and received
+>  by multiple devices that do not process the data in any way, simply writing
+>  it to system memory for processing in software at the end of the pipeline.
+>
+> +The exact layout of the data generated by the device is reported by the
+> +:ref:`V4L2_CID_METADATA_LAYOUT <image_source_control_metadata_layout>`
+> +control. For in-memory formats, :ref:`Generic line-based metadata formats
+> +<v4l2-format-generic-meta>` are used.
+> +
+>  "b" in an array cell signifies a byte of data, followed by the number of the bit
+>  and finally the bit number in subscript. "x" indicates a padding bit.
+>
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index bb8b0b174a43..23112f256da1 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1234,6 +1234,7 @@ enum v4l2_jpeg_chroma_subsampling {
+>  	(V4L2_COLOR_PATTERN_FLIP_HORIZONTAL | V4L2_COLOR_PATTERN_FLIP_VERTICAL)
+>
+>  #define V4L2_CID_METADATA_LAYOUT		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 12)
+> +#define V4L2_METADATA_LAYOUT_CCS		1U
+>
+>  /* Image processing controls */
+>
 > --
 > 2.39.5
 >
