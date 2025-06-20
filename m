@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-35472-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35473-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AE7AE162A
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 10:34:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B8EAE1632
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 10:35:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A3765A60D9
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 08:33:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBAC7168CCD
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 08:35:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F1D2343C7;
-	Fri, 20 Jun 2025 08:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D9E0236442;
+	Fri, 20 Jun 2025 08:35:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FL1D24Vb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z1Vy+sm6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8024614D2A0;
-	Fri, 20 Jun 2025 08:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9FE218EBF;
+	Fri, 20 Jun 2025 08:35:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750408402; cv=none; b=KI2nzYX8UvWD+ZlIuhfnI77pLtjkze0zduU7h8zlx/iKi4ooZ5TSGeemLW3j6VtzhOtyj6gPaAWRAsEZ+zocrB6mDLdFoB2Ow6jwCocsCcp0N9yr5+xVuLddoRSUi09Y3qiywd2nCb+FM51YKd8xS7s8KS8BTFP7JSRDFqHKV7A=
+	t=1750408522; cv=none; b=tZBfOSbDsEdJbYdc5ZzaSdIDslxDoV12BkNDs6V/PmLZTC+ggw4gctv+PDoZbEu3Ip8ja01PdOi9b0LX4MeoTlFUrMwuFr/LXt5eNOUejFyy3PG1gPsIxqe+MEDNGHw932h1tVaAgmj7gca5MbC7Icoj/4oly9Li1TmxQJu2Zyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750408402; c=relaxed/simple;
-	bh=c/2Xvb9uN6EmpwW6mCUMZB9v7hU5OWyN4wW4uUKSH2s=;
+	s=arc-20240116; t=1750408522; c=relaxed/simple;
+	bh=5vgG1+o5zvUvcy9IV1oX0v/oDHQeoYwHQUnEwHesPoo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=coWqhuFO1IY3lQGzCGa0MSzZf+lvSkOm9nO+JJMNjhZQ1QE04FQwMv8o42Jduoe4+SHtXhq2N3CvcPw1Z1z9jB9dX9lGX/H3wfxnl/5dMvBD518Szn0JvDtiEab5FY3suzBXPIwP3GybF2UXhp2Rej/2l5+zOmJiM3FIEhW7B/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FL1D24Vb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF000C4CEED;
-	Fri, 20 Jun 2025 08:33:17 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=tJyQ5WHk6T/O3QAaaeWIiWWUmCD/DegKkbjNKLa8kBfrE3eTgUMRpbsargVcJ8QPNdhAZK4S/UEzlD8CdbHSg68C17nShjqgJCewfkXr/ek1egZJ0QUmmQOr9t/KFePK/FimhIrfRqEMT/tf7jqdx9YYSuGYGgIekGwu5crkyGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z1Vy+sm6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E900BC4CEE3;
+	Fri, 20 Jun 2025 08:35:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750408402;
-	bh=c/2Xvb9uN6EmpwW6mCUMZB9v7hU5OWyN4wW4uUKSH2s=;
+	s=k20201202; t=1750408522;
+	bh=5vgG1+o5zvUvcy9IV1oX0v/oDHQeoYwHQUnEwHesPoo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FL1D24VbXWpJwUpaO5ekBVyp42qgr/DkjPTDgd+M3FBIyi2WpIz/cNrTnIzMjRjPB
-	 3tVsZY3J6sTQKC6A3woB/VqvEWmQTgNEfZb7dzlp1nrTaDVUTK3RUEaoC7u85aTg3H
-	 g/ygOgc8JZT7ZCv3AZeLCEwb0gk02cNipwEEyquF1I741Zjw3ius2bbHM/GEiwvW2Y
-	 QV7T8MrMqGNokPX179C4B2TuHb/UuI/Lrd/t3sJxaPCefhd8gm3wSQr6cFB0rebhVF
-	 IxhW2/QLci+uhLclnsmA7sL6uXMFkN3wK+5MfjBhYieY+Mfb9NcCM3B7uuOoYmOM94
-	 AHaeIBtkLdWxw==
-Message-ID: <a770c905-1c7e-41ce-a5dd-ea9c43e7a7ba@kernel.org>
-Date: Fri, 20 Jun 2025 10:33:16 +0200
+	b=Z1Vy+sm681/k9NWqGx6RHL0cVDfPgc1yhukI/2LseV8I4KzPG+7fDxsWuqoVpgD29
+	 UMsZ7ABpZRfmsNX9hjKZBxdOg1I8N3gBwUe3QQXiFpbiv/PUfwGqELDuHo4pVz7G8F
+	 1laifqmyGnZ/6u239bBC227+R6+H0HYvlyyqaF7gAbjtpSJNC3SZtq18lOSF1T9+Fa
+	 gIrP8Hrj6hSssDYJ+1GE+I7fS1hMrGNsVp1bHxJIFBU3LjdLyF2o/HUl5STnECGBb5
+	 4JI7BmZ9rrdcuo3t35ZyiY5BGWxPyrERtnzXUiAJVqs4k3DHmIVaBCUE+m7NK5OZ1w
+	 xwa+fRWQy2ENg==
+Message-ID: <96ee2939-d0d6-439e-bde4-1e5476214c5a@kernel.org>
+Date: Fri, 20 Jun 2025 10:35:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/3] arm64: dts: qcom: qcs6490-rb3gen2: Add csiphy
- current support
+Subject: Re: [RFC PATCH 1/3] media: dt-bindings: Add regulator current load
 To: Wenmeng Liu <quic_wenmliu@quicinc.com>, rfoss@kernel.org,
  todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
@@ -62,7 +61,7 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  quic_svankada@quicinc.com, quic_depengs@quicinc.com,
  quic_vikramsa@quicinc.com
 References: <20250620040736.3032667-1-quic_wenmliu@quicinc.com>
- <20250620040736.3032667-4-quic_wenmliu@quicinc.com>
+ <20250620040736.3032667-2-quic_wenmliu@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,14 +107,33 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250620040736.3032667-4-quic_wenmliu@quicinc.com>
+In-Reply-To: <20250620040736.3032667-2-quic_wenmliu@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 20/06/2025 06:07, Wenmeng Liu wrote:
-> Add csiphy current value to support csiphy current load setting.
+> Add regulator current load support for vdda-phy vdda-pll.
+> 
+> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+> ---
+>  .../devicetree/bindings/media/qcom,sc7280-camss.yaml        | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-Why? Why doing this? Why is this needed?
+This patch fails on so many levels... do internal reviews first.
+
+Use existing properties, see regulators. If not, use existing unit
+suffixes. Otherwise it is just another downstream property you send us,
+to which we responded many times - don't.
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+Read meeting notes from internal discussions where you discussed this
+already.
 
 Best regards,
 Krzysztof
