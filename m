@@ -1,164 +1,110 @@
-Return-Path: <linux-media+bounces-35481-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35482-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A023AE19A7
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 13:11:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DD4AE19C4
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 13:14:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F0435A0C7F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 11:10:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 925E917F81A
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 11:14:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCBB028A400;
-	Fri, 20 Jun 2025 11:10:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8090289E3F;
+	Fri, 20 Jun 2025 11:14:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sGgyGNCx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pfcSvTP2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A442528A1C2
-	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 11:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3253730E83E;
+	Fri, 20 Jun 2025 11:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750417853; cv=none; b=DH/6ixjuVKA71XWuOkvTVsx6D8nkGINhrKzmfSndox3PbY7D2sZZJIUhE74zAheWud97oWGkKylZ10fdZ26PGz7uyO9m/Kd4MjHLSwTFBCUskoIX8vOJIAjenuGJ8sNEV4ZkAi3msLm97KyS667+XY3KwPa9kfg5bBUimeyzF9c=
+	t=1750418075; cv=none; b=oMSs0T2NolzVJct1i+4nVjrwDgNMeJKYPk1eF4pZTla8CL4i1ZWzGQwiqSoP4LLl/svz1G7Kq2Yn+Wt5lizJfusA10tFJoVHR50wSUf7pX6rWzUSpZKKx4x5vDHBHUP2LY+c6RKZCUk5IPf+jGbDPa2ObadS84MFdd7VDrfqzRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750417853; c=relaxed/simple;
-	bh=da8/b2wRsZNf1YXCOMF4orEpAJLH4dLJ6xz42KNT5sE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kF3AwPF+6c7Gh7fmQGIIj0O3pRyVEdz6iRTBT0rZJSMbdRT6T83HOUqYfLq3rgDxjJPg/UyyW++tCdJxsx47ti0/RfYMnoQIHoa/Pjzb8YUrUX2R7cqkf5vqfVE9rs84LiRwPCU/V21VtbTl+VO4Py+r9SF2Gwq5slRYVRMnuxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sGgyGNCx; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FCB7C0B;
-	Fri, 20 Jun 2025 13:10:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750417835;
-	bh=da8/b2wRsZNf1YXCOMF4orEpAJLH4dLJ6xz42KNT5sE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sGgyGNCxWjyMPULzYji73ky5wwO6VPed2gitja0BOYtDa1kHPKCHGlA6exBWJEt4b
-	 1j7G27qrKt2TXiOlz9sb+Q6+TFiWwU9ecb/IKU2C1sXjANH2r2fK0mv40e3C6gCppw
-	 lAu1lQ5r87FFZjGUcEMUmcZ/jZnp7yRwYP2yhzZQ=
-Date: Fri, 20 Jun 2025 13:10:47 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
-	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
-	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v10 12/64] media: uapi: v4l: subdev: Enable streams API
-Message-ID: <5q2j6zf4o4xyt3k3xpi4n4mbyckxkexmfho2hfmpvtpfwb35tx@hwjlkjm7krm5>
-References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
- <20250619115836.1946016-13-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1750418075; c=relaxed/simple;
+	bh=fFW0nj5wKajZBoxD+NK/ptNflE3yLPKttfp9Lz+wirI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QJLxkjzvGb0VARtxe7Ahn7EbZAhkGK7Tz/dj1Vm9vNNb5q+lERrvhkuAFPa/Q1DbFWK1RiHehLkXIyTykZUXrzwQtGg8J+3yIC9Bx44Z7EDPQnVZpxznIshvUCkLvMH0wJC3f2lCoqEA1GGOjS0GMlgR88KbRqwkIVFwry+9/Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pfcSvTP2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96BF5C4CEE3;
+	Fri, 20 Jun 2025 11:14:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750418075;
+	bh=fFW0nj5wKajZBoxD+NK/ptNflE3yLPKttfp9Lz+wirI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pfcSvTP2hDTGoGFpx+wgbFLNAe14F1ZAtJFntSgbnCARjLt2kkn/gaM3muchpfYts
+	 EsgBZvKsCk7xvF51hkAd3WRjkQPAmFJyxd02cL4RrIGLxEqOg3g9TFJcxyUPZBQxB1
+	 xiria440gVVMqf0gLmj7oikBSOycoXF0dzpg4gApGTyDkIP83PNVT+H/ms5HG6MV+W
+	 3h9WxUqrcZqEsunlc0JPbTDUSHvALYpq5/h8Xg05iSanM/n6qZJV4vog5IKNAA4Eha
+	 V/Ey0pmAm+mCoxQkt2MhnKWTq9VuWhJqOGgfMTfBROJ/qDJ6YecqkAVZ+72Rgj3D3+
+	 8AWZz764BmHAQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Yu Jiaoliang <yujiaoliang@vivo.com>,
+	Akihiro Tsukada <tskd08@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: mxl5005s: reduce stack usage in MXL5005_ControlInit
+Date: Fri, 20 Jun 2025 13:14:23 +0200
+Message-Id: <20250620111430.3365987-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250619115836.1946016-13-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Happy to see this one!
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Thu, Jun 19, 2025 at 02:57:44PM +0300, Sakari Ailus wrote:
-> Remove v4l2_subdev_enable_streams_api variable that was used to easily
-> enable streams API for development, and conditions that use the variable.
->
-> This patch enables the streams API for V4L2 sub-device interface which
-> allows transporting multiple streams on a single MC link.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 30 ---------------------------
->  1 file changed, 30 deletions(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 13d6e96daf3a..30549aca9dd0 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -26,15 +26,6 @@
->  #include <media/v4l2-fh.h>
->  #include <media/v4l2-ioctl.h>
->
-> -#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-> -/*
-> - * The Streams API is an experimental feature. To use the Streams API, set
-> - * 'v4l2_subdev_enable_streams_api' to 1 below.
-> - */
-> -
-> -static bool v4l2_subdev_enable_streams_api;
-> -#endif
-> -
->  /*
->   * Maximum stream ID is 63 for now, as we use u64 bitmask to represent a set
->   * of streams.
-> @@ -620,13 +611,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
->  	int rval;
->
-> -	/*
-> -	 * If the streams API is not enabled, remove V4L2_SUBDEV_CAP_STREAMS.
-> -	 * Remove this when the API is no longer experimental.
-> -	 */
-> -	if (!v4l2_subdev_enable_streams_api)
-> -		streams_subdev = false;
-> -
->  	switch (cmd) {
->  	case VIDIOC_SUBDEV_QUERYCAP: {
->  		struct v4l2_subdev_capability *cap = arg;
-> @@ -980,9 +964,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		struct v4l2_subdev_routing *routing = arg;
->  		struct v4l2_subdev_krouting *krouting;
->
-> -		if (!v4l2_subdev_enable_streams_api)
-> -			return -ENOIOCTLCMD;
-> -
->  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
->  			return -ENOIOCTLCMD;
->
-> @@ -1006,9 +987,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		struct v4l2_subdev_krouting krouting = {};
->  		unsigned int i;
->
-> -		if (!v4l2_subdev_enable_streams_api)
-> -			return -ENOIOCTLCMD;
-> -
->  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
->  			return -ENOIOCTLCMD;
->
-> @@ -1086,14 +1064,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  	case VIDIOC_SUBDEV_S_CLIENT_CAP: {
->  		struct v4l2_subdev_client_capability *client_cap = arg;
->
-> -		/*
-> -		 * Clear V4L2_SUBDEV_CLIENT_CAP_STREAMS if streams API is not
-> -		 * enabled. Remove this when streams API is no longer
-> -		 * experimental.
-> -		 */
-> -		if (!v4l2_subdev_enable_streams_api)
-> -			client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
-> -
->  		/* Filter out unsupported capabilities */
->  		client_cap->capabilities &= (V4L2_SUBDEV_CLIENT_CAP_STREAMS |
->  					     V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH);
-> --
-> 2.39.5
->
->
+This function initializes two large structures with arrays. On at least parisc,
+the specific code sequence here leads to a badly misoptimized output from
+the compiler along with a warning about the resulting excessive stack usage
+from many spilled variables:
+
+drivers/media/tuners/mxl5005s.c: In function 'MXL5005_ControlInit.isra':
+drivers/media/tuners/mxl5005s.c:1660:1: warning: the frame size of 1400 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+
+Splitting this one function into two functions avoids this because there
+are few temporaries that can be spilled to the stack in each of the smaller
+structures, so this avoids the warning and also improves readability.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/tuners/mxl5005s.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/media/tuners/mxl5005s.c b/drivers/media/tuners/mxl5005s.c
+index 0e811c5eae6c..8f262c7f62f5 100644
+--- a/drivers/media/tuners/mxl5005s.c
++++ b/drivers/media/tuners/mxl5005s.c
+@@ -1174,7 +1174,12 @@ static u16 MXL5005_ControlInit(struct dvb_frontend *fe)
+ 	state->Init_Ctrl[39].bit[0] = 3;
+ 	state->Init_Ctrl[39].val[0] = 1;
+ 
++	return 0;
++}
+ 
++static u16 MXL5005_ControlInitCH(struct dvb_frontend *fe)
++{
++	struct mxl5005s_state *state = fe->tuner_priv;
+ 	state->CH_Ctrl_Num = CHCTRL_NUM ;
+ 
+ 	state->CH_Ctrl[0].Ctrl_Num = DN_POLY ;
+@@ -1663,6 +1668,7 @@ static void InitTunerControls(struct dvb_frontend *fe)
+ {
+ 	MXL5005_RegisterInit(fe);
+ 	MXL5005_ControlInit(fe);
++	MXL5005_ControlInitCH(fe);
+ #ifdef _MXL_INTERNAL
+ 	MXL5005_MXLControlInit(fe);
+ #endif
+-- 
+2.39.5
+
 
