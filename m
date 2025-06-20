@@ -1,231 +1,140 @@
-Return-Path: <linux-media+bounces-35510-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35511-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C068AE2424
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 23:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B298DAE243F
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 23:42:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F1D83B45FF
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 21:39:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4D123A71C2
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 21:41:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49DFE23958F;
-	Fri, 20 Jun 2025 21:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EFE023958D;
+	Fri, 20 Jun 2025 21:41:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MLGe40Wd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nOwJDIKj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF7F2376EF
-	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 21:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15395223DCE;
+	Fri, 20 Jun 2025 21:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750455576; cv=none; b=m8jly0e9Xj6NsyqVicRk+7PU/wpcr0a8hkKlswEg0ZDcgD6z/jvcl6gUZWFkL8/ctwPTz8CSXhfyUvwj0VGSUmo/yajstBU4vxp0NzhozuVIIhcRMcwsmMTlB7BqUWxpWpWVGW96PJfHUYp7xXhf+M6xtf1Rh8ddvogdoVEVEJw=
+	t=1750455703; cv=none; b=Eyt6Mjk/S+i2SStSvyNUIcxKOZlC6AVDuWZNn+ODK8bqRl+VTUwOEsSrxAuM9s6OizcDc7GPMjDqv8frRzS4EaqyN1l9LcRmADF/HMecjmlJXqkaqtuckCnPF5QElMAr16dzx3qNptVY5vgj+UbaZLrwZNCU6UfnR46VJDAZCu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750455576; c=relaxed/simple;
-	bh=5+lx+rMee4hQc5Zw2lVmW76xMzRd3mGxUhdEqPcGNy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUScxpxK3tA8FvBtZ0lVO4A2CkvaoM3VhgPs1Dwgn9cBWLQqrBjXcH7mYSghfZuZhOLWZsFPBVkPVxxLFwhemDpPnsrKV0uDRSuYYCFChO/aNnTeCcuDLCgXtJ6Hu66Hz2Zhclj4YnCvSKP3HZ+rhuOyVN3XSB8h1n1f5XvfUJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MLGe40Wd; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55KFp6f2025998
-	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 21:39:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=wwzOEPTIZ8giiov4gJJQXrK5
-	i9pYwzAJlNAgg+7xW8E=; b=MLGe40WdgIMvckP/3a1ou3SbPhUB1RzQVkbnEBCZ
-	zRut/wQKtGDIFGH7JWPbHMbFP3HNgCWKpYGUEpLOA1YcoPyF29AYy2ZY83/kVt1H
-	HMJk7UwTFs1OtCCebDrybyFRxBbAs7+BI1gAEt/saioYMP6FnSYvL0Z3srDbOjbB
-	NLJegi+Yb7msXKHaE87HdqhN6j5dy9PW96nNb5QxF1oyXEFjWCe160istWB2fOZm
-	Tk0BbIoxgeUr1B9ts1OdRBpjdUUbArzniZjuXygU+TO90m0LPgD0ovjs5EdBCsqM
-	9aRjHdK7DuZKO44+a1X5rfG43mNwv+5py4nDPpOABKhMxg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791h9mg0e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 21:39:33 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7d3f0958112so320589885a.0
-        for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 14:39:33 -0700 (PDT)
+	s=arc-20240116; t=1750455703; c=relaxed/simple;
+	bh=4Ft72Nr3kzVywy6TOavol3W71SO2Q3KhMx60de80J9E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sgdi5IQpHV5I5VMQ1kwjNS6W34O8hP0lztZxyPmCLbqHgFxrJRVEJtySEbazbhBw88dSLCdBbbtpGfXAejZ15Ho6elwfhkuUk0SjnR4St12Tk7Hufwra3+cLaF5TQlyYWjwlThrO61I2XU63Qg9tfWBWhQ7jbfNpc6nDvxNfyTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nOwJDIKj; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e82596e88c4so2119593276.1;
+        Fri, 20 Jun 2025 14:41:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750455701; x=1751060501; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8uAahrOS33o7sgUXOZ2rcoYNIsua8jD0KjR6EQqfEsE=;
+        b=nOwJDIKjsw9jNAv/2FUkgrvce422QwghnOKNi7USHmr/BZLgaxGrHVOYNvNYg1GjY+
+         1P8n6Cz9LmZPtBWe8onGBo7B6rTq/bjVqq9znN08xEHAZ39nhW1/Izm0iFCeTrGiOjet
+         nie3LfGkLGrsZaSJDfnbvI2TX+FN/Xu4eNPFh6ujVUQiJRKi82BLauqdkSBxhogeLCTe
+         MI/6nKmZnr0S72pir3jlZwsC52618Z8LUq52fa4aUG9st0ZgYynCp6DA5Yw2MnbNHqYI
+         Ldfq8X6bFRRUh2YQ1f966Sv79pd4v5bPzeI1kaROtF1hdb+ONdFlwF6RZkw0Dx76NJah
+         CpjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750455573; x=1751060373;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wwzOEPTIZ8giiov4gJJQXrK5i9pYwzAJlNAgg+7xW8E=;
-        b=g5vO1Ot3fd4C7JkegBWU5ucL16DqqZGsDo778JGkrx9rk+EPNp53kA4+pUz82k+qN3
-         nOxH4ZYjmen/N1s34rLVvk2IdxedWLOqg+3KL44FOT7bu23CMWrPxXY20jl5gYp2UT0n
-         oZiFU+MHA9yhuRPPzlL5G7UOwoF7riKLd3OmTsfEciS52DUwbqdIRJ6YeEUpXoO6LK2S
-         0ZQ9pPdWT8Emo5lTGNJVumya48EjSxCjMbkeGGWeaZkEQVW/zXd0f2+6zT+lrsoTPnx0
-         sXgJyUpDNAJ3YW56Q2p/a7kLySTwlUzn1RzbFa0U7pYny+nV2spcdqFNacA376kM91xt
-         zPqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUTdVsSbgPszT2XTJs11pwsp8NOZuQCSIgeep9xBnA128iLK8gsMwad+pqexp7D7vSWEY/vnKM5uPPT8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGalfHuXw7yyBm0BM9N3TDDl2e4ftdjh08d7oY3T7uWOTtXtGH
-	X4pC6UMbu6tDO1g29k+FFTwML1brz4lmTGTWikqZnN8kxOQ2tMquVPCADYZpYLnA9WF4SLCW1DP
-	iGBZ4FYVBkYpKKwoo5TkaJX7I11SHI7qknYmlSAiH0SPlckn8hZ2sfii/iIR6Fe0Lug==
-X-Gm-Gg: ASbGnctNnNhboFH0Z/X/bBBNTEW2hJhT5LI8pFDwvrAw0N2hS6G7XBf6XhB8ZKK5OVa
-	jMSSXTSN5wg6w25Y0nLBogSnCDoGaYRLSk7lMUtcuuV1V+upqgEEbmRIg4U3/Sjoe+wIN4SIVB7
-	vkTJuBza5prm0XFf9zkGOv0W9YKQQfzQesrVf7dLJJwh7/nzXV2qZa56iC+7/QDbR86/8tQ9Bio
-	Tk691TBeQ3KjZuLevLE/hJkb0aA31iIT98vMuliMJyQDN9rWKSaNuhf6WEv8MYkl1HV9858Hc2D
-	RN+JyRbHsAIBjy/y0xY/KlZazyaK5crGBVKkhd+sgKD/W/n5adVlNcGufLR/Bs9bgSP00XyPSZg
-	f+zAUDKu353E8Iqn6D6fxuwIDCUJYyjfwHTM=
-X-Received: by 2002:a05:620a:410e:b0:7d3:8864:d1a8 with SMTP id af79cd13be357-7d3f98c96a6mr686275585a.18.1750455572819;
-        Fri, 20 Jun 2025 14:39:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGX3zLYCHnzxLiD2hjxRNc4k1DRXHEdxgbDojWLk6u3q4pVIZ+GEEi5/4EOpDydiye/y5YWwg==
-X-Received: by 2002:a05:620a:410e:b0:7d3:8864:d1a8 with SMTP id af79cd13be357-7d3f98c96a6mr686272185a.18.1750455572373;
-        Fri, 20 Jun 2025 14:39:32 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553e41cbfe6sm414644e87.204.2025.06.20.14.39.28
+        d=1e100.net; s=20230601; t=1750455701; x=1751060501;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8uAahrOS33o7sgUXOZ2rcoYNIsua8jD0KjR6EQqfEsE=;
+        b=FtkrkS9kw7sLT4Xq2T3mPv4hiQlDJW2t6UxammgvXEI+tdXtxoxkKliOE3Kq4ObGHp
+         uQ4s5txnwcapLbpcikOgO/ddCv65Mrm3XdZlpAUSfqyo2ezOBCiWxjFvXWKcwSbkiq3K
+         V8KzOeRXpujFYrfCXaswKr/2mdjQ5FWqVTY4PJVkhvUTNrJn87nfF5y4tXE63TWVdLoq
+         SC9bhFLgz+vPMnw/PPyE/sgsaAJ6sW0cCqSRbKuhX7LmGntBZG90jUiagZZeybGraRrB
+         FNXeqjzk5sF+Uk7eVAXNuZr3+vZdTTJ5owIiCwrv/e9cpunBmxZgyaiGLZtNWRddLK/l
+         WO2A==
+X-Forwarded-Encrypted: i=1; AJvYcCU0InpqP5dKbCcd8wlc6jQteozoEOSwm8MJjrCJm9eURyXo/9cxUtm3eYTfiq2uET1nZEIivMJxgJ1H0VE=@vger.kernel.org, AJvYcCVyuZTlkcWPW72zv2EyJ8gSwHbB+WBm+Fb0JLuYVgLky9xzZ7/o+O7Lediw6gGpQkYS9vYpd/2J/4EhKWE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxt866eFY/wOH+ws3EsP7DJ1nL8OIQ9weKpnsxtvx5kHrQor4na
+	Kd2nrwKW7010mob96k5IBPUpjcFxC0P3bOXHx/r5ipMNKi9ihhJaSmiw
+X-Gm-Gg: ASbGncsKyZ9DQhhOLJsAsIDilWKCB1tcXbuFJbVo383PX42xCRIdwMC3dE0LUSKG3z8
+	P8KvCvEwB+8ZNtBd+USabc6HbVFr2qZyZ+l4qYm/3RcepevxyX/Su4iJy2+G7ijgX+mDjoHcAux
+	lU5PmUwvAkRBY1u0gLfIrc5z3Q7RDEmujzbwCNq9amaVmndieKeDBXgegXwhQjCZ35RIiDFknHR
+	rVAEORgJnBQXPi5KhgrRvujKwA6Wz0vKNDrwH2skb9VNG4LGgDLI1sE0M0Ti6azf9S9cgQYHrN7
+	uXKyhyCNIXiwFsvA29bUxX75gBsBCsptvGv+ACRyTc4mzDmOi0cF3371FLDwksWVPFidANBnPy1
+	v
+X-Google-Smtp-Source: AGHT+IHeXdhoQ2nRO39pjKloDWk33DX/i8jd5QX1dRew5XBLdy1rsgIznRHcWftril4Hpft3Ei2lpg==
+X-Received: by 2002:a05:690c:6910:b0:70e:7503:1180 with SMTP id 00721157ae682-712c63b2084mr74607287b3.1.1750455700979;
+        Fri, 20 Jun 2025 14:41:40 -0700 (PDT)
+Received: from trojai4.cs.purdue.edu ([128.210.0.165])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-712c4bec110sm5836707b3.105.2025.06.20.14.41.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 14:39:29 -0700 (PDT)
-Date: Sat, 21 Jun 2025 00:39:27 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] dt-bindings: media: qcom,sm8550-iris: add non_pixel
- and resv_region properties
-Message-ID: <x7xskkv6nviz3j7sr5qgs7yt7z6txqwdemfammufwdf6ji3sla@gi2a4aadt6wc>
-References: <20250620-video_cb-v1-0-9bcac1c8800c@quicinc.com>
- <20250620-video_cb-v1-1-9bcac1c8800c@quicinc.com>
+        Fri, 20 Jun 2025 14:41:40 -0700 (PDT)
+From: Alex Guo <alexguo1023@gmail.com>
+To: mchehab@kernel.org
+Cc: alexguo1023@gmail.com,
+	hverkuil@xs4all.nl,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: dvb-usb-v2: ec168: fix null-ptr-deref in ec168_i2c_xfer
+Date: Fri, 20 Jun 2025 17:41:38 -0400
+Message-Id: <20250620214138.3224843-1-alexguo1023@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250620-video_cb-v1-1-9bcac1c8800c@quicinc.com>
-X-Proofpoint-ORIG-GUID: Olwc7ZTuFmeQ52HrCcyA5QA3WPiSWrl3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIwMDE0OSBTYWx0ZWRfX+Fr5ULJLdswM
- 4J8wdzGR7SxSOW8SDSzSsCoXDTuuTtk+jWrN6W9+YgRX0W+5nEwtK6gUJUrtvLbFKCkjjwJz2/u
- zvcGtGwX3+KUeru5dv914fKl+mjTQlTsCdAx9ZQ5e+F2H3DvvzJnE99jtB2NxndGcaYkF2aMgNz
- ueKTamEWI8yEjCLEXCgX2wKUVZhMceoCGmJ/veTuQc2PMNtToVSdahS2LU0e42UdVn0qmFHI2Dl
- 6PjkyHTMP6eG+/2adFbK2zSzVsHVjOo87AL5/zYSvuiyqE5jGvgacf37F1WjeZbhFARygeP2lc1
- wUuAad8z+Mf5lnQV/cERaXsBttFhp+/+QKkANi9fI7P/upB+tQNaETxNnjOxD592bGDYe9UVJ78
- /NX1bcJCdOAchTOgBUhiuHLJuOugcXZXy/qh+yv5RvHoQqIBoLIc7h1UM36yhUdkTxlFlVb/
-X-Authority-Analysis: v=2.4 cv=UL/dHDfy c=1 sm=1 tr=0 ts=6855d515 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=COk6AnOGAAAA:8 a=cX-zLpqguaV5l60ydZgA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: Olwc7ZTuFmeQ52HrCcyA5QA3WPiSWrl3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-20_08,2025-06-20_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- malwarescore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506200149
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 20, 2025 at 11:50:51AM +0530, Vikash Garodia wrote:
-> Existing definition limits the IOVA to an addressable range of 4GiB, and
-> even within that range, some of the space is used by IO registers,
-> thereby limiting the available IOVA to even lesser. Video hardware is
-> designed to emit different stream-ID for pixel and non_pixel buffers,
-> thereby introduce a non_pixel sub node to handle non_pixel stream-ID.
-> 
-> With this, both iris and non_pixel device can have IOVA range of 0-4GiB
-> individually. Certain video usecases like higher video concurrency needs
-> IOVA higher than 4GiB.
-> 
-> Add the "resv_region" property, which defines reserved IOVA regions that
-> are *excluded* from addressable range. Video hardware generates
-> different stream IDs based on the range of IOVA addresses. Thereby IOVA
-> addresses for firmware and data buffers need to be non overlapping. For
-> ex. 0x0-0x25800000 address range is reserved for firmware stream-ID,
-> while non_pixel (bitstream ) stream-ID can be generated by hardware only
-> when bitstream buffers IOVA address is from 0x25800000-0xe0000000.
-> 
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  .../bindings/media/qcom,sm8550-iris.yaml           | 35 ++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> index c79bf2101812d83b99704f38b7348a9f728dff44..a1e83bae3c36f3a4c58b212ef457905e38091b97 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> @@ -65,10 +65,45 @@ properties:
->        - const: core
->  
->    iommus:
-> +    minItems: 1
->      maxItems: 2
->  
->    dma-coherent: true
->  
-> +  resv_region:
+msg is controlled by user. If accessing msg.buf without sanity
+check, null pointer deref would happen. Although there are some
+existing checks on msg.len, they do not cover all buffer access
+points. Therefore, we add an additional check on msg.len to
+prevent potential crashes.
 
-Ugh. Underscores...
+Similar commit: commit 0ed554fd769a ("media: dvb-usb: az6027:
+fix null-ptr-deref in az6027_i2c_xfer()")
 
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    description:
-> +      Reserve region specifies regions which should be excluded from IOVA.
-> +
-> +    properties:
-> +      iommu-addresses:
+Signed-off-by: Alex Guo <alexguo1023@gmail.com>
+---
+ drivers/media/usb/dvb-usb-v2/ec168.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Missing type / ref. Also they are only described for reserved memory
-regions.
-
-> +        minItems: 1
-> +        maxItems: 4
-> +
-> +    required:
-> +      - iommu-addresses
-> +
-> +  non_pixel:
-> +    type: object
-> +    additionalProperties: false
-
-
-I still think that these usecases should be described with iommu-maps
-rather than subnodes. You have a limited set of usecases: "non-pixel",
-secure buffers, etc. Define an ID for each of those and then allocate a
-subdevice internally, mapping it to a corresponding set of IOMMUs.
-
-> +
-> +    description:
-> +      Non pixel context bank is needed when video hardware have distinct iommus
-> +      for non pixel buffers.
-
-What does non-pixel mean? Compressed data?
-
-> +
-> +    properties:
-> +      iommus:
-> +        maxItems: 1
-> +
-> +      memory-region:
-> +        maxItems: 1
-> +
-> +    required:
-> +      - iommus
-> +      - memory-region
-> +
->    operating-points-v2: true
->  
->    opp-table:
-> 
-> -- 
-> 2.34.1
-> 
-
+diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c b/drivers/media/usb/dvb-usb-v2/ec168.c
+index 973b32356b17..a72fc009269e 100644
+--- a/drivers/media/usb/dvb-usb-v2/ec168.c
++++ b/drivers/media/usb/dvb-usb-v2/ec168.c
+@@ -115,7 +115,7 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 	while (i < num) {
+ 		if (num > i + 1 && (msg[i+1].flags & I2C_M_RD)) {
+ 			if (msg[i].addr == ec168_ec100_config.demod_address) {
+-				if (msg[i].len < 1) {
++				if (msg[i].len < 1 || msg[i+1].len < 1) {
+ 					i = -EOPNOTSUPP;
+ 					break;
+ 				}
+@@ -135,7 +135,7 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 			}
+ 		} else {
+ 			if (msg[i].addr == ec168_ec100_config.demod_address) {
+-				if (msg[i].len < 1) {
++				if (msg[i].len < 2) {
+ 					i = -EOPNOTSUPP;
+ 					break;
+ 				}
+@@ -147,7 +147,7 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 				ret = ec168_ctrl_msg(d, &req);
+ 				i += 1;
+ 			} else {
+-				if (msg[i].len < 1) {
++				if (msg[i].len < 2) {
+ 					i = -EOPNOTSUPP;
+ 					break;
+ 				}
 -- 
-With best wishes
-Dmitry
+2.34.1
+
 
