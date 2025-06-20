@@ -1,290 +1,192 @@
-Return-Path: <linux-media+bounces-35487-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35488-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980E0AE1A6A
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 14:04:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0261AE1AA4
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 14:11:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ABFFE1894324
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 12:04:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 758DD5A5BD1
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 12:11:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 268CA235056;
-	Fri, 20 Jun 2025 12:03:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35E1F289E21;
+	Fri, 20 Jun 2025 12:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mc2GoOCS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YhEt6cdQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E551027FD56;
-	Fri, 20 Jun 2025 12:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7281328E616
+	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 12:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750421023; cv=none; b=d72/Od/jxl/h/U9ZhPjTknc78grWVrSE6jA0vEH+1mwxocnMFvh8BaGpDInONOFEklU5afkQIn1jvlruFV6vZ6Ssfiqb9KsGTo+5VgP6wlv0no5+OEwFZhsJ3hw361mykkCovfWfbrEQVNomwMQ56loODg+A9x5JbrOg3z20IFA=
+	t=1750421410; cv=none; b=h4LcKaJDkCbj5uRjvljO/9ICgSIQu6KlN2rbYZan8ImUvUDxoNcLV/26LOn9LEeJUh9Gy6om9ReB7qtI/vQtlcRmPnODXhm0PN7nUrMBUzUjEt20EHI/7TDptgoOa8qcEvu/nMMIb7K1WcMuT3Sqpvb242t1e5Qqoi5uA5szRgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750421023; c=relaxed/simple;
-	bh=FDVn6kzGJUMG813ArcDGLuAChLYEGlTwgPSx629w6Ps=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=uRJ0/+5Ky+0X/jQonFq8+mnpOEPIRqjCErCxkUATVsuFk04WnpZYc2yt0NE8e3CGo9HD8OKglivDK8Bp2hr2jjZAOpJmBql5GCOtlE7G0IPw6ph5mWpRXr1BoQKWxb59v6PS751BJprAkGRn+IU0QSETpikzlhotXDNekZkzRgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mc2GoOCS; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso1298261b3a.2;
-        Fri, 20 Jun 2025 05:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750421021; x=1751025821; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XdQekhyjCzmH4tNfpfSgyUB7lCWhyPe9Dj+g7h1mCmg=;
-        b=mc2GoOCS+A3QLvNSK1/kAIhwHYihdltbvHOJyoFeQT7pRzD6kicE1rRpHHczn2ypw6
-         thCRAmdd6IE9v8UvkRPR6jYFIkyAZDKs+wQ/jY/UTuHKDXloRkY95uDpPZFjVi7upHFl
-         lEGO8+hjQ0Q9B8p908sWI3D+QqkryqCLhufFhr6F8oCiZjmrE0ks6ZoLDcglj5Ig4tXO
-         u1KveSEQAqFIDI5QQaLVWN921JSUn9DTxtXwEqKb06jfFb0EQtnpELEBpbwYNAhDf/cU
-         16AAH0VaWBR/CEPAER+3G7avuXGXVX838pyY7CXS3EHEzgcjs9E1em7Vsbe5ciNVKMIM
-         sqvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750421021; x=1751025821;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XdQekhyjCzmH4tNfpfSgyUB7lCWhyPe9Dj+g7h1mCmg=;
-        b=u2NptaN8Fp6hyiFy0mGP97AQjo4HU13v71pixKvGl17j/3r0Zn3C34uoJ0lk665OPx
-         7XAWJM6OmuvuoNW0cZ6Nm35RhhoCNADGLmhJ/ob4F1M3lNldkmUYSwKN+OSwkXa1ZfMv
-         0OVtk7FzTTTU2QfOzg4CnQv/w0w8jrpK42ZFALT2uR5sePdqhYL0CdS2XHzmL2ThXhfe
-         DhoDvuA1iIkVwRrMt+BDjZWP1aQDWqWN8A1T3lMNf5YHcOcgI7+IigzDKwqNjWx3NkaR
-         g62V5QcwsRdbsfZyMws1sYZYOmNBKyv2g6HR8GCwFvqktnM13AzYC0QtuJ54c8FogjVc
-         FPnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUW6j6EDQkegB4akbiT9fAUuugKX84SMVtjHbZhcil6Q87AOVqGKlDRqw4jGDdBH1mLVc2EL5EDbS6CZhE=@vger.kernel.org, AJvYcCWVW1FGXJOm/wWFK/fIIzwifgLifDDLZ8FFGxbNUVfIbOr5VpT3xDTBzbnTNbmQGXufy7sUR1/UjkU5O+4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznbAqaDv42Ir5wiip6l1no7GnWeoq3siS9nD08fAhoLVZlS60v
-	w4hSajZOVIPK5/xJOGnka8/zkF+CO82vAQ9+ESA98l92lD64QomMWOfyzYTz+YsE
-X-Gm-Gg: ASbGncu/7VxAZ1w6UfRFFe6ykr31i+IvAHbWCiOlEhJn+my1pjmdlKwM3XcNaSfEtBK
-	20LUlGxIV48mmvnIB1ntaPOTEfMG6YUkVZqYiJE2LUP2EZFQNSxkJzvcRLdMKKznKOBYJe+cS4K
-	gzu/FAtIRr1VxT4Oyb86pVIhDFXUa5hZWA3Ews7u9xSJANsmMmmAyjegEFtg+H57EGspibjVKli
-	AHGzZJR4AUjmxBRiX6hLns5qmUVs9N8KLc3+rjX+RWdCt4f7u/n5wVvxAiKMhZNynDWOkDHwaaj
-	xjCr/82eTfAmmf8TZJG+6CSYjC6+SVQ3fqxxj5JAKli66ICkc3nVOQ==
-X-Google-Smtp-Source: AGHT+IFLHQB0eNT6ur3ow177JDXob9FKBK/stJsroAx+A8CaHFBkobGYBsZY3Si9wYrKAZj/R0GKQg==
-X-Received: by 2002:a05:6a00:3c89:b0:748:3849:e790 with SMTP id d2e1a72fcca58-7490d201941mr3889412b3a.0.1750421020893;
-        Fri, 20 Jun 2025 05:03:40 -0700 (PDT)
-Received: from localhost ([240d:1a:f76:b500:4431:46e3:c76b:79bc])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a46b788sm1915365b3a.5.2025.06.20.05.03.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jun 2025 05:03:40 -0700 (PDT)
+	s=arc-20240116; t=1750421410; c=relaxed/simple;
+	bh=tIoCrRv5se2ONWrhAZGXa3Qn8lNPdPnw75bB2mzJxyc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HOu2g9cQ7hcY0Uvd3UuYsFWFGwWeNaBtWQaZEGkEbGD7WfeWHVr5MVKzxjhgdxDqRdlriRlrcyBERFu69vF/sN3R1UixtDs4GBT43/z1zG4R1geZDNY7Z2QiQAzDiuNhh0dnckIHYdNUps21yMKGp8A+t3o0WtRJ6mhwVFnxkNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YhEt6cdQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9D3A07FA;
+	Fri, 20 Jun 2025 14:09:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750421388;
+	bh=tIoCrRv5se2ONWrhAZGXa3Qn8lNPdPnw75bB2mzJxyc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YhEt6cdQMVU7qeXDzMAtHDQ9Ahg4fi/wSGCRR0Y+z6q7cGvfqhQzXuRWJYIU6niFO
+	 CuInk0Su5VrU96zWnmzqeIzYY9M4Zw31AJNEPG2qzFPCgE3qbv8tXYVMs9j0J//svH
+	 NK2nLKtlDo/2PETKXAkBa3E00VremG/M4U2/S3AI=
+Date: Fri, 20 Jun 2025 14:10:00 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 18/64] media: uapi: Add V4L2_CID_COLOR_PATTERN for
+ describing color patterns
+Message-ID: <pczbu7ubfshbhtc5ukmxhbd4xjrmcbwnv7saqy73q2mrgta4q7@5xmultpljt7f>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-19-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 20 Jun 2025 21:03:34 +0900
-Message-Id: <DARCGOT0TKN8.OC6467QNJA9O@gmail.com>
-From: "Alexandre Courbot" <gnurou@gmail.com>
-To: "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>
-Cc: "Albert Esteve" <aesteve@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Hans
- Verkuil" <hverkuil@xs4all.nl>, "Jason Wang" <jasowang@redhat.com>, "Xuan
- Zhuo" <xuanzhuo@linux.alibaba.com>, =?utf-8?q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, <gurchetansingh@google.com>,
- <daniel.almeida@collabora.com>, <adelva@google.com>,
- <changyeon@google.com>, <nicolas.dufresne@collabora.com>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <virtualization@lists.linux.dev>
-Subject: Re: [PATCH v3] media: add virtio-media driver
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
- <20250526141316.7e907032@foz.lan> <DA6Q0LZPGS2D.2QCV889PQL2A7@gmail.com>
- <20250527111311.105246f2@sal.lan>
- <CAAVeFu+=RpEfu3i_Fh9_eq_g=cmDFF0gcurT0gU9AX1UX+UNVA@mail.gmail.com>
- <20250527153547.6603eaf4@sal.lan>
- <CAAVeFuJtp=UEEULeMSVpmYDmH81Y6OQgj6NCeuPUhabSRHw4dA@mail.gmail.com>
- <20250617104938.09d21b7c@foz.lan> <20250617110318.7c89d999@foz.lan>
- <20250617122034.3e570b4e@foz.lan> <DAPQ9L3FCLIF.24FIDLQST2S1O@gmail.com>
- <20250618170500.1e60aacf@sal.lan>
-In-Reply-To: <20250618170500.1e60aacf@sal.lan>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250619115836.1946016-19-sakari.ailus@linux.intel.com>
 
-Hi Mauro,
+Hi Sakari
 
-Really appreciating the time you are spending reviewing and testing
-this! m(__)m Thanks also for sharing your script, I've learned a few
-things I didn't know about crosvm. :P
-
-On Thu Jun 19, 2025 at 12:05 AM JST, Mauro Carvalho Chehab wrote:
-<snip>
->> > Found how to setup cpus and memory, but didn't find a way to setup
->> > network without running it as root. The gpu parameter has several
->> > options. Not sure what backend works well for media apps like qv4l2,
->> > camorama, X11, ... =20
->>=20
->> I'm afraid getting GPU and graphics in general to work is more involved
->> and tricky on a regular Linux setup (crosvm was primarily designed for
->> ChromeOS). If you really need it I can do some more research; most of my
->> tests have been done using v4l2-ctl or ffmpeg and saving the output on
->> disk for later inspection.
+On Thu, Jun 19, 2025 at 02:57:50PM +0300, Sakari Ailus wrote:
+> Add V4L2_CID_COLOR_PATTERN to tell the camera sensor's native color
+> pattern.
 >
-> It was actually easier than what I expected, but it had to run
-> as root. Due to that, I had to move it to a test machine that I
-> use just for such kind of tests. I updated it to the Ubuntu=20
-> version 24.10, but crossvm refused to build even. I end needing
-> to install rust via rustup, as only version 1.81.0 had what it is
-> required to run with the needed features (network, media and gpu).
-
-Yes, rustup is the preferred way (if not traditional from the point of
-view of Linux distros) to get the latest Rust toolchain.
-
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../media/v4l/ext-ctrls-image-source.rst      | 39 +++++++++++++++++++
+>  .../media/v4l/subdev-formats.rst              |  2 +
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  1 +
+>  include/uapi/linux/v4l2-controls.h            |  6 +++
+>  4 files changed, 48 insertions(+)
 >
->> >> > Btw, on a quick test with v4l2-compliance, something looks weird:
->> >> > I started a camera application at the host. Still, v4l2-compliance
->> >> > said successfully excecuted mmap:
->> >> >=20
->> >> > Streaming ioctls:
->> >> >         test read/write: OK (Not Supported)
->> >> >         test blocking wait: OK
->> >> >         test MMAP (no poll): OK                          =20
->> >> >         test MMAP (select): OK                           =20
->> >> >         Vide[2025-06-17T08:44:49.177972817+00:00 ERROR virtio_media=
-::ioctl] VIDIOC_REQBUFS: memory type DmaBuf is currently unsupported
->> >> > [2025-06-17T08:44:49.178164554+00:00 ERROR virtio_media::ioctl] VID=
-IOC_REQBUFS: memory type DmaBuf is currently unsupported
->> >> > o Capturtest MMAP (epoll): OK                            =20
->> >> >         test USERPTR (no poll): OK (Not Supported)
->> >> >         test USERPTR (select): OK (Not Supported)
->> >> >         test DMABUF (no poll): OK (Not Supported)
->> >> >         test DMABUF (select): OK (Not Supported)
->> >> >=20
->> >> > Which doesn't make any sense, as the host OS should not allow acces=
-s
->> >> > to mmap while streaming.   =20
->> >>=20
->> >> Ah, this was with the "simple" device, not with the proxy one.
->> >> With the proxy one, I'm getting:
->> >>=20
->> >> # v4l2-ctl --all
->> >> Driver Info:
->> >>         Driver name      : virtio-media
->> >>         Card type        : usb video: usb video
->> >>         Bus info         : platform:virtio-media
->> >>         Driver version   : 6.15.0
->> >>         Capabilities     : 0x84200001
->> >>                 Video Capture
->> >>                 Streaming
->> >>                 Extended Pix Format
->> >>                 Device Capabilities
->> >>         Device Caps      : 0x04200001
->> >>                 Video Capture
->> >>                 Streaming
->> >>                 Extended Pix Format
->> >> Priority: 2
->> >> Video input : 0 (Camera 1: ok)
->> >> Format Video Capture:
->> >>         Width/Height      : 1280/720
->> >>         Pixel Format      : 'MJPG' (Motion-JPEG)
->> >>         Field             : None
->> >>         Bytes per Line    : 0
->> >>         Size Image        : 1843200
->> >>         Colorspace        : sRGB
->> >>         Transfer Function : Rec. 709
->> >>         YCbCr/HSV Encoding: ITU-R 601
->> >>         Quantization      : Default (maps to Full Range)
->> >>         Flags             :=20
->> >> Crop Capability Video Capture:
->> >>         Bounds      : Left 0, Top 0, Width 1280, Height 720
->> >>         Default     : Left 0, Top 0, Width 1280, Height 720
->> >>         Pixel Aspect: 1/1
->> >> Selection Video Capture: crop_default, Left 0, Top 0, Width 1280, Hei=
-ght 720, Flags:=20
->> >> Selection Video Capture: crop_bounds, Left 0, Top 0, Width 1280, Heig=
-ht 720, Flags:=20
->> >> Streaming Parameters Video Capture:
->> >>         Capabilities     : timeperframe
->> >>         Frames per second: 30.000 (30/1)
->> >>         Read buffers     : 0
->> >>=20
->> >> User Controls
->> >>=20
->> >>                      brightness 0x00980900 (int)    : min=3D-128 max=
-=3D127 step=3D1 default=3D-11 value=3D-11
->> >>                        contrast 0x00980901 (int)    : min=3D0 max=3D2=
-55 step=3D1 default=3D148 value=3D148
->> >>                      saturation 0x00980902 (int)    : min=3D0 max=3D2=
-55 step=3D1 default=3D180 value=3D180
->> >>                             hue 0x00980903 (int)    : min=3D-128 max=
-=3D127 step=3D1 default=3D0 value=3D0
->> >>=20
->> >> # v4l2-compliance -d0 -s
->> >>=20
->> >> Streaming ioctls:
->> >>         test read/write: OK (Not Supported)
->> >>         test blocking wait: OK
->> >>                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g=
-_type()) !=3D EINVAL
->> >>         test MMAP (no poll): FAIL
->> >>                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g=
-_type()) !=3D EINVAL
->> >>         test MMAP (select): FAIL
->> >>                 fail: v4l2-test-buffers.cpp(1345): node->streamon(q.g=
-_type()) !=3D EINVAL
->> >>         test MMAP (epoll): FAIL
->> >>         test USERPTR (no poll): OK (Not Supported)
->> >>         test USERPTR (select): OK (Not Supported)
->> >> [2025-06-17T08:55:20.768760714+00:00 ERROR virtio_media::ioctl] VIDIO=
-C_REQBUFS: memory type DmaBuf is currently unsupported
->> >>         test DMABUF (no poll): OK (Not Supported)
->> >> [2025-06-17T08:55:20.769745707+00:00 ERROR virtio_media::ioctl] VIDIO=
-C_REQBUFS: memory type DmaBuf is currently unsupported
->> >>         test DMABUF (select): OK (Not Supported)
->> >>=20
->> >> At the host, I'm getting:
->> >>=20
->> >> Streaming ioctls:
->> >>         test read/write: OK (Not Supported)
->> >>         test blocking wait: OK
->> >>                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(=
-1346): node->streamon(q.g_type()) !=3D EINVAL
->> >>         test MMAP (no poll): FAIL
->> >>                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(=
-1346): node->streamon(q.g_type()) !=3D EINVAL
->> >>         test MMAP (select): FAIL
->> >>                 fail: ../utils/v4l2-compliance/v4l2-test-buffers.cpp(=
-1346): node->streamon(q.g_type()) !=3D EINVAL
->> >>         test MMAP (epoll): FAIL
->> >>         test USERPTR (no poll): OK                       =20
->> >>         test USERPTR (select): OK                        =20
->> >>         test DMABUF: Cannot test, specify --expbuf-device =20
->>=20
->> These logs look ok to me: the MMAP tests are failing on the host, so
->> they are also expected to fail on the guest (still I expect regular
->> streaming to work on both). USERPTR is not supported on the guest, as
->> per your request to not support this memory type in new drivers. DMABUF
->> is not supported at all at the moment.
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> index 71f23f131f97..b19aaaffbce0 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> @@ -92,3 +92,42 @@ Image Source Control IDs
+>      representing a gain of exactly 1.0. For example, if this default value
+>      is reported as being (say) 128, then a value of 192 would represent
+>      a gain of exactly 1.5.
+> +
+> +``V4L2_CID_COLOR_PATTERN (integer)``
+> +    This control determines the color components and native pixel order in the
+> +    sensor's CFA (Color Filter Array) when used in conjunction with
+> +    :ref:`generic raw mbus codes MEDIA_BUS_FMT_RAW_x (where 'x' is the bit
+> +    depth) <v4l2-mbus-pixelcode-generic-raw>` pixelcodes. The native pixel
+> +    order is constant for a given device, it is not affected by cropping or
+> +    flipping.
+> +
+> +    This control may only be used on V4L2 sub-devices.
+> +
+> +    This is a read-only control.
+> +
+> +    Available patterns:
+> +
+> +.. flat-table:: V4L2 color patterns
+> +    :header-rows:  1
+> +    :stub-columns: 0
+> +    :widths:       1 2 1
+> +
+> +    * - Macro name
+> +      - Synopsis
+> +      - Value
+> +    * - V4L2_COLOR_PATTERN_GRBG
+> +      - Raw Bayer, with alternating lines beginning with green, red pixels and
+> +        blue, green pixels.
+> +      - 0
+> +    * - V4L2_COLOR_PATTERN_RGGB
+> +      - Raw Bayer, with alternating lines beginning with red, green pixels and
+> +        green, blue pixels.
+> +      - 1
+> +    * - V4L2_COLOR_PATTERN_BGGR
+> +      - Raw Bayer, with alternating lines beginning with blue, green pixels and
+> +        green, red pixels.
+> +      - 2
+> +    * - V4L2_COLOR_PATTERN_GBRG
+> +      - Raw Bayer, with alternating lines beginning with green, blue pixels and
+> +        red, green pixels.
+> +      - 3
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index c06d8c83e2b8..d6d0e9a0eee1 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -3434,6 +3434,8 @@ organization is given as an example for the first pixel only.
 >
-> In the specific case of a virtio driver, while it is OK for the first
-> versions to support MMAP only, USERPTR support could make sense, as=20
-> this is not a real driver for a certain hardware, but instead it is
-> replicating at the guest whatever the host driver has, which may or
-> may not have MMAP.
+>      \endgroup
+>
+> +.. _v4l2-mbus-pixelcode-generic-raw:
+> +
+>  Generic raw formats on serial interfaces
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index dd5f06546773..8119012c2638 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1155,6 +1155,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_TEST_PATTERN_BLUE:	return "Blue Pixel Value";
+>  	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
+>  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
+> +	case V4L2_CID_COLOR_PATTERN:		return "Color Pattern";
+>
+>  	/* Image processing controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index c3e6a49b2549..09e5d5bbe7f8 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1221,6 +1221,12 @@ enum v4l2_jpeg_chroma_subsampling {
+>  #define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
+>  #define V4L2_CID_NOTIFY_GAINS			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
+>
+> +#define V4L2_CID_COLOR_PATTERN			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 10)
+> +#define V4L2_COLOR_PATTERN_GRBG			0U
+> +#define V4L2_COLOR_PATTERN_RGGB			1U
+> +#define V4L2_COLOR_PATTERN_BGGR			2U
+> +#define V4L2_COLOR_PATTERN_GBRG			3U
+> +
 
-There is a module parameter (allow_userptr) which you can set to enable
-USERPTR buffers, in case you want to try this as well.
+Additional empty line ?
+
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+  j
 
 >
-> That's said, I don't recall any driver with USERPTR and without MMAP
-> those days. I did a quick check: VB2 devices always seem to have MMAP.
+>  /* Image processing controls */
 >
-> -
+> --
+> 2.39.5
 >
-> There is one case where only read ioctl is supported: pvrusb2, which
-> is probably not interesting enough those days, but IMHO, for the few
-> cases where a device can't be used at the guest due to the lack of a=20
-> compatible streaming API, virtio-media should not expose it to the
-> guest and/or issue an error or warning.
-
-I've never tested virtio-media with a PVR driver, to be honest. :) Only
-regular cameras and video accelerators. So I cannot guarantee other
-kinds of devices will work properly - there may also be limitations in
-the crosvm proxy device that will prevent these devices from working.
-Just a heads-up.
+>
 
