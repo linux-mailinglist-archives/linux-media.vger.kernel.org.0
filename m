@@ -1,186 +1,165 @@
-Return-Path: <linux-media+bounces-35470-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35471-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C14AE15C9
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 10:22:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2725AE15CC
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 10:23:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E0307ADFD3
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 08:21:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68A373AFEF0
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 08:22:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E01002356B3;
-	Fri, 20 Jun 2025 08:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14BFC235BF1;
+	Fri, 20 Jun 2025 08:23:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CENAb40Z"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rhWuVTod"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD9E12D758;
-	Fri, 20 Jun 2025 08:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0816C235079
+	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 08:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750407750; cv=none; b=tMf1JmKmEz8xR7W3o8TcbYvC3Yw+ZYdCagdsPjX1KY98p+av+eVuhtgFVVFJtnmHrSv9mhkc/xgVUl2AsMwPSPf9qD2KGml9ZIQwkLAYqkwvms7c45qzvrIObfT/aircYLGCsIXriXg91Y888y2pM9NQAdMHVgA3eHk3dBVsEqU=
+	t=1750407786; cv=none; b=i7NL2wl0slVvrhhnhiGIvIlGH5vHp66ilp3xfI8OFSr6BpLbQ67qtAsof683lH3mG9nA/Z4lPYTkfLVeVrpZrKbdS3PmzBiIBVn5nX9xSjbAaLsFEfG0EOn/Qcm454A8KW730v6Lus5TQp5xhS/WVSQhSXOYq/wWnC1G4dVk/C0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750407750; c=relaxed/simple;
-	bh=H5xdLvsboeL7dlRK+EBFcm4+UCVw3/qL8XO1zqk3X1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YCkASB5ugYklvDZ0FlkOXhHY91WU+O0nb3p6IeUktWxFNul0uUZMNDaJn8Jub86iB+eLKdvXwv51Q3rXgJOaqvFNkecQxy+m+v/mR0I2WlJx+bmc1pyw1K6sRTIOJQJZv3jHRNumJyBJe6M8iO/UEKDp7TUCyKQ7vhwj6Sk35H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CENAb40Z; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750407749; x=1781943749;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H5xdLvsboeL7dlRK+EBFcm4+UCVw3/qL8XO1zqk3X1c=;
-  b=CENAb40ZBEaUZIhqU6V1YsgjvgduJQmkZIWYE95JM5ouJiDkHRBLSqtP
-   kYKMbbH5uYBqFUz1DNeeedw+gy160RAstP9vDibjZcnBdAu6vrDtVUThz
-   nnv6GTugYKTIYS02YjlXD4GBwfqM0nv0gZD1txSBbH3SoevicaGNUJeUV
-   hCBDspte4G8n2YhJFsnhJOKqoscDKD5N88v3IToVXCSjnN6jCc0hx5lBk
-   x+3blkgwBC/Sp4QxTKXxE6L201kpDzrlzXgY88p8a0G4tzee9K8qPP2m0
-   sSjb1OcQv92EKcc+unWAsJEvZ8jq2NsSG26voF5i3cz3/Sv3CaouiUp+C
-   Q==;
-X-CSE-ConnectionGUID: Sthr3gJfQlCD5ywHH/OnFg==
-X-CSE-MsgGUID: 51UFuVBARNOanIS9Cr5FTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52752103"
-X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="52752103"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 01:22:28 -0700
-X-CSE-ConnectionGUID: lCc1D+E/SoWU5sVJ0FxjrA==
-X-CSE-MsgGUID: 0EqHp+/xSrCciscrR+1Vbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="150990090"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.66])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 01:22:22 -0700
-Date: Fri, 20 Jun 2025 10:22:14 +0200
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: Michael Riesch <michael.riesch@collabora.com>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Gerald Loacker <gerald.loacker@wolfvision.net>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Markus Elfring <Markus.Elfring@web.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Kever Yang <kever.yang@rock-chips.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Collabora Kernel Team <kernel@collabora.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Alexander Shiyan <eagle.alexander923@gmail.com>, Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: Re: [PATCH v8 06/13] media: rockchip: add a driver for the rockchip
- camera interface
-Message-ID: <xgycmti27be4ah64o4mflj6i2nzh34tbnlfqghiizqhtkusuif@ia3idwgrjoil>
-References: <20240220-rk3568-vicap-v8-0-9d9cbc4b524d@collabora.com>
- <20240220-rk3568-vicap-v8-6-9d9cbc4b524d@collabora.com>
- <656zxutvwytnd5i5l3nknni47r3wofmmwtxycleekjtrkbgfeo@xm7xbzirh3ce>
- <5d3418a3-70f5-46d8-a538-72e6958d5d02@collabora.com>
+	s=arc-20240116; t=1750407786; c=relaxed/simple;
+	bh=7tSh5+2krdqnWuUERcbn/3lYdwwhhze2giXAcsvhp9A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uO0NRnphBQvu/BfSzTnY6vJuzRfr3TpshjXhZxcBO11ECY+TaMoy5zCaDoSVgwUkYEoMBM996GQqJB28nkVU/xY+msxMl9zPu0DBDvhNy0clYb+QskLnP3UoPnTceN4oYJKiQmYtVUfyhwSITAlZEGo5dDwJRRTlBk0LINGL40A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rhWuVTod; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-451e2f0d9c2so11234805e9.1
+        for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 01:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750407782; x=1751012582; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JsEGtYKUN+w5ozSR1va5NJMUtfwswEKGiufzaQb3bTo=;
+        b=rhWuVTodnrbFlLRwI/B+UaXkswcqB9VxoRoRBm4jks3X2YwJKqlbCvCttFvqeRuXRc
+         MXhA2Pdm/69zEe2icjNkFdfJ5wmI5fu1OyGV+QzMRKIv9+CsFNx0gaxiYapXkOu6nVnr
+         PmBQRK8wmAlwPajlr9/sDt+gakLRUJ0LZFEsF+QyORAUDkTywGKlKnW2MwWhIoyLLPZK
+         /ksYT4A8zcFk0ouqOGmqvvQG27hSwX6naD7oIe1tnYnBAF/L+jthOgOtFWxMoQKXWUH+
+         uZ4quyP4LSXR6DtLLE+YU1BbTSIkmIgamDMSklIiYBz6kCGIRADY/s5iTusjigBDKRv2
+         U/Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750407782; x=1751012582;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JsEGtYKUN+w5ozSR1va5NJMUtfwswEKGiufzaQb3bTo=;
+        b=K5RGdGvNz19Qs4z4vSIghHdjfKiES6QERu0vjoLIQVI5eutHvxMs2/5nz9kyIgGU/z
+         KcnGZMHoYYPVR/Bco+eaLcSrJ7xB0g7v6ARJlGMDYkCQxgCJnYg0+t+H84b5ywqxAjo5
+         ANgTudjRo3MpIMOrZL2CRBsN8jLxT670voIHfM0CZaQgJ2dQOHlAT2JAO2HU0Fv3fXeB
+         xxLLuHxvYTvJV9ZrjShQv7SjARyMbXZpmRseVWcFm+mYKQFpjE/SyI5e2eX5zOizys4H
+         TuFksc+tZ6FdLUlKpJ/rMbikaGrrrvKMW4ECBeDSvqIY1e9vFciAq9vUtK4rUvggbnY4
+         5dnA==
+X-Gm-Message-State: AOJu0YxY+SC2dGsvuj4ch6tyIBNw9qlETBtjOzn0drFXQPVq4P6yLKNs
+	kp3FDbnZXyHOrJb63wRONWrYOdHsJJa1r/xFQ+s2B7C5aj8aCSsMPpp1B6AWGHIAP2o=
+X-Gm-Gg: ASbGncsXUHW7463/RcCIZSHyhBcWw/KHV81Q8a+xjswgYIzxzpp0ZXbOMqBlY2l5T/E
+	npfO9D0Velo3ZeOj3fLuv6ufBrif1KlaeUJJxGi2MAoJ/BMcWAZcn8QOEEjDjhSlf4ZBlyQpefO
+	Dh8Ae7nGWzMeo5blHorABp9mrCvSUlBq/dr4pTKTvougkRZaAQ/S3ZQLD3KphluW2rjW+7X+Jx8
+	AWSKOPavZxKM1KTM7JUBPFC0Tk10NZn5pVLX8pr1/YEtuQkXOoPjWIH98MdrQVf1Qf9Kts9aGqy
+	g95o+bXnwNrGWDh2AE0qMnAWY/bfOoFlEIv9zYmY/DFkqApih+/L7dA7fLlnuYvWWeBWrbMgNKm
+	xSd7R7SmuJ4ElL3ejxjStGblUGIg=
+X-Google-Smtp-Source: AGHT+IFDX4dxd/+wQKhT7XlWvn/QO7QwYu42EgcWa6QV9yKKncbdEuYTOOqITM6cyvlAxavhP6u36w==
+X-Received: by 2002:a05:600c:8b46:b0:43c:f509:2bbf with SMTP id 5b1f17b1804b1-45365e98279mr13304165e9.15.1750407782340;
+        Fri, 20 Jun 2025 01:23:02 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646d156esm17456485e9.11.2025.06.20.01.23.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Jun 2025 01:23:01 -0700 (PDT)
+Message-ID: <9deadaaf-7dc7-4616-a6e6-95a5f757779e@linaro.org>
+Date: Fri, 20 Jun 2025 09:23:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5d3418a3-70f5-46d8-a538-72e6958d5d02@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/3] Add current load setting for qcom camss csiphy
+To: Wenmeng Liu <quic_wenmliu@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, akapatra@quicinc.com, hariramp@quicinc.com
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ quic_svankada@quicinc.com, quic_depengs@quicinc.com,
+ quic_vikramsa@quicinc.com
+References: <20250620040736.3032667-1-quic_wenmliu@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250620040736.3032667-1-quic_wenmliu@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Michael,
-
-On Wed, Jun 18, 2025 at 02:21:51PM +0200, Michael Riesch wrote:
-> Hi Mehdi,
+On 20/06/2025 05:07, Wenmeng Liu wrote:
+> Currently qcom camss csiphy drivers don’t set regulator’s currents
+> load properly using Linux regulator framework. This causes every
+> regulator’s initial mode set as HPM (high current mode),
+> which may have higher power consumption.
+> To address this issue, add current configuration for CSIPHY.
 > 
-> On 6/13/25 14:33, Mehdi Djait wrote:
-> > Hi Michael,
-> > 
-> > [...]
+> Wenmeng Liu (3):
+>    media: dt-bindings: Add regulator current load
+>    media: qcom: camss: csiphy: Add regulator current load setting
+>    arm64: dts: qcom: qcs6490-rb3gen2: Add csiphy current support
 > 
-> Let's cut the long story short, shall we :-)
-> 
-
-Yes, sorry for that :)
-
-> >> +static void rkcif_stream_fill_format(struct rkcif_stream *stream,
-> >> +				     struct v4l2_pix_format_mplane *pix)
-> >> +{
-> >> +	const struct rkcif_output_fmt *fmt;
-> >> +	u32 height, width;
-> >> +
-> >> +	fmt = rkcif_stream_find_output_fmt(stream, true, pix->pixelformat);
-> >> +	height = clamp_t(u32, pix->height, CIF_MIN_HEIGHT, CIF_MAX_HEIGHT);
-> >> +	width = clamp_t(u32, pix->width, CIF_MIN_WIDTH, CIF_MAX_WIDTH);
-> >> +	v4l2_fill_pixfmt_mp(pix, fmt->fourcc, width, height);
-> > 
-> > The rkcif supports the SRGGB10P: the packed version of the SRGGB10.
-> > 
-> > When you try to capture with SRGGB10P, the following fails in
-> > v4l2_fill_pixfmt_mp()
-> > 
-> > 	info = v4l2_format_info(pixelformat);
-> > 	if (!info)
-> > 		return -EINVAL;
-> > 
-> > The return value is not checked in rkcif_stream_fill_format() resulting
-> > in a call to queue_setup returning with sizes[0] = 0
-> 
-> Thanks for pointing that out. I failed to realize that this helper
-> function may return an error. What I can do is to implement the error
-> propagation correctly. Of course this will only avoid the kernel
-> warning, you still won't be able to stream.
-> 
-> > This will cause a kernel Warning in the vb2_core_reqbufs() because
-> > plane_size = 0
-> > 
-> > Exactly here:
-> > 
-> > 	for (i = 0; i < num_planes; i++)
-> > 		if (WARN_ON(!plane_sizes[i])) {
-> > 			ret = -EINVAL;
-> > 			goto error;
-> > 		}
-> > 
-> > I still don't have the solution here but wanted to let you know about
-> > it.
-> 
-> I only had a quick look at it, but apparently the compact formats are
-> missing in the format list here:
-> https://elixir.bootlin.com/linux/v6.16-rc2/source/drivers/media/v4l2-core/v4l2-common.c#L244
-> for whatever reason.
-> 
-> Have you by chance tried adding a line like
-> {
-> 	.format = V4L2_PIX_FMT_SRGGB10P,
-> 	.pixel_enc = V4L2_PIXEL_ENC_BAYER,
-> 	.mem_planes = 1,
-> 	.comp_planes = 1,
-> 	.bpp = { 5, 0, 0, 0 },
-> 	.bpp_div = { 4, 1, 1, 1 },
-> 	.hdiv = 1,
-> 	.vdiv = 1,
-> }
-> ?
-> 
-> 
-> Maybe we can fix this, but please note that this issue should not block
-> merging this patch series.
+>   .../bindings/media/qcom,sc7280-camss.yaml     |  6 ++++
+>   .../qcs6490-rb3gen2-vision-mezzanine.dtso     |  1 +
+>   .../media/platform/qcom/camss/camss-csiphy.c  | 29 +++++++++++++++++++
+>   .../media/platform/qcom/camss/camss-csiphy.h  |  1 +
+>   4 files changed, 37 insertions(+)
 > 
 
-Of course! The solution from the driver side is to check the return
-code.
+How are these load-currents determined ?
 
-I will investigate the issue with v4l2_fill_pixfmt_mp() separately.
+Looking at other instances of setting current for PHYs
 
-> Best regards,
-> Michael
+  grep -r regulator_set_load * | grep com 
+  
+            [git:camss-bugfix-6.17] ✖
+drivers/phy/qualcomm/phy-qcom-edp.c:	ret = 
+regulator_set_load(edp->supplies[0].consumer, 21800); /* 1.2 V vdda-phy */
+drivers/phy/qualcomm/phy-qcom-edp.c:	ret = 
+regulator_set_load(edp->supplies[1].consumer, 36000); /* 0.9 V vdda-pll */
+drivers/phy/qualcomm/phy-qcom-usb-hs.c:	ret = 
+regulator_set_load(uphy->v1p8, 50000);
+drivers/phy/qualcomm/phy-qcom-usb-hs.c:	ret = 
+regulator_set_load(uphy->v3p3, 50000);
+drivers/phy/qualcomm/phy-qcom-usb-hs-28nm.c:	ret = 
+regulator_set_load(priv->vregs[VDDA_1P8].consumer, 19000);
+drivers/phy/qualcomm/phy-qcom-usb-hs-28nm.c:	ret = 
+regulator_set_load(priv->vregs[VDDA_3P3].consumer, 16000);
+drivers/phy/qualcomm/phy-qcom-usb-hs-28nm.c: 
+regulator_set_load(priv->vregs[VDDA_1P8].consumer, 0);
+drivers/phy/qualcomm/phy-qcom-qmp-combo.c:		ret = 
+regulator_set_load(qmp->vregs[i].consumer,
+drivers/remoteproc/qcom_q6v5_pas.c:		regulator_set_load(adsp->cx_supply, 
+100000);
+drivers/remoteproc/qcom_wcnss.c:			regulator_set_load(bulk[i].consumer, 
+info[i].load_uA);
+drivers/remoteproc/qcom_wcnss_iris.c:		 
+regulator_set_load(iris->vregs[i].consumer,
+drivers/remoteproc/qcom_q6v5_mss.c:			ret = regulator_set_load(regs[i].reg,
+drivers/remoteproc/qcom_q6v5_mss.c:			regulator_set_load(regs[i].reg, 0);
+drivers/remoteproc/qcom_q6v5_mss.c:			regulator_set_load(regs[i].reg, 0);
+drivers/remoteproc/qcom_q6v5_wcss.c:	regulator_set_load(wcss->cx_supply, 
+100000);
 
---
-Kind Regards
-Mehdi Djait
+I think this is the type of thing we should bury in SoC resources not in DT.
+
+I can think of how we might want to change the current depending on the 
+pixel rate.. but then I think that is something we could calculate based 
+on pixel rate with descriptions as a base in
+
+driver/media/platfrom/qcom/camss/camss.c::static const struct 
+camss_subdev_resources csiphy_res_SoCNumber[];
+
+---
+bod
 
