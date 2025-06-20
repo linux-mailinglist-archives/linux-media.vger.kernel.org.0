@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-35463-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35464-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9EEAE13B2
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 08:22:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E0FAE13B4
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 08:22:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8C5A57A8B25
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 06:20:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89FE519E3305
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 06:22:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94DDA2248B8;
-	Fri, 20 Jun 2025 06:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C129225A2C;
+	Fri, 20 Jun 2025 06:21:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gLtQc5Nh"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CRN+ploE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6938E221715;
-	Fri, 20 Jun 2025 06:21:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12524224B02;
+	Fri, 20 Jun 2025 06:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750400499; cv=none; b=f68CwnmePo/pEDHWCQJe2JessahLX8VGF5JlUbbgIKMGLxJOmQj2QpET3dA1EKzdh1+GbB7/qmU5fwNj/u5EEWAGIE6SOoIZP4zukgyu6DhS2PLv1OiBFcIlT3y0yQh/2R7cCr/aJeRhbdLei2X7m3MUVmMERZl2WUAEs3IrCCU=
+	t=1750400501; cv=none; b=W368MuJfcWZ9mpm4Gam7KFoOAu5mwFRJ6DeEKuUThwuZTl0wV+X3qhZ7Qk/NrfvyzIV8p6Ee0SPjg2uT6FObPHfOijezMFd/Ia/0T+4Uz61t7UpVCuRfe5Vu/geGv5Tx/qEj8LPc8bcK9rx9N0BY3C3vadlDsL3reJd4Oqpy/u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750400499; c=relaxed/simple;
-	bh=3N2w2gbNb6zjinpI7X9gyQWnQIkyPQjlVsmeYYz8AEE=;
+	s=arc-20240116; t=1750400501; c=relaxed/simple;
+	bh=0fF4DNnpznZooU8ZimQgDbL4koCdAAspFuMZgiiLEDg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=JUWW8RWd4RIpHuyTc9Rs68LMVALTy1PzD7jRh5RxWVVrkkxT08UFSq0PZGH3o6rQyuf3VGLC7e4Ui99zkewR+bYOHDt03BqP1mp23E7EBaJyvnTUxYnM0h/+LMx7hTkcq77afu3pZOUN2lyP/WjD9bsr/GKboEsxfH3gN9ERXaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gLtQc5Nh; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:CC; b=jxqey5qSuGoWDLZRFXaLMTp5d7BHJx6ZJHRLZcsGGbqpTmbBMvWMiHUp46TNbggumX5zQ7uKqxo40VVIiAQnmUymyJIDTsaMRHugrz0/TCsX7NN85zKtahiK99T35SCQ5n2pu5Z4AZqB8r6BKFEkgwMHmlmt0uitm8rOrTnGiwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CRN+ploE; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55JFeTc3024471;
-	Fri, 20 Jun 2025 06:21:31 GMT
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55JL1pl5024412;
+	Fri, 20 Jun 2025 06:21:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	SaBNQXheq/2f4YnX2sKogMfPUBJSxPPiA6XRcPj7Ab4=; b=gLtQc5Nhoor0AUg7
-	iscTB4td8aKXm8HRMoNT/kdInoVdXR7MH+RMsx+aGnhU2Kwdx/3jCubuGZ6uYWSw
-	3+g/F1+ncN3dvW9HiGPG9+KXxrWpWTprfeNGQhJGKYhRLUY0josXsWuCVXhbziCS
-	SIyS12TI5ZgJaD7ezrclvnBETgePjoEJ3HN12LGgWTMi7rNkvKLlTj2fZctT+pB/
-	gCBiNhAnb2mglOlaZo8NbsJhnTRpvVfdlwA2CKUR6O7giCW5s+i/64BS5X/L2QJN
-	TVQJnZhc/14MWmcRfud1yXjBqurTrch435K4VCXONRCHawfV9hw9jZJVe+Hf1jAv
-	x0OLaA==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4792caad3a-1
+	1ZpCxuV1i7pnVntekzWVB/5wMZnpky2emnke/YBRFfI=; b=CRN+ploEOEaXtx0B
+	49U7afXnjB9y3z9CuRwBsJKS6PZomEHSMcvo2iyd/cmlZPnWhe5xwZwd8pz9ixJ7
+	kY4cPSbLFnnVE3cDErxL2sQP8erHWddFrVEIOgeI9nu9JK3EiDS5lMsJADMjG09N
+	Hoo9x3/aEZaOxSeFcPaAiqiXZxejvnFX2SygiMxGmLUF1SRAtMqWkpTEVDpdsWNe
+	WzU8Ks90CxC3yooaUPhJezTdkAttnfxxH0AVf6dztI7diaCMLC1ye0TqERUJoBFp
+	U+2YIoVRsnUL3rVNrTKHitGDorumT62D25BLvQIfeUp8/V21vEDmIbs3vfIWrzNG
+	TaRCug==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47bw13e90q-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Jun 2025 06:21:31 +0000 (GMT)
+	Fri, 20 Jun 2025 06:21:34 +0000 (GMT)
 Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55K6LUp2016867
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55K6LYvQ023582
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Jun 2025 06:21:30 GMT
+	Fri, 20 Jun 2025 06:21:34 GMT
 Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
  nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 19 Jun 2025 23:21:27 -0700
+ 15.2.1544.9; Thu, 19 Jun 2025 23:21:30 -0700
 From: Vikash Garodia <quic_vgarodia@quicinc.com>
-Date: Fri, 20 Jun 2025 11:50:52 +0530
-Subject: [PATCH 2/5] media: iris: register and configure non-pixel node as
- platform device
+Date: Fri, 20 Jun 2025 11:50:53 +0530
+Subject: [PATCH 3/5] media: iris: use np_dev as preferred DMA device in HFI
+ queue management
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250620-video_cb-v1-2-9bcac1c8800c@quicinc.com>
+Message-ID: <20250620-video_cb-v1-3-9bcac1c8800c@quicinc.com>
 References: <20250620-video_cb-v1-0-9bcac1c8800c@quicinc.com>
 In-Reply-To: <20250620-video_cb-v1-0-9bcac1c8800c@quicinc.com>
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
@@ -84,156 +84,115 @@ CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         Vikash Garodia
 	<quic_vgarodia@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750400480; l=3725;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750400480; l=3237;
  i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
- bh=3N2w2gbNb6zjinpI7X9gyQWnQIkyPQjlVsmeYYz8AEE=;
- b=f/H7odcotPQjAMuI20lmmXFWjB0hlLvG+sUb93sNAJYyED1sHcMMadiZBei+BA3KgQ+qHT/tT
- dPJk8gWfSUUCzVcPZQNjjSeP7vIHjcPKEzbtWKGwvh0rHhaVW+VppvG
+ bh=0fF4DNnpznZooU8ZimQgDbL4koCdAAspFuMZgiiLEDg=;
+ b=sLwzA4SXMpqrKpucLO2ud5f52Ag8N7buOm3thAF15bPt7eLZRqtNyWD8fi+EcsOHTdqK9OrQw
+ JMETGoWcrmkB3PDyDRRTgmBwpx3gTE8h5Jc2KSkI0yUE2igw4OOBk9s
 X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
  pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: XDhtAjhfsFZsmBdB5ORQEd8GB6AJArXs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIwMDA0NSBTYWx0ZWRfXzFd81yrNdbBi
- nuBYhM87OKZefrdACcTRBwgnuJDD0wRmIRSD0S1smza8x7bZ/serlhdZlZsxtK3D6JyvjzETgBw
- 4xUf3S/XelqdFGm0yzUT71CdRkNzoii1/4La/et4eF/N1/DrXyPqeahI5G2bfRe18WF3uwZEnNj
- xWCNFkA4RAB9RBUQhZzS6MjAncAch00C4/Cg1qLUkoDO5gVqW13H/0CmxrpsJCT6dH/f9IgJ5IJ
- 4bhprRKFDzVa1pYTGsTYrNlEtJgWWuMQnmK3XxgjdClTMUgKd9Qyj6t3BMU8Zlp0mxS+fTvwhTy
- 2ipRiI/3a3LzIHlSGLl1v9EhUwVc07ebd0jT5z7Sflvt/Odrc4hmaScamFEhidJWi+2/xUxBDTG
- NB2LMzEbd8rSHxUf15GTMCkqrrqPGqrahjZ5v3znPCbG165WTtMN5tbcc/CgFOkss6nxF0qI
-X-Proofpoint-ORIG-GUID: XDhtAjhfsFZsmBdB5ORQEd8GB6AJArXs
-X-Authority-Analysis: v=2.4 cv=etffzppX c=1 sm=1 tr=0 ts=6854fdeb cx=c_pps
+X-Authority-Analysis: v=2.4 cv=QbBmvtbv c=1 sm=1 tr=0 ts=6854fdef cx=c_pps
  a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=COk6AnOGAAAA:8
- a=fTcLDvV2J6e7RefBZ9UA:9 a=0bXxn9q0MV6snEgNplNhOjQmxlI=:19 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
+ a=gd6Ub234OC9brPQr5uUA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: I9ey0FnhOICbxpjx6vUuzw8eFpmGi-gS
+X-Proofpoint-GUID: I9ey0FnhOICbxpjx6vUuzw8eFpmGi-gS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIwMDA0NiBTYWx0ZWRfX3jxuwQO+Wp/8
+ VPrOBKLw/GzWSjJFk+vgdcqQf6x1dNbYv1FwifZcZDHYnokAYkKmXA0LqZnN/rcwB55MGzKB6GO
+ fjoYQh9tVixZhIfQNVmw8RRfNuYbp69lNmFp13+53pPjochiIef7QZeNvFqIi3cIdh6oRusrUhU
+ k8dNF6ayzKz8y5Ed0JlDGjV7ePoJvfIRhCkLN5i9eXGtjOVTS5r0SYi/EIfbCvHASBJ4CLxGvay
+ EGzbAFxmFBx+sIE/Zl1GpRZJCKxfPc0VM+vT0Q1VHBLvfngdYV+0f+yhROiCic1Ch/YsXggS9lE
+ 74gRd1WY8soHKxArqSfc+cRxJfXtJNabV9mhGGfbu7z1VrKvUqkb9jrBGcqbiPOndLCiGV99iLK
+ 6BULn+4bjIkO3gOQFwKEpSykooOcBXIWaFVvVHJgJghIn+ADCj4jcaIPWDwwBCSr1SMUM365
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-20_02,2025-06-18_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 adultscore=0 spamscore=0 malwarescore=0
- priorityscore=1501 suspectscore=0 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 bulkscore=0 mlxscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506200045
+ priorityscore=1501 spamscore=0 malwarescore=0 mlxlogscore=931 bulkscore=0
+ adultscore=0 phishscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ mlxscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506200046
 
-Register "non_pixel" child node as a platform device, and configure its
-DMA via of_dma_configure(). This ensures proper IOMMU attachment and DMA
-setup for the "non_pixel" device.
-All non pixel memory, i.e bitstream buffers, HFI queues and internal
-buffers related to bitstream processing, would be managed by non_pixel
-device.
+Update HFI interface queues to use np_dev(preferred non-pixel device)
+for DMA memory allocation and deallocation if available. This allows
+platforms with separate DMA domain for non-pixel to use the appropriate
+device handle when managing HFI queues and SFR regions.
 
 Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 ---
- drivers/media/platform/qcom/iris/iris_core.h  |  2 ++
- drivers/media/platform/qcom/iris/iris_probe.c | 50 ++++++++++++++++++++++++++-
- 2 files changed, 51 insertions(+), 1 deletion(-)
+ drivers/media/platform/qcom/iris/iris_hfi_queue.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
-index aeeac32a1f6d9a9fa7027e8e3db4d95f021c552e..757efd16870876bd2b1d5b1e4103b2d2326b5f49 100644
---- a/drivers/media/platform/qcom/iris/iris_core.h
-+++ b/drivers/media/platform/qcom/iris/iris_core.h
-@@ -65,6 +65,7 @@ struct icc_info {
-  * @sys_error_handler: a delayed work for handling system fatal error
-  * @instances: a list_head of all instances
-  * @inst_fw_caps: an array of supported instance capabilities
-+ * @np_dev: device to represent non pixel node
-  */
- 
- struct iris_core {
-@@ -105,6 +106,7 @@ struct iris_core {
- 	struct delayed_work			sys_error_handler;
- 	struct list_head			instances;
- 	struct platform_inst_fw_cap		inst_fw_caps[INST_FW_CAP_MAX];
-+	struct device				*np_dev;
- };
- 
- int iris_core_init(struct iris_core *core);
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-index 9a7ce142f7007ffcda0bd422c1983f2374bb0d92..8fe87e30bd40f3c67ec41305c7d73520fbc9db7b 100644
---- a/drivers/media/platform/qcom/iris/iris_probe.c
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -6,6 +6,8 @@
- #include <linux/clk.h>
- #include <linux/interconnect.h>
- #include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/pm_domain.h>
- #include <linux/pm_opp.h>
- #include <linux/pm_runtime.h>
-@@ -127,6 +129,46 @@ static int iris_init_resets(struct iris_core *core)
- 				     core->iris_platform_data->controller_rst_tbl_size);
- }
- 
-+static int iris_init_non_pixel_node(struct iris_core *core)
-+{
-+	struct platform_device_info info;
-+	struct platform_device *pdev;
-+	struct device_node *np_node;
-+	int ret;
-+
-+	np_node = of_get_child_by_name(core->dev->of_node, "non_pixel");
-+	if (!np_node)
-+		return 0;
-+
-+	memset(&info, 0, sizeof(info));
-+	info.fwnode = &np_node->fwnode;
-+	info.parent = core->dev;
-+	info.name = np_node->name;
-+	info.dma_mask = DMA_BIT_MASK(32);
-+
-+	pdev = platform_device_register_full(&info);
-+	if (IS_ERR(pdev)) {
-+		of_node_put(np_node);
-+		return PTR_ERR(pdev);
-+	}
-+	pdev->dev.of_node = np_node;
-+
-+	ret = of_dma_configure(&pdev->dev, np_node, true);
-+	if (ret)
-+		goto err_unregister;
-+
-+	core->np_dev = &pdev->dev;
-+
-+	of_node_put(np_node);
-+
-+	return 0;
-+
-+err_unregister:
-+	platform_device_unregister(pdev);
-+	of_node_put(np_node);
-+	return ret;
-+}
-+
- static int iris_init_resources(struct iris_core *core)
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_queue.c b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+index fac7df0c4d1aec647aeca275ab19651c9ba23733..a31ebe947f525f0d7c09f8b786939d01b62532c3 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_queue.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+@@ -247,24 +247,27 @@ static void iris_hfi_queue_deinit(struct iris_iface_q_info *iface_q)
+ int iris_hfi_queues_init(struct iris_core *core)
  {
- 	int ret;
-@@ -143,7 +185,11 @@ static int iris_init_resources(struct iris_core *core)
- 	if (ret)
- 		return ret;
+ 	struct iris_hfi_queue_table_header *q_tbl_hdr;
++	struct device *dev;
+ 	u32 queue_size;
  
--	return iris_init_resets(core);
-+	ret = iris_init_resets(core);
-+	if (ret)
-+		return ret;
++	dev = core->np_dev ? core->np_dev : core->dev;
 +
-+	return iris_init_non_pixel_node(core);
- }
+ 	/* Iris hardware requires 4K queue alignment */
+ 	queue_size = ALIGN((sizeof(*q_tbl_hdr) + (IFACEQ_QUEUE_SIZE * IFACEQ_NUMQ)), SZ_4K);
+-	core->iface_q_table_vaddr = dma_alloc_attrs(core->dev, queue_size,
++	core->iface_q_table_vaddr = dma_alloc_attrs(dev, queue_size,
+ 						    &core->iface_q_table_daddr,
+ 						    GFP_KERNEL, DMA_ATTR_WRITE_COMBINE);
+ 	if (!core->iface_q_table_vaddr) {
+-		dev_err(core->dev, "queues alloc and map failed\n");
++		dev_err(dev, "queues alloc and map failed\n");
+ 		return -ENOMEM;
+ 	}
  
- static int iris_register_video_device(struct iris_core *core)
-@@ -188,6 +234,8 @@ static void iris_remove(struct platform_device *pdev)
+-	core->sfr_vaddr = dma_alloc_attrs(core->dev, SFR_SIZE,
++	core->sfr_vaddr = dma_alloc_attrs(dev, SFR_SIZE,
+ 					  &core->sfr_daddr,
+ 					  GFP_KERNEL, DMA_ATTR_WRITE_COMBINE);
+ 	if (!core->sfr_vaddr) {
+-		dev_err(core->dev, "sfr alloc and map failed\n");
+-		dma_free_attrs(core->dev, sizeof(*q_tbl_hdr), core->iface_q_table_vaddr,
++		dev_err(dev, "sfr alloc and map failed\n");
++		dma_free_attrs(dev, sizeof(*q_tbl_hdr), core->iface_q_table_vaddr,
+ 			       core->iface_q_table_daddr, DMA_ATTR_WRITE_COMBINE);
+ 		return -ENOMEM;
+ 	}
+@@ -292,6 +295,7 @@ int iris_hfi_queues_init(struct iris_core *core)
  
- 	iris_core_deinit(core);
+ void iris_hfi_queues_deinit(struct iris_core *core)
+ {
++	struct device *dev;
+ 	u32 queue_size;
  
-+	platform_device_unregister(to_platform_device(core->np_dev));
+ 	if (!core->iface_q_table_vaddr)
+@@ -301,7 +305,9 @@ void iris_hfi_queues_deinit(struct iris_core *core)
+ 	iris_hfi_queue_deinit(&core->message_queue);
+ 	iris_hfi_queue_deinit(&core->command_queue);
+ 
+-	dma_free_attrs(core->dev, SFR_SIZE, core->sfr_vaddr,
++	dev = core->np_dev ? core->np_dev : core->dev;
 +
- 	video_unregister_device(core->vdev_dec);
++	dma_free_attrs(dev, SFR_SIZE, core->sfr_vaddr,
+ 		       core->sfr_daddr, DMA_ATTR_WRITE_COMBINE);
  
- 	v4l2_device_unregister(&core->v4l2_dev);
+ 	core->sfr_vaddr = NULL;
+@@ -310,7 +316,7 @@ void iris_hfi_queues_deinit(struct iris_core *core)
+ 	queue_size = ALIGN(sizeof(struct iris_hfi_queue_table_header) +
+ 		(IFACEQ_QUEUE_SIZE * IFACEQ_NUMQ), SZ_4K);
+ 
+-	dma_free_attrs(core->dev, queue_size, core->iface_q_table_vaddr,
++	dma_free_attrs(dev, queue_size, core->iface_q_table_vaddr,
+ 		       core->iface_q_table_daddr, DMA_ATTR_WRITE_COMBINE);
+ 
+ 	core->iface_q_table_vaddr = NULL;
 
 -- 
 2.34.1
