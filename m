@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-35467-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35468-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E75AE141D
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 08:40:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D24C6AE141E
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 08:41:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00627188AAE0
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 06:40:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BDE017EE63
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 06:41:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 224A022171E;
-	Fri, 20 Jun 2025 06:39:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67853221FAD;
+	Fri, 20 Jun 2025 06:41:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XoTMqWnI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AF5l4qyY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7FC30E844;
-	Fri, 20 Jun 2025 06:39:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99DA30E844;
+	Fri, 20 Jun 2025 06:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750401598; cv=none; b=ArJAM6QlCUHmC/CAs2p7WQyPzsz8Yqtltf/oKCtuVJYlBQJ2Sx6+/BEeeaMjJMB1zkDQjtxxQeL8NCK5fjaVlfbM51zvQvxyAc+bzzfbnbicuiBlPmhUc5xYaTob+MF57KXr3kaWCNYW2DT5ZgWMCYc6eDYKz5/4JVjxjnKTU34=
+	t=1750401693; cv=none; b=dPV1QwXdPaqCsIq6vlqeuUuJV/+8I+oaURGVKSdxb6X2Y9PqhnvjkmD+5IqCjzIYf+jTz/9OznjjNIUlzc0l26LTU35LCelIUoBU7VZ2+8u4Z2BkjTh9JoVqaJHxTk/8TZaMpOszEqXHU1pd4i/VAtjK+gfADy51q6jXY9q6iOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750401598; c=relaxed/simple;
-	bh=Q4BLX/kGOS9c+oKCKscjEbAEZt0bVN/TK9wuGaG8z6M=;
+	s=arc-20240116; t=1750401693; c=relaxed/simple;
+	bh=Lg8qQ07i7BArRVuKP6iSQSlS7u8EwPD3f9Yj0b9RZ/k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uEW7d5Ndew5xwBbvAMFRWQeXMpWEJ81n8g4bSOanO2oKmuA20T6qZC0WKkk3I/N/HMoigNmcSosOvtAOTELYavOf3pTvTnXfVg6qwIX6OzANC5KwohSS9cd3lGQeQltUb5swHSv4ekc7cGe0l2P8Przz/8iIEXNk4k9sAz/z1Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XoTMqWnI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DA7EC4CEED;
-	Fri, 20 Jun 2025 06:39:55 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=jw5ptkQtFuuHoDbwiSLiGYF51Nw5sv4hnZ8EGyCordVwI91Qot+d9L4khqLQX1v4V7jcLaaFRGlt2gBNE4PZClv7nNpJftpWUUQzrc+thOtL/3xnGoP4lzD8itDVGqTFngVZe8HtLKjsVBBt04YIzaNjlXxs5Iy5+W4l5z8iIpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AF5l4qyY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09E22C4CEE3;
+	Fri, 20 Jun 2025 06:41:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750401598;
-	bh=Q4BLX/kGOS9c+oKCKscjEbAEZt0bVN/TK9wuGaG8z6M=;
+	s=k20201202; t=1750401693;
+	bh=Lg8qQ07i7BArRVuKP6iSQSlS7u8EwPD3f9Yj0b9RZ/k=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XoTMqWnIPhAsYnfZdHvel9XoVARixwj5lSf2fhgZiaNMhAXO/4HUsMdboUYAw3P82
-	 fgWEKuAC6SKT7riAHM4BoSZ1DOdNSn0rt3edDIfkhiuYPcSGn4aL9nmkme8l8w+LDJ
-	 g+geI83/sGbwnN/D+FkaoI6qY7H5rBMjwn9De+fm5bXwJAcWC/Db9vna62QklmtDmy
-	 ahoqbTcDRngF4li86BjInIDZ60Slbn0MEbFQtLZSrjmOSCLS7BMyoidC3HJohY1x2H
-	 yhbND/OPK7R3nSF80GD0asBPHE7neO//G+50La3/ZHMXNyeTmNYwHmnapIYX931WYv
-	 cQ15kv8RXYotg==
-Message-ID: <a35d3928-8ac6-49ab-8689-16ba69afe197@kernel.org>
-Date: Fri, 20 Jun 2025 08:39:53 +0200
+	b=AF5l4qyYtbnTnZlTQA0XTfRVkBY/IespiOc+CdDWjPa53cc5s9JfJgleVxmVdb5yc
+	 sU4vjCasmDsZKNDToS85ZYGSFMZnv1MCr+Acz3wQtDhbYmSaeijJsIdjM+fPWb/Gh7
+	 DiJ2xj4Wifrxg3aTBQE2ysahlofbO41vBj4IEdZHX4O/8wUlQZv6d18AzO0kYPnyaw
+	 tY4ZTSZA6c+gndFI6aA61oh7WeSwAPqdLrOv4ul+OXOL1z9vaeWSaQgv6WBufqzD/G
+	 GCZkRSCOrYSeZM7m33lq7t86uDg0M8g99qJeBzetMLs4tRlt6DbLpjIyYRXioWuB10
+	 PzS5rRy2jib4A==
+Message-ID: <cec076eb-828e-49ad-b1bc-fd0f6f0a097d@kernel.org>
+Date: Fri, 20 Jun 2025 08:41:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -130,32 +130,7 @@ On 20/06/2025 08:20, Vikash Garodia wrote:
 > while non_pixel (bitstream ) stream-ID can be generated by hardware only
 > when bitstream buffers IOVA address is from 0x25800000-0xe0000000.
 > 
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  .../bindings/media/qcom,sm8550-iris.yaml           | 35 ++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> index c79bf2101812d83b99704f38b7348a9f728dff44..a1e83bae3c36f3a4c58b212ef457905e38091b97 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> @@ -65,10 +65,45 @@ properties:
->        - const: core
->  
->    iommus:
-> +    minItems: 1
-
-As discussed in other patchset, this needs clear explanation, so
-imperfect patch won't be used in future discussions as argument to take
-more of such things.
-
->      maxItems: 2
->  
->    dma-coherent: true
->  
-> +  resv_region:
-
-DTS coding style. Anyway, regions go with memory-region bindings. Use that.
+Also, use correct subject prefixes.
 
 Best regards,
 Krzysztof
