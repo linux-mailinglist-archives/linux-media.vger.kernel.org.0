@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-35498-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35499-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF90EAE1E69
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 17:22:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47572AE1E71
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 17:22:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 529214A7DC1
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 15:22:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1C2B1C21E27
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 15:22:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EE532BF3EC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88CAD2D4B46;
 	Fri, 20 Jun 2025 15:21:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BA8Kqu8W"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="G9m0rrei"
 X-Original-To: linux-media@vger.kernel.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05862BFC85;
-	Fri, 20 Jun 2025 15:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8582BFC96;
+	Fri, 20 Jun 2025 15:21:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750432908; cv=none; b=rK3s0DcjQ2BIR/+ak3q4XK5vao/yn406/AghaNb+l6KJam8iKG9oGavhdCpnjD0M7IkP6kLCrmdzbqM/d+4s7hbqSwuDUD6VcsIw/O0AHqAPpcTBwnmbjAiqxpYpsRETcbx2clv5fbZYkwLefs+LnwSaGGdtX9cz/azvI9k6tUI=
+	t=1750432908; cv=none; b=Suouk0QiliL++F2h2Yag4igeOcrnCCyA+sFVr0V224L6sg3r/CXVNAayaGpuFVF094todfVacTfEEvU+2IJ2zXI9JDcNZjHQydl68MDQ7r+URAjOYhNaaaRRiUiKCmo62Xj1s/YZKpuYz586JQ1SnZACJ6cYeSm+3jEOIb7ScSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750432908; c=relaxed/simple;
-	bh=NR+UniG5v9OCH+oaD6aiCfy/9gcaEDZGU6BJA3qo0F8=;
+	bh=2jGGNnZgeOqRDndrBBc79249bEvgVSJQbf4cjIYk1Ms=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DRg1ZuQ6L+ExYOmaW27YqAzfg7b32/i96fa/LnUzkdim2eF+jsPMR6Xafzg3K6bPS739un4qpD8ftTa1uwhPWB6Mj6K62r8/qZBlv+UdEGm3VPrt/7JBOIv/+1CzDL8PmKlgJJr+OSQhOC6fYcyVi3MVj6gsc73SzVtvanOXFgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BA8Kqu8W; arc=none smtp.client-ip=217.70.183.197
+	 In-Reply-To:To:Cc; b=CyssLsJobCb+3LlOe4YpSdXWpNZl4PFRMGeqi7lkq15MeQQcNjT3K9DP8ozEDuLTy509Pq5v08D1bwGXaVzlvIjjeHpitF70ZVACi0/g8yqh1T7BJqo3lejvCobttEn1XjUV1Sq+6ZirGbUccXMVswLKqgKzIjBB7En2pR98zh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=G9m0rrei; arc=none smtp.client-ip=217.70.183.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D34DF42EF2;
-	Fri, 20 Jun 2025 15:21:42 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CEC2642EA6;
+	Fri, 20 Jun 2025 15:21:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1750432903;
+	t=1750432904;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qokwuBMm6huB2lTtorC/MIv/Y6cRg0wgade33/WE9Vc=;
-	b=BA8Kqu8WtAJj50BLhl/q9lm1Q2SH1pFyk7JjgDnV+CXfVUfLLzHrH0ccqhB0/c1cluKPdg
-	ki2TbOFz0g1pcRTg7yW2BwGjDBMRSMIhhR2TV3ruclIylxwa/evJ+2d5FB+uQ1KotmXHt4
-	zQoK9L7QzHPIae8NXpJ+43VqaALUKI46rkZs/HiUY2kKn3SHc2lENl6sUTdUZOYMYBrZrF
-	eheGyzW+W+BIVQuJo1D/JlOMfC1FHlZXw+KiYj4Px3Hl1VeF/5WaJ85Yk8jl2nK6+xitma
-	V/rXZobsHxoTucuihwCciXyq2+CGCGHvrFrEuWq6lVC2um39/gPpRxYvbn+Gbg==
+	bh=wSzxVGLEOB7OKY54YC5zsWFGGMZjH2rYSDjoNFA4NC0=;
+	b=G9m0rreiy1pQnfTxYznAyBdGINBjaXemHvJP8Yv6pSWfb3tOk0ZwHXDE7XoYwaEj1tSpiN
+	gO0VzxT7fCI/LPDFiwhA0H1ybk6Iz08o6rEaFDYmC20w2hAXcwOJBl0q25VjKxAW4ZVbwq
+	7t5GZGmByyeaYRbl1me+W16D/Dr6hMA0CK2eOo+TKaFiftOfD0A/brSqsfs43Lx3FaOibL
+	fgmmHvYtPZ7+siw4Z8LYzVr0li1B8m3FTxpm1fvs/aY5mjDHk7lYEirFgkmG2tk/BsQHAP
+	My7mw+fo477aWRbKBownBK69j8iPxKSYKKmKo5fbhk+U0XTJsOBc0pq3bOmIvw==
 From: Olivier Benjamin <olivier.benjamin@bootlin.com>
-Date: Fri, 20 Jun 2025 17:21:32 +0200
-Subject: [PATCH v4 1/4] dt-bindings: media: ov8858: inherit
+Date: Fri, 20 Jun 2025 17:21:33 +0200
+Subject: [PATCH v4 2/4] dt-bindings: media: imx258: inherit
  video-interface-devices properties
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250620-camera-v4-1-0201a8ed5fae@bootlin.com>
+Message-Id: <20250620-camera-v4-2-0201a8ed5fae@bootlin.com>
 References: <20250620-camera-v4-0-0201a8ed5fae@bootlin.com>
 In-Reply-To: <20250620-camera-v4-0-0201a8ed5fae@bootlin.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -82,30 +82,30 @@ X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdekjeegucetufdoteggodetrfd
  hgvmhgrihhlrdhnvghtpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopeholhhivhhivghrrdgsvghnjhgrmhhinhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehimhigsehlihhsthhsrdhlihhnuhigrdguvghv
 X-GND-Sasl: olivier.benjamin@bootlin.com
 
-Update the OV8858 binding to inherit properties defined in the
+Update the IMX258 binding to inherit properties defined in the
 video-interface-devices binding.
 
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Olivier Benjamin <olivier.benjamin@bootlin.com>
 ---
- Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml | 4 +++-
+ Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
-index a65f921ec0fd24e449331772e39a16cadd73a868..491f2931e6bcdf5a1ad2cd4f9eb187055c3a7a2d 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
-@@ -15,6 +15,8 @@ description: |
-   controlled through an I2C-compatible SCCB bus. The sensor transmits images
-   on a MIPI CSI-2 output interface with up to 4 data lanes.
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+index 975c1d77c8e5d24179e9cb8d92fe7b6798c4d2ec..421b935b52bcaafbee0aff5b5cebc6332409bd8b 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+@@ -18,6 +18,8 @@ description: |-
+   The camera module does not expose the model through registers, so the
+   exact model needs to be specified.
  
 +$ref: /schemas/media/video-interface-devices.yaml#
 +
  properties:
    compatible:
-     const: ovti,ov8858
-@@ -69,7 +71,7 @@ required:
-   - clocks
+     enum:
+@@ -81,7 +83,7 @@ required:
+   - reg
    - port
  
 -additionalProperties: false
