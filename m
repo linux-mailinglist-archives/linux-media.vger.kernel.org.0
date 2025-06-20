@@ -1,70 +1,68 @@
-Return-Path: <linux-media+bounces-35480-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35481-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB58AE199D
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 13:09:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A023AE19A7
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 13:11:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 663AB1BC4B64
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 11:09:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F0435A0C7F
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jun 2025 11:10:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D42C289370;
-	Fri, 20 Jun 2025 11:09:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCBB028A400;
+	Fri, 20 Jun 2025 11:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="W+uaQNko"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sGgyGNCx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040F52853F1
-	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 11:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A442528A1C2
+	for <linux-media@vger.kernel.org>; Fri, 20 Jun 2025 11:10:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750417765; cv=none; b=QhDliasgGcEUAkus+hJFeZQiKH9tIC8lG7+JkaPqzjUZdQbwEgC68UuTyY26UJnTNP6HtCIufdutVYP+AqtxbivfCuXBM78dt0gSUiAE/bB5GzVfYrrAdlMN6ZIqN0hnM598jkjdhjLHWUjEr8M1u+NMHZ2aGuA/zcrpG9t+QfM=
+	t=1750417853; cv=none; b=DH/6ixjuVKA71XWuOkvTVsx6D8nkGINhrKzmfSndox3PbY7D2sZZJIUhE74zAheWud97oWGkKylZ10fdZ26PGz7uyO9m/Kd4MjHLSwTFBCUskoIX8vOJIAjenuGJ8sNEV4ZkAi3msLm97KyS667+XY3KwPa9kfg5bBUimeyzF9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750417765; c=relaxed/simple;
-	bh=7xbWf8EiSDUQ02GzvwlDcy9vVAfoEwcRIqC6uX/ZG+U=;
+	s=arc-20240116; t=1750417853; c=relaxed/simple;
+	bh=da8/b2wRsZNf1YXCOMF4orEpAJLH4dLJ6xz42KNT5sE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kKl+ILPzxueNA9EO+0RTNwNS1WXmTGnvkdEJIX2WxSqkmx00qGdQbbw+1J/O/i0L44fLL2Pt5H309DyMRITlZud5zZJcJUNAFhIJQYBK+MTskVdMZB0nU1N5peLXOdfRR2nR7d53aVigZuOikoTa4n4/0Ls3qw+dNoGc4Pknj3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=W+uaQNko; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=kF3AwPF+6c7Gh7fmQGIIj0O3pRyVEdz6iRTBT0rZJSMbdRT6T83HOUqYfLq3rgDxjJPg/UyyW++tCdJxsx47ti0/RfYMnoQIHoa/Pjzb8YUrUX2R7cqkf5vqfVE9rs84LiRwPCU/V21VtbTl+VO4Py+r9SF2Gwq5slRYVRMnuxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sGgyGNCx; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A0BEC0B;
-	Fri, 20 Jun 2025 13:09:06 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FCB7C0B;
+	Fri, 20 Jun 2025 13:10:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750417746;
-	bh=7xbWf8EiSDUQ02GzvwlDcy9vVAfoEwcRIqC6uX/ZG+U=;
+	s=mail; t=1750417835;
+	bh=da8/b2wRsZNf1YXCOMF4orEpAJLH4dLJ6xz42KNT5sE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W+uaQNkoIAtID3hH+y2wz9v3lFQuVt6AaddejicgAMxpoKqKVewobH5OddTyR5qRe
-	 lWMuQaUh3/R0aheYtaIIKVrXOwyZhucOyENNH1cp9aJL9mEKZiQXxcoRyWJvqaIoOs
-	 pkvmivwW+cMdxFnGURENQS7r2Hed9bNjH5EJ1J1o=
-Date: Fri, 20 Jun 2025 13:09:18 +0200
+	b=sGgyGNCxWjyMPULzYji73ky5wwO6VPed2gitja0BOYtDa1kHPKCHGlA6exBWJEt4b
+	 1j7G27qrKt2TXiOlz9sb+Q6+TFiWwU9ecb/IKU2C1sXjANH2r2fK0mv40e3C6gCppw
+	 lAu1lQ5r87FFZjGUcEMUmcZ/jZnp7yRwYP2yhzZQ=
+Date: Fri, 20 Jun 2025 13:10:47 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
-	Alexander Shiyan <eagle.alexander923@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tommaso Merciai <tomm.merciai@gmail.com>, Umang Jain <umang.jain@ideasonboard.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
-	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
-	"Wang, Hongju" <hongju.wang@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
-	Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v10 08/64] media: Documentation: Refer to internal pads
- in metadata documentation
-Message-ID: <66er7ngkwseuesrx6rkyk3urrch5zwmonliermadtrr6hmgh3n@cxmvrt536xla>
+Subject: Re: [PATCH v10 12/64] media: uapi: v4l: subdev: Enable streams API
+Message-ID: <5q2j6zf4o4xyt3k3xpi4n4mbyckxkexmfho2hfmpvtpfwb35tx@hwjlkjm7krm5>
 References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
- <20250619115836.1946016-9-sakari.ailus@linux.intel.com>
- <5wzdogevsfx2p2ecpy2vhz5igcut3pmovpg3n56ovpvdur4hi6@yjhitjftdhn5>
+ <20250619115836.1946016-13-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,61 +71,94 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5wzdogevsfx2p2ecpy2vhz5igcut3pmovpg3n56ovpvdur4hi6@yjhitjftdhn5>
+In-Reply-To: <20250619115836.1946016-13-sakari.ailus@linux.intel.com>
 
-On Fri, Jun 20, 2025 at 12:01:36PM +0200, Jacopo Mondi wrote:
-> Hi Sakari
->
-> On Thu, Jun 19, 2025 at 02:57:40PM +0300, Sakari Ailus wrote:
-> > Metadata is intended to be used with internal pads when it comes to the
-> > source of the data. Document this.
->
-> Isn't this more likely something:
->
-> Generic metadata formats are intended to be used along the media
-> pipeline while the actual metadata format is reported by the
-> V4L2_CID_METADATA_LAYOUT control value. Document this.
->
-> Which makes me wonder if this isn't better merged with the patch I
-> assume comes later in the series that introduces that control.
+Happy to see this one!
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-Please also note the patch subject needs to be updated!
-
+On Thu, Jun 19, 2025 at 02:57:44PM +0300, Sakari Ailus wrote:
+> Remove v4l2_subdev_enable_streams_api variable that was used to easily
+> enable streams API for development, and conditions that use the variable.
 >
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  Documentation/userspace-api/media/v4l/metafmt-generic.rst | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > index 78ab56b21682..90a1bc2ea15e 100644
-> > --- a/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > +++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > @@ -7,12 +7,17 @@ V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_M
-> >
-> >  Generic line-based metadata formats
-> >
-> > +.. _v4l2-format-generic-meta:
-> >
-> >  Description
-> >  ===========
-> >
-> >  These generic line-based metadata formats define the memory layout of the data
-> > -without defining the format or meaning of the metadata itself.
-> > +without defining the format or meaning of the metadata itself. These formats may
-> > +only be used with a Media Controller pipeline where the more specific metadata
-> > +layout is reported by an :ref:`V4L2_CID_METADATA_LAYOUT control
+> This patch enables the streams API for V4L2 sub-device interface which
+> allows transporting multiple streams on a single MC link.
 >
-> s/by an/by the/ ?
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 30 ---------------------------
+>  1 file changed, 30 deletions(-)
 >
-> > +<image_source_control_metadata_layout>` of the source sub-device. See also
-> > +:ref:`source routes <subdev-routing>`.
-> >
-> >  .. _v4l2-meta-fmt-generic-8:
-> >
-> > --
-> > 2.39.5
-> >
-> >
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 13d6e96daf3a..30549aca9dd0 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -26,15 +26,6 @@
+>  #include <media/v4l2-fh.h>
+>  #include <media/v4l2-ioctl.h>
+>
+> -#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> -/*
+> - * The Streams API is an experimental feature. To use the Streams API, set
+> - * 'v4l2_subdev_enable_streams_api' to 1 below.
+> - */
+> -
+> -static bool v4l2_subdev_enable_streams_api;
+> -#endif
+> -
+>  /*
+>   * Maximum stream ID is 63 for now, as we use u64 bitmask to represent a set
+>   * of streams.
+> @@ -620,13 +611,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+>  	int rval;
+>
+> -	/*
+> -	 * If the streams API is not enabled, remove V4L2_SUBDEV_CAP_STREAMS.
+> -	 * Remove this when the API is no longer experimental.
+> -	 */
+> -	if (!v4l2_subdev_enable_streams_api)
+> -		streams_subdev = false;
+> -
+>  	switch (cmd) {
+>  	case VIDIOC_SUBDEV_QUERYCAP: {
+>  		struct v4l2_subdev_capability *cap = arg;
+> @@ -980,9 +964,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  		struct v4l2_subdev_routing *routing = arg;
+>  		struct v4l2_subdev_krouting *krouting;
+>
+> -		if (!v4l2_subdev_enable_streams_api)
+> -			return -ENOIOCTLCMD;
+> -
+>  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>  			return -ENOIOCTLCMD;
+>
+> @@ -1006,9 +987,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  		struct v4l2_subdev_krouting krouting = {};
+>  		unsigned int i;
+>
+> -		if (!v4l2_subdev_enable_streams_api)
+> -			return -ENOIOCTLCMD;
+> -
+>  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>  			return -ENOIOCTLCMD;
+>
+> @@ -1086,14 +1064,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  	case VIDIOC_SUBDEV_S_CLIENT_CAP: {
+>  		struct v4l2_subdev_client_capability *client_cap = arg;
+>
+> -		/*
+> -		 * Clear V4L2_SUBDEV_CLIENT_CAP_STREAMS if streams API is not
+> -		 * enabled. Remove this when streams API is no longer
+> -		 * experimental.
+> -		 */
+> -		if (!v4l2_subdev_enable_streams_api)
+> -			client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+> -
+>  		/* Filter out unsupported capabilities */
+>  		client_cap->capabilities &= (V4L2_SUBDEV_CLIENT_CAP_STREAMS |
+>  					     V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH);
+> --
+> 2.39.5
+>
+>
 
