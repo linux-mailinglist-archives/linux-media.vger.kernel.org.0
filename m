@@ -1,172 +1,170 @@
-Return-Path: <linux-media+bounces-35514-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35515-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7DA0AE27A0
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 08:30:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E85AE27E2
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 09:59:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4548189C141
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 06:30:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D93D17E785
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 07:59:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E940F1A7AF7;
-	Sat, 21 Jun 2025 06:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDD7F1DDC1B;
+	Sat, 21 Jun 2025 07:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b1JPIFFc"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="dPv/ZIV9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2241195808;
-	Sat, 21 Jun 2025 06:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750487401; cv=none; b=c9JlZSaroIvVXN9fwglmnMQn1fa0X9BbxsCG4YRrS5Bir5vN4fqL7S2r4NTXUDVprqIlVF3ygdKu8LjXqTRmZMRP0X00FHEpTMhIC5CnFZVTqG8d5SktewauapZuWXUgr5n2K50MQZaroNUSDQM+S5sNcXKWs0jJWwwDg44uyKk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750487401; c=relaxed/simple;
-	bh=+8nxB59T4nNd/zAuaPjugmozXPdx/wYZUcfV2AVIE7k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Sm7gZCMrxtyIrw25+y/dtb741NTHPmlUoFbsmJ6KIsBEasLXiLbONCUzE5v/YF+0G58SdIs0NwUNte1k2MlY9H9Fs9JjK02VnlcG8UKAQcN5TcBtEiJXSb6cQHbDGUkxKihQ80rk392jERdduFhD5c+tQGrORQHy1Nm5YSiC+PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b1JPIFFc; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a4ee391e6fso364585f8f.3;
-        Fri, 20 Jun 2025 23:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750487398; x=1751092198; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NkjbtNwR+2HkOqNIDNJiFuWYyKYkGQKZSPa6ldxqxrI=;
-        b=b1JPIFFcGcLvyoaCXr4m1Gcqowx73LwYz0RgY4y1MKYJNFogkoTvonMH7EDPcTjZgg
-         5T5+ALx2dO8iEDJQSSrZ8moznlg2EaoegDDycL+GpdIBmLrPNNdF0od2wUvdezA/GWvU
-         rporetJH50E2WkLCa8bGuVw3nK3IqDYjVM0VwOXzrSDwT8Fk3JNHbwt01FfNiAsH+PoQ
-         EaDdZPJ0hsSV3jiaNq2+ncm16w1/yWeCz8LrsbGmZhiVUvoGC3zOIrUgdG3jula93eS1
-         nhYjQH0V0keU6AS6QzsxhDbdVbkuS0FT6EhdQZHtFN9T7xU8sKFcszrWM+BtZOEWriaN
-         F3og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750487398; x=1751092198;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NkjbtNwR+2HkOqNIDNJiFuWYyKYkGQKZSPa6ldxqxrI=;
-        b=euXD0hXhwdxgcPc5clqEUkdrFZ2CK3Yut8iHgRvioRSwyImH7pQlymvbNmgAP9COh/
-         9dLU3Ei4NnEx+HfwXF3DNMIe4X/si+t4U7H4CB7OD884nbnG+gmxP+Jv4NnNifRGuRYF
-         Nq3iSry+n6zr8UpTR+SNn6DlNznwvYotuqoboZr0COWhT6cyqWgwk2T8GLvJ/6RHHJcr
-         YSbPW59qewoFnNOb52k8cUvvjcJtPqCH5qqVi9A7E2w7aI9NdyqmXgXwn8sbpGPi4Ybo
-         Ba/V5MA6F/cR8QYBpb0GcUgoI3a3scMeFuNq9dULo77D3C/cfX+Im5/ShCB6UgIQb5W/
-         FWLw==
-X-Forwarded-Encrypted: i=1; AJvYcCUnhDza0Jwz4AB7wcmBr862xyK+XtN67+d4Cra/3VhkaKKZUQe0aEXLZNlUXvub0W3g6EC2hHtgSjjPfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+LfVupY9djuleYR7pAeuMaT+MjMRQNUIu+W7ei+xcobbWqr5y
-	cHCdPQK1bHMzny62NlWe2j5unuLLjO4wfUyZJIY572vvm/eWNlNbG+8N
-X-Gm-Gg: ASbGncuh7qIJERwA+LSncKqnCzMHJwNLhGPasJQ8+dpXuU8J9FYbYsWVXHAZjBPbPbc
-	yAzgfNa/Mk/EdMIqm1yRkVZBg/xfCO7I3cps1wM12lgDJ69A7qi27l5M7L0Cq5oIQ7ZTi8LN/Pd
-	qoYs5fkekBRZvcMcGCevJMQ0ZvT2QBxkLLBbKOgGcFGh3C65AoEHMhOEKJCNCy4YUlEWWzBzCsl
-	Mc4R1Z2vhRDi8eQAHZmMJ3w2PVaWBqKtEG6DYG3nyP28dyYVknG0thYZu+Mq57L4pNM8OwSlU1G
-	+65RTQEhxXoPRKq80wZwTYcwzyJE/eWh3gs45OHaVIMN+lqocTQ00u5pHBN4hZ15k73NzM+p069
-	E4DikS6H+oLZvTlK2Fi3AsOo=
-X-Google-Smtp-Source: AGHT+IE/hg0M6sQ7nkl4Ba9kld0aQ2r8UvzDVcYS3F+oasLbyx+jmasGilFbARj3pfUJY1NIUWai6A==
-X-Received: by 2002:a5d:5f4a:0:b0:3a3:6e85:a550 with SMTP id ffacd0b85a97d-3a6d12a1d62mr1739186f8f.5.1750487397581;
-        Fri, 20 Jun 2025 23:29:57 -0700 (PDT)
-Received: from localhost.localdomain ([102.46.244.122])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646d1391sm44165945e9.9.2025.06.20.23.29.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 23:29:57 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Replace scnprintf with sysfs_emit in bo_show
-Date: Sat, 21 Jun 2025 09:29:44 +0300
-Message-Id: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87B619E975;
+	Sat, 21 Jun 2025 07:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750492746; cv=pass; b=jj0rZ2fs55OP7CtnqBRLB72vWm6eruxkgPxPg4gQZjQPBeOPh34qspX3FnWb7KxbTWDWp8DMvRRU+D9YMiMb7mSAHkSEC7WZs25J6tc1LOrxpbtsHNJEPY6LZxNDwys4UMD5VjNgWH+3um5MwcmFy92I1L1dbbPps+GlsS5mtso=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750492746; c=relaxed/simple;
+	bh=vDEbtPJfTWIkddnv3ZjSiy4sDYEhN+dUtTj59hHSysA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C/VFjW58dkAmZ7AGsyzg1aGxGSz/ZSDMrYXF0kGD+if91ytvR57vzOvmKgjkwHK1NX/6Thr4buHT9Ewi+wrhM1rEedcaCMvxzrpjU47LNDTBBngWLjQC7WemQ4LdLoeLlAFa3K8wXjAkdxI77JeSh6wUQXkIvnk8vXqVj9OFDFE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=dPv/ZIV9; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4bPRYp3bfDzyRx;
+	Sat, 21 Jun 2025 10:58:54 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1750492739;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=huETNdKfR7937ExtLvGennYTafhzIC4yPV+7Y+Br65Q=;
+	b=dPv/ZIV9npRz6zTbwo27dVfFPVYP/2sBc2neT2N/tqWNVIbCiLwj2Yzp4aHEEuTIrEzs9C
+	mTehYdzaNX4RsrtRVvVHtcxrellLbmnRtVfEcx8xONvT0Q+gj4F3kUKerqmYuus2hLaip0
+	RgQlxyGx6ZQdQ48+h2KsiJKgFkIm7KU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1750492739;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=huETNdKfR7937ExtLvGennYTafhzIC4yPV+7Y+Br65Q=;
+	b=WP7g76HgY2Uo9wb9uDeuCRaxnZvhOmhfc8T3Z2dfCkXgWx1MrMCyaFjBoLCeNZtrAVxS2b
+	/px+RRZyf3K/jS9XnFDn7LINKtDMKhm4iwYMI9E8g2Aw38RVBkCGBQjEHD5rm46DvRyHSS
+	+C6pUDtAC6iy3B9MPeYeYmPwTUmv7Rs=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1750492739; a=rsa-sha256; cv=none;
+	b=dxt2iebGyQ0If6z1HHBwIRSOSmSBmsPWRMKHK352y5SmRy+0Tm3BNUszBUnhBncsbwhhw6
+	ud9kuugPkdZhNs7hbhqQr8m0YDQ2WDqNpw2neVFwnBFQmxC4weAqKo0rmknz/UGwf/iUui
+	aHZfpcvm135kCbph40w9jtzuHzOBli0=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id CFE17634C93;
+	Sat, 21 Jun 2025 10:58:52 +0300 (EEST)
+Date: Sat, 21 Jun 2025 07:58:52 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>, sakari.ailus@linux.intel.com,
+	akinobu.mita@gmail.com, stanislaw.gruszka@linux.intel.com,
+	hdegoede@redhat.com, arnd@arndb.de, alain.volmat@foss.st.com,
+	andrzej.hajda@intel.com, benjamin.mugnier@foss.st.com,
+	dave.stevenson@raspberrypi.com, hansg@kernel.org,
+	hverkuil@xs4all.nl, jacopo.mondi@ideasonboard.com, jonas@kwiboo.se,
+	kieran.bingham@ideasonboard.com, khalasa@piap.pl,
+	prabhakar.csengg@gmail.com, mani@kernel.org,
+	m.felsch@pengutronix.de, martink@posteo.de, mattwmajewski@gmail.com,
+	matthias.fend@emfend.at, mchehab@kernel.org,
+	michael.riesch@collabora.com, naush@raspberrypi.com,
+	nicholas@rothemail.net, nicolas.dufresne@collabora.com,
+	paul.elder@ideasonboard.com, dan.scally@ideasonboard.com,
+	pavel@kernel.org, petrcvekcz@gmail.com, rashanmu@gmail.com,
+	ribalda@chromium.org, rmfrfs@gmail.com, zhengsq@rock-chips.com,
+	slongerbeam@gmail.com, sylvain.petinot@foss.st.com,
+	s.nawrocki@samsung.com, tomi.valkeinen@ideasonboard.com,
+	umang.jain@ideasonboard.com, zhi.mao@mediatek.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 41/55] media: i2c: ov8865: Use the v4l2 helper for
+ obtaining the clock
+Message-ID: <aFZmPOqYz0Rgv5H0@valkosipuli.retiisi.eu>
+References: <cover.1750352394.git.mehdi.djait@linux.intel.com>
+ <273d77cc78cbe9fd144f96e68407f0f7b41d3895.1750352394.git.mehdi.djait@linux.intel.com>
+ <20250619215744.GS22102@pendragon.ideasonboard.com>
+ <20250619215951.GA32257@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250619215951.GA32257@pendragon.ideasonboard.com>
 
-Convert buffer output to use sysfs_emit/sysfs_emit_at API for safer
-PAGE_SIZE handling and standardized sysfs output.
+Hi Laurent,
 
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 24 ++++++---------------
- 1 file changed, 7 insertions(+), 17 deletions(-)
+On Fri, Jun 20, 2025 at 12:59:51AM +0300, Laurent Pinchart wrote:
+> On Fri, Jun 20, 2025 at 12:57:46AM +0300, Laurent Pinchart wrote:
+> > Hi Mehdi,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Thu, Jun 19, 2025 at 07:59:34PM +0200, Mehdi Djait wrote:
+> > > devm_clk_get() fails on ACPI-based platforms, where firmware does not
+> > > provide a direct reference to the clock producer.
+> > > 
+> > > Replace devm_clk_get() with the new v4l2 helper
+> > > devm_v4l2_sensor_clk_get() that works on both DT- and ACPI-based
+> > > platforms to retrieve a reference to the clock producer from firmware.
+> > > 
+> > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > > 
+> > > diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+> > > index 95ffe7536aa6..5cc278c3e169 100644
+> > > --- a/drivers/media/i2c/ov8865.c
+> > > +++ b/drivers/media/i2c/ov8865.c
+> > > @@ -2956,7 +2956,6 @@ static int ov8865_probe(struct i2c_client *client)
+> > >  	struct ov8865_sensor *sensor;
+> > >  	struct v4l2_subdev *subdev;
+> > >  	struct media_pad *pad;
+> > > -	unsigned int rate = 0;
+> > >  	unsigned int i;
+> > >  	int ret;
+> > >  
+> > > @@ -3019,39 +3018,14 @@ static int ov8865_probe(struct i2c_client *client)
+> > >  
+> > >  	/* External Clock */
+> > >  
+> > > -	sensor->extclk = devm_clk_get(dev, NULL);
+> > > -	if (PTR_ERR(sensor->extclk) == -ENOENT) {
+> > > -		dev_info(dev, "no external clock found, continuing...\n");
+> > > -		sensor->extclk = NULL;
+> > > -	} else if (IS_ERR(sensor->extclk)) {
+> > > +	sensor->extclk = devm_v4l2_sensor_clk_get(dev, NULL);
+> > > +	if (IS_ERR(sensor->extclk)) {
+> > >  		dev_err(dev, "failed to get external clock\n");
+> > >  		ret = PTR_ERR(sensor->extclk);
+> 
+> Actually, I'd take this as an opportunity to write
+> 
+>  		ret = dev_err_probe(dev, PTR_ERR(sensor->extclk),
+> 				    "failed to get external clock\n");
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index 84102c3aaf97..cae1fccd06af 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -37,51 +37,41 @@ static const char hmm_bo_type_string[] = "pv";
- static ssize_t bo_show(struct device *dev, struct device_attribute *attr,
- 		       char *buf, struct list_head *bo_list, bool active)
- {
--	ssize_t ret = 0;
-+	ssize_t offset = 0;
- 	struct hmm_buffer_object *bo;
- 	unsigned long flags;
- 	int i;
- 	long total[HMM_BO_LAST] = { 0 };
- 	long count[HMM_BO_LAST] = { 0 };
--	int index1 = 0;
--	int index2 = 0;
- 
--	ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
--	if (ret <= 0)
--		return 0;
--
--	index1 += ret;
-+	offset += sysfs_emit(buf, "type pgnr\n");
- 
- 	spin_lock_irqsave(&bo_device.list_lock, flags);
- 	list_for_each_entry(bo, bo_list, list) {
- 		if ((active && (bo->status & HMM_BO_ALLOCED)) ||
- 		    (!active && !(bo->status & HMM_BO_ALLOCED))) {
--			ret = scnprintf(buf + index1, PAGE_SIZE - index1,
-+			offset += sysfs_emit_at(buf, offset,
- 					"%c %d\n",
- 					hmm_bo_type_string[bo->type], bo->pgnr);
- 
- 			total[bo->type] += bo->pgnr;
- 			count[bo->type]++;
--			if (ret > 0)
--				index1 += ret;
- 		}
- 	}
- 	spin_unlock_irqrestore(&bo_device.list_lock, flags);
- 
- 	for (i = 0; i < HMM_BO_LAST; i++) {
- 		if (count[i]) {
--			ret = scnprintf(buf + index1 + index2,
--					PAGE_SIZE - index1 - index2,
-+			offset += sysfs_emit_at(buf,
-+					offset,
- 					"%ld %c buffer objects: %ld KB\n",
- 					count[i], hmm_bo_type_string[i],
- 					total[i] * 4);
--			if (ret > 0)
--				index2 += ret;
- 		}
- 	}
- 
--	/* Add trailing zero, not included by scnprintf */
--	return index1 + index2 + 1;
-+	/* Direct return of accumlated length */
-+	return offset;
- }
- 
- static ssize_t active_bo_show(struct device *dev, struct device_attribute *attr,
+Wouldn't printing this kind of a message fit for devm_v4l2_sensor_clk_get()
+and consequently be removed from drivers?
+
 -- 
-2.25.1
+Kind regards,
 
+Sakari Ailus
 
