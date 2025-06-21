@@ -1,138 +1,130 @@
-Return-Path: <linux-media+bounces-35527-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35528-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9CAAE2962
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 16:01:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8160BAE296E
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 16:23:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8062E1693FF
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 14:01:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20FEC1897E6F
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 14:23:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6955472613;
-	Sat, 21 Jun 2025 14:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D814E1991DD;
+	Sat, 21 Jun 2025 14:23:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IYulUpGb"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="i8rMPC0l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF052E62C
-	for <linux-media@vger.kernel.org>; Sat, 21 Jun 2025 14:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A35EAC6;
+	Sat, 21 Jun 2025 14:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750514460; cv=none; b=lmpcGk0y5w+J4hfb/Vowuhf5WfHV9vDhOVC5k2rYf6zVXNkZT9hQEVwLSvdNG0Khulkn+fsWeMfkwPF/e1lyt+m7s08zR8X/b/Hmlr2Yg4oaiaLcTclNUaFtAkk8VdEZH7dUSceVl3MGbk1EmeD6+xwR2/yEOdxZzeHBNczjpe8=
+	t=1750515816; cv=none; b=hW6bkcrwd92uIDkkh1Gxi2FfxvRRDPSh2o+KGWm3ezsUNGRjNjTKpC05p1nfv9Hl9br4WMi1nQNpqoV3SgBjqUvG6g7JUBrGkFyNq037KZDR1OjA+T6uUKxIniEYsvdMLoIceS1cY5SDR2ihpqWdGYXB0uhnY7h8OYVxzmsBjJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750514460; c=relaxed/simple;
-	bh=9i8uiatyMw1RdzjZjwSQ0hZw7kq5HfaNGFEFtdfCJaM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ssyZPE5BgqGAbbzaw56BLm5cRcK8UplgXBP8ByuQ87c1GRDEyw6w1FLhx+aoGbI0F2bxWL9GCFFHkIcCk6jrQ9a/ii8F2w96F0M21mqHlwrF4kW+ZIaMSaBr0LzsnarW6Npl/pZdDt7S3vRTTwDvjyoYYgnsJzhtqG+/dZAqa/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IYulUpGb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B2B8C4CEE7;
-	Sat, 21 Jun 2025 14:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750514460;
-	bh=9i8uiatyMw1RdzjZjwSQ0hZw7kq5HfaNGFEFtdfCJaM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=IYulUpGbAO2BmvLggA+pL07kMwZH2Eb0uV8WJAalK6MDYI2ZYjllH0lM9K1ailQob
-	 vOpa33+T5ehsTvzWuii7rC6/rAiWJ4bQ38Ex3rnOiYBcuy6fGhKZKx4pDIgkqDgznk
-	 nG3iC/HpG56+95DEVm79pzJKQd1OmYpw8bXOetFG+lc1vOx1gUfWv7y3ZDM/++Hlii
-	 MGEPu8vwBrQDDj76YDNJnubcOXaB3Rp04eoemgMYKetCsBQc8+xnDa0htwXBTNqV5/
-	 P9TdPHMSkfdPp3RKsf5bpY99CohIbDaNxR3BHlA2ZyzXYzYtQOBcIpwPmHr5C+NHQM
-	 JMGh9EnChLm7Q==
-From: Hans de Goede <hansg@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH] media: ivsc: Fix crash at shutdown due to missing mei_cldev_disable() calls
-Date: Sat, 21 Jun 2025 16:00:52 +0200
-Message-ID: <20250621140052.67912-1-hansg@kernel.org>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1750515816; c=relaxed/simple;
+	bh=9X11Q5xppWHkVzzWlRnS3XXcKyky3uW7NnCIal+uUU0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KnKse9+8FzA7v+f6YjKG8eNMkPS+kMp8pPDXZrAxeXnH9wlcS3sRuLWWOa84KVGQqkvCr/e7krNb8qGOjt4AXJ8BaGv+9gpHUMe9sMUkc+siGxNaGbLSb1TP7nOP/aMQb5q+7KXmjzPfTGb6qWFu7VqVpirFJklvYMtVJULhhE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=i8rMPC0l; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1750515806;
+	bh=9X11Q5xppWHkVzzWlRnS3XXcKyky3uW7NnCIal+uUU0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=i8rMPC0lgJCdheF47QVC4kGCe3t6g8sS0ljLNZZjrkus+XFOZJlQDbq5byd8ufiWP
+	 6G86sATxHvWLaQLpPkD5IFmSkOE631QQP6FpruZnXMoF6U1XYQcfvmfUIBogoLln2A
+	 +1cf0/oZC7/VKjSq3YuaOOvZgYq2hj7Zb8b6/Jc+hEnpeUaBTM1o3g6V5EV2hlRhbu
+	 W1x97ONOOzYEOZv+zmy4qm9QLgkOUAQgZI2JKdJNWb+m30myWZQkcWVfeplLbQAWdK
+	 Hj2rKAoYH0nnwRRF75T/xU0bdJftzctY1pTidd71rJHlueGbl/87rjvzu8tWASgT4d
+	 5g6+WnJnKo3lg==
+Received: from [10.40.0.100] (185-251-200-162.lampert.tv [185.251.200.162])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9ABCC17E046C;
+	Sat, 21 Jun 2025 16:23:24 +0200 (CEST)
+Message-ID: <0eb440d8-fdc3-4ceb-8856-cda43afde4d1@collabora.com>
+Date: Sat, 21 Jun 2025 16:23:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 19/55] media: i2c: imx415: Use the v4l2 helper for
+ obtaining the clock
+To: Mehdi Djait <mehdi.djait@linux.intel.com>,
+ laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com
+Cc: akinobu.mita@gmail.com, stanislaw.gruszka@linux.intel.com,
+ hdegoede@redhat.com, arnd@arndb.de, alain.volmat@foss.st.com,
+ andrzej.hajda@intel.com, benjamin.mugnier@foss.st.com,
+ dave.stevenson@raspberrypi.com, hansg@kernel.org, hverkuil@xs4all.nl,
+ jacopo.mondi@ideasonboard.com, jonas@kwiboo.se,
+ kieran.bingham@ideasonboard.com, khalasa@piap.pl,
+ prabhakar.csengg@gmail.com, mani@kernel.org, m.felsch@pengutronix.de,
+ martink@posteo.de, mattwmajewski@gmail.com, matthias.fend@emfend.at,
+ mchehab@kernel.org, naush@raspberrypi.com, nicholas@rothemail.net,
+ nicolas.dufresne@collabora.com, paul.elder@ideasonboard.com,
+ dan.scally@ideasonboard.com, pavel@kernel.org, petrcvekcz@gmail.com,
+ rashanmu@gmail.com, ribalda@chromium.org, rmfrfs@gmail.com,
+ zhengsq@rock-chips.com, slongerbeam@gmail.com, sylvain.petinot@foss.st.com,
+ s.nawrocki@samsung.com, tomi.valkeinen@ideasonboard.com,
+ umang.jain@ideasonboard.com, zhi.mao@mediatek.com,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <cover.1750352394.git.mehdi.djait@linux.intel.com>
+ <0cc24a56cfdd04b871f06a12c30e40bf1012935e.1750352394.git.mehdi.djait@linux.intel.com>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <0cc24a56cfdd04b871f06a12c30e40bf1012935e.1750352394.git.mehdi.djait@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Both the ACE and CSI driver are missing a mei_cldev_disable() call in
-their remove() function.
+Hi Mehdi,
 
-This causes the mei_cl client to stay part of the mei_device->file_list
-list even though its memory is freed by mei_cl_bus_dev_release() calling
-kfree(cldev->cl).
+Thanks for your patch!
 
-This leads to a use-after-free when mei_vsc_remove() runs mei_stop()
-which first removes all mei bus devices calling mei_ace_remove() and
-mei_csi_remove() followed by mei_cl_bus_dev_release() and then calls
-mei_cl_all_disconnect() which walks over mei_device->file_list dereferecing
-the just freed cldev->cl.
+On 6/19/25 19:59, Mehdi Djait wrote:
+> devm_clk_get() fails on ACPI-based platforms, where firmware does not
+> provide a direct reference to the clock producer.
+> 
+> Replace devm_clk_get() with the new v4l2 helper
+> devm_v4l2_sensor_clk_get() that works on both DT- and ACPI-based
+> platforms to retrieve a reference to the clock producer from firmware.
+> 
+> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> 
+> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
+> index 9f37779bd611..f7897660f44f 100644
+> --- a/drivers/media/i2c/imx415.c
+> +++ b/drivers/media/i2c/imx415.c
+> @@ -1251,7 +1251,7 @@ static int imx415_parse_hw_config(struct imx415 *sensor)
+>  		return dev_err_probe(sensor->dev, PTR_ERR(sensor->reset),
+>  				     "failed to get reset GPIO\n");
+>  
+> -	sensor->clk = devm_clk_get(sensor->dev, "inck");
+> +	sensor->clk = devm_v4l2_sensor_clk_get(sensor->dev, "inck");
 
-And mei_vsc_remove() it self is run at shutdown because of the
-platform_device_unregister(tp->pdev) in vsc_tp_shutdown()
+Matthias Fend discovered a while ago that the driver is not in agreement
+with the DT binding, which does not require a certain clock name.
+However, the corresponding patch [0] has not landed in v6.16-rc1 AFAIK.
 
-When building a kernel with KASAN this leads to the following KASAN report:
+Can we translate the line above directly to
+    sensor->clk = devm_v4l2_sensor_clk_get(sensor->dev, NULL);
+?
 
-[ 106.634504] ==================================================================
-[ 106.634623] BUG: KASAN: slab-use-after-free in mei_cl_set_disconnected (drivers/misc/mei/client.c:783) mei
-[ 106.634683] Read of size 4 at addr ffff88819cb62018 by task systemd-shutdow/1
-[ 106.634729]
-[ 106.634767] Tainted: [E]=UNSIGNED_MODULE
-[ 106.634770] Hardware name: Dell Inc. XPS 16 9640/09CK4V, BIOS 1.12.0 02/10/2025
-[ 106.634773] Call Trace:
-[ 106.634777]  <TASK>
-...
-[ 106.634871] kasan_report (mm/kasan/report.c:221 mm/kasan/report.c:636)
-[ 106.634901] mei_cl_set_disconnected (drivers/misc/mei/client.c:783) mei
-[ 106.634921] mei_cl_all_disconnect (drivers/misc/mei/client.c:2165 (discriminator 4)) mei
-[ 106.634941] mei_reset (drivers/misc/mei/init.c:163) mei
-...
-[ 106.635042] mei_stop (drivers/misc/mei/init.c:348) mei
-[ 106.635062] mei_vsc_remove (drivers/misc/mei/mei_dev.h:784 drivers/misc/mei/platform-vsc.c:393) mei_vsc
-[ 106.635066] platform_remove (drivers/base/platform.c:1424)
+Best regards,
+Michael
 
-Add the missing mei_cldev_disable() calls so that the mei_cl gets removed
-from mei_device->file_list before it is freed to fix this.
+>  	if (IS_ERR(sensor->clk))
+>  		return dev_err_probe(sensor->dev, PTR_ERR(sensor->clk),
+>  				     "failed to get clock\n");
 
-Fixes: 78876f71b3e9 ("media: pci: intel: ivsc: Add ACE submodule")
-Fixes: 29006e196a56 ("media: pci: intel: ivsc: Add CSI submodule")
-Cc: Wentong Wu <wentong.wu@intel.com>
-Signed-off-by: Hans de Goede <hansg@kernel.org>
----
- drivers/media/pci/intel/ivsc/mei_ace.c | 2 ++
- drivers/media/pci/intel/ivsc/mei_csi.c | 2 ++
- 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/media/pci/intel/ivsc/mei_ace.c b/drivers/media/pci/intel/ivsc/mei_ace.c
-index 3622271c71c8..50d18b627e15 100644
---- a/drivers/media/pci/intel/ivsc/mei_ace.c
-+++ b/drivers/media/pci/intel/ivsc/mei_ace.c
-@@ -529,6 +529,8 @@ static void mei_ace_remove(struct mei_cl_device *cldev)
- 
- 	ace_set_camera_owner(ace, ACE_CAMERA_IVSC);
- 
-+	mei_cldev_disable(cldev);
-+
- 	mutex_destroy(&ace->lock);
- }
- 
-diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
-index 92d871a378ba..955f687e5d59 100644
---- a/drivers/media/pci/intel/ivsc/mei_csi.c
-+++ b/drivers/media/pci/intel/ivsc/mei_csi.c
-@@ -760,6 +760,8 @@ static void mei_csi_remove(struct mei_cl_device *cldev)
- 
- 	pm_runtime_disable(&cldev->dev);
- 
-+	mei_cldev_disable(cldev);
-+
- 	mutex_destroy(&csi->lock);
- }
- 
--- 
-2.49.0
-
+[0] https://lore.kernel.org/all/20250514-imx415-v1-1-bb29fa622bb1@emfend.at/
 
