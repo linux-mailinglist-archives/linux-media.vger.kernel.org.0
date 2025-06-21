@@ -1,341 +1,418 @@
-Return-Path: <linux-media+bounces-35512-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35513-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420B1AE26CF
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 03:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4720AE276F
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 06:54:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 192A7166B33
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 01:07:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 30C2317EC7E
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 04:54:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6923A199BC;
-	Sat, 21 Jun 2025 01:07:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79E2F1865FA;
+	Sat, 21 Jun 2025 04:54:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="JgRVYB8K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFEGpwHy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE74C30E83F;
-	Sat, 21 Jun 2025 01:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750468060; cv=fail; b=gkOZc9QL3XF+om0UnlIS6Lrxv+ypSF4LZPQTjB2iD3rTiQ+bXLqjtpnhv+128taKcelCyQWETjRHVmHp1wdZJXXrfGSA3UBP5EuzEpyjiMdjGkXIEWWKKCwulpdvz+eWlAyGqjalhYO8YL0BMIcH3orUWf2QIjQXfP10IQax5AI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750468060; c=relaxed/simple;
-	bh=Ca/o88AqegkKtT+NI8ejDHTVXMhMCoAd6byBz9xV0d4=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=pz/3EddHqsddgNzRUhDktZJEdGTen07khpjAMePKupYbmzve/RoGI/oD3X7y46JWT+/bxnOnaP2JzIsv1lzOQxmG4Afh5bU9CjSN1JGVcaeERAHKajw/rknaBK4RFmzhzYZdZPfSdS4DtA3dKq4o0oZZ5jh4hzdIc8iGG6TWIkE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=JgRVYB8K; arc=fail smtp.client-ip=40.107.243.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aLHJkVZgB4ci2Tkl6L7UhsG4e0oBhTU00wTdIn1XVb2Nm0sDm5NP5ne+cwAVNW/NU/iU4agGwwinXhz+yOAuJdgJExdKchR7NP5UIA5RpR1eiMozHU+PZ/0+r6XqKH6mw5Lod7+zjE0fattijWjvU3K7lHB2qJ63MBwpjQ7AQF3+K7DSNib8zs0OmMR+kwi1/a+YnS8LtP2yDPbA7/xTrj0+WFxDZgWtdhBpS1RY9jh8jLxtncP7cs21NrYB8TzhkDIi2HFkxtkFIa7jSVojl6Baznre4xVQTn5AzNJTfGsAZ7hSX/954GV++qhQSNSc1w1vRQakAgY7TPhoVAOKYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HjTGrj8sZTiCMkqC1H0eEpPIgJLDeA67/gTAEzKHtPI=;
- b=wIhKIbYmpXiHhvtoLqpaLXhDOcpwseh9EXutWMMN6BS4uxYOP/ZNYaChlIkPdyl86gSPwHgVmJqMncuAUIXBq7FOLLwUhvcHttUFnYxs3sZfC0yGh5hW6/Iqgf6MMO3BKs8z5/N/Xad7SFLrzIUMLjP7ud+JmN5K5ccaM7Vxykua9MKtafsmCpSC5XCNW8/CP8MSFjCU4QL0HsAeLvHYcHpLvi6RTdQSgMirBZ/HNMn2zLiZhaiZ1OSNH0Fyt1aqwl7cXi+mHeJFG1NLj57HWik3XFLAiLitFgW1ynnnKB8AJBGG/3lPZhSXwVS+X505/ONFt1n3y79vXVg0Udr9Xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HjTGrj8sZTiCMkqC1H0eEpPIgJLDeA67/gTAEzKHtPI=;
- b=JgRVYB8KTxaJzhWlUweMmdDjaBLSlg0G7eonXlLArEOd5sX5qf4XjofUM8L7wmxKfX3eym1YNDDvVg+TIxSznyCs6VPWOIA8V2PxeOTRwWHT37I7nkMnGhtye7lf7AnYgC1oz6ZY73yCgoEWS+KgG1myVbRAvHc/asCB4HeKUhU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH3PR12MB9194.namprd12.prod.outlook.com (2603:10b6:610:19f::7)
- by IA4PR12MB9811.namprd12.prod.outlook.com (2603:10b6:208:54e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.27; Sat, 21 Jun
- 2025 01:07:34 +0000
-Received: from CH3PR12MB9194.namprd12.prod.outlook.com
- ([fe80::1e6b:ca8b:7715:6fee]) by CH3PR12MB9194.namprd12.prod.outlook.com
- ([fe80::1e6b:ca8b:7715:6fee%7]) with mapi id 15.20.8857.019; Sat, 21 Jun 2025
- 01:07:33 +0000
-Message-ID: <f5958bda-838a-4ed6-84c6-fef62cd0b28f@amd.com>
-Date: Sat, 21 Jun 2025 11:07:24 +1000
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP
- using TSM
-From: Alexey Kardashevskiy <aik@amd.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com, pbonzini@redhat.com,
- seanjc@google.com, alex.williamson@redhat.com, jgg@nvidia.com,
- dan.j.williams@intel.com, linux-coco@lists.linux.dev
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
- yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
- yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
- baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com,
- linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
- shameerali.kolothum.thodi@huawei.com, aneesh.kumar@kernel.org,
- iommu@lists.linux.dev, kevin.tian@intel.com
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <e886855f-25cc-4274-9f11-fe0e5b025284@amd.com>
-Content-Language: en-US
-In-Reply-To: <e886855f-25cc-4274-9f11-fe0e5b025284@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SY6PR01CA0044.ausprd01.prod.outlook.com
- (2603:10c6:10:e9::13) To CH3PR12MB9194.namprd12.prod.outlook.com
- (2603:10b6:610:19f::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4C45258
+	for <linux-media@vger.kernel.org>; Sat, 21 Jun 2025 04:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750481651; cv=none; b=KDyi3iT87vgkWeec1OWx9JL51xpUNI98cF5tGq4vvRr6OCq5ik7Q3fYNkU9N0xRuOPQpyW3NF6ZAqj/w1GV1wko/tuoKSsjYtai0bnQoXSTrsJxw4+9earUSp2rf0Rtlx8DtRzWj15l1swS1LPzJHyHLv89/MAlcz5TY0DEYMec=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750481651; c=relaxed/simple;
+	bh=sQ/rVsli/E5ke/ZY6e4XfRLU4PKOiP+5nbJ0znktvTc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cTkH4di1BmmrMZ5b/RlspFQez08h4PEYsEd7rSgcRpy7Tsi/OrfZBd1b9l66NzbnJgJLOKDp6FczpRLty0vo93j/iIV3sffNZ0DClLmdU7wpb1mtHBRFjST9Rg2yv3taanLCjxlcTu1CzWHXZl8/Hszh7MUJhbWUFEvIx8tCthk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFEGpwHy; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750481649; x=1782017649;
+  h=date:from:to:cc:subject:message-id;
+  bh=sQ/rVsli/E5ke/ZY6e4XfRLU4PKOiP+5nbJ0znktvTc=;
+  b=EFEGpwHyhhXihDF7tkUK5Rk7aLslrgPfldijNL6U91Etq4QBDqPPvkUg
+   //GsSNRVcdPGqc9vw//85kGH5QW6z+1UNEziC0H2aVGMRF7hq8OU4xNeQ
+   fkw6QYmb9bTNTUnstTGpAtXqtP3CtOqoTA46ezcseAGofsutnsAmkrATl
+   7CpOZ/2P7ZI84SNKhXx+pP3uabDdHY8VD/DcRPVCqQqyT5Ug4lYUIlQzF
+   oeRaiUeQel2J2JkueOMk0hsR3hClIQCNc+LhK9vS23fD6fGyfhpXkyphz
+   gboH9Z+PvPLJeV2U1rGx2/lbulQBDiMTQhsa9+Ty2FwNXNh78fwnyqn2M
+   g==;
+X-CSE-ConnectionGUID: i9pWZ9MQRFex7P8OPEMoYw==
+X-CSE-MsgGUID: /cH8TDb/S4qRJ7wNKTGjMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52891929"
+X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; 
+   d="scan'208";a="52891929"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 21:54:09 -0700
+X-CSE-ConnectionGUID: BVUoFftzRpmSwFmPgzUvjg==
+X-CSE-MsgGUID: YI0EqpwtRRC6/U+9tXedFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; 
+   d="scan'208";a="151375302"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 20 Jun 2025 21:54:08 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uSqEv-000MNG-39;
+	Sat, 21 Jun 2025 04:54:05 +0000
+Date: Sat, 21 Jun 2025 12:53:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS WITH WARNING
+ 803b9eabc649c778986449eb0596e5ffeb7a8aed
+Message-ID: <202506211219.ifE3Nr6r-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB9194:EE_|IA4PR12MB9811:EE_
-X-MS-Office365-Filtering-Correlation-Id: a4146cf4-8f6f-4881-9310-08ddb06000e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?d29FblVqSmVKMktaSEthOUNvSW5neFZmeHF5aHdXdFZqWnBaM085UG4xUjE4?=
- =?utf-8?B?c21OWE1zT201MndCdDV3SGNnTENXS1pzQ2ZCU3FReGZRbGlVQURLZVhLeFZU?=
- =?utf-8?B?VjNhZW9uSTlRQVpTdmdKMVR4by9oQVVtTDNrb1g4dXhrQW8vQ2xVSTR4QTdy?=
- =?utf-8?B?ckQ1WHNnSlVDWjRSMXdoTHRFMmlRbyt2dytJRTVRa1A2anMxb3ZCVnhMRXdW?=
- =?utf-8?B?aFJIY2I3djhvMFNRL1JvRGRjZ0wxSW0xRXpNZFMxeitLWFdUUm1iWVRxZFky?=
- =?utf-8?B?QzR2TUhtMjhDaGJoVkJJMEt2c2kyV1VWU2xhR0lEcE9uTDVXcUJLOS9zUC9U?=
- =?utf-8?B?TXkwb1ZLRjJwYVR0d20rdzVCOHlJTUhUb3hiWVpIa3ZQMlBycTdLRng1amdn?=
- =?utf-8?B?dUJYTm5GVWlQUThVUHcvZUhSYnY4aEdhampCK1h3UEN4dXBsVlBWMytOYzhJ?=
- =?utf-8?B?TEtGamY0RXpTZ2dPeG5ZSS9Kcng3bEZ0dHF0NS9ma2FNemtrNUtvaGNFeTBq?=
- =?utf-8?B?bVBNSVRPZENFc3VqNGI4bkUvenN1R21MTkZaZGQzYVdTOEkxZXVkbmVsM25W?=
- =?utf-8?B?bnl6T205cXltWUdvYlkwTC9EbnpDZlpHdE9OWWtyVUxMTTJFVVNWcXQ3Rmd5?=
- =?utf-8?B?elpqZkp4aFNDSVdPZ2JzekN2bW93OXR4V3RVZlRncnJNbWFsUXJEUE5kNlJx?=
- =?utf-8?B?QmgyQmJFYzU5SmlsOERvbktnODdxWFdvQmJKUnIrYTMwK0Y4OTJ4enBKdHVB?=
- =?utf-8?B?Q2NwYmsrTzZYbjhYTElGWFdLU2VZTkNqWjNBOXRodVVhMGYyOUFBTXNYMVlt?=
- =?utf-8?B?TkFCSUZ1bDdUWktuZlBhQS9FQVpuNlg4UmdVN0NjSytlamVvK3NOclcxMy9Y?=
- =?utf-8?B?NmJvNFZJaWlQckt5TDdLVlNKa3dEaEI2dkozcnFIOEViUm5yV090LzZuUnh3?=
- =?utf-8?B?RTM4QXlwVzVlcy9CZWF0aFhURnAwU3A4dEZzWkxVRDcwNStLclBFa0pVTjJL?=
- =?utf-8?B?Wms4aTVrc3llRnhpUGJsWkprOE5LaHFXZElnZklCTlh3Vkg1SG45N0c1cEZS?=
- =?utf-8?B?eFZXcEhhallpeWhCUzdvSU00ZTU3ODcvWkFTSFlGWXoyNGQzVVRUdlRmL29M?=
- =?utf-8?B?VENFcGxXZTh4NldsWmdlRi9FQlcxNjVKSUhDdG5NQzhwNVdBOXloRGZlVjBl?=
- =?utf-8?B?b21ObGlzODFvVzgrd3k3WW5BRHdrcmViTmo1UkV2OEJ3bjlTS1lVWHFaMHpj?=
- =?utf-8?B?YnFDcWUzOWpQVmFSZmVpNWtQMnBmNEtsd29HcFNDdW5FazZITVdlNi9SWDJ6?=
- =?utf-8?B?NWdGZnpHZ2MrN0ZlQ21lbTRvOFFSU2ZKb1YvUFdyQ3E4YUdOUnlnQ3dRbC91?=
- =?utf-8?B?ckFXNjdNektDV0JqQWpHaW1WeHA3Rk9tNTdNOXdUKzZTb2gvRS9UVHA0ZU85?=
- =?utf-8?B?LzZSSDJ6Z0V6TzU2YlpQUml6N0N3MHB6emhGVXJQZGN2Y0JBMEdmMFZUM0s4?=
- =?utf-8?B?SVFhUk1PMVhiWHpOd0hJNkFHcStaYkg5WUN4QWV5RStDSjg5U2JZcHBxMHZz?=
- =?utf-8?B?Tk5TZGpiaHJvNGRCUVpCVmdjSVhLMWZIdFJ4SHdwRjlGUXBoVklSTUErRWRs?=
- =?utf-8?B?ZzBIQTRQbTB0S2pNaldnMUFDR00rMlF5ZUNGQzhjSXBsa1g3QXNHQk9Tc1JP?=
- =?utf-8?B?dXJFNmQzUXBkOG14WmFVOUlTaEdCcTZpNWpxcHQycDEyTFVZelJjRFp4a09Q?=
- =?utf-8?B?QlhFTThJc2UzdFpTREYxYkwvZTg4N1JaTFl3SG9ISnh5VkhzZ3hzb2NKUlpt?=
- =?utf-8?B?dDN1ZnpnRVI4V1FoblpEaUluMUt0ZzN5eDNBaDNuc01qTHVFRW9iNGE4Y3pp?=
- =?utf-8?B?RUFtcllOTml4U3UzUmo2Y09Xb25NMkhkRkozMktXSExWWC9KWFRXY2NJclNK?=
- =?utf-8?B?dnNQbFl0RDA3WURSbUx2d1RSY3hEOVY4L1BLZWNjcWFoQkp2TDAwQUhqSmN6?=
- =?utf-8?Q?p/CxmS7yxKCDegJtG0YyrsnNmtyeWs=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB9194.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TU1xOUV4dWg3WjM1TVd6clgzR1ZldkMrUE1sWFVkKzBQYUc1M1FteWhlZjVV?=
- =?utf-8?B?TE5qQTRLWWxMWjVaN01USi9maW8xYXRoOCtMWGpab0sxQ0NmbWZJbjBrb1Az?=
- =?utf-8?B?NzFnTUorZXJrdG0xaXhTcFloVTBTRVU2cTJ1em1vQ1dwMmVzVWIrTFVQWllT?=
- =?utf-8?B?d29oSHZ0SzJxYk5mNWlCcTdtejc2UzB1UWdObGlNdVZPVkZmNkludHdRak94?=
- =?utf-8?B?N3h2bm9YTWFhTUF5QVJNZTNzUWFDclk5U0tmTStjQ2xzNytaSnpjWlZXU1RM?=
- =?utf-8?B?Ky8zTFVUei9IaHBhb3dqVUVqbU4wb3htcVNxSUk5TkE0N1BHdlFhL1llWjRO?=
- =?utf-8?B?NkhjM0tLMjJmVkxKYnNDS084M0EyTVRyb1d2Vm5oZG9YNDdhZ3RzaVF5ZCsv?=
- =?utf-8?B?RERJTGlMUENQUHZYak9FcEZsOG1uRkhlNGdhUjVEd0diZDhvWis2SkdKUGJZ?=
- =?utf-8?B?d295c1FUViswUXFRb25EcHBrVXFnR0ZDOUsyTDI3RndqZWMraHo4TGdQdUIy?=
- =?utf-8?B?dVNSVXhWc2E2OHlNNUxCQmlWcHVQZGJIMEQvSlZac1JiNDVxV2dHZzJ3Yi9x?=
- =?utf-8?B?SGFLM0RuU1BoRnhkR3dnVzd4SGZrczR0V2ZwZEJDK0VNaDgrc0kxbVcyUnRK?=
- =?utf-8?B?d1FSdnVhcTh2M3RNZWxiNjZjYVorcm1oVUVjd01FUUNHNzVkc09hN0ttVGZo?=
- =?utf-8?B?R2duVTRLKzNsVnVRcHNMYlhPRGtUZU4ycFYzcjUrNWJFUUQzQzlTZUJBT09Q?=
- =?utf-8?B?TVo5cU1jTGFiUDU0YkpZc1A0b054TEp2QVZrNGZJSnZVM1Qwem82R0hjNUJM?=
- =?utf-8?B?WnRsTlhUdTJyMmRWaDVUZGsraW1xUVNmM3Q2VmFaNVlib2xRaldUbHZxYVI1?=
- =?utf-8?B?Y1ovekpTMHFTdnpna0docFpTeGtWM0MrWmU1TTJqdWx5YThZTnZHYncvb3lV?=
- =?utf-8?B?QWZPSzVvYUJZVnpraEVURUZpOTFXd1M4R0RyYk12RXFxUmhyK1dDM0RENzlU?=
- =?utf-8?B?VlpYdUJKWGpRSEtYUXZvV0RCMzdDLzN5UWRnVzZvZGdqU2VEUS9LNTZYaXJD?=
- =?utf-8?B?MGJ1Q3RKWVhLZmRpS09TZC9pbkhQYnN3RnNqS0NTMTdsMjFneHNMS0d6TEMv?=
- =?utf-8?B?RG1mcEZtOGxta3BaNDJGWkUyaHk3VHlYakZFRXRDVGJKQjNIS0hRdkZSaUdX?=
- =?utf-8?B?bjZQdS96bXUwNEZFMkdqbmU4OTNyOC9xWWRXTlp1WCsyVjFSNUVMWkdQT2Fw?=
- =?utf-8?B?czZMOGlHWkJpcEZSVTVkREZsSnFEODhKM2hPRFc4YTNjVDh2cldKdGJYcGxo?=
- =?utf-8?B?OTlDaFJtQ1pUTktJOFdxbTcwNnFQd3FyNXlZNUhCbHhsNGNKYllXSWhrVnZv?=
- =?utf-8?B?dWNYS3hvcUlkSzZ3OXdMZFJuZm9kQlVFTGRpS2R1bVE1WnJkZE9SUTR3cVhJ?=
- =?utf-8?B?NDFSV01oODJKaGtGNjZIM2pMN1BJMmtvem1IZDVaYlVRbzhRekcrQjUxV25v?=
- =?utf-8?B?Zy9OeU1VUmUrUnEzMTZSRVNTWjd4VnA3MEIzU0YrVnl6Sm1VK2dLdTFBeUFv?=
- =?utf-8?B?ZVdHSmV2SDNKZFdkRHlCbTB3VUxYbXdkUFlab3hSZmJJTHFDVU1FWE5veXB1?=
- =?utf-8?B?MEdvd3dUbnlLSXByZ21wWmR4eEdWQTJyelFkVkVEcHpOb1Y5bmRIRS9DMWtm?=
- =?utf-8?B?UzIzZlhxU0FHOWozUi85dm5QYWFiQ2swZWRpMmxrQlFCSHcyM0dmU3ZCUjFp?=
- =?utf-8?B?NEtOQy9sZWxwR1ZFZUNETkpxNkZnd3UrMEpZTDd5TXpQazRGSXp5em9lQlph?=
- =?utf-8?B?TWxlNHRrVjZoTXovNDRyei9peW5Ualk0RGtlOGJybG50UUlEZlY3RjdTbk9C?=
- =?utf-8?B?em1Hb3Nla0cwaVY4bi9Xc29WSlZneklCSXgvbm9VaWNaT0QxSm05MjNaWHVa?=
- =?utf-8?B?akwySGJNT0xMa29uVHFiVlg1eE92Vis0eTUvWno3NEt5WnMxT1gzUE1XN2Ro?=
- =?utf-8?B?eEtkakF3M1YwZFQvU2JSWTZHRkQ5UVh5OXh6d1ZUZEhZVm94bHhJK0dGS2t3?=
- =?utf-8?B?NnJ0Qmcya3NUcVdXZFArUUE5a2R3bmFtNEFWdjBhZFRWdTZSVHRFdC9qU1pz?=
- =?utf-8?Q?YT4TkrniqZNOgoMWZYn+1vslE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4146cf4-8f6f-4881-9310-08ddb06000e8
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9194.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2025 01:07:33.7513
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GlohPfUHUx4fL0mOV4b0eE9OiwyjuncljNruBm+v8LKWEsVqnt47TagNC5i3y9/4lpm9KiLu0abVpjHiWQMnqQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR12MB9811
 
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: 803b9eabc649c778986449eb0596e5ffeb7a8aed  media: v4l2-ctrls: Fix H264 SEPARATE_COLOUR_PLANE check
 
+Warning (recently discovered and may have been fixed):
 
-On 11/6/25 11:55, Alexey Kardashevskiy wrote:
-> Hi,
-> 
-> Is there a QEMU tree using this somewhere?
+    https://lore.kernel.org/oe-kbuild-all/202506181950.r9PRdV59-lkp@intel.com
 
-Ping? Thanks,
+    drivers/media/platform/renesas/vsp1/vsp1_vspx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
+Warning ids grouped by kconfigs:
 
-> Also it would be nice to have this tree pushed somewhere, saves time. Thanks,
+recent_errors
+|-- alpha-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- alpha-allyesconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arc-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arc-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arc-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-randconfig-003-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-randconfig-004-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm64-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm64-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm64-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm64-randconfig-003-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm64-randconfig-004-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- csky-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- csky-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- csky-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-allmodconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-allyesconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-allyesconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-003-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-004-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-005-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-006-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-defconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-randconfig-141-20250621
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- loongarch-allmodconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- loongarch-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- loongarch-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- loongarch-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- m68k-allmodconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- m68k-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- m68k-allyesconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- microblaze-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- mips-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- nios2-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- nios2-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- nios2-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- openrisc-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- parisc-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- parisc-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- parisc-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-randconfig-003-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc64-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc64-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc64-randconfig-003-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- riscv-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- riscv-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- riscv-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-allmodconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-allyesconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-allmodconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-allyesconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sparc-allmodconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sparc-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sparc-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sparc-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sparc64-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sparc64-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-allmodconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-allyesconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-buildonly-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-buildonly-randconfig-002-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-buildonly-randconfig-003-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-buildonly-randconfig-004-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-buildonly-randconfig-005-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-buildonly-randconfig-006-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-defconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-randconfig-161-20250621
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- xtensa-allnoconfig
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- xtensa-randconfig-001-20250620
+|   `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+`-- xtensa-randconfig-002-20250620
+    `-- drivers-media-platform-renesas-vsp1-vsp1_vspx.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
 
+elapsed time: 957m
 
+configs tested: 140
+configs skipped: 2
 
-> 
-> 
-> 
-> On 29/5/25 15:34, Xu Yilun wrote:
->> This series is the generic host side (KVM/VFIO/IOMMUFD) support for the
->> whole life cycle of private device assignment. It follows the
->> previously discussed flow chart [1], aim to better illustrate the
->> overall flow of private device assignment, find out and narrow down the
->> gaps of different vendors, and reach some common directions.
->>
->> This series is based on Dan's Core TSM infrastructure series [2].  To
->> give a clear overview of what components are needed, it also includes
->> some existing WIP patchsets in community.
->>
->> This series has 3 sections:
->>
->> Patch 1 - 11 deal with the private MMIO mapping in KVM MMU via DMABUF.
->> Leverage Jason & Vivek's latest VFIO dmabuf series [3], see Patch 2 - 4.
->> The concern for get_pfn() kAPI [4] is not addressed so are marked as
->> HACK, will investigate later.
->>
->> Patch 12 - 22 is about TSM Bind/Unbind/Guest request management in VFIO
->> & IOMMUFD. Picks some of Shameer's patch in [5], see Patch 12 & 14.
->>
->> Patch 23 - 30 is a solution to meet the TDX specific sequence
->> enforcement on various device Unbind cases, including converting device
->> back to shared, hot unplug, TD destroy. Start with a tdx_tsm driver
->> prototype and finally implement the Unbind enforcement inside the
->> driver. To be honest it is still awkward to me, but I need help.
->>
->> This series don't include the VMEXIT handle for GHCI/GHCB calls for
->> Bind/Unbind/Guest request, cause it involves vendor specific code. The
->> general idea is KVM should just pass these calls to QEMU, QEMU parses
->> out the command and call the newly introduced VFIO/IOMMUFD IOCTLs.
->>
->> With additional TDX Connect specific patches (not published), passed
->> engineering test for trusted DMA in TD.
->>
->> [1]: https://lore.kernel.org/all/aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050/
->> [2]: https://lore.kernel.org/all/20250516054732.2055093-1-dan.j.williams@intel.com/
->> [3]: https://lore.kernel.org/kvm/20250307052248.405803-1-vivek.kasireddy@intel.com/
->> [4]: https://lore.kernel.org/all/20250107142719.179636-1-yilun.xu@linux.intel.com/
->> [5]: https://lore.kernel.org/all/20250319173202.78988-3-shameerali.kolothum.thodi@huawei.com/
->> > Alexey Kardashevskiy (1):
->>    iommufd/vdevice: Add TSM Guest request uAPI
->>
->> Dan Williams (2):
->>    coco/tdx_tsm: Introduce a "tdx" subsystem and "tsm" device
->>    coco/tdx_tsm: TEE Security Manager driver for TDX
->>
->> Shameer Kolothum (2):
->>    iommufd/device: Associate a kvm pointer to iommufd_device
->>    iommu/arm-smmu-v3-iommufd: Pass in kvm pointer to viommu_alloc
->>
->> Vivek Kasireddy (3):
->>    vfio: Export vfio device get and put registration helpers
->>    vfio/pci: Share the core device pointer while invoking feature
->>      functions
->>    vfio/pci: Allow MMIO regions to be exported through dma-buf
->>
->> Wu Hao (1):
->>    coco/tdx_tsm: Add connect()/disconnect() handlers prototype
->>
->> Xu Yilun (21):
->>    HACK: dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI
->>    fixup! vfio/pci: fix dma-buf revoke typo on reset
->>    HACK: vfio/pci: Support get_pfn() callback for dma-buf
->>    KVM: Support vfio_dmabuf backed MMIO region
->>    KVM: x86/mmu: Handle page fault for vfio_dmabuf backed MMIO
->>    KVM: x86/mmu: Handle page fault for private MMIO
->>    vfio/pci: Export vfio dma-buf specific info for importers
->>    KVM: vfio_dmabuf: Fetch VFIO specific dma-buf data for sanity check
->>    fixup! iommufd/selftest: Sync iommufd_device_bind() change to selftest
->>    fixup: iommu/selftest: Sync .viommu_alloc() change to selftest
->>    iommufd/viommu: track the kvm pointer & its refcount in viommu core
->>    iommufd/device: Add TSM Bind/Unbind for TIO support
->>    iommufd/viommu: Add trusted IOMMU configuration handlers for vdev
->>    vfio/pci: Add TSM TDI bind/unbind IOCTLs for TEE-IO support
->>    vfio/pci: Do TSM Unbind before zapping bars
->>    fixup! PCI/TSM: Change the guest request type definition
->>    coco/tdx_tsm: Add bind()/unbind()/guest_req() handlers prototype
->>    PCI/TSM: Add PCI driver callbacks to handle TSM requirements
->>    vfio/pci: Implement TSM handlers for MMIO
->>    iommufd/vdevice: Implement TSM handlers for trusted DMA
->>    coco/tdx_tsm: Manage TDX Module enforced operation sequences for
->>      Unbind
->>
->>   Documentation/virt/kvm/api.rst                |   7 +
->>   arch/x86/Kconfig                              |   1 +
->>   arch/x86/kvm/mmu/mmu.c                        |  25 +-
->>   drivers/dma-buf/dma-buf.c                     |  87 +++-
->>   .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |   1 +
->>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |   1 +
->>   drivers/iommu/iommufd/device.c                |  89 +++-
->>   drivers/iommu/iommufd/iommufd_private.h       |  10 +
->>   drivers/iommu/iommufd/main.c                  |   3 +
->>   drivers/iommu/iommufd/selftest.c              |   3 +-
->>   drivers/iommu/iommufd/viommu.c                | 202 ++++++++-
->>   drivers/vfio/iommufd.c                        |  24 +-
->>   drivers/vfio/pci/Makefile                     |   1 +
->>   drivers/vfio/pci/vfio_pci.c                   |   1 +
->>   drivers/vfio/pci/vfio_pci_config.c            |  26 +-
->>   drivers/vfio/pci/vfio_pci_core.c              | 161 ++++++-
->>   drivers/vfio/pci/vfio_pci_dmabuf.c            | 411 ++++++++++++++++++
->>   drivers/vfio/pci/vfio_pci_priv.h              |  26 ++
->>   drivers/vfio/vfio_main.c                      |   2 +
->>   drivers/virt/coco/host/Kconfig                |  10 +
->>   drivers/virt/coco/host/Makefile               |   3 +
->>   drivers/virt/coco/host/tdx_tsm.c              | 328 ++++++++++++++
->>   drivers/virt/coco/host/tdx_tsm_bus.c          |  70 +++
->>   include/linux/dma-buf.h                       |  13 +
->>   include/linux/iommu.h                         |   4 +-
->>   include/linux/iommufd.h                       |  12 +-
->>   include/linux/kvm_host.h                      |  25 +-
->>   include/linux/pci-tsm.h                       |  19 +-
->>   include/linux/pci.h                           |   3 +
->>   include/linux/tdx_tsm_bus.h                   |  17 +
->>   include/linux/vfio.h                          |  27 ++
->>   include/linux/vfio_pci_core.h                 |   3 +
->>   include/uapi/linux/iommufd.h                  |  36 ++
->>   include/uapi/linux/kvm.h                      |   1 +
->>   include/uapi/linux/vfio.h                     |  67 +++
->>   virt/kvm/Kconfig                              |   6 +
->>   virt/kvm/Makefile.kvm                         |   1 +
->>   virt/kvm/kvm_main.c                           |  32 +-
->>   virt/kvm/kvm_mm.h                             |  19 +
->>   virt/kvm/vfio_dmabuf.c                        | 151 +++++++
->>   40 files changed, 1868 insertions(+), 60 deletions(-)
->>   create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
->>   create mode 100644 drivers/virt/coco/host/tdx_tsm.c
->>   create mode 100644 drivers/virt/coco/host/tdx_tsm_bus.c
->>   create mode 100644 include/linux/tdx_tsm_bus.h
->>   create mode 100644 virt/kvm/vfio_dmabuf.c
->>
->>
->> base-commit: 88c473f04098a0f5ac6fbaceaad2daa842006b6a
-> 
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    clang-19
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    clang-19
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    clang-19
+arc                   randconfig-001-20250620    gcc-8.5.0
+arc                   randconfig-002-20250620    gcc-11.5.0
+arm                              allmodconfig    clang-19
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    clang-19
+arm                   randconfig-001-20250620    clang-21
+arm                   randconfig-002-20250620    clang-21
+arm                   randconfig-003-20250620    clang-21
+arm                   randconfig-004-20250620    clang-21
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250620    gcc-9.5.0
+arm64                 randconfig-002-20250620    gcc-8.5.0
+arm64                 randconfig-003-20250620    gcc-11.5.0
+arm64                 randconfig-004-20250620    clang-21
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250620    gcc-13.3.0
+csky                  randconfig-002-20250620    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                          allmodconfig    clang-19
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-19
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250620    clang-21
+hexagon               randconfig-002-20250620    clang-21
+i386                             allmodconfig    clang-20
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    clang-20
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    clang-20
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250620    clang-20
+i386        buildonly-randconfig-002-20250620    clang-20
+i386        buildonly-randconfig-003-20250620    clang-20
+i386        buildonly-randconfig-004-20250620    clang-20
+i386        buildonly-randconfig-005-20250620    clang-20
+i386        buildonly-randconfig-006-20250620    gcc-12
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-15.1.0
+loongarch                         allnoconfig    gcc-15.1.0
+loongarch             randconfig-001-20250620    gcc-14.3.0
+loongarch             randconfig-002-20250620    gcc-15.1.0
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250620    gcc-8.5.0
+nios2                 randconfig-002-20250620    gcc-10.5.0
+openrisc                          allnoconfig    clang-21
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    clang-21
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                randconfig-001-20250620    gcc-10.5.0
+parisc                randconfig-002-20250620    gcc-12.4.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    clang-21
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    gcc-15.1.0
+powerpc               randconfig-001-20250620    clang-21
+powerpc               randconfig-002-20250620    gcc-11.5.0
+powerpc               randconfig-003-20250620    clang-21
+powerpc64             randconfig-001-20250620    gcc-14.3.0
+powerpc64             randconfig-002-20250620    clang-21
+powerpc64             randconfig-003-20250620    clang-19
+riscv                            allmodconfig    gcc-15.1.0
+riscv                             allnoconfig    clang-21
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    gcc-15.1.0
+riscv                 randconfig-001-20250620    gcc-14.3.0
+riscv                 randconfig-002-20250620    clang-21
+s390                             allmodconfig    clang-18
+s390                             allmodconfig    gcc-15.1.0
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-15.1.0
+s390                  randconfig-001-20250620    gcc-9.3.0
+s390                  randconfig-002-20250620    clang-21
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                    randconfig-001-20250620    gcc-15.1.0
+sh                    randconfig-002-20250620    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                 randconfig-001-20250620    gcc-8.5.0
+sparc                 randconfig-002-20250620    gcc-10.3.0
+sparc64               randconfig-001-20250620    gcc-13.3.0
+sparc64               randconfig-002-20250620    gcc-8.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    clang-19
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250620    clang-21
+um                    randconfig-002-20250620    clang-21
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250620    gcc-12
+x86_64      buildonly-randconfig-001-20250621    gcc-12
+x86_64      buildonly-randconfig-002-20250620    gcc-12
+x86_64      buildonly-randconfig-002-20250621    gcc-12
+x86_64      buildonly-randconfig-003-20250620    clang-20
+x86_64      buildonly-randconfig-003-20250621    gcc-12
+x86_64      buildonly-randconfig-004-20250620    gcc-12
+x86_64      buildonly-randconfig-004-20250621    gcc-12
+x86_64      buildonly-randconfig-005-20250620    gcc-12
+x86_64      buildonly-randconfig-005-20250621    gcc-12
+x86_64      buildonly-randconfig-006-20250620    clang-20
+x86_64      buildonly-randconfig-006-20250621    gcc-12
+x86_64                              defconfig    clang-20
+x86_64                              defconfig    gcc-11
+x86_64                                  kexec    clang-20
+x86_64                randconfig-071-20250621    gcc-12
+x86_64                randconfig-072-20250621    gcc-12
+x86_64                randconfig-073-20250621    gcc-12
+x86_64                randconfig-074-20250621    gcc-12
+x86_64                randconfig-075-20250621    gcc-12
+x86_64                randconfig-076-20250621    gcc-12
+x86_64                randconfig-077-20250621    gcc-12
+x86_64                randconfig-078-20250621    gcc-12
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-12
+x86_64                         rhel-9.4-kunit    gcc-12
+x86_64                           rhel-9.4-ltp    gcc-12
+x86_64                          rhel-9.4-rust    clang-18
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250620    gcc-8.5.0
+xtensa                randconfig-002-20250620    gcc-13.3.0
 
--- 
-Alexey
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
