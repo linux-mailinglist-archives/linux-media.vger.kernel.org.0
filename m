@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-35520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35524-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF686AE2852
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 11:38:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D45A8AE285B
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 11:39:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5614A189F3E2
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 09:38:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7AB34176242
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 09:39:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E69D7206F2A;
-	Sat, 21 Jun 2025 09:38:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB30121325A;
+	Sat, 21 Jun 2025 09:38:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MpwQXp+2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VVNIkf1J"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D35518C011;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B77D1F4CA1;
 	Sat, 21 Jun 2025 09:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750498691; cv=none; b=Q9RxkzzqtN/XAEI/yY38G3uqNKV3013THYKUK7wa7n7aI61Toxl+CHxKKRsgy0OtRc6Kx33YTBaQmFLrd45pSbvoJGu6NoahGQSOCYMDHbfOC6OOMD9ehLtZHj1UuRJb7VqDIl8wvkWfatyDeeUGKUFZuhaktjhBMnzp/1Z8sN8=
+	t=1750498691; cv=none; b=rFpC+wYiilVC2X10pW7Uy+nfHsnfMjCKBIyCFcl4n/8cmXlE91EHFDL7Aq0R1xE1ktqZOr5Cey/NHdNRggM8+gjBiFJcqYp5eqOyUKFgM1eXxOwOdVJ3RkpxqbXfbY53Gn/6XLBTenkVd7pVhqTCijbGNIMumJ4KkjDEilQo3zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750498691; c=relaxed/simple;
-	bh=KB4LuF0toI0neAdNh4EV8pcyXYzpvMqRrmP459bqGxs=;
+	bh=Da1Gb2dZps+KwFdbPpKRqU3r4uC8hFgsfk35YLvidZU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sAf1ghABEswnGsDnbN4AxuuB9Y7AxQD5VMV21qS/dQ5emLmnIr2TooxxwTk45Edq+XovY0khiBEiICu7p0ORm/4isWt/kBCeypeHGI94UMnVGHWT2avVHOt/cvxfSbitk8wiVovzmreHh6qL167jypoCt7gwn66A/3/iZAmvyyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MpwQXp+2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DDB39C4AF10;
+	 In-Reply-To:To:Cc; b=sRmGeQQIyvhcZITf0wxFx2k1ovoalHo5EGKR1ezIENv3EjLjbb9QTFPs8Nsi40LLZFm7okKyCSjMqR/uqvkikl9AHuC4QzW/q2yIo0szE9MdLhBHp6HyTAzQt8GwcNnHbFdNARPvE49cf9ALnz49AvvTOy0ACbCJpyesE4gz4as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VVNIkf1J; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E7A9FC4CEF9;
 	Sat, 21 Jun 2025 09:38:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750498690;
-	bh=KB4LuF0toI0neAdNh4EV8pcyXYzpvMqRrmP459bqGxs=;
+	s=k20201202; t=1750498691;
+	bh=Da1Gb2dZps+KwFdbPpKRqU3r4uC8hFgsfk35YLvidZU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=MpwQXp+223uVnK4MgKIngLW6p26Bc9PUNHo6rrjt2ekTvyvy/1UcaKUBlRwNYTrKX
-	 9UxQ/W2InFVej3doKAmo/VZrRbkgYRsDYTRU/CwuwP6Xc5phUkBHmBftF9kQaZZOVf
-	 mlBo3XemROaNplsE7cJyEthdXMN3EN7DPCaSl1CBFptRMo/Of0ZCUKLSffX1Gu+qpa
-	 2hZ7K/5piBjGMIO2V1N/WOVGi+A+Q0TTN08JFqNf+59AJ2eQgUGlqdK7oGvvj+97cA
-	 VIAP+x51vKgZIMP5vL1vOwM0Oe85unCkhH/Sn4/E5WqBHS1STKVLeiLJpJhdfN+OnX
-	 i5cpwmtFWZkoA==
+	b=VVNIkf1Jg5OqdDEj2DepOGBdrmh3CdEq8mzKT04K66f5wXKta9wM4OgIC5oUQKttp
+	 9M6kK2YDuPfSlRhXBP/XbPc6hr/AhgKXpuG4TLxVWsJn3vVPqVNmLOrHt9nkpJfhC0
+	 Na0oNSQ1pTPXw1eqwl6tjbDriG3u6vaoDxBmI+/tTIBPT+/66ejOFI0bs+/rfSXLr8
+	 hDtAgbXU9IMQhosZDNxJ50P3MO+tV56Fm9iNDLyjs39WFoyKw1ihZ00uEMTF71JA0B
+	 yHxWUcOXyysxvShFi678sqMbz1LHkodKZ1s166SSQHBqXDPLJmRdEQ8ppY/Bi+jLXi
+	 zoz5V6SREVmrw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE3B7C7EE2A;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB17CC71157;
 	Sat, 21 Jun 2025 09:38:10 +0000 (UTC)
 From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Sat, 21 Jun 2025 11:37:28 +0200
-Subject: [PATCH RESEND v4 4/5] media: dt-bindings: sony,imx214: Deprecate
- property clock-frequency
+Date: Sat, 21 Jun 2025 11:37:29 +0200
+Subject: [PATCH RESEND v4 5/5] media: i2c: imx214: Remove hard-coded
+ external clock frequency
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250621-imx214_ccs_pll-v4-4-12178e5eb989@apitzsch.eu>
+Message-Id: <20250621-imx214_ccs_pll-v4-5-12178e5eb989@apitzsch.eu>
 References: <20250621-imx214_ccs_pll-v4-0-12178e5eb989@apitzsch.eu>
 In-Reply-To: <20250621-imx214_ccs_pll-v4-0-12178e5eb989@apitzsch.eu>
 To: Ricardo Ribalda <ribalda@kernel.org>, 
@@ -72,14 +72,13 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  devicetree@vger.kernel.org, imx@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
- Conor Dooley <conor.dooley@microchip.com>
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750498689; l=2872;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750498689; l=1261;
  i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=HJC1tGsh7JZtHUNjSz48zBwAelpJhWLL5Nb7XTVVqiA=;
- b=J8EU4IdcAG4onT31yDSEoiIXjkPqA/PycZhIzygaVz8zBToAOpEObbBtR55aLJsCDiWBTo3Ya
- gXxa0ZtqaxqBDHhQJLYbBiOeXEEKh/8oaC5GectTIJXM9uCDnhMAEuX
+ bh=ZCk329jfG7imBAJxPQK2Y7DPdg0WFnmIjBabbY8xuwc=;
+ b=7u9/iEoHxGIF46EnZNgbPzTOeQMipucoawzdnk0Uu4+ERMs4QK/gbqXh6Ux3QTPvvLPnWHk0n
+ nUmvF7eV3MnAbUxpZe/RbDaXAbU31N/8oTZemUb3gdaFHgw8psuYmCI
 X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
  pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
 X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
@@ -89,95 +88,39 @@ Reply-To: git@apitzsch.eu
 
 From: André Apitzsch <git@apitzsch.eu>
 
-Deprecate the clock-frequency property in favor of assigned-clock-rates.
-
-While at it, re-order properties according to coding style and fix the
-link-frequency in the example.  See commit acc294519f17 ("media: i2c:
-imx214: Fix link frequency validation").
+Instead rely on the rate set on the clock (using assigned-clock-rates
+etc.)
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
- .../devicetree/bindings/media/i2c/sony,imx214.yaml | 29 ++++++++++++----------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+ drivers/media/i2c/imx214.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-index 0162eec8ca993a7614d29908f89fa9fe6d4b545d..aea99ebf8e9ed15f8066841228d9fdecc822b553 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-@@ -33,20 +33,21 @@ properties:
+diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+index fd03650a5b2bbdbbc677d5797380285f1832baa5..a0cef9e61b41be8ea76a6d6e4b8c9fc4060cfa0f 100644
+--- a/drivers/media/i2c/imx214.c
++++ b/drivers/media/i2c/imx214.c
+@@ -32,7 +32,6 @@
  
-   clock-frequency:
-     description: Frequency of the xclk clock in Hz.
-+    deprecated: true
+ #define IMX214_REG_FAST_STANDBY_CTRL	CCI_REG8(0x0106)
  
-   enable-gpios:
-     description: GPIO descriptor for the enable pin.
-     maxItems: 1
+-#define IMX214_DEFAULT_CLK_FREQ	24000000
+ #define IMX214_DEFAULT_LINK_FREQ	600000000
+ /* Keep wrong link frequency for backward compatibility */
+ #define IMX214_DEFAULT_LINK_FREQ_LEGACY	480000000
+@@ -1402,11 +1401,6 @@ static int imx214_probe(struct i2c_client *client)
+ 		return dev_err_probe(dev, PTR_ERR(imx214->xclk),
+ 				     "failed to get xclk\n");
  
--  vdddo-supply:
--    description: Chip digital IO regulator (1.8V).
+-	ret = clk_set_rate(imx214->xclk, IMX214_DEFAULT_CLK_FREQ);
+-	if (ret)
+-		return dev_err_probe(dev, ret,
+-				     "failed to set xclk frequency\n");
 -
-   vdda-supply:
-     description: Chip analog regulator (2.7V).
- 
-   vddd-supply:
-     description: Chip digital core regulator (1.12V).
- 
-+  vdddo-supply:
-+    description: Chip digital IO regulator (1.8V).
-+
-   flash-leds: true
-   lens-focus: true
- 
-@@ -84,11 +85,10 @@ required:
-   - compatible
-   - reg
-   - clocks
--  - clock-frequency
-   - enable-gpios
--  - vdddo-supply
-   - vdda-supply
-   - vddd-supply
-+  - vdddo-supply
-   - port
- 
- unevaluatedProperties: false
-@@ -104,22 +104,25 @@ examples:
-         camera-sensor@1a {
-             compatible = "sony,imx214";
-             reg = <0x1a>;
--            vdddo-supply = <&pm8994_lvs1>;
--            vddd-supply = <&camera_vddd_1v12>;
-+
-+            clocks = <&camera_clk>;
-+            assigned-clocks = <&camera_clk>;
-+            assigned-clock-rates = <24000000>;
-+
-+            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-+
-             vdda-supply = <&pm8994_l17>;
-+            vddd-supply = <&camera_vddd_1v12>;
-+            vdddo-supply = <&pm8994_lvs1>;
-+
-             lens-focus = <&ad5820>;
--            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
--            clocks = <&camera_clk>;
--            clock-frequency = <24000000>;
- 
-             port {
-                 imx214_ep: endpoint {
-                     data-lanes = <1 2 3 4>;
--                    link-frequencies = /bits/ 64 <480000000>;
-+                    link-frequencies = /bits/ 64 <600000000>;
-                     remote-endpoint = <&csiphy0_ep>;
-                 };
-             };
-         };
-     };
--
--...
+ 	ret = imx214_get_regulators(dev, imx214);
+ 	if (ret < 0)
+ 		return dev_err_probe(dev, ret, "failed to get regulators\n");
 
 -- 
 2.50.0
