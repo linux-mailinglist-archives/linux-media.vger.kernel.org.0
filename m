@@ -1,171 +1,176 @@
-Return-Path: <linux-media+bounces-35536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35537-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7317EAE2C5C
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 22:37:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8EFAE2E3F
+	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 05:42:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B6FD1896942
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jun 2025 20:37:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 312553AF77F
+	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 03:42:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1789527056E;
-	Sat, 21 Jun 2025 20:35:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A53C13C81B;
+	Sun, 22 Jun 2025 03:42:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RzkGMH+U"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SCkE6a7Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915B4270554
-	for <linux-media@vger.kernel.org>; Sat, 21 Jun 2025 20:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C88EED7;
+	Sun, 22 Jun 2025 03:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750538143; cv=none; b=XsmSIU6qguKsa1gNGf5ZuKGaOdr7lswc5F9GqMhUE2B8Fq6SOCYXtHlSj5cpH+lPiavmGLWrsc/jK+EX5qMouNV9dTVDPfJxqVZ9Gd/BeFJzZxzn2OycHYJMusAYrqcOUOmUP8uj1zqYcp91xJAtRslsiXfxXndFIwly3U3v9UM=
+	t=1750563771; cv=none; b=E7147Kr/JOzwxk3uyaKZabALhJnNz7UfVjXzIbSzOCRjqxvyg7ebsml1EqfwzCaKxjwOxWesz2JMvgdBaf+s9iXMNX5CgP/3tTem1fpJoBpb/R/FwAPpYomPOUjCqBG1dlfT75qljCd0XNKrcNkwbW3qtp7hwTXffv24wwGALbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750538143; c=relaxed/simple;
-	bh=f+LFnI/d1zF0JXR6ojz+ynRiU5kOC/8tsDM0Fm/pdh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ggibC/jdOyzlTb4W3T4MbR0+f943+Z2wAWOEnEg8l00zgy6feFyFbmXEmz177l10k5DD9kMVFtL1Tj1canfNs9rCi8Bk98a8Jfp5MrMclH6sY64AcRHX/wGWi1dCq9y3puvtTlOAO/kO7tJivdtS20anFOmaVDWx0R3yy3znk24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RzkGMH+U; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750538140; x=1782074140;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f+LFnI/d1zF0JXR6ojz+ynRiU5kOC/8tsDM0Fm/pdh0=;
-  b=RzkGMH+ULxkZlOc6boVacqgOjw238DVf8v/UfUwEM4T5ejHHOFvG0qFd
-   kwxxoCovTZt9HYHa5k5CXy+v9daOKiyEpN/e4edflvkjmY306z2qHvpO5
-   RNHPoKkpxoGdWjeqirLsVyCBxIiis5+U8BKKkz/bNThXZW63MfZIPkEdC
-   daIhBfcmJMvBQG/ONtpa96+CQhgOK11BUr7ObS5AdNz6+kGdCdVIEYBPs
-   fe/4MMjO4AXj7K9/SSxnC+Vwk2k7yxWdeYHDT9wDYe23dAYZ7a/J/EHlX
-   CjEHNp7Mmssmk0kRGtGJQIMI4i8XTMxlqDyaRbHwPYXNY2DRQvdf477lU
-   Q==;
-X-CSE-ConnectionGUID: 8LthDGDFQWyBEoKk8Akqhg==
-X-CSE-MsgGUID: ytLW5KnmQl+t0ISxEEDk1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="64136977"
-X-IronPort-AV: E=Sophos;i="6.16,254,1744095600"; 
-   d="scan'208";a="64136977"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 13:35:40 -0700
-X-CSE-ConnectionGUID: FJfPLYbeTheLwQuP1s4XEA==
-X-CSE-MsgGUID: B825FYs9QsKAw4XDQ7Ir9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,254,1744095600"; 
-   d="scan'208";a="182082154"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Jun 2025 13:35:39 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uT4w4-000Mqs-2v;
-	Sat, 21 Jun 2025 20:35:36 +0000
-Date: Sun, 22 Jun 2025 04:34:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 74/78] drivers/media/i2c/imx219.c:898:3:
- warning: label followed by a declaration is a C23 extension
-Message-ID: <202506220450.mD3aWxjx-lkp@intel.com>
+	s=arc-20240116; t=1750563771; c=relaxed/simple;
+	bh=3LjE801mRj78RJWJDrIvDPdML4nIV3zCJzVY+sv4Wuc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=q/C4GmOtfA8OQTMoNjdijByZM8ASIqURyslDNsnlsdZa9WDOGJMgb18cCE9ILnnXgwjSaTt2g/R21ka2WbMRoaQIM+DOeG7IRnCmv9A6CSemnvHLA/1PxfZ0J7XAnHJO/8hl/y0DmMDfZENTmx0e0rhdS8xqHbksSMA4Aimp7iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SCkE6a7Z; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-234bfe37cccso40828505ad.0;
+        Sat, 21 Jun 2025 20:42:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750563769; x=1751168569; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eUhqmKLTOnc3oh3BthyzyWc2QzYwhIjxAnoQpkwuDh0=;
+        b=SCkE6a7ZhPJu5GvxKvRQe0JrDydy6chIZPovwm4VdWCy0BT7tSTKOfc6/QPt3gpl0S
+         8+VvkDiQ5wiJNPlCJLAVGFcbIjMHXOKlNzSWG+Qz2u0Rd1CcG8YTjpO8ifCL7SAbJJ7V
+         U51vWNt2kDatht3Rihet+Ibmvmk+Ni7Bx0GSbAVidyEvgxM4PpLQJ9ToTX4Yd1JBAURm
+         kJ4GtODc/R8Sy7DZaO5jKK5pgXU32z6ipBu3zjwzXUqpIPdKAolqoCHCFj42tGYp95uw
+         szK68IQ3LAd63SsBZ95r7K2zdyy0GCclQi4rsWaJL1RpF2qShDMVdylVpfKui8MImqaz
+         kGdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750563769; x=1751168569;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eUhqmKLTOnc3oh3BthyzyWc2QzYwhIjxAnoQpkwuDh0=;
+        b=KcYeWB3pj6PXKgVP7XBujb9m/WHUuw9SVVN3m+sqs3kjaKjpKSqF7PHp4PI9M3KfxM
+         OckbCcfn2cttLpG5leLiRSm/1LESETMnxsush3bCedWuki6mxMmCByMIs+/a8oLEDZ7D
+         1GFiCha+T1Eljb7NRN+AKgv9jOtw7pvnxH6eze1YEBji/mT452BLvrKJi2xsypMnKPHy
+         C857Wh17QD3h2p3pgNL7F8dbOlp6bsbiY9fv0OLSTz1ZXTNyUvdLCe2oLYvK0jwGM1F1
+         3gKS/GqnjfUBFZUmD9m8LLOCgz2ZXLzwR17J7OhdRPnvwGfyXdW0MIC96AHCfRaJ2pIG
+         gyrg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvvNDfbhqNfsU1AFun3zsBHpKmFHg43nXAcIdTkD9d9s3AS1Wa2+ICEi+RiF2KWJis54ARCNFQ/yOSgjM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwefN2rEfix2yqCA7cXVKfsRQxtmp7plC5DNJcXEPVSm4RJHAxi
+	O/2WHK6Yx96fAEcgDEcyKI58Mdf9noua8W/d2bjiueMtFdtDM8umGIXR
+X-Gm-Gg: ASbGncum36tLO9PcMsQ1OJSIhHGj7ey+DnSgzimKisSepPw93xqBIyeySiqaHfPW9PI
+	rQ53mQ8fsAuNFGg84I8bIgmC1rrKBwh9j8wDpZ1tm76ROggt/CiPrleUnYUo5kMkuydP1fEfOCF
+	Tva/8XxHQvbtm2AFj7KdHxqZ61OLmMEk6QCxLZTJ33SE2xR2lCqwNFhdDl29XNYzOqMNGga/vd+
+	K5zSoLN6CjZXZzuS8ddb0pj7cW3CecABksEcCXGOOkuT8Bdx4iIwoqlEWjgC0L56SsxJBqRHxgQ
+	5z7+NZxCx1xX4PBGSLfBvhsz80ihI8FNz0PacUvWhySCyhM3MmKdPcgNccJSu26BmOAWT4boegD
+	iGhEbTSpgtzKkaBlDnlrxha5uvT/kdWbz0vN3ox2cK8jDuWRp3A==
+X-Google-Smtp-Source: AGHT+IHTdgSE4SBzwLy/M2GSba4+YuxiCFZJDaI1tx98HQ3ewLX2HhxNyL81uwei6qLUpOCQtvyW4w==
+X-Received: by 2002:a17:902:f645:b0:236:6fbb:a5f3 with SMTP id d9443c01a7336-237d9a3fa8bmr128954155ad.40.1750563769288;
+        Sat, 21 Jun 2025 20:42:49 -0700 (PDT)
+Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d8753900sm51467165ad.253.2025.06.21.20.42.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Jun 2025 20:42:48 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+Date: Sun, 22 Jun 2025 11:42:25 +0800
+Subject: [PATCH v3] staging: media: atomisp: fix coding style in
+ ia_css_output.host.c
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250622-bar-v3-1-4cc91ef01c3a@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAKB7V2gC/23MQQ7CIBCF4as0sxYDlEJ15T2MC8BpO4ktDRiia
+ Xp3aVeauPwn870FEkbCBOdqgYiZEoWpRH2owA926pHRvTRILhuupWDORtaY2rVO8c61HMrnHLG
+ j175yvZUeKD1DfO+jWWzXX58FE6yxNRrOldLSX/rR0uPowwibz/KPkcUo1L7zxpy0UN9mXdcPY
+ SfqGMoAAAA=
+X-Change-ID: 20250621-bar-573b8b40fb80
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, LiangCheng Wang <zaq14760@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750563768; l=2932;
+ i=zaq14760@gmail.com; h=from:subject:message-id;
+ bh=3LjE801mRj78RJWJDrIvDPdML4nIV3zCJzVY+sv4Wuc=;
+ b=m4F5K0BM3M7HijaPnofVrKrPD6OSzQ/Pn31CfNCSwRSPo8QoBxE55HVoy7HKW5Hrtftoj0E7A
+ ozHQutCYpLJAfNwoOrDqXa83eZG88YRR8LEpc/8Bwa6SE34z5xzHGtO
+X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
+ pk=/x4391DbJ19fFQI7t33HWt3lsHfYPl2I2ax8C+Vxr+M=
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   2eb7b0a1567fd0da91e70f762d8cf94af1ffd7f9
-commit: 65722cd911646712bb021c04b233c1f79f788067 [74/78] media: imx219: Add support for generic raw formats
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250622/202506220450.mD3aWxjx-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506220450.mD3aWxjx-lkp@intel.com/reproduce)
+Fix multiple checkpatch.pl ERRORs and coding style issues:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506220450.mD3aWxjx-lkp@intel.com/
+- Use tabs instead of spaces for indentation
+- Move trailing `if` statements to multiline format
+- Remove excessive space between type and asterisk in function
+  arguments
 
-All warnings (new ones prefixed by >>):
+This cleanup improves code readability and follows Linux kernel
+coding standards.
 
->> drivers/media/i2c/imx219.c:898:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     898 |                 const u32 img_codes[] = {
-         |                 ^
-   1 warning generated.
+Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+---
+This patch fixes coding style violations detected by checkpatch.pl in the atomisp driver under staging.
 
+- Use tabs instead of spaces for indentation
+- Move trailing `if` statements to multiline format
+- Remove excessive spaces between type and asterisk in function parameters
 
-vim +898 drivers/media/i2c/imx219.c
+This cleanup improves code readability and follows Linux kernel coding standards.
+---
+Changes in v3:
+- Removed extra spaces between type and asterisk (e.g., `*to`) in function
+  declarations, as pointed out by Andy Shevchenko
+- Update commit message to reflect all the coding style fixes
+- Link to v2: https://lore.kernel.org/r/20250621-bar-v2-1-4e6cfc779614@gmail.com
 
-   889	
-   890	static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
-   891					 struct v4l2_subdev_state *state,
-   892					 struct v4l2_subdev_mbus_code_enum *code)
-   893	{
-   894		struct imx219 *imx219 = to_imx219(sd);
-   895	
-   896		switch (code->pad) {
-   897		case IMX219_PAD_IMAGE:
- > 898			const u32 img_codes[] = {
-   899				IMX219_NATIVE_FORMAT,
-   900				MEDIA_BUS_FMT_RAW_10,
-   901			};
-   902	
-   903			/* The internal image pad is hardwired to the native format. */
-   904			if (code->index > ARRAY_SIZE(img_codes))
-   905				return -EINVAL;
-   906	
-   907			code->code = img_codes[code->index];
-   908			return 0;
-   909	
-   910		case IMX219_PAD_EDATA:
-   911			if (code->index > 0)
-   912				return -EINVAL;
-   913	
-   914			code->code = MEDIA_BUS_FMT_META_8;
-   915			return 0;
-   916	
-   917		case IMX219_PAD_SOURCE:
-   918		default:
-   919			break;
-   920		}
-   921	
-   922		/*
-   923		 * On the source pad, the sensor supports multiple image raw formats
-   924		 * with different bit depths. The embedded data format bit depth
-   925		 * follows the image stream.
-   926		 */
-   927		if (code->stream == IMX219_STREAM_IMAGE) {
-   928			u32 format;
-   929	
-   930			if (code->index >= ARRAY_SIZE(imx219_mbus_formats) / 4) {
-   931				u32 idx = code->index - ARRAY_SIZE(imx219_mbus_formats);
-   932				if (idx >= ARRAY_SIZE(imx219_mbus_formats_raw))
-   933					return -EINVAL;
-   934	
-   935				format = imx219_mbus_formats_raw[idx];
-   936			} else {
-   937				format = imx219_mbus_formats[code->index * 4];
-   938			}
-   939			code->code = imx219_get_format_code(imx219, format);
-   940		} else {
-   941			struct v4l2_mbus_framefmt *fmt;
-   942	
-   943			if (code->index > 0)
-   944				return -EINVAL;
-   945	
-   946			fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-   947							   IMX219_STREAM_EDATA);
-   948			code->code = fmt->code;
-   949		}
-   950	
-   951		return 0;
-   952	}
-   953	
+Changes in v2:
+- Fix patch subject prefix to "staging: media: atomisp:" to comply with media CI style.
+- No other functional changes.
 
+Link to v1: https://lore.kernel.org/r/20250621-bar-v1-1-5a3e7004462c@gmail.com
+---
+ .../atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+index d09365e0c47104dbffbd455bfd649b9079f88c9c..2af83d51b5b3a6ad2edf9b835a342455e7536f6c 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+@@ -73,8 +73,8 @@ int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
+ 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
+ }
+ 
+-int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
+-		          const struct ia_css_output1_configuration *from,
++int ia_css_output1_config(struct sh_css_isp_output_isp_config *to,
++			  const struct ia_css_output1_configuration *from,
+ 			  unsigned int size)
+ {
+ 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
+@@ -127,7 +127,8 @@ ia_css_output_dump(
+     const struct sh_css_isp_output_params *output,
+     unsigned int level)
+ {
+-	if (!output) return;
++	if (!output)
++		return;
+ 	ia_css_debug_dtrace(level, "Horizontal Output Flip:\n");
+ 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
+ 			    "enable", output->enable_hflip);
+
+---
+base-commit: 3f75bfff44be0646580fe4efda45d646f9c1693b
+change-id: 20250621-bar-573b8b40fb80
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+LiangCheng Wang <zaq14760@gmail.com>
+
 
