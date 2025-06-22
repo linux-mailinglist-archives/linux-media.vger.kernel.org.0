@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-35549-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35550-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00773AE31FA
-	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 22:36:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D56AE31FC
+	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 22:38:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D12C23B0CBE
-	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 20:36:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DAA9F16DCDA
+	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 20:38:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C7F91F3BB0;
-	Sun, 22 Jun 2025 20:36:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24FC21F4629;
+	Sun, 22 Jun 2025 20:38:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OEOoQyZS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HxEPUp43"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6F12F2E;
-	Sun, 22 Jun 2025 20:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0143B1DDA1B;
+	Sun, 22 Jun 2025 20:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750624583; cv=none; b=WwEAtLqEby1GY7M+JEO2Gxat2zPFoVL3I38sLTOkvDimgH61230qO1dTCR6QmnPlvjvnLNyUmnVjczMFhHPQ0LQAq0EezhbLQKPHDcnDzhxQcOKE6EH6ziKTZ84sz80/giZolQ0HG8RxocRGxyA9b5WLT5fv7F+HashhZWRJnxE=
+	t=1750624719; cv=none; b=JU4FlC/l0JUTnB5DK0r/CX1id65/f1MOShN4efvL/61sBKD3KLFVxCqx5X4qBiG82G/Z3jBVD4o5GDP9lsE3uFgHMU10IeSucfaZSdDGeCkci1k0y+P6Nhf86AebfJCtarAE47ASpUG3NBaUwHeYOG5MFVuMyB7bknFuCC4hqbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750624583; c=relaxed/simple;
-	bh=hz3Jdtz+LsvuzD4rQ7JolouH51M+SUxhZRQ2TBHTSzs=;
+	s=arc-20240116; t=1750624719; c=relaxed/simple;
+	bh=WmcUJz5Yg3hFpCBfEpBPaXUjMp4R+nRl8xFq2ZIllkk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EmOSQvqbgmCx4RJhqbLKEUyH2LPFmxyng7GPVwRfdMEIGdwFUwTQ4Z30J+fl2mop8hcDJMSsrapQhCR2Mb60S59pH4efSxmN/NVvjTMgF2Dq8bTXWw7sHHew1Xs3H/MTmIQAwNfmYSBITVTzxGEBpFiCxyKpb2Jo2756GTf+dfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OEOoQyZS; arc=none smtp.client-ip=209.85.208.54
+	 To:Cc:Content-Type; b=VTuBoXqqcIEdjhVos/h3DJ/PaUW0siM2wvyyydsBZrRj7jyRV9HYmjrHJoXc3dJZa/Ppfahw/jDgpbKmP4vAXBJOUcXM58IrulW9+p8eerPxQ8q2w3hpyDSNbIq1kRLrwvG3/Hyg78AK1Abr3nGAh9uqH/utJ07MJdOu8GUc+/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HxEPUp43; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-607434e1821so5182444a12.0;
-        Sun, 22 Jun 2025 13:36:21 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ad1b94382b8so666791266b.0;
+        Sun, 22 Jun 2025 13:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750624580; x=1751229380; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1750624716; x=1751229516; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hz3Jdtz+LsvuzD4rQ7JolouH51M+SUxhZRQ2TBHTSzs=;
-        b=OEOoQyZSG4uYjYVoD+WbYJHkhZj4fafSgoTiQ9hwBN8o773HUitsjGoT0FDGaNViUY
-         Iwc0dQWFTa//RyBPWRogR4dKLqLZDg6VCUCCPLnW7q4CuPVlguPxf6nxFov3IokCg2rW
-         8sa4zvMA58NvajIVNcbDTAxSQ0HYZWsEjoOW9FcrMNpCkyCGP+KjzZpR9ob3PI61dIxH
-         8FTMvrunn17LvCPM5ZPelkVUFesSIBvXfDDHEPn+kY/nPTREaTciWzdmY8lKga3WtQBj
-         TvSPDfkkfEh5LO49KYhYDvwTHpHruvXSxZvIebVJZEsHgfK75/fi5PFaMiyBlGge3OrE
-         1Fhw==
+        bh=pLvpeoBKGxEwHK+9A/jrmaTsC1Syd7TxhtlcyFyT5Po=;
+        b=HxEPUp43cNXWY73GAY2pc+NruUTP2y8Q9nn9H3bsHA3cImC1LTLE24RvuHWuSMRy4X
+         sOfibP6z711F5V496pghFG/FRrnes5P7p/yN22bH+SVs+NLcX0sGAfVUUXNTmaviK/rn
+         JaJEcMUn0TBR1SSfgwQ0vYFPiIOJuhvIz+6LDMR+kGw691IWRP4Xq6o3x0EPWWmJ80bt
+         O3F5dLMsIFg0T5HSaHU4/TqfGHikrRX9qOkk4vjerW91D1QSwRaJfk4PSir0V5qy83wy
+         MOm4IXpcw+0JjThh8sWX5AHsPRAhCw8bqWpEmA25XXX0bTXVlyRyoL4FhB6132JTh4k2
+         2NuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750624580; x=1751229380;
+        d=1e100.net; s=20230601; t=1750624716; x=1751229516;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hz3Jdtz+LsvuzD4rQ7JolouH51M+SUxhZRQ2TBHTSzs=;
-        b=SiNoBMlhXLyygFNoR0TSmpI4Ebfo01tqtX87cnobLfmfCITEcT1pPQA+IK4RKVW59h
-         4og2Nw3H6SKHEwRYQQyBtGsipzy0p8I6BTysqsqHWplGNa3bxleCJNFnGtUOowiNmqVv
-         PmnpcL2cHFw7kEW78xKtnyWLAkSv5nkVG3NPd7yUxcCa2QFSfTAGIDhdEmojt5FPeeYR
-         rXQF0hmX0nRC5CubkmdUuIuGfucWB2JtsqD52SEceYad5hcFy3TUyFzkkwQD1OKq4ECF
-         st9iSiwy68g8gFuywvinVS+na7LzkbIMRw6cObjNg/10ZlzdDWmLm/wpkE7EvmltDKq3
-         5OQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXCjJMk9ZROhKM9mxF8Wlu6HNDR0zRdW4V3sYHMwRx2Qq9CWzCfRB4B6klZaMCeDopEGQ2O7/qJrYUtMYo=@vger.kernel.org, AJvYcCXdaImSYn+nEazf3Nz6rAIXJf1IGf8MjAtWgEbnpOEMQtHTwCEO43ptzumoRmEeRD4XqWY5UiNUsaT7mmc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxG8jKUC3CCPuS4TTByejelBNlP32KGlN5D4tkZHw5LYfzlZxu2
-	tKu50W8O952QGNknoyZ8PecA3mH+E0CAWU44R3+RHkJT+RHxB7I8pfgzdImuOW1EdzCbjy+ohti
-	fV1ObG5pPYkT9jEXguhwCX6oJ0iSf7rI=
-X-Gm-Gg: ASbGncssGGrYR0LhMVlHkRXAPu58VQa6Tzq3JNNXVns2ZKl7qZquzYfFmBoKoN61Bfk
-	vXhAryctxDaR5Tdd1toGvze8fsUWMPowMSZl1/oSIMaTVXOfUc1ywtXRVkqqTFoh5+U3ePipn5L
-	IvwGZqcieGZNI/IzOpPLQflBZ+6gzJf4qwH6d4z+L0pRMw9GUfsHhjng==
-X-Google-Smtp-Source: AGHT+IE1qtYTmD5i8tt1tLxHs2WkHZN3ZMS3MWRlSqhlP1av9VhwsiUOIXlfY7gC43dVW4482nERLdrtCfcCVeuroFw=
-X-Received: by 2002:a17:907:7f05:b0:ad8:8621:924f with SMTP id
- a640c23a62f3a-ae057c5bfa7mr962698266b.56.1750624579604; Sun, 22 Jun 2025
- 13:36:19 -0700 (PDT)
+        bh=pLvpeoBKGxEwHK+9A/jrmaTsC1Syd7TxhtlcyFyT5Po=;
+        b=S/AKNRALfQQJfshZFJ/Fq8r2keac1Ejs0VNEkyNLPXX3vaXdy+uUEi4Hv+WFoZWpza
+         c5AdyZhdqtjC3xkZ9LaQldIoJSRV9FC9STH4aRLqt6KBRdi8uYj6p1+pbomu9IYdBNHv
+         Jg1WJBDLaJ5+9hfsV/iYGdW1/+BM+LzsacFgWO2QXol5PtQ3iqQrYG6EN46puod0aa+s
+         eu4JjcJPzP5wxKvE+ulnANZQ+hEE6EdxgKRq/1HP6kzplZfGu3YhaRpY3pr8ucxmwjLd
+         aTEG7d1iTB3YPNuBJ0JlmBisuG/3k0YMKkJ4/zni1VhZI3UU6xs2qJwSBJ4G7ARvPVZf
+         tyoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0qZa5YyGtYTH6EDkoX1JxvNfllow3SmLMYQD7rDJ2PCV9PRxnnuMpcykW3UIHe6igrNgQZWQefJz2mXU=@vger.kernel.org, AJvYcCXrJxHX+pacb4+tiPmyUEhVz9+XwbFLq5a89cGBSjQ5TZPhgkn/7J+nikVZfILBAxneCcQQutB2FQll8II=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzumfhqFW6RWzAgcEQs+JQ9QVcs2/BGHCKSSXcSoKCHuJkqgg+W
+	ixfgoY3lCEYhIicvozXOt9NgrrP656B4ie0POexyh+i3zAiGHIDtEIC+MY/XbWs6ZL6kzeyecQl
+	lbBTNqNFujVvozFYZmvfG4dyaTxDaJOE=
+X-Gm-Gg: ASbGnctuKGufEYooY070JsgWkbOWToh7ShiI6ZDMPqCK+PCUeNa5brICeJe0VGZQqkj
+	S4dAm97MWmyS4OX3P9uO0zO4bIsTnB5e0Hrv7Ycqc2mX+K2fovUyLQ5VsgUusY+Og8yCmvSpgyO
+	nFZ/bYsaZbNEkRHnfywPyW4b7sCdWlKf13INC2Jcli1kK4tFF5qSO5Ag==
+X-Google-Smtp-Source: AGHT+IE/HoTMfDM7iHL1WEJQzvJZNfhHGo6JhKrsBNXN7rKIGFaxNc8ayyuH0V3IDNIADtg2RI783/alPVmgjMgX8UE=
+X-Received: by 2002:a17:906:6a26:b0:ad5:3055:a025 with SMTP id
+ a640c23a62f3a-ae05793836bmr899848566b.6.1750624716133; Sun, 22 Jun 2025
+ 13:38:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,9 +77,9 @@ MIME-Version: 1.0
 References: <20250622065340.184048-1-abdelrahmanfekry375@gmail.com>
 In-Reply-To: <20250622065340.184048-1-abdelrahmanfekry375@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 22 Jun 2025 23:35:43 +0300
-X-Gm-Features: AX0GCFurLx4IgrMkKza5bDYc9jpXk2K2q9Q6k47AZNNXK8As68byYvLJwDsXEcQ
-Message-ID: <CAHp75Ve_3M3rqmHP5rcbwvhH9x2gUOPzezOCiNzzPp4PmMKtzg@mail.gmail.com>
+Date: Sun, 22 Jun 2025 23:37:59 +0300
+X-Gm-Features: AX0GCFuPJ3qLOkF8NL8wgvWgUOpxetYnW9jsPJWLIWP89I8avEKk2QlvIPatJTw
+Message-ID: <CAHp75VcKQGvcgv+72=9CY9yvvmzTDUaiP8xZZzQCyd553_tqYw@mail.gmail.com>
 Subject: Re: [PATCH v2] staging: media: atomisp: Replace scnprintf with
  sysfs_emit in bo_show
 To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
@@ -99,11 +99,13 @@ On Sun, Jun 22, 2025 at 9:54=E2=80=AFAM Abdelrahman Fekry
 
 ...
 
-> v2:
+> +       /* Changing to sysfs_emit changes the behaviour if failed*/
 
-> - Addressing a possible change in behaviour if sysfs_emit fails.
+This comment, besides missing the space, is useless here. You need to
+use the comment block for the proposed change.
 
-I don't see it being done. Can you elaborate, please?
+> +       offset +=3D sysfs_emit(buf, "type pgnr\n");
+
 
 --=20
 With Best Regards,
