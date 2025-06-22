@@ -1,130 +1,156 @@
-Return-Path: <linux-media+bounces-35546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35547-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C57AE308D
-	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 17:35:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711AEAE30C5
+	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 18:28:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A6CA1891A29
-	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 15:35:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A7AB188425F
+	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 16:28:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C7B71E5B65;
-	Sun, 22 Jun 2025 15:35:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB7271F239B;
+	Sun, 22 Jun 2025 16:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b="YQJZL1u1"
+	dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b="j4WfLjro"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3390F28EA
-	for <linux-media@vger.kernel.org>; Sun, 22 Jun 2025 15:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCC3A94A
+	for <linux-media@vger.kernel.org>; Sun, 22 Jun 2025 16:28:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750606528; cv=none; b=egMDxpfGToX6z1R4wucpz3WXugoPCBPPZpTaZaCg4JteYXtxlY04ePLaVqNzYhW2WYiSBWFolbcLFKiz6D9tRyYwDto38Szv639Aop2R6k6Sf2co1vkoZ7DFRRKl2CjGhgkLlxEUYTwswH35IvVJhhFs4hriTw2Ij3vFQX+O6bE=
+	t=1750609705; cv=none; b=cNlEqgKpj2yl9/TGL+nV/FveKfipQjXqQyLWepbXe71MxuTVKgGzebuDivN2km3aPedCEHiDtbWyMJYPJ1EbQ9YBk3s3UBKjWA+V5ZhQwVpZKaLNDO8PfC+qcs5awitwnnjfNoXUeYxuzQnZgs3SgIPArjUrrwZMTDmrbXSL0dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750606528; c=relaxed/simple;
-	bh=ZInQgYQVwNRnfRBtc3h5TzLjW+Yo6q9yegsxqak9yqU=;
-	h=Content-Type:Message-ID:Date:MIME-Version:From:Subject:To; b=LLs6QOhlvHOfft77tB5yAt0TuM8M40GZT3OxRbtBkBYnOzBpAzgMb6r8qgNxRnrZWXIZPwTp3B5oIjMHKBC290hswGuxodYn0p01ux4rOQjaYVx0D9giiL+DdrN5DFUWEIHQOlIy3XVZ4QitDOeQQ4C+dDPcc0vDmG92MXFgAkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de; spf=pass smtp.mailfrom=public-files.de; dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b=YQJZL1u1; arc=none smtp.client-ip=212.227.15.15
+	s=arc-20240116; t=1750609705; c=relaxed/simple;
+	bh=pFZdSVKLgmxCkboXggFJ1H63xGkGiWN6K9vf3L2xRa4=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:From:To:
+	 References:In-Reply-To; b=bYeqwnvFlZna+xkktVZjkNv30yazZ7MHuwczuTHPlGzhtgp25fI+Wu/HoQyr3SxDb6QpVf+cWIt31iWcVKQ2NwtzXk9nKqc35jfdJGY1C1kTlk0777O+hS5xcDKRt56wpocV8eghSCjpnRAA/fP1/n6G1Ij4Deh3ejI9xzOof8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de; spf=pass smtp.mailfrom=public-files.de; dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b=j4WfLjro; arc=none smtp.client-ip=212.227.15.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=public-files.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=public-files.de;
-	s=s31663417; t=1750606524; x=1751211324; i=yarny@public-files.de;
-	bh=ZInQgYQVwNRnfRBtc3h5TzLjW+Yo6q9yegsxqak9yqU=;
-	h=X-UI-Sender-Class:Content-Type:Message-ID:Date:MIME-Version:From:
-	 Subject:To:cc:content-transfer-encoding:content-type:date:from:
-	 message-id:mime-version:reply-to:subject:to;
-	b=YQJZL1u1gUKI/Tal5yTlCTdoHrDC0Sce+x6R+lyt7biFxWXEsBcErW41WfJhxn4Q
-	 rvZGtkOwPF97xUtV6gbmjKxhR8KMbAE7aMdO2wMO5PWu8sczV41U4YNz3/CAClGC3
-	 sgqz7S1mhUqnvAfA/hze4f3GlCJVMe9wzzlALXpctGKqfqeduoekI8jtycXIWbfNQ
-	 jWefaIN7pwtx0sNQH18yY0pE7Sb1d63iI7pI95Fj61HL+modRR/raG88db86F6ZsJ
-	 rkNW8ir9HgZyzx0qbAWLZZjbF63pJBMzY//sc2TxmdbIl1aOBn3B+8dYEgbQ2f6Tf
-	 xuGSKvGWY91coQ3TEw==
+	s=s31663417; t=1750609700; x=1751214500; i=yarny@public-files.de;
+	bh=pFZdSVKLgmxCkboXggFJ1H63xGkGiWN6K9vf3L2xRa4=;
+	h=X-UI-Sender-Class:Content-Type:Message-ID:Date:MIME-Version:
+	 Subject:From:To:References:In-Reply-To:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=j4WfLjro+TIPJCV/dm+Qy/8/isoR+gLyDpa13WrKlZznsPyKlVnuOknbZpS+n53f
+	 dXqKN1S/n0Hn0dwEhGBXnVVfxF+z6hz72BTO92xQd8QhXh/XxMdiNkXNeSnkgQkKi
+	 4gjS7UP75e6U9U/tZxf5+evbOmvXPh0ypDJpCstU795r1zCalYTxRhfy1vG8v32Mm
+	 QN3LMtE6UspPpxLkaKgJqix3wszzUa6Ngrde2qPjMukO70RvAn/C1dfWB+lmC45B2
+	 GWbkDUYLlSbM7Y2CWlApWiRABfHpmHk5/9ueBxMCCmOpajaAfugrjfjJRRiqJqaY+
+	 sEZhY/kylq8B3psXwg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [127.0.0.1] ([146.52.47.213]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MkYc0-1vAvT804RK-00jKfS; Sun, 22
- Jun 2025 17:35:24 +0200
-Content-Type: multipart/mixed; boundary="------------yTneuir10qaTKPS04IM3EBqr"
-Message-ID: <867c4d2e-7871-4280-8c89-d4b654597f32@public-files.de>
-Date: Sun, 22 Jun 2025 15:35:00 +0000
+Received: from [127.0.0.1] ([146.52.47.213]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Ma20k-1uHKLI1g3Q-00Yx0K; Sun, 22
+ Jun 2025 18:28:20 +0200
+Content-Type: multipart/mixed; boundary="------------rHa0QTlYFfFFgHfn5YX3Yeos"
+Message-ID: <7d4c2db4-82e6-4a23-a96a-b5ca433675fd@public-files.de>
+Date: Sun, 22 Jun 2025 16:28:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH v4l-utils] meson.build: use `localedir` for `LOCALEDIR` /
+ fix meson target directories
 From: Yarny <Yarny@public-files.de>
-Subject: [PATCH v4l-utils] fix meson target directories
 To: linux-media@vger.kernel.org
+References: <867c4d2e-7871-4280-8c89-d4b654597f32@public-files.de>
 Content-Language: de-DE, en-US
-X-Provags-ID: V03:K1:T7l5vJgeFRQJwCjlzmCqS6nCK0BAMedT67AloYG9DVE0j6I5ksJ
- 2FQ4dcr+EkpLGEwr7yAsEJ1TbCk2x0pc6Lr79DvJmb/dxi8ufqH8rYA0mdgItePTKoJoVxr
- 1xs88oLyUy6cEhaMNWZ2PGKXyQLOme5Jp1Xdc/TPcsUqR/PT7zjrszrN77oh2whBFNQpJVg
- 1UFnhXg493hNG/wiEFOcw==
+In-Reply-To: <867c4d2e-7871-4280-8c89-d4b654597f32@public-files.de>
+X-Provags-ID: V03:K1:pA7xX867I7uI02yHf+AmnrC50OwN95a7BiTe/qe0coPcLJRBjgP
+ ULdpj/dM2/CuhmwEJRRAP3ne+ZrLU+I2VarvDNdgCiTQrXv/zyHYwNGCzeeRD4erTieZg7/
+ VendEglMY9BQestbRpceKEWKWdUQdJIYpczbwAx709rlgl3Ljhf39sZQLJyyN9tVlrpOmnd
+ lF8wSr+WamlQEKvWh4fLw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:mcH0KDkvBEQ=;u/7Sb3702EO30BgrVd8f0uTplib
- 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
+UI-OutboundReport: notjunk:1;M01:P0:XpNzUWtFGOE=;fYHXP+JENJYC7Z0tuWFUE2QtSy+
+ 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
+ ehzEla/
 
 This is a multi-part message in MIME format.
---------------yTneuir10qaTKPS04IM3EBqr
+--------------rHa0QTlYFfFFgHfn5YX3Yeos
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Hi linux-media,
+Hi linux-media again,
 
-please find attached two patches for current v4l-utils
-master branch that fix packaging errors with meson.
-I stumbled over those bugs while I tried to package
-v4l-utils within the NixOS linux distribution.
+inspired by
 
-Thanks and best regards -- Yarny
---------------yTneuir10qaTKPS04IM3EBqr
+https://lore.kernel.org/linux-media/20250606095754.1013225b@foz.lan/
+
+I'm sending the first patch again,
+as patchwork apparently only caught the second one:
+
+https://patchwork.linuxtv.org/project/linux-media/list/?series=3D16195
+
+Apologies if this is the wrong approach.
+
+Best regards -- Yarny
+
+
+
+Am So 22 Jun 2025 um 17:35:00 schrieb Yarny:
+> Hi linux-media,
+>=20
+> please find attached two patches for current v4l-utils
+> master branch that fix packaging errors with meson.
+> I stumbled over those bugs while I tried to package
+> v4l-utils within the NixOS linux distribution.
+>=20
+> Thanks and best regards -- Yarny
+
+--------------rHa0QTlYFfFFgHfn5YX3Yeos
 Content-Type: text/x-patch; charset=UTF-8;
  name="0001-meson.build-use-localedir-for-LOCALEDIR.patch"
 Content-Disposition: attachment;
@@ -151,37 +177,6 @@ LyBnZXRfb3B0aW9uKCdsb2NhbGVkaXInKSkKIAogIyBNZXNvbiAwLjYwIGhhbmRsZXMgdGhl
 IGljb252IGRlcGVuZGVuY3kgbmF0aXZlbHkuIEZvciBvbGRlciB2ZXJzaW9ucywgZmFsbAog
 IyBiYWNrIHRvIG1hbnVhbCBjaGVja3MgZm9yIHRoZSBpY29udl9vcGVuIGZ1bmN0aW9uIGlu
 IGxpYmMsIG9yIGZpbmRpbmcgYW4KLS0gCjIuNDkuMAoK
---------------yTneuir10qaTKPS04IM3EBqr
-Content-Type: text/x-patch; charset=UTF-8;
- name="0002-lib-libdvbv5-meson.build-use-includedir-also-for-lib.patch"
-Content-Disposition: attachment;
- filename*0="0002-lib-libdvbv5-meson.build-use-includedir-also-for-lib.pa";
- filename*1="tch"
-Content-Transfer-Encoding: base64
 
-RnJvbSAzZjlhY2EwYjMzMDhkZDcyZDg3NjgzY2JkODg5NDZiOTg5MTUxYzMzIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBZYXJueTAgPFlhcm55QHB1YmxpYy1maWxlcy5kZT4K
-RGF0ZTogRnJpLCAyMCBKdW4gMjAyNSAyMDoyNDoyNCArMDIwMApTdWJqZWN0OiBbUEFUQ0gg
-djRsLXV0aWxzIDIvMl0gbGliL2xpYmR2YnY1L21lc29uLmJ1aWxkOiB1c2UgYGluY2x1ZGVk
-aXJgIGFsc28KIGZvciBgbGliZHZiLXZlcnNpb24uaGAKCkhlYWRlciBmaWxlcyBhcmUgY29w
-aWVkIGludG8gdGhlIGBpbmNsdWRlZGlyYCBieSBNZXNvbi4KSG93ZXZlciwgYGxpYmR2Yi12
-ZXJzaW9uLmhgIGlzIG5vdCB0cmVhdGVkIGFzIG5vcm1hbAppbmNsdWRlIGZpbGUsIGJ1dCBj
-b3BpZWQgd2l0aCBgY29uZmlndXJlX2ZpbGVgLgpUaGlzIG1lYW5zIHdlIGhhdmUgdG8gZXhw
-bGljaXRseSBkZWNsYXJlIHRoZSB0YXJnZXQgZGlyZWN0b3J5LgoKVGhlIGNvbW1pdCBhdCBo
-YW5kIGZpeGVzIHRoZSB0YXJnZXQKZGlyZWN0b3J5IHRvIHBvaW50IHRvIE1lc29uJ3MgYGlu
-Y2x1ZGVkaXJgLgpUaGF0IGlzIG5lY2Vzc2FyeSBzbyB0aGUgZmlsZSBlbmRzIHVwIHdoZXJl
-IGFsbCBoZWFkZXIgZmlsZXMgZ28sCmV2ZW4gd2hlbiB0aGUgYnVpbGQgb3V0cHV0cyBhcmUg
-c3BsaXQgaW50byBzZXBhcmF0ZSBwYWNrYWdlcy4KLS0tCiBsaWIvbGliZHZidjUvbWVzb24u
-YnVpbGQgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
-b24oLSkKCmRpZmYgLS1naXQgYS9saWIvbGliZHZidjUvbWVzb24uYnVpbGQgYi9saWIvbGli
-ZHZidjUvbWVzb24uYnVpbGQKaW5kZXggOGY1OTI5ZmMuLjQ1MzBjYzY0IDEwMDY0NAotLS0g
-YS9saWIvbGliZHZidjUvbWVzb24uYnVpbGQKKysrIGIvbGliL2xpYmR2YnY1L21lc29uLmJ1
-aWxkCkBAIC02OCw3ICs2OCw3IEBAIGNvbmZpZ3VyZV9maWxlKAogICAgIGlucHV0IDogJy4u
-L2luY2x1ZGUvbGliZHZidjUvbGliZHZiLXZlcnNpb24uaC5pbicsCiAgICAgY29uZmlndXJh
-dGlvbiA6IGNvbmYsCiAgICAgaW5zdGFsbDogdHJ1ZSwKLSAgICBpbnN0YWxsX2RpcjogJ2lu
-Y2x1ZGUvbGliZHZidjUnLAorICAgIGluc3RhbGxfZGlyOiBnZXRfb3B0aW9uKCdpbmNsdWRl
-ZGlyJykgLyAnbGliZHZidjUnLAogKQogCiBsaWJkdmJ2NV9hcGkgPSBmaWxlcygKLS0gCjIu
-NDkuMAoK
-
---------------yTneuir10qaTKPS04IM3EBqr--
+--------------rHa0QTlYFfFFgHfn5YX3Yeos--
 
