@@ -1,112 +1,119 @@
-Return-Path: <linux-media+bounces-35552-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35553-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DF3AE3209
-	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 22:42:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2BEAE3210
+	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 22:46:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23270188CDEE
-	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 20:43:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 066AA16ECDA
+	for <lists+linux-media@lfdr.de>; Sun, 22 Jun 2025 20:46:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 237C31F5424;
-	Sun, 22 Jun 2025 20:42:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E2001F4725;
+	Sun, 22 Jun 2025 20:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RqM8mPKz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MkG8alJL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B982EAE5;
-	Sun, 22 Jun 2025 20:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A3D610C;
+	Sun, 22 Jun 2025 20:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750624963; cv=none; b=ZNvOuxaNycG2sMDY3H1Awz+9SvF8i5PW9oC43ULJZlmIp6GIejSGBdMkegNbg5EilHzopKwAjQXHmoCuMT+X7BQnDN6zERYsAtRd6iei42OwwuEdwkcPsPBbPzGImThymQcxiGx+u2D2bOnkcFStI1979mzaSzXq95an644SHZM=
+	t=1750625177; cv=none; b=K/1IQJBIU7FRa7sM6IlC9Z/O1PO2DigbGvm4jSR6EK5Gl2AKZBqptEjv0Jfwk1QxMc5zJAUgdu3CIMRJ7BKg3iEtppt6WhigqBJ8eXe4Ph8aVGrKL6AIYPF4GYfBpfQ4aVs6TAA2bnK8ZcVaZYZ5mroMyVHR0/ktCNJ1hI377b4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750624963; c=relaxed/simple;
-	bh=aBH5ync0KSrwnI3FXleDVUQ8cMpif4dJqFHJOP7BLpw=;
+	s=arc-20240116; t=1750625177; c=relaxed/simple;
+	bh=GwKR947l0oDsjvW7HGqBolLdH9hIFFWEoUtSTpR6+4w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LGeLOwMqFYgQ9t41onW4S8oWTZxjn17gj6fWxska2lPvN3Pwap7QdgWkXEx6+eSdwbHiQtqbTfkBsbojan3pfKTqBIjQuSn/sk3t6M8vArDjvM2HbklNh136TbA8mYlgZzZZCE1BXNhdeqMwsHKzsp/v6znW65hKme6KUKVLIIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RqM8mPKz; arc=none smtp.client-ip=209.85.208.42
+	 To:Cc:Content-Type; b=m53QpxB0fC1silYna1TKbiZSLDo1+LzIVhOl8ByIdF/ZX8tJxCgZpFjW8290aQOGRGcQiUj1gibSLyaDqYCpmI4947+A1nIJUZFLDfqT+C15Q+0m7UV822XE6fSashsPPsqr9vGFf1E6ri6gxU34BriVP40PeSK+eZKv0iTLIUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MkG8alJL; arc=none smtp.client-ip=209.85.219.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-605b9488c28so6028560a12.2;
-        Sun, 22 Jun 2025 13:42:41 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e82492d2b38so285013276.1;
+        Sun, 22 Jun 2025 13:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750624960; x=1751229760; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1750625175; x=1751229975; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VEaaZjTLxR/wmDq/Wpxqo+FbQo3s+O631q6fY/ypEKA=;
-        b=RqM8mPKzGh/SnRN2hRcjKSiGGH5ndFPrb0dH5YB0DWrRLnyLZyxi8HHbKLuZgacKe3
-         JQT5zSZhqUaAsDXaM7K6OJXCuyaZbZRo33q78c/cai8fBBlUpSlYNgyGScvwJKUp72Vb
-         5BtBRSOeTSeF9KYh2yqqInMGaRRoLsCsjPiuc3E93vncdUenRCXRlm5wBQgNrwwaagz0
-         I5KF2Ayr+mFW/KHYW0Tl3zqFOPP1tUn6bOl2oKjdhFSc+r5dz+7o+bbHv7+4o0/0MEZZ
-         KxKKR5D9ZSkxL+65Qksg6MbyGoTkXILeHuHCyzv17m+6sT4+uk03/Jp470UKwhU5itUp
-         Fy6w==
+        bh=0GabHvsY3bDW7rA/BLlKelKFYiDWDiaFpKx8UrlL7A0=;
+        b=MkG8alJLofpOhF/rpjkmRszVc4vGmApbu1YFzlm404ID94uUuaVWPrFayggSJrm8Pb
+         +W4K6xqUAbwY11et+MmyhOk1cdr5JlS5BvFAjvUoJGj5ngEsCSj7FE5TKso+toPHGNVh
+         H4VwNYJwOepPciCtKyMe7OxEaqXTdDFi/CaG8/Kx1m/TCgmZFgH7EH1n7P2HwJ9kxTrl
+         05rsvwwit625Lscs57Hz4+Me66j3+eDdOUzdZ4bXnnMRN7WgDPM3xKPQwmpMO7tNSyeI
+         SQHdJ3Bazw2eqnN2D2iwJdzjD9PzpVnajrheiEUkJGcsRaKntj/vfldk4VbdivX/rdbK
+         6YAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750624960; x=1751229760;
+        d=1e100.net; s=20230601; t=1750625175; x=1751229975;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VEaaZjTLxR/wmDq/Wpxqo+FbQo3s+O631q6fY/ypEKA=;
-        b=QKSwhnSUdKE2F3ZMNBW0d61y5oXh0aDGqDmNoAOhM5e3NIixpf3Eg/TqucIZDxsIx5
-         DRqrxaUS+RzPjvsyUGJRAZvuEkIhFERYjy8acHvjKSS3QuGdEG2uUDDF/JRuViKihS5l
-         DYDdtypDVeZw5Un82yIJeLGtNW/QwryLaQgr4GCAGieATESK85YJercDjfB+XTR9EJ4+
-         uZDkIUApO8DCQTLcTxMMGsaZMpfBYSviOqvoJW6gEjR49fZmqRgZKIy5cBEk1xFf3Fnn
-         ysmCtHj40+C2EO2fU4o1VdkrcfB7FZZitzuFBf8UygAH/4WZpxLTLKRgb+D9fcRyo3bK
-         /Xvg==
-X-Forwarded-Encrypted: i=1; AJvYcCW1m7T8rSFEx7xUhdHnbSm4KaOjeFXXz2QXE1KZzR/QpY761Pa7UYorNvM4hycyX3exS/w0ho+4rMQaY4Y=@vger.kernel.org, AJvYcCXV22Z1d9oILZzRBuDOzeKDy62wKDE8GNZmA5SYUzINq7ZmtNNgTt9i22GXhQ3dpjUXmzoydKqok/1OZik=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRNQKNzPRb8R0YpUXQ+1PDQRFvqf0cnmZj7gL07wbnmrqVfDDz
-	EkQM2LKGjSuH0wPVX2y7BCx12AwcWuGDUYpxlLi6+3IGkqN/NW44NrJIdtzbvSA0Qbz0UwZYenO
-	UbZXVvGVEapSRo8kvPRfYbwZRBB8atAQ=
-X-Gm-Gg: ASbGncvHy+Xh2YqB4gzY7HpUQdEBtg56rE6FGrDPalOZxK0F6vpyQOSBxZS2+wYXoS9
-	JF66EekXxMu/6jP64fr2V9qK6SBdMpDhbWBlFH/r6gpjB28P6Ok7hHqLah46m/YJtI/jotDuXtv
-	QOmGZMXsFUjUDegOX1yNuMa2qTLCUJV1Fhcwv/eep5EiTrumIbsiJN6Q==
-X-Google-Smtp-Source: AGHT+IEuCW/KdysCM3ldMjDLa6Hfj5krLcXWfqFZ/oZd25TNQe5yelt2PpsMVNswV4DMKz9ZLEhFH+kmoAcg7ncOtno=
-X-Received: by 2002:a17:907:178d:b0:ae0:635c:a402 with SMTP id
- a640c23a62f3a-ae0635cad93mr668278066b.50.1750624959931; Sun, 22 Jun 2025
- 13:42:39 -0700 (PDT)
+        bh=0GabHvsY3bDW7rA/BLlKelKFYiDWDiaFpKx8UrlL7A0=;
+        b=XHKgbYs0TJzwj3MQB6DGsqokmTm4WsXMTL7zuWhSIlFp2tz93vjhOPQIMsmaFQzj9c
+         heAHvVHzcEwoD9Hyy3rjD46Vol5Ydq44XkFcTpW/d+CicP3D2PEAig5hiftJsiLfoziX
+         LjNMDSgvVaUR7Ko3tfBXWB+82apj37MUqs9kyfG5Vkn/Ciqal82+ctVb2WVGXRFJOb8z
+         uP2Y7v5FgH8wS84Yp48C5wR88jHhyVZVPyB5zsz4g7w1QN8Jsv1dHBoywy275ASyzGkV
+         a1m7bjvTQO2BzksauIQh9oEkc2ydB0tufwo5HwFk575FhoJKfNK9OUizWd0njZOVGDwd
+         Eh9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUXClHQ+Sl3d84jaUD1tjeIiV3uTRUGqzs5Mt1/yr0J1ueSLcBDoNYXm8ttsBzTSmoGPVFgHXa+RhdzXTY=@vger.kernel.org, AJvYcCWIulyuEwQcMB0C1KjrQUXV/Q2k6GOQ7I/yLI0YHkd5+28DUy4cIT+F/HhUlBWLwmjCsFNCGwAghGJd9c8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0qqoXlkTwlklt7BSXEjnUujENJxe5Uwkn19/rj+SfFuxSITag
+	0IZDKmGL7JgB0mBGly/Uc7aQbnlgglZQkL+Z7ty3fRKmAYtD3a4DTJJiPUPX6LzHAvNp3ycT5TL
+	+7NTLzK8u4BVTbCq97cK9EJWUG5lzQZc=
+X-Gm-Gg: ASbGncs6Y5NqyiJbj7SXtUciJcCTIPa01aC0W93JLXkeclLWOuOstHIhmvcMnuuAAOK
+	cqxGCiQQlxiG/odMZeeA46S3ryoAouwbZQxjW5+MJf9jQeU7tYVFU01TmxnkFTItSAIZU8TJUhR
+	kjjSbxa1SUlo4jp4wvRCgtSk9/7qmfcl044LDpPzjpRDGJ
+X-Google-Smtp-Source: AGHT+IEmVlg/KOIX1VTwQesijc92a1D2RId/mLgev7pZcFOOQiaylUYoPLlZbiWQVi5ktMhE8d91KsTNaUz4jGYnOqY=
+X-Received: by 2002:a05:690c:d93:b0:712:c55c:4e61 with SMTP id
+ 00721157ae682-712c64e8187mr66589657b3.5.1750625175439; Sun, 22 Jun 2025
+ 13:46:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250622-bar-v3-1-4cc91ef01c3a@gmail.com>
-In-Reply-To: <20250622-bar-v3-1-4cc91ef01c3a@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 22 Jun 2025 23:42:03 +0300
-X-Gm-Features: AX0GCFt-u0KDswVjW_bfV4Y3-CzEDf1LLgcF6bQ7Jm2retz0Z--D-RGtvpCiwyo
-Message-ID: <CAHp75VcFSbLwqot0Rrm=141Y-mCQUuFqNGn=DnfKSSYp-31vcg@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: media: atomisp: fix coding style in ia_css_output.host.c
-To: LiangCheng Wang <zaq14760@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20250622065340.184048-1-abdelrahmanfekry375@gmail.com>
+ <CAHp75VcKQGvcgv+72=9CY9yvvmzTDUaiP8xZZzQCyd553_tqYw@mail.gmail.com> <CAHp75Vc7=WYeay0xsvVd5NZ-mm+WdU1LrzzFAE1GrdpzH2JjEQ@mail.gmail.com>
+In-Reply-To: <CAHp75Vc7=WYeay0xsvVd5NZ-mm+WdU1LrzzFAE1GrdpzH2JjEQ@mail.gmail.com>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Sun, 22 Jun 2025 23:46:04 +0300
+X-Gm-Features: AX0GCFvlIHgr7FAfwpYiKvbyIOWPCmbwyRuZ8_Mzqkhx21I0MX5OTBJ3q9AxdAM
+Message-ID: <CAGn2d8M4vZzJSczv72AFS_ngPiCc=Hg5=U3wQFCtHp9EZvqDoQ@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: atomisp: Replace scnprintf with
+ sysfs_emit in bo_show
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 22, 2025 at 6:42=E2=80=AFAM LiangCheng Wang <zaq14760@gmail.com=
-> wrote:
+On Sun, Jun 22, 2025 at 11:39=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
 >
-> Fix multiple checkpatch.pl ERRORs and coding style issues:
+> On Sun, Jun 22, 2025 at 11:37=E2=80=AFPM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Sun, Jun 22, 2025 at 9:54=E2=80=AFAM Abdelrahman Fekry
+> > <abdelrahmanfekry375@gmail.com> wrote:
 >
-> - Use tabs instead of spaces for indentation
-> - Move trailing `if` statements to multiline format
-> - Remove excessive space between type and asterisk in function
->   arguments
+> ...
 >
-> This cleanup improves code readability and follows Linux kernel
-> coding standards.
-
-Change looks okay now. The question is are there only these
-problematic places or more? Can you double check the entire driver for
-these?
-
---=20
-With Best Regards,
-Andy Shevchenko
+> > > +       /* Changing to sysfs_emit changes the behaviour if failed*/
+> >
+> > This comment, besides missing the space, is useless here. You need to
+> > use the comment block for the proposed change.
+>
+> Also the text of the comment is a noise. You need to explain better
+> what's going on here.
+>
+Sorry for the mess, so the comment is enough if well written or i
+should do something else?
+Thanks!
+> --
+> With Best Regards,
+> Andy Shevchenko
 
