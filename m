@@ -1,131 +1,240 @@
-Return-Path: <linux-media+bounces-35581-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35582-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE30AAE3795
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 09:57:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E9EAE37A6
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 10:00:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55B301700EE
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 07:57:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 40DCD3A6E7D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 08:00:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF4891FF7BC;
-	Mon, 23 Jun 2025 07:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C1B1EF397;
+	Mon, 23 Jun 2025 08:00:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGGuUeTL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R7pfqdJk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372D61E5B71;
-	Mon, 23 Jun 2025 07:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63C3537F8
+	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 08:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750665464; cv=none; b=dLU+f1cwD7Z2sgt9Px9KRUa3ZyDQMBGz1dJfO8RXmmK5S11RubkIAV1AnIjARkJzeu2zNg4yOf+2oCX9x4uWWno3tNBS/jDyKQmuU/pTdnSjw3HttgtW2f1GIYWdBEKBTGluoK9996sbXZuyDU+ryic8zEgZ2ikNXchkG8lQI0o=
+	t=1750665638; cv=none; b=nq3b2U8x/jEvjYIHGiiBhGGNWw3ExZx/oAPHlxLRbjr3PuWH3FEATz47fLEV0f/q4C+Cn5klnio07DMyUGBF0gKkNiUBD9iNOgG0mtmy2M3rR3b1TdAfLMOASriiCAi9tTvLRf4i4hbleH9t4IcEICXDzGDxk1gGjG0Bs9ingVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750665464; c=relaxed/simple;
-	bh=yOXQLap2q3Gy7n81SFMJGAzWWZgV2Sk57nyxMb5GoB4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NWZJ3xN8nHsiiX7+jtkxNTpM3gJtw08wfSfw6F4k7QtyL+Onpfbg4qYJjpWRLSWEpjkY/rFWChkOHyFYabdR/Aw5lZIsciUv6umC2X14vFGwr3QL5GregZdtdRql5AOSla3kHxStAX3dvF94HeadjVvALg3D1LTCkwQtrtG6u90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGGuUeTL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AA97C4CEEF;
-	Mon, 23 Jun 2025 07:57:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750665463;
-	bh=yOXQLap2q3Gy7n81SFMJGAzWWZgV2Sk57nyxMb5GoB4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dGGuUeTLViTNBXONGqpN197XSAkI9WF1JXE1vSWGamPrCTRjO6zhFzzQmNdjmBatd
-	 nvCLLkA+LBp4123MEXaz1aynRpLgePkDnd7tQ+Y2O7acpnMQdcQ3+dGGO9HGAnc4Pq
-	 APJ9V540WqPF9VehzjIe6kHgazK9DGuGhjAFVTfkS19bVhQerB/w7iginx3izZqtLz
-	 yhPZlsXbLAYnT5s5WdflXy1U/PxzP5HbSQodrOTB1TYeAK8/0V45mbW/ds2iHULm+1
-	 GIemoRFKZy6NJO4WLhnEbOjakXq5hR7axa6Ftz6BPPLoX7EmzapWdJ7BalCkw7yB6U
-	 uGKhsv2hvTz0g==
-Message-ID: <526fb91f-6a5b-4f70-aa70-b29f532f7eee@kernel.org>
-Date: Mon, 23 Jun 2025 09:57:38 +0200
+	s=arc-20240116; t=1750665638; c=relaxed/simple;
+	bh=XQDYEtzXL4UzGqsDP1bDfCZcX92RB9qF0Rlaqv9ixP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rjRraCG+kt14bfDplJ1AsayW9kHg+5safE7jiHSHsGSASS5zRkiVS79ey+pOXfaf1MgjAHTOebLWNb4uE1hWfUhaQzyFHwcOWT0w8WH0FIPJFabJyEnjs1ebQXzzGLu477119ndvdsF2Krl5R0qFuLiayDOAGtjtF0p4QiLzwQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R7pfqdJk; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750665637; x=1782201637;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XQDYEtzXL4UzGqsDP1bDfCZcX92RB9qF0Rlaqv9ixP0=;
+  b=R7pfqdJkTqy3u3x6YWH5FETdZgxztLH9tHn2Z2rvzlupM8FD+lysu28P
+   LYJZ2E8OuHADtuuEo6ZR7dYWlwVkW9Uty4cXnBOnm7QOhk99iJgUBowIw
+   Xw64kivmqAR3razAnyiKZofu1AABbmL4ikp7UNe0pmFYTC6wh4Bv9Gw/u
+   Q9yQ4MsCdJEDqkCjiJhwtm9zJr67dMJa+ze9v7n1Kf/yY8ZWT/eiZMS4b
+   UD66N09roRMeB0S3w1Y3/kwF8dutX2jrX9EFz7U8Xx6LTmpUbI8CGzCsI
+   sHxcG55ZdaISZMC4wX/1Vz0kSaRKu3vyM2uDrxq5T4JgjhEzqqcekYP3r
+   Q==;
+X-CSE-ConnectionGUID: f/Li29GoQOy7dpm+gwJddA==
+X-CSE-MsgGUID: rOJjiN2dQg6u18LZAqeNJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="56532507"
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="56532507"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 01:00:35 -0700
+X-CSE-ConnectionGUID: LL1hcxRrQmeibUauEP0MPg==
+X-CSE-MsgGUID: w9kphhWNRvuMdI3/67OOZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="151302764"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.8])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 01:00:29 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 253B61201F7;
+	Mon, 23 Jun 2025 11:00:25 +0300 (EEST)
+Date: Mon, 23 Jun 2025 08:00:25 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 18/64] media: uapi: Add V4L2_CID_COLOR_PATTERN for
+ describing color patterns
+Message-ID: <aFkJmUOctRJPWgsg@kekkonen.localdomain>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-19-sakari.ailus@linux.intel.com>
+ <pczbu7ubfshbhtc5ukmxhbd4xjrmcbwnv7saqy73q2mrgta4q7@5xmultpljt7f>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] dt-bindings: media: venus: Add qcm2290 dt schema
-To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
- quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com,
- bryan.odonoghue@linaro.org, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250613140402.3619465-1-jorge.ramirez@oss.qualcomm.com>
- <20250623074940.3445115-1-jorge.ramirez@oss.qualcomm.com>
- <20250623074940.3445115-2-jorge.ramirez@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250623074940.3445115-2-jorge.ramirez@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <pczbu7ubfshbhtc5ukmxhbd4xjrmcbwnv7saqy73q2mrgta4q7@5xmultpljt7f>
 
-On 23/06/2025 09:49, Jorge Ramirez-Ortiz wrote:
-> Add a schema for the venus video encoder/decoder on the qcm2290.
+Hi Jacopo,
+
+Thank you for the review.
+
+On Fri, Jun 20, 2025 at 02:10:00PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
 > 
-> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-> ---
->  .../bindings/media/qcom,qcm2290-venus.yaml    | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
+> On Thu, Jun 19, 2025 at 02:57:50PM +0300, Sakari Ailus wrote:
+> > Add V4L2_CID_COLOR_PATTERN to tell the camera sensor's native color
+> > pattern.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../media/v4l/ext-ctrls-image-source.rst      | 39 +++++++++++++++++++
+> >  .../media/v4l/subdev-formats.rst              |  2 +
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  1 +
+> >  include/uapi/linux/v4l2-controls.h            |  6 +++
+> >  4 files changed, 48 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > index 71f23f131f97..b19aaaffbce0 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > @@ -92,3 +92,42 @@ Image Source Control IDs
+> >      representing a gain of exactly 1.0. For example, if this default value
+> >      is reported as being (say) 128, then a value of 192 would represent
+> >      a gain of exactly 1.5.
+> > +
+> > +``V4L2_CID_COLOR_PATTERN (integer)``
+> > +    This control determines the color components and native pixel order in the
+> > +    sensor's CFA (Color Filter Array) when used in conjunction with
+> > +    :ref:`generic raw mbus codes MEDIA_BUS_FMT_RAW_x (where 'x' is the bit
+> > +    depth) <v4l2-mbus-pixelcode-generic-raw>` pixelcodes. The native pixel
+> > +    order is constant for a given device, it is not affected by cropping or
+> > +    flipping.
+> > +
+> > +    This control may only be used on V4L2 sub-devices.
+> > +
+> > +    This is a read-only control.
+> > +
+> > +    Available patterns:
+> > +
+> > +.. flat-table:: V4L2 color patterns
+> > +    :header-rows:  1
+> > +    :stub-columns: 0
+> > +    :widths:       1 2 1
+> > +
+> > +    * - Macro name
+> > +      - Synopsis
+> > +      - Value
+> > +    * - V4L2_COLOR_PATTERN_GRBG
+> > +      - Raw Bayer, with alternating lines beginning with green, red pixels and
+> > +        blue, green pixels.
+> > +      - 0
+> > +    * - V4L2_COLOR_PATTERN_RGGB
+> > +      - Raw Bayer, with alternating lines beginning with red, green pixels and
+> > +        green, blue pixels.
+> > +      - 1
+> > +    * - V4L2_COLOR_PATTERN_BGGR
+> > +      - Raw Bayer, with alternating lines beginning with blue, green pixels and
+> > +        green, red pixels.
+> > +      - 2
+> > +    * - V4L2_COLOR_PATTERN_GBRG
+> > +      - Raw Bayer, with alternating lines beginning with green, blue pixels and
+> > +        red, green pixels.
+> > +      - 3
+> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > index c06d8c83e2b8..d6d0e9a0eee1 100644
+> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > @@ -3434,6 +3434,8 @@ organization is given as an example for the first pixel only.
+> >
+> >      \endgroup
+> >
+> > +.. _v4l2-mbus-pixelcode-generic-raw:
+> > +
+> >  Generic raw formats on serial interfaces
+> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > index dd5f06546773..8119012c2638 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1155,6 +1155,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >  	case V4L2_CID_TEST_PATTERN_BLUE:	return "Blue Pixel Value";
+> >  	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
+> >  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
+> > +	case V4L2_CID_COLOR_PATTERN:		return "Color Pattern";
+> >
+> >  	/* Image processing controls */
+> >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > index c3e6a49b2549..09e5d5bbe7f8 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -1221,6 +1221,12 @@ enum v4l2_jpeg_chroma_subsampling {
+> >  #define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
+> >  #define V4L2_CID_NOTIFY_GAINS			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
+> >
+> > +#define V4L2_CID_COLOR_PATTERN			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 10)
+> > +#define V4L2_COLOR_PATTERN_GRBG			0U
+> > +#define V4L2_COLOR_PATTERN_RGGB			1U
+> > +#define V4L2_COLOR_PATTERN_BGGR			2U
+> > +#define V4L2_COLOR_PATTERN_GBRG			3U
+> > +
+> 
+> Additional empty line ?
 
+Did you mean adding one more or not adding one at all?
 
-So now I see the reason why v2 and v3 did not pop up in my inbox.
+There are currently two empty lines between control classes in the header.
 
-Subject prefix is still incorrect/reversed.
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+> Thanks
+>   j
+> 
+> >
+> >  /* Image processing controls */
+> >
+> > --
+> > 2.39.5
+> >
+> >
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+-- 
+Regards,
 
-Best regards,
-Krzysztof
+Sakari Ailus
 
