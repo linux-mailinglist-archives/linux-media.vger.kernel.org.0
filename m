@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-35662-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35664-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D62DAE4748
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 16:48:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F050AE472E
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 16:43:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04F243A7720
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 14:43:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 071ED7A28AC
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 14:42:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D77267B15;
-	Mon, 23 Jun 2025 14:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B4D2267F4A;
+	Mon, 23 Jun 2025 14:43:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="riwv/nOG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="onfaUVa0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8784F267B94
-	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 14:43:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8FC267F4C
+	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 14:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750689818; cv=none; b=ZlulmlSIU395LPuAwCVzkY3hT16fwKdRcRjJh6ZXhM1ztW9fjnSnfzXRpSIjCCmcv3yOqzwjmBphdxhpLfa0TjZErvXIGW2MOenG0RhgV42eYmOAZZnvLpysPaNQGj/RPA68myuySjIT4AM8Rip/4ek7kdw4apcFEGgh0tgWYOU=
+	t=1750689821; cv=none; b=RvXxE+Z8ersXFKK+LI9Eds3rsn1yM2HWvitwYAsXLvMn3S6pw3B3gVY4avZMTwWT1Vk8hW5n973dKKm5DyXBPEQs+5A1Vl3D929iJCaHmd5Ne2ZNYlnA5juJep+W0yvsnjrB1C1VKO3WLA1Xw/cOvsRR3w4C0P8pKSSPDrAAj5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750689818; c=relaxed/simple;
-	bh=2HZ5gIvdtCNlbCjTgzIVX2Z5doOMAfLGUc17DcClp/k=;
+	s=arc-20240116; t=1750689821; c=relaxed/simple;
+	bh=9jBFIzbF6hERxuP8+sCA0Q+/G86Mi+7V1eGcbgi7BG8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nil2e1LJws9F49x+b6e97FcPSNRujz9Z/q93JkTaohR8ZcCHIIKq+TwK+T35OLmDU+uSFlMgVEWOwb+kbopjqvrHwxx9efZ2ZIOxoxTP8U/EQEd3VcwEldQt/qbDVngFfDrrSMpkyMq9Xx7n9A/Mhl6d6eGD7z4PSXkcBQLkYp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=riwv/nOG; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=ZtMnoAe+AowCWzWBJATCwvdUi89SUCaeQM7vCOxveecNLoVg8PTwkDxiNocng/7OO8EPogAYwErsMEuTT4+3ZekiCrX153sjOiKM+U0f7Do//Fb3DS2ZWMHHm/6bT0MzFkmwg16IDuvL/FhieAiw4+7zWGTrtF8HkiVkPI+uOI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=onfaUVa0; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF11B19CF;
-	Mon, 23 Jun 2025 16:43:13 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3647F19E4;
+	Mon, 23 Jun 2025 16:43:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1750689794;
-	bh=2HZ5gIvdtCNlbCjTgzIVX2Z5doOMAfLGUc17DcClp/k=;
+	bh=9jBFIzbF6hERxuP8+sCA0Q+/G86Mi+7V1eGcbgi7BG8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=riwv/nOGrTKZbslTJllGL/stqwcwbb7XgBVMkRUoxg3ELQkDZogjXsmH8fXPUoxUY
-	 AoyrHxTRUDjaMmNbr/yw9A3GhUCos+mJrrSrP+2QYdwEQb1gN6s4S5KFiLlRbvCry5
-	 WH7qkQ9x77cuyCQNkSA6OvE23nP4uTLckx7usnuM=
+	b=onfaUVa0chxYLr3ZShXbiFfqdow1XwXv5BhIClUFZK7te8gywAX94+EOCgwytHZzu
+	 eQRS+gFbbqxWkSQUxByhFi7MhoP5NqkaJyStaBc8t/8tvzeDs48+K8N3M7aj+P7BzG
+	 t1cVp/hnwmLqsgVCwIzpPY0vR/sZEYfBmkyv1gPY=
 From: Daniel Scally <dan.scally@ideasonboard.com>
-Date: Mon, 23 Jun 2025 15:43:21 +0100
-Subject: [PATCH v5 4/6] media: platform: rzg2l-cru: Use v4l2_fill_pixfmt()
+Date: Mon, 23 Jun 2025 15:43:22 +0100
+Subject: [PATCH v5 5/6] media: rzg2l-cru: Support multiple mbus codes per
+ pixel format
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250623-rzg2l-cru-v5-4-1663a8c6719a@ideasonboard.com>
+Message-Id: <20250623-rzg2l-cru-v5-5-1663a8c6719a@ideasonboard.com>
 References: <20250623-rzg2l-cru-v5-0-1663a8c6719a@ideasonboard.com>
 In-Reply-To: <20250623-rzg2l-cru-v5-0-1663a8c6719a@ideasonboard.com>
 To: linux-media@vger.kernel.org
@@ -62,38 +63,32 @@ Cc: sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
  Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4487;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6540;
  i=dan.scally@ideasonboard.com; h=from:subject:message-id;
- bh=z3z9B2jOnAcXqlFsm6v7ToxZnReYNEhfJ/Vw0GlaexM=;
- b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBoWWgOmnfxlhIDT1ThldhWLv0JL2oeDr6q2X0+U
- OiZuQuo06OJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaFloDgAKCRDISVd6bEV1
- MmbMEACJqWxWwcLrohSlnolWI3meqHlSVQQFlcDNxjwYVGRIzvB0B97pF9UnxtNXJDP9DdFY6f9
- xzEUh1IGImbDuSkM5dRNGa8gLssymKkAF/zlIe0GapoRz5Kibebh0/+lKVaMxUeR2DCBeOlkUzn
- zi34r4OptV232grK5R6Z7df5wuYRk/Y+26jN+Z+BXGNasWG64IMAwPRgk0Ac5aLK3xqbF5PDlAQ
- FJTtkdEzsPqSKnyxfrUHPdvcw/ZcfknC5JrI26XtQrsRNsIPTBGKXhXoZWxgO27Yk/ZqAj5At7I
- +ut/TffGLC/PTLxkVc30CmPFfw5htakfwuCYzuficBClbcTPPMKepLPbgUcE0dZHtr72FDl6CXE
- Kf50zKkZ7YuPHp1E6pbHdtq43dFquW7zzC9NKLdNeg/aNGIfGtmKd5r8V2rRtWAYVbS4BIzcuXC
- A1S2g78YItzbLMBsYibXXkOw7rZHG0IbiTyhLhgf+OLOFaIYLsXzvUDZJ7PHo7T7cEF9YSm0VKm
- Pz+Rp2Z1YTO8wtCSyTeAkYzOkdUPmxJsozpV/eIVcxSobopbO4kWjAm05113svjwP/4QwGWxLTM
- p2jngFj43HxslWFLBsltSS2b3aZJP1mHAa+AjDqPKcf7j0izeg2iK1NCyENO/WBm557vUmCjA8p
- 9jzcG9nz0r8Yz+w==
+ bh=l1jXNGuJOWhMGZrGUDcyGR/5XHW+t77Uhncgj57icQk=;
+ b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBoWWgPH3XYW6XUGPlDlFO3gJZZrI7lJmtmaObIu
+ amh6o3aHWmJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaFloDwAKCRDISVd6bEV1
+ MgR5D/0Vm4RnHet/AjW5TjpsTtl1updyqj99IXR70z8s4LJeGhMvaGQ5xq3paXpbiqK/ik7mhtC
+ jimK/M7k8C3KEGmbJV5JC1Y+f7398fZopp2+ote++fVAYRlga3J4e21vIrQ9YNtBz1jVVzEXz/s
+ clqDtfI0mInybttY79rVofPpi92CViOWd25fw9Ca0NtYtnjm6l5cRo1H/QQPqDiTfQG5pvjE3jO
+ ZD/Wx/pq5Nl/vj8XUwFiLsn/HeKCfvcMpgbz7iheRlxbb17P8oX4HU4Zn43y/fDlqm9C2RpiJra
+ NqCtXV8dPzp688xEbuVC/CgVPx3sYqPgt5knPelq1/OFQzG8yc8RDsdSoidbEnIArva9APJwHlr
+ SPmK92KsbMxCdw2PCnf/fx3qI4x0xgT0VLXQSEmpT3vjX33GEFFkc8kkjLQ0n8wLdvyqaovI9ZF
+ 1jLjsvthEGP2fBWYSWMegaXcBNvWVDVvLBv90JlTpX98DnTkTY5mUZnX6qR00PU/qvz7z54W1yS
+ HQU9NXM3Kf220wW0wkU5NEySwAjsRESZuXhJJFUJZHXgUL0mgZWVrloXXNd2tVMrQHl7b3NtwpX
+ odnQ5MvDUZxgs2S27WcWknGzddh04yb1Lr9yQI1WyrXM6nDIL0ZSocIhq3IzUB6EuLtm+j6g0ro
+ iYqFz5dsyfka3cQ==
 X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
  fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
 
 From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
 
-Rather than open-code a calculation of the format's bytesperline
-and sizeimage, use the v4l2_fill_pixfmt() helper. This makes it
-easier to support the CRU packed pixel formats without over
-complicating the driver.
+As a preliminary step for supporting the CRU pixel formats, extend
+the driver such that multiple media bus codes can support each of
+the output pixel formats.
 
-This change makes the .bpp member of struct rzg2l_cru_ip_format
-superfluous - remove them.
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
 ---
 Changes in v5:
@@ -106,102 +101,184 @@ Changes in v4:
 
 Changes in v3:
 
-	- None
-
-Changes in v2:
-
-	- Minor changes due to rebase
+	- New patch due to changes to patch 1
 ---
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |  2 --
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c    |  5 -----
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 10 +---------
- 3 files changed, 1 insertion(+), 16 deletions(-)
+ .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |  8 ++-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-ip.c    | 67 +++++++++++++++++-----
+ .../media/platform/renesas/rzg2l-cru/rzg2l-video.c |  2 +-
+ 3 files changed, 61 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index c30f3b2812846a804168c9c2f7e0433a672c602f..8d74bdfae7c854f8f4c9c82303b455ef8c6d5db3 100644
+index 8d74bdfae7c854f8f4c9c82303b455ef8c6d5db3..49b11d0b814850042d1b3ca3b72725d0220c2987 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -68,7 +68,6 @@ struct rzg2l_cru_ip {
-  * @datatype: MIPI CSI2 data type
-  * @format: 4CC format identifier (V4L2_PIX_FMT_*)
-  * @icndmr: ICnDMR register value
-- * @bpp: bytes per pixel
+@@ -71,7 +71,11 @@ struct rzg2l_cru_ip {
   * @yuv: Flag to indicate whether the format is YUV-based.
   */
  struct rzg2l_cru_ip_format {
-@@ -76,7 +75,6 @@ struct rzg2l_cru_ip_format {
+-	u32 code;
++	/*
++	 * RAW output formats might be produced by RAW media codes with any one
++	 * of the 4 common bayer patterns.
++	 */
++	u32 codes[4];
  	u32 datatype;
  	u32 format;
  	u32 icndmr;
--	u8 bpp;
- 	bool yuv;
- };
+@@ -190,6 +194,8 @@ struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru);
+ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code);
+ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 format);
+ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index);
++bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_format *fmt,
++					 unsigned int code);
  
+ void rzg2l_cru_enable_interrupts(struct rzg2l_cru_dev *cru);
+ void rzg2l_cru_disable_interrupts(struct rzg2l_cru_dev *cru);
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-index 7836c7cd53dc3ff9a2c8c5e53be0265a20956e30..15fc1028082add27ad3d6fa9e1314b6240ff0d4e 100644
+index 15fc1028082add27ad3d6fa9e1314b6240ff0d4e..fbbcdb96c4570baf07cc9685c2fc847fb489df89 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-@@ -16,7 +16,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+@@ -13,35 +13,45 @@
+ 
+ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+ 	{
+-		.code = MEDIA_BUS_FMT_UYVY8_1X16,
++		.codes = {
++			MEDIA_BUS_FMT_UYVY8_1X16,
++		},
  		.datatype = MIPI_CSI2_DT_YUV422_8B,
  		.format = V4L2_PIX_FMT_UYVY,
--		.bpp = 2,
  		.icndmr = ICnDMR_YCMODE_UYVY,
  		.yuv = true,
  	},
-@@ -24,7 +23,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+ 	{
+-		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
++		.codes = {
++			MEDIA_BUS_FMT_SBGGR8_1X8,
++		},
  		.format = V4L2_PIX_FMT_SBGGR8,
  		.datatype = MIPI_CSI2_DT_RAW8,
--		.bpp = 1,
  		.icndmr = 0,
  		.yuv = false,
  	},
-@@ -32,7 +30,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
+ 	{
+-		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
++		.codes = {
++			MEDIA_BUS_FMT_SGBRG8_1X8,
++		},
  		.format = V4L2_PIX_FMT_SGBRG8,
  		.datatype = MIPI_CSI2_DT_RAW8,
--		.bpp = 1,
  		.icndmr = 0,
  		.yuv = false,
  	},
-@@ -40,7 +37,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+ 	{
+-		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
++		.codes = {
++			MEDIA_BUS_FMT_SGRBG8_1X8,
++		},
  		.format = V4L2_PIX_FMT_SGRBG8,
  		.datatype = MIPI_CSI2_DT_RAW8,
--		.bpp = 1,
  		.icndmr = 0,
  		.yuv = false,
  	},
-@@ -48,7 +44,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
+ 	{
+-		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
++		.codes = {
++			MEDIA_BUS_FMT_SRGGB8_1X8,
++		},
  		.format = V4L2_PIX_FMT_SRGGB8,
  		.datatype = MIPI_CSI2_DT_RAW8,
--		.bpp = 1,
  		.icndmr = 0,
- 		.yuv = false,
- 	},
+@@ -51,11 +61,14 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+ 
+ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
+ {
+-	unsigned int i;
++	unsigned int i, j;
+ 
+-	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++)
+-		if (rzg2l_cru_ip_formats[i].code == code)
+-			return &rzg2l_cru_ip_formats[i];
++	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
++		for (j = 0; j < ARRAY_SIZE(rzg2l_cru_ip_formats[i].codes); j++) {
++			if (rzg2l_cru_ip_formats[i].codes[j] == code)
++				return &rzg2l_cru_ip_formats[i];
++		}
++	}
+ 
+ 	return NULL;
+ }
+@@ -80,6 +93,17 @@ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)
+ 	return &rzg2l_cru_ip_formats[index];
+ }
+ 
++bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_format *fmt,
++					 unsigned int code)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(fmt->codes); i++)
++		if (fmt->codes[i] == code)
++			return true;
++
++	return false;
++}
+ struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru)
+ {
+ 	struct v4l2_subdev_state *state;
+@@ -157,7 +181,7 @@ static int rzg2l_cru_ip_set_format(struct v4l2_subdev *sd,
+ 	sink_format = v4l2_subdev_state_get_format(state, fmt->pad);
+ 
+ 	if (!rzg2l_cru_ip_code_to_fmt(fmt->format.code))
+-		sink_format->code = rzg2l_cru_ip_formats[0].code;
++		sink_format->code = rzg2l_cru_ip_formats[0].codes[0];
+ 	else
+ 		sink_format->code = fmt->format.code;
+ 
+@@ -183,11 +207,26 @@ static int rzg2l_cru_ip_enum_mbus_code(struct v4l2_subdev *sd,
+ 				       struct v4l2_subdev_state *state,
+ 				       struct v4l2_subdev_mbus_code_enum *code)
+ {
+-	if (code->index >= ARRAY_SIZE(rzg2l_cru_ip_formats))
+-		return -EINVAL;
++	unsigned int index = code->index;
++	unsigned int i, j;
+ 
+-	code->code = rzg2l_cru_ip_formats[code->index].code;
+-	return 0;
++	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
++		const struct rzg2l_cru_ip_format *fmt = &rzg2l_cru_ip_formats[i];
++
++		for (j = 0; j < ARRAY_SIZE(fmt->codes); j++) {
++			if (!fmt->codes[j])
++				continue;
++
++			if (!index) {
++				code->code = fmt->codes[j];
++				return 0;
++			}
++
++			index--;
++		}
++	}
++
++	return -EINVAL;
+ }
+ 
+ static int rzg2l_cru_ip_enum_frame_size(struct v4l2_subdev *sd,
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index a92c6fc4dfaff7931700e967460802725c3dcd56..650a23f7b5bd61ee035dd35d1754c5d9b5e614f6 100644
+index 650a23f7b5bd61ee035dd35d1754c5d9b5e614f6..8e83eb5ed5c32e1ee1a8355dc6144eb18ca598cf 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -941,15 +941,7 @@ static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
- 	v4l_bound_align_image(&pix->width, 320, info->max_width, 1,
- 			      &pix->height, 240, info->max_height, 2, 0);
+@@ -1147,7 +1147,7 @@ static int rzg2l_cru_video_link_validate(struct media_link *link)
+ 	if (fmt.format.width != cru->format.width ||
+ 	    fmt.format.height != cru->format.height ||
+ 	    fmt.format.field != cru->format.field ||
+-	    video_fmt->code != fmt.format.code)
++	    !rzg2l_cru_ip_fmt_supports_mbus_code(video_fmt, fmt.format.code))
+ 		return -EPIPE;
  
--	if (info->has_stride) {
--		u32 stride = clamp(pix->bytesperline, pix->width * fmt->bpp,
--				   RZG2L_CRU_STRIDE_MAX);
--		pix->bytesperline = round_up(stride, RZG2L_CRU_STRIDE_ALIGN);
--	} else {
--		pix->bytesperline = pix->width * fmt->bpp;
--	}
--
--	pix->sizeimage = pix->bytesperline * pix->height;
-+	v4l2_fill_pixfmt(pix, pix->pixelformat, pix->width, pix->height);
- 
- 	dev_dbg(cru->dev, "Format %ux%u bpl: %u size: %u\n",
- 		pix->width, pix->height, pix->bytesperline, pix->sizeimage);
+ 	return 0;
 
 -- 
 2.34.1
