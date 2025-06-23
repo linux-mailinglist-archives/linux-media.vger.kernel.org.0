@@ -1,104 +1,141 @@
-Return-Path: <linux-media+bounces-35645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35646-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CB1AE4466
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 15:42:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E423AE4511
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 15:48:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC57A4423D5
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:32:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DE4751895B4E
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:43:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 290E8257422;
-	Mon, 23 Jun 2025 13:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E74AD253B56;
+	Mon, 23 Jun 2025 13:42:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kpfz+fRo"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XPgSn8Di"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D83925393A;
-	Mon, 23 Jun 2025 13:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FF425392D;
+	Mon, 23 Jun 2025 13:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750685521; cv=none; b=kuK1/o8ixZh8iV787Sb3HWpm+BWuQXHWyiPMnPS2B4ByNkJPmN1e9YCPbG2ILcAxf3BYCLk7BkYl3qmP2pjMPgEobHLOqCK5PXVugq9qomtQufYBP3efV5ZJrn5TC4c8OjSa8opbXBN1xBjf6GqeLJvwtAyLe8VJN0ajwaQF4Ts=
+	t=1750686145; cv=none; b=u8VdwQ45Yz7u+PqojypE3jhlEl0d4u1lDm5lNqLVCvogDBu2poLkY2kJ8jQDgkPYKbefnfClpZXfLIxG9yZ6dH6XutRkdJvsRADvcrNxgRy4Ee7uDt+JoOoWdiwwPle2xAeWmxceglDCYN33iLnxUZDVAwzSCRCLptleVJ4oUUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750685521; c=relaxed/simple;
-	bh=OTnBnRfvA9YFheHvg2VT8lT1Zhu821LsyfQTuGpDSgs=;
+	s=arc-20240116; t=1750686145; c=relaxed/simple;
+	bh=Co65TiTS9Q9fFk3zQhoDANBVjWL264C3AopEEfcpMSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hAeQuW5BPp4OUI1bf3wqAT24gF1f4zxS/VsPeVnWf1HNHgQb4HqruShDExyWnwhTFj0hVNUrHWEMAPApgvuVA7aL3zbE4TW9JbR5422aH5d+z0MCa8QZ1a6WwuhwjyfhP/eR2Q/IAFaxMzrcd5j7rdzi0CBXTd6EDgQRLs+jiFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kpfz+fRo; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750685520; x=1782221520;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OTnBnRfvA9YFheHvg2VT8lT1Zhu821LsyfQTuGpDSgs=;
-  b=kpfz+fRoLexCZKArQpsrUCUTqfaX2ikbHMJ8niUz8mKJktLH6+DKopYj
-   xh+s2ApG0BWXDSi9PPH5h+guM38PV7LnEskFWZzzGZJ3zTRZvLRmhSXAl
-   3Webtu2g3fMNgBFtScy/OF5pXQT82i8RfwIv++Lau8faLOzmUEHQo4SAW
-   7eUZdtePO68sOxQg8hnNfK555vQQdmBkRf0B1cze5P43yKEjtYWxlGFKp
-   8BRNgRCqqFYIREihkwvWxiAbY9/DUKhaV3e6YeEwweH2QR0vjFvwMUbMQ
-   gv2A+ZJBPcqfHOeuRDAom50jujwM2ArfvcN8j/2+xs8uKaL8dq55v4STA
-   g==;
-X-CSE-ConnectionGUID: Zjwvd3/YSn+7c1lzscSC2w==
-X-CSE-MsgGUID: xbNGX5wVSF2SBHxi/fNQdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="40503819"
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="40503819"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 06:31:59 -0700
-X-CSE-ConnectionGUID: eo0ZoeyATq2FXX/0aMBD4A==
-X-CSE-MsgGUID: POqUqg24QhaxzzLGjd/Sag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="175212707"
-Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.8])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 06:31:57 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B2DC211FC36;
-	Mon, 23 Jun 2025 16:31:54 +0300 (EEST)
-Date: Mon, 23 Jun 2025 13:31:54 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>,
-	Hans de Goede <hdegoede@redhat.com>
-Cc: Daniel Scally <djrscally@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] platform/x86: int3472: Add board data for Dell
- 7212
-Message-ID: <aFlXSrZH1f4BbB3M@kekkonen.localdomain>
-References: <20250520-djrscally-ov5670-v2-0-104ae895aecf@ideasonboard.com>
- <20250520-djrscally-ov5670-v2-2-104ae895aecf@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DcXJCyfusJ4un3LBjjbtYRSbRz0en1+gZi6KtbIid01V1QzTe7Q7xmRcq/8HMdtBIaqodmYDiwdHRK6vO023npoTJ3BU4jUAR+pG3z2VcVcR2GdCyqW4Y85ITu/n1tClwVRl4z8tXdiVvyazs2o6ZQXyT6wf40z33RW3TgHxxWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XPgSn8Di; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0BC82D77;
+	Mon, 23 Jun 2025 15:42:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750686124;
+	bh=Co65TiTS9Q9fFk3zQhoDANBVjWL264C3AopEEfcpMSY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XPgSn8DiIzbVcYeL3Sczq7Yfh6z7OGdlM+w7DBf864iBpJssbvVExCn2ASGiBvH0V
+	 ey26Qih2Ar40/bQQOF5oxVKbHhaXPh/WFbVjFA8+0CFaTG/Mwv3/BI3xJUh69uYWBm
+	 HGze8i3572IklaXG1bALeuIB9CD25OeX/26/0eiU=
+Date: Mon, 23 Jun 2025 16:42:00 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: "Nirujogi, Pratap" <pnirujog@amd.com>, Hao Yao <hao.yao@intel.com>,
+	Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
+	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
+	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
+	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
+	dongcheng.yan@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+Message-ID: <20250623134200.GB29597@pendragon.ideasonboard.com>
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
+ <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
+ <aEygCdk-zEqRwfoF@kekkonen.localdomain>
+ <3e8364e8-22e4-42ad-a0f0-017f86fd6bf9@amd.com>
+ <20250623120929.GE826@pendragon.ideasonboard.com>
+ <aFlU-E_GCHWBXErq@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250520-djrscally-ov5670-v2-2-104ae895aecf@ideasonboard.com>
+In-Reply-To: <aFlU-E_GCHWBXErq@kekkonen.localdomain>
 
-On Tue, May 20, 2025 at 02:17:45PM +0100, Daniel Scally wrote:
-> The Dell 7212 Rugged Extreme Tablet pairs an OV5670 sensor with the
-> Intel IPU3 ISP. The sensor is powered by a TPS68470 PMIC, and so we
-> need some board data to describe how to configure the GPIOs and
-> regulators to run the sensor.
+On Mon, Jun 23, 2025 at 01:22:00PM +0000, Sakari Ailus wrote:
+> On Mon, Jun 23, 2025 at 03:09:29PM +0300, Laurent Pinchart wrote:
+> > On Mon, Jun 16, 2025 at 07:12:28PM -0400, Nirujogi, Pratap wrote:
+> > > On 6/13/2025 6:02 PM, Sakari Ailus wrote:
+> > > > On Fri, Jun 13, 2025 at 12:55:46PM +0800, Hao Yao wrote:
+> > > >> Hi Pratap,
+> > > >>
+> > > >> Thanks for your patch.
+> > > >>
+> > > >> This patch is written for your camera sensor module, which seems very
+> > > >> different from those already applied on Dell laptops (some of "Dell Pro"
+> > > >> series). Looking into the driver, I think this version will break the
+> > > >> devices using ov05c10 sensor.
+> > > > 
+> > > > There never was such a driver in upstream so nothing breaks. However, in
+> > > > order to support these, could you check what would it take to support them
+> > > > using this driver and post patches, please?
+> > > > 
+> > > >> I think this patch is better to be validated on existing devices, but please
+> > > >> do some fixes before we can do validation. Please check my comments inline.
+> > > >>
+> > > >> On 2025/6/10 03:42, Pratap Nirujogi wrote:
+> > > >>> Add driver for OmniVision 5.2M OV05C10 sensor. This driver
+> > > >>> supports only the full size normal 2888x1808@30fps 2-lane
+> > > >>> sensor profile.
+> > > >>>
+> > > >>> Co-developed-by: Venkata Narendra Kumar Gutta <vengutta@amd.com>
+> > > >>> Signed-off-by: Venkata Narendra Kumar Gutta <vengutta@amd.com>
+> > > >>> Co-developed-by: Bin Du <bin.du@amd.com>
+> > > >>> Signed-off-by: Bin Du <bin.du@amd.com>
+> > > >>> Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > 
+> > [snip]
+> > 
+> > > >> Hi Sakari,
+> > > >>
+> > > >> Seems there are already several camera sensors using page-based registers.
+> > > >> Is it a good idea to add page support in CCI interface?
+> > > > 
+> > > > Sounds like a good idea as such but I'm not sure how common this really is,
+> > > > I think I've seen a few Omnivision sensors doing this. If implemented, I
+> > > > think it would be nice if the page could be encoded in the register address
+> > > > which V4L2 CCI would store and switch page if needed only. This would
+> > > > require serialising accesses, too. There's some room in CCI register raw
+> > > > value space so this could be done without even changing that, say, with
+> > > > 8-bit page and 8-bit register address.
+> > > 
+> > > Hi Sakari, thank you for sharing your insights and guiding us. Could you 
+> > > please suggest if we should take up this work implementing the helpers 
+> > > in CCI and submit the patch or is it okay to leave it as-is for now and 
+> > > take care of updating in future once the implementation is ready.
+> > 
+> > I think it can live in the driver for now. Given that the device uses
+> > only 8 bits of register address, I would store the page number in bits
+> > 15:8 instead of bits 31:24, as the CCI helpers do not make bits 27:24
+> > available for driver-specific purpose.
 > 
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> I'd use the CCI private bits, the driver uses page numbers up to 4 so 4
+> bits are plenty for that. If we add pages to CCI later, this may be
+> refactored then.
 
-I earlier missed this wasn't for the media tree...
-
-Hans: can I pick this (with your ack) or can you? I the latter case, you
-can add:
-
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+That works too.
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
 
