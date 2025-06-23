@@ -1,328 +1,132 @@
-Return-Path: <linux-media+bounces-35695-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35696-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C44AE4B25
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 18:40:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9C3AE4BFE
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 19:35:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20CAE1676FA
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 16:40:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8ABE2189E16A
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 17:35:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C3162566;
-	Mon, 23 Jun 2025 16:39:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0E8E2D29CA;
+	Mon, 23 Jun 2025 17:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="bBQkVN4V"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="G1Uv5dqB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2297029B797
-	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 16:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750696785; cv=pass; b=C3Bte7j/Koqi9dt+3z+gZi+S7QQmlCC7zRR9rEzc7hUn7K6ML4OOLS4BzYiGg50Ew5vGXoHS+TDzrjjcUkZkhmvjpxOC+NrYzJ6DisqaLsyHLq7wqLaEK2ulC13hOHuRjOO7qJeg3oeMh/+LMfKM7eVoOevmWF2KzR7Nlt+k9BI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750696785; c=relaxed/simple;
-	bh=NkgVdBBLLUvb3NnmQRLtGjeIJKZ2vg+cqr2xMDIU118=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=id3Yhtjx5uDIYu8xAdx0q1zREX1H6nVCc9qTLPXTFmk5oOaSd+50j+DiClqsjPZx2MLDcCZHmBB6W/y5HGD23m/d963nhobhQiPCtE9Bvm+LuBte4cGRbku/TksJUp4vOXpMtvR42FLBrhFxiEEVrg131eS94Ecr8df5iSuKJ1o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=bBQkVN4V; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1750696780; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=JldLcd/wOe0lmPDlqT/EgE7KiV1vapNRsDJnf8QyaG2MM+G2ckpMjuC0X/0up1Nh9bdF/5iLlsU66+rKz+rJ86coUd+9HMXAYApL7P2f0VCHBz7s+TvW3Iig4IFQK+vT3dYa+mEAM+dwg1L5NP9cpzMB67PDKw+hE5d3Ed5a/yY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1750696780; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
-	bh=VwUTiDS4ULMmb1cN5PW3eBPtTQ3cwt10uM2TXww8Cq0=; 
-	b=MZ0HsZE03Dsm5dO1jFb9WNpQb+deKhPKaUET4kuXxPZdk7WboN3BiO+rbW7XYlI/YI6zGt/OEnRzDZXI6DIU5VbzktWNwj2Vucgk+t2jIuvUn6obAlmI53IGk87BkFNvw75R5SAXm1RxKXh36/RW0l3ypjLnD8PauTob56wUoYc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750696780;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To:Cc;
-	bh=VwUTiDS4ULMmb1cN5PW3eBPtTQ3cwt10uM2TXww8Cq0=;
-	b=bBQkVN4VP2JBF+qACj+5CPTJdy+K50Tugf8BIKDhAxnQKJk8+/WzG5R/IEzCVzPA
-	9Ktqr6qTSWg+CAEMs9xhh2llozmRD+s+ctfN3mME+PP0PFFMlSSKoDjeJjm6cxfLx+I
-	VqmlktP57aSAIAsLb+RAyHmgyd5Ek0KoDd8F5cS4=
-Received: by mx.zohomail.com with SMTPS id 1750696778561899.9974685643025;
-	Mon, 23 Jun 2025 09:39:38 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: linux-media@vger.kernel.org
-Subject: Re: [v2,00/20] BYEWORD_UPDATE: unifying (most) HIWORD_UPDATE macros
-Date: Mon, 23 Jun 2025 18:39:35 +0200
-Message-ID: <5915490.DvuYhMxLoT@workhorse>
-In-Reply-To: <6859822a.050a0220.3c48ee.1f2c@mx.google.com>
-References:
- <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
- <6859822a.050a0220.3c48ee.1f2c@mx.google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11D82C15BE;
+	Mon, 23 Jun 2025 17:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750700132; cv=none; b=XmC12LqUOuu3Qh+tMtfHUQXvGs7pSC/nEtXEx61x/uRyQJBUYlZOETCSZ9n0T52dHml+B/Jg6Kxl4qmtiZvewgRiRRZjf+rg/gLECUs16ifZRwWzhvgdXMyo+t0qDc4fqK+T4NbaQ8w/GLEiKUXgsp+ynNmYBYqX6gTDhMHtu2g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750700132; c=relaxed/simple;
+	bh=mGFD+TEQmheZhWqHvHH/h1FUuzjuW8fcVIkD9mNsloo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YKmmfYZsyHxEqmhMs++ja71Fs9z6xks1SFfKfWZxN4sa6oVOGgfkDsl59gRA4aiejS5inomk6zp2t67DkorPAkpLrYMP1zqR1VijK2PTleiCCcrJCWBT34HIFijx7Vi4JdpHQ+B86GJePIn70KkIv85hOt1Px7z503/h8f50bWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=G1Uv5dqB; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=mGFD+TEQmheZhWqHvHH/h1FUuzjuW8fcVIkD9mNsloo=; b=G1Uv5dqB5EuWkcfS4CSlHkTc4G
+	3IwxfpnGtWhHQxIrHjkqdFul2xigJfuo+PMSnRonHmQMif3Il9vFKBt4F/hUDuEjhYhgIg4d/w3s2
+	fbqq0TlaafplRZ02zoi6d8bIrst/zs6h1AQ6xpGtUBrKXR0Z6uDraQVohKkAkKaScAhod7xiVOCdq
+	QMV8z5VzxTmiLUCh8YJX8hBr+EUeupmu/oLYCrjKAK5qviCIhoyrrv3sqsSB/6Hg73teOqqFqcibo
+	L2JRnF3fBcjq9Al2+WOMvwgDP116B7EsvYbl+yzxKL0WAQcmUxQO4QxzUHbbhtL+uvuOI0RcUghxt
+	3jhPTARA==;
+Received: from sslproxy08.your-server.de ([78.47.166.52])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1uTl4c-0005Et-0z;
+	Mon, 23 Jun 2025 19:35:14 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1uTl4b-0001FO-22;
+	Mon, 23 Jun 2025 19:35:13 +0200
+Message-ID: <c243b93675f8136e30abb7608b58badf4b1ada35.camel@apitzsch.eu>
+Subject: Re: [PATCH RESEND v4 0/5] media: i2c: imx214: Add support for more
+ clock frequencies
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Ricardo Ribalda <ribalda@kernel.org>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
+	 <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>, devicetree@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Ricardo Ribalda
+	 <ribalda@chromium.org>, Conor Dooley <conor.dooley@microchip.com>
+Date: Mon, 23 Jun 2025 19:35:12 +0200
+In-Reply-To: <aFk-yTSOqzmEW1sz@kekkonen.localdomain>
+References: <20250621-imx214_ccs_pll-v4-0-12178e5eb989@apitzsch.eu>
+	 <aFj5QnPBO0We5SBQ@kekkonen.localdomain>
+	 <46a681a84a7493e2d0a6d3a4eedb6c86ccd9903f.camel@apitzsch.eu>
+	 <aFk-yTSOqzmEW1sz@kekkonen.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27678/Mon Jun 23 10:34:34 2025)
 
-On Monday, 23 June 2025 18:34:50 Central European Summer Time Patchwork Integration wrote:
-> Dear Nicolas Frattaroli:
-> 
-> Thanks for your patches! Unfortunately the Media CI robot has not been
-> able to test them.
-> 
-> Make sure that the whole series 20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com is
-> available at lore. And that it can be cherry-picked on top the "next"
-> branch of "https://gitlab.freedesktop.org/linux-media/media-committers.git".
-> 
-> You can try something like this:
->     git fetch https://gitlab.freedesktop.org/linux-media/media-committers.git next
->     git checkout FETCH_HEAD
->     b4 shazam 20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com
-> 
-> Error message:
-> Trying branch next c0b1da281d84d33281fc49289f0c7f8aada450ff...
-> Running in OFFLINE mode
-> Analyzing 21 messages in the thread
-> Checking attestation on all messages, may take a moment...
-> ---
->   [PATCH v2 1/20] bitmap: introduce hardware-specific bitfield operations
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-1-cf1fc08a2e1f@collabora.com
->   [PATCH v2 2/20] mmc: dw_mmc-rockchip: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-2-cf1fc08a2e1f@collabora.com
->   [PATCH v2 3/20] soc: rockchip: grf: switch to FIELD_PREP_WM16_CONST macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-3-cf1fc08a2e1f@collabora.com
->   [PATCH v2 4/20] media: synopsys: hdmirx: replace macros with bitfield variants
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-4-cf1fc08a2e1f@collabora.com
->   [PATCH v2 5/20] drm/rockchip: lvds: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-5-cf1fc08a2e1f@collabora.com
->   [PATCH v2 6/20] phy: rockchip-emmc: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-6-cf1fc08a2e1f@collabora.com
->   [PATCH v2 7/20] drm/rockchip: dsi: switch to FIELD_PREP_WM16* macros
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-7-cf1fc08a2e1f@collabora.com
->   [PATCH v2 8/20] drm/rockchip: vop2: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-8-cf1fc08a2e1f@collabora.com
->   [PATCH v2 9/20] phy: rockchip-samsung-dcphy: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-9-cf1fc08a2e1f@collabora.com
->   [PATCH v2 10/20] drm/rockchip: dw_hdmi_qp: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-10-cf1fc08a2e1f@collabora.com
->   [PATCH v2 11/20] drm/rockchip: inno-hdmi: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-11-cf1fc08a2e1f@collabora.com
->   [PATCH v2 12/20] phy: rockchip-usb: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-12-cf1fc08a2e1f@collabora.com
->   [PATCH v2 13/20] drm/rockchip: dw_hdmi: switch to FIELD_PREP_WM16* macros
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-13-cf1fc08a2e1f@collabora.com
->   [PATCH v2 14/20] ASoC: rockchip: i2s-tdm: switch to FIELD_PREP_WM16_CONST macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-14-cf1fc08a2e1f@collabora.com
->   [PATCH v2 15/20] net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-15-cf1fc08a2e1f@collabora.com
->   [PATCH v2 16/20] PCI: rockchip: Switch to FIELD_PREP_WM16* macros
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-16-cf1fc08a2e1f@collabora.com
->   [PATCH v2 17/20] PCI: dw-rockchip: Switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-17-cf1fc08a2e1f@collabora.com
->   [PATCH v2 18/20] PM / devfreq: rockchip-dfi: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-18-cf1fc08a2e1f@collabora.com
->   [PATCH v2 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com
->   [PATCH v2 20/20] phy: rockchip-pcie: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-20-cf1fc08a2e1f@collabora.com
-> ---
-> Total patches: 20
-> ---
->  Base: base-commit 0491b8f4897c1ed267446959628592fd1cf8107d not known, ignoring
-> Applying: bitmap: introduce hardware-specific bitfield operations
-> Applying: mmc: dw_mmc-rockchip: switch to FIELD_PREP_WM16 macro
-> Applying: soc: rockchip: grf: switch to FIELD_PREP_WM16_CONST macro
-> Applying: media: synopsys: hdmirx: replace macros with bitfield variants
-> Applying: drm/rockchip: lvds: switch to FIELD_PREP_WM16 macro
-> Applying: phy: rockchip-emmc: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: dsi: switch to FIELD_PREP_WM16* macros
-> Applying: drm/rockchip: vop2: switch to FIELD_PREP_WM16 macro
-> Applying: phy: rockchip-samsung-dcphy: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: dw_hdmi_qp: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: inno-hdmi: switch to FIELD_PREP_WM16 macro
-> Applying: phy: rockchip-usb: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: dw_hdmi: switch to FIELD_PREP_WM16* macros
-> Applying: ASoC: rockchip: i2s-tdm: switch to FIELD_PREP_WM16_CONST macro
-> Applying: net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
-> Patch failed at 0015 net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
-> error: patch failed: drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:150
-> error: drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: patch does not apply
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
-> 
-> Trying branch fixes 19272b37aa4f83ca52bdf9c16d5d81bdd1354494...
-> Running in OFFLINE mode
-> Analyzing 21 messages in the thread
-> Checking attestation on all messages, may take a moment...
-> ---
->   [PATCH v2 1/20] bitmap: introduce hardware-specific bitfield operations
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-1-cf1fc08a2e1f@collabora.com
->   [PATCH v2 2/20] mmc: dw_mmc-rockchip: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-2-cf1fc08a2e1f@collabora.com
->   [PATCH v2 3/20] soc: rockchip: grf: switch to FIELD_PREP_WM16_CONST macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-3-cf1fc08a2e1f@collabora.com
->   [PATCH v2 4/20] media: synopsys: hdmirx: replace macros with bitfield variants
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-4-cf1fc08a2e1f@collabora.com
->   [PATCH v2 5/20] drm/rockchip: lvds: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-5-cf1fc08a2e1f@collabora.com
->   [PATCH v2 6/20] phy: rockchip-emmc: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-6-cf1fc08a2e1f@collabora.com
->   [PATCH v2 7/20] drm/rockchip: dsi: switch to FIELD_PREP_WM16* macros
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-7-cf1fc08a2e1f@collabora.com
->   [PATCH v2 8/20] drm/rockchip: vop2: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-8-cf1fc08a2e1f@collabora.com
->   [PATCH v2 9/20] phy: rockchip-samsung-dcphy: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-9-cf1fc08a2e1f@collabora.com
->   [PATCH v2 10/20] drm/rockchip: dw_hdmi_qp: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-10-cf1fc08a2e1f@collabora.com
->   [PATCH v2 11/20] drm/rockchip: inno-hdmi: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-11-cf1fc08a2e1f@collabora.com
->   [PATCH v2 12/20] phy: rockchip-usb: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-12-cf1fc08a2e1f@collabora.com
->   [PATCH v2 13/20] drm/rockchip: dw_hdmi: switch to FIELD_PREP_WM16* macros
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-13-cf1fc08a2e1f@collabora.com
->   [PATCH v2 14/20] ASoC: rockchip: i2s-tdm: switch to FIELD_PREP_WM16_CONST macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-14-cf1fc08a2e1f@collabora.com
->   [PATCH v2 15/20] net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-15-cf1fc08a2e1f@collabora.com
->   [PATCH v2 16/20] PCI: rockchip: Switch to FIELD_PREP_WM16* macros
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-16-cf1fc08a2e1f@collabora.com
->   [PATCH v2 17/20] PCI: dw-rockchip: Switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-17-cf1fc08a2e1f@collabora.com
->   [PATCH v2 18/20] PM / devfreq: rockchip-dfi: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-18-cf1fc08a2e1f@collabora.com
->   [PATCH v2 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com
->   [PATCH v2 20/20] phy: rockchip-pcie: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-20-cf1fc08a2e1f@collabora.com
-> ---
-> Total patches: 20
-> ---
->  Base: base-commit 0491b8f4897c1ed267446959628592fd1cf8107d not known, ignoring
-> Applying: bitmap: introduce hardware-specific bitfield operations
-> Applying: mmc: dw_mmc-rockchip: switch to FIELD_PREP_WM16 macro
-> Applying: soc: rockchip: grf: switch to FIELD_PREP_WM16_CONST macro
-> Applying: media: synopsys: hdmirx: replace macros with bitfield variants
-> Applying: drm/rockchip: lvds: switch to FIELD_PREP_WM16 macro
-> Applying: phy: rockchip-emmc: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: dsi: switch to FIELD_PREP_WM16* macros
-> Applying: drm/rockchip: vop2: switch to FIELD_PREP_WM16 macro
-> Applying: phy: rockchip-samsung-dcphy: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: dw_hdmi_qp: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: inno-hdmi: switch to FIELD_PREP_WM16 macro
-> Applying: phy: rockchip-usb: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: dw_hdmi: switch to FIELD_PREP_WM16* macros
-> Applying: ASoC: rockchip: i2s-tdm: switch to FIELD_PREP_WM16_CONST macro
-> Applying: net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
-> Patch failed at 0015 net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
-> error: patch failed: drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:150
-> error: drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: patch does not apply
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
-> 
-> Trying branch None ad10b82c2bcac7f87ac6eaecfca33378b43425ee...
-> Running in OFFLINE mode
-> Analyzing 21 messages in the thread
-> Checking attestation on all messages, may take a moment...
-> ---
->   [PATCH v2 1/20] bitmap: introduce hardware-specific bitfield operations
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-1-cf1fc08a2e1f@collabora.com
->   [PATCH v2 2/20] mmc: dw_mmc-rockchip: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-2-cf1fc08a2e1f@collabora.com
->   [PATCH v2 3/20] soc: rockchip: grf: switch to FIELD_PREP_WM16_CONST macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-3-cf1fc08a2e1f@collabora.com
->   [PATCH v2 4/20] media: synopsys: hdmirx: replace macros with bitfield variants
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-4-cf1fc08a2e1f@collabora.com
->   [PATCH v2 5/20] drm/rockchip: lvds: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-5-cf1fc08a2e1f@collabora.com
->   [PATCH v2 6/20] phy: rockchip-emmc: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-6-cf1fc08a2e1f@collabora.com
->   [PATCH v2 7/20] drm/rockchip: dsi: switch to FIELD_PREP_WM16* macros
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-7-cf1fc08a2e1f@collabora.com
->   [PATCH v2 8/20] drm/rockchip: vop2: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-8-cf1fc08a2e1f@collabora.com
->   [PATCH v2 9/20] phy: rockchip-samsung-dcphy: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-9-cf1fc08a2e1f@collabora.com
->   [PATCH v2 10/20] drm/rockchip: dw_hdmi_qp: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-10-cf1fc08a2e1f@collabora.com
->   [PATCH v2 11/20] drm/rockchip: inno-hdmi: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-11-cf1fc08a2e1f@collabora.com
->   [PATCH v2 12/20] phy: rockchip-usb: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-12-cf1fc08a2e1f@collabora.com
->   [PATCH v2 13/20] drm/rockchip: dw_hdmi: switch to FIELD_PREP_WM16* macros
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-13-cf1fc08a2e1f@collabora.com
->   [PATCH v2 14/20] ASoC: rockchip: i2s-tdm: switch to FIELD_PREP_WM16_CONST macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-14-cf1fc08a2e1f@collabora.com
->   [PATCH v2 15/20] net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-15-cf1fc08a2e1f@collabora.com
->   [PATCH v2 16/20] PCI: rockchip: Switch to FIELD_PREP_WM16* macros
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-16-cf1fc08a2e1f@collabora.com
->   [PATCH v2 17/20] PCI: dw-rockchip: Switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-17-cf1fc08a2e1f@collabora.com
->   [PATCH v2 18/20] PM / devfreq: rockchip-dfi: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-18-cf1fc08a2e1f@collabora.com
->   [PATCH v2 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com
->   [PATCH v2 20/20] phy: rockchip-pcie: switch to FIELD_PREP_WM16 macro
->     + Link: https://lore.kernel.org/r/20250623-byeword-update-v2-20-cf1fc08a2e1f@collabora.com
-> ---
-> Total patches: 20
-> ---
->  Base: base-commit 0491b8f4897c1ed267446959628592fd1cf8107d not known, ignoring
+Hi Sakari,
 
-I think this robot should do a git fetch on linux-next before
-running, this is kind of useless otherwise because I'm not going to
-base the series on a random subsystem integration tree that other
-subsystems that this series touches don't use.
+Am Montag, dem 23.06.2025 um 11:47 +0000 schrieb Sakari Ailus:
+> Hi Andr=C3=A9,
+>=20
+> On Mon, Jun 23, 2025 at 01:34:03PM +0200, Andr=C3=A9 Apitzsch wrote:
+> > Hi Sakari,
+> >=20
+> > Am Montag, dem 23.06.2025 um 06:50 +0000 schrieb Sakari Ailus:
+> > > Hi Andr=C3=A9,
+> > >=20
+> > > On Sat, Jun 21, 2025 at 11:37:24AM +0200, Andr=C3=A9 Apitzsch via B4
+> > > Relay
+> > > wrote:
+> > > > The imx214 driver currently supports only a 24 MHz external
+> > > > clock.
+> > > > But
+> > > > there are devices, like Qualcomm-MSM8916-based phones, which
+> > > > cannot
+> > > > provide this frequency. To make the sensor usable by those
+> > > > devices,
+> > > > add
+> > > > support for additional clock frequencies.
+> > > >=20
+> > > > This series supersedes
+> > > > https://lore.kernel.org/linux-media/20250308-imx214_clk_freq-v1-0-4=
+67a4c083c35@apitzsch.eu/
+> > >=20
+> > > Is there a difference in this set from the v4 you posted
+> > > previously?
+> >=20
+> > There is no difference to the v4 posted previously. This is a
+> > resend because there was no activity in the original v4.
+>=20
+> It's not useful to resend patches, especially those that already have
+> been merged somewhere. Please ping people instead.
 
-> Applying: bitmap: introduce hardware-specific bitfield operations
-> Applying: mmc: dw_mmc-rockchip: switch to FIELD_PREP_WM16 macro
-> Applying: soc: rockchip: grf: switch to FIELD_PREP_WM16_CONST macro
-> Applying: media: synopsys: hdmirx: replace macros with bitfield variants
-> Applying: drm/rockchip: lvds: switch to FIELD_PREP_WM16 macro
-> Applying: phy: rockchip-emmc: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: dsi: switch to FIELD_PREP_WM16* macros
-> Applying: drm/rockchip: vop2: switch to FIELD_PREP_WM16 macro
-> Applying: phy: rockchip-samsung-dcphy: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: dw_hdmi_qp: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: inno-hdmi: switch to FIELD_PREP_WM16 macro
-> Applying: phy: rockchip-usb: switch to FIELD_PREP_WM16 macro
-> Applying: drm/rockchip: dw_hdmi: switch to FIELD_PREP_WM16* macros
-> Applying: ASoC: rockchip: i2s-tdm: switch to FIELD_PREP_WM16_CONST macro
-> Applying: net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
-> Patch failed at 0015 net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
-> error: patch failed: drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:150
-> error: drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: patch does not apply
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
-> 
-> 
-> 
-> Best regards, and Happy Hacking!
-> Media CI robot on behalf of the linux-media community.
-> 
-> ---
-> Check the latest rules for contributing your patches at:
-> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
-> 
-> If you believe that the CI is wrong, kindly open an issue at
-> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
-> to this message.
-> 
-> 
+I wasn't aware that patches already had been merged. Maybe I missed it,
+when checking=C2=A0https://git.linuxtv.org/sailus/media_tree.git
+Next time I'll ping.
 
-
-
-
+Best regards,
+Andr=C3=A9
 
