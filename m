@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-35580-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35581-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924ACAE378D
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 09:56:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE30AAE3795
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 09:57:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52A913ABBFC
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 07:55:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55B301700EE
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 07:57:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 835131FF1A0;
-	Mon, 23 Jun 2025 07:55:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF4891FF7BC;
+	Mon, 23 Jun 2025 07:57:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYGIN+xD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGGuUeTL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00291E519;
-	Mon, 23 Jun 2025 07:55:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372D61E5B71;
+	Mon, 23 Jun 2025 07:57:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750665332; cv=none; b=SuPaBi9qTl8+e52gLcp/AQnFk87S0T7aF0e0oeB8tMIrtlcAofb8qWMQz23NugEXDlOEJBOVNKPGR3m7i6IXlDhGtldGePgB04t1p/wv5+ZDmWpj53lmauRrbqEiB5iC6on7SJ0BPNhaKex4pAVNpr1+dBKLUHomcKTrowoaQVM=
+	t=1750665464; cv=none; b=dLU+f1cwD7Z2sgt9Px9KRUa3ZyDQMBGz1dJfO8RXmmK5S11RubkIAV1AnIjARkJzeu2zNg4yOf+2oCX9x4uWWno3tNBS/jDyKQmuU/pTdnSjw3HttgtW2f1GIYWdBEKBTGluoK9996sbXZuyDU+ryic8zEgZ2ikNXchkG8lQI0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750665332; c=relaxed/simple;
-	bh=aa5+fe548r+HpTNK2Y580pbxuv9uamkmIFX+2ZuLl5c=;
+	s=arc-20240116; t=1750665464; c=relaxed/simple;
+	bh=yOXQLap2q3Gy7n81SFMJGAzWWZgV2Sk57nyxMb5GoB4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q0IRYEhG9jONg2QUt9yLQ0BJSB5Dl9KU0V4WkHkkIhqlan7HTV007tsAn3tbGgf3f1uyN7p98YUvUQcblLbQtk5jBHajLVUmT3uXWTsgNKn1Il7wVTc87WOL7k0UBRjNqhBuSyAsQWcouKAnCdRb777D2CqU9sIRU0NIYy+T/Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZYGIN+xD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B466C4CEED;
-	Mon, 23 Jun 2025 07:55:27 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=NWZJ3xN8nHsiiX7+jtkxNTpM3gJtw08wfSfw6F4k7QtyL+Onpfbg4qYJjpWRLSWEpjkY/rFWChkOHyFYabdR/Aw5lZIsciUv6umC2X14vFGwr3QL5GregZdtdRql5AOSla3kHxStAX3dvF94HeadjVvALg3D1LTCkwQtrtG6u90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGGuUeTL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AA97C4CEEF;
+	Mon, 23 Jun 2025 07:57:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750665331;
-	bh=aa5+fe548r+HpTNK2Y580pbxuv9uamkmIFX+2ZuLl5c=;
+	s=k20201202; t=1750665463;
+	bh=yOXQLap2q3Gy7n81SFMJGAzWWZgV2Sk57nyxMb5GoB4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZYGIN+xDG7XwEw9tMHJ187nXgqSfvRelprCWpCjUL3GBH3Qgux72EYjRwayf3S8CD
-	 wNKseZ0IY1bBEqItxqtfivthQ9ymQqyIkxaxJcIB6MLcdS+BsAIt+4PVMDlZilMA7e
-	 48p9bDULJ4HNrsOgyOYZd6vH57zcIBaL0TWzT2apYcVt4+GaDLPgOQJtAsW3QPB0h3
-	 Yz1ev2XOZM6c4lKM2OXbmBNOxFCThiCyVBiTHYJF74Sfp9kJWc6q0UFFejsqZ9/JB6
-	 Y4lV9NRdE5UopL5cvonD5GRTWCI+aWnjzLqnEJcFLAukCQy7DHMoBWtxsLXFvwLBiW
-	 BwTpwWKQGFz7w==
-Message-ID: <8c8bccd6-9a46-4ebf-aeaf-01f52570c0be@kernel.org>
-Date: Mon, 23 Jun 2025 09:55:25 +0200
+	b=dGGuUeTLViTNBXONGqpN197XSAkI9WF1JXE1vSWGamPrCTRjO6zhFzzQmNdjmBatd
+	 nvCLLkA+LBp4123MEXaz1aynRpLgePkDnd7tQ+Y2O7acpnMQdcQ3+dGGO9HGAnc4Pq
+	 APJ9V540WqPF9VehzjIe6kHgazK9DGuGhjAFVTfkS19bVhQerB/w7iginx3izZqtLz
+	 yhPZlsXbLAYnT5s5WdflXy1U/PxzP5HbSQodrOTB1TYeAK8/0V45mbW/ds2iHULm+1
+	 GIemoRFKZy6NJO4WLhnEbOjakXq5hR7axa6Ftz6BPPLoX7EmzapWdJ7BalCkw7yB6U
+	 uGKhsv2hvTz0g==
+Message-ID: <526fb91f-6a5b-4f70-aa70-b29f532f7eee@kernel.org>
+Date: Mon, 23 Jun 2025 09:57:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] media: venus: Add QCM2290 support with AR50_LITE
- core
+Subject: Re: [PATCH v3 1/5] dt-bindings: media: venus: Add qcm2290 dt schema
 To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
  quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com,
  bryan.odonoghue@linaro.org, mchehab@kernel.org, robh@kernel.org,
@@ -61,6 +60,7 @@ Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250613140402.3619465-1-jorge.ramirez@oss.qualcomm.com>
  <20250623074940.3445115-1-jorge.ramirez@oss.qualcomm.com>
+ <20250623074940.3445115-2-jorge.ramirez@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,19 +106,25 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250623074940.3445115-1-jorge.ramirez@oss.qualcomm.com>
+In-Reply-To: <20250623074940.3445115-2-jorge.ramirez@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 23/06/2025 09:49, Jorge Ramirez-Ortiz wrote:
-> Changes since v2:
-> - Removed IS_HFI/IS_VPU macros
-> - checkpatch.pl --strict fixes:
->   - convert macro to static inline to avoid argument reuse side effect
+> Add a schema for the venus video encoder/decoder on the qcm2290.
 > 
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets.
+> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+> ---
+>  .../bindings/media/qcom,qcm2290-venus.yaml    | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+
+
+So now I see the reason why v2 and v3 did not pop up in my inbox.
+
+Subject prefix is still incorrect/reversed.
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
