@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-35672-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35674-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694A7AE4A54
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 18:16:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF475AE4A0A
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 18:12:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F7EA1888501
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 16:11:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E9BB7A976D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 16:10:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 528A52C08A0;
-	Mon, 23 Jun 2025 16:07:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA11D2C17A8;
+	Mon, 23 Jun 2025 16:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VF8rYvYZ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gvKMbe3b"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15492BF3C5;
-	Mon, 23 Jun 2025 16:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747C22C08B1;
+	Mon, 23 Jun 2025 16:07:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750694874; cv=none; b=Znz5YwT/i5CCr/IJHs7gWy+NIZGl80UBbA5WR55DZk32ElZ/IjuVuRfANkOi916+RRObC/A5gdfWk7z8BaTDBqfFt/aQeKfTaGdxzRSEXn66kRxhWky7tg8+rvzYWF9D3N1Zng2ADTyl7zHjAVIzhE7vjIMqPnZFF/SS4idQsfM=
+	t=1750694878; cv=none; b=E/C/zPt2cx9wdL8MnOleT3d/AxB2aWhV/x7PC56dek8mdDWfp9UUcF7xOMPD3ZcavCDCadzmzLBFpKWC76hLkMOGYGB5V4NiZaPBLGVZbmwzcS6V2vSAVfKjzS+3WC26rcAh2/1VgXoIWx2Msb0mVKgfJC2hTMSgm/IiXH94dWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750694874; c=relaxed/simple;
-	bh=UTdif7JufIoFJNm1QPMJyIUlLbeXViK0TKeCIJV7eq4=;
+	s=arc-20240116; t=1750694878; c=relaxed/simple;
+	bh=zt/DaCss2i5ulknRW3sJNkFnzwFerUvIICmaqy3KydU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CosOPHmJ92/jxyQLIviNaqTgCjh9Ja2qmOrSpZdLW8Xc7TJ+WSIvv70y4Ms+9uo9IkYUBT2S1GT8cHJfff6fEwJOofxKQZiJF8MN7/YE28/LAmTU7YxyybuHQsHJ229mHGSb9Kz2aXkGXd196o5OApzUjvlpiXpIIBFEzO7eoSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VF8rYvYZ; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=oD2yMUxXMaAKxQhl4XqeDjzFUPF4LH/wRhbaCyvIruA4XIeV6dV66j9DIkIKyBQhaaBbUWTT8Pnki2WH8GMAuNvj2rQdSdMRdAmKwS42LD9TrUyywEaCF/lkciIagS/PEiuRZlb8TeYLGTwYYwtwOQoQazt8EsaJXfElPjRA2o0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gvKMbe3b; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750694871;
-	bh=UTdif7JufIoFJNm1QPMJyIUlLbeXViK0TKeCIJV7eq4=;
+	s=mail; t=1750694874;
+	bh=zt/DaCss2i5ulknRW3sJNkFnzwFerUvIICmaqy3KydU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VF8rYvYZX32tFHupmDNnAwZMci2CVeh5DbdrqnR4SeumETbsR5JDgsQMTtVgCBZBM
-	 IInd5QURDwxAnccc8Yh6K5FseR8gz5fGM9Lrm9CWyY1qhic487y3qXFeIKGSswvAS1
-	 XoB7PtCC1aFDOwdG5VgS/vnSK1P1rJFpYoH+tuJfA0LNYs1aL8a+m8wKYusJzIq+iW
-	 7hRsjcCE7rqzLJ0fgqtLPkyjap8qR1d03xrmNdof1Ky/MEwm+DFPQdukMDcgKpuCfs
-	 S7AtuuAne1hkzDEynt5VQMA6f/mE57ivtmbvGmvhBvYnc9urd0YlYWq4HvUdGe5t9N
-	 JJI6ba9Bt/DDQ==
+	b=gvKMbe3b4XE3UscHhE6pkbYBUhJlem382157apB5Hu7W52ybOAb4wdwyvJPSCtS5R
+	 KV1SJCmsRmtga1KWke6xeJCvC1NXXw6Ve4j1y++g1CnqVsBg4bnsKvShEEcfKQUuSu
+	 NTvjvaP/Bn2eg29kdKMeRRYG+YRLZkF0cCjvWCdJ8bpFZ6IznZlqNVm5Evtq5FGeX3
+	 zNHbKZue9Nj0hAsw+afPUrOWAnqRSkz+WipJBf/pbtjJzYkPzH+KUDaSvSnMxd8fYB
+	 zOlElfRbwAcjnXfXoyPVmyFr8z+PRHKQg+ckeyH3hD2w/pvRUplGSe24waD42StvZ4
+	 zLvfMt3E+ODYA==
 Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E557A17E1560;
-	Mon, 23 Jun 2025 18:07:47 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 70AEB17E1580;
+	Mon, 23 Jun 2025 18:07:51 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Rob Herring <robh@kernel.org>,
@@ -75,9 +75,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	Yunke Cao <yunkec@google.com>,
 	linux-media@vger.kernel.org,
 	kernel@collabora.com
-Subject: [PATCH 2/8] media: dt-bindings: rockchip: Add RK3576 Video Decoder bindings
-Date: Mon, 23 Jun 2025 12:07:16 -0400
-Message-ID: <20250623160722.55938-3-detlev.casanova@collabora.com>
+Subject: [PATCH 3/8] arm64: dts: rockchip: Add the vdpu381 Video Decoders on RK3588
+Date: Mon, 23 Jun 2025 12:07:17 -0400
+Message-ID: <20250623160722.55938-4-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250623160722.55938-1-detlev.casanova@collabora.com>
 References: <20250623160722.55938-1-detlev.casanova@collabora.com>
@@ -89,38 +89,108 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The video decoder in RK3576 (vdpu383) is described the same way as the
-one in RK3588 (vdpu381). A new compatible is added as the driver
-implementation will be different.
+Add the vdpu381 Video Decoders to the rk3588-base devicetree.
+
+The RK3588 based SoCs all embed 2 vdpu381 decoders.
+This also adds the dedicated IOMMU controllers.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- Documentation/devicetree/bindings/media/rockchip,vdec.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-index e9b82dc05fd1d..96b6c89387683 100644
---- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-@@ -17,6 +17,7 @@ properties:
-   compatible:
-     oneOf:
-       - const: rockchip,rk3399-vdec
-+      - const: rockchip,rk3576-vdec
-       - const: rockchip,rk3588-vdec
-       - items:
-           - enum:
-@@ -104,7 +105,9 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: rockchip,rk3588-vdec
-+            enum:
-+              - rockchip,rk3576-vdec
-+              - rockchip,rk3588-vdec
-     then:
-       properties:
-         reg:
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+index 70f03e68ba550..c1eaff86d5b73 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+@@ -1252,6 +1252,70 @@ vepu121_3_mmu: iommu@fdbac800 {
+ 		#iommu-cells = <0>;
+ 	};
+ 
++	vdec0: video-codec@fdc38000 {
++		compatible = "rockchip,rk3588-vdec";
++		reg = <0x0 0xfdc38100 0x0 0x500>,
++		      <0x0 0xfdc38000 0x0 0x100>,
++		      <0x0 0xfdc38600 0x0 0x100>;
++		reg-names = "function", "link", "cache";
++		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA>,
++			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
++		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
++		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
++				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
++		assigned-clock-rates = <800000000>, <600000000>,
++				       <600000000>, <1000000000>;
++		iommus = <&vdec0_mmu>;
++		power-domains = <&power RK3588_PD_RKVDEC0>;
++		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDEC0_CA>,
++			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
++		reset-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
++		sram = <&vdec0_sram>;
++	};
++
++	vdec0_mmu: iommu@fdc38700 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdc38700 0x0 0x40>, <0x0 0xfdc38740 0x0 0x40>;
++		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>;
++		clock-names = "aclk", "iface";
++		power-domains = <&power RK3588_PD_RKVDEC0>;
++		#iommu-cells = <0>;
++	};
++
++	vdec1: video-codec@fdc40000 {
++		compatible = "rockchip,rk3588-vdec";
++		reg = <0x0 0xfdc40100 0x0 0x500>,
++		      <0x0 0xfdc40000 0x0 0x100>,
++		      <0x0 0xfdc40600 0x0 0x100>;
++		reg-names = "function", "link", "cache";
++		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, <&cru CLK_RKVDEC1_CA>,
++			 <&cru CLK_RKVDEC1_CORE>, <&cru CLK_RKVDEC1_HEVC_CA>;
++		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
++		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru CLK_RKVDEC1_CORE>,
++				  <&cru CLK_RKVDEC1_CA>, <&cru CLK_RKVDEC1_HEVC_CA>;
++		assigned-clock-rates = <800000000>, <600000000>,
++				       <600000000>, <1000000000>;
++		iommus = <&vdec1_mmu>;
++		power-domains = <&power RK3588_PD_RKVDEC1>;
++		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, <&cru SRST_RKVDEC1_CA>,
++			 <&cru SRST_RKVDEC1_CORE>, <&cru SRST_RKVDEC1_HEVC_CA>;
++		reset-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
++		sram = <&vdec1_sram>;
++	};
++
++	vdec1_mmu: iommu@fdc40700 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdc40700 0x0 0x40>, <0x0 0xfdc40740 0x0 0x40>;
++		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>;
++		clock-names = "aclk", "iface";
++		power-domains = <&power RK3588_PD_RKVDEC1>;
++		#iommu-cells = <0>;
++	};
++
+ 	av1d: video-codec@fdc70000 {
+ 		compatible = "rockchip,rk3588-av1-vpu";
+ 		reg = <0x0 0xfdc70000 0x0 0x800>;
+@@ -3093,6 +3157,16 @@ system_sram2: sram@ff001000 {
+ 		ranges = <0x0 0x0 0xff001000 0xef000>;
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
++
++		vdec0_sram: codec-sram@0 {
++			reg = <0x0 0x78000>;
++			pool;
++		};
++
++		vdec1_sram: codec-sram@78000 {
++			reg = <0x78000 0x77000>;
++			pool;
++		};
+ 	};
+ 
+ 	pinctrl: pinctrl {
 -- 
 2.50.0
 
