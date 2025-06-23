@@ -1,65 +1,70 @@
-Return-Path: <linux-media+bounces-35706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35707-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F40AE54E2
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 00:05:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73465AE5505
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 00:07:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3910B168E7F
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 22:05:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 583E03A9175
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 22:06:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1C77224B01;
-	Mon, 23 Jun 2025 22:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A61ED22425B;
+	Mon, 23 Jun 2025 22:06:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="J4Cgqrew"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qJtDI32i"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB0A222581;
-	Mon, 23 Jun 2025 22:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAA61E87B;
+	Mon, 23 Jun 2025 22:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750716328; cv=none; b=lJjjSYdDTtR6kE/Chla0AqYxoR6KdfJnnKYiw8wt7bISb3CxWH8Ms6rbR09m6MpPNL+0uWmVAQaMLgJx9DffRe8F+MppDPqgUtjOkE2PK7MEKo3VQXS+7eM5f+QUCMuc3I065bjhHxh0vhs9D/FMdAex4uNr935BBPD4rXHb6ww=
+	t=1750716398; cv=none; b=f5CM7wxTyb38/1EN2D1qsaSpurSQ8G0TCYBbz9lg+1Bi/x+V1Vz+XiKxUAbGxJjnuIAJV5h6AIE3Yz+9XNYxBJSbAGunY9e1SFzqZo535XJkQjWmLbCcMFVndpGJn2jGBHFw0faUR1SRzNz2PXqY6+HxnfVNPKDlD6eREscwCGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750716328; c=relaxed/simple;
-	bh=9FPGpwbHfMyRqznijKhX15NEtICMEc9YwN0cnoyLa9o=;
+	s=arc-20240116; t=1750716398; c=relaxed/simple;
+	bh=pxKBOUp1HY+Nw/MVVp0T2Sz14teeK214EuJ4fgl5xOs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lv5XzNhboBCU5X8AyByI0NrKwscosxTtZhVZAtoHHm74yGdx5WJ3LwFI4Ty/obNytusoptsPSQY4ulo/2KBnedDN4mjhRDx7dF4GZ/6/bwScv7Er5YPZeLLF+U/zgeMZJx/F8lqKFCE+xGFVJsH2BnRkBALvcFgQGLopUu0y5So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=J4Cgqrew; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=ajxaLD38ozb/hgPMo9by0FvRiRTYVWI9zpiiiH+yGr2OLPK7as6HJJD5qGSLMDvypt8SMYgSv0QrF7nM0mQJn3sTOdSlmCYe6s+hxXn2zrryAgstCMOpCI/VCytscRekJzzIN2uaymcLLzBDQOZdVvL9UHrsJzSf7gyu94FAvCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qJtDI32i; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 1E39B129;
-	Tue, 24 Jun 2025 00:05:07 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0B947129;
+	Tue, 24 Jun 2025 00:06:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750716307;
-	bh=9FPGpwbHfMyRqznijKhX15NEtICMEc9YwN0cnoyLa9o=;
+	s=mail; t=1750716376;
+	bh=pxKBOUp1HY+Nw/MVVp0T2Sz14teeK214EuJ4fgl5xOs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J4Cgqrew/OQcaM3HQQ2aDES/Ak9LhrumAiXHHanEFvnKiSqn9L/tTvaVvpiE3Ri7s
-	 RCtUDPDIlXm7QnYY0saP1Lm/FDE44qshdzN1K6F1683h6ZQmY+uaPTz/CIN4koQgaa
-	 lWBQXZvpgeZ4xsIQeK9Xnq0HB1s05NNhmdbLxfOI=
-Date: Tue, 24 Jun 2025 01:05:03 +0300
+	b=qJtDI32iMAoTSqhhUYhTj8BgN6aPWUhVZvQk9ijR4B31V+nHcRVKBzhR3pjVLs6G5
+	 snM5h+aM7ZC0a9By1xaKLQEVy1M2URJn2924XHlLEqCKfXHtRbm4BZWNeapIzhy6LV
+	 ElkFxsb7MG32S3/S/ptNk9Q0wm5lnoWuUyChSZsI=
+Date: Tue, 24 Jun 2025 01:06:12 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: "Nirujogi, Pratap" <pnirujog@amd.com>
-Cc: Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-	bryan.odonoghue@linaro.org, krzk@kernel.org,
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hao Yao <hao.yao@intel.com>,
+	Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
 	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
 	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
 	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
-	Svetoslav.Stoilov@amd.com, Yana.Zheleva@amd.com,
-	Mehdi Djait <mehdi.djait@linux.intel.com>
+	dongcheng.yan@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com,
+	Svetoslav.Stoilov@amd.com, Yana.Zheleva@amd.com
 Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
-Message-ID: <20250623220503.GA15951@pendragon.ideasonboard.com>
+Message-ID: <20250623220612.GB15951@pendragon.ideasonboard.com>
 References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
- <20250615000915.GQ10542@pendragon.ideasonboard.com>
- <53674c5f-6b68-49e7-bbb0-fd06fff344c3@amd.com>
- <8b16675a-c6ac-4619-aabe-ad2a4be6c964@amd.com>
+ <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
+ <aEygCdk-zEqRwfoF@kekkonen.localdomain>
+ <3e8364e8-22e4-42ad-a0f0-017f86fd6bf9@amd.com>
+ <20250623120929.GE826@pendragon.ideasonboard.com>
+ <aFlU-E_GCHWBXErq@kekkonen.localdomain>
+ <20250623134200.GB29597@pendragon.ideasonboard.com>
+ <b6425dbe-44e6-47b4-a06b-b9a172a8cac4@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,85 +73,78 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8b16675a-c6ac-4619-aabe-ad2a4be6c964@amd.com>
+In-Reply-To: <b6425dbe-44e6-47b4-a06b-b9a172a8cac4@amd.com>
 
-(CC'ing Mehdi)
-
-On Mon, Jun 23, 2025 at 05:51:48PM -0400, Nirujogi, Pratap wrote:
-> On 6/16/2025 6:49 PM, Nirujogi, Pratap wrote:
-> >>> +static int ov05c10_probe(struct i2c_client *client)
-> >>> +{
-> >>> +     struct ov05c10 *ov05c10;
-> >>> +     u32 clkfreq;
-> >>> +     int ret;
-> >>> +
-> >>> +     ov05c10 = devm_kzalloc(&client->dev, sizeof(*ov05c10), 
-> >>> GFP_KERNEL);
-> >>> +     if (!ov05c10)
-> >>> +             return -ENOMEM;
-> >>> +
-> >>> +     struct fwnode_handle *fwnode = dev_fwnode(&client->dev);
-> >>> +
-> >>> +     ret = fwnode_property_read_u32(fwnode, "clock-frequency", 
-> >>> &clkfreq);
-> >>> +     if (ret)
-> >>> +             return  dev_err_probe(&client->dev, -EINVAL,
-> >>> +                                   "fail to get clock freq\n");
+On Mon, Jun 23, 2025 at 05:55:14PM -0400, Nirujogi, Pratap wrote:
+> On 6/23/2025 9:42 AM, Laurent Pinchart wrote:
+> > On Mon, Jun 23, 2025 at 01:22:00PM +0000, Sakari Ailus wrote:
+> >> On Mon, Jun 23, 2025 at 03:09:29PM +0300, Laurent Pinchart wrote:
+> >>> On Mon, Jun 16, 2025 at 07:12:28PM -0400, Nirujogi, Pratap wrote:
+> >>>> On 6/13/2025 6:02 PM, Sakari Ailus wrote:
+> >>>>> On Fri, Jun 13, 2025 at 12:55:46PM +0800, Hao Yao wrote:
+> >>>>>> Hi Pratap,
+> >>>>>>
+> >>>>>> Thanks for your patch.
+> >>>>>>
+> >>>>>> This patch is written for your camera sensor module, which seems very
+> >>>>>> different from those already applied on Dell laptops (some of "Dell Pro"
+> >>>>>> series). Looking into the driver, I think this version will break the
+> >>>>>> devices using ov05c10 sensor.
+> >>>>>
+> >>>>> There never was such a driver in upstream so nothing breaks. However, in
+> >>>>> order to support these, could you check what would it take to support them
+> >>>>> using this driver and post patches, please?
+> >>>>>
+> >>>>>> I think this patch is better to be validated on existing devices, but please
+> >>>>>> do some fixes before we can do validation. Please check my comments inline.
+> >>>>>>
+> >>>>>> On 2025/6/10 03:42, Pratap Nirujogi wrote:
+> >>>>>>> Add driver for OmniVision 5.2M OV05C10 sensor. This driver
+> >>>>>>> supports only the full size normal 2888x1808@30fps 2-lane
+> >>>>>>> sensor profile.
+> >>>>>>>
+> >>>>>>> Co-developed-by: Venkata Narendra Kumar Gutta <vengutta@amd.com>
+> >>>>>>> Signed-off-by: Venkata Narendra Kumar Gutta <vengutta@amd.com>
+> >>>>>>> Co-developed-by: Bin Du <bin.du@amd.com>
+> >>>>>>> Signed-off-by: Bin Du <bin.du@amd.com>
+> >>>>>>> Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> >>>
+> >>> [snip]
+> >>>
+> >>>>>> Hi Sakari,
+> >>>>>>
+> >>>>>> Seems there are already several camera sensors using page-based registers.
+> >>>>>> Is it a good idea to add page support in CCI interface?
+> >>>>>
+> >>>>> Sounds like a good idea as such but I'm not sure how common this really is,
+> >>>>> I think I've seen a few Omnivision sensors doing this. If implemented, I
+> >>>>> think it would be nice if the page could be encoded in the register address
+> >>>>> which V4L2 CCI would store and switch page if needed only. This would
+> >>>>> require serialising accesses, too. There's some room in CCI register raw
+> >>>>> value space so this could be done without even changing that, say, with
+> >>>>> 8-bit page and 8-bit register address.
+> >>>>
+> >>>> Hi Sakari, thank you for sharing your insights and guiding us. Could you
+> >>>> please suggest if we should take up this work implementing the helpers
+> >>>> in CCI and submit the patch or is it okay to leave it as-is for now and
+> >>>> take care of updating in future once the implementation is ready.
+> >>>
+> >>> I think it can live in the driver for now. Given that the device uses
+> >>> only 8 bits of register address, I would store the page number in bits
+> >>> 15:8 instead of bits 31:24, as the CCI helpers do not make bits 27:24
+> >>> available for driver-specific purpose.
 > >>
-> >> Let's try to land
-> >> https://lore.kernel.org/linux-media/20250521104115.176950-1- 
-> >> mehdi.djait@linux.intel.com/
-> >> and replace the code above with devm_v4l2_sensor_clk_get().
-> >>
-> > Ok, we will verify on our side.
+> >> I'd use the CCI private bits, the driver uses page numbers up to 4 so 4
+> >> bits are plenty for that. If we add pages to CCI later, this may be
+> >> refactored then.
+> > 
+> > That works too.
 > 
-> We tried using devm_v4l2_sensor_clk_get() and found its required to add 
-> support for software_node to make it work with this driver.
+> Thanks for your support. We will add the page number in the register 
+> address 15:8 or 11:8 and will update the implementation accordingly in 
+> the next version.
 
-Why is that ?
-
-> Please refer 
-> the changes below and let us know if these should be submitted as a 
-> separate patch.
-
-Mehdi, do you have any comment ?
-
-> ---
-> @@ -645,16 +645,16 @@ struct clk *devm_v4l2_sensor_clk_get(struct device 
-> *dev, const char *id)
->          const char *clk_id __free(kfree) = NULL;
->          struct clk_hw *clk_hw;
->          struct clk *clk;
-> -       bool acpi_node;
-> +       bool is_node;
->          u32 rate;
->          int ret;
-> 
->          clk = devm_clk_get_optional(dev, id);
->          ret = device_property_read_u32(dev, "clock-frequency", &rate);
-> -       acpi_node = is_acpi_node(dev_fwnode(dev));
-> +       is_node = is_acpi_node(dev_fwnode(dev)) || 
-> is_software_node(dev_fwnode(dev));
-> 
->          if (clk) {
-> -               if (!ret && acpi_node) {
-> +               if (!ret && is_node) {
->                          ret = clk_set_rate(clk, rate);
->                          if (ret) {
->                                  dev_err(dev, "Failed to set clock rate: 
-> %u\n",
-> @@ -668,7 +668,7 @@ struct clk *devm_v4l2_sensor_clk_get(struct device 
-> *dev, const char *id)
->          if (ret)
->                  return ERR_PTR(ret);
-> 
-> -       if (!IS_ENABLED(CONFIG_COMMON_CLK) || !acpi_node)
-> +       if (!IS_ENABLED(CONFIG_COMMON_CLK) || !is_node)
->                  return ERR_PTR(-ENOENT);
-> 
->          if (!id) {
-> ----
+The CCI private bits are bits 31:28.
 
 -- 
 Regards,
