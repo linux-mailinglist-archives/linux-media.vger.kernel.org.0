@@ -1,150 +1,176 @@
-Return-Path: <linux-media+bounces-35620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73CDEAE3DE3
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:27:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A99E1AE3E05
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:34:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9FE217253C
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 11:27:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7E9518956B3
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 11:35:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAF7621C178;
-	Mon, 23 Jun 2025 11:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16985244691;
+	Mon, 23 Jun 2025 11:34:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="hxrih/9e"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="MuSaY5n7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3083221D9E;
-	Mon, 23 Jun 2025 11:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750678070; cv=pass; b=DatXYKJ57iNnfIS2PC/uhEaXZT3sVTrvaam0Mr12UrqIzJ5z+VI86nV294v7Nm8szU/17UBFZlJboey6WawO2YFo23UMOmScnduScgYrWexPkWD7Q2b7nBhaegnVD03xbnUDse9qZ9YtE9UPyDkh7Fc3BCl9kGsJ/WloHev4C84=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750678070; c=relaxed/simple;
-	bh=pfg5vRQioOluNyG1N0RB42NJFmxziBgtZYFyDan9tFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=thJAdaClk6EkYR+ldW6WTB0ocMnSJXdnxE04fLGl0n3FaB7vKyj70H2/RpYARm6oZf8FZkwYO28JCTpPLgyGPvSG9iLsMMO8k0ld1j9x6s+22Apx8/F2ey1I1VuxH0Ph+C7fMENn+I50TtwtWThWmYr5pyrQJTON3yiP2oS/ZxQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=hxrih/9e; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4bQm5l6HSYz49Q09;
-	Mon, 23 Jun 2025 14:27:39 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1750678060;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h04LSD/eziTW/dAC0CP/1lAMle7TJGTrSi4OGVbgdos=;
-	b=hxrih/9eiXenztQTTOzjuOJ0l/fhfaKTrRcIfbgXD3rp3+kPQ51qbFJr6CIxf0ayLrw19D
-	ij3vPbT7cECG1Jn86RsOeCavtLhPTOchMKUnawsyeCCOoZLMQXdTtM2YwvUqsDNoPj9TdB
-	MFseM3IKNi3menWPWBo/Jfo2+16VSnV4/mAyahh70ghrP5ga2Bb34+b0JejplApAt5sDG6
-	qANe8XDF0fIzCfgaf6akeoLFb2wQECby9XC8wFt6IVQlY/xt/6Pr9iugusr1LJZ46QiWEm
-	zoTxL6VikE312s3U94ljSEzstjxsvxrc/dP/qp6ixQ8TCwA2Du1sji0ZBIHXZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1750678060;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h04LSD/eziTW/dAC0CP/1lAMle7TJGTrSi4OGVbgdos=;
-	b=DRhJCWm+QfhjW0IYAC98Gdxipi5rVuxUR5XNHL1YdC7LEbEV4xr/O5ZF+AEs79T3s+3z/u
-	TzceKpCqmoEVYxAMDQ+kzBheik2heWZhGdoo22XWhrgV+1NVf2dxyJnnu5G33pXJ+1Necq
-	GoJkAOT2oi0sVA7xIHkTwBinOD5MNDIgA7+LIqCyKmVprOa/2VoQiv7/M60WbCOk8dFHZS
-	f4l22EQEozEm69ysSxVOaqS4/vvUGt6rdgmJI5v4oRsTJ3axrMBRDI8+p2Zuzo78gONA71
-	9YAKVQXw3m87YueN1oIzRDzduvRsh/Oh4xoOFaNYMheyQICvlprg2Qnk9rnoUw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1750678060; a=rsa-sha256;
-	cv=none;
-	b=A3yJqlwMgxOjLhtfFwTuSjtn6284/LDm/FaCUa0ZN308DdOLJzZ5DPHojjyzzgzNmn5sdL
-	YLyWNDQP6+4uDZThuFayCEfbLem3gD+0dR4rOZ6xb2qpinP7RrjAvO+kK21hoK+YBIpbvl
-	PfQHooe8rNvMRj9BqTv1xXKFNMT+HgDqf2p8ZBIobf6DDDsfCGDeFKaUagb34MRofaXti2
-	g2k0iPswE9/pVEMx0ogqhppyUA59+elZ7Z1xFKI4ROZwPjabd5DcSaHDVZxHS469U8gTk0
-	YDpKTJoOGb4+W7p9LL9phTQya4RYZqGcmH1v7snvucDXoBfkxQsPRisyMEWafA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5C96A634C93;
-	Mon, 23 Jun 2025 14:27:39 +0300 (EEST)
-Date: Mon, 23 Jun 2025 11:27:39 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hao Yao <hao.yao@intel.com>,
-	Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
-	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
-	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
-	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
-	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
-	dongcheng.yan@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com
-Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
-Message-ID: <aFk6K4mYtq24MnNj@valkosipuli.retiisi.eu>
-References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
- <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
- <aEygCdk-zEqRwfoF@kekkonen.localdomain>
- <20250614225257.GO10542@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6380121ABCB;
+	Mon, 23 Jun 2025 11:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750678459; cv=none; b=CAZmeAH26IImRXqklhp4jkOwQU3tQ+OYupINxuTb3KP+Q6HycCJYIN/GV550leeGGYnSav6yp7aEqJL1AFmUqVvyzOGxMcqgzGWh09IJFSp3WyPFBocdfpyOXxK1BUU0F21j04h0VmG+Egh4DOu+W5vvn/V7v8NzPXZ03nwxkpA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750678459; c=relaxed/simple;
+	bh=tKcDIsLtDkJF8WnaZ9J4aPyfYmz76ZwgpoDVX5vadBE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TkOk6uKYAxjbKDJovvJxT+laZL2a0nEpZmySzLPOJTpxLv4xClmC4B3dLyutK3rxJ2Wq0PqCsvYWU4g2+9ENQxzHP048uoVmrl/j30i9NwxQ2L+62JDUKJn5xnP52VaWsFA7QvyhDH+0LowqcAjrgt1CT/BTwxjzIx7QRkI9jZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=MuSaY5n7; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=tKcDIsLtDkJF8WnaZ9J4aPyfYmz76ZwgpoDVX5vadBE=; b=MuSaY5n74FI9fcbi6OCoUj2h6L
+	HCrKEel8kuCKkMraPu6hSn0aioGtpsMeoANQbEi05Fy14IFgoJxbT7PHgS6iFy7ZJivHtKa4vmOfX
+	HDb0aXCeQfAiJYqvkMaOHH9ltryHJpRUusEren5v5dZSFUhDP1ljSp16R4mwckW8/iWrkBrAaoxmm
+	Eiub8zq0wzFE0V6X1IHwxYyQvrPlmFgkVxQ6tzL3rrCUdxb6aJp3xgCC8LzbiTmDpF6vRsg7Xcjmw
+	LDFkgdZ4J9+rgAiSwtMQ0Il/O0WdaM4Nl4BeAB1cPWbqn33xIxk1SHbfUqSIX5+C1FkqG2JJ2FPF/
+	eUNcZ1Uw==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1uTfR8-000P6I-1o;
+	Mon, 23 Jun 2025 13:34:07 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1uTfR7-0002er-0U;
+	Mon, 23 Jun 2025 13:34:06 +0200
+Message-ID: <46a681a84a7493e2d0a6d3a4eedb6c86ccd9903f.camel@apitzsch.eu>
+Subject: Re: [PATCH RESEND v4 0/5] media: i2c: imx214: Add support for more
+ clock frequencies
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Ricardo Ribalda <ribalda@kernel.org>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
+	 <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>, devicetree@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Ricardo Ribalda
+	 <ribalda@chromium.org>, Conor Dooley <conor.dooley@microchip.com>
+Date: Mon, 23 Jun 2025 13:34:03 +0200
+In-Reply-To: <aFj5QnPBO0We5SBQ@kekkonen.localdomain>
+References: <20250621-imx214_ccs_pll-v4-0-12178e5eb989@apitzsch.eu>
+	 <aFj5QnPBO0We5SBQ@kekkonen.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250614225257.GO10542@pendragon.ideasonboard.com>
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27678/Mon Jun 23 10:34:34 2025)
 
-Hi Laurent,
+Hi Sakari,
 
-On Sun, Jun 15, 2025 at 01:52:57AM +0300, Laurent Pinchart wrote:
-> > > > +#define OV05C10_REF_CLK			(24 * HZ_PER_MHZ)
-> > > 
-> > > Seems your module use 24 MHz clock input. The Dell's modules always use
-> > > 19.2MHz, which means your the PLL settings will not work on Dell's.
-> > 
-> > This is ok as further work. Please send a patch. :-)
-> 
-> The patch should calculate PLL configuration dynamically, perhaps using
-> the ccs-pll calculator if applicable.
+Am Montag, dem 23.06.2025 um 06:50 +0000 schrieb Sakari Ailus:
+> Hi Andr=C3=A9,
+>=20
+> On Sat, Jun 21, 2025 at 11:37:24AM +0200, Andr=C3=A9 Apitzsch via B4 Rela=
+y
+> wrote:
+> > The imx214 driver currently supports only a 24 MHz external clock.
+> > But
+> > there are devices, like Qualcomm-MSM8916-based phones, which cannot
+> > provide this frequency. To make the sensor usable by those devices,
+> > add
+> > support for additional clock frequencies.
+> >=20
+> > This series supersedes
+> > https://lore.kernel.org/linux-media/20250308-imx214_clk_freq-v1-0-467a4=
+c083c35@apitzsch.eu/
+>=20
+> Is there a difference in this set from the v4 you posted previously?
 
-As much as I do like your suggestion, I don't think it's really feasible to
-often do this for Omnivision sensors (most others largely do just work
-without much hassle wrt. PLL, as long as a PLL calculator exists). This
-sensor's PLL tree is different from CCS and badly documented, as expected.
+There is no difference to the v4 posted previously. This is a resend
+because there was no activity in the original v4.
 
-> > > Seems there are already several camera sensors using page-based registers.
-> > > Is it a good idea to add page support in CCI interface?
-> > 
-> > Sounds like a good idea as such but I'm not sure how common this really is,
-> > I think I've seen a few Omnivision sensors doing this. If implemented, I
-> > think it would be nice if the page could be encoded in the register address
-> > which V4L2 CCI would store and switch page if needed only. This would
-> > require serialising accesses, too. There's some room in CCI register raw
-> > value space so this could be done without even changing that, say, with
-> > 8-bit page and 8-bit register address.
-> 
-> Ack. I've worked on a driver for the AP1302 external ISP, which also
-> uses pages registers. The full address space spans 32 bits though, but
-> fortunately the driver doesn't need to access anything above 0x00ffffff.
-
-0xffffff? The current CCI register addresses are limited to 16 bits. To
-support that, we'd need to use u64 most likely. For 16-bit register
-addresses and 8-bit values which probably are the most common, that starts
-to appear a bit wasteful.
-
--- 
-Regards,
-
-Sakari Ailus
+Best regards,
+Andr=C3=A9
+>=20
+> >=20
+> > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> > ---
+> > Changes in v4:
+> > - Add missing colon to error message
+> > - Add A-b, R-b tags
+> > - Link to v3:
+> > https://lore.kernel.org/r/20250521-imx214_ccs_pll-v3-0-bfb4a2b53d14@api=
+tzsch.eu
+> >=20
+> > Changes in v3:
+> > - Limit range of pll_ip_clk_freq_hz (Sakari)
+> > - Drop unneeded 'ret'
+> > - Use pll.pixel_rate_csi for bit rate calculation
+> > - Add patch that deprecates the clock-frequency property
+> > - Link to v2:
+> > https://lore.kernel.org/r/20250505-imx214_ccs_pll-v2-0-f50452061ff1@api=
+tzsch.eu
+> >=20
+> > Changes in v2:
+> > - Add A-b tags
+> > - Switch to v4l2_ctrl_s_ctrl_int64() to acquire the control handler
+> > mutex
+> > - Add error handling for v4l2_ctrl_s_ctrl_int64() and
+> > =C2=A0 imx214_pll_update()
+> > - Replace "read clock frequency from dt" patch by "remove hard-
+> > coded
+> > =C2=A0 external clock frequency" patch
+> > - Link to v1:
+> > =C2=A0
+> > https://lore.kernel.org/r/20250415-imx214_ccs_pll-v1-0-d3d7748e5fbd@api=
+tzsch.eu
+> >=20
+> > ---
+> > Andr=C3=A9 Apitzsch (5):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Reorder imx214_parse=
+_fwnode call
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Prepare for variable=
+ clock frequency
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Make use of CCS PLL =
+calculator
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: dt-bindings: sony,imx214: Depreca=
+te property clock-
+> > frequency
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Remove hard-coded ex=
+ternal clock
+> > frequency
+> >=20
+> > =C2=A0.../devicetree/bindings/media/i2c/sony,imx214.yaml |=C2=A0 29 ++-
+> > =C2=A0drivers/media/i2c/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > =C2=A0drivers/media/i2c/imx214.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 263
+> > ++++++++++++++++-----
+> > =C2=A03 files changed, 217 insertions(+), 76 deletions(-)
+> > ---
+> > base-commit: 176e917e010cb7dcc605f11d2bc33f304292482b
+> > change-id: 20250406-imx214_ccs_pll-e4aed0e9e532
+> >=20
+> > Best regards,
 
