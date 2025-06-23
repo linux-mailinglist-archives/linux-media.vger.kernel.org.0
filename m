@@ -1,132 +1,225 @@
-Return-Path: <linux-media+bounces-35591-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35592-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113FEAE38A2
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 10:40:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53758AE38F0
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 10:50:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 246793A227F
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 08:39:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D63AD7A8110
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 08:49:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63E2922F15E;
-	Mon, 23 Jun 2025 08:39:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B434922FAF8;
+	Mon, 23 Jun 2025 08:50:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OMEQzFlX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7i2WrvA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B566B22DA0A;
-	Mon, 23 Jun 2025 08:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C91022F74F
+	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 08:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750667970; cv=none; b=M3isASTDJcryUfRWSId96u6frU3n4pv8iy1LL5ATWGO4PcctJe2v35n635c5PpLPLVhFK2u/qZJGrNprkzm9f9vh1jJXzIslsxZsxGv/Arx0SgRigufPWYL5UauQF3FeAAowH+vzvLORvCiPTG1rM/IYXU6iFfR3/sAqAxO8iR4=
+	t=1750668639; cv=none; b=FUVZsf+VAJhQGvKgGntDYNaGT0a81ax0SPmYvWZZZIisG/akK88X8ydmJeWDM3WPR+ZQn9+B6rSZTwJuBW11v8KFph4gTGa2RiQQcUll9Kf6t7abCbOoT8upi/otmDPz+ZvTj8KmWZn80uYsB/4xJddcKjNP6czJDSFQnxQs6tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750667970; c=relaxed/simple;
-	bh=kADDkteBuGM/y2AxSFcVG2v8UU9U983QSXwQqpAJ9dk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FHxHLYpWPTMf/AbtsrIaEFOhbB79ZwD2d/2w8myUJbqDT13hip98beaXdmbLJR+w5TD9zphXhmSoR8vZj+gQvNi8dz6zi7x39jmKpmB4SbjvEjq3arDWU6xLrxTMJqw0lpLDOMJkmAa8XZbTij9V6YmdXA1NLLQn0SSDIex2ms4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OMEQzFlX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22671C4CEED;
-	Mon, 23 Jun 2025 08:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750667970;
-	bh=kADDkteBuGM/y2AxSFcVG2v8UU9U983QSXwQqpAJ9dk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OMEQzFlXShBwB9aVIoQvovqUNGjE9YjuKpjU40tU7GPQ+tUU9KhaaNWdw60cS7asu
-	 gk9p/Q8qBJufR3ymu2+A9sCIUF2EXa9mQLYs7M/CIUjwtW9ixOhRKm7wV19VJxgzx1
-	 FVBC2ZpHydMgEB/EY2zRbLrJaqksN1qY1SSMTfFj0qhjfBtGRVyRKDrbK1eKhwKkQC
-	 CQuD1zV4gxQijdWKniuajab+gdv7DCLSwideFEOMVvuO6dF8VzQWL9Yflm4rxFig+f
-	 FQWiumOo0e9Qml/aAxTyB7MiwjnlALVwFz0OfFWxf5he242ZvdcM6DQT8PuuvYse15
-	 gHtgA+s5c7sUw==
-Message-ID: <8122072a-eaa1-45d2-85c0-35e5cf5fe9f4@kernel.org>
-Date: Mon, 23 Jun 2025 10:39:25 +0200
+	s=arc-20240116; t=1750668639; c=relaxed/simple;
+	bh=FSimaLzGWUQdELj66yLiutBIOfnR4wIThw07tofRJGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJI7Er9obb7dgL1XyXIc36180fafMe4pC2sr8/d6FqDCfWdGPXesyQ4g2XUxeO9UY9WmMM/v1nR4h5bszbUskFv4gEt/Vi50xsfhAoVKEjQtgWtTUBpsNSxkL4cKrCMGr/SO3a+9tfXguQVUaSdBg/rEFa03P2Q0wtplfeGjOqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W7i2WrvA; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750668637; x=1782204637;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FSimaLzGWUQdELj66yLiutBIOfnR4wIThw07tofRJGQ=;
+  b=W7i2WrvA/MU2N5ZtJ4D3PML7grpp+kcE7MsipLKzREgfZht85fufOJCA
+   S+klPvd8pJUZBev32KYtmTixXXa4cxonn6LsvsmEdZwMEl2KC2J0D3cZO
+   DW1G6aPDTd0a0XCaZzvHNLQedcz7gsHCYe8pVYxZ0pyPTVQA6+dxWDQEm
+   LXsTv4Jl2E4e8wPNrNb6+f08WLCYwdRMES8oV7VTk3DN9xYQFo40A/o/0
+   QHIKFfH1AabnIqMUnNEjGOCCGjMf0FSh5Dr2wPv5VnzmuBZxziUfqBtL0
+   MDYcOyPBVVZol2w3FtPOAPenQ0sQWNxPjPpxVUy6kPjnazjRbwC4l4+2D
+   A==;
+X-CSE-ConnectionGUID: VTZxE1yxSJOTtU6vF7vuow==
+X-CSE-MsgGUID: /lKEX19MTACupxT3Lhaz3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="55499004"
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="55499004"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 01:50:36 -0700
+X-CSE-ConnectionGUID: 6SZHgXleSGiWC1IywDqYFg==
+X-CSE-MsgGUID: wFnRxQCCTuSkTTVb4ohtvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="155548274"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.8])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 01:50:30 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2C7B211FC36;
+	Mon, 23 Jun 2025 11:50:27 +0300 (EEST)
+Date: Mon, 23 Jun 2025 08:50:27 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 19/64] media: v4l: uapi: Add a control for color
+ pattern flipping effect
+Message-ID: <aFkVUwps3_0TR4Ie@kekkonen.localdomain>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-20-sakari.ailus@linux.intel.com>
+ <6nnjs7lwgf6auy2jsa5nrutz5kd6hbzbwlazbqv2p3dypdm46d@uxkudk2rnz7b>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] media: venus: Add QCM2290 support with AR50_LITE
- core
-To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
-Cc: quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com,
- bryan.odonoghue@linaro.org, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250613140402.3619465-1-jorge.ramirez@oss.qualcomm.com>
- <20250623074940.3445115-1-jorge.ramirez@oss.qualcomm.com>
- <8c8bccd6-9a46-4ebf-aeaf-01f52570c0be@kernel.org> <aFkLVOkYZMHqEMrh@trex>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aFkLVOkYZMHqEMrh@trex>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6nnjs7lwgf6auy2jsa5nrutz5kd6hbzbwlazbqv2p3dypdm46d@uxkudk2rnz7b>
 
-On 23/06/2025 10:07, Jorge Ramirez wrote:
-> On 23/06/25 09:55:25, Krzysztof Kozlowski wrote:
->> On 23/06/2025 09:49, Jorge Ramirez-Ortiz wrote:
->>> Changes since v2:
->>> - Removed IS_HFI/IS_VPU macros
->>> - checkpatch.pl --strict fixes:
->>>   - convert macro to static inline to avoid argument reuse side effect
->>>
->> Do not attach (thread) your patchsets to some other threads (unrelated
->> or older versions). This buries them deep in the mailbox and might
->> interfere with applying entire sets.
+Hi Jacopo,
+
+On Fri, Jun 20, 2025 at 02:14:44PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
 > 
-> ah interesting, I was reading somewhere that sets should be threaded.
-> sure will stop doing that (found it super annoying as well)
-https://elixir.bootlin.com/linux/v6.15/source/Documentation/process/submitting-patches.rst#L831
+> On Thu, Jun 19, 2025 at 02:57:51PM +0300, Sakari Ailus wrote:
+> > Add a bitmask control (V4L2_CID_COLOR_PATTERN_FLIP) to tell whether
+> 
+> Is this the same control you have referred to in
+> "media: uapi: Add new media bus codes for generic raw formats" as
+> V4L2_CID_COLOUR_PATTERN_MODIFY ?
 
-Best regards,
-Krzysztof
+It was intended to be, yes. I'll fix this in the other patch.
+
+> 
+> > flipping results in a change in the sensor's color pattern, separately
+> > horizontally and vertically. The information is essential for raw formats
+> > when using generic raw mbus codes.
+> 
+> Probably the distinction between horizontal and vertical changes is
+> the reason why V4L2_CTRL_FLAG_MODIFY_LAYOUT can't be resused ?
+
+Correct.
+
+> 
+> Hoever the V4L2_CTRL_FLAG_MODIFY_LAYOUT flag is specified per-control,
+> so if it applies to vflip it conveys already that the bayer ordering
+> is flipped in the vertical direction (likewise for hflip).
+
+The documentation for the flag says:
+
+	Changing this control value may modify the layout of the buffer
+	(for video devices) or the media bus format (for sub-devices).
+
+	A typical example would be the V4L2_CID_ROTATE control.
+
+	Note that typically controls with this flag will also set the
+	V4L2_CTRL_FLAG_GRABBED flag when buffers are allocated or streaming
+	is in progress since most drivers do not support changing the
+	format in that case.
+
+This seems related indeed, but layout of the buffer is not the same as the
+colour pattern in the buffer. I think I'd prefer to keep the
+COLOR_PATTERN_FLIP control for that.
+
+I wonder what Hans and Laurent think.
+
+> 
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../userspace-api/media/v4l/ext-ctrls-image-source.rst | 10 ++++++++++
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c              |  2 ++
+> >  include/uapi/linux/v4l2-controls.h                     |  5 +++++
+> >  3 files changed, 17 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > index b19aaaffbce0..43a62a85afb8 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > @@ -131,3 +131,13 @@ Image Source Control IDs
+> >        - Raw Bayer, with alternating lines beginning with green, blue pixels and
+> >          red, green pixels.
+> >        - 3
+> > +
+> > +``V4L2_CID_COLOR_PATTERN_FLIP (bitmask)``
+> > +    Whether the horizontal or vertical flipping controls (V4L2_CID_HFLIP and
+> > +    V4L2_CID_VFLIP) have an effect on the pixel order of the output color
+> > +    pattern. Macros ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
+> > +    ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` define bitmasks for both bits. If
+> > +    either horizontal or vertical bit is set, the readout pattern order is that
+> > +    of the reversed readout. ``V4L2_COLOR_PATTERN_FLIP_BOTH`` for setting both
+> > +    ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
+> > +    ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > index 8119012c2638..9ec65998a8f7 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1156,6 +1156,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >  	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
+> >  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
+> >  	case V4L2_CID_COLOR_PATTERN:		return "Color Pattern";
+> > +	case V4L2_CID_COLOR_PATTERN_FLIP:	return "Color Pattern Flip";
+> >
+> >  	/* Image processing controls */
+> >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > @@ -1484,6 +1485,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >  		*type = V4L2_CTRL_TYPE_BITMASK;
+> >  		break;
+> >  	case V4L2_CID_CONFIG_MODEL:
+> > +	case V4L2_CID_COLOR_PATTERN_FLIP:
+> >  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> >  		*type = V4L2_CTRL_TYPE_BITMASK;
+> >  		break;
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > index 09e5d5bbe7f8..740bf8544446 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -1227,6 +1227,11 @@ enum v4l2_jpeg_chroma_subsampling {
+> >  #define V4L2_COLOR_PATTERN_BGGR			2U
+> >  #define V4L2_COLOR_PATTERN_GBRG			3U
+> >
+> > +#define V4L2_CID_COLOR_PATTERN_FLIP		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 11)
+> > +#define V4L2_COLOR_PATTERN_FLIP_HORIZONTAL	(1U << 0)
+> > +#define V4L2_COLOR_PATTERN_FLIP_VERTICAL	(1U << 1)
+> > +#define V4L2_COLOR_PATTERN_FLIP_BOTH \
+> > +	(V4L2_COLOR_PATTERN_FLIP_HORIZONTAL | V4L2_COLOR_PATTERN_FLIP_VERTICAL)
+> >
+> >  /* Image processing controls */
+> >
+
+-- 
+Regards,
+
+Sakari Ailus
 
