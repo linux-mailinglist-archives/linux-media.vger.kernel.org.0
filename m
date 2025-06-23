@@ -1,185 +1,160 @@
-Return-Path: <linux-media+bounces-35643-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35644-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCAC2AE419E
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 15:07:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6431AAE430D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 15:28:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6758A3A3BE0
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:06:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F2E63BAF5D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:22:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55D1024EA9D;
-	Mon, 23 Jun 2025 13:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35EE1253340;
+	Mon, 23 Jun 2025 13:22:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NCh1IHh0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y5pyNCgH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF03E24DCEC
-	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 13:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B282517AF;
+	Mon, 23 Jun 2025 13:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750683997; cv=none; b=F1nq/DMpbX0+QDvQ69+Csxnf2dYrHrivWnW07Cfbaz9gAJrmdEX4wcZMrR6M80s0mL1aEH3lLBrECkciTo3inbgGjjGVZSV890x4TloU/ZrxmR0TW+fU4dLGObo1n8Lqy4bbQIXZO6NIO56yfhCGDWXa7D40y1eOfMJT9rogr9A=
+	t=1750684931; cv=none; b=CRurCyKmNbuJv6HXS2VCAMmQNUAmGFaHER9txHgdKAzVgM143uy2jfxVM6X4GuLnKdD2YdgYwSVljxpBv6/Yc1xo5Ho85cwaT1zfn72f26BWCVsa3Ep7La509xXVIc4udj/d52zy0cE2CL1yO7zn4ZzDrelSHzKyH/6cQFAdOG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750683997; c=relaxed/simple;
-	bh=Ssu5m3659nNMrzkp8GTKz8YxIMB7XTwKxR5PImrDZtE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dRl4StRkZWe+9se8u0DIE/HXfdYePDbu8Vn1MlR5MSDoxWYv7zHe6cS2azYqM8+nbJRHTlfsCeWRK6NVSxx+rKuTFgV98+KHyZbF3HtF1zY+2rhrsi0JSldeulzKEkGDAS/5dgyL77AVbGD3k/Fzmo6uPB4h/krN+y2E3uoauqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NCh1IHh0; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-553cbe3e77dso729154e87.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 06:06:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750683994; x=1751288794; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OPWvvPtyfW6cvFRrpdLyiuP0wVdJIV9Knmno897bePk=;
-        b=NCh1IHh0OABZzaEG+ph5Nsttwu1c0AcFXogbrxBMbCYW4uQQ+0MLMG5GG0fv6aTR4/
-         0T0GNf2UBaoUti3F8bA4V3OE1o6H+fofpzkJvZZpmKnFK0rK1BcRrsr0DQ84SXjEXn0m
-         MksopTZFyKH65lhfynoiGqujYTK2PFVWFOVZ/HePaX15VezlI3//AXJF/ZSHEw3emImy
-         wXs+mHCtAFQ8cRN8nUIRjefu5uzuGB7/RZNpAiSWEM3Yq6ze7SqGY+owEx/yu5bV2bcU
-         j25hhNTeAdVH1Xhfa4rOIqeoi7TAssmDyuVMbcDAyV0yKw9/le3Ws5OA/DB3L9FbVAY3
-         FQww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750683994; x=1751288794;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OPWvvPtyfW6cvFRrpdLyiuP0wVdJIV9Knmno897bePk=;
-        b=GQdxM/QmrAOKpHREDQuoGijMddUlgmJDF+Bf6Zy63z4St4Mx5V4/3QD2/kpysg+Cls
-         MsQJQXPyAzN3iuDmoVqoGc6fsdu+qBc87BU57ETwqiLubsT/p/2Q2sA/gwS1SB7IIVJe
-         5Bnwyrcc3I/vWZ/qmFc39JUwAjg8pysT+ffY3Ar5TUnOcurKuCiOhfe3xA8ikwaH8sT8
-         TR6feP1us8p8tYYGCRbRxu2piZG6HTgTs681+eiORMdARbMcG9qxetQDRg40iL/is6Rx
-         Soj+m1mPOMw3bXBHJlvd2H4rggGj2W2HWgng7J0/kWbaNCLJm4QnBdkIaR1QahDHrGUC
-         a52A==
-X-Forwarded-Encrypted: i=1; AJvYcCUukBM4RjfYrYHmYVNEaBmLqQ37aC8pM6NtJtjN0M2+F5WdIK0gc006Ev9K777iIsbZBQpSfh3DnXAjpw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkkNGpsyV092l9F7kvk81ZKUsrzIxkc+BAxVpgKikzVEgJrYbw
-	GBlFdeir0fZ/AymAfTMgah8RwW/FNnyYMheBpIIQmntlhyi591GHXrAUpLUN6KllE9o=
-X-Gm-Gg: ASbGncsYnjF11DOYEyCtp3MS0TyrhwtWNlI8fb+ZIIwGb181D06KhT9HzpypIuoL14l
-	dpAfWrWwNzgL3l1kT12QdDngIy8L16hyEnw0uXlSt/5SBWrTNK3e46a9yYBekriM1Jq9g7oblMH
-	JyB/X0vj0qV7REytXuuJlp+gKNFRi6cQVj6vvAiZH9P9FcjMkeO1/jHrniM9TAllRsis0u2vuq5
-	/3w2N633ZWJvvibP8RhdLqHcLyKyE69L8QOVPpaqXwJvRTaxvGJYJ1JkbEQ615Lyycn/Rzcc2HI
-	r/EUE0wKeFXST0I8Ev78jPGciUxNoXQh7EZiagLC4DAZ5KS9/L0/g8tIgO3sDYLT5nfvIBbJq9B
-	rZ+n8PU+R7KHuv+S7pLuFIA9FYmsoCl24ATBYcxAI
-X-Google-Smtp-Source: AGHT+IGF9wwyM1bJxn+39eMyyDzxWCYd+eWUA0IJo7ppfvKyky3eJv0f+LUJdPW1+5w6MNbHhR98Hg==
-X-Received: by 2002:a05:6512:3e0f:b0:553:241d:4e73 with SMTP id 2adb3069b0e04-553e3c07c3bmr1347362e87.11.1750683993788;
-        Mon, 23 Jun 2025 06:06:33 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553e41bc2d8sm1407881e87.101.2025.06.23.06.06.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jun 2025 06:06:33 -0700 (PDT)
-Message-ID: <0aaaf251-5070-42b1-99dc-d9f416340335@linaro.org>
-Date: Mon, 23 Jun 2025 16:06:32 +0300
+	s=arc-20240116; t=1750684931; c=relaxed/simple;
+	bh=Eh79O5Bmx21LbpxhlRl7XC8RSLmkHIQyohmM3vYqqK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PHyoMb4wgNFdlo/XoCL62OtZ8UoZykia2elo3HmjpzNxuGeuCQnaGhH3qRx2T4VkZl4Ugfuo5aYSh1eLdhkgTo+BEUToMtpGMmP3WO1YD/L3w+7M+FEEZWskY8PAwCoE2NF+SysiHMcsVWXnI7eTMLOIdEENjp7OJqg//uFngWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y5pyNCgH; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750684930; x=1782220930;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Eh79O5Bmx21LbpxhlRl7XC8RSLmkHIQyohmM3vYqqK0=;
+  b=Y5pyNCgHQmjmljqEJFnO73dMSq1sd5zsgzWnYmGWTVgxW94l0Uo6PZl3
+   CKqKbbvYG9POVzWivjJ9R22xoY2TClT7a9XzWa7K20yuOJ+Q+XT2p2xer
+   MQAcyQ5xi3xHExq8GU0ACxRlQy6pxg7EOxLY4DmpqLsAfiGyXSNX04Hs2
+   dDunCX6iRiHb7Qbd3gEilMmj48huRRhlkUkbkL1bd4cgh/3f3xarwd/fa
+   dDTz1JYKJa/fGSQI12a9YjeoxH6HbMYZ2fwpGxOdIoRU9q+lQP9vLfOdt
+   ashoQLD+5BEyggkywhCm+UgdX3x+rzBdjOX1JApbbf8tgHPIljH+QlD0Z
+   A==;
+X-CSE-ConnectionGUID: wwRobED+RJGtll317dSKJw==
+X-CSE-MsgGUID: ixuNkKF0QzWKQV3KUMWH6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="56563906"
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="56563906"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 06:22:10 -0700
+X-CSE-ConnectionGUID: +khe6KORTkiYI2fJyr05eQ==
+X-CSE-MsgGUID: F8oh866lQ6qxnof2o1M7CQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="151025268"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.8])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 06:22:04 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 9EDD01201F7;
+	Mon, 23 Jun 2025 16:22:00 +0300 (EEST)
+Date: Mon, 23 Jun 2025 13:22:00 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "Nirujogi, Pratap" <pnirujog@amd.com>, Hao Yao <hao.yao@intel.com>,
+	Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
+	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
+	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
+	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
+	dongcheng.yan@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+Message-ID: <aFlU-E_GCHWBXErq@kekkonen.localdomain>
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
+ <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
+ <aEygCdk-zEqRwfoF@kekkonen.localdomain>
+ <3e8364e8-22e4-42ad-a0f0-017f86fd6bf9@amd.com>
+ <20250623120929.GE826@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/10] [RFT] arm64: dts: qcom: sm8250: extend CAMSS with
- new CSIPHY subdevices
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
- <20250612011531.2923701-10-vladimir.zapolskiy@linaro.org>
- <bed8c29c-1365-4005-aac7-1635a28295bf@linaro.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <bed8c29c-1365-4005-aac7-1635a28295bf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250623120929.GE826@pendragon.ideasonboard.com>
 
-On 6/23/25 12:31, Neil Armstrong wrote:
-> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
->> Following the new device tree bindings for CAMSS IPs introduce csiphy2
->> device tree node under SM8250 CAMSS, which allows to perform camera
->> tests of the model on an RB5 board with an attached vision mezzanine.
->>
->> Note that the optional 'phys' property is deliberately not added.
->>
->> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->> ---
->> For testing only, do not merge.
->>
->>    arch/arm64/boot/dts/qcom/sm8250.dtsi | 14 ++++++++++++++
->>    1 file changed, 14 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
->> index f0d18fd37aaf..401a32679580 100644
->> --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
->> @@ -4613,6 +4613,10 @@ camss: camss@ac6a000 {
->>    					     "cam_sf_0_mnoc",
->>    					     "cam_sf_icp_mnoc";
->>    
->> +			#address-cells = <2>;
->> +			#size-cells = <2>;
->> +			ranges;
->> +
->>    			ports {
->>    				#address-cells = <1>;
->>    				#size-cells = <0>;
->> @@ -4641,6 +4645,16 @@ port@5 {
->>    					reg = <5>;
->>    				};
->>    			};
->> +
->> +			csiphy2: phy@ac6e000 {
->> +				compatible = "qcom,csiphy";
->> +				reg = <0 0x0ac6e000 0 0x1000>;
->> +				clocks = <&camcc CAM_CC_CSIPHY2_CLK>,
->> +					 <&camcc CAM_CC_CSI2PHYTIMER_CLK>;
->> +				clock-names = "csiphy", "csiphy_timer";
->> +				interrupts = <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>;
->> +				#phy-cells = <0>;
->> +			};
+Hi Laurent, Pratap,
+
+On Mon, Jun 23, 2025 at 03:09:29PM +0300, Laurent Pinchart wrote:
+> On Mon, Jun 16, 2025 at 07:12:28PM -0400, Nirujogi, Pratap wrote:
+> > On 6/13/2025 6:02 PM, Sakari Ailus wrote:
+> > > On Fri, Jun 13, 2025 at 12:55:46PM +0800, Hao Yao wrote:
+> > >> Hi Pratap,
+> > >>
+> > >> Thanks for your patch.
+> > >>
+> > >> This patch is written for your camera sensor module, which seems very
+> > >> different from those already applied on Dell laptops (some of "Dell Pro"
+> > >> series). Looking into the driver, I think this version will break the
+> > >> devices using ov05c10 sensor.
+> > > 
+> > > There never was such a driver in upstream so nothing breaks. However, in
+> > > order to support these, could you check what would it take to support them
+> > > using this driver and post patches, please?
+> > > 
+> > >> I think this patch is better to be validated on existing devices, but please
+> > >> do some fixes before we can do validation. Please check my comments inline.
+> > >>
+> > >> On 2025/6/10 03:42, Pratap Nirujogi wrote:
+> > >>> Add driver for OmniVision 5.2M OV05C10 sensor. This driver
+> > >>> supports only the full size normal 2888x1808@30fps 2-lane
+> > >>> sensor profile.
+> > >>>
+> > >>> Co-developed-by: Venkata Narendra Kumar Gutta <vengutta@amd.com>
+> > >>> Signed-off-by: Venkata Narendra Kumar Gutta <vengutta@amd.com>
+> > >>> Co-developed-by: Bin Du <bin.du@amd.com>
+> > >>> Signed-off-by: Bin Du <bin.du@amd.com>
+> > >>> Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
 > 
-> I would've expected the CSI PHY nodes to be out of the camss node, why would you
-> keep them as subnodes since you would reference them via phys phandles ?
+> [snip]
 > 
+> > >> Hi Sakari,
+> > >>
+> > >> Seems there are already several camera sensors using page-based registers.
+> > >> Is it a good idea to add page support in CCI interface?
+> > > 
+> > > Sounds like a good idea as such but I'm not sure how common this really is,
+> > > I think I've seen a few Omnivision sensors doing this. If implemented, I
+> > > think it would be nice if the page could be encoded in the register address
+> > > which V4L2 CCI would store and switch page if needed only. This would
+> > > require serialising accesses, too. There's some room in CCI register raw
+> > > value space so this could be done without even changing that, say, with
+> > > 8-bit page and 8-bit register address.
+> > 
+> > Hi Sakari, thank you for sharing your insights and guiding us. Could you 
+> > please suggest if we should take up this work implementing the helpers 
+> > in CCI and submit the patch or is it okay to leave it as-is for now and 
+> > take care of updating in future once the implementation is ready.
+> 
+> I think it can live in the driver for now. Given that the device uses
+> only 8 bits of register address, I would store the page number in bits
+> 15:8 instead of bits 31:24, as the CCI helpers do not make bits 27:24
+> available for driver-specific purpose.
 
-This is a good question, and it may require a deeper discussion.
+I'd use the CCI private bits, the driver uses page numbers up to 4 so 4
+bits are plenty for that. If we add pages to CCI later, this may be
+refactored then.
 
-Below are a few observations and comments supporting the idea of
-describing CSIPHY IPs as subnodes of CAMSS device tree node.
+-- 
+Regards,
 
-1. Formally CSIPHY IPs are still parts of CAMSS controller, if the
-CAMSS IP is considered as a multifunction device containing a number
-of IP blocks, then it might be logically consistent to place new
-children device tree nodes under its intermediate parent IP device
-tree node rather than parent's parent device tree node.
-
-2. Probably a consideration like the one above dictated a placement
-of Qualcomm DSI PHY (and many other sub-IPs) device tree nodes under
-a larger MDSS device tree node, here an attempt to repeat the same
-layout is done.
-
-3. If CSIPHY device tree nodes are completely detached from CAMSS
-device tree node, then not just "phys" but also new endpoint to endpoint
-links should be added between CSIPHYs and CSIDs provided by CAMSS like
-it's dictated by the established scheme of media device connections,
-however these particular endpoint links are non-fixed and configurable
-in runtime.
-
-The last point can be excluded only if there is a clear agreement that
-a chain of media endpoint-to-endpoint links from a sensor to ISP is
-cut between PHY and ISP, with the originally proposed device tree layout
-scheme it's not a problem, if PHYs are children of the ISP.
-
---
-Best wishes,
-Vladimir
+Sakari Ailus
 
