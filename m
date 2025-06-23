@@ -1,152 +1,150 @@
-Return-Path: <linux-media+bounces-35619-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35620-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A31AE3DC7
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:17:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CDEAE3DE3
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:27:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B15F016EF21
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 11:17:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9FE217253C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 11:27:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5B9218E9F;
-	Mon, 23 Jun 2025 11:17:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAF7621C178;
+	Mon, 23 Jun 2025 11:27:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ja7iu+m+"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="hxrih/9e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69C223D29A
-	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 11:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750677463; cv=none; b=oGeCU6uoNvqAfTnaqOVNUfwEkfjtAXhMxhDHZFbh3o0jed5TqCc4Hbrmuq1UkZIOWg32+GAjR/H8SeeljLEExyWbTLsQ/gtlwILX43KBmZ/1GPaOY7HWaw+fiWDUD4Vg/Y6gXnIYvtfdTLEfHoD9rdpJeG5Gy5gBMlnszbBbCdE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750677463; c=relaxed/simple;
-	bh=QVfJZhPN9qiwrwnHlrRHaImgyg7M9hl5ecRtPiUK4T4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ugZKd9e0Rvo6fx3MKzchIPbJy3p6tQ06pNYYYhYQq9ktk11r6kt+Q0lyMaDWu7UjyX/7e0ttoXbITydDAspVsaARl3JLjveUP9lHxNEUOIK5nhtXEKa4JwZAeEbeQY8T/lCWL+ewVpKZZB+UHTTx1fUh9DDKKUrUpa03f6B0yM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ja7iu+m+; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55N9kXWq014510
-	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 11:17:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/dyny+59KUMgDnoa0Pj8FANJXdd+fC6rz2NSrYwuJ3w=; b=Ja7iu+m+DcZwXxxQ
-	JOObRZ4sdQv4ObAH8WSd3BDSk0TDtBIUfkUVvXKaDbQj3z0Q5JkYClaONXjzA1Cw
-	uYQr8HvL1ntj4mUma4x0y2f9eQIc9lh2uDwY3raCT4fZ3T0TeGqzy+Fe04xLrJ53
-	DdGTi/dStzeQJzMhHR3+Ef9iz1l5jwaOWVizjTRm8pwiISKb44mbcbLzc1cdJgFj
-	l7XcHlqcXt142Zm2w9DfKgQ4CQA4lLFhD9HMb+NR5c+x8YWCPKPEV0u/LC+Pl7a/
-	d7CPvFjfe/Vpeb18fxiF+J9LEl2xdUVD7PSuXF7URh4fQEJKJiuGTkhWa+ek5oid
-	lWfhsA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47evc5hhm3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 11:17:41 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5af539464so115364085a.0
-        for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 04:17:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750677460; x=1751282260;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/dyny+59KUMgDnoa0Pj8FANJXdd+fC6rz2NSrYwuJ3w=;
-        b=A6M5F+ojPuxY70ijU2/XPDP4OFCNL/xP2jjzK/nGIHqfehJVwCj+FXD4CMl5RTsn5m
-         5WbJC1unV7/d5VnTfS7yVfQKtPOota9lTCHYlMioKNTlYd7YQOSHknsecG8oVOTzrmty
-         Anr6m6/6HJy8tzhTac+6+FiUFFCH4jshYZOpAkhfrIXuG7XsEjsGJK8r1XeISB+FkASU
-         vwtXa8bcrojz+3bEk54a/5AYjkgE0ZizCDz7LMqekLVnKwRkgD/nh2z7Z1CGW1I+U9uC
-         Ui4sMpD3GYJc/x2yWvxcOFbYd3aVifnDIc5rpHw/9IeX8ZAVixWJCKhH0TkpER8U0Sqp
-         g2Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCXYOsDxt1h3sQIfzorK9fyI7/lFXyMDR+eWNIDysxxAUQih6bDC3dMeM+60dBipMyXvTrxRdOxYmeqvLw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJpNkItLI13zdx3YVwvrSILqX2yxRQl8pVHIrKjZJhiRvNsplT
-	onHpOHaHe/ALbgJ9yI64nVXEFrtVhW+ADvInCqY6cIcRNGNJZpJqgvIAXv70zAeaOaVK9h0oKZP
-	37RLBMULw0oRWbD4wEXZnLkZGBQfDhH1EOetzkz7CWdxxhPmXLJKLC7BUJF4I6bAg2Q==
-X-Gm-Gg: ASbGncuqd+gfo1TK9jO8vUerRykOVUs7R4yyY2zCb8ckPNAYPY/nrF/ruYvwjZgkXLy
-	h3zIkAVknAiJwV3IyDsLAwfJ6BmNyDjWxglaAtWWsZeYIIRWfZXP6dlcQnM4Beva/3syEALZZl0
-	VH11Y/x+ADxxnlSXbShNUlofDZ2PZiRrFEeTmQkTY4pemkoU6gc6tpEbvF9i+LOZc6vkibddbjn
-	+VwwjQDkj2qK/ve3+uoJvtlMrx3qaruysAIjzojMd139w0OMlmiE9WQxhiNs1qUQvIuLvdBCcHo
-	14l7XUtSRaHkhnTkzohVLh9pflTdQvqiDuB4DP+4D54mrTN3sMcW4B5OEDv0kAKdhnqSq3U65rg
-	8nfU=
-X-Received: by 2002:a05:620a:8016:b0:7d3:ed4d:ac1c with SMTP id af79cd13be357-7d3f9938ca8mr701362585a.14.1750677459632;
-        Mon, 23 Jun 2025 04:17:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFKL+gpI55fdb30AiEedCk5JVTk1bfoCgITZ7zqFEzV6b0TJ8Zlfj3wjSMDQqD00Aky80qkgw==
-X-Received: by 2002:a05:620a:8016:b0:7d3:ed4d:ac1c with SMTP id af79cd13be357-7d3f9938ca8mr701359585a.14.1750677459080;
-        Mon, 23 Jun 2025 04:17:39 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae0541b7258sm691177466b.119.2025.06.23.04.17.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jun 2025 04:17:38 -0700 (PDT)
-Message-ID: <ef07138d-dab5-4a9c-9bd6-20299e2fa53e@oss.qualcomm.com>
-Date: Mon, 23 Jun 2025 13:17:35 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3083221D9E;
+	Mon, 23 Jun 2025 11:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750678070; cv=pass; b=DatXYKJ57iNnfIS2PC/uhEaXZT3sVTrvaam0Mr12UrqIzJ5z+VI86nV294v7Nm8szU/17UBFZlJboey6WawO2YFo23UMOmScnduScgYrWexPkWD7Q2b7nBhaegnVD03xbnUDse9qZ9YtE9UPyDkh7Fc3BCl9kGsJ/WloHev4C84=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750678070; c=relaxed/simple;
+	bh=pfg5vRQioOluNyG1N0RB42NJFmxziBgtZYFyDan9tFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=thJAdaClk6EkYR+ldW6WTB0ocMnSJXdnxE04fLGl0n3FaB7vKyj70H2/RpYARm6oZf8FZkwYO28JCTpPLgyGPvSG9iLsMMO8k0ld1j9x6s+22Apx8/F2ey1I1VuxH0Ph+C7fMENn+I50TtwtWThWmYr5pyrQJTON3yiP2oS/ZxQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=hxrih/9e; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4bQm5l6HSYz49Q09;
+	Mon, 23 Jun 2025 14:27:39 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1750678060;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h04LSD/eziTW/dAC0CP/1lAMle7TJGTrSi4OGVbgdos=;
+	b=hxrih/9eiXenztQTTOzjuOJ0l/fhfaKTrRcIfbgXD3rp3+kPQ51qbFJr6CIxf0ayLrw19D
+	ij3vPbT7cECG1Jn86RsOeCavtLhPTOchMKUnawsyeCCOoZLMQXdTtM2YwvUqsDNoPj9TdB
+	MFseM3IKNi3menWPWBo/Jfo2+16VSnV4/mAyahh70ghrP5ga2Bb34+b0JejplApAt5sDG6
+	qANe8XDF0fIzCfgaf6akeoLFb2wQECby9XC8wFt6IVQlY/xt/6Pr9iugusr1LJZ46QiWEm
+	zoTxL6VikE312s3U94ljSEzstjxsvxrc/dP/qp6ixQ8TCwA2Du1sji0ZBIHXZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1750678060;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h04LSD/eziTW/dAC0CP/1lAMle7TJGTrSi4OGVbgdos=;
+	b=DRhJCWm+QfhjW0IYAC98Gdxipi5rVuxUR5XNHL1YdC7LEbEV4xr/O5ZF+AEs79T3s+3z/u
+	TzceKpCqmoEVYxAMDQ+kzBheik2heWZhGdoo22XWhrgV+1NVf2dxyJnnu5G33pXJ+1Necq
+	GoJkAOT2oi0sVA7xIHkTwBinOD5MNDIgA7+LIqCyKmVprOa/2VoQiv7/M60WbCOk8dFHZS
+	f4l22EQEozEm69ysSxVOaqS4/vvUGt6rdgmJI5v4oRsTJ3axrMBRDI8+p2Zuzo78gONA71
+	9YAKVQXw3m87YueN1oIzRDzduvRsh/Oh4xoOFaNYMheyQICvlprg2Qnk9rnoUw==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1750678060; a=rsa-sha256;
+	cv=none;
+	b=A3yJqlwMgxOjLhtfFwTuSjtn6284/LDm/FaCUa0ZN308DdOLJzZ5DPHojjyzzgzNmn5sdL
+	YLyWNDQP6+4uDZThuFayCEfbLem3gD+0dR4rOZ6xb2qpinP7RrjAvO+kK21hoK+YBIpbvl
+	PfQHooe8rNvMRj9BqTv1xXKFNMT+HgDqf2p8ZBIobf6DDDsfCGDeFKaUagb34MRofaXti2
+	g2k0iPswE9/pVEMx0ogqhppyUA59+elZ7Z1xFKI4ROZwPjabd5DcSaHDVZxHS469U8gTk0
+	YDpKTJoOGb4+W7p9LL9phTQya4RYZqGcmH1v7snvucDXoBfkxQsPRisyMEWafA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5C96A634C93;
+	Mon, 23 Jun 2025 14:27:39 +0300 (EEST)
+Date: Mon, 23 Jun 2025 11:27:39 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hao Yao <hao.yao@intel.com>,
+	Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
+	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
+	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
+	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
+	dongcheng.yan@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+Message-ID: <aFk6K4mYtq24MnNj@valkosipuli.retiisi.eu>
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
+ <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
+ <aEygCdk-zEqRwfoF@kekkonen.localdomain>
+ <20250614225257.GO10542@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: qcm2290: Add venus video node
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
-        quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com,
-        bryan.odonoghue@linaro.org, mchehab@kernel.org, robh@kernel.org,
-        krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
-        konradybcio@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250623105107.3461661-1-jorge.ramirez@oss.qualcomm.com>
- <20250623105107.3461661-6-jorge.ramirez@oss.qualcomm.com>
- <8997eb52-788b-4264-a302-0fd10008e4e6@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <8997eb52-788b-4264-a302-0fd10008e4e6@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: BW7wS9pKO-uyqxN1CqvVYkefUHAk7gqR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIzMDA2NyBTYWx0ZWRfX5tf46+EcrtlZ
- Ww/j6nr4T2cXZR56buJW0LWwHHzbT12nJL0IwKuagdA2L94cviL+MxLWkSHZ9x7iHQfRifyMxLA
- Hs6lCpOSJ3nUymZtnj+gwanVepqRBXf+C9EZj0ayZVw/Y7swF5QiEQUydVqew+UlbELYMBCgdQ0
- GOW4cCkjMuXsXexYorID39PV/5hnJ8VRU2rknO/eZCUQB1tE7ApxAwfmxqTW20rNgOJH+BclAxJ
- TEKJGlPqDYI9QiITXfwn2x9/uRDJvwA4XoY0YPpJGBhdobEQLNLIZz3eJibMfJ6uxuQyntkzIYp
- qWpHG2SdU/FkIMSplBvG5T+G3IHwha2AxpFXK/1yQ97yc6gUSm5IH/IdtK40n6AaWP8xKFk7mqt
- RopKk10IXRU5WZ4+zIcCjqRMFFmYplbDune8dX7svIxye+m4wy7jmzhZ1CbBt/WboFg4ACl3
-X-Authority-Analysis: v=2.4 cv=caHSrmDM c=1 sm=1 tr=0 ts=685937d5 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=HP-r-xv5IR-xfd4SPmYA:9
- a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: BW7wS9pKO-uyqxN1CqvVYkefUHAk7gqR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-23_03,2025-06-23_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxlogscore=965 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 adultscore=0 mlxscore=0 spamscore=0
- malwarescore=0 phishscore=0 clxscore=1015 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506230067
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250614225257.GO10542@pendragon.ideasonboard.com>
 
-On 6/23/25 1:16 PM, Konrad Dybcio wrote:
-> On 6/23/25 12:51 PM, Jorge Ramirez-Ortiz wrote:
->> Add DT entries for the qcm2290 venus encoder/decoder.
->>
->> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
->> Co-developed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
->> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
->> ---
+Hi Laurent,
 
-[...]
-
->> +			clocks = <&gcc GCC_VIDEO_VENUS_CTL_CLK>,
->> +				 <&gcc GCC_VIDEO_AHB_CLK>,
+On Sun, Jun 15, 2025 at 01:52:57AM +0300, Laurent Pinchart wrote:
+> > > > +#define OV05C10_REF_CLK			(24 * HZ_PER_MHZ)
+> > > 
+> > > Seems your module use 24 MHz clock input. The Dell's modules always use
+> > > 19.2MHz, which means your the PLL settings will not work on Dell's.
+> > 
+> > This is ok as further work. Please send a patch. :-)
 > 
-> On other platforms, this clock is consumed by videocc
+> The patch should calculate PLL configuration dynamically, perhaps using
+> the ccs-pll calculator if applicable.
 
-..except I didn't notice there's no videocc on this one
+As much as I do like your suggestion, I don't think it's really feasible to
+often do this for Omnivision sensors (most others largely do just work
+without much hassle wrt. PLL, as long as a PLL calculator exists). This
+sensor's PLL tree is different from CCS and badly documented, as expected.
 
-Konrad
+> > > Seems there are already several camera sensors using page-based registers.
+> > > Is it a good idea to add page support in CCI interface?
+> > 
+> > Sounds like a good idea as such but I'm not sure how common this really is,
+> > I think I've seen a few Omnivision sensors doing this. If implemented, I
+> > think it would be nice if the page could be encoded in the register address
+> > which V4L2 CCI would store and switch page if needed only. This would
+> > require serialising accesses, too. There's some room in CCI register raw
+> > value space so this could be done without even changing that, say, with
+> > 8-bit page and 8-bit register address.
+> 
+> Ack. I've worked on a driver for the AP1302 external ISP, which also
+> uses pages registers. The full address space spans 32 bits though, but
+> fortunately the driver doesn't need to access anything above 0x00ffffff.
+
+0xffffff? The current CCI register addresses are limited to 16 bits. To
+support that, we'd need to use u64 most likely. For 16-bit register
+addresses and 8-bit values which probably are the most common, that starts
+to appear a bit wasteful.
+
+-- 
+Regards,
+
+Sakari Ailus
 
