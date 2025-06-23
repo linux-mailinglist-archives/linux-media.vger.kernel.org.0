@@ -1,61 +1,80 @@
-Return-Path: <linux-media+bounces-35642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35643-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CD6EAE417B
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 15:02:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCAC2AE419E
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 15:07:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 233957AA44B
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:00:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6758A3A3BE0
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0669242D65;
-	Mon, 23 Jun 2025 13:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55D1024EA9D;
+	Mon, 23 Jun 2025 13:06:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="R06swby5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NCh1IHh0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4601EF38E
-	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 13:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF03E24DCEC
+	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 13:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750683723; cv=none; b=j5F4PpRhIv9Dv/1HJTHlG7kcVg45OAB5YFf9YUosl+DYfDcbbSgl4bwJQR0sDPszG4sGfgS3saIjRRBP0DQ7sr1lymYrcH7Ir8xF6VJTX4H0SXwE5/8JUv3qrCLh19g8ixe/nEbApF1ynKxbH3tD6CiIl72dgV5q2gOeVS4il04=
+	t=1750683997; cv=none; b=F1nq/DMpbX0+QDvQ69+Csxnf2dYrHrivWnW07Cfbaz9gAJrmdEX4wcZMrR6M80s0mL1aEH3lLBrECkciTo3inbgGjjGVZSV890x4TloU/ZrxmR0TW+fU4dLGObo1n8Lqy4bbQIXZO6NIO56yfhCGDWXa7D40y1eOfMJT9rogr9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750683723; c=relaxed/simple;
-	bh=9IXDvKUMHpJAPFMtTRaMzjXP6z/VFX90uD5R42vu/Gg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=HF6rmoSJzk140/d+UbDV2EDtFhjviy8sgAD2HHCZFe1+ysP1M3hZZjvO24mnFDPKWopYVfpsxoD8X9VzkUaxXpmzKt5kqqR8XXspOCfi6b2R5iaHj5z4e5V4ToAfQRd+gECsVq9UG6QHNMr8xaD4zGDcazzuObbgLIOF9HeLJww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=R06swby5; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: f7ebf1b7-5032-11f0-beb8-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id f7ebf1b7-5032-11f0-beb8-005056992ed3;
-	Mon, 23 Jun 2025 15:07:08 +0200 (CEST)
+	s=arc-20240116; t=1750683997; c=relaxed/simple;
+	bh=Ssu5m3659nNMrzkp8GTKz8YxIMB7XTwKxR5PImrDZtE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dRl4StRkZWe+9se8u0DIE/HXfdYePDbu8Vn1MlR5MSDoxWYv7zHe6cS2azYqM8+nbJRHTlfsCeWRK6NVSxx+rKuTFgV98+KHyZbF3HtF1zY+2rhrsi0JSldeulzKEkGDAS/5dgyL77AVbGD3k/Fzmo6uPB4h/krN+y2E3uoauqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NCh1IHh0; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-553cbe3e77dso729154e87.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 06:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:to:subject:from:mime-version:date:message-id;
-	bh=21e9H+vtr+HKRRJNQzUbItDG60FtmkHHKs/nMR837OQ=;
-	b=R06swby5WQ40/UeA0L9WBr3LXq4DzCqkDGUbDmo2J1F0YdsxHrY2kKeJxpel/91v/nqDMCAS61x+K
-	 Eq7yEGSqOaoMWse5cPvLqxzL1mQ9TXoNKfcHp9t6ZD6Yw5iAJVIIHkZ+8FvAgbzCy6Adf1twzuq6Kn
-	 eTQGbChy58UKT+cvBE+Jcpjmsxp0VQBu0QpP2uI1JRGqLvFAQqPaivZpwtBHXtI6YrNQg4kWDm09Sd
-	 PNGYwC6w+InrRoWLlj/B1SRN1e4XCFCYywDhQ8le0l+i49Lmw3NbDyWzmilN9x2zWDfAmptsGAOmiI
-	 ej6aFsz1EnPJZH1oX7D2FI/nCMSQ1GQ==
-X-KPN-MID: 33|ZB1JdXEIUPDOWbDUDXP8gyIaiYGYxHnkJoCDdsnrGAr2Qqy1ZDLVSeriSI8uOIK
- ex73Aqiyq6nzQKqc+maHmLjFLE4IQs1tc8KxJmPBJvnQ=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|mDdcII72o/dYdq3+hkHld3d6MWmlVJyUaLvw8J8BJRwrL0twsHd64GVFfBAdXRI
- MEheuqm1eSUnUvCzkHadYiw==
-Received: from [192.168.2.10] (unknown [178.74.16.2])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 154015d2-5032-11f0-afec-005056998788;
-	Mon, 23 Jun 2025 15:00:48 +0200 (CEST)
-Message-ID: <837d10df-a547-4f7c-8a8e-07d14616d052@xs4all.nl>
-Date: Mon, 23 Jun 2025 15:00:48 +0200
+        d=linaro.org; s=google; t=1750683994; x=1751288794; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OPWvvPtyfW6cvFRrpdLyiuP0wVdJIV9Knmno897bePk=;
+        b=NCh1IHh0OABZzaEG+ph5Nsttwu1c0AcFXogbrxBMbCYW4uQQ+0MLMG5GG0fv6aTR4/
+         0T0GNf2UBaoUti3F8bA4V3OE1o6H+fofpzkJvZZpmKnFK0rK1BcRrsr0DQ84SXjEXn0m
+         MksopTZFyKH65lhfynoiGqujYTK2PFVWFOVZ/HePaX15VezlI3//AXJF/ZSHEw3emImy
+         wXs+mHCtAFQ8cRN8nUIRjefu5uzuGB7/RZNpAiSWEM3Yq6ze7SqGY+owEx/yu5bV2bcU
+         j25hhNTeAdVH1Xhfa4rOIqeoi7TAssmDyuVMbcDAyV0yKw9/le3Ws5OA/DB3L9FbVAY3
+         FQww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750683994; x=1751288794;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OPWvvPtyfW6cvFRrpdLyiuP0wVdJIV9Knmno897bePk=;
+        b=GQdxM/QmrAOKpHREDQuoGijMddUlgmJDF+Bf6Zy63z4St4Mx5V4/3QD2/kpysg+Cls
+         MsQJQXPyAzN3iuDmoVqoGc6fsdu+qBc87BU57ETwqiLubsT/p/2Q2sA/gwS1SB7IIVJe
+         5Bnwyrcc3I/vWZ/qmFc39JUwAjg8pysT+ffY3Ar5TUnOcurKuCiOhfe3xA8ikwaH8sT8
+         TR6feP1us8p8tYYGCRbRxu2piZG6HTgTs681+eiORMdARbMcG9qxetQDRg40iL/is6Rx
+         Soj+m1mPOMw3bXBHJlvd2H4rggGj2W2HWgng7J0/kWbaNCLJm4QnBdkIaR1QahDHrGUC
+         a52A==
+X-Forwarded-Encrypted: i=1; AJvYcCUukBM4RjfYrYHmYVNEaBmLqQ37aC8pM6NtJtjN0M2+F5WdIK0gc006Ev9K777iIsbZBQpSfh3DnXAjpw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkkNGpsyV092l9F7kvk81ZKUsrzIxkc+BAxVpgKikzVEgJrYbw
+	GBlFdeir0fZ/AymAfTMgah8RwW/FNnyYMheBpIIQmntlhyi591GHXrAUpLUN6KllE9o=
+X-Gm-Gg: ASbGncsYnjF11DOYEyCtp3MS0TyrhwtWNlI8fb+ZIIwGb181D06KhT9HzpypIuoL14l
+	dpAfWrWwNzgL3l1kT12QdDngIy8L16hyEnw0uXlSt/5SBWrTNK3e46a9yYBekriM1Jq9g7oblMH
+	JyB/X0vj0qV7REytXuuJlp+gKNFRi6cQVj6vvAiZH9P9FcjMkeO1/jHrniM9TAllRsis0u2vuq5
+	/3w2N633ZWJvvibP8RhdLqHcLyKyE69L8QOVPpaqXwJvRTaxvGJYJ1JkbEQ615Lyycn/Rzcc2HI
+	r/EUE0wKeFXST0I8Ev78jPGciUxNoXQh7EZiagLC4DAZ5KS9/L0/g8tIgO3sDYLT5nfvIBbJq9B
+	rZ+n8PU+R7KHuv+S7pLuFIA9FYmsoCl24ATBYcxAI
+X-Google-Smtp-Source: AGHT+IGF9wwyM1bJxn+39eMyyDzxWCYd+eWUA0IJo7ppfvKyky3eJv0f+LUJdPW1+5w6MNbHhR98Hg==
+X-Received: by 2002:a05:6512:3e0f:b0:553:241d:4e73 with SMTP id 2adb3069b0e04-553e3c07c3bmr1347362e87.11.1750683993788;
+        Mon, 23 Jun 2025 06:06:33 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553e41bc2d8sm1407881e87.101.2025.06.23.06.06.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jun 2025 06:06:33 -0700 (PDT)
+Message-ID: <0aaaf251-5070-42b1-99dc-d9f416340335@linaro.org>
+Date: Mon, 23 Jun 2025 16:06:32 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,103 +82,104 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v4 3/3] media: Documentation: Document new
- v4l2_ctrl_handler_free() behaviour
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com
-References: <20250623122314.2346635-1-sakari.ailus@linux.intel.com>
- <20250623122314.2346635-4-sakari.ailus@linux.intel.com>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250623122314.2346635-4-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 09/10] [RFT] arm64: dts: qcom: sm8250: extend CAMSS with
+ new CSIPHY subdevices
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
+ <20250612011531.2923701-10-vladimir.zapolskiy@linaro.org>
+ <bed8c29c-1365-4005-aac7-1635a28295bf@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <bed8c29c-1365-4005-aac7-1635a28295bf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 23/06/2025 14:23, Sakari Ailus wrote:
-> v4l2_ctrl_handler_free() no longer resets the handler's error code.
-> Document it.
+On 6/23/25 12:31, Neil Armstrong wrote:
+> On 12/06/2025 03:15, Vladimir Zapolskiy wrote:
+>> Following the new device tree bindings for CAMSS IPs introduce csiphy2
+>> device tree node under SM8250 CAMSS, which allows to perform camera
+>> tests of the model on an RB5 board with an attached vision mezzanine.
+>>
+>> Note that the optional 'phys' property is deliberately not added.
+>>
+>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>> ---
+>> For testing only, do not merge.
+>>
+>>    arch/arm64/boot/dts/qcom/sm8250.dtsi | 14 ++++++++++++++
+>>    1 file changed, 14 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+>> index f0d18fd37aaf..401a32679580 100644
+>> --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+>> @@ -4613,6 +4613,10 @@ camss: camss@ac6a000 {
+>>    					     "cam_sf_0_mnoc",
+>>    					     "cam_sf_icp_mnoc";
+>>    
+>> +			#address-cells = <2>;
+>> +			#size-cells = <2>;
+>> +			ranges;
+>> +
+>>    			ports {
+>>    				#address-cells = <1>;
+>>    				#size-cells = <0>;
+>> @@ -4641,6 +4645,16 @@ port@5 {
+>>    					reg = <5>;
+>>    				};
+>>    			};
+>> +
+>> +			csiphy2: phy@ac6e000 {
+>> +				compatible = "qcom,csiphy";
+>> +				reg = <0 0x0ac6e000 0 0x1000>;
+>> +				clocks = <&camcc CAM_CC_CSIPHY2_CLK>,
+>> +					 <&camcc CAM_CC_CSI2PHYTIMER_CLK>;
+>> +				clock-names = "csiphy", "csiphy_timer";
+>> +				interrupts = <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>;
+>> +				#phy-cells = <0>;
+>> +			};
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
-
-Regards,
-
-	Hans
-
-> ---
->  Documentation/driver-api/media/v4l2-controls.rst | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
+> I would've expected the CSI PHY nodes to be out of the camss node, why would you
+> keep them as subnodes since you would reference them via phys phandles ?
 > 
-> diff --git a/Documentation/driver-api/media/v4l2-controls.rst b/Documentation/driver-api/media/v4l2-controls.rst
-> index b2e91804829b..fc04907589ab 100644
-> --- a/Documentation/driver-api/media/v4l2-controls.rst
-> +++ b/Documentation/driver-api/media/v4l2-controls.rst
-> @@ -110,6 +110,7 @@ For sub-device drivers:
->  
->  	v4l2_ctrl_handler_free(&foo->ctrl_handler);
->  
-> +:c:func:`v4l2_ctrl_handler_free` does not touch the handler's ``error`` field.
->  
->  2) Add controls:
->  
-> @@ -191,12 +192,8 @@ These functions are typically called right after the
->  			V4L2_CID_TEST_PATTERN, ARRAY_SIZE(test_pattern) - 1, 0,
->  			0, test_pattern);
->  	...
-> -	if (foo->ctrl_handler.error) {
-> -		int err = foo->ctrl_handler.error;
-> -
-> -		v4l2_ctrl_handler_free(&foo->ctrl_handler);
-> -		return err;
-> -	}
-> +	if (foo->ctrl_handler.error)
-> +		return v4l2_ctrl_handler_free(&foo->ctrl_handler);
->  
->  The :c:func:`v4l2_ctrl_new_std` function returns the v4l2_ctrl pointer to
->  the new control, but if you do not need to access the pointer outside the
 
+This is a good question, and it may require a deeper discussion.
+
+Below are a few observations and comments supporting the idea of
+describing CSIPHY IPs as subnodes of CAMSS device tree node.
+
+1. Formally CSIPHY IPs are still parts of CAMSS controller, if the
+CAMSS IP is considered as a multifunction device containing a number
+of IP blocks, then it might be logically consistent to place new
+children device tree nodes under its intermediate parent IP device
+tree node rather than parent's parent device tree node.
+
+2. Probably a consideration like the one above dictated a placement
+of Qualcomm DSI PHY (and many other sub-IPs) device tree nodes under
+a larger MDSS device tree node, here an attempt to repeat the same
+layout is done.
+
+3. If CSIPHY device tree nodes are completely detached from CAMSS
+device tree node, then not just "phys" but also new endpoint to endpoint
+links should be added between CSIPHYs and CSIDs provided by CAMSS like
+it's dictated by the established scheme of media device connections,
+however these particular endpoint links are non-fixed and configurable
+in runtime.
+
+The last point can be excluded only if there is a clear agreement that
+a chain of media endpoint-to-endpoint links from a sensor to ISP is
+cut between PHY and ISP, with the originally proposed device tree layout
+scheme it's not a problem, if PHYs are children of the ISP.
+
+--
+Best wishes,
+Vladimir
 
