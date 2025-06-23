@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-35675-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35676-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2221AAE4A67
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 18:18:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A13AE4A6D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 18:18:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6B7B1888115
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 16:12:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE922189B439
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 16:12:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 806422C326F;
-	Mon, 23 Jun 2025 16:08:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E14232D027F;
+	Mon, 23 Jun 2025 16:08:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SaB0zpAH"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nlWBzUP6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B572C3245;
-	Mon, 23 Jun 2025 16:07:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CFE2C325B;
+	Mon, 23 Jun 2025 16:08:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750694881; cv=none; b=m/jEi8/NXw9sfEJmgDuLM8egsPBOtsgiqmWhahSEdUTrp8GkSX7Q3e1y4jIFWoMJC0Zm9iS7Prt1GDfcZ1U5ejpcQ/BOwH38Vw0FaV2z3tlu7vXYwXqA1KXLgeX2fjtffEAYDZ8wYcLiHrfqkSzLL6b3FoDql5DrkQdf1yELBrs=
+	t=1750694885; cv=none; b=iP0Y7R+qYlbKvJGKmt5koPsllQf6jVv8dycvnzoxeiGWbasF//pJXCae+nc+ZsUExF+CklM4Y6g4Nf+jlvyhgjflL9Ldr9FprzsxI6CkTB+mUYE7avixsHEV/lKcxy0YXFPKYoPtQiW2trwNN69+MsyzzkT3IUmxGHaKaC7SvmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750694881; c=relaxed/simple;
-	bh=LAtHIDsXc48M+4SNF2evd23d5+2WZS3MzWRndXBDn7c=;
+	s=arc-20240116; t=1750694885; c=relaxed/simple;
+	bh=hjgMrwRTA3fWP6Sf+lK8Wy4pKEPzPfk2AxMPnEjNQQw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JnWE84LjZugcc0tTLjNjgr+hyeED+7+bGKuxDQNu6IXD+1tWtACzRq9MjpdVL9dghRZAtl3TVCoXQ2yT3/hRgjspcbsZCGhSj0v0+sqowugI0mnDZLt6rVzrE6Ywpo+oyqsoq2y9ndMnqLbJAZSuK0kTuiXSkFQ6Tbbm00taKAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SaB0zpAH; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=FRVYKQFBfkkkESYoalZm9V4Zr+k04TS+MC+nKylUI1kvvQah6l3rGYOPQNI4W03IMr6913JQPbNsxOS3QlvvRLHzTG9T1tfARw33p4APinY88fvxw/7WWh7Hx3MHGdGjSNNpcZdBHg8yuPUNIx4hO0tLTtNl7gf3AreunUf0b3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nlWBzUP6; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750694878;
-	bh=LAtHIDsXc48M+4SNF2evd23d5+2WZS3MzWRndXBDn7c=;
+	s=mail; t=1750694882;
+	bh=hjgMrwRTA3fWP6Sf+lK8Wy4pKEPzPfk2AxMPnEjNQQw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SaB0zpAHjXwCGcMTaY4yKSJkhwbsYNN+QC6lQXd0qEINs3aPwKdC8+EugvoX3hzlq
-	 3OUzwmZZxTvvoSqVwZYy09nSEJYvKMToPzJ58ikI46LFNMO2/hziBfrwxoSZCljo9z
-	 V0umNgidaM6cVS4GYIz41lFQlzWyjL/AcpfWiRYiWv/MTIulK72WfOXj5jKiL+czuG
-	 P89Z9sZbvN/4PbRvlXY2xhUhBSBtpS+gkou5omQar5r//iUAtCA6ogeOn006Ur0guq
-	 WMCQe8/65QrsOKEKebY/rVx1k6edtBoA0QfgCkkM4oWSb6TP0V03cOh6F9OWOMJCSI
-	 CDEkXG+SA5oWQ==
+	b=nlWBzUP6DB+1Jn+vVBslLMVPlFvaxyjeyK2ivVv9r1sen405X9zxDqTPyYf8g9iXl
+	 HZj0IPCvCA/TWIONlYOR8nspWIxkq+WZ0+7z3ZCHAyudMO/IJsrg1HSY8jmHqTu4q1
+	 21U2NBUobIs+3jEU7t+3TZ2ozPqkzFVDJq/YLBchTf9nMEph/oyZ+kK5KFM8O+4EwU
+	 gv39r6MxQntnyaOhmi7eTbA5YvmKpfPGJlFhKZ6YvPPJ2xluOQcsfcnnPqaoempqsS
+	 vSR4/2nkyVQZF4r7XBfSk5oVZ0C1d2WY/x6kUmwVg/+eT8bDxiiZ7Yvl8bgBE5AF5V
+	 eQs7X6mvs39zg==
 Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 12DAC17E35D3;
-	Mon, 23 Jun 2025 18:07:54 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id AC8F717E3659;
+	Mon, 23 Jun 2025 18:07:58 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Rob Herring <robh@kernel.org>,
@@ -75,9 +75,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	Yunke Cao <yunkec@google.com>,
 	linux-media@vger.kernel.org,
 	kernel@collabora.com
-Subject: [PATCH 4/8] arm64: dts: rockchip: Add the vdpu383 Video Decoder on rk3576
-Date: Mon, 23 Jun 2025 12:07:18 -0400
-Message-ID: <20250623160722.55938-5-detlev.casanova@collabora.com>
+Subject: [PATCH 5/8] media: uapi: HEVC: Add v4l2_ctrl_hevc_ext_sps_rps control
+Date: Mon, 23 Jun 2025 12:07:19 -0400
+Message-ID: <20250623160722.55938-6-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250623160722.55938-1-detlev.casanova@collabora.com>
 References: <20250623160722.55938-1-detlev.casanova@collabora.com>
@@ -89,69 +89,116 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the vdpu383 Video Decoder variant to the RK3576 device tree.
-
-Also allow using the dedicated SRAM as a pool.
+Some hardware (e.g.: Rockchip's rk3588 hevc decoder) need the parsed
+long and short term reference information for HEVC decoding.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3576.dtsi | 36 ++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 73 +++++++++++++++++++
+ .../media/v4l/vidioc-queryctrl.rst            |  6 ++
+ 2 files changed, 79 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3576.dtsi b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-index b1ac23035dd78..26896ac22cedf 100644
---- a/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-@@ -1139,6 +1139,41 @@ gpu: gpu@27800000 {
- 			status = "disabled";
- 		};
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+index 0da635691fdcb..745f38a8fe69c 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+@@ -2958,6 +2958,79 @@ This structure contains all loop filter related parameters. See sections
+       - 0x00000004
+       -
  
-+		vdec: video-codec@27b00000 {
-+			compatible = "rockchip,rk3576-vdec";
-+			reg = <0x0 0x27b00100 0x0 0x500>,
-+			      <0x0 0x27b00000 0x0 0x100>,
-+			      <0x0 0x27b00600 0x0 0x100>;
-+			reg-names = "function", "link", "cache";
-+			interrupts = <GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cru ACLK_RKVDEC_ROOT>, <&cru HCLK_RKVDEC>,
-+				 <&cru ACLK_RKVDEC_ROOT_BAK>, <&cru CLK_RKVDEC_CORE>,
-+				 <&cru CLK_RKVDEC_HEVC_CA>;
-+			clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-+			assigned-clocks = <&cru ACLK_RKVDEC_ROOT>, <&cru CLK_RKVDEC_CORE>,
-+					  <&cru ACLK_RKVDEC_ROOT_BAK>, <&cru CLK_RKVDEC_HEVC_CA>;
-+			assigned-clock-rates = <600000000>, <600000000>,
-+					       <500000000>, <1000000000>;
-+			iommus = <&vdec_mmu>;
-+			power-domains = <&power RK3576_PD_VDEC>;
-+			resets = <&cru SRST_A_RKVDEC_BIU>, <&cru SRST_H_RKVDEC_BIU>,
-+				 <&cru SRST_H_RKVDEC>, <&cru SRST_RKVDEC_CORE>,
-+				 <&cru SRST_RKVDEC_HEVC_CA>;
-+			reset-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-+			sram = <&rkvdec_sram>;
-+		};
++.. c:type:: v4l2_ctrl_hevc_ext_sps_rps
 +
-+		vdec_mmu: iommu@27b00800 {
-+			compatible = "rockchip,rk3576-iommu", "rockchip,rk3568-iommu";
-+			reg = <0x0 0x27b00800 0x0 0x40>, <0x0 0x27b00900 0x0 0x40>;
-+			interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cru CLK_RKVDEC_CORE>, <&cru HCLK_RKVDEC>;
-+			clock-names = "aclk", "iface";
-+			power-domains = <&power RK3576_PD_VDEC>;
-+			rockchip,disable-mmu-reset;
-+			#iommu-cells = <0>;
-+		};
++.. cssclass:: longtable
 +
- 		vop: vop@27d00000 {
- 			compatible = "rockchip,rk3576-vop";
- 			reg = <0x0 0x27d00000 0x0 0x3000>, <0x0 0x27d05000 0x0 0x1000>;
-@@ -2412,6 +2447,7 @@ sram: sram@3ff88000 {
- 			/* start address and size should be 4k align */
- 			rkvdec_sram: rkvdec-sram@0 {
- 				reg = <0x0 0x78000>;
-+				pool;
- 			};
- 		};
++.. flat-table:: struct v4l2_ctrl_hevc_ext_sps_rps
++    :header-rows:  0
++    :stub-columns: 0
++    :widths:       1 1 2
++
++    * - __u16
++      - ``lt_ref_pic_poc_lsb_sps``
++      - Long term reference picture order count as described in section 7.4.3.2.1
++        "General sequence parameter set RBSP semantics" of the specification.
++    * - __u8
++      - ``delta_idx_minus1``
++      - Specifies the delta compare to the index. See details in section 7.4.8 "Short-term
++        reference picture set semantics" of the specification.
++    * - __u8
++      - ``delta_rps_sign``
++      - Sign of the delta as specified in section 7.4.8 "Short-term reference picture set
++        semantics" of the specification.
++    * - __u16
++      - ``abs_delta_rps_minus1``
++      - Absolute delta RPS as specified in section 7.4.8 "Short-term reference picture set
++        semantics" of the specification.
++    * - __u8
++      - ``num_negative_pics``
++      - Number of short-term RPS entries that have picture order count values less than the
++        picture order count value of the current picture.
++    * - __u8
++      - ``num_positive_pics``
++      - Number of short-term RPS entries that have picture order count values greater than the
++        picture order count value of the current picture.
++    * - __u8
++      - ``used_by_curr_pic_s0[16]``
++      - Specifies if short-term RPS i (that has a negative POC) is used by the current picture.
++    * - __u8
++      - ``used_by_curr_pic_s1[16]``
++      - Specifies if short-term RPS i (that has a positive POC) is used by the current picture.
++    * - __s32
++      - ``delta_poc_s0[16]``
++      - Specifies the negative picture order count delta for the i-th entry in the short-term RPS.
++        See details in section 7.4.8 "Short-term reference picture set semantics" of the
++        specification.
++    * - __s32
++      - ``delta_poc_s1[16]``
++      - Specifies the positive picture order count delta for the i-th entry in the short-term RPS.
++        See details in section 7.4.8 "Short-term reference picture set semantics" of the
++        specification.
++    * - __u8
++      - ``flags``
++      - See :ref:`Extended RPS Flags <hevc_ext_sps_rps_flags>`
++
++.. _hevc_ext_sps_rps_flags:
++
++``Extended SPS RPS Flags``
++
++.. cssclass:: longtable
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++    :widths:       1 1 2
++
++    * - ``V4L2_HEVC_EXT_SPS_RPS_FLAG_USED_LT``
++      - 0x00000001
++      - Specifies if the long-term reference picture is used 7.4.3.2.1 "General sequence parameter
++        set RBSP semantics" of the specification.
++    * - ``V4L2_HEVC_EXT_SPS_RPS_FLAG_INTER_REF_PIC_SET_PRED``
++      - 0x00000002
++      - Specifies if the short-term RPS is predicted from another short term RPS. See details in
++        section 7.4.8 "Short-term reference picture set semantics" of the specification.
++
+ .. _v4l2-codec-stateless-av1:
  
+ ``V4L2_CID_STATELESS_AV1_SEQUENCE (struct)``
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+index 3549417c7febb..dc7caf4bf6208 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+@@ -523,6 +523,12 @@ See also the examples in :ref:`control`.
+       - n/a
+       - A struct :c:type:`v4l2_ctrl_hevc_decode_params`, containing HEVC
+ 	decoding parameters for stateless video decoders.
++    * - ``V4L2_CTRL_TYPE_HEVC_EXT_SPS_RPS``
++      - n/a
++      - n/a
++      - n/a
++      - A struct :c:type:`v4l2_ctrl_hevc_ext_sps_rps`, containing HEVC
++	extended RPS for stateless video decoders.
+     * - ``V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR``
+       - n/a
+       - n/a
 -- 
 2.50.0
 
