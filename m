@@ -1,120 +1,173 @@
-Return-Path: <linux-media+bounces-35599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8EDAE3BB6
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 12:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C522EAE3BB9
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 12:07:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF7F61884423
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 10:06:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 579D51885633
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 10:06:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C583721CA02;
-	Mon, 23 Jun 2025 10:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2774623ABBB;
+	Mon, 23 Jun 2025 10:05:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="L86h1ro2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hu6EyzGJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC11BB663;
-	Mon, 23 Jun 2025 10:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FFEB663
+	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 10:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750673135; cv=none; b=Lv2KkVPW+vN/B8ltHY1DUztU/geiNAJqdcswuFsdSHX8Xo8plX94t/JfrovGopa2mFMmJHk1kjKhkDRvGpyDfN+NZejym2YoJTIOEJWt64b4N+NsmDnUenjV8SXez3vpLH/Ik5MNF8F97Gzk/W7lT13E/EN1wuMCEiDXs4evjp8=
+	t=1750673149; cv=none; b=M6wC06d2Ao887Jh/lFvbF6gDwD8eH9iXhsMa5hO9JkSi7TJaKu/iTJghxFFETW7++EaiQ4HTrEBUF7FmzB5Qn4QbfvOVHkFKiy2Vfme+Ej5r6jZckw3ELq8zCsJxOhln6dGiBt+z71TKiRC7AXPUetmoeB8w2EBkIejMeZGH5Ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750673135; c=relaxed/simple;
-	bh=vr/v7+HNQA9PBO0CTD04rUzWOcoal2+aqe6MzSRZyaA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hbwjEjoMcDo8kWNV01BgbX55KvWBmNP3tZjFuPWeTZhdO8MQQ8brXH1MaGIc8SwPIQftMm3beYyUogNn6tD/lE/KhOJEZo80sENPQEqXfHOPgncII+WQjTKML+PW3wNcqzjBAV19fz6vkgWhHjrgvHETadrZtGjl8bhqr6Rr920=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=L86h1ro2; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=CwBZWncXMFHUNfKxRF00wCCVLbZJy1TDoDay/M48Z+I=; b=L86h1ro29XqjaL+eCgRkkXLern
-	75+0ic4ZPZQA9jgsZHU+m6s6A2g1sjBn8ch86nVuI/mPsm+t10x6oPsYBhqLPIQIrNtzVhkQykPlD
-	GS6K5lvxSgSfYFgxVCGxHbCyZJr9sJG8cHlMxOsXGWp3xZSWPA+YRD0J0ug3eUzpFk8RG8q4SVWqQ
-	TOR2KrK1AeFq1O+2IjRT6Sxz8JfV9KsVPDxIse6QRLv8ohmlIyxP9kaPKQw4t3nnlQoZnyzyHIkQL
-	h6O0JmWJF9FZOYiJ72bt6fz7XaHXYoqvT90EPSJ6+HRhkGFcR9xFgmumcVFR0doDchPrQUOcr2uVj
-	k3uVs64Q==;
-Received: from [185.15.108.45] (helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1uTe3H-00084G-Br; Mon, 23 Jun 2025 12:05:23 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Olivier Benjamin <olivier.benjamin@bootlin.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Nicholas Roth <nicholas@rothemail.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>, imx@lists.linux.dev,
- ~diederik/pine64-discuss@lists.sr.ht, Dragan Simic <dsimic@manjaro.org>,
- Ondrej Jirman <megi@xff.cz>
-Subject: Re: [PATCH v4 0/4] Describe the cameras in the PinePhone Pro dts
-Date: Mon, 23 Jun 2025 12:05:22 +0200
-Message-ID: <13788127.uLZWGnKmhe@phil>
-In-Reply-To: <aFj4kAXEhrR4Wbnz@kekkonen.localdomain>
-References:
- <20250620-camera-v4-0-0201a8ed5fae@bootlin.com>
- <aFj4kAXEhrR4Wbnz@kekkonen.localdomain>
+	s=arc-20240116; t=1750673149; c=relaxed/simple;
+	bh=sjsg+vwaihGqnnPTgCzGHgDlkKQFctMk+wIoPxaJcP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pd12kR3cYAE2Pl38GP4Qvg5RrGPU6fpdNtoF6EB6bFGHCoAmKfJ68XSVgzeG/TOk+h+yIsIHM1xS/LsN4VygDUEwMy3TxsGDsyQHh4jWKCZGrzRheMH37HFAOX01fQYgAXPoPxi7f8hAgwOHnZ6bbRU0g4pjRYor4CIXKbmPxKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hu6EyzGJ; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750673148; x=1782209148;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sjsg+vwaihGqnnPTgCzGHgDlkKQFctMk+wIoPxaJcP8=;
+  b=hu6EyzGJqSyFN93ukDVW+wrKXlv8/lHy1LrVB5gmz67zmgtpT0K25zxD
+   xrJmpsjGaa7LY6fmTU0vLF5LgryLzwjlV7jWiHGc1rG9MDwvOmnnK3xv7
+   rJu2vGdYIvg0f5ycOcv2iYswfMghLTw761Uto2CLlnI1sOGA1+v9r2PRy
+   wOLgRH7aYweDxbcBywB5zx4XP4xuiwJA/pbI5lyx+YqUZ2xR4Czfk99pY
+   ZwpogZQOGx0XrM8A/ECcj62eQwice5nuNcaUD/URMKyEdto1csdK/a5vE
+   BPw+nuT5iZNbF0a2wYAqJ4ouII9emCkv4DR7/VO69dlVegX2rYdWy8I8W
+   w==;
+X-CSE-ConnectionGUID: EOryrILRQEac14j1xpKIyw==
+X-CSE-MsgGUID: 4eEM8SaqQvWfIP9zmk1odg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="64228592"
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="64228592"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 03:05:47 -0700
+X-CSE-ConnectionGUID: cw/xsuJPQS+u62Nw1oq4rg==
+X-CSE-MsgGUID: tWXoCsiVR228OkLBIMGnkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="151842172"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.8])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 03:05:40 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id A35A61201F7;
+	Mon, 23 Jun 2025 13:05:37 +0300 (EEST)
+Date: Mon, 23 Jun 2025 10:05:37 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 38/64] media: uapi: Correct generic CSI-2 metadata
+ format 4cc
+Message-ID: <aFkm8ZaGjzA9mGqI@kekkonen.localdomain>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-39-sakari.ailus@linux.intel.com>
+ <lgm4ufdwzeg7tnpv25h27kausizxn2wilzhgfwvramiug67e6h@jndtb26w2paf>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <lgm4ufdwzeg7tnpv25h27kausizxn2wilzhgfwvramiug67e6h@jndtb26w2paf>
 
-Hi,
+Hi Jacopo,
 
-Am Montag, 23. Juni 2025, 08:47:44 Mitteleurop=C3=A4ische Sommerzeit schrie=
-b Sakari Ailus:
-> Hi Olivier,
->=20
-> On Fri, Jun 20, 2025 at 05:21:31PM +0200, Olivier Benjamin wrote:
-> > This series adds support for the Pine64 PinePhone Pro's rear and front
-> > cameras in Device Tree.
-> > This is based on some of Ondrej Jirman's patches hosted in his tree at
-> > https://codeberg.org/megi/linux, but I have also fully reviewed and
-> > re-written the code from the RK3399 datasheet, the PinePhone Pro
-> > schematic, and the IMX258-0AQH5 software reference manual.
-> >=20
-> > I have tested these changes on my PinePhone Pro and am able to take
-> > photos from both cameras using libcamera's cam.
-> >=20
-> > This series has raised a question about the proper label name for the
-> > front/user camera and rear/world camera for phones.
-> > This series is using "ucam" and "wcam", which is used in a few other
-> > Rockship DTBs:
-> >  - arch/arm64/boot/dts/rockchip/px30-evb.dts
-> >  - rk3399-gru-scarlet.dtsi
-> >=20
-> > Signed-off-by: Olivier Benjamin <olivier.benjamin@bootlin.com>
->=20
-> Thanks for the patches.
->=20
-> I've picked the first two in the set, presumably the rest will be merged
-> via another tree?
+On Fri, Jun 20, 2025 at 03:26:25PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Thu, Jun 19, 2025 at 02:58:10PM +0300, Sakari Ailus wrote:
+> > Rework the pixelformat 4cc for CSI-2 generic metadata. This can be done as
+> > no driver uses this yet and the interface is disabled.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../userspace-api/media/v4l/metafmt-generic.rst      |  2 +-
+> >  include/uapi/linux/videodev2.h                       | 12 ++++++------
+> >  2 files changed, 7 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
+> > index e8824b5a65d6..e0d675d1ec07 100644
+> > --- a/Documentation/userspace-api/media/v4l/metafmt-generic.rst
+> > +++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
+> > @@ -1,7 +1,7 @@
+> >  .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
+> >
+> >  ********************************************************************************************************************************************************************************************************************************************************************************
+> > -V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_META_FMT_GENERIC_CSI2_12 ('MC1C'), V4L2_META_FMT_GENERIC_CSI2_14 ('MC1E'), V4L2_META_FMT_GENERIC_CSI2_16 ('MC1G'), V4L2_META_FMT_GENERIC_CSI2_20 ('MC1K'), V4L2_META_FMT_GENERIC_CSI2_24 ('MC1O')
+> > +V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MECA'), V4L2_META_FMT_GENERIC_CSI2_12 ('MECC'), V4L2_META_FMT_GENERIC_CSI2_14 ('MECE'), V4L2_META_FMT_GENERIC_CSI2_16 ('MECG'), V4L2_META_FMT_GENERIC_CSI2_20 ('MECK'), V4L2_META_FMT_GENERIC_CSI2_24 ('MECO')
+> >  ********************************************************************************************************************************************************************************************************************************************************************************
+> >
+> >
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > index 855cbe2a97d8..6f0dacd69ab3 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -893,12 +893,12 @@ struct v4l2_pix_format {
+> >   * adding new ones!
+> >   */
+> >  #define V4L2_META_FMT_GENERIC_8		v4l2_fourcc('M', 'E', 'T', '8') /* Generic 8-bit metadata */
+> 
+> Why GENERIC_8 is still 'MET' and all others are 'MEC' ?
 
-correct, and with the first two being applied, I can now also safely pick
-the other two :-)
+C is for "CSI-2". This actually should be the case for 16- and 24-bit
+formats as they don't use CSI-2 specific packing.
 
-Thanks a lot
-Heiko
+> 
+> > -#define V4L2_META_FMT_GENERIC_CSI2_10	v4l2_fourcc('M', 'C', '1', 'A') /* 10-bit CSI-2 packed 8-bit metadata */
+> > -#define V4L2_META_FMT_GENERIC_CSI2_12	v4l2_fourcc('M', 'C', '1', 'C') /* 12-bit CSI-2 packed 8-bit metadata */
+> > -#define V4L2_META_FMT_GENERIC_CSI2_14	v4l2_fourcc('M', 'C', '1', 'E') /* 14-bit CSI-2 packed 8-bit metadata */
+> > -#define V4L2_META_FMT_GENERIC_CSI2_16	v4l2_fourcc('M', 'C', '1', 'G') /* 16-bit CSI-2 packed 8-bit metadata */
+> > -#define V4L2_META_FMT_GENERIC_CSI2_20	v4l2_fourcc('M', 'C', '1', 'K') /* 20-bit CSI-2 packed 8-bit metadata */
+> > -#define V4L2_META_FMT_GENERIC_CSI2_24	v4l2_fourcc('M', 'C', '1', 'O') /* 24-bit CSI-2 packed 8-bit metadata */
+> > +#define V4L2_META_FMT_GENERIC_CSI2_10	v4l2_fourcc('M', 'E', 'C', 'A') /* 10-bit CSI-2 packed 8-bit metadata */
+> > +#define V4L2_META_FMT_GENERIC_CSI2_12	v4l2_fourcc('M', 'E', 'C', 'C') /* 12-bit CSI-2 packed 8-bit metadata */
+> > +#define V4L2_META_FMT_GENERIC_CSI2_14	v4l2_fourcc('M', 'E', 'C', 'E') /* 14-bit CSI-2 packed 8-bit metadata */
+> > +#define V4L2_META_FMT_GENERIC_CSI2_16	v4l2_fourcc('M', 'E', 'C', 'G') /* 16-bit CSI-2 packed 8-bit metadata */
+> > +#define V4L2_META_FMT_GENERIC_CSI2_20	v4l2_fourcc('M', 'E', 'C', 'K') /* 20-bit CSI-2 packed 8-bit metadata */
+> > +#define V4L2_META_FMT_GENERIC_CSI2_24	v4l2_fourcc('M', 'E', 'C', 'O') /* 24-bit CSI-2 packed 8-bit metadata */
+> >  #endif
+> >
+> >  /* priv field value to indicates that subsequent fields are valid. */
 
+-- 
+Regards,
 
-
+Sakari Ailus
 
