@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-35557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFDC5AE3310
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 02:22:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3357DAE3312
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 02:22:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 835777A5CC7
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 00:21:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3CE493B0722
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 00:22:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09307E555;
-	Mon, 23 Jun 2025 00:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 073AC2110E;
+	Mon, 23 Jun 2025 00:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="aLYXtHc+"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="PqjfWKQy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021109.outbound.protection.outlook.com [40.107.42.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D184C6D;
-	Mon, 23 Jun 2025 00:22:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F3ABA2E;
+	Mon, 23 Jun 2025 00:22:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.109
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750638132; cv=fail; b=D5vZS8hPmRmXK6g4J1hJgO5zEd3qbTqsq+SSHSh2XmtoCxvoHooe4ta5gghI2c+WxP9tYEWzzgIvH01rMb/kdIHmy0xoUp9lxbzIFdU92aDl3sXhQxma6Xeox2rRGgKOeFTQlRqMKnY+In4O5uJQIJF/MXcTM7Rzvbubr396LuQ=
+	t=1750638134; cv=fail; b=JuEiB2G7jfrHoWzW/ghJIS+koFUdPt0yewItZyPyI34RkrF2tBJLJCtq/xgCmUih2Y2v4gaiz1CGQCYzazSRMtwIWSzcuSkQRjlTJiIXHvZOcU/Z8Hiq15YGhDFP0MHPVfwep9gqkDFxcTN/sltGPLIhkXZA3WEGrdTDx2HprZ8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750638132; c=relaxed/simple;
-	bh=in98pwW5kO8SKzf+UqmKnePWValGOVjWCB0KqqGGtAQ=;
+	s=arc-20240116; t=1750638134; c=relaxed/simple;
+	bh=TzgvmvKbiqsMToktbwz78XpsA9hTZQMcwcJhIM6k7PI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=S2KVWt3blCDKyfl045BxjgTFY2LQZPJW9lppe1n10KtkaCSaFmSEzlzN+wtZtncTWngZGWmip2u/6iAaUE+Wi3E+tAeNLzebDMwmG8kFrwqzW4DGHgr1XeruVnceXJAZlIiNLTRg+XCl+1jhReZl/KDh0eQE965pF/1IHPINBWM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=aLYXtHc+; arc=fail smtp.client-ip=40.107.42.109
+	 Content-Type:MIME-Version; b=rSEGzUHNq7SdKyadGcwx6r8RBd0a3R1wBwhzA5I5PlKU/OuhYQW4h1oEUHb2AhzqbUWFjVRP5Tuc+rShUMA7ZIZ7MFxn4/CQKZyEogcwSznwupMp0fWGfRFvWyv3ubbo33PgadFJsC6Ck8gvvbs+36rBSAfWUl2G644wOluo8Ks=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=PqjfWKQy; arc=fail smtp.client-ip=40.107.42.109
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q9WkCfT+grN7bKUQIMxPjy7fa4Fyw2BQfjHjZhRKAxDrVe4iGycevg23UpL9ofvygPDL1ldzHJkdwuSN5JmK5HTEZHQZCYhELQrSFQP4wZmeOC38dAHc8eluR/42dAhYKKbkiPr0cIrKeuRhZzHEfWbYR6ewO5F1h7gsAjD7/jmaJyG2d5cjxFoSgRoh5dhSNQ74OWBHhVE56BGCs+RsbcVUkbF09U+9oeH9jHEuTcI0N8Itw5BTQctnseMfUtu9ywWxTrm4eTsnlhbHjcE3SiXxPEKqYXG+SVKC/lctTyRSEVUwhcjofudhn4Qtlsd9WVZfG6qOK//NqxJYVCFxuQ==
+ b=OuEGr3MKsNnrMgpekmiIIUxVoUXI++ZWlvQV52aYvoZal3tdUG5/90HYEviPTJPYdc3e/9ouHzY6g9Q5Xu8s+w5O1wTX8Bmzi7HtgeTGyOPlNYpE9hE/AFNN/rGsJJBaAHuVZtgQwVCDPKO0NXtZFLOte9GgIqjuSeMZPijzwOJQCHe8RAY8QGTMaBlwKRMM0JSmc3p0W4RAnDcN3J/BJT/SKZWQduFP+VtcvG9T0C/NaAJrRnfuqb5Vk6HBadzUyLx34sma9z7nmX6i6hvDOGtRtSp4VlQO9jWX8s1kJcuwDeUWnwKgM6X/8D440YlolxMHnV4gsCqXCY20aKAgyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CcDtq3pdHJFkdbkWeKZwrG8wu3yyPp/ONyB/+pyqqJk=;
- b=WeZZY0Xp2cGB7hYMRKwHZ8/uJbZN64Pe3FU87BZrq2nzTqrZoWU3pTzdpKKsJ2SDrW3DFnfvPS2YbBupwTYvCVv6RzE19dKrrXEJczKxINnsvSTMztyJ2FSuSJCUpMGkJi0KZgszrYlezonEqFRjKvF7Lz537cq6YYraIrT/t46U2yFqhYbt12Jogyw1E5E+4mzsw2b5J8gZMG27Jk0iMi29dLv1NqhxZAf00YwlQ2NE/qgHeWuA75kf7aYnY3yKsqpOsddstnfMVZsXwiCpUy+cteBi4jbR+HryZ0Qvrz8xovS5Eu7GTMbSruDiiR2PNj7zVW7+eS0iQfkyVP3nbQ==
+ bh=wTtmV1Cj6MGKRZ/bmUugCu+u9oLT0m4bTehooJwx744=;
+ b=k9UqP2hi2A+xOyvRbuU+v+kZx4cNlEWhKh7SCD0cnXaNAsmR+K/790rYskeYd7+uUj7ItI5+N+JWwvZ9Z+GSfdaDsy3ahlJTNaeWzrDyFoIk/2S0Co5vFANm4YqR0AXIsFb/bFbO3TdhBgKNducPWkEJJpUqblaHBZRJLi7RzcbFtc7bnXG3FTBFlMXl73rHP1POaIQds95i1SI2SkLMQZn4QdTAnWszdFZrjyLHTHE+rNIEY3QxZPReM06kQWXKj8Wld3r9zPjH7cm3eqDS32yF7QPRRfBBiT/E40wAnKK3tzXp8RO8171zzNHmuMOF1XCWyOPXcC7l6VKtoK56TQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
  header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CcDtq3pdHJFkdbkWeKZwrG8wu3yyPp/ONyB/+pyqqJk=;
- b=aLYXtHc+QQdQtl1AUsfYSQfI282gBaJYJaYv4b/tMCMmSCyRF6lMiYin+7bphEB6Y25cUmSYWxN2KzrUppHAU+uACIPP1ao0drgORYRMzoSxF5PnBaGZg2UonlxyKFHXfyFDkI90d0QmxwcmiID35N1+G0dNcJdyJ/aeuWT9wVk=
+ bh=wTtmV1Cj6MGKRZ/bmUugCu+u9oLT0m4bTehooJwx744=;
+ b=PqjfWKQy3FMRTUxkujnqiP3PCXF6pfTKPagLOwlJwYCiECfbumm2XyB2z1g+48atAW7uPPC266ytlyFc5Zwtvsm2a/vYL8M2Oa8oGTaPN5COFyPAAqY67d1QnuUY6iJBhA7OHPqLUYI0JB2u9H3xlvJqFrpXtt0oVqJVFzdpUto=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
 Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f::14) by
  PUYP216MB3126.KORP216.PROD.OUTLOOK.COM (2603:1096:301:152::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8857.29; Mon, 23 Jun 2025 00:22:04 +0000
+ 15.20.8857.29; Mon, 23 Jun 2025 00:22:05 +0000
 Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
  ([fe80::6dcd:ad0b:394c:954f]) by SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
  ([fe80::6dcd:ad0b:394c:954f%4]) with mapi id 15.20.8857.026; Mon, 23 Jun 2025
- 00:22:04 +0000
+ 00:22:05 +0000
 From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
 To: mchehab@kernel.org,
 	hverkuil-cisco@xs4all.nl,
@@ -68,9 +68,9 @@ Cc: linux-media@vger.kernel.org,
 	b-brnich@ti.com,
 	hverkuil@xs4all.nl,
 	nas.chung@chipsnmedia.com
-Subject: [PATCH v3 1/4] media: chips-media: wave5: Fix SError of kernel panic when closed
-Date: Mon, 23 Jun 2025 09:21:50 +0900
-Message-Id: <20250623002153.51-2-jackson.lee@chipsnmedia.com>
+Subject: [PATCH v3 2/4] media: chips-media: wave5: Fix Null reference while testing fluster
+Date: Mon, 23 Jun 2025 09:21:51 +0900
+Message-Id: <20250623002153.51-3-jackson.lee@chipsnmedia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250623002153.51-1-jackson.lee@chipsnmedia.com>
 References: <20250623002153.51-1-jackson.lee@chipsnmedia.com>
@@ -87,242 +87,355 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SLXP216MB1148:EE_|PUYP216MB3126:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34568bbc-8160-4a0f-edea-08ddb1ebfa9d
+X-MS-Office365-Filtering-Correlation-Id: 673fd0e2-6a03-4e50-e48a-08ddb1ebfb13
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?2NhwfGywQFgNzQxrdZRMGGkEGgtmYaZbAs+G2u6Z4fd7UZtR+xnt3oHZgGC+?=
- =?us-ascii?Q?fyzGxxi0/ZuNU+F0a5NHrsey4dYrqGWhtQa4d7lMS+YYsw3PLiTKTKX8dhVS?=
- =?us-ascii?Q?l4WcPmh/I+ZP1D0EUhRQvY09OGzp+uRXCVDsccq49//Xm2T5hKhTsjqee0gv?=
- =?us-ascii?Q?2k22gzKKHWkweqq01mxKmdyXAYQAiTnwr22c5C81kMbXLRVn2EY5RE3cmxyg?=
- =?us-ascii?Q?VRjjaCLwXL1hJ9kKMTjCeOECtQ1TwwYQY4lyKq3f86s540SAl40xnf8EASnQ?=
- =?us-ascii?Q?DFAuahiowQbsDMJ4oqcVIrNzV4dqFWYYxm8YNbjCIdOQBPH4TygkPc23QSDE?=
- =?us-ascii?Q?IjYXrMyHl+OlBQe2za4HfJR9DNAbkzHuJCm+PcFyeTEwYfY36E64HPeF1lWf?=
- =?us-ascii?Q?eoK/oXl22NvrxHs8yJWf8cxr1T9oSFm+wR8QFCeXiebimQl1fVKBCPaWE+Wq?=
- =?us-ascii?Q?EK4655EVu5V4l84oP/8RqznCfat0202l7nA09AHEU2hsqO1TS6rlGjUGQpZ3?=
- =?us-ascii?Q?ii57UfQLr9qyVEb2QLBMa0t3/50+yO5raXbtoFz6j3X3soUrZzAte9Mic3v9?=
- =?us-ascii?Q?dipljU3eagSrcWvT0mS+8JQ299Kn7hUzT8teF5+yyINMS05ce/x5V+9StZH9?=
- =?us-ascii?Q?qFDNd4Z98pq5F/eBtHV77DlJBA5PUEGiJCpqpkOsWBzj7MYL4SII3PRA64bS?=
- =?us-ascii?Q?0lI4ZvH1Bp5mjQ9mXDP7xX/wHNwqGFntBzQZilgUor3coWC3ZZpaMRsZxGkT?=
- =?us-ascii?Q?pvaWQguS3+5/syMNB/TRs/emOS3DfkCCvfxoacgCF+bnmr5MFuFgAeLrgKVL?=
- =?us-ascii?Q?dcAZMnpw93eiVCSMZC/Pcd45GTJfPKV+XyD7VyNkOy1hmYBDvKvGEQRV7iF9?=
- =?us-ascii?Q?feUon0M8DdVRJo2gImCirIOSoWo+RLZa8qB+myxGR+BBsQW6V5rEVDJcww6t?=
- =?us-ascii?Q?sMWkcLxhmO7z8cVL4x5fkVTBHd6wNAy8KXGisBC53FM6t+9Dzkj9qLeWXSjy?=
- =?us-ascii?Q?H2mBHBpTR053bXbE8kL0YCV3qMu9HQPUmNzKWIljiD56Gab6k6YRHcvBT2nE?=
- =?us-ascii?Q?yDhWtOiDOUqlxnwZy/uN7IzdA9Yp/swpm4nAwVoFqJBuzwoTI6InxRow/S1C?=
- =?us-ascii?Q?224Q3337bWikxb/9z+pNUWM0bI29Cm2/PZgqpdQPc6IrPXo0d40iaGO+AO/D?=
- =?us-ascii?Q?KSdsGoJK5wrRj1alLodeIDxQ3xD6LcKjXIvy8WBmQEfOtQnEQOIN3wjf2u1s?=
- =?us-ascii?Q?p4CeP8uj3cYgErZidyTCAlltJOGqHea26l+PJREavRq3FdqqYKrZLkM8xKHW?=
- =?us-ascii?Q?6/ixMR4/jPZlh83NrjR9I3ri6LHNGshtpK4AtdYKTBxWS+kW7H3+AmBDA1PG?=
- =?us-ascii?Q?RP7WLrSJzyXSdYeWuJG4Cs92lx5ABQppKL/O9j3bIyR44tR7ha9jPnCx/miy?=
- =?us-ascii?Q?HyACJ/2SNlGPIT6lwwMkJET8w7Q5BOXU6etIooLwdErZUaEnRWjuhw=3D=3D?=
+	=?us-ascii?Q?xdvs/GL1LBRDp259nLd6HdCAlyQBk8fvOXJ2AHjA6Yz40nADNLpFBQz+JJP3?=
+ =?us-ascii?Q?wH8lynuZWE1GvFrfSrDevAYBldrY27X+CXRAqMAw3FcZA+lIaWM7EKgEzjFw?=
+ =?us-ascii?Q?X0LoZ5U++HuV26d5TJL0eGEkKc8rEEg/r8144GOapVLBojlXuG1hsyYmR0OU?=
+ =?us-ascii?Q?lOoflfNmEb2HlrlDdGxqc85ioT8KPzxHUAo0IirRqSlnXI11fk/73phYlW7j?=
+ =?us-ascii?Q?HlQMtHMZqfqSNcTDsvakTACM3qabddNbO8MTPvxfX12boBf6Ou1zv7342h7T?=
+ =?us-ascii?Q?vEfeTYFw0YvlJxcnDSeq1EmAx7ahXmIYTPeKGMfQzNWDbirhO/J0HgCHwWiW?=
+ =?us-ascii?Q?SynMI+HvFKqoxUgeOpSl8/iQpuGh47kQdaHy2SvpjtJQxsMAHva3lwM4R7n+?=
+ =?us-ascii?Q?3Vcjimu1YJzYIqfQJ7lPZ5naO4rSGsTXDMC8JSKjQ7JXgJrUiTyyUyriZV9g?=
+ =?us-ascii?Q?YjKLgrv9sDoozIWqh7NH3VECeBvoJRaU5Xq/ry03M8l/esCe9tjHSHyULB/3?=
+ =?us-ascii?Q?42H0ThA9AqxTicqeMS0PXf6k7Ew/c2W/o+aAIkF6D1ei48sv7wLcHHSpKM75?=
+ =?us-ascii?Q?x6vrrmFo9+HX2evfVwAU7f1vvFmS+UB0UxlfMnRyVJXwMxG+3BLKfWQq4/J4?=
+ =?us-ascii?Q?bUAMis2ops/nF68OmOB6kpvOQ6kGZlej53VIvFxzCPwtTGju/GR+S+2VQ32M?=
+ =?us-ascii?Q?AnRHlPY//Ik2CQa2DKmhxR5W7L+jHuHgC1AlRKLQmoJQDvnPVa2I8zsgE81c?=
+ =?us-ascii?Q?wnv3tKiEzm6qjeAF2hz9ZI2GiJcjjuQXuCwWfjthO8y+sjfKuH9BAT49t5xK?=
+ =?us-ascii?Q?LY5wLncy+1YkVfqkYBDYaGuX5iUaS6/lVhc3Vi8EC10Gql5zzWI3bVrPIBKZ?=
+ =?us-ascii?Q?yIGkYcaBbex6L2W2Pxhjxg6fUimzss5fWJrFdWpla+jdSlalubfilpRkwxdH?=
+ =?us-ascii?Q?a7GkQwLFR6ETeITrYAPFdP3tWHD2Bj+F3KKHz67LHYN/LxKKhJlgUBkOxjjT?=
+ =?us-ascii?Q?gD83JA/QDBh7Aa5Rjoqf1ktA+eSEa738N3TjZu2EA3q8N1e4CwB2trk2LhAN?=
+ =?us-ascii?Q?oleiCgvn4j/fvJK4yOU2NxjESEdDWG4hZKjrnii0ruD+OpkF9o8eqB2B8IHU?=
+ =?us-ascii?Q?EQzKPATMnRnvg+N8CBwPUyHTGsVjzZ+k5ee32FHgMcD0Izlywghk5wNWYyF4?=
+ =?us-ascii?Q?gZEXg2RN4BF2ZX9nqaYUYMOUa6WgQqPX/Vc6pOVfv2DhQ8MeDTn+pvLto0gT?=
+ =?us-ascii?Q?/2tmYF5Mqn5jrl0JXnMlxKhMczvdCvSTPuhm9FWRNdsBHFSWrwUEp6gnKjE1?=
+ =?us-ascii?Q?r8ZiNIwVeht6B8E3d8XDnNf9JJV4hOk7QwvKrobgfFE3ze/LMEAQxByL4GG4?=
+ =?us-ascii?Q?GHQd0c3Z7shRgCxrpLItH53iQjZAqgtqM48WbG2IBSzZI78rrkPtZsU9r+24?=
+ =?us-ascii?Q?HRBZb6/lGgnMf4tbAF5JrG1QcZbWyGTwLfRt2QkvcEckQIrDcD+cyA=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6aRUWOx2ovlk3k67OMQyVjOPTbXVP6102bduBvi9jTEHYXOnAOHTGfc8U3Y6?=
- =?us-ascii?Q?RVqMO+gOMB/RaP0dziPzE/a76NX7ftNgvuJUGZtA3yVINohLOqm/KSa4Gq9h?=
- =?us-ascii?Q?Uuk4LO2Dnjneex/kwRxMNPR+ZJSPo5+rFQgJhkDKy2iqnl9ax99hcl/gla6M?=
- =?us-ascii?Q?VjHughvkfL+zaS9VSwJmZziV6RUYc7aGYOzk35pgulu9/ytlWqX8JYqfg3u9?=
- =?us-ascii?Q?2y+v6nhKlbnfimCQfIEvF0b2Sth+UzYyAJedNBstN2BCoeT7v30Q+nRh1LGF?=
- =?us-ascii?Q?fliqsq8YA9I6dQ/vJ6A98EeX93g6K7Fz4Zx7/yk06032d8tRShAAg9d3I6LM?=
- =?us-ascii?Q?Z69eB4zZIfHECYK8j+JEZCCU6XpqhbJCzw137ch+7YtrX3XIaMzFwdbEPSSF?=
- =?us-ascii?Q?of/3/l39mrRSLYzPvZSXxtJBc4jAxZVg6mtT+7/KL4uhDIwlQLmK8HWRYLXz?=
- =?us-ascii?Q?pGF/K0MgFwRbJyELsGwS4GgtQIPaHGmXkEBWAqBLYoa8fjBzkHervy8oxR0r?=
- =?us-ascii?Q?jRBIpaWh+Z+f5oCbGH3lUlszXKOkfR2ipAEJzCq+PXEemfYeeFKD7FZDsLar?=
- =?us-ascii?Q?SeUIFBardt3/GvX99CbhjrtPAsBQFsIkwbPmpymjNashV6snMZZrQ+cxIrQf?=
- =?us-ascii?Q?PBKMO0BnSMsivDQdjjUy68JT1/p+WbCO/332Aw7beNY+qhaSfhalB4KswEG+?=
- =?us-ascii?Q?GCMBYFLeZ2zTmXIYHEUjEYGJlPj0Id2NZS3bbJoCIp6ekwJRGXKzPm/x6QfA?=
- =?us-ascii?Q?RZipnTFiGkCw+bhhV5ldKF+IJH5sw0n5KAu9dSRtP6kZ2w0CJrr6DXvbCTEl?=
- =?us-ascii?Q?GxUbKexHvNto0svAdHCQ0F7qewH1nQpFXrC6ZXD7u+Fznt8Inve6H1lPP0+M?=
- =?us-ascii?Q?FFKw+hv2iVxIlsEhQOEoB/rQmAkvcit1RKEPrYES73xCTLolhcZ3thgXHelB?=
- =?us-ascii?Q?l9CCpfjBmdqOAkJFcVK35S+WF6Gq4omZqDBiCsowcgKJoWfa4fGnfKCft8dN?=
- =?us-ascii?Q?5Hh10nEQHjW/PwAbaayAmMxshfpHGFLwD5ybXCXrDFPvQUF+VEP8fE+kdFXS?=
- =?us-ascii?Q?9ZhNudwxauP73xNKkdGserrmU5EW1T40PwkbYnA4rysIJdWasbAvn3i16/+1?=
- =?us-ascii?Q?mZQHtf1pylzNZliO0d4pS5ulhGGTIa1jgwnkRIYz+TeofujEttv3hJ8oBxrV?=
- =?us-ascii?Q?3anOSu97dyLDUXoorLvTI+7OiN1jiHa0TsPyf2xZqsyciT5R3gzfQNHziYmO?=
- =?us-ascii?Q?oqigfCcJ6sCCQITUxlPQo/gb5RapxiIJHV/wPekXmda9+ffMwY0xpba3f09L?=
- =?us-ascii?Q?xKIKB/MPzQAfqdROU+947xH3nRAQEGc6kv4a95zclRvs3h6xich3+QLZP2Xd?=
- =?us-ascii?Q?MZ9Xc7bsbFPWUIIbDXfuoj/LLTieH2qtFfd3WHb9miJBZlW//MuDL6CkaExB?=
- =?us-ascii?Q?GtNXymyrKFit8yOnArE6trCR3IN9QuAqMmNdpDQN4OVpzyU/zONrZbsqr2bL?=
- =?us-ascii?Q?aPPeHHpFhJcxoSENPT93pIJdQaF6nBjOG9ZFCs8v6A19sn8hptNaH/VN6xuN?=
- =?us-ascii?Q?uRir6Ve4PPDoWvCXlzSgFjllSXWiOx4KI0g/N+ON4WsERQz3aLOMAcc/bbpn?=
- =?us-ascii?Q?1Q=3D=3D?=
+	=?us-ascii?Q?yk9Yli70/+gtmERdodAM9Kw36H8k+Pf3bCqs5KXRTqrc7lk5PxYClVYkYfaG?=
+ =?us-ascii?Q?EfJIRrLvXuhonGIn/83W3hwCbV8QLu3KWiAblGxTO33ehSmTP2SKsHcpooy7?=
+ =?us-ascii?Q?6C+Z6kWiO7WYTbMR15W9FYzkRLWNjZAkv16OePk4woHU+pKCT33VCdeTkPQY?=
+ =?us-ascii?Q?a4aZsRCn5DBDPcuuKCNohXlknJyFSjv/nJdKcqu4YeK5Fsw4PlwDz2WCIhEy?=
+ =?us-ascii?Q?pN1bSXCBru0NnsfgpT4YHc7uw83GM340U9rvI/fssmLL/Zh4RB0JFeVxbPJn?=
+ =?us-ascii?Q?lXws/bk0DVYcjIfOo7G0EqewcD3GcZBR0iEhA53oP/NeUlDhhJ5uQEabvUWi?=
+ =?us-ascii?Q?U6J0vYg8GFDVCYoB1TIsL1alfnr6eHO2MyoJn7Aqwk62Y/ze5Le7ycUhj0PB?=
+ =?us-ascii?Q?a/d7fHEcTy+5Bk70sQMH0vNtrqvnR6lC1EVLqS8W8qW7rnTDyp+E00okXGxo?=
+ =?us-ascii?Q?mj1zAk8u7IO9eLEzwapaWpsOeq/oULTEANwiSkPc69TD81C+PngWCH+2Uv3/?=
+ =?us-ascii?Q?GxxO7oNonmQN7v0NRj8cGbLv3qZc3Je8zwT/ElRpMRsbkCgNVFZ61sJWRpLm?=
+ =?us-ascii?Q?aAI+3bJXKYlpoUoGq4qvZm/uE4hTpRm73mG5XLHjK66pYYRA/f48YBvfo+ON?=
+ =?us-ascii?Q?lLvAIeoOXpHWVkggL3xxngohWUxpkkdU2oIkD2yQ5f+oHr4t3AyG4Wup7FsB?=
+ =?us-ascii?Q?rtuDqBvIy3XJqiu8JccAyDcSqCys2X1A8ZQmrNK4+VFE4X63t/Wh5TSFpJqU?=
+ =?us-ascii?Q?qtm0B9kNfA4xClYo+yRXlVhVcnU5/pdEGp2n1eHgiC9vGWku745uFXXS7Hp/?=
+ =?us-ascii?Q?4mPxi72/0Rif5Yd9/lqKw9i8nbRkQT5/N1uMuLsVk4b7f5dd79RsjAOf8DRo?=
+ =?us-ascii?Q?AcP0eVV8jUQlEYOg6UEidVZKxu5ZtZDol6kOV33K8kJRbRMmnSqoNa+eoVdY?=
+ =?us-ascii?Q?L/Zy2Th+qoHlS0S2858P2js7obDKDQBFuTKE4J2p85+5U7mgZE525MNClgcP?=
+ =?us-ascii?Q?jb/hP+Y/WFDQJ24V17Zr4XF4sQHsJ4v7hiXbvynClQvGnO7EEUj6AfOnKcjG?=
+ =?us-ascii?Q?lhw+qCwgn9/nU2k9boMh6kDbq5EHqqywUuiSWdE7PYzBlWCg8n94IdE2l7Rz?=
+ =?us-ascii?Q?qfJT0R7bsuYwjqfuyXHwB0zH6Pnlq/Zra4EyiecT9tu6CIFpnx94ynb4hRRU?=
+ =?us-ascii?Q?ZOsSFwVtRacKJkhZ8Rewi72FaMy6OZv4WpUP1i4ngKGMTUsnoC3ck5agdNpR?=
+ =?us-ascii?Q?tjWealIRM0UGvJnZvS3UxkVjxyq630UiNwjrFYup5Bis/OjKcsiiFG5Yoeku?=
+ =?us-ascii?Q?XI54+G27UeL0VA4ZUdLGcDLUXzKkHrQCxsjivDZzywdOqI5+cLRGDS93bBNe?=
+ =?us-ascii?Q?aSxXZgtk8OCrcSwtPmjjRs7FhDNzKYbReQYCPtNTbA0Nzo64egpjj49ygd7U?=
+ =?us-ascii?Q?iQL5JeYiRl9g07FhFrA9YAXWf7dYxc7G4YJ5Y2Goa545eROkme8AW/rejWqn?=
+ =?us-ascii?Q?xgo5Yt5dF2dIE356N4P/vhhZJ57b0GNIdUETyJDNMB8ZA68Q6oR/VdjVBRMC?=
+ =?us-ascii?Q?52RveGxolafoEm0w2dwMp6XuenCmw9ui2vxitBPv00vqL4iruIZqnxg7Re9t?=
+ =?us-ascii?Q?bQ=3D=3D?=
 X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34568bbc-8160-4a0f-edea-08ddb1ebfa9d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 673fd0e2-6a03-4e50-e48a-08ddb1ebfb13
 X-MS-Exchange-CrossTenant-AuthSource: SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2025 00:22:03.9893
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2025 00:22:05.1070
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x6baQZzqcARZ2GosG35DtJbfX+YNh41+hsZtf7UnFe7LfQnc4alblwbxg5erDy3i1I/jjfXzsZO0kDFcC8uy4RdmHUFWH97dSQsFL9TxfqQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6ylScxE9tNEayb16MEqZA5gxKrM/wDju4EGhw0wbkIg7Cfsh5nBdtRBx/kQ2SNjctoPYkokPRYiCkYZ+S5bBIZq4L+iDxEsYzUjcpKkBX5k=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUYP216MB3126
 
 From: Jackson Lee <jackson.lee@chipsnmedia.com>
 
-SError of kernel panic rarely happened while testing fluster.
-The root cause was to enter suspend mode because timeout of autosuspend
-delay happened.
+When multi instances are created/destroyed, many interrupts happens
+or structures for decoder are removed.
+"struct vpu_instance" this structure is shared for all flow in decoder,
+so if the structure is not protected by lock, Null reference exception
+could happens sometimes.
+IRQ Handler was spilt to two phases and Lock was added as well.
 
-[   48.834439] SError Interrupt on CPU0, code 0x00000000bf000000 -- SError
-[   48.834455] CPU: 0 UID: 0 PID: 1067 Comm: v4l2h265dec0:sr Not tainted 6.12.9-gc9e21a1ebd75-dirty #7
-[   48.834461] Hardware name: ti Texas Instruments J721S2 EVM/Texas Instruments J721S2 EVM, BIOS 2025.01-00345-gbaf3aaa8ecfa 01/01/2025
-[   48.834464] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   48.834468] pc : wave5_dec_clr_disp_flag+0x40/0x80 [wave5]
-[   48.834488] lr : wave5_dec_clr_disp_flag+0x40/0x80 [wave5]
-[   48.834495] sp : ffff8000856e3a30
-[   48.834497] x29: ffff8000856e3a30 x28: ffff0008093f6010 x27: ffff000809158130
-[   48.834504] x26: 0000000000000000 x25: ffff00080b625000 x24: ffff000804a9ba80
-[   48.834509] x23: ffff000802343028 x22: ffff000809158150 x21: ffff000802218000
-[   48.834513] x20: ffff0008093f6000 x19: ffff0008093f6000 x18: 0000000000000000
-[   48.834518] x17: 0000000000000000 x16: 0000000000000000 x15: 0000ffff74009618
-[   48.834523] x14: 000000010000000c x13: 0000000000000000 x12: 0000000000000000
-[   48.834527] x11: ffffffffffffffff x10: ffffffffffffffff x9 : ffff000802343028
-[   48.834532] x8 : ffff00080b6252a0 x7 : 0000000000000038 x6 : 0000000000000000
-[   48.834536] x5 : ffff00080b625060 x4 : 0000000000000000 x3 : 0000000000000000
-[   48.834541] x2 : 0000000000000000 x1 : ffff800084bf0118 x0 : ffff800084bf0000
-[   48.834547] Kernel panic - not syncing: Asynchronous SError Interrupt
-[   48.834549] CPU: 0 UID: 0 PID: 1067 Comm: v4l2h265dec0:sr Not tainted 6.12.9-gc9e21a1ebd75-dirty #7
-[   48.834554] Hardware name: ti Texas Instruments J721S2 EVM/Texas Instruments J721S2 EVM, BIOS 2025.01-00345-gbaf3aaa8ecfa 01/01/2025
-[   48.834556] Call trace:
-[   48.834559]  dump_backtrace+0x94/0xec
-[   48.834574]  show_stack+0x18/0x24
-[   48.834579]  dump_stack_lvl+0x38/0x90
-[   48.834585]  dump_stack+0x18/0x24
-[   48.834588]  panic+0x35c/0x3e0
-[   48.834592]  nmi_panic+0x40/0x8c
-[   48.834595]  arm64_serror_panic+0x64/0x70
-[   48.834598]  do_serror+0x3c/0x78
-[   48.834601]  el1h_64_error_handler+0x34/0x4c
-[   48.834605]  el1h_64_error+0x64/0x68
-[   48.834608]  wave5_dec_clr_disp_flag+0x40/0x80 [wave5]
-[   48.834615]  wave5_vpu_dec_clr_disp_flag+0x54/0x80 [wave5]
-[   48.834622]  wave5_vpu_dec_buf_queue+0x19c/0x1a0 [wave5]
-[   48.834628]  __enqueue_in_driver+0x3c/0x74 [videobuf2_common]
-[   48.834639]  vb2_core_qbuf+0x508/0x61c [videobuf2_common]
-[   48.834646]  vb2_qbuf+0xa4/0x168 [videobuf2_v4l2]
-[   48.834656]  v4l2_m2m_qbuf+0x80/0x238 [v4l2_mem2mem]
-[   48.834666]  v4l2_m2m_ioctl_qbuf+0x18/0x24 [v4l2_mem2mem]
-[   48.834673]  v4l_qbuf+0x48/0x5c [videodev]
-[   48.834704]  __video_do_ioctl+0x180/0x3f0 [videodev]
-[   48.834725]  video_usercopy+0x2ec/0x68c [videodev]
-[   48.834745]  video_ioctl2+0x18/0x24 [videodev]
-[   48.834766]  v4l2_ioctl+0x40/0x60 [videodev]
-[   48.834786]  __arm64_sys_ioctl+0xa8/0xec
-[   48.834793]  invoke_syscall+0x44/0x100
-[   48.834800]  el0_svc_common.constprop.0+0xc0/0xe0
-[   48.834804]  do_el0_svc+0x1c/0x28
-[   48.834809]  el0_svc+0x30/0xd0
-[   48.834813]  el0t_64_sync_handler+0xc0/0xc4
-[   48.834816]  el0t_64_sync+0x190/0x194
-[   48.834820] SMP: stopping secondary CPUs
-[   48.834831] Kernel Offset: disabled
-[   48.834833] CPU features: 0x08,00002002,80200000,4200421b
-[   48.834837] Memory Limit: none
-[   49.161404] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
-
-Fixes: 2092b3833487 ("media: chips-media: wave5: Support runtime suspend/resume")
+Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
 Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
 Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 ---
- .../platform/chips-media/wave5/wave5-vpu-dec.c    |  3 ---
- .../platform/chips-media/wave5/wave5-vpu-enc.c    |  3 ---
- .../media/platform/chips-media/wave5/wave5-vpu.c  |  2 +-
- .../platform/chips-media/wave5/wave5-vpuapi.c     | 15 ---------------
- 4 files changed, 1 insertion(+), 22 deletions(-)
+ .../platform/chips-media/wave5/wave5-helper.c | 23 ++++++-
+ .../chips-media/wave5/wave5-vpu-dec.c         |  5 ++
+ .../chips-media/wave5/wave5-vpu-enc.c         |  5 ++
+ .../platform/chips-media/wave5/wave5-vpu.c    | 69 ++++++++++++++++---
+ .../platform/chips-media/wave5/wave5-vpuapi.h |  6 ++
+ 5 files changed, 99 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+index 2c9d8cbca6e4..02914dc1ca56 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+@@ -49,7 +49,7 @@ void wave5_cleanup_instance(struct vpu_instance *inst)
+ 		v4l2_fh_del(&inst->v4l2_fh);
+ 		v4l2_fh_exit(&inst->v4l2_fh);
+ 	}
+-	list_del_init(&inst->list);
++	kfifo_free(&inst->irq_status);
+ 	ida_free(&inst->dev->inst_ida, inst->id);
+ 	kfree(inst->codec_info);
+ 	kfree(inst);
+@@ -61,8 +61,29 @@ int wave5_vpu_release_device(struct file *filp,
+ {
+ 	struct vpu_instance *inst = wave5_to_vpu_inst(filp->private_data);
+ 	int ret = 0;
++	unsigned long flags;
+ 
+ 	v4l2_m2m_ctx_release(inst->v4l2_fh.m2m_ctx);
++	/*
++	 * To prevent Null reference exception, the existing irq handler were
++	 * separated to two modules.
++	 * One is to queue interrupt reason into the irq handler,
++	 * the other is irq_thread to call the wave5_vpu_dec_finish_decode
++	 * to get decoded frame.
++	 * The list of instances should be protected between all flow of the
++	 * decoding process, but to protect the list in the irq_handler, spin lock
++	 * should be used, and mutex should be used in the irq_thread because spin lock
++	 * is not able to be used because mutex is already being used
++	 * in the wave5_vpu_dec_finish_decode.
++	 * So the spin lock and mutex were used to protect the list in the release function.
++	 */
++	ret = mutex_lock_interruptible(&inst->dev->irq_lock);
++	if (ret)
++		return ret;
++	spin_lock_irqsave(&inst->dev->irq_spinlock, flags);
++	list_del_init(&inst->list);
++	spin_unlock_irqrestore(&inst->dev->irq_spinlock, flags);
++	mutex_unlock(&inst->dev->irq_lock);
+ 	if (inst->state != VPU_INST_STATE_NONE) {
+ 		u32 fail_res;
+ 
 diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-index fd71f0c43ac3..216b024c42d8 100644
+index 216b024c42d8..2df7668575f4 100644
 --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
 +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-@@ -1830,9 +1830,6 @@ static int wave5_vpu_open_dec(struct file *filp)
- 	if (ret)
- 		goto cleanup_inst;
+@@ -1811,6 +1811,11 @@ static int wave5_vpu_open_dec(struct file *filp)
+ 	inst->xfer_func = V4L2_XFER_FUNC_DEFAULT;
  
--	if (list_empty(&dev->instances))
--		pm_runtime_use_autosuspend(inst->dev->dev);
--
- 	list_add_tail(&inst->list, &dev->instances);
+ 	init_completion(&inst->irq_done);
++	ret = kfifo_alloc(&inst->irq_status, 16 * sizeof(int), GFP_KERNEL);
++	if (ret) {
++		dev_err(inst->dev->dev, "failed to allocate fifo\n");
++		goto cleanup_inst;
++	}
  
- 	mutex_unlock(&dev->dev_lock);
+ 	inst->id = ida_alloc(&inst->dev->inst_ida, GFP_KERNEL);
+ 	if (inst->id < 0) {
 diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index 1e5fc5f8b856..cf20f774ed1b 100644
+index cf20f774ed1b..7f1aa392805f 100644
 --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
 +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -1774,9 +1774,6 @@ static int wave5_vpu_open_enc(struct file *filp)
- 	if (ret)
- 		goto cleanup_inst;
+@@ -1760,6 +1760,11 @@ static int wave5_vpu_open_enc(struct file *filp)
+ 	inst->frame_rate = 30;
  
--	if (list_empty(&dev->instances))
--		pm_runtime_use_autosuspend(inst->dev->dev);
--
- 	list_add_tail(&inst->list, &dev->instances);
+ 	init_completion(&inst->irq_done);
++	ret = kfifo_alloc(&inst->irq_status, 16 * sizeof(int), GFP_KERNEL);
++	if (ret) {
++		dev_err(inst->dev->dev, "failed to allocate fifo\n");
++		goto cleanup_inst;
++	}
  
- 	mutex_unlock(&dev->dev_lock);
+ 	inst->id = ida_alloc(&inst->dev->inst_ida, GFP_KERNEL);
+ 	if (inst->id < 0) {
 diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-index e1715d3f43b0..b3c633dd3df1 100644
+index b3c633dd3df1..24a9001966e7 100644
 --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
 +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-@@ -322,7 +322,7 @@ static int wave5_vpu_probe(struct platform_device *pdev)
- 	dev_info(&pdev->dev, "Product Code:      0x%x\n", dev->product_code);
- 	dev_info(&pdev->dev, "Firmware Revision: %u\n", fw_revision);
+@@ -51,8 +51,11 @@ static void wave5_vpu_handle_irq(void *dev_id)
+ 	u32 seq_done;
+ 	u32 cmd_done;
+ 	u32 irq_reason;
+-	struct vpu_instance *inst;
++	u32 irq_subreason;
++	struct vpu_instance *inst, *tmp;
+ 	struct vpu_device *dev = dev_id;
++	int val;
++	unsigned long flags;
  
--	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
-+	pm_runtime_set_autosuspend_delay(&pdev->dev, 500);
- 	pm_runtime_use_autosuspend(&pdev->dev);
- 	pm_runtime_enable(&pdev->dev);
- 	wave5_vpu_sleep_wake(&pdev->dev, true, NULL, 0);
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-index e5e879a13e8b..e94d6ebc9f81 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-@@ -207,8 +207,6 @@ int wave5_vpu_dec_close(struct vpu_instance *inst, u32 *fail_res)
- 	int retry = 0;
- 	struct vpu_device *vpu_dev = inst->dev;
- 	int i;
--	int inst_count = 0;
--	struct vpu_instance *inst_elm;
+ 	irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
+ 	seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
+@@ -60,7 +63,8 @@ static void wave5_vpu_handle_irq(void *dev_id)
+ 	wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
+ 	wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
  
- 	*fail_res = 0;
- 	if (!inst->codec_info)
-@@ -250,11 +248,6 @@ int wave5_vpu_dec_close(struct vpu_instance *inst, u32 *fail_res)
+-	list_for_each_entry(inst, &dev->instances, list) {
++	spin_lock_irqsave(&dev->irq_spinlock, flags);
++	list_for_each_entry_safe(inst, tmp, &dev->instances, list) {
  
- 	wave5_vdi_free_dma_memory(vpu_dev, &p_dec_info->vb_task);
- 
--	list_for_each_entry(inst_elm, &vpu_dev->instances, list)
--		inst_count++;
--	if (inst_count == 1)
--		pm_runtime_dont_use_autosuspend(vpu_dev->dev);
+ 		if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
+ 		    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
+@@ -82,14 +86,22 @@ static void wave5_vpu_handle_irq(void *dev_id)
+ 		    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
+ 			if (cmd_done & BIT(inst->id)) {
+ 				cmd_done &= ~BIT(inst->id);
+-				wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
+-							 cmd_done);
+-				inst->ops->finish_process(inst);
++				if (dev->irq >= 0) {
++					irq_subreason =
++						wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
++					if (!(irq_subreason & BIT(INT_WAVE5_DEC_PIC)))
++						wave5_vdi_write_register(dev,
++									 W5_RET_QUEUE_CMD_DONE_INST,
++									 cmd_done);
++				}
++				val = BIT(INT_WAVE5_DEC_PIC);
++				kfifo_in(&inst->irq_status, &val, sizeof(int));
+ 			}
+ 		}
 -
- unlock_and_return:
- 	mutex_unlock(&vpu_dev->hw_lock);
- 	pm_runtime_put_sync(inst->dev->dev);
-@@ -720,8 +713,6 @@ int wave5_vpu_enc_close(struct vpu_instance *inst, u32 *fail_res)
- 	int ret;
- 	int retry = 0;
- 	struct vpu_device *vpu_dev = inst->dev;
--	int inst_count = 0;
--	struct vpu_instance *inst_elm;
+-		wave5_vpu_clear_interrupt(inst, irq_reason);
+ 	}
++	spin_unlock_irqrestore(&dev->irq_spinlock, flags);
++
++	up(&dev->irq_sem);
+ }
  
- 	*fail_res = 0;
- 	if (!inst->codec_info)
-@@ -764,12 +755,6 @@ int wave5_vpu_enc_close(struct vpu_instance *inst, u32 *fail_res)
+ static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
+@@ -121,6 +133,35 @@ static enum hrtimer_restart wave5_vpu_timer_callback(struct hrtimer *timer)
+ 	return HRTIMER_RESTART;
+ }
+ 
++static int irq_thread(void *data)
++{
++	struct vpu_device *dev = (struct vpu_device *)data;
++	struct vpu_instance *inst, *tmp;
++	int irq_status, ret;
++
++	while (!kthread_should_stop()) {
++		if (down_interruptible(&dev->irq_sem))
++			continue;
++
++		if (kthread_should_stop())
++			break;
++
++		mutex_lock(&dev->irq_lock);
++		list_for_each_entry_safe(inst, tmp, &dev->instances, list) {
++			while (kfifo_len(&inst->irq_status)) {
++				ret = kfifo_out(&inst->irq_status, &irq_status, sizeof(int));
++				if (!ret)
++					break;
++
++				inst->ops->finish_process(inst);
++			}
++		}
++		mutex_unlock(&dev->irq_lock);
++	}
++
++	return 0;
++}
++
+ static int wave5_vpu_load_firmware(struct device *dev, const char *fw_name,
+ 				   u32 *revision)
+ {
+@@ -224,6 +265,8 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+ 
+ 	mutex_init(&dev->dev_lock);
+ 	mutex_init(&dev->hw_lock);
++	mutex_init(&dev->irq_lock);
++	spin_lock_init(&dev->irq_spinlock);
+ 	dev_set_drvdata(&pdev->dev, dev);
+ 	dev->dev = &pdev->dev;
+ 
+@@ -266,6 +309,10 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+ 	}
+ 	dev->product = wave5_vpu_get_product_id(dev);
+ 
++	sema_init(&dev->irq_sem, 1);
++	INIT_LIST_HEAD(&dev->instances);
++	dev->irq_thread = kthread_run(irq_thread, dev, "irq thread");
++
+ 	dev->irq = platform_get_irq(pdev, 0);
+ 	if (dev->irq < 0) {
+ 		dev_err(&pdev->dev, "failed to get irq resource, falling back to polling\n");
+@@ -288,7 +335,6 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+ 		}
  	}
  
- 	wave5_vdi_free_dma_memory(vpu_dev, &p_enc_info->vb_task);
--
--	list_for_each_entry(inst_elm, &vpu_dev->instances, list)
--		inst_count++;
--	if (inst_count == 1)
--		pm_runtime_dont_use_autosuspend(vpu_dev->dev);
--
- 	mutex_unlock(&vpu_dev->hw_lock);
- 	pm_runtime_put_sync(inst->dev->dev);
+-	INIT_LIST_HEAD(&dev->instances);
+ 	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "v4l2_device_register, fail: %d\n", ret);
+@@ -351,6 +397,12 @@ static void wave5_vpu_remove(struct platform_device *pdev)
+ {
+ 	struct vpu_device *dev = dev_get_drvdata(&pdev->dev);
  
++	if (dev->irq_thread) {
++		kthread_stop(dev->irq_thread);
++		up(&dev->irq_sem);
++		dev->irq_thread = NULL;
++	}
++
+ 	if (dev->irq < 0) {
+ 		kthread_destroy_worker(dev->worker);
+ 		hrtimer_cancel(&dev->hrtimer);
+@@ -361,6 +413,7 @@ static void wave5_vpu_remove(struct platform_device *pdev)
+ 
+ 	mutex_destroy(&dev->dev_lock);
+ 	mutex_destroy(&dev->hw_lock);
++	mutex_destroy(&dev->irq_lock);
+ 	reset_control_assert(dev->resets);
+ 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+ 	wave5_vpu_enc_unregister_device(dev);
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+index 45615c15beca..bc101397204d 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+@@ -8,6 +8,7 @@
+ #ifndef VPUAPI_H_INCLUDED
+ #define VPUAPI_H_INCLUDED
+ 
++#include <linux/kfifo.h>
+ #include <linux/idr.h>
+ #include <linux/genalloc.h>
+ #include <media/v4l2-device.h>
+@@ -747,6 +748,7 @@ struct vpu_device {
+ 	struct video_device *video_dev_enc;
+ 	struct mutex dev_lock; /* lock for the src, dst v4l2 queues */
+ 	struct mutex hw_lock; /* lock hw configurations */
++	struct mutex irq_lock;
+ 	int irq;
+ 	enum product_id product;
+ 	struct vpu_attr attr;
+@@ -764,7 +766,10 @@ struct vpu_device {
+ 	struct kthread_worker *worker;
+ 	int vpu_poll_interval;
+ 	int num_clks;
++	struct task_struct *irq_thread;
++	struct semaphore irq_sem; /* signal to irq_thread when interrupt happens*/
+ 	struct reset_control *resets;
++	spinlock_t irq_spinlock; /* protect instances list */
+ };
+ 
+ struct vpu_instance;
+@@ -788,6 +793,7 @@ struct vpu_instance {
+ 	enum v4l2_ycbcr_encoding ycbcr_enc;
+ 	enum v4l2_quantization quantization;
+ 
++	struct kfifo irq_status;
+ 	enum vpu_instance_state state;
+ 	enum vpu_instance_type type;
+ 	const struct vpu_instance_ops *ops;
 -- 
 2.43.0
 
