@@ -1,125 +1,155 @@
-Return-Path: <linux-media+bounces-35569-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35570-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3976FAE3623
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 08:48:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D110AE363C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 08:51:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E93697A5F2B
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 06:46:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D4236170FD0
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 06:51:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BC4B1E5B64;
-	Mon, 23 Jun 2025 06:47:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E4131EEA28;
+	Mon, 23 Jun 2025 06:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SwPXFBpd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1dH1yPc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E94D78F51;
-	Mon, 23 Jun 2025 06:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8036A45948;
+	Mon, 23 Jun 2025 06:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750661274; cv=none; b=MIMlgNtIGg6YxgR1RZ9AnYyXSBWNVpMMq+3B3XS6PP1fFu9UdMFImTAEwGYHWJAvStn3ugC/YYeyIr3C3DcSRW77n+JKMN6YNNc3iJ+Fz8gb44bKH3p/DjXx2QE5lg+wUj5DcGiMmxzB9NGRrA6GXj/aKUVuUwBi1tvFtuK2tog=
+	t=1750661451; cv=none; b=OoFNwgMSRjAPNVD2RQPFhGBLOklCoM+f31UO1GBYNMycFx98WOYuwHvCBH2my/Hyu6Ri6STmxwpRVsDfFlZjZ50q6CtUwEBt6o2Qaafu1NcHuo1lff5MxjgiuVnc4twGXcvYe7d2qJ2TGlA1hw0NVvmj7SqRKQIJeMQh/OJdhCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750661274; c=relaxed/simple;
-	bh=YS5QfchkXQuDpizebXwc+i/GQO/Ujou+O/e0qMENePo=;
+	s=arc-20240116; t=1750661451; c=relaxed/simple;
+	bh=ID0tYhe+3AnmdvyD6ijER8q96Dh67gLD5peP97R3a94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MS9PPdbRoZ0DeP0k4A5DMlOxwHdzCp/mJKUgfw8xURLLduoytzQpqFYgrKv3mtfZ4boHR8Ruv3PhXJRcEuIOHe7JRnksFV3d8TbibN9RzhFnqgMz+0XRLlGecdDrf5EKNfJOrE+WM3hMJ9g6pZfhyH1hvY0dgZo594u/HDvkM4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SwPXFBpd; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=MyC6cwswDd0ofniTa8cUOAAWQQ3y1AA6v7VhXn1ApxHdfRdelVPXebGGt/S+sS5m7WvvFjsBM/O8c8uF4cuC2GCpbs92sUZAeCpdiygoo/f0GOGq5i0okCKFoBBC1QNoe7UxkfIEXyJ84N4+MCE52BSNHvU0phuXZqKVsiL6kiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1dH1yPc; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750661273; x=1782197273;
+  t=1750661450; x=1782197450;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YS5QfchkXQuDpizebXwc+i/GQO/Ujou+O/e0qMENePo=;
-  b=SwPXFBpdFwt+CSnBgkBnprVADEbNvKzDB8vyxuue6b2yjBAmNT4PKd0n
-   w44dyr2LC6dqkrX+2ybT/ZKccu/A6N6QqkNHLskiGL7xtSF+xZul/Z7zR
-   AOZLG376z8PtvuNw9NjYy82JkNelJYjp0bvbiwv8aVrIo6aA147jRCYVB
-   bR/sBqgoGvCvZUJqpCMuEDMNcbQMC9npVFWzLzqOGeRU0FyDEpZKdbG+I
-   qCK46NlYG78GO9x2z1gOc3WCohQfM35q1ySwZ7pIjMXT7XjjBPxZtys3W
-   Q5smpqjuLlB01MFmne2+hBLBR14G8U+cOS0Iicf4GW3WnzFAVcxb/izZF
-   g==;
-X-CSE-ConnectionGUID: gbDNnaQtQEmlN66WmkcECg==
-X-CSE-MsgGUID: 2uslWLd3RD6SB8WsMuZW1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52991727"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ID0tYhe+3AnmdvyD6ijER8q96Dh67gLD5peP97R3a94=;
+  b=B1dH1yPco738zrd9MAEzeSUD9mL8q8uOo1QLJRskVyss7XvkSxcji/4t
+   6l697NfCmd87hVLGlRbgzAQePo88EyuBnsGGyrvwvKrm4jueENmOn7Owy
+   R5zM4se99i3VYmNIGKeLsJh2vpff/njbAVEDNF9/yOUODTxl3BoRnnKFL
+   zI/4cuejSicsIF5JS/B5k4Fam1hW6G1A5TJqI//FMha+fOHBICqo5qPk/
+   0jXjFRcXB7OuymiAKDxtwrAUjAHkx21/dJmHekm29IeAwBI7Kmicuwmvb
+   hhl/94jUn4yh5H5SMUzPEBukKysyfDGRaSx66BYCKPlbeaWRuLqmRNgPa
+   Q==;
+X-CSE-ConnectionGUID: JO1JKzhFRA6z93vMGusZGw==
+X-CSE-MsgGUID: +eSUjNMIS1aM3ML97Ncfyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52987255"
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="52991727"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 23:47:52 -0700
-X-CSE-ConnectionGUID: mNrnjtrWSK6xeohGlUJjsw==
-X-CSE-MsgGUID: Pz/9sXzLRiW91MMh1pUT1Q==
+   d="scan'208";a="52987255"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 23:50:50 -0700
+X-CSE-ConnectionGUID: 8+RVV+lORPq9cNr/+qIs5g==
+X-CSE-MsgGUID: i4cX/fd5SYK6vhXNVZNv/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="150924944"
+   d="scan'208";a="152184805"
 Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.8])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 23:47:48 -0700
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 23:50:45 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9431E1201F7;
-	Mon, 23 Jun 2025 09:47:44 +0300 (EEST)
-Date: Mon, 23 Jun 2025 06:47:44 +0000
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id EEE3D11FC36;
+	Mon, 23 Jun 2025 09:50:42 +0300 (EEST)
+Date: Mon, 23 Jun 2025 06:50:42 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Olivier Benjamin <olivier.benjamin@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
+To: git@apitzsch.eu
+Cc: Ricardo Ribalda <ribalda@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
-	imx@lists.linux.dev, ~diederik/pine64-discuss@lists.sr.ht,
-	Dragan Simic <dsimic@manjaro.org>, Ondrej Jirman <megi@xff.cz>
-Subject: Re: [PATCH v4 0/4] Describe the cameras in the PinePhone Pro dts
-Message-ID: <aFj4kAXEhrR4Wbnz@kekkonen.localdomain>
-References: <20250620-camera-v4-0-0201a8ed5fae@bootlin.com>
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH RESEND v4 0/5] media: i2c: imx214: Add support for more
+ clock frequencies
+Message-ID: <aFj5QnPBO0We5SBQ@kekkonen.localdomain>
+References: <20250621-imx214_ccs_pll-v4-0-12178e5eb989@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250620-camera-v4-0-0201a8ed5fae@bootlin.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250621-imx214_ccs_pll-v4-0-12178e5eb989@apitzsch.eu>
 
-Hi Olivier,
+Hi André,
 
-On Fri, Jun 20, 2025 at 05:21:31PM +0200, Olivier Benjamin wrote:
-> This series adds support for the Pine64 PinePhone Pro's rear and front
-> cameras in Device Tree.
-> This is based on some of Ondrej Jirman's patches hosted in his tree at
-> https://codeberg.org/megi/linux, but I have also fully reviewed and
-> re-written the code from the RK3399 datasheet, the PinePhone Pro
-> schematic, and the IMX258-0AQH5 software reference manual.
+On Sat, Jun 21, 2025 at 11:37:24AM +0200, André Apitzsch via B4 Relay wrote:
+> The imx214 driver currently supports only a 24 MHz external clock. But
+> there are devices, like Qualcomm-MSM8916-based phones, which cannot
+> provide this frequency. To make the sensor usable by those devices, add
+> support for additional clock frequencies.
 > 
-> I have tested these changes on my PinePhone Pro and am able to take
-> photos from both cameras using libcamera's cam.
-> 
-> This series has raised a question about the proper label name for the
-> front/user camera and rear/world camera for phones.
-> This series is using "ucam" and "wcam", which is used in a few other
-> Rockship DTBs:
->  - arch/arm64/boot/dts/rockchip/px30-evb.dts
->  - rk3399-gru-scarlet.dtsi
-> 
-> Signed-off-by: Olivier Benjamin <olivier.benjamin@bootlin.com>
+> This series supersedes
+> https://lore.kernel.org/linux-media/20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu/
 
-Thanks for the patches.
+Is there a difference in this set from the v4 you posted previously?
 
-I've picked the first two in the set, presumably the rest will be merged
-via another tree?
+> 
+> Signed-off-by: André Apitzsch <git@apitzsch.eu>
+> ---
+> Changes in v4:
+> - Add missing colon to error message
+> - Add A-b, R-b tags
+> - Link to v3: https://lore.kernel.org/r/20250521-imx214_ccs_pll-v3-0-bfb4a2b53d14@apitzsch.eu
+> 
+> Changes in v3:
+> - Limit range of pll_ip_clk_freq_hz (Sakari)
+> - Drop unneeded 'ret'
+> - Use pll.pixel_rate_csi for bit rate calculation
+> - Add patch that deprecates the clock-frequency property
+> - Link to v2: https://lore.kernel.org/r/20250505-imx214_ccs_pll-v2-0-f50452061ff1@apitzsch.eu
+> 
+> Changes in v2:
+> - Add A-b tags
+> - Switch to v4l2_ctrl_s_ctrl_int64() to acquire the control handler mutex
+> - Add error handling for v4l2_ctrl_s_ctrl_int64() and
+>   imx214_pll_update()
+> - Replace "read clock frequency from dt" patch by "remove hard-coded
+>   external clock frequency" patch
+> - Link to v1:
+>   https://lore.kernel.org/r/20250415-imx214_ccs_pll-v1-0-d3d7748e5fbd@apitzsch.eu
+> 
+> ---
+> André Apitzsch (5):
+>       media: i2c: imx214: Reorder imx214_parse_fwnode call
+>       media: i2c: imx214: Prepare for variable clock frequency
+>       media: i2c: imx214: Make use of CCS PLL calculator
+>       media: dt-bindings: sony,imx214: Deprecate property clock-frequency
+>       media: i2c: imx214: Remove hard-coded external clock frequency
+> 
+>  .../devicetree/bindings/media/i2c/sony,imx214.yaml |  29 ++-
+>  drivers/media/i2c/Kconfig                          |   1 +
+>  drivers/media/i2c/imx214.c                         | 263 ++++++++++++++++-----
+>  3 files changed, 217 insertions(+), 76 deletions(-)
+> ---
+> base-commit: 176e917e010cb7dcc605f11d2bc33f304292482b
+> change-id: 20250406-imx214_ccs_pll-e4aed0e9e532
+> 
+> Best regards,
 
 -- 
 Regards,
