@@ -1,56 +1,62 @@
-Return-Path: <linux-media+bounces-35638-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35639-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C57AE4051
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 14:32:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1483AE4049
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 14:31:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA8ED18875D3
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 12:30:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 923D17A1052
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 12:29:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0767A2459FF;
-	Mon, 23 Jun 2025 12:29:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21D4F242927;
+	Mon, 23 Jun 2025 12:31:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PMxdrFvv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KqtGLcOo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAEA23F409
-	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 12:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD54374EA
+	for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 12:31:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750681796; cv=none; b=GIFZvsPztX6GKVM3utT+amNxy1NMzxTdhMLnQLN8zF3afpWXKrFTY2aknz9mIjZqjFykNKQvpS9kLBAv6dYm3h30eNePcPMNw9ZHgBnCpcjFI05WHJXYRINMz75s4B+8PDl57Wy371Dz20iLv6FV795RtGiWPYZnpVgalhbTps0=
+	t=1750681865; cv=none; b=uKsBZi9y05lPoM16D9jqKp7+TR/QJln5hAatM6vVqTxuYC8+K0xFRWq3QLnrSIiQlm8WpdjG+UlBAQHAyG3vJXELXCgViQ1OwzOOxFxQ1E1FChpcp8iBypYlTe/mJ04T0bhGgH4wDXDZt4MmTIaboZsLxqxBL75H3q0WAqbbQ40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750681796; c=relaxed/simple;
-	bh=xCUqotNHM219f/qh5QnASL5NCpV4pReppXM/zZv+7d4=;
+	s=arc-20240116; t=1750681865; c=relaxed/simple;
+	bh=rwXiR8gNMizQkVuYJ8nq6DtLOVdyGDRAgnN8YDVkmY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pKkvdJZOwHWtxbIHVvwe8zQAVo3GDIZmZV5exX3Ewu4Ey7CIh+LDL4xKU5m1mUAvp+DtwUsFlMiTcRl6qze2kwsTu2w7yHsXjXSLW5jFnCMqH/r+wDRlfFm7ue1Rcl5WOPpVxPZqmroM5V3hC9Md4XtiSH3hmO+UVLBWTfvagVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PMxdrFvv; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=bd4YsSL3bSaX8myZD7ArWkVyc/BsoYgMhYNLWfTqR7LhAK9YWhnO4CAozQXBCyeklkZsAjAjJls2r1UfnGuegKo5oSC61s+ZpqtMR7SqCaNZZqUphfU+gnD+CZzyL2qJwEGk9o3fyL6ik5u1BfrAJkDI5er6hqxurCknaEYnZMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KqtGLcOo; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C99B8D77;
-	Mon, 23 Jun 2025 14:29:36 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C5FEFD77;
+	Mon, 23 Jun 2025 14:30:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750681777;
-	bh=xCUqotNHM219f/qh5QnASL5NCpV4pReppXM/zZv+7d4=;
+	s=mail; t=1750681846;
+	bh=rwXiR8gNMizQkVuYJ8nq6DtLOVdyGDRAgnN8YDVkmY4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PMxdrFvvXPgktL8UfeMgIpqshzuH9wpGfzp6KjLBY6HJB/RJvHAD7x5Ru+wecQHvZ
-	 jHeg0rNoSapBwSortQWzZ+GQjOKQEDbtP7pZeBKuW3UimuRrimv5yqO9vB/cy0miZD
-	 AdNvbvNMS3t7dpyO6DojZ+A/GGsuRQyG+j0Ipa/c=
-Date: Mon, 23 Jun 2025 15:29:33 +0300
+	b=KqtGLcOoV1U0TDjaK1Ycihd4Q5TrItNGs21SA0G7scsXYCrUD4ICDrlI9DXyPytNd
+	 ewo+8hhcZu55RrLkArakmEVCG9sk0EvnsNmW6KW2zEmlEVcXte4Pxmsbl5kzCvmXpd
+	 ld364O7ZQX0XBPESpPqtML1v6v1O11IYSuIrH/e8=
+Date: Mon, 23 Jun 2025 15:30:42 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Hans Verkuil <hans@jjverkuil.nl>
-Subject: Re: [PATCH v4 2/3] media: v4l2-ctrls: Return the handler's error in
- v4l2_ctrl_handler_free()
-Message-ID: <20250623122933.GI826@pendragon.ideasonboard.com>
-References: <20250623122314.2346635-1-sakari.ailus@linux.intel.com>
- <20250623122314.2346635-3-sakari.ailus@linux.intel.com>
- <20250623122717.GG826@pendragon.ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hans@jjverkuil.nl>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/5] media: v4l2-subdev: Limit the number of active
+ routes to V4L2_FRAME_DESC_ENTRY_MAX
+Message-ID: <20250623123042.GJ826@pendragon.ideasonboard.com>
+References: <20250619204712.16099-1-laurent.pinchart@ideasonboard.com>
+ <20250619204712.16099-2-laurent.pinchart@ideasonboard.com>
+ <ssyt7zhekhln6i6lf2ulrhomo5f24d54f55dhtusljnp5iqrfe@edwtnuga2po6>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,89 +65,73 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250623122717.GG826@pendragon.ideasonboard.com>
+In-Reply-To: <ssyt7zhekhln6i6lf2ulrhomo5f24d54f55dhtusljnp5iqrfe@edwtnuga2po6>
 
-On Mon, Jun 23, 2025 at 03:27:19PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Jun 23, 2025 at 03:23:13PM +0300, Sakari Ailus wrote:
-> > v4l2_ctrl_handler_free() used to return void but changing this to int,
-> > returning the handler's error code, enables the drivers to simply return
-> > the handler's error in this common error handling pattern:
-> > 
-> > 	if (handler->error)
-> > 		return v4l2_ctrl_handler_free(handler);
-> > 
-> > Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Hi Jacopo,
+
+On Mon, Jun 23, 2025 at 10:22:27AM +0200, Jacopo Mondi wrote:
+> On Thu, Jun 19, 2025 at 11:47:08PM +0300, Laurent Pinchart wrote:
+> > Drivers that implement routing need to report a frame descriptor
+> > accordingly, with up to one entry per route. The number of frame
+> > descriptor entries is fixed to V4L2_FRAME_DESC_ENTRY_MAX, currently
+> > equal to 8. Multiple drivers therefore limit the number of routes to
+> > V4L2_FRAME_DESC_ENTRY_MAX, with a note indicating that the limit should
+> > be lifted when frame descriptor entries will be allocated dynamically.
+> >
+> > Duplicating the check in multiple drivers isn't ideal. Move it to the
+> > VIDIOC_SUBDEV_S_ROUTING handling code in the v4l2-subdev core.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > ---
-> >  drivers/media/v4l2-core/v4l2-ctrls-core.c | 11 ++++++++---
-> >  include/media/v4l2-ctrls.h                |  4 +++-
-> >  2 files changed, 11 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > index d28596c720d8..98b960775e87 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > @@ -1631,14 +1631,17 @@ int v4l2_ctrl_handler_init_class(struct v4l2_ctrl_handler *hdl,
-> >  EXPORT_SYMBOL(v4l2_ctrl_handler_init_class);
-> >  
-> >  /* Free all controls and control refs */
-> > -void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
-> > +int v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
-> >  {
-> >  	struct v4l2_ctrl_ref *ref, *next_ref;
-> >  	struct v4l2_ctrl *ctrl, *next_ctrl;
-> >  	struct v4l2_subscribed_event *sev, *next_sev;
-> >  
-> > -	if (hdl == NULL || hdl->buckets == NULL)
-> > -		return;
-> > +	if (!hdl)
-> > +		return 0;
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index e99647200e49..013ebb14b37b 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -985,6 +985,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >  		struct v4l2_subdev_route *routes =
+> >  			(struct v4l2_subdev_route *)(uintptr_t)routing->routes;
+> >  		struct v4l2_subdev_krouting krouting = {};
+> > +		unsigned int num_active_routes = 0;
+> >  		unsigned int i;
+> >
+> >  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+> > @@ -1019,8 +1020,21 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >  			if (!(pads[route->source_pad].flags &
+> >  			      MEDIA_PAD_FL_SOURCE))
+> >  				return -EINVAL;
 > > +
-> > +	if (!hdl->buckets)
-> > +		return hdl->error;
+> > +			if (route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE)
+> > +				num_active_routes++;
 > 
-> !hdl->buckets means the handler has been freed, or is not initialized.
-> I'd return 0 in that case.
+> There also is the possibility to return here if num_active_routes >
+> V4L2_FRAME_DESC_ENTRY_MAX. If instead, like you're doing here, we
+> continue validating all route entries, if any further route is
+> malformed we will return -EINVAL and -E2BIG. I can't tell what error
+> should be prioritized, and this seems a corner-case anyway, so:
 
-Actually it can also mean init failed due to an allocation error, in
-which case error is set to -ENOMEM. Please ignore this comment.
+Good question. I have a slight preference for the current behaviour (not
+totally sure why), but I don't think it matters too much.
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-You can keep this.
-
-> >  
-> >  	v4l2_ctrl_handler_free_request(hdl);
-> >  
-> > @@ -1663,6 +1666,8 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
-> >  	hdl->cached = NULL;
-> >  	mutex_unlock(hdl->lock);
-> >  	mutex_destroy(&hdl->_lock);
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+> >  		}
+> >
+> > +		/*
+> > +		 * Drivers that implement routing need to report a frame
+> > +		 * descriptor accordingly, with up to one entry per route. Until
+> > +		 * the frame descriptors entries get allocated dynamically,
+> > +		 * limit the number of active routes to
+> > +		 * V4L2_FRAME_DESC_ENTRY_MAX.
+> > +		 */
+> > +		if (num_active_routes > V4L2_FRAME_DESC_ENTRY_MAX)
+> > +			return -E2BIG;
 > > +
-> > +	return hdl->error;
-> >  }
-> >  EXPORT_SYMBOL(v4l2_ctrl_handler_free);
-> >  
-> > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> > index 3a87096e064f..c32c46286441 100644
-> > --- a/include/media/v4l2-ctrls.h
-> > +++ b/include/media/v4l2-ctrls.h
-> > @@ -579,8 +579,10 @@ int v4l2_ctrl_handler_init_class(struct v4l2_ctrl_handler *hdl,
-> >   * @hdl:	The control handler.
-> >   *
-> >   * Does nothing if @hdl == NULL.
-> > + *
-> > + * Return: @hdl's error field or 0 if @hdl is NULL.
-> >   */
-> > -void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl);
-> > +int v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl);
-> >  
-> >  /**
-> >   * v4l2_ctrl_lock() - Helper function to lock the handler
+> >  		/*
+> >  		 * If the driver doesn't support setting routing, just return
+> >  		 * the routing table.
 
 -- 
 Regards,
