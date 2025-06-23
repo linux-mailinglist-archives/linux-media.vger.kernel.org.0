@@ -1,114 +1,96 @@
-Return-Path: <linux-media+bounces-35650-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35651-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC7AAE45D6
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 16:03:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44476AE45A5
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 15:58:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5BBD4443D3
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:53:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC36F178599
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jun 2025 13:54:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 986A0253938;
-	Mon, 23 Jun 2025 13:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5206C253932;
+	Mon, 23 Jun 2025 13:54:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EU+C167F"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N/RiUTBB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00FC248891;
-	Mon, 23 Jun 2025 13:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550B32581;
+	Mon, 23 Jun 2025 13:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750686838; cv=none; b=E0BY+j49owyQP6X6CwE+6QxO9gLG0ts8abdMRuvU3OB8k2sP6Zgtb65HvbXWtX+87ViyaxAvHHUBMqBFbdMgX1VHjGL4+pZXkB4m3+1tXNh7ZOVVvkEVLIczkTX/ckmDb8I8JWJT9w1aXRSX3+j8T08JuRxDgz8cHCt14KyE0jk=
+	t=1750686851; cv=none; b=Ip14n0eaHgWy8h/JWbZHoc9PJdNDITAMasEKBn+76/Bo1Ez5191FgzDXxHG/Sa/5pZifvWIBn04Lqfrrs/bNbSI6legVjNOCCU6Ff1dKXieG4yiHrniN1kIcfMvn/GAhjvwbGo9apxZNB6DozEGYIWg7HL7GFx6fiNdFOmRvMzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750686838; c=relaxed/simple;
-	bh=m++sptggvKTsvRdmmh/Natbe80DqJQ51xNpv63moEe0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bdxARn4R1qGEfWamkv2VgfmSqQtA4yM5W9EGEdx/2QxC7Y+6sziN3SPI5ahL43B6OmCUM3gGCHxHmdN4mjlvXrpGVJT1sL5yJvfC0bHcoD6fM0VVdMij9jR0EoEmIp83PGHQAMBDq4cmtiWXUxxzBEETfsdLCw2ULo6zWXNDn/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EU+C167F; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-74264d1832eso5335683b3a.0;
-        Mon, 23 Jun 2025 06:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750686836; x=1751291636; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m++sptggvKTsvRdmmh/Natbe80DqJQ51xNpv63moEe0=;
-        b=EU+C167Fb5glCl9ADQZOO6HygAafvsW5AIGzVuKE/GHC3ZU5YyCUgSbwrBmOEc7tur
-         +DZn1WM+8tJi3wz2nwcmp+pdrSa9Bsh8qFdqcrz2Jta62+MZJCe2Bk3aT/cuxmApjEZY
-         SvU9Ay21pQqys9ZFSn6lRVcV6/MmFL8xb7nalF8xXO4pgta9PgZxSNBVBROkS+HfhDep
-         C4aJssyDf/6NIcqPibtUS0MDbWy7NaaqGOWetQs+AR1Rb8DH3z0nDa0ryYzZlBQQEZb1
-         G8uzOxR9HKEmTeH5HGKl2S/AAzq2un9R7rGidUvrIe5Bqvl2yFz0GYCJk4RaBue8sflp
-         E6aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750686836; x=1751291636;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m++sptggvKTsvRdmmh/Natbe80DqJQ51xNpv63moEe0=;
-        b=nmrZL7LrxFsuzJeMCIFGwCFwIq2iwFrRV7LOKuYqMlV8e3Vng9JcVErV1SuLMNY7rI
-         PxMtO+B2AVtWlDeKeOfbQwAOQYvG21YWE+Xio77ylhvLne+/2zrUyPjqnoLpLuCP5W40
-         SUQ9MI6R/3db5fik8xMUzbARZIBHhDMlpqYF6l1CqNZq3y25qoZEW4+V8h21OmVmNV7A
-         Dy9eAys8RdZXaYl6ordgsrLOVhR2O9HOMLyBwDkNgnTQ+AWJUr1JaCn8URURqqrzEdWw
-         sY2C0WjmBlpHh3Kika+oTEgsubadF3FiqLsJRd47DHG0e/Ixqr1ZKygYi4yd64FOWBO/
-         nkew==
-X-Forwarded-Encrypted: i=1; AJvYcCWGdKIMVDbnxW2dFQp3SItoYWrVFh6ndMGeHgfdxNDGZfPALBR+rsAPPMM/+gBfOQvbcE+E6ihqkY9P3pk=@vger.kernel.org, AJvYcCWJ3ZTB+Iv5PFxaXwx9Vr4Hc2unV0/vq7uMR7wGEcg9owVxlxNCzrZ1Zr5tnzgMRMw39b1gDqfk+tazrVk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0wuWbiA0F40gWFvOui1p1pzG+B/VMsgfX0SKjnq/LmXB4CqW8
-	/Fp7Wudii4arqpAZjgVEFq6204mbbDRm+k1kiHKZe8CZwRK/6my9+4NO
-X-Gm-Gg: ASbGncuoEX+qH80TXaHHCiuVzuInd8u85/hze5SDs2Q0l/JZDcZXetZ8StJizEa4CGN
-	C08NQmpTEHatBn58uPzRMFNLtYtTxLGIssD3czz1QNzSPy2x8K5wUXNuzTnFNEJUm3M9qzKoC0W
-	BptXGIp9h4FPF7MPkWeR6HIaBYWltbstPs9KhJIhFHwl2+F9BXyFYqLQd7YCuwgYFBYVr9S0iDy
-	B364VdixNbyotLc/FEekzQ1JYVPeIeJK5hpSYnaRbHqnhvhyK9N+hWRLoXW6DgluJai2gEZwH2x
-	ZuWbg42XxTKl6B+qpYmjidwjaM4tPMD1O0+BKzdxoikhscFStkTRTWpycHuInesahhC9aeA9U64
-	OTd6pszgVe8UzGd4f1WUC7b+whoRj2VuyDByVI/68SN6SEa7/HGRcEKA34I2D
-X-Google-Smtp-Source: AGHT+IHO8SNwFcSEBfcxQ1Deh5eokBB7/N4fSPLaf8uf7bBo1Vs+r9LUpLbtbpu6YeQYhzr1UuY6GA==
-X-Received: by 2002:aa7:8896:0:b0:748:f135:4fe6 with SMTP id d2e1a72fcca58-7490d5875dcmr16754024b3a.10.1750686835914;
-        Mon, 23 Jun 2025 06:53:55 -0700 (PDT)
-Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a49f3a8sm8645375b3a.62.2025.06.23.06.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 06:53:55 -0700 (PDT)
-From: LiangCheng Wang <zaq14760@gmail.com>
-To: andy@kernel.org
-Cc: zaq14760@gmail.com,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] staging: media: atomisp: fix coding style in ia_css_output.host.c
-Date: Mon, 23 Jun 2025 21:53:22 +0800
-Message-ID: <20250623135323.816-1-zaq14760@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAHp75VcFSbLwqot0Rrm=141Y-mCQUuFqNGn=DnfKSSYp-31vcg@mail.gmail.com>
-References: <CAHp75VcFSbLwqot0Rrm=141Y-mCQUuFqNGn=DnfKSSYp-31vcg@mail.gmail.com>
+	s=arc-20240116; t=1750686851; c=relaxed/simple;
+	bh=xZVY5BO5DxqJwr9venKLJof1jEf71LvoHEsEP6iWsqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l9IrCbcYBNTT15wYuNXHyE9NS7bj3xBio8C36Yhw9hgfroXYQrWRixbjtLL/XYORTnboWeHlHguQpM4ODdx469bKxgbhqX/w208uSbLSSTiKFrsi0hl5JQf971jU7ja+W/UMq2ASpfmLTzqBzMzoGtDS/dzEeB0kJlJ+uS6e9LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N/RiUTBB; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 57EA08DB;
+	Mon, 23 Jun 2025 15:53:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750686831;
+	bh=xZVY5BO5DxqJwr9venKLJof1jEf71LvoHEsEP6iWsqI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N/RiUTBBxKnzZMSJKuDfLNQgjFgKXDAHC2Mav1tmlwT5fvH56Fq0a5lam3wOfdC4v
+	 AUFtyGMCDrT7jR46NvhdJOKVbbPaaVdMpdj5aGGWLomOHl29YMKDPLr7S17dXcqseA
+	 Rm9ivjDzIO1wBGLvHjHwxAKjvoJZFdYrG1hRto24=
+Date: Mon, 23 Jun 2025 16:53:48 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
+	tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+	kieran.bingham@ideasonboard.com, mchehab@kernel.org,
+	michael.riesch@collabora.com, nicolas.dufresne@collabora.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] media: uapi: videodev2: Fix comment for 12-bit
+ packed Bayer formats
+Message-ID: <20250623135348.GB300@pendragon.ideasonboard.com>
+References: <20250623135116.93787-1-mehdi.djait@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250623135116.93787-1-mehdi.djait@linux.intel.com>
 
-Subject: Re: [PATCH v3] staging: media: atomisp: fix coding style in ia_css_output.host.c
-In-Reply-To: <CAHp75VcFSbLwqot0Rrm=141Y-mCQUuFqNGn=DnfKSSYp-31vcg@mail.gmail.com>
+On Mon, Jun 23, 2025 at 03:51:15PM +0200, Mehdi Djait wrote:
+> For 12-bit packed Bayer formats: every two consecutive samples are
+> packed into three bytes. Fix the corresponding comment.
+> 
+> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 
-Dear Andy,
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Thank you for your review.
+> ---
+>  include/uapi/linux/videodev2.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 9e3b366d5fc7..421cc0d22ed7 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -726,7 +726,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_SGBRG12 v4l2_fourcc('G', 'B', '1', '2') /* 12  GBGB.. RGRG.. */
+>  #define V4L2_PIX_FMT_SGRBG12 v4l2_fourcc('B', 'A', '1', '2') /* 12  GRGR.. BGBG.. */
+>  #define V4L2_PIX_FMT_SRGGB12 v4l2_fourcc('R', 'G', '1', '2') /* 12  RGRG.. GBGB.. */
+> -	/* 12bit raw bayer packed, 6 bytes for every 4 pixels */
+> +	/* 12bit raw bayer packed, 3 bytes for every 2 pixels */
+>  #define V4L2_PIX_FMT_SBGGR12P v4l2_fourcc('p', 'B', 'C', 'C')
+>  #define V4L2_PIX_FMT_SGBRG12P v4l2_fourcc('p', 'G', 'C', 'C')
+>  #define V4L2_PIX_FMT_SGRBG12P v4l2_fourcc('p', 'g', 'C', 'C')
 
-I'll go through the entire driver again and check for similar issues,
-such as extra spacing between types and asterisks. If I find more,
-I’ll send an updated v4 patch accordingly.
+-- 
+Regards,
 
-Best regards,
-LiangCheng Wang
+Laurent Pinchart
 
