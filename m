@@ -1,89 +1,86 @@
-Return-Path: <linux-media+bounces-35807-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35808-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC33AE6C6F
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 18:31:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F63CAE6C7E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 18:35:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AFA525A577E
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 16:30:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 448991C209BC
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 16:35:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 577CB2E1759;
-	Tue, 24 Jun 2025 16:31:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFB852E2F15;
+	Tue, 24 Jun 2025 16:35:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SsG3HCXj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAwfFdCb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B171218ABA
-	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 16:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592E62E1759;
+	Tue, 24 Jun 2025 16:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750782662; cv=none; b=ODYZ0ZA416oqRrtCPtm67AF8OjNaMzgjOqgGQ2WynLOFv/SPQYdOQI187642jv6fyN3TcfaW9zvTtkUDwU0nopSAxjSMg/C5y13TqkRudVrnpXKfLE9HwRUE+54KN+nT68NrWDmyYUQpKyw6EwxD9B2gZrvC6GmqjVPZjuTPRJs=
+	t=1750782905; cv=none; b=d6tTPjIGtn96/mrCNywEZrWopZThKJtbQebiL1hTIAHQvT+zSTKn6sqv75xsb7ly4gZVPyxibLht6QLxaC7DgLqvUUh2QjxYn6Ctf/b7Xza1Oi0MKzt1yUPzDTDFi70/S/WLTW0rvtVh9p5Zjpo/pYsxIbNTEWURCX4Cyy4gcXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750782662; c=relaxed/simple;
-	bh=QcvjBdtjzx4el21ou2AyjFk3PoVeXVF0t0TqhAXdQAk=;
+	s=arc-20240116; t=1750782905; c=relaxed/simple;
+	bh=nP0aUmfHfoTLo2wVCHBobujEMyBJGemPJITa+RyCb1c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YuiXwDOcIa8M/5MgLVK9vLSJc9nXxVLwMXLcgxmqz4dps57q9PL69y5phJNc849d+Nw7kCd5C72HNypsrPYgBdE1YSjcNUfbgE2oRFoal/uMJyok9gOK200VKmjF85zIAFUPm6AEh0ahz5ZBSp00HmtJte/Y/6wsmoTx8hR94/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SsG3HCXj; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2ef54471bdfso760952fac.3
-        for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 09:31:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750782660; x=1751387460; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xauWGZibla3a88RvY6yarAsOrTLbYeOTyPsrWKTduDk=;
-        b=SsG3HCXjT86W2z+kyYtR7KnyLvzyrEQiKMcrLmW8aWzE+86Fz6qU5yIBFJkgHckvCF
-         aNDx78E9wslGgIaRLZclnj1AYcsaibfpisdhzQppVGM3NKItmdLkdRX2dl0uJFTaivdb
-         4qAQZBWZW+38PZkey/MXgWJkMZcvB8hmRw7xYlqdkIcYmJ3R2p6cuhha8m5JKOUZvSIc
-         xVquArpvN4jXW3AeOYtm9LP8RM4/VpvwJTvLm+1G1gR613ypw0vFFxBhnu1UFsjnxdpv
-         WjaewyPG5LYJpyhDuKj3D+mcTdVdUBrsfAGl+Qdy2HrpqA6Zg2LeP3tL5oJvzbQEGyQC
-         kyNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750782660; x=1751387460;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xauWGZibla3a88RvY6yarAsOrTLbYeOTyPsrWKTduDk=;
-        b=ryWca5sBGyfPXWcc5LLMBGiilgmJvgqHf9r0/r/7sajzOdYf/3l2mq3Vi2fSqAbO2g
-         vQ1a9gRRjjORRuBrGXvS3pZjPyi36oRr6xY5Zlp4u8XyV98uLz/+Pb85YdjgHC3xuuM4
-         Wy3ruNmOLUok9k3+zTPjFx9vxTUSGJ3ZVZG3zIwHxhsgbxvIG5l+r486zzH9pSPOpgxm
-         0AgZwNIunwt8G5A5xV4D6oyqKbPsmG/sna+jyRdVfcfpLAkO8j8X//Ifwyf3Vw6iI/vh
-         LRw8Oug3PQ/YJJI+bjIC9BM3V9FC9cvI7qJeLhyDjbyHQXBfMECTmW7xiRFCQo2zLpyG
-         M42g==
-X-Forwarded-Encrypted: i=1; AJvYcCU9N5ctPK44SXk5Pu6+k4G5yXKfeyPuJrVxTa7adFawBFQKX/aGh5Wg0Dr1hiIxsP6CDLMNg0WRdVDtEA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhSqUQJlB1eyA+gsF1I1NgL5TRxZuRXDsLOmHfl6ImxO2JyRGk
-	ObNJclqkRYwTp7aA3FFgGgrA3pqxB14vPKUVqF0GF/1EZgW7I1MHkmh2jYalzjh8FG0=
-X-Gm-Gg: ASbGncu6uQUax0/uMPo2d544LlPcB5DLIlSOA6q2PI6k1DpRfCNBYhMnlpCgwvKeA9A
-	buVLSogeUwmGG/itgO4iU3hhqrRUUq4QBzeREl8IZOJ/p7Qa8UOayGBRgv+nYzPTihMUrHtFtt7
-	T/00mlzmer2yJ1S21TmrS8mxZ9GS+ehCPZ/vvBo6p0och1A6X6FiObl+SuumU3k6SSd+oXVw0Pc
-	HqTnPqSVLFqVo89IHs0BAoS9XH9OC8h/jQyvNFREsql0g2MUTXVnJNyFIXE46D0FaDAylv+j/3a
-	mKR2W/GZ7syMU+3kEJw00VU26glkXVN0zBwO59fNCtIzvzz7rctyWKkyGN85Zg8bXr0+05FaEup
-	u5vum
-X-Google-Smtp-Source: AGHT+IGcNnn1LPrlnNqMBw8pIeYo2YoTiOvJeFOaf225KGbqOfzpC8jSGqoDPVjT+4qvrB73k5LY2g==
-X-Received: by 2002:a05:6870:2b14:b0:29e:5dfd:1e17 with SMTP id 586e51a60fabf-2eeee5773e2mr12099997fac.23.1750782660133;
-        Tue, 24 Jun 2025 09:31:00 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:22c9:dcd3:f442:dd1d])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ee664c3cb9sm2167708fac.6.2025.06.24.09.30.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 09:30:59 -0700 (PDT)
-Date: Tue, 24 Jun 2025 19:30:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] staging: media: atomisp: remove debug sysfs
- attributes active_bo and free_bo
-Message-ID: <cef03d37-715c-47a8-81d4-0872d505c39b@suswa.mountain>
-References: <20250624144943.39297-1-abdelrahmanfekry375@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mFf1PEzGrHtNY1okCRhMe8iRhhfd04g22OjX9CdR4s8IP3C3Mr7lxmXxV5Gvh7wnLBboGxs4llr2Kj7WTqnyTASznKTn8beo5GBnWxVfX3zFp2YY6dwiTlvmyzLk4rpWLvEDm4l4pzofGutrOg9dV5CLNC0VJw+6kEhVp14EwvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gAwfFdCb; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750782903; x=1782318903;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nP0aUmfHfoTLo2wVCHBobujEMyBJGemPJITa+RyCb1c=;
+  b=gAwfFdCbj0zrTNzyeOekadOyqXFFIQYpFUnLM3LKIl5oIYS4AW/3PgCf
+   VRZCS3udL1rR94cAna/KsFouAtqKFE8HLj+RAT0DAjlDBLxQ1eskuqHu7
+   TwR1BVpTtfklFAI4lH/9BrsJ+CVmsitbxg0qQbuVd/bZIW8ju0mgckbME
+   I5ULln/Y5T/G6XPCwYpEMhfWhkaqOP1u9L9uGKlzqL434yJhvXr6VHwKN
+   iw8BHMBwhZAdgGH6Aqid2N4lx+cQGmf9pxkZPe0uaQ3I72vmN77QQ7rlk
+   wSSIwyYvZIidMrb6ecK8GTux6osWJkdVOYfhapjjfcYu48d/UA2+TP0DC
+   w==;
+X-CSE-ConnectionGUID: 0kh+EjShQdCu/3kUURezVQ==
+X-CSE-MsgGUID: dXOyus2hQF+/xZEtdJrAHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="56704625"
+X-IronPort-AV: E=Sophos;i="6.16,262,1744095600"; 
+   d="scan'208";a="56704625"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 09:35:02 -0700
+X-CSE-ConnectionGUID: ABr/3/C6TzqiHEFM5Ph9RA==
+X-CSE-MsgGUID: Ps9F2R4lQ9uqiswuj49eyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,262,1744095600"; 
+   d="scan'208";a="182848015"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.116])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 09:34:59 -0700
+Date: Tue, 24 Jun 2025 18:34:51 +0200
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	"Nirujogi, Pratap" <pnirujog@amd.com>, Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org, 
+	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org, 
+	dave.stevenson@raspberrypi.com, hdegoede@redhat.com, jai.luthra@ideasonboard.com, 
+	tomi.valkeinen@ideasonboard.com, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com, 
+	dantony@amd.com, vengutta@amd.com, Svetoslav.Stoilov@amd.com, 
+	Yana.Zheleva@amd.com
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+Message-ID: <aslodzamkbjm6n6oherakch2nyltl6mnncl4mzr4o774oolr4t@hpegah7dq72g>
+References: <20250615000915.GQ10542@pendragon.ideasonboard.com>
+ <53674c5f-6b68-49e7-bbb0-fd06fff344c3@amd.com>
+ <8b16675a-c6ac-4619-aabe-ad2a4be6c964@amd.com>
+ <20250623220503.GA15951@pendragon.ideasonboard.com>
+ <425j7c6xvbbatdhxgjgjawzwfnjmjetg6rpnwfudbtg6qz6nay@dy5ldbuhtbvv>
+ <aFp7tuXkU1jayPum@kekkonen.localdomain>
+ <aFp78tqHhe_IhV6d@kekkonen.localdomain>
+ <20250624102745.GG15951@pendragon.ideasonboard.com>
+ <nixg4efp3zkdpd6h7kp6wkvam63batpoknov2nkgu36voks6bk@gzuackzl3l5g>
+ <aFqQEwdzSY123xps@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -92,49 +89,47 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624144943.39297-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <aFqQEwdzSY123xps@kekkonen.localdomain>
 
-On Tue, Jun 24, 2025 at 05:49:43PM +0300, Abdelrahman Fekry wrote:
->  int hmm_init(void)
->  {
->  	int ret;
-> @@ -130,14 +48,6 @@ int hmm_init(void)
->  	 */
->  	dummy_ptr = hmm_alloc(1);
->  
-> -	if (!ret) {
-> -		ret = sysfs_create_group(&atomisp_dev->kobj,
-> -					 atomisp_attribute_group);
-> -		if (ret)
-> -			dev_err(atomisp_dev,
-> -				"%s Failed to create sysfs\n", __func__);
-> -	}
-> -
->  	return ret;
+Hi Sakari,
 
+On Tue, Jun 24, 2025 at 11:46:27AM +0000, Sakari Ailus wrote:
 
-It's really unclear how this "return ret;" is supposed to work.  Was
-that part of the sysfs_create_group()?
+[...]
 
->  }
->  
-> @@ -145,7 +55,7 @@ void hmm_cleanup(void)
->  {
->  	if (dummy_ptr == mmgr_EXCEPTION)
->  		return;
-> -	sysfs_remove_group(&atomisp_dev->kobj, atomisp_attribute_group);
-> +
->  
-
-You've introduced two blank lines in a row here.  (checkpatch.pl -f
-will complain).
-
-regards,
-dan carpenter
-
->  	/* free dummy memory first */
->  	hmm_free(dummy_ptr);
-> -- 
-> 2.25.1
 > 
+> I'm in favour of the latter but both should be workable.
+> 
+> Speaking of return values, devm_clk_get_optional() may also return
+> -EPROBE_DEFER. That needs to be handled.
+> 
+
+Ack.
+
+> And further on -EPROBE_DEFER, I think the helper should return
+> -EPROBE_DEFER if the "clock-frequency" property doesn't exist on non-OF
+> nodes. That signals the required software nodes required on Intel Windows
+> definitions/ipu-bridge or AMD systems aren't in place yet so really probing
+> should be deferred. This would allow removing the hacks that return
+> -EPROBE_DEFER in sensor drivers when no graph endpoint is found.
+
+device_property_read_u32() returns the following:
+
+ * Return: number of values if @val was %NULL,
+ *         %0 if the property was found (success),
+ *	   %-EINVAL if given arguments are not valid,
+ *	   %-ENODATA if the property does not have a value,
+ *	   %-EPROTO if the property is not an array of numbers,
+ *	   %-EOVERFLOW if the size of the property is not as expected.
+ *	   %-ENXIO if no suitable firmware interface is present.
+
+
+Do you mean something like this in the helper:
+
+if (ret == -ENODATA && !of_node)
+	return ERR_PTR(-EPROBE_DEFER);
+
+--
+Kind Regards
+Mehdi Djait
 
