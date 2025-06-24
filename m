@@ -1,190 +1,331 @@
-Return-Path: <linux-media+bounces-35717-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35718-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04266AE5CE8
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 08:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E39AE5D3A
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 08:54:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84F2B4A6571
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 06:36:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9DB3B17878A
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 06:54:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D6F323C51F;
-	Tue, 24 Jun 2025 06:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE6E24A06D;
+	Tue, 24 Jun 2025 06:54:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXlTukXZ"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="d+VH9ff2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D8982864
-	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 06:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEB217A2E2
+	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 06:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750747004; cv=none; b=m2LI16XUlprkXAauxeTecLVhQ8BtR6BNhNxLnvCFJVfdkN4RpEx4B+bCxiP6K1/UV8wjulB/30PttNlKLBOORRNhSmxcb620IHD2CB/8ULEc+gEiY4tIuVXXxysnnt3dS+tQynVbm3lhoF37UKsM3+/2cJjwc/Gyov2NYqU8wB8=
+	t=1750748088; cv=none; b=k/xgYbTFdem5oYSHnvFv3QI9ycKghk4xJFNFDmy8d/ybG/gWTrBnSaznS5rBFE7TSWE36f3cw918YZvHU1cDzvEbRIe7qWYUK1FRkD3nAAKC2BU4iTeSc8iMaaS+23pLw/8qnLn1Rme2fh4Y74+ifloBD9Z+SaKXIJsoTKtm/IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750747004; c=relaxed/simple;
-	bh=v5LOKQvXLlwJkoy+NH3JFZdxGDZKNjbmVUAvyUhegEo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XK1qwNMvGuynsc5pF/XB9duv2jATk7orE0lkbyou0y9HvwxKT5tDAmHYFvChz0//PisOX1bMEWh+GQWQSH+xGgzSsjqdGuIcQrzHDh62livOpjKlqn14Z0KXglSE1Xf6OgBM68dMUIXKJzS1kPaPNoT1DjAv4PaeK8u5J8tGpuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXlTukXZ; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750747003; x=1782283003;
-  h=date:from:to:cc:subject:message-id;
-  bh=v5LOKQvXLlwJkoy+NH3JFZdxGDZKNjbmVUAvyUhegEo=;
-  b=QXlTukXZd4JYFYLXXH0pwIC/jqg/CWX0Eg2he0WMQVV6nLp7U6nDN5n8
-   N7lU+RGXaPoYakTfhG42voTrldsQw820ouLNwimhSOkfKoHnHJx0IdurJ
-   GqFwce8iwkvu9I9AD5I6vt0Pw7GO4fY68GSjx8AuRjzI1AQg2xAaZRh6n
-   9cdJTQ2A7mK1QLYZlAbZUQgNge3UqFVxXu4xCCZFTW9cGpkvBhUrF+NWu
-   zQaAW5PXGfeEKaZtSXEDrEqE8vcJr2czMYaPLKkZjT2PgiEL4Cnzj3hib
-   s8qdvx3i4OYS1H0d1jiXZcCvq+NdTwrUAzjudQtr85JA945DylG49bjjp
-   w==;
-X-CSE-ConnectionGUID: FYigNtFtRW+hdSTQNmcpVA==
-X-CSE-MsgGUID: lglZF79zTJC3Q5gklQ5Xrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="55602375"
-X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="55602375"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 23:36:42 -0700
-X-CSE-ConnectionGUID: JRiIFrZjTIaP3NJkwwkB1A==
-X-CSE-MsgGUID: RQw0qlnNRO+3jsUJFEldng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="156209310"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Jun 2025 23:36:41 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uTxGo-000RoU-0J;
-	Tue, 24 Jun 2025 06:36:38 +0000
-Date: Tue, 24 Jun 2025 14:35:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:fixes] BUILD SUCCESS
- 5e2562c1e46d3623fbdef77693f374eade075840
-Message-ID: <202506241432.sgaFNQH8-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1750748088; c=relaxed/simple;
+	bh=MdT7uYOnECbFDiW2hyMdxKKNZUfqdYjCqJ0243HYg9s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mUiORN/7AHAMGlXWcmS+FY5U45ddsGfIuxKQwUB9cvEbtCf/Zq1Txnga59D1C9IiV4tHwA7x1o0l6z9x7peS3RUpBafSm0K7mlQXT6rVrHpvHKrv6dhAziPaXsMo2BU7HXyj/KtQVRhHbXPGE0NddeTQtd7F3eeMUDl+vuKI/dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=d+VH9ff2; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55NIodd9020695
+	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 06:54:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	OIrtVHNQp2y7Zse3vzNGVDYfeRg/j/EJRvoTEwsCgjo=; b=d+VH9ff26SfHRQMG
+	uq6FbSoqgS5UZ6zmmRu8ogqtvVnV4Xm6mNtnJrgMc88NiP3H7NtxIb0g6R/SZleH
+	/fJZiaGPg65ww+K5/m4YJ1WHw/J6KTefJT4r+h2nPti18qTbqiTSfANw1CjYqoi4
+	rPnRmc4M3w5yiIzcWJgd0ET0FH59T4ZOLnmwWAc3asAQoHlrpGE3Yxr8RE7/2zI0
+	sqfqLcnPTAUmrSoYi2JF+N9BYfEf1UfDDAZoq4HkpvhQrDlHTdxw1PylDeW5aagd
+	uCO6NwJjvVHtNaPfJyxLoWnW03QyHKX6xd/xxX3U25rx+MGcgVnQzoh7e9dzfEJl
+	Oy0ghA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ec265ba0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 06:54:45 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2354ba59eb6so77956375ad.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 23:54:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750748084; x=1751352884;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OIrtVHNQp2y7Zse3vzNGVDYfeRg/j/EJRvoTEwsCgjo=;
+        b=mp8RQBjjohqQOqJSO1cOdotThXVqf/Q55bynpBVSW7Acs50E2PqCUfm575ugPHyu0Z
+         rco1pW1GvRW0SFOsSF2VZ2EpUGcUErIt1j4+c7aj1iitYGAu0lKYBS/z01tW9T9kWMx1
+         ze8o+JMivf7tx6ZomUPaR71uTjGF87u/P0W0k7KnMaM4Oxx4waJyHQozoRZAoEfUiUMR
+         ZCNlC5tl9rV2MK6ZK8joinbYaWfoXQYQ9jv2MEkWexQUdYqA++ROQjGUBuC5GTfpr0wc
+         puwp0kLwOUO18eLVPXaSxd5U4fub+I91eAWnINkZ7GrKURVnRUp3/PzTVFXnYVGvu4+B
+         eqRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUS7uJ7JLhYmws09f688XPWsUeZsoGcq0f0RwSluqblnhUPRtED5zCzBKHYAG1s9kEWRCjKcQNIThUbdA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6yo7eEWPpugpp688RvrF1naQqd5vsxhTy/efWyceVyj8vAaek
+	GTAYK+SwOOgHExn3F3ZAqnKiGCoz2w15XZvblr5UfuVzQLiRKHDeEW+0y/3FmbndiWQusTzM2Lt
+	RrlYWD4HgXYVH9iZ/1hnkvux9QOBuSMp687dDxOu6hGQ64OkzMVDlxEGLIQX9rvZI
+X-Gm-Gg: ASbGncthgqwjgcf68gkLo+0ussiSejTb+Y50D8fMG54aplbW8IikuXjlpzZnJx1f0SU
+	v5+wGJFQY90nix1Q2g3Qkwb3oWJmxTcPLYNCsnEisRPX0Ja3/0d85783XyYq7TfYPQKr34oEvNX
+	G3Ihb8ivM7/SUWFXhk3Jt2vqGSLDmRXJZEmo3lu+nGfJhAasze8kT4yZJUiCz4wQNH6fyGmZ8d3
+	DWsc44mvjqzcDaGoT1VJJ3YQOtihzGRHACNl+2UnEuZu+HA2URmpcZTZR17Ucw2oPvPJpspGKZl
+	hP05Z5u4qW6zKlf9Fn1YRxJ1s+WawyEgvBs7d+pKYdML+fM7QUkPeOwWxCOEVvoJEf4lTIWZdBl
+	/skRDE0qw2ARIKihz7gxZ
+X-Received: by 2002:a17:903:22cb:b0:234:df51:d16c with SMTP id d9443c01a7336-237d9badd36mr242209465ad.45.1750748084408;
+        Mon, 23 Jun 2025 23:54:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IExUm37dtay0q0velYcFv3DxtYUDTccTngr+8MncRLErFXqkPNRqyeek5noM/HvJdeGJNIpTg==
+X-Received: by 2002:a17:903:22cb:b0:234:df51:d16c with SMTP id d9443c01a7336-237d9badd36mr242208865ad.45.1750748083825;
+        Mon, 23 Jun 2025 23:54:43 -0700 (PDT)
+Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au. [1.41.240.65])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d86103e5sm98486035ad.120.2025.06.23.23.54.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jun 2025 23:54:43 -0700 (PDT)
+Message-ID: <2d93ee96-0c36-4651-b6ad-9fddd0f6ad88@oss.qualcomm.com>
+Date: Tue, 24 Jun 2025 16:54:34 +1000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 7/9] optee: support protected memory allocation
+To: Jens Wiklander <jens.wiklander@linaro.org>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org,
+        linux-arm-kernel@lists.infradead.org
+Cc: Olivier Masse <olivier.masse@nxp.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        "T . J . Mercier" <tjmercier@google.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sumit Garg <sumit.garg@kernel.org>,
+        Matthias Brugger
+ <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com
+References: <20250610131600.2972232-1-jens.wiklander@linaro.org>
+ <20250610131600.2972232-8-jens.wiklander@linaro.org>
+Content-Language: en-US
+From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+In-Reply-To: <20250610131600.2972232-8-jens.wiklander@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI0MDA1NyBTYWx0ZWRfX+iXq0oQxtDvv
+ 5ZqzVSe6CzbMoxKfzo/L83OBN6aitwxb77wiaZBudXgghnGrJMhOIhpqcx1jgLbm+a7ju+9dGFY
+ yJkrVfwSN1579vLYgHEh4cW757ALr9i0GjsT6Xg2KYnVCLywWT8K1ddBoQoe2DLNF5HfTVIm/c7
+ ExqoPwlC3nBt2/H4Cm0TkMYC2djtuMlZhc03clx92Rh65q6+tD5cgEc2tKElVX6XjFXoQenzuGB
+ 1UBtE0b2VDdS3VrraKc53pxnhvhUoeRVPVMrV2ReEszlWegWC+PHmIFjfg+uQVNBFI7hVt2JPMd
+ kepFLZrviCA0TfvxXOvHj3Y6EPTLLqz1yD6FRg6DQDqWWyfUwpSZzSru6K0LFjidQgHTgrf7Z3K
+ 4EEN2Ifvusw6EwQaT15PScFpo/bWN8M7FwL5OEpkeppDNKx3voeieOR+2bEJhurIO6maFPO3
+X-Authority-Analysis: v=2.4 cv=XPQwSRhE c=1 sm=1 tr=0 ts=685a4bb5 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=KKAkSRfTAAAA:8 a=99H9UyJNq6-z9PcZsEwA:9
+ a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: OG-yIS3XJnvThtesSVlqQqnbeXsRZSaP
+X-Proofpoint-ORIG-GUID: OG-yIS3XJnvThtesSVlqQqnbeXsRZSaP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-24_02,2025-06-23_07,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 impostorscore=0 clxscore=1015 suspectscore=0 mlxscore=0
+ spamscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ priorityscore=1501 adultscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506240057
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git fixes
-branch HEAD: 5e2562c1e46d3623fbdef77693f374eade075840  media: i2c: max96714: Drop check on number of active routes
+Hi Jens,
 
-elapsed time: 884m
+On 6/10/2025 11:13 PM, Jens Wiklander wrote:
+> Add support in the OP-TEE backend driver for protected memory
+> allocation. The support is limited to only the SMC ABI and for secure
+> video buffers.
+> 
+> OP-TEE is probed for the range of protected physical memory and a
+> memory pool allocator is initialized if OP-TEE have support for such
+> memory.
+> 
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/optee/Kconfig         |  5 +++
+>  drivers/tee/optee/core.c          | 10 +++++
+>  drivers/tee/optee/optee_private.h |  2 +
+>  drivers/tee/optee/smc_abi.c       | 70 ++++++++++++++++++++++++++++++-
+>  4 files changed, 85 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/tee/optee/Kconfig b/drivers/tee/optee/Kconfig
+> index 7bb7990d0b07..50d2051f7f20 100644
+> --- a/drivers/tee/optee/Kconfig
+> +++ b/drivers/tee/optee/Kconfig
+> @@ -25,3 +25,8 @@ config OPTEE_INSECURE_LOAD_IMAGE
+>  
+>  	  Additional documentation on kernel security risks are at
+>  	  Documentation/tee/op-tee.rst.
+> +
+> +config OPTEE_STATIC_PROTMEM_POOL
+> +	bool
+> +	depends on HAS_IOMEM && TEE_DMABUF_HEAPS
+> +	default y
+> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+> index c75fddc83576..4b14a7ac56f9 100644
+> --- a/drivers/tee/optee/core.c
+> +++ b/drivers/tee/optee/core.c
+> @@ -56,6 +56,15 @@ int optee_rpmb_intf_rdev(struct notifier_block *intf, unsigned long action,
+>  	return 0;
+>  }
+>  
+> +int optee_set_dma_mask(struct optee *optee, u_int pa_width)
+> +{
+> +	u64 mask = DMA_BIT_MASK(min(64, pa_width));
+> +
 
-configs tested: 97
-configs skipped: 1
+nit: Why not dma_coerce_mask_and_coherent() instead of bellow?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+- Amir
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-arc                              allmodconfig    clang-19
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    clang-19
-arc                   randconfig-001-20250624    gcc-12.4.0
-arc                   randconfig-001-20250624    gcc-8.5.0
-arc                   randconfig-002-20250624    gcc-8.5.0
-arm                              allmodconfig    clang-19
-arm                               allnoconfig    clang-21
-arm                               allnoconfig    gcc-15.1.0
-arm                              allyesconfig    clang-19
-arm                   randconfig-001-20250624    gcc-13.3.0
-arm                   randconfig-001-20250624    gcc-8.5.0
-arm                   randconfig-002-20250624    gcc-8.5.0
-arm                   randconfig-003-20250624    gcc-12.4.0
-arm                   randconfig-003-20250624    gcc-8.5.0
-arm                   randconfig-004-20250624    clang-17
-arm                   randconfig-004-20250624    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250624    clang-21
-arm64                 randconfig-001-20250624    gcc-8.5.0
-arm64                 randconfig-002-20250624    gcc-10.5.0
-arm64                 randconfig-002-20250624    gcc-8.5.0
-arm64                 randconfig-003-20250624    clang-21
-arm64                 randconfig-003-20250624    gcc-8.5.0
-arm64                 randconfig-004-20250624    clang-21
-arm64                 randconfig-004-20250624    gcc-8.5.0
-csky                              allnoconfig    gcc-15.1.0
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-21
-hexagon                           allnoconfig    gcc-15.1.0
-hexagon                          allyesconfig    clang-19
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    clang-20
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20250624    clang-20
-i386        buildonly-randconfig-001-20250624    gcc-12
-i386        buildonly-randconfig-002-20250624    gcc-12
-i386        buildonly-randconfig-003-20250624    clang-20
-i386        buildonly-randconfig-003-20250624    gcc-12
-i386        buildonly-randconfig-004-20250624    clang-20
-i386        buildonly-randconfig-004-20250624    gcc-12
-i386        buildonly-randconfig-005-20250624    clang-20
-i386        buildonly-randconfig-005-20250624    gcc-12
-i386        buildonly-randconfig-006-20250624    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-15.1.0
-loongarch                         allnoconfig    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-15.1.0
-openrisc                          allnoconfig    clang-21
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-21
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-21
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    gcc-15.1.0
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    gcc-15.1.0
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    clang-19
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250624    clang-20
-x86_64      buildonly-randconfig-002-20250624    clang-20
-x86_64      buildonly-randconfig-003-20250624    clang-20
-x86_64      buildonly-randconfig-004-20250624    clang-20
-x86_64      buildonly-randconfig-005-20250624    clang-20
-x86_64      buildonly-randconfig-006-20250624    clang-20
-x86_64                              defconfig    clang-20
-x86_64                                  kexec    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
+> +	optee->teedev->dev.dma_mask = &optee->teedev->dev.coherent_dma_mask;
+> +
+> +	return dma_set_mask_and_coherent(&optee->teedev->dev, mask);
+> +}
+> +
+>  static void optee_bus_scan(struct work_struct *work)
+>  {
+>  	WARN_ON(optee_enumerate_devices(PTA_CMD_GET_DEVICES_SUPP));
+> @@ -181,6 +190,7 @@ void optee_remove_common(struct optee *optee)
+>  	tee_device_unregister(optee->supp_teedev);
+>  	tee_device_unregister(optee->teedev);
+>  
+> +	tee_device_unregister_all_dma_heaps(optee->teedev);
+>  	tee_shm_pool_free(optee->pool);
+>  	optee_supp_uninit(&optee->supp);
+>  	mutex_destroy(&optee->call_queue.mutex);
+> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
+> index dc0f355ef72a..5e3c34802121 100644
+> --- a/drivers/tee/optee/optee_private.h
+> +++ b/drivers/tee/optee/optee_private.h
+> @@ -272,6 +272,8 @@ struct optee_call_ctx {
+>  
+>  extern struct blocking_notifier_head optee_rpmb_intf_added;
+>  
+> +int optee_set_dma_mask(struct optee *optee, u_int pa_width);
+> +
+>  int optee_notif_init(struct optee *optee, u_int max_key);
+>  void optee_notif_uninit(struct optee *optee);
+>  int optee_notif_wait(struct optee *optee, u_int key, u32 timeout);
+> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> index f0c3ac1103bb..cf106d15e64e 100644
+> --- a/drivers/tee/optee/smc_abi.c
+> +++ b/drivers/tee/optee/smc_abi.c
+> @@ -1584,6 +1584,68 @@ static inline int optee_load_fw(struct platform_device *pdev,
+>  }
+>  #endif
+>  
+> +static struct tee_protmem_pool *static_protmem_pool_init(struct optee *optee)
+> +{
+> +#if IS_ENABLED(CONFIG_OPTEE_STATIC_PROTMEM_POOL)
+> +	union {
+> +		struct arm_smccc_res smccc;
+> +		struct optee_smc_get_protmem_config_result result;
+> +	} res;
+> +	struct tee_protmem_pool *pool;
+> +	void *p;
+> +	int rc;
+> +
+> +	optee->smc.invoke_fn(OPTEE_SMC_GET_PROTMEM_CONFIG, 0, 0, 0, 0,
+> +			     0, 0, 0, &res.smccc);
+> +	if (res.result.status != OPTEE_SMC_RETURN_OK)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	rc = optee_set_dma_mask(optee, res.result.pa_width);
+> +	if (rc)
+> +		return ERR_PTR(rc);
+> +
+> +	/*
+> +	 * Map the memory as uncached to make sure the kernel can work with
+> +	 * __pfn_to_page() and friends since that's needed when passing the
+> +	 * protected DMA-buf to a device. The memory should otherwise not
+> +	 * be touched by the kernel since it's likely to cause an external
+> +	 * abort due to the protection status.
+> +	 */
+> +	p = devm_memremap(&optee->teedev->dev, res.result.start,
+> +			  res.result.size, MEMREMAP_WC);
+> +	if (IS_ERR(p))
+> +		return p;
+> +
+> +	pool = tee_protmem_static_pool_alloc(res.result.start, res.result.size);
+> +	if (IS_ERR(pool))
+> +		devm_memunmap(&optee->teedev->dev, p);
+> +
+> +	return pool;
+> +#else
+> +	return ERR_PTR(-EINVAL);
+> +#endif
+> +}
+> +
+> +static int optee_protmem_pool_init(struct optee *optee)
+> +{
+> +	enum tee_dma_heap_id heap_id = TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
+> +	struct tee_protmem_pool *pool = ERR_PTR(-EINVAL);
+> +	int rc;
+> +
+> +	if (!(optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM))
+> +		return 0;
+> +
+> +	pool = static_protmem_pool_init(optee);
+> +	if (IS_ERR(pool))
+> +		return PTR_ERR(pool);
+> +
+> +	rc = tee_device_register_dma_heap(optee->teedev, heap_id, pool);
+> +	if (rc)
+> +		pool->ops->destroy_pool(pool);
+> +
+> +	return rc;
+> +}
+> +
+>  static int optee_probe(struct platform_device *pdev)
+>  {
+>  	optee_invoke_fn *invoke_fn;
+> @@ -1679,7 +1741,7 @@ static int optee_probe(struct platform_device *pdev)
+>  	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
+>  	if (!optee) {
+>  		rc = -ENOMEM;
+> -		goto err_free_pool;
+> +		goto err_free_shm_pool;
+>  	}
+>  
+>  	optee->ops = &optee_ops;
+> @@ -1752,6 +1814,9 @@ static int optee_probe(struct platform_device *pdev)
+>  		pr_info("Asynchronous notifications enabled\n");
+>  	}
+>  
+> +	if (optee_protmem_pool_init(optee))
+> +		pr_info("Protected memory service not available\n");
+> +
+>  	/*
+>  	 * Ensure that there are no pre-existing shm objects before enabling
+>  	 * the shm cache so that there's no chance of receiving an invalid
+> @@ -1787,6 +1852,7 @@ static int optee_probe(struct platform_device *pdev)
+>  		optee_disable_shm_cache(optee);
+>  	optee_smc_notif_uninit_irq(optee);
+>  	optee_unregister_devices();
+> +	tee_device_unregister_all_dma_heaps(optee->teedev);
+>  err_notif_uninit:
+>  	optee_notif_uninit(optee);
+>  err_close_ctx:
+> @@ -1803,7 +1869,7 @@ static int optee_probe(struct platform_device *pdev)
+>  	tee_device_unregister(optee->teedev);
+>  err_free_optee:
+>  	kfree(optee);
+> -err_free_pool:
+> +err_free_shm_pool:
+>  	tee_shm_pool_free(pool);
+>  	if (memremaped_shm)
+>  		memunmap(memremaped_shm);
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
