@@ -1,169 +1,136 @@
-Return-Path: <linux-media+bounces-35758-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35759-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E89AE6257
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 12:25:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 605DBAE6267
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 12:28:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FE00174ED1
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 10:25:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C611402DEC
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 10:28:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BAF117A2E8;
-	Tue, 24 Jun 2025 10:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 974942820A5;
+	Tue, 24 Jun 2025 10:28:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mnNS1jZN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="glS1arOc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B15025DB13
-	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 10:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE48284B4F;
+	Tue, 24 Jun 2025 10:28:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750760726; cv=none; b=u4M453hvW4Z298gryh6BD0bGyP6tImUl5QtjnSNxWvtmJ8Vojs/Opx7uTQ1pIlv9G+cmGhxJVJHlmuS4elJhEnBaaTFj79jKlgXJ6BD4t1LVJp93DIQAlTWNWiWdivvUWOMYW+YG/WKaHgS9YfFvsokJGPydarCYHLaYmuXdMSY=
+	t=1750760890; cv=none; b=YzizQTT3ocyeKlg3e4LNi8Tl6zQS3oyjX02ef1SL4bI5jLRTwon7f3dMN0d4em86j9z7vQrwnB1DXqYtLg4H5bJXQTgZgeD5RxpkzeWvc1cU0eIiqS3OlZmwVJ3vJSubO/SftW9roV+PPzqslO3tIp+RgFtMbhSwzk8vmbAbpG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750760726; c=relaxed/simple;
-	bh=UGyASD3pxDIRm2AfhiEKOTUQtG6T0n7VT2yO+QOe1wg=;
+	s=arc-20240116; t=1750760890; c=relaxed/simple;
+	bh=xDpe5jVrfQCNNcsPrQu4ixRrP8NOQXLLuUnqA0uqakk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DZorA0PqGk/XVS9fQyAcNvDAMgOP68AtwfpEPQvkAJbvpQ3mOppnWsuxkB8SEZAY5CqEKPG4tigMjUlVqMm2Tbc7N0gRCnvLWGAXnVdYIHSaVQpCDiCx2XvPrVdqUrUGW4Kl6yiKkLM5MpuFwZtyjXTxdKHjN8OV+Mgxcv8ZfOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mnNS1jZN; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750760725; x=1782296725;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UGyASD3pxDIRm2AfhiEKOTUQtG6T0n7VT2yO+QOe1wg=;
-  b=mnNS1jZNk9j7dtd0kXSFctSbiPH9fnSwDK4o2OO/IYWzMs4FP32jF612
-   Et3CFZpCKZVf4bi0dGR36yGV8F2FQtWXAXbR30ILBsLSiirOOxHkVkGhm
-   9f9O6HwnL/kDhWsB5WlUHrAyzc+eKrICWivHByfd3Q8swKjo5zuJ5oGml
-   7CS5qtEv9EcNfqxmtZTfWf3zquHnb4HeOOc0ki84+0BKEJ85LtqFF8dLX
-   spa4j7zhB120cIl5Ah7k4uS8Vn14RWw5D6rRRFBSjmRt/W75mXUVoiw8r
-   sQ0infHwYF0zKpWNex9yGZwzliAtSZP+VJRZ4BfQELCyWoRq4Hm+mqTrY
-   Q==;
-X-CSE-ConnectionGUID: OWHeOfcFRM+TPGkkdl8fqQ==
-X-CSE-MsgGUID: SLg8TN35TVy0hijJCRahXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52863105"
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="52863105"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 03:25:24 -0700
-X-CSE-ConnectionGUID: 65MDFVyfTPqicX1+/yUMWA==
-X-CSE-MsgGUID: rO4vQubnT8yrI1HIqHCdiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="175477097"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.201])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 03:25:22 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 937D911FBA7;
-	Tue, 24 Jun 2025 13:25:19 +0300 (EEST)
-Date: Tue, 24 Jun 2025 10:25:19 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	jacopo.mondi@ideasonboard.com, Hans Verkuil <hverkuil@xs4all.nl>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v5 1/6] media: v4l2: Add Renesas Camera Receiver Unit
- pixel formats
-Message-ID: <aFp9D-Ii43yNTOSx@kekkonen.localdomain>
-References: <20250623-rzg2l-cru-v5-0-1663a8c6719a@ideasonboard.com>
- <20250623-rzg2l-cru-v5-1-1663a8c6719a@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MiFkxKBRAm7W7+DoqDcr8sRuTPlIB8POs7uifUsTz3PWFAmDMG599FF6nWxAeUxlCJnhCst+usVYOSRWPiiXghJShLuTOU+qCnj7zKgmjobl4sOwbxcnSERaoobVToG66pIhuG3pZ5R/Lg4vpIE1xMuwXB58P9C96uK1oORwugE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=glS1arOc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (85-76-34-99-nat.elisa-mobile.fi [85.76.34.99])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5D678741;
+	Tue, 24 Jun 2025 12:27:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750760869;
+	bh=xDpe5jVrfQCNNcsPrQu4ixRrP8NOQXLLuUnqA0uqakk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=glS1arOcoKOgAxc/xb131V/R9QliS9sEGow75/IvE63yFhmrzXvAFhEV893BDPEHt
+	 8oTQPJMYmhuJYcUyiCNRrbRsQ0xq6gRcQrriWU9e5MMdVfIeWzKBjSWoc4O75EwoUB
+	 eaPB2plIOIbRvE+HjlBx5gF506BpQQ0WUeOONjWQ=
+Date: Tue, 24 Jun 2025 13:27:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
+	"Nirujogi, Pratap" <pnirujog@amd.com>,
+	Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
+	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
+	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
+	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
+	Svetoslav.Stoilov@amd.com, Yana.Zheleva@amd.com
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+Message-ID: <20250624102745.GG15951@pendragon.ideasonboard.com>
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
+ <20250615000915.GQ10542@pendragon.ideasonboard.com>
+ <53674c5f-6b68-49e7-bbb0-fd06fff344c3@amd.com>
+ <8b16675a-c6ac-4619-aabe-ad2a4be6c964@amd.com>
+ <20250623220503.GA15951@pendragon.ideasonboard.com>
+ <425j7c6xvbbatdhxgjgjawzwfnjmjetg6rpnwfudbtg6qz6nay@dy5ldbuhtbvv>
+ <aFp7tuXkU1jayPum@kekkonen.localdomain>
+ <aFp78tqHhe_IhV6d@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250623-rzg2l-cru-v5-1-1663a8c6719a@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aFp78tqHhe_IhV6d@kekkonen.localdomain>
 
-Hi Daniel,
+On Tue, Jun 24, 2025 at 10:20:34AM +0000, Sakari Ailus wrote:
+> On Tue, Jun 24, 2025 at 10:19:35AM +0000, Sakari Ailus wrote:
+> > On Tue, Jun 24, 2025 at 10:35:18AM +0200, Mehdi Djait wrote:
+> > > On Tue, Jun 24, 2025 at 01:05:03AM +0300, Laurent Pinchart wrote:
+> > > > On Mon, Jun 23, 2025 at 05:51:48PM -0400, Nirujogi, Pratap wrote:
+> > > > > On 6/16/2025 6:49 PM, Nirujogi, Pratap wrote:
+> > > > > >>> +static int ov05c10_probe(struct i2c_client *client)
+> > > > > >>> +{
+> > > > > >>> +     struct ov05c10 *ov05c10;
+> > > > > >>> +     u32 clkfreq;
+> > > > > >>> +     int ret;
+> > > > > >>> +
+> > > > > >>> +     ov05c10 = devm_kzalloc(&client->dev, sizeof(*ov05c10), 
+> > > > > >>> GFP_KERNEL);
+> > > > > >>> +     if (!ov05c10)
+> > > > > >>> +             return -ENOMEM;
+> > > > > >>> +
+> > > > > >>> +     struct fwnode_handle *fwnode = dev_fwnode(&client->dev);
+> > > > > >>> +
+> > > > > >>> +     ret = fwnode_property_read_u32(fwnode, "clock-frequency", 
+> > > > > >>> &clkfreq);
+> > > > > >>> +     if (ret)
+> > > > > >>> +             return  dev_err_probe(&client->dev, -EINVAL,
+> > > > > >>> +                                   "fail to get clock freq\n");
+> > > > > >>
+> > > > > >> Let's try to land
+> > > > > >> https://lore.kernel.org/linux-media/20250521104115.176950-1- 
+> > > > > >> mehdi.djait@linux.intel.com/
+> > > > > >> and replace the code above with devm_v4l2_sensor_clk_get().
+> > > > > >>
+> > > > > > Ok, we will verify on our side.
+> > > > > 
+> > > > > We tried using devm_v4l2_sensor_clk_get() and found its required to add 
+> > > > > support for software_node to make it work with this driver.
+> > > > 
+> > > > Why is that ?
+> > > > 
+> > > > > Please refer 
+> > > > > the changes below and let us know if these should be submitted as a 
+> > > > > separate patch.
+> > > 
+> > > The helper is still not merged, so no patch is required.
+> > > 
+> > > I will see if a change is needed from the helper side or the OV05C10 side.
+> > 
+> > I wonder if there's a better way to figure out if you're running on a DT or
+> > ACPI based system than getting the device's parents and checking which one
+> > you find first, DT or ACPI. I think that should work for now at least.
+> 
+> Or, rather, checking for non-OF node here would probably work the best. I
+> wouldn't expect these to be software node based on DT systems ever.
 
-Thanks for the set.
-
-On Mon, Jun 23, 2025 at 03:43:18PM +0100, Daniel Scally wrote:
-> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
-> 
-> The Renesas Camera Receiver Unit in the RZ/V2H SoC can output RAW
-> data captured from an image sensor without conversion to an RGB/YUV
-> format. In that case the data are packed into 64-bit blocks, with a
-> variable amount of padding in the most significant bits depending on
-> the bitdepth of the data. Add new V4L2 pixel format codes for the new
-> formats, along with documentation to describe them.
-> 
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
-> ---
-> Changes in v5:
-> 
-> 	- None
-> 
-> Changes in v4:
-> 
-> 	- Removed references to "Bayer" or "srgb"
-> 
-> Changes in v3:
-> 
-> 	- Switched from bayer-order specific formats to generic RAWnn
-> 
-> Changes in v2:
-> 
-> 	- Added labels to the new formats in the documentation file
-> 	- Added 20-bit formats
-> ---
->  .../userspace-api/media/v4l/pixfmt-bayer.rst       |   1 +
->  .../userspace-api/media/v4l/pixfmt-rawnn-cru.rst   | 143 +++++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-common.c              |   6 +
->  drivers/media/v4l2-core/v4l2-ioctl.c               |   4 +
->  include/uapi/linux/videodev2.h                     |   6 +
->  5 files changed, 160 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
-> index ed3eb432967d9845d3d65150831d8a7f62dec994..20a8aa04330479ed4d44c8e4fc3d57db8c2e6933 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
-> @@ -31,3 +31,4 @@ orders. See also `the Wikipedia article on Bayer filter
->      pixfmt-srggb14
->      pixfmt-srggb14p
->      pixfmt-srggb16
-> +    pixfmt-rawnn-cru
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..d786833d0cf355b3955fe63d85c8a211a7a4fb23
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
-> @@ -0,0 +1,143 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> +
-> +.. _v4l2-pix-fmt-cru-raw10:
-> +.. _v4l2-pix-fmt-cru-raw12:
-> +.. _v4l2-pix-fmt-cru-raw14:
-> +.. _v4l2-pix-fmt-cru-raw20:
-> +
-> +**********************************************************************************************************************************
-> +V4L2_PIX_FMT_CRU_RAW10 ('CR10'), V4L2_PIX_FMT_CRU_RAW12 ('CR12'), V4L2_PIX_FMT_CRU_RAW14 ('CR14'), V4L2_PIX_FMT_CRU_RAW20 ('CR20')
-> +**********************************************************************************************************************************
-
-Regarding naming, could these be called V4L2_PIX_FMT_RAW_CRUxx, to align
-the naming with the new raw formats?
-<URL:https://www.retiisi.eu/~sailus/v4l2/tmp/common-raw/userspace-api/media/v4l/pixfmt-raw-generic.html>
-
-If you rebase on the metadata series, I can pick this patch in the set. My
-objective is to get this merged in this cycle, which of course also depends
-on review feedback.
+Until it happens :-) And we'll handle it then.
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
