@@ -1,48 +1,54 @@
-Return-Path: <linux-media+bounces-35802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35803-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21ACFAE6B86
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 17:43:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A06DAE6C1B
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 18:08:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 63A827B6D61
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 15:40:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C56B3A8FE0
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 16:08:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F15AB307482;
-	Tue, 24 Jun 2025 15:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DC3F2E1728;
+	Tue, 24 Jun 2025 16:08:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xts1lFyE"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tbkrkWh8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558AE307481;
-	Tue, 24 Jun 2025 15:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54BE3074AB;
+	Tue, 24 Jun 2025 16:08:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750779691; cv=none; b=qGvpqL2cEtmrThEDGR34TKTyxIF1jijeQZ2JjVGdec7gyxeBc2JKlJOqNx5LK6BY/BVfmsZMcWNTS0ueScwjJmcczM/XakXep5PzQfATWW1DvPVRh6QCnT/OVQpLrn5UAjJ4GMYJDLjPe0r8N2O9UsNwDwNRj2EY5kQSb+ON//o=
+	t=1750781304; cv=none; b=t6NzqAC5+QaxkpZ8iOHQqxn+9l7lmyQshKsN49/BJrr7qkPvmM2TByjtwE4OnZR1OSrvk4bJ81BKPZvHXPK5PrYiy4O8V3cLH/5HD6p+JmRq8E/X3Y1YmlSZU7ViceYc16pWXrtNjMZyuVUKp/WP+DC1WEBguZs3U/KNG5WeMAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750779691; c=relaxed/simple;
-	bh=keGri/uI/2tsjgDYI4UKZWr7Dxp+y7p18oSwIMMwSYE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kj6flIGaBrBOxMwlEdiRJ4uyFyz1iQfd2hTv5YOIWrtLEcUV7S5FqfGtso5Mh40wTw5YAkMeBB4oZPRa4KEPRAJnIBS66nWC6Hpbj69iMq7s3YwOSprt0NhkGB4G82LG2Oa3U2szrY1mC/l24gs7CXgEm4JTyXMQrfmL/uNr9LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xts1lFyE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B2DFC4CEE3;
-	Tue, 24 Jun 2025 15:41:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750779691;
-	bh=keGri/uI/2tsjgDYI4UKZWr7Dxp+y7p18oSwIMMwSYE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Xts1lFyEPrS3v/vgymmNjc9s1BM9p3Q3TdAjk9CKJ9acASgR8El8xqOerV1oUNqJf
-	 WCTXU/OUhJjPK02nZtF0WYkDulEqKGIZpK1Sql9wZv6gXAkS99VbI3AVM0oN1eV+Tl
-	 JxiGYm2OgaHDsUNhZZWpj4dW+CV0LS8SxfRdr5654cPK+nPGnqL1up+LkMlBXWLS5S
-	 bWs5C/CtiNhraQcXXfCCh9mFPoQEE3Ih3K3IlsAK0x/r/PtL6wIvoEK3EiKBsJyR8u
-	 mRsK3MT8Nl261NjfLkjjO+rpvYBqMEsfutgyuirLhGNV3RJr5nY9fTW25UG04x+qe6
-	 Kv7gquYL01mJw==
-Message-ID: <83755309-230f-4a5d-a658-f5f0d8714e9a@kernel.org>
-Date: Tue, 24 Jun 2025 17:41:26 +0200
+	s=arc-20240116; t=1750781304; c=relaxed/simple;
+	bh=dGDy7723AWOaTqF87rRCu+aGoEbfN89qctKkTl+2NGY=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=tHmTb3Wtm03/SN6raZ9ubrCugGwMvk8zLsllfvQ3DcTfcfMoQPXvr55zJ/ZwFLxpM6cRgE4yWKlmQRSbEDvMMhJ4KiIvFNzhEWXRCEv7fV8+ywQqNozxFjZxLGg0uotxO6ewzdtW+UOZo8bUE16mgEMTktvWra5uH5dvXocIFIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tbkrkWh8; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1750781290; x=1751386090; i=markus.elfring@web.de;
+	bh=LIz+Gs3OoNV1tgFUUpNSCOZ7x4lBrgEp+Yw76AYGwic=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=tbkrkWh8OFp+rmR/DBdGqwEcTmL9qJnFtUVF5weYBr+MOcx7IuF28ISlwTpdLhw7
+	 z4mI6uXq4x430WOJaYE6zldCT4X6l6BSLRrFMSQOD9Hnd4IA5RMJFZEettq/IaG5q
+	 Vq/v5xl+8lSmIoInjzKF83IkTmEAIcl+WVPvnPlSi5vdK3J/V47NeOvHQNnds5HoC
+	 9iwBzNa5cAJ81vOuldVtUrm6m5nMioT2rhjPtJSj86Uie8jPOE+DC43Huez11P0dt
+	 0Ew/2wBWN1zWV0u/53eIRkbhrk/6noGW/4cfhcDVhi941hoZ+5om/o1gPP9KbCQkp
+	 vw9R8m1WXUSnn9ta9A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.200]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mmhjw-1vCXc41Xfy-00ZDVr; Tue, 24
+ Jun 2025 18:08:10 +0200
+Message-ID: <12d8197c-1b8c-4c87-a3c8-945515c2c9a7@web.de>
+Date: Tue, 24 Jun 2025 18:08:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,137 +56,104 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: Add bindings for the RZ/V2H
- IVC block
-To: Dan Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com
-References: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
- <20250624-ivc-v2-1-e4ecdddb0a96@ideasonboard.com>
- <cfc25ba6-753e-41bd-8cb6-f31ba57593a8@kernel.org>
- <c2ab887c-398d-49c4-9ae6-1d0986c32781@ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <c2ab887c-398d-49c4-9ae6-1d0986c32781@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Language: en-GB, de-DE
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ Chen Ni <nichen@iscas.ac.cn>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] media: stk1160: Use usb_endpoint_is_isoc_in() rather than
+ duplicating its implementation
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:2HS4V5dBM2c8kOkQlaWHeOknCPlDC5X7VD1kJ7OwCI5hAca+iPF
+ eUWJMl3tQD510YHzLMAcoqMjtK8DvjhfGZs7CbQ2zySgi7TICa0TOIFbYWrzjJlMwICNUU4
+ VyqGOx0RnWDr0phjc7K1YmKJvGVQAIwbDyUg8lK2Xhr/l4Y9DFbzMKGqVYwsCTSeNNVOYom
+ bTc+Zb6CKwQsxz/CAy2yA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Ni1yJOm1h0A=;lIk3zQEOmmOBPdb2E6le3ezrGL9
+ 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
 
-On 24/06/2025 16:17, Dan Scally wrote:
-> 
-> OK...to throw a spanner into this, I think there's actually two soc codes with the IP; r9a09g057h44 
-> and r9a09g057h48. renesas,rzg2l-cru.yaml and renesas,rzg2l-csi2.yaml seem to use the 'generic' code 
-> in a way that suggests this:
-> 
-> compatible:
->          items:
->              - enum:
->                  - renesas,r9a09g057h44-ivc
->                  - renesas,r9a09g057h48-ivc
->              - const: renesas,rzv2h-ivc
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Tue, 24 Jun 2025 18:02:42 +0200
 
-There were several reviews where we or at lest me disagreed with above
-and explained, with arguments, that this is less welcomed choice.
+Reuse existing functionality from usb_endpoint_is_isoc_in() instead of
+keeping duplicate source code.
 
-> 
-> 
-> And then the filename stays as it is, but the example-schema.yaml to me suggests this, without the 
-> 'generic' code there at all:
-> 
-> 
-> compatible:
->          items:
->              - enum:
->                  - renesas,r9a09g057h48-ivc
->              - const: renesas,r9a09g057h44-ivc
-> 
-> 
-> Is the latter one right?
+The source code was transformed by using the Coccinelle software.
 
-This is the preferred style, yes.
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/media/usb/stk1160/stk1160-core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/drivers/media/usb/stk1160/stk1160-core.c b/drivers/media/usb/=
+stk1160/stk1160-core.c
+index ce717502ea4c..25d725c2ab3c 100644
+=2D-- a/drivers/media/usb/stk1160/stk1160-core.c
++++ b/drivers/media/usb/stk1160/stk1160-core.c
+@@ -195,8 +195,7 @@ static int stk1160_scan_usb(struct usb_interface *intf=
+, struct usb_device *udev,
+ 			if (udev->speed =3D=3D USB_SPEED_HIGH)
+ 				size =3D size * hb_mult(sizedescr);
+=20
+-			if (usb_endpoint_xfer_isoc(desc) &&
+-			    usb_endpoint_dir_in(desc)) {
++			if (usb_endpoint_is_isoc_in(desc)) {
+ 				switch (desc->bEndpointAddress) {
+ 				case STK1160_EP_AUDIO:
+ 					has_audio =3D true;
+=2D-=20
+2.50.0
 
-> 
-> 
->>
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  interrupts:
->>> +    maxItems: 1
->>> +
->>> +  clocks:
->>> +    items:
->>> +      - description: Input Video Control block register access clock
->>> +      - description: Video input data AXI bus clock
->>> +      - description: ISP system clock
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: pclk
->>> +      - const: vin_aclk
->> aclk
->>
->> vin is redundant. This cannot be anything else than vin.
-> Fair enough; there's also a clock that the documentation calls "reg_aclk" that goes to the ISP core 
-> and I've been calling that one just "aclk" so the "vin_" was to distinguish them...but maybe I 
-
-but there is no other aclk here.
-
-> should just stop trying to follow the documentation's names; how about "reg", "axi" and "isp" for 
-> both the clock and reset names?
-
-pclk, aclk and sclk are also acceptable names if this is how they are
-called in datasheet, but reg, axi and isp seems better reflect the
-purpose of these clocks from this device point of view.
-
-Best regards,
-Krzysztof
 
