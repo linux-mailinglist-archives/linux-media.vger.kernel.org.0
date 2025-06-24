@@ -1,168 +1,164 @@
-Return-Path: <linux-media+bounces-35713-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35714-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF9CAE5882
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 02:20:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81389AE5BBF
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 07:04:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A370D1B64BF6
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 00:20:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D06A7A9670
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 05:02:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 682396F53E;
-	Tue, 24 Jun 2025 00:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E26F322D4DE;
+	Tue, 24 Jun 2025 05:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YfONmPFD"
+	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="dWOb3mQR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF5B18C00;
-	Tue, 24 Jun 2025 00:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11B32F2E
+	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 05:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750724407; cv=none; b=unNF2KnTijb9YOUZNDFI5tx+5wekdbU0AkJxtQ0LF/y5jX2XmJAAqXgRv+HPZfswj0YT7hASFEFDmW0BqlyhUz+9XHh4clTFCzfrCLNP5Z/bsKOWGsLxXwyqNdJOxv/CP3ri+r0ww4yDAKApnkJdVNS6lvV5LNdFCNfYpi/Mhvs=
+	t=1750741451; cv=none; b=cyIOeQgj28mFkmnMy+YVmZq7pr7ayEf/xkElrJ7CI2Du13XdJgtqrKfi4TqkragAtYsxSAe/VtT7XmDuulwIIP9ZZ59qcKKcgmOKHzpSPvQQcADQ8rz9P04lVrV+UH/c0t8Y4zftNihhxukl8gYLhz+uiqbecalMdivWZ6yRdP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750724407; c=relaxed/simple;
-	bh=UxPzqUQ7sTw2TlVQA2cbOYqdV5OnqTbLThGmxZqQwkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T1DNeDk34h/eP5Mda7HDNPq08zgOX6G35Mqs8CRH9doRCxMzD66RUZLAy5+DwUehunRyeX0/ZokHh7aL/oWbGufCC/y0shswpj9WmfdS51mnHCwfNGPwJuGtVKfCvqg18HP1YpFE9589oNrqciaCzisMziNHDXL46+fU07vabQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YfONmPFD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2E02A8DB;
-	Tue, 24 Jun 2025 02:19:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750724386;
-	bh=UxPzqUQ7sTw2TlVQA2cbOYqdV5OnqTbLThGmxZqQwkw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YfONmPFDYVqQpe0De7ohK0OyINnBBWHmFl28ynWdM04WoLrY2ULNBdMJpujfEF9+5
-	 DClpydXjGkE5U1iOuxEQcrGlBp/kVnLcWfp64VPQGL62TMdQ8OneB+emJ+JhN40FVR
-	 LbhkyKu+fDHOOeSJVTKdhloVEswf0Itanf9y7qtA=
-Date: Tue, 24 Jun 2025 03:19:42 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Nirujogi, Pratap" <pnirujog@amd.com>
-Cc: Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-	bryan.odonoghue@linaro.org, krzk@kernel.org,
-	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
-	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
-	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
-	Svetoslav.Stoilov@amd.com, Yana.Zheleva@amd.com,
-	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
-Message-ID: <20250624001942.GF15951@pendragon.ideasonboard.com>
-References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
- <20250615000915.GQ10542@pendragon.ideasonboard.com>
- <53674c5f-6b68-49e7-bbb0-fd06fff344c3@amd.com>
- <8b16675a-c6ac-4619-aabe-ad2a4be6c964@amd.com>
- <20250623220503.GA15951@pendragon.ideasonboard.com>
- <163655af-2a3d-4489-ac7a-4ee31d3980e2@amd.com>
+	s=arc-20240116; t=1750741451; c=relaxed/simple;
+	bh=jTiiCki4eU516Zn3vPoO1DXReBO81r+B3DSrw6+H10g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RF1cyBIxjvJi6dFDRmlfvh2K7Wp/PxzfUDFzgBQH14gK7pe2nf29U+ivkr1EVTczKDp2C/kySqeyNlTUAD+zNiXV4HUmsfpkd47eIIiPYLtQEVWWgRaB5NN0AXMypd/1dCUNu2f6m5UC3qgjG3NaDzaPVuZEWLfUOBIRn1vqaY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=tomeuvizoso.net; dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b=dWOb3mQR; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e81a7d90835so4737565276.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Jun 2025 22:04:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1750741449; x=1751346249; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZqEyiR61C1W0/+KTWzUiTKCsg/9mevRSEFCD7wnXFig=;
+        b=dWOb3mQRF+UPwFhKoL82ZgCpokjytvrGjzzYOCFRnGoFh7JwltY36KQQW7GqepvrWw
+         VmklKGm3kvH8kGR5KMNgJY6gXNZyYOgVqrqRDeVMSeV29EFfCw5MLuvbZra6Zd1OMTx4
+         0OHE+FEdOUhii2HHLvg15+50smsv+OsIXm/27HfbztpP48XJ+oGgrp3ib0KZ+AzOZU0h
+         RCN6dmVb7jzPZ2445dllEIuYvxBET1epwa3V5f0ZWAi94+35z4kKJrEGvv7EFwEv6nQD
+         TVwOPnmaHcN5jRuZesvu7rOmk0iHy9HKMUHc+H/WIzyG8kn98qiBFXlfGjJeEeTJ1d8R
+         NWVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750741449; x=1751346249;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZqEyiR61C1W0/+KTWzUiTKCsg/9mevRSEFCD7wnXFig=;
+        b=vn5w+VJnYsmXnR4jKyeMB2t9t8vso/tho7Oy7lPXuy5+4m4SxfhNPcifiA2wftMY4H
+         YAnZslNs5cCwxKEX4lOW2GB5OgEeESi0TCRxf6D0GGErDhMXrxl30ifaXd1xner62+QM
+         hqxzpEu36c6v1JM+1WraTDNA4Kn3Zj9y9IK8iOYPwBZPWySadaDnRvYrak9vQokShQ7q
+         aZINam6W1geS7wHhaatM7eaXILZQLRjRNnGBYDgw7bZSH6Nocc4qJxk1mm9sot7bi5d2
+         GxGprZd48C3d9AQLXkg52hCXTkJzmc5R20dIKGFWUIoMus7UBaY+Ppm0RIh047jm/R0m
+         4heQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURGQDbfQh8C7SOLTzNqbZc8KFQ8/k2AatXt7sTy+s2uzEO57qyy7ikjX51B//yhCezKrOU9n198vs/Lg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9oG45/Il8LgX6xyfN8kY/l5y6vua4HOlAR8JBxX0diJQyVBY4
+	S17XQnjGQdG4IwrCHIZI8+///ERYUgvuPR8tA4N40DgooyzpL5KpOsjMI0uTzuJ9KMY=
+X-Gm-Gg: ASbGnctPvi0H/ghGwrtJKdaeV0qZl357INswBw6P7mWZSPfQoEslOvYtqqtxu+oRygG
+	gMkYOvYejEQ7ZLJr8tZBEcD3fLAltYKZq2I2hJT8DGq4GWkTPdbx7vy5TsykXlBPr26c3AmVvfl
+	hMjuXZlIAQcJd0rsH+OiakksS/uBcBFIWYvrZFs1+vUAS4B2/86/OngtieqJ0fldWW51KbjGeMf
+	7oyWaaV4+wAlDZF+DWPDjclmeS8cYn870efDErwhIWzKxycs42vMGM7B0F85J92qxjy6XdNVE+n
+	g6GA4qYzftkbNPuUiuRQTR5vZPtTuvxyN3s3EJKHqB/PSouaqxZ6fUdK5iQNTbQY0w34nQrrCXv
+	4g3NqvepMw6sWXUdsJLJDql+5OUwb8w==
+X-Google-Smtp-Source: AGHT+IF3F9RrxJafQc6fNCXixeVgmrwxN9hiUoyARa+iIR0XupA50lrF5OWzVDrOBXlyJO04e1Awpw==
+X-Received: by 2002:a05:6902:6983:b0:e84:3203:1af1 with SMTP id 3f1490d57ef6-e843203255cmr13029358276.3.1750741448743;
+        Mon, 23 Jun 2025 22:04:08 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e842acb5572sm2846478276.53.2025.06.23.22.04.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jun 2025 22:04:07 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e7d9d480e6cso3722487276.2;
+        Mon, 23 Jun 2025 22:04:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWlJ+oibwcuEmxlbex4aZZ5MQHRrvvubGu1CQYCqWWu1Bp+pfrf4F3VX0PAIohYnpylRWUDI0WNmQBB@vger.kernel.org, AJvYcCWvQe7csDY5ohki8e2IJLVAL4SzNxQGiSFCRZnFMeFi6YJPI26FFNouBXlUvixftlD2XoKIvw53MD8Ixsc=@vger.kernel.org, AJvYcCXCQslBS5dkTkLG8SU22RdBlpExAgPT/l13hL9gdznvZy6OUigU0p454S7hD0Q8tRqcDswOkfEzaSFa@vger.kernel.org, AJvYcCXqxZq0f6U7y2SdB4CuH3YfjRdHmBdI7/95FeG2E4SsaN2Xois0YeSc0J+mWfmz5SaABsIFr0CrIn+DQVA+@vger.kernel.org
+X-Received: by 2002:a05:6902:2402:b0:e7d:a012:290a with SMTP id
+ 3f1490d57ef6-e842bd31ba5mr17718497276.44.1750741446999; Mon, 23 Jun 2025
+ 22:04:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <163655af-2a3d-4489-ac7a-4ee31d3980e2@amd.com>
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net> <2241399.8hzESeGDPO@phil>
+In-Reply-To: <2241399.8hzESeGDPO@phil>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Tue, 24 Jun 2025 07:03:55 +0200
+X-Gmail-Original-Message-ID: <CAAObsKB2tLewhCt6LWtuCW1niCPAHvqjWYAQ8t6fv9YLVsQmJQ@mail.gmail.com>
+X-Gm-Features: AX0GCFuWUi05UoZnTls2Tcn0dm5ovOsTmo6J_0Og6xGh9EfBiQOG6iE0FtJ2MtI
+Message-ID: <CAAObsKB2tLewhCt6LWtuCW1niCPAHvqjWYAQ8t6fv9YLVsQmJQ@mail.gmail.com>
+Subject: Re: [PATCH v7 00/10] New DRM accel driver for Rockchip's RKNN NPU
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, 
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Kever Yang <kever.yang@rock-chips.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 23, 2025 at 07:28:46PM -0400, Nirujogi, Pratap wrote:
-> On 6/23/2025 6:05 PM, Laurent Pinchart wrote:
-> > On Mon, Jun 23, 2025 at 05:51:48PM -0400, Nirujogi, Pratap wrote:
-> >> On 6/16/2025 6:49 PM, Nirujogi, Pratap wrote:
-> >>>>> +static int ov05c10_probe(struct i2c_client *client)
-> >>>>> +{
-> >>>>> +     struct ov05c10 *ov05c10;
-> >>>>> +     u32 clkfreq;
-> >>>>> +     int ret;
-> >>>>> +
-> >>>>> +     ov05c10 = devm_kzalloc(&client->dev, sizeof(*ov05c10),
-> >>>>> GFP_KERNEL);
-> >>>>> +     if (!ov05c10)
-> >>>>> +             return -ENOMEM;
-> >>>>> +
-> >>>>> +     struct fwnode_handle *fwnode = dev_fwnode(&client->dev);
-> >>>>> +
-> >>>>> +     ret = fwnode_property_read_u32(fwnode, "clock-frequency",
-> >>>>> &clkfreq);
-> >>>>> +     if (ret)
-> >>>>> +             return  dev_err_probe(&client->dev, -EINVAL,
-> >>>>> +                                   "fail to get clock freq\n");
-> >>>>
-> >>>> Let's try to land
-> >>>> https://lore.kernel.org/linux-media/20250521104115.176950-1-
-> >>>> mehdi.djait@linux.intel.com/
-> >>>> and replace the code above with devm_v4l2_sensor_clk_get().
-> >>>>
-> >>> Ok, we will verify on our side.
-> >>
-> >> We tried using devm_v4l2_sensor_clk_get() and found its required to add
-> >> support for software_node to make it work with this driver.
-> > 
-> > Why is that ?
-> 
-> Its because the i2c_client device is initialized with swnode in the 
-> x86/platform driver.
-> 
-> https://github.com/torvalds/linux/blob/master/drivers/platform/x86/amd/amd_isp4.c#L235
+On Fri, Jun 20, 2025 at 11:28=E2=80=AFAM Heiko Stuebner <heiko@sntech.de> w=
+rote:
+>
+> Am Freitag, 6. Juni 2025, 08:28:20 Mitteleurop=C3=A4ische Sommerzeit schr=
+ieb Tomeu Vizoso:
+> > This series adds a new driver for the NPU that Rockchip includes in its
+> > newer SoCs, developed by them on the NVDLA base.
+> >
+> > In its current form, it supports the specific NPU in the RK3588 SoC.
+> >
+> > The userspace driver is part of Mesa and an initial draft can be found =
+at:
+> >
+> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
+> >
+> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+>
+> > ---
+> > Nicolas Frattaroli (2):
+> >       arm64: dts: rockchip: add pd_npu label for RK3588 power domains
+> >       arm64: dts: rockchip: enable NPU on ROCK 5B
+> >
+> > Tomeu Vizoso (8):
+> >       accel/rocket: Add registers header
+> >       accel/rocket: Add a new driver for Rockchip's NPU
+> >       accel/rocket: Add IOCTL for BO creation
+> >       accel/rocket: Add job submission IOCTL
+> >       accel/rocket: Add IOCTLs for synchronizing memory accesses
+> >       dt-bindings: npu: rockchip,rknn: Add bindings
+> >       arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588-bas=
+e
+> >       arm64: dts: rockchip: Enable the NPU on quartzpro64
+>
+> from a handling point of view, I would expect patch 1 - 6
+> (driver code + dt-binding patch) to go through some driver tree
+> but have not clue which one that is.
 
-So there's no information provided in the _DSD for the sensor ?
+I think Jeff Hugo would be pulling it into drm-misc? We still need a
+R-b for the job submission patch, and also have the userspace driver
+ready for merging.
 
-Looking at that platform driver, it matches the device based on the
-sensor ACPI HID only ("OMNI5C10"). That doesn't seem quite right, I
-think you need a DMI match as well. You can't assume that OMNI5C10,
-which identifies the sensor, will always map to specific platform
-integration data (connected to an AMD ISP, using a particular link
-frequency, ...), can you ?
+> And afterwards, I would pick up the arm64 devicetree additions
+> patches 7 - 10 .
 
-> >> Please refer
-> >> the changes below and let us know if these should be submitted as a
-> >> separate patch.
-> > 
-> > Mehdi, do you have any comment ?
-> > 
-> >> ---
-> >> @@ -645,16 +645,16 @@ struct clk *devm_v4l2_sensor_clk_get(struct device
-> >> *dev, const char *id)
-> >>           const char *clk_id __free(kfree) = NULL;
-> >>           struct clk_hw *clk_hw;
-> >>           struct clk *clk;
-> >> -       bool acpi_node;
-> >> +       bool is_node;
-> >>           u32 rate;
-> >>           int ret;
-> >>
-> >>           clk = devm_clk_get_optional(dev, id);
-> >>           ret = device_property_read_u32(dev, "clock-frequency", &rate);
-> >> -       acpi_node = is_acpi_node(dev_fwnode(dev));
-> >> +       is_node = is_acpi_node(dev_fwnode(dev)) || is_software_node(dev_fwnode(dev));
-> >>
-> >>           if (clk) {
-> >> -               if (!ret && acpi_node) {
-> >> +               if (!ret && is_node) {
-> >>                           ret = clk_set_rate(clk, rate);
-> >>                           if (ret) {
-> >>                                   dev_err(dev, "Failed to set clock rate: %u\n",
-> >> @@ -668,7 +668,7 @@ struct clk *devm_v4l2_sensor_clk_get(struct device
-> >> *dev, const char *id)
-> >>           if (ret)
-> >>                   return ERR_PTR(ret);
-> >>
-> >> -       if (!IS_ENABLED(CONFIG_COMMON_CLK) || !acpi_node)
-> >> +       if (!IS_ENABLED(CONFIG_COMMON_CLK) || !is_node)
-> >>                   return ERR_PTR(-ENOENT);
-> >>
-> >>           if (!id) {
-> >> ----
+Sounds great.
 
--- 
-Regards,
+Thanks!
 
-Laurent Pinchart
+Tomeu
 
