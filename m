@@ -1,117 +1,253 @@
-Return-Path: <linux-media+bounces-35785-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35786-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA76AE664C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 15:27:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C64EAE6697
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 15:33:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD2B018942F1
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 13:25:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75F3B4C60B2
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 13:29:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E0232C08DD;
-	Tue, 24 Jun 2025 13:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gbs6DHX7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E6F02D3A71;
+	Tue, 24 Jun 2025 13:28:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108A977111;
-	Tue, 24 Jun 2025 13:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37CFB28ECEF;
+	Tue, 24 Jun 2025 13:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750771509; cv=none; b=JRxaE0jFWbS9cclDi3ujcQ4iJbIRBsaFMwBXHLE2hbGeqQIanVV6p3TjLDQAbFPSoBqeJjryGSIQnsm5jtAF7F+C1jo16z6x8T/NSQ4xxj7EqeXnKXj/2oSsY8cA9bHmCwyL9SeBIN0CBfjkqK5xgSjNSuVbyyRy/H+6GEnC5UE=
+	t=1750771686; cv=none; b=FaVfEwVM/OAVHFnvWyz8JtUSkzOdk/TY+MIdXAP/M4zLcR6YCXpuIlasn3bS8hTcMP4UUX1MFuxS3Bk2zDcRMs+mf9Olkvek63y0keWKwbWkprwmd4Majv+WBWcNn467uLZJhnl8AYwc/sEanUSSWFI5kGQ5AAQe+KS5pgmjbn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750771509; c=relaxed/simple;
-	bh=MzfSzjUF95yxpmEYVS+Rj4B5oJS885I5tmi8QnxSL1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/LmwUjEH7vG2Qq/8HCmxhGqziSQxeP8tjyW4v+LrWvHw3UqYCELIY/Af/xctnWxcVnf6qPXC1h8O7tlY0YVK5fKO+ckttq2VBGzyJH8kqPZhxZuhPXmwXMBhTct6yq4hINjbSbDYL6qJv5/75O4JUpEoJgzOm2R4z83XARSbs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gbs6DHX7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750771508; x=1782307508;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MzfSzjUF95yxpmEYVS+Rj4B5oJS885I5tmi8QnxSL1c=;
-  b=Gbs6DHX7vJXE+ub0x2b8lJDOrFkLav+EdFE9v89KpqLvNM2MmhJTzZY6
-   H1WyE0Fw9fIvovUKmxQGpOskau1jnnCLfNTQQvkWAxEOpJO42wUJocB6/
-   /lIQT2pVtqprs8RGU9aPU5DZ+d3MOXprLnlq4ErNdIT4tWVhVC0e1hRga
-   YA0BsRkzLREowI35fvyCQAcnKGavSDjp1B+Na/uGMnrvup/EAVl2FDqJu
-   PIiliPgeD5BCxoOYfKEvIGgwaWTePhICBK5sSKvMnVt/nSttFUDDkB8h8
-   v5MpMcZoCV6ri6rRYhqeSHe3Ev0zTAtxJtR3vESOJI/mG4YRC7YzmQTIq
-   w==;
-X-CSE-ConnectionGUID: UqlKvbSKTYWIuYiTG9RM3A==
-X-CSE-MsgGUID: NT40j7w7TBe3uHuXBVKeRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="78429902"
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="78429902"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 06:25:07 -0700
-X-CSE-ConnectionGUID: hjY2OfY9Sy6CJL0qqPCPFA==
-X-CSE-MsgGUID: sgp4haqyTcCmo2ZwpTutYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="152210127"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 06:25:04 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uU3e0-00000009TgJ-1Uhr;
-	Tue, 24 Jun 2025 16:25:00 +0300
-Date: Tue, 24 Jun 2025 16:24:59 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, shuah@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, dan.carpenter@linaro.org
-Subject: Re: [PATCH] staging: media: atomisp: remove debug sysfs attributes
- active_bo and free_bo
-Message-ID: <aFqnK5nIHilUSxPq@smile.fi.intel.com>
-References: <20250624130841.34693-1-abdelrahmanfekry375@gmail.com>
+	s=arc-20240116; t=1750771686; c=relaxed/simple;
+	bh=p9Y8HlbZozCgsx+nCkc/8qbLEDTDlPNxuRzYxo2IPmo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hlEsudAEF0opWy1q2Z4/pF3k0PN/o5QUTR6ffGgvFnwNUk/NWYtZ2TiET7WpFA1GbBqYMznum9ZeTj92mQnYTpA+QjAGEs+Yribd2C1R12SUTEalgv+uk5Z8hieksYt8IwVgLpjEFjuaHJrVSICcWGrZKMR1k0YvPHkkB9QyAYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A9B7113E;
+	Tue, 24 Jun 2025 06:27:45 -0700 (PDT)
+Received: from [10.57.29.71] (unknown [10.57.29.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C468A3F58B;
+	Tue, 24 Jun 2025 06:27:58 -0700 (PDT)
+Message-ID: <a8c3df16-a460-49bb-ba4e-1a07135d24e5@arm.com>
+Date: Tue, 24 Jun 2025 14:27:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250624130841.34693-1-abdelrahmanfekry375@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 06/10] dt-bindings: npu: rockchip,rknn: Add bindings
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Daniel Stone <daniel@fooishbar.org>,
+ Da Xue <da@libre.computer>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+ <20250606-6-10-rocket-v7-6-dc16cfe6fe4e@tomeuvizoso.net>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250606-6-10-rocket-v7-6-dc16cfe6fe4e@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 24, 2025 at 04:08:41PM +0300, Abdelrahman Fekry wrote:
-> The sysfs attributes active_bo and free_bo expose internal buffer
-> state used only for debugging purposes. These are not part of
-> any standard kernel ABI and needs to be removed before this
-> driver can be moved out of drivers/staging.
+On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
 > 
-> - Remove active_bo and free_bo attributes
-> - Remove group registration calls form hmm_init() and hmm_cleanup()
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>    IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>    the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> v4:
+> - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
+> - Remove unneeded items: (Krzysztof Kozlowski)
+> - Fix use of minItems/maxItems (Krzysztof Kozlowski)
+> - Add reg-names to list of required properties (Krzysztof Kozlowski)
+> - Fix example (Krzysztof Kozlowski)
+> 
+> v5:
+> - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
+> - Streamline compatible property (Krzysztof Kozlowski)
+> 
+> v6:
+> - Remove mention to NVDLA, as the hardware is only incidentally related
+>    (Kever Yang)
+> - Mark pclk and npu clocks as required by all clocks (Rob Herring)
+> 
+> v7:
+> - Remove allOf section, not needed now that all nodes require 4 clocks
+>    (Heiko Stübner)
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>   .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 118 +++++++++++++++++++++
+>   1 file changed, 118 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..0588c085a723a34f4fa30a9680ea948d960b092f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
+> @@ -0,0 +1,118 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Neural Processing Unit IP from Rockchip
+> +
+> +maintainers:
+> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> +
+> +description:
+> +  Rockchip IP for accelerating inference of neural networks.
+> +
+> +  There is to be a node per each core in the NPU. In Rockchip's design there
+> +  will be one core that is special because it is able to redistribute work to
+> +  the other cores by forwarding register writes and sharing data. This special
+> +  core is called the top core and should have the compatible string that
+> +  corresponds to top cores.
 
-Suggested-by: ?
+Say a future SoC, for scaling reasons, puts down two or more whole NPUs 
+rather than just increasing the number of sub-cores in one? How is a DT 
+consumer then going to know which "cores" are associated with which "top 
+cores"? I think at the very least they want phandles in one direction or 
+the other, but if there is a real functional hierarchy then I'd be 
+strongly tempted to have the "core" nodes as children of their "top 
+core", particularly since "forwarding register writes" sounds absolutely 
+like something which could justify being represented as a "bus" in the 
+DT sense.
 
-...
-
-> +	/* Removed sysfs group registration for active_bo and free_bo attributes */
+Thanks,
+Robin.
 
 > +
-> +	/* Removed sysfs group remove for active_bo and free_bo attributes */
-
-These comments do not bring a value, no need to have them.
-
-With the above fixed,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> +properties:
+> +  $nodename:
+> +    pattern: '^npu@[a-f0-9]+$'
+> +
+> +  compatible:
+> +    enum:
+> +      - rockchip,rk3588-rknn-core-top
+> +      - rockchip,rk3588-rknn-core
+> +
+> +  reg:
+> +    maxItems: 3
+> +
+> +  reg-names:
+> +    items:
+> +      - const: pc
+> +      - const: cna
+> +      - const: core
+> +
+> +  clocks:
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: aclk
+> +      - const: hclk
+> +      - const: npu
+> +      - const: pclk
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  npu-supply: true
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 2
+> +
+> +  reset-names:
+> +    items:
+> +      - const: srst_a
+> +      - const: srst_h
+> +
+> +  sram-supply: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - iommus
+> +  - power-domains
+> +  - resets
+> +  - reset-names
+> +  - npu-supply
+> +  - sram-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/rk3588-power.h>
+> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
+> +
+> +    bus {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      npu@fdab0000 {
+> +        compatible = "rockchip,rk3588-rknn-core-top";
+> +        reg = <0x0 0xfdab0000 0x0 0x1000>,
+> +              <0x0 0xfdab1000 0x0 0x1000>,
+> +              <0x0 0xfdab3000 0x0 0x1000>;
+> +        reg-names = "pc", "cna", "core";
+> +        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
+> +        assigned-clock-rates = <200000000>;
+> +        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
+> +                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
+> +        clock-names = "aclk", "hclk", "npu", "pclk";
+> +        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        iommus = <&rknn_mmu_top>;
+> +        npu-supply = <&vdd_npu_s0>;
+> +        power-domains = <&power RK3588_PD_NPUTOP>;
+> +        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
+> +        reset-names = "srst_a", "srst_h";
+> +        sram-supply = <&vdd_npu_mem_s0>;
+> +      };
+> +    };
+> +...
+> 
 
 
