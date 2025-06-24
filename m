@@ -1,213 +1,171 @@
-Return-Path: <linux-media+bounces-35840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35841-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC08AE7263
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 00:41:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F65AE744C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 03:26:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73CF416AF2B
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 22:41:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97449189D3B8
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 01:26:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6AD225B30C;
-	Tue, 24 Jun 2025 22:41:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA74814A4F9;
+	Wed, 25 Jun 2025 01:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QtSejHk4"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amountary.cfd header.i=@amountary.cfd header.b="T9y0gZEE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from amountary.cfd (ip44.ip-51-81-76.us [51.81.76.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BDF1F12E9
-	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 22:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6052C1A2
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 01:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.76.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750804878; cv=none; b=bYfBGi38ExwUCM3CwWvcERYnw9VEympeUZDMO0tNXNan+bMRh4iC4FqggOh3htG0JKrTUWPMcW31b6dls+NWiNQsEgSvlK3vBI/gLQgrYjBtyn8J72n39ioK2zRfivlZVIyLPRDEOGGijjiD+ssa4A0oqSkbfh31LlMo6OxqxIU=
+	t=1750814789; cv=none; b=A9bIeymdAX1iS1dAwPBuVB/j8c0xJh8Mpfnyu8HFbhXe3ka0rmZ7JGEsHXwaFO2VSnVpjPmPUgI0eEZVpKZveYovhumbO6VdB9Y5GilSIHC62vZsP2pfbeok9FjOyn6sVK+1meupzRUp+qoBBwgWJcDRkfQ2MK9PFXdBMiz7+/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750804878; c=relaxed/simple;
-	bh=V5Q9WqOQIK17XMc/mdDR1DCpvbnuM76rJFm4WuVGyCo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RRu2zk26Yka/M5nqwdx9hH/Y59AZVhIMe0UObnuTQ+YPlA8JMZniY7hsvsNZ/M4VATfYd7VFqzujrAXu0+LYv/ArAKNk9rJ1benT/IyZV5/+Hy1uprlyth31Y3RCNgtUpLlcGc4VVp+pKzLnrFCC/UMZyPXpGH2gKJE2GAQ77NY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QtSejHk4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DB8D982;
-	Wed, 25 Jun 2025 00:40:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750804856;
-	bh=V5Q9WqOQIK17XMc/mdDR1DCpvbnuM76rJFm4WuVGyCo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QtSejHk4uxivKkWJ+lBtBN2fD8eDwxFkjzKOmf3dU7SO3QQ/GdG9G+cElrH9BWTcp
-	 aGxNOXutH5s17HINjrb7ydVbDUOGLReasak2BC+JFjLyWORXGD062epiLG/3HrDjgz
-	 ikLxlVsjfAWLY4sVR+cCPruotzf/cFhPJnTkMPQ0=
-Message-ID: <566b04aa-b2d5-4c42-9b7e-9f7a8a1e6b8a@ideasonboard.com>
-Date: Tue, 24 Jun 2025 23:41:10 +0100
+	s=arc-20240116; t=1750814789; c=relaxed/simple;
+	bh=obGNXWf44oXLYnASYRdowmMvwCIVBYpJ6rOCp3DpTpQ=;
+	h=To:Subject:Date:From:Message-ID:MIME-Version:Content-Type; b=ngrGmtj/UwRk+9GF8wcQdGyz+ZgxXNdL8gXrFVe/7Qv2hjHUHMK+kXupBsu4UKz/PEHtSviWy9W9FOuxbGqGsnVW/5tqu07pBi9WxwImsgj8FDco8C5o6akflZl46vJTBVTznjJgX/7oPq7XT12v4yBcN5/1+RncGKiZbtKBuPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amountary.cfd; spf=pass smtp.mailfrom=amountary.cfd; dkim=pass (1024-bit key) header.d=amountary.cfd header.i=@amountary.cfd header.b=T9y0gZEE; arc=none smtp.client-ip=51.81.76.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amountary.cfd
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amountary.cfd
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=amountary.cfd; s=mail; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Reply-To:From:Date:Subject:To:Sender:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=61nQyG14VHXx6Zo1vprLNcd395mcViGyzKp3Sxl4oMc=; b=T9y0gZEE5e6057bRizx3WsJ2jK
+	Hfy+TZ3GeabaMEGVtZNVEkUfZeuDjbtvN61bF9AAnOw5hqjnstc0IBCxoDdRpkAk2AGuNdyM9+arO
+	2D9NfO8owSwNOwkXsGDJzxbsgEkxUJvij1/8R6bOIAtjjYj2IRLJPXSbjP5osb3TrhzU=;
+Received: from admin by amountary.cfd with local (Exim 4.90_1)
+	(envelope-from <support@amountary.cfd>)
+	id 1uUArt-000DET-Vm
+	for linux-media@vger.kernel.org; Wed, 25 Jun 2025 04:07:49 +0700
+To: linux-media@vger.kernel.org
+Subject: For sale
+Date: Tue, 24 Jun 2025 21:07:49 +0000
+From: Exceptional One PC <support@amountary.cfd>
+Reply-To: info@exceptionalonepc.com
+Message-ID: <8a58503f7b7324687f943f52316ed229@amountary.cfd>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/6] media: v4l2: Add Renesas Camera Receiver Unit
- pixel formats
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
- jacopo.mondi@ideasonboard.com, Hans Verkuil <hverkuil@xs4all.nl>,
- Daniel Scally <dan.scally+renesas@ideasonboard.com>
-References: <20250623-rzg2l-cru-v5-0-1663a8c6719a@ideasonboard.com>
- <20250623-rzg2l-cru-v5-1-1663a8c6719a@ideasonboard.com>
- <aFp9D-Ii43yNTOSx@kekkonen.localdomain>
- <20250624152033.GA20757@pendragon.ideasonboard.com>
- <aFsaCNkaY4trZKQO@kekkonen.localdomain>
- <20250624220250.GH20757@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250624220250.GH20757@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent, Sakari
+Hello,
 
-On 24/06/2025 23:02, Laurent Pinchart wrote:
-> On Tue, Jun 24, 2025 at 09:35:04PM +0000, Sakari Ailus wrote:
->> On Tue, Jun 24, 2025 at 06:20:33PM +0300, Laurent Pinchart wrote:
->>> On Tue, Jun 24, 2025 at 10:25:19AM +0000, Sakari Ailus wrote:
->>>> On Mon, Jun 23, 2025 at 03:43:18PM +0100, Daniel Scally wrote:
->>>>> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->>>>>
->>>>> The Renesas Camera Receiver Unit in the RZ/V2H SoC can output RAW
->>>>> data captured from an image sensor without conversion to an RGB/YUV
->>>>> format. In that case the data are packed into 64-bit blocks, with a
->>>>> variable amount of padding in the most significant bits depending on
->>>>> the bitdepth of the data. Add new V4L2 pixel format codes for the new
->>>>> formats, along with documentation to describe them.
->>>>>
->>>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>>>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>>> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->>>>> ---
->>>>> Changes in v5:
->>>>>
->>>>> 	- None
->>>>>
->>>>> Changes in v4:
->>>>>
->>>>> 	- Removed references to "Bayer" or "srgb"
->>>>>
->>>>> Changes in v3:
->>>>>
->>>>> 	- Switched from bayer-order specific formats to generic RAWnn
->>>>>
->>>>> Changes in v2:
->>>>>
->>>>> 	- Added labels to the new formats in the documentation file
->>>>> 	- Added 20-bit formats
->>>>> ---
->>>>>   .../userspace-api/media/v4l/pixfmt-bayer.rst       |   1 +
->>>>>   .../userspace-api/media/v4l/pixfmt-rawnn-cru.rst   | 143 +++++++++++++++++++++
->>>>>   drivers/media/v4l2-core/v4l2-common.c              |   6 +
->>>>>   drivers/media/v4l2-core/v4l2-ioctl.c               |   4 +
->>>>>   include/uapi/linux/videodev2.h                     |   6 +
->>>>>   5 files changed, 160 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
->>>>> index ed3eb432967d9845d3d65150831d8a7f62dec994..20a8aa04330479ed4d44c8e4fc3d57db8c2e6933 100644
->>>>> --- a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
->>>>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
->>>>> @@ -31,3 +31,4 @@ orders. See also `the Wikipedia article on Bayer filter
->>>>>       pixfmt-srggb14
->>>>>       pixfmt-srggb14p
->>>>>       pixfmt-srggb16
->>>>> +    pixfmt-rawnn-cru
->>>>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
->>>>> new file mode 100644
->>>>> index 0000000000000000000000000000000000000000..d786833d0cf355b3955fe63d85c8a211a7a4fb23
->>>>> --- /dev/null
->>>>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
->>>>> @@ -0,0 +1,143 @@
->>>>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
->>>>> +
->>>>> +.. _v4l2-pix-fmt-cru-raw10:
->>>>> +.. _v4l2-pix-fmt-cru-raw12:
->>>>> +.. _v4l2-pix-fmt-cru-raw14:
->>>>> +.. _v4l2-pix-fmt-cru-raw20:
->>>>> +
->>>>> +**********************************************************************************************************************************
->>>>> +V4L2_PIX_FMT_CRU_RAW10 ('CR10'), V4L2_PIX_FMT_CRU_RAW12 ('CR12'), V4L2_PIX_FMT_CRU_RAW14 ('CR14'), V4L2_PIX_FMT_CRU_RAW20 ('CR20')
->>>>> +**********************************************************************************************************************************
->>>> Regarding naming, could these be called V4L2_PIX_FMT_RAW_CRUxx, to align
->>>> the naming with the new raw formats?
->>>> <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/common-raw/userspace-api/media/v4l/pixfmt-raw-generic.html>
->>>>
->>>> If you rebase on the metadata series, I can pick this patch in the set. My
->>>> objective is to get this merged in this cycle, which of course also depends
->>>> on review feedback.
->>> Your set is big enough :-)
->>>
->>> Unless I'm missing something, this patch doesn't depend on the metadata
->>> series. I plan to pick up Dan's next version (with the formats renamed)
->>> and send a pull request.
->> That works, too. I believe people are generally happy with the approach of
->> conveying the color pattern. But you still need the metadata series for
->> these to work I suppose?
-> Not with this patch series, as far as I can tell.
-No; I'm not using the metadata series - this works without it.
->
->> Do you btw. intend to use these in conjunction with the usual Bayer mbus
->> codes? It might be useful to have helpers for this purpose but we could add
->> them later on (and probably not just for that).
-> See patch 6/6, the regularo bayer media bus codes are used with these
-> pixel formats.
-Indeed
-> Ideally I'd ditch the bayer media bus codes and use the raw media bus
-> codes, but those are not in mainline yet. It would add a dependency on
-> the metadata series.
->
+ These are available for sale. If you’re interested in purchasing these, please email me
+
+005052112 _ 7.68TB HDD -$200 PER w/ caddies refurbished
+Quantity 76, price $100
+
+ 960GB SSD SATA 600 pcs/18 USD
+
+S/N MTFDDAK960TDS-1AW1ZABDB
+
+Brand New C9200L-48T-4X-E  $1,200 EAC
+
+Brand New ST8000NM017B  $70 EA
+
+Brand New ST20000NM007D
+QTY 86  $100 EACH
+
+Brand New ST4000NM000A   $30 EA
+
+Brand New WD80EFPX   $60 EA
+
+ Brand New WD101PURZ    $70 EA
+
+Intel Xeon Gold 5418Y Processors
+
+QTY $70 each
+
+CPU  4416    200pcs/$500
+
+CPU  5418Y    222pcs/$700
+
+8TB 7.2K RPM SATA
+6Gbps 512   2500pcs/$70
+
+
+960GB SSD SATA   600pcs/$30
+serial number MTFDDAK960TDS-1AW1ZABDB
+
+
+SK Hynix 48GB 2RX8 PC5 56008 REO_1010-XT
+PH HMCGY8MG8RB227N AA
+QTY 239 $50 EACH
+
+
+SAMSUNG 64GB 4DRX4 PC4-2666V-LD2-12-MAO
+M386A8K40BM2-CTD60 S
+QTY 320 $42 each
+
+
+Ipad pro 129 2021 MI 5th Gen 256 WiFi   Cellular
+quantity 24 $200 EACH
+
+
+Ipad pro 12.9 2022 m2 6th Gen 128 WiFi   Cellular
+quantity - 44 $250 EAC
+
+ 
+
+Brand New NVIDIA GeForce RTX 4090 Founders
+Edition 24GB - QTY: 56 - $700 each
+
+ 
+
+ Brand New ASUS TUF Gaming GeForce RTX 4090 OC
+ 24GB GDDR6X Graphics Card
+ QTY87 $1000 each
+ 
+brand new and original
+Brand New ST8000NM017B  $70 EA
+Brand New ST20000NM007D   $100 EACH
+Brand New ST4000NM000A   $30 EA
+Brand New WD80EFPX   $60 EA
+ Brand New WD101PURZ    $70 EA
+
+
+ 
+
+Refurbished Apple iPhone 14 Pro Max - 256 GB
+quantity-10 $35O EACH
+
+Refurbished Apple iPhone 13 Pro Max has
+quantity-22 $300 EACH
+
+
+Apple MacBook Pro 14-inch with M3 Pro chip, 512GB SSD (Space Black)[2023
+QTY50
+USD 280
+
+
+Apple MacBook Air 15" (2023) MQKR3LL/A M2 8GB 256GB
+QTY25
+USD 300 EACH
+
+
+HP EliteBook 840 G7 i7-10610U 16GB RAM 512GB
+SSD Windows 11 Pro TOUCH Screen
+QTY 237 USD 100 each
+
+
+
+
+Charles Lawson
+Exceptional One PC
+3645 Central Ave, Riverside
+CA 92506, United States
+www.exceptionalonepc.com
+info@exceptionalonepc.com
+Office: (951)-556-3104
+
 
