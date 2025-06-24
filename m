@@ -1,218 +1,185 @@
-Return-Path: <linux-media+bounces-35837-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35838-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068B2AE70EE
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 22:35:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93085AE719C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 23:35:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 248B73B4951
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 20:34:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 691593A8915
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 21:34:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 534A22E9ECC;
-	Tue, 24 Jun 2025 20:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B907258CF8;
+	Tue, 24 Jun 2025 21:35:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iqgj/Cnu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YiiUF6br"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE1B239E7A;
-	Tue, 24 Jun 2025 20:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62030487BF
+	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 21:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750797295; cv=none; b=CVfSxfcj7/4t4wA7JbJma24njKvbNVFZ0EANrgrUEj92Qjcv+9Gne6tx5V8Pq8fEX10LEDqh3cYUcFwNV6dxoEu55TAUVtUUGijrliNz/qDL+D5uoIbWuyB5j73TOJoMf4geDE717eYj4jgz/08e+a4aLhNn5bwUDyABoWZBvkw=
+	t=1750800911; cv=none; b=jKVe9A8ZY/3gTgnvLs4eJBvj3B+Ih31sSLuSqyMzg3CsdhfBZyUlnP2QqQIFemg39RaPRPdOCVhHCDZecLQOEUaud7CE6zOxy9qI8hRokotkn2CW26X39EN7J5vt6TeWp5u6mPu7qV+eEqXypV41vi4Lfx9A45wBBH9IWfw17FU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750797295; c=relaxed/simple;
-	bh=K5j/6oYH1KXNC9To2vN2BHAaftVspd2uOYN2OIC6GO4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oFuZ+ZKootmtWkFF/tXxMqw/JIsR6nzXBapLMBBt15bdYtaJw8GlA8CMRu3V3DQM+K8CfOx8gwJRVVbX4pJQHix8WR+7RUGOCQAK1RYl6xtzFMRUnKTjclzZ116sXXdMq1OAWfZ6ylWKmWWus+CvgC9TSvU/Me52T4og+920CYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iqgj/Cnu; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a6cdc27438so4926396f8f.2;
-        Tue, 24 Jun 2025 13:34:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750797292; x=1751402092; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/P31FkjAx4pu5r0Cc+j+q8zUgTSwo2qpyckK87E9/Z8=;
-        b=iqgj/CnuUjTON84B0f5OH3wUybvkbMqOEEmCXx2hIjaS9vYIH3B9bBGbbV6qfUao6J
-         syoAziknLZk4Q7T7R6Vo4Yt60dgmsD71KJHIA2b9ZAitGI2UO102fmNuuwaVbspiXfhk
-         us349pk+OslWpCAQvOfbbLVReeO6zE9dqXDZpPaizY/NzZM226Cmx4RTe7TLUJu+i8b2
-         wjU2KDaJue+ETQ9zMr6xeel1RGmpvNt+Bd8f+huTIBWS9VWxjpgwiBvr8/yvudmtmtyq
-         MWioXvo/b3ORx8O3J9zffqQHVWhl6kJJfq+JcRAIwm6WS710n9vbm8e89HLiU5AcW0kw
-         JnfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750797292; x=1751402092;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/P31FkjAx4pu5r0Cc+j+q8zUgTSwo2qpyckK87E9/Z8=;
-        b=CuU5bRRLfdHUxAqKVaRogN4Sx6xJTeA7144BBenDhqN/PodYQ7UvTGgvW6B2IPbSZp
-         +EnmNFG6CnA487tu7EJ06t13b5lUna1334lM7EdKK4eyDfP2rTe0rrAdMvlfyXnVdgDI
-         NtM7DfVYL3agNambknQu3JkFfs83a+vjZLv9Os4DlsrX8auOi8Uh1vtbgFkpjOv6XHqY
-         JSfwqtOzpQlWEqdKP4Xw36RsRUbH5x5oVkkLimOa8S1qM8SxM8YITnNFeOEk02axeeHR
-         ckyih2X4HYeVuF/9sopZijdKtTeWFtlbB680dH6/6eJrcqw0GIvTzPU7sLHybYjmG/bS
-         8vLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ94NtjbNSpF5uIjzbxMRF9SAwVLxHGaADRTGKPRM8W68k6ZWSneIi4iy8x5cJ9u81PJCbu+Yxr7bF41c=@vger.kernel.org, AJvYcCUMWpvJFEwWLpyypy/x/qmvaA+ts+OlyysPrGLby6vUAsW/lVhmpa3UUW8uPPOPigB1z8JiTEcptCf9Qkg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4YVQJLnzw+skz1FvKvh+iL+uuxJVod3l5fDos2X1DImdp9lBs
-	GCWEQ4MePojq69LY9btHcAv9Tn+SqhR+lIr9pg5SE95+JcW5wHKBuTgD2ttmXXD4znPGaDCivSw
-	GbDGk/X+es0bJH7HVQ4AWcuvzChwRW5U=
-X-Gm-Gg: ASbGncsMWku89UotnzK/nBR3n5TTZE/7nXVV8BYNYyou+MqYDixzZezK2nvC+KbkLf+
-	YH0VaGbVhEG0H36LZcQN01DqQ1M8/Gnbk/nErgHPE6ilBl5fYInnOgXnLk+t469q7g1yZTudQcB
-	UM+rFpisT0s05xl2K1GSKkGi/5CGn9WrTxTDnW3X66DI9/KwFNIVK4gxnh
-X-Google-Smtp-Source: AGHT+IEV419En0GlqpLoJ8SBerrB6DWTd/TY+ANk1ZKcthKUJ+wHqD0h7wu3BMWEAEQRtnffePWDGFo4o8WrgncRw/A=
-X-Received: by 2002:a05:6000:258a:b0:3a3:66cb:d530 with SMTP id
- ffacd0b85a97d-3a6ed5fd86emr128337f8f.23.1750797291826; Tue, 24 Jun 2025
- 13:34:51 -0700 (PDT)
+	s=arc-20240116; t=1750800911; c=relaxed/simple;
+	bh=W5th/3ZgxhcUvS4erMOAmQosw24PRH6/b1DoufEqmoA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g8HHUGR3NePJCWqggUt4y00otG5Sg5j96UQfpWpFSw3pvnzlePfyHprU4AWmcz9YxYh22qY4qG3sqkEp/vY26HoGansVzoW3YKUH3IULjg6TquVTZAdH/y/NVTxw+HIu7dg+tTip/n4Onsci0JrBEqjEd256S8AsU5zJnL3hRbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YiiUF6br; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750800910; x=1782336910;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W5th/3ZgxhcUvS4erMOAmQosw24PRH6/b1DoufEqmoA=;
+  b=YiiUF6brmxOGQVK/x3rob+irg5ca5DLH4GI0g9vwRmDk3afeu3pE4kFM
+   bGnFt/l1S3Z8eCtQm+XFNsnw4mqvJv75IkF9n4CPJvbIoQoUrN/QwnFsv
+   7ivdHMqxgb3hdUu3sxF+OxNjfZgYDVgyutvt/C6xznn/gG2qJwlmPaFXX
+   MoN1HYebM0ciMLX8SC8A+zUijL0Gf/7Ve4E8xWMh6jRY0TBqBWT0Nwcm2
+   gL+9Zj0gKce9B6iJA2paD2FtyTOM5A1OzISid2hZd/vSWhe4fvCVT6h5o
+   UJIhvXbLC3KX43UHFqmOJkR3/+/gD8WT0aKJ6SBdNXahBS8IT/j02nHLk
+   w==;
+X-CSE-ConnectionGUID: N0HzOkE0Q2KW1MKgv0Nkfg==
+X-CSE-MsgGUID: 06w46hRxR5eiD4mPP/nyTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="53193503"
+X-IronPort-AV: E=Sophos;i="6.16,263,1744095600"; 
+   d="scan'208";a="53193503"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 14:35:09 -0700
+X-CSE-ConnectionGUID: GLbAhyleRVWzG4U4mLwfvw==
+X-CSE-MsgGUID: nO8TyqVyTaWzpHZRMSuM3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,263,1744095600"; 
+   d="scan'208";a="157525090"
+Received: from zzombora-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.245.131])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 14:35:07 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 646BA11F9D4;
+	Wed, 25 Jun 2025 00:35:04 +0300 (EEST)
+Date: Tue, 24 Jun 2025 21:35:04 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	jacopo.mondi@ideasonboard.com, Hans Verkuil <hverkuil@xs4all.nl>,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>
+Subject: Re: [PATCH v5 1/6] media: v4l2: Add Renesas Camera Receiver Unit
+ pixel formats
+Message-ID: <aFsaCNkaY4trZKQO@kekkonen.localdomain>
+References: <20250623-rzg2l-cru-v5-0-1663a8c6719a@ideasonboard.com>
+ <20250623-rzg2l-cru-v5-1-1663a8c6719a@ideasonboard.com>
+ <aFp9D-Ii43yNTOSx@kekkonen.localdomain>
+ <20250624152033.GA20757@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1750352394.git.mehdi.djait@linux.intel.com>
-In-Reply-To: <cover.1750352394.git.mehdi.djait@linux.intel.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 24 Jun 2025 21:34:24 +0100
-X-Gm-Features: Ac12FXx0vHYgR-BnxEQyuVMUWfTz2mWS13uRhkyRpoiBisvCV4emCeCrZyaLNFo
-Message-ID: <CA+V-a8s1wNrgxKJv2KGq_dLXRW2o4Q30TND=0mQs1jG1t7rS+g@mail.gmail.com>
-Subject: Re: [PATCH v1 00/55] media: Add a helper for obtaining the clock producer
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com, 
-	akinobu.mita@gmail.com, stanislaw.gruszka@linux.intel.com, 
-	hdegoede@redhat.com, arnd@arndb.de, alain.volmat@foss.st.com, 
-	andrzej.hajda@intel.com, benjamin.mugnier@foss.st.com, 
-	dave.stevenson@raspberrypi.com, hansg@kernel.org, hverkuil@xs4all.nl, 
-	jacopo.mondi@ideasonboard.com, jonas@kwiboo.se, 
-	kieran.bingham@ideasonboard.com, khalasa@piap.pl, mani@kernel.org, 
-	m.felsch@pengutronix.de, martink@posteo.de, mattwmajewski@gmail.com, 
-	matthias.fend@emfend.at, mchehab@kernel.org, michael.riesch@collabora.com, 
-	naush@raspberrypi.com, nicholas@rothemail.net, nicolas.dufresne@collabora.com, 
-	paul.elder@ideasonboard.com, dan.scally@ideasonboard.com, pavel@kernel.org, 
-	petrcvekcz@gmail.com, rashanmu@gmail.com, ribalda@chromium.org, 
-	rmfrfs@gmail.com, zhengsq@rock-chips.com, slongerbeam@gmail.com, 
-	sylvain.petinot@foss.st.com, s.nawrocki@samsung.com, 
-	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, 
-	zhi.mao@mediatek.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250624152033.GA20757@pendragon.ideasonboard.com>
 
-On Thu, Jun 19, 2025 at 7:00=E2=80=AFPM Mehdi Djait <mehdi.djait@linux.inte=
-l.com> wrote:
->
-> Hello everyone,
->
-> Here is my v1 for the new helper v4l2_devm_sensor_clk_get()
->
-> Any testing of the patches is GREATLY APPRECIATED! Especially the two
-> drivers with the special ACPI case:
-> 1) OV8865
-> 2) OV2680
->
->
-> Background
-> ----------
->
-> A reference to the clock producer is not available to the kernel
-> in ACPI-based platforms but the sensor drivers still need them.
->
-> devm_clk_get() will return an error and the probe function will fail.
->
->
-> Solution
-> --------
->
-> Introduce a generic helper for v4l2 sensor drivers on both DT- and ACPI-b=
-ased
-> platforms.
->
-> This helper behaves the same as clk_get_optional() except where there is
-> no clock producer like in ACPI-based platforms.
->
-> For ACPI-based platforms the function will read the "clock-frequency"
-> ACPI _DSD property and register a fixed frequency clock with the frequenc=
-y
-> indicated in the property.
->
->
-> Solution for special ACPI case
-> ------------------------------
->
-> This function also handles the special ACPI-based system case where:
->
-> 1) The clock-frequency _DSD property is present.
-> 2) A reference to the clock producer is present, where the clock is provi=
-ded
-> by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
->
-> In this case try to set the clock-frequency value to the provided clock.
->
->
-> RFC History
-> -----------
->
-> RFC v4 -> RFC v5:
-> Suggested by Arnd Bergmann:
->         - removed IS_REACHABLE(CONFIG_COMMON_CLK). IS_REACHABLE() is actu=
-ally
->         discouraged [1]. COFIG_COMMON_CLK is a bool, so IS_ENABLED() will=
- be the
->         right solution here
-> Suggested by Hans de Goede:
->         - added handling for the special ACPI-based system case, where
->           both a reference to the clock-provider and the _DSD
->           clock-frequency are present.
->         - updated the function's kernel-doc and the commit msg
->           to mention this special case.
-> Link RFC v4: https://lore.kernel.org/linux-media/20250321130329.342236-1-=
-mehdi.djait@linux.intel.com/
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/c=
-ommit/Documentation/kbuild/kconfig-language.rst?h=3Dnext-20250513&id=3D700b=
-d25bd4f47a0f4e02e0a25dde05f1a6b16eea
->
-> RFC v3 -> RFC v4:
-> Suggested by Laurent:
->         - removed the #ifdef to use IS_REACHABLE(CONFIG_COMMON_CLK)
->         - changed to kasprintf() to allocate the clk name when id is NULL=
- and
->           used the __free(kfree) scope-based cleanup helper when
->           defining the variable to hold the allocated name
-> Link v3: https://lore.kernel.org/linux-media/20250321093814.18159-1-mehdi=
-.djait@linux.intel.com/
->
-> RFC v2 -> RFC v3:
-> - Added #ifdef CONFIG_COMMON_CLK for the ACPI case
-> Link v2: https://lore.kernel.org/linux-media/20250310122305.209534-1-mehd=
-i.djait@linux.intel.com/
->
-> RFC v1 -> RFC v2:
-> Suggested by Sakari:
->     - removed clk_name
->     - removed the IS_ERR() check
->     - improved the kernel-doc comment and commit msg
-> Link v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehd=
-i.djait@linux.intel.com
->
-> Mehdi Djait (55):
->   media: v4l2-common: Add a helper for obtaining the clock producer
->   Documentation: media: camera-sensor: Mention
->     v4l2_devm_sensor_clk_get() for obtaining the clock
->   media: i2c: imx219: Use the v4l2 helper for obtaining the clock
->   media: i2c: mt9p031: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov2659: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov2685: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov5640: Use the v4l2 helper for obtaining the clock
->   media: i2c: ov5645: Use the v4l2 helper for obtaining the clock
+Hi Laurent, Dan,
 
-For all the above,
+On Tue, Jun 24, 2025 at 06:20:33PM +0300, Laurent Pinchart wrote:
+> On Tue, Jun 24, 2025 at 10:25:19AM +0000, Sakari Ailus wrote:
+> > On Mon, Jun 23, 2025 at 03:43:18PM +0100, Daniel Scally wrote:
+> > > From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> > > 
+> > > The Renesas Camera Receiver Unit in the RZ/V2H SoC can output RAW
+> > > data captured from an image sensor without conversion to an RGB/YUV
+> > > format. In that case the data are packed into 64-bit blocks, with a
+> > > variable amount of padding in the most significant bits depending on
+> > > the bitdepth of the data. Add new V4L2 pixel format codes for the new
+> > > formats, along with documentation to describe them.
+> > > 
+> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> > > ---
+> > > Changes in v5:
+> > > 
+> > > 	- None
+> > > 
+> > > Changes in v4:
+> > > 
+> > > 	- Removed references to "Bayer" or "srgb"
+> > > 
+> > > Changes in v3:
+> > > 
+> > > 	- Switched from bayer-order specific formats to generic RAWnn
+> > > 
+> > > Changes in v2:
+> > > 
+> > > 	- Added labels to the new formats in the documentation file
+> > > 	- Added 20-bit formats
+> > > ---
+> > >  .../userspace-api/media/v4l/pixfmt-bayer.rst       |   1 +
+> > >  .../userspace-api/media/v4l/pixfmt-rawnn-cru.rst   | 143 +++++++++++++++++++++
+> > >  drivers/media/v4l2-core/v4l2-common.c              |   6 +
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c               |   4 +
+> > >  include/uapi/linux/videodev2.h                     |   6 +
+> > >  5 files changed, 160 insertions(+)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > > index ed3eb432967d9845d3d65150831d8a7f62dec994..20a8aa04330479ed4d44c8e4fc3d57db8c2e6933 100644
+> > > --- a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > > @@ -31,3 +31,4 @@ orders. See also `the Wikipedia article on Bayer filter
+> > >      pixfmt-srggb14
+> > >      pixfmt-srggb14p
+> > >      pixfmt-srggb16
+> > > +    pixfmt-rawnn-cru
+> > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> > > new file mode 100644
+> > > index 0000000000000000000000000000000000000000..d786833d0cf355b3955fe63d85c8a211a7a4fb23
+> > > --- /dev/null
+> > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> > > @@ -0,0 +1,143 @@
+> > > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> > > +
+> > > +.. _v4l2-pix-fmt-cru-raw10:
+> > > +.. _v4l2-pix-fmt-cru-raw12:
+> > > +.. _v4l2-pix-fmt-cru-raw14:
+> > > +.. _v4l2-pix-fmt-cru-raw20:
+> > > +
+> > > +**********************************************************************************************************************************
+> > > +V4L2_PIX_FMT_CRU_RAW10 ('CR10'), V4L2_PIX_FMT_CRU_RAW12 ('CR12'), V4L2_PIX_FMT_CRU_RAW14 ('CR14'), V4L2_PIX_FMT_CRU_RAW20 ('CR20')
+> > > +**********************************************************************************************************************************
+> > 
+> > Regarding naming, could these be called V4L2_PIX_FMT_RAW_CRUxx, to align
+> > the naming with the new raw formats?
+> > <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/common-raw/userspace-api/media/v4l/pixfmt-raw-generic.html>
+> > 
+> > If you rebase on the metadata series, I can pick this patch in the set. My
+> > objective is to get this merged in this cycle, which of course also depends
+> > on review feedback.
+> 
+> Your set is big enough :-)
+> 
+> Unless I'm missing something, this patch doesn't depend on the metadata
+> series. I plan to pick up Dan's next version (with the formats renamed)
+> and send a pull request.
 
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+That works, too. I believe people are generally happy with the approach of
+conveying the color pattern. But you still need the metadata series for
+these to work I suppose?
 
-Cheers,
-Prabhakar
+Do you btw. intend to use these in conjunction with the usual Bayer mbus
+codes? It might be useful to have helpers for this purpose but we could add
+them later on (and probably not just for that).
+
+-- 
+Regards,
+
+Sakari Ailus
 
