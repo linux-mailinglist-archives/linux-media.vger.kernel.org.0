@@ -1,115 +1,257 @@
-Return-Path: <linux-media+bounces-35793-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35794-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37E8AE684C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 16:22:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 651CAAE68A4
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 16:29:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07538172FE2
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 14:17:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD32F5A7E4A
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 14:23:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07942D320E;
-	Tue, 24 Jun 2025 14:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2AFD2DA753;
+	Tue, 24 Jun 2025 14:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XgbPzP0q"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rmdx3goE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945491EE03D;
-	Tue, 24 Jun 2025 14:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770262D130A;
+	Tue, 24 Jun 2025 14:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750774524; cv=none; b=pLlgzHjBKvJlF9Z6muwR70xja75M4xWWg3sLHrfwI6ITU/BE2LUCxDOE4w5VM8z/kdqu/Zxwekd7HjhiS9G//OW9c19dMM9TVBhLsXJYjOMFob5qo065kQVV5OzsItDzTdjzxpWwGWSWj3W+iK/2W+6GtTxvsbfzy3f3imfw6qw=
+	t=1750774630; cv=none; b=Zj+VJkJle12sPma4JYcRHBqoQb5CB25uxtznnstvm5PVMOwNfAOVsiI9bOdAPsp4Xd6FZVzZNN9byaXkJHTrESMgxJ/zRCus8LP8YxtxYqhbEiHvZfy52ercoDQfWlzRdSRakCSpGMCJN3fW5fW9U1c5GnbL2R54gPg3/VR1f8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750774524; c=relaxed/simple;
-	bh=EYBB5hzcAOt18RHPivhYOpPcVF9O5sHPejxC6FiOZNY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lYqFDA5D4xwEeuQUmnfYv67M/wnxcRVU66qQSKhKXEuSuOtneg6GB/EKGFKIJ+oVbmstBFzlwQb9wqaa/C48zyb0lpFyus0ZbAkw7xZgqELg4QazxMO0h4KC+/mfNvLcf3jpEoWsqcN5n9+Q5IJsVqFi6gx5d/KY8f+gOnJQRsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XgbPzP0q; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-60780d74c8cso8448875a12.2;
-        Tue, 24 Jun 2025 07:15:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750774521; x=1751379321; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TgEeZ1NwzgeNOBBLWPbhKcGNzxqxdSNPOA/Y890PEHQ=;
-        b=XgbPzP0qqvajbzsIS1f/0LfBAs5PT5E9PgDcCQzdIJZsDqZ6FLeZrzEdVk/eHaA9F/
-         ZEESBkF3xFpIH8uYHGqcDGjw6i9fUb7ZNM0AJJ6hRRjUf3jsfNh5lbnSJq9Av2bCbUiC
-         kjT54n3O1nwyXPL9Y/f8FG98uUibuUChS6jRMBeNwd6NG1ydP3qqfDKiIpLameaXisb2
-         DeKjUfOZDXWmBA+voAerEQwge7Pkxkj+UYDnlp6xDplsXYEmW49ZKEGEtTIveRJ7L0et
-         ty0qJBbGUoSmlhfm9AvKCKWWbhpILnxIeIUOrzaQ1AP9icu/I3ydYQ1JWeUuprsThWG6
-         Jqxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750774521; x=1751379321;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TgEeZ1NwzgeNOBBLWPbhKcGNzxqxdSNPOA/Y890PEHQ=;
-        b=C6Fe8I3ROLVTn+y/gx7aPPV7qgyOHweF2VUjrCAcbrnJXOQFV9msULi/LmmpuEJZLn
-         EwCAe1lNHooSbOwut/LxHQGYLSFLDnOLxAf/eL+w/41nDv6TiZs23cdERBHeNAP8jATE
-         gilpKIo5/nuT0Zg2Nin/9Fq3a/BbuLaqsbg5NV9MpxiW7yxtsPwAJA6op8fIUM3fUhR8
-         hxEqp59NNros37q0t10xqRyig7DyBD+nTb8MIGGh5k3zt7kC2xie154eXlvd1ErQqR5p
-         xzGRoBGgLoxANiwccmUeorGuYsz6aSI7VqaXbRnJR00bBvWAqOjkNW6DCcgN2VrrJLVZ
-         FECQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV0I7P8iMeWBVuTtqK798R/rKc3Wjg1jFXU6ZcxgpezVgJKqCt+xI35xADyaAXY+SF8ToZAqb30Q2Dg+NE=@vger.kernel.org, AJvYcCVeS0YgU2cv+1JIxvytfgyFVXxJUI3DAirNO2vq0C/+cA0KUDolV0ja89CqNFW+ayHA/muRb2xGF23jHE8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOSC5ua58HjgsWGQF6qL3JE+vJBopP6i43jWlHdngxdtunjeVI
-	xp/rsrfumcR6SEtItILyV0aP67JsQFkB7N85JJVhTlWI1Sit1i7TRChxLXjFi/dsqjoMCuTWtkI
-	/8TiYJFenYXtHmZ0m88T4lJXEcPy2xdA=
-X-Gm-Gg: ASbGncv+x5cGwNi/b+sWB9cppT4fnS+UB8X/GLyepIUG67hZQJ2koDj/LG+ua05Bbuu
-	PW13zLGZtinm3KP5PePVxFLtpK0FIR4hV015+PUxslJlzZVNKLwNsoOTHmeIf/fn5eDWXMuYLto
-	Abm8sq1CVjHHhqfsPbYk5CKqev/d2oM+YgDsLTTd9apcQ9qw==
-X-Google-Smtp-Source: AGHT+IEaLqgUCTgi/UDgbwhHHVKTVgJFfI8XH3ilfqmadSEjxKw9dZfOogiQ85oAjhJORbPUBGmOTbETdCj098Uck48=
-X-Received: by 2002:a17:907:9087:b0:ad8:a935:b8e8 with SMTP id
- a640c23a62f3a-ae0579d1a99mr1127576466b.5.1750774520592; Tue, 24 Jun 2025
- 07:15:20 -0700 (PDT)
+	s=arc-20240116; t=1750774630; c=relaxed/simple;
+	bh=aeBoJ8p54UOKtgfJ5R4VO20RJ4pdixxB9hiwvMp94Es=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZonyrYYyxwqlRbIQnH0GZCID6sftMdq/nXxvpy9OXvF6U5HKCLUC/lLzr8JKK+jLquNoccvLcMPmPe1IkdOnLuA/QLRVC6dgXmYKLehwxTFt6Vx9LgInWWfEhoZhh0on2wGlOb+bv0979hX9nqfszzIec2tEI29SNfVO0OB/daM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rmdx3goE; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CB30EFF;
+	Tue, 24 Jun 2025 16:16:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750774609;
+	bh=aeBoJ8p54UOKtgfJ5R4VO20RJ4pdixxB9hiwvMp94Es=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rmdx3goEzUrmIuksFeSxSH7oaLKU4oxoEj4hhWBD3DitmBnOMFj8TdvFA2uBnIVwN
+	 05n4Dc8qKUygB1YWABULCpxAVbM9aQaQNQjzcqT1CZYFPlCis5AMm1VZppJKJnpC+M
+	 1TqhAQvxoT5PW16F+qD9GGCN4shpC3CqzTuAWboQ=
+Message-ID: <c2ab887c-398d-49c4-9ae6-1d0986c32781@ideasonboard.com>
+Date: Tue, 24 Jun 2025 15:17:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250624-bar-v4-1-9f9f9ae9f868@gmail.com>
-In-Reply-To: <20250624-bar-v4-1-9f9f9ae9f868@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 24 Jun 2025 17:14:44 +0300
-X-Gm-Features: AX0GCFuQATpLhLi-lMuhRabxfiCC90DvlL1jCZW9tpHUJF8q6CscEDY8rVRgI0w
-Message-ID: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
-Subject: Re: [PATCH v4] staging: media: atomisp: fix coding style in ia_css_output.host.c
-To: LiangCheng Wang <zaq14760@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: Add bindings for the RZ/V2H
+ IVC block
+To: Krzysztof Kozlowski <krzk@kernel.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com
+References: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
+ <20250624-ivc-v2-1-e4ecdddb0a96@ideasonboard.com>
+ <cfc25ba6-753e-41bd-8cb6-f31ba57593a8@kernel.org>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <cfc25ba6-753e-41bd-8cb6-f31ba57593a8@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 24, 2025 at 5:10=E2=80=AFPM LiangCheng Wang <zaq14760@gmail.com=
-> wrote:
->
-> Fix multiple checkpatch.pl ERRORs and coding style issues:
->
-> - Use tabs instead of spaces for indentation
-> - Move trailing `if` statements to multiline format
-> - Remove excessive space between type and asterisk in function
->   arguments
-> - Move assignment operator '=3D' to the same line for static struct
->   definitions
-> - Remove unnecessary line breaks in function definitions
->
-> This cleanup improves code readability and follows Linux kernel
-> coding standards.
+Hi Krzysztof - thanks for comments
 
-Thanks for a new version. Now the question is, is this the only file
-in the whole (>90kLoCs!) driver that has such problems? If not, fix
-them all and update Subject respectively,
+On 24/06/2025 14:16, Krzysztof Kozlowski wrote:
+> On 24/06/2025 14:35, Daniel Scally wrote:
+>> The RZ/V2H SoC has a block called the Input Video Control block which
+>> feeds image data into the Image Signal Processor. Add dt bindings to
+>> describe the IVC.
+>>
+>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>> ---
+>> Changes in v2:
+>>
+>> 	- compatible matches filename
+> This is not what I asked.
 
---=20
-With Best Regards,
-Andy Shevchenko
+
+Ah, you meant the other way round. Ok.
+
+>
+>> 	- Added power-domains
+>> 	- Aligned clock and reset entries on opening "<"
+>> 	- Removed status = "okay"; from example
+>> ---
+>>   .../bindings/media/renesas,rzv2h-ivc.yaml          | 103 +++++++++++++++++++++
+>>   1 file changed, 103 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml b/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..ee0849eeeaba840cf43c81d69449c631ad1c6a6a
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
+>> @@ -0,0 +1,103 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/renesas,rzv2h-ivc.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Renesas RZ/V2H Input Video Control Block
+>> +
+>> +maintainers:
+>> +  - Daniel Scally <dan.scally@ideasonboard.com>
+>> +
+>> +description:
+>> +  The IVC block is a module that takes video frames from memory and feeds them
+>> +  to the Image Signal Processor for processing.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: renesas,rzv2h-ivc
+> No, you cannot use generic compatibles. See writing bindings (or
+> basically every review from DT maintainers).
+
+
+OK...to throw a spanner into this, I think there's actually two soc codes with the IP; r9a09g057h44 
+and r9a09g057h48. renesas,rzg2l-cru.yaml and renesas,rzg2l-csi2.yaml seem to use the 'generic' code 
+in a way that suggests this:
+
+compatible:
+         items:
+             - enum:
+                 - renesas,r9a09g057h44-ivc
+                 - renesas,r9a09g057h48-ivc
+             - const: renesas,rzv2h-ivc
+
+
+And then the filename stays as it is, but the example-schema.yaml to me suggests this, without the 
+'generic' code there at all:
+
+
+compatible:
+         items:
+             - enum:
+                 - renesas,r9a09g057h48-ivc
+             - const: renesas,r9a09g057h44-ivc
+
+
+Is the latter one right?
+
+
+>
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    items:
+>> +      - description: Input Video Control block register access clock
+>> +      - description: Video input data AXI bus clock
+>> +      - description: ISP system clock
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: pclk
+>> +      - const: vin_aclk
+> aclk
+>
+> vin is redundant. This cannot be anything else than vin.
+Fair enough; there's also a clock that the documentation calls "reg_aclk" that goes to the ISP core 
+and I've been calling that one just "aclk" so the "vin_" was to distinguish them...but maybe I 
+should just stop trying to follow the documentation's names; how about "reg", "axi" and "isp" for 
+both the clock and reset names?
+
+>
+>> +      - const: sclk
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  resets:
+>> +    items:
+>> +      - description: Input Video Control block register access reset
+>> +      - description: Video input data AXI bus reset
+>> +      - description: ISP core reset
+>> +
+>> +  reset-names:
+>> +    items:
+>> +      - const: presetn
+>> +      - const: vin_aresetn
+>> +      - const: sresetn
+>
+> s/reset// because it is redundant... which would point to pretty
+> pointless names. Look at your description - one is core or registers,
+> second is vin and other is isp-core... although then I wonder why ISP
+> input resets ISP core?
+
+
+The two IP blocks share the ISP system clock / ISP core reset and also Video input data AXI bus 
+clock / reset.
+
+
+Thanks
+
+Dan
+
+>
+>
+>
+> Best regards,
+> Krzysztof
 
