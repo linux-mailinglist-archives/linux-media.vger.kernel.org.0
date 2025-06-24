@@ -1,118 +1,123 @@
-Return-Path: <linux-media+bounces-35735-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35736-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EAFAE61A0
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 11:58:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C07AE61D7
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 12:10:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EFF8163D5A
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 09:58:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 56A2F7AD074
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 10:09:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BBE427D776;
-	Tue, 24 Jun 2025 09:57:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5802328003A;
+	Tue, 24 Jun 2025 10:10:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="m2pgCdyX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRRVoHsX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4F827AC31;
-	Tue, 24 Jun 2025 09:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AE9A2D;
+	Tue, 24 Jun 2025 10:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750759070; cv=none; b=q3uEtGIdXSQBGblmeLaT2n7MaLladnbmI1eSWHVcPTIj0EnizymJd2cICBy0G1RaK6ZTITFv3rFhziidxxUGZvTDxgcmBquCC4SvQIKpqvh1j5jqur6tAtdu/ClFbkA2fUK2hwnqU2m3OuEYcV0DFzKLlm3ESCAe6hVRGfjTVbE=
+	t=1750759840; cv=none; b=QTuNPeeepVxy6+Immxz2i3GrHcDQhlWwAkC/JY+XFyNy/SlyRPmz5gb16SW+2JIdkmeyY0MP3pX20kVGveioDwaSZwXca+yKAjmlDjTl47Ot6GXnL2tKP0Ty1f2xFrpfGgD0UuuVWpcTt3yvpqBdBDQe480Ci3cwqQvtfZDs/44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750759070; c=relaxed/simple;
-	bh=246J1mNhyuBtXFqi+2FZKzXXx4yvDDpbkBVQ4CMgHPg=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=j5hPNYGlr5AQf/q6qU9HTnFx03VjQGa9bwN1N8HdTBOAC4EvdBpFA34Zu+Cv42BrQHKKuGenlt8RARuQGSmaj973Pw4mbQeWsJfhc6KBRmGA1Rt3WH3pU5PvI7eKdkQFQS/df0WnaLTGb1Q2r2FmUPl1G/LKDBdb8ttStcWR1TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=m2pgCdyX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26A237F0;
-	Tue, 24 Jun 2025 11:57:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750759050;
-	bh=246J1mNhyuBtXFqi+2FZKzXXx4yvDDpbkBVQ4CMgHPg=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=m2pgCdyXz41Nyt8uYIqBNl9b+rEqUU7GS8cLfn9KohEu8l9F0eu3Ibun43HuxvsKd
-	 40DqbE/Gpi+31bzrfQyhpPk+cAWo0MoNVV+hcWvTDD9gO0CEy3HSW2QAKxZVZYn0he
-	 HNQwmJHbZAurW+nfATnoMruSyFxa+2yTWeZHT57s=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1750759840; c=relaxed/simple;
+	bh=hutsv4UDvcLwpCO4WMGWeM0MKHTbAGOdti+Xle37/34=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vro1W66RN+CP2YNlcJnNx7aKmYvh+34t8w+pbcucWQ3wDdpWguAMO76Qv094k/Al99lkYTUMWSMJMTPL4yfnHjwxzHwKsIFcCDoTTL4tg6Pea8Rd4gXbK9uxlwwT5yI57/0d1QLPdXUpZSezPMZgBespoDWMuVxVzf40ev0h1jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRRVoHsX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 143D6C4CEF1;
+	Tue, 24 Jun 2025 10:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750759840;
+	bh=hutsv4UDvcLwpCO4WMGWeM0MKHTbAGOdti+Xle37/34=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KRRVoHsXilY7accYliwqn9Z+3rO5+hlsuY0nOv/wmFz+we8ESeRK/1EKIXWwjjESY
+	 jlWRwfql8iJskgS4h+ITDrsfKoZmc55jQWJl03H7bUSq1we0mmXqt4f6DtiYRYJJiy
+	 I/yQezaVlrfhAMhb1SeNPIF7dwBytZTzTD26v6piR6N/hcR/VRvllvAhUM6fXNpyaX
+	 cb2ghrZFTKC3KBlaJKnsCZoCVvW2N1JBdg8O9fSCPhWFz9Ig9CjiVNwjIb1WHti9cZ
+	 9wlb93eI59sn7GRZL7Q/jfAvX1gT9Tf2qmQQ01oXXovOWN4RZUmrjzdT2L39IbPLRH
+	 MTheODLxw6KPw==
+Message-ID: <aa56b956-95f3-484d-8afa-058925b95bfd@kernel.org>
+Date: Tue, 24 Jun 2025 12:10:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250624065438.2021044-1-shravan.chippa@microchip.com>
-References: <20250624065438.2021044-1-shravan.chippa@microchip.com>
-Subject: Re: [PATCH] media: i2c: imx334: add support for additional test patterns
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, conor.dooley@microchip.com, valentina.fernandezalanis@microchip.com, praveen.kumar@microchip.com, shravan.chippa@microchip.com
-To: mchehab@kernel.org, sakari.ailus@linux.intel.com, shravan kumar <shravan.chippa@microchip.com>
-Date: Tue, 24 Jun 2025 10:57:44 +0100
-Message-ID: <175075906452.3871677.12511426007175753529@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
+ interconnects alphabetically
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250624094253.57441-1-vladimir.zapolskiy@linaro.org>
+ <20250624094253.57441-2-vladimir.zapolskiy@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250624094253.57441-2-vladimir.zapolskiy@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Shravan
+On 24/06/2025 11:42, Vladimir Zapolskiy wrote:
+> Sort the entries of interconnect and interconnect-names lists in the
+> alphabetical order of values in the latter property.
 
-Quoting shravan kumar (2025-06-24 07:54:38)
-> From: Shravan Chippa <shravan.chippa@microchip.com>
->=20
-> Added support for three additional test patterns in the
-> IMX334 driver: Black and Grey Bars, Black Color, and White Color.
->=20
-> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-> ---
->  drivers/media/i2c/imx334.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> index 846b9928d4e8..43dd7edb48c8 100644
-> --- a/drivers/media/i2c/imx334.c
-> +++ b/drivers/media/i2c/imx334.c
-> @@ -118,6 +118,9 @@
->  #define IMX334_REG_TP                  CCI_REG8(0x329e)
->  #define IMX334_TP_COLOR_HBARS          0xa
->  #define IMX334_TP_COLOR_VBARS          0xb
-> +#define IMX334_TP_BLACK                        0x0
-> +#define IMX334_TP_WHITE                        0x1
-> +#define IMX334_TP_BLACK_GREY           0xC
+We do not sort these entries alphabetically and you did not explain why
+you are doing this.
 
-This should be lower case to match the other hex constants (0xc)
-
-I also wonder if this list should be in register address order ... but
-then it won't match the menu items ...
-
-> =20
->  #define IMX334_TPG_EN_DOUT             CCI_REG8(0x329c)
->  #define IMX334_TP_ENABLE               0x1
-> @@ -398,12 +401,18 @@ static const char * const imx334_test_pattern_menu[=
-] =3D {
->         "Disabled",
->         "Vertical Color Bars",
->         "Horizontal Color Bars",
-> +       "Black and Grey Bars",
-> +       "Black Color",
-> +       "White Color",
->  };
-> =20
->  static const int imx334_test_pattern_val[] =3D {
->         IMX334_TP_DISABLE,
->         IMX334_TP_COLOR_HBARS,
->         IMX334_TP_COLOR_VBARS,
-> +       IMX334_TP_BLACK_GREY,
-> +       IMX334_TP_BLACK,
-> +       IMX334_TP_WHITE,
->  };
-> =20
->  static const struct cci_reg_sequence raw10_framefmt_regs[] =3D {
-> --=20
-> 2.34.1
->
+Best regards,
+Krzysztof
 
