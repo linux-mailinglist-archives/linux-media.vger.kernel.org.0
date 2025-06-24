@@ -1,278 +1,115 @@
-Return-Path: <linux-media+bounces-35792-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35793-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F66DAE67E1
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 16:10:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B37E8AE684C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 16:22:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 642AB7A2249
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 14:09:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07538172FE2
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 14:17:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84BE72D23BC;
-	Tue, 24 Jun 2025 14:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07942D320E;
+	Tue, 24 Jun 2025 14:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SSJoCq6q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XgbPzP0q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE352D1F72;
-	Tue, 24 Jun 2025 14:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945491EE03D;
+	Tue, 24 Jun 2025 14:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750774227; cv=none; b=o+vS21HYxevAxyxO8/w1en12C06PR56xSCp2GQj9zq15mQj9H+uRWtRGgY+nN6h3HYGBBNyE2AQO4R2Mt7IZ6HQgx9jeV5sT22kEwS1DD9NVaGZxFkEZ7x3/pRwGrKHkVyvHAAqrUEx1rE1KkSTwZLn/HMatK7b++1UHdu28xu4=
+	t=1750774524; cv=none; b=pLlgzHjBKvJlF9Z6muwR70xja75M4xWWg3sLHrfwI6ITU/BE2LUCxDOE4w5VM8z/kdqu/Zxwekd7HjhiS9G//OW9c19dMM9TVBhLsXJYjOMFob5qo065kQVV5OzsItDzTdjzxpWwGWSWj3W+iK/2W+6GtTxvsbfzy3f3imfw6qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750774227; c=relaxed/simple;
-	bh=hu5D2yG7YDF3qT6VuNJ7QELnHxz0FGP6x8nWUeh6yOw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Q0eQyrPTpXgzXo/zt7VCukLR8gZyI5KQ4wk3BAOFUSZKCa4zMvmDjSHzuKqc1VgrRk+NHAFRe3KY4feHitemZ2+z4IlMO9+x/HRK7DNqaf/U2qx3Oc7Z2UDEdz6NF8rEUmznliYya2x7msRSuDAjDf29XcyPw1xwUc9N9+Fm3BA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SSJoCq6q; arc=none smtp.client-ip=209.85.215.169
+	s=arc-20240116; t=1750774524; c=relaxed/simple;
+	bh=EYBB5hzcAOt18RHPivhYOpPcVF9O5sHPejxC6FiOZNY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lYqFDA5D4xwEeuQUmnfYv67M/wnxcRVU66qQSKhKXEuSuOtneg6GB/EKGFKIJ+oVbmstBFzlwQb9wqaa/C48zyb0lpFyus0ZbAkw7xZgqELg4QazxMO0h4KC+/mfNvLcf3jpEoWsqcN5n9+Q5IJsVqFi6gx5d/KY8f+gOnJQRsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XgbPzP0q; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b31e0ead80eso478112a12.0;
-        Tue, 24 Jun 2025 07:10:25 -0700 (PDT)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-60780d74c8cso8448875a12.2;
+        Tue, 24 Jun 2025 07:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750774224; x=1751379024; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vILkg8ZEGzs8nDPWad0XYNa3F/qA85actTxUYvIR0gc=;
-        b=SSJoCq6qJ4olEUC92Fi4DMMSZOpFbhgBWZe4TLnXe2l557CP37FvuZFOdZf7CVmjdo
-         9KAnMDItqlqBN3o0aEjWCxjnQUHW9leKYxR7agrA6dFbsnqTRMnYgdtKI8D5noVbvFjS
-         12CSaEzKo1aMMZiVQYfKd5aXVn0KzKbVmcgG42S1DBPw9toZmmh4wOpeEWvdMvsq6Rnb
-         MU2vJekozcad0UOji8S/ji7iRQ1UCIXYgmLofrDQlPn7gGQShh5Xzj9uy6vLMY8UlUmM
-         GeqyON72D+4XCGQBuwqgJvEgBBmroV+oen0GSgwKCZu2l7PvmiLo1WMpaJGin7xEAz5Q
-         RIVA==
+        d=gmail.com; s=20230601; t=1750774521; x=1751379321; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TgEeZ1NwzgeNOBBLWPbhKcGNzxqxdSNPOA/Y890PEHQ=;
+        b=XgbPzP0qqvajbzsIS1f/0LfBAs5PT5E9PgDcCQzdIJZsDqZ6FLeZrzEdVk/eHaA9F/
+         ZEESBkF3xFpIH8uYHGqcDGjw6i9fUb7ZNM0AJJ6hRRjUf3jsfNh5lbnSJq9Av2bCbUiC
+         kjT54n3O1nwyXPL9Y/f8FG98uUibuUChS6jRMBeNwd6NG1ydP3qqfDKiIpLameaXisb2
+         DeKjUfOZDXWmBA+voAerEQwge7Pkxkj+UYDnlp6xDplsXYEmW49ZKEGEtTIveRJ7L0et
+         ty0qJBbGUoSmlhfm9AvKCKWWbhpILnxIeIUOrzaQ1AP9icu/I3ydYQ1JWeUuprsThWG6
+         Jqxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750774224; x=1751379024;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vILkg8ZEGzs8nDPWad0XYNa3F/qA85actTxUYvIR0gc=;
-        b=bSvlyjf0VK2Oah2IpP5qw7fgnc6z+ZMi0tzCTm//py0HKJcgN6bP6GjmL6B+WIbNWT
-         veQ1NzDQnAIFjtSRNDW3WqbWRuKyls5mmqVTF13M6X7J9MViqvaZgwHPEvcHItyl63oT
-         LGf8WOSNQryzIGk5dq4/Wp/+skGvXAJ+m7p1UiGLnylbj2VuxgHtcZjCnxkd8rw3MQvk
-         k8Pi6Dia0KlKuBDFd45FNlhteXj55fDMbsdX21a7hHNqZXHzFER29iV7v97mCBxBUaaz
-         5vZZfqyrM8Z9hG+RltlKA/3vkgX8zo0PGDwtYeW29pEWqKbAS+KTy/L53oOCqD2LpU+n
-         7C1g==
-X-Forwarded-Encrypted: i=1; AJvYcCV31PgoXEmjwPlySV7Kjz2vlZ+Gn/S+2o2HPH1tGVKZmsXkn5rK5wIxzX53Ki/k+V8Rp9lIvYRgnY/kVHU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6qUPIM/xTZbWmVUIKBWYiD0juVF5IsZOtoo1EqCHlUAZiknys
-	GyLlahyd34UHN6I2Ap0AK0ekzc/d0i8T+uz6onjy9ohD6CkcLqKd4IJNqtAVZ2Mc
-X-Gm-Gg: ASbGncuo5xRZprLEKXyJW+iDM7iLvJAM/jMN0PxvjJxoPZhT1Q90MJjJGO9Xgu286i9
-	KOmr+lVhu6U8BedlSlFUnrzKcWujEIcNYeOqHnZbuIACRvz1Zk/WC9dA6RvKXQbcRONg+OUjUb0
-	DHqwmbIXrvlVkYGGt8QseHwK7PHqOLjToOZnFli2QcDgy7TOl2d/sAP+ZAery0LzcRqpkgUN9+W
-	/dYfqL7x9onIuUWLXJT/3h7Zw7ohjJ4vjH3HxoQgUuaQBrrXeq6zxAfOZkmqkX1PoXzz51nWLTd
-	FVwZxnAZySBCPnaeccEfA+SATByNU1CrhTwr4YDXepiTyUTeUf6+LweO1g/FUk38MeowPUH/yy4
-	z6RAUj/TjJnoxXHVDzH1AhqCgjhNGkvIIIRfDHF2vUbJALydUtQ==
-X-Google-Smtp-Source: AGHT+IHM7fdzhWlDDyjVNuz0muzjzy/ZJKs0jZVCPWYYP+Dw22irw4/etAo34nrjJNxnORqI9Z5zew==
-X-Received: by 2002:a17:90b:4cd1:b0:312:639:a06a with SMTP id 98e67ed59e1d1-3159d8fce9bmr21905357a91.31.1750774223961;
-        Tue, 24 Jun 2025 07:10:23 -0700 (PDT)
-Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3159e07d7c0sm10871747a91.46.2025.06.24.07.10.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 07:10:22 -0700 (PDT)
-From: LiangCheng Wang <zaq14760@gmail.com>
-Date: Tue, 24 Jun 2025 22:10:00 +0800
-Subject: [PATCH v4] staging: media: atomisp: fix coding style in
- ia_css_output.host.c
+        d=1e100.net; s=20230601; t=1750774521; x=1751379321;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TgEeZ1NwzgeNOBBLWPbhKcGNzxqxdSNPOA/Y890PEHQ=;
+        b=C6Fe8I3ROLVTn+y/gx7aPPV7qgyOHweF2VUjrCAcbrnJXOQFV9msULi/LmmpuEJZLn
+         EwCAe1lNHooSbOwut/LxHQGYLSFLDnOLxAf/eL+w/41nDv6TiZs23cdERBHeNAP8jATE
+         gilpKIo5/nuT0Zg2Nin/9Fq3a/BbuLaqsbg5NV9MpxiW7yxtsPwAJA6op8fIUM3fUhR8
+         hxEqp59NNros37q0t10xqRyig7DyBD+nTb8MIGGh5k3zt7kC2xie154eXlvd1ErQqR5p
+         xzGRoBGgLoxANiwccmUeorGuYsz6aSI7VqaXbRnJR00bBvWAqOjkNW6DCcgN2VrrJLVZ
+         FECQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV0I7P8iMeWBVuTtqK798R/rKc3Wjg1jFXU6ZcxgpezVgJKqCt+xI35xADyaAXY+SF8ToZAqb30Q2Dg+NE=@vger.kernel.org, AJvYcCVeS0YgU2cv+1JIxvytfgyFVXxJUI3DAirNO2vq0C/+cA0KUDolV0ja89CqNFW+ayHA/muRb2xGF23jHE8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOSC5ua58HjgsWGQF6qL3JE+vJBopP6i43jWlHdngxdtunjeVI
+	xp/rsrfumcR6SEtItILyV0aP67JsQFkB7N85JJVhTlWI1Sit1i7TRChxLXjFi/dsqjoMCuTWtkI
+	/8TiYJFenYXtHmZ0m88T4lJXEcPy2xdA=
+X-Gm-Gg: ASbGncv+x5cGwNi/b+sWB9cppT4fnS+UB8X/GLyepIUG67hZQJ2koDj/LG+ua05Bbuu
+	PW13zLGZtinm3KP5PePVxFLtpK0FIR4hV015+PUxslJlzZVNKLwNsoOTHmeIf/fn5eDWXMuYLto
+	Abm8sq1CVjHHhqfsPbYk5CKqev/d2oM+YgDsLTTd9apcQ9qw==
+X-Google-Smtp-Source: AGHT+IEaLqgUCTgi/UDgbwhHHVKTVgJFfI8XH3ilfqmadSEjxKw9dZfOogiQ85oAjhJORbPUBGmOTbETdCj098Uck48=
+X-Received: by 2002:a17:907:9087:b0:ad8:a935:b8e8 with SMTP id
+ a640c23a62f3a-ae0579d1a99mr1127576466b.5.1750774520592; Tue, 24 Jun 2025
+ 07:15:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250624-bar-v4-1-9f9f9ae9f868@gmail.com>
-X-B4-Tracking: v=1; b=H4sIALexWmgC/23MTQ7CIBCG4asY1mL4K7SuvIdxAePQktjWgCGap
- neX1k01Lt/JPN9EEsaAiRx3E4mYQwrjUELtdwQ6O7RIw7U0EUxUTAtOnY20MtLVTjHvakbK5z2
- iD8915Xwp3YX0GONrHc18uX77zCmnlZVoGFNKCzi1vQ23A4w9WXwWf4woRqEGD8Y0mqtfI7dGf
- IxcDEDD0TMO0m7NPM9vx1x5Z/4AAAA=
-X-Change-ID: 20250621-bar-573b8b40fb80
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, LiangCheng Wang <zaq14760@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750774217; l=6451;
- i=zaq14760@gmail.com; h=from:subject:message-id;
- bh=hu5D2yG7YDF3qT6VuNJ7QELnHxz0FGP6x8nWUeh6yOw=;
- b=qRIAQRDbJ/R5qEE9RO9CF7rAymxmlNHm+GMk++kWB6uFkP3xYY9fQMACVzxUNHnYUigaVFXCo
- IMGhdAyH8r2Bl4zLlZxdOZWZo/SlqzRed6LuZ4sF+eEn4VOrvaaDcry
-X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
- pk=/x4391DbJ19fFQI7t33HWt3lsHfYPl2I2ax8C+Vxr+M=
+References: <20250624-bar-v4-1-9f9f9ae9f868@gmail.com>
+In-Reply-To: <20250624-bar-v4-1-9f9f9ae9f868@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 24 Jun 2025 17:14:44 +0300
+X-Gm-Features: AX0GCFuQATpLhLi-lMuhRabxfiCC90DvlL1jCZW9tpHUJF8q6CscEDY8rVRgI0w
+Message-ID: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
+Subject: Re: [PATCH v4] staging: media: atomisp: fix coding style in ia_css_output.host.c
+To: LiangCheng Wang <zaq14760@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix multiple checkpatch.pl ERRORs and coding style issues:
+On Tue, Jun 24, 2025 at 5:10=E2=80=AFPM LiangCheng Wang <zaq14760@gmail.com=
+> wrote:
+>
+> Fix multiple checkpatch.pl ERRORs and coding style issues:
+>
+> - Use tabs instead of spaces for indentation
+> - Move trailing `if` statements to multiline format
+> - Remove excessive space between type and asterisk in function
+>   arguments
+> - Move assignment operator '=3D' to the same line for static struct
+>   definitions
+> - Remove unnecessary line breaks in function definitions
+>
+> This cleanup improves code readability and follows Linux kernel
+> coding standards.
 
-- Use tabs instead of spaces for indentation
-- Move trailing `if` statements to multiline format
-- Remove excessive space between type and asterisk in function
-  arguments
-- Move assignment operator '=' to the same line for static struct
-  definitions
-- Remove unnecessary line breaks in function definitions
+Thanks for a new version. Now the question is, is this the only file
+in the whole (>90kLoCs!) driver that has such problems? If not, fix
+them all and update Subject respectively,
 
-This cleanup improves code readability and follows Linux kernel
-coding standards.
-
-Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
----
-This patch fixes coding style violations detected by checkpatch.pl in the atomisp driver under staging.
-
-- Use tabs instead of spaces for indentation
-- Move trailing `if` statements to multiline format
-- Remove excessive spaces between type and asterisk in function
-  arguments
-- Move assignment operator '=' to the same line for static struct
-  definitions
-- Remove unnecessary line breaks in function definitions
-
-This cleanup improves code readability and follows Linux kernel coding standards.
----
-Changes in v4:
-- Moved assignment operator '=' to the same line for static struct definitions
-- Remove unnecessary line breaks in function definitions
-- Update commit message to reflect all the coding style fixes
-- Link to v3: https://lore.kernel.org/r/20250622-bar-v3-1-4cc91ef01c3a@gmail.com
-
-Changes in v3:
-- Removed extra spaces between type and asterisk (e.g., `*to`) in function
-  declarations, as pointed out by Andy Shevchenko
-- Update commit message to reflect all the coding style fixes
-- Link to v2: https://lore.kernel.org/r/20250621-bar-v2-1-4e6cfc779614@gmail.com
-
-Changes in v2:
-- Fix patch subject prefix to "staging: media: atomisp:" to comply with media CI style.
-- No other functional changes.
-
-Link to v1: https://lore.kernel.org/r/20250621-bar-v1-1-5a3e7004462c@gmail.com
----
- .../kernels/output/output_1.0/ia_css_output.host.c | 42 ++++++++++------------
- 1 file changed, 19 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-index d09365e0c47104dbffbd455bfd649b9079f88c9c..560102e81aed7a56125a97f0fff8c46de440e74d 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-@@ -22,21 +22,18 @@ static const struct ia_css_output_configuration default_output_configuration = {
- 	.info = (struct ia_css_frame_info *)NULL,
- };
- 
--static const struct ia_css_output0_configuration default_output0_configuration
--	= {
-+static const struct ia_css_output0_configuration default_output0_configuration = {
- 	.info = (struct ia_css_frame_info *)NULL,
- };
- 
--static const struct ia_css_output1_configuration default_output1_configuration
--	= {
-+static const struct ia_css_output1_configuration default_output1_configuration = {
- 	.info = (struct ia_css_frame_info *)NULL,
- };
- 
- void
--ia_css_output_encode(
--    struct sh_css_isp_output_params *to,
--    const struct ia_css_output_config *from,
--    unsigned int size)
-+ia_css_output_encode(struct sh_css_isp_output_params *to,
-+		     const struct ia_css_output_config *from,
-+		     unsigned int size)
- {
- 	(void)size;
- 	to->enable_hflip = from->enable_hflip;
-@@ -44,7 +41,7 @@ ia_css_output_encode(
- }
- 
- int ia_css_output_config(struct sh_css_isp_output_isp_config *to,
--			 const struct ia_css_output_configuration  *from,
-+			 const struct ia_css_output_configuration *from,
- 			 unsigned int size)
- {
- 	unsigned int elems_a = ISP_VEC_NELEMS;
-@@ -66,21 +63,21 @@ int ia_css_output_config(struct sh_css_isp_output_isp_config *to,
- 	return 0;
- }
- 
--int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
-+int ia_css_output0_config(struct sh_css_isp_output_isp_config *to,
- 			  const struct ia_css_output0_configuration *from,
- 			  unsigned int size)
- {
- 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
- }
- 
--int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
--		          const struct ia_css_output1_configuration *from,
-+int ia_css_output1_config(struct sh_css_isp_output_isp_config *to,
-+			  const struct ia_css_output1_configuration *from,
- 			  unsigned int size)
- {
- 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
- }
- 
--int ia_css_output_configure(const struct ia_css_binary     *binary,
-+int ia_css_output_configure(const struct ia_css_binary *binary,
- 			    const struct ia_css_frame_info *info)
- {
- 	if (info) {
-@@ -94,8 +91,8 @@ int ia_css_output_configure(const struct ia_css_binary     *binary,
- 	return 0;
- }
- 
--int ia_css_output0_configure(const struct ia_css_binary    *binary,
--			    const struct ia_css_frame_info *info)
-+int ia_css_output0_configure(const struct ia_css_binary *binary,
-+			     const struct ia_css_frame_info *info)
- {
- 	if (info) {
- 		struct ia_css_output0_configuration config =
-@@ -108,7 +105,7 @@ int ia_css_output0_configure(const struct ia_css_binary    *binary,
- 	return 0;
- }
- 
--int ia_css_output1_configure(const struct ia_css_binary     *binary,
-+int ia_css_output1_configure(const struct ia_css_binary *binary,
- 			     const struct ia_css_frame_info *info)
- {
- 	if (info) {
-@@ -123,11 +120,11 @@ int ia_css_output1_configure(const struct ia_css_binary     *binary,
- }
- 
- void
--ia_css_output_dump(
--    const struct sh_css_isp_output_params *output,
--    unsigned int level)
-+ia_css_output_dump(const struct sh_css_isp_output_params *output,
-+		   unsigned int level)
- {
--	if (!output) return;
-+	if (!output)
-+		return;
- 	ia_css_debug_dtrace(level, "Horizontal Output Flip:\n");
- 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
- 			    "enable", output->enable_hflip);
-@@ -137,9 +134,8 @@ ia_css_output_dump(
- }
- 
- void
--ia_css_output_debug_dtrace(
--    const struct ia_css_output_config *config,
--    unsigned int level)
-+ia_css_output_debug_dtrace(const struct ia_css_output_config *config,
-+			   unsigned int level)
- {
- 	ia_css_debug_dtrace(level,
- 			    "config.enable_hflip=%d",
-
----
-base-commit: 3f75bfff44be0646580fe4efda45d646f9c1693b
-change-id: 20250621-bar-573b8b40fb80
-
-Best regards,
--- 
-LiangCheng Wang <zaq14760@gmail.com>
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
