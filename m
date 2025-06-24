@@ -1,85 +1,85 @@
-Return-Path: <linux-media+bounces-35832-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35833-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23E7AE706C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 22:13:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 973A2AE706D
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 22:14:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A6D61BC408E
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 20:14:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 10EC917D5A1
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 20:14:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA9272E92C1;
-	Tue, 24 Jun 2025 20:13:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E59632E92D0;
+	Tue, 24 Jun 2025 20:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HxDbrOQ+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ij40LSTa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220B02550D3
-	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 20:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EBE23BD1B
+	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 20:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750796026; cv=none; b=Wmm69T2ZlAqs9tE1EOqYqK6+gVcTMXbSE2Dzzo2yoirCt9kUtsjC8jKUXt7hmxELgsainBc9oXACCauFy/SdOaZCOzAMrAo5IeLsprcTRfe9HsXzirN8OJmrzYVNYsN+Hp5jBCrQ569HhT7DnwV1LaHsyLMmG4M1yIG6ewKjgsY=
+	t=1750796082; cv=none; b=k4AZ+O+5gaj7hEQAd5BPOWt3xC+unRKHv3mEh3OMxMahzNzcQkrQpaL0O+lUnpW9Y3hlR36+AWHNs6Pt8YlvEihXux4Yd2ApMZxpoH5EJVfNWVXXL0FqDdrApoHF3C3A9O+iEWwl9/+tgstthf3M3HakP6Dww8Ap6nZxNFRPBL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750796026; c=relaxed/simple;
-	bh=04gs8oG7XytwujHVqZCUvBXZJFgNfuoGlbc8u5u1eG0=;
+	s=arc-20240116; t=1750796082; c=relaxed/simple;
+	bh=FLsjB6LDkEkviyhH1QN439gwGYk+fvHYJ2mH13wKzWw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X8oSNP/rEuqAZttRoBnKGktGJwdJFzGEI7wddu5glgc8hb5IlY4A+n1YQAtM1UlxwBLqx8fJn2D2ZXQxauqHDhQIym81hm6A9dGA+xTtz1E7vT8Tva+N4x3i4NMmIskgB2fdv7bsK64zS9+s+7HflIorc1j1Vg+pigD1Zb+IbmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HxDbrOQ+; arc=none smtp.client-ip=209.85.128.43
+	 To:Cc:Content-Type; b=LQSlC/PeXbgzMImGFLGWaOp/QcPmc5vpweAvQIVCQyqQ5ba/qbmIkEViT3md0GRI61xf9A0aHeeauDRdwWqSMLztHOCHrrvf56TNCh/6Z4xbH1CxSINeZy8g2F7eHoCixAhaqxCFSnetBr2LUpeTkl3hbTn/b0L32fx2Xy1iCpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ij40LSTa; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-453643020bdso7886665e9.1
-        for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 13:13:43 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-453398e90e9so39792915e9.1
+        for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 13:14:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750796022; x=1751400822; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1750796078; x=1751400878; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ujsqQw1lPRcdAJORC/sMQ7+cZS3C+/7MBfclLqHhabI=;
-        b=HxDbrOQ+WhW5MQ3Qn7n5/Q6iYnlFh3+VJuZkocNCHQuaNssNf9Am9KWrn/hvqCdn8b
-         VpG/81sPbGsWdKVEA4wm30N00HS14DNY0qbAD0p2VUCp5qVQAbTuYefff0emmtdkazqu
-         Yu4APlKaoWmZSS2c6RziEMTNGOXHPUCm4zs+J6W9fYq+IK38PhvDNtRrNKR1NsBf1HUY
-         vGCJr6U6REKJatMLOasjfn4wl5pt+wrK6ZsEluIIHbr9TPiWtrxp80wXth8pgqtySMgp
-         xM7Jw00XdFLtZ7Xn3mWfD7fvP6enRt9a9yf/dauqOaRFYI6mBi6FWlUt20SlxpYL/o2H
-         7VvA==
+        bh=a1lSNyT5ts8p5OfDDng0iWEtAN3aXewnSGMeX61dvqI=;
+        b=ij40LSTabOPowODqAXRh98FcowZiaoYw4fjcad7yW4B9XFNWvY4U8v6zz4bX5zeb0h
+         HdNKiOQmzM/2YqZgRGyv38AAghD4MNysPUostjia9sxIO6AtkvWjhcIOXXNTEWEu6ETj
+         awQ16aUux3NNVUCRZ/1VpxSKqHKneiY7UqoN7zX3cVK5oxcc4/4keWDt6iQfeY2AQ8ra
+         wlrDKwPSQ2UGmut6yYgC+T8cNmx8+xqrjn3OX8SgHAJtqYSTvj4KPt7+qyULpKqnUbMh
+         ZdPpZdmV1EiAgQ8lhI9lO0ThmAxSUh9wY55NHuB5b0K2+cLvQCr6mn9+qwMz6zATBgg9
+         cwqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750796022; x=1751400822;
+        d=1e100.net; s=20230601; t=1750796078; x=1751400878;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ujsqQw1lPRcdAJORC/sMQ7+cZS3C+/7MBfclLqHhabI=;
-        b=nNNVFEquyNguQFd9afgEBRcLq5hI3XxxVCHpdD2yKypEkj6i5DD1XKApP9n2y/iuai
-         3+xCfqaVNvHs/F+w8cImY94GYdfcD+mqMBZXl1juFvSI+PJL1j1RJqH4zPuA4WQOIJLi
-         Xn9PhSVH8GeIhb864IJi6Do+/8yir0xSOpHNHaqoithto00OBb+mtPpywlL06m13hFdW
-         ORiE7mdP38umK/5L2pzv7sf3zUmkai1G5BFCnGJjmyXVxE+WHC2MUWxpnVqi/LcFlPFL
-         PaQmexrE5OTYB+OgW52mFA7kzRjs0rezxFMP5YTOBI1stDiJ4Gs3u0M0YJvSq4D+WqQl
-         UJcA==
-X-Gm-Message-State: AOJu0Yy+9LpClZZ0XkPIWCdtx+SAyEn8BOTk3BRHdaix4nGpWUylsJi6
-	zHxCiM0G98feXdkxge7v6dCHyDx81gyCJxU9lmhnSLHPHmpyQqqQ/zwNHMWkoaR3Bo4YzmyMfKb
-	UHx4oIDHzJnIOMxG7m0oAJD1LZQiM4OE=
-X-Gm-Gg: ASbGncvpak1Saw2m1OVslxLDujqgNPxVqB6k7YuRtL/bbR6XtcEnwBGLXsz5lIZetqd
-	4rM/8PBPY7moJ0J8ZusmSCym+jbZAGy7S9syXdmjgb2sTDLy3l/fjpAuW54iC61jjY/XAR1cisz
-	kmgjrn66kK7zcqx5SWk/1ovAfHsYSzZW6gPJFqhfdJDUQZlQ==
-X-Google-Smtp-Source: AGHT+IHoSrdXukjoLJdsraIlcS6jfealnwibTdkad92B19TlbCLHEPpMfRqIFcrt1oN7gPSj7KLvIO/Y5G1QqOXVAtg=
-X-Received: by 2002:a5d:5847:0:b0:3a3:7593:818b with SMTP id
- ffacd0b85a97d-3a6ed62eb62mr79455f8f.21.1750796022318; Tue, 24 Jun 2025
- 13:13:42 -0700 (PDT)
+        bh=a1lSNyT5ts8p5OfDDng0iWEtAN3aXewnSGMeX61dvqI=;
+        b=VZTaFTRmnrL1ps327b0tL/fweb4uMpxjL+DYtUdZLam5kKQ4O/Mt+TvNWDBYN7svP4
+         VvqkDW45xhaS+W/EmT0x2xK2/b+7jBxeO12yIcqnxg4cpcLMPM7x/Icz2CzfpWBekzDT
+         qjO9JZ4wysipzNpw8uNXEaRTnhOqI4MUhc/hkT8d6cBcmlalTcYfFlGNkQWGdAujy3s4
+         NAunFJU95FutSt5UcYBvaFD/88c6r1fEh0AkQm0PCB074GVyeMd60UIffhDAWR6DmPCO
+         G1nWSU/XBNluBDtrYK340jPJhFSs/N1ByVUJ0p7AJh6OLx4msnAk9MuwWGxbJ3Iexsr3
+         607Q==
+X-Gm-Message-State: AOJu0Yyl2niQJTOJqSuA8rcP3IE5z0RVIi9AKpRv2QmlyEiuwHeCz9E7
+	QT+xkxCrvHrts4EVVPg205sw7GkFlUVOKk4qc5YJnSMUjep9yxPgEkiGXHFSvq5ufvyq33nFPbV
+	AQUhHhoKjauIzLQ/i8KFbTEc6HBSaxbU=
+X-Gm-Gg: ASbGncuzqJ3wuoyUH521v5Myy5AJMGBE41PqLcU2qU30Zr3GiPEU6C6exA2KVd3DfKM
+	4G08v4b+G2WyH9eXKsRxqfkXD5TswmgvBPPideqmrPELUEf+XcZ4X4UbAKEASk4JnQSkOVFZtsh
+	RsfHjsYbtZZoDvQ3LczIUPl1m6L01k8P3M31tBoS69SO1Q4A==
+X-Google-Smtp-Source: AGHT+IH36a0SwMIT+LtWGCwGO4L2SKfkYoLbMnCGzqZwycd3DQNSFj9Bba+qvAq8rCHA5kdGqVvd4OUoUCxs3ubIWpc=
+X-Received: by 2002:a05:600c:190e:b0:43d:563:6fef with SMTP id
+ 5b1f17b1804b1-45381ae9028mr2509315e9.21.1750796078336; Tue, 24 Jun 2025
+ 13:14:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250619204712.16099-1-laurent.pinchart@ideasonboard.com> <20250619204712.16099-3-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20250619204712.16099-3-laurent.pinchart@ideasonboard.com>
+References: <20250619204712.16099-1-laurent.pinchart@ideasonboard.com> <20250619204712.16099-4-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20250619204712.16099-4-laurent.pinchart@ideasonboard.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 24 Jun 2025 21:13:15 +0100
-X-Gm-Features: Ac12FXxlLbbLECGdpPlNhT4pIaBWuP21PzjNHDNJKiX2cXydTxZnisH620wxLz4
-Message-ID: <CA+V-a8tW-VZtOLSsFy-Y=aQwrOq5hRG=e-kxtX0p4N601Tx6xA@mail.gmail.com>
-Subject: Re: [PATCH 2/5] media: i2c: ds90ub913: Drop check on number of active routes
+Date: Tue, 24 Jun 2025 21:14:11 +0100
+X-Gm-Features: Ac12FXznPs6pA19mFf_1yC31v2JMlDYDilvtrJU6-xw64C9IMwRCfHdZ1f5CynI
+Message-ID: <CA+V-a8s2Wr+BzSb0PDdmotVzssth=BH9RaCSHXXTr7W1vRqxrw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] media: i2c: ds90ub953: Drop check on number of active routes
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, 
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
@@ -93,12 +93,12 @@ On Thu, Jun 19, 2025 at 9:48=E2=80=AFPM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
 > The subdev core now limits the number of active routes to
-> V4L2_FRAME_DESC_ENTRY_MAX. Drop the duplicated check in the ds90ub913
+> V4L2_FRAME_DESC_ENTRY_MAX. Drop the duplicated check in the ds90ub953
 > driver.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/i2c/ds90ub913.c | 8 --------
+>  drivers/media/i2c/ds90ub953.c | 8 --------
 >  1 file changed, 8 deletions(-)
 >
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -106,14 +106,14 @@ Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cheers,
 Prabhakar
 
-> diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.=
+> diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.=
 c
-> index fd2d2d5272bf..61920d34efc5 100644
-> --- a/drivers/media/i2c/ds90ub913.c
-> +++ b/drivers/media/i2c/ds90ub913.c
-> @@ -316,14 +316,6 @@ static int _ub913_set_routing(struct v4l2_subdev *sd=
+> index 46569381b332..c80f5061a13a 100644
+> --- a/drivers/media/i2c/ds90ub953.c
+> +++ b/drivers/media/i2c/ds90ub953.c
+> @@ -456,14 +456,6 @@ static int _ub953_set_routing(struct v4l2_subdev *sd=
 ,
->         unsigned int i;
+>         };
 >         int ret;
 >
 > -       /*
