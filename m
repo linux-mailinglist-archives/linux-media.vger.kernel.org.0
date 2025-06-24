@@ -1,174 +1,195 @@
-Return-Path: <linux-media+bounces-35825-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35826-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB78EAE6F04
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 20:58:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC277AE6F0A
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 21:00:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3772D1BC5332
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 18:58:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7963F1BC4F8E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 19:01:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C0472E8885;
-	Tue, 24 Jun 2025 18:58:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94800241674;
+	Tue, 24 Jun 2025 19:00:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TWE7unGS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lCWpzA1N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86532E7631
-	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 18:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71688307496;
+	Tue, 24 Jun 2025 19:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750791497; cv=none; b=S57lCIIszPfYYcpgtr29iS2NsxjXDHnhmf2o15HWTEjePBFj0i7uQJl+ndi+KVQwDG+pO6Bil1/k+beIo4fh0Vta7hhB/uOSgmMc25qmgrN/GucSiOG4CaO/X5PWrTZdCyxC9XOzggACkQ/Atfa4styPKgUmuoYIOAAm4N39A3A=
+	t=1750791643; cv=none; b=gdNdrEP6TLIuhTGm2noJl+Se6cSuYHTJaBX4NDlmmjBPh3H9ZVqPNabKjikaBEHtQi7GfU2K0SHklXspVUW/NxvGGZPAG+GDl20NG4hOAGsmPNKRbVVZtDxabb5RDeu3WLQQUQWhgTiZoUjuM/FPsEwQuuLa7hgmCFrYEd80fwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750791497; c=relaxed/simple;
-	bh=npWwWKZPd5rdEqfk5ixF6kz+HcjFPiAMk+Q3wRxBc94=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X411aRzpkSBRNGhV76+YL+xm0VQdsk1ACqQKkrNclb5x0ILMgYZxAJGyr6wu1wEwMotqbaTKAb9D7f41zyPh+T747peGkrlAUT2zaqhEwXXWWF1DHZo1wp/FGIDibBrFRoK/qUoVQf3qtO6A4KS6euvmmLEFJMx4cif74asEnyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TWE7unGS; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-32b7fd20f99so2066931fa.0
-        for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 11:58:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750791492; x=1751396292; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h7ui9krklnTDspgMC7AGFpPjhbbUuQIxEzApTtxeYDw=;
-        b=TWE7unGSOuUxfA+RiQdEGtRaCAkTg6IrkT6bSQZThodttjPogdODQZyNfBW7I0xwJu
-         nfX0au6WniRbRkA6iSosgwB2XHlBrOB8l1Ir84cbw6EE3+4nKpyPpjKEBG02qm7+HCo+
-         4G6OYmTl6sdT0zTlxTzay5ScHkIele/6R3nM3bspbLGecKP8S1shvdHOE3nG2fb5FlR8
-         4uB6+uMXvRdf39Cg8vJYEGKJ15dUAzj5hpGFkdKIHqmcwMN/TK1PsAsps7MqQJySIPSa
-         FslFK2BVGdK36mkdfYhLdoalgGuUOd1ZQu0ByZOY/HlAEki88ioL6yFpb8L4yP6knnQe
-         thlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750791492; x=1751396292;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h7ui9krklnTDspgMC7AGFpPjhbbUuQIxEzApTtxeYDw=;
-        b=qsnpvRYUIhHzVx5yLYrzLYe5pqo7Gdar/3e/B43GAZxITmRDeMHqgf/35OBPrYLa4F
-         dAf8oi6H/iJv3Q7z9aX0eixOUi30jpczyTyK3Ljd9idBP522fPhuYNURTZVgw7Ggi1D4
-         v/xPh00DRpdgjPeqNOoYJ0NBfrYJi3fzTxTPsVMRwr7z/TvmaUiEerA2ewCKwidGdR14
-         SDNQAL+S6b8P+1yMd5ITpUhVWiT/z4sTU5vvfC31axFO81vdoZD9viXwfEBRJfuhomBI
-         dA8RsbrmpOeufmXrKVfuww6PJv92aq8IPqN5n8/NAxTdBGwkeQsvZyv+EqngDTICIv4K
-         vyTg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsQwBMLw0DlyU0sRWXve2IkC7RE1G6p7N+dEn19VZRRo7I0+YIhhZA/FQmiZFeGIa9G0dkWqp6QKpudw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQih53xsswhq+cxrKYGvqwu60pxkvaSB3WUsCvYoUyuQnHneAI
-	eNbul8zH7+tJB+lQCXh9CK/dhWAWQE0a1wW8oJg7H6y+fgnuir45xAdA85MQa89CL20cOx8YlWd
-	x6cKayKqRH3TI7cfUK3kZHFaW5JBhmaFfAKa6DN7z4w==
-X-Gm-Gg: ASbGnctN55xFJEBSEzlwz2QF+x7UZlItKMAdKVNcqzf5TztkflaGjEWCEZi6c+laTCT
-	SbYuJ7X7KPXETAosRxmI6wHLe0B0jHbnANXscDeZ1csYVc6C1hm1Z5QmQPlJ6DKLnVhCcNligqg
-	STqrPYf9+3X7U/qI/ctR3mdEUSWDTh7GXRMj8ay06UhNw=
-X-Google-Smtp-Source: AGHT+IFHkwtjvOJNCrFEWstn9L634lZ8TSAnodhGn+aKzDIVOJMa02nwLbdMCDdRl+xviZehHHIuiwGlHeUOdx9D6us=
-X-Received: by 2002:a05:651c:214b:b0:32c:a690:724b with SMTP id
- 38308e7fff4ca-32cb968d882mr10090081fa.19.1750791491756; Tue, 24 Jun 2025
- 11:58:11 -0700 (PDT)
+	s=arc-20240116; t=1750791643; c=relaxed/simple;
+	bh=dek6edVzC9rHjfF3sdmCDOihMrRX2UkHtRQT5JT/Tlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aYDY33lhcMCHvg0lnXP8WWKo0HciVL2JtbyDrDsrQejcHCK0va8Dt0WYe/I3kubZnY8oHYtQnqQtYxo7bg/lVY8eV35jkGogRqlG+E5sDKkn3D7TCrXJXqVuPA7BrcusCclEO7xgoLhW1umj42xLmteYMfjXP3SveeNWoVrzfy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lCWpzA1N; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id AAC856F3;
+	Tue, 24 Jun 2025 21:00:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750791621;
+	bh=dek6edVzC9rHjfF3sdmCDOihMrRX2UkHtRQT5JT/Tlg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lCWpzA1N+IwYJHIAQlIOneNrl9lrGyjbq+XlQWJEGMuxGXiKrmihpNIkRi6cYzKxt
+	 zRDXZUTk2KrrXU/FDK8sbLxTymOk4DJC3Xut3mXCyUvk3XY4SnlgdneJ86aFohTHTH
+	 dJ7KLWQFVv/x23y3W5lzGTTMPhNyZMXd52gZBj+k=
+Date: Tue, 24 Jun 2025 22:00:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Nirujogi, Pratap" <pnirujog@amd.com>
+Cc: Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
+	bryan.odonoghue@linaro.org, krzk@kernel.org,
+	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
+	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
+	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
+	Svetoslav.Stoilov@amd.com, Yana.Zheleva@amd.com,
+	Mehdi Djait <mehdi.djait@linux.intel.com>
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+Message-ID: <20250624190018.GF20757@pendragon.ideasonboard.com>
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
+ <20250615000915.GQ10542@pendragon.ideasonboard.com>
+ <53674c5f-6b68-49e7-bbb0-fd06fff344c3@amd.com>
+ <8b16675a-c6ac-4619-aabe-ad2a4be6c964@amd.com>
+ <20250623220503.GA15951@pendragon.ideasonboard.com>
+ <163655af-2a3d-4489-ac7a-4ee31d3980e2@amd.com>
+ <20250624001942.GF15951@pendragon.ideasonboard.com>
+ <d2a1d937-9db2-46e4-bc73-f810a3e86f20@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250618095858.2145209-1-demonsingur@gmail.com> <20250618095858.2145209-5-demonsingur@gmail.com>
-In-Reply-To: <20250618095858.2145209-5-demonsingur@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 24 Jun 2025 20:58:00 +0200
-X-Gm-Features: AX0GCFv3Y0xzvM4_ytzUY9wWsLoaPRcLNq10rxfdsma9gTvF5iQYKz-0B24NXH0
-Message-ID: <CACRpkdYwBAaEi--y64oVwVcAMH9z0LO5ZG_fvNK-CuxdERiYBQ@mail.gmail.com>
-Subject: Re: [PATCH v4 04/19] dt-bindings: media: i2c: max96717: add support
- for pinctrl/pinconf
-To: Cosmin Tanislav <demonsingur@gmail.com>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Julien Massot <julien.massot@collabora.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS" <linux-media@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	"moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	"open list:GPIO SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)" <linux-gpio@vger.kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d2a1d937-9db2-46e4-bc73-f810a3e86f20@amd.com>
 
-Hi Cosmin,
+On Tue, Jun 24, 2025 at 02:49:36PM -0400, Nirujogi, Pratap wrote:
+> On 6/23/2025 8:19 PM, Laurent Pinchart wrote:
+> > On Mon, Jun 23, 2025 at 07:28:46PM -0400, Nirujogi, Pratap wrote:
+> >> On 6/23/2025 6:05 PM, Laurent Pinchart wrote:
+> >>> On Mon, Jun 23, 2025 at 05:51:48PM -0400, Nirujogi, Pratap wrote:
+> >>>> On 6/16/2025 6:49 PM, Nirujogi, Pratap wrote:
+> >>>>>>> +static int ov05c10_probe(struct i2c_client *client)
+> >>>>>>> +{
+> >>>>>>> +     struct ov05c10 *ov05c10;
+> >>>>>>> +     u32 clkfreq;
+> >>>>>>> +     int ret;
+> >>>>>>> +
+> >>>>>>> +     ov05c10 = devm_kzalloc(&client->dev, sizeof(*ov05c10),
+> >>>>>>> GFP_KERNEL);
+> >>>>>>> +     if (!ov05c10)
+> >>>>>>> +             return -ENOMEM;
+> >>>>>>> +
+> >>>>>>> +     struct fwnode_handle *fwnode = dev_fwnode(&client->dev);
+> >>>>>>> +
+> >>>>>>> +     ret = fwnode_property_read_u32(fwnode, "clock-frequency",
+> >>>>>>> &clkfreq);
+> >>>>>>> +     if (ret)
+> >>>>>>> +             return  dev_err_probe(&client->dev, -EINVAL,
+> >>>>>>> +                                   "fail to get clock freq\n");
+> >>>>>>
+> >>>>>> Let's try to land
+> >>>>>> https://lore.kernel.org/linux-media/20250521104115.176950-1-
+> >>>>>> mehdi.djait@linux.intel.com/
+> >>>>>> and replace the code above with devm_v4l2_sensor_clk_get().
+> >>>>>>
+> >>>>> Ok, we will verify on our side.
+> >>>>
+> >>>> We tried using devm_v4l2_sensor_clk_get() and found its required to add
+> >>>> support for software_node to make it work with this driver.
+> >>>
+> >>> Why is that ?
+> >>
+> >> Its because the i2c_client device is initialized with swnode in the
+> >> x86/platform driver.
+> >>
+> >> https://github.com/torvalds/linux/blob/master/drivers/platform/x86/amd/amd_isp4.c#L235
+> > 
+> > So there's no information provided in the _DSD for the sensor ?
+> 
+> yes, camera device was not properly described in the current model, we 
+> are going to address this issue for future models following the MIPI 
+> DisCo Imaging spec.
 
-thanks for your patch! Overall this looks good!
+Any idea how far in the future that will be ? I suppose it won't be done
+overnight, how many new machine models will get to the market with a
+need for a platform driver ?
 
-On Wed, Jun 18, 2025 at 11:59=E2=80=AFAM Cosmin Tanislav <demonsingur@gmail=
-.com> wrote:
+Will the Windows driver team also switch to MIPI DisCo Imaging ?
 
-> MAX96717 is capable of configuring various pin properties.
->
-> Add pinctrl/pinconf properties to support this usecase.
->
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-(...)
-> +      slew-rate:
-> +        description: |
-> +          Slew rate.
-> +          0 - Fastest
-> +          1 - Fast
-> +          2 - Slow
-> +          3 - Slowest
-> +        maximum: 3
+> > Looking at that platform driver, it matches the device based on the
+> > sensor ACPI HID only ("OMNI5C10"). That doesn't seem quite right, I
+> > think you need a DMI match as well. You can't assume that OMNI5C10,
+> > which identifies the sensor, will always map to specific platform
+> > integration data (connected to an AMD ISP, using a particular link
+> > frequency, ...), can you ?
+> 
+> Initally we had dmi checks, but as the driver matured through review 
+> iterations, we switched to ACPI driver approach and felt the bus 
+> traversal to find the matching HID device and dmi checks are no longer 
+> required. The (_HID, "OMNI5C10") used is specific to this platform and 
+> shouldn't be impacting other platform even though the dmi checks are 
+> skipped. Please see [A].
 
-Would be great to have some SI units on this? Like how many milliseconds
-etc.
+How do you guarantee that the same sensor will not be used with the
+OMNI5C10 ACPI HID on another AMD-based laptop that would require a
+different link frequency or use a different number of data lanes ?
 
-> +      maxim,jitter-compensation:
-> +        type: boolean
-> +        description: Enables jitter compensation.
+> [A] https://lore.kernel.org/lkml/8d892845-e134-4553-a6af-55d785c1ae98@amd.com/
+> 
+> >>>> Please refer
+> >>>> the changes below and let us know if these should be submitted as a
+> >>>> separate patch.
+> >>>
+> >>> Mehdi, do you have any comment ?
+> >>>
+> >>>> ---
+> >>>> @@ -645,16 +645,16 @@ struct clk *devm_v4l2_sensor_clk_get(struct device
+> >>>> *dev, const char *id)
+> >>>>            const char *clk_id __free(kfree) = NULL;
+> >>>>            struct clk_hw *clk_hw;
+> >>>>            struct clk *clk;
+> >>>> -       bool acpi_node;
+> >>>> +       bool is_node;
+> >>>>            u32 rate;
+> >>>>            int ret;
+> >>>>
+> >>>>            clk = devm_clk_get_optional(dev, id);
+> >>>>            ret = device_property_read_u32(dev, "clock-frequency", &rate);
+> >>>> -       acpi_node = is_acpi_node(dev_fwnode(dev));
+> >>>> +       is_node = is_acpi_node(dev_fwnode(dev)) || is_software_node(dev_fwnode(dev));
+> >>>>
+> >>>>            if (clk) {
+> >>>> -               if (!ret && acpi_node) {
+> >>>> +               if (!ret && is_node) {
+> >>>>                            ret = clk_set_rate(clk, rate);
+> >>>>                            if (ret) {
+> >>>>                                    dev_err(dev, "Failed to set clock rate: %u\n",
+> >>>> @@ -668,7 +668,7 @@ struct clk *devm_v4l2_sensor_clk_get(struct device
+> >>>> *dev, const char *id)
+> >>>>            if (ret)
+> >>>>                    return ERR_PTR(ret);
+> >>>>
+> >>>> -       if (!IS_ENABLED(CONFIG_COMMON_CLK) || !acpi_node)
+> >>>> +       if (!IS_ENABLED(CONFIG_COMMON_CLK) || !is_node)
+> >>>>                    return ERR_PTR(-ENOENT);
+> >>>>
+> >>>>            if (!id) {
+> >>>> ----
 
-What does that mean?
+-- 
+Regards,
 
-> +      maxim,gmsl-tx:
-> +        type: boolean
-> +        description: Enable transmitting pin value to GMSL link.
-> +
-> +      maxim,gmsl-rx:
-> +        type: boolean
-> +        description: Enable receiving pin value from GMSL link.
-> +
-> +      maxim,gmsl-tx-id:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Identifier used while transmitting value to GMSL link.
-> +          Default value matches the pin number.
-> +        minimum: 0
-> +        maximum: 31
-> +
-> +      maxim,gmsl-rx-id:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Identifier used while receiving value from GMSL link.
-> +          Default value matches the pin number.
-> +        minimum: 0
-> +        maximum: 31
-
-Maybe add some words about what an GMSL link is somewhere?
-
-> +      maxim,rclkout-clock:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description: |
-> +          Clock value.
-> +          0 - XTAL / 1 =3D 25MHz
-> +          1 - XTAL / 2 =3D 12.5MHz
-> +          2 - XTAL / 4 =3D 6.25MHz
-> +          3 - Reference PLL output
-> +        minimum: 0
-> +        maximum: 3
-
-I'm no expert but isn't this something the clock framework has some standar=
-d
-binding for? assigned-clock-rates?
-
-Yours,
-Linus Walleij
+Laurent Pinchart
 
