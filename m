@@ -1,141 +1,174 @@
-Return-Path: <linux-media+bounces-35780-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35781-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93446AE654D
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 14:45:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA3FAE6582
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 14:52:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26CB44C07AB
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 12:45:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7DB183BD844
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 12:52:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A8B42951CB;
-	Tue, 24 Jun 2025 12:45:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368B829A9ED;
+	Tue, 24 Jun 2025 12:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J1xwT2Rr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GZkfhBzq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7F429290F
-	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 12:45:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89632281510;
+	Tue, 24 Jun 2025 12:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750769110; cv=none; b=LYz2S82ZdoIf4Yh5s5tois6UdAXXudU9nALrFauKIleSOAqM6ixTqoxb6w+2d62ITQLTpfT3XC5iCTwGRdNg75T44b6c0lav1docs4IqG1m1nJlVeJYme/s/F83vRgs+3IpsUnrGhx0l6qZDgWyPIZK2PrR5P4MpDsnuXSXzkSI=
+	t=1750769543; cv=none; b=opwIyLheKv8N6PQFOtDjlC9tpKZyw2XvCJRkUnA/L0t8APAr90oDTxW8+D+Kp/hqhRyvX1g/5o2G/nIf86FzWwvbe+B32IiMvuiYCXDer7U+SkQtZFN5RfPG5qCYwqLhiqGB6YFjc6eQjffcWcuofvXoCCpI7HR53J7XKrwdbsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750769110; c=relaxed/simple;
-	bh=Fe71F7HdcAHhNcecH3dW8Mmyypodx3hGpbxIQFgA/HM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RSVj0GWZU6Y90g0XcRLCLVnsNNRZTdFkPw4080lFG13XLu2yaU5Frcv1tsUuYcW3pYcHEEaOuJGQ1aY++ypSPTGnlRRRV3U7ItYufL2OsckNHC5qibieaJuPL8TBXg+J54dw9HwLelKCTr5GnnSnMq3oF3uuX5uJv4LVZQNuAKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J1xwT2Rr; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-32b910593edso3429391fa.1
-        for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 05:45:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750769107; x=1751373907; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=44fmXxwkfoot3fh9e2sUcZb/KaObynpb8RV8HjoXy88=;
-        b=J1xwT2RrNfxvGSCG9I/gKFUM9+ZjzRBsnFiu5NrITv0M4YJVD6fx/yjfL/nrS+/EyS
-         UCZK/bByQ27iUHtCicVFe0UzaGW9wwbfgJXOEWwvkC0eb1EVgTVpy8G3+EorOoz1uHw0
-         muwYLbPXWf3TNn981kYqmo3mTEK9rlSE19YhCkTMrXLPT8KkRAB30Zg4E8DOn0U2Mwex
-         zAADN3JIa6p10IDc1fdiSswkxSkHOocjdLdWUZvZ2BCW/WPSnDCA2O7S5XrSKUaz7ocU
-         FhVIMnzAusTmRAVikmJSwPVvP3vUDhxQecaeJ3yiM+HUj7fKlNBX8HzeHNr6gltelMH1
-         wDPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750769107; x=1751373907;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=44fmXxwkfoot3fh9e2sUcZb/KaObynpb8RV8HjoXy88=;
-        b=q0SsKfaH0xGeFkEWx/bg5ZX/L1HyOS0QN+hxeemYh2wgoPDbAAKpbGMB6cL/2pG2P4
-         9F6k2Xjqj6kQfw13WVVY0Fa+HsHHJ3uz7xF4mgAp2AIRXuDRXbMs6vb4mQNYupVIA4jY
-         zd6F8/fWnGUN40cmeXPi7eSKiRel6VKC2RjKQgVhWnPDBzw6kF4HfybzT1/UenAQpuLp
-         TP07jQyT4SitW6Co+wsITQpoBfo2yeVXz8V5hj96NE99zPx/boDzGeFn3YeQ63QL/tNA
-         pbnjjlOG0KtIdlMLlq1eBKiPyrWFHrES8VLLAedyBvzKvIeuAc6Q0ujX57ZeLctAoG+F
-         rIGA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBNDieTNiWXslhhgS2acPWfB3Ew24vMoXFb0TsUK1NAFpXNlHoPWk+yybxpFffDwv4ttU6ufUad9L46g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5Mrk4OewKbyQg9ajdfmW4UuifiEolncrKEOs4qAeGYCt3NKh8
-	ESZwVrmgFbcTPC/EgUDZEiF2a2wLZrZNM501Aqj0boI2cq/UAd1fB/zXoH3L6DzAWR0YGn5YSqV
-	KyL3QSIb1Oi/rKA2b3DK9Gb+zCKg0FWA=
-X-Gm-Gg: ASbGncuR8gZKi8lSIkjxsaPJ9Xg5qCmsVujHtR+6IDY6dUQ1lVwYwYHZmS2PlvhE2yh
-	G0kik96SeT4RpESqLab9MrFIQkJ6SwPLe4vNVa0l7Wnn9nQWT7iYjbsf24kN6wN1bZqIsCg6ICs
-	o61L6VdHhXIIDw4yd69vap/3ZT9fthJlfQuRtl9hEVsV5fEpMNA6cO
-X-Google-Smtp-Source: AGHT+IH2lBkY1ADP0+cdT23Em7atsIb38nWYG2n+FU1ignsSzeqEiR540m43rOF1AvX/ANCieUtZXY4nV/+C8ec7qEA=
-X-Received: by 2002:a05:651c:1076:b0:32b:47eb:8bcc with SMTP id
- 38308e7fff4ca-32b98ed9d8emr35090731fa.13.1750769106783; Tue, 24 Jun 2025
- 05:45:06 -0700 (PDT)
+	s=arc-20240116; t=1750769543; c=relaxed/simple;
+	bh=vC1tckTgRedvyr0rPpm+r7oBgh21zwhGiKUVHt+D02k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=er8DKEWxEEJK/JTac0oZ4cV0BWJY00pNS2zK1uGen2ZXpcgSFtHk9VHPi42nRxS5PiEtQt9xsiUqXEK3BGW45fL8AiKb+vo7FKL85WE59YXCvsLTbL3PSziunPd+uDbd8hgbnF3AOJc08Z841XBNA3BtwJZHkXCBBpiZ8PVE+v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GZkfhBzq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3463CC4CEEE;
+	Tue, 24 Jun 2025 12:52:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750769543;
+	bh=vC1tckTgRedvyr0rPpm+r7oBgh21zwhGiKUVHt+D02k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GZkfhBzqWveKHHpzUUrcpuFc9Q/OXCqSpTO+F4fz6E/0A77Mhndx5sH4V4yKsDLI1
+	 VY9LNPK/x85Bjky3MmHfhZjU4/5IkVtTukDS0Ivs0JC2cG0E2ThHYf45CDUsGFbPgS
+	 IRFtdPiGxwpmdoi1u6NzRQnnTja4VQkGl5ifiuM4zXrxQGgLNZvrXf1o6DjSme0SOt
+	 laUDX5c9F+yh3FO5396GhpBx2z6HfLj/tciGqX1Z9pPFKstO05P7DCS5/FwQljdUL9
+	 X/UvAU8UV8+YObwgUYjZ3oiinKLeTN4cMR6DYIHbbP/zKIq1V62rcsXte8G3bOLLFN
+	 cSE6bkvL24qTg==
+Message-ID: <145fbca0-bb55-4809-9c13-cbfa50e5b1ec@kernel.org>
+Date: Tue, 24 Jun 2025 14:52:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250623110035.18340-1-hansg@kernel.org> <20250623110035.18340-5-hansg@kernel.org>
-In-Reply-To: <20250623110035.18340-5-hansg@kernel.org>
-From: Daniel Scally <djrscally@gmail.com>
-Date: Tue, 24 Jun 2025 13:44:55 +0100
-X-Gm-Features: AX0GCFuXne4BdWkxq1GjoRY-ZZyRv-lm4brPtspHXd5IFYUSfSVbgzp3brM2jYs
-Message-ID: <CAFLoDVG6BenJKaa=TSYzBN2kZP2qCGKq=sB=4KW4aFjNiGUgMQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] media: ipu-bridge: Improve error logging when waiting
- for IVSC to become ready
-To: Hans de Goede <hansg@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] Add Input Video Control Block driver for RZ/V2H
+To: Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com
+References: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 23, 2025 at 12:00=E2=80=AFPM Hans de Goede <hansg@kernel.org> w=
-rote:
->
-> From: Hans de Goede <hdegoede@redhat.com>
->
-> The ipu-bridge code waits for the IVSC to become ready (on platforms with
-> an IVSC chip).
->
-> It does this by returning -EPROBE_DEFER, but it does not use
-> dev_err_probe() so no reason for deferring gets registered.
->
-> After 30 seconds the kernel logs a warning that the probe is still
-> deferred, which looks like this:
->
-> [   33.951709] pci 0000:00:14.3: deferred probe pending: (reason unknown)
->
-> Use dev_err_probe() when returning -EPROBE_DEFER to register the probe
-> deferral reason changing the error to:
->
-> deferred probe pending: waiting for IVSC to become ready
->
-> to help with debugging why drivers are not binding if the iVSC does
-> not become ready for some reason.
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Daniel Scally <djrscally@gmail.com>
+On 24/06/2025 14:35, Daniel Scally wrote:
+> Hello all
+> 
+> This series adds a driver for the Input Video Control Block in the
+> RZ/V2H SoC. The IVC block transmits input image data from memory to
+> the ISP core (on this SoC, a Mali-C55 ISP). The driver registers an
+> output video device for userspace to queue image buffers to. One
+> noteworthy feature is that - because it is not a part of the main ISP
+> drive - the IVC driver also registers a subdevice, which connects to
+> the media device created by the ISP driver through the usual v4l2
+> async framework. This requires delaying the registration of the video
+> device until the .registered() callback of the subdevice, so that the
+> struct v4l2_dev pointer the subdevice connected to can be set to the
+> video device.
+> 
+> To facilitate communication between the ISP driver and the IVC driver
+> we use the new media jobs framework that was posted recently [1]. The
+> series is also based on top of the latest version of the Mali-C55
+> driver [2] and some updates to rzg2l-cru [3].
+> 
+> Note that this is not quite ready to merge, as there's an outstanding
+> bug that sometimes causes the driver to hang. The device should fire
+> two interrupts per frame; once on completion of data transmission and
+> once on expiration of the blanking period. The second interrupt seems
+> sometimes not to arrive, and at the moment the problem is worked
+> around with a timeout in rzv2h_ivc_send_next_buffer(). We're working
+> on that issue, but because the driver lends helpful context to the
+> media jobs and mali-c55 series (and is probably otherwise ready for
+> comment too) I wanted to post it.
+> 
+> Thanks
+> Dan
+> 
+> [1] https://lore.kernel.org/linux-media/20250624-media-jobs-v2-0-8e649b069a96@ideasonboard.com/T/#t
+> [2] https://lore.kernel.org/linux-media/20250624-c55-v10-0-54f3d4196990@ideasonboard.com/T/#t
+> [3] https://lore.kernel.org/linux-media/20250623-rzg2l-cru-v5-0-1663a8c6719a@ideasonboard.com/T/#t
+> 
 > ---
->  drivers/media/pci/intel/ipu-bridge.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/int=
-el/ipu-bridge.c
-> index c80af394ce18..dbb847a104e0 100644
-> --- a/drivers/media/pci/intel/ipu-bridge.c
-> +++ b/drivers/media/pci/intel/ipu-bridge.c
-> @@ -811,7 +811,8 @@ int ipu_bridge_init(struct device *dev,
->                 return 0;
->
->         if (!ipu_bridge_ivsc_is_ready())
-> -               return -EPROBE_DEFER;
-> +               return dev_err_probe(dev, -EPROBE_DEFER,
-> +                                    "waiting for IVSC to become ready\n"=
-);
->
->         bridge =3D kzalloc(sizeof(*bridge), GFP_KERNEL);
->         if (!bridge)
-> --
-> 2.49.0
->
+> Daniel Scally (3):
+>       dt-bindings: media: Add bindings for the RZ/V2H IVC block
+>       media: platform: Add Renesas Input Video Control block driver
+>       MAINTAINERS: Add entry for rzv2h-ivc driver
+> 
+>  .../bindings/media/renesas,rzv2h-ivc.yaml          | 103 ++++
+>  MAINTAINERS                                        |   7 +
+>  drivers/media/platform/renesas/Kconfig             |   2 +
+>  drivers/media/platform/renesas/Makefile            |   1 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Kconfig   |  15 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Makefile  |   5 +
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c     | 237 +++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c  | 379 ++++++++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   | 678 +++++++++++++++++++++
+>  .../media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h   | 133 ++++
+>  10 files changed, 1560 insertions(+)
+> ---
+> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+> change-id: 20250624-ivc-833d24376167
+
+That's b4, right? So where is the changelog with lore link to previous
+version?
+
+Best regards,
+Krzysztof
 
