@@ -1,119 +1,152 @@
-Return-Path: <linux-media+bounces-35799-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35800-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637FEAE6B17
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 17:32:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8B6AE6B30
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 17:35:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 539A07AEB88
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 15:30:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A964E3AD3AF
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jun 2025 15:31:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90CE52E2F1C;
-	Tue, 24 Jun 2025 15:20:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E85C12E6115;
+	Tue, 24 Jun 2025 15:21:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KSfGRXfM"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rLsZMfu+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9092D877C;
-	Tue, 24 Jun 2025 15:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BD32D9EFA
+	for <linux-media@vger.kernel.org>; Tue, 24 Jun 2025 15:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750778408; cv=none; b=YLkP8jiME8HvaSz26ry5B1zt1q1LaFe29yVnVazo9e3ACwDxcAYIsErim4gxz1LXqxqkBqWg7nzxger8dOm1eHU0Am/Vb3HMF/jbajBDTSzqspzXn7HedHgQ6TeggI1eK0J9sTbHpOOhBBoAy38hZHBPy839KBKH8VLIdXAA4hM=
+	t=1750778460; cv=none; b=hAw8KFC2P50vdfF8eCFoA9coCAoQKYT/WFZJtAFA8e1GJFnpy2LmbOwo76CJjPN7Sup3MLEqwAQUIqfsNSXW7yEkSDyX2c6Y8r3WN3SzfB7mta1SlXMW+2vQ7FyqVnBi0mL10ouMXa66K7Bpxew1Syjv1sHKNsJXcT6I9/Beegw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750778408; c=relaxed/simple;
-	bh=9WOZ2U16bU4qdb2Fyo3eqQ8m2kp6QdcIvW61S3g6rps=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ElqGipHq/qSoJAs+5vjQ+sARPef0RpK8RCeIhe3Z+1LiyRbIcqD5w6Mn1Ypt2099SbKVbbEpjXinByw88dLL4ZsOW8ZED/i8rnFhxubkJFHPury05c5lhPdGX29gIKQuTTYpPGMbCEbwaDSjb+B2pLRESCk2BTDc67diA1LZqAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KSfGRXfM; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-237311f5a54so54551795ad.2;
-        Tue, 24 Jun 2025 08:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750778407; x=1751383207; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Gn79PJLQC7ePGyYkvVQEXF99s8ix0dYxp4JZA4p7J4=;
-        b=KSfGRXfMK2CYLZrhVn3IbefZcvy/xwRisMZdBOh5SEjRjy0BiiUcEaGybD8UFLlB3k
-         6dNrk7FINxGxqby9MVFk6+qTIAxCDIRl69ibIPmd8bQqYqruYzIJG+RJnGL7bF23/z50
-         HhaU0w+YdBpz+RkL3pMZUG7yNvHnSwmbpk/K1ffT20ekj0PqLGJsyI8izcpnOM0x1j7K
-         EQVQD4gBDVvWz4SZd8z1ZepUSSe+rTqyRIglKXsP6BElyhAJjIp1Zl2V2nz//6PsmMiS
-         Ven1OYU14gtWXMmq807Qnees7CxYS/mh+2CFEDqZwffgCFGKgjb3rjK97YWvPk/R5YVa
-         ZzSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750778407; x=1751383207;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3Gn79PJLQC7ePGyYkvVQEXF99s8ix0dYxp4JZA4p7J4=;
-        b=sUtc1n+MNGwCnstU+rtl+WajnPFxtsn9j8l/9YVfSjZqVR7yl4pB9X3tACfd5lelZb
-         jglt8v2YY4PTjb28kRat05lmE4yOt7e1FOL9tiK/SJTluKvFu2NLVRbTL2OuEzIR/XK2
-         MZJWYLVHf5lfkLp1h8nnjjJO0W53tSd9CHx1Bd3u8C2anu36AYPrkM7+Bv/xNjFp59h4
-         cqQkTQvnbuXaUjLU9nadkyWkDQOX2tRWK326oJJFPpabXiTfmZSjZEsYKxulkioRlPA6
-         DqBck39mDrIwWvSfvq8is3kfBxH5zsjM2+SSF7lx0BD2096SiG6YzCJli8r/yF0S02Dw
-         nj+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV6t40YHp516pU/AV7ejKu3QeUNu/vSv+bstDrea+9kbzKn22Se66RD5hLaOCduqig0cxx2+6YA+k1Bkjc=@vger.kernel.org, AJvYcCXl1bJWxdmlmq2sM6h7ia7hBpT3MlF3nJ0AlWamNbERtpp3hrOzt1qs+QzOuGndgXC45WkHMzdFmYJiX64=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuZBjyrmVgnZK2oZwYp4p96bSrTfwYPVoyEOwkBdrM/aHphl2S
-	yaCxMd/zGXYptLh6zvOWXzRR8BTSx9/ky6hi5qHwTG93HP9lG5UWMjDr
-X-Gm-Gg: ASbGnctIU8qzfuDlkpmfSx5Zajk84OWHHxKSUCvVVCRJ9cyWkud988w/eHdsA46MeLj
-	Z3EjwoZISS3SRoVNwO4J8YYS1lgKDUGTcRO5BsI+lJcnEAlm6wWgVHdFa94x4R3vx7mywJXgMIp
-	PL3Dy6MfmjF0KrrIBf/8rwHZPjuH9YnzdLuCs0hullWe7hXwcwLM/kB9jmrDOGMxXowiKx4DVzh
-	sFTZ0jgzwKBb7mHERFqxuTW2FXF7IJKjmMTF1YfB9mBKJS5WQkO4HSFkKAvHQlPMTFs4A43o50h
-	glrIEQ81DIMRorheBWl/RZUaM/U3GizNmjd6FVByQ5Q7wCj5mt7RX5tc6GhHJ56O2ucT1Auafd3
-	+uXr8UzBPCqv5HCxL2bpyNZjBJfhlgsNZNl0FnbH1HsW7l+Mu/g==
-X-Google-Smtp-Source: AGHT+IH1Csh1hHtPrY2L0DzN9wun8J1kFW3ajVUEsxPwcR2fKElwEotatpGo0o+Bff9Z9QctMzExug==
-X-Received: by 2002:a17:902:da8c:b0:236:6e4f:d439 with SMTP id d9443c01a7336-237d9965716mr267845215ad.23.1750778406609;
-        Tue, 24 Jun 2025 08:20:06 -0700 (PDT)
-Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d8672498sm111979465ad.166.2025.06.24.08.20.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 08:20:06 -0700 (PDT)
-From: LiangCheng Wang <zaq14760@gmail.com>
-To: andy@kernel.org
-Cc: zaq14760@gmail.com,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
+	s=arc-20240116; t=1750778460; c=relaxed/simple;
+	bh=C3NmsLe3QNZzeeS3J0F8NoaIm+VXfYFJUVDJla8MtFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WIzwx/8goCrICsZte8MBEMXXx1X6r5Wg4kVvPsygHFsTb1Fk5JKAN9JPA7JIoIwj0wvRIddQxXotVgdhppZOFab3VTF2XLqMU+8+Atx1CvoudcQzgy3kPPQ2O5Q+yzao+LNE/FNGcxI5vLOLIhtYyGJu5G8O09GN8TxGVkKoxr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rLsZMfu+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7A209C72;
+	Tue, 24 Jun 2025 17:20:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750778438;
+	bh=C3NmsLe3QNZzeeS3J0F8NoaIm+VXfYFJUVDJla8MtFU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rLsZMfu+p+2S8zRIUrnnRAiEZpodWkd2esyQ4uyX+NFx0RDp025Io+F9yRMdRplHL
+	 b+oyuY7Cw0c8dxeGGvqTqPkEfZKogi+jg4QfUo4oVFilftHdguYl5SA9WxZa6GpSQn
+	 f6cSJqsvIEGkm64U8nTJGqIYMmMA6xDYElq+kWfE=
+Date: Tue, 24 Jun 2025 18:20:33 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4] staging: media: atomisp: fix coding style in ia_css_output.host.c
-Date: Tue, 24 Jun 2025 23:19:58 +0800
-Message-ID: <20250624152000.489-1-zaq14760@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
-References: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	jacopo.mondi@ideasonboard.com, Hans Verkuil <hverkuil@xs4all.nl>,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>
+Subject: Re: [PATCH v5 1/6] media: v4l2: Add Renesas Camera Receiver Unit
+ pixel formats
+Message-ID: <20250624152033.GA20757@pendragon.ideasonboard.com>
+References: <20250623-rzg2l-cru-v5-0-1663a8c6719a@ideasonboard.com>
+ <20250623-rzg2l-cru-v5-1-1663a8c6719a@ideasonboard.com>
+ <aFp9D-Ii43yNTOSx@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aFp9D-Ii43yNTOSx@kekkonen.localdomain>
 
-Subject: Re: [PATCH v4] staging: media: atomisp: fix coding style in ia_css_output.host.c
-In-Reply-To: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
+On Tue, Jun 24, 2025 at 10:25:19AM +0000, Sakari Ailus wrote:
+> On Mon, Jun 23, 2025 at 03:43:18PM +0100, Daniel Scally wrote:
+> > From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> > 
+> > The Renesas Camera Receiver Unit in the RZ/V2H SoC can output RAW
+> > data captured from an image sensor without conversion to an RGB/YUV
+> > format. In that case the data are packed into 64-bit blocks, with a
+> > variable amount of padding in the most significant bits depending on
+> > the bitdepth of the data. Add new V4L2 pixel format codes for the new
+> > formats, along with documentation to describe them.
+> > 
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> > ---
+> > Changes in v5:
+> > 
+> > 	- None
+> > 
+> > Changes in v4:
+> > 
+> > 	- Removed references to "Bayer" or "srgb"
+> > 
+> > Changes in v3:
+> > 
+> > 	- Switched from bayer-order specific formats to generic RAWnn
+> > 
+> > Changes in v2:
+> > 
+> > 	- Added labels to the new formats in the documentation file
+> > 	- Added 20-bit formats
+> > ---
+> >  .../userspace-api/media/v4l/pixfmt-bayer.rst       |   1 +
+> >  .../userspace-api/media/v4l/pixfmt-rawnn-cru.rst   | 143 +++++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-common.c              |   6 +
+> >  drivers/media/v4l2-core/v4l2-ioctl.c               |   4 +
+> >  include/uapi/linux/videodev2.h                     |   6 +
+> >  5 files changed, 160 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > index ed3eb432967d9845d3d65150831d8a7f62dec994..20a8aa04330479ed4d44c8e4fc3d57db8c2e6933 100644
+> > --- a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > @@ -31,3 +31,4 @@ orders. See also `the Wikipedia article on Bayer filter
+> >      pixfmt-srggb14
+> >      pixfmt-srggb14p
+> >      pixfmt-srggb16
+> > +    pixfmt-rawnn-cru
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..d786833d0cf355b3955fe63d85c8a211a7a4fb23
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> > @@ -0,0 +1,143 @@
+> > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> > +
+> > +.. _v4l2-pix-fmt-cru-raw10:
+> > +.. _v4l2-pix-fmt-cru-raw12:
+> > +.. _v4l2-pix-fmt-cru-raw14:
+> > +.. _v4l2-pix-fmt-cru-raw20:
+> > +
+> > +**********************************************************************************************************************************
+> > +V4L2_PIX_FMT_CRU_RAW10 ('CR10'), V4L2_PIX_FMT_CRU_RAW12 ('CR12'), V4L2_PIX_FMT_CRU_RAW14 ('CR14'), V4L2_PIX_FMT_CRU_RAW20 ('CR20')
+> > +**********************************************************************************************************************************
+> 
+> Regarding naming, could these be called V4L2_PIX_FMT_RAW_CRUxx, to align
+> the naming with the new raw formats?
+> <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/common-raw/userspace-api/media/v4l/pixfmt-raw-generic.html>
+> 
+> If you rebase on the metadata series, I can pick this patch in the set. My
+> objective is to get this merged in this cycle, which of course also depends
+> on review feedback.
 
-Dear Andy,
+Your set is big enough :-)
 
-Thank you for your suggestion.
+Unless I'm missing something, this patch doesn't depend on the metadata
+series. I plan to pick up Dan's next version (with the formats renamed)
+and send a pull request.
 
-You're right — the driver is quite large and contains many similar issues.  
-To keep the patches manageable and easier to review, I plan to split the cleanup into multiple smaller patches.  
-I'll start by submitting a series of patches, each focusing on a specific file or type of issue.
+-- 
+Regards,
 
-Since I’m contributing in my free time outside of work, I may need to spread the cleanup over several days.  
-I’ll do my best to keep the patches consistent and focused.
-
-Thanks again for your guidance.
-
-Best regards,  
-LiangCheng Wang
+Laurent Pinchart
 
