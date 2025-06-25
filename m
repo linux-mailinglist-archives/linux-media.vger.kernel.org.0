@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-35896-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35895-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9E9AE8C36
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 20:21:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D75AE8C39
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 20:21:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6818D4A6B10
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 18:21:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD11B7B4DCE
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 18:20:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BE0B2D8DA9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 762A61D95A3;
 	Wed, 25 Jun 2025 18:21:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tk364R0V"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZM6veSrr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72552D5419;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B631DE2DC;
 	Wed, 25 Jun 2025 18:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750875687; cv=none; b=TrB0foUxmyC05cYiTG2RdWO3A1ZnBaiV22wkjFjHdNMUVi1C+eg0O5eRb95RACNVr6km+c16TOHb5eDwbp3IPI0+VFRLFUPfY9z7uI7KwSZy/uk8BTDVKSVQXs5nNnxZWoU4Q8xT3ewrWrgxvztfSn9OI67+pJegv0/PIc8tOBI=
+	t=1750875686; cv=none; b=qK4Rdijlp1I67FZrYPUzesxo5LKv88ff9jpbSivUAeWQk2w+HMaqpborJmBGI3dMznJ46lJ3XUwjE3s7xUb/3G0YYEIB0j20CveNufh2kCmBAOw2xWTSruT+8NM8win+N3f/wp+oGDpWXfARd6CYOyFzFlBpRzmPXhmxMWIk4Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750875687; c=relaxed/simple;
-	bh=6zTjp7jRB2Jx+9WHHH175m07BThSG/TYu6uPE8FB4jo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iXonGY6tdT6N8RZNMIDkv5o9Mk663+0ogc5zDXdFgeWK1UlAVjhOx2Ed7HqVHe4uSAzwMB67HJMUvaWA7/ponpEQ31ToDVwMSGbYKBLMlNAubEwb4pU/sg83OPnGXDIbqPB1avvRSIp0QLhZEpH75g2Lq2EsSBb4vfSUJpJeB+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tk364R0V; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7EB33C4CEEA;
+	s=arc-20240116; t=1750875686; c=relaxed/simple;
+	bh=huMqLZantm6rr/mH6IfGq3VmFZ5Tj2qOeZLAqM6ZD8U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=hKU69r3FVPJmnE5OOdSmAwpp/fSS+MV8omcgD4+wZ/T5Jjy4tKLKGLe5t1blJsVwDBYnAf2DfVcZcnywrFYu/bUM9jyGTJv/WEjlJg3X5ZGXkuiBDE1cFZT4RQhX5D/svQK49FSVsnR3XMgJsCrVj9T8eMreWJUUULIavvwGV+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZM6veSrr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99F85C4CEF0;
 	Wed, 25 Jun 2025 18:21:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1750875686;
-	bh=6zTjp7jRB2Jx+9WHHH175m07BThSG/TYu6uPE8FB4jo=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=tk364R0VnsrIsvLDO06yfWzbHZIUOWfPbkBdzhT5uLm7fxI7B85FOSE56wQeE93yw
-	 eK14Fphr4s8BLnfP70+EZhv7b6lI+bB9JcGs2ZvYGRIPmxunnTn/rUnOygHsDQuh4r
-	 qR800JsxEq4BmCC5NCBIKrrhaBihvEqJBHozUjEynSTdDixZRR5gY8xsyr5eeQ1IMy
-	 kx2szrlWT9r6/lzTfyZ1inMqqPw5t5xaJ8uUWz5AyhnYuwpEzVN3PYHAPprglenfiN
-	 Mixa0sqKbKnRBifxu66RENgU57WehaqIvqwlxfpkPe9j2SOM9b5LULboUC9q0MeR0u
-	 QGCiy4qzkqOCQ==
+	bh=huMqLZantm6rr/mH6IfGq3VmFZ5Tj2qOeZLAqM6ZD8U=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=ZM6veSrrFHoQA0qCDye6xH8ij44b+lKGeq+PvmL8up2AozUK5SQElpiOAoTql4Rrs
+	 oJTMCXMq2+RQT9yvj4lusO9BGtnVAma7J03HKfjVd6jFq89YfmH7ZV2Pjn6lTosqS2
+	 EoRpWNLhLp0jcjhQgGMYPy3NsqMgNcmgjB0ErWlQHenlkJoChbzz2y4ME99Kgdekbg
+	 /5tonHZyiagHuJKmx7vx0Vi0OPTQpwor1DKUZroPh1JLWx5Pi4KL0tz4xgKvdSWYEz
+	 XIdis9i6RW5fvwjOk8q+hmq/2YZyZOsAAiv4shqoKo+HHhsKup8AfLK4HhcFJD4zIm
+	 6go7tC0z0r5gg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72EF7C7EE30;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82143C7EE2A;
 	Wed, 25 Jun 2025 18:21:26 +0000 (UTC)
 From: Stuart Burtner via B4 Relay <devnull+sburtner.d3embedded.com@kernel.org>
-Subject: [PATCH 0/2] media: i2c: Add driver for Sony IMX728
-Date: Wed, 25 Jun 2025 14:20:02 -0400
-Message-Id: <20250625-imx728-on-6-12-v4-v1-0-cfc6e18c3e23@d3embedded.com>
+Date: Wed, 25 Jun 2025 14:20:03 -0400
+Subject: [PATCH 1/2] media: dt-bindings: Add Sony IMX728
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,10 +55,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANM9XGgC/x3MPQqAMAxA4atIZgMaU/+uIg7SRs1glRakIN7d4
- vgN7z0QJahEGIsHgtwa9fQZdVmA3Re/CarLBqrIVC0x6pE66vH02GJNeDMyN9YY4cF1K+TuCrJ
- q+p/T/L4f4BTSnWMAAAA=
-X-Change-ID: 20250624-imx728-on-6-12-v4-443c55e49d7f
+Message-Id: <20250625-imx728-on-6-12-v4-v1-1-cfc6e18c3e23@d3embedded.com>
+References: <20250625-imx728-on-6-12-v4-v1-0-cfc6e18c3e23@d3embedded.com>
+In-Reply-To: <20250625-imx728-on-6-12-v4-v1-0-cfc6e18c3e23@d3embedded.com>
 To: Stuart Burtner <sburtner@d3embedded.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -73,18 +72,18 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Spencer Hill <shill@d3engineering.com>, 
  Sebastian LaVine <slavine@d3engineering.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3965;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3633;
  i=sburtner@d3embedded.com; h=from:subject:message-id;
- bh=6zTjp7jRB2Jx+9WHHH175m07BThSG/TYu6uPE8FB4jo=;
- b=owEB7QES/pANAwAKAUhClGWrMl62AcsmYgBoXD4UCgoBBbMxRsAo6haiO2mY7nAmNjcvb0+aI
- cVGZrqZxAuJAbMEAAEKAB0WIQRYcXSPQoXxpLLN1/FIQpRlqzJetgUCaFw+FAAKCRBIQpRlqzJe
- tg/ODACzTuZLcmQupvz2GECUgNtyaPVLf5/NKaD8BBA2G6eft66Ee0t6kuMcgIgA+KeXf6h1UZi
- NmWZPTHo7DB9HhDImLl8gu19mTJt89ocTH/va19/im54B6zQvjGxGXysKsBZRy/RiqgVgV02uFg
- cdAXF/qbe1ygQGot5rXJy/nIrxM4ALW2H/chZQRn5qaYXotq05mOfqq/9Zun9On4ZemLkgVP+ns
- z0Fbv3e9xe7smoaMYF929MNTLdj2dhEQSRUSOEHqf2tndrfEQh/C3PV1BT2NC1qISTIlDBHZ6W1
- W05ccVYdwSpfjOJGRTe64ust/HkaiHG7kjFNnUHwcmAk2U2m+LNJgm3E0Ozk+svBCXYgwuO6anT
- AoibwPaMPZVRdk3XTP+yBtx9EpxaZtjswUoCYmjBN8fvWS42eKNqzMtBYDJCSTZ6aLt6cYrwJUi
- nnJue1rw9kaZXO5FG01mWNpe/6hzL8DuTx6gkvGHBzG7o+2Vv56o939PH77PpKLFAi19M=
+ bh=LnlV6L2mJ9TLl5VCqHgQgwZnHhpiFmk9EKuOsHKQ7T0=;
+ b=owEB7QES/pANAwAKAUhClGWrMl62AcsmYgBoXD4aYLpvY+uXXjbFsGXv3nCUKyJEvQUiNtRTp
+ 1tFhCNltW6JAbMEAAEKAB0WIQRYcXSPQoXxpLLN1/FIQpRlqzJetgUCaFw+GgAKCRBIQpRlqzJe
+ tsnXC/0WY+8bIZ4zLAHgNHS1DgixNpgeexbCDkneRi8k3jm/A7xbrnkxfOgJ3vkwtFSctoH2JPr
+ 3dJnMhcLZXbPHDEZLJCfj1J+X6Wgz+56E0HbmnLAXEtzEyvJEFY+Origq0mbTNg73IkEdTPActL
+ 1Eepo5LzS7d8rVmRO0C6DGJyoe7M5bv/Fpmkodcek6WsTSQKPqHCKb5VcSw/tkxUL1PocnizC+U
+ TNw2+gCPDBSPug8nyxZMsw6EG8wrmfvPpMcmHQ29SR0KDih9GLWM8TLXRanXCA7OzFuInzZgyTn
+ jiZoEkVjtBbbvPENJ8PLUeoVfgqmsagwR09HFal1LKzDuACiPcMWR7R8iGcB3GHX7ISJlMRoWkR
+ fE603gxchbJeUCIDzRo42W2KTop7CJiGDxJK2lJ5NCJUZzMgWnQGRUWd9lk2XoV+RzKkQ7PyCHn
+ 7G574SePQs12YdxfXByVAx1wLepxi95ZsBSYKYw8djuBVftw59B43F3YjgqqGbTIUcxJw=
 X-Developer-Key: i=sburtner@d3embedded.com; a=openpgp;
  fpr=5871748F4285F1A4B2CDD7F148429465AB325EB6
 X-Endpoint-Received: by B4 Relay for sburtner@d3embedded.com/default with
@@ -92,119 +91,141 @@ X-Endpoint-Received: by B4 Relay for sburtner@d3embedded.com/default with
 X-Original-From: Stuart Burtner <sburtner@d3embedded.com>
 Reply-To: sburtner@d3embedded.com
 
-Hello! My name is Stuart Burtner.  I will be continuing the work done by Sebastian & Spencer
-on this driver. I will finish this patch series and maintain this driver moving forward.
+From: Stuart Burtner <sburtner@d3embedded.com>
 
-This series adds a V4L2 sensor driver for the Sony IMX728, and related
-devicetree overlays.
+Add bindings for the Sony IMX728.
 
-v3 [0] -> v4:
-- Drop set_fps() function because it doesn't actually change FPS
-- Use "guard" instead of mutex_lock()
-- Fix error checking on imx728->reset_gpio
-- Fix attribution of Spencer Hill as Co-Author
-- Fix maintainer entry for Stuart
-- Clean up documentation for gpios, per notes from Krzysztof Kozlowski
-- Removed defconfig modifications
-
-[0]: https://lore.kernel.org/all/20250212195656.69528-1-slavine@d3embedded.com/
-
-v4l2-compliance 1.26.1-5142, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 4aee01a02792 2023-12-12 21:40:38
-
-Compliance test for device /dev/v4l-subdev4:
-
-Driver Info:
-	Driver version   : 6.12.33
-	Capabilities     : 0x00000000
-
-Required ioctls:
-	test VIDIOC_SUDBEV_QUERYCAP: OK
-	test invalid ioctls: OK
-
-Allow for multiple opens:
-	test second /dev/v4l-subdev4 open: OK
-	test VIDIOC_SUBDEV_QUERYCAP: OK
-	test for unlimited opens: OK
-
-Debug ioctls:
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 9 Private Controls: 0
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-	test VIDIOC_G/S_PARM: OK (Not Supported)
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK (Not Supported)
-	test VIDIOC_TRY_FMT: OK (Not Supported)
-	test VIDIOC_S_FMT: OK (Not Supported)
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK (Not Supported)
-	test Composing: OK (Not Supported)
-	test Scaling: OK (Not Supported)
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-	test CREATE_BUFS maximum buffers: OK
-	test VIDIOC_EXPBUF: OK (Not Supported)
-	test Requests: OK (Not Supported)
-
-Total for device /dev/v4l-subdev4: 44, Succeeded: 44, Failed: 0, Warnings: 0
-
+Co-developed-by: Spencer Hill <shill@d3engineering.com>
+Signed-off-by: Spencer Hill <shill@d3engineering.com>
+Co-developed-by: Sebastian LaVine <slavine@d3engineering.com>
+Signed-off-by: Sebastian LaVine <slavine@d3engineering.com>
+Signed-off-by: Stuart Burtner <sburtner@d3embedded.com>
 ---
-Stuart Burtner (2):
-      media: dt-bindings: Add Sony IMX728
-      media: i2c: Add driver for Sony IMX728
+ .../devicetree/bindings/media/i2c/sony,imx728.yaml | 95 ++++++++++++++++++++++
+ MAINTAINERS                                        |  6 ++
+ 2 files changed, 101 insertions(+)
 
- .../devicetree/bindings/media/i2c/sony,imx728.yaml |   95 +
- MAINTAINERS                                        |    7 +
- drivers/media/i2c/Kconfig                          |   12 +
- drivers/media/i2c/Makefile                         |    1 +
- drivers/media/i2c/imx728.c                         | 9628 ++++++++++++++++++++
- 5 files changed, 9743 insertions(+)
----
-base-commit: 23fdf46589db718d538fa3e65ab0d57362d50b4a
-change-id: 20250624-imx728-on-6-12-v4-443c55e49d7f
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..3da4be0817d1bebf9058cd10b2f8dd81dc484be7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+@@ -0,0 +1,95 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/sony,imx728.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sony IMX728 Camera Sensor
++
++maintainers:
++  - Stuart Burtner <sburtner@d3embedded.com>
++
++description:
++  The Sony IMX728 is a 1/1.72-Inch CMOS Solid-state image sensor with a
++  color square pixel array and 8.39M active pixels. It is programmed
++  through an I2C interface.
++
++  The sensor can output up to 3840x2160 at a maximum of 45 frames/s over
++  a CSI-2 serial interface. It supports RAW24/20/16/12 and 10.
++
++properties:
++  compatible:
++    enum:
++      - sony,imx728
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    description: Clock frequency from 18 to 30MHz
++    maxItems: 1
++
++  clock-names:
++    const: inck
++
++  reset-gpios:
++    maxItems: 1
++    description:
++      XCLR (System Reset) pin.
++
++  error0-gpios:
++    maxItems: 1
++    description:
++      XWRN pin.
++
++  error1-gpios:
++    maxItems: 1
++    description:
++      XERR pin.
++
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: ../video-interfaces.yaml#
++        unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera@1a {
++            compatible = "sony,imx728";
++            reg = <0x1a>;
++
++            clocks = <&fixed_clock>;
++            clock-names = "inck";
++
++            reset-gpios = <&gpio4 17 GPIO_ACTIVE_LOW>;
++            error0-gpios = <&sens_exp 1 GPIO_ACTIVE_HIGH>;
++            error1-gpios = <&sens_exp 2 GPIO_ACTIVE_HIGH>;
++
++            port {
++                camera1: endpoint {
++                    remote-endpoint = <&vin1a_ep>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d0f18fdba068b0cc2dce434e0471f6a9a3330843..74db2caf18157dec74fb2e23c33f66522092941c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21546,6 +21546,12 @@ T:	git git://linuxtv.org/media.git
+ F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+ F:	drivers/media/i2c/imx415.c
+ 
++SONY IMX728 SENSOR DRIVER
++M:	Stuart Burtner <sburtner@d3embedded.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
++
+ SONY MEMORYSTICK SUBSYSTEM
+ M:	Maxim Levitsky <maximlevitsky@gmail.com>
+ M:	Alex Dubov <oakad@yahoo.com>
 
-Best regards,
 -- 
-Stuart Burtner <sburtner@d3embedded.com>
+2.34.1
 
 
 
