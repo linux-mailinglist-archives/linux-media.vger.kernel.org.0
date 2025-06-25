@@ -1,117 +1,133 @@
-Return-Path: <linux-media+bounces-35911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35912-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BD2AE8EFF
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 21:51:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93396AE8F2C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 22:07:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BEDF4A5B94
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 19:51:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 932241899F7F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 20:08:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8EB22641D8;
-	Wed, 25 Jun 2025 19:51:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 558252D8760;
+	Wed, 25 Jun 2025 20:07:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCSOhsIW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P9bz8R/O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9BB1494C3;
-	Wed, 25 Jun 2025 19:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5641A1FE47B;
+	Wed, 25 Jun 2025 20:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750881102; cv=none; b=gH3JiwfbP4bWAlgrF+6Yx20ExJvWGlHkh51deD+2UAlaOOSwmBMvsx5AIeaH8LD9pJDZxL5WoqDdjL2j2iQZdsN6s8yQZzLYDJNAtY/sPkB3AoGdRAKv4Fg3DYjFEmMgDiU7DKNLUhMKUY7ep9PO7TIJ5OMsV09FeerrBwK3+YM=
+	t=1750882068; cv=none; b=glWN9RloGnWeGM7v8ngYt4ZXnSRN9NLAU/ZVtMP45x0zH5YCmBtSL+mciuNmhQlAnTEWuzmqQe+uMuMGEKk6FulNRSxscDy9B8y/mDrFwG/b65mBMn8PtC9fkcA/UUsT7Pl6RU8fiUC14rBjfJzIdmjZDHdO4WbLWZhgDIXJ6YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750881102; c=relaxed/simple;
-	bh=pn4yOJ7V8K3SjQEg+pUrZx/VF4fsacmdLeHB0AnwAss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PvCmxK2tMD7geBi49WbCXCQcp20WJ6FNvsuILnzoE+cAIN5fgOLyJ6dv5jDw1TK8v0pKDlv14brBd6lNYZPguahjdz2+0RS9BVONNZuKsl8F4Ja1ChHfFA3Ij/J8dMfsKUoM5eNttz/5oDEQZF7A4zZ1McytLuI0Y3+e52EMYn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCSOhsIW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69A81C4CEEA;
-	Wed, 25 Jun 2025 19:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750881101;
-	bh=pn4yOJ7V8K3SjQEg+pUrZx/VF4fsacmdLeHB0AnwAss=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cCSOhsIWw4JTqOPW8l8XkAyBPtDsA7YopuibZ+ZhlYEPSw004AjmWfIdrrMqbHTz6
-	 cUxx2INaN2g8+Pow3iijTA16x/B/C15A7iAH/WRisA7DMEPyf0ZRKmOrngWupjsfy3
-	 Wt0rKspsQYJg5NpzCiJNpP51PgCsWbbwfpa5mDlbyCxE6H2CGqFSfeQlVTYJoLh/GM
-	 E6SIMCfXLSXEOcS7yMARNugQbJKFkS1YidwRuhiZkTn2JRqX7wnLdO5FKCS4uk26AI
-	 gS4MEBEcaalX5A0z8mtsUDsnp8l9FWvI1BPrHzE8jKRuc8uyPqP2abwk+SO0NoNBNQ
-	 bOzp6xOZyrz5A==
-Date: Wed, 25 Jun 2025 14:51:40 -0500
-From: Rob Herring <robh@kernel.org>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
- interconnect alphabetically
-Message-ID: <20250625195140.GA2102516-robh@kernel.org>
-References: <20250610083318.2773727-1-vladimir.zapolskiy@linaro.org>
- <a072d00e-df91-420b-9363-424bcdf1ed8e@linaro.org>
- <3e8f8220-1fad-437e-9fa4-5eb628891110@linaro.org>
- <ae364f1c-5d64-4178-b26c-e58e352feee0@linaro.org>
- <97e51ab0-737b-496e-81df-b73c9f598bb0@linaro.org>
- <35muvo7h7ynfvzjt6jomasr54xaomfgt5etjc3uuczhfxww2ds@u5xsayanthx7>
- <0943821e-603a-4ee6-9bcb-e5fe690358c5@linaro.org>
+	s=arc-20240116; t=1750882068; c=relaxed/simple;
+	bh=EjtCgjlPuYa9OqKtTw5kDeGLPeJpAT12j+uPFgv0rOg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ER9dwClyMVB/ijm7g6K5AZLwYpqtnRJsWKXmaeFQnN9DCvzMwbJosCeb2HV6917925PfdfOuxmvP/Gu4/9CGpW3J1s1m7oogIAfKfsY8lVoZRZR4NCIPWK6jTQAoIUbAA9cBKP5UUx1Dof7SNdDSj6XzsP0n6HYgCX+6nfS3Otk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P9bz8R/O; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-713ef518da4so300777b3.2;
+        Wed, 25 Jun 2025 13:07:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750882066; x=1751486866; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EjtCgjlPuYa9OqKtTw5kDeGLPeJpAT12j+uPFgv0rOg=;
+        b=P9bz8R/OkXKyfeOa1QLtYOYjMroeRBjA5od90IrReD4WXfx/pJexOXE5fq90S+uLvx
+         Fcb94o3Q75j1LexftCGaRqu+lHwSDtVRNQmrSfFNC0Kaf8WRJGikWz6yq5K6HYqOpLFx
+         /6gCMqSKkHn5MEzQqFHfbDN7/M9CFO4vyOwKIwUgJIdfR9oachbA2HXy1MfrcgY1YPbW
+         5eguSRsCXCjwlh+bp0rCVivbvtBWo/HIEu42MQUp/K9yBVcNSLxFvQsNNS4clx2zsyDF
+         XvoaQ0FB0xTWVLgTaIbMZ1qx7BVa0RITxW5wKVBfnGufvtWl6eHbahGblWSD9aq95Q5C
+         JfLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750882066; x=1751486866;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EjtCgjlPuYa9OqKtTw5kDeGLPeJpAT12j+uPFgv0rOg=;
+        b=w05NrczEti724m4v2MgRbQ9s1awpMSkuqCE8lnraSZXh0uWB0t9utzA45grrSIxG6F
+         4kvrCFJzpnVBOZM9xxJGMSx40jGprOd6o7pOWHzALGPqgSXGGUCRLA9RhuHpiofPy1O7
+         jJdE5j9zE3DjyGRHTvqo8FRyn07mWE1lOcfoxnbOZiAJO3VmGNkCHcgtPPh5IStFD0nk
+         0yFfSiZPgw2eTtMDdBjs3qNcTrvKWdvPu+Ly3/rTUj2LmSMmafNtFHuhc0Mh8XQgDcn6
+         NBk2RuWcN4PN/Tv61T3DO2YdS+IXYIgXbMeof/PGmkykXqmgHsqZw/G6rwVMPRe6aTPC
+         a0SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUxWleyatHdUOVv56gP+UyUxKYw0BYYtBjp3BYA6QSURbMf7pTfd/1MXJRxbYgBMf57uiMF5zeaM/nj5R8=@vger.kernel.org, AJvYcCXRtWZPqlbCEz6z6TzcKfZyASR5W2UshnYVH2tcqXUHuFShLoJDSvnpHm7PtB5ihCbtAAXyrzqBtIEyH0k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4lSGsJf8A0jeCHO+W6VuL3HS0T7mndE+MzUHnXwgCvg7Afy3y
+	OlDGDoiUAfgPWcCt5ltiV+VOZhb0klfbCnTlPP9fvej2eXGNbjM1pANsRzXHTNzci8DlBrVgrPC
+	yh53D4/j2FZDiVRf1KhgVzRId2buN/GE=
+X-Gm-Gg: ASbGncuoYIXRSwzf+1Ns3j2TzFcHia6ed8XNngQlhXUrQJvmJAZrG4G+ylMUxRTuyv2
+	lez79Hv65zrBIwQtaVmNHC+uLzGlM19JF2AF8xb/xEV+hvcotFKn2UcL4WKpG+DyoVCsYEdK1Yj
+	WMzDuEnmLK37SdtvAQenpnf6s/8ehCrf3ebLSAut9gQsk=
+X-Google-Smtp-Source: AGHT+IGz4txyKPd7fSv+f9CzjEkDSNQgHwjMbV5Yhzz8B88moF+AakLXs8owD2LqNSjcS5hCDxId5lFVReEZt6ABDzE=
+X-Received: by 2002:a05:690c:67c1:b0:712:cc11:af5 with SMTP id
+ 00721157ae682-71406b6599fmr29578827b3.0.1750882065681; Wed, 25 Jun 2025
+ 13:07:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0943821e-603a-4ee6-9bcb-e5fe690358c5@linaro.org>
+References: <20250624170746.47188-1-abdelrahmanfekry375@gmail.com> <CAHp75VfL2uMpOP2xfa6zf=MAFrt0Phz87xo5w3bC21t0-TTQKg@mail.gmail.com>
+In-Reply-To: <CAHp75VfL2uMpOP2xfa6zf=MAFrt0Phz87xo5w3bC21t0-TTQKg@mail.gmail.com>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Wed, 25 Jun 2025 23:07:34 +0300
+X-Gm-Features: Ac12FXzwVYZpPh2GdM0bP_aNvwstV2K-3UVsUmTB7suEGHiFt6UKlSIQ2Vw63lA
+Message-ID: <CAGn2d8NmM3Jr+ZR=hj6KYyHdkx1Vc0-Q2RE7Y2o9RfQM1dPAog@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 11, 2025 at 02:00:48AM +0300, Vladimir Zapolskiy wrote:
-> On 6/11/25 01:21, Dmitry Baryshkov wrote:
-> > On Tue, Jun 10, 2025 at 06:10:33PM +0300, Vladimir Zapolskiy wrote:
-> > > On 6/10/25 18:02, Bryan O'Donoghue wrote:
-> > > > On 10/06/2025 13:45, Vladimir Zapolskiy wrote:
-> > > > > > 
-> > > > > > How is this a Fixes: ?
-> > > > > 
-> > > > > I call it the fix to the dt-bindings documentation, then what is this
-> > > > > change, if it's not a fix?..
-> > > > > 
-> > > > > Anyway, if there is a strong disagreement about if it's a fix or not,
-> > > > > the Fixes tag can be dropped from the change, since it's so secondary.
-> > > > 
-> > > > Since we don't have a committed upstream user I don't think this is an
-> > > > ABI break.
-> > > 
-> > > Well, Dmitry says it's an ABI break... It would be beneficial to come to
-> > > a common understanding here.
-> > > 
-> > > > But I also don't think it warrants a Fixes: tag either, there's no bug.
-> > > 
-> > > There is no bug, but there are Documentation/ changes with Fixes tags,
-> > > it's okay.
-> > 
-> > Fixes means that there was a bug / issue that needs to be fixed. For
-> > example, if there was a user for the bindings and the user had these
-> 
-> That's "for example" only, I don't think it's an all-descriptive definition.
-> 
-> From Documentation/process/submitting-patches.rst:
-> 
->   A Fixes: tag indicates that the patch fixes an issue in a previous commit.
-> 
-> In my opinion this is quite applicable here, the "fixed issue" in the device
-> tree binding documentation file is well set, and anyone can get it from
-> the provided commit message.
+Hi, Thanks for your review and most importantly your patience :)
 
-I tend to agree. I would say Fixes should be used anywhere you wish you 
-could re-write history and amend the original commit with the fix.
+On Tue, Jun 24, 2025 at 9:09=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> You really need to slow down with the new versions.
+>
+> On Tue, Jun 24, 2025 at 8:07=E2=80=AFPM Abdelrahman Fekry
+> <abdelrahmanfekry375@gmail.com> wrote:
+> >
+> > The sysfs attributes active_bo and free_bo expose internal buffer state=
+ used
+> > only for debugging purposes. These are not part of any standard kernel =
+ABI,
+> > and needs to be removed before this driver can be moved out of drivers/=
+staging.
+>
+> needs --> need
+> can --> may
+>
+noted , will fix this
+> > - Remove active_bo and free_bo attributes
+> > - Remove group registeration calls form hmm_init() and hmm_cleanup()
+>
+> registration
+>
+noted , will fix this
+> > Suggested-by : Hans de Goede <hansg@kernel.org>
+>
+> This is not a tag. Check Submitting Patches documentation and find the
+> issue and fix it accordingly.
+>
+noted , i now know the issue and will fix it
+> --
+> With Best Regards,
+> Andy Shevchenko
 
-Rob
+Best Regards,
+Abdelrahman Fekry
 
