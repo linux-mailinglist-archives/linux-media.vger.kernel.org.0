@@ -1,151 +1,141 @@
-Return-Path: <linux-media+bounces-35860-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35861-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17928AE7DFC
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 11:51:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0263AE7EFC
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 12:21:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 076A53A86D4
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 09:48:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40AD9171350
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 10:21:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB82D2868BF;
-	Wed, 25 Jun 2025 09:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2B992857F1;
+	Wed, 25 Jun 2025 10:21:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pdS7kaLK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8y3AmdQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB2727587D;
-	Wed, 25 Jun 2025 09:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F6127E059
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 10:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750844773; cv=none; b=e7JGEQDgpJv3lQqHX+U3KqFEqS+WlRY+tbs2y75CzUpPb33aQYqSpN1lb6HUoOs06aCc6CsYD/UhHIL3WOTtIHV0ruzVxjlAZ3A0BSs95v+LRa/2elbbgaAwLN1QVkOL2RhxvVdtG4xlAiUALwVCxGa6DgBg/1qgN9nvaGDYi24=
+	t=1750846871; cv=none; b=qLDEQLhkX7RSO3jyvVHnDnT5bCq4EMfU7S/OlTaGneUGx1rmvt5BmVZtX6iYpzynZC5qXZWlLaKQEy9dfaPYSiCl2Op7zQpgE/1ahmjV9Wj5iHq/+rCGHeIsCoSoqwF5i3yySTCNP3Radh83yG1I+/sIIOUGdsGDMCyuZ6l80VE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750844773; c=relaxed/simple;
-	bh=iC7tw8rqjOwT7CRcW6Mq+d/a7tYQ72tc28+vmbMXUEU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rhg9arL9slm4npz9/6EDmDr9QD0h3+VTdiZFLe8J5xv2hF4BNenN2jeoLbdflGCe6qGgm16Uz7p6NKMApFRUiDNEFYp5nH46AsS8w2glwDV2phyudTmhtKKA55cL7Kkq+xiQs67DjOWHn1hp9BNF7JlgrZ9pbRU7v/GXXk4Pf5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pdS7kaLK; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F9296F3;
-	Wed, 25 Jun 2025 11:45:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750844750;
-	bh=iC7tw8rqjOwT7CRcW6Mq+d/a7tYQ72tc28+vmbMXUEU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pdS7kaLKH8wuE7VR4Nom6WdhA8tK1gPpxd43yiQ0BTFckQrHxfzqMqqYKW1tgujCU
-	 QRkw8zYI4o/sARMPzGlvP9WkPWnD1EuEFwnXEDspHmgrtMIDlFWUxn3UUfB2jIGf10
-	 5qIQPh5sqUC9liJ8b9nNOC4ATpnIN1pGTNWKfamc=
-Message-ID: <78e03817-5a9a-4d5c-b765-cfe56650a93d@ideasonboard.com>
-Date: Wed, 25 Jun 2025 10:46:04 +0100
+	s=arc-20240116; t=1750846871; c=relaxed/simple;
+	bh=01eeXR9EQXT02NCQ4PRZh6KlCr3uOn3isq6XXtm7Hr8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rBnLuEDZkLdAS+Ujlp1ecZ8dnMPnzXqXi8qNLHr+i6Qa7X3YU2RLEFw+nOuAJE+zSeOOtCvdOPHXVdgOOOdGKoBrD+CTvChqFfUd6Ff28RflzC6IjbhoKP+iKDfbdiQXJMjyUjyWtorkCxilBJzcaqa7BtzL5L1qjPGo1wuqAHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8y3AmdQ; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750846868; x=1782382868;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=01eeXR9EQXT02NCQ4PRZh6KlCr3uOn3isq6XXtm7Hr8=;
+  b=N8y3AmdQcNw+0B4E8Q1EhZEXX2JaHcR/vUE3OQZw1uMV4PfQE47QDKqR
+   BcCyMbjV1eEHcT6Ex3Q1Ucx15Dn4FP/udUYu0fgAxwU83IPVU6wBHdiBy
+   hGvrXvrwtum4I808ZJSsUR4bD5tvQqoAW8cZvaLP57LLmwiHoLnIDch5L
+   5beKZHcUEq2koIVf0kRT+n6RuYx+muBh+0zmo1glS/53gyjSqMy4hLpFd
+   04WNzlr5fA4jicNc4nxrrkiA1kdtasjfVb79vyYgkIQeF+XjjXX5Qxi4l
+   E0wyc/PVcZlTy0WbD8BGdYJT4dhz1WQSxUZuDTvGk1jZdMemvpwhajYku
+   A==;
+X-CSE-ConnectionGUID: pUABaR04SVOs0QFXSRQo3w==
+X-CSE-MsgGUID: xkjFHwpASLC+K8UlAsqoZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="52974636"
+X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
+   d="scan'208";a="52974636"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 03:21:08 -0700
+X-CSE-ConnectionGUID: k2hjk4K9RRyKQ3mgmjYG4g==
+X-CSE-MsgGUID: DG+A0LWzRhmmqEHUVmIKmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
+   d="scan'208";a="152312139"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.155])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 03:21:06 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1863D11F9DF;
+	Wed, 25 Jun 2025 13:21:04 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1uUNFY-00A1pJ-07;
+	Wed, 25 Jun 2025 13:21:04 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: bingbu.cao@intel.com,
+	stanislaw.gruszka@intel.com
+Subject: [PATCH 1/1] media: staging: ipu7: Fix compiler warnings on x86
+Date: Wed, 25 Jun 2025 13:21:03 +0300
+Message-Id: <20250625102103.2390293-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 05/17] dt-bindings: media: Add bindings for ARM
- mali-c55
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Cc: Anthony.McGivern@arm.com, jacopo.mondi@ideasonboard.com,
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
- laurent.pinchart@ideasonboard.com,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20250624-c55-v10-0-54f3d4196990@ideasonboard.com>
- <20250624-c55-v10-5-54f3d4196990@ideasonboard.com>
- <2b32b8ed-c841-4862-afab-c583da644217@linaro.org>
- <8438a336-94d3-44e1-9e92-1fac0b2a602d@linaro.org>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <8438a336-94d3-44e1-9e92-1fac0b2a602d@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Morning Krzysztof
+Fix compiler warnings on 32-bit builds where dma_addr_t and phys_addr_t
+are 32-bit (and no longer long long).
 
-On 25/06/2025 10:08, Krzysztof Kozlowski wrote:
-> On 25/06/2025 11:05, Krzysztof Kozlowski wrote:
->> On 24/06/2025 12:21, Daniel Scally wrote:
->>> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
->>>
->>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> You changed the binding significantly - adding new properties (which do
->> not even follow DTS coding style).
->>
->> This invalidates the review. You cannot just keep growing it after you
->> received a review.
->>
-> Although if it is conflicting with my earlier message that some earlier
-> changes - reset properties - were trivial and review should be kept,
-> then apologies. Adding new, custom, vendor properties is not trivial.
-> Adding obvious existing properties usually is, although I understand why
-> it could also be a reason to drop review. In any case sorry for
-> confusion, but this needs re-review.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+Hi folks,
 
-No problem; I was a bit unsure about that indeed - in last version I sent an email to bring 
-attention to the fact that I'd added the property whilst keeping the tags, should have done the same 
-again.
+I'll squash these to the ipu7 set.
 
+ drivers/staging/media/ipu7/ipu7-boot.c | 4 ++--
+ drivers/staging/media/ipu7/ipu7.c      | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Thanks
+diff --git a/drivers/staging/media/ipu7/ipu7-boot.c b/drivers/staging/media/ipu7/ipu7-boot.c
+index 8e58d00566b4..666cede396f9 100644
+--- a/drivers/staging/media/ipu7/ipu7-boot.c
++++ b/drivers/staging/media/ipu7/ipu7-boot.c
+@@ -219,8 +219,8 @@ int ipu7_boot_init_boot_config(struct ipu7_bus_device *adev,
+ 	void *queue_mem_ptr;
+ 	unsigned int i;
+ 
+-	dev_dbg(dev, "boot config queues_nr: %d freq: %u sys_conf: 0x%llx\n",
+-		num_queues, uc_freq, subsys_config);
++	dev_dbg(dev, "boot config queues_nr: %d freq: %u sys_conf: 0x%pad\n",
++		num_queues, uc_freq, &subsys_config);
+ 	/* Allocate boot config. */
+ 	adev->boot_config_size =
+ 		sizeof(*cfgs) * num_queues + sizeof(*boot_config);
+diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
+index f1ca76d59dc2..4a70d3527cb7 100644
+--- a/drivers/staging/media/ipu7/ipu7.c
++++ b/drivers/staging/media/ipu7/ipu7.c
+@@ -2323,8 +2323,8 @@ static int ipu7_map_fw_code_region(struct ipu7_bus_device *sys,
+ 
+ 	ipu7_dma_sync_sgtable(sys, sgt);
+ 
+-	dev_dbg(dev, "fw code region mapped at 0x%llx entries %d\n",
+-		sgt->sgl->dma_address, sgt->nents);
++	dev_dbg(dev, "fw code region mapped at 0x%pad entries %d\n",
++		&sgt->sgl->dma_address, sgt->nents);
+ 
+ out:
+ 	kfree(pages);
+@@ -2448,8 +2448,8 @@ static int ipu7_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	phys = pci_resource_start(pdev, IPU_PCI_BAR);
+ 	pb_phys = pci_resource_start(pdev, IPU_PCI_PBBAR);
+-	dev_info(dev, "IPU7 PCI BAR0 base %llx BAR2 base %llx\n",
+-		 phys, pb_phys);
++	dev_info(dev, "IPU7 PCI BAR0 base %pap BAR2 base %pap\n",
++		 &phys, &pb_phys);
+ 
+ 	isp->base = pcim_iomap_region(pdev, IPU_PCI_BAR, IPU_NAME);
+ 	if (IS_ERR(isp->base))
+-- 
+2.39.5
 
-Dan
-
->
-> Best regards,
-> Krzysztof
 
