@@ -1,269 +1,162 @@
-Return-Path: <linux-media+bounces-35850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35851-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35BFAAE7B03
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 10:56:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0359AE7B71
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 11:05:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C059F3BF8E7
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 08:55:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D2CB516846F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 09:05:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27F9028469D;
-	Wed, 25 Jun 2025 08:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCC4F285CB8;
+	Wed, 25 Jun 2025 09:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QWjYZSwK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xUIvl8+3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDD920DD40
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 08:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750841768; cv=pass; b=RgTC0RLR2jxXvYNh2W+iZIp25gU0vdD/c8y4GbnzR5mIKRQ+3UEPYFqqp4IgIH0Bs4XI3GXjVCJGqe9977eQRMYFj9iI52kp+ndJHeQVFKI2bVIaVefA5LP48uDglivtbt1Jb0rsf+pe8E64AOd6OXcurhD6hTz0JL66WQ6LBcQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750841768; c=relaxed/simple;
-	bh=bClblmsEGSFVXUs16MzyZHbEmX2PujJwD0UIM+tri+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X082/hRLrqE+goKckmh4VznHDCqeZ+L9xXKdNp4cJB//sBS8PgjCRdqxmIsDwPughrb5a7egsAnV6MitkW8O2hnG5mTJ/6VN9VNz4ujz7BNNDhmNTb9sQs4gLTZIW+1Bkvc+yFMhZ6J7vBaEr7Am/SUFlj4iw08YZxNcqYzc4eM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=QWjYZSwK; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4bRwdp143wz49Q5s;
-	Wed, 25 Jun 2025 11:55:57 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1750841758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=r92Axn/7dprQex3MRVG9QSwFYWG4zHWyr4V1KtRICl4=;
-	b=QWjYZSwKWK5jRF2+8cURr03vXKFiaXypmZjOxSB8guf4qAXuMi/tu2S86MoYWFIqq5ylax
-	2rM5qdMrhRnY5e37XcbuxHTkdpkqN8Fq2nrjrd4GcCxHUPvyuvertZkO2gREqyUozfkEQJ
-	eamIKD+KCzK/PbXvYEKDek2Y0bPMaP0lwRt3Q0yjI6jWsU8/gW339Lcp3wdSJj4xy5heTO
-	Fb/65J9W1e+Y5FmNy5WOBDWB1JVPz4KEZ959k02cJ6TquhEM44HwId+C77Umb+VotQu+lg
-	9+IsZWTd+ioiB/9eRyUWQZVLuP1gz+7X+HvXrvmSftQ2np2T+Eje+XZGdEwuoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1750841758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=r92Axn/7dprQex3MRVG9QSwFYWG4zHWyr4V1KtRICl4=;
-	b=be1pNXYAZIsiTFJr3dF3fsEMedEmNvlQqgpVr57kOiKxnCHrCG+QERYxM2WmxAQuhdl/M9
-	pk/RJlFAnzuonsuRMa5Spvnv04+cxLv0mIHWMdieKtMN6wUlByNe/EgKNqajDMKi4+SlFI
-	NVhxTWH0mef0wzNIgSiRQ4shXW6Nx1OJHFWzdHH9cWwnvMhC8b9mX7VsaiQCxo5SsLIz8U
-	XLpbKp2tS8IHcKanLwHjzWuxJEKjCmrStAnkhy1blM/uEyRkzt/h8rZzbF+aZpz+Ll9liO
-	Bt1WnpdaAY72qG2N7rJ0ZDPaiZ4YskJpwsoQomThyE/jnDomwLn2U0bF1VYfcA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1750841758; a=rsa-sha256;
-	cv=none;
-	b=s1q9MfRnaKk7fg6a4Iar/DITtl4eMVIoHLMYEzCS8tNYf7BaxDrcxt8H6H0tqFuSdXFh2c
-	mJ/51REV8FSAWzJDDwEC5hcz4CHk5FJ1mornnfjIDxHlsoOg6L5BqnVC6AZGUMjVCOxuoY
-	lib3+nOlLU1BFXZzpcu1pzkSQqWi/DeQvF5WIfXivQziW1kaCcj6Sh7bCMPdt/EIhjBf/Z
-	gsz/vMt1FFh+FQJCanLs2gK9+bQBLRtZCepG0DgS4i9frppUfiXuxpKS3cm3X4aNA34z49
-	A6QRSl8D4Hqtyc/fw5px/0c0Qqzlb1NhJ8yzpvaCFn/VTfqg72GK+MHHnEm/yA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9701D634C93;
-	Wed, 25 Jun 2025 11:55:57 +0300 (EEST)
-Date: Wed, 25 Jun 2025 08:55:57 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com
-Subject: [GIT PULL FOR 6.17] V4L2 fixes for camera sensors (imx214, vd55g1,
- ov5693, ov7251, ov8865 and ov5670) mostly, V4L2 framework improvements, more
-Message-ID: <aFu5ndWbP149qCeB@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504D6272E42
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 09:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750842316; cv=none; b=sLuodyvmcA75KIUTy67jRCaya5HrK+mMkKyhh01sVUb4ABTzhrlrZ2NIX4f9ukLSTWhvOINH9BMY4E06tGARR89XfJRdUz2viAEY3aHjZOyRsQwUQeuLEUU7OXssqXCVdVAh6LdL5khFiGJm1FGXyDloPhucyYC3MDQkmKxTzZo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750842316; c=relaxed/simple;
+	bh=ofGLBeV8YvNpQlj6p7A7WvoAdljAiZc3L23Hg6zDPrg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ccwSpYis3dCL5VSSbJGve56Yi0FosABMxpfB+F3K6EKSAVso3l6LvSXCHWRTgnbAKv2BB72b6pOzznfTpwoIOjqgkjNdDEQTIYr6d2rXOrs2BLi5pR+zFdGRYWtKwnXpzFqFywmFjv+xJfwEmT+u59Ko8NzLZOnphkFzX8zZ0hM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xUIvl8+3; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4530e6f4db4so2645575e9.2
+        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 02:05:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750842313; x=1751447113; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=etDFN6wtvcavr2f8yVWmXNqZFsdQ0B/RvviXTfGgdHI=;
+        b=xUIvl8+3pHYSY5ZYZpHwj+sCBIjZDurs/qPx2tlLrJ5PJrli+fpYpbIPWk1mIXdOHH
+         cxEySAgt3UdwBysbSm6phA8s7V2F+rMd4qZF+Au8HGEabceTF/2FVmTkUgaI/THQx3fW
+         EbnWmxgjB+astNEyDO0cyQxkSuq4ta62/es58dLM4RSxvOYfIOoYy55fDhsbpIj208cs
+         cIZOU3bCOqShiddcAElg1765G209SgNOOtix5GFaZJQ5dtBGzu+K69v7Nvs+5wJFdGkb
+         yzjY+SlLal+l8EM3dH0rr0ToIvwAQKgm7nNBpP5OSTpFIgrEfO7NdB9a3D+QPXDC7boG
+         MbTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750842313; x=1751447113;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=etDFN6wtvcavr2f8yVWmXNqZFsdQ0B/RvviXTfGgdHI=;
+        b=aYMzPJ8tT7Tc8rqbv1JQRcDsQAozZsOwCiqghti4upKXdaqzWBavaODccStYx/NU90
+         cSc0SREaT8IPGKrUJgG0jzBhSq2qq32hG6+zvCKNzH3YwmHBLf+ksrfftQNc5bSutRR9
+         sj7aXJrPKpr8k+iLC3VyTjj8X7LCvlLnANH2Dy8DzSKfvXxHm98zSW3B+AyfKRp7ALo5
+         ytyL7suniJ+ekRGhPBYvzMuC3Csps6eulT30Q4K3iFSv/kPadcNY5K44AFwTcGg5caMZ
+         346SfNs3ddiK3D93J7WCdmIy10/ry2gNaU2yuL6wpygzCgi1gmkfaSwxj2flv6vS6XPN
+         PQwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVGzPpThrrqhz8NIK56zVwU39K6dn/Yc6hSJYdPZ7gLZmrYSsFH4mjWxHJNYkziR9vGK2J9QH0hduakuw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDB/XVuFG0/hyGuyDQUMSYRCZMWljhScFh1M2ZSfSoKgJu2AXI
+	9I/9yGRyg+iWOQg0QS2/gP8HNv+k9iHJTLR2UlfWj3KWZRzlpstrqchSAbp3KbhBKN4=
+X-Gm-Gg: ASbGncu7W7kBm4l73vRdNBcghnc46WCL89lOS3k/INmVEKo/W/DcbKTelgImBjsxvcE
+	3eFu8JIX+Vxne+xDpGghgoBlpL8sbs8Ni0PHiOYS24e9jO3r1WNJqSls1bIlP9nBNkslV0+njaW
+	huAK/rbOfkq+tSOASR1MWoWghaZ0QDDljszZvukdZAlChOS92QUnfOvjwKZIpNljvktTRC2XKtR
+	ivJk1/a2ZFRq/uIVsC+nwqnDXYEZ+ubqYsYnOmghnoXspHDIpTgDLYjFGKEtddzKUJ7lkkGJztx
+	WFM/SAanduJnfTPg133PCMGQc4K4XeCHDfZvo/lVn1Xsh/XUQEwVglYiOn5FiqASOlaIW56kS50
+	LPxOTIg==
+X-Google-Smtp-Source: AGHT+IF8op0IxbzSI3ROl+ecmGm2SzX7vVGkRXnPCuboGaPdO95czrLIN3iOd0fglW0Ut9sjEj5wgg==
+X-Received: by 2002:a05:600c:8b85:b0:453:7011:fce3 with SMTP id 5b1f17b1804b1-45381af8609mr7565455e9.5.1750842312540;
+        Wed, 25 Jun 2025 02:05:12 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.222.89])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e80fed75sm4116645f8f.66.2025.06.25.02.05.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Jun 2025 02:05:11 -0700 (PDT)
+Message-ID: <2b32b8ed-c841-4862-afab-c583da644217@linaro.org>
+Date: Wed, 25 Jun 2025 11:05:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 05/17] dt-bindings: media: Add bindings for ARM
+ mali-c55
+To: Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Anthony.McGivern@arm.com, jacopo.mondi@ideasonboard.com,
+ nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20250624-c55-v10-0-54f3d4196990@ideasonboard.com>
+ <20250624-c55-v10-5-54f3d4196990@ideasonboard.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <20250624-c55-v10-5-54f3d4196990@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Hans, Mauro,
+On 24/06/2025 12:21, Daniel Scally wrote:
+> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-This PR includes:
+You changed the binding significantly - adding new properties (which do
+not even follow DTS coding style).
 
-- Fixes and other improvements to various sensor drivers: imx214, vd55g1,
-  ov5670, ov5693, ov7251, ov8865, ov8858, ov2740, mt9m114, imx415), serdes
-  devices (ds90ub913, ds90ub953, ds90ub960, max96714 and max96717) and
-  lt6911uxe HDMI to CSI-2 bridge.
+This invalidates the review. You cannot just keep growing it after you
+received a review.
 
-- Control handler freeing improvements.
-
-- Miscellaneous MAINTAINER patches for Alvium, ivsc drivers.
-
-- DT binding improvements for imx214, imx258, mt9m114 and ov8858.
-
-- V4L2 sub-device framework improvements for routing.
-
-- New device support in IPU bridge.
-
-- Moving IPU3-CIO2 to use sub-device active state.
-
-- Documentation cleanups and a small vimc cleanup.
-
-- Dan Scally's int3472 board code amendment for Dell 7212 is also
-  included, acked by Ilpo to be merged via the Media tree.
-
-Please pull.
-
-
-The following changes since commit c0b1da281d84d33281fc49289f0c7f8aada450ff:
-
-  media: rc: ir-spi: avoid overflow in multiplication (2025-06-23 12:11:04 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.17-1.4-signed
-
-for you to fetch changes up to 83fb1a87f82933fca5de354917d3a5b136f35919:
-
-  media: i2c: max96714: Drop check on number of active routes (2025-06-24 15:49:50 +0300)
-
-----------------------------------------------------------------
-V4L2 fixes for 6.17
-
-----------------------------------------------------------------
-André Apitzsch (5):
-      media: i2c: imx214: Reorder imx214_parse_fwnode call
-      media: i2c: imx214: Prepare for variable clock frequency
-      media: i2c: imx214: Make use of CCS PLL calculator
-      media: dt-bindings: sony,imx214: Deprecate property clock-frequency
-      media: i2c: imx214: Remove hard-coded external clock frequency
-
-Andy Shevchenko (1):
-      media: i2c: max96717: Drop unused field assignment
-
-Benjamin Mugnier (4):
-      media: i2c: vd55g1: Fix RATE macros not being expressed in bps
-      media: i2c: vd55g1: Fix return code in vd55g1_enable_streams error path
-      media: i2c: vd55g1: Setup sensor external clock before patching
-      media: i2c: vd55g1: Use first index of mbus codes array as default
-
-Daniel Scally (3):
-      media: i2c: Defer ov5670_probe() if endpoint not found
-      platform/x86: int3472: Add board data for Dell 7212
-      media: ipu-bridge: Add _HID for OV5670
-
-Dongcheng Yan (1):
-      media: i2c: set lt6911uxe's reset_gpio to GPIOD_OUT_LOW
-
-Hanne-Lotta Mäenpää (1):
-      media: Documentation: Improve grammar, formatting in Video4Linux
-
-Hans de Goede (8):
-      media: ipu-bridge: Add link-frequency to the GC0310 entry
-      media: ivsc: Fix crash at shutdown due to missing mei_cldev_disable() calls
-      media: ipu-bridge: Add Toshiba T4KA3 HID to list of supported sensor
-      media: ipu-bridge: Add Onsemi MT9M114 HID to list of supported sensors
-      media: ov5693: Improve error logging when fwnode is not found
-      media: ov7251: Improve error logging when fwnode is not found
-      media: ov8865: Improve error logging when fwnode is not found
-      media: ipu-bridge: Improve error logging when waiting for IVSC to become ready
-
-Jason Chen (1):
-      media: ipu-bridge: Add support for additional link frequencies
-
-Laurent Pinchart (6):
-      media: ipu3-cio2: Use V4L2 subdev active state
-      media: v4l2-subdev: Limit the number of active routes to V4L2_FRAME_DESC_ENTRY_MAX
-      media: i2c: ds90ub913: Drop check on number of active routes
-      media: i2c: ds90ub953: Drop check on number of active routes
-      media: i2c: ds90ub960: Drop check on number of active routes
-      media: i2c: max96714: Drop check on number of active routes
-
-Martin Hecht (1):
-      MAINTAINERS: Update my email address to gmail.com
-
-Mathis Foerst (4):
-      media: dt-bindings: mt9m114: Add slew-rate DT-binding
-      media: mt9m114: Bypass PLL if required
-      media: mt9m114: Factor out mt9m114_configure_pa
-      media: mt9m114: Fix deadlock in get_frame_interval/set_frame_interval
-
-Matthias Fend (4):
-      media: i2c: imx415: Request the sensor clock without a name
-      media: dw9714: coding style fixes
-      media: dw9714: move power sequences to dedicated functions
-      media: dw9714: add support for powerdown pin
-
-Niklas Söderlund (1):
-      media: v4l2-common: Reduce warnings about missing V4L2_CID_LINK_FREQ control
-
-Olivier Benjamin (2):
-      dt-bindings: media: ov8858: inherit video-interface-devices properties
-      dt-bindings: media: imx258: inherit video-interface-devices properties
-
-Sakari Ailus (8):
-      media: dt-bindings: mipi-ccs: Refer to video-interface-devices.yaml
-      media: vimc: Don't explicitly set bus_info
-      media: v4l2-ctrls: Don't reset handler's error in v4l2_ctrl_handler_free()
-      media: v4l2-ctrls: Return the handler's error in v4l2_ctrl_handler_free()
-      media: Documentation: Document new v4l2_ctrl_handler_free() behaviour
-      media: ivsc: Remove Wentong's e-mail address
-      media: ivsc: Add MAINTAINERS entry
-      media: ov2740: Remove shorthand variables
-
- .../devicetree/bindings/media/i2c/mipi-ccs.yaml    |  13 +-
- .../bindings/media/i2c/onnn,mt9m114.yaml           |   9 +
- .../devicetree/bindings/media/i2c/ovti,ov8858.yaml |   4 +-
- .../devicetree/bindings/media/i2c/sony,imx214.yaml |  29 ++-
- .../devicetree/bindings/media/i2c/sony,imx258.yaml |   4 +-
- Documentation/driver-api/media/v4l2-controls.rst   |   9 +-
- Documentation/userspace-api/media/v4l/biblio.rst   |   2 +-
- .../userspace-api/media/v4l/dev-sliced-vbi.rst     |   4 +-
- .../userspace-api/media/v4l/ext-ctrls-fm-rx.rst    |  11 +-
- .../userspace-api/media/v4l/ext-ctrls-fm-tx.rst    |  21 +-
- .../userspace-api/media/v4l/pixfmt-srggb12p.rst    |   4 +-
- .../userspace-api/media/v4l/pixfmt-srggb14p.rst    |   2 +-
- MAINTAINERS                                        |  12 +-
- drivers/media/i2c/Kconfig                          |   5 +-
- drivers/media/i2c/ds90ub913.c                      |   8 -
- drivers/media/i2c/ds90ub953.c                      |   8 -
- drivers/media/i2c/ds90ub960.c                      |   8 -
- drivers/media/i2c/dw9714.c                         |  62 +++--
- drivers/media/i2c/imx214.c                         | 263 ++++++++++++++++-----
- drivers/media/i2c/imx415.c                         |   2 +-
- drivers/media/i2c/lt6911uxe.c                      |   2 +-
- drivers/media/i2c/max96714.c                       |   7 -
- drivers/media/i2c/max96717.c                       |   1 -
- drivers/media/i2c/mt9m114.c                        | 171 ++++++++------
- drivers/media/i2c/ov2740.c                         |  18 +-
- drivers/media/i2c/ov5670.c                         |   9 +-
- drivers/media/i2c/ov5693.c                         |   7 +-
- drivers/media/i2c/ov7251.c                         |   7 +-
- drivers/media/i2c/ov8865.c                         |   3 +-
- drivers/media/i2c/vd55g1.c                         |  32 +--
- drivers/media/pci/intel/ipu-bridge.c               |  13 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2.c           |  82 +++----
- drivers/media/pci/intel/ipu3/ipu3-cio2.h           |   2 -
- drivers/media/pci/intel/ivsc/mei_ace.c             |   4 +-
- drivers/media/pci/intel/ivsc/mei_csi.c             |   4 +-
- drivers/media/test-drivers/vimc/vimc-capture.c     |   2 -
- drivers/media/test-drivers/vimc/vimc-core.c        |   2 -
- drivers/media/v4l2-core/v4l2-common.c              |   8 +-
- drivers/media/v4l2-core/v4l2-ctrls-core.c          |  12 +-
- drivers/media/v4l2-core/v4l2-subdev.c              |  14 ++
- .../x86/intel/int3472/tps68470_board_data.c        | 128 ++++++++++
- include/media/v4l2-ctrls.h                         |   4 +-
- 42 files changed, 668 insertions(+), 344 deletions(-)
-
--- 
-Kind regards,
-
-Sakari Ailus
+Best regards,
+Krzysztof
 
