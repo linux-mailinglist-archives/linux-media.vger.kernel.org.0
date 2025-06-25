@@ -1,124 +1,121 @@
-Return-Path: <linux-media+bounces-35899-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35907-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47530AE8D20
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 20:56:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C20AE8E45
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 21:14:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D1A31BC061B
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 18:56:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADCCF4A486B
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 19:13:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 853222DCBF2;
-	Wed, 25 Jun 2025 18:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F21AD2E11DE;
+	Wed, 25 Jun 2025 19:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gff5cji2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jQXCQmT8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FBC1CAA7B;
-	Wed, 25 Jun 2025 18:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD7A2E11AC;
+	Wed, 25 Jun 2025 19:12:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750877769; cv=none; b=A8qBfwJ9GH0yFSBIf0ykcRfC1ft9hlHylkehLbvqA5ijbPVvUh92rvjtiFfzjtT60lvBYoO84HNrZ4MP5M4v/BWcrOJ3TbZURw4I/l9vzMJH+Zzk4EU+X8wbpmVyfyBSRmRpH6AW0Ky62OmeikrQ3BUF2oOhevPXhTq3zpadl9k=
+	t=1750878748; cv=none; b=VdkQ0lRpfuJreI2qixr2tzpQ9XUFycNrknRd+BbbZ2vRbheVLK4HZm+jSHCK97SF+P/6LIs0pY+9lyKQ3YN/2DNvaSVrrF0ZjMrNqTcQ8miukGFaUzcbeSro41SwLAys6m8nUuoWVkddZno82v+Df5i70+Af6wkrAqVjU1Sewe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750877769; c=relaxed/simple;
-	bh=6xdnTIn9JsUPsSYNpRZM+JxKZeDZmlbySNAsX2t+WTI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ou7V+M4w+0VrpHIjlkb4ssZCRyusQ0qGztpBoSwhDiwKmDZ89aiXYbhEeUtXay1u1KSk4Qxbfrj71kJcvoXNHqquhzMWR8w1xfbd+61fVN/se8PULGkw36yMcvICNzvE5scT+GbjzX7SqXvZCeMKmNSw6M/4RaKNlUQo2T05lh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gff5cji2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 338B7C4CEEA;
-	Wed, 25 Jun 2025 18:56:09 +0000 (UTC)
+	s=arc-20240116; t=1750878748; c=relaxed/simple;
+	bh=+qriwj9qU4FY/kuIp4wDLlM/t8OqijQo1R2YW3zdLuU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FWS7WRMiATkTIkA2jJ+IUqd346fM+XYRrhjf8wUgwn65HF7y7QnsrWsa1ZC3XAmvhOo2pVspCtsSdz5iw+yKylZVP/za1rLSH0SjfjTq0sZL0+M55xyW5EGQR2G/7hgCO6NH2BUARVwplmaTgnAZWLIyaWC0nVm3frUIkYwfTdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jQXCQmT8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC099C4CEEE;
+	Wed, 25 Jun 2025 19:12:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750877769;
-	bh=6xdnTIn9JsUPsSYNpRZM+JxKZeDZmlbySNAsX2t+WTI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gff5cji2w4rVgfmpej2qu34cYAMMr+BzZ4UHZaIH5XAbQTuM9i+g7mUq2U5j40fHZ
-	 Z1q5bI29k3jsZWhuNj5yhDbG1Cf2CK2Ja0Ff7LDDsR3OOFfZ9Vzt2j15k/nXxeuZkT
-	 9YjFuV7bOl1cksFgU80Bm0WScsAeKZPxiJYfl/Gw6Nw4fguHRhvgpQzb9a5DuxXi9k
-	 r0a99nd/yLYW3OjYml4ONi/ceLO8lUzrdNYHwjtC2OmZGRegktJ+ySI9PYIagF4iS1
-	 BZaw35eG2KRHrrYA05zBh06BuCSR5KKlQpVgpHHc3LUu/B0aN9NxM4wAvkXLn1IoOB
-	 S80u/83hMdyFA==
-Date: Wed, 25 Jun 2025 13:56:08 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 06/12] dt-bindings: usb: usb-device: Add orientation
- and rotation
-Message-ID: <20250625185608.GA2010256-robh@kernel.org>
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-6-5710f9d030aa@chromium.org>
+	s=k20201202; t=1750878747;
+	bh=+qriwj9qU4FY/kuIp4wDLlM/t8OqijQo1R2YW3zdLuU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jQXCQmT8D2h0EMiy0LeKaMVgq4MMLwiB5Ojl9jxZUv3lfWTMXOdg/Ik0UrDQyUSjL
+	 4MyfWPrrhsFgzVudtvHgpM62ZTCCpPxy35fmIvUUFQNGqTyaa+MlvHiuIsfLG1LPq7
+	 DqO/X6euoQBAnIVWUFCtnMvL/ngetC26Gn7NfJVTg6zqih6MrgmXqtLPNUAMhF8Dyl
+	 MqUCjuQmArTDzS7IxOthC7s73wiH1W/851Whej89BlsJAhXIvMsYOcLLDNVEoVpD4k
+	 IO0k5pr5rxMRmHCfbJBy4JwocPtv2E4fPF/CDD2INuRNUBPSpXrHi/aKwXrLqj48Gf
+	 MZhLmOg8QqPSA==
+From: Mark Brown <broonie@kernel.org>
+To: Alain Volmat <alain.volmat@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Valentin Caron <valentin.caron@foss.st.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Erwan Leray <erwan.leray@foss.st.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+Cc: linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ kernel test robot <lkp@intel.com>
+In-Reply-To: <20250616-spi-upstream-v1-0-7e8593f3f75d@foss.st.com>
+References: <20250616-spi-upstream-v1-0-7e8593f3f75d@foss.st.com>
+Subject: Re: [PATCH 0/6] Add few updates to the STM32 SPI driver
+Message-Id: <175087874236.261602.8727707950137724434.b4-ty@kernel.org>
+Date: Wed, 25 Jun 2025 20:12:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250605-uvc-orientation-v2-6-5710f9d030aa@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-08c49
 
-On Thu, Jun 05, 2025 at 05:52:59PM +0000, Ricardo Ribalda wrote:
-> For some devices, such as cameras, the OS needs to know where they are
-> mounted.
+On Mon, 16 Jun 2025 11:21:01 +0200, Clément Le Goffic wrote:
+> This series aims to improve the STM32 SPI driver in different areas.
+> It adds SPI_READY mode, fixes an issue raised by a kernel bot,
+> add the ability to use DMA-MDMA chaining for RX and deprecate an ST bindings
+> vendor property.
 > 
-> ACPI has a property for this purpose, which is parsed by
-> acpi_get_physical_device_location():
-> https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/06_Device_Configuration/Device_Configuration.html#pld-physical-location-of-device
 > 
-> In DT we have similar properties for video-interface-devices called
-> orientation and rotation:
-> Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> 
-> Add rotation and orientation for usb-devices that matches the already
-> existing properties of video-interface-devices.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  Documentation/devicetree/bindings/usb/usb-device.yaml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
 
-Comments from v1 still apply. Add a schema for *your* device (i.e. one 
-that only matches the compatible string of your device). Look for 
-anything that includes usb-device.yaml for an example. Your schema 
-should have something like this if you want to use 
-video-interface-devices.yaml properties:
+Applied to
 
-allOf:
-  - $ref: /schemas/usb/usb-device.yaml#
-  - $ref: /schemas/media/video-interface-devices.yaml#
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
-> index c676956810331b81f11f3624340fc3e612c98315..a44eb24c657993f88145377a4706ec419b6cd998 100644
-> --- a/Documentation/devicetree/bindings/usb/usb-device.yaml
-> +++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
-> @@ -44,6 +44,14 @@ properties:
->        - minimum: 1
->          maximum: 255
->  
-> +  orientation:
-> +    description: If present, specifies the orientation of the usb device.
-> +    $ref: /schemas/media/video-interface-devices.yaml#/properties/orientation
+Thanks!
 
-Again, this is generally the wrong way to add properties from another 
-schema for your device. Above is the right way.
+[1/6] spi: stm32: Add SPI_READY mode to spi controller
+      commit: e4feefa5c71912ebfcb97a3dbe2b021fd1cea9d1
+[2/6] spi: stm32: Check for cfg availability in stm32_spi_probe
+      commit: 21f1c800f6620e43f31dfd76709dbac8ebaa5a16
+[3/6] dt-bindings: spi: stm32: update bindings with SPI Rx DMA-MDMA chaining
+      commit: bd60f94a3eb4f80cb66c9687d640554fd0c579d0
+[4/6] spi: stm32: use STM32 DMA with STM32 MDMA to enhance DDR use
+      commit: d17dd2f1d8a1d919e39c6302b024f135a2f90773
+[5/6] spi: stm32: deprecate `st,spi-midi-ns` property
+      commit: 4956bf44524394211ca80aa04d0c9e1e9bb0219d
+[6/6] dt-bindings: spi: stm32: deprecate `st,spi-midi-ns` property
+      commit: 9a944494c299fabf3cc781798eb7c02a0bece364
 
-Rob
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
