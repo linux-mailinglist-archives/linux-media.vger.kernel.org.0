@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-35916-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35917-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B80FAE9138
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 00:45:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FF6AE9159
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 00:52:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 760E77A7760
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 22:44:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7225E3A6ED3
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 22:52:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0DF026E6E1;
-	Wed, 25 Jun 2025 22:45:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3B22882A3;
+	Wed, 25 Jun 2025 22:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vxA/tjGV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fi/KZheW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F7E30749E;
-	Wed, 25 Jun 2025 22:45:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560001DD877;
+	Wed, 25 Jun 2025 22:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750891523; cv=none; b=lFoeWFEI62yoD9oT14HHnqIL1ni9tahB8QtsQUZUW1P0EaZwWoTkJRncOG/d7FCFUxFW2MroLx1y4lgraR+PSYCIDHaSINtpyyfoxWJ80ObqHpQOPZ0V3ryvNH0exhTnASmB04cuXpwXV1tABaQqH5fie+hMPvEb7Yb4xn9CSTQ=
+	t=1750891956; cv=none; b=NY7JjLm3ITtzf6HcNvJ0WF6BzUGMHxpWHnmWpGSzF+UEXq+LgMPP5QRHDvNqGclqV7HVC0CsFwcGdnniwdZZHB/4dK+clA5a/k2w2jt5pjewydjTCy1k6SMvBifGTOCGiVovqNWpOeA0/GlaBDiWuRlIcfzEm1FKRDGCi+5z0Vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750891523; c=relaxed/simple;
-	bh=ia5A8UcFJv83+wg/fT0X3ZhSzNgGuElRRIaNmCiq2ww=;
+	s=arc-20240116; t=1750891956; c=relaxed/simple;
+	bh=CFgiBDv/pQPAeBIpzQMtFJ/iwyShp6K8dPz+RX2CupU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fdQm84agodD971ocu0muhr4+kADoztTiD20MMcqKMLqcsztsmCALFRria7SWn20DIJqCUjI04DEjj0xaEAtPrSbF9pxuqDnubh2Nh3ZE6JUO4CNF7Kijg7IbJnpHaNef/UEi9TVl6RJnF5cZjf6LBJGq0BPl4cY/AMpZFa2SrZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vxA/tjGV; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=twvrlFPkOdH80GskpPX7BJNzAsuZuPuNoVjvO7SkfdMU55EhcdNV9jHMMcvlmXqfIw4XZ2YD7m0DRIPC9560WymH+N9dQT7O/Nz56n/5j5ahYSke1i/ycRv9vRLoLqiTlRKoe0wQxROtbcAsIFIaTuDi+23GRd1xeNt1mxrOm4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fi/KZheW; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DBFDD6BE;
-	Thu, 26 Jun 2025 00:45:00 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 4A81A6BE;
+	Thu, 26 Jun 2025 00:52:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750891501;
-	bh=ia5A8UcFJv83+wg/fT0X3ZhSzNgGuElRRIaNmCiq2ww=;
+	s=mail; t=1750891934;
+	bh=CFgiBDv/pQPAeBIpzQMtFJ/iwyShp6K8dPz+RX2CupU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vxA/tjGVmyJIzUjWSlbBHBWl28IpNnwgNornYmabAkWZPRkEeUtFxzyIBjEpdNBme
-	 rS6l4UE1afTf00+zUtostOXNXHcmLsB7DZqa3vP6R1WO0MDTBK5GDNvJMh1vhXtDvJ
-	 MRXBPaK7WGgtBWV1TowA6nmse2Dsx7JFuNmpTWLY=
-Date: Thu, 26 Jun 2025 01:44:56 +0300
+	b=fi/KZheWiP70jRSylOa6l1uxr5U8Wc+yHmY/3TyopgOuDULZWe+jDAJesg5D5+DBR
+	 KmyFjDhG4liiE9MOz7xBw9PqYLt29iKHXbXHXX+4Xlj2PDEWTl5X+BNqC6a63vI/CS
+	 K4+bhZgZmyKqzed0E1qhD1CluRUPPu2NnIhn/uVQ=
+Date: Thu, 26 Jun 2025 01:52:09 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 2/7] media: renesas: vsp1: Store size limits in
- vsp1_entity
-Message-ID: <20250625224456.GA15008@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 3/7] media: renesas: vsp1: Fix code checks in frame size
+ enumeration
+Message-ID: <20250625225209.GB15008@pendragon.ideasonboard.com>
 References: <20250429235322.29826-1-laurent.pinchart+renesas@ideasonboard.com>
- <20250429235322.29826-3-laurent.pinchart+renesas@ideasonboard.com>
- <fzug4mjmnstedc4wmx3krelhxoudfauu3xokc6kmr2qioznybj@3t6qjqyrwguj>
+ <20250429235322.29826-4-laurent.pinchart+renesas@ideasonboard.com>
+ <67wmgwoousxbasom5rt5gbji7uymncdfwxp5usufqmkm4r5kqj@et4xswfrjn4w>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,141 +61,231 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <fzug4mjmnstedc4wmx3krelhxoudfauu3xokc6kmr2qioznybj@3t6qjqyrwguj>
+In-Reply-To: <67wmgwoousxbasom5rt5gbji7uymncdfwxp5usufqmkm4r5kqj@et4xswfrjn4w>
 
-Hi Jacopo,
-
-On Wed, May 28, 2025 at 04:43:28PM +0200, Jacopo Mondi wrote:
-> On Wed, Apr 30, 2025 at 02:53:17AM +0300, Laurent Pinchart wrote:
-> > Most entities use the vsp1_subdev_enum_frame_size() and
-> > vsp1_subdev_set_pad_format() helper functions to implement the
-> > corresponding subdev operations. Both helpers are given the minimum and
-> > maximum sizes supported by the entity as arguments, requiring each
-> > entity to implement a wrapper.
+On Wed, May 28, 2025 at 04:45:58PM +0200, Jacopo Mondi wrote:
+> On Wed, Apr 30, 2025 at 02:53:18AM +0300, Laurent Pinchart wrote:
+> > The media bus code passed to the .enum_frame_size() operation for the
+> > sink pad is required to be supported by the device, but not to match the
+> > current format. All entities that use the vsp1_subdev_enum_frame_size()
+> > helper, as well as the SRU and UDS entities that implement the operation
+> > manually, perform the check incorrectly.
 > >
-> > Replace the function arguments with storing the size limits in the
-> > vsp1_entity structure. This allows dropping most of the
-> > .enum_frame_size() and .set_fmt() wrappers in entities.
+> > Fix the issue by implementing the correct code check in the
+> > vsp1_subdev_enum_frame_size(). For the SRU and UDS, to avoid duplicating
+> > code, use the vsp1_subdev_enum_frame_size() as a base and override the
+> > enumerated size on the source pad with entity-specific constraints.
 > >
 > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > > ---
-> >  .../media/platform/renesas/vsp1/vsp1_brx.c    |  4 +++
-> >  .../media/platform/renesas/vsp1/vsp1_clu.c    | 32 ++++---------------
-> >  .../media/platform/renesas/vsp1/vsp1_entity.c | 31 ++++++------------
-> >  .../media/platform/renesas/vsp1/vsp1_entity.h | 12 +++----
-> >  .../media/platform/renesas/vsp1/vsp1_histo.c  | 12 +++----
-> >  .../media/platform/renesas/vsp1/vsp1_hsit.c   | 15 +++------
-> >  .../media/platform/renesas/vsp1/vsp1_lif.c    | 26 ++++-----------
-> >  .../media/platform/renesas/vsp1/vsp1_lut.c    | 32 ++++---------------
-> >  .../media/platform/renesas/vsp1/vsp1_rpf.c    |  5 ++-
-> >  .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 19 +++--------
-> >  .../media/platform/renesas/vsp1/vsp1_rwpf.h   |  3 --
-> >  .../media/platform/renesas/vsp1/vsp1_sru.c    |  4 +++
-> >  .../media/platform/renesas/vsp1/vsp1_uds.c    |  4 +++
-> >  .../media/platform/renesas/vsp1/vsp1_uif.c    | 26 ++++-----------
-> >  .../media/platform/renesas/vsp1/vsp1_wpf.c    | 10 +++---
-> >  15 files changed, 76 insertions(+), 159 deletions(-)
-
-[snip]
-
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> > index 304a2f618777..83ff2c266038 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> > @@ -44,17 +44,6 @@ static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev,
-> >  	return 0;
-> >  }
+> >  .../media/platform/renesas/vsp1/vsp1_entity.c | 47 +++++++++++--------
+> >  .../media/platform/renesas/vsp1/vsp1_sru.c    | 36 ++++++--------
+> >  .../media/platform/renesas/vsp1/vsp1_uds.c    | 36 ++++++--------
+> >  3 files changed, 58 insertions(+), 61 deletions(-)
 > >
-> > -static int vsp1_rwpf_enum_frame_size(struct v4l2_subdev *subdev,
-> > -				     struct v4l2_subdev_state *sd_state,
-> > -				     struct v4l2_subdev_frame_size_enum *fse)
-> > -{
-> > -	struct vsp1_rwpf *rwpf = to_rwpf(subdev);
-> > -
-> > -	return vsp1_subdev_enum_frame_size(subdev, sd_state, fse,
-> > -					   RWPF_MIN_WIDTH, RWPF_MIN_HEIGHT,
-> > -					   rwpf->max_width, rwpf->max_height);
-> > -}
-> > -
-> >  static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
-> >  				struct v4l2_subdev_state *sd_state,
-> >  				struct v4l2_subdev_format *fmt)
-> > @@ -125,9 +114,9 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
-> >
-> >  	format->code = fmt->format.code;
-> >  	format->width = clamp_t(unsigned int, fmt->format.width,
-> > -				RWPF_MIN_WIDTH, rwpf->max_width);
-> > +				RWPF_MIN_WIDTH, rwpf->entity.max_width);
-> >  	format->height = clamp_t(unsigned int, fmt->format.height,
-> > -				 RWPF_MIN_HEIGHT, rwpf->max_height);
-> > +				 RWPF_MIN_HEIGHT, rwpf->entity.max_height);
-> >  	format->field = V4L2_FIELD_NONE;
-> >
-> >  	format->colorspace = fmt->format.colorspace;
-> > @@ -275,7 +264,7 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
-> >
-> >  static const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops = {
-> >  	.enum_mbus_code = vsp1_rwpf_enum_mbus_code,
-> > -	.enum_frame_size = vsp1_rwpf_enum_frame_size,
-> > +	.enum_frame_size = vsp1_subdev_enum_frame_size,
-> >  	.get_fmt = vsp1_subdev_get_pad_format,
-> >  	.set_fmt = vsp1_rwpf_set_format,
-> >  	.get_selection = vsp1_rwpf_get_selection,
-> > @@ -312,6 +301,8 @@ int vsp1_rwpf_init_ctrls(struct vsp1_rwpf *rwpf, unsigned int ncontrols)
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> > index 0d4fe0028b13..a3d4bf2887ec 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> > @@ -233,42 +233,51 @@ int vsp1_subdev_enum_frame_size(struct v4l2_subdev *subdev,
+> >  				struct v4l2_subdev_frame_size_enum *fse)
 > >  {
-> >  	rwpf->entity.codes = rwpf_codes;
-> >  	rwpf->entity.num_codes = ARRAY_SIZE(rwpf_codes);
-> > +	rwpf->entity.min_width = RWPF_MIN_WIDTH;
-> > +	rwpf->entity.min_height = RWPF_MIN_HEIGHT;
-> 
-> I wonder if it wouldn't be clearer to initialize both min and max in
-> the wpf an rpf modules, took me a bit to grasp where max sizes where
-> set
-
-I considered the same. I'll change that.
-
+> >  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+> > -	struct v4l2_subdev_state *state;
+> > -	struct v4l2_mbus_framefmt *format;
+> > -	int ret = 0;
 > >
-> >  	v4l2_ctrl_handler_init(&rwpf->ctrls, ncontrols + 1);
-> >  	v4l2_ctrl_new_std(&rwpf->ctrls, &vsp1_rwpf_ctrl_ops,
-
-[snip]
-
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> > index 49af637c8186..349acdae83c7 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> > @@ -525,7 +525,7 @@ static unsigned int wpf_max_width(struct vsp1_entity *entity,
-> >  {
-> >  	struct vsp1_rwpf *wpf = to_rwpf(&entity->subdev);
+> > -	state = vsp1_entity_get_state(entity, sd_state, fse->which);
+> > -	if (!state)
+> > +	if (fse->index)
+> >  		return -EINVAL;
 > >
-> > -	return wpf->flip.rotate ? 256 : wpf->max_width;
-> > +	return wpf->flip.rotate ? 256 : wpf->entity.max_width;
-> >  }
-> >
-> >  static void wpf_partition(struct vsp1_entity *entity,
-> > @@ -562,11 +562,11 @@ struct vsp1_rwpf *vsp1_wpf_create(struct vsp1_device *vsp1, unsigned int index)
-> >  		return ERR_PTR(-ENOMEM);
-> >
-> >  	if (vsp1->info->gen == 2) {
-> > -		wpf->max_width = WPF_GEN2_MAX_WIDTH;
-> > -		wpf->max_height = WPF_GEN2_MAX_HEIGHT;
-> > +		wpf->entity.max_width = WPF_GEN2_MAX_WIDTH;
-> > +		wpf->entity.max_height = WPF_GEN2_MAX_HEIGHT;
+> > -	format = v4l2_subdev_state_get_format(state, fse->pad);
+> > -
+> > -	mutex_lock(&entity->lock);
+> > -
+> > -	if (fse->index || fse->code != format->code) {
+> > -		ret = -EINVAL;
+> > -		goto done;
+> > -	}
+> > -
+> >  	if (fse->pad == 0) {
+> > +		unsigned int i;
+> > +
+> > +		for (i = 0; i < entity->num_codes; ++i) {
+> > +			if (fse->code == entity->codes[i])
+> > +				break;
+> > +		}
+> > +
+> > +		if (i == entity->num_codes)
+> > +			return -EINVAL;
+> > +
+> >  		fse->min_width = entity->min_width;
+> >  		fse->max_width = entity->max_width;
+> >  		fse->min_height = entity->min_height;
+> >  		fse->max_height = entity->max_height;
 > >  	} else {
-> > -		wpf->max_width = WPF_GEN3_MAX_WIDTH;
-> > -		wpf->max_height = WPF_GEN3_MAX_HEIGHT;
-> > +		wpf->entity.max_width = WPF_GEN3_MAX_WIDTH;
-> > +		wpf->entity.max_height = WPF_GEN3_MAX_HEIGHT;
+> > +		struct v4l2_subdev_state *state;
+> > +		struct v4l2_mbus_framefmt *format;
+> > +
+> > +		state = vsp1_entity_get_state(entity, sd_state, fse->which);
+> > +		if (!state)
+> > +			return -EINVAL;
+> > +
+> >  		/*
+> > -		 * The size on the source pad are fixed and always identical to
+> > -		 * the size on the sink pad.
+> > +		 * The media bus code and size on the source pad are fixed and
+> > +		 * always identical to the sink pad.
+> >  		 */
+> > +		format = v4l2_subdev_state_get_format(state, 0);
+> > +
+> > +		guard(mutex)(&entity->lock);
 > 
-> Minor thing though
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Should you now include cleanup.h ?
 
-I plan to keep your R-b tag with the above change.
+I'm in two minds about that. Yes, the guard() macro is provided by
+cleanup.h, but the API here is really guard(mutex), which is provided by
+mutex.h by using DEFINE_GUARD(), provided by cleanup.h. There's
+therefore a guarantee cleanup.h is included.
 
+I think I'll still include cleanup.h in v2, and while at it I'll also
+include mutex.h that was missing.
+
+> > +
+> > +		if (fse->code != format->code)
+> > +			return -EINVAL;
+> > +
+> >  		fse->min_width = format->width;
+> >  		fse->max_width = format->width;
+> >  		fse->min_height = format->height;
+> >  		fse->max_height = format->height;
 > >  	}
 > >
-> >  	wpf->entity.ops = &wpf_entity_ops;
+> > -done:
+> > -	mutex_unlock(&entity->lock);
+> > -	return ret;
+> > +	return 0;
+> >  }
 > >
+> >  /*
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> > index 1dc34e6a510d..e821eac1cbc2 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> > @@ -116,29 +116,25 @@ static int sru_enum_frame_size(struct v4l2_subdev *subdev,
+> >  			       struct v4l2_subdev_frame_size_enum *fse)
+> >  {
+> >  	struct vsp1_sru *sru = to_sru(subdev);
+> > -	struct v4l2_subdev_state *state;
+> > -	struct v4l2_mbus_framefmt *format;
+> > -	int ret = 0;
+> > +	int ret;
+> >
+> > -	state = vsp1_entity_get_state(&sru->entity, sd_state, fse->which);
+> > -	if (!state)
+> > -		return -EINVAL;
+> > +	ret = vsp1_subdev_enum_frame_size(subdev, sd_state, fse);
+> > +	if (ret)
+> > +		return ret;
+> >
+> > -	format = v4l2_subdev_state_get_format(state, SRU_PAD_SINK);
+> > +	if (fse->pad == SRU_PAD_SOURCE) {
+> > +		struct v4l2_subdev_state *state;
+> > +		struct v4l2_mbus_framefmt *format;
+> >
+> > -	mutex_lock(&sru->entity.lock);
+> > +		state = vsp1_entity_get_state(&sru->entity, sd_state,
+> > +					      fse->which);
+> > +		if (!state)
+> > +			return -EINVAL;
+> >
+> > -	if (fse->index || fse->code != format->code) {
+> > -		ret = -EINVAL;
+> > -		goto done;
+> > -	}
+> > +		format = v4l2_subdev_state_get_format(state, SRU_PAD_SINK);
+> > +
+> > +		guard(mutex)(&sru->entity.lock);
+> >
+> > -	if (fse->pad == SRU_PAD_SINK) {
+> > -		fse->min_width = SRU_MIN_SIZE;
+> > -		fse->max_width = SRU_MAX_SIZE;
+> > -		fse->min_height = SRU_MIN_SIZE;
+> > -		fse->max_height = SRU_MAX_SIZE;
+> > -	} else {
+> >  		fse->min_width = format->width;
+> >  		fse->min_height = format->height;
+> >  		if (format->width <= SRU_MAX_SIZE / 2 &&
+> > @@ -151,9 +147,7 @@ static int sru_enum_frame_size(struct v4l2_subdev *subdev,
+> >  		}
+> >  	}
+> >
+> > -done:
+> > -	mutex_unlock(&sru->entity.lock);
+> > -	return ret;
+> > +	return 0;
+> >  }
+> >
+> >  static void sru_try_format(struct vsp1_sru *sru,
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> > index 8006d49ffbea..95c9939ae077 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> > @@ -121,38 +121,32 @@ static int uds_enum_frame_size(struct v4l2_subdev *subdev,
+> >  			       struct v4l2_subdev_frame_size_enum *fse)
+> >  {
+> >  	struct vsp1_uds *uds = to_uds(subdev);
+> > -	struct v4l2_subdev_state *state;
+> > -	struct v4l2_mbus_framefmt *format;
+> > -	int ret = 0;
+> > +	int ret;
+> >
+> > -	state = vsp1_entity_get_state(&uds->entity, sd_state, fse->which);
+> > -	if (!state)
+> > -		return -EINVAL;
+> > +	ret = vsp1_subdev_enum_frame_size(subdev, sd_state, fse);
+> > +	if (ret)
+> > +		return ret;
+> >
+> > -	format = v4l2_subdev_state_get_format(state, UDS_PAD_SINK);
+> > +	if (fse->pad == UDS_PAD_SOURCE) {
+> > +		struct v4l2_subdev_state *state;
+> > +		struct v4l2_mbus_framefmt *format;
+> >
+> > -	mutex_lock(&uds->entity.lock);
+> > +		state = vsp1_entity_get_state(&uds->entity, sd_state,
+> > +					      fse->which);
+> > +		if (!state)
+> > +			return -EINVAL;
+> >
+> > -	if (fse->index || fse->code != format->code) {
+> > -		ret = -EINVAL;
+> > -		goto done;
+> > -	}
+> > +		format = v4l2_subdev_state_get_format(state, UDS_PAD_SINK);
+> > +
+> > +		guard(mutex)(&uds->entity.lock);
+> >
+> > -	if (fse->pad == UDS_PAD_SINK) {
+> > -		fse->min_width = UDS_MIN_SIZE;
+> > -		fse->max_width = UDS_MAX_SIZE;
+> > -		fse->min_height = UDS_MIN_SIZE;
+> > -		fse->max_height = UDS_MAX_SIZE;
+> > -	} else {
+> >  		uds_output_limits(format->width, &fse->min_width,
+> >  				  &fse->max_width);
+> >  		uds_output_limits(format->height, &fse->min_height,
+> >  				  &fse->max_height);
+> >  	}
+> >
+> > -done:
+> > -	mutex_unlock(&uds->entity.lock);
+> > -	return ret;
+> > +	return 0;
+> >  }
+> >
+> >  static void uds_try_format(struct vsp1_uds *uds,
 
 -- 
 Regards,
