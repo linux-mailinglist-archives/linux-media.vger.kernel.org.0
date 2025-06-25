@@ -1,197 +1,255 @@
-Return-Path: <linux-media+bounces-35876-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35877-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C39AE85B0
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 16:08:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F4AAE875F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 17:04:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 935E77B5DC3
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 14:06:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E12611646D0
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 15:04:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D1DE266B66;
-	Wed, 25 Jun 2025 14:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB40C26981C;
+	Wed, 25 Jun 2025 15:04:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GTOFuJPa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KVTmxMNQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C14267386
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 14:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B1E262FF1;
+	Wed, 25 Jun 2025 15:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750860429; cv=none; b=T9I1LVa4Y8znkUa4hAjv8F/sA1gNKmCPkiVyO3N+6qBYm6bpaztozvxOzNdMoLiiFzLzzlL5lDrYlBcSet8COjUItacgEs8nZ/eg0FyToDHzD7Mr9FIqUM/q4Ga6nLsq/+I/0wAx79CQBW5uKW3ds8fozaeGkuc4K7e+6Woz4Xc=
+	t=1750863880; cv=none; b=XOrBmKMCqmznMtZk6tzh4ofjTSLn9XR2S2PXWLNQHu72DFuaWeg+RHQS8Q2tPFDqHhcxxl11GJxDvIcoOy2lbVJNAZtWeVOEEif4jAcFGsFnQbAnLjBtQbuho07G4ZuadUmHhm2q90W322wf7Vgqpq8ROYBgMhRLB4uOJhaEVxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750860429; c=relaxed/simple;
-	bh=oOhaT8mTYEY5X5et6rvG3bx8HBvDxtByzzQfyXrYKlo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UVYSqHgEhPQu0Cq9HmovNOUyCjklwkWFyAFAFLA9mHvtg3wyTlIsGSmoL4Lmj3l9pbae4/tgDl/MFnl4AL7r8TOCq5A5nINgsviQFdWAZSaokAS7BqcmG3VVGsKVWTRJ3c3kzKsHdOZy0H4B3IyfGl1mKOwtbCwo+JrJoQVllRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GTOFuJPa; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-32b497fa27aso3531821fa.2
-        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 07:07:07 -0700 (PDT)
+	s=arc-20240116; t=1750863880; c=relaxed/simple;
+	bh=ZNB3XhrTzyPjApmhZf4sMBMt2qivNHgeklldzwm7ilE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a8FirAR3RtkEu5ZRit/77IKwcQaUVXjDVGyJetffgUyVaLxr4kkwlodL6U+Bm2KTaWQi9gwExQ9rDHg9wJ6B7cx/wbQcCCHT4TxERWdw2N+aVVRIB889kEEo0bHYdRJUHLUoCNV+reRm2A2UmzC6qK5Vy20YK/wqvqJNBFDKEFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KVTmxMNQ; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-23694cec0feso19516265ad.2;
+        Wed, 25 Jun 2025 08:04:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750860426; x=1751465226; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x9U+9h12lJAfO0glI+fb9gKVyQtO2npmEpYVEgQ5jDI=;
-        b=GTOFuJPakG8ntWv8k0qmI6iA4uwiCMc8KNagnkzZSCVDmUyGu6e71f+hwe7KP1D0T0
-         AA5d1k7cdnJO8l1Qb+yZQCfLUym4AOB0vxilEus/trGcHI6FY67fkvRHhZammf2hb3Ly
-         SiH84VweJ1oNZEhmcO/RhVHfYoyF/wZgFgvZBLIraTtMDR+gMoko3ltIpEDxJkBRqMAG
-         gg3UCuNDE8T2PBi8YihOwoG3aWtuMkNqHBTRQQlxCDWUVLkKyC20azMMyzZw4uGRdmlT
-         //Bp5IIZVNCxKLeVlUr7rx/JmvXdmByuiOdK2J2ZCEJioW0d1Qzk6djphapaoIN65oE/
-         o4Wg==
+        d=gmail.com; s=20230601; t=1750863878; x=1751468678; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=39bZ4LirHO1x5OQItaEAejSwWpOWeNe8ZeqxJzEyH7w=;
+        b=KVTmxMNQw/az4/yyDfBa5PEIjmSsBit7LlMciCj0C75lGnsXLddtx9oU6KWs0gVQxQ
+         rb0vYW6LBs7ts7puAybUpKujav1flaql0MNzBBzY9uDzlQpGigRWhvvCklerrbPqQbhc
+         gxPR3dKDHSPC+H6Zapt0Ue6uAkspww12FlsQLjOMf8pXrNrcKmSWbPhzzZw/paL8NEX9
+         Uii59s7abpk90E/JW8O9WfubSU1wY0kauBYocC5rANCVKrKe536EBa5vlg+ZVIsQgeWg
+         x3BT+Lp2hvcS52kKt63Fttvc7MLVXeClyRC+xNRR7Fw40j5qW6y7Ce6mU3xRnhZuIuLb
+         yrEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750860426; x=1751465226;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x9U+9h12lJAfO0glI+fb9gKVyQtO2npmEpYVEgQ5jDI=;
-        b=QMQiycuRgCtgOXUE6kLy76q0sOiiO6WNqds2wcNeSKfMFK8C5kp6f1axKASIWHdIjv
-         FlIcQEz36AonI+F3nTY05nbcvB3Q7wjkabPe3dKABvNNqlvkmyifabpFQ0Od+QqTAqXu
-         7qUm/aDjstaZaTH/83yf7Uwb+eE+D+X+SLAHXU4tYHGslQKUA7P/iUQkSWBRXTOy0+oY
-         w7dcBPXy9kLhPtJPjBSC/SyK7oTUPHBb+naUmHZQVYAdd68La5wwj36cEAGmCGpo41oO
-         2h4YnSe+5YNPx9m9Q/wVWx6LtXqke3cg/kq2frFzxIEGfACjcNMRIZF7WlF/2FHADY1u
-         67IA==
-X-Forwarded-Encrypted: i=1; AJvYcCWLZa0GvMmvUCZGCeSHCq6GgGlHK3N+AfH6vVAq3q2//KSaarYUL4KqYquoW7pnkDTC2WligkdmcLqvVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuyUavAERgTQ6WDU+8kkEUg1lucEBCmV3J4s1QTCOo1QAImNq1
-	gC/ehHBuu45d72BL8B0rEHmINM1cjssJvusaYrDMPF8qGpCtIa735GKK1ZlINbQSnRroL+QujUM
-	/si/X
-X-Gm-Gg: ASbGncsvd0sihNezUbfVSlkdWZS72EsrOuqU5eOHnA9QLMoPCnOfgMl3c5RKqm8CPOl
-	x0Yj5krMD3kNST1AR5JXtRqBZS7NyeVXDwdbibDfZGRDwh7QsPAKb+PFbWzXMC7o2G9RQ6OD4p7
-	7fJIhx11VWpDFCeTAoqIb6VkrUQTEYCqVFHdCVSO18x9LPHDSZ6PKGJPMDhe2M2oNZKbUOCNwEX
-	fNz5Dd5ET5Oz0cblNJBCWmh4ZEsGEtkOcOByw2JhPCMyyoUkNQJc6u1llCG454eqARCaVI2ZK7D
-	asFNd7dPg0Yf3aqz5eaQ5O5rutL0ejS1DsnB6zC1zer4KUzVgpcnt/5dgT8ebIMbARyWc3OFANg
-	cBIMuJcNlOcWrm+1WKEVhODFGyGKZX0VGt45D3AiZ
-X-Google-Smtp-Source: AGHT+IG8sE28xELVkAXdzTaChY6Ag5Ds42n+2E0Ni8kbtssG1by8s3qZhrB18Z2t3kMbNyJ5nXk4AA==
-X-Received: by 2002:a2e:a54f:0:b0:30c:40d6:f564 with SMTP id 38308e7fff4ca-32cc655e9a1mr4393141fa.9.1750860424131;
-        Wed, 25 Jun 2025 07:07:04 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32b97f594ebsm20117791fa.10.2025.06.25.07.07.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jun 2025 07:07:03 -0700 (PDT)
-Message-ID: <e0eb8d55-b4fd-4f3b-94b0-5c56d48b4671@linaro.org>
-Date: Wed, 25 Jun 2025 17:07:02 +0300
+        d=1e100.net; s=20230601; t=1750863878; x=1751468678;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=39bZ4LirHO1x5OQItaEAejSwWpOWeNe8ZeqxJzEyH7w=;
+        b=wVkc7wURYeSwpIcDz10IdIBRJOgRfqylEXEPhImikm0DZD/azSjvm5Ew1aM4uoaxRE
+         KxrQCybqWJ9sLcJlC9Rteh5JlsYSD3/ulI+15DDkCoVoJfjpdJiKIu2VfoDMk2baXKOB
+         KRs4K9FjdoCIvymRJY5cEuSYA0+FpB1Zkal4kwbYy9ElJN+Tn0KpVvxagGBmzd3QErac
+         fhWR2/O0Dsjqhz4JUahBdbDPL8zlvTQkuJ5Veb17Tku6QyXT03sI95Poij8MM712afmC
+         oPZt5id9URSt4WKF5v6GdAlvel14VW8NCwVxnGpWJ+AHZKa7vrvZloJo1BGcgc5hWnsY
+         PBCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXx+rcrr/MWFVm4CyFZh8HrUu1E7BDcomChEDBnFTUmu4mx6aLXLZiwpPbUcLc7GjGEfuNhoaOwLm10nH4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTUHWYeyllnqFOBFY6M2LcdqqSKWBO77MaGE8eRQqzoxdAqZsg
+	yCal6Io8KZfhGQcbzvUAOvErQk6gl+NobzXUOUT/qoVGCHV4vK0GsBZ2iXIYoddy
+X-Gm-Gg: ASbGncuTQbC+aKudmLEc+YrDJSSUuNsOy7XlaMfibFB2OClTwq1eoycKnkvRAzpEBX2
+	e06rvjOFfZNKgFH92XolWnjNU7r3IOGUjVytBMsvplYDeP1gt/z3X84mQ1vvUxDSuXpJ6aURf6S
+	rGSYR12USFwpj21bqPeAMfg3+MTVv4K+H8G0eq3GKASH7XtY4twU8JKtYmz0uxNaGsVMamDbJX0
+	SdiiWiQdxuIRkMPqtDs9Nir6PIxhGWC/NhiSAYz/Hg5DV3EeN5LoEWITDjfWvLj3aNcdyR7jhpu
+	FCO97on7y+Js9vY5LpTkVZsI0AhR/NfxfFzsSsQX4RpywGeRE5T7hHFWIIx2DCizs19WJuC5c4k
+	k7TwKdkvRV3NfHTO2mFOXMKih1ZewvoxQAQVScA3+a+4783w7cg==
+X-Google-Smtp-Source: AGHT+IGuTWVkLVC4r4XkXeqSaabFcu6dwm5Rg7hkYvxsKcomX9Q1Wpt85Hiyg95v9nAiU4e+mVLY1g==
+X-Received: by 2002:a17:902:c946:b0:234:9066:c857 with SMTP id d9443c01a7336-23823fda014mr61874845ad.21.1750863877692;
+        Wed, 25 Jun 2025 08:04:37 -0700 (PDT)
+Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d866b000sm135082685ad.162.2025.06.25.08.04.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jun 2025 08:04:37 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+Date: Wed, 25 Jun 2025 23:04:31 +0800
+Subject: [PATCH v5] staging: media: atomisp: fix tab/space issues in
+ output1.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
- interconnects alphabetically
-Content-Language: ru-RU
-To: Krzysztof Kozlowski <krzk@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250624094253.57441-1-vladimir.zapolskiy@linaro.org>
- <20250624094253.57441-2-vladimir.zapolskiy@linaro.org>
- <aa56b956-95f3-484d-8afa-058925b95bfd@kernel.org>
- <fff77f71-e21b-43b9-9da5-6cf819add970@linaro.org>
- <5a5b78f7-e156-4c5e-8407-b249040e227d@kernel.org>
- <c29385d4-30ea-4774-9cf9-699b08e29800@linaro.org>
- <329b89a4-85a9-496f-8b1b-6239dfc9057b@kernel.org>
- <930edec1-7403-4ecf-bb17-2e68b8d351f8@kernel.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <930edec1-7403-4ecf-bb17-2e68b8d351f8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250625-bar-v5-1-db960608b607@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAP4PXGgC/23MTQ6CMBAF4KuYrq3pP+DKexgXZZxCEwHTmkZDu
+ LsFNkjMrN7kfW8kEYPHSM6HkQRMPvqhz0EfDwRa2zdI/T1nIpjQzAhOaxuoLmRd1oq5umQkN58
+ BnX8vK9dbzq2PryF8ltHE5++vT5xyqq3EgjGljIBL01n/OMHQkdkn8ceIbBQacFAUleFqb+TWi
+ NXI2QBUHB3jIO3eqK1Rq1HZVC6fxcqVptyaaZq+NmqzTTIBAAA=
+X-Change-ID: 20250621-bar-573b8b40fb80
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, LiangCheng Wang <zaq14760@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750863876; l=6031;
+ i=zaq14760@gmail.com; h=from:subject:message-id;
+ bh=ZNB3XhrTzyPjApmhZf4sMBMt2qivNHgeklldzwm7ilE=;
+ b=V1GicTj7GDB4edMERdzb05R1lU6I1EFxJE+HTQPwGl1Mo9fJ568OmmMBOGdh2ERKKAAmA6IP2
+ SD7UsDivQFuDU2ZAnnPhsGGq8feQK5c/1kkTpY05i4B8wqaDPRVRMGH
+X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
+ pk=/x4391DbJ19fFQI7t33HWt3lsHfYPl2I2ax8C+Vxr+M=
 
-On 6/25/25 10:01, Krzysztof Kozlowski wrote:
-> On 25/06/2025 08:58, Krzysztof Kozlowski wrote:
->> On 24/06/2025 15:29, Vladimir Zapolskiy wrote:
->>> On 6/24/25 15:04, Krzysztof Kozlowski wrote:
->>>> On 24/06/2025 13:38, Vladimir Zapolskiy wrote:
->>>>> On 6/24/25 13:10, Krzysztof Kozlowski wrote:
->>>>>> On 24/06/2025 11:42, Vladimir Zapolskiy wrote:
->>>>>>> Sort the entries of interconnect and interconnect-names lists in the
->>>>>>> alphabetical order of values in the latter property.
->>>>>>
->>>>>> We do not sort these entries alphabetically and you did not explain why
->>>>>> you are doing this.
->>>>>
->>>>> I did it, because I assume that the preference is to sort all named
->>>>> values alphanumerically.
->>>>
->>>> Where is such preference documented?
->>>
->>> There is no such preference documented, as I stated it was my assumption
->>> and it was based on your firm insistance to apply a particular sorting
->>> order for regs, clocks and interrupts properties. Apparently you are
->>
->> Hm? And the rule is by name? I don't think I ever expressed that or
->> insisted on some sorting by name. During previous talks on camss
->> numerous times you ignored the ONLY rule of sorting I was insisting:
->> keep the same as all other devices. That was the one and only rule.
->>
->>> fine with out of the same sort order for 'interconnects' values, the
->>> criteria of picked properties remains unclear for me.
->>
->> I don't understand why it is unclear. That time with Bryan you both
->> received VERY CLEAR feedback from me: there is no such rule of sorting
->> any values. Yet you were pushing the discussion and patchset like there
->> was something.
->>
-> Look, the first reply:
-> 
-> https://lore.kernel.org/all/65e5796a-8b8d-44f0-aef4-e420083b9d52@kernel.org/
-> 
-> "You are supposed to keep the same order, as much as
-> possible."
-> 
-> What rule is unclear here?
+Fix indentation style issues by replacing spaces with tabs,
+according to Linux kernel coding style.
 
-At the moment of the given comment "the same order" was not "sorting by
-values", it was "sorting to address".
+This cleanup improves code readability and follows Linux kernel
+coding standards.
 
-Check the next message right in the same thread:
+Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+---
+This patch addresses tab/space indentation issues in the
+output_1.0 directory of the AtomISP driver under staging.
 
-https://lore.kernel.org/all/c1539cce-92eb-43fc-9267-f6e002611bbb@linaro.org/
+This patch is part of a broader effort to clean up the AtomISP
+driver and is scoped only to tab/space fixes in one directory
+to keep review manageable.
 
-"We always sort by address". And that was the correct statement at
-the time of the discussion.
+Further style fixes for other directories and issue types will
+be submitted in subsequent patch revisions or series.
 
-Did it help to "keep the same order" in any sense? No, the message was
-plainly ignored, and after the long discussion with you the sorting order
-has been brutally enforced to become the new "sorting by values" order,
-and to my sincere today's surprise there is no such rule. Apparently now
-I have to believe it was Bryan's and my voluntary and deliberate decision
-to change the sorting order, all right.
+Fixes were identified using:
 
-> Even more precise reply from me:
-> 
-> https://lore.kernel.org/all/8f11c99b-f3ca-4501-aec4-0795643fc3a9@kernel.org/
-> 
-> "I don't imply sorting by name is any better."
-> 
-> And:
-> 
-> "The only rule is that all
-> devices from same family type must have the same order."
-> 
-> 
-> And now you claim there was from me "firm insistance to apply a
-> particular sorting" in context of name?
-> 
-> So again, my entire feedback repeated multiple times during that
-> discussion is totally ignored and twisted to some fake new rule of name
-> sorting.
-> 
+./scripts/checkpatch.pl -f $(find drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ -type f \( -name "*.c" -o -name "*.h" \))
+grep -Prn '^[ ]+' drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0
 
-Thank you for the explanation, and not just your messages are ignored
-sometimes, it happens with anybody regularly.
+Only lines with space-based indentation (instead of tab) were changed.
 
---
-Best wishes,
-Vladimir
+Suggested-by: Andy Shevchenko <andy@kernel.org>
+Link: https://lore.kernel.org/r/CAHp75VeijMvnbrCmRuqTeo_maxevCA9rB-r5URHaX+TrDNvyGA@mail.gmail.com
+---
+Changes in v5:
+- Replaced space-based indentation with tabs in output_1.0 directory
+- Used checkpatch.pl and grep to identify formatting issues
+- No functional changes made
+- This patch is now focused solely on tab/space issues
+- Link to v4: https://lore.kernel.org/r/20250624-bar-v4-1-9f9f9ae9f868@gmail.com
+
+Changes in v4:
+- Moved assignment operator '=' to the same line for static struct definitions
+- Remove unnecessary line breaks in function definitions
+- Update commit message to reflect all the coding style fixes
+- Link to v3: https://lore.kernel.org/r/20250622-bar-v3-1-4cc91ef01c3a@gmail.com
+
+Changes in v3:
+- Removed extra spaces between type and asterisk (e.g., `*to`) in function
+  declarations, as pointed out by Andy Shevchenko
+- Update commit message to reflect all the coding style fixes
+- Link to v2: https://lore.kernel.org/r/20250621-bar-v2-1-4e6cfc779614@gmail.com
+
+Changes in v2:
+- Fix patch subject prefix to "staging: media: atomisp:" to comply with media CI style.
+- No other functional changes.
+
+Link to v1: https://lore.kernel.org/r/20250621-bar-v1-1-5a3e7004462c@gmail.com
+---
+ .../isp/kernels/output/output_1.0/ia_css_output.host.c   | 16 ++++++++--------
+ .../isp/kernels/output/output_1.0/ia_css_output.host.h   | 14 +++++++-------
+ 2 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+index d09365e0c47104dbffbd455bfd649b9079f88c9c..8d440856471ca73089569be51644c7ac421607ce 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+@@ -34,9 +34,9 @@ static const struct ia_css_output1_configuration default_output1_configuration
+ 
+ void
+ ia_css_output_encode(
+-    struct sh_css_isp_output_params *to,
+-    const struct ia_css_output_config *from,
+-    unsigned int size)
++	struct sh_css_isp_output_params *to,
++	const struct ia_css_output_config *from,
++	unsigned int size)
+ {
+ 	(void)size;
+ 	to->enable_hflip = from->enable_hflip;
+@@ -74,7 +74,7 @@ int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
+ }
+ 
+ int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
+-		          const struct ia_css_output1_configuration *from,
++			  const struct ia_css_output1_configuration *from,
+ 			  unsigned int size)
+ {
+ 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
+@@ -124,8 +124,8 @@ int ia_css_output1_configure(const struct ia_css_binary     *binary,
+ 
+ void
+ ia_css_output_dump(
+-    const struct sh_css_isp_output_params *output,
+-    unsigned int level)
++	const struct sh_css_isp_output_params *output,
++	unsigned int level)
+ {
+ 	if (!output) return;
+ 	ia_css_debug_dtrace(level, "Horizontal Output Flip:\n");
+@@ -138,8 +138,8 @@ ia_css_output_dump(
+ 
+ void
+ ia_css_output_debug_dtrace(
+-    const struct ia_css_output_config *config,
+-    unsigned int level)
++	const struct ia_css_output_config *config,
++	unsigned int level)
+ {
+ 	ia_css_debug_dtrace(level,
+ 			    "config.enable_hflip=%d",
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h
+index 25408f1aede55a61a33a55ad38d5afc3a594a756..e7d44f809003d8692292e9571ac777ea3f2d87b9 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h
+@@ -17,9 +17,9 @@ extern const struct ia_css_output_config default_output_config;
+ 
+ void
+ ia_css_output_encode(
+-    struct sh_css_isp_output_params *to,
+-    const struct ia_css_output_config *from,
+-    unsigned int size);
++	struct sh_css_isp_output_params *to,
++	const struct ia_css_output_config *from,
++	unsigned int size);
+ 
+ int ia_css_output_config(struct sh_css_isp_output_isp_config      *to,
+ 			 const struct ia_css_output_configuration *from,
+@@ -44,12 +44,12 @@ int ia_css_output1_configure(const struct ia_css_binary     *binary,
+ 
+ void
+ ia_css_output_dump(
+-    const struct sh_css_isp_output_params *output,
+-    unsigned int level);
++	const struct sh_css_isp_output_params *output,
++	unsigned int level);
+ 
+ void
+ ia_css_output_debug_dtrace(
+-    const struct ia_css_output_config *config,
+-    unsigned int level);
++	const struct ia_css_output_config *config,
++	unsigned int level);
+ 
+ #endif /* __IA_CSS_OUTPUT_HOST_H */
+
+---
+base-commit: 3f75bfff44be0646580fe4efda45d646f9c1693b
+change-id: 20250621-bar-573b8b40fb80
+
+Best regards,
+-- 
+LiangCheng Wang <zaq14760@gmail.com>
+
 
