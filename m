@@ -1,84 +1,85 @@
-Return-Path: <linux-media+bounces-35863-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35864-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B102AE8050
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 12:55:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE57AE818B
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 13:39:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 433A04A258A
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 10:54:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BCB3169906
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 11:38:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E8E22D5419;
-	Wed, 25 Jun 2025 10:52:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03F6025C6EF;
+	Wed, 25 Jun 2025 11:36:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GMrhQOFE"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="RHQnem+a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A538D29E103;
-	Wed, 25 Jun 2025 10:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750848768; cv=none; b=tUmmPW9Af3Y4nsI0DE0OWFAaIAMb1YzlocvP5dWi8D4CwAOL9kfpn+b5Jkbb/yo+8VCO29HNdp6pMAK3hq5C7IdvQg4b9g/93uX9VHaAXY3CGuv+1lZCu6qteSNryy4xRZFybu212CItO38+HIkIURWGsFdy0DiW7Ps2iFDLoR0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750848768; c=relaxed/simple;
-	bh=L2E1mHlLHz7wbD1s3c/UvvxtaaMR/FMov2jR+AourPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WyWG24r8zGL5xgOI3insY8DwF7JT2+fw9WcbYrZzb5VawzhDPcrne9Bxq/Dgb3kcXKYSIVjFL//daVhbs21Kzkb228Km+oW9sk+E0sTt8iV66Ue3hieSMcQmhuU/uJIQ3eIXgEgIoVZP5uxNDkEnPwGNUC8r9Lt2Cf/G7EwmLJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GMrhQOFE; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750848767; x=1782384767;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=L2E1mHlLHz7wbD1s3c/UvvxtaaMR/FMov2jR+AourPo=;
-  b=GMrhQOFEicb8altn3mGUaVAKKDR3cfJzVgoVw6yzlus8ZefB483/x00d
-   xvAPLdpyq+/JJjOZzo90gXrwycnXSoN/WPLs1IC1GPZK68Ttj2zeTATF0
-   XaHa4d+rtfvleBdBgIxcsdYT3ML9Sf2noszZ2J9V8yqMZO9mclOt8FLWO
-   DMmM4QGWYcne2MUhc42OwEpxQB2c/zi5J6jxy0vr5uEZ/HjC2xTov0kzY
-   xbF2HmdBoJ3JHrSn8mxLxhyQACt1b5I/qcBDRi1pGa6/xA4XoHwaEg5V9
-   gH8tl77RYg1oCwv79C9no8eUxf1duNM4/39EhpoXtGh4v802rSY6r6RFc
-   Q==;
-X-CSE-ConnectionGUID: HrwcsdjPTb26dsXhRyQu7g==
-X-CSE-MsgGUID: rLNn5fx2Q/WY2HpLjGyWIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="64172256"
-X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="64172256"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 03:52:46 -0700
-X-CSE-ConnectionGUID: WvY+25yWSNy9ZVBI9nCQAQ==
-X-CSE-MsgGUID: Srouzp+WTZKyngVqfHLDdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="183073412"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Jun 2025 03:52:40 -0700
-Date: Wed, 25 Jun 2025 18:45:03 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	jgg@nvidia.com, dan.j.williams@intel.com,
-	linux-coco@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	vivek.kasireddy@intel.com, yilun.xu@intel.com,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com,
-	linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
-	shameerali.kolothum.thodi@huawei.com, aneesh.kumar@kernel.org,
-	iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: Re: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP
- using TSM
-Message-ID: <aFvTL6MUkVZrPoBS@yilunxu-OptiPlex-7050>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <e886855f-25cc-4274-9f11-fe0e5b025284@amd.com>
- <f5958bda-838a-4ed6-84c6-fef62cd0b28f@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B4E25C83D
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 11:36:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750851411; cv=pass; b=fefvJVbpHy9YJaHFeIvGEjCXz9UMwNcrSfAtRMiEUAeNKKmoe9R7d4j97BX/FFPYsSor8VpurQniIf1LADXm+NoOiqRITFBQhAPHr8KZEC4tjEXUmi7zRB3BOjWdaP2RNa7ZhXsKI0tLwwaHTeq8MCvHo0jSn8t8yI25Eousqtw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750851411; c=relaxed/simple;
+	bh=2/y1jbGFXyl59BxbxjXLNglssuFu85oP++5qFhDZpP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tpqeEWyl1E2WTerriGChn/k8NfWl3RzeagjUtUlvtsLsHa0sOqU515B4O3eUfKxBEWVJahmOGX9um5Pj6m2eSoRQPqujWTSqi+MA4E5wh+H1yQ5HA3q0VbrLeH0igF+wIigVLUoggKKvGVOsIJtRLoI6BcMSzaFsspGGEniwvHc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=RHQnem+a; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4bS0C85nShz49Psw;
+	Wed, 25 Jun 2025 14:36:36 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1750851397;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=/+hSUmX6FXXU2P8e01Q1FE/6vkXr1lffer8n1TRJX0o=;
+	b=RHQnem+aYzYBc5CIO/nHygGn9hd5lqEFVJs2cDrnIFbntO+DGZrJ97C/EZG4ZxKuBiLis7
+	qqY/j268Gob6iCJepbm6DwxwTpeIIvR0P6nPl1xMiT/gYoNiHPCDJISo48MzCWUugpHOLO
+	IGgAbPV+vY5Fxa6LReiKlakEVlfW0p3Z2LGU9ePBr3U82HocP5OWQsAIRPqprgVU6ZkvAy
+	DZIQ3G/FAG4kmMt0zlszWlDct2hHc4N9RySQOJOSxoln+ukULn6Adt44rfCeRmx9Uve4Il
+	Oq7BqHy1U+BCsBnIm1OE24/Hxf/YQqBmEH0DHs8rTfvuwNk3siVdlM1BX5ZdKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1750851397;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=/+hSUmX6FXXU2P8e01Q1FE/6vkXr1lffer8n1TRJX0o=;
+	b=I3HM0II3J9WyCJHHggnXGFASXYawXCldb3oz/yRhIbYD5G+ZabBXcjc55vsCHPzGUzrnNC
+	BIsfZAZ5pnKRbG5zxJgOzD0oL3BzoLn8LFSExC2x3LBd9opW50DafiFDMZ0XBoCl3tnsqU
+	1HdUgzaedy/CFqoe1bvCUaOxEnTaMUrepDAnlvQsQ/WMXY+giA0XiR8iZ6T0iFxKGhfgNe
+	CkReSxnzYZOQftrtfH2F+LpZ8lGSfpmoCpDlwaIweD0FkVJhaDycD6N+02uJsgwVfrreOq
+	97mb+kJNJR/C6L7JG8fQqD7XQMERUumkBlIrf92kcFVSb9WV/FTBhtm9ZvysTg==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1750851397; a=rsa-sha256;
+	cv=none;
+	b=DvXQA4mUnlaBUNQ0l10Rm7hIgY5ptJvvUq3ccUoC27Dt94ybfEEQTpLsrgLXdR9qP3IalH
+	/oat8b8PvT+v4BJqNLkM6RrFPA3VnnD2ZQcAazN5pa27QuxZqBicNjcb9xDkczBSjvb++7
+	yacXh/n4DJQDZ+eWMg0Szcai80EcdF59ETzIkeJFf1vW08N7izyrKFJx/1Hk6vUWYa8IZ0
+	4LAVzHOefJAz5+cmNdtVGqs5480jFnARahhd65r07o8bLtWIPKx860IZe7ySM47VPnNBIq
+	uo6p8W6AteQKdv3+ANmwDSZ3icvOTf9reX+UN5t9OSKAxZEQKZ1eBf9/XOyDuw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 613B4634C93;
+	Wed, 25 Jun 2025 14:36:36 +0300 (EEST)
+Date: Wed, 25 Jun 2025 11:36:36 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: hans@jjverkuil.nl, bingbu.cao@intel.com
+Subject: [GIT PULL FOR 6.17] IPU7 staging driver
+Message-ID: <aFvfRHRxXNQOe7-z@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,24 +88,138 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f5958bda-838a-4ed6-84c6-fef62cd0b28f@amd.com>
 
-On Sat, Jun 21, 2025 at 11:07:24AM +1000, Alexey Kardashevskiy wrote:
-> 
-> 
-> On 11/6/25 11:55, Alexey Kardashevskiy wrote:
-> > Hi,
-> > 
-> > Is there a QEMU tree using this somewhere?
-> 
-> Ping? Thanks,
+Hi Hans, Mauro,
 
-Sorry for late. I've finally got a public tree.
+This PR includes the IPU7 staging driver. The purpose of merging this now
+is to make it easier to access it for users while refactoring is done on
+the IPU6 driver codebase to make its hardware-independent portions usable
+in the IPU7 driver, which is expected to take a couple of more kernel
+releases.
 
-https://github.com/yiliu1765/qemu/tree/zhenzhong/devsec_tsm
+Please pull.
 
-Again, I think the changes are far from good, just work for enabling.
 
-Thanks,
-Yilun
+The following changes since commit c0b1da281d84d33281fc49289f0c7f8aada450ff:
+
+  media: rc: ir-spi: avoid overflow in multiplication (2025-06-23 12:11:04 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/ipu7-6.17-1-signed
+
+for you to fetch changes up to e303c42c15089b286bc31c219794e76f3b4c374f:
+
+  media: staging/ipu7: add Makefile, Kconfig and to-do file for IPU7 (2025-06-25 13:18:22 +0300)
+
+----------------------------------------------------------------
+IPU7 staging driver merge for 6.17
+
+----------------------------------------------------------------
+Bingbu Cao (7):
+      media: staging/ipu7: add Intel IPU7 PCI device driver
+      media: staging/ipu7: add IPU7 DMA APIs and MMU mapping
+      media: staging/ipu7: add firmware parse, syscom interface and boot
+      media: staging/ipu7: add IPU7 firmware ABI headers
+      media: staging/ipu7: add IPU7 input system device driver
+      MAINTAINERS: add maintainers for Intel IPU7 input system driver
+      media: staging/ipu7: add Makefile, Kconfig and to-do file for IPU7
+
+ MAINTAINERS                                        |    9 +
+ drivers/staging/media/Kconfig                      |    2 +
+ drivers/staging/media/Makefile                     |    1 +
+ drivers/staging/media/ipu7/Kconfig                 |   18 +
+ drivers/staging/media/ipu7/Makefile                |   23 +
+ drivers/staging/media/ipu7/TODO                    |   28 +
+ drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h  |  163 ++
+ .../staging/media/ipu7/abi/ipu7_fw_common_abi.h    |  175 ++
+ .../staging/media/ipu7/abi/ipu7_fw_config_abi.h    |   19 +
+ .../media/ipu7/abi/ipu7_fw_insys_config_abi.h      |   19 +
+ drivers/staging/media/ipu7/abi/ipu7_fw_isys_abi.h  |  412 +++
+ drivers/staging/media/ipu7/abi/ipu7_fw_msg_abi.h   |  465 ++++
+ .../media/ipu7/abi/ipu7_fw_psys_config_abi.h       |   24 +
+ .../staging/media/ipu7/abi/ipu7_fw_syscom_abi.h    |   49 +
+ drivers/staging/media/ipu7/ipu7-boot.c             |  430 +++
+ drivers/staging/media/ipu7/ipu7-boot.h             |   25 +
+ drivers/staging/media/ipu7/ipu7-bus.c              |  158 ++
+ drivers/staging/media/ipu7/ipu7-bus.h              |   69 +
+ drivers/staging/media/ipu7/ipu7-buttress-regs.h    |  461 ++++
+ drivers/staging/media/ipu7/ipu7-buttress.c         | 1192 +++++++++
+ drivers/staging/media/ipu7/ipu7-buttress.h         |   77 +
+ drivers/staging/media/ipu7/ipu7-cpd.c              |  276 ++
+ drivers/staging/media/ipu7/ipu7-cpd.h              |   16 +
+ drivers/staging/media/ipu7/ipu7-dma.c              |  477 ++++
+ drivers/staging/media/ipu7/ipu7-dma.h              |   46 +
+ drivers/staging/media/ipu7/ipu7-fw-isys.c          |  301 +++
+ drivers/staging/media/ipu7/ipu7-fw-isys.h          |   39 +
+ drivers/staging/media/ipu7/ipu7-isys-csi-phy.c     | 1034 ++++++++
+ drivers/staging/media/ipu7/ipu7-isys-csi-phy.h     |   16 +
+ drivers/staging/media/ipu7/ipu7-isys-csi2-regs.h   | 1197 +++++++++
+ drivers/staging/media/ipu7/ipu7-isys-csi2.c        |  543 ++++
+ drivers/staging/media/ipu7/ipu7-isys-csi2.h        |   64 +
+ drivers/staging/media/ipu7/ipu7-isys-queue.c       |  829 ++++++
+ drivers/staging/media/ipu7/ipu7-isys-queue.h       |   72 +
+ drivers/staging/media/ipu7/ipu7-isys-subdev.c      |  348 +++
+ drivers/staging/media/ipu7/ipu7-isys-subdev.h      |   53 +
+ drivers/staging/media/ipu7/ipu7-isys-video.c       | 1112 ++++++++
+ drivers/staging/media/ipu7/ipu7-isys-video.h       |  117 +
+ drivers/staging/media/ipu7/ipu7-isys.c             | 1166 ++++++++
+ drivers/staging/media/ipu7/ipu7-isys.h             |  140 +
+ drivers/staging/media/ipu7/ipu7-mmu.c              |  853 ++++++
+ drivers/staging/media/ipu7/ipu7-mmu.h              |  414 +++
+ drivers/staging/media/ipu7/ipu7-platform-regs.h    |   82 +
+ drivers/staging/media/ipu7/ipu7-syscom.c           |   78 +
+ drivers/staging/media/ipu7/ipu7-syscom.h           |   35 +
+ drivers/staging/media/ipu7/ipu7.c                  | 2784 ++++++++++++++++++++
+ drivers/staging/media/ipu7/ipu7.h                  |  242 ++
+ 47 files changed, 16153 insertions(+)
+ create mode 100644 drivers/staging/media/ipu7/Kconfig
+ create mode 100644 drivers/staging/media/ipu7/Makefile
+ create mode 100644 drivers/staging/media/ipu7/TODO
+ create mode 100644 drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
+ create mode 100644 drivers/staging/media/ipu7/abi/ipu7_fw_common_abi.h
+ create mode 100644 drivers/staging/media/ipu7/abi/ipu7_fw_config_abi.h
+ create mode 100644 drivers/staging/media/ipu7/abi/ipu7_fw_insys_config_abi.h
+ create mode 100644 drivers/staging/media/ipu7/abi/ipu7_fw_isys_abi.h
+ create mode 100644 drivers/staging/media/ipu7/abi/ipu7_fw_msg_abi.h
+ create mode 100644 drivers/staging/media/ipu7/abi/ipu7_fw_psys_config_abi.h
+ create mode 100644 drivers/staging/media/ipu7/abi/ipu7_fw_syscom_abi.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-boot.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-boot.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-bus.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-bus.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-buttress-regs.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-buttress.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-buttress.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-cpd.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-cpd.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-dma.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-dma.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-fw-isys.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-fw-isys.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-csi-phy.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-csi2-regs.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-csi2.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-csi2.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-queue.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-queue.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-subdev.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-subdev.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-video.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys-video.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-isys.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-mmu.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-mmu.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-platform-regs.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7-syscom.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7-syscom.h
+ create mode 100644 drivers/staging/media/ipu7/ipu7.c
+ create mode 100644 drivers/staging/media/ipu7/ipu7.h
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
