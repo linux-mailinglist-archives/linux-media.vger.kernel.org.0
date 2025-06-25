@@ -1,159 +1,136 @@
-Return-Path: <linux-media+bounces-35891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002C0AE8974
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 18:16:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1675AE8971
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 18:16:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67AE4683545
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 16:13:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1CBC189B090
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 16:15:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D62B2D5C6C;
-	Wed, 25 Jun 2025 16:13:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA80E2638BC;
+	Wed, 25 Jun 2025 16:14:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="afqgb50X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JXNkzbIo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E4E2BDC10;
-	Wed, 25 Jun 2025 16:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D7B25DB1E
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 16:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750868009; cv=none; b=rObygPMJCJ11LJGm5Q9JxSxoSTYxIjTXGpgT5R6hTVWRf/aTsaHxV6B6U08q6iRRBj/cyOMcaPNZXYXiAOfpGa9KiJMHNBkRA2an/8x2JVis7ZuWZScdnT4Iwl1J96d87KOa9JGz3ZzRfPVr1pxs2dEE+wDUkjW5XYKP3V7T/iQ=
+	t=1750868087; cv=none; b=XQc97tPMZrMLDy6jisfmxfWoPB+RbWKZhB11UV8pc3SF6jld8anUqDNy+ycRQnYMo4XDxc95iu5kIUR1wWj42tkXFaZSBrkcsu4VJu59HoBASYxXfdLLM0LNgcKZnJv7r1uHTNRu0o+Er3Z557P/pOH/7KovKSz2q1IUTeIBvqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750868009; c=relaxed/simple;
-	bh=IIQljKBsNRMZzyX/Rtn6xxA6HrVZM41HmNzZGjrS+bc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=opnDqhT1A6ZXMIih7ZjIOanMrecagirnSRu4tEkppNs7yggkfF6Y/1OqopCQp7JyzCKVNeHCRPCTnRw9A7RCbXT3WnUlRp8A63sKvQIRggH3iMSZ9w4Rmf4vQ8frecGqd5giIKRptw8cfSLqm6XvCtfpyo+E8fmGNeipcMEMceE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=afqgb50X; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750868004;
-	bh=IIQljKBsNRMZzyX/Rtn6xxA6HrVZM41HmNzZGjrS+bc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=afqgb50Xmd4fpACfmLcinWsRLQN09kVBJtwqMJ2v7rl+t/yH8DTDpSLQISRJz70zA
-	 eSZiVO3RJlgLJP6qPscVt912gxR7zny4IGv0kkqowCLJ7eiMHL5tyYYFVzFY2D24WL
-	 GgeY64UmAlz8Njb1MRa70lKlVBeGIs4yCy/u0Jw+o/tda3C4+zBzo0vJkU227jwyXR
-	 XrgpbpbUhc9BTRgcWUDADkFDDsq49zTA9J33rfwqvancfDIIYMcFbwzFJg9xzE6CaM
-	 NLgiwAdPO172FCMjCL3DXA25DQKYhqTJ2y/3W4el37bIqkKpWolv3i6aQdWmEn3Zp6
-	 G63fs6uKBWK1w==
-Received: from [IPv6:2606:6d00:17:b699::bad] (unknown [IPv6:2606:6d00:17:b699::bad])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1286C17E0202;
-	Wed, 25 Jun 2025 18:13:22 +0200 (CEST)
-Message-ID: <6ac8b8db02190da7d2edc9ce4abe5e7a7cab70d6.camel@collabora.com>
-Subject: Re: [PATCH] media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Ezequiel Garcia
-	 <ezequiel@vanguardiasur.com.ar>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@xs4all.nl>, Detlev
- Casanova <detlev.casanova@collabora.com>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Date: Wed, 25 Jun 2025 12:13:20 -0400
-In-Reply-To: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
-References: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-Yg+9RAryTT3i1Yp4yaC4"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1750868087; c=relaxed/simple;
+	bh=ms+AJt6cHlM7I9njltlhwH3hUmbrMd69Dh/gHYVBnKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KJ5bSLgKE65zlijt91lzfrDNTrk9zfsP5pPi93lA4n36PUuQGfLRvnMAI3xkO7tACmIN78upYXsTwngediQzzmkI1G6XjoRemQS2leOV9d1/auGkIU0JRMl9IGdZvgpBZI1t/nxwydFAnIMTLWDMaGZ5gtgwmSnWhNMz10Ef0PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JXNkzbIo; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750868086; x=1782404086;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ms+AJt6cHlM7I9njltlhwH3hUmbrMd69Dh/gHYVBnKg=;
+  b=JXNkzbIoN7gZBS3b1tOZjXUia1M8QL0uHKJHsCAr26IPQW2CS3Ku5wnA
+   pQXQugdN1gESP1M3/LM+MKsPxHWA+1YVOu56UmOVpYUG7ihVJmdlq5e31
+   6mO3DA5mtPjr/k3PvF01ibzkbBx5/R5sFCRHMVSpMeRivii2Uo5qUYClD
+   sWDTo8hxDFcbCWS2HzmDcOb75otim1PD8KAEannA3eLsAm20jK8GZbyq9
+   lh2Ii8BA8S98EEmkuDMkauiM/+V0Uj9aQiPdJzYMgEC8sGUaP7Wyk+cre
+   4h1BzcyQUB18bPlaauP84hHmpyqF2Sr2e10QqIkUIF/EDkhK6GQHQydOH
+   w==;
+X-CSE-ConnectionGUID: fv1RXRHkS4uUlFyEQgcegA==
+X-CSE-MsgGUID: iBAbLW8rSKeBTxKT+q7VHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53012201"
+X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
+   d="scan'208";a="53012201"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 09:14:45 -0700
+X-CSE-ConnectionGUID: YDJrTW0kSamCgle8W2JDpA==
+X-CSE-MsgGUID: pE3bl1ZtTEqrEo3eDWiBbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
+   d="scan'208";a="175911622"
+Received: from agladkov-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.57])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 09:14:43 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id CF43811F737;
+	Wed, 25 Jun 2025 19:14:39 +0300 (EEST)
+Date: Wed, 25 Jun 2025 16:14:39 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
+	tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH 09/13] media: v4l2-subdev: Collect streams on source pads
+ only
+Message-ID: <aFwgb-tCCJ-X_DR5@kekkonen.localdomain>
+References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
+ <20250619081546.1582969-10-sakari.ailus@linux.intel.com>
+ <20250619170717.GK32166@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250619170717.GK32166@pendragon.ideasonboard.com>
 
+Hi Laurent,
 
---=-Yg+9RAryTT3i1Yp4yaC4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jun 19, 2025 at 08:07:17PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
 
-Hi,
+Thank you for the review!
 
-Le mercredi 25 juin 2025 =C3=A0 10:23 -0500, Dan Carpenter a =C3=A9crit=C2=
-=A0:
-> The iommu_paging_domain_alloc() function doesn't return NULL on error it
-> returns error pointers.=C2=A0 Update the check and then set ->empty_domai=
-n to
-> NULL because the rest of the driver assumes it can be NULL.
->
-> Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+> 
+> On Thu, Jun 19, 2025 at 11:15:42AM +0300, Sakari Ailus wrote:
+> > v4l2_subdev_collect_streams() is used to find the streams present on
+> > source pads only. Only iterate through the streams on source pads, i.e. on
+> > odd array indices.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 15 ++++++++-------
+> >  1 file changed, 8 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 6bc855058ca6..932fca795d4a 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -2225,16 +2225,17 @@ static void v4l2_subdev_collect_streams(struct v4l2_subdev *sd,
+> >  	*found_streams = 0;
+> >  	*enabled_streams = 0;
+> >  
+> > -	for (unsigned int i = 0; i < state->stream_configs.num_configs; ++i) {
+> > -		const struct v4l2_subdev_stream_config *cfg =
+> > -			&state->stream_configs.configs[i];
+> > +	for (unsigned int i = 0; i < state->stream_configs.num_configs; i += 2) {
+> > +		const struct v4l2_subdev_stream_config *src_cfg =
+> > +			&state->stream_configs.configs[i + 1];
+> 
+> You could start at i = 1 and avoid the + 1 here.
+> 
+> Unless I missed it, I don't think we document anywhere that we store two
+> values per route in the array, and that, if multiple routes have the
+> same sink or source stream, multiple entries will exist for the same
+> stream. I'd like to see this clearly explained somewhere, instead of
+> relying on an implemetation detail only known by few people.
 
-Oh, sorry about that, I'll will test your patch this week, but otherwise
-looks good to me, fixing yet one more error path. I'll take the time
-to test dropping the iommu node from the DT while at it, as I simply
-don't remember if that was re-tested after that change.
+I'll add this in a separate patch.
 
-regards,
-Nicolas
+-- 
+Regards,
 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
-> =C2=A0drivers/staging/media/rkvdec/rkvdec.c | 4 +++-
-> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/medi=
-a/rkvdec/rkvdec.c
-> index d707088ec0dc..1b7f27e4d961 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -1162,8 +1162,10 @@ static int rkvdec_probe(struct platform_device *pd=
-ev)
-> =C2=A0	if (iommu_get_domain_for_dev(&pdev->dev)) {
-> =C2=A0		rkvdec->empty_domain =3D iommu_paging_domain_alloc(rkvdec->dev);
-> =C2=A0
-> -		if (!rkvdec->empty_domain)
-> +		if (IS_ERR(rkvdec->empty_domain)) {
-> +			rkvdec->empty_domain =3D NULL;
-> =C2=A0			dev_warn(rkvdec->dev, "cannot alloc new empty domain\n");
-> +		}
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-
---=-Yg+9RAryTT3i1Yp4yaC4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaFwgIAAKCRBxUwItrAao
-HJNoAKCHiY+S3IyVE4XjQknVwTjwtJf1vACgqDbhVHBrZ4XhiuSSP0h7rE8sanI=
-=F7Kw
------END PGP SIGNATURE-----
-
---=-Yg+9RAryTT3i1Yp4yaC4--
+Sakari Ailus
 
