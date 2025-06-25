@@ -1,81 +1,48 @@
-Return-Path: <linux-media+bounces-35846-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35847-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF167AE775B
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 08:48:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D5CAE77A1
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 08:58:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 943FE17A2D6
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 06:48:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D83F07B023C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 06:56:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62D2B1F5849;
-	Wed, 25 Jun 2025 06:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E8FA1F5849;
+	Wed, 25 Jun 2025 06:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bs6+urbb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjHN1vSW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322891F5827;
-	Wed, 25 Jun 2025 06:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F329178372;
+	Wed, 25 Jun 2025 06:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750834098; cv=none; b=Y+LVDBU3xEG67YmA9HniisiLovy5gagJEt/jZVcR9dhj1gKt9NcXLcyXZbEy1SdPQJdQSC5xs+oRe48+XO75iUrpibIbjQIV3VoHF/VVdrrbtGekVpPHEjb7kVFPBu8ZGz56NXCaGU5WjUwEsy0OMmYOjvwfiGpL6KpvwsSuPkw=
+	t=1750834685; cv=none; b=HHaZOQkhbLZTP2PtVMvcmOsHO2vQbvFbIMYvPKFgssD9Oz59wC8x/6wnFz12mi3bYg9IoCzsIc6Y6UOyIuUWEtXCIS4Xoy7xHzphHVmdq76ZHtwYqgfLnerBND+vS1VQ37XaBtUBBzzC2d0BqnDEk8jXZUGhWBpGYcR0kSwZOek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750834098; c=relaxed/simple;
-	bh=1S+vYDbLA0s2WG1o/HuAVK1qLit0osUBrErElzDk2/0=;
+	s=arc-20240116; t=1750834685; c=relaxed/simple;
+	bh=T5AhNiQAr14Iyr7zRPMMiE2nRtl/yvq3LjlSKw8tWU8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=enVGC/coQJti9/eyAlf5Dl4h9kL850demvo2ZAsJXEQ9LBNpDOIKnM5Brl8XRCvPvkrr3iGX+e5UgcLSOsjCBaQk713WmKy/slDhzEyS7GzROcGeNquSXJC+THtzeNuCKgOQJi9c5jNgF5kSgtN2DLF21BPvGsRTkdA4C5qSphw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bs6+urbb; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-553b544e7b4so6466304e87.3;
-        Tue, 24 Jun 2025 23:48:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750834095; x=1751438895; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KjyRtilrvcm2L/AXtGRLJufhbX/zHrNcNL/3/DavrS8=;
-        b=bs6+urbbr+zrhrG9ZKr0aWzWAJlTRem4A8qO1Ufku1Kqx0MsnvHij6doprLfUDPYyx
-         cqy3nIzwgHp2f5NgawRMQ3woApP1Oi5EprBGdXkRNDUhFvZw+vFJ2C7dFVG17tLmPrm0
-         9FjwX0vB/5WXr86CfyrINDcddOj/Sca3dk+OSXmNGy4arulMoHjZSbvXs7Zl9flhmtnO
-         AVDZuQPL+qZuIf67GiCtQyYKV/uaRZZit+Oknd/zFxGCWgn0Z64iTWY3ursVW3t1SLyA
-         4V17paaDcAfkBvCvtR91IoFtnxrCW+g0/x53GTKmwoEUrAy/E+FauKuhsy6D6WLWMJlu
-         c6ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750834095; x=1751438895;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KjyRtilrvcm2L/AXtGRLJufhbX/zHrNcNL/3/DavrS8=;
-        b=XNxoRph0bNmXauXO8seXZXVzQVTKxIvFkA3Ilc7UfEI8w9Nt5k/p1yWvRuAfgxS/4u
-         ZCA1YA6P2ZuE9osfpVQEoDdPdVzZWD/LVCPTCo4OYJoBbC0vfj6pRy3zuLwxI5EKG6dW
-         lXhMDNv3bO+83ac4HwPphQL7yHm0CyRQ2kO4U6Pkbrpdr7jmS55KMZuMiTQSlCdWs+2h
-         lNvWsKNxdVgyZjJEHRZIwDg6v2t8eQ1HFC2siqyOLy17dK/MGzyEr03AtaUpQ6/MS4p6
-         Oyfly5UPZYYQ6EngOfDNGy+KtKh3zAoSQmBHHmmfaozq5sqQrMjLIubkM8iMNOVZ23Hy
-         Ur8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUanFrLwCOhuMs9uOKvbnunH5JP9DNqpqtHoKLDNeSKzzq46rtmHK6OMtoiXw0yRQZHVwMr9NdEQpr925g=@vger.kernel.org, AJvYcCX9pIFK6oKPxi6Bu7Mv0gSqrWFIAjGZstNox3mSTA7j6hl7fkRrYZuE13ygH8gkQa8kZVNyWsfMOFu2PxQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVoHtnzvyIoaiv3ESbnHsOhhAhnGZ4LW+b+WwnmQR2YtW3LyAj
-	p1nopjEqJuAkrRTUGXaWMnV2ndtyhLuIQK/9X1U/P3Wr58nYyOYhAZfT
-X-Gm-Gg: ASbGnctDZAePbf0uZ8YO5rr5+GHz6Z+8OKKUnVI+UarFZkynCVmAI5HLCj1zLT3KUGX
-	dU8ulI8f7++/VeQtpKt3MCFd/kstcDyRbW/NkOWdbAqgkjZMr+jDWlRgLquom1fZPkMRXpYftrc
-	XVf2k/xYFIaT8txCq7FLhqMtlYCGCdoWtTptqQgSKeQxnoxHrKQBtXri6xen1MvEyHrgE20jDbj
-	Y0asAjQMEog4b9S3qSM1AXbak8QGytlJyidOqrEjUKb98qap7GGhXgtcnU91pcdWLH2oU7RjdSY
-	Ut19+jOMFQQIw84cgJUd+3pmUoFMBiQ8fNKNLl+SlcbN/2l/n2gHmhh7Ai3DvEaxybXILxBaHOg
-	iJUGVng1FjYdnUzc+uEwyH+WsOV5nU7036MnCWFWO801USI1J09JvO6t0obLQwHGpxppg6wLeUB
-	5ds7d07T/gEGWdYdHukqZHPGGJfTyhVQEHmTk=
-X-Google-Smtp-Source: AGHT+IF/vlkFOWlLSTtvWsBVj8DxXv4ulk5QjgKHzBr4J5t5dfEhRd96ljhSekQ87pmkR0ybuy8Qrg==
-X-Received: by 2002:a05:6512:3e1f:b0:553:a60d:6898 with SMTP id 2adb3069b0e04-554fde5873fmr509004e87.45.1750834094964;
-        Tue, 24 Jun 2025 23:48:14 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:6e:3100:5c31:3ecd:351c:36bc? (2001-14ba-6e-3100-5c31-3ecd-351c-36bc.rev.dnainternet.fi. [2001:14ba:6e:3100:5c31:3ecd:351c:36bc])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553e41bbc36sm2077343e87.94.2025.06.24.23.48.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jun 2025 23:48:13 -0700 (PDT)
-Message-ID: <88c6b6ad-d867-4db5-9893-0c8cb4a7eaee@gmail.com>
-Date: Wed, 25 Jun 2025 09:48:13 +0300
+	 In-Reply-To:Content-Type; b=uibcDv4Z55p5nBhnu66DwFlIW69PJq1V+fjrPWpapPOH/SugfecVuS9FctTI+0sdYBBhzZr0Ga4bGb5GU8nXeflGYC2TraS5sah4DS1mbbroroHwLGSwNe0ElccrD2K05LWCJjmoVxBVqiq4fP5GkVbRq1Sg4t8HRj4A0lH+mbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjHN1vSW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 807DDC4CEEA;
+	Wed, 25 Jun 2025 06:58:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750834685;
+	bh=T5AhNiQAr14Iyr7zRPMMiE2nRtl/yvq3LjlSKw8tWU8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MjHN1vSWNef7554xM5GtpeQby7T/3vRgsgxq2yBr7JKJB6Jt8QFPNmNqAd0Axx89v
+	 mwnxfyc93lnwksYPjWnhV2Qb7lBd2sMuqaFw66h9VeypbSDx3XWLg2QRbKPc5kXiIg
+	 NZIdrjrd/isOHvivqioMh3hCxyR4/65Tn6LRQbGuYZG0h9Uji2S2/JPc0tGa88k47E
+	 /SNukeQCpr30xIDKGie6oduEi1T59EFxHqYMRfV4yoCAJ4KXGRI/42MjCa937+cmm2
+	 xaJenQcby41DIO6V5gLiTQ26L/6y0+Tl8+XCszhxvRRet9MR9kd2n8gaCoh810Lo3B
+	 YOPL4JYuFnxbg==
+Message-ID: <329b89a4-85a9-496f-8b1b-6239dfc9057b@kernel.org>
+Date: Wed, 25 Jun 2025 08:58:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,45 +50,105 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] docs: Improve grammar, formatting in Video4Linux
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: mchehab@kernel.org, hljunggr@cisco.com, ribalda@chromium.org,
- hverkuil@xs4all.nl, skhan@linuxfoundation.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <20250612172703.32293-1-hannelotta@gmail.com>
- <20250612172703.32293-2-hannelotta@gmail.com>
- <aFqKRyntONqsxJSs@valkosipuli.retiisi.eu>
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
+ interconnects alphabetically
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250624094253.57441-1-vladimir.zapolskiy@linaro.org>
+ <20250624094253.57441-2-vladimir.zapolskiy@linaro.org>
+ <aa56b956-95f3-484d-8afa-058925b95bfd@kernel.org>
+ <fff77f71-e21b-43b9-9da5-6cf819add970@linaro.org>
+ <5a5b78f7-e156-4c5e-8407-b249040e227d@kernel.org>
+ <c29385d4-30ea-4774-9cf9-699b08e29800@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
-In-Reply-To: <aFqKRyntONqsxJSs@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <c29385d4-30ea-4774-9cf9-699b08e29800@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
-
-On 6/24/25 14:21, Sakari Ailus wrote:
-> Thanks for the patch. Documentation patches should have "Documentation: "
-> prefix, similarly all media tree patches should have "media: " prefix. Also
-> the lines may be up to 75 characters long.
+On 24/06/2025 15:29, Vladimir Zapolskiy wrote:
+> On 6/24/25 15:04, Krzysztof Kozlowski wrote:
+>> On 24/06/2025 13:38, Vladimir Zapolskiy wrote:
+>>> On 6/24/25 13:10, Krzysztof Kozlowski wrote:
+>>>> On 24/06/2025 11:42, Vladimir Zapolskiy wrote:
+>>>>> Sort the entries of interconnect and interconnect-names lists in the
+>>>>> alphabetical order of values in the latter property.
+>>>>
+>>>> We do not sort these entries alphabetically and you did not explain why
+>>>> you are doing this.
+>>>
+>>> I did it, because I assume that the preference is to sort all named
+>>> values alphanumerically.
+>>
+>> Where is such preference documented?
 > 
-> The result is:
-> 
-> -----8<----------
-> media: Documentation: Improve grammar, formatting in Video4Linux
-> 
-> Fix typos, punctuation and improve grammar and formatting in documentation
-> for Video4Linux (V4L).
-> -----8<----------
-> 
-> I changed this while applying the patch.
-> 
+> There is no such preference documented, as I stated it was my assumption
+> and it was based on your firm insistance to apply a particular sorting
+> order for regs, clocks and interrupts properties. Apparently you are
 
-Great, thank you! And thank you for the guidance, I have updated my 
-notes for future reference.
+Hm? And the rule is by name? I don't think I ever expressed that or
+insisted on some sorting by name. During previous talks on camss
+numerous times you ignored the ONLY rule of sorting I was insisting:
+keep the same as all other devices. That was the one and only rule.
 
-Best regards / Ystävällisin terveisin
+> fine with out of the same sort order for 'interconnects' values, the
+> criteria of picked properties remains unclear for me.
 
-Hanne-Lotta Mäenpää
+I don't understand why it is unclear. That time with Bryan you both
+received VERY CLEAR feedback from me: there is no such rule of sorting
+any values. Yet you were pushing the discussion and patchset like there
+was something.
 
 
+Best regards,
+Krzysztof
 
