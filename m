@@ -1,108 +1,103 @@
-Return-Path: <linux-media+bounces-35905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39966AE8DEC
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 21:07:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F91AE8DEF
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 21:07:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 497194A2517
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 19:07:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E1F61C25407
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 19:08:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 815362FCFD2;
-	Wed, 25 Jun 2025 18:59:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFB302FD87F;
+	Wed, 25 Jun 2025 18:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="e6PTP2Cb"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Xc9zjrfY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08E52FC00E
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:59:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C4E2FCFCD
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:59:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750877965; cv=none; b=qhjfcyLnXMgGSrbfvz6DOBzbaDSbts/o7XY/iNqqGFO4o4u5JDSP0Qj5FUb1u+kc0SrtAKJWIZ0UPSRP5oqob9zNWOjH9XfVNiCmbVtvKE4s8otNRc9eE0fhVriUY9o/atC9xWYntyHz7IWQKCdMHVsDizs4jQ4xPtL4QhvFTXU=
+	t=1750877969; cv=none; b=tQYbSYJ9CX8amFRpDbKykeLHnW+/OBy/pG0VleWkK5Q31fSmBjSdCZd26Awdm/wQEHQvDBAOXdgKExU8iJWdiBtDOds5BmtkMOMsZ9wCu21W8P0Xvm53lGEho1kPwE8i/mWtMU/1Ldf17bhwEHwrOST+tc5BLySMkRhrOpdzRa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750877965; c=relaxed/simple;
-	bh=rafvd94Lfl/++DHE5f8nngL46Y+7ijkKL3fsPofc1Tc=;
+	s=arc-20240116; t=1750877969; c=relaxed/simple;
+	bh=IgMPTl41AOACb9ah611XjQJ/WFilQt78MCmvu3cYwfc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WMJYimQZp7vbX4A1ttbbc0T4IvxzsxHTDCoU1k5hoe5hO7jaM2PRKWENRBUEvdWbYw/Iy86tX7qQT3Ukcx1vcyvb1BF8t3olObYVa2jyujmki2fis1bBtu4UbQ2jgaeKmdQQ2eR/qZHVYcpeZMTj1uNXwpxak/PC6qCNKtwbbb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=e6PTP2Cb; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=Kh3WXeK9ZW+tF2N+xVcGXNlTj/ZcmUqPpdQmZye6ZvWHigQqfZ9T+Hxu3Sm/g5KIvt47T9FS+44eRlSvxamj10LxvHr1YuHDCTkiBeaKyZNnDTyuMflVFlRd+26buSh3Elnov6EA/z2Xp0OQ47OCZq5tJDOvszBpz64/1gTeiCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Xc9zjrfY; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PAm8BE022232
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:59:20 GMT
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PCGcGN020068
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:59:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=jud0rNNbvlu
-	nj3F4a1GuuaGxZ5klgC/qvxvSZXFVU+k=; b=e6PTP2CbZywYFeXmM85dfuSzZ28
-	UYW4ujnZKXGiRKAYWKektwbhfz3f4sTQnkL0AEygQwye2y8+NsXh6bYOZwkFCK5U
-	SqVcMyiZstWjJeFga/KB96xUIkt0qLN6+CKKo/BJBeKqHYjI3x0HXOkBkq4cYQT6
-	My/b1nkbEKy8NnMKz1ZjzyzSJHvTx3We3qAOhfthI4yKeHMKfGM4uQ6sgc5r4Jk9
-	fzyecpx6XGfwEf6b4670ibqmgrlHt65qO7tSkosim25RbxiXgTR/X9wYVWXBGLOE
-	tIq/pwwSbEBC31VS5bB+DJ0aLeWgqjYWvTcR1hhBZ+8j5LCQuhreJi7yrIA==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47g88fapqk-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=I0h46r1xWj/
+	RRFuFJ7X/xgD3zfEKUB3FLt0XctwRs8c=; b=Xc9zjrfYyuxOEmv13UcBO03CeIl
+	7mq7tFcjlL+3Sj66fgdk/R5Xi4Rk9fe9KVP/HVNpyUrmZga8l8y74ZbFp6UlfypN
+	JjmweFdCILRF9mYfRH82BGlLYB6YZOoOOQPg5d8VTnHGssdEhy/0k3Qor2gfTPsO
+	9/zoFgBxLlk/IBsHPJjafPG+HFRk6WtMDQUeipm/YykJGDMP2nr2CdnCexS0JkC+
+	8wPba6TbbrO7ZHGShF6axe9g7TEv/A2a4D9h3JlyucJC85K6Ae593dPifcg1CDGB
+	o34MM5fxrBhIFtPLRRuH7PxztIvN0sN8ixHmmbbdU89ySalDdgDa5vwF7Qg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47fdfwy7vm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:59:19 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-311a6b43ed7so102715a91.1
-        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 11:59:19 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:59:25 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2355651d204so1582165ad.2
+        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 11:59:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750877958; x=1751482758;
+        d=1e100.net; s=20230601; t=1750877964; x=1751482764;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jud0rNNbvlunj3F4a1GuuaGxZ5klgC/qvxvSZXFVU+k=;
-        b=BIV7zLSdwjcJ0zQ/yE2HzEMlT0Z/nJuhqCldcQtwe1AYo55bEmnFl4/BBNiMKbz/zd
-         WO3iZgVzIUS1YBsdzpYcDRFVW5GlRNlwtoJEKR7hjBB9X/c2FJGYYY88zi/JzF+DU5LH
-         lT8u8/Xyfckap+u8E3rsBprjyIl4Rk50NTrZ3KztHtCuCSpELMSj3rZ8WcZ2ZhIHTZEG
-         VW3+bnWjb/NIdzStCZu9MCoHOFfNMpLWRUF7G4FZWD7syT4t0/gJHDXqgbAtDKqTUQVM
-         OkRVtsOdkopy2HTANXiH6zsSKDRu7o9RToXqS1cdAtVQPmTw6+KFAgASnv4lb8c8+XG9
-         Rdzg==
-X-Forwarded-Encrypted: i=1; AJvYcCXehKe9aMjSBEULX8iKOGc9YGdTVvXTtPhH2dmVbaZsbseHuuo0Y8Yph6I2rB55fW6c3dxF5ylL71sStA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3wyCR6q4a5ibMbM3/6+/1exazvZSgpRA/WUrUvCzbTE0WGp+W
-	qu8HmdWlJ8b8kJCiB+r9g2s5EeHajPsZArvjJchrCCHClhgyQ1/y+WZXyAktI8nQ5L2QUp1f9OV
-	wCvghZsuK8nzfLr+SyAv9HdeDgIi5xq6xSZoSf7VOdSbbYxU5BwtevcVKfsElaTZm2Q==
-X-Gm-Gg: ASbGncvv/MxMJ0wkg9+RKqrc5YafEXuymo3Sf1uUQCFkbPL+5mGU0oavgbtJxA5ABd3
-	mKgBZ/F64y8jW/MFzkuSJFvbbzKn5s9E6hnL2TmrsU2J+R1mhLsVcqZWZMSIMvJau7vDQOpgEM9
-	ekz8DAxgCcZkGJ1zFYY7EpT98Jv9S0xsNAQ+k0GsMbe2coh6Fcw+9jXSsYPSGf0qBhXldXj8lbx
-	S+O3udWMcF00vZnVzQ3readfJkT/NXXa1exBi6k2Wcfq3ML5Ng9O0mLb0Luf6vyXI3x1wHeXEKn
-	D+PwS6lV+noy6BJ8HRQuLZy/j4YjCiE4
-X-Received: by 2002:a17:90a:d64b:b0:311:df4b:4b82 with SMTP id 98e67ed59e1d1-315f25c89bamr5728962a91.4.1750877957358;
-        Wed, 25 Jun 2025 11:59:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IElo0qy7jsSfFjI7I68oHuEoQbCWu3HpRNjM4YgV68cjhEVnQKdXX6YzF4UrsAOb5PHEZlUww==
-X-Received: by 2002:a17:90a:d64b:b0:311:df4b:4b82 with SMTP id 98e67ed59e1d1-315f25c89bamr5728796a91.4.1750877955107;
-        Wed, 25 Jun 2025 11:59:15 -0700 (PDT)
+        bh=I0h46r1xWj/RRFuFJ7X/xgD3zfEKUB3FLt0XctwRs8c=;
+        b=KbKIGKXqq8OhQ6L38mvhCQ6t03buclTYO8HJSZtn1sWjq6UStUtn+lcPNRKBSEq76q
+         XBxwHpNL0oo+a/cIajO7lpH2+6+Mhe+8vv2iiYmaixx2Rsdbe26GfMPbqZaYOB+lto3N
+         9abB5YTzNJqfYmMnu6Yq79C4/3VFKeQIK5zukvuGXCkAwbVHpXy0THuRXHoBhNTpVDYG
+         7DpMhb6JoGCR1VWDPiT1625MAhE1PlQrpc4najnCTx0drd+XRG4r01uwBtB2zBdQJHv/
+         KhmeMuZFBjnOpX+gc7UW44zrY7HsDGLi50vcTZzhIVkPQ2mM+OQmqaCQH5QGr6HwQQ7Z
+         xikQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVwavDrl8uQ6/rRZiAw/SrF9/BgE1Llds5wJ4XWbBC/sFZ2+w6RVmSqq8Nij2aLz0W0Aai4u2ATwz5cWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt+g7bFDz83wrHAziBxrbOoM8wZTRLBxRCm86cVaTOqJUcYI2H
+	DzNGbidbPT8dbWJqvTRIk+mOCOMyye6cf83U9YQc3vtBMWSS0t0XljBndz2d8Kx1W20nBoINnZB
+	GW0CYQN2TYvIHUc57zWLJSRNVb2zAGwFXSXsSCF0nVWZxjKvz+3Glxh2C1kBbNmvY9w==
+X-Gm-Gg: ASbGnctnVYJRqb+DGggSTw6+DKcK6JeipWxqP3F8pQANcnBYr1XQjl6bSKeVLs8rQKB
+	+P/loKFm8GB7WZPHQq6MXdYWUOHapVQFwTM4mmBdCQ89XKLd3wnW/NQsvD35TwSsbC2/I+YXsHu
+	nanzjXwGYJc95Q03U54AZmlDFv5MJPW80wfl/8mdYCYTIK3p1+2RBixE2Ke9yEqWS3K21+m2lv4
+	r588LvUfqpQBfkRzTxUiKWKb1bldd88IdpZCdpDq04lYyMJjbNu9Sr8q758WPCvYRPhT6qhLX5q
+	Ma+HYvrJrFTo/wFDkdEON1QmiZ0vSkqD
+X-Received: by 2002:a17:902:cec1:b0:234:f580:9f8 with SMTP id d9443c01a7336-23823f87b5amr70645775ad.3.1750877963887;
+        Wed, 25 Jun 2025 11:59:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHvhxih0y9qRe4C4d7srb0jgNwb6h7s684Vah0jgoGyb4gqz4t/Gm8EerJvHEPZP+HR0txKXg==
+X-Received: by 2002:a17:902:cec1:b0:234:f580:9f8 with SMTP id d9443c01a7336-23823f87b5amr70645495ad.3.1750877963386;
+        Wed, 25 Jun 2025 11:59:23 -0700 (PDT)
 Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-315f5384107sm2388602a91.5.2025.06.25.11.59.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d860a861sm139781875ad.101.2025.06.25.11.59.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 11:59:14 -0700 (PDT)
+        Wed, 25 Jun 2025 11:59:22 -0700 (PDT)
 From: Rob Clark <robin.clark@oss.qualcomm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
         Connor Abbott <cwabbott0@gmail.com>,
         Antonino Maniscalco <antomani103@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
         Rob Clark <robin.clark@oss.qualcomm.com>,
         Rob Clark <robdclark@gmail.com>,
         Abhinav Kumar <quic_abhinavk@quicinc.com>,
         Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
         Marijn Suijten <marijn.suijten@somainline.org>,
         David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         linux-kernel@vger.kernel.org (open list),
         linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
         linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v7 35/42] drm/msm: Add VM_BIND ioctl
-Date: Wed, 25 Jun 2025 11:47:28 -0700
-Message-ID: <20250625184918.124608-36-robin.clark@oss.qualcomm.com>
+Subject: [PATCH v7 41/42] drm/msm: Defer VMA unmap for fb unpins
+Date: Wed, 25 Jun 2025 11:47:34 -0700
+Message-ID: <20250625184918.124608-42-robin.clark@oss.qualcomm.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250625184918.124608-1-robin.clark@oss.qualcomm.com>
 References: <20250625184918.124608-1-robin.clark@oss.qualcomm.com>
@@ -113,1568 +108,343 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDE0MiBTYWx0ZWRfX6Zad5dn6/Aqc
- 1tgl4QqumgRm/G9ty1b73+igmhMrs5yXYZXRN6lBgDFr87CFXMahZjMsQBq0OQ59bLFKprd34DE
- 5iegMMuLlk7gzHy2eU8c7yiR+Gwmn4MRQRtdlgxCT/rMtWpcAO2arX2OqEcniCISbNJZQn9JesG
- vWtVFN6kBK2QpMxBWyg6iEUxIHt0FYQV0bykwdclQJvroTj8XbBrv3JUBfDPpsLj4e8A9KWydGG
- 9mx6/tugv90tR2OhlKhrKLU4oQWVY74qSZPRpGNHqHELMiuBSRPT31AE77PXfjei6FNNAwvyxr1
- Wl70wsiIRQWojXuWSgywN2rORb3DnGQCEHUZoXHrjamXpkb+3xFTNd6IV6ngiPjAIdfOtHNsxRb
- 7HXlEB4D3jLaQNm6K0eqKpl9dIJb0OEKYhJU8ukvu+KqfVZCju800NShlC0kvPdfvAJO5JkB
-X-Proofpoint-ORIG-GUID: kOMKETXYfUmDuYqZs18RJQtU1xcaVEf1
-X-Proofpoint-GUID: kOMKETXYfUmDuYqZs18RJQtU1xcaVEf1
-X-Authority-Analysis: v=2.4 cv=LNNmQIW9 c=1 sm=1 tr=0 ts=685c4707 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
- a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=9iYb1zYOeEBEA4qMVjAA:9
- a=lT2Ezh7aeK42-gto:21 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-GUID: 7tXvLF7kpkmw5pEIF8ygBXY2zA9q8jWn
+X-Proofpoint-ORIG-GUID: 7tXvLF7kpkmw5pEIF8ygBXY2zA9q8jWn
+X-Authority-Analysis: v=2.4 cv=MtZS63ae c=1 sm=1 tr=0 ts=685c470d cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+ a=EUspDBNiAAAA:8 a=HvHaJK4xSQnTU1JWlMsA:9 a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDE0MyBTYWx0ZWRfX9CyR2RYSBk6C
+ MbcTgRLShlOcutrNDHBcsA78jLK/Zt01uHL1qmWn4gkXOX0j1eYhmkuiqWFdfpQTrwqL9Hcj3vl
+ WWvqmFVL0y69QKhqAM1Qn7d0NwvDKFHccAZnoKtGRe2Mk08kHFNviYSL9xfEV60qra+MBz374tS
+ DlW2CpyuXeJUduwiDTZm5Sqb9Wz7TOkbmDXQ1SlsZyRVRQMJWSy+6dbCI1vf+oWLxa6icLB7ncs
+ lO38bnKFngIGopux0+WnpkzQleQONBiVPmk7pjM2c5jOBYuqvUdoVV3Eui1Pi8kdZjkl+r2BXdh
+ A9OqCtb5tfNkz06uSnFvO/rp2A/Olf1wbGV1RS6+v5XUg1+j37YJLNy3kwniGg4E1Goomft6hqd
+ OyFqO1pq5H09RjJQYSstRwlPSFUywaSY7SIn7qNG1uX2vDKeHRFw8HrCLShNTjEJbi4arQNY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-06-25_06,2025-06-25_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 spamscore=0 bulkscore=0 mlxlogscore=999
- impostorscore=0 mlxscore=0 clxscore=1015 adultscore=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506250142
+ bulkscore=0 impostorscore=0 suspectscore=0 adultscore=0 phishscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506250143
 
-From: Rob Clark <robdclark@chromium.org>
+With the conversion to drm_gpuvm, we lost the lazy VMA cleanup, which
+means that fb cleanup/unpin when pageflipping to new scanout buffers
+immediately unmaps the scanout buffer.  This is costly (with tlbinv,
+it can be 4-6ms for a 1080p scanout buffer, and more for higher
+resolutions)!
 
-Add a VM_BIND ioctl for binding/unbinding buffers into a VM.  This is
-only supported if userspace has opted in to MSM_PARAM_EN_VM_BIND.
+To avoid this, introduce a vma_ref, which is incremented whenever
+userspace has a GEM handle or dma-buf fd.  When unpinning if the
+vm is the kms->vm we defer tearing down the VMA until the vma_ref
+drops to zero.  If the buffer is still part of a flip-chain then
+userspace will be holding some sort of reference to the BO, either
+via a GEM handle and/or dma-buf fd.  So this avoids unmapping the VMA
+when there is a strong possibility that it will be needed again.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/msm_drv.c        |    1 +
- drivers/gpu/drm/msm/msm_drv.h        |    4 +-
- drivers/gpu/drm/msm/msm_gem.c        |   40 +-
- drivers/gpu/drm/msm/msm_gem.h        |    4 +
- drivers/gpu/drm/msm/msm_gem_submit.c |   22 +-
- drivers/gpu/drm/msm/msm_gem_vma.c    | 1092 +++++++++++++++++++++++++-
- include/uapi/drm/msm_drm.h           |   74 +-
- 7 files changed, 1204 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c       |  1 +
+ drivers/gpu/drm/msm/msm_drv.h       |  1 +
+ drivers/gpu/drm/msm/msm_fb.c        |  5 ++-
+ drivers/gpu/drm/msm/msm_gem.c       | 61 +++++++++++++++++------------
+ drivers/gpu/drm/msm/msm_gem.h       | 28 +++++++++++++
+ drivers/gpu/drm/msm/msm_gem_prime.c | 55 +++++++++++++++++++++++++-
+ 6 files changed, 124 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 89cb7820064f..bdf775897de8 100644
+index 710046906229..585527fe09e7 100644
 --- a/drivers/gpu/drm/msm/msm_drv.c
 +++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -791,6 +791,7 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_NEW,   msm_ioctl_submitqueue_new,   DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_CLOSE, msm_ioctl_submitqueue_close, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(MSM_VM_BIND,      msm_ioctl_vm_bind,      DRM_RENDER_ALLOW),
- };
- 
- static void msm_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+@@ -826,6 +826,7 @@ static const struct drm_driver msm_driver = {
+ 	.postclose          = msm_postclose,
+ 	.dumb_create        = msm_gem_dumb_create,
+ 	.dumb_map_offset    = msm_gem_dumb_map_offset,
++	.gem_prime_import   = msm_gem_prime_import,
+ 	.gem_prime_import_sg_table = msm_gem_prime_import_sg_table,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init       = msm_debugfs_init,
 diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 2f42d075f13a..9a4d2b6d459d 100644
+index 9a4d2b6d459d..b20d94d1a22e 100644
 --- a/drivers/gpu/drm/msm/msm_drv.h
 +++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -232,7 +232,9 @@ struct drm_gpuvm *msm_kms_init_vm(struct drm_device *dev);
- bool msm_use_mmu(struct drm_device *dev);
+@@ -246,6 +246,7 @@ void msm_gem_shrinker_cleanup(struct drm_device *dev);
+ struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj);
+ int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map);
+ void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
++struct drm_gem_object *msm_gem_prime_import(struct drm_device *dev, struct dma_buf *buf);
+ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
+ 		struct dma_buf_attachment *attach, struct sg_table *sg);
+ struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags);
+diff --git a/drivers/gpu/drm/msm/msm_fb.c b/drivers/gpu/drm/msm/msm_fb.c
+index 8ae2f326ec54..bc7c2bb8f01e 100644
+--- a/drivers/gpu/drm/msm/msm_fb.c
++++ b/drivers/gpu/drm/msm/msm_fb.c
+@@ -89,6 +89,7 @@ int msm_framebuffer_prepare(struct drm_framebuffer *fb, bool needs_dirtyfb)
+ 		return 0;
  
- int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
--		struct drm_file *file);
-+			 struct drm_file *file);
-+int msm_ioctl_vm_bind(struct drm_device *dev, void *data,
-+		      struct drm_file *file);
+ 	for (i = 0; i < n; i++) {
++		msm_gem_vma_get(fb->obj[i]);
+ 		ret = msm_gem_get_and_pin_iova(fb->obj[i], vm, &msm_fb->iova[i]);
+ 		drm_dbg_state(fb->dev, "FB[%u]: iova[%d]: %08llx (%d)\n",
+ 			      fb->base.id, i, msm_fb->iova[i], ret);
+@@ -114,8 +115,10 @@ void msm_framebuffer_cleanup(struct drm_framebuffer *fb, bool needed_dirtyfb)
  
- #ifdef CONFIG_DEBUG_FS
- unsigned long msm_gem_shrinker_shrink(struct drm_device *dev, unsigned long nr_to_scan);
+ 	memset(msm_fb->iova, 0, sizeof(msm_fb->iova));
+ 
+-	for (i = 0; i < n; i++)
++	for (i = 0; i < n; i++) {
+ 		msm_gem_unpin_iova(fb->obj[i], vm);
++		msm_gem_vma_put(fb->obj[i]);
++	}
+ }
+ 
+ uint32_t msm_framebuffer_iova(struct drm_framebuffer *fb, int plane)
 diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 106fec06c18d..fea13a993629 100644
+index b882647144bb..c56d773a3d04 100644
 --- a/drivers/gpu/drm/msm/msm_gem.c
 +++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -255,8 +255,7 @@ static void put_pages(struct drm_gem_object *obj)
- 	}
- }
- 
--static struct page **msm_gem_get_pages_locked(struct drm_gem_object *obj,
--					      unsigned madv)
-+struct page **msm_gem_get_pages_locked(struct drm_gem_object *obj, unsigned madv)
- {
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 
-@@ -1060,18 +1059,37 @@ static void msm_gem_free_object(struct drm_gem_object *obj)
- 	/*
- 	 * We need to lock any VMs the object is still attached to, but not
- 	 * the object itself (see explaination in msm_gem_assert_locked()),
--	 * so just open-code this special case:
-+	 * so just open-code this special case.
-+	 *
-+	 * Note that we skip the dance if we aren't attached to any VM.  This
-+	 * is load bearing.  The driver needs to support two usage models:
-+	 *
-+	 * 1. Legacy kernel managed VM: Userspace expects the VMA's to be
-+	 *    implicitly torn down when the object is freed, the VMA's do
-+	 *    not hold a hard reference to the BO.
-+	 *
-+	 * 2. VM_BIND, userspace managed VM: The VMA holds a reference to the
-+	 *    BO.  This can be dropped when the VM is closed and it's associated
-+	 *    VMAs are torn down.  (See msm_gem_vm_close()).
-+	 *
-+	 * In the latter case the last reference to a BO can be dropped while
-+	 * we already have the VM locked.  It would have already been removed
-+	 * from the gpuva list, but lockdep doesn't know that.  Or understand
-+	 * the differences between the two usage models.
- 	 */
--	drm_exec_init(&exec, 0, 0);
--	drm_exec_until_all_locked (&exec) {
--		struct drm_gpuvm_bo *vm_bo;
--		drm_gem_for_each_gpuvm_bo (vm_bo, obj) {
--			drm_exec_lock_obj(&exec, drm_gpuvm_resv_obj(vm_bo->vm));
--			drm_exec_retry_on_contention(&exec);
-+	if (!list_empty(&obj->gpuva.list)) {
-+		drm_exec_init(&exec, 0, 0);
-+		drm_exec_until_all_locked (&exec) {
-+			struct drm_gpuvm_bo *vm_bo;
-+			drm_gem_for_each_gpuvm_bo (vm_bo, obj) {
-+				drm_exec_lock_obj(&exec,
-+						  drm_gpuvm_resv_obj(vm_bo->vm));
-+				drm_exec_retry_on_contention(&exec);
-+			}
- 		}
-+		put_iova_spaces(obj, NULL, true);
-+		drm_exec_fini(&exec);     /* drop locks */
- 	}
--	put_iova_spaces(obj, NULL, true);
--	drm_exec_fini(&exec);     /* drop locks */
- 
- 	if (obj->import_attach) {
- 		GEM_WARN_ON(msm_obj->vaddr);
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 46c7ddbc2dce..d062722942b5 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -73,6 +73,9 @@ struct msm_gem_vm {
- 	/** @mmu: The mmu object which manages the pgtables */
- 	struct msm_mmu *mmu;
- 
-+	/** @mmu_lock: Protects access to the mmu */
-+	struct mutex mmu_lock;
-+
- 	/**
- 	 * @pid: For address spaces associated with a specific process, this
- 	 * will be non-NULL:
-@@ -205,6 +208,7 @@ int msm_gem_get_and_pin_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm,
- 			     uint64_t *iova);
- void msm_gem_unpin_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm);
- void msm_gem_pin_obj_locked(struct drm_gem_object *obj);
-+struct page **msm_gem_get_pages_locked(struct drm_gem_object *obj, unsigned madv);
- struct page **msm_gem_pin_pages_locked(struct drm_gem_object *obj);
- void msm_gem_unpin_pages_locked(struct drm_gem_object *obj);
- int msm_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index e2174b7d0e40..283e807c7874 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -193,6 +193,7 @@ static int submit_lookup_objects(struct msm_gem_submit *submit,
- static int submit_lookup_cmds(struct msm_gem_submit *submit,
- 		struct drm_msm_gem_submit *args, struct drm_file *file)
- {
-+	struct msm_context *ctx = file->driver_priv;
- 	unsigned i;
- 	size_t sz;
- 	int ret = 0;
-@@ -224,6 +225,20 @@ static int submit_lookup_cmds(struct msm_gem_submit *submit,
- 			goto out;
- 		}
- 
-+		if (msm_context_is_vmbind(ctx)) {
-+			if (submit_cmd.nr_relocs) {
-+				ret = SUBMIT_ERROR(EINVAL, submit, "nr_relocs must be zero");
-+				goto out;
-+			}
-+
-+			if (submit_cmd.submit_idx || submit_cmd.submit_offset) {
-+				ret = SUBMIT_ERROR(EINVAL, submit, "submit_idx/offset must be zero");
-+				goto out;
-+			}
-+
-+			submit->cmd[i].iova = submit_cmd.iova;
-+		}
-+
- 		submit->cmd[i].type = submit_cmd.type;
- 		submit->cmd[i].size = submit_cmd.size / 4;
- 		submit->cmd[i].offset = submit_cmd.submit_offset / 4;
-@@ -532,6 +547,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	struct msm_syncobj_post_dep *post_deps = NULL;
- 	struct drm_syncobj **syncobjs_to_reset = NULL;
- 	struct sync_file *sync_file = NULL;
-+	unsigned cmds_to_parse;
- 	int out_fence_fd = -1;
- 	unsigned i;
- 	int ret;
-@@ -655,7 +671,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto out;
- 
--	for (i = 0; i < args->nr_cmds; i++) {
-+	cmds_to_parse = msm_context_is_vmbind(ctx) ? 0 : args->nr_cmds;
-+
-+	for (i = 0; i < cmds_to_parse; i++) {
- 		struct drm_gem_object *obj;
- 		uint64_t iova;
- 
-@@ -686,7 +704,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 			goto out;
- 	}
- 
--	submit->nr_cmds = i;
-+	submit->nr_cmds = args->nr_cmds;
- 
- 	idr_preload(GFP_KERNEL);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index 76b79c122182..5d4b7e3e9d2c 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -4,9 +4,16 @@
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
- 
-+#include "drm/drm_file.h"
-+#include "drm/msm_drm.h"
-+#include "linux/file.h"
-+#include "linux/sync_file.h"
-+
+@@ -19,11 +19,11 @@
  #include "msm_drv.h"
  #include "msm_gem.h"
-+#include "msm_gpu.h"
- #include "msm_mmu.h"
-+#include "msm_syncobj.h"
+ #include "msm_gpu.h"
++#include "msm_kms.h"
  
- #define vm_dbg(fmt, ...) pr_debug("%s:%d: "fmt"\n", __func__, __LINE__, ##__VA_ARGS__)
+ static int pgprot = 0;
+ module_param(pgprot, int, 0600);
  
-@@ -36,6 +43,97 @@ struct msm_vm_unmap_op {
- 	uint64_t range;
- };
+-
+ static void update_device_mem(struct msm_drm_private *priv, ssize_t size)
+ {
+ 	uint64_t total_mem = atomic64_add_return(size, &priv->total_mem);
+@@ -43,6 +43,7 @@ static void update_ctx_mem(struct drm_file *file, ssize_t size)
  
-+/**
-+ * struct msm_vma_op - A MAP or UNMAP operation
-+ */
-+struct msm_vm_op {
-+	/** @op: The operation type */
-+	enum {
-+		MSM_VM_OP_MAP = 1,
-+		MSM_VM_OP_UNMAP,
-+	} op;
-+	union {
-+		/** @map: Parameters used if op == MSM_VMA_OP_MAP */
-+		struct msm_vm_map_op map;
-+		/** @unmap: Parameters used if op == MSM_VMA_OP_UNMAP */
-+		struct msm_vm_unmap_op unmap;
-+	};
-+	/** @node: list head in msm_vm_bind_job::vm_ops */
-+	struct list_head node;
-+
-+	/**
-+	 * @obj: backing object for pages to be mapped/unmapped
-+	 *
-+	 * Async unmap ops, in particular, must hold a reference to the
-+	 * original GEM object backing the mapping that will be unmapped.
-+	 * But the same can be required in the map path, for example if
-+	 * there is not a corresponding unmap op, such as process exit.
-+	 *
-+	 * This ensures that the pages backing the mapping are not freed
-+	 * before the mapping is torn down.
-+	 */
-+	struct drm_gem_object *obj;
-+};
-+
-+/**
-+ * struct msm_vm_bind_job - Tracking for a VM_BIND ioctl
-+ *
-+ * A table of userspace requested VM updates (MSM_VM_BIND_OP_UNMAP/MAP/MAP_NULL)
-+ * gets applied to the vm, generating a list of VM ops (MSM_VM_OP_MAP/UNMAP)
-+ * which are applied to the pgtables asynchronously.  For example a userspace
-+ * requested MSM_VM_BIND_OP_MAP could end up generating both an MSM_VM_OP_UNMAP
-+ * to unmap an existing mapping, and a MSM_VM_OP_MAP to apply the new mapping.
-+ */
-+struct msm_vm_bind_job {
-+	/** @base: base class for drm_sched jobs */
-+	struct drm_sched_job base;
-+	/** @vm: The VM being operated on */
-+	struct drm_gpuvm *vm;
-+	/** @fence: The fence that is signaled when job completes */
-+	struct dma_fence *fence;
-+	/** @queue: The queue that the job runs on */
-+	struct msm_gpu_submitqueue *queue;
-+	/** @prealloc: Tracking for pre-allocated MMU pgtable pages */
-+	struct msm_mmu_prealloc prealloc;
-+	/** @vm_ops: a list of struct msm_vm_op */
-+	struct list_head vm_ops;
-+	/** @bos_pinned: are the GEM objects being bound pinned? */
-+	bool bos_pinned;
-+	/** @nr_ops: the number of userspace requested ops */
-+	unsigned int nr_ops;
-+	/**
-+	 * @ops: the userspace requested ops
-+	 *
-+	 * The userspace requested ops are copied/parsed and validated
-+	 * before we start applying the updates to try to do as much up-
-+	 * front error checking as possible, to avoid the VM being in an
-+	 * undefined state due to partially executed VM_BIND.
-+	 *
-+	 * This table also serves to hold a reference to the backing GEM
-+	 * objects.
-+	 */
-+	struct msm_vm_bind_op {
-+		uint32_t op;
-+		uint32_t flags;
-+		union {
-+			struct drm_gem_object *obj;
-+			uint32_t handle;
-+		};
-+		uint64_t obj_offset;
-+		uint64_t iova;
-+		uint64_t range;
-+	} ops[];
-+};
-+
-+#define job_foreach_bo(obj, _job) \
-+	for (unsigned i = 0; i < (_job)->nr_ops; i++) \
-+		if ((obj = (_job)->ops[i].obj))
-+
-+static inline struct msm_vm_bind_job *to_msm_vm_bind_job(struct drm_sched_job *job)
-+{
-+	return container_of(job, struct msm_vm_bind_job, base);
+ static int msm_gem_open(struct drm_gem_object *obj, struct drm_file *file)
+ {
++	msm_gem_vma_get(obj);
+ 	update_ctx_mem(file, obj->size);
+ 	return 0;
+ }
+@@ -50,33 +51,13 @@ static int msm_gem_open(struct drm_gem_object *obj, struct drm_file *file)
+ static void put_iova_spaces(struct drm_gem_object *obj, struct drm_gpuvm *vm,
+ 			    bool close, const char *reason);
+ 
+-static void detach_vm(struct drm_gem_object *obj, struct drm_gpuvm *vm)
+-{
+-	msm_gem_assert_locked(obj);
+-	drm_gpuvm_resv_assert_held(vm);
+-
+-	struct drm_gpuvm_bo *vm_bo = drm_gpuvm_bo_find(vm, obj);
+-	if (vm_bo) {
+-		struct drm_gpuva *vma;
+-
+-		drm_gpuvm_bo_for_each_va (vma, vm_bo) {
+-			if (vma->vm != vm)
+-				continue;
+-			msm_gem_vma_unmap(vma, "detach");
+-			msm_gem_vma_close(vma);
+-			break;
+-		}
+-
+-		drm_gpuvm_bo_put(vm_bo);
+-	}
+-}
+-
+ static void msm_gem_close(struct drm_gem_object *obj, struct drm_file *file)
+ {
+ 	struct msm_context *ctx = file->driver_priv;
+ 	struct drm_exec exec;
+ 
+ 	update_ctx_mem(file, -obj->size);
++	msm_gem_vma_put(obj);
+ 
+ 	/*
+ 	 * If VM isn't created yet, nothing to cleanup.  And in fact calling
+@@ -103,7 +84,31 @@ static void msm_gem_close(struct drm_gem_object *obj, struct drm_file *file)
+ 
+ 	msm_gem_lock_vm_and_obj(&exec, obj, ctx->vm);
+ 	put_iova_spaces(obj, ctx->vm, true, "close");
+-	detach_vm(obj, ctx->vm);
++	drm_exec_fini(&exec);     /* drop locks */
 +}
 +
- static void
- msm_gem_vm_free(struct drm_gpuvm *gpuvm)
- {
-@@ -52,6 +150,9 @@ msm_gem_vm_free(struct drm_gpuvm *gpuvm)
- static void
- vm_unmap_op(struct msm_gem_vm *vm, const struct msm_vm_unmap_op *op)
- {
-+	if (!vm->managed)
-+		lockdep_assert_held(&vm->mmu_lock);
++/*
++ * Get/put for kms->vm VMA
++ */
 +
- 	vm_dbg("%p: %016llx %016llx", vm, op->iova, op->iova + op->range);
- 
- 	vm->mmu->funcs->unmap(vm->mmu, op->iova, op->range);
-@@ -60,6 +161,9 @@ vm_unmap_op(struct msm_gem_vm *vm, const struct msm_vm_unmap_op *op)
- static int
- vm_map_op(struct msm_gem_vm *vm, const struct msm_vm_map_op *op)
- {
-+	if (!vm->managed)
-+		lockdep_assert_held(&vm->mmu_lock);
++void msm_gem_vma_get(struct drm_gem_object *obj)
++{
++	atomic_inc(&to_msm_bo(obj)->vma_ref);
++}
 +
- 	vm_dbg("%p: %016llx %016llx", vm, op->iova, op->iova + op->range);
- 
- 	return vm->mmu->funcs->map(vm->mmu, op->iova, op->sgt, op->offset,
-@@ -69,17 +173,29 @@ vm_map_op(struct msm_gem_vm *vm, const struct msm_vm_map_op *op)
- /* Actually unmap memory for the vma */
- void msm_gem_vma_unmap(struct drm_gpuva *vma)
- {
-+	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
- 	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
- 
- 	/* Don't do anything if the memory isn't mapped */
- 	if (!msm_vma->mapped)
- 		return;
- 
--	vm_unmap_op(to_msm_vm(vma->vm), &(struct msm_vm_unmap_op){
-+	/*
-+	 * The mmu_lock is only needed when preallocation is used.  But
-+	 * in that case we don't need to worry about recursion into
-+	 * shrinker
-+	 */
-+	if (!vm->managed)
-+		 mutex_lock(&vm->mmu_lock);
++void msm_gem_vma_put(struct drm_gem_object *obj)
++{
++	struct msm_drm_private *priv = obj->dev->dev_private;
++	struct drm_exec exec;
 +
-+	vm_unmap_op(vm, &(struct msm_vm_unmap_op){
- 		.iova = vma->va.addr,
- 		.range = vma->va.range,
- 	});
- 
-+	if (!vm->managed)
-+		mutex_unlock(&vm->mmu_lock);
++	if (atomic_dec_return(&to_msm_bo(obj)->vma_ref))
++		return;
 +
- 	msm_vma->mapped = false;
++	if (!priv->kms)
++		return;
++
++	msm_gem_lock_vm_and_obj(&exec, obj, priv->kms->vm);
++	put_iova_spaces(obj, priv->kms->vm, true, "vma_put");
+ 	drm_exec_fini(&exec);     /* drop locks */
  }
  
-@@ -87,6 +203,7 @@ void msm_gem_vma_unmap(struct drm_gpuva *vma)
- int
- msm_gem_vma_map(struct drm_gpuva *vma, int prot, struct sg_table *sgt)
- {
-+	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
- 	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
- 	int ret;
- 
-@@ -98,6 +215,14 @@ msm_gem_vma_map(struct drm_gpuva *vma, int prot, struct sg_table *sgt)
- 
- 	msm_vma->mapped = true;
- 
-+	/*
-+	 * The mmu_lock is only needed when preallocation is used.  But
-+	 * in that case we don't need to worry about recursion into
-+	 * shrinker
-+	 */
-+	if (!vm->managed)
-+		mutex_lock(&vm->mmu_lock);
-+
- 	/*
- 	 * NOTE: iommu/io-pgtable can allocate pages, so we cannot hold
- 	 * a lock across map/unmap which is also used in the job_run()
-@@ -107,16 +232,19 @@ msm_gem_vma_map(struct drm_gpuva *vma, int prot, struct sg_table *sgt)
- 	 * Revisit this if we can come up with a scheme to pre-alloc pages
- 	 * for the pgtable in map/unmap ops.
- 	 */
--	ret = vm_map_op(to_msm_vm(vma->vm), &(struct msm_vm_map_op){
-+	ret = vm_map_op(vm, &(struct msm_vm_map_op){
- 		.iova = vma->va.addr,
- 		.range = vma->va.range,
- 		.offset = vma->gem.offset,
- 		.sgt = sgt,
- 		.prot = prot,
- 	});
--	if (ret) {
-+
-+	if (!vm->managed)
-+		mutex_unlock(&vm->mmu_lock);
-+
-+	if (ret)
- 		msm_vma->mapped = false;
--	}
- 
+@@ -664,6 +669,13 @@ int msm_gem_set_iova(struct drm_gem_object *obj,
  	return ret;
  }
-@@ -131,6 +259,9 @@ void msm_gem_vma_close(struct drm_gpuva *vma)
  
- 	drm_gpuvm_resv_assert_held(&vm->base);
- 
-+	if (vma->gem.obj)
-+		msm_gem_assert_locked(vma->gem.obj);
-+
- 	if (vma->va.addr && vm->managed)
- 		drm_mm_remove_node(&msm_vma->node);
- 
-@@ -158,6 +289,7 @@ msm_gem_vma_new(struct drm_gpuvm *gpuvm, struct drm_gem_object *obj,
- 
- 	if (vm->managed) {
- 		BUG_ON(offset != 0);
-+		BUG_ON(!obj);  /* NULL mappings not valid for kernel managed VM */
- 		ret = drm_mm_insert_node_in_range(&vm->mm, &vma->node,
- 						obj->size, PAGE_SIZE, 0,
- 						range_start, range_end, 0);
-@@ -169,7 +301,8 @@ msm_gem_vma_new(struct drm_gpuvm *gpuvm, struct drm_gem_object *obj,
- 		range_end   = range_start + obj->size;
- 	}
- 
--	GEM_WARN_ON((range_end - range_start) > obj->size);
-+	if (obj)
-+		GEM_WARN_ON((range_end - range_start) > obj->size);
- 
- 	drm_gpuva_init(&vma->base, range_start, range_end - range_start, obj, offset);
- 	vma->mapped = false;
-@@ -178,6 +311,9 @@ msm_gem_vma_new(struct drm_gpuvm *gpuvm, struct drm_gem_object *obj,
- 	if (ret)
- 		goto err_free_range;
- 
-+	if (!obj)
-+		return &vma->base;
-+
- 	vm_bo = drm_gpuvm_bo_obtain(&vm->base, obj);
- 	if (IS_ERR(vm_bo)) {
- 		ret = PTR_ERR(vm_bo);
-@@ -200,11 +336,297 @@ msm_gem_vma_new(struct drm_gpuvm *gpuvm, struct drm_gem_object *obj,
- 	return ERR_PTR(ret);
- }
- 
-+static int
-+msm_gem_vm_bo_validate(struct drm_gpuvm_bo *vm_bo, struct drm_exec *exec)
++static bool is_kms_vm(struct drm_gpuvm *vm)
 +{
-+	struct drm_gem_object *obj = vm_bo->obj;
-+	struct drm_gpuva *vma;
-+	int ret;
++	struct msm_drm_private *priv = vm->drm->dev_private;
 +
-+	vm_dbg("validate: %p", obj);
-+
-+	msm_gem_assert_locked(obj);
-+
-+	drm_gpuvm_bo_for_each_va (vma, vm_bo) {
-+		ret = msm_gem_pin_vma_locked(obj, vma);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
++	return priv->kms && (priv->kms->vm == vm);
 +}
 +
-+struct op_arg {
-+	unsigned flags;
-+	struct msm_vm_bind_job *job;
+ /*
+  * Unpin a iova by updating the reference counts. The memory isn't actually
+  * purged until something else (shrinker, mm_notifier, destroy, etc) decides
+@@ -679,7 +691,8 @@ void msm_gem_unpin_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm)
+ 	if (vma) {
+ 		msm_gem_unpin_locked(obj);
+ 	}
+-	detach_vm(obj, vm);
++	if (!is_kms_vm(vm))
++		put_iova_spaces(obj, vm, true, "close");
+ 	drm_exec_fini(&exec);     /* drop locks */
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 9671c4299cf8..47d07a01f0c1 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -211,9 +211,37 @@ struct msm_gem_object {
+ 	 * Protected by LRU lock.
+ 	 */
+ 	int pin_count;
++
++	/**
++	 * @vma_ref: Reference count of VMA users.
++	 *
++	 * With the vm_bo/vma holding a reference to the GEM object, we'd
++	 * otherwise have to actively tear down a VMA when, for example,
++	 * a buffer is unpinned for scanout, vs. the pre-drm_gpuvm approach
++	 * where a VMA did not hold a reference to the BO, but instead was
++	 * implicitly torn down when the BO was freed.
++	 *
++	 * To regain the lazy VMA teardown, we use the @vma_ref.  It is
++	 * incremented for any of the following:
++	 *
++	 * 1) the BO is exported as a dma_buf
++	 * 2) the BO has open userspace handle
++	 *
++	 * All of those conditions will hold an reference to the BO,
++	 * preventing it from being freed.  So lazily keeping around the
++	 * VMA will not prevent the BO from being freed.  (Or rather, the
++	 * reference loop is harmless in this case.)
++	 *
++	 * When the @vma_ref drops to zero, then kms->vm VMA will be
++	 * torn down.
++	 */
++	atomic_t vma_ref;
+ };
+ #define to_msm_bo(x) container_of(x, struct msm_gem_object, base)
+ 
++void msm_gem_vma_get(struct drm_gem_object *obj);
++void msm_gem_vma_put(struct drm_gem_object *obj);
++
+ uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
+ int msm_gem_prot(struct drm_gem_object *obj);
+ int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct drm_gpuva *vma);
+diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
+index 1a6d8099196a..b5cea248b7c3 100644
+--- a/drivers/gpu/drm/msm/msm_gem_prime.c
++++ b/drivers/gpu/drm/msm/msm_gem_prime.c
+@@ -6,6 +6,7 @@
+ 
+ #include <linux/dma-buf.h>
+ 
++#include <drm/drm_drv.h>
+ #include <drm/drm_prime.h>
+ 
+ #include "msm_drv.h"
+@@ -42,19 +43,69 @@ void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
+ 	msm_gem_put_vaddr_locked(obj);
+ }
+ 
++static void msm_gem_dmabuf_release(struct dma_buf *dma_buf)
++{
++	struct drm_gem_object *obj = dma_buf->priv;
++
++	msm_gem_vma_put(obj);
++	drm_gem_dmabuf_release(dma_buf);
++}
++
++static const struct dma_buf_ops msm_gem_prime_dmabuf_ops =  {
++	.cache_sgt_mapping = true,
++	.attach = drm_gem_map_attach,
++	.detach = drm_gem_map_detach,
++	.map_dma_buf = drm_gem_map_dma_buf,
++	.unmap_dma_buf = drm_gem_unmap_dma_buf,
++	.release = msm_gem_dmabuf_release,
++	.mmap = drm_gem_dmabuf_mmap,
++	.vmap = drm_gem_dmabuf_vmap,
++	.vunmap = drm_gem_dmabuf_vunmap,
 +};
 +
-+static void
-+vm_op_enqueue(struct op_arg *arg, struct msm_vm_op _op)
++struct drm_gem_object *msm_gem_prime_import(struct drm_device *dev,
++					    struct dma_buf *buf)
 +{
-+	struct msm_vm_op *op = kmalloc(sizeof(*op), GFP_KERNEL);
-+	*op = _op;
-+	list_add_tail(&op->node, &arg->job->vm_ops);
-+
-+	if (op->obj)
-+		drm_gem_object_get(op->obj);
-+}
-+
-+static struct drm_gpuva *
-+vma_from_op(struct op_arg *arg, struct drm_gpuva_op_map *op)
-+{
-+	return msm_gem_vma_new(arg->job->vm, op->gem.obj, op->gem.offset,
-+			       op->va.addr, op->va.addr + op->va.range);
-+}
-+
-+static int
-+msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *arg)
-+{
-+	struct drm_gem_object *obj = op->map.gem.obj;
-+	struct drm_gpuva *vma;
-+	struct sg_table *sgt;
-+	unsigned prot;
-+
-+	vma = vma_from_op(arg, &op->map);
-+	if (WARN_ON(IS_ERR(vma)))
-+		return PTR_ERR(vma);
-+
-+	vm_dbg("%p:%p:%p: %016llx %016llx", vma->vm, vma, vma->gem.obj,
-+	       vma->va.addr, vma->va.range);
-+
-+	vma->flags = ((struct op_arg *)arg)->flags;
-+
-+	if (obj) {
-+		sgt = to_msm_bo(obj)->sgt;
-+		prot = msm_gem_prot(obj);
-+	} else {
-+		sgt = NULL;
-+		prot = IOMMU_READ | IOMMU_WRITE;
-+	}
-+
-+	vm_op_enqueue(arg, (struct msm_vm_op){
-+		.op = MSM_VM_OP_MAP,
-+		.map = {
-+			.sgt = sgt,
-+			.iova = vma->va.addr,
-+			.range = vma->va.range,
-+			.offset = vma->gem.offset,
-+			.prot = prot,
-+		},
-+		.obj = vma->gem.obj,
-+	});
-+
-+	to_msm_vma(vma)->mapped = true;
-+
-+	return 0;
-+}
-+
-+static int
-+msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
-+{
-+	struct msm_vm_bind_job *job = ((struct op_arg *)arg)->job;
-+	struct drm_gpuvm *vm = job->vm;
-+	struct drm_gpuva *orig_vma = op->remap.unmap->va;
-+	struct drm_gpuva *prev_vma = NULL, *next_vma = NULL;
-+	struct drm_gpuvm_bo *vm_bo = orig_vma->vm_bo;
-+	bool mapped = to_msm_vma(orig_vma)->mapped;
-+	unsigned flags;
-+
-+	vm_dbg("orig_vma: %p:%p:%p: %016llx %016llx", vm, orig_vma,
-+	       orig_vma->gem.obj, orig_vma->va.addr, orig_vma->va.range);
-+
-+	if (mapped) {
-+		uint64_t unmap_start, unmap_range;
-+
-+		drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
-+
-+		vm_op_enqueue(arg, (struct msm_vm_op){
-+			.op = MSM_VM_OP_UNMAP,
-+			.unmap = {
-+				.iova = unmap_start,
-+				.range = unmap_range,
-+			},
-+			.obj = orig_vma->gem.obj,
-+		});
-+
-+		/*
-+		 * Part of this GEM obj is still mapped, but we're going to kill the
-+		 * existing VMA and replace it with one or two new ones (ie. two if
-+		 * the unmapped range is in the middle of the existing (unmap) VMA).
-+		 * So just set the state to unmapped:
-+		 */
-+		to_msm_vma(orig_vma)->mapped = false;
-+	}
-+
-+	/*
-+	 * Hold a ref to the vm_bo between the msm_gem_vma_close() and the
-+	 * creation of the new prev/next vma's, in case the vm_bo is tracked
-+	 * in the VM's evict list:
-+	 */
-+	if (vm_bo)
-+		drm_gpuvm_bo_get(vm_bo);
-+
-+	/*
-+	 * The prev_vma and/or next_vma are replacing the unmapped vma, and
-+	 * therefore should preserve it's flags:
-+	 */
-+	flags = orig_vma->flags;
-+
-+	msm_gem_vma_close(orig_vma);
-+
-+	if (op->remap.prev) {
-+		prev_vma = vma_from_op(arg, op->remap.prev);
-+		if (WARN_ON(IS_ERR(prev_vma)))
-+			return PTR_ERR(prev_vma);
-+
-+		vm_dbg("prev_vma: %p:%p: %016llx %016llx", vm, prev_vma, prev_vma->va.addr, prev_vma->va.range);
-+		to_msm_vma(prev_vma)->mapped = mapped;
-+		prev_vma->flags = flags;
-+	}
-+
-+	if (op->remap.next) {
-+		next_vma = vma_from_op(arg, op->remap.next);
-+		if (WARN_ON(IS_ERR(next_vma)))
-+			return PTR_ERR(next_vma);
-+
-+		vm_dbg("next_vma: %p:%p: %016llx %016llx", vm, next_vma, next_vma->va.addr, next_vma->va.range);
-+		to_msm_vma(next_vma)->mapped = mapped;
-+		next_vma->flags = flags;
-+	}
-+
-+	if (!mapped)
-+		drm_gpuvm_bo_evict(vm_bo, true);
-+
-+	/* Drop the previous ref: */
-+	drm_gpuvm_bo_put(vm_bo);
-+
-+	return 0;
-+}
-+
-+static int
-+msm_gem_vm_sm_step_unmap(struct drm_gpuva_op *op, void *arg)
-+{
-+	struct drm_gpuva *vma = op->unmap.va;
-+	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
-+
-+	vm_dbg("%p:%p:%p: %016llx %016llx", vma->vm, vma, vma->gem.obj,
-+	       vma->va.addr, vma->va.range);
-+
-+	if (!msm_vma->mapped)
-+		goto out_close;
-+
-+	vm_op_enqueue(arg, (struct msm_vm_op){
-+		.op = MSM_VM_OP_UNMAP,
-+		.unmap = {
-+			.iova = vma->va.addr,
-+			.range = vma->va.range,
-+		},
-+		.obj = vma->gem.obj,
-+	});
-+
-+	msm_vma->mapped = false;
-+
-+out_close:
-+	msm_gem_vma_close(vma);
-+
-+	return 0;
-+}
-+
- static const struct drm_gpuvm_ops msm_gpuvm_ops = {
- 	.vm_free = msm_gem_vm_free,
-+	.vm_bo_validate = msm_gem_vm_bo_validate,
-+	.sm_step_map = msm_gem_vm_sm_step_map,
-+	.sm_step_remap = msm_gem_vm_sm_step_remap,
-+	.sm_step_unmap = msm_gem_vm_sm_step_unmap,
- };
- 
-+static struct dma_fence *
-+msm_vma_job_run(struct drm_sched_job *_job)
-+{
-+	struct msm_vm_bind_job *job = to_msm_vm_bind_job(_job);
-+	struct msm_gem_vm *vm = to_msm_vm(job->vm);
-+	struct drm_gem_object *obj;
-+	int ret = vm->unusable ? -EINVAL : 0;
-+
-+	vm_dbg("");
-+
-+	mutex_lock(&vm->mmu_lock);
-+	vm->mmu->prealloc = &job->prealloc;
-+
-+	while (!list_empty(&job->vm_ops)) {
-+		struct msm_vm_op *op =
-+			list_first_entry(&job->vm_ops, struct msm_vm_op, node);
-+
-+		switch (op->op) {
-+		case MSM_VM_OP_MAP:
++	if (buf->ops == &msm_gem_prime_dmabuf_ops) {
++		struct drm_gem_object *obj = buf->priv;
++		if (obj->dev == dev) {
 +			/*
-+			 * On error, stop trying to map new things.. but we
-+			 * still want to process the unmaps (or in particular,
-+			 * the drm_gem_object_put()s)
++			 * Importing dmabuf exported from our own gem increases
++			 * refcount on gem itself instead of f_count of dmabuf.
 +			 */
-+			if (!ret)
-+				ret = vm_map_op(vm, &op->map);
-+			break;
-+		case MSM_VM_OP_UNMAP:
-+			vm_unmap_op(vm, &op->unmap);
-+			break;
++			drm_gem_object_get(obj);
++			return obj;
 +		}
-+		drm_gem_object_put(op->obj);
-+		list_del(&op->node);
-+		kfree(op);
 +	}
 +
-+	vm->mmu->prealloc = NULL;
-+	mutex_unlock(&vm->mmu_lock);
-+
-+	/*
-+	 * We failed to perform at least _some_ of the pgtable updates, so
-+	 * now the VM is in an undefined state.  Game over!
-+	 */
-+	if (ret)
-+		vm->unusable = true;
-+
-+	job_foreach_bo (obj, job) {
-+		msm_gem_lock(obj);
-+		msm_gem_unpin_locked(obj);
-+		msm_gem_unlock(obj);
-+	}
-+
-+	/* VM_BIND ops are synchronous, so no fence to wait on: */
-+	return NULL;
++	return drm_gem_prime_import(dev, buf);
 +}
 +
-+static void
-+msm_vma_job_free(struct drm_sched_job *_job)
-+{
-+	struct msm_vm_bind_job *job = to_msm_vm_bind_job(_job);
-+	struct msm_mmu *mmu = to_msm_vm(job->vm)->mmu;
-+	struct drm_gem_object *obj;
-+
-+	mmu->funcs->prealloc_cleanup(mmu, &job->prealloc);
-+
-+	drm_sched_job_cleanup(_job);
-+
-+	job_foreach_bo (obj, job)
-+		drm_gem_object_put(obj);
-+
-+	msm_submitqueue_put(job->queue);
-+	dma_fence_put(job->fence);
-+
-+	/* In error paths, we could have unexecuted ops: */
-+	while (!list_empty(&job->vm_ops)) {
-+		struct msm_vm_op *op =
-+			list_first_entry(&job->vm_ops, struct msm_vm_op, node);
-+		list_del(&op->node);
-+		kfree(op);
-+	}
-+
-+	kfree(job);
-+}
-+
- static const struct drm_sched_backend_ops msm_vm_bind_ops = {
-+	.run_job = msm_vma_job_run,
-+	.free_job = msm_vma_job_free
- };
- 
- /**
-@@ -268,6 +690,7 @@ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
- 	drm_gem_object_put(dummy_gem);
- 
- 	vm->mmu = mmu;
-+	mutex_init(&vm->mmu_lock);
- 	vm->managed = managed;
- 
- 	drm_mm_init(&vm->mm, va_start, va_size);
-@@ -280,7 +703,6 @@ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
- err_free_vm:
- 	kfree(vm);
- 	return ERR_PTR(ret);
--
- }
- 
- /**
-@@ -296,6 +718,7 @@ msm_gem_vm_close(struct drm_gpuvm *gpuvm)
+ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
+ 		struct dma_buf_attachment *attach, struct sg_table *sg)
  {
- 	struct msm_gem_vm *vm = to_msm_vm(gpuvm);
- 	struct drm_gpuva *vma, *tmp;
-+	struct drm_exec exec;
- 
- 	/*
- 	 * For kernel managed VMs, the VMAs are torn down when the handle is
-@@ -312,22 +735,655 @@ msm_gem_vm_close(struct drm_gpuvm *gpuvm)
- 	drm_sched_fini(&vm->sched);
- 
- 	/* Tear down any remaining mappings: */
--	dma_resv_lock(drm_gpuvm_resv(gpuvm), NULL);
--	drm_gpuvm_for_each_va_safe (vma, tmp, gpuvm) {
--		struct drm_gem_object *obj = vma->gem.obj;
-+	drm_exec_init(&exec, 0, 2);
-+	drm_exec_until_all_locked (&exec) {
-+		drm_exec_lock_obj(&exec, drm_gpuvm_resv_obj(gpuvm));
-+		drm_exec_retry_on_contention(&exec);
- 
--		if (obj && obj->resv != drm_gpuvm_resv(gpuvm)) {
--			drm_gem_object_get(obj);
--			msm_gem_lock(obj);
-+		drm_gpuvm_for_each_va_safe (vma, tmp, gpuvm) {
-+			struct drm_gem_object *obj = vma->gem.obj;
-+
-+			/*
-+			 * MSM_BO_NO_SHARE objects share the same resv as the
-+			 * VM, in which case the obj is already locked:
-+			 */
-+			if (obj && (obj->resv == drm_gpuvm_resv(gpuvm)))
-+				obj = NULL;
-+
-+			if (obj) {
-+				drm_exec_lock_obj(&exec, obj);
-+				drm_exec_retry_on_contention(&exec);
-+			}
-+
-+			msm_gem_vma_unmap(vma);
-+			msm_gem_vma_close(vma);
-+
-+			if (obj) {
-+				drm_exec_unlock_obj(&exec, obj);
-+			}
- 		}
-+	}
-+	drm_exec_fini(&exec);
-+}
-+
-+
-+static struct msm_vm_bind_job *
-+vm_bind_job_create(struct drm_device *dev, struct msm_gpu *gpu,
-+		   struct msm_gpu_submitqueue *queue, uint32_t nr_ops)
-+{
-+	struct msm_vm_bind_job *job;
-+	uint64_t sz;
-+	int ret;
-+
-+	sz = struct_size(job, ops, nr_ops);
-+
-+	if (sz > SIZE_MAX)
-+		return ERR_PTR(-ENOMEM);
-+
-+	job = kzalloc(sz, GFP_KERNEL | __GFP_NOWARN);
-+	if (!job)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = drm_sched_job_init(&job->base, queue->entity, 1, queue);
-+	if (ret) {
-+		kfree(job);
-+		return ERR_PTR(ret);
-+	}
- 
--		msm_gem_vma_unmap(vma);
--		msm_gem_vma_close(vma);
-+	job->vm = msm_context_vm(dev, queue->ctx);
-+	job->queue = queue;
-+	INIT_LIST_HEAD(&job->vm_ops);
- 
--		if (obj && obj->resv != drm_gpuvm_resv(gpuvm)) {
--			msm_gem_unlock(obj);
--			drm_gem_object_put(obj);
-+	return job;
-+}
-+
-+static bool invalid_alignment(uint64_t addr)
-+{
-+	/*
-+	 * Technically this is about GPU alignment, not CPU alignment.  But
-+	 * I've not seen any qcom SoC where the SMMU does not support the
-+	 * CPU's smallest page size.
-+	 */
-+	return !PAGE_ALIGNED(addr);
-+}
-+
-+static int
-+lookup_op(struct msm_vm_bind_job *job, const struct drm_msm_vm_bind_op *op)
-+{
-+	struct drm_device *dev = job->vm->drm;
-+	int i = job->nr_ops++;
-+	int ret = 0;
-+
-+	job->ops[i].op = op->op;
-+	job->ops[i].handle = op->handle;
-+	job->ops[i].obj_offset = op->obj_offset;
-+	job->ops[i].iova = op->iova;
-+	job->ops[i].range = op->range;
-+	job->ops[i].flags = op->flags;
-+
-+	if (op->flags & ~MSM_VM_BIND_OP_FLAGS)
-+		ret = UERR(EINVAL, dev, "invalid flags: %x\n", op->flags);
-+
-+	if (invalid_alignment(op->iova))
-+		ret = UERR(EINVAL, dev, "invalid address: %016llx\n", op->iova);
-+
-+	if (invalid_alignment(op->obj_offset))
-+		ret = UERR(EINVAL, dev, "invalid bo_offset: %016llx\n", op->obj_offset);
-+
-+	if (invalid_alignment(op->range))
-+		ret = UERR(EINVAL, dev, "invalid range: %016llx\n", op->range);
-+
-+	if (!drm_gpuvm_range_valid(job->vm, op->iova, op->range))
-+		ret = UERR(EINVAL, dev, "invalid range: %016llx, %016llx\n", op->iova, op->range);
-+
-+	/*
-+	 * MAP must specify a valid handle.  But the handle MBZ for
-+	 * UNMAP or MAP_NULL.
-+	 */
-+	if (op->op == MSM_VM_BIND_OP_MAP) {
-+		if (!op->handle)
-+			ret = UERR(EINVAL, dev, "invalid handle\n");
-+	} else if (op->handle) {
-+		ret = UERR(EINVAL, dev, "handle must be zero\n");
-+	}
-+
-+	switch (op->op) {
-+	case MSM_VM_BIND_OP_MAP:
-+	case MSM_VM_BIND_OP_MAP_NULL:
-+	case MSM_VM_BIND_OP_UNMAP:
-+		break;
-+	default:
-+		ret = UERR(EINVAL, dev, "invalid op: %u\n", op->op);
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * ioctl parsing, parameter validation, and GEM handle lookup
-+ */
-+static int
-+vm_bind_job_lookup_ops(struct msm_vm_bind_job *job, struct drm_msm_vm_bind *args,
-+		       struct drm_file *file, int *nr_bos)
-+{
-+	struct drm_device *dev = job->vm->drm;
-+	int ret = 0;
-+	int cnt = 0;
-+
-+	if (args->nr_ops == 1) {
-+		/* Single op case, the op is inlined: */
-+		ret = lookup_op(job, &args->op);
-+	} else {
-+		for (unsigned i = 0; i < args->nr_ops; i++) {
-+			struct drm_msm_vm_bind_op op;
-+			void __user *userptr =
-+				u64_to_user_ptr(args->ops + (i * sizeof(op)));
-+
-+			/* make sure we don't have garbage flags, in case we hit
-+			 * error path before flags is initialized:
-+			 */
-+			job->ops[i].flags = 0;
-+
-+			if (copy_from_user(&op, userptr, sizeof(op))) {
-+				ret = -EFAULT;
-+				break;
-+			}
-+
-+			ret = lookup_op(job, &op);
-+			if (ret)
-+				break;
-+		}
-+	}
-+
-+	if (ret) {
-+		job->nr_ops = 0;
-+		goto out;
-+	}
-+
-+	spin_lock(&file->table_lock);
-+
-+	for (unsigned i = 0; i < args->nr_ops; i++) {
-+		struct drm_gem_object *obj;
-+
-+		if (!job->ops[i].handle) {
-+			job->ops[i].obj = NULL;
-+			continue;
-+		}
-+
-+		/*
-+		 * normally use drm_gem_object_lookup(), but for bulk lookup
-+		 * all under single table_lock just hit object_idr directly:
-+		 */
-+		obj = idr_find(&file->object_idr, job->ops[i].handle);
-+		if (!obj) {
-+			ret = UERR(EINVAL, dev, "invalid handle %u at index %u\n", job->ops[i].handle, i);
-+			goto out_unlock;
-+		}
-+
-+		drm_gem_object_get(obj);
-+
-+		job->ops[i].obj = obj;
-+		cnt++;
-+	}
-+
-+	*nr_bos = cnt;
-+
-+out_unlock:
-+	spin_unlock(&file->table_lock);
-+
-+out:
-+	return ret;
-+}
-+
-+static void
-+prealloc_count(struct msm_vm_bind_job *job,
-+	       struct msm_vm_bind_op *first,
-+	       struct msm_vm_bind_op *last)
-+{
-+	struct msm_mmu *mmu = to_msm_vm(job->vm)->mmu;
-+
-+	if (!first)
-+		return;
-+
-+	uint64_t start_iova = first->iova;
-+	uint64_t end_iova = last->iova + last->range;
-+
-+	mmu->funcs->prealloc_count(mmu, &job->prealloc, start_iova, end_iova - start_iova);
-+}
-+
-+static bool
-+ops_are_same_pte(struct msm_vm_bind_op *first, struct msm_vm_bind_op *next)
-+{
-+	/*
-+	 * Last level pte covers 2MB.. so we should merge two ops, from
-+	 * the PoV of figuring out how much pgtable pages to pre-allocate
-+	 * if they land in the same 2MB range:
-+	 */
-+	uint64_t pte_mask = ~(SZ_2M - 1);
-+	return ((first->iova + first->range) & pte_mask) == (next->iova & pte_mask);
-+}
-+
-+/*
-+ * Determine the amount of memory to prealloc for pgtables.  For sparse images,
-+ * in particular, userspace plays some tricks with the order of page mappings
-+ * to get the desired swizzle pattern, resulting in a large # of tiny MAP ops.
-+ * So detect when multiple MAP operations are physically contiguous, and count
-+ * them as a single mapping.  Otherwise the prealloc_count() will not realize
-+ * they can share pagetable pages and vastly overcount.
-+ */
-+static void
-+vm_bind_prealloc_count(struct msm_vm_bind_job *job)
-+{
-+	struct msm_vm_bind_op *first = NULL, *last = NULL;
-+
-+	for (int i = 0; i < job->nr_ops; i++) {
-+		struct msm_vm_bind_op *op = &job->ops[i];
-+
-+		/* We only care about MAP/MAP_NULL: */
-+		if (op->op == MSM_VM_BIND_OP_UNMAP)
-+			continue;
-+
-+		/*
-+		 * If op is contiguous with last in the current range, then
-+		 * it becomes the new last in the range and we continue
-+		 * looping:
-+		 */
-+		if (last && ops_are_same_pte(last, op)) {
-+			last = op;
-+			continue;
-+		}
-+
-+		/*
-+		 * If op is not contiguous with the current range, flush
-+		 * the current range and start anew:
-+		 */
-+		prealloc_count(job, first, last);
-+		first = last = op;
-+	}
-+
-+	/* Flush the remaining range: */
-+	prealloc_count(job, first, last);
-+}
-+
-+/*
-+ * Lock VM and GEM objects
-+ */
-+static int
-+vm_bind_job_lock_objects(struct msm_vm_bind_job *job, struct drm_exec *exec)
-+{
-+	int ret;
-+
-+	/* Lock VM and objects: */
-+	drm_exec_until_all_locked (exec) {
-+		ret = drm_exec_lock_obj(exec, drm_gpuvm_resv_obj(job->vm));
-+		drm_exec_retry_on_contention(exec);
-+		if (ret)
-+			return ret;
-+
-+		for (unsigned i = 0; i < job->nr_ops; i++) {
-+			const struct msm_vm_bind_op *op = &job->ops[i];
-+
-+			switch (op->op) {
-+			case MSM_VM_BIND_OP_UNMAP:
-+				ret = drm_gpuvm_sm_unmap_exec_lock(job->vm, exec,
-+							      op->iova,
-+							      op->obj_offset);
-+				break;
-+			case MSM_VM_BIND_OP_MAP:
-+			case MSM_VM_BIND_OP_MAP_NULL:
-+				ret = drm_gpuvm_sm_map_exec_lock(job->vm, exec, 1,
-+							    op->iova, op->range,
-+							    op->obj, op->obj_offset);
-+				break;
-+			default:
-+				/*
-+				 * lookup_op() should have already thrown an error for
-+				 * invalid ops
-+				 */
-+				WARN_ON("unreachable");
-+			}
-+
-+			drm_exec_retry_on_contention(exec);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * Pin GEM objects, ensuring that we have backing pages.  Pinning will move
-+ * the object to the pinned LRU so that the shrinker knows to first consider
-+ * other objects for evicting.
-+ */
-+static int
-+vm_bind_job_pin_objects(struct msm_vm_bind_job *job)
-+{
-+	struct drm_gem_object *obj;
-+
-+	/*
-+	 * First loop, before holding the LRU lock, avoids holding the
-+	 * LRU lock while calling msm_gem_pin_vma_locked (which could
-+	 * trigger get_pages())
-+	 */
-+	job_foreach_bo (obj, job) {
-+		struct page **pages;
-+
-+		pages = msm_gem_get_pages_locked(obj, MSM_MADV_WILLNEED);
-+		if (IS_ERR(pages))
-+			return PTR_ERR(pages);
-+	}
-+
-+	struct msm_drm_private *priv = job->vm->drm->dev_private;
-+
-+	/*
-+	 * A second loop while holding the LRU lock (a) avoids acquiring/dropping
-+	 * the LRU lock for each individual bo, while (b) avoiding holding the
-+	 * LRU lock while calling msm_gem_pin_vma_locked() (which could trigger
-+	 * get_pages() which could trigger reclaim.. and if we held the LRU lock
-+	 * could trigger deadlock with the shrinker).
-+	 */
-+	mutex_lock(&priv->lru.lock);
-+	job_foreach_bo (obj, job)
-+		msm_gem_pin_obj_locked(obj);
-+	mutex_unlock(&priv->lru.lock);
-+
-+	job->bos_pinned = true;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Unpin GEM objects.  Normally this is done after the bind job is run.
-+ */
-+static void
-+vm_bind_job_unpin_objects(struct msm_vm_bind_job *job)
-+{
-+	struct drm_gem_object *obj;
-+
-+	if (!job->bos_pinned)
-+		return;
-+
-+	job_foreach_bo (obj, job)
-+		msm_gem_unpin_locked(obj);
-+
-+	job->bos_pinned = false;
-+}
-+
-+/*
-+ * Pre-allocate pgtable memory, and translate the VM bind requests into a
-+ * sequence of pgtable updates to be applied asynchronously.
-+ */
-+static int
-+vm_bind_job_prepare(struct msm_vm_bind_job *job)
-+{
-+	struct msm_gem_vm *vm = to_msm_vm(job->vm);
-+	struct msm_mmu *mmu = vm->mmu;
-+	int ret;
-+
-+	ret = mmu->funcs->prealloc_allocate(mmu, &job->prealloc);
-+	if (ret)
-+		return ret;
-+
-+	for (unsigned i = 0; i < job->nr_ops; i++) {
-+		const struct msm_vm_bind_op *op = &job->ops[i];
-+		struct op_arg arg = {
-+			.job = job,
-+		};
-+
-+		switch (op->op) {
-+		case MSM_VM_BIND_OP_UNMAP:
-+			ret = drm_gpuvm_sm_unmap(job->vm, &arg, op->iova,
-+						 op->range);
-+			break;
-+		case MSM_VM_BIND_OP_MAP:
-+			if (op->flags & MSM_VM_BIND_OP_DUMP)
-+				arg.flags |= MSM_VMA_DUMP;
-+			fallthrough;
-+		case MSM_VM_BIND_OP_MAP_NULL:
-+			ret = drm_gpuvm_sm_map(job->vm, &arg, op->iova,
-+					       op->range, op->obj, op->obj_offset);
-+			break;
-+		default:
-+			/*
-+			 * lookup_op() should have already thrown an error for
-+			 * invalid ops
-+			 */
-+			BUG_ON("unreachable");
-+		}
-+
-+		if (ret) {
-+			/*
-+			 * If we've already started modifying the vm, we can't
-+			 * adequetly describe to userspace the intermediate
-+			 * state the vm is in.  So throw up our hands!
-+			 */
-+			if (i > 0)
-+				vm->unusable = true;
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * Attach fences to the GEM objects being bound.  This will signify to
-+ * the shrinker that they are busy even after dropping the locks (ie.
-+ * drm_exec_fini())
-+ */
-+static void
-+vm_bind_job_attach_fences(struct msm_vm_bind_job *job)
-+{
-+	for (unsigned i = 0; i < job->nr_ops; i++) {
-+		struct drm_gem_object *obj = job->ops[i].obj;
-+
-+		if (!obj)
-+			continue;
-+
-+		dma_resv_add_fence(obj->resv, job->fence,
-+				   DMA_RESV_USAGE_KERNEL);
-+	}
-+}
-+
-+int
-+msm_ioctl_vm_bind(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct drm_msm_vm_bind *args = data;
-+	struct msm_context *ctx = file->driver_priv;
-+	struct msm_vm_bind_job *job = NULL;
-+	struct msm_gpu *gpu = priv->gpu;
-+	struct msm_gpu_submitqueue *queue;
-+	struct msm_syncobj_post_dep *post_deps = NULL;
-+	struct drm_syncobj **syncobjs_to_reset = NULL;
-+	struct sync_file *sync_file = NULL;
-+	struct dma_fence *fence;
-+	int out_fence_fd = -1;
-+	int ret, nr_bos = 0;
-+	unsigned i;
-+
-+	if (!gpu)
-+		return -ENXIO;
-+
-+	/*
-+	 * Maybe we could allow just UNMAP ops?  OTOH userspace should just
-+	 * immediately close the device file and all will be torn down.
-+	 */
-+	if (to_msm_vm(ctx->vm)->unusable)
-+		return UERR(EPIPE, dev, "context is unusable");
-+
-+	/*
-+	 * Technically, you cannot create a VM_BIND submitqueue in the first
-+	 * place, if you haven't opted in to VM_BIND context.  But it is
-+	 * cleaner / less confusing, to check this case directly.
-+	 */
-+	if (!msm_context_is_vmbind(ctx))
-+		return UERR(EINVAL, dev, "context does not support vmbind");
-+
-+	if (args->flags & ~MSM_VM_BIND_FLAGS)
-+		return UERR(EINVAL, dev, "invalid flags");
-+
-+	queue = msm_submitqueue_get(ctx, args->queue_id);
-+	if (!queue)
-+		return -ENOENT;
-+
-+	if (!(queue->flags & MSM_SUBMITQUEUE_VM_BIND)) {
-+		ret = UERR(EINVAL, dev, "Invalid queue type");
-+		goto out_post_unlock;
-+	}
-+
-+	if (args->flags & MSM_VM_BIND_FENCE_FD_OUT) {
-+		out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
-+		if (out_fence_fd < 0) {
-+			ret = out_fence_fd;
-+			goto out_post_unlock;
- 		}
- 	}
--	dma_resv_unlock(drm_gpuvm_resv(gpuvm));
-+
-+	job = vm_bind_job_create(dev, gpu, queue, args->nr_ops);
-+	if (IS_ERR(job)) {
-+		ret = PTR_ERR(job);
-+		goto out_post_unlock;
-+	}
-+
-+	ret = mutex_lock_interruptible(&queue->lock);
-+	if (ret)
-+		goto out_post_unlock;
-+
-+	if (args->flags & MSM_VM_BIND_FENCE_FD_IN) {
-+		struct dma_fence *in_fence;
-+
-+		in_fence = sync_file_get_fence(args->fence_fd);
-+
-+		if (!in_fence) {
-+			ret = UERR(EINVAL, dev, "invalid in-fence");
-+			goto out_unlock;
-+		}
-+
-+		ret = drm_sched_job_add_dependency(&job->base, in_fence);
-+		if (ret)
-+			goto out_unlock;
-+	}
-+
-+	if (args->in_syncobjs > 0) {
-+		syncobjs_to_reset = msm_syncobj_parse_deps(dev, &job->base,
-+							   file, args->in_syncobjs,
-+							   args->nr_in_syncobjs,
-+							   args->syncobj_stride);
-+		if (IS_ERR(syncobjs_to_reset)) {
-+			ret = PTR_ERR(syncobjs_to_reset);
-+			goto out_unlock;
-+		}
-+	}
-+
-+	if (args->out_syncobjs > 0) {
-+		post_deps = msm_syncobj_parse_post_deps(dev, file,
-+							args->out_syncobjs,
-+							args->nr_out_syncobjs,
-+							args->syncobj_stride);
-+		if (IS_ERR(post_deps)) {
-+			ret = PTR_ERR(post_deps);
-+			goto out_unlock;
-+		}
-+	}
-+
-+	ret = vm_bind_job_lookup_ops(job, args, file, &nr_bos);
-+	if (ret)
-+		goto out_unlock;
-+
-+	vm_bind_prealloc_count(job);
-+
-+	struct drm_exec exec;
-+	unsigned flags = DRM_EXEC_IGNORE_DUPLICATES | DRM_EXEC_INTERRUPTIBLE_WAIT;
-+	drm_exec_init(&exec, flags, nr_bos + 1);
-+
-+	ret = vm_bind_job_lock_objects(job, &exec);
-+	if (ret)
-+		goto out;
-+
-+	ret = vm_bind_job_pin_objects(job);
-+	if (ret)
-+		goto out;
-+
-+	ret = vm_bind_job_prepare(job);
-+	if (ret)
-+		goto out;
-+
-+	drm_sched_job_arm(&job->base);
-+
-+	job->fence = dma_fence_get(&job->base.s_fence->finished);
-+
-+	if (args->flags & MSM_VM_BIND_FENCE_FD_OUT) {
-+		sync_file = sync_file_create(job->fence);
-+		if (!sync_file) {
-+			ret = -ENOMEM;
-+		} else {
-+			fd_install(out_fence_fd, sync_file->file);
-+			args->fence_fd = out_fence_fd;
-+		}
-+	}
-+
-+	if (ret)
-+		goto out;
-+
-+	vm_bind_job_attach_fences(job);
-+
-+	/*
-+	 * The job can be free'd (and fence unref'd) at any point after
-+	 * drm_sched_entity_push_job(), so we need to hold our own ref
-+	 */
-+	fence = dma_fence_get(job->fence);
-+
-+	drm_sched_entity_push_job(&job->base);
-+
-+	msm_syncobj_reset(syncobjs_to_reset, args->nr_in_syncobjs);
-+	msm_syncobj_process_post_deps(post_deps, args->nr_out_syncobjs, fence);
-+
-+	dma_fence_put(fence);
-+
-+out:
-+	if (ret)
-+		vm_bind_job_unpin_objects(job);
-+
-+	drm_exec_fini(&exec);
-+out_unlock:
-+	mutex_unlock(&queue->lock);
-+out_post_unlock:
-+	if (ret && (out_fence_fd >= 0)) {
-+		put_unused_fd(out_fence_fd);
-+		if (sync_file)
-+			fput(sync_file->file);
-+	}
-+
-+	if (!IS_ERR_OR_NULL(job)) {
-+		if (ret)
-+			msm_vma_job_free(&job->base);
-+	} else {
-+		/*
-+		 * If the submit hasn't yet taken ownership of the queue
-+		 * then we need to drop the reference ourself:
-+		 */
-+		msm_submitqueue_put(queue);
-+	}
-+
-+	if (!IS_ERR_OR_NULL(post_deps)) {
-+		for (i = 0; i < args->nr_out_syncobjs; ++i) {
-+			kfree(post_deps[i].chain);
-+			drm_syncobj_put(post_deps[i].syncobj);
-+		}
-+		kfree(post_deps);
-+	}
-+
-+	if (!IS_ERR_OR_NULL(syncobjs_to_reset)) {
-+		for (i = 0; i < args->nr_in_syncobjs; ++i) {
-+			if (syncobjs_to_reset[i])
-+				drm_syncobj_put(syncobjs_to_reset[i]);
-+		}
-+		kfree(syncobjs_to_reset);
-+	}
-+
-+	return ret;
+ 	return msm_gem_import(dev, attach->dmabuf, sg);
  }
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 6d6cd1219926..5c67294edc95 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -272,7 +272,10 @@ struct drm_msm_gem_submit_cmd {
- 	__u32 size;           /* in, cmdstream size */
- 	__u32 pad;
- 	__u32 nr_relocs;      /* in, number of submit_reloc's */
--	__u64 relocs;         /* in, ptr to array of submit_reloc's */
-+	union {
-+		__u64 relocs; /* in, ptr to array of submit_reloc's */
-+		__u64 iova;   /* cmdstream address (for VM_BIND contexts) */
+ 
+-
+ struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags)
+ {
+ 	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
+ 		return ERR_PTR(-EPERM);
+ 
+-	return drm_gem_prime_export(obj, flags);
++	msm_gem_vma_get(obj);
++
++	struct drm_device *dev = obj->dev;
++	struct dma_buf_export_info exp_info = {
++		.exp_name = KBUILD_MODNAME, /* white lie for debug */
++		.owner = dev->driver->fops->owner,
++		.ops = &msm_gem_prime_dmabuf_ops,
++		.size = obj->size,
++		.flags = flags,
++		.priv = obj,
++		.resv = obj->resv,
 +	};
- };
- 
- /* Each buffer referenced elsewhere in the cmdstream submit (ie. the
-@@ -339,7 +342,74 @@ struct drm_msm_gem_submit {
- 	__u32 nr_out_syncobjs; /* in, number of entries in out_syncobj. */
- 	__u32 syncobj_stride; /* in, stride of syncobj arrays. */
- 	__u32 pad;            /*in, reserved for future use, always 0. */
-+};
 +
-+#define MSM_VM_BIND_OP_UNMAP	0
-+#define MSM_VM_BIND_OP_MAP	1
-+#define MSM_VM_BIND_OP_MAP_NULL	2
-+
-+#define MSM_VM_BIND_OP_DUMP	1
-+#define MSM_VM_BIND_OP_FLAGS ( \
-+		MSM_VM_BIND_OP_DUMP | \
-+		0)
- 
-+/**
-+ * struct drm_msm_vm_bind_op - bind/unbind op to run
-+ */
-+struct drm_msm_vm_bind_op {
-+	/** @op: one of MSM_VM_BIND_OP_x */
-+	__u32 op;
-+	/** @handle: GEM object handle, MBZ for UNMAP or MAP_NULL */
-+	__u32 handle;
-+	/** @obj_offset: Offset into GEM object, MBZ for UNMAP or MAP_NULL */
-+	__u64 obj_offset;
-+	/** @iova: Address to operate on */
-+	__u64 iova;
-+	/** @range: Number of bites to to map/unmap */
-+	__u64 range;
-+	/** @flags: Bitmask of MSM_VM_BIND_OP_FLAG_x */
-+	__u32 flags;
-+	/** @pad: MBZ */
-+	__u32 pad;
-+};
-+
-+#define MSM_VM_BIND_FENCE_FD_IN		0x00000001
-+#define MSM_VM_BIND_FENCE_FD_OUT	0x00000002
-+#define MSM_VM_BIND_FLAGS ( \
-+		MSM_VM_BIND_FENCE_FD_IN | \
-+		MSM_VM_BIND_FENCE_FD_OUT | \
-+		0)
-+
-+/**
-+ * struct drm_msm_vm_bind - Input of &DRM_IOCTL_MSM_VM_BIND
-+ */
-+struct drm_msm_vm_bind {
-+	/** @flags: in, bitmask of MSM_VM_BIND_x */
-+	__u32 flags;
-+	/** @nr_ops: the number of bind ops in this ioctl */
-+	__u32 nr_ops;
-+	/** @fence_fd: in/out fence fd (see MSM_VM_BIND_FENCE_FD_IN/OUT) */
-+	__s32 fence_fd;
-+	/** @queue_id: in, submitqueue id */
-+	__u32 queue_id;
-+	/** @in_syncobjs: in, ptr to array of drm_msm_gem_syncobj */
-+	__u64 in_syncobjs;
-+	/** @out_syncobjs: in, ptr to array of drm_msm_gem_syncobj */
-+	__u64 out_syncobjs;
-+	/** @nr_in_syncobjs: in, number of entries in in_syncobj */
-+	__u32 nr_in_syncobjs;
-+	/** @nr_out_syncobjs: in, number of entries in out_syncobj */
-+	__u32 nr_out_syncobjs;
-+	/** @syncobj_stride: in, stride of syncobj arrays */
-+	__u32 syncobj_stride;
-+	/** @op_stride: sizeof each struct drm_msm_vm_bind_op in @ops */
-+	__u32 op_stride;
-+	union {
-+		/** @op: used if num_ops == 1 */
-+		struct drm_msm_vm_bind_op op;
-+		/** @ops: userptr to array of drm_msm_vm_bind_op if num_ops > 1 */
-+		__u64 ops;
-+	};
- };
- 
- #define MSM_WAIT_FENCE_BOOST	0x00000001
-@@ -435,6 +505,7 @@ struct drm_msm_submitqueue_query {
- #define DRM_MSM_SUBMITQUEUE_NEW        0x0A
- #define DRM_MSM_SUBMITQUEUE_CLOSE      0x0B
- #define DRM_MSM_SUBMITQUEUE_QUERY      0x0C
-+#define DRM_MSM_VM_BIND                0x0D
- 
- #define DRM_IOCTL_MSM_GET_PARAM        DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GET_PARAM, struct drm_msm_param)
- #define DRM_IOCTL_MSM_SET_PARAM        DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SET_PARAM, struct drm_msm_param)
-@@ -448,6 +519,7 @@ struct drm_msm_submitqueue_query {
- #define DRM_IOCTL_MSM_SUBMITQUEUE_NEW    DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_NEW, struct drm_msm_submitqueue)
- #define DRM_IOCTL_MSM_SUBMITQUEUE_CLOSE  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_CLOSE, __u32)
- #define DRM_IOCTL_MSM_SUBMITQUEUE_QUERY  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_QUERY, struct drm_msm_submitqueue_query)
-+#define DRM_IOCTL_MSM_VM_BIND          DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_VM_BIND, struct drm_msm_vm_bind)
- 
- #if defined(__cplusplus)
++	return drm_gem_dmabuf_export(dev, &exp_info);
  }
+ 
+ int msm_gem_prime_pin(struct drm_gem_object *obj)
 -- 
 2.49.0
 
