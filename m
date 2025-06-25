@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-35918-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35919-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A8AAE92D0
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 01:39:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C82AE92F1
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 01:48:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BDA624E08E1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 23:39:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF1E43BB941
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 23:47:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 959A92D3EEB;
-	Wed, 25 Jun 2025 23:39:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DD772F1FDB;
+	Wed, 25 Jun 2025 23:48:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Yuzt1BZd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K8KMR8a8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA732D3EE4;
-	Wed, 25 Jun 2025 23:38:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C9A2F1FC5;
+	Wed, 25 Jun 2025 23:48:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750894740; cv=none; b=W0c5u33pFw1hQxeTq0Ysc6r8kLSsHjMRJ3hls6KB3OwtKl+YZHGsSeD/3bn63qCV6EvrTS+Zhr7he61XjGbVM75y94fnIrFLqNaniBF8QCVKiMllHAddaM+GNmoCddqq068/JUHfC0xrGJMjiYF2YRg+HlagKlMVlzXlI6jYVYE=
+	t=1750895291; cv=none; b=qg+lA+fXD38WgzzOa0Q/b06XrcDLV/StT+vlYt8nWAbSycuhWI9gQ9lr/pX2vi0Elx5WgbEedRZEVw56ZZBKdPqQMEGTm9rxJljDCDqkiOeUXmIgm05V/jj3HiMfaClsOUJbr/sGLwBFk7Wo6qG+gNcoC5/s9aMlQiiPz5ZKkVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750894740; c=relaxed/simple;
-	bh=K2U/Ph0FH3gOTOqSxcHT9xwCjgywl7MAJsMDUHzefGw=;
+	s=arc-20240116; t=1750895291; c=relaxed/simple;
+	bh=vGtjhlYZ6CZb5Ch/ChYL8HfIIvYaFZIcynPaHEyvoD4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D43x2AGGmSx9xKQ8BqLc7GiMMh6acYGcs6RkvETbdBARRP9px1khKq4XHQ7DapCWT9ytUdDzxcea7KnJYsWHzFXl6gfz7n0X6uki+ohbBzgRmhC2eVftYGnWenXeA/ZEezfaWWSRuQ+3/EEMiHF8lzjdg+3MifNhL7mG4KTfBtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Yuzt1BZd; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=bfDofqtUyS94O2KtY4kcTZEC4LBbY4nCCc1EhRgLNErKxhAgkXWtQZ7w3w8Onwra03TII3t0Zb5Po+1cXm6qeeYiN7ZLce2x+hsMlIQOfW61ZnsuSwqhVc4cq7cM7YllJ/NfqJlOckxN+DUxX0GLfRczttVb7NyBO/s88QoOQSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K8KMR8a8; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C2A37928;
-	Thu, 26 Jun 2025 01:38:37 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E8FFDC9;
+	Thu, 26 Jun 2025 01:47:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750894718;
-	bh=K2U/Ph0FH3gOTOqSxcHT9xwCjgywl7MAJsMDUHzefGw=;
+	s=mail; t=1750895270;
+	bh=vGtjhlYZ6CZb5Ch/ChYL8HfIIvYaFZIcynPaHEyvoD4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yuzt1BZdVs+gz/1q3I6qSW64kZmcjoMnUmLpEx+ADQ/gm5bKr1m3Z+PFI94ZC7h8J
-	 upCdgijwHtr+zPiLBq6st54rNRMRZQNv0QGz4+/1z4FFZXbWMhtAiZqJesrYHGanoS
-	 W8AlNR7iK8xENn5YJ6+ncxHJwMwoEGOUz4/WJv50=
-Date: Thu, 26 Jun 2025 02:38:33 +0300
+	b=K8KMR8a8d23XIRw4tSSduMuj0XSQYrW3vfmfVqwv1vnwa96QX0wVBoQ3OL/OEHjlF
+	 HCB/EMyW8Q30QY37+UsCe79tJx9TyY1QZDUYzdXAieB+U0TBRcctbATLKVx9trW3NN
+	 gWiZg7z8bJOQzTQA9aWYCqt97LPIf4ek4OPHexbA=
+Date: Thu, 26 Jun 2025 02:47:45 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 4/7] media: renesas: vsp1: Fix RPF sink alignment for YUV
- formats
-Message-ID: <20250625233833.GC15008@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 5/7] media: renesas: vsp1: Fix RWPF media bus code and
+ frame size enumeration
+Message-ID: <20250625234745.GD15008@pendragon.ideasonboard.com>
 References: <20250429235322.29826-1-laurent.pinchart+renesas@ideasonboard.com>
- <20250429235322.29826-5-laurent.pinchart+renesas@ideasonboard.com>
- <cjzbwptea7hee67jcf5mtzolunqo33vvr47a7elb4kdzlbzdmf@e54d5mwqep4a>
+ <20250429235322.29826-6-laurent.pinchart+renesas@ideasonboard.com>
+ <nury6gimeh45moskbhhqtjzpb3uoqhqhrj3hw7cbm2fetiuub7@jmbq2762qfw2>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,129 +61,163 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cjzbwptea7hee67jcf5mtzolunqo33vvr47a7elb4kdzlbzdmf@e54d5mwqep4a>
+In-Reply-To: <nury6gimeh45moskbhhqtjzpb3uoqhqhrj3hw7cbm2fetiuub7@jmbq2762qfw2>
 
-Hi Jacopo,
-
-On Wed, May 28, 2025 at 04:49:50PM +0200, Jacopo Mondi wrote:
-> On Wed, Apr 30, 2025 at 02:53:19AM +0300, Laurent Pinchart wrote:
-> > When reading YUV formats from memory, the hardware requires the crop
-> > rectangle size and position to be aligned to multiples of two, depending
-> > on the horizontal and vertical subsampling factors. The driver doesn't
-> > enforce this, leading to incorrect operation.
-> >
-> > As the crop rectangle is implemented on the RPF subdev's sink pad,
-> > enforcing the constraint conditionally based on the subsampling factors
-> > is difficult, as those are only known by the RPF video device. We could
-> > perform the check at pipeline validation time, but that could lead to
-> > confusing -EPIPE errors. As there is very few use cases for odd crop
-> > offsets and sizes with non-subsampled YUV, take the easier and more
-> > user-friendly route of enforcing the constraint on all YUV formats.
+On Wed, May 28, 2025 at 04:58:45PM +0200, Jacopo Mondi wrote:
+> On Wed, Apr 30, 2025 at 02:53:20AM +0300, Laurent Pinchart wrote:
+> > The RWPF can't freely convert between all input and output formats. They
+> > support RGB <-> YUV conversion, but HSV formats can't be converted. Fix
+> > the media bus code and frame size enumeration to take this into account
+> > on the source pad.
 > >
 > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > > ---
-> >  .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 41 ++++++++++++-------
-> >  1 file changed, 26 insertions(+), 15 deletions(-)
+> >  .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 80 +++++++++++++++++--
+> >  1 file changed, 74 insertions(+), 6 deletions(-)
 > >
 > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> > index 83ff2c266038..61f7e13ebeee 100644
+> > index 61f7e13ebeee..bd97fc75eb5b 100644
 > > --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
 > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> > @@ -117,6 +117,17 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
-> >  				RWPF_MIN_WIDTH, rwpf->entity.max_width);
-> >  	format->height = clamp_t(unsigned int, fmt->format.height,
-> >  				 RWPF_MIN_HEIGHT, rwpf->entity.max_height);
+> > @@ -21,29 +21,97 @@
+> >   * V4L2 Subdevice Operations
+> >   */
+> >
+> > +/* Keep HSV last. */
+> >  static const unsigned int rwpf_codes[] = {
+> > +	MEDIA_BUS_FMT_AYUV8_1X32,
+> >  	MEDIA_BUS_FMT_ARGB8888_1X32,
+> >  	MEDIA_BUS_FMT_AHSV8888_1X32,
+> > -	MEDIA_BUS_FMT_AYUV8_1X32,
+> >  };
+> >
+> >  static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev,
+> >  				    struct v4l2_subdev_state *sd_state,
+> >  				    struct v4l2_subdev_mbus_code_enum *code)
+> >  {
+> > -	if (code->index >= ARRAY_SIZE(rwpf_codes))
+> > +	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+> > +	struct v4l2_subdev_state *state;
+> > +	struct v4l2_mbus_framefmt *format;
+> 
+> minor nit: could you move this one line up for ... reverse xmas tree
+> ordering :)
+
+state goes first because in my head you get the state and then access
+the format from it. As the line are nearly the same length, the breach
+of the reverse xmas tree rule didn't shock me. We're really getting into
+nitpicking territory :-)
+
+This will go away when switching to the V4L2 subdev active state API. I
+have a patch series for that, but need to fix a lockdep issue.
+
+> > +
+> > +	if (code->pad == RWPF_PAD_SINK)
+> > +		return vsp1_subdev_enum_mbus_code(subdev, sd_state, code);
+> > +
+> > +	state = vsp1_entity_get_state(entity, sd_state, code->which);
+> > +	if (!state)
+> >  		return -EINVAL;
+> >
+> > -	code->code = rwpf_codes[code->index];
+> > +	format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
+> >
+> > -	if (code->pad == RWPF_PAD_SOURCE &&
+> > -	    code->code == MEDIA_BUS_FMT_AYUV8_1X32)
+> > +	guard(mutex)(&entity->lock);
 > > +
 > > +	/*
-> > +	 * For YUV formats on the RPF, restrict the size to multiples of 2 to
-> > +	 * avoid shifting the color plane.
+> > +	 * The RWPF supports conversion between RGB and YUV formats, but HSV
+> > +	 * formats can't be converted.
 > > +	 */
-> > +	if (rwpf->entity.type == VSP1_ENTITY_RPF &&
-> > +	    format->code == MEDIA_BUS_FMT_AYUV8_1X32) {
-> > +		format->width = ALIGN(format->width, 2);
-> > +		format->height = ALIGN(format->height, 2);
-> 
-> ALIGN aligns up right ? Is it ok or is it better to read 1 pixel less
-> than reading memory outside of the region the user asked for ?
-
-This shouldn't actually matter. Link validation will ensure that the
-format on the RPF subdev sink pad matches the format on the connected
-video device. If this function rounds the value in a way that does not
-match the format on the video device, link validation will fail.
-
-I've checked the implementation on the video device, and the driver does
-
-	/* Align the width and height for YUV 4:2:2 and 4:2:0 formats. */
-	width = round_down(width, info->hsub);
-	height = round_down(height, info->vsub);
-
-	/* Clamp the width and height. */
-	pix->width = clamp(width, info->hsub, VSP1_VIDEO_MAX_WIDTH);
-	pix->height = clamp(height, info->vsub, VSP1_VIDEO_MAX_HEIGHT);
-
-It seems I can drop the above code, as the video device correctly
-handles the hardware requirement for the input size.
-
+> > +	if (format->code == MEDIA_BUS_FMT_AHSV8888_1X32) {
+> > +		if (code->index)
+> > +			return -EINVAL;
+> > +
+> > +		code->code = MEDIA_BUS_FMT_AHSV8888_1X32;
+> > +	} else {
+> > +		if (code->index >= ARRAY_SIZE(rwpf_codes) - 1)
+> > +			return -EINVAL;
+> > +
+> > +		code->code = rwpf_codes[code->index];
 > > +	}
 > > +
-> >  	format->field = V4L2_FIELD_NONE;
+> > +	if (code->code == MEDIA_BUS_FMT_AYUV8_1X32)
+> >  		code->flags = V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC
+> >  			    | V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
 > >
-> >  	format->colorspace = fmt->format.colorspace;
-> > @@ -231,23 +242,23 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
-> >  	/* Make sure the crop rectangle is entirely contained in the image. */
-> >  	format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
+> >  	return 0;
+> >  }
 > >
-> > -	/*
-> > -	 * Restrict the crop rectangle coordinates to multiples of 2 to avoid
-> > -	 * shifting the color plane.
-> > -	 */
-> > -	if (format->code == MEDIA_BUS_FMT_AYUV8_1X32) {
-> > -		sel->r.left = ALIGN(sel->r.left, 2);
-> > -		sel->r.top = ALIGN(sel->r.top, 2);
-> > -		sel->r.width = round_down(sel->r.width, 2);
-> > -		sel->r.height = round_down(sel->r.height, 2);
-> > -	}
-> > -
-> >  	sel->r.left = min_t(unsigned int, sel->r.left, format->width - 2);
-> >  	sel->r.top = min_t(unsigned int, sel->r.top, format->height - 2);
-> > -	sel->r.width = min_t(unsigned int, sel->r.width,
-> > -			     format->width - sel->r.left);
-> > -	sel->r.height = min_t(unsigned int, sel->r.height,
-> > -			      format->height - sel->r.top);
-> > +	sel->r.width = clamp_t(unsigned int, sel->r.width, RWPF_MIN_WIDTH,
-> > +			       format->width - sel->r.left);
-> > +	sel->r.height = clamp_t(unsigned int, sel->r.height, RWPF_MIN_HEIGHT,
-> > +				format->height - sel->r.top);
+> > +static int vsp1_rwpf_enum_frame_size(struct v4l2_subdev *subdev,
+> > +				     struct v4l2_subdev_state *sd_state,
+> > +				     struct v4l2_subdev_frame_size_enum *fse)
+> > +{
+> > +	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+> > +	struct v4l2_subdev_state *state;
+> > +	struct v4l2_mbus_framefmt *format;
+> > +
+> > +	if (fse->pad == RWPF_PAD_SINK)
+> > +		return vsp1_subdev_enum_frame_size(subdev, sd_state, fse);
+> > +
+> > +	if (fse->index)
+> > +		return -EINVAL;
+> > +
+> > +	state = vsp1_entity_get_state(entity, sd_state, fse->which);
+> > +	if (!state)
+> > +		return -EINVAL;
+> > +
+> > +	format = v4l2_subdev_state_get_format(state, 0);
+> 
+> Could you use RWPF_PAD_SINK ?
+
+Will do.
+
+> > +
+> > +	guard(mutex)(&entity->lock);
+> 
+> As a general question, shouldn't we use the state lock ?
+
+The series I mentioned above will handle this. The driver doesn't
+currently use the active statue API.
+
 > > +
 > > +	/*
-> > +	 * For YUV formats, restrict the crop rectangle coordinates to multiples
-> > +	 * of 2 to avoid shifting the color plane.
+> > +	 * The RWPF supports conversion between RGB and YUV formats, but
+> > +	 * HSV formats can't be converted.
 > > +	 */
-> > +	if (format->code == MEDIA_BUS_FMT_AYUV8_1X32) {
-> > +		sel->r.left = round_down(sel->r.left, 2);
-> > +		sel->r.top = round_down(sel->r.top, 2);
-> > +		sel->r.width = ALIGN(sel->r.width, 2);
-> > +		sel->r.height = ALIGN(sel->r.height, 2);
+> > +	if ((format->code == MEDIA_BUS_FMT_AHSV8888_1X32) !=
+> > +	    (fse->code == MEDIA_BUS_FMT_AHSV8888_1X32))
+> > +		return -EINVAL;
+> > +
+> > +	/*
+> > +	 * The size on the source pad is fixed and always identical to
+> > +	 * the sink pad.
+> > +	 */
+> > +	fse->min_width = format->width;
+> > +	fse->max_width = format->width;
+> > +	fse->min_height = format->height;
+> > +	fse->max_height = format->height;
+> > +
+> > +	return 0;
+> > +}
 > 
-> The existing code did
+> All minors
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > 
-> 		sel->r.left = ALIGN(sel->r.left, 2);
-> 		sel->r.top = ALIGN(sel->r.top, 2);
-> 		sel->r.width = round_down(sel->r.width, 2);
-> 		sel->r.height = round_down(sel->r.height, 2);
-> 
-> is it intentional ?
-
-If width == left + 1 (which the clamping code allows), rounding left up
-and width down will cause width to be 0. Going in the other direction
-ensures we won't have an empty crop rectangle. But the width can then
-exceed the sink format width, if I drop the rounding there. I'll rework
-this patch.
-
-> > +	}
+> > +
+> >  static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+> >  				struct v4l2_subdev_state *sd_state,
+> >  				struct v4l2_subdev_format *fmt)
+> > @@ -275,7 +343,7 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
 > >
-> >  	crop = v4l2_subdev_state_get_crop(state, RWPF_PAD_SINK);
-> >  	*crop = sel->r;
+> >  static const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops = {
+> >  	.enum_mbus_code = vsp1_rwpf_enum_mbus_code,
+> > -	.enum_frame_size = vsp1_subdev_enum_frame_size,
+> > +	.enum_frame_size = vsp1_rwpf_enum_frame_size,
+> >  	.get_fmt = vsp1_subdev_get_pad_format,
+> >  	.set_fmt = vsp1_rwpf_set_format,
+> >  	.get_selection = vsp1_rwpf_get_selection,
 
 -- 
 Regards,
