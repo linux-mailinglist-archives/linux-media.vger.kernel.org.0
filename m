@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-35869-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35870-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7B8AE84E3
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 15:36:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F78AE84D7
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 15:34:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5402A1890E26
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 13:34:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2882164D7F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 13:34:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B54A82641EE;
-	Wed, 25 Jun 2025 13:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 507A1264A9C;
+	Wed, 25 Jun 2025 13:33:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="sHCgC1SH"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="gzJOXPMe"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48F7263F40;
-	Wed, 25 Jun 2025 13:33:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC722641F9;
+	Wed, 25 Jun 2025 13:33:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750858428; cv=none; b=vGorUgN0YO5W+HhoEGT9zJI1ImB+hYz5P5oELhsv2A5XA6rY31qmkmVWgWxqZkBG2QgmvPdnrDbzjn2Sx/XnDuywEWemX74iCjcDluzvJ7j76/5R/R9UJg0dHKLX6iXO9txRaIoKNBJCyJgABXF4/0Yr3O1swsC0534arIpypCI=
+	t=1750858430; cv=none; b=A4fI3utZn6m9C/N0q/JBAmpKQtKGYXXd2T/MaksWGe/XtfQn6G0IrAXvWaNBHVI8DYt5kaj158ddqZvWuGWkD0uTCeFyfnzl7LkDqFpDmR6iIT5H7A4Bz9Cqnn0R6R02iMGnZzpMy3sPJRUb415NYguIajZAc19JkDAUN9rESI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750858428; c=relaxed/simple;
-	bh=3J1JIo1jTPjeIOvEE8t5RI90gWubN0eok4h+IXepZqc=;
+	s=arc-20240116; t=1750858430; c=relaxed/simple;
+	bh=9PM94jbIaN23LqSCDU+9vxJcEhBVzdh32bUit0iUUic=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aKLW8ky5dFH50zrZll5wefmiNjxXPPCWQfs2vX0mYDEMUIXFjEhomZ12jkSodXVO6XDUhfIm/rNDZQVoqxLp3TIACHlWk85Nhdq76guVzt/nDOPt1y2AmsZOoM8vyoj0N4C8DNlSbqb7xN0DdOLyxWa1eFRx/qpHG2gF53uxXwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=sHCgC1SH; arc=none smtp.client-ip=46.235.229.95
+	 MIME-Version; b=QiA7mgyG54r4/MCIXxyNtL6oDcwlA+GhqlAGfZSSEeM0HWjO6FBNcbvByw4sxNSWIvt0ulduRI/5uOCu3nkF8guJ+G5zwYUxaFQWZNlY0dk2wHfbd1WMjIeI+XC4sVjGZ7SKJs3NPoPO0qkPckRaBJ8pa1T/nQH798Ku5fxyyAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=gzJOXPMe; arc=none smtp.client-ip=46.235.229.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
 	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=zHLBQp9c3phSjjriwnIQ9WfwFCetptzAuvhLYaTqXe8=; b=sHCgC1SHYFrvNaAX
-	3tDKvk5kDABXF30APg7rYv3Ch/aSPPciahm4ZVhRci2RMvHMUei6C2dNviSHjacEyQhp5z+fYi8Ut
-	emcZPFg8/+PFPjYlwjfEPmEPe2qe8EoNyzv/Tn/1TxcCxe5cDN9U5UDDnlxvF8mIYvE2q2Puu6ujS
-	V6J8eBkVmT28KjZ+3N9ewEMUbfyVFoHw+/UsJJt1C99EdnUxF2e3N5LrhHc8GwDogD9l6lkoP+MlP
-	kfjgNkQ8Yvl1TFmnSDumLTF+7UqQoFkeM+CyHfhGlo5oXmVb7WBziuZICTlQ095nBMUCEMJOiWI+H
-	gt33AvmwngosozchCw==;
+	:Subject; bh=x8IENQRgzPZWrL9KNIvqXNVUQa9JiB/LtQpuLaDdKOw=; b=gzJOXPMe8rKPo6Br
+	Ku+D1531A9zlyAr/uaglD1KsrIAgk+2svQZbk2QjbIKfD30ZkxCOxc3BvVJjaL6tJUKmYaQOyqIuM
+	ey+Wul8HIxtKxTP4Baf4YQ0VslrzX8WNCPRYb+n22xBKvEvx4imG/XLvwGurX4VOBjd4JWEI9teCE
+	9mshg+zpvaF8vIgV+ZNlG+cjrMEK9qOf4+I4nfHTvq4yoQdLFCfyDC5v5nHWn3eBfv4dlaqNl7DCX
+	7r0UnIECedfIJ8Xrgay3N/jQqJ+nrZWEKq3kV7v7UAkHTbVKm7e3BegbtgQbahfaTWiwj8owhY/rf
+	8CFqIyfTXUPke8Pqow==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
 	by mx.treblig.org with esmtp (Exim 4.96)
 	(envelope-from <linux@treblig.org>)
-	id 1uUQFs-00Bvly-0J;
-	Wed, 25 Jun 2025 13:33:36 +0000
+	id 1uUQFx-00Bvly-2N;
+	Wed, 25 Jun 2025 13:33:41 +0000
 From: linux@treblig.org
 To: arnd@arndb.de,
 	lee@kernel.org,
@@ -56,9 +56,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 2/4] ASoC: wl1273: Remove
-Date: Wed, 25 Jun 2025 14:32:56 +0100
-Message-ID: <20250625133258.78133-3-linux@treblig.org>
+Subject: [PATCH 3/4] mfd: wl1273-core: Remove
+Date: Wed, 25 Jun 2025 14:32:57 +0100
+Message-ID: <20250625133258.78133-4-linux@treblig.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250625133258.78133-1-linux@treblig.org>
 References: <20250625133258.78133-1-linux@treblig.org>
@@ -73,596 +73,320 @@ Content-Transfer-Encoding: 8bit
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
 The wl1273 FM radio is on Arnd's unused driver list:
+
   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
-Remove the codec component.
+
+remove the core.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- sound/soc/codecs/Kconfig  |   4 -
- sound/soc/codecs/Makefile |   4 +-
- sound/soc/codecs/wl1273.c | 500 --------------------------------------
- sound/soc/codecs/wl1273.h |  16 --
- 4 files changed, 1 insertion(+), 523 deletions(-)
- delete mode 100644 sound/soc/codecs/wl1273.c
- delete mode 100644 sound/soc/codecs/wl1273.h
+ drivers/mfd/Kconfig       |  10 --
+ drivers/mfd/Makefile      |   1 -
+ drivers/mfd/wl1273-core.c | 262 --------------------------------------
+ 3 files changed, 273 deletions(-)
+ delete mode 100644 drivers/mfd/wl1273-core.c
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 126f897312d4..0dbcda013a9d 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -302,7 +302,6 @@ config SND_SOC_ALL_CODECS
- 	imply SND_SOC_LPASS_MACRO_COMMON
- 	imply SND_SOC_LPASS_RX_MACRO
- 	imply SND_SOC_LPASS_TX_MACRO
--	imply SND_SOC_WL1273
- 	imply SND_SOC_WM0010
- 	imply SND_SOC_WM1250_EV1
- 	imply SND_SOC_WM2000
-@@ -2310,9 +2309,6 @@ config SND_SOC_WCD939X_SDW
- 	  The WCD9390/9395 is a audio codec IC Integrated in
- 	  Qualcomm SoCs like SM8650.
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 6fb3768e3d71..c635790afa75 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -1889,16 +1889,6 @@ config MENELAUS
+ 	  and other features that are often used in portable devices like
+ 	  cell phones and PDAs.
  
--config SND_SOC_WL1273
--	tristate
+-config MFD_WL1273_CORE
+-	tristate "TI WL1273 FM radio"
+-	depends on I2C
+-	select MFD_CORE
+-	default n
+-	help
+-	  This is the core driver for the TI WL1273 FM radio. This MFD
+-	  driver connects the radio-wl1273 V4L2 module and the wl1273
+-	  audio codec.
 -
- config SND_SOC_WM0010
- 	tristate
- 	depends on SPI_MASTER
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index 6d7aa109ede7..8ba43f224d47 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -347,7 +347,6 @@ snd-soc-wcd938x-y := wcd938x.o
- snd-soc-wcd938x-sdw-y := wcd938x-sdw.o
- snd-soc-wcd939x-y := wcd939x.o
- snd-soc-wcd939x-sdw-y := wcd939x-sdw.o
--snd-soc-wl1273-y := wl1273.o
- snd-soc-wm-adsp-y := wm_adsp.o
- snd-soc-wm0010-y := wm0010.o
- snd-soc-wm1250-ev1-y := wm1250-ev1.o
-@@ -777,7 +776,6 @@ ifdef CONFIG_SND_SOC_WCD939X_SDW
- # avoid link failure by forcing sdw code built-in when needed
- obj-$(CONFIG_SND_SOC_WCD939X) += snd-soc-wcd939x-sdw.o
- endif
--obj-$(CONFIG_SND_SOC_WL1273)	+= snd-soc-wl1273.o
- obj-$(CONFIG_SND_SOC_WM0010)	+= snd-soc-wm0010.o
- obj-$(CONFIG_SND_SOC_WM1250_EV1) += snd-soc-wm1250-ev1.o
- obj-$(CONFIG_SND_SOC_WM2000)	+= snd-soc-wm2000.o
-@@ -853,4 +851,4 @@ obj-$(CONFIG_SND_SOC_LPASS_RX_MACRO)	+= snd-soc-lpass-rx-macro.o
- obj-$(CONFIG_SND_SOC_LPASS_TX_MACRO)	+= snd-soc-lpass-tx-macro.o
+ config MFD_LM3533
+ 	tristate "TI/National Semiconductor LM3533 Lighting Power chip"
+ 	depends on I2C
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 79495f9f3457..ca351cb0ddcc 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -200,7 +200,6 @@ obj-$(CONFIG_MFD_RDC321X)	+= rdc321x-southbridge.o
+ obj-$(CONFIG_MFD_JANZ_CMODIO)	+= janz-cmodio.o
+ obj-$(CONFIG_MFD_TPS6586X)	+= tps6586x.o
+ obj-$(CONFIG_MFD_VX855)		+= vx855.o
+-obj-$(CONFIG_MFD_WL1273_CORE)	+= wl1273-core.o
  
- # Mux
--obj-$(CONFIG_SND_SOC_SIMPLE_MUX)	+= snd-soc-simple-mux.o
-\ No newline at end of file
-+obj-$(CONFIG_SND_SOC_SIMPLE_MUX)	+= snd-soc-simple-mux.o
-diff --git a/sound/soc/codecs/wl1273.c b/sound/soc/codecs/wl1273.c
+ si476x-core-y := si476x-cmd.o si476x-prop.o si476x-i2c.o
+ obj-$(CONFIG_MFD_SI476X_CORE)	+= si476x-core.o
+diff --git a/drivers/mfd/wl1273-core.c b/drivers/mfd/wl1273-core.c
 deleted file mode 100644
-index 737ca82cf976..000000000000
---- a/sound/soc/codecs/wl1273.c
+index 2f185e93318e..000000000000
+--- a/drivers/mfd/wl1273-core.c
 +++ /dev/null
-@@ -1,500 +0,0 @@
+@@ -1,262 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0-only
 -/*
-- * ALSA SoC WL1273 codec driver
+- * MFD driver for wl1273 FM radio and audio codec submodules.
 - *
-- * Author:      Matti Aaltonen, <matti.j.aaltonen@nokia.com>
-- *
-- * Copyright:   (C) 2010, 2011 Nokia Corporation
+- * Copyright (C) 2011 Nokia Corporation
+- * Author: Matti Aaltonen <matti.j.aaltonen@nokia.com>
 - */
 -
 -#include <linux/mfd/wl1273-core.h>
 -#include <linux/slab.h>
 -#include <linux/module.h>
--#include <sound/pcm.h>
--#include <sound/pcm_params.h>
--#include <sound/soc.h>
--#include <sound/initval.h>
 -
--#include "wl1273.h"
+-#define DRIVER_DESC "WL1273 FM Radio Core"
 -
--enum wl1273_mode { WL1273_MODE_BT, WL1273_MODE_FM_RX, WL1273_MODE_FM_TX };
--
--/* codec private data */
--struct wl1273_priv {
--	enum wl1273_mode mode;
--	struct wl1273_core *core;
--	unsigned int channels;
+-static const struct i2c_device_id wl1273_driver_id_table[] = {
+-	{ WL1273_FM_DRIVER_NAME },
+-	{ }
 -};
+-MODULE_DEVICE_TABLE(i2c, wl1273_driver_id_table);
 -
--static int snd_wl1273_fm_set_i2s_mode(struct wl1273_core *core,
--				      int rate, int width)
+-static int wl1273_fm_read_reg(struct wl1273_core *core, u8 reg, u16 *value)
 -{
--	struct device *dev = &core->client->dev;
--	int r = 0;
--	u16 mode;
--
--	dev_dbg(dev, "rate: %d\n", rate);
--	dev_dbg(dev, "width: %d\n", width);
--
--	mutex_lock(&core->lock);
--
--	mode = core->i2s_mode & ~WL1273_IS2_WIDTH & ~WL1273_IS2_RATE;
--
--	switch (rate) {
--	case 48000:
--		mode |= WL1273_IS2_RATE_48K;
--		break;
--	case 44100:
--		mode |= WL1273_IS2_RATE_44_1K;
--		break;
--	case 32000:
--		mode |= WL1273_IS2_RATE_32K;
--		break;
--	case 22050:
--		mode |= WL1273_IS2_RATE_22_05K;
--		break;
--	case 16000:
--		mode |= WL1273_IS2_RATE_16K;
--		break;
--	case 12000:
--		mode |= WL1273_IS2_RATE_12K;
--		break;
--	case 11025:
--		mode |= WL1273_IS2_RATE_11_025;
--		break;
--	case 8000:
--		mode |= WL1273_IS2_RATE_8K;
--		break;
--	default:
--		dev_err(dev, "Sampling rate: %d not supported\n", rate);
--		r = -EINVAL;
--		goto out;
--	}
--
--	switch (width) {
--	case 16:
--		mode |= WL1273_IS2_WIDTH_32;
--		break;
--	case 20:
--		mode |= WL1273_IS2_WIDTH_40;
--		break;
--	case 24:
--		mode |= WL1273_IS2_WIDTH_48;
--		break;
--	case 25:
--		mode |= WL1273_IS2_WIDTH_50;
--		break;
--	case 30:
--		mode |= WL1273_IS2_WIDTH_60;
--		break;
--	case 32:
--		mode |= WL1273_IS2_WIDTH_64;
--		break;
--	case 40:
--		mode |= WL1273_IS2_WIDTH_80;
--		break;
--	case 48:
--		mode |= WL1273_IS2_WIDTH_96;
--		break;
--	case 64:
--		mode |= WL1273_IS2_WIDTH_128;
--		break;
--	default:
--		dev_err(dev, "Data width: %d not supported\n", width);
--		r = -EINVAL;
--		goto out;
--	}
--
--	dev_dbg(dev, "WL1273_I2S_DEF_MODE: 0x%04x\n",  WL1273_I2S_DEF_MODE);
--	dev_dbg(dev, "core->i2s_mode: 0x%04x\n", core->i2s_mode);
--	dev_dbg(dev, "mode: 0x%04x\n", mode);
--
--	if (core->i2s_mode != mode) {
--		r = core->write(core, WL1273_I2S_MODE_CONFIG_SET, mode);
--		if (r)
--			goto out;
--
--		core->i2s_mode = mode;
--		r = core->write(core, WL1273_AUDIO_ENABLE,
--				WL1273_AUDIO_ENABLE_I2S);
--		if (r)
--			goto out;
--	}
--out:
--	mutex_unlock(&core->lock);
--
--	return r;
--}
--
--static int snd_wl1273_fm_set_channel_number(struct wl1273_core *core,
--					    int channel_number)
--{
--	struct device *dev = &core->client->dev;
--	int r = 0;
--
--	dev_dbg(dev, "%s\n", __func__);
--
--	mutex_lock(&core->lock);
--
--	if (core->channel_number == channel_number)
--		goto out;
--
--	if (channel_number == 1 && core->mode == WL1273_MODE_RX)
--		r = core->write(core, WL1273_MOST_MODE_SET, WL1273_RX_MONO);
--	else if (channel_number == 1 && core->mode == WL1273_MODE_TX)
--		r = core->write(core, WL1273_MONO_SET, WL1273_TX_MONO);
--	else if (channel_number == 2 && core->mode == WL1273_MODE_RX)
--		r = core->write(core, WL1273_MOST_MODE_SET, WL1273_RX_STEREO);
--	else if (channel_number == 2 && core->mode == WL1273_MODE_TX)
--		r = core->write(core, WL1273_MONO_SET, WL1273_TX_STEREO);
--	else
--		r = -EINVAL;
--out:
--	mutex_unlock(&core->lock);
--
--	return r;
--}
--
--static int snd_wl1273_get_audio_route(struct snd_kcontrol *kcontrol,
--				      struct snd_ctl_elem_value *ucontrol)
--{
--	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
--	struct wl1273_priv *wl1273 = snd_soc_component_get_drvdata(component);
--
--	ucontrol->value.enumerated.item[0] = wl1273->mode;
--
--	return 0;
--}
--
--/*
-- * TODO: Implement the audio routing in the driver. Now this control
-- * only indicates the setting that has been done elsewhere (in the user
-- * space).
-- */
--static const char * const wl1273_audio_route[] = { "Bt", "FmRx", "FmTx" };
--
--static int snd_wl1273_set_audio_route(struct snd_kcontrol *kcontrol,
--				      struct snd_ctl_elem_value *ucontrol)
--{
--	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
--	struct wl1273_priv *wl1273 = snd_soc_component_get_drvdata(component);
--
--	if (wl1273->mode == ucontrol->value.enumerated.item[0])
--		return 0;
--
--	/* Do not allow changes while stream is running */
--	if (snd_soc_component_active(component))
--		return -EPERM;
--
--	if (ucontrol->value.enumerated.item[0] >=  ARRAY_SIZE(wl1273_audio_route))
--		return -EINVAL;
--
--	wl1273->mode = ucontrol->value.enumerated.item[0];
--
--	return 1;
--}
--
--static SOC_ENUM_SINGLE_EXT_DECL(wl1273_enum, wl1273_audio_route);
--
--static int snd_wl1273_fm_audio_get(struct snd_kcontrol *kcontrol,
--				   struct snd_ctl_elem_value *ucontrol)
--{
--	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
--	struct wl1273_priv *wl1273 = snd_soc_component_get_drvdata(component);
--
--	dev_dbg(component->dev, "%s: enter.\n", __func__);
--
--	ucontrol->value.enumerated.item[0] = wl1273->core->audio_mode;
--
--	return 0;
--}
--
--static int snd_wl1273_fm_audio_put(struct snd_kcontrol *kcontrol,
--				   struct snd_ctl_elem_value *ucontrol)
--{
--	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
--	struct wl1273_priv *wl1273 = snd_soc_component_get_drvdata(component);
--	int val, r = 0;
--
--	dev_dbg(component->dev, "%s: enter.\n", __func__);
--
--	val = ucontrol->value.enumerated.item[0];
--	if (wl1273->core->audio_mode == val)
--		return 0;
--
--	r = wl1273->core->set_audio(wl1273->core, val);
--	if (r < 0)
--		return r;
--
--	return 1;
--}
--
--static const char * const wl1273_audio_strings[] = { "Digital", "Analog" };
--
--static SOC_ENUM_SINGLE_EXT_DECL(wl1273_audio_enum, wl1273_audio_strings);
--
--static int snd_wl1273_fm_volume_get(struct snd_kcontrol *kcontrol,
--				    struct snd_ctl_elem_value *ucontrol)
--{
--	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
--	struct wl1273_priv *wl1273 = snd_soc_component_get_drvdata(component);
--
--	dev_dbg(component->dev, "%s: enter.\n", __func__);
--
--	ucontrol->value.integer.value[0] = wl1273->core->volume;
--
--	return 0;
--}
--
--static int snd_wl1273_fm_volume_put(struct snd_kcontrol *kcontrol,
--				    struct snd_ctl_elem_value *ucontrol)
--{
--	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
--	struct wl1273_priv *wl1273 = snd_soc_component_get_drvdata(component);
+-	struct i2c_client *client = core->client;
+-	u8 b[2];
 -	int r;
 -
--	dev_dbg(component->dev, "%s: enter.\n", __func__);
+-	r = i2c_smbus_read_i2c_block_data(client, reg, sizeof(b), b);
+-	if (r != 2) {
+-		dev_err(&client->dev, "%s: Read: %d fails.\n", __func__, reg);
+-		return -EREMOTEIO;
+-	}
 -
--	r = wl1273->core->set_volume(wl1273->core,
--				     ucontrol->value.integer.value[0]);
--	if (r)
--		return r;
+-	*value = (u16)b[0] << 8 | b[1];
 -
--	return 1;
+-	return 0;
 -}
 -
--static const struct snd_kcontrol_new wl1273_controls[] = {
--	SOC_ENUM_EXT("Codec Mode", wl1273_enum,
--		     snd_wl1273_get_audio_route, snd_wl1273_set_audio_route),
--	SOC_ENUM_EXT("Audio Switch", wl1273_audio_enum,
--		     snd_wl1273_fm_audio_get,  snd_wl1273_fm_audio_put),
--	SOC_SINGLE_EXT("Volume", 0, 0, WL1273_MAX_VOLUME, 0,
--		       snd_wl1273_fm_volume_get, snd_wl1273_fm_volume_put),
--};
--
--static const struct snd_soc_dapm_widget wl1273_dapm_widgets[] = {
--	SND_SOC_DAPM_INPUT("RX"),
--
--	SND_SOC_DAPM_OUTPUT("TX"),
--};
--
--static const struct snd_soc_dapm_route wl1273_dapm_routes[] = {
--	{ "Capture", NULL, "RX" },
--
--	{ "TX", NULL, "Playback" },
--};
--
--static int wl1273_startup(struct snd_pcm_substream *substream,
--			  struct snd_soc_dai *dai)
+-static int wl1273_fm_write_cmd(struct wl1273_core *core, u8 cmd, u16 param)
 -{
--	struct snd_soc_component *component = dai->component;
--	struct wl1273_priv *wl1273 = snd_soc_component_get_drvdata(component);
+-	struct i2c_client *client = core->client;
+-	u8 buf[] = { (param >> 8) & 0xff, param & 0xff };
+-	int r;
 -
--	switch (wl1273->mode) {
--	case WL1273_MODE_BT:
--		snd_pcm_hw_constraint_single(substream->runtime,
--					     SNDRV_PCM_HW_PARAM_RATE, 8000);
--		snd_pcm_hw_constraint_single(substream->runtime,
--					     SNDRV_PCM_HW_PARAM_CHANNELS, 1);
--		break;
--	case WL1273_MODE_FM_RX:
--		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
--			pr_err("Cannot play in RX mode.\n");
--			return -EINVAL;
--		}
--		break;
--	case WL1273_MODE_FM_TX:
--		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
--			pr_err("Cannot capture in TX mode.\n");
--			return -EINVAL;
--		}
--		break;
--	default:
--		return -EINVAL;
+-	r = i2c_smbus_write_i2c_block_data(client, cmd, sizeof(buf), buf);
+-	if (r) {
+-		dev_err(&client->dev, "%s: Cmd: %d fails.\n", __func__, cmd);
+-		return r;
 -	}
 -
 -	return 0;
 -}
 -
--static int wl1273_hw_params(struct snd_pcm_substream *substream,
--			    struct snd_pcm_hw_params *params,
--			    struct snd_soc_dai *dai)
+-static int wl1273_fm_write_data(struct wl1273_core *core, u8 *data, u16 len)
 -{
--	struct wl1273_priv *wl1273 = snd_soc_component_get_drvdata(dai->component);
--	struct wl1273_core *core = wl1273->core;
--	unsigned int rate, width, r;
+-	struct i2c_client *client = core->client;
+-	struct i2c_msg msg;
+-	int r;
 -
--	if (params_width(params) != 16) {
--		dev_err(dai->dev, "%d bits/sample not supported\n",
--			params_width(params));
--		return -EINVAL;
+-	msg.addr = client->addr;
+-	msg.flags = 0;
+-	msg.buf = data;
+-	msg.len = len;
+-
+-	r = i2c_transfer(client->adapter, &msg, 1);
+-	if (r != 1) {
+-		dev_err(&client->dev, "%s: write error.\n", __func__);
+-		return -EREMOTEIO;
 -	}
 -
--	rate = params_rate(params);
--	width =  hw_param_interval(params, SNDRV_PCM_HW_PARAM_SAMPLE_BITS)->min;
+-	return 0;
+-}
 -
--	if (wl1273->mode == WL1273_MODE_BT) {
--		if (rate != 8000) {
--			pr_err("Rate %d not supported.\n", params_rate(params));
--			return -EINVAL;
--		}
+-/**
+- * wl1273_fm_set_audio() -	Set audio mode.
+- * @core:			A pointer to the device struct.
+- * @new_mode:			The new audio mode.
+- *
+- * Audio modes are WL1273_AUDIO_DIGITAL and WL1273_AUDIO_ANALOG.
+- */
+-static int wl1273_fm_set_audio(struct wl1273_core *core, unsigned int new_mode)
+-{
+-	int r = 0;
 -
--		if (params_channels(params) != 1) {
--			pr_err("Only mono supported.\n");
--			return -EINVAL;
--		}
+-	if (core->mode == WL1273_MODE_OFF ||
+-	    core->mode == WL1273_MODE_SUSPENDED)
+-		return -EPERM;
 -
+-	if (core->mode == WL1273_MODE_RX && new_mode == WL1273_AUDIO_DIGITAL) {
+-		r = wl1273_fm_write_cmd(core, WL1273_PCM_MODE_SET,
+-					WL1273_PCM_DEF_MODE);
+-		if (r)
+-			goto out;
+-
+-		r = wl1273_fm_write_cmd(core, WL1273_I2S_MODE_CONFIG_SET,
+-					core->i2s_mode);
+-		if (r)
+-			goto out;
+-
+-		r = wl1273_fm_write_cmd(core, WL1273_AUDIO_ENABLE,
+-					WL1273_AUDIO_ENABLE_I2S);
+-		if (r)
+-			goto out;
+-
+-	} else if (core->mode == WL1273_MODE_RX &&
+-		   new_mode == WL1273_AUDIO_ANALOG) {
+-		r = wl1273_fm_write_cmd(core, WL1273_AUDIO_ENABLE,
+-					WL1273_AUDIO_ENABLE_ANALOG);
+-		if (r)
+-			goto out;
+-
+-	} else if (core->mode == WL1273_MODE_TX &&
+-		   new_mode == WL1273_AUDIO_DIGITAL) {
+-		r = wl1273_fm_write_cmd(core, WL1273_I2S_MODE_CONFIG_SET,
+-					core->i2s_mode);
+-		if (r)
+-			goto out;
+-
+-		r = wl1273_fm_write_cmd(core, WL1273_AUDIO_IO_SET,
+-					WL1273_AUDIO_IO_SET_I2S);
+-		if (r)
+-			goto out;
+-
+-	} else if (core->mode == WL1273_MODE_TX &&
+-		   new_mode == WL1273_AUDIO_ANALOG) {
+-		r = wl1273_fm_write_cmd(core, WL1273_AUDIO_IO_SET,
+-					WL1273_AUDIO_IO_SET_ANALOG);
+-		if (r)
+-			goto out;
+-	}
+-
+-	core->audio_mode = new_mode;
+-out:
+-	return r;
+-}
+-
+-/**
+- * wl1273_fm_set_volume() -	Set volume.
+- * @core:			A pointer to the device struct.
+- * @volume:			The new volume value.
+- */
+-static int wl1273_fm_set_volume(struct wl1273_core *core, unsigned int volume)
+-{
+-	int r;
+-
+-	if (volume > WL1273_MAX_VOLUME)
+-		return -EINVAL;
+-
+-	if (core->volume == volume)
 -		return 0;
--	}
 -
--	if (wl1273->mode == WL1273_MODE_FM_TX &&
--	    substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
--		pr_err("Only playback supported with TX.\n");
--		return -EINVAL;
--	}
--
--	if (wl1273->mode == WL1273_MODE_FM_RX  &&
--	    substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
--		pr_err("Only capture supported with RX.\n");
--		return -EINVAL;
--	}
--
--	if (wl1273->mode != WL1273_MODE_FM_RX  &&
--	    wl1273->mode != WL1273_MODE_FM_TX) {
--		pr_err("Unexpected mode: %d.\n", wl1273->mode);
--		return -EINVAL;
--	}
--
--	r = snd_wl1273_fm_set_i2s_mode(core, rate, width);
+-	r = wl1273_fm_write_cmd(core, WL1273_VOLUME_SET, volume);
 -	if (r)
 -		return r;
 -
--	wl1273->channels = params_channels(params);
--	r = snd_wl1273_fm_set_channel_number(core, wl1273->channels);
--	if (r)
--		return r;
--
+-	core->volume = volume;
 -	return 0;
 -}
 -
--static const struct snd_soc_dai_ops wl1273_dai_ops = {
--	.startup	= wl1273_startup,
--	.hw_params	= wl1273_hw_params,
--};
--
--static struct snd_soc_dai_driver wl1273_dai = {
--	.name = "wl1273-fm",
--	.playback = {
--		.stream_name = "Playback",
--		.channels_min = 1,
--		.channels_max = 2,
--		.rates = SNDRV_PCM_RATE_8000_48000,
--		.formats = SNDRV_PCM_FMTBIT_S16_LE},
--	.capture = {
--		.stream_name = "Capture",
--		.channels_min = 1,
--		.channels_max = 2,
--		.rates = SNDRV_PCM_RATE_8000_48000,
--		.formats = SNDRV_PCM_FMTBIT_S16_LE},
--	.ops = &wl1273_dai_ops,
--};
--
--/* Audio interface format for the soc_card driver */
--int wl1273_get_format(struct snd_soc_component *component, unsigned int *fmt)
+-static int wl1273_core_probe(struct i2c_client *client)
 -{
--	struct wl1273_priv *wl1273;
+-	struct wl1273_fm_platform_data *pdata = dev_get_platdata(&client->dev);
+-	struct wl1273_core *core;
+-	struct mfd_cell *cell;
+-	int children = 0;
+-	int r = 0;
 -
--	if (component == NULL || fmt == NULL)
--		return -EINVAL;
+-	dev_dbg(&client->dev, "%s\n", __func__);
 -
--	wl1273 = snd_soc_component_get_drvdata(component);
--
--	switch (wl1273->mode) {
--	case WL1273_MODE_FM_RX:
--	case WL1273_MODE_FM_TX:
--		*fmt =	SND_SOC_DAIFMT_I2S |
--			SND_SOC_DAIFMT_NB_NF |
--			SND_SOC_DAIFMT_CBP_CFP;
--
--		break;
--	case WL1273_MODE_BT:
--		*fmt =	SND_SOC_DAIFMT_DSP_A |
--			SND_SOC_DAIFMT_IB_NF |
--			SND_SOC_DAIFMT_CBP_CFP;
--
--		break;
--	default:
+-	if (!pdata) {
+-		dev_err(&client->dev, "No platform data.\n");
 -		return -EINVAL;
 -	}
 -
--	return 0;
--}
--EXPORT_SYMBOL_GPL(wl1273_get_format);
--
--static int wl1273_probe(struct snd_soc_component *component)
--{
--	struct wl1273_core **core = component->dev->platform_data;
--	struct wl1273_priv *wl1273;
--
--	dev_dbg(component->dev, "%s.\n", __func__);
--
--	if (!core) {
--		dev_err(component->dev, "Platform data is missing.\n");
+-	if (!(pdata->children & WL1273_RADIO_CHILD)) {
+-		dev_err(&client->dev, "Cannot function without radio child.\n");
 -		return -EINVAL;
 -	}
 -
--	wl1273 = kzalloc(sizeof(struct wl1273_priv), GFP_KERNEL);
--	if (!wl1273)
+-	core = devm_kzalloc(&client->dev, sizeof(*core), GFP_KERNEL);
+-	if (!core)
 -		return -ENOMEM;
 -
--	wl1273->mode = WL1273_MODE_BT;
--	wl1273->core = *core;
+-	core->pdata = pdata;
+-	core->client = client;
+-	mutex_init(&core->lock);
 -
--	snd_soc_component_set_drvdata(component, wl1273);
+-	i2c_set_clientdata(client, core);
+-
+-	dev_dbg(&client->dev, "%s: Have V4L2.\n", __func__);
+-
+-	cell = &core->cells[children];
+-	cell->name = "wl1273_fm_radio";
+-	cell->platform_data = &core;
+-	cell->pdata_size = sizeof(core);
+-	children++;
+-
+-	core->read = wl1273_fm_read_reg;
+-	core->write = wl1273_fm_write_cmd;
+-	core->write_data = wl1273_fm_write_data;
+-	core->set_audio = wl1273_fm_set_audio;
+-	core->set_volume = wl1273_fm_set_volume;
+-
+-	if (pdata->children & WL1273_CODEC_CHILD) {
+-		cell = &core->cells[children];
+-
+-		dev_dbg(&client->dev, "%s: Have codec.\n", __func__);
+-		cell->name = "wl1273-codec";
+-		cell->platform_data = &core;
+-		cell->pdata_size = sizeof(core);
+-		children++;
+-	}
+-
+-	dev_dbg(&client->dev, "%s: number of children: %d.\n",
+-		__func__, children);
+-
+-	r = devm_mfd_add_devices(&client->dev, -1, core->cells,
+-				 children, NULL, 0, NULL);
+-	if (r)
+-		goto err;
 -
 -	return 0;
+-
+-err:
+-	pdata->free_resources();
+-
+-	dev_dbg(&client->dev, "%s\n", __func__);
+-
+-	return r;
 -}
 -
--static void wl1273_remove(struct snd_soc_component *component)
--{
--	struct wl1273_priv *wl1273 = snd_soc_component_get_drvdata(component);
--
--	dev_dbg(component->dev, "%s\n", __func__);
--	kfree(wl1273);
--}
--
--static const struct snd_soc_component_driver soc_component_dev_wl1273 = {
--	.probe			= wl1273_probe,
--	.remove			= wl1273_remove,
--	.controls		= wl1273_controls,
--	.num_controls		= ARRAY_SIZE(wl1273_controls),
--	.dapm_widgets		= wl1273_dapm_widgets,
--	.num_dapm_widgets	= ARRAY_SIZE(wl1273_dapm_widgets),
--	.dapm_routes		= wl1273_dapm_routes,
--	.num_dapm_routes	= ARRAY_SIZE(wl1273_dapm_routes),
--	.idle_bias_on		= 1,
--	.use_pmdown_time	= 1,
--	.endianness		= 1,
--};
--
--static int wl1273_platform_probe(struct platform_device *pdev)
--{
--	return devm_snd_soc_register_component(&pdev->dev,
--				      &soc_component_dev_wl1273,
--				      &wl1273_dai, 1);
--}
--
--MODULE_ALIAS("platform:wl1273-codec");
--
--static struct platform_driver wl1273_platform_driver = {
--	.driver		= {
--		.name	= "wl1273-codec",
+-static struct i2c_driver wl1273_core_driver = {
+-	.driver = {
+-		.name = WL1273_FM_DRIVER_NAME,
 -	},
--	.probe		= wl1273_platform_probe,
+-	.probe = wl1273_core_probe,
+-	.id_table = wl1273_driver_id_table,
 -};
 -
--module_platform_driver(wl1273_platform_driver);
+-static int __init wl1273_core_init(void)
+-{
+-	int r;
+-
+-	r = i2c_add_driver(&wl1273_core_driver);
+-	if (r) {
+-		pr_err(WL1273_FM_DRIVER_NAME
+-		       ": driver registration failed\n");
+-		return r;
+-	}
+-
+-	return r;
+-}
+-
+-static void __exit wl1273_core_exit(void)
+-{
+-	i2c_del_driver(&wl1273_core_driver);
+-}
+-late_initcall(wl1273_core_init);
+-module_exit(wl1273_core_exit);
 -
 -MODULE_AUTHOR("Matti Aaltonen <matti.j.aaltonen@nokia.com>");
--MODULE_DESCRIPTION("ASoC WL1273 codec driver");
+-MODULE_DESCRIPTION(DRIVER_DESC);
 -MODULE_LICENSE("GPL");
-diff --git a/sound/soc/codecs/wl1273.h b/sound/soc/codecs/wl1273.h
-deleted file mode 100644
-index 66c312fa7eee..000000000000
---- a/sound/soc/codecs/wl1273.h
-+++ /dev/null
-@@ -1,16 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * sound/soc/codec/wl1273.h
-- *
-- * ALSA SoC WL1273 codec driver
-- *
-- * Copyright (C) Nokia Corporation
-- * Author: Matti Aaltonen <matti.j.aaltonen@nokia.com>
-- */
--
--#ifndef __WL1273_CODEC_H__
--#define __WL1273_CODEC_H__
--
--int wl1273_get_format(struct snd_soc_component *component, unsigned int *fmt);
--
--#endif	/* End of __WL1273_CODEC_H__ */
 -- 
 2.49.0
 
