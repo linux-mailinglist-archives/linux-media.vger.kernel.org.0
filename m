@@ -1,181 +1,117 @@
-Return-Path: <linux-media+bounces-35910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35911-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DDCAE8ECC
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 21:34:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BD2AE8EFF
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 21:51:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A00C7189CFDA
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 19:35:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BEDF4A5B94
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 19:51:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E93E12BF00C;
-	Wed, 25 Jun 2025 19:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8EB22641D8;
+	Wed, 25 Jun 2025 19:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZldvsvGL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCSOhsIW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F341FC8;
-	Wed, 25 Jun 2025 19:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9BB1494C3;
+	Wed, 25 Jun 2025 19:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750880084; cv=none; b=h5oRgz6FNC30v6bvco+tJK5+juSSFdKX04jP/Wn4ref8+iE+HV6SqYPkp72RxB1mu7guw2cUl6I/K6u1DIr1d09boznxRXZUMZfRp8LAgeNDKTeE42btT6LPJQxaR/q/Spz+r/fc7ZRhXgcmYU3IfAqQnvjc5t/JwVlq/9m9ybc=
+	t=1750881102; cv=none; b=gH3JiwfbP4bWAlgrF+6Yx20ExJvWGlHkh51deD+2UAlaOOSwmBMvsx5AIeaH8LD9pJDZxL5WoqDdjL2j2iQZdsN6s8yQZzLYDJNAtY/sPkB3AoGdRAKv4Fg3DYjFEmMgDiU7DKNLUhMKUY7ep9PO7TIJ5OMsV09FeerrBwK3+YM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750880084; c=relaxed/simple;
-	bh=KX8ESLOsVI5lykUMCHvwiR4DNef+po6luXp0o93XLls=;
+	s=arc-20240116; t=1750881102; c=relaxed/simple;
+	bh=pn4yOJ7V8K3SjQEg+pUrZx/VF4fsacmdLeHB0AnwAss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B61+oGFXcTpGN+g5c+Chcp4a7tb1RSyVfWL2BPEfZyDGqYp1//5nx6yvjukcstIdzVMFvxTApETIXBnNfUUC4utZlnWmH1WsgSrJ0uCWYbCGHRY627rJ9CK1wmwZPOpgpe0pP35i2fjY0u+O5BUZojnpH0KTamUNdUo4dwwaHM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZldvsvGL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 4EE886F3;
-	Wed, 25 Jun 2025 21:34:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750880062;
-	bh=KX8ESLOsVI5lykUMCHvwiR4DNef+po6luXp0o93XLls=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=PvCmxK2tMD7geBi49WbCXCQcp20WJ6FNvsuILnzoE+cAIN5fgOLyJ6dv5jDw1TK8v0pKDlv14brBd6lNYZPguahjdz2+0RS9BVONNZuKsl8F4Ja1ChHfFA3Ij/J8dMfsKUoM5eNttz/5oDEQZF7A4zZ1McytLuI0Y3+e52EMYn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCSOhsIW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69A81C4CEEA;
+	Wed, 25 Jun 2025 19:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750881101;
+	bh=pn4yOJ7V8K3SjQEg+pUrZx/VF4fsacmdLeHB0AnwAss=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZldvsvGL7NWob8nF/x4LAYjano2AsMONQ28+SbO3taxdV/7eKtyo/Ab5G/FSeWkS5
-	 WN4HTy9KnQLleqbdxPrDOroEHBwi6uY9DthYK+D3bMSg/ehFWT22YcCnms4E2Cw31Y
-	 FTQQge526MV+/DVxrguvJJMh6p2tYYSr3DV092kg=
-Date: Wed, 25 Jun 2025 22:34:18 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Adam Ford <aford173@gmail.com>,
-	Frank Li <Frank.li@nxp.com>,
-	Isaac Scott <isaac.scott@ideasonboard.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
+	b=cCSOhsIWw4JTqOPW8l8XkAyBPtDsA7YopuibZ+ZhlYEPSw004AjmWfIdrrMqbHTz6
+	 cUxx2INaN2g8+Pow3iijTA16x/B/C15A7iAH/WRisA7DMEPyf0ZRKmOrngWupjsfy3
+	 Wt0rKspsQYJg5NpzCiJNpP51PgCsWbbwfpa5mDlbyCxE6H2CGqFSfeQlVTYJoLh/GM
+	 E6SIMCfXLSXEOcS7yMARNugQbJKFkS1YidwRuhiZkTn2JRqX7wnLdO5FKCS4uk26AI
+	 gS4MEBEcaalX5A0z8mtsUDsnp8l9FWvI1BPrHzE8jKRuc8uyPqP2abwk+SO0NoNBNQ
+	 bOzp6xOZyrz5A==
+Date: Wed, 25 Jun 2025 14:51:40 -0500
+From: Rob Herring <robh@kernel.org>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Purism Kernel Team <kernel@puri.sm>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH 6/8] dt-bindings: media: nxp,imx-mipi-csi2: Add
- fsl,num-channels property
-Message-ID: <20250625193418.GA32071@pendragon.ideasonboard.com>
-References: <20250608235840.23871-1-laurent.pinchart@ideasonboard.com>
- <20250608235840.23871-7-laurent.pinchart@ideasonboard.com>
- <aEb+iTlDh0H/bRMY@lizhi-Precision-Tower-5810>
- <CAHCN7xJjR1zZXeJAvkXmdNYroP6Jm6TLjHjnPUOF4z7yaL7EFw@mail.gmail.com>
- <20250609182033.GA11428@pendragon.ideasonboard.com>
- <aEcxN7xClLfp0STx@lizhi-Precision-Tower-5810>
- <20250610081829.GC11428@pendragon.ideasonboard.com>
- <20250619210237.GA21935@pendragon.ideasonboard.com>
- <20250625192728.GA2072001-robh@kernel.org>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-arm-msm@vger.kernel.org,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
+ interconnect alphabetically
+Message-ID: <20250625195140.GA2102516-robh@kernel.org>
+References: <20250610083318.2773727-1-vladimir.zapolskiy@linaro.org>
+ <a072d00e-df91-420b-9363-424bcdf1ed8e@linaro.org>
+ <3e8f8220-1fad-437e-9fa4-5eb628891110@linaro.org>
+ <ae364f1c-5d64-4178-b26c-e58e352feee0@linaro.org>
+ <97e51ab0-737b-496e-81df-b73c9f598bb0@linaro.org>
+ <35muvo7h7ynfvzjt6jomasr54xaomfgt5etjc3uuczhfxww2ds@u5xsayanthx7>
+ <0943821e-603a-4ee6-9bcb-e5fe690358c5@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250625192728.GA2072001-robh@kernel.org>
+In-Reply-To: <0943821e-603a-4ee6-9bcb-e5fe690358c5@linaro.org>
 
-On Wed, Jun 25, 2025 at 02:27:28PM -0500, Rob Herring wrote:
-> On Fri, Jun 20, 2025 at 12:02:37AM +0300, Laurent Pinchart wrote:
-> > On Tue, Jun 10, 2025 at 11:18:29AM +0300, Laurent Pinchart wrote:
-> > > On Mon, Jun 09, 2025 at 03:08:39PM -0400, Frank Li wrote:
-> > > > On Mon, Jun 09, 2025 at 09:20:33PM +0300, Laurent Pinchart wrote:
-> > > > > On Mon, Jun 09, 2025 at 12:53:48PM -0500, Adam Ford wrote:
-> > > > > > On Mon, Jun 9, 2025 at 10:32 AM Frank Li wrote:
-> > > > > > > On Mon, Jun 09, 2025 at 02:58:38AM +0300, Laurent Pinchart wrote:
-> > > > > > > > The CSI-2 receiver can be instantiated with up to four output channels.
-> > > > > > > > This is an integration-specific property, specify the number of
-> > > > > > > > instantiated channels through a new fsl,num-channels property. The
-> > > > > > > > property is optional, and defaults to 1 as only one channel is currently
-> > > > > > > > supported by drivers.
-> > > > > > > >
-> > > > > > > > The only known SoC to have more than one channel is the i.MX8MP. As the
-> > > > > > > > binding examples do not cover that SoC, don't update them.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > > > ---
-> > > > > > > >  .../devicetree/bindings/media/nxp,imx-mipi-csi2.yaml       | 7 +++++++
-> > > > > > > >  1 file changed, 7 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > > > > > > > index db4889bf881e..41ad5b84eaeb 100644
-> > > > > > > > --- a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > > > > > > > +++ b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > > > > > > > @@ -68,6 +68,13 @@ properties:
-> > > > > > > >      default: 166000000
-> > > > > > > >      deprecated: true
-> > > > > > > >
-> > > > > > > > +  fsl,num-channels:
-> > > > > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > > > > > +    description: Number of output channels
-> > > > > > > > +    minimum: 1
-> > > > > > > > +    maximum: 4
-> > > > > > > > +    default: 1
-> > > > > > > > +
-> > > > > > >
-> > > > > > > Look like it is fixed value for each compabiable string, So it is not
-> > > > > > > suitable for adding new property. It should be in driver data of each
-> > > > > > > compatible strings.
-> > > > > > >
-> > > > > > > I met similar case before. DT team generally don't agree on add such
-> > > > > > > property, unless there are two instances in the same chip, which have
-> > > > > > > difference channel number.
-> > > > > >
-> > > > > > If the DT changes are rejected, can the number of channels be added to
-> > > > > > the data structure inside mipi_csis_of_match?  We have compatibles for
-> > > > > > 8mm and imx7.  If we add an imx8mp compatible we could add a reference
-> > > > > > to the number of channels.
-> > > > >
-> > > > > I thought about it, and decided to add a new property because the number
-> > > > > of channels is really a synthesis time configuration parameter, and
-> > > > > could differ between different CSIS instances in the same SoC.
+On Wed, Jun 11, 2025 at 02:00:48AM +0300, Vladimir Zapolskiy wrote:
+> On 6/11/25 01:21, Dmitry Baryshkov wrote:
+> > On Tue, Jun 10, 2025 at 06:10:33PM +0300, Vladimir Zapolskiy wrote:
+> > > On 6/10/25 18:02, Bryan O'Donoghue wrote:
+> > > > On 10/06/2025 13:45, Vladimir Zapolskiy wrote:
+> > > > > > 
+> > > > > > How is this a Fixes: ?
+> > > > > 
+> > > > > I call it the fix to the dt-bindings documentation, then what is this
+> > > > > change, if it's not a fix?..
+> > > > > 
+> > > > > Anyway, if there is a strong disagreement about if it's a fix or not,
+> > > > > the Fixes tag can be dropped from the change, since it's so secondary.
 > > > > 
-> > > > Need add such information at binding doc's commit message,
+> > > > Since we don't have a committed upstream user I don't think this is an
+> > > > ABI break.
 > > > 
-> > > I'll update the commit message.
+> > > Well, Dmitry says it's an ABI break... It would be beneficial to come to
+> > > a common understanding here.
+> > > 
+> > > > But I also don't think it warrants a Fixes: tag either, there's no bug.
+> > > 
+> > > There is no bug, but there are Documentation/ changes with Fixes tags,
+> > > it's okay.
 > > 
-> > The commit message in v2 will state
-> > 
-> >     dt-bindings: media: nxp,imx-mipi-csi2: Add fsl,num-channels property
-> > 
-> >     The CSI-2 receiver can be instantiated with up to four output channels.
-> >     This is an integration-specific property, specify the number of
-> >     instantiated channels through a new fsl,num-channels property. The
-> >     property is optional, and defaults to 1 as only one channel is currently
-> >     supported by drivers.
-> > 
-> >     Using the compatible string to infer the number of channels has been
-> >     considered, but multiple instances of the same CSIS in the same SoC
-> >     could conceptually be synthesized with a different number of channels.
-> >     An explicit property is therefore more appropriate.
-> > 
-> >     The only known SoC to have more than one channel is the i.MX8MP. As the
-> >     binding examples do not cover that SoC, don't update them.
+> > Fixes means that there was a bug / issue that needs to be fixed. For
+> > example, if there was a user for the bindings and the user had these
 > 
-> So how many channels does i.MX8MP have in a DT without this property? 
-> It's either 1 or the driver overrides it to 2.
-
-Only 1. I only realized a few weeks ago that the CSIS has multiple
-output channels on i.MX8MP. This wasn't documented anywhere, and
-understanding how all of this works took lots of trial-and-error.
-
-> > Rob, Krzysztof, Conor, are you fine with adding this property ?
+> That's "for example" only, I don't think it's an all-descriptive definition.
 > 
-> Yes, but seems a little late.
+> From Documentation/process/submitting-patches.rst:
+> 
+>   A Fixes: tag indicates that the patch fixes an issue in a previous commit.
+> 
+> In my opinion this is quite applicable here, the "fixed issue" in the device
+> tree binding documentation file is well set, and anyone can get it from
+> the provided commit message.
 
-It is, I wish I had known about this hardware feature years ago. Now I
-need to figure out how to properly support it in the driver and expose
-it to userspace through V4L2 without breaking backward compatibility
-with existing applications. The DT binding is the easy part :-)
+I tend to agree. I would say Fixes should be used anywhere you wish you 
+could re-write history and amend the original commit with the fix.
 
--- 
-Regards,
-
-Laurent Pinchart
+Rob
 
