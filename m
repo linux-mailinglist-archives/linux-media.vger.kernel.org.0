@@ -1,92 +1,88 @@
-Return-Path: <linux-media+bounces-35881-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35882-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF322AE87EF
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 17:25:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 525D4AE87EE
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 17:25:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 807404A7EBD
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 15:24:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF08D7A1C94
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 15:23:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4852D5C90;
-	Wed, 25 Jun 2025 15:22:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 770852D8DBC;
+	Wed, 25 Jun 2025 15:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GmLd/q/a"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gopCmP7l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9282D5437
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 15:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6AE2D8784
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 15:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750864955; cv=none; b=VNWp9mRn9wbEzHqEW2PzxNHl3eRqjIhQAPZhWhy8x5GtWh9r0KGZ810OTtQhL1rydmGZ88Ofq7iJKK26VHoEpfTILLHkOpIpvFbI4zJeZCBwr18HeF+RV5yDIsa3z2MPBZtYC5+WLToHZeyAYuxf2b7nIWtbeyV9sGljXRVGCwY=
+	t=1750864993; cv=none; b=V5pTJSGUVwdh4LMLe2+FAfFT/Uq+olviICE8IN7idIHN567zlI95jzIDXYi1XrIrjRyYfJipIpSXPR5v08q15aPKcymHWLeirHg2EWKK4v23qWKCYKjCwlE+OUymTvh7cTOE3r0uWkXONFRMsUr0n/OF9ECSyAMi5QO1R/Wq1SA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750864955; c=relaxed/simple;
-	bh=yCYdZbO+dpu/mVZGwv9i1PkdqA5piWFDPL5hOs2zx7Q=;
+	s=arc-20240116; t=1750864993; c=relaxed/simple;
+	bh=5O2/4BpQHfklLSAAZ+OUfTKYve/rhKype+tQDUVh+no=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kYEZWAOmqCqfo/W4fRVxwWQ7MjkMecmLqmjC3zpSDqrSNGNIyWs6zSw//2dki3iRRidK2X6zZttongtfONYqW+Yx8o6T85coQ6bfdTWYNsQ72Bx1weicBSB5LvnVHDZHL2njADjm+oHuZ7egc2SUKvmPItTQErMdJ9b8E53ocEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GmLd/q/a; arc=none smtp.client-ip=209.85.161.46
+	 Content-Disposition; b=RO722doFwVmSv8VwZWB7qmtvmguXwGi6etYqYQZXo7sh3bLO5rjAhNz8Sc5Wmk3N35ymNGwzS0hKF+8ap/1BB120jLE+gCM93MrSntDlGWcx/3kJFfMiydNA8sesC3Y/ZO2mleCIoeh148gNCSK0j/z4RicG8CZmfhHsWTxHI+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gopCmP7l; arc=none smtp.client-ip=209.85.210.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-60efc773b5fso865573eaf.3
-        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 08:22:34 -0700 (PDT)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-735b9d558f9so602319a34.2
+        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 08:23:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750864953; x=1751469753; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1750864991; x=1751469791; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=nF0VBzbDTNCK1Xw9av27PYfa00tvOG6PAv4XXmzSQFU=;
-        b=GmLd/q/akNfHtLQW8btOv1hf8CsiKeAy+BoKZO0k9DGJ/Ez1SkYSsrx/drYZDwhLTu
-         9DCxPnJ5cwOoY8Km3KWnZ+/t039ctWPTZ9ARuDZhlzTTR44YEA6+fhQkanxt2k48Q+pS
-         6kQKx6wtOV26LWlARfPU8lHKhzrmZqdIrH5JxW5Sk/Hz/cXVZzkgeirBm1dcLGjpm8xy
-         bhrfPwWgt2f2VPPoWPWcQI4LcGlOswkRiF8QM0ikbX4YoVoYAfo08Aee8Fx5R0pDacRu
-         a3gGsk+GnckLpqJZ7BcL7KxGpiJgFjs9f55jhL3Zq9aMCAzz6VdBcXnU/mf+H2orTgVI
-         zQtw==
+        bh=RscgyY7zr0J0heuodisQOvqSQWiux2P+I5t0Y0pHfw4=;
+        b=gopCmP7lQbciQsrEixvDxNRXOALsnIT2oVDTnaldRPWO/cvurg1e/doGdO7JkVk7KR
+         9jIjSCbJ0WB4/3BAUlvJEfn6zG3pUqleX6fI9HAhWAzCoOR65VzVdoEnouPG7dF24owP
+         afVOis9bpICpAWOapd8oBx/bESglX1ysYX1BG1yOTdInAA3LtP7wjvEsIjeL/3OXe9oP
+         nbaPNT2ikwFK9XDxnuR28wt6FCLtIVbXSPcDRF9mofL2UwHJ1KLj8gdyGjA4RMEvaw3n
+         cGrw6hElsP4LSXm1tGHEjhg0uiEwKjvnIdaTmpcar24CR0ya0kIvBLXxDjLjYw0pQTNC
+         gHkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750864953; x=1751469753;
+        d=1e100.net; s=20230601; t=1750864991; x=1751469791;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nF0VBzbDTNCK1Xw9av27PYfa00tvOG6PAv4XXmzSQFU=;
-        b=mS7T9FUfTGEMFZ8+GML7z+eVCppaa/VgzkJGesUdvfB0z+eaL6KlTKfJvzoHPbMF74
-         MWcOlkDew2lPoVMtWI2vw2fjgwfivlBRS7ZV4YbMj8hqYSQmrTeC1K2QxWPv3KJb/z8y
-         /3Kiz49Y9O5UJlCZb7pEv8IqYz05e9F4jedCXpZLJvEXR/fMfOesyjGwzBmDhSTHLQOI
-         6/mKJL9whYywfVWelsksly3vTPO7rW7vDVq+yHAQfhLtXES1063ImSJMLozaC2g09MUS
-         EwQZYoMUr41V5fJ+8YroooMxeBWYtRNklVh/pn54bIXXR1rhf8frmcAnEKEV8dhT7fpk
-         zHLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJvwv4ZvxN9arSjjivoybC9sxNOsJJzeztLbzqRznl9O1hrO6YNs9+/pY8cyQ+xIw1BuwHP7qiRB8ybw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yya5GXiDmNrUjmRSl3JBoaYiRaX37KoFaeseIAUBBFTM8fYuSNC
-	TFQc/+0zi9xJzvgsLEHa3aaoAm2bWsmFmLvRYCmA9/oaOi14GV8UIk5C8WPVbPOXjuc=
-X-Gm-Gg: ASbGncuAYL0OQN9TRzKlLAKWLlkSqEWFlbkLnZIaaCchDs24bnzXS3ujHSQNNAgeW1g
-	COmTZIrO3we16ye7YChCiO90jf+/cTzpl0uGhPi8BC8AK01zsFYeu/HaOYlUq5Lp2w4yqgQTGf4
-	BBJWLKRpcGkb/sjqoadvsYlyxUnXFqUih9r1OLgMZH4zmakoUHcFI27+ZDn0iKjPIc98carPzoK
-	LTBHsSMwKgGrXI909IAbVzoG3CRCNAnZ+tD29w3A86FG+Sw1aJZay55mm98YcZ9AaBEHGQ3SuuL
-	ykC/9s6lR0Pd3enuHOQpc7dPAQFMW7xOcIwAi6i/OHJfybqknj79qtJvWKyXMxVCEKuiZw==
-X-Google-Smtp-Source: AGHT+IHuQoqa1u0DUHvl6z0O9mvk8424s2tdSOokLX0655c7GkLUoXhQQnFWEefCze0j3O7DZKz2Sg==
-X-Received: by 2002:a05:6820:99a:b0:611:6fc6:e6ee with SMTP id 006d021491bc7-611aa3f4864mr221261eaf.1.1750864953563;
-        Wed, 25 Jun 2025 08:22:33 -0700 (PDT)
+        bh=RscgyY7zr0J0heuodisQOvqSQWiux2P+I5t0Y0pHfw4=;
+        b=SAi5dHoLwSyWJCJ5Gm8xCESvb4TuGI2R398lEd2zdBhhs2amlfd0PZc44KkgEYqmGt
+         bAXlKVgD7SOIGahTWxFtGowinvSOHUIuhnCxkvUnfpU/snrvEQTjfskG0Gmo4yKXJYyD
+         kDDsce5hYJ7ATkMyseKn8fGQ+wgfhlVdusw0Cke0i4w/ZII5jxwFjOpIGBWsaS6WOnmT
+         sSk2hrKGepp4PNZmbCaiwNwSBFO7MD8GMHyxlI+B4XcwGdQCaSkVhq4rspd93Wh74BVq
+         iHcr9LibRDMtPoiulb9lert7nAKnds2g2CYEty/0QAgwlMDaZQ/Ap4XkLiZMBh4hWmpj
+         47Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCF8yi5rpujveJ7uxwHoLFZNBBYSTFlm8GJLY1nUgRoqZfVObtX2axL3A76GeDDSAz4SGdG3x7Fl4Ozw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXAXJ28VpLuU7dE5lbWD7Eis8+oyjXg/D/r4wGv8grQbruReAn
+	ZKq8iJEHQXhuDmnK3XxeDj/J6s8J0cb9lzS3XUZILvl1Zyri4pj7Zjer6ef4+rNp0Lg=
+X-Gm-Gg: ASbGnctT7yZ0gAQL7N2TlH2rAdjbqXqPU12Y9P5HrzXErlObLGZ0pDqrGCFMdavMSVI
+	sCkGbqGFNDyLYngRIJLyyYUUVeAAQh938RP4JAuWZiESqx+8SJacXUoR4VJrvPA3gGKQzLA4Kh6
+	muc+a8H/7NSdhaztXr17DOghZPGGEUynbYOlGGfUjxsIQF68RN2lA3RKrL9cPNgWAlYiaU0SAHF
+	hsYcxjq88vNkcuE9o+by8n8NZVlE0ne5bxx7UyJSILt/+13rkbkWa+GX9KxD4HnVf6nd575FAKf
+	F1R5OeUCbO8qVph0x08JN6zRuqBBhQ65U8oCCHVUqzqgB0lK/kS9SFGnMv8IodJd74837g==
+X-Google-Smtp-Source: AGHT+IFW4wlR0wlfzJlAh8x3qk2Cx37JojTQFFpNrPClMsltnG4YGIKmiULYONmufRuAqIk5456wBg==
+X-Received: by 2002:a05:6830:2113:b0:731:cac7:364e with SMTP id 46e09a7af769-73adc811af9mr2506085a34.22.1750864991484;
+        Wed, 25 Jun 2025 08:23:11 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:1fca:a60b:12ab:43a3])
-        by smtp.gmail.com with UTF8SMTPSA id 006d021491bc7-6115b7f813dsm1629279eaf.40.2025.06.25.08.22.32
+        by smtp.gmail.com with UTF8SMTPSA id 46e09a7af769-73a90ca9c12sm2237043a34.50.2025.06.25.08.23.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 08:22:33 -0700 (PDT)
-Date: Wed, 25 Jun 2025 10:22:32 -0500
+        Wed, 25 Jun 2025 08:23:11 -0700 (PDT)
+Date: Wed, 25 Jun 2025 10:23:10 -0500
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Frank Li <Frank.Li@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: imx8mq-mipi-csi2: Fix error code in
- imx8mq_mipi_csi_parse_dt()
-Message-ID: <9b6c7925-c9c4-44bd-acd5-1ef0e698eb87@sabinyo.mountain>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
+Message-ID: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -97,27 +93,32 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-Mailer: git-send-email haha only kidding
 
-This was returning IS_ERR() where PTR_ERR() was intended.
+The iommu_paging_domain_alloc() function doesn't return NULL on error it
+returns error pointers.  Update the check and then set ->empty_domain to
+NULL because the rest of the driver assumes it can be NULL.
 
-Fixes: 642b70d526ab ("media: imx8mq-mipi-csi2: Add support for i.MX8QXP")
+Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-index 6501843ae72d..3a4645f59a44 100644
---- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-+++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-@@ -966,7 +966,7 @@ static int imx8mq_mipi_csi_parse_dt(struct csi_state *state)
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index d707088ec0dc..1b7f27e4d961 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -1162,8 +1162,10 @@ static int rkvdec_probe(struct platform_device *pdev)
+ 	if (iommu_get_domain_for_dev(&pdev->dev)) {
+ 		rkvdec->empty_domain = iommu_paging_domain_alloc(rkvdec->dev);
  
- 		base = devm_platform_ioremap_resource(to_platform_device(dev), 1);
- 		if (IS_ERR(base))
--			return dev_err_probe(dev, IS_ERR(base), "Missing CSR register\n");
-+			return dev_err_probe(dev, PTR_ERR(base), "Missing CSR register\n");
+-		if (!rkvdec->empty_domain)
++		if (IS_ERR(rkvdec->empty_domain)) {
++			rkvdec->empty_domain = NULL;
+ 			dev_warn(rkvdec->dev, "cannot alloc new empty domain\n");
++		}
+ 	}
  
- 		state->phy_gpr = devm_regmap_init_mmio(dev, base, &regmap_config);
- 		if (IS_ERR(state->phy_gpr))
+ 	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
 -- 
 2.47.2
 
