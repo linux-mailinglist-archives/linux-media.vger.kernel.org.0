@@ -1,81 +1,82 @@
-Return-Path: <linux-media+bounces-35851-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35852-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0359AE7B71
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 11:05:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EFFAE7B8C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 11:09:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D2CB516846F
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 09:05:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 47BF7179B21
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 09:09:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCC4F285CB8;
-	Wed, 25 Jun 2025 09:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABC67289360;
+	Wed, 25 Jun 2025 09:09:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xUIvl8+3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ttI+rNfW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504D6272E42
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 09:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E51E285C83
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 09:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750842316; cv=none; b=sLuodyvmcA75KIUTy67jRCaya5HrK+mMkKyhh01sVUb4ABTzhrlrZ2NIX4f9ukLSTWhvOINH9BMY4E06tGARR89XfJRdUz2viAEY3aHjZOyRsQwUQeuLEUU7OXssqXCVdVAh6LdL5khFiGJm1FGXyDloPhucyYC3MDQkmKxTzZo=
+	t=1750842541; cv=none; b=cS0mtqGSvDezyjqlO+S5/W/U4NjW/DY4UrYIctJbBk1ta2ej/DcFX+TMKnPnDSgV6LkdOv/r1AiKkBfE4tB7fiv3EafwW2dWdsDrrmczmkH5ibLhVvIs83WpXBz/F74d194WRKS0DaLgs/xEfpqkGTSei8gGly5pYL+OTK3EmZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750842316; c=relaxed/simple;
-	bh=ofGLBeV8YvNpQlj6p7A7WvoAdljAiZc3L23Hg6zDPrg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ccwSpYis3dCL5VSSbJGve56Yi0FosABMxpfB+F3K6EKSAVso3l6LvSXCHWRTgnbAKv2BB72b6pOzznfTpwoIOjqgkjNdDEQTIYr6d2rXOrs2BLi5pR+zFdGRYWtKwnXpzFqFywmFjv+xJfwEmT+u59Ko8NzLZOnphkFzX8zZ0hM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xUIvl8+3; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1750842541; c=relaxed/simple;
+	bh=SPjJzVPV+Qw61kr8tRqa9j7vhVFDqQQe6iy++Z5TcJo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=IBYqiml4/Peomn4UK5Vja879wIumeTzHcmMwW753hE3QoGNWfodruylYgzZOwVZJJQPjEep73CjGFoGGsMHilQkAzvGsNgSs3zTGev7/culOOjKVsR/RT7mfYHojBLIOHGgufVV4bC/HKMdDIkDByeN9hLIdMbo1jloSv9LkVqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ttI+rNfW; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4530e6f4db4so2645575e9.2
-        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 02:05:14 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6075ca6d617so1323598a12.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 02:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750842313; x=1751447113; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1750842537; x=1751447337; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=etDFN6wtvcavr2f8yVWmXNqZFsdQ0B/RvviXTfGgdHI=;
-        b=xUIvl8+3pHYSY5ZYZpHwj+sCBIjZDurs/qPx2tlLrJ5PJrli+fpYpbIPWk1mIXdOHH
-         cxEySAgt3UdwBysbSm6phA8s7V2F+rMd4qZF+Au8HGEabceTF/2FVmTkUgaI/THQx3fW
-         EbnWmxgjB+astNEyDO0cyQxkSuq4ta62/es58dLM4RSxvOYfIOoYy55fDhsbpIj208cs
-         cIZOU3bCOqShiddcAElg1765G209SgNOOtix5GFaZJQ5dtBGzu+K69v7Nvs+5wJFdGkb
-         yzjY+SlLal+l8EM3dH0rr0ToIvwAQKgm7nNBpP5OSTpFIgrEfO7NdB9a3D+QPXDC7boG
-         MbTw==
+        bh=K4YFkttBOfdkPL3gGKS/49o6M91DhM3gW4Sii1oRBm4=;
+        b=ttI+rNfWPgHtE6AYxgloNCNYlqmRCBWg5sTpVmuTAsVPUjeDMIK0ZoXME8PVnQSgVa
+         SYBb7lyfOuGu+3sKsKMI8pZv6QYXW+K8+1tGFcDgb1gkiTI39YkaPfpdy3XlkQ7HHaKJ
+         jk2+yxFBIdqsSEGHQDVe0/gzeDPmUhLh2rmVkhNb24QO6OPcn0XWYkdksnP3PbJG2OYI
+         dp4l45w7xDtFFkbv18D3Gkwhb0wAP9/Hzf6rYeWqMjKySd5iZsFORKji2ArXZDB5YRiC
+         qhhniRoEgNFAZSnpnSSAPLFiT9zZtKbfub1grAXiqOKfT3hBWG9whrPBcobnku/Rfze8
+         MOew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750842313; x=1751447113;
+        d=1e100.net; s=20230601; t=1750842537; x=1751447337;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=etDFN6wtvcavr2f8yVWmXNqZFsdQ0B/RvviXTfGgdHI=;
-        b=aYMzPJ8tT7Tc8rqbv1JQRcDsQAozZsOwCiqghti4upKXdaqzWBavaODccStYx/NU90
-         cSc0SREaT8IPGKrUJgG0jzBhSq2qq32hG6+zvCKNzH3YwmHBLf+ksrfftQNc5bSutRR9
-         sj7aXJrPKpr8k+iLC3VyTjj8X7LCvlLnANH2Dy8DzSKfvXxHm98zSW3B+AyfKRp7ALo5
-         ytyL7suniJ+ekRGhPBYvzMuC3Csps6eulT30Q4K3iFSv/kPadcNY5K44AFwTcGg5caMZ
-         346SfNs3ddiK3D93J7WCdmIy10/ry2gNaU2yuL6wpygzCgi1gmkfaSwxj2flv6vS6XPN
-         PQwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVGzPpThrrqhz8NIK56zVwU39K6dn/Yc6hSJYdPZ7gLZmrYSsFH4mjWxHJNYkziR9vGK2J9QH0hduakuw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDB/XVuFG0/hyGuyDQUMSYRCZMWljhScFh1M2ZSfSoKgJu2AXI
-	9I/9yGRyg+iWOQg0QS2/gP8HNv+k9iHJTLR2UlfWj3KWZRzlpstrqchSAbp3KbhBKN4=
-X-Gm-Gg: ASbGncu7W7kBm4l73vRdNBcghnc46WCL89lOS3k/INmVEKo/W/DcbKTelgImBjsxvcE
-	3eFu8JIX+Vxne+xDpGghgoBlpL8sbs8Ni0PHiOYS24e9jO3r1WNJqSls1bIlP9nBNkslV0+njaW
-	huAK/rbOfkq+tSOASR1MWoWghaZ0QDDljszZvukdZAlChOS92QUnfOvjwKZIpNljvktTRC2XKtR
-	ivJk1/a2ZFRq/uIVsC+nwqnDXYEZ+ubqYsYnOmghnoXspHDIpTgDLYjFGKEtddzKUJ7lkkGJztx
-	WFM/SAanduJnfTPg133PCMGQc4K4XeCHDfZvo/lVn1Xsh/XUQEwVglYiOn5FiqASOlaIW56kS50
-	LPxOTIg==
-X-Google-Smtp-Source: AGHT+IF8op0IxbzSI3ROl+ecmGm2SzX7vVGkRXnPCuboGaPdO95czrLIN3iOd0fglW0Ut9sjEj5wgg==
-X-Received: by 2002:a05:600c:8b85:b0:453:7011:fce3 with SMTP id 5b1f17b1804b1-45381af8609mr7565455e9.5.1750842312540;
-        Wed, 25 Jun 2025 02:05:12 -0700 (PDT)
+        bh=K4YFkttBOfdkPL3gGKS/49o6M91DhM3gW4Sii1oRBm4=;
+        b=Bou4YQwQKBUw0eD2K7UeEZk7TWJNgZT+14yHVd2iJlZH2MrDNiLfNOwvm4+4OPveFt
+         JiB945+VNdux8bXfaaDGyh8ykFSUozTH6neSCeEPWawy5Rz7IURiVuRwXF5nSy7VqApV
+         w+ztSJVaqJ6sCGYkxWBmgUuMKlxKphJsffM0dcQ6EgO8Z+B7pQ9zw+CEGJ6mgjgQd5gY
+         Rhmik0WTUd3FGvP8ffGPeYRoyFpZlV4wrguqzgImOrDbr25iwV8+n8NhCkpjBHTFiO4f
+         ltbUdcYO7/W1hSA807Ki+l1tjyrkQMG/ew5JA2yKzSMZ2S+t3ri55H9t4KIxprtCwwE2
+         iBrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJJZzmVdYSUHmfpJxmqLBqTLoArTAO70gnWO3pTZga/SeimN1v9BgqDhF7HOdc/iOc4KviKuV2O155og==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz80SvPyJ/2fdYSDqF1y+HDI/vketRM0/zNNsj6lu5hmxoUjji5
+	94JBFPSYi2U4Q/E9jIzEISZTAnxG4Gq5b12NiN1hMRqumuR3XXUNVTj+geF65C009+ytYh0OruM
+	c8Yzb
+X-Gm-Gg: ASbGncsfQzIyZLgdhwiRJk2UMUKZ0fm7bZ8Cmm27LYZWSlGhielHfBjxwPfvt/IpbSW
+	2HKnL+asXmjAiPpCZj0H8BfSfKStJS1qPrexW5nJguFBLFNubLf7Pw32oI0BsBbpGmjweWB6D30
+	r4QApySOw2/0C5zVuDUxzwuq8SuiCC5S+0wzf0vqXdQKAg1Ekhf0kTLsf5vJien5nbjBh9niJrr
+	godEBOip+AbOou2ZNgIe2hh9Pmz12PIO1u9k203BZOIKZY5Mzhi9OOw0VhS2wJF962IvYrjbB4v
+	hma7wW09oZDO9Vz+7AEz1IwsWtXSDuVwZxqovjJZN1nCjy9CWXHQCpG65Cpdtj5LIl6w75XkgZq
+	JOIL6Ow==
+X-Google-Smtp-Source: AGHT+IHq4OLHwef19JUx4B3qBHj59T7kHFZYiQRPXfkNBv4goVa8y63ULfzDUAYvAqURYTsCkeQqEQ==
+X-Received: by 2002:a17:907:97cc:b0:ade:40ed:9f3e with SMTP id a640c23a62f3a-ae0be531812mr74085166b.0.1750842537468;
+        Wed, 25 Jun 2025 02:08:57 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.222.89])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e80fed75sm4116645f8f.66.2025.06.25.02.05.10
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae0ae6ff383sm246172566b.172.2025.06.25.02.08.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jun 2025 02:05:11 -0700 (PDT)
-Message-ID: <2b32b8ed-c841-4862-afab-c583da644217@linaro.org>
-Date: Wed, 25 Jun 2025 11:05:10 +0200
+        Wed, 25 Jun 2025 02:08:56 -0700 (PDT)
+Message-ID: <8438a336-94d3-44e1-9e92-1fac0b2a602d@linaro.org>
+Date: Wed, 25 Jun 2025 11:08:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,6 +86,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v10 05/17] dt-bindings: media: Add bindings for ARM
  mali-c55
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Anthony.McGivern@arm.com, jacopo.mondi@ideasonboard.com,
@@ -95,7 +97,7 @@ Cc: Anthony.McGivern@arm.com, jacopo.mondi@ideasonboard.com,
  Sakari Ailus <sakari.ailus@linux.intel.com>
 References: <20250624-c55-v10-0-54f3d4196990@ideasonboard.com>
  <20250624-c55-v10-5-54f3d4196990@ideasonboard.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <2b32b8ed-c841-4862-afab-c583da644217@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -141,21 +143,29 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
  vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
  2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20250624-c55-v10-5-54f3d4196990@ideasonboard.com>
+In-Reply-To: <2b32b8ed-c841-4862-afab-c583da644217@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 24/06/2025 12:21, Daniel Scally wrote:
-> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
+On 25/06/2025 11:05, Krzysztof Kozlowski wrote:
+> On 24/06/2025 12:21, Daniel Scally wrote:
+>> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
+>>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-You changed the binding significantly - adding new properties (which do
-not even follow DTS coding style).
-
-This invalidates the review. You cannot just keep growing it after you
-received a review.
+> You changed the binding significantly - adding new properties (which do
+> not even follow DTS coding style).
+> 
+> This invalidates the review. You cannot just keep growing it after you
+> received a review.
+> 
+Although if it is conflicting with my earlier message that some earlier
+changes - reset properties - were trivial and review should be kept,
+then apologies. Adding new, custom, vendor properties is not trivial.
+Adding obvious existing properties usually is, although I understand why
+it could also be a reason to drop review. In any case sorry for
+confusion, but this needs re-review.
 
 Best regards,
 Krzysztof
