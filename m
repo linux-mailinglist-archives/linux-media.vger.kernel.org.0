@@ -1,62 +1,92 @@
-Return-Path: <linux-media+bounces-35843-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35844-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89BFAE753D
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 05:27:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A8EAE76C9
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 08:12:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 38EC517BB69
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 03:27:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DEF23AFDB6
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 06:11:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C09361DA60F;
-	Wed, 25 Jun 2025 03:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B40D61F2BA4;
+	Wed, 25 Jun 2025 06:11:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o2daXyu1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1Eqvrpf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2633ECA5E;
-	Wed, 25 Jun 2025 03:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703E4307498;
+	Wed, 25 Jun 2025 06:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750822026; cv=none; b=HXQ/O0Fq6W8pW/0SYWllxSzfgAZOKejcV4PR/h5vK+wk7yZnJYPs9N1wisPU/A/lvvcLoNyYNP/Ds0cYWXpCSVAvwq4R003SFSQWIclcwGuEXG1MIJ+iUgDyGIlNqmpL/zxZNQeX5dWJBqpqUR0GUSrJQ5GZCjaRJGk/1ui1FWE=
+	t=1750831908; cv=none; b=BTmNuxeoF+Ujur5N2bWX75OyNNL+6C6fOZEHtrhSUuThAZ/UGcNif8B1Sx0Trb/xLYVAHS2/DKOjpbc0hPppT7Bo8KjIDsUaHCMK7gZ/3tWw3p7ftpcmBy3/Ewj/POvukXCX/SbPdUECvB3w3c+FeiXnYmdFsRidXl94oDl6VNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750822026; c=relaxed/simple;
-	bh=g8yJbDRU3cigldhY2jqAOJeXToTfsEDC/4DEmKLPWWE=;
+	s=arc-20240116; t=1750831908; c=relaxed/simple;
+	bh=BLRL/tfRl0xXr0I6Dv0V4j/7kZhCaRjPCxscsQX+91I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oBQfH/MPF9p4HojZ3nLQIahJd/TfTTZo1IOB+9bmVWQiONUkP1q+EXeaUbISoOdfkjHAsrYV4IXzVIi2C/f/0wTBCqSMifT06rfQAI8aOAjWiZpZArWuA/K9OqPF9HnxxkT8cie2eHB5k05WUyqRZroJj8U/K/0OjZQ41scBSm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o2daXyu1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E88EC4CEE3;
-	Wed, 25 Jun 2025 03:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750822025;
-	bh=g8yJbDRU3cigldhY2jqAOJeXToTfsEDC/4DEmKLPWWE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o2daXyu1mjcbU+WNa1Hiu8jmZ3UJdwfSQU96P8Zd2FSxQnnGPdN0LjmXFDnswdIb9
-	 S04xiCXepWjrXqkU4SlgUejuciGOrrFoAe6lKClL+DqaVUOvgtwuHmEDuiVITGc95U
-	 R4dUheblRKk172WbPW4bbuNXSABw7yWyf6Mqyo+MFHDK3npR0gPHmclnWxO3lYlg/m
-	 2ANBAWl4y+dCe/rbzM0xxwDt/NIikHQbdwaDtqOUadQGVWuHah+btzObG55/Wl1fp/
-	 jcIyp0wcD70eLgmlyiF9jHmV98kumRqBdzRrLEUtpamzvf/h9212ex4grqMwT7MBxh
-	 uR9Il1AAbY0Pw==
-Date: Tue, 24 Jun 2025 22:27:04 -0500
-From: Rob Herring <robh@kernel.org>
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
-	jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com,
-	mchehab@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, jerome.forissier@linaro.org,
-	kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v10 05/17] dt-bindings: media: Add bindings for ARM
- mali-c55
-Message-ID: <20250625032704.GA2501351-robh@kernel.org>
-References: <20250624-c55-v10-0-54f3d4196990@ideasonboard.com>
- <20250624-c55-v10-5-54f3d4196990@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=q875+fGSdwArwUad5T8YxHOXrCcSupBBMbJdc90Ux3fwS8hHuZwB1NRqsbc5EbnVHPEN/dUNVwhq3Fy2/B04dVyuG9lvfVzuY5zbT+mNmMAhO/1srwRuB5c3kAG37l7K9r2zd0gWp3MpqHNORJSf04tOmz0eOMAaUGVue5qT7VA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1Eqvrpf; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750831906; x=1782367906;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BLRL/tfRl0xXr0I6Dv0V4j/7kZhCaRjPCxscsQX+91I=;
+  b=W1EqvrpfD02qMiTw5zZBXuzrYdptBfMoV1Gff9hNiLSqr/IvV4g7Q9s2
+   rNYfJ5jhoUbNSBeYX66lGjiWp0eBoNJ+BjoG3mz4LWfvVRFOggHujJhrY
+   qRtqEkgSK0PjX9Qu+IIBmnVWEp/JuHdeEk2ZJdtM/89gIwKr3bDL94Cqy
+   aVEdGVJq2fC/nxo6onGH1nm9D1UfAIeQyZEavGjrIWhoEJrPAh9xbrtKq
+   OiFSFE8vgznDEZl2Xq7sg5aoCzAiRmEXD+U6A2XiJSf9ulGZmOaToV/L5
+   PzMDKaXeMJkTN5y+IpuXsnVwXlD/JtZB57/NIPUFW01aewmOA6qHhs1Ua
+   A==;
+X-CSE-ConnectionGUID: Y3kqi7PnSKGl7khX6OR3JQ==
+X-CSE-MsgGUID: wh30H9s4RviyPp6D9DNAXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="52203458"
+X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
+   d="scan'208";a="52203458"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 23:11:45 -0700
+X-CSE-ConnectionGUID: fhAeAE6jRWev4DSNMcxAng==
+X-CSE-MsgGUID: aGWvhxcmSt6GuB2BuoM4Tw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
+   d="scan'208";a="152298025"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.155])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 23:11:41 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id BA76F11FAB3;
+	Wed, 25 Jun 2025 09:11:37 +0300 (EEST)
+Date: Wed, 25 Jun 2025 06:11:37 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	"Nirujogi, Pratap" <pnirujog@amd.com>,
+	Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
+	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
+	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
+	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
+	Svetoslav.Stoilov@amd.com, Yana.Zheleva@amd.com
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+Message-ID: <aFuTGe1MnXNyvP3u@kekkonen.localdomain>
+References: <53674c5f-6b68-49e7-bbb0-fd06fff344c3@amd.com>
+ <8b16675a-c6ac-4619-aabe-ad2a4be6c964@amd.com>
+ <20250623220503.GA15951@pendragon.ideasonboard.com>
+ <425j7c6xvbbatdhxgjgjawzwfnjmjetg6rpnwfudbtg6qz6nay@dy5ldbuhtbvv>
+ <aFp7tuXkU1jayPum@kekkonen.localdomain>
+ <aFp78tqHhe_IhV6d@kekkonen.localdomain>
+ <20250624102745.GG15951@pendragon.ideasonboard.com>
+ <nixg4efp3zkdpd6h7kp6wkvam63batpoknov2nkgu36voks6bk@gzuackzl3l5g>
+ <aFqQEwdzSY123xps@kekkonen.localdomain>
+ <aslodzamkbjm6n6oherakch2nyltl6mnncl4mzr4o774oolr4t@hpegah7dq72g>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,168 +95,57 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624-c55-v10-5-54f3d4196990@ideasonboard.com>
+In-Reply-To: <aslodzamkbjm6n6oherakch2nyltl6mnncl4mzr4o774oolr4t@hpegah7dq72g>
 
-On Tue, Jun 24, 2025 at 11:21:18AM +0100, Daniel Scally wrote:
-> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
-> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> ---
-> Changes in v10:
-> 
-> 	- None
-> 
-> Changes in v9:
-> 
-> 	- Added the arm,inline_mode property to differentiate between inline and
-> 	  memory input configurations
-> 
-> Changes in v8:
-> 
-> 	- Added the video clock back in. Now that we have actual hardware it's
-> 	  clear that it's necessary.
-> 	- Added reset lines
-> 	- Dropped R-bs
-> 
-> Changes in v7:
-> 
-> 	- None
-> 
-> Changes in v6:
-> 
-> 	- None
-> 
-> Changes in v5:
-> 
-> 	- None
-> 
-> Changes in v4:
-> 
-> 	- Switched to port instead of ports
-> 
-> Changes in v3:
-> 
-> 	- Dropped the video clock as suggested by Laurent. I didn't retain it
-> 	for the purposes of the refcount since this driver will call .s_stream()
-> 	for the sensor driver which will refcount the clock anyway.
-> 	- Clarified that the port is a parallel input port rather (Sakari)
-> 
-> Changes in v2:
-> 
-> 	- Added clocks information
-> 	- Fixed the warnings raised by Rob
-> ---
->  .../devicetree/bindings/media/arm,mali-c55.yaml    | 89 ++++++++++++++++++++++
->  1 file changed, 89 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/arm,mali-c55.yaml b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..539fa8163bd07cf8a80c361012400cbcc7d073eb
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-> @@ -0,0 +1,89 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/arm,mali-c55.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ARM Mali-C55 Image Signal Processor
-> +
-> +maintainers:
-> +  - Daniel Scally <dan.scally@ideasonboard.com>
-> +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: arm,mali-c55
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: ISP Video Clock
-> +      - description: ISP AXI clock
-> +      - description: ISP AHB-lite clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: vclk
-> +      - const: aclk
-> +      - const: hclk
-> +
-> +  resets:
-> +    items:
-> +      - description: vclk domain reset
-> +      - description: aclk domain reset
-> +      - description: hclk domain reset
-> +
-> +  reset-names:
-> +    items:
-> +      - const: vresetn
-> +      - const: aresetn
-> +      - const: hresetn
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description: Input parallel video bus
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/graph.yaml#/properties/endpoint
-> +
-> +  arm,inline_mode:
+Hi Mehdi,
 
-arm,inline-mode
-
-> +    description:
-> +      The ISP can be either electrically connected to sensor and CSI-2 receiver
-> +      or driven through a DMA input device. This property declares the ISP as
-> +      being electrically connected to the source of image data.
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    mali_c55: isp@400000 {
-
-Drop unused labels.
-
-> +      compatible = "arm,mali-c55";
-> +      reg = <0x400000 0x200000>;
-> +      clocks = <&clk 0>, <&clk 1>, <&clk 2>;
-> +      clock-names = "vclk", "aclk", "hclk";
-> +      resets = <&resets 0>, <&resets 1>, <&resets 2>;
-> +      reset-names = "vresetn", "aresetn", "hresetn";
-> +      interrupts = <0>;
-> +
-> +      port {
-> +        isp_in: endpoint {
-> +            remote-endpoint = <&csi2_rx_out>;
-> +        };
-> +      };
-> +    };
-> +...
+On Tue, Jun 24, 2025 at 06:34:51PM +0200, Mehdi Djait wrote:
+> Hi Sakari,
 > 
-> -- 
-> 2.34.1
+> On Tue, Jun 24, 2025 at 11:46:27AM +0000, Sakari Ailus wrote:
 > 
+> [...]
+> 
+> > 
+> > I'm in favour of the latter but both should be workable.
+> > 
+> > Speaking of return values, devm_clk_get_optional() may also return
+> > -EPROBE_DEFER. That needs to be handled.
+> > 
+> 
+> Ack.
+> 
+> > And further on -EPROBE_DEFER, I think the helper should return
+> > -EPROBE_DEFER if the "clock-frequency" property doesn't exist on non-OF
+> > nodes. That signals the required software nodes required on Intel Windows
+> > definitions/ipu-bridge or AMD systems aren't in place yet so really probing
+> > should be deferred. This would allow removing the hacks that return
+> > -EPROBE_DEFER in sensor drivers when no graph endpoint is found.
+> 
+> device_property_read_u32() returns the following:
+> 
+>  * Return: number of values if @val was %NULL,
+>  *         %0 if the property was found (success),
+>  *	   %-EINVAL if given arguments are not valid,
+>  *	   %-ENODATA if the property does not have a value,
+>  *	   %-EPROTO if the property is not an array of numbers,
+>  *	   %-EOVERFLOW if the size of the property is not as expected.
+>  *	   %-ENXIO if no suitable firmware interface is present.
+> 
+> 
+> Do you mean something like this in the helper:
+> 
+> if (ret == -ENODATA && !of_node)
+> 	return ERR_PTR(-EPROBE_DEFER);
+
+I think -EINVAL is returned if a property doesn't exist on ACPI, same on
+software nodes. On software nodes you could also have -ENODATA if the
+property has no value. So test both of these?
+
+I'd also test !of_node first.
+
+-- 
+Regards,
+
+Sakari Ailus
 
