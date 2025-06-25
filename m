@@ -1,83 +1,83 @@
-Return-Path: <linux-media+bounces-35898-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35900-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190D7AE8D00
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 20:51:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EEAAE8D53
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 20:58:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1157F7B4D41
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 18:46:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12DC63BF5A4
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 18:58:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 362D11DE2DC;
-	Wed, 25 Jun 2025 18:47:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F20F2DECCE;
+	Wed, 25 Jun 2025 18:58:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Jrqk5bPR"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TRba6dtC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE2E226CF3
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE612D9EC7
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750877238; cv=none; b=R60wxV44W30v+Zvj4/mecHBm1fay1pj1Khp2FY5MUILQUWc+QLFFv1kAMnRmBWZhd5cbZteumBmtRg0uzJx7+xPch0XFmeMd+kgyYBAW5wGWqcsB8KlLv7DHEK/mgfHaSmPm6RZBCNRNgr+LfCdmy9lpJOr3QYHOJCif77j6EOE=
+	t=1750877888; cv=none; b=ghkhS9wue5wRPmdKjkzkYILsGLNQ4vJCz1rDldCrdX1STFBzf4ptLDJNagV7QYe/Okf6QOZV4/qeej3gpElFKu3bogRN4BOKznRTVgrVy/lsO8wgZyIfqiJD8j4l8UJJV/iFwva5InxmtmJyjKHTw0XeET87uYlXSjXDau0FnWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750877238; c=relaxed/simple;
+	s=arc-20240116; t=1750877888; c=relaxed/simple;
 	bh=zqSdjhSHpkblNmAx7Jv96M9CGYrcB2GAf4tTYELbQ04=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PlxeiCOCgsJGC8Gw8RT8Jfi51w5xTRFmqIDl/c1UroxsC6Fry0HxKqybZNP5XqJwrSDePGlNbx7OUrf/KPzvOO4X5sgRGehp/2Gj3r2FiXhaG8gi9eVERpJ3rMAG/f9eSf78JeTb/SCf2lCZ17ZWOyqbVVOrbbNIhyuef04wj7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Jrqk5bPR; arc=none smtp.client-ip=205.220.168.131
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LV7A0VG+E3adjvwAzaXti7PfjDY3WXiK7n43pS2HBjFGt2B3sV3alwY4w3wmoB63/qr8Xc6zY0D7LvcUauMSkpwB98DXT9Pc+a7EpbeGf4mDKKDGdU085KZ4Cl34VV5mkSSzLmJqbW9uaw0mJF5KZvP0DHn/oaVjuBNOG8H6/is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TRba6dtC; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PC5bOk014481
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:47:14 GMT
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PBXFYs027585
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:58:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:message-id:mime-version
 	:subject:to; s=qcppdkim1; bh=DDaKfWa9JkLEfvmGdiVO0NnfewQC+zJ/d5O
-	OZRnAs2E=; b=Jrqk5bPRhg+uWmjXVoyvmGvv+TrFjvM0RqvqV6tNHszsQgd5nKA
-	VGUPdtuYEJvkEVtfzSR9rgs+isOAbIijjL2/EIG1Bc1MZSEKpEzTltW+0wcFUguX
-	O7vgweEXb6+Mi3tXPcqA+KkOYhcP5M7f0XQ3XX/qgZzO9ZwyBw3T/alKbAcX3YdJ
-	Nn3Z+2Th8faP754oQw1YAHIt5cyXs05tuO8cGKznMTNZq4SVBH3+rO25qENJ7HaT
-	m9P56zUH1aB05668FSUh8t1s2Tb6AolaaJvAucQpWy7+R3PjxjIngFtJIn9DLr0i
-	4ZNjzwzMkd+at2Xwkwn0hp+OXRE624UhV+A==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47evc5t0ur-1
+	OZRnAs2E=; b=TRba6dtCtGbe/MubSW7es+Y2GhsMXIKGvWnKtwsf9YqsenCNEYC
+	iz8DL2F6J+jd/5HvcpBW0q8bs63TrnbJlVIjMzWaJGfEfGaZtKaVYtb8A3cEitFK
+	acGk2xPTW+h+BelSfF5fqXlHrbjOqZafJFtFqa8zOIxHNXalvzgt2o5P0A38Mu5P
+	D2IXTlWUAynFBETUKDHz/DVyQ7bw0nkEcC89X3eU3LVatPPeZKrNlSdMx4zB50+l
+	JKx3kUlJvmSFelDYozEVfkPraWF9PxOHy4N3zzHPFGpkT9UdyNuWsM73LTfmZC45
+	xw3QsiNKAPJ4HghiA1SVoyMZCahkbyQVmSQ==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47fbhqqdc8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:47:14 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-235f77f86f6so1497595ad.2
-        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 11:47:14 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 18:58:04 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-313fab41f4bso171165a91.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 11:58:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750877233; x=1751482033;
+        d=1e100.net; s=20230601; t=1750877884; x=1751482684;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=DDaKfWa9JkLEfvmGdiVO0NnfewQC+zJ/d5OOZRnAs2E=;
-        b=JAkG/uZ+08WJDGtykL2hBmii8aHkNxRA/pP2xbCIJajJ430A5NE17jciJ5lUP+bdA6
-         ILjxC8O1RxBcb1C/RQ8TC+EZwoKgXp4B76KE9wcs2EFBWNgCoUSsGshFEW4c+3dcIKiO
-         AGbFLPFq/gvciB5DS+Q34+6gmW2Fu2bm6yzGTtnWgH3Aj/aesY9MQ2SgkJ445XGTeZs2
-         CBaJav6hBXolx3CKwyg12WbgIAvnA5nuSMUHkShmRZ00CiSyGDUD34/hk7dita8gVykG
-         NzXFgMb5dMH/L6ne7FIzpQBE3jENXXL6qDtVxu4a64QvovJoj50N9ekkf7UQOCy/mh2s
-         Dq8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVMlFJGls+KsO3IFk+S+La5Ronu/H2XiYGexjfWOif/h2D10MLTUTHoVgJAAzoJhICgbZ2yf1WPnAY08Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWkkrJ3xWechoCaMgZn0wJiziiEbJTl+RH89YwkVc9hslw9kUz
-	OWS8lCKJBLDJNr4kv65D8BHrVQ4GYQ0CAWhKm3piAqgekQGDQTnObZVFlPwmCJNZmRdcGfZMlKi
-	6E8ynaBU68JtoLZ2YSaSWGUcQ1PJnOm4cnaVrolHO7B+SjXNPYB5LFeDAmEvXvdirhg==
-X-Gm-Gg: ASbGncv9Mrl3S7D8xfNOKUUdZ1iWhzA/ObRNrHgYKVOM2E+wWfzFmBjX/z/X2mYFBLN
-	ObfBxnW/izlsXOAGVT3U31p9hnizM+eujZrPAsNBcbuEoAMIthqwqg/76BwehKcJGNdNnJ3pzDe
-	VQoR08s6zV+MhbAmmpZyStjI/JuA+hlsPOHbvMhJC4HPxKw7wL2XtqoGrw26oL2HnsQnnkQ/boG
-	897F74ihskyQwmJ8iSXYNnTee+llbLQALu4j63j33bxo6dX/Cz4M3LXJZzUo6BcMKrhEx91Wbw5
-	HQ9mIK4SfRz6dcbvMZXOoa3tjMevuekd
-X-Received: by 2002:a17:903:32d1:b0:235:eb71:a37b with SMTP id d9443c01a7336-2382408724cmr67572215ad.46.1750877233357;
-        Wed, 25 Jun 2025 11:47:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEO53w3/nxfU9/dU412HEHtZUfe3tlcLkprB8bg0D246WxziCps93Fy6VhABVFhqj4E8rvtKQ==
-X-Received: by 2002:a17:903:32d1:b0:235:eb71:a37b with SMTP id d9443c01a7336-2382408724cmr67571615ad.46.1750877232839;
-        Wed, 25 Jun 2025 11:47:12 -0700 (PDT)
+        b=q4g26kKsubR+gSUNjGQCWiwU7lHzSPqLO9T4Rl+IZ20rju5Cw77mkS/E+ILS4g0MFJ
+         oPMFjcW6ZlsuyezxtCR+mBZ0LFGLDSu3F6nyPVjrQ6bakfCK1GWeguM3jnSJFpRqfNe2
+         JM9S3TV773sLgtnIB425Jay95KvDXoZhmx0wdivZHqGvnfHCfBTiYbPv7qA2lVZaumHK
+         /AFPS2j33Lxih9KZJwtLmIEwEBSQU5mEG7YVaeYk0JdHmkSClu0csKxHFRocArmjYYH+
+         qS/huMFitU6joFr6/BFZuBmIfVMK9SojtV24dU5Vmi3LMlyGVNZBgp/bpEcEVbXVOcs2
+         qEdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXjn7FnRkmpP96Z/aLdsms8WZ9+kG3CmzAhBEe45ln8qLUlv8wIGPsqN+BkRQo5rMBad//pCjq5XG0jhA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzijUShL09Wonb1t8jQRwjesSjPxmVC0pK9iPwBkms0lDGnPgiH
+	dKz4Fjoyn51gTj3XFuR7yOtK+F8E6qYRBrqWHhVaLn5obDnlXCQT1XUsHAJUhHNX3BYamGw2c2k
+	h7NgC8LHat1TiLQVporGAyrn+JudRbQ3YYbb7qPt6n2ijYF7JOxAEjewt6AOgxr5Bpg==
+X-Gm-Gg: ASbGncvzyIwFHVvimWG//50+WWhjzsYLQykyZQ5hj6UD+IWOU39f1tL8tsJCTdtpMuf
+	nuHrA37tJDhllTHOPCNTPOpY2JlvcZq3QR3MSp2CX+TSjhuHJ8JFw2pkpBwJofXvEEiFONt2eKX
+	L23ZO0QRssT1UcgLWiBsyLwtY2h+6ZZ1/2C2WLpvIuWwSQBa0xfgcXRCPtTX0FIazfvzjZDyoMm
+	Mu9ngNGZT+elcqhpe2VIQkRQEu7BQ59VqMcxPOElXdi0LJ/XhTppv9dNIn91UuW/ysl8KOGCBoO
+	plQUV5rW4SwUSF/Ia7xwI1Wn6Le6bw4G
+X-Received: by 2002:a17:90b:2c85:b0:30e:8c5d:8ed with SMTP id 98e67ed59e1d1-315f2671f79mr5632770a91.19.1750877883427;
+        Wed, 25 Jun 2025 11:58:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEK/2z/Vb51VR9atiYC58dhY+k/7pA4s15CdWX0lWPalCEljbEvjEWs9sFQy4l6EbfsNOK8FQ==
+X-Received: by 2002:a17:90b:2c85:b0:30e:8c5d:8ed with SMTP id 98e67ed59e1d1-315f2671f79mr5632719a91.19.1750877882952;
+        Wed, 25 Jun 2025 11:58:02 -0700 (PDT)
 Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d874fe39sm138244315ad.251.2025.06.25.11.47.12
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-315f53d94b1sm2380818a91.33.2025.06.25.11.58.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 11:47:12 -0700 (PDT)
+        Wed, 25 Jun 2025 11:58:02 -0700 (PDT)
 From: Rob Clark <robin.clark@oss.qualcomm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
@@ -103,8 +103,8 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Thomas Zimmermann <tzimmermann@suse.de>
 Subject: [PATCH v7 00/42] drm/msm: sparse / "VM_BIND" support
-Date: Wed, 25 Jun 2025 11:45:33 -0700
-Message-ID: <20250625184641.124103-1-robin.clark@oss.qualcomm.com>
+Date: Wed, 25 Jun 2025 11:46:53 -0700
+Message-ID: <20250625184918.124608-1-robin.clark@oss.qualcomm.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -113,30 +113,30 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 9hyAT2cVN9jBLQ09OvHMijSlYn_hXHBC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDE0MSBTYWx0ZWRfX3MBzCPQB1O2F
- mi0VmrvykPiM5HUuTNa6TvzmAsHgUmBFk2HrivzpPPLDAdHygjiIwxsAwD1kcj1D/YjxenEu5rG
- UgLkWn3qgjnBUxOqUt7tWdZ+DowYyst0gMcOw7+z68t2yzxDZ2rs+9nWYHHVHrOOzTr8ufFq5SJ
- DVPrEYSVYgdDVtN250x65q8clXu8AJ7Y7ZWJwU4bf7IIo9ZnRDOW/n0l76k4Elu4JzJOocVywhr
- KbvjrYzRF91uTCdSVLIcGQFpyb7xPv0d6X1R1C3rHw4r2WOsRCq3QQSmj6EHylY1XpiVTBRofuQ
- INDnqnYd2dEZwZv+Rbud/3uWCPsfkqhjg140bxWix88zLyJeQDce5TNiJ2lId25Mgj9d5LhpO06
- ijeQn3ZLPelAf/+ARobzMJ7p+LnDia97Rd9gD936GQQ8czZb4kbUjcu0pqGltK0jT3PwCalA
-X-Authority-Analysis: v=2.4 cv=caHSrmDM c=1 sm=1 tr=0 ts=685c4432 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+X-Proofpoint-ORIG-GUID: 3Ocuj75lrUzu8ehjUcyTlPxFA-UetM0g
+X-Authority-Analysis: v=2.4 cv=Id+HWXqa c=1 sm=1 tr=0 ts=685c46bc cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
  a=e5mUnYsNAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8
  a=zBYVM8QCAAAA:8 a=PoX65QKItS7eaLYJ0vsA:9 a=eVM1_HBmYRkA:10 a=YgSuLXRpIuYA:10
- a=te1wHPZ5H10A:10 a=1OuFwYUASf3TG4hYMiVC:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=te1wHPZ5H10A:10 a=mQ_c8vxmzFEMiUWkPHU9:22 a=Vxmtnl_E_bksehYqCbjh:22
  a=ArXkYGXkE6hBHcUMFODu:22
-X-Proofpoint-ORIG-GUID: 9hyAT2cVN9jBLQ09OvHMijSlYn_hXHBC
+X-Proofpoint-GUID: 3Ocuj75lrUzu8ehjUcyTlPxFA-UetM0g
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDE0MyBTYWx0ZWRfX+WyHhjmLIQ4w
+ xuXZcBCvP7K73Cjlu2ReCMlHRHE9MvatSYL4jfcpT/pUP5ItkyZMGzdQE03xck3ngOZkP0zhmTY
+ 0R/jBr2uxIFHXd/73h4PQA6c9Q8JukKbDJH15oWRFXd+3cKGQIuzifval4CUU4YJAbGuZg/juFS
+ voGy5yp6nVzf5aQQ/zbQezKRRFczW7rR6yrBOFXJ19arHfQkXeahanjuZRpbylu3i+XQLYYA1RF
+ vvs1DvL2zeQTmxz3or+Iga5+MvDwcm/icyx/VCJQlyI66e5Pl+UCwGppGl7E6p+pqDQdvj8Gvpy
+ tl9nI5Egt9P3OMetq3PL9SBD/6aJdDGrE6DZS/cOeOFx+WvArek3AcRkyDUclQ+0eZ5Or0WIxIp
+ iiE5YMf3fxnQfWZl7FNEcVAuNgKWbR+j78u8HWrWy7EC181kiy4zky6Rv4hmCyNB0WnKBQNc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-06-25_06,2025-06-25_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxlogscore=999 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 adultscore=0 mlxscore=0 spamscore=0
- malwarescore=0 phishscore=0 clxscore=1015 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506250141
+ spamscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0 bulkscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506250143
 
 Conversion to DRM GPU VA Manager[1], and adding support for Vulkan Sparse
 Memory[2] in the form of:
