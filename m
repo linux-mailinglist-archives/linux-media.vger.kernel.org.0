@@ -1,301 +1,210 @@
-Return-Path: <linux-media+bounces-35894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35896-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A77AE8B19
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 19:07:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9E9AE8C36
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 20:21:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 806777BB319
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 17:00:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6818D4A6B10
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 18:21:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA63E2D8DBB;
-	Wed, 25 Jun 2025 16:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BE0B2D8DA9;
+	Wed, 25 Jun 2025 18:21:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JZADpfoR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tk364R0V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE6D2D5C89
-	for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 16:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72552D5419;
+	Wed, 25 Jun 2025 18:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750870443; cv=none; b=HTW1Pbx05r/6qGjM2EcL1LKRZ9y5mSpzfBxhWQAc14ytp8ZWdmHf3Fcrs3KbafjwKgv0AUO0/X3f16yTxKJQLGqeUxna929FBMT9sX7I2j+gZFRp2BdoFeJI/oA3bedYMcflfg5mscN0FYLF57YSAob2r1wphe2WCR2gOL9WpH8=
+	t=1750875687; cv=none; b=TrB0foUxmyC05cYiTG2RdWO3A1ZnBaiV22wkjFjHdNMUVi1C+eg0O5eRb95RACNVr6km+c16TOHb5eDwbp3IPI0+VFRLFUPfY9z7uI7KwSZy/uk8BTDVKSVQXs5nNnxZWoU4Q8xT3ewrWrgxvztfSn9OI67+pJegv0/PIc8tOBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750870443; c=relaxed/simple;
-	bh=o6UrV5JR/M2BjIVu1rHv65TsxPIMuRbVhqE7CPB8hRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uKNZ/HWLXD/yAg2wHfP6EbsiCHRvy3r/ssym7SfmGqqZ8VBYkjLFGEH27d0BVquEqU04jzYJJ+4LEU1Gfos8RWcSFI0rXj9r3y72usrVYZ869xuFcJa5+bZowZN+mDfbBPego0favyGkehWZgek4uaIzkdNZ2SUlUgt6uArk510=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JZADpfoR; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750870441; x=1782406441;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o6UrV5JR/M2BjIVu1rHv65TsxPIMuRbVhqE7CPB8hRc=;
-  b=JZADpfoRoZIOZ7IUnY8QbwsIGUN9ySGUnNx74hSKKYfsTofBBgA4OuOK
-   80d8WMjdd2xHePmWpsCsJBHbIFkCvL4Vgl5bPdXIEA2hFtvv8lCjhgz3V
-   Ru/RikbA9x5QoZMigI0I99NUC0WuBLZae17SHyofrctgBcxZDO8MWQBam
-   B60BSjYSkk5yXthwnx1yaemOUzAP8kEqANM+7pHR/F9OF/4BgzohR+EXb
-   QbqyOrYHwBzCHeL5I/zj2xKorrAuWlufXPv2zqZqptmxmhq0hhMWktUQJ
-   NWObdo2JcutD6RAcOIi62VkNjzAfhSGtb8OM8GrsGk65ruLHtPcgTIxUA
-   g==;
-X-CSE-ConnectionGUID: 2IZ7GbArTg+Lck2GFXCK6g==
-X-CSE-MsgGUID: PS8TQYVKSnevoxKqbdAvoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53247131"
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="53247131"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 09:54:01 -0700
-X-CSE-ConnectionGUID: N3J2VF0UTsmg9+U2dY0UtA==
-X-CSE-MsgGUID: kxROZZq/QTKZJXugdXIcIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="156293152"
-Received: from agladkov-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.57])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 09:53:58 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E4D2A11F737;
-	Wed, 25 Jun 2025 19:53:54 +0300 (EEST)
-Date: Wed, 25 Jun 2025 16:53:54 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
-	tomi.valkeinen@ideasonboard.com, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 11/13] media: v4l2-subdev: Introduce
- v4l2_subdev_find_route()
-Message-ID: <aFwpolfI0Ox9he4t@kekkonen.localdomain>
-References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
- <20250619081546.1582969-12-sakari.ailus@linux.intel.com>
- <fez66dv6tnyuhdfkqsy7fuwmq7kpw4vnuxaqq6j4butyjhfj3q@mz6zp7ensofq>
+	s=arc-20240116; t=1750875687; c=relaxed/simple;
+	bh=6zTjp7jRB2Jx+9WHHH175m07BThSG/TYu6uPE8FB4jo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iXonGY6tdT6N8RZNMIDkv5o9Mk663+0ogc5zDXdFgeWK1UlAVjhOx2Ed7HqVHe4uSAzwMB67HJMUvaWA7/ponpEQ31ToDVwMSGbYKBLMlNAubEwb4pU/sg83OPnGXDIbqPB1avvRSIp0QLhZEpH75g2Lq2EsSBb4vfSUJpJeB+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tk364R0V; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7EB33C4CEEA;
+	Wed, 25 Jun 2025 18:21:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750875686;
+	bh=6zTjp7jRB2Jx+9WHHH175m07BThSG/TYu6uPE8FB4jo=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=tk364R0VnsrIsvLDO06yfWzbHZIUOWfPbkBdzhT5uLm7fxI7B85FOSE56wQeE93yw
+	 eK14Fphr4s8BLnfP70+EZhv7b6lI+bB9JcGs2ZvYGRIPmxunnTn/rUnOygHsDQuh4r
+	 qR800JsxEq4BmCC5NCBIKrrhaBihvEqJBHozUjEynSTdDixZRR5gY8xsyr5eeQ1IMy
+	 kx2szrlWT9r6/lzTfyZ1inMqqPw5t5xaJ8uUWz5AyhnYuwpEzVN3PYHAPprglenfiN
+	 Mixa0sqKbKnRBifxu66RENgU57WehaqIvqwlxfpkPe9j2SOM9b5LULboUC9q0MeR0u
+	 QGCiy4qzkqOCQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72EF7C7EE30;
+	Wed, 25 Jun 2025 18:21:26 +0000 (UTC)
+From: Stuart Burtner via B4 Relay <devnull+sburtner.d3embedded.com@kernel.org>
+Subject: [PATCH 0/2] media: i2c: Add driver for Sony IMX728
+Date: Wed, 25 Jun 2025 14:20:02 -0400
+Message-Id: <20250625-imx728-on-6-12-v4-v1-0-cfc6e18c3e23@d3embedded.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fez66dv6tnyuhdfkqsy7fuwmq7kpw4vnuxaqq6j4butyjhfj3q@mz6zp7ensofq>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANM9XGgC/x3MPQqAMAxA4atIZgMaU/+uIg7SRs1glRakIN7d4
+ vgN7z0QJahEGIsHgtwa9fQZdVmA3Re/CarLBqrIVC0x6pE66vH02GJNeDMyN9YY4cF1K+TuCrJ
+ q+p/T/L4f4BTSnWMAAAA=
+X-Change-ID: 20250624-imx728-on-6-12-v4-443c55e49d7f
+To: Stuart Burtner <sburtner@d3embedded.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Spencer Hill <shill@d3engineering.com>, 
+ Sebastian LaVine <slavine@d3engineering.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3965;
+ i=sburtner@d3embedded.com; h=from:subject:message-id;
+ bh=6zTjp7jRB2Jx+9WHHH175m07BThSG/TYu6uPE8FB4jo=;
+ b=owEB7QES/pANAwAKAUhClGWrMl62AcsmYgBoXD4UCgoBBbMxRsAo6haiO2mY7nAmNjcvb0+aI
+ cVGZrqZxAuJAbMEAAEKAB0WIQRYcXSPQoXxpLLN1/FIQpRlqzJetgUCaFw+FAAKCRBIQpRlqzJe
+ tg/ODACzTuZLcmQupvz2GECUgNtyaPVLf5/NKaD8BBA2G6eft66Ee0t6kuMcgIgA+KeXf6h1UZi
+ NmWZPTHo7DB9HhDImLl8gu19mTJt89ocTH/va19/im54B6zQvjGxGXysKsBZRy/RiqgVgV02uFg
+ cdAXF/qbe1ygQGot5rXJy/nIrxM4ALW2H/chZQRn5qaYXotq05mOfqq/9Zun9On4ZemLkgVP+ns
+ z0Fbv3e9xe7smoaMYF929MNTLdj2dhEQSRUSOEHqf2tndrfEQh/C3PV1BT2NC1qISTIlDBHZ6W1
+ W05ccVYdwSpfjOJGRTe64ust/HkaiHG7kjFNnUHwcmAk2U2m+LNJgm3E0Ozk+svBCXYgwuO6anT
+ AoibwPaMPZVRdk3XTP+yBtx9EpxaZtjswUoCYmjBN8fvWS42eKNqzMtBYDJCSTZ6aLt6cYrwJUi
+ nnJue1rw9kaZXO5FG01mWNpe/6hzL8DuTx6gkvGHBzG7o+2Vv56o939PH77PpKLFAi19M=
+X-Developer-Key: i=sburtner@d3embedded.com; a=openpgp;
+ fpr=5871748F4285F1A4B2CDD7F148429465AB325EB6
+X-Endpoint-Received: by B4 Relay for sburtner@d3embedded.com/default with
+ auth_id=441
+X-Original-From: Stuart Burtner <sburtner@d3embedded.com>
+Reply-To: sburtner@d3embedded.com
 
-Hi Jacopo,
+Hello! My name is Stuart Burtner.  I will be continuing the work done by Sebastian & Spencer
+on this driver. I will finish this patch series and maintain this driver moving forward.
 
-Thanks for the review.
+This series adds a V4L2 sensor driver for the Sony IMX728, and related
+devicetree overlays.
 
-On Fri, Jun 20, 2025 at 10:14:58AM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Thu, Jun 19, 2025 at 11:15:44AM +0300, Sakari Ailus wrote:
-> > v4l2_subdev_find_route() is like v4l2_subdev_routing_find_opposite_end(),
-> > with the difference that it's more flexible: it can look up only active
-> > routes and can find multiple routes, too.
-> >
-> > v4l2_subdev_find_route() is intended to replace
-> > v4l2_subdev_routing_find_opposite_end().
-> 
-> To me this feels like v4l2_subdev_find_route() could be used to
-> implement more helpers like v4l2_subdev_routing_find_opposite_end()
-> for drivers instead of going the other way around.
-> 
-> let's see what the use cases are
-> 
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-subdev.c | 56 ++++++++++++++++++---------
-> >  include/media/v4l2-subdev.h           | 19 +++++++++
-> >  2 files changed, 56 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > index c549a462dac7..13d6e96daf3a 100644
-> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > @@ -1996,34 +1996,52 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
-> >  }
-> >  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
-> >
-> > -int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
-> > -					  u32 pad, u32 stream, u32 *other_pad,
-> > -					  u32 *other_stream)
-> > +struct v4l2_subdev_route *
-> > +v4l2_subdev_find_route(const struct v4l2_subdev_krouting *routing,
-> > +		       u32 pad, u32 stream, bool active, unsigned int index)
-> >  {
-> >  	unsigned int i;
-> >
-> >  	for (i = 0; i < routing->num_routes; ++i) {
-> >  		struct v4l2_subdev_route *route = &routing->routes[i];
-> >
-> > -		if (route->source_pad == pad &&
-> > -		    route->source_stream == stream) {
-> > -			if (other_pad)
-> > -				*other_pad = route->sink_pad;
-> > -			if (other_stream)
-> > -				*other_stream = route->sink_stream;
-> > -			return 0;
-> > -		}
-> > +		if (active && !(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-> > +			continue;
-> 
-> I know currently v4l2_subdev_routing_find_opposite_end() does return
-> any route that matches the provided 'pad' and 'stream' included
-> non-active ones, but I wonder if this is desirable. What is the use
-> case for enumerating a non-active route between two pads ?
+v3 [0] -> v4:
+- Drop set_fps() function because it doesn't actually change FPS
+- Use "guard" instead of mutex_lock()
+- Fix error checking on imx728->reset_gpio
+- Fix attribution of Spencer Hill as Co-Author
+- Fix maintainer entry for Stuart
+- Clean up documentation for gpios, per notes from Krzysztof Kozlowski
+- Removed defconfig modifications
 
-Good question. v4l2_subdev_routing_find_opposite_end() nevertheless returns
-them. And the caller won't get the route for checking the state either.
+[0]: https://lore.kernel.org/all/20250212195656.69528-1-slavine@d3embedded.com/
 
-> 
-> (it is also my impression that all drivers that use
-> v4l2_subdev_routing_find_opposite_end() assume the route is active)
-> 
-> Also I wonder if the usage of V4L2_SUBDEV_ROUTE_FL_ACTIVE is clearly
-> defined, or, in other words, what is the use case for userspace to
-> create non-active routes, given that any new VIDIOC_SUBDEV_S_ROUTING
-> will anyway re-create the routing table (that's a different question,
-> on the ioctl definition and not on this change though)
+v4l2-compliance 1.26.1-5142, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 4aee01a02792 2023-12-12 21:40:38
 
-I think it is. Please review the UAPI documentation in the metadata series.
-:-)
+Compliance test for device /dev/v4l-subdev4:
 
-> 
-> >
-> > -		if (route->sink_pad == pad && route->sink_stream == stream) {
-> > -			if (other_pad)
-> > -				*other_pad = route->source_pad;
-> > -			if (other_stream)
-> > -				*other_stream = route->source_stream;
-> > -			return 0;
-> > -		}
-> > +		if ((route->source_pad != pad ||
-> > +		     route->source_stream != stream) &&
-> > +		    (route->sink_pad != pad || route->sink_stream != stream))
-> > +			continue;
-> > +
-> > +		if (index--)
-> > +			continue;
-> > +
-> > +		return route;
-> >  	}
-> >
-> > -	return -EINVAL;
-> > +	return ERR_PTR(-ENOENT);
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_subdev_find_route);
-> > +
-> > +int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
-> > +					  u32 pad, u32 stream, u32 *other_pad,
-> > +					  u32 *other_stream)
-> > +{
-> > +	struct v4l2_subdev_route *route;
-> > +
-> > +	route = v4l2_subdev_find_route(routing, pad, stream, false, 0);
-> > +	if (IS_ERR(route))
-> > +		return PTR_ERR(route);
-> > +
-> > +	bool is_source = route->source_pad == pad;
-> > +
-> > +	if (other_pad)
-> > +		*other_pad = is_source ? route->sink_pad : route->source_pad;
-> > +	if (other_stream)
-> > +		*other_stream = is_source ?
-> > +			route->sink_stream : route->source_stream;
-> > +
-> > +	return 0;
-> >  }
-> >  EXPORT_SYMBOL_GPL(v4l2_subdev_routing_find_opposite_end);
-> >
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index deab128a4779..9ed8600ba3d4 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -1547,6 +1547,23 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
-> >  				     const struct v4l2_subdev_krouting *routing,
-> >  				     const struct v4l2_mbus_framefmt *fmt);
-> >
-> > +/**
-> > + * v4l2_subdev_find_route() - Find routes from a (pad, stream) pair
-> 
-> from or for ?
+Driver Info:
+	Driver version   : 6.12.33
+	Capabilities     : 0x00000000
 
-From or to. I'll fix this in the next version.
+Required ioctls:
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
 
-> 
-> > + * @routing: routing used to find the opposite side
-> 
-> I would not say "opposite side" but rather
-> 
->       @routing: routing table used to enumerate routes
+Allow for multiple opens:
+	test second /dev/v4l-subdev4 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
 
-How about simply "the routing table"?
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-> 
-> > + * @pad: pad id
-> > + * @stream: stream id
-> > + * @active: set to true for looking up only active routes
-> > + * @index: for accessing more than one route from the pad
-> 
-> I understand this but maybe
-> 
->      @index: route index for enumerating multiple routes
-> ?
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
 
-Sounds good.
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
 
-> 
-> > + *
-> > + * Find a route from the routing table where one end has (pad, stream) pair
-> > + * matching @pad and @stream.
-> 
->     * If multiple routes in @routing match @pad and @stream, return
->     * the @index one.
->     *
->     * Set @active to true to only enumerate active routes.
-> 
-> > + *
-> > + * Returns the route on success or -ENOENT if no matching route is found.
-> 
-> I see other functions documentation using
-> 
->     * Return:
-> 
-> is this a kernel-doc thing ?
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
 
-Yes, makes sense.
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 9 Private Controls: 0
 
-> 
-> > + */
-> > +struct v4l2_subdev_route *
-> > +v4l2_subdev_find_route(const struct v4l2_subdev_krouting *routing,
-> > +		       u32 pad, u32 stream, bool active, unsigned int index);
-> > +
-> >  /**
-> >   * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
-> >   * @routing: routing used to find the opposite side
-> > @@ -1555,6 +1572,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
-> >   * @other_pad: pointer used to return the opposite pad
-> >   * @other_stream: pointer used to return the opposite stream
-> >   *
-> > + * Prefer v4l2_subdev_find_route() over v4l2_subdev_routing_find_opposite_end().
-> > + *
-> 
-> As said, I'm not sure if that's preferred or we should rather create
-> more helpers using v4l2_subdev_find_route() internally. Time will tell
-> I guess ?
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
 
-I agree.
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
 
-The benefit of the older function was that it returns information that
-doesn't need a lock for accessing it.
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
 
+Total for device /dev/v4l-subdev4: 44, Succeeded: 44, Failed: 0, Warnings: 0
+
+---
+Stuart Burtner (2):
+      media: dt-bindings: Add Sony IMX728
+      media: i2c: Add driver for Sony IMX728
+
+ .../devicetree/bindings/media/i2c/sony,imx728.yaml |   95 +
+ MAINTAINERS                                        |    7 +
+ drivers/media/i2c/Kconfig                          |   12 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/imx728.c                         | 9628 ++++++++++++++++++++
+ 5 files changed, 9743 insertions(+)
+---
+base-commit: 23fdf46589db718d538fa3e65ab0d57362d50b4a
+change-id: 20250624-imx728-on-6-12-v4-443c55e49d7f
+
+Best regards,
 -- 
-Regards,
+Stuart Burtner <sburtner@d3embedded.com>
 
-Sakari Ailus
+
 
