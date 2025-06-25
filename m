@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-35847-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35848-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D5CAE77A1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 08:58:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84373AE77AA
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 09:01:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D83F07B023C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 06:56:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5F027B3578
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jun 2025 07:00:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E8FA1F5849;
-	Wed, 25 Jun 2025 06:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4829C1FBE8C;
+	Wed, 25 Jun 2025 07:01:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjHN1vSW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLbygNTJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F329178372;
-	Wed, 25 Jun 2025 06:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3533074B1;
+	Wed, 25 Jun 2025 07:01:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750834685; cv=none; b=HHaZOQkhbLZTP2PtVMvcmOsHO2vQbvFbIMYvPKFgssD9Oz59wC8x/6wnFz12mi3bYg9IoCzsIc6Y6UOyIuUWEtXCIS4Xoy7xHzphHVmdq76ZHtwYqgfLnerBND+vS1VQ37XaBtUBBzzC2d0BqnDEk8jXZUGhWBpGYcR0kSwZOek=
+	t=1750834870; cv=none; b=YwQbT2TmHk+Wn22waSYPptA8dosEt/i484G9rpHbpmpuyyTIM7KsHkPIAHXiRgvr/NN62lov+h5UtkyLlK5T5JI5+jSiT9Wy2ZrKc0s2kCW5grFRQ2Bre79yxft+jSxktZAt2Hz5FxYhnrvyW+DOx661cQJe7OrF4CJd+gXUqac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750834685; c=relaxed/simple;
-	bh=T5AhNiQAr14Iyr7zRPMMiE2nRtl/yvq3LjlSKw8tWU8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uibcDv4Z55p5nBhnu66DwFlIW69PJq1V+fjrPWpapPOH/SugfecVuS9FctTI+0sdYBBhzZr0Ga4bGb5GU8nXeflGYC2TraS5sah4DS1mbbroroHwLGSwNe0ElccrD2K05LWCJjmoVxBVqiq4fP5GkVbRq1Sg4t8HRj4A0lH+mbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjHN1vSW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 807DDC4CEEA;
-	Wed, 25 Jun 2025 06:58:02 +0000 (UTC)
+	s=arc-20240116; t=1750834870; c=relaxed/simple;
+	bh=KNaD9WNpMpezEzpF6Wf5xJnjTCe/it9JfR5wVoryt8Q=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=mx3EnCUR/k+sdzjVHD301+0Xe+gtseNPc8srfDbPS32N8Tt+dTg/r4ugeVsWvjo8+PydrEYmXY61GdgtQbNWQxHXdFwfsYeZki6mUkhp9hxVkg0MBc+Ord5D2u1Amv1DP5bucw2KHrWZvNOaWZXgL1DphYe95ZYMZ6RaHwa4Iao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iLbygNTJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCF84C4CEEA;
+	Wed, 25 Jun 2025 07:01:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750834685;
-	bh=T5AhNiQAr14Iyr7zRPMMiE2nRtl/yvq3LjlSKw8tWU8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MjHN1vSWNef7554xM5GtpeQby7T/3vRgsgxq2yBr7JKJB6Jt8QFPNmNqAd0Axx89v
-	 mwnxfyc93lnwksYPjWnhV2Qb7lBd2sMuqaFw66h9VeypbSDx3XWLg2QRbKPc5kXiIg
-	 NZIdrjrd/isOHvivqioMh3hCxyR4/65Tn6LRQbGuYZG0h9Uji2S2/JPc0tGa88k47E
-	 /SNukeQCpr30xIDKGie6oduEi1T59EFxHqYMRfV4yoCAJ4KXGRI/42MjCa937+cmm2
-	 xaJenQcby41DIO6V5gLiTQ26L/6y0+Tl8+XCszhxvRRet9MR9kd2n8gaCoh810Lo3B
-	 YOPL4JYuFnxbg==
-Message-ID: <329b89a4-85a9-496f-8b1b-6239dfc9057b@kernel.org>
-Date: Wed, 25 Jun 2025 08:58:00 +0200
+	s=k20201202; t=1750834870;
+	bh=KNaD9WNpMpezEzpF6Wf5xJnjTCe/it9JfR5wVoryt8Q=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=iLbygNTJddfXZuz4w8BeHSOP+USrDuHqKsSt2cvBjbpZOnzfpis4KiyHsFSqo1JkQ
+	 Trk74in6TSUwkwWftyp0uMeR20IJKy4ZfwqcivZpw2cnOwhX6jhVCRaM4EdC5h4zEF
+	 PpZhp3sQv3HLcmJpEBlJWei7sGeYRqX3Z/hJLK+WjSi0d0Ezvcg4GhTTRewCK7Dgsn
+	 i0VK9DxS11k6cwSyZQ2WpC02R9iWOc4ceax/AGi6DJtiVYWKzgclbMlxqlFaWPe969
+	 pJhaNuZ0GQAoDGDGB7Da3ggP/vEEYEcmo2zbI4IEG/aC/QjRD1n+2PkNeSHP507ZBG
+	 jJKo3DLzDPFbA==
+Message-ID: <930edec1-7403-4ecf-bb17-2e68b8d351f8@kernel.org>
+Date: Wed, 25 Jun 2025 09:01:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,6 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/2] dt-bindings: media: qcom,x1e80100-camss: Sort
  interconnects alphabetically
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
  Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>
@@ -66,7 +67,7 @@ References: <20250624094253.57441-1-vladimir.zapolskiy@linaro.org>
  <fff77f71-e21b-43b9-9da5-6cf819add970@linaro.org>
  <5a5b78f7-e156-4c5e-8407-b249040e227d@kernel.org>
  <c29385d4-30ea-4774-9cf9-699b08e29800@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <329b89a4-85a9-496f-8b1b-6239dfc9057b@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -111,43 +112,71 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <c29385d4-30ea-4774-9cf9-699b08e29800@linaro.org>
+In-Reply-To: <329b89a4-85a9-496f-8b1b-6239dfc9057b@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 24/06/2025 15:29, Vladimir Zapolskiy wrote:
-> On 6/24/25 15:04, Krzysztof Kozlowski wrote:
->> On 24/06/2025 13:38, Vladimir Zapolskiy wrote:
->>> On 6/24/25 13:10, Krzysztof Kozlowski wrote:
->>>> On 24/06/2025 11:42, Vladimir Zapolskiy wrote:
->>>>> Sort the entries of interconnect and interconnect-names lists in the
->>>>> alphabetical order of values in the latter property.
+On 25/06/2025 08:58, Krzysztof Kozlowski wrote:
+> On 24/06/2025 15:29, Vladimir Zapolskiy wrote:
+>> On 6/24/25 15:04, Krzysztof Kozlowski wrote:
+>>> On 24/06/2025 13:38, Vladimir Zapolskiy wrote:
+>>>> On 6/24/25 13:10, Krzysztof Kozlowski wrote:
+>>>>> On 24/06/2025 11:42, Vladimir Zapolskiy wrote:
+>>>>>> Sort the entries of interconnect and interconnect-names lists in the
+>>>>>> alphabetical order of values in the latter property.
+>>>>>
+>>>>> We do not sort these entries alphabetically and you did not explain why
+>>>>> you are doing this.
 >>>>
->>>> We do not sort these entries alphabetically and you did not explain why
->>>> you are doing this.
+>>>> I did it, because I assume that the preference is to sort all named
+>>>> values alphanumerically.
 >>>
->>> I did it, because I assume that the preference is to sort all named
->>> values alphanumerically.
+>>> Where is such preference documented?
 >>
->> Where is such preference documented?
+>> There is no such preference documented, as I stated it was my assumption
+>> and it was based on your firm insistance to apply a particular sorting
+>> order for regs, clocks and interrupts properties. Apparently you are
 > 
-> There is no such preference documented, as I stated it was my assumption
-> and it was based on your firm insistance to apply a particular sorting
-> order for regs, clocks and interrupts properties. Apparently you are
+> Hm? And the rule is by name? I don't think I ever expressed that or
+> insisted on some sorting by name. During previous talks on camss
+> numerous times you ignored the ONLY rule of sorting I was insisting:
+> keep the same as all other devices. That was the one and only rule.
+> 
+>> fine with out of the same sort order for 'interconnects' values, the
+>> criteria of picked properties remains unclear for me.
+> 
+> I don't understand why it is unclear. That time with Bryan you both
+> received VERY CLEAR feedback from me: there is no such rule of sorting
+> any values. Yet you were pushing the discussion and patchset like there
+> was something.
+> 
+Look, the first reply:
 
-Hm? And the rule is by name? I don't think I ever expressed that or
-insisted on some sorting by name. During previous talks on camss
-numerous times you ignored the ONLY rule of sorting I was insisting:
-keep the same as all other devices. That was the one and only rule.
+https://lore.kernel.org/all/65e5796a-8b8d-44f0-aef4-e420083b9d52@kernel.org/
 
-> fine with out of the same sort order for 'interconnects' values, the
-> criteria of picked properties remains unclear for me.
+"You are supposed to keep the same order, as much as
+possible."
 
-I don't understand why it is unclear. That time with Bryan you both
-received VERY CLEAR feedback from me: there is no such rule of sorting
-any values. Yet you were pushing the discussion and patchset like there
-was something.
+What rule is unclear here?
 
+Even more precise reply from me:
+
+https://lore.kernel.org/all/8f11c99b-f3ca-4501-aec4-0795643fc3a9@kernel.org/
+
+"I don't imply sorting by name is any better. "
+
+And:
+
+"The only rule is that all
+devices from same family type must have the same order."
+
+
+And now you claim there was from me "firm insistance to apply a
+particular sorting" in context of name?
+
+So again, my entire feedback repeated multiple times during that
+discussion is totally ignored and twisted to some fake new rule of name
+sorting.
 
 Best regards,
 Krzysztof
