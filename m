@@ -1,148 +1,134 @@
-Return-Path: <linux-media+bounces-36020-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36021-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47106AEA271
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 17:26:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FCEAEA25A
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 17:22:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1958B188FAF8
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 15:17:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0CAE3BC241
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 15:19:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 909B22EBB82;
-	Thu, 26 Jun 2025 15:17:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F109A1C84A5;
+	Thu, 26 Jun 2025 15:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K0IAgseI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TW4qFg3n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBB82E7187
-	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 15:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73A428934F;
+	Thu, 26 Jun 2025 15:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750951040; cv=none; b=nQZ5ZKP9ECZPRO0MnQWes0rGtq1aZW3SajxesUCzYs13vD2MTNClQxdKYCA4TI4/WPfXJd0Hd2MgidUIh7belUE/I28WtMhJ2WpDUxlY7Gjxce/n85Yd0dL562893ip1EfrN4ScrFyswTd942mTmJ76OlW3uE0nfxBruSA1xNq4=
+	t=1750951194; cv=none; b=a3b433ckQVchAu/L9PD7Y6pPe/pJFR2rSiAV2EaSNNjwI6OvpDMbV/GgAorE70S0pkHiBGbqDxtivsqlc/rw+xR2o4V7Wjugwc4qxvprCE9LnMTkR2fJq3FZMgwV6YZlh19Seo/3p5Pew9RXdTTQQV9VxhHrklMUSOP1qR/ZbyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750951040; c=relaxed/simple;
-	bh=YRHUWtBioUAE940IwD0SoMVEzjicN0Uc97896e6u9aE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rRekmb9vLCk7KS3bjjTMFZEehobxC9a1BjrJ/eaalOMNxrnxQu4FzA2ONwXcIWxz8fQNQPhmVTyfH5Ukw9d1+JsUzkY8eUFGkUCsgpMrXKCUcJyCW36K5VBlsOD/miVS7KO7pgU6m2KsoHzCGSOsuOsLr4mhlV4MVWewdw1jW00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K0IAgseI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0F3A63B;
-	Thu, 26 Jun 2025 17:16:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750951018;
-	bh=YRHUWtBioUAE940IwD0SoMVEzjicN0Uc97896e6u9aE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=K0IAgseImE+slYJR4YSEWDKVDCNhtxszlgCAYjrrOsRvaeyqh3zymBRyLpljWh5a9
-	 cBv6018ZsHYJwTl05U2ZH0ICJNTeeP8GoyH5WOgeL0suxioMIqtko+Lzx4A7juMwp4
-	 FT3q5hRVZcUhQAHgnZW9KaVmD7kxgDXnpEIjKqJY=
-Message-ID: <15ed5a72-8c0d-4e94-90e6-dc3ea6e39e89@ideasonboard.com>
-Date: Thu, 26 Jun 2025 18:17:13 +0300
+	s=arc-20240116; t=1750951194; c=relaxed/simple;
+	bh=R+c2qSbTSKIC0tT9gkvNPds08WjRbxM6PibZWtchYDQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bTr/HIRSqtuYhk4cm9izajXqKwi2DntmLHcFBhs7SviWUp4BkcxwxotlAVKl0idsTQ7wh1D5aeqhs++xa1Ls5JIHnw77rsCTPTXpwTCIkC8D+6zOMFaGvn5EJ2RAdt7dlHh3n93DTZKxQTpxj+4/dI2TlXWmmCYzGPGR8sC6Pk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TW4qFg3n; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-70cb9ae5479so1059627b3.2;
+        Thu, 26 Jun 2025 08:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750951192; x=1751555992; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1JJKqMrEaML+dwFM/EI98+cWAy1tTBYyBi2gNj/iDEY=;
+        b=TW4qFg3nmfLHuwAup57tF9TA1VkJVIjV0M+jCX0dB+A+BCvrhsRDivMDoecAWL2Onb
+         69UL6I6LN4c4Np4KEdcMgwBQOqil3ACAbhFFplU1TkVy1Wa7xW4jElxJpwcAassV0xet
+         XVa2LnXI0U7BwI2YKmlxJD+gZohpQxdTelaIZDN8jiyqN7wGI9PwovZr9An7ZjRbQqCR
+         aRXZhxibXpoTfXQFjlT1qCNBPFGoRCbY9i5Cr75tRCg2rwyp+Ke71blLGIR1hpU9Bu9q
+         77JaSQzYe3EsoChbtklwRy+BCRjl5qKxX3eGaAWwIHpqk/O7izHuZRjwSDkY3dKM+6kn
+         EJGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750951192; x=1751555992;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1JJKqMrEaML+dwFM/EI98+cWAy1tTBYyBi2gNj/iDEY=;
+        b=c9x2G30cp7AzAM9l9Thr9Xi0IWSHoxrMrdtqPui40N5LyJT0b8I6iSPAucn7oDoBV9
+         XQG3j6R/r40WK+Inaqm7culul/Q5EIBxdtSRcpAJE8Joq71nmh4nlhjO9fsmNSYE4bkd
+         1bU55PXQwn+0qKPIXICmT9eb6qxHRbgu6oBrBXRTGX+oh5THFhcrJo2Pjg+1ihkCbHus
+         oUJLgY5NsfjVbMRSJ56GKcLFoRPjp0t2ZzwduSbL8xTQjQBjWXSdIXBOzrzRv8KvoP35
+         GJuEpUFHWc6PxgxFp0a+s9ObwbPvwCyUyMIEi5g15WadtPy8RkBys5TFKk+/E5qFMEXt
+         2wtw==
+X-Forwarded-Encrypted: i=1; AJvYcCUfAorICBgkGlJdbisrTFqJejMZmqpEozAizupOCg8ElDMJnITRZcdMvoQsIXTp961HulGnd94iq+onqQw=@vger.kernel.org, AJvYcCXyZEwsfCRgJ1sLbvPCV2ogPUWcj46uPjKa20tDEmaWcMZLID9+l6hLw1wc6wQCGR052xrIuS3FnUJ1fY4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypVUaq6IhlkQGPlInCmQKKnfc/ucdcew2Eeu2X9ed/Z2mcikyi
+	//MMJQ6HJWeTW6D95gnotKa35sBztT4s9C7PDjJRIDlGNb39vdhqzzOHI0QTBCsK8ugWz1WiHxc
+	dFN+NQfwPF9TDG+oLXu8ib3sRudrwfBM=
+X-Gm-Gg: ASbGncu9DAN9NPQa2HzMn1R8tfi1XV21fB7jvgVn6DWsE718Neq5c5YX2mFX/DKT9Wg
+	vqYBYTxv6Tss7pG+T5f73gbP/YiuXvfgz79w1OzUyjEY/TI7Fv99Y+zLtkfR0Zsst0fWb5qudhm
+	GbjsWCcsdkrdgIXIOu7/CO3O9Y0KKBDONexlIAKDgYQrzw279R/vPp
+X-Google-Smtp-Source: AGHT+IFOnJmKn+JJ2frYecHk4EE6Fmul0pWhubm7itDVDM5Ubw/30TpmRooTP07goDGc31er/cpoSSsTxEwrFRlC4XA=
+X-Received: by 2002:a05:690c:6f84:b0:70f:7bea:5dd with SMTP id
+ 00721157ae682-71406e1368emr44684307b3.9.1750951191557; Thu, 26 Jun 2025
+ 08:19:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/13] media: v4l2-subdev: Mark both streams of a route
- enabled
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: bingbu.cao@linux.intel.com, stanislaw.gruszka@linux.intel.com,
- tian.shu.qiu@intel.com, laurent.pinchart@ideasonboard.com
-References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
- <20250619081546.1582969-7-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250619081546.1582969-7-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250624144943.39297-1-abdelrahmanfekry375@gmail.com>
+ <cef03d37-715c-47a8-81d4-0872d505c39b@suswa.mountain> <CAGn2d8ML8eTcN2G18B7FYkapROnOeAKJir5fJvOXDdXTLY43aQ@mail.gmail.com>
+ <5ce9dac3-0b7a-45d1-8313-2f65165b50e7@suswa.mountain> <CAGn2d8N8GrRR0FnaB7S2BsPs0HXHhwHfg+q55HbfkMqy1kMGTw@mail.gmail.com>
+ <5d579b8c-0676-46d8-a020-77ee91e1e7d3@suswa.mountain>
+In-Reply-To: <5d579b8c-0676-46d8-a020-77ee91e1e7d3@suswa.mountain>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Thu, 26 Jun 2025 18:19:40 +0300
+X-Gm-Features: Ac12FXwpty1WwCsHouZ9sWJvvTacKyf47jvNYTt5mDohhxxtLmxfkIn5JlmFx3U
+Message-ID: <CAGn2d8PdiBRN09L__XEsH=cNYz4rDR2A-GnSqCM6Y5TmtT+wcw@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hello Dan , Thanks for your review
 
-On 19/06/2025 11:15, Sakari Ailus wrote:
-> Streams are stored in sink-source pairs in sub-device state. When a stream
-> was marked enabled (or disabled), only the state of one end of the stream
-> was modified, leaving the stream in an incoherent state. Mark both ends of
-> the stream enabled (or disabled).
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 60b8febd3339..5afdd9d548b5 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -2254,9 +2254,11 @@ static void v4l2_subdev_set_streams_enabled(struct v4l2_subdev *sd,
->  	for (unsigned int i = 0; i < state->stream_configs.num_configs; ++i) {
->  		struct v4l2_subdev_stream_config *cfg =
->  			&state->stream_configs.configs[i];
-> +		struct v4l2_subdev_stream_config *cfg2 =
-> +			&state->stream_configs.configs[i ^ 1U];
+On Tue, Jun 24, 2025 at 9:31=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+> Yes.  Nothing is checking for if hmm_init() fails.  Step through the
+> code and verify that nothing crashes or bad happens as a result.
+>
+> For example, I think hmm_bo_alloc() will print "hmm_bo_device not inited
+> yet." and return.  So that's kind of annoying but it's not a crash.
+> Search through the rest of the driver and verify how it will behave.
+>
 
-I don't think this is correct. There's no specific rule that the stream
-configs would be in a particular order. Or that there even are a pair.
+So, I have been searching through the code as you suggested,
+and found a couple of interesting things to look at.
 
-You should look for the other end of the stream from the routing table.
+Firstly, no function that calls hmm_init() checks its return code,
+and it doesn=E2=80=99t crash anywhere because of this, so it's not a proble=
+m.
+But the thing is, the hmm_initialized flag inside the hmm_init() function
+is set even if hmm_bo_device_init() fails, and this can be misleading for
+functions like __hm_alloc() that check this flag later.
 
- Tomi
+Secondly, the function hmm_bo_alloc() and others don=E2=80=99t check
+the return code of hmm_init(). Instead, they check the flag
+HMM_BO_DEVICE_INITED inside bdev, which is set by the function
+hmm_bo_device_init(). The problem is, if we inspect hmm_bo_device_init(),
+we find that the HMM_BO_DEVICE_INITED flag is set before the calls to
+kmem_cache_create(), kmem_cache_alloc(), and __bo_init().
+This means that if any of these functions fail, the flag will still be set,
+which can lead to misbehavior in functions that rely on it, like hmm_bo_all=
+oc().
 
->  
->  		if (cfg->pad == pad && (streams_mask & BIT_ULL(cfg->stream)))
-> -			cfg->enabled = enabled;
-> +			cfg->enabled = cfg2->enabled = enabled;
->  	}
->  }
->  
+Should I tackle these problems after submitting the original patch of
+removing the debug sysfs attr. ?
 
+Best Regards,
+Abdelrahman Fekry
 
