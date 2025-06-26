@@ -1,185 +1,373 @@
-Return-Path: <linux-media+bounces-35957-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35958-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACCCAE9DFC
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 14:59:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F3AAAE9EDE
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 15:35:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04FE17AC0A3
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 12:57:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D67D51888340
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 13:35:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C2792E1C74;
-	Thu, 26 Jun 2025 12:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63C3928B3F1;
+	Thu, 26 Jun 2025 13:34:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IfPIAzkK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W02dudOY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2031B4F0A;
-	Thu, 26 Jun 2025 12:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABAC267F59
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750942753; cv=none; b=QY+j6ap7BdwwWnINR/2FPdyzreuhg+wiKsjReGpWYXO4BXWGKyVfFHOGmE3/HzrEeUEPKqBOGMX6e6J/36oUjn//SacoM+Duo4j/tJgJ7c2N1WNKe4gJj/r6QlaKf9LQOv1BSQ8BYXUY6CTXLKEVVYAwd+ilrWuhg+A4L6Ad2jQ=
+	t=1750944895; cv=none; b=lnNYLFvJE/5F6pczX870PvousggwcswAiXLkDFPmrk95YpVMFnLYV/tJEcQtcDxZqGjV1Nbjvx+PXh8iaavmhras6Hb3HHddHwzHl5rcXpWyKToOOlqVeZoh0GgxEOBh6MWO/7s10c31eb/HIoH3D3RMN8ePsVx+nX+++NHri1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750942753; c=relaxed/simple;
-	bh=vWZsTWEYyiseXKnsMjc+Ej2o40AytKq/Q/YXshCELco=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sP9SCgUlMROyrzUfKyB3Q8yghv0YaUbfnyfbad42mgLRTmFjBkG6e/d8XCuTi9DiZqqKOReRVFAMDloqTnNxLboyy3S4YflnQyDnquM07j/Uu5gOb6P+eIt/nRrgD5+xapKHtnYYm7vc6jvxHdzWWvTCgwsAD33/HoQSL1zLENs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IfPIAzkK; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750942744;
-	bh=vWZsTWEYyiseXKnsMjc+Ej2o40AytKq/Q/YXshCELco=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=IfPIAzkK86cNlx+joISzT0lktX9hNc8EHL1j8sYgfT91UH2B8ieIqND/amayYoZlr
-	 U1jN7EmjoV5/8m0QoRD3mROCe575iaaBG0R0VIBkBjNQI89CRsIdvRzXnESHwrn44d
-	 eWWPxpl2Xu2Iyau8GRBjNavwHPvQUd8FfBXxCtDJ/RRiGNxiJhky2vVK/dROtlURzC
-	 SANE/sgQzSbGVIN7o8LMbb/PxWEMMXNgsH+FHHVQrPQkr0iN6uPCn6b1frmA82dAW/
-	 +X451FKvQFP2OZattOXR/odGYNmA/JIxHZcg0YulqMkXNjmzc3ff52VUuKYfZE0yxc
-	 +u6+Qct1yCeHA==
-Received: from [IPv6:2606:6d00:17:b699::bad] (unknown [IPv6:2606:6d00:17:b699::bad])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7CF0017E04EE;
-	Thu, 26 Jun 2025 14:59:03 +0200 (CEST)
-Message-ID: <dc841d1e6b12c46388aec8ebcd0b002f56d30d1c.camel@collabora.com>
-Subject: Re: [PATCH] media: verisilicon: Export only needed pixels formats.
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	p.zabel@pengutronix.de, mchehab@kernel.org, hverkuil@xs4all.nl
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kernel@collabora.com
-Date: Thu, 26 Jun 2025 08:59:00 -0400
-In-Reply-To: <20250624122938.62004-1-benjamin.gaignard@collabora.com>
-References: <20250624122938.62004-1-benjamin.gaignard@collabora.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-sB3Sk195f1XnVNw57mvc"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1750944895; c=relaxed/simple;
+	bh=uYsQCsUHHyARE67gBihibX09h0boWlJk0Rho9C3ar7Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G/oIwT5gmZm5BrgdBB3G9mFQlSo7AlgqT21m8N7Qc5zHy7UoRcJfyS5DjKjMVrAIuE17p0l/FC1aUf0JrS4QUy3OMeh4+BmsrVRS81Jxws7k9Ymuxq/0/x6bpldX/G3/vR5D6w2B75xZnxWZrQYcxyjP3kZ2KfHRqne8LYRgRXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W02dudOY; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750944895; x=1782480895;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uYsQCsUHHyARE67gBihibX09h0boWlJk0Rho9C3ar7Q=;
+  b=W02dudOYrKgRyQG1jlVciRrjdlgAyBrFku7mYgA6a2T+Pk3+jT8K3IMK
+   TCkHGbH39y+7aIpmIjL1xMBKG0KAFWfV2Av1Ht4ss49IoNnB7i8gonRxk
+   E34ulBjDLttsbf1OYaK3IEzketp6fILo8/y0iBoN1HUPVxatBDsXe6Fq2
+   8KelzF0dgjr0qaFLhGjOabYQKJsW7VMbv1MB+DR8beEtl/WQmsE9C14+B
+   RrEzONg0ZR5ib5Ij6hPr70NxfdU+cHHn75u2VVUYuXdq/ZQMrh/wiXzCr
+   fJtWcVIQxLcfs7qKTDHT6f+6FBuC04N/6nRYvWiIsVw8UL73+MLnQwD1M
+   w==;
+X-CSE-ConnectionGUID: S301aBeSSkGlR1++9yfEFA==
+X-CSE-MsgGUID: UYOEl/4VRkGflcSPjYf5vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="56921141"
+X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
+   d="scan'208";a="56921141"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:34:54 -0700
+X-CSE-ConnectionGUID: W2PLHMvVTm20WjU6NWr8lg==
+X-CSE-MsgGUID: xEokDFNFTv+Fh9/Ikn4iRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
+   d="scan'208";a="153049248"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl.intel.com) ([10.245.244.225])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:34:47 -0700
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: laurent.pinchart@ideasonboard.com,
+	sakari.ailus@linux.intel.com
+Cc: stanislaw.gruszka@linux.intel.com,
+	hdegoede@redhat.com,
+	arnd@arndb.de,
+	alain.volmat@foss.st.com,
+	andrzej.hajda@intel.com,
+	benjamin.mugnier@foss.st.com,
+	dave.stevenson@raspberrypi.com,
+	hansg@kernel.org,
+	hverkuil@xs4all.nl,
+	jacopo.mondi@ideasonboard.com,
+	kieran.bingham@ideasonboard.com,
+	khalasa@piap.pl,
+	mani@kernel.org,
+	m.felsch@pengutronix.de,
+	matthias.fend@emfend.at,
+	mchehab@kernel.org,
+	mehdi.djait@linux.intel.com,
+	michael.riesch@collabora.com,
+	naush@raspberrypi.com,
+	nicholas@rothemail.net,
+	nicolas.dufresne@collabora.com,
+	paul.elder@ideasonboard.com,
+	dan.scally@ideasonboard.com,
+	pavel@kernel.org,
+	rashanmu@gmail.com,
+	ribalda@chromium.org,
+	slongerbeam@gmail.com,
+	tomi.valkeinen@ideasonboard.com,
+	umang.jain@ideasonboard.com,
+	linux-media@vger.kernel.org
+Subject: [PATCH v2 00/48] media: Add a helper for obtaining the clock producer
+Date: Thu, 26 Jun 2025 15:33:51 +0200
+Message-ID: <cover.1750942967.git.mehdi.djait@linux.intel.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Hello everyone,
+
+Here is my v2 for the new helper v4l2_devm_sensor_clk_get()
+
+I took this opportunity to make all the drivers that I touched with this
+series return dev_err_probe() when the helper fails: the complete list
+is below in the HISTORY. I noticed some odd drivers:
+
+drivers/media/i2c/s5k5baf.c -> always returns -EPROBE_DEFER if getting the clock fails
+
+drivers/media/i2c/mt9t112.c -> this drivers seems to be implementing
+	the behaviour of devm_clk_get_optional() while using devm_clk_get():
+	remove it from the list of changed drivers ?
 
 
---=-sB3Sk195f1XnVNw57mvc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+drivers/media/i2c/ov8856.c -> getting the clock, setting the rate,
+getting the optional gpio and the regulator_bulk is only when the fwnode
+is NOT acpi.
 
-Hi Benjamin,
+Any testing of the patches is GREATLY APPRECIATED!
 
-Le mardi 24 juin 2025 =C3=A0 14:29 +0200, Benjamin Gaignard a =C3=A9crit=C2=
-=A0:
-> When enumerating the pixels formats check if the context
-> request to only export post-processed pixels formats.
-> The exception is when V4L2_FMTDESC_FLAG_ENUM_ALL is set, we
-> need to export all pixels formats.
+Especially the two drivers with the special ACPI case:
+1) OV8865
+2) OV2680
 
-The change looks good. The explanation could perhaps be improved. Perhaps
-something along this instead ?
 
-	Some pixel formats can only be produced if the decoder outputs=C2=A0
-	reference=C2=A0pictures directly. In some cases, such as AV1 film-grain,
-	the use of the post-processor is strictly required. In this case,
-	only enumerate the post-processor supported formats. The exception is
-	when V4L2_FMTDESC_FLAG_ENUM_ALL is set, in this case, we enumerate
-	everything regardless of the state.
+Background
+----------
 
-Perhaps long term we should rename need_postproc by force_postproc. I think=
- this
-would help reading the code.
+A reference to the clock producer is not available to the kernel
+in ACPI-based platforms but the sensor drivers still need them.
 
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Fixes: bcd4f091cf1e ("media: verisilicon: Use V4L2_FMTDESC_FLAG_ENUM_ALL =
-flag")
+devm_clk_get() will return an error and the probe function will fail.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-> ---
-> =C2=A0drivers/media/platform/verisilicon/hantro_v4l2.c | 6 +++++-
-> =C2=A01 file changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.c
-> index 7c3515cf7d64..7869faf921f4 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -222,6 +222,7 @@ static int vidioc_enum_fmt(struct file *file, void *p=
-riv,
-> =C2=A0	unsigned int num_fmts, i, j =3D 0;
-> =C2=A0	bool skip_mode_none, enum_all_formats;
-> =C2=A0	u32 index =3D f->index & ~V4L2_FMTDESC_FLAG_ENUM_ALL;
-> +	bool need_postproc =3D ctx->need_postproc;
-> =C2=A0
-> =C2=A0	/*
-> =C2=A0	 * If the V4L2_FMTDESC_FLAG_ENUM_ALL flag is set, we want to enume=
-rate all
-> @@ -230,6 +231,9 @@ static int vidioc_enum_fmt(struct file *file, void *p=
-riv,
-> =C2=A0	enum_all_formats =3D !!(f->index & V4L2_FMTDESC_FLAG_ENUM_ALL);
-> =C2=A0	f->index =3D index;
-> =C2=A0
-> +	if (enum_all_formats)
-> +		need_postproc =3D HANTRO_AUTO_POSTPROC;
-> +
-> =C2=A0	/*
-> =C2=A0	 * When dealing with an encoder:
-> =C2=A0	 *=C2=A0 - on the capture side we want to filter out all MODE_NONE=
- formats.
-> @@ -242,7 +246,7 @@ static int vidioc_enum_fmt(struct file *file, void *p=
-riv,
-> =C2=A0	 */
-> =C2=A0	skip_mode_none =3D capture =3D=3D ctx->is_encoder;
-> =C2=A0
-> -	formats =3D hantro_get_formats(ctx, &num_fmts, HANTRO_AUTO_POSTPROC);
-> +	formats =3D hantro_get_formats(ctx, &num_fmts, need_postproc);
-> =C2=A0	for (i =3D 0; i < num_fmts; i++) {
-> =C2=A0		bool mode_none =3D formats[i].codec_mode =3D=3D HANTRO_MODE_NONE;
-> =C2=A0		fmt =3D &formats[i];
+Solution
+--------
 
---=-sB3Sk195f1XnVNw57mvc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+Introduce a generic helper for v4l2 sensor drivers on both DT- and ACPI-based
+platforms.
 
------BEGIN PGP SIGNATURE-----
+This helper behaves the same as clk_get_optional() except where there is
+no clock producer like in ACPI-based platforms.
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaF1EFQAKCRBxUwItrAao
-HN+uAKDZJpOTbi3XRGHgmRHEOJte9UVyBACbBmNozfzUgXXYoUEvfUr4S4lMT6k=
-=WH3I
------END PGP SIGNATURE-----
+For ACPI-based platforms the function will read the "clock-frequency"
+ACPI _DSD property and register a fixed frequency clock with the frequency
+indicated in the property.
 
---=-sB3Sk195f1XnVNw57mvc--
+
+Solution for special ACPI case
+------------------------------
+
+This function also handles the special ACPI-based system case where:
+
+1) The clock-frequency _DSD property is present.
+2) A reference to the clock producer is present, where the clock is provided
+by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
+
+In this case try to set the clock-frequency value to the provided clock.
+
+History
+-------
+
+v1 -> v2:
+- Added a check to !of_node instead of acpi_node as !of_node will cover
+both acpi nodes and software nodes (currently used by AMD camera setup)
+
+Changed the following drivers to use dev_err_probe() when the helper
+fails:
+	s5k6a3.c
+	s5c73m3/s5c73m3-core.c
+
+	mt9m001.c
+	mt9m111.c
+	mt9p031.c
+	mt9m114.c
+	mt9v032.c
+	mt9v111.c
+
+	ov2659.c
+	ov2685.c
+	ov5640.c
+	ov5647.c
+	ov5648.c
+	ov5695.c
+	ov6650.c
+	ov7740.c
+	ov9282.c
+	ov9640.c
+	ov9650.c
+
+	imx412.c
+	imx335.c
+
+	hi846.c
+	et8ek8/et8ek8_driver.c
+	ar0521.c
+
+Suggested by Laurent:
+	- changed clk_get_optional() to devm_clk_get() in the commit msg
+	  and kernel-doc of the helper function
+	- improved the kernel-doc of the function
+	- added forward declaration of struct clk in include/media/v4l2-common.h
+	- changed the Documentation in the [PATCH 02/48]
+	- dropped the comment in ov2680.c
+	- removed the following drivers that are not camera sensors:
+		ds90ub913: Video Serializer
+		ds90ub960: Video Deserializer
+		st-mipid02: CSI-2 to PARALLEL bridge
+		tc358743: HDMI to CSI-2 bridge
+		tc358746: PARALLEL to CSI-2 bridge
+		thp7312: External Camera ISP
+
+Suggested by Sakari:
+	- added the handling for when devm_clk_get_optional() returns
+	  -EPROBE_DEFER
+	- added handling for when devm_clk_get_optional() returns
+	  -EINVAL. The helper will return -EPROBE_DEFER signaling that
+	  some software components are still needed before the sensor
+	  driver can get probed (e.g. int3472 or the AMD ISP)
+
+Suggested by Michael Riesch:
+	- made the imx415 clock name NULL
+
+Link v1: https://lore.kernel.org/linux-media/cover.1750352394.git.mehdi.djait@linux.intel.com/
+
+RFC History
+-----------
+
+RFC v4 -> RFC v5:
+Suggested by Arnd Bergmann:
+	- removed IS_REACHABLE(CONFIG_COMMON_CLK). IS_REACHABLE() is actually
+	discouraged [1]. COFIG_COMMON_CLK is a bool, so IS_ENABLED() will be the
+	right solution here
+Suggested by Hans de Goede:
+	- added handling for the special ACPI-based system case, where
+	  both a reference to the clock-provider and the _DSD
+	  clock-frequency are present.
+	- updated the function's kernel-doc and the commit msg
+	  to mention this special case.
+Link RFC v4: https://lore.kernel.org/linux-media/20250321130329.342236-1-mehdi.djait@linux.intel.com/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/Documentation/kbuild/kconfig-language.rst?h=next-20250513&id=700bd25bd4f47a0f4e02e0a25dde05f1a6b16eea
+
+RFC v3 -> RFC v4:
+Suggested by Laurent:
+	- removed the #ifdef to use IS_REACHABLE(CONFIG_COMMON_CLK)
+	- changed to kasprintf() to allocate the clk name when id is NULL and
+	  used the __free(kfree) scope-based cleanup helper when
+	  defining the variable to hold the allocated name
+Link v3: https://lore.kernel.org/linux-media/20250321093814.18159-1-mehdi.djait@linux.intel.com/
+
+RFC v2 -> RFC v3:
+- Added #ifdef CONFIG_COMMON_CLK for the ACPI case
+Link v2: https://lore.kernel.org/linux-media/20250310122305.209534-1-mehdi.djait@linux.intel.com/
+
+RFC v1 -> RFC v2:
+Suggested by Sakari:
+    - removed clk_name
+    - removed the IS_ERR() check
+    - improved the kernel-doc comment and commit msg
+Link v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehdi.djait@linux.intel.com
+
+Mehdi Djait (48):
+  media: v4l2-common: Add a helper for obtaining the clock producer
+  Documentation: media: camera-sensor: Mention
+    v4l2_devm_sensor_clk_get() for obtaining the clock
+  media: i2c: ar0521: Use the v4l2 helper for obtaining the clock
+  media: i2c: et8ek8: Use the v4l2 helper for obtaining the clock
+  media: i2c: gc05a2: Use the v4l2 helper for obtaining the clock
+  media: i2c: gc08a3: Use the v4l2 helper for obtaining the clock
+  media: i2c: gc2145: Use the v4l2 helper for obtaining the clock
+  media: i2c: hi846: Use the v4l2 helper for obtaining the clock
+  media: i2c: imx214: Use the v4l2 helper for obtaining the clock
+  media: i2c: imx219: Use the v4l2 helper for obtaining the clock
+  media: i2c: imx283: Use the v4l2 helper for obtaining the clock
+  media: i2c: imx290: Use the v4l2 helper for obtaining the clock
+  media: i2c: imx296: Use the v4l2 helper for obtaining the clock
+  media: i2c: imx334: Use the v4l2 helper for obtaining the clock
+  media: i2c: imx335: Use the v4l2 helper for obtaining the clock
+  media: i2c: imx412: Use the v4l2 helper for obtaining the clock
+  media: i2c: imx415: Use the v4l2 helper for obtaining the clock
+  media: i2c: mt9m001: Use the v4l2 helper for obtaining the clock
+  media: i2c: mt9m111: Use the v4l2 helper for obtaining the clock
+  media: i2c: mt9m114: Use the v4l2 helper for obtaining the clock
+  media: i2c: mt9p031: Use the v4l2 helper for obtaining the clock
+  media: i2c: mt9t112: Use the v4l2 helper for obtaining the clock
+  media: i2c: mt9v032: Use the v4l2 helper for obtaining the clock
+  media: i2c: mt9v111: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov02a10: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov2659: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov2685: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov5640: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov5645: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov5647: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov5648: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov5695: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov64a40: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov6650: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov7740: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov8856: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov8858: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov8865: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov9282: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov9640: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov9650: Use the v4l2 helper for obtaining the clock
+  media: i2c: s5c73m3: Use the v4l2 helper for obtaining the clock
+  media: i2c: s5k5baf: Use the v4l2 helper for obtaining the clock
+  media: i2c: s5k6a3: Use the v4l2 helper for obtaining the clock
+  media: i2c: vd55g1: Use the v4l2 helper for obtaining the clock
+  media: i2c: vd56g3: Use the v4l2 helper for obtaining the clock
+  media: i2c: vgxy61: Use the v4l2 helper for obtaining the clock
+  media: i2c: ov2680: Use the v4l2 helper for obtaining the clock
+
+ .../driver-api/media/camera-sensor.rst        | 24 ++++++---
+ drivers/media/i2c/ar0521.c                    |  9 ++--
+ drivers/media/i2c/et8ek8/et8ek8_driver.c      |  9 ++--
+ drivers/media/i2c/gc05a2.c                    |  2 +-
+ drivers/media/i2c/gc08a3.c                    |  2 +-
+ drivers/media/i2c/gc2145.c                    |  2 +-
+ drivers/media/i2c/hi846.c                     | 11 ++--
+ drivers/media/i2c/imx214.c                    |  2 +-
+ drivers/media/i2c/imx219.c                    |  2 +-
+ drivers/media/i2c/imx283.c                    |  5 +-
+ drivers/media/i2c/imx290.c                    |  2 +-
+ drivers/media/i2c/imx296.c                    |  2 +-
+ drivers/media/i2c/imx334.c                    |  2 +-
+ drivers/media/i2c/imx335.c                    |  9 ++--
+ drivers/media/i2c/imx412.c                    |  9 ++--
+ drivers/media/i2c/imx415.c                    |  2 +-
+ drivers/media/i2c/mt9m001.c                   |  5 +-
+ drivers/media/i2c/mt9m111.c                   |  5 +-
+ drivers/media/i2c/mt9m114.c                   |  6 +--
+ drivers/media/i2c/mt9p031.c                   |  5 +-
+ drivers/media/i2c/mt9t112.c                   | 11 ++--
+ drivers/media/i2c/mt9v032.c                   |  5 +-
+ drivers/media/i2c/mt9v111.c                   |  5 +-
+ drivers/media/i2c/ov02a10.c                   |  2 +-
+ drivers/media/i2c/ov2659.c                    |  5 +-
+ drivers/media/i2c/ov2680.c                    | 29 +----------
+ drivers/media/i2c/ov2685.c                    | 10 ++--
+ drivers/media/i2c/ov5640.c                    |  9 ++--
+ drivers/media/i2c/ov5645.c                    |  2 +-
+ drivers/media/i2c/ov5647.c                    |  9 ++--
+ drivers/media/i2c/ov5648.c                    |  6 +--
+ drivers/media/i2c/ov5695.c                    | 10 ++--
+ drivers/media/i2c/ov64a40.c                   |  2 +-
+ drivers/media/i2c/ov6650.c                    | 10 ++--
+ drivers/media/i2c/ov7740.c                    | 11 ++--
+ drivers/media/i2c/ov8856.c                    | 10 ++--
+ drivers/media/i2c/ov8858.c                    |  2 +-
+ drivers/media/i2c/ov8865.c                    | 36 ++-----------
+ drivers/media/i2c/ov9282.c                    |  9 ++--
+ drivers/media/i2c/ov9640.c                    |  5 +-
+ drivers/media/i2c/ov9650.c                    |  5 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  6 ++-
+ drivers/media/i2c/s5k5baf.c                   |  2 +-
+ drivers/media/i2c/s5k6a3.c                    |  5 +-
+ drivers/media/i2c/vd55g1.c                    |  2 +-
+ drivers/media/i2c/vd56g3.c                    |  2 +-
+ drivers/media/i2c/vgxy61.c                    | 10 ++--
+ drivers/media/v4l2-core/v4l2-common.c         | 52 +++++++++++++++++++
+ include/media/v4l2-common.h                   | 27 ++++++++++
+ 49 files changed, 223 insertions(+), 191 deletions(-)
+
+-- 
+2.49.0
+
 
