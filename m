@@ -1,156 +1,206 @@
-Return-Path: <linux-media+bounces-35942-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35943-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF532AE9B7D
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 12:35:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D322AE9B9D
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 12:37:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EBE01689A3
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 10:34:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A17CF167E55
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 10:37:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 925312E175A;
-	Thu, 26 Jun 2025 10:29:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F1C22069E;
+	Thu, 26 Jun 2025 10:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oi7VIXxn"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="CXa2JDHB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E380B2E06EA;
-	Thu, 26 Jun 2025 10:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4481FF7C8;
+	Thu, 26 Jun 2025 10:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750933745; cv=none; b=u/tj6ZIYcMHcbBtLJI3LMZL6SssydfT92J4cji15mS8OX1hF6Sc0CebPhoZKz241Q3tZFzOJNXWKTAOtWwZZGSo+RLcc5T6GbpvByvuDEzbBSBEsKcHukCxD7zLs0mM+oC4wC2SqemNMozff7gvLL2MJuNrXHCFOchukFT/hXYc=
+	t=1750934158; cv=none; b=Xv9XlZUjUVywIPqHlyLJAwFeZKMS/dbuzGNmi1FL6VxngFo3yrzuv3h2Sa6+oCWwduvYZ0lx+Znftd7kX5p3iWY732gBV4RkF2/bS8aRzpZTWJS6fU0n1DpLHgHbm5zP26kjlc/eKkvqLDfv/YlSmsBTz893dDOkOWTVebi9d7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750933745; c=relaxed/simple;
-	bh=G5ybaN75pAel1FxnSt/1K7ti6SyLbaLmGmBlE6NQkY4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f8ebPY2KoYUfXMPSFYc9+9HAMTjDv/cYkC2g1nelv9malyiuzdoobYQO0AufCFGr8l7zS6IEc7pUOK97+2AO6vmi6vuVP48f/3shN/7M2YHzAQA2HKS7hu+6P21PMcnWPJ8sMdQmsFD3H9T2d0yAus20cVDsXW7+1b6njqVto3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oi7VIXxn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BF55C4CEEB;
-	Thu, 26 Jun 2025 10:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750933744;
-	bh=G5ybaN75pAel1FxnSt/1K7ti6SyLbaLmGmBlE6NQkY4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oi7VIXxn29z7R8O8P8c9fQZnkn5IDAMaBnv8A0nbr4CLZlfHsf3gDQ2BzBmPN6HCT
-	 Z1EBjkyAw2UicwTc9q/WzN03EQPEZyP7Xm21/eINdIlByYbHKbQoRo7SJTsHWqLqI/
-	 Q+PKXAp8KLYBwTI3rgWQ8EZSyWMcGGwSdjJ+KTx+UoqW7Xfm+ewsxenLGuooSforAT
-	 qtQ2xU8C7apJslZEGMFqfyCekIOafvgNGwuAW6a9SjIP2aq3VjeP9VLgIFBZFg3O3r
-	 2EKUQiV+j5oIYpfXGG4mRw+OxjYJFDM2H4il8Cr8wcNNsbVtExmGL3gQMmoGpFFUUP
-	 Ar0xBVDZvD9AQ==
-Message-ID: <0e030c09-0a89-4883-b958-85ddd6831407@kernel.org>
-Date: Thu, 26 Jun 2025 12:28:56 +0200
+	s=arc-20240116; t=1750934158; c=relaxed/simple;
+	bh=wctAJxLB4oheSszXnRLwa7JcjgrvlkawrXhZWDSFB98=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UYsiyIBu1P1RSBf3+vXb9U0ji0++XVRbN0vnbPQfUpy49FT4RhaH+oyvP+bB/CrsUg/3WN2EE2f4uWKUHtGaqUoLVFWMbBlzxIeCGfTWGOtAJW5RdiFiEnKCeaU8MIU8TETl/22AfCq7fUckNv712JmxJ6y6hG4mYXL+Nr6mx/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=CXa2JDHB; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55QA9QY8025602;
+	Thu, 26 Jun 2025 12:35:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	NV4+KoQwrrIsbeLEb3se8T07/pyaJ/I/7ykprHiqctM=; b=CXa2JDHB4uTNEMai
+	2f9NWHp3xztyJ3Y6ituNRm8BfaNOHQDmcwn1mnLUaoppY3rpexlzw5toG7Yzc9Ci
+	JKp9PsrWevNASEoRdbIBLdiOMsFJDxfmn0VOZOelEX57qfqL/YTOVrrSQo7TqpOp
+	XFQULhMnRqcIJxyRqxAagjgJLDICpsnsdxnqBKpzhekKrxCHVoqgelkfI7OSfqh4
+	U9rIhzGVL75BA+IScVOGJS3qirFCX0VVC2gBnnmLwS0h0j54WJv8vIX3I1OKfBmj
+	CHPz1w0S+YKt+JKt67MkWXnKCu3uI7YwBnWLZ/dDXhh5JKuFkXjjgNYRjh+mHfVN
+	u8Prkw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dhvbx1rh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 26 Jun 2025 12:35:33 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1B0064002D;
+	Thu, 26 Jun 2025 12:33:57 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8967DB63201;
+	Thu, 26 Jun 2025 12:33:03 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.130.77.119) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 26 Jun
+ 2025 12:33:02 +0200
+Date: Thu, 26 Jun 2025 12:32:57 +0200
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+CC: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+        Andi Shyti
+	<andi.shyti@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Sumit Semwal
+	<sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?=
+	<christian.koenig@amd.com>,
+        M'boumba Cedric Madianga
+	<cedric.madianga@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        "Pierre-Yves
+ MORDRET" <pierre-yves.mordret@st.com>,
+        <linux-i2c@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH 3/3] i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
+Message-ID: <20250626103257.GA349896@gnbcxd0016.gnb.st.com>
+References: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
+ <20250616-i2c-upstream-v1-3-42d3d5374e65@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] media: dt-bindings: Add qcom,msm8939-camss
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, vincent.knecht@mailoo.org,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250613-camss-8x39-vbif-v5-0-a002301a7730@mailoo.org>
- <20250613-camss-8x39-vbif-v5-3-a002301a7730@mailoo.org>
- <50fa344c-d683-420c-a3b5-837ec6d8e93e@kernel.org>
- <e928a7c5-56d5-4f2b-b667-bdbefb506d1f@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <e928a7c5-56d5-4f2b-b667-bdbefb506d1f@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250616-i2c-upstream-v1-3-42d3d5374e65@foss.st.com>
+X-Disclaimer: ce message est personnel / this message is private
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-26_05,2025-06-25_01,2025-03-28_01
 
-On 26/06/2025 12:19, Bryan O'Donoghue wrote:
-> On 26/06/2025 11:00, Krzysztof Kozlowski wrote:
->>> +  reg-names:
->>> +    items:
->>> +      - const: csi_clk_mux
->> No, I already provided arguments in two lengthy discussions - this is
->> not sorted by name.
->>
->> Keep the same order as in previous device, so msm8916 for example. Or
->> any other, but listen to some requests to sort it by some arbitrary rule
->> which was never communicated by DT maintainers.
+Hi Clément,
+
+thanks for the patch.
+
+On Mon, Jun 16, 2025 at 10:53:56AM +0200, Clément Le Goffic wrote:
+> Use the i2c-core-base APIs to allocate a DMA safe buffer when needed.
 > 
-> I don't think if you look through the history that you can find a 
-> consistent rule that was used to arrange the registers.
+> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+> ---
+>  drivers/i2c/busses/i2c-stm32f7.c | 36 +++++++++++++++++++++++++-----------
+>  1 file changed, 25 insertions(+), 11 deletions(-)
 > 
-> So we are trying to have a consistent way of doing that. Thats why the 
-> last number of additions have been sort by name, because it seemed to be 
-> the most consistent.
+> diff --git a/drivers/i2c/busses/i2c-stm32f7.c b/drivers/i2c/busses/i2c-stm32f7.c
+> index a05cac5ee9db..5be14c8a2af4 100644
+> --- a/drivers/i2c/busses/i2c-stm32f7.c
+> +++ b/drivers/i2c/busses/i2c-stm32f7.c
+> @@ -742,9 +742,12 @@ static void stm32f7_i2c_dma_callback(void *arg)
+>  	struct stm32f7_i2c_dev *i2c_dev = (struct stm32f7_i2c_dev *)arg;
+>  	struct stm32_i2c_dma *dma = i2c_dev->dma;
+>  	struct device *dev = dma->chan_using->device->dev;
+> +	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
+>  
+>  	stm32f7_i2c_disable_dma_req(i2c_dev);
+>  	dma_unmap_single(dev, dma->dma_buf, dma->dma_len, dma->dma_data_dir);
+> +	if (!f7_msg->smbus)
+> +		i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, true);
+>  	complete(&dma->dma_complete);
+>  }
+>  
+> @@ -880,6 +883,7 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
+>  {
+>  	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
+>  	void __iomem *base = i2c_dev->base;
+> +	u8 *dma_buf;
+>  	u32 cr1, cr2;
+>  	int ret;
+>  
+> @@ -929,17 +933,23 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
+>  
+>  	/* Configure DMA or enable RX/TX interrupt */
+>  	i2c_dev->use_dma = false;
+> -	if (i2c_dev->dma && f7_msg->count >= STM32F7_I2C_DMA_LEN_MIN
+> -	    && !i2c_dev->atomic) {
+> -		ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
+> -					      msg->flags & I2C_M_RD,
+> -					      f7_msg->count, f7_msg->buf,
+> -					      stm32f7_i2c_dma_callback,
+> -					      i2c_dev);
+> -		if (!ret)
+> -			i2c_dev->use_dma = true;
+> -		else
+> -			dev_warn(i2c_dev->dev, "can't use DMA\n");
+> +	if (i2c_dev->dma && !i2c_dev->atomic) {
+> +		dma_buf = i2c_get_dma_safe_msg_buf(msg, STM32F7_I2C_DMA_LEN_MIN);
+> +		if (dma_buf) {
+> +			f7_msg->buf = dma_buf;
+> +			ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
+> +						      msg->flags & I2C_M_RD,
+> +						      f7_msg->count, f7_msg->buf,
+> +						      stm32f7_i2c_dma_callback,
+> +						      i2c_dev);
+> +			if (ret) {
+> +				dev_warn(i2c_dev->dev, "can't use DMA\n");
+> +				i2c_put_dma_safe_msg_buf(f7_msg->buf, msg, false);
+> +				f7_msg->buf = msg->buf;
+> +			} else {
+> +				i2c_dev->use_dma = true;
+> +			}
+> +		}
+>  	}
+>  
+>  	if (!i2c_dev->use_dma) {
+> @@ -1624,6 +1634,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
+>  			dmaengine_terminate_async(dma->chan_using);
+>  			dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
+>  					 dma->dma_data_dir);
+> +			if (!f7_msg->smbus)
+> +				i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
+>  		}
+>  		f7_msg->result = -ENXIO;
+>  	}
+> @@ -1646,6 +1658,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
+>  				dmaengine_terminate_async(dma->chan_using);
+>  				dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
+>  						 dma->dma_data_dir);
+> +				if (!f7_msg->smbus)
+> +					i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
+>  				f7_msg->result = -ETIMEDOUT;
+>  			}
+>  		}
+> 
 
+Looks good to me.
 
-Why are we discussing it again? You asked me the same here:
-https://lore.kernel.org/all/8f11c99b-f3ca-4501-aec4-0795643fc3a9@kernel.org/
+Acked-by: Alain Volmat <alain.volmat@foss.st.com>
 
-and I already said - not sorting by name. You take the same order as
-previous.
+Regards,
+Alain
 
-If you ever want to sort by name, answer to yourself:
-NO. Take the same order as other existing device.
-
-If you ever want to sort by value, answer to yourself:
-NO.
-
-You both came with some new, invented rules of sorting, applied it, and
-now you claim that "existing devices were sorted like that". What? NO!
-
-Best regards,
-Krzysztof
+> -- 
+> 2.43.0
+> 
 
