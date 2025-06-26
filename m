@@ -1,84 +1,101 @@
-Return-Path: <linux-media+bounces-35926-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35927-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE072AE9591
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 08:02:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 321C2AE95A7
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 08:08:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F35AA7AABD5
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 06:01:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B88205A37B2
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 06:08:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 451F02222AC;
-	Thu, 26 Jun 2025 06:02:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3A882264B9;
+	Thu, 26 Jun 2025 06:08:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YDUWdzJA"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ctxmq2RL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2362B1A0BF1;
-	Thu, 26 Jun 2025 06:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC17204F73
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 06:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750917768; cv=none; b=bAIsQsMnR5N4jbxcoCmMdG3aqGbVpVOe/4MERk/FWFOLQZcvQ+6lAkawsUNQZAwxI+vHjySnE8rKaKTcG/2QA/hrD71U9+0WkCfyDlk1S7UNVZchwFcbnZ0n7v4LTMsgPvEBFgYcUiZuN7NfhXyjPPKjmvIibLiimKSy2l9Q2eo=
+	t=1750918106; cv=none; b=QbdYLOFNA4yceu9O7OhkYKFo6SoP1j1mCNmgpRFfb9ZRXo9WJUXTYNKmxfs7W7e7UIdwK1qWFQiL6EwxVKyyA1vvLWt6RskHhqwkpN5xlIxq3aiBNxuZ33Sm32sxMtrotqjJEgGnBx38FJ4ZIBp3sQ9OklEmFa4YGxZ5SfXt3rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750917768; c=relaxed/simple;
-	bh=CsenkKlokXJTud0BpIjQPSJm8Cd41IelU7DxRhuZOh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ejX9D8TCidX7Ny+UTdXJk3kSUZngYBruqwE0b1ZIyla6pWTu8ugSm9tKsmqXjPZ2qbZkk0R9mUr48+61GIv4AT6uoYh5yoj4aJAtE7UKraX7C/yDmBx0/jwzfNQA2Mp22YTRu3jgBqQG2HXKTWqjvHSrJhEuLsnpMPZZil1E69s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YDUWdzJA; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750917767; x=1782453767;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CsenkKlokXJTud0BpIjQPSJm8Cd41IelU7DxRhuZOh0=;
-  b=YDUWdzJASJ0dSosvaX6mOI+ipXpMhyqhzmn/tsqpfhAT6NqRVi99NQgV
-   pTuesMwtNcDmaJ3xlTV4mrHAmy5IGGuxxlf7XFVsXK+XxZwBcFT6ZahKc
-   ZYwL1OoK7Y2sBG2Nez/18MPd+zN7okLTCjG9JxpslDWHlzW7VY+ZDgICC
-   UUjGuFPtOp6PocKZo5K/ALyVwaZ/VaB6jTPHdgVxVwx57awqr2BIHHM4M
-   MNF7Ez2rexf0VRcE0fn9L9+zdkwKt/bfKdzmShnZjIR7i0iO7kPRikY6N
-   Ccm6SOrpGb1Ov2wUdjGkFm4IA9jSi9EdQQHWMB2ADZ+cx1wshKcr86JJt
-   g==;
-X-CSE-ConnectionGUID: P/wwox4rTt2UZ0BH8LYR1w==
-X-CSE-MsgGUID: bKlKQpTwRLKwV2b0jKHfzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53138908"
-X-IronPort-AV: E=Sophos;i="6.16,266,1744095600"; 
-   d="scan'208";a="53138908"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 23:02:45 -0700
-X-CSE-ConnectionGUID: 3hv6Xl6XR3qLyx6aGfr4zw==
-X-CSE-MsgGUID: ideqBmC+SxOBU4THttvNCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,266,1744095600"; 
-   d="scan'208";a="152720171"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.122])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 23:02:43 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 04B8011FB5F;
-	Thu, 26 Jun 2025 09:02:40 +0300 (EEST)
-Date: Thu, 26 Jun 2025 06:02:39 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Devarsh Thakkar <devarsht@ti.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>,
-	Vaishnav Achath <vaishnav.a@ti.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] media: ti: j721e-csi2rx: Support multiple pixels
- per clock
-Message-ID: <aFzif59lHvNz-p-0@kekkonen.localdomain>
-References: <20250410-probe_fixes-v2-0-801bc6eebdea@ideasonboard.com>
- <20250410-probe_fixes-v2-6-801bc6eebdea@ideasonboard.com>
+	s=arc-20240116; t=1750918106; c=relaxed/simple;
+	bh=hQt7Bb+9AHZnoLo9cKQWepwSiZXlnwjoIITYMD6kz1o=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kLI1H1eKrM8saa6Vn5ZesPOyyH9kX9mvHME+q07Zs3C7tf+hHryKLHxQycDd7k9pFmmsPrr84DQsMTe7rdi8Df+4yck3RY4oGhHQLo6vfQ/R/fkJ+Et5SvdeIoUpJ/JX05WRNMuOMMCQk6iTn0cyyvldbMxh9YjwJEdkdsJNZ5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ctxmq2RL; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55Q0Dnvi008318
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 06:08:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=JgSSowuZf4akXznD5e5++XsT
+	7x22KvtmyyRb459j924=; b=Ctxmq2RLgZ6RxWpMA06IHd8X0JAGu/tBkkA0dPUU
+	qrPcAsIM3REiCkumKTxejL6N4onSYH+KAdiRNlz2iSR3twby8ocsisgEgmvp3rcj
+	E9WXyKXVEKDKzRhU05K2Bye9A7KnPVpfKylg1YRvuiWf/aEEDxiq/gY8cv5athIB
+	HdREA1Xn/pt9yE97iVbiwHJuXaMnkGcC5tfYrs4rh2ELEtwrAqs8YpuM6SOHro+p
+	1KA2nLFCZwDpZYVllCJnbiodpQ8JkCCntG3kyRKdpbX1nJIj6nPASfz7K10zRFKi
+	kYTaM8BsRE3Uz/c37BkOEFpJrOAQ8J8it/dd9h/G/Y93tA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47fbhqrkm6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 06:08:23 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c955be751aso87664485a.2
+        for <linux-media@vger.kernel.org>; Wed, 25 Jun 2025 23:08:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750918103; x=1751522903;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JgSSowuZf4akXznD5e5++XsT7x22KvtmyyRb459j924=;
+        b=RqqqxIV1SMKbPcYd4VC2mju9O64gjtY9VvL0eNt+9t/sfweAEtblnxTC526K6LCbmE
+         ylmpw/oUJbe1TMsx5t/Dax5L7++7Mi6XUB5V+tom+kGB0vJP4gyQIKtB+XDO6KeWBRBN
+         yUbiYUpMTVjSn/eZjVkfxAKQqFBf0Sa+U5fBLOQF9al7jmcdu2pi6GzvRF9wTSVQ6Qnq
+         CgOHIFrqcicBLLSEJTDxqumCbgRiNdkpYaxQEc4pcJMzhMYtqbGAbx8bJjGEGKl0BVn2
+         9AA89UjTAyZwhP+bjv7RyWJiJBSBz3prb7uO8x8ZztsUqfiCm6Y6qJvp6DhXoQ/cIxTp
+         Zduw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmDpc/phnWUvc/bjcrU2FFPnt3q/79cG+UY7cKMVjUDTAc71nuji6sCeatwfTLyGNfQGYacR5MK7vphw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0HgsZi4K/p4GQ5PEPQos04rNWdf3wOUEdY4nAAu6PHjjwU6j6
+	OuvufU0z76IlnNcQcgnoEpB5loVM5adcgoxGUzMmsau967R6rD60Q9+123V1i6gyi6iq10Zzt2M
+	JqxSZQFs1IZp0KDOC5z6kV8t2RzdNUQr92hUwolASQaNQsgBnG9CnHDvaClswp1uMDA==
+X-Gm-Gg: ASbGncuhpBHotaxp/2cD6HdpPiyvBBMqD8FasafdZ0O7dfl/lMRsymxOe9ttLVz25xt
+	kaibW6fu1ljnLKwxNZ+xVPeqJ7y81eLVqfsU3mgc6Zkfj5gft47mTttrdDxbyWulEFD3nhEg7IA
+	fwVoBP7VoIejOh53foB2oUvbxdqQPGK6ZEuVl+HeNUxIHKgiefz02EKASIsB6/Q1m3aFiFkLQbN
+	AOMBkzKwxt8HltlcMEBTrAuLgVApomeqAOWo92wDEpaj6jEIWiXq6dH0OnEckntsRNX+4Msjmll
+	x0hPAhu/C/pDKCJfMxJZL+JQyyW+sOYIq4Sa1Y1hONhO4+fU8ogT5e6jwQ==
+X-Received: by 2002:a05:620a:178d:b0:7d4:3bc6:1df4 with SMTP id af79cd13be357-7d43bc61e4amr309276485a.16.1750918102929;
+        Wed, 25 Jun 2025 23:08:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG/nANbsNfBPYKM6JWc6VRoFZoFTj2niADtQPcOroE/JQv3VpyDDjmmolr+6Zi96Ucr4lEHUw==
+X-Received: by 2002:a05:620a:178d:b0:7d4:3bc6:1df4 with SMTP id af79cd13be357-7d43bc61e4amr309273185a.16.1750918102498;
+        Wed, 25 Jun 2025 23:08:22 -0700 (PDT)
+Received: from trex (132.red-79-144-190.dynamicip.rima-tde.net. [79.144.190.132])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453822c6b9fsm39477585e9.0.2025.06.25.23.08.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jun 2025 23:08:21 -0700 (PDT)
+From: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
+X-Google-Original-From: Jorge Ramirez <JorgeRamirez-Ortiz>
+Date: Thu, 26 Jun 2025 08:08:20 +0200
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>, quic_vgarodia@quicinc.com,
+        quic_dikshita@quicinc.com, bryan.odonoghue@linaro.org,
+        mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/5] media: dt-bindings: venus: Add qcm2290 dt schema
+Message-ID: <aFzj1LxEbxa3rHhD@trex>
+References: <20250623105107.3461661-1-jorge.ramirez@oss.qualcomm.com>
+ <20250623105107.3461661-2-jorge.ramirez@oss.qualcomm.com>
+ <cbd6b7e3-850a-4bde-a1f9-393c291c1ee3@kernel.org>
+ <aFlHlxO/V3MMARVK@trex>
+ <73aa4738-6730-44fd-bb26-451ef49d588f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,151 +104,60 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250410-probe_fixes-v2-6-801bc6eebdea@ideasonboard.com>
+In-Reply-To: <73aa4738-6730-44fd-bb26-451ef49d588f@kernel.org>
+X-Proofpoint-ORIG-GUID: bW0afBZA3AiWtHVyIzD29x_f4E97L3om
+X-Authority-Analysis: v=2.4 cv=Id+HWXqa c=1 sm=1 tr=0 ts=685ce3d7 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=wjE3nLva0YkvARyJ+Gfmxg==:17
+ a=kj9zAlcOel0A:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=LfWDrbMk3Fy7126_j0sA:9
+ a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: bW0afBZA3AiWtHVyIzD29x_f4E97L3om
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI2MDA0OCBTYWx0ZWRfX1Wq9QtQ+iyfg
+ L8KuI06xOnhy7HvQ7PdD6MTxxQ3wTQEk2BVfzho6HE3HdN0RzUwfsmS+2YJgJwbXNaxKJSmyTbf
+ E/QQE8Kd+OVmVYqypRu2OjYCcrhYvkgqzQZb4bKIW28wF5GtQrSiThNQrnhmmlfTquQumgKQXXQ
+ M6FRFRp3gDxopb8zg00rs3USoblWsRf3Qr2fIfn4aLQmiQQ/ktyeYr6dOe8vcBAyAWiT0G68VUz
+ wdjBePCvePWaRN7/1QA1i3F6dauGbm3i0CsDWj5TAsTrU/meEMlAUnJqnxuMODvURBMumXwhipV
+ 4FrwpqIoR/boM2zZZ0wmQ9zKO3v3xl7A6AfUday3QvxlIx1BcI1jEUiVhD23AHuarr0L6Y2kJjZ
+ Dj1e355R9j4Qmxnxnbf9ab9lniT/8SEq9ThYRwTFTuE08QLyuMcsQ21QF9UefMcRfNO02Tu4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-26_03,2025-06-25_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 mlxlogscore=853 phishscore=0 bulkscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506260048
 
-Hi Jai,
-
-On Thu, Apr 10, 2025 at 12:19:04PM +0530, Jai Luthra wrote:
-> Add support for negotiating the highest possible pixel mode (from
-> single, dual, quad) with the Cadence CSI2RX bridge. This is required to
-> drain the Cadence stream FIFOs without overflowing when the source is
-> operating at a high link-frequency [1].
+On 24/06/25 08:03:46, Krzysztof Kozlowski wrote:
+> On 23/06/2025 14:24, Jorge Ramirez wrote:
+> > On 23/06/25 13:49:21, Krzysztof Kozlowski wrote:
+> >> On 23/06/2025 12:51, Jorge Ramirez-Ortiz wrote:
+> >>> Add a schema for the venus video encoder/decoder on the qcm2290.
+> >>>
+> >>> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+> >>> ---
+> >> Don't send multiple versions per day and allow other to actually perform
+> >> review of your patchset instead of sending for every little thing.
+> > 
+> > No. this is not what this was about - I already explained to you the
+> > call I chose to make. You can disagree but you should not misrepresent
+> > it. 
 > 
-> Also, update the Kconfig as this introduces a hard build-time dependency
-> on the Cadence CSI2RX driver, even for a COMPILE_TEST.
 > 
-> [1] Section 12.6.1.4.8.14 CSI_RX_IF Programming Restrictions of AM62 TRM
+> No, you did not explain me anything. You sent v4 with only one little
+> change:
+> "Changes since v3:
+> - Fixed schema commit subject."
+
+um, I dont want to delve in this (only because the conversation takes
+longer than actual changes but just to close the loop), I did acknowledge
+that you had trouble receiving my patches - since they were threaded -
+and that I would be respining on the same day in case others were having
+the same issue.
+
 > 
-> Link: https://www.ti.com/lit/pdf/spruj16
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> The same day, also skipping review.
 
-This creates a dependency between the two drivers.
-
-Can you confirm that the TI device only exists in conjunction with the
-cadence HW block?
-
-> ---
->  drivers/media/platform/ti/Kconfig                  |  3 +-
->  .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 38 ++++++++++++++++++++--
->  2 files changed, 37 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/ti/Kconfig b/drivers/media/platform/ti/Kconfig
-> index bab998c4179aca3b07372782b9be7de340cb8d45..3bc4aa35887e6edc9fa8749d9956a67714c59001 100644
-> --- a/drivers/media/platform/ti/Kconfig
-> +++ b/drivers/media/platform/ti/Kconfig
-> @@ -67,7 +67,8 @@ config VIDEO_TI_J721E_CSI2RX
->  	tristate "TI J721E CSI2RX wrapper layer driver"
->  	depends on VIDEO_DEV && VIDEO_V4L2_SUBDEV_API
->  	depends on MEDIA_SUPPORT && MEDIA_CONTROLLER
-> -	depends on (PHY_CADENCE_DPHY_RX && VIDEO_CADENCE_CSI2RX) || COMPILE_TEST
-> +	depends on VIDEO_CADENCE_CSI2RX
-> +	depends on PHY_CADENCE_DPHY_RX || COMPILE_TEST
->  	depends on ARCH_K3 || COMPILE_TEST
->  	select VIDEOBUF2_DMA_CONTIG
->  	select V4L2_FWNODE
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index ad51d033b6725426550578bdac1bae8443458f13..425324c3d6802cfda79d116d3967b61a2e7a015a 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -21,6 +21,8 @@
->  #include <media/v4l2-mc.h>
->  #include <media/videobuf2-dma-contig.h>
->  
-> +#include "../../cadence/cdns-csi2rx.h"
-> +
->  #define TI_CSI2RX_MODULE_NAME		"j721e-csi2rx"
->  
->  #define SHIM_CNTL			0x10
-> @@ -29,6 +31,7 @@
->  #define SHIM_DMACNTX			0x20
->  #define SHIM_DMACNTX_EN			BIT(31)
->  #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
-> +#define SHIM_DMACNTX_DUAL_PCK_CFG	BIT(24)
->  #define SHIM_DMACNTX_SIZE		GENMASK(21, 20)
->  #define SHIM_DMACNTX_FMT		GENMASK(5, 0)
->  #define SHIM_DMACNTX_YUV422_MODE_11	3
-> @@ -40,6 +43,7 @@
->  #define SHIM_PSI_CFG0_SRC_TAG		GENMASK(15, 0)
->  #define SHIM_PSI_CFG0_DST_TAG		GENMASK(31, 16)
->  
-> +#define TI_CSI2RX_MAX_PIX_PER_CLK	4
->  #define PSIL_WORD_SIZE_BYTES		16
->  /*
->   * There are no hard limits on the width or height. The DMA engine can handle
-> @@ -110,6 +114,7 @@ struct ti_csi2rx_dev {
->  	struct v4l2_format		v_fmt;
->  	struct ti_csi2rx_dma		dma;
->  	u32				sequence;
-> +	u8				pix_per_clk;
->  };
->  
->  static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
-> @@ -485,6 +490,26 @@ static int ti_csi2rx_notifier_register(struct ti_csi2rx_dev *csi)
->  	return 0;
->  }
->  
-> +/* Request maximum possible pixels per clock from the bridge */
-> +static void ti_csi2rx_request_max_ppc(struct ti_csi2rx_dev *csi)
-> +{
-> +	struct media_pad *pad;
-> +	int ret;
-> +	u8 ppc = TI_CSI2RX_MAX_PIX_PER_CLK;
-
-Could you make this look like a reverse Christmas tree?
-
-> +
-> +	pad = media_entity_remote_source_pad_unique(&csi->vdev.entity);
-> +	if (!pad)
-> +		return;
-> +
-> +	ret = cdns_csi2rx_negotiate_ppc(csi->source, pad->index, &ppc);
-> +	if (ret) {
-> +		dev_warn(csi->dev, "NUM_PIXELS negotiation failed: %d\n", ret);
-> +		csi->pix_per_clk = 1;
-> +	} else {
-> +		csi->pix_per_clk = ppc;
-> +	}
-> +}
-> +
->  static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
->  {
->  	const struct ti_csi2rx_fmt *fmt;
-> @@ -496,6 +521,9 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
->  	reg = SHIM_CNTL_PIX_RST;
->  	writel(reg, csi->shim + SHIM_CNTL);
->  
-> +	/* Negotiate pixel count from the source */
-> +	ti_csi2rx_request_max_ppc(csi);
-> +
->  	reg = SHIM_DMACNTX_EN;
->  	reg |= FIELD_PREP(SHIM_DMACNTX_FMT, fmt->csi_dt);
->  
-> @@ -524,14 +552,18 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
->  	case V4L2_PIX_FMT_YVYU:
->  		reg |= FIELD_PREP(SHIM_DMACNTX_YUV422,
->  				  SHIM_DMACNTX_YUV422_MODE_11);
-> +		/* Multiple pixels are handled differently for packed YUV */
-> +		if (csi->pix_per_clk == 2)
-> +			reg |= SHIM_DMACNTX_DUAL_PCK_CFG;
-> +		reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
->  		break;
->  	default:
-> -		/* Ignore if not YUV 4:2:2 */
-> +		/* By default we change the shift size for multiple pixels */
-> +		reg |= FIELD_PREP(SHIM_DMACNTX_SIZE,
-> +				  fmt->size + (csi->pix_per_clk >> 1));
->  		break;
->  	}
->  
-> -	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
-> -
->  	writel(reg, csi->shim + SHIM_DMACNTX);
->  
->  	reg = FIELD_PREP(SHIM_PSI_CFG0_SRC_TAG, 0) |
-> 
-
--- 
-Regards,
-
-Sakari Ailus
+yep. will repost later today and thanks for the persistance (dont think
+I dont value it!).
 
