@@ -1,204 +1,390 @@
-Return-Path: <linux-media+bounces-35923-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35924-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCF9AE947E
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 05:09:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC249AE94CE
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 05:59:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C6401725FD
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 03:09:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62FE55A4F2A
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 03:58:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A75C519B5B1;
-	Thu, 26 Jun 2025 03:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C30620C00C;
+	Thu, 26 Jun 2025 03:59:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXUmfQAm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BT9e+BF4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3763711713
-	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 03:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BB41CAA79
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 03:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750907346; cv=none; b=NZHUUmvst+bu2xoiDGIvjQwuHvuQgBSjf1ADkBv64YBiNvOapKzWw7ew4kbspqilTzW0Dp+VT28nh2C1AoMYjkdIoMjXRE9YYC/15xW9D3fGIKAhNVWvtbL5MiQistLW5ZxT2tY8BWqk/SSQ82DvVyxxNNnOUEmOP2ATWrbPYA4=
+	t=1750910350; cv=none; b=fHn0fagnndd/WVM5E6+xwTXr7GrJO8aHsJ67evH0o91EtaQukLiEScI9KNNlaGdEBsgIzDN0ic5/cNwbbj7SCD2keWE8gmunD8an3Dd5HfkUhj9nlIPmCipRSCZS/NO8O7chjSyCzPbuP530ZigAd8cpnSSKs2hhwq1Qq+upvwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750907346; c=relaxed/simple;
-	bh=NNlcK+ALoq4TBH+8sw6kCjc2xII8Ttj+tDGJwPW270s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WjOma7xAY6CH8OdhIH8fzkjiIonnS2BB2VsVo5GsMYL6lbiFICDc2DEKGJ0GjFKzV2lIa+FSzkvgar07X6sJm4k82yU/OW8EpuYrz7dgeRkl0Uu2MkUPK8SfRkwVV35V/nLWgcgkPKB0pAV/xpDgMS2OsoVRg0gNieHSoqJVfp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EXUmfQAm; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1750910350; c=relaxed/simple;
+	bh=GjY1cKyF4nERIybjqqKwBUr5AbqPmUJFJ20bZmYrNzQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eqUP45z7y/vH5fpzjWZVUa/aY3hdEZtsyZP2nHySyDtqylgpIZVlhGr/DzvsxIffPhTkml11uOABcbfwI4UJYUXfg+ASFMd36W7gz3RshaEr1W2b49BQrbs7i3aSHelCG5xNFOw3SXKiUd4CAZm5alurHOYH4vVGl+kdICSgPYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BT9e+BF4; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750907344; x=1782443344;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NNlcK+ALoq4TBH+8sw6kCjc2xII8Ttj+tDGJwPW270s=;
-  b=EXUmfQAmLVXS2gb6A4utb138zK4BNxdxkOrhHAqdFu6mVvBOcs0Twc7I
-   tQX24SaSrGGhOUkfqRDeKttn4EPrFQXozVmDx+1b5EkTH6OMOpfZ94gPj
-   nUZKu1LUqor+gjxxYGYzXIhusDxwm19oIQWatZ7YoxiB8MvZDOWF3WU+u
-   /DRGUfB30vqrr7cixUaT3f5ygUCg6WQfEghfp99fGFMmQDkRKJgbtyEKT
-   huWKrn6cRzP8o68wzqC39SuqgJif0GFd5tG4Cdx8cSLcrH/wM53TrXG1C
-   QuCEEhYyIjS/z9n/A0idh7jGq2OWFNyVlYyYWaegifJHwqF6wvXwRJBAU
-   A==;
-X-CSE-ConnectionGUID: rqzgEhjjRmGW7EZKCBtn9g==
-X-CSE-MsgGUID: nOA3X56SSNqPGRgt5S6+Zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53336602"
+  t=1750910348; x=1782446348;
+  h=date:from:to:cc:subject:message-id;
+  bh=GjY1cKyF4nERIybjqqKwBUr5AbqPmUJFJ20bZmYrNzQ=;
+  b=BT9e+BF43Ra8p+NGvRKXXeGzMNzPlFJgUdN01MTNZgjsIFasCOj5yUEV
+   3BMUcoeYCh4Ul0jqx6ec+GjCy0G+qEl8vZuS9w7FqPj56e2lqO27Qb+yz
+   py9pxqnkaeLsYnd7lXblWx16lj4v0Fg7nnM1RxLYxzb0azI+7JCyS4LtF
+   x37mr34rpzh+upvwJgJy2DZ/IKLb2QFpFqBnhJVGGCO0O1PKilZONzuN2
+   ScMTAHynHP08suWAh2/m3BnQUB71uPpJfTkfHUL4sLBMvuUHNymvDOSUI
+   sUZOdcJIcbHPi893B5o6tZNxyzlkeIyXiUe4TMFJUtF9AUSA4s7KUAue5
+   g==;
+X-CSE-ConnectionGUID: r4Y3MTMmTMCSXTg1xkuEYg==
+X-CSE-MsgGUID: rY0p195PTtalXAmW3b2bCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="40811574"
 X-IronPort-AV: E=Sophos;i="6.16,266,1744095600"; 
-   d="scan'208";a="53336602"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 20:09:02 -0700
-X-CSE-ConnectionGUID: 1CkbqfaKSO6Bm7CfaUROQQ==
-X-CSE-MsgGUID: 4+luV0VoSK27Y0y3XCV+VA==
+   d="scan'208";a="40811574"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 20:59:07 -0700
+X-CSE-ConnectionGUID: c/JA4WC9R86kDsqqc+bnQw==
+X-CSE-MsgGUID: FXrjRNOAQryfBTqOoe5YTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,266,1744095600"; 
-   d="scan'208";a="152565259"
+   d="scan'208";a="152163060"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Jun 2025 20:09:01 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 Jun 2025 20:59:06 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUcyw-000Tew-0Q;
-	Thu, 26 Jun 2025 03:08:58 +0000
-Date: Thu, 26 Jun 2025 11:08:03 +0800
+	id 1uUdlP-000TiU-2l;
+	Thu, 26 Jun 2025 03:59:03 +0000
+Date: Thu, 26 Jun 2025 11:58:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bingbu Cao <bingbu.cao@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:ipu7 7/7]
- drivers/staging/media/ipu7/ipu7-boot.c:212:6: warning: variable
- 'total_queue_size' set but not used
-Message-ID: <202506261100.HLBItoq7-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:ipu7] BUILD SUCCESS WITH WARNING
+ 0542d88a01679ac03a980f7d53daefe8caebe345
+Message-ID: <202506261124.kw9KjMrH-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hi Bingbu,
+tree/branch: git://linuxtv.org/sailus/media_tree.git ipu7
+branch HEAD: 0542d88a01679ac03a980f7d53daefe8caebe345  media: staging/ipu7: add Makefile, Kconfig and to-do file for IPU7
 
-First bad commit (maybe != root cause):
+Warning (recently discovered and may have been fixed):
 
-tree:   git://linuxtv.org/sailus/media_tree.git ipu7
-head:   0542d88a01679ac03a980f7d53daefe8caebe345
-commit: 0542d88a01679ac03a980f7d53daefe8caebe345 [7/7] media: staging/ipu7: add Makefile, Kconfig and to-do file for IPU7
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250626/202506261100.HLBItoq7-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506261100.HLBItoq7-lkp@intel.com/reproduce)
+    https://lore.kernel.org/oe-kbuild-all/202506252004.5hMovDGZ-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202506261100.HLBItoq7-lkp@intel.com
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506261100.HLBItoq7-lkp@intel.com/
+    drivers/staging/media/ipu7/ipu7-boot.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+    drivers/staging/media/ipu7/ipu7-boot.c:212:6: warning: variable 'total_queue_size' set but not used [-Wunused-but-set-variable]
+    drivers/staging/media/ipu7/ipu7-buttress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+    drivers/staging/media/ipu7/ipu7-dma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+    drivers/staging/media/ipu7/ipu7-mmu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+    drivers/staging/media/ipu7/ipu7.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
-All warnings (new ones prefixed by >>):
+Warning ids grouped by kconfigs:
 
->> drivers/staging/media/ipu7/ipu7-boot.c:212:6: warning: variable 'total_queue_size' set but not used [-Wunused-but-set-variable]
-     212 |         u32 total_queue_size = 0, total_queue_size_aligned = 0;
-         |             ^
-   1 warning generated.
+recent_errors
+|-- alpha-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- alpha-allyesconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arc-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm64-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm64-randconfig-002-20250625
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- arm64-randconfig-004-20250625
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- csky-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-allmodconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- hexagon-allyesconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-001-20250625
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-002-20250625
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-003-20250625
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-004-20250625
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-005-20250625
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- i386-buildonly-randconfig-006-20250625
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- loongarch-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- m68k-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- openrisc-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- parisc-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- powerpc-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- riscv-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-allmodconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- s390-allyesconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-allmodconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sh-allyesconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- sparc-allmodconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-allmodconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-allnoconfig
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- um-allyesconfig
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-allyesconfig
+|   `-- drivers-staging-media-ipu7-ipu7-boot.c:warning:variable-total_queue_size-set-but-not-used
+|-- x86_64-buildonly-randconfig-001-20250626
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-buildonly-randconfig-002-20250626
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-buildonly-randconfig-003-20250626
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|-- x86_64-buildonly-randconfig-004-20250626
+|   |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+|   `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+`-- x86_64-buildonly-randconfig-005-20250626
+    |-- drivers-staging-media-ipu7-ipu7-boot.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+    |-- drivers-staging-media-ipu7-ipu7-buttress.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+    |-- drivers-staging-media-ipu7-ipu7-dma.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+    |-- drivers-staging-media-ipu7-ipu7-mmu.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
+    `-- drivers-staging-media-ipu7-ipu7.c:warning:EXPORT_SYMBOL()-is-used-but-include-linux-export.h-is-missing
 
+elapsed time: 1092m
 
-vim +/total_queue_size +212 drivers/staging/media/ipu7/ipu7-boot.c
+configs tested: 110
+configs skipped: 2
 
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  206  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  207  int ipu7_boot_init_boot_config(struct ipu7_bus_device *adev,
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  208  			       struct syscom_queue_config *qconfigs,
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  209  			       int num_queues, u32 uc_freq,
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  210  			       dma_addr_t subsys_config, u8 major)
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  211  {
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29 @212  	u32 total_queue_size = 0, total_queue_size_aligned = 0;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  213  	struct ipu7_syscom_context *syscom = adev->syscom;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  214  	struct ia_gofo_boot_config *boot_config;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  215  	struct syscom_queue_params_config *cfgs;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  216  	struct device *dev = &adev->auxdev.dev;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  217  	struct syscom_config_s *syscfg;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  218  	dma_addr_t queue_mem_dma_ptr;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  219  	void *queue_mem_ptr;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  220  	unsigned int i;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  221  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  222  	dev_dbg(dev, "boot config queues_nr: %d freq: %u sys_conf: 0x%pad\n",
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  223  		num_queues, uc_freq, &subsys_config);
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  224  	/* Allocate boot config. */
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  225  	adev->boot_config_size =
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  226  		sizeof(*cfgs) * num_queues + sizeof(*boot_config);
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  227  	adev->boot_config = ipu7_dma_alloc(adev, adev->boot_config_size,
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  228  					   &adev->boot_config_dma_addr,
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  229  					   GFP_KERNEL, 0);
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  230  	if (!adev->boot_config) {
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  231  		dev_err(dev, "Failed to allocate boot config.\n");
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  232  		return -ENOMEM;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  233  	}
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  234  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  235  	boot_config = adev->boot_config;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  236  	memset(boot_config, 0, sizeof(struct ia_gofo_boot_config));
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  237  	init_boot_config(boot_config, adev->boot_config_size, major);
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  238  	boot_config->subsys_config = subsys_config;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  239  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  240  	boot_config->uc_tile_frequency = uc_freq;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  241  	boot_config->uc_tile_frequency_units =
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  242  		IA_GOFO_FW_BOOT_UC_FREQUENCY_UNITS_MHZ;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  243  	boot_config->syscom_context_config.max_output_queues =
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  244  		syscom->num_output_queues;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  245  	boot_config->syscom_context_config.max_input_queues =
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  246  		syscom->num_input_queues;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  247  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  248  	ipu7_dma_sync_single(adev, adev->boot_config_dma_addr,
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  249  			     adev->boot_config_size);
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  250  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  251  	for (i = 0; i < num_queues; i++) {
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  252  		u32 queue_size = qconfigs[i].max_capacity *
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  253  			qconfigs[i].token_size_in_bytes;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  254  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  255  		total_queue_size += queue_size;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  256  		queue_size = ALIGN(queue_size, 64U);
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  257  		total_queue_size_aligned += queue_size;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  258  		qconfigs[i].queue_size = queue_size;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  259  	}
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  260  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  261  	/* Allocate queue memory */
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  262  	syscom->queue_mem = ipu7_dma_alloc(adev, total_queue_size_aligned,
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  263  					   &syscom->queue_mem_dma_addr,
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  264  					   GFP_KERNEL, 0);
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  265  	if (!syscom->queue_mem) {
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  266  		dev_err(dev, "Failed to allocate queue memory.\n");
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  267  		return -ENOMEM;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  268  	}
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  269  	syscom->queue_mem_size = total_queue_size_aligned;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  270  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  271  	syscfg = &boot_config->syscom_context_config;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  272  	cfgs = ipu7_syscom_get_queue_config(syscfg);
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  273  	queue_mem_ptr = syscom->queue_mem;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  274  	queue_mem_dma_ptr = syscom->queue_mem_dma_addr;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  275  	for (i = 0; i < num_queues; i++) {
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  276  		cfgs[i].token_array_mem = queue_mem_dma_ptr;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  277  		cfgs[i].max_capacity = qconfigs[i].max_capacity;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  278  		cfgs[i].token_size_in_bytes = qconfigs[i].token_size_in_bytes;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  279  		qconfigs[i].token_array_mem = queue_mem_ptr;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  280  		queue_mem_dma_ptr += qconfigs[i].queue_size;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  281  		queue_mem_ptr += qconfigs[i].queue_size;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  282  	}
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  283  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  284  	ipu7_dma_sync_single(adev, syscom->queue_mem_dma_addr,
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  285  			     total_queue_size_aligned);
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  286  
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  287  	return 0;
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  288  }
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  289  EXPORT_SYMBOL_NS_GPL(ipu7_boot_init_boot_config, "INTEL_IPU7");
-d9b3da4f62a7a18 Bingbu Cao 2025-05-29  290  
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    clang-19
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    clang-19
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    clang-19
+arc                   randconfig-001-20250625    gcc-11.5.0
+arc                   randconfig-001-20250626    clang-20
+arc                   randconfig-002-20250625    gcc-12.4.0
+arc                   randconfig-002-20250626    clang-20
+arm                              allmodconfig    clang-19
+arm                               allnoconfig    clang-21
+arm                               allnoconfig    gcc-15.1.0
+arm                              allyesconfig    clang-19
+arm                   randconfig-001-20250625    clang-21
+arm                   randconfig-001-20250626    clang-20
+arm                   randconfig-002-20250625    gcc-11.5.0
+arm                   randconfig-002-20250626    clang-20
+arm                   randconfig-003-20250625    gcc-13.3.0
+arm                   randconfig-003-20250626    clang-20
+arm                   randconfig-004-20250625    gcc-15.1.0
+arm                   randconfig-004-20250626    clang-20
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250625    gcc-11.5.0
+arm64                 randconfig-001-20250626    clang-20
+arm64                 randconfig-002-20250625    clang-20
+arm64                 randconfig-002-20250626    clang-20
+arm64                 randconfig-003-20250625    gcc-12.3.0
+arm64                 randconfig-003-20250626    clang-20
+arm64                 randconfig-004-20250625    clang-20
+arm64                 randconfig-004-20250626    clang-20
+csky                              allnoconfig    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                          allmodconfig    clang-19
+hexagon                           allnoconfig    clang-21
+hexagon                           allnoconfig    gcc-15.1.0
+hexagon                          allyesconfig    clang-19
+hexagon                          allyesconfig    clang-21
+i386                             allmodconfig    clang-20
+i386                              allnoconfig    clang-20
+i386                             allyesconfig    clang-20
+i386        buildonly-randconfig-001-20250625    clang-20
+i386        buildonly-randconfig-001-20250626    clang-20
+i386        buildonly-randconfig-002-20250625    gcc-12
+i386        buildonly-randconfig-002-20250626    clang-20
+i386        buildonly-randconfig-003-20250625    gcc-12
+i386        buildonly-randconfig-003-20250626    clang-20
+i386        buildonly-randconfig-004-20250625    gcc-12
+i386        buildonly-randconfig-004-20250626    clang-20
+i386        buildonly-randconfig-005-20250625    clang-20
+i386        buildonly-randconfig-005-20250626    clang-20
+i386        buildonly-randconfig-006-20250625    clang-20
+i386        buildonly-randconfig-006-20250626    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-15.1.0
+loongarch                         allnoconfig    gcc-15.1.0
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-15.1.0
+openrisc                          allnoconfig    clang-21
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    clang-21
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    clang-21
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    gcc-15.1.0
+riscv                            allmodconfig    gcc-15.1.0
+riscv                             allnoconfig    clang-21
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    gcc-15.1.0
+s390                             allmodconfig    clang-18
+s390                             allmodconfig    gcc-15.1.0
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-15.1.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    clang-19
+um                               allyesconfig    gcc-12
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250626    clang-20
+x86_64      buildonly-randconfig-002-20250626    clang-20
+x86_64      buildonly-randconfig-003-20250626    clang-20
+x86_64      buildonly-randconfig-004-20250626    clang-20
+x86_64      buildonly-randconfig-005-20250626    clang-20
+x86_64      buildonly-randconfig-006-20250626    clang-20
+x86_64                              defconfig    clang-20
+x86_64                                  kexec    clang-20
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-12
+x86_64                         rhel-9.4-kunit    gcc-12
+x86_64                           rhel-9.4-ltp    gcc-12
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
 
-:::::: The code at line 212 was first introduced by commit
-:::::: d9b3da4f62a7a182b5689c5b822c43c5b4053fd4 media: staging/ipu7: add firmware parse, syscom interface and boot
-
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
