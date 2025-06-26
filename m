@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-35967-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35968-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA4EAE9EED
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 15:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DFDAE9EEE
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 15:36:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F38EC56283E
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 13:35:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67CEC5628D9
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 13:35:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD35B2E6D0B;
-	Thu, 26 Jun 2025 13:35:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDB162E6133;
+	Thu, 26 Jun 2025 13:36:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jR/hV6aV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnYZbRBs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC692E1C64
-	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:35:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84DE2E54DE
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:36:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750944956; cv=none; b=uOphM/DP7sMQ6R8D0g6N/azTGrJG5hHXLC5jodsIowKAEbP2LqQwPnQBkh0mT4qsDZqMFMncjfqeH+2V6L73ImyY1HRYcO/VJqvI+ncYy8eGZ8nR9gwGkkPYfkUG44QFyUf+utZhFNuYnwcx4Le8/r2XbyHdXXXDlPBU13dMjAE=
+	t=1750944962; cv=none; b=Ey85rsuaVNXylAgSMMTxflQPjr90jckJNDOoyuQls/IeVvW57wavjwQYCCEFxSfU/yart2VsrUtiwA+IPoxjTRj0M46QvX98JxITb6oodb++JX+90ymOhxRo6n9GDtCEsJqXT+sjQ7P4JIXivvQ1VR/p2FhC61/GuiVgc5zMZuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750944956; c=relaxed/simple;
-	bh=an8COh7GJauY4WQQ5+HVFpvGQWV3f+Yin8vvrNvsbg4=;
+	s=arc-20240116; t=1750944962; c=relaxed/simple;
+	bh=l0qwvU+sAOynqnxam8sx1B806f+rV1bC+++SU3wSIGY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JnuVPRkVcTrgV9kDkcanmA51fO/TERmNPf0pcc5EuqsMcaF/EtORss7X5pgH6x7yDq0q8H7/oes2hFA8nycDozOg0gZnu/uPOhSyRlwW26Gf3ZjQVRGUtZGNL3PENIKnjln6z4gNSPXXzD85kHFm/9zV+5IvDphEFvgPekyjKGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jR/hV6aV; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=QYoGYmIpLzvWD2mGPODy+xe+9iaYLnOi4wxjmw6g9vYGc6YOlarNa4I43QM59d7BUYatkq1ePZQN7prQ58J3iQIQNacLR0yP1rvhIshP2o7q87Eys6ynU4g0ETJVF0StKG1j+TC2+kRy9xM/RvYu/ebVHNMphKcdTBNpOqMXHcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SnYZbRBs; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750944954; x=1782480954;
+  t=1750944960; x=1782480960;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=an8COh7GJauY4WQQ5+HVFpvGQWV3f+Yin8vvrNvsbg4=;
-  b=jR/hV6aVFpZEb8M9yYCJ/3uRj8P9rY4n43Xf6/+6LVuxEnJ3yHl0S/nP
-   ieIiCu5TwtcNcgihbnL2Oy8mtUPECSbUFwsNlrFUy77SvGR2MHgCsW07w
-   l7HFghG259DHdk5LK4fZMC1yNalIDbdBJoIhZWQApAL/0+Vv/HofK9r1E
-   8OgKA9HnO8JTQnbfULt/ZlE/WeDdr0Y6F0Lz6GhQLbUPNr+jp9KNR5J3e
-   BSHUPG8fKTxUBqPxZnGOWKm9qZhaK3T3uwqA5jMkH67rlgqgaAUDEoh2k
-   ygDPVYhc8ENuXtIDOvRSzEnwk9vVeSOwom6atJ0COYF0M62lARKVsFaIg
-   g==;
-X-CSE-ConnectionGUID: xyHQYotASMelw8fbORkAMw==
-X-CSE-MsgGUID: ZflJipvaSWqfNAzlTVb4PQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="56921348"
+  bh=l0qwvU+sAOynqnxam8sx1B806f+rV1bC+++SU3wSIGY=;
+  b=SnYZbRBsPawm/4qX+6gi6Gwkfz9Ovzb6/zGasGB+xgmmwQjWhHESc4gO
+   jSXUanDg4rInFoaG1ORRQzBFhA006yJCN152l/pyDWjjCg1OQdY+KSL7Z
+   bTtzPEAN5O8fEry1wz3ArvteBPLWTNLoYd12sWYGSQvmzt85wE3EGtFnN
+   a9IP/kz+VPbOTNVOtMafFMzj/4Zli81QJPFbD7Nufsq7w4ln8hB4SJLrj
+   i8/UBWGaA9gatNFVCbF8vpFaJkMLYGr3xqJNCVnrQ/F1u2nZURNpCYSnw
+   mamRApqZY/Hyl0H3kw4g9ovVkHv9pxbYiRvPomyff3vqSKIySy6GqMuW3
+   A==;
+X-CSE-ConnectionGUID: Ij0QuArbRHyV8txAyzgWJw==
+X-CSE-MsgGUID: b5JCsuNOQN6S6heM9UeZRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="56921355"
 X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
-   d="scan'208";a="56921348"
+   d="scan'208";a="56921355"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:35:54 -0700
-X-CSE-ConnectionGUID: spyE0HYQTm6/yOEsMg2noA==
-X-CSE-MsgGUID: bkNRbaEqRz6ytLbq+24Jew==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:36:00 -0700
+X-CSE-ConnectionGUID: SVmJZX6/TaW7YjbIfa1uBw==
+X-CSE-MsgGUID: DXfl4gsvRIW2AKNkgyOszQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
-   d="scan'208";a="153049371"
+   d="scan'208";a="153049378"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl.intel.com) ([10.245.244.225])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:35:47 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:35:54 -0700
 From: Mehdi Djait <mehdi.djait@linux.intel.com>
 To: laurent.pinchart@ideasonboard.com,
 	sakari.ailus@linux.intel.com
@@ -92,9 +92,9 @@ Cc: stanislaw.gruszka@linux.intel.com,
 	umang.jain@ideasonboard.com,
 	linux-media@vger.kernel.org,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 09/48] media: i2c: imx214: Use the v4l2 helper for obtaining the clock
-Date: Thu, 26 Jun 2025 15:34:00 +0200
-Message-ID: <8b6a06bc91a286fb5e39fa659e296bb3888d1d14.1750942967.git.mehdi.djait@linux.intel.com>
+Subject: [PATCH v2 10/48] media: i2c: imx219: Use the v4l2 helper for obtaining the clock
+Date: Thu, 26 Jun 2025 15:34:01 +0200
+Message-ID: <abd99314d82a1c718407b51724d57473022dea7b.1750942967.git.mehdi.djait@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1750942967.git.mehdi.djait@linux.intel.com>
 References: <cover.1750942967.git.mehdi.djait@linux.intel.com>
@@ -117,21 +117,21 @@ Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 ---
- drivers/media/i2c/imx214.c | 2 +-
+ drivers/media/i2c/imx219.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index dd7bc45523d8..73e7bc2f85c0 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -1271,7 +1271,7 @@ static int imx214_probe(struct i2c_client *client)
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index 3b4f68543342..bb7808515178 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -1188,7 +1188,7 @@ static int imx219_probe(struct i2c_client *client)
+ 				     "failed to initialize CCI\n");
  
- 	imx214->dev = dev;
- 
--	imx214->xclk = devm_clk_get(dev, NULL);
-+	imx214->xclk = devm_v4l2_sensor_clk_get(dev, NULL);
- 	if (IS_ERR(imx214->xclk))
- 		return dev_err_probe(dev, PTR_ERR(imx214->xclk),
+ 	/* Get system clock (xclk) */
+-	imx219->xclk = devm_clk_get(dev, NULL);
++	imx219->xclk = devm_v4l2_sensor_clk_get(dev, NULL);
+ 	if (IS_ERR(imx219->xclk))
+ 		return dev_err_probe(dev, PTR_ERR(imx219->xclk),
  				     "failed to get xclk\n");
 -- 
 2.49.0
