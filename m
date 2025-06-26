@@ -1,309 +1,276 @@
-Return-Path: <linux-media+bounces-36018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36F5AEA129
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 16:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39698AEA21A
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 17:13:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 23EC616A644
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 14:43:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE75A4E6948
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 15:07:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB44F2EACE2;
-	Thu, 26 Jun 2025 14:43:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF6A82ED86E;
+	Thu, 26 Jun 2025 14:59:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y/E10TB4"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="aYZQymBo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013020.outbound.protection.outlook.com [40.107.159.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC602E92B5
-	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 14:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750948989; cv=none; b=r7g45YGYloxgXhTUc7SqyGWKIouwt43vmfoRlamURXzRNnY1S3XSA9qEbtarlG2L+7dgP/vDMpySrLYwT5RdB0lObkFWG5P2Q0+tKToOnsi6GDxuaWS0VwGHINgEG95E1A6zMhPxJrtWKJXoqQELvBruGMjCU3ygKxv4tzSrfek=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750948989; c=relaxed/simple;
-	bh=0HQe4a5YAaE+Ad0zFk1lrQjmoZlsGV3tH1gFwEFjugE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZGfGm8H38MJvNaWcVsHMWkfGsmDxZVnYwJbzHQ94l36Hzn13De1iYQpHQDLL95oT4JZSgkpY7xl7PiXxKMw//L6t2atDeFfO6pUAdRGtShnXFnexRKzcOi7lNjESvTP3zZ44dQ9bJCoeQirYdouVyUHJikCOyTY0hUTCqz+Ggls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y/E10TB4; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a53359dea5so701161f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 07:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750948985; x=1751553785; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z831f9YRlmJ4qRXB7hGrw59vzBeO06ggJ4eQEzvfgkY=;
-        b=Y/E10TB4X5IXUSpuyqVHWOf2t6buTOY71jfF9+Kk574uU2JZWQ9xiqQLwxFB49NhDR
-         D2YoescEGNdGCZOH/TGrUjk3Ft9yF3A4QBk+tL7Jv8UijizmaBfr4KSxn59ToFHthWu3
-         OVWxddtnd/CS02Z17HWHZK2PFuU+1zzeQqx2bjsvYrPSv2nKv+8uSPBibnZwI3t6xMWs
-         ttqHHy1IKieAUM1Pb1wgHTuZZMNBY65M/OQYMCKH2eP7Nw9ofKdJ9Nd164sTtiMfbBsm
-         WCl0qJN1K/4RC/WNZQQXmEv0GbXmNnLa7YEvZ7Cj0fGKqP46Qw45lGbvfwMKW6THMA6d
-         /fVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750948985; x=1751553785;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z831f9YRlmJ4qRXB7hGrw59vzBeO06ggJ4eQEzvfgkY=;
-        b=THHqHtk0vZ34TechCQAjiTKKFU0YGQLLAdl2oSlE/Db55OSJlTadhGQ/5PfgD/3daJ
-         kVW9iz/lBLtRe87zmFfL7TR6gJdhpC/PJnKh7NAbFVCx4VOTMaO7ICBNP/Bk1k4NNsO2
-         y50+CuaStkP48Mgm7+kcBYQ2fhGCayuwO8mSvodHtSIPKAyhcHjL3sLpHFMmn8yMlk9Q
-         0mMPtC7tYcCX6ADI0FmjXbOSGdigJgg2Hf2/1d8tAnr28WuXo61hIR8rqee6hUdGizaz
-         Dw0f50tyHnBGcibTfos6yIJA48NuFnQb0d02AyTkXCz8zr03ig7wsi/PJQXi3f16R2BE
-         AlXg==
-X-Forwarded-Encrypted: i=1; AJvYcCXRU5OQJO/Gvzppm9fiSlXaqNXYPJ99O1GKWbU2iuOAQH0v++DLBlOlfVyPZB+p6NiF+wvNUlopreTIfw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1PdAdWCA8UAoghWE8jpGWpVq5aPPFkFi2Mq0cgccPArGioQaB
-	IIKO2LKQ0bjy3cLLldlhGiL+tN9mhFfGIUUcG1zNIU3qIsfeTtN3wbnB56Voi3vvl5M=
-X-Gm-Gg: ASbGncveuVf1X5QRK6U46ik6QHLuK74T9fg6y1lcNO119UnZ1AUoyHqGMsPNVuym0WZ
-	Wz6+Jy05W8muaOhUdsUuCgzPug4A/5FnlZlVPdubzDw3omvJEcILEnIEYNHQj5vMZnHYg3iUz3l
-	mBeOPKWg99vrjqtWLZz6VQ4KF6eXWsMCZJQ2TdfLXbynKFjHVrhpNLsY3gsisGD3DiU/07UBWvX
-	H3ygfWCoLLrvCa8LIkjLobI8k2lskpnY7ZXIcNT4yeTuL9pklN+JgKZwPcQH3wnrgphfLj7xxUI
-	3PcxDz2l47J/UeXKzKUwRksiBVqKguW2D4ehEPAeMCpU/6CAqYGldTrWZpVGBql+ZI9oFW7FJ6A
-	F6Q8EE0srCzjjEnVBMp0/L+xuhbs=
-X-Google-Smtp-Source: AGHT+IHMkEIhXu88th1KWxayLdmKeMcAoyNbn8OAmQCdqS96iqF5uFX0aWqA0DysUZKYfz0SmlgVjw==
-X-Received: by 2002:a5d:5889:0:b0:3a5:3b63:58f0 with SMTP id ffacd0b85a97d-3a6ed62e062mr5972463f8f.18.1750948985398;
-        Thu, 26 Jun 2025 07:43:05 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7fab6esm98471f8f.31.2025.06.26.07.43.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 07:43:04 -0700 (PDT)
-Message-ID: <4ef8adb1-df85-4396-a414-469025276a2b@linaro.org>
-Date: Thu, 26 Jun 2025 15:43:02 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E172EBDCA;
+	Thu, 26 Jun 2025 14:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750949941; cv=fail; b=uqo1YpZfjlDlf2nWYQ7qSQIIqWL75bAMI0tq1FabWOWzrMIAr/nUCkVW+bmeNBIUgIeXbAFk/BKEWpS1ErNGa0k/n50pv8/xGKlrDG1WjRHG+Rbnc1Nt95EDx9TmJVV+QAhrfQO2XiEXQKH7t7nNiE/xx5BT8U6saVP00uqBzMk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750949941; c=relaxed/simple;
+	bh=0EoPE+lgozMwme7OBgnq2a79gulSW18EWI4YbW+uOvw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=RNGHS49oUxL6153B7hlSj4C9hFujVqyWxhXnBgO5No3T/Lt82FKHqt+ORUIDk4yO10moNotgaGbQL8TOHPGDEOu/HDRNFom/gqwnrNhkO7y6Ghb4E/uQk0TtF9yvqxtT9W/cuOm270bnlJwM1MiVG8pKdAz+1Q+9ImjFyosRd2I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=aYZQymBo; arc=fail smtp.client-ip=40.107.159.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K3ZUhizdGU9mMQ1nuo7yTfa5Qooj5rERH8OoVNP4HQ9/D2z3r7+Wnv7QcOUnZ2QUbSMP3P/l6/CLri6GDFYL1afcICOlpOln2n98VGMt/XtsLDxnpfQq5aZu2R8isHVvAWcTqqZ+qZTvtQFQWZ2VlxHIXiAGdqP/WakdUZsdgSNsaWBlWw8JxtxPxXV1SFpqH7TOFB2YNnokBpmfM/OUbWOKrcDiiYDOHR8D2erW8vh2V1nOjfCpQj8ItCvge9Thzd58SwWHjzCG3gOcj5XxUNJxwM27S10m9yqDe94ctlBnF89BEKNI3XjiDKG3KKFQhUkVh1gJZlUvnJBOjIr8/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Fr0GLTkojtx4mcGiZPz9uMMWE+SjPmqYqOLDy5Krr8Q=;
+ b=dn+Pq7oio93ww6slTslCFhT+A2RERqWPKHww2jayGa/xEe9Fp2hcmsHk69LnLJova6HBnZTTte3rgvYKHkbhIciDL+szp+tPbV8gpk9WQeQiuYt5ycOfdULv3B0yz5ndMarMygZEd9a3lJeL6EVM3bNc8j8hSD/WtFDMe63aPGI/Xggcug3WbgszdC6Z8X6Jb1Lkqo3BklbDG5At9vQxWq2U1fDMU74sJJYK6s1fcPF0NAczRVqP/9AREcy7BNfv2jRDoSzsNRW5OgO1OBYowhlU6fm5w91+7BpaDcHP2r4fvvaq9exLWWRg5UpBcP6TgCrtj39SHLiGkpzwUSU61w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fr0GLTkojtx4mcGiZPz9uMMWE+SjPmqYqOLDy5Krr8Q=;
+ b=aYZQymBoQ6gtavOK4oWZzAMg0bzkB88vhjXlSqyaZCagnU9YP4HmGQqvXBhgctARhmMxyiQ/Y3kEOKLjCvwBezCng9dK4Gg8ekFiOKqywsk5V0z2rpDzqizghWmpjO1qHQfl6bpShkOmebA7mM4/wDy5PskLTNFMuDvULLSxVIUo2r6AqVyW+lphhHvQO5WuJ1YSOiroHJXN1pd20Fe0Ccfbe5sYfFVNsJdQDkWo7qtJdZU3i6XKvkMmpSkUDPtbe/Lt7HngbIyhHZMh2Ct8C4RMi/BK/qtYaQy2V41PSj83Fvb++Y2vsI8IWbHkDzsg/bPzE3PNaxjMdDtBI+bLCA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by PAXPR04MB8653.eurprd04.prod.outlook.com (2603:10a6:102:21c::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.21; Thu, 26 Jun
+ 2025 14:58:55 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%7]) with mapi id 15.20.8880.015; Thu, 26 Jun 2025
+ 14:58:55 +0000
+Date: Thu, 26 Jun 2025 10:58:48 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kumar M <anil.mamidala@xilinx.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, "Guoniu.zhou" <guoniu.zhou@nxp.com>,
+	Stefan Hladnik <stefan.hladnik@gmail.com>,
+	Florian Rebaudo <frebaudo@witekio.com>
+Subject: Re: [PATCH v3 2/2] media: i2c: Add ON Semiconductor AP1302 ISP driver
+Message-ID: <aF1gKGjpbEPZYBr2@lizhi-Precision-Tower-5810>
+References: <20250623-ap1302-v3-0-c9ca5b791494@nxp.com>
+ <20250623-ap1302-v3-2-c9ca5b791494@nxp.com>
+ <20250623224701.GE15951@pendragon.ideasonboard.com>
+ <aFryrpyDByI6wu5b@lizhi-Precision-Tower-5810>
+ <20250624185643.GE20757@pendragon.ideasonboard.com>
+ <aFr6Ehpl5Kk+nt7m@lizhi-Precision-Tower-5810>
+ <20250626124224.GK8738@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250626124224.GK8738@pendragon.ideasonboard.com>
+X-ClientProxiedBy: AS4P189CA0055.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:659::22) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/5] media: venus: hfi_plat_v6_lite: Populate decode
- capabilities
-To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>, krzk+dt@kernel.org,
- quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com, mchehab@kernel.org,
- robh@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
- andersson@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250626135931.700937-1-jorge.ramirez@oss.qualcomm.com>
- <20250626135931.700937-4-jorge.ramirez@oss.qualcomm.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250626135931.700937-4-jorge.ramirez@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PAXPR04MB8653:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25fa7ef7-b190-43e5-f716-08ddb4c1f8fc
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|1800799024|52116014|7416014|376014|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?ek8i3344kY3GthSlH+VghhEzqKfU7lIDGtzu5Oc0SLDLMjpTN77NAkVgA1bl?=
+ =?us-ascii?Q?eUeUZVJFrfsAzBWc5uHgyLsvGX0Dp10HLo8tk/hVyd5S0k961aj0yiN4DudC?=
+ =?us-ascii?Q?y0ANSYhDJvRX6/7DW2nx9eRvIa7kqA0kDD3XNRNO5q/V31zll/2kUnriZlhA?=
+ =?us-ascii?Q?immrsIvecKo1NgZo20nBFubZv1GpZEBTx0gKLVN/k1D2e3DDiZFIGqTcZwMV?=
+ =?us-ascii?Q?paYg4mSmtLY2qYdzb7CwBT45Z40W/LCVElnYcAIjUN5dS5TiAwId4xUZT+TA?=
+ =?us-ascii?Q?/F+wX5e4uVMv+r2oJGahN9Mx7ip8jLj7wIS9wEeyFtlp/b+VjuGqqFba197S?=
+ =?us-ascii?Q?b3rTd3DtRexc+8ULG2iWYZDyYX4e9ooca0wUv+D1/KIg4z7XSNLm7kvXasG7?=
+ =?us-ascii?Q?QTMkVXsdE1CZSWATNg72K+tWF4bOzDHbGvtJTfDjY8VCOVBGoq8dRu+yIAsU?=
+ =?us-ascii?Q?aj8qQ8YHp+XpFf2SP0bA6DvSrJ+Yxq8qBjz/WkjGrR37q4gvqlRE/L750AXq?=
+ =?us-ascii?Q?jpTMB5XO6mU0EC71d8Gp8ZLh/mk0zcivF9Zr025cnCK13BLSq0I6ko7cWrb6?=
+ =?us-ascii?Q?aTYeMmAD/e3HA1I3WAkP6D3D12GG48sC8jpVyjsCclWfl8oqnPMsujmSejcU?=
+ =?us-ascii?Q?UoOZJFwBVeVBp9FtFx0tiZ4Vv9qQmLLEAYg9tGXX0JXPudv6t7Yr0Z+tK0FO?=
+ =?us-ascii?Q?EHFdvFeAsDuxl2sqTFD12l9YGpYTahf21bzASRQPrixRtRFM0w/d++z1hHmx?=
+ =?us-ascii?Q?xp3lyCU/XRm82Im+7G9UA6o2naTR+XlhQqCZsCD8SBC0NTXmFhNAkXEwe+LW?=
+ =?us-ascii?Q?Fv4xwitpdODoL+iw7070ByFkGhAHRFFruO4IeqLFXpgITUphv/vsiFuQgoa7?=
+ =?us-ascii?Q?QBIaaXmh7Pif0K+MR2TKcqez4VapCk+PxLxdMkasiJx0JqeHxxp0e7nmORIZ?=
+ =?us-ascii?Q?TBaZY4RUoLqaOFups00EH8fS/taxeYZGu6eZ+4UiFNEYNWIHKOA9OVncY8UV?=
+ =?us-ascii?Q?AZzVXP7UAMIqZDInGc9hB6BtyGFPV00bFffbMb8au1gTL2IukwzEAoocAFeP?=
+ =?us-ascii?Q?4Heq6dJMekBPWncNLtQtOnc09WdkENkZrVmeUMOnWrgIyAY7Jv81uQl77TQS?=
+ =?us-ascii?Q?KpUAhOo2GMuW6jwSNBPGvXPZs305FgRNLLHHInIpZWEKH3tQbFi7HCYWBiry?=
+ =?us-ascii?Q?vlz/aHiJqUe3vGh7o7CmwPuQUjumb87Y4kpJ8VDc1vWYDblH3maPcezug/qG?=
+ =?us-ascii?Q?9ebviqnbxV4G8YQ4v2mNp7crnwHvhuX9KIwjJPUDcst/eEE891F6ROf7FI4+?=
+ =?us-ascii?Q?BgHfe1qhVs6hlpkSvcIy1d9XNOdYUCcTcrMWLMxt+7FikW7+WzgrvJLZdaOu?=
+ =?us-ascii?Q?PhpmhBb0jpEGBwtu+PWQMh5XcbmJnISGKoo4X3EAZZBhKrV3SefZkQRLtzQM?=
+ =?us-ascii?Q?2/VVnC7tpnv/9qT/quUeJOIYMPjhVs7BguJhKkgzUTWlISSiWFUIRA=3D=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(7416014)(376014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?6Ozh9iSuXvhSZDXhxs4GOCnVXKNpsQo3Yumsbj033Hz9150efSbXzZvdDf+T?=
+ =?us-ascii?Q?6d0fFNIuQ3vhs692bsGgaqCpWvxaFvdf0nx/DhbRcAX3RfkpHP9IObZYsdXq?=
+ =?us-ascii?Q?40ugwhpjV0aKEU3AisZExABTVI5yMwfZhzix72gmPD4+y555dSBWqNBnMZvi?=
+ =?us-ascii?Q?V8aVruLwD+0g8HIFWymRdarEv4UsZmpA54WpFaI/UeyC8zaEWQJ8l+fZTf5+?=
+ =?us-ascii?Q?n/DP+S0wt3a+paHt506MNVYKzfqidmDZnKc7rH37OvphVk2/OsnAKlczi1fl?=
+ =?us-ascii?Q?ufBh11LZTV6kc6/7NTanba7UOKoeLNvpk/GXcB9p4rSMIyc4BRgxVVv3MuJm?=
+ =?us-ascii?Q?HUHbLLBhrjoiaEQHBih2fOA09xlc57zb0aADZAZdXU4Z039CjYkMxQ2AWVAB?=
+ =?us-ascii?Q?v4FoblmvRTHovpdMtQEuJyGGQJBFk5zzOw9JLCczC17s3M5Xxw1ILrMyfwWr?=
+ =?us-ascii?Q?7blhzNNyNPXRRt6lkvfQVN50r5efKLc/DzH7LWcdEky3gWYT63K8Waxt7B+E?=
+ =?us-ascii?Q?psmBAplodo1Xvyv3iCDWk2v9HPX9K0CzbHd24UqWxk4XemtcmmJ5iL4rKAVm?=
+ =?us-ascii?Q?Y13fOjpDFc1N747TpOGZWK8bQwAqCLP72gPgjlgdAKfZLLXckF0uGiBnoDJg?=
+ =?us-ascii?Q?q4W0rWq7si/PEc3S2VkdKLUkeQHpsic1bnhkxLQ/n6dwvDkY3gUdRxTwgDqB?=
+ =?us-ascii?Q?uULr6/ZB+U677xAEQk/hhAXLBAmzoG61qRJ+0QdRFV5Dc0CRe0/07SdkhV5g?=
+ =?us-ascii?Q?nYi65jFZtoFvQQJSpm2ZnQcOdmOWpQ39sP5Jr4B9Yj/zS7s3qIgAdqOW+IYE?=
+ =?us-ascii?Q?CrdAeY/EEXn2omWW2o4iMmJmSU2dl0pUwCTNI/XXat8OYu7zqjbpF2dgnKtc?=
+ =?us-ascii?Q?GyePM/Tzax0olYUp++4oMtoBi5j+KIFawBuVEIlQp7JJuBCC66ZN6x84yCK6?=
+ =?us-ascii?Q?OTNUDtaCrcLDPw9I3E811hQ95Suw0WHsNbFHWJZ804KBuofLanMqc4zeaGLw?=
+ =?us-ascii?Q?0RTa9YfL3X8orD8pjin7Net66HpU+5Bigax0TFlEzphvq+VFimHZjQ4Hq2sI?=
+ =?us-ascii?Q?l0RwMm2tFVxzRYmlDy0lDokYw4vabhU9FQBVjPdFW32eA7f33bcZnJwM9pt8?=
+ =?us-ascii?Q?OP6qzWETYpvZ6/qlVKVMP/gz6coDmaA6Ob9JcXq1Rn6rhzWdNOHoITrtr6r4?=
+ =?us-ascii?Q?mT3cUEzjXD8RERUhjrH5TdIeP2DAk8luO9UZn7NG4Un0XcY+NdMIcx0sbNbo?=
+ =?us-ascii?Q?zMkGiPijDY5zt9n8f3/WPCdBubHeIuaw2ldW0xtbwhx1s+VPfj7iXpzbMCCw?=
+ =?us-ascii?Q?AgaoerPbs712CF20NpU7Erd1eFgLfddDhQiGiuRFDoQkgCCJqEVas1rQnxyF?=
+ =?us-ascii?Q?SN8p7IO+z/nZJCyJfXOIGi6YARBzf/P0Gdv6upoc+A07ORU17HbGBZuxt6e8?=
+ =?us-ascii?Q?DxyUovI2DuQlX+NaAbUpMlRK80H979W4RPpMK1JHpPSGEzaQvZ/N0eTv8Xm2?=
+ =?us-ascii?Q?GVDfzhJQUybRzt7mD90t1gzs35zVYJTIdVbcZhVYOexWOxjWW9F8cSia6ru1?=
+ =?us-ascii?Q?3o6P3JS4I9hYg4SqvF3iduMSN5GGWyrY8q1Xznt7?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25fa7ef7-b190-43e5-f716-08ddb4c1f8fc
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2025 14:58:55.7109
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MBhODxYQxcEiOjscHitAqm6JvJLk+uTKpFSO5CdYe2gveUYPD+3R7lrEVy5iLesCXT7uPTJZHQ4ce/f1TkdPlQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8653
 
-On 26/06/2025 14:59, Jorge Ramirez-Ortiz wrote:
-> Add hfi platform file with decoding capabilities for hfi v6_lite.
-> 
-> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-> ---
->   drivers/media/platform/qcom/venus/Makefile    |   2 +-
->   .../media/platform/qcom/venus/hfi_platform.c  |   2 +
->   .../media/platform/qcom/venus/hfi_platform.h  |   1 +
->   .../qcom/venus/hfi_platform_v6_lite.c         | 148 ++++++++++++++++++
->   4 files changed, 152 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/media/platform/qcom/venus/hfi_platform_v6_lite.c
-> 
-> diff --git a/drivers/media/platform/qcom/venus/Makefile b/drivers/media/platform/qcom/venus/Makefile
-> index 91ee6be10292..4a6a942db58b 100644
-> --- a/drivers/media/platform/qcom/venus/Makefile
-> +++ b/drivers/media/platform/qcom/venus/Makefile
-> @@ -5,7 +5,7 @@ venus-core-objs += core.o helpers.o firmware.o \
->   		   hfi_venus.o hfi_msgs.o hfi_cmds.o hfi.o \
->   		   hfi_parser.o pm_helpers.o dbgfs.o \
->   		   hfi_platform.o hfi_platform_v4.o \
-> -		   hfi_platform_v6.o hfi_plat_bufs_v6.o \
-> +		   hfi_platform_v6.o hfi_plat_bufs_v6.o hfi_platform_v6_lite.o \
->   
->   venus-dec-objs += vdec.o vdec_ctrls.o
->   venus-enc-objs += venc.o venc_ctrls.o
-> diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
-> index 643e5aa138f5..f56b8f9946d7 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_platform.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_platform.c
-> @@ -13,6 +13,8 @@ const struct hfi_platform *hfi_platform_get(enum hfi_version version)
->   		return &hfi_plat_v4;
->   	case HFI_VERSION_6XX:
->   		return &hfi_plat_v6;
-> +	case HFI_VERSION_6XX_LITE:
-> +		return &hfi_plat_v6_lite;
->   	default:
->   		break;
->   	}
-> diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
-> index ec89a90a8129..6356e4bd0de2 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_platform.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_platform.h
-> @@ -58,6 +58,7 @@ struct hfi_platform {
->   
->   extern const struct hfi_platform hfi_plat_v4;
->   extern const struct hfi_platform hfi_plat_v6;
-> +extern const struct hfi_platform hfi_plat_v6_lite;
->   
->   const struct hfi_platform *hfi_platform_get(enum hfi_version version);
->   unsigned long hfi_platform_get_codec_vpp_freq(enum hfi_version version, u32 codec,
-> diff --git a/drivers/media/platform/qcom/venus/hfi_platform_v6_lite.c b/drivers/media/platform/qcom/venus/hfi_platform_v6_lite.c
-> new file mode 100644
-> index 000000000000..41958a3e353b
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/venus/hfi_platform_v6_lite.c
-> @@ -0,0 +1,148 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2025, The Linux Foundation. All rights reserved.
-> + */
-> +#include "hfi_platform.h"
-> +
-> +static const struct hfi_plat_caps caps[] = {
-> +{
-> +	.codec = HFI_VIDEO_CODEC_H264,
-> +	.domain = VIDC_SESSION_TYPE_DEC,
-> +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1080, 1},
-> +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> +	.num_caps = 7,
-> +	.pl[0] = {HFI_H264_PROFILE_BASELINE, HFI_H264_LEVEL_1},
-> +	.pl[1] = {HFI_H264_PROFILE_MAIN, HFI_H264_LEVEL_41},
-> +	.pl[2] = {HFI_H264_PROFILE_HIGH, HFI_H264_LEVEL_5},
-> +	.pl[3] = {HFI_H264_PROFILE_CONSTRAINED_BASE, HFI_H264_LEVEL_41},
-> +	.pl[4] = {HFI_H264_PROFILE_CONSTRAINED_HIGH, HFI_H264_LEVEL_41},
-> +	.num_pl = 5,
-> +	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-> +	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-> +	.num_fmts = 4,
-> +}, {
-> +	.codec = HFI_VIDEO_CODEC_HEVC,
-> +	.domain = VIDC_SESSION_TYPE_DEC,
-> +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1080, 1},
-> +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> +	.num_caps = 7,
-> +	.pl[0] = {HFI_HEVC_PROFILE_MAIN, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_MAIN},
-> +	.pl[1] = {HFI_HEVC_PROFILE_MAIN10, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_MAIN},
-> +	.num_pl = 2,
-> +	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-> +	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-> +	.num_fmts = 4,
-> +}, {
-> +	.codec = HFI_VIDEO_CODEC_VP9,
-> +	.domain = VIDC_SESSION_TYPE_DEC,
-> +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1080, 1},
-> +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> +	.num_caps = 7,
-> +	.pl[0] = {HFI_VP9_PROFILE_P0, 200},
-> +	.pl[1] = {HFI_VP9_PROFILE_P2_10B, 200},
-> +	.num_pl = 2,
-> +	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-> +	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-> +	.num_fmts = 4,
-> +} };
-> +
-> +static const struct hfi_plat_caps *get_capabilities(unsigned int *entries)
-> +{
-> +	*entries = ARRAY_SIZE(caps);
-> +	return caps;
-> +}
-> +
-> +static void get_codecs(u32 *enc_codecs, u32 *dec_codecs, u32 *count)
-> +{
-> +	*enc_codecs = 0x0;
-> +	*dec_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> +		      HFI_VIDEO_CODEC_VP9;
-> +	*count = 3;
-> +}
-> +
-> +static const struct hfi_platform_codec_freq_data codec_freq_data[] = {
-> +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-> +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-> +	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-> +};
-> +
-> +static const struct hfi_platform_codec_freq_data *
-> +get_codec_freq_data(u32 session_type, u32 pixfmt)
-> +{
-> +	const struct hfi_platform_codec_freq_data *data = codec_freq_data;
-> +	unsigned int i, data_size = ARRAY_SIZE(codec_freq_data);
-> +	const struct hfi_platform_codec_freq_data *found = NULL;
-> +
-> +	for (i = 0; i < data_size; i++) {
-> +		if (data[i].pixfmt == pixfmt &&
-> +		    data[i].session_type == session_type) {
-> +			found = &data[i];
-> +			break;
-> +		}
-> +	}
-> +
-> +	return found;
-> +}
-> +
-> +static unsigned long codec_vpp_freq(u32 session_type, u32 codec)
-> +{
-> +	const struct hfi_platform_codec_freq_data *data;
-> +
-> +	data = get_codec_freq_data(session_type, codec);
-> +	if (data)
-> +		return data->vpp_freq;
-> +
-> +	return 0;
-> +}
-> +
-> +static unsigned long codec_vsp_freq(u32 session_type, u32 codec)
-> +{
-> +	const struct hfi_platform_codec_freq_data *data;
-> +
-> +	data = get_codec_freq_data(session_type, codec);
-> +	if (data)
-> +		return data->vsp_freq;
-> +
-> +	return 0;
-> +}
-> +
-> +static unsigned long codec_lp_freq(u32 session_type, u32 codec)
-> +{
-> +	const struct hfi_platform_codec_freq_data *data;
-> +
-> +	data = get_codec_freq_data(session_type, codec);
-> +	if (data)
-> +		return data->low_power_freq;
-> +
-> +	return 0;
-> +}
-> +
-> +const struct hfi_platform hfi_plat_v6_lite = {
-> +	.codec_vpp_freq = codec_vpp_freq,
-> +	.codec_vsp_freq = codec_vsp_freq,
-> +	.codec_lp_freq = codec_lp_freq,
-> +	.codecs = get_codecs,
-> +	.capabilities = get_capabilities,
-> +	.bufreq = hfi_plat_bufreq_v6,
-> +};
+On Thu, Jun 26, 2025 at 03:42:24PM +0300, Laurent Pinchart wrote:
+> On Tue, Jun 24, 2025 at 03:18:42PM -0400, Frank Li wrote:
+> > On Tue, Jun 24, 2025 at 09:56:43PM +0300, Laurent Pinchart wrote:
+> > > On Tue, Jun 24, 2025 at 02:47:10PM -0400, Frank Li wrote:
+> > > > On Tue, Jun 24, 2025 at 01:47:01AM +0300, Laurent Pinchart wrote:
+> > > > > On Mon, Jun 23, 2025 at 03:17:38PM -0400, Frank Li wrote:
+> > > > > > From: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
+> > > > > >
+> > > > > > The AP1302 is a standalone ISP for ON Semiconductor sensors.
+> > > > > > AP1302 ISP supports single and dual sensor inputs. The driver
+> > > > > > code supports AR1335, AR0144 and AR0330 sensors with single and
+> > > > > > dual mode by loading the corresponding firmware.
+> > > > > >
+> > > > > > Signed-off-by: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
+> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > > Signed-off-by: Stefan Hladnik <stefan.hladnik@gmail.com>
+> > > > > > Signed-off-by: Florian Rebaudo <frebaudo@witekio.com>
+> > > > > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > > > > ---
+> > > > > > Change in v3:
+> > > > > > - add extra empty line between difference register define
+> > > > > > - add bits.h
+> > > > > > - use GEN_MASK and align regiser bit define from 31 to 0.
+> > > > > > - add ap1302_sensor_supply
+> > > > > > - add enable gpio
+> > > > > > - update firmware header format
+> > > > >
+> > > > > One of the main issues with this driver is that we need to standardize
+> > > > > the header format. The standardized format will need to be approved by
+> > > > > onsemi as we will need to provide not just a driver, but also a
+> > > > > toolchain that will produce firmwares in the right format. Furthermore,
+> > > > > some time ago the AP1302 firmware was extended with the ability to
+> > > > > dynamically compute PLL parameters IIRC. This needs to be taken into
+> > > > > account.
+> > > >
+> > > > It is quite common when work with firmwares. Generally, it need version
+> > > > information at header.
+> > > >
+> > > > The driver need check firmware's API version, if miss match or incompatible,
+> > > > just return and report error.
+> > > >
+> > > > we can't assume firmware always align driver code because many user just
+> > > > update kernel without update rootfs or firmware package.
+> > >
+> > > Sure, but that's not the point. The point is that there are multiple
+> > > out-of-tree ap1302 driver versions, developed or adapted by different
+> > > SoC vendors. Those variants use firmware files produced by those SoC
+> > > vendors, and they not standard.
+> >
+> > I am not sure if firwmare is open source. Most like not.
+>
+> The firmware is not open-source, but I don't think that's relevant.
+>
+> > We need create
+> > difference compatible string for difference Soc vendor.
+>
+> No, that we must absolutely not do :-) If it's the same AP1302 and same
+> camera sensor, we must not have different compatible strings when the
+> AP1302 is connected to an NXP SoC or a MediaTek SoC.
 
-@Dikshita @Vikash happy enough with this ?
+After read code, firwmare header only used for sanity checks. can remove
+it for initialization version?
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Frank
+
+>
+> > > We need to standardize on a firmware
+> > > format to upstream a driver, and that standardization needs to involve
+> > > the device manufacturer.
+> >
+> > we need workable version (easy extend) firstly, when let other vendor follow.
+> >
+> > Frank Li
+> > >
+> > > > > I want to resuscitate this driver and get it merged. There's more work
+> > > > > to do, in collaboration with onsemi, and I haven't had time to tackle
+> > > > > it. If you want to propose a proper design for firmware handling I would
+> > > > > be happy to participate in the discussion.
+> > > >
+> > > > who is onsemi contact windows.
+> > > >
+> > > > > > - update raw sensor supply delay time
+> > > > > > - use gpiod_set_value_cansleep() insteand gpiod_set_value()
+> > > > > > - update use latest v4l2 api
+> > > > > > - use ctrl_to_sd() helper function
+> > > > > > - add ap1302_g_volatile_ctrl()
+> > > > > > - remove ap1302_get_fmt()
+> > > > > > - use guard for mutex.
+> > > > > > - use dev_err_probe
+> > > > > > - use devm_add_action_or_reset to simple error handle at probe.
+> > > > > > - use read_poll_timeout() simple dma idle polling.
+> > > > > >
+> > > > > > previous upstream:
+> > > > > > https://lore.kernel.org/linux-media/1631091372-16191-1-git-send-email-anil.mamidala@xilinx.com/
+> > > > > > ---
+> > > > > >  MAINTAINERS                |    1 +
+> > > > > >  drivers/media/i2c/Kconfig  |    9 +
+> > > > > >  drivers/media/i2c/Makefile |    1 +
+> > > > > >  drivers/media/i2c/ap1302.c | 2838 ++++++++++++++++++++++++++++++++++++++++++++
+> > > > > >  4 files changed, 2849 insertions(+)
+> > > > >
+> > > > > [snip]
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
