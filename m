@@ -1,155 +1,162 @@
-Return-Path: <linux-media+bounces-35945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35946-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E474CAE9BFA
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 12:57:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A1CAE9C42
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 13:11:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01BAF4A2C8F
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 10:57:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B1F5B176889
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 11:11:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C40426E17D;
-	Thu, 26 Jun 2025 10:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A622750F3;
+	Thu, 26 Jun 2025 11:11:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UEYEKqWd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZnkzJSjQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7B026B975
-	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 10:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0302673B9;
+	Thu, 26 Jun 2025 11:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750935409; cv=none; b=rfqHf9MhAzEN35GjtCgV2W+slVhRanM1HqcvHQhJuTUXd2n3WC/qzFNnlLwWYDKokqM5SYi9vfGEnoiMH81liIP3LOskIBcXjxk1vUBStDqLzXOQa1A9pao9MQEVKify4SiM6Q1qEZbei2eKTUWAf9GHmdsQbxFswUvnAxpWyXo=
+	t=1750936295; cv=none; b=iztVfrxRF2pgXTB5PB/sTegwb6FROABKpXEBpOLJUEfLU2MUQpq/ZreRiX8lHeAC+tQ+d47NdVK+cKs4MB/h/UCzIBwdNCuu/u7mx4jO6iAl9a3hhwzl8Alq2YIX7usUut+QckCe3Bel1ga9cge2jaAOagrGKv1A62gxnxNqOzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750935409; c=relaxed/simple;
-	bh=unJVU3Xl3Wm7HDliPBmbf0uw3veqwlYT5BkTyANO19U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U0Q5+WKklOibt5oOzzZH0RbCMmSjIGoHGc8Eq/SH7SFRt6dPHdQTn9Earh1yBVV/5RhTArG4+AH0OSd94qWwEF9ejnPQFGwROKXBOVbmqDzOiQ14yE/bvQaMISW+/+uB5NZR4QkwyhP+5qzMmT65opQbcsrNvGtV8TfJQwYc6PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UEYEKqWd; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-32b4eb13e8cso992811fa.1
-        for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 03:56:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750935405; x=1751540205; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RrVEb7SOHXOjIaJsMr6PdsN8zJOeLk7RyAInvGFhJ0Q=;
-        b=UEYEKqWdJJgWuMFvBOsD4Q6B/UfuBOrxO0TvlXtnGGFC2fcQgqtvwC5yuFviBretQI
-         U5W6hcU9Lskj41m0iWJ59Supnxik4DeJ7Yb96UF9660zRiqfFTjIi0O+jJ0PCY6nq0pD
-         J/g4icH0y+p3xlKTqlbS7Nbi0iUcL2jWtfhuBywdLqZF/sdVfVLKrLx3TA3ZG4vo4f4I
-         Cn1evGDvVSE0KuJH33zrEmlYpEBQilUQj9ss6a11SUqfEZWnRFMppL4xEGMmBS+FIljU
-         wOqop6o9/fznGMq5qtWhULatKz9lDHxXqpV40EZCM2CCkbbr8bUVHK6qORgAhmN6aNZV
-         4S8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750935405; x=1751540205;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RrVEb7SOHXOjIaJsMr6PdsN8zJOeLk7RyAInvGFhJ0Q=;
-        b=AOjEvTUuRZXXvQzzXgZyqIZIm0GlKDOgRJHVbQoWPBAhUNapJVXuJaRpPyuWF27a33
-         VW57wPOFcHudpTk50ikULOsn/0JNKL78X4q9fZJVr+387fqaKTh8KCuTjLnvd29klckt
-         ojhPVzyQBs/9kar954MxcpYZFysWPYeZ5NokQ8P8ODzARqI8LEtY2trOvNu24VBkRBtw
-         pa1OzrGM/dpSW740o1RtkfktuCz7BHUTtwsg5BJXkHGrO0eHznohxJgqU6dZ6PnbtAhg
-         ARnPNhylNSoqm+RTT3JugTq2wyo9p2M+Aj3bZSAxgkq5LMs6I8lmNkINbc/2nnKhb1PJ
-         1yVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWX0A7yA93rEqDt0AaVIVqJmlHCII4Pt8o35zOVe02Hi8eLmCn6ajyotbU6KPOQi8squddNukw1sDVtEQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwiCO0xNAvPeg3KJjrnyVgXQMxgNnLMrGpXa0TqN3BF+KZrDR/
-	E1sUbXlPCJUu379SIY4o1C0cW1ie9XReznvPz4cmux9cS3xKC5sqUdOSe4W5ICUVrjA=
-X-Gm-Gg: ASbGnctIILCmoKQsuItOc+XcOQUhoE8lUZVUaoOE1fxV6NUy3NZlqBq6fE1BZy+cYIa
-	F/69oj0NmCKbJMKk2qV3ZfZuf6BNbv854ooiCmks2YpAKf6dvrxx7q2blq+FQfaWUeDHZWZjATC
-	rfuV42/XBSzhWk6MaH0DKmgYYr6c9yYd56JEojhtAQukDKxth8auX6BdNlMUFdqJhgjcbCaJ+qb
-	uKEGhucF86GadjViL2axH44EMPdt5M91/eQ/zT+7rR2CHtgF/A0ynzFyVAV8enBvEYw/ahFQ16I
-	bDxFGjBoAKIXo/II57p8/UXL5mc1h8xWH8iNRC6vZcKIEmqkSBU+uVbHna2XIWaInNIIL7BbhP5
-	Gv11eAbpyQDetayMDZ4dvutIcqDz6qTDf37gLnez1
-X-Google-Smtp-Source: AGHT+IH57sZpqtFwHoa4JW0LInHA8kw3WhTt17SJ6Qp+hkH5OY5V3UsY/0SWnVUa5DXSYTbv462qjA==
-X-Received: by 2002:a05:6512:234e:b0:554:f74e:9f0a with SMTP id 2adb3069b0e04-554fdd59ee7mr658062e87.14.1750935405424;
-        Thu, 26 Jun 2025 03:56:45 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553e41c2ef7sm2581675e87.144.2025.06.26.03.56.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 03:56:45 -0700 (PDT)
-Message-ID: <c4fc49d5-e946-4526-9100-0e891c4a5e4c@linaro.org>
-Date: Thu, 26 Jun 2025 13:56:44 +0300
+	s=arc-20240116; t=1750936295; c=relaxed/simple;
+	bh=uYvThIeaKeJUiPpgcm2sjBtMIfpTK2d0un/v9h/EY38=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=Ga+hO0mwHZCYmxJjypTmq33+tO49oK4exBOkPAmRixXBJrLnIH4coiZlg9waRfAX3Aa9e1eGeeOwFwTbKr1f24SxNVp9Eq4EY8CMSLBzMNOPlfD4P65KLm/xAyHmAFUzZp8XvLcFrUXxrS+f+es4NrKSihClqwiHm6ItiJWhSFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZnkzJSjQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 311806AE;
+	Thu, 26 Jun 2025 13:11:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750936272;
+	bh=uYvThIeaKeJUiPpgcm2sjBtMIfpTK2d0un/v9h/EY38=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=ZnkzJSjQJ7JFvoj1vLbt6jYni1Su1fruuR9irFxYD4vNiWd9KhzcQTRqajrjZfhjK
+	 mF91QoMGs3sqgtkGLCOJ6TozePOnOLcgxVyYO4hdUQrp5UVb19nqt6BMAisAse874c
+	 nEggoUxLjngMdd2N85j1U7YYGJMLBbRhwV/g3Qko=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/4] media: qcom: camss: Add support for MSM8939
-Content-Language: ru-RU
-To: vincent.knecht@mailoo.org, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20250613-camss-8x39-vbif-v5-0-a002301a7730@mailoo.org>
- <20250613-camss-8x39-vbif-v5-2-a002301a7730@mailoo.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20250613-camss-8x39-vbif-v5-2-a002301a7730@mailoo.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <fb719113-513f-44d9-82ae-63ff6aaca142@amd.com>
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com> <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com> <aEygCdk-zEqRwfoF@kekkonen.localdomain> <3e8364e8-22e4-42ad-a0f0-017f86fd6bf9@amd.com> <20250623120929.GE826@pendragon.ideasonboard.com> <aFlU-E_GCHWBXErq@kekkonen.localdomain> <20250623134200.GB29597@pendragon.ideasonboard.com> <b6425dbe-44e6-47b4-a06b-b9a172a8cac4@amd.com> <fb719113-513f-44d9-82ae-63ff6aaca142@amd.com>
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Hao Yao <hao.yao@intel.com>, Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org, hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org, dave.stevenson@raspberrypi.com, hdegoede@redhat.com, jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com, dantony@amd.com, vengutta@amd.com, dongcheng.yan@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com, Svetoslav.Stoilov@amd.com, Yana.Zheleva@amd.com
+To: "Nirujogi, Pratap" <pnirujog@amd.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Thu, 26 Jun 2025 12:11:27 +0100
+Message-ID: <175093628786.4005407.10292502794888309807@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 
-Hello Vincent.
+Quoting Nirujogi, Pratap (2025-06-25 23:06:01)
+> Hi Sakari, Hi Laurent,
+>=20
+> On 6/23/2025 5:55 PM, Nirujogi, Pratap wrote:
+> [...]
+> >>>> I think it can live in the driver for now. Given that the device uses
+> >>>> only 8 bits of register address, I would store the page number in bi=
+ts
+> >>>> 15:8 instead of bits 31:24, as the CCI helpers do not make bits 27:24
+> >>>> available for driver-specific purpose.
+> >>>
+> >>> I'd use the CCI private bits, the driver uses page numbers up to 4 so=
+ 4
+> >>> bits are plenty for that. If we add pages to CCI later, this may be
+> >>> refactored then.
+> >>
+> >> That works too.
+> >>
+> > Thanks for your support. We will add the page number in the register=20
+> > address 15:8 or 11:8 and will update the implementation accordingly in =
 
-On 6/13/25 12:33, Vincent Knecht via B4 Relay wrote:
-> From: Vincent Knecht <vincent.knecht@mailoo.org>
-> 
-> The camera subsystem for the MSM8939 is the same as MSM8916 except with
-> 3 CSID instead of 2, and some higher clock rates.
-> 
-> As a quirk, this SoC needs writing values to 2 VFE VBIF registers
-> (see downstream msm8939-camera.dtsi vbif-{regs,settings} properties).
-> This fixes black stripes across sensor and garbage in CSID TPG outputs.
-> 
-> Add support for the MSM8939 camera subsystem.
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> > the next version.
+> >=20
+> I would like to share the approach we are taking to implement the CCI=20
+> helpers that support page value. Could you please review the steps and=20
+> let us know if they make sense or if any adjustments are needed?
+>=20
+> 1: Add new macros to embed page value into the register address.
+>=20
+> Ex:
+> #define CCI_PAGE_REG8(x, p)             ((1 << CCI_REG_WIDTH_SHIFT) | (p =
+<<=20
+> CCI_REG_PRIVATE_SHIFT) | (x))
+> #define CCI_PAGE_REG16(x, p)            ((2 << CCI_REG_WIDTH_SHIFT) | (p =
+<<=20
+> CCI_REG_PRIVATE_SHIFT) | (x))
+>=20
+> 2: Create V4L2 CCI context. Initialize page control reg, current_page,=20
+> regmap etc.
+>=20
+> Ex:
+> struct v4l2_cci_ctx {
+>         struct mutex lock;
+>         struct regmap *map;
+>         s16 current_page;
+>         u8 page_ctrl_reg;
+> }
+>=20
+> 3: Introduce new CCI helpers - cci_pwrite() and cci_pread() to handle=20
+> register read-writes updating the page control register as necessary.
 
-I would repeat my ask given previously:
+Out of curiosity - but couldn't the existing cci_write and cci_read
+already be used by the users - and then the default behaviour is that
+the page isn't modified if there is no page_ctrl_reg - and by default
+CCI_REG() will simply have (initilised) as page 0 - so the pages will
+never change on those calls?
 
-https://lore.kernel.org/all/877a72fa-cdae-4a66-9991-5ea86ef76aac@linaro.org/
+Then the users can indeed define
 
-<snip>
+#define TEST_PATTERN_PAGE 5
+#define TEST_PATTERN_COLOUR_BARS BIT(3)
 
->   
-> +static const struct camss_resources msm8939_resources = {
-> +	.version = CAMSS_8x39,
-> +	.csiphy_res = csiphy_res_8x39,
-> +	.csid_res = csid_res_8x39,
-> +	.ispif_res = &ispif_res_8x39,
-> +	.vfe_res = vfe_res_8x39,
-> +	.csiphy_num = ARRAY_SIZE(csiphy_res_8x39),
-> +	.csid_num = ARRAY_SIZE(csid_res_8x39),
-> +	.vfe_num = ARRAY_SIZE(vfe_res_8x39),
-> +	.link_entities = camss_link_entities
+#define MY_TEST_PATTERN_REG CCI_PAGE_REG8(0x33, TEST_PATTERN_PAGE)
 
-There shall be no more dragging of the .link_entities, it's gone
-a bit more than 6 weeks ago.
+and can call=20
+ cci_write(regmap, MY_TEST_PATTERN_REG, TEST_PATTERN_COLOUR_BARS, &ret);
 
-https://lore.kernel.org/all/20250513142353.2572563-4-vladimir.zapolskiy@linaro.org/
+with everything handled transparently ?
 
-> +};
-> +
 
-For sake of simplicty you may include that particular change preserving
-all its tags into your MSM8939 changeset, it will help a maintainer
-to resolve merge conflicts.
+Or do you envisage more complications with the types of pages that might
+be supportable ?
 
--- 
-Best wishes,
-Vladimir
+(I perfectly understand if I'm wishing for an unreachable utopia -
+because I haven't considered something implicit about the page handling
+that I haven't yet used :D)
+
+--
+Kieran
+
+
+> int cci_pwrite(void *data, u32 reg, u64 val, int *err)
+> {
+>         /* get v4l2_cci_ctx context from data */
+>=20
+>         /* get page value from reg */
+>=20
+>         /* acquire mutex */
+>=20
+>         /* update cci page control reg, save current page value */
+>        =20
+>         /* do cci_write */
+>=20
+>         /* release mutex */
+> }
+>=20
+> Similar steps for cci_pread() as well.
+>=20
+> Thanks,
+> Pratap
 
