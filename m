@@ -1,337 +1,342 @@
-Return-Path: <linux-media+bounces-36039-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36040-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FAEAEA662
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 21:21:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06662AEA835
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 22:28:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C68464A81B8
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 19:21:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5D691C43D2B
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 20:28:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6545B18A6DB;
-	Thu, 26 Jun 2025 19:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21BE62E7642;
+	Thu, 26 Jun 2025 20:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="aZZRAVh/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CIb9VsIE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2056.outbound.protection.outlook.com [40.107.244.56])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BD42EF9B1;
-	Thu, 26 Jun 2025 19:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750965710; cv=fail; b=qAXLEsVsYIjAL+cHNeKiqXtwuKKRdgM6DKi2/ZiQNpx6qkIBY2XW3mJSwIOss+MQILH16D8jWbGZk/cqD4H9Lld4wnupE6sADERRx/BZHcFggyKfMZttbuL5BQ1ckJ4Anma/QQOMxHrCJWXGeHtCmwsFsu/SGAR5LJ1SnlvtAPU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750965710; c=relaxed/simple;
-	bh=aBkZmy5wQVNGOvKZMfyc0ty2+tW+s6heIv0nexsKxJc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=MbuSj+YbQZEsbrh4yAWC7pwzT6tgso8oub2MNFHlBSxd1zl2JsLOu01X1E05Fn5W6y369AIiASDZW64ZpOYao41JP1Fk+7YSAmU6Cf/2n3KpTXU6j56GbnYjuiajBmU9O+MMaEQzGZ1Rjt7YbsI6+D+cfj8+c+IXK/QLI3j2HMM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=aZZRAVh/; arc=fail smtp.client-ip=40.107.244.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d9XKyuGekwkVyxM4erBYQZAVGHMQ8iTgPyy44DI0h2+vB7fCtVnMR1QDAt+Vq0bJp6Lu/4+XIDuDvF0E7CRTlYDLivCATR7eEKzjSPaOLUvMPXiQBWlQsjNh5pntzalqv4A7xE0MxpW0+zNO6gFVzQpCpsdTqJ06Rwh5v/NTyzlyKxOo3i6YlzFLxGWPNQ21m4lqpos3ulzOtWLpi737FlC57AVEBRgex08/LrdUHw0+rpEGuiRucOcj6vJMGZbRFDAXjn7uMcNVI7ARjZo/rCqZm6bw5MS9JnVPj8QENne/dIEsDxogJzQHlrtLT5joLPyToP1A81XK4qRQF+48ig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ulD4xeTDK+99jo9tZaLJt5MFZOOQtsIXPBdyjTfcaB4=;
- b=iINZbFjCC3U+sfmzjbCqWwHnHrufeNTQA4dFwDvvw+Vb8N9Wbmo1ooRkWvA06g95xUC9ERxgZ0jM97uED/5j5wdYNct+I5we6CXZ+CeF9PdzikkuAq2qUxft6viV0nQ7XMI4Y3StiWgUs3/0uX7XSFG8Ua/JNhylJ9jA/kVedLFFVM388CdQLYJX5M8AALGbrZIwlgmDfZqJRbSpPQCZKbr03jDigabHAPCBIdttmOQvgECJI/sx5GiTh0+sAC6OISLMfi4vQcBtnrnDmjsOb2IEDDNNtBBZ50xnf2xQk+cgugVo2N3g9L2C1xFmmiL8fzlmvxZYo7k1cIbwhN9+aQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ulD4xeTDK+99jo9tZaLJt5MFZOOQtsIXPBdyjTfcaB4=;
- b=aZZRAVh/J882qTqtONBxQbt1Wk6DUkixkHCtVdiJ4xNHNBHxA5h01D71DDfFi/xu4N1tVmuxHpvtJqIBSein+bJoXEmT4dbTZtARB4nAkUCAYVmCNyj71NkcH5kM/gV/5bPVXLihFKdUBqsCshQbbvknijVa+gkiA697H8dOWTs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6429.namprd12.prod.outlook.com (2603:10b6:930:3b::16)
- by CY3PR12MB9607.namprd12.prod.outlook.com (2603:10b6:930:103::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.29; Thu, 26 Jun
- 2025 19:21:46 +0000
-Received: from CY5PR12MB6429.namprd12.prod.outlook.com
- ([fe80::1b40:2f7f:a826:3fa0]) by CY5PR12MB6429.namprd12.prod.outlook.com
- ([fe80::1b40:2f7f:a826:3fa0%6]) with mapi id 15.20.8857.026; Thu, 26 Jun 2025
- 19:21:45 +0000
-Message-ID: <4402c585-5cc2-428c-be3f-5f08eb53e97a@amd.com>
-Date: Thu, 26 Jun 2025 15:21:42 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
-Content-Language: en-GB
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Hao Yao <hao.yao@intel.com>,
- Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
- hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
- dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
- jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com,
- dantony@amd.com, vengutta@amd.com, dongcheng.yan@intel.com,
- jason.z.chen@intel.com, jimmy.su@intel.com, Svetoslav.Stoilov@amd.com,
- Yana.Zheleva@amd.com
-References: <aEygCdk-zEqRwfoF@kekkonen.localdomain>
- <3e8364e8-22e4-42ad-a0f0-017f86fd6bf9@amd.com>
- <20250623120929.GE826@pendragon.ideasonboard.com>
- <aFlU-E_GCHWBXErq@kekkonen.localdomain>
- <20250623134200.GB29597@pendragon.ideasonboard.com>
- <b6425dbe-44e6-47b4-a06b-b9a172a8cac4@amd.com>
- <fb719113-513f-44d9-82ae-63ff6aaca142@amd.com>
- <175093628786.4005407.10292502794888309807@ping.linuxembedded.co.uk>
- <20250626122306.GI8738@pendragon.ideasonboard.com>
- <f59e0cdd-e41a-4865-8f11-9508b598e6b7@amd.com>
- <20250626185647.GA30016@pendragon.ideasonboard.com>
-From: "Nirujogi, Pratap" <pnirujog@amd.com>
-In-Reply-To: <20250626185647.GA30016@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4P288CA0020.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d4::19) To CY5PR12MB6429.namprd12.prod.outlook.com
- (2603:10b6:930:3b::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA89B23B63B;
+	Thu, 26 Jun 2025 20:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750969693; cv=none; b=rMQf/vpHIfRiDFcIYlMuuTAZWgbwofbpT8YMpo9rQIMfV8CYahAWbwcFxwg3Kv/V7012cOw+tshSxhLkQDgYCsaIXaz96ntk5jPVjvoH9Tq0Y2uu3ofNK9MmM0HCxsUiOfKeViXC4mpOsu30rjMkv6ah+2aYoq+T64rf3xDWY3o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750969693; c=relaxed/simple;
+	bh=UO+ZZJLvcSeiXXxLx9yST1in7/LKn9xefRlHfXkoRwo=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=j63jTGtIDxXVpaKZJlKeQM/hZIL4oc1Ol2yR3eRhqV32NsSIYkRqJXhvtkR9aNCtrF551gOKyRpB89mxlUcHGHh/Y8n98JfTNi1/HNy88xdrjqnsk3mkdsu6VOmLV/rj2jh4sbMfOsUOalitJz42kIulxc4sePaUOnVrspWa31Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CIb9VsIE; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2601:602:8100:c320::cf66])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 151806BE;
+	Thu, 26 Jun 2025 22:27:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750969670;
+	bh=UO+ZZJLvcSeiXXxLx9yST1in7/LKn9xefRlHfXkoRwo=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=CIb9VsIEfjFYr9lRd+a/r3dKNclV9sFM9FwjrpKLSElNqA28EHEvyklV1e6CB431w
+	 3JKBy24QvrMNSA2qI0Rs9RcRuwvd5LLxwjE6ekPzQNox864tviqqxicMoM/bzY0IgQ
+	 BJa4zlvAhjEt7J7zLr+uL9YpsH9ouso+ot23inBs=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6429:EE_|CY3PR12MB9607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c0da79c-9b5c-4640-1af2-08ddb4e6b060
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RHlpMXN6UXZnRFhsaFZuWTQvQkRSL28yWUNEN1FGSFkzclNlbGJHcHcxeWQ5?=
- =?utf-8?B?RXl2VzBDVlB2Z3RuNnY0SUxDd1pHY0NJUkZ0dkFPMXppZ0xGd1BVMDNHWmhq?=
- =?utf-8?B?RjE3YytiVDFEdGdyRFJKTVZ4M1F0cDdPK21PNW1pMmthMUVEckJQK1MxT0di?=
- =?utf-8?B?NnpUTSt2K0FmdkZGWjhYUVRkbGdRUkkzS05oQnc1ZGdqcUtvNXFIZkRUd0RY?=
- =?utf-8?B?OS9peDlLd0FXYWtnM2QrZ3Z3OGdZUjhuU2h5STM5WGVOOUZJR2VRaDNmWmV3?=
- =?utf-8?B?OU5TcjhJRUJUa0dYNmc4QzZXbXNYdFM0dGNYbkUvRU1RcUZzc2RWSnVicTN0?=
- =?utf-8?B?bFpsbUJhVEQ5aDhnT3F1UG1lcDlpUisxUkV1WmVGU2R4ZzQvdXJCK2xGZDVI?=
- =?utf-8?B?c001QWtmZGFxeVdyblNZVzh6RjVmcDh3ZVBTcEkxMVd1UTlNTUlVTEhiL25w?=
- =?utf-8?B?ZHgvVEsrWWZkTzZ5d2wwSW41WTNvU2I3bnRYQ1pMZjVqSUE5WTY2cndSV1dt?=
- =?utf-8?B?RTBBNm5NZTN0MWJNUG40a3pEUjRodUM4Wm1yb3ZaVVgzbmVyUlBsOFFFbmM5?=
- =?utf-8?B?dnlPVzZPNlpaU0hoK0g3dlhXdXRXLzZTd3UyQ3JUaVEvN3dzUExWcTFjOWdu?=
- =?utf-8?B?WWEveHZ2bDI1Q0dBNTJxd2s2eHdnUklZQTZmOHl3S1VBUkROQmZLZWNxQ00w?=
- =?utf-8?B?bTlFRGo5aHh0Rjlucmw0MWdTaEE3MlpyeGlyMGxycnljajNweVZ0UWN3dlAr?=
- =?utf-8?B?Z25aOVZnU1F0Y3UvaXNHWU5qNDNERVdLdzdOUjUwMHM5N1JFQkhORHlKRlpV?=
- =?utf-8?B?MDhnQXJHYnlhS3BTcWZsQWZOdmVVQWJZMHE3NVQrS3JzbzRERmI0RVNHdUo2?=
- =?utf-8?B?NUNGdlJyWmV2UVFxY1V0V2Z6VWlYdGdUNmRYejY0U3BCTjM5aitsejZnbHk5?=
- =?utf-8?B?YWo4Q29SMTlRNEpSeERscEJqaGZuaWF3cU5OK2toSGtyRDVrZWh3UUdVUUlj?=
- =?utf-8?B?NmR4Z3BwaDhLQXczQjJPMld6aitUa2s0ZjRvb3JKMk1oUmgwM1RqSkdYalJw?=
- =?utf-8?B?UnJnSVkveVE2ZnBQVDB4TXo4dDZSekhZY25SNm9uTUdzcERXZVFjVWUzUElK?=
- =?utf-8?B?OW5qYXZUTTl3aGVBQ1d0eVlXdnJGWUlTdTVtYjBUSk4xdXBQQTFNVVBwM1ZR?=
- =?utf-8?B?UVR4MkdWYmNaT0lrQ3dCYnJBRGtWKy9EdzJFUUE2R0FTdCt3cjhnTUpJNTF5?=
- =?utf-8?B?SE13QzF6anNFY1NCZEVNZlhHWUVZVzRMVGQzZ2JISFNPVkp2Q0NXNEdmb2k5?=
- =?utf-8?B?QnJIdjJUWGhjSGs3YldqazRFSFVUZTdQUGovYkFIQWFnTkluL09BZVIvSVFV?=
- =?utf-8?B?eVVTRFc0MW5qVzhCYnpvL3ZjbFAyRHhncU1QZUJNR2JOQzdzTU4vT0hiS2pt?=
- =?utf-8?B?Q3lzTXZxaUs1YW9ZWjdWSGd6cTdmVXJpWE1aYm5EQlhacXU5SVd5WXJzNVJ3?=
- =?utf-8?B?eUk5TTB2aEtBSUpKMjg4L3hkZkU3SjJQU0trR0xlUkZXT0VHMW9HcEJZa3hr?=
- =?utf-8?B?d1VzMGViZ1d6MzVoQzZxZ3h3Y0R6STk0aDRENVRTcnlMRFVKUUtNSXpPSE9I?=
- =?utf-8?B?L3hWS2JQdytITjFWVm9MSkpqWi9MMVg2SENJaG1sb0VkeUhEQ0h6dlhZclBY?=
- =?utf-8?B?Y0RWM0FWek5vT0UxZVFxQmRGYlFzeDVSRTgrNFF5M2VRKzV6eXo1V1BLOXQw?=
- =?utf-8?B?TEordUlNcmVJbUVuQUludm84ZjhQVG9sVllFQWl3RCtTdXJzaXZkdkFhcVdM?=
- =?utf-8?B?TGZxTFFXc1hzL0FSQkV0cFY2UEY4S1IxY21KQnRiSDk4eG9rVTJ4d09OVFFZ?=
- =?utf-8?B?aXhxVHI1dDgwY1hjbzY2cUJzQ1lLL3JPK21wTHVnbVpucU1teG1ySkdLUUpx?=
- =?utf-8?Q?37dXiuoLlaQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6429.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cGxCMUp6OFlKTC8velYzYVZETlhCc1gzMTNNYUo0SEFCZW5HNGJiSnNXMzYv?=
- =?utf-8?B?NXdxUldkZzlTRkdRSE5WQWcydGN0MzRDM21mWWQyN0tVaEtsbDVMNVdqMDdv?=
- =?utf-8?B?ZDNXajdNWTNzTy9oRkdBTUhmVXhZbEhjVlRzWmxsbHBDV2c2ZUpZMloxNC93?=
- =?utf-8?B?SUc3RTdtdGNmaStCVm56d0o3OStiUVdHZUtqbGE3RFNDYTFCblZVczlzcDVs?=
- =?utf-8?B?NHVRZ21oMmhIVDB3NHh4eFdPQUNaSHpKWFplclFsTjltNGVMN1VOdGRpcVZk?=
- =?utf-8?B?SkxCYk5aL080MXRmdk9mYnZNMHpLbHpOZkt2cHdNRFg3MDRsZmhXWUMvT2wx?=
- =?utf-8?B?dkxNVGVCMkp1eWxmSkVxc3VYOUlMWlVvZ05UV1VaSjQ5VUNDNHBEZ0xCQmdN?=
- =?utf-8?B?ZytWQjJhd0srSWJTdUlCSld2TnlYUytXU05UVVBhTFdTaXh0Qm5MRnJVUVB4?=
- =?utf-8?B?T0IwSzFyVS9JdE1VRkRCSmlmYnF4MjJHS0hqcUtFaW43akpqWG9GSC9xbmY3?=
- =?utf-8?B?VGM0TXhzaWdjN0RoUEJJRmxzcEYwOGxyTjBFb1Y5V2NuNGRCQ0lnam04Z1BU?=
- =?utf-8?B?eDNZUlVFZGFRSkxQS3NuUlprakpheE9ESWg1YzdJek54TWh5cy8ybEZGWkth?=
- =?utf-8?B?UjQrSjNubFk0WFVVYUVFQlF0a0sxTXVLZ2ViRWtBOEFWVmRFekdBTDN1SFlr?=
- =?utf-8?B?K2I4QSt0MlFvSTBOanBXTkRsWXhNWElUbnhtc0VaeXMzWlMwNzJmakNRd280?=
- =?utf-8?B?R3pMaXVWOXNFMURCTWV5aWxZMnJhcGF2azllTjZJYm9GNVgwMWVrdHpwbXFU?=
- =?utf-8?B?MmFiekg4TUM5Nkk2NHZFd1NteFU4TTBRdFVPcmNXRWl6eTBac3lKbXBoS2lM?=
- =?utf-8?B?SGJvUXU2ZWJpeFVRLzNhNm1Fd3F2UVFya3BaSmlHT3llYlcraFlBSkVyTHRt?=
- =?utf-8?B?em9tYWQrcC9DQlVtem1lL3R1UDk0aTBWMFFXcklscnRoZXAydVNaSVE4aTM4?=
- =?utf-8?B?UmprcGxQdVh0dDR0ZlFLaEt5MzNhWm1JU2dNemM0SW9lZXpWTlJsRTR3bXJS?=
- =?utf-8?B?V2xKR0RMK3h4UnNCa2VHVEVUT2lrMTlvMHc3MkZORWRBelNvNzFMbisrR2Zp?=
- =?utf-8?B?ZWRxdktTamFFalFqcUlhKzRCYjN0KzlYL2Y4VWVDTVNQc3Bsb2p6Wmo5R2Rn?=
- =?utf-8?B?MFNZenp4NlUyWE5ocEFCMkZhSFphZFhjL0FDdVFmNXVNOGRhQklRV1ZJOGxq?=
- =?utf-8?B?K2Z4dW00OWxDckl3V2FUUVViMkFzZDNxM0oyVnR2bVhVTlZUWkxLNS9VQTg3?=
- =?utf-8?B?ZnhHQVdTb1UzL1VzZWNzU0hIWTBuOTlOcTB3SG41ZVQwQVVOM0svdEJzdkF2?=
- =?utf-8?B?UWpWZTRHNVNsTW1sb001bGRHZXFoUkpIcEFVZFR4bDhtN3R5Mk50MFJkU0xP?=
- =?utf-8?B?R2pXVFE2M1RjTXpjcmwwSlRMZmNiNHpVdTNaNjc1RFhkd256RkxjM2FPK2R1?=
- =?utf-8?B?bWt2K0dHSTRpYlhIbWR6QjZPMVBvcnlYVjNyR0pFNmwwNWtOaE9kdVk5YWlX?=
- =?utf-8?B?SjhLc2tKSHMyVjlwTWxQVnRyK1I2SXFwRjdndWdnMGg1TnJEZFVvY2hua053?=
- =?utf-8?B?bUZXYWNnd0gzbmk5SEhTTFNYbDRJcW5pOTdKazlUYmRnY3U5bk9uZmwxRWFy?=
- =?utf-8?B?MjRhL2pJS3VBbHdDSThVeTF5WmhSbjRBam51UWs2aDVReFFRUm1adlpGNEw2?=
- =?utf-8?B?WmMvUEx5U1FsUWJCekRWd1d2UmdiSGRNT05hQVRZc2Nudm05Y1dpK3ozVzZm?=
- =?utf-8?B?ZHhmNnkzbkpHVVdzS1AzeVZyeWdESThUM0V6S0xuZHlZUWk3bFdITS9EZ0hN?=
- =?utf-8?B?MnM3STdWNlQwc0djYzhpM1FyYTUvZzFZcVJQRXNTOWNwVS9Id2VCblc1aG5I?=
- =?utf-8?B?M1g2MUdHck52YUdTc0V4THJhU3hlalBvdUJiWGt3TWh3WVhuMVE0a1RPWktM?=
- =?utf-8?B?Y1pJaTVYNk9uTXNUd1IyS0l3VTZOM2FqVC9FQVdKRENIUXo4RTAxeW52SlZR?=
- =?utf-8?B?TVNBWm90WU05L3VJNU5pejJjS04zRTkwNkZSQTQvR015U1JXV01aVmxOV0Nx?=
- =?utf-8?Q?Hsz7Qmra2Y0xzbgmPRAKsqKU1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c0da79c-9b5c-4640-1af2-08ddb4e6b060
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6429.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2025 19:21:45.2857
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZeTJi28o+kVg/DIIR1It8aTmoKfmqq/wNFxSZwpgyvs478fcLogUlHaztj6ncjSdyW/fLjK5tYQTiTcX1ircpA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR12MB9607
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <aFzh9jF0ZgODThJF@kekkonen.localdomain>
+References: <20250410-probe_fixes-v2-0-801bc6eebdea@ideasonboard.com> <20250410-probe_fixes-v2-5-801bc6eebdea@ideasonboard.com> <aFzh9jF0ZgODThJF@kekkonen.localdomain>
+Subject: Re: [PATCH v2 5/6] media: cadence: cdns-csi2rx: Support multiple pixels per clock cycle
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Devarsh Thakkar <devarsht@ti.com>, Rishikesh Donadkar <r-donadkar@ti.com>, Vaishnav Achath <vaishnav.a@ti.com>, Changhuang Liang <changhuang.liang@starfivetech.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Thu, 26 Jun 2025 13:28:05 -0700
+Message-ID: <175096968502.8144.14459853899575450802@freya>
+User-Agent: alot/0.12.dev28+gd2c823fe
 
+Hi Sakari,
 
+Thanks for the review.
 
-On 6/26/2025 2:56 PM, Laurent Pinchart wrote:
-> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
-> 
-> 
-> On Thu, Jun 26, 2025 at 02:22:00PM -0400, Nirujogi, Pratap wrote:
->> On 6/26/2025 8:23 AM, Laurent Pinchart wrote:
->>> On Thu, Jun 26, 2025 at 12:11:27PM +0100, Kieran Bingham wrote:
->>>> Quoting Nirujogi, Pratap (2025-06-25 23:06:01)
->>>>> Hi Sakari, Hi Laurent,
->>>>>
->>>>> On 6/23/2025 5:55 PM, Nirujogi, Pratap wrote:
->>>>> [...]
->>>>>>>>> I think it can live in the driver for now. Given that the device uses
->>>>>>>>> only 8 bits of register address, I would store the page number in bits
->>>>>>>>> 15:8 instead of bits 31:24, as the CCI helpers do not make bits 27:24
->>>>>>>>> available for driver-specific purpose.
->>>>>>>>
->>>>>>>> I'd use the CCI private bits, the driver uses page numbers up to 4 so 4
->>>>>>>> bits are plenty for that. If we add pages to CCI later, this may be
->>>>>>>> refactored then.
->>>>>>>
->>>>>>> That works too.
->>>>>>>
->>>>>> Thanks for your support. We will add the page number in the register
->>>>>> address 15:8 or 11:8 and will update the implementation accordingly in
->>>>>> the next version.
->>>>>>
->>>>> I would like to share the approach we are taking to implement the CCI
->>>>> helpers that support page value. Could you please review the steps and
->>>>> let us know if they make sense or if any adjustments are needed?
->>>>>
->>>>> 1: Add new macros to embed page value into the register address.
->>>>>
->>>>> Ex:
->>>>> #define CCI_PAGE_REG8(x, p)             ((1 << CCI_REG_WIDTH_SHIFT) | (p <<
->>>>> CCI_REG_PRIVATE_SHIFT) | (x))
->>>>> #define CCI_PAGE_REG16(x, p)            ((2 << CCI_REG_WIDTH_SHIFT) | (p <<
->>>>> CCI_REG_PRIVATE_SHIFT) | (x))
->>>>>
->>>>> 2: Create V4L2 CCI context. Initialize page control reg, current_page,
->>>>> regmap etc.
->>>>>
->>>>> Ex:
->>>>> struct v4l2_cci_ctx {
->>>>>           struct mutex lock;
->>>>>           struct regmap *map;
->>>>>           s16 current_page;
->>>>>           u8 page_ctrl_reg;
->>>>> }
->>>>>
->>>>> 3: Introduce new CCI helpers - cci_pwrite() and cci_pread() to handle
->>>>> register read-writes updating the page control register as necessary.
->>>>
->>>> Out of curiosity - but couldn't the existing cci_write and cci_read
->>>> already be used by the users - and then the default behaviour is that
->>>> the page isn't modified if there is no page_ctrl_reg - and by default
->>>> CCI_REG() will simply have (initilised) as page 0 - so the pages will
->>>> never change on those calls?
->>>>
->>>> Then the users can indeed define
->>>>
->>>> #define TEST_PATTERN_PAGE 5
->>>> #define TEST_PATTERN_COLOUR_BARS BIT(3)
->>>>
->>>> #define MY_TEST_PATTERN_REG CCI_PAGE_REG8(0x33, TEST_PATTERN_PAGE)
->>>>
->>>> and can call
->>>>    cci_write(regmap, MY_TEST_PATTERN_REG, TEST_PATTERN_COLOUR_BARS, &ret);
->>>>
->>>> with everything handled transparently ?
->>>>
->>>>
->>>> Or do you envisage more complications with the types of pages that might
->>>> be supportable ?
->>>>
->>>> (I perfectly understand if I'm wishing for an unreachable utopia -
->>>> because I haven't considered something implicit about the page handling
->>>> that I haven't yet used :D)
->>>
->>> I don't think we should implement page support in the CCI helpers
->>> themselves yet. We have too few drivers to look at to understand the
->>> requirements. Instead, I would store the page number in the driver
->>> private bits of the 32-bit address (that's bits 31:28), and add wrappers
->>> around cci_read() and cci_write() to the OV05C10 driver that handles the
->>> page configuration.
->>>
->>> Once we'll have multiple drivers doing the same, it will be easier to
->>> see what requirements they share, and move the feature to the CCI
->>> helpers.
->>
->> Thanks for clarifying. I agree it would be simple and safer approach too
->> to handle this way. We will add the following macros in v4l2-cci.h and
-> 
-> Please add the macros to the driver instead, not to v4l2-cci.h. Once
-> multiple drivers will implement a similar mechanism we can study how to
-> generalize it.
-> 
-Thanks Laurent. That makes it even easier - all changes can be included 
-in the same patch. Its clear now, we will finalize the changes and work 
-toward submitting v4.
+Quoting Sakari Ailus (2025-06-25 23:00:22)
+> Hi Jai,
+>=20
+> Thanks for the patchset.
+>=20
+> On Thu, Apr 10, 2025 at 12:19:03PM +0530, Jai Luthra wrote:
+> > The output pixel interface is a parallel bus (32 bits), which
+> > supports sending multiple pixels (1, 2 or 4) per clock cycle for
+> > smaller pixel widths like RAW8-RAW16.
+> >=20
+> > Dual-pixel and Quad-pixel modes can be a requirement if the export rate
+> > of the Cadence IP in Single-pixel mode maxes out before the maximum
+> > supported DPHY-RX frequency, which is the case with TI's integration of
+> > this IP [1].
+> >=20
+> > So, we export a function that lets the downstream hardware block request
+> > a higher pixel-per-clock on a particular output pad.
+> >=20
+> > We check if we can support the requested pixels per clock given the
+> > known maximum for the currently configured format. If not, we set it
+> > to the highest feasible value and return this value to the caller.
+> >=20
+> > [1] Section 12.6.1.4.8.14 CSI_RX_IF Programming Restrictions of AM62 TRM
+> >=20
+> > Link: https://www.ti.com/lit/pdf/spruj16
+> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/cadence/cdns-csi2rx.c | 75 ++++++++++++++++++++=
++-------
+> >  drivers/media/platform/cadence/cdns-csi2rx.h | 19 +++++++
+> >  2 files changed, 76 insertions(+), 18 deletions(-)
+> >=20
+> > diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/med=
+ia/platform/cadence/cdns-csi2rx.c
+> > index 608298c72462031515d9ad01c6b267bf7375a5bf..154eaacc39ad294db0524e8=
+8be888bd0929af071 100644
+> > --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> > +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> > @@ -5,6 +5,7 @@
+> >   * Copyright (C) 2017 Cadence Design Systems Inc.
+> >   */
+> > =20
+> > +#include <linux/bitfield.h>
+> >  #include <linux/clk.h>
+> >  #include <linux/delay.h>
+> >  #include <linux/io.h>
+> > @@ -22,6 +23,8 @@
+> >  #include <media/v4l2-fwnode.h>
+> >  #include <media/v4l2-subdev.h>
+> > =20
+> > +#include "cdns-csi2rx.h"
+> > +
+> >  #define CSI2RX_DEVICE_CFG_REG                        0x000
+> > =20
+> >  #define CSI2RX_SOFT_RESET_REG                        0x004
+> > @@ -53,6 +56,8 @@
+> > =20
+> >  #define CSI2RX_STREAM_CFG_REG(n)             (CSI2RX_STREAM_BASE(n) + =
+0x00c)
+> >  #define CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF                (1 << 8)
+>=20
+> Not a fault of this patch but this should use BIT(). Or at the very least
+> (1U << 8). I.e. this isn't a bug but the pattern is bad. It'd be nice to
+> fix this in a separate patch.
+>=20
+
+Ah, that's my bad, rest of the driver does already use BIT().. will fix in
+v3.
+
+> > +#define CSI2RX_STREAM_CFG_NUM_PIXELS_MASK            GENMASK(5, 4)
+> > +#define CSI2RX_STREAM_CFG_NUM_PIXELS(n)                      ((n) >> 1)
+> > =20
+> >  #define CSI2RX_LANES_MAX     4
+> >  #define CSI2RX_STREAMS_MAX   4
+> > @@ -68,7 +73,10 @@ enum csi2rx_pads {
+> > =20
+> >  struct csi2rx_fmt {
+> >       u32                             code;
+> > +     /* width of a single pixel on CSI-2 bus */
+> >       u8                              bpp;
+> > +     /* max pixels per clock supported on output bus */
+> > +     u8                              max_pixels;
+> >  };
+> > =20
+> >  struct csi2rx_priv {
+> > @@ -90,6 +98,7 @@ struct csi2rx_priv {
+> >       struct reset_control            *pixel_rst[CSI2RX_STREAMS_MAX];
+> >       struct phy                      *dphy;
+> > =20
+> > +     u8                              num_pixels[CSI2RX_STREAMS_MAX];
+> >       u8                              lanes[CSI2RX_LANES_MAX];
+> >       u8                              num_lanes;
+> >       u8                              max_lanes;
+> > @@ -106,22 +115,22 @@ struct csi2rx_priv {
+> >  };
+> > =20
+> >  static const struct csi2rx_fmt formats[] =3D {
+> > -     { .code =3D MEDIA_BUS_FMT_YUYV8_1X16, .bpp =3D 16, },
+> > -     { .code =3D MEDIA_BUS_FMT_UYVY8_1X16, .bpp =3D 16, },
+> > -     { .code =3D MEDIA_BUS_FMT_YVYU8_1X16, .bpp =3D 16, },
+> > -     { .code =3D MEDIA_BUS_FMT_VYUY8_1X16, .bpp =3D 16, },
+> > -     { .code =3D MEDIA_BUS_FMT_SBGGR8_1X8, .bpp =3D 8, },
+> > -     { .code =3D MEDIA_BUS_FMT_SGBRG8_1X8, .bpp =3D 8, },
+> > -     { .code =3D MEDIA_BUS_FMT_SGRBG8_1X8, .bpp =3D 8, },
+> > -     { .code =3D MEDIA_BUS_FMT_SRGGB8_1X8, .bpp =3D 8, },
+> > -     { .code =3D MEDIA_BUS_FMT_Y8_1X8,     .bpp =3D 8, },
+> > -     { .code =3D MEDIA_BUS_FMT_SBGGR10_1X10, .bpp =3D 10, },
+> > -     { .code =3D MEDIA_BUS_FMT_SGBRG10_1X10, .bpp =3D 10, },
+> > -     { .code =3D MEDIA_BUS_FMT_SGRBG10_1X10, .bpp =3D 10, },
+> > -     { .code =3D MEDIA_BUS_FMT_SRGGB10_1X10, .bpp =3D 10, },
+> > -     { .code =3D MEDIA_BUS_FMT_RGB565_1X16,  .bpp =3D 16, },
+> > -     { .code =3D MEDIA_BUS_FMT_RGB888_1X24,  .bpp =3D 24, },
+> > -     { .code =3D MEDIA_BUS_FMT_BGR888_1X24,  .bpp =3D 24, },
+> > +     { .code =3D MEDIA_BUS_FMT_YUYV8_1X16, .bpp =3D 16, .max_pixels =
+=3D 2, },
+> > +     { .code =3D MEDIA_BUS_FMT_UYVY8_1X16, .bpp =3D 16, .max_pixels =
+=3D 2, },
+> > +     { .code =3D MEDIA_BUS_FMT_YVYU8_1X16, .bpp =3D 16, .max_pixels =
+=3D 2, },
+> > +     { .code =3D MEDIA_BUS_FMT_VYUY8_1X16, .bpp =3D 16, .max_pixels =
+=3D 2, },
+> > +     { .code =3D MEDIA_BUS_FMT_SBGGR8_1X8, .bpp =3D 8, .max_pixels =3D=
+ 4, },
+> > +     { .code =3D MEDIA_BUS_FMT_SGBRG8_1X8, .bpp =3D 8, .max_pixels =3D=
+ 4, },
+> > +     { .code =3D MEDIA_BUS_FMT_SGRBG8_1X8, .bpp =3D 8, .max_pixels =3D=
+ 4, },
+> > +     { .code =3D MEDIA_BUS_FMT_SRGGB8_1X8, .bpp =3D 8, .max_pixels =3D=
+ 4, },
+> > +     { .code =3D MEDIA_BUS_FMT_Y8_1X8,     .bpp =3D 8, .max_pixels =3D=
+ 4, },
+> > +     { .code =3D MEDIA_BUS_FMT_SBGGR10_1X10, .bpp =3D 10, .max_pixels =
+=3D 2, },
+> > +     { .code =3D MEDIA_BUS_FMT_SGBRG10_1X10, .bpp =3D 10, .max_pixels =
+=3D 2, },
+> > +     { .code =3D MEDIA_BUS_FMT_SGRBG10_1X10, .bpp =3D 10, .max_pixels =
+=3D 2, },
+> > +     { .code =3D MEDIA_BUS_FMT_SRGGB10_1X10, .bpp =3D 10, .max_pixels =
+=3D 2, },
+> > +     { .code =3D MEDIA_BUS_FMT_RGB565_1X16,  .bpp =3D 16, .max_pixels =
+=3D 1, },
+> > +     { .code =3D MEDIA_BUS_FMT_RGB888_1X24,  .bpp =3D 24, .max_pixels =
+=3D 1, },
+> > +     { .code =3D MEDIA_BUS_FMT_BGR888_1X24,  .bpp =3D 24, .max_pixels =
+=3D 1, },
+> >  };
+> > =20
+> >  static const struct csi2rx_fmt *csi2rx_get_fmt_by_code(u32 code)
+> > @@ -276,8 +285,10 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+> > =20
+> >               reset_control_deassert(csi2rx->pixel_rst[i]);
+> > =20
+> > -             writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF,
+> > -                    csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
+> > +             reg =3D CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF;
+> > +             reg |=3D FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
+> > +                               csi2rx->num_pixels[i]);
+> > +             writel(reg, csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
+>=20
+> I'd write this as:
+>=20
+>                 writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF |
+>                        FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
+>                                   csi2rx->num_pixels[i]),
+>                        csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
+>=20
+> But up to you.
+>=20
+
+Will do in v3.
+
+> > =20
+> >               /*
+> >                * Enable one virtual channel. When multiple virtual chan=
+nels
+> > @@ -458,6 +469,34 @@ static int csi2rx_init_state(struct v4l2_subdev *s=
+ubdev,
+> >       return csi2rx_set_fmt(subdev, state, &format);
+> >  }
+> > =20
+> > +int cdns_csi2rx_negotiate_ppc(struct v4l2_subdev *subdev, unsigned int=
+ pad,
+> > +                           u8 *ppc)
+> > +{
+> > +     struct csi2rx_priv *csi2rx =3D v4l2_subdev_to_csi2rx(subdev);
+> > +     const struct csi2rx_fmt *csi_fmt;
+> > +     struct v4l2_subdev_state *state;
+> > +     struct v4l2_mbus_framefmt *fmt;
+> > +     int ret =3D 0;
+>=20
+> ret is redundant.
+>=20
+
+Good catch, will fix.
+
+> > +
+> > +     if (!ppc || pad < CSI2RX_PAD_SOURCE_STREAM0 || pad >=3D CSI2RX_PA=
+D_MAX)
+> > +             return -EINVAL;
+> > +
+> > +     state =3D v4l2_subdev_lock_and_get_active_state(subdev);
+> > +     fmt =3D v4l2_subdev_state_get_format(state, pad);
+> > +     csi_fmt =3D csi2rx_get_fmt_by_code(fmt->code);
+> > +
+> > +     /* Reduce requested PPC if it is too high */
+> > +     *ppc =3D min(*ppc, csi_fmt->max_pixels);
+> > +
+> > +     v4l2_subdev_unlock_state(state);
+> > +
+> > +     csi2rx->num_pixels[pad - CSI2RX_PAD_SOURCE_STREAM0] =3D
+> > +             CSI2RX_STREAM_CFG_NUM_PIXELS(*ppc);
+> > +
+> > +     return ret;
+> > +}
+> > +EXPORT_SYMBOL(cdns_csi2rx_negotiate_ppc);
+>=20
+> EXPORT_SYMBOL_GPL(). Or maybe use a namespace?
+>=20
+
+Ah I wasn't aware of different namespaces. I think a module-specific one as
+documented here [1] might make the most sense in this case. Will try that,
+else will use _GPL.
+
+[1] https://docs.kernel.org/core-api/symbol-namespaces.html#using-the-expor=
+t-symbol-gpl-for-modules-macro
+
+> > +
+> >  static const struct v4l2_subdev_pad_ops csi2rx_pad_ops =3D {
+> >       .enum_mbus_code =3D csi2rx_enum_mbus_code,
+> >       .get_fmt        =3D v4l2_subdev_get_fmt,
+> > diff --git a/drivers/media/platform/cadence/cdns-csi2rx.h b/drivers/med=
+ia/platform/cadence/cdns-csi2rx.h
+>=20
+> I wonder if it'd be better to put this under include/media.
+>=20
+
+I was unsure about it, as while these are two separate drivers it's
+essentially the same "device".. but I don't see a harm in keeping this
+under include/media. Will do in v3.
+
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..128d47e8513c99c083f49e2=
+49e876be6d19389f6
+> > --- /dev/null
+> > +++ b/drivers/media/platform/cadence/cdns-csi2rx.h
+> > @@ -0,0 +1,19 @@
+> > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > +#ifndef CDNS_CSI2RX_H
+> > +#define CDNS_CSI2RX_H
+> > +
+> > +#include <media/v4l2-subdev.h>
+> > +
+> > +/**
+> > + * cdns_csi2rx_negotiate_ppc - Negotiate pixel-per-clock on output int=
+erface
+> > + *
+> > + * @subdev: point to &struct v4l2_subdev
+> > + * @pad: pad number of the source pad
+> > + * @ppc: pointer to requested pixel-per-clock value
+> > + *
+> > + * Returns 0 on success, negative error code otherwise.
+> > + */
+> > +int cdns_csi2rx_negotiate_ppc(struct v4l2_subdev *subdev, unsigned int=
+ pad,
+> > +                           u8 *ppc);
+> > +
+> > +#endif
+> >=20
+>=20
+> --=20
+> Regards,
+>=20
+> Sakari Ailus
 
 Thanks,
-Pratap
-
->> update the existing wrappers ov05c10_reg_write() / ov05c10_reg_read() in
->> the driver to retrieve the page and register values to call cci_write()
->> / cci_read(). We will add new wrappers too wherever necessary in the
->> driver (ex: wrapper for cci_multi_reg_write() on replacing CCI_REG8 with
->> CCI_PAGE_REG8)
->>
->> #define CCI_PAGE_REG8(x, p)           ((1 << CCI_REG_WIDTH_SHIFT) | (p << CCI_REG_PAGE_SHIFT) | (x))
->> #define CCI_PAGE_REG16(x, p)          ((2 << CCI_REG_WIDTH_SHIFT) | (p << CCI_REG_PAGE_SHIFT) | (x))
->> #define CCI_PAGE_REG24(x, p)          ((3 << CCI_REG_WIDTH_SHIFT) | (p << CCI_REG_PAGE_SHIFT) | (x))
->> #define CCI_PAGE_REG32(x, p)          ((4 << CCI_REG_WIDTH_SHIFT) | (p << CCI_REG_PAGE_SHIFT) | (x))
->> #define CCI_PAGE_REG64(x, p)          ((8 << CCI_REG_WIDTH_SHIFT) | (p << CCI_REG_PAGE_SHIFT) | (x))
->> #define CCI_PAGE_REG16_LE(x, p)               (CCI_REG_LE | (2U << CCI_REG_WIDTH_SHIFT) | (p << CCI_REG_PAGE_SHIFT) | (x))
->> #define CCI_PAGE_REG24_LE(x, p)               (CCI_REG_LE | (3U << CCI_REG_WIDTH_SHIFT) | (p << CCI_REG_PAGE_SHIFT) | (x))
->> #define CCI_PAGE_REG32_LE(x, p)               (CCI_REG_LE | (4U << CCI_REG_WIDTH_SHIFT) | (p << CCI_REG_PAGE_SHIFT) | (x))
->> #define CCI_PAGE_REG64_LE(x, p)               (CCI_REG_LE | (8U << CCI_REG_WIDTH_SHIFT) | (p << CCI_REG_PAGE_SHIFT) | (x))
->> #define CCI_PAGE_GET(x)                       FIELD_GET(CCI_REG_PAGE_MASK, x)
->>
->>>>> int cci_pwrite(void *data, u32 reg, u64 val, int *err)
->>>>> {
->>>>>           /* get v4l2_cci_ctx context from data */
->>>>>
->>>>>           /* get page value from reg */
->>>>>
->>>>>           /* acquire mutex */
->>>>>
->>>>>           /* update cci page control reg, save current page value */
->>>>>
->>>>>           /* do cci_write */
->>>>>
->>>>>           /* release mutex */
->>>>> }
->>>>>
->>>>> Similar steps for cci_pread() as well.
-> 
-> --
-> Regards,
-> 
-> Laurent Pinchart
-
+Jai
 
