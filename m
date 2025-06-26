@@ -1,206 +1,230 @@
-Return-Path: <linux-media+bounces-35943-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35944-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D322AE9B9D
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 12:37:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F38BAE9BC0
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 12:48:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A17CF167E55
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 10:37:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4D954A0E9B
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 10:48:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F1C22069E;
-	Thu, 26 Jun 2025 10:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6664025A2A4;
+	Thu, 26 Jun 2025 10:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="CXa2JDHB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z6YsGLt/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4481FF7C8;
-	Thu, 26 Jun 2025 10:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18910219E93
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 10:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750934158; cv=none; b=Xv9XlZUjUVywIPqHlyLJAwFeZKMS/dbuzGNmi1FL6VxngFo3yrzuv3h2Sa6+oCWwduvYZ0lx+Znftd7kX5p3iWY732gBV4RkF2/bS8aRzpZTWJS6fU0n1DpLHgHbm5zP26kjlc/eKkvqLDfv/YlSmsBTz893dDOkOWTVebi9d7k=
+	t=1750934897; cv=none; b=Pe1BcELxAY9GULk3I+6NzkhXkst+WGMQ8PdP7TnuN92LK0VMIK67vdltrPo6sCPCpGT/HhGpfRPXgLv3kfbIvDyUzDN+6rE/5DUbOz5AdRHzD1FIDgBHY90Zv+rbe5WoxmfYUbwNmUOE07nMrvI/sC7OaeVr97NXq/FItVP4QZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750934158; c=relaxed/simple;
-	bh=wctAJxLB4oheSszXnRLwa7JcjgrvlkawrXhZWDSFB98=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UYsiyIBu1P1RSBf3+vXb9U0ji0++XVRbN0vnbPQfUpy49FT4RhaH+oyvP+bB/CrsUg/3WN2EE2f4uWKUHtGaqUoLVFWMbBlzxIeCGfTWGOtAJW5RdiFiEnKCeaU8MIU8TETl/22AfCq7fUckNv712JmxJ6y6hG4mYXL+Nr6mx/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=CXa2JDHB; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55QA9QY8025602;
-	Thu, 26 Jun 2025 12:35:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	NV4+KoQwrrIsbeLEb3se8T07/pyaJ/I/7ykprHiqctM=; b=CXa2JDHB4uTNEMai
-	2f9NWHp3xztyJ3Y6ituNRm8BfaNOHQDmcwn1mnLUaoppY3rpexlzw5toG7Yzc9Ci
-	JKp9PsrWevNASEoRdbIBLdiOMsFJDxfmn0VOZOelEX57qfqL/YTOVrrSQo7TqpOp
-	XFQULhMnRqcIJxyRqxAagjgJLDICpsnsdxnqBKpzhekKrxCHVoqgelkfI7OSfqh4
-	U9rIhzGVL75BA+IScVOGJS3qirFCX0VVC2gBnnmLwS0h0j54WJv8vIX3I1OKfBmj
-	CHPz1w0S+YKt+JKt67MkWXnKCu3uI7YwBnWLZ/dDXhh5JKuFkXjjgNYRjh+mHfVN
-	u8Prkw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dhvbx1rh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 26 Jun 2025 12:35:33 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1B0064002D;
-	Thu, 26 Jun 2025 12:33:57 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8967DB63201;
-	Thu, 26 Jun 2025 12:33:03 +0200 (CEST)
-Received: from gnbcxd0016.gnb.st.com (10.130.77.119) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 26 Jun
- 2025 12:33:02 +0200
-Date: Thu, 26 Jun 2025 12:32:57 +0200
-From: Alain Volmat <alain.volmat@foss.st.com>
-To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
-CC: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-        Andi Shyti
-	<andi.shyti@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Sumit Semwal
-	<sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?=
-	<christian.koenig@amd.com>,
-        M'boumba Cedric Madianga
-	<cedric.madianga@gmail.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        "Pierre-Yves
- MORDRET" <pierre-yves.mordret@st.com>,
-        <linux-i2c@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH 3/3] i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
-Message-ID: <20250626103257.GA349896@gnbcxd0016.gnb.st.com>
-References: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
- <20250616-i2c-upstream-v1-3-42d3d5374e65@foss.st.com>
+	s=arc-20240116; t=1750934897; c=relaxed/simple;
+	bh=iDPYcXFSHqv1aXfl8/YJ053KuD2moVV4g3YDzQAcxtc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EGtW9LFNK+RPt4oa58OZRLmgy50TzAwgaRFZgioQyrPt8+UwnofijHf1Pt+TLlsHq+EKrTG7TEjuS44heecrvmpHTtI+aj7xOgS0/N5NOLlBVy4+5w4HfhpNdAbEjaCFinjCm+JKtydW3KBsrPjAncie7vAA0JRj85RRaEAwusg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z6YsGLt/; arc=none smtp.client-ip=209.85.128.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-450ce3a2dd5so5834505e9.3
+        for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 03:48:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750934894; x=1751539694; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HUjw7qBE83HsX3Aeqbgt73oRkerz87TNCfkEGmj2ZvU=;
+        b=Z6YsGLt/8q+q8W5vV82LSVtbDK5gha9W0hqjDhIcqeSh5Dh8k1Gh4R/hqRSdw94aHe
+         euJPuorv3vsF/0ZJBbE2Tt4whDpaKAyRZcR6NM+IxTHUk9+BOlJALFNlhcXi/xU2G5XG
+         VbHz8E7yjx7RRf/nO/mlB5Ulkgn7L+Ppa5wqmUSzYA/4YhI0DEMJIl52eSBL5e1S4ZlZ
+         1VjDRIv2HS7twWHKqsgt1EXFl8q4XP/m91MhVyEFPuPAF3Gk65SQcjW9//8k1nXIUeE0
+         2p+JkYglpuFS7IC2K7f8YQTWDfqIatptlsSMA8p0nO3WndzbOfFOfqOMX0phQ8s0GNvC
+         gzmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750934894; x=1751539694;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HUjw7qBE83HsX3Aeqbgt73oRkerz87TNCfkEGmj2ZvU=;
+        b=L3RF3CmixrfR8m5Iq0OjMH92YE/XUqd5k9VT1e4Q1HS2gqimWNBdJRkQshyCG/le1f
+         6pZ9CaNfOEeI0eQjANERJ8fJgi4VGzlBpHmJbdcA0m/UyuKisV5wau3nOqaayAZz81uZ
+         tmvB/ujK0FpMbw5Mx9SDfgv7XS6uceAJsKaAzrP8MUZKFF1Z0pPFKms8PU21cG9aRs/M
+         1SEaiv58OZpuI3t+5qoqpdSTXFY1uqhQPboB0ospR0MisDRE6bx4xjutrxpNnB/NV4jX
+         0hzFr/udtGhciWNOXo8ty14Jx1/il9chCegHGq8H0VdpoKAAZqqd2JBrL+U6YTIZypId
+         kosw==
+X-Forwarded-Encrypted: i=1; AJvYcCUduICijSRlDzoLjHHzRAqT6FMvSwUHCXTwwUA+GGf9fPFmVTRdbz9j0JJF/XivonO1ybbISIUJJbAXdQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOvolPhIPCtpWnRm9SXg2/7v28A2xelF25Iaim9WnfIFS7FuVX
+	OeNJx44wqHDTzgm95p8C6BDauyraeNDA71k7mubHKTPKobdxwkqYkRNmSHXtK4HLNJw=
+X-Gm-Gg: ASbGnctR/HwHTKnVYM+a3lSwZAyS4cog6aiGL0008MqyKOYyljD5LXhS/hIjF9wLC66
+	xShaoI0znf1aF/RwDzopwfEqWPnVDjVBHNdpTc3/VlpkiQ9J8S/y27YXvbepTurPoF57L3OXcsk
+	cAPKuZ+SnW9VeCewWIzFvIaQlbuq+ZpPj31hKkU8ER/MgW7c9TqGStb4sYC01FrLNosDrLBKQgC
+	pe9S7A1aoqXfQ7xRFB8fgeecyX07x8nwr33+5mDu/Jfmbew9sYWsjk5u4odkirbYcTyOkkeL6LQ
+	mORwfFa0W0tK+w0Koywt9s4CCW86SCpSJ/llMVIWjritP2QL47aGGrN9iEiBi37yLJEbnEqnc6H
+	3szUQKKsdhwblFCXhIeCm5OzPg4w=
+X-Google-Smtp-Source: AGHT+IGsQdj4iGv9FBGfoAWi9XRLBBqhbfDylK0ITEXpt4PSByT7nYhuvCMByEIesH6nO5RpBBlepQ==
+X-Received: by 2002:a05:600c:5490:b0:453:81a:2f3f with SMTP id 5b1f17b1804b1-45381afa899mr71269575e9.30.1750934894357;
+        Thu, 26 Jun 2025 03:48:14 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e8114774sm7141630f8f.94.2025.06.26.03.48.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jun 2025 03:48:13 -0700 (PDT)
+Message-ID: <d1b0b5c1-a031-4429-bb4b-ad8bc914c971@linaro.org>
+Date: Thu, 26 Jun 2025 11:48:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250616-i2c-upstream-v1-3-42d3d5374e65@foss.st.com>
-X-Disclaimer: ce message est personnel / this message is private
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-26_05,2025-06-25_01,2025-03-28_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] media: dt-bindings: Add qcom,msm8939-camss
+To: Krzysztof Kozlowski <krzk@kernel.org>, vincent.knecht@mailoo.org,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250613-camss-8x39-vbif-v5-0-a002301a7730@mailoo.org>
+ <20250613-camss-8x39-vbif-v5-3-a002301a7730@mailoo.org>
+ <50fa344c-d683-420c-a3b5-837ec6d8e93e@kernel.org>
+ <e928a7c5-56d5-4f2b-b667-bdbefb506d1f@linaro.org>
+ <0e030c09-0a89-4883-b958-85ddd6831407@kernel.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <0e030c09-0a89-4883-b958-85ddd6831407@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Clément,
-
-thanks for the patch.
-
-On Mon, Jun 16, 2025 at 10:53:56AM +0200, Clément Le Goffic wrote:
-> Use the i2c-core-base APIs to allocate a DMA safe buffer when needed.
+On 26/06/2025 11:28, Krzysztof Kozlowski wrote:
+> On 26/06/2025 12:19, Bryan O'Donoghue wrote:
+>> On 26/06/2025 11:00, Krzysztof Kozlowski wrote:
+>>>> +  reg-names:
+>>>> +    items:
+>>>> +      - const: csi_clk_mux
+>>> No, I already provided arguments in two lengthy discussions - this is
+>>> not sorted by name.
+>>>
+>>> Keep the same order as in previous device, so msm8916 for example. Or
+>>> any other, but listen to some requests to sort it by some arbitrary rule
+>>> which was never communicated by DT maintainers.
+>>
+>> I don't think if you look through the history that you can find a
+>> consistent rule that was used to arrange the registers.
+>>
+>> So we are trying to have a consistent way of doing that. Thats why the
+>> last number of additions have been sort by name, because it seemed to be
+>> the most consistent.
 > 
-> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
-> ---
->  drivers/i2c/busses/i2c-stm32f7.c | 36 +++++++++++++++++++++++++-----------
->  1 file changed, 25 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/i2c/busses/i2c-stm32f7.c b/drivers/i2c/busses/i2c-stm32f7.c
-> index a05cac5ee9db..5be14c8a2af4 100644
-> --- a/drivers/i2c/busses/i2c-stm32f7.c
-> +++ b/drivers/i2c/busses/i2c-stm32f7.c
-> @@ -742,9 +742,12 @@ static void stm32f7_i2c_dma_callback(void *arg)
->  	struct stm32f7_i2c_dev *i2c_dev = (struct stm32f7_i2c_dev *)arg;
->  	struct stm32_i2c_dma *dma = i2c_dev->dma;
->  	struct device *dev = dma->chan_using->device->dev;
-> +	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
->  
->  	stm32f7_i2c_disable_dma_req(i2c_dev);
->  	dma_unmap_single(dev, dma->dma_buf, dma->dma_len, dma->dma_data_dir);
-> +	if (!f7_msg->smbus)
-> +		i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, true);
->  	complete(&dma->dma_complete);
->  }
->  
-> @@ -880,6 +883,7 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
->  {
->  	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
->  	void __iomem *base = i2c_dev->base;
-> +	u8 *dma_buf;
->  	u32 cr1, cr2;
->  	int ret;
->  
-> @@ -929,17 +933,23 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
->  
->  	/* Configure DMA or enable RX/TX interrupt */
->  	i2c_dev->use_dma = false;
-> -	if (i2c_dev->dma && f7_msg->count >= STM32F7_I2C_DMA_LEN_MIN
-> -	    && !i2c_dev->atomic) {
-> -		ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
-> -					      msg->flags & I2C_M_RD,
-> -					      f7_msg->count, f7_msg->buf,
-> -					      stm32f7_i2c_dma_callback,
-> -					      i2c_dev);
-> -		if (!ret)
-> -			i2c_dev->use_dma = true;
-> -		else
-> -			dev_warn(i2c_dev->dev, "can't use DMA\n");
-> +	if (i2c_dev->dma && !i2c_dev->atomic) {
-> +		dma_buf = i2c_get_dma_safe_msg_buf(msg, STM32F7_I2C_DMA_LEN_MIN);
-> +		if (dma_buf) {
-> +			f7_msg->buf = dma_buf;
-> +			ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
-> +						      msg->flags & I2C_M_RD,
-> +						      f7_msg->count, f7_msg->buf,
-> +						      stm32f7_i2c_dma_callback,
-> +						      i2c_dev);
-> +			if (ret) {
-> +				dev_warn(i2c_dev->dev, "can't use DMA\n");
-> +				i2c_put_dma_safe_msg_buf(f7_msg->buf, msg, false);
-> +				f7_msg->buf = msg->buf;
-> +			} else {
-> +				i2c_dev->use_dma = true;
-> +			}
-> +		}
->  	}
->  
->  	if (!i2c_dev->use_dma) {
-> @@ -1624,6 +1634,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
->  			dmaengine_terminate_async(dma->chan_using);
->  			dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
->  					 dma->dma_data_dir);
-> +			if (!f7_msg->smbus)
-> +				i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
->  		}
->  		f7_msg->result = -ENXIO;
->  	}
-> @@ -1646,6 +1658,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
->  				dmaengine_terminate_async(dma->chan_using);
->  				dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
->  						 dma->dma_data_dir);
-> +				if (!f7_msg->smbus)
-> +					i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
->  				f7_msg->result = -ETIMEDOUT;
->  			}
->  		}
+> Why are we discussing it again? You asked me the same here:
+> https://lore.kernel.org/all/8f11c99b-f3ca-4501-aec4-0795643fc3a9@kernel.org/
 > 
-
-Looks good to me.
-
-Acked-by: Alain Volmat <alain.volmat@foss.st.com>
-
-Regards,
-Alain
-
-> -- 
-> 2.43.0
+> and I already said - not sorting by name. You take the same order as
+> previous.
 > 
+> If you ever want to sort by name, answer to yourself:
+> NO. Take the same order as other existing device.
+> 
+> If you ever want to sort by value, answer to yourself:
+> NO.
+> 
+> You both came with some new, invented rules of sorting, applied it, and
+> now you claim that "existing devices were sorted like that". What? NO!
+> 
+> Best regards,
+> Krzysztof
+
+OK.
+
+Discussed this on Slack with Krzysztof.
+
+8939 should be like 8916 because these are devices of a similar class.
+
+x1e has a particular order if a new device x1e+1 comes along with a new 
+register then
+
+reg-names:
+  23     items:
+  24       - const: csid0
+  25       - const: csid1
+  26       - const: csid2
+  27       - const: csid_lite0
+  28       - const: csid_lite1
+  29       - const: csid_wrapper
+  30       - const: csiphy0
+  31       - const: csiphy1
+  32       - const: csiphy2
+  33       - const: csiphy4
+  34       - const: csitpg0
+  35       - const: csitpg1
+  36       - const: csitpg2
+  37       - const: vfe0
+  38       - const: vfe1
+  39       - const: vfe_lite0
+  40       - const: vfe_lite1
+
+reg-names:
+  23     items:
+  24       - const: csid0
+  25       - const: csid1
+  26       - const: csid2
+  27       - const: csid_lite0
+  28       - const: csid_lite1
+  29       - const: csid_wrapper
+  30       - const: csiphy0
+  31       - const: csiphy1
+  32       - const: csiphy2
+  33       - const: csiphy4
+  34       - const: csitpg0
+  35       - const: csitpg1
+  36       - const: csitpg2
+  37       - const: vfe0
+  38       - const: vfe1
+  39       - const: vfe_lite0
+  40       - const: vfe_lite1
+           - NEW ENTRY GOES HERE csid3
+
+A new SoC with a significantly different architecture could have 
+different ordering of regs.
+
+The main block should go first which means the above should look like:
+
+reg-names:
+  23     items:
+  24       - const: csid_wrapper
+  25       - const: csid0
+  26       - const: csid1
+  27       - const: csid2
+  28       - const: csid_lite0
+  29       - const: csid_lite1
+  30       - const: csiphy0
+  31       - const: csiphy1
+  32       - const: csiphy2
+  33       - const: csiphy4
+  34       - const: csitpg0
+  35       - const: csitpg1
+  36       - const: csitpg2
+  37       - const: vfe0
+  38       - const: vfe1
+  39       - const: vfe_lite0
+  40       - const: vfe_lite1
+
+I think I personally haven't understood what was meant by "devices of a 
+class" but its clearer now.
+
+Appreciate the explanation.
+
+---
+bod
 
