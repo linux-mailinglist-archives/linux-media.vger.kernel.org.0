@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-35938-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35939-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A5FAE9A9F
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 12:02:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0EDAE9A9E
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 12:02:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02F504A715E
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 10:01:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4EF497AED4E
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 10:00:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3319121ABC9;
-	Thu, 26 Jun 2025 10:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B17821D585;
+	Thu, 26 Jun 2025 10:01:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MozhqSKD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V18s4SIh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E0C1891A9;
-	Thu, 26 Jun 2025 10:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADD1215191;
+	Thu, 26 Jun 2025 10:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750932033; cv=none; b=N6zNoHdFcHQBrfv8jISIgV9RpxI3tIhuhwdkpZcoxL4LulYLUzEmDXoMYWVAmNUKrBelgtrLNlpFEI2ljRvusr86+7lJh4B7WLLFLGIejJvfu8/GkoyPtVI8CLiCVjbyRTQIlQql7jKP+SfKMuTOdgqKNKZcHq3KBf5Y8WOqQus=
+	t=1750932093; cv=none; b=fWLUkIh9woFnXtOz1Pd5J5qwvyhHDoVl4H43stfq9zOnPNjqchDI25Q362ZiYOhrQIlOBYHULtaK772Sabx/ZmAq6YPNnX7/NkkMPtJB2hPllGanGn+zW4J/iGvQxabO1XYg8BvtApDYnih7ItceMOIjDoDcqZWBafSONp2dlko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750932033; c=relaxed/simple;
-	bh=ztHG0MpcdbBlHhSE3ZNvUzBLdwqtfGKtg90w7ScL/pk=;
+	s=arc-20240116; t=1750932093; c=relaxed/simple;
+	bh=McmUIOqUXrJIctsME9vRVAlp/RiJlS0oVENtAK6eEZo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JhZp0q8EArCWApCa1SlKOlnIp/4rFH25KsWu8AixmUjL5KH9NbQLG2GbUBFZMgUbJGU0QOYBRt5V1Ko40YzzOjIaKycADB72yYDUNWpgyXxXlUrdh88UhsT1bSQ6MtRtphZ2g/Lywn82UR5/x3EWw+gxczTOq+tyhR+W5XZiRpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MozhqSKD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 119BDC4CEEE;
-	Thu, 26 Jun 2025 10:00:26 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=bhlRRgRepYwUmIJk6OaEb8ruUeR+nKfNWSdYNvF42deGPiq8qTCmLkL9dZok/N08m7ZL8GJFufw39ld8pX07XQ4iRAqsd0eu9TyZCIhjvhxgXKGXeRQcNazWR7VvGrp6bgaSLBDJ0/rUkmGXTYMBQImA1MpDleeCeJhIc4WZyVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V18s4SIh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1171EC4CEEF;
+	Thu, 26 Jun 2025 10:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750932033;
-	bh=ztHG0MpcdbBlHhSE3ZNvUzBLdwqtfGKtg90w7ScL/pk=;
+	s=k20201202; t=1750932093;
+	bh=McmUIOqUXrJIctsME9vRVAlp/RiJlS0oVENtAK6eEZo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MozhqSKDFZ+NssA18e3FYHq21/3we0D4O+FYHMCeHOLifX9P0K30dQvLReNmsfOgi
-	 UhJ9h2X6sAShdeXhxmOemEd7I6o2BpWXYs3BbdzvBCa3VvrXmZp+Tje2pzib+PxScl
-	 iqXJEYe4jDVKXSGD5oMIjUnFf7eAlNlEOW7vDfbgVJ+9LqQ8yPQd5X9dVZQ47FS+ob
-	 bGkCf7OnQ1v2jk2/nhm9xJgQH3zzAaRzttU2t7yDFAs7BUmjcykywrpB9rXMzGCcur
-	 lPgLas4OJW7dXkhew6mkP/EfE9G2CFVzDTJTmBo2tlJHTzIYalGNqEY1wzs1iTmfiD
-	 mLZ5iTlxsxfYA==
-Message-ID: <50fa344c-d683-420c-a3b5-837ec6d8e93e@kernel.org>
-Date: Thu, 26 Jun 2025 12:00:24 +0200
+	b=V18s4SIhJNqVzj6SmwB746eb//vIN/RpBbuUpotJsowRRBIFHlQ8nr6J3OQ+pV5th
+	 CpnWVqUlKVc0G3BZkDBqaRYit1mo5RHAWbied1NXSEYzq5AFnxH8bqUW7Po2BYi9Ih
+	 iY8xgSMnh/n2QUByGFe+h0TVEp/W+vCHRm84UFJ+J5epburPOn4VIdBxi8WkExX+Sl
+	 RlgbLlee8R3zKcBhfPMICdxW1mTClLEWIdq1WRgOEuG27RgG96KCY+GgyqE1hEryp1
+	 qAK/WTTR18jK5PypaAYxnxuKFAUTSWscMtjF6uBEjOQfQHVp6tBAtoYUxhI0U6diWu
+	 0GbAiG7D1UUYQ==
+Message-ID: <2a5849d2-2e75-4d04-ad24-bccbed6ed666@kernel.org>
+Date: Thu, 26 Jun 2025 12:01:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,9 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] media: dt-bindings: Add qcom,msm8939-camss
-To: vincent.knecht@mailoo.org, Robert Foss <rfoss@kernel.org>,
+Subject: Re: [PATCH v4 3/4] media: dt-bindings: Add qcom,msm8939-camss
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ vincent.knecht@mailoo.org, Robert Foss <rfoss@kernel.org>,
  Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -62,10 +63,10 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
  phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250613-camss-8x39-vbif-v5-0-a002301a7730@mailoo.org>
- <20250613-camss-8x39-vbif-v5-3-a002301a7730@mailoo.org>
+References: <20250602-camss-8x39-vbif-v4-0-32c277d8f9bf@mailoo.org>
+ <20250602-camss-8x39-vbif-v4-3-32c277d8f9bf@mailoo.org>
+ <2884f55c-6b80-406a-ba21-aaa26297b1bf@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,125 +112,73 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250613-camss-8x39-vbif-v5-3-a002301a7730@mailoo.org>
+In-Reply-To: <2884f55c-6b80-406a-ba21-aaa26297b1bf@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 13/06/2025 11:33, Vincent Knecht via B4 Relay wrote:
-> From: Vincent Knecht <vincent.knecht@mailoo.org>
+On 06/06/2025 12:46, Vladimir Zapolskiy wrote:
+> Hello Vincent.
 > 
-> Add bindings for qcom,msm8939-camss in order to support the camera
-> subsystem for MSM8939.
+> On 6/2/25 20:27, Vincent Knecht via B4 Relay wrote:
+>> From: Vincent Knecht <vincent.knecht@mailoo.org>
+>>
+>> Add bindings for qcom,msm8939-camss in order to support the camera
+>> subsystem for MSM8939.
+>>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+>> ---
+>>   .../bindings/media/qcom,msm8939-camss.yaml         | 254 +++++++++++++++++++++
+>>   1 file changed, 254 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..59bf16888a8235495a2080e512ce179583bcd25d
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
+>> @@ -0,0 +1,254 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/qcom,msm8939-camss.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Qualcomm MSM8939 Camera Subsystem (CAMSS)
+>> +
+>> +maintainers:
+>> +  - Vincent Knecht <vincent.knecht@mailoo.org>
+>> +
+>> +description:
+>> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: qcom,msm8939-camss
+>> +
+>> +  reg:
+>> +    maxItems: 11
+>> +
+>> +  reg-names:
+>> +    items:
+>> +      - const: csid0
+>> +      - const: csid1
+>> +      - const: csid2
+>> +      - const: csiphy0
+>> +      - const: csiphy0_clk_mux
+>> +      - const: csiphy1
+>> +      - const: csiphy1_clk_mux
+>> +      - const: csi_clk_mux
+>> +      - const: ispif
+>> +      - const: vfe0
+>> +      - const: vfe0_vbif
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Drop, you did here some unusual changes.
-
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
-> ---
->  .../bindings/media/qcom,msm8939-camss.yaml         | 254 +++++++++++++++++++++
->  1 file changed, 254 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..9fbb4b204ac8728b822864ad8336aa9d826d6b5b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8939-camss.yaml
-> @@ -0,0 +1,254 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/qcom,msm8939-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm MSM8939 Camera Subsystem (CAMSS)
-> +
-> +maintainers:
-> +  - Vincent Knecht <vincent.knecht@mailoo.org>
-> +
-> +description:
-> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms
-> +
-> +properties:
-> +  compatible:
-> +    const: qcom,msm8939-camss
-> +
-> +  reg:
-> +    maxItems: 11
-> +
-> +  reg-names:
-> +    items:
-> +      - const: csi_clk_mux
-
-No, I already provided arguments in two lengthy discussions - this is
-not sorted by name.
-
-Keep the same order as in previous device, so msm8916 for example. Or
-any other, but listen to some requests to sort it by some arbitrary rule
-which was never communicated by DT maintainers.
+> Please sort the list alphanumerically, accorting to the ASCII character set
+> the underscore symbol precedes lower case letters.
 
 
-> +      - const: csid0
-> +      - const: csid1
-> +      - const: csid2
-> +      - const: csiphy0
-> +      - const: csiphy0_clk_mux
-> +      - const: csiphy1
-> +      - const: csiphy1_clk_mux
-> +      - const: ispif
-> +      - const: vfe0
-> +      - const: vfe0_vbif
-> +
-> +  clocks:
-> +    maxItems: 24
-> +
-> +  clock-names:
-> +    items:
-> +      - const: ahb
-> +      - const: csi0
-> +      - const: csi0_ahb
-> +      - const: csi0_phy
-> +      - const: csi0_pix
-> +      - const: csi0_rdi
-> +      - const: csi1
-> +      - const: csi1_ahb
-> +      - const: csi1_phy
-> +      - const: csi1_pix
-> +      - const: csi1_rdi
-> +      - const: csi2
-> +      - const: csi2_ahb
-> +      - const: csi2_phy
-> +      - const: csi2_pix
-> +      - const: csi2_rdi
-> +      - const: csi_vfe0
-> +      - const: csiphy0_timer
-> +      - const: csiphy1_timer
-> +      - const: ispif_ahb
-> +      - const: top_ahb
-> +      - const: vfe0
-> +      - const: vfe_ahb
-> +      - const: vfe_axi
-> +
-
-Also messed up order.
-
-
-> +  interrupts:
-> +    maxItems: 7
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: csid0
-> +      - const: csid1
-> +      - const: csid2
-> +      - const: csiphy0
-> +      - const: csiphy1
-> +      - const: ispif
-> +      - const: vfe0
-
-As well.
-
-
+This messes up with preferred style, as I described multiple times now.
+You need to stop this sorting madness - asking people to sort values by
+some own rules.
 
 Best regards,
 Krzysztof
