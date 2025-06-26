@@ -1,288 +1,317 @@
-Return-Path: <linux-media+bounces-36046-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36047-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4990BAEA977
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 00:17:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9645AEA98A
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 00:21:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9CDA65600D9
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 22:17:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0BEA1C43BE3
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 22:21:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2CAD261581;
-	Thu, 26 Jun 2025 22:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ECAF260577;
+	Thu, 26 Jun 2025 22:21:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="XKEpTVHL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Gsr+QC1T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010057.outbound.protection.outlook.com [52.101.84.57])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2949715278E;
-	Thu, 26 Jun 2025 22:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750976255; cv=fail; b=sXQARTE2756jTl/3cVYifundGMXb8F8EozYVub8M8PDiTREABkPaV1MWlWma91FCN1eOFqGNZkSsQgf3i+qs8YAce4jLyBLFzn0Y2DYwsInGehcsua7c0bFuZZEqRuZ0kosCTTP1pHCvoehw+6ww0e40mLcf6QAKDkJb45GgqpY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750976255; c=relaxed/simple;
-	bh=8dftbfOeZdEd3kH5vdwb6gllDd7kceEg9EP+m/3bseM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=EjaZY/oc0GRpu9JmmgwkQnTriX+AsI5+3/+fBh3PzTb34AW1hpJQQUeUg1ktNR+54TV7xKEZdzBVjrXrPIO7pf4Tio/anCMPNmwjQRnbnQmvhmJEMpzEVfquXCwvpcQN0I+yUUuKfTS8egGQr91MnYO98fReHdby//oqdiqMQTI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=XKEpTVHL; arc=fail smtp.client-ip=52.101.84.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vooPderr3imHb8gXCPZ+4ZSZjyfFcgqvS9jegbpspB5zdt4xvpXj05wWtULLYHsurVSA6+6lZ5+aT/+RQ8Wtkwlb1Ckl3nNhiINiLzo2xYN0KmVPLJQk3pd9fuUm8uHdZ+rbAQBLg0woNp782656i0yUsMNpWLO8eUaJnsKJr2jtOvK6FTrrahAF5naHLu+TQcl2ZIgQkh6FHO3zBqJ9B44Q0KvIOKMxzXHP5uq4haHp+m9AZgqwYMR5gfM31incc31VHTfRMLqm4gUNelROv2tvAQeEj/UONZ2c6KY60gvmJh+OmJPJeX4l6dksxV5Ue5ez/zbMV2dmYf5zQXc9Yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=figoTJPyV/p59ly25DYI6SfKMrYNK61OSOSTKWdVJzk=;
- b=nmgcJqiq0vdU7LsNBKmZ8zUVafAuR142Dk3GZN2bLF5br5EmUIE8RkvRqBXkO2j2zb5J+lhl0KnphtyYL4px74ScMrb1ih30WIZTtsZCG2Tyc7bc0Hjt+56TgNAToaDI7fUygT57SId539egwS6PyXDIb1/+YxAsHrbrD1QsC65Bsoy6yLC/GciQ/CEDK4fe1wmcY0cCChrCWk38HumXYya7OC8JiRzu9gZhrLUG6PHkAb/sBgQ8u0d7Om7oj1Pt/2K9EM8gsPPIWah9eipXlLSpe1KvRZUTNmeND9NNs4d20YOx6tTIR9EHIGATp35oZWcIgXDGF1+D/hCoAEof6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=figoTJPyV/p59ly25DYI6SfKMrYNK61OSOSTKWdVJzk=;
- b=XKEpTVHL7aYq/vT36OFLzSmu4iXywj6ebQIqLo+uZQrTH8/43X+O6z+B1OvAEZhe6OIV6KlShDWMhNdbuztepQoNsiY3l5RBa+iDmRkN3CCyQzgyWU6nJOovw136XcKdPVG5o+8Sqx0Fm17Jw7Gu2flyM9HRMCwvmsYqDIUaGX9JkKA9ewaaWDfdr4mH5hxLUJZNKkcRXsAHbMoUlCiyne+2/Tx/7v1+TenyiW2BUEYlKvR3n7GLaCW3v5Lr9Bj0aJVvJoK1TzPJwcNai+vn/0XUsWdVpo+/9QM3PZEVFYM0/nn9H2a+j86mkFhYf2bWLgkQN/MPt1MBhAIv6g5Gag==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by DB9PR04MB9354.eurprd04.prod.outlook.com (2603:10a6:10:36c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.21; Thu, 26 Jun
- 2025 22:17:30 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%7]) with mapi id 15.20.8880.015; Thu, 26 Jun 2025
- 22:17:29 +0000
-Date: Thu, 26 Jun 2025 18:17:24 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kumar M <anil.mamidala@xilinx.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, "Guoniu.zhou" <guoniu.zhou@nxp.com>,
-	Stefan Hladnik <stefan.hladnik@gmail.com>,
-	Florian Rebaudo <frebaudo@witekio.com>
-Subject: Re: [PATCH v3 2/2] media: i2c: Add ON Semiconductor AP1302 ISP driver
-Message-ID: <aF3G9LoVOqPcQXLR@lizhi-Precision-Tower-5810>
-References: <20250623-ap1302-v3-0-c9ca5b791494@nxp.com>
- <20250623-ap1302-v3-2-c9ca5b791494@nxp.com>
- <20250623224701.GE15951@pendragon.ideasonboard.com>
- <aFryrpyDByI6wu5b@lizhi-Precision-Tower-5810>
- <20250624185643.GE20757@pendragon.ideasonboard.com>
- <aFr6Ehpl5Kk+nt7m@lizhi-Precision-Tower-5810>
- <20250626124224.GK8738@pendragon.ideasonboard.com>
- <aF1gKGjpbEPZYBr2@lizhi-Precision-Tower-5810>
- <20250626190922.GC30016@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250626190922.GC30016@pendragon.ideasonboard.com>
-X-ClientProxiedBy: AM0P190CA0016.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:190::26) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD46D2264AC
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 22:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750976474; cv=none; b=pKV/OEFCjOwU2Yd4QuhUgRaEKR1+hCOCsGoVD10S5q3DYr32AitzTklkpf/BnwjTdbrBdcjzYz6utdKuDNbBiWI5u/mlMV+Lp8BBnDfygPaKOCk0We8z3KJMricx1nTJrGYnIwuKDPCsCNiCCZIOLvhXW6mvYaWCu9B2tgRgPFA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750976474; c=relaxed/simple;
+	bh=hhCsjMThgPAhZfi+dbKQ7ZoAtC0H3uubHGbzyCxp9Lw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sq62Xu/q+aapF3OnlbAgesePVaSyQwvcRqlnA4H3RGkKHMQcpBDpFeUX+SfcrGHX74YLgmrUqi6+cdlhM524mNEO0bvirZqeJlSiEpO6cJ3QepmljcOaZq3xOarWiGUrHfsVurWLijG3mpgZgjD/vKurPHROHpJeZ7hDkbISxGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Gsr+QC1T; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9989D6AF;
+	Fri, 27 Jun 2025 00:20:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750976451;
+	bh=hhCsjMThgPAhZfi+dbKQ7ZoAtC0H3uubHGbzyCxp9Lw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gsr+QC1TaeHmSVlyNdy7e3TLlcFrFp4Ps4Q5mrBt/9Y7laZsmJTu+gM1Ec3jGdNZ1
+	 CTYCUCjDALHQuYL4toArXfrWiRskmEUL3wO/Qbez+NuFny9d+fbEaoZ1q3zsTWjKwq
+	 Po/YYlWOv1bO1KGTJXMfDKKNavYVr8qeg9Azk9Yk=
+Date: Fri, 27 Jun 2025 01:20:47 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
+	tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH 11/13] media: v4l2-subdev: Introduce
+ v4l2_subdev_find_route()
+Message-ID: <20250626222047.GE30016@pendragon.ideasonboard.com>
+References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
+ <20250619081546.1582969-12-sakari.ailus@linux.intel.com>
+ <fez66dv6tnyuhdfkqsy7fuwmq7kpw4vnuxaqq6j4butyjhfj3q@mz6zp7ensofq>
+ <aFwpolfI0Ox9he4t@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DB9PR04MB9354:EE_
-X-MS-Office365-Filtering-Correlation-Id: 72c3af09-74fc-4db7-3a57-08ddb4ff3d0d
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014|52116014|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?OC0EaYb4tdB/4S/0znInswE2q1ywbQNGRDc8250GkaZcPLTw9lDF0oD66F7D?=
- =?us-ascii?Q?TwkPwwcZPaPzzjbrKrRAatDactXt+/AswPoKUJUVzWzweUJP3BGRKqlLd4w+?=
- =?us-ascii?Q?M0eHmLqLAVzgwCoIxS/QuHDkQf45/yIUG9xr4qdBIixt0hq5hKFua5+V2Oe1?=
- =?us-ascii?Q?wSfE2QRMXc0OHvNUsBSU2P6UVG0K/pPt0hLenaeM2vM2sN7LS9l9HkPC1oaL?=
- =?us-ascii?Q?d7WSWYd6un+h5SYoBWFnCvu3lCQnBuLXMm/zBE9Pp3HDq98ffwWBbQkmc7Vz?=
- =?us-ascii?Q?CYWVOqcKzWRcaXRAE6+lQu+0hufn4tSSFbcC/+2wrXQ8695MQU7JJWSqMi/O?=
- =?us-ascii?Q?NlPQd0qJLF7vmnM1JZPqh1v+TUlivXFM3DWJTRYjtS3baK1d6LD1Gasm6Xf+?=
- =?us-ascii?Q?t+JxGJ5L2hmrpWSY4kRPitYcjOGprPuffHlRcFMleEpHc895KcSoroSb6jV7?=
- =?us-ascii?Q?nBpomkg0KP4/oHBochCj5CsqMllr/iRy3ZgVPGBFrwro7F6KYQud3lzGtZ8b?=
- =?us-ascii?Q?WzjRRlQeFvY/lJR4zVI1VsR3929vwgNjLXgnrgrSYe8f/AB4Xu8/vgITNAjw?=
- =?us-ascii?Q?Nj7/JYYiUtEW3gGot2wGd+WIGXfK8rfAjnt4sci7llmL1EA7xkG7EJBHMusG?=
- =?us-ascii?Q?QTwhFzd9q+29xXqteWKdTWJY2kFdbS8ar/eNww0Jg6mr0ZARsWT+2Sth5Qw3?=
- =?us-ascii?Q?CuSM9VBPbfOE7L9dOKpkw2qKQ6uDsTxoK1dROvgKi9L5SmWk+M3BB5rB9I/C?=
- =?us-ascii?Q?1xmigpCCY1i3HwAXJAwZM0SOaB2P1Ullapvt8KBTRE27Y6EdiIrY5jFt1yO2?=
- =?us-ascii?Q?gmlbXC2sn3KGnSIYaOIoXGX7yG+gX1E4GCog6vHzJByV3Vab+6hXSCt5p8Go?=
- =?us-ascii?Q?vncWin498HsypIVrEM9j6iTiyoTsbKNMmFVkVdw27yXvXjMkMt+F2QSuGLq2?=
- =?us-ascii?Q?eCRN/4H+nLNXbKfoGVeJCgllcUZ5V8mAN9LmjnTfEU3mGAim/O0hF6BNpo4D?=
- =?us-ascii?Q?D/F96wBU6Rd7SWn+Sk+tH2RM74PTCEngOX+sSi+fIwOVqbrZ7T3Xvoc/FTv/?=
- =?us-ascii?Q?dw+MnJVfc2Hh7djsIM87/e5h5Pjjbht5ipEZi4J4sRQtICYdqW4KKARMpw9y?=
- =?us-ascii?Q?e/cCS7WmQ/HBe6CMK/oMBUmkC7YMCrspfYE1wCxLAdzBGd42uVbtg1HxKr6G?=
- =?us-ascii?Q?A9ju3qn+kxJebGiX3VyUqGcZP/Ol4fJ+Mep12APO07Kk2SmSOBBpMCFWex8g?=
- =?us-ascii?Q?68TiB2IU6NbhKuyqZPM4kW0QBFCirAu3w3xwr/rM34/wsmGO0FQdjGZ7nHg8?=
- =?us-ascii?Q?BOlI+okJCHjJb+SVSwVOwoerwqqdTodUTEGtOHMMA4jumkxYxfj/mMzrgYWq?=
- =?us-ascii?Q?cQqnvH2J4gTNK0JVhQSA5ZPdGZ6xJt2PQrfW3X4TWmKPRZFPZErODeWnomiA?=
- =?us-ascii?Q?NcoeuDCzp00HpMgeTxHbtQfd8YpO5Q70+w5z4oJNBlz+a2bYcQS+5A=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?ML6zqQV4muUpksjD1aKx4Td2wjI33/zN+qx4Gan2ynGiUdsVOeURfmiAUjaz?=
- =?us-ascii?Q?PWr/TX/Hy13iqyppvgTcEZS/PxLPeYu1dwmM6HMU3/Qd8NDIfN+LcbZ2S9up?=
- =?us-ascii?Q?8fG8OcaDzcgXaqqijevmzrOGHJRFo/GcW3uIIFOP79XZoE+h/u63okvO3Kwp?=
- =?us-ascii?Q?KEw/AcLHWytu0ntce27XrXSnPxiWgs7PwQ4ln4h8lSmkMB4/FtWplljVtQcY?=
- =?us-ascii?Q?pJYCZHnv5RweIioJYQPazOL2jVz9+W7v8xeJES2F8RZI1tqKyGWmJi2iBHyx?=
- =?us-ascii?Q?trqkMLcneu0W+XtoTeXOE8ZXGXvkrpyWfT+tLCXfDeiFxB7/CG0JM/U3KbRg?=
- =?us-ascii?Q?n/1Fb/uiUDEGkyA47DS++e3IQANEP0YmYumrnd8SNydCgUwu+GH5D5illH0X?=
- =?us-ascii?Q?kiNRm2uHZ/9mO4NBIoQ0okw3/vgyNCULPCKesBX/nmEY0o+y4QMN+lqAosyc?=
- =?us-ascii?Q?p/Ywn9tlOM/3SKc2NOMS+1uPa1pfyoBt7iVM3VQFOW/Ixu5Z77mgu5xAerM/?=
- =?us-ascii?Q?cAwdJLto3VJj5OvegblwYon+JUKPbtRuD5wUMfdHV3w+CCHZBsCJ+IrT+meq?=
- =?us-ascii?Q?v90TGDzAAzbUMIMI9DSkV3f5gYF/NX+M8quVFPbzCWsvF3dSRO9WoJTanQ31?=
- =?us-ascii?Q?nEEUN+Cs+B0odmZUYOjkhGSiSKGF0ABDyFtL59tqA7P2UYh46TOaC/GRTIO8?=
- =?us-ascii?Q?R+xq4lj2pJ+m75izdlWEIKqz25N7HvlOmWKGoZ/HH0NOCwvNWf3VIzQLqPPj?=
- =?us-ascii?Q?Kr26ANxo467L4Ycf2lBj8j3/ebQO1aL1xvl5sAE93nAivNAFH0Ptv4+iYPzZ?=
- =?us-ascii?Q?nzbI0H2ZH3O5VXaaekqrnV+FO0WhjRpopUAlZLndSi2DVDcPWb0rDk1F8uF1?=
- =?us-ascii?Q?5bRPqC8uKPwGVG8kOYYIl32DLvXYYn6Tn3E6+I3YNBy0qD2OH0if16R0iTjA?=
- =?us-ascii?Q?AsCJ9++qb65ny5PlYQhe13qxwWWj0+f9ViO8jH9WFU1M1uYzjQ/i2iGS+7P+?=
- =?us-ascii?Q?0Qc03JY7KZ5r0JmgjS2lBDttAl2briVu4rz+p986gusZiFwvM8xL0zkP3g/1?=
- =?us-ascii?Q?Fa81NXbmAsdk4W0hNDwVeAk9vglEgMKa9GjEPUk3lVtaZvMfYqRkl54GOpu4?=
- =?us-ascii?Q?7LQr+Vq/IVUxIG5XFdFv8BSSx64XersTqFKbj9WUn1VVPAhm3KDVbBcwFQ81?=
- =?us-ascii?Q?NtaivPK+X+EwaSntnN2jrXzBNsxQcEBupvYQQDf3NJWjdrW4xahT3xlKWkhC?=
- =?us-ascii?Q?U6mu8n/6khRNBtaJ/lqf8g/nCcFm2onimK+10aqJ5ZtDRRQIOXCD5vuVvz7F?=
- =?us-ascii?Q?9lFXqwHIJ8htBcc0bNUrFePt7RTuM1nEDBwYra5HT5PIIA7CLh5S5Ua+H2Zd?=
- =?us-ascii?Q?JggHRICYzOUznxSn/B3yJto0xl1fBJ0vSCrtfyFEMXVbN0fn9swYGc52nk3a?=
- =?us-ascii?Q?12KB83hRZeVhfL9nW42tnNBnayhHlhNQ7IFZo5egvmmvYD97tyHJTaLUtaHm?=
- =?us-ascii?Q?1iXzsnN0sG5EbN6V4KoyXIhd9+U18KtY4YIo9RW4uHb2BN5g6clh/WsTWvDg?=
- =?us-ascii?Q?9u0Ny3QRXRa+RvUatg9NNnVtngJD5dk6LJi63l55?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72c3af09-74fc-4db7-3a57-08ddb4ff3d0d
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2025 22:17:29.3243
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8J9wvmBxY/QrwqTt11Q8AJdwyDPbHFeu3zk4bQD8OngsRt7cOQl+jxdIA0MY4x3L0Wm45uMWsWO87GLWkb4yDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9354
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aFwpolfI0Ox9he4t@kekkonen.localdomain>
 
-On Thu, Jun 26, 2025 at 10:09:22PM +0300, Laurent Pinchart wrote:
-> On Thu, Jun 26, 2025 at 10:58:48AM -0400, Frank Li wrote:
-> > On Thu, Jun 26, 2025 at 03:42:24PM +0300, Laurent Pinchart wrote:
-> > > On Tue, Jun 24, 2025 at 03:18:42PM -0400, Frank Li wrote:
-> > > > On Tue, Jun 24, 2025 at 09:56:43PM +0300, Laurent Pinchart wrote:
-> > > > > On Tue, Jun 24, 2025 at 02:47:10PM -0400, Frank Li wrote:
-> > > > > > On Tue, Jun 24, 2025 at 01:47:01AM +0300, Laurent Pinchart wrote:
-> > > > > > > On Mon, Jun 23, 2025 at 03:17:38PM -0400, Frank Li wrote:
-> > > > > > > > From: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
-> > > > > > > >
-> > > > > > > > The AP1302 is a standalone ISP for ON Semiconductor sensors.
-> > > > > > > > AP1302 ISP supports single and dual sensor inputs. The driver
-> > > > > > > > code supports AR1335, AR0144 and AR0330 sensors with single and
-> > > > > > > > dual mode by loading the corresponding firmware.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
-> > > > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > > > Signed-off-by: Stefan Hladnik <stefan.hladnik@gmail.com>
-> > > > > > > > Signed-off-by: Florian Rebaudo <frebaudo@witekio.com>
-> > > > > > > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > > > > > > ---
-> > > > > > > > Change in v3:
-> > > > > > > > - add extra empty line between difference register define
-> > > > > > > > - add bits.h
-> > > > > > > > - use GEN_MASK and align regiser bit define from 31 to 0.
-> > > > > > > > - add ap1302_sensor_supply
-> > > > > > > > - add enable gpio
-> > > > > > > > - update firmware header format
-> > > > > > >
-> > > > > > > One of the main issues with this driver is that we need to standardize
-> > > > > > > the header format. The standardized format will need to be approved by
-> > > > > > > onsemi as we will need to provide not just a driver, but also a
-> > > > > > > toolchain that will produce firmwares in the right format. Furthermore,
-> > > > > > > some time ago the AP1302 firmware was extended with the ability to
-> > > > > > > dynamically compute PLL parameters IIRC. This needs to be taken into
-> > > > > > > account.
-> > > > > >
-> > > > > > It is quite common when work with firmwares. Generally, it need version
-> > > > > > information at header.
-> > > > > >
-> > > > > > The driver need check firmware's API version, if miss match or incompatible,
-> > > > > > just return and report error.
-> > > > > >
-> > > > > > we can't assume firmware always align driver code because many user just
-> > > > > > update kernel without update rootfs or firmware package.
-> > > > >
-> > > > > Sure, but that's not the point. The point is that there are multiple
-> > > > > out-of-tree ap1302 driver versions, developed or adapted by different
-> > > > > SoC vendors. Those variants use firmware files produced by those SoC
-> > > > > vendors, and they not standard.
-> > > >
-> > > > I am not sure if firwmare is open source. Most like not.
+On Wed, Jun 25, 2025 at 04:53:54PM +0000, Sakari Ailus wrote:
+> On Fri, Jun 20, 2025 at 10:14:58AM +0200, Jacopo Mondi wrote:
+> > On Thu, Jun 19, 2025 at 11:15:44AM +0300, Sakari Ailus wrote:
+> > > v4l2_subdev_find_route() is like v4l2_subdev_routing_find_opposite_end(),
+> > > with the difference that it's more flexible: it can look up only active
+> > > routes and can find multiple routes, too.
 > > >
-> > > The firmware is not open-source, but I don't think that's relevant.
+> > > v4l2_subdev_find_route() is intended to replace
+> > > v4l2_subdev_routing_find_opposite_end().
+> > 
+> > To me this feels like v4l2_subdev_find_route() could be used to
+> > implement more helpers like v4l2_subdev_routing_find_opposite_end()
+> > for drivers instead of going the other way around.
+> > 
+> > let's see what the use cases are
+> > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-subdev.c | 56 ++++++++++++++++++---------
+> > >  include/media/v4l2-subdev.h           | 19 +++++++++
+> > >  2 files changed, 56 insertions(+), 19 deletions(-)
 > > >
-> > > > We need create
-> > > > difference compatible string for difference Soc vendor.
+> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > index c549a462dac7..13d6e96daf3a 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > @@ -1996,34 +1996,52 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
 > > >
-> > > No, that we must absolutely not do :-) If it's the same AP1302 and same
-> > > camera sensor, we must not have different compatible strings when the
-> > > AP1302 is connected to an NXP SoC or a MediaTek SoC.
-> >
-> > After read code, firwmare header only used for sanity checks. can remove
-> > it for initialization version?
->
-> No, quite the contrary. We need to standardize a firmware header that
-> will give us forward compatibility. Versioning of the firmware is a
-> missing feature for that, and we also need to consider the issue of the
-> AP1302 clock tree configuration.
+> > > -int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
+> > > -					  u32 pad, u32 stream, u32 *other_pad,
+> > > -					  u32 *other_stream)
+> > > +struct v4l2_subdev_route *
+> > > +v4l2_subdev_find_route(const struct v4l2_subdev_krouting *routing,
+> > > +		       u32 pad, u32 stream, bool active, unsigned int index)
+> > >  {
+> > >  	unsigned int i;
+> > >
+> > >  	for (i = 0; i < routing->num_routes; ++i) {
+> > >  		struct v4l2_subdev_route *route = &routing->routes[i];
+> > >
+> > > -		if (route->source_pad == pad &&
+> > > -		    route->source_stream == stream) {
+> > > -			if (other_pad)
+> > > -				*other_pad = route->sink_pad;
+> > > -			if (other_stream)
+> > > -				*other_stream = route->sink_stream;
+> > > -			return 0;
+> > > -		}
+> > > +		if (active && !(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> > > +			continue;
+> > 
+> > I know currently v4l2_subdev_routing_find_opposite_end() does return
+> > any route that matches the provided 'pad' and 'stream' included
+> > non-active ones, but I wonder if this is desirable. What is the use
+> > case for enumerating a non-active route between two pads ?
+> 
+> Good question. v4l2_subdev_routing_find_opposite_end() nevertheless returns
+> them. And the caller won't get the route for checking the state either.
 
-How to move forwards? firmware is binary and not open source and we can't
-change it.
+I'm tempted to check the callers of the function and change the
+behaviour to only return active routes.
 
-Frank
+> > (it is also my impression that all drivers that use
+> > v4l2_subdev_routing_find_opposite_end() assume the route is active)
+> > 
+> > Also I wonder if the usage of V4L2_SUBDEV_ROUTE_FL_ACTIVE is clearly
+> > defined, or, in other words, what is the use case for userspace to
+> > create non-active routes, given that any new VIDIOC_SUBDEV_S_ROUTING
+> > will anyway re-create the routing table (that's a different question,
+> > on the ioctl definition and not on this change though)
+> 
+> I think it is. Please review the UAPI documentation in the metadata series.
+> :-)
 
->
-> > > > > We need to standardize on a firmware
-> > > > > format to upstream a driver, and that standardization needs to involve
-> > > > > the device manufacturer.
-> > > >
-> > > > we need workable version (easy extend) firstly, when let other vendor follow.
-> > > >
-> > > > Frank Li
-> > > > >
-> > > > > > > I want to resuscitate this driver and get it merged. There's more work
-> > > > > > > to do, in collaboration with onsemi, and I haven't had time to tackle
-> > > > > > > it. If you want to propose a proper design for firmware handling I would
-> > > > > > > be happy to participate in the discussion.
-> > > > > >
-> > > > > > who is onsemi contact windows.
-> > > > > >
-> > > > > > > > - update raw sensor supply delay time
-> > > > > > > > - use gpiod_set_value_cansleep() insteand gpiod_set_value()
-> > > > > > > > - update use latest v4l2 api
-> > > > > > > > - use ctrl_to_sd() helper function
-> > > > > > > > - add ap1302_g_volatile_ctrl()
-> > > > > > > > - remove ap1302_get_fmt()
-> > > > > > > > - use guard for mutex.
-> > > > > > > > - use dev_err_probe
-> > > > > > > > - use devm_add_action_or_reset to simple error handle at probe.
-> > > > > > > > - use read_poll_timeout() simple dma idle polling.
-> > > > > > > >
-> > > > > > > > previous upstream:
-> > > > > > > > https://lore.kernel.org/linux-media/1631091372-16191-1-git-send-email-anil.mamidala@xilinx.com/
-> > > > > > > > ---
-> > > > > > > >  MAINTAINERS                |    1 +
-> > > > > > > >  drivers/media/i2c/Kconfig  |    9 +
-> > > > > > > >  drivers/media/i2c/Makefile |    1 +
-> > > > > > > >  drivers/media/i2c/ap1302.c | 2838 ++++++++++++++++++++++++++++++++++++++++++++
-> > > > > > > >  4 files changed, 2849 insertions(+)
-> > > > > > >
-> > > > > > > [snip]
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Section "Device types and routing setup" in
+Documentation/userspace-api/media/v4l/dev-subdev.rst is the best
+documentation we have at the moment.
+
+We essentially have two models for internal routing. In the first model,
+which I'll nickname the crossbar switch model, a large number of routes
+are possible (up to any input to any output types of scenarios). In this
+case, routes are created by userspace, and all routes in the routing
+table are expected to be active. Any inactive route provided by
+userspace would be dropped by the driver and not be included in the
+routing table.
+
+The second model covers devices such as camera sensors, where a small
+fixed set of routes are hardcoded. The routing table is fixed, an some
+routes (the ones not marked with the IMMUTABLE flag) can be
+enabled/disabled by userspace using the V4L2_SUBDEV_ROUTE_FL_ACTIVE.
+This allows userspace to enumerate the available routes.
+
+Documentation/userspace-api/media/v4l/dev-subdev.rst should document
+more clearly that we do not allow any hybrid behaviour at the moment.
+
+> > >
+> > > -		if (route->sink_pad == pad && route->sink_stream == stream) {
+> > > -			if (other_pad)
+> > > -				*other_pad = route->source_pad;
+> > > -			if (other_stream)
+> > > -				*other_stream = route->source_stream;
+> > > -			return 0;
+> > > -		}
+> > > +		if ((route->source_pad != pad ||
+> > > +		     route->source_stream != stream) &&
+> > > +		    (route->sink_pad != pad || route->sink_stream != stream))
+> > > +			continue;
+> > > +
+> > > +		if (index--)
+> > > +			continue;
+> > > +
+> > > +		return route;
+> > >  	}
+> > >
+> > > -	return -EINVAL;
+> > > +	return ERR_PTR(-ENOENT);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(v4l2_subdev_find_route);
+> > > +
+> > > +int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
+> > > +					  u32 pad, u32 stream, u32 *other_pad,
+> > > +					  u32 *other_stream)
+> > > +{
+> > > +	struct v4l2_subdev_route *route;
+> > > +
+> > > +	route = v4l2_subdev_find_route(routing, pad, stream, false, 0);
+> > > +	if (IS_ERR(route))
+> > > +		return PTR_ERR(route);
+> > > +
+> > > +	bool is_source = route->source_pad == pad;
+> > > +
+> > > +	if (other_pad)
+> > > +		*other_pad = is_source ? route->sink_pad : route->source_pad;
+> > > +	if (other_stream)
+> > > +		*other_stream = is_source ?
+> > > +			route->sink_stream : route->source_stream;
+
+Having to do this is_source dance makes v4l2_subdev_find_route()
+annoying to use. It may be fine when using the function to implement
+other helpers, but I wouldn't like to see this being done in drivers.
+Maybe we can avoid exporting v4l2_subdev_find_route() for now to ensure
+that, the only user in this series is in v4l2-mc.c.
+
+> > > +
+> > > +	return 0;
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(v4l2_subdev_routing_find_opposite_end);
+> > >
+> > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > index deab128a4779..9ed8600ba3d4 100644
+> > > --- a/include/media/v4l2-subdev.h
+> > > +++ b/include/media/v4l2-subdev.h
+> > > @@ -1547,6 +1547,23 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> > >  				     const struct v4l2_subdev_krouting *routing,
+> > >  				     const struct v4l2_mbus_framefmt *fmt);
+> > >
+> > > +/**
+> > > + * v4l2_subdev_find_route() - Find routes from a (pad, stream) pair
+> > 
+> > from or for ?
+> 
+> From or to. I'll fix this in the next version.
+> 
+> > 
+> > > + * @routing: routing used to find the opposite side
+> > 
+> > I would not say "opposite side" but rather
+> > 
+> >       @routing: routing table used to enumerate routes
+> 
+> How about simply "the routing table"?
+> 
+> > 
+> > > + * @pad: pad id
+> > > + * @stream: stream id
+> > > + * @active: set to true for looking up only active routes
+> > > + * @index: for accessing more than one route from the pad
+> > 
+> > I understand this but maybe
+> > 
+> >      @index: route index for enumerating multiple routes
+> > ?
+> 
+> Sounds good.
+
+I'm curious to know how this parameter will be used. In the only user
+(in patch 12/13), it is hardcoded to 0. I'm not sure indexing routes
+will be very useful for drivers.
+
+> > > + *
+> > > + * Find a route from the routing table where one end has (pad, stream) pair
+> > > + * matching @pad and @stream.
+> > 
+> >     * If multiple routes in @routing match @pad and @stream, return
+> >     * the @index one.
+> >     *
+> >     * Set @active to true to only enumerate active routes.
+> > 
+> > > + *
+> > > + * Returns the route on success or -ENOENT if no matching route is found.
+> > 
+> > I see other functions documentation using
+> > 
+> >     * Return:
+> > 
+> > is this a kernel-doc thing ?
+> 
+> Yes, makes sense.
+> 
+> > > + */
+> > > +struct v4l2_subdev_route *
+> > > +v4l2_subdev_find_route(const struct v4l2_subdev_krouting *routing,
+> > > +		       u32 pad, u32 stream, bool active, unsigned int index);
+> > > +
+> > >  /**
+> > >   * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
+> > >   * @routing: routing used to find the opposite side
+> > > @@ -1555,6 +1572,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> > >   * @other_pad: pointer used to return the opposite pad
+> > >   * @other_stream: pointer used to return the opposite stream
+> > >   *
+> > > + * Prefer v4l2_subdev_find_route() over v4l2_subdev_routing_find_opposite_end().
+> > > + *
+> > 
+> > As said, I'm not sure if that's preferred or we should rather create
+> > more helpers using v4l2_subdev_find_route() internally. Time will tell
+> > I guess ?
+> 
+> I agree.
+> 
+> The benefit of the older function was that it returns information that
+> doesn't need a lock for accessing it.
+
+I'm not sure to follow you here. v4l2_subdev_find_route() has the same
+locking requirements as v4l2_subdev_routing_find_opposite_end().
+
+Given that v4l2_subdev_find_route() has a single user, and that the only
+difference in that user compared to
+v4l2_subdev_routing_find_opposite_end() is that only active routes are
+considered, I would prefer modifying
+v4l2_subdev_routing_find_opposite_end() to ignore inactive routes after
+checking that no caller would break.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
