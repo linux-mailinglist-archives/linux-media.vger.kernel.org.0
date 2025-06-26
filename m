@@ -1,85 +1,85 @@
-Return-Path: <linux-media+bounces-36011-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36012-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5207DAE9FAF
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 16:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82937AE9FB2
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 16:01:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7BD1167FC4
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 14:00:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD3D64E2603
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 14:00:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBEBC2E975F;
-	Thu, 26 Jun 2025 13:59:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC2A02E92CC;
+	Thu, 26 Jun 2025 13:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="USrbd66W"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PSMeo9jt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1398E2E8DF0
-	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:59:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535192E92DB
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750946386; cv=none; b=JhfdcFHEqsyDecyyTA6rW2hlfUoweASNncNpY1tdRm8jjIZLbtsVjZUbkVdYh0dPUJ1AENsgYML/8/ryPXpyuJuoulGrQILGL8XRTp5qu5zSlz8x3IxlFI7s9zXbK6ULAN6zXT5a50dOTiW6kJInZ4RIQHv3pWW08CJD4qkLGPQ=
+	t=1750946387; cv=none; b=snLEZimtFq03foh0fvqwlcGU6FmN+vZFVPlEbsQWU+NrRsRPoHIysIYK3Uzf5kfqLPYSOzRylkw8wF+32onewKxXN/+/PSnz9f0CfyX4yQ8XgWQ+1Reevz/G52o/b30J0CIAUTrh+cQSZ61eyVe2aRhAdZ1+7a9px2sfNor++sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750946386; c=relaxed/simple;
-	bh=9LSytQPyTFkBJt9YzIaXb6/U5LogpeOg/rPyGmYojDo=;
+	s=arc-20240116; t=1750946387; c=relaxed/simple;
+	bh=chjuspMWXk8eI76Jp3Mq4yhHE0boTd39JW8qGPEIFpw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=enZLV+vPH8TgvUpx6ZKgFyHSUx5sikdZzw97rHCs3lEVZ4RtOKcjt5rPBBgxEpLkeYyvTmW0kHBipdfR3d46UiyVTv8UQwiEJyGGJrBbHoK+2fnkPek5r4qYiEbdVt7lQeeSeeifcBlFgbH3AHZS51xSOvAMx5L+Y3+1JyTjHm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=USrbd66W; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=thrJSQ1bEu2pLyRxWhN6nZmXACNngpzXtsKs74j0LDp3fHlGHcPAT9QacGIhyoW8lqbXhPOJX9NnzN+Bg0d6XirsVUCj4wSBkhZyTdkYZyyHnLZrfePj9SMmy+jaC1okPheNDoXmhxRTJp3Oja1YpuhUzrjGek+ENDlrH7yNWDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PSMeo9jt; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55Q9jPbr021548
-	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:59:43 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55Q9l883022397
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:59:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=x740bfZ74Zy
-	o3mZSJA/M7WOOgB+n7paS30h2fBwgGpY=; b=USrbd66W7FbtC9NGE/CEzqs62cA
-	F7AFgEQvsxiBcE+wIpZWUXR9+lYNleeq6V87A/I2Wo7+81yaSBAYjabFS60Q/A9D
-	oqgzrhlZNgzmErFlxtQEhGXiYPR+FFMTAwUw6plJMkp+cBRDu6tFP3XpydTcM6CG
-	wd89Gvp7vl2helQ3qBxIDRuTzP6E4K7Foy9jWAj8M92uA09QGMZGcw9hwIm8rBOR
-	kmlud9BVf1NUu6+gugT3j9k8wU2+wTpow4IKBoyea5zXnUXqojeB0AzTPkRHR/qc
-	8b7FV/xPp8TB2QL2QAMhQsJxaVkoTFM+Kplwlg0Yop3FeEW1F8J1aJCwTzQ==
+	:mime-version:references:subject:to; s=qcppdkim1; bh=P1Inwr+v5AJ
+	OSvWCpAeDJxxnBzKcgTqyCl0dEEMlzt4=; b=PSMeo9jtVwztSE0ncTrXJ1WY4ZV
+	GCWYOKqRGb2yVUn/V2NkSMchQvIO/2rHTHKBjda8NIsyEp8x0cz9aoXTWAmK26p+
+	BBZjUgjuy009DRHOEn8QDc8n9E8Zs6Nfki4A+9Ym68PrlYv2plWMdGaOgqFcffhu
+	0TekwIm936q79E9+859bF7zlzAZxypkP5nTGz83j6DMMNfyRfio05McBCp5wQekM
+	X+U4ERSZW7/QUMyfBo2vBgvzt/eiEgGRt7mzoRzIuEWO+xx2R6aqouTtaTlWR3CL
+	W3VU4wTxTgUOmcRurf+J4J1yQfDTVXeX/iT0kEDPRWGvMPBOGM5KxB0wjQw==
 Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47fdfx1txg-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47fdfx1txr-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:59:42 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7d3f0958112so160075585a.0
-        for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 06:59:42 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:59:44 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7d09bc05b77so169317185a.1
+        for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 06:59:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750946382; x=1751551182;
+        d=1e100.net; s=20230601; t=1750946383; x=1751551183;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x740bfZ74Zyo3mZSJA/M7WOOgB+n7paS30h2fBwgGpY=;
-        b=ITUkXIdK4hRMMMcCThwGrctDYTP/csb1k6dH2axoA9iV/hKjgRTktTXMFXbHFnlVcH
-         VY4a91WG9Q0CMlw3cH2VdFtrtzLzavIRHUYlgAGhrd3fxzFLiKM0e8JQkrBVPt2U0Iy9
-         8FKY27YBB0ZOWe6/qxJQNnIkwqWFRY0DEig1V7MZYpDAVYb7ZCk3uAUgNab8BDwTFUz5
-         ouMRBPvZS9qJlN8ELDWIFwEp924SMCdTOy6ebHr5ecM8I/JWUS+UVn/xNMrnZ1gUqIf4
-         MMs8kKM8FYtkKHa7EIv18WzMtrc+Jpq8uNDs/nTlyoeayRgtrMZ5jFs6iSJfJfYN1NKy
-         T6PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLpukjRTvCAoIxp+jOmF1Wb9xWlBCF9ycHfI6Ud4vO8d0IKntD6GqgRasrIKRh1A0kHW7HSv+a6eSZcw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGTz1rVdc9/88qjjZYZgqVhOzyji5crqX3SLitERuKh3LRi6kG
-	iFQCtDux7AQ2Ad977DyhjM82c3smryIJMUxuAtrN2DfE80WoHZ0zAE12/SV/dNwzvmI7czhk9T3
-	XQEgbv15OpZIpM4E/xjJ6UfP0pPhH5HkS4wyHjG0o6yGdYd1vZOyYQOEuJ4gxby08dA==
-X-Gm-Gg: ASbGncsEdT40PLxjdAZi1klOxKyPslv72A+uIS4dZTzKgUZmkYsGeW0HanAjntEnNId
-	R30qe3sQag5yjYflSYYRwT/ulsJZ9knkoWVinLfyL3O2FdVl9V4EhEaMxCZJl49rE3gN6/RfEkG
-	Uf4JK4ioFJwJJhEKv3jfowf0+dDNlOwtPol7mlRaAaJVCuxVeTvIoiOQFqktVyE5FFqBDa/qXiH
-	Xsuc1Je+1Bn5KYMptbRLWRwQ2OwEgoQv2pntxa/Y373P4u6ORRzgEUQD0ZDxaU8CgRx2w+1N6Px
-	y2YCAyw23+ZZUTXElgxeS69OB7w1Sb0G4/odBOYlEjoEwCioUHYVMb01wvC6wmxLwR5FX0dQSCt
-	I
-X-Received: by 2002:a05:620a:178d:b0:7d4:3bc6:1df4 with SMTP id af79cd13be357-7d43bc61e4amr502468885a.16.1750946381941;
-        Thu, 26 Jun 2025 06:59:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE33xf6gEeKEUwWwZuydWiCEXbrdtFVO0IT0lVJhS8+C1Fp592pQ42B8OvnUTcON9/v8pCOig==
-X-Received: by 2002:a05:620a:178d:b0:7d4:3bc6:1df4 with SMTP id af79cd13be357-7d43bc61e4amr502462985a.16.1750946381235;
-        Thu, 26 Jun 2025 06:59:41 -0700 (PDT)
+        bh=P1Inwr+v5AJOSvWCpAeDJxxnBzKcgTqyCl0dEEMlzt4=;
+        b=jGK4CsyHMyCapsv6poY0IEzz6EhFtqOEqobBqEBZirIFsDdZ7tYWI653EmwOHa52kK
+         2C9iafsrZ2QGDZZEFRpbpeic2XRB+ypkqeZRrH8ub3UdIzAwi9d9HUtCu6sV0vqWxdgo
+         eP1ptopIop7zli42Jojsmblw2abObYTwk5oSfGpTEa+2NTpsdKpcLzi7Ve0Q3nRHfk53
+         nSrd+hN5ssBg54bfz3ybVIjAuCDaSg9QCxTSCFvf25983uqOeHdbnIITx76Tg/s1BjEc
+         JZQcJJ7F3kgFRHU8sD/HA7CuDu0oTvb7aVn2kMxQltoLtxBpBON6UpVVjLITPrismF0Q
+         H+7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXkMSwBU50gC46uGxekr8wPTVc/2B39PheOgV+CYJ7Ufh3xV4I2LPOFVkuBaVuqawEndtpq1e1HCZaJ2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwluYw83RX9rkCP/5/OzPUNrnEhDA5zIs4SbSNQV0XcpjhNGJ2k
+	vp5lm/tZvuQgT7bf2QXWl2DyKrgT17QybpdnZXSBzkYKfTu3Y0tpif1zw8ENHGfCp3kRO4xknWg
+	3hvFdg05sDumCbDqnpv68G27NkQxzEiZfqzZ3/D0MOQYql9ewJVGKDxyl6pVtjLiBTw==
+X-Gm-Gg: ASbGncttmQmxGgHsCzZ7ijyRzmEgdovvV+OlzJYZZJ6viokI8suNxZVf1CydbjiSmCv
+	ACidTIYRm0hJvra9h3894ypOk1HEF4QInfoo+LkSgAavUv00fpkNQwLuREVhgnrQyZl/IxTpL5y
+	E2OV8UgFHHBYbndVTU++iZxLODzakz5887fsIlOMmZRxi+pnhojjjtkrAHbUfN1BQjtZl6cnW8h
+	rEBqZAZ7KxAvN+tuR9+LcMyJqLVDXHCjtQtmpjjG8a7WNQMJz+AMwlVYPt7Nor7FEBAh/PR8/oX
+	22N9oXMlZTs++GJFcC4BDSyr0wjR2BjiJ6BrZQxlIAAgNc1A7YpE1tHAeAdNhEyBuOv4Qf8zSlD
+	s
+X-Received: by 2002:a05:620a:4153:b0:7c5:6a35:81c1 with SMTP id af79cd13be357-7d42974b38fmr1137982585a.48.1750946383357;
+        Thu, 26 Jun 2025 06:59:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFF3lEab+MhnjBuMmiLUDuDSZ0Flwzk3O0Rv44A3LR/pbAhVimij8UTmYIC2fFRlCNqjiINkg==
+X-Received: by 2002:a05:620a:4153:b0:7c5:6a35:81c1 with SMTP id af79cd13be357-7d42974b38fmr1137978485a.48.1750946382927;
+        Thu, 26 Jun 2025 06:59:42 -0700 (PDT)
 Received: from trex.. (132.red-79-144-190.dynamicip.rima-tde.net. [79.144.190.132])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453823c57d7sm53723365e9.40.2025.06.26.06.59.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453823c57d7sm53723365e9.40.2025.06.26.06.59.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 06:59:40 -0700 (PDT)
+        Thu, 26 Jun 2025 06:59:42 -0700 (PDT)
 From: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
 To: jorge.ramirez@oss.qualcomm.com, krzk+dt@kernel.org,
         bryan.odonoghue@linaro.org, quic_vgarodia@quicinc.com,
@@ -87,9 +87,9 @@ To: jorge.ramirez@oss.qualcomm.com, krzk+dt@kernel.org,
         conor+dt@kernel.org, konradybcio@kernel.org, andersson@kernel.org
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 3/5] media: venus: hfi_plat_v6_lite: Populate decode capabilities
-Date: Thu, 26 Jun 2025 15:59:29 +0200
-Message-Id: <20250626135931.700937-4-jorge.ramirez@oss.qualcomm.com>
+Subject: [PATCH v5 4/5] media: venus: core: Add qcm2290 DT compatible and resource data
+Date: Thu, 26 Jun 2025 15:59:30 +0200
+Message-Id: <20250626135931.700937-5-jorge.ramirez@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250626135931.700937-1-jorge.ramirez@oss.qualcomm.com>
 References: <20250626135931.700937-1-jorge.ramirez@oss.qualcomm.com>
@@ -100,19 +100,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 1yajgI689jyA7V8UnDl3u7wx9kaxQeX7
-X-Proofpoint-ORIG-GUID: 1yajgI689jyA7V8UnDl3u7wx9kaxQeX7
-X-Authority-Analysis: v=2.4 cv=MtZS63ae c=1 sm=1 tr=0 ts=685d524e cx=c_pps
+X-Proofpoint-GUID: Fk_johXI55ZS9bhcApNl-7umi-9SxK1u
+X-Proofpoint-ORIG-GUID: Fk_johXI55ZS9bhcApNl-7umi-9SxK1u
+X-Authority-Analysis: v=2.4 cv=MtZS63ae c=1 sm=1 tr=0 ts=685d5250 cx=c_pps
  a=HLyN3IcIa5EE8TELMZ618Q==:117 a=wjE3nLva0YkvARyJ+Gfmxg==:17
- a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=hV3zkybWQsGKz9K1FyYA:9
+ a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=6h1BjrdT-BD1Ylfs7NgA:9
  a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI2MDExOCBTYWx0ZWRfX1yfKxnc9B9CG
- toNAfpb/9S3JGyYkpQ/6cSniTmOpO5WyogBdyoGriBnIejDemgotJoCu1bjgtVE9VVymBQpImJd
- mSTwc/jjyaTzV8HW8px2LOWdS+B4XpvmT9KiIp0Tt+CHWrw28hJzulgMH44W5UyudbMf/d0qJ7t
- IjQ6C3QnIy8Azn1Fz+6Lj/JFejlwIJgbNpjSVyK9Fd0reypU5GxGWRppkY6AWAsCcyQT1/sgdGr
- ickUjWGIbWhe1uy1CO0gBFmmH5DZ/TxANkNCWvQKNNjfWU/VnXb58fCSFCnsXmm7GBXCfN3Qdsf
- GBLhiIc2nb+SePdYmi2xzcWtsS5MPlutbrPWoM24L3rbYoR/rDLQPhiIgrSuRAgZDcb98ap8Pds
- zavT6TfdLmWoDCcCxbEXvr+DB8T6PAg4U7v9SN1xm0GX62g6NB2baihJLYPRjbWRymQ/6BJP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI2MDExOCBTYWx0ZWRfX04uziiv/Ivhb
+ 6o5Xp97gO0qvF2MYTDYlHqPlFyHjSABhbQpKNyb8zZMtIuBU75xKQnq/wyBUnlqR86rgx/AngNA
+ pzgptOv+Iry9+PqJewG7HschsPxZ8B+CzLmKko8O4Gyyb7RiBNqJiPeny8TaA6fb14BGaVo2fvo
+ EVVKM7K7iCUBDev0eeg3XsBWawYF74ZuauoEO6zqvgNbSq6un9qxdKjf8olhX2ONz6CMfB4HI7F
+ I0xxLISZspMnAacIp1NepskLI/heRLH3gI6WyNvHk25HhUAxNcudXVOe8uKHHIQ260/HjHciwSA
+ s37tSVQGDCMOjojmTyrm7kotfo3GnIuMbFuNXycChgF+dZkSTds8VlD+bUxAYKoc+x/uVt6hB/G
+ pjdAXOjAd4VDtJ4Xt8emLwI932V4lIEesA2NhcB15eJgzntzycDl6wH0jDUAqcTTeG+KUCZE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-06-26_06,2025-06-26_04,2025-03-28_01
@@ -123,209 +123,75 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
  engine=8.19.0-2505280000 definitions=main-2506260118
 
-Add hfi platform file with decoding capabilities for hfi v6_lite.
+Add a qcm2290 compatible binding to the venus core.
 
+Video encoding support is not exposed until the relevant hardware
+capabilities are enabled.
+
+Co-developed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
 Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
 ---
- drivers/media/platform/qcom/venus/Makefile    |   2 +-
- .../media/platform/qcom/venus/hfi_platform.c  |   2 +
- .../media/platform/qcom/venus/hfi_platform.h  |   1 +
- .../qcom/venus/hfi_platform_v6_lite.c         | 148 ++++++++++++++++++
- 4 files changed, 152 insertions(+), 1 deletion(-)
- create mode 100644 drivers/media/platform/qcom/venus/hfi_platform_v6_lite.c
+ drivers/media/platform/qcom/venus/core.c | 39 ++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/Makefile b/drivers/media/platform/qcom/venus/Makefile
-index 91ee6be10292..4a6a942db58b 100644
---- a/drivers/media/platform/qcom/venus/Makefile
-+++ b/drivers/media/platform/qcom/venus/Makefile
-@@ -5,7 +5,7 @@ venus-core-objs += core.o helpers.o firmware.o \
- 		   hfi_venus.o hfi_msgs.o hfi_cmds.o hfi.o \
- 		   hfi_parser.o pm_helpers.o dbgfs.o \
- 		   hfi_platform.o hfi_platform_v4.o \
--		   hfi_platform_v6.o hfi_plat_bufs_v6.o \
-+		   hfi_platform_v6.o hfi_plat_bufs_v6.o hfi_platform_v6_lite.o \
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 736ef53d988d..f1f211ca1ce2 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -1062,6 +1062,44 @@ static const struct venus_resources sc7280_res = {
+ 	.enc_nodename = "video-encoder",
+ };
  
- venus-dec-objs += vdec.o vdec_ctrls.o
- venus-enc-objs += venc.o venc_ctrls.o
-diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
-index 643e5aa138f5..f56b8f9946d7 100644
---- a/drivers/media/platform/qcom/venus/hfi_platform.c
-+++ b/drivers/media/platform/qcom/venus/hfi_platform.c
-@@ -13,6 +13,8 @@ const struct hfi_platform *hfi_platform_get(enum hfi_version version)
- 		return &hfi_plat_v4;
- 	case HFI_VERSION_6XX:
- 		return &hfi_plat_v6;
-+	case HFI_VERSION_6XX_LITE:
-+		return &hfi_plat_v6_lite;
- 	default:
- 		break;
- 	}
-diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
-index ec89a90a8129..6356e4bd0de2 100644
---- a/drivers/media/platform/qcom/venus/hfi_platform.h
-+++ b/drivers/media/platform/qcom/venus/hfi_platform.h
-@@ -58,6 +58,7 @@ struct hfi_platform {
- 
- extern const struct hfi_platform hfi_plat_v4;
- extern const struct hfi_platform hfi_plat_v6;
-+extern const struct hfi_platform hfi_plat_v6_lite;
- 
- const struct hfi_platform *hfi_platform_get(enum hfi_version version);
- unsigned long hfi_platform_get_codec_vpp_freq(enum hfi_version version, u32 codec,
-diff --git a/drivers/media/platform/qcom/venus/hfi_platform_v6_lite.c b/drivers/media/platform/qcom/venus/hfi_platform_v6_lite.c
-new file mode 100644
-index 000000000000..41958a3e353b
---- /dev/null
-+++ b/drivers/media/platform/qcom/venus/hfi_platform_v6_lite.c
-@@ -0,0 +1,148 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2025, The Linux Foundation. All rights reserved.
-+ */
-+#include "hfi_platform.h"
-+
-+static const struct hfi_plat_caps caps[] = {
-+{
-+	.codec = HFI_VIDEO_CODEC_H264,
-+	.domain = VIDC_SESSION_TYPE_DEC,
-+	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-+	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1080, 1},
-+	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-+	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-+	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-+	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-+	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-+	.num_caps = 7,
-+	.pl[0] = {HFI_H264_PROFILE_BASELINE, HFI_H264_LEVEL_1},
-+	.pl[1] = {HFI_H264_PROFILE_MAIN, HFI_H264_LEVEL_41},
-+	.pl[2] = {HFI_H264_PROFILE_HIGH, HFI_H264_LEVEL_5},
-+	.pl[3] = {HFI_H264_PROFILE_CONSTRAINED_BASE, HFI_H264_LEVEL_41},
-+	.pl[4] = {HFI_H264_PROFILE_CONSTRAINED_HIGH, HFI_H264_LEVEL_41},
-+	.num_pl = 5,
-+	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-+	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-+	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-+	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-+	.num_fmts = 4,
-+}, {
-+	.codec = HFI_VIDEO_CODEC_HEVC,
-+	.domain = VIDC_SESSION_TYPE_DEC,
-+	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-+	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1080, 1},
-+	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-+	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-+	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-+	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-+	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-+	.num_caps = 7,
-+	.pl[0] = {HFI_HEVC_PROFILE_MAIN, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_MAIN},
-+	.pl[1] = {HFI_HEVC_PROFILE_MAIN10, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_MAIN},
-+	.num_pl = 2,
-+	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-+	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-+	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-+	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-+	.num_fmts = 4,
-+}, {
-+	.codec = HFI_VIDEO_CODEC_VP9,
-+	.domain = VIDC_SESSION_TYPE_DEC,
-+	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-+	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1080, 1},
-+	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-+	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-+	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-+	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-+	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-+	.num_caps = 7,
-+	.pl[0] = {HFI_VP9_PROFILE_P0, 200},
-+	.pl[1] = {HFI_VP9_PROFILE_P2_10B, 200},
-+	.num_pl = 2,
-+	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-+	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-+	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-+	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-+	.num_fmts = 4,
-+} };
-+
-+static const struct hfi_plat_caps *get_capabilities(unsigned int *entries)
-+{
-+	*entries = ARRAY_SIZE(caps);
-+	return caps;
-+}
-+
-+static void get_codecs(u32 *enc_codecs, u32 *dec_codecs, u32 *count)
-+{
-+	*enc_codecs = 0x0;
-+	*dec_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-+		      HFI_VIDEO_CODEC_VP9;
-+	*count = 3;
-+}
-+
-+static const struct hfi_platform_codec_freq_data codec_freq_data[] = {
-+	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-+	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-+	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
++static const struct freq_tbl qcm2290_freq_table[] = {
++	{ 352800, 240000000 },	/* 1920x1088 @ 30 + 1280x720 @ 30 */
++	{ 244800, 133000000 },	/* 1920x1088 @ 30 */
 +};
 +
-+static const struct hfi_platform_codec_freq_data *
-+get_codec_freq_data(u32 session_type, u32 pixfmt)
-+{
-+	const struct hfi_platform_codec_freq_data *data = codec_freq_data;
-+	unsigned int i, data_size = ARRAY_SIZE(codec_freq_data);
-+	const struct hfi_platform_codec_freq_data *found = NULL;
-+
-+	for (i = 0; i < data_size; i++) {
-+		if (data[i].pixfmt == pixfmt &&
-+		    data[i].session_type == session_type) {
-+			found = &data[i];
-+			break;
-+		}
-+	}
-+
-+	return found;
-+}
-+
-+static unsigned long codec_vpp_freq(u32 session_type, u32 codec)
-+{
-+	const struct hfi_platform_codec_freq_data *data;
-+
-+	data = get_codec_freq_data(session_type, codec);
-+	if (data)
-+		return data->vpp_freq;
-+
-+	return 0;
-+}
-+
-+static unsigned long codec_vsp_freq(u32 session_type, u32 codec)
-+{
-+	const struct hfi_platform_codec_freq_data *data;
-+
-+	data = get_codec_freq_data(session_type, codec);
-+	if (data)
-+		return data->vsp_freq;
-+
-+	return 0;
-+}
-+
-+static unsigned long codec_lp_freq(u32 session_type, u32 codec)
-+{
-+	const struct hfi_platform_codec_freq_data *data;
-+
-+	data = get_codec_freq_data(session_type, codec);
-+	if (data)
-+		return data->low_power_freq;
-+
-+	return 0;
-+}
-+
-+const struct hfi_platform hfi_plat_v6_lite = {
-+	.codec_vpp_freq = codec_vpp_freq,
-+	.codec_vsp_freq = codec_vsp_freq,
-+	.codec_lp_freq = codec_lp_freq,
-+	.codecs = get_codecs,
-+	.capabilities = get_capabilities,
-+	.bufreq = hfi_plat_bufreq_v6,
++static const struct bw_tbl qcm2290_bw_table_dec[] = {
++	{ 244800, 2128000, 0, 2128000, 0}, /* 1920x1088 @ 30 */
 +};
++
++static const struct venus_resources qcm2290_res = {
++	.freq_tbl = qcm2290_freq_table,
++	.freq_tbl_size = ARRAY_SIZE(qcm2290_freq_table),
++	.bw_tbl_dec = qcm2290_bw_table_dec,
++	.bw_tbl_dec_size = ARRAY_SIZE(qcm2290_bw_table_dec),
++	.clks = { "core", "iface", "bus", "throttle" },
++	.clks_num = 4,
++	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
++	.vcodec_clks_num = 2,
++	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
++	.vcodec_pmdomains_num = 2,
++	.opp_pmdomain = (const char *[]) { "cx" },
++	.vcodec_num = 1,
++	.hfi_version = HFI_VERSION_6XX_LITE,
++	.vpu_version = VPU_VERSION_AR50_LITE,
++	.max_load = 352800,
++	.num_vpp_pipes = 1,
++	.vmem_id = VIDC_RESOURCE_NONE,
++	.vmem_size = 0,
++	.vmem_addr = 0,
++	.cp_start = 0,
++	.cp_size = 0x70800000,
++	.cp_nonpixel_start = 0x1000000,
++	.cp_nonpixel_size = 0x24800000,
++	.dma_mask = 0xe0000000 - 1,
++	.fwname = "qcom/venus-6.0/venus.mbn",
++	.dec_nodename = "video-decoder",
++};
++
+ static const struct of_device_id venus_dt_match[] = {
+ 	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+ 	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+@@ -1072,6 +1110,7 @@ static const struct of_device_id venus_dt_match[] = {
+ 	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res, },
+ 	{ .compatible = "qcom,sc7280-venus", .data = &sc7280_res, },
+ 	{ .compatible = "qcom,sm8250-venus", .data = &sm8250_res, },
++	{ .compatible = "qcom,qcm2290-venus", .data = &qcm2290_res, },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, venus_dt_match);
 -- 
 2.34.1
 
