@@ -1,111 +1,126 @@
-Return-Path: <linux-media+bounces-36026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36027-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFD6AEA375
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 18:29:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00408AEA46B
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 19:28:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4704C7B4234
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 16:28:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FF8A56405C
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 17:28:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8EE320E31B;
-	Thu, 26 Jun 2025 16:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88FBD2EB5D4;
+	Thu, 26 Jun 2025 17:28:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aladdin.ru header.i=@aladdin.ru header.b="TRIbRc7S"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sqsa1O00"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-out.aladdin-rd.ru (mail-out.aladdin-rd.ru [91.199.251.16])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46BB1C84B8;
-	Thu, 26 Jun 2025 16:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.199.251.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E19478F2F;
+	Thu, 26 Jun 2025 17:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750955368; cv=none; b=Zgfdmzn8l9g23LdNcW/vUvbnyESWarOsi3nZMtx1WdfjEA+zxLxttaPE5gPScCJmrUTk3rTsJlhGzBALdRiy480v8LuMUkI0icwPh5jgnxT4aCnjWoSetxPAkku5v1RETG5FXB8Xe8R3ybsHY57b78k7thTDJviw0r7q+8TNB4s=
+	t=1750958931; cv=none; b=grafj7guQnOoVZfGqq3vQrZY8XmAqTBIvcZZeGMmaMYmwTfUZ8c3tgpl0X/ZFdCF861oCl00K6AHJGAYNY1VFEqgbMlnOZ6zkayYuwOB99Yg72pT7Uod8DKn2ErnK+chU+PbbVL094iI3SssknGYYZ/dmev03sHrc0ZA2g9j3Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750955368; c=relaxed/simple;
-	bh=ybvkxXLpLwsuZAToUGP50R06kot74ScTaoKlBTmR8BY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dkkJOD39mdErLLU6aa+DA5RgQsZDFz9Q54sxumARyPTAtGHeyfwQZZVZLiZL9cnWE24WhoiIdvVSRxa9a3Ta03eJy3d7DBGtSVD8wCXrH8a/ov8cexxwt37KDXkVC/8i+maiv6rZqrzY2WezRE1t4w7X0R3BWOCKe6KYHdJMo6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aladdin.ru; spf=pass smtp.mailfrom=aladdin.ru; dkim=pass (2048-bit key) header.d=aladdin.ru header.i=@aladdin.ru header.b=TRIbRc7S; arc=none smtp.client-ip=91.199.251.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aladdin.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aladdin.ru
-DKIM-Signature: v=1; a=rsa-sha256; d=aladdin.ru; s=mail; c=simple/simple;
-	t=1750955351; h=from:subject:to:date:message-id;
-	bh=ybvkxXLpLwsuZAToUGP50R06kot74ScTaoKlBTmR8BY=;
-	b=TRIbRc7SW+mhWh8hznE4yse1wT6INpvZa5+i8gjCnMgGxWtfUtXpCPUzU1F0Z4vqHROEM6vAnAP
-	tp1QwlI9Vkzy8EiuMsk/fkQjd1vobykqJOjCWV7dDxf8dqQdv9BPfvjwmEzaqqDY9F0gNmwE2Zmtu
-	IOzDdUUCiQcnavxYQXqlcZoTqPqKBxRn2+/dG02/+VtciZYfOFr0TuMrINf1l8XHe1CHK6ymG41lA
-	pKSXN1JJtKMsPV2VjVd5X4zf+Wc7zRENlMaRNxK00y0lyZSDuHDPmJ8Dq1fIksInkief2yUIMzhBa
-	dpmiTlBl2pTTxPVm7412ZJNUZMpva2YRqrMw==
-From: Daniil Dulov <d.dulov@aladdin.ru>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Daniil Dulov <d.dulov@aladdin.ru>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH] media: dvb_demux: Fix potential data race in  dvbdmx_write()
-Date: Thu, 26 Jun 2025 19:28:56 +0300
-Message-ID: <20250626162856.176083-1-d.dulov@aladdin.ru>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1750958931; c=relaxed/simple;
+	bh=AQiq4z0xA88o3HSFvbhcfQRTGqMXtRqE6hPl7TrS0QA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dQs2yHjD2KAt95LxUXzrOuHF3hITifa0cEUhpuHJ4SzhtwZgIJuadNV3aRHZrKRgKhq9bpT4ISjYr0AGcJVcizPwOgfwBVOGZzutj43SzGd989Y30Y6NE0+jlzczIwBeGEW5ofHjUym1wKnBqdxYmVdnaAeN4zJ6fImOm9wd0Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sqsa1O00; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-747c2cc3419so1215379b3a.2;
+        Thu, 26 Jun 2025 10:28:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750958929; x=1751563729; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RO2tN+aSoxvaSEMRq7XEvMbHrJsjG9xLguEP52powFc=;
+        b=Sqsa1O00Fc3wDyUSrpz14qw/4GaAnrgBeQJxTJZqEIbgbXD6lTCEn3EM5dJnG0aUG2
+         OeFTnXxkg4VZO9ed61OOeHCwTj7MWRxAzwJTbVDlUdWOE6AhEg026rlh0AZQff1K1ZfO
+         9Mm/ZTAch9qL6Yh3PaZUu6hI3/LkedUkRfPG3WMkOahESBEBOQCLej1a3iukNg89y2SS
+         rf8UbQKDiP1+4AplaWRwj3flJYo3+URWIhREZT9UoKpBLsSP6jDaKcUqlKIE0Uet0Yka
+         R/Vs90EPMoc5njQhqm04zZPSx/drAMd1iQq5dVK/rxQkl21WuBO0DDDWA5t0Gj7RSLxI
+         XKBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750958929; x=1751563729;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RO2tN+aSoxvaSEMRq7XEvMbHrJsjG9xLguEP52powFc=;
+        b=AoDrM4wmWh6II7y8BbiwoXQraAjWPGjOZTgE6vCuTNLoOu8u143TAjg+aMmBeLooco
+         tSN5d3yhyxuiNtkd32btwXKUUbTMEUb8mn3uiFnj1W34HmSyVwLeZnEPVfjsXGh7xkC/
+         zz8vUBLve/nOM9IE7u+Pn2xl5gkIEvSXpXunEER4AO7LUu5bhiZFXey1ui7rBBWaoaRm
+         54kJ4KQuMWgP8E0inrefadOjOTbax09jo2r4huwKvKiGSwiAaJT0sBwL+d47kwhcXioP
+         XUu2dguAUuoN/c/Seg4oMOy9mlC1BrcZ6LC7bZhBnrxM/0GJEwSDIim+IL7TY2p50RJe
+         wfCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRB7vnQzlhSTell+lMGs9WzgsQmbTsr+UJNx4KqNfiN0J0zyg/sfSTYXLtLh26o4WcksOHbzLRrnLv5S8=@vger.kernel.org, AJvYcCXdUosK0od5G8RhFvgExnY8EydcklZZ9iof+lzifDFtzI6EMzF6crG/NyCvPyjYZzm/dGvRg9nb+coZFeo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS1OQ47uhp3tymDZbmLzgi1I1s3ibKzRDMFRdkMxkKOdZ//UiY
+	ZMqeVL85U/xalIAIlGrN1skX6Cc+xMVROfJVpnaffcSoYh6WcCUhT+uF
+X-Gm-Gg: ASbGncs1TP0QoCz8J4BKyD81A/PeV5Ez4SBpdGLbjzjw7verlf2BHX3syNUWeSfZf/c
+	niJonuF2ZUZRL0Lzy+FRqu6APpbq4WPn4sXjsKMRHxBFa0DGq2GkDAL1lQyMNsaT2vAfXGzYSj9
+	w718c+VMIvabuGki3cCkkDFqR/BmKBrHkJzTAsWleurqcYQ1WIRwip2b03vfiOAp8OmOK6BG8Qg
+	fBE6zbM3UOVvTqRKolJoWQdem2O5TGw7isALWz7qywoLmF1GKtwvBSwstOBzdBOcvHtcVx1V+Vd
+	JH2XQcHiP2S930EhDuER4aGt+II/xKXD9kgdIilOOrATU7aOFZ/NWWmt51l2972PZQ==
+X-Google-Smtp-Source: AGHT+IFlz1ISeSqJdOROistKjbH54/ytAzE+OyIesUVOCzXGCvK+a1JEVnGW+DkFHANXqkfgFdM6oQ==
+X-Received: by 2002:a05:6a00:3e17:b0:748:33f3:8da3 with SMTP id d2e1a72fcca58-74af6f2f9d7mr50135b3a.19.1750958928731;
+        Thu, 26 Jun 2025 10:28:48 -0700 (PDT)
+Received: from icarus.. ([45.64.160.138])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af541bec8sm226888b3a.39.2025.06.26.10.28.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 10:28:48 -0700 (PDT)
+From: Pratibimba Khadka <pratibimbakhadka@gmail.com>
+To: mchehab@kernel.org
+Cc: Pratibimba Khadka <pratibimbakhadka@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] staging: av7110: Replace msleep() with usleep_range() in tuner function
+Date: Thu, 26 Jun 2025 23:12:03 +0545
+Message-ID: <20250626172707.10115-1-pratibimbakhadka@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EXCH-2016-02.aladdin.ru (192.168.1.102) To
- EXCH-2016-01.aladdin.ru (192.168.1.101)
 
-The field frontend of the struct dmx_demux is protected by the lock mutex
-of the struct dvb_demux while connecting or disconnecting the frontend.
-However, demux->frontend is checked for NULL and then it is dereferenced
-without holding the appropriate lock.
+Replace msleep(10) with usleep_range(10000, 12000) in the PLL lock
+waiting loop of nexusca_stv0297_tuner_set_params().
 
-Thus, it is possible that the NULL check is passed, right after which
-the other thread disconnects the frontend which leads to a NULL pointer
-dereference.
+usleep_range() is preferred over msleep() for short delays (< 20ms) as
+it provides better accuracy and allows the scheduler flexibility for
+power management optimizations. The 10-12ms range maintains the same
+timing behavior while giving the kernel scheduler room to optimize.
 
-To avoid this potential data race, aсquire the lock before accessing the
-frontend field of the struct dmx_demux.
+This change improves timing precision during the PLL lock detection
+phase without affecting the overall functionality of the tuner
+configuration process.
 
-Found by Linux Verification Center (linuxtesting.org).
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Daniil Dulov <d.dulov@aladdin.ru>
+Signed-off-by: Pratibimba Khadka <pratibimbakhadka@gmail.com>
 ---
- drivers/media/dvb-core/dvb_demux.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/staging/media/av7110/av7110.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
-index 7c4d86bfdd6c..b0dab6f78ad8 100644
---- a/drivers/media/dvb-core/dvb_demux.c
-+++ b/drivers/media/dvb-core/dvb_demux.c
-@@ -1141,9 +1141,6 @@ static int dvbdmx_write(struct dmx_demux *demux, const char __user *buf, size_t
- 	struct dvb_demux *dvbdemux = (struct dvb_demux *)demux;
- 	void *p;
- 
--	if ((!demux->frontend) || (demux->frontend->source != DMX_MEMORY_FE))
--		return -EINVAL;
--
- 	p = memdup_user(buf, count);
- 	if (IS_ERR(p))
- 		return PTR_ERR(p);
-@@ -1151,6 +1148,13 @@ static int dvbdmx_write(struct dmx_demux *demux, const char __user *buf, size_t
- 		kfree(p);
- 		return -ERESTARTSYS;
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index bc9a2a40afcb..7f6c610579c8 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -1827,7 +1827,7 @@ static int nexusca_stv0297_tuner_set_params(struct dvb_frontend *fe)
+ 		if (i2c_transfer(&av7110->i2c_adap, &readmsg, 1) == 1)
+ 			if (data[0] & 0x40)
+ 				break;
+-		msleep(10);
++		usleep_range(10000, 12000);
  	}
-+
-+	if ((!demux->frontend) || (demux->frontend->source != DMX_MEMORY_FE)) {
-+		mutex_unlock(&dvbdemux->mutex);
-+		kfree(p);
-+		return -EINVAL;
-+	}
-+
- 	dvb_dmx_swfilter(dvbdemux, p, count);
- 	kfree(p);
- 	mutex_unlock(&dvbdemux->mutex);
+ 
+ 	return 0;
 -- 
-2.34.1
+2.49.0
 
 
